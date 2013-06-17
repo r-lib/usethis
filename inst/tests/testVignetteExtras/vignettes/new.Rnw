@@ -1,5 +1,0 @@
-\documentclass[oneside]{article}
-
-\begin{document}
-Test
-\end{document}

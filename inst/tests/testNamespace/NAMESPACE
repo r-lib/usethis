@@ -1,3 +1,0 @@
-export(a)
-import(compiler)
-importFrom(splines,polySpline)
