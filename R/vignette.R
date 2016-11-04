@@ -6,20 +6,19 @@
 #' @param name File name to use for new vignette. Should consist only of
 #'   numbers, letters, _ and -. I recommend using lower case.
 #' @export
-use_vignette <- function(name, pkg = ".") {
-  pkg <- as.package(pkg)
-  check_suggested("rmarkdown")
+use_vignette <- function(name, base_path = ".") {
+  use_dependency("knitr", "Suggests", base_path = base_path)
+  desc::desc_set(
+    VignetteBuilder = "knitr",
+    file = file.path(base_path, "DESCRIPTION")
+  )
+  use_dependency("rmarkdown", "Suggests", base_path = base_path)
 
-  add_desc_package(pkg, "Suggests", "knitr")
-  add_desc_package(pkg, "Suggests", "rmarkdown")
-  add_desc_package(pkg, "VignetteBuilder", "knitr")
+  use_directory("vignettes", base_path = base_path)
+  use_git_ignore("inst/doc", base_path = base_path)
 
-  use_directory("vignettes", pkg = pkg)
-  use_git_ignore("inst/doc", pkg = pkg)
-
-  path <- file.path(pkg$path, "vignettes", paste0(name, ".Rmd"))
+  path <- file.path(base_path, "vignettes", paste0(name, ".Rmd"))
   rmarkdown::draft(path, "html_vignette", "rmarkdown",
     create_dir = FALSE, edit = FALSE)
-
   open_in_rstudio(path)
 }

@@ -67,7 +67,7 @@ use_git_hook <- function(hook, script, pkg = ".") {
 }
 
 
-use_git_ignore <- function(ignores, directory = ".", pkg = ".", quiet = FALSE) {
+use_git_ignore <- function(ignores, directory = ".", base_path = ".", quiet = FALSE) {
   pkg <- as.package(pkg)
 
   path <- file.path(pkg$path, directory, ".gitignore")

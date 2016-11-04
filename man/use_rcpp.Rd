@@ -4,7 +4,7 @@
 \alias{use_rcpp}
 \title{Use Rcpp}
 \usage{
-use_rcpp(pkg = ".")
+use_rcpp(base_path = ".")
 }
 \description{
 Creates \code{src/} and adds needed packages to \code{DESCRIPTION}.

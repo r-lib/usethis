@@ -2,18 +2,12 @@
 #'
 #' Creates \code{src/} and adds needed packages to \code{DESCRIPTION}.
 #' @export
-#' @rdname infrastructure
-use_rcpp <- function(pkg = ".") {
-  pkg <- as.package(pkg)
-  check_suggested("Rcpp")
+use_rcpp <- function(base_path = ".") {
+  use_dependency("Rcpp", "LinkingTo", base_path = base_path)
+  use_dependency("Rcpp", "Imports", base_path = base_path)
 
-  message("Adding Rcpp to LinkingTo and Imports")
-  add_desc_package(pkg, "LinkingTo", "Rcpp")
-  add_desc_package(pkg, "Imports", "Rcpp")
+  use_directory("src/", base_path = base_path)
 
-  use_directory("src/", pkg = pkg)
-
-  message("* Ignoring generated binary files.")
   ignore_path <- file.path(pkg$path, "src", ".gitignore")
   union_write(ignore_path, c("*.o", "*.so", "*.dll"))
 

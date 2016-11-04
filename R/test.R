@@ -1,4 +1,4 @@
-#' Add testing infrastructor
+#' Create tests
 #'
 #' \code{use_testthat} sets up testing infrastructure, creating
 #' \file{tests/testthat.R} and \file{tests/testthat/}, and
@@ -6,24 +6,15 @@
 #' creates \file{tests/testthat/test-<name>.R} and opens it for editing.
 #'
 #' @export
-use_testthat <- function(pkg = ".") {
-  pkg <- as.package(pkg)
-
-  check_suggested("testthat")
-  if (uses_testthat(pkg = pkg)) {
-    message("* testthat is already initialized")
-    return(invisible(TRUE))
-  }
-
-  message("* Adding testthat to Suggests")
-  add_desc_package(pkg, "Suggests", "testthat")
-
-  use_directory("tests/testthat", pkg = pkg)
+#' @inheritParams use_template
+use_testthat <- function(base_path = ".") {
+  use_dependency("testthat", "Suggests", base_path = base_path)
+  use_directory("tests/testthat", base_path = base_path)
   use_template(
     "testthat.R",
     "tests/testthat.R",
-    data = list(name = pkg$package),
-    pkg = pkg
+    data = list(name = package_name(base_path)),
+    base_path = base_path
   )
 
   invisible(TRUE)
@@ -31,20 +22,26 @@ use_testthat <- function(pkg = ".") {
 
 #' @rdname use_testthat
 #' @export
-use_test <- function(name, pkg = ".") {
-  pkg <- as.package(pkg)
-
-  check_suggested("testthat")
-  if (!uses_testthat(pkg = pkg)) {
-    use_testthat(pkg = pkg)
+use_test <- function(name, base_path = ".") {
+  if (!uses_testthat(base_path)) {
+    use_testthat(base_path)
   }
 
   use_template("test-example.R",
     sprintf("tests/testthat/test-%s.R", name),
     data = list(test_name = name),
     open = TRUE,
-    pkg = pkg
+    base_path = base_path
   )
 
   invisible(TRUE)
+}
+
+uses_testthat <- function(base_path = ".") {
+  paths <- c(
+    file.path(base_path, "inst", "tests"),
+    file.path(base_path, "tests", "testthat")
+  )
+
+  any(dir.exists(paths))
 }

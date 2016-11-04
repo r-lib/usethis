@@ -4,16 +4,13 @@
 \alias{use_package}
 \title{Use specified package.}
 \usage{
-use_package(package, type = "Imports", pkg = ".")
+use_package(package, type = "Imports", base_path = ".")
 }
 \arguments{
 \item{package}{Name of package to depend on.}
 
 \item{type}{Type of dependency: must be one of "Imports", "Suggests",
 "Depends", "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation)}
-
-\item{pkg}{package description, can be path or package name. See
-\code{\link{as.package}} for more information.}
 }
 \description{
 This adds a dependency to DESCRIPTION and offers a little advice
@@ -23,7 +20,6 @@ about how to best use it.
 \dontrun{
 use_package("ggplot2")
 use_package("dplyr", "suggests")
-
 }
 }
 

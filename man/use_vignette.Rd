@@ -4,7 +4,7 @@
 \alias{use_vignette}
 \title{Create a vignette}
 \usage{
-use_vignette(name, pkg = ".")
+use_vignette(name, base_path = ".")
 }
 \arguments{
 \item{name}{File name to use for new vignette. Should consist only of

@@ -3,11 +3,14 @@
 \name{use_testthat}
 \alias{use_test}
 \alias{use_testthat}
-\title{Add testing infrastructor}
+\title{Create tests}
 \usage{
-use_testthat(pkg = ".")
+use_testthat(base_path = ".")
 
-use_test(name, pkg = ".")
+use_test(name, base_path = ".")
+}
+\arguments{
+\item{base_path}{Path to package root.}
 }
 \description{
 \code{use_testthat} sets up testing infrastructure, creating

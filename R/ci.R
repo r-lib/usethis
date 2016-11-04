@@ -50,8 +50,7 @@ use_coverage <- function(pkg = ".", type = c("codecov", "coveralls")) {
     use_travis()
   }
 
-  message("* Adding covr to Suggests")
-  add_desc_package(pkg, "Suggests", "covr")
+  use_dependency("covr", "Suggests", base_path = base_path)
 
   gh <- github_info(pkg$path)
   type <- match.arg(type)
