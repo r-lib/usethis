@@ -38,8 +38,6 @@ render_template <- function(template_name, save_as, data = list(), base_path = "
 }
 
 package_data <- function(base_path = ".") {
-  desc_path <- file.path(base_path, "DESCRIPTION")
-
-  desc <- desc::description$new(desc_path)
+  desc <- desc::description$new(base_path)
   as.list(desc$get(desc$fields()))
 }
