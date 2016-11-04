@@ -26,9 +26,4 @@ use_package("dplyr", "suggests")
 
 }
 }
-\seealso{
-Other infrastructure: \code{\link{use_data_raw}},
-  \code{\link{use_data}}, \code{\link{use_readme_rmd}},
-  \code{\link{use_travis}}
-}
 

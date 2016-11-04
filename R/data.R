@@ -3,7 +3,6 @@
 #' @param pkg Package where to create \code{data-raw}. Defaults to package in
 #'   working directory.
 #' @export
-#' @family infrastructure
 use_data_raw <- function(pkg = ".") {
   pkg <- as.package(pkg)
 
@@ -31,7 +30,6 @@ use_data_raw <- function(pkg = ".") {
 #' @param compress Choose the type of compression used by \code{\link{save}}.
 #'   Should be one of "gzip", "bzip2" or "xz".
 #' @export
-#' @family infrastructure
 #' @examples
 #' \dontrun{
 #' x <- 1:10

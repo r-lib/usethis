@@ -39,7 +39,6 @@
 #' @param credentials A \code{\link[git2r]{cred_ssh_key}} specifying specific
 #' ssh credentials or NULL for default ssh key and ssh-agent behaviour.
 #' Default is NULL.
-#' @family git infrastructure
 #' @export
 #' @examples
 #' \dontrun{
@@ -133,8 +132,6 @@ use_github <- function(auth_token = github_pat(), private = FALSE, pkg = ".",
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
 #'   "https://github.hostname.com/api/v3".
-#' @family git infrastructure
-#' @keywords internal
 #' @export
 use_github_links <- function(pkg = ".", auth_token = github_pat(),
                              host = "https://api.github.com") {

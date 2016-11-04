@@ -31,9 +31,4 @@ use_readme_rmd()
 use_readme_md()
 }
 }
-\seealso{
-Other infrastructure: \code{\link{use_data_raw}},
-  \code{\link{use_data}}, \code{\link{use_package}},
-  \code{\link{use_travis}}
-}
 

@@ -19,7 +19,6 @@
 #' use_readme_rmd()
 #' use_readme_md()
 #' }
-#' @family infrastructure
 use_readme_rmd <- function(pkg = ".") {
   pkg <- as.package(pkg)
 

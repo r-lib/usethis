@@ -20,9 +20,4 @@ information.}
 \description{
 Add a git hook.
 }
-\seealso{
-Other git infrastructure: \code{\link{use_github_links}},
-  \code{\link{use_github}}, \code{\link{use_git}}
-}
-\keyword{internal}
 

@@ -37,9 +37,4 @@ use_data(x, y) # For external use
 use_data(x, y, internal = TRUE) # For internal use
 }
 }
-\seealso{
-Other infrastructure: \code{\link{use_data_raw}},
-  \code{\link{use_package}}, \code{\link{use_readme_rmd}},
-  \code{\link{use_travis}}
-}
 

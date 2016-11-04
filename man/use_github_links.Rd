@@ -25,9 +25,4 @@ Populates the URL and BugReports fields of DESCRIPTION with
 \code{https://github.com/<USERNAME>/<REPO>/issues}, respectively, unless
 those fields already exist.
 }
-\seealso{
-Other git infrastructure: \code{\link{use_git_hook}},
-  \code{\link{use_github}}, \code{\link{use_git}}
-}
-\keyword{internal}
 

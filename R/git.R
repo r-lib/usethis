@@ -3,7 +3,6 @@
 #' @param message Message to use for first commit.
 #' @param pkg Path to package. See \code{\link{as.package}} for more
 #'   information.
-#' @family git infrastructure
 #' @export
 #' @examples
 #' \dontrun{use_git()}
@@ -49,8 +48,6 @@ use_git_with_config <- function(message, pkg, add_user_config = FALSE, quiet = F
 #' @param script Text of script to run
 #' @inheritParams use_git
 #' @export
-#' @family git infrastructure
-#' @keywords internal
 use_git_hook <- function(hook, script, pkg = ".") {
   pkg <- as.package(pkg)
 
