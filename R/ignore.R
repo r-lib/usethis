@@ -6,14 +6,11 @@
 #' expression that will only match that path. Repeated entries will be
 #' silently removed.
 #'
-#' @param base_path Base path to package root.
-#' @param files Character vector of path naems.
+#' @param files Character vector of path names.
 #' @param escape If \code{TRUE}, the default, will escape \code{.} to
 #'   \code{\\.} and surround with \code{^} and \code{$}.
+#' @param base_path Path to package root.
 #' @export
-#' @aliases add_build_ignore
-#' @family infrastructure
-#' @keywords internal
 use_build_ignore <- function(files, escape = TRUE, base_path = ".") {
   if (escape) {
     files <- escape_path(files)

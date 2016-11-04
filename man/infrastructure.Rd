@@ -159,9 +159,8 @@ in \code{vignettes/}. It adds \code{inst/doc} to \code{.gitignore}
 so you don't accidentally check in the built vignettes.
 }
 \seealso{
-Other infrastructure: \code{\link{use_build_ignore}},
-  \code{\link{use_data_raw}}, \code{\link{use_data}},
-  \code{\link{use_news_md}}, \code{\link{use_package}},
-  \code{\link{use_readme_rmd}}
+Other infrastructure: \code{\link{use_data_raw}},
+  \code{\link{use_data}}, \code{\link{use_news_md}},
+  \code{\link{use_package}}, \code{\link{use_readme_rmd}}
 }
 
