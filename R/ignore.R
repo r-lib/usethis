@@ -9,7 +9,7 @@
 #' @param files Character vector of path names.
 #' @param escape If \code{TRUE}, the default, will escape \code{.} to
 #'   \code{\\.} and surround with \code{^} and \code{$}.
-#' @param base_path Path to package root.
+#' @inheritParams use_template
 #' @export
 use_build_ignore <- function(files, escape = TRUE, base_path = ".") {
   if (escape) {

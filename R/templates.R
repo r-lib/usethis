@@ -1,3 +1,12 @@
+#' Use a usethis template
+#'
+#' @param template Template name
+#' @param save_as Name of file to create. Defaults to \code{save_as}
+#' @param data A list of data passed to the template.
+#' @param ignore Should the newly created file be added to \code{.Rbuildignore?}
+#' @param open Should the new created file be opened in RStudio?
+#' @param base_path Path to package root.
+#' @keywords internal
 use_template <- function(template,
                          save_as = template,
                          data = list(),
