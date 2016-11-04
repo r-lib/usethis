@@ -5,27 +5,20 @@
 \alias{use_mit_license}
 \title{Add licenses}
 \usage{
-use_mit_license(pkg = ".", copyright_holder = getOption("devtools.name",
-  "<Author>"))
+use_mit_license(copyright_holder = getOption("devtools.name", "<Author>"),
+  base_path = ".")
 
-use_gpl3_license(pkg = ".")
+use_gpl3_license(base_path = ".")
 }
 \arguments{
 \item{copyright_holder}{The copyright holder for this package. Defaults to
 \code{getOption("devtools.name")}.}
+
+\item{base_path}{Path to package root.}
 }
 \description{
-Add licenses
-}
-\section{\code{use_mit_license}}{
-
 Adds the necessary infrastructure to declare your package as
-distributed under the MIT license.
-}
-
-\section{\code{use_gpl3_license}}{
-
-Adds the necessary infrastructure to declare your package as
-distributed under the GPL v3.
+distributed under either the MIT license (including the \code{LICENSE}
+fille), or GPL v3.
 }
 

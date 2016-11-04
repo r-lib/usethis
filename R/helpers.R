@@ -54,6 +54,15 @@ package_name <- function(base_path = ".") {
   desc::desc_get("Package", base_path)[[1]]
 }
 
+use_description_field <- function(name, value, base_path = ".") {
+  path <- file.path(base_path, "DESCRIPTION")
+
+  curr <- desc::desc_get(name)[[1]]
+  if (!identical(curr, value)) {
+    message("* Setting ", name, " to ", value, ".")
+    desc::desc_set(name, value)
+  }
+}
 
 use_dependency <- function(package, type, base_path = ".") {
   stopifnot(is.character(package), length(package) == 1)
