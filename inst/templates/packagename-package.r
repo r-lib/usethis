@@ -1,5 +1,2 @@
-#' {{{ name }}}.
-#'
-#' @name {{{ name }}}
-#' @docType package
-NULL
+#' @keywords internal
+"_PACKAGE"

@@ -4,9 +4,16 @@
 \alias{use_package_doc}
 \title{Create package documentation template}
 \usage{
-use_package_doc(pkg = ".")
+use_package_doc(base_path = ".")
+}
+\arguments{
+\item{base_path}{Path to package root.}
 }
 \description{
-Adds a roxygen template for package documentation
+Adds a roxygen template for package documentation. When you \code{document()}
+roxygen will flesh out the Rd file using data from the \code{DESCRIPTION}.
+That ensures you don't need to repeat the same information in multiple
+places. This block is a good place to put global namespace tags like
+\code{@importFrom}.
 }
 
