@@ -2,16 +2,16 @@
 % Please edit documentation in R/data.R
 \name{use_data}
 \alias{use_data}
-\title{Use data in a package.}
+\alias{use_data_raw}
+\title{Create package data}
 \usage{
-use_data(..., pkg = ".", internal = FALSE, overwrite = FALSE,
-  compress = "bzip2")
+use_data(..., internal = FALSE, overwrite = FALSE, compress = "bzip2",
+  base_path = ".")
+
+use_data_raw(base_path = ".")
 }
 \arguments{
 \item{...}{Unquoted names of existing objects to save.}
-
-\item{pkg}{Package where to store data. Defaults to package in working
-directory.}
 
 \item{internal}{If \code{FALSE}, saves each object in individual
 \code{.rda} files in the \code{data/} directory. These are available
@@ -24,9 +24,13 @@ files. If you really want to do so, set this to \code{TRUE}.}
 
 \item{compress}{Choose the type of compression used by \code{\link{save}}.
 Should be one of "gzip", "bzip2" or "xz".}
+
+\item{base_path}{Path to package root.}
 }
 \description{
-This function makes it easy to save package data in the correct format.
+\code{use_data} makes it easy to save package data in the correct format.
+I recommend you save scripts that generate package data in \code{data-raw}:
+use \code{use_data_raw} to set it up.
 }
 \examples{
 \dontrun{

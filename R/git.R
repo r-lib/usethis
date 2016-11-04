@@ -70,13 +70,8 @@ use_git_hook <- function(hook, script, pkg = ".") {
 use_git_ignore <- function(ignores, directory = ".", pkg = ".", quiet = FALSE) {
   pkg <- as.package(pkg)
 
-  paths <- paste0("`", ignores, "`", collapse = ", ")
-  if (!quiet) {
-    message("* Adding ", paths, " to ", file.path(directory, ".gitignore"))
-  }
-
   path <- file.path(pkg$path, directory, ".gitignore")
-  union_write(path, ignores)
+  union_write(path, ignores, quiet = quiet)
 
   invisible(TRUE)
 }

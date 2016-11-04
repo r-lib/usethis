@@ -18,12 +18,11 @@ use_template <- function(template,
   render_template(template, save_as, data = data, base_path = base_path)
 
   if (ignore) {
-    message("* Adding `", save_as, "` to `.Rbuildignore`.")
     use_build_ignore(save_as, base_path = base_path)
   }
 
   if (open) {
-    message("* Modify `", save_as, "`.")
+    message("* Modify '", save_as, "'.")
     open_in_rstudio(save_as, base_path = base_path)
   }
 
