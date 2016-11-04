@@ -14,3 +14,16 @@ use_rstudio <- function(pkg = ".") {
 
   invisible(TRUE)
 }
+
+open_in_rstudio <- function(path, base_path = ".") {
+  path <- file.path(base_path, path)
+
+  if (!rstudioapi::isAvailable())
+    return()
+
+  if (!rstudioapi::hasFun("navigateToFile"))
+    return()
+
+  rstudioapi::navigateToFile(path)
+}
+

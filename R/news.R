@@ -1,14 +1,14 @@
-
-#' Use NEWS.md
+#' Create a simple \code{NEWS.md}
 #'
-#' This creates \code{NEWS.md} from a template.
+#' This creates a basic \code{NEWS.md} in the root directory.
 #'
-#' @param pkg package description, can be path or package name.  See
-#'   \code{\link{as.package}} for more information
+#' @inheritParams use_build_ignore
 #' @export
-#' @family infrastructure
-use_news_md <- function(pkg = ".") {
-  pkg <- as.package(pkg)
-
-  use_template("NEWS.md", data = pkg, open = TRUE, pkg = pkg)
+use_news_md <- function(base_path = ".") {
+  use_template(
+    "NEWS.md",
+    data = package_data(base_path),
+    open = TRUE,
+    base_path = base_path
+  )
 }

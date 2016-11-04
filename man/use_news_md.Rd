@@ -2,20 +2,14 @@
 % Please edit documentation in R/news.R
 \name{use_news_md}
 \alias{use_news_md}
-\title{Use NEWS.md}
+\title{Create a simple \code{NEWS.md}}
 \usage{
-use_news_md(pkg = ".")
+use_news_md(base_path = ".")
 }
 \arguments{
-\item{pkg}{package description, can be path or package name.  See
-\code{\link{as.package}} for more information}
+\item{base_path}{Path to package root.}
 }
 \description{
-This creates \code{NEWS.md} from a template.
-}
-\seealso{
-Other infrastructure: \code{\link{use_data_raw}},
-  \code{\link{use_data}}, \code{\link{use_package}},
-  \code{\link{use_readme_rmd}}, \code{\link{use_travis}}
+This creates a basic \code{NEWS.md} in the root directory.
 }
 

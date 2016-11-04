@@ -7,7 +7,9 @@ Authors@R: c(
   )
 Description: What the package does (one paragraph).
 Imports:
-    git2r
+    git2r,
+    rstudioapi,
+    whisker
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
