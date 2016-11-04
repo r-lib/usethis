@@ -124,3 +124,15 @@ union_write <- function(path, new_lines, quiet = FALSE) {
   all <- union(lines, new_lines)
   writeLines(all, path)
 }
+
+open_in_rstudio <- function(path, base_path = ".") {
+  path <- file.path(base_path, path)
+
+  if (!rstudioapi::isAvailable())
+    return()
+
+  if (!rstudioapi::hasFun("navigateToFile"))
+    return()
+
+  rstudioapi::navigateToFile(path)
+}

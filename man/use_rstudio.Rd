@@ -4,9 +4,13 @@
 \alias{use_rstudio}
 \title{Use RStudio}
 \usage{
-use_rstudio(pkg = ".")
+use_rstudio(base_path = ".")
+}
+\arguments{
+\item{base_path}{Path to package root.}
 }
 \description{
-Use RStudio
+Creates an \code{.Rproj} file and adds RStudio files to \code{.gitignore}
+and \code{.Rbuildignore}.
 }
 

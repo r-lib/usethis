@@ -1,30 +1,19 @@
 #' Use RStudio
 #'
+#' Creates an \code{.Rproj} file and adds RStudio files to \code{.gitignore}
+#' and \code{.Rbuildignore}.
+#'
+#' @inheritParams use_template
 #' @export
-use_rstudio <- function(pkg = ".") {
-  pkg <- as.package(pkg)
-
+use_rstudio <- function(base_path = ".") {
   use_template(
     "template.Rproj",
-    paste0(pkg$package, ".Rproj"),
-    pkg = pkg
+    paste0(basename(normalizePath(".")), ".Rproj"),
+    base_path = base_path
   )
 
-  use_git_ignore(c(".Rproj.user", ".Rhistory", ".RData"), pkg = pkg)
-  use_build_ignore(c("^.*\\.Rproj$", "^\\.Rproj\\.user$"), escape = FALSE, pkg = pkg)
+  use_git_ignore(c(".Rproj.user", ".Rhistory", ".RData"), base_path = base_path)
+  use_build_ignore(c("^.*\\.Rproj$", "^\\.Rproj\\.user$"), escape = FALSE, base_path = base_path)
 
   invisible(TRUE)
 }
-
-open_in_rstudio <- function(path, base_path = ".") {
-  path <- file.path(base_path, path)
-
-  if (!rstudioapi::isAvailable())
-    return()
-
-  if (!rstudioapi::hasFun("navigateToFile"))
-    return()
-
-  rstudioapi::navigateToFile(path)
-}
-
