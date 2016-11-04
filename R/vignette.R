@@ -8,16 +8,13 @@
 #' @export
 use_vignette <- function(name, base_path = ".") {
   use_dependency("knitr", "Suggests", base_path = base_path)
-  desc::desc_set(
-    VignetteBuilder = "knitr",
-    file = file.path(base_path, "DESCRIPTION")
-  )
+  use_description_field("VignetteBuilder", "knitr", base_path = base_path)
   use_dependency("rmarkdown", "Suggests", base_path = base_path)
 
   use_directory("vignettes", base_path = base_path)
   use_git_ignore("inst/doc", base_path = base_path)
 
-  path <- file.path(base_path, "vignettes", paste0(name, ".Rmd"))
+  path <- file.path(base_path, "vignettes", slug(name, ".Rmd"))
   rmarkdown::draft(path, "html_vignette", "rmarkdown",
     create_dir = FALSE, edit = FALSE)
   open_in_rstudio(path)

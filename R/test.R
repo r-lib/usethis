@@ -28,7 +28,7 @@ use_test <- function(name, base_path = ".") {
   }
 
   use_template("test-example.R",
-    sprintf("tests/testthat/test-%s.R", name),
+    sprintf("tests/testthat/test-%s", slug(name, ".R")),
     data = list(test_name = name),
     open = TRUE,
     base_path = base_path

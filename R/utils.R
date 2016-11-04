@@ -26,3 +26,12 @@ is_dir <- function(x) file.info(x)$isdir
 dots <- function(...) {
   eval(substitute(alist(...)))
 }
+
+slug <- function(x, ext) {
+  stopifnot(is.character(x))
+
+  x <- tolower(x)
+  x <- gsub("[^a-z0-9]+", "-", x)
+
+  paste0(x, ext)
+}
