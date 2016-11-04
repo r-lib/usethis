@@ -1,5 +1,6 @@
-
 union_write <- function(path, new_lines) {
+  stopifnot(is.character(new_lines))
+
   if (file.exists(path)) {
     lines <- readLines(path, warn = FALSE)
   } else {

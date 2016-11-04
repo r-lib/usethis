@@ -1,5 +1,5 @@
 use_template <- function(template, save_as = template, data = list(),
-                         ignore = FALSE, open = FALSE, pkg = ".") {
+                         ignore = FALSE, open = FALSE, base_path = ".") {
   pkg <- as.package(pkg)
 
   path <- file.path(pkg$path, save_as)

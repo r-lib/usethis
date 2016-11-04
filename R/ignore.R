@@ -1,37 +1,31 @@
-#' Add a file to \code{.Rbuildignore}
+#' Add files to \code{.Rbuildignore}
 #'
 #' \code{.Rbuildignore} has a regular expression on each line, but it's
-#' usually easier to work with specific file names. By default, will (crudely)
-#' turn a filename into a regular expression that will only match that
-#' path. Repeated entries will be silently removed.
+#' usually easier to work with specific file names. By default,
+#' \code{use_build_ignore} will (crudely) turn a filename into a regular
+#' expression that will only match that path. Repeated entries will be
+#' silently removed.
 #'
-#' @param pkg package description, can be path or package name.  See
-#'   \code{\link{as.package}} for more information
-#' @param files Name of file.
+#' @param base_path Base path to package root.
+#' @param files Character vector of path naems.
 #' @param escape If \code{TRUE}, the default, will escape \code{.} to
 #'   \code{\\.} and surround with \code{^} and \code{$}.
-#' @return Nothing, called for its side effect.
 #' @export
 #' @aliases add_build_ignore
 #' @family infrastructure
 #' @keywords internal
-use_build_ignore <- function(files, escape = TRUE, pkg = ".") {
-  pkg <- as.package(pkg)
-
+use_build_ignore <- function(files, escape = TRUE, base_path = ".") {
   if (escape) {
-    files <- paste0("^", gsub("\\.", "\\\\.", files), "$")
+    files <- escape_path(files)
   }
 
-  path <- file.path(pkg$path, ".Rbuildignore")
+  path <- file.path(base_path, ".Rbuildignore")
   union_write(path, files)
 
   invisible(TRUE)
 }
 
-
-add_build_ignore <- function(pkg = ".", files, escape = TRUE) {
-  use_build_ignore(files, escape = escape, pkg = pkg)
+escape_path <- function(x) {
+  x <- gsub("\\.", "\\\\.", x)
+  paste0("^", x, "$")
 }
-
-
-
