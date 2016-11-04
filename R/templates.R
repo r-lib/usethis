@@ -50,3 +50,7 @@ package_data <- function(base_path = ".") {
   desc <- desc::description$new(base_path)
   as.list(desc$get(desc$fields()))
 }
+
+package_name <- function(base_path = ".") {
+  desc::desc_get("Package", base_path)[[1]]
+}

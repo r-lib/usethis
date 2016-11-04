@@ -1,31 +1,23 @@
-#' @rdname infrastructure
-#' @section \code{use_cran_comments}:
-#' Add \code{cran-comments.md} template.
+#' Create a comment for submission to CRAN.
+#'
+#' This creates a template for your communications with CRAN when submitting a
+#' package. The goal of the file is to clearly communicate what steps you have
+#' taken to check that your package works across a wide range of operating
+#' systems. If you are submitting an update to a package that is used by
+#' other packages, you also need to describe the steps you have taken to
+#' ensure that it does not break existing code on CRAN.
+#'
 #' @export
-#' @aliases add_travis
-use_cran_comments <- function(pkg = ".") {
-  pkg <- as.package(pkg)
-
+#' @inheritParams use_template
+use_cran_comments <- function(base_path = ".") {
   use_template(
     "cran-comments.md",
     data = list(rversion = paste0(version$major, ".", version$minor)),
     ignore = TRUE,
     open = TRUE,
-    pkg = pkg
+    base_path = base_path
   )
 
-  invisible()
-}
-
-#' @rdname infrastructure
-#' @section \code{use_cran_badge}:
-#' Add a badge to show CRAN status and version number on the README
-#' @export
-use_cran_badge <- function(pkg = ".") {
-  pkg <- as.package(pkg)
-  message(
-    " * Add a CRAN status shield by adding the following line to your README:\n",
-    "[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/", pkg$package, ")](https://cran.r-project.org/package=", pkg$package, ")"
-  )
   invisible(TRUE)
 }
+

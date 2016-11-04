@@ -6,21 +6,22 @@
 #' automatically.
 #' @export
 #' @aliases add_travis
-use_travis <- function(pkg = ".", browse = interactive()) {
-  pkg <- as.package(pkg)
-
-  use_template("travis.yml", ".travis.yml", ignore = TRUE, pkg = pkg)
+use_travis <- function(browse = interactive(), base_path = ".") {
+  use_template(
+    "travis.yml",
+    ".travis.yml",
+    ignore = TRUE,
+    base_path = base_path
+  )
 
   gh <- github_info(pkg$path)
   travis_url <- file.path("https://travis-ci.org", gh$fullname)
+  travis_img <- paste0(travis_url, ".svg?branch=master")
 
-  message("Next: \n",
-    " * Add a travis shield to your README.md:\n",
-    "[![Travis-CI Build Status]",
-       "(https://travis-ci.org/", gh$fullname, ".svg?branch=master)]",
-       "(https://travis-ci.org/", gh$fullname, ")\n",
-    " * Turn on travis for your repo at ", travis_url, "\n"
-  )
+  message("Next:")
+  use_badge("Travis build status", travis_url, travis_img, base_path = base_path)
+
+  message("* Turn on travis for your repo at ", travis_url)
   if (browse) {
     utils::browseURL(travis_url)
   }
@@ -53,10 +54,9 @@ use_coverage <- function(pkg = ".", type = c("codecov", "coveralls")) {
   switch(type,
     codecov = {
       use_template("codecov.yml", "codecov.yml", ignore = TRUE, pkg = pkg)
-      message("* Add to `README.md`: \n",
-        "[![Coverage Status]",
-        "(https://img.shields.io/codecov/c/github/", gh$fullname, "/master.svg)]",
-        "(https://codecov.io/github/", gh$fullname, "?branch=master)"
+      use_badge("Coverage status",
+        paste0("https://codecov.io/github/", gh$fullname, "?branch=master"),
+        paste0("https://img.shields.io/codecov/c/github/", gh$fullname, "/master.svg")
       )
       message("* Add to `.travis.yml`:\n",
         "after_success:\n",
@@ -66,10 +66,9 @@ use_coverage <- function(pkg = ".", type = c("codecov", "coveralls")) {
 
     coveralls = {
       message("* Turn on coveralls for this repo at https://coveralls.io/repos/new")
-      message("* Add to `README.md`: \n",
-        "[![Coverage Status]",
-        "(https://img.shields.io/coveralls/", gh$fullname, ".svg)]",
-        "(https://coveralls.io/r/", gh$fullname, "?branch=master)"
+      use_badge("Coverage status",
+        paste0("https://coveralls.io/r/", gh$fullname, "?branch=master"),
+        paste0("https://img.shields.io/coveralls/", gh$fullname, ".svg")
       )
       message("* Add to `.travis.yml`:\n",
         "after_success:\n",
