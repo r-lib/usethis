@@ -19,6 +19,6 @@ use_gpl3_license(base_path = ".")
 \description{
 Adds the necessary infrastructure to declare your package as
 distributed under either the MIT license (including the \code{LICENSE}
-fille), or GPL v3.
+file), or GPL v3.
 }
 

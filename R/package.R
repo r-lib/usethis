@@ -6,6 +6,7 @@
 #' @param package Name of package to depend on.
 #' @param type Type of dependency: must be one of "Imports", "Suggests",
 #'   "Depends", "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation)
+#' @inheritParams use_template
 #' @export
 #' @examples
 #' \dontrun{
@@ -37,6 +38,4 @@ show_includes <- function(package) {
 
   message("Possible includes are:\n",
     paste0("#include <", h, ">", collapse = "\n"))
-
 }
-

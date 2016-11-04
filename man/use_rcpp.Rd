@@ -6,6 +6,9 @@
 \usage{
 use_rcpp(base_path = ".")
 }
+\arguments{
+\item{base_path}{Path to package root.}
+}
 \description{
 Creates \code{src/} and adds needed packages to \code{DESCRIPTION}.
 }

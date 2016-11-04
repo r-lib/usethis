@@ -11,6 +11,8 @@ use_package(package, type = "Imports", base_path = ".")
 
 \item{type}{Type of dependency: must be one of "Imports", "Suggests",
 "Depends", "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation)}
+
+\item{base_path}{Path to package root.}
 }
 \description{
 This adds a dependency to DESCRIPTION and offers a little advice

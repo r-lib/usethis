@@ -2,7 +2,7 @@
 #'
 #' This creates a basic \code{NEWS.md} in the root directory.
 #'
-#' @inheritParams use_build_ignore
+#' @inheritParams use_template
 #' @export
 use_news_md <- function(base_path = ".") {
   use_template(

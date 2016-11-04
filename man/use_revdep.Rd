@@ -4,7 +4,7 @@
 \alias{use_revdep}
 \title{Set up devtools revdep template}
 \usage{
-use_revdep(pkg = ".")
+use_revdep(base_path = ".")
 }
 \description{
 Add \code{revdep} directory and basic check template.

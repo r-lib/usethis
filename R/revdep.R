@@ -1,16 +1,16 @@
 #' Set up devtools revdep template
 #'
 #' Add \code{revdep} directory and basic check template.
+#'
 #' @export
-use_revdep <- function(pkg = ".") {
-  pkg <- as.package(pkg)
+use_revdep <- function(base_path = ".") {
+  use_directory("revdep", ignore = TRUE, base_path = base_path)
+  use_git_ignore("revdep/.cache.rds", base_path = base_path)
 
-  use_directory("revdep", ignore = TRUE, pkg = pkg)
   use_template(
     "revdep.R",
     "revdep/check.R",
-    data = list(name = pkg$package),
-    pkg = pkg
+    data = list(name = package_name(base_path)),
+    base_path = base_path
   )
-  use_git_ignore(revdep_cache_path_raw(""), pkg = pkg)
 }
