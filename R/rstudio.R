@@ -1,5 +1,6 @@
+#' Use RStudio
+#'
 #' @export
-#' @rdname infrastructure
 use_rstudio <- function(pkg = ".") {
   pkg <- as.package(pkg)
 

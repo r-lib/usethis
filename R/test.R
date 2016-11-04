@@ -1,9 +1,10 @@
-#' @section \code{use_testthat}:
-#' Add testing infrastructure to a package that does not already have it.
-#' This will create \file{tests/testthat.R}, \file{tests/testthat/} and
-#' add \pkg{testthat} to the suggested packages. This is called
-#' automatically from \code{\link{test}} if needed.
-#' @rdname infrastructure
+#' Add testing infrastructor
+#'
+#' \code{use_testthat} sets up testing infrastructure, creating
+#' \file{tests/testthat.R} and \file{tests/testthat/}, and
+#' adding \pkg{testthat} to the suggested packages. \code{use_test}
+#' creates \file{tests/testthat/test-<name>.R} and opens it for editing.
+#'
 #' @export
 use_testthat <- function(pkg = ".") {
   pkg <- as.package(pkg)
@@ -28,11 +29,7 @@ use_testthat <- function(pkg = ".") {
   invisible(TRUE)
 }
 
-#' @section \code{use_test}:
-#' Add a test file, also add testing infrastructure if necessary.
-#' This will create \file{tests/testthat/test-<name>.R} with a user-specified
-#' name for the test.  Will fail if the file exists.
-#' @rdname infrastructure
+#' @rdname use_testthat
 #' @export
 use_test <- function(name, pkg = ".") {
   pkg <- as.package(pkg)

@@ -1,8 +1,7 @@
-#' @rdname infrastructure
-#' @section \code{use_revdep}:
+#' Set up devtools revdep template
+#'
 #' Add \code{revdep} directory and basic check template.
 #' @export
-#' @aliases add_travis
 use_revdep <- function(pkg = ".") {
   pkg <- as.package(pkg)
 

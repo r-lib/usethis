@@ -1,4 +1,10 @@
-#' @rdname infrastructure
+#' Add licenses
+#'
+#' @name licenses
+#' @aliases NULL
+NULL
+
+#' @rdname licenses
 #' @section \code{use_mit_license}:
 #' Adds the necessary infrastructure to declare your package as
 #' distributed under the MIT license.
@@ -28,7 +34,7 @@ use_mit_license <- function(pkg = ".", copyright_holder = getOption("devtools.na
 }
 
 
-#' @rdname infrastructure
+#' @rdname licenses
 #' @section \code{use_gpl3_license}:
 #' Adds the necessary infrastructure to declare your package as
 #' distributed under the GPL v3.

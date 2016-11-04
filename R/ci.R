@@ -1,11 +1,17 @@
-#' @rdname infrastructure
+#' Continuous integration
+#'
+#' @name ci
+#' @aliases NULL
+NULL
+
+
 #' @section \code{use_travis}:
 #' Add basic travis template to a package. Also adds \code{.travis.yml} to
 #' \code{.Rbuildignore} so it isn't included in the built package.
 #' @param browse open a browser window to enable Travis builds for the package
 #' automatically.
 #' @export
-#' @aliases add_travis
+#' @rdname ci
 use_travis <- function(browse = interactive(), base_path = ".") {
   use_template(
     "travis.yml",
@@ -30,7 +36,7 @@ use_travis <- function(browse = interactive(), base_path = ".") {
 }
 
 
-#' @rdname infrastructure
+#' @rdname ci
 #' @param type CI tool to use. Currently supports codecov and coverall.
 #' @section \code{use_coverage}:
 #' Add test code coverage to basic travis template to a package.
@@ -79,7 +85,7 @@ use_coverage <- function(pkg = ".", type = c("codecov", "coveralls")) {
   invisible(TRUE)
 }
 
-#' @rdname infrastructure
+#' @rdname ci
 #' @section \code{use_appveyor}:
 #' Add basic AppVeyor template to a package. Also adds \code{appveyor.yml} to
 #' \code{.Rbuildignore} so it isn't included in the built package.

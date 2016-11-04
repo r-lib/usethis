@@ -1,4 +1,5 @@
-#' @section \code{use_rcpp}:
+#' Use Rcpp
+#'
 #' Creates \code{src/} and adds needed packages to \code{DESCRIPTION}.
 #' @export
 #' @rdname infrastructure

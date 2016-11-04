@@ -1,5 +1,5 @@
-#' @rdname infrastructure
-#' @section \code{use_package_doc}:
+#' Create package documentation template
+#'
 #' Adds a roxygen template for package documentation
 #' @export
 use_package_doc <- function(pkg = ".") {
