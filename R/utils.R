@@ -18,7 +18,7 @@ yesno <- function(...) {
   qs <- c(sample(yeses, 1), sample(nos, 2))
   rand <- sample(length(qs))
 
-  menu(qs[rand]) != which(rand == 1)
+  utils::menu(qs[rand]) != which(rand == 1)
 }
 
 is_dir <- function(x) file.info(x)$isdir

@@ -4,24 +4,24 @@
 #' \code{NEWS.md} (if it exists), and then checks the result into git.
 #'
 #' @export
-use_dev_version <- function(pkg = ".") {
-  pkg <- as.package(pkg)
-
-  if (uses_git(pkg$path) && git_uncommitted(pkg$path)) {
+use_dev_version <- function(base_path = ".") {
+  if (uses_git(base_path) && git_uncommitted(base_path)) {
     stop(
       "Uncommited changes. Please commit to git before continuing",
       call. = FALSE
     )
   }
 
-  message("* Adding .9000 to version")
-  desc_path <- file.path(pkg$path, "DESCRIPTION")
-  DESCRIPTION <- read_dcf(desc_path)
-  if (length(unlist(package_version(DESCRIPTION$Version))) > 3) {
+  desc_path <- file.path(base_path, "DESCRIPTION")
+
+  ver <- package_version(desc::desc_get("Version", file = desc_path)[[1]])
+  if (length(unlist(ver)) > 3) {
     stop("Already has development version", call. = FALSE)
   }
-  DESCRIPTION$Version <- paste0(DESCRIPTION$Version, ".9000")
-  write_dcf(desc_path, DESCRIPTION)
+
+  message("* Adding .9000 to version")
+  dev_ver <- paste0(version, ".9000")
+  desc::desc_set("Version", dev_ver, file = desc_pat)
 
   news_path <- file.path(pkg$path, "news.md")
   if (file.exists(news_path)) {
@@ -29,7 +29,7 @@ use_dev_version <- function(pkg = ".") {
 
     news <- readLines(news_path)
     news <- c(
-      paste0("# ", pkg$package, " ", DESCRIPTION$Version),
+      paste0("# ", package_name(base_path), " ", dev_ver),
       "",
       news
     )

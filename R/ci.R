@@ -20,7 +20,7 @@ use_travis <- function(browse = interactive(), base_path = ".") {
     base_path = base_path
   )
 
-  gh <- github_info(pkg$path)
+  gh <- github_info(base_path)
   travis_url <- file.path("https://travis-ci.org", gh$fullname)
   travis_img <- paste0(travis_url, ".svg?branch=master")
 
@@ -41,24 +41,23 @@ use_travis <- function(browse = interactive(), base_path = ".") {
 #' @section \code{use_coverage}:
 #' Add test code coverage to basic travis template to a package.
 #' @export
-use_coverage <- function(pkg = ".", type = c("codecov", "coveralls")) {
-  pkg <- as.package(pkg)
+use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
   check_suggested("covr")
 
-  path <- file.path(pkg$path, ".travis.yml")
+  path <- file.path(base_path, ".travis.yml")
   if (!file.exists(path)) {
-    use_travis()
+    use_travis(base_path = base_path)
   }
 
   use_dependency("covr", "Suggests", base_path = base_path)
 
-  gh <- github_info(pkg$path)
+  gh <- github_info(base_path)
   type <- match.arg(type)
 
   message("Next:")
   switch(type,
     codecov = {
-      use_template("codecov.yml", "codecov.yml", ignore = TRUE, pkg = pkg)
+      use_template("codecov.yml", "codecov.yml", ignore = TRUE, base_path = base_path)
       use_badge("Coverage status",
         paste0("https://codecov.io/github/", gh$fullname, "?branch=master"),
         paste0("https://img.shields.io/codecov/c/github/", gh$fullname, "/master.svg")
@@ -89,18 +88,16 @@ use_coverage <- function(pkg = ".", type = c("codecov", "coveralls")) {
 #' Add basic AppVeyor template to a package. Also adds \code{appveyor.yml} to
 #' \code{.Rbuildignore} so it isn't included in the built package.
 #' @export
-use_appveyor <- function(pkg = ".") {
-  pkg <- as.package(pkg)
+use_appveyor <- function(base_path = ".") {
+  use_template("appveyor.yml", ignore = TRUE, base_path = base_path)
 
-  use_template("appveyor.yml", ignore = TRUE, pkg = pkg)
-
-  gh <- github_info(pkg$path)
+  gh <- github_info(base_path)
   message("Next: \n",
-          " * Turn on AppVeyor for this repo at https://ci.appveyor.com/projects\n",
-          " * Add an AppVeyor shield to your README.md:\n",
-          "[![AppVeyor Build Status]",
-          "(https://ci.appveyor.com/api/projects/status/github/", gh$username, "/", gh$repo, "?branch=master&svg=true)]",
-          "(https://ci.appveyor.com/project/", gh$username, "/", gh$repo, ")"
+    "* Turn on AppVeyor for this repo at https://ci.appveyor.com/projects\n",
+    "* Add an AppVeyor shield to your README.md:\n",
+    "[![AppVeyor Build Status]",
+    "(https://ci.appveyor.com/api/projects/status/github/", gh$username, "/", gh$repo, "?branch=master&svg=true)]",
+    "(https://ci.appveyor.com/project/", gh$username, "/", gh$repo, ")"
   )
 
   invisible(TRUE)
