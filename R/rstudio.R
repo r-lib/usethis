@@ -8,7 +8,7 @@
 use_rstudio <- function(base_path = ".") {
   use_template(
     "template.Rproj",
-    paste0(basename(normalizePath(".")), ".Rproj"),
+    paste0(project_name(base_path), ".Rproj"),
     base_path = base_path
   )
 

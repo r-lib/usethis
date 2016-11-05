@@ -29,7 +29,7 @@ use_dev_version <- function(base_path = ".") {
 
     news <- readLines(news_path)
     news <- c(
-      paste0("# ", package_name(base_path), " ", dev_ver),
+      paste0("# ", project_name(base_path), " ", dev_ver),
       "",
       news
     )

@@ -9,7 +9,7 @@
 #' @inheritParams use_template
 #' @export
 use_package_doc <- function(base_path = ".") {
-  name <- package_name(base_path)
+  name <- project_name(base_path)
 
   use_template(
     "packagename-package.r",

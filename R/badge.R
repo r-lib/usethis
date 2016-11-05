@@ -7,7 +7,7 @@
 #' @inheritParams use_template
 #' @export
 use_cran_badge <- function(base_path = ".") {
-  pkg <- package_name(base_path)
+  pkg <- project_name(base_path)
 
   src <- paste0("http://www.r-pkg.org/badges/version/", pkg)
   href <- paste0("https://cran.r-project.org/package=", pkg)

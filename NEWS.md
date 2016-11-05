@@ -1,5 +1,9 @@
 # usethis 0.0.0.9000
 
+* Functions are now designed to work with a directory that's not necessarily
+  a package. This doesn't always make sense but in the long term makes
+  usesthis more flexible for other tasks like (e.g.) data analysis.
+
 * `use_template()` and `use_test()` now convert title to a slug that only
   contains lowercase letters, numbers, and `-`.
 

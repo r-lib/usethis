@@ -13,7 +13,7 @@ use_testthat <- function(base_path = ".") {
   use_template(
     "testthat.R",
     "tests/testthat.R",
-    data = list(name = package_name(base_path)),
+    data = list(name = project_name(base_path)),
     base_path = base_path
   )
 

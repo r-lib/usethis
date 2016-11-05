@@ -15,7 +15,7 @@ use_rcpp <- function(base_path = ".") {
 
   message(
     "Next, include the following roxygen tags somewhere in your package:\n\n",
-    "#' @useDynLib ", package_name(base_path), "\n",
+    "#' @useDynLib ", project_name(base_path), "\n",
     "#' @importFrom Rcpp sourceCpp\n",
     "NULL\n\n",
     "Then run document()"

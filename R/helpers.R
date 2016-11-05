@@ -50,8 +50,14 @@ package_data <- function(base_path = ".") {
   as.list(desc$get(desc$fields()))
 }
 
-package_name <- function(base_path = ".") {
-  desc::desc_get("Package", base_path)[[1]]
+project_name <- function(base_path = ".") {
+  desc_path <- file.path(base_path, "DESCRIPTION")
+
+  if (file.exists(desc_path)) {
+    desc::desc_get("Package", base_path)[[1]]
+  } else {
+    basename(normalizePath(base_path))
+  }
 }
 
 use_description_field <- function(name, value, base_path = ".") {
