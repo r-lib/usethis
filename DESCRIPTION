@@ -14,7 +14,9 @@ Imports:
     desc,
     httr,
     jsonlite,
-    rmarkdown
+    rmarkdown,
+    gh
+Remotes: gaborcsardi/gh
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

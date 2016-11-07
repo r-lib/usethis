@@ -2,16 +2,20 @@
 % Please edit documentation in R/github.R
 \name{use_github}
 \alias{use_github}
+\alias{use_github_links}
 \title{Connect a local repo with GitHub.}
 \usage{
-use_github(auth_token = github_pat(), private = FALSE,
+use_github(auth_token = NULL, private = FALSE,
   host = "https://api.github.com", protocol = c("ssh", "https"),
   credentials = NULL, base_path = ".")
+
+use_github_links(auth_token = NULL, host = "https://api.github.com",
+  base_path = ".")
 }
 \arguments{
 \item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. Defaults to the \code{GITHUB_PAT}
-environment variable.}
+\url{https://github.com/settings/tokens}. If \code{NULL}, will use the
+\code{GITHUB_PAT} environment variable.}
 
 \item{private}{If \code{TRUE}, creates a private repository.}
 
@@ -28,9 +32,10 @@ Default is NULL.}
 \item{base_path}{Path to package root.}
 }
 \description{
-If the current repo does not use git, calls \code{\link{use_git}}
-automatically. \code{\link{use_github_links}} is called to populate the
-\code{URL} and \code{BugReports} fields of DESCRIPTION.
+\code{use_github} calls \code{\link{use_git}} if needed, creates
+repo on github, then sets up appropriate git remotes and syncs.
+\code{use_github_links} populates the \code{URL} and \code{BugReports}
+fields with appropriate links (unless they already exist).
 }
 \section{Authentication}{
 

@@ -1,8 +1,9 @@
 #' Connect a local repo with GitHub.
 #'
-#' If the current repo does not use git, calls \code{\link{use_git}}
-#' automatically. \code{\link{use_github_links}} is called to populate the
-#' \code{URL} and \code{BugReports} fields of DESCRIPTION.
+#' \code{use_github} calls \code{\link{use_git}} if needed, creates
+#' repo on github, then sets up appropriate git remotes and syncs.
+#' \code{use_github_links} populates the \code{URL} and \code{BugReports}
+#' fields with appropriate links (unless they already exist).
 #'
 #' @section Authentication:
 #'
@@ -29,8 +30,8 @@
 #'
 #' @inheritParams use_git
 #' @param auth_token Provide a personal access token (PAT) from
-#'   \url{https://github.com/settings/tokens}. Defaults to the \code{GITHUB_PAT}
-#'   environment variable.
+#'   \url{https://github.com/settings/tokens}. If \code{NULL}, will use the
+#'   \code{GITHUB_PAT} environment variable.
 #' @param private If \code{TRUE}, creates a private repository.
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
@@ -50,7 +51,7 @@
 #' create("testpkg2")
 #' use_github(pkg = "testpkg2", protocol = "https")
 #' }
-use_github <- function(auth_token = github_pat(), private = FALSE,
+use_github <- function(auth_token = NULL, private = FALSE,
                        host = "https://api.github.com",
                        protocol = c("ssh", "https"), credentials = NULL,
                        base_path = ".") {
@@ -58,8 +59,6 @@ use_github <- function(auth_token = github_pat(), private = FALSE,
   if (is.null(auth_token)) {
     stop("GITHUB_PAT required to create new repo")
   }
-
-  use_git(base_path = base_path)
 
   if (uses_github(base_path)) {
     message("* GitHub is already initialized")
@@ -75,15 +74,13 @@ use_github <- function(auth_token = github_pat(), private = FALSE,
   }
 
   message("* Creating GitHub repository")
-  create <- github_POST(
+  create <- gh::gh("POST /user/repos",
     "user/repos",
-    pat = auth_token,
-    body = list(
-      name = jsonlite::unbox(pkg$Package),
-      description = jsonlite::unbox(gsub("\n", " ", pkg$Title)),
-      private = jsonlite::unbox(private)
-    ),
-    host = host
+    name = pkg$Package,
+    description = gsub("\n", " ", pkg$Title),
+    private = private,
+    .api_url = host,
+    .token = auth_token
   )
 
   message("* Adding GitHub remote")
@@ -120,22 +117,9 @@ use_github <- function(auth_token = github_pat(), private = FALSE,
   invisible(NULL)
 }
 
-#' Add GitHub links to DESCRIPTION.
-#'
-#' Populates the URL and BugReports fields of DESCRIPTION with
-#' \code{https://github.com/<USERNAME>/<REPO>} AND
-#' \code{https://github.com/<USERNAME>/<REPO>/issues}, respectively, unless
-#' those fields already exist.
-#'
-#' @inheritParams use_git
-#' @param auth_token Provide a personal access token (PAT) from
-#'   \url{https://github.com/settings/tokens}. Defaults to the \code{GITHUB_PAT}
-#'   environment variable.
-#' @param host GitHub API host to use. Override with the endpoint-root for your
-#'   GitHub enterprise instance, for example,
-#'   "https://github.hostname.com/api/v3".
 #' @export
-use_github_links <- function(auth_token = github_pat(),
+#' @rdname use_github
+use_github_links <- function(auth_token = NULL,
                              host = "https://api.github.com",
                              base_path = ".") {
 
@@ -144,13 +128,16 @@ use_github_links <- function(auth_token = github_pat(),
          "You might want to run use_github().")
   }
 
-  gh_info <- github_info(base_path)
-  path_to_repo <- paste("repos", gh_info$fullname, sep = "/")
-  res <- github_GET(path = path_to_repo, pat = auth_token, host = host)
-  github_URL <- res$html_url
+  info <- github_info(base_path)
+  res <- gh::gh(
+    "GET /repos/:owner/:repo",
+    owner = info$username,
+    repo = info$repo,
+    .api_url = host
+  )
 
-  use_description_field("Url", github_URL)
-  use_description_field("BugReports", file.path(github_URL, "issues"),
+  use_description_field("Url", res$html_url)
+  use_description_field("BugReports", file.path(res$html_url, "issues"),
     base_path = base_path)
 
   invisible()
