@@ -1,11 +1,12 @@
 Package: usethis
-Title: What the Package Does (one line, title case)
+Title: Automatically Set Up Commonly Used Package and Analysis Components
 Version: 0.0.0.9000
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
     person("RStudio", role = "cph")
   )
-Description: What the package does (one paragraph).
+Description: usethis automates the set up of common tools needed during
+    package and analysis development.
 Imports:
     git2r,
     rstudioapi,
