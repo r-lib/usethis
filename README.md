@@ -1,5 +1,7 @@
 # usethis
 
+[![Travis build status](https://travis-ci.org/hadley/usethis.svg?branch=master)](https://travis-ci.org/hadley/usethis)
+
 The goal of usethis is to automate many common package and analysis setup tasks.
 
 ## Installation
