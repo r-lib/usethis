@@ -80,8 +80,8 @@ use_description_field <- function(name, value, base_path = ".", overwrite = FALS
   if (identical(curr, value))
     return()
 
-  if (is.null(curr) || overwrite) {
-    message("* Setting ", name, " to ", value, ".")
+  if (is.na(curr) || overwrite) {
+    message("* Setting DESCRIPTION ", name, " to '", value, "'.")
     desc::desc_set(name, value, file = path)
   } else {
     message("* Preserving existing field ", name)

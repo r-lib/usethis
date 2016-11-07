@@ -59,8 +59,6 @@ use_github <- function(auth_token = github_pat(), private = FALSE,
     stop("GITHUB_PAT required to create new repo")
   }
 
-  protocol <- match.arg(protocol)
-
   use_git(base_path = base_path)
 
   if (uses_github(base_path)) {
@@ -77,21 +75,24 @@ use_github <- function(auth_token = github_pat(), private = FALSE,
   }
 
   message("* Creating GitHub repository")
-  create <-
-    github_POST(
-      "user/repos",
-      pat = auth_token,
-      body = list(
-        name = jsonlite::unbox(pkg$package),
-        description = jsonlite::unbox(gsub("\n", " ", pkg$title)),
-        private = jsonlite::unbox(private)
-      ),
-      host = host
-    )
+  create <- github_POST(
+    "user/repos",
+    pat = auth_token,
+    body = list(
+      name = jsonlite::unbox(pkg$Package),
+      description = jsonlite::unbox(gsub("\n", " ", pkg$Title)),
+      private = jsonlite::unbox(private)
+    ),
+    host = host
+  )
 
   message("* Adding GitHub remote")
   r <- git2r::repository(base_path)
-  origin_url <- switch(protocol, https = create$clone_url, ssh = create$ssh_url)
+  protocol <- match.arg(protocol)
+  origin_url <- switch(protocol,
+    https = create$clone_url,
+    ssh = create$ssh_url
+  )
   git2r::remote_add(r, "origin", origin_url)
 
   message("* Adding GitHub links to DESCRIPTION")
