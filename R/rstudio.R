@@ -12,7 +12,7 @@ use_rstudio <- function(base_path = ".") {
     base_path = base_path
   )
 
-  use_git_ignore(c(".Rproj.user", ".Rhistory", ".RData"), base_path = base_path)
+  use_git_ignore(".Rproj.user", base_path = base_path)
   use_build_ignore(c("^.*\\.Rproj$", "^\\.Rproj\\.user$"), escape = FALSE, base_path = base_path)
 
   invisible(TRUE)

@@ -8,9 +8,6 @@ use_github_links(pkg = ".", auth_token = github_pat(),
   host = "https://api.github.com")
 }
 \arguments{
-\item{pkg}{Path to package. See \code{\link{as.package}} for more
-information.}
-
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. Defaults to the \code{GITHUB_PAT}
 environment variable.}

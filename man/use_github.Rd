@@ -15,9 +15,6 @@ environment variable.}
 
 \item{private}{If \code{TRUE}, creates a private repository.}
 
-\item{pkg}{Path to package. See \code{\link{as.package}} for more
-information.}
-
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3".}

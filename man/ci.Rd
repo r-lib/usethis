@@ -8,9 +8,9 @@
 \usage{
 use_travis(browse = interactive(), base_path = ".")
 
-use_coverage(pkg = ".", type = c("codecov", "coveralls"))
+use_coverage(type = c("codecov", "coveralls"), base_path = ".")
 
-use_appveyor(pkg = ".")
+use_appveyor(base_path = ".")
 }
 \arguments{
 \item{browse}{open a browser window to enable Travis builds for the package

@@ -4,18 +4,22 @@
 \alias{use_git}
 \title{Initialise a git repository.}
 \usage{
-use_git(message = "Initial commit", pkg = ".")
+use_git(message = "Initial commit", base_path = ".")
 }
 \arguments{
 \item{message}{Message to use for first commit.}
 
-\item{pkg}{Path to package. See \code{\link{as.package}} for more
-information.}
+\item{base_path}{Path to package root.}
 }
 \description{
-Initialise a git repository.
+\code{use_git} initialises a git repository, adds important files
+to \code{.gitignore}, and commits all files.
 }
 \examples{
 \dontrun{use_git()}
+}
+\seealso{
+Other git.helpers: \code{\link{use_git_hook}},
+  \code{\link{use_git_ignore}}
 }
 

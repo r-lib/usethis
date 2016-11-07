@@ -4,7 +4,7 @@
 \alias{use_git_hook}
 \title{Add a git hook.}
 \usage{
-use_git_hook(hook, script, pkg = ".")
+use_git_hook(hook, script, base_path = ".")
 }
 \arguments{
 \item{hook}{Hook name. One of "pre-commit", "prepare-commit-msg",
@@ -14,10 +14,14 @@ use_git_hook(hook, script, pkg = ".")
 
 \item{script}{Text of script to run}
 
-\item{pkg}{Path to package. See \code{\link{as.package}} for more
-information.}
+\item{base_path}{Path to package root.}
 }
 \description{
-Add a git hook.
+Sets up a git hook using specified script. Creates hook directory if
+needed, and sets correct permissions on hook.
+}
+\seealso{
+Other git.helpers: \code{\link{use_git_ignore}},
+  \code{\link{use_git}}
 }
 
