@@ -15,7 +15,7 @@ use_git <- function(message = "Initial commit", base_path = ".") {
   }
 
   message("* Initialising repo")
-  r <- git2r::init(pkg$path)
+  r <- git2r::init(base_path)
 
   use_git_ignore(c(".Rhistory", ".RData"), base_path = base_path)
 
@@ -45,9 +45,9 @@ use_git_hook <- function(hook, script, base_path = ".") {
 
   base_path <- git2r::discover_repository(base_path)
 
-  use_directory("hooks", base_path = base_path)
+  use_directory(".git/hooks", base_path = base_path)
 
-  hook_path <- file.path(hook_dir, hook)
+  hook_path <- file.path(base_path, ".git/hooks", hook)
   writeLines(script, hook_path)
   Sys.chmod(hook_path, "0744")
 
@@ -56,13 +56,13 @@ use_git_hook <- function(hook, script, base_path = ".") {
 
 #' Tell git to ignore files
 #'
-#' @param ignore Character vector of ignores, specified as file globs.
+#' @param ignores Character vector of ignores, specified as file globs.
 #' @param directory Directory within \code{base_path} to set ignores
 #' @inheritParams use_template
 #' @family git helpers
 use_git_ignore <- function(ignores, directory = ".", base_path = ".") {
   path <- file.path(base_path, directory, ".gitignore")
-  union_write(path, ignores, quiet = quiet)
+  union_write(path, ignores)
 
   invisible(TRUE)
 }

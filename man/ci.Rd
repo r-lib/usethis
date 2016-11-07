@@ -16,6 +16,8 @@ use_appveyor(base_path = ".")
 \item{browse}{open a browser window to enable Travis builds for the package
 automatically.}
 
+\item{base_path}{Path to package root.}
+
 \item{type}{CI tool to use. Currently supports codecov and coverall.}
 }
 \description{

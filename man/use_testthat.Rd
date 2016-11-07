@@ -11,6 +11,8 @@ use_test(name, base_path = ".")
 }
 \arguments{
 \item{base_path}{Path to package root.}
+
+\item{name}{Test name.}
 }
 \description{
 \code{use_testthat} sets up testing infrastructure, creating

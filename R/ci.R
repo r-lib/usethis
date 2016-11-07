@@ -2,6 +2,7 @@
 #'
 #' @name ci
 #' @aliases NULL
+#' @inheritParams use_template
 NULL
 
 
@@ -42,8 +43,6 @@ use_travis <- function(browse = interactive(), base_path = ".") {
 #' Add test code coverage to basic travis template to a package.
 #' @export
 use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
-  check_suggested("covr")
-
   path <- file.path(base_path, ".travis.yml")
   if (!file.exists(path)) {
     use_travis(base_path = base_path)

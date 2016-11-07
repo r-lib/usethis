@@ -4,9 +4,9 @@
 \alias{use_github}
 \title{Connect a local repo with GitHub.}
 \usage{
-use_github(auth_token = github_pat(), private = FALSE, pkg = ".",
+use_github(auth_token = github_pat(), private = FALSE,
   host = "https://api.github.com", protocol = c("ssh", "https"),
-  credentials = NULL)
+  credentials = NULL, base_path = ".")
 }
 \arguments{
 \item{auth_token}{Provide a personal access token (PAT) from
@@ -24,6 +24,8 @@ GitHub enterprise instance, for example,
 \item{credentials}{A \code{\link[git2r]{cred_ssh_key}} specifying specific
 ssh credentials or NULL for default ssh key and ssh-agent behaviour.
 Default is NULL.}
+
+\item{base_path}{Path to package root.}
 }
 \description{
 If the current repo does not use git, calls \code{\link{use_git}}

@@ -6,6 +6,9 @@
 \usage{
 use_revdep(base_path = ".")
 }
+\arguments{
+\item{base_path}{Path to package root.}
+}
 \description{
 Add \code{revdep} directory and basic check template.
 }

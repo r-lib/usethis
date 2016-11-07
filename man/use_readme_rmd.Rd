@@ -5,13 +5,12 @@
 \alias{use_readme_rmd}
 \title{Create README files.}
 \usage{
-use_readme_rmd(pkg = ".")
+use_readme_rmd(base_path = ".")
 
-use_readme_md(pkg = ".")
+use_readme_md(base_path = ".")
 }
 \arguments{
-\item{pkg}{package description, can be path or package name.  See
-\code{\link{as.package}} for more information}
+\item{base_path}{Path to package root.}
 }
 \description{
 Creates skeleton README files with sections for

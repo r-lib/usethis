@@ -50,9 +50,10 @@
 #' create("testpkg2")
 #' use_github(pkg = "testpkg2", protocol = "https")
 #' }
-use_github <- function(auth_token = github_pat(), private = FALSE, pkg = ".",
+use_github <- function(auth_token = github_pat(), private = FALSE,
                        host = "https://api.github.com",
-                       protocol = c("ssh", "https"), credentials = NULL) {
+                       protocol = c("ssh", "https"), credentials = NULL,
+                       base_path = ".") {
 
   if (is.null(auth_token)) {
     stop("GITHUB_PAT required to create new repo")
@@ -60,17 +61,17 @@ use_github <- function(auth_token = github_pat(), private = FALSE, pkg = ".",
 
   protocol <- match.arg(protocol)
 
-  pkg <- as.package(pkg)
-  use_git(pkg = pkg)
+  use_git(base_path = base_path)
 
-  if (uses_github(pkg$path)) {
+  if (uses_github(base_path)) {
     message("* GitHub is already initialized")
     return(invisible())
   }
 
+  pkg <- package_data(base_path)
   message("* Checking title and description")
-  message("  Title: ", pkg$title)
-  message("  Description: ", pkg$description)
+  message("  Title: ", pkg$Title)
+  message("  Description: ", pkg$Description)
   if (yesno("Are title and description ok?")) {
     return(invisible())
   }
@@ -89,13 +90,13 @@ use_github <- function(auth_token = github_pat(), private = FALSE, pkg = ".",
     )
 
   message("* Adding GitHub remote")
-  r <- git2r::repository(pkg$path)
+  r <- git2r::repository(base_path)
   origin_url <- switch(protocol, https = create$clone_url, ssh = create$ssh_url)
   git2r::remote_add(r, "origin", origin_url)
 
   message("* Adding GitHub links to DESCRIPTION")
-  use_github_links(pkg$path, auth_token = auth_token, host = host)
-  if (git_uncommitted(pkg$path)) {
+  use_github_links(base_path, auth_token = auth_token, host = host)
+  if (git_uncommitted(base_path)) {
     git2r::add(r, "DESCRIPTION")
     git2r::commit(r, "Add GitHub links to DESCRIPTION")
   }
@@ -133,37 +134,23 @@ use_github <- function(auth_token = github_pat(), private = FALSE, pkg = ".",
 #'   GitHub enterprise instance, for example,
 #'   "https://github.hostname.com/api/v3".
 #' @export
-use_github_links <- function(pkg = ".", auth_token = github_pat(),
-                             host = "https://api.github.com") {
+use_github_links <- function(auth_token = github_pat(),
+                             host = "https://api.github.com",
+                             base_path = ".") {
 
-  if (!uses_github(pkg)) {
+  if (!uses_github(base_path)) {
     stop("Cannot detect that package already uses GitHub.\n",
          "You might want to run use_github().")
   }
 
-  gh_info <- github_info(pkg)
-  pkg <- as.package(pkg)
-
-  desc_path <- file.path(pkg$path, "DESCRIPTION")
-  desc <- new_desc <- read_dcf(desc_path)
-
+  gh_info <- github_info(base_path)
   path_to_repo <- paste("repos", gh_info$fullname, sep = "/")
   res <- github_GET(path = path_to_repo, pat = auth_token, host = host)
   github_URL <- res$html_url
 
-  fill <- function(d, f, filler) {
-    if (is.null(d[[f]]) || identical(d[[f]], "")) {
-      d[[f]] <- filler
-    } else {
-      message("Existing ", f, " field found and preserved")
-    }
-    d
-  }
-  new_desc <- fill(new_desc, "URL", github_URL)
-  new_desc <- fill(new_desc, "BugReports", file.path(github_URL, "issues"))
+  use_description_field("Url", github_URL)
+  use_description_field("BugReports", file.path(github_URL, "issues"),
+    base_path = base_path)
 
-  if (!identical(desc, new_desc))
-    write_dcf(desc_path, new_desc)
-
-  new_desc[c("URL", "BugReports")]
+  invisible()
 }

@@ -11,30 +11,35 @@
 #' added to \code{.Rbuildignore}. The resulting README is populated with default
 #' YAML frontmatter and R fenced code blocks (\code{md}) or chunks (\code{Rmd}).
 #'
-#' @param pkg package description, can be path or package name.  See
-#'   \code{\link{as.package}} for more information
+#' @inheritParams use_template
 #' @export
 #' @examples
 #' \dontrun{
 #' use_readme_rmd()
 #' use_readme_md()
 #' }
-use_readme_rmd <- function(pkg = ".") {
-  pkg <- as.package(pkg)
+use_readme_rmd <- function(base_path = ".") {
 
-  if (uses_github(pkg$path)) {
-    pkg$github <- github_info(pkg$path)
-  }
-  pkg$Rmd <- TRUE
+  data <- package_data(base_path)
+  data$Rmd <- TRUE
 
-  use_template("omni-README", save_as = "README.Rmd", data = pkg,
-               ignore = TRUE, open = TRUE, pkg = pkg)
-  use_build_ignore("^README-.*\\.png$", escape = FALSE, pkg = pkg)
+  use_template(
+    "omni-README",
+    "README.Rmd",
+    data = data,
+    ignore = TRUE,
+    open = TRUE,
+    base_path = base_path
+  )
+  use_build_ignore("^README-.*\\.png$", escape = FALSE, base_path = base_path)
 
-  if (uses_git(pkg$path) && !file.exists(pkg$path, ".git", "hooks", "pre-commit")) {
+  if (uses_git(base_path) && !file.exists(base_path, ".git", "hooks", "pre-commit")) {
     message("* Adding pre-commit hook")
-    use_git_hook("pre-commit", render_template("readme-rmd-pre-commit.sh"),
-      pkg = pkg)
+
+    script_path <- find_template("readme-rmd-pre-commit.sh")
+    script <- readLines(script_path)
+
+    use_git_hook("pre-commit", script, base_path = base_path)
   }
 
   invisible(TRUE)
@@ -42,12 +47,12 @@ use_readme_rmd <- function(pkg = ".") {
 
 #' @export
 #' @rdname use_readme_rmd
-use_readme_md <- function(pkg = ".") {
-  pkg <- as.package(pkg)
-  if (uses_github(pkg$path)) {
-    pkg$github <- github_info(pkg$path)
-  }
-
-  use_template("omni-README", save_as = "README.md",
-               data = pkg, open = TRUE, pkg = pkg)
+use_readme_md <- function(base_path = ".") {
+  use_template(
+    "omni-README",
+    "README.md",
+    data = package_data(base_path),
+    open = TRUE,
+    base_path = base_path
+  )
 }

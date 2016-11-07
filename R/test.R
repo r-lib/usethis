@@ -21,6 +21,7 @@ use_testthat <- function(base_path = ".") {
 }
 
 #' @rdname use_testthat
+#' @param name Test name.
 #' @export
 use_test <- function(name, base_path = ".") {
   if (!uses_testthat(base_path)) {

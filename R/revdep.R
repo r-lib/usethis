@@ -3,6 +3,7 @@
 #' Add \code{revdep} directory and basic check template.
 #'
 #' @export
+#' @inheritParams use_template
 use_revdep <- function(base_path = ".") {
   use_directory("revdep", ignore = TRUE, base_path = base_path)
   use_git_ignore("revdep/.cache.rds", base_path = base_path)

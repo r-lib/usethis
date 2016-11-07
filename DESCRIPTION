@@ -9,7 +9,11 @@ Description: What the package does (one paragraph).
 Imports:
     git2r,
     rstudioapi,
-    whisker
+    whisker,
+    desc,
+    httr,
+    jsonlite,
+    rmarkdown
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

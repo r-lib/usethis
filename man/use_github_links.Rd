@@ -4,8 +4,8 @@
 \alias{use_github_links}
 \title{Add GitHub links to DESCRIPTION.}
 \usage{
-use_github_links(pkg = ".", auth_token = github_pat(),
-  host = "https://api.github.com")
+use_github_links(auth_token = github_pat(), host = "https://api.github.com",
+  base_path = ".")
 }
 \arguments{
 \item{auth_token}{Provide a personal access token (PAT) from
@@ -15,6 +15,8 @@ environment variable.}
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3".}
+
+\item{base_path}{Path to package root.}
 }
 \description{
 Populates the URL and BugReports fields of DESCRIPTION with

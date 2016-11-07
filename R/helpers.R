@@ -29,11 +29,11 @@ use_template <- function(template,
   invisible(TRUE)
 }
 
-render_template <- function(template_name, save_as, data = list(), base_path = ".") {
-  template_path <- system.file("templates", template_name, package = "usethis")
-  if (identical(template_path, "")) {
-    stop("Could not find template '", template_name, "'", call. = FALSE)
-  }
+render_template <- function(template_name,
+                            save_as = template_name,
+                            data = list(),
+                            base_path = ".") {
+  template_path <- find_template(template_name)
 
   path <- file.path(base_path, save_as)
   if (!can_overwrite(path)) {
@@ -45,9 +45,22 @@ render_template <- function(template_name, save_as, data = list(), base_path = "
   writeLines(template, path)
 }
 
+find_template <- function(template_name) {
+  path <- system.file("templates", template_name, package = "usethis")
+  if (identical(path, "")) {
+    stop("Could not find template '", template_name, "'", call. = FALSE)
+  }
+  path
+}
+
 package_data <- function(base_path = ".") {
   desc <- desc::description$new(base_path)
-  as.list(desc$get(desc$fields()))
+
+  out <- as.list(desc$get(desc$fields()))
+  if (uses_github(base_path)) {
+    out$github <- github_info(base_path)
+  }
+  out
 }
 
 project_name <- function(base_path = ".") {
@@ -60,13 +73,18 @@ project_name <- function(base_path = ".") {
   }
 }
 
-use_description_field <- function(name, value, base_path = ".") {
+use_description_field <- function(name, value, base_path = ".", overwrite = FALSE) {
   path <- file.path(base_path, "DESCRIPTION")
 
-  curr <- desc::desc_get(name)[[1]]
-  if (!identical(curr, value)) {
+  curr <- desc::desc_get(name, file = path)[[1]]
+  if (identical(curr, value))
+    return()
+
+  if (is.null(curr) || overwrite) {
     message("* Setting ", name, " to ", value, ".")
-    desc::desc_set(name, value)
+    desc::desc_set(name, value, file = path)
+  } else {
+    message("* Preserving existing field ", name)
   }
 }
 
