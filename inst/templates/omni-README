@@ -21,14 +21,14 @@ knitr::opts_chunk$set(
 
 {{/Rmd}}
 
-# {{{ package }}}
+# {{{ Package }}}
 
-The goal of {{{package}}} is to ...
+The goal of {{{ Package }}} is to ...
 
 {{#github}}
 ## Installation
 
-You can install {{{ package }}} from github with:
+You can install {{{ Package }}} from github with:
 
 {{#Rmd}}
 ```{r gh-installation, eval = FALSE}
