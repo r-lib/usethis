@@ -14,6 +14,10 @@ NULL
 #' @export
 #' @rdname ci
 use_travis <- function(browse = interactive(), base_path = ".") {
+  if (!uses_github(base_path)) {
+    stop("You must use_github() before using travis")
+  }
+
   use_template(
     "travis.yml",
     ".travis.yml",
@@ -37,15 +41,19 @@ use_travis <- function(browse = interactive(), base_path = ".") {
 }
 
 
+uses_travis <- function(base_path = ".") {
+  path <- file.path(base_path, ".travis.yml")
+  file.exists(path)
+}
+
 #' @rdname ci
 #' @param type CI tool to use. Currently supports codecov and coverall.
 #' @section \code{use_coverage}:
 #' Add test code coverage to basic travis template to a package.
 #' @export
 use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
-  path <- file.path(base_path, ".travis.yml")
-  if (!file.exists(path)) {
-    use_travis(base_path = base_path)
+  if (!uses_travis(base_path)) {
+    stop("You must use_travis() first", call. = FALSE)
   }
 
   use_dependency("covr", "Suggests", base_path = base_path)
