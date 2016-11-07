@@ -11,7 +11,7 @@ use_rcpp <- function(base_path = ".") {
   use_directory("src", base_path = base_path)
 
   ignore_path <- file.path(base_path, "src", ".gitignore")
-  union_write(ignore_path, c("*.o", "*.so", "*.dll"))
+  write_union(ignore_path, c("*.o", "*.so", "*.dll"))
 
   message(
     "Next, include the following roxygen tags somewhere in your package:\n\n",

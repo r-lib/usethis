@@ -44,11 +44,10 @@ use_git_hook <- function(hook, script, base_path = ".") {
   }
 
   base_path <- git2r::discover_repository(base_path)
-
   use_directory(".git/hooks", base_path = base_path)
 
   hook_path <- file.path(base_path, ".git/hooks", hook)
-  writeLines(script, hook_path)
+  write_over(script, hook_path)
   Sys.chmod(hook_path, "0744")
 
   invisible()
@@ -62,7 +61,7 @@ use_git_hook <- function(hook, script, base_path = ".") {
 #' @family git helpers
 use_git_ignore <- function(ignores, directory = ".", base_path = ".") {
   path <- file.path(base_path, directory, ".gitignore")
-  union_write(path, ignores)
+  write_union(path, ignores)
 
   invisible(TRUE)
 }

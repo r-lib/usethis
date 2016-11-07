@@ -8,6 +8,7 @@ Authors@R: c(
 Description: usethis automates the set up of common tools needed during
     package and analysis development.
 Imports:
+    digest,
     git2r,
     rstudioapi,
     whisker,

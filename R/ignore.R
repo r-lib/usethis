@@ -17,7 +17,7 @@ use_build_ignore <- function(files, escape = TRUE, base_path = ".") {
   }
 
   path <- file.path(base_path, ".Rbuildignore")
-  union_write(path, files)
+  write_union(path, files)
 
   invisible(TRUE)
 }

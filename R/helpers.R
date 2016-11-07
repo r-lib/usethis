@@ -15,7 +15,8 @@ use_template <- function(template,
                          base_path = "."
                          ) {
 
-  render_template(template, save_as, data = data, base_path = base_path)
+  template_contents <- render_template(template, data)
+  write_over(template_contents, file.path(base_path, save_as))
 
   if (ignore) {
     use_build_ignore(save_as, base_path = base_path)
@@ -29,20 +30,11 @@ use_template <- function(template,
   invisible(TRUE)
 }
 
-render_template <- function(template_name,
-                            save_as = template_name,
-                            data = list(),
-                            base_path = ".") {
-  template_path <- find_template(template_name)
+render_template <- function(template, data = list()) {
+  template_path <- find_template(template)
 
-  path <- file.path(base_path, save_as)
-  if (!can_overwrite(path)) {
-    stop("'", save_as, "' already exists.", call. = FALSE)
-  }
-
-  message("* Creating `", save_as, "` from template.")
-  template <- whisker::whisker.render(readLines(template_path), data)
-  writeLines(template, path)
+  message("* Generating template '", template, "'.")
+  paste0(whisker::whisker.render(readLines(template_path), data), "\n", collapse = "")
 }
 
 find_template <- function(template_name) {
@@ -128,25 +120,6 @@ use_directory <- function(path, ignore = FALSE, base_path = ".") {
   }
 
   invisible(TRUE)
-}
-
-union_write <- function(path, new_lines, quiet = FALSE) {
-  stopifnot(is.character(new_lines))
-
-  if (file.exists(path)) {
-    lines <- readLines(path, warn = FALSE)
-  } else {
-    lines <- character()
-  }
-
-  new <- setdiff(new_lines, lines)
-  if (!quiet && length(new) > 0) {
-    quoted <- paste0("'", new, "'", collapse = ", ")
-    message("* Adding ", quoted, " to '", basename(path), "'.")
-  }
-
-  all <- union(lines, new_lines)
-  writeLines(all, path)
 }
 
 open_in_rstudio <- function(path, base_path = ".") {
