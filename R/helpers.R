@@ -50,7 +50,7 @@ package_data <- function(base_path = ".") {
 
   out <- as.list(desc$get(desc$fields()))
   if (uses_github(base_path)) {
-    out$github <- github_info(base_path)
+    out$github <- gh::gh_tree_remote(base_path)
   }
   out
 }

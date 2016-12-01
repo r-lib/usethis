@@ -17,7 +17,7 @@ Imports:
     jsonlite,
     rmarkdown,
     gh
-Remotes: gaborcsardi/gh
+Remotes: r-pkgs/gh
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

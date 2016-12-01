@@ -128,7 +128,7 @@ use_github_links <- function(auth_token = NULL,
          "You might want to run use_github().")
   }
 
-  info <- github_info(base_path)
+  info <- gh::gh_tree_remote(base_path)
   res <- gh::gh(
     "GET /repos/:owner/:repo",
     owner = info$username,
@@ -141,4 +141,12 @@ use_github_links <- function(auth_token = NULL,
     base_path = base_path)
 
   invisible()
+}
+
+
+uses_github <- function(path) {
+  tryCatch({
+    uses_github(path)
+    TRUE
+  }, error = function(e) FALSE)
 }

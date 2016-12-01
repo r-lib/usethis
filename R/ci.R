@@ -25,8 +25,8 @@ use_travis <- function(browse = interactive(), base_path = ".") {
     base_path = base_path
   )
 
-  gh <- github_info(base_path)
-  travis_url <- file.path("https://travis-ci.org", gh$fullname)
+  gh <- gh::gh_tree_remote(base_path)
+  travis_url <- file.path("https://travis-ci.org", gh$username, "/", gh$repo)
   travis_img <- paste0(travis_url, ".svg?branch=master")
 
   message("Next:")
@@ -58,7 +58,7 @@ use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
 
   use_dependency("covr", "Suggests", base_path = base_path)
 
-  gh <- github_info(base_path)
+  gh <- gh::gh_tree_remote(base_path)
   type <- match.arg(type)
 
   message("Next:")
@@ -66,8 +66,8 @@ use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
     codecov = {
       use_template("codecov.yml", "codecov.yml", ignore = TRUE, base_path = base_path)
       use_badge("Coverage status",
-        paste0("https://codecov.io/github/", gh$fullname, "?branch=master"),
-        paste0("https://img.shields.io/codecov/c/github/", gh$fullname, "/master.svg")
+        paste0("https://codecov.io/github/", gh$username, "/", gh$repo, "?branch=master"),
+        paste0("https://img.shields.io/codecov/c/github/", gh$username, "/", gh$repo, "/master.svg")
       )
       message("* Add to `.travis.yml`:\n",
         "after_success:\n",
@@ -78,8 +78,8 @@ use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
     coveralls = {
       message("* Turn on coveralls for this repo at https://coveralls.io/repos/new")
       use_badge("Coverage status",
-        paste0("https://coveralls.io/r/", gh$fullname, "?branch=master"),
-        paste0("https://img.shields.io/coveralls/", gh$fullname, ".svg")
+        paste0("https://coveralls.io/r/", gh$username, "/", gh$repo, "?branch=master"),
+        paste0("https://img.shields.io/coveralls/", gh$username, "/", gh$repo, ".svg")
       )
       message("* Add to `.travis.yml`:\n",
         "after_success:\n",
@@ -98,7 +98,7 @@ use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
 use_appveyor <- function(base_path = ".") {
   use_template("appveyor.yml", ignore = TRUE, base_path = base_path)
 
-  gh <- github_info(base_path)
+  gh <- gh::gh_tree_remote(base_path)
   message("Next: \n",
     "* Turn on AppVeyor for this repo at https://ci.appveyor.com/projects\n",
     "* Add an AppVeyor shield to your README.md:\n",
