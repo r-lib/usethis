@@ -25,5 +25,5 @@ RoxygenNote: 5.0.1
 Suggests: 
     testthat,
     covr
-Url: https://github.com/hadley/usethis
-BugReports: https://github.com/hadley/usethis/issues
+Url: https://github.com/r-pkgs/usethis
+BugReports: https://github.com/r-pkgs/usethis/issues
