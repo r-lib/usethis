@@ -14,7 +14,7 @@ use_git <- function(message = "Initial commit", base_path = ".") {
     return(invisible())
   }
 
-  message("* Initialising repo")
+  message("* Initialising Git repo")
   r <- git2r::init(base_path)
 
   use_git_ignore(c(".Rhistory", ".RData"), base_path = base_path)

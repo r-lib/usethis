@@ -29,6 +29,8 @@
 #'   parameter.
 #'
 #' @inheritParams use_git
+#' @param organisation If supplied, the repo will be created under this
+#'   organisation. You must have access to create repositories.
 #' @param auth_token Provide a personal access token (PAT) from
 #'   \url{https://github.com/settings/tokens}. If \code{NULL}, will use the
 #'   \code{GITHUB_PAT} environment variable.
@@ -51,14 +53,13 @@
 #' create("testpkg2")
 #' use_github(pkg = "testpkg2", protocol = "https")
 #' }
-use_github <- function(auth_token = NULL, private = FALSE,
+use_github <- function(organisation = NULL,
+                       auth_token = NULL, private = FALSE,
                        host = "https://api.github.com",
                        protocol = c("ssh", "https"), credentials = NULL,
                        base_path = ".") {
 
-  if (is.null(auth_token)) {
-    stop("GITHUB_PAT required to create new repo")
-  }
+  use_git(base_path = base_path)
 
   if (uses_github(base_path)) {
     message("* GitHub is already initialized")
@@ -74,14 +75,25 @@ use_github <- function(auth_token = NULL, private = FALSE,
   }
 
   message("* Creating GitHub repository")
-  create <- gh::gh("POST /user/repos",
-    "user/repos",
-    name = pkg$Package,
-    description = gsub("\n", " ", pkg$Title),
-    private = private,
-    .api_url = host,
-    .token = auth_token
-  )
+
+  if (is.null(organisation)) {
+    create <- gh::gh("POST /user/repos",
+      name = pkg$Package,
+      description = gsub("\n", " ", pkg$Title),
+      private = private,
+      .api_url = host,
+      .token = auth_token
+    )
+  } else {
+    create <- gh::gh("POST /orgs/:org/repos",
+      org = organisation,
+      name = pkg$Package,
+      description = gsub("\n", " ", pkg$Title),
+      private = private,
+      .api_url = host,
+      .token = auth_token
+    )
+  }
 
   message("* Adding GitHub remote")
   r <- git2r::repository(base_path)
@@ -146,7 +158,7 @@ use_github_links <- function(auth_token = NULL,
 
 uses_github <- function(path) {
   tryCatch({
-    uses_github(path)
+    gh::gh_tree_remote(path)
     TRUE
   }, error = function(e) FALSE)
 }

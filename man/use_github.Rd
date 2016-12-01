@@ -5,7 +5,7 @@
 \alias{use_github_links}
 \title{Connect a local repo with GitHub.}
 \usage{
-use_github(auth_token = NULL, private = FALSE,
+use_github(organisation = NULL, auth_token = NULL, private = FALSE,
   host = "https://api.github.com", protocol = c("ssh", "https"),
   credentials = NULL, base_path = ".")
 
@@ -13,6 +13,9 @@ use_github_links(auth_token = NULL, host = "https://api.github.com",
   base_path = ".")
 }
 \arguments{
+\item{organisation}{If supplied, the repo will be created under this
+organisation. You must have access to create repositories.}
+
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the
 \code{GITHUB_PAT} environment variable.}

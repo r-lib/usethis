@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* `use_github()` now has an organisation parameter so you can create repos
+  in organisations (#4).
+
 * Functions are now designed to work with a directory that's not necessarily
   a package. This doesn't always make sense but in the long term makes
   usesthis more flexible for other tasks like (e.g.) data analysis.
