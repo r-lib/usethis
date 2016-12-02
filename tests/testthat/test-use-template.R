@@ -7,15 +7,6 @@ test_that("error if try to overwrite existing file", {
   )
 })
 
-test_that("only message about generating template if it already exists", {
-  expect_message(
-    use_template("NEWS.md", base_path = test_path("use_template")),
-    "Generating template",
-    all = TRUE
-  )
-})
-
-
 # helpers -----------------------------------------------------------------
 
 test_that("find_template errors if template missing", {

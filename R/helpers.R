@@ -23,7 +23,7 @@ use_template <- function(template,
   }
 
   if (open) {
-    message("* Modify '", save_as, "'.")
+    message("* Modify '", save_as, "'")
     open_in_rstudio(save_as, base_path = base_path)
   }
 
@@ -32,8 +32,6 @@ use_template <- function(template,
 
 render_template <- function(template, data = list()) {
   template_path <- find_template(template)
-
-  message("* Generating template '", template, "'.")
   paste0(whisker::whisker.render(readLines(template_path), data), "\n", collapse = "")
 }
 
@@ -61,7 +59,7 @@ project_name <- function(base_path = ".") {
   if (file.exists(desc_path)) {
     desc::desc_get("Package", base_path)[[1]]
   } else {
-    basename(normalizePath(base_path))
+    basename(normalizePath(base_path, mustWork = FALSE))
   }
 }
 
@@ -73,7 +71,7 @@ use_description_field <- function(name, value, base_path = ".", overwrite = FALS
     return()
 
   if (is.na(curr) || overwrite) {
-    message("* Setting DESCRIPTION ", name, " to '", value, "'.")
+    message("* Setting DESCRIPTION ", name, " to '", value, "'")
     desc::desc_set(name, value, file = path)
   } else {
     message("* Preserving existing field ", name)
@@ -103,7 +101,13 @@ use_dependency <- function(package, type, base_path = ".") {
   invisible()
 }
 
-use_directory <- function(path, ignore = FALSE, base_path = ".") {
+use_directory <- function(path,
+                          ignore = FALSE,
+                          base_path = ".") {
+
+  if (!file.exists(base_path)) {
+    stop("'", base_path, "' does not exist", call. = FALSE)
+  }
   pkg_path <- file.path(base_path, path)
 
   if (file.exists(pkg_path)) {
@@ -111,8 +115,12 @@ use_directory <- function(path, ignore = FALSE, base_path = ".") {
       stop("'", path, "' exists but is not a directory.", call. = FALSE)
     }
   } else {
-    message("* Creating '", path, "'.")
-    dir.create(pkg_path, showWarnings = FALSE, recursive = TRUE)
+    message("* Creating '", pkg_path, "/'")
+    ok <- dir.create(pkg_path, showWarnings = FALSE, recursive = TRUE)
+
+    if (!ok) {
+      stop("Failed to create path", call. = FALSE)
+    }
   }
 
   if (ignore) {
