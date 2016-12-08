@@ -19,7 +19,7 @@ to \code{.gitignore}, and commits all files.
 \dontrun{use_git()}
 }
 \seealso{
-Other git.helpers: \code{\link{use_git_hook}},
+Other git helpers: \code{\link{use_git_hook}},
   \code{\link{use_git_ignore}}
 }
 
