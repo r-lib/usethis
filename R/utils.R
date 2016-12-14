@@ -59,6 +59,8 @@ write_union <- function(path, new_lines, quiet = FALSE) {
 write_over <- function(contents, path) {
   stopifnot(is.character(contents), length(contents) == 1)
 
+  dir.create(dirname(path), showWarnings = FALSE)
+
   if (same_contents(path, contents))
     return(FALSE)
 
