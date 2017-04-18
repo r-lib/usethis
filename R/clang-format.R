@@ -32,9 +32,5 @@ use_clang_format <- function(base_path = ".") {
   message("Next run: `travis/check_format.sh` and commit the result")
   message("Then:")
   message("* Add to `.travis.yml`:\n",
-    "addons:\n",
-    "  apt:\n",
-    "    packages:\n",
-    "    - clang-format-3.4\n",
     "before_install: travis/check_format.sh\n")
 }
