@@ -35,6 +35,6 @@ use_clang_format <- function(base_path = ".") {
     "addons:\n",
     "  apt:\n",
     "    packages:\n",
-    "    - clang-format-3.5\n",
+    "    - clang-format-3.4\n",
     "before_install: travis/check_format.sh\n")
 }
