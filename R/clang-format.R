@@ -15,7 +15,6 @@ use_clang_format <- function(base_path = ".") {
     ignore = TRUE,
     base_path = base_path)
 
-
   use_template(
     "check_format.sh",
     file.path("travis", "check_format.sh"),
@@ -32,5 +31,12 @@ use_clang_format <- function(base_path = ".") {
   message("Next run: `travis/check_format.sh` and commit the result")
   message("Then:")
   message("* Add to `.travis.yml`:\n",
+    "addons:\n",
+    "  apt:\n",
+    "    sources:\n",
+    "    - ubuntu-toolchain-r-test\n",
+    "    - llvm-toolchain-precise-3.9\n",
+    "    packages:\n",
+    "    - clang-format-3.9\n",
     "before_install: travis/check_format.sh\n")
 }
