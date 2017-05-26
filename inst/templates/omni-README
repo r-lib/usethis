@@ -52,3 +52,25 @@ This is a basic example which shows you how to solve a common problem:
 {{/Rmd}}
 ## basic example code
 ```
+
+## Datasets
+
+These datasets are available in the package.
+
+{{#Rmd}}
+```{r datasets, echo = FALSE, results = "asis"}
+if("{{{ Package }}}" %in% .packages(TRUE)) {
+  knitr::kable(
+    data(package = "{{{ Package }}}")$results[, c("Item", "Title")]
+  )
+}
+```
+{{/Rmd}}
+{{^Rmd}}
+|Item           |Title                              |
+|:--------------|:----------------------------------|
+|a_dataset      |Description of a_dataset           |
+|
+|another_one    |Description of another_one         |
+|
+{{/Rmd}}
