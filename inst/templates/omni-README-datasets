@@ -1,0 +1,12 @@
+## Datasets
+
+These datasets are available in the package.
+
+{{#Rmd}}
+```{r datasets, echo = FALSE, results = "asis"}
+knitr::kable(usethis::list_datasets("{{{Package}}}"))
+```
+{{/Rmd}}
+{{^Rmd}}
+{{{datasets}}}
+{{/Rmd}}

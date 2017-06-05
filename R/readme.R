@@ -31,6 +31,9 @@ use_readme_rmd <- function(base_path = ".") {
     open = TRUE,
     base_path = base_path
   )
+  if(uses_data(base_path)) {
+    use_data_list_in_readme_rmd(base_path, stop_if_no_data = FALSE)
+  }
   use_build_ignore("^README-.*\\.png$", escape = FALSE, base_path = base_path)
 
   if (uses_git(base_path) && !file.exists(base_path, ".git", "hooks", "pre-commit")) {
@@ -54,4 +57,47 @@ use_readme_md <- function(base_path = ".") {
     open = TRUE,
     base_path = base_path
   )
+  if(uses_data(base_path)) {
+    use_data_list_in_readme_md(base_path, stop_if_no_data = FALSE)
+  }
+}
+
+#' @rdname use_readme_rmd
+#' @export
+use_data_list_in_readme_rmd <- function(base_path = ".", stop_if_no_data = TRUE) {
+  use_data_list_in_readme("Rmd", base_path, stop_if_no_data)
+}
+
+#' @rdname use_readme_rmd
+#' @export
+use_data_list_in_readme_md <- function(base_path = ".", stop_if_no_data = TRUE) {
+  use_data_list_in_readme("md", base_path, stop_if_no_data)
+}
+
+use_data_list_in_readme <- function(type = c("Rmd", "md"), base_path = ".", stop_if_no_data = TRUE) {
+  type <- match.arg(type)
+  if(!uses_data(base_path)) {
+    if(stop_if_no_data) {
+      stop("The package has no datadata dir. Add datasets using use_data().")
+    }
+    return()
+  }
+  data <- package_data(base_path)
+  if(!is_installed(data$Package)) {
+    if(stop_if_no_data) {
+      stop("The package has not been installed; try building and reloading first.")
+    }
+    return()
+  }
+  readme_file <- file.path(base_path, paste0("README.", type))
+  if(type == "md") {
+    data$datasets <- paste(
+      knitr::kable(list_datasets(data$Package)),
+      collapse = "\n")
+  } else { # type == "Rmd"
+    data$Rmd <- TRUE
+  }
+
+  template_contents <- render_template("omni-README-datasets", data)
+  append_to(template_contents, readme_file)
 }

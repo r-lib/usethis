@@ -15,13 +15,14 @@ Imports:
     desc,
     httr,
     jsonlite,
+    knitr,
     rmarkdown,
     gh
 Remotes: r-pkgs/gh
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 6.0.1
 Suggests: 
     testthat,
     covr

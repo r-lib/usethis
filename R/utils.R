@@ -70,6 +70,14 @@ write_over <- function(contents, path) {
   TRUE
 }
 
+append_to <- function(contents, path) {
+  stopifnot(is.character(contents), length(contents) == 1)
+
+  message("* Writing additional contents to '", path, "'")
+  cat(contents, file = path, append = TRUE)
+  TRUE
+}
+
 same_contents <- function(path, contents) {
   if (!file.exists(path))
     return(FALSE)
@@ -86,3 +94,7 @@ compact <- function(x) {
 }
 
 "%||%" <- function(a, b) if (!is.null(a)) a else b
+
+is_installed <- function(pkgs) {
+  pkgs %in% .packages(TRUE)
+}

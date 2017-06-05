@@ -3,11 +3,17 @@
 \name{use_readme_rmd}
 \alias{use_readme_rmd}
 \alias{use_readme_md}
+\alias{use_data_list_in_readme_rmd}
+\alias{use_data_list_in_readme_md}
 \title{Create README files.}
 \usage{
 use_readme_rmd(base_path = ".")
 
 use_readme_md(base_path = ".")
+
+use_data_list_in_readme_rmd(base_path = ".", stop_if_no_data = TRUE)
+
+use_data_list_in_readme_md(base_path = ".", stop_if_no_data = TRUE)
 }
 \arguments{
 \item{base_path}{Path to package root.}
@@ -30,4 +36,3 @@ use_readme_rmd()
 use_readme_md()
 }
 }
-
