@@ -53,6 +53,7 @@ This is a basic example which shows you how to solve a common problem:
 ## basic example code
 ```
 
+{{#uses_data}}
 ## Datasets
 
 These datasets are available in the package.
@@ -74,3 +75,4 @@ if("{{{ Package }}}" %in% .packages(TRUE)) {
 |another_one    |Description of another_one         |
 |
 {{/Rmd}}
+{{/uses_data}}

@@ -104,3 +104,7 @@ use_data_raw <- function(base_path = ".") {
   message("* Add data creation scripts in 'data-raw'")
   message("* Use devtools::use_data() to add data to package")
 }
+
+uses_data <- function(path) {
+  dir.exists(file.path(path, "data"))
+}
