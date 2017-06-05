@@ -11,7 +11,13 @@
 #' added to \code{.Rbuildignore}. The resulting README is populated with default
 #' YAML frontmatter and R fenced code blocks (\code{md}) or chunks (\code{Rmd}).
 #'
+#' \code{use_data_list_in_readme_rmd} and \code{use_data_list_in_readme_md}
+#' append a table to the README listing the datasets contained in the package.
 #' @inheritParams use_template
+#' @param stop_if_no_data Logical. If \code{TRUE},
+#'   \code{use_data_list_in_readme_rmd} and \code{use_data_list_in_readme_md}
+#'   will throw an error if the package has no data directory, or the package
+#'   has not been installed.
 #' @export
 #' @examples
 #' \dontrun{

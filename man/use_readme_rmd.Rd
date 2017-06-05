@@ -17,6 +17,11 @@ use_data_list_in_readme_md(base_path = ".", stop_if_no_data = TRUE)
 }
 \arguments{
 \item{base_path}{Path to package root.}
+
+\item{stop_if_no_data}{Logical. If \code{TRUE},
+\code{use_data_list_in_readme_rmd} and \code{use_data_list_in_readme_md}
+will throw an error if the package has no data directory, or the package
+has not been installed.}
 }
 \description{
 Creates skeleton README files with sections for
@@ -29,6 +34,10 @@ Use \code{Rmd} if you want a rich intermingling of code and data. Use
 \code{md} for a basic README. \code{README.Rmd} will be automatically
 added to \code{.Rbuildignore}. The resulting README is populated with default
 YAML frontmatter and R fenced code blocks (\code{md}) or chunks (\code{Rmd}).
+}
+\details{
+\code{use_data_list_in_readme_rmd} and \code{use_data_list_in_readme_md}
+append a table to the README listing the datasets contained in the package.
 }
 \examples{
 \dontrun{
