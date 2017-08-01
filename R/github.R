@@ -148,7 +148,7 @@ use_github_links <- function(auth_token = NULL,
     .api_url = host
   )
 
-  use_description_field("Url", res$html_url)
+  use_description_field("Url", res$html_url, base_path = base_path)
   use_description_field("BugReports", file.path(res$html_url, "issues"),
     base_path = base_path)
 
