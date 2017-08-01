@@ -21,7 +21,7 @@ use_dev_version <- function(base_path = ".") {
   }
 
   message("* Adding .9000 to version")
-  dev_ver <- paste0(version, ".9000")
+  dev_ver <- paste0(ver, ".9000")
   desc::desc_set("Version", dev_ver, file = desc_path)
 
   news_path <- file.path(base_path, "news.md")
