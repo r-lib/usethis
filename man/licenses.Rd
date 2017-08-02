@@ -21,4 +21,3 @@ Adds the necessary infrastructure to declare your package as
 distributed under either the MIT license (including the \code{LICENSE}
 file), or GPL v3.
 }
-

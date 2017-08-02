@@ -21,4 +21,3 @@ usually easier to work with specific file names. By default,
 expression that will only match that path. Repeated entries will be
 silently removed.
 }
-

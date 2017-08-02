@@ -20,4 +20,3 @@ use_test(name, base_path = ".")
 adding \pkg{testthat} to the suggested packages. \code{use_test}
 creates \file{tests/testthat/test-<name>.R} and opens it for editing.
 }
-

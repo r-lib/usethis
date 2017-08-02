@@ -13,4 +13,3 @@ use_dev_version(base_path = ".")
 This adds ".9000" to the package \code{DESCRIPTION}, adds a new heading to
 \code{NEWS.md} (if it exists), and then checks the result into git.
 }
-

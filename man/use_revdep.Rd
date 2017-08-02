@@ -12,4 +12,3 @@ use_revdep(base_path = ".")
 \description{
 Add \code{revdep} directory and basic check template.
 }
-

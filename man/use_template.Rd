@@ -24,4 +24,3 @@ use_template(template, save_as = template, data = list(), ignore = FALSE,
 Use a usethis template
 }
 \keyword{internal}
-

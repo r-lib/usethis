@@ -13,4 +13,3 @@ use_rstudio(base_path = ".")
 Creates an \code{.Rproj} file and adds RStudio files to \code{.gitignore}
 and \code{.Rbuildignore}.
 }
-
