@@ -26,5 +26,5 @@ RoxygenNote: 6.0.1
 Suggests: 
     testthat,
     covr
-Url: https://github.com/r-pkgs/usethis
-BugReports: https://github.com/r-pkgs/usethis/issues
+Url: https://github.com/r-lib/usethis
+BugReports: https://github.com/r-lib/usethis/issues
