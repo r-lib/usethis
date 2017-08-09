@@ -9,9 +9,7 @@ use_rcpp <- function(base_path = ".") {
   use_dependency("Rcpp", "Imports", base_path = base_path)
 
   use_directory("src", base_path = base_path)
-
-  ignore_path <- file.path(base_path, "src", ".gitignore")
-  write_union(ignore_path, c("*.o", "*.so", "*.dll"))
+  use_git_ignore(c("*.o", "*.so", "*.dll"), "src", base_path = base_path)
 
   message(
     "Next, include the following roxygen tags somewhere in your package:\n\n",

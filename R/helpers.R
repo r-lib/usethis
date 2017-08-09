@@ -16,7 +16,7 @@ use_template <- function(template,
                          ) {
 
   template_contents <- render_template(template, data)
-  write_over(template_contents, file.path(base_path, save_as))
+  write_over(base_path, save_as, template_contents)
 
   if (ignore) {
     use_build_ignore(save_as, base_path = base_path)

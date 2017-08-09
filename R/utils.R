@@ -37,39 +37,58 @@ slug <- function(x, ext) {
 }
 
 
-write_union <- function(path, new_lines, quiet = FALSE) {
+write_union <- function(base_path, path, new_lines, quiet = FALSE) {
   stopifnot(is.character(new_lines))
 
-  if (file.exists(path)) {
-    lines <- readLines(path, warn = FALSE)
+  full_path <- file.path(base_path, path)
+  if (file.exists(full_path)) {
+    lines <- readLines(full_path, warn = FALSE)
   } else {
     lines <- character()
   }
 
   new <- setdiff(new_lines, lines)
-  if (!quiet && length(new) > 0) {
+  if (length(new) == 0)
+    return(invisible(FALSE))
+
+  if (!quiet) {
     quoted <- paste0("'", new, "'", collapse = ", ")
-    message("* Adding ", quoted, " to '", basename(path), "'")
+    message("* Adding ", quoted, " to '", path, "'")
   }
 
   all <- union(lines, new_lines)
-  writeLines(all, path)
+  write_utf8(full_path, all)
 }
 
-write_over <- function(contents, path) {
+write_over <- function(base_path, path, contents) {
   stopifnot(is.character(contents), length(contents) == 1)
 
-  dir.create(dirname(path), showWarnings = FALSE)
+  full_path <- file.path(base_path, path)
+  dir.create(dirname(full_path), showWarnings = FALSE)
 
-  if (same_contents(path, contents))
-    return(FALSE)
+  if (same_contents(full_path, contents))
+    return(invisible(FALSE))
 
-  if (!can_overwrite(path))
+  if (!can_overwrite(full_path))
     stop("'", path, "' already exists.", call. = FALSE)
 
   message("* Writing '", path, "'")
-  cat(contents, file = path)
-  TRUE
+  write_utf8(full_path, contents)
+}
+
+write_utf8 <- function(path, lines) {
+  stopifnot(is.character(path))
+  stopifnot(is.character(lines))
+
+  con <- file(path, encoding = "utf-8")
+  on.exit(close(con), add = TRUE)
+
+  if (length(lines) > 1) {
+    lines <- paste(lines, "\n", collapse = "")
+  }
+  cat(lines, file = con)
+
+  invisible(TRUE)
 }
 
 same_contents <- function(path, contents) {

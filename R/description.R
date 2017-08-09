@@ -22,7 +22,7 @@ use_description <- function(fields = NULL,
     list()
 
   desc <- build_description(name, fields)
-  write_over(desc, file.path(base_path, "DESCRIPTION"))
+  write_over(base_path, "DESCRIPTION", desc)
 }
 
 build_description <- function(name, fields = list()) {
