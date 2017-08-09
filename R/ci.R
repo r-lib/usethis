@@ -67,7 +67,7 @@ use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
       use_template("codecov.yml", "codecov.yml", ignore = TRUE, base_path = base_path)
       use_badge("Coverage status",
         paste0("https://codecov.io/github/", gh$username, "/", gh$repo, "?branch=master"),
-        paste0("https://img.shields.io/codecov/c/github/", gh$username, "/", gh$repo, "/master.svg")
+        paste0("https://codecov.io/gh/", gh$username, "/", gh$repo, "/branch/master/graph/badge.svg")
       )
       message("* Add to `.travis.yml`:\n",
         "after_success:\n",
