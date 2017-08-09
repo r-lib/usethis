@@ -59,6 +59,7 @@ use_git_hook <- function(hook, script, base_path = ".") {
 #' @param directory Directory within \code{base_path} to set ignores
 #' @inheritParams use_template
 #' @family git helpers
+#' @export
 use_git_ignore <- function(ignores, directory = ".", base_path = ".") {
   path <- file.path(base_path, directory, ".gitignore")
   write_union(path, ignores)
