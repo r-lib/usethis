@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* `use_description()` now sets `ByteCompile: true` so you can benefit from
+  the byte compiler (#29)
+
 * `use_readme_rmd()` now puts images in `man/figures/` and no longer
   adds to `.Rbuildgnore`. This ensures that the rendered `README.md` will
   also work on CRAN (#16, #19). The first chunk now uses `include = FALSE`

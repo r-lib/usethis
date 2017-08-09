@@ -50,7 +50,8 @@ build_description_list <- function(name, fields = list()) {
     License = license,
     Suggests = suggests,
     Encoding = "UTF-8",
-    LazyData = "true"
+    LazyData = "true",
+    ByteCompile = "true"
   )
 
   # Override defaults with user supplied options
