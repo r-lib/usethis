@@ -2,7 +2,8 @@
 
 * `use_readme_rmd()` now puts images in `man/figures/` and no longer
   adds to `.Rbuildgnore`. This ensures that the rendered `README.md` will
-  also work on CRAN (#16, #19)
+  also work on CRAN (#16, #19). The first chunk now uses `include = FALSE`
+  and is named setup (#19).
 
 * `use_github()` now has an organisation parameter so you can create repos
   in organisations (#4).
