@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* `use_vignette()` now adds `*.html` and `*.R` to your `.gitgnore` so you
+  don't accidentally add in compiled vignette products (#35).
+
 * `use_description()` now sets `ByteCompile: true` so you can benefit from
   the byte compiler (#29)
 

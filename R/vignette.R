@@ -14,6 +14,7 @@ use_vignette <- function(name, base_path = ".") {
   use_dependency("rmarkdown", "Suggests", base_path = base_path)
 
   use_directory("vignettes", base_path = base_path)
+  use_git_ignore(c("*.html", "*.R"), "vignettes", base_path = base_path)
   use_git_ignore("inst/doc", base_path = base_path)
 
   path <- file.path(base_path, "vignettes", slug(name, ".Rmd"))
