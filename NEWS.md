@@ -1,5 +1,9 @@
 # usethis 0.0.0.9000
 
+* `use_readme_rmd()` now puts images in `man/figures/` and no longer
+  adds to `.Rbuildgnore`. This ensures that the rendered `README.md` will
+  also work on CRAN (#16, #19)
+
 * `use_github()` now has an organisation parameter so you can create repos
   in organisations (#4).
 

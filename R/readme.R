@@ -31,7 +31,6 @@ use_readme_rmd <- function(base_path = ".") {
     open = TRUE,
     base_path = base_path
   )
-  use_build_ignore("^README-.*\\.png$", escape = FALSE, base_path = base_path)
 
   if (uses_git(base_path) && !file.exists(base_path, ".git", "hooks", "pre-commit")) {
     use_git_hook(
