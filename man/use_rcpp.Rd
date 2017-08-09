@@ -12,4 +12,3 @@ use_rcpp(base_path = ".")
 \description{
 Creates \code{src/} and adds needed packages to \code{DESCRIPTION}.
 }
-

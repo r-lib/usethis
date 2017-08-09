@@ -19,4 +19,3 @@ Arguments that take a list}
 If you create a lot of packages, you can override the defaults by
 setting option \code{"usethis.description"} to a named list.
 }
-

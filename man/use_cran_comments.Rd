@@ -17,4 +17,3 @@ systems. If you are submitting an update to a package that is used by
 other packages, you also need to describe the steps you have taken to
 ensure that it does not break existing code on CRAN.
 }
-

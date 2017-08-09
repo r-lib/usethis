@@ -41,4 +41,3 @@ use_data(x, y) # For external use
 use_data(x, y, internal = TRUE) # For internal use
 }
 }
-

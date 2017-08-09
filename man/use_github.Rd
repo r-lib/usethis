@@ -64,6 +64,7 @@ fields with appropriate links (unless they already exist).
   \code{\link[git2r]{cred_ssh_key}} object via the \code{credentials}
   parameter.
 }
+
 \examples{
 \dontrun{
 ## to use default ssh protocol
@@ -75,4 +76,3 @@ create("testpkg2")
 use_github(pkg = "testpkg2", protocol = "https")
 }
 }
-

@@ -16,4 +16,3 @@ That ensures you don't need to repeat the same information in multiple
 places. This block is a good place to put global namespace tags like
 \code{@importFrom}.
 }
-

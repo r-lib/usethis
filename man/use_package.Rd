@@ -24,4 +24,3 @@ use_package("ggplot2")
 use_package("dplyr", "suggests")
 }
 }
-

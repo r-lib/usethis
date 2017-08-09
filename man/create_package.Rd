@@ -21,4 +21,3 @@ Arguments that take a list}
 \description{
 Setup a complete package
 }
-
