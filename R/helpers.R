@@ -94,7 +94,7 @@ use_dependency <- function(package, type, base_path = ".") {
   deps <- desc::desc_get_deps(base_path)
   has_dep <- any(deps$package == package & deps$type == type)
   if (!has_dep) {
-    message("* Adding ", package, " to ", type, ".")
+    message("* Adding ", package, " to ", type)
     desc::desc_set_dep(package, type, file = file.path(base_path, "DESCRIPTION"))
   }
 
