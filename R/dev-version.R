@@ -20,13 +20,13 @@ use_dev_version <- function(base_path = ".") {
     stop("Already has development version", call. = FALSE)
   }
 
-  message("* Adding .9000 to version")
+  done("Adding .9000 to version")
   dev_ver <- paste0(ver, ".9000")
   desc::desc_set("Version", dev_ver, file = desc_path)
 
   news_path <- file.path(base_path, "news.md")
   if (file.exists(news_path)) {
-    message("* Adding new heading to NEWS.md")
+    done("Adding new heading to NEWS.md")
 
     news <- readLines(news_path)
     news <- c(
@@ -38,7 +38,7 @@ use_dev_version <- function(base_path = ".") {
   }
 
   if (uses_git(base_path)) {
-    message("* Checking into git")
+    done("Checking into git")
     r <- git2r::init(base_path)
     paths <- unlist(git2r::status(r))
     git2r::add(r, paths)

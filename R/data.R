@@ -46,7 +46,7 @@ use_data <- function(...,
 
   check_data_paths(paths, overwrite)
 
-  message(paste0("* Saving ", unlist(objs), " to ", paths, collapse = "\n"))
+  done(paste0("Saving ", unlist(objs), " to ", paths))
 
   envir <- parent.frame()
   mapply(
@@ -105,6 +105,6 @@ use_data_raw <- function(base_path = ".") {
   use_directory("data-raw", ignore = TRUE, base_path = base_path)
 
   message("Next:")
-  message("* Add data creation scripts in 'data-raw'")
-  message("* Use devtools::use_data() to add data to package")
+  todo("Add data creation scripts in 'data-raw'")
+  todo("Use devtools::use_data() to add data to package")
 }

@@ -62,19 +62,21 @@ use_github <- function(organisation = NULL,
   use_git(base_path = base_path)
 
   if (uses_github(base_path)) {
-    message("* GitHub is already initialized")
+    done("GitHub is already initialized")
     return(invisible())
   }
 
   pkg <- package_data(base_path)
-  message("* Checking title and description")
-  message("  Title: ", pkg$Title)
-  message("  Description: ", pkg$Description)
+  done(
+    "Checking title and description",
+    paste("Title: ", pkg$Title),
+    paste("Description: ", pkg$Description)
+  )
   if (yesno("Are title and description ok?")) {
     return(invisible())
   }
 
-  message("* Creating GitHub repository")
+  done("Creating GitHub repository")
 
   if (is.null(organisation)) {
     create <- gh::gh("POST /user/repos",
@@ -95,7 +97,7 @@ use_github <- function(organisation = NULL,
     )
   }
 
-  message("* Adding GitHub remote")
+  done("Adding GitHub remote")
   r <- git2r::repository(base_path)
   protocol <- match.arg(protocol)
   origin_url <- switch(protocol,
@@ -104,14 +106,14 @@ use_github <- function(organisation = NULL,
   )
   git2r::remote_add(r, "origin", origin_url)
 
-  message("* Adding GitHub links to DESCRIPTION")
+  done("Adding GitHub links to DESCRIPTION")
   use_github_links(base_path, auth_token = auth_token, host = host)
   if (git_uncommitted(base_path)) {
     git2r::add(r, "DESCRIPTION")
     git2r::commit(r, "Add GitHub links to DESCRIPTION")
   }
 
-  message("* Pushing to GitHub and setting remote tracking branch")
+  done("Pushing to GitHub and setting remote tracking branch")
   if (protocol == "ssh") {
     ## [1] push via ssh required for success setting remote tracking branch
     ## [2] to get passphrase from ssh-agent, you must use NULL credentials
@@ -124,7 +126,7 @@ use_github <- function(organisation = NULL,
   }
   git2r::branch_set_upstream(git2r::head(r), "origin/master")
 
-  message("* View repo at ", create$html_url)
+  done("View repo at ", create$html_url)
 
   invisible(NULL)
 }

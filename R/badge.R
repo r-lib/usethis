@@ -20,8 +20,8 @@ use_badge <- function(badge_name, href, src, base_path = ".") {
   img <- paste0("![", badge_name, "](", src, ")")
   link <- paste0("[", img, "](", href, ")")
 
-  message(
-    "* Add a ", badge_name, " badge by adding the following line to your README:\n",
+  todo(
+    "Add a ", badge_name, " badge by adding the following line to your README:",
     link
   )
 }

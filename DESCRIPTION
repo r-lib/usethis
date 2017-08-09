@@ -8,6 +8,7 @@ Authors@R: c(
 Description: usethis automates the set up of common tools needed during
     package and analysis development.
 Imports:
+    crayon,
     digest,
     git2r,
     rstudioapi,
@@ -16,7 +17,8 @@ Imports:
     httr,
     jsonlite,
     rmarkdown,
-    gh
+    gh,
+    clisymbols
 Remotes: r-pkgs/gh
 License: GPL-3
 Encoding: UTF-8

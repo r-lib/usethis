@@ -16,14 +16,16 @@
 use_package <- function(package, type = "Imports", base_path = ".") {
   use_dependency(package, type, base_path = base_path)
 
-  message("Next: ")
   switch(type,
-    Imports = message("Refer to functions with ", package, "::fun()"),
-    Depends = message("Are you sure you want Depends? Imports is almost always",
-      " the better choice."),
-    Suggests = message("Use requireNamespace(\"", package, "\", quietly = TRUE)",
-      " to test if package is installed,\n",
-      "then use ", package, "::fun() to refer to functions."),
+    Imports = todo(paste0("Refer to functions with ", package, "::fun()")),
+    Depends = todo("Are you sure you want Depends? Imports is almost always the better choice."),
+    Suggests = {
+      todo(paste0(
+        "Use requireNamespace(\"", package, "\", quietly = TRUE)",
+        " to test if package is installed"
+      ))
+      todo(paste0("Then use ", package, "::fun() to refer to functions."))
+    },
     Enhances = "",
     LinkingTo = show_includes(package)
   )
@@ -36,6 +38,6 @@ show_includes <- function(package) {
   h <- dir(incl, "\\.(h|hpp)$")
   if (length(h) == 0) return()
 
-  message("Possible includes are:\n",
-    paste0("#include <", h, ">", collapse = "\n"))
+  todo(paste0("Possible includes are:"))
+  code(paste0("#include <", h, ">"))
 }

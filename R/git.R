@@ -14,12 +14,12 @@ use_git <- function(message = "Initial commit", base_path = ".") {
     return(invisible())
   }
 
-  message("* Initialising Git repo")
+  done("Initialising Git repo")
   r <- git2r::init(base_path)
 
   use_git_ignore(c(".Rhistory", ".RData"), base_path = base_path)
 
-  message("* Adding files and committing")
+  done("Adding files and committing")
   paths <- unlist(git2r::status(r))
   git2r::add(r, paths)
   git2r::commit(r, message)

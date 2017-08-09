@@ -23,7 +23,7 @@ use_template <- function(template,
   }
 
   if (open) {
-    message("* Modify '", save_as, "'")
+    todo("Modify '", save_as, "'")
     open_in_rstudio(save_as, base_path = base_path)
   }
 
@@ -71,10 +71,10 @@ use_description_field <- function(name, value, base_path = ".", overwrite = FALS
     return()
 
   if (is.na(curr) || overwrite) {
-    message("* Setting DESCRIPTION ", name, " to '", value, "'")
+    done(paste0("Setting DESCRIPTION ", name, " to '", value, "'"))
     desc::desc_set(name, value, file = path)
   } else {
-    message("* Preserving existing field ", name)
+    done("Preserving existing field ", name)
   }
 }
 
@@ -94,7 +94,7 @@ use_dependency <- function(package, type, base_path = ".") {
   deps <- desc::desc_get_deps(base_path)
   has_dep <- any(deps$package == package & deps$type == type)
   if (!has_dep) {
-    message("* Adding ", package, " to ", type)
+    done(paste0("Adding ", package, " to ", type))
     desc::desc_set_dep(package, type, file = file.path(base_path, "DESCRIPTION"))
   }
 
@@ -115,7 +115,7 @@ use_directory <- function(path,
       stop("'", path, "' exists but is not a directory.", call. = FALSE)
     }
   } else {
-    message("* Creating '", pkg_path, "/'")
+    done(paste0("Creating '", path, "/'"))
     ok <- dir.create(pkg_path, showWarnings = FALSE, recursive = TRUE)
 
     if (!ok) {
