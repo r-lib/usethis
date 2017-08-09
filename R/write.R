@@ -45,9 +45,9 @@ write_utf8 <- function(path, lines) {
   on.exit(close(con), add = TRUE)
 
   if (length(lines) > 1) {
-    lines <- paste(lines, "\n", collapse = "")
+    lines <- paste0(lines, "\n", collapse = "")
   }
-  cat(lines, file = con)
+  cat(lines, file = con, sep = "")
 
   invisible(TRUE)
 }
