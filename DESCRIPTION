@@ -19,7 +19,6 @@ Imports:
     rmarkdown,
     gh,
     clisymbols
-Remotes: r-pkgs/gh
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
