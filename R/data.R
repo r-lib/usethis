@@ -130,7 +130,7 @@ uses_data <- function(path) {
 #' @export
 list_datasets <- function(pkg) {
   stopifnot(is.character(pkg), length(pkg) == 1)
-  if(!is_installed(pkg)) {
+  if (!is_installed(pkg)) {
     no_datasets <- data_frame(
       Item = character(),
       Title = character()
