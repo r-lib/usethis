@@ -84,14 +84,14 @@ use_data_list_in_readme <- function(type = c("Rmd", "md"), base_path = ".", stop
   type <- match.arg(type)
   if (!uses_data(base_path)) {
     if (stop_if_no_data) {
-      stop("The package has no datadata dir. Add datasets using use_data().")
+      stop("The package has no data dir. Add datasets using use_data().", call. = FALSE)
     }
     return()
   }
   data <- package_data(base_path)
   if (!is_installed(data$Package)) {
     if (stop_if_no_data) {
-      stop("The package has not been installed; try building and reloading first.")
+      stop("The package has not been installed; try building and reloading first.", call. = FALSE)
     }
     return()
   }

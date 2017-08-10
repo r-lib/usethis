@@ -15,7 +15,7 @@ NULL
 #' @rdname ci
 use_travis <- function(browse = interactive(), base_path = ".") {
   if (!uses_github(base_path)) {
-    stop("You must use_github() before using travis")
+    stop("You must use_github() before using travis", call. = FALSE)
   }
 
   use_template(

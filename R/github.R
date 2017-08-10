@@ -137,7 +137,7 @@ use_github_links <- function(auth_token = NULL,
 
   if (!uses_github(base_path)) {
     stop("Cannot detect that package already uses GitHub.\n",
-         "You might want to run use_github().")
+         "You might want to run use_github().", call. = FALSE)
   }
 
   info <- gh::gh_tree_remote(base_path)
