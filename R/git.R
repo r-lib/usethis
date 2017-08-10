@@ -93,3 +93,19 @@ use_git_ignore <- function(ignores, directory = ".", base_path = ".") {
 uses_git <- function(path = ".") {
   !is.null(git2r::discover_repository(path))
 }
+
+git_check_in <- function(paths, message, base_path = ".") {
+  if (!uses_git(base_path))
+    return(invisible())
+
+  if (!git_uncommitted(base_path))
+    return(invisible())
+
+  done(paste0("Checking into git [", message, "]"))
+
+  r <- git2r::init(base_path)
+  git2r::add(r, paths)
+  git2r::commit(r, message)
+
+  invisible(TRUE)
+}
