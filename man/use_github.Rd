@@ -5,8 +5,8 @@
 \alias{use_github_links}
 \title{Connect a local repo with GitHub.}
 \usage{
-use_github(organisation = NULL, auth_token = NULL, private = FALSE,
-  host = NULL, protocol = c("ssh", "https"), credentials = NULL,
+use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
+  "https"), credentials = NULL, auth_token = NULL, host = NULL,
   base_path = ".")
 
 use_github_links(auth_token = NULL, host = "https://api.github.com",
@@ -16,22 +16,22 @@ use_github_links(auth_token = NULL, host = "https://api.github.com",
 \item{organisation}{If supplied, the repo will be created under this
 organisation. You must have access to create repositories.}
 
-\item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the
-\code{GITHUB_PAT} environment variable.}
-
 \item{private}{If \code{TRUE}, creates a private repository.}
-
-\item{host}{GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3". You can set this globally using
-the \code{GITHUB_API_URL} env var.}
 
 \item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
 
 \item{credentials}{A \code{\link[git2r]{cred_ssh_key}} specifying specific
 ssh credentials or NULL for default ssh key and ssh-agent behaviour.
 Default is NULL.}
+
+\item{auth_token}{Provide a personal access token (PAT) from
+\url{https://github.com/settings/tokens}. If \code{NULL}, will use the
+\code{GITHUB_PAT} environment variable.}
+
+\item{host}{GitHub API host to use. Override with the endpoint-root for your
+GitHub enterprise instance, for example,
+"https://github.hostname.com/api/v3". You can set this globally using
+the \code{GITHUB_API_URL} env var.}
 
 \item{base_path}{Path to package root.}
 }
