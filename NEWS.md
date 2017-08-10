@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* New `use_dev_package()` works like `use_package()` but also adds the 
+  repo to the `Remotes` field (#32).
+
 * `use_vignette()` now adds `*.html` and `*.R` to your `.gitgnore` so you
   don't accidentally add in compiled vignette products (#35).
 

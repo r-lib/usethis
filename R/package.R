@@ -1,7 +1,9 @@
 #' Use specified package.
 #'
-#' This adds a dependency to DESCRIPTION and offers a little advice
-#' about how to best use it.
+#' `use_package()` adds a CRAN package depencies to DESCRIPTION and offers a
+#' little advice about how to best use it. `use_dev_package()` adds a
+#' dependency on an in-development GitHub package, adding the repo to
+#' `Remotes` so it will be automatically install from the correct location.
 #'
 #' @param package Name of package to depend on.
 #' @param type Type of dependency: must be one of "Imports", "Suggests",
@@ -40,4 +42,36 @@ show_includes <- function(package) {
 
   todo(paste0("Possible includes are:"))
   code(paste0("#include <", h, ">"))
+}
+
+#' @export
+#' @rdname use_package
+use_dev_package <- function(package, type = "Imports", base_path = ".") {
+  if (!requireNamespace(package, quietly = TRUE)) {
+    stop(package, " must be installed before you can take a dependency on it",
+      call. = FALSE)
+  }
+
+  package_remote <- package_remote(package)
+  remotes <- desc::desc_get_remotes(base_path)
+  if (package_remote %in% remotes) {
+    return(invisible())
+  }
+
+  done(paste0("Adding ", package_remote, " to remotes"))
+  remotes <- c(remotes, package_remote)
+  desc::desc_set_remotes(remotes, file = base_path)
+
+  use_package(package, type = type, base_path = base_path)
+}
+
+package_remote <- function(package) {
+  desc <- desc::desc(package = package)
+  github_info <- desc$get(c("GithubUsername", "GithubRepo"))
+
+  if (any(is.na(github_info))) {
+    stop(package, " was not installed from GitHub", call. = FALSE)
+  }
+
+  paste0(github_info, collapse = "/")
 }
