@@ -68,7 +68,7 @@ use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
         paste0("https://codecov.io/gh/", gh$username, "/", gh$repo, "/branch/master/graph/badge.svg")
       )
       todo("Add to `.travis.yml`:")
-      code(
+      code_block(
         "after_success:",
         "  - Rscript -e 'covr::codecov()'"
       )
@@ -81,7 +81,7 @@ use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
         paste0("https://img.shields.io/coveralls/", gh$username, "/", gh$repo, ".svg")
       )
       todo("Add to `.travis.yml`")
-      code(
+      code_block(
         "after_success:",
         "  - Rscript -e 'covr::coveralls()'"
       )
@@ -101,7 +101,7 @@ use_appveyor <- function(base_path = ".") {
   gh <- gh::gh_tree_remote(base_path)
   todo("Turn on AppVeyor for this repo at https://ci.appveyor.com/projects\n")
   todo("Add an AppVeyor shield to your README.md:")
-  code(paste0(
+  code_block(paste0(
     "[![AppVeyor Build Status]",
     "(https://ci.appveyor.com/api/projects/status/github/", gh$username, "/", gh$repo, "?branch=master&svg=true)]",
     "(https://ci.appveyor.com/project/", gh$username, "/", gh$repo, ")"

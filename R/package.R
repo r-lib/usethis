@@ -41,7 +41,7 @@ show_includes <- function(package) {
   if (length(h) == 0) return()
 
   todo("Possible includes are:")
-  code(paste0("#include <", h, ">"))
+  code_block(paste0("#include <", h, ">"))
 }
 
 #' @export

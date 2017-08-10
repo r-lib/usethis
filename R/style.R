@@ -12,7 +12,7 @@ done <- function(...) {
   bullet(paste0(...), bullet = crayon::green(clisymbols::symbol$tick))
 }
 
-code <- function(...) {
+code_block <- function(...) {
   lines <- c(...)
   block <- paste0("  ", lines, "\n", collapse = "")
   cat_line(crayon::make_style("darkgrey")(block))
