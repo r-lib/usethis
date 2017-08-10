@@ -23,6 +23,32 @@ use_git <- function(message = "Initial commit", base_path = ".") {
   paths <- unlist(git2r::status(r))
   git2r::add(r, paths)
   git2r::commit(r, message)
+
+  restart_rstudio(
+    "A restart of RStudio is required to activate the Git pane",
+    base_path = base_path
+  )
+  invisible(TRUE)
+
+}
+
+# Must be last command run
+restart_rstudio <- function(message, base_path = ".") {
+  if (!in_rstudio(base_path)) {
+    return(FALSE)
+  }
+
+  if (!rstudioapi::hasFun("restartSession"))
+    return(FALSE)
+
+  if (!interactive())
+    return(FALSE)
+
+  todo(message)
+  if (yesno(todo_bullet(), " Restart now?"))
+    return(FALSE)
+
+  rstudioapi::restartSession()
 }
 
 #' Add a git hook.

@@ -1,5 +1,7 @@
 # usethis 0.0.0.9000
 
+* `use_git()` will prompt you to restart RStudio if needed (and possible) (#42).
+
 * The output from all usethis commands has been reviewed to be informative 
   but not overwhelming. usethis takes advantage of colour to help chunk
   the output and clearly differentiate what you need to do vs. what has

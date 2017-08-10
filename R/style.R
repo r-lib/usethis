@@ -3,8 +3,10 @@ bullet <- function(lines, bullet) {
   cat_line(paste0(lines, "\n"))
 }
 
+todo_bullet <- function() crayon::red(clisymbols::symbol$bullet)
+
 todo <- function(...) {
-  bullet(c(...), bullet = crayon::red(clisymbols::symbol$bullet))
+  bullet(c(...), bullet = todo_bullet())
 }
 done <- function(...) {
   bullet(c(...), bullet = crayon::green(clisymbols::symbol$tick))
