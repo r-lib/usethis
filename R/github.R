@@ -37,7 +37,8 @@
 #' @param private If \code{TRUE}, creates a private repository.
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
-#'   "https://github.hostname.com/api/v3".
+#'   "https://github.hostname.com/api/v3". You can set this globally using
+#'   the \code{GITHUB_API_URL} env var.
 #' @param protocol transfer protocol, either "ssh" (the default) or "https"
 #' @param credentials A \code{\link[git2r]{cred_ssh_key}} specifying specific
 #' ssh credentials or NULL for default ssh key and ssh-agent behaviour.
@@ -55,7 +56,7 @@
 #' }
 use_github <- function(organisation = NULL,
                        auth_token = NULL, private = FALSE,
-                       host = "https://api.github.com",
+                       host = NULL,
                        protocol = c("ssh", "https"), credentials = NULL,
                        base_path = ".") {
 
@@ -144,7 +145,8 @@ use_github_links <- function(auth_token = NULL,
     "GET /repos/:owner/:repo",
     owner = info$username,
     repo = info$repo,
-    .api_url = host
+    .api_url = host,
+    .token = auth_token
   )
 
   use_description_field("Url", res$html_url, base_path = base_path)

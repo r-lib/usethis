@@ -6,8 +6,8 @@
 \title{Connect a local repo with GitHub.}
 \usage{
 use_github(organisation = NULL, auth_token = NULL, private = FALSE,
-  host = "https://api.github.com", protocol = c("ssh", "https"),
-  credentials = NULL, base_path = ".")
+  host = NULL, protocol = c("ssh", "https"), credentials = NULL,
+  base_path = ".")
 
 use_github_links(auth_token = NULL, host = "https://api.github.com",
   base_path = ".")
@@ -24,7 +24,8 @@ organisation. You must have access to create repositories.}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
+"https://github.hostname.com/api/v3". You can set this globally using
+the \code{GITHUB_API_URL} env var.}
 
 \item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
 

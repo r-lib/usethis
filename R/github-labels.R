@@ -10,7 +10,7 @@
 #' @md
 use_github_labels <- function(delete_default = FALSE,
                               auth_token = NULL,
-                              host = "https://api.github.com",
+                              host = NULL,
                               base_path = ".") {
 
   check_uses_github(base_path)
