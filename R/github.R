@@ -137,10 +137,7 @@ use_github_links <- function(auth_token = NULL,
                              host = "https://api.github.com",
                              base_path = ".") {
 
-  if (!uses_github(base_path)) {
-    stop("Cannot detect that package already uses GitHub.\n",
-         "You might want to run use_github().")
-  }
+  check_uses_github(base_path)
 
   info <- gh::gh_tree_remote(base_path)
   res <- gh::gh(
@@ -163,4 +160,17 @@ uses_github <- function(path) {
     gh::gh_tree_remote(path)
     TRUE
   }, error = function(e) FALSE)
+}
+
+
+check_uses_github <- function(base_path) {
+  if (uses_github(base_path)) {
+    return()
+  }
+
+  stop(
+    "Cannot detect that package already uses GitHub.\n",
+    "Do you need to run `use_github()`?",
+    call. = FALSE
+  )
 }

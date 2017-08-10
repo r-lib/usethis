@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* New `use_github_labels()` will automatically set up a standard set of labels,
+  optionally removing the default labels (#1).
+
 * `use_git()` will prompt you to restart RStudio if needed (and possible) (#42).
 
 * The output from all usethis commands has been reviewed to be informative 
