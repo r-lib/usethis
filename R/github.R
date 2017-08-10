@@ -55,9 +55,11 @@
 #' use_github(pkg = "testpkg2", protocol = "https")
 #' }
 use_github <- function(organisation = NULL,
-                       auth_token = NULL, private = FALSE,
+                       auth_token = NULL,
+                       private = FALSE,
                        host = NULL,
-                       protocol = c("ssh", "https"), credentials = NULL,
+                       protocol = c("ssh", "https"),
+                       credentials = NULL,
                        base_path = ".") {
 
   use_git(base_path = base_path)
