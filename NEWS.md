@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* `use_revdep()` creates structure for use with revdepcheck package, the
+  preferred way to run revdepchecks. (#33)
+
 * New `use_apl2_license()` if you want to use the Apache 2.0 license.
 
 * The license functions (`use_mit_license()`, `use_apl2_license()`, and 
