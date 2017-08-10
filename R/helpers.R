@@ -64,15 +64,13 @@ project_name <- function(base_path = ".") {
 }
 
 use_description_field <- function(name, value, base_path = ".", overwrite = FALSE) {
-  path <- file.path(base_path, "DESCRIPTION")
-
-  curr <- desc::desc_get(name, file = path)[[1]]
+  curr <- desc::desc_get(name, file = base_path)[[1]]
   if (identical(curr, value))
     return()
 
   if (is.na(curr) || overwrite) {
     done(paste0("Setting DESCRIPTION ", field(name), " to ", value(value)))
-    desc::desc_set(name, value, file = path)
+    desc::desc_set(name, value, file = base_path)
   }
 }
 

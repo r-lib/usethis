@@ -1,5 +1,13 @@
 # usethis 0.0.0.9000
 
+* New `use_apl2_license()` if you want to use the Apache 2.0 license.
+
+* The license functions (`use_mit_license()`, `use_apl2_license()`, and 
+  `use_gpl3_license()`) save a copy of the standard license text in 
+  `LICENSE.md`, which is then added to `.Rbuildignore`. This allows you
+  to follow standard licensing best practices while adhering to CRANs 
+  requirements (#10).
+
 * New `use_github_labels()` will automatically set up a standard set of labels,
   optionally removing the default labels (#1).
 
