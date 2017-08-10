@@ -174,7 +174,7 @@ check_uses_github <- function(base_path) {
 
   stop(
     "Cannot detect that package already uses GitHub.\n",
-    "Do you need to run `use_github()`?",
+    "Do you need to run ", code("use_github()"), "?",
     call. = FALSE
   )
 }

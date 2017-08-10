@@ -19,14 +19,14 @@ use_package <- function(package, type = "Imports", base_path = ".") {
   use_dependency(package, type, base_path = base_path)
 
   switch(type,
-    Imports = todo("Refer to functions with ", package, "::fun()"),
+    Imports = todo("Refer to functions with ", code(package, "::fun()")),
     Depends = todo("Are you sure you want Depends? Imports is almost always the better choice."),
     Suggests = {
       todo(
-        "Use requireNamespace(\"", package, "\", quietly = TRUE)",
+        "Use ", code("requireNamespace(\"", package, "\", quietly = TRUE)"),
         " to test if package is installed"
       )
-      todo("Then use ", package, "::fun() to refer to functions.")
+      todo("Then use ", code(package, "::fun()"), " to refer to functions.")
     },
     Enhances = "",
     LinkingTo = show_includes(package)

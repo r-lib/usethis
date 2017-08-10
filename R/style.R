@@ -31,6 +31,11 @@ value <- function(...) {
   crayon::blue(encodeString(x, quote = "'"))
 }
 
+code <- function(...) {
+  x <- paste0(...)
+  crayon::make_style("darkgrey")(encodeString(x, quote = "`"))
+}
+
 collapse <- function(x, sep = ", ") {
   paste0(x, collapse = sep)
 }

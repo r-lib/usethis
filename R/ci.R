@@ -67,7 +67,7 @@ use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
         paste0("https://codecov.io/github/", gh$username, "/", gh$repo, "?branch=master"),
         paste0("https://codecov.io/gh/", gh$username, "/", gh$repo, "/branch/master/graph/badge.svg")
       )
-      todo("Add to `.travis.yml`:")
+      todo("Add to ", value(".travis.yml"), ":")
       code_block(
         "after_success:",
         "  - Rscript -e 'covr::codecov()'"
@@ -80,7 +80,7 @@ use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
         paste0("https://coveralls.io/r/", gh$username, "/", gh$repo, "?branch=master"),
         paste0("https://img.shields.io/coveralls/", gh$username, "/", gh$repo, ".svg")
       )
-      todo("Add to `.travis.yml`")
+      todo("Add to ", value(".travis.yml"), ":")
       code_block(
         "after_success:",
         "  - Rscript -e 'covr::coveralls()'"
