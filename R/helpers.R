@@ -99,6 +99,21 @@ use_dependency <- function(package, type, base_path = ".") {
   invisible()
 }
 
+#' Use a directory.
+#'
+#' `use_directory()` creates a directory (if it does not already exist) in the
+#' package root dir. This function powers many of the other `use_` functions
+#' such as [use_data()] and [use_vignette()].
+#'
+#' @return `TRUE` (invisibly) if the directory was successfully created.
+#'
+#' @inheritParams use_template
+#' @export
+#' @md
+#' @examples
+#' \dontrun{
+#' use_directory("inst")
+#' }
 use_directory <- function(path,
                           ignore = FALSE,
                           base_path = ".") {
