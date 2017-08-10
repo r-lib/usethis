@@ -11,11 +11,20 @@ use_rcpp <- function(base_path = ".") {
   use_directory("src", base_path = base_path)
   use_git_ignore(c("*.o", "*.so", "*.dll"), "src", base_path = base_path)
 
-  todo("Include the following roxygen tags somewhere in your package")
-  code(
-    paste0("#' @useDynLib ", project_name(base_path)),
-    "#' @importFrom Rcpp sourceCpp",
-    "NULL"
-  )
+  if (uses_roxygen(base_path)) {
+    todo("Include the following roxygen tags somewhere in your package")
+    code(
+      paste0("#' @useDynLib ", project_name(base_path), ",registration=TRUE"),
+      "#' @importFrom Rcpp sourceCpp",
+      "NULL"
+    )
+  } else {
+    todo("Include the following directives in your NAMESPACE")
+    code(
+      paste0("useDynLib('", project_name(base_path), "', registration = TRUE)"),
+      "importFrom('Rcpp', 'sourceCpp')"
+    )
+
+  }
   todo("Run document()")
 }
