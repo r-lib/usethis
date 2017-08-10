@@ -58,7 +58,7 @@ use_dev_package <- function(package, type = "Imports", base_path = ".") {
     return(invisible())
   }
 
-  done(paste0("Adding ", package_remote, " to remotes"))
+  done(paste0("Adding ", value(package_remote), " to DESCRIPTION ", field("Remotes")))
   remotes <- c(remotes, package_remote)
   desc::desc_set_remotes(remotes, file = base_path)
 

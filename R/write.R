@@ -13,8 +13,8 @@ write_union <- function(base_path, path, new_lines, quiet = FALSE) {
     return(invisible(FALSE))
 
   if (!quiet) {
-    quoted <- paste0("'", new, "'", collapse = ", ")
-    done(paste0("Adding ", quoted, " to '", path, "'"))
+    quoted <- paste0(value(new), collapse = ", ")
+    done(paste0("Adding ", quoted, " to ", value(path)))
   }
 
   all <- union(lines, new_lines)
@@ -31,9 +31,9 @@ write_over <- function(base_path, path, contents) {
     return(invisible(FALSE))
 
   if (!can_overwrite(full_path))
-    stop("'", path, "' already exists.", call. = FALSE)
+    stop(value(path), " already exists.", call. = FALSE)
 
-  done(paste0("Writing '", path, "'"))
+  done(paste0("Writing ", value(path)))
   write_utf8(full_path, contents)
 }
 

@@ -19,3 +19,12 @@ code <- function(...) {
 cat_line <- function(...) {
   cat(..., sep = "")
 }
+
+field <- function(...) {
+  x <- paste0(...)
+  crayon::green(x)
+}
+value <- function(...) {
+  x <- paste0(...)
+  crayon::blue(encodeString(x, quote = "'"))
+}
