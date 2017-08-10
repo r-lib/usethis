@@ -101,7 +101,7 @@ git_check_in <- function(paths, message, base_path = ".") {
   if (!git_uncommitted(base_path))
     return(invisible())
 
-  done(paste0("Checking into git [", message, "]"))
+  done("Checking into git [", message, "]")
 
   r <- git2r::init(base_path)
   git2r::add(r, paths)

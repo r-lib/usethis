@@ -6,10 +6,10 @@ bullet <- function(lines, bullet) {
 todo_bullet <- function() crayon::red(clisymbols::symbol$bullet)
 
 todo <- function(...) {
-  bullet(c(...), bullet = todo_bullet())
+  bullet(paste0(...), bullet = todo_bullet())
 }
 done <- function(...) {
-  bullet(c(...), bullet = crayon::green(clisymbols::symbol$tick))
+  bullet(paste0(...), bullet = crayon::green(clisymbols::symbol$tick))
 }
 
 code <- function(...) {
@@ -29,4 +29,8 @@ field <- function(...) {
 value <- function(...) {
   x <- paste0(...)
   crayon::blue(encodeString(x, quote = "'"))
+}
+
+collapse <- function(x, sep = ", ") {
+  paste0(x, collapse = sep)
 }

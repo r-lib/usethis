@@ -19,14 +19,14 @@ use_package <- function(package, type = "Imports", base_path = ".") {
   use_dependency(package, type, base_path = base_path)
 
   switch(type,
-    Imports = todo(paste0("Refer to functions with ", package, "::fun()")),
+    Imports = todo("Refer to functions with ", package, "::fun()"),
     Depends = todo("Are you sure you want Depends? Imports is almost always the better choice."),
     Suggests = {
-      todo(paste0(
+      todo(
         "Use requireNamespace(\"", package, "\", quietly = TRUE)",
         " to test if package is installed"
-      ))
-      todo(paste0("Then use ", package, "::fun() to refer to functions."))
+      )
+      todo("Then use ", package, "::fun() to refer to functions.")
     },
     Enhances = "",
     LinkingTo = show_includes(package)
@@ -40,7 +40,7 @@ show_includes <- function(package) {
   h <- dir(incl, "\\.(h|hpp)$")
   if (length(h) == 0) return()
 
-  todo(paste0("Possible includes are:"))
+  todo("Possible includes are:")
   code(paste0("#include <", h, ">"))
 }
 
@@ -58,7 +58,7 @@ use_dev_package <- function(package, type = "Imports", base_path = ".") {
     return(invisible())
   }
 
-  done(paste0("Adding ", value(package_remote), " to DESCRIPTION ", field("Remotes")))
+  done("Adding ", value(package_remote), " to DESCRIPTION ", field("Remotes"))
   remotes <- c(remotes, package_remote)
   desc::desc_set_remotes(remotes, file = base_path)
 
