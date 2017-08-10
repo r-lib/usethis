@@ -17,7 +17,10 @@ Imports:
     jsonlite,
     knitr,
     rmarkdown,
-    gh
+    gh,
+    tibble,
+    magrittr,
+    utils
 Remotes: r-pkgs/gh
 License: GPL-3
 Encoding: UTF-8

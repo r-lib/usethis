@@ -125,18 +125,20 @@ uses_data <- function(path) {
 #' \item{Title}{Character. A sentence describing the dataset.}
 #' }
 #' @seealso \code{\link[utils]{data}}, \code{\link{use_readme_rmd}}
+#' @importFrom tibble as_data_frame data_frame
+#' @importFrom magrittr %>% extract extract2
 #' @export
 list_datasets <- function(pkg) {
   stopifnot(is.character(pkg), length(pkg) == 1)
   if(!is_installed(pkg)) {
-    no_datasets <- data.frame(
+    no_datasets <- data_frame(
       Item = character(),
-      Title = character(),
-      stringsAsFactors = FALSE
+      Title = character()
     )
     return(no_datasets)
   }
-  as.data.frame(
-    utils::data(package = pkg)$results[, c("Item", "Title"), drop = FALSE],
-    stringsAsFactors = FALSE)
+  utils::data(package = pkg) %>%
+    extract2("results") %>%
+    extract(, c("Item", "Title")) %>%
+    as_data_frame()
 }
