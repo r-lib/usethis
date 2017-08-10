@@ -69,7 +69,7 @@ use_description_field <- function(name, value, base_path = ".", overwrite = FALS
     return()
 
   if (is.na(curr) || overwrite) {
-    done("Setting DESCRIPTION ", field(name), " to ", value(value))
+    done("Setting ", field(name), " field in DESCRIPTION to ", value(value))
     desc::desc_set(name, value, file = base_path)
   }
 }
@@ -90,7 +90,7 @@ use_dependency <- function(package, type, base_path = ".") {
   deps <- desc::desc_get_deps(base_path)
   has_dep <- any(deps$package == package & deps$type == type)
   if (!has_dep) {
-    done("Adding ", value(package), " to DESCRIPTION ", field(type))
+    done("Adding ", value(package), " to ", field(type), " field in DESCRIPTION")
     desc::desc_set_dep(package, type, file = file.path(base_path, "DESCRIPTION"))
   }
 
