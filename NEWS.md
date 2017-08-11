@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* New `use_badge()` for adding any badge to a README. Now only prints a 
+  todo message if the badge does not already exist.
+
 * `use_revdep()` creates structure for use with revdepcheck package, the
   preferred way to run revdepchecks. (#33)
 
