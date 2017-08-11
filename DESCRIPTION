@@ -28,3 +28,5 @@ Suggests:
     covr
 Url: https://github.com/r-lib/usethis
 BugReports: https://github.com/r-lib/usethis/issues
+Depends: 
+    R (>= 3.1)

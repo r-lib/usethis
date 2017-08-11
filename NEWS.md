@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* `create_package()` no longer creates a dependency on the current version of 
+  R.
+
 * New `use_tidy_ci()` which sets up travis and codecov using the tidyverse
   conventions (#14)
 

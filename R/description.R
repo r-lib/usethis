@@ -46,7 +46,6 @@ build_description_list <- function(name, fields = list()) {
     Title = "What the Package Does (one line, title case)",
     Description = "What the package does (one paragraph).",
     "Authors@R" = author,
-    Depends = paste0("R (>= ", as.character(getRversion()) ,")"),
     License = license,
     Suggests = suggests,
     Encoding = "UTF-8",

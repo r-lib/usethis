@@ -6,7 +6,8 @@
 #'
 #' @details
 #'
-#' * `use_tidy_ci()`: sets up travis and codecov
+#' * `use_tidy_ci()`: sets up travis and codecov, ensuring that the package
+#'    works on all version of R starting at 3.1.
 #'
 #' @md
 #' @name tidyverse
@@ -26,6 +27,7 @@ use_tidy_ci <- function(browse = interactive(), base_path = ".") {
   )
   use_template("codecov.yml", ignore = TRUE, base_path = base_path)
 
+  use_dependency("R", "Depends", ">= 3.1", base_path = base_path)
   use_dependency("covr", "Suggests", base_path = base_path)
 
   travis_badge(base_path = base_path)
