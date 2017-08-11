@@ -14,11 +14,6 @@
 #' \code{use_data_list_in_readme_rmd} and \code{use_data_list_in_readme_md}
 #' append a table to the README listing the datasets contained in the package.
 #' @inheritParams use_template
-#' @param stop_if_no_data Logical. If \code{TRUE},
-#'   \code{use_data_list_in_readme_rmd} and \code{use_data_list_in_readme_md}
-#'   will throw an error if the package has no data directory, or the package
-#'   has not been installed. This is useful if you want to add datasets to the
-#'   package after creating the README.
 #' @export
 #' @examples
 #' \dontrun{
@@ -69,7 +64,7 @@ use_readme_rmd <- function(base_path = ".") {
     base_path = base_path
   )
   if (uses_data(base_path)) {
-    use_data_list_in_readme_rmd(base_path, stop_if_no_data = FALSE)
+    use_data_list_in_readme_rmd(base_path, warn_if_no_data = FALSE)
   }
   use_build_ignore("^README-.*\\.png$", escape = FALSE, base_path = base_path)
 
@@ -95,34 +90,40 @@ use_readme_md <- function(base_path = ".") {
     base_path = base_path
   )
   if (uses_data(base_path)) {
-    use_data_list_in_readme_md(base_path, stop_if_no_data = FALSE)
+    use_data_list_in_readme_md(base_path, warn_if_no_data = FALSE)
   }
 }
 
 #' @rdname use_readme_rmd
 #' @export
-use_data_list_in_readme_rmd <- function(base_path = ".", stop_if_no_data = TRUE) {
-  use_data_list_in_readme("Rmd", base_path, stop_if_no_data)
+use_data_list_in_readme_rmd <- function(base_path = ".") {
+  use_data_list_in_readme("Rmd", base_path, warn_if_no_data = TRUE)
 }
 
 #' @rdname use_readme_rmd
 #' @export
-use_data_list_in_readme_md <- function(base_path = ".", stop_if_no_data = TRUE) {
-  use_data_list_in_readme("md", base_path, stop_if_no_data)
+use_data_list_in_readme_md <- function(base_path = ".") {
+  use_data_list_in_readme("md", base_path, warn_if_no_data = TRUE)
 }
 
-use_data_list_in_readme <- function(type = c("Rmd", "md"), base_path = ".", stop_if_no_data = TRUE) {
+use_data_list_in_readme <- function(type = c("Rmd", "md"), base_path = ".", warn_if_no_data = TRUE) {
   type <- match.arg(type)
   if (!uses_data(base_path)) {
-    if (stop_if_no_data) {
-      stop("The package has no data dir. Add datasets using use_data().", call. = FALSE)
+    if (warn_if_no_data) {
+      warning(
+        "The package has no data dir. Add datasets using use_data().",
+        call. = FALSE
+      )
     }
     return()
   }
   data <- package_data(base_path)
   if (!is_installed(data$Package)) {
-    if (stop_if_no_data) {
-      stop("The package has not been installed; try building and reloading first.", call. = FALSE)
+    if (warn_if_no_data) {
+      warning(
+        "The package has not been installed; try building and reloading first.",
+        call. = FALSE
+      )
     }
     return()
   }
