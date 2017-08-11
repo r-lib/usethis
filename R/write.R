@@ -41,13 +41,14 @@ write_utf8 <- function(path, lines, append = FALSE) {
   stopifnot(is.character(path))
   stopifnot(is.character(lines))
 
-  con <- file(path, encoding = "utf-8")
+  conn_mode <- if(append) "a" else "w"
+  con <- file(path, conn_mode, encoding = "utf-8")
   on.exit(close(con), add = TRUE)
 
   if (length(lines) > 1) {
     lines <- paste0(lines, "\n", collapse = "")
   }
-  cat(lines, file = con, sep = "", append = append)
+  cat(lines, file = con, sep = "")
 
   invisible(TRUE)
 }

@@ -139,6 +139,6 @@ list_datasets <- function(pkg) {
   }
   utils::data(package = pkg) %>%
     extract2("results") %>%
-    extract(, c("Item", "Title")) %>%
+    extract(, c("Item", "Title"), drop = FALSE) %>%
     as_data_frame()
 }

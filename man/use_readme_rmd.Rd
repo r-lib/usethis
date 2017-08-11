@@ -21,7 +21,8 @@ use_data_list_in_readme_md(base_path = ".", stop_if_no_data = TRUE)
 \item{stop_if_no_data}{Logical. If \code{TRUE},
 \code{use_data_list_in_readme_rmd} and \code{use_data_list_in_readme_md}
 will throw an error if the package has no data directory, or the package
-has not been installed.}
+has not been installed. This is useful if you want to add datasets to the
+package after creating the README.}
 }
 \description{
 Creates skeleton README files with sections for

@@ -17,7 +17,8 @@
 #' @param stop_if_no_data Logical. If \code{TRUE},
 #'   \code{use_data_list_in_readme_rmd} and \code{use_data_list_in_readme_md}
 #'   will throw an error if the package has no data directory, or the package
-#'   has not been installed.
+#'   has not been installed. This is useful if you want to add datasets to the
+#'   package after creating the README.
 #' @export
 #' @examples
 #' \dontrun{
@@ -95,7 +96,7 @@ use_data_list_in_readme <- function(type = c("Rmd", "md"), base_path = ".", stop
     }
     return()
   }
-  readme_file <- file.path(base_path, paste0("README.", type))
+
   if (type == "md") {
     data$datasets <- paste(
       knitr::kable(list_datasets(data$Package)),
@@ -105,5 +106,5 @@ use_data_list_in_readme <- function(type = c("Rmd", "md"), base_path = ".", stop
   }
 
   template_contents <- render_template("omni-README-datasets", data)
-  append_to(template_contents, readme_file)
+  write_append(base_path, paste0("README.", type), template_contents)
 }
