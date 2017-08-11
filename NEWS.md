@@ -69,3 +69,5 @@
 * Removed old `add_build_ignore()`
 
 * `use_build_ignore()` now strips trailing `/`
+
+* `use_directory()` is now exported (#27). 
