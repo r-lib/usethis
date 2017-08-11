@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* `use_coverage("codecov")` now sets a default threshold of 1% to try and 
+  reduce false positives (#8).
+
 * New `use_tidy_description()` puts description fields in a standard order
   and alphabetises dependencies.
 
