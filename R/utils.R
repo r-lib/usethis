@@ -42,3 +42,7 @@ compact <- function(x) {
 }
 
 "%||%" <- function(a, b) if (!is.null(a)) a else b
+
+is_installed <- function(pkgs) {
+  pkgs %in% .packages(TRUE)
+}

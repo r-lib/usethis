@@ -37,11 +37,12 @@ write_over <- function(base_path, path, contents) {
   write_utf8(full_path, contents)
 }
 
-write_utf8 <- function(path, lines) {
+write_utf8 <- function(path, lines, append = FALSE) {
   stopifnot(is.character(path))
   stopifnot(is.character(lines))
 
-  con <- file(path, encoding = "utf-8")
+  conn_mode <- if(append) "a" else "w"
+  con <- file(path, conn_mode, encoding = "utf-8")
   on.exit(close(con), add = TRUE)
 
   if (length(lines) > 1) {
@@ -50,6 +51,15 @@ write_utf8 <- function(path, lines) {
   cat(lines, file = con, sep = "")
 
   invisible(TRUE)
+}
+
+write_append <- function(base_path, path, contents) {
+  stopifnot(is.character(contents), length(contents) == 1)
+
+  full_path <- file.path(base_path, path)
+  done(paste0("* Writing additional contents to '", value(path), "'"))
+  write_utf8(full_path, contents, append = TRUE)
+  TRUE
 }
 
 same_contents <- function(path, contents) {

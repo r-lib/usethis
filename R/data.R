@@ -108,3 +108,37 @@ use_data_raw <- function(base_path = ".") {
   todo("Add data creation scripts in 'data-raw'")
   todo("Use devtools::use_data() to add data to package")
 }
+
+uses_data <- function(path) {
+  dir.exists(file.path(path, "data"))
+}
+
+#' List the datasets in a package
+#'
+#' A convenience wrapper for \code{\link[utils]{data}} to list the name and
+#' title of all the datasets in an installed package.
+#'
+#' @param pkg A string naming a package.
+#' @return A data frame with two column, with one row per dataset.
+#' \describe{
+#' \item{Item}{Character. The name of the dataset.}
+#' \item{Title}{Character. A sentence describing the dataset.}
+#' }
+#' @seealso \code{\link[utils]{data}}, \code{\link{use_readme_rmd}}
+#' @importFrom tibble as_data_frame data_frame
+#' @importFrom magrittr %>% extract extract2
+#' @export
+list_datasets <- function(pkg) {
+  stopifnot(is.character(pkg), length(pkg) == 1)
+  if (!is_installed(pkg)) {
+    no_datasets <- data_frame(
+      Item = character(),
+      Title = character()
+    )
+    return(no_datasets)
+  }
+  utils::data(package = pkg) %>%
+    extract2("results") %>%
+    extract(, c("Item", "Title"), drop = FALSE) %>%
+    as_data_frame()
+}

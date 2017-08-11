@@ -20,9 +20,13 @@ Imports:
     git2r,
     httr,
     jsonlite,
+    knitr,
+    magrittr,
     rmarkdown,
     rstudioapi,
+    tibble,
     whisker
+License: GPL-3
 Suggests: 
     covr,
     testthat

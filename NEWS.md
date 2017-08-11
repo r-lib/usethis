@@ -53,6 +53,8 @@
   also work on CRAN (#16, #19). The first chunk now uses `include = FALSE`
   and is named setup (#19).
 
+* `use_readme_rmd()` and `use_readme_md()` now also include a section listing the datasets in the package.
+
 * `use_github()` now has an organisation parameter so you can create repos
   in organisations (#4).
 
