@@ -22,8 +22,38 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' use_readme_rmd()
-#' use_readme_md()
+#' # Examples not run, due to dependency on devtools
+#' library(usethis)
+#' pkgroot <- tempfile("testpkg")
+#' devtools::create(pkgroot)
+#'
+#' # Workflow 1: add data first, then create README
+#' # 1. Add the datasets
+#' use_data(cars, base_path = pkgroot)
+#' # 2. Install the package
+#' devtools::install(pkgroot)
+#' # 3. Check that the datasets are correctly present
+#' list_datasets(basename(pkgroot))
+#' # 4. Create the README
+#' use_readme_rmd(pkgroot)
+#' # or
+#' use_readme_md(pkgroot)
+#'
+#' # Workflow 2: create README first, then add data
+#' # 1. Create the README
+#' use_readme_rmd(pkgroot)
+#' # or
+#' use_readme_md(pkgroot)
+#' # 2. Add the datasets
+#' use_data(cars, base_path = pkgroot)
+#' # 3. Install the package
+#' devtools::install(pkgroot)
+#' # 4. Check that the datasets are correctly present
+#' list_datasets(basename(pkgroot))
+#' # 5. Update the README
+#' use_data_list_in_readme_rmd(pkgroot)
+#' # or
+#' use_data_list_in_readme_md(pkgroot)
 #' }
 use_readme_rmd <- function(base_path = ".") {
 
