@@ -1,12 +1,6 @@
 {{#Rmd}}
----{{#github}}
+---
 output: github_document
-{{/github}}
-{{#^github}}
-output:
-  md_document:
-    variant: markdown_github
-{{/github}}
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -18,7 +12,6 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-"
 )
 ```
-
 {{/Rmd}}
 
 # {{{ Package }}}

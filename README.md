@@ -12,7 +12,7 @@ You can install usethis from github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("r-pkgs/usethis")
+devtools::install_github("r-lib/usethis")
 ```
 
 ## Usage
