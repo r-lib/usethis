@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* New `use_pipe()` creates a template to use magrittr's `%>%` in your package
+  (#15).
+
 * `create_package()` no longer creates a dependency on the current version of 
   R.
 
