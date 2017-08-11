@@ -17,3 +17,17 @@ use_rstudio <- function(base_path = ".") {
 
   invisible(TRUE)
 }
+
+
+# Is base_path open in RStudio?
+in_rstudio <- function(base_path = ".") {
+  if (!rstudioapi::isAvailable())
+    return(FALSE)
+
+  if (!rstudioapi::hasFun("getActiveProject"))
+    return(FALSE)
+
+  proj <- rstudioapi::getActiveProject()
+
+  normalizePath(proj) == normalizePath(base_path)
+}

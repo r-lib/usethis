@@ -16,14 +16,14 @@ use_template <- function(template,
                          ) {
 
   template_contents <- render_template(template, data)
-  write_over(template_contents, file.path(base_path, save_as))
+  write_over(base_path, save_as, template_contents)
 
   if (ignore) {
     use_build_ignore(save_as, base_path = base_path)
   }
 
   if (open) {
-    message("* Modify '", save_as, "'")
+    todo(paste0("Modify ", value(save_as)))
     open_in_rstudio(save_as, base_path = base_path)
   }
 
@@ -38,7 +38,7 @@ render_template <- function(template, data = list()) {
 find_template <- function(template_name) {
   path <- system.file("templates", template_name, package = "usethis")
   if (identical(path, "")) {
-    stop("Could not find template '", template_name, "'", call. = FALSE)
+    stop("Could not find template ", value(template_name), call. = FALSE)
   }
   path
 }
@@ -64,17 +64,13 @@ project_name <- function(base_path = ".") {
 }
 
 use_description_field <- function(name, value, base_path = ".", overwrite = FALSE) {
-  path <- file.path(base_path, "DESCRIPTION")
-
-  curr <- desc::desc_get(name, file = path)[[1]]
+  curr <- desc::desc_get(name, file = base_path)[[1]]
   if (identical(curr, value))
     return()
 
   if (is.na(curr) || overwrite) {
-    message("* Setting DESCRIPTION ", name, " to '", value, "'")
-    desc::desc_set(name, value, file = path)
-  } else {
-    message("* Preserving existing field ", name)
+    done(paste0("Setting DESCRIPTION ", field(name), " to ", value(value)))
+    desc::desc_set(name, value, file = base_path)
   }
 }
 
@@ -94,7 +90,7 @@ use_dependency <- function(package, type, base_path = ".") {
   deps <- desc::desc_get_deps(base_path)
   has_dep <- any(deps$package == package & deps$type == type)
   if (!has_dep) {
-    message("* Adding ", package, " to ", type, ".")
+    done(paste0("Adding ", value(package), " to DESCRIPTION ", field(type)))
     desc::desc_set_dep(package, type, file = file.path(base_path, "DESCRIPTION"))
   }
 
@@ -106,16 +102,16 @@ use_directory <- function(path,
                           base_path = ".") {
 
   if (!file.exists(base_path)) {
-    stop("'", base_path, "' does not exist", call. = FALSE)
+    stop(value(base_path), " does not exist", call. = FALSE)
   }
   pkg_path <- file.path(base_path, path)
 
   if (file.exists(pkg_path)) {
     if (!is_dir(pkg_path)) {
-      stop("'", path, "' exists but is not a directory.", call. = FALSE)
+      stop(value(path), " exists but is not a directory.", call. = FALSE)
     }
   } else {
-    message("* Creating '", pkg_path, "/'")
+    done(paste0("Creating ", value(path, "/")))
     ok <- dir.create(pkg_path, showWarnings = FALSE, recursive = TRUE)
 
     if (!ok) {

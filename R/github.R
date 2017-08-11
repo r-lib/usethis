@@ -37,7 +37,8 @@
 #' @param private If \code{TRUE}, creates a private repository.
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
-#'   "https://github.hostname.com/api/v3".
+#'   "https://github.hostname.com/api/v3". You can set this globally using
+#'   the \code{GITHUB_API_URL} env var.
 #' @param protocol transfer protocol, either "ssh" (the default) or "https"
 #' @param credentials A \code{\link[git2r]{cred_ssh_key}} specifying specific
 #' ssh credentials or NULL for default ssh key and ssh-agent behaviour.
@@ -54,27 +55,31 @@
 #' use_github(pkg = "testpkg2", protocol = "https")
 #' }
 use_github <- function(organisation = NULL,
-                       auth_token = NULL, private = FALSE,
-                       host = "https://api.github.com",
-                       protocol = c("ssh", "https"), credentials = NULL,
+                       private = FALSE,
+                       protocol = c("ssh", "https"),
+                       credentials = NULL,
+                       auth_token = NULL,
+                       host = NULL,
                        base_path = ".") {
 
   use_git(base_path = base_path)
 
   if (uses_github(base_path)) {
-    message("* GitHub is already initialized")
+    done("GitHub is already initialized")
     return(invisible())
   }
 
   pkg <- package_data(base_path)
-  message("* Checking title and description")
-  message("  Title: ", pkg$Title)
-  message("  Description: ", pkg$Description)
+  done(
+    "Checking title and description",
+    paste("Title: ", pkg$Title),
+    paste("Description: ", pkg$Description)
+  )
   if (yesno("Are title and description ok?")) {
     return(invisible())
   }
 
-  message("* Creating GitHub repository")
+  done("Creating GitHub repository")
 
   if (is.null(organisation)) {
     create <- gh::gh("POST /user/repos",
@@ -95,7 +100,7 @@ use_github <- function(organisation = NULL,
     )
   }
 
-  message("* Adding GitHub remote")
+  done("Adding GitHub remote")
   r <- git2r::repository(base_path)
   protocol <- match.arg(protocol)
   origin_url <- switch(protocol,
@@ -104,14 +109,14 @@ use_github <- function(organisation = NULL,
   )
   git2r::remote_add(r, "origin", origin_url)
 
-  message("* Adding GitHub links to DESCRIPTION")
+  done("Adding GitHub links to DESCRIPTION")
   use_github_links(base_path, auth_token = auth_token, host = host)
   if (git_uncommitted(base_path)) {
     git2r::add(r, "DESCRIPTION")
     git2r::commit(r, "Add GitHub links to DESCRIPTION")
   }
 
-  message("* Pushing to GitHub and setting remote tracking branch")
+  done("Pushing to GitHub and setting remote tracking branch")
   if (protocol == "ssh") {
     ## [1] push via ssh required for success setting remote tracking branch
     ## [2] to get passphrase from ssh-agent, you must use NULL credentials
@@ -124,7 +129,7 @@ use_github <- function(organisation = NULL,
   }
   git2r::branch_set_upstream(git2r::head(r), "origin/master")
 
-  message("* View repo at ", create$html_url)
+  done("View repo at ", create$html_url)
 
   invisible(NULL)
 }
@@ -135,17 +140,15 @@ use_github_links <- function(auth_token = NULL,
                              host = "https://api.github.com",
                              base_path = ".") {
 
-  if (!uses_github(base_path)) {
-    stop("Cannot detect that package already uses GitHub.\n",
-         "You might want to run use_github().", call. = FALSE)
-  }
+  check_uses_github(base_path)
 
   info <- gh::gh_tree_remote(base_path)
   res <- gh::gh(
     "GET /repos/:owner/:repo",
     owner = info$username,
     repo = info$repo,
-    .api_url = host
+    .api_url = host,
+    .token = auth_token
   )
 
   use_description_field("Url", res$html_url, base_path = base_path)
@@ -161,4 +164,17 @@ uses_github <- function(path) {
     gh::gh_tree_remote(path)
     TRUE
   }, error = function(e) FALSE)
+}
+
+
+check_uses_github <- function(base_path) {
+  if (uses_github(base_path)) {
+    return()
+  }
+
+  stop(
+    "Cannot detect that package already uses GitHub.\n",
+    "Do you need to run `use_github()`?",
+    call. = FALSE
+  )
 }

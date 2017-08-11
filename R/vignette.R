@@ -14,10 +14,13 @@ use_vignette <- function(name, base_path = ".") {
   use_dependency("rmarkdown", "Suggests", base_path = base_path)
 
   use_directory("vignettes", base_path = base_path)
+  use_git_ignore(c("*.html", "*.R"), "vignettes", base_path = base_path)
   use_git_ignore("inst/doc", base_path = base_path)
 
-  path <- file.path(base_path, "vignettes", slug(name, ".Rmd"))
-  rmarkdown::draft(path, "html_vignette", "rmarkdown",
+  path <- file.path("vignettes", slug(name, ".Rmd"))
+
+  done(paste0("Creating '", path, "'"))
+  rmarkdown::draft(file.path(base_path, path), "html_vignette", "rmarkdown",
     create_dir = FALSE, edit = FALSE)
-  open_in_rstudio(path)
+  open_in_rstudio(path, base_path = base_path)
 }

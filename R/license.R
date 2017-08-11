@@ -1,31 +1,47 @@
-#' Add licenses
+#' Use MIT, GPL-3, or Apache 2.0 license for your package
 #'
-#' Adds the necessary infrastructure to declare your package as
-#' distributed under either the MIT license (including the \code{LICENSE}
-#' file), or GPL v3.
+#' @description
+#' Adds the necessary infrastructure to declare your package as licensed
+#' with one of three popular open source license:
+#'
+#' * [MIT](https://choosealicense.com/licenses/mit/): simple and permission.
+#' * [Apache 2.0](https://choosealicense.com/licenses/apache-2.0/):
+#'   provides patent protection.
+#' * [GPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing
+#'   of improvements.
+#'
+#' See <https://choosealicense.com> for more details and other options.
+#'
+#' @details
+#' CRAN does not allow you to include copies of standard licenses in your
+#' package, so these functions save the license as `LICENSE.md` and add it
+#' to `.Rbuildignore`.
 #'
 #' @name licenses
+#' @param name Name of the copyright holder or holders. Separate multiple
+#'   individuals with \code{;}.
 #' @inheritParams use_template
 #' @aliases NULL
+#' @md
 NULL
 
 #' @rdname licenses
-#' @param copyright_holder The copyright holder for this package. Defaults to
-#'   \code{getOption("devtools.name")}.
 #' @export
-use_mit_license <- function(copyright_holder = getOption("devtools.name", "<Author>"),
+use_mit_license <- function(name,
                             base_path = ".") {
 
-  use_description_field("License", "MIT + file LICENSE", base_path = base_path)
+  use_description_field(
+    "License", "MIT + file LICENSE",
+    overwrite = TRUE,
+    base_path = base_path
+  )
+  use_license_template("mit", name, base_path = base_path)
 
+  # Fill in template
   use_template(
-    "mit-license.txt",
+    "license-mit.txt",
     "LICENSE",
-    data = list(
-      year = format(Sys.Date(), "%Y"),
-      copyright_holder = copyright_holder
-    ),
-    open = identical(copyright_holder, "<Author>"),
+    data = license_data(name, base_path = base_path),
     base_path = base_path
   )
 }
@@ -33,7 +49,43 @@ use_mit_license <- function(copyright_holder = getOption("devtools.name", "<Auth
 
 #' @rdname licenses
 #' @export
-use_gpl3_license <- function(base_path = ".") {
-  use_description_field("License", "GPL-3 + file LICENSE", base_path = base_path)
-  use_template("gpl-v3.md", "LICENSE", base_path = base_path)
+use_gpl3_license <- function(name, base_path = ".") {
+  use_description_field(
+    "License", "GPL-3",
+    overwrite = TRUE,
+    base_path = base_path
+  )
+  use_license_template("GPL-3", name = name, base_path = base_path)
+}
+
+#' @rdname licenses
+#' @export
+use_apl2_license <- function(name, base_path = ".") {
+  use_description_field(
+    "License", "Apache License (>= 2.0)",
+    overwrite = TRUE,
+    base_path = base_path
+  )
+  use_license_template("apache-2.0", name, base_path = base_path)
+}
+
+
+use_license_template <- function(license, name, base_path = ".") {
+  license_template <- paste0("license-", license, ".md")
+
+  use_template(
+    license_template,
+    "LICENSE.md",
+    data = license_data(name, base_path = base_path),
+    base_path = base_path,
+    ignore = TRUE
+  )
+}
+
+license_data <- function(name, base_path = ".") {
+  list(
+    year = format(Sys.Date(), "%Y"),
+    name = name,
+    project = project_name(base_path)
+  )
 }

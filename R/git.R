@@ -14,15 +14,41 @@ use_git <- function(message = "Initial commit", base_path = ".") {
     return(invisible())
   }
 
-  message("* Initialising Git repo")
+  done("Initialising Git repo")
   r <- git2r::init(base_path)
 
   use_git_ignore(c(".Rhistory", ".RData"), base_path = base_path)
 
-  message("* Adding files and committing")
+  done("Adding files and committing")
   paths <- unlist(git2r::status(r))
   git2r::add(r, paths)
   git2r::commit(r, message)
+
+  restart_rstudio(
+    "A restart of RStudio is required to activate the Git pane",
+    base_path = base_path
+  )
+  invisible(TRUE)
+
+}
+
+# Must be last command run
+restart_rstudio <- function(message, base_path = ".") {
+  if (!in_rstudio(base_path)) {
+    return(FALSE)
+  }
+
+  if (!rstudioapi::hasFun("restartSession"))
+    return(FALSE)
+
+  if (!interactive())
+    return(FALSE)
+
+  todo(message)
+  if (yesno(todo_bullet(), " Restart now?"))
+    return(FALSE)
+
+  rstudioapi::restartSession()
 }
 
 #' Add a git hook.
@@ -46,8 +72,8 @@ use_git_hook <- function(hook, script, base_path = ".") {
   base_path <- git2r::discover_repository(base_path)
   use_directory(".git/hooks", base_path = base_path)
 
-  hook_path <- file.path(base_path, ".git/hooks", hook)
-  write_over(script, hook_path)
+  hook_path <- file.path(".git/hooks", hook)
+  write_over(base_path, hook_path, script)
   Sys.chmod(hook_path, "0744")
 
   invisible()
@@ -61,12 +87,25 @@ use_git_hook <- function(hook, script, base_path = ".") {
 #' @family git helpers
 #' @export
 use_git_ignore <- function(ignores, directory = ".", base_path = ".") {
-  path <- file.path(base_path, directory, ".gitignore")
-  write_union(path, ignores)
-
-  invisible(TRUE)
+  write_union(base_path, file.path(directory, ".gitignore"), ignores)
 }
 
 uses_git <- function(path = ".") {
   !is.null(git2r::discover_repository(path))
+}
+
+git_check_in <- function(paths, message, base_path = ".") {
+  if (!uses_git(base_path))
+    return(invisible())
+
+  if (!git_uncommitted(base_path))
+    return(invisible())
+
+  done(paste0("Checking into git [", message, "]"))
+
+  r <- git2r::init(base_path)
+  git2r::add(r, paths)
+  git2r::commit(r, message)
+
+  invisible(TRUE)
 }

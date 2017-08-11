@@ -1,5 +1,32 @@
 # usethis 0.0.0.9000
 
+* `use_revdep()` creates structure for use with revdepcheck package, the
+  preferred way to run revdepchecks. (#33)
+
+* New `use_apl2_license()` if you want to use the Apache 2.0 license.
+
+* The license functions (`use_mit_license()`, `use_apl2_license()`, and 
+  `use_gpl3_license()`) save a copy of the standard license text in 
+  `LICENSE.md`, which is then added to `.Rbuildignore`. This allows you
+  to follow standard licensing best practices while adhering to CRANs 
+  requirements (#10).
+
+* New `use_github_labels()` will automatically set up a standard set of labels,
+  optionally removing the default labels (#1).
+
+* `use_git()` will prompt you to restart RStudio if needed (and possible) (#42).
+
+* The output from all usethis commands has been reviewed to be informative 
+  but not overwhelming. usethis takes advantage of colour to help chunk
+  the output and clearly differentiate what you need to do vs. what has
+  been done for you.
+
+* New `use_dev_package()` works like `use_package()` but also adds the 
+  repo to the `Remotes` field (#32).
+
+* `use_vignette()` now adds `*.html` and `*.R` to your `.gitgnore` so you
+  don't accidentally add in compiled vignette products (#35).
+
 * `use_description()` now sets `ByteCompile: true` so you can benefit from
   the byte compiler (#29)
 
