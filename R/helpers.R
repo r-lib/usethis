@@ -105,9 +105,9 @@ use_dependency <- function(package, type, base_path = ".") {
 #' package root dir. This function powers many of the other `use_` functions
 #' such as [use_data()] and [use_vignette()].
 #'
-#' @return `TRUE` (invisibly) if the directory was successfully created.
-#'
+#' @param path Path of the directory to create (relative to `base_path`).
 #' @inheritParams use_template
+#'
 #' @export
 #' @md
 #' @examples
