@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* New `use_tidy_ci()` which sets up travis and codecov using the tidyverse
+  conventions (#14)
+
 * New `use_badge()` for adding any badge to a README. Now only prints a 
   todo message if the badge does not already exist.
 
