@@ -6,6 +6,7 @@
 #' @param ignore Should the newly created file be added to \code{.Rbuildignore?}
 #' @param open Should the new created file be opened in RStudio?
 #' @param base_path Path to package root.
+#' @return A logical vector indicating if file was modified.
 #' @keywords internal
 use_template <- function(template,
                          save_as = template,
@@ -16,7 +17,7 @@ use_template <- function(template,
                          ) {
 
   template_contents <- render_template(template, data)
-  write_over(base_path, save_as, template_contents)
+  new <- write_over(base_path, save_as, template_contents)
 
   if (ignore) {
     use_build_ignore(save_as, base_path = base_path)
@@ -27,7 +28,7 @@ use_template <- function(template,
     open_in_rstudio(save_as, base_path = base_path)
   }
 
-  invisible(TRUE)
+  invisible(new)
 }
 
 render_template <- function(template, data = list()) {
