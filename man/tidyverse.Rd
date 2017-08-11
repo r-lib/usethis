@@ -20,6 +20,7 @@ commonly used packages
 }
 \details{
 \itemize{
-\item \code{use_tidy_ci()}: sets up travis and codecov
+\item \code{use_tidy_ci()}: sets up travis and codecov, ensuring that the package
+works on all version of R starting at 3.1.
 }
 }
