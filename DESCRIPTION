@@ -11,21 +11,21 @@ License: GPL-3
 BugReports: https://github.com/r-lib/usethis/issues
 Depends: 
     R (>= 3.1)
-Imports:
+Imports: 
+    clisymbols,
     crayon,
-    digest,
-    git2r,
-    rstudioapi,
-    whisker,
     desc,
+    digest,
+    gh,
+    git2r,
     httr,
     jsonlite,
     rmarkdown,
-    gh,
-    clisymbols
+    rstudioapi,
+    whisker
 Suggests: 
-    testthat,
-    covr
+    covr,
+    testthat
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1

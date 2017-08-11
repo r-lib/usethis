@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* New `use_tidy_description()` puts description fields in a standard order
+  and alphabetises dependencies.
+
 * New `use_pipe()` creates a template to use magrittr's `%>%` in your package
   (#15).
 

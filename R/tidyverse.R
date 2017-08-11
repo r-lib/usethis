@@ -9,6 +9,9 @@
 #' * `use_tidy_ci()`: sets up travis and codecov, ensuring that the package
 #'    works on all version of R starting at 3.1.
 #'
+#' * `use_tidy_description()`: puts fields in standard order and alphabetises
+#'   dependencies.
+#'
 #' @md
 #' @name tidyverse
 NULL
@@ -38,4 +41,17 @@ use_tidy_ci <- function(browse = interactive(), base_path = ".") {
   }
 
   invisible(TRUE)
+}
+
+
+#' @export
+#' @rdname tidyverse
+use_tidy_description <- function(base_path = ".") {
+
+  deps <- desc::desc_get_deps(base_path)
+  deps <- deps[order(deps$type, deps$package), , drop = FALSE]
+  desc::desc_del_deps(file = base_path)
+  desc::desc_set_deps(deps, file = base_path)
+
+  desc::desc_reorder_fields(file = base_path)
 }
