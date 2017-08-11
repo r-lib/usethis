@@ -57,7 +57,7 @@ write_append <- function(base_path, path, contents) {
   stopifnot(is.character(contents), length(contents) == 1)
 
   full_path <- file.path(base_path, path)
-  done(paste0("* Writing additional contents to '", path, "'"))
+  done(paste0("* Writing additional contents to '", value(path), "'"))
   write_utf8(full_path, contents, append = TRUE)
   TRUE
 }
