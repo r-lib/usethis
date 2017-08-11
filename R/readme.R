@@ -18,37 +18,40 @@
 #' @examples
 #' \dontrun{
 #' # Examples not run, due to dependency on devtools
-#' library(usethis)
-#' pkgroot <- tempfile("testpkg")
-#' devtools::create(pkgroot)
 #'
 #' # Workflow 1: add data first, then create README
-#' # 1. Add the datasets
-#' use_data(cars, base_path = pkgroot)
-#' # 2. Install the package
-#' devtools::install(pkgroot)
-#' # 3. Check that the datasets are correctly present
-#' list_datasets(basename(pkgroot))
-#' # 4. Create the README
-#' use_readme_rmd(pkgroot)
+#' # 1. Create a package
+#' pkgroot1 <- tempfile("testpkg")
+#' devtools::create(pkgroot1)
+#' # 2. Add the datasets
+#' use_data(cars, base_path = pkgroot1)
+#' # 3. Install the package
+#' devtools::install(pkgroot1)
+#' # 4. Check the you added all the datasets
+#' list_datasets(basename(pkgroot1))
+#' # 5. Create the README
+#' use_readme_rmd(pkgroot1)
 #' # or
-#' use_readme_md(pkgroot)
+#' use_readme_md(pkgroot1)
 #'
 #' # Workflow 2: create README first, then add data
-#' # 1. Create the README
-#' use_readme_rmd(pkgroot)
+#' # 1. Create a package
+#' pkgroot2 <- tempfile("testpkg")
+#' devtools::create(pkgroot2)
+#' # 2. Create the README
+#' use_readme_rmd(pkgroot2)
 #' # or
-#' use_readme_md(pkgroot)
-#' # 2. Add the datasets
-#' use_data(cars, base_path = pkgroot)
-#' # 3. Install the package
-#' devtools::install(pkgroot)
-#' # 4. Check that the datasets are correctly present
-#' list_datasets(basename(pkgroot))
-#' # 5. Update the README
-#' use_data_list_in_readme_rmd(pkgroot)
+#' use_readme_md(pkgroot2)
+#' # 3. Add the datasets
+#' use_data(cars, base_path = pkgroot2)
+#' # 4. Install the package
+#' devtools::install(pkgroot2)
+#' # 5. Check the you added all the datasets
+#' list_datasets(basename(pkgroot2))
+#' # 6. Update the README
+#' use_data_list_in_readme_rmd(pkgroot2)
 #' # or
-#' use_data_list_in_readme_md(pkgroot)
+#' use_data_list_in_readme_md(pkgroot2)
 #' }
 use_readme_rmd <- function(base_path = ".") {
 
@@ -64,7 +67,7 @@ use_readme_rmd <- function(base_path = ".") {
     base_path = base_path
   )
   if (uses_data(base_path)) {
-    use_data_list_in_readme_rmd(base_path, warn_if_no_data = FALSE)
+    use_data_list_in_readme_rmd(base_path)
   }
   use_build_ignore("^README-.*\\.png$", escape = FALSE, base_path = base_path)
 
@@ -90,7 +93,7 @@ use_readme_md <- function(base_path = ".") {
     base_path = base_path
   )
   if (uses_data(base_path)) {
-    use_data_list_in_readme_md(base_path, warn_if_no_data = FALSE)
+    use_data_list_in_readme_md(base_path)
   }
 }
 
@@ -136,6 +139,10 @@ use_data_list_in_readme <- function(type = c("Rmd", "md"), base_path = ".", warn
     data$Rmd <- TRUE
   }
 
-  template_contents <- render_template("omni-README-datasets", data)
+  template_contents <- paste0(
+    "\n",
+    render_template("omni-README-datasets", data),
+    collapse = ""
+  )
   write_append(base_path, paste0("README.", type), template_contents)
 }

@@ -11,18 +11,12 @@ use_readme_rmd(base_path = ".")
 
 use_readme_md(base_path = ".")
 
-use_data_list_in_readme_rmd(base_path = ".", stop_if_no_data = TRUE)
+use_data_list_in_readme_rmd(base_path = ".")
 
-use_data_list_in_readme_md(base_path = ".", stop_if_no_data = TRUE)
+use_data_list_in_readme_md(base_path = ".")
 }
 \arguments{
 \item{base_path}{Path to package root.}
-
-\item{stop_if_no_data}{Logical. If \code{TRUE},
-\code{use_data_list_in_readme_rmd} and \code{use_data_list_in_readme_md}
-will throw an error if the package has no data directory, or the package
-has not been installed. This is useful if you want to add datasets to the
-package after creating the README.}
 }
 \description{
 Creates skeleton README files with sections for
@@ -42,7 +36,40 @@ append a table to the README listing the datasets contained in the package.
 }
 \examples{
 \dontrun{
-use_readme_rmd()
-use_readme_md()
+# Examples not run, due to dependency on devtools
+
+# Workflow 1: add data first, then create README
+# 1. Create a package
+pkgroot1 <- tempfile("testpkg")
+devtools::create(pkgroot1)
+# 2. Add the datasets
+use_data(cars, base_path = pkgroot1)
+# 3. Install the package
+devtools::install(pkgroot1)
+# 4. Check the you added all the datasets
+list_datasets(basename(pkgroot1))
+# 5. Create the README
+use_readme_rmd(pkgroot1)
+# or
+use_readme_md(pkgroot1)
+
+# Workflow 2: create README first, then add data
+# 1. Create a package
+pkgroot2 <- tempfile("testpkg")
+devtools::create(pkgroot2)
+# 2. Create the README
+use_readme_rmd(pkgroot2)
+# or
+use_readme_md(pkgroot2)
+# 3. Add the datasets
+use_data(cars, base_path = pkgroot2)
+# 4. Install the package
+devtools::install(pkgroot2)
+# 5. Check the you added all the datasets
+list_datasets(basename(pkgroot2))
+# 6. Update the README
+use_data_list_in_readme_rmd(pkgroot2)
+# or
+use_data_list_in_readme_md(pkgroot2)
 }
 }
