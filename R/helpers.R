@@ -75,11 +75,11 @@ use_description_field <- function(name, value, base_path = ".", overwrite = FALS
   }
 }
 
-use_dependency <- function(package, type, base_path = ".") {
+use_dependency <- function(package, type, version = "*", base_path = ".") {
   stopifnot(is.character(package), length(package) == 1)
   stopifnot(is.character(type), length(type) == 1)
 
-  if (!requireNamespace(package, quietly = TRUE)) {
+  if (package != "R" && !requireNamespace(package, quietly = TRUE)) {
     stop(package, " must be installed before you can take a dependency on it",
       call. = FALSE)
   }
@@ -89,10 +89,17 @@ use_dependency <- function(package, type, base_path = ".") {
   type <- types[[match.arg(tolower(type), names(types))]]
 
   deps <- desc::desc_get_deps(base_path)
-  has_dep <- any(deps$package == package & deps$type == type)
-  if (!has_dep) {
+
+  matching_dep <- deps$package == package & deps$type == type
+  to_add <- !any(matching_dep)
+  to_set <- any(matching_dep & deps$version != version)
+
+  if (to_add) {
     done("Adding ", value(package), " to ", field(type), " field in DESCRIPTION")
-    desc::desc_set_dep(package, type, file = file.path(base_path, "DESCRIPTION"))
+    desc::desc_set_dep(package, type, version = version, file = base_path)
+  } else if (to_set) {
+    done("Setting ", value(package), " version to ", field(version), " field in DESCRIPTION")
+    desc::desc_set_dep(package, type, version = version, file = base_path)
   }
 
   invisible()
