@@ -18,5 +18,5 @@ use_revdep <- function(base_path = ".") {
     base_path = base_path
   )
 
-  todo("Run checks with `revdepcheck::revdep_check(num_workers = 4)`")
+  todo("Run checks with ", code("revdepcheck::revdep_check(num_workers = 4)"))
 }

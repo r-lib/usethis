@@ -32,7 +32,7 @@ use_github_labels <- function(delete_default = FALSE,
   cur_labels <- vapply(labels, "[[", "name", FUN.VALUE = character(1))
   new_labels <- setdiff(names(gh_labels), cur_labels)
   if (length(new_labels) > 0) {
-    done(paste0("Adding missing labels: ", paste0(value(new_labels), collapse = ", ")))
+    done("Adding missing labels: ", collapse(value(new_labels)))
 
     for (label in new_labels) {
       gh(
@@ -49,7 +49,7 @@ use_github_labels <- function(delete_default = FALSE,
   col_labels <- cur_labels[!is.na(tru_cols) & tru_cols != cur_cols]
 
   if (length(col_labels) > 1) {
-    done(paste0("Setting label colours: ", paste0(value(col_labels), collapse = ", ")))
+    done("Setting label colours: ", collapse(value(col_labels)))
 
     for (label in col_labels) {
       gh(
@@ -65,7 +65,7 @@ use_github_labels <- function(delete_default = FALSE,
     def_labels <- setdiff(cur_labels[default], names(gh_labels))
 
     if (length(def_labels) > 0) {
-      done(paste0("Removing default labels: ", paste0(value(def_labels), collapse = ", ")))
+      done("Removing default labels: ", collapse(value(def_labels)))
 
       for (label in def_labels) {
         gh("DELETE /repos/:owner/:repo/labels/:name", name = label)

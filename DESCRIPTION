@@ -7,27 +7,30 @@ Authors@R: c(
   )
 Description: usethis automates the set up of common tools needed during
     package and analysis development.
-Imports:
+License: GPL-3
+BugReports: https://github.com/r-lib/usethis/issues
+Depends: 
+    R (>= 3.1)
+Imports: 
+    clisymbols,
     crayon,
-    digest,
-    git2r,
-    rstudioapi,
-    whisker,
     desc,
+    digest,
+    gh,
+    git2r,
     httr,
     jsonlite,
     knitr,
+    magrittr,
     rmarkdown,
-    gh,
-    clisymbols,
+    rstudioapi,
     tibble,
-    magrittr
+    whisker
 License: GPL-3
+Suggests: 
+    covr,
+    testthat
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Suggests: 
-    testthat,
-    covr
 Url: https://github.com/r-lib/usethis
-BugReports: https://github.com/r-lib/usethis/issues
