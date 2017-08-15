@@ -18,8 +18,6 @@ Imports:
     digest,
     gh,
     git2r,
-    httr,
-    jsonlite,
     rmarkdown,
     rstudioapi,
     whisker
