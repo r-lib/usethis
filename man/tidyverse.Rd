@@ -3,9 +3,15 @@
 \name{tidyverse}
 \alias{tidyverse}
 \alias{use_tidy_ci}
+\alias{use_tidy_description}
+\alias{use_tidy_eval}
 \title{Helpers for the tidyverse}
 \usage{
 use_tidy_ci(browse = interactive(), base_path = ".")
+
+use_tidy_description(base_path = ".")
+
+use_tidy_eval(base_path = ".")
 }
 \arguments{
 \item{browse}{open a browser window to enable Travis builds for the package
@@ -22,5 +28,9 @@ commonly used packages
 \itemize{
 \item \code{use_tidy_ci()}: sets up travis and codecov, ensuring that the package
 works on all version of R starting at 3.1.
+\item \code{use_tidy_description()}: puts fields in standard order and alphabetises
+dependencies.
+\item \code{use_tidy_eval()}: imports a standard set of helpers to faciliate
+programming with the tidy eval toolkit.
 }
 }

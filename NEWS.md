@@ -3,6 +3,9 @@
 * `use_coverage("codecov")` now sets a default threshold of 10% to try and 
   reduce false positives (#8).
 
+* `use_tidy_eval()` imports and re-exports the recommend set of tidy eval 
+  helpers if your package uses tidy eval (#46).
+
 * New `use_tidy_description()` puts description fields in a standard order
   and alphabetises dependencies.
 

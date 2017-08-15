@@ -12,6 +12,9 @@
 #' * `use_tidy_description()`: puts fields in standard order and alphabetises
 #'   dependencies.
 #'
+#' * `use_tidy_eval()`: imports a standard set of helpers to faciliate
+#'   programming with the tidy eval toolkit.
+#'
 #' @md
 #' @name tidyverse
 NULL
@@ -54,4 +57,22 @@ use_tidy_description <- function(base_path = ".") {
   desc::desc_set_deps(deps, file = base_path)
 
   desc::desc_reorder_fields(file = base_path)
+}
+
+
+#' @export
+#' @rdname tidyverse
+use_tidy_eval <- function(base_path = ".") {
+  if (!uses_roxygen(base_path)) {
+    stop("`use_tidy_eval()` requires that you use roxygen.", call. = FALSE)
+  }
+
+  use_dependency("rlang", "imports", ">= 0.1.2", base_path = base_path)
+  use_template(
+    "tidy-eval.R",
+    "R/utils-tidy-eval.R",
+    base_path = base_path
+  )
+
+  todo("Run document()")
 }
