@@ -1,6 +1,6 @@
 bullet <- function(lines, bullet) {
-  lines <- paste0(bullet, " ", crayon::black(lines))
-  message(lines)
+  lines <- paste0(bullet, " ", lines)
+  cat_line(lines)
 }
 
 todo_bullet <- function() crayon::red(clisymbols::symbol$bullet)
@@ -14,11 +14,11 @@ done <- function(...) {
 
 code_block <- function(...) {
   block <- paste0("  ", c(...), collapse = "\n")
-  message(crayon::make_style("darkgrey")(block))
+  cat_line(crayon::make_style("darkgrey")(block))
 }
 
 cat_line <- function(...) {
-  cat(..., sep = "")
+  cat(..., "\n", sep = "")
 }
 
 field <- function(...) {
