@@ -57,6 +57,8 @@ use_tidy_description <- function(base_path = ".") {
   desc::desc_set_deps(deps, file = base_path)
 
   desc::desc_reorder_fields(file = base_path)
+
+  invisible(TRUE)
 }
 
 
