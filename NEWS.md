@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* Functions which require code to be copied now automatically put the code on
+  the clipboard if it is available (#52).
+
 * `use_coverage("codecov")` now sets a default threshold of 1% to try and 
   reduce false positives (#8).
 

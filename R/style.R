@@ -14,6 +14,9 @@ done <- function(...) {
 
 code_block <- function(...) {
   block <- paste0("  ", c(...), collapse = "\n")
+  if (clipr::clipr_available()) {
+    clipr::write_clip(paste0(c(...), collapse = "\n"))
+  }
   cat_line(crayon::make_style("darkgrey")(block))
 }
 
