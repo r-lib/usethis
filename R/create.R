@@ -21,7 +21,8 @@ create_package <- function(path,
 
   if (rstudio) {
     use_rstudio(base_path = path)
-    utils::browseURL(file.path(path, paste0(name, ".Rproj")))
+    utils::browseURL(
+      file.path(normalizePath(path), paste0(name, ".Rproj")))
   }
 
   invisible(TRUE)
