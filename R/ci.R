@@ -24,7 +24,7 @@ use_travis <- function(browse = interactive(), base_path = ".") {
   )
 
   travis_badge(base_path = base_path)
-  travis_activate(browser, base_path = base_path)
+  travis_activate(browse, base_path = base_path)
 
   invisible(TRUE)
 }
