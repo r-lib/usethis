@@ -24,5 +24,5 @@ use_vignette <- function(name, base_path = ".") {
   done("Creating '", path, "'")
   rmarkdown::draft(file.path(base_path, path), "html_vignette", "rmarkdown",
     create_dir = FALSE, edit = FALSE)
-  open_in_rstudio(path, base_path = base_path)
+  edit_file(path, base_path = base_path)
 }

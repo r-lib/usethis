@@ -24,8 +24,7 @@ use_template <- function(template,
   }
 
   if (open) {
-    todo("Modify ", value(save_as))
-    open_in_rstudio(save_as, base_path = base_path)
+    edit_file(save_as, base_path = base_path)
   }
 
   invisible(new)
@@ -149,14 +148,13 @@ use_directory <- function(path,
   invisible(TRUE)
 }
 
-open_in_rstudio <- function(path, base_path = ".") {
-  path <- file.path(base_path, path)
+edit_file <- function(path, base_path = ".") {
+  full_path <- path.expand(file.path(base_path, path))
 
-  if (!rstudioapi::isAvailable())
-    return()
-
-  if (!rstudioapi::hasFun("navigateToFile"))
-    return()
-
-  rstudioapi::navigateToFile(path)
+  if (!interactive()) {
+    todo("Edit ", value(full_path))
+  } else {
+    todo("Modify ", value(path))
+    utils::file.edit(full_path)
+  }
 }
