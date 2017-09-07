@@ -33,22 +33,24 @@ use_git <- function(message = "Initial commit", base_path = ".") {
 }
 
 # Must be last command run
-restart_rstudio <- function(message, base_path = ".") {
+restart_rstudio <- function(message = NULL, base_path = ".") {
   if (!in_rstudio(base_path)) {
     return(FALSE)
   }
 
-  if (!rstudioapi::hasFun("restartSession"))
+  if (!rstudioapi::hasFun("openProject"))
     return(FALSE)
 
   if (!interactive())
     return(FALSE)
 
-  todo(message)
+  if (!is.null(message)) {
+    todo(message)
+  }
   if (yesno(todo_bullet(), " Restart now?"))
     return(FALSE)
 
-  rstudioapi::restartSession()
+  rstudioapi::openProject(base_path)
 }
 
 #' Add a git hook.
