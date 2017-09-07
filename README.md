@@ -20,7 +20,7 @@ devtools::install_github("r-lib/usethis")
 Usage
 -----
 
-All `use_*` functions operate on the current directory unless you specify the `base_path` argument. ✔ indicates that usethis has setup everything for you. ● indicates that you'll need to do some work yourself.
+All `use_*` functions operate on the current directory unless you specify the `base_path` argument. `✔` indicates that usethis has setup everything for you. `●` indicates that you'll need to do some work yourself.
 
 ``` r
 library(usethis)
