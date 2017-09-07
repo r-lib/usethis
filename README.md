@@ -20,12 +20,12 @@ devtools::install_github("r-lib/usethis")
 Usage
 -----
 
-All `use_*` functions operate on the current directory.
+All `use_*` functions operate on the current directory unless you specify the `base_path` argument. ✔ indicates that usethis has setup everything for you. ● indicates that you'll need to do some work yourself.
 
 ``` r
 library(usethis)
 
-# Create a new package
+# Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp, open = FALSE)
 #> ✔ Creating 'mypkg/'
@@ -38,35 +38,40 @@ create_package(tmp, open = FALSE)
 #> ✔ Adding '^.*\\.Rproj$', '^\\.Rproj\\.user$' to '.Rbuildignore'
 setwd(tmp)
 
-# Modify the description
+# Modify the description ----------------------------------------------
 use_mit_license("RStudio")
 #> ✔ Setting License field in DESCRIPTION to 'MIT + file LICENSE'
 #> ✔ Writing 'LICENSE.md'
 #> ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'
 #> ✔ Writing 'LICENSE'
+
 use_package("MASS", "Suggests")
 #> ✔ Adding 'MASS' to Suggests field in DESCRIPTION
 #> ● Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed
 #> ● Then use `MASS::fun()` to refer to functions.
+
 use_dev_package("callr")
-#> ✔ Adding 'r-lib/callr' to DESCRIPTION Remotes
 #> ✔ Adding 'callr' to Imports field in DESCRIPTION
 #> ● Refer to functions with `callr::fun()`
-use_dev_version()
+#> ✔ Adding 'r-lib/callr' to DESCRIPTION Remotes
 
-# Set up various packages
+# Set up various packages ---------------------------------------------
 use_rcpp()
 #> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
 #> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
 #> ● Include the following directives in your NAMESPACE
-#> Copying code to clipboard:
 #>   useDynLib('mypkg', .registration = TRUE)
 #>   importFrom('Rcpp', 'sourceCpp')
+#> ● Edit './NAMESPACE'
 #> ● Run document()
+
 use_roxygen_md()
+#> ✔ Setting Roxygen field in DESCRIPTION to 'list(markdown = TRUE)'
+#> ✔ Setting RoxygenNote field in DESCRIPTION to '6.0.1'
 #> ● Re-document
+
 use_revdep()
 #> ✔ Creating 'revdep/'
 #> ✔ Adding '^revdep$' to '.Rbuildignore'
@@ -75,20 +80,22 @@ use_revdep()
 #> ✔ Writing 'revdep/email.yml'
 #> ● Run checks with `revdepcheck::revdep_check(num_workers = 4)`
 
-# Set up other files
+# Set up other files -------------------------------------------------
 use_readme_md()
 #> ✔ Writing 'README.md'
 #> ● Edit './README.md'
+
 use_news_md()
 #> ✔ Writing 'NEWS.md'
 #> ● Edit './NEWS.md'
+
 x <- 1
 y <- 2
 use_data(x, y)
-#> ✔ Saving x to ./data/x.rda
-#> ✔ Saving y to ./data/y.rda
+#> ✔ Saving x to data/x.rda
+#> ✔ Saving y to data/y.rda
 
-# use git
+# Use git ------------------------------------------------------------
 use_git()
 #> ✔ Initialising Git repo
 #> ✔ Adding '.Rhistory', '.RData' to './.gitignore'

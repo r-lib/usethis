@@ -36,12 +36,10 @@ use_data <- function(...,
   objs <- get_objs_from_dots(dots(...))
 
   if (internal) {
-    dir_name <- file.path(base_path, "R")
-    paths <- file.path(dir_name, "sysdata.rda")
+    paths <- file.path("R", "sysdata.rda")
     objs <- list(objs)
   } else {
-    dir_name <- file.path(base_path, "data")
-    paths <- file.path(dir_name, paste0(objs, ".rda"))
+    paths <- file.path("data", paste0(objs, ".rda"))
   }
 
   check_data_paths(paths, overwrite)
@@ -52,7 +50,7 @@ use_data <- function(...,
   mapply(
     save,
     list = objs,
-    file = paths,
+    file = file.path(base_path, paths),
     MoreArgs = list(envir = envir, compress = compress)
   )
 

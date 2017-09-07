@@ -14,7 +14,7 @@ done <- function(...) {
 
 code_block <- function(...) {
   block <- paste0("  ", c(...), collapse = "\n")
-  if (clipr::clipr_available()) {
+  if (interactive() && clipr::clipr_available()) {
     clipr::write_clip(paste0(c(...), collapse = "\n"))
     message("Copying code to clipboard:")
   }

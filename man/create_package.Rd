@@ -5,7 +5,7 @@
 \title{Setup a complete package}
 \usage{
 create_package(path, fields = getOption("devtools.desc"), rstudio = TRUE,
-  open = TRUE)
+  open = interactive())
 }
 \arguments{
 \item{path}{A path. If it exists, it will be used. If it does not

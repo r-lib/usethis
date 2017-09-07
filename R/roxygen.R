@@ -11,10 +11,11 @@ use_roxygen_md <- function(base_path = ".") {
   check_installed("roxygen2")
 
   if (!uses_roxygen(base_path)) {
-    desc::desc_set(
-      Roxygen = "list(markdown = TRUE)",
-      RoxygenNote = as.character(utils::packageVersion("roxygen2")),
-      file = base_path
+    use_description_field("Roxygen", "list(markdown = TRUE)", base_path = base_path)
+    use_description_field(
+      "RoxygenNote",
+      as.character(utils::packageVersion("roxygen2")),
+      base_path = base_path
     )
     todo("Re-document")
   } else if (!uses_roxygen_md(base_path)) {

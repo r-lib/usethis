@@ -52,6 +52,8 @@ use_dev_package <- function(package, type = "Imports", base_path = ".") {
       call. = FALSE)
   }
 
+  use_package(package, type = type, base_path = base_path)
+
   package_remote <- package_remote(package)
   remotes <- desc::desc_get_remotes(base_path)
   if (package_remote %in% remotes) {
@@ -62,7 +64,7 @@ use_dev_package <- function(package, type = "Imports", base_path = ".") {
   remotes <- c(remotes, package_remote)
   desc::desc_set_remotes(remotes, file = base_path)
 
-  use_package(package, type = type, base_path = base_path)
+  invisible()
 }
 
 package_remote <- function(package) {

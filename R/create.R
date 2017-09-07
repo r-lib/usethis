@@ -9,7 +9,7 @@
 create_package <- function(path,
                            fields = getOption("devtools.desc"),
                            rstudio = TRUE,
-                           open = TRUE) {
+                           open = interactive()) {
 
   name <- basename(path)
   check_package_name(name)
