@@ -9,6 +9,8 @@
 #' @export
 #' @inheritParams use_template
 use_vignette <- function(name, base_path = ".") {
+  check_installed("rmarkdown")
+
   use_dependency("knitr", "Suggests", base_path = base_path)
   use_description_field("VignetteBuilder", "knitr", base_path = base_path)
   use_dependency("rmarkdown", "Suggests", base_path = base_path)

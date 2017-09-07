@@ -8,6 +8,8 @@
 #' @export
 #' @inheritParams use_template
 use_testthat <- function(base_path = ".") {
+  check_installed("testthat")
+
   use_dependency("testthat", "Suggests", base_path = base_path)
   use_directory("tests/testthat", base_path = base_path)
   use_template(

@@ -19,6 +19,7 @@
 #' use_readme_md()
 #' }
 use_readme_rmd <- function(base_path = ".") {
+  check_installed("rmarkdown")
 
   data <- package_data(base_path)
   data$Rmd <- TRUE
