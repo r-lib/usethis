@@ -1,6 +1,6 @@
 #' Use magrittr's pipe in your package
 #'
-#' This imports magrittr, and creates a \code{R/utils-pipe.R} with the necessary
+#' This imports magrittr, and creates a `R/utils-pipe.R` with the necessary
 #' roxygen template to import and re-export the pipe.
 #'
 #' @inheritParams use_template

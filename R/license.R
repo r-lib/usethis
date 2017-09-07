@@ -19,7 +19,7 @@
 #'
 #' @name licenses
 #' @param name Name of the copyright holder or holders. Separate multiple
-#'   individuals with \code{;}.
+#'   individuals with `;`.
 #' @inheritParams use_template
 #' @aliases NULL
 #' @md

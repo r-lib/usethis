@@ -2,12 +2,14 @@
 #'
 #' @param path A path. If it exists, it will be used. If it does not
 #'   exist, it will be created (providing that the parent path exists).
-#' @param rstudio If \code{TRUE}, run \code{\link{use_rstudio}}.
+#' @param rstudio If `TRUE`, run [use_rstudio()].
+#' @param open If `TRUE`, will automatically open
 #' @inheritParams use_description
 #' @export
 create_package <- function(path,
                            fields = getOption("devtools.desc"),
-                           rstudio = TRUE) {
+                           rstudio = TRUE,
+                           open = interactive()) {
 
   name <- basename(path)
   check_package_name(name)
@@ -21,6 +23,8 @@ create_package <- function(path,
 
   if (rstudio) {
     use_rstudio(base_path = path)
+  }
+  if (rstudio && open) {
     utils::browseURL(
       file.path(normalizePath(path), paste0(name, ".Rproj")))
   }

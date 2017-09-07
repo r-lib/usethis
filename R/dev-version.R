@@ -1,7 +1,7 @@
 #' Increment development version
 #'
-#' This adds ".9000" to the package \code{DESCRIPTION}, adds a new heading to
-#' \code{NEWS.md} (if it exists), and then checks the result into git.
+#' This adds ".9000" to the package `DESCRIPTION`, adds a new heading to
+#' `NEWS.md` (if it exists), and then checks the result into git.
 #'
 #' @export
 #' @inheritParams use_template

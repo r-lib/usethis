@@ -1,6 +1,6 @@
 #' Use Rcpp
 #'
-#' Creates \code{src/} and adds needed packages to \code{DESCRIPTION}.
+#' Creates `src/` and adds needed packages to `DESCRIPTION`.
 #'
 #' @inheritParams use_template
 #' @export
@@ -24,6 +24,7 @@ use_rcpp <- function(base_path = ".") {
       paste0("useDynLib('", project_name(base_path), "', .registration = TRUE)"),
       "importFrom('Rcpp', 'sourceCpp')"
     )
+    edit_file("NAMESPACE", base_path = base_path)
 
   }
   todo("Run document()")

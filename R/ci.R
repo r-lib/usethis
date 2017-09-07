@@ -6,9 +6,9 @@
 NULL
 
 
-#' @section \code{use_travis}:
-#' Add basic travis template to a package. Also adds \code{.travis.yml} to
-#' \code{.Rbuildignore} so it isn't included in the built package.
+#' @section `use_travis`:
+#' Add basic travis template to a package. Also adds `.travis.yml` to
+#' `.Rbuildignore` so it isn't included in the built package.
 #' @param browse open a browser window to enable Travis builds for the package
 #' automatically.
 #' @export
@@ -61,7 +61,7 @@ uses_travis <- function(base_path = ".") {
 
 #' @rdname ci
 #' @param type CI tool to use. Currently supports codecov and coverall.
-#' @section \code{use_coverage}:
+#' @section `use_coverage`:
 #' Add test code coverage to basic travis template to a package.
 #' @export
 use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
@@ -114,9 +114,9 @@ coveralls_badge <- function(base_path = ".") {
 }
 
 #' @rdname ci
-#' @section \code{use_appveyor}:
-#' Add basic AppVeyor template to a package. Also adds \code{appveyor.yml} to
-#' \code{.Rbuildignore} so it isn't included in the built package.
+#' @section `use_appveyor`:
+#' Add basic AppVeyor template to a package. Also adds `appveyor.yml` to
+#' `.Rbuildignore` so it isn't included in the built package.
 #' @export
 use_appveyor <- function(base_path = ".") {
   use_template("appveyor.yml", ignore = TRUE, base_path = base_path)

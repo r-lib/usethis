@@ -1,0 +1,69 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+```
+
+# usethis
+
+[![Travis build status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
+[![Coverage status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/github/r-lib/usethis?branch=master)
+[![CRAN status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
+
+The goal of usethis is to automate many common package and analysis setup tasks.
+
+## Installation
+
+You can install usethis from github with:
+
+```{r, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("r-lib/usethis")
+```
+
+## Usage
+
+All `use_*` functions operate on the current directory unless you specify the `base_path` argument. `✔` indicates that usethis has setup everything for you. `●` indicates that you'll need to do some work yourself.
+
+```{r}
+library(usethis)
+
+# Create a new package -------------------------------------------------
+tmp <- file.path(tempdir(), "mypkg")
+create_package(tmp, open = FALSE)
+setwd(tmp)
+
+# Modify the description ----------------------------------------------
+use_mit_license("RStudio")
+
+use_package("MASS", "Suggests")
+
+use_dev_package("callr")
+
+# Set up various packages ---------------------------------------------
+use_rcpp()
+
+use_roxygen_md()
+
+use_revdep()
+
+# Set up other files -------------------------------------------------
+use_readme_md()
+
+use_news_md()
+
+x <- 1
+y <- 2
+use_data(x, y)
+
+# Use git ------------------------------------------------------------
+use_git()
+```

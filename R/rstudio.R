@@ -1,7 +1,7 @@
 #' Use RStudio
 #'
-#' Creates an \code{.Rproj} file and adds RStudio files to \code{.gitignore}
-#' and \code{.Rbuildignore}.
+#' Creates an `.Rproj` file and adds RStudio files to `.gitignore`
+#' and `.Rbuildignore`.
 #'
 #' @inheritParams use_template
 #' @export

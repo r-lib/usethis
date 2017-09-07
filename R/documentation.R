@@ -1,10 +1,10 @@
 #' Create package documentation template
 #'
-#' Adds a roxygen template for package documentation. When you \code{document()}
-#' roxygen will flesh out the Rd file using data from the \code{DESCRIPTION}.
+#' Adds a roxygen template for package documentation. When you `document()`
+#' roxygen will flesh out the Rd file using data from the `DESCRIPTION`.
 #' That ensures you don't need to repeat the same information in multiple
 #' places. This block is a good place to put global namespace tags like
-#' \code{@importFrom}.
+#' `@importFrom`.
 #'
 #' @inheritParams use_template
 #' @export

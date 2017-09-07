@@ -1,6 +1,6 @@
-#' Create a simple \code{NEWS.md}
+#' Create a simple `NEWS.md`
 #'
-#' This creates a basic \code{NEWS.md} in the root directory.
+#' This creates a basic `NEWS.md` in the root directory.
 #'
 #' @inheritParams use_template
 #' @export
