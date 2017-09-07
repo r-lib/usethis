@@ -28,5 +28,5 @@ Suggests:
 Encoding: UTF-8
 LazyData: true
 Remotes: rstudio/rstudioapi
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
 Url: https://github.com/r-lib/usethis

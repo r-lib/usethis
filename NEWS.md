@@ -1,5 +1,8 @@
 # usethis 0.0.0.9000
 
+* Repository badge functions using http://www.repostatus.org/, including
+  `use_repo_status_badge` (@muschellij2 PR #56).
+  
 * Functions which require code to be copied now automatically put the code on
   the clipboard if it is available (#52).
 
