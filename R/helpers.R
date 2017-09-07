@@ -157,7 +157,7 @@ edit_file <- function(path, base_path = ".") {
     todo("Modify ", value(path))
 
     if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
-      rstudioapi::navigateToFile(path)
+      rstudioapi::navigateToFile(full_path)
     } else {
       utils::file.edit(full_path)
     }
