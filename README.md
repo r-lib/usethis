@@ -19,8 +19,29 @@ devtools::install_github("r-lib/usethis")
 
 All `use_*` functions operate on the current directory.
 
-``` r
-use_test("my-test")
-use_github()
-use_rcpp()
+```r
+# Create a new package
+tmp <- tempfile()
+create_package(tmp, open = FALSE)
+
+# Modify the description
+use_mit_license("RStudio", base_path = tmp)
+use_package("MASS", "Suggests", base_path = tmp)
+use_dev_package("callr", base_path = tmp)
+use_dev_version(base_path = tmp)
+
+# Set up various packages
+use_rcpp(tmp)
+use_roxygen_md(tmp)
+use_revdep(tmp)
+
+# Set up other files
+use_readme_md(base_path = tmp)
+use_news_md(base_path = tmp)
+x <- 1
+y <- 2
+use_data(x, y, base_path = tmp)
+
+# use git
+use_git(base_path = tmp)
 ```
