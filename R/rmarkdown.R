@@ -15,7 +15,7 @@
 #' use_rmarkdown_template()
 #' }
 use_rmarkdown_template <- function(template_name = "Template Name",
-                                   template_dir = slug(template_name),
+                                   template_dir = slug(template_name, ""),
                                    template_description = "A description of the template",
                                    template_create_dir = FALSE,
                                    base_path = ".") {
