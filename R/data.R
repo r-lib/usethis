@@ -46,7 +46,7 @@ use_data <- function(...,
 
   check_data_paths(paths, overwrite)
 
-  done("Saving ", unlist(objs), " to ", paths)
+  done("Saving ", unlist(objs), " to ", paths, "\n")
 
   envir <- parent.frame()
   mapply(

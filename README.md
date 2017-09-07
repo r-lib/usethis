@@ -85,7 +85,8 @@ use_news_md()
 x <- 1
 y <- 2
 use_data(x, y)
-#> ✔ Saving x to ./data/x.rda✔ Saving y to ./data/y.rda
+#> ✔ Saving x to ./data/x.rda
+#> ✔ Saving y to ./data/y.rda
 
 # use git
 use_git()
