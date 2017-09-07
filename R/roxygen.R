@@ -13,7 +13,8 @@ use_roxygen_md <- function(base_path = ".") {
   if (!uses_roxygen(base_path)) {
     desc::desc_set(
       Roxygen = "list(markdown = TRUE)",
-      RoxygenNote = utils::packageVersion("roxygen2")
+      RoxygenNote = as.character(utils::packageVersion("roxygen2")),
+      file = base_path
     )
     todo("Re-document")
   } else if (!uses_roxygen_md(base_path)) {

@@ -1,12 +1,14 @@
-# usethis
 
-[![Travis build status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
-[![Coverage status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/github/r-lib/usethis?branch=master)
-[![CRAN status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+usethis
+=======
+
+[![Travis build status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis) [![Coverage status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/github/r-lib/usethis?branch=master) [![CRAN status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
 
 The goal of usethis is to automate many common package and analysis setup tasks.
 
-## Installation
+Installation
+------------
 
 You can install usethis from github with:
 
@@ -15,33 +17,79 @@ You can install usethis from github with:
 devtools::install_github("r-lib/usethis")
 ```
 
-## Usage
+Usage
+-----
 
 All `use_*` functions operate on the current directory.
 
-```r
+``` r
+library(usethis)
+
 # Create a new package
-tmp <- tempfile()
+tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp, open = FALSE)
+#> ✔ Creating 'mypkg/'
+#> ✔ Creating 'R/'
+#> ✔ Creating 'man/'
+#> ✔ Writing 'DESCRIPTION'
+#> ✔ Writing 'NAMESPACE'
+#> ✔ Writing 'mypkg.Rproj'
+#> ✔ Adding '.Rproj.user' to './.gitignore'
+#> ✔ Adding '^.*\\.Rproj$', '^\\.Rproj\\.user$' to '.Rbuildignore'
+setwd(tmp)
 
 # Modify the description
-use_mit_license("RStudio", base_path = tmp)
-use_package("MASS", "Suggests", base_path = tmp)
-use_dev_package("callr", base_path = tmp)
-use_dev_version(base_path = tmp)
+use_mit_license("RStudio")
+#> ✔ Setting License field in DESCRIPTION to 'MIT + file LICENSE'
+#> ✔ Writing 'LICENSE.md'
+#> ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'
+#> ✔ Writing 'LICENSE'
+use_package("MASS", "Suggests")
+#> ✔ Adding 'MASS' to Suggests field in DESCRIPTION
+#> ● Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed
+#> ● Then use `MASS::fun()` to refer to functions.
+use_dev_package("callr")
+#> ✔ Adding 'r-lib/callr' to DESCRIPTION Remotes
+#> ✔ Adding 'callr' to Imports field in DESCRIPTION
+#> ● Refer to functions with `callr::fun()`
+use_dev_version()
 
 # Set up various packages
-use_rcpp(tmp)
-use_roxygen_md(tmp)
-use_revdep(tmp)
+use_rcpp()
+#> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
+#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
+#> ✔ Creating 'src/'
+#> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
+#> ● Include the following directives in your NAMESPACE
+#> Copying code to clipboard:
+#>   useDynLib('mypkg', .registration = TRUE)
+#>   importFrom('Rcpp', 'sourceCpp')
+#> ● Run document()
+use_roxygen_md()
+#> ● Re-document
+use_revdep()
+#> ✔ Creating 'revdep/'
+#> ✔ Adding '^revdep$' to '.Rbuildignore'
+#> ✔ Adding 'revdep/checks' to './.gitignore'
+#> ✔ Adding 'revdep/library' to './.gitignore'
+#> ✔ Writing 'revdep/email.yml'
+#> ● Run checks with `revdepcheck::revdep_check(num_workers = 4)`
 
 # Set up other files
-use_readme_md(base_path = tmp)
-use_news_md(base_path = tmp)
+use_readme_md()
+#> ✔ Writing 'README.md'
+#> ● Edit './README.md'
+use_news_md()
+#> ✔ Writing 'NEWS.md'
+#> ● Edit './NEWS.md'
 x <- 1
 y <- 2
-use_data(x, y, base_path = tmp)
+use_data(x, y)
+#> ✔ Saving x to ./data/x.rda✔ Saving y to ./data/y.rda
 
 # use git
-use_git(base_path = tmp)
+use_git()
+#> ✔ Initialising Git repo
+#> ✔ Adding '.Rhistory', '.RData' to './.gitignore'
+#> ✔ Adding files and committing
 ```
