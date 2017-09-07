@@ -1,9 +1,9 @@
 #' Use a usethis template
 #'
 #' @param template Template name
-#' @param save_as Name of file to create. Defaults to \code{save_as}
+#' @param save_as Name of file to create. Defaults to `save_as`
 #' @param data A list of data passed to the template.
-#' @param ignore Should the newly created file be added to \code{.Rbuildignore?}
+#' @param ignore Should the newly created file be added to `.Rbuildignore?`
 #' @param open Should the new created file be opened in RStudio?
 #' @param base_path Path to package root.
 #' @return A logical vector indicating if file was modified.

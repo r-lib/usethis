@@ -2,7 +2,7 @@
 #'
 #' @param path A path. If it exists, it will be used. If it does not
 #'   exist, it will be created (providing that the parent path exists).
-#' @param rstudio If \code{TRUE}, run \code{\link{use_rstudio}}.
+#' @param rstudio If `TRUE`, run [use_rstudio()].
 #' @inheritParams use_description
 #' @export
 create_package <- function(path,

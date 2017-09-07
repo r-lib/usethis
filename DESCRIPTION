@@ -30,3 +30,4 @@ LazyData: true
 Remotes: rstudio/rstudioapi
 RoxygenNote: 6.0.1
 Url: https://github.com/r-lib/usethis
+Roxygen: list(markdown = TRUE)

@@ -1,8 +1,8 @@
 #' Create tests
 #'
-#' \code{use_testthat} sets up testing infrastructure, creating
+#' `use_testthat` sets up testing infrastructure, creating
 #' \file{tests/testthat.R} and \file{tests/testthat/}, and
-#' adding \pkg{testthat} to the suggested packages. \code{use_test}
+#' adding \pkg{testthat} to the suggested packages. `use_test`
 #' creates \file{tests/testthat/test-<name>.R} and opens it for editing.
 #'
 #' @export

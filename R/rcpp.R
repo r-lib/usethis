@@ -1,6 +1,6 @@
 #' Use Rcpp
 #'
-#' Creates \code{src/} and adds needed packages to \code{DESCRIPTION}.
+#' Creates `src/` and adds needed packages to `DESCRIPTION`.
 #'
 #' @inheritParams use_template
 #' @export

@@ -16,7 +16,7 @@ potentially overriding the defaults. If \code{NULL}, retrieved from
 from \code{getOption("devtools.desc")}.
 Arguments that take a list}
 
-\item{rstudio}{If \code{TRUE}, run \code{\link{use_rstudio}}.}
+\item{rstudio}{If \code{TRUE}, run \code{\link[=use_rstudio]{use_rstudio()}}.}
 }
 \description{
 Setup a complete package

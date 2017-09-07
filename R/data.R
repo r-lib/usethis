@@ -1,22 +1,22 @@
 #' Create package data
 #'
-#' \code{use_data} makes it easy to save package data in the correct format.
-#' I recommend you save scripts that generate package data in \code{data-raw}:
-#' use \code{use_data_raw} to set it up.
+#' `use_data` makes it easy to save package data in the correct format.
+#' I recommend you save scripts that generate package data in `data-raw`:
+#' use `use_data_raw` to set it up.
 #'
 #' @param ... Unquoted names of existing objects to save.
-#' @param internal If \code{FALSE}, saves each object in its own \code{.rda}
-#'   file in the \code{data/} directory. These data files bypass the usual
+#' @param internal If `FALSE`, saves each object in its own `.rda`
+#'   file in the `data/` directory. These data files bypass the usual
 #'   export mechanism and are available whenever the package is loaded
-#'   (or via \code{\link{data}} if \code{LazyData} is not true).
+#'   (or via [data()] if `LazyData` is not true).
 #'
-#'   If \code{TRUE}, stores all objects in a single \code{R/sysdata.rda} file.
+#'   If `TRUE`, stores all objects in a single `R/sysdata.rda` file.
 #'   Objects in this file follow the usual export rules. Note that this means
-#'   they will be exported if you are using the common \code{exportPattern()}
-#'   rule which exports all objects except for those that start with \code{.}.
-#' @param overwrite By default, \code{use_data} will not overwrite existing
-#'   files. If you really want to do so, set this to \code{TRUE}.
-#' @param compress Choose the type of compression used by \code{\link{save}}.
+#'   they will be exported if you are using the common `exportPattern()`
+#'   rule which exports all objects except for those that start with `.`.
+#' @param overwrite By default, `use_data` will not overwrite existing
+#'   files. If you really want to do so, set this to `TRUE`.
+#' @param compress Choose the type of compression used by [save()].
 #'   Should be one of "gzip", "bzip2" or "xz".
 #' @inheritParams use_template
 #' @export

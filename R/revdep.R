@@ -1,8 +1,8 @@
 #' Set up devtools revdep template
 #'
-#' Add \code{revdep} directory, git-ignoring the files that you shouldn't
-#' check in, and creating a \code{email.yml} for use \code{revdep_email}.
-#' Run the checks with \code{revdepcheck::revdep_check()}.
+#' Add `revdep` directory, git-ignoring the files that you shouldn't
+#' check in, and creating a `email.yml` for use `revdep_email`.
+#' Run the checks with `revdepcheck::revdep_check()`.
 #'
 #' @export
 #' @inheritParams use_template

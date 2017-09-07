@@ -1,12 +1,12 @@
 #' Create a default DESCRIPTION file for a package.
 #'
 #' If you create a lot of packages, you can override the defaults by
-#' setting option \code{"usethis.description"} to a named list.
+#' setting option `"usethis.description"` to a named list.
 #'
 #' @param fields A named list of fields to add to \file{DESCRIPTION},
-#'   potentially overriding the defaults. If \code{NULL}, retrieved from
-#'   \code{getOption("usethis.description")}, and (for backward compatibility)
-#'   from \code{getOption("devtools.desc")}.
+#'   potentially overriding the defaults. If `NULL`, retrieved from
+#'   `getOption("usethis.description")`, and (for backward compatibility)
+#'   from `getOption("devtools.desc")`.
 #'   Arguments that take a list
 #' @param base_path path to package root directory
 #' @export

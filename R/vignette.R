@@ -1,7 +1,7 @@
 #' Create a vignette
 #'
-#' Adds needed packages to \code{DESCRIPTION}, and creates draft vignette
-#' in \code{vignettes/}. It adds \code{inst/doc} to \code{.gitignore}
+#' Adds needed packages to `DESCRIPTION`, and creates draft vignette
+#' in `vignettes/`. It adds `inst/doc` to `.gitignore`
 #' so you don't accidentally check in the built vignettes.
 #'
 #' @param name File name to use for new vignette. Should consist only of
