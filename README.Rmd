@@ -49,9 +49,9 @@ use_package("MASS", "Suggests")
 use_dev_package("callr")
 
 # Set up various packages ---------------------------------------------
-use_rcpp()
-
 use_roxygen_md()
+
+use_rcpp()
 
 use_revdep()
 
@@ -59,6 +59,8 @@ use_revdep()
 use_readme_md()
 
 use_news_md()
+
+use_test("my-test")
 
 x <- 1
 y <- 2

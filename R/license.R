@@ -30,6 +30,8 @@ NULL
 use_mit_license <- function(name,
                             base_path = ".") {
 
+  force(name)
+
   use_description_field(
     "License", "MIT + file LICENSE",
     overwrite = TRUE,
@@ -50,17 +52,21 @@ use_mit_license <- function(name,
 #' @rdname licenses
 #' @export
 use_gpl3_license <- function(name, base_path = ".") {
+  force(name)
+
   use_description_field(
     "License", "GPL-3",
     overwrite = TRUE,
     base_path = base_path
   )
-  use_license_template("GPL-3", name = name, base_path = base_path)
+  use_license_template("GPL-3", name, base_path = base_path)
 }
 
 #' @rdname licenses
 #' @export
 use_apl2_license <- function(name, base_path = ".") {
+  force(name)
+
   use_description_field(
     "License", "Apache License (>= 2.0)",
     overwrite = TRUE,

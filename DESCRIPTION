@@ -7,7 +7,7 @@ Authors@R: c(
   )
 Description: usethis automates the set up of common tools needed during
     package and analysis development.
-License: MIT + file LICENSE
+License: GPL-3
 BugReports: https://github.com/r-lib/usethis/issues
 Depends: 
     R (>= 3.1)
