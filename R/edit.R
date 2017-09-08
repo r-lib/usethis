@@ -13,12 +13,14 @@ NULL
 #' @rdname edit
 edit_profile_user <- function() {
   edit_file(".Rprofile", base_path = "~")
+  todo("Restart R for changes to take effect")
 }
 
 #' @export
 #' @rdname edit
 edit_environ_user <- function() {
   edit_file(".Renviron", base_path = "~")
+  todo("Restart R for changes to take effect")
 }
 
 #' @export
@@ -26,6 +28,7 @@ edit_environ_user <- function() {
 edit_makevars_user <- function() {
   use_directory(".R", base_path = path.expand("~"))
   edit_file(".R/Makevars", base_path = "~")
+  todo("Restart R for changes to take effect")
 }
 
 #' @export

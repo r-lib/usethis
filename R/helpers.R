@@ -166,4 +166,5 @@ edit_file <- function(path, base_path = ".") {
       utils::file.edit(full_path)
     }
   }
+  invisible()
 }
