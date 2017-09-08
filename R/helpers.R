@@ -154,6 +154,10 @@ edit_file <- function(path, base_path = ".") {
   if (!interactive()) {
     todo("Edit ", value(full_path))
   } else {
+    if (!file.exists(full_path)) {
+      file.create(full_path)
+    }
+
     todo("Modify ", value(path))
 
     if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
