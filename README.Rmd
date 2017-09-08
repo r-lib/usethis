@@ -60,6 +60,8 @@ use_readme_md()
 
 use_news_md()
 
+use_test("my-test")
+
 x <- 1
 y <- 2
 use_data(x, y)

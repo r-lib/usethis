@@ -89,6 +89,13 @@ use_news_md()
 #> ✔ Writing 'NEWS.md'
 #> ● Edit './NEWS.md'
 
+use_test("my-test")
+#> ✔ Adding 'testthat' to Suggests field in DESCRIPTION
+#> ✔ Creating 'tests/testthat/'
+#> ✔ Writing 'tests/testthat.R'
+#> ✔ Writing 'tests/testthat/test-my-test.R'
+#> ● Edit './tests/testthat/test-my-test.R'
+
 x <- 1
 y <- 2
 use_data(x, y)
