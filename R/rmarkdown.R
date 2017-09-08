@@ -1,11 +1,17 @@
 
 #' Add an RMarkdown Template
 #'
+#' Adds files and directories necessary to add a custom rmarkdown template to
+#' RStudio. It creates:
+#' * `inst/rmarkdown/templates/{{template_dir}}`. Main directory.
+#' * `skeleton/skeleton.Rmd`. Your template Rmd file.
+#' * `template.yml` with basic information filled in.
+#'
 #' @param template_name The name as printed in the template menu.
 #' @param template_dir Name of the directory the template will live in within
-#'   \code{inst/rmarkdown/templates}.
+#'   `inst/rmarkdown/templates`.
 #' @param template_description A short description of the template.
-#' @param template_create_dir Sets the value of \code{create_dir}
+#' @param template_create_dir Sets the value of `create_dir``
 #'   in the template.yml
 #' @inheritParams use_directory
 #'

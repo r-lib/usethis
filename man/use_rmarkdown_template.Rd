@@ -17,13 +17,19 @@ use_rmarkdown_template(template_name = "Template Name",
 
 \item{template_description}{A short description of the template.}
 
-\item{template_create_dir}{Sets the value of \code{create_dir}
+\item{template_create_dir}{Sets the value of `create_dir``
 in the template.yml}
 
 \item{base_path}{Path to package root.}
 }
 \description{
-Add an RMarkdown Template
+Adds files and directories necessary to add a custom rmarkdown template to
+RStudio. It creates:
+\itemize{
+\item \code{inst/rmarkdown/templates/{{template_dir}}}. Main directory.
+\item \code{skeleton/skeleton.Rmd}. Your template Rmd file.
+\item \code{template.yml} with basic information filled in.
+}
 }
 \examples{
 \dontrun{
