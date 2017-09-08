@@ -56,21 +56,21 @@ use_dev_package("callr")
 #> ✔ Adding 'r-lib/callr' to DESCRIPTION Remotes
 
 # Set up various packages ---------------------------------------------
+use_roxygen_md()
+#> ✔ Setting Roxygen field in DESCRIPTION to 'list(markdown = TRUE)'
+#> ✔ Setting RoxygenNote field in DESCRIPTION to '6.0.1'
+#> ● Re-document
+
 use_rcpp()
 #> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
 #> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
-#> ● Include the following directives in your NAMESPACE
-#>   useDynLib('mypkg', .registration = TRUE)
-#>   importFrom('Rcpp', 'sourceCpp')
-#> ● Edit './NAMESPACE'
+#> ● Include the following roxygen tags somewhere in your package
+#>   #' @useDynLib mypkg, .registration = TRUE
+#>   #' @importFrom Rcpp sourceCpp
+#>   NULL
 #> ● Run document()
-
-use_roxygen_md()
-#> ✔ Setting Roxygen field in DESCRIPTION to 'list(markdown = TRUE)'
-#> ✔ Setting RoxygenNote field in DESCRIPTION to '6.0.1'
-#> ● Re-document
 
 use_revdep()
 #> ✔ Creating 'revdep/'

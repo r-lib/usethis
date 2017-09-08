@@ -49,9 +49,9 @@ use_package("MASS", "Suggests")
 use_dev_package("callr")
 
 # Set up various packages ---------------------------------------------
-use_rcpp()
-
 use_roxygen_md()
+
+use_rcpp()
 
 use_revdep()
 
