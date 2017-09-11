@@ -1,9 +1,5 @@
 context("escape_path")
 
-# test internal function
-# based on request in https://github.com/r-lib/usethis/pull/31
-escape_path <- usethis:::escape_path
-
 test_that("basic paths are replaced correctly", {
   expect_equal(
     escape_path("/home/example/file.R"),
