@@ -24,9 +24,14 @@ create_package <- function(path,
   if (rstudio) {
     use_rstudio(base_path = path)
   }
-  if (rstudio && open) {
-    utils::browseURL(
-      file.path(normalizePath(path), paste0(name, ".Rproj")))
+  if (open) {
+    if (rstudio) {
+      done("Opening project in new session")
+      project_path <- file.path(normalizePath(path), paste0(name, ".Rproj"))
+      utils::browseURL(project_path)
+    } else {
+      todo("Please change working directory to ", value(path))
+    }
   }
 
   invisible(TRUE)
