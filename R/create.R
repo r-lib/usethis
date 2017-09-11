@@ -8,7 +8,7 @@
 #' @export
 create_package <- function(path,
                            fields = getOption("devtools.desc"),
-                           rstudio = TRUE,
+                           rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
 
   name <- basename(path)
