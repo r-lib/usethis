@@ -1,7 +1,7 @@
-#' Use a basic \code{NAMESPACE}
+#' Use a basic `NAMESPACE`
 #'
-#' This \code{NAMESPACE} exports everything, except functions that start
-#' with a \code{.}.
+#' This `NAMESPACE` exports everything, except functions that start
+#' with a `.`.
 #'
 #' @inheritParams use_template
 #' @export

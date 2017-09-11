@@ -1,7 +1,7 @@
 #' Increment development version
 #'
-#' This adds ".9000" to the package \code{DESCRIPTION}, adds a new heading to
-#' \code{NEWS.md} (if it exists), and then checks the result into git.
+#' This adds ".9000" to the package `DESCRIPTION`, adds a new heading to
+#' `NEWS.md` (if it exists), and then checks the result into git.
 #'
 #' @export
 #' @inheritParams use_template
@@ -13,37 +13,20 @@ use_dev_version <- function(base_path = ".") {
     )
   }
 
-  desc_path <- file.path(base_path, "DESCRIPTION")
-
-  ver <- package_version(desc::desc_get("Version", file = desc_path)[[1]])
+  ver <- desc::desc_get_version(base_path)
   if (length(unlist(ver)) > 3) {
-    stop("Already has development version", call. = FALSE)
+    return(invisible())
   }
 
-  message("* Adding .9000 to version")
-  dev_ver <- paste0(version, ".9000")
-  desc::desc_set("Version", dev_ver, file = desc_path)
+  dev_ver <- paste0(ver, ".9000")
 
-  news_path <- file.path(base_path, "news.md")
-  if (file.exists(news_path)) {
-    message("* Adding new heading to NEWS.md")
-
-    news <- readLines(news_path)
-    news <- c(
-      paste0("# ", project_name(base_path), " ", dev_ver),
-      "",
-      news
-    )
-    writeLines(news, news_path)
-  }
-
-  if (uses_git(base_path)) {
-    message("* Checking into git")
-    r <- git2r::init(base_path)
-    paths <- unlist(git2r::status(r))
-    git2r::add(r, paths)
-    git2r::commit(r, "Use development version")
-  }
+  use_description_field("Verison", dev_ver, base_path = base_path)
+  use_news_heading(dev_ver, base_path = base_path)
+  git_check_in(
+    paths = c("DESCRIPTION", "NEWS.md"),
+    message = "Use development version",
+    base_path = base_path
+  )
 
   invisible(TRUE)
 }

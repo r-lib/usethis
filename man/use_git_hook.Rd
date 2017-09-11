@@ -24,4 +24,3 @@ needed, and sets correct permissions on hook.
 Other git helpers: \code{\link{use_git_ignore}},
   \code{\link{use_git}}
 }
-

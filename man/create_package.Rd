@@ -4,7 +4,8 @@
 \alias{create_package}
 \title{Setup a complete package}
 \usage{
-create_package(path, fields = getOption("devtools.desc"), rstudio = TRUE)
+create_package(path, fields = getOption("devtools.desc"), rstudio = TRUE,
+  open = interactive())
 }
 \arguments{
 \item{path}{A path. If it exists, it will be used. If it does not
@@ -16,9 +17,10 @@ potentially overriding the defaults. If \code{NULL}, retrieved from
 from \code{getOption("devtools.desc")}.
 Arguments that take a list}
 
-\item{rstudio}{If \code{TRUE}, run \code{\link{use_rstudio}}.}
+\item{rstudio}{If \code{TRUE}, run \code{\link[=use_rstudio]{use_rstudio()}}.}
+
+\item{open}{If \code{TRUE}, will automatically open}
 }
 \description{
 Setup a complete package
 }
-

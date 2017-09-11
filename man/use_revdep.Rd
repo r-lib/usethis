@@ -10,6 +10,7 @@ use_revdep(base_path = ".")
 \item{base_path}{Path to package root.}
 }
 \description{
-Add \code{revdep} directory and basic check template.
+Add \code{revdep} directory, git-ignoring the files that you shouldn't
+check in, and creating a \code{email.yml} for use \code{revdep_email}.
+Run the checks with \code{revdepcheck::revdep_check()}.
 }
-

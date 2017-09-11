@@ -30,4 +30,3 @@ use_readme_rmd()
 use_readme_md()
 }
 }
-

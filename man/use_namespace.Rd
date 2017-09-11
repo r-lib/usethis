@@ -13,4 +13,3 @@ use_namespace(base_path = ".")
 This \code{NAMESPACE} exports everything, except functions that start
 with a \code{.}.
 }
-

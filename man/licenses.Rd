@@ -3,22 +3,36 @@
 \name{licenses}
 \alias{use_mit_license}
 \alias{use_gpl3_license}
-\title{Add licenses}
+\alias{use_apl2_license}
+\title{Use MIT, GPL-3, or Apache 2.0 license for your package}
 \usage{
-use_mit_license(copyright_holder = getOption("devtools.name", "<Author>"),
-  base_path = ".")
+use_mit_license(name, base_path = ".")
 
-use_gpl3_license(base_path = ".")
+use_gpl3_license(name, base_path = ".")
+
+use_apl2_license(name, base_path = ".")
 }
 \arguments{
-\item{copyright_holder}{The copyright holder for this package. Defaults to
-\code{getOption("devtools.name")}.}
+\item{name}{Name of the copyright holder or holders. Separate multiple
+individuals with \code{;}.}
 
 \item{base_path}{Path to package root.}
 }
 \description{
-Adds the necessary infrastructure to declare your package as
-distributed under either the MIT license (including the \code{LICENSE}
-file), or GPL v3.
+Adds the necessary infrastructure to declare your package as licensed
+with one of three popular open source license:
+\itemize{
+\item \href{https://choosealicense.com/licenses/mit/}{MIT}: simple and permission.
+\item \href{https://choosealicense.com/licenses/apache-2.0/}{Apache 2.0}:
+provides patent protection.
+\item \href{https://choosealicense.com/licenses/gpl-3.0/}{GPL v3}: requires sharing
+of improvements.
 }
 
+See \url{https://choosealicense.com} for more details and other options.
+}
+\details{
+CRAN does not allow you to include copies of standard licenses in your
+package, so these functions save the license as \code{LICENSE.md} and add it
+to \code{.Rbuildignore}.
+}

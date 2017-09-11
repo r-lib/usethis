@@ -12,4 +12,3 @@ use_news_md(base_path = ".")
 \description{
 This creates a basic \code{NEWS.md} in the root directory.
 }
-
