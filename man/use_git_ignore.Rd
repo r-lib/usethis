@@ -17,7 +17,6 @@ use_git_ignore(ignores, directory = ".", base_path = ".")
 Tell git to ignore files
 }
 \seealso{
-Other git.helpers: \code{\link{use_git_hook}},
+Other git helpers: \code{\link{use_git_hook}},
   \code{\link{use_git}}
 }
-

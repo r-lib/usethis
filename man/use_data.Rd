@@ -13,16 +13,20 @@ use_data_raw(base_path = ".")
 \arguments{
 \item{...}{Unquoted names of existing objects to save.}
 
-\item{internal}{If \code{FALSE}, saves each object in individual
-\code{.rda} files in the \code{data/} directory. These are available
-whenever the package is loaded. If \code{TRUE}, stores all objects in
-a single \code{R/sysdata.rda} file. These objects are only available
-within the package.}
+\item{internal}{If \code{FALSE}, saves each object in its own \code{.rda}
+file in the \code{data/} directory. These data files bypass the usual
+export mechanism and are available whenever the package is loaded
+(or via \code{\link[=data]{data()}} if \code{LazyData} is not true).
+
+If \code{TRUE}, stores all objects in a single \code{R/sysdata.rda} file.
+Objects in this file follow the usual export rules. Note that this means
+they will be exported if you are using the common \code{exportPattern()}
+rule which exports all objects except for those that start with \code{.}.}
 
 \item{overwrite}{By default, \code{use_data} will not overwrite existing
 files. If you really want to do so, set this to \code{TRUE}.}
 
-\item{compress}{Choose the type of compression used by \code{\link{save}}.
+\item{compress}{Choose the type of compression used by \code{\link[=save]{save()}}.
 Should be one of "gzip", "bzip2" or "xz".}
 
 \item{base_path}{Path to package root.}
@@ -41,4 +45,3 @@ use_data(x, y) # For external use
 use_data(x, y, internal = TRUE) # For internal use
 }
 }
-

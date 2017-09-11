@@ -20,8 +20,10 @@ use_template(template, save_as = template, data = list(), ignore = FALSE,
 
 \item{base_path}{Path to package root.}
 }
+\value{
+A logical vector indicating if file was modified.
+}
 \description{
 Use a usethis template
 }
 \keyword{internal}
-

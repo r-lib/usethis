@@ -1,11 +1,12 @@
 #' Use a usethis template
 #'
 #' @param template Template name
-#' @param save_as Name of file to create. Defaults to \code{save_as}
+#' @param save_as Name of file to create. Defaults to `save_as`
 #' @param data A list of data passed to the template.
-#' @param ignore Should the newly created file be added to \code{.Rbuildignore?}
+#' @param ignore Should the newly created file be added to `.Rbuildignore?`
 #' @param open Should the new created file be opened in RStudio?
 #' @param base_path Path to package root.
+#' @return A logical vector indicating if file was modified.
 #' @keywords internal
 use_template <- function(template,
                          save_as = template,
@@ -16,31 +17,28 @@ use_template <- function(template,
                          ) {
 
   template_contents <- render_template(template, data)
-  write_over(template_contents, file.path(base_path, save_as))
+  new <- write_over(base_path, save_as, template_contents)
 
   if (ignore) {
     use_build_ignore(save_as, base_path = base_path)
   }
 
   if (open) {
-    message("* Modify '", save_as, "'.")
-    open_in_rstudio(save_as, base_path = base_path)
+    edit_file(save_as, base_path = base_path)
   }
 
-  invisible(TRUE)
+  invisible(new)
 }
 
 render_template <- function(template, data = list()) {
   template_path <- find_template(template)
-
-  message("* Generating template '", template, "'.")
   paste0(whisker::whisker.render(readLines(template_path), data), "\n", collapse = "")
 }
 
 find_template <- function(template_name) {
   path <- system.file("templates", template_name, package = "usethis")
   if (identical(path, "")) {
-    stop("Could not find template '", template_name, "'", call. = FALSE)
+    stop("Could not find template ", value(template_name), call. = FALSE)
   }
   path
 }
@@ -50,7 +48,7 @@ package_data <- function(base_path = ".") {
 
   out <- as.list(desc$get(desc$fields()))
   if (uses_github(base_path)) {
-    out$github <- github_info(base_path)
+    out$github <- gh::gh_tree_remote(base_path)
   }
   out
 }
@@ -61,30 +59,26 @@ project_name <- function(base_path = ".") {
   if (file.exists(desc_path)) {
     desc::desc_get("Package", base_path)[[1]]
   } else {
-    basename(normalizePath(base_path))
+    basename(normalizePath(base_path, mustWork = FALSE))
   }
 }
 
 use_description_field <- function(name, value, base_path = ".", overwrite = FALSE) {
-  path <- file.path(base_path, "DESCRIPTION")
-
-  curr <- desc::desc_get(name, file = path)[[1]]
+  curr <- desc::desc_get(name, file = base_path)[[1]]
   if (identical(curr, value))
     return()
 
   if (is.na(curr) || overwrite) {
-    message("* Setting DESCRIPTION ", name, " to '", value, "'.")
-    desc::desc_set(name, value, file = path)
-  } else {
-    message("* Preserving existing field ", name)
+    done("Setting ", field(name), " field in DESCRIPTION to ", value(value))
+    desc::desc_set(name, value, file = base_path)
   }
 }
 
-use_dependency <- function(package, type, base_path = ".") {
+use_dependency <- function(package, type, version = "*", base_path = ".") {
   stopifnot(is.character(package), length(package) == 1)
   stopifnot(is.character(type), length(type) == 1)
 
-  if (!requireNamespace(package, quietly = TRUE)) {
+  if (package != "R" && !requireNamespace(package, quietly = TRUE)) {
     stop(package, " must be installed before you can take a dependency on it",
       call. = FALSE)
   }
@@ -94,25 +88,57 @@ use_dependency <- function(package, type, base_path = ".") {
   type <- types[[match.arg(tolower(type), names(types))]]
 
   deps <- desc::desc_get_deps(base_path)
-  has_dep <- any(deps$package == package & deps$type == type)
-  if (!has_dep) {
-    message("* Adding ", package, " to ", type, ".")
-    desc::desc_set_dep(package, type, file = file.path(base_path, "DESCRIPTION"))
+
+  matching_dep <- deps$package == package & deps$type == type
+  to_add <- !any(matching_dep)
+  to_set <- any(matching_dep & deps$version != version)
+
+  if (to_add) {
+    done("Adding ", value(package), " to ", field(type), " field in DESCRIPTION")
+    desc::desc_set_dep(package, type, version = version, file = base_path)
+  } else if (to_set) {
+    done("Setting ", value(package), " version to ", field(version), " field in DESCRIPTION")
+    desc::desc_set_dep(package, type, version = version, file = base_path)
   }
 
   invisible()
 }
 
-use_directory <- function(path, ignore = FALSE, base_path = ".") {
+#' Use a directory.
+#'
+#' `use_directory()` creates a directory (if it does not already exist) in the
+#' package root dir. This function powers many of the other `use_` functions
+#' such as [use_data()] and [use_vignette()].
+#'
+#' @param path Path of the directory to create (relative to `base_path`).
+#' @inheritParams use_template
+#'
+#' @export
+#' @md
+#' @examples
+#' \dontrun{
+#' use_directory("inst")
+#' }
+use_directory <- function(path,
+                          ignore = FALSE,
+                          base_path = ".") {
+
+  if (!file.exists(base_path)) {
+    stop(value(base_path), " does not exist", call. = FALSE)
+  }
   pkg_path <- file.path(base_path, path)
 
   if (file.exists(pkg_path)) {
     if (!is_dir(pkg_path)) {
-      stop("'", path, "' exists but is not a directory.", call. = FALSE)
+      stop(value(path), " exists but is not a directory.", call. = FALSE)
     }
   } else {
-    message("* Creating '", path, "'.")
-    dir.create(pkg_path, showWarnings = FALSE, recursive = TRUE)
+    done("Creating ", value(path, "/"))
+    ok <- dir.create(pkg_path, showWarnings = FALSE, recursive = TRUE)
+
+    if (!ok) {
+      stop("Failed to create path", call. = FALSE)
+    }
   }
 
   if (ignore) {
@@ -122,14 +148,23 @@ use_directory <- function(path, ignore = FALSE, base_path = ".") {
   invisible(TRUE)
 }
 
-open_in_rstudio <- function(path, base_path = ".") {
-  path <- file.path(base_path, path)
+edit_file <- function(path, base_path = ".") {
+  full_path <- path.expand(file.path(base_path, path))
 
-  if (!rstudioapi::isAvailable())
-    return()
+  if (!interactive()) {
+    todo("Edit ", value(full_path))
+  } else {
+    if (!file.exists(full_path)) {
+      file.create(full_path)
+    }
 
-  if (!rstudioapi::hasFun("navigateToFile"))
-    return()
+    todo("Modify ", value(path))
 
-  rstudioapi::navigateToFile(path)
+    if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
+      rstudioapi::navigateToFile(full_path)
+    } else {
+      utils::file.edit(full_path)
+    }
+  }
+  invisible()
 }

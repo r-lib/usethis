@@ -15,4 +15,3 @@ and to explicit discourage inappropriate behaviour. This code of conduct
 comes from \url{http://contributor-covenant.org}, version 1:
 \url{http://contributor-covenant.org/version/1/0/0/}.
 }
-

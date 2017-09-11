@@ -7,23 +7,30 @@ Authors@R: c(
   )
 Description: usethis automates the set up of common tools needed during
     package and analysis development.
-Imports:
+License: GPL-3
+BugReports: https://github.com/r-lib/usethis/issues
+Depends: 
+    R (>= 3.1)
+Imports: 
+    clipr,
+    clisymbols,
+    crayon,
+    desc,
     digest,
+    gh,
     git2r,
+    rmarkdown,
     rstudioapi,
     whisker,
-    desc,
-    httr,
-    jsonlite,
-    rmarkdown,
-    gh
-Remotes: gaborcsardi/gh
-License: GPL-3
+    roxygen2md
+Suggests: 
+    covr,
+    testthat
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 5.0.1
-Suggests: 
-    testthat,
-    covr
-Url: https://github.com/hadley/usethis
-BugReports: https://github.com/hadley/usethis/issues
+Remotes: 
+    rstudio/rstudioapi,
+    r-pkgs/roxygen2md
+RoxygenNote: 6.0.1
+Url: https://github.com/r-lib/usethis
+Roxygen: list(markdown = TRUE)
