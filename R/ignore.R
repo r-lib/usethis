@@ -22,9 +22,7 @@ use_build_ignore <- function(files, escape = TRUE, base_path = ".") {
 escape_path <- function(x) {
   x <- gsub("\\.", "\\\\.", x)
   x <- gsub("/$", "", x)
-<<<<<<< HEAD
-  # maintain absolute path on windows to keep double \\ even after escaping
-=======
+
   # at this point the string replacement for an absolute windows path would
   # approximately be: C:\Users\hadley\...
   # this causes the PCRE regex compilation error, which wants
@@ -32,7 +30,6 @@ escape_path <- function(x) {
   #thus this regex will replace, if it detects a windows absolute path delineated
   # by <Driveletter>:\ and replace it with <Driveletter>:\\ such that the regex
   # doesn't explode.
->>>>>>> master
   x <- gsub("(^\\D:)", "\\1\\\\", x)
   paste0("^", x, "$")
 }
