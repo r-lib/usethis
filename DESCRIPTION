@@ -21,12 +21,16 @@ Imports:
     git2r,
     rmarkdown,
     rstudioapi,
-    whisker
+    whisker,
+    roxygen2md
 Suggests: 
     covr,
     testthat
 Encoding: UTF-8
 LazyData: true
-Remotes: rstudio/rstudioapi
-RoxygenNote: 6.0.1.9000
+Remotes: 
+    rstudio/rstudioapi,
+    r-pkgs/roxygen2md
+RoxygenNote: 6.0.1
 Url: https://github.com/r-lib/usethis
+Roxygen: list(markdown = TRUE)

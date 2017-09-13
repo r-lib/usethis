@@ -1,9 +1,9 @@
 #' Use a usethis template
 #'
 #' @param template Template name
-#' @param save_as Name of file to create. Defaults to \code{save_as}
+#' @param save_as Name of file to create. Defaults to `save_as`
 #' @param data A list of data passed to the template.
-#' @param ignore Should the newly created file be added to \code{.Rbuildignore?}
+#' @param ignore Should the newly created file be added to `.Rbuildignore?`
 #' @param open Should the new created file be opened in RStudio?
 #' @param base_path Path to package root.
 #' @return A logical vector indicating if file was modified.
@@ -24,8 +24,7 @@ use_template <- function(template,
   }
 
   if (open) {
-    todo("Modify ", value(save_as))
-    open_in_rstudio(save_as, base_path = base_path)
+    edit_file(save_as, base_path = base_path)
   }
 
   invisible(new)
@@ -149,14 +148,23 @@ use_directory <- function(path,
   invisible(TRUE)
 }
 
-open_in_rstudio <- function(path, base_path = ".") {
-  path <- file.path(base_path, path)
+edit_file <- function(path, base_path = ".") {
+  full_path <- path.expand(file.path(base_path, path))
 
-  if (!rstudioapi::isAvailable())
-    return()
+  if (!interactive()) {
+    todo("Edit ", value(full_path))
+  } else {
+    if (!file.exists(full_path)) {
+      file.create(full_path)
+    }
 
-  if (!rstudioapi::hasFun("navigateToFile"))
-    return()
+    todo("Modify ", value(path))
 
-  rstudioapi::navigateToFile(path)
+    if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
+      rstudioapi::navigateToFile(full_path)
+    } else {
+      utils::file.edit(full_path)
+    }
+  }
+  invisible()
 }

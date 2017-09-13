@@ -1,7 +1,7 @@
 #' Initialise a git repository.
 #'
-#' \code{use_git} initialises a git repository, adds important files
-#' to \code{.gitignore}, and commits all files.
+#' `use_git` initialises a git repository, adds important files
+#' to `.gitignore`, and commits all files.
 #'
 #' @param message Message to use for first commit.
 #' @inheritParams use_template
@@ -17,7 +17,10 @@ use_git <- function(message = "Initial commit", base_path = ".") {
   done("Initialising Git repo")
   r <- git2r::init(base_path)
 
-  use_git_ignore(c(".Rhistory", ".RData"), base_path = base_path)
+  use_git_ignore(
+    c(".Rhistory", ".RData", ".Rproj.user"),
+    base_path = base_path
+  )
 
   done("Adding files and committing")
   paths <- unlist(git2r::status(r))
@@ -33,22 +36,24 @@ use_git <- function(message = "Initial commit", base_path = ".") {
 }
 
 # Must be last command run
-restart_rstudio <- function(message, base_path = ".") {
+restart_rstudio <- function(message = NULL, base_path = ".") {
   if (!in_rstudio(base_path)) {
     return(FALSE)
   }
 
-  if (!rstudioapi::hasFun("restartSession"))
+  if (!rstudioapi::hasFun("openProject"))
     return(FALSE)
 
   if (!interactive())
     return(FALSE)
 
-  todo(message)
+  if (!is.null(message)) {
+    todo(message)
+  }
   if (yesno(todo_bullet(), " Restart now?"))
     return(FALSE)
 
-  rstudioapi::restartSession()
+  rstudioapi::openProject(base_path)
 }
 
 #' Add a git hook.
@@ -82,7 +87,7 @@ use_git_hook <- function(hook, script, base_path = ".") {
 #' Tell git to ignore files
 #'
 #' @param ignores Character vector of ignores, specified as file globs.
-#' @param directory Directory within \code{base_path} to set ignores
+#' @param directory Directory within `base_path` to set ignores
 #' @inheritParams use_template
 #' @family git helpers
 #' @export

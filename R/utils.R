@@ -42,3 +42,12 @@ compact <- function(x) {
 }
 
 "%||%" <- function(a, b) if (!is.null(a)) a else b
+
+check_installed <- function(pkg) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(
+      "Package ", value(pkg), " required. Please install before re-trying",
+      call. = FALSE
+    )
+  }
+}
