@@ -20,9 +20,9 @@ Imports:
     gh,
     git2r,
     rmarkdown,
+    roxygen2md,
     rstudioapi,
-    whisker,
-    roxygen2md
+    whisker
 Suggests: 
     covr,
     testthat
@@ -31,6 +31,6 @@ LazyData: true
 Remotes: 
     rstudio/rstudioapi,
     r-pkgs/roxygen2md
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
 Url: https://github.com/r-lib/usethis
-Roxygen: list(markdown = TRUE)
