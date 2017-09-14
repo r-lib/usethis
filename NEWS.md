@@ -1,5 +1,7 @@
 # usethis 0.0.0.9000
 
+* New `use_depsy_badge` allows including a Depsy badge (@gvegayon, #68).
+
 * Functions which require code to be copied now automatically put the code on
   the clipboard if it is available (#52).
 
