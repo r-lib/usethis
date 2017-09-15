@@ -1,14 +1,13 @@
 Package: usethis
 Title: Automatically Set Up Commonly Used Package and Analysis Components
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
     person("RStudio", role = "cph")
   )
-Description: usethis automates the set up of common tools needed during
-    package and analysis development.
+Description: Automates the set up of common tools needed during
+    package development and data analysis.
 License: GPL-3
-BugReports: https://github.com/r-lib/usethis/issues
 Depends: 
     R (>= 3.1)
 Imports: 
@@ -29,4 +28,5 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
-Url: https://github.com/r-lib/usethis
+URL: https://github.com/r-lib/usethis
+BugReports: https://github.com/r-lib/usethis/issues

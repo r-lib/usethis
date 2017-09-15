@@ -12,5 +12,5 @@ use_cran_badge(base_path = ".")
 \description{
 This prints out the markdown which will display a CRAN "badge", indicating
 what version of your package is available on CRAN, powered by
-\url{(http://www.r-pkg.org}.
+\url{http://www.r-pkg.org}.
 }

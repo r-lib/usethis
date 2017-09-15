@@ -1,4 +1,4 @@
-# usethis 0.0.0.9000
+# usethis 0.1.0
 
 This is a new package that extracts out many functions that previously lived in devtools, as well as providing more building blocks so you can create your own helpers. 
 
