@@ -36,7 +36,7 @@ build_description <- function(name, fields = list()) {
 
 build_description_list <- function(name, fields = list()) {
   author <- getOption("devtools.desc.author") %||%
-    'person("First", "Last", "first.last@example.com", c("aut", "cre"))'
+    'person("First", "Last", , "first.last@example.com", c("aut", "cre"))'
   license <- getOption("devtools.desc.license") %||% "What license it uses"
   suggests <- getOption("devtools.desc.suggests")
 
