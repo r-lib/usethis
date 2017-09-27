@@ -41,15 +41,16 @@ restart_rstudio <- function(message = NULL, base_path = ".") {
     return(FALSE)
   }
 
-  if (!rstudioapi::hasFun("openProject"))
-    return(FALSE)
-
   if (!interactive())
     return(FALSE)
 
   if (!is.null(message)) {
     todo(message)
   }
+
+  if (!rstudioapi::hasFun("openProject"))
+    return(FALSE)
+
   if (yesno(todo_bullet(), " Restart now?"))
     return(FALSE)
 

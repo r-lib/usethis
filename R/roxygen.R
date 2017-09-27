@@ -20,8 +20,12 @@ use_roxygen_md <- function(base_path = ".") {
     todo("Re-document")
   } else if (!uses_roxygen_md(base_path)) {
     check_installed("roxygen2md")
-    roxygen2md::roxygen2md(base_path)
-    todo("Re-document")
+    if (!uses_git(base_path)) {
+      todo("Use git to ensure that you don't lose any data")
+    }
+
+    todo("Run the following code, then re-document()")
+    code_block(paste0("roxygen2md::roxygen2md(\"", base_path, "\")"))
   }
 
   invisible()
