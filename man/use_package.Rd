@@ -18,7 +18,7 @@ use_dev_package(package, type = "Imports", base_path = ".")
 \item{base_path}{Path to package root.}
 }
 \description{
-\code{use_package()} adds a CRAN package depencies to DESCRIPTION and offers a
+\code{use_package()} adds a CRAN package dependencies to DESCRIPTION and offers a
 little advice about how to best use it. \code{use_dev_package()} adds a
 dependency on an in-development GitHub package, adding the repo to
 \code{Remotes} so it will be automatically install from the correct location.
