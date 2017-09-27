@@ -1,6 +1,6 @@
 Package: usethis
 Title: Automatically Set Up Commonly Used Package and Analysis Components
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
     person("RStudio", role = "cph")

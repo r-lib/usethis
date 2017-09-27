@@ -72,8 +72,8 @@ use_github <- function(organisation = NULL,
   pkg <- package_data(base_path)
   done(
     "Checking title and description",
-    paste("Title: ", pkg$Title),
-    paste("Description: ", pkg$Description)
+    paste("Title: ", pkg$Title, "\n"),
+    paste("Description: ", pkg$Description, "\n")
   )
   if (yesno("Are title and description ok?")) {
     return(invisible())

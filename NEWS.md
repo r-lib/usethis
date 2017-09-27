@@ -1,3 +1,8 @@
+# usethis 0.1.0.9000
+
+* Adding simple newlines for readability in `use_github` and fixing
+  badges for Coveralls in `use_coverage` (#77).
+
 # usethis 0.1.0
 
 This is a new package that extracts out many functions that previously lived in devtools, as well as providing more building blocks so you can create your own helpers. 
