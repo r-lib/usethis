@@ -1,6 +1,6 @@
 #' Use specified package.
 #'
-#' `use_package()` adds a CRAN package dependencies to DESCRIPTION and offers a
+#' `use_package()` adds a CRAN package dependency to DESCRIPTION and offers a
 #' little advice about how to best use it. `use_dev_package()` adds a
 #' dependency on an in-development GitHub package, adding the repo to
 #' `Remotes` so it will be automatically install from the correct location.
