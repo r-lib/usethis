@@ -20,7 +20,8 @@ Imports:
     git2r,
     rmarkdown,
     rstudioapi,
-    whisker
+    whisker,
+    callr
 Suggests: 
     covr,
     testthat
