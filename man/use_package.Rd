@@ -21,7 +21,7 @@ use_dev_package(package, type = "Imports", base_path = ".")
 \code{use_package()} adds a CRAN package dependency to DESCRIPTION and offers a
 little advice about how to best use it. \code{use_dev_package()} adds a
 dependency on an in-development GitHub package, adding the repo to
-\code{Remotes} so it will be automatically install from the correct location.
+\code{Remotes} so it will be automatically installed from the correct location.
 }
 \examples{
 \dontrun{
