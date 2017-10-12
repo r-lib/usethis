@@ -30,6 +30,6 @@ escape_path <- function(x) {
   #thus this regex will replace, if it detects a windows absolute path delineated
   # by <Driveletter>:\ and replace it with <Driveletter>:\\ such that the regex
   # doesn't explode.
-  x <- gsub("(^\\D:)", "\\1\\\\", x)
+  x <- gsub("^([A-Z]:)", "\\1\\\\", x)
   paste0("^", x, "$")
 }
