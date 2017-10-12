@@ -31,7 +31,7 @@ slug <- function(x, ext) {
   stopifnot(is.character(x))
 
   x <- tolower(x)
-  x <- gsub("[^a-z0-9]+", "-", x)
+  x <- gsub("[^a-z0-9_]+", "-", x)
 
   paste0(x, ext)
 }
