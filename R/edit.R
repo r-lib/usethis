@@ -2,9 +2,10 @@
 #'
 #' * `edit_profile_user()` opens `~/.Rprofile`
 #' * `edit_environ_user()` opens `~/.Renviron`
-#' * `edit_makevars_users()` opens `~/.R/Makevars`
+#' * `edit_makevars_user()` opens `~/.R/Makevars`
 #' * `edit_git_config_user()` opens `~/.gitconfig`
 #' * `edit_git_ignore_user()` opens `~/.gitignore`
+#' * `edit_rstudio_snippets(type)` opens `~/R/snippets/{type}.snippets`
 #'
 #' @name edit
 NULL
@@ -45,5 +46,14 @@ edit_git_config_user <- function() {
 #' @rdname edit
 edit_git_ignore_user <- function() {
   edit_file(".gitignore", base_path = "~")
+  invisible()
+}
+
+#' @export
+#' @rdname edit
+#' @param type Snippet type. One of "R", "markdown", "C_Cpp", "Tex",
+#'   "Javascript", "HTML", "SQL"
+edit_rstudio_snippets <- function(type = "R") {
+  edit_file(paste0(".R/snippets/", tolower(type), ".snippets"), base_path = "~")
   invisible()
 }

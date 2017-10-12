@@ -32,6 +32,17 @@ The output from all usethis commands has been reviewed to be informative but not
 
 * `use_depsy_badge` allows including a Depsy badge (@gvegayon, #68).
 
+## New edit functions
+
+A new class of functions make it easy to edit common config files:
+
+* `edit_profile_user()` opens `~/.Rprofile`
+* `edit_environ_user()` opens `~/.Renviron`
+* `edit_makevars_user()` opens `~/.R/Makevars`
+* `edit_git_config_user()` opens `~/.gitconfig`
+* `edit_git_ignore_user()` opens `~/.gitignore`
+* `edit_rstudio_snippets(type)` opens `~/R/snippets/{type}.snippets`
+
 ## Updates
 
 * `use_coverage("codecov")` now sets a default threshold of 1% to try and 
