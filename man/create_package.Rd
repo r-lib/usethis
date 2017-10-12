@@ -4,8 +4,8 @@
 \alias{create_package}
 \title{Setup a complete package}
 \usage{
-create_package(path, fields = getOption("devtools.desc"), rstudio = TRUE,
-  open = interactive())
+create_package(path, fields = getOption("devtools.desc"),
+  rstudio = rstudioapi::isAvailable(), open = interactive())
 }
 \arguments{
 \item{path}{A path. If it exists, it will be used. If it does not

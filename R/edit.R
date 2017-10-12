@@ -14,6 +14,7 @@ NULL
 edit_profile_user <- function() {
   edit_file(".Rprofile", base_path = "~")
   todo("Restart R for changes to take effect")
+  invisible()
 }
 
 #' @export
@@ -21,6 +22,7 @@ edit_profile_user <- function() {
 edit_environ_user <- function() {
   edit_file(".Renviron", base_path = "~")
   todo("Restart R for changes to take effect")
+  invisible()
 }
 
 #' @export
@@ -29,16 +31,19 @@ edit_makevars_user <- function() {
   use_directory(".R", base_path = path.expand("~"))
   edit_file(".R/Makevars", base_path = "~")
   todo("Restart R for changes to take effect")
+  invisible()
 }
 
 #' @export
 #' @rdname edit
 edit_git_config_user <- function() {
   edit_file(".gitconfig", base_path = "~")
+  invisible()
 }
 
 #' @export
 #' @rdname edit
 edit_git_ignore_user <- function() {
   edit_file(".gitignore", base_path = "~")
+  invisible()
 }

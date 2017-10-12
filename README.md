@@ -27,7 +27,7 @@ library(usethis)
 
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
-create_package(tmp, open = FALSE)
+create_package(tmp, rstudio = TRUE)
 #> ✔ Creating 'mypkg/'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
@@ -36,6 +36,9 @@ create_package(tmp, open = FALSE)
 #> ✔ Writing 'mypkg.Rproj'
 #> ✔ Adding '.Rproj.user' to './.gitignore'
 #> ✔ Adding '^.*\\.Rproj$', '^\\.Rproj\\.user$' to '.Rbuildignore'
+
+# You'd normally start working with that package in a new project
+# Here I'm going to simulated that by changing the working directory
 setwd(tmp)
 
 # Modify the description ----------------------------------------------

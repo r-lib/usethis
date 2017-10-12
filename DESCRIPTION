@@ -5,10 +5,9 @@ Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
     person("RStudio", role = "cph")
   )
-Description: usethis automates the set up of common tools needed during
-    package and analysis development.
+Description: Automates the set up of common tools needed during
+    package development and data analysis.
 License: GPL-3
-BugReports: https://github.com/r-lib/usethis/issues
 Depends: 
     R (>= 3.1)
 Imports: 
@@ -21,16 +20,13 @@ Imports:
     git2r,
     rmarkdown,
     rstudioapi,
-    whisker,
-    roxygen2md
+    whisker
 Suggests: 
     covr,
     testthat
 Encoding: UTF-8
 LazyData: true
-Remotes: 
-    rstudio/rstudioapi,
-    r-pkgs/roxygen2md
-RoxygenNote: 6.0.1
-Url: https://github.com/r-lib/usethis
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.0.1
+URL: https://github.com/r-lib/usethis
+BugReports: https://github.com/r-lib/usethis/issues
