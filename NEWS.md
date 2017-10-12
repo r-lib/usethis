@@ -60,6 +60,9 @@ A new class of functions make it easy to edit common config files:
 * `use_package_doc()` uses more modern roxygen2 template requires that 
   less duplication.
 
+* `use_test()` will use the name of the currently open file in RStudio
+  if you don't supply an explicit name (#89).
+
 * `use_readme_rmd()` now puts images in `man/figures/` and no longer
   adds to `.Rbuildgnore`. This ensures that the rendered `README.md` will
   also work on CRAN (#16, #19). The first chunk now uses `include = FALSE`

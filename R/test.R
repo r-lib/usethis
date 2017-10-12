@@ -23,15 +23,18 @@ use_testthat <- function(base_path = ".") {
 }
 
 #' @rdname use_testthat
-#' @param name Test name.
+#' @param name Test name. if `NULL`, and you're using RStudio, will use
+#'   the name of the file open in the source editor.
 #' @export
-use_test <- function(name, base_path = ".") {
+use_test <- function(name = NULL, base_path = ".") {
+  name <- find_test_name(name)
+
   if (!uses_testthat(base_path)) {
     use_testthat(base_path)
   }
 
   use_template("test-example.R",
-    sprintf("tests/testthat/test-%s", slug(name, ".R")),
+    file.path("tests", "testthat", name),
     data = list(test_name = name),
     open = TRUE,
     base_path = base_path
@@ -47,4 +50,21 @@ uses_testthat <- function(base_path = ".") {
   )
 
   any(dir.exists(paths))
+}
+
+find_test_name <- function(name = NULL) {
+  if (!is.null(name)) {
+    return(paste0("test-", slug(name, ".R")))
+  }
+
+  if (rstudioapi::isAvailable()) {
+    active_file <- rstudioapi::getSourceEditorContext()$path
+
+    if (grepl("\\.[Rr]$", active_file)) {
+      return(paste0("test-", basename(active_file)))
+    }
+  }
+
+  stop("Argument `name` is missing, with no default", call. = FALSE)
+
 }

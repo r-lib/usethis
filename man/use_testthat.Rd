@@ -7,12 +7,13 @@
 \usage{
 use_testthat(base_path = ".")
 
-use_test(name, base_path = ".")
+use_test(name = NULL, base_path = ".")
 }
 \arguments{
 \item{base_path}{Path to package root.}
 
-\item{name}{Test name.}
+\item{name}{Test name. if \code{NULL}, and you're using RStudio, will use
+the name of the file open in the source editor.}
 }
 \description{
 \code{use_testthat} sets up testing infrastructure, creating
