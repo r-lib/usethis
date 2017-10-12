@@ -5,25 +5,28 @@ Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
     person("RStudio", role = "cph")
   )
-Description: usethis automates the set up of common tools needed during
-    package and analysis development.
-Imports:
-    digest,
-    git2r,
-    rstudioapi,
-    whisker,
-    desc,
-    httr,
-    jsonlite,
-    rmarkdown,
-    gh
-Remotes: r-pkgs/gh
+Description: Automates the set up of common tools needed during
+    package development and data analysis.
 License: GPL-3
+Depends: 
+    R (>= 3.1)
+Imports: 
+    clipr,
+    clisymbols,
+    crayon,
+    desc,
+    digest,
+    gh,
+    git2r,
+    rmarkdown,
+    rstudioapi,
+    whisker
+Suggests: 
+    covr,
+    testthat
 Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
-Suggests: 
-    testthat,
-    covr
-Url: https://github.com/r-lib/usethis
+URL: https://github.com/r-lib/usethis
 BugReports: https://github.com/r-lib/usethis/issues

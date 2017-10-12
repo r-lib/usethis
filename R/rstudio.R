@@ -1,7 +1,7 @@
 #' Use RStudio
 #'
-#' Creates an \code{.Rproj} file and adds RStudio files to \code{.gitignore}
-#' and \code{.Rbuildignore}.
+#' Creates an `.Rproj` file and adds RStudio files to `.gitignore`
+#' and `.Rbuildignore`.
 #'
 #' @inheritParams use_template
 #' @export
@@ -16,4 +16,18 @@ use_rstudio <- function(base_path = ".") {
   use_build_ignore(c("^.*\\.Rproj$", "^\\.Rproj\\.user$"), escape = FALSE, base_path = base_path)
 
   invisible(TRUE)
+}
+
+
+# Is base_path open in RStudio?
+in_rstudio <- function(base_path = ".") {
+  if (!rstudioapi::isAvailable())
+    return(FALSE)
+
+  if (!rstudioapi::hasFun("getActiveProject"))
+    return(FALSE)
+
+  proj <- rstudioapi::getActiveProject()
+
+  normalizePath(proj) == normalizePath(base_path)
 }

@@ -3,3 +3,6 @@
 ^revdep$
 ^\.travis\.yml$
 ^codecov\.yml$
+^LICENSE\.md$
+^README\.Rmd$
+^cran-comments\.md$

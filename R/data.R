@@ -1,18 +1,22 @@
 #' Create package data
 #'
-#' \code{use_data} makes it easy to save package data in the correct format.
-#' I recommend you save scripts that generate package data in \code{data-raw}:
-#' use \code{use_data_raw} to set it up.
+#' `use_data` makes it easy to save package data in the correct format.
+#' I recommend you save scripts that generate package data in `data-raw`:
+#' use `use_data_raw` to set it up.
 #'
 #' @param ... Unquoted names of existing objects to save.
-#' @param internal If \code{FALSE}, saves each object in individual
-#'   \code{.rda} files in the \code{data/} directory. These are available
-#'   whenever the package is loaded. If \code{TRUE}, stores all objects in
-#'   a single \code{R/sysdata.rda} file. These objects are only available
-#'   within the package.
-#' @param overwrite By default, \code{use_data} will not overwrite existing
-#'   files. If you really want to do so, set this to \code{TRUE}.
-#' @param compress Choose the type of compression used by \code{\link{save}}.
+#' @param internal If `FALSE`, saves each object in its own `.rda`
+#'   file in the `data/` directory. These data files bypass the usual
+#'   export mechanism and are available whenever the package is loaded
+#'   (or via [data()] if `LazyData` is not true).
+#'
+#'   If `TRUE`, stores all objects in a single `R/sysdata.rda` file.
+#'   Objects in this file follow the usual export rules. Note that this means
+#'   they will be exported if you are using the common `exportPattern()`
+#'   rule which exports all objects except for those that start with `.`.
+#' @param overwrite By default, `use_data` will not overwrite existing
+#'   files. If you really want to do so, set this to `TRUE`.
+#' @param compress Choose the type of compression used by [save()].
 #'   Should be one of "gzip", "bzip2" or "xz".
 #' @inheritParams use_template
 #' @export
@@ -32,23 +36,21 @@ use_data <- function(...,
   objs <- get_objs_from_dots(dots(...))
 
   if (internal) {
-    dir_name <- file.path(base_path, "R")
-    paths <- file.path(dir_name, "sysdata.rda")
+    paths <- file.path("R", "sysdata.rda")
     objs <- list(objs)
   } else {
-    dir_name <- file.path(base_path, "data")
-    paths <- file.path(dir_name, paste0(objs, ".rda"))
+    paths <- file.path("data", paste0(objs, ".rda"))
   }
 
   check_data_paths(paths, overwrite)
 
-  message(paste0("* Saving ", unlist(objs), " to ", paths, collapse = "\n"))
+  done("Saving ", unlist(objs), " to ", paths, "\n")
 
   envir <- parent.frame()
   mapply(
     save,
     list = objs,
-    file = paths,
+    file = file.path(base_path, paths),
     MoreArgs = list(envir = envir, compress = compress)
   )
 
@@ -101,6 +103,6 @@ use_data_raw <- function(base_path = ".") {
   use_directory("data-raw", ignore = TRUE, base_path = base_path)
 
   message("Next:")
-  message("* Add data creation scripts in 'data-raw'")
-  message("* Use devtools::use_data() to add data to package")
+  todo("Add data creation scripts in 'data-raw'")
+  todo("Use devtools::use_data() to add data to package")
 }

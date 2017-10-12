@@ -36,53 +36,18 @@ slug <- function(x, ext) {
   paste0(x, ext)
 }
 
-
-write_union <- function(path, new_lines, quiet = FALSE) {
-  stopifnot(is.character(new_lines))
-
-  if (file.exists(path)) {
-    lines <- readLines(path, warn = FALSE)
-  } else {
-    lines <- character()
-  }
-
-  new <- setdiff(new_lines, lines)
-  if (!quiet && length(new) > 0) {
-    quoted <- paste0("'", new, "'", collapse = ", ")
-    message("* Adding ", quoted, " to '", basename(path), "'")
-  }
-
-  all <- union(lines, new_lines)
-  writeLines(all, path)
-}
-
-write_over <- function(contents, path) {
-  stopifnot(is.character(contents), length(contents) == 1)
-
-  if (same_contents(path, contents))
-    return(FALSE)
-
-  if (!can_overwrite(path))
-    stop("'", path, "' already exists.", call. = FALSE)
-
-  message("* Writing '", path, "'")
-  cat(contents, file = path)
-  TRUE
-}
-
-same_contents <- function(path, contents) {
-  if (!file.exists(path))
-    return(FALSE)
-
-  text_hash <- digest::digest(contents, serialize = FALSE)
-  file_hash <- digest::digest(file = path)
-
-  identical(text_hash, file_hash)
-}
-
 compact <- function(x) {
   is_empty <- vapply(x, function(x) length(x) == 0, logical(1))
   x[!is_empty]
 }
 
 "%||%" <- function(a, b) if (!is.null(a)) a else b
+
+check_installed <- function(pkg) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(
+      "Package ", value(pkg), " required. Please install before re-trying",
+      call. = FALSE
+    )
+  }
+}

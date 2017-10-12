@@ -1,7 +1,7 @@
 #' Initialise a git repository.
 #'
-#' \code{use_git} initialises a git repository, adds important files
-#' to \code{.gitignore}, and commits all files.
+#' `use_git` initialises a git repository, adds important files
+#' to `.gitignore`, and commits all files.
 #'
 #' @param message Message to use for first commit.
 #' @inheritParams use_template
@@ -14,15 +14,47 @@ use_git <- function(message = "Initial commit", base_path = ".") {
     return(invisible())
   }
 
-  message("* Initialising Git repo")
+  done("Initialising Git repo")
   r <- git2r::init(base_path)
 
-  use_git_ignore(c(".Rhistory", ".RData"), base_path = base_path)
+  use_git_ignore(
+    c(".Rhistory", ".RData", ".Rproj.user"),
+    base_path = base_path
+  )
 
-  message("* Adding files and committing")
+  done("Adding files and committing")
   paths <- unlist(git2r::status(r))
   git2r::add(r, paths)
   git2r::commit(r, message)
+
+  restart_rstudio(
+    "A restart of RStudio is required to activate the Git pane",
+    base_path = base_path
+  )
+  invisible(TRUE)
+
+}
+
+# Must be last command run
+restart_rstudio <- function(message = NULL, base_path = ".") {
+  if (!in_rstudio(base_path)) {
+    return(FALSE)
+  }
+
+  if (!interactive())
+    return(FALSE)
+
+  if (!is.null(message)) {
+    todo(message)
+  }
+
+  if (!rstudioapi::hasFun("openProject"))
+    return(FALSE)
+
+  if (yesno(todo_bullet(), " Restart now?"))
+    return(FALSE)
+
+  rstudioapi::openProject(base_path)
 }
 
 #' Add a git hook.
@@ -46,8 +78,8 @@ use_git_hook <- function(hook, script, base_path = ".") {
   base_path <- git2r::discover_repository(base_path)
   use_directory(".git/hooks", base_path = base_path)
 
-  hook_path <- file.path(base_path, ".git/hooks", hook)
-  write_over(script, hook_path)
+  hook_path <- file.path(".git/hooks", hook)
+  write_over(base_path, hook_path, script)
   Sys.chmod(hook_path, "0744")
 
   invisible()
@@ -56,16 +88,30 @@ use_git_hook <- function(hook, script, base_path = ".") {
 #' Tell git to ignore files
 #'
 #' @param ignores Character vector of ignores, specified as file globs.
-#' @param directory Directory within \code{base_path} to set ignores
+#' @param directory Directory within `base_path` to set ignores
 #' @inheritParams use_template
 #' @family git helpers
+#' @export
 use_git_ignore <- function(ignores, directory = ".", base_path = ".") {
-  path <- file.path(base_path, directory, ".gitignore")
-  write_union(path, ignores)
-
-  invisible(TRUE)
+  write_union(base_path, file.path(directory, ".gitignore"), ignores)
 }
 
 uses_git <- function(path = ".") {
   !is.null(git2r::discover_repository(path))
+}
+
+git_check_in <- function(paths, message, base_path = ".") {
+  if (!uses_git(base_path))
+    return(invisible())
+
+  if (!git_uncommitted(base_path))
+    return(invisible())
+
+  done("Checking into git [", message, "]")
+
+  r <- git2r::init(base_path)
+  git2r::add(r, paths)
+  git2r::commit(r, message)
+
+  invisible(TRUE)
 }

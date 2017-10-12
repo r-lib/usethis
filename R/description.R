@@ -1,12 +1,12 @@
 #' Create a default DESCRIPTION file for a package.
 #'
 #' If you create a lot of packages, you can override the defaults by
-#' setting option \code{"usethis.description"} to a named list.
+#' setting option `"usethis.description"` to a named list.
 #'
 #' @param fields A named list of fields to add to \file{DESCRIPTION},
-#'   potentially overriding the defaults. If \code{NULL}, retrieved from
-#'   \code{getOption("usethis.description")}, and (for backward compatibility)
-#'   from \code{getOption("devtools.desc")}.
+#'   potentially overriding the defaults. If `NULL`, retrieved from
+#'   `getOption("usethis.description")`, and (for backward compatibility)
+#'   from `getOption("devtools.desc")`.
 #'   Arguments that take a list
 #' @param base_path path to package root directory
 #' @export
@@ -22,7 +22,7 @@ use_description <- function(fields = NULL,
     list()
 
   desc <- build_description(name, fields)
-  write_over(desc, file.path(base_path, "DESCRIPTION"))
+  write_over(base_path, "DESCRIPTION", desc)
 }
 
 build_description <- function(name, fields = list()) {
@@ -36,7 +36,7 @@ build_description <- function(name, fields = list()) {
 
 build_description_list <- function(name, fields = list()) {
   author <- getOption("devtools.desc.author") %||%
-    'person("First", "Last", "first.last@example.com", c("aut", "cre"))'
+    'person("First", "Last", , "first.last@example.com", c("aut", "cre"))'
   license <- getOption("devtools.desc.license") %||% "What license it uses"
   suggests <- getOption("devtools.desc.suggests")
 
@@ -46,11 +46,11 @@ build_description_list <- function(name, fields = list()) {
     Title = "What the Package Does (one line, title case)",
     Description = "What the package does (one paragraph).",
     "Authors@R" = author,
-    Depends = paste0("R (>= ", as.character(getRversion()) ,")"),
     License = license,
     Suggests = suggests,
     Encoding = "UTF-8",
-    LazyData = "true"
+    LazyData = "true",
+    ByteCompile = "true"
   )
 
   # Override defaults with user supplied options
@@ -61,9 +61,11 @@ build_description_list <- function(name, fields = list()) {
 check_package_name <- function(name) {
   if (!valid_name(name)) {
     stop(
-      "'", name, "' is not a valid package name: it should contain only\n",
-      "ASCII letters, numbers and dot, have at least two characters\n",
-      "and start with a letter and not end in a dot.",
+      value(name), " is not a valid package name. It should:\n",
+      "* Contain only ASCII letters, numbers, and '.'\n",
+      "* Have at least two characters\n",
+      "* Start with a letter\n",
+      "* Not end with '.'\n",
       call. = FALSE
     )
   }

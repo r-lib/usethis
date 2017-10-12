@@ -6,10 +6,10 @@
 #' \item R code to install from GitHub, if GitHub usage detected
 #' \item a basic example
 #' }
-#' Use \code{Rmd} if you want a rich intermingling of code and data. Use
-#' \code{md} for a basic README. \code{README.Rmd} will be automatically
-#' added to \code{.Rbuildignore}. The resulting README is populated with default
-#' YAML frontmatter and R fenced code blocks (\code{md}) or chunks (\code{Rmd}).
+#' Use `Rmd` if you want a rich intermingling of code and data. Use
+#' `md` for a basic README. `README.Rmd` will be automatically
+#' added to `.Rbuildignore`. The resulting README is populated with default
+#' YAML frontmatter and R fenced code blocks (`md`) or chunks (`Rmd`).
 #'
 #' @inheritParams use_template
 #' @export
@@ -19,6 +19,7 @@
 #' use_readme_md()
 #' }
 use_readme_rmd <- function(base_path = ".") {
+  check_installed("rmarkdown")
 
   data <- package_data(base_path)
   data$Rmd <- TRUE
@@ -31,7 +32,6 @@ use_readme_rmd <- function(base_path = ".") {
     open = TRUE,
     base_path = base_path
   )
-  use_build_ignore("^README-.*\\.png$", escape = FALSE, base_path = base_path)
 
   if (uses_git(base_path) &&
       !file.exists(file.path(base_path, ".git", "hooks", "pre-commit"))) {
