@@ -27,6 +27,8 @@ The output from all usethis commands has been reviewed to be informative but not
 * `use_tidy_eval()` imports and re-exports the recommend set of tidy eval 
   helpers if your package uses tidy eval (#46).
 
+* `use_depsy_badge` allows including a Depsy badge (@gvegayon, #68).
+
 ## Updates
 
 * `use_coverage("codecov")` now sets a default threshold of 1% to try and 
