@@ -19,7 +19,8 @@
 #'
 #' @name licenses
 #' @param name Name of the copyright holder or holders. Separate multiple
-#'   individuals with `;`.
+#'   individuals with `;`. You can supply a global default with
+#'   `options(usethis.full_name = "My name")`.
 #' @inheritParams use_template
 #' @aliases NULL
 #' @md
@@ -27,7 +28,7 @@ NULL
 
 #' @rdname licenses
 #' @export
-use_mit_license <- function(name,
+use_mit_license <- function(name = find_name(),
                             base_path = ".") {
 
   force(name)
@@ -51,7 +52,7 @@ use_mit_license <- function(name,
 
 #' @rdname licenses
 #' @export
-use_gpl3_license <- function(name, base_path = ".") {
+use_gpl3_license <- function(name = find_name(), base_path = ".") {
   force(name)
 
   use_description_field(
@@ -64,7 +65,7 @@ use_gpl3_license <- function(name, base_path = ".") {
 
 #' @rdname licenses
 #' @export
-use_apl2_license <- function(name, base_path = ".") {
+use_apl2_license <- function(name = find_name(), base_path = ".") {
   force(name)
 
   use_description_field(
@@ -93,5 +94,28 @@ license_data <- function(name, base_path = ".") {
     year = format(Sys.Date(), "%Y"),
     name = name,
     project = project_name(base_path)
+  )
+}
+
+
+find_name <- function(name = NULL) {
+  if (!is.null(name)) {
+    return(name)
+  }
+
+  name <- getOption("devtools.name")
+  if (!is.null(name)) {
+    return(name)
+  }
+
+  name <- getOption("usethis.full_name")
+  if (!is.null(name)) {
+    return(name)
+  }
+
+  stop(
+    "`name` argument is missing.\n",
+    'Set it globally with `options(usethis.full_name = "My name").',
+    call. = FALSE
   )
 }
