@@ -1,4 +1,4 @@
-context("escape_path")
+context("ignore")
 
 test_that("basic paths are replaced correctly", {
   expect_equal(
