@@ -23,13 +23,9 @@ escape_path <- function(x) {
   x <- gsub("\\.", "\\\\.", x)
   x <- gsub("/$", "", x)
 
-  # at this point the string replacement for an absolute windows path would
-  # approximately be: C:\Users\hadley\...
-  # this causes the PCRE regex compilation error, which wants
-  # C:\\Users\hadley\...
-  #thus this regex will replace, if it detects a windows absolute path delineated
-  # by <Driveletter>:\ and replace it with <Driveletter>:\\ such that the regex
-  # doesn't explode.
+  # pattern `<driveletter>:\user\...` causes the PCRE regex compilation error,
+  # which needs `<driveletter>:\\user\...` to compile,
+  # per https://github.com/hadley/pkgdown/issues/307
   x <- gsub("^([A-Z]:)", "\\1\\\\", x)
   paste0("^", x, "$")
 }
