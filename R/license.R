@@ -98,11 +98,7 @@ license_data <- function(name, base_path = ".") {
 }
 
 
-find_name <- function(name = NULL) {
-  if (!is.null(name)) {
-    return(name)
-  }
-
+find_name <- function() {
   name <- getOption("devtools.name")
   if (!is.null(name)) {
     return(name)
