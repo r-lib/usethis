@@ -30,7 +30,7 @@ commonly used packages
 works on all version of R starting at 3.1.
 \item \code{use_tidy_description()}: puts fields in standard order and alphabetises
 dependencies.
-\item \code{use_tidy_eval()}: imports a standard set of helpers to faciliate
+\item \code{use_tidy_eval()}: imports a standard set of helpers to facilitate
 programming with the tidy eval toolkit.
 }
 }

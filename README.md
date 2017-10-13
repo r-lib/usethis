@@ -38,7 +38,7 @@ create_package(tmp, rstudio = TRUE)
 #> ✔ Adding '^.*\\.Rproj$', '^\\.Rproj\\.user$' to '.Rbuildignore'
 
 # You'd normally start working with that package in a new project
-# Here I'm going to simulated that by changing the working directory
+# Here I'm going to simulate that by changing the working directory
 setwd(tmp)
 
 # Modify the description ----------------------------------------------

@@ -12,7 +12,7 @@
 #' * `use_tidy_description()`: puts fields in standard order and alphabetises
 #'   dependencies.
 #'
-#' * `use_tidy_eval()`: imports a standard set of helpers to faciliate
+#' * `use_tidy_eval()`: imports a standard set of helpers to facilitate
 #'   programming with the tidy eval toolkit.
 #'
 #' @md
