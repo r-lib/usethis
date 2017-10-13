@@ -22,5 +22,10 @@ use_build_ignore <- function(files, escape = TRUE, base_path = ".") {
 escape_path <- function(x) {
   x <- gsub("\\.", "\\\\.", x)
   x <- gsub("/$", "", x)
+
+  # pattern `<driveletter>:\user\...` causes the PCRE regex compilation error,
+  # which needs `<driveletter>:\\user\...` to compile,
+  # per https://github.com/hadley/pkgdown/issues/307
+  x <- gsub("^([A-Z]:)", "\\1\\\\", x)
   paste0("^", x, "$")
 }
