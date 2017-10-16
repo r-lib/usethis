@@ -26,7 +26,7 @@ use_testthat <- function(base_path = ".") {
 #' @param name Test name. if `NULL`, and you're using RStudio, will use
 #'   the name of the file open in the source editor.
 #' @export
-use_test <- function(name = NULL, base_path = ".") {
+use_test <- function(name = NULL, base_path = ".", open = TRUE) {
   name <- find_test_name(name)
 
   if (!uses_testthat(base_path)) {
@@ -36,7 +36,7 @@ use_test <- function(name = NULL, base_path = ".") {
   use_template("test-example.R",
     file.path("tests", "testthat", name),
     data = list(test_name = name),
-    open = TRUE,
+    open = open,
     base_path = base_path
   )
 
