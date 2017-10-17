@@ -70,11 +70,14 @@ use_github <- function(organisation = NULL,
     return(invisible())
   }
 
-  pkg <- package_data()
+  pkg <- project_data()
+  repo_name <- pkg$Project %||% gsub("\n", " ", pkg$Package)
+  repo_desc <- pkg$Title %||% ""
+
   todo("Check title and description")
   code_block(
-    paste0("Title: ", pkg$Title),
-    paste0("Description: ", pkg$Description),
+    paste0("Name:        ", repo_name),
+    paste0("Description: ", repo_desc),
     copy = FALSE
   )
   if (yesno("Are title and description ok?")) {
@@ -85,8 +88,8 @@ use_github <- function(organisation = NULL,
 
   if (is.null(organisation)) {
     create <- gh::gh("POST /user/repos",
-      name = pkg$Package,
-      description = gsub("\n", " ", pkg$Title),
+      name = repo_name,
+      description = repo_desc,
       private = private,
       .api_url = host,
       .token = auth_token
@@ -94,8 +97,8 @@ use_github <- function(organisation = NULL,
   } else {
     create <- gh::gh("POST /orgs/:org/repos",
       org = organisation,
-      name = pkg$Package,
-      description = gsub("\n", " ", pkg$Title),
+      name = repo_name,
+      description = repo_desc,
       private = private,
       .api_url = host,
       .token = auth_token
@@ -103,7 +106,7 @@ use_github <- function(organisation = NULL,
   }
 
   done("Adding GitHub remote")
-  r <- git2r::repository()
+  r <- git2r::repository(proj_get())
   protocol <- match.arg(protocol)
   origin_url <- switch(protocol,
     https = create$clone_url,
@@ -111,11 +114,13 @@ use_github <- function(organisation = NULL,
   )
   git2r::remote_add(r, "origin", origin_url)
 
-  done("Adding GitHub links to DESCRIPTION")
-  use_github_links(auth_token = auth_token, host = host)
-  if (git_uncommitted()) {
-    git2r::add(r, "DESCRIPTION")
-    git2r::commit(r, "Add GitHub links to DESCRIPTION")
+  if (is_package()) {
+    done("Adding GitHub links to DESCRIPTION")
+    use_github_links(auth_token = auth_token, host = host)
+    if (git_uncommitted()) {
+      git2r::add(r, "DESCRIPTION")
+      git2r::commit(r, "Add GitHub links to DESCRIPTION")
+    }
   }
 
   done("Pushing to GitHub and setting remote tracking branch")
