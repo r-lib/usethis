@@ -71,15 +71,15 @@ restart_rstudio <- function(message = NULL, base_path = ".") {
 #' @family git helpers
 #' @export
 use_git_hook <- function(hook, script, base_path = ".") {
-  if (uses_git(base_path)) {
+  if (!uses_git(base_path)) {
     stop("This project doesn't use git", call. = FALSE)
   }
 
-  base_path <- git2r::discover_repository(base_path)
-  use_directory(".git/hooks", base_path = base_path)
+  git_dir <- git2r::discover_repository(base_path)
+  use_directory("hooks", base_path = git_dir)
 
-  hook_path <- file.path(".git/hooks", hook)
-  write_over(base_path, hook_path, script)
+  hook_path <- file.path("hooks", hook)
+  write_over(git_dir, hook_path, script)
   Sys.chmod(hook_path, "0744")
 
   invisible()
