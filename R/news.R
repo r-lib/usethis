@@ -4,11 +4,11 @@
 #'
 #' @inheritParams use_template
 #' @export
-use_news_md <- function(base_path = ".") {
+use_news_md <- function(base_path = ".", open = TRUE) {
   use_template(
     "NEWS.md",
     data = package_data(base_path),
-    open = TRUE,
+    open = open,
     base_path = base_path
   )
 }

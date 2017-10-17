@@ -18,7 +18,7 @@
 #' use_readme_rmd()
 #' use_readme_md()
 #' }
-use_readme_rmd <- function(base_path = ".") {
+use_readme_rmd <- function(base_path = ".", open = TRUE) {
   check_installed("rmarkdown")
 
   data <- package_data(base_path)
@@ -29,7 +29,7 @@ use_readme_rmd <- function(base_path = ".") {
     "README.Rmd",
     data = data,
     ignore = TRUE,
-    open = TRUE,
+    open = open,
     base_path = base_path
   )
 
@@ -47,12 +47,12 @@ use_readme_rmd <- function(base_path = ".") {
 
 #' @export
 #' @rdname use_readme_rmd
-use_readme_md <- function(base_path = ".") {
+use_readme_md <- function(base_path = ".", open = TRUE) {
   use_template(
     "omni-README",
     "README.md",
     data = package_data(base_path),
-    open = TRUE,
+    open = open,
     base_path = base_path
   )
 }

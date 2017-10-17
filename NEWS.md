@@ -27,7 +27,21 @@ The output from all usethis commands has been reviewed to be informative but not
 * `use_tidy_eval()` imports and re-exports the recommend set of tidy eval 
   helpers if your package uses tidy eval (#46).
 
+* `use_usethis()` opens your `.Rprofile` and gives you the code to copy
+  and paste in.
+
 * `use_depsy_badge` allows including a Depsy badge (@gvegayon, #68).
+
+## New edit functions
+
+A new class of functions make it easy to edit common config files:
+
+* `edit_profile_user()` opens `~/.Rprofile`
+* `edit_environ_user()` opens `~/.Renviron`
+* `edit_makevars_user()` opens `~/.R/Makevars`
+* `edit_git_config_user()` opens `~/.gitconfig`
+* `edit_git_ignore_user()` opens `~/.gitignore`
+* `edit_rstudio_snippets(type)` opens `~/R/snippets/{type}.snippets`
 
 ## Updates
 
@@ -45,6 +59,9 @@ The output from all usethis commands has been reviewed to be informative but not
 
 * `use_package_doc()` uses more modern roxygen2 template requires that 
   less duplication.
+
+* `use_test()` will use the name of the currently open file in RStudio
+  if you don't supply an explicit name (#89).
 
 * `use_readme_rmd()` now puts images in `man/figures/` and no longer
   adds to `.Rbuildgnore`. This ensures that the rendered `README.md` will

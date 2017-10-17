@@ -5,12 +5,14 @@
 \alias{use_readme_md}
 \title{Create README files.}
 \usage{
-use_readme_rmd(base_path = ".")
+use_readme_rmd(base_path = ".", open = TRUE)
 
-use_readme_md(base_path = ".")
+use_readme_md(base_path = ".", open = TRUE)
 }
 \arguments{
 \item{base_path}{Path to package root.}
+
+\item{open}{Should the new created file be opened in RStudio?}
 }
 \description{
 Creates skeleton README files with sections for

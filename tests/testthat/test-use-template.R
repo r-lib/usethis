@@ -3,7 +3,7 @@ context("template")
 test_that("error if try to overwrite existing file", {
   expect_error(
     use_template("NEWS.md", "test-use-template.R", base_path = test_path()),
-    "'test-use-template.R' already exists"
+    "already exists"
   )
 })
 
