@@ -69,10 +69,11 @@ use_github <- function(organisation = NULL,
   }
 
   pkg <- package_data()
-  done(
-    "Checking title and description",
-    paste("Title: ", pkg$Title),
-    paste("Description: ", pkg$Description)
+  todo("Check title and description")
+  code_block(
+    paste0("Title: ", pkg$Title),
+    paste0("Description: ", pkg$Description),
+    copy = FALSE
   )
   if (yesno("Are title and description ok?")) {
     return(invisible())
