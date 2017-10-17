@@ -1,4 +1,7 @@
-#' Setup a complete package
+#' Create a package from scratch
+#'
+#' This changes the active project to the new package so that subsequent
+#' `use_` calls will affect the project that you've just created.
 #'
 #' @param path A path. If it exists, it will be used. If it does not
 #'   exist, it will be created (providing that the parent path exists).
@@ -6,17 +9,20 @@
 #' @param open If `TRUE`, will automatically open
 #' @inheritParams use_description
 #' @export
-create_package <- function(path,
+create_package <- function(path = ".",
                            fields = getOption("devtools.desc"),
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
 
-  name <- basename(normalizePath(path, mustWork = FALSE))
+  path <- normalizePath(path, mustWork = FALSE)
+
+  name <- basename(path)
   check_package_name(name)
+  check_not_nested(dirname(path))
 
   create_directory(dirname(path), name)
   cat_line(crayon::bold("Changing active project to", crayon::red(name)))
-  proj_set(path)
+  proj_set(path, force = TRUE)
 
   use_directory("R")
   use_directory("man")
@@ -32,9 +38,32 @@ create_package <- function(path,
       project_path <- file.path(normalizePath(path), paste0(name, ".Rproj"))
       utils::browseURL(project_path)
     } else {
-      todo("Please change working directory to ", value(path))
+      setwd(path)
+      done("Changing working directory to ", value(path))
     }
   }
 
   invisible(TRUE)
+}
+
+check_not_nested <- function(path) {
+  proj_root <- proj_find(path)
+
+  if (is.null(proj_root))
+    return()
+
+  message <- paste0(
+    "Project is nested inside an existing project (", value(proj_root), ")"
+  )
+  if (!interactive()) {
+    stop(message, call. = FALSE)
+  }
+
+  cat_line(message)
+  cat_line("Creating a project inside another project is usually ill-advised.")
+
+  if (yesno("Do you wish to create anyway?")) {
+    stop(message, call. = FALSE)
+  }
+
 }

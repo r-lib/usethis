@@ -2,9 +2,9 @@
 % Please edit documentation in R/create.R
 \name{create_package}
 \alias{create_package}
-\title{Setup a complete package}
+\title{Create a package from scratch}
 \usage{
-create_package(path, fields = getOption("devtools.desc"),
+create_package(path = ".", fields = getOption("devtools.desc"),
   rstudio = rstudioapi::isAvailable(), open = interactive())
 }
 \arguments{
@@ -22,5 +22,6 @@ Arguments that take a list}
 \item{open}{If \code{TRUE}, will automatically open}
 }
 \description{
-Setup a complete package
+This changes the active project to the new package so that subsequent
+\code{use_} calls will affect the project that you've just created.
 }

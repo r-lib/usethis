@@ -19,8 +19,8 @@ directories are existing projects.}
 When attached, usethis uses rprojroot to find the project root of the
 current working directory. It establishes the project root by looking for
 for a \code{.here} file, an RStudio project, a package \code{DESCRIPTION}, a
-\code{remake.yml}, \code{.projectile} file, or \code{.git}/\code{.svn} directories. It then
-stores the project directory for use for the remainder of the session.
-If needed, you can manually override by running \code{proj_set()}.
+\code{remake.yml}, or a \code{.projectile} file. It then stores the project directory
+for use for the remainder of the session. If needed, you can manually
+override by running \code{proj_set()}.
 }
 \keyword{internal}
