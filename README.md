@@ -29,6 +29,8 @@ library(usethis)
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp)
 #> Changing active project to mypkg
+#> ✔ Creating 'R/'
+#> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
 #> ✔ Writing 'NAMESPACE'
 
@@ -85,6 +87,7 @@ use_news_md()
 
 use_test("my-test")
 #> ✔ Adding 'testthat' to Suggests field in DESCRIPTION
+#> ✔ Creating 'tests/testthat/'
 #> ✔ Writing 'tests/testthat.R'
 #> ✔ Writing 'tests/testthat/test-my-test.R'
 #> ● Edit 'tests/testthat/test-my-test.R'

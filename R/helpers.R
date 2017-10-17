@@ -119,7 +119,8 @@ use_dependency <- function(package, type, version = "*") {
 use_directory <- function(path,
                           ignore = FALSE) {
 
-  if (!file.exists(path)) {
+
+  if (!file.exists(file.path(proj_get(), path))) {
     done("Creating ", value(path, "/"))
   }
   create_directory(proj_get(), path)
