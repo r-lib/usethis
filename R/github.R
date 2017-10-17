@@ -61,7 +61,9 @@ use_github <- function(organisation = NULL,
                        auth_token = NULL,
                        host = NULL) {
 
-  use_git()
+  if (!uses_git()) {
+    stop("Please use_git() before use_github()", call. = FALSE)
+  }
 
   if (uses_github(proj_get())) {
     done("GitHub is already initialized")
