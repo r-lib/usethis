@@ -4,7 +4,7 @@
 #'
 #' @export
 use_usethis <- function() {
-  edit_profile_user()
+  edit_r_profile("user")
 
   todo("Include this code to make usethis available in all interactive sessions")
   code_block(
