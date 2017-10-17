@@ -30,10 +30,21 @@ proj_find <- function(path = ".") {
 #' @keywords internal
 #' @export
 proj_get <- function() {
-  if (is.null(proj$cur)) {
-    stop("No active project found", call. = FALSE)
+  if (!is.null(proj$cur)) {
+    return(proj$cur)
   }
-  proj$cur
+
+  # Try current wd
+  proj_set(".")
+  if (!is.null(proj$cur)) {
+    return(proj$cur)
+  }
+
+  stop(
+    "Current working directory, ", value(normalizePath(".")), ", ",
+    " does not appear to be inside a project or package.",
+    call. = FALSE
+  )
 }
 
 #' @export
