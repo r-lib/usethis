@@ -11,7 +11,7 @@ create_package <- function(path,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
 
-  name <- basename(path)
+  name <- basename(normalizePath(path, mustWork = FALSE))
   check_package_name(name)
 
   use_directory(name, base_path = dirname(path))
