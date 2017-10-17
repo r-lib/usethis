@@ -25,6 +25,7 @@ proj_find <- function(path = ".") {
 #' @param force If `TRUE`, uses this path without checking if any parent
 #'   directories are existing projects.
 #' @keywords internal
+#' @export
 proj_get <- function() {
   proj$cur
 }
