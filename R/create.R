@@ -19,7 +19,7 @@ create_package <- function(path = ".",
 
   name <- basename(path)
   check_package_name(name)
-  check_not_nested(dirname(path))
+  check_not_nested(dirname(path), name)
 
   create_directory(dirname(path), name)
   cat_line(crayon::bold("Changing active project to", crayon::red(name)))
@@ -55,7 +55,7 @@ create_project <- function(path = ".",
   path <- normalizePath(path, mustWork = FALSE)
 
   name <- basename(path)
-  check_not_nested(dirname(path))
+  check_not_nested(dirname(path), name)
 
   create_directory(dirname(path), name)
   cat_line(crayon::bold("Changing active project to", crayon::red(name)))
@@ -74,24 +74,22 @@ create_project <- function(path = ".",
 }
 
 
-check_not_nested <- function(path) {
+check_not_nested <- function(path, name) {
   proj_root <- proj_find(path)
 
   if (is.null(proj_root))
     return()
 
   message <- paste0(
-    "Project is nested inside an existing project (", value(proj_root), ")"
+    "New project ", value(name), " is nested inside an existing project ",
+    value(proj_root), "."
   )
   if (!interactive()) {
     stop(message, call. = FALSE)
   }
 
-  cat_line(message)
-  cat_line("Creating a project inside another project is usually ill-advised.")
-
-  if (yesno("Do you wish to create anyway?")) {
-    stop(message, call. = FALSE)
+  if (yesno(message, " This is rarely a good idea. Do you wish to create anyway?")) {
+    stop("Aborting project creation", call. = FALSE)
   }
 
 }
