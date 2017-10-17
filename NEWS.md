@@ -1,14 +1,22 @@
 # usethis 0.0.0.9000
 
-This is a new package that extracts out many functions that previously lived in devtools, as well as providing more building blocks so you can create your own helpers. 
+This is a new package that extracts out many functions that previously lived in devtools, as well as providing more building blocks so you can create your own helpers. As well as the many new helpers listed below, there are three main improvements to the package:
 
-Functions are now designed to work with a directory that's not necessarily a package. This doesn't always make sense but in the long term makes usesthis more flexible for other tasks like (e.g.) data analysis. All `use_` functions have the concept of a active project: rather than supply `base_path`, you can now change the active project by calling `proj_set()`. There is also a new `create_project()` which creates a basic RStudio project.
+* More support for general R projects, other than packages.
+* A notion of an "active" project that all commands operate on.
+* Refined output.
 
-The output from all usethis commands has been reviewed to be informative but not overwhelming. usethis takes advantage of colour (using the crayon package and features in RStudio 1.1) to help chunk the output and clearly differentiate what you need to do vs. what has been done for you.
+usethis is gradually evolving towards supporting more general R "projects", not just packages. This is still a work in progress, so please let me know if you use a function that you think should work with projects but doesn't. You can also try out the new `create_project()` which creates a basic RStudio project.
+
+The concept of the working directory and the "base path" have been refined. Rather than using an argument to specify the active project, all `use_` functions now use a global active project setting, as returned by `proj_get()`. This is cached throughout a session, although it will be updated by `create_package()` and `create_project()`. You'll now get an clear error if you attempt to `use_something()` outside of a project, and `create_something()` will warn if you're trying to create inside an existing project.
+
+The output from all usethis commands has been reviewed to be informative but not overwhelming. usethis takes advantage of colour (using crayon and RStudio 1.1) to help chunk the output and clearly differentiate what you need to do vs. what has been done for you.
 
 ## New functions
 
 * `use_apl2_license()` if you want to use the Apache 2.0 license.
+
+* `use_depsy_badge()` allows including a Depsy badge (@gvegayon, #68).
 
 * `use_dev_package()` works like `use_package()` but also adds the 
   repo to the `Remotes` field (#32).
@@ -29,8 +37,6 @@ The output from all usethis commands has been reviewed to be informative but not
 
 * `use_usethis()` opens your `.Rprofile` and gives you the code to copy
   and paste in.
-
-* `use_depsy_badge` allows including a Depsy badge (@gvegayon, #68).
 
 ## New edit functions
 
