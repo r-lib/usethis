@@ -1,6 +1,8 @@
 context("git")
 
 test_that("use_git_hook errors if project not using git", {
+  # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
+  skip_if_not(getRversion() > 3.1)
   tmp <- tempfile()
   create_package(tmp, rstudio = FALSE)
   expect_error(use_git_hook(
