@@ -183,3 +183,13 @@ edit_file <- function(base_path, path) {
   }
   invisible()
 }
+
+view_url <- function(url, open = interactive()) {
+  if (open) {
+    done("Opening url")
+    utils::browseURL(url)
+  } else {
+    todo("Open url ", url)
+  }
+  invisible()
+}

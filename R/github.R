@@ -136,7 +136,7 @@ use_github <- function(organisation = NULL,
   }
   git2r::branch_set_upstream(git2r::head(r), "origin/master")
 
-  done("View repo at ", create$html_url)
+  view_url(create$html_url)
 
   invisible(NULL)
 }
