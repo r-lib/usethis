@@ -2,10 +2,13 @@
 % Please edit documentation in R/create.R
 \name{create_package}
 \alias{create_package}
-\title{Create a package from scratch}
+\alias{create_project}
+\title{Create a new package or project}
 \usage{
 create_package(path = ".", fields = getOption("devtools.desc"),
   rstudio = rstudioapi::isAvailable(), open = interactive())
+
+create_project(path = ".", open = interactive())
 }
 \arguments{
 \item{path}{A path. If it exists, it will be used. If it does not
@@ -22,6 +25,7 @@ Arguments that take a list}
 \item{open}{If \code{TRUE}, will automatically open}
 }
 \description{
-This changes the active project to the new package so that subsequent
-\code{use_} calls will affect the project that you've just created.
+Both functions change the active project so that subsequent \code{use_} calls
+will affect the project that you've just created. See \code{proj_set()} to
+manually reset it.
 }

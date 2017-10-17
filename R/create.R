@@ -1,7 +1,8 @@
-#' Create a package from scratch
+#' Create a new package or project
 #'
-#' This changes the active project to the new package so that subsequent
-#' `use_` calls will affect the project that you've just created.
+#' Both functions change the active project so that subsequent `use_` calls
+#' will affect the project that you've just created. See `proj_set()` to
+#' manually reset it.
 #'
 #' @param path A path. If it exists, it will be used. If it does not
 #'   exist, it will be created (providing that the parent path exists).
@@ -45,6 +46,33 @@ create_package <- function(path = ".",
 
   invisible(TRUE)
 }
+
+#' @export
+#' @rdname create_package
+create_project <- function(path = ".",
+                           open = interactive()) {
+
+  path <- normalizePath(path, mustWork = FALSE)
+
+  name <- basename(path)
+  check_not_nested(dirname(path))
+
+  create_directory(dirname(path), name)
+  cat_line(crayon::bold("Changing active project to", crayon::red(name)))
+  proj_set(path, force = TRUE)
+
+  use_rstudio()
+  use_directory("R")
+
+  if (open) {
+    done("Opening project in new session")
+    project_path <- file.path(normalizePath(path), paste0(name, ".Rproj"))
+    utils::browseURL(project_path)
+  }
+
+  invisible(TRUE)
+}
+
 
 check_not_nested <- function(path) {
   proj_root <- proj_find(path)

@@ -40,6 +40,10 @@ find_template <- function(template_name) {
   path
 }
 
+is_package <- function(base_path = proj_get()) {
+  file.exists(file.path(base_path, "DESCRIPTION"))
+}
+
 package_data <- function(base_path = proj_get()) {
   desc <- desc::description$new(base_path)
 
