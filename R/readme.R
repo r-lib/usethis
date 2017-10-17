@@ -21,11 +21,11 @@
 use_readme_rmd <- function(open = TRUE) {
   check_installed("rmarkdown")
 
-  data <- package_data()
+  data <- project_data()
   data$Rmd <- TRUE
 
   use_template(
-    "omni-README",
+    if (is_package()) "omni-README" else "project-README.Rmd",
     "README.Rmd",
     data = data,
     ignore = TRUE,
