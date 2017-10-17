@@ -107,7 +107,7 @@ use_coveralls_badge <- function() {
   gh <- gh::gh_tree_remote(proj_get())
   use_badge("Coverage status",
     paste0("https://coveralls.io/r/", gh$username, "/", gh$repo, "?branch=master"),
-    paste0("https://img.shields.io/coveralls/", gh$username, "/", gh$repo, ".svg")
+    paste0("https://coveralls.io/repos/github/", gh$username, "/", gh$repo, "/", "badge.svg")
   )
 }
 
