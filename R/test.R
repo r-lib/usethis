@@ -7,16 +7,15 @@
 #'
 #' @export
 #' @inheritParams use_template
-use_testthat <- function(base_path = ".") {
+use_testthat <- function() {
   check_installed("testthat")
 
-  use_dependency("testthat", "Suggests", base_path = base_path)
-  use_directory("tests/testthat", base_path = base_path)
+  use_dependency("testthat", "Suggests")
+  use_directory("tests/testthat")
   use_template(
     "testthat.R",
     "tests/testthat.R",
-    data = list(name = project_name(base_path)),
-    base_path = base_path
+    data = list(name = project_name())
   )
 
   invisible(TRUE)
@@ -26,24 +25,23 @@ use_testthat <- function(base_path = ".") {
 #' @param name Test name. if `NULL`, and you're using RStudio, will use
 #'   the name of the file open in the source editor.
 #' @export
-use_test <- function(name = NULL, base_path = ".", open = TRUE) {
+use_test <- function(name = NULL, open = TRUE) {
   name <- find_test_name(name)
 
-  if (!uses_testthat(base_path)) {
-    use_testthat(base_path)
+  if (!uses_testthat()) {
+    use_testthat()
   }
 
   use_template("test-example.R",
     file.path("tests", "testthat", name),
     data = list(test_name = name),
-    open = open,
-    base_path = base_path
+    open = open
   )
 
   invisible(TRUE)
 }
 
-uses_testthat <- function(base_path = ".") {
+uses_testthat <- function(base_path = proj_get()) {
   paths <- c(
     file.path(base_path, "inst", "tests"),
     file.path(base_path, "tests", "testthat")

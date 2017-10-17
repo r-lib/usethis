@@ -7,17 +7,15 @@
 \alias{use_tidy_eval}
 \title{Helpers for the tidyverse}
 \usage{
-use_tidy_ci(browse = interactive(), base_path = ".")
+use_tidy_ci(browse = interactive())
 
-use_tidy_description(base_path = ".")
+use_tidy_description()
 
-use_tidy_eval(base_path = ".")
+use_tidy_eval()
 }
 \arguments{
 \item{browse}{open a browser window to enable Travis builds for the package
 automatically.}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 These helpers follow tidyverse conventions which are generally a little

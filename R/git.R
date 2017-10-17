@@ -9,18 +9,15 @@
 #' @export
 #' @examples
 #' \dontrun{use_git()}
-use_git <- function(message = "Initial commit", base_path = ".") {
-  if (uses_git(base_path)) {
+use_git <- function(message = "Initial commit") {
+  if (uses_git()) {
     return(invisible())
   }
 
   done("Initialising Git repo")
-  r <- git2r::init(base_path)
+  r <- git2r::init(proj_get())
 
-  use_git_ignore(
-    c(".Rhistory", ".RData", ".Rproj.user"),
-    base_path = base_path
-  )
+  use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
 
   done("Adding files and committing")
   paths <- unlist(git2r::status(r))
@@ -28,16 +25,15 @@ use_git <- function(message = "Initial commit", base_path = ".") {
   git2r::commit(r, message)
 
   restart_rstudio(
-    "A restart of RStudio is required to activate the Git pane",
-    base_path = base_path
+    "A restart of RStudio is required to activate the Git pane"
   )
   invisible(TRUE)
 
 }
 
 # Must be last command run
-restart_rstudio <- function(message = NULL, base_path = ".") {
-  if (!in_rstudio(base_path)) {
+restart_rstudio <- function(message = NULL) {
+  if (!in_rstudio(proj_get())) {
     return(FALSE)
   }
 
@@ -54,7 +50,7 @@ restart_rstudio <- function(message = NULL, base_path = ".") {
   if (yesno(todo_bullet(), " Restart now?"))
     return(FALSE)
 
-  rstudioapi::openProject(base_path)
+  rstudioapi::openProject(proj_get())
 }
 
 #' Add a git hook.
@@ -70,13 +66,13 @@ restart_rstudio <- function(message = NULL, base_path = ".") {
 #' @inheritParams use_template
 #' @family git helpers
 #' @export
-use_git_hook <- function(hook, script, base_path = ".") {
-  if (uses_git(base_path)) {
+use_git_hook <- function(hook, script) {
+  if (!uses_git()) {
     stop("This project doesn't use git", call. = FALSE)
   }
 
-  base_path <- git2r::discover_repository(base_path)
-  use_directory(".git/hooks", base_path = base_path)
+  base_path <- git2r::discover_repository(proj_get())
+  use_directory(".git/hooks")
 
   hook_path <- file.path(".git/hooks", hook)
   write_over(base_path, hook_path, script)
@@ -92,15 +88,15 @@ use_git_hook <- function(hook, script, base_path = ".") {
 #' @inheritParams use_template
 #' @family git helpers
 #' @export
-use_git_ignore <- function(ignores, directory = ".", base_path = ".") {
-  write_union(base_path, file.path(directory, ".gitignore"), ignores)
+use_git_ignore <- function(ignores, directory = ".") {
+  write_union(proj_get(), file.path(directory, ".gitignore"), ignores)
 }
 
-uses_git <- function(path = ".") {
+uses_git <- function(path = proj_get()) {
   !is.null(git2r::discover_repository(path))
 }
 
-git_check_in <- function(paths, message, base_path = ".") {
+git_check_in <- function(base_path, paths, message) {
   if (!uses_git(base_path))
     return(invisible())
 

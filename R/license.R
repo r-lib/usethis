@@ -28,68 +28,52 @@ NULL
 
 #' @rdname licenses
 #' @export
-use_mit_license <- function(name = find_name(),
-                            base_path = ".") {
-
+use_mit_license <- function(name = find_name()) {
   force(name)
 
-  use_description_field(
-    "License", "MIT + file LICENSE",
-    overwrite = TRUE,
-    base_path = base_path
-  )
-  use_license_template("mit", name, base_path = base_path)
+  use_description_field("License", "MIT + file LICENSE", overwrite = TRUE)
+  use_license_template("mit", name)
 
   # Fill in template
   use_template(
     "license-mit.txt",
     "LICENSE",
-    data = license_data(name, base_path = base_path),
-    base_path = base_path
+    data = license_data(name)
   )
 }
 
 
 #' @rdname licenses
 #' @export
-use_gpl3_license <- function(name = find_name(), base_path = ".") {
+use_gpl3_license <- function(name = find_name()) {
   force(name)
 
-  use_description_field(
-    "License", "GPL-3",
-    overwrite = TRUE,
-    base_path = base_path
-  )
-  use_license_template("GPL-3", name, base_path = base_path)
+  use_description_field("License", "GPL-3", overwrite = TRUE)
+  use_license_template("GPL-3", name)
 }
 
 #' @rdname licenses
 #' @export
-use_apl2_license <- function(name = find_name(), base_path = ".") {
+use_apl2_license <- function(name = find_name()) {
   force(name)
 
-  use_description_field(
-    "License", "Apache License (>= 2.0)",
-    overwrite = TRUE,
-    base_path = base_path
-  )
-  use_license_template("apache-2.0", name, base_path = base_path)
+  use_description_field("License", "Apache License (>= 2.0)", overwrite = TRUE)
+  use_license_template("apache-2.0", name)
 }
 
 
-use_license_template <- function(license, name, base_path = ".") {
+use_license_template <- function(license, name) {
   license_template <- paste0("license-", license, ".md")
 
   use_template(
     license_template,
     "LICENSE.md",
-    data = license_data(name, base_path = base_path),
-    base_path = base_path,
+    data = license_data(name),
     ignore = TRUE
   )
 }
 
-license_data <- function(name, base_path = ".") {
+license_data <- function(name, base_path = proj_get()) {
   list(
     year = format(Sys.Date(), "%Y"),
     name = name,

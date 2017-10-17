@@ -27,22 +27,13 @@ library(usethis)
 
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
-create_package(tmp, rstudio = TRUE)
-#> ✔ Creating 'mypkg/'
-#> ✔ Creating 'R/'
-#> ✔ Creating 'man/'
+create_package(tmp)
+#> Changing active project to mypkg
 #> ✔ Writing 'DESCRIPTION'
 #> ✔ Writing 'NAMESPACE'
-#> ✔ Writing 'mypkg.Rproj'
-#> ✔ Adding '.Rproj.user' to './.gitignore'
-#> ✔ Adding '^.*\\.Rproj$', '^\\.Rproj\\.user$' to '.Rbuildignore'
-
-# You'd normally start working with that package in a new project
-# Here I'm going to simulate that by changing the working directory
-setwd(tmp)
 
 # Modify the description ----------------------------------------------
-use_mit_license("RStudio")
+use_mit_license("My Name")
 #> ✔ Setting License field in DESCRIPTION to 'MIT + file LICENSE'
 #> ✔ Writing 'LICENSE.md'
 #> ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'
@@ -86,28 +77,28 @@ use_revdep()
 # Set up other files -------------------------------------------------
 use_readme_md()
 #> ✔ Writing 'README.md'
-#> ● Edit './README.md'
+#> ● Edit 'README.md'
 
 use_news_md()
 #> ✔ Writing 'NEWS.md'
-#> ● Edit './NEWS.md'
+#> ● Edit 'NEWS.md'
 
 use_test("my-test")
 #> ✔ Adding 'testthat' to Suggests field in DESCRIPTION
-#> ✔ Creating 'tests/testthat/'
 #> ✔ Writing 'tests/testthat.R'
 #> ✔ Writing 'tests/testthat/test-my-test.R'
-#> ● Edit './tests/testthat/test-my-test.R'
+#> ● Edit 'tests/testthat/test-my-test.R'
 
 x <- 1
 y <- 2
 use_data(x, y)
+#> ✔ Creating 'data/'
 #> ✔ Saving x to data/x.rda
 #> ✔ Saving y to data/y.rda
 
 # Use git ------------------------------------------------------------
 use_git()
 #> ✔ Initialising Git repo
-#> ✔ Adding '.Rhistory', '.RData' to './.gitignore'
+#> ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to './.gitignore'
 #> ✔ Adding files and committing
 ```

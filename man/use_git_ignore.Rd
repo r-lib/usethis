@@ -4,14 +4,12 @@
 \alias{use_git_ignore}
 \title{Tell git to ignore files}
 \usage{
-use_git_ignore(ignores, directory = ".", base_path = ".")
+use_git_ignore(ignores, directory = ".")
 }
 \arguments{
 \item{ignores}{Character vector of ignores, specified as file globs.}
 
 \item{directory}{Directory within \code{base_path} to set ignores}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 Tell git to ignore files

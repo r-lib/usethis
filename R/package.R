@@ -15,8 +15,8 @@
 #' use_package("ggplot2")
 #' use_package("dplyr", "suggests")
 #' }
-use_package <- function(package, type = "Imports", base_path = ".") {
-  use_dependency(package, type, base_path = base_path)
+use_package <- function(package, type = "Imports") {
+  use_dependency(package, type)
 
   switch(tolower(type),
     imports = todo("Refer to functions with ", code(package, "::fun()")),
@@ -46,23 +46,23 @@ show_includes <- function(package) {
 
 #' @export
 #' @rdname use_package
-use_dev_package <- function(package, type = "Imports", base_path = ".") {
+use_dev_package <- function(package, type = "Imports") {
   if (!requireNamespace(package, quietly = TRUE)) {
     stop(package, " must be installed before you can take a dependency on it",
       call. = FALSE)
   }
 
-  use_package(package, type = type, base_path = base_path)
+  use_package(package, type = type)
 
   package_remote <- package_remote(package)
-  remotes <- desc::desc_get_remotes(base_path)
+  remotes <- desc::desc_get_remotes(proj_get())
   if (package_remote %in% remotes) {
     return(invisible())
   }
 
   done("Adding ", value(package_remote), " to DESCRIPTION ", field("Remotes"))
   remotes <- c(remotes, package_remote)
-  desc::desc_set_remotes(remotes, file = base_path)
+  desc::desc_set_remotes(remotes, file = proj_get())
 
   invisible()
 }

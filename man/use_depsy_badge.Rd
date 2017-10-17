@@ -4,10 +4,7 @@
 \alias{use_depsy_badge}
 \title{Create a Depsy badge}
 \usage{
-use_depsy_badge(base_path = ".")
-}
-\arguments{
-\item{base_path}{Path to package root.}
+use_depsy_badge()
 }
 \description{
 This prints out the markdown which will display a Depsy "badge", showing the

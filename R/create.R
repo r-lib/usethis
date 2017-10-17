@@ -14,15 +14,17 @@ create_package <- function(path,
   name <- basename(normalizePath(path, mustWork = FALSE))
   check_package_name(name)
 
-  use_directory(name, base_path = dirname(path))
-  use_directory("R", base_path = path)
-  use_directory("man", base_path = path)
+  create_directory(dirname(path), name)
+  cat_line(crayon::bold("Changing active project to", crayon::red(name)))
+  proj_set(path)
 
-  use_description(fields = fields, base_path = path)
-  use_namespace(base_path = path)
+  use_directory("R")
+  use_directory("man")
+  use_description(fields = fields)
+  use_namespace()
 
   if (rstudio) {
-    use_rstudio(base_path = path)
+    use_rstudio()
   }
   if (open) {
     if (rstudio) {

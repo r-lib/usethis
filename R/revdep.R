@@ -6,16 +6,15 @@
 #'
 #' @export
 #' @inheritParams use_template
-use_revdep <- function(base_path = ".") {
-  use_directory("revdep", ignore = TRUE, base_path = base_path)
-  use_git_ignore("revdep/checks", base_path = base_path)
-  use_git_ignore("revdep/library", base_path = base_path)
+use_revdep <- function() {
+  use_directory("revdep", ignore = TRUE)
+  use_git_ignore("revdep/checks")
+  use_git_ignore("revdep/library")
 
   use_template(
     "revdep-email.yml",
     "revdep/email.yml",
-    data = list(name = project_name(base_path)),
-    base_path = base_path
+    data = list(name = project_name())
   )
 
   todo("Run checks with ", code("revdepcheck::revdep_check(num_workers = 4)"))

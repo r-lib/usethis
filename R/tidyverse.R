@@ -22,25 +22,24 @@ NULL
 #' @export
 #' @rdname tidyverse
 #' @inheritParams use_travis
-use_tidy_ci <- function(browse = interactive(), base_path = ".") {
-  check_uses_github(base_path)
+use_tidy_ci <- function(browse = interactive()) {
+  check_uses_github()
 
   new <- use_template(
     "tidy-travis.yml",
     ".travis.yml",
-    ignore = TRUE,
-    base_path = base_path
+    ignore = TRUE
   )
-  use_template("codecov.yml", ignore = TRUE, base_path = base_path)
+  use_template("codecov.yml", ignore = TRUE)
 
-  use_dependency("R", "Depends", ">= 3.1", base_path = base_path)
-  use_dependency("covr", "Suggests", base_path = base_path)
+  use_dependency("R", "Depends", ">= 3.1")
+  use_dependency("covr", "Suggests")
 
-  travis_badge(base_path = base_path)
-  codecov_badge(base_path = base_path)
+  use_travis_badge()
+  use_codecov_badge()
 
   if (new) {
-    travis_activate(browse, base_path = base_path)
+    travis_activate(browse)
   }
 
   invisible(TRUE)
@@ -49,7 +48,8 @@ use_tidy_ci <- function(browse = interactive(), base_path = ".") {
 
 #' @export
 #' @rdname tidyverse
-use_tidy_description <- function(base_path = ".") {
+use_tidy_description <- function() {
+  base_path <- proj_get()
 
   deps <- desc::desc_get_deps(base_path)
   deps <- deps[order(deps$type, deps$package), , drop = FALSE]
@@ -64,17 +64,13 @@ use_tidy_description <- function(base_path = ".") {
 
 #' @export
 #' @rdname tidyverse
-use_tidy_eval <- function(base_path = ".") {
-  if (!uses_roxygen(base_path)) {
+use_tidy_eval <- function() {
+  if (!uses_roxygen()) {
     stop("`use_tidy_eval()` requires that you use roxygen.", call. = FALSE)
   }
 
-  use_dependency("rlang", "imports", ">= 0.1.2", base_path = base_path)
-  use_template(
-    "tidy-eval.R",
-    "R/utils-tidy-eval.R",
-    base_path = base_path
-  )
+  use_dependency("rlang", "Imports", ">= 0.1.2")
+  use_template("tidy-eval.R", "R/utils-tidy-eval.R")
 
   todo("Run document()")
 }

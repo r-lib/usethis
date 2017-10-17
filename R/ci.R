@@ -13,24 +13,22 @@ NULL
 #' automatically.
 #' @export
 #' @rdname ci
-use_travis <- function(browse = interactive(), base_path = ".") {
-  check_uses_github(base_path)
+use_travis <- function(browse = interactive()) {
+  check_uses_github()
 
   use_template(
     "travis.yml",
     ".travis.yml",
-    ignore = TRUE,
-    base_path = base_path
-  )
+    ignore = TRUE)
 
-  travis_badge(base_path = base_path)
-  travis_activate(browse, base_path = base_path)
+  use_travis_badge()
+  travis_activate(browse)
 
   invisible(TRUE)
 }
 
 
-travis_info <- function(base_path = ".") {
+travis_info <- function(base_path = proj_get()) {
   gh <- gh::gh_tree_remote(base_path)
 
   url <- file.path("https://travis-ci.org", gh$username, gh$repo)
@@ -39,13 +37,13 @@ travis_info <- function(base_path = ".") {
   list(url = url, img = img)
 }
 
-travis_badge <- function(base_path) {
-  travis <- travis_info(base_path)
-  use_badge("Travis build status", travis$url, travis$img, base_path = base_path)
+use_travis_badge <- function() {
+  travis <- travis_info(proj_get())
+  use_badge("Travis build status", travis$url, travis$img)
 }
 
-travis_activate <- function(browse = interactive(), base_path = ".") {
-  travis <- travis_info(base_path)
+travis_activate <- function(browse = interactive(), base_path = proj_get()) {
+  travis <- travis_info(proj_get())
 
   todo("Turn on travis for your repo at ", travis$url)
   if (browse) {
@@ -54,7 +52,7 @@ travis_activate <- function(browse = interactive(), base_path = ".") {
 }
 
 
-uses_travis <- function(base_path = ".") {
+uses_travis <- function(base_path = proj_get()) {
   path <- file.path(base_path, ".travis.yml")
   file.exists(path)
 }
@@ -64,18 +62,18 @@ uses_travis <- function(base_path = ".") {
 #' @section `use_coverage`:
 #' Add test code coverage to basic travis template to a package.
 #' @export
-use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
-  if (!uses_travis(base_path)) {
+use_coverage <- function(type = c("codecov", "coveralls")) {
+  if (!uses_travis()) {
     stop("You must use_travis() first", call. = FALSE)
   }
   type <- match.arg(type)
 
-  use_dependency("covr", "Suggests", base_path = base_path)
+  use_dependency("covr", "Suggests")
 
   switch(type,
     codecov = {
-      use_template("codecov.yml", ignore = TRUE, base_path = base_path)
-      codecov_badge(base_path = base_path)
+      use_template("codecov.yml", ignore = TRUE)
+      use_codecov_badge()
       todo("Add to ", value(".travis.yml"), ":")
       code_block(
         "after_success:",
@@ -85,7 +83,7 @@ use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
 
     coveralls = {
       todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
-      coveralls_badge(base_path = base_path)
+      use_coveralls_badge()
       todo("Add to ", value(".travis.yml"), ":")
       code_block(
         "after_success:",
@@ -96,8 +94,8 @@ use_coverage <- function(type = c("codecov", "coveralls"), base_path = ".") {
   invisible(TRUE)
 }
 
-codecov_badge <- function(base_path = ".") {
-  gh <- gh::gh_tree_remote(base_path)
+use_codecov_badge <- function() {
+  gh <- gh::gh_tree_remote(proj_get())
 
   use_badge("Coverage status",
     paste0("https://codecov.io/github/", gh$username, "/", gh$repo, "?branch=master"),
@@ -105,8 +103,8 @@ codecov_badge <- function(base_path = ".") {
   )
 }
 
-coveralls_badge <- function(base_path = ".") {
-  gh <- gh::gh_tree_remote(base_path)
+use_coveralls_badge <- function() {
+  gh <- gh::gh_tree_remote(proj_get())
   use_badge("Coverage status",
     paste0("https://coveralls.io/r/", gh$username, "/", gh$repo, "?branch=master"),
     paste0("https://img.shields.io/coveralls/", gh$username, "/", gh$repo, ".svg")
@@ -118,10 +116,10 @@ coveralls_badge <- function(base_path = ".") {
 #' Add basic AppVeyor template to a package. Also adds `appveyor.yml` to
 #' `.Rbuildignore` so it isn't included in the built package.
 #' @export
-use_appveyor <- function(base_path = ".") {
-  use_template("appveyor.yml", ignore = TRUE, base_path = base_path)
+use_appveyor <- function() {
+  use_template("appveyor.yml", ignore = TRUE)
 
-  gh <- gh::gh_tree_remote(base_path)
+  gh <- gh::gh_tree_remote(proj_get())
   todo("Turn on AppVeyor for this repo at https://ci.appveyor.com/projects\n")
   todo("Add an AppVeyor shield to your README.md:")
   code_block(paste0(

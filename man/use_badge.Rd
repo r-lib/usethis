@@ -4,14 +4,12 @@
 \alias{use_badge}
 \title{Use a README badge}
 \usage{
-use_badge(badge_name, href, src, base_path = ".")
+use_badge(badge_name, href, src)
 }
 \arguments{
 \item{badge_name}{Badge name. Used in error message and alt text}
 
 \item{href, src}{Badge link and image src}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 Use a README badge

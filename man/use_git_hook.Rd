@@ -4,7 +4,7 @@
 \alias{use_git_hook}
 \title{Add a git hook.}
 \usage{
-use_git_hook(hook, script, base_path = ".")
+use_git_hook(hook, script)
 }
 \arguments{
 \item{hook}{Hook name. One of "pre-commit", "prepare-commit-msg",
@@ -13,8 +13,6 @@ use_git_hook(hook, script, base_path = ".")
 "post-merge", "pre-push", "pre-auto-gc".}
 
 \item{script}{Text of script to run}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 Sets up a git hook using specified script. Creates hook directory if

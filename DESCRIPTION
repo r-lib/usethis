@@ -18,9 +18,11 @@ Imports:
     digest,
     gh,
     git2r,
+    rprojroot,
     rmarkdown,
     rstudioapi,
-    whisker
+    whisker,
+    withr
 Suggests: 
     covr,
     testthat

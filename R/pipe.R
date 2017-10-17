@@ -5,18 +5,13 @@
 #'
 #' @inheritParams use_template
 #' @export
-use_pipe <- function(base_path = ".") {
-  if (!uses_roxygen(base_path)) {
+use_pipe <- function() {
+  if (!uses_roxygen()) {
     stop("`use_pipe()` requires that you use roxygen.", call. = FALSE)
   }
 
-  use_dependency("magrittr", "Imports", base_path = base_path)
-  use_template(
-    "pipe.R",
-    "R/utils-pipe.R",
-    base_path = base_path
-  )
+  use_dependency("magrittr", "Imports")
+  use_template("pipe.R", "R/utils-pipe.R")
 
   todo("Run document()")
-
 }

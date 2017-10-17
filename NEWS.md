@@ -2,7 +2,7 @@
 
 This is a new package that extracts out many functions that previously lived in devtools, as well as providing more building blocks so you can create your own helpers. 
 
-Functions are now designed to work with a directory that's not necessarily a package. This doesn't always make sense but in the long term makes usesthis more flexible for other tasks like (e.g.) data analysis.
+Functions are now designed to work with a directory that's not necessarily a package. This doesn't always make sense but in the long term makes usesthis more flexible for other tasks like (e.g.) data analysis. All `use_` functions have the concept of a active project: rather than supply `base_path`, you can now change the active project by calling `proj_set()`.
 
 The output from all usethis commands has been reviewed to be informative but not overwhelming. usethis takes advantage of colour (using the crayon package and features in RStudio 1.1) to help chunk the output and clearly differentiate what you need to do vs. what has been done for you.
 

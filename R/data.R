@@ -31,18 +31,19 @@
 use_data <- function(...,
                      internal = FALSE,
                      overwrite = FALSE,
-                     compress = "bzip2",
-                     base_path = ".") {
+                     compress = "bzip2"
+                     ) {
   objs <- get_objs_from_dots(dots(...))
 
   if (internal) {
+    use_directory("R")
     paths <- file.path("R", "sysdata.rda")
     objs <- list(objs)
   } else {
+    use_directory("data")
     paths <- file.path("data", paste0(objs, ".rda"))
   }
-
-  check_data_paths(paths, overwrite)
+  check_files_absent(proj_get(), paths, overwrite = overwrite)
 
   done("Saving ", unlist(objs), " to ", paths, "\n")
 
@@ -50,7 +51,7 @@ use_data <- function(...,
   mapply(
     save,
     list = objs,
-    file = file.path(base_path, paths),
+    file = file.path(proj_get(), paths),
     MoreArgs = list(envir = envir, compress = compress)
   )
 
@@ -78,29 +79,30 @@ get_objs_from_dots <- function(.dots) {
   objs
 }
 
-check_data_paths <- function(paths, overwrite) {
-  data_path <- dirname(paths[[1]])
-  if (!file.exists(data_path)) dir.create(data_path)
-
-  if (!overwrite) {
-    paths_exist <- which(stats::setNames(file.exists(paths), paths))
-
-    if (length(paths_exist) > 0L) {
-      paths_exist <- unique(names(paths_exist))
-      existing_names <- basename(paths_exist)
-      stop(paste(existing_names, collapse = ", "), " already exists in ",
-           dirname(paths_exist[[1L]]),
-           ". ",
-           "Use overwrite = TRUE to overwrite", call. = FALSE)
-    }
+check_files_absent <- function(base_path, paths, overwrite) {
+  if (overwrite) {
+    return()
   }
+
+  full_path <- file.path(base_path, paths)
+  ok <- !file.exists(full_path)
+
+  if (all(ok)) {
+    return()
+  }
+
+  stop(
+    paste(value(paths[!ok]), collapse = ", "), " already exist. ",
+    "Use overwrite = TRUE to overwrite.",
+    call. = FALSE
+  )
 }
 
 
 #' @rdname use_data
 #' @export
-use_data_raw <- function(base_path = ".") {
-  use_directory("data-raw", ignore = TRUE, base_path = base_path)
+use_data_raw <- function() {
+  use_directory("data-raw", ignore = TRUE)
 
   message("Next:")
   todo("Add data creation scripts in 'data-raw'")

@@ -4,11 +4,9 @@
 \alias{use_news_md}
 \title{Create a simple \code{NEWS.md}}
 \usage{
-use_news_md(base_path = ".", open = TRUE)
+use_news_md(open = TRUE)
 }
 \arguments{
-\item{base_path}{Path to package root.}
-
 \item{open}{Should the new created file be opened in RStudio?}
 }
 \description{

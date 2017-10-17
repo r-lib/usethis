@@ -4,11 +4,9 @@
 \alias{use_cran_comments}
 \title{Create a comment for submission to CRAN.}
 \usage{
-use_cran_comments(base_path = ".", open = TRUE)
+use_cran_comments(open = TRUE)
 }
 \arguments{
-\item{base_path}{Path to package root.}
-
 \item{open}{Should the new created file be opened in RStudio?}
 }
 \description{

@@ -8,12 +8,10 @@
 #'   `getOption("usethis.description")`, and (for backward compatibility)
 #'   from `getOption("devtools.desc")`.
 #'   Arguments that take a list
-#' @param base_path path to package root directory
 #' @export
-use_description <- function(fields = NULL,
-                            base_path = ".") {
+use_description <- function(fields = NULL) {
 
-  name <- project_name(base_path = base_path)
+  name <- project_name()
   check_package_name(name)
 
   fields <- fields %||%
@@ -22,7 +20,7 @@ use_description <- function(fields = NULL,
     list()
 
   desc <- build_description(name, fields)
-  write_over(base_path, "DESCRIPTION", desc)
+  write_over(proj_get(), "DESCRIPTION", desc)
 }
 
 build_description <- function(name, fields = list()) {

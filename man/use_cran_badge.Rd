@@ -4,10 +4,7 @@
 \alias{use_cran_badge}
 \title{Create a CRAN badge}
 \usage{
-use_cran_badge(base_path = ".")
-}
-\arguments{
-\item{base_path}{Path to package root.}
+use_cran_badge()
 }
 \description{
 This prints out the markdown which will display a CRAN "badge", indicating
