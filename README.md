@@ -10,7 +10,7 @@ The goal of usethis is to automate many common package and analysis setup tasks.
 Installation
 ------------
 
-You can install usethis from github with:
+You can install the development version of usethis from github with:
 
 ``` r
 # install.packages("devtools")

@@ -1,3 +1,7 @@
+This is a resubmission with better version, title, and description.
+
+---
+
 ## Test environments
 * local OS X install, R-release
 * ubuntu 14.04 (on travis-ci), R 3.1 -> R-devel
