@@ -4,7 +4,7 @@
 \alias{use_description}
 \title{Create a default DESCRIPTION file for a package.}
 \usage{
-use_description(fields = NULL, base_path = ".")
+use_description(fields = NULL)
 }
 \arguments{
 \item{fields}{A named list of fields to add to \file{DESCRIPTION},
@@ -12,8 +12,6 @@ potentially overriding the defaults. If \code{NULL}, retrieved from
 \code{getOption("usethis.description")}, and (for backward compatibility)
 from \code{getOption("devtools.desc")}.
 Arguments that take a list}
-
-\item{base_path}{path to package root directory}
 }
 \description{
 If you create a lot of packages, you can override the defaults by

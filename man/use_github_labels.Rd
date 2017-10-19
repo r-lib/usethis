@@ -4,8 +4,7 @@
 \alias{use_github_labels}
 \title{Create standard github labels for labelling issues.}
 \usage{
-use_github_labels(delete_default = FALSE, auth_token = NULL, host = NULL,
-  base_path = ".")
+use_github_labels(delete_default = FALSE, auth_token = NULL, host = NULL)
 }
 \arguments{
 \item{delete_default}{If \code{TRUE}, will remove default labels.}
@@ -18,8 +17,6 @@ use_github_labels(delete_default = FALSE, auth_token = NULL, host = NULL,
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3". You can set this globally using
 the \code{GITHUB_API_URL} env var.}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 This function creates new labels and changes colours (if needed).

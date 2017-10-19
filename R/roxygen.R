@@ -7,31 +7,29 @@
 #'
 #' @inheritParams use_template
 #' @export
-use_roxygen_md <- function(base_path = ".") {
+use_roxygen_md <- function() {
   check_installed("roxygen2")
 
-  if (!uses_roxygen(base_path)) {
-    use_description_field("Roxygen", "list(markdown = TRUE)", base_path = base_path)
-    use_description_field(
-      "RoxygenNote",
-      as.character(utils::packageVersion("roxygen2")),
-      base_path = base_path
-    )
+  if (!uses_roxygen()) {
+    roxy_ver <- as.character(utils::packageVersion("roxygen2"))
+
+    use_description_field("Roxygen", "list(markdown = TRUE)")
+    use_description_field("RoxygenNote", roxy_ver)
     todo("Re-document")
-  } else if (!uses_roxygen_md(base_path)) {
+  } else if (!uses_roxygen_md()) {
     check_installed("roxygen2md")
-    if (!uses_git(base_path)) {
+    if (!uses_git()) {
       todo("Use git to ensure that you don't lose any data")
     }
 
     todo("Run the following code, then re-document()")
-    code_block(paste0("roxygen2md::roxygen2md(\"", base_path, "\")"))
+    code_block(paste0("roxygen2md::roxygen2md(\"", proj_get(), "\")"))
   }
 
   invisible()
 }
 
-uses_roxygen_md <- function(base_path = ".") {
+uses_roxygen_md <- function(base_path = proj_get()) {
   if (!desc::desc_has_fields("Roxygen", base_path))
     return(FALSE)
 
@@ -48,6 +46,6 @@ uses_roxygen_md <- function(base_path = ".") {
   isTRUE(value$markdown)
 }
 
-uses_roxygen <- function(base_path = ".") {
+uses_roxygen <- function(base_path = proj_get()) {
   desc::desc_has_fields("RoxygenNote", base_path)
 }

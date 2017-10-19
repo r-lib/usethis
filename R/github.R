@@ -59,21 +59,27 @@ use_github <- function(organisation = NULL,
                        protocol = c("ssh", "https"),
                        credentials = NULL,
                        auth_token = NULL,
-                       host = NULL,
-                       base_path = ".") {
+                       host = NULL) {
 
-  use_git(base_path = base_path)
+  if (!uses_git()) {
+    stop("Please use_git() before use_github()", call. = FALSE)
+  }
 
-  if (uses_github(base_path)) {
+  if (uses_github(proj_get())) {
     done("GitHub is already initialized")
     return(invisible())
   }
 
-  pkg <- package_data(base_path)
-  done(
-    "Checking title and description",
-    paste("Title: ", pkg$Title, "\n"),
-    paste("Description: ", pkg$Description, "\n")
+
+  pkg <- project_data()
+  repo_name <- pkg$Project %||% gsub("\n", " ", pkg$Package)
+  repo_desc <- pkg$Title %||% ""
+
+  todo("Check title and description")
+  code_block(
+    paste0("Name:        ", repo_name),
+    paste0("Description: ", repo_desc),
+    copy = FALSE
   )
   if (yesno("Are title and description ok?")) {
     return(invisible())
@@ -83,8 +89,8 @@ use_github <- function(organisation = NULL,
 
   if (is.null(organisation)) {
     create <- gh::gh("POST /user/repos",
-      name = pkg$Package,
-      description = gsub("\n", " ", pkg$Title),
+      name = repo_name,
+      description = repo_desc,
       private = private,
       .api_url = host,
       .token = auth_token
@@ -92,8 +98,8 @@ use_github <- function(organisation = NULL,
   } else {
     create <- gh::gh("POST /orgs/:org/repos",
       org = organisation,
-      name = pkg$Package,
-      description = gsub("\n", " ", pkg$Title),
+      name = repo_name,
+      description = repo_desc,
       private = private,
       .api_url = host,
       .token = auth_token
@@ -101,7 +107,7 @@ use_github <- function(organisation = NULL,
   }
 
   done("Adding GitHub remote")
-  r <- git2r::repository(base_path)
+  r <- git2r::repository(proj_get())
   protocol <- match.arg(protocol)
   origin_url <- switch(protocol,
     https = create$clone_url,
@@ -109,11 +115,13 @@ use_github <- function(organisation = NULL,
   )
   git2r::remote_add(r, "origin", origin_url)
 
-  done("Adding GitHub links to DESCRIPTION")
-  use_github_links(base_path, auth_token = auth_token, host = host)
-  if (git_uncommitted(base_path)) {
-    git2r::add(r, "DESCRIPTION")
-    git2r::commit(r, "Add GitHub links to DESCRIPTION")
+  if (is_package()) {
+    done("Adding GitHub links to DESCRIPTION")
+    use_github_links(auth_token = auth_token, host = host)
+    if (git_uncommitted()) {
+      git2r::add(r, "DESCRIPTION")
+      git2r::commit(r, "Add GitHub links to DESCRIPTION")
+    }
   }
 
   done("Pushing to GitHub and setting remote tracking branch")
@@ -129,7 +137,7 @@ use_github <- function(organisation = NULL,
   }
   git2r::branch_set_upstream(git2r::head(r), "origin/master")
 
-  done("View repo at ", create$html_url)
+  view_url(create$html_url)
 
   invisible(NULL)
 }
@@ -137,12 +145,11 @@ use_github <- function(organisation = NULL,
 #' @export
 #' @rdname use_github
 use_github_links <- function(auth_token = NULL,
-                             host = "https://api.github.com",
-                             base_path = ".") {
+                             host = "https://api.github.com") {
 
-  check_uses_github(base_path)
+  check_uses_github()
 
-  info <- gh::gh_tree_remote(base_path)
+  info <- gh::gh_tree_remote()
   res <- gh::gh(
     "GET /repos/:owner/:repo",
     owner = info$username,
@@ -151,23 +158,22 @@ use_github_links <- function(auth_token = NULL,
     .token = auth_token
   )
 
-  use_description_field("URL", res$html_url, base_path = base_path)
-  use_description_field("BugReports", file.path(res$html_url, "issues"),
-    base_path = base_path)
+  use_description_field("URL", res$html_url)
+  use_description_field("BugReports", file.path(res$html_url, "issues"))
 
   invisible()
 }
 
 
-uses_github <- function(path) {
+uses_github <- function(base_path = proj_get()) {
   tryCatch({
-    gh::gh_tree_remote(path)
+    gh::gh_tree_remote(base_path)
     TRUE
   }, error = function(e) FALSE)
 }
 
 
-check_uses_github <- function(base_path) {
+check_uses_github <- function(base_path = proj_get()) {
   if (uses_github(base_path)) {
     return()
   }

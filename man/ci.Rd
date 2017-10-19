@@ -6,17 +6,15 @@
 \alias{use_appveyor}
 \title{Continuous integration}
 \usage{
-use_travis(browse = interactive(), base_path = ".")
+use_travis(browse = interactive())
 
-use_coverage(type = c("codecov", "coveralls"), base_path = ".")
+use_coverage(type = c("codecov", "coveralls"))
 
-use_appveyor(base_path = ".")
+use_appveyor()
 }
 \arguments{
 \item{browse}{open a browser window to enable Travis builds for the package
 automatically.}
-
-\item{base_path}{Path to package root.}
 
 \item{type}{CI tool to use. Currently supports codecov and coverall.}
 }

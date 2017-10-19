@@ -9,13 +9,12 @@
 #'
 #' @export
 #' @inheritParams use_template
-use_cran_comments <- function(base_path = ".") {
+use_cran_comments <- function(open = TRUE) {
   use_template(
     "cran-comments.md",
     data = list(rversion = paste0(version$major, ".", version$minor)),
     ignore = TRUE,
-    open = TRUE,
-    base_path = base_path
+    open = open
   )
 
   invisible(TRUE)

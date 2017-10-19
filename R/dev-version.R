@@ -5,27 +5,27 @@
 #'
 #' @export
 #' @inheritParams use_template
-use_dev_version <- function(base_path = ".") {
-  if (uses_git(base_path) && git_uncommitted(base_path)) {
+use_dev_version <- function() {
+  if (uses_git() && git_uncommitted()) {
     stop(
       "Uncommited changes. Please commit to git before continuing",
       call. = FALSE
     )
   }
 
-  ver <- desc::desc_get_version(base_path)
+  ver <- desc::desc_get_version(proj_get())
   if (length(unlist(ver)) > 3) {
     return(invisible())
   }
 
   dev_ver <- paste0(ver, ".9000")
 
-  use_description_field("Verison", dev_ver, base_path = base_path)
-  use_news_heading(dev_ver, base_path = base_path)
+  use_description_field("Verison", dev_ver)
+  use_news_heading(dev_ver)
   git_check_in(
+    base_path = proj_get(),
     paths = c("DESCRIPTION", "NEWS.md"),
-    message = "Use development version",
-    base_path = base_path
+    message = "Use development version"
   )
 
   invisible(TRUE)

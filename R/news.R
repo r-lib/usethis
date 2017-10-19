@@ -4,23 +4,22 @@
 #'
 #' @inheritParams use_template
 #' @export
-use_news_md <- function(base_path = ".") {
+use_news_md <- function(open = TRUE) {
   use_template(
     "NEWS.md",
-    data = package_data(base_path),
-    open = TRUE,
-    base_path = base_path
+    data = package_data(),
+    open = open
   )
 }
 
-use_news_heading <- function(version, base_path = ".") {
-  news_path <- file.path(base_path, "NEWS.md")
+use_news_heading <- function(version) {
+  news_path <- file.path(proj_get(), "NEWS.md")
   if (!file.exists(news_path)) {
     return(invisible())
   }
 
   news <- readLines(news_path)
-  title <- paste0("# ", project_name(base_path), " ", version)
+  title <- paste0("# ", project_name(), " ", version)
 
   if (title == news[[1]]) {
     return(invisible())

@@ -2,29 +2,40 @@
 % Please edit documentation in R/edit.R
 \name{edit}
 \alias{edit}
-\alias{edit_profile_user}
-\alias{edit_environ_user}
-\alias{edit_makevars_user}
-\alias{edit_git_config_user}
-\alias{edit_git_ignore_user}
+\alias{edit_r_profile}
+\alias{edit_r_environ}
+\alias{edit_r_makevars}
+\alias{edit_git_config}
+\alias{edit_git_ignore}
+\alias{edit_rstudio_snippets}
 \title{Open useful configuration files}
 \usage{
-edit_profile_user()
+edit_r_profile(scope = c("user", "project"))
 
-edit_environ_user()
+edit_r_environ(scope = c("user", "project"))
 
-edit_makevars_user()
+edit_r_makevars(scope = c("user", "project"))
 
-edit_git_config_user()
+edit_git_config(scope = c("user", "project"))
 
-edit_git_ignore_user()
+edit_git_ignore(scope = c("user", "project"))
+
+edit_rstudio_snippets(type = "R")
+}
+\arguments{
+\item{scope}{Edit globally for the current \strong{user}, or locally for the
+current \strong{project}}
+
+\item{type}{Snippet type. One of "R", "markdown", "C_Cpp", "Tex",
+"Javascript", "HTML", "SQL"}
 }
 \description{
 \itemize{
-\item \code{edit_profile_user()} opens \code{~/.Rprofile}
-\item \code{edit_environ_user()} opens \code{~/.Renviron}
-\item \code{edit_makevars_users()} opens \code{~/.R/Makevars}
-\item \code{edit_git_config_user()} opens \code{~/.gitconfig}
-\item \code{edit_git_ignore_user()} opens \code{~/.gitignore}
+\item \code{edit_r_profile()} opens \code{.Rprofile}
+\item \code{edit_r_environ()} opens \code{.Renviron}
+\item \code{edit_r_makevars()} opens \code{.R/Makevars}
+\item \code{edit_git_config()} opens \code{.gitconfig}
+\item \code{edit_git_ignore()} opens \code{.gitignore}
+\item \code{edit_rstudio_snippets(type)} opens \code{~/R/snippets/{type}.snippets}
 }
 }

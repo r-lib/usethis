@@ -4,10 +4,7 @@
 \alias{use_code_of_conduct}
 \title{Add a code of conduct}
 \usage{
-use_code_of_conduct(base_path = ".")
-}
-\arguments{
-\item{base_path}{Path to package root.}
+use_code_of_conduct()
 }
 \description{
 The goal of a code of conduct is to foster an environment of inclusiveness,

@@ -5,26 +5,23 @@
 #' @param data A list of data passed to the template.
 #' @param ignore Should the newly created file be added to `.Rbuildignore?`
 #' @param open Should the new created file be opened in RStudio?
-#' @param base_path Path to package root.
 #' @return A logical vector indicating if file was modified.
 #' @keywords internal
 use_template <- function(template,
                          save_as = template,
                          data = list(),
                          ignore = FALSE,
-                         open = FALSE,
-                         base_path = "."
-                         ) {
+                         open = FALSE) {
 
   template_contents <- render_template(template, data)
-  new <- write_over(base_path, save_as, template_contents)
+  new <- write_over(proj_get(), save_as, template_contents)
 
   if (ignore) {
-    use_build_ignore(save_as, base_path = base_path)
+    use_build_ignore(save_as)
   }
 
   if (open) {
-    edit_file(save_as, base_path = base_path)
+    edit_file(proj_get(), save_as)
   }
 
   invisible(new)
@@ -43,7 +40,19 @@ find_template <- function(template_name) {
   path
 }
 
-package_data <- function(base_path = ".") {
+is_package <- function(base_path = proj_get()) {
+  file.exists(file.path(base_path, "DESCRIPTION"))
+}
+
+project_data <- function(base_path = proj_get()) {
+  if (is_package(base_path)) {
+    package_data(base_path)
+  } else {
+    list(Project = basename(base_path))
+  }
+}
+
+package_data <- function(base_path = proj_get()) {
   desc <- desc::description$new(base_path)
 
   out <- as.list(desc$get(desc$fields()))
@@ -53,7 +62,7 @@ package_data <- function(base_path = ".") {
   out
 }
 
-project_name <- function(base_path = ".") {
+project_name <- function(base_path = proj_get()) {
   desc_path <- file.path(base_path, "DESCRIPTION")
 
   if (file.exists(desc_path)) {
@@ -63,7 +72,7 @@ project_name <- function(base_path = ".") {
   }
 }
 
-use_description_field <- function(name, value, base_path = ".", overwrite = FALSE) {
+use_description_field <- function(name, value, base_path = proj_get(), overwrite = FALSE) {
   curr <- desc::desc_get(name, file = base_path)[[1]]
   if (identical(curr, value))
     return()
@@ -74,7 +83,7 @@ use_description_field <- function(name, value, base_path = ".", overwrite = FALS
   }
 }
 
-use_dependency <- function(package, type, version = "*", base_path = ".") {
+use_dependency <- function(package, type, version = "*") {
   stopifnot(is.character(package), length(package) == 1)
   stopifnot(is.character(type), length(type) == 1)
 
@@ -87,7 +96,7 @@ use_dependency <- function(package, type, version = "*", base_path = ".") {
   names(types) <- tolower(types)
   type <- types[[match.arg(tolower(type), names(types))]]
 
-  deps <- desc::desc_get_deps(base_path)
+  deps <- desc::desc_get_deps(proj_get())
 
   matching_dep <- deps$package == package & deps$type == type
   to_add <- !any(matching_dep)
@@ -95,10 +104,10 @@ use_dependency <- function(package, type, version = "*", base_path = ".") {
 
   if (to_add) {
     done("Adding ", value(package), " to ", field(type), " field in DESCRIPTION")
-    desc::desc_set_dep(package, type, version = version, file = base_path)
+    desc::desc_set_dep(package, type, version = version, file = proj_get())
   } else if (to_set) {
     done("Setting ", value(package), " version to ", field(version), " field in DESCRIPTION")
-    desc::desc_set_dep(package, type, version = version, file = base_path)
+    desc::desc_set_dep(package, type, version = version, file = proj_get())
   }
 
   invisible()
@@ -120,9 +129,22 @@ use_dependency <- function(package, type, version = "*", base_path = ".") {
 #' use_directory("inst")
 #' }
 use_directory <- function(path,
-                          ignore = FALSE,
-                          base_path = ".") {
+                          ignore = FALSE) {
 
+
+  if (!file.exists(file.path(proj_get(), path))) {
+    done("Creating ", value(path, "/"))
+  }
+  create_directory(proj_get(), path)
+
+  if (ignore) {
+    use_build_ignore(path)
+  }
+
+  invisible(TRUE)
+}
+
+create_directory <- function(base_path, path) {
   if (!file.exists(base_path)) {
     stop(value(base_path), " does not exist", call. = FALSE)
   }
@@ -133,26 +155,19 @@ use_directory <- function(path,
       stop(value(path), " exists but is not a directory.", call. = FALSE)
     }
   } else {
-    done("Creating ", value(path, "/"))
     ok <- dir.create(pkg_path, showWarnings = FALSE, recursive = TRUE)
 
     if (!ok) {
       stop("Failed to create path", call. = FALSE)
     }
   }
-
-  if (ignore) {
-    use_build_ignore(path, base_path = base_path)
-  }
-
-  invisible(TRUE)
 }
 
-edit_file <- function(path, base_path = ".") {
+edit_file <- function(base_path, path) {
   full_path <- path.expand(file.path(base_path, path))
 
   if (!interactive()) {
-    todo("Edit ", value(full_path))
+    todo("Edit ", value(path))
   } else {
     if (!file.exists(full_path)) {
       file.create(full_path)
@@ -165,6 +180,16 @@ edit_file <- function(path, base_path = ".") {
     } else {
       utils::file.edit(full_path)
     }
+  }
+  invisible()
+}
+
+view_url <- function(url, open = interactive()) {
+  if (open) {
+    done("Opening url")
+    utils::browseURL(url)
+  } else {
+    todo("Open url ", url)
   }
   invisible()
 }

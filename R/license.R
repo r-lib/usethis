@@ -19,7 +19,8 @@
 #'
 #' @name licenses
 #' @param name Name of the copyright holder or holders. Separate multiple
-#'   individuals with `;`.
+#'   individuals with `;`. You can supply a global default with
+#'   `options(usethis.full_name = "My name")`.
 #' @inheritParams use_template
 #' @aliases NULL
 #' @md
@@ -27,71 +28,74 @@ NULL
 
 #' @rdname licenses
 #' @export
-use_mit_license <- function(name,
-                            base_path = ".") {
-
+use_mit_license <- function(name = find_name()) {
   force(name)
 
-  use_description_field(
-    "License", "MIT + file LICENSE",
-    overwrite = TRUE,
-    base_path = base_path
-  )
-  use_license_template("mit", name, base_path = base_path)
+  use_description_field("License", "MIT + file LICENSE", overwrite = TRUE)
+  use_license_template("mit", name)
 
   # Fill in template
   use_template(
     "license-mit.txt",
     "LICENSE",
-    data = license_data(name, base_path = base_path),
-    base_path = base_path
+    data = license_data(name)
   )
 }
 
 
 #' @rdname licenses
 #' @export
-use_gpl3_license <- function(name, base_path = ".") {
+use_gpl3_license <- function(name = find_name()) {
   force(name)
 
-  use_description_field(
-    "License", "GPL-3",
-    overwrite = TRUE,
-    base_path = base_path
-  )
-  use_license_template("GPL-3", name, base_path = base_path)
+  use_description_field("License", "GPL-3", overwrite = TRUE)
+  use_license_template("GPL-3", name)
 }
 
 #' @rdname licenses
 #' @export
-use_apl2_license <- function(name, base_path = ".") {
+use_apl2_license <- function(name = find_name()) {
   force(name)
 
-  use_description_field(
-    "License", "Apache License (>= 2.0)",
-    overwrite = TRUE,
-    base_path = base_path
-  )
-  use_license_template("apache-2.0", name, base_path = base_path)
+  use_description_field("License", "Apache License (>= 2.0)", overwrite = TRUE)
+  use_license_template("apache-2.0", name)
 }
 
 
-use_license_template <- function(license, name, base_path = ".") {
+use_license_template <- function(license, name) {
   license_template <- paste0("license-", license, ".md")
 
   use_template(
     license_template,
     "LICENSE.md",
-    data = license_data(name, base_path = base_path),
-    base_path = base_path,
+    data = license_data(name),
     ignore = TRUE
   )
 }
 
-license_data <- function(name, base_path = ".") {
+license_data <- function(name, base_path = proj_get()) {
   list(
     year = format(Sys.Date(), "%Y"),
     name = name,
     project = project_name(base_path)
+  )
+}
+
+
+find_name <- function() {
+  name <- getOption("devtools.name")
+  if (!is.null(name)) {
+    return(name)
+  }
+
+  name <- getOption("usethis.full_name")
+  if (!is.null(name)) {
+    return(name)
+  }
+
+  stop(
+    "`name` argument is missing.\n",
+    'Set it globally with `options(usethis.full_name = "My name").',
+    call. = FALSE
   )
 }

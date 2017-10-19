@@ -5,22 +5,23 @@
 #'
 #' @inheritParams use_template
 #' @export
-use_rstudio <- function(base_path = ".") {
+use_rstudio <- function() {
   use_template(
     "template.Rproj",
-    paste0(project_name(base_path), ".Rproj"),
-    base_path = base_path
+    paste0(project_name(), ".Rproj")
   )
 
-  use_git_ignore(".Rproj.user", base_path = base_path)
-  use_build_ignore(c("^.*\\.Rproj$", "^\\.Rproj\\.user$"), escape = FALSE, base_path = base_path)
+  use_git_ignore(".Rproj.user")
+  if (is_package()) {
+    use_build_ignore(c("^.*\\.Rproj$", "^\\.Rproj\\.user$"), escape = FALSE)
+  }
 
   invisible(TRUE)
 }
 
 
 # Is base_path open in RStudio?
-in_rstudio <- function(base_path = ".") {
+in_rstudio <- function(base_path = proj_get()) {
   if (!rstudioapi::isAvailable())
     return(FALSE)
 

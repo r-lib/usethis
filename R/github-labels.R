@@ -10,12 +10,12 @@
 #' @md
 use_github_labels <- function(delete_default = FALSE,
                               auth_token = NULL,
-                              host = NULL,
-                              base_path = ".") {
+                              host = NULL
+                              ) {
 
-  check_uses_github(base_path)
+  check_uses_github()
 
-  info <- gh::gh_tree_remote(base_path)
+  info <- gh::gh_tree_remote(proj_get())
   gh <- function(endpoint, ...) {
     gh::gh(endpoint,
       ...,

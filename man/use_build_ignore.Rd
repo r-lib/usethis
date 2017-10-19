@@ -4,15 +4,13 @@
 \alias{use_build_ignore}
 \title{Add files to \code{.Rbuildignore}}
 \usage{
-use_build_ignore(files, escape = TRUE, base_path = ".")
+use_build_ignore(files, escape = TRUE)
 }
 \arguments{
 \item{files}{Character vector of path names.}
 
 \item{escape}{If \code{TRUE}, the default, will escape \code{.} to
 \code{\\.} and surround with \code{^} and \code{$}.}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 \code{.Rbuildignore} has a regular expression on each line, but it's

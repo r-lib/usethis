@@ -4,12 +4,10 @@
 \alias{use_git}
 \title{Initialise a git repository.}
 \usage{
-use_git(message = "Initial commit", base_path = ".")
+use_git(message = "Initial commit")
 }
 \arguments{
 \item{message}{Message to use for first commit.}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 \code{use_git} initialises a git repository, adds important files

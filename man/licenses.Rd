@@ -6,17 +6,16 @@
 \alias{use_apl2_license}
 \title{Use MIT, GPL-3, or Apache 2.0 license for your package}
 \usage{
-use_mit_license(name, base_path = ".")
+use_mit_license(name = find_name())
 
-use_gpl3_license(name, base_path = ".")
+use_gpl3_license(name = find_name())
 
-use_apl2_license(name, base_path = ".")
+use_apl2_license(name = find_name())
 }
 \arguments{
 \item{name}{Name of the copyright holder or holders. Separate multiple
-individuals with \code{;}.}
-
-\item{base_path}{Path to package root.}
+individuals with \code{;}. You can supply a global default with
+\code{options(usethis.full_name = "My name")}.}
 }
 \description{
 Adds the necessary infrastructure to declare your package as licensed

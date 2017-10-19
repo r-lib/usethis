@@ -4,10 +4,7 @@
 \alias{use_package_doc}
 \title{Create package documentation template}
 \usage{
-use_package_doc(base_path = ".")
-}
-\arguments{
-\item{base_path}{Path to package root.}
+use_package_doc()
 }
 \description{
 Adds a roxygen template for package documentation. When you \code{document()}

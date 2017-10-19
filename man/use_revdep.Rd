@@ -4,10 +4,7 @@
 \alias{use_revdep}
 \title{Set up devtools revdep template}
 \usage{
-use_revdep(base_path = ".")
-}
-\arguments{
-\item{base_path}{Path to package root.}
+use_revdep()
 }
 \description{
 Add \code{revdep} directory, git-ignoring the files that you shouldn't
