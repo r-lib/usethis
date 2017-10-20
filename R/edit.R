@@ -54,10 +54,7 @@ edit_git_config <- function(scope = c("user", "project")) {
 #' @rdname edit
 edit_git_ignore <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
-  switch(scope,
-    user = edit_file("~", ".gitignore"),
-    project = edit_file(proj_get(), ".git/ignore")
-  )
+  edit_file(scope_dir(scope), ".gitignore")
   invisible()
 }
 
