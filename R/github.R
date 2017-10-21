@@ -148,7 +148,7 @@ use_github_links <- function(auth_token = NULL,
 
   check_uses_github()
 
-  info <- gh::gh_tree_remote()
+  info <- gh::gh_tree_remote(proj_get())
   res <- gh::gh(
     "GET /repos/:owner/:repo",
     owner = info$username,
