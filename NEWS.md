@@ -1,5 +1,7 @@
 # usethis 1.0.0.9000
 
+* New family of `browse_` functions that open useful websites (#96)
+
 * `use_r()` creates and opens an `.R` file
 
 # usethis 1.0.0

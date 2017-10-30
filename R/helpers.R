@@ -184,7 +184,8 @@ edit_file <- function(base_path, path) {
   invisible()
 }
 
-view_url <- function(url, open = interactive()) {
+view_url <- function(..., open = interactive()) {
+  url <- paste0(...)
   if (open) {
     done("Opening url")
     utils::browseURL(url)
