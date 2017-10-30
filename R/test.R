@@ -32,11 +32,18 @@ use_test <- function(name = NULL, open = TRUE) {
     use_testthat()
   }
 
-  use_template("test-example.R",
-    file.path("tests", "testthat", name),
-    data = list(test_name = name),
-    open = open
-  )
+  path <- file.path("tests", "testthat", name)
+
+  if (file.exists(file.path(proj_get(), path))) {
+    edit_file(proj_get(), path)
+  } else {
+    use_template("test-example.R",
+      path,
+      data = list(test_name = name),
+      open = open
+    )
+  }
+
 
   invisible(TRUE)
 }
@@ -55,14 +62,19 @@ find_test_name <- function(name = NULL) {
     return(paste0("test-", slug(name, ".R")))
   }
 
-  if (rstudioapi::isAvailable()) {
-    active_file <- rstudioapi::getSourceEditorContext()$path
+  if (!rstudioapi::isAvailable()) {
+    stop("Argument `name` is missing, with no default", call. = FALSE)
+  }
+  active_file <- rstudioapi::getSourceEditorContext()$path
 
-    if (grepl("\\.[Rr]$", active_file)) {
-      return(paste0("test-", basename(active_file)))
-    }
+  dir <- basename(dirname(active_file))
+  if (dir != "R") {
+    stop("Open file not in `R/` directory", call. = FALSE)
   }
 
-  stop("Argument `name` is missing, with no default", call. = FALSE)
+  if (!grepl("\\.[Rr]$", active_file)) {
+    stop("Open file is does not end in `.R`", call. = FALSE)
+  }
 
+  paste0("test-", basename(active_file))
 }
