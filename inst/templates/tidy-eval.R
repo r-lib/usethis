@@ -1,6 +1,6 @@
 #' Tidy eval helpers
 #'
-#' These six functions provide tidy eval-compatible ways to capture
+#' These functions provide tidy eval-compatible ways to capture
 #' symbols (`sym()`, `syms()`, `ensym()`), expressions (`expr()`,
 #' `exprs()`, `enexpr()`), and quosures (`quo()`, `quos()`, `enquo()`).
 #' To learn more about tidy eval and how to use these tools, read
@@ -16,6 +16,7 @@
 #' @export           sym syms ensym
 #' @importFrom rlang expr exprs enexpr
 #' @export           expr exprs enexpr
+#' @importFrom rlang UQ UQS !! !!!
 NULL
 
 # Flag inline helpers as global variables so R CMD check doesn't warn
