@@ -5,25 +5,32 @@
 #' @examples
 #' browse_cran("MASS")
 browse_github <- function(package = NULL) {
-  view_url(github_home(package = package))
+  view_url(github_home(package))
 }
 
 #' @export
 #' @rdname browse_github
 browse_github_issues <- function(package = NULL) {
-  view_url(github_home(package = package), "/issues")
+  view_url(github_home(package), "/issues")
 }
 
 #' @export
 #' @rdname browse_github
 browse_github_pulls <- function(package = NULL) {
-  view_url(github_home(package = package), "/pulls")
+  view_url(github_home(package), "/pulls")
+}
+
+#' @export
+#' @rdname browse_github
+browse_travis <- function(package = NULL) {
+  gh <- github_home(package)
+  view_url(sub("github.com", "travis-ci.org", gh))
 }
 
 #' @export
 #' @rdname browse_github
 browse_cran <- function(package = NULL) {
-  view_url(cran_home(package = package))
+  view_url(cran_home(package))
 }
 
 github_home <- function(package = NULL) {

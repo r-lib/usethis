@@ -4,6 +4,7 @@
 \alias{browse_github}
 \alias{browse_github_issues}
 \alias{browse_github_pulls}
+\alias{browse_travis}
 \alias{browse_cran}
 \title{Quickly browse to important package webpages}
 \usage{
@@ -12,6 +13,8 @@ browse_github(package = NULL)
 browse_github_issues(package = NULL)
 
 browse_github_pulls(package = NULL)
+
+browse_travis(package = NULL)
 
 browse_cran(package = NULL)
 }
