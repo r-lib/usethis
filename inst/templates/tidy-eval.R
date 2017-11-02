@@ -16,7 +16,7 @@
 #' @export           sym syms ensym
 #' @importFrom rlang expr exprs enexpr
 #' @export           expr exprs enexpr
-#' @importFrom rlang UQ UQS !! !!!
+#' @importFrom rlang UQ UQS
 NULL
 
 # Flag inline helpers as global variables so R CMD check doesn't warn
