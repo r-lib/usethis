@@ -4,7 +4,8 @@
 
 * `use_r()` creates and opens an `.R` file
 
-* `use_dev_version()` now correctly updates the `Version` field in a package description file.
+* `use_dev_version()` now correctly updates the `Version` field in a package 
+  description file. (@tjmahr, #104)
 
 # usethis 1.0.0
 
