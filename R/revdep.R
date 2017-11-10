@@ -10,6 +10,8 @@ use_revdep <- function() {
   use_directory("revdep", ignore = TRUE)
   use_git_ignore("revdep/checks")
   use_git_ignore("revdep/library")
+  use_git_ignore("revdep/checks.noindex")
+  use_git_ignore("revdep/library.noindex")
 
   use_template(
     "revdep-email.yml",
