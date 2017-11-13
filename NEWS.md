@@ -1,5 +1,8 @@
 # usethis 1.0.0.9000
 
+* New `use_cc0_license()`, which is particularly appropriate for data packages 
+  (#94)
+
 * Various tweaks to `use_tidy_eval()` (#106)
 
 * `use_revdep()` now also git-ignores the SQLite database (#107).
