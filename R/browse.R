@@ -1,6 +1,8 @@
 #' Quickly browse to important package webpages
 #'
 #' @param package Name of package; leave as `NULL` to use current package
+#' @param number For GitHub issues and pull requests. Can be a number or
+#'   `"new"`.
 #' @export
 #' @examples
 #' browse_cran("MASS")
@@ -10,14 +12,14 @@ browse_github <- function(package = NULL) {
 
 #' @export
 #' @rdname browse_github
-browse_github_issues <- function(package = NULL) {
-  view_url(github_home(package), "/issues")
+browse_github_issues <- function(package = NULL, number = NULL) {
+  view_url(github_home(package), "issues", number)
 }
 
 #' @export
 #' @rdname browse_github
-browse_github_pulls <- function(package = NULL) {
-  view_url(github_home(package), "/pulls")
+browse_github_pulls <- function(package = NULL, number = NULL) {
+  view_url(github_home(package), "pulls", number)
 }
 
 #' @export

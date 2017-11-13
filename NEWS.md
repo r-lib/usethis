@@ -9,7 +9,7 @@
 
 * `use_tidy_versions()` sets minimum version requirement for all dependencies.
 
-* New family of `browse_` functions that open useful websites (#96).
+* New family of `browse_` functions that open useful websites (#96, #103).
 
 * `use_r()` creates and opens an `.R` file
 
