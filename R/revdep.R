@@ -12,6 +12,7 @@ use_revdep <- function() {
   use_git_ignore("revdep/library")
   use_git_ignore("revdep/checks.noindex")
   use_git_ignore("revdep/library.noindex")
+  use_git_ignore("revdep/data.sqlite")
 
   use_template(
     "revdep-email.yml",

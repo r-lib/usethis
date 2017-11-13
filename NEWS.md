@@ -1,8 +1,10 @@
 # usethis 1.0.0.9000
 
+* `use_revdep()` now also git-ignores the SQLite database (#107).
+
 * `use_tidy_versions()` sets minimum version requirement for all dependencies.
 
-* New family of `browse_` functions that open useful websites (#96)
+* New family of `browse_` functions that open useful websites (#96).
 
 * `use_r()` creates and opens an `.R` file
 
