@@ -15,6 +15,9 @@
 #' * `use_tidy_eval()`: imports a standard set of helpers to facilitate
 #'   programming with the tidy eval toolkit.
 #'
+#' * `use_tidy_versions()`: pins all dependencies to require at least
+#'   the currently installed version.
+#'
 #' @md
 #' @name tidyverse
 NULL
@@ -69,6 +72,10 @@ use_tidy_description <- function() {
 }
 
 
+#' @export
+#' @rdname tidyverse
+#' @param overwrite By default (`FALSE`), only dependencies without version
+#'   specifications will be modified. Set to `TRUE` to modify all dependencies.
 use_tidy_versions <- function(overwrite = FALSE) {
   deps <- desc::desc_get_deps(proj_get())
 
@@ -77,7 +84,7 @@ use_tidy_versions <- function(overwrite = FALSE) {
     to_change <- to_change & deps$version == "*"
   }
 
-  deps$version[to_change] <- purrr::map_chr(deps$package[to_change], dep_version)
+  deps$version[to_change] <- vapply(deps$package[to_change], dep_version, character(1))
   desc::desc_set_deps(deps, file = proj_get())
 
   invisible(TRUE)
@@ -87,7 +94,7 @@ is_installed <- function(x) {
   length(find.package(x, quiet = TRUE)) > 0
 }
 dep_version <- function(x) {
-  if (is_installed(x)) paste0(">= ", packageVersion(x)) else "*"
+  if (is_installed(x)) paste0(">= ", utils::packageVersion(x)) else "*"
 }
 
 
