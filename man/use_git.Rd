@@ -20,4 +20,3 @@ to \code{.gitignore}, and commits all files.
 Other git helpers: \code{\link{use_git_hook}},
   \code{\link{use_git_ignore}}
 }
-\concept{git helpers}

@@ -69,6 +69,28 @@ use_tidy_description <- function() {
 }
 
 
+use_tidy_versions <- function(overwrite = FALSE) {
+  deps <- desc::desc_get_deps(proj_get())
+
+  to_change <- deps$package != "R"
+  if (!overwrite) {
+    to_change <- to_change & deps$version == "*"
+  }
+
+  deps$version[to_change] <- purrr::map_chr(deps$package[to_change], dep_version)
+  desc::desc_set_deps(deps, file = proj_get())
+
+  invisible(TRUE)
+}
+
+is_installed <- function(x) {
+  length(find.package(x, quiet = TRUE)) > 0
+}
+dep_version <- function(x) {
+  if (is_installed(x)) paste0(">= ", packageVersion(x)) else "*"
+}
+
+
 #' @export
 #' @rdname tidyverse
 use_tidy_eval <- function() {
