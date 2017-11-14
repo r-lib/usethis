@@ -10,9 +10,9 @@
 \usage{
 browse_github(package = NULL)
 
-browse_github_issues(package = NULL)
+browse_github_issues(package = NULL, number = NULL)
 
-browse_github_pulls(package = NULL)
+browse_github_pulls(package = NULL, number = NULL)
 
 browse_travis(package = NULL)
 
@@ -20,6 +20,9 @@ browse_cran(package = NULL)
 }
 \arguments{
 \item{package}{Name of package; leave as \code{NULL} to use current package}
+
+\item{number}{For GitHub issues and pull requests. Can be a number or
+\code{"new"}.}
 }
 \description{
 Quickly browse to important package webpages
