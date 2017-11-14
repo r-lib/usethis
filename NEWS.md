@@ -1,5 +1,8 @@
 # usethis 1.0.0.9000
 
+* `use_r()` will now open the matching `R/` file if you have a test file
+  open (#105).
+
 * New `use_lifecycle_badge()` (#48).
 
 * New `use_cc0_license()`, which is particularly appropriate for data packages 
