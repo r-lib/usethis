@@ -44,7 +44,7 @@ use_depsy_badge <- function() {
 #' @export
 use_badge <- function(badge_name, href, src) {
   if (has_badge(href)) {
-    return(FALSE)
+    return(invisible(FALSE))
   }
 
   img <- paste0("![", badge_name, "](", src, ")")
