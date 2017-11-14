@@ -161,6 +161,8 @@ create_directory <- function(base_path, path) {
       stop("Failed to create path", call. = FALSE)
     }
   }
+
+  pkg_path
 }
 
 edit_file <- function(base_path, path) {

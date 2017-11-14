@@ -1,5 +1,8 @@
 # usethis 1.0.0.9000
 
+* New `create_from_github()` creates a project from an existing GitHub
+  repository, forking if needed (#109).
+
 * `use_r()` will now open the matching `R/` file if you have a test file
   open (#105).
 
