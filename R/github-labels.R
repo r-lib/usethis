@@ -29,7 +29,11 @@ use_github_labels <- function(delete_default = FALSE,
   labels <- gh("GET /repos/:owner/:repo/labels")
 
   # Add missing labels
-  cur_labels <- vapply(labels, "[[", "name", FUN.VALUE = character(1))
+  if (identical(labels[[1]], "")) {
+    cur_labels <- character()
+  } else {
+    cur_labels <- vapply(labels, "[[", "name", FUN.VALUE = character(1))
+  }
   new_labels <- setdiff(names(gh_labels), cur_labels)
   if (length(new_labels) > 0) {
     done("Adding missing labels: ", collapse(value(new_labels)))
@@ -44,7 +48,11 @@ use_github_labels <- function(delete_default = FALSE,
   }
 
   # Correct bad colours
-  cur_cols <- vapply(labels, "[[", "color", FUN.VALUE = character(1))
+  if (identical(labels[[1]], "")) {
+    cur_cols <- character()
+  } else {
+    cur_cols <- vapply(labels, "[[", "color", FUN.VALUE = character(1))
+  }
   tru_cols <- gh_labels[cur_labels]
   col_labels <- cur_labels[!is.na(tru_cols) & tru_cols != cur_cols]
 
