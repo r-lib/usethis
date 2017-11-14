@@ -1,5 +1,7 @@
 # usethis 1.0.0.9000
 
+* New `use_lifecycle_badge()` (#48).
+
 * New `use_cc0_license()`, which is particularly appropriate for data packages 
   (#94)
 
