@@ -1,5 +1,8 @@
 # usethis 1.0.0.9000
 
+* New `use_pkgdown()` creates the basics needed for a 
+  [pkgdown](https://github.com/hadley/pkgdown) website (#88).
+
 * New `create_from_github()` creates a project from an existing GitHub
   repository, forking if needed (#109).
 
