@@ -76,7 +76,6 @@ create_project <- function(path = ".",
 #'   can't push to `repo`, `FALSE` if you can.
 #' @param open Open the new project once cloned?
 #' @export
-#' @rdname
 create_from_github <- function(repo, path = ".", fork = NA, open = TRUE) {
   repo <- strsplit(repo, "/")[[1]]
   if (length(repo) != 2) {
