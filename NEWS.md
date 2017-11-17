@@ -1,4 +1,4 @@
-# usethis 1.0.0.9000
+# usethis 1.1.0
 
 ## New helpers
 
