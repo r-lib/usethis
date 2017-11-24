@@ -9,7 +9,8 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-"
+  fig.path = "man/figures/README-",
+  out.width = "100%"
 )
 ```
 {{/Rmd}}

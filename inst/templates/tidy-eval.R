@@ -9,16 +9,8 @@
 #' @md
 #' @name tidyeval
 #' @keywords internal
-#' @aliases          quo quos enquo sym syms ensym expr exprs enexpr
-#' @importFrom rlang quo quos enquo
-#' @export           quo quos enquo
-#' @importFrom rlang sym syms ensym
-#' @export           sym syms ensym
-#' @importFrom rlang expr exprs enexpr
-#' @export           expr exprs enexpr
-#' @importFrom rlang UQ UQS
+#' @aliases          quo quos enquo sym syms ensym expr exprs enexpr quo_name
+#' @importFrom rlang quo quos enquo sym syms ensym expr exprs enexpr quo_name
+#' @export           quo quos enquo sym syms ensym expr exprs enexpr quo_name
+#' @importFrom rlang UQ UQS .data .env `:=`
 NULL
-
-# Flag inline helpers as global variables so R CMD check doesn't warn
-utils::globalVariables(c(":=", ".data", ".env"))
-

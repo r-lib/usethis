@@ -2,13 +2,18 @@
 % Please edit documentation in R/r.R
 \name{use_r}
 \alias{use_r}
-\title{Create a new R file.}
+\title{Create a new R file}
 \usage{
-use_r(name)
+use_r(name = NULL)
 }
 \arguments{
-\item{name}{File name, without extension.}
+\item{name}{File name, without extension; will create if it doesn't already
+exist. If not specified, and you're currently in a test file, will guess
+name based on test name.}
 }
 \description{
-Create a new R file.
+Create a new R file
+}
+\seealso{
+\code{\link[=use_test]{use_test()}}
 }

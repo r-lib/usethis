@@ -161,6 +161,8 @@ create_directory <- function(base_path, path) {
       stop("Failed to create path", call. = FALSE)
     }
   }
+
+  pkg_path
 }
 
 edit_file <- function(base_path, path) {
@@ -185,7 +187,7 @@ edit_file <- function(base_path, path) {
 }
 
 view_url <- function(..., open = interactive()) {
-  url <- paste0(...)
+  url <- paste(..., sep = "/")
   if (open) {
     done("Opening url")
     utils::browseURL(url)

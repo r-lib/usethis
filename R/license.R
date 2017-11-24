@@ -2,9 +2,11 @@
 #'
 #' @description
 #' Adds the necessary infrastructure to declare your package as licensed
-#' with one of three popular open source license:
+#' with one of four popular open source license:
 #'
-#' * [MIT](https://choosealicense.com/licenses/mit/): simple and permission.
+#' * [CC0](https://creativecommons.org/publicdomain/zero/1.0/): dedicated
+#'   to public domain. Appropriate for data packages.
+#' * [MIT](https://choosealicense.com/licenses/mit/): simple and permissive.
 #' * [Apache 2.0](https://choosealicense.com/licenses/apache-2.0/):
 #'   provides patent protection.
 #' * [GPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing
@@ -59,6 +61,15 @@ use_apl2_license <- function(name = find_name()) {
 
   use_description_field("License", "Apache License (>= 2.0)", overwrite = TRUE)
   use_license_template("apache-2.0", name)
+}
+
+#' @rdname licenses
+#' @export
+use_cc0_license <- function(name = find_name()) {
+  force(name)
+
+  use_description_field("License", "CC0", overwrite = TRUE)
+  use_license_template("cc0", name)
 }
 
 

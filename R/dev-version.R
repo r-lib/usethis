@@ -20,7 +20,7 @@ use_dev_version <- function() {
 
   dev_ver <- paste0(ver, ".9000")
 
-  use_description_field("Verison", dev_ver)
+  use_description_field("Version", dev_ver)
   use_news_heading(dev_ver)
   git_check_in(
     base_path = proj_get(),

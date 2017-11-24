@@ -4,6 +4,7 @@
 \alias{tidyverse}
 \alias{use_tidy_ci}
 \alias{use_tidy_description}
+\alias{use_tidy_versions}
 \alias{use_tidy_eval}
 \title{Helpers for the tidyverse}
 \usage{
@@ -11,11 +12,16 @@ use_tidy_ci(browse = interactive())
 
 use_tidy_description()
 
+use_tidy_versions(overwrite = FALSE)
+
 use_tidy_eval()
 }
 \arguments{
 \item{browse}{open a browser window to enable Travis builds for the package
 automatically.}
+
+\item{overwrite}{By default (\code{FALSE}), only dependencies without version
+specifications will be modified. Set to \code{TRUE} to modify all dependencies.}
 }
 \description{
 These helpers follow tidyverse conventions which are generally a little
@@ -30,5 +36,7 @@ works on all version of R starting at 3.1.
 dependencies.
 \item \code{use_tidy_eval()}: imports a standard set of helpers to facilitate
 programming with the tidy eval toolkit.
+\item \code{use_tidy_versions()}: pins all dependencies to require at least
+the currently installed version.
 }
 }

@@ -1,8 +1,38 @@
-# usethis 1.0.0.9000
+# usethis 1.1.0.9000
 
-* New family of `browse_` functions that open useful websites (#96)
+# usethis 1.1.0
 
-* `use_r()` creates and opens an `.R` file
+## New helpers
+
+* `browse_github()`, `browse_github_issues()`, `browse_github_pulls()`,
+  `browse_cran()` and `browse_travis()` open useful websites related to
+   the current project or a named package. (#96, #103).
+
+* `create_from_github()` creates a project from an existing GitHub
+  repository, forking if needed (#109).
+
+* `use_cc0_license()` applies a CC0 license, particularly appropriate for data 
+  packages (#94)
+
+* `use_lifecycle_badge()` creates a badge describing current stage in 
+  project lifecycle (#48).
+
+* `use_pkgdown()` creates the basics needed for a 
+  [pkgdown](https://github.com/hadley/pkgdown) website (#88).
+
+* `use_r("foo")` creates and edit `R/foo.R` file. If you have a test file open,
+  `use_r()` will open the corresponding `.R` file (#105).
+
+* `use_tidy_versions()` sets minimum version requirement for all dependencies.
+
+## Bug fixes and improvements
+
+* `use_dev_version()` now correctly updates the `Version` field in a package 
+  description file. (@tjmahr, #104)
+
+* `use_revdep()` now also git-ignores the SQLite database (#107).
+
+* `use_tidy_eval()` has been tweaked to reflect current guidance (#106)
 
 # usethis 1.0.0
 
@@ -111,3 +141,4 @@ A new class of functions make it easy to edit common config files:
 * `use_vignette()` now adds `*.html` and `*.R` to your `.gitgnore` so you
   don't accidentally add in compiled vignette products (#35).
   
+
