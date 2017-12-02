@@ -2,10 +2,10 @@
 % Please edit documentation in R/helpers.R
 \name{use_template}
 \alias{use_template}
-\title{Use a usethis template}
+\title{Use a usethis-style template}
 \usage{
 use_template(template, save_as = template, data = list(), ignore = FALSE,
-  open = FALSE)
+  open = FALSE, package = "usethis")
 }
 \arguments{
 \item{template}{Template name}
@@ -17,11 +17,13 @@ use_template(template, save_as = template, data = list(), ignore = FALSE,
 \item{ignore}{Should the newly created file be added to \code{.Rbuildignore?}}
 
 \item{open}{Should the new created file be opened in RStudio?}
+
+\item{package}{Name of the package where the template will be found.}
 }
 \value{
 A logical vector indicating if file was modified.
 }
 \description{
-Use a usethis template
+Use a usethis-style template
 }
 \keyword{internal}
