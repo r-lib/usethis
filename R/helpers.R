@@ -16,7 +16,7 @@ use_template <- function(template,
                          open = FALSE,
                          package = "usethis") {
 
-  template_contents <- render_template(template, data)
+  template_contents <- render_template(template, data, package = package)
   new <- write_over(proj_get(), save_as, template_contents)
 
   if (ignore) {
@@ -30,15 +30,21 @@ use_template <- function(template,
   invisible(new)
 }
 
-render_template <- function(template, data = list()) {
-  template_path <- find_template(template)
-  paste0(whisker::whisker.render(readLines(template_path), data), "\n", collapse = "")
+render_template <- function(template, data = list(), package = "usethis") {
+  template_path <- find_template(template, package = package)
+  paste0(
+    whisker::whisker.render(readLines(template_path), data), "\n",
+    collapse = ""
+  )
 }
 
-find_template <- function(template_name) {
-  path <- system.file("templates", template_name, package = "usethis")
+find_template <- function(template_name, package = "usethis") {
+  path <- system.file("templates", template_name, package = package)
   if (identical(path, "")) {
-    stop("Could not find template ", value(template_name), call. = FALSE)
+    stop(
+      "Could not find template ", value(template_name),
+      " in package ", package,
+      call. = FALSE)
   }
   path
 }
