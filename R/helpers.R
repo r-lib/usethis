@@ -1,10 +1,11 @@
-#' Use a usethis template
+#' Use a usethis-style template
 #'
 #' @param template Template name
 #' @param save_as Name of file to create. Defaults to `save_as`
 #' @param data A list of data passed to the template.
 #' @param ignore Should the newly created file be added to `.Rbuildignore?`
 #' @param open Should the new created file be opened in RStudio?
+#' @param package Name of the package where the template will be found.
 #' @return A logical vector indicating if file was modified.
 #' @keywords internal
 #' @export
@@ -12,7 +13,8 @@ use_template <- function(template,
                          save_as = template,
                          data = list(),
                          ignore = FALSE,
-                         open = FALSE) {
+                         open = FALSE,
+                         package = "usethis") {
 
   template_contents <- render_template(template, data)
   new <- write_over(proj_get(), save_as, template_contents)
