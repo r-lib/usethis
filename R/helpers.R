@@ -7,6 +7,7 @@
 #' @param open Should the new created file be opened in RStudio?
 #' @return A logical vector indicating if file was modified.
 #' @keywords internal
+#' @export
 use_template <- function(template,
                          save_as = template,
                          data = list(),
