@@ -33,6 +33,7 @@ Imports:
     rmarkdown,
     rprojroot,
     rstudioapi,
+    styler,
     whisker
 Suggests: 
     covr,
