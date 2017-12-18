@@ -46,9 +46,9 @@ use_readme_rmd <- function(open = TRUE) {
 #' @rdname use_readme_rmd
 use_readme_md <- function(open = TRUE) {
   use_template(
-    "package-README",
+    if (is_package()) "package-README" else "project-README",
     "README.md",
-    data = package_data(),
+    data = project_data(),
     open = open
   )
 }
