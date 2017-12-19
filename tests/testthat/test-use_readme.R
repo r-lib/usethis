@@ -14,9 +14,9 @@ test_that("error if try to overwrite existing file", {
 test_that("sets up git pre-commit hook iff pkg uses git", {
   tmp <- tempfile()
   create_package(tmp, rstudio = FALSE)
-  use_readme_rmd(tmp)
+  use_readme_rmd(open = FALSE)
   expect_false(file.exists(file.path(tmp, ".git", "hooks", "pre-commit")))
-  use_git(base_path = tmp)
-  use_readme_rmd(tmp)
+  use_git()
+  use_readme_rmd(open = FALSE)
   expect_true(file.exists(file.path(tmp, ".git", "hooks", "pre-commit")))
 })
