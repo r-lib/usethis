@@ -1,5 +1,7 @@
 # usethis 1.1.0.9000
 
+* `use_readme_rmd()` and `use_readme_md()` work, in a similar fashion, for projects that are and are not a package (@jennybc, #131, #135).
+
 # usethis 1.1.0
 
 ## New helpers
