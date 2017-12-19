@@ -32,7 +32,7 @@ use_readme_rmd <- function(open = TRUE) {
     open = open
   )
 
-  if (uses_git() && !file.exists(proj_get(), ".git", "hooks", "pre-commit")) {
+  if (uses_git()) {
     use_git_hook(
       "pre-commit",
       render_template("readme-rmd-pre-commit.sh")
