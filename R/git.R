@@ -71,12 +71,10 @@ use_git_hook <- function(hook, script) {
     stop("This project doesn't use git", call. = FALSE)
   }
 
-  base_path <- git2r::discover_repository(proj_get())
   use_directory(".git/hooks")
-
   hook_path <- file.path(".git/hooks", hook)
-  write_over(base_path, hook_path, script)
-  Sys.chmod(hook_path, "0744")
+  write_over(proj_get(), hook_path, script)
+  Sys.chmod(file.path(proj_get(), hook_path), "0744")
 
   invisible()
 }
