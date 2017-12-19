@@ -1,5 +1,7 @@
 # usethis 1.1.0.9000
 
+* `use_readme_rmd()` once again creates a pre-commit git hook, to help keep `README.Rmd` and `README.md` in sync (@PeteHaitch @jennybc, #41).
+
 # usethis 1.1.0
 
 ## New helpers
