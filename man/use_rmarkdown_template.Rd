@@ -7,7 +7,7 @@
 use_rmarkdown_template(template_name = "Template Name",
   template_dir = slug(template_name, ""),
   template_description = "A description of the template",
-  template_create_dir = FALSE, base_path = ".")
+  template_create_dir = FALSE)
 }
 \arguments{
 \item{template_name}{The name as printed in the template menu.}
@@ -19,8 +19,6 @@ use_rmarkdown_template(template_name = "Template Name",
 
 \item{template_create_dir}{Sets the value of `create_dir``
 in the template.yml}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 Adds files and directories necessary to add a custom rmarkdown template to

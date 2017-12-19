@@ -18,26 +18,24 @@
 #' use_readme_rmd()
 #' use_readme_md()
 #' }
-use_readme_rmd <- function(base_path = ".", open = TRUE) {
+use_readme_rmd <- function(open = TRUE) {
   check_installed("rmarkdown")
 
-  data <- package_data(base_path)
+  data <- project_data()
   data$Rmd <- TRUE
 
   use_template(
-    "omni-README",
+    if (is_package()) "omni-README" else "project-README.Rmd",
     "README.Rmd",
     data = data,
     ignore = TRUE,
-    open = open,
-    base_path = base_path
+    open = open
   )
 
-  if (uses_git(base_path)) {
+  if (uses_git()) {
     use_git_hook(
       "pre-commit",
-      render_template("readme-rmd-pre-commit.sh"),
-      base_path = base_path
+      render_template("readme-rmd-pre-commit.sh")
     )
   }
 
@@ -46,12 +44,11 @@ use_readme_rmd <- function(base_path = ".", open = TRUE) {
 
 #' @export
 #' @rdname use_readme_rmd
-use_readme_md <- function(base_path = ".", open = TRUE) {
+use_readme_md <- function(open = TRUE) {
   use_template(
     "omni-README",
     "README.md",
-    data = package_data(base_path),
-    open = open,
-    base_path = base_path
+    data = package_data(),
+    open = open
   )
 }

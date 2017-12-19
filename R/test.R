@@ -7,16 +7,15 @@
 #'
 #' @export
 #' @inheritParams use_template
-use_testthat <- function(base_path = ".") {
+use_testthat <- function() {
   check_installed("testthat")
 
-  use_dependency("testthat", "Suggests", base_path = base_path)
-  use_directory("tests/testthat", base_path = base_path)
+  use_dependency("testthat", "Suggests")
+  use_directory("tests/testthat")
   use_template(
     "testthat.R",
     "tests/testthat.R",
-    data = list(name = project_name(base_path)),
-    base_path = base_path
+    data = list(name = project_name())
   )
 
   invisible(TRUE)
@@ -26,24 +25,30 @@ use_testthat <- function(base_path = ".") {
 #' @param name Test name. if `NULL`, and you're using RStudio, will use
 #'   the name of the file open in the source editor.
 #' @export
-use_test <- function(name = NULL, base_path = ".", open = TRUE) {
+use_test <- function(name = NULL, open = TRUE) {
   name <- find_test_name(name)
 
-  if (!uses_testthat(base_path)) {
-    use_testthat(base_path)
+  if (!uses_testthat()) {
+    use_testthat()
   }
 
-  use_template("test-example.R",
-    file.path("tests", "testthat", name),
-    data = list(test_name = name),
-    open = open,
-    base_path = base_path
-  )
+  path <- file.path("tests", "testthat", name)
+
+  if (file.exists(file.path(proj_get(), path))) {
+    edit_file(proj_get(), path)
+  } else {
+    use_template("test-example.R",
+      path,
+      data = list(test_name = name),
+      open = open
+    )
+  }
+
 
   invisible(TRUE)
 }
 
-uses_testthat <- function(base_path = ".") {
+uses_testthat <- function(base_path = proj_get()) {
   paths <- c(
     file.path(base_path, "inst", "tests"),
     file.path(base_path, "tests", "testthat")
@@ -57,14 +62,19 @@ find_test_name <- function(name = NULL) {
     return(paste0("test-", slug(name, ".R")))
   }
 
-  if (rstudioapi::isAvailable()) {
-    active_file <- rstudioapi::getSourceEditorContext()$path
+  if (!rstudioapi::isAvailable()) {
+    stop("Argument `name` is missing, with no default", call. = FALSE)
+  }
+  active_file <- rstudioapi::getSourceEditorContext()$path
 
-    if (grepl("\\.[Rr]$", active_file)) {
-      return(paste0("test-", basename(active_file)))
-    }
+  dir <- basename(dirname(active_file))
+  if (dir != "R") {
+    stop("Open file not in `R/` directory", call. = FALSE)
   }
 
-  stop("Argument `name` is missing, with no default", call. = FALSE)
+  if (!grepl("\\.[Rr]$", active_file)) {
+    stop("Open file is does not end in `.R`", call. = FALSE)
+  }
 
+  paste0("test-", basename(active_file))
 }

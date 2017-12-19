@@ -4,10 +4,7 @@
 \alias{use_dev_version}
 \title{Increment development version}
 \usage{
-use_dev_version(base_path = ".")
-}
-\arguments{
-\item{base_path}{Path to package root.}
+use_dev_version()
 }
 \description{
 This adds ".9000" to the package \code{DESCRIPTION}, adds a new heading to

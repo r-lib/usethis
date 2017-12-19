@@ -5,17 +5,15 @@
 \alias{use_dev_package}
 \title{Use specified package.}
 \usage{
-use_package(package, type = "Imports", base_path = ".")
+use_package(package, type = "Imports")
 
-use_dev_package(package, type = "Imports", base_path = ".")
+use_dev_package(package, type = "Imports")
 }
 \arguments{
 \item{package}{Name of package to depend on.}
 
 \item{type}{Type of dependency: must be one of "Imports", "Suggests",
 "Depends", "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation)}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 \code{use_package()} adds a CRAN package dependency to DESCRIPTION and offers a

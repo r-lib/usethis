@@ -6,11 +6,9 @@
 \title{Connect a local repo with GitHub.}
 \usage{
 use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
-  "https"), credentials = NULL, auth_token = NULL, host = NULL,
-  base_path = ".")
+  "https"), credentials = NULL, auth_token = NULL, host = NULL)
 
-use_github_links(auth_token = NULL, host = "https://api.github.com",
-  base_path = ".")
+use_github_links(auth_token = NULL, host = "https://api.github.com")
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this
@@ -32,8 +30,6 @@ Default is NULL.}
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3". You can set this globally using
 the \code{GITHUB_API_URL} env var.}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 \code{use_github} calls \code{\link[=use_git]{use_git()}} if needed, creates

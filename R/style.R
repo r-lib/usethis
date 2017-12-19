@@ -12,9 +12,9 @@ done <- function(...) {
   bullet(paste0(...), bullet = crayon::green(clisymbols::symbol$tick))
 }
 
-code_block <- function(...) {
+code_block <- function(..., copy = interactive()) {
   block <- paste0("  ", c(...), collapse = "\n")
-  if (interactive() && clipr::clipr_available()) {
+  if (copy && clipr::clipr_available()) {
     clipr::write_clip(paste0(c(...), collapse = "\n"))
     message("Copying code to clipboard:")
   }

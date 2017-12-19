@@ -4,10 +4,7 @@
 \alias{use_roxygen_md}
 \title{Use roxygen with markdown}
 \usage{
-use_roxygen_md(base_path = ".")
-}
-\arguments{
-\item{base_path}{Path to package root.}
+use_roxygen_md()
 }
 \description{
 You'll need to manually re-document once enabled. If you are already using

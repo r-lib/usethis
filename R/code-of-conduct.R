@@ -7,11 +7,10 @@
 #'
 #' @export
 #' @inheritParams use_template
-use_code_of_conduct <- function(base_path = ".") {
+use_code_of_conduct <- function() {
   use_template(
     "CONDUCT.md",
-    ignore = TRUE,
-    base_path = base_path
+    ignore = TRUE
   )
 
   todo("Don't forget to describe the code of conduct in your README.md:")

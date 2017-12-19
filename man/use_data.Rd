@@ -5,10 +5,9 @@
 \alias{use_data_raw}
 \title{Create package data}
 \usage{
-use_data(..., internal = FALSE, overwrite = FALSE, compress = "bzip2",
-  base_path = ".")
+use_data(..., internal = FALSE, overwrite = FALSE, compress = "bzip2")
 
-use_data_raw(base_path = ".")
+use_data_raw()
 }
 \arguments{
 \item{...}{Unquoted names of existing objects to save.}
@@ -28,8 +27,6 @@ files. If you really want to do so, set this to \code{TRUE}.}
 
 \item{compress}{Choose the type of compression used by \code{\link[=save]{save()}}.
 Should be one of "gzip", "bzip2" or "xz".}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 \code{use_data} makes it easy to save package data in the correct format.

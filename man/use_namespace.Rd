@@ -4,10 +4,7 @@
 \alias{use_namespace}
 \title{Use a basic \code{NAMESPACE}}
 \usage{
-use_namespace(base_path = ".")
-}
-\arguments{
-\item{base_path}{Path to package root.}
+use_namespace()
 }
 \description{
 This \code{NAMESPACE} exports everything, except functions that start

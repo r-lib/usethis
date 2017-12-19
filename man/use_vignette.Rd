@@ -4,13 +4,11 @@
 \alias{use_vignette}
 \title{Create a vignette}
 \usage{
-use_vignette(name, base_path = ".")
+use_vignette(name)
 }
 \arguments{
 \item{name}{File name to use for new vignette. Should consist only of
 numbers, letters, _ and -. I recommend using lower case.}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 Adds needed packages to \code{DESCRIPTION}, and creates draft vignette

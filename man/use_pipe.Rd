@@ -4,10 +4,7 @@
 \alias{use_pipe}
 \title{Use magrittr's pipe in your package}
 \usage{
-use_pipe(base_path = ".")
-}
-\arguments{
-\item{base_path}{Path to package root.}
+use_pipe()
 }
 \description{
 This imports magrittr, and creates a \code{R/utils-pipe.R} with the necessary

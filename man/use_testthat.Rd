@@ -5,13 +5,11 @@
 \alias{use_test}
 \title{Create tests}
 \usage{
-use_testthat(base_path = ".")
+use_testthat()
 
-use_test(name = NULL, base_path = ".", open = TRUE)
+use_test(name = NULL, open = TRUE)
 }
 \arguments{
-\item{base_path}{Path to package root.}
-
 \item{name}{Test name. if \code{NULL}, and you're using RStudio, will use
 the name of the file open in the source editor.}
 

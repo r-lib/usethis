@@ -4,26 +4,29 @@
 \alias{use_mit_license}
 \alias{use_gpl3_license}
 \alias{use_apl2_license}
+\alias{use_cc0_license}
 \title{Use MIT, GPL-3, or Apache 2.0 license for your package}
 \usage{
-use_mit_license(name = find_name(), base_path = ".")
+use_mit_license(name = find_name())
 
-use_gpl3_license(name = find_name(), base_path = ".")
+use_gpl3_license(name = find_name())
 
-use_apl2_license(name = find_name(), base_path = ".")
+use_apl2_license(name = find_name())
+
+use_cc0_license(name = find_name())
 }
 \arguments{
 \item{name}{Name of the copyright holder or holders. Separate multiple
 individuals with \code{;}. You can supply a global default with
 \code{options(usethis.full_name = "My name")}.}
-
-\item{base_path}{Path to package root.}
 }
 \description{
 Adds the necessary infrastructure to declare your package as licensed
-with one of three popular open source license:
+with one of four popular open source license:
 \itemize{
-\item \href{https://choosealicense.com/licenses/mit/}{MIT}: simple and permission.
+\item \href{https://creativecommons.org/publicdomain/zero/1.0/}{CC0}: dedicated
+to public domain. Appropriate for data packages.
+\item \href{https://choosealicense.com/licenses/mit/}{MIT}: simple and permissive.
 \item \href{https://choosealicense.com/licenses/apache-2.0/}{Apache 2.0}:
 provides patent protection.
 \item \href{https://choosealicense.com/licenses/gpl-3.0/}{GPL v3}: requires sharing

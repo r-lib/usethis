@@ -11,12 +11,12 @@
 #'   `\\.` and surround with `^` and `$`.
 #' @inheritParams use_template
 #' @export
-use_build_ignore <- function(files, escape = TRUE, base_path = ".") {
+use_build_ignore <- function(files, escape = TRUE) {
   if (escape) {
     files <- escape_path(files)
   }
 
-  write_union(base_path, ".Rbuildignore", files)
+  write_union(proj_get(), ".Rbuildignore", files)
 }
 
 escape_path <- function(x) {
