@@ -25,7 +25,7 @@ check_file_name <- function(name) {
 }
 
 valid_file_name <- function(x) {
-  grepl("^[[:alpha:]_-]+$", x)
+  grepl("^[[:alnum:]_-]+$", x)
 }
 
 find_r_name <- function(name = NULL) {
