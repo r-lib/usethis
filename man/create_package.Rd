@@ -18,8 +18,7 @@ exist, it will be created (providing that the parent path exists).}
 \item{fields}{A named list of fields to add to \file{DESCRIPTION},
 potentially overriding the defaults. If \code{NULL}, retrieved from
 \code{getOption("usethis.description")}, and (for backward compatibility)
-from \code{getOption("devtools.desc")}.
-Arguments that take a list}
+from \code{getOption("devtools.desc")}.}
 
 \item{rstudio}{If \code{TRUE}, run \code{\link[=use_rstudio]{use_rstudio()}}.}
 
