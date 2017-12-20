@@ -8,6 +8,7 @@
     -   [Document](#document)
     -   [Test](#test)
     -   [NEWS](#news)
+    -   [Re-check](#re-check)
     -   [Commit](#commit)
 -   [Push and pull](#push-and-pull)
     -   [Review, revise, repeat](#review-revise-repeat)
@@ -83,10 +84,6 @@ the package so you can see exactly what lines are not covered in the project.
 devtools::test_coverage()
 ```
 
-Before submitting your changes, make sure that the package either still
-passes `R CMD check`, or that the warnings and/or notes have not _changed_
-as a result of your edits.
-
 ### NEWS
 
 For user-facing changes, add a bullet to `NEWS.md` that concisely describes
@@ -97,6 +94,12 @@ seen below.
 ```md
 * `function_name()` followed by brief description of change (#issue-num, @your-github-user-name)
 ```
+
+### Re-check
+
+Before submitting your changes, make sure that the package either still
+passes `R CMD check`, or that the warnings and/or notes have not _changed_
+as a result of your edits.
 
 ### Commit
 
