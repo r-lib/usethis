@@ -38,14 +38,20 @@ use_freshstarts <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
 
   if (scope == "user") {
-    message(
-      "To make fresh starts the default in all RStudio sessions, \n",
-      "you must set this interactively, for now.\n",
-      "In Global Options, General:\n",
-      "  * Uncheck \"Restore .RData into workspace at startup\"\n",
-      "  * Set \"Save workspace to .RData on exit\" to \"Never\"\n",
-      "\n",
-      "`use_freshstarts(\"project\")` to always use fresh starts in this project."
+    todo(
+      "To use fresh starts by default in ALL RStudio sessions, ",
+      "you must set this interactively, for now."
+    )
+    todo(
+      "In Global Options > General, ",
+      "do NOT check \"Restore .RData into workspace at startup\"."
+    )
+    todo(
+      "In Global Options > General, ",
+      "set \"Save workspace to .RData on exit\" to \"Never\"."
+    )
+    todo(
+      "Call `use_freshstarts(\"project\")` to enforce fresh starts in this project."
     )
     return(invisible())
   }
