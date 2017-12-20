@@ -25,9 +25,11 @@ use_rstudio <- function() {
 #' file in the current directory. However, long-term reproducibility is enhanced
 #' when you turn this feature off and reset R's memory at every restart. Fresh
 #' starts provide timely feedback that encourages the development of scripts
-#' that are complete and self-contained.
+#' that are complete and self-contained. More detail can be found in the blog
+#' post [Project-oriented
+#' workflow](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/).
 #'
-#' Only `use_freshstarts("project")` is implemented so far, since RStudio
+#' Only `use_freshstarts("project")` is automated so far, since RStudio
 #' currently only supports modification of user-level or global options via the
 #' user interface.
 #'

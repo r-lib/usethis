@@ -15,10 +15,11 @@ R can save and reload the user's workspace between sessions via an \code{.RData}
 file in the current directory. However, long-term reproducibility is enhanced
 when you turn this feature off and reset R's memory at every restart. Fresh
 starts provide timely feedback that encourages the development of scripts
-that are complete and self-contained.
+that are complete and self-contained. More detail can be found in the blog
+post \href{https://www.tidyverse.org/articles/2017/12/workflow-vs-script/}{Project-orientedworkflow}.
 }
 \details{
-Only \code{use_freshstarts("project")} is implemented so far, since RStudio
+Only \code{use_freshstarts("project")} is automated so far, since RStudio
 currently only supports modification of user-level or global options via the
 user interface.
 }
