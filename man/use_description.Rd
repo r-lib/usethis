@@ -10,8 +10,7 @@ use_description(fields = NULL)
 \item{fields}{A named list of fields to add to \file{DESCRIPTION},
 potentially overriding the defaults. If \code{NULL}, retrieved from
 \code{getOption("usethis.description")}, and (for backward compatibility)
-from \code{getOption("devtools.desc")}.
-Arguments that take a list}
+from \code{getOption("devtools.desc")}.}
 }
 \description{
 If you create a lot of packages, you can override the defaults by

@@ -7,7 +7,6 @@
 #'   potentially overriding the defaults. If `NULL`, retrieved from
 #'   `getOption("usethis.description")`, and (for backward compatibility)
 #'   from `getOption("devtools.desc")`.
-#'   Arguments that take a list
 #' @export
 use_description <- function(fields = NULL) {
 
