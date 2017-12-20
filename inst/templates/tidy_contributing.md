@@ -108,12 +108,13 @@ title) to automatically close the issue when the PR is merged.
 ## Push and pull
 
 Once you've pushed your commit(s) to _your_ fork, you're ready to make the pull
-request. Pull requests should have descriptive titles to remind reviewers/
-maintainers what the PR is about. You can easily view what exact changes you are
-proposing using either the Git diff view in RStudio, or the [branch comparison view](https://help.github.com/articles/creating-a-pull-request/) you'll be taken
-to when you go to create a new PR. If the PR is related to an issue, provide
-the issue number and slug in the _description_ using auto-linking syntax (e.g.
-`#15`).
+request. Pull requests should have descriptive titles to remind 
+reviewers/maintainers what the PR is about. You can easily view what exact 
+changes you are proposing using either the Git diff view in RStudio, or the 
+[branch comparison view](https://help.github.com/articles/creating-a-pull-request/) 
+you'll be taken to when you go to create a new PR. If the PR is related to an 
+issue, provide the issue number and slug in the _description_ using auto-linking 
+syntax (e.g. `#15`).
 
 ### Review, revise, repeat
 
