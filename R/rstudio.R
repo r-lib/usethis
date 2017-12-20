@@ -65,9 +65,7 @@ use_freshstarts <- function(scope = c("user", "project")) {
     list(RestoreWorkspace = "No", SaveWorkspace = "No")
   )
   write_utf8(file.path(proj_get(), rproj_path()), rproj_options)
-  restart_rstudio(
-    "A restart of RStudio is required to activate fresh starts"
-  )
+  restart_rstudio("Restart RStudio for a fresh state?")
 
   invisible()
 }
