@@ -31,28 +31,6 @@ use_git <- function(message = "Initial commit") {
 
 }
 
-# Must be last command run
-restart_rstudio <- function(message = NULL) {
-  if (!in_rstudio(proj_get())) {
-    return(FALSE)
-  }
-
-  if (!interactive())
-    return(FALSE)
-
-  if (!is.null(message)) {
-    todo(message)
-  }
-
-  if (!rstudioapi::hasFun("openProject"))
-    return(FALSE)
-
-  if (yesno(todo_bullet(), " Restart now?"))
-    return(FALSE)
-
-  rstudioapi::openProject(proj_get())
-}
-
 #' Add a git hook.
 #'
 #' Sets up a git hook using specified script. Creates hook directory if
