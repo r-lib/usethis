@@ -23,25 +23,25 @@ use_rstudio <- function() {
 #'
 #' R can save and reload the user's workspace between sessions via an `.RData`
 #' file in the current directory. However, long-term reproducibility is enhanced
-#' when you turn this feature off and reset R's memory at every restart. Fresh
-#' starts provide timely feedback that encourages the development of scripts
-#' that are complete and self-contained. More detail can be found in the blog
-#' post [Project-oriented
+#' when you turn this feature off and reset R's memory at every restart.
+#' Starting with a blank slate provides timely feedback that encourages the
+#' development of scripts that are complete and self-contained. More detail can
+#' be found in the blog post [Project-oriented
 #' workflow](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/).
 #'
-#' Only `use_freshstarts("project")` is automated so far, since RStudio
+#' Only `use_blank_slate("project")` is automated so far, since RStudio
 #' currently only supports modification of user-level or global options via the
 #' user interface.
 #'
 #' @inheritParams edit
 #'
 #' @export
-use_freshstarts <- function(scope = c("user", "project")) {
+use_blank_slate <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
 
   if (scope == "user") {
     todo(
-      "To use fresh starts by default in ALL RStudio sessions, ",
+      "To start ALL RStudio sessions with a blank slate, ",
       "you must set this interactively, for now."
     )
     todo(
@@ -53,7 +53,8 @@ use_freshstarts <- function(scope = c("user", "project")) {
       "set \"Save workspace to .RData on exit\" to \"Never\"."
     )
     todo(
-      "Call `use_freshstarts(\"project\")` to enforce fresh starts in this project."
+      "Call `use_blank_slate(\"project\")` to always start with a blank ",
+      "slate in this project."
     )
     return(invisible())
   }
@@ -67,7 +68,7 @@ use_freshstarts <- function(scope = c("user", "project")) {
     list(RestoreWorkspace = "No", SaveWorkspace = "No")
   )
   write_utf8(file.path(proj_get(), rproj_path()), rproj_options)
-  restart_rstudio("Restart RStudio for a fresh state?")
+  restart_rstudio("Restart RStudio with a blank slate?")
 
   invisible()
 }
