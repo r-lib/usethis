@@ -18,6 +18,9 @@
 #' * `use_tidy_versions()`: pins all dependencies to require at least
 #'   the currently installed version.
 #'
+#' * `use_tidy_contributing()`: creates tidyverse contributing guidelines from
+#'    tidy_contributing template.
+#'
 #' @md
 #' @name tidyverse
 NULL
@@ -109,4 +112,22 @@ use_tidy_eval <- function() {
   use_template("tidy-eval.R", "R/utils-tidy-eval.R")
 
   todo("Run document()")
+}
+
+
+#' @export
+#' @rdname tidyverse
+#' @inheritParams use_template
+use_tidy_contributing <- function() {
+  name <- project_name()
+
+  # Get travis url
+  travis <- travis_info(proj_get())
+  travis_url <- file.path(travis$url)
+
+  use_template(
+    "tidy_contributing.md",
+    file.path(paste0("CONTRIBUTING.md")),
+    data = list(package = name, travis_url = travis_url)
+  )
 }
