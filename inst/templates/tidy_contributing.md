@@ -32,15 +32,18 @@ your basic proposal for fixing it. If you’ve found a bug, first create a minim
 
 ### Fork, clone, branch
 
-The first thing you'll need to do is to fork the 
-[{{{package}}} GitHub repo](https://github.com/tidyverse/{{{package}}}), and 
+The first thing you'll need to do is to [fork](https://help.github.com/articles/fork-a-repo/) 
+the [{{{package}}} GitHub repo](https://github.com/tidyverse/{{{package}}}), and 
 then clone it locally. We recommend that you create a branch for each PR.
 
 ### Check
 
 Before changing anything, make sure the package still passes `R CMD check`
-locally for you. You'll do this again _after_ you've made changes, but it's best
-to establish a baseline.
+locally for you. When in doubt, compare your `R CMD check` results with current
+results for {{{package}}} on Travis (checks on Linux and/or MacOS) and, if
+applicable, AppVeyor (checks on Windows). You'll do this again before you
+finalize your pull request, but this baseline will make it easier to pinpoint
+any problems introduced by your changes.
 
 ``` r
 devtools::check()
@@ -64,11 +67,8 @@ We use [roxygen2](https://cran.r-project.org/package=roxygen2),
 specifically with the [Markdown syntax](https://cran.r-project.org/web/packages/roxygen2/vignettes/markdown.html),
 to create `NAMESPACE` and all `.Rd` files. All edits to documentation
 should be done in roxygen comments above the associated function or
-object.
-
-``` r
-devtools::document()
-```
+object. Then, run `devtools::document()` to rebuild the `NAMESPACE` and `.Rd` 
+files.
 
 See the `RoxygenNote` in [DESCRIPTION](DESCRIPTION) for the version of
 roxygen2 being used. 
@@ -77,7 +77,7 @@ roxygen2 being used.
 
 We use [testthat](https://cran.r-project.org/package=testthat). Contributions
 with test cases are easier to accept. If you are not sure what parts of your
-code is covered by tests, run the following to get a local coverage report of
+code are covered by tests, run the following to get a local coverage report of
 the package so you can see exactly what lines are not covered in the project.
 
 ``` r
@@ -110,19 +110,19 @@ title) to automatically close the issue when the PR is merged.
 
 ## Push and pull
 
-Once you've pushed your commit(s) to _your_ fork, you're ready to make the pull
-request. Pull requests should have descriptive titles to remind 
-reviewers/maintainers what the PR is about. You can easily view what exact 
-changes you are proposing using either the Git diff view in RStudio, or the 
-[branch comparison view](https://help.github.com/articles/creating-a-pull-request/) 
+Once you've pushed your commit(s) to a branch in _your_ fork, you're ready to
+make the pull request. Pull requests should have descriptive titles to remind
+reviewers/maintainers what the PR is about. You can easily view what exact
+changes you are proposing using either the [Git diff](http://r-pkgs.had.co.nz/git.html#git-status) 
+view in RStudio, or the [branch comparison view](https://help.github.com/articles/creating-a-pull-request/) 
 you'll be taken to when you go to create a new PR. If the PR is related to an 
-issue, provide the issue number and slug in the _description_ using auto-linking 
-syntax (e.g. `#15`).
+issue, provide the issue number and slug in the _description_ using 
+auto-linking syntax (e.g. `#15`).
 
 ### Review, revise, repeat
 
 Since tidyverse development happens in waves, the latency period between
-submitting your PR and its reviewed may vary. When a maintainer does review
+submitting your PR and its review may vary. When a maintainer does review
 your contribution, be sure to use the same conventions described here with any
 revision commits.
 
@@ -133,12 +133,18 @@ revision commits.
 several ways to contribute that _don't_ involve writing code.
 * [Contributing Code to the Tidyverse](http://www.jimhester.com/2017/08/08/contributing/) 
 by Jim Hester.
+* [R packages](http://r-pkgs.had.co.nz/) by Hadley Wickham.
+  - [Git and GitHub](http://r-pkgs.had.co.nz/git.html)
+  - [Automated checking](http://r-pkgs.had.co.nz/check.html)
+  - [Object documentation](http://r-pkgs.had.co.nz/man.html)
+  - [Testing](http://r-pkgs.had.co.nz/tests.html)
 * [dplyr’s `NEWS.md`](https://github.com/tidyverse/dplyr/blob/master/NEWS.md) is
 a good source of examples for both content and styling.
 * [Closing issues using keywords](https://help.github.com/articles/closing-issues-using-keywords/)
 on GitHub.
 * [Autolinked references and URLs](https://help.github.com/articles/autolinked-references-and-urls/)
 on GitHub.
+* [GitHub Guides: Forking Projects](https://guides.github.com/activities/forking/).
 
 ## Code of Conduct
 
