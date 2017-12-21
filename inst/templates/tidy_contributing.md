@@ -1,7 +1,7 @@
 # Contributing to {{{package}}}
 
 -   [Prerequisites](#prerequisites)
--   [Package mechanics](#package-mechanics)
+-   [PR Process](#pr-process)
     -   [Fork, clone, branch](#fork-clone-branch)
     -   [Check](#check)
     -   [Style](#style)
@@ -10,7 +10,7 @@
     -   [NEWS](#news)
     -   [Re-check](#re-check)
     -   [Commit](#commit)
--   [Push and pull](#push-and-pull)
+    -   [Push and pull](#push-and-pull)
     -   [Review, revise, repeat](#review-revise-repeat)
 -   [Resources](#resources)
 -   [Code of Conduct](#code-of-conduct)
@@ -28,7 +28,7 @@ someone from the tidyverse team agrees that it’s a problem, and is happy with
 your basic proposal for fixing it. If you’ve found a bug, first create a minimal
 [reprex](https://www.tidyverse.org/help/#reprex).
 
-## Package mechanics
+## PR process
 
 ### Fork, clone, branch
 
@@ -40,10 +40,10 @@ then clone it locally. We recommend that you create a branch for each PR.
 
 Before changing anything, make sure the package still passes `R CMD check`
 locally for you. When in doubt, compare your `R CMD check` results with current
-results for {{{package}}} on Travis (checks on Linux and/or MacOS) and, if
-applicable, AppVeyor (checks on Windows). You'll do this again before you
-finalize your pull request, but this baseline will make it easier to pinpoint
-any problems introduced by your changes.
+results for [{{{package}}} on Travis]({{{travis_url}}}) (checks on Linux and/or 
+MacOS) and, if applicable, AppVeyor (checks on Windows). You'll do this again
+before you finalize your pull request, but this baseline will make it easier to
+pinpoint any problems introduced by your changes.
 
 ``` r
 devtools::check()
@@ -108,7 +108,7 @@ you've done. If you've fixed or closed an issue, make sure to include keywords
 (e.g. `fixes #101`) at the end of your commit message (not in its
 title) to automatically close the issue when the PR is merged.
 
-## Push and pull
+### Push and pull
 
 Once you've pushed your commit(s) to a branch in _your_ fork, you're ready to
 make the pull request. Pull requests should have descriptive titles to remind
