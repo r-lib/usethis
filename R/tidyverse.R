@@ -119,6 +119,7 @@ use_tidy_eval <- function() {
 #' @rdname tidyverse
 #' @inheritParams use_template
 use_tidy_contributing <- function() {
+  base_path <- proj_get()
   check_uses_travis()
 
   name <- project_name()
