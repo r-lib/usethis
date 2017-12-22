@@ -5,6 +5,8 @@
 
 * `use_readme_rmd()` once again creates a pre-commit git hook, to help keep `README.Rmd` and `README.md` in sync (@PeteHaitch @jennybc, #41).
 
+* `use_tidy_contributing` uses `tidy_contributing.md` template to make tidyverse-wide contributing guidelines (@batpigandme, #143)
+
 # usethis 1.1.0
 
 ## New helpers
