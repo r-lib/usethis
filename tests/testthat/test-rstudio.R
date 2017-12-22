@@ -7,7 +7,7 @@ test_that("use_rstudio() creates .Rproj file, named after directory", {
   expect_identical(rproj, paste0(basename(dir), ".Rproj"))
 })
 
-test_that("a non-RStudio project is recognized", {
+test_that("a non-RStudio project is not recognized", {
   scoped_temporary_package(rstudio = FALSE)
   expect_false(is_rstudio_project())
   expect_identical(rproj_path(), NA_character_)
@@ -58,16 +58,12 @@ test_that("Existing field(s) in Rproj can be modified", {
 
 test_that("we can roundtrip an Rproj file", {
   scoped_temporary_package(rstudio = TRUE)
-  tmp <- tempfile()
-  rproj <- modify_rproj(
-    file.path(proj_get(), rproj_path()),
-    list()
-  )
-  writeLines(serialize_rproj(rproj), tmp)
-  expect_equivalent(
-    tools::md5sum(file.path(proj_get(), rproj_path())),
-    tools::md5sum(tmp)
-  )
+  rproj_file <- file.path(proj_get(), rproj_path())
+  before <- readLines(rproj_file)
+  rproj <- modify_rproj(rproj_file, list())
+  writeLines(serialize_rproj(rproj), rproj_file)
+  after <- readLines(rproj_file)
+  expect_identical(before, after)
 })
 
 test_that("use_blank_state() modifies Rproj", {
