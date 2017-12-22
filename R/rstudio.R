@@ -23,7 +23,7 @@ use_rstudio <- function() {
 #'
 #' R can save and reload the user's workspace between sessions via an `.RData`
 #' file in the current directory. However, long-term reproducibility is enhanced
-#' when you turn this feature off and reset R's memory at every restart.
+#' when you turn this feature off and clear R's memory at every restart.
 #' Starting with a blank slate provides timely feedback that encourages the
 #' development of scripts that are complete and self-contained. More detail can
 #' be found in the blog post [Project-oriented
@@ -53,8 +53,8 @@ use_blank_slate <- function(scope = c("user", "project")) {
       "set \"Save workspace to .RData on exit\" to \"Never\"."
     )
     todo(
-      "Call `use_blank_slate(\"project\")` to always start with a blank ",
-      "slate in this project."
+      "Call `use_blank_slate(\"project\")` to opt in to the blank slate ",
+      "workflow in this project."
     )
     return(invisible())
   }
@@ -63,11 +63,11 @@ use_blank_slate <- function(scope = c("user", "project")) {
     stop(project_name(), " is not an RStudio Project", call. = FALSE)
   }
 
-  rproj_options <- build_rproj(
+  rproj_fields <- modify_rproj(
     rproj_path(),
     list(RestoreWorkspace = "No", SaveWorkspace = "No")
   )
-  write_utf8(file.path(proj_get(), rproj_path()), rproj_options)
+  write_utf8(file.path(proj_get(), rproj_path()), serialize_rproj(rproj_fields))
   restart_rstudio("Restart RStudio with a blank slate?")
 
   invisible()
@@ -103,16 +103,23 @@ in_rstudio <- function(base_path = proj_get()) {
   normalizePath(proj) == normalizePath(base_path)
 }
 
-build_rproj <- function(file, fields) {
-  lines <- readLines(file)
-  file_fields <- lapply(lines, function(x) strsplit(x, split = ": ")[[1]])
-  file_fields <- stats::setNames(
-    lapply(file_fields, function(x) if (length(x) < 2) "" else x[[2]]),
-    lapply(file_fields, function(x) if (length(x) < 1) "" else x[[1]])
-  )
-  file_fields <- utils::modifyList(file_fields, fields)
-  is_blank <- names(file_fields) == ""
-  ifelse(is_blank, "", paste0(names(file_fields), ": ", file_fields))
+parse_rproj <- function(file) {
+  lines <- as.list(readLines(file))
+  has_colon <- grepl(":", lines)
+  fields <- lapply(lines[has_colon], function(x) strsplit(x, split = ": ")[[1]])
+  lines[has_colon] <- vapply(fields, `[[`, "character", 2)
+  names(lines)[has_colon] <- vapply(fields, `[[`, "character", 1)
+  names(lines)[!has_colon] <- ""
+  lines
+}
+
+modify_rproj <- function(file, update) {
+  utils::modifyList(parse_rproj(file), update)
+}
+
+serialize_rproj <- function(fields) {
+  named <- nzchar(names(fields))
+  as.character(ifelse(named, paste0(names(fields), ": ", fields), fields))
 }
 
 # Must be last command run
