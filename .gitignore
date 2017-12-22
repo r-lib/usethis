@@ -2,7 +2,6 @@
 .Rhistory
 .RData
 revdep/.cache.rds
-.Rbuildignore
 revdep/checks
 revdep/library
 revdep/checks.noindex

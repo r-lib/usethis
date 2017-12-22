@@ -13,7 +13,13 @@ use_rstudio <- function() {
 
   use_git_ignore(".Rproj.user")
   if (is_package()) {
-    use_build_ignore(c("^.*\\.Rproj$", "^\\.Rproj\\.user$"), escape = FALSE)
+    use_build_ignore(
+      c(
+        paste0("^", project_name(), "\\.Rproj$"),
+        "^\\.Rproj\\.user$"
+      ),
+      escape = FALSE
+    )
   }
 
   invisible(TRUE)
