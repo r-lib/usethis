@@ -57,6 +57,21 @@ uses_travis <- function(base_path = proj_get()) {
   file.exists(path)
 }
 
+
+check_uses_travis <- function(base_path = proj_get()) {
+  if (uses_travis(base_path)) {
+    return()
+  }
+
+  stop(
+    "Cannot detect that package already uses Travis.\n",
+    "Do you need to run ", code("use_travis()"), "?",
+    call. = FALSE
+  )
+}
+
+
+
 #' @rdname ci
 #' @param type CI tool to use. Currently supports codecov and coverall.
 #' @section `use_coverage`:
