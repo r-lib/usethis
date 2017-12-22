@@ -3,7 +3,7 @@
 usethis
 =======
 
-[![Travis build status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis) [![Coverage status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/github/r-lib/usethis?branch=master) [![CRAN status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
+[![Travis build status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis) [![Coverage status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/github/r-lib/usethis?branch=master) [![CRAN status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
 
 The goal of usethis is to automate many common package and analysis setup tasks.
 
@@ -73,6 +73,9 @@ use_revdep()
 #> ✔ Adding '^revdep$' to '.Rbuildignore'
 #> ✔ Adding 'revdep/checks' to './.gitignore'
 #> ✔ Adding 'revdep/library' to './.gitignore'
+#> ✔ Adding 'revdep/checks.noindex' to './.gitignore'
+#> ✔ Adding 'revdep/library.noindex' to './.gitignore'
+#> ✔ Adding 'revdep/data.sqlite' to './.gitignore'
 #> ✔ Writing 'revdep/email.yml'
 #> ● Run checks with `revdepcheck::revdep_check(num_workers = 4)`
 

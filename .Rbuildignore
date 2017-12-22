@@ -6,3 +6,4 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^cran-comments\.md$
+^appveyor\.yml$
