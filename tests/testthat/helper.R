@@ -1,4 +1,6 @@
-scoped_temporary_package <- function(dir = tempfile(), env = parent.frame()) {
+scoped_temporary_package <- function(dir = tempfile(),
+                                     env = parent.frame(),
+                                     rstudio = FALSE) {
   old <- proj$cur
   # Can't schedule a deferred project reset if calling this from the R console,
   # which is useful when developing tests
@@ -11,6 +13,6 @@ scoped_temporary_package <- function(dir = tempfile(), env = parent.frame()) {
     withr::defer(proj_set(old), envir = env)
   }
 
-  capture_output(create_package(dir, rstudio = FALSE, open = FALSE))
+  capture_output(create_package(dir, rstudio = rstudio, open = FALSE))
   invisible(dir)
 }
