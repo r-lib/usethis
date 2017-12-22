@@ -69,3 +69,11 @@ test_that("we can roundtrip an Rproj file", {
     tools::md5sum(tmp)
   )
 })
+
+test_that("use_blank_state() modifies Rproj", {
+  scoped_temporary_package(rstudio = TRUE)
+  use_blank_slate("project")
+  rproj <- parse_rproj(file.path(proj_get(), rproj_path()))
+  expect_equal(rproj$RestoreWorkspace, "No")
+  expect_equal(rproj$SaveWorkspace, "No")
+})

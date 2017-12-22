@@ -70,7 +70,7 @@ use_blank_slate <- function(scope = c("user", "project")) {
   }
 
   rproj_fields <- modify_rproj(
-    rproj_path(),
+    file.path(proj_get(), rproj_path()),
     list(RestoreWorkspace = "No", SaveWorkspace = "No")
   )
   write_utf8(file.path(proj_get(), rproj_path()), serialize_rproj(rproj_fields))
