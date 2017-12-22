@@ -27,3 +27,45 @@ test_that("we error for multiple Rproj files", {
   )
   expect_error(rproj_path(), "Multiple .Rproj files found", fixed = TRUE)
 })
+
+test_that("Rproj is parsed (actually, only colon-containing lines)", {
+  tmp <- tempfile()
+  writeLines(c("a: a", "", "b: b", "I have no colon"), tmp)
+  expect_identical(
+    parse_rproj(tmp),
+    list(a = "a", "", b = "b", "I have no colon")
+  )
+})
+
+test_that("Existing field(s) in Rproj can be modified", {
+  tmp <- tempfile()
+  writeLines(
+    c(
+      "Version: 1.0",
+      "",
+      "RestoreWorkspace: Default",
+      "SaveWorkspace: Yes",
+      "AlwaysSaveHistory: Default"
+    ),
+    tmp
+  )
+  before <- parse_rproj(tmp)
+  delta <- list(RestoreWorkspace = "No", SaveWorkspace = "No")
+  after <- modify_rproj(tmp, delta)
+  expect_identical(before[c(1, 2, 5)], after[c(1, 2, 5)])
+  expect_identical(after[3:4], delta)
+})
+
+test_that("we can roundtrip an Rproj file", {
+  scoped_temporary_package(rstudio = TRUE)
+  tmp <- tempfile()
+  rproj <- modify_rproj(
+    file.path(proj_get(), rproj_path()),
+    list()
+  )
+  writeLines(serialize_rproj(rproj), tmp)
+  expect_equivalent(
+    tools::md5sum(file.path(proj_get(), rproj_path())),
+    tools::md5sum(tmp)
+  )
+})

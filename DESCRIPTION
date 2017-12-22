@@ -27,6 +27,7 @@ Imports:
     rmarkdown,
     rprojroot,
     rstudioapi,
+    tools,
     whisker,
     withr
 Suggests: 
