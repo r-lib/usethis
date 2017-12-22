@@ -21,6 +21,8 @@
 #' * `use_tidy_contributing()`: creates tidyverse contributing guidelines from
 #'    tidy_contributing template.
 #'
+#' * `use_issues()`: creates ISSUE_TEMPLATE.md from ISSUES.md template.
+#'
 #' @md
 #' @name tidyverse
 NULL
@@ -130,5 +132,16 @@ use_tidy_contributing <- function() {
     "tidy_contributing.md",
     file.path(paste0("CONTRIBUTING.md")),
     data = list(package = name, travis_url = travis_url)
+  )
+}
+
+
+#' @export
+#' @rdname tidyverse
+#' @inheritParams use_template
+use_issues <- function() {
+  use_template(
+    "ISSUES.md",
+    "ISSUE_TEMPLATE.md"
   )
 }
