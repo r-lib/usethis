@@ -1,5 +1,6 @@
 # usethis 1.1.0.9000
 
+* `use_blank_slate()` provides a way to opt in to a workflow where the user's workspace is neither saved nor reloaded between R sessions. Automated for `scope = "project"`. Provides UI instructions for `scope = "user"`, for now (@jennybc, #139).
 
 * `use_readme_rmd()` and `use_readme_md()` work, in a similar fashion, for projects that are and are not a package (@jennybc, #131, #135).
 
