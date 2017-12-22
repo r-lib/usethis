@@ -6,6 +6,7 @@
 \alias{use_tidy_description}
 \alias{use_tidy_versions}
 \alias{use_tidy_eval}
+\alias{use_tidy_contributing}
 \title{Helpers for the tidyverse}
 \usage{
 use_tidy_ci(browse = interactive())
@@ -15,6 +16,8 @@ use_tidy_description()
 use_tidy_versions(overwrite = FALSE)
 
 use_tidy_eval()
+
+use_tidy_contributing()
 }
 \arguments{
 \item{browse}{open a browser window to enable Travis builds for the package
@@ -38,5 +41,7 @@ dependencies.
 programming with the tidy eval toolkit.
 \item \code{use_tidy_versions()}: pins all dependencies to require at least
 the currently installed version.
+\item \code{use_tidy_contributing()}: creates tidyverse contributing guidelines from
+tidy_contributing template.
 }
 }
