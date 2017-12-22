@@ -18,7 +18,7 @@ cache:
 build_script:
   - travis-tool.sh install_deps
   - git config --global user.email "usethis@example.com"
-  - git config --global user.name "usethis"
+  - git config --global user.name "use this"
 
 test_script:
   - travis-tool.sh run_tests
