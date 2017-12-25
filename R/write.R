@@ -22,7 +22,7 @@ write_union <- function(base_path, path, new_lines, quiet = FALSE) {
 }
 
 write_over <- function(base_path, path, contents) {
-  stopifnot(is.character(contents), length(contents) == 1)
+  stopifnot(is.character(contents), length(contents) > 0)
 
   full_path <- file.path(base_path, path)
   dir.create(dirname(full_path), showWarnings = FALSE)
@@ -56,8 +56,5 @@ same_contents <- function(path, contents) {
   if (!file.exists(path))
     return(FALSE)
 
-  text_hash <- digest::digest(contents, serialize = FALSE)
-  file_hash <- digest::digest(file = path)
-
-  identical(text_hash, file_hash)
+  identical(readLines(path), contents)
 }

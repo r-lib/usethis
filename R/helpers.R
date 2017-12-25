@@ -29,7 +29,7 @@ use_template <- function(template,
 
 render_template <- function(template, data = list()) {
   template_path <- find_template(template)
-  paste0(whisker::whisker.render(readLines(template_path), data), "\n", collapse = "")
+  strsplit(whisker::whisker.render(readLines(template_path), data), "\n")[[1]]
 }
 
 find_template <- function(template_name) {
