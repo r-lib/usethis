@@ -21,7 +21,6 @@ Imports:
     clisymbols,
     crayon,
     desc,
-    digest,
     gh,
     git2r,
     rmarkdown,
