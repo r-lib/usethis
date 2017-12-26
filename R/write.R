@@ -21,6 +21,7 @@ write_union <- function(base_path, path, new_lines, quiet = FALSE) {
   write_utf8(full_path, all)
 }
 
+## `contents` is a character vector of prospective lines
 write_over <- function(base_path, path, contents) {
   stopifnot(is.character(contents), length(contents) > 0)
 
