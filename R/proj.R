@@ -15,6 +15,8 @@ proj_find <- function(path = ".") {
   )
 }
 
+is_proj <- function(path = ".") !is.null(proj_find(path))
+
 #' Get and set currently active project
 #'
 #' When attached, usethis uses rprojroot to find the project root of the
