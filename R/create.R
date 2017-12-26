@@ -59,6 +59,8 @@ create_project <- function(path = ".",
 
   if (rstudio) {
     use_rstudio()
+  } else {
+    writeLines(character(), file.path(path, ".here"))
   }
   if (open) {
     open_project(path, name, rstudio = rstudio)
