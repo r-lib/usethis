@@ -119,17 +119,14 @@ use_tidy_eval <- function() {
 #' @rdname tidyverse
 #' @inheritParams use_template
 use_tidy_contributing <- function() {
-  base_path <- proj_get()
   check_uses_travis()
 
-  name <- project_name()
-  gh <- gh::gh_tree_remote(base_path)
-
+  gh <- gh::gh_tree_remote(proj_get())
   travis_url <- file.path("https://travis-ci.org", gh$username, gh$repo)
 
   use_template(
     "tidy_contributing.md",
-    file.path(paste0("CONTRIBUTING.md")),
-    data = list(package = name, travis_url = travis_url)
+    "CONTRIBUTING.md",
+    data = list(package = project_name(), travis_url = travis_url)
   )
 }
