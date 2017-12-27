@@ -2,12 +2,12 @@
 #'
 #' These helpers follow tidyverse conventions which are generally a little
 #' stricter than the defaults, reflecting the need for greater rigor in
-#' commonly used packages
+#' commonly used packages.
 #'
 #' @details
 #'
 #' * `use_tidy_ci()`: sets up travis and codecov, ensuring that the package
-#'    works on all version of R starting at 3.1.
+#'    works on all versions of R starting at 3.1.
 #'
 #' * `use_tidy_description()`: puts fields in standard order and alphabetises
 #'   dependencies.
@@ -21,7 +21,6 @@
 #' * `use_tidy_contributing()`: creates tidyverse contributing guidelines from
 #'    tidy_contributing template.
 #'
-#' @md
 #' @name tidyverse
 NULL
 
@@ -65,8 +64,9 @@ use_tidy_description <- function() {
 
   # Alphabetise remotes
   remotes <- desc::desc_get_remotes(file = base_path)
-  if (length(remotes) > 0)
+  if (length(remotes) > 0) {
     desc::desc_set_remotes(sort(remotes), file = base_path)
+  }
 
   # Reorder all fields
   desc::desc_reorder_fields(file = base_path)
