@@ -72,15 +72,26 @@ project_name <- function(base_path = proj_get()) {
   }
 }
 
-use_description_field <- function(name, value, base_path = proj_get(), overwrite = FALSE) {
+use_description_field <- function(name,
+                                  value,
+                                  base_path = proj_get(),
+                                  overwrite = FALSE) {
   curr <- desc::desc_get(name, file = base_path)[[1]]
-  if (identical(curr, value))
-    return()
-
-  if (is.na(curr) || overwrite) {
-    done("Setting ", field(name), " field in DESCRIPTION to ", value(value))
-    desc::desc_set(name, value, file = base_path)
+  if (identical(curr, value)) {
+    return(invisible())
   }
+
+  if (!is.na(curr) && !overwrite) {
+    stop(
+      field(name), " has a different value in DESCRIPTION. ",
+      "Use overwrite = TRUE to overwrite.",
+      call. = FALSE
+    )
+  }
+
+  done("Setting ", field(name), " field in DESCRIPTION to ", value(value))
+  desc::desc_set(name, value, file = base_path)
+  invisible()
 }
 
 use_dependency <- function(package, type, version = "*") {
