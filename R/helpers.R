@@ -72,10 +72,14 @@ project_name <- function(base_path = proj_get()) {
   }
 }
 
-use_description_field <- function(name, value, base_path = proj_get(), overwrite = FALSE) {
+use_description_field <- function(name,
+                                  value,
+                                  base_path = proj_get(),
+                                  overwrite = FALSE) {
   curr <- desc::desc_get(name, file = base_path)[[1]]
-  if (identical(curr, value))
+  if (identical(curr, value)) {
     return()
+  }
 
   if (is.na(curr) || overwrite) {
     done("Setting ", field(name), " field in DESCRIPTION to ", value(value))
