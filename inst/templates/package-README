@@ -22,7 +22,7 @@ The goal of {{{ Package }}} is to ...
 {{#github}}
 ## Installation
 
-You can install {{{ Package }}} from github with:
+You can install {{{ Package }}} from GitHub with:
 
 {{#Rmd}}
 ```{r gh-installation, eval = FALSE}
