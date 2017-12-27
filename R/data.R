@@ -106,5 +106,5 @@ use_data_raw <- function() {
 
   message("Next:")
   todo("Add data creation scripts in 'data-raw'")
-  todo("Use devtools::use_data() to add data to package")
+  todo("Use usethis::use_data() to add data to package")
 }
