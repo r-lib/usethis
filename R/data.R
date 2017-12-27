@@ -1,8 +1,8 @@
 #' Create package data
 #'
-#' `use_data` makes it easy to save package data in the correct format.
+#' `use_data()` makes it easy to save package data in the correct format.
 #' I recommend you save scripts that generate package data in `data-raw`:
-#' use `use_data_raw` to set it up.
+#' use `use_data_raw()` to set it up.
 #'
 #' @param ... Unquoted names of existing objects to save.
 #' @param internal If `FALSE`, saves each object in its own `.rda`
@@ -14,10 +14,10 @@
 #'   Objects in this file follow the usual export rules. Note that this means
 #'   they will be exported if you are using the common `exportPattern()`
 #'   rule which exports all objects except for those that start with `.`.
-#' @param overwrite By default, `use_data` will not overwrite existing
+#' @param overwrite By default, `use_data()` will not overwrite existing
 #'   files. If you really want to do so, set this to `TRUE`.
 #' @param compress Choose the type of compression used by [save()].
-#'   Should be one of "gzip", "bzip2" or "xz".
+#'   Should be one of "gzip", "bzip2", or "xz".
 #' @inheritParams use_template
 #' @export
 #' @examples
@@ -31,8 +31,7 @@
 use_data <- function(...,
                      internal = FALSE,
                      overwrite = FALSE,
-                     compress = "bzip2"
-                     ) {
+                     compress = "bzip2") {
   objs <- get_objs_from_dots(dots(...))
 
   if (internal) {
@@ -72,9 +71,11 @@ get_objs_from_dots <- function(.dots) {
   duplicated_objs <- which(stats::setNames(duplicated(objs), objs))
   if (length(duplicated_objs) > 0L) {
     objs <- unique(objs)
-    warning("Saving duplicates only once: ",
-            paste(names(duplicated_objs), collapse = ", "),
-            call. = FALSE)
+    warning(
+      "Saving duplicates only once: ",
+      paste(names(duplicated_objs), collapse = ", "),
+      call. = FALSE
+    )
   }
   objs
 }
