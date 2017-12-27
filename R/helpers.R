@@ -32,7 +32,14 @@ use_template <- function(template,
 
 render_template <- function(template, data = list(), package = "usethis") {
   template_path <- find_template(template, package = package)
+<<<<<<< HEAD
   strsplit(whisker::whisker.render(readLines(template_path), data), "\n")[[1]]
+=======
+  paste0(
+    whisker::whisker.render(readLines(template_path), data), "\n",
+    collapse = ""
+  )
+>>>>>>> 3182a8aeb7e214402e00107f50b27bff0621028c
 }
 
 find_template <- function(template_name, package = "usethis") {
