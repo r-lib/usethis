@@ -12,5 +12,5 @@
 #' @aliases          quo quos enquo sym syms ensym expr exprs enexpr quo_name
 #' @importFrom rlang quo quos enquo sym syms ensym expr exprs enexpr quo_name
 #' @export           quo quos enquo sym syms ensym expr exprs enexpr quo_name
-#' @importFrom rlang UQ UQS .data .env `:=`
+#' @importFrom rlang UQ UQS .data :=
 NULL
