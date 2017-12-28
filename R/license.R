@@ -28,6 +28,8 @@
 #' @md
 NULL
 
+## TODO(jennybc): check if package is a project
+
 #' @rdname licenses
 #' @export
 use_mit_license <- function(name = find_name()) {
@@ -95,7 +97,7 @@ license_data <- function(name, base_path = proj_get()) {
 
 find_name <- function() {
   name <- getOption("devtools.name")
-  if (!is.null(name)) {
+  if (!is.null(name) && name != "Your name goes here") {
     return(name)
   }
 

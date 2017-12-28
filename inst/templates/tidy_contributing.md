@@ -16,7 +16,7 @@
 -   [Code of Conduct](#code-of-conduct)
 
 This explains how to propose a change to {{{package}}} via a pull request using
-Git and Github. 
+Git and GitHub. 
 
 For more general info about contributing to the tidyverse, see the 
 [Resources](#resources) at the end of this document.

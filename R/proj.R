@@ -15,6 +15,8 @@ proj_find <- function(path = ".") {
   )
 }
 
+is_proj <- function(path = ".") !is.null(proj_find(path))
+
 #' Get and set currently active project
 #'
 #' When attached, usethis uses rprojroot to find the project root of the
@@ -59,14 +61,6 @@ proj_set <- function(path = ".", force = FALSE) {
   }
 
   invisible(old)
-}
-
-scoped_temporary_package <- function(dir = tempfile(), env = parent.frame()) {
-  old <- proj$cur
-  withr::defer(proj_set(old), envir = env)
-
-  utils::capture.output(create_package(dir, rstudio = FALSE, open = FALSE))
-  invisible(dir)
 }
 
 .onAttach <- function(...) {

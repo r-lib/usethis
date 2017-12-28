@@ -32,12 +32,12 @@ specifications will be modified. Set to \code{TRUE} to modify all dependencies.}
 \description{
 These helpers follow tidyverse conventions which are generally a little
 stricter than the defaults, reflecting the need for greater rigor in
-commonly used packages
+commonly used packages.
 }
 \details{
 \itemize{
 \item \code{use_tidy_ci()}: sets up travis and codecov, ensuring that the package
-works on all version of R starting at 3.1.
+works on all versions of R starting at 3.1.
 \item \code{use_tidy_description()}: puts fields in standard order and alphabetises
 dependencies.
 \item \code{use_tidy_eval()}: imports a standard set of helpers to facilitate
