@@ -1,4 +1,4 @@
-context("readme")
+context("use_readme")
 
 test_that("error if try to overwrite existing file", {
   tmp <- scoped_temporary_package()

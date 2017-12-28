@@ -1,4 +1,4 @@
-context("data")
+context("use_data")
 
 test_that("use_data() errors for a non-package project", {
   scoped_temporary_project()
