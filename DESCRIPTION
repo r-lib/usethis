@@ -27,11 +27,11 @@ Imports:
     rmarkdown,
     rprojroot,
     rstudioapi,
-    whisker,
-    withr
+    whisker
 Suggests: 
     covr,
-    testthat
+    testthat,
+    withr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
