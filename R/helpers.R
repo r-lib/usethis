@@ -1,19 +1,22 @@
-#' Use a usethis template
+#' Use a usethis-style template
 #'
 #' @param template Template name
 #' @param save_as Name of file to create. Defaults to `save_as`
 #' @param data A list of data passed to the template.
 #' @param ignore Should the newly created file be added to `.Rbuildignore?`
 #' @param open Should the new created file be opened in RStudio?
+#' @param package Name of the package where the template will be found.
 #' @return A logical vector indicating if file was modified.
 #' @keywords internal
+#' @export
 use_template <- function(template,
                          save_as = template,
                          data = list(),
                          ignore = FALSE,
-                         open = FALSE) {
+                         open = FALSE,
+                         package = "usethis") {
 
-  template_contents <- render_template(template, data)
+  template_contents <- render_template(template, data, package = package)
   new <- write_over(proj_get(), save_as, template_contents)
 
   if (ignore) {
@@ -27,15 +30,18 @@ use_template <- function(template,
   invisible(new)
 }
 
-render_template <- function(template, data = list()) {
-  template_path <- find_template(template)
+render_template <- function(template, data = list(), package = "usethis") {
+  template_path <- find_template(template, package = package)
   strsplit(whisker::whisker.render(readLines(template_path), data), "\n")[[1]]
 }
 
-find_template <- function(template_name) {
-  path <- system.file("templates", template_name, package = "usethis")
+find_template <- function(template_name, package = "usethis") {
+  path <- system.file("templates", template_name, package = package)
   if (identical(path, "")) {
-    stop("Could not find template ", value(template_name), call. = FALSE)
+    stop(
+      "Could not find template ", value(template_name),
+      " in package ", package,
+      call. = FALSE)
   }
   path
 }
