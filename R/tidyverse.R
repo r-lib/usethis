@@ -21,6 +21,9 @@
 #' * `use_tidy_contributing()`: creates tidyverse contributing guidelines from
 #'    tidy_contributing template.
 #'
+#' * `use_tidy_issue_template()`: creates a standard tidyverse issue template.
+#'
+#' @md
 #' @name tidyverse
 NULL
 
@@ -128,5 +131,18 @@ use_tidy_contributing <- function() {
     "tidy_contributing.md",
     "CONTRIBUTING.md",
     data = list(package = project_name(), travis_url = travis_url)
+  )
+}
+
+
+#' @export
+#' @rdname tidyverse
+#' @inheritParams use_template
+use_tidy_issue_template <- function() {
+  check_uses_github()
+
+  use_template(
+    "ISSUE_TEMPLATE.md",
+    "ISSUE_TEMPLATE.md"
   )
 }
