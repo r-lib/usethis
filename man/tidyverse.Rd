@@ -46,7 +46,6 @@ programming with the tidy eval toolkit.
 the currently installed version.
 \item \code{use_tidy_contributing()}: creates tidyverse contributing guidelines from
 tidy_contributing template.
-\item \code{use_tidy_issue_template()}: creates ISSUE_TEMPLATE.md from
-ISSUES_TEMPLATE.md template.
+\item \code{use_tidy_issue_template()}: creates a standard tidyverse issue template.
 }
 }

@@ -23,7 +23,6 @@
 #'
 #' * `use_tidy_issue_template()`: creates a standard tidyverse issue template.
 #'
-#' @md
 #' @name tidyverse
 NULL
 
