@@ -12,6 +12,8 @@
 
 * Change `CONDUCT` template to `CODE_OF_CONDUCT` (@batpigandme)
 
+* `use_tidy_support` creates support guidelines to be viewed before filing an usse (@batpigandme, #166).
+
 # usethis 1.1.0
 
 ## New helpers

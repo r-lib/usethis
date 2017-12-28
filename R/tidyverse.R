@@ -23,9 +23,10 @@
 #'
 #' * `use_tidy_issue_template()`: creates a standard tidyverse issue template.
 #'
-#' @md
+#' * `use_tidy_support`: creates support resources document for GitHub repo
+#'    using SUPPORT.md.
+#'
 #' @name tidyverse
-NULL
 
 #' @export
 #' @rdname tidyverse
@@ -145,4 +146,19 @@ use_tidy_issue_template <- function() {
     "ISSUE_TEMPLATE.md",
     "ISSUE_TEMPLATE.md"
   )
+}
+
+
+#' @export
+#' @rdname tidyverse
+#' @inheritParams use_template
+use_tidy_support <- function() {
+  check_uses_github()
+
+  name <- project_name()
+
+  use_template(
+    "SUPPORT.md",
+    "SUPPORT.md")
+  data = list(package = name)
 }
