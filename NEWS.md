@@ -8,6 +8,8 @@
 
 * `use_tidy_contributing` uses `tidy_contributing.md` template to make tidyverse-wide contributing guidelines (@batpigandme, #143)
 
+* Change `CONDUCT` template to `CODE_OF_CONDUCT` (@batpigandme)
+
 # usethis 1.1.0
 
 ## New helpers
