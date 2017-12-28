@@ -9,5 +9,5 @@ use_pkgdown <- function() {
   edit_file(proj_get(), "_pkgdown.yml")
   use_build_ignore("_pkgdown.yml")
 
-  use_directory("doc", ignore = TRUE)
+  use_directory("docs", ignore = TRUE)
 }
