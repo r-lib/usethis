@@ -1,7 +1,8 @@
 #' Connect a local repo with GitHub.
 #'
-#' `use_github` calls [use_git()] if needed, creates
-#' repo on github, then sets up appropriate git remotes and syncs.
+#' `use_github` requires that your package have a git repository,
+#' which you can create with [use_git()], if needed.
+#' `use_github` then sets up appropriate git remotes and syncs.
 #' `use_github_links` populates the `URL` and `BugReports`
 #' fields with appropriate links (unless they already exist).
 #'
@@ -47,12 +48,14 @@
 #' @examples
 #' \dontrun{
 #' ## to use default ssh protocol
-#' create("testpkg")
-#' use_github(pkg = "testpkg")
+#' create_package() # creates package in current working directory
+#' use_git()        # creates git repository
+#' use_github()     # creates github repository, establishes git remotes
 #'
 #' ## or use https
-#' create("testpkg2")
-#' use_github(pkg = "testpkg2", protocol = "https")
+#' create_package()
+#' use_git()
+#' use_github(protocol = "https")
 #' }
 use_github <- function(organisation = NULL,
                        private = FALSE,
@@ -112,6 +115,7 @@ use_github <- function(organisation = NULL,
     https = create$clone_url,
     ssh = create$ssh_url
   )
+  print(origin_url)
   git2r::remote_add(r, "origin", origin_url)
 
   if (is_package()) {
