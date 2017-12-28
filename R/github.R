@@ -115,7 +115,6 @@ use_github <- function(organisation = NULL,
     https = create$clone_url,
     ssh = create$ssh_url
   )
-  print(origin_url)
   git2r::remote_add(r, "origin", origin_url)
 
   if (is_package()) {
