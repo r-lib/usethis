@@ -1,13 +1,14 @@
 #' Create tests
 #'
-#' `use_testthat` sets up testing infrastructure, creating
+#' `use_testthat()` sets up testing infrastructure, creating
 #' \file{tests/testthat.R} and \file{tests/testthat/}, and
-#' adding \pkg{testthat} to the suggested packages. `use_test`
+#' adding \pkg{testthat} to the suggested packages. `use_test()`
 #' creates \file{tests/testthat/test-<name>.R} and opens it for editing.
 #'
 #' @export
 #' @inheritParams use_template
 use_testthat <- function() {
+  ## TODO(jennybc): check if project is a package
   check_installed("testthat")
 
   use_dependency("testthat", "Suggests")
@@ -37,13 +38,13 @@ use_test <- function(name = NULL, open = TRUE) {
   if (file.exists(file.path(proj_get(), path))) {
     edit_file(proj_get(), path)
   } else {
-    use_template("test-example.R",
+    use_template(
+      "test-example.R",
       path,
       data = list(test_name = name),
       open = open
     )
   }
-
 
   invisible(TRUE)
 }
