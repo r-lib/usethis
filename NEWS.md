@@ -7,7 +7,7 @@
 
 * `use_tidy_contributing` uses `tidy_contributing.md` template to make tidyverse-wide contributing guidelines (@batpigandme, #143).
 
-* `use_issues` uses `ISSUES.md` template to make `ISSUE_TEMPLATE.md` (@batpigandme).
+* `use_tidy_issues` uses `ISSUES.md` template to make `ISSUE_TEMPLATE.md` (@batpigandme).
 
 # usethis 1.1.0
 
