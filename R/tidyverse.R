@@ -21,7 +21,8 @@
 #' * `use_tidy_contributing()`: creates tidyverse contributing guidelines from
 #'    tidy_contributing template.
 #'
-#' * `use_tidy_issues()`: creates ISSUE_TEMPLATE.md from ISSUES.md template.
+#' * `use_tidy_issue_template()`: creates ISSUE_TEMPLATE.md from
+#'    ISSUES_TEMPLATE.md template.
 #'
 #' @md
 #' @name tidyverse
@@ -139,11 +140,11 @@ use_tidy_contributing <- function() {
 #' @export
 #' @rdname tidyverse
 #' @inheritParams use_template
-use_tidy_issues <- function() {
+use_tidy_issue_template <- function() {
   check_uses_github()
 
   use_template(
-    "ISSUES.md",
+    "ISSUE_TEMPLATE.md",
     "ISSUE_TEMPLATE.md"
   )
 }
