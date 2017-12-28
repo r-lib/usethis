@@ -1,14 +1,34 @@
 #' Use a usethis-style template
 #'
-#' @param template Template name
-#' @param save_as Name of file to create. Defaults to `save_as`
+#' Supports templating-functionality for your package.
+#'
+#' This function can be used as the engine for your templating function.
+#' The `template` argument is used along with the `package` argument to
+#' determine the path to your template file; it will be expected
+#' at `system.file("templates", template, package = package)`.
+#'
+#' To interpolate your data onto the template, supply a list using
+#' the `data` argument. Internally, this function uses
+#' [whisker::whisker.render()] to combine your template file with your data.
+#'
+#' @param template Path to template file relative to `"templates"` directory
+#'   within `package`; see details.
+#' @param save_as Name of file to create. Defaults to `template`
 #' @param data A list of data passed to the template.
 #' @param ignore Should the newly created file be added to `.Rbuildignore?`
 #' @param open Should the new created file be opened in RStudio?
 #' @param package Name of the package where the template will be found.
 #' @return A logical vector indicating if file was modified.
-#' @keywords internal
 #' @export
+#' @examples
+#' \dontrun{
+#'   # Note: running this will write `NEWS.md` to your working directory
+#'   use_template(
+#'     template = "NEWS.md",
+#'     data = list(Package = "acme", Version = "1.2.3"),
+#'     package = "usethis"
+#'   )
+#' }
 use_template <- function(template,
                          save_as = template,
                          data = list(),
