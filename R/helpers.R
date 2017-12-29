@@ -178,13 +178,13 @@ create_directory <- function(base_path, path) {
 edit_file <- function(base_path, path) {
   full_path <- path.expand(file.path(base_path, path))
 
-  if (!interactive()) {
+  if (!file.exists(full_path)) {
+    file.create(full_path)
+  }
+
+  if (!interactive() || is_testing()) {
     todo("Edit ", value(path))
   } else {
-    if (!file.exists(full_path)) {
-      file.create(full_path)
-    }
-
     todo("Modify ", value(path))
 
     if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
