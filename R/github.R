@@ -61,7 +61,10 @@ use_github <- function(organisation = NULL,
                        auth_token = NULL,
                        host = NULL) {
   if (!uses_git()) {
-    stop("Please use_git() before use_github()", call. = FALSE)
+    stop(
+      "Please call ", code("use_git()"), " before ",
+      code("use_github()"), ".", call. = FALSE
+    )
   }
 
   if (uses_github(proj_get())) {
