@@ -3,9 +3,9 @@ context("readme")
 test_that("error if try to overwrite existing file", {
   tmp <- scoped_temporary_package()
   file.create(file.path(tmp, "README.md"))
-  expect_error(use_readme_md(tmp), "already exists")
+  expect_error(use_readme_md(), "already exists")
   file.create(file.path(tmp, "README.Rmd"))
-  expect_error(use_readme_rmd(tmp), "already exists")
+  expect_error(use_readme_rmd(), "already exists")
 })
 
 test_that("sets up git pre-commit hook iff pkg uses git", {
