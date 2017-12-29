@@ -76,14 +76,23 @@ use_github <- function(organisation = NULL,
   repo_name <- pkg$Project %||% gsub("\n", " ", pkg$Package)
   repo_desc <- pkg$Title %||% ""
 
-  todo("Check title and description")
-  code_block(
-    paste0("Name:        ", repo_name),
-    paste0("Description: ", repo_desc),
-    copy = FALSE
-  )
-  if (nope("Are title and description ok?")) {
-    return(invisible())
+  if (interactive()) {
+    todo("Check title and description")
+    code_block(
+      paste0("Name:        ", repo_name),
+      paste0("Description: ", repo_desc),
+      copy = FALSE
+    )
+    if (nope("Are title and description ok?")) {
+      return(invisible())
+    }
+  } else {
+    done("Setting title and description")
+    code_block(
+      paste0("Name:        ", repo_name),
+      paste0("Description: ", repo_desc),
+      copy = FALSE
+    )
   }
 
   done("Creating GitHub repository")
