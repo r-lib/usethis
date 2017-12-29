@@ -15,7 +15,7 @@ can_overwrite <- function(path) {
 ##   i.e. entered 0
 nope <- function(...) {
   yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
-  nos <- c("No way", "Not yet", "I forget", "No", "Nope", "Uhhhh... Maybe?")
+  nos <- c("No way", "Not yet", "I forget", "No", "Nope", "Hell no")
 
   cat(paste0(..., collapse = ""))
   qs <- c(sample(yeses, 1), sample(nos, 2))
