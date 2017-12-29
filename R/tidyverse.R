@@ -26,6 +26,7 @@
 #' * `use_tidy_support`: creates support resources document for GitHub repo
 #'    using SUPPORT.md.
 #'
+NULL
 #' @name tidyverse
 
 #' @export

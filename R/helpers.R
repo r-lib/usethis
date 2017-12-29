@@ -134,7 +134,6 @@ use_dependency <- function(package, type, version = "*") {
 #' @inheritParams use_template
 #'
 #' @export
-#' @md
 #' @examples
 #' \dontrun{
 #' use_directory("inst")

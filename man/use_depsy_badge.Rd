@@ -8,8 +8,7 @@ use_depsy_badge()
 }
 \description{
 This prints out the markdown which will display a Depsy "badge", showing the
-"percentile overall impact" of the project, powered by
-\url{http://depsy.org}.
+"percentile overall impact" of the project, powered by \url{http://depsy.org}.
 }
 \details{
 Depsy only indexes projects that are on CRAN.

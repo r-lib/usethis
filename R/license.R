@@ -25,7 +25,6 @@
 #'   `options(usethis.full_name = "My name")`.
 #' @inheritParams use_template
 #' @aliases NULL
-#' @md
 NULL
 
 ## TODO(jennybc): check if package is a project
