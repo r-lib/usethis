@@ -1,10 +1,10 @@
 can_overwrite <- function(path) {
-  name <- basename(path)
-
   if (!file.exists(path)) {
-    TRUE
-  } else if (interactive() && !nope("Overwrite `", name, "`?")) {
-    TRUE
+    return(TRUE)
+  }
+
+  if (interactive()) {
+    nope("Overwrite pre-existing file ", value(basename(path)), "?")
   } else {
     FALSE
   }
@@ -17,8 +17,8 @@ nope <- function(...) {
   message <- paste0(..., collapse = "")
   if (!interactive()) {
     stop(
-      code("nope()"), " called in non-interactive session.\n",
-      "Message: ", message, call. = FALSE
+      "User input required in non-interactive session.\n",
+      "Query: ", message, call. = FALSE
     )
   }
   yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
