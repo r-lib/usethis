@@ -50,3 +50,7 @@ skip_if_not_ci <- function() {
   }
   skip("Not on Travis or Appveyor")
 }
+
+expect_error_free <- function(...) {
+  expect_error(..., regexp = NA)
+}
