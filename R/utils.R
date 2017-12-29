@@ -14,10 +14,17 @@ can_overwrite <- function(path) {
 ## TRUE: user did anything else: selected one of the "no's" or selected nothing,
 ##   i.e. entered 0
 nope <- function(...) {
+  message <- paste0(..., collapse = "")
+  if (!interactive()) {
+    stop(
+      code("nope()"), " called in non-interactive session.\n",
+      "Message: ", message, call. = FALSE
+    )
+  }
   yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
   nos <- c("No way", "Not yet", "I forget", "No", "Nope", "Hell no")
 
-  cat(paste0(..., collapse = ""))
+  cat(message)
   qs <- c(sample(yeses, 1), sample(nos, 2))
   rand <- sample(length(qs))
 
