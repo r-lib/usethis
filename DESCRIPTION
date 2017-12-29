@@ -30,7 +30,7 @@ Imports:
     whisker
 Suggests: 
     covr,
-    testthat,
+    testthat (>= 2.0.0),
     withr
 Encoding: UTF-8
 LazyData: true

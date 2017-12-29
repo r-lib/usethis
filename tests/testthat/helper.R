@@ -16,3 +16,11 @@ scoped_temporary_package <- function(dir = tempfile(),
   capture_output(create_package(dir, rstudio = rstudio, open = FALSE))
   invisible(dir)
 }
+
+test_mode <- function() {
+  before <- Sys.getenv("TESTTHAT")
+  after <- if (before == "true") "false" else "true"
+  Sys.setenv(TESTTHAT = after)
+  cat("TESTTHAT:", before, "-->", after, "\n")
+  invisible()
+}
