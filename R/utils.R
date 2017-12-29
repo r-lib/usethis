@@ -54,3 +54,11 @@ check_installed <- function(pkg) {
     )
   }
 }
+
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true")
+}
+
+interactive <- function() {
+  base::interactive() && !is_testing()
+}
