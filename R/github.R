@@ -60,7 +60,6 @@ use_github <- function(organisation = NULL,
                        credentials = NULL,
                        auth_token = NULL,
                        host = NULL) {
-
   if (!uses_git()) {
     stop("Please use_git() before use_github()", call. = FALSE)
   }
@@ -87,7 +86,8 @@ use_github <- function(organisation = NULL,
   done("Creating GitHub repository")
 
   if (is.null(organisation)) {
-    create <- gh::gh("POST /user/repos",
+    create <- gh::gh(
+      "POST /user/repos",
       name = repo_name,
       description = repo_desc,
       private = private,
@@ -95,7 +95,8 @@ use_github <- function(organisation = NULL,
       .token = auth_token
     )
   } else {
-    create <- gh::gh("POST /orgs/:org/repos",
+    create <- gh::gh(
+      "POST /orgs/:org/repos",
       org = organisation,
       name = repo_name,
       description = repo_desc,
@@ -145,7 +146,6 @@ use_github <- function(organisation = NULL,
 #' @rdname use_github
 use_github_links <- function(auth_token = NULL,
                              host = "https://api.github.com") {
-
   check_uses_github()
 
   info <- gh::gh_tree_remote(proj_get())

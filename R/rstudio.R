@@ -92,11 +92,13 @@ rproj_path <- function(base_path = proj_get()) {
 
 # Is base_path open in RStudio?
 in_rstudio <- function(base_path = proj_get()) {
-  if (!rstudioapi::isAvailable())
+  if (!rstudioapi::isAvailable()) {
     return(FALSE)
+  }
 
-  if (!rstudioapi::hasFun("getActiveProject"))
+  if (!rstudioapi::hasFun("getActiveProject")) {
     return(FALSE)
+  }
 
   proj <- rstudioapi::getActiveProject()
 
@@ -128,18 +130,21 @@ restart_rstudio <- function(message = NULL) {
     return(FALSE)
   }
 
-  if (!interactive())
+  if (!interactive()) {
     return(FALSE)
+  }
 
   if (!is.null(message)) {
     todo(message)
   }
 
-  if (!rstudioapi::hasFun("openProject"))
+  if (!rstudioapi::hasFun("openProject")) {
     return(FALSE)
+  }
 
-  if (yesno(todo_bullet(), " Restart now?"))
+  if (yesno(todo_bullet(), " Restart now?")) {
     return(FALSE)
+  }
 
   rstudioapi::openProject(proj_get())
 }
