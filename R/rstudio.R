@@ -142,7 +142,7 @@ restart_rstudio <- function(message = NULL) {
     return(FALSE)
   }
 
-  if (yesno(todo_bullet(), " Restart now?")) {
+  if (nope(todo_bullet(), " Restart now?")) {
     return(FALSE)
   }
 

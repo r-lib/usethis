@@ -3,14 +3,17 @@ can_overwrite <- function(path) {
 
   if (!file.exists(path)) {
     TRUE
-  } else if (interactive() && !yesno("Overwrite `", name, "`?")) {
+  } else if (interactive() && !nope("Overwrite `", name, "`?")) {
     TRUE
   } else {
     FALSE
   }
 }
 
-yesno <- function(...) {
+## FALSE: user selected the "yes"
+## TRUE: user did anything else: selected one of the "no's" or selected nothing,
+##   i.e. entered 0
+nope <- function(...) {
   yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
   nos <- c("No way", "Not yet", "I forget", "No", "Nope", "Uhhhh... Maybe?")
 

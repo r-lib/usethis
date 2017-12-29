@@ -79,7 +79,7 @@ use_github <- function(organisation = NULL,
     paste0("Description: ", repo_desc),
     copy = FALSE
   )
-  if (yesno("Are title and description ok?")) {
+  if (nope("Are title and description ok?")) {
     return(invisible())
   }
 

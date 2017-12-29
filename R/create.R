@@ -143,7 +143,7 @@ check_not_nested <- function(path, name) {
     stop(message, call. = FALSE)
   }
 
-  if (yesno(message, " This is rarely a good idea. Do you wish to create anyway?")) {
+  if (nope(message, " This is rarely a good idea. Do you wish to create anyway?")) {
     stop("Aborting project creation", call. = FALSE)
   }
 }
