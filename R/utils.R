@@ -4,7 +4,7 @@ can_overwrite <- function(path) {
   }
 
   if (interactive()) {
-    nope("Overwrite pre-existing file ", value(basename(path)), "?")
+    !nope("Overwrite pre-existing file ", value(basename(path)), "?")
   } else {
     FALSE
   }
