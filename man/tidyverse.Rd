@@ -50,6 +50,7 @@ the currently installed version.
 \item \code{use_tidy_contributing()}: creates tidyverse contributing guidelines from
 tidy_contributing template.
 \item \code{use_tidy_issue_template()}: creates a standard tidyverse issue template.
-\item \code{use_tidy_support}: creates support resources document for GitHub repo.
+\item \code{use_tidy_support()}: creates support resources document for GitHub repo
+using SUPPORT.md.
 }
 }

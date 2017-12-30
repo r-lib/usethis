@@ -6,13 +6,13 @@
 
 * `use_readme_rmd()` once again creates a pre-commit git hook, to help keep `README.Rmd` and `README.md` in sync (@PeteHaitch @jennybc, #41).
 
-* `use_tidy_contributing` uses `tidy_contributing.md` template to make tidyverse-wide contributing guidelines (@batpigandme, #143).
+* `use_tidy_contributing()` uses `tidy_contributing.md` template to make tidyverse-wide contributing guidelines (@batpigandme, #143).
 
-* `use_tidy_issue_template` uses `ISSUE_TEMPLATE.md` template to make `ISSUE_TEMPLATE.md` (@batpigandme).
+* `use_tidy_issue_template()` uses `ISSUE_TEMPLATE.md` template to make `ISSUE_TEMPLATE.md` (@batpigandme).
 
 * Change `CONDUCT` template to `CODE_OF_CONDUCT` (@batpigandme)
 
-* `use_tidy_support` creates support guidelines to be viewed before filing an usse (@batpigandme, #166).
+* `use_tidy_support()` creates support guidelines to be viewed before filing an issue (@batpigandme, #166).
 
 # usethis 1.1.0
 
