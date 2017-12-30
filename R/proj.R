@@ -20,9 +20,9 @@ is_proj <- function(path = ".") !is.null(proj_find(path))
 is_package <- function(base_path = proj_get()) {
   res <- tryCatch(
     rprojroot::find_package_root_file(path = base_path),
-    error = function(e) NA
+    error = function(e) NULL
   )
-  !is.na(res)
+  !is.null(res)
 }
 
 check_is_package <- function(whos_asking = NULL) {
