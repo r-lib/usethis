@@ -9,6 +9,7 @@
 #' @export
 #' @inheritParams use_template
 use_vignette <- function(name) {
+  check_is_package("use_vignette()")
   check_installed("rmarkdown")
 
   use_dependency("knitr", "Suggests")

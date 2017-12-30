@@ -8,7 +8,7 @@
 #' @export
 #' @inheritParams use_template
 use_testthat <- function() {
-  ## TODO(jennybc): check if project is a package
+  check_is_package("use_testthat()")
   check_installed("testthat")
 
   use_dependency("testthat", "Suggests")

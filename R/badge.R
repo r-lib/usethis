@@ -6,6 +6,7 @@
 #'
 #' @export
 use_cran_badge <- function() {
+  check_is_package("use_cran_badge()")
   pkg <- project_name()
 
   src <- paste0("http://www.r-pkg.org/badges/version/", pkg)
@@ -24,6 +25,7 @@ use_cran_badge <- function() {
 #'
 #' @export
 use_depsy_badge <- function() {
+  check_is_package("use_depsy_badge()")
   pkg <- project_name()
 
   src <- paste0("http://depsy.org/api/package/cran/", pkg, "/badge.svg")

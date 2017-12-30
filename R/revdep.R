@@ -7,6 +7,7 @@
 #' @export
 #' @inheritParams use_template
 use_revdep <- function() {
+  check_is_package("use_revdep()")
   use_directory("revdep", ignore = TRUE)
   use_git_ignore("revdep/checks")
   use_git_ignore("revdep/library")

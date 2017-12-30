@@ -32,13 +32,7 @@ use_data <- function(...,
                      internal = FALSE,
                      overwrite = FALSE,
                      compress = "bzip2") {
-  if (!is_package()) {
-    stop(
-      code("use_data()"), " only handles data for R packages and ",
-      "the project ", value(project_name()), " is not a package.",
-      call. = FALSE
-    )
-  }
+  check_is_package("use_data()")
 
   objs <- get_objs_from_dots(dots(...))
 
