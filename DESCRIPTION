@@ -31,6 +31,7 @@ Imports:
     whisker
 Suggests: 
     covr,
+    roxygen2,
     testthat (>= 2.0.0),
     withr
 Encoding: UTF-8
