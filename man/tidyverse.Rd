@@ -8,6 +8,7 @@
 \alias{use_tidy_eval}
 \alias{use_tidy_contributing}
 \alias{use_tidy_issue_template}
+\alias{use_tidy_support}
 \title{Helpers for the tidyverse}
 \usage{
 use_tidy_ci(browse = interactive())
@@ -21,6 +22,8 @@ use_tidy_eval()
 use_tidy_contributing()
 
 use_tidy_issue_template()
+
+use_tidy_support()
 }
 \arguments{
 \item{browse}{open a browser window to enable Travis builds for the package
@@ -47,5 +50,6 @@ the currently installed version.
 \item \code{use_tidy_contributing()}: creates tidyverse contributing guidelines from
 tidy_contributing template.
 \item \code{use_tidy_issue_template()}: creates a standard tidyverse issue template.
+\item \code{use_tidy_support}: creates support resources document for GitHub repo.
 }
 }
