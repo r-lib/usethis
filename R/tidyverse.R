@@ -157,6 +157,6 @@ use_tidy_support <- function() {
 
   use_template(
     "SUPPORT.md",
-    "SUPPORT.md")
-  data = list(package = project_name())
+    data = list(package = project_name())
+  )
 }
