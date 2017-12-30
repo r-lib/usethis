@@ -16,7 +16,6 @@
 #' use_package("dplyr", "suggests")
 #' }
 use_package <- function(package, type = "Imports") {
-  check_is_package("use_package()")
   use_dependency(package, type)
 
   switch(tolower(type),
