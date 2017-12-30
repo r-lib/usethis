@@ -9,6 +9,7 @@
 #' @inheritParams use_template
 #' @export
 use_package_doc <- function() {
+  check_is_package("use_package_doc()")
   name <- project_name()
 
   use_template(

@@ -6,6 +6,7 @@
 #' @export
 #' @inheritParams use_template
 use_dev_version <- function() {
+  check_is_package("use_dev_version()")
   if (uses_git() && git_uncommitted()) {
     stop(
       "Uncommited changes. Please commit to git before continuing",
