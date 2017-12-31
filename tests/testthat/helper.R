@@ -42,3 +42,11 @@ test_mode <- function() {
   cat("TESTTHAT:", before, "-->", after, "\n")
   invisible()
 }
+
+skip_if_not_ci <- function() {
+  ci <- any(toupper(Sys.getenv(c("TRAVIS", "APPVEYOR"))) == "TRUE")
+  if (ci) {
+    return(invisible(TRUE))
+  }
+  skip("Not on Travis or Appveyor")
+}

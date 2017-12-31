@@ -43,8 +43,11 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 edit_git_config <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   switch(scope,
-    user = edit_file("~", ".gitconfig"),
-    project = edit_file(proj_get(), ".git/config")
+    user = edit_file(scope_dir(scope, git = TRUE), ".gitconfig"),
+    project = {
+      create_directory(proj_get(), ".git")
+      edit_file(proj_get(), ".git/config")
+    }
   )
 
   invisible()
@@ -54,7 +57,8 @@ edit_git_config <- function(scope = c("user", "project")) {
 #' @rdname edit
 edit_git_ignore <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
-  edit_file(scope_dir(scope), ".gitignore")
+  ## TODO(jennybc) https://github.com/r-lib/usethis/issues/182
+  edit_file(scope_dir(scope, git = TRUE), ".gitignore")
   invisible()
 }
 
@@ -63,13 +67,27 @@ edit_git_ignore <- function(scope = c("user", "project")) {
 #' @param type Snippet type. One of "R", "markdown", "C_Cpp", "Tex",
 #'   "Javascript", "HTML", "SQL"
 edit_rstudio_snippets <- function(type = "R") {
+  create_directory("~", ".R")
+  create_directory("~", ".R/snippets")
   edit_file("~", paste0(".R/snippets/", tolower(type), ".snippets"))
   invisible()
 }
 
-scope_dir <- function(scope = c("user", "project")) {
+scope_dir <- function(scope = c("user", "project"), git = FALSE) {
   scope <- match.arg(scope)
   message("Editing in ", scope, " scope")
 
-  switch(scope, user = path.expand("~"), project = proj_get())
+  if (git) {
+    switch(scope, user = git_user_dot_home(), project = proj_get())
+  } else {
+    switch(scope, user = path.expand("~"), project = proj_get())
+  }
+}
+
+git_user_dot_home <- function() {
+  if (.Platform$OS.type == "windows") {
+    Sys.getenv("USERPROFILE")
+  } else {
+    path.expand("~")
+  }
 }
