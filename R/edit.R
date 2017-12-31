@@ -43,11 +43,11 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 edit_git_config <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   switch(scope,
-    user = edit_file(scope_dir(scope, git = TRUE), ".gitconfig"),
-    project = {
-      create_directory(proj_get(), ".git")
-      edit_file(proj_get(), ".git/config")
-    }
+         user = edit_file(git_scope_dir(scope), ".gitconfig"),
+         project = {
+           create_directory(proj_get(), ".git")
+           edit_file(proj_get(), ".git/config")
+         }
   )
 
   invisible()
@@ -58,7 +58,7 @@ edit_git_config <- function(scope = c("user", "project")) {
 edit_git_ignore <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   ## TODO(jennybc) https://github.com/r-lib/usethis/issues/182
-  edit_file(scope_dir(scope, git = TRUE), ".gitignore")
+  edit_file(git_scope_dir(scope), ".gitignore")
   invisible()
 }
 
@@ -73,15 +73,18 @@ edit_rstudio_snippets <- function(type = "R") {
   invisible()
 }
 
-scope_dir <- function(scope = c("user", "project"), git = FALSE) {
+scope_dir <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
-  message("Editing in ", scope, " scope")
+  message("Editing in ", field(scope), " scope")
 
-  if (git) {
-    switch(scope, user = git_user_dot_home(), project = proj_get())
-  } else {
-    switch(scope, user = path.expand("~"), project = proj_get())
-  }
+  switch(scope, user = path.expand("~"), project = proj_get())
+}
+
+git_scope_dir <- function(scope = c("user", "project")) {
+  scope <- match.arg(scope)
+  message("Editing in git ", field(scope), " scope")
+
+  switch(scope, user = git_user_dot_home(), project = proj_get())
 }
 
 git_user_dot_home <- function() {
