@@ -174,6 +174,11 @@ create_directory <- function(base_path, path) {
 edit_file <- function(base_path, path) {
   full_path <- path.expand(file.path(base_path, path))
 
+  ## example: path = ".R/snippets/r.snippets" but .R doesn't exist yet
+  if (dirname(path) != ".") {
+    create_directory(base_path, dirname(path))
+  }
+
   if (!file.exists(full_path)) {
     file.create(full_path)
   }
