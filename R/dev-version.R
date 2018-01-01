@@ -1,10 +1,9 @@
-#' Increment development version
+#' Increment to a development version
 #'
-#' This adds ".9000" to the package `DESCRIPTION`, adds a new heading to
-#' `NEWS.md` (if it exists), and then checks the result into git.
+#' This adds ".9000" to the "Version" field in `DESCRIPTION`, adds a new heading
+#' to `NEWS.md` (if it exists), and then checks the result into git.
 #'
 #' @export
-#' @inheritParams use_template
 use_dev_version <- function() {
   check_is_package("use_dev_version()")
   if (uses_git() && git_uncommitted()) {
@@ -21,7 +20,7 @@ use_dev_version <- function() {
 
   dev_ver <- paste0(ver, ".9000")
 
-  use_description_field("Version", dev_ver)
+  use_description_field("Version", dev_ver, overwrite = TRUE)
   use_news_heading(dev_ver)
   git_check_in(
     base_path = proj_get(),
