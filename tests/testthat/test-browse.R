@@ -38,10 +38,12 @@ test_that("browse_XXX() goes to correct URL", {
   with_mock(
     `usethis:::todo` = function(...) NULL, {
       expect_identical(browse_github("gh"), g("r-lib/gh#readme"))
-      expect_identical(browse_github_issues("gh"), g("r-lib/gh/issues/"))
+      ## be robust to trailing slash issues on Windows
+      expect_match(browse_github_issues("gh"), g("r-lib/gh/issues"))
       expect_identical(browse_github_issues("gh", 1), g("r-lib/gh/issues/1"))
       expect_identical(browse_github_issues("gh", "new"), g("r-lib/gh/issues/new"))
-      expect_identical(browse_github_pulls("gh"), g("r-lib/gh/pulls/"))
+      ## be robust to trailing slash issues on Windows
+      expect_match(browse_github_pulls("gh"), g("r-lib/gh/pulls"))
       expect_identical(browse_github_pulls("gh", 1), g("r-lib/gh/pull/1"))
       expect_identical(browse_travis("gh"), "https://travis-ci.org/r-lib/gh")
       expect_identical(browse_cran("gh"), "https://cran.r-project.org/package=gh")
