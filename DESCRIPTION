@@ -24,6 +24,7 @@ Imports:
     desc,
     gh,
     git2r,
+    rematch2,
     rmarkdown,
     rprojroot,
     rstudioapi,

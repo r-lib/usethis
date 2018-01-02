@@ -205,5 +205,5 @@ view_url <- function(..., open = interactive()) {
   } else {
     todo("Open url ", url)
   }
-  invisible()
+  invisible(url)
 }
