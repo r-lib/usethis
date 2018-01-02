@@ -15,10 +15,10 @@ use_rmarkdown_template(template_name = "Template Name",
 \item{template_dir}{Name of the directory the template will live in within
 \code{inst/rmarkdown/templates}.}
 
-\item{template_description}{A short description of the template.}
+\item{template_description}{Sets the value of \code{description} in
+\code{template.yml}.}
 
-\item{template_create_dir}{Sets the value of `create_dir``
-in the template.yml}
+\item{template_create_dir}{Sets the value of \code{create_dir} in \code{template.yml}.}
 }
 \description{
 Adds files and directories necessary to add a custom rmarkdown template to
