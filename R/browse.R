@@ -1,37 +1,63 @@
 #' Quickly browse to important package webpages
 #'
+#' These functions take you to various webpages associated with a package and
+#' return the target URL invisibly. Some URLs are formed from first principles
+#' and there is no guarantee there will be content at the destination.
+
+#' @details
+#'
+#' * `browse_github()`: Looks for a GitHub URL in the URL field of
+#' `DESCRIPTION`.
+#' * `browse_github_issues()`: Visits the GitHub Issues index or one specific
+#' issue.
+#' * `browse_github_pulls()`: Visits the GitHub Pull Request index or one
+#' specific pull request.
+#' * `browse_travis()`: Visits the package's page on [Travis
+#' CI](https://travis-ci.org).
+#' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.
+#'
 #' @param package Name of package; leave as `NULL` to use current package
 #' @param number For GitHub issues and pull requests. Can be a number or
 #'   `"new"`.
-#' @export
 #' @examples
+#' browse_github("gh")
+#' browse_github_issues("backports")
+#' browse_github_issues("backports", 1)
+#' browse_github_pulls("rprojroot")
+#' browse_github_pulls("rprojroot", 3)
+#' browse_travis("usethis")
 #' browse_cran("MASS")
+#' @name browse-this
+NULL
+
+#' @export
+#' @rdname browse-this
 browse_github <- function(package = NULL) {
   view_url(github_link(package))
 }
 
 #' @export
-#' @rdname browse_github
+#' @rdname browse-this
 browse_github_issues <- function(package = NULL, number = NULL) {
   view_url(github_home(package), "issues", number)
 }
 
 #' @export
-#' @rdname browse_github
+#' @rdname browse-this
 browse_github_pulls <- function(package = NULL, number = NULL) {
   pull <- if (is.null(number)) "pulls" else "pull"
   view_url(github_home(package), pull, number)
 }
 
 #' @export
-#' @rdname browse_github
+#' @rdname browse-this
 browse_travis <- function(package = NULL) {
   gh <- github_home(package)
   view_url(sub("github.com", "travis-ci.org", gh))
 }
 
 #' @export
-#' @rdname browse_github
+#' @rdname browse-this
 browse_cran <- function(package = NULL) {
   view_url(cran_home(package))
 }
