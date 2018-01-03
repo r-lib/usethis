@@ -39,7 +39,7 @@ use_rstudio <- function() {
 use_blank_slate <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
 
-  if (scope == "user") {
+  if (scope == "user") { # nocov start
     todo(
       "To start ALL RStudio sessions with a blank slate, ",
       "you must set this interactively, for now."
@@ -57,7 +57,7 @@ use_blank_slate <- function(scope = c("user", "project")) {
       "workflow in this project."
     )
     return(invisible())
-  }
+  } # nocov end
 
   if (!is_rstudio_project()) {
     stop(project_name(), " is not an RStudio Project", call. = FALSE)

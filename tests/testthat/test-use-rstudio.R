@@ -1,4 +1,4 @@
-context("rstudio")
+context("use_rstudio")
 
 test_that("use_rstudio() creates .Rproj file, named after directory", {
   dir <- scoped_temporary_package(rstudio = FALSE)

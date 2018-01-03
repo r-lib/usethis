@@ -5,6 +5,7 @@
 #' @inheritParams use_template
 #' @export
 use_rcpp <- function() {
+  check_is_package("use_rcpp()")
   use_dependency("Rcpp", "LinkingTo")
   use_dependency("Rcpp", "Imports")
 
@@ -25,7 +26,6 @@ use_rcpp <- function() {
       "importFrom('Rcpp', 'sourceCpp')"
     )
     edit_file(proj_get(), "NAMESPACE")
-
   }
   todo("Run document()")
 }
