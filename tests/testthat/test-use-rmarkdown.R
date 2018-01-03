@@ -4,7 +4,7 @@ test_that("use_rmarkdown_template() creates everything as promised, defaults", {
   scoped_temporary_package()
   capture_output(use_rmarkdown_template())
   path <- file.path("inst", "rmarkdown", "templates", "template-name")
-  yml <- readLines(file.path(proj_get(), path, "template.yml"))
+  yml <- readLines(proj_path(path, "template.yml"))
   expect_true(
     all(
       c("name: Template Name", "description: >",
@@ -12,7 +12,7 @@ test_that("use_rmarkdown_template() creates everything as promised, defaults", {
     )
   )
   expect_true(
-    file.exists(file.path(proj_get(), path, "skeleton", "skeleton.Rmd"))
+    file.exists(proj_path(path, "skeleton", "skeleton.Rmd"))
   )
 })
 
@@ -25,13 +25,13 @@ test_that("use_rmarkdown_template() creates everything as promised, args", {
     template_create_dir = TRUE
   ))
   path <- file.path("inst", "rmarkdown", "templates", "bbb")
-  yml <- readLines(file.path(proj_get(), path, "template.yml"))
+  yml <- readLines(proj_path(path, "template.yml"))
   expect_true(
     all(
       c("name: aaa", "description: >", "   ccc", "create_dir: TRUE") %in% yml
     )
   )
   expect_true(
-    file.exists(file.path(proj_get(), path, "skeleton", "skeleton.Rmd"))
+    file.exists(proj_path(path, "skeleton", "skeleton.Rmd"))
   )
 })

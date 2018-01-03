@@ -2,7 +2,7 @@ context("helpers")
 
 test_that("use_description_field() can address an existing field", {
   pkg <- scoped_temporary_package()
-  orig <- tools::md5sum(file.path(pkg, "DESCRIPTION"))
+  orig <- tools::md5sum(proj_path("DESCRIPTION"))
 
   ## specify existing value of existing field --> should be no op
   use_description_field(
@@ -10,7 +10,7 @@ test_that("use_description_field() can address an existing field", {
     value = desc::desc_get("Version", pkg)[[1]],
     base_path = pkg
   )
-  expect_identical(orig, tools::md5sum(file.path(pkg, "DESCRIPTION")))
+  expect_identical(orig, tools::md5sum(proj_path("DESCRIPTION")))
 
   expect_error(
     use_description_field(

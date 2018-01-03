@@ -52,7 +52,7 @@ use_data <- function(...,
   mapply(
     save,
     list = objs,
-    file = file.path(proj_get(), paths),
+    file = proj_path(paths),
     MoreArgs = list(envir = envir, compress = compress)
   )
 

@@ -22,8 +22,8 @@ test_that("an RStudio project is recognized", {
 test_that("we error for multiple Rproj files", {
   scoped_temporary_package(rstudio = TRUE)
   file.copy(
-    file.path(proj_get(), rproj_path()),
-    file.path(proj_get(), "copy.Rproj")
+    proj_path(rproj_path()),
+    proj_path("copy.Rproj")
   )
   expect_error(rproj_path(), "Multiple .Rproj files found", fixed = TRUE)
 })
@@ -58,7 +58,7 @@ test_that("Existing field(s) in Rproj can be modified", {
 
 test_that("we can roundtrip an Rproj file", {
   scoped_temporary_package(rstudio = TRUE)
-  rproj_file <- file.path(proj_get(), rproj_path())
+  rproj_file <- proj_path(rproj_path())
   before <- readLines(rproj_file)
   rproj <- modify_rproj(rproj_file, list())
   writeLines(serialize_rproj(rproj), rproj_file)
@@ -69,7 +69,7 @@ test_that("we can roundtrip an Rproj file", {
 test_that("use_blank_state() modifies Rproj", {
   scoped_temporary_package(rstudio = TRUE)
   use_blank_slate("project")
-  rproj <- parse_rproj(file.path(proj_get(), rproj_path()))
+  rproj <- parse_rproj(proj_path(rproj_path()))
   expect_equal(rproj$RestoreWorkspace, "No")
   expect_equal(rproj$SaveWorkspace, "No")
 })

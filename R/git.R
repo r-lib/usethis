@@ -52,7 +52,7 @@ use_git_hook <- function(hook, script) {
   use_directory(".git/hooks")
   hook_path <- file.path(".git/hooks", hook)
   write_over(proj_get(), hook_path, script)
-  Sys.chmod(file.path(proj_get(), hook_path), "0744")
+  Sys.chmod(proj_path(hook_path), "0744")
 
   invisible()
 }

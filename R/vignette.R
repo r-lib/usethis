@@ -23,7 +23,7 @@ use_vignette <- function(name) {
   path <- file.path("vignettes", slug(name, ".Rmd"))
 
   done("Creating '", path, "'")
-  rmarkdown::draft(file.path(proj_get(), path), "html_vignette", "rmarkdown",
-    create_dir = FALSE, edit = FALSE)
+  rmarkdown::draft(proj_path(path), "html_vignette", "rmarkdown",
+                   create_dir = FALSE, edit = FALSE)
   edit_file(proj_get(), path)
 }

@@ -16,7 +16,7 @@ test_that("use_lifecycle_badge() handles bad and good input", {
 test_that("use_badge() does nothing if badge seems to pre-exist", {
   pkg <- scoped_temporary_package()
   href <- "https://cran.r-project.org/package=foo"
-  writeLines(href, file.path(proj_get(), "README.md"))
+  writeLines(href, proj_path("README.md"))
   expect_false(use_badge("foo", href, "SRC"))
 })
 

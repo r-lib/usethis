@@ -100,7 +100,7 @@ use_badge <- function(badge_name, href, src) {
 }
 
 has_badge <- function(href) {
-  readme_path <- file.path(proj_get(), "README.md")
+  readme_path <- proj_path("README.md")
   if (!file.exists(readme_path)) {
     return(FALSE)
   }

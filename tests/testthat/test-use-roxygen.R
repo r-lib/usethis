@@ -18,10 +18,10 @@ test_that("use_roxygen_md() does not error on a roxygen-using package", {
   with_mock(
     ## need to pass the check re: whether roxygen2md is installed
     `usethis:::check_installed` = function(pkg) TRUE, {
-      pkg <- scoped_temporary_package()
+      scoped_temporary_package()
       cat(
         "RoxygenNote: 6.0.1\n",
-        file = file.path(pkg, "DESCRIPTION"),
+        file = proj_path("DESCRIPTION"),
         append = TRUE
       )
       expect_error_free(capture_output(use_roxygen_md()))

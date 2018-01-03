@@ -12,8 +12,8 @@ test_that("use_data() stores new, non-internal data", {
   capture_output(use_data(letters2, month.abb2))
   rm(letters2, month.abb2)
 
-  load(file.path(pkg, "data", "letters2.rda"))
-  load(file.path(pkg, "data", "month.abb2.rda"))
+  load(proj_path("data", "letters2.rda"))
+  load(proj_path("data", "month.abb2.rda"))
   expect_identical(letters2, letters)
   expect_identical(month.abb2, month.abb)
 })
@@ -28,7 +28,7 @@ test_that("use_data() honors `overwrite` for non-internal data", {
   letters2 <- rev(letters)
   capture_output(use_data(letters2, overwrite = TRUE))
 
-  load(file.path(pkg, "data", "letters2.rda"))
+  load(proj_path("data", "letters2.rda"))
   expect_identical(letters2, rev(letters))
 })
 
@@ -39,7 +39,7 @@ test_that("use_data() stores new internal data", {
   capture_output(use_data(letters2, month.abb2, internal = TRUE))
   rm(letters2, month.abb2)
 
-  load(file.path(pkg, "R", "sysdata.rda"))
+  load(proj_path("R", "sysdata.rda"))
   expect_identical(letters2, letters)
   expect_identical(month.abb2, month.abb)
 })
@@ -58,6 +58,6 @@ test_that("use_data() honors `overwrite` for internal data", {
   letters2 <- rev(letters)
   capture_output(use_data(letters2, internal = TRUE, overwrite = TRUE))
 
-  load(file.path(pkg, "R", "sysdata.rda"))
+  load(proj_path("R", "sysdata.rda"))
   expect_identical(letters2, rev(letters))
 })

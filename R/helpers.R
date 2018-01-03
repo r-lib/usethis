@@ -138,7 +138,7 @@ use_directory <- function(path,
                           ignore = FALSE) {
 
 
-  if (!file.exists(file.path(proj_get(), path))) {
+  if (!file.exists(proj_path(path))) {
     done("Creating ", value(path, "/"))
   }
   create_directory(proj_get(), path)
@@ -154,21 +154,21 @@ create_directory <- function(base_path, path) {
   if (!file.exists(base_path)) {
     stop(value(base_path), " does not exist", call. = FALSE)
   }
-  pkg_path <- file.path(base_path, path)
+  target_path <- file.path(base_path, path)
 
-  if (file.exists(pkg_path)) {
-    if (!is_dir(pkg_path)) {
+  if (file.exists(target_path)) {
+    if (!is_dir(target_path)) {
       stop(value(path), " exists but is not a directory.", call. = FALSE)
     }
   } else {
-    ok <- dir.create(pkg_path, showWarnings = FALSE, recursive = TRUE)
+    ok <- dir.create(target_path, showWarnings = FALSE, recursive = TRUE)
 
     if (!ok) {
       stop("Failed to create path", call. = FALSE)
     }
   }
 
-  pkg_path
+  target_path
 }
 
 edit_file <- function(base_path, path) {
