@@ -54,3 +54,9 @@ skip_if_not_ci <- function() {
 expect_error_free <- function(...) {
   expect_error(..., regexp = NA)
 }
+
+is_build_ignored <- function(pattern, ..., base_path = proj_get()) {
+  lines <- readLines(file.path(base_path, ".Rbuildignore"), warn = FALSE)
+  length(grep(pattern, x = lines, fixed = TRUE, ...)) > 0
+}
+

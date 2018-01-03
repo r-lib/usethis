@@ -34,11 +34,6 @@ test_that("find_name() picks up devtools.name, then usethis.full_name", {
   )
 })
 
-is_build_ignored <- function(pattern, ..., base_path = proj_get()) {
-  lines <- readLines(file.path(base_path, ".Rbuildignore"), warn = FALSE)
-  length(grep(pattern, x = lines, fixed = TRUE, ...)) > 0
-}
-
 test_that("use_mit_license() works", {
   pkg <- scoped_temporary_package()
   capture_output(use_mit_license(name = "MIT License"))

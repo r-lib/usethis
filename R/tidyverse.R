@@ -128,11 +128,17 @@ use_tidy_contributing <- function() {
 
   gh <- gh::gh_tree_remote(proj_get())
   travis_url <- file.path("https://travis-ci.org", gh$username, gh$repo)
+  github_url <- file.path("https://github.com", gh$username, gh$repo)
 
   use_template(
     "tidy_contributing.md",
     "CONTRIBUTING.md",
-    data = list(package = project_name(), travis_url = travis_url)
+    data = list(
+      package = project_name(),
+      github_url = github_url,
+      travis_url = travis_url
+    ),
+    ignore = TRUE
   )
 }
 
@@ -144,7 +150,8 @@ use_tidy_issue_template <- function() {
 
   use_template(
     "ISSUE_TEMPLATE.md",
-    "ISSUE_TEMPLATE.md"
+    "ISSUE_TEMPLATE.md",
+    ignore = TRUE
   )
 }
 
@@ -157,6 +164,7 @@ use_tidy_support <- function() {
 
   use_template(
     "SUPPORT.md",
-    data = list(package = project_name())
+    data = list(package = project_name()),
+    ignore = TRUE
   )
 }

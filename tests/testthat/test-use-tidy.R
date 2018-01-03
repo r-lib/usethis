@@ -34,3 +34,21 @@ test_that("use_tidy_eval() inserts the template file and Imports rlang", {
   expect_match(list.files(proj_path("R")), "utils-tidy-eval.R")
   expect_match(desc::desc_get("Imports", pkg), "rlang")
 })
+
+test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
+  with_mock(
+    `usethis:::uses_travis` = function(base_path) TRUE,
+    `gh::gh_tree_remote` = function(path) list(username = "USER", repo = "REPO"), {
+      scoped_temporary_package()
+      capture_output(use_tidy_contributing())
+      capture_output(use_tidy_issue_template())
+      capture_output(use_tidy_support())
+      expect_true(file.exists(proj_path("CONTRIBUTING.md")))
+      expect_true(is_build_ignored("^CONTRIBUTING\\.md$"))
+      expect_true(file.exists(proj_path("ISSUE_TEMPLATE.md")))
+      expect_true(is_build_ignored("^ISSUE_TEMPLATE\\.md$"))
+      expect_true(file.exists(proj_path("SUPPORT.md")))
+      expect_true(is_build_ignored("^SUPPORT\\.md$"))
+    }
+  )
+})

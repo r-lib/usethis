@@ -33,7 +33,7 @@ your basic proposal for fixing it. If you’ve found a bug, first create a minim
 ### Fork, clone, branch
 
 The first thing you'll need to do is to [fork](https://help.github.com/articles/fork-a-repo/) 
-the [{{{ package }}} GitHub repo](https://github.com/tidyverse/{{{package}}}), and 
+the [{{{ package }}} GitHub repo]({{{github_url}}}), and 
 then clone it locally. We recommend that you create a branch for each PR.
 
 ### Check
