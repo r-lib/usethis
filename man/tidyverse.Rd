@@ -26,8 +26,8 @@ use_tidy_issue_template()
 use_tidy_support()
 }
 \arguments{
-\item{browse}{open a browser window to enable Travis builds for the package
-automatically.}
+\item{browse}{Open a browser window to enable automatic builds for the
+package.}
 
 \item{overwrite}{By default (\code{FALSE}), only dependencies without version
 specifications will be modified. Set to \code{TRUE} to modify all dependencies.}

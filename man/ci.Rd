@@ -4,37 +4,46 @@
 \alias{use_travis}
 \alias{use_coverage}
 \alias{use_appveyor}
-\title{Continuous integration}
+\title{Continuous integration setup}
 \usage{
 use_travis(browse = interactive())
 
 use_coverage(type = c("codecov", "coveralls"))
 
-use_appveyor()
+use_appveyor(browse = interactive())
 }
 \arguments{
-\item{browse}{open a browser window to enable Travis builds for the package
-automatically.}
+\item{browse}{Open a browser window to enable automatic builds for the
+package.}
 
-\item{type}{CI tool to use. Currently supports codecov and coverall.}
+\item{type}{Which web service to use for test reporting. Currently supports
+\href{https://codecov.io}{Codecov} and \href{https://coveralls.io}{Coveralls}.}
 }
 \description{
-Continuous integration
+Sets up continuous integration (CI) services for an R package that is
+developed on GitHub. CI services can run \code{R CMD check} automatically on
+various platforms, triggered by each push or pull request. These functions
+\itemize{
+\item Add service-specific configuration files and add them to \code{.Rbuildignore}.
+\item Activate a service or give the user a detailed prompt.
 }
-\section{\code{use_travis}}{
+}
+\section{\code{use_travis()}}{
 
-Add basic travis template to a package. Also adds \code{.travis.yml} to
-\code{.Rbuildignore} so it isn't included in the built package.
+Adds a basic \code{.travis.yml} to the top-level directory of a package. This is a
+configuration file for the \href{https://travis-ci.org/}{Travis CI} continuous
+integration service.
 }
 
-\section{\code{use_coverage}}{
+\section{\code{use_coverage()}}{
 
-Add test code coverage to basic travis template to a package.
+Adds test coverage reports to a package that is already using Travis CI.
 }
 
-\section{\code{use_appveyor}}{
+\section{\code{use_appveyor()}}{
 
-Add basic AppVeyor template to a package. Also adds \code{appveyor.yml} to
-\code{.Rbuildignore} so it isn't included in the built package.
+Adds a basic \code{appveyor.yml} to the top-level directory of a package. This is
+a configuration file for the \href{https://www.appveyor.com}{AppVeyor} continuous
+integration service for Windows.
 }
 
