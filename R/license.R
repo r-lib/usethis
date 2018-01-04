@@ -106,8 +106,9 @@ find_name <- function() {
   }
 
   stop(
-    "`name` argument is missing.\n",
-    'Set it globally with `options(usethis.full_name = "My name").',
+    code("name"), " argument is missing.\n",
+    "Set it globally with ", code('options(usethis.full_name = "My name")'),
+    ", probably in your ", value(".Rprofile"),
     call. = FALSE
   )
 }
