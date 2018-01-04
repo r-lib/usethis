@@ -91,7 +91,3 @@ proj_set <- function(path = ".", force = FALSE) {
 
 ## check vectorizaion
 proj_path <- function(...) file.path(proj_get(), ...)
-
-.onAttach <- function(...) {
-  proj_set(".")
-}
