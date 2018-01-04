@@ -16,7 +16,8 @@ use_template(template, save_as = template, data = list(), ignore = FALSE,
 
 \item{ignore}{Should the newly created file be added to \code{.Rbuildignore?}}
 
-\item{open}{Should the new created file be opened in RStudio?}
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \value{
 A logical vector indicating if file was modified.

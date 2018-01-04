@@ -158,7 +158,6 @@ use_tidy_issue_template <- function() {
 
 #' @export
 #' @rdname tidyverse
-#' @inheritParams use_template
 use_tidy_support <- function() {
   check_uses_github()
 

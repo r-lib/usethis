@@ -2,7 +2,6 @@
 #'
 #' Creates `src/` and adds needed packages to `DESCRIPTION`.
 #'
-#' @inheritParams use_template
 #' @export
 use_rcpp <- function() {
   check_is_package("use_rcpp()")

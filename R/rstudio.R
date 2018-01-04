@@ -3,7 +3,6 @@
 #' Creates an `.Rproj` file and adds RStudio files to `.gitignore`
 #' and `.Rbuildignore`.
 #'
-#' @inheritParams use_template
 #' @export
 use_rstudio <- function() {
   use_template(

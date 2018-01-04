@@ -18,7 +18,6 @@
 #'   files. If you really want to do so, set this to `TRUE`.
 #' @param compress Choose the type of compression used by [save()].
 #'   Should be one of "gzip", "bzip2", or "xz".
-#' @inheritParams use_template
 #' @export
 #' @examples
 #' \dontrun{

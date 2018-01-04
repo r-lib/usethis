@@ -8,7 +8,6 @@
 #' @param package Name of package to depend on.
 #' @param type Type of dependency: must be one of "Imports", "Suggests",
 #'   "Depends", "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation)
-#' @inheritParams use_template
 #' @export
 #' @examples
 #' \dontrun{

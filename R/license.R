@@ -23,7 +23,6 @@
 #' @param name Name of the copyright holder or holders. Separate multiple
 #'   individuals with `;`. You can supply a global default with
 #'   `options(usethis.full_name = "My name")`.
-#' @inheritParams use_template
 #' @aliases NULL
 NULL
 

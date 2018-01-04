@@ -4,7 +4,8 @@
 #' @param save_as Name of file to create. Defaults to `save_as`
 #' @param data A list of data passed to the template.
 #' @param ignore Should the newly created file be added to `.Rbuildignore?`
-#' @param open Should the new created file be opened in RStudio?
+#' @param open Open the newly created file for editing? Happens in RStudio, if
+#'   applicable, or via [utils::file.edit()] otherwise.
 #' @return A logical vector indicating if file was modified.
 #' @keywords internal
 use_template <- function(template,

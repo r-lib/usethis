@@ -3,7 +3,6 @@
 #' This imports magrittr, and creates a `R/utils-pipe.R` with the necessary
 #' roxygen template to import and re-export the pipe.
 #'
-#' @inheritParams use_template
 #' @export
 use_pipe <- function() {
   if (!uses_roxygen()) {

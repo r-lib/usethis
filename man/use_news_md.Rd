@@ -7,7 +7,8 @@
 use_news_md(open = TRUE)
 }
 \arguments{
-\item{open}{Should the new created file be opened in RStudio?}
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 This creates a basic \code{NEWS.md} in the root directory.
