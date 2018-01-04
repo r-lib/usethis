@@ -58,6 +58,12 @@ create_project <- function(path = ".",
   if (rstudio) {
     use_rstudio()
   } else {
+    done("Writing a sentinel file ", value(".here"))
+    todo(
+      "Build robust paths within your project via ",
+      code("here::here()")
+    )
+    todo("Learn more at https://krlmlr.github.io/here/")
     writeLines(character(), file.path(path, ".here"))
   }
   if (open) {
