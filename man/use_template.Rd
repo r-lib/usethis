@@ -19,9 +19,8 @@ within \code{package}; see details.}
 
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
-  
-\item{package}{Name of the package where the template will be found.}  
 
+\item{package}{Name of the package where the template is found.}
 }
 \value{
 A logical vector indicating if file was modified.

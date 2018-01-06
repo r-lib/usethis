@@ -18,7 +18,7 @@
 #' @param ignore Should the newly created file be added to `.Rbuildignore?`
 #' @param open Open the newly created file for editing? Happens in RStudio, if
 #'   applicable, or via [utils::file.edit()] otherwise.
-#' @param package Name of the package where the template will be found.
+#' @param package Name of the package where the template is found.
 #' @return A logical vector indicating if file was modified.
 #' @export
 #' @examples
