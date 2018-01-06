@@ -5,7 +5,6 @@
 #' convert many Rd expressions to markdown. The package uses heuristics so
 #' you'll need to check the results.
 #'
-#' @inheritParams use_template
 #' @export
 use_roxygen_md <- function() {
   check_installed("roxygen2")
@@ -30,8 +29,9 @@ use_roxygen_md <- function() {
 }
 
 uses_roxygen_md <- function(base_path = proj_get()) {
-  if (!desc::desc_has_fields("Roxygen", base_path))
+  if (!desc::desc_has_fields("Roxygen", base_path)) {
     return(FALSE)
+  }
 
   roxygen <- desc::desc_get("Roxygen", base_path)[[1]]
   value <- tryCatch(

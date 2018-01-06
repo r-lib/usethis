@@ -17,9 +17,11 @@ within \code{package}; see details.}
 
 \item{ignore}{Should the newly created file be added to \code{.Rbuildignore?}}
 
-\item{open}{Should the new created file be opened in RStudio?}
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+  
+\item{package}{Name of the package where the template will be found.}  
 
-\item{package}{Name of the package where the template will be found.}
 }
 \value{
 A logical vector indicating if file was modified.

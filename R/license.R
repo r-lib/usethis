@@ -23,10 +23,10 @@
 #' @param name Name of the copyright holder or holders. Separate multiple
 #'   individuals with `;`. You can supply a global default with
 #'   `options(usethis.full_name = "My name")`.
-#' @inheritParams use_template
 #' @aliases NULL
-#' @md
 NULL
+
+## TODO(jennybc): check if package is a project
 
 #' @rdname licenses
 #' @export
@@ -95,7 +95,7 @@ license_data <- function(name, base_path = proj_get()) {
 
 find_name <- function() {
   name <- getOption("devtools.name")
-  if (!is.null(name)) {
+  if (!is.null(name) && name != "Your name goes here") {
     return(name)
   }
 
@@ -105,8 +105,9 @@ find_name <- function() {
   }
 
   stop(
-    "`name` argument is missing.\n",
-    'Set it globally with `options(usethis.full_name = "My name").',
+    code("name"), " argument is missing.\n",
+    "Set it globally with ", code('options(usethis.full_name = "My name")'),
+    ", probably in your ", value(".Rprofile"),
     call. = FALSE
   )
 }

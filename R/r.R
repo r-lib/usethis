@@ -35,7 +35,7 @@ find_r_name <- function(name = NULL) {
   }
 
   if (!rstudioapi::isAvailable()) {
-    stop("Argument `name` is missing, with no default", call. = FALSE)
+    stop("Argument ", code("name"), " is missing, with no default", call. = FALSE)
   }
   active_file <- rstudioapi::getSourceEditorContext()$path
 

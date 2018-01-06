@@ -2,11 +2,11 @@
 % Please edit documentation in R/dev-version.R
 \name{use_dev_version}
 \alias{use_dev_version}
-\title{Increment development version}
+\title{Increment to a development version}
 \usage{
 use_dev_version()
 }
 \description{
-This adds ".9000" to the package \code{DESCRIPTION}, adds a new heading to
-\code{NEWS.md} (if it exists), and then checks the result into git.
+This adds ".9000" to the "Version" field in \code{DESCRIPTION}, adds a new heading
+to \code{NEWS.md} (if it exists), and then checks the result into git.
 }

@@ -1,4 +1,4 @@
-context("test-write.R")
+context("write helpers")
 
 test_that("same_contents() detects if contents are / are not same", {
   tmp <- tempfile()

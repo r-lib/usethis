@@ -2,11 +2,11 @@
 #'
 #' This prints out the markdown which will display a CRAN "badge", indicating
 #' what version of your package is available on CRAN, powered by
-#' \url{http://www.r-pkg.org}.
+#' <https://www.r-pkg.org>.
 #'
-#' @inheritParams use_template
 #' @export
 use_cran_badge <- function() {
+  check_is_package("use_cran_badge()")
   pkg <- project_name()
 
   src <- paste0("http://www.r-pkg.org/badges/version/", pkg)
@@ -19,17 +19,16 @@ use_cran_badge <- function() {
 #' Create a Depsy badge
 #'
 #' This prints out the markdown which will display a Depsy "badge", showing the
-#' "percentile overall impact" of the project, powered by
-#' \url{http://depsy.org}.
+#' "percentile overall impact" of the project, powered by <http://depsy.org>.
 #'
 #' Depsy only indexes projects that are on CRAN.
 #'
-#' @inheritParams use_template
 #' @export
 use_depsy_badge <- function() {
+  check_is_package("use_depsy_badge()")
   pkg <- project_name()
 
-  src <- paste0("http://depsy.org/api/package/cran/",pkg,"/badge.svg")
+  src <- paste0("http://depsy.org/api/package/cran/", pkg, "/badge.svg")
   href <- paste0("http://depsy.org/package/r/", pkg)
   use_badge("Depsy", href, src)
 
@@ -58,7 +57,6 @@ use_depsy_badge <- function() {
 #' @param stage Stage of the lifecycle. See description above.
 #' @export
 use_lifecycle_badge <- function(stage) {
-
   stage <- match.arg(tolower(stage), names(stages))
   colour <- stages[[stage]]
 
@@ -84,7 +82,6 @@ stages <- c(
 #'
 #' @param badge_name Badge name. Used in error message and alt text
 #' @param href,src Badge link and image src
-#' @inheritParams use_template
 #' @export
 use_badge <- function(badge_name, href, src) {
   if (has_badge(href)) {
@@ -94,17 +91,20 @@ use_badge <- function(badge_name, href, src) {
   img <- paste0("![", badge_name, "](", src, ")")
   link <- paste0("[", img, "](", href, ")")
 
-  todo("Add a ", badge_name, " badge by adding the following line to your README:")
+  todo(
+    "Add a ",
+    badge_name,
+    " badge by adding the following line to your README:"
+  )
   code_block(link)
 }
 
 has_badge <- function(href) {
-  readme_path <- file.path(proj_get(), "README.md")
+  readme_path <- proj_path("README.md")
   if (!file.exists(readme_path)) {
     return(FALSE)
   }
 
   readme <- readLines(readme_path)
   any(grepl(href, readme, fixed = TRUE))
-
 }

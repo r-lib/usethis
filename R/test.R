@@ -8,7 +8,7 @@
 #' @export
 #' @inheritParams use_template
 use_testthat <- function() {
-  ## TODO(jennybc): check if project is a package
+  check_is_package("use_testthat()")
   check_installed("testthat")
 
   use_dependency("testthat", "Suggests")
@@ -35,7 +35,7 @@ use_test <- function(name = NULL, open = TRUE) {
 
   path <- file.path("tests", "testthat", name)
 
-  if (file.exists(file.path(proj_get(), path))) {
+  if (file.exists(proj_path(path))) {
     edit_file(proj_get(), path)
   } else {
     use_template(
@@ -64,7 +64,7 @@ find_test_name <- function(name = NULL) {
   }
 
   if (!rstudioapi::isAvailable()) {
-    stop("Argument `name` is missing, with no default", call. = FALSE)
+    stop("Argument ", code("name"), " is missing, with no default", call. = FALSE)
   }
   active_file <- rstudioapi::getSourceEditorContext()$path
 

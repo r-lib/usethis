@@ -1,23 +1,26 @@
-#' Set up devtools revdep template
+#' Reverse dependency checks
 #'
-#' Add `revdep` directory, git-ignoring the files that you shouldn't
-#' check in, and creating a `email.yml` for use `revdep_email`.
-#' Run the checks with `revdepcheck::revdep_check()`.
+#' Performs set up for checking the reverse dependencies of an R package, as
+#' implemented by the revdepcheck package:
+#' * Adds `revdep` directory and adds it to `.Rbuildignore`
+#' * Populates `revdep/.gitignore` to prevent tracking of various revdep
+#' artefacts
+#' * Creates `revdep/email.yml` for use with `revdepcheck::revdep_email()`
+#' * Prompts user to run the checks with `revdepcheck::revdep_check()`
 #'
 #' @export
-#' @inheritParams use_template
 use_revdep <- function() {
+  check_is_package("use_revdep()")
   use_directory("revdep", ignore = TRUE)
-  use_git_ignore("revdep/checks")
-  use_git_ignore("revdep/library")
-  use_git_ignore("revdep/checks.noindex")
-  use_git_ignore("revdep/library.noindex")
-  use_git_ignore("revdep/data.sqlite")
+  use_git_ignore(
+    directory = "revdep",
+    c("checks", "library", "checks.noindex",
+      "library.noindex", "data.sqlite", "*.html")
+  )
 
   use_template(
     "revdep-email.yml",
-    "revdep/email.yml",
-    data = list(name = project_name())
+    "revdep/email.yml"
   )
 
   todo("Run checks with ", code("revdepcheck::revdep_check(num_workers = 4)"))

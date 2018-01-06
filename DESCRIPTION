@@ -17,20 +17,23 @@ BugReports: https://github.com/r-lib/usethis/issues
 Depends: 
     R (>= 3.1)
 Imports: 
+    backports,
     clipr,
     clisymbols,
     crayon,
     desc,
     gh,
     git2r,
+    rematch2,
     rmarkdown,
     rprojroot,
     rstudioapi,
-    whisker,
-    withr
+    whisker
 Suggests: 
     covr,
-    testthat
+    roxygen2,
+    testthat (>= 2.0.0),
+    withr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

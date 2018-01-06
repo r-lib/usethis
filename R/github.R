@@ -63,9 +63,11 @@ use_github <- function(organisation = NULL,
                        credentials = NULL,
                        auth_token = NULL,
                        host = NULL) {
-
   if (!uses_git()) {
-    stop("Please use_git() before use_github()", call. = FALSE)
+    stop(
+      "Please call ", code("use_git()"), " before ",
+      code("use_github()"), ".", call. = FALSE
+    )
   }
 
   if (uses_github(proj_get())) {
@@ -77,20 +79,30 @@ use_github <- function(organisation = NULL,
   repo_name <- pkg$Project %||% gsub("\n", " ", pkg$Package)
   repo_desc <- pkg$Title %||% ""
 
-  todo("Check title and description")
-  code_block(
-    paste0("Name:        ", repo_name),
-    paste0("Description: ", repo_desc),
-    copy = FALSE
-  )
-  if (yesno("Are title and description ok?")) {
-    return(invisible())
+  if (interactive()) {
+    todo("Check title and description")
+    code_block(
+      paste0("Name:        ", repo_name),
+      paste0("Description: ", repo_desc),
+      copy = FALSE
+    )
+    if (nope("Are title and description ok?")) {
+      return(invisible())
+    }
+  } else {
+    done("Setting title and description")
+    code_block(
+      paste0("Name:        ", repo_name),
+      paste0("Description: ", repo_desc),
+      copy = FALSE
+    )
   }
 
   done("Creating GitHub repository")
 
   if (is.null(organisation)) {
-    create <- gh::gh("POST /user/repos",
+    create <- gh::gh(
+      "POST /user/repos",
       name = repo_name,
       description = repo_desc,
       private = private,
@@ -98,7 +110,8 @@ use_github <- function(organisation = NULL,
       .token = auth_token
     )
   } else {
-    create <- gh::gh("POST /orgs/:org/repos",
+    create <- gh::gh(
+      "POST /orgs/:org/repos",
       org = organisation,
       name = repo_name,
       description = repo_desc,
@@ -148,7 +161,6 @@ use_github <- function(organisation = NULL,
 #' @rdname use_github
 use_github_links <- function(auth_token = NULL,
                              host = "https://api.github.com") {
-
   check_uses_github()
 
   info <- gh::gh_tree_remote(proj_get())

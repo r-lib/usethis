@@ -9,7 +9,6 @@
 #'   from `getOption("devtools.desc")`.
 #' @export
 use_description <- function(fields = NULL) {
-
   name <- project_name()
   check_package_name(name)
 

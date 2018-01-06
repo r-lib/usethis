@@ -16,7 +16,8 @@
 #' @param save_as Name of file to create. Defaults to `template`
 #' @param data A list of data passed to the template.
 #' @param ignore Should the newly created file be added to `.Rbuildignore?`
-#' @param open Should the new created file be opened in RStudio?
+#' @param open Open the newly created file for editing? Happens in RStudio, if
+#'   applicable, or via [utils::file.edit()] otherwise.
 #' @param package Name of the package where the template will be found.
 #' @return A logical vector indicating if file was modified.
 #' @export
@@ -64,10 +65,6 @@ find_template <- function(template_name, package = "usethis") {
       call. = FALSE)
   }
   path
-}
-
-is_package <- function(base_path = proj_get()) {
-  file.exists(file.path(base_path, "DESCRIPTION"))
 }
 
 project_data <- function(base_path = proj_get()) {
@@ -160,7 +157,6 @@ use_dependency <- function(package, type, version = "*") {
 #' @inheritParams use_template
 #'
 #' @export
-#' @md
 #' @examples
 #' \dontrun{
 #' use_directory("inst")
@@ -169,7 +165,7 @@ use_directory <- function(path,
                           ignore = FALSE) {
 
 
-  if (!file.exists(file.path(proj_get(), path))) {
+  if (!file.exists(proj_path(path))) {
     done("Creating ", value(path, "/"))
   }
   create_directory(proj_get(), path)
@@ -185,33 +181,38 @@ create_directory <- function(base_path, path) {
   if (!file.exists(base_path)) {
     stop(value(base_path), " does not exist", call. = FALSE)
   }
-  pkg_path <- file.path(base_path, path)
+  target_path <- file.path(base_path, path)
 
-  if (file.exists(pkg_path)) {
-    if (!is_dir(pkg_path)) {
+  if (file.exists(target_path)) {
+    if (!is_dir(target_path)) {
       stop(value(path), " exists but is not a directory.", call. = FALSE)
     }
   } else {
-    ok <- dir.create(pkg_path, showWarnings = FALSE, recursive = TRUE)
+    ok <- dir.create(target_path, showWarnings = FALSE, recursive = TRUE)
 
     if (!ok) {
       stop("Failed to create path", call. = FALSE)
     }
   }
 
-  pkg_path
+  target_path
 }
 
 edit_file <- function(base_path, path) {
   full_path <- path.expand(file.path(base_path, path))
 
-  if (!interactive()) {
+  ## example: path = ".R/snippets/r.snippets" but .R doesn't exist yet
+  if (dirname(path) != ".") {
+    create_directory(base_path, dirname(path))
+  }
+
+  if (!file.exists(full_path)) {
+    file.create(full_path)
+  }
+
+  if (!interactive() || is_testing()) {
     todo("Edit ", value(path))
   } else {
-    if (!file.exists(full_path)) {
-      file.create(full_path)
-    }
-
     todo("Modify ", value(path))
 
     if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
@@ -231,5 +232,5 @@ view_url <- function(..., open = interactive()) {
   } else {
     todo("Open url ", url)
   }
-  invisible()
+  invisible(url)
 }

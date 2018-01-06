@@ -14,7 +14,6 @@ create_package <- function(path = ".",
                            fields = getOption("devtools.desc"),
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
-
   path <- normalizePath(path, mustWork = FALSE)
 
   name <- basename(path)
@@ -45,7 +44,6 @@ create_package <- function(path = ".",
 create_project <- function(path = ".",
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
-
   path <- normalizePath(path, mustWork = FALSE)
 
   name <- basename(path)
@@ -60,6 +58,12 @@ create_project <- function(path = ".",
   if (rstudio) {
     use_rstudio()
   } else {
+    done("Writing a sentinel file ", value(".here"))
+    todo(
+      "Build robust paths within your project via ",
+      code("here::here()")
+    )
+    todo("Learn more at https://krlmlr.github.io/here/")
     writeLines(character(), file.path(path, ".here"))
   }
   if (open) {
@@ -133,8 +137,9 @@ open_project <- function(path, name, rstudio = NA) {
 check_not_nested <- function(path, name) {
   proj_root <- proj_find(path)
 
-  if (is.null(proj_root))
+  if (is.null(proj_root)) {
     return()
+  }
 
   message <- paste0(
     "New project ", value(name), " is nested inside an existing project ",
@@ -144,8 +149,7 @@ check_not_nested <- function(path, name) {
     stop(message, call. = FALSE)
   }
 
-  if (yesno(message, " This is rarely a good idea. Do you wish to create anyway?")) {
+  if (nope(message, " This is rarely a good idea. Do you wish to create anyway?")) {
     stop("Aborting project creation", call. = FALSE)
   }
-
 }

@@ -7,7 +7,6 @@
 #' @param delete_default If `TRUE`, will remove default labels.
 #' @inheritParams use_github_links
 #' @export
-#' @md
 use_github_labels <- function(delete_default = FALSE,
                               auth_token = NULL,
                               host = NULL

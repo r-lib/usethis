@@ -1,4 +1,3 @@
-
 #' Add an RMarkdown Template
 #'
 #' Adds files and directories necessary to add a custom rmarkdown template to
@@ -10,10 +9,9 @@
 #' @param template_name The name as printed in the template menu.
 #' @param template_dir Name of the directory the template will live in within
 #'   `inst/rmarkdown/templates`.
-#' @param template_description A short description of the template.
-#' @param template_create_dir Sets the value of `create_dir``
-#'   in the template.yml
-#' @inheritParams use_directory
+#' @param template_description Sets the value of `description` in
+#'   `template.yml`.
+#' @param template_create_dir Sets the value of `create_dir` in `template.yml`.
 #'
 #' @export
 #' @examples

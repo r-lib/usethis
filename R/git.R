@@ -4,7 +4,6 @@
 #' to `.gitignore`, and commits all files.
 #'
 #' @param message Message to use for first commit.
-#' @inheritParams use_template
 #' @family git helpers
 #' @export
 #' @examples
@@ -41,7 +40,6 @@ use_git <- function(message = "Initial commit") {
 #'   "post-applypatch", "pre-rebase", "post-rewrite", "post-checkout",
 #'   "post-merge", "pre-push", "pre-auto-gc".
 #' @param script Text of script to run
-#' @inheritParams use_template
 #' @family git helpers
 #' @export
 use_git_hook <- function(hook, script) {
@@ -52,7 +50,7 @@ use_git_hook <- function(hook, script) {
   use_directory(".git/hooks")
   hook_path <- file.path(".git/hooks", hook)
   write_over(proj_get(), hook_path, script)
-  Sys.chmod(file.path(proj_get(), hook_path), "0744")
+  Sys.chmod(proj_path(hook_path), "0744")
 
   invisible()
 }
@@ -61,7 +59,6 @@ use_git_hook <- function(hook, script) {
 #'
 #' @param ignores Character vector of ignores, specified as file globs.
 #' @param directory Directory within `base_path` to set ignores
-#' @inheritParams use_template
 #' @family git helpers
 #' @export
 use_git_ignore <- function(ignores, directory = ".") {

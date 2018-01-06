@@ -1,20 +1,30 @@
 can_overwrite <- function(path) {
-  name <- basename(path)
-
   if (!file.exists(path)) {
-    TRUE
-  } else if (interactive() && !yesno("Overwrite `", name, "`?")) {
-    TRUE
+    return(TRUE)
+  }
+
+  if (interactive()) {
+    !nope("Overwrite pre-existing file ", value(basename(path)), "?")
   } else {
     FALSE
   }
 }
 
-yesno <- function(...) {
+## FALSE: user selected the "yes"
+## TRUE: user did anything else: selected one of the "no's" or selected nothing,
+##   i.e. entered 0
+nope <- function(...) {
+  message <- paste0(..., collapse = "")
+  if (!interactive()) {
+    stop(
+      "User input required in non-interactive session.\n",
+      "Query: ", message, call. = FALSE
+    )
+  }
   yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
-  nos <- c("No way", "Not yet", "I forget", "No", "Nope", "Uhhhh... Maybe?")
+  nos <- c("No way", "Not yet", "I forget", "No", "Nope", "Hell no")
 
-  cat(paste0(..., collapse = ""))
+  cat(message)
   qs <- c(sample(yeses, 1), sample(nos, 2))
   rand <- sample(length(qs))
 
@@ -50,4 +60,12 @@ check_installed <- function(pkg) {
       call. = FALSE
     )
   }
+}
+
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true")
+}
+
+interactive <- function() {
+  base::interactive() && !is_testing()
 }

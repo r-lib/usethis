@@ -18,7 +18,6 @@
 #'   files. If you really want to do so, set this to `TRUE`.
 #' @param compress Choose the type of compression used by [save()].
 #'   Should be one of "gzip", "bzip2", or "xz".
-#' @inheritParams use_template
 #' @export
 #' @examples
 #' \dontrun{
@@ -32,13 +31,7 @@ use_data <- function(...,
                      internal = FALSE,
                      overwrite = FALSE,
                      compress = "bzip2") {
-  if (!is_package()) {
-    stop(
-      code("use_data()"), " only handles data for R packages and ",
-      "the project ", value(project_name()), " is not a package.",
-      call. = FALSE
-    )
-  }
+  check_is_package("use_data()")
 
   objs <- get_objs_from_dots(dots(...))
 
@@ -58,7 +51,7 @@ use_data <- function(...,
   mapply(
     save,
     list = objs,
-    file = file.path(proj_get(), paths),
+    file = proj_path(paths),
     MoreArgs = list(envir = envir, compress = compress)
   )
 

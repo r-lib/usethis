@@ -2,14 +2,20 @@
 % Please edit documentation in R/documentation.R
 \name{use_package_doc}
 \alias{use_package_doc}
-\title{Create package documentation template}
+\title{Package-level documentation}
 \usage{
 use_package_doc()
 }
 \description{
-Adds a roxygen template for package documentation. When you \code{document()}
-roxygen will flesh out the Rd file using data from the \code{DESCRIPTION}.
-That ensures you don't need to repeat the same information in multiple
-places. This block is a good place to put global namespace tags like
-\code{@importFrom}.
+Adds a dummy \code{.R} file that will prompt roxygen to generate basic
+package-level documentation. If your package is named "foo", this will make
+help available to the user via \code{?foo} or \code{package?foo}. Once you call
+\code{\link[devtools:document]{devtools::document()}}, roxygen will flesh out the \code{.Rd} file using data from
+the \code{DESCRIPTION}. That ensures you don't need to repeat the same information
+in multiple places. This \code{.R} file is also a good place for roxygen
+directives that apply to the whole package (vs. a specific function), such as
+global namespace tags like \code{@importFrom}.
+}
+\seealso{
+The \href{http://r-pkgs.had.co.nz/man.html}{documentation chapter} of \href{http://r-pkgs.had.co.nz}{RPackages}
 }

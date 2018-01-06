@@ -7,6 +7,8 @@
 \alias{use_tidy_versions}
 \alias{use_tidy_eval}
 \alias{use_tidy_contributing}
+\alias{use_tidy_issue_template}
+\alias{use_tidy_support}
 \title{Helpers for the tidyverse}
 \usage{
 use_tidy_ci(browse = interactive())
@@ -18,10 +20,14 @@ use_tidy_versions(overwrite = FALSE)
 use_tidy_eval()
 
 use_tidy_contributing()
+
+use_tidy_issue_template()
+
+use_tidy_support()
 }
 \arguments{
-\item{browse}{open a browser window to enable Travis builds for the package
-automatically.}
+\item{browse}{Open a browser window to enable automatic builds for the
+package.}
 
 \item{overwrite}{By default (\code{FALSE}), only dependencies without version
 specifications will be modified. Set to \code{TRUE} to modify all dependencies.}
@@ -43,5 +49,8 @@ programming with the tidy eval toolkit.
 the currently installed version.
 \item \code{use_tidy_contributing()}: creates tidyverse contributing guidelines from
 tidy_contributing template.
+\item \code{use_tidy_issue_template()}: creates a standard tidyverse issue template.
+\item \code{use_tidy_support()}: creates support resources document for GitHub repo
+using SUPPORT.md.
 }
 }

@@ -1,14 +1,24 @@
 #' Create a vignette
 #'
-#' Adds needed packages to `DESCRIPTION`, and creates draft vignette
-#' in `vignettes/`. It adds `inst/doc` to `.gitignore`
-#' so you don't accidentally check in the built vignettes.
+#' Performs general set up for vignettes and initializes a new individual
+#' vignette:
+#' * Adds needed packages to `DESCRIPTION`
+#' * Adds `inst/doc` to `.gitignore` so built vignettes aren't tracked
+#' * Creates a new draft `.Rmd` vignette in `vignettes/` and, if possible,
+#' opens it for editing
 #'
-#' @param name File name to use for new vignette. Should consist only of
-#'   numbers, letters, _ and -. I recommend using lower case.
+#' @param name Base for file name to use for new vignette. Should consist only
+#'   of numbers, letters, _ and -. I recommend using lower case.
 #' @export
-#' @inheritParams use_template
+#' @examples
+#' \dontrun{
+#' use_vignette("how-to-do-stuff")
+#' }
 use_vignette <- function(name) {
+  check_is_package("use_vignette()")
+  if (missing(name)) {
+    stop("Argument ", code("name"), " is missing, with no default", call. = FALSE)
+  }
   check_installed("rmarkdown")
 
   use_dependency("knitr", "Suggests")
@@ -16,13 +26,15 @@ use_vignette <- function(name) {
   use_dependency("rmarkdown", "Suggests")
 
   use_directory("vignettes")
-  use_git_ignore(c("*.html", "*.R"), "vignettes")
+  use_git_ignore(c("*.html", "*.R"), directory = "vignettes")
   use_git_ignore("inst/doc")
 
   path <- file.path("vignettes", slug(name, ".Rmd"))
 
-  done("Creating '", path, "'")
-  rmarkdown::draft(file.path(proj_get(), path), "html_vignette", "rmarkdown",
-    create_dir = FALSE, edit = FALSE)
+  done("Creating ", value(path))
+  rmarkdown::draft(
+    proj_path(path), "html_vignette", "rmarkdown",
+    create_dir = FALSE, edit = FALSE
+  )
   edit_file(proj_get(), path)
 }

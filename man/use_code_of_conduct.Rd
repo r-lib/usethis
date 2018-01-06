@@ -7,8 +7,9 @@
 use_code_of_conduct()
 }
 \description{
-The goal of a code of conduct is to foster an environment of inclusiveness,
-and to explicit discourage inappropriate behaviour. This code of conduct
-comes from \url{http://contributor-covenant.org}, version 1:
+Adds a \code{CODE_OF_CONDUCT.md} file to the project's top-level directory. The
+goal of a code of conduct is to foster an environment of inclusiveness, and
+to explicitly discourage inappropriate behaviour. The template comes from
+\url{http://contributor-covenant.org}, version 1:
 \url{http://contributor-covenant.org/version/1/0/0/}.
 }

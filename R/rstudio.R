@@ -3,7 +3,6 @@
 #' Creates an `.Rproj` file and adds RStudio files to `.gitignore`
 #' and `.Rbuildignore`.
 #'
-#' @inheritParams use_template
 #' @export
 use_rstudio <- function() {
   use_template(
@@ -39,7 +38,7 @@ use_rstudio <- function() {
 use_blank_slate <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
 
-  if (scope == "user") {
+  if (scope == "user") { # nocov start
     todo(
       "To start ALL RStudio sessions with a blank slate, ",
       "you must set this interactively, for now."
@@ -57,17 +56,17 @@ use_blank_slate <- function(scope = c("user", "project")) {
       "workflow in this project."
     )
     return(invisible())
-  }
+  } # nocov end
 
   if (!is_rstudio_project()) {
     stop(project_name(), " is not an RStudio Project", call. = FALSE)
   }
 
   rproj_fields <- modify_rproj(
-    file.path(proj_get(), rproj_path()),
+    proj_path(rproj_path()),
     list(RestoreWorkspace = "No", SaveWorkspace = "No")
   )
-  write_utf8(file.path(proj_get(), rproj_path()), serialize_rproj(rproj_fields))
+  write_utf8(proj_path(rproj_path()), serialize_rproj(rproj_fields))
   restart_rstudio("Restart RStudio with a blank slate?")
 
   invisible()
@@ -92,11 +91,13 @@ rproj_path <- function(base_path = proj_get()) {
 
 # Is base_path open in RStudio?
 in_rstudio <- function(base_path = proj_get()) {
-  if (!rstudioapi::isAvailable())
+  if (!rstudioapi::isAvailable()) {
     return(FALSE)
+  }
 
-  if (!rstudioapi::hasFun("getActiveProject"))
+  if (!rstudioapi::hasFun("getActiveProject")) {
     return(FALSE)
+  }
 
   proj <- rstudioapi::getActiveProject()
 
@@ -128,18 +129,21 @@ restart_rstudio <- function(message = NULL) {
     return(FALSE)
   }
 
-  if (!interactive())
+  if (!interactive()) {
     return(FALSE)
+  }
 
   if (!is.null(message)) {
     todo(message)
   }
 
-  if (!rstudioapi::hasFun("openProject"))
+  if (!rstudioapi::hasFun("openProject")) {
     return(FALSE)
+  }
 
-  if (yesno(todo_bullet(), " Restart now?"))
+  if (nope(todo_bullet(), " Restart now?")) {
     return(FALSE)
+  }
 
   rstudioapi::openProject(proj_get())
 }

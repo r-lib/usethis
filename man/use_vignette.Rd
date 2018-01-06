@@ -7,11 +7,21 @@
 use_vignette(name)
 }
 \arguments{
-\item{name}{File name to use for new vignette. Should consist only of
-numbers, letters, _ and -. I recommend using lower case.}
+\item{name}{Base for file name to use for new vignette. Should consist only
+of numbers, letters, _ and -. I recommend using lower case.}
 }
 \description{
-Adds needed packages to \code{DESCRIPTION}, and creates draft vignette
-in \code{vignettes/}. It adds \code{inst/doc} to \code{.gitignore}
-so you don't accidentally check in the built vignettes.
+Performs general set up for vignettes and initializes a new individual
+vignette:
+\itemize{
+\item Adds needed packages to \code{DESCRIPTION}
+\item Adds \code{inst/doc} to \code{.gitignore} so built vignettes aren't tracked
+\item Creates a new draft \code{.Rmd} vignette in \code{vignettes/} and, if possible,
+opens it for editing
+}
+}
+\examples{
+\dontrun{
+use_vignette("how-to-do-stuff")
+}
 }

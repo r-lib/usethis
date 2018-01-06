@@ -1,17 +1,19 @@
 #' Use magrittr's pipe in your package
 #'
-#' This imports magrittr, and creates a `R/utils-pipe.R` with the necessary
-#' roxygen template to import and re-export the pipe.
+#' Does setup necessary to use magrittr's pipe internally in your package and to
+#' re-export it for users of your package:
+#' * Adds magrittr to "Imports" in DESCRIPTION
+#' * Creates `R/utils-pipe.R` with the necessary roxygen template
 #'
-#' @inheritParams use_template
 #' @export
 use_pipe <- function() {
+  check_is_package("use_pipe()")
   if (!uses_roxygen()) {
-    stop("`use_pipe()` requires that you use roxygen.", call. = FALSE)
+    stop(code("use_pipe()"), " requires that you use roxygen", call. = FALSE)
   }
 
   use_dependency("magrittr", "Imports")
   use_template("pipe.R", "R/utils-pipe.R")
 
-  todo("Run document()")
+  todo("Run ", code("document()"))
 }

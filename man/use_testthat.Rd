@@ -13,7 +13,8 @@ use_test(name = NULL, open = TRUE)
 \item{name}{Test name. if \code{NULL}, and you're using RStudio, will use
 the name of the file open in the source editor.}
 
-\item{open}{Should the new created file be opened in RStudio?}
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 \code{use_testthat()} sets up testing infrastructure, creating

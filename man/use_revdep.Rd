@@ -2,12 +2,18 @@
 % Please edit documentation in R/revdep.R
 \name{use_revdep}
 \alias{use_revdep}
-\title{Set up devtools revdep template}
+\title{Reverse dependency checks}
 \usage{
 use_revdep()
 }
 \description{
-Add \code{revdep} directory, git-ignoring the files that you shouldn't
-check in, and creating a \code{email.yml} for use \code{revdep_email}.
-Run the checks with \code{revdepcheck::revdep_check()}.
+Performs set up for checking the reverse dependencies of an R package, as
+implemented by the revdepcheck package:
+\itemize{
+\item Adds \code{revdep} directory and adds it to \code{.Rbuildignore}
+\item Populates \code{revdep/.gitignore} to prevent tracking of various revdep
+artefacts
+\item Creates \code{revdep/email.yml} for use with \code{revdepcheck::revdep_email()}
+\item Prompts user to run the checks with \code{revdepcheck::revdep_check()}
+}
 }

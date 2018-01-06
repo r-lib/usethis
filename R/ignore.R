@@ -9,7 +9,6 @@
 #' @param files Character vector of path names.
 #' @param escape If `TRUE`, the default, will escape `.` to
 #'   `\\.` and surround with `^` and `$`.
-#' @inheritParams use_template
 #' @export
 use_build_ignore <- function(files, escape = TRUE) {
   if (escape) {

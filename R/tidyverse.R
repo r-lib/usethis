@@ -21,8 +21,14 @@
 #' * `use_tidy_contributing()`: creates tidyverse contributing guidelines from
 #'    tidy_contributing template.
 #'
+#' * `use_tidy_issue_template()`: creates a standard tidyverse issue template.
+#'
+#' * `use_tidy_support()`: creates support resources document for GitHub repo
+#'    using SUPPORT.md.
+#'
 #' @name tidyverse
 NULL
+
 
 #' @export
 #' @rdname tidyverse
@@ -117,16 +123,47 @@ use_tidy_eval <- function() {
 
 #' @export
 #' @rdname tidyverse
-#' @inheritParams use_template
 use_tidy_contributing <- function() {
   check_uses_travis()
 
   gh <- gh::gh_tree_remote(proj_get())
   travis_url <- file.path("https://travis-ci.org", gh$username, gh$repo)
+  github_url <- file.path("https://github.com", gh$username, gh$repo)
 
   use_template(
     "tidy_contributing.md",
     "CONTRIBUTING.md",
-    data = list(package = project_name(), travis_url = travis_url)
+    data = list(
+      package = project_name(),
+      github_url = github_url,
+      travis_url = travis_url
+    ),
+    ignore = TRUE
+  )
+}
+
+
+#' @export
+#' @rdname tidyverse
+use_tidy_issue_template <- function() {
+  check_uses_github()
+
+  use_template(
+    "ISSUE_TEMPLATE.md",
+    "ISSUE_TEMPLATE.md",
+    ignore = TRUE
+  )
+}
+
+
+#' @export
+#' @rdname tidyverse
+use_tidy_support <- function() {
+  check_uses_github()
+
+  use_template(
+    "SUPPORT.md",
+    data = list(package = project_name()),
+    ignore = TRUE
   )
 }
