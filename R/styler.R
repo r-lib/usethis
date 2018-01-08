@@ -1,7 +1,8 @@
 #' Style according to the tidyverse style guide
 #'
 #' Styles the source code of the package according to the
-#' [tidyverse style guide](http://style.tidyverse.org).
+#' [tidyverse style guide](http://style.tidyverse.org) with the
+#' package [styler](http://styler.r-lib.org).
 #' @param strict Boolean indicating whether or not a strict version of styling
 #'   should be applied. See [styler::tidyverse_style()] for details.
 #' @section Warning:

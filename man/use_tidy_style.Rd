@@ -16,7 +16,8 @@ styling whether or not it was actually changed.
 }
 \description{
 Styles the source code of the package according to the
-\href{http://style.tidyverse.org}{tidyverse style guide}.
+\href{http://style.tidyverse.org}{tidyverse style guide} with the
+package \href{http://styler.r-lib.org}{styler}.
 }
 \section{Warning}{
 
