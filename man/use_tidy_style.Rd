@@ -18,3 +18,10 @@ styling whether or not it was actually changed.
 Styles the source code of the package according to the
 \href{http://style.tidyverse.org}{tidyverse style guide}.
 }
+\section{Warning}{
+
+This function overwrites files (if styling results in a change of the
+code to be formatted). It is strongly suggested to only style files
+that are under version control or to create a backup copy.
+}
+
