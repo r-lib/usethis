@@ -17,7 +17,11 @@
 #' @export
 use_tidy_style <- function(strict = TRUE) {
   check_installed("styler")
-  styled <- style_pkg(proj_get(), style = tidyverse_style, strict = strict)
+  check_is_package("use_tidy_style()")
+  styled <- do.call(
+    ifelse(is_package(), "style_pkg", "style_dir"),
+    list(proj_get(), style = tidyverse_style, strict = strict)
+  )
   cat_line()
   done("Styled package according to the tidyverse style guide")
   invisible(styled)
