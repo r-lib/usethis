@@ -12,17 +12,20 @@
 #' @return
 #' Invisibly returns a data frame that indicates for each file considered for
 #' styling whether or not it was actually changed.
-#' @importFrom styler style_pkg
-#' @importFrom styler tidyverse_style
 #' @export
 use_tidy_style <- function(strict = TRUE) {
   check_installed("styler")
   check_is_package("use_tidy_style()")
   check_uncommitted_changes()
-  styled <- do.call(
-    ifelse(is_package(), "style_pkg", "style_dir"),
-    list(proj_get(), style = tidyverse_style, strict = strict)
-  )
+  if (is_package()) {
+    styled <- styler::style_pkg(proj_get(),
+      style = styler::tidyverse_style, strict = strict
+    )
+  } else {
+    styled <- styler::style_dir(proj_get(),
+      style = styler::tidyverse_style, strict = strict
+    )
+  }
   cat_line()
   done("Styled package according to the tidyverse style guide")
   invisible(styled)
