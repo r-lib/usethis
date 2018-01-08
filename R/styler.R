@@ -18,6 +18,7 @@
 use_tidy_style <- function(strict = TRUE) {
   check_installed("styler")
   check_is_package("use_tidy_style()")
+  check_uncommitted_changes()
   styled <- do.call(
     ifelse(is_package(), "style_pkg", "style_dir"),
     list(proj_get(), style = tidyverse_style, strict = strict)
