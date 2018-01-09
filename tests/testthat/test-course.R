@@ -30,7 +30,7 @@ test_that("check_host() screens for DropBox and GitHub .zip download URLs", {
 
 test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
   with_mock(
-    check_host = function(url) NULL,
+    `usethis:::check_host` = function(url) NULL,
     expect_error(
       download_zip(
         "https://cran.r-project.org/src/contrib/rematch2_2.0.1.tar.gz"
