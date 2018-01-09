@@ -56,7 +56,7 @@ parse_content_disposition <- function(cd) {
   }
   message("content-disposition:\n", cd)
 
-  cd <- gsub("^attachment;\\s*", "", cd, ignore.case = TRUE)
+  cd <- sub("^attachment;\\s*", "", cd, ignore.case = TRUE)
   cd <- strsplit(cd, "\\s*;\\s*")[[1]]
   cd <- strsplit(cd, "=")
   stats::setNames(
@@ -78,9 +78,7 @@ make_filename <- function(cd,
 
   ## I know I could use regex and lookahead but this is easier for me to
   ## maintain
-  if (grepl("^\"", cd) && grepl("\"$", cd)) {
-    cd <- gsub("^\"(.+)\"$", "\\1", cd)
-  }
+  cd <- sub("^\"(.+)\"$", "\\1", cd)
 
   sanitize_filename(cd)
 }
