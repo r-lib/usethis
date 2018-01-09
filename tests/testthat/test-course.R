@@ -29,6 +29,9 @@ test_that("check_host() screens for DropBox and GitHub .zip download URLs", {
 })
 
 test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
+  ## curl::parse_headers_list() calls trimws()
+  ## https://github.com/jeroen/curl/issues/138
+  skip_if(getRversion() < 3.2)
   with_mock(
     `usethis:::check_host` = function(url) NULL,
     expect_error(
