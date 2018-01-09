@@ -117,7 +117,10 @@ test_that("sanitize_filename() catches obviously bad filenames", {
   expect_identical(sanitize_filename("a\u0001b"), "a%01b")
   expect_identical(sanitize_filename("a\x01b"), "a%01b")
   expect_identical(sanitize_filename("a\nb"), "a%0Ab")
-  expect_identical(sanitize_filename("a\\b"), "a%5Cb")
+  expect_true(
+    sanitize_filename("a\\b") == "a%5Cb" || # not Windows
+      sanitize_filename("a\\b") == "b"      # Windows
+  )
   expect_identical(sanitize_filename("a?b"), "a%3Fb")
   expect_identical(sanitize_filename("a*b"), "a%2Ab")
   expect_identical(sanitize_filename("a:b"), "a%3Ab")
