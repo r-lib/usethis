@@ -57,7 +57,6 @@ parse_content_disposition <- function(cd) {
       "Actual header: ", value(cd), call. = FALSE
     )
   }
-  message("content-disposition:\n", cd)
 
   cd <- sub("^attachment;\\s*", "", cd, ignore.case = TRUE)
   cd <- strsplit(cd, "\\s*;\\s*")[[1]]
