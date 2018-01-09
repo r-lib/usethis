@@ -89,3 +89,61 @@ test_that("make_filename() gets name from `content-disposition` header", {
 test_that("make_filename() uses fallback if no `content-disposition` header", {
   expect_match(make_filename(NULL), "^file[0-9a-z]+$")
 })
+
+## https://github.com/parshap/node-sanitize-filename/blob/master/test.js
+test_that("sanitize_filename() catches obviously bad filenames", {
+  expect_identical(sanitize_filename(""), "")
+
+  ## should drop dirname(input)
+  expect_identical(sanitize_filename("../foo"), "foo")
+
+  ## Joe scaring me into filename sanitization
+  expect_identical(sanitize_filename("~/.ssh/id_rsa"), "id_rsa")
+
+  ## ".." and "."
+  expect_identical(sanitize_filename(".."), "_")
+  expect_identical(sanitize_filename("."), "_")
+
+  ## combine ".." and "." with "/"
+  expect_identical(sanitize_filename("./"), "_")
+  expect_identical(sanitize_filename("../"), "_")
+  expect_identical(sanitize_filename("/.."), "_")
+  expect_identical(sanitize_filename("/../"), "_")
+
+  ## percent encoding of reserved and non-ascii characters
+  expect_identical(sanitize_filename("spaces happen.mp3"), "spaces%20happen.mp3")
+  expect_identical(sanitize_filename("spaces happen  "), "spaces%20happen%20%20")
+  expect_identical(sanitize_filename("résumé"), "r%C3%A9sum%C3%A9")
+  expect_identical(sanitize_filename("a\u0001b"), "a%01b")
+  expect_identical(sanitize_filename("a\x01b"), "a%01b")
+  expect_identical(sanitize_filename("a\nb"), "a%0Ab")
+  expect_identical(sanitize_filename("a\\b"), "a%5Cb")
+  expect_identical(sanitize_filename("a?b"), "a%3Fb")
+  expect_identical(sanitize_filename("a*b"), "a%2Ab")
+  expect_identical(sanitize_filename("a:b"), "a%3Ab")
+  expect_identical(sanitize_filename("a|b"), "a%7Cb")
+  expect_identical(sanitize_filename("a\"b"), "a%22b")
+  expect_identical(sanitize_filename("a<b"), "a%3Cb")
+  expect_identical(sanitize_filename("a>b"), "a%3Eb")
+
+  ## non-trailing dots
+  expect_identical(sanitize_filename("a.b"), "a.b")
+  expect_identical(sanitize_filename("a.b.c"), "a.b.c")
+  expect_identical(sanitize_filename(".a"), ".a")
+  expect_identical(sanitize_filename(".a.b"), ".a.b")
+
+  ## trailing dots and spaces are not OK on Windows
+  expect_identical(sanitize_filename("a."), "a_")
+  expect_identical(sanitize_filename("a.."), "a_")
+  expect_identical(sanitize_filename("a.b."), "a.b_")
+
+  ## Windows reserved names (or not!)
+  expect_identical(sanitize_filename("con"), "_")
+  expect_identical(sanitize_filename("constant"), "constant")
+  expect_identical(sanitize_filename("COM1"), "_")
+  expect_identical(sanitize_filename("TELECOMMUNICATIONS"), "TELECOMMUNICATIONS")
+  expect_identical(sanitize_filename("PRN."), "_")
+  expect_identical(sanitize_filename("aux.txt"), "_")
+  expect_identical(sanitize_filename("LPT9.asdfasdf"), "_")
+  expect_identical(sanitize_filename("LPT10.txt"), "LPT10.txt")
+})
