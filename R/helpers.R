@@ -92,8 +92,8 @@ use_description_field <- function(name,
 }
 
 use_dependency <- function(package, type, version = "*") {
-  stopifnot(is.character(package), length(package) == 1)
-  stopifnot(is.character(type), length(type) == 1)
+  stopifnot(is_string(package))
+  stopifnot(is_string(type))
 
   if (package != "R" && !requireNamespace(package, quietly = TRUE)) {
     stop(package, " must be installed before you can take a dependency on it",

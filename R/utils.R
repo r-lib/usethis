@@ -69,3 +69,7 @@ is_testing <- function() {
 interactive <- function() {
   base::interactive() && !is_testing()
 }
+
+is_string <- function(x) {
+  length(x) == 1 && is.character(x)
+}
