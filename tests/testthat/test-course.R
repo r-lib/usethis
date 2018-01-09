@@ -47,17 +47,17 @@ test_that("parse_content_disposition() parses Content-Description", {
   ## typical DropBox
   expect_identical(
     parse_content_disposition(
-      "attachment; filename=\"usethis-test.zip\"; filename*=UTF-8''usethis-test.zip\""
+      "attachment; filename=\"foo.zip\"; filename*=UTF-8''foo.zip\""
     ),
     c(
-      "filename" = "\"usethis-test.zip\"",
-      "filename*" = "UTF-8''usethis-test.zip\""
+      "filename" = "\"foo.zip\"",
+      "filename*" = "UTF-8''foo.zip\""
     )
   )
   ## typical GitHub
   expect_identical(
-    parse_content_disposition("attachment; filename=buzzy-master.zip"),
-    c("filename" = "buzzy-master.zip")
+    parse_content_disposition("attachment; filename=foo-master.zip"),
+    c("filename" = "foo-master.zip")
   )
 })
 

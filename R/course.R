@@ -9,14 +9,15 @@ download_zip <- function(url) {
   cd <- content_disposition(dl)
 
   filename <- make_filename(cd, fallback = basename(url))
-  message("filename:\n", filename)
 
+  done("Downloading ZIP file to ", value(filename))
   writeBin(dl$content, filename)
   invisible(filename)
 }
 
 check_host <- function(url) {
   ## one regex per ZIP file host we are prepared to handle
+  ## this should match the URL after all the redirects
   hosts <- c(
     dropbox = "^https://dl.dropboxusercontent.com/content_link_zip/",
     github = "^https://codeload.github.com"
@@ -39,13 +40,15 @@ check_is_zip <- function(download) {
   invisible()
 }
 
-## https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition
-## https://tools.ietf.org/html/rfc6266
 content_disposition <- function(download) {
   headers <- curl::parse_headers_list(download$headers)
   parse_content_disposition(headers[["content-disposition"]])
 }
 
+## https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition
+## https://tools.ietf.org/html/rfc6266
+## DropBox eg: "attachment; filename=\"foo.zip\"; filename*=UTF-8''foo.zip\"
+##  GitHub eg: "attachment; filename=foo-master.zip"
 parse_content_disposition <- function(cd) {
   if (!grepl("^attachment;", cd)) {
     stop(
