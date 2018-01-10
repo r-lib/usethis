@@ -45,7 +45,7 @@ is_dir <- function(x) file.info(x)$isdir
 
 check_is_dir <- function(x) {
   if (!file.exists(x)) {
-    stop("This directory does not exist:\n", value(x), call. = FALSE)
+    stop("Directory does not exist:\n", value(x), call. = FALSE)
   }
   if (!is_dir(x)) {
     stop(value(x), " exists but is not a directory.", call. = FALSE)

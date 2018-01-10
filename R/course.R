@@ -1,4 +1,4 @@
-download_zip <- function(url) {
+download_zip <- function(url, destdir = NULL) {
   stopifnot(is_string(url))
   dl <- curl::curl_fetch_memory(url)
 
@@ -8,13 +8,25 @@ download_zip <- function(url) {
 
   cd <- content_disposition(dl)
 
-  filename <- make_filename(cd, fallback = basename(url))
+  base_name <- make_filename(cd, fallback = basename(url))
+  base_path <- destdir %||% getwd()
+  check_is_dir(base_path)
+  ## TO DO: Confirm destdir if interactive and is.null(destdir)?
+  ## I'm thinking of that naive user / workshop scenario, i.e., training
+  ## people to start to BE INTENTIONAL ABOUT WHERE YOU PUT YOUR THINGS
+  full_path <- file.path(base_path, base_name)
 
-  ## TO DO: Offer a "Save To ..." with working directory as default?
-  done("Downloading ZIP file to ", value(filename))
-  ## TO DO: Check if 'filename' exists? `writeBin()` has no overwrite arg!
-  writeBin(dl$content, filename)
-  invisible(filename)
+  if (!can_overwrite(full_path)) {
+    ## TO DO: it pains me that can_overwrite() always strips to basename
+    stop("Aborting download", call. = FALSE)
+  }
+
+  done(
+    "Downloading ZIP file to ",
+    if (is.null(destdir)) value(base_name) else value(full_path)
+  )
+  writeBin(dl$content, full_path)
+  invisible(full_path)
 }
 
 tidy_unzip <- function(zipfile) {
@@ -39,7 +51,7 @@ tidy_unzip <- function(zipfile) {
     " (", nrow(files), " files extracted)"
   )
 
-  if (!nope("Shall we delete the ZIP file ", value(zipfile), "?")) {
+  if (yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
     done("Deleting ", value(zipfile))
     unlink(zipfile)
   }
