@@ -10,9 +10,48 @@ download_zip <- function(url) {
 
   filename <- make_filename(cd, fallback = basename(url))
 
+  ## TO DO: Offer a "Save To ..." with working directory as default?
   done("Downloading ZIP file to ", value(filename))
+  ## TO DO: Check if 'filename' exists? `writeBin()` has no overwrite arg!
   writeBin(dl$content, filename)
   invisible(filename)
+}
+
+tidy_unzip <- function(zipfile) {
+  files <- utils::unzip(zipfile, list = TRUE)
+  files$unzip_keep <- vapply(files$Name, keep, logical(1), USE.NAMES = FALSE)
+  files <- files[files$unzip_keep, ]
+  loose <- any(dirname(files$Name) == "/")
+  target <- parent <- tools::file_path_sans_ext(zipfile)
+  if (loose) {
+    ## TO DO: Check if 'target' exists?
+    utils::unzip(zipfile, files = files$Name, exdir = target)
+  } else {
+    ## TO DO: Check if 'parent' exists?
+    utils::unzip(zipfile, files = files$Name)
+    ## TO DO: make this more general for branchname
+    target <- gsub("-master$", "", parent)
+    ## TO DO: Check if 'target' exists?
+    file.rename(parent, target)
+  }
+  done(
+    "Unpacking ZIP file into ", value(target),
+    " (", nrow(files), " files extracted)"
+  )
+
+  if (!nope("Shall we delete the ZIP file ", value(zipfile), "?")) {
+    done("Deleting ", value(zipfile))
+    unlink(zipfile)
+  }
+
+  ## TO DO: open target in file explorer
+  invisible(target)
+}
+
+keep <- function(file,
+                 ignores = c(".Rproj.user", ".rproj.user", ".Rhistory", ".RData", ".git")) {
+  ignores <- paste0("(\\/|\\A)", gsub("\\.", "[.]", ignores), "(\\/|\\Z)")
+  !any(vapply(ignores, function(x) grepl(x, file, perl = TRUE), logical(1)))
 }
 
 check_host <- function(url) {
