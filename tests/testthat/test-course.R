@@ -145,7 +145,8 @@ test_that("sanitize_filename() catches obviously bad filenames", {
   expect_same(sanitize_filename(".a"), ".a")
   expect_same(sanitize_filename(".a.b"), ".a.b")
 
-  ## trailing dots and spaces are not OK on Windows
+  ## trailing dots are not OK on Windows
+  ## (neither are trailing spaces, but they'll have been percent-encoded)
   expect_same(sanitize_filename("a."), "a_")
   expect_same(sanitize_filename("a.."), "a_")
   expect_same(sanitize_filename("a.b."), "a.b_")
