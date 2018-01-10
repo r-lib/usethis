@@ -4,16 +4,21 @@ can_overwrite <- function(path) {
   }
 
   if (interactive()) {
-    !nope("Overwrite pre-existing file ", value(basename(path)), "?")
+    yep("Overwrite pre-existing file ", value(basename(path)), "?")
   } else {
     FALSE
   }
 }
 
-## FALSE: user selected the "yes"
-## TRUE: user did anything else: selected one of the "no's" or selected nothing,
-##   i.e. entered 0
-nope <- function(...) {
+## returns TRUE if user actively selects answer corresponding to `true_for`
+## returns FALSE for anything else = actively selects other answer or
+##   enters 0
+ask_user <- function(...,
+                     true_for = c("yes", "no")) {
+  #return(list(...))
+  true_for <- match.arg(true_for)
+  yes <- true_for == "yes"
+
   message <- paste0(..., collapse = "")
   if (!interactive()) {
     stop(
@@ -21,17 +26,32 @@ nope <- function(...) {
       "Query: ", message, call. = FALSE
     )
   }
+
   yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
   nos <- c("No way", "Not yet", "I forget", "No", "Nope", "Hell no")
 
-  cat(message)
   qs <- c(sample(yeses, 1), sample(nos, 2))
   rand <- sample(length(qs))
+  ret <- if(yes) rand == 1 else rand != 1
 
-  utils::menu(qs[rand]) != which(rand == 1)
+  cat(message)
+  ret[utils::menu(qs[rand])]
 }
 
+nope <- function(...) ask_user(..., true_for = "no")
+yep <- function(...) ask_user(..., true_for = "yes")
+
 is_dir <- function(x) file.info(x)$isdir
+
+check_is_dir <- function(x) {
+  if (!file.exists(x)) {
+    stop("This directory does not exist:\n", value(x), call. = FALSE)
+  }
+  if (!is_dir(x)) {
+    stop(value(x), " exists but is not a directory.", call. = FALSE)
+  }
+  invisible(x)
+}
 
 dots <- function(...) {
   eval(substitute(alist(...)))
