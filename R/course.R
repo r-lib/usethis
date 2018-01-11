@@ -7,7 +7,9 @@
 #' Developed for use in live teaching, with DropBox and GitHub as primary
 #' targets, possibly via shortlinks. Both platforms offer a way to download an
 #' entire folder or repo as a ZIP file, with information about the original
-#' folder or repo transmitted in the `Content-Disposition` header.
+#' folder or repo transmitted in the `Content-Disposition` header. In the
+#' absence of this header, a filename is generated from the input URL. In either
+#' case, the filename is sanitized.
 #'
 #' @section DropBox:
 #'
@@ -24,7 +26,7 @@
 #' https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
 #' ```
 #' This download link (or a shortlink that points to it) is suitable as input
-#' for `download_zip()`. After one or more redirections, this URL will
+#' for `download_zip()`. After one or more redirections, this link will
 #' eventually lead to a download URL. For more details, see
 #' <https://www.dropbox.com/help/desktop-web/force-download> and
 #' <https://www.dropbox.com/en/help/desktop-web/download-entire-folders>.
@@ -37,14 +39,14 @@
 #' https://github.com/r-lib/usethis/archive/master.zip
 #' ```
 #' This download link (or a shortlink that points to it) is suitable as input
-#' for `download_zip()`. After one or more redirections, this URL will
-#' eventually lead to a download URL. Here's an alternative URL that also leads
+#' for `download_zip()`. After one or more redirections, this link will
+#' eventually lead to a download URL. Here's an alternative link that also leads
 #' to ZIP download, albeit with a different filenaming scheme:
 #' ```
 #' http://github.com/r-lib/usethis/zipball/master/
 #' ```
 #'
-#' @param url Download URL for the ZIP file, possibly behind a shortlink or
+#' @param url Download link for the ZIP file, possibly behind a shortlink or
 #'   other redirect. See Details.
 #' @param destdir Path to existing local directory where the ZIP file will be
 #'   stored. Defaults to current working directory.
@@ -99,6 +101,34 @@ download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
   invisible(full_path)
 }
 
+#' Unpack a ZIP file
+#'
+#' Special-purpose function to unpack a ZIP file and (attempt to) create the
+#' directory structure most people actually want. The main reason to finesse the
+#' directory structure: we want the same local result when unzipping the same
+#' content from either GitHub or DropBox ZIP files, which pack things
+#' differently. Here is the intent:
+#' * If the ZIP archive `foo.zip` does not contain a single top-level directory,
+#' i.e. it is packed as "loose parts", unzip into a directory named `foo`.
+#' Typical of DropBox ZIP files.
+#' * If the ZIP archive `foo.zip` has a single top-level directory (which, by
+#' the way, is not necessarily called "foo"), accept default unzip behavior.
+#' Typical of GitHub ZIP files.
+#'
+#' @section DropBox:
+#' The ZIP files produced by DropBox are special. The file list tends to contain
+#' a spurious directory `"/"`, which we ignore during unzip. Also, if the
+#' directory is a Git repo and/or RStudio Project, we unzip-ignore various
+#' hidden files, such as those below `.git/` and `.Rproj.user`.
+#'
+#' @param zipfile Path to local ZIP file.
+#'
+#' @return Path to the directory holding the unpacked files.
+#' @keywords internal
+#' @examples
+#' \dontrun{
+#' tidy_unzip("foo.zip")
+#' }
 tidy_unzip <- function(zipfile) {
   files <- utils::unzip(zipfile, list = TRUE)
   files$unzip_keep <- vapply(files$Name, keep, logical(1), USE.NAMES = FALSE)

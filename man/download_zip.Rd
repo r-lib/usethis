@@ -7,7 +7,7 @@
 download_zip(url, destdir = NULL, pedantic = TRUE)
 }
 \arguments{
-\item{url}{Download URL for the ZIP file, possibly behind a shortlink or
+\item{url}{Download link for the ZIP file, possibly behind a shortlink or
 other redirect. See Details.}
 
 \item{destdir}{Path to existing local directory where the ZIP file will be
@@ -27,7 +27,9 @@ the file name, which often determines the folder name after unpacking.
 Developed for use in live teaching, with DropBox and GitHub as primary
 targets, possibly via shortlinks. Both platforms offer a way to download an
 entire folder or repo as a ZIP file, with information about the original
-folder or repo transmitted in the \code{Content-Disposition} header.
+folder or repo transmitted in the \code{Content-Disposition} header. In the
+absence of this header, a filename is generated from the input URL. In either
+case, the filename is sanitized.
 }
 \section{DropBox}{
 
@@ -45,7 +47,7 @@ download link will have this form:\preformatted{https://www.dropbox.com/sh/12345
 }
 
 This download link (or a shortlink that points to it) is suitable as input
-for \code{download_zip()}. After one or more redirections, this URL will
+for \code{download_zip()}. After one or more redirections, this link will
 eventually lead to a download URL. For more details, see
 \url{https://www.dropbox.com/help/desktop-web/force-download} and
 \url{https://www.dropbox.com/en/help/desktop-web/download-entire-folders}.
@@ -59,8 +61,8 @@ button. Capture this URL, which will have this form:\preformatted{https://github
 }
 
 This download link (or a shortlink that points to it) is suitable as input
-for \code{download_zip()}. After one or more redirections, this URL will
-eventually lead to a download URL. Here's an alternative URL that also leads
+for \code{download_zip()}. After one or more redirections, this link will
+eventually lead to a download URL. Here's an alternative link that also leads
 to ZIP download, albeit with a different filenaming scheme:\preformatted{http://github.com/r-lib/usethis/zipball/master/
 }
 }
