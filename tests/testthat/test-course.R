@@ -1,5 +1,9 @@
 context("use_course")
 
+test_that("download_zip() errors for bad URL", {
+  expect_error(download_zip("abcde"), "not resolve host")
+})
+
 test_that("check_host() screens for DropBox and GitHub .zip download URLs", {
   expect_error_free(check_host(
     "https://dl.dropboxusercontent.com/content_link_zip/12345/file"
