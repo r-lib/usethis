@@ -1,3 +1,5 @@
+## see end of file for links and research re: DropBox and cURL
+
 download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
   stopifnot(is_string(url))
   dl <- curl::curl_fetch_memory(url)
@@ -176,3 +178,18 @@ unix_reserved_regex <- "^[.]{1,2}$"
 ## https://msdn.microsoft.com/en-us/library/aa365247.aspx
 windows_reserved_regex <- "^(con|prn|aux|nul|com[0-9]|lpt[0-9])([.].*)?$"
 windows_trailing_regex <- "[. ]+$"
+
+## https://www.dropbox.com/help/desktop-web/force-download
+## To force a browser to download a file or folder rather than display it, you
+## can use dl=1 as a query parameter in your URL. For example:
+## https://www.dropbox.com/s/a1b2c3d4ef5gh6/example.docx?dl=1
+
+## https://www.dropbox.com/en/help/desktop-web/download-entire-folders
+
+## https://stackoverflow.com/questions/21322614/use-curl-to-download-a-dropbox-folder-via-shared-link-not-public-link
+## lesson: if using cURL, you'd want these options
+## -L, --location (follow redirects)
+## -O, --remote-name (name local file like the file part of remote name)
+## -J, --remote-header-name (tells -O option to consult Content-Disposition
+##   instead of the URL)
+## https://curl.haxx.se/docs/manpage.html#OPTIONS
