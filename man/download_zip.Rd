@@ -23,11 +23,11 @@ Path to downloaded ZIP file
 }
 \description{
 Special-purpose function to download a ZIP file and automatically determine
-the file name, which ultimately determines the folder name after unpacking.
+the file name, which often determines the folder name after unpacking.
 Developed for use in live teaching, with DropBox and GitHub as primary
 targets, possibly via shortlinks. Both platforms offer a way to download an
-entire folder or repo as a ZIP file, with the original folder or repo name
-transmitted in the \code{Content-Disposition} header.
+entire folder or repo as a ZIP file, with information about the original
+folder or repo transmitted in the \code{Content-Disposition} header.
 }
 \section{DropBox}{
 
@@ -37,16 +37,18 @@ To make a folder available for ZIP download, create a shared link for it:
 \item \url{https://www.dropbox.com/help/files-folders/view-only-access}
 }
 
-The link should have this form:\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
+A shared link will have this form:\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
 }
 
 Replace the \code{dl=0} at the end with \code{dl=1} to create a download link. The ZIP
-download link should have this form:\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
+download link will have this form:\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
 }
 
-After one or more redirections, this URL will lead to a download URL. For
-more details, see \url{https://www.dropbox.com/help/desktop-web/force-download}
-and \url{https://www.dropbox.com/en/help/desktop-web/download-entire-folders}.
+This download link (or a shortlink that points to it) is suitable as input
+for \code{download_zip()}. After one or more redirections, this URL will
+eventually lead to a download URL. For more details, see
+\url{https://www.dropbox.com/help/desktop-web/force-download} and
+\url{https://www.dropbox.com/en/help/desktop-web/download-entire-folders}.
 }
 
 \section{GitHub}{
@@ -56,9 +58,10 @@ Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
 button. Capture this URL, which will have this form:\preformatted{https://github.com/r-lib/usethis/archive/master.zip
 }
 
-After one or more redirections, this URL will lead to a download URL. An
-alternative URL that also leads to ZIP download, but with a different
-filenaming scheme:\preformatted{http://github.com/r-lib/usethis/zipball/master/
+This download link (or a shortlink that points to it) is suitable as input
+for \code{download_zip()}. After one or more redirections, this URL will
+eventually lead to a download URL. Here's an alternative URL that also leads
+to ZIP download, albeit with a different filenaming scheme:\preformatted{http://github.com/r-lib/usethis/zipball/master/
 }
 }
 

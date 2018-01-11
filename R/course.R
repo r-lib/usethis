@@ -3,29 +3,31 @@
 #' Download a ZIP file
 #'
 #' Special-purpose function to download a ZIP file and automatically determine
-#' the file name, which ultimately determines the folder name after unpacking.
+#' the file name, which often determines the folder name after unpacking.
 #' Developed for use in live teaching, with DropBox and GitHub as primary
 #' targets, possibly via shortlinks. Both platforms offer a way to download an
-#' entire folder or repo as a ZIP file, with the original folder or repo name
-#' transmitted in the `Content-Disposition` header.
+#' entire folder or repo as a ZIP file, with information about the original
+#' folder or repo transmitted in the `Content-Disposition` header.
 #'
 #' @section DropBox:
 #'
 #' To make a folder available for ZIP download, create a shared link for it:
 #' * <https://www.dropbox.com/help/files-folders/view-only-access>
 #'
-#' The link should have this form:
+#' A shared link will have this form:
 #' ```
 #' https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
 #' ```
 #' Replace the `dl=0` at the end with `dl=1` to create a download link. The ZIP
-#' download link should have this form:
+#' download link will have this form:
 #' ```
 #' https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
 #' ```
-#' After one or more redirections, this URL will lead to a download URL. For
-#' more details, see <https://www.dropbox.com/help/desktop-web/force-download>
-#' and <https://www.dropbox.com/en/help/desktop-web/download-entire-folders>.
+#' This download link (or a shortlink that points to it) is suitable as input
+#' for `download_zip()`. After one or more redirections, this URL will
+#' eventually lead to a download URL. For more details, see
+#' <https://www.dropbox.com/help/desktop-web/force-download> and
+#' <https://www.dropbox.com/en/help/desktop-web/download-entire-folders>.
 #'
 #' @section GitHub:
 #'
@@ -34,9 +36,10 @@
 #' ```
 #' https://github.com/r-lib/usethis/archive/master.zip
 #' ```
-#' After one or more redirections, this URL will lead to a download URL. An
-#' alternative URL that also leads to ZIP download, but with a different
-#' filenaming scheme:
+#' This download link (or a shortlink that points to it) is suitable as input
+#' for `download_zip()`. After one or more redirections, this URL will
+#' eventually lead to a download URL. Here's an alternative URL that also leads
+#' to ZIP download, albeit with a different filenaming scheme:
 #' ```
 #' http://github.com/r-lib/usethis/zipball/master/
 #' ```
