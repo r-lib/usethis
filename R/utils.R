@@ -15,7 +15,6 @@ can_overwrite <- function(path) {
 ##   enters 0
 ask_user <- function(...,
                      true_for = c("yes", "no")) {
-  #return(list(...))
   true_for <- match.arg(true_for)
   yes <- true_for == "yes"
 
