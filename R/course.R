@@ -124,7 +124,8 @@ tidy_unzip <- function(zipfile) {
     unlink(zipfile)
   }
 
-  ## TO DO: open target in file explorer
+  done("Opening ", value(target), " in the file manager")
+  browseURL(target)
   invisible(target)
 }
 
