@@ -1,4 +1,4 @@
-download_zip <- function(url, destdir = NULL) {
+download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
   stopifnot(is_string(url))
   dl <- curl::curl_fetch_memory(url)
 
@@ -8,12 +8,21 @@ download_zip <- function(url, destdir = NULL) {
 
   cd <- content_disposition(dl)
 
-  base_name <- make_filename(cd, fallback = basename(url))
   base_path <- destdir %||% getwd()
   check_is_dir(base_path)
-  ## TO DO: Confirm destdir if interactive and is.null(destdir)?
-  ## I'm thinking of that naive user / workshop scenario, i.e., training
-  ## people to start to BE INTENTIONAL ABOUT WHERE YOU PUT YOUR THINGS
+  base_name <- make_filename(cd, fallback = basename(url))
+
+  if (pedantic && interactive() && is.null(destdir)) {
+    message(
+      "ZIP file will be downloaded to ", value(base_name),
+      " in current working directory,\nwhich is ", value(getwd()), ".\n",
+      "If you prefer another location, abort and specify ",
+      code("destdir"), "."
+    )
+    if (nope("Proceed with this download?")) {
+      stop("Aborting download", call. = FALSE)
+    }
+  }
   full_path <- file.path(base_path, base_name)
 
   if (!can_overwrite(full_path)) {
@@ -40,7 +49,8 @@ tidy_unzip <- function(zipfile) {
     utils::unzip(zipfile, files = files$Name, exdir = target)
   } else {
     ## TO DO: Check if 'parent' exists?
-    utils::unzip(zipfile, files = files$Name)
+    create_directory(dirname(parent), basename(parent))
+    utils::unzip(zipfile, files = files$Name, exdir = dirname(parent))
     ## TO DO: make this more general for branchname
     target <- gsub("-master$", "", parent)
     ## TO DO: Check if 'target' exists?
