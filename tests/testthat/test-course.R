@@ -4,46 +4,15 @@ test_that("download_zip() errors for bad URL", {
   expect_error(download_zip("abcde"), "not resolve host")
 })
 
-test_that("check_host() screens for DropBox and GitHub .zip download URLs", {
-  expect_error_free(check_host(
-    "https://dl.dropboxusercontent.com/content_link_zip/12345/file"
-  ))
-  expect_error_free(check_host(
-    "https://codeload.github.com/USER/REPO/zip/master"
-  ))
-
-  ## a regular sharing link for a folder
-  expect_error(check_host(
-    "https://www.dropbox.com/sh/12345/67890?dl=0",
-    "URL has unrecognized form"
-  ))
-  ## GitHub URLs: browser, ssh, https
-  expect_error(
-    check_host("https://github.com/USER/REPO"),
-    "URL has unrecognized form"
-  )
-  expect_error(
-    check_host("git@github.com:USER/REPO.git"),
-    "URL has unrecognized form"
-  )
-  expect_error(
-    check_host("https://github.com/USER/REPO.git"),
-    "URL has unrecognized form"
-  )
-})
-
 test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
   ## curl::parse_headers_list() calls trimws()
   ## https://github.com/jeroen/curl/issues/138
   skip_if(getRversion() < 3.2)
-  with_mock(
-    `usethis:::check_host` = function(url) NULL,
-    expect_error(
-      download_zip(
-        "https://cran.r-project.org/src/contrib/rematch2_2.0.1.tar.gz"
-      ),
-      "does not have MIME type"
-    )
+  expect_error(
+    download_zip(
+      "https://cran.r-project.org/src/contrib/rematch2_2.0.1.tar.gz"
+    ),
+    "does not have MIME type"
   )
 })
 

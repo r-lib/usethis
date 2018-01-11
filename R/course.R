@@ -61,7 +61,6 @@ download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
   dl <- curl::curl_fetch_memory(url)
 
   httr::stop_for_status(dl$status_code)
-  check_host(dl$url)
   check_is_zip(dl)
 
   cd <- content_disposition(dl)
@@ -132,20 +131,6 @@ keep <- function(file,
                  ignores = c(".Rproj.user", ".rproj.user", ".Rhistory", ".RData", ".git")) {
   ignores <- paste0("(\\/|\\A)", gsub("\\.", "[.]", ignores), "(\\/|\\Z)")
   !any(vapply(ignores, function(x) grepl(x, file, perl = TRUE), logical(1)))
-}
-
-check_host <- function(url) {
-  ## one regex per ZIP file host we are prepared to handle
-  ## this should match the URL after all the redirects
-  hosts <- c(
-    dropbox = "^https://dl.dropboxusercontent.com/content_link_zip/",
-    github = "^https://codeload.github.com"
-  )
-  m <- vapply(hosts, function(regex) grepl(regex, x = url), logical(1))
-  if (!any(m)) {
-    stop("Download URL has unrecognized form:\n", value(url), call. = FALSE)
-  }
-  invisible()
 }
 
 check_is_zip <- function(download) {
