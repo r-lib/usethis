@@ -7,6 +7,7 @@ dropbox1 <- "https://www.dropbox.com/sh/0pedgdob30bbbei/AACYL0JyZD6XcpZk_-YmtpgX
 ## an actual workshop folder from Hadley (big and slow)
 dropbox2 <- "https://www.dropbox.com/sh/ofc1gifr77ofej8/AACuBrToN1Yjo_ZxWfrYnEbJa?dl=1"
 gh_url <- "https://github.com/jennybc/buzzy/archive/master.zip"
+bitly <- "http://bit.ly/uusseetthhiiss"
 
 # download_zip() ----
 

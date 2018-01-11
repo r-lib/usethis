@@ -1,5 +1,61 @@
-## see end of file for links and research re: DropBox and cURL
+## see end of file for some cURL notes
 
+#' Download a ZIP file
+#'
+#' Special-purpose function to download a ZIP file and automatically determine
+#' the file name, which ultimately determines the folder name after unpacking.
+#' Developed for use in live teaching, with DropBox and GitHub as primary
+#' targets, possibly via shortlinks. Both platforms offer a way to download an
+#' entire folder or repo as a ZIP file, with the original folder or repo name
+#' transmitted in the `Content-Disposition` header.
+#'
+#' @section DropBox:
+#'
+#' To make a folder available for ZIP download, create a shared link for it:
+#' * <https://www.dropbox.com/help/files-folders/view-only-access>
+#'
+#' The link should have this form:
+#' ```
+#' https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
+#' ```
+#' Replace the `dl=0` at the end with `dl=1` to create a download link. The ZIP
+#' download link should have this form:
+#' ```
+#' https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
+#' ```
+#' After one or more redirections, this URL will lead to a download URL. For
+#' more details, see <https://www.dropbox.com/help/desktop-web/force-download>
+#' and <https://www.dropbox.com/en/help/desktop-web/download-entire-folders>.
+#'
+#' @section GitHub:
+#'
+#' Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
+#' button. Capture this URL, which will have this form:
+#' ```
+#' https://github.com/r-lib/usethis/archive/master.zip
+#' ```
+#' After one or more redirections, this URL will lead to a download URL. An
+#' alternative URL that also leads to ZIP download, but with a different
+#' filenaming scheme:
+#' ```
+#' http://github.com/r-lib/usethis/zipball/master/
+#' ```
+#'
+#' @param url Download URL for the ZIP file, possibly behind a shortlink or
+#'   other redirect. See Details.
+#' @param destdir Path to existing local directory where the ZIP file will be
+#'   stored. Defaults to current working directory.
+#' @param pedantic Logical. When `TRUE` (default) and `destdir = NULL` and in an
+#'   interactive session, the user is told where the ZIP file will be stored. If
+#'   happy, user can elect to proceed. Otherwise, user can abort and try again
+#'   with the desired `destdir`. Intentional friction.
+#'
+#' @return Path to downloaded ZIP file
+#' @keywords internal
+#' @examples
+#' \dontrun{
+#' download_zip("http://bit.ly/uusseetthhiiss")
+#' }
 download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
   stopifnot(is_string(url))
   dl <- curl::curl_fetch_memory(url)
@@ -17,7 +73,7 @@ download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
   if (pedantic && interactive() && is.null(destdir)) {
     message(
       "ZIP file will be downloaded to ", value(base_name),
-      " in current working directory,\nwhich is ", value(getwd()), ".\n",
+      " in current working directory, which is ", value(getwd()), ".\n",
       "If you prefer another location, abort and specify ",
       code("destdir"), "."
     )
@@ -178,13 +234,6 @@ unix_reserved_regex <- "^[.]{1,2}$"
 ## https://msdn.microsoft.com/en-us/library/aa365247.aspx
 windows_reserved_regex <- "^(con|prn|aux|nul|com[0-9]|lpt[0-9])([.].*)?$"
 windows_trailing_regex <- "[. ]+$"
-
-## https://www.dropbox.com/help/desktop-web/force-download
-## To force a browser to download a file or folder rather than display it, you
-## can use dl=1 as a query parameter in your URL. For example:
-## https://www.dropbox.com/s/a1b2c3d4ef5gh6/example.docx?dl=1
-
-## https://www.dropbox.com/en/help/desktop-web/download-entire-folders
 
 ## https://stackoverflow.com/questions/21322614/use-curl-to-download-a-dropbox-folder-via-shared-link-not-public-link
 ## lesson: if using cURL, you'd want these options
