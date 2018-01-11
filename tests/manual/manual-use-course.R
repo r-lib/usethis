@@ -70,3 +70,8 @@ bitly <- "http://bit.ly/uusseetthhiiss"
 download_zip(bitly, pedantic = FALSE)
 
 # tidy_unzip() ----
+tidy_unzip("17-tidy-tools.zip")
+tidy_unzip("buzzy-master.zip")
+tidy_unzip("r-lib-rematch2-335a55f.zip")
+tidy_unzip("rematch2-master.zip")
+tidy_unzip("usethis-test.zip")
