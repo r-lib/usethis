@@ -69,6 +69,7 @@ download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
   check_is_dir(base_path)
   base_name <- make_filename(cd, fallback = basename(url))
 
+  ## DO YOU KNOW WHERE YOUR STUFF IS GOING?!?
   if (pedantic && interactive() && is.null(destdir)) {
     message(
       "ZIP file will be downloaded to ", value(base_name),
@@ -146,7 +147,11 @@ check_is_zip <- function(download) {
 
 content_disposition <- function(download) {
   headers <- curl::parse_headers_list(download$headers)
-  parse_content_disposition(headers[["content-disposition"]])
+  cd <- headers[["content-disposition"]]
+  if (is.null(cd)) {
+    return()
+  }
+  parse_content_disposition(cd)
 }
 
 ## https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition
