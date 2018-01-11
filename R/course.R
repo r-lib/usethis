@@ -1,5 +1,10 @@
 ## see end of file for some cURL notes
 
+use_course <- function(url, destdir = NULL) {
+  zipfile <- download_zip(url, destdir = destdir, pedantic = TRUE)
+  tidy_unzip(zipfile)
+}
+
 #' Download a ZIP file
 #'
 #' Special-purpose function to download a ZIP file and automatically determine
@@ -130,26 +135,31 @@ download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
 #' tidy_unzip("foo.zip")
 #' }
 tidy_unzip <- function(zipfile) {
-  files <- utils::unzip(zipfile, list = TRUE)
-  files$unzip_keep <- vapply(files$Name, keep, logical(1), USE.NAMES = FALSE)
-  files <- files[files$unzip_keep, ]
-  loose <- any(dirname(files$Name) == "/")
-  target <- parent <- tools::file_path_sans_ext(zipfile)
-  if (loose) {
-    ## TO DO: Check if 'target' exists?
-    utils::unzip(zipfile, files = files$Name, exdir = target)
+  filenames <- utils::unzip(zipfile, list = TRUE)[["Name"]]
+
+  ## deal with DropBox's peculiar habit of including "/" as a file --> drop it
+  filenames <- filenames[filenames != "/"]
+
+  ## DropBox ZIP files often include lots of hidden R, RStudio, and Git files
+  unzip_keep <- vapply(filenames, keep, logical(1), USE.NAMES = FALSE)
+  filenames <- filenames[unzip_keep]
+
+  in_top <- dirname(filenames) == "."
+  is_directory <- grepl("/$", filenames)
+  top_directory <- unique(filenames[in_top & is_directory])
+  ntd <- length(top_directory)
+  loose_parts <- any(in_top & !is_directory) || ntd > 1
+
+  if (loose_parts) {
+    target <- tools::file_path_sans_ext(zipfile)
+    utils::unzip(zipfile, files = filenames, exdir = target)
   } else {
-    ## TO DO: Check if 'parent' exists?
-    create_directory(dirname(parent), basename(parent))
-    utils::unzip(zipfile, files = files$Name, exdir = dirname(parent))
-    ## TO DO: make this more general for branchname
-    target <- gsub("-master$", "", parent)
-    ## TO DO: Check if 'target' exists?
-    file.rename(parent, target)
+    target <- top_directory
+    utils::unzip(zipfile, files = filenames)
   }
   done(
     "Unpacking ZIP file into ", value(target),
-    " (", nrow(files), " files extracted)"
+    " (", length(filenames), " files extracted)"
   )
 
   if (yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
