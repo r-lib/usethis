@@ -30,6 +30,9 @@ stored. Workflow:
 }
 \examples{
 \dontrun{
+## bit.ly shortlink example
+use_course("http://bit.ly/usethis-shortlink-example")
+
 ## demo with a small CRAN package available in various places
 
 ## from CRAN
