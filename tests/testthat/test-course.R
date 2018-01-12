@@ -1,9 +1,5 @@
 context("use_course")
 
-test_that("download_zip() errors for bad URL", {
-  expect_error(download_zip("abcde"), "not resolve host")
-})
-
 test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
   ## curl::parse_headers_list() calls trimws()
   ## https://github.com/jeroen/curl/issues/138
