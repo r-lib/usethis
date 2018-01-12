@@ -28,7 +28,7 @@
 #'
 #' ## from GitHub, 2 ways
 #' use_course("https://github.com/r-lib/rematch2/archive/master.zip")
-#' use_course("http://github.com/r-lib/rematch2/zipball/master/")
+#' use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
 #' }
 use_course <- function(url, destdir = NULL) {
   zipfile <- download_zip(url, destdir = destdir, pedantic = TRUE)
@@ -78,7 +78,7 @@ use_course <- function(url, destdir = NULL) {
 #' eventually lead to a download URL. Here's an alternative link that also leads
 #' to ZIP download, albeit with a different filenaming scheme:
 #' ```
-#' http://github.com/r-lib/usethis/zipball/master/
+#' https://api.github.com/repos/r-lib/usethis/zipball/master
 #' ```
 #'
 #' @param url Download link for the ZIP file, possibly behind a shortlink or

@@ -37,7 +37,7 @@ use_course("https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zi
 
 ## from GitHub, 2 ways
 use_course("https://github.com/r-lib/rematch2/archive/master.zip")
-use_course("http://github.com/r-lib/rematch2/zipball/master/")
+use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
 }
 }
 \seealso{

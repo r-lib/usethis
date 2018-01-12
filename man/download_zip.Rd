@@ -63,7 +63,7 @@ button. Capture this URL, which will have this form:\preformatted{https://github
 This download link (or a shortlink that points to it) is suitable as input
 for \code{download_zip()}. After one or more redirections, this link will
 eventually lead to a download URL. Here's an alternative link that also leads
-to ZIP download, albeit with a different filenaming scheme:\preformatted{http://github.com/r-lib/usethis/zipball/master/
+to ZIP download, albeit with a different filenaming scheme:\preformatted{https://api.github.com/repos/r-lib/usethis/zipball/master
 }
 }
 
