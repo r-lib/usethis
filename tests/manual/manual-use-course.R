@@ -1,5 +1,7 @@
 devtools::load_all("~/rrr/usethis")
 
+## Inspiration for manual tests. Pretty rough.
+
 # download_zip() ----
 
 ## download_zip <- function(url, destdir = NULL, pedantic = TRUE) {...}
@@ -98,3 +100,21 @@ file.rename("yo-master", "yo")
 unlink("yo")
 tidy_unzip("yo.zip")
 ## should see no diff on files in yo
+
+## Usage to feature in PR
+
+devtools::load_all("~/rrr/usethis")
+
+## ZIP from GitHub (it's a package, but you get the idea)
+rematch2 <- use_course("https://github.com/r-lib/rematch2/archive/master.zip")
+list.files(rematch2, all.files = TRUE, recursive = TRUE)
+
+devtools::load_all("~/rrr/usethis")
+
+system.time(
+hadley <- use_course(
+"https://www.dropbox.com/sh/ofc1gifr77ofej8/AACuBrToN1Yjo_ZxWfrYnEbJa?dl=1"
+)
+)
+
+list.files(hadley, all.files = TRUE, recursive = TRUE)

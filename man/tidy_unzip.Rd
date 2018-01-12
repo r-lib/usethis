@@ -37,7 +37,8 @@ hidden files, such as those below \code{.git/} and \code{.Rproj.user}.
 
 \examples{
 \dontrun{
-tidy_unzip("foo.zip")
+download_zip("https://github.com/r-lib/rematch2/archive/master.zip")
+tidy_unzip("rematch2-master.zip")
 }
 }
 \seealso{

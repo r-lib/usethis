@@ -96,7 +96,7 @@ use_course <- function(url, destdir = NULL) {
 #' @export
 #' @examples
 #' \dontrun{
-#' download_zip("http://bit.ly/uusseetthhiiss")
+#' download_zip("https://github.com/r-lib/rematch2/archive/master.zip")
 #' }
 download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
   stopifnot(is_string(url))
@@ -166,7 +166,8 @@ download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
 #' @export
 #' @examples
 #' \dontrun{
-#' tidy_unzip("foo.zip")
+#' download_zip("https://github.com/r-lib/rematch2/archive/master.zip")
+#' tidy_unzip("rematch2-master.zip")
 #' }
 tidy_unzip <- function(zipfile) {
   filenames <- utils::unzip(zipfile, list = TRUE)[["Name"]]

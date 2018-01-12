@@ -69,7 +69,7 @@ to ZIP download, albeit with a different filenaming scheme:\preformatted{http://
 
 \examples{
 \dontrun{
-download_zip("http://bit.ly/uusseetthhiiss")
+download_zip("https://github.com/r-lib/rematch2/archive/master.zip")
 }
 }
 \seealso{
