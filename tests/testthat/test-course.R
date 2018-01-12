@@ -147,7 +147,7 @@ test_that("keep() keeps and drops correct files", {
 })
 
 test_that("top_directory() identifies a unique top directory (or not)", {
-  ## there is either a file at top-level or >1 directories
+  ## there is >= 1 file at top-level or >1 directories
   expect_identical(top_directory("a"), NA_character_)
   expect_identical(top_directory(c("a/", "b")), NA_character_)
   expect_identical(top_directory(c("a/", "b/")), NA_character_)
@@ -158,7 +158,22 @@ test_that("top_directory() identifies a unique top directory (or not)", {
   expect_identical(top_directory(c("a/", "a/b", "a/c")), "a/")
 })
 
-test_that("tidy_unzip() works", {
-  ## r-lib-usethis-v1.0.0-3-gc81c4a9.zip
-  ## r-lib-usethis-v1.1.0-68-g390e05b.zip
+test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
+  tmp <- tempfile(fileext = ".zip")
+  file.copy(test_file("yo-loose-regular.zip"), tmp)
+  capture_output(dest <- tidy_unzip(tmp))
+  loose_regular_files <- list.files(dest, recursive = TRUE)
+
+  tmp <- tempfile(fileext = ".zip")
+  file.copy(test_file("yo-loose-dropbox.zip"), tmp)
+  capture_output(dest <- tidy_unzip(tmp))
+  loose_dropbox_files <- list.files(dest, recursive = TRUE)
+
+  tmp <- tempfile(fileext = ".zip")
+  file.copy(test_file("yo-not-loose.zip"), tmp)
+  capture_output(dest <- tidy_unzip(tmp))
+  not_loose_files <- list.files(dest, recursive = TRUE)
+
+  expect_identical(loose_regular_files, loose_dropbox_files)
+  expect_identical(loose_dropbox_files, not_loose_files)
 })
