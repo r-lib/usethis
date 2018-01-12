@@ -9,7 +9,7 @@ use_course(url, destdir = NULL)
 \arguments{
 \item{url}{Link to a ZIP file containing the materials, possibly behind a
 shortlink. Function developed with DropBox and GitHub in mind, but should
-work for ZIP files generally. See \code{\link[=download_zip]{download_zip()}} for more.}
+work for ZIP files generally. See \link{use_course_details} for more.}
 
 \item{destdir}{The new folder is stored here. Defaults to working directory.}
 }
@@ -21,8 +21,8 @@ Special-purpose function to download a folder of course materials. The only
 demand on the user is to confirm or specify where the new folder should be
 stored. Workflow:
 \itemize{
-\item User calls \code{use_course("SHORTLINK-GOES-HERE")}.
-\item User is asked to notice and confirm the location of the new folder Specify
+\item User executes something like: \code{use_course("http://bit.ly/xxx-yyy-zzz")}.
+\item User is asked to notice and confirm the location of the new folder. Specify
 \code{destdir} to skip this.
 \item User is asked if they'd like to delete the ZIP file.
 \item New folder is opened in the file manager, e.g. Finder or File Explorer.
@@ -41,7 +41,6 @@ use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
 }
 }
 \seealso{
-Other download functions: \code{\link{download_zip}},
-  \code{\link{tidy_unzip}}
+Other download functions: \code{\link{use_course_details}}
 }
 \concept{download functions}

@@ -5,15 +5,15 @@
 #' Special-purpose function to download a folder of course materials. The only
 #' demand on the user is to confirm or specify where the new folder should be
 #' stored. Workflow:
-#' * User calls `use_course("SHORTLINK-GOES-HERE")`.
-#' * User is asked to notice and confirm the location of the new folder Specify
+#' * User executes something like: `use_course("http://bit.ly/xxx-yyy-zzz")`.
+#' * User is asked to notice and confirm the location of the new folder. Specify
 #' `destdir` to skip this.
 #' * User is asked if they'd like to delete the ZIP file.
 #' * New folder is opened in the file manager, e.g. Finder or File Explorer.
 #'
 #' @param url Link to a ZIP file containing the materials, possibly behind a
 #'   shortlink. Function developed with DropBox and GitHub in mind, but should
-#'   work for ZIP files generally. See [download_zip()] for more.
+#'   work for ZIP files generally. See [use_course_details] for more.
 #' @param destdir The new folder is stored here. Defaults to working directory.
 #'
 #' @return Path to the new directory holding the course materials.
@@ -35,18 +35,27 @@ use_course <- function(url, destdir = NULL) {
   tidy_unzip(zipfile)
 }
 
-#' Download a ZIP file
+#' Download and unpack a ZIP file
 #'
+#' Details on the two functions that power [use_course()]. These internal
+#' functions are currently unexported but a course instructor may want more
+#' details.
+#'
+#' @name use_course_details
+#' @family download functions
+#' @keywords internal
+#'
+#' @section download_zip():
 #' Special-purpose function to download a ZIP file and automatically determine
 #' the file name, which often determines the folder name after unpacking.
-#' Developed for use in live teaching, with DropBox and GitHub as primary
-#' targets, possibly via shortlinks. Both platforms offer a way to download an
-#' entire folder or repo as a ZIP file, with information about the original
-#' folder or repo transmitted in the `Content-Disposition` header. In the
-#' absence of this header, a filename is generated from the input URL. In either
-#' case, the filename is sanitized.
+#' Developed with DropBox and GitHub as primary targets, possibly via
+#' shortlinks. Both platforms offer a way to download an entire folder or repo
+#' as a ZIP file, with information about the original folder or repo transmitted
+#' in the `Content-Disposition` header. In the absence of this header, a
+#' filename is generated from the input URL. In either case, the filename is
+#' sanitized. Returns the path to downloaded ZIP file.
 #'
-#' @section DropBox:
+#' **DropBox:**
 #'
 #' To make a folder available for ZIP download, create a shared link for it:
 #' * <https://www.dropbox.com/help/files-folders/view-only-access>
@@ -66,7 +75,7 @@ use_course <- function(url, destdir = NULL) {
 #' <https://www.dropbox.com/help/desktop-web/force-download> and
 #' <https://www.dropbox.com/en/help/desktop-web/download-entire-folders>.
 #'
-#' @section GitHub:
+#' **GitHub:**
 #'
 #' Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
 #' button. Capture this URL, which will have this form:
@@ -90,14 +99,42 @@ use_course <- function(url, destdir = NULL) {
 #'   happy, user can elect to proceed. Otherwise, user can abort and try again
 #'   with the desired `destdir`. Intentional friction.
 #'
-#' @return Path to downloaded ZIP file
-#' @keywords internal
-#' @family download functions
-#' @export
 #' @examples
 #' \dontrun{
 #' download_zip("https://github.com/r-lib/rematch2/archive/master.zip")
 #' }
+#'
+#' @section tidy_unzip():
+#' Special-purpose function to unpack a ZIP file and (attempt to) create the
+#' directory structure most people actually want. The main reason to finesse the
+#' directory structure: we want the same local result when unzipping the same
+#' content from either GitHub or DropBox ZIP files, which pack things
+#' differently. Here is the intent:
+#' * If the ZIP archive `foo.zip` does not contain a single top-level directory,
+#' i.e. it is packed as "loose parts", unzip into a directory named `foo`.
+#' Typical of DropBox ZIP files.
+#' * If the ZIP archive `foo.zip` has a single top-level directory (which, by
+#' the way, is not necessarily called "foo"), accept default unzip behavior.
+#' Typical of GitHub ZIP files.
+#'
+#' Returns path to the directory holding the unpacked files.
+#'
+#' **DropBox:**
+#' The ZIP files produced by DropBox are special. The file list tends to contain
+#' a spurious directory `"/"`, which we ignore during unzip. Also, if the
+#' directory is a Git repo and/or RStudio Project, we unzip-ignore various
+#' hidden files, such as `.RData`, `.Rhistory`, and those below `.git/` and
+#' `.Rproj.user`.
+#'
+#' @param zipfile Path to local ZIP file.
+#'
+#' @examples
+#' \dontrun{
+#' download_zip("https://github.com/r-lib/rematch2/archive/master.zip")
+#' tidy_unzip("rematch2-master.zip")
+#' }
+NULL
+
 download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
   stopifnot(is_string(url))
   dl <- curl::curl_fetch_memory(url)
@@ -138,37 +175,6 @@ download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
   invisible(full_path)
 }
 
-#' Unpack a ZIP file
-#'
-#' Special-purpose function to unpack a ZIP file and (attempt to) create the
-#' directory structure most people actually want. The main reason to finesse the
-#' directory structure: we want the same local result when unzipping the same
-#' content from either GitHub or DropBox ZIP files, which pack things
-#' differently. Here is the intent:
-#' * If the ZIP archive `foo.zip` does not contain a single top-level directory,
-#' i.e. it is packed as "loose parts", unzip into a directory named `foo`.
-#' Typical of DropBox ZIP files.
-#' * If the ZIP archive `foo.zip` has a single top-level directory (which, by
-#' the way, is not necessarily called "foo"), accept default unzip behavior.
-#' Typical of GitHub ZIP files.
-#'
-#' @section DropBox:
-#' The ZIP files produced by DropBox are special. The file list tends to contain
-#' a spurious directory `"/"`, which we ignore during unzip. Also, if the
-#' directory is a Git repo and/or RStudio Project, we unzip-ignore various
-#' hidden files, such as those below `.git/` and `.Rproj.user`.
-#'
-#' @param zipfile Path to local ZIP file.
-#'
-#' @return Path to the directory holding the unpacked files.
-#' @keywords internal
-#' @family download functions
-#' @export
-#' @examples
-#' \dontrun{
-#' download_zip("https://github.com/r-lib/rematch2/archive/master.zip")
-#' tidy_unzip("rematch2-master.zip")
-#' }
 tidy_unzip <- function(zipfile) {
   filenames <- utils::unzip(zipfile, list = TRUE)[["Name"]]
 
