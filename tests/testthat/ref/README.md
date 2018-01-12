@@ -1,6 +1,13 @@
 ZIP file structures
 ================
 
+``` r
+devtools::load_all("~/rrr/usethis")
+#> Loading usethis
+#> unloadNamespace("usethis") not successful, probably because another loaded package depends on it. Forcing unload. If you encounter problems, please restart R.
+#> Warning: package 'testthat' was built under R version 3.4.3
+```
+
 Various ways to zip the foo folder found here.
 
 ``` bash
@@ -36,7 +43,7 @@ Loose Parts, the Regular Way
 
 This is the structure of many ZIP files I've seen, just in general.
 
-``` r
+``` bash
 cd foo
 zip ../foo-loose-regular.zip *
 cd ..
@@ -82,3 +89,57 @@ Also note that, when unzipping with `unzip` you get this result:
       inflating: file.txt
 
 So this is a pretty odd ZIP packing strategy. But we need to plan for it.
+
+Subdirs only at top-level
+-------------------------
+
+Let's make sure we detect loose parts (or not) when the top-level has only directories, not files.
+
+``` bash
+zip -r yo-not-loose.zip yo/
+```
+
+``` r
+(yo_not_loose_files <- unzip("yo-not-loose.zip", list = TRUE))
+#>                   Name Length                Date
+#> 1                  yo/      0 2018-01-11 15:48:00
+#> 2          yo/subdir1/      0 2018-01-11 15:48:00
+#> 3 yo/subdir1/file1.txt     42 2018-01-11 15:48:00
+#> 4          yo/subdir2/      0 2018-01-11 15:49:00
+#> 5 yo/subdir2/file2.txt     42 2018-01-11 15:49:00
+top_directory(yo_not_loose_files$Name)
+#> [1] "yo/"
+```
+
+``` bash
+cd yo
+zip -r ../yo-loose-regular.zip *
+cd ..
+```
+
+``` r
+(yo_loose_regular_files <- unzip("yo-loose-regular.zip", list = TRUE))
+#>                Name Length                Date
+#> 1          subdir1/      0 2018-01-11 15:48:00
+#> 2 subdir1/file1.txt     42 2018-01-11 15:48:00
+#> 3          subdir2/      0 2018-01-11 15:49:00
+#> 4 subdir2/file2.txt     42 2018-01-11 15:49:00
+top_directory(yo_loose_regular_files$Name)
+#> [1] NA
+```
+
+``` r
+# curl::curl_download(
+#   "https://www.dropbox.com/sh/afydxe6pkpz8v6m/AADHbMZAaW3IQ8zppH9mjNsga?dl=1",
+#    destfile = "yo-loose-dropbox.zip"
+# )
+(yo_loose_dropbox_files <- unzip("yo-loose-dropbox.zip", list = TRUE))
+#>                Name Length                Date
+#> 1                 /      0 2018-01-11 23:57:00
+#> 2 subdir1/file1.txt     42 2018-01-11 23:57:00
+#> 3 subdir2/file2.txt     42 2018-01-11 23:57:00
+#> 4          subdir1/      0 2018-01-11 23:57:00
+#> 5          subdir2/      0 2018-01-11 23:57:00
+top_directory(yo_loose_dropbox_files$Name)
+#> [1] NA
+```

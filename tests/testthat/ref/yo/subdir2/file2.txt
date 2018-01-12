@@ -1,0 +1,1 @@
+I am file2.txt, located below yo/subdir2/

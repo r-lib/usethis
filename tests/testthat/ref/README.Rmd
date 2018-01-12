@@ -7,6 +7,11 @@ output: github_document
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 ```
 
+```{r}
+devtools::load_all("~/rrr/usethis")
+```
+
+
 Various ways to zip the foo folder found here.
 
 ```{bash}
@@ -33,7 +38,7 @@ with(
 
 This is the structure of many ZIP files I've seen, just in general.
 
-```{r bash, eval = FALSE}
+```{bash, eval = FALSE}
 cd foo
 zip ../foo-loose-regular.zip *
 cd ..
@@ -75,3 +80,37 @@ mapname:  conversion of  failed
 ```
 
 So this is a pretty odd ZIP packing strategy. But we need to plan for it.
+
+## Subdirs only at top-level
+
+Let's make sure we detect loose parts (or not) when the top-level has only directories, not files.
+
+```{bash, eval = FALSE}
+zip -r yo-not-loose.zip yo/
+```
+
+```{r}
+(yo_not_loose_files <- unzip("yo-not-loose.zip", list = TRUE))
+top_directory(yo_not_loose_files$Name)
+```
+
+```{bash, eval = FALSE}
+cd yo
+zip -r ../yo-loose-regular.zip *
+cd ..
+```
+
+```{r}
+(yo_loose_regular_files <- unzip("yo-loose-regular.zip", list = TRUE))
+top_directory(yo_loose_regular_files$Name)
+```
+
+```{r}
+# curl::curl_download(
+#   "https://www.dropbox.com/sh/afydxe6pkpz8v6m/AADHbMZAaW3IQ8zppH9mjNsga?dl=1",
+#    destfile = "yo-loose-dropbox.zip"
+# )
+(yo_loose_dropbox_files <- unzip("yo-loose-dropbox.zip", list = TRUE))
+top_directory(yo_loose_dropbox_files$Name)
+```
+
