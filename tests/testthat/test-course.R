@@ -134,3 +134,31 @@ test_that("sanitize_filename() catches obviously bad filenames", {
   expect_same(sanitize_filename("LPT9.asdfasdf"), "_")
   expect_same(sanitize_filename("LPT10.txt"), "LPT10.txt")
 })
+
+test_that("keep() keeps and drops correct files", {
+  keepers <- c(".gitignore", "a/.gitignore", "foo.Rproj")
+  expect_true(all(vapply(keepers, keep, logical(1))))
+
+  droppers <- c(
+    ".git", ".git/config", ".git/objects/06/3d3gysle",
+    ".Rproj.user", ".Rproj.user/123jkl/persistent-state", ".Rhistory", ".RData"
+  )
+  expect_false(any(vapply(droppers, keep, logical(1))))
+})
+
+test_that("top_directory() identifies a unique top directory (or not)", {
+  ## there is either a file at top-level or >1 directories
+  expect_identical(top_directory("a"), NA_character_)
+  expect_identical(top_directory(c("a/", "b")), NA_character_)
+  expect_identical(top_directory(c("a/", "b/")), NA_character_)
+
+  ## there are no files at top-level and exactly 1 directory
+  expect_identical(top_directory("a/"), "a/")
+  expect_identical(top_directory(c("a/", "a/b")), "a/")
+  expect_identical(top_directory(c("a/", "a/b", "a/c")), "a/")
+})
+
+test_that("tidy_unzip() works", {
+  ## r-lib-usethis-v1.0.0-3-gc81c4a9.zip
+  ## r-lib-usethis-v1.1.0-68-g390e05b.zip
+})
