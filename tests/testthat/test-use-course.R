@@ -1,5 +1,11 @@
 context("use_course")
 
+test_that("conspicuous_place() returns a writeable directory", {
+  expect_error_free(x <- conspicuous_place())
+  expect_true(is_dir(x))
+  expect_equivalent(file.access(x, mode = 2), 0L)
+})
+
 test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
   ## curl::parse_headers_list() calls trimws()
   ## https://github.com/jeroen/curl/issues/138

@@ -21,7 +21,7 @@ gh_url <- "https://github.com/r-lib/rematch2/archive/master.zip"
 
 ## destdir = NULL, pedantic = TRUE, target filepath doesn't exist ----
 unlink("rematch2-master.zip")
-download_zip(gh_url)
+download_zip(gh_url, pedantic = TRUE)
 ## should get "Proceed...?" prompt
 ## no --> aborts
 ## yes --> downloads
@@ -30,7 +30,6 @@ expect_true(file.exists("rematch2-master.zip"))
 ## destdir = NULL, target filepath does exist ----
 expect_true(file.exists("rematch2-master.zip"))
 download_zip(gh_url)
-## should get "Proceed...?" prompt SAY YES
 ## should get "Overwrite...?" query
 ## no --> aborts
 ## yes --> downloads
@@ -84,7 +83,7 @@ tidy_unzip("r-lib-rematch2-335a55f.zip")
 tidy_unzip("rematch2-master.zip")
 tidy_unzip("usethis-test.zip")
 
-## if they are not
+## if they are in ~/tmp
 tidy_unzip("~/tmp/manual/17-tidy-tools.zip")
 tidy_unzip("~/tmp/manual/r-lib-rematch2-335a55f.zip")
 tidy_unzip("rematch2-master.zip")

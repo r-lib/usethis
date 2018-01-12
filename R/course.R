@@ -14,7 +14,7 @@
 #' @param url Link to a ZIP file containing the materials, possibly behind a
 #'   shortlink. Function developed with DropBox and GitHub in mind, but should
 #'   work for ZIP files generally. See [use_course_details] for more.
-#' @param destdir The new folder is stored here. Defaults to working directory.
+#' @param destdir The new folder is stored here. Defaults to user's Desktop.
 #'
 #' @return Path to the new directory holding the course materials, invisibly.
 #' @export
@@ -34,7 +34,11 @@
 #' use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
 #' }
 use_course <- function(url, destdir = NULL) {
-  zipfile <- download_zip(url, destdir = destdir, pedantic = TRUE)
+  zipfile <- download_zip(
+    url,
+    destdir = destdir %||% conspicuous_place(),
+    pedantic = is.null(destdir) && interactive()
+  )
   tidy_unzip(zipfile)
 }
 
@@ -138,7 +142,7 @@ use_course <- function(url, destdir = NULL) {
 #' }
 NULL
 
-download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
+download_zip <- function(url, destdir = NULL, pedantic = FALSE) {
   stopifnot(is_string(url))
   dl <- curl::curl_fetch_memory(url)
 
@@ -152,12 +156,14 @@ download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
   base_name <- make_filename(cd, fallback = basename(url))
 
   ## DO YOU KNOW WHERE YOUR STUFF IS GOING?!?
-  if (pedantic && interactive() && is.null(destdir)) {
+  if (interactive() && pedantic) {
     message(
-      "ZIP file will be downloaded to ", value(base_name),
-      " in current working directory, which is ", value(getwd()), ".\n",
-      "If you prefer another location, abort and specify ",
-      code("destdir"), "."
+      "A ZIP file named:\n",
+      "  ", value(base_name), "\n",
+      "will be downloaded to this folder:\n",
+      "  ", value(base_path), "\n",
+      "Prefer a different location? Cancel, try again, and specify ",
+      code("destdir"), ".\n"
     )
     if (nope("Proceed with this download?")) {
       stop("Aborting download", call. = FALSE)
@@ -214,6 +220,10 @@ tidy_unzip <- function(zipfile) {
     utils::browseURL(target)
   }
   invisible(target)
+}
+
+conspicuous_place <- function() {
+  Filter(dir.exists, c("~/Desktop", "~/", getwd()))[[1]]
 }
 
 keep <- function(file,

@@ -11,7 +11,7 @@ use_course(url, destdir = NULL)
 shortlink. Function developed with DropBox and GitHub in mind, but should
 work for ZIP files generally. See \link{use_course_details} for more.}
 
-\item{destdir}{The new folder is stored here. Defaults to working directory.}
+\item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
 }
 \value{
 Path to the new directory holding the course materials, invisibly.
