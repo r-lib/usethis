@@ -72,4 +72,9 @@ to ZIP download, albeit with a different filenaming scheme:\preformatted{http://
 download_zip("http://bit.ly/uusseetthhiiss")
 }
 }
+\seealso{
+Other download functions: \code{\link{tidy_unzip}},
+  \code{\link{use_course}}
+}
+\concept{download functions}
 \keyword{internal}

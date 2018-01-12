@@ -10,9 +10,10 @@ can_overwrite <- function(path) {
   }
 }
 
-## returns TRUE if user actively selects answer corresponding to `true_for`
-## returns FALSE for anything else = actively selects other answer or
-##   enters 0
+## returns TRUE if user selects answer corresponding to `true_for`
+## returns FALSE if user selects other answer or enters 0
+## errors in non-interactive() session
+## it is caller's responsibility to avoid that
 ask_user <- function(...,
                      true_for = c("yes", "no")) {
   true_for <- match.arg(true_for)

@@ -1,5 +1,35 @@
 ## see end of file for some cURL notes
 
+#' Download course materials
+#'
+#' Special-purpose function to download a folder of course materials. The only
+#' demand on the user is to confirm or specify where the new folder should be
+#' stored. Workflow:
+#' * User calls `use_course("SHORTLINK-GOES-HERE")`.
+#' * User is asked to notice and confirm the location of the new folder Specify
+#' `destdir` to skip this.
+#' * User is asked if they'd like to delete the ZIP file.
+#' * New folder is opened in the file manager, e.g. Finder or File Explorer.
+#'
+#' @param url Link to a ZIP file containing the materials, possibly behind a
+#'   shortlink. Function developed with DropBox and GitHub in mind, but should
+#'   work for ZIP files generally. See [download_zip()] for more.
+#' @param destdir The new folder is stored here. Defaults to working directory.
+#'
+#' @return Path to the new directory holding the course materials.
+#' @export
+#' @family download functions
+#' @examples
+#' \dontrun{
+#' ## demo with a small CRAN package available in various places
+#'
+#' ## from CRAN
+#' use_course("https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zip")
+#'
+#' ## from GitHub, 2 ways
+#' use_course("https://github.com/r-lib/rematch2/archive/master.zip")
+#' use_course("http://github.com/r-lib/rematch2/zipball/master/")
+#' }
 use_course <- function(url, destdir = NULL) {
   zipfile <- download_zip(url, destdir = destdir, pedantic = TRUE)
   tidy_unzip(zipfile)
@@ -62,6 +92,8 @@ use_course <- function(url, destdir = NULL) {
 #'
 #' @return Path to downloaded ZIP file
 #' @keywords internal
+#' @family download functions
+#' @export
 #' @examples
 #' \dontrun{
 #' download_zip("http://bit.ly/uusseetthhiiss")
@@ -130,6 +162,8 @@ download_zip <- function(url, destdir = NULL, pedantic = TRUE) {
 #'
 #' @return Path to the directory holding the unpacked files.
 #' @keywords internal
+#' @family download functions
+#' @export
 #' @examples
 #' \dontrun{
 #' tidy_unzip("foo.zip")

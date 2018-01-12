@@ -40,4 +40,9 @@ hidden files, such as those below \code{.git/} and \code{.Rproj.user}.
 tidy_unzip("foo.zip")
 }
 }
+\seealso{
+Other download functions: \code{\link{download_zip}},
+  \code{\link{use_course}}
+}
+\concept{download functions}
 \keyword{internal}
