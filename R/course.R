@@ -151,21 +151,24 @@ tidy_unzip <- function(zipfile) {
     target <- tools::file_path_sans_ext(zipfile)
     utils::unzip(zipfile, files = filenames, exdir = target)
   } else {
-    target <- td
-    utils::unzip(zipfile, files = filenames)
+    target <- file.path(dirname(zipfile), td)
+    utils::unzip(zipfile, files = filenames, exdir = dirname(zipfile))
   }
   done(
     "Unpacking ZIP file into ", value(target),
     " (", length(filenames), " files extracted)"
   )
 
-  if (yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
+  if (interactive() &&
+      yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
     done("Deleting ", value(zipfile))
     unlink(zipfile)
   }
 
   done("Opening ", value(target), " in the file manager")
-  browseURL(target)
+  if (interactive()) {
+    utils::browseURL(target)
+  }
   invisible(target)
 }
 
@@ -177,13 +180,12 @@ keep <- function(file,
 
 top_directory <- function(filenames) {
   in_top <- dirname(filenames) == "."
-  is_directory <- grepl("/$", filenames)
-  top_directory <- unique(filenames[in_top & is_directory])
-  ntd <- length(top_directory)
-  if (any(in_top & !is_directory) || ntd > 1) {
+  unique_top <- unique(filenames[in_top])
+  is_directory <- grepl("/$", unique_top)
+  if (length(unique_top) > 1 || !is_directory) {
     NA_character_
   } else {
-    top_directory
+    unique_top
   }
 }
 
