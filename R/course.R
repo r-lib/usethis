@@ -144,17 +144,14 @@ tidy_unzip <- function(zipfile) {
   unzip_keep <- vapply(filenames, keep, logical(1), USE.NAMES = FALSE)
   filenames <- filenames[unzip_keep]
 
-  in_top <- dirname(filenames) == "."
-  is_directory <- grepl("/$", filenames)
-  top_directory <- unique(filenames[in_top & is_directory])
-  ntd <- length(top_directory)
-  loose_parts <- any(in_top & !is_directory) || ntd > 1
+  td <- top_directory(filenames)
+  loose_parts <- is.na(td)
 
   if (loose_parts) {
     target <- tools::file_path_sans_ext(zipfile)
     utils::unzip(zipfile, files = filenames, exdir = target)
   } else {
-    target <- top_directory
+    target <- td
     utils::unzip(zipfile, files = filenames)
   }
   done(
@@ -176,6 +173,18 @@ keep <- function(file,
                  ignores = c(".Rproj.user", ".rproj.user", ".Rhistory", ".RData", ".git")) {
   ignores <- paste0("(\\/|\\A)", gsub("\\.", "[.]", ignores), "(\\/|\\Z)")
   !any(vapply(ignores, function(x) grepl(x, file, perl = TRUE), logical(1)))
+}
+
+top_directory <- function(filenames) {
+  in_top <- dirname(filenames) == "."
+  is_directory <- grepl("/$", filenames)
+  top_directory <- unique(filenames[in_top & is_directory])
+  ntd <- length(top_directory)
+  if (any(in_top & !is_directory) || ntd > 1) {
+    NA_character_
+  } else {
+    top_directory
+  }
 }
 
 check_is_zip <- function(download) {
