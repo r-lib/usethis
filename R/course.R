@@ -16,7 +16,7 @@
 #'   work for ZIP files generally. See [use_course_details] for more.
 #' @param destdir The new folder is stored here. Defaults to working directory.
 #'
-#' @return Path to the new directory holding the course materials.
+#' @return Path to the new directory holding the course materials, invisibly.
 #' @export
 #' @family download functions
 #' @examples
@@ -53,7 +53,7 @@ use_course <- function(url, destdir = NULL) {
 #' as a ZIP file, with information about the original folder or repo transmitted
 #' in the `Content-Disposition` header. In the absence of this header, a
 #' filename is generated from the input URL. In either case, the filename is
-#' sanitized. Returns the path to downloaded ZIP file.
+#' sanitized. Returns the path to downloaded ZIP file, invisibly.
 #'
 #' **DropBox:**
 #'
@@ -117,7 +117,7 @@ use_course <- function(url, destdir = NULL) {
 #' the way, is not necessarily called "foo"), accept default unzip behavior.
 #' Typical of GitHub ZIP files.
 #'
-#' Returns path to the directory holding the unpacked files.
+#' Returns path to the directory holding the unpacked files, invisibly.
 #'
 #' **DropBox:**
 #' The ZIP files produced by DropBox are special. The file list tends to contain

@@ -31,7 +31,7 @@ shortlinks. Both platforms offer a way to download an entire folder or repo
 as a ZIP file, with information about the original folder or repo transmitted
 in the \code{Content-Disposition} header. In the absence of this header, a
 filename is generated from the input URL. In either case, the filename is
-sanitized. Returns the path to downloaded ZIP file.
+sanitized. Returns the path to downloaded ZIP file, invisibly.
 
 \strong{DropBox:}
 
@@ -82,7 +82,7 @@ the way, is not necessarily called "foo"), accept default unzip behavior.
 Typical of GitHub ZIP files.
 }
 
-Returns path to the directory holding the unpacked files.
+Returns path to the directory holding the unpacked files, invisibly.
 
 \strong{DropBox:}
 The ZIP files produced by DropBox are special. The file list tends to contain

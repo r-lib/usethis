@@ -14,7 +14,7 @@ work for ZIP files generally. See \link{use_course_details} for more.}
 \item{destdir}{The new folder is stored here. Defaults to working directory.}
 }
 \value{
-Path to the new directory holding the course materials.
+Path to the new directory holding the course materials, invisibly.
 }
 \description{
 Special-purpose function to download a folder of course materials. The only
