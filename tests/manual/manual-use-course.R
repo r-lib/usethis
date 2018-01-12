@@ -75,3 +75,14 @@ tidy_unzip("buzzy-master.zip")
 tidy_unzip("r-lib-rematch2-335a55f.zip")
 tidy_unzip("rematch2-master.zip")
 tidy_unzip("usethis-test.zip")
+
+# one-off test of GitHub vs DropBox
+download_zip("https://github.com/jennybc/yo/archive/master.zip", pedantic = FALSE)
+download_zip("https://www.dropbox.com/sh/afydxe6pkpz8v6m/AADHbMZAaW3IQ8zppH9mjNsga?dl=1", pedantic = FALSE)
+
+tidy_unzip("yo-master.zip")
+file.rename("yo-master", "yo")
+## git commit here
+unlink("yo")
+tidy_unzip("yo.zip")
+## should see no diff on files in yo
