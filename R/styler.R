@@ -18,6 +18,9 @@ use_tidy_style <- function(strict = TRUE) {
   check_is_package("use_tidy_style()")
   check_uncommitted_changes()
   if (is_package()) {
+    print(proj_get())
+    print(list.files(file.path(proj_get(), "R")))
+    print(readLines(file.path(proj_get(), "R", "bad_style.R")))
     styled <- styler::style_pkg(proj_get(),
       style = styler::tidyverse_style, strict = strict
     )
