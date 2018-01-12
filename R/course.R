@@ -200,8 +200,8 @@ tidy_unzip <- function(zipfile) {
     unlink(zipfile)
   }
 
-  done("Opening ", value(target), " in the file manager")
   if (interactive()) {
+    done("Opening ", value(target), " in the file manager")
     utils::browseURL(target)
   }
   invisible(target)
