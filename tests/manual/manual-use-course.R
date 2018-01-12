@@ -54,27 +54,39 @@ expect_false(file.exists("~/tmp/b"))
 download_zip(gh_url, destdir = "~/tmp/b")
 ## should get error re: Directory does not exist
 
-## just try a bunch of things
+## Download from various places ----
+
 ## usethis-test folder JB created for development
 dropbox1 <- "https://www.dropbox.com/sh/0pedgdob30bbbei/AACYL0JyZD6XcpZk_-YmtpgXa?dl=1"
 download_zip(dropbox1, pedantic = FALSE)
+
 ## an actual workshop folder from Hadley (big and slow)
 dropbox2 <- "https://www.dropbox.com/sh/ofc1gifr77ofej8/AACuBrToN1Yjo_ZxWfrYnEbJa?dl=1"
 download_zip(dropbox2, pedantic = FALSE)
+
+## the ZIP URL favored by devtools
 gh_url <- "http://github.com/r-lib/rematch2/zipball/master/"
 download_zip(gh_url, pedantic = FALSE)
 
-## don't be surprised if asked whether to Overwrite, this has been downloaded
-## before, via other means
+## don't be surprised if asked whether to Overwrite, this may have been
+## downloaded before, via other means
 bitly <- "http://bit.ly/uusseetthhiiss"
 download_zip(bitly, pedantic = FALSE)
 
 # tidy_unzip() ----
+
+## if they are in wd
 tidy_unzip("17-tidy-tools.zip")
 tidy_unzip("buzzy-master.zip")
 tidy_unzip("r-lib-rematch2-335a55f.zip")
 tidy_unzip("rematch2-master.zip")
 tidy_unzip("usethis-test.zip")
+
+## if they are not
+tidy_unzip("~/tmp/manual/17-tidy-tools.zip")
+tidy_unzip("~/tmp/manual/r-lib-rematch2-335a55f.zip")
+tidy_unzip("rematch2-master.zip")
+tidy_unzip("~/tmp/manual/usethis-test.zip")
 
 # one-off test of GitHub vs DropBox
 download_zip("https://github.com/jennybc/yo/archive/master.zip", pedantic = FALSE)
