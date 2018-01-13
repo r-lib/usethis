@@ -112,16 +112,19 @@ use_course <- function(url, destdir = NULL) {
 #' }
 #'
 #' @section tidy_unzip():
+
 #' Special-purpose function to unpack a ZIP file and (attempt to) create the
-#' directory structure most people actually want. The main reason to finesse the
-#' directory structure: we want the same local result when unzipping the same
-#' content from either GitHub or DropBox ZIP files, which pack things
-#' differently. Here is the intent:
+#' directory structure most people want. When unpacking an archive, it is easy
+#' to get one more or one less level of nesting than you expected.
+#'
+#' It's especially important to finesse the directory structure here: we want
+#' the same local result when unzipping the same content from either GitHub or
+#' DropBox ZIP files, which pack things differently. Here is the intent:
 #' * If the ZIP archive `foo.zip` does not contain a single top-level directory,
 #' i.e. it is packed as "loose parts", unzip into a directory named `foo`.
 #' Typical of DropBox ZIP files.
 #' * If the ZIP archive `foo.zip` has a single top-level directory (which, by
-#' the way, is not necessarily called "foo"), accept default unzip behavior.
+#' the way, is not necessarily called "foo"), unpack into said directory.
 #' Typical of GitHub ZIP files.
 #'
 #' Returns path to the directory holding the unpacked files, invisibly.
