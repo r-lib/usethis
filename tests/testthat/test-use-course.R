@@ -138,14 +138,16 @@ test_that("sanitize_filename() catches obviously bad filenames", {
 })
 
 test_that("keep() keeps and drops correct files", {
-  keepers <- c(".gitignore", "a/.gitignore", "foo.Rproj")
-  expect_true(all(vapply(keepers, keep, logical(1))))
+  keepers <- c("foo", ".gitignore", "a/.gitignore", "foo.Rproj")
+  expect_true(all(keep_lgl(keepers)))
 
   droppers <- c(
-    ".git", ".git/config", ".git/objects/06/3d3gysle",
-    ".Rproj.user", ".Rproj.user/123jkl/persistent-state", ".Rhistory", ".RData"
+    ".git", "/.git", "/.git/", ".git/", "foo/.git",
+    ".git/config", ".git/objects/06/3d3gysle",
+    ".Rproj.user", ".Rproj.user/123jkl/persistent-state",
+    ".Rhistory", ".RData"
   )
-  expect_false(any(vapply(droppers, keep, logical(1))))
+  expect_false(any(keep_lgl(droppers)))
 })
 
 test_that("top_directory() identifies a unique top directory (or not)", {

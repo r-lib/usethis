@@ -194,8 +194,7 @@ tidy_unzip <- function(zipfile) {
   filenames <- filenames[filenames != "/"]
 
   ## DropBox ZIP files often include lots of hidden R, RStudio, and Git files
-  unzip_keep <- vapply(filenames, keep, logical(1), USE.NAMES = FALSE)
-  filenames <- filenames[unzip_keep]
+  filenames <- filenames[keep_lgl(filenames)]
 
   td <- top_directory(filenames)
   loose_parts <- is.na(td)
@@ -229,10 +228,10 @@ conspicuous_place <- function() {
   Filter(dir.exists, c("~/Desktop", "~/", getwd()))[[1]]
 }
 
-keep <- function(file,
-                 ignores = c(".Rproj.user", ".rproj.user", ".Rhistory", ".RData", ".git")) {
-  ignores <- paste0("(\\/|\\A)", gsub("\\.", "[.]", ignores), "(\\/|\\Z)")
-  !any(vapply(ignores, function(x) grepl(x, file, perl = TRUE), logical(1)))
+keep_lgl <- function(file,
+                     ignores = c(".Rproj.user", ".rproj.user", ".Rhistory", ".RData", ".git")) {
+  ignores <- paste0("((\\/|\\A)", gsub("\\.", "[.]", ignores), "(\\/|\\Z))", collapse = "|")
+  !grepl(ignores, file, perl = TRUE)
 }
 
 top_directory <- function(filenames) {
