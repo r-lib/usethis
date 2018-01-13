@@ -217,7 +217,7 @@ tidy_unzip <- function(zipfile) {
 
   if (interactive()) {
     done("Opening ", value(target), " in the file manager")
-    utils::browseURL(target)
+    utils::browseURL(normalizePath(target))
   }
   invisible(target)
 }
