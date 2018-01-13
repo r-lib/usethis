@@ -10,10 +10,10 @@ other redirect. See Details.}
 \item{destdir}{Path to existing local directory where the ZIP file will be
 stored. Defaults to current working directory.}
 
-\item{pedantic}{Logical. When \code{TRUE} (default) and \code{destdir = NULL} and in an
-interactive session, the user is told where the ZIP file will be stored. If
-happy, user can elect to proceed. Otherwise, user can abort and try again
-with the desired \code{destdir}. Intentional friction.}
+\item{pedantic}{Logical. When \code{TRUE} (default) and in an interactive session,
+the user is told where the ZIP file will be stored. If happy, user can
+elect to proceed. Otherwise, user can abort and try again with the desired
+\code{destdir}. Intentional friction.}
 
 \item{zipfile}{Path to local ZIP file.}
 }

@@ -101,10 +101,10 @@ use_course <- function(url, destdir = NULL) {
 #'   other redirect. See Details.
 #' @param destdir Path to existing local directory where the ZIP file will be
 #'   stored. Defaults to current working directory.
-#' @param pedantic Logical. When `TRUE` (default) and `destdir = NULL` and in an
-#'   interactive session, the user is told where the ZIP file will be stored. If
-#'   happy, user can elect to proceed. Otherwise, user can abort and try again
-#'   with the desired `destdir`. Intentional friction.
+#' @param pedantic Logical. When `TRUE` (default) and in an interactive session,
+#'   the user is told where the ZIP file will be stored. If happy, user can
+#'   elect to proceed. Otherwise, user can abort and try again with the desired
+#'   `destdir`. Intentional friction.
 #'
 #' @examples
 #' \dontrun{
