@@ -7,3 +7,4 @@
 ^README\.Rmd$
 ^cran-comments\.md$
 ^appveyor\.yml$
+^tests/manual$

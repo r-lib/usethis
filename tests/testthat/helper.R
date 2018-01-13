@@ -60,3 +60,4 @@ is_build_ignored <- function(pattern, ..., base_path = proj_get()) {
   length(grep(pattern, x = lines, fixed = TRUE, ...)) > 0
 }
 
+test_file <- function(fname) testthat::test_path("ref", fname)
