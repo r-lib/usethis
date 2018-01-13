@@ -211,16 +211,16 @@ tidy_unzip <- function(zipfile) {
     " (", length(filenames), " files extracted)"
   )
 
-  if (interactive() &&
-      yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
-    done("Deleting ", value(zipfile))
-    unlink(zipfile)
-  }
-
   if (interactive()) {
+    if (yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
+      done("Deleting ", value(zipfile))
+      unlink(zipfile)
+    }
+
     done("Opening ", value(target), " in the file manager")
     utils::browseURL(normalizePath(target))
   }
+
   invisible(target)
 }
 
