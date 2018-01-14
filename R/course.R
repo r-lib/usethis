@@ -225,7 +225,12 @@ tidy_unzip <- function(zipfile) {
 }
 
 conspicuous_place <- function() {
-  Filter(dir.exists, c("~/Desktop", "~/", getwd()))[[1]]
+  Filter(dir.exists, c(
+    file.path(Sys.getenv("HOME"), "Desktop"), # typical macOS = ~/Desktop
+    file.path(Sys.getenv("USERPROFILE"), "Desktop"), # typical Windows Desktop
+    "~",
+    getwd()
+  ))[[1]]
 }
 
 keep_lgl <- function(file,
