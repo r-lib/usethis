@@ -28,7 +28,7 @@ ask_user <- function(...,
   }
 
   yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
-  nos <- c("No way", "Not yet", "I forget", "No", "Nope", "Hell no")
+  nos <- c("No way", "Not now", "Negative", "No", "Nope", "Hell no")
 
   qs <- c(sample(yeses, 1), sample(nos, 2))
   rand <- sample(length(qs))
