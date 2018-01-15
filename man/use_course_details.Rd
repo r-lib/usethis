@@ -31,7 +31,7 @@ download_zip(url, destdir = getwd(), pedantic = FALSE)
 download_zip(
   url,
   ## conspicuous_place() = Desktop or home directory or working directory
-  destdir = destdir %||% conspicuous_place(), # huh?
+  destdir = destdir \\\%||\\\% conspicuous_place(),
   pedantic = is.null(destdir) && interactive()
 )
 }

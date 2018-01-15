@@ -62,7 +62,7 @@ use_course <- function(url, destdir = NULL) {
 #' download_zip(
 #'   url,
 #'   ## conspicuous_place() = Desktop or home directory or working directory
-#'   destdir = destdir %||% conspicuous_place(),
+#'   destdir = destdir \\%||\\% conspicuous_place(),
 #'   pedantic = is.null(destdir) && interactive()
 #' )
 #' ```
