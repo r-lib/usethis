@@ -1,6 +1,7 @@
 # usethis 1.1.0.9000
 
-* exports `use_template()` so that other packages can provide templating functions using this framework (@ijlyttle @jennybc, #120).
+* `use_template()` is now exported, so that other packages can provide
+templating functions using this framework (@ijlyttle @jennybc, #120).
 
 * `use_blank_slate()` provides a way to opt in to a workflow where the user's workspace is neither saved nor reloaded between R sessions. Automated for `scope = "project"`. Provides UI instructions for `scope = "user"`, for now (@jennybc, #139).
 
