@@ -8,12 +8,13 @@
 other redirect. See Details.}
 
 \item{destdir}{Path to existing local directory where the ZIP file will be
-stored. Defaults to current working directory.}
+stored. Defaults to current working directory, but note that \code{\link[=use_course]{use_course()}}
+has different default behavior.}
 
-\item{pedantic}{Logical. When \code{TRUE} (default) and in an interactive session,
-the user is told where the ZIP file will be stored. If happy, user can
-elect to proceed. Otherwise, user can abort and try again with the desired
-\code{destdir}. Intentional friction.}
+\item{pedantic}{Logical. When \code{TRUE} and in an interactive session, the user
+is told where the ZIP file will be stored. If happy, user can elect to
+proceed. Otherwise, user can abort and try again with the desired
+\code{destdir}. Intentional friction for a pedagogical setting.}
 
 \item{zipfile}{Path to local ZIP file.}
 }
@@ -23,6 +24,16 @@ functions are currently unexported but a course instructor may want more
 details.
 }
 \section{download_zip()}{
+\preformatted{## function signature
+download_zip(url, destdir = getwd(), pedantic = FALSE)
+
+## as called inside use_course()
+download_zip(
+  url,
+  destdir = destdir %||% conspicuous_place(), ## Desktop? home? pwd?
+  pedantic = is.null(destdir) && interactive()
+)
+}
 
 Special-purpose function to download a ZIP file and automatically determine
 the file name, which often determines the folder name after unpacking.
@@ -67,6 +78,7 @@ to ZIP download, albeit with a different filenaming scheme:\preformatted{https:/
 }
 
 \section{tidy_unzip()}{
+
 
 Special-purpose function to unpack a ZIP file and (attempt to) create the
 directory structure most people want. When unpacking an archive, it is easy

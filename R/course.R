@@ -53,6 +53,19 @@ use_course <- function(url, destdir = NULL) {
 #' @keywords internal
 #'
 #' @section download_zip():
+#'
+#' ```
+#' ## function signature
+#' download_zip(url, destdir = getwd(), pedantic = FALSE)
+#'
+#' ## as called inside use_course()
+#' download_zip(
+#'   url,
+#'   destdir = destdir %||% conspicuous_place(), ## Desktop? home? pwd?
+#'   pedantic = is.null(destdir) && interactive()
+#' )
+#' ```
+#'
 #' Special-purpose function to download a ZIP file and automatically determine
 #' the file name, which often determines the folder name after unpacking.
 #' Developed with DropBox and GitHub as primary targets, possibly via
@@ -100,11 +113,12 @@ use_course <- function(url, destdir = NULL) {
 #' @param url Download link for the ZIP file, possibly behind a shortlink or
 #'   other redirect. See Details.
 #' @param destdir Path to existing local directory where the ZIP file will be
-#'   stored. Defaults to current working directory.
-#' @param pedantic Logical. When `TRUE` (default) and in an interactive session,
-#'   the user is told where the ZIP file will be stored. If happy, user can
-#'   elect to proceed. Otherwise, user can abort and try again with the desired
-#'   `destdir`. Intentional friction.
+#'   stored. Defaults to current working directory, but note that [use_course()]
+#'   has different default behavior.
+#' @param pedantic Logical. When `TRUE` and in an interactive session, the user
+#'   is told where the ZIP file will be stored. If happy, user can elect to
+#'   proceed. Otherwise, user can abort and try again with the desired
+#'   `destdir`. Intentional friction for a pedagogical setting.
 #'
 #' @examples
 #' \dontrun{
@@ -112,7 +126,7 @@ use_course <- function(url, destdir = NULL) {
 #' }
 #'
 #' @section tidy_unzip():
-
+#'
 #' Special-purpose function to unpack a ZIP file and (attempt to) create the
 #' directory structure most people want. When unpacking an archive, it is easy
 #' to get one more or one less level of nesting than you expected.
@@ -145,7 +159,7 @@ use_course <- function(url, destdir = NULL) {
 #' }
 NULL
 
-download_zip <- function(url, destdir = NULL, pedantic = FALSE) {
+download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   stopifnot(is_string(url))
   dl <- curl::curl_fetch_memory(url)
 
@@ -154,7 +168,7 @@ download_zip <- function(url, destdir = NULL, pedantic = FALSE) {
 
   cd <- content_disposition(dl)
 
-  base_path <- destdir %||% getwd()
+  base_path <- destdir
   check_is_dir(base_path)
   base_name <- make_filename(cd, fallback = basename(url))
 
