@@ -9,7 +9,7 @@ use_directory(path, ignore = FALSE)
 \arguments{
 \item{path}{Path of the directory to create (relative to \code{base_path}).}
 
-\item{ignore}{Should the newly created file be added to \code{.Rbuildignore?}}
+\item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
 }
 \description{
 \code{use_directory()} creates a directory (if it does not already exist) in the

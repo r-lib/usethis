@@ -1,13 +1,15 @@
 #' Use a usethis-style template
 #'
-#' Supports templating-functionality for your package.
+#' Creates a file from data and a template found in a package. Provides control
+#' over file name, the addition to `.Rbuildignore`, and opening the file for
+#' inspection.
 #'
-#' This function can be used as the engine for your templating function.
-#' The `template` argument is used along with the `package` argument to
-#' determine the path to your template file; it will be expected
-#' at `system.file("templates", template, package = package)`.
+#' This function can be used as the engine for a templating function in other
+#' packages. The `template` argument is used along with the `package` argument
+#' to determine the path to your template file; it will be expected at
+#' `system.file("templates", template, package = package)`.
 #'
-#' To interpolate your data onto the template, supply a list using
+#' To interpolate your data into the template, supply a list using
 #' the `data` argument. Internally, this function uses
 #' [whisker::whisker.render()] to combine your template file with your data.
 #'
@@ -15,7 +17,7 @@
 #'   within `package`; see details.
 #' @param save_as Name of file to create. Defaults to `template`
 #' @param data A list of data passed to the template.
-#' @param ignore Should the newly created file be added to `.Rbuildignore?`
+#' @param ignore Should the newly created file be added to `.Rbuildignore`?
 #' @param open Open the newly created file for editing? Happens in RStudio, if
 #'   applicable, or via [utils::file.edit()] otherwise.
 #' @param package Name of the package where the template is found.
@@ -61,8 +63,9 @@ find_template <- function(template_name, package = "usethis") {
   if (identical(path, "")) {
     stop(
       "Could not find template ", value(template_name),
-      " in package ", package,
-      call. = FALSE)
+      " in package ", value(package),
+      call. = FALSE
+    )
   }
   path
 }
