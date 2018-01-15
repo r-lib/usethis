@@ -30,7 +30,8 @@ download_zip(url, destdir = getwd(), pedantic = FALSE)
 ## as called inside use_course()
 download_zip(
   url,
-  destdir = destdir %||% conspicuous_place(), ## Desktop? home? pwd?
+  ## conspicuous_place() = Desktop or home directory or working directory
+  destdir = destdir %||% conspicuous_place(), # huh?
   pedantic = is.null(destdir) && interactive()
 )
 }
