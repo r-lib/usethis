@@ -10,7 +10,7 @@
 #' @param open If `TRUE`, will automatically open
 #' @inheritParams use_description
 #' @export
-create_package <- function(path = ".",
+create_package <- function(path,
                            fields = getOption("devtools.desc"),
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
@@ -41,7 +41,7 @@ create_package <- function(path = ".",
 
 #' @export
 #' @rdname create_package
-create_project <- function(path = ".",
+create_project <- function(path,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
   path <- normalizePath(path, mustWork = FALSE)
@@ -82,7 +82,7 @@ create_project <- function(path = ".",
 #'   can't push to `repo`, `FALSE` if you can.
 #' @param open Open the new project once cloned?
 #' @export
-create_from_github <- function(repo, path = ".", fork = NA, open = TRUE) {
+create_from_github <- function(repo, path, fork = NA, open = TRUE) {
   repo <- strsplit(repo, "/")[[1]]
   if (length(repo) != 2) {
     stop("`repo` must be of form user/reponame", call. = FALSE)
