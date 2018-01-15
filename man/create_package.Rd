@@ -5,10 +5,10 @@
 \alias{create_project}
 \title{Create a new package or project}
 \usage{
-create_package(path = ".", fields = getOption("devtools.desc"),
+create_package(path, fields = getOption("devtools.desc"),
   rstudio = rstudioapi::isAvailable(), open = interactive())
 
-create_project(path = ".", rstudio = rstudioapi::isAvailable(),
+create_project(path, rstudio = rstudioapi::isAvailable(),
   open = interactive())
 }
 \arguments{

@@ -4,7 +4,7 @@
 \alias{create_from_github}
 \title{Create a project from a github repository}
 \usage{
-create_from_github(repo, path = ".", fork = NA, open = TRUE)
+create_from_github(repo, path, fork = NA, open = TRUE)
 }
 \arguments{
 \item{repo}{Full name of repository: \code{owner/repo}}
