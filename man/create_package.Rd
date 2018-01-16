@@ -12,20 +12,23 @@ create_project(path, rstudio = rstudioapi::isAvailable(),
   open = interactive())
 }
 \arguments{
-\item{path}{A path. If it exists, it will be used. If it does not
-exist, it will be created (providing that the parent path exists).}
+\item{path}{A path. If it exists, it will be used. If it does not exist, it
+will be created (providing that the parent path exists).}
 
 \item{fields}{A named list of fields to add to \file{DESCRIPTION},
 potentially overriding the defaults. If \code{NULL}, retrieved from
 \code{getOption("usethis.description")}, and (for backward compatibility)
 from \code{getOption("devtools.desc")}.}
 
-\item{rstudio}{If \code{TRUE}, run \code{\link[=use_rstudio]{use_rstudio()}}.}
+\item{rstudio}{If \code{TRUE}, call \code{\link[=use_rstudio]{use_rstudio()}} to make new package or project
+into an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}.}
 
-\item{open}{If \code{TRUE}, will automatically open}
+\item{open}{If \code{TRUE} and in RStudio, new project will be opened in a new
+instance, if possible, or will be switched to, otherwise. If \code{TRUE} and not
+in RStudio, working directory will be set to the new project.}
 }
 \description{
-Both functions change the active project so that subsequent \code{use_} calls
-will affect the project that you've just created. See \code{proj_set()} to
+Both functions change the active project so that subsequent \code{use_*()} calls
+will affect the project that you've just created. See \code{\link[=proj_set]{proj_set()}} to
 manually reset it.
 }
