@@ -104,6 +104,13 @@ in_rstudio <- function(base_path = proj_get()) {
   normalizePath(proj) == normalizePath(base_path)
 }
 
+in_rstudio_server <- function() {
+  if (!rstudioapi::isAvailable()) {
+    return(FALSE)
+  }
+  identical(rstudioapi::versionInfo()$mode, "server")
+}
+
 parse_rproj <- function(file) {
   lines <- as.list(readLines(file))
   has_colon <- grepl(":", lines)
