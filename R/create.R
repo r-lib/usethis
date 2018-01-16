@@ -117,16 +117,15 @@ create_from_github <- function(repo, path, fork = NA, open = TRUE) {
   }
 }
 
-
 open_project <- function(path, name, rstudio = NA) {
   project_path <- file.path(normalizePath(path), paste0(name, ".Rproj"))
   if (is.na(rstudio)) {
     rstudio <- file.exists(project_path)
   }
 
-  if (rstudio) {
+  if (rstudio && rstudioapi::hasFun("openProject")) {
     done("Opening project in new RStudio instance")
-    utils::browseURL(project_path)
+    rstudioapi::openProject(project_path, newSession = TRUE)
   } else {
     setwd(path)
     done("Changing working directory to ", value(path))
