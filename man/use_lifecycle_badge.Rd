@@ -10,21 +10,17 @@ use_lifecycle_badge(stage)
 \item{stage}{Stage of the lifecycle. See description above.}
 }
 \description{
+Declares the developmental stage of a package, according to
+\url{https://www.tidyverse.org/lifecycle/}:
+}
+\details{
 \itemize{
-\item Experimental: very early days, a lot of churn in search of a good API.
-Not on CRAN. Might not go anywhere. Use with care.
-\item Maturing: API roughed out, but finer details likely to change. Will strive
-to maintain backward compatibility, but need wider usage in order to get
-more feedback.
-\item Dormant: not currently working on it, but plan to come back to in the
-future.
-\item Stable: we're happy with the API, and the unlikely to be major changes.
-Backward incompatible changes will only be made if absolutely critical, and
-will be accompanied by a change in the major version.
-\item Questioning: no long convinced this is a good approach, but don't yet
-know what a better approach might be.
-\item Retired: known better replacement available elsewhere. Will remain
-available on CRAN.
-\item Archived: development complete. Archived on CRAN and on GitHub.
+\item Experimental
+\item Maturing
+\item Stable
+\item Retired
+\item Archived
+\item Dormant
+\item Questioning
 }
 }
