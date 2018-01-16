@@ -232,8 +232,10 @@ tidy_unzip <- function(zipfile) {
       unlink(zipfile)
     }
 
-    done("Opening ", value(target), " in the file manager")
-    utils::browseURL(normalizePath(target))
+    if (!in_rstudio_server()) {
+      done("Opening ", value(target), " in the file manager")
+      utils::browseURL(normalizePath(target))
+    }
   }
 
   invisible(target)
