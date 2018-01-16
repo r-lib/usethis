@@ -5,7 +5,10 @@ Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre"), 
       comment = c(ORCID = "0000-0003-4757-117X")
     ),
-    person("RStudio", role = "cph")
+    person("Jennifer", "Bryan", , "jenny@rstudio.com", role = "aut",
+      comment = c(ORCID = "0000-0002-6983-2759")
+    ),
+    person("RStudio", role = c("cph", "fnd"))
   )
 Description: Automate package and project setup tasks that are otherwise
     performed manually. This includes setting up unit testing, test 
