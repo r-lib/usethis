@@ -9,13 +9,15 @@ create_from_github(repo, path, fork = NA, open = TRUE)
 \arguments{
 \item{repo}{Full name of repository: \code{owner/repo}}
 
-\item{path}{Directory in which to clone repository: will create new
-directory inside \code{path}.}
+\item{path}{A path. If it exists, it will be used. If it does not exist, it
+will be created (providing that the parent path exists).}
 
-\item{fork}{Create a fork before cloning? Defaults to \code{TRUE} if you
-can't push to \code{repo}, \code{FALSE} if you can.}
+\item{fork}{Create a fork before cloning? Defaults to \code{TRUE} if you can't
+push to \code{repo}, \code{FALSE} if you can.}
 
-\item{open}{Open the new project once cloned?}
+\item{open}{If \code{TRUE} and in RStudio, new project will be opened in a new
+instance, if possible, or will be switched to, otherwise. If \code{TRUE} and not
+in RStudio, working directory will be set to the new project.}
 }
 \description{
 Create a project from a github repository

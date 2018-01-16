@@ -1,14 +1,18 @@
 #' Create a new package or project
 #'
-#' Both functions change the active project so that subsequent `use_` calls
-#' will affect the project that you've just created. See `proj_set()` to
+#' Both functions change the active project so that subsequent `use_*()` calls
+#' will affect the project that you've just created. See [proj_set()] to
 #' manually reset it.
 #'
-#' @param path A path. If it exists, it will be used. If it does not
-#'   exist, it will be created (providing that the parent path exists).
-#' @param rstudio If `TRUE`, run [use_rstudio()].
-#' @param open If `TRUE`, will automatically open
 #' @inheritParams use_description
+#' @param path A path. If it exists, it will be used. If it does not exist, it
+#'   will be created (providing that the parent path exists).
+#' @param rstudio If `TRUE`, call [use_rstudio()] to make new package or project
+#'   into an [RStudio
+#'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects).
+#' @param open If `TRUE` and in RStudio, new project will be opened in a new
+#'   instance, if possible, or will be switched to, otherwise. If `TRUE` and not
+#'   in RStudio, working directory will be set to the new project.
 #' @export
 create_package <- function(path,
                            fields = getOption("devtools.desc"),
@@ -75,12 +79,10 @@ create_project <- function(path,
 
 #' Create a project from a github repository
 #'
+#' @inheritParams create_package
 #' @param repo Full name of repository: `owner/repo`
-#' @param path Directory in which to clone repository: will create new
-#'   directory inside `path`.
-#' @param fork Create a fork before cloning? Defaults to `TRUE` if you
-#'   can't push to `repo`, `FALSE` if you can.
-#' @param open Open the new project once cloned?
+#' @param fork Create a fork before cloning? Defaults to `TRUE` if you can't
+#'   push to `repo`, `FALSE` if you can.
 #' @export
 create_from_github <- function(repo, path, fork = NA, open = TRUE) {
   repo <- strsplit(repo, "/")[[1]]
@@ -124,7 +126,7 @@ open_project <- function(path, name, rstudio = NA) {
   }
 
   if (rstudio && rstudioapi::hasFun("openProject")) {
-    done("Opening project in new RStudio instance")
+    done("Opening project in RStudio")
     rstudioapi::openProject(project_path, newSession = TRUE)
   } else {
     setwd(path)
