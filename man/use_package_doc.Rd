@@ -10,7 +10,7 @@ use_package_doc()
 Adds a dummy \code{.R} file that will prompt roxygen to generate basic
 package-level documentation. If your package is named "foo", this will make
 help available to the user via \code{?foo} or \code{package?foo}. Once you call
-\code{\link[devtools:document]{devtools::document()}}, roxygen will flesh out the \code{.Rd} file using data from
+\code{devtools::document()}, roxygen will flesh out the \code{.Rd} file using data from
 the \code{DESCRIPTION}. That ensures you don't need to repeat the same information
 in multiple places. This \code{.R} file is also a good place for roxygen
 directives that apply to the whole package (vs. a specific function), such as
