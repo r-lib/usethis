@@ -29,8 +29,8 @@ scoped_temporary_thing <- function(dir = tempfile(),
 
   switch(
     thing,
-    package = testthat::capture_output(create_package(dir, rstudio = rstudio, open = FALSE)),
-    project = testthat::capture_output(create_project(dir, rstudio = rstudio, open = FALSE))
+    package = capture_output(create_package(dir, rstudio = rstudio, open = FALSE)),
+    project = capture_output(create_project(dir, rstudio = rstudio, open = FALSE))
   )
   invisible(dir)
 }
