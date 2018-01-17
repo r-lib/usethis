@@ -51,6 +51,18 @@ skip_if_not_ci <- function() {
   skip("Not on Travis or Appveyor")
 }
 
+skip_if_no_git_config <- function() {
+  cfg <- git2r::config()
+  user_name <- cfg$local$`user.name` %||% cfg$global$`user.name`
+  user_email <- cfg$local$`user.email` %||% cfg$global$`user.email`
+  user_name_exists <- !is.null(user_name)
+  user_email_exists <- !is.null(user_email)
+  if (user_name_exists && user_email_exists) {
+    return(invisible(TRUE))
+  }
+  skip("No Git user configured")
+}
+
 expect_error_free <- function(...) {
   expect_error(..., regexp = NA)
 }

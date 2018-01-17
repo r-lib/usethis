@@ -11,6 +11,8 @@ test_that("error if try to overwrite existing file", {
 test_that("sets up git pre-commit hook iff pkg uses git", {
   # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
   skip_if(getRversion() < 3.2)
+  skip_if_no_git_config()
+
   scoped_temporary_package()
   capture_output(use_readme_rmd(open = FALSE))
   expect_false(file.exists(proj_path(".git", "hooks", "pre-commit")))
