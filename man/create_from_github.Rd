@@ -2,23 +2,44 @@
 % Please edit documentation in R/create.R
 \name{create_from_github}
 \alias{create_from_github}
-\title{Create a project from a github repository}
+\title{Create a repo and project from GitHub}
 \usage{
-create_from_github(repo, path, fork = NA, open = TRUE)
+create_from_github(repo, destdir = NULL, fork = NA, rstudio = NULL,
+  open = interactive())
 }
 \arguments{
-\item{repo}{Full name of repository: \code{owner/repo}}
+\item{repo}{GitHub repo specification in this form: \code{owner/reponame}. The
+second part will be the name of the new local repo.}
 
-\item{path}{A path. If it exists, it will be used. If it does not exist, it
-will be created (providing that the parent path exists).}
+\item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
 
-\item{fork}{Create a fork before cloning? Defaults to \code{TRUE} if you can't
-push to \code{repo}, \code{FALSE} if you can.}
+\item{fork}{Create and clone a fork? Or clone \code{repo} itself? Defaults to
+\code{TRUE} if you can't push to \code{repo}, \code{FALSE} if you can.}
+
+\item{rstudio}{Initiate an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}?
+Defaults to \code{TRUE} if in an RStudio session and project has no
+pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
 
 \item{open}{If \code{TRUE} and in RStudio, new project will be opened in a new
 instance, if possible, or will be switched to, otherwise. If \code{TRUE} and not
 in RStudio, working directory will be set to the new project.}
 }
 \description{
-Create a project from a github repository
+Creates a new local Git repository from a repository on GitHub. If you have
+pre-configured a GitHub personal access token (PAT) as described in
+\code{\link[gh:gh_whoami]{gh::gh_whoami()}}, you will get more sensible default behavior for the \code{fork}
+argument. You cannot create a fork without a PAT. Currently only works for
+public repositories. A future version of this function will likely have an
+interface closer to \code{\link[=use_github]{use_github()}}, i.e. more ability to accept credentials
+and more control over the Git configuration of the affected remote or local
+repositories.
+}
+\examples{
+\dontrun{
+create_from_github("r-lib/usethis")
+}
+}
+\seealso{
+\code{\link[=use_course]{use_course()}} for one-time download of all files in a Git repo,
+without any local or remote Git operations.
 }
