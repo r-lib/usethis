@@ -92,8 +92,8 @@ create_project <- function(path,
 #'   without any local or remote Git operations.
 #'
 #' @inheritParams create_package
-#' @param repo GitHub repo specification in this form: `owner/repo`. The second
-#'   part, i.e. the GitHub repo name, will be the name of the new local repo.
+#' @param repo GitHub repo specification in this form: `owner/reponame`. The
+#'   second part will be the name of the new local repo.
 #' @inheritParams use_course
 #' @param fork Create and clone a fork? Or clone `repo` itself? Defaults to
 #'   `TRUE` if you can't push to `repo`, `FALSE` if you can.
@@ -118,7 +118,7 @@ create_from_github <- function(repo,
   if (length(repo) != 2) {
     stop(
       code("repo"), " must be of form ",
-      value("user/reponame"), call. = FALSE
+      value("owner/reponame"), call. = FALSE
     )
   }
   owner <- repo[[1]]
