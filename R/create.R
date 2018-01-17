@@ -77,45 +77,94 @@ create_project <- function(path,
   invisible(TRUE)
 }
 
-#' Create a project from a github repository
+#' Create a repo and project from GitHub
+#'
+#' Creates a new local Git repository from a repository on GitHub. If you have
+#' pre-configured a GitHub personal access token (PAT) as described in
+#' [gh::gh_whoami()], you will get more sensible default behavior for the `fork`
+#' argument. You cannot create a fork without a PAT. Currently only works for
+#' public repositories. A future version of this function will likely have an
+#' interface closer to [use_github()], i.e. more ability to accept credentials
+#' and more control over the Git configuration of the affected remote or local
+#' repositories.
+#'
+#' @seealso [use_course()] for one-time download of all files in a Git repo,
+#'   without any local or remote Git operations.
 #'
 #' @inheritParams create_package
-#' @param repo Full name of repository: `owner/repo`
-#' @param fork Create a fork before cloning? Defaults to `TRUE` if you can't
-#'   push to `repo`, `FALSE` if you can.
+#' @param repo GitHub repo specification in this form: `owner/repo`. The second
+#'   part, i.e. the GitHub repo name, will be the name of the new local repo.
+#' @inheritParams use_course
+#' @param fork Create and clone a fork? Or clone `repo` itself? Defaults to
+#'   `TRUE` if you can't push to `repo`, `FALSE` if you can.
+#' @param rstudio Initiate an [RStudio
+#'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
+#'    Defaults to `TRUE` if in an RStudio session and project has no
+#'   pre-existing `.Rproj` file. Defaults to `FALSE` otherwise.
 #' @export
-create_from_github <- function(repo, path, fork = NA, open = TRUE) {
+#' @examples
+#' \dontrun{
+#' create_from_github("r-lib/usethis")
+#' }
+create_from_github <- function(repo,
+                               destdir = NULL,
+                               fork = NA,
+                               rstudio = NULL,
+                               open = interactive()) {
+  destdir <- destdir %||% conspicuous_place()
+  check_is_dir(destdir)
+
   repo <- strsplit(repo, "/")[[1]]
   if (length(repo) != 2) {
-    stop("`repo` must be of form user/reponame", call. = FALSE)
+    stop(
+      code("repo"), " must be of form ",
+      value("user/reponame"), call. = FALSE
+    )
   }
   owner <- repo[[1]]
   repo <- repo[[2]]
   repo_info <- gh::gh("GET /repos/:owner/:repo", owner = owner, repo = repo)
 
-  check_not_nested(dirname(path), repo)
+  check_not_nested(destdir, repo)
 
-  # By default, fork only if you can't push to the repo
   if (is.na(fork)) {
-    fork <- !repo_info$permissions$push
+    perms <- repo_info$permissions
+    if (is.null(perms)) {
+      # if permissions are absent, there's no PAT and we can't fork
+      fork <- FALSE
+    } else {
+      # fork only if can't push to the repo
+      fork <- !isTRUE(perms$push)
+    }
   }
+  ## TODO(jennybc): should we also be checking if fork = TRUE but user owns the
+  ## repo?
 
   if (fork) {
     done("Forking repo")
-    fork_info <- gh::gh("POST /repos/:owner/:repo/forks", owner = owner, repo = repo)
+    fork_info <- gh::gh(
+      "POST /repos/:owner/:repo/forks",
+      owner = owner, repo = repo
+    )
     owner <- fork_info$owner$login
     git_url <- fork_info$git_url
   } else {
     git_url <- repo_info$git_url
   }
 
-  done("Cloning repo")
-  repo_path <- create_directory(path, repo)
+  repo_path <- create_directory(destdir, repo)
+  done("Cloning repo from ", value(git_url), " into ", value(repo_path))
   git2r::clone(git_url, normalizePath(repo_path), progress = FALSE)
   proj_set(repo_path)
 
+  rstudio <- rstudio %||% rstudioapi::isAvailable()
+  rstudio <- rstudio && !is_rstudio_project(repo_path)
+  if (rstudio) {
+    use_rstudio()
+  }
+
   if (open) {
-    open_project(repo_path, repo)
+    open_project(repo_path, repo, rstudio = is_rstudio_project(repo_path))
   }
 }
 

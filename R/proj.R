@@ -4,6 +4,7 @@ proj_crit <- function() {
   rprojroot::has_file(".here") |
     rprojroot::is_rstudio_project |
     rprojroot::is_r_package |
+    rprojroot::is_git_root |
     rprojroot::is_remake_project |
     rprojroot::is_projectile_project
 }
