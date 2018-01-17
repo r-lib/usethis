@@ -6,7 +6,7 @@
 #' @export
 use_dev_version <- function() {
   check_is_package("use_dev_version()")
-  check_uncommitted_changes(proj_get())
+  check_uncommitted_changes()
 
   ver <- desc::desc_get_version(proj_get())
   if (length(unlist(ver)) > 3) {

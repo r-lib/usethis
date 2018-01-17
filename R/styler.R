@@ -26,6 +26,6 @@ use_tidy_style <- function(strict = TRUE) {
     )
   }
   cat_line()
-  done("Styled package according to the tidyverse style guide")
+  done("Styled project according to the tidyverse style guide")
   invisible(styled)
 }
