@@ -15,7 +15,7 @@ Invisibly returns a data frame that indicates for each file considered for
 styling whether or not it was actually changed.
 }
 \description{
-Styles the source code of the package according to the
+Styles the source code of a package, project or directory according to the
 \href{http://style.tidyverse.org}{tidyverse style guide} with the
 package \href{http://styler.r-lib.org}{styler}.
 }

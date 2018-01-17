@@ -13,7 +13,7 @@ test_that("styling the package works", {
 })
 
 
-test_that("styling of non-projects works", {
+test_that("styling of non-packages works", {
   skip_if(getRversion() < 3.2)
   skip_if_no_git_config()
   proj <- scoped_temporary_project()

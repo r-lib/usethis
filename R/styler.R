@@ -1,6 +1,6 @@
 #' Style according to the tidyverse style guide
 #'
-#' Styles the source code of the package according to the
+#' Styles the source code of a package, project or directory according to the
 #' [tidyverse style guide](http://style.tidyverse.org) with the
 #' package [styler](http://styler.r-lib.org).
 #' @param strict Boolean indicating whether or not a strict version of styling
