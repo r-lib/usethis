@@ -164,7 +164,7 @@ create_from_github <- function(repo,
   }
 
   if (open) {
-    open_project(repo_path, repo, rstudio = is_rstudio_project(repo_path))
+    open_project(repo_path, repo)
   }
 }
 
