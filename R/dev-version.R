@@ -6,12 +6,7 @@
 #' @export
 use_dev_version <- function() {
   check_is_package("use_dev_version()")
-  if (uses_git() && git_uncommitted()) {
-    stop(
-      "Uncommited changes. Please commit to git before continuing",
-      call. = FALSE
-    )
-  }
+  check_uncommitted_changes()
 
   ver <- desc::desc_get_version(proj_get())
   if (length(unlist(ver)) > 3) {
