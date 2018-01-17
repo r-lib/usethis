@@ -45,6 +45,11 @@ in the \code{Content-Disposition} header. In the absence of this header, a
 filename is generated from the input URL. In either case, the filename is
 sanitized. Returns the path to downloaded ZIP file, invisibly.
 
+If \code{url} has no "http" prefix, "https://" is prepended, allowing for even
+less typing by the user. Most URL shorteners give HTTPS links and anecdotally
+we note this appears to work with \href{https://bitly.com/}{bit.ly} links, even
+though they are nominally HTTP.
+
 \strong{DropBox:}
 
 To make a folder available for ZIP download, create a shared link for it:

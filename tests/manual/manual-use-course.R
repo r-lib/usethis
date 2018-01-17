@@ -116,3 +116,7 @@ hadley <- use_course(
 )
 
 list.files(hadley, all.files = TRUE, recursive = TRUE)
+
+rematch2 <- use_course("github.com/r-lib/rematch2/archive/master.zip")
+use_course("rstd.io/usethis-src")
+use_course("bit.ly/uusseetthhiiss")
