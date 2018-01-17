@@ -15,7 +15,6 @@
 #' @export
 use_tidy_style <- function(strict = TRUE) {
   check_installed("styler")
-  check_is_package("use_tidy_style()")
   check_uncommitted_changes()
   if (is_package()) {
     styled <- styler::style_pkg(proj_get(),
