@@ -1,6 +1,8 @@
 context("use_tidy_style")
 
 test_that("styling the package works", {
+  skip_if(getRversion() < 3.2)
+  skip_if_no_git_config()
   pkg <- scoped_temporary_package()
   use_r("bad_style")
   path_to_bad_style <- proj_path("R/bad_style.R")
