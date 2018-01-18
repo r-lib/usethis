@@ -9,7 +9,8 @@ use_course(url, destdir = NULL)
 \arguments{
 \item{url}{Link to a ZIP file containing the materials, possibly behind a
 shortlink. Function developed with DropBox and GitHub in mind, but should
-work for ZIP files generally. See \link{use_course_details} for more.}
+work for ZIP files generally. If no "http" prefix is found, "https://" is
+prepended. See \link{use_course_details} for more.}
 
 \item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
 }
@@ -21,12 +22,18 @@ Special-purpose function to download a folder of course materials. The only
 demand on the user is to confirm or specify where the new folder should be
 stored. Workflow:
 \itemize{
-\item User executes something like: \code{use_course("http://bit.ly/xxx-yyy-zzz")}.
+\item User executes something like: \code{use_course("bit.ly/xxx-yyy-zzz")}.
 \item User is asked to notice and confirm the location of the new folder. Specify
 \code{destdir} to skip this.
 \item User is asked if they'd like to delete the ZIP file.
 \item New folder is opened in the file manager, e.g. Finder or File Explorer.
 }
+}
+\details{
+If \code{url} has no "http" prefix, "https://" is prepended, allowing for even
+less typing by the user. Most URL shorteners give HTTPS links and,
+anecdotally, we note this appears to work with \href{https://bitly.com/}{bit.ly}
+links, even though they are nominally HTTP.
 }
 \examples{
 \dontrun{

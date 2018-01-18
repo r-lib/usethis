@@ -5,15 +5,21 @@
 #' Special-purpose function to download a folder of course materials. The only
 #' demand on the user is to confirm or specify where the new folder should be
 #' stored. Workflow:
-#' * User executes something like: `use_course("http://bit.ly/xxx-yyy-zzz")`.
+#' * User executes something like: `use_course("bit.ly/xxx-yyy-zzz")`.
 #' * User is asked to notice and confirm the location of the new folder. Specify
 #' `destdir` to skip this.
 #' * User is asked if they'd like to delete the ZIP file.
 #' * New folder is opened in the file manager, e.g. Finder or File Explorer.
 #'
+#' If `url` has no "http" prefix, "https://" is prepended, allowing for even
+#' less typing by the user. Most URL shorteners give HTTPS links and,
+#' anecdotally, we note this appears to work with [bit.ly](https://bitly.com/)
+#' links, even though they are nominally HTTP.
+#'
 #' @param url Link to a ZIP file containing the materials, possibly behind a
 #'   shortlink. Function developed with DropBox and GitHub in mind, but should
-#'   work for ZIP files generally. See [use_course_details] for more.
+#'   work for ZIP files generally. If no "http" prefix is found, "https://" is
+#'   prepended. See [use_course_details] for more.
 #' @param destdir The new folder is stored here. Defaults to user's Desktop.
 #'
 #' @return Path to the new directory holding the course materials, invisibly.
@@ -34,6 +40,7 @@
 #' use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
 #' }
 use_course <- function(url, destdir = NULL) {
+  url <- normalize_url(url)
   zipfile <- download_zip(
     url,
     destdir = destdir %||% conspicuous_place(),
@@ -60,7 +67,7 @@ use_course <- function(url, destdir = NULL) {
 #'
 #' ## as called inside use_course()
 #' download_zip(
-#'   url,
+#'   url, ## after post-processing with normalize_url()
 #'   ## conspicuous_place() = Desktop or home directory or working directory
 #'   destdir = destdir \\%||\\% conspicuous_place(),
 #'   pedantic = is.null(destdir) && interactive()
@@ -239,6 +246,12 @@ tidy_unzip <- function(zipfile) {
   }
 
   invisible(target)
+}
+
+normalize_url <- function(url) {
+  stopifnot(is.character(url))
+  has_scheme <- grepl("^http[s]?://", url)
+  ifelse(has_scheme, url, paste0("https://", url))
 }
 
 conspicuous_place <- function() {
