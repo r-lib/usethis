@@ -29,7 +29,7 @@ download_zip(url, destdir = getwd(), pedantic = FALSE)
 
 ## as called inside use_course()
 download_zip(
-  url,
+  url, ## after post-processing with normalize_url()
   ## conspicuous_place() = Desktop or home directory or working directory
   destdir = destdir \\\%||\\\% conspicuous_place(),
   pedantic = is.null(destdir) && interactive()
@@ -44,11 +44,6 @@ as a ZIP file, with information about the original folder or repo transmitted
 in the \code{Content-Disposition} header. In the absence of this header, a
 filename is generated from the input URL. In either case, the filename is
 sanitized. Returns the path to downloaded ZIP file, invisibly.
-
-If \code{url} has no "http" prefix, "https://" is prepended, allowing for even
-less typing by the user. Most URL shorteners give HTTPS links and anecdotally
-we note this appears to work with \href{https://bitly.com/}{bit.ly} links, even
-though they are nominally HTTP.
 
 \strong{DropBox:}
 

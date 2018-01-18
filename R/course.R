@@ -11,6 +11,11 @@
 #' * User is asked if they'd like to delete the ZIP file.
 #' * New folder is opened in the file manager, e.g. Finder or File Explorer.
 #'
+#' If `url` has no "http" prefix, "https://" is prepended, allowing for even
+#' less typing by the user. Most URL shorteners give HTTPS links and,
+#' anecdotally, we note this appears to work with [bit.ly](https://bitly.com/)
+#' links, even though they are nominally HTTP.
+#'
 #' @param url Link to a ZIP file containing the materials, possibly behind a
 #'   shortlink. Function developed with DropBox and GitHub in mind, but should
 #'   work for ZIP files generally. If no "http" prefix is found, "https://" is
@@ -62,7 +67,7 @@ use_course <- function(url, destdir = NULL) {
 #'
 #' ## as called inside use_course()
 #' download_zip(
-#'   url,
+#'   url, ## after post-processing with normalize_url()
 #'   ## conspicuous_place() = Desktop or home directory or working directory
 #'   destdir = destdir \\%||\\% conspicuous_place(),
 #'   pedantic = is.null(destdir) && interactive()
@@ -77,11 +82,6 @@ use_course <- function(url, destdir = NULL) {
 #' in the `Content-Disposition` header. In the absence of this header, a
 #' filename is generated from the input URL. In either case, the filename is
 #' sanitized. Returns the path to downloaded ZIP file, invisibly.
-#'
-#' If `url` has no "http" prefix, "https://" is prepended, allowing for even
-#' less typing by the user. Most URL shorteners give HTTPS links and anecdotally
-#' we note this appears to work with [bit.ly](https://bitly.com/) links, even
-#' though they are nominally HTTP.
 #'
 #' **DropBox:**
 #'

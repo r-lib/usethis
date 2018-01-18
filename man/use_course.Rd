@@ -29,6 +29,12 @@ stored. Workflow:
 \item New folder is opened in the file manager, e.g. Finder or File Explorer.
 }
 }
+\details{
+If \code{url} has no "http" prefix, "https://" is prepended, allowing for even
+less typing by the user. Most URL shorteners give HTTPS links and,
+anecdotally, we note this appears to work with \href{https://bitly.com/}{bit.ly}
+links, even though they are nominally HTTP.
+}
 \examples{
 \dontrun{
 ## bit.ly shortlink example
