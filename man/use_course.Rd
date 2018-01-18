@@ -38,6 +38,8 @@ links, even though they are nominally HTTP.
 \examples{
 \dontrun{
 ## bit.ly shortlink example
+## should work with and without http prefix
+use_course("bit.ly/usethis-shortlink-example")
 use_course("http://bit.ly/usethis-shortlink-example")
 
 ## demo with a small CRAN package available in various places
