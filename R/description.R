@@ -39,7 +39,7 @@ build_description_list <- function(name, fields = list()) {
   defaults <- list(
     Package = name,
     Version = "0.0.0.9000",
-    Title = "What the Package Does (one line, title case)",
+    Title = "What the Package Does (One Line, Title Case)",
     Description = "What the package does (one paragraph).",
     "Authors@R" = author,
     License = license,
