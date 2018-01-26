@@ -22,3 +22,29 @@ test_that("nested project is disallowed, by default", {
   subdir <- create_directory(dir, "subdir")
   expect_error(scoped_temporary_project(subdir), "nested")
 })
+
+## https://github.com/r-lib/usethis/issues/227
+test_that("proj is normalized when path does not pre-exist", {
+  ## take care to provide a **non-absolute** path
+  path_package <- basename(tempfile())
+  withr::with_dir(
+    tempdir(), {
+      old_proj <- proj_get()
+      capture_output(create_package(path_package, rstudio = FALSE, open = FALSE))
+      new_proj <- proj_get()
+      proj_set(old_proj)
+    }
+  )
+  expect_true(dir.exists(new_proj))
+
+  path_project <- basename(tempfile())
+  withr::with_dir(
+    tempdir(), {
+      old_proj <- proj_get()
+      capture_output(create_project(path_project, rstudio = FALSE, open = FALSE))
+      new_proj <- proj_get()
+      proj_set(old_proj)
+    }
+  )
+  expect_true(dir.exists(new_proj))
+})
