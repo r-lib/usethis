@@ -26,6 +26,9 @@ create_package <- function(path,
 
   create_directory(dirname(path), name)
   cat_line(crayon::bold("Changing active project to", crayon::red(name)))
+  ## the initial normalizePath() may not have returned an absolute path,
+  ## if the path did not yet exist
+  path <- normalizePath(path, mustWork = TRUE)
   proj_set(path, force = TRUE)
 
   use_directory("R")
