@@ -158,7 +158,7 @@ test_that("sanitize_filename() catches obviously bad filenames", {
 })
 
 test_that("keep() keeps and drops correct files", {
-  keepers <- c("foo", ".gitignore", "a/.gitignore", "foo.Rproj")
+  keepers <- c("foo", ".gitignore", "a/.gitignore", "foo.Rproj", ".here")
   expect_true(all(keep_lgl(keepers)))
 
   droppers <- c(
