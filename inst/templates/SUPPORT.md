@@ -17,8 +17,8 @@ Armed with your reprex, the next step is to figure out [where to ask](https://ww
     and/or StackOverflow. There are more people there to answer questions.  
   * If it's a bug: you're in the right place, file an issue.  
   * If you're not sure: let the community help you figure it out! If your 
-    problem _is_ a bug or a feature request, can easily return here and report 
-    it. 
+    problem _is_ a bug or a feature request, you can easily return here and 
+    report it. 
 
 Before opening a new issue, be sure to [search issues and pull requests](https://github.com/tidyverse/{{{package}}}/issues) to make sure the 
 bug hasn't been reported and/or already fixed in the development version. By 
