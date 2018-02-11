@@ -163,13 +163,13 @@ use_appveyor_badge <- function() {
 appveyor_info <- function(base_path = proj_get()) {
   gh <- gh::gh_tree_remote(base_path)
 
-  url <- file.path(
+  img <- file.path(
     "https://ci.appveyor.com/api/projects/status/github/",
     gh$username,
     gh$repo,
     "?branch=master&svg=true"
   )
-  img <- file.path(
+  url <- file.path(
     "https://ci.appveyor.com",
     gh$username,
     gh$repo
