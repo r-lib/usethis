@@ -171,6 +171,7 @@ appveyor_info <- function(base_path = proj_get()) {
   )
   url <- file.path(
     "https://ci.appveyor.com",
+    "project",
     gh$username,
     gh$repo
   )
