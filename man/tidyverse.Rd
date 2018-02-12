@@ -10,6 +10,7 @@
 \alias{use_tidy_issue_template}
 \alias{use_tidy_support}
 \alias{use_tidy_coc}
+\alias{use_tidy_community}
 \title{Helpers for the tidyverse}
 \usage{
 use_tidy_ci(browse = interactive())
@@ -27,6 +28,8 @@ use_tidy_issue_template()
 use_tidy_support()
 
 use_tidy_coc()
+
+use_tidy_community()
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -57,5 +60,7 @@ tidy_contributing template.
 using SUPPORT.md.
 \item \code{use_tidy_coc()}: creates code of conduct same as use_code_of_conduct
 but for the fact that it's placed in a .github subdirectory.
+\item \code{use_tidy_community}: wrapper function around contributing, issues,
+support, and code of conduct functions.
 }
 }

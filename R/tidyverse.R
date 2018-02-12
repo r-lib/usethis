@@ -29,6 +29,9 @@
 #' * `use_tidy_coc()`: creates code of conduct same as use_code_of_conduct
 #'    but for the fact that it's placed in a .github subdirectory.
 #'
+#' *  `use_tidy_community`: wrapper function around contributing, issues,
+#'     support, and code of conduct functions.
+#'
 #' @name tidyverse
 NULL
 
@@ -189,4 +192,13 @@ use_tidy_coc <- function() {
     "Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).",
     "By participating in this project you agree to abide by its terms."
   )
+}
+
+#' @export
+#' @rdname tidyverse
+use_tidy_community <- function() {
+  use_tidy_contributing()
+  use_tidy_issue_template()
+  use_tidy_support()
+  use_tidy_coc()
 }
