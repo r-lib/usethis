@@ -1,3 +1,5 @@
+* `appveyor_info()` now return the url and the image links correctly, correcting the display of the appveyor badge. 
+
 # usethis 1.2.0.9000
 
 * `create_package()` and `create_project()` return a normalized path, even if target directory does not pre-exist (#227, #228).
