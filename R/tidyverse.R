@@ -26,6 +26,9 @@
 #' * `use_tidy_support()`: creates support resources document for GitHub repo
 #'    using SUPPORT.md.
 #'
+#' * `use_tidy_coc()`: creates code of conduct same as use_code_of_conduct
+#'    but for the fact that it's placed in a .github subdirectory.
+#'
 #' @name tidyverse
 NULL
 
@@ -130,15 +133,15 @@ use_tidy_contributing <- function() {
   travis_url <- file.path("https://travis-ci.org", gh$username, gh$repo)
   github_url <- file.path("https://github.com", gh$username, gh$repo)
 
+  use_directory(".github", ignore = TRUE)
   use_template(
     "tidy_contributing.md",
-    "CONTRIBUTING.md",
+    ".github/CONTRIBUTING.md",
     data = list(
       package = project_name(),
       github_url = github_url,
       travis_url = travis_url
-    ),
-    ignore = TRUE
+    )
   )
 }
 
@@ -148,10 +151,10 @@ use_tidy_contributing <- function() {
 use_tidy_issue_template <- function() {
   check_uses_github()
 
+  use_directory(".github", ignore = TRUE)
   use_template(
     "ISSUE_TEMPLATE.md",
-    "ISSUE_TEMPLATE.md",
-    ignore = TRUE
+    ".github/ISSUE_TEMPLATE.md"
   )
 }
 
@@ -161,9 +164,29 @@ use_tidy_issue_template <- function() {
 use_tidy_support <- function() {
   check_uses_github()
 
+  use_directory(".github", ignore = TRUE)
   use_template(
     "SUPPORT.md",
-    data = list(package = project_name()),
-    ignore = TRUE
+    ".github/SUPPORT.md",
+    data = list(package = project_name())
+  )
+}
+
+
+#' @export
+#' @rdname tidyverse
+use_tidy_coc <- function() {
+  check_uses_github()
+
+  use_directory(".github", ignore = TRUE)
+  use_template(
+    "CODE_OF_CONDUCT.md",
+    ".github/CODE_OF_CONDUCT.md"
+  )
+
+  todo("Don't forget to describe the code of conduct in your README.md:")
+  code_block(
+    "Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).",
+    "By participating in this project you agree to abide by its terms."
   )
 }

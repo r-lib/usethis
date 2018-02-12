@@ -8,3 +8,4 @@
 ^cran-comments\.md$
 ^appveyor\.yml$
 ^tests/manual$
+^\.github$
