@@ -1,6 +1,11 @@
 # usethis 1.2.0.9000
 
+* `appveyor_info()` no longer reverses the repo's URL and image link. Corrects the markdown produced by `use_appveyor_badge()` (#240, @llrs). 
+
+* Use HTTPS for CRAN badge image (@jdblischak, #235).
+
 * `create_package()` and `create_project()` return a normalized path, even if target directory does not pre-exist (#227, #228).
+* Moves tidyverse templates to `.github` subdirectory (#165 @batpigandme)
 
 # usethis 1.2.0
 

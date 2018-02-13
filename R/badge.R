@@ -9,7 +9,7 @@ use_cran_badge <- function() {
   check_is_package("use_cran_badge()")
   pkg <- project_name()
 
-  src <- paste0("http://www.r-pkg.org/badges/version/", pkg)
+  src <- paste0("https://www.r-pkg.org/badges/version/", pkg)
   href <- paste0("https://cran.r-project.org/package=", pkg)
   use_badge("CRAN status", href, src)
 
