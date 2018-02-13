@@ -83,3 +83,5 @@ use_data(x, y)
 # Use git ------------------------------------------------------------
 use_git()
 ```
+
+Please note that this project is released with a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.

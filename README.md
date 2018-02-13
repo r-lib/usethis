@@ -1,14 +1,22 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-usethis
-=======
 
-[![Travis build status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis) [![Coverage status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/github/r-lib/usethis?branch=master) [![CRAN status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis) [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+# usethis
 
-The goal of usethis is to automate many common package and analysis setup tasks.
+[![Travis build
+status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
+[![AppVeyor Build
+Status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis)
+[![Coverage
+status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/github/r-lib/usethis?branch=master)
+[![CRAN
+status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
-Installation
-------------
+The goal of usethis is to automate many common package and analysis
+setup tasks.
+
+## Installation
 
 Install the released version of usethis from CRAN:
 
@@ -23,16 +31,23 @@ Or install the development version from GitHub with:
 devtools::install_github("r-lib/usethis")
 ```
 
-Usage
------
+## Usage
 
-Most `use_*()` functions operate on the *current project*. If you've just used usethis to create a new package or project, that will be the current project. Otherwise usethis tries to confirm that current working directory can be recognized as a project. Use `proj_get()` and `proj_set()` for manual intervention. Some functions have no strong connections to projects and will expect you to provide a path.
+Most `use_*()` functions operate on the *current project*. If you’ve
+just used usethis to create a new package or project, that will be the
+current project. Otherwise usethis tries to confirm that current working
+directory can be recognized as a project. Use `proj_get()` and
+`proj_set()` for manual intervention. Some functions have no strong
+connections to projects and will expect you to provide a path.
 
-usethis is quite chatty, explaining what it's doing and assigning you tasks. `✔` indicates something usethis has done for you. `●` indicates that you'll need to do some work yourself.
+usethis is quite chatty, explaining what it’s doing and assigning you
+tasks. `✔` indicates something usethis has done for you. `●` indicates
+that you’ll need to do some work yourself.
 
 Below is a quick look at how usethis can help to set up a package.
 
-*Note: usethis is gaining more and more functionality for analytical project that are not packages. Stay tuned.*
+*Note: usethis is gaining more and more functionality for analytical
+project that are not packages. Stay tuned.*
 
 ``` r
 library(usethis)
@@ -115,3 +130,7 @@ use_git()
 #> ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to './.gitignore'
 #> ✔ Adding files and committing
 ```
+
+Please note that this project is released with a [Contributor Code of
+Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
+you agree to abide by its terms.
