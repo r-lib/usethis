@@ -26,7 +26,7 @@
 #' * `use_tidy_support()`: creates support resources document for GitHub repo
 #'   using SUPPORT.md.
 #'
-#' * `use_tidy_coc()`: creates code of conduct same as use_code_of_conduct
+#' * `use_tidy_coc()`: creates code of conduct same as `use_code_of_conduct()`
 #'   but for the fact that it's placed in a .github subdirectory.
 #'
 #' * `use_tidy_community()`: wrapper function around contributing, issues,
