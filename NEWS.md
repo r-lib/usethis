@@ -2,14 +2,15 @@
 
 * `appveyor_info()` no longer reverses the repo's URL and image link. Corrects the markdown produced by `use_appveyor_badge()` (#240, @llrs). 
 
-* Use HTTPS for CRAN badge image (@jdblischak, #235).
+* `use_cran_badge()` uses an HTTPS URL for the CRAN badge image (#235, @jdblischak).
 
 * `create_package()` and `create_project()` return a normalized path, even if target directory does not pre-exist (#227, #228).
-* Moves tidyverse templates to `.github` subdirectory (#165 @batpigandme)
+
+* "Tidy" GitHub templates are placed in a `.github/` subdirectory (#165 @batpigandme)
 
 ## New functions
 
-* `use_binder_badge()` creates a badge describing your repository can be launched in [Binder](https://mybinder.org/) that an executable environment (#242 @uribo).
+* `use_binder_badge()` creates a badge indicating the repository can be launched in an executable environment via [Binder](https://mybinder.org/) (#242 @uribo).
 
 # usethis 1.2.0
 
