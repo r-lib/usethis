@@ -55,7 +55,7 @@ use_github_labels <- function(delete_default = FALSE,
   tru_cols <- gh_labels[cur_labels]
   col_labels <- cur_labels[!is.na(tru_cols) & tru_cols != cur_cols]
 
-  if (length(col_labels) > 1) {
+  if (length(col_labels) > 0) {
     done("Setting label colours: ", collapse(value(col_labels)))
 
     for (label in col_labels) {
