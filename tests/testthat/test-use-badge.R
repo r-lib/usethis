@@ -4,7 +4,6 @@ test_that("use_cran_badge() and use_depsy_badge() don't error", {
   pkg <- scoped_temporary_package()
   expect_error_free(capture_output(use_cran_badge()))
   expect_error_free(capture_output(use_depsy_badge()))
-  expect_error_free(capture_output(use_binder_badge()))
 })
 
 test_that("use_lifecycle_badge() handles bad and good input", {
