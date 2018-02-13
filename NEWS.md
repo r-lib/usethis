@@ -5,6 +5,7 @@
 * Use HTTPS for CRAN badge image (@jdblischak, #235).
 
 * `create_package()` and `create_project()` return a normalized path, even if target directory does not pre-exist (#227, #228).
+* Moves tidyverse templates to `.github` subdirectory (#165 @batpigandme)
 
 # usethis 1.2.0
 
