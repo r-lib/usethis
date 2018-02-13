@@ -82,10 +82,12 @@ use_github_labels <- function(delete_default = FALSE,
 }
 
 gh_labels <- c(
-  "bug" =         "e02a2a",
-  "feature" =     "009800",
-  "reprex" =      "eb6420",
-  "wip" =         "eb6420",
-  "docs" =        "0052cc",
-  "performance" = "fbca04"
+              "bug" = "d73a4a",
+          "feature" = "a2eeef",
+           "reprex" = "eb6420",
+              "wip" = "eb6420",
+             "docs" = "0052cc",
+      "performance" = "fbca04",
+ "good first issue" = "7057ff",
+      "help wanted" = "008672"
 )
