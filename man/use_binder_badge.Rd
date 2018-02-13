@@ -7,6 +7,6 @@
 use_binder_badge()
 }
 \description{
-This prints out the markdown which will display a Binder "badge", indicating
-launch build your repository source codes on Binder \url{https://mybinder.org/}.
+This prints out the markdown which will display a Binder "badge", indicating that
+your repository can be launched in an executable environment on \url{https://mybinder.org/}.
 }
