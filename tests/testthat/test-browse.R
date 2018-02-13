@@ -28,8 +28,8 @@ test_that("github_home() strips everything after USER/REPO", {
 })
 
 test_that("cran_home() produces canonical URL", {
-  pkg <- scoped_temporary_package(tempfile("foo"))
-  expect_match(cran_home(), "https://cran.r-project.org/package=foo")
+  pkg <- scoped_temporary_package(tempfile("aaa"))
+  expect_match(cran_home(), "https://cran.r-project.org/package=aaa")
   expect_match(cran_home("bar"), "https://cran.r-project.org/package=bar")
 })
 

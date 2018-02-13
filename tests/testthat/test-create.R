@@ -26,7 +26,7 @@ test_that("nested project is disallowed, by default", {
 ## https://github.com/r-lib/usethis/issues/227
 test_that("proj is normalized when path does not pre-exist", {
   ## take care to provide a **non-absolute** path
-  path_package <- basename(tempfile())
+  path_package <- basename(tempfile(pattern = "aaa"))
   withr::with_dir(
     tempdir(), {
       ## better than proj_get() here because won't error if not in project
@@ -38,7 +38,7 @@ test_that("proj is normalized when path does not pre-exist", {
   )
   expect_true(dir.exists(new_proj))
 
-  path_project <- basename(tempfile())
+  path_project <- basename(tempfile(pattern = "aaa"))
   withr::with_dir(
     tempdir(), {
       old_proj <- proj$cur

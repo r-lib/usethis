@@ -197,6 +197,14 @@ check_not_nested <- function(path, name) {
     return()
   }
 
+  ## special case: allow nested project if
+  ## 1) is_testing()
+  ## 2) proposed project name matches magic string we build into test projects
+  ## https://github.com/r-lib/usethis/pull/241
+  if (is_testing() && grepl("aaa", name)) {
+    return()
+  }
+
   message <- paste0(
     "New project ", value(name), " is nested inside an existing project ",
     value(proj_root), "."
