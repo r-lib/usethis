@@ -29,7 +29,8 @@ test_that("proj is normalized when path does not pre-exist", {
   path_package <- basename(tempfile())
   withr::with_dir(
     tempdir(), {
-      old_proj <- proj_get()
+      ## better than proj_get() here because won't error if not in project
+      old_proj <- proj$cur
       capture_output(create_package(path_package, rstudio = FALSE, open = FALSE))
       new_proj <- proj_get()
       proj_set(old_proj)
@@ -40,7 +41,7 @@ test_that("proj is normalized when path does not pre-exist", {
   path_project <- basename(tempfile())
   withr::with_dir(
     tempdir(), {
-      old_proj <- proj_get()
+      old_proj <- proj$cur
       capture_output(create_project(path_project, rstudio = FALSE, open = FALSE))
       new_proj <- proj_get()
       proj_set(old_proj)
