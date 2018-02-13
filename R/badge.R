@@ -78,6 +78,31 @@ stages <- c(
   questioning = "blue"
 )
 
+#' Create a Binder badge
+#'
+#' This prints out the markdown which will display a Binder "badge", indicating that
+#' your repository can be launched in an executable environment on <https://mybinder.org/>.
+#'
+#' @export
+use_binder_badge <- function() {
+
+  if (uses_github(proj_get())) {
+    gh <- gh::gh_tree_remote(proj_get())
+
+    url <- paste(
+      "https://mybinder.org/v2/gh",
+      gh$username,
+      gh$repo,
+      "master",
+      sep = "/")
+
+    img <- "http://mybinder.org/badge.svg"
+
+    use_badge("Binder", url, img)
+  }
+
+  invisible(TRUE)
+}
 
 #' Use a README badge
 #'

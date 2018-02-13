@@ -13,6 +13,13 @@ test_that("use_lifecycle_badge() handles bad and good input", {
   expect_error_free(capture_output(use_lifecycle_badge("stable")))
 })
 
+test_that("use_binder_badge() the github repository works", {
+  skip_if(getRversion() < 3.2)
+  skip_if_no_git_config()
+  prj <- scoped_temporary_project()
+  expect_error_free(capture_output(use_binder_badge()))
+})
+
 test_that("use_badge() does nothing if badge seems to pre-exist", {
   pkg <- scoped_temporary_package()
   href <- "https://cran.r-project.org/package=foo"

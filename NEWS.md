@@ -7,6 +7,10 @@
 * `create_package()` and `create_project()` return a normalized path, even if target directory does not pre-exist (#227, #228).
 * Moves tidyverse templates to `.github` subdirectory (#165 @batpigandme)
 
+## New functions
+
+* `use_binder_badge()` creates a badge describing your repository can be launched in [Binder](https://mybinder.org/) that an executable environment (#242 @uribo).
+
 # usethis 1.2.0
 
 ## New functions
