@@ -86,10 +86,11 @@ devtools::test_coverage()
 
 ### NEWS
 
-For user-facing changes, add a bullet to `NEWS.md` that concisely describes
-the change. Small tweaks to the documentation do not need a bullet. The format
-should include your GitHub username, and links to relevant issue(s)/PR(s), as
-seen below.
+For user-facing changes, add a bullet to the top of `NEWS.md` below the current
+development version header. This should concisely describe the change made.
+Small tweaks to the documentation do not need a bullet. The format should
+include your GitHub username, and links to relevant issue(s)/PR(s), as seen
+below.
 
 ```md
 * `function_name()` followed by brief description of change (#issue-num, @your-github-user-name)
