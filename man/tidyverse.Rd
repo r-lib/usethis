@@ -60,7 +60,7 @@ tidy_contributing template.
 using SUPPORT.md.
 \item \code{use_tidy_coc()}: creates code of conduct same as use_code_of_conduct
 but for the fact that it's placed in a .github subdirectory.
-\item \code{use_tidy_community}: wrapper function around contributing, issues,
+\item \code{use_tidy_community()}: wrapper function around contributing, issues,
 support, and code of conduct functions.
 }
 }

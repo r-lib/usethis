@@ -19,18 +19,18 @@
 #'   the currently installed version.
 #'
 #' * `use_tidy_contributing()`: creates tidyverse contributing guidelines from
-#'    tidy_contributing template.
+#'   tidy_contributing template.
 #'
 #' * `use_tidy_issue_template()`: creates a standard tidyverse issue template.
 #'
 #' * `use_tidy_support()`: creates support resources document for GitHub repo
-#'    using SUPPORT.md.
+#'   using SUPPORT.md.
 #'
 #' * `use_tidy_coc()`: creates code of conduct same as use_code_of_conduct
-#'    but for the fact that it's placed in a .github subdirectory.
+#'   but for the fact that it's placed in a .github subdirectory.
 #'
-#' *  `use_tidy_community`: wrapper function around contributing, issues,
-#'     support, and code of conduct functions.
+#' * `use_tidy_community()`: wrapper function around contributing, issues,
+#'   support, and code of conduct functions.
 #'
 #' @name tidyverse
 NULL
@@ -130,6 +130,7 @@ use_tidy_eval <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_contributing <- function() {
+  check_uses_github()
   check_uses_travis()
 
   gh <- gh::gh_tree_remote(proj_get())
@@ -189,7 +190,7 @@ use_tidy_coc <- function() {
 
   todo("Don't forget to describe the code of conduct in your README.md:")
   code_block(
-    "Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).",
+    "Please note that this project is released with a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md).",
     "By participating in this project you agree to abide by its terms."
   )
 }
