@@ -107,7 +107,7 @@ use_github_labels <- function(labels = tidy_labels(),
 tidy_labels <- function() {
   c(
     "bug" = "e02a2a",
-    "feature" = "a2eeef",
+    "feature" = "009800",
     "reprex" = "eb6420",
     "wip" = "eb6420",
     "docs" = "0052cc",
