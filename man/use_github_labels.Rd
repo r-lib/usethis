@@ -13,7 +13,7 @@ tidy_labels()
 \arguments{
 \item{labels}{Named character vector of labels. The names are the label text,
 such as "bug", and the values are the label colours in hexadecimal, such as
-"d73a4a". First, labels that don't yet exist are created, then label
+"e02a2a". First, labels that don't yet exist are created, then label
 colours are updated.}
 
 \item{delete_default}{If \code{TRUE}, will remove GitHub default labels that do
@@ -21,13 +21,14 @@ not appear in the \code{labels} vector (presumably defaults that aren't relevant
 to your workflow).}
 
 \item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the
-\code{GITHUB_PAT} environment variable.}
+\url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
+described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
+variable.}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3". You can set this globally using
-the \code{GITHUB_API_URL} env var.}
+"https://github.hostname.com/api/v3". You can set this globally using the
+\code{GITHUB_API_URL} env var.}
 }
 \description{
 \code{use_github_labels()} creates new labels and/or changes label

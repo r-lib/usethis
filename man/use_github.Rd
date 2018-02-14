@@ -18,35 +18,34 @@ organisation. You must have access to create repositories.}
 
 \item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
 
-\item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific
-ssh credentials or NULL for default ssh key and ssh-agent behaviour.
-Default is NULL.}
+\item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific ssh
+credentials or NULL for default ssh key and ssh-agent behaviour. Default is
+NULL.}
 
 \item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the
-\code{GITHUB_PAT} environment variable.}
+\url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
+described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
+variable.}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3". You can set this globally using
-the \code{GITHUB_API_URL} env var.}
+"https://github.hostname.com/api/v3". You can set this globally using the
+\code{GITHUB_API_URL} env var.}
 }
 \description{
-\code{use_github()} requires that your package have a git repository,
-which you can create with \code{\link[=use_git]{use_git()}}, if needed.
-\code{use_github()} then sets up appropriate git remotes and syncs.
-\code{use_github_links()} populates the \code{URL} and \code{BugReports}
-fields with appropriate links (unless they already exist).
+\code{use_github()} requires that your package have a git repository, which you
+can create with \code{\link[=use_git]{use_git()}}, if needed. \code{use_github()} then sets up
+appropriate git remotes and syncs. \code{use_github_links()} populates the \code{URL}
+and \code{BugReports} fields with appropriate links (unless they already exist).
 }
 \section{Authentication}{
 
 
 A new GitHub repo will be created via the GitHub API, therefore you must
-provide a GitHub personal access token (PAT) via the argument
-\code{auth_token}, which defaults to the value of the \code{GITHUB_PAT}
-environment variable. Obtain a PAT from
-\url{https://github.com/settings/tokens}. The "repo" scope is required
-which is one of the default scopes for a new PAT.
+provide a GitHub personal access token (PAT) via the argument \code{auth_token},
+which defaults to the value of the \code{GITHUB_PAT} environment variable.
+Obtain a PAT from \url{https://github.com/settings/tokens}. The "repo"
+scope is required which is one of the default scopes for a new PAT.
 
 The argument \code{protocol} reflects how you wish to authenticate with
 GitHub for this repo in the long run. For either \code{protocol}, a remote
