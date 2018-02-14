@@ -6,9 +6,11 @@
 
 * `create_package()` and `create_project()` return a normalized path, even if target directory does not pre-exist (#227, #228).
 
-* tidyverse GitHub templates are placed in a `.github/` subdirectory (#165 @batpigandme).
+* tidyverse GitHub templates are placed in a `.github/` subdirectory (#165, @batpigandme).
 
 ## New functions
+
+* `use_tidy_github()` wraps functions to generate tidyverse issue template, contributing guidelines, support documentation, and code of conduct (#165, @batpigandme).
 
 * `use_binder_badge()` creates a badge indicating the repository can be launched in an executable environment via [Binder](https://mybinder.org/) (#242 @uribo).
 
