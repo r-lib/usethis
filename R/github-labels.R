@@ -106,13 +106,13 @@ use_github_labels <- function(labels = tidy_labels(),
 #' @export
 tidy_labels <- function() {
   c(
-    "bug" = "e02a2a",
-    "feature" = "009800",
-    "reprex" = "eb6420",
-    "wip" = "eb6420",
-    "docs" = "0052cc",
-    "performance" = "fbca04",
+                 "bug" = "e02a2a",
+             "feature" = "009800",
+              "reprex" = "eb6420",
+                 "wip" = "eb6420",
+                "docs" = "0052cc",
+         "performance" = "fbca04",
     "good first issue" = "484fb5",
-    "help wanted" = "008672"
+         "help wanted" = "008672"
   )
 }
