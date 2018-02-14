@@ -32,9 +32,9 @@
 #' * `use_tidy_community()`: wrapper function around contributing, issues,
 #'   support, and code of conduct functions.
 #'
-#' * `use_tidy_github()`: creates standard tidyverse: issue template,
+#' * `use_tidy_github()`: creates standard tidyverse issue template,
 #'   support resources document, contributing guidelines, and code of conduct in
-#'   an `.github/` subdirectory.
+#'   a `.github/` subdirectory.
 #'
 #' @name tidyverse
 NULL
@@ -213,7 +213,6 @@ use_tidy_community <- function() {
 #' @rdname tidyverse
 use_tidy_github <- function() {
   check_uses_github()
-  check_uses_travis()
 
   gh <- gh::gh_tree_remote(proj_get())
   travis_url <- file.path("https://travis-ci.org", gh$username, gh$repo)

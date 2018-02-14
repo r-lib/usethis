@@ -6,7 +6,7 @@
 
 * `create_package()` and `create_project()` return a normalized path, even if target directory does not pre-exist (#227, #228).
 
-* "Tidy" GitHub templates are placed in a `.github/` subdirectory (#165 @batpigandme).
+* tidyverse GitHub templates are placed in a `.github/` subdirectory (#165 @batpigandme).
 
 ## New functions
 
