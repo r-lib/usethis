@@ -5,7 +5,7 @@
 #' remove the default GitHub labels that are not present in the labels you
 #' provide via `labels`.
 #'
-#' `gh_labels()` returns the labels and colours commonly used by tidyverse
+#' `tidy_labels()` returns the labels and colours commonly used by tidyverse
 #' packages.
 #'
 #' @param labels Named character vector of labels. The names are the label text,
@@ -26,7 +26,7 @@ NULL
 #' ## typical use in, e.g., a new tidyverse project
 #' use_github_labels(delete_default = TRUE)
 #' }
-use_github_labels <- function(labels = gh_labels(),
+use_github_labels <- function(labels = tidy_labels(),
                               delete_default = FALSE,
                               auth_token = NULL,
                               host = NULL) {
@@ -102,7 +102,7 @@ use_github_labels <- function(labels = gh_labels(),
 
 #' @rdname use_github_labels
 #' @export
-gh_labels <- function() {
+tidy_labels <- function() {
   c(
     "bug" = "d73a4a",
     "feature" = "a2eeef",
