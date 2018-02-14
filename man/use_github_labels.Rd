@@ -2,13 +2,13 @@
 % Please edit documentation in R/github-labels.R
 \name{use_github_labels}
 \alias{use_github_labels}
-\alias{gh_labels}
+\alias{tidy_labels}
 \title{Manage GitHub issue labels.}
 \usage{
-use_github_labels(labels = gh_labels(), delete_default = FALSE,
+use_github_labels(labels = tidy_labels(), delete_default = FALSE,
   auth_token = NULL, host = NULL)
 
-gh_labels()
+tidy_labels()
 }
 \arguments{
 \item{labels}{Named character vector of labels. The names are the label text,
@@ -31,11 +31,12 @@ the \code{GITHUB_API_URL} env var.}
 }
 \description{
 \code{use_github_labels()} creates new labels and/or changes label
-colours. It does not generally remove labels, unless you explicitly ask to
-remove the default GitHub labels that are not present in the labels you
-provide via \code{labels}.
+colours. It does not generally remove labels. But if you set
+\code{delete_default = TRUE}, it will delete labels that are (1) flagged by the
+API as being \href{https://help.github.com/articles/about-labels/#using-default-labels}{GitHub default labels}
+and (2) not present in the labels you provide via \code{labels}.
 
-\code{gh_labels()} returns the labels and colours commonly used by tidyverse
+\code{tidy_labels()} returns the labels and colours commonly used by tidyverse
 packages.
 }
 \examples{

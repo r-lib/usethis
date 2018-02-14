@@ -1,12 +1,14 @@
 #' Manage GitHub issue labels.
 #'
 #' @description `use_github_labels()` creates new labels and/or changes label
-#' colours. It does not generally remove labels, unless you explicitly ask to
-#' remove the default GitHub labels that are not present in the labels you
-#' provide via `labels`.
+#'   colours. It does not generally remove labels. But if you set
+#'   `delete_default = TRUE`, it will delete labels that are (1) flagged by the
+#'   API as being [GitHub default
+#'   labels](https://help.github.com/articles/about-labels/#using-default-labels)
+#'   and (2) not present in the labels you provide via `labels`.
 #'
-#' `tidy_labels()` returns the labels and colours commonly used by tidyverse
-#' packages.
+#'   `tidy_labels()` returns the labels and colours commonly used by tidyverse
+#'   packages.
 #'
 #' @param labels Named character vector of labels. The names are the label text,
 #'   such as "bug", and the values are the label colours in hexadecimal, such as
@@ -91,7 +93,7 @@ use_github_labels <- function(labels = tidy_labels(),
     def_labels <- setdiff(cur_label_names[default], names(labels))
 
     if (length(def_labels) > 0) {
-      done("Removing default labels: ", collapse(value(def_labels)))
+      done("Removing labels: ", collapse(value(def_labels)))
 
       for (label in def_labels) {
         gh("DELETE /repos/:owner/:repo/labels/:name", name = label)
