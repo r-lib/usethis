@@ -12,7 +12,7 @@
 #'
 #' @param labels Named character vector of labels. The names are the label text,
 #'   such as "bug", and the values are the label colours in hexadecimal, such as
-#'   "d73a4a". First, labels that don't yet exist are created, then label
+#'   "e02a2a". First, labels that don't yet exist are created, then label
 #'   colours are updated.
 #' @param delete_default If `TRUE`, will remove GitHub default labels that do
 #'   not appear in the `labels` vector (presumably defaults that aren't relevant
@@ -106,7 +106,7 @@ use_github_labels <- function(labels = tidy_labels(),
 #' @export
 tidy_labels <- function() {
   c(
-    "bug" = "d73a4a",
+    "bug" = "e02a2a",
     "feature" = "a2eeef",
     "reprex" = "eb6420",
     "wip" = "eb6420",
