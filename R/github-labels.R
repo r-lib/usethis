@@ -1,22 +1,43 @@
-#' Create standard github labels for labelling issues.
+#' Manage GitHub issue labels.
 #'
-#' This function creates new labels and changes colours (if needed).
-#' It does not generally remove labels, unless you explicit ask to
-#' remove GitHub's defaults.
+#' @description `use_github_labels()` creates new labels and/or changes label
+#'   colours. It does not generally remove labels. But if you set
+#'   `delete_default = TRUE`, it will delete labels that are (1) flagged by the
+#'   API as being [GitHub default
+#'   labels](https://help.github.com/articles/about-labels/#using-default-labels)
+#'   and (2) not present in the labels you provide via `labels`.
 #'
-#' @param delete_default If `TRUE`, will remove default labels.
+#'   `tidy_labels()` returns the labels and colours commonly used by tidyverse
+#'   packages.
+#'
+#' @param labels Named character vector of labels. The names are the label text,
+#'   such as "bug", and the values are the label colours in hexadecimal, such as
+#'   "e02a2a". First, labels that don't yet exist are created, then label
+#'   colours are updated.
+#' @param delete_default If `TRUE`, will remove GitHub default labels that do
+#'   not appear in the `labels` vector (presumably defaults that aren't relevant
+#'   to your workflow).
 #' @inheritParams use_github_links
-#' @export
-use_github_labels <- function(delete_default = FALSE,
-                              auth_token = NULL,
-                              host = NULL
-                              ) {
+#' @name use_github_labels
+NULL
 
+#' @rdname use_github_labels
+#' @export
+#' @examples
+#' \dontrun{
+#' ## typical use in, e.g., a new tidyverse project
+#' use_github_labels(delete_default = TRUE)
+#' }
+use_github_labels <- function(labels = tidy_labels(),
+                              delete_default = FALSE,
+                              auth_token = NULL,
+                              host = NULL) {
   check_uses_github()
 
   info <- gh::gh_tree_remote(proj_get())
   gh <- function(endpoint, ...) {
-    gh::gh(endpoint,
+    gh::gh(
+      endpoint,
       ...,
       owner = info$username,
       repo = info$repo,
@@ -25,15 +46,15 @@ use_github_labels <- function(delete_default = FALSE,
     )
   }
 
-  labels <- gh("GET /repos/:owner/:repo/labels")
+  cur_labels <- gh("GET /repos/:owner/:repo/labels")
 
   # Add missing labels
-  if (identical(labels[[1]], "")) {
-    cur_labels <- character()
+  if (identical(cur_labels[[1]], "")) {
+    cur_label_names <- character()
   } else {
-    cur_labels <- vapply(labels, "[[", "name", FUN.VALUE = character(1))
+    cur_label_names <- vapply(cur_labels, "[[", "name", FUN.VALUE = character(1))
   }
-  new_labels <- setdiff(names(gh_labels), cur_labels)
+  new_labels <- setdiff(names(labels), cur_label_names)
   if (length(new_labels) > 0) {
     done("Adding missing labels: ", collapse(value(new_labels)))
 
@@ -41,38 +62,38 @@ use_github_labels <- function(delete_default = FALSE,
       gh(
         "POST /repos/:owner/:repo/labels",
         name = label,
-        color = gh_labels[[label]]
+        color = labels[[label]]
       )
     }
   }
 
   # Correct bad colours
-  if (identical(labels[[1]], "")) {
+  if (identical(cur_labels[[1]], "")) {
     cur_cols <- character()
   } else {
-    cur_cols <- vapply(labels, "[[", "color", FUN.VALUE = character(1))
+    cur_cols <- vapply(cur_labels, "[[", "color", FUN.VALUE = character(1))
   }
-  tru_cols <- gh_labels[cur_labels]
-  col_labels <- cur_labels[!is.na(tru_cols) & tru_cols != cur_cols]
+  tru_cols <- labels[cur_label_names]
+  col_labels <- cur_label_names[!is.na(tru_cols) & tru_cols != cur_cols]
 
-  if (length(col_labels) > 1) {
+  if (length(col_labels) > 0) {
     done("Setting label colours: ", collapse(value(col_labels)))
 
     for (label in col_labels) {
       gh(
         "PATCH /repos/:owner/:repo/labels/:name",
         name = label,
-        color = gh_labels[[label]]
+        color = labels[[label]]
       )
     }
   }
 
-  if (delete_default) {
-    default <- vapply(labels, "[[", "default", FUN.VALUE = logical(1))
-    def_labels <- setdiff(cur_labels[default], names(gh_labels))
+  if (delete_default && length(cur_labels) > 0) {
+    default <- vapply(cur_labels, "[[", "default", FUN.VALUE = logical(1))
+    def_labels <- setdiff(cur_label_names[default], names(labels))
 
     if (length(def_labels) > 0) {
-      done("Removing default labels: ", collapse(value(def_labels)))
+      done("Removing labels: ", collapse(value(def_labels)))
 
       for (label in def_labels) {
         gh("DELETE /repos/:owner/:repo/labels/:name", name = label)
@@ -81,11 +102,17 @@ use_github_labels <- function(delete_default = FALSE,
   }
 }
 
-gh_labels <- c(
-  "bug" =         "e02a2a",
-  "feature" =     "009800",
-  "reprex" =      "eb6420",
-  "wip" =         "eb6420",
-  "docs" =        "0052cc",
-  "performance" = "fbca04"
-)
+#' @rdname use_github_labels
+#' @export
+tidy_labels <- function() {
+  c(
+                 "bug" = "e02a2a",
+             "feature" = "009800",
+              "reprex" = "eb6420",
+                 "wip" = "eb6420",
+                "docs" = "0052cc",
+         "performance" = "fbca04",
+    "good first issue" = "484fb5",
+         "help wanted" = "008672"
+  )
+}

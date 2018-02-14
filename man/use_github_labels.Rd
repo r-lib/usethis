@@ -2,12 +2,23 @@
 % Please edit documentation in R/github-labels.R
 \name{use_github_labels}
 \alias{use_github_labels}
-\title{Create standard github labels for labelling issues.}
+\alias{tidy_labels}
+\title{Manage GitHub issue labels.}
 \usage{
-use_github_labels(delete_default = FALSE, auth_token = NULL, host = NULL)
+use_github_labels(labels = tidy_labels(), delete_default = FALSE,
+  auth_token = NULL, host = NULL)
+
+tidy_labels()
 }
 \arguments{
-\item{delete_default}{If \code{TRUE}, will remove default labels.}
+\item{labels}{Named character vector of labels. The names are the label text,
+such as "bug", and the values are the label colours in hexadecimal, such as
+"d73a4a". First, labels that don't yet exist are created, then label
+colours are updated.}
+
+\item{delete_default}{If \code{TRUE}, will remove GitHub default labels that do
+not appear in the \code{labels} vector (presumably defaults that aren't relevant
+to your workflow).}
 
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the
@@ -19,7 +30,18 @@ GitHub enterprise instance, for example,
 the \code{GITHUB_API_URL} env var.}
 }
 \description{
-This function creates new labels and changes colours (if needed).
-It does not generally remove labels, unless you explicit ask to
-remove GitHub's defaults.
+\code{use_github_labels()} creates new labels and/or changes label
+colours. It does not generally remove labels. But if you set
+\code{delete_default = TRUE}, it will delete labels that are (1) flagged by the
+API as being \href{https://help.github.com/articles/about-labels/#using-default-labels}{GitHub default labels}
+and (2) not present in the labels you provide via \code{labels}.
+
+\code{tidy_labels()} returns the labels and colours commonly used by tidyverse
+packages.
+}
+\examples{
+\dontrun{
+## typical use in, e.g., a new tidyverse project
+use_github_labels(delete_default = TRUE)
+}
 }
