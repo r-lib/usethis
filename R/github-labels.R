@@ -112,7 +112,7 @@ tidy_labels <- function() {
     "wip" = "eb6420",
     "docs" = "0052cc",
     "performance" = "fbca04",
-    "good first issue" = "7057ff",
+    "good first issue" = "484fb5",
     "help wanted" = "008672"
   )
 }
