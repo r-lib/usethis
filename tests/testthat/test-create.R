@@ -49,3 +49,54 @@ test_that("proj is normalized when path does not pre-exist", {
   )
   expect_true(dir.exists(new_proj))
 })
+
+test_that("rationalize_fork() honors fork = FALSE", {
+  expect_false(
+    rationalize_fork(fork = FALSE, repo_info = list(), pat_available = TRUE)
+  )
+  expect_false(
+    rationalize_fork(fork = FALSE, repo_info = list(), pat_available = FALSE)
+  )
+})
+
+test_that("rationalize_fork() won't attempt to fork w/o PAT", {
+  expect_false(
+    rationalize_fork(fork = NA, repo_info = list(), pat_available = FALSE)
+  )
+  expect_error(
+    rationalize_fork(fork = TRUE, repo_info = list(), pat_available = FALSE),
+    "No GitHub Personal Access Token available"
+  )
+})
+
+test_that("rationalize_fork() won't attempt to fork repo owned by user", {
+  expect_error(
+    rationalize_fork(
+      fork = TRUE,
+      repo_info = list(full_name = "USER/REPO", owner = list(login = "USER")),
+      pat_available = TRUE,
+      user = "USER"
+    ),
+    "Can't fork"
+  )
+})
+
+test_that("rationalize_fork() forks by default iff user cannot push", {
+  expect_false(
+    rationalize_fork(
+      fork = NA,
+      repo_info = list(permissions = list(push = TRUE)),
+      pat_available = TRUE
+    )
+  )
+  expect_true(
+    rationalize_fork(
+      fork = NA,
+      repo_info = list(
+        owner = list(login = "SOMEONE_ELSE"),
+        permissions = list(push = FALSE)
+      ),
+      pat_available = TRUE
+    )
+  )
+})

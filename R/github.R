@@ -197,3 +197,10 @@ check_uses_github <- function(base_path = proj_get()) {
     call. = FALSE
   )
 }
+
+## use from gh when/if exported
+## https://github.com/r-lib/gh/issues/74
+gh_token <- function() {
+  token <- Sys.getenv('GITHUB_PAT', "")
+  if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
+}

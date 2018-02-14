@@ -138,20 +138,14 @@ create_from_github <- function(repo,
 
   check_not_nested(destdir, repo)
 
-  if (is.na(fork)) {
-    perms <- repo_info$permissions
-    if (is.null(perms)) {
-      # if permissions are absent, there's no PAT and we can't fork
-      fork <- FALSE
-    } else {
-      # fork only if can't push to the repo
-      fork <- !isTRUE(perms$push)
-    }
-  }
-  ## TODO(jennybc): should we also be checking if fork = TRUE but user owns the
-  ## repo?
+  auth_token <- auth_token %||% gh_token()
+  pat_available <- auth_token != ""
+  user <- if (pat_available) gh::gh_whoami()[["login"]] else NULL
+
+  fork <- rationalize_fork(fork, repo_info, pat_available, user)
 
   if (fork) {
+    ## https://developer.github.com/v3/repos/forks/#create-a-fork
     done("Forking repo")
     fork_info <- gh::gh(
       "POST /repos/:owner/:repo/forks",
@@ -213,4 +207,34 @@ check_not_nested <- function(path, name) {
   if (nope(message, " This is rarely a good idea. Do you wish to create anyway?")) {
     stop("Aborting project creation", call. = FALSE)
   }
+}
+
+rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
+
+  perms <- repo_info$permissions
+  owner <- repo_info$owner$login
+
+  if (is.na(fork)) {
+    if (pat_available) {
+      # fork only if can't push to the repo
+      fork <- !isTRUE(perms$push)
+    } else {
+      fork <- FALSE
+    }
+  }
+
+  if (fork && !pat_available) {
+    stop(
+      "No GitHub Personal Access Token available. Can't fork.", call. = FALSE
+    )
+  }
+
+  if (fork && identical(user, owner)) {
+    stop(
+      "Repo ", value(repo_info$full_name), " is owned by user ",
+      value(user), ". Can't fork.", call. = FALSE
+    )
+  }
+
+  fork
 }
