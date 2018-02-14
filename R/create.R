@@ -85,14 +85,15 @@ create_project <- function(path,
 
 #' Create a repo and project from GitHub
 #'
-#' Creates a new local Git repository from a repository on GitHub. If you have
-#' pre-configured a GitHub personal access token (PAT) as described in
-#' [gh::gh_whoami()], you will get more sensible default behavior for the `fork`
-#' argument. You cannot create a fork without a PAT. Currently only works for
-#' public repositories. A future version of this function will likely have an
-#' interface closer to [use_github()], i.e. more ability to accept credentials
-#' and more control over the Git configuration of the affected remote or local
-#' repositories.
+#' Creates a new local Git repository from a repository on GitHub. It is highly
+#' recommended that you pre-configure or pass a GitHub personal access token
+#' (PAT) as described in [gh::gh_whoami()]. In particular, a PAT is required in
+#' order for `create_from_github()` to do "fork and clone".
+#'
+#' Currently only works for public repositories. A future version of this
+#' function will likely have an interface closer to [use_github()], i.e. more
+#' ability to accept credentials and more control over the Git configuration of
+#' the affected remote or local repositories.
 #'
 #' @seealso [use_course()] for one-time download of all files in a Git repo,
 #'   without any local or remote Git operations.
@@ -116,7 +117,11 @@ create_from_github <- function(repo,
                                destdir = NULL,
                                fork = NA,
                                rstudio = NULL,
-                               open = interactive()) {
+                               open = interactive(),
+                               protocol = c("ssh", "https"),
+                               credentials = NULL,
+                               auth_token = NULL,
+                               host = NULL) {
   destdir <- destdir %||% conspicuous_place()
   check_is_dir(destdir)
 
