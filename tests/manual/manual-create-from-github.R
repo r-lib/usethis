@@ -43,7 +43,10 @@ create_from_github("jennybc/fluffy-otter", fork = TRUE)
 create_from_github("jennybc/fluffy-otter", fork = NA)
 ## gets created, as clone but no fork
 
-## make my PAT unavailable
+## store my PAT
+token <- gh_token()
+
+## make my PAT unavailable via env vars
 Sys.unsetenv(c("GITHUB_PAT", "GITHUB_TOKEN"))
 gh::gh_whoami()
 
@@ -64,3 +67,9 @@ create_from_github("cran/TailRank", fork = TRUE)
 ## fork = NA
 create_from_github("cran/TailRank", fork = NA)
 ## created as clone (no fork)
+unlink("~/Desktop/TailRank/", recursive = TRUE)
+
+## create from repo I do not have push access to
+## fork = TRUE, explicitly provide token
+create_from_github("cran/TailRank", fork = TRUE, auth_token = token)
+## fork and clone
