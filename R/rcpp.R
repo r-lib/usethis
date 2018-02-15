@@ -24,7 +24,7 @@ use_rcpp <- function() {
       paste0("useDynLib('", project_name(), "', .registration = TRUE)"),
       "importFrom('Rcpp', 'sourceCpp')"
     )
-    edit_file(proj_get(), "NAMESPACE")
+    edit_file(proj_path("NAMESPACE"))
   }
   todo("Run document()")
 }

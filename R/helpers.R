@@ -46,7 +46,7 @@ use_template <- function(template,
   }
 
   if (open) {
-    edit_file(proj_get(), save_as)
+    edit_file(proj_path(save_as))
   }
 
   invisible(new)
@@ -239,22 +239,18 @@ create_directory <- function(base_path, path) {
   target_path
 }
 
-edit_file <- function(base_path, path) {
-  full_path <- path.expand(file.path(base_path, path))
-
-  ## example: path = ".R/snippets/r.snippets" but .R doesn't exist yet
-  if (dirname(path) != ".") {
-    create_directory(base_path, dirname(path))
-  }
+edit_file <- function(path) {
+  full_path <- path.expand(path)
+  create_directory(dirname(dirname(full_path)), basename(dirname(full_path)))
 
   if (!file.exists(full_path)) {
     file.create(full_path)
   }
 
   if (!interactive() || is_testing()) {
-    todo("Edit ", value(path))
+    todo("Edit ", value(basename(path)))
   } else {
-    todo("Modify ", value(path))
+    todo("Modify ", value(basename(path)))
 
     if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
       rstudioapi::navigateToFile(full_path)
