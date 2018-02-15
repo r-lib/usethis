@@ -18,19 +18,19 @@
 #' * `use_tidy_versions()`: pins all dependencies to require at least
 #'   the currently installed version.
 #'
-#' * `use_tidy_contributing()`: creates tidyverse contributing guidelines from
-#'   tidy_contributing template.
+#' * `use_tidy_contributing()`: adds standard tidyverse contributing guidelines.
 #'
-#' * `use_tidy_issue_template()`: creates a standard tidyverse issue template.
+#' * `use_tidy_issue_template()`: adds a standard tidyverse issue template.
 #'
-#' * `use_tidy_support()`: creates support resources document for GitHub repo
-#'   using SUPPORT.md.
+#' * `use_tidy_support()`: adds a standard description of support resources for
+#'    the tidyverse.
 #'
-#' * `use_tidy_coc()`: creates code of conduct same as `use_code_of_conduct()`
-#'   but for the fact that it's placed in a `.github/` subdirectory.
+#' * `use_tidy_coc()`: equivalent to `use_code_of_conduct()`, but puts the
+#'    document in a `.github/` subdirectory.
 #'
-#' * `use_tidy_github()`: grouping function around contributing, issues,
-#'   support, and code of conduct functions.
+#' * `use_tidy_github()`: convenience wrapper that calls
+#' `use_tidy_contributing()`, `use_tidy_issue_template()`, `use_tidy_support()`,
+#' `use_tidy_coc()`.
 #'
 #' @name tidyverse
 NULL
@@ -131,7 +131,13 @@ use_tidy_eval <- function() {
 #' @rdname tidyverse
 use_tidy_contributing <- function() {
   check_uses_github()
-  check_uses_travis()
+  if (!uses_travis()) {
+    message(
+      "Package ", value(project_name()), " doesn't have a Travis yaml file.\n",
+      "Don't forget to run ", code("use_tidy_ci()"), " or ",
+      code("use_travis()"), "."
+    )
+  }
 
   gh <- gh::gh_tree_remote(proj_get())
   travis_url <- file.path("https://travis-ci.org", gh$username, gh$repo)

@@ -59,7 +59,7 @@ uses_travis <- function(base_path = proj_get()) {
 
 check_uses_travis <- function(base_path = proj_get()) {
   if (uses_travis(base_path)) {
-    return()
+    return(invisible())
   }
 
   stop(

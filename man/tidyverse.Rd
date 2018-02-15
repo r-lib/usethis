@@ -53,14 +53,14 @@ dependencies.
 programming with the tidy eval toolkit.
 \item \code{use_tidy_versions()}: pins all dependencies to require at least
 the currently installed version.
-\item \code{use_tidy_contributing()}: creates tidyverse contributing guidelines from
-tidy_contributing template.
-\item \code{use_tidy_issue_template()}: creates a standard tidyverse issue template.
-\item \code{use_tidy_support()}: creates support resources document for GitHub repo
-using SUPPORT.md.
-\item \code{use_tidy_coc()}: creates code of conduct same as \code{use_code_of_conduct()}
-but for the fact that it's placed in a \code{.github/} subdirectory.
-\item \code{use_tidy_github()}: grouping function around contributing, issues,
-support, and code of conduct functions.
+\item \code{use_tidy_contributing()}: adds standard tidyverse contributing guidelines.
+\item \code{use_tidy_issue_template()}: adds a standard tidyverse issue template.
+\item \code{use_tidy_support()}: adds a standard description of support resources for
+the tidyverse.
+\item \code{use_tidy_coc()}: equivalent to \code{use_code_of_conduct()}, but puts the
+document in a \code{.github/} subdirectory.
+\item \code{use_tidy_github()}: convenience wrapper that calls
+\code{use_tidy_contributing()}, \code{use_tidy_issue_template()}, \code{use_tidy_support()},
+\code{use_tidy_coc()}.
 }
 }
