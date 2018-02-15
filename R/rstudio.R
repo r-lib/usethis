@@ -72,7 +72,7 @@ use_blank_slate <- function(scope = c("user", "project")) {
   invisible()
 }
 
-# Is base_path an RStudio Project?
+# Is base_path an RStudio Project or inside an RStudio Project?
 is_rstudio_project <- function(base_path = proj_get()) {
   res <- tryCatch(
     rprojroot::find_rstudio_root_file(path = base_path),
