@@ -52,3 +52,18 @@ test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
     }
   )
 })
+
+test_that("use_tidy_github() adds and Rbuildignores files", {
+  with_mock(
+    `usethis:::uses_travis` = function(base_path) TRUE,
+    `gh::gh_tree_remote` = function(path) list(username = "USER", repo = "REPO"), {
+      scoped_temporary_package()
+      capture_output(use_tidy_github())
+      expect_true(file.exists(proj_path(".github/CONTRIBUTING.md")))
+      expect_true(file.exists(proj_path(".github/ISSUE_TEMPLATE.md")))
+      expect_true(file.exists(proj_path(".github/SUPPORT.md")))
+      expect_true(file.exists(proj_path(".github/CODE_OF_CONDUCT.md")))
+      expect_true(is_build_ignored("^\\.github$"))
+    }
+  )
+})

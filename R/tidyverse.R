@@ -27,9 +27,9 @@
 #'   using SUPPORT.md.
 #'
 #' * `use_tidy_coc()`: creates code of conduct same as `use_code_of_conduct()`
-#'   but for the fact that it's placed in a .github subdirectory.
+#'   but for the fact that it's placed in a `.github/` subdirectory.
 #'
-#' * `use_tidy_community()`: wrapper function around contributing, issues,
+#' * `use_tidy_github()`: grouping function around contributing, issues,
 #'   support, and code of conduct functions.
 #'
 #' @name tidyverse
@@ -197,7 +197,7 @@ use_tidy_coc <- function() {
 
 #' @export
 #' @rdname tidyverse
-use_tidy_community <- function() {
+use_tidy_github <- function() {
   use_tidy_contributing()
   use_tidy_issue_template()
   use_tidy_support()
