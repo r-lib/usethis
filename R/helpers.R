@@ -38,7 +38,6 @@ use_template <- function(template,
                          ignore = FALSE,
                          open = FALSE,
                          package = "usethis") {
-
   template_contents <- render_template(template, data, package = package)
   new <- write_over(proj_get(), save_as, template_contents)
 
@@ -125,8 +124,10 @@ use_dependency <- function(package, type, version = "*") {
   stopifnot(is_string(type))
 
   if (package != "R" && !requireNamespace(package, quietly = TRUE)) {
-    stop(package, " must be installed before you can take a dependency on it",
-      call. = FALSE)
+    stop(
+      package, " must be installed before you can take a dependency on it",
+      call. = FALSE
+    )
   }
 
   types <- c("Imports", "Depends", "Suggests", "Enhances", "LinkingTo")
@@ -166,8 +167,6 @@ use_dependency <- function(package, type, version = "*") {
 #' }
 use_directory <- function(path,
                           ignore = FALSE) {
-
-
   if (!file.exists(proj_path(path))) {
     done("Creating ", value(path, "/"))
   }
