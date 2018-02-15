@@ -20,7 +20,7 @@ unlink("~/Desktop/TailRank/", recursive = TRUE)
 
 ## create from repo I do not have push access to
 ## fork = NA
-create_from_github("cran/TailRank", fork = TRUE)
+create_from_github("cran/TailRank", fork = NA)
 ## fork and clone --> should see origin and upstream remotes
 unlink("~/Desktop/TailRank/", recursive = TRUE)
 

@@ -248,12 +248,7 @@ rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
   owner <- repo_info$owner$login
 
   if (is.na(fork)) {
-    if (pat_available) {
-      # fork only if can't push to the repo
-      fork <- !isTRUE(perms$push)
-    } else {
-      fork <- FALSE
-    }
+    fork <- pat_available && !isTRUE(perms$push)
   }
 
   if (fork && !pat_available) {
