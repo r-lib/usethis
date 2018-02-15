@@ -1,17 +1,19 @@
 #' Connect a local repo with GitHub.
 #'
-#' `use_github()` requires that your package have a git repository, which you
-#' can create with [use_git()], if needed. `use_github()` then sets up
-#' appropriate git remotes and syncs. `use_github_links()` populates the `URL`
-#' and `BugReports` fields with appropriate links (unless they already exist).
+#' `use_github()` requires that your project have a local git repository, which
+#' you can initialize with [use_git()], if needed. `use_github()` then creates
+#' an associated repo on GitHub, adds that to your local repo as a remote, and
+#' makes an initial push to synchronize. `use_github_links()` populates the
+#' `URL` and `BugReports` fields of a GitHub-using R package with appropriate
+#' links (unless they already exist).
 #'
 #' @section Authentication:
 #'
 #'   A new GitHub repo will be created via the GitHub API, therefore you must
-#'   provide a GitHub personal access token (PAT) via the argument `auth_token`,
-#'   which defaults to the value of the `GITHUB_PAT` environment variable.
-#'   Obtain a PAT from \url{https://github.com/settings/tokens}. The "repo"
-#'   scope is required which is one of the default scopes for a new PAT.
+#'   make a [GitHub personal access token
+#'   (PAT)](https://github.com/settings/tokens) available. You can either
+#'   provide this directly via the auth_token `argument` or store it in an
+#'   environment variable, as described in [gh::gh_whoami()].
 #'
 #'   The argument `protocol` reflects how you wish to authenticate with GitHub
 #'   for this repo in the long run. For either `protocol`, a remote named
@@ -23,7 +25,8 @@
 #'   public and private keys are in the default locations, `~/.ssh/id_rsa.pub`
 #'   and `~/.ssh/id_rsa`, respectively, and that `ssh-agent` is configured to
 #'   manage any associated passphrase.  Alternatively, specify a
-#'   [git2r::cred_ssh_key()] object via the `credentials` parameter.
+#'   [git2r::cred_ssh_key()] object via the `credentials` parameter. Read more
+#'   about ssh setup in [Happy Git](http://happygitwithr.com/ssh-keys.html).
 #'
 #' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
