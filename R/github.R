@@ -1,49 +1,49 @@
 #' Connect a local repo with GitHub.
 #'
-#' `use_github()` requires that your package have a git repository,
-#' which you can create with [use_git()], if needed.
-#' `use_github()` then sets up appropriate git remotes and syncs.
-#' `use_github_links()` populates the `URL` and `BugReports`
-#' fields with appropriate links (unless they already exist).
+#' `use_github()` requires that your project have a local git repository, which
+#' you can initialize with [use_git()], if needed. `use_github()` then creates
+#' an associated repo on GitHub, adds that to your local repo as a remote, and
+#' makes an initial push to synchronize. `use_github_links()` populates the
+#' `URL` and `BugReports` fields of a GitHub-using R package with appropriate
+#' links (unless they already exist).
 #'
 #' @section Authentication:
 #'
 #'   A new GitHub repo will be created via the GitHub API, therefore you must
-#'   provide a GitHub personal access token (PAT) via the argument
-#'   `auth_token`, which defaults to the value of the `GITHUB_PAT`
-#'   environment variable. Obtain a PAT from
-#'   \url{https://github.com/settings/tokens}. The "repo" scope is required
-#'   which is one of the default scopes for a new PAT.
+#'   make a [GitHub personal access token
+#'   (PAT)](https://github.com/settings/tokens) available. You can either
+#'   provide this directly via the auth_token `argument` or store it in an
+#'   environment variable, as described in [gh::gh_whoami()].
 #'
-#'   The argument `protocol` reflects how you wish to authenticate with
-#'   GitHub for this repo in the long run. For either `protocol`, a remote
-#'   named "origin" is created, an initial push is made using the specified
-#'   `protocol`, and a remote tracking branch is set. The URL of the
-#'   "origin" remote has the form `git@@github.com:<USERNAME>/<REPO>.git`
-#'   (`protocol = "ssh"`, the default) or
-#'   `https://github.com/<USERNAME>/<REPO>.git` (\code{protocol =
-#'   "https"}). For `protocol = "ssh"`, it is assumed that public and
-#'   private keys are in the default locations, `~/.ssh/id_rsa.pub` and
-#'   `~/.ssh/id_rsa`, respectively, and that `ssh-agent` is configured
-#'   to manage any associated passphrase.  Alternatively, specify a
-#'   [git2r::cred_ssh_key()] object via the `credentials`
-#'   parameter.
+#'   The argument `protocol` reflects how you wish to authenticate with GitHub
+#'   for this repo in the long run. For either `protocol`, a remote named
+#'   "origin" is created, an initial push is made using the specified
+#'   `protocol`, and a remote tracking branch is set. The URL of the "origin"
+#'   remote has the form `git@@github.com:<USERNAME>/<REPO>.git` (`protocol =
+#'   "ssh"`, the default) or `https://github.com/<USERNAME>/<REPO>.git`
+#'   (\code{protocol = "https"}). For `protocol = "ssh"`, it is assumed that
+#'   public and private keys are in the default locations, `~/.ssh/id_rsa.pub`
+#'   and `~/.ssh/id_rsa`, respectively, and that `ssh-agent` is configured to
+#'   manage any associated passphrase.  Alternatively, specify a
+#'   [git2r::cred_ssh_key()] object via the `credentials` parameter. Read more
+#'   about ssh setup in [Happy Git](http://happygitwithr.com/ssh-keys.html).
 #'
 #' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
 #'   organisation. You must have access to create repositories.
 #' @param auth_token Provide a personal access token (PAT) from
-#'   \url{https://github.com/settings/tokens}. If `NULL`, will use the
-#'   `GITHUB_PAT` environment variable.
+#'   \url{https://github.com/settings/tokens}. If `NULL`, will use the logic
+#'   described in [gh::gh_whoami()] to look for a token stored in an environment
+#'   variable.
 #' @param private If `TRUE`, creates a private repository.
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
-#'   "https://github.hostname.com/api/v3". You can set this globally using
-#'   the `GITHUB_API_URL` env var.
+#'   "https://github.hostname.com/api/v3". You can set this globally using the
+#'   `GITHUB_API_URL` env var.
 #' @param protocol transfer protocol, either "ssh" (the default) or "https"
-#' @param credentials A [git2r::cred_ssh_key()] specifying specific
-#' ssh credentials or NULL for default ssh key and ssh-agent behaviour.
-#' Default is NULL.
+#' @param credentials A [git2r::cred_ssh_key()] specifying specific ssh
+#'   credentials or NULL for default ssh key and ssh-agent behaviour. Default is
+#'   NULL.
 #' @export
 #' @examples
 #' \dontrun{
@@ -196,4 +196,11 @@ check_uses_github <- function(base_path = proj_get()) {
     "Do you need to run ", code("use_github()"), "?",
     call. = FALSE
   )
+}
+
+## use from gh when/if exported
+## https://github.com/r-lib/gh/issues/74
+gh_token <- function() {
+  token <- Sys.getenv('GITHUB_PAT', "")
+  if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
 }

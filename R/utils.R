@@ -54,6 +54,14 @@ check_is_dir <- function(x) {
   invisible(x)
 }
 
+check_is_empty <- function(x) {
+  files <- list.files(x)
+  if (length(files) > 0) {
+    stop(value(x), " exists and is not an empty directory", call. = FALSE)
+  }
+  invisible(x)
+}
+
 dots <- function(...) {
   eval(substitute(alist(...)))
 }
