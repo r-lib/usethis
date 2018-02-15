@@ -139,6 +139,11 @@ create_from_github <- function(repo,
   owner <- repo[[1]]
   repo <- repo[[2]]
 
+  repo_path <- create_directory(destdir, repo)
+  if (dir.exists(repo_path)) {
+    check_is_empty(repo_path)
+  }
+
   pat <- auth_token %||% gh_token()
   pat_available <- pat != ""
   user <- if (pat_available) gh::gh_whoami()[["login"]] else NULL
@@ -174,7 +179,6 @@ create_from_github <- function(repo,
     ssh = repo_info$ssh_url
   )
 
-  repo_path <- create_directory(destdir, repo)
   done("Cloning repo from ", value(origin_url), " into ", value(repo_path))
   git2r::clone(
     origin_url,
@@ -221,7 +225,7 @@ check_not_nested <- function(path, name) {
   proj_root <- proj_find(path)
 
   if (is.null(proj_root)) {
-    return()
+    return(invisible())
   }
 
   message <- paste0(
@@ -235,6 +239,7 @@ check_not_nested <- function(path, name) {
   if (nope(message, " This is rarely a good idea. Do you wish to create anyway?")) {
     stop("Aborting project creation", call. = FALSE)
   }
+  invisible()
 }
 
 rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
