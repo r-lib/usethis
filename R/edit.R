@@ -15,25 +15,25 @@ NULL
 #' @export
 #' @rdname edit
 edit_r_profile <- function(scope = c("user", "project")) {
-  edit_file(scope_dir(scope), ".Rprofile")
+  file <- edit_file(scope_dir(scope), ".Rprofile")
   todo("Restart R for changes to take effect")
-  invisible()
+  invisible(file)
 }
 
 #' @export
 #' @rdname edit
 edit_r_environ <- function(scope = c("user", "project")) {
-  edit_file(scope_dir(scope), ".Renviron")
+  file <- edit_file(scope_dir(scope), ".Renviron")
   todo("Restart R for changes to take effect")
-  invisible()
+  invisible(file)
 }
 
 #' @export
 #' @rdname edit
 edit_r_makevars <- function(scope = c("user", "project")) {
-  edit_file(scope_dir(scope), ".R/Makevars")
+  file <- edit_file(scope_dir(scope), ".R/Makevars")
   todo("Restart R for changes to take effect")
-  invisible()
+  invisible(file)
 }
 
 #' @export
@@ -41,16 +41,16 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 edit_git_config <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   path <- switch(scope, user = ".gitconfig", project = ".git/config")
-  edit_file(git_scope_dir(scope), path = path)
-  invisible()
+  file <- edit_file(git_scope_dir(scope), path = path)
+  invisible(file)
 }
 
 #' @export
 #' @rdname edit
 edit_git_ignore <- function(scope = c("user", "project")) {
   ## TODO(jennybc) https://github.com/r-lib/usethis/issues/182
-  edit_file(git_scope_dir(scope), ".gitignore")
-  invisible()
+  file <- edit_file(git_scope_dir(scope), ".gitignore")
+  invisible(file)
 }
 
 #' @export
@@ -58,8 +58,8 @@ edit_git_ignore <- function(scope = c("user", "project")) {
 #' @param type Snippet type. One of "R", "markdown", "C_Cpp", "Tex",
 #'   "Javascript", "HTML", "SQL"
 edit_rstudio_snippets <- function(type = "R") {
-  edit_file("~", paste0(".R/snippets/", tolower(type), ".snippets"))
-  invisible()
+  file <- edit_file("~", paste0(".R/snippets/", tolower(type), ".snippets"))
+  invisible(file)
 }
 
 scope_dir <- function(scope = c("user", "project")) {

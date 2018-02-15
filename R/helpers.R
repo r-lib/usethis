@@ -262,7 +262,7 @@ edit_file <- function(base_path, path) {
       utils::file.edit(full_path)
     }
   }
-  invisible()
+  invisible(full_path)
 }
 
 view_url <- function(..., open = interactive()) {
