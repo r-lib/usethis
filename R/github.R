@@ -179,6 +179,26 @@ use_github_links <- function(auth_token = NULL,
   invisible()
 }
 
+#' @rdname use_github
+#' @param scopes Character vector of token permissions. These are only defaults
+#'   that will be pre-checked. You can select the final values on the Github
+#'   page. Read more about GitHub API scopes at
+#'   <https://developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps/>.
+#' @param description Short description or nickname for the token. Helps you distinguish various tokens on GitHub.
+#' @description The `create_github_pat()` function opens a browser window on the
+#'   GitHub page where you can generate a Personal Access Token
+#' @export
+create_github_pat <- function(scopes = c("gist", "public_repo"),
+                              description = "R:GITHUB_PAT",
+                              host = "https://github.com") {
+  scopes <- collapse(scopes, ",")
+  url <- sprintf(
+    "%s/settings/tokens/new?scopes=%s&description=%s",
+    host, scopes, description
+  )
+  message("If your browser does not open please navigate to:\n", url)
+  utils::browseURL(url)
+}
 
 uses_github <- function(base_path = proj_get()) {
   tryCatch({

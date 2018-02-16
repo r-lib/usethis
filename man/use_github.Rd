@@ -3,12 +3,16 @@
 \name{use_github}
 \alias{use_github}
 \alias{use_github_links}
+\alias{create_github_pat}
 \title{Connect a local repo with GitHub}
 \usage{
 use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
   "https"), credentials = NULL, auth_token = NULL, host = NULL)
 
 use_github_links(auth_token = NULL, host = "https://api.github.com")
+
+create_github_pat(scopes = c("gist", "public_repo"),
+  description = "R:GITHUB_PAT", host = "https://github.com")
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this
@@ -31,6 +35,13 @@ variable.}
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3". You can set this globally using the
 \code{GITHUB_API_URL} env var.}
+
+\item{scopes}{Character vector of token permissions. These are only defaults
+that will be pre-checked. You can select the final values on the Github
+page. Read more about GitHub API scopes at
+\url{https://developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps/}.}
+
+\item{description}{Short description or nickname for the token. Helps you distinguish various tokens on GitHub.}
 }
 \description{
 \code{use_github()} requires that your project have a local git repository, which
@@ -39,6 +50,9 @@ an associated repo on GitHub, adds that to your local repo as a remote, and
 makes an initial push to synchronize. \code{use_github_links()} populates the
 \code{URL} and \code{BugReports} fields of a GitHub-using R package with appropriate
 links (unless they already exist).
+
+The \code{create_github_pat()} function opens a browser window on the
+GitHub page where you can generate a Personal Access Token
 }
 \section{Authentication}{
 

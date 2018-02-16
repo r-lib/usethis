@@ -18,6 +18,8 @@
 
 ## New functions
 
+* `create_github_pat()` blah blah blah (#?? @jeroen).
+
 * `use_tidy_github()` creates a standard set of files that make a GitHub repository more navigable for users and contributors: an issue template, contributing guidelines, support documentation, and a code of conduct. All are now placed in a `.github/` subdirectory (#165, @batpigandme).
 
 * `use_binder_badge()` creates a badge indicating the repository can be launched in an executable environment via [Binder](https://mybinder.org/) (#242 @uribo).
