@@ -40,6 +40,24 @@ and (2) not present in the labels you provide via \code{labels}.
 \code{tidy_labels()} returns the labels and colours commonly used by tidyverse
 packages.
 }
+\section{Label usage}{
+
+Labels are used as part of the issue-triage process, designed to minimise the
+time spent re-reading issues. The absence of a label indicates that an issue
+is new, and has yet to be triaged.
+\itemize{
+\item \code{reprex} indicates that an issue does not have a minimal reproducible
+example, and that a reply has been sent requesting one from the user.
+\item \code{bug} type, indicates an unexpected problem or unintended behavior.
+\item \code{feature} type, indicates a feature request or enhancement.
+\item \code{docs} type, indicates an issue with the documentation.
+\item \code{performance} indicates a non-breaking area related to performance.
+\item \code{wip} indicates that someone else is working on it or has promised to.
+\item \code{good first issue} indicates a good issue for first-time contributors.
+\item \code{help wanted} indicates that a maintainer wants help on an issue.
+}
+}
+
 \examples{
 \dontrun{
 ## typical use in, e.g., a new tidyverse project
