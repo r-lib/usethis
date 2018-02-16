@@ -1,14 +1,14 @@
 context("edit")
 
 expect_user_file <- function(...) {
-  expect_true(file.exists(file.path("~", ...)))
+  expect_true(file.exists(scoped_path("user", ...)))
 }
+
 expect_user_git_file <- function(...) {
-  expect_true(file.exists(file.path(git_user_dot_home(), ...)))
+  expect_true(file.exists(scoped_git_path("user", ...)))
 }
-expect_project_file <- function(...) {
-  expect_true(file.exists(proj_path(...)))
-}
+
+expect_project_file <- function(...) expect_true(file.exists(proj_path(...)))
 
 ## testing edit_XXX("user") only on travis and appveyor, because I don't want to
 ## risk creating user-level files de novo for an actual user, which would

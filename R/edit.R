@@ -7,6 +7,8 @@
 #' * `edit_git_ignore()` opens `.gitignore`
 #' * `edit_rstudio_snippets(type)` opens `~/R/snippets/{type}.snippets`
 #'
+#' @return Path to the file, invisibly.
+#'
 #' @param scope Edit globally for the current __user__, or locally for the
 #'   current __project__
 #' @name edit
@@ -15,8 +17,7 @@ NULL
 #' @export
 #' @rdname edit
 edit_r_profile <- function(scope = c("user", "project")) {
-  file <- file.path(scope_dir(scope), ".Rprofile")
-  edit_file(file)
+  file <- edit_file(scoped_path(scope, ".Rprofile"))
   todo("Restart R for changes to take effect")
   invisible(file)
 }
@@ -24,8 +25,7 @@ edit_r_profile <- function(scope = c("user", "project")) {
 #' @export
 #' @rdname edit
 edit_r_environ <- function(scope = c("user", "project")) {
-  file <- file.path(scope_dir(scope), ".Renviron")
-  edit_file(file)
+  file <- edit_file(scoped_path(scope, ".Renviron"))
   todo("Restart R for changes to take effect")
   invisible(file)
 }
@@ -33,27 +33,9 @@ edit_r_environ <- function(scope = c("user", "project")) {
 #' @export
 #' @rdname edit
 edit_r_makevars <- function(scope = c("user", "project")) {
-  file <- file.path(scope_dir(scope), ".R/Makevars")
-  edit_file(file)
+  file <- edit_file(scoped_path(scope, ".R", "Makevars"))
   todo("Restart R for changes to take effect")
   invisible(file)
-}
-
-#' @export
-#' @rdname edit
-edit_git_config <- function(scope = c("user", "project")) {
-  scope <- match.arg(scope)
-  path <- switch(scope, user = ".gitconfig", project = ".git/config")
-  file <- file.path(git_scope_dir(scope), path = path)
-  invisible(edit_file(file))
-}
-
-#' @export
-#' @rdname edit
-edit_git_ignore <- function(scope = c("user", "project")) {
-  ## TODO(jennybc) https://github.com/r-lib/usethis/issues/182
-  file <- file.path(git_scope_dir(scope), ".gitignore")
-  invisible(edit_file(file))
 }
 
 #' @export
@@ -61,22 +43,60 @@ edit_git_ignore <- function(scope = c("user", "project")) {
 #' @param type Snippet type. One of "R", "markdown", "C_Cpp", "Tex",
 #'   "Javascript", "HTML", "SQL"
 edit_rstudio_snippets <- function(type = "R") {
-  file <- file.path("~", paste0(".R/snippets/", tolower(type), ".snippets"))
+  file <- scoped_path(
+    "user",
+    ".R", "snippets", paste0(tolower(type), ".snippets")
+  )
   invisible(edit_file(file))
 }
 
-scope_dir <- function(scope = c("user", "project")) {
-  scope <- match.arg(scope)
-  message("Editing in ", field(scope), " scope")
 
-  switch(scope, user = path.expand("~"), project = proj_get())
+# git files are special ----
+
+#' @export
+#' @rdname edit
+edit_git_config <- function(scope = c("user", "project")) {
+  path <- switch(
+    scope,
+    user = ".gitconfig",
+    project = file.path(".git", "config")
+  )
+  invisible(edit_file(scoped_git_path(scope, path)))
 }
 
-git_scope_dir <- function(scope = c("user", "project")) {
-  scope <- match.arg(scope)
-  message("Editing in git ", field(scope), " scope")
+#' @export
+#' @rdname edit
+edit_git_ignore <- function(scope = c("user", "project")) {
+  file <- scoped_git_path(scope, ".gitignore")
+  if (scope == "user" && !file.exists(file)) {
+    todo("Tell git about this new global gitignore file for changes to take effect!")
+    todo("For example, execute something like this in a shell:")
+    code_block("git config --global core.excludesfile '~/.gitignore'")
+  }
+  invisible(edit_file(file))
+}
 
-  switch(scope, user = git_user_dot_home(), project = proj_get())
+
+scoped_path <- function(scope, ...) file.path(scope_dir(scope), ...)
+scoped_git_path <- function(scope, ...) file.path(scope_git_dir(scope), ...)
+
+
+scope_dir <- function(scope = c("user", "project")) {
+  scope <- match.arg(scope)
+  switch(
+    scope,
+    user = path.expand("~"),
+    project = proj_get()
+  )
+}
+
+scope_git_dir <- function(scope = c("user", "project")) {
+  scope <- match.arg(scope)
+  switch(
+    scope,
+    user = git_user_dot_home(),
+    project = proj_get()
+  )
 }
 
 git_user_dot_home <- function() {
