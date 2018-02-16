@@ -9,7 +9,8 @@
 #' * User is asked to notice and confirm the location of the new folder. Specify
 #' `destdir` to skip this.
 #' * User is asked if they'd like to delete the ZIP file.
-#' * New folder is opened in the file manager, e.g. Finder or File Explorer.
+#' * If new folder contains an `.Rproj` file, it is opened. Otherwise, the
+#' folder is opened in the file manager, e.g. Finder or File Explorer.
 #'
 #' If `url` has no "http" prefix, "https://" is prepended, allowing for even
 #' less typing by the user. Most URL shorteners give HTTPS links and,
@@ -241,7 +242,10 @@ tidy_unzip <- function(zipfile) {
       unlink(zipfile)
     }
 
-    if (!in_rstudio_server()) {
+    if (is_rstudio_project(target) && rstudioapi::hasFun("openProject")) {
+      done("Opening project in RStudio")
+      rstudioapi::openProject(target, newSession = TRUE)
+    } else if (!in_rstudio_server()) {
       done("Opening ", value(target), " in the file manager")
       utils::browseURL(normalizePath(target))
     }

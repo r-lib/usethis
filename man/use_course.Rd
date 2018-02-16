@@ -26,7 +26,8 @@ stored. Workflow:
 \item User is asked to notice and confirm the location of the new folder. Specify
 \code{destdir} to skip this.
 \item User is asked if they'd like to delete the ZIP file.
-\item New folder is opened in the file manager, e.g. Finder or File Explorer.
+\item If new folder contains an \code{.Rproj} file, it is opened. Otherwise, the
+folder is opened in the file manager, e.g. Finder or File Explorer.
 }
 }
 \details{
