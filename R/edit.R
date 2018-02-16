@@ -67,7 +67,8 @@ edit_git_config <- function(scope = c("user", "project")) {
 #' @export
 #' @rdname edit
 edit_git_ignore <- function(scope = c("user", "project")) {
-  file <- scoped_git_path(scope, ".gitignore")
+  scope <- match.arg(scope)
+  file <- git_ignore_path(scope)
   if (scope == "user" && !file.exists(file)) {
     todo("Tell git about this new global gitignore file for changes to take effect!")
     todo("For example, execute something like this in a shell:")
