@@ -10,6 +10,20 @@
 #'   `tidy_labels()` returns the labels and colours commonly used by tidyverse
 #'   packages.
 #'
+#' @section Label usage:
+#' Labels are used as part of the issue-triage process, designed to minimise the
+#' time spent re-reading issues. The absence of a label indicates that an issue
+#' is new, and has yet to be triaged.
+#' * `reprex` indicates that an issue does not have a minimal reproducible
+#'   example, and that a reply has been sent requesting one from the user.
+#' * `bug` type, indicates an unexpected problem or unintended behavior.
+#' * `feature` type, indicates a feature request or enhancement.
+#' * `docs` type, indicates an issue with the documentation.
+#' * `performance` indicates a non-breaking area related to performance.
+#' * `wip` indicates that someone else is working on it or has promised to.
+#' * `good first issue` indicates a good issue for first-time contributors.
+#' * `help wanted` indicates that a maintainer wants help on an issue.
+#'
 #' @param labels Named character vector of labels. The names are the label text,
 #'   such as "bug", and the values are the label colours in hexadecimal, such as
 #'   "e02a2a". First, labels that don't yet exist are created, then label
