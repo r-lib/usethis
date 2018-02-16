@@ -1,7 +1,8 @@
 # Contributing to {{{ package }}}
 
 -   [Prerequisites](#prerequisites)
--   [PR Process](#pr-process)
+-   [Fixing typos](#fixing-typos)
+-   [PR process](#pr-process)
     -   [Fork, clone, branch](#fork-clone-branch)
     -   [Check](#check)
     -   [Style](#style)
@@ -27,6 +28,13 @@ Before you do a pull request, you should always file an issue and make sure
 someone from the tidyverse team agrees that it’s a problem, and is happy with
 your basic proposal for fixing it. If you’ve found a bug, first create a minimal
 [reprex](https://www.tidyverse.org/help/#reprex).
+
+## Fixing typos
+
+Small typos or grammatical errors in documentation may be edited directly using
+the GitHub web interface, so long as the changes are made in the _source_ file
+(see [Document](#document) for detail). If you do not know what this means, see
+the [Resources](#resources) section to learn more.
 
 ## PR process
 
@@ -93,7 +101,7 @@ include your GitHub username, and links to relevant issue(s)/PR(s), as seen
 below.
 
 ```md
-* `function_name()` followed by brief description of change (#issue-num, @your-github-user-name)
+* `function_name()` followed by brief description of change (#issue-num, @your-github-user-name).
 ```
 
 ### Re-check
