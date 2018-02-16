@@ -76,6 +76,20 @@ edit_git_ignore <- function(scope = c("user", "project")) {
   invisible(edit_file(file))
 }
 
+## .gitignore is more common, but .gitignore_global appears in some
+## very prominent places --> we must allow for the latter, if pre-exists
+git_ignore_path <- function(scope) {
+  path <- scoped_git_path(scope, ".gitignore")
+  if (scope == "project") {
+    return(path)
+  }
+  if (!file.exists(path)) {
+    alt_path <- scoped_git_path("user", ".gitignore_global")
+    path <- if (file.exists(alt_path)) alt_path else path
+  }
+  path
+}
+
 
 scoped_path <- function(scope, ...) file.path(scope_dir(scope), ...)
 scoped_git_path <- function(scope, ...) file.path(scope_git_dir(scope), ...)
