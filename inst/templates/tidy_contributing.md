@@ -1,6 +1,7 @@
 # Contributing to {{{ package }}}
 
 -   [Prerequisites](#prerequisites)
+-   [Typo aside](#typo-aside)
 -   [PR Process](#pr-process)
     -   [Fork, clone, branch](#fork-clone-branch)
     -   [Check](#check)
@@ -20,6 +21,13 @@ Git and GitHub.
 
 For more general info about contributing to the tidyverse, see the 
 [Resources](#resources) at the end of this document.
+
+## Typo aside
+
+Small typos or grammatical errors in documentation may be edited directly using
+the GitHub web interface, so long as the changes are made in the _source_ file
+(see [Document](#document) for detail). If you do not know what this means, see
+the [Resources](#resources) section to learn more.
 
 ## Prerequisites
 
@@ -93,7 +101,7 @@ include your GitHub username, and links to relevant issue(s)/PR(s), as seen
 below.
 
 ```md
-* `function_name()` followed by brief description of change (#issue-num, @your-github-user-name)
+* `function_name()` followed by brief description of change (#issue-num, @your-github-user-name).
 ```
 
 ### Re-check
