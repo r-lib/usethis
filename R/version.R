@@ -19,28 +19,30 @@ use_version <- function(which = NULL) {
 
   types <- c("major", "minor", "patch", "dev")
 
-  ver_old <- desc::desc_get_version(proj_get())
+  ver <- desc::desc_get_version(proj_get())
+
+  vers <- c(bump_version(ver, 1),
+            bump_version(ver, 2),
+            bump_version(ver, 3),
+            bump_version(ver, 4))
 
   if(is.null(which)) {
-    choice <- utils::menu(choices = types,
-                         title = paste0("Current version is ", paste0(ver_old),
-                                        " what will you increment?"))
-    which <- types[choice]
+    choice <- utils::menu(choices = paste0(types, " --> ", vers),
+                           title = paste0("Current version is ", paste0(ver),
+                                          "\nwhat part to increment?"))
+    which <- types[which]
+  } else {
+    choice <- pmatch(which, types)
   }
 
-  suppressMessages(temp <- desc::desc_bump_version(which))
+  new_ver <- vers[choice]
 
-  ver_new <- as.character(desc::desc_get_version(proj_get()))
-
-  suppressMessages(temp <- desc::desc_set_version(ver_old))
-
-  use_description_field("Version", paste0(ver_new), overwrite = TRUE)
-  use_news_heading(paste0(ver_new))
+  use_description_field("Version", paste0(new_ver), overwrite = TRUE)
+  use_news_heading(paste0(new_ver))
   git_check_in(
-    base_path = proj_get(),
-    paths = c("DESCRIPTION", "NEWS.md"),
-    message = "Incrementing version number"
-  )
-
-  invisible(TRUE)
+     base_path = proj_get(),
+     paths = c("DESCRIPTION", "NEWS.md"),
+     message = "Incrementing version number"
+   )
+   invisible(TRUE)
 }

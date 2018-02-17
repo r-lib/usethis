@@ -237,3 +237,28 @@ view_url <- function(..., open = interactive()) {
   }
   invisible(url)
 }
+
+bump_version <- function(ver, choice) {
+  ver <- as.integer(strsplit(as.character(ver), "\\.")[[1]])
+
+  inc <- if (choice == 4 && length(ver) < 4) {
+    9000
+  } else {
+    1
+  }
+  if (choice > length(ver)) {
+    ver <- c(ver, rep(0, choice - length(ver)))
+  }
+
+  ver[choice] <- ver[choice] + inc
+
+  if (choice < length(ver)) {
+    ver[(choice + 1):length(ver)] <- 0
+  }
+
+  if (length(ver) > 3 && all(ver[4:length(ver)] == 0)) {
+    ver <- ver[1:3]
+  }
+
+  package_version(paste(ver, collapse = "."))
+}
