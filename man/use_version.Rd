@@ -4,15 +4,12 @@
 \alias{use_version}
 \title{Increment version number}
 \usage{
-use_version(level = NULL, increment = 1)
+use_version(which = NULL)
 }
 \arguments{
-\item{level}{Which level to increment, must be one of "Mayor", "Minor",
-"Patch" or "Development". Defaults to NULL which activates interactive
+\item{which}{Which level to increment, must be one of "dev", "patch",
+"minor" or "major". Defaults to NULL which activates interactive
 control.}
-
-\item{increment}{Numerical. How much to increment the level by.
-Defaults to 1.}
 }
 \description{
 This increments the "Version" field in \code{DESCRIPTION}, adds a new heading

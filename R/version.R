@@ -22,9 +22,10 @@ use_version <- function(which = NULL) {
   ver_old <- desc::desc_get_version(proj_get())
 
   if(is.null(which)) {
-    which <- utils::menu(choices = types,
+    choice <- utils::menu(choices = types,
                          title = paste0("Current version is ", paste0(ver_old),
                                         " what will you increment?"))
+    which <- types[choice]
   }
 
   suppressMessages(temp <- desc::desc_bump_version(which))
