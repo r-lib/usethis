@@ -70,9 +70,11 @@ edit_git_ignore <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   file <- git_ignore_path(scope)
   if (scope == "user" && !file.exists(file)) {
-    todo("Tell git about this new global gitignore file for changes to take effect!")
-    todo("For example, execute something like this in a shell:")
-    code_block("git config --global core.excludesfile '~/.gitignore'")
+    done(
+      "Adding new global gitignore to your git config: ",
+      value(".gitignore")
+    )
+    git2r::config(global = TRUE, core.excludesfile = "~/.gitignore")
   }
   invisible(edit_file(file))
 }
