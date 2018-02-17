@@ -86,7 +86,7 @@ use_roxygen_md()
 
 use_rcpp()
 #> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
-#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
+#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION*
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
 #> ● Include the following roxygen tags somewhere in your package
@@ -115,7 +115,7 @@ use_test("my-test")
 #> ✔ Creating 'tests/testthat/'
 #> ✔ Writing 'tests/testthat.R'
 #> ✔ Writing 'tests/testthat/test-my-test.R'
-#> ● Edit 'tests/testthat/test-my-test.R'
+#> ● Edit 'test-my-test.R'
 
 x <- 1
 y <- 2

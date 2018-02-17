@@ -9,3 +9,5 @@
 ^appveyor\.yml$
 ^tests/manual$
 ^\.github$
+^_pkgdown\.yml$
+^docs$
