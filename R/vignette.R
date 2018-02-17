@@ -36,5 +36,5 @@ use_vignette <- function(name) {
     proj_path(path), "html_vignette", "rmarkdown",
     create_dir = FALSE, edit = FALSE
   )
-  edit_file(proj_get(), path)
+  edit_file(proj_path(path))
 }

@@ -7,7 +7,7 @@
 #' @export
 use_pkgdown <- function() {
   check_is_package("use_pkgdown()")
-  edit_file(proj_get(), "_pkgdown.yml")
+  edit_file(proj_path("_pkgdown.yml"))
   use_build_ignore("_pkgdown.yml")
 
   use_directory("docs", ignore = TRUE)

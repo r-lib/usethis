@@ -36,7 +36,7 @@ use_test <- function(name = NULL, open = TRUE) {
   path <- file.path("tests", "testthat", name)
 
   if (file.exists(proj_path(path))) {
-    edit_file(proj_get(), path)
+    edit_file(proj_path(path))
   } else {
     use_template(
       "test-example.R",

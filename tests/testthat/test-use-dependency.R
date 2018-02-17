@@ -35,7 +35,7 @@ test_that("we message for version change and are silent for same version", {
 test_that("use_dependency() upgrades a dependency", {
   scoped_temporary_package()
 
-  use_dependency("usethis", "Suggests")
+  capture_output(use_dependency("usethis", "Suggests"))
   expect_match(desc::desc_get("Suggests", proj_get()), "usethis")
 
   expect_output(use_dependency("usethis", "Imports"), "Removing.*Adding")
@@ -47,7 +47,7 @@ test_that("use_dependency() upgrades a dependency", {
 test_that("use_dependency() declines to downgrade a dependency", {
   scoped_temporary_package()
 
-  use_dependency("usethis", "Imports")
+  capture_output(use_dependency("usethis", "Imports"))
   expect_match(desc::desc_get("Imports", proj_get()), "usethis")
 
   expect_warning(use_dependency("usethis", "Suggests"), "no change")

@@ -9,7 +9,7 @@ use_r <- function(name = NULL) {
   name <- find_r_name(name)
 
   use_directory("R")
-  edit_file(proj_get(), paste0("R/", name))
+  edit_file(proj_path("R", name))
 
   invisible(TRUE)
 }
