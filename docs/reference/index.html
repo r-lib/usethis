@@ -101,40 +101,50 @@
       <tbody>
         <tr>
           <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
+            <h2 id="section-create" class="hasAnchor"><a href="#section-create" class="anchor"></a>Create</h2>
+            <p class="section-desc"><p>Create projects de novo or from an existing local or remote source</p></p>
           </th>
         </tr>
         <tr>
           <!--  -->
           <td>
-            <p><code><a href="browse-this.html">browse_github</a></code> <code><a href="browse-this.html">browse_github_issues</a></code> <code><a href="browse-this.html">browse_github_pulls</a></code> <code><a href="browse-this.html">browse_travis</a></code> <code><a href="browse-this.html">browse_cran</a></code> </p>
-          </td>
-          <td><p>Quickly browse to important package webpages</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ci.html">use_travis</a></code> <code><a href="ci.html">use_coverage</a></code> <code><a href="ci.html">use_appveyor</a></code> </p>
-          </td>
-          <td><p>Continuous integration setup</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
             <p><code><a href="create_from_github.html">create_from_github</a></code> </p>
           </td>
-          <td><p>Create a repo and project from GitHub</p></td>
+          <td><p>Create a project from a GitHub repo</p></td>
         </tr><tr>
           <!--  -->
           <td>
             <p><code><a href="create_package.html">create_package</a></code> <code><a href="create_package.html">create_project</a></code> </p>
           </td>
           <td><p>Create a new package or project</p></td>
-        </tr><tr>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-projects" class="hasAnchor"><a href="#section-projects" class="anchor"></a>Projects</h2>
+            <p class="section-desc"><p>Query or set the project targetted by usethis functions that don’t take a path</p></p>
+          </th>
+        </tr>
+        <tr>
           <!--  -->
           <td>
-            <p><code><a href="edit.html">edit_r_profile</a></code> <code><a href="edit.html">edit_r_environ</a></code> <code><a href="edit.html">edit_r_makevars</a></code> <code><a href="edit.html">edit_rstudio_snippets</a></code> <code><a href="edit.html">edit_git_config</a></code> <code><a href="edit.html">edit_git_ignore</a></code> </p>
+            <p><code><a href="proj_get.html">proj_get</a></code> <code><a href="proj_get.html">proj_set</a></code> </p>
           </td>
-          <td><p>Open useful configuration files</p></td>
+          <td><p>Get and set the active project</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-use" class="hasAnchor"><a href="#section-use" class="anchor"></a>Use</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="ci.html">use_travis</a></code> <code><a href="ci.html">use_coverage</a></code> <code><a href="ci.html">use_appveyor</a></code> </p>
+          </td>
+          <td><p>Continuous integration setup</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -338,7 +348,7 @@
           <td>
             <p><code><a href="use_rstudio.html">use_rstudio</a></code> </p>
           </td>
-          <td><p>Use RStudio</p></td>
+          <td><p>Add RStudio Project infrastructure</p></td>
         </tr><tr>
           <!--  -->
           <td>
@@ -370,6 +380,34 @@
           </td>
           <td><p>Create a vignette</p></td>
         </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-edit" class="hasAnchor"><a href="#section-edit" class="anchor"></a>Edit</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="edit.html">edit_r_profile</a></code> <code><a href="edit.html">edit_r_environ</a></code> <code><a href="edit.html">edit_r_makevars</a></code> <code><a href="edit.html">edit_rstudio_snippets</a></code> <code><a href="edit.html">edit_git_config</a></code> <code><a href="edit.html">edit_git_ignore</a></code> </p>
+          </td>
+          <td><p>Open useful configuration files</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-browse" class="hasAnchor"><a href="#section-browse" class="anchor"></a>Browse</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="browse-this.html">browse_github</a></code> <code><a href="browse-this.html">browse_github_issues</a></code> <code><a href="browse-this.html">browse_github_pulls</a></code> <code><a href="browse-this.html">browse_travis</a></code> <code><a href="browse-this.html">browse_cran</a></code> </p>
+          </td>
+          <td><p>Quickly browse to important package webpages</p></td>
+        </tr>
       </tbody>
       </table>
     </div>
@@ -378,7 +416,11 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-create">Create</a></li>
+      <li><a href="#section-projects">Projects</a></li>
+      <li><a href="#section-use">Use</a></li>
+      <li><a href="#section-edit">Edit</a></li>
+      <li><a href="#section-browse">Browse</a></li>
     </ul>
   </div>
 </div>

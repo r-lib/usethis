@@ -44,7 +44,7 @@ check_is_package <- function(whos_asking = NULL) {
   stop(message, call. = FALSE)
 }
 
-#' Get and set currently active project
+#' Get and set the active project
 #'
 #' When attached, usethis uses rprojroot to find the project root of the
 #' current working directory. It establishes the project root by looking for

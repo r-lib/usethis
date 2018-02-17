@@ -83,7 +83,7 @@ create_project <- function(path,
   invisible(TRUE)
 }
 
-#' Create a repo and project from GitHub
+#' Create a project from a GitHub repo
 #'
 #' Creates a new local Git repository from a repository on GitHub. It is highly
 #' recommended that you pre-configure or pass a GitHub personal access token

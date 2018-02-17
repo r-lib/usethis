@@ -3,7 +3,7 @@
 \name{proj_get}
 \alias{proj_get}
 \alias{proj_set}
-\title{Get and set currently active project}
+\title{Get and set the active project}
 \usage{
 proj_get()
 

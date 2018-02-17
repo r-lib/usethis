@@ -2,11 +2,15 @@
 % Please edit documentation in R/rstudio.R
 \name{use_rstudio}
 \alias{use_rstudio}
-\title{Use RStudio}
+\title{Add RStudio Project infrastructure}
 \usage{
 use_rstudio()
 }
 \description{
-Creates an \code{.Rproj} file and adds RStudio files to \code{.gitignore}
-and \code{.Rbuildignore}.
+This function makes the current project into an RStudio Project:
+\itemize{
+\item Creates an \code{.Rproj} file
+\item Adds RStudio files to \code{.gitignore}
+\item Adds RStudio files to \code{.Rbuildignore}, if project is a package
+}
 }

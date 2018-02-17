@@ -2,7 +2,7 @@
 % Please edit documentation in R/create.R
 \name{create_from_github}
 \alias{create_from_github}
-\title{Create a repo and project from GitHub}
+\title{Create a project from a GitHub repo}
 \usage{
 create_from_github(repo, destdir = NULL, fork = NA, rstudio = NULL,
   open = interactive(), protocol = c("ssh", "https"), credentials = NULL,

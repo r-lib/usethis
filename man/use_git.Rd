@@ -14,7 +14,9 @@ use_git(message = "Initial commit")
 to \code{.gitignore}, and commits all files.
 }
 \examples{
-\dontrun{use_git()}
+\dontrun{
+use_git()
+}
 }
 \seealso{
 Other git helpers: \code{\link{use_git_hook}},

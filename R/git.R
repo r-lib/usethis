@@ -7,7 +7,9 @@
 #' @family git helpers
 #' @export
 #' @examples
-#' \dontrun{use_git()}
+#' \dontrun{
+#' use_git()
+#' }
 use_git <- function(message = "Initial commit") {
   if (uses_git()) {
     return(invisible())

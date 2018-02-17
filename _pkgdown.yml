@@ -1,0 +1,20 @@
+reference:
+  - title: Create
+    desc: >
+      Create projects de novo or from an existing local or remote source
+    contents:
+    - starts_with("create_")
+  - title: Projects
+    desc: >
+      Query or set the project targetted by usethis functions that don't take a path
+    contents:
+    - starts_with("proj_", internal = TRUE)
+  - title: Use
+    contents:
+    - starts_with("use_")
+  - title: Edit
+    contents:
+    - starts_with("edit_")
+  - title: Browse
+    contents:
+    - starts_with("browse_")

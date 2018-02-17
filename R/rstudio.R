@@ -1,7 +1,9 @@
-#' Use RStudio
+#' Add RStudio Project infrastructure
 #'
-#' Creates an `.Rproj` file and adds RStudio files to `.gitignore`
-#' and `.Rbuildignore`.
+#' This function makes the current project into an RStudio Project:
+#'   * Creates an `.Rproj` file
+#'   * Adds RStudio files to `.gitignore`
+#'   * Adds RStudio files to `.Rbuildignore`, if project is a package
 #'
 #' @export
 use_rstudio <- function() {
