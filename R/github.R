@@ -149,7 +149,9 @@ use_github <- function(organisation = NULL,
     cred <- git2r::cred_user_pass("EMAIL", auth_token)
     git2r::push(r, "origin", "refs/heads/master", credentials = cred)
   }
-  git2r::branch_set_upstream(git2r::head(r), "origin/master")
+  ## utils::head instead of git2r::head due to the conversion of git2r's head
+  ## from S4 --> S3 method in v0.21.0 --> 0.21.0.9000
+  git2r::branch_set_upstream(utils::head(r), "origin/master")
 
   view_url(create$html_url)
 
