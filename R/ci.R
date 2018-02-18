@@ -1,10 +1,11 @@
-#' Continuous integration setup
+#' Continuous integration setup and badges
 #'
 #' Sets up continuous integration (CI) services for an R package that is
 #' developed on GitHub. CI services can run `R CMD check` automatically on
 #' various platforms, triggered by each push or pull request. These functions
 #' * Add service-specific configuration files and add them to `.Rbuildignore`.
 #' * Activate a service or give the user a detailed prompt.
+#' * Provide the markdown to insert a badge into README.
 #'
 #' @name ci
 #' @aliases NULL

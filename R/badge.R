@@ -1,9 +1,61 @@
-#' Create a CRAN badge
+#' README badges
 #'
-#' This prints out the markdown which will display a CRAN "badge", indicating
-#' what version of your package is available on CRAN, powered by
-#' <https://www.r-pkg.org>.
+#' These helpers produce the markdown text you need in your README to include
+#' badges that report information, such as the CRAN version or test coverage,
+#' and link out to relevant external resources.
 #'
+#' @details
+#'
+#' * `use_badge()`: a general helper used in all badge functions
+#' * `use_cran_badge()`: badge indicates what version of your package is
+#' available on CRAN, powered by <https://www.r-pkg.org>
+#' * `use_depsy_badge()`: badge shows the "percentile overall impact" of the
+#' project, powered by <http://depsy.org>, which only indexes projects that are
+#' on CRAN
+#' * `use_lifecycle_badge()`: badge declares the developmental stage of a
+#' package, according to <https://www.tidyverse.org/lifecycle/>:
+#'   - Experimental
+#'   - Maturing
+#'   - Stable
+#'   - Retired
+#'   - Archived
+#'   - Dormant
+#'   - Questioning
+#' * `use_binder_badge()`: badge indicates that your repository can be launched
+#' in an executable environment on <https://mybinder.org/>
+#'
+#' @param badge_name Badge name. Used in error message and alt text
+#' @param href,src Badge link and image src
+#' @param stage Stage of the package lifecycle
+#'
+#' @seealso The [functions that set up continuous integration
+#'   services][use_travis] also create badges.
+#'
+#' @name badges
+#' @examples
+#' use_cran_badge()
+#' use_lifecycle_badge("stable")
+NULL
+
+#' @rdname badges
+#' @export
+use_badge <- function(badge_name, href, src) {
+  if (has_badge(href)) {
+    return(invisible(FALSE))
+  }
+
+  img <- paste0("![", badge_name, "](", src, ")")
+  link <- paste0("[", img, "](", href, ")")
+
+  todo(
+    "Add a ",
+    badge_name,
+    " badge by adding the following line to your README:"
+  )
+  code_block(link)
+}
+
+#' @rdname badges
 #' @export
 use_cran_badge <- function() {
   check_is_package("use_cran_badge()")
@@ -16,13 +68,7 @@ use_cran_badge <- function() {
   invisible(TRUE)
 }
 
-#' Create a Depsy badge
-#'
-#' This prints out the markdown which will display a Depsy "badge", showing the
-#' "percentile overall impact" of the project, powered by <http://depsy.org>.
-#'
-#' Depsy only indexes projects that are on CRAN.
-#'
+#' @rdname badges
 #' @export
 use_depsy_badge <- function() {
   check_is_package("use_depsy_badge()")
@@ -35,22 +81,7 @@ use_depsy_badge <- function() {
   invisible(TRUE)
 }
 
-
-#' Create a life cycle badge
-#'
-
-#' Declares the developmental stage of a package, according to
-#' <https://www.tidyverse.org/lifecycle/>:
-#'
-#' * Experimental
-#' * Maturing
-#' * Stable
-#' * Retired
-#' * Archived
-#' * Dormant
-#' * Questioning
-#'
-#' @param stage Stage of the lifecycle. See description above.
+#' @rdname badges
 #' @export
 use_lifecycle_badge <- function(stage) {
   check_is_package("use_lifecycle_badge()")
@@ -78,11 +109,7 @@ stages <- c(
   questioning = "blue"
 )
 
-#' Create a Binder badge
-#'
-#' This prints out the markdown which will display a Binder "badge", indicating that
-#' your repository can be launched in an executable environment on <https://mybinder.org/>.
-#'
+#' @rdname badges
 #' @export
 use_binder_badge <- function() {
 
@@ -104,26 +131,7 @@ use_binder_badge <- function() {
   invisible(TRUE)
 }
 
-#' Use a README badge
-#'
-#' @param badge_name Badge name. Used in error message and alt text
-#' @param href,src Badge link and image src
-#' @export
-use_badge <- function(badge_name, href, src) {
-  if (has_badge(href)) {
-    return(invisible(FALSE))
-  }
 
-  img <- paste0("![", badge_name, "](", src, ")")
-  link <- paste0("[", img, "](", href, ")")
-
-  todo(
-    "Add a ",
-    badge_name,
-    " badge by adding the following line to your README:"
-  )
-  code_block(link)
-}
 
 has_badge <- function(href) {
   readme_path <- proj_path("README.md")
