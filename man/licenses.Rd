@@ -5,7 +5,7 @@
 \alias{use_gpl3_license}
 \alias{use_apl2_license}
 \alias{use_cc0_license}
-\title{Use MIT, GPL-3, or Apache 2.0 license for your package}
+\title{License a package}
 \usage{
 use_mit_license(name = find_name())
 

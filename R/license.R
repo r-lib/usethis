@@ -1,4 +1,4 @@
-#' Use MIT, GPL-3, or Apache 2.0 license for your package
+#' License a package
 #'
 #' @description
 #' Adds the necessary infrastructure to declare your package as licensed
@@ -26,12 +26,11 @@
 #' @aliases NULL
 NULL
 
-## TODO(jennybc): check if package is a project
-
 #' @rdname licenses
 #' @export
 use_mit_license <- function(name = find_name()) {
   force(name)
+  check_is_package("use_mit_license()")
 
   use_description_field("License", "MIT + file LICENSE", overwrite = TRUE)
   use_license_template("mit", name)
@@ -49,6 +48,7 @@ use_mit_license <- function(name = find_name()) {
 #' @export
 use_gpl3_license <- function(name = find_name()) {
   force(name)
+  check_is_package("use_gpl3_license()")
 
   use_description_field("License", "GPL-3", overwrite = TRUE)
   use_license_template("GPL-3", name)
@@ -58,6 +58,7 @@ use_gpl3_license <- function(name = find_name()) {
 #' @export
 use_apl2_license <- function(name = find_name()) {
   force(name)
+  check_is_package("use_apl2_license()")
 
   use_description_field("License", "Apache License (>= 2.0)", overwrite = TRUE)
   use_license_template("apache-2.0", name)
@@ -67,6 +68,7 @@ use_apl2_license <- function(name = find_name()) {
 #' @export
 use_cc0_license <- function(name = find_name()) {
   force(name)
+  check_is_package("use_cc0_license()")
 
   use_description_field("License", "CC0", overwrite = TRUE)
   use_license_template("cc0", name)
