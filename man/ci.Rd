@@ -4,7 +4,7 @@
 \alias{use_travis}
 \alias{use_coverage}
 \alias{use_appveyor}
-\title{Continuous integration setup}
+\title{Continuous integration setup and badges}
 \usage{
 use_travis(browse = interactive())
 
@@ -26,6 +26,7 @@ various platforms, triggered by each push or pull request. These functions
 \itemize{
 \item Add service-specific configuration files and add them to \code{.Rbuildignore}.
 \item Activate a service or give the user a detailed prompt.
+\item Provide the markdown to insert a badge into README.
 }
 }
 \section{\code{use_travis()}}{
