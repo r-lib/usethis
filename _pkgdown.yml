@@ -1,17 +1,21 @@
 reference:
   - title: Create
     desc: >
-      Create projects de novo or from an existing local or remote source
+      Create a project de novo or from an existing source, either local or remote
     contents:
     - starts_with("create_")
-  - title: Projects
+  - title: Active project
     desc: >
       Query or set the project targetted by usethis functions that don't take a path
     contents:
     - starts_with("proj_", internal = TRUE)
-  - title: Use
+  - title: Use package development tools
     contents:
     - starts_with("use_")
+  - title: Use Git and GitHub
+    contents:
+    - create_from_github
+    - matches("git")
   - title: Edit
     contents:
     - starts_with("edit_")

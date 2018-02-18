@@ -1,18 +1,28 @@
-#' Create a new package or project
+#' Create a package or project
 #'
-#' Both functions change the active project so that subsequent `use_*()` calls
-#' will affect the project that you've just created. See [proj_set()] to
-#' manually reset it.
+#' These functions create an R project:
+#'   * `create_package()` creates an R package
+#'   * `create_project()` creates a non-package project, i.e. a data analysis
+#'   project
+
+#' Both functions can add project infrastructure to an existing directory of
+#' files or can create a completely new project. Both functions change the
+#' active project, so that subsequent `use_*()` calls affect the project
+#' that you've just created. See [proj_set()] to manually reset it.
 #'
+#' @param path A path. If it exists, it is used. If it does not exist, it is
+#'   created, provided that the parent path exists.
 #' @inheritParams use_description
-#' @param path A path. If it exists, it will be used. If it does not exist, it
-#'   will be created (providing that the parent path exists).
-#' @param rstudio If `TRUE`, call [use_rstudio()] to make new package or project
-#'   into an [RStudio
+#' @param rstudio If `TRUE`, calls [use_rstudio()] to make the new package or
+#'   project into an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects).
-#' @param open If `TRUE` and in RStudio, new project will be opened in a new
-#'   instance, if possible, or will be switched to, otherwise. If `TRUE` and not
-#'   in RStudio, working directory will be set to the new project.
+#'    If `FALSE` and a non-package project, a sentinel `.here` file is placed so
+#'   that the directory can be recognized as a project by the
+#'   [here](https://krlmlr.github.io/here/) or
+#'   [rprojroot](https://krlmlr.github.io/rprojroot/) packages.
+#' @param open If `TRUE` and in RStudio, the new project is opened in a new
+#'   instance, if possible, or is switched to, otherwise. If `TRUE` and not
+#'   in RStudio, working directory is set to the new project.
 #' @export
 create_package <- function(path,
                            fields = getOption("devtools.desc"),

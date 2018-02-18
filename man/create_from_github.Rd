@@ -26,9 +26,9 @@ changes in the future.}
 Defaults to \code{TRUE} if in an RStudio session and project has no
 pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
 
-\item{open}{If \code{TRUE} and in RStudio, new project will be opened in a new
-instance, if possible, or will be switched to, otherwise. If \code{TRUE} and not
-in RStudio, working directory will be set to the new project.}
+\item{open}{If \code{TRUE} and in RStudio, the new project is opened in a new
+instance, if possible, or is switched to, otherwise. If \code{TRUE} and not
+in RStudio, working directory is set to the new project.}
 
 \item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
 
