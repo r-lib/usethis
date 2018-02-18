@@ -33,8 +33,10 @@
 #'
 #' @name badges
 #' @examples
+#' \dontrun{
 #' use_cran_badge()
 #' use_lifecycle_badge("stable")
+#' }
 NULL
 
 #' @rdname badges

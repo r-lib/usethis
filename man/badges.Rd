@@ -55,8 +55,10 @@ in an executable environment on \url{https://mybinder.org/}
 }
 }
 \examples{
+\dontrun{
 use_cran_badge()
 use_lifecycle_badge("stable")
+}
 }
 \seealso{
 The \link[=use_travis]{functions that set up continuous integration
