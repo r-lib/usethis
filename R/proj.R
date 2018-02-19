@@ -62,21 +62,12 @@ check_is_package <- function(whos_asking = NULL) {
 #' @keywords internal
 #' @export
 proj_get <- function() {
-  if (!is.null(proj$cur)) {
-    return(proj$cur)
+  # Called for first time so try working directory
+  if (is.null(proj$cur)) {
+    proj_set(".")
   }
 
-  # Try current wd
-  proj_set(".")
-  if (!is.null(proj$cur)) {
-    return(proj$cur)
-  }
-
-  stop(
-    "Current working directory, ", value(normalizePath(".")), ", ",
-    " does not appear to be inside a project or package.",
-    call. = FALSE
-  )
+  proj$cur
 }
 
 #' @export
@@ -87,7 +78,14 @@ proj_set <- function(path = ".", force = FALSE) {
   if (force) {
     proj$cur <- path
   } else {
-    proj$cur <- proj_find(path)
+    path <- proj_find(path)
+
+    if (is.null(path)) {
+      stop(
+        "Path ", value(path), "does not appear to be inside a project or package.",
+        call. = FALSE
+      )
+    }
   }
 
   invisible(old)
