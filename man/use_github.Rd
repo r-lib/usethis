@@ -3,7 +3,7 @@
 \name{use_github}
 \alias{use_github}
 \alias{use_github_links}
-\alias{create_github_pat}
+\alias{browse_github_pat}
 \title{Connect a local repo with GitHub}
 \usage{
 use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
@@ -11,7 +11,7 @@ use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
 
 use_github_links(auth_token = NULL, host = "https://api.github.com")
 
-create_github_pat(scopes = c("gist", "public_repo"),
+browse_github_pat(scopes = c("gist", "public_repo"),
   description = "R:GITHUB_PAT", host = "https://github.com")
 }
 \arguments{
@@ -51,8 +51,8 @@ makes an initial push to synchronize. \code{use_github_links()} populates the
 \code{URL} and \code{BugReports} fields of a GitHub-using R package with appropriate
 links (unless they already exist).
 
-The \code{create_github_pat()} function opens a browser window on the
-GitHub page where you can generate a Personal Access Token
+The \code{browse_github_pat()} function opens a browser window on the
+GitHub page where you can generate a Personal Access Token.
 }
 \section{Authentication}{
 

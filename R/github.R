@@ -185,10 +185,10 @@ use_github_links <- function(auth_token = NULL,
 #'   page. Read more about GitHub API scopes at
 #'   <https://developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps/>.
 #' @param description Short description or nickname for the token. Helps you distinguish various tokens on GitHub.
-#' @description The `create_github_pat()` function opens a browser window on the
-#'   GitHub page where you can generate a Personal Access Token
+#' @description The `browse_github_pat()` function opens a browser window on the
+#'   GitHub page where you can generate a Personal Access Token.
 #' @export
-create_github_pat <- function(scopes = c("gist", "public_repo"),
+browse_github_pat <- function(scopes = c("gist", "public_repo"),
                               description = "R:GITHUB_PAT",
                               host = "https://github.com") {
   scopes <- collapse(scopes, ",")
