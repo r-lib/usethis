@@ -54,8 +54,11 @@ check_is_package <- function(whos_asking = NULL) {
 #' session. If needed, you can manually override by running `proj_set()`.
 #'
 #' @param path Path to set.
-#' @param force If `TRUE`, uses this path without checking if any parent
-#'   directories are existing projects.
+#' @param force If `TRUE`, use this path without checking the usual criteria.
+#'   Use sparingly! The main application is to solve a temporary chicken-egg
+#'   problem: you need to set the active project in order to add
+#'   project-signalling infrastructure, such as initialising a Git repo or
+#'   adding a DESCRIPTION file.
 #' @keywords internal
 #' @export
 proj_get <- function() {
@@ -90,5 +93,4 @@ proj_set <- function(path = ".", force = FALSE) {
   invisible(old)
 }
 
-## check vectorizaion
 proj_path <- function(...) file.path(proj_get(), ...)

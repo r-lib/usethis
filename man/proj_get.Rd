@@ -12,8 +12,11 @@ proj_set(path = ".", force = FALSE)
 \arguments{
 \item{path}{Path to set.}
 
-\item{force}{If \code{TRUE}, uses this path without checking if any parent
-directories are existing projects.}
+\item{force}{If \code{TRUE}, use this path without checking the usual criteria.
+Use sparingly! The main application is to solve a temporary chicken-egg
+problem: you need to set the active project in order to add
+project-signalling infrastructure, such as initialising a Git repo or
+adding a DESCRIPTION file.}
 }
 \description{
 When attached, usethis uses \href{https://krlmlr.github.io/rprojroot/}{rprojroot}
