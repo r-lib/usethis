@@ -75,16 +75,19 @@ proj_get <- function() {
 proj_set <- function(path = ".", force = FALSE) {
   old <- proj$cur
 
-  if (!force) {
-    path <- proj_find(path)
+  if (force) {
+    proj$cur <- path
+    return(invisible(old))
   }
-  if (is.null(path)) {
+
+  new_proj <- proj_find(path)
+  if (is.null(new_proj)) {
     stop(
       "Path ", value(path), "does not appear to be inside a project or package.",
       call. = FALSE
     )
   }
-
+  proj$cur <- new_proj
   invisible(old)
 }
 
