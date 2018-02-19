@@ -150,26 +150,13 @@ use_tidy_eval <- function() {
 #' @rdname tidyverse
 use_tidy_contributing <- function() {
   check_uses_github()
-  if (!uses_travis()) {
-    message(
-      "Package ", value(project_name()), " doesn't have a Travis yaml file.\n",
-      "Don't forget to run ", code("use_tidy_ci()"), " or ",
-      code("use_travis()"), "."
-    )
-  }
-
-  gh <- gh::gh_tree_remote(proj_get())
-  travis_url <- file.path("https://travis-ci.org", gh$username, gh$repo)
-  github_url <- file.path("https://github.com", gh$username, gh$repo)
 
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy_contributing.md",
     ".github/CONTRIBUTING.md",
     data = list(
-      package = project_name(),
-      github_url = github_url,
-      travis_url = travis_url
+      package = project_name()
     )
   )
 }
