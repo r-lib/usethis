@@ -83,7 +83,8 @@ proj_set <- function(path = ".", force = FALSE) {
   new_proj <- proj_find(path)
   if (is.null(new_proj)) {
     stop(
-      "Path ", value(path), "does not appear to be inside a project or package.",
+      "Path ", value(path),
+      " does not appear to be inside a project or package.",
       call. = FALSE
     )
   }
