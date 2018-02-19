@@ -16,11 +16,11 @@ proj_set(path = ".", force = FALSE)
 directories are existing projects.}
 }
 \description{
-When attached, usethis uses rprojroot to find the project root of the
-current working directory. It establishes the project root by looking for
-for a \code{.here} file, an RStudio project, a package \code{DESCRIPTION}, a
-\code{remake.yml}, or a \code{.projectile} file. It then stores the project directory
-for use for the remainder of the session. If needed, you can manually
-override by running \code{proj_set()}.
+When attached, usethis uses \href{https://krlmlr.github.io/rprojroot/}{rprojroot}
+to find the project root of the current working directory. It establishes the
+project root by looking for a \code{.here} file, an RStudio project, a package
+\code{DESCRIPTION}, Git infrastructure, a \code{remake.yml} file, or a \code{.projectile}
+file. It then stores the project directory for use for the remainder of the
+session. If needed, you can manually override by running \code{proj_set()}.
 }
 \keyword{internal}

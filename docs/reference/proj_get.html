@@ -87,12 +87,12 @@
     <h1>Get and set the active project</h1>
     </div>
 
-    <p>When attached, usethis uses rprojroot to find the project root of the
-current working directory. It establishes the project root by looking for
-for a <code>.here</code> file, an RStudio project, a package <code>DESCRIPTION</code>, a
-<code>remake.yml</code>, or a <code>.projectile</code> file. It then stores the project directory
-for use for the remainder of the session. If needed, you can manually
-override by running <code>proj_set()</code>.</p>
+    <p>When attached, usethis uses <a href='https://krlmlr.github.io/rprojroot/'>rprojroot</a>
+to find the project root of the current working directory. It establishes the
+project root by looking for a <code>.here</code> file, an RStudio project, a package
+<code>DESCRIPTION</code>, Git infrastructure, a <code>remake.yml</code> file, or a <code>.projectile</code>
+file. It then stores the project directory for use for the remainder of the
+session. If needed, you can manually override by running <code>proj_set()</code>.</p>
 
     <pre class="usage"><span class='fu'>proj_get</span>()
 

@@ -46,12 +46,12 @@ check_is_package <- function(whos_asking = NULL) {
 
 #' Get and set the active project
 #'
-#' When attached, usethis uses rprojroot to find the project root of the
-#' current working directory. It establishes the project root by looking for
-#' for a `.here` file, an RStudio project, a package `DESCRIPTION`, a
-#' `remake.yml`, or a `.projectile` file. It then stores the project directory
-#' for use for the remainder of the session. If needed, you can manually
-#' override by running `proj_set()`.
+#' When attached, usethis uses [rprojroot](https://krlmlr.github.io/rprojroot/)
+#' to find the project root of the current working directory. It establishes the
+#' project root by looking for a `.here` file, an RStudio project, a package
+#' `DESCRIPTION`, Git infrastructure, a `remake.yml` file, or a `.projectile`
+#' file. It then stores the project directory for use for the remainder of the
+#' session. If needed, you can manually override by running `proj_set()`.
 #'
 #' @param path Path to set.
 #' @param force If `TRUE`, uses this path without checking if any parent
