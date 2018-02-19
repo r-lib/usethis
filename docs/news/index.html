@@ -92,6 +92,7 @@
     <div class="section level1">
 <h1>usethis 1.2.0.9000</h1>
 <ul>
+<li><p>usethis has a website: <a href="http://usethis.r-lib.org" class="uri">http://usethis.r-lib.org</a> (#217).</p></li>
 <li><p><code>edit_*()</code> functions now return the target path, invisibly (#255).</p></li>
 <li><p><code><a href="../reference/edit.html">edit_git_ignore(scope = "user")</a></code> prefers <code>~/.gitignore</code>, but detects an existing <code>~/.gitignore_global</code>, if it exists. If a new global gitignore file is created, it is created as <code>~/.gitignore</code> and recorded in user’s git config as the <code>core.excludesfile</code> (#255).</p></li>
 <li><p><code><a href="../reference/create_from_github.html">create_from_github()</a></code> gains several arguments and new functionality. The <code>protocol</code> argument lets user convey whether remote URLs should be ssh or https. In the case of “fork and clone”, the original repo is added as <code>upstream</code> remote. It is now possible – although rarely necessary – to directly specify the GitHub PAT, credentials (in git2r form), and GitHub host (#214, #214, #253).</p></li>

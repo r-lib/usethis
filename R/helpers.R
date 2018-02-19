@@ -190,13 +190,13 @@ use_dependency <- function(package, type, version = "*") {
   invisible()
 }
 
-#' Use a directory.
+#' Use a directory
 #'
 #' `use_directory()` creates a directory (if it does not already exist) in the
-#' package root dir. This function powers many of the other `use_` functions
-#' such as [use_data()] and [use_vignette()].
+#' project's top-level directory. This function powers many of the other `use_`
+#' functions such as [use_data()] and [use_vignette()].
 #'
-#' @param path Path of the directory to create (relative to `base_path`).
+#' @param path Path of the directory to create, relative to the project.
 #' @inheritParams use_template
 #'
 #' @export

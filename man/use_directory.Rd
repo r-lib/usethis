@@ -2,19 +2,19 @@
 % Please edit documentation in R/helpers.R
 \name{use_directory}
 \alias{use_directory}
-\title{Use a directory.}
+\title{Use a directory}
 \usage{
 use_directory(path, ignore = FALSE)
 }
 \arguments{
-\item{path}{Path of the directory to create (relative to \code{base_path}).}
+\item{path}{Path of the directory to create, relative to the project.}
 
 \item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
 }
 \description{
 \code{use_directory()} creates a directory (if it does not already exist) in the
-package root dir. This function powers many of the other \code{use_} functions
-such as \code{\link[=use_data]{use_data()}} and \code{\link[=use_vignette]{use_vignette()}}.
+project's top-level directory. This function powers many of the other \code{use_}
+functions such as \code{\link[=use_data]{use_data()}} and \code{\link[=use_vignette]{use_vignette()}}.
 }
 \examples{
 \dontrun{
