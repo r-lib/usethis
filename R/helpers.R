@@ -243,26 +243,13 @@ bump_version <- function(ver, which) {
 
   choice <- pmatch(which, types)
 
-  ver <- as.integer(strsplit(as.character(ver), "\\.")[[1]])
+  ver <- as.character(ver)
+  string_text <- paste0("Version: ", ver)
 
-  inc <- if (choice == 4 && length(ver) < 4) {
-    9000
-  } else {
-    1
-  }
-  if (choice > length(ver)) {
-    ver <- c(ver, rep(0, choice - length(ver)))
-  }
+  ver_out <- suppressMessages(
+    desc::desc(text = string_text)$bump_version(types[choice])$get("Version")[[1]]
+  )
 
-  ver[choice] <- ver[choice] + inc
-
-  if (choice < length(ver)) {
-    ver[(choice + 1):length(ver)] <- 0
-  }
-
-  if (length(ver) > 3 && all(ver[4:length(ver)] == 0)) {
-    ver <- ver[1:3]
-  }
-
-  package_version(paste(ver, collapse = "."))
+  package_version(ver_out)
 }
+
