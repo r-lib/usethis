@@ -37,9 +37,10 @@ These functions create an R project:
 \item \code{create_package()} creates an R package
 \item \code{create_project()} creates a non-package project, i.e. a data analysis
 project
+}
+
 Both functions can add project infrastructure to an existing directory of
 files or can create a completely new project. Both functions change the
 active project, so that subsequent \code{use_*()} calls affect the project
 that you've just created. See \code{\link[=proj_set]{proj_set()}} to manually reset it.
-}
 }

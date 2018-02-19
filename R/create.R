@@ -1,10 +1,11 @@
 #' Create a package or project
 #'
+#' @description
 #' These functions create an R project:
 #'   * `create_package()` creates an R package
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
 #'   project
-
+#'
 #' Both functions can add project infrastructure to an existing directory of
 #' files or can create a completely new project. Both functions change the
 #' active project, so that subsequent `use_*()` calls affect the project

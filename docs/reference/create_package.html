@@ -90,12 +90,12 @@
     <p>These functions create an R project:</p><ul>
 <li><p><code>create_package()</code> creates an R package</p></li>
 <li><p><code>create_project()</code> creates a non-package project, i.e. a data analysis
-project
-Both functions can add project infrastructure to an existing directory of
+project</p></li>
+</ul>
+    <p>Both functions can add project infrastructure to an existing directory of
 files or can create a completely new project. Both functions change the
 active project, so that subsequent <code>use_*()</code> calls affect the project
-that you've just created. See <code><a href='proj_get.html'>proj_set()</a></code> to manually reset it.</p></li>
-</ul>
+that you've just created. See <code><a href='proj_get.html'>proj_set()</a></code> to manually reset it.</p>
 
     <pre class="usage"><span class='fu'>create_package</span>(<span class='no'>path</span>, <span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"devtools.desc"</span>),
   <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw pkg'>rstudioapi</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/rstudioapi/topics/isAvailable'>isAvailable</a></span>(), <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'>interactive</span>())
