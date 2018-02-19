@@ -34,8 +34,6 @@
 
 * GitHub conventions common to tidyverse packages are enacted by `use_tidy_contributing()`, `use_tidy_issue_template()`, and `use_tidy_support()` (@batpigandme, #143, #166).
 
-* `proj_path()` forms paths relative to the current usethis project. Note: mostly useful internally. User code should probably use [here](https://krlmlr.github.io/here/) or [rprojroot](https://krlmlr.github.io/rprojroot/) directly (#149).
-
 Other changes
 
 * New projects that don't exhibit other obvious criteria for being a "project" will include a sentinel, empty file named `.here`, so they can be recognized as a project.
