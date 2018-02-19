@@ -39,18 +39,18 @@ NULL.}
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
 described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
-variable.}
+variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3". You can set this globally using the
-\code{GITHUB_API_URL} env var.}
+"https://github.hostname.com/api/v3"}
 }
 \description{
 Creates a new local Git repository from a repository on GitHub. It is highly
 recommended that you pre-configure or pass a GitHub personal access token
-(PAT) as described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}}. In particular, a PAT is required in
-order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}.
+(PAT), which is facilitated by \code{\link[=browse_github_pat]{browse_github_pat()}}. In particular, a PAT is
+required in order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}. It is also required
+by \code{\link[=use_github]{use_github()}}, which connects existing local projects to GitHub.
 }
 \examples{
 \dontrun{

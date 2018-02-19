@@ -23,12 +23,11 @@ to your workflow).}
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
 described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
-variable.}
+variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3". You can set this globally using the
-\code{GITHUB_API_URL} env var.}
+"https://github.hostname.com/api/v3"}
 }
 \description{
 \code{use_github_labels()} creates new labels and/or changes label

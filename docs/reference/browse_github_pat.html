@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Manage GitHub issue labels — use_github_labels • usethis</title>
+<title>Create a GitHub personal access token — browse_github_pat • usethis</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -84,44 +84,34 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Manage GitHub issue labels</h1>
+    <h1>Create a GitHub personal access token</h1>
     </div>
 
-    <p><code>use_github_labels()</code> creates new labels and/or changes label
-colours. It does not generally remove labels. But if you set
-<code>delete_default = TRUE</code>, it will delete labels that are (1) flagged by the
-API as being <a href='https://help.github.com/articles/about-labels/#using-default-labels'>GitHub default labels</a>
-and (2) not present in the labels you provide via <code>labels</code>.
-    <code>tidy_labels()</code> returns the labels and colours commonly used by tidyverse
-packages.</p>
+    <p>Opens a browser window to the GitHub page where you can generate a <a href='https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line'>Personal Access Token</a>.
+Make sure you have signed up for a free <a href='https://github.com/'>GitHub.com</a>
+account and that you are signed in. Click "Generate token" after you have
+verified the scopes. Copy the token right away! You probably want to store it
+in <code>.Renviron</code> as the <code>GITHUB_PAT</code> environment variable. <code><a href='edit.html'>edit_r_environ()</a></code>
+can help you do that. Use <code><a href='http://www.rdocumentation.org/packages/gh/topics/gh_whoami'>gh::gh_whoami()</a></code> to get information on an existing
+token.</p>
 
-    <pre class="usage"><span class='fu'>use_github_labels</span>(<span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>tidy_labels</span>(), <span class='kw'>delete_default</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-
-<span class='fu'>tidy_labels</span>()</pre>
+    <pre class="usage"><span class='fu'>browse_github_pat</span>(<span class='kw'>scopes</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"repo"</span>, <span class='st'>"gist"</span>), <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"R:GITHUB_PAT"</span>,
+  <span class='kw'>host</span> <span class='kw'>=</span> <span class='st'>"https://github.com"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>labels</th>
-      <td><p>Named character vector of labels. The names are the label text,
-such as "bug", and the values are the label colours in hexadecimal, such as
-"e02a2a". First, labels that don't yet exist are created, then label
-colours are updated.</p></td>
+      <th>scopes</th>
+      <td><p>Character vector of token permissions. These are just defaults
+that will be pre-selected in the web form. You can select the final values
+on the GitHub page. Read more about GitHub API scopes at
+<a href='https://developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps/'>https://developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps/</a>.</p></td>
     </tr>
     <tr>
-      <th>delete_default</th>
-      <td><p>If <code>TRUE</code>, will remove GitHub default labels that do
-not appear in the <code>labels</code> vector (presumably defaults that aren't relevant
-to your workflow).</p></td>
-    </tr>
-    <tr>
-      <th>auth_token</th>
-      <td><p>Provide a personal access token (PAT) from
-<a href='https://github.com/settings/tokens'>https://github.com/settings/tokens</a>. If <code>NULL</code>, will use the logic
-described in <code><a href='http://www.rdocumentation.org/packages/gh/topics/gh_whoami'>gh::gh_whoami()</a></code> to look for a token stored in an environment
-variable. Use <code><a href='browse_github_pat.html'>browse_github_pat()</a></code> to help set up your PAT.</p></td>
+      <th>description</th>
+      <td><p>Short description or nickname for the token. It helps you
+distinguish various tokens on GitHub.</p></td>
     </tr>
     <tr>
       <th>host</th>
@@ -131,34 +121,20 @@ GitHub enterprise instance, for example,
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="label-usage"><a class="anchor" href="#label-usage"></a>Label usage</h2>
-
-    
-    <p>Labels are used as part of the issue-triage process, designed to minimise the
-time spent re-reading issues. The absence of a label indicates that an issue
-is new, and has yet to be triaged.</p><ul>
-<li><p><code>reprex</code> indicates that an issue does not have a minimal reproducible
-example, and that a reply has been sent requesting one from the user.</p></li>
-<li><p><code>bug</code> type, indicates an unexpected problem or unintended behavior.</p></li>
-<li><p><code>feature</code> type, indicates a feature request or enhancement.</p></li>
-<li><p><code>docs</code> type, indicates an issue with the documentation.</p></li>
-<li><p><code>performance</code> indicates a non-breaking area related to performance.</p></li>
-<li><p><code>wip</code> indicates that someone else is working on it or has promised to.</p></li>
-<li><p><code>good first issue</code> indicates a good issue for first-time contributors.</p></li>
-<li><p><code>help wanted</code> indicates that a maintainer wants help on an issue.</p></li>
-</ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>## typical use in, e.g., a new tidyverse project</span>
-<span class='fu'>use_github_labels</span>(<span class='kw'>delete_default</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>browse_github_pat</span>()
+<span class='co'>## COPY THE PAT!!!</span>
+<span class='co'>## almost certainly to be followed by ...</span>
+<span class='fu'><a href='edit.html'>edit_r_environ</a></span>()
+<span class='co'>## which helps you store the PAT as an env var</span>
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#label-usage">Label usage</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

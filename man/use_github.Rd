@@ -25,12 +25,11 @@ NULL.}
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
 described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
-variable.}
+variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3". You can set this globally using the
-\code{GITHUB_API_URL} env var.}
+"https://github.hostname.com/api/v3"}
 }
 \description{
 \code{use_github()} requires that your project have a local git repository, which
@@ -45,14 +44,15 @@ links (unless they already exist).
 
 A new GitHub repo will be created via the GitHub API, therefore you must
 make a \href{https://github.com/settings/tokens}{GitHub personal access token (PAT)} available. You can either
-provide this directly via the auth_token \code{argument} or store it in an
-environment variable, as described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}}.
+provide this directly via the \code{auth_token} argument or store it in an
+environment variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to get help obtaining and
+storing your PAT. See \code{\link[gh:gh_whoami]{gh::gh_whoami()}} for even more detail.
 
 The argument \code{protocol} reflects how you wish to authenticate with GitHub
 for this repo in the long run. For either \code{protocol}, a remote named
 "origin" is created, an initial push is made using the specified
 \code{protocol}, and a remote tracking branch is set. The URL of the "origin"
-remote has the form \code{git@github.com:&lt;USERNAME&gt;/&lt;REPO&gt;.git} (\code{protocol = "ssh"}, the default) or \code{https://github.com/&lt;USERNAME&gt;/&lt;REPO&gt;.git}
+remote has the form \code{git@github.com:<USERNAME>/<REPO>.git} (\code{protocol = "ssh"}, the default) or \code{https://github.com/<USERNAME>/<REPO>.git}
 (\code{protocol = "https"}). For \code{protocol = "ssh"}, it is assumed that
 public and private keys are in the default locations, \code{~/.ssh/id_rsa.pub}
 and \code{~/.ssh/id_rsa}, respectively, and that \code{ssh-agent} is configured to
