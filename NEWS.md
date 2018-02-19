@@ -1,5 +1,8 @@
 # usethis 1.2.0.9000
 
+* `use_bioc_badge` creates a Bioconductor build badge / shield with a link to
+the build report (#271, @LiNk-NY).
+
 * usethis has a website: <http://usethis.r-lib.org> (#217).
 
 * `edit_*()` functions now return the target path, invisibly (#255).
