@@ -17,20 +17,22 @@ use_version <- function(which = NULL) {
     )
   }
 
+  if(is.null(which) & !interactive()) stop()
+
   types <- c("major", "minor", "patch", "dev")
 
   ver <- desc::desc_get_version(proj_get())
 
-  vers <- c(bump_version(ver, 1),
-            bump_version(ver, 2),
-            bump_version(ver, 3),
-            bump_version(ver, 4))
+  vers <- c(bump_version(ver, "major"),
+            bump_version(ver, "minor"),
+            bump_version(ver, "patch"),
+            bump_version(ver, "dev"))
 
   if(is.null(which)) {
     choice <- utils::menu(choices = paste0(types, " --> ", vers),
                            title = paste0("Current version is ", paste0(ver),
                                           "\nwhat part to increment?"))
-    which <- types[which]
+    which <- types[choice]
   } else {
     choice <- pmatch(which, types)
   }

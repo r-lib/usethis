@@ -238,7 +238,11 @@ view_url <- function(..., open = interactive()) {
   invisible(url)
 }
 
-bump_version <- function(ver, choice) {
+bump_version <- function(ver, which) {
+  types <- c("major", "minor", "patch", "dev")
+
+  choice <- pmatch(which, types)
+
   ver <- as.integer(strsplit(as.character(ver), "\\.")[[1]])
 
   inc <- if (choice == 4 && length(ver) < 4) {
