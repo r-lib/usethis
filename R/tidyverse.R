@@ -153,7 +153,7 @@ use_tidy_contributing <- function() {
 
   use_directory(".github", ignore = TRUE)
   use_template(
-    "tidy_contributing.md",
+    "tidy-contributing.md",
     ".github/CONTRIBUTING.md",
     data = list(
       package = project_name()
