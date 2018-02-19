@@ -19,8 +19,7 @@ organisation. You must have access to create repositories.}
 \item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
 
 \item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific ssh
-credentials or NULL for default ssh key and ssh-agent behaviour. Default is
-NULL.}
+credentials or NULL for default ssh key and ssh-agent behaviour.}
 
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
@@ -32,15 +31,15 @@ GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3"}
 }
 \description{
-\code{use_github()} requires that your project have a local git repository, which
-you can initialize with \code{\link[=use_git]{use_git()}}, if needed. \code{use_github()} then creates
-an associated repo on GitHub, adds that to your local repo as a remote, and
-makes an initial push to synchronize. \code{use_github_links()} populates the
-\code{URL} and \code{BugReports} fields of a GitHub-using R package with appropriate
-links (unless they already exist).
+\code{use_github()} takes a local project, creates an associated repo on GitHub,
+adds it to your local repo as the \code{origin} remote, and makes an initial push
+to synchronize. \code{use_github()} requires that your project already be a Git
+repository, which you can accomplish with \code{\link[=use_git]{use_git()}}, if needed.
+
+\code{use_github_links()} populates the \code{URL} and \code{BugReports} fields of a
+GitHub-using R package with appropriate links (unless they already exist).
 }
 \section{Authentication}{
-
 
 A new GitHub repo will be created via the GitHub API, therefore you must
 make a \href{https://github.com/settings/tokens}{GitHub personal access token (PAT)} available. You can either
@@ -49,16 +48,18 @@ environment variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} 
 storing your PAT. See \code{\link[gh:gh_whoami]{gh::gh_whoami()}} for even more detail.
 
 The argument \code{protocol} reflects how you wish to authenticate with GitHub
-for this repo in the long run. For either \code{protocol}, a remote named
-"origin" is created, an initial push is made using the specified
-\code{protocol}, and a remote tracking branch is set. The URL of the "origin"
-remote has the form \code{git@github.com:<USERNAME>/<REPO>.git} (\code{protocol = "ssh"}, the default) or \code{https://github.com/<USERNAME>/<REPO>.git}
-(\code{protocol = "https"}). For \code{protocol = "ssh"}, it is assumed that
-public and private keys are in the default locations, \code{~/.ssh/id_rsa.pub}
-and \code{~/.ssh/id_rsa}, respectively, and that \code{ssh-agent} is configured to
-manage any associated passphrase.  Alternatively, specify a
-\code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} object via the \code{credentials} parameter. Read more
-about ssh setup in \href{http://happygitwithr.com/ssh-keys.html}{Happy Git}.
+for this repo in the long run. This determines the form of the URL for the
+\code{origin} remote:
+\itemize{
+\item \code{protocol = "ssh"}: \code{git@github.com:&lt;USERNAME&gt;/&lt;REPO&gt;.git}
+\item \code{protocol = "https"}: \code{https://github.com/&lt;USERNAME&gt;/&lt;REPO&gt;.git}
+}
+
+For \code{protocol = "ssh"}, it is assumed that public and private keys are in the
+default locations, \code{~/.ssh/id_rsa.pub} and \code{~/.ssh/id_rsa}, respectively, and
+that \code{ssh-agent} is configured to manage any associated passphrase.
+Alternatively, specify a \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} object via the \code{credentials}
+parameter. Read more about ssh setup in \href{http://happygitwithr.com/ssh-keys.html}{Happy Git}, especially the \href{http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting}{troubleshooting section}.
 }
 
 \examples{
