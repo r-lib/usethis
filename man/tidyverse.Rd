@@ -11,6 +11,7 @@
 \alias{use_tidy_support}
 \alias{use_tidy_coc}
 \alias{use_tidy_github}
+\alias{use_tidy_style}
 \title{Helpers for the tidyverse}
 \usage{
 use_tidy_ci(browse = interactive())
@@ -30,6 +31,8 @@ use_tidy_support()
 use_tidy_coc()
 
 use_tidy_github()
+
+use_tidy_style(strict = TRUE)
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -37,6 +40,9 @@ package.}
 
 \item{overwrite}{By default (\code{FALSE}), only dependencies without version
 specifications will be modified. Set to \code{TRUE} to modify all dependencies.}
+
+\item{strict}{Boolean indicating whether or not a strict version of styling
+should be applied. See \code{\link[styler:tidyverse_style]{styler::tidyverse_style()}} for details.}
 }
 \description{
 These helpers follow tidyverse conventions which are generally a little
@@ -51,6 +57,8 @@ works on all versions of R starting at 3.1.
 dependencies.
 \item \code{use_tidy_eval()}: imports a standard set of helpers to facilitate
 programming with the tidy eval toolkit.
+\item \code{use_tidy_style()}: styles source code according to the \href{http://style.tidyverse.org}{tidyverse style guide}. This function will overwrite files! See
+below for usage advice.
 \item \code{use_tidy_versions()}: pins all dependencies to require at least
 the currently installed version.
 \item \code{use_tidy_contributing()}: adds standard tidyverse contributing guidelines.
@@ -64,3 +72,16 @@ document in a \code{.github/} subdirectory.
 \code{use_tidy_coc()}.
 }
 }
+\section{\code{use_tidy_style()}}{
+
+Uses the \href{http://styler.r-lib.org}{styler package} package to style all code
+in a package, project, or directory, according to the \href{http://style.tidyverse.org}{tidyverse style guide}.
+
+\strong{Warning:} This function will overwrite files! It is strongly suggested to
+only style files that are under version control or to first create a backup
+copy.
+
+Invisibly returns a data frame with one row per file, that indicates whether
+styling caused a change.
+}
+

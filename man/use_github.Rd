@@ -3,7 +3,7 @@
 \name{use_github}
 \alias{use_github}
 \alias{use_github_links}
-\title{Connect a local repo with GitHub.}
+\title{Connect a local repo with GitHub}
 \usage{
 use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
   "https"), credentials = NULL, auth_token = NULL, host = NULL)
@@ -52,7 +52,7 @@ The argument \code{protocol} reflects how you wish to authenticate with GitHub
 for this repo in the long run. For either \code{protocol}, a remote named
 "origin" is created, an initial push is made using the specified
 \code{protocol}, and a remote tracking branch is set. The URL of the "origin"
-remote has the form \code{git@github.com:<USERNAME>/<REPO>.git} (\code{protocol = "ssh"}, the default) or \code{https://github.com/<USERNAME>/<REPO>.git}
+remote has the form \code{git@github.com:&lt;USERNAME&gt;/&lt;REPO&gt;.git} (\code{protocol = "ssh"}, the default) or \code{https://github.com/&lt;USERNAME&gt;/&lt;REPO&gt;.git}
 (\code{protocol = "https"}). For \code{protocol = "ssh"}, it is assumed that
 public and private keys are in the default locations, \code{~/.ssh/id_rsa.pub}
 and \code{~/.ssh/id_rsa}, respectively, and that \code{ssh-agent} is configured to

@@ -2,7 +2,7 @@
 % Please edit documentation in R/git.R
 \name{use_git_hook}
 \alias{use_git_hook}
-\title{Add a git hook.}
+\title{Add a git hook}
 \usage{
 use_git_hook(hook, script)
 }

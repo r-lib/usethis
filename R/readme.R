@@ -1,4 +1,4 @@
-#' Create README files.
+#' Create README files
 #'
 #' Creates skeleton README files with sections for
 #' \itemize{

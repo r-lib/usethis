@@ -1,4 +1,4 @@
-#' Manage GitHub issue labels.
+#' Manage GitHub issue labels
 #'
 #' @description `use_github_labels()` creates new labels and/or changes label
 #'   colours. It does not generally remove labels. But if you set

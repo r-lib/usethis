@@ -3,7 +3,7 @@
 \name{use_readme_rmd}
 \alias{use_readme_rmd}
 \alias{use_readme_md}
-\title{Create README files.}
+\title{Create README files}
 \usage{
 use_readme_rmd(open = interactive())
 

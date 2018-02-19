@@ -15,6 +15,10 @@
 #' * `use_tidy_eval()`: imports a standard set of helpers to facilitate
 #'   programming with the tidy eval toolkit.
 #'
+#' * `use_tidy_style()`: styles source code according to the [tidyverse style
+#' guide](http://style.tidyverse.org). This function will overwrite files! See
+#' below for usage advice.
+#'
 #' * `use_tidy_versions()`: pins all dependencies to require at least
 #'   the currently installed version.
 #'
@@ -31,6 +35,21 @@
 #' * `use_tidy_github()`: convenience wrapper that calls
 #' `use_tidy_contributing()`, `use_tidy_issue_template()`, `use_tidy_support()`,
 #' `use_tidy_coc()`.
+#'
+#' @section `use_tidy_style()`:
+#' Uses the [styler package](http://styler.r-lib.org) package to style all code
+#' in a package, project, or directory, according to the [tidyverse style
+#' guide](http://style.tidyverse.org).
+#'
+#' **Warning:** This function will overwrite files! It is strongly suggested to
+#' only style files that are under version control or to first create a backup
+#' copy.
+#'
+#' Invisibly returns a data frame with one row per file, that indicates whether
+#' styling caused a change.
+#'
+#' @param strict Boolean indicating whether or not a strict version of styling
+#'   should be applied. See [styler::tidyverse_style()] for details.
 #'
 #' @name tidyverse
 NULL
@@ -208,4 +227,23 @@ use_tidy_github <- function() {
   use_tidy_issue_template()
   use_tidy_support()
   use_tidy_coc()
+}
+
+#' @export
+#' @rdname tidyverse
+use_tidy_style <- function(strict = TRUE) {
+  check_installed("styler")
+  check_uncommitted_changes()
+  if (is_package()) {
+    styled <- styler::style_pkg(proj_get(),
+                                style = styler::tidyverse_style, strict = strict
+    )
+  } else {
+    styled <- styler::style_dir(proj_get(),
+                                style = styler::tidyverse_style, strict = strict
+    )
+  }
+  cat_line()
+  done("Styled project according to the tidyverse style guide")
+  invisible(styled)
 }

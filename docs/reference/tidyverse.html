@@ -107,7 +107,9 @@ commonly used packages.</p>
 
 <span class='fu'>use_tidy_coc</span>()
 
-<span class='fu'>use_tidy_github</span>()</pre>
+<span class='fu'>use_tidy_github</span>()
+
+<span class='fu'>use_tidy_style</span>(<span class='kw'>strict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -122,6 +124,11 @@ package.</p></td>
       <td><p>By default (<code>FALSE</code>), only dependencies without version
 specifications will be modified. Set to <code>TRUE</code> to modify all dependencies.</p></td>
     </tr>
+    <tr>
+      <th>strict</th>
+      <td><p>Boolean indicating whether or not a strict version of styling
+should be applied. See <code><a href='http://www.rdocumentation.org/packages/styler/topics/tidyverse_style'>styler::tidyverse_style()</a></code> for details.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -133,6 +140,8 @@ works on all versions of R starting at 3.1.</p></li>
 dependencies.</p></li>
 <li><p><code>use_tidy_eval()</code>: imports a standard set of helpers to facilitate
 programming with the tidy eval toolkit.</p></li>
+<li><p><code>use_tidy_style()</code>: styles source code according to the <a href='http://style.tidyverse.org'>tidyverse style guide</a>. This function will overwrite files! See
+below for usage advice.</p></li>
 <li><p><code>use_tidy_versions()</code>: pins all dependencies to require at least
 the currently installed version.</p></li>
 <li><p><code>use_tidy_contributing()</code>: adds standard tidyverse contributing guidelines.</p></li>
@@ -145,6 +154,16 @@ document in a <code>.github/</code> subdirectory.</p></li>
 <code>use_tidy_contributing()</code>, <code>use_tidy_issue_template()</code>, <code>use_tidy_support()</code>,
 <code>use_tidy_coc()</code>.</p></li>
 </ul>
+    <h2 class="hasAnchor" id="-code-use-tidy-style-code-"><a class="anchor" href="#-code-use-tidy-style-code-"></a>&lt;code&gt;use_tidy_style()&lt;/code&gt;</h2>
+
+    
+    <p>Uses the <a href='http://styler.r-lib.org'>styler package</a> package to style all code
+in a package, project, or directory, according to the <a href='http://style.tidyverse.org'>tidyverse style guide</a>.
+    <strong>Warning:</strong> This function will overwrite files! It is strongly suggested to
+only style files that are under version control or to first create a backup
+copy.</p>
+<p>Invisibly returns a data frame with one row per file, that indicates whether
+styling caused a change.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -152,6 +171,7 @@ document in a <code>.github/</code> subdirectory.</p></li>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#-code-use-tidy-style-code-">&lt;code&gt;use_tidy_style()&lt;/code&gt;</a></li>
     </ul>
 
   </div>

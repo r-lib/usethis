@@ -1,4 +1,4 @@
-#' Connect a local repo with GitHub.
+#' Connect a local repo with GitHub
 #'
 #' `use_github()` requires that your project have a local git repository, which
 #' you can initialize with [use_git()], if needed. `use_github()` then creates

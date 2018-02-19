@@ -1,4 +1,4 @@
-#' Initialise a git repository.
+#' Initialise a git repository
 #'
 #' `use_git` initialises a git repository, adds important files
 #' to `.gitignore`, and commits all files.
@@ -32,7 +32,7 @@ use_git <- function(message = "Initial commit") {
 
 }
 
-#' Add a git hook.
+#' Add a git hook
 #'
 #' Sets up a git hook using specified script. Creates hook directory if
 #' needed, and sets correct permissions on hook.

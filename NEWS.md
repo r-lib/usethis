@@ -1,5 +1,7 @@
 # usethis 1.2.0.9000
 
+* usethis has a website: <http://usethis.r-lib.org> (#217).
+
 * `edit_*()` functions now return the target path, invisibly (#255).
 
 * `edit_git_ignore(scope = "user")` prefers `~/.gitignore`, but detects an existing `~/.gitignore_global`, if it exists. If a new global gitignore file is created, it is created as `~/.gitignore` and recorded in user's git config as the `core.excludesfile` (#255).

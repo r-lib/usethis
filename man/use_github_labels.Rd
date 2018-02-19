@@ -3,7 +3,7 @@
 \name{use_github_labels}
 \alias{use_github_labels}
 \alias{tidy_labels}
-\title{Manage GitHub issue labels.}
+\title{Manage GitHub issue labels}
 \usage{
 use_github_labels(labels = tidy_labels(), delete_default = FALSE,
   auth_token = NULL, host = NULL)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/git.R
 \name{use_git}
 \alias{use_git}
-\title{Initialise a git repository.}
+\title{Initialise a git repository}
 \usage{
 use_git(message = "Initial commit")
 }
