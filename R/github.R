@@ -12,8 +12,9 @@
 #'   A new GitHub repo will be created via the GitHub API, therefore you must
 #'   make a [GitHub personal access token
 #'   (PAT)](https://github.com/settings/tokens) available. You can either
-#'   provide this directly via the auth_token `argument` or store it in an
-#'   environment variable, as described in [gh::gh_whoami()].
+#'   provide this directly via the `auth_token` argument or store it in an
+#'   environment variable. Use [browse_github_pat()] to get help obtaining and
+#'   storing your PAT. See [gh::gh_whoami()] for even more detail.
 #'
 #'   The argument `protocol` reflects how you wish to authenticate with GitHub
 #'   for this repo in the long run. For either `protocol`, a remote named
@@ -34,12 +35,11 @@
 #' @param auth_token Provide a personal access token (PAT) from
 #'   \url{https://github.com/settings/tokens}. If `NULL`, will use the logic
 #'   described in [gh::gh_whoami()] to look for a token stored in an environment
-#'   variable.
+#'   variable. Use [browse_github_pat()] to help set up your PAT.
 #' @param private If `TRUE`, creates a private repository.
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
-#'   "https://github.hostname.com/api/v3". You can set this globally using the
-#'   `GITHUB_API_URL` env var.
+#'   "https://github.hostname.com/api/v3"
 #' @param protocol transfer protocol, either "ssh" (the default) or "https"
 #' @param credentials A [git2r::cred_ssh_key()] specifying specific ssh
 #'   credentials or NULL for default ssh key and ssh-agent behaviour. Default is
@@ -179,16 +179,36 @@ use_github_links <- function(auth_token = NULL,
   invisible()
 }
 
-#' @rdname use_github
-#' @param scopes Character vector of token permissions. These are only defaults
-#'   that will be pre-checked. You can select the final values on the Github
-#'   page. Read more about GitHub API scopes at
+#' Create a GitHub personal access token
+#'
+#' Opens a browser window to the GitHub page where you can generate a [Personal
+#' Access
+#' Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line).
+#' Make sure you have signed up for a free [GitHub.com](https://github.com/)
+#' account and that you are signed in. Click "Generate token" after you have
+#' verified the scopes. Copy the token right away! You probably want to store it
+#' in `.Renviron` as the `GITHUB_PAT` environment variable. [edit_r_environ()]
+#' can help you do that. Use [gh::gh_whoami()] to get information on an existing
+#' token.
+#'
+#' @param scopes Character vector of token permissions. These are just defaults
+#'   that will be pre-selected in the web form. You can select the final values
+#'   on the GitHub page. Read more about GitHub API scopes at
 #'   <https://developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps/>.
-#' @param description Short description or nickname for the token. Helps you distinguish various tokens on GitHub.
-#' @description The `browse_github_pat()` function opens a browser window on the
-#'   GitHub page where you can generate a Personal Access Token.
+#'
+#' @param description Short description or nickname for the token. It helps you
+#'   distinguish various tokens on GitHub.
+#' @inheritParams use_github
 #' @export
-browse_github_pat <- function(scopes = c("gist", "public_repo"),
+#' @examples
+#' \dontrun{
+#' browse_github_pat()
+#' ## COPY THE PAT!!!
+#' ## almost certainly to be followed by ...
+#' edit_r_environ()
+#' ## which helps you store the PAT as an env var
+#' }
+browse_github_pat <- function(scopes = c("repo", "gist"),
                               description = "R:GITHUB_PAT",
                               host = "https://github.com") {
   scopes <- collapse(scopes, ",")
@@ -196,8 +216,12 @@ browse_github_pat <- function(scopes = c("gist", "public_repo"),
     "%s/settings/tokens/new?scopes=%s&description=%s",
     host, scopes, description
   )
-  message("If your browser does not open please navigate to:\n", url)
-  utils::browseURL(url)
+  view_url(url)
+  todo(
+    "Call ", code("edit_r_environ()"), " to open ", value(".Renviron"),
+    ", and store your PAT with a line like:\n", "GITHUB_PAT=xxxyyyzzz"
+  )
+  todo("Make sure ", value(".Renviron"), " ends with a newline!")
 }
 
 uses_github <- function(base_path = proj_get()) {

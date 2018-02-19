@@ -3,16 +3,12 @@
 \name{use_github}
 \alias{use_github}
 \alias{use_github_links}
-\alias{browse_github_pat}
 \title{Connect a local repo with GitHub}
 \usage{
 use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
   "https"), credentials = NULL, auth_token = NULL, host = NULL)
 
 use_github_links(auth_token = NULL, host = "https://api.github.com")
-
-browse_github_pat(scopes = c("gist", "public_repo"),
-  description = "R:GITHUB_PAT", host = "https://github.com")
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this
@@ -29,19 +25,11 @@ NULL.}
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
 described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
-variable.}
+variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3". You can set this globally using the
-\code{GITHUB_API_URL} env var.}
-
-\item{scopes}{Character vector of token permissions. These are only defaults
-that will be pre-checked. You can select the final values on the Github
-page. Read more about GitHub API scopes at
-\url{https://developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps/}.}
-
-\item{description}{Short description or nickname for the token. Helps you distinguish various tokens on GitHub.}
+"https://github.hostname.com/api/v3"}
 }
 \description{
 \code{use_github()} requires that your project have a local git repository, which
@@ -50,23 +38,21 @@ an associated repo on GitHub, adds that to your local repo as a remote, and
 makes an initial push to synchronize. \code{use_github_links()} populates the
 \code{URL} and \code{BugReports} fields of a GitHub-using R package with appropriate
 links (unless they already exist).
-
-The \code{browse_github_pat()} function opens a browser window on the
-GitHub page where you can generate a Personal Access Token.
 }
 \section{Authentication}{
 
 
 A new GitHub repo will be created via the GitHub API, therefore you must
 make a \href{https://github.com/settings/tokens}{GitHub personal access token (PAT)} available. You can either
-provide this directly via the auth_token \code{argument} or store it in an
-environment variable, as described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}}.
+provide this directly via the \code{auth_token} argument or store it in an
+environment variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to get help obtaining and
+storing your PAT. See \code{\link[gh:gh_whoami]{gh::gh_whoami()}} for even more detail.
 
 The argument \code{protocol} reflects how you wish to authenticate with GitHub
 for this repo in the long run. For either \code{protocol}, a remote named
 "origin" is created, an initial push is made using the specified
 \code{protocol}, and a remote tracking branch is set. The URL of the "origin"
-remote has the form \code{git@github.com:&lt;USERNAME&gt;/&lt;REPO&gt;.git} (\code{protocol = "ssh"}, the default) or \code{https://github.com/&lt;USERNAME&gt;/&lt;REPO&gt;.git}
+remote has the form \code{git@github.com:<USERNAME>/<REPO>.git} (\code{protocol = "ssh"}, the default) or \code{https://github.com/<USERNAME>/<REPO>.git}
 (\code{protocol = "https"}). For \code{protocol = "ssh"}, it is assumed that
 public and private keys are in the default locations, \code{~/.ssh/id_rsa.pub}
 and \code{~/.ssh/id_rsa}, respectively, and that \code{ssh-agent} is configured to

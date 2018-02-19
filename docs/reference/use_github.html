@@ -126,14 +126,13 @@ NULL.</p></td>
       <td><p>Provide a personal access token (PAT) from
 <a href='https://github.com/settings/tokens'>https://github.com/settings/tokens</a>. If <code>NULL</code>, will use the logic
 described in <code><a href='http://www.rdocumentation.org/packages/gh/topics/gh_whoami'>gh::gh_whoami()</a></code> to look for a token stored in an environment
-variable.</p></td>
+variable. Use <code><a href='browse_github_pat.html'>browse_github_pat()</a></code> to help set up your PAT.</p></td>
     </tr>
     <tr>
       <th>host</th>
       <td><p>GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3". You can set this globally using the
-<code>GITHUB_API_URL</code> env var.</p></td>
+"https://github.hostname.com/api/v3"</p></td>
     </tr>
     </table>
 
@@ -142,8 +141,9 @@ GitHub enterprise instance, for example,
     
     <p>A new GitHub repo will be created via the GitHub API, therefore you must
 make a <a href='https://github.com/settings/tokens'>GitHub personal access token (PAT)</a> available. You can either
-provide this directly via the auth_token <code>argument</code> or store it in an
-environment variable, as described in <code><a href='http://www.rdocumentation.org/packages/gh/topics/gh_whoami'>gh::gh_whoami()</a></code>.</p>
+provide this directly via the <code>auth_token</code> argument or store it in an
+environment variable. Use <code><a href='browse_github_pat.html'>browse_github_pat()</a></code> to get help obtaining and
+storing your PAT. See <code><a href='http://www.rdocumentation.org/packages/gh/topics/gh_whoami'>gh::gh_whoami()</a></code> for even more detail.</p>
 <p>The argument <code>protocol</code> reflects how you wish to authenticate with GitHub
 for this repo in the long run. For either <code>protocol</code>, a remote named
 "origin" is created, an initial push is made using the specified
