@@ -1,6 +1,11 @@
 #' Add RStudio Project infrastructure
 #'
-#' This function makes the current project into an RStudio Project:
+#' It is likely that you want to use [create_project()] or [create_package()]
+#' instead of `use_rstudio()`! Both `create_*()` functions can add RStudio
+#' Project infrastructure to a pre-existing project or package. `use_rstudio()`
+#' is mostly for internal use or for those creating a usethis-like package for
+#' their organization. It does the following in the current project, often after
+#' executing `proj_set(..., force = TRUE)`:
 #'   * Creates an `.Rproj` file
 #'   * Adds RStudio files to `.gitignore`
 #'   * Adds RStudio files to `.Rbuildignore`, if project is a package
