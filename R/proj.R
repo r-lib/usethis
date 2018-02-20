@@ -75,6 +75,8 @@ proj_get <- function() {
 proj_set <- function(path = ".", force = FALSE) {
   old <- proj$cur
 
+  check_is_dir(path)
+
   if (force) {
     proj$cur <- path
     return(invisible(old))
