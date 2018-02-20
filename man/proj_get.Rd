@@ -19,11 +19,21 @@ project-signalling infrastructure, such as initialising a Git repo or
 adding a DESCRIPTION file.}
 }
 \description{
-When attached, usethis uses \href{https://krlmlr.github.io/rprojroot/}{rprojroot}
-to find the project root of the current working directory. It establishes the
-project root by looking for a \code{.here} file, an RStudio project, a package
+Most \code{use_*()} functions act on the \strong{active project}. If it is unset,
+usethis uses \href{https://krlmlr.github.io/rprojroot/}{rprojroot} to find the
+project root of the current working directory. It establishes the project
+root by looking for a \code{.here} file, an RStudio Project, a package
 \code{DESCRIPTION}, Git infrastructure, a \code{remake.yml} file, or a \code{.projectile}
-file. It then stores the project directory for use for the remainder of the
+file. It then stores the active project for use for the remainder of the
 session. If needed, you can manually override by running \code{proj_set()}.
+}
+\examples{
+\dontrun{
+## see the active project
+proj_get()
+
+## manually set the active project
+proj_set("path/to/target/project")
+}
 }
 \keyword{internal}
