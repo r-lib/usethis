@@ -19,21 +19,21 @@ knitr::opts_chunk$set(
 
 The goal of {{{ Package }}} is to ...
 
-{{#github}}
 ## Installation
 
-You can install {{{ Package }}} from GitHub with:
+You can install the released version of {{{ Package }}} from [CRAN](https://CRAN.R-project.org) with:
 
-{{#Rmd}}
-```{r gh-installation, eval = FALSE}
-{{/Rmd}}
-{{^Rmd}}
 ``` r
-{{/Rmd}}
+install.packages("{{{ Package }}}")
+```
+
+{{#github}}
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
 # install.packages("devtools")
 devtools::install_github("{{{username}}}/{{{repo}}}")
 ```
-
 {{/github}}
 ## Example
 
