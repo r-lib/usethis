@@ -72,6 +72,21 @@ use_cran_badge <- function() {
 
 #' @rdname badges
 #' @export
+use_bioc_badge <- function() {
+  check_is_package("use_bioc_badge()")
+  pkg <- project_name()
+
+  src <- paste0("http://www.bioconductor.org/shields/build/release/bioc/",
+    pkg, ".svg")
+  href <- paste0("https://bioconductor.org/checkResults/release/bioc-LATEST/",
+    pkg)
+  use_badge("BioC status", href, src)
+
+  invisible(TRUE)
+}
+
+#' @rdname badges
+#' @export
 use_depsy_badge <- function() {
   check_is_package("use_depsy_badge()")
   pkg <- project_name()
