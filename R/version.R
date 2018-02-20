@@ -1,20 +1,35 @@
 #' Increment package version
 #'
-#' Increments the "Version" field in `DESCRIPTION`, adds a new heading to
-#' `NEWS.md` (if it exists), and commits those changes (if package uses Git).
+#' @description `use_version()` increments the "Version" field in `DESCRIPTION`,
+#'   adds a new heading to `NEWS.md` (if it exists), and commits those changes
+#'   (if package uses Git).
+#'
+#' @description `use_dev_version()` increments to a development version, e.g.
+#'   from 1.0.0 to 1.0.0.9000. If the existing version is already a development
+#'   version with four components, it does nothing. Thin wrapper around
+#'   `use_version()`.
 #'
 #' @param which A string specifying which level to increment, one of: "major",
 #'   "minor", "patch", "dev". If `NULL`, user can choose interactively.
 #'
+#' @examples
+#' \dontrun{
+#' ## for interactive selection, do this:
+#' use_version()
+#'
+#' ## request a specific type of increment
+#' use_version("minor")
+#' use_dev_version()
+#' }
+#'
+#' @name use_version
+NULL
+
+#' @rdname use_version
 #' @export
 use_version <- function(which = NULL) {
   check_is_package("use_version()")
-  if (uses_git() && git_uncommitted()) {
-    stop(
-      "Uncommited changes. Please commit to git before continuing",
-      call. = FALSE
-    )
-  }
+  check_uncommitted_changes()
 
   ver <- desc::desc_get_version(proj_get())
 
@@ -46,32 +61,15 @@ use_version <- function(which = NULL) {
   invisible(TRUE)
 }
 
-#' Increment to a development version
-#'
-#' This adds ".9000" to the "Version" field in `DESCRIPTION`, adds a new heading
-#' to `NEWS.md` (if it exists), and then checks the result into git.
-#'
+#' @rdname use_version
 #' @export
 use_dev_version <- function() {
   check_is_package("use_dev_version()")
-  check_uncommitted_changes()
-
   ver <- desc::desc_get_version(proj_get())
   if (length(unlist(ver)) > 3) {
     return(invisible())
   }
-
-  dev_ver <- paste0(ver, ".9000")
-
-  use_description_field("Version", dev_ver, overwrite = TRUE)
-  use_news_heading(dev_ver)
-  git_check_in(
-    base_path = proj_get(),
-    paths = c("DESCRIPTION", "NEWS.md"),
-    message = "Use development version"
-  )
-
-  invisible(TRUE)
+  use_version(which = "dev")
 }
 
 
