@@ -30,10 +30,10 @@ reference:
     - matches("dev_version|cran_comments|revdep")
     - use_rmarkdown_template
     - matches("use_tidy")
-  - title: "R and RStudio configuration"
+  - title: "Configuration"
     desc: >
-      Configure the behaviour of R or RStudio, globally as a user or locally in
-      a project
+      Configure the behaviour of R, RStudio, or Git, globally as a user or
+      for a specific project
     contents:
     - use_blank_slate
     - use_usethis
@@ -49,6 +49,7 @@ reference:
     - use_code_of_conduct
     - use_readme_rmd
     - matches("browse")
+    - matches("edit_git_")
   - title: Edit
     contents:
     - starts_with("edit_")
