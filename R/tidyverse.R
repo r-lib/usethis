@@ -169,7 +169,7 @@ use_tidy_issue_template <- function() {
 
   use_directory(".github", ignore = TRUE)
   use_template(
-    "ISSUE_TEMPLATE.md",
+    "tidy-issue.md",
     ".github/ISSUE_TEMPLATE.md"
   )
 }
@@ -182,7 +182,7 @@ use_tidy_support <- function() {
 
   use_directory(".github", ignore = TRUE)
   use_template(
-    "SUPPORT.md",
+    "tidy-support.md",
     ".github/SUPPORT.md",
     data = list(package = project_name())
   )
