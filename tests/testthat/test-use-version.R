@@ -1,5 +1,12 @@
 context("use_version.R")
 
+test_that("bump_version() presents all possible incremented versions", {
+  expect_identical(
+    bump_version("1.1.1.9000"),
+    c(major = "2.0.0", minor = "1.2.0", patch = "1.1.2", dev = "1.1.1.9001")
+  )
+})
+
 test_that("use_version() and use_dev_version() require a package", {
   scoped_temporary_project()
   expect_error(use_version("major"), "not an R package")
@@ -7,15 +14,11 @@ test_that("use_version() and use_dev_version() require a package", {
 })
 
 test_that("use_version() errors for invalid `which`", {
+  # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
+  skip_if(getRversion() < 3.2)
+
   scoped_temporary_package()
   expect_error(use_version("1.2.3"), "should be one of")
-})
-
-test_that("bump_version() presents all possible incremented versions", {
-  expect_identical(
-    bump_version("1.1.1.9000"),
-    c(major = "2.0.0", minor = "1.2.0", patch = "1.1.2", dev = "1.1.1.9001")
-  )
 })
 
 test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
