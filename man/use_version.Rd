@@ -2,16 +2,15 @@
 % Please edit documentation in R/version.R
 \name{use_version}
 \alias{use_version}
-\title{Increment version number}
+\title{Increment package version}
 \usage{
 use_version(which = NULL)
 }
 \arguments{
-\item{which}{Which level to increment, must be one of "dev", "patch",
-"minor" or "major". Defaults to NULL which activates interactive
-control.}
+\item{which}{A string specifying which level to increment, one of: "major",
+"minor", "patch", "dev". If \code{NULL}, user can choose interactively.}
 }
 \description{
-This increments the "Version" field in \code{DESCRIPTION}, adds a new heading
-to \code{NEWS.md} (if it exists), and then checks the result into git.
+Increments the "Version" field in \code{DESCRIPTION}, adds a new heading to
+\code{NEWS.md} (if it exists), and commits those changes (if package uses Git).
 }

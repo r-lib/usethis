@@ -1,11 +1,10 @@
-#' Increment version number
+#' Increment package version
 #'
-#' This increments the "Version" field in `DESCRIPTION`, adds a new heading
-#' to `NEWS.md` (if it exists), and then checks the result into git.
+#' Increments the "Version" field in `DESCRIPTION`, adds a new heading to
+#' `NEWS.md` (if it exists), and commits those changes (if package uses Git).
 #'
-#' @param which Which level to increment, must be one of "dev", "patch",
-#' "minor" or "major". Defaults to NULL which activates interactive
-#' control.
+#' @param which A string specifying which level to increment, one of: "major",
+#'   "minor", "patch", "dev". If `NULL`, user can choose interactively.
 #'
 #' @export
 use_version <- function(which = NULL) {
@@ -17,49 +16,42 @@ use_version <- function(which = NULL) {
     )
   }
 
-  if(is.null(which) & !interactive()) stop()
-
-  types <- c("major", "minor", "patch", "dev")
-
   ver <- desc::desc_get_version(proj_get())
 
-  vers <- c(bump_version(ver, "major"),
-            bump_version(ver, "minor"),
-            bump_version(ver, "patch"),
-            bump_version(ver, "dev"))
-
-  if(is.null(which)) {
-    choice <- utils::menu(choices = paste0(types, " --> ", vers),
-                           title = paste0("Current version is ", paste0(ver),
-                                          "\nwhat part to increment?"))
-    which <- types[choice]
-  } else {
-    choice <- pmatch(which, types)
+  if(is.null(which) && !interactive()) {
+    return(invisible(ver))
   }
 
-  new_ver <- vers[choice]
+  versions <- bump_version(ver)
 
-  use_description_field("Version", paste0(new_ver), overwrite = TRUE)
-  use_news_heading(paste0(new_ver))
+  if (is.null(which)) {
+    choice <- utils::menu(
+      choices = paste0(names(versions), " --> ", versions),
+      title = paste0(
+        "Current version is ", ver, "\n", "Which part to increment?"
+      )
+    )
+    which <- names(versions)[choice]
+  }
+  which <- match.arg(which, c("major", "minor", "patch", "dev"))
+  new_ver <- versions[which]
+
+  use_description_field("Version", new_ver, overwrite = TRUE)
+  use_news_heading(new_ver)
   git_check_in(
-     base_path = proj_get(),
-     paths = c("DESCRIPTION", "NEWS.md"),
-     message = "Incrementing version number"
-   )
-   invisible(TRUE)
+    base_path = proj_get(),
+    paths = c("DESCRIPTION", "NEWS.md"),
+    message = "Incrementing version number"
+  )
+  invisible(TRUE)
 }
 
-bump_version <- function(ver, which) {
-  types <- c("major", "minor", "patch", "dev")
+bump_version <- function(ver) {
+  bumps <- c("major", "minor", "patch", "dev")
+  vapply(bumps, bump_, character(1), ver = ver)
+}
 
-  choice <- pmatch(which, types)
-
-  ver <- as.character(ver)
-  string_text <- paste0("Version: ", ver)
-
-  ver_out <- suppressMessages(
-    desc::desc(text = string_text)$bump_version(types[choice])$get("Version")[[1]]
-  )
-
-  package_version(ver_out)
+bump_ <- function(x, ver) {
+  d <- desc::desc(text = paste0("Version: ", ver))
+  suppressMessages(d$bump_version(x)$get("Version")[[1]])
 }
