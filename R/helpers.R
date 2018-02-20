@@ -271,3 +271,19 @@ view_url <- function(..., open = interactive()) {
   }
   invisible(url)
 }
+
+bump_version <- function(ver, which) {
+  types <- c("major", "minor", "patch", "dev")
+
+  choice <- pmatch(which, types)
+
+  ver <- as.character(ver)
+  string_text <- paste0("Version: ", ver)
+
+  ver_out <- suppressMessages(
+    desc::desc(text = string_text)$bump_version(types[choice])$get("Version")[[1]]
+  )
+
+  package_version(ver_out)
+}
+
