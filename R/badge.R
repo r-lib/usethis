@@ -7,6 +7,8 @@
 #' @details
 #'
 #' * `use_badge()`: a general helper used in all badge functions
+#' * `use_bioc_badge()`: badge indicates [BioConductor build
+#' status](http://bioconductor.org/developers/)
 #' * `use_cran_badge()`: badge indicates what version of your package is
 #' available on CRAN, powered by <https://www.r-pkg.org>
 #' * `use_depsy_badge()`: badge shows the "percentile overall impact" of the
@@ -76,10 +78,14 @@ use_bioc_badge <- function() {
   check_is_package("use_bioc_badge()")
   pkg <- project_name()
 
-  src <- paste0("http://www.bioconductor.org/shields/build/release/bioc/",
-    pkg, ".svg")
-  href <- paste0("https://bioconductor.org/checkResults/release/bioc-LATEST/",
-    pkg)
+  src <- paste0(
+    "http://www.bioconductor.org/shields/build/release/bioc/",
+    pkg, ".svg"
+  )
+  href <- paste0(
+    "https://bioconductor.org/checkResults/release/bioc-LATEST/",
+    pkg
+  )
   use_badge("BioC status", href, src)
 
   invisible(TRUE)
