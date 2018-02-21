@@ -54,6 +54,44 @@ if (interactive()) {
 
 ## Install Git, configure `user.name` and `user.email`
 
+For instructions on how to install Git, please see [Happy Git and GitHub for the useR](http://happygitwithr.com/install-git.html). It is beyond the scope of this article.
+
+Once Git is installed, you must introduce yourself to Git.
+
+```{r, eval = FALSE}
+library(usethis)
+use_git_config(user.name = "Jenny", user.email = "jenny@example.com")
+
+## confirm the config
+use_git_config()
+```
+
+`usethis::use_git_config()` helps you configure your global or user-level `user.name` and `user.email`. Substitute **your name** and **your email address**.
+
+What user name should you give to Git? This does not have to be your GitHub username, although it can be. Another good option is your actual first name and last name. Your commits will be labelled with this name, so this should be informative to potential collaborators.
+
+What email should you give to Git? This must be the email associated with your GitHub account.
+
+### Git details
+
+The code chunk above is doing the equivalent of these operations with command line git:
+
+```{sh, eval = FALSE}
+git config --global user.name 'Jenny'
+git config --global user.email 'jenny@example.com'
+git config --global --list
+```
+
+### Optional: configure Git's editor
+
+Another Git option that many people eventually configure is the editor. This will come up if you use Git from a shell. At some point, you will fail to give Git what it wants in terms of a commit message and it will kick you into an editor. This can be distressing, if it’s not your editor of choice and you don’t even know how to save and quit. You can enforce your will by executing this in a shell (not in R!):
+
+```{sh, eval = FALSE}
+git config --global core.editor emacs
+```
+
+Substitute your preferred editor for emacs here. A popular choice is nano.
+
 ## Get a GitHub.com account and be able to pull/push
 
 ## Get and store a GitHub personal access token
