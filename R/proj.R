@@ -46,6 +46,7 @@ check_is_package <- function(whos_asking = NULL) {
 
 #' Get and set the active project
 #'
+#' @description
 #' Most `use_*()` functions act on the **active project**. If it is unset,
 #' usethis uses [rprojroot](https://krlmlr.github.io/rprojroot/) to find the
 #' project root of the current working directory. It establishes the project
@@ -53,6 +54,13 @@ check_is_package <- function(whos_asking = NULL) {
 #' `DESCRIPTION`, Git infrastructure, a `remake.yml` file, or a `.projectile`
 #' file. It then stores the active project for use for the remainder of the
 #' session. If needed, you can manually override by running `proj_set()`.
+#'
+#' @description In general, user scripts should not call `usethis::proj_get()`
+#'   or `usethis::proj_set()`. They are internal functions that are exported for
+#'   occasional interactive use. If you need to detect a project
+#'   programmatically in your code, you should probably be using
+#'   [rprojroot](https://krlmlr.github.io/rprojroot/) or its simpler companion,
+#'   [here](https://krlmlr.github.io/here/), directly.
 #'
 #' @param path Path to set.
 #' @param force If `TRUE`, use this path without checking the usual criteria.

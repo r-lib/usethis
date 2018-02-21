@@ -94,6 +94,12 @@ root by looking for a <code>.here</code> file, an RStudio Project, a package
 <code>DESCRIPTION</code>, Git infrastructure, a <code>remake.yml</code> file, or a <code>.projectile</code>
 file. It then stores the active project for use for the remainder of the
 session. If needed, you can manually override by running <code>proj_set()</code>.</p>
+<p>In general, user scripts should not call <code><a href='http://www.rdocumentation.org/packages/usethis/topics/proj_get'>usethis::proj_get()</a></code>
+or <code><a href='http://www.rdocumentation.org/packages/usethis/topics/proj_get'>usethis::proj_set()</a></code>. They are internal functions that are exported for
+occasional interactive use. If you need to detect a project
+programmatically in your code, you should probably be using
+<a href='https://krlmlr.github.io/rprojroot/'>rprojroot</a> or its simpler companion,
+<a href='https://krlmlr.github.io/here/'>here</a>, directly.</p>
 
     <pre class="usage"><span class='fu'>proj_get</span>()
 

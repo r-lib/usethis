@@ -26,6 +26,13 @@ root by looking for a \code{.here} file, an RStudio Project, a package
 \code{DESCRIPTION}, Git infrastructure, a \code{remake.yml} file, or a \code{.projectile}
 file. It then stores the active project for use for the remainder of the
 session. If needed, you can manually override by running \code{proj_set()}.
+
+In general, user scripts should not call \code{usethis::proj_get()}
+or \code{usethis::proj_set()}. They are internal functions that are exported for
+occasional interactive use. If you need to detect a project
+programmatically in your code, you should probably be using
+\href{https://krlmlr.github.io/rprojroot/}{rprojroot} or its simpler companion,
+\href{https://krlmlr.github.io/here/}{here}, directly.
 }
 \examples{
 \dontrun{
