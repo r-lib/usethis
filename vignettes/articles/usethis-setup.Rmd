@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-You will get the most out of usethis if you do some setup. usethis can even help you with these setup tasks!
+You will get the most out of usethis if you do some setup, although none of this is required. usethis can even help you with these setup tasks!
 
 Key steps that accelerate your R development workflow (details on *how* to do all this follow):
 
@@ -23,6 +23,8 @@ Key steps that accelerate your R development workflow (details on *how* to do al
   * Sign up for a free GitHub.com account. Make sure you can pull/push from your local computer to GitHub.com.
   * Get a personal access token from GitHub.com and store it as `GITHUB_PAT` in `.Renviron`.
   * Pre-populate the DESCRIPTION file of any packages you create with your info by defining some usethis options in `.Rprofile`.
+  
+As you participate more in the R development scene, you will need to be able to install packages from source that contain compiled code, e.g. C or C++. This will come up even if *you* do not write such packages (yet). We touch on this at the end.
 
 ## Use usethis in interactive work
 
@@ -58,4 +60,5 @@ if (interactive()) {
 
 ## Store your package author details as usethis options
 
+## Prepare your system to build packages from source
 
