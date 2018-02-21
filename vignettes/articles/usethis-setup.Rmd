@@ -14,11 +14,48 @@ knitr::opts_chunk$set(
 )
 ```
 
-You will get the most out of usethis if you do some setup. To a certain extent, usethis can even help you with this task.
+You will get the most out of usethis if you do some setup. usethis can even help you with these setup tasks!
 
 Key steps that accelerate your R development workflow (details on *how* to do all this follow):
 
+  * Make usethis available in all your interactive R sessions via some code in your `.Rprofile`.
   * Install Git and configure your `user.name` and `user.email`. If you use RStudio, make sure RStudio can find your Git executable.
   * Sign up for a free GitHub.com account. Make sure you can pull/push from your local computer to GitHub.com.
   * Get a personal access token from GitHub.com and store it as `GITHUB_PAT` in `.Renviron`.
-  * Make usethis available in all your interactive R sessions and store your R package author info as usethis options in `.Rprofile`.
+  * Pre-populate the DESCRIPTION file of any packages you create with your info by defining some usethis options in `.Rprofile`.
+
+## Use usethis in interactive work
+
+```{r, eval = FALSE}
+library(usethis)
+use_usethis()
+```
+
+`usethis::use_usethis()` will help you make usethis available whenever you are working with R interactively. It opens `.Rprofile` for editing, shows the necessary code snippet in the console, and puts it on your clipboard. Paste, save, close, restart R. Done.
+
+This is the snippet that needs to go in `.Rprofile`:
+
+```{r, eval = FALSE}
+if (interactive()) {
+  suppressMessages(require(usethis))
+}
+```
+
+In the long-run, devtools should make all of usethis's functions available and it should feel like they are part of devtools itself. But while the "devtools diaspora" is in process (written in first half of 2018), you may need to work with both usethis and devtools. If you attach both, we recommend attaching devtools, then usethis. In `.Rprofile`, that would like so:
+
+```{r, eval = FALSE}
+if (interactive()) {
+  suppressMessages(require(devtools))
+  suppressMessages(require(usethis))
+}
+```
+
+## Install Git, configure `user.name` and `user.email`
+
+## Get a GitHub.com account and be able to pull/push
+
+## Get and store a GitHub personal access token
+
+## Store your package author details as usethis options
+
+

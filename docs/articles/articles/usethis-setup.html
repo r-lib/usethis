@@ -79,19 +79,50 @@
     
     
 <div class="contents">
-<p>You will get the most out of usethis if you do some setup. To a certain extent, usethis can even help you with this task.</p>
+<p>You will get the most out of usethis if you do some setup. usethis can even help you with these setup tasks!</p>
 <p>Key steps that accelerate your R development workflow (details on <em>how</em> to do all this follow):</p>
 <ul>
+<li>Make usethis available in all your interactive R sessions via some code in your <code>.Rprofile</code>.</li>
 <li>Install Git and configure your <code>user.name</code> and <code>user.email</code>. If you use RStudio, make sure RStudio can find your Git executable.</li>
 <li>Sign up for a free GitHub.com account. Make sure you can pull/push from your local computer to GitHub.com.</li>
 <li>Get a personal access token from GitHub.com and store it as <code>GITHUB_PAT</code> in <code>.Renviron</code>.</li>
-<li>Make usethis available in all your interactive R sessions and store your R package author info as usethis options in <code>.Rprofile</code>.</li>
+<li>Pre-populate the DESCRIPTION file of any packages you create with your info by defining some usethis options in <code>.Rprofile</code>.</li>
 </ul>
+<section id="use-usethis-in-interactive-work" class="level2"><h2>Use usethis in interactive work</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(usethis)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="../../reference/use_usethis.html">use_usethis</a></span>()</a></code></pre></div>
+<p><code><a href="http://www.rdocumentation.org/packages/usethis/topics/use_usethis">usethis::use_usethis()</a></code> will help you make usethis available whenever you are working with R interactively. It opens <code>.Rprofile</code> for editing, shows the necessary code snippet in the console, and puts it on your clipboard. Paste, save, close, restart R. Done.</p>
+<p>This is the snippet that needs to go in <code>.Rprofile</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw">suppressMessages</span>(<span class="kw">require</span>(usethis))</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">}</a></code></pre></div>
+<p>In the long-run, devtools should make all of usethis’s functions available and it should feel like they are part of devtools itself. But while the “devtools diaspora” is in process (written in first half of 2018), you may need to work with both usethis and devtools. If you attach both, we recommend attaching devtools, then usethis. In <code>.Rprofile</code>, that would like so:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw">suppressMessages</span>(<span class="kw">require</span>(devtools))</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="kw">suppressMessages</span>(<span class="kw">require</span>(usethis))</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">}</a></code></pre></div>
+</section><section id="install-git-configure-user.name-and-user.email" class="level2"><h2>Install Git, configure <code>user.name</code> and <code>user.email</code>
+</h2>
+</section><section id="get-a-github.com-account-and-be-able-to-pullpush" class="level2"><h2>Get a GitHub.com account and be able to pull/push</h2>
+</section><section id="get-and-store-a-github-personal-access-token" class="level2"><h2>Get and store a GitHub personal access token</h2>
+</section><section id="store-your-package-author-details-as-usethis-options" class="level2"><h2>Store your package author details as usethis options</h2>
+</section>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
 
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#use-usethis-in-interactive-work">Use usethis in interactive work</a></li>
+      <li><a href="#install-git-configure-user-name-and-user-email">Install Git, configure <code>user.name</code> and <code>user.email</code></a></li>
+      <li><a href="#get-a-github-com-account-and-be-able-to-pullpush">Get a GitHub.com account and be able to pull/push</a></li>
+      <li><a href="#get-and-store-a-github-personal-access-token">Get and store a GitHub personal access token</a></li>
+      <li><a href="#store-your-package-author-details-as-usethis-options">Store your package author details as usethis options</a></li>
+      </ul>
+</div>
       </div>
 
 </div>
