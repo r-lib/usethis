@@ -262,7 +262,7 @@ edit_file <- function(path) {
 }
 
 view_url <- function(..., open = interactive()) {
-  url <- paste(..., sep = "/")
+  url <- file.path(...)
   if (open) {
     done("Opening url")
     utils::browseURL(url)
