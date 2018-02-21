@@ -158,7 +158,7 @@ appveyor_activate <- function(browse = interactive()) {
 
 use_appveyor_badge <- function() {
   appveyor <- appveyor_info(proj_get())
-  use_badge("AppVeyor Build Status", appveyor$url, appveyor$img)
+  use_badge("AppVeyor build status", appveyor$url, appveyor$img)
 }
 
 appveyor_info <- function(base_path = proj_get()) {
