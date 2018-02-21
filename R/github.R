@@ -63,12 +63,7 @@ use_github <- function(organisation = NULL,
                        credentials = NULL,
                        auth_token = NULL,
                        host = NULL) {
-  if (!uses_git()) {
-    stop(
-      "Please call ", code("use_git()"), " before ",
-      code("use_github()"), ".", call. = FALSE
-    )
-  }
+  check_uses_git()
 
   if (uses_github(proj_get())) {
     done("GitHub is already initialized")
@@ -235,7 +230,7 @@ uses_github <- function(base_path = proj_get()) {
 
 check_uses_github <- function(base_path = proj_get()) {
   if (uses_github(base_path)) {
-    return()
+    return(invisible())
   }
 
   stop(

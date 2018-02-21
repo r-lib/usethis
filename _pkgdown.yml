@@ -37,10 +37,12 @@ reference:
     contents:
     - use_blank_slate
     - use_usethis
+    - use_git_config
     - matches("edit_r")
   - title: Git and GitHub
     contents:
     - create_from_github
+    - use_git_config
     - use_git
     - use_github
     - use_git_ignore
