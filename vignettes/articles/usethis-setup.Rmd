@@ -1,10 +1,5 @@
 ---
 title: "usethis setup"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{usethis setup}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
@@ -102,3 +97,6 @@ Substitute your preferred editor for emacs here. A popular choice is nano. The d
 
 ## Prepare your system to build packages from source
 
+Draw on and update this: <http://stat545.com/packages01_system-prep.html>
+
+`pkgbuild::check_build_tools()` verifies the build tools are installed and available. Note: pkgbuild is another piece of the devtools diaspora and is not on CRAN yet.
