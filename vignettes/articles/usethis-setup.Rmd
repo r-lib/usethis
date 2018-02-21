@@ -14,15 +14,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-You will get the most out of usethis if you do some setup, although none of this is required. usethis can even help you with these setup tasks!
+You will get the most out of usethis if you do some setup. These setup tasks do not need to be done all at once and or even done at all. But usethis can offer the most support for package development and Git/GitHub workflows with some advance configuration. usethis can even help you with this!
 
 Key steps that accelerate your R development workflow (details on *how* to do all this follow):
 
-  * Make usethis available in all your interactive R sessions via some code in your `.Rprofile`.
+  * Make usethis available in all your interactive R sessions.
   * Install Git and configure your `user.name` and `user.email`. If you use RStudio, make sure RStudio can find your Git executable.
   * Sign up for a free GitHub.com account. Make sure you can pull/push from your local computer to GitHub.com.
-  * Get a personal access token from GitHub.com and store it as `GITHUB_PAT` in `.Renviron`.
-  * Pre-populate the DESCRIPTION file of any packages you create with your info by defining some usethis options in `.Rprofile`.
+  * Get a personal access token from GitHub.com and make it available in R sessions.
+  * Provide usethis with info you'd like in the DESCRIPTION file of all new R packages you create.
   
 As you participate more in the R development scene, you will need to be able to install packages from source that contain compiled code, e.g. C or C++. This will come up even if *you* do not write such packages (yet). We touch on this at the end.
 
@@ -33,7 +33,7 @@ library(usethis)
 use_usethis()
 ```
 
-`usethis::use_usethis()` will help you make usethis available whenever you are working with R interactively. It opens `.Rprofile` for editing, shows the necessary code snippet in the console, and puts it on your clipboard. Paste, save, close, restart R. Done.
+`usethis::use_usethis()` helps you make usethis available whenever you are working with R interactively. It opens `.Rprofile` for editing, shows the necessary code snippet in the console, and puts it on your clipboard. Paste, save, close, restart R. Done.
 
 This is the snippet that needs to go in `.Rprofile`:
 
@@ -51,6 +51,8 @@ if (interactive()) {
   suppressMessages(require(usethis))
 }
 ```
+
+You can read more about `.Rprofile` in the official [Startup documentation](https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html) or in Kevin Ushey's blog post [RProfile Essentials](http://kevinushey.github.io/blog/2015/02/02/rprofile-essentials/).
 
 ## Install Git, configure `user.name` and `user.email`
 
