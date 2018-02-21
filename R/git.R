@@ -80,7 +80,7 @@ git_check_in <- function(base_path, paths, message) {
 
   done("Checking into git [", message, "]")
 
-  r <- git2r::init(base_path)
+  r <- git2r::repository(base_path)
   git2r::add(r, paths)
   git2r::commit(r, message)
 
