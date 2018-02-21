@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>License a package — licenses • usethis</title>
+<title>Articles • usethis</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -39,7 +39,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-vignette-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -93,57 +93,20 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header">
-    <h1>License a package</h1>
+      <div class="page-header">
+  <h1>Articles <small>version&nbsp;1.2.0.9000</small></h1>
+</div>
+
+<div class="row">
+  <div class="col-md-9">
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
+
+      <ul>
+        <li><a href="articles/usethis-setup.html">usethis setup</a></li>
+      </ul>
     </div>
-
-    <p>Adds the necessary infrastructure to declare your package as licensed
-with one of four popular open source license:</p><ul>
-<li><p><a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>: dedicated
-to public domain. Appropriate for data packages.</p></li>
-<li><p><a href='https://choosealicense.com/licenses/mit/'>MIT</a>: simple and permissive.</p></li>
-<li><p><a href='https://choosealicense.com/licenses/apache-2.0/'>Apache 2.0</a>:
-provides patent protection.</p></li>
-<li><p><a href='https://choosealicense.com/licenses/gpl-3.0/'>GPL v3</a>: requires sharing
-of improvements.</p></li>
-</ul>
-    <p>See <a href='https://choosealicense.com'>https://choosealicense.com</a> for more details and other options.</p>
-
-    <pre class="usage"><span class='fu'>use_mit_license</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>find_name</span>())
-
-<span class='fu'>use_gpl3_license</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>find_name</span>())
-
-<span class='fu'>use_apl2_license</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>find_name</span>())
-
-<span class='fu'>use_cc0_license</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>find_name</span>())</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>name</th>
-      <td><p>Name of the copyright holder or holders. Separate multiple
-individuals with <code>;</code>. You can supply a global default with
-<code>options(usethis.full_name = "My name")</code>.</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>CRAN does not allow you to include copies of standard licenses in your
-package, so these functions save the license as <code>LICENSE.md</code> and add it
-to <code>.Rbuildignore</code>.</p>
-
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-    </ul>
-
   </div>
 </div>
 

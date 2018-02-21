@@ -37,9 +37,11 @@ Imports:
     whisker
 Suggests: 
     covr,
+    knitr,
     roxygen2,
     testthat (>= 2.0.0),
     withr
+VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
