@@ -24,7 +24,7 @@ Imports:
     clipr,
     clisymbols,
     crayon,
-    curl,
+    curl (>= 2.7),
     desc,
     gh,
     git2r,
