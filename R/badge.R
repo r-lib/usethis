@@ -65,7 +65,7 @@ use_cran_badge <- function() {
   check_is_package("use_cran_badge()")
   pkg <- project_name()
 
-  src <- paste0("https://www.r-pkg.org/badges/version/", pkg)
+  src <- file.path("https://www.r-pkg.org/badges/version", pkg)
   href <- paste0("https://cran.r-project.org/package=", pkg)
   use_badge("CRAN status", href, src)
 
@@ -82,8 +82,8 @@ use_bioc_badge <- function() {
     "http://www.bioconductor.org/shields/build/release/bioc/",
     pkg, ".svg"
   )
-  href <- paste0(
-    "https://bioconductor.org/checkResults/release/bioc-LATEST/",
+  href <- file.path(
+    "https://bioconductor.org/checkResults/release/bioc-LATEST",
     pkg
   )
   use_badge("BioC status", href, src)
@@ -97,8 +97,8 @@ use_depsy_badge <- function() {
   check_is_package("use_depsy_badge()")
   pkg <- project_name()
 
-  src <- paste0("http://depsy.org/api/package/cran/", pkg, "/badge.svg")
-  href <- paste0("http://depsy.org/package/r/", pkg)
+  src <- file.path("http://depsy.org/api/package/cran", pkg, "badge.svg")
+  href <- file.path("http://depsy.org/package/r", pkg)
   use_badge("Depsy", href, src)
 
   invisible(TRUE)
@@ -139,12 +139,11 @@ use_binder_badge <- function() {
   if (uses_github(proj_get())) {
     gh <- gh::gh_tree_remote(proj_get())
 
-    url <- paste(
+    url <- file.path(
       "https://mybinder.org/v2/gh",
       gh$username,
       gh$repo,
-      "master",
-      sep = "/")
+      "master")
 
     img <- "http://mybinder.org/badge.svg"
 
