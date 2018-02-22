@@ -1,5 +1,5 @@
 bullet <- function(lines, bullet) {
-  lines <- paste(bullet, lines)
+  lines <- paste0(bullet, " ", lines)
   cat_line(lines)
 }
 
