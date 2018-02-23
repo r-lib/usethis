@@ -33,8 +33,8 @@ devtools::install_github("r-lib/usethis")
 
 ## Usage
 
-Most `use_*()` functions operate on the *current project*. If you’ve
-just used usethis to create a new package or project, that will be the
+Most `use_*()` functions operate on the *active project*. If you’ve just
+used usethis to create a new package or project, that will be the
 current project. Otherwise usethis tries to confirm that current working
 directory can be recognized as a project. Use `proj_get()` and
 `proj_set()` for manual intervention. Some functions have no strong
