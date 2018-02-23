@@ -17,5 +17,5 @@ directives that apply to the whole package (vs. a specific function), such as
 global namespace tags like \code{@importFrom}.
 }
 \seealso{
-The \href{http://r-pkgs.had.co.nz/man.html}{documentation chapter} of \href{http://r-pkgs.had.co.nz}{RPackages}
+The \href{http://r-pkgs.had.co.nz/man.html}{documentation chapter} of \href{http://r-pkgs.had.co.nz}{R Packages}
 }

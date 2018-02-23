@@ -120,4 +120,5 @@ tidy_unzip("rematch2-master.zip")
 \seealso{
 Other download functions: \code{\link{use_course}}
 }
+\concept{download functions}
 \keyword{internal}
