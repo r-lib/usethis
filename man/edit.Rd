@@ -26,7 +26,7 @@ edit_git_ignore(scope = c("user", "project"))
 \item{scope}{Edit globally for the current \strong{user}, or locally for the
 current \strong{project}}
 
-\item{type}{Snippet type. One of "R", "markdown", "C_Cpp", "Tex",
+\item{type}{Snippet type. One of: "R", "markdown", "C_Cpp", "Tex",
 "Javascript", "HTML", "SQL"}
 }
 \value{
