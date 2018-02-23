@@ -13,9 +13,11 @@ You will get the most out of usethis if you do some setup. These setup tasks do 
 
 Key steps that accelerate your R development workflow (details on *how* to do all this follow):
 
-  * Make usethis available in all your interactive R sessions.
-  * Install Git and configure your `user.name` and `user.email`. If you use RStudio, make sure RStudio can find your Git executable.
-  * Sign up for a free GitHub.com account. Make sure you can pull/push from your local computer to GitHub.com.
+  * Make usethis available in interactive R sessions.
+  * Sign up for a free GitHub.com account, if you plan to use GitHub.
+  * Install Git.
+  * Configure your Git `user.name` and `user.email`.
+  * If you use RStudio, make sure RStudio can find your Git executable. If you use GitHub, make sure you can pull/push from your local computer to GitHub.com, in general and from RStudio.
   * Get a personal access token from GitHub.com and make it available in R sessions.
   * Provide usethis with info you'd like in the DESCRIPTION file of all new R packages you create.
   
@@ -38,7 +40,7 @@ if (interactive()) {
 }
 ```
 
-In the long-run, devtools should make all of usethis's functions available and it should feel like they are part of devtools itself. But while the "devtools diaspora" is in process (written in first half of 2018), you may need to work with both usethis and devtools. If you attach both, we recommend attaching devtools, then usethis. In `.Rprofile`, that would like so:
+In the long-run, devtools should make all of usethis's functions available and it should feel like they are part of devtools itself. But while the "devtools diaspora" is in process (written in first half of 2018), you may need to work with both usethis and devtools. If you attach both, we recommend attaching devtools, then usethis. In `.Rprofile`, that would look like so:
 
 ```{r, eval = FALSE}
 if (interactive()) {
@@ -49,9 +51,17 @@ if (interactive()) {
 
 You can read more about `.Rprofile` in the official [Startup documentation](https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html) or in Kevin Ushey's blog post [RProfile Essentials](http://kevinushey.github.io/blog/2015/02/02/rprofile-essentials/).
 
-## Install Git, configure `user.name` and `user.email`
+## Get a GitHub.com account
 
-Please see [Happy Git and GitHub for the useR](http://happygitwithr.com/install-git.html) for instructions on how to install Git. It is beyond the scope of this article. usethis itself does not actually need the Git that you install, because it uses the [git2r](https://cran.r-project.org/package=git2r) package which wraps [libgit2](https://libgit2.github.com). But, chances are, you want to do normal Git things, like diff and commit and push, and for that you must install Git. If you want to do such things from inside RStudio, you must [make sure RStudio can find Git](http://happygitwithr.com/rstudio-git-github.html).
+Sign up for a free account with [GitHub.com](https://github.com/). [Happy Git](http://happygitwithr.com/github-acct.html) provides more advice about picking your username and discusses ways to get private repositories.
+
+## Install Git
+
+Please see [Happy Git and GitHub for the useR](http://happygitwithr.com/install-git.html) for instructions on how to install Git. It is beyond the scope of this article.
+
+usethis itself does not actually need the Git that you install, because it uses the [git2r](https://cran.r-project.org/package=git2r) package which wraps [libgit2](https://libgit2.github.com). But, chances are, you want to do normal Git things, like diff and commit and push, and for that you must install Git.
+
+## Configure `user.name` and `user.email`
 
 Once Git is installed, introduce yourself to Git.
 
@@ -69,9 +79,9 @@ What user name should you give to Git? This does not have to be your GitHub user
 
 What email should you give to Git? This must be the email associated with your GitHub account.
 
-### Git details
+### Equivalent Git commands
 
-The code chunk above is doing the equivalent of these operations with command line git:
+The code chunk above is doing the equivalent of this:
 
 ```{sh, eval = FALSE}
 git config --global user.name 'Jane Doe'
@@ -89,9 +99,49 @@ git config --global core.editor emacs
 
 Substitute your preferred editor for emacs here. A popular choice is nano. The default, if you don't configure `core.editor`, is usually vim.
 
-## Get a GitHub.com account and be able to pull/push
+## Connections: Git, GitHub, RStudio
+
+As stated above, usethis doesn't actually use the Git you install and has no absolute requirement that you use GitHub or use RStudio. But use of usethis is highly correlated with the desire to do all of these things, in a pleasant way.
+
+If you plan to use GitHub, you need to make sure your local Git can pull from and push to GitHub.com. That is beyond the scope of this article, but see the [Connect to GitHub](http://happygitwithr.com/push-pull-github.html) section in Happy Git. You probably don't want to enter your username and password all the time, so either [cache credentials for HTTPS](http://happygitwithr.com/credential-caching.html) or [set up SSH keys](http://happygitwithr.com/ssh-keys.html). This can make it much easier for you to use `usethis::use_github()` in the future.
+
+If you want to use RStudio to work with Git (and therefore GitHub, see previous paragraph), you need to make sure RStudio can find your Git executable. This usually "just works". The [Connect RStudio to Git and GitHub](http://happygitwithr.com/rstudio-git-github.html) section of Happy Git helps you confirm that all is well. If all is not well, there are also [troubleshooting tips](http://happygitwithr.com/rstudio-see-git.html).
 
 ## Get and store a GitHub personal access token
+
+This is required if you want to use `usethis::use_github()` and `create_from_github(..., fork = TRUE)`. In both cases, usethis must create a new repository on your behalf on GitHub, which is different from pulling to and pushing to *existing* repos, which is a Git operation.
+
+```{r, eval = FALSE}
+library(usethis)
+browse_github_pat()
+```
+
+`usethis::browse_github_pat()` takes you to a pre-filled form, where you can generate a GitHub personal access token (PAT). You can get to the same page in the browser by clicking on "Generate new token" from <https://github.com/settings/tokens>.
+
+As the page says, **save this token** because you'll never be able to see it again, once you leave that page or close the windows. If you somehow goof this up, just generate a new PAT and, so you don't confuse yourself, delete the lost token.
+
+`browse_github_pat()` provides a prompt to complete the setup, also described here. It is customary to save the PAT as an environment variable in your `.Renviron`, with the name `GITHUB_PAT`.
+
+```{r, eval = FALSE}
+library(usethis)
+edit_r_environ()
+```
+
+`usethis::edit_r_environ()` will open `.Renviron` for editing. Add a line like this, **but substitute your PAT**:
+
+```{sh}
+GITHUB_PAT=8c70fd8419398999c9ac5bacf3192882193cadf2
+```
+
+Make sure this file ends in a newline! Lack of a newline can lead to silent failure to load this environment variable, which can be tricky to debug.
+
+Restart R and confirm your PAT is now available:
+
+```{r, eval = FALSE}
+Sys.getenv("GITHUB_PAT")
+```
+
+Now usethis (and a few other packages) can find this PAT automatically in order to deal with GitHub on your behalf.
 
 ## Store your package author details as usethis options
 
