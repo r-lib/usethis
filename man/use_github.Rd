@@ -19,7 +19,7 @@ organisation. You must have access to create repositories.}
 \item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
 
 \item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific ssh
-credentials or \code{NULL} for default ssh key and ssh-agent behaviour.}
+credentials or NULL for default ssh key and ssh-agent behaviour.}
 
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
