@@ -145,6 +145,29 @@ Now usethis (and a few other packages) can find this PAT automatically in order 
 
 ## Store your package author details as usethis options
 
+If you want usethis to pre-populate the DESCRIPTION file of packages that you create via `usethis::create_package()`, define those fields as `usethis.*` options in your `.Rprofile`.
+
+The options are consulted for a named list `usethis.description` and, if that does not exist, for backwards compatibility, `devtools.desc` is also consulted.
+
+```{r, eval =FALSE}
+library(usethis)
+edit_r_profile()
+```
+
+`usethis::edit_r_profile()` opens your `.Rprofile` for editing. Here is an example of R code that defines options that propagate to future DESCRIPTION files:
+
+```{r, eval = FALSE}
+options(
+  usethis.name = "Jane Doe",
+  usethis.description = list(
+    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
+    License = "MIT + file LICENSE",
+    Version = "0.0.0.9000"
+  )
+)
+```
+
+
 ## Prepare your system to build packages from source
 
 Draw on and update this: <http://stat545.com/packages01_system-prep.html>

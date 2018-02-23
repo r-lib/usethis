@@ -1,13 +1,30 @@
 #' Create a default DESCRIPTION file for a package.
 #'
-#' If you create a lot of packages, you can override the defaults by
-#' setting option `"usethis.description"` to a named list.
+#' @description
+#' If you create a lot of packages, you can override the defaults by setting
+#' option `"usethis.description"` to a named list. Here's an example of code one
+#' could include in `.Rprofile`:
+#'
+#' ```
+#' options(
+#'   usethis.name = "Jane Doe",
+#'   usethis.description = list(
+#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c#' ("aut", "cre"))',
+#'     License = "MIT + file LICENSE",
+#'     Version = "0.0.0.9000"
+#'   )
+#' )
+#' ```
 #'
 #' @param fields A named list of fields to add to \file{DESCRIPTION},
 #'   potentially overriding the defaults. If `NULL`, retrieved from
-#'   `getOption("usethis.description")`, and (for backward compatibility)
-#'   from `getOption("devtools.desc")`.
+#'   `getOption("usethis.description")`, and (for backward compatibility) from
+#'   `getOption("devtools.desc")`.
 #' @export
+#' @examples
+#' \dontrun{
+#' use_description()
+#' }
 use_description <- function(fields = NULL) {
   name <- project_name()
   check_package_name(name)
