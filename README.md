@@ -81,7 +81,7 @@ use_dev_package("callr")
 # Set up various packages ---------------------------------------------
 use_roxygen_md()
 #> ✔ Setting Roxygen field in DESCRIPTION to 'list(markdown = TRUE)'
-#> ✔ Setting RoxygenNote field in DESCRIPTION to '6.0.1'
+#> ✔ Setting RoxygenNote field in DESCRIPTION to '6.0.1.9000'
 #> ● Re-document
 
 use_rcpp()

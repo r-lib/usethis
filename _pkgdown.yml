@@ -38,7 +38,7 @@ reference:
     - use_data
     - use_coverage
     - matches("build_ignore|pipe|rcpp")
-    - matches("roxygen_md|vignette|news_md")
+    - matches("roxygen_md|vignette|news_md|package_doc")
     - matches("readme")
     - matches("pkgdown|badge")
     - matches("dev_version|cran_comments|revdep")
