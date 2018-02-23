@@ -45,7 +45,7 @@
 #'   "https://github.hostname.com/api/v3"
 #' @param protocol transfer protocol, either "ssh" (the default) or "https"
 #' @param credentials A [git2r::cred_ssh_key()] specifying specific ssh
-#'   credentials or NULL for default ssh key and ssh-agent behaviour.
+#'   credentials or `NULL` for default ssh key and ssh-agent behaviour.
 #' @export
 #' @examples
 #' \dontrun{
