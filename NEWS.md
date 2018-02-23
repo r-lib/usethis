@@ -1,6 +1,6 @@
 # usethis 1.2.0.9000
 
-* usethis has a website: <http://usethis.r-lib.org> (#217).
+* usethis has a website: <http://usethis.r-lib.org> (#217). It includes an article with advice on system setup, for usethis and for R development more generally.
 
 * `edit_*()` functions now return the target path, invisibly (#255).
 
