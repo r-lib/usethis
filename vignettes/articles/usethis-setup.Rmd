@@ -167,9 +167,21 @@ options(
 )
 ```
 
-
 ## Prepare your system to build packages from source
 
-Draw on and update this: <http://stat545.com/packages01_system-prep.html>
+As you participate more in R development, you will inevitably want to run development versions of other people's packages, i.e. not the version available from CRAN. A typical way to do this is to install a package from GitHub with `devtools::install_github("OWNER/REPO")`.
 
-`pkgbuild::check_build_tools()` verifies the build tools are installed and available. Note: pkgbuild is another piece of the devtools diaspora and is not on CRAN yet.
+But, unlike using `install.packages()` and CRAN, you will be downloading and installing a *source* package, not a *binary* package. This means your system needs to be set up for building R packages. And, before long, you will need to build an R package with compiled code in it.
+
+A full description of setting up an R development environment is beyond the scope of this article, but we give some pointers and diagnostics to get you started.
+
+Update R and all of your packages. And expect to keep doing so frequently.
+
+Mac OS: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is *much smaller* than full Xcode. In a shell, enter `xcode-select --install`. For installing almost anything else, consider using [Homebrew](https://brew.sh).
+
+Windows: Install Rtools. This is not an R package! It is "a collection of resources for building packages for R under Microsoft Windows, or for building R itself". Go to <https://cran.r-project.org/bin/windows/Rtools/> and install as instructed.
+
+There are functions that verify whether R package build tools are installed and available. The home and name of this function is in flux, as it is affected by the restructing of the devtools universe (written early 2018).
+
+  * `pkgbuild::check_build_tools()` is the most current function, but at the time of writing, pkgbuild is not on CRAN yet. It is being developed at <https://github.com/r-lib/pkgbuild> and can be installed via `devtools::install_github("r-lib/pkgbuild")`.
+  * `devtools::has_devel()` was a function in devtools, at least up to v1.13.5, so you might still see references to that. All functionality related to package building now lives in pkgbuild. But once you have installed pkgbuild, you should just use the function `pkgbuild::check_build_tools()` instead.

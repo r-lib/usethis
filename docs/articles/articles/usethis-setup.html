@@ -164,9 +164,19 @@
 <a class="sourceLine" id="cb12-7" data-line-number="7">  )</a>
 <a class="sourceLine" id="cb12-8" data-line-number="8">)</a></code></pre></div>
 </section><section id="prepare-your-system-to-build-packages-from-source" class="level2"><h2>Prepare your system to build packages from source</h2>
-<p>Draw on and update this: <a href="http://stat545.com/packages01_system-prep.html" class="uri">http://stat545.com/packages01_system-prep.html</a></p>
-<p><code><a href="http://www.rdocumentation.org/packages/pkgbuild/topics/has_build_tools">pkgbuild::check_build_tools()</a></code> verifies the build tools are installed and available. Note: pkgbuild is another piece of the devtools diaspora and is not on CRAN yet.</p>
-</section>
+<p>As you participate more in R development, you will inevitably want to run development versions of other people’s packages, i.e. not the version available from CRAN. A typical way to do this is to install a package from GitHub with <code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("OWNER/REPO")</a></code>.</p>
+<p>But, unlike using <code>install.packages()</code> and CRAN, you will be downloading and installing a <em>source</em> package, not a <em>binary</em> package. This means your system needs to be set up for building R packages. And, before long, you will need to build an R package with compiled code in it.</p>
+<p>A full description of setting up an R development environment is beyond the scope of this article, but we give some pointers and diagnostics to get you started.</p>
+<p>Update R and all of your packages. And expect to keep doing so frequently.</p>
+<p>Mac OS: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is <em>much smaller</em> than full Xcode. In a shell, enter <code>xcode-select --install</code>. For installing almost anything else, consider using <a href="https://brew.sh">Homebrew</a>.</p>
+<p>Windows: Install Rtools. This is not an R package! It is “a collection of resources for building packages for R under Microsoft Windows, or for building R itself”. Go to <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a> and install as instructed.</p>
+<p>There are functions that verify whether R package build tools are installed and available. The home and name of this function is in flux, as it is affected by the restructing of the devtools universe (written early 2018).</p>
+<ul>
+<li>
+<code><a href="http://www.rdocumentation.org/packages/pkgbuild/topics/has_build_tools">pkgbuild::check_build_tools()</a></code> is the most current function, but at the time of writing, pkgbuild is not on CRAN yet. It is being developed at <a href="https://github.com/r-lib/pkgbuild" class="uri">https://github.com/r-lib/pkgbuild</a> and can be installed via <code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("r-lib/pkgbuild")</a></code>.</li>
+<li>
+<code>devtools::has_devel()</code> was a function in devtools, at least up to v1.13.5, so you might still see references to that. All functionality related to package building now lives in pkgbuild. But once you have installed pkgbuild, you should just use the function <code><a href="http://www.rdocumentation.org/packages/pkgbuild/topics/has_build_tools">pkgbuild::check_build_tools()</a></code> instead.</li>
+</ul></section>
 </div>
   </div>
 
