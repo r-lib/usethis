@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-You will get the most out of usethis if you do some setup. These setup tasks do not need to be done all at once and/or even done at all. But usethis can offer the most support for package development and Git/GitHub workflows with some advance configuration. usethis can even help you with this!
+You will get the most out of usethis if you do some setup. These setup tasks do not need to be done all at once or even done at all. But usethis can offer the most support for package development and Git/GitHub workflows with some advance configuration. usethis can even help you with this!
 
 Key steps that accelerate your R development workflow (details on *how* to do all this follow):
 
