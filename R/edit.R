@@ -40,7 +40,7 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 
 #' @export
 #' @rdname edit
-#' @param type Snippet type. One of: "R", "markdown", "C_Cpp", "Tex",
+#' @param type Snippet type. One of "R", "markdown", "C_Cpp", "Tex",
 #'   "Javascript", "HTML", "SQL"
 edit_rstudio_snippets <- function(type = "R") {
   file <- scoped_path(
