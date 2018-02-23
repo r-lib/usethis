@@ -48,9 +48,8 @@ GitHub enterprise instance, for example,
 Creates a new local Git repository from a repository on GitHub. It is highly
 recommended that you pre-configure or pass a GitHub personal access token
 (PAT), which is facilitated by \code{\link[=browse_github_pat]{browse_github_pat()}}. In particular, a PAT is
-required in order for \code{create_from_github()} to do
-\href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}. It is also
-required by \code{\link[=use_github]{use_github()}}, which connects existing local projects to GitHub.
+required in order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork andclone"}. It is also required
+by \code{\link[=use_github]{use_github()}}, which connects existing local projects to GitHub.
 }
 \examples{
 \dontrun{
