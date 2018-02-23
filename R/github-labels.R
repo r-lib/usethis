@@ -3,8 +3,8 @@
 #' @description `use_github_labels()` creates new labels and/or changes label
 #'   colours. It does not generally remove labels. But if you set
 #'   `delete_default = TRUE`, it will delete labels that are (1) flagged by the
-#'   API as being [GitHub default labels
-#'   ](https://help.github.com/articles/about-labels/#using-default-labels)
+#'   API as being [GitHub default
+#'   labels](https://help.github.com/articles/about-labels/#using-default-labels)
 #'   and (2) not present in the labels you provide via `labels`.
 #'
 #'   `tidy_labels()` returns the labels and colours commonly used by tidyverse

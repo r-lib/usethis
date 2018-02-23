@@ -11,8 +11,8 @@
 #'
 #' @section Authentication:
 #' A new GitHub repo will be created via the GitHub API, therefore you must
-#' make a [GitHub personal access token (PAT)
-#' ](https://github.com/settings/tokens) available. You can either
+#' make a [GitHub personal access token
+#' (PAT)](https://github.com/settings/tokens) available. You can either
 #' provide this directly via the `auth_token` argument or store it in an
 #' environment variable. Use [browse_github_pat()] to get help obtaining and
 #' storing your PAT. See [gh::gh_whoami()] for even more detail.
@@ -27,10 +27,9 @@
 #' default locations, `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively, and
 #' that `ssh-agent` is configured to manage any associated passphrase.
 #' Alternatively, specify a [git2r::cred_ssh_key()] object via the `credentials`
-#' parameter. Read more about ssh setup in
-#' [Happy Git](http://happygitwithr.com/ssh-keys.html),
-#' especially the [troubleshooting section
-#' ](http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
+#' parameter. Read more about ssh setup in [Happy
+#' Git](http://happygitwithr.com/ssh-keys.html), especially the [troubleshooting
+#' section](http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
 #'
 #' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
@@ -178,9 +177,9 @@ use_github_links <- function(auth_token = NULL,
 
 #' Create a GitHub personal access token
 #'
-#' Opens a browser window to the GitHub page where you can generate a
-#' [Personal Access Token
-#' ](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line).
+#' Opens a browser window to the GitHub page where you can generate a [Personal
+#' Access
+#' Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line).
 #' Make sure you have signed up for a free [GitHub.com](https://github.com/)
 #' account and that you are signed in. Click "Generate token" after you have
 #' verified the scopes. Copy the token right away! You probably want to store it
