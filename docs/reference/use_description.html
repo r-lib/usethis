@@ -99,8 +99,17 @@
     <h1>Create a default DESCRIPTION file for a package.</h1>
     </div>
 
-    <p>If you create a lot of packages, you can override the defaults by
-setting option <code>"usethis.description"</code> to a named list.</p>
+    <p>If you create a lot of packages, you can override the defaults by setting
+option <code>"usethis.description"</code> to a named list. Here's an example of code one
+could include in <code>.Rprofile</code>:</p><pre>options(
+  usethis.name = "Jane Doe",
+  usethis.description = list(
+    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c#' ("aut", "cre"))',
+    License = "MIT + file LICENSE",
+    Version = "0.0.0.9000"
+  )
+)
+</pre>
 
     <pre class="usage"><span class='fu'>use_description</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
@@ -111,17 +120,22 @@ setting option <code>"usethis.description"</code> to a named list.</p>
       <th>fields</th>
       <td><p>A named list of fields to add to <code class="file">DESCRIPTION</code>,
 potentially overriding the defaults. If <code>NULL</code>, retrieved from
-<code>getOption("usethis.description")</code>, and (for backward compatibility)
-from <code>getOption("devtools.desc")</code>.</p></td>
+<code>getOption("usethis.description")</code>, and (for backward compatibility) from
+<code>getOption("devtools.desc")</code>.</p></td>
     </tr>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>use_description</span>()
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

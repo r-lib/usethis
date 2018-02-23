@@ -150,6 +150,19 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">Sys.getenv</span>(<span class="st">"GITHUB_PAT"</span>)</a></code></pre></div>
 <p>Now usethis (and a few other packages) can find this PAT automatically in order to deal with GitHub on your behalf.</p>
 </section><section id="store-your-package-author-details-as-usethis-options" class="level2"><h2>Store your package author details as usethis options</h2>
+<p>If you want usethis to pre-populate the DESCRIPTION file of packages that you create via <code><a href="http://www.rdocumentation.org/packages/usethis/topics/create_package">usethis::create_package()</a></code>, define those fields as <code>usethis.*</code> options in your <code>.Rprofile</code>.</p>
+<p>The options are consulted for a named list <code>usethis.description</code> and, if that does not exist, for backwards compatibility, <code>devtools.desc</code> is also consulted.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(usethis)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="../../reference/edit.html">edit_r_profile</a></span>()</a></code></pre></div>
+<p><code><a href="http://www.rdocumentation.org/packages/usethis/topics/edit">usethis::edit_r_profile()</a></code> opens your <code>.Rprofile</code> for editing. Here is an example of R code that defines options that propagate to future DESCRIPTION files:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">options</span>(</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">usethis.name =</span> <span class="st">"Jane Doe"</span>,</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">usethis.description =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">    <span class="st">`</span><span class="dt">Authors@R</span><span class="st">`</span> =<span class="st"> 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))'</span>,</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">    <span class="dt">License =</span> <span class="st">"MIT + file LICENSE"</span>,</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">    <span class="dt">Version =</span> <span class="st">"0.0.0.9000"</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">  )</a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">)</a></code></pre></div>
 </section><section id="prepare-your-system-to-build-packages-from-source" class="level2"><h2>Prepare your system to build packages from source</h2>
 <p>Draw on and update this: <a href="http://stat545.com/packages01_system-prep.html" class="uri">http://stat545.com/packages01_system-prep.html</a></p>
 <p><code><a href="http://www.rdocumentation.org/packages/pkgbuild/topics/has_build_tools">pkgbuild::check_build_tools()</a></code> verifies the build tools are installed and available. Note: pkgbuild is another piece of the devtools diaspora and is not on CRAN yet.</p>

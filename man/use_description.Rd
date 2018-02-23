@@ -9,10 +9,24 @@ use_description(fields = NULL)
 \arguments{
 \item{fields}{A named list of fields to add to \file{DESCRIPTION},
 potentially overriding the defaults. If \code{NULL}, retrieved from
-\code{getOption("usethis.description")}, and (for backward compatibility)
-from \code{getOption("devtools.desc")}.}
+\code{getOption("usethis.description")}, and (for backward compatibility) from
+\code{getOption("devtools.desc")}.}
 }
 \description{
-If you create a lot of packages, you can override the defaults by
-setting option \code{"usethis.description"} to a named list.
+If you create a lot of packages, you can override the defaults by setting
+option \code{"usethis.description"} to a named list. Here's an example of code one
+could include in \code{.Rprofile}:\preformatted{options(
+  usethis.name = "Jane Doe",
+  usethis.description = list(
+    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c#' ("aut", "cre"))',
+    License = "MIT + file LICENSE",
+    Version = "0.0.0.9000"
+  )
+)
+}
+}
+\examples{
+\dontrun{
+use_description()
+}
 }
