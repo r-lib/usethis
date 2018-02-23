@@ -33,7 +33,7 @@ in RStudio, working directory is set to the new project.}
 \item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
 
 \item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific ssh
-credentials or NULL for default ssh key and ssh-agent behaviour.}
+credentials or \code{NULL} for default ssh key and ssh-agent behaviour.}
 
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
@@ -48,8 +48,9 @@ GitHub enterprise instance, for example,
 Creates a new local Git repository from a repository on GitHub. It is highly
 recommended that you pre-configure or pass a GitHub personal access token
 (PAT), which is facilitated by \code{\link[=browse_github_pat]{browse_github_pat()}}. In particular, a PAT is
-required in order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork andclone"}. It is also required
-by \code{\link[=use_github]{use_github()}}, which connects existing local projects to GitHub.
+required in order for \code{create_from_github()} to do
+\href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}. It is also
+required by \code{\link[=use_github]{use_github()}}, which connects existing local projects to GitHub.
 }
 \examples{
 \dontrun{

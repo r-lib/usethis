@@ -19,7 +19,7 @@ organisation. You must have access to create repositories.}
 \item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
 
 \item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific ssh
-credentials or NULL for default ssh key and ssh-agent behaviour.}
+credentials or \code{NULL} for default ssh key and ssh-agent behaviour.}
 
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
@@ -42,7 +42,7 @@ GitHub-using R package with appropriate links (unless they already exist).
 \section{Authentication}{
 
 A new GitHub repo will be created via the GitHub API, therefore you must
-make a \href{https://github.com/settings/tokens}{GitHub personal access token(PAT)} available. You can either
+make a \href{https://github.com/settings/tokens}{GitHub personal access token (PAT)} available. You can either
 provide this directly via the \code{auth_token} argument or store it in an
 environment variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to get help obtaining and
 storing your PAT. See \code{\link[gh:gh_whoami]{gh::gh_whoami()}} for even more detail.
@@ -59,7 +59,9 @@ For \code{protocol = "ssh"}, it is assumed that public and private keys are in t
 default locations, \code{~/.ssh/id_rsa.pub} and \code{~/.ssh/id_rsa}, respectively, and
 that \code{ssh-agent} is configured to manage any associated passphrase.
 Alternatively, specify a \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} object via the \code{credentials}
-parameter. Read more about ssh setup in \href{http://happygitwithr.com/ssh-keys.html}{HappyGit}, especially the \href{http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting}{troubleshootingsection}.
+parameter. Read more about ssh setup in
+\href{http://happygitwithr.com/ssh-keys.html}{Happy Git},
+especially the \href{http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting}{troubleshooting section}.
 }
 
 \examples{
