@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-You will get the most out of usethis if you do some setup. These setup tasks do not need to be done all at once and or even done at all. But usethis can offer the most support for package development and Git/GitHub workflows with some advance configuration. usethis can even help you with this!
+You will get the most out of usethis if you do some setup. These setup tasks do not need to be done all at once and/or even done at all. But usethis can offer the most support for package development and Git/GitHub workflows with some advance configuration. usethis can even help you with this!
 
 Key steps that accelerate your R development workflow (details on *how* to do all this follow):
 
@@ -40,7 +40,7 @@ if (interactive()) {
 }
 ```
 
-In the long-run, devtools should make all of usethis's functions available and it should feel like they are part of devtools itself. But while the "devtools diaspora" is in process (written in first half of 2018), you may need to work with both usethis and devtools. If you attach both, we recommend attaching devtools, then usethis. In `.Rprofile`, that would look like so:
+In the long-run, [devtools](https://github.com/r-lib/devtools) should make all of usethis's functions available and it should feel like they are part of devtools itself. But while the "devtools diaspora" is in process (written in first half of 2018), you may need to work with both usethis and devtools. If you attach both, we recommend attaching devtools, then usethis. In `.Rprofile`, that would look like so:
 
 ```{r, eval = FALSE}
 if (interactive()) {
@@ -97,7 +97,7 @@ Another Git option that many people eventually configure is the editor. This wil
 git config --global core.editor emacs
 ```
 
-Substitute your preferred editor for emacs here. A popular choice is nano. The default, if you don't configure `core.editor`, is usually vim.
+Substitute your preferred editor for emacs here. A popular choice is [nano](https://www.nano-editor.org/). The default, if you don't configure `core.editor`, is usually vim.
 
 ## Connections: Git, GitHub, RStudio
 
@@ -109,7 +109,7 @@ If you want to use RStudio to work with Git (and therefore GitHub, see previous 
 
 ## Get and store a GitHub personal access token
 
-This is required if you want to use `usethis::use_github()` and `create_from_github(..., fork = TRUE)`. In both cases, usethis must create a new repository on your behalf on GitHub, which is different from pulling to and pushing to *existing* repos, which is a Git operation.
+This is required if you want to use `usethis::use_github()` and `usethis::create_from_github(..., fork = TRUE)`. In both cases, usethis must create a new GitHub repository on your behalf, which is different from pulling to and pushing to *existing* repos, which is a Git operation.
 
 ```{r, eval = FALSE}
 library(usethis)
@@ -181,9 +181,9 @@ A full description of setting up an R development environment is beyond the scop
 
 Update R and all of your packages. And expect to keep doing so frequently.
 
-Mac OS: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is *much smaller* than full Xcode. In a shell, enter `xcode-select --install`. For installing almost anything else, consider using [Homebrew](https://brew.sh).
+**Mac OS**: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is *much smaller* than full Xcode. In a shell, enter `xcode-select --install`. For installing almost anything else, consider using [Homebrew](https://brew.sh).
 
-Windows: Install Rtools. This is not an R package! It is "a collection of resources for building packages for R under Microsoft Windows, or for building R itself". Go to <https://cran.r-project.org/bin/windows/Rtools/> and install as instructed.
+**Windows**: Install Rtools. This is not an R package! It is "a collection of resources for building packages for R under Microsoft Windows, or for building R itself". Go to <https://cran.r-project.org/bin/windows/Rtools/> and install as instructed.
 
 There are functions that verify whether R package build tools are installed and available. The home and name of this function is in flux, as it is affected by the restructing of the devtools universe (written early 2018).
 
