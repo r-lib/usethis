@@ -99,9 +99,9 @@ create_project <- function(path,
 #' Creates a new local Git repository from a repository on GitHub. It is highly
 #' recommended that you pre-configure or pass a GitHub personal access token
 #' (PAT), which is facilitated by [browse_github_pat()]. In particular, a PAT is
-#' required in order for `create_from_github()` to do ["fork and
-#' clone"](https://help.github.com/articles/fork-a-repo/). It is also required
-#' by [use_github()], which connects existing local projects to GitHub.
+#' required in order for `create_from_github()` to do
+#' ["fork and clone"](https://help.github.com/articles/fork-a-repo/). It is also
+#' required by [use_github()], which connects existing local projects to GitHub.
 #'
 #' @seealso [use_course()] for one-time download of all files in a Git repo,
 #'   without any local or remote Git operations.
