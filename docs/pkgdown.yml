@@ -1,0 +1,6 @@
+urls:
+  reference: http://usethis.r-lib.org/reference
+  article: http://usethis.r-lib.org/articles
+articles:
+  usethis-setup: articles/usethis-setup.html
+

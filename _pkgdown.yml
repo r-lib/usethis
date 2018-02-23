@@ -1,3 +1,17 @@
+url: http://usethis.r-lib.org
+
+navbar:
+  type: default
+  left:
+  - text: Home
+    href: index.html
+  - text: Setup
+    href: articles/articles/usethis-setup.html
+  - text: Reference
+    href: reference/index.html
+  - text: News
+    href: news/index.html
+
 reference:
   - title: Create
     desc: >
