@@ -143,18 +143,20 @@ Sys.getenv("GITHUB_PAT")
 
 Now usethis (and a few other packages) can find this PAT automatically in order to deal with GitHub on your behalf.
 
-## Store your package author details as usethis options
+## Store default values for DESCRIPTION fields in all new packages
 
-If you want usethis to pre-populate the DESCRIPTION file of packages that you create via `usethis::create_package()`, define those fields as `usethis.*` options in your `.Rprofile`.
+If you want to override the defaults for the DESCRIPTION file of packages that you create via `usethis::create_package()`, define those fields via `usethis.*` options in your `.Rprofile`.
 
-The options are consulted for a named list `usethis.description` and, if that does not exist, for backwards compatibility, `devtools.desc` is also consulted.
+The options are consulted for a named list called `usethis.description` and, if that does not exist, for backwards compatibility, `devtools.desc` is also consulted.
 
 ```{r, eval =FALSE}
 library(usethis)
 edit_r_profile()
 ```
 
-`usethis::edit_r_profile()` opens your `.Rprofile` for editing. Here is an example of R code that defines options that propagate to future DESCRIPTION files:
+`usethis::edit_r_profile()` opens your `.Rprofile` for editing.
+
+Here is an example of R code that sets the authors, license, and version in all future DESCRIPTION files created by usethis:
 
 ```{r, eval = FALSE}
 options(
@@ -166,6 +168,8 @@ options(
   )
 )
 ```
+
+Save similar code in your `.Rprofile` and restart R for it to take effect.
 
 ## Prepare your system to build packages from source
 

@@ -149,12 +149,13 @@
 <p>Restart R and confirm your PAT is now available:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">Sys.getenv</span>(<span class="st">"GITHUB_PAT"</span>)</a></code></pre></div>
 <p>Now usethis (and a few other packages) can find this PAT automatically in order to deal with GitHub on your behalf.</p>
-</section><section id="store-your-package-author-details-as-usethis-options" class="level2"><h2>Store your package author details as usethis options</h2>
-<p>If you want usethis to pre-populate the DESCRIPTION file of packages that you create via <code><a href="http://www.rdocumentation.org/packages/usethis/topics/create_package">usethis::create_package()</a></code>, define those fields as <code>usethis.*</code> options in your <code>.Rprofile</code>.</p>
-<p>The options are consulted for a named list <code>usethis.description</code> and, if that does not exist, for backwards compatibility, <code>devtools.desc</code> is also consulted.</p>
+</section><section id="store-default-values-for-description-fields-in-all-new-packages" class="level2"><h2>Store default values for DESCRIPTION fields in all new packages</h2>
+<p>If you want to override the defaults for the DESCRIPTION file of packages that you create via <code><a href="http://www.rdocumentation.org/packages/usethis/topics/create_package">usethis::create_package()</a></code>, define those fields via <code>usethis.*</code> options in your <code>.Rprofile</code>.</p>
+<p>The options are consulted for a named list called <code>usethis.description</code> and, if that does not exist, for backwards compatibility, <code>devtools.desc</code> is also consulted.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(usethis)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="../../reference/edit.html">edit_r_profile</a></span>()</a></code></pre></div>
-<p><code><a href="http://www.rdocumentation.org/packages/usethis/topics/edit">usethis::edit_r_profile()</a></code> opens your <code>.Rprofile</code> for editing. Here is an example of R code that defines options that propagate to future DESCRIPTION files:</p>
+<p><code><a href="http://www.rdocumentation.org/packages/usethis/topics/edit">usethis::edit_r_profile()</a></code> opens your <code>.Rprofile</code> for editing.</p>
+<p>Here is an example of R code that sets the authors, license, and version in all future DESCRIPTION files created by usethis:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">options</span>(</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">usethis.name =</span> <span class="st">"Jane Doe"</span>,</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">usethis.description =</span> <span class="kw">list</span>(</a>
@@ -163,6 +164,7 @@
 <a class="sourceLine" id="cb12-6" data-line-number="6">    <span class="dt">Version =</span> <span class="st">"0.0.0.9000"</span></a>
 <a class="sourceLine" id="cb12-7" data-line-number="7">  )</a>
 <a class="sourceLine" id="cb12-8" data-line-number="8">)</a></code></pre></div>
+<p>Save similar code in your <code>.Rprofile</code> and restart R for it to take effect.</p>
 </section><section id="prepare-your-system-to-build-packages-from-source" class="level2"><h2>Prepare your system to build packages from source</h2>
 <p>As you participate more in R development, you will inevitably want to run development versions of other people’s packages, i.e. not the version available from CRAN. A typical way to do this is to install a package from GitHub with <code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("OWNER/REPO")</a></code>.</p>
 <p>But, unlike using <code>install.packages()</code> and CRAN, you will be downloading and installing a <em>source</em> package, not a <em>binary</em> package. This means your system needs to be set up for building R packages. And, before long, you will need to build an R package with compiled code in it.</p>
@@ -192,7 +194,7 @@
       <li><a href="#configure-user-name-and-user-email">Configure <code>user.name</code> and <code>user.email</code></a></li>
       <li><a href="#connections-git-github-rstudio">Connections: Git, GitHub, RStudio</a></li>
       <li><a href="#get-and-store-a-github-personal-access-token">Get and store a GitHub personal access token</a></li>
-      <li><a href="#store-your-package-author-details-as-usethis-options">Store your package author details as usethis options</a></li>
+      <li><a href="#store-default-values-for-description-fields-in-all-new-packages">Store default values for DESCRIPTION fields in all new packages</a></li>
       <li><a href="#prepare-your-system-to-build-packages-from-source">Prepare your system to build packages from source</a></li>
       </ul>
 </div>
