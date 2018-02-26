@@ -224,12 +224,14 @@ use_tidy_style <- function(strict = TRUE) {
   if (is_package()) {
     styled <- styler::style_pkg(
       proj_get(),
-      style = styler::tidyverse_style, strict = strict
+      style = styler::tidyverse_style,
+      strict = strict
     )
   } else {
     styled <- styler::style_dir(
       proj_get(),
-      style = styler::tidyverse_style, strict = strict
+      style = styler::tidyverse_style,
+      strict = strict
     )
   }
   cat_line()
