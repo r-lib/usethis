@@ -222,12 +222,14 @@ use_tidy_style <- function(strict = TRUE) {
   check_installed("styler")
   check_uncommitted_changes()
   if (is_package()) {
-    styled <- styler::style_pkg(proj_get(),
-                                style = styler::tidyverse_style, strict = strict
+    styled <- styler::style_pkg(
+      proj_get(),
+      style = styler::tidyverse_style, strict = strict
     )
   } else {
-    styled <- styler::style_dir(proj_get(),
-                                style = styler::tidyverse_style, strict = strict
+    styled <- styler::style_dir(
+      proj_get(),
+      style = styler::tidyverse_style, strict = strict
     )
   }
   cat_line()
