@@ -30,16 +30,16 @@ Imports:
     git2r,
     httr,
     rematch2,
-    rmarkdown,
     rprojroot,
     rstudioapi,
-    styler,
     whisker
 Suggests: 
     covr,
     knitr,
     roxygen2,
     testthat (>= 2.0.0),
+    rmarkdown,
+    styler,
     withr
 Encoding: UTF-8
 LazyData: true
