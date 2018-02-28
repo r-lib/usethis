@@ -36,10 +36,10 @@ Imports:
 Suggests: 
     covr,
     knitr,
-    roxygen2,
-    testthat (>= 2.0.0),
     rmarkdown,
+    roxygen2,
     styler,
+    testthat (>= 2.0.0),
     withr
 Encoding: UTF-8
 LazyData: true
