@@ -30,15 +30,15 @@ Imports:
     git2r,
     httr,
     rematch2,
-    rmarkdown,
     rprojroot,
     rstudioapi,
-    styler,
     whisker
 Suggests: 
     covr,
     knitr,
+    rmarkdown,
     roxygen2,
+    styler,
     testthat (>= 2.0.0),
     withr
 Encoding: UTF-8
