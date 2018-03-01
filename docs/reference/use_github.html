@@ -24,8 +24,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
-
+  
+  
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -62,15 +62,32 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">News</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    News
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Blog posts</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+    </li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="../news/index.html">Change log</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
     <span class="fa fa-github fa-lg"></span>
-
+     
   </a>
 </li>
       </ul>
@@ -78,7 +95,7 @@
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-
+      
       </header>
 
       <div class="row">
@@ -137,7 +154,7 @@ GitHub enterprise instance, for example,
 
     <h2 class="hasAnchor" id="authentication"><a class="anchor" href="#authentication"></a>Authentication</h2>
 
-
+    
     <p>A new GitHub repo will be created via the GitHub API, therefore you must
 make a <a href='https://github.com/settings/tokens'>GitHub personal access token (PAT)</a> available. You can either
 provide this directly via the <code>auth_token</code> argument or store it in an
@@ -146,8 +163,8 @@ storing your PAT. See <code><a href='http://www.rdocumentation.org/packages/gh/t
 <p>The argument <code>protocol</code> reflects how you wish to authenticate with GitHub
 for this repo in the long run. This determines the form of the URL for the
 <code>origin</code> remote:</p><ul>
-<li><p><code>protocol = "ssh"</code>: <code>git@github.com:<USERNAME>/<REPO>.git</code></p></li>
-<li><p><code>protocol = "https"</code>: <code>https://github.com/<USERNAME>/<REPO>.git</code></p></li>
+<li><p><code>protocol = "ssh"</code>: <code>git@github.com:&lt;USERNAME&gt;/&lt;REPO&gt;.git</code></p></li>
+<li><p><code>protocol = "https"</code>: <code>https://github.com/&lt;USERNAME&gt;/&lt;REPO&gt;.git</code></p></li>
 </ul>
     <p>For <code>protocol = "ssh"</code>, it is assumed that public and private keys are in the
 default locations, <code>~/.ssh/id_rsa.pub</code> and <code>~/.ssh/id_rsa</code>, respectively, and
