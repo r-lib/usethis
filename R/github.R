@@ -6,9 +6,6 @@
 #' to synchronize. `use_github()` requires that your project already be a Git
 #' repository, which you can accomplish with [use_git()], if needed.
 #'
-#' `use_github_links()` populates the `URL` and `BugReports` fields of a
-#' GitHub-using R package with appropriate links (unless they already exist).
-#'
 #' @section Authentication:
 #' A new GitHub repo will be created via the GitHub API, therefore you must
 #' make a [GitHub personal access token
@@ -120,8 +117,8 @@ use_github <- function(organisation = NULL,
   r <- git2r::repository(proj_get())
   protocol <- match.arg(protocol)
   origin_url <- switch(protocol,
-    https = create$clone_url,
-    ssh = create$ssh_url
+                       https = create$clone_url,
+                       ssh = create$ssh_url
   )
   git2r::remote_add(r, "origin", origin_url)
 
@@ -154,8 +151,19 @@ use_github <- function(organisation = NULL,
   invisible(NULL)
 }
 
+#' Populate the URL and BugReports
+#'
+#' @description
+#' `use_github_links()` populates the `URL` and `BugReports` fields of a
+#' GitHub-using R package with appropriate links (unless they already exist).
+#'
+#' @inheritParams use_github
 #' @export
-#' @rdname use_github
+#' @examples
+#' \dontrun{
+#' use_github_links()
+#' }
+#'
 use_github_links <- function(auth_token = NULL,
                              host = "https://api.github.com") {
   check_uses_github()
