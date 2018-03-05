@@ -117,8 +117,8 @@ use_github <- function(organisation = NULL,
   r <- git2r::repository(proj_get())
   protocol <- match.arg(protocol)
   origin_url <- switch(protocol,
-                       https = create$clone_url,
-                       ssh = create$ssh_url
+    https = create$clone_url,
+    ssh = create$ssh_url
   )
   git2r::remote_add(r, "origin", origin_url)
 
