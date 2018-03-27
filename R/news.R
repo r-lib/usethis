@@ -13,7 +13,7 @@ use_news_md <- function(open = TRUE) {
 }
 
 use_news_heading <- function(version) {
-  news_path <- file.path(proj_get(), "NEWS.md")
+  news_path <- proj_path("NEWS.md")
   if (!file.exists(news_path)) {
     return(invisible())
   }

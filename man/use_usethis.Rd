@@ -2,7 +2,7 @@
 % Please edit documentation in R/use_this.R
 \name{use_usethis}
 \alias{use_usethis}
-\title{Make usethis available interactively}
+\title{Make usethis available in interactive sessions}
 \usage{
 use_usethis()
 }

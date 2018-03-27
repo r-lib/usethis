@@ -7,6 +7,10 @@
 use_pipe()
 }
 \description{
-This imports magrittr, and creates a \code{R/utils-pipe.R} with the necessary
-roxygen template to import and re-export the pipe.
+Does setup necessary to use magrittr's pipe internally in your package and to
+re-export it for users of your package:
+\itemize{
+\item Adds magrittr to "Imports" in DESCRIPTION
+\item Creates \code{R/utils-pipe.R} with the necessary roxygen template
+}
 }

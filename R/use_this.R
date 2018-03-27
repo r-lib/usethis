@@ -1,4 +1,4 @@
-#' Make usethis available interactively
+#' Make usethis available in interactive sessions
 #'
 #' Opens your `.Rprofile` and gives you the code you need to paste in.
 #'

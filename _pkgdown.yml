@@ -1,0 +1,92 @@
+url: http://usethis.r-lib.org
+
+navbar:
+  type: default
+  left:
+  - text: Home
+    href: index.html
+  - text: Setup
+    href: articles/articles/usethis-setup.html
+  - text: Reference
+    href: reference/index.html
+  - text: News
+    menu:
+    - text: "Blog posts"
+    - text: "usethis 1.0.0 (and 1.1.0)"
+      href: https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/
+    - text: "usethis 1.3.0"
+      href: https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/
+    - text: "------------------"
+    - text: "Change log"
+      href: news/index.html
+
+reference:
+  - title: Create
+    desc: >
+      Create a project de novo or from an existing source, either local or remote
+    contents:
+    - starts_with("create_")
+    - use_course
+  - title: Active project
+    desc: >
+      Query or set the project targetted by usethis functions that don't take a path
+    contents:
+    - starts_with("proj_", internal = TRUE)
+  - title: Package development
+    desc: >
+      Add or modify files typically found in R packages
+    contents:
+    - create_package
+    - use_description
+    - matches("license")
+    - use_package
+    - use_namespace
+    - use_r
+    - use_test
+    - use_data
+    - use_coverage
+    - matches("build_ignore|pipe|rcpp")
+    - matches("roxygen_md|vignette|news_md|package_doc")
+    - matches("readme")
+    - matches("pkgdown|badge")
+    - matches("dev_version|cran_comments|revdep")
+    - use_rmarkdown_template
+    - matches("use_tidy")
+  - title: "Configuration"
+    desc: >
+      Configure the behaviour of R, RStudio, or Git, globally as a user or
+      for a specific project
+    contents:
+    - use_blank_slate
+    - use_usethis
+    - use_git_config
+    - matches("edit_r")
+  - title: Git and GitHub
+    contents:
+    - create_from_github
+    - use_git_config
+    - use_git
+    - use_github
+    - use_git_ignore
+    - use_git_hook
+    - use_github_labels
+    - use_code_of_conduct
+    - use_readme_rmd
+    - matches("browse")
+    - matches("edit_git_")
+  - title: Edit
+    contents:
+    - starts_with("edit_")
+  - title: Browse
+    contents:
+    - starts_with("browse_")
+  - title: Helpers
+    desc: >
+      These functions are mostly for internal use. But they are useful for
+      those who wish to offer usethis-like support for, e.g., workflows specific
+      to an organisation.
+    contents:
+    - use_template
+    - use_directory
+    - use_rmarkdown_template
+    - use_rstudio

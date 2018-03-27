@@ -1,4 +1,4 @@
-^.*\.Rproj$
+^usethis\.Rproj$
 ^\.Rproj\.user$
 ^revdep$
 ^\.travis\.yml$
@@ -6,3 +6,9 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^cran-comments\.md$
+^appveyor\.yml$
+^tests/manual$
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^vignettes/articles$

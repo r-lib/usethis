@@ -3,7 +3,7 @@
 \name{use_package}
 \alias{use_package}
 \alias{use_dev_package}
-\title{Use specified package.}
+\title{Depend on another package}
 \usage{
 use_package(package, type = "Imports")
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/git.R
 \name{use_git}
 \alias{use_git}
-\title{Initialise a git repository.}
+\title{Initialise a git repository}
 \usage{
 use_git(message = "Initial commit")
 }
@@ -10,13 +10,16 @@ use_git(message = "Initial commit")
 \item{message}{Message to use for first commit.}
 }
 \description{
-\code{use_git} initialises a git repository, adds important files
-to \code{.gitignore}, and commits all files.
+\code{use_git()} initialises a Git repository, adds important files to
+\code{.gitignore}, and commits all files.
 }
 \examples{
-\dontrun{use_git()}
+\dontrun{
+use_git()
+}
 }
 \seealso{
-Other git helpers: \code{\link{use_git_hook}},
-  \code{\link{use_git_ignore}}
+Other git helpers: \code{\link{use_git_config}},
+  \code{\link{use_git_hook}}, \code{\link{use_git_ignore}}
 }
+\concept{git helpers}

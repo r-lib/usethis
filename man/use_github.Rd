@@ -3,7 +3,7 @@
 \name{use_github}
 \alias{use_github}
 \alias{use_github_links}
-\title{Connect a local repo with GitHub.}
+\title{Connect a local repo with GitHub}
 \usage{
 use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
   "https"), credentials = NULL, auth_token = NULL, host = NULL)
@@ -18,58 +18,59 @@ organisation. You must have access to create repositories.}
 
 \item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
 
-\item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific
-ssh credentials or NULL for default ssh key and ssh-agent behaviour.
-Default is NULL.}
+\item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific ssh
+credentials or \code{NULL} for default ssh key and ssh-agent behaviour.}
 
 \item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the
-\code{GITHUB_PAT} environment variable.}
+\url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
+described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
+variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3". You can set this globally using
-the \code{GITHUB_API_URL} env var.}
+"https://github.hostname.com/api/v3"}
 }
 \description{
-\code{use_github} calls \code{\link[=use_git]{use_git()}} if needed, creates
-repo on github, then sets up appropriate git remotes and syncs.
-\code{use_github_links} populates the \code{URL} and \code{BugReports}
-fields with appropriate links (unless they already exist).
+\code{use_github()} takes a local project, creates an associated repo on GitHub,
+adds it to your local repo as the \code{origin} remote, and makes an initial push
+to synchronize. \code{use_github()} requires that your project already be a Git
+repository, which you can accomplish with \code{\link[=use_git]{use_git()}}, if needed.
+
+\code{use_github_links()} populates the \code{URL} and \code{BugReports} fields of a
+GitHub-using R package with appropriate links (unless they already exist).
 }
 \section{Authentication}{
 
-
 A new GitHub repo will be created via the GitHub API, therefore you must
-provide a GitHub personal access token (PAT) via the argument
-\code{auth_token}, which defaults to the value of the \code{GITHUB_PAT}
-environment variable. Obtain a PAT from
-\url{https://github.com/settings/tokens}. The "repo" scope is required
-which is one of the default scopes for a new PAT.
+make a \href{https://github.com/settings/tokens}{GitHub personal access token (PAT)} available. You can either
+provide this directly via the \code{auth_token} argument or store it in an
+environment variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to get help obtaining and
+storing your PAT. See \code{\link[gh:gh_whoami]{gh::gh_whoami()}} for even more detail.
 
-The argument \code{protocol} reflects how you wish to authenticate with
-GitHub for this repo in the long run. For either \code{protocol}, a remote
-named "origin" is created, an initial push is made using the specified
-\code{protocol}, and a remote tracking branch is set. The URL of the
-"origin" remote has the form \code{git@github.com:<USERNAME>/<REPO>.git}
-(\code{protocol = "ssh"}, the default) or
-\code{https://github.com/<USERNAME>/<REPO>.git} (\code{protocol =
-  "https"}). For \code{protocol = "ssh"}, it is assumed that public and
-private keys are in the default locations, \code{~/.ssh/id_rsa.pub} and
-\code{~/.ssh/id_rsa}, respectively, and that \code{ssh-agent} is configured
-to manage any associated passphrase.  Alternatively, specify a
-\code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} object via the \code{credentials}
-parameter.
+The argument \code{protocol} reflects how you wish to authenticate with GitHub
+for this repo in the long run. This determines the form of the URL for the
+\code{origin} remote:
+\itemize{
+\item \code{protocol = "ssh"}: \code{git@github.com:<USERNAME>/<REPO>.git}
+\item \code{protocol = "https"}: \code{https://github.com/<USERNAME>/<REPO>.git}
+}
+
+For \code{protocol = "ssh"}, it is assumed that public and private keys are in the
+default locations, \code{~/.ssh/id_rsa.pub} and \code{~/.ssh/id_rsa}, respectively, and
+that \code{ssh-agent} is configured to manage any associated passphrase.
+Alternatively, specify a \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} object via the \code{credentials}
+parameter. Read more about ssh setup in \href{http://happygitwithr.com/ssh-keys.html}{Happy Git}, especially the \href{http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting}{troubleshooting section}.
 }
 
 \examples{
 \dontrun{
-## to use default ssh protocol
-create("testpkg")
-use_github(pkg = "testpkg")
+create_package("test-pkg") # creates package in current working directory
 
-## or use https
-create("testpkg2")
-use_github(pkg = "testpkg2", protocol = "https")
+## now, working inside "test-pkg", initialize git repository
+use_git()
+
+## create github repository and configure as git remote
+use_github()                   ## to use default ssh protocol
+use_github(protocol = "https") ## to use https
 }
 }

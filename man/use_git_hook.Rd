@@ -2,7 +2,7 @@
 % Please edit documentation in R/git.R
 \name{use_git_hook}
 \alias{use_git_hook}
-\title{Add a git hook.}
+\title{Add a git hook}
 \usage{
 use_git_hook(hook, script)
 }
@@ -19,6 +19,7 @@ Sets up a git hook using specified script. Creates hook directory if
 needed, and sets correct permissions on hook.
 }
 \seealso{
-Other git helpers: \code{\link{use_git_ignore}},
-  \code{\link{use_git}}
+Other git helpers: \code{\link{use_git_config}},
+  \code{\link{use_git_ignore}}, \code{\link{use_git}}
 }
+\concept{git helpers}

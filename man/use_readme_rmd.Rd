@@ -3,14 +3,15 @@
 \name{use_readme_rmd}
 \alias{use_readme_rmd}
 \alias{use_readme_md}
-\title{Create README files.}
+\title{Create README files}
 \usage{
-use_readme_rmd(open = TRUE)
+use_readme_rmd(open = interactive())
 
-use_readme_md(open = TRUE)
+use_readme_md(open = interactive())
 }
 \arguments{
-\item{open}{Should the new created file be opened in RStudio?}
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 Creates skeleton README files with sections for

@@ -2,18 +2,19 @@
 % Please edit documentation in R/cran.R
 \name{use_cran_comments}
 \alias{use_cran_comments}
-\title{Create a comment for submission to CRAN.}
+\title{CRAN submission comments}
 \usage{
-use_cran_comments(open = TRUE)
+use_cran_comments(open = interactive())
 }
 \arguments{
-\item{open}{Should the new created file be opened in RStudio?}
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
-This creates a template for your communications with CRAN when submitting a
-package. The goal of the file is to clearly communicate what steps you have
-taken to check that your package works across a wide range of operating
-systems. If you are submitting an update to a package that is used by
-other packages, you also need to describe the steps you have taken to
-ensure that it does not break existing code on CRAN.
+Creates \code{cran-comments.md}, a template for your communications with CRAN when
+submitting a package. The goal is to clearly communicate the steps you have
+taken to check your package on a wide range of operating systems. If you are
+submitting an update to a package that is used by other packages, you also
+need to summarize the results of your \link[=use_revdep]{reverse dependency
+checks}.
 }

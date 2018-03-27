@@ -1,12 +1,99 @@
-<<<<<<< HEAD
-# usethis 0.1.0.9000
+# usethis 1.3.0.9000
 
-* Adding simple newlines for readability in `use_github` and fixing
-  badges for Coveralls in `use_coverage` (#77).
+# usethis 1.3.0
 
-# usethis 0.1.0
-=======
-# usethis 0.0.0.9000
+* usethis has a website: <http://usethis.r-lib.org> (#217). It includes an article with advice on system setup, for usethis and for R development more generally.
+
+* `edit_*()` functions now return the target path, invisibly (#255).
+
+* `edit_git_ignore(scope = "user")` prefers `~/.gitignore`, but detects an existing `~/.gitignore_global`, if it exists. If a new global gitignore file is created, it is created as `~/.gitignore` and recorded in user's git config as the `core.excludesfile` (#255).
+
+* `create_from_github()` gains several arguments and new functionality. The `protocol` argument lets user convey whether remote URLs should be ssh or https. In the case of "fork and clone", the original repo is added as `upstream` remote. It is now possible -- although rarely necessary -- to directly specify the GitHub PAT, credentials (in git2r form), and GitHub host (#214, #214, #253).
+
+* `use_github_labels()` can create or update the colour of arbitrary GitHub issue labels, defaulting to a set of labels and colours used by the tidyverse packages, which are now exposed via `tidy_labels()`. That set now includes the labels "good first issue" and "help wanted" (#168, #249).
+
+* `appveyor_info()` no longer reverses the repo's URL and image link. Corrects the markdown produced by `use_appveyor_badge()` (#240, @llrs). 
+
+* `use_cran_badge()` uses an HTTPS URL for the CRAN badge image (#235, @jdblischak).
+
+* `create_package()` and `create_project()` return a normalized path, even if target directory does not pre-exist (#227, #228).
+
+## New functions
+
+* `use_git_config()` can set user's Git name or email, globally or locally in a project/repo (#267).
+
+* `browse_github_pat()` goes to the webpage where a GitHub user can create a personal access token (PAT) for the GitHub API. If the user configures a PAT, they can use functions like `create_from_github()` and `use_github()` to easily create and connect GitHub repos to local projects. (#248, #257, @jeroen, via @jennybc).
+
+* `use_version()` increments the version of the active package, including an interactive chooser. `use_dev_version()` is now a special case wrapper around this. (#188, #223, @EmilHvitfeldt).
+
+* `use_tidy_github()` creates a standard set of files that make a GitHub repository more navigable for users and contributors: an issue template, contributing guidelines, support documentation, and a code of conduct. All are now placed in a `.github/` subdirectory (#165, @batpigandme).
+
+* `use_bioc_badge` creates a Bioconductor badge that links to the build report (#271, @LiNk-NY).
+
+* `use_binder_badge()` creates a badge indicating the repository can be launched in an executable environment via [Binder](https://mybinder.org/) (#242, @uribo).
+
+# usethis 1.2.0
+
+## New functions
+
+* `use_course()` downloads a folder's worth of materials from a ZIP file, with deliberate choices around the default folder name and location. Developed for use at the start of a workshop. Helps participants obtain materials from, e.g., a DropBox folder or GitHub repo (#196).
+
+* `use_blank_slate()` provides a way to opt in to an RStudio workflow where the user's workspace is neither saved nor reloaded between R sessions. Automated for `scope = "project"`. Provides UI instructions for `scope = "user"`, for now (#139).
+
+* `use_tidy_style()` styles an entire project according to <http://style.tidyverse.org> (#72, #197 @lorenzwalthert).
+
+* GitHub conventions common to tidyverse packages are enacted by `use_tidy_contributing()`, `use_tidy_issue_template()`, and `use_tidy_support()` (@batpigandme, #143, #166).
+
+Other changes
+
+* New projects that don't exhibit other obvious criteria for being a "project" will include a sentinel, empty file named `.here`, so they can be recognized as a project.
+
+* Project launching and switching works on RStudio server (#115, #129).
+
+* `use_template()` is newly exported, so that other packages can provide
+templating functions using this framework (@ijlyttle #120).
+
+* `use_readme_rmd()` and `use_readme_md()` work, in a similar fashion, for projects that are and are not a package (#131, #135).
+
+* `use_readme_rmd()` once again creates a pre-commit git hook, to help keep `README.Rmd` and `README.md` in sync (@PeteHaitch #41).
+
+* Substantial increase in unit test coverage.
+
+# usethis 1.1.0
+
+## New helpers
+
+* `browse_github()`, `browse_github_issues()`, `browse_github_pulls()`,
+  `browse_cran()` and `browse_travis()` open useful websites related to
+   the current project or a named package. (#96, #103).
+
+* `create_from_github()` creates a project from an existing GitHub
+  repository, forking if needed (#109).
+
+* `use_cc0_license()` applies a CC0 license, particularly appropriate for data 
+  packages (#94)
+
+* `use_lifecycle_badge()` creates a badge describing current stage in 
+  project lifecycle (#48).
+
+* `use_pkgdown()` creates the basics needed for a 
+  [pkgdown](https://github.com/hadley/pkgdown) website (#88).
+
+* `use_r("foo")` creates and edit `R/foo.R` file. If you have a test file open,
+  `use_r()` will open the corresponding `.R` file (#105).
+
+* `use_tidy_versions()` sets minimum version requirement for all dependencies.
+
+## Bug fixes and improvements
+
+* `use_dev_version()` now correctly updates the `Version` field in a package 
+  description file. (@tjmahr, #104)
+
+* `use_revdep()` now also git-ignores the SQLite database (#107).
+
+* `use_tidy_eval()` has been tweaked to reflect current guidance (#106)
+
+# usethis 1.0.0
 >>>>>>> upstream/master
 
 This is a new package that extracts out many functions that previously lived in devtools, as well as providing more building blocks so you can create your own helpers. As well as the many new helpers listed below, there are three main improvements to the package:
@@ -113,4 +200,3 @@ A new class of functions make it easy to edit common config files:
 
 * `use_vignette()` now adds `*.html` and `*.R` to your `.gitgnore` so you
   don't accidentally add in compiled vignette products (#35).
-  

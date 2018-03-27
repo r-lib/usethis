@@ -22,16 +22,16 @@ Objects in this file follow the usual export rules. Note that this means
 they will be exported if you are using the common \code{exportPattern()}
 rule which exports all objects except for those that start with \code{.}.}
 
-\item{overwrite}{By default, \code{use_data} will not overwrite existing
+\item{overwrite}{By default, \code{use_data()} will not overwrite existing
 files. If you really want to do so, set this to \code{TRUE}.}
 
 \item{compress}{Choose the type of compression used by \code{\link[=save]{save()}}.
-Should be one of "gzip", "bzip2" or "xz".}
+Should be one of "gzip", "bzip2", or "xz".}
 }
 \description{
-\code{use_data} makes it easy to save package data in the correct format.
+\code{use_data()} makes it easy to save package data in the correct format.
 I recommend you save scripts that generate package data in \code{data-raw}:
-use \code{use_data_raw} to set it up.
+use \code{use_data_raw()} to set it up.
 }
 \examples{
 \dontrun{

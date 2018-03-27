@@ -1,4 +1,4 @@
-#' Use specified package.
+#' Depend on another package
 #'
 #' `use_package()` adds a CRAN package dependency to DESCRIPTION and offers a
 #' little advice about how to best use it. `use_dev_package()` adds a
@@ -8,7 +8,6 @@
 #' @param package Name of package to depend on.
 #' @param type Type of dependency: must be one of "Imports", "Suggests",
 #'   "Depends", "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation)
-#' @inheritParams use_template
 #' @export
 #' @examples
 #' \dontrun{

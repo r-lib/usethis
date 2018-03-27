@@ -2,9 +2,9 @@
 #'
 #' Creates `src/` and adds needed packages to `DESCRIPTION`.
 #'
-#' @inheritParams use_template
 #' @export
 use_rcpp <- function() {
+  check_is_package("use_rcpp()")
   use_dependency("Rcpp", "LinkingTo")
   use_dependency("Rcpp", "Imports")
 
@@ -24,8 +24,7 @@ use_rcpp <- function() {
       paste0("useDynLib('", project_name(), "', .registration = TRUE)"),
       "importFrom('Rcpp', 'sourceCpp')"
     )
-    edit_file(proj_get(), "NAMESPACE")
-
+    edit_file(proj_path("NAMESPACE"))
   }
   todo("Run document()")
 }

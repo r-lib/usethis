@@ -2,24 +2,64 @@
 % Please edit documentation in R/github-labels.R
 \name{use_github_labels}
 \alias{use_github_labels}
-\title{Create standard github labels for labelling issues.}
+\alias{tidy_labels}
+\title{Manage GitHub issue labels}
 \usage{
-use_github_labels(delete_default = FALSE, auth_token = NULL, host = NULL)
+use_github_labels(labels = tidy_labels(), delete_default = FALSE,
+  auth_token = NULL, host = NULL)
+
+tidy_labels()
 }
 \arguments{
-\item{delete_default}{If \code{TRUE}, will remove default labels.}
+\item{labels}{Named character vector of labels. The names are the label text,
+such as "bug", and the values are the label colours in hexadecimal, such as
+"e02a2a". First, labels that don't yet exist are created, then label
+colours are updated.}
+
+\item{delete_default}{If \code{TRUE}, will remove GitHub default labels that do
+not appear in the \code{labels} vector (presumably defaults that aren't relevant
+to your workflow).}
 
 \item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the
-\code{GITHUB_PAT} environment variable.}
+\url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
+described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
+variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3". You can set this globally using
-the \code{GITHUB_API_URL} env var.}
+"https://github.hostname.com/api/v3"}
 }
 \description{
-This function creates new labels and changes colours (if needed).
-It does not generally remove labels, unless you explicit ask to
-remove GitHub's defaults.
+\code{use_github_labels()} creates new labels and/or changes label
+colours. It does not generally remove labels. But if you set
+\code{delete_default = TRUE}, it will delete labels that are (1) flagged by the
+API as being \href{https://help.github.com/articles/about-labels/#using-default-labels}{GitHub default labels}
+and (2) not present in the labels you provide via \code{labels}.
+
+\code{tidy_labels()} returns the labels and colours commonly used by tidyverse
+packages.
+}
+\section{Label usage}{
+
+Labels are used as part of the issue-triage process, designed to minimise the
+time spent re-reading issues. The absence of a label indicates that an issue
+is new, and has yet to be triaged.
+\itemize{
+\item \code{reprex} indicates that an issue does not have a minimal reproducible
+example, and that a reply has been sent requesting one from the user.
+\item \code{bug} type, indicates an unexpected problem or unintended behavior.
+\item \code{feature} type, indicates a feature request or enhancement.
+\item \code{docs} type, indicates an issue with the documentation.
+\item \code{performance} indicates a non-breaking area related to performance.
+\item \code{wip} indicates that someone else is working on it or has promised to.
+\item \code{good first issue} indicates a good issue for first-time contributors.
+\item \code{help wanted} indicates that a maintainer wants help on an issue.
+}
+}
+
+\examples{
+\dontrun{
+## typical use in, e.g., a new tidyverse project
+use_github_labels(delete_default = TRUE)
+}
 }

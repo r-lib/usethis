@@ -2,26 +2,51 @@
 % Please edit documentation in R/helpers.R
 \name{use_template}
 \alias{use_template}
-\title{Use a usethis template}
+\title{Use a usethis-style template}
 \usage{
 use_template(template, save_as = template, data = list(), ignore = FALSE,
-  open = FALSE)
+  open = FALSE, package = "usethis")
 }
 \arguments{
-\item{template}{Template name}
+\item{template}{Path to template file relative to \code{"templates"} directory
+within \code{package}; see details.}
 
-\item{save_as}{Name of file to create. Defaults to \code{save_as}}
+\item{save_as}{Name of file to create. Defaults to \code{template}}
 
 \item{data}{A list of data passed to the template.}
 
-\item{ignore}{Should the newly created file be added to \code{.Rbuildignore?}}
+\item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
 
-\item{open}{Should the new created file be opened in RStudio?}
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+
+\item{package}{Name of the package where the template is found.}
 }
 \value{
 A logical vector indicating if file was modified.
 }
 \description{
-Use a usethis template
+Creates a file from data and a template found in a package. Provides control
+over file name, the addition to \code{.Rbuildignore}, and opening the file for
+inspection.
 }
-\keyword{internal}
+\details{
+This function can be used as the engine for a templating function in other
+packages. The \code{template} argument is used along with the \code{package} argument
+to determine the path to your template file; it will be expected at
+\code{system.file("templates", template, package = package)}.
+
+To interpolate your data into the template, supply a list using
+the \code{data} argument. Internally, this function uses
+\code{\link[whisker:whisker.render]{whisker::whisker.render()}} to combine your template file with your data.
+}
+\examples{
+\dontrun{
+  # Note: running this will write `NEWS.md` to your working directory
+  use_template(
+    template = "NEWS.md",
+    data = list(Package = "acme", Version = "1.2.3"),
+    package = "usethis"
+  )
+}
+}

@@ -3,8 +3,8 @@
 #' This `NAMESPACE` exports everything, except functions that start
 #' with a `.`.
 #'
-#' @inheritParams use_template
 #' @export
 use_namespace <- function() {
+  check_is_package("use_namespace()")
   use_template("NAMESPACE")
 }

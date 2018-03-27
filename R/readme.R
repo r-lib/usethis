@@ -1,4 +1,4 @@
-#' Create README files.
+#' Create README files
 #'
 #' Creates skeleton README files with sections for
 #' \itemize{
@@ -18,21 +18,21 @@
 #' use_readme_rmd()
 #' use_readme_md()
 #' }
-use_readme_rmd <- function(open = TRUE) {
+use_readme_rmd <- function(open = interactive()) {
   check_installed("rmarkdown")
 
   data <- project_data()
   data$Rmd <- TRUE
 
   use_template(
-    if (is_package()) "omni-README" else "project-README.Rmd",
+    if (is_package()) "package-README" else "project-README",
     "README.Rmd",
     data = data,
     ignore = TRUE,
     open = open
   )
 
-  if (uses_git() && !file.exists(proj_get(), ".git", "hooks", "pre-commit")) {
+  if (uses_git()) {
     use_git_hook(
       "pre-commit",
       render_template("readme-rmd-pre-commit.sh")
@@ -44,11 +44,11 @@ use_readme_rmd <- function(open = TRUE) {
 
 #' @export
 #' @rdname use_readme_rmd
-use_readme_md <- function(open = TRUE) {
+use_readme_md <- function(open = interactive()) {
   use_template(
-    "omni-README",
+    if (is_package()) "package-README" else "project-README",
     "README.md",
-    data = package_data(),
+    data = project_data(),
     open = open
   )
 }

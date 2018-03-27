@@ -5,9 +5,9 @@
 \alias{edit_r_profile}
 \alias{edit_r_environ}
 \alias{edit_r_makevars}
+\alias{edit_rstudio_snippets}
 \alias{edit_git_config}
 \alias{edit_git_ignore}
-\alias{edit_rstudio_snippets}
 \title{Open useful configuration files}
 \usage{
 edit_r_profile(scope = c("user", "project"))
@@ -16,18 +16,21 @@ edit_r_environ(scope = c("user", "project"))
 
 edit_r_makevars(scope = c("user", "project"))
 
+edit_rstudio_snippets(type = "R")
+
 edit_git_config(scope = c("user", "project"))
 
 edit_git_ignore(scope = c("user", "project"))
-
-edit_rstudio_snippets(type = "R")
 }
 \arguments{
 \item{scope}{Edit globally for the current \strong{user}, or locally for the
 current \strong{project}}
 
-\item{type}{Snippet type. One of "R", "markdown", "C_Cpp", "Tex",
+\item{type}{Snippet type. One of: "R", "markdown", "C_Cpp", "Tex",
 "Javascript", "HTML", "SQL"}
+}
+\value{
+Path to the file, invisibly.
 }
 \description{
 \itemize{
