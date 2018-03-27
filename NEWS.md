@@ -96,7 +96,6 @@ templating functions using this framework (@ijlyttle #120).
 * `use_tidy_eval()` has been tweaked to reflect current guidance (#106)
 
 # usethis 1.0.0
->>>>>>> upstream/master
 
 This is a new package that extracts out many functions that previously lived in devtools, as well as providing more building blocks so you can create your own helpers. As well as the many new helpers listed below, there are three main improvements to the package:
 
