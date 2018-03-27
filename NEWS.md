@@ -1,6 +1,6 @@
 # usethis 1.3.0.9000
 
-* Added condition for `length(paths) > 0` in `use_git()` so that no error occurs if `paths = NULL` (#128).
+* Added condition for `length(paths) > 0` in `use_git()` so that no error occurs if `paths = NULL` (#128, @muschellij2).
 
 # usethis 1.3.0
 
