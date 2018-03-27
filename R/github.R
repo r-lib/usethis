@@ -70,7 +70,6 @@ use_github <- function(organisation = NULL,
     return(invisible())
   }
 
-
   pkg <- project_data()
   repo_name <- pkg$Project %||% gsub("\n", " ", pkg$Package)
   repo_desc <- pkg$Title %||% ""
