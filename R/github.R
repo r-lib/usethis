@@ -178,7 +178,7 @@ use_github_links <- function(auth_token = NULL,
 #' Create a GitHub personal access token
 #'
 #' Opens a browser window to the GitHub page where you can generate a [Personal
-#' Access
+#'  Access
 #' Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line).
 #' Make sure you have signed up for a free [GitHub.com](https://github.com/)
 #' account and that you are signed in. Click "Generate token" after you have

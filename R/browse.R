@@ -13,7 +13,7 @@
 #' * `browse_github_pulls()`: Visits the GitHub Pull Request index or one
 #' specific pull request.
 #' * `browse_travis()`: Visits the package's page on [Travis
-#' CI](https://travis-ci.org).
+#'  CI](https://travis-ci.org).
 #' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.
 #'
 #' @param package Name of package; leave as `NULL` to use current package
