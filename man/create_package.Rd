@@ -21,7 +21,7 @@ potentially overriding the defaults. If \code{NULL}, retrieved from
 \code{getOption("devtools.desc")}.}
 
 \item{rstudio}{If \code{TRUE}, calls \code{\link[=use_rstudio]{use_rstudio()}} to make the new package or
-project into an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}.
+project into an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudioProject}.
 If \code{FALSE} and a non-package project, a sentinel \code{.here} file is placed so
 that the directory can be recognized as a project by the
 \href{https://krlmlr.github.io/here/}{here} or

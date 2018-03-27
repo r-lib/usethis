@@ -2,6 +2,7 @@
 % Please edit documentation in R/version.R
 \name{use_version}
 \alias{use_version}
+\alias{use_version}
 \alias{use_dev_version}
 \title{Increment package version}
 \usage{

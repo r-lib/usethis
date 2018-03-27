@@ -56,4 +56,3 @@ use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
 \seealso{
 Other download functions: \code{\link{use_course_details}}
 }
-\concept{download functions}
