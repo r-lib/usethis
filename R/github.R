@@ -142,8 +142,10 @@ use_github <- function(organisation = NULL,
     git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
   } else { ## protocol == "https"
     ## in https case, when GITHUB_PAT is passed as password,
-    ## the username is immaterial, but git2r doesn't know that
-    cred <- git2r::cred_user_pass("EMAIL", auth_token)
+    ## the username is immaterial, but git2r doesn't know that.
+    ## unlike gh, git2r can't work with auth_token = NULL,
+    ## so we need to get the PAT.
+    cred <- git2r::cred_user_pass("EMAIL", auth_token %||% gh_token())
     git2r::push(r, "origin", "refs/heads/master", credentials = cred)
   }
   git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
