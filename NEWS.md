@@ -1,5 +1,7 @@
 # usethis 1.3.0.9000
 
+* `use_tibble()` creates a template to use tibble in your package, enabling tibble printing for objects attached by your package.
+
 # usethis 1.3.0
 
 * usethis has a website: <http://usethis.r-lib.org> (#217). It includes an article with advice on system setup, for usethis and for R development more generally.
