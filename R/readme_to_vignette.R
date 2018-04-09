@@ -33,7 +33,6 @@ README_to_vignette <- function(vignette_aut = NULL,
                                vignette_title = NULL,
                                vignette_slug = "README-vignette",
                                overwrite = FALSE) {
-
   check_is_package("README_to_vignette()")
 
   readme_file <- file.path(proj_get(), "README.Rmd")
@@ -114,5 +113,4 @@ knitr::opts_chunk$set(
   )
 
   edit_file(proj_path(path))
-
 }
