@@ -1,5 +1,7 @@
 # usethis 1.3.0.9000
 
+* `README_to_vignette()` allows a once-off conversion of a README.Rmd file into a first-pass vignette (#327, @jonocarroll)
+
 # usethis 1.3.0
 
 * usethis has a website: <http://usethis.r-lib.org> (#217). It includes an article with advice on system setup, for usethis and for R development more generally.
