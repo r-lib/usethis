@@ -90,7 +90,19 @@ vignette: >
   %\\VignetteEngine{knitr::rmarkdown}
   %\\VignetteEncoding{UTF-8}
 ---
-<!-- This vignette was automatically created from README.Rmd -->
+<!-- This vignette was automatically created from README.Rmd
+
+Please consider removing installation instructions, badges, and
+any other README-specific material.
+
+You can include short independent documents in README.Rmd using
+the following chunk argument syntax:
+  child=\'vignettes/rmdhunks/example1.Rmd\'
+
+https://yihui.name/knitr/demo/child/
+
+or read-in chunks stored in an independent R script using knitr::read_chunk()
+https://yihui.name/knitr/demo/externalization/ -->
 ')
 
   vignette_settings <- '
