@@ -37,7 +37,7 @@ use_rmarkdown_template <- function(template_name = "Template Name",
       template_description = template_description,
       template_create_dir = template_create_dir
     ),
-    save_as = file.path(template_dir, "template.yml")
+    save_as = file.path(template_dir, "template.yaml")
   )
 
   use_template(
