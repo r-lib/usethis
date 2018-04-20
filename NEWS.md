@@ -1,5 +1,7 @@
 # usethis 1.3.0.9000
 
+* Added condition for `length(paths) > 0` in `use_git()` so that no error occurs if `paths = NULL` (#128, @muschellij2).
+
 # usethis 1.3.0
 
 * usethis has a website: <http://usethis.r-lib.org> (#217). It includes an article with advice on system setup, for usethis and for R development more generally.

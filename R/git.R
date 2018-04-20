@@ -22,7 +22,9 @@ use_git <- function(message = "Initial commit") {
 
   done("Adding files and committing")
   paths <- unlist(git2r::status(r))
-  git2r::add(r, paths)
+  if (length(paths) > 0) {
+    git2r::add(r, paths)
+  }
   git2r::commit(r, message)
 
   restart_rstudio(
