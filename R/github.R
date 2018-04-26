@@ -155,9 +155,12 @@ use_github <- function(organisation = NULL,
 }
 
 #' @export
+#' @param overwrite By default, `use_github_links()` will not overwrite
+#'   existing fields. Set to `TRUE` to overwrite existing links.
 #' @rdname use_github
 use_github_links <- function(auth_token = NULL,
-                             host = "https://api.github.com") {
+                             host = "https://api.github.com",
+                             overwrite = FALSE) {
   check_uses_github()
 
   info <- gh::gh_tree_remote(proj_get())
@@ -169,8 +172,9 @@ use_github_links <- function(auth_token = NULL,
     .token = auth_token
   )
 
-  use_description_field("URL", res$html_url)
-  use_description_field("BugReports", file.path(res$html_url, "issues"))
+  use_description_field("URL", res$html_url, overwrite = overwrite)
+  use_description_field("BugReports", file.path(res$html_url, "issues"),
+    overwrite = overwrite)
 
   invisible()
 }

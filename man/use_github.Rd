@@ -8,7 +8,8 @@
 use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
   "https"), credentials = NULL, auth_token = NULL, host = NULL)
 
-use_github_links(auth_token = NULL, host = "https://api.github.com")
+use_github_links(auth_token = NULL, host = "https://api.github.com",
+  overwrite = FALSE)
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this
@@ -29,6 +30,9 @@ variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3"}
+
+\item{overwrite}{By default, \code{use_github_links()} will not overwrite
+existing fields. Set to \code{TRUE} to overwrite existing links.}
 }
 \description{
 \code{use_github()} takes a local project, creates an associated repo on GitHub,
