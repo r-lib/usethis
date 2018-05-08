@@ -1,5 +1,7 @@
 # usethis 1.3.0.9000
 
+* usethis newly depends on fs and, before the next release, will use it for all file and path operations. (#177)
+
 # usethis 1.3.0
 
 * usethis has a website: <http://usethis.r-lib.org> (#217). It includes an article with advice on system setup, for usethis and for R development more generally.
