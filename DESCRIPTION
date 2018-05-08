@@ -42,9 +42,6 @@ Suggests:
     styler,
     testthat (>= 2.0.0),
     withr
-Remotes: 
-    r-lib/backports,
-    r-lib/desc
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
