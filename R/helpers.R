@@ -45,7 +45,7 @@ use_template <- function(template,
     use_build_ignore(save_as)
   }
 
-  if (open) {
+  if (open & new) {
     edit_file(proj_path(save_as))
   }
 
