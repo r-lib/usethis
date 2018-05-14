@@ -1,6 +1,6 @@
 context("use_readme")
 
-test_that("error if try to overwrite existing file", {
+test_that("message if try to overwrite existing file", {
   skip_if_not_installed("rmarkdown")
 
   scoped_temporary_package()

@@ -1,6 +1,6 @@
 context("use_template")
 
-test_that("error if try to overwrite existing file", {
+test_that("message if try to overwrite existing file", {
   dir <- scoped_temporary_package()
   expect_message(
     use_template("NEWS.md", "DESCRIPTION"),
