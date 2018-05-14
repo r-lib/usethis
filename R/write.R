@@ -31,11 +31,14 @@ write_over <- function(base_path, path, contents) {
   if (same_contents(full_path, contents))
     return(invisible(FALSE))
 
-  if (!can_overwrite(full_path))
-    stop(value(path), " already exists.", call. = FALSE)
 
-  done("Writing ", value(path))
-  write_utf8(full_path, contents)
+  if (!can_overwrite(full_path)) {
+    message(value(path), " not written.")
+    return(invisible(FALSE))
+  } else {
+    done("Writing ", value(path))
+    write_utf8(full_path, contents)
+  }
 }
 
 write_utf8 <- function(path, lines) {

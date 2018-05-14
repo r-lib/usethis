@@ -1,6 +1,7 @@
 # usethis 1.3.0.9000
 
 * usethis newly depends on fs and, before the next release, will use it for all file and path operations. (#177)
+* `use_template()` no longer errors when a user chooses not to overwrite an existing file and instead produces a message (#348, @boshek)
 
 # usethis 1.3.0
 

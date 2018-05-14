@@ -5,9 +5,9 @@ test_that("error if try to overwrite existing file", {
 
   scoped_temporary_package()
   file.create(proj_path("README.md"))
-  expect_error(use_readme_md(), "already exists")
+  expect_message(use_readme_md(), "not written")
   file.create(proj_path("README.Rmd"))
-  expect_error(use_readme_rmd(), "already exists")
+  expect_message(use_readme_rmd(), "not written")
 })
 
 test_that("sets up git pre-commit hook iff pkg uses git", {

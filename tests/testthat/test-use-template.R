@@ -2,9 +2,9 @@ context("use_template")
 
 test_that("error if try to overwrite existing file", {
   dir <- scoped_temporary_package()
-  expect_error(
+  expect_message(
     use_template("NEWS.md", "DESCRIPTION"),
-    "already exists"
+    "not written"
   )
 })
 
