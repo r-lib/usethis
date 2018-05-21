@@ -64,9 +64,10 @@ parameter. Read more about ssh setup in \href{http://happygitwithr.com/ssh-keys.
 
 \examples{
 \dontrun{
-create_package("test.pkg") # creates package in current working directory
+pkgpath <- file.path(tempdir(), "testpkg")
+create_package(pkgpath) # creates package below temp directory
 
-## now, working inside "test.pkg", initialize git repository
+## now, working inside "testpkg", initialize git repository
 use_git()
 
 ## create github repository and configure as git remote
