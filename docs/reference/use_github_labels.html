@@ -62,8 +62,25 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">News</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    News
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Blog posts</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+    </li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="../news/index.html">Change log</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -90,7 +107,7 @@
     <p><code>use_github_labels()</code> creates new labels and/or changes label
 colours. It does not generally remove labels. But if you set
 <code>delete_default = TRUE</code>, it will delete labels that are (1) flagged by the
-API as being <a href='https://help.github.com/articles/about-labels/#using-default-labels'>GitHub defaultlabels</a>
+API as being <a href='https://help.github.com/articles/about-labels/#using-default-labels'>GitHub default labels</a>
 and (2) not present in the labels you provide via <code>labels</code>.
     <code>tidy_labels()</code> returns the labels and colours commonly used by tidyverse
 packages.</p>

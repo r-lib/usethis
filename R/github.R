@@ -44,13 +44,14 @@
 #'   "https://github.hostname.com/api/v3"
 #' @param protocol transfer protocol, either "ssh" (the default) or "https"
 #' @param credentials A [git2r::cred_ssh_key()] specifying specific ssh
-#'   credentials or NULL for default ssh key and ssh-agent behaviour.
+#'   credentials or `NULL` for default ssh key and ssh-agent behaviour.
 #' @export
 #' @examples
 #' \dontrun{
-#' create_package("test-pkg") # creates package in current working directory
+#' pkgpath <- file.path(tempdir(), "testpkg")
+#' create_package(pkgpath) # creates package below temp directory
 #'
-#' ## now, working inside "test-pkg", initialize git repository
+#' ## now, working inside "testpkg", initialize git repository
 #' use_git()
 #'
 #' ## create github repository and configure as git remote
@@ -145,9 +146,7 @@ use_github <- function(organisation = NULL,
     cred <- git2r::cred_user_pass("EMAIL", auth_token)
     git2r::push(r, "origin", "refs/heads/master", credentials = cred)
   }
-  ## utils::head instead of git2r::head due to the conversion of git2r's head
-  ## from S4 --> S3 method in v0.21.0 --> 0.21.0.9000
-  git2r::branch_set_upstream(utils::head(r), "origin/master")
+  git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
 
   view_url(create$html_url)
 

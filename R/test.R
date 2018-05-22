@@ -27,13 +27,13 @@ use_testthat <- function() {
 #'   the name of the file open in the source editor.
 #' @export
 use_test <- function(name = NULL, open = TRUE) {
-  name <- find_test_name(name)
+  filename <- find_test_filename(name)
 
   if (!uses_testthat()) {
     use_testthat()
   }
 
-  path <- file.path("tests", "testthat", name)
+  path <- file.path("tests", "testthat", filename)
 
   if (file.exists(proj_path(path))) {
     edit_file(proj_path(path))
@@ -41,7 +41,7 @@ use_test <- function(name = NULL, open = TRUE) {
     use_template(
       "test-example.R",
       path,
-      data = list(test_name = name),
+      data = list(test_name = slug(fs::path_ext_remove(filename), "")),
       open = open
     )
   }
@@ -58,7 +58,7 @@ uses_testthat <- function(base_path = proj_get()) {
   any(dir.exists(paths))
 }
 
-find_test_name <- function(name = NULL) {
+find_test_filename <- function(name = NULL) {
   if (!is.null(name)) {
     return(paste0("test-", slug(name, ".R")))
   }

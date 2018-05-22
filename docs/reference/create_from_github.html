@@ -62,8 +62,25 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">News</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    News
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Blog posts</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+    </li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="../news/index.html">Change log</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -90,7 +107,7 @@
     <p>Creates a new local Git repository from a repository on GitHub. It is highly
 recommended that you pre-configure or pass a GitHub personal access token
 (PAT), which is facilitated by <code><a href='browse_github_pat.html'>browse_github_pat()</a></code>. In particular, a PAT is
-required in order for <code>create_from_github()</code> to do <a href='https://help.github.com/articles/fork-a-repo/'>"fork andclone"</a>. It is also required
+required in order for <code>create_from_github()</code> to do <a href='https://help.github.com/articles/fork-a-repo/'>"fork and clone"</a>. It is also required
 by <code><a href='use_github.html'>use_github()</a></code>, which connects existing local projects to GitHub.</p>
 
     <pre class="usage"><span class='fu'>create_from_github</span>(<span class='no'>repo</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fork</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -121,7 +138,7 @@ changes in the future.</p></td>
     </tr>
     <tr>
       <th>rstudio</th>
-      <td><p>Initiate an <a href='https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects'>RStudioProject</a>?
+      <td><p>Initiate an <a href='https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects'>RStudio Project</a>?
 Defaults to <code>TRUE</code> if in an RStudio session and project has no
 pre-existing <code>.Rproj</code> file. Defaults to <code>FALSE</code> otherwise.</p></td>
     </tr>
@@ -138,7 +155,7 @@ in RStudio, working directory is set to the new project.</p></td>
     <tr>
       <th>credentials</th>
       <td><p>A <code><a href='http://www.rdocumentation.org/packages/git2r/topics/cred_ssh_key'>git2r::cred_ssh_key()</a></code> specifying specific ssh
-credentials or NULL for default ssh key and ssh-agent behaviour.</p></td>
+credentials or <code>NULL</code> for default ssh key and ssh-agent behaviour.</p></td>
     </tr>
     <tr>
       <th>auth_token</th>

@@ -37,7 +37,7 @@ and link out to relevant external resources.
 \details{
 \itemize{
 \item \code{use_badge()}: a general helper used in all badge functions
-\item \code{use_bioc_badge()}: badge indicates \href{http://bioconductor.org/developers/}{BioConductor buildstatus}
+\item \code{use_bioc_badge()}: badge indicates \href{http://bioconductor.org/developers/}{BioConductor build status}
 \item \code{use_cran_badge()}: badge indicates what version of your package is
 available on CRAN, powered by \url{https://www.r-pkg.org}
 \item \code{use_depsy_badge()}: badge shows the "percentile overall impact" of the

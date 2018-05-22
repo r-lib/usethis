@@ -62,8 +62,25 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">News</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    News
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Blog posts</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+    </li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="../news/index.html">Change log</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -140,7 +157,7 @@ works on all versions of R starting at 3.1.</p></li>
 dependencies.</p></li>
 <li><p><code>use_tidy_eval()</code>: imports a standard set of helpers to facilitate
 programming with the tidy eval toolkit.</p></li>
-<li><p><code>use_tidy_style()</code>: styles source code according to the <a href='http://style.tidyverse.org'>tidyverse styleguide</a>. This function will overwrite files! See
+<li><p><code>use_tidy_style()</code>: styles source code according to the <a href='http://style.tidyverse.org'>tidyverse style guide</a>. This function will overwrite files! See
 below for usage advice.</p></li>
 <li><p><code>use_tidy_versions()</code>: pins all dependencies to require at least
 the currently installed version.</p></li>
@@ -158,7 +175,7 @@ document in a <code>.github/</code> subdirectory.</p></li>
 
     
     <p>Uses the <a href='http://styler.r-lib.org'>styler package</a> package to style all code
-in a package, project, or directory, according to the <a href='http://style.tidyverse.org'>tidyverse styleguide</a>.
+in a package, project, or directory, according to the <a href='http://style.tidyverse.org'>tidyverse style guide</a>.
     <strong>Warning:</strong> This function will overwrite files! It is strongly suggested to
 only style files that are under version control or to first create a backup
 copy.</p>
