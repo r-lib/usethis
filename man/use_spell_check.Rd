@@ -2,21 +2,25 @@
 % Please edit documentation in R/spelling.R
 \name{use_spell_check}
 \alias{use_spell_check}
-\title{Use Spell Check}
+\title{Use spell check}
 \usage{
 use_spell_check(vignettes = TRUE, lang = "en-US", error = FALSE)
 }
 \arguments{
-\item{vignettes}{also check all \code{rmd} and \code{rnw} files in the pkg vignettes folder}
+\item{vignettes}{Logical, \code{TRUE} to spell check all \code{rmd} and \code{rnw} files in
+the \code{vignettes/} folder.}
 
-\item{lang}{preferred spelling langage. Usually either \code{"en-US"} or \code{"en-GB"}}
+\item{lang}{Preferred spelling language. Usually either \code{"en-US"} or
+\code{"en-GB"}.}
 
-\item{error}{should the unit test fail if spelling errors are found? Default prints
-potential spelling errors but never errors.}
+\item{error}{Logical, indicating whether the unit test should fail if
+spelling errors are found. Defaults to \code{FALSE}, which does not error, but
+prints potential spelling errors}
 }
 \description{
-Adds a unit test which automatically runs a spell check on documentation and/or
-vignettes using the \link[spelling:spell_check_package]{spelling} package. Also adds
-a \code{WORDLIST} file to the package which maintains a dictionary of whitelisted words.
-See \link[spelling:wordlist]{spelling::wordlist} for details.
+Adds a unit test to automatically run a spell check on documentation and,
+optionally, vignettes during \code{R CMD check}, using the
+\link[spelling:spell_check_package]{spelling} package. Also adds a \code{WORDLIST}
+file to the package, which is a dictionary of whitelisted words. See
+\link[spelling:wordlist]{spelling::wordlist} for details.
 }

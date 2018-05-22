@@ -1,14 +1,18 @@
-#' Use Spell Check
+#' Use spell check
 #'
-#' Adds a unit test which automatically runs a spell check on documentation and/or
-#' vignettes using the [spelling][spelling::spell_check_package] package. Also adds
-#' a `WORDLIST` file to the package which maintains a dictionary of whitelisted words.
-#' See [spelling::wordlist] for details.
+#' Adds a unit test to automatically run a spell check on documentation and,
+#' optionally, vignettes during `R CMD check`, using the
+#' [spelling][spelling::spell_check_package] package. Also adds a `WORDLIST`
+#' file to the package, which is a dictionary of whitelisted words. See
+#' [spelling::wordlist] for details.
 #'
-#' @param vignettes also check all `rmd` and `rnw` files in the pkg vignettes folder
-#' @param lang preferred spelling langage. Usually either `"en-US"` or `"en-GB"`
-#' @param error should the unit test fail if spelling errors are found? Default prints
-#' potential spelling errors but never errors.
+#' @param vignettes Logical, `TRUE` to spell check all `rmd` and `rnw` files in
+#'   the `vignettes/` folder.
+#' @param lang Preferred spelling language. Usually either `"en-US"` or
+#'   `"en-GB"`.
+#' @param error Logical, indicating whether the unit test should fail if
+#'   spelling errors are found. Defaults to `FALSE`, which does not error, but
+#'   prints potential spelling errors
 #' @export
 use_spell_check <- function(vignettes = TRUE, lang = "en-US", error = FALSE) {
   check_installed("spelling")
