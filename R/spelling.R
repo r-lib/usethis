@@ -15,11 +15,12 @@
 #'   prints potential spelling errors
 #' @export
 use_spell_check <- function(vignettes = TRUE, lang = "en-US", error = FALSE) {
+  check_is_package("use_spell_check")
   check_installed("spelling")
   use_dependency("spelling", "Suggests")
   use_description_field("Language", lang)
   spelling::spell_check_setup(
     pkg = proj_get(), vignettes = vignettes, lang = lang, error = error
   )
-  todo("Run devtools::check() to test")
+  todo("Run devtools::check() to trigger spell check")
 }
