@@ -6,8 +6,9 @@
 #'
 #' @details
 #'
-#' * `use_tidy_ci()`: sets up travis and codecov, ensuring that the package
-#'    works on all versions of R starting at 3.1.
+#' * `use_tidy_ci()`: sets up [Travis CI](https://travis-ci.org) and
+#' [Codecov](https://codecov.io), ensuring that the package works on all
+#' versions of R starting at 3.1.
 #'
 #' * `use_tidy_description()`: puts fields in standard order and alphabetises
 #'   dependencies.
