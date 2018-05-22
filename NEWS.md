@@ -4,6 +4,8 @@
 
 # usethis 1.3.0
 
+* `use_spell_check()` is a new function that adds a whitelist of words and a unit test to spell check package documentation during `R CMD check` (#285 @jeroen).
+
 * usethis has a website: <http://usethis.r-lib.org> (#217). It includes an article with advice on system setup, for usethis and for R development more generally.
 
 * `edit_*()` functions now return the target path, invisibly (#255).
