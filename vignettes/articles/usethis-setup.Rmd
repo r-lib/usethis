@@ -69,7 +69,7 @@ Once Git is installed, introduce yourself to Git.
 library(usethis)
 use_git_config(user.name = "Jane Doe", user.email = "jane@example.com")
 
-## confirm the config
+## reveals config, even if not changing anything
 use_git_config()
 ```
 
@@ -109,18 +109,18 @@ If you want to use RStudio to work with Git (and therefore GitHub, see previous 
 
 ## Get and store a GitHub personal access token
 
-This is required if you want to use `usethis::use_github()` and `usethis::create_from_github(..., fork = TRUE)`. In both cases, usethis must create a new GitHub repository on your behalf, which is different from pulling to and pushing to *existing* repos, which is a Git operation.
+A GitHub personal access token (PAT) is required if you want to use `usethis::use_github()` and `usethis::create_from_github(..., fork = TRUE)`. In both cases, usethis must create a new GitHub repository on your behalf. This is **not** a regular Git operation (like pulling and pushing to existing repos) and your usual method of providing credentials to GitHub does not work for this.
 
 ```{r, eval = FALSE}
 library(usethis)
 browse_github_pat()
 ```
 
-`usethis::browse_github_pat()` takes you to a pre-filled form, where you can generate a GitHub personal access token (PAT). You can get to the same page in the browser by clicking on "Generate new token" from <https://github.com/settings/tokens>.
+`usethis::browse_github_pat()` takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on "Generate new token" from <https://github.com/settings/tokens>.
 
-As the page says, **save this token** because you'll never be able to see it again, once you leave that page or close the windows. If you somehow goof this up, just generate a new PAT and, so you don't confuse yourself, delete the lost token.
+As the page says, you must **store this token somewhere** because you'll never be able to see it again, once you leave that page or close the windows. If you somehow goof this up, just generate a new PAT and, so you don't confuse yourself, delete the lost token.
 
-`browse_github_pat()` provides a prompt to complete the setup, also described here. It is customary to save the PAT as an environment variable in your `.Renviron`, with the name `GITHUB_PAT`.
+`browse_github_pat()` provides advice on how to store your PAT, also repeated here. It is customary to save the PAT as an environment variable in your `.Renviron`, with the name `GITHUB_PAT`.
 
 ```{r, eval = FALSE}
 library(usethis)
