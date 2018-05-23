@@ -34,7 +34,6 @@ Imports:
     rprojroot,
     rstudioapi,
     spelling,
-    styler,
     whisker
 Suggests: 
     covr,
