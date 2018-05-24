@@ -6,8 +6,8 @@
 #' `Remotes` so it will be automatically installed from the correct location.
 #'
 #' @param package Name of package to depend on.
-#' @param type Type of dependency: must be one of "Imports", "Suggests",
-#'   "Depends", "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation)
+#' @param type Type of dependency: must be one of "Imports", "Depends",
+#'   "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation)
 #' @export
 #' @examples
 #' \dontrun{
