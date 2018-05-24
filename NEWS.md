@@ -1,5 +1,7 @@
 # usethis 1.3.0.9000
 
+* `use_github()` fails earlier, with a more informative message, in the absence of a GitHub personal access token (PAT). Also looks for the PAT more proactively in the usual environment variables (i.e., GITHUB_PAT, GITHUB_TOKEN) (#320, #340, @cderv).
+
 * usethis newly depends on fs and, before the next release, will use it for all file and path operations. (#177)
 
 # usethis 1.3.0
