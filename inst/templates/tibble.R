@@ -1,4 +1,4 @@
-#' Enable tibble printing for tibbles attached by a package
+#' Anticipate use of tibbles
 #'
 #' See \code{tibble::\link[tibble]{tibble}} for details.
 #'

@@ -7,8 +7,10 @@
 use_tibble()
 }
 \description{
-Does setup necessary to use the tidyverse's tibble internally in your package and to
-enable tibble printing out of the box:
+Does setup necessary to deal in objects of type \code{tbl_df} or "tibble" from
+your package. The tibble is the tidyverse's variant of the \code{data.frame}.
+\code{use_tibble()} ensures that tibbles returned by your package will use the
+tibble print method. Specifically, this function:
 \itemize{
 \item Adds tibble to "Imports" in DESCRIPTION
 \item Creates \code{R/utils-tibble.R} with the necessary roxygen template
