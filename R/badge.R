@@ -11,9 +11,6 @@
 #' status](http://bioconductor.org/developers/)
 #' * `use_cran_badge()`: badge indicates what version of your package is
 #' available on CRAN, powered by <https://www.r-pkg.org>
-#' * `use_depsy_badge()`: badge shows the "percentile overall impact" of the
-#' project, powered by <http://depsy.org>, which only indexes projects that are
-#' on CRAN
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
 #' package, according to <https://www.tidyverse.org/lifecycle/>:
 #'   - Experimental
@@ -87,19 +84,6 @@ use_bioc_badge <- function() {
     pkg
   )
   use_badge("BioC status", href, src)
-
-  invisible(TRUE)
-}
-
-#' @rdname badges
-#' @export
-use_depsy_badge <- function() {
-  check_is_package("use_depsy_badge()")
-  pkg <- project_name()
-
-  src <- file.path("http://depsy.org/api/package/cran", pkg, "badge.svg")
-  href <- file.path("http://depsy.org/package/r", pkg)
-  use_badge("Depsy", href, src)
 
   invisible(TRUE)
 }
