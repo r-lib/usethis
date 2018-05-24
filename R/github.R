@@ -45,9 +45,10 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' create_package("test.pkg") # creates package in current working directory
+#' pkgpath <- file.path(tempdir(), "testpkg")
+#' create_package(pkgpath) # creates package below temp directory
 #'
-#' ## now, working inside "test.pkg", initialize git repository
+#' ## now, working inside "testpkg", initialize git repository
 #' use_git()
 #'
 #' ## create github repository and configure as git remote
@@ -61,6 +62,17 @@ use_github <- function(organisation = NULL,
                        auth_token = NULL,
                        host = NULL) {
   check_uses_git()
+  ## auth_token is used directly by git2r, therefore cannot be NULL
+  auth_token <- auth_token %||% gh_token()
+
+  if (is.null(auth_token) || !nzchar(auth_token)) {
+    stop(
+      "No GitHub ", code('auth_token'), ".\n",
+      "Provide explicitly or make available as an environment variable.\n",
+      "See ", code("browse_github_pat()"), " for help setting this up.",
+      call. = FALSE
+    )
+  }
 
   if (uses_github(proj_get())) {
     done("GitHub is already initialized")
@@ -138,13 +150,11 @@ use_github <- function(organisation = NULL,
     git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
   } else { ## protocol == "https"
     ## in https case, when GITHUB_PAT is passed as password,
-    ## the username is immaterial, but git2r doesn't know that
+    ## the username is immaterial, but git2r doesn't know that.
     cred <- git2r::cred_user_pass("EMAIL", auth_token)
     git2r::push(r, "origin", "refs/heads/master", credentials = cred)
   }
-  ## utils::head instead of git2r::head due to the conversion of git2r's head
-  ## from S4 --> S3 method in v0.21.0 --> 0.21.0.9000
-  git2r::branch_set_upstream(utils::head(r), "origin/master")
+  git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
 
   view_url(create$html_url)
 
@@ -159,13 +169,16 @@ use_github <- function(organisation = NULL,
 #'
 #' @inheritParams use_github
 #' @export
+#' @param overwrite By default, `use_github_links()` will not overwrite
+#'   existing fields. Set to `TRUE` to overwrite existing links.
 #' @examples
 #' \dontrun{
 #' use_github_links()
 #' }
 #'
 use_github_links <- function(auth_token = NULL,
-                             host = "https://api.github.com") {
+                             host = "https://api.github.com",
+                             overwrite = FALSE) {
   check_uses_github()
 
   info <- gh::gh_tree_remote(proj_get())
@@ -177,8 +190,9 @@ use_github_links <- function(auth_token = NULL,
     .token = auth_token
   )
 
-  use_description_field("URL", res$html_url)
-  use_description_field("BugReports", file.path(res$html_url, "issues"))
+  use_description_field("URL", res$html_url, overwrite = overwrite)
+  use_description_field("BugReports", file.path(res$html_url, "issues"),
+    overwrite = overwrite)
 
   invisible()
 }

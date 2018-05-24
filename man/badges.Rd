@@ -5,7 +5,6 @@
 \alias{use_badge}
 \alias{use_cran_badge}
 \alias{use_bioc_badge}
-\alias{use_depsy_badge}
 \alias{use_lifecycle_badge}
 \alias{use_binder_badge}
 \title{README badges}
@@ -15,8 +14,6 @@ use_badge(badge_name, href, src)
 use_cran_badge()
 
 use_bioc_badge()
-
-use_depsy_badge()
 
 use_lifecycle_badge(stage)
 
@@ -40,9 +37,6 @@ and link out to relevant external resources.
 \item \code{use_bioc_badge()}: badge indicates \href{http://bioconductor.org/developers/}{BioConductor build status}
 \item \code{use_cran_badge()}: badge indicates what version of your package is
 available on CRAN, powered by \url{https://www.r-pkg.org}
-\item \code{use_depsy_badge()}: badge shows the "percentile overall impact" of the
-project, powered by \url{http://depsy.org}, which only indexes projects that are
-on CRAN
 \item \code{use_lifecycle_badge()}: badge declares the developmental stage of a
 package, according to \url{https://www.tidyverse.org/lifecycle/}:
 \itemize{

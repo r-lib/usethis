@@ -26,6 +26,9 @@ variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3"}
+
+\item{overwrite}{By default, \code{use_github_links()} will not overwrite
+existing fields. Set to \code{TRUE} to overwrite existing links.}
 }
 \description{
 \code{use_github()} takes a local project, creates an associated repo on GitHub,
@@ -58,9 +61,10 @@ parameter. Read more about ssh setup in \href{http://happygitwithr.com/ssh-keys.
 
 \examples{
 \dontrun{
-create_package("test.pkg") # creates package in current working directory
+pkgpath <- file.path(tempdir(), "testpkg")
+create_package(pkgpath) # creates package below temp directory
 
-## now, working inside "test.pkg", initialize git repository
+## now, working inside "testpkg", initialize git repository
 use_git()
 
 ## create github repository and configure as git remote

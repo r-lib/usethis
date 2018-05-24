@@ -1,6 +1,14 @@
 # usethis 1.3.0.9000
 
+* `use_depsy_badge()` is defunct. The Depsy project has officially concluded and is no longer being maintained (#354).
+
+* `use_github()` fails earlier, with a more informative message, in the absence of a GitHub personal access token (PAT). Also looks for the PAT more proactively in the usual environment variables (i.e., GITHUB_PAT, GITHUB_TOKEN) (#320, #340, @cderv).
+
+* usethis newly depends on fs and, before the next release, will use it for all file and path operations. (#177)
+
 # usethis 1.3.0
+
+* `use_spell_check()` is a new function that adds a whitelist of words and a unit test to spell check package documentation during `R CMD check` (#285 @jeroen).
 
 * usethis has a website: <http://usethis.r-lib.org> (#217). It includes an article with advice on system setup, for usethis and for R development more generally.
 

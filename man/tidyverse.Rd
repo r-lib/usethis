@@ -51,8 +51,9 @@ commonly used packages.
 }
 \details{
 \itemize{
-\item \code{use_tidy_ci()}: sets up travis and codecov, ensuring that the package
-works on all versions of R starting at 3.1.
+\item \code{use_tidy_ci()}: sets up \href{https://travis-ci.org}{Travis CI} and
+\href{https://codecov.io}{Codecov}, ensuring that the package works on all
+versions of R starting at 3.1.
 \item \code{use_tidy_description()}: puts fields in standard order and alphabetises
 dependencies.
 \item \code{use_tidy_eval()}: imports a standard set of helpers to facilitate

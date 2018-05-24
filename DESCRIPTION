@@ -26,12 +26,13 @@ Imports:
     crayon,
     curl (>= 2.7),
     desc,
+    fs,
     gh,
-    git2r,
-    httr,
+    git2r (>= 0.21.0.9002),
     rematch2,
     rprojroot,
     rstudioapi,
+    spelling,
     whisker
 Suggests: 
     covr,
@@ -45,3 +46,6 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1.9000
+Language: en-US
+Remotes: 
+    ropensci/git2r

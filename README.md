@@ -47,7 +47,7 @@ that you’ll need to do some work yourself.
 Below is a quick look at how usethis can help to set up a package.
 
 *Note: usethis is gaining more and more functionality for analytical
-project that are not packages. Stay tuned.*
+projects that are not packages. Stay tuned.*
 
 ``` r
 library(usethis)

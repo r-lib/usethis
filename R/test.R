@@ -41,7 +41,7 @@ use_test <- function(name = NULL, open = TRUE) {
     use_template(
       "test-example.R",
       path,
-      data = list(test_name = slug(name, "")),
+      data = list(test_name = slug(fs::path_ext_remove(filename), "")),
       open = open
     )
   }
