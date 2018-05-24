@@ -2,14 +2,10 @@
 % Please edit documentation in R/github.R
 \name{use_github}
 \alias{use_github}
-\alias{use_github_links}
 \title{Connect a local repo with GitHub}
 \usage{
 use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
   "https"), credentials = NULL, auth_token = NULL, host = NULL)
-
-use_github_links(auth_token = NULL, host = "https://api.github.com",
-  overwrite = FALSE)
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this
@@ -39,9 +35,6 @@ existing fields. Set to \code{TRUE} to overwrite existing links.}
 adds it to your local repo as the \code{origin} remote, and makes an initial push
 to synchronize. \code{use_github()} requires that your project already be a Git
 repository, which you can accomplish with \code{\link[=use_git]{use_git()}}, if needed.
-
-\code{use_github_links()} populates the \code{URL} and \code{BugReports} fields of a
-GitHub-using R package with appropriate links (unless they already exist).
 }
 \section{Authentication}{
 

@@ -6,9 +6,6 @@
 #' to synchronize. `use_github()` requires that your project already be a Git
 #' repository, which you can accomplish with [use_git()], if needed.
 #'
-#' `use_github_links()` populates the `URL` and `BugReports` fields of a
-#' GitHub-using R package with appropriate links (unless they already exist).
-#'
 #' @section Authentication:
 #' A new GitHub repo will be created via the GitHub API, therefore you must
 #' make a [GitHub personal access token
@@ -164,10 +161,21 @@ use_github <- function(organisation = NULL,
   invisible(NULL)
 }
 
+#' Populate the URL and BugReports
+#'
+#' @description
+#' `use_github_links()` populates the `URL` and `BugReports` fields of a
+#' GitHub-using R package with appropriate links (unless they already exist).
+#'
+#' @inheritParams use_github
 #' @export
 #' @param overwrite By default, `use_github_links()` will not overwrite
 #'   existing fields. Set to `TRUE` to overwrite existing links.
-#' @rdname use_github
+#' @examples
+#' \dontrun{
+#' use_github_links()
+#' }
+#'
 use_github_links <- function(auth_token = NULL,
                              host = "https://api.github.com",
                              overwrite = FALSE) {
