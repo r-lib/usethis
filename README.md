@@ -5,8 +5,9 @@
 
 [![Travis build
 status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
+<!--FIXME switch AppVeyor badge and link back to r-lib once the AppVeyor projects are sorted out-->
 [![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis)
+Status](https://ci.appveyor.com/api/projects/status/github/rlib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/rlib/usethis)
 [![Coverage
 status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/github/r-lib/usethis?branch=master)
 [![CRAN
