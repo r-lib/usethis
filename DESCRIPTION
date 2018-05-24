@@ -37,6 +37,7 @@ Imports:
 Suggests: 
     covr,
     knitr,
+    magick,
     rmarkdown,
     roxygen2,
     styler,
