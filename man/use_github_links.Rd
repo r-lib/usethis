@@ -2,9 +2,10 @@
 % Please edit documentation in R/github.R
 \name{use_github_links}
 \alias{use_github_links}
-\title{Populate the URL and BugReports}
+\title{Use GitHub links in URL and BugReports}
 \usage{
-use_github_links(auth_token = NULL, host = "https://api.github.com")
+use_github_links(auth_token = NULL, host = "https://api.github.com",
+  overwrite = FALSE)
 }
 \arguments{
 \item{auth_token}{Provide a personal access token (PAT) from
@@ -15,10 +16,13 @@ variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3"}
+
+\item{overwrite}{By default, \code{use_github_links()} will not overwrite existing
+fields. Set to \code{TRUE} to overwrite existing links.}
 }
 \description{
-\code{use_github_links()} populates the \code{URL} and \code{BugReports} fields of a
-GitHub-using R package with appropriate links (unless they already exist).
+Populates the \code{URL} and \code{BugReports} fields of a GitHub-using R package with
+appropriate links.
 }
 \examples{
 \dontrun{

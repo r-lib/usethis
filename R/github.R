@@ -1,6 +1,5 @@
 #' Connect a local repo with GitHub
 #'
-#' @description
 #' `use_github()` takes a local project, creates an associated repo on GitHub,
 #' adds it to your local repo as the `origin` remote, and makes an initial push
 #' to synchronize. `use_github()` requires that your project already be a Git
@@ -161,16 +160,15 @@ use_github <- function(organisation = NULL,
   invisible(NULL)
 }
 
-#' Populate the URL and BugReports
+#' Use GitHub links in URL and BugReports
 #'
-#' @description
-#' `use_github_links()` populates the `URL` and `BugReports` fields of a
-#' GitHub-using R package with appropriate links (unless they already exist).
+#' Populates the `URL` and `BugReports` fields of a GitHub-using R package with
+#' appropriate links.
 #'
 #' @inheritParams use_github
 #' @export
-#' @param overwrite By default, `use_github_links()` will not overwrite
-#'   existing fields. Set to `TRUE` to overwrite existing links.
+#' @param overwrite By default, `use_github_links()` will not overwrite existing
+#'   fields. Set to `TRUE` to overwrite existing links.
 #' @examples
 #' \dontrun{
 #' use_github_links()
