@@ -9,7 +9,7 @@ use_git_ignore(ignores, directory = ".")
 \arguments{
 \item{ignores}{Character vector of ignores, specified as file globs.}
 
-\item{directory}{Directory within \code{base_path} to set ignores}
+\item{directory}{Directory within current project to set ignores}
 }
 \description{
 Tell git to ignore files

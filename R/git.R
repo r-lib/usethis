@@ -60,7 +60,7 @@ use_git_hook <- function(hook, script) {
 #' Tell git to ignore files
 #'
 #' @param ignores Character vector of ignores, specified as file globs.
-#' @param directory Directory within `base_path` to set ignores
+#' @param directory Directory within current project to set ignores
 #' @family git helpers
 #' @export
 use_git_ignore <- function(ignores, directory = ".") {
