@@ -1,6 +1,6 @@
 # usethis 1.3.0.9000
 
-* `use_tibble()` creates a template to use tibble in your package, enabling tibble printing for objects attached by your package.
+* `use_tibble()` does minimum setup necessary for a package that returns or exports a tibble. For example, this guarantees it will print as a tibble (#324 @martinjhnhadley).
 
 # usethis 1.3.0
 
