@@ -1,9 +1,8 @@
 context("use_badge")
 
-test_that("use_[cran|depsy|bioc]_badge() don't error", {
+test_that("use_[cran|bioc]_badge() don't error", {
   pkg <- scoped_temporary_package()
   expect_error_free(capture_output(use_cran_badge()))
-  expect_error_free(capture_output(use_depsy_badge()))
   expect_error_free(capture_output(use_bioc_badge()))
 })
 

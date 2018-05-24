@@ -20,10 +20,12 @@ use_git <- function(message = "Initial commit") {
 
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
 
-  done("Adding files and committing")
-  paths <- unlist(git2r::status(r))
-  git2r::add(r, paths)
-  git2r::commit(r, message)
+  if (git_uncommitted()) {
+    done("Adding files and committing")
+    paths <- unlist(git2r::status(r))
+    git2r::add(r, paths)
+    git2r::commit(r, message)
+  }
 
   restart_rstudio(
     "A restart of RStudio is required to activate the Git pane"
@@ -58,7 +60,7 @@ use_git_hook <- function(hook, script) {
 #' Tell git to ignore files
 #'
 #' @param ignores Character vector of ignores, specified as file globs.
-#' @param directory Directory within `base_path` to set ignores
+#' @param directory Directory within current project to set ignores
 #' @family git helpers
 #' @export
 use_git_ignore <- function(ignores, directory = ".") {

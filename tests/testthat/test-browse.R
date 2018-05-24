@@ -7,8 +7,8 @@ test_that("github_link() errors for package with no GitHub URL", {
 
 test_that("github_link() reports GitHub URL 'as is'", {
   expect_identical(
-    github_link("backports"),
-    "https://github.com/mllg/backports"
+    github_link("usethis"),
+    "https://github.com/r-lib/usethis"
   )
   expect_identical(
     github_link("gh"),
@@ -18,8 +18,8 @@ test_that("github_link() reports GitHub URL 'as is'", {
 
 test_that("github_home() strips everything after USER/REPO", {
   expect_identical(
-    github_home("backports"),
-    "https://github.com/mllg/backports"
+    github_home("usethis"),
+    "https://github.com/r-lib/usethis"
   )
   expect_identical(
     github_home("gh"),

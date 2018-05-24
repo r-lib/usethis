@@ -28,8 +28,9 @@ test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
   ## download timed out on a CRAN submission, so let's not take a chance
   skip_on_cran()
   ## curl::parse_headers_list() calls trimws()
-  ## https://github.com/jeroen/curl/issues/138
-  skip_if(getRversion() < 3.2)
+  ## curl got an internal trimws() backport in v3.2
+  ## yes the version numbers for R and curl are just a coincidence
+  skip_if(getRversion() < 3.2 && packageVersion("curl") < 3.2)
   expect_error(
     download_zip(
       "https://cran.r-project.org/src/contrib/rematch2_2.0.1.tar.gz"

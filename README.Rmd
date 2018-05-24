@@ -46,7 +46,7 @@ usethis is quite chatty, explaining what it's doing and assigning you tasks. `âœ
 
 Below is a quick look at how usethis can help to set up a package.
 
-*Note: usethis is gaining more and more functionality for analytical project that are not packages. Stay tuned.*
+*Note: usethis is gaining more and more functionality for analytical projects that are not packages. Stay tuned.*
 
 ```{r}
 library(usethis)
