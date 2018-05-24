@@ -1,5 +1,7 @@
 # usethis 1.3.0.9000
 
+* `use_tibble()` does minimum setup necessary for a package that returns or exports a tibble. For example, this guarantees it will print as a tibble (#324 @martinjhnhadley).
+
 * `use_depsy_badge()` is defunct. The Depsy project has officially concluded and is no longer being maintained (#354).
 
 * `use_github()` fails earlier, with a more informative message, in the absence of a GitHub personal access token (PAT). Also looks for the PAT more proactively in the usual environment variables (i.e., GITHUB_PAT, GITHUB_TOKEN) (#320, #340, @cderv).
