@@ -174,7 +174,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   stopifnot(is_string(url))
   dl <- curl::curl_fetch_memory(url)
 
-  httr::stop_for_status(dl$status_code)
+  stop_for_status(dl$status_code)
   check_is_zip(dl)
 
   cd <- content_disposition(dl)
