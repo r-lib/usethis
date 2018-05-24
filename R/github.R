@@ -65,6 +65,17 @@ use_github <- function(organisation = NULL,
                        auth_token = NULL,
                        host = NULL) {
   check_uses_git()
+  ## auth_token is used directly by git2r, therefore cannot be NULL
+  auth_token <- auth_token %||% gh_token()
+
+  if (is.null(auth_token) || !nzchar(auth_token)) {
+    stop(
+      "No GitHub ", code('auth_token'), ".\n",
+      "Provide explicitly or make available as an environment variable.\n",
+      "See ", code("browse_github_pat()"), " for help setting this up.",
+      call. = FALSE
+    )
+  }
 
   if (uses_github(proj_get())) {
     done("GitHub is already initialized")
@@ -143,9 +154,7 @@ use_github <- function(organisation = NULL,
   } else { ## protocol == "https"
     ## in https case, when GITHUB_PAT is passed as password,
     ## the username is immaterial, but git2r doesn't know that.
-    ## unlike gh, git2r can't work with auth_token = NULL,
-    ## so we need to get the PAT.
-    cred <- git2r::cred_user_pass("EMAIL", auth_token %||% gh_token())
+    cred <- git2r::cred_user_pass("EMAIL", auth_token)
     git2r::push(r, "origin", "refs/heads/master", credentials = cred)
   }
   git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
