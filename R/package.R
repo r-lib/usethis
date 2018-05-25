@@ -49,6 +49,9 @@ show_includes <- function(package) {
 #' @export
 #' @rdname use_package
 use_dev_package <- function(package, type = "Imports") {
+  refuse_package(package, verboten = "tidyverse")
+  refuse_package(package, verboten = "devtools")
+
   if (!requireNamespace(package, quietly = TRUE)) {
     stop(package, " must be installed before you can take a dependency on it",
       call. = FALSE
