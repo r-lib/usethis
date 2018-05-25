@@ -1,6 +1,7 @@
 # usethis 1.3.0.9000
 
 * `use_tibble()` does minimum setup necessary for a package that returns or exports a tibble. For example, this guarantees it will print as a tibble (#324 @martinjhnhadley).
+* `use_logo()` to resize and add a logo to a package (#358, @jimhester).
 
 * `use_depsy_badge()` is defunct. The Depsy project has officially concluded and is no longer being maintained (#354).
 
