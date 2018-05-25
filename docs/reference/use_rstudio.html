@@ -19,13 +19,31 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+
+<meta property="og:title" content="Add RStudio Project infrastructure — use_rstudio" />
+<meta property="og:description" content="It is likely that you want to use create_project() or create_package()
+instead of use_rstudio()! Both create_*() functions can add RStudio
+Project infrastructure to a pre-existing project or package. use_rstudio()
+is mostly for internal use or for those creating a usethis-like package for
+their organization. It does the following in the current project, often after
+executing proj_set(..., force = TRUE):
+Creates an .Rproj file
+Adds RStudio files to .gitignore
+Adds RStudio files to .Rbuildignore, if project is a package
+" />
+<meta name="twitter:card" content="summary" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -49,8 +67,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">usethis</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">usethis</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +113,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,12 +121,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Add RStudio Project infrastructure</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/rstudio.R'><code>R/rstudio.R</code></a></small>
+    <div class="hidden name"><code>use_rstudio.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     <p>It is likely that you want to use <code><a href='create_package.html'>create_project()</a></code> or <code><a href='create_package.html'>create_package()</a></code>
 instead of <code>use_rstudio()</code>! Both <code>create_*()</code> functions can add RStudio
 Project infrastructure to a pre-existing project or package. <code>use_rstudio()</code>
@@ -114,6 +140,7 @@ executing <code><a href='proj_get.html'>proj_set(..., force = TRUE)</a></code>:<
 <li><p>Adds RStudio files to <code>.gitignore</code></p></li>
 <li><p>Adds RStudio files to <code>.Rbuildignore</code>, if project is a package</p></li>
 </ul>
+    </div>
 
     <pre class="usage"><span class='fu'>use_rstudio</span>()</pre>
 
@@ -130,7 +157,7 @@ executing <code><a href='proj_get.html'>proj_set(..., force = TRUE)</a></code>:<
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -140,5 +167,8 @@ executing <code><a href='proj_get.html'>proj_set(..., force = TRUE)</a></code>:<
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

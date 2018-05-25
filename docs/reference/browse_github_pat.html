@@ -19,13 +19,28 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+
+<meta property="og:title" content="Create a GitHub personal access token — browse_github_pat" />
+<meta property="og:description" content="Opens a browser window to the GitHub page where you can generate a Personal Access Token.
+Make sure you have signed up for a free GitHub.com
+account and that you are signed in. Click "Generate token" after you have
+verified the scopes. Copy the token right away! You probably want to store it
+in .Renviron as the GITHUB_PAT environment variable. edit_r_environ()
+can help you do that. Use gh::gh_whoami() to get information on an existing
+token." />
+<meta name="twitter:card" content="summary" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -49,8 +64,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">usethis</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">usethis</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +110,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,12 +118,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a GitHub personal access token</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/github.R'><code>R/github.R</code></a></small>
+    <div class="hidden name"><code>browse_github_pat.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     <p>Opens a browser window to the GitHub page where you can generate a <a href='https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line'>Personal Access Token</a>.
 Make sure you have signed up for a free <a href='https://github.com/'>GitHub.com</a>
 account and that you are signed in. Click "Generate token" after you have
@@ -111,11 +134,12 @@ verified the scopes. Copy the token right away! You probably want to store it
 in <code>.Renviron</code> as the <code>GITHUB_PAT</code> environment variable. <code><a href='edit.html'>edit_r_environ()</a></code>
 can help you do that. Use <code><a href='http://www.rdocumentation.org/packages/gh/topics/gh_whoami'>gh::gh_whoami()</a></code> to get information on an existing
 token.</p>
+    </div>
 
     <pre class="usage"><span class='fu'>browse_github_pat</span>(<span class='kw'>scopes</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"repo"</span>, <span class='st'>"gist"</span>), <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"R:GITHUB_PAT"</span>,
   <span class='kw'>host</span> <span class='kw'>=</span> <span class='st'>"https://github.com"</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -160,7 +184,7 @@ GitHub enterprise instance, for example,
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -170,5 +194,8 @@ GitHub enterprise instance, for example,
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

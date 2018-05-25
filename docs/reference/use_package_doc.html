@@ -19,13 +19,29 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+
+<meta property="og:title" content="Package-level documentation — use_package_doc" />
+<meta property="og:description" content="Adds a dummy .R file that will prompt roxygen to generate basic
+package-level documentation. If your package is named "foo", this will make
+help available to the user via ?foo or package?foo. Once you call
+devtools::document(), roxygen will flesh out the .Rd file using data from
+the DESCRIPTION. That ensures you don't need to repeat the same information
+in multiple places. This .R file is also a good place for roxygen
+directives that apply to the whole package (vs. a specific function), such as
+global namespace tags like @importFrom." />
+<meta name="twitter:card" content="summary" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -49,8 +65,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">usethis</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">usethis</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +111,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,12 +119,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Package-level documentation</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/documentation.R'><code>R/documentation.R</code></a></small>
+    <div class="hidden name"><code>use_package_doc.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     <p>Adds a dummy <code>.R</code> file that will prompt roxygen to generate basic
 package-level documentation. If your package is named "foo", this will make
 help available to the user via <code>?foo</code> or <code>package?foo</code>. Once you call
@@ -112,13 +136,14 @@ the <code>DESCRIPTION</code>. That ensures you don't need to repeat the same inf
 in multiple places. This <code>.R</code> file is also a good place for roxygen
 directives that apply to the whole package (vs. a specific function), such as
 global namespace tags like <code>@importFrom</code>.</p>
+    </div>
 
     <pre class="usage"><span class='fu'>use_package_doc</span>()</pre>
 
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>The <a href='http://r-pkgs.had.co.nz/man.html'>documentation chapter</a> of <a href='http://r-pkgs.had.co.nz'>R Packages</a></p>
+    <div class='dont-index'><p>The <a href='http://r-pkgs.had.co.nz/man.html'>documentation chapter</a> of <a href='http://r-pkgs.had.co.nz'>R Packages</a></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -132,7 +157,7 @@ global namespace tags like <code>@importFrom</code>.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -142,5 +167,8 @@ global namespace tags like <code>@importFrom</code>.</p>
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

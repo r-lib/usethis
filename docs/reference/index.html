@@ -19,13 +19,20 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+
+<meta property="og:title" content="Function reference" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -49,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">usethis</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">usethis</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -62,25 +73,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    News
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Blog posts</li>
-    <li>
-      <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
-    </li>
-    <li>
-      <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
-    </li>
-    <li class="divider"></li>
-    <li>
-      <a href="../news/index.html">Change log</a>
-    </li>
-  </ul>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -91,6 +85,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,396 +93,392 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;1.3.0.9000</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-create" class="hasAnchor"><a href="#section-create" class="anchor"></a>Create</h2>
-            <p class="section-desc"><p>Create a project de novo or from an existing source, either local or remote</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="create_from_github.html">create_from_github</a></code> </p>
-          </td>
-          <td><p>Create a project from a GitHub repo</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="create_package.html">create_package</a></code> <code><a href="create_package.html">create_project</a></code> </p>
-          </td>
-          <td><p>Create a package or project</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_course.html">use_course</a></code> </p>
-          </td>
-          <td><p>Download course materials</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-active-project" class="hasAnchor"><a href="#section-active-project" class="anchor"></a>Active project</h2>
-            <p class="section-desc"><p>Query or set the project targetted by usethis functions that don’t take a path</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="proj_get.html">proj_get</a></code> <code><a href="proj_get.html">proj_set</a></code> </p>
-          </td>
-          <td><p>Get and set the active project</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-package-development" class="hasAnchor"><a href="#section-package-development" class="anchor"></a>Package development</h2>
-            <p class="section-desc"><p>Add or modify files typically found in R packages</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="create_package.html">create_package</a></code> <code><a href="create_package.html">create_project</a></code> </p>
-          </td>
-          <td><p>Create a package or project</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_description.html">use_description</a></code> </p>
-          </td>
-          <td><p>Create a default DESCRIPTION file for a package.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="licenses.html">use_mit_license</a></code> <code><a href="licenses.html">use_gpl3_license</a></code> <code><a href="licenses.html">use_apl2_license</a></code> <code><a href="licenses.html">use_cc0_license</a></code> </p>
-          </td>
-          <td><p>License a package</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_package.html">use_package</a></code> <code><a href="use_package.html">use_dev_package</a></code> </p>
-          </td>
-          <td><p>Depend on another package</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_namespace.html">use_namespace</a></code> </p>
-          </td>
-          <td><p>Use a basic <code>NAMESPACE</code></p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_r.html">use_r</a></code> </p>
-          </td>
-          <td><p>Create a new R file</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_testthat.html">use_testthat</a></code> <code><a href="use_testthat.html">use_test</a></code> </p>
-          </td>
-          <td><p>Create tests</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_data.html">use_data</a></code> <code><a href="use_data.html">use_data_raw</a></code> </p>
-          </td>
-          <td><p>Create package data</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ci.html">use_travis</a></code> <code><a href="ci.html">use_coverage</a></code> <code><a href="ci.html">use_appveyor</a></code> </p>
-          </td>
-          <td><p>Continuous integration setup and badges</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_build_ignore.html">use_build_ignore</a></code> </p>
-          </td>
-          <td><p>Add files to <code>.Rbuildignore</code></p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_pipe.html">use_pipe</a></code> </p>
-          </td>
-          <td><p>Use magrittr's pipe in your package</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_rcpp.html">use_rcpp</a></code> </p>
-          </td>
-          <td><p>Use Rcpp</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_news_md.html">use_news_md</a></code> </p>
-          </td>
-          <td><p>Create a simple <code>NEWS.md</code></p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_package_doc.html">use_package_doc</a></code> </p>
-          </td>
-          <td><p>Package-level documentation</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_roxygen_md.html">use_roxygen_md</a></code> </p>
-          </td>
-          <td><p>Use roxygen with markdown</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_vignette.html">use_vignette</a></code> </p>
-          </td>
-          <td><p>Create a vignette</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_readme_rmd.html">use_readme_rmd</a></code> <code><a href="use_readme_rmd.html">use_readme_md</a></code> </p>
-          </td>
-          <td><p>Create README files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="badges.html">use_badge</a></code> <code><a href="badges.html">use_cran_badge</a></code> <code><a href="badges.html">use_bioc_badge</a></code> <code><a href="badges.html">use_depsy_badge</a></code> <code><a href="badges.html">use_lifecycle_badge</a></code> <code><a href="badges.html">use_binder_badge</a></code> </p>
-          </td>
-          <td><p>README badges</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_pkgdown.html">use_pkgdown</a></code> </p>
-          </td>
-          <td><p>Use pkgdown</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_cran_comments.html">use_cran_comments</a></code> </p>
-          </td>
-          <td><p>CRAN submission comments</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_revdep.html">use_revdep</a></code> </p>
-          </td>
-          <td><p>Reverse dependency checks</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_version.html">use_version</a></code> <code><a href="use_version.html">use_dev_version</a></code> </p>
-          </td>
-          <td><p>Increment package version</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_rmarkdown_template.html">use_rmarkdown_template</a></code> </p>
-          </td>
-          <td><p>Add an RMarkdown Template</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="tidyverse.html">use_tidy_ci</a></code> <code><a href="tidyverse.html">use_tidy_description</a></code> <code><a href="tidyverse.html">use_tidy_versions</a></code> <code><a href="tidyverse.html">use_tidy_eval</a></code> <code><a href="tidyverse.html">use_tidy_contributing</a></code> <code><a href="tidyverse.html">use_tidy_issue_template</a></code> <code><a href="tidyverse.html">use_tidy_support</a></code> <code><a href="tidyverse.html">use_tidy_coc</a></code> <code><a href="tidyverse.html">use_tidy_github</a></code> <code><a href="tidyverse.html">use_tidy_style</a></code> </p>
-          </td>
-          <td><p>Helpers for the tidyverse</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-configuration" class="hasAnchor"><a href="#section-configuration" class="anchor"></a>Configuration</h2>
-            <p class="section-desc"><p>Configure the behaviour of R, RStudio, or Git, globally as a user or for a specific project</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_blank_slate.html">use_blank_slate</a></code> </p>
-          </td>
-          <td><p>Don't save/load user workspace between sessions</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_usethis.html">use_usethis</a></code> </p>
-          </td>
-          <td><p>Make usethis available in interactive sessions</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_git_config.html">use_git_config</a></code> </p>
-          </td>
-          <td><p>Configure Git</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="edit.html">edit_r_profile</a></code> <code><a href="edit.html">edit_r_environ</a></code> <code><a href="edit.html">edit_r_makevars</a></code> <code><a href="edit.html">edit_rstudio_snippets</a></code> <code><a href="edit.html">edit_git_config</a></code> <code><a href="edit.html">edit_git_ignore</a></code> </p>
-          </td>
-          <td><p>Open useful configuration files</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-git-and-github" class="hasAnchor"><a href="#section-git-and-github" class="anchor"></a>Git and GitHub</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="create_from_github.html">create_from_github</a></code> </p>
-          </td>
-          <td><p>Create a project from a GitHub repo</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_git_config.html">use_git_config</a></code> </p>
-          </td>
-          <td><p>Configure Git</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_git.html">use_git</a></code> </p>
-          </td>
-          <td><p>Initialise a git repository</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_github.html">use_github</a></code> <code><a href="use_github.html">use_github_links</a></code> </p>
-          </td>
-          <td><p>Connect a local repo with GitHub</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_git_ignore.html">use_git_ignore</a></code> </p>
-          </td>
-          <td><p>Tell git to ignore files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_git_hook.html">use_git_hook</a></code> </p>
-          </td>
-          <td><p>Add a git hook</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_github_labels.html">use_github_labels</a></code> <code><a href="use_github_labels.html">tidy_labels</a></code> </p>
-          </td>
-          <td><p>Manage GitHub issue labels</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_code_of_conduct.html">use_code_of_conduct</a></code> </p>
-          </td>
-          <td><p>Add a code of conduct</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_readme_rmd.html">use_readme_rmd</a></code> <code><a href="use_readme_rmd.html">use_readme_md</a></code> </p>
-          </td>
-          <td><p>Create README files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="browse_github_pat.html">browse_github_pat</a></code> </p>
-          </td>
-          <td><p>Create a GitHub personal access token</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="browse-this.html">browse_github</a></code> <code><a href="browse-this.html">browse_github_issues</a></code> <code><a href="browse-this.html">browse_github_pulls</a></code> <code><a href="browse-this.html">browse_travis</a></code> <code><a href="browse-this.html">browse_cran</a></code> </p>
-          </td>
-          <td><p>Quickly browse to important package webpages</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="edit.html">edit_r_profile</a></code> <code><a href="edit.html">edit_r_environ</a></code> <code><a href="edit.html">edit_r_makevars</a></code> <code><a href="edit.html">edit_rstudio_snippets</a></code> <code><a href="edit.html">edit_git_config</a></code> <code><a href="edit.html">edit_git_ignore</a></code> </p>
-          </td>
-          <td><p>Open useful configuration files</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-edit" class="hasAnchor"><a href="#section-edit" class="anchor"></a>Edit</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="edit.html">edit_r_profile</a></code> <code><a href="edit.html">edit_r_environ</a></code> <code><a href="edit.html">edit_r_makevars</a></code> <code><a href="edit.html">edit_rstudio_snippets</a></code> <code><a href="edit.html">edit_git_config</a></code> <code><a href="edit.html">edit_git_ignore</a></code> </p>
-          </td>
-          <td><p>Open useful configuration files</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-browse" class="hasAnchor"><a href="#section-browse" class="anchor"></a>Browse</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="browse_github_pat.html">browse_github_pat</a></code> </p>
-          </td>
-          <td><p>Create a GitHub personal access token</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="browse-this.html">browse_github</a></code> <code><a href="browse-this.html">browse_github_issues</a></code> <code><a href="browse-this.html">browse_github_pulls</a></code> <code><a href="browse-this.html">browse_travis</a></code> <code><a href="browse-this.html">browse_cran</a></code> </p>
-          </td>
-          <td><p>Quickly browse to important package webpages</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-helpers" class="hasAnchor"><a href="#section-helpers" class="anchor"></a>Helpers</h2>
-            <p class="section-desc"><p>These functions are mostly for internal use. But they are useful for those who wish to offer usethis-like support for, e.g., workflows specific to an organisation.</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_template.html">use_template</a></code> </p>
-          </td>
-          <td><p>Use a usethis-style template</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_directory.html">use_directory</a></code> </p>
-          </td>
-          <td><p>Use a directory</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_rmarkdown_template.html">use_rmarkdown_template</a></code> </p>
-          </td>
-          <td><p>Add an RMarkdown Template</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="use_rstudio.html">use_rstudio</a></code> </p>
-          </td>
-          <td><p>Add RStudio Project infrastructure</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-create" class="hasAnchor"><a href="#section-create" class="anchor"></a>Create</h2>
+          <p class="section-desc"><p>Create a project de novo or from an existing source, either local or remote</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="create_from_github.html">create_from_github()</a></code> </p>
+        </td>
+        <td><p>Create a project from a GitHub repo</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="create_package.html">create_package()</a></code> <code><a href="create_package.html">create_project()</a></code> </p>
+        </td>
+        <td><p>Create a package or project</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_course.html">use_course()</a></code> </p>
+        </td>
+        <td><p>Download course materials</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-active-project" class="hasAnchor"><a href="#section-active-project" class="anchor"></a>Active project</h2>
+          <p class="section-desc"><p>Query or set the project targetted by usethis functions that don’t take a path</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="proj_get.html">proj_get()</a></code> <code><a href="proj_get.html">proj_set()</a></code> </p>
+        </td>
+        <td><p>Get and set the active project</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-package-development" class="hasAnchor"><a href="#section-package-development" class="anchor"></a>Package development</h2>
+          <p class="section-desc"><p>Add or modify files typically found in R packages</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="create_package.html">create_package()</a></code> <code><a href="create_package.html">create_project()</a></code> </p>
+        </td>
+        <td><p>Create a package or project</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_description.html">use_description()</a></code> </p>
+        </td>
+        <td><p>Create a default DESCRIPTION file for a package.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="licenses.html">use_mit_license()</a></code> <code><a href="licenses.html">use_gpl3_license()</a></code> <code><a href="licenses.html">use_apl2_license()</a></code> <code><a href="licenses.html">use_cc0_license()</a></code> </p>
+        </td>
+        <td><p>License a package</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_package.html">use_package()</a></code> <code><a href="use_package.html">use_dev_package()</a></code> </p>
+        </td>
+        <td><p>Depend on another package</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_namespace.html">use_namespace()</a></code> </p>
+        </td>
+        <td><p>Use a basic <code>NAMESPACE</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_r.html">use_r()</a></code> </p>
+        </td>
+        <td><p>Create a new R file</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_testthat.html">use_testthat()</a></code> <code><a href="use_testthat.html">use_test()</a></code> </p>
+        </td>
+        <td><p>Create tests</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_data.html">use_data()</a></code> <code><a href="use_data.html">use_data_raw()</a></code> </p>
+        </td>
+        <td><p>Create package data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ci.html">use_travis()</a></code> <code><a href="ci.html">use_coverage()</a></code> <code><a href="ci.html">use_appveyor()</a></code> </p>
+        </td>
+        <td><p>Continuous integration setup and badges</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_build_ignore.html">use_build_ignore()</a></code> </p>
+        </td>
+        <td><p>Add files to <code>.Rbuildignore</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_pipe.html">use_pipe()</a></code> </p>
+        </td>
+        <td><p>Use magrittr's pipe in your package</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_rcpp.html">use_rcpp()</a></code> </p>
+        </td>
+        <td><p>Use Rcpp</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_news_md.html">use_news_md()</a></code> </p>
+        </td>
+        <td><p>Create a simple <code>NEWS.md</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_package_doc.html">use_package_doc()</a></code> </p>
+        </td>
+        <td><p>Package-level documentation</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_roxygen_md.html">use_roxygen_md()</a></code> </p>
+        </td>
+        <td><p>Use roxygen with markdown</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_vignette.html">use_vignette()</a></code> </p>
+        </td>
+        <td><p>Create a vignette</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_readme_rmd.html">use_readme_rmd()</a></code> <code><a href="use_readme_rmd.html">use_readme_md()</a></code> </p>
+        </td>
+        <td><p>Create README files</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="badges.html">use_badge()</a></code> <code><a href="badges.html">use_cran_badge()</a></code> <code><a href="badges.html">use_bioc_badge()</a></code> <code><a href="badges.html">use_depsy_badge()</a></code> <code><a href="badges.html">use_lifecycle_badge()</a></code> <code><a href="badges.html">use_binder_badge()</a></code> </p>
+        </td>
+        <td><p>README badges</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_pkgdown.html">use_pkgdown()</a></code> </p>
+        </td>
+        <td><p>Use pkgdown</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_cran_comments.html">use_cran_comments()</a></code> </p>
+        </td>
+        <td><p>CRAN submission comments</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_revdep.html">use_revdep()</a></code> </p>
+        </td>
+        <td><p>Reverse dependency checks</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_version.html">use_version()</a></code> <code><a href="use_version.html">use_dev_version()</a></code> </p>
+        </td>
+        <td><p>Increment package version</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_rmarkdown_template.html">use_rmarkdown_template()</a></code> </p>
+        </td>
+        <td><p>Add an RMarkdown Template</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tidyverse.html">use_tidy_ci()</a></code> <code><a href="tidyverse.html">use_tidy_description()</a></code> <code><a href="tidyverse.html">use_tidy_versions()</a></code> <code><a href="tidyverse.html">use_tidy_eval()</a></code> <code><a href="tidyverse.html">use_tidy_contributing()</a></code> <code><a href="tidyverse.html">use_tidy_issue_template()</a></code> <code><a href="tidyverse.html">use_tidy_support()</a></code> <code><a href="tidyverse.html">use_tidy_coc()</a></code> <code><a href="tidyverse.html">use_tidy_github()</a></code> <code><a href="tidyverse.html">use_tidy_style()</a></code> </p>
+        </td>
+        <td><p>Helpers for the tidyverse</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-configuration" class="hasAnchor"><a href="#section-configuration" class="anchor"></a>Configuration</h2>
+          <p class="section-desc"><p>Configure the behaviour of R, RStudio, or Git, globally as a user or for a specific project</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="use_blank_slate.html">use_blank_slate()</a></code> </p>
+        </td>
+        <td><p>Don't save/load user workspace between sessions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_usethis.html">use_usethis()</a></code> </p>
+        </td>
+        <td><p>Make usethis available in interactive sessions</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_git_config.html">use_git_config()</a></code> </p>
+        </td>
+        <td><p>Configure Git</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="edit.html">edit_r_profile()</a></code> <code><a href="edit.html">edit_r_environ()</a></code> <code><a href="edit.html">edit_r_makevars()</a></code> <code><a href="edit.html">edit_rstudio_snippets()</a></code> <code><a href="edit.html">edit_git_config()</a></code> <code><a href="edit.html">edit_git_ignore()</a></code> </p>
+        </td>
+        <td><p>Open useful configuration files</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-git-and-github" class="hasAnchor"><a href="#section-git-and-github" class="anchor"></a>Git and GitHub</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="create_from_github.html">create_from_github()</a></code> </p>
+        </td>
+        <td><p>Create a project from a GitHub repo</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_git_config.html">use_git_config()</a></code> </p>
+        </td>
+        <td><p>Configure Git</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_git.html">use_git()</a></code> </p>
+        </td>
+        <td><p>Initialise a git repository</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_github.html">use_github()</a></code> <code><a href="use_github.html">use_github_links()</a></code> </p>
+        </td>
+        <td><p>Connect a local repo with GitHub</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_git_ignore.html">use_git_ignore()</a></code> </p>
+        </td>
+        <td><p>Tell git to ignore files</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_git_hook.html">use_git_hook()</a></code> </p>
+        </td>
+        <td><p>Add a git hook</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_github_labels.html">use_github_labels()</a></code> <code><a href="use_github_labels.html">tidy_labels()</a></code> </p>
+        </td>
+        <td><p>Manage GitHub issue labels</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_code_of_conduct.html">use_code_of_conduct()</a></code> </p>
+        </td>
+        <td><p>Add a code of conduct</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_readme_rmd.html">use_readme_rmd()</a></code> <code><a href="use_readme_rmd.html">use_readme_md()</a></code> </p>
+        </td>
+        <td><p>Create README files</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="browse-this.html">browse_github()</a></code> <code><a href="browse-this.html">browse_github_issues()</a></code> <code><a href="browse-this.html">browse_github_pulls()</a></code> <code><a href="browse-this.html">browse_travis()</a></code> <code><a href="browse-this.html">browse_cran()</a></code> </p>
+        </td>
+        <td><p>Quickly browse to important package webpages</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="browse_github_pat.html">browse_github_pat()</a></code> </p>
+        </td>
+        <td><p>Create a GitHub personal access token</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="edit.html">edit_r_profile()</a></code> <code><a href="edit.html">edit_r_environ()</a></code> <code><a href="edit.html">edit_r_makevars()</a></code> <code><a href="edit.html">edit_rstudio_snippets()</a></code> <code><a href="edit.html">edit_git_config()</a></code> <code><a href="edit.html">edit_git_ignore()</a></code> </p>
+        </td>
+        <td><p>Open useful configuration files</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-edit" class="hasAnchor"><a href="#section-edit" class="anchor"></a>Edit</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="edit.html">edit_r_profile()</a></code> <code><a href="edit.html">edit_r_environ()</a></code> <code><a href="edit.html">edit_r_makevars()</a></code> <code><a href="edit.html">edit_rstudio_snippets()</a></code> <code><a href="edit.html">edit_git_config()</a></code> <code><a href="edit.html">edit_git_ignore()</a></code> </p>
+        </td>
+        <td><p>Open useful configuration files</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-browse" class="hasAnchor"><a href="#section-browse" class="anchor"></a>Browse</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="browse-this.html">browse_github()</a></code> <code><a href="browse-this.html">browse_github_issues()</a></code> <code><a href="browse-this.html">browse_github_pulls()</a></code> <code><a href="browse-this.html">browse_travis()</a></code> <code><a href="browse-this.html">browse_cran()</a></code> </p>
+        </td>
+        <td><p>Quickly browse to important package webpages</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="browse_github_pat.html">browse_github_pat()</a></code> </p>
+        </td>
+        <td><p>Create a GitHub personal access token</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-helpers" class="hasAnchor"><a href="#section-helpers" class="anchor"></a>Helpers</h2>
+          <p class="section-desc"><p>These functions are mostly for internal use. But they are useful for those who wish to offer usethis-like support for, e.g., workflows specific to an organisation.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="use_template.html">use_template()</a></code> </p>
+        </td>
+        <td><p>Use a usethis-style template</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_directory.html">use_directory()</a></code> </p>
+        </td>
+        <td><p>Use a directory</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_rmarkdown_template.html">use_rmarkdown_template()</a></code> </p>
+        </td>
+        <td><p>Add an RMarkdown Template</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="use_rstudio.html">use_rstudio()</a></code> </p>
+        </td>
+        <td><p>Add RStudio Project infrastructure</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -507,7 +498,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -517,5 +508,8 @@
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
