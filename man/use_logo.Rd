@@ -9,7 +9,7 @@ use_logo(img, geometry = "120x140")
 \arguments{
 \item{img}{The path to an existing image file}
 
-\item{geometry}{a \link{geometry} string specifying area (for cropping) or size (for resizing).}
+\item{geometry}{a \link[magick:geometry]{magick::geometry} string specifying size}
 }
 \description{
 These helpers produce the markdown text you need in your README to include

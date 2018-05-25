@@ -4,7 +4,8 @@
 #' package logos.
 #'
 #' @param img The path to an existing image file
-#' @inheritParams magick::image_resize
+#' @param geometry a [magick::geometry] string specifying size
+#' @inheritParams magick::transform
 #'
 #' @examples
 #' \dontrun{
