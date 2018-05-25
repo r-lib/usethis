@@ -1,11 +1,12 @@
-#' README logo_
+#' Use a package logo
 #'
-#' These helpers produce the markdown text you need in your README to include
-#' package logos.
+#' This function helps you use a logo in your package:
+#'   * Enforces a specific size
+#'   * Stores logo image file at `man/figures/logo.png`
+#'   * Produces the markdown text you need in README to include the logo
 #'
 #' @param img The path to an existing image file
 #' @param geometry a [magick::geometry] string specifying size
-#' @inheritParams magick::transform
 #'
 #' @examples
 #' \dontrun{

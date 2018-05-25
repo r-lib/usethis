@@ -2,7 +2,7 @@
 % Please edit documentation in R/logo.R
 \name{use_logo}
 \alias{use_logo}
-\title{README logo_}
+\title{Use a package logo}
 \usage{
 use_logo(img, geometry = "120x140")
 }
@@ -12,8 +12,12 @@ use_logo(img, geometry = "120x140")
 \item{geometry}{a \link[magick:geometry]{magick::geometry} string specifying size}
 }
 \description{
-These helpers produce the markdown text you need in your README to include
-package logos.
+This function helps you use a logo in your package:
+\itemize{
+\item Enforces a specific size
+\item Stores logo image file at \code{man/figures/logo.png}
+\item Produces the markdown text you need in README to include the logo
+}
 }
 \examples{
 \dontrun{
