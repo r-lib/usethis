@@ -201,10 +201,13 @@ use_tidy_coc <- function() {
     ".github/CODE_OF_CONDUCT.md"
   )
 
-  todo("Don't forget to describe the code of conduct in your README.md:")
+  todo("Don't forget to describe the code of conduct in your README:")
   code_block(
-    "Please note that this project is released with a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md).",
-    "By participating in this project you agree to abide by its terms."
+    paste0("Please note that the ", value(project_name()),
+           " project is released with a ",
+           "[Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). ",
+           "By contributing to this project, you agree to abide by its terms."
+    )
   )
 }
 
