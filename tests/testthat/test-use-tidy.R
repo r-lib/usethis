@@ -12,7 +12,7 @@ test_that("use_tidy_description() alphabetises dependencies", {
   expect_gt(grep("withr", desc), grep("gh", desc))
 })
 
-test_that("use_tidy_versions() specifies a version for all dependencies", {
+test_that("use_tidy_versions() specifies a version for dependencies", {
   pkg <- scoped_temporary_package()
   capture_output(use_package("usethis"))
   capture_output(use_package("desc"))
@@ -22,6 +22,17 @@ test_that("use_tidy_versions() specifies a version for all dependencies", {
   desc <- readLines(proj_path("DESCRIPTION"))
   desc <- grep("usethis|desc|withr|gh", desc, value = TRUE)
   expect_true(all(grepl("\\(>= [0-9.]+\\)", desc)))
+})
+
+test_that("use_tidy_versions() does nothing for base or recommended packages", {
+  pkg <- scoped_temporary_package()
+  capture_output(use_package("tools"))
+  capture_output(use_package("nlme"))
+  capture_output(use_package("survival", "Suggests"))
+  capture_output(use_tidy_versions())
+  desc <- readLines(proj_path("DESCRIPTION"))
+  desc <- grep("tools|nlme|survival", desc, value = TRUE)
+  expect_false(any(grepl("\\(>= [0-9.]+\\)", desc)))
 })
 
 test_that("use_tidy_eval() inserts the template file and Imports rlang", {

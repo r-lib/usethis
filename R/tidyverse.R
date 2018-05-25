@@ -114,7 +114,8 @@ use_tidy_description <- function() {
 use_tidy_versions <- function(overwrite = FALSE) {
   deps <- desc::desc_get_deps(proj_get())
 
-  to_change <- deps$package != "R"
+  baserec <- base_and_recommended()
+  to_change <- !deps$package %in% c("R", baserec)
   if (!overwrite) {
     to_change <- to_change & deps$version == "*"
   }
@@ -238,4 +239,20 @@ use_tidy_style <- function(strict = TRUE) {
   cat_line()
   done("Styled project according to the tidyverse style guide")
   invisible(styled)
+}
+
+## approaches based on available.packages() and/or installed.packages() present
+## several edge cases, requirements, and gotchas
+## for this application, hard-wiring seems to be "good enough"
+base_and_recommended <- function() {
+  # base_pkgs <- as.vector(installed.packages(priority = "base")[, "Package"])
+  # av <- available.packages()
+  # keep <- av[ , "Priority", drop = TRUE] %in% "recommended"
+  # rec_pkgs <- unname(av[keep, "Package", drop = TRUE])
+  # dput(sort(unique(c(base_pkgs, rec_pkgs))))
+  c("base", "boot", "class", "cluster", "codetools", "compiler",
+    "datasets", "foreign", "graphics", "grDevices", "grid", "KernSmooth",
+    "lattice", "MASS", "Matrix", "methods", "mgcv", "nlme", "nnet",
+    "parallel", "rpart", "spatial", "splines", "stats", "stats4",
+    "survival", "tcltk", "tools", "utils")
 }
