@@ -20,6 +20,9 @@ navbar:
     - text: "Change log"
       href: news/index.html
 
+development:
+  mode: auto
+
 reference:
   - title: Create
     desc: >
