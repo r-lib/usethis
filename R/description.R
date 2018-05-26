@@ -25,15 +25,15 @@
 #' \dontrun{
 #' use_description()
 #' }
-use_description <- function(fields = NULL) {
+use_description <- function(fields = list()) {
   name <- project_name()
   check_package_name(name)
 
   ## the definitive source of user-supplied info: in this call or via options
-  fields <- fields %||%
-    getOption("usethis.description") %||%
-    getOption("devtools.desc") %||%
-    list()
+  fields <- utils::modifyList(
+    fields,
+    getOption("usethis.description") %||% getOption("devtools.desc")
+  )
 
   desc <- build_description(name, fields)
   write_over(proj_get(), "DESCRIPTION", desc)

@@ -44,7 +44,7 @@ create_package <- function(path,
 
   use_directory("R")
   use_directory("man")
-  use_description(fields = fields)
+  use_description(fields)
   use_namespace()
 
   if (rstudio) {

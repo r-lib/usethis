@@ -33,6 +33,7 @@ Imports:
     rprojroot,
     rstudioapi,
     spelling,
+    utils,
     whisker
 Suggests: 
     covr,
@@ -43,10 +44,10 @@ Suggests:
     styler,
     testthat (>= 2.0.0),
     withr
+Remotes: 
+    ropensci/git2r
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1.9000
-Language: en-US
-Remotes: 
-    ropensci/git2r
