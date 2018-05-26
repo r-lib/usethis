@@ -96,13 +96,13 @@ license_data <- function(name, base_path = proj_get()) {
 
 
 find_name <- function() {
-  name <- getOption("devtools.name")
-  if (!is.null(name) && name != "Your name goes here") {
+  name <- getOption("usethis.full_name")
+  if (!is.null(name)) {
     return(name)
   }
 
-  name <- getOption("usethis.full_name")
-  if (!is.null(name)) {
+  name <- getOption("devtools.name")
+  if (!is.null(name) && name != "Your name goes here") {
     return(name)
   }
 
