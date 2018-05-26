@@ -29,6 +29,7 @@ use_description <- function(fields = NULL) {
   name <- project_name()
   check_package_name(name)
 
+  ## the definitive source of user-supplied info: in this call or via options
   fields <- fields %||%
     getOption("usethis.description") %||%
     getOption("devtools.desc") %||%
@@ -48,22 +49,15 @@ build_description <- function(name, fields = list()) {
 }
 
 build_description_list <- function(name, fields = list()) {
-  author <- getOption("devtools.desc.author") %||%
-    'person("First", "Last", , "first.last@example.com", c("aut", "cre"))'
-  license <- getOption("devtools.desc.license") %||% "What license it uses"
-  suggests <- getOption("devtools.desc.suggests")
-
   defaults <- list(
     Package = name,
     Version = "0.0.0.9000",
     Title = "What the Package Does (One Line, Title Case)",
     Description = "What the package does (one paragraph).",
-    "Authors@R" = author,
-    License = license,
-    Suggests = suggests,
+    "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"))',
+    License = "What license it uses",
     Encoding = "UTF-8",
-    LazyData = "true",
-    ByteCompile = "true"
+    LazyData = "true"
   )
 
   # Override defaults with user supplied options
