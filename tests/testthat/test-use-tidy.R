@@ -24,14 +24,14 @@ test_that("use_tidy_versions() specifies a version for dependencies", {
   expect_true(all(grepl("\\(>= [0-9.]+\\)", desc)))
 })
 
-test_that("use_tidy_versions() does nothing for base or recommended packages", {
+test_that("use_tidy_versions() does nothing for a base package", {
+  ## if we ever depend on a recommended package, could beef up this test a bit
   pkg <- scoped_temporary_package()
   capture_output(use_package("tools"))
-  capture_output(use_package("nlme"))
-  capture_output(use_package("survival", "Suggests"))
+  capture_output(use_package("stats", "Suggests"))
   capture_output(use_tidy_versions())
   desc <- readLines(proj_path("DESCRIPTION"))
-  desc <- grep("tools|nlme|survival", desc, value = TRUE)
+  desc <- grep("tools|stats", desc, value = TRUE)
   expect_false(any(grepl("\\(>= [0-9.]+\\)", desc)))
 })
 
