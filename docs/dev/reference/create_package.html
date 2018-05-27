@@ -142,8 +142,8 @@ active project, so that subsequent <code>use_*()</code> calls affect the project
 that you've just created. See <code><a href='proj_get.html'>proj_set()</a></code> to manually reset it.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_package</span>(<span class='no'>path</span>, <span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"devtools.desc"</span>),
-  <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw pkg'>rstudioapi</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/rstudioapi/topics/isAvailable'>isAvailable</a></span>(), <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'>interactive</span>())
+    <pre class="usage"><span class='fu'>create_package</span>(<span class='no'>path</span>, <span class='kw'>fields</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw pkg'>rstudioapi</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/rstudioapi/topics/isAvailable'>isAvailable</a></span>(),
+  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'>interactive</span>())
 
 <span class='fu'>create_project</span>(<span class='no'>path</span>, <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw pkg'>rstudioapi</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/rstudioapi/topics/isAvailable'>isAvailable</a></span>(),
   <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'>interactive</span>())</pre>
@@ -158,10 +158,9 @@ created, provided that the parent path exists.</p></td>
     </tr>
     <tr>
       <th>fields</th>
-      <td><p>A named list of fields to add to <code class="file">DESCRIPTION</code>,
-potentially overriding the defaults. If <code>NULL</code>, retrieved from
-<code>getOption("usethis.description")</code>, and (for backward compatibility) from
-<code>getOption("devtools.desc")</code>.</p></td>
+      <td><p>A named list of fields to add to DESCRIPTION, potentially
+overriding default values. See <code><a href='use_description.html'>use_description()</a></code> for how you can set
+personalized defaults using package options</p></td>
     </tr>
     <tr>
       <th>rstudio</th>

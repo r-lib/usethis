@@ -1,29 +1,38 @@
-#' Create a default DESCRIPTION file for a package.
+#' Create a DESCRIPTION file
 #'
 #' @description
-#' If you create a lot of packages, you can override the defaults by setting
-#' option `"usethis.description"` to a named list. Here's an example of code one
-#' could include in `.Rprofile`:
+#' usethis consults the following sources, in this order, to set DESCRIPTION
+#' fields:
+#' * `fields` argument of [create_package()] or [use_description()]
+#' * `getOption("usethis.description")` or `getOption("devtools.desc")`. The
+#' devtools option is consulted only for backwards compatibility and it's
+#' recommended to switch to an option named "usethis.description".
+#' * Defaults built into usethis
+#'
+#' If you create a lot of packages, consider storing personalized defaults as a
+#' named list in an option named `"usethis.description"`. Here's an example of
+#' code to include in `.Rprofile`:
 #'
 #' ```
 #' options(
 #'   usethis.name = "Jane Doe",
 #'   usethis.description = list(
-#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c#' ("aut", "cre"))',
+#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
 #'     License = "MIT + file LICENSE",
-#'     Version = "0.0.0.9000"
+#'     Language: es
 #'   )
 #' )
 #' ```
 #'
-#' @param fields A named list of fields to add to \file{DESCRIPTION},
-#'   potentially overriding the defaults. If `NULL`, retrieved from
-#'   `getOption("usethis.description")`, and (for backward compatibility) from
-#'   `getOption("devtools.desc")`.
+#' @param fields A named list of fields to add to DESCRIPTION, potentially
+#'   overriding default values. See [use_description()] for how you can set
+#'   personalized defaults using package options
 #' @export
 #' @examples
 #' \dontrun{
 #' use_description()
+#'
+#' use_description(fields = list(Language = "es"))
 #' }
 use_description <- function(fields = NULL) {
   name <- project_name()
