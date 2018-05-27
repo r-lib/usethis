@@ -23,9 +23,11 @@ scoped_temporary_thing <- function(dir = tempfile(pattern = pattern),
   # Can't schedule a deferred project reset if calling this from the R console,
   # which is useful when developing tests
   if (identical(env, globalenv())) {
+    ## I use proj_get() here deliberately, because after load_all()
+    ## proj$cur is typically NULL
     todo(
       "Switching to a temporary project! To restore current project:\n",
-      "proj_set(\"", old, "\")"
+      "proj_set(\"", proj_get(), "\")"
     )
   } else {
     withr::defer(proj_set(old), envir = env)
