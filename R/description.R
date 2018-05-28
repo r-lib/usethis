@@ -37,6 +37,7 @@
 use_description <- function(fields = NULL) {
   name <- project_name()
   check_package_name(name)
+  if (!is.null(fields)) check_is_named_list(fields)
 
   ## the definitive source of user-supplied info: in this call or via options
   fields <- utils::modifyList(
