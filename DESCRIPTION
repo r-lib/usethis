@@ -32,7 +32,6 @@ Imports:
     rematch2,
     rprojroot,
     rstudioapi,
-    spelling,
     whisker
 Suggests: 
     covr,
@@ -40,6 +39,7 @@ Suggests:
     magick,
     rmarkdown,
     roxygen2,
+    spelling,
     styler,
     testthat (>= 2.0.0),
     withr

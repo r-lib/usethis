@@ -5,8 +5,8 @@ AppVeyor
 artefacts
 behaviour
 BioConductor
+BugReports
 bzip
-codecov
 Codecov
 colours
 config
@@ -64,8 +64,10 @@ signalling
 src
 styler
 templating
+tibble
+tibbles
 tidyverse
-travis
+tidyverse's
 triaged
 whitelisted
 Wickham
