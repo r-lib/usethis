@@ -16,7 +16,6 @@
 #' }
 use_package <- function(package, type = "Imports") {
   refuse_package(package, verboten = "tidyverse")
-  refuse_package(package, verboten = "devtools")
 
   use_dependency(package, type)
 
@@ -50,7 +49,6 @@ show_includes <- function(package) {
 #' @rdname use_package
 use_dev_package <- function(package, type = "Imports") {
   refuse_package(package, verboten = "tidyverse")
-  refuse_package(package, verboten = "devtools")
 
   if (!requireNamespace(package, quietly = TRUE)) {
     stop(package, " must be installed before you can take a dependency on it",
