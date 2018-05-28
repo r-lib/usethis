@@ -231,6 +231,31 @@ use_tidy_style <- function(strict = TRUE) {
   invisible(styled)
 }
 
+use_tidy_thanks <- function(since = "2017-06-26") {
+  check_uses_github()
+  gh <- gh::gh_tree_remote(proj_get())
+  res <- gh::gh(
+    "/repos/:owner/:repo/issues",
+    owner = gh$username,
+    repo = gh$repo,
+    since = since,
+    state = "all",
+    .limit = Inf
+  )
+  contributors <- sort(
+    unique(
+      vapply(res, function(x) x[["user"]][["login"]], character(1))
+    )
+  )
+  todo(length(contributors), " contributors identified")
+  code_block(
+    glue::glue_collapse(
+      glue::glue("[\\@{contributors}](https://github.com/{contributors})"),
+      ", ", last = ", and "
+    )
+  )
+}
+
 ## approaches based on available.packages() and/or installed.packages() present
 ## several edge cases, requirements, and gotchas
 ## for this application, hard-wiring seems to be "good enough"
