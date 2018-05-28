@@ -195,20 +195,7 @@ use_tidy_support <- function() {
 use_tidy_coc <- function() {
   check_uses_github()
 
-  use_directory(".github", ignore = TRUE)
-  use_template(
-    "CODE_OF_CONDUCT.md",
-    ".github/CODE_OF_CONDUCT.md"
-  )
-
-  todo("Don't forget to describe the code of conduct in your README:")
-  code_block(
-    paste0("Please note that the ", value(project_name()),
-           " project is released with a ",
-           "[Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). ",
-           "By contributing to this project, you agree to abide by its terms."
-    )
-  )
+  use_code_of_conduct(path = ".github")
 }
 
 #' @export
