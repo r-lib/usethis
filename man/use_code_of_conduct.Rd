@@ -4,12 +4,18 @@
 \alias{use_code_of_conduct}
 \title{Add a code of conduct}
 \usage{
-use_code_of_conduct()
+use_code_of_conduct(path = NULL)
+}
+\arguments{
+\item{path}{Path of the directory to put \code{CODE_OF_CONDUCT.md} in, relative to
+the active project. Passed along to \code{\link[=use_directory]{use_directory()}}. Default is to locate
+at top-level, but \code{.github/} is also common.}
 }
 \description{
-Adds a \code{CODE_OF_CONDUCT.md} file to the project's top-level directory. The
-goal of a code of conduct is to foster an environment of inclusiveness, and
-to explicitly discourage inappropriate behaviour. The template comes from
+Adds a \code{CODE_OF_CONDUCT.md} file to the active project and lists in
+\code{.Rbuildignore}, in the case of a package. The goal of a code of conduct is
+to foster an environment of inclusiveness, and to explicitly discourage
+inappropriate behaviour. The template comes from
 \url{http://contributor-covenant.org}, version 1:
 \url{http://contributor-covenant.org/version/1/0/0/}.
 }
