@@ -8,7 +8,7 @@ use_roxygen_md()
 }
 \description{
 You'll need to manually re-document once enabled. If you are already using
-roxygen2, but not with markdown, the roxygen2md package will be used to
-convert many Rd expressions to markdown. The package uses heuristics, so
-you'll need to check the results.
+roxygen2, but not with markdown, the \href{https://github.com/r-lib/roxygen2md}{roxygen2md}
+package will be used to convert many Rd expressions to markdown. The
+package uses heuristics, so you'll need to check the results.
 }
