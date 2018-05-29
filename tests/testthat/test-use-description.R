@@ -25,13 +25,11 @@ test_that("build_description_list(): user's fields > usethis defaults", {
 
 test_that("build_description_list(): usethis options > usethis defaults", {
   withr::local_options(list(usethis.description = list(
-    License = "BSD_2_clause",
-    Version = "2.0.0"
+    License = "BSD_2_clause"
   )))
   d <- build_description_list()
   ## from usethis options
   expect_identical(d$License, "BSD_2_clause")
-  expect_identical(d$Version, "2.0.0")
   ## from usethis defaults
   expect_match(d$Description, "What the package does")
 })
