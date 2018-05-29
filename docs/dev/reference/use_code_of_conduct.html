@@ -31,9 +31,10 @@
 
 
 <meta property="og:title" content="Add a code of conduct — use_code_of_conduct" />
-<meta property="og:description" content="Adds a CODE_OF_CONDUCT.md file to the project's top-level directory. The
-goal of a code of conduct is to foster an environment of inclusiveness, and
-to explicitly discourage inappropriate behaviour. The template comes from
+<meta property="og:description" content="Adds a CODE_OF_CONDUCT.md file to the active project and lists in
+.Rbuildignore, in the case of a package. The goal of a code of conduct is
+to foster an environment of inclusiveness, and to explicitly discourage
+inappropriate behaviour. The template comes from
 http://contributor-covenant.org, version 1:
 http://contributor-covenant.org/version/1/0/0/." />
 <meta name="twitter:card" content="summary" />
@@ -127,21 +128,33 @@ http://contributor-covenant.org/version/1/0/0/." />
     </div>
 
     <div class="ref-description">
-    <p>Adds a <code>CODE_OF_CONDUCT.md</code> file to the project's top-level directory. The
-goal of a code of conduct is to foster an environment of inclusiveness, and
-to explicitly discourage inappropriate behaviour. The template comes from
+    <p>Adds a <code>CODE_OF_CONDUCT.md</code> file to the active project and lists in
+<code>.Rbuildignore</code>, in the case of a package. The goal of a code of conduct is
+to foster an environment of inclusiveness, and to explicitly discourage
+inappropriate behaviour. The template comes from
 <a href='http://contributor-covenant.org'>http://contributor-covenant.org</a>, version 1:
 <a href='http://contributor-covenant.org/version/1/0/0/'>http://contributor-covenant.org/version/1/0/0/</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_code_of_conduct</span>()</pre>
+    <pre class="usage"><span class='fu'>use_code_of_conduct</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>path</th>
+      <td><p>Path of the directory to put <code>CODE_OF_CONDUCT.md</code> in, relative to
+the active project. Passed along to <code><a href='use_directory.html'>use_directory()</a></code>. Default is to locate
+at top-level, but <code>.github/</code> is also common.</p></td>
+    </tr>
+    </table>
 
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
     </ul>
 
   </div>
