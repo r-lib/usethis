@@ -39,10 +39,11 @@ devtools option is consulted only for backwards compatibility and it's
 recommended to switch to an option named "usethis.description".
 Defaults built into usethis
 " />
-<meta property="og:description" content="If you create a lot of packages, consider storing personalized defaults as a
+<meta property="og:description" content="The fields discovered via options or the usethis package can be viewed with
+use_description_defaults().
+If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named "usethis.description". Here's an example of
 code to include in .Rprofile:options(
-  usethis.name = "Jane Doe",
   usethis.description = list(
     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
     License = "MIT + file LICENSE",
@@ -149,10 +150,11 @@ devtools option is consulted only for backwards compatibility and it's
 recommended to switch to an option named "usethis.description".</p></li>
 <li><p>Defaults built into usethis</p></li>
 </ul>
-    <p>If you create a lot of packages, consider storing personalized defaults as a
+    <p>The fields discovered via options or the usethis package can be viewed with
+<code>use_description_defaults()</code>.</p>
+<p>If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named <code>"usethis.description"</code>. Here's an example of
 code to include in <code>.Rprofile</code>:</p><pre>options(
-  usethis.name = "Jane Doe",
   usethis.description = list(
     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
     License = "MIT + file LICENSE",
@@ -162,7 +164,9 @@ code to include in <code>.Rprofile</code>:</p><pre>options(
 </pre>
     </div>
 
-    <pre class="usage"><span class='fu'>use_description</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>use_description</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>use_description_defaults</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -181,6 +185,8 @@ personalized defaults using package options</p></td>
 <span class='fu'>use_description</span>()
 
 <span class='fu'>use_description</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>Language</span> <span class='kw'>=</span> <span class='st'>"es"</span>))
+
+<span class='fu'>use_description_defaults</span>()
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
