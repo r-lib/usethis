@@ -344,7 +344,7 @@ report_releases <- function(owner = "r-lib", repo = "usethis", n = 1) {
   if (identical(res[[1]], "")) {
     return(NULL)
   }
-  res <- head(res, min(n, length(res)))
+  res <- utils::head(res, min(n, length(res)))
   releases <- data.frame(
     tag_name = f(res, "tag_name"),
     name = f(res, "name"),
