@@ -33,7 +33,6 @@ Imports:
     rlang,
     rprojroot,
     rstudioapi,
-    spelling,
     utils,
     whisker
 Suggests: 
@@ -42,6 +41,7 @@ Suggests:
     magick,
     rmarkdown,
     roxygen2,
+    spelling,
     styler,
     testthat (>= 2.0.0),
     withr

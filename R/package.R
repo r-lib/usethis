@@ -15,6 +15,8 @@
 #' use_package("dplyr", "suggests")
 #' }
 use_package <- function(package, type = "Imports") {
+  refuse_package(package, verboten = "tidyverse")
+
   use_dependency(package, type)
 
   switch(tolower(type),
@@ -46,9 +48,12 @@ show_includes <- function(package) {
 #' @export
 #' @rdname use_package
 use_dev_package <- function(package, type = "Imports") {
+  refuse_package(package, verboten = "tidyverse")
+
   if (!requireNamespace(package, quietly = TRUE)) {
     stop(package, " must be installed before you can take a dependency on it",
-      call. = FALSE)
+      call. = FALSE
+    )
   }
 
   use_package(package, type = type)
@@ -75,4 +80,15 @@ package_remote <- function(package) {
   }
 
   paste0(github_info, collapse = "/")
+}
+
+refuse_package <- function(package, verboten) {
+  if (identical(package, verboten)) {
+    stop(paste0(
+      value(package), " is a meta-package and it is rarely a good idea to ",
+      "depend on it. Please determine the specific underlying package(s) that ",
+      "offer the function(s) you need and depend on that instead."
+    ), call. = FALSE)
+  }
+  invisible(package)
 }
