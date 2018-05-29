@@ -231,6 +231,34 @@ use_tidy_style <- function(strict = TRUE) {
   invisible(styled)
 }
 
+#' Identify contributors via GitHub activity
+#'
+#' Derives a list of GitHub usernames, based on who has opened issues or pull
+#' requests. Used to populate the acknowledgment section of package release blog
+#' posts at <https://www.tidyverse.org/articles/>. All arguments can potentially
+#' be determined from the active project, if the project follows standard
+#' practices around the GitHub remote and GitHub releases.
+#'
+#' @param owner Name of user or organisation who owns the repo. Default is to
+#'   infer from Git remotes of active project.
+#' @param repo Repository name, usually same as package name. Default is to
+#'   infer from Git remotes of active project.
+#' @param since Timestamp in ISO 8601 format, passed along to the [GitHub API
+#'   endpoint for listing
+#'   issues](https://developer.github.com/v3/issues/#list-issues-for-a-repository).
+#'    Default is to use timestamp of commit associated with most recent GitHub
+#'   release.
+#'
+#' @return A character vector of GitHub usernames, invisibly.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' use_tidy_thanks()
+#' use_tidy_thanks(owner = "r-lib", repo = "usethis")
+#' use_tidy_thanks(owner = "r-lib", repo = "usethis", since = "2018-05-01")
+#' use_tidy_thanks(since = "2018-02-24T00:13:45Z")
+#' }
 use_tidy_thanks <- function(owner = NULL,
                             repo = NULL,
                             since = NULL) {
