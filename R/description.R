@@ -41,8 +41,8 @@
 use_description <- function(fields = NULL) {
   name <- project_name()
   check_package_name(name)
-  if (!is.null(fields)) check_is_named_list(fields)
   fields <- fields %||% list()
+  check_is_named_list(fields)
   fields[["Package"]] <- name
 
   desc <- build_description(fields)
