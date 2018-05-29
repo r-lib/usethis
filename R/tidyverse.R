@@ -293,6 +293,7 @@ use_tidy_thanks <- function(owner = NULL,
     owner = owner, repo = repo,
     since = since,
     state = "all",
+    filter = "all",
     .limit = Inf
   )
   if (identical(res[[1]], "")) {
