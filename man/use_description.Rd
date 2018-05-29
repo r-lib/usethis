@@ -2,25 +2,39 @@
 % Please edit documentation in R/description.R
 \name{use_description}
 \alias{use_description}
-\title{Create a default DESCRIPTION file for a package.}
+\alias{use_description_defaults}
+\title{Create a DESCRIPTION file}
 \usage{
 use_description(fields = NULL)
+
+use_description_defaults()
 }
 \arguments{
-\item{fields}{A named list of fields to add to \file{DESCRIPTION},
-potentially overriding the defaults. If \code{NULL}, retrieved from
-\code{getOption("usethis.description")}, and (for backward compatibility) from
-\code{getOption("devtools.desc")}.}
+\item{fields}{A named list of fields to add to DESCRIPTION, potentially
+overriding default values. See \code{\link[=use_description]{use_description()}} for how you can set
+personalized defaults using package options}
 }
 \description{
-If you create a lot of packages, you can override the defaults by setting
-option \code{"usethis.description"} to a named list. Here's an example of code one
-could include in \code{.Rprofile}:\preformatted{options(
-  usethis.name = "Jane Doe",
+usethis consults the following sources, in this order, to set DESCRIPTION
+fields:
+\itemize{
+\item \code{fields} argument of \code{\link[=create_package]{create_package()}} or \code{\link[=use_description]{use_description()}}
+\item \code{getOption("usethis.description")} or \code{getOption("devtools.desc")}. The
+devtools option is consulted only for backwards compatibility and it's
+recommended to switch to an option named "usethis.description".
+\item Defaults built into usethis
+}
+
+The fields discovered via options or the usethis package can be viewed with
+\code{use_description_defaults()}.
+
+If you create a lot of packages, consider storing personalized defaults as a
+named list in an option named \code{"usethis.description"}. Here's an example of
+code to include in \code{.Rprofile}:\preformatted{options(
   usethis.description = list(
-    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c#' ("aut", "cre"))',
+    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
     License = "MIT + file LICENSE",
-    Version = "0.0.0.9000"
+    Language: es
   )
 )
 }
@@ -28,5 +42,9 @@ could include in \code{.Rprofile}:\preformatted{options(
 \examples{
 \dontrun{
 use_description()
+
+use_description(fields = list(Language = "es"))
+
+use_description_defaults()
 }
 }

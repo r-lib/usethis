@@ -2,29 +2,29 @@ context("use_license")
 
 test_that("find_name() errors when no name seems to be intentionally set", {
   withr::with_options(
-    list(devtools.name = NULL, usethis.full_name = NULL),
+    list(usethis.full_name = NULL, devtools.name = NULL),
     expect_error(find_name(), ".*name.* argument is missing")
   )
   withr::with_options(
-    list(devtools.name = "Your name goes here", usethis.full_name = NULL),
+    list(usethis.full_name = NULL, devtools.name = "Your name goes here"),
     expect_error(find_name(), ".*name.* argument is missing")
   )
 })
 
-test_that("find_name() picks up devtools.name, then usethis.full_name", {
+test_that("find_name() picks up usethis.full_name, then devtools.name", {
   withr::with_options(
     list(
-      devtools.name = "devtools.name",
-      usethis.full_name = "usethis.full_name"
+      usethis.full_name = "usethis.full_name",
+      devtools.name = "devtools.name"
     ),
-    expect_identical(find_name(), "devtools.name")
+    expect_identical(find_name(), "usethis.full_name")
   )
   withr::with_options(
     list(
-      devtools.name = NULL,
-      usethis.full_name = "usethis.full_name"
+      usethis.full_name = NULL,
+      devtools.name = "devtools.name"
     ),
-    expect_identical(find_name(), "usethis.full_name")
+    expect_identical(find_name(), "devtools.name")
   )
 })
 

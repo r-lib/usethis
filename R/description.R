@@ -1,45 +1,75 @@
-#' Create a default DESCRIPTION file for a package.
+#' Create a DESCRIPTION file
 #'
 #' @description
-#' If you create a lot of packages, you can override the defaults by setting
-#' option `"usethis.description"` to a named list. Here's an example of code one
-#' could include in `.Rprofile`:
+#' usethis consults the following sources, in this order, to set DESCRIPTION
+#' fields:
+#' * `fields` argument of [create_package()] or [use_description()]
+#' * `getOption("usethis.description")` or `getOption("devtools.desc")`. The
+#' devtools option is consulted only for backwards compatibility and it's
+#' recommended to switch to an option named "usethis.description".
+#' * Defaults built into usethis
+#'
+#' The fields discovered via options or the usethis package can be viewed with
+#' `use_description_defaults()`.
+#'
+#' If you create a lot of packages, consider storing personalized defaults as a
+#' named list in an option named `"usethis.description"`. Here's an example of
+#' code to include in `.Rprofile`:
 #'
 #' ```
 #' options(
-#'   usethis.name = "Jane Doe",
 #'   usethis.description = list(
-#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c#' ("aut", "cre"))',
+#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
 #'     License = "MIT + file LICENSE",
-#'     Version = "0.0.0.9000"
+#'     Language: es
 #'   )
 #' )
 #' ```
 #'
-#' @param fields A named list of fields to add to \file{DESCRIPTION},
-#'   potentially overriding the defaults. If `NULL`, retrieved from
-#'   `getOption("usethis.description")`, and (for backward compatibility) from
-#'   `getOption("devtools.desc")`.
+#' @param fields A named list of fields to add to DESCRIPTION, potentially
+#'   overriding default values. See [use_description()] for how you can set
+#'   personalized defaults using package options
 #' @export
 #' @examples
 #' \dontrun{
 #' use_description()
+#'
+#' use_description(fields = list(Language = "es"))
+#'
+#' use_description_defaults()
 #' }
 use_description <- function(fields = NULL) {
   name <- project_name()
   check_package_name(name)
+  fields <- fields %||% list()
+  check_is_named_list(fields)
+  fields[["Package"]] <- name
 
-  fields <- fields %||%
-    getOption("usethis.description") %||%
-    getOption("devtools.desc") %||%
-    list()
-
-  desc <- build_description(name, fields)
+  desc <- build_description(fields)
   write_over(proj_get(), "DESCRIPTION", desc)
 }
 
-build_description <- function(name, fields = list()) {
-  desc_list <- build_description_list(name, fields)
+#' @rdname use_description
+#' @export
+use_description_defaults <- function() {
+  list(
+    usethis.description = getOption("usethis.description"),
+    devtools.desc = getOption("devtools.desc"),
+    usethis = list(
+      Package = "valid.package.name.goes.here",
+      Version = "0.0.0.9000",
+      Title = "What the Package Does (One Line, Title Case)",
+      Description = "What the package does (one paragraph).",
+      "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"))',
+      License = "What license it uses",
+      Encoding = "UTF-8",
+      LazyData = "true"
+    )
+  )
+}
+
+build_description <- function(fields = list()) {
+  desc_list <- build_description_list(fields)
 
   # Collapse all vector arguments to single strings
   desc <- vapply(desc_list, function(x) paste(x, collapse = ", "), character(1))
@@ -47,28 +77,13 @@ build_description <- function(name, fields = list()) {
   paste0(names(desc), ": ", desc)
 }
 
-build_description_list <- function(name, fields = list()) {
-  author <- getOption("devtools.desc.author") %||%
-    'person("First", "Last", , "first.last@example.com", c("aut", "cre"))'
-  license <- getOption("devtools.desc.license") %||% "What license it uses"
-  suggests <- getOption("devtools.desc.suggests")
-
-  defaults <- list(
-    Package = name,
-    Version = "0.0.0.9000",
-    Title = "What the Package Does (One Line, Title Case)",
-    Description = "What the package does (one paragraph).",
-    "Authors@R" = author,
-    License = license,
-    Suggests = suggests,
-    Encoding = "UTF-8",
-    LazyData = "true",
-    ByteCompile = "true"
+build_description_list <- function(fields = list()) {
+  defaults <- use_description_defaults()
+  defaults <- utils::modifyList(
+    defaults$usethis,
+    defaults$usethis.description %||% defaults$devtools.desc %||% list()
   )
-
-  # Override defaults with user supplied options
-  desc <- utils::modifyList(defaults, fields)
-  compact(desc)
+  compact(utils::modifyList(defaults, fields))
 }
 
 check_package_name <- function(name) {

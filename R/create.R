@@ -26,7 +26,7 @@
 #'   in RStudio, working directory is set to the new project.
 #' @export
 create_package <- function(path,
-                           fields = getOption("devtools.desc"),
+                           fields = NULL,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
   path <- normalizePath(path, mustWork = FALSE)
@@ -44,7 +44,7 @@ create_package <- function(path,
 
   use_directory("R")
   use_directory("man")
-  use_description(fields = fields)
+  use_description(fields)
   use_namespace()
 
   if (rstudio) {

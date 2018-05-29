@@ -62,6 +62,20 @@ check_is_empty <- function(x) {
   invisible(x)
 }
 
+check_is_named_list <- function(x, nm = deparse(substitute(x))) {
+  if (!rlang::is_list(x)) {
+    bad_class <- paste(class(x), collapse = "/")
+    stop(code(nm), " must be a list, not ", bad_class, call. = FALSE)
+  }
+  if (!rlang::is_dictionaryish(x)) {
+    stop(
+      "Names of ", code(nm), " must be non-missing, non-empty, and ",
+      "non-duplicated.", call. = FALSE
+    )
+  }
+  x
+}
+
 dots <- function(...) {
   eval(substitute(alist(...)))
 }
