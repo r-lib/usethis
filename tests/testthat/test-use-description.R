@@ -1,97 +1,81 @@
 context("use_description")
 
-test_that("use_description() defaults to field values built into usethis", {
-  scoped_temporary_project()
-  capture.output(use_description())
-  d <- desc::desc(proj_get())
-  expect_identical(as.character(d$get_version()), "0.0.0.9000")
-  expect_match(d$get("Title"), "What the Package Does")
-  expect_match(d$get("Description"), "What the package does")
-  author <- d$get_author()
-  expect_is(author, class = "person")
-  expect_equivalent(
-    unclass(author)[[1]],
-    list(
-      given = "First", family = "Last", role = c("aut", "cre"),
-      email = "first.last@example.com", comment = NULL
-    )
+test_that("build_description_list() defaults to values built into usethis", {
+  withr::with_options(
+    list(usethis.description = NULL, devtools.desc = NULL),
+    {
+      d <- build_description_list()
+      expect_identical(d$Version, "0.0.0.9000")
+      expect_match(d$Title, "What the Package Does")
+      expect_match(d$Description, "What the package does")
+      expect_match(d$License, "What license it uses")
+      expect_match(d$Encoding, "UTF-8")
+      expect_match(d$LazyData, "true")
+    }
   )
-  expect_match(d$get("License"), "What license it uses")
-  expect_match(d$get("Encoding"), "UTF-8")
-  expect_match(d$get("LazyData"), "true")
 })
 
-test_that("use_description(): user's fields > usethis defaults", {
-  scoped_temporary_project()
-  capture.output(use_description(
+test_that("build_description_list(): user's fields > usethis defaults", {
+  d <- build_description_list(
     fields = list(Title = "aaa", URL = "https://www.r-project.org")
-  ))
-  d <- desc::desc(proj_get())
+  )
   ## from user's fields
-  expect_match(d$get("Title"), "aaa")
-  expect_match(d$get("URL"), "https://www.r-project.org")
+  expect_identical(d$Title, "aaa")
+  expect_identical(d$URL, "https://www.r-project.org")
   ## from usethis defaults
-  expect_match(d$get("Description"), "What the package does")
-  expect_match(d$get("Encoding"), "UTF-8")
+  expect_match(d$Description, "What the package does")
+  expect_match(d$Encoding, "UTF-8")
 })
 
-test_that("use_description(): usethis options > usethis defaults", {
+test_that("build_description_list(): usethis options > usethis defaults", {
   withr::with_options(
     list(
       usethis.description = list(
-        License = "MIT + file LICENSE",
-        Version = "1.0.0"
+        License = "BSD_2_clause",
+        Version = "2.0.0"
       )
     ),
     {
-      scoped_temporary_project()
-      capture.output(use_description())
-      d <- desc::desc(proj_get())
+      d <- build_description_list()
       ## from usethis options
-      expect_match(d$get("License"), "MIT + file LICENSE", fixed = TRUE)
-      expect_identical(as.character(d$get_version()), "1.0.0")
+      expect_identical(d$License, "BSD_2_clause")
+      expect_identical(d$Version, "2.0.0")
       ## from usethis defaults
-      expect_match(d$get("Description"), "What the package does")
+      expect_match(d$Description, "What the package does")
     }
   )
 })
 
-test_that("use_description(): devtools options can be picked up", {
+test_that("build_description_list(): devtools options can be picked up", {
   withr::with_options(
     list(
-      devtools.desc = list(
-        License = "MIT + file LICENSE",
-        Version = "1.0.0"
-      )
+      usethis.description = NULL,
+      devtools.desc = list(License = "LGPL-3", Version = "3.0.0")
     ),
     {
-      scoped_temporary_project()
-      capture.output(use_description())
-      d <- desc::desc(proj_get())
+      d <- build_description_list()
       ## from devtools options
-      expect_match(d$get("License"), "MIT + file LICENSE", fixed = TRUE)
-      expect_identical(as.character(d$get_version()), "1.0.0")
+      expect_identical(d$License, "LGPL-3")
+      expect_identical(d$Version, "3.0.0")
       ## from usethis defaults
-      expect_match(d$get("Description"), "What the package does")
+      expect_match(d$Description, "What the package does")
     }
   )
 })
 
-test_that("use_description(): user's fields > options > defaults", {
+test_that("build_description_list(): user's fields > options > defaults", {
   withr::with_options(
-    list(usethis.description = list(Version = "1.0.0")),
+    list(usethis.description = list(Version = "4.0.0")),
     {
-      scoped_temporary_project()
-      capture.output(use_description(
+      d <- build_description_list(
         fields = list(Title = "aaa")
-      ))
-      d <- desc::desc(proj_get())
+      )
       ## from user's fields
-      expect_match(d$get("Title"), "aaa")
+      expect_identical(d$Title, "aaa")
       ## from usethis options
-      expect_identical(as.character(d$get_version()), "1.0.0")
+      expect_identical(d$Version, "4.0.0")
       ## from usethis defaults
-      expect_match(d$get("Description"), "What the package does")
+      expect_match(d$Description, "What the package does")
     }
   )
 })

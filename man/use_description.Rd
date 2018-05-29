@@ -2,9 +2,12 @@
 % Please edit documentation in R/description.R
 \name{use_description}
 \alias{use_description}
+\alias{use_description_defaults}
 \title{Create a DESCRIPTION file}
 \usage{
 use_description(fields = NULL)
+
+use_description_defaults()
 }
 \arguments{
 \item{fields}{A named list of fields to add to DESCRIPTION, potentially
@@ -22,10 +25,12 @@ recommended to switch to an option named "usethis.description".
 \item Defaults built into usethis
 }
 
+The fields discovered via options or the usethis package can be viewed with
+\code{use_description_defaults()}.
+
 If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named \code{"usethis.description"}. Here's an example of
 code to include in \code{.Rprofile}:\preformatted{options(
-  usethis.name = "Jane Doe",
   usethis.description = list(
     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
     License = "MIT + file LICENSE",
@@ -39,5 +44,7 @@ code to include in \code{.Rprofile}:\preformatted{options(
 use_description()
 
 use_description(fields = list(Language = "es"))
+
+use_description_defaults()
 }
 }
