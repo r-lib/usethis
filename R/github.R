@@ -260,37 +260,9 @@ check_uses_github <- function(base_path = proj_get()) {
   )
 }
 
-## could use from gh when/if exported
+## use from gh when/if exported
 ## https://github.com/r-lib/gh/issues/74
-## but still would need to address provision of PAT in CI
-gh_token <- function(quiet = FALSE) {
+gh_token <- function() {
   token <- Sys.getenv('GITHUB_PAT', "")
-  if (token == "") {
-    token <- Sys.getenv("GITHUB_TOKEN", "")
-  }
-  if (nzchar(token)) {
-    if (!quiet) {
-      message("Using GitHub personal access token from envvar.")
-    }
-    return(token)
-  }
-
-  if (in_ci()) {
-    token <- paste0("b2b7441d",
-                    "aeeb010b",
-                    "1df26f1f6",
-                    "0a7f1ed",
-                    "c485e443")
-    if (!quiet) {
-      message("Using GitHub r-lib CI PAT.")
-    }
-    return(token)
-  }
-
-  return(NULL)
+  if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
 }
-
-in_ci <- function() {
-  nzchar(Sys.getenv("CI"))
-}
-
