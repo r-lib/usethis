@@ -12,3 +12,11 @@ check_uncommitted_changes <- function(path = proj_get()) {
     )
   }
 }
+
+github_owner <- function(path = proj_get()) {
+  gh::gh_tree_remote(path)[["username"]]
+}
+
+github_repo <- function(path = proj_get()) {
+  gh::gh_tree_remote(path)[["repo"]]
+}

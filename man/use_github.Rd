@@ -45,8 +45,8 @@ The argument \code{protocol} reflects how you wish to authenticate with GitHub
 for this repo in the long run. This determines the form of the URL for the
 \code{origin} remote:
 \itemize{
-\item \code{protocol = "ssh"}: \code{git@github.com:<USERNAME>/<REPO>.git}
-\item \code{protocol = "https"}: \code{https://github.com/<USERNAME>/<REPO>.git}
+\item \code{protocol = "ssh"}: \code{git@github.com:<OWNER>/<REPO>.git}
+\item \code{protocol = "https"}: \code{https://github.com/<OWNER>/<REPO>.git}
 }
 
 For \code{protocol = "ssh"}, it is assumed that public and private keys are in the

@@ -35,17 +35,16 @@ use_travis <- function(browse = interactive()) {
 }
 
 use_travis_badge <- function() {
-  gh <- gh::gh_tree_remote(proj_get())
+  check_uses_github()
 
-  url <- file.path("https://travis-ci.org", gh$username, gh$repo)
+  url <- file.path("https://travis-ci.org", github_owner(), github_repo())
   img <- paste0(url, ".svg?branch=master")
 
   use_badge("Travis build status", url, img)
 }
 
-travis_activate <- function(browse = interactive(), base_path = proj_get()) {
-  gh <- gh::gh_tree_remote(base_path)
-  url <- file.path("https://travis-ci.org/profile", gh$username)
+travis_activate <- function(browse = interactive()) {
+  url <- file.path("https://travis-ci.org/profile", github_owner())
 
   todo("Turn on travis for your repo at ", url)
   if (browse) {
@@ -109,24 +108,27 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
 }
 
 use_codecov_badge <- function() {
-  gh <- gh::gh_tree_remote(proj_get())
+  check_uses_github()
   url <- paste0(
-    "https://codecov.io/github/", gh$username, "/", gh$repo, "?branch=master"
+    "https://codecov.io/github/", github_owner(), "/",
+    github_repo(), "?branch=master"
   )
   img <- file.path(
-    "https://codecov.io/gh", gh$username, gh$repo,
+    "https://codecov.io/gh", github_owner(), github_repo(),
     "branch/master/graph/badge.svg"
   )
   use_badge("Coverage status", url, img)
 }
 
 use_coveralls_badge <- function() {
-  gh <- gh::gh_tree_remote(proj_get())
+  check_uses_github()
   url <- paste0(
-    "https://coveralls.io/r/", gh$username, "/", gh$repo, "?branch=master"
+    "https://coveralls.io/r/", github_owner(), "/",
+    github_repo(), "?branch=master"
   )
   img <- file.path(
-    "https://coveralls.io/repos/github", gh$username, gh$repo, "badge.svg"
+    "https://coveralls.io/repos/github", github_owner(),
+    github_repo(), "badge.svg"
   )
   use_badge("Coverage status", url, img)
 }
@@ -162,19 +164,19 @@ use_appveyor_badge <- function() {
 }
 
 appveyor_info <- function(base_path = proj_get()) {
-  gh <- gh::gh_tree_remote(base_path)
+  check_uses_github(base_path)
   img <- paste0(
     "https://ci.appveyor.com/api/projects/status/github/",
-    gh$username,
+    github_owner(),
     "/",
-    gh$repo,
+    github_repo(),
     "?branch=master&svg=true"
   )
   url <- file.path(
     "https://ci.appveyor.com",
     "project",
-    gh$username,
-    gh$repo
+    github_owner(),
+    github_repo()
   )
 
   list(url = url, img = img)

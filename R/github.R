@@ -16,8 +16,8 @@
 #' The argument `protocol` reflects how you wish to authenticate with GitHub
 #' for this repo in the long run. This determines the form of the URL for the
 #' `origin` remote:
-#'   * `protocol = "ssh"`: `git@@github.com:<USERNAME>/<REPO>.git`
-#'   * `protocol = "https"`: `https://github.com/<USERNAME>/<REPO>.git`
+#'   * `protocol = "ssh"`: `git@@github.com:<OWNER>/<REPO>.git`
+#'   * `protocol = "https"`: `https://github.com/<OWNER>/<REPO>.git`
 #'
 #' For `protocol = "ssh"`, it is assumed that public and private keys are in the
 #' default locations, `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively, and
@@ -179,11 +179,10 @@ use_github_links <- function(auth_token = NULL,
                              overwrite = FALSE) {
   check_uses_github()
 
-  info <- gh::gh_tree_remote(proj_get())
   res <- gh::gh(
     "GET /repos/:owner/:repo",
-    owner = info$username,
-    repo = info$repo,
+    owner = github_owner(),
+    repo = github_repo(),
     .api_url = host,
     .token = auth_token
   )

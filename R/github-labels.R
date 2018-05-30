@@ -48,13 +48,12 @@ use_github_labels <- function(labels = tidy_labels(),
                               host = NULL) {
   check_uses_github()
 
-  info <- gh::gh_tree_remote(proj_get())
   gh <- function(endpoint, ...) {
     gh::gh(
       endpoint,
       ...,
-      owner = info$username,
-      repo = info$repo,
+      owner = github_owner(),
+      repo = github_repo(),
       .token = auth_token,
       .api_url = host
     )

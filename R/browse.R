@@ -94,7 +94,7 @@ github_url_rx <- function() {
   paste0(
     "^",
     "(?:https?://github.com/)",
-    "(?<username>[^/]+)/",
+    "(?<owner>[^/]+)/",
     "(?<repo>[^/#]+)",
     "/?",
     "(?<fragment>.*)",
@@ -111,5 +111,5 @@ github_url_rx <- function() {
 github_home <- function(package = NULL) {
   gh_link <- github_link(package)
   df <- rematch2::re_match(gh_link, github_url_rx())
-  file.path("https://github.com", df$username, df$repo)
+  file.path("https://github.com", df$owner, df$repo)
 }

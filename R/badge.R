@@ -120,14 +120,13 @@ stages <- c(
 #' @export
 use_binder_badge <- function() {
 
-  if (uses_github(proj_get())) {
-    gh <- gh::gh_tree_remote(proj_get())
-
+  if (uses_github()) {
     url <- file.path(
       "https://mybinder.org/v2/gh",
-      gh$username,
-      gh$repo,
-      "master")
+      github_owner(),
+      github_repo(),
+      "master"
+    )
 
     img <- "http://mybinder.org/badge.svg"
 

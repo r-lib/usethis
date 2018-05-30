@@ -282,9 +282,8 @@ use_tidy_thanks <- function(owner = NULL,
                             to = NULL) {
   if (is.null(owner) || is.null(repo)) {
     check_uses_github()
-    gh <- gh::gh_tree_remote(proj_get())
-    owner <- owner %||% gh$username
-    repo <- repo %||% gh$repo
+    owner <- owner %||% github_owner()
+    repo <- repo %||% github_repo()
   }
 
   from_timestamp <- as_timestamp(from, owner, repo) %||% "2008-01-01"
