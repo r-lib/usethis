@@ -80,6 +80,7 @@ test_that("use_tidy_github() adds and Rbuildignores files", {
 })
 
 test_that("use_tidy_thanks() for a repo with contributors and releases", {
+  skip_if_offline()
   skip_on_cran()
   thanks <- use_tidy_thanks(
     owner = "r-lib", repo = "usethis",
