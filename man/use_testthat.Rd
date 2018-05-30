@@ -7,7 +7,7 @@
 \usage{
 use_testthat()
 
-use_test(name = NULL, open = TRUE)
+use_test(name = NULL, open = interactive())
 }
 \arguments{
 \item{name}{Test name. if \code{NULL}, and you're using RStudio, will use

@@ -4,7 +4,7 @@
 #'
 #' @inheritParams use_template
 #' @export
-use_news_md <- function(open = TRUE) {
+use_news_md <- function(open = interactive()) {
   use_template(
     "NEWS.md",
     data = package_data(),

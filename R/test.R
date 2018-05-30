@@ -26,7 +26,7 @@ use_testthat <- function() {
 #' @param name Test name. if `NULL`, and you're using RStudio, will use
 #'   the name of the file open in the source editor.
 #' @export
-use_test <- function(name = NULL, open = TRUE) {
+use_test <- function(name = NULL, open = interactive()) {
   filename <- find_test_filename(name)
 
   if (!uses_testthat()) {
