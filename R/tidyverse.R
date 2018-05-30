@@ -231,6 +231,135 @@ use_tidy_style <- function(strict = TRUE) {
   invisible(styled)
 }
 
+#' Identify contributors via GitHub activity
+#'
+#' Derives a list of GitHub usernames, based on who has opened issues or pull
+#' requests. Used to populate the acknowledgment section of package release blog
+#' posts at <https://www.tidyverse.org/articles/>. All arguments can potentially
+#' be determined from the active project, if the project follows standard
+#' practices around the GitHub remote and GitHub releases. Unexported helper
+#' functions, `releases()` and `ref_df()` can be useful interactively for
+#' a quick look at release tag names and a data frame about refs, respectively.
+#'
+#' @param owner Name of user or organisation who owns the repo. Default is to
+#'   infer from Git remotes of active project.
+#' @param repo Repository name, usually same as package name. Default is to
+#'   infer from Git remotes of active project.
+#' @param from,to GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
+#'   ISO 8601 format, specifying the start or end of the interval of interest.
+#'   Examples: "08a560d", "v1.3.0", "2018-02-24T00:13:45Z", "2018-05-01". `NULL`
+#'   means there is no bound on that end of the interval.
+#'
+#' @return A character vector of GitHub usernames, invisibly.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' ## active project, interval = "since the last release"
+#' use_tidy_thanks()
+#'
+#' ## active project, interval = "since a specific datetime"
+#' use_tidy_thanks(from = "2018-02-24T00:13:45Z")
+#'
+#' ## r-lib/usethis, since a certain date
+#' use_tidy_thanks(owner = "r-lib", repo = "usethis", from = "2018-05-01")
+#'
+#' ## r-lib/usethis, up to a specific release
+#' use_tidy_thanks(
+#'   owner = "r-lib", repo = "usethis",
+#'   from = NULL, to = "v1.3.0"
+#' )
+#'
+#' ## r-lib/usethis, since a specific commit, up to a specific date
+#' use_tidy_thanks(
+#'   owner = "r-lib", repo = "usethis",
+#'   from = "08a560d", to = "2018-05-14"
+#' )
+#' }
+use_tidy_thanks <- function(owner = NULL,
+                            repo = NULL,
+                            from = releases(owner = owner, repo = repo)[[1]],
+                            to = NULL) {
+  if (is.null(owner) || is.null(repo)) {
+    check_uses_github()
+    gh <- gh::gh_tree_remote(proj_get())
+    owner <- owner %||% gh$username
+    repo <- repo %||% gh$repo
+  }
+
+  from_timestamp <- as_timestamp(from, owner, repo) %||% "2008-01-01"
+  to_timestamp <- as_timestamp(to, owner, repo)
+
+  res <- gh::gh(
+    "/repos/:owner/:repo/issues",
+    owner = owner, repo = repo,
+    since = from_timestamp,
+    state = "all",
+    filter = "all",
+    .limit = Inf
+  )
+  if (identical(res[[1]], "")) {
+    message("No matching issues/PRs found.")
+    return(invisible())
+  }
+
+  if (!is.null(to_timestamp)) {
+    to_POSIXct <- as.POSIXct(to_timestamp)
+    res_POSIXct <- as.POSIXct(pluck_chr(res, "created_at"))
+    res <- res[res_POSIXct <= to_POSIXct]
+  }
+  if (length(res) == 0) {
+    message("No matching issues/PRs found.")
+    return(invisible())
+  }
+
+  contributors <- sort(unique(pluck_chr(res, c("user", "login"))))
+  todo(length(contributors), " contributors identified")
+  code_block(
+    glue::glue_collapse(
+      glue::glue("[\\@{contributors}](https://github.com/{contributors})"),
+      ", ", last = ", and "
+    )
+  )
+  invisible(contributors)
+}
+
+## if x appears to be a timestamp, pass it through
+## otherwise, assume it's a ref and look up its timestamp
+as_timestamp <- function(x = NULL, owner = "r-lib", repo = "usethis") {
+  if (is.null(x)) return(NULL)
+  as_POSIXct <- try(as.POSIXct(x), silent = TRUE)
+  if (inherits(as_POSIXct, "POSIXct")) return(x)
+  message("Resolving timestamp for ref ", value(x))
+  ref_df(owner, repo, x)$timestamp
+}
+
+## returns a data frame on GitHub refs, defaulting to all releases
+ref_df <- function(owner = "r-lib", repo = "usethis", refs = NULL) {
+  refs <- refs %||% releases(owner = owner, repo = repo)
+  if (is.null(refs)) return(NULL)
+  get_thing <- function(thing) {
+    gh::gh(
+      "/repos/:owner/:repo/commits/:thing",
+      owner = owner, repo = repo, thing = thing
+    )
+  }
+  res <- lapply(refs, get_thing)
+  data.frame(
+    ref = refs,
+    sha = substr(pluck_chr(res, "sha"), 1, 7),
+    timestamp = pluck_chr(res, c("commit", "committer", "date")),
+    stringsAsFactors = FALSE
+  )
+}
+
+## returns character vector of release tag names
+releases <- function(owner = "r-lib", repo = "usethis") {
+  res <- gh::gh("/repos/:owner/:repo/releases", owner = owner, repo = repo)
+  if (identical(res[[1]], "")) return(NULL)
+  pluck_chr(res, "tag_name")
+}
+
 ## approaches based on available.packages() and/or installed.packages() present
 ## several edge cases, requirements, and gotchas
 ## for this application, hard-wiring seems to be "good enough"

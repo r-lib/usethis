@@ -105,6 +105,9 @@ check_installed <- function(pkg) {
   }
 }
 
+## mimimalist, type-specific purrr::pluck()'s
+pluck_chr <- function(l, what) vapply(l, `[[`, character(1), what)
+
 is_testing <- function() {
   identical(Sys.getenv("TESTTHAT"), "true")
 }
