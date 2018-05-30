@@ -182,8 +182,8 @@ storing your PAT. See <code><a href='http://www.rdocumentation.org/packages/gh/t
 <p>The argument <code>protocol</code> reflects how you wish to authenticate with GitHub
 for this repo in the long run. This determines the form of the URL for the
 <code>origin</code> remote:</p><ul>
-<li><p><code>protocol = "ssh"</code>: <code>git@github.com:&lt;USERNAME&gt;/&lt;REPO&gt;.git</code></p></li>
-<li><p><code>protocol = "https"</code>: <code>https://github.com/&lt;USERNAME&gt;/&lt;REPO&gt;.git</code></p></li>
+<li><p><code>protocol = "ssh"</code>: <code>git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git</code></p></li>
+<li><p><code>protocol = "https"</code>: <code>https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git</code></p></li>
 </ul>
     <p>For <code>protocol = "ssh"</code>, it is assumed that public and private keys are in the
 default locations, <code>~/.ssh/id_rsa.pub</code> and <code>~/.ssh/id_rsa</code>, respectively, and
