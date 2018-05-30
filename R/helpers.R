@@ -71,29 +71,27 @@ find_template <- function(template_name, package = "usethis") {
 
 project_data <- function(base_path = proj_get()) {
   if (is_package(base_path)) {
-    package_data(base_path)
+    data <- package_data(base_path)
   } else {
-    list(Project = basename(base_path))
+    data <- list(Project = basename(base_path))
   }
+  if (uses_github(base_path)) {
+    data$github_owner <- github_owner()
+    data$github_repo <- github_repo()
+  }
+  data
 }
 
 package_data <- function(base_path = proj_get()) {
   desc <- desc::description$new(base_path)
-
-  out <- as.list(desc$get(desc$fields()))
-  if (uses_github(base_path)) {
-    out$github <- gh::gh_tree_remote(base_path)
-  }
-  out
+  as.list(desc$get(desc$fields()))
 }
 
 project_name <- function(base_path = proj_get()) {
-  desc_path <- file.path(base_path, "DESCRIPTION")
-
-  if (file.exists(desc_path)) {
-    desc::desc_get("Package", base_path)[[1]]
+  if (is_package(base_path)) {
+    project_data(base_path)$Package
   } else {
-    basename(normalizePath(base_path, mustWork = FALSE))
+    project_data(base_path)$Project
   }
 }
 
