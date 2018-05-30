@@ -70,30 +70,43 @@ find_template <- function(template_name, package = "usethis") {
 }
 
 project_data <- function(base_path = proj_get()) {
-  if (is_package(base_path)) {
-    package_data(base_path)
-  } else {
-    list(Project = basename(base_path))
+  if (!is_proj(base_path)) {
+    stop(
+      value(base_path), " doesn't meet the usethis criteria for a project.\n",
+      "Read more in the help for ", code("proj_get()"), ".",
+      call. = FALSE
+    )
   }
+  if (is_package(base_path)) {
+    data <- package_data(base_path)
+  } else {
+    data <- list(Project = basename(base_path))
+  }
+  if (uses_github(base_path)) {
+    data$github_owner <- github_owner()
+    data$github_repo <- github_repo()
+  }
+  data
 }
 
 package_data <- function(base_path = proj_get()) {
   desc <- desc::description$new(base_path)
-
-  out <- as.list(desc$get(desc$fields()))
-  if (uses_github(base_path)) {
-    out$github <- gh::gh_tree_remote(base_path)
-  }
-  out
+  as.list(desc$get(desc$fields()))
 }
 
 project_name <- function(base_path = proj_get()) {
-  desc_path <- file.path(base_path, "DESCRIPTION")
+  ## escape hatch necessary to solve this chicken-egg problem:
+  ## create_package() calls use_description(), which calls project_name()
+  ## to learn package name from the path, in order to make DESCRIPTION
+  ## and DESCRIPTION is how we recognize a package as a usethis project
+  if (!is_proj(base_path)) {
+    return(basename(base_path))
+  }
 
-  if (file.exists(desc_path)) {
-    desc::desc_get("Package", base_path)[[1]]
+  if (is_package(base_path)) {
+    project_data(base_path)$Package
   } else {
-    basename(normalizePath(base_path, mustWork = FALSE))
+    project_data(base_path)$Project
   }
 }
 
