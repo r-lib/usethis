@@ -78,14 +78,3 @@ test_that("use_tidy_github() adds and Rbuildignores files", {
     }
   )
 })
-
-test_that("use_tidy_thanks() for a repo with contributors and releases", {
-  skip_if_offline()
-  skip_on_cran()
-  thanks <- use_tidy_thanks(
-    owner = "r-lib", repo = "usethis",
-    from = "2017-12-01", to = "v1.2.0"
-  )
-  expect_type(thanks, "character")
-  expect_true(all(c("jennybc", "hadley", "batpigandme") %in% thanks))
-})
