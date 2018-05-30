@@ -243,25 +243,41 @@ use_tidy_style <- function(strict = TRUE) {
 #'   infer from Git remotes of active project.
 #' @param repo Repository name, usually same as package name. Default is to
 #'   infer from Git remotes of active project.
-#' @param since Timestamp in ISO 8601 format, passed along to the [GitHub API
-#'   endpoint for listing
-#'   issues](https://developer.github.com/v3/issues/#list-issues-for-a-repository).
-#'    Default is to use timestamp of commit associated with most recent GitHub
-#'   release.
+#' @param from,to GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
+#'   ISO 8601 format, specifying the start or end of the interval of interest.
+#'   Examples: "08a560d", "v1.3.0", "2018-02-24T00:13:45Z", "2018-05-01". `NULL`
+#'   means there is no bound on that end of the interval.
 #'
 #' @return A character vector of GitHub usernames, invisibly.
 #' @export
 #'
 #' @examples
 #' \dontrun{
+#' ## active project, interval = "since the last release"
 #' use_tidy_thanks()
-#' use_tidy_thanks(owner = "r-lib", repo = "usethis")
-#' use_tidy_thanks(owner = "r-lib", repo = "usethis", since = "2018-05-01")
-#' use_tidy_thanks(since = "2018-02-24T00:13:45Z")
+#'
+#' ## active project, interval = "since a specific datetime"
+#' use_tidy_thanks(from = "2018-02-24T00:13:45Z")
+#'
+#' ## r-lib/usethis, since a certain date
+#' use_tidy_thanks(owner = "r-lib", repo = "usethis", from = "2018-05-01")
+#'
+#' ## r-lib/usethis, up to a specific release
+#' use_tidy_thanks(
+#'   owner = "r-lib", repo = "usethis",
+#'   from = NULL, to = "v1.3.0"
+#' )
+#'
+#' ## r-lib/usethis, since a specific commit, up to a specific date
+#' use_tidy_thanks(
+#'   owner = "r-lib", repo = "usethis",
+#'   from = "08a560d", to = "2018-05-14"
+#' )
 #' }
 use_tidy_thanks <- function(owner = NULL,
                             repo = NULL,
-                            since = NULL) {
+                            from = releases(owner = owner, repo = repo)[[1]],
+                            to = NULL) {
   if (is.null(owner) || is.null(repo)) {
     check_uses_github()
     gh <- gh::gh_tree_remote(proj_get())
@@ -269,43 +285,33 @@ use_tidy_thanks <- function(owner = NULL,
     repo <- repo %||% gh$repo
   }
 
-  if (is.null(since)) {
-    releases <- report_releases(owner, repo)
-    if (is.null(releases)) {
-      ## GitHub was founded later in 2008
-      since <- "2008-01-01"
-      message("No GitHub releases found. ", code("since"), " will be unset.")
-    } else {
-      since <- releases$commit_date
-      message(
-        "Setting ", code("since"), " based on most recent GitHub release:\n",
-        "* Release name: ", releases$name, "\n",
-        "* Tag name: ", releases$tag_name, "\n",
-        "* SHA: ", releases$sha, "\n",
-        "* Commit date: ", releases$commit_date, " <-- effective value of ",
-        code("since"), "\n"
-      )
-    }
-  }
+  from_timestamp <- as_timestamp(from, owner, repo) %||% "2008-01-01"
+  to_timestamp <- as_timestamp(to, owner, repo)
 
   res <- gh::gh(
     "/repos/:owner/:repo/issues",
     owner = owner, repo = repo,
-    since = since,
+    since = from_timestamp,
     state = "all",
     filter = "all",
     .limit = Inf
   )
   if (identical(res[[1]], "")) {
-    message("No contributors found.")
+    message("No matching issues/PRs found.")
     return(invisible())
   }
 
-  contributors <- sort(
-    unique(
-      vapply(res, function(x) x[["user"]][["login"]], character(1))
-    )
-  )
+  if (!is.null(to_timestamp)) {
+    to_POSIXct <- as.POSIXct(to_timestamp)
+    res_POSIXct <- as.POSIXct(pluck_chr(res, "created_at"))
+    res <- res[res_POSIXct <= to_POSIXct]
+  }
+  if (length(res) == 0) {
+    message("No matching issues/PRs found.")
+    return(invisible())
+  }
+
+  contributors <- sort(unique(pluck_chr(res, c("user", "login"))))
   todo(length(contributors), " contributors identified")
   code_block(
     glue::glue_collapse(
@@ -314,6 +320,39 @@ use_tidy_thanks <- function(owner = NULL,
     )
   )
   invisible(contributors)
+}
+
+as_timestamp <- function(x = NULL, owner = "r-lib", repo = "usethis") {
+  if (is.null(x)) return(NULL)
+  as_POSIXct <- try(as.POSIXct(x), silent = TRUE)
+  if (inherits(as_POSIXct, "POSIXct")) return(x)
+  message("Resolving timestamp for ref ", value(x))
+  report_refs(owner, repo, x)$timestamp
+}
+
+## returns a data frame on GitHub refs, defaulting to all releases
+report_refs <- function(owner = "r-lib", repo = "usethis", refs = NULL) {
+  refs <- refs %||% releases(owner = owner, repo = repo)
+  if (is.null(refs)) return(NULL)
+  get_thing <- function(thing) {
+    gh::gh(
+      "/repos/:owner/:repo/commits/:thing",
+      owner = owner, repo = repo, thing = thing
+    )
+  }
+  res <- lapply(refs, get_thing)
+  data.frame(
+    ref = refs,
+    sha = substr(pluck_chr(res, "sha"), 1, 7),
+    timestamp = pluck_chr(res, c("commit", "committer", "date")),
+    stringsAsFactors = FALSE
+  )
+}
+
+releases <- function(owner = "r-lib", repo = "usethis") {
+  res <- gh::gh("/repos/:owner/:repo/releases", owner = owner, repo = repo)
+  if (identical(res[[1]], "")) return(NULL)
+  pluck_chr(res, "tag_name")
 }
 
 ## approaches based on available.packages() and/or installed.packages() present
@@ -330,44 +369,4 @@ base_and_recommended <- function() {
     "lattice", "MASS", "Matrix", "methods", "mgcv", "nlme", "nnet",
     "parallel", "rpart", "spatial", "splines", "stats", "stats4",
     "survival", "tcltk", "tools", "utils")
-}
-
-## returns a data frame on up to n recent GitHub releases
-## helps the user set `since` in use_tidy_thanks()
-report_releases <- function(owner = "r-lib", repo = "usethis", n = 1) {
-  ## minimalist purrr::pluck()
-  f <- function(l, what) vapply(l, `[[`, character(1), what)
-
-  res <- gh::gh(
-    "/repos/:owner/:repo/releases",
-    owner = owner, repo = repo
-  )
-  if (identical(res[[1]], "")) {
-    return(NULL)
-  }
-  res <- utils::head(res, min(n, length(res)))
-  releases <- data.frame(
-    tag_name = f(res, "tag_name"),
-    name = f(res, "name"),
-    stringsAsFactors = FALSE
-  )
-
-  get_sha <- function(ref) {
-    gh::gh(
-      "/repos/:owner/:repo/commits/:ref",
-      owner = owner, repo = repo, ref = ref,
-      .send_headers = c("Accept" = "application/vnd.github.VERSION.sha")
-    )[["message"]]
-  }
-  releases$sha <- substr(vapply(releases$tag_name, get_sha, character(1)), 1, 7)
-
-  get_when <- function(sha) {
-    gh::gh(
-      "/repos/:owner/:repo/commits/:sha",
-      owner = owner, repo = repo, sha = sha
-    )[[c("commit", "committer", "date")]]
-  }
-  releases$commit_date <- vapply(releases$sha, get_when, character(1))
-
-  releases
 }

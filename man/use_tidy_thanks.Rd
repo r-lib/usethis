@@ -4,7 +4,8 @@
 \alias{use_tidy_thanks}
 \title{Identify contributors via GitHub activity}
 \usage{
-use_tidy_thanks(owner = NULL, repo = NULL, since = NULL)
+use_tidy_thanks(owner = NULL, repo = NULL, from = releases(owner = owner,
+  repo = repo)[[1]], to = NULL)
 }
 \arguments{
 \item{owner}{Name of user or organisation who owns the repo. Default is to
@@ -13,9 +14,10 @@ infer from Git remotes of active project.}
 \item{repo}{Repository name, usually same as package name. Default is to
 infer from Git remotes of active project.}
 
-\item{since}{Timestamp in ISO 8601 format, passed along to the \href{https://developer.github.com/v3/issues/#list-issues-for-a-repository}{GitHub API endpoint for listing issues}.
-Default is to use timestamp of commit associated with most recent GitHub
-release.}
+\item{from, to}{GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
+ISO 8601 format, specifying the start or end of the interval of interest.
+Examples: "08a560d", "v1.3.0", "2018-02-24T00:13:45Z", "2018-05-01". \code{NULL}
+means there is no bound on that end of the interval.}
 }
 \value{
 A character vector of GitHub usernames, invisibly.
@@ -29,9 +31,25 @@ practices around the GitHub remote and GitHub releases.
 }
 \examples{
 \dontrun{
+## active project, interval = "since the last release"
 use_tidy_thanks()
-use_tidy_thanks(owner = "r-lib", repo = "usethis")
-use_tidy_thanks(owner = "r-lib", repo = "usethis", since = "2018-05-01")
-use_tidy_thanks(since = "2018-02-24T00:13:45Z")
+
+## active project, interval = "since a specific datetime"
+use_tidy_thanks(from = "2018-02-24T00:13:45Z")
+
+## r-lib/usethis, since a certain date
+use_tidy_thanks(owner = "r-lib", repo = "usethis", from = "2018-05-01")
+
+## r-lib/usethis, up to a specific release
+use_tidy_thanks(
+  owner = "r-lib", repo = "usethis",
+  from = NULL, to = "v1.3.0"
+)
+
+## r-lib/usethis, since a specific commit, up to a specific date
+use_tidy_thanks(
+  owner = "r-lib", repo = "usethis",
+  from = "08a560d", to = "2018-05-14"
+)
 }
 }
