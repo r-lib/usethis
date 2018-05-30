@@ -237,7 +237,9 @@ use_tidy_style <- function(strict = TRUE) {
 #' requests. Used to populate the acknowledgment section of package release blog
 #' posts at <https://www.tidyverse.org/articles/>. All arguments can potentially
 #' be determined from the active project, if the project follows standard
-#' practices around the GitHub remote and GitHub releases.
+#' practices around the GitHub remote and GitHub releases. Unexported helper
+#' functions, `releases()` and `ref_df()` can be useful interactively for
+#' a quick look at release tag names and a data frame about refs, respectively.
 #'
 #' @param owner Name of user or organisation who owns the repo. Default is to
 #'   infer from Git remotes of active project.
@@ -322,16 +324,18 @@ use_tidy_thanks <- function(owner = NULL,
   invisible(contributors)
 }
 
+## if x appears to be a timestamp, pass it through
+## otherwise, assume it's a ref and look up its timestamp
 as_timestamp <- function(x = NULL, owner = "r-lib", repo = "usethis") {
   if (is.null(x)) return(NULL)
   as_POSIXct <- try(as.POSIXct(x), silent = TRUE)
   if (inherits(as_POSIXct, "POSIXct")) return(x)
   message("Resolving timestamp for ref ", value(x))
-  report_refs(owner, repo, x)$timestamp
+  ref_df(owner, repo, x)$timestamp
 }
 
 ## returns a data frame on GitHub refs, defaulting to all releases
-report_refs <- function(owner = "r-lib", repo = "usethis", refs = NULL) {
+ref_df <- function(owner = "r-lib", repo = "usethis", refs = NULL) {
   refs <- refs %||% releases(owner = owner, repo = repo)
   if (is.null(refs)) return(NULL)
   get_thing <- function(thing) {
@@ -349,6 +353,7 @@ report_refs <- function(owner = "r-lib", repo = "usethis", refs = NULL) {
   )
 }
 
+## returns character vector of release tag names
 releases <- function(owner = "r-lib", repo = "usethis") {
   res <- gh::gh("/repos/:owner/:repo/releases", owner = owner, repo = repo)
   if (identical(res[[1]], "")) return(NULL)
