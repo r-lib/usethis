@@ -12,6 +12,7 @@ colours
 config
 Cpp
 dev
+devtools
 DropBox
 eval
 filenaming
@@ -57,6 +58,7 @@ Rmd
 roxygen
 rprojroot
 RStudio
+SHA
 shorteners
 shortlink
 shortlinks
