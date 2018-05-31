@@ -238,13 +238,12 @@ use_tidy_style <- function(strict = TRUE) {
 #' posts at <https://www.tidyverse.org/articles/>. All arguments can potentially
 #' be determined from the active project, if the project follows standard
 #' practices around the GitHub remote and GitHub releases. Unexported helper
-#' functions, `releases()` and `ref_df()` can be useful interactively for
-#' a quick look at release tag names and a data frame about refs, respectively.
+#' functions, `releases()` and `ref_df()` can be useful interactively to get a
+#' quick look at release tag names and a data frame about refs (defaulting to
+#' releases), respectively.
 #'
-#' @param owner Name of user or organisation who owns the repo. Default is to
-#'   infer from Git remotes of active project.
-#' @param repo Repository name, usually same as package name. Default is to
-#'   infer from Git remotes of active project.
+#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
+#'   Default is to infer from Git remotes of active project.
 #' @param from,to GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
 #'   ISO 8601 format, specifying the start or end of the interval of interest.
 #'   Examples: "08a560d", "v1.3.0", "2018-02-24T00:13:45Z", "2018-05-01". `NULL`
@@ -255,43 +254,30 @@ use_tidy_style <- function(strict = TRUE) {
 #'
 #' @examples
 #' \dontrun{
-#' ## active project, interval = "since the last release"
+#' ## active project, interval = since the last release
 #' use_tidy_thanks()
 #'
-#' ## active project, interval = "since a specific datetime"
+#' ## active project, interval = since a specific datetime
 #' use_tidy_thanks(from = "2018-02-24T00:13:45Z")
 #'
-#' ## r-lib/usethis, since a certain date
-#' use_tidy_thanks(owner = "r-lib", repo = "usethis", from = "2018-05-01")
+#' ## r-lib/usethis, inteval = since a certain date
+#' use_tidy_thanks("r-lib/usethis", from = "2018-05-01")
 #'
 #' ## r-lib/usethis, up to a specific release
-#' use_tidy_thanks(
-#'   owner = "r-lib", repo = "usethis",
-#'   from = NULL, to = "v1.3.0"
-#' )
+#' use_tidy_thanks("r-lib/usethis", from = NULL, to = "v1.3.0")
 #'
 #' ## r-lib/usethis, since a specific commit, up to a specific date
-#' use_tidy_thanks(
-#'   owner = "r-lib", repo = "usethis",
-#'   from = "08a560d", to = "2018-05-14"
-#' )
+#' use_tidy_thanks("r-lib/usethis", from = "08a560d", to = "2018-05-14")
 #' }
-use_tidy_thanks <- function(owner = NULL,
-                            repo = NULL,
-                            from = releases(owner = owner, repo = repo)[[1]],
+use_tidy_thanks <- function(repo_spec = github_repo_spec(),
+                            from = releases(repo_spec)[[1]],
                             to = NULL) {
-  if (is.null(owner) || is.null(repo)) {
-    check_uses_github()
-    owner <- owner %||% github_owner()
-    repo <- repo %||% github_repo()
-  }
-
-  from_timestamp <- as_timestamp(from, owner, repo) %||% "2008-01-01"
-  to_timestamp <- as_timestamp(to, owner, repo)
+  from_timestamp <- as_timestamp(from, repo_spec) %||% "2008-01-01"
+  to_timestamp <- as_timestamp(to, repo_spec)
 
   res <- gh::gh(
     "/repos/:owner/:repo/issues",
-    owner = owner, repo = repo,
+    owner = spec_owner(repo_spec), repo = spec_repo(repo_spec),
     since = from_timestamp,
     state = "all",
     filter = "all",
@@ -325,22 +311,22 @@ use_tidy_thanks <- function(owner = NULL,
 
 ## if x appears to be a timestamp, pass it through
 ## otherwise, assume it's a ref and look up its timestamp
-as_timestamp <- function(x = NULL, owner = "r-lib", repo = "usethis") {
+as_timestamp <- function(x = NULL, repo_spec = github_repo_spec()) {
   if (is.null(x)) return(NULL)
   as_POSIXct <- try(as.POSIXct(x), silent = TRUE)
   if (inherits(as_POSIXct, "POSIXct")) return(x)
   message("Resolving timestamp for ref ", value(x))
-  ref_df(owner, repo, x)$timestamp
+  ref_df(x, repo_spec)$timestamp
 }
 
 ## returns a data frame on GitHub refs, defaulting to all releases
-ref_df <- function(owner = "r-lib", repo = "usethis", refs = NULL) {
-  refs <- refs %||% releases(owner = owner, repo = repo)
+ref_df <- function(refs = NULL, repo_spec = github_repo_spec()) {
+  refs <- refs %||% releases(repo_spec)
   if (is.null(refs)) return(NULL)
   get_thing <- function(thing) {
     gh::gh(
       "/repos/:owner/:repo/commits/:thing",
-      owner = owner, repo = repo, thing = thing
+      owner = spec_owner(repo_spec), repo = spec_repo(repo_spec), thing = thing
     )
   }
   res <- lapply(refs, get_thing)
@@ -353,8 +339,12 @@ ref_df <- function(owner = "r-lib", repo = "usethis", refs = NULL) {
 }
 
 ## returns character vector of release tag names
-releases <- function(owner = "r-lib", repo = "usethis") {
-  res <- gh::gh("/repos/:owner/:repo/releases", owner = owner, repo = repo)
+releases <- function(repo_spec = github_repo_spec()) {
+  res <- gh::gh(
+    "/repos/:owner/:repo/releases",
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec)
+  )
   if (identical(res[[1]], "")) return(NULL)
   pluck_chr(res, "tag_name")
 }

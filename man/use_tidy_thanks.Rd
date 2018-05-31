@@ -4,15 +4,12 @@
 \alias{use_tidy_thanks}
 \title{Identify contributors via GitHub activity}
 \usage{
-use_tidy_thanks(owner = NULL, repo = NULL, from = releases(owner = owner,
-  repo = repo)[[1]], to = NULL)
+use_tidy_thanks(repo_spec = github_repo_spec(),
+  from = releases(repo_spec)[[1]], to = NULL)
 }
 \arguments{
-\item{owner}{Name of user or organisation who owns the repo. Default is to
-infer from Git remotes of active project.}
-
-\item{repo}{Repository name, usually same as package name. Default is to
-infer from Git remotes of active project.}
+\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
+Default is to infer from Git remotes of active project.}
 
 \item{from, to}{GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
 ISO 8601 format, specifying the start or end of the interval of interest.
@@ -28,30 +25,25 @@ requests. Used to populate the acknowledgment section of package release blog
 posts at \url{https://www.tidyverse.org/articles/}. All arguments can potentially
 be determined from the active project, if the project follows standard
 practices around the GitHub remote and GitHub releases. Unexported helper
-functions, \code{releases()} and \code{ref_df()} can be useful interactively for
-a quick look at release tag names and a data frame about refs, respectively.
+functions, \code{releases()} and \code{ref_df()} can be useful interactively to get a
+quick look at release tag names and a data frame about refs (defaulting to
+releases), respectively.
 }
 \examples{
 \dontrun{
-## active project, interval = "since the last release"
+## active project, interval = since the last release
 use_tidy_thanks()
 
-## active project, interval = "since a specific datetime"
+## active project, interval = since a specific datetime
 use_tidy_thanks(from = "2018-02-24T00:13:45Z")
 
-## r-lib/usethis, since a certain date
-use_tidy_thanks(owner = "r-lib", repo = "usethis", from = "2018-05-01")
+## r-lib/usethis, inteval = since a certain date
+use_tidy_thanks("r-lib/usethis", from = "2018-05-01")
 
 ## r-lib/usethis, up to a specific release
-use_tidy_thanks(
-  owner = "r-lib", repo = "usethis",
-  from = NULL, to = "v1.3.0"
-)
+use_tidy_thanks("r-lib/usethis", from = NULL, to = "v1.3.0")
 
 ## r-lib/usethis, since a specific commit, up to a specific date
-use_tidy_thanks(
-  owner = "r-lib", repo = "usethis",
-  from = "08a560d", to = "2018-05-14"
-)
+use_tidy_thanks("r-lib/usethis", from = "08a560d", to = "2018-05-14")
 }
 }

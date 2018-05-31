@@ -36,8 +36,9 @@ requests. Used to populate the acknowledgment section of package release blog
 posts at https://www.tidyverse.org/articles/. All arguments can potentially
 be determined from the active project, if the project follows standard
 practices around the GitHub remote and GitHub releases. Unexported helper
-functions, releases() and ref_df() can be useful interactively for
-a quick look at release tag names and a data frame about refs, respectively." />
+functions, releases() and ref_df() can be useful interactively to get a
+quick look at release tag names and a data frame about refs (defaulting to
+releases), respectively." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -134,25 +135,21 @@ requests. Used to populate the acknowledgment section of package release blog
 posts at <a href='https://www.tidyverse.org/articles/'>https://www.tidyverse.org/articles/</a>. All arguments can potentially
 be determined from the active project, if the project follows standard
 practices around the GitHub remote and GitHub releases. Unexported helper
-functions, <code>releases()</code> and <code>ref_df()</code> can be useful interactively for
-a quick look at release tag names and a data frame about refs, respectively.</p>
+functions, <code>releases()</code> and <code>ref_df()</code> can be useful interactively to get a
+quick look at release tag names and a data frame about refs (defaulting to
+releases), respectively.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_tidy_thanks</span>(<span class='kw'>owner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>repo</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'>releases</span>(<span class='kw'>owner</span> <span class='kw'>=</span> <span class='no'>owner</span>,
-  <span class='kw'>repo</span> <span class='kw'>=</span> <span class='no'>repo</span>)<span class='kw'>[[</span><span class='fl'>1</span>]], <span class='kw'>to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>use_tidy_thanks</span>(<span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='fu'>github_repo_spec</span>(),
+  <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'>releases</span>(<span class='no'>repo_spec</span>)<span class='kw'>[[</span><span class='fl'>1</span>]], <span class='kw'>to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>owner</th>
-      <td><p>Name of user or organisation who owns the repo. Default is to
-infer from Git remotes of active project.</p></td>
-    </tr>
-    <tr>
-      <th>repo</th>
-      <td><p>Repository name, usually same as package name. Default is to
-infer from Git remotes of active project.</p></td>
+      <th>repo_spec</th>
+      <td><p>GitHub repo specification in this form: <code>owner/repo</code>.
+Default is to infer from Git remotes of active project.</p></td>
     </tr>
     <tr>
       <th>from, to</th>
@@ -169,26 +166,20 @@ means there is no bound on that end of the interval.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>## active project, interval = "since the last release"</span>
+<span class='co'>## active project, interval = since the last release</span>
 <span class='fu'>use_tidy_thanks</span>()
 
-<span class='co'>## active project, interval = "since a specific datetime"</span>
+<span class='co'>## active project, interval = since a specific datetime</span>
 <span class='fu'>use_tidy_thanks</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"2018-02-24T00:13:45Z"</span>)
 
-<span class='co'>## r-lib/usethis, since a certain date</span>
-<span class='fu'>use_tidy_thanks</span>(<span class='kw'>owner</span> <span class='kw'>=</span> <span class='st'>"r-lib"</span>, <span class='kw'>repo</span> <span class='kw'>=</span> <span class='st'>"usethis"</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"2018-05-01"</span>)
+<span class='co'>## r-lib/usethis, inteval = since a certain date</span>
+<span class='fu'>use_tidy_thanks</span>(<span class='st'>"r-lib/usethis"</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"2018-05-01"</span>)
 
 <span class='co'>## r-lib/usethis, up to a specific release</span>
-<span class='fu'>use_tidy_thanks</span>(
-  <span class='kw'>owner</span> <span class='kw'>=</span> <span class='st'>"r-lib"</span>, <span class='kw'>repo</span> <span class='kw'>=</span> <span class='st'>"usethis"</span>,
-  <span class='kw'>from</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"v1.3.0"</span>
-)
+<span class='fu'>use_tidy_thanks</span>(<span class='st'>"r-lib/usethis"</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"v1.3.0"</span>)
 
 <span class='co'>## r-lib/usethis, since a specific commit, up to a specific date</span>
-<span class='fu'>use_tidy_thanks</span>(
-  <span class='kw'>owner</span> <span class='kw'>=</span> <span class='st'>"r-lib"</span>, <span class='kw'>repo</span> <span class='kw'>=</span> <span class='st'>"usethis"</span>,
-  <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"08a560d"</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"2018-05-14"</span>
-)
+<span class='fu'>use_tidy_thanks</span>(<span class='st'>"r-lib/usethis"</span>, <span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"08a560d"</span>, <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"2018-05-14"</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

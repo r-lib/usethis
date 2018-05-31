@@ -4,13 +4,13 @@
 \alias{create_from_github}
 \title{Create a project from a GitHub repo}
 \usage{
-create_from_github(repo, destdir = NULL, fork = NA, rstudio = NULL,
+create_from_github(repo_spec, destdir = NULL, fork = NA, rstudio = NULL,
   open = interactive(), protocol = c("ssh", "https"), credentials = NULL,
   auth_token = NULL, host = NULL)
 }
 \arguments{
-\item{repo}{GitHub repo specification in this form: \code{owner/reponame}. The
-second part will be the name of the new local repo.}
+\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
+The second part will be the name of the new local repo.}
 
 \item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
 
