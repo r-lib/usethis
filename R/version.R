@@ -56,7 +56,7 @@ use_version <- function(which = NULL) {
   git_check_in(
     base_path = proj_get(),
     paths = c("DESCRIPTION", "NEWS.md"),
-    message = "Incrementing version number"
+    message = "Increment version number"
   )
   invisible(TRUE)
 }
