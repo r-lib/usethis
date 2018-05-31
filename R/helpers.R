@@ -85,6 +85,7 @@ project_data <- function(base_path = proj_get()) {
   if (uses_github(base_path)) {
     data$github_owner <- github_owner()
     data$github_repo <- github_repo()
+    data$github_spec <- github_repo_spec()
   }
   data
 }

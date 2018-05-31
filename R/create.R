@@ -107,8 +107,8 @@ create_project <- function(path,
 #'   without any local or remote Git operations.
 #'
 #' @inheritParams create_package
-#' @param repo GitHub repo specification in this form: `owner/reponame`. The
-#'   second part will be the name of the new local repo.
+#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
+#'   The `repo` part will be the name of the new local repo.
 #' @inheritParams use_course
 #' @param fork If `TRUE`, we create and clone a fork. If `FALSE`, we clone
 #'   `repo` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT) is
@@ -127,7 +127,7 @@ create_project <- function(path,
 #' \dontrun{
 #' create_from_github("r-lib/usethis")
 #' }
-create_from_github <- function(repo,
+create_from_github <- function(repo_spec,
                                destdir = NULL,
                                fork = NA,
                                rstudio = NULL,
@@ -141,15 +141,8 @@ create_from_github <- function(repo,
   check_not_nested(destdir, repo)
   protocol <- match.arg(protocol)
 
-  repo <- strsplit(repo, "/")[[1]]
-  if (length(repo) != 2) {
-    stop(
-      code("repo"), " must be of form ",
-      value("owner/reponame"), call. = FALSE
-    )
-  }
-  owner <- repo[[1]]
-  repo <- repo[[2]]
+  owner <- spec_owner(repo_spec)
+  repo <- spec_repo(repo_spec)
 
   repo_path <- create_directory(destdir, repo)
   if (dir.exists(repo_path)) {
