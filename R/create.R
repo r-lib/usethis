@@ -108,7 +108,7 @@ create_project <- function(path,
 #'
 #' @inheritParams create_package
 #' @param repo_spec GitHub repo specification in this form: `owner/repo`.
-#'   The second part will be the name of the new local repo.
+#'   The `repo` part will be the name of the new local repo.
 #' @inheritParams use_course
 #' @param fork If `TRUE`, we create and clone a fork. If `FALSE`, we clone
 #'   `repo` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT) is
@@ -141,7 +141,6 @@ create_from_github <- function(repo_spec,
   check_not_nested(destdir, repo)
   protocol <- match.arg(protocol)
 
-  ## TODO: do I need to do anything re: repo --> repo_spec?
   owner <- spec_owner(repo_spec)
   repo <- spec_repo(repo_spec)
 

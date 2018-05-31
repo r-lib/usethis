@@ -10,7 +10,7 @@ create_from_github(repo_spec, destdir = NULL, fork = NA, rstudio = NULL,
 }
 \arguments{
 \item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
-The second part will be the name of the new local repo.}
+The \code{repo} part will be the name of the new local repo.}
 
 \item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
 
