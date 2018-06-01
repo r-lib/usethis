@@ -191,7 +191,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
     message(
       "A ZIP file named:\n",
       "  ", value(base_name), "\n",
-      "will be written to this folder:\n",
+      "will be copied to this folder:\n",
       "  ", value(base_path), "\n",
       "Prefer a different location? Cancel, try again, and specify ",
       code("destdir"), ".\n"
@@ -204,7 +204,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
 
   if (!can_overwrite(full_path)) {
     ## TO DO: it pains me that can_overwrite() always strips to basename
-    stop("Aborting download", call. = FALSE)
+    stop("Aborting.", call. = FALSE)
   }
 
   done(
