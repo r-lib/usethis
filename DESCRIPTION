@@ -21,7 +21,7 @@ Depends:
     R (>= 3.1)
 Imports: 
     backports (>= 1.1.0),
-    clipr,
+    clipr (>= 0.3.0),
     clisymbols,
     crayon,
     curl (>= 2.7),
@@ -32,7 +32,7 @@ Imports:
     glue (>= 1.2.0.9000),
     rematch2,
     rlang,
-    rprojroot,
+    rprojroot (>= 1.2),
     rstudioapi,
     utils,
     whisker
