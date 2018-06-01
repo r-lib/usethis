@@ -1,6 +1,8 @@
 context("use_readme")
 
 test_that("message if try to overwrite existing file", {
+  # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
+  skip_if(getRversion() < 3.2)
   skip_if_not_installed("rmarkdown")
 
   scoped_temporary_package()
