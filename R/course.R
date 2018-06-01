@@ -172,12 +172,15 @@ NULL
 
 download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   stopifnot(is_string(url))
-  dl <- curl::curl_fetch_memory(url)
+  h <- curl::new_handle(noprogress = FALSE, progressfunction = progress_fun)
+  tmp <- fs::file_temp("usethis-use-course-")
+  curl::curl_download(
+    url, destfile = tmp, quiet = FALSE, mode = "wb", handle = h
+  )
+  check_is_zip(h)
+  cat_line()
 
-  stop_for_status(dl$status_code)
-  check_is_zip(dl)
-
-  cd <- content_disposition(dl)
+  cd <- content_disposition(h)
 
   base_path <- destdir
   check_is_dir(base_path)
@@ -188,28 +191,27 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
     message(
       "A ZIP file named:\n",
       "  ", value(base_name), "\n",
-      "will be downloaded to this folder:\n",
+      "will be copied to this folder:\n",
       "  ", value(base_path), "\n",
       "Prefer a different location? Cancel, try again, and specify ",
       code("destdir"), ".\n"
     )
-    if (nope("Proceed with this download?")) {
-      stop("Aborting download", call. = FALSE)
+    if (nope("Is it OK to write this file here?")) {
+      stop("Aborting", call. = FALSE)
     }
   }
-  full_path <- file.path(base_path, base_name)
+  full_path <- fs::path(base_path, base_name)
 
   if (!can_overwrite(full_path)) {
     ## TO DO: it pains me that can_overwrite() always strips to basename
-    stop("Aborting download", call. = FALSE)
+    stop("Aborting.", call. = FALSE)
   }
 
   done(
-    "Downloading ZIP file to ",
+    "Downloaded ZIP file to ",
     if (is.null(destdir)) value(base_name) else value(full_path)
   )
-  writeBin(dl$content, full_path)
-  invisible(full_path)
+  fs::file_move(tmp, full_path)
 }
 
 tidy_unzip <- function(zipfile) {
@@ -286,8 +288,8 @@ top_directory <- function(filenames) {
   }
 }
 
-check_is_zip <- function(download) {
-  headers <- curl::parse_headers_list(download$headers)
+check_is_zip <- function(h) {
+  headers <- curl::parse_headers_list(curl::handle_data(h)$headers)
   if (headers[["content-type"]] != "application/zip") {
     stop(
       "Download does not have MIME type ", value("application/zip"), "\n",
@@ -297,8 +299,9 @@ check_is_zip <- function(download) {
   invisible()
 }
 
-content_disposition <- function(download) {
-  headers <- curl::parse_headers_list(download$headers)
+
+content_disposition <- function(h) {
+  headers <- curl::parse_headers_list(curl::handle_data(h)$headers)
   cd <- headers[["content-disposition"]]
   if (is.null(cd)) {
     return()
@@ -326,6 +329,19 @@ parse_content_disposition <- function(cd) {
     vapply(cd, `[[`, character(1), 2),
     vapply(cd, `[[`, character(1), 1)
   )
+}
+
+progress_fun <- function(down, up) {
+  total <- down[[1]]
+  now <- down[[2]]
+  pct <- if(length(total) && total > 0){
+    paste0("(", round(now/total * 100), "%)")
+  } else {
+    ""
+  }
+  if(now > 10000)
+    cat("\r Downloaded:", sprintf("%.2f", now / 2^20), "MB ", pct)
+  TRUE
 }
 
 make_filename <- function(cd,
