@@ -10,8 +10,8 @@ use_git(message = "Initial commit")
 \item{message}{Message to use for first commit.}
 }
 \description{
-\code{use_git()} initialises a Git repository, adds important files to
-\code{.gitignore}, and commits all files.
+\code{use_git()} initialises a Git repository and adds important files to
+\code{.gitignore}. If user consents, it also makes an initial commit.
 }
 \examples{
 \dontrun{
