@@ -1,7 +1,7 @@
 #' Initialise a git repository
 #'
-#' `use_git()` initialises a Git repository, adds important files to
-#' `.gitignore`, and commits all files.
+#' `use_git()` initialises a Git repository and adds important files to
+#' `.gitignore`. If user consents, it also makes an initial commit.
 #'
 #' @param message Message to use for first commit.
 #' @family git helpers
@@ -20,11 +20,16 @@ use_git <- function(message = "Initial commit") {
 
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
 
-  if (git_uncommitted()) {
-    done("Adding files and committing")
+  if (interactive() && git_uncommitted()) {
     paths <- unlist(git2r::status(r))
-    git2r::add(r, paths)
-    git2r::commit(r, message)
+    commit_consent_msg <- glue::glue(
+      "OK to make an initial commit of {length(paths)} files?"
+    )
+    if (yep(commit_consent_msg)) {
+      done("Adding files and committing")
+      git2r::add(r, paths)
+      git2r::commit(r, message)
+    }
   }
 
   restart_rstudio(
