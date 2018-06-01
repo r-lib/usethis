@@ -178,6 +178,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
     url, destfile = tmp, quiet = FALSE, mode = "wb", handle = h
   )
   check_is_zip(h)
+  cat_line()
 
   cd <- content_disposition(h)
 
@@ -188,7 +189,6 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   ## DO YOU KNOW WHERE YOUR STUFF IS GOING?!?
   if (interactive() && pedantic) {
     message(
-      "\n",
       "A ZIP file named:\n",
       "  ", value(base_name), "\n",
       "will be written to this folder:\n",
@@ -208,7 +208,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   }
 
   done(
-    "Downloading ZIP file to ",
+    "Downloaded ZIP file to ",
     if (is.null(destdir)) value(base_name) else value(full_path)
   )
   fs::file_move(tmp, full_path)
