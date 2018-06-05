@@ -1,13 +1,27 @@
-#' Use tidyverse tibbles in your package
+#' Prepare to return a tibble
 #'
-#' Does setup necessary to deal in objects of type `tbl_df` or "tibble" from
-#' your package. The tibble is the tidyverse's variant of the `data.frame`.
-#' `use_tibble()` ensures that tibbles returned by your package will use the
-#' tibble print method. Specifically, this function:
-#' * Adds tibble to "Imports" in DESCRIPTION
-#' * Creates `R/utils-tibble.R` with the necessary roxygen template
+#' @description Does minimum setup such that a tibble returned by your package
+#' is handled using the tibble method for generics like `print()` or \code{[}.
+#' Presumably you care about this if you've chosen to store and expose an
+#' object with class `tbl_df`. Specifically:
+#'   * Check that the active package uses roxygen2
+#'   * Add the tibble package to "Imports" in DESCRIPTION
+#'   * Reveal the roxygen directive necessary to import at least one function
+#'     from tibble.
+#'   * Offers support re: where to put this directive. Preferred location is
+#'     in the roxygen snippet produced by [use_package_doc()].
+#'
+#' @description This is necessary when your package returns a stored data object
+#'   that has class `tbl_df`, but the package code does not make direct use of
+#'   functions from the tibble package. If you do nothing, the tibble namespace
+#'   is not necessarily loaded and your tibble may therefore be printed and
+#'   subsetted like a base `data.frame`.
 #'
 #' @export
+#' @examples
+#' \dontrun{
+#' use_tibble()
+#' }
 use_tibble <- function() {
   check_is_package("use_tibble()")
   if (!uses_roxygen()) {
@@ -15,7 +29,27 @@ use_tibble <- function() {
   }
 
   use_dependency("tibble", "Imports")
-  use_template("tibble.R", "R/utils-tibble.R")
 
-  todo("Run ", code("document()"))
+  directive <- "#' @importFrom tibble tibble"
+  package_doc <- file.path("R", paste0(project_name(), "-package.R"))
+  if (file.exists(package_doc)) {
+    todo(
+      "Add this line to the roxygen header for package-level docs ",
+      value(package_doc), ":"
+    )
+    code_block(directive)
+    edit_file(package_doc)
+  } else {
+    todo(
+      "Consider calling ", code('use_package_doc()'), " to initialize ",
+      "package-level docs, which is a good place to put the roxygen directive ",
+      "below."
+    )
+    todo("Add this line to a relevant roxygen header.")
+    code_block(directive)
+  }
+
+  todo("Run ", code("document()"), "to update NAMESPACE")
+  todo("Document a returned tibble like so:")
+  code_block("#' @return a [tibble][tibble::tibble-package]", copy = FALSE)
 }
