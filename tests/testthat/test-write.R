@@ -29,3 +29,18 @@ test_that("write_union() adds lines", {
   write_union(tmp, letters[4:5], quiet = TRUE)
   expect_identical(readLines(tmp), letters[1:5])
 })
+
+test_that("write_over() writes a de novo file", {
+  tmp <- file_temp()
+  expect_false(file_exists(tmp))
+  write_over(tmp, letters[1:3], quiet = TRUE)
+  expect_identical(readLines(tmp), letters[1:3])
+})
+
+test_that("write_over() leaves file 'as is'", {
+  tmp <- file_temp()
+  writeLines(letters[1:3], tmp)
+  before <- readLines(tmp)
+  write_over(tmp, letters[1:3], quiet = TRUE)
+  expect_identical(before, readLines(tmp))
+})

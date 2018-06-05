@@ -21,7 +21,7 @@ write_union <- function(path, new_lines, quiet = FALSE) {
 }
 
 ## `contents` is a character vector of prospective lines
-write_over <- function(path, contents) {
+write_over <- function(path, contents, quiet = FALSE) {
   stopifnot(is.character(contents), length(contents) > 0)
 
   if (same_contents(path, contents)) {
@@ -31,8 +31,10 @@ write_over <- function(path, contents) {
   if (!can_overwrite(path)) {
     stop(value(path), " already exists.", call. = FALSE)
   }
+  if (!quiet) {
+    done("Writing ", value(path))
+  }
 
-  done("Writing ", value(path))
   write_utf8(path, contents)
 }
 
