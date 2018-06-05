@@ -45,7 +45,7 @@ use_tibble <- function() {
       "package-level docs, which is a good place to put the roxygen directive ",
       "below."
     )
-    todo("Add this line to a relevant roxygen header.")
+    todo("Add this line to a relevant roxygen header:")
     code_block(directive)
   }
 
