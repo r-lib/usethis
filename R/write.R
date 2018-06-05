@@ -1,9 +1,8 @@
-write_union <- function(base_path, path, new_lines, quiet = FALSE) {
+write_union <- function(path, new_lines, quiet = FALSE) {
   stopifnot(is.character(new_lines))
 
-  full_path <- file.path(base_path, path)
-  if (file.exists(full_path)) {
-    lines <- readLines(full_path, warn = FALSE)
+  if (file.exists(path)) {
+    lines <- readLines(path, warn = FALSE)
   } else {
     lines <- character()
   }
@@ -17,7 +16,7 @@ write_union <- function(base_path, path, new_lines, quiet = FALSE) {
   }
 
   all <- union(lines, new_lines)
-  write_utf8(full_path, all)
+  write_utf8(path, all)
 }
 
 ## `contents` is a character vector of prospective lines

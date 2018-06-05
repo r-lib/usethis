@@ -65,11 +65,14 @@ use_git_hook <- function(hook, script) {
 #' Tell git to ignore files
 #'
 #' @param ignores Character vector of ignores, specified as file globs.
-#' @param directory Directory within current project to set ignores
+#' @param directory Directory relative to active project to set ignores
 #' @family git helpers
 #' @export
 use_git_ignore <- function(ignores, directory = ".") {
-  write_union(proj_get(), file.path(directory, ".gitignore"), ignores)
+  write_union(
+    proj_path(fs::path_norm(path(directory, ".gitignore"))),
+    ignores
+  )
 }
 
 #' Configure Git
