@@ -231,21 +231,22 @@ use_directory <- function(path,
 }
 
 create_directory <- function(base_path, path) {
-  if (!file.exists(base_path)) {
+  if (!file_exists(base_path)) {
     stop(value(base_path), " does not exist", call. = FALSE)
   }
-  target_path <- file.path(base_path, path)
 
-  if (file.exists(target_path)) {
-    if (!is_dir(target_path)) {
-      stop(value(path), " exists but is not a directory.", call. = FALSE)
-    }
-  } else {
-    ok <- dir.create(target_path, showWarnings = FALSE, recursive = TRUE)
+  if (!is_dir(base_path)) {
+    stop(value(base_path), " is not a directory", call. = FALSE)
+  }
 
-    if (!ok) {
-      stop("Failed to create path", call. = FALSE)
-    }
+  target_path <- path(base_path, path)
+
+  if (!file_exists(target_path)) {
+    dir_create(target_path, recursive = TRUE)
+  }
+
+  if (!is_dir(target_path)) {
+    stop(value(path), " exists but is not a directory.", call. = FALSE)
   }
 
   target_path
