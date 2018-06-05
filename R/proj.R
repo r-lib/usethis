@@ -49,7 +49,8 @@ check_is_package <- function(whos_asking = NULL) {
 #' root by looking for a `.here` file, an RStudio Project, a package
 #' `DESCRIPTION`, Git infrastructure, a `remake.yml` file, or a `.projectile`
 #' file. It then stores the active project for use for the remainder of the
-#' session. If needed, you can manually override by running `proj_set()`.
+#' session. Use `proj_get()` to see the active project and `proj_set()` to
+#' set it manually.
 #'
 #' @description In general, user scripts should not call `usethis::proj_get()`
 #'   or `usethis::proj_set()`. They are internal functions that are exported for
@@ -107,4 +108,4 @@ proj_set <- function(path = ".", force = FALSE) {
   invisible(old)
 }
 
-proj_path <- function(...) file.path(proj_get(), ...)
+proj_path <- function(..., ext = "") path(proj_get(), ..., ext = ext)
