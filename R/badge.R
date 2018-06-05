@@ -45,8 +45,8 @@ use_badge <- function(badge_name, href, src) {
     return(invisible(FALSE))
   }
 
-  img <- paste0("![", badge_name, "](", src, ")")
-  link <- paste0("[", img, "](", href, ")")
+  img <- glue("![{badge_name}]({src}")
+  link <- glue("[{img}]({href}")
 
   todo(
     "Add a ",
@@ -62,8 +62,8 @@ use_cran_badge <- function() {
   check_is_package("use_cran_badge()")
   pkg <- project_name()
 
-  src <- file.path("https://www.r-pkg.org/badges/version", pkg)
-  href <- paste0("https://cran.r-project.org/package=", pkg)
+  src <- glue("https://www.r-pkg.org/badges/version/{pkg}")
+  href <- glue("https://cran.r-project.org/package={pkg}")
   use_badge("CRAN status", href, src)
 
   invisible(TRUE)
@@ -75,13 +75,11 @@ use_bioc_badge <- function() {
   check_is_package("use_bioc_badge()")
   pkg <- project_name()
 
-  src <- paste0(
-    "http://www.bioconductor.org/shields/build/release/bioc/",
-    pkg, ".svg"
+  src <- glue(
+    "http://www.bioconductor.org/shields/build/release/bioc/{pkg}.svg"
   )
-  href <- file.path(
-    "https://bioconductor.org/checkResults/release/bioc-LATEST",
-    pkg
+  href <- glue(
+    "https://bioconductor.org/checkResults/release/bioc-LATEST/{pkg}"
   )
   use_badge("BioC status", href, src)
 
@@ -97,10 +95,8 @@ use_lifecycle_badge <- function(stage) {
   stage <- match.arg(tolower(stage), names(stages))
   colour <- stages[[stage]]
 
-  src <- paste0(
-    "https://img.shields.io/badge/lifecycle-", stage, "-", colour, ".svg"
-  )
-  href <- paste0("https://www.tidyverse.org/lifecycle/#", stage)
+  src <- glue("https://img.shields.io/badge/lifecycle-{stage}-{colour}.svg")
+  href <- glue("https://www.tidyverse.org/lifecycle/#{stage}")
   use_badge("lifecycle", href, src)
 
   invisible(TRUE)
@@ -121,15 +117,8 @@ stages <- c(
 use_binder_badge <- function() {
 
   if (uses_github()) {
-    url <- file.path(
-      "https://mybinder.org/v2/gh",
-      github_owner(),
-      github_repo(),
-      "master"
-    )
-
+    url <- glue("https://mybinder.org/v2/gh/{github_repo_spec()}/master")
     img <- "http://mybinder.org/badge.svg"
-
     use_badge("Binder", url, img)
   }
 

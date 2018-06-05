@@ -23,7 +23,7 @@ github_repo <- function(path = proj_get()) {
 }
 
 github_repo_spec <- function(path = proj_get()) {
-  paste0(gh::gh_tree_remote(path), collapse = "/")
+  collapse(gh::gh_tree_remote(path), sep = "/")
 }
 
 ## repo_spec --> owner, repo
@@ -31,10 +31,9 @@ github_repo_spec <- function(path = proj_get()) {
 parse_repo_spec <- function(repo_spec) {
   repo_split <- strsplit(repo_spec, "/")[[1]]
   if (length(repo_split) != 2) {
-    stop(
-      code("repo_spec"), " must be of form ", value("owner/repo"),
-      call. = FALSE
-    )
+    stop(glue(
+      "{code('repo_spec')} must be of form {value('owner/repo')}"
+    ), call. = FALSE)
   }
   list(owner = repo_split[[1]], repo = repo_split[[2]])
 }

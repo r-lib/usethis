@@ -13,7 +13,7 @@ use_cran_comments <- function(open = interactive()) {
   check_is_package("use_cran_comments()")
   use_template(
     "cran-comments.md",
-    data = list(rversion = paste0(version$major, ".", version$minor)),
+    data = list(rversion = glue("{version$major}.{version$minor}")),
     ignore = TRUE,
     open = open
   )

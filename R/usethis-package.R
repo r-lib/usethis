@@ -1,4 +1,5 @@
 #' @keywords internal
+#' @importFrom glue glue
 "_PACKAGE"
 
 .onLoad <- function(libname, pkgname) {

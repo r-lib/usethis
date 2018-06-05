@@ -42,7 +42,7 @@ show_includes <- function(package) {
   if (length(h) == 0) return()
 
   todo("Possible includes are:")
-  code_block(paste0("#include <", h, ">"))
+  code_block(glue("#include <{h}>"))
 }
 
 #' @export
@@ -76,19 +76,20 @@ package_remote <- function(package) {
   github_info <- desc$get(c("GithubUsername", "GithubRepo"))
 
   if (any(is.na(github_info))) {
-    stop(package, " was not installed from GitHub", call. = FALSE)
+    stop(value(package), " was not installed from GitHub", call. = FALSE)
   }
 
-  paste0(github_info, collapse = "/")
+  collapse(github_info, sep = "/")
 }
 
 refuse_package <- function(package, verboten) {
   if (identical(package, verboten)) {
-    stop(paste0(
+    stop(
       value(package), " is a meta-package and it is rarely a good idea to ",
       "depend on it. Please determine the specific underlying package(s) that ",
-      "offer the function(s) you need and depend on that instead."
-    ), call. = FALSE)
+      "offer the function(s) you need and depend on that instead.",
+      call. = FALSE
+    )
   }
   invisible(package)
 }

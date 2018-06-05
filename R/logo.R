@@ -36,7 +36,7 @@ use_logo <- function(img, geometry = "120x140") {
   )
   pkg <- project_name()
 
-  img <- paste0("# ", pkg, " <img src=\"man/figures/logo.png\" align=\"right\" />")
+  img <- glue("# {pkg} <img src=\"man/figures/logo.png\" align=\"right\" />")
   code_block(img)
 }
 

@@ -31,14 +31,10 @@ check_is_package <- function(whos_asking = NULL) {
     return(invisible())
   }
 
-  message <- paste0(
-    "Project ", value(project_name()), " is not an R package."
-  )
+  message <- glue("Project {value(project_name())} is not an R package.")
   if (!is.null(whos_asking)) {
-    message <- paste0(
-      code(whos_asking),
-      " is designed to work with packages. ",
-      message
+    message <- glue(
+      "{code(whos_asking)} is designed to work with packages. {message}"
     )
   }
   stop(message, call. = FALSE)

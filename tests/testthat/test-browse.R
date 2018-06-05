@@ -19,11 +19,11 @@ test_that("github_link() reports GitHub URL 'as is'", {
 test_that("github_home() strips everything after USER/REPO", {
   expect_identical(
     github_home("usethis"),
-    "https://github.com/r-lib/usethis"
+    glue::as_glue("https://github.com/r-lib/usethis")
   )
   expect_identical(
     github_home("gh"),
-    "https://github.com/r-lib/gh"
+    glue::as_glue("https://github.com/r-lib/gh")
   )
 })
 

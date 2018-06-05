@@ -13,8 +13,7 @@ write_union <- function(base_path, path, new_lines, quiet = FALSE) {
     return(invisible(FALSE))
 
   if (!quiet) {
-    quoted <- paste0(value(new), collapse = ", ")
-    done("Adding ", quoted, " to ", value(path))
+    done(glue("Adding {collapse(value(new))} to {value(path)}"))
   }
 
   all <- union(lines, new_lines)

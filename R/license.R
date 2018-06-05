@@ -76,7 +76,7 @@ use_cc0_license <- function(name = find_name()) {
 
 
 use_license_template <- function(license, name) {
-  license_template <- paste0("license-", license, ".md")
+  license_template <- glue("license-{license}.md")
 
   use_template(
     license_template,
@@ -106,10 +106,9 @@ find_name <- function() {
     return(name)
   }
 
-  stop(
-    code("name"), " argument is missing.\n",
-    "Set it globally with ", code('options(usethis.full_name = "My name")'),
-    ", probably in your ", value(".Rprofile"),
-    call. = FALSE
-  )
+  stop(glue(
+    "{code('name')} argument is missing.\n",
+    "Set it globally with {code('options(usethis.full_name = \"My name\")')}",
+    ", probably in your {value('.Rprofile')}"
+  ), call. = FALSE)
 }

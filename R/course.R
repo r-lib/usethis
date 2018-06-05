@@ -273,7 +273,10 @@ conspicuous_place <- function() {
 
 keep_lgl <- function(file,
                      ignores = c(".Rproj.user", ".rproj.user", ".Rhistory", ".RData", ".git")) {
-  ignores <- paste0("((\\/|\\A)", gsub("\\.", "[.]", ignores), "(\\/|\\Z))", collapse = "|")
+  ignores <- paste0(
+    "((\\/|\\A)", gsub("\\.", "[.]", ignores), "(\\/|\\Z))",
+    collapse = "|"
+  )
   !grepl(ignores, file, perl = TRUE)
 }
 
@@ -291,10 +294,10 @@ top_directory <- function(filenames) {
 check_is_zip <- function(h) {
   headers <- curl::parse_headers_list(curl::handle_data(h)$headers)
   if (headers[["content-type"]] != "application/zip") {
-    stop(
-      "Download does not have MIME type ", value("application/zip"), "\n",
-      "Instead it's ", value(headers[["content-type"]]), call. = FALSE
-    )
+    stop(glue(
+      "Download does not have MIME type {value('application/zip')}\n",
+      "Instead it's {value(headers[['content-type']])}"
+    ), call. = FALSE)
   }
   invisible()
 }
@@ -315,11 +318,11 @@ content_disposition <- function(h) {
 ##  GitHub eg: "attachment; filename=foo-master.zip"
 parse_content_disposition <- function(cd) {
   if (!grepl("^attachment;", cd)) {
-    stop(
-      code("Content-Disposition"), " header doesn't start with ",
-      value("attachment"), "\n",
-      "Actual header: ", value(cd), call. = FALSE
-    )
+    stop(glue(
+      "{code('Content-Disposition')} header doesn't start with ",
+      "{value('attachment')}\n",
+      "Actual header: {value(cd)}"
+    ), call. = FALSE)
   }
 
   cd <- sub("^attachment;\\s*", "", cd, ignore.case = TRUE)
@@ -334,7 +337,7 @@ parse_content_disposition <- function(cd) {
 progress_fun <- function(down, up) {
   total <- down[[1]]
   now <- down[[2]]
-  pct <- if(length(total) && total > 0){
+  pct <- if(length(total) && total > 0) {
     paste0("(", round(now/total * 100), "%)")
   } else {
     ""

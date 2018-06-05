@@ -241,9 +241,9 @@ check_not_nested <- function(path, name) {
     return()
   }
 
-  message <- paste0(
-    "New project ", value(name), " is nested inside an existing project ",
-    value(proj_root), "."
+  message <- glue(
+    "New project {value(name)} is nested inside an existing project ",
+    "{value(proj_root)}."
   )
   if (!interactive()) {
     stop(message, call. = FALSE)
@@ -271,10 +271,10 @@ rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
   }
 
   if (fork && identical(user, owner)) {
-    stop(
-      "Repo ", value(repo_info$full_name), " is owned by user ",
-      value(user), ". Can't fork.", call. = FALSE
-    )
+    stop(glue(
+      "Repo {value(repo_info$full_name)} is owned by user ",
+      "{value(user)}. Can't fork."
+    ), call. = FALSE)
   }
 
   fork

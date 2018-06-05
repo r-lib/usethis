@@ -60,22 +60,20 @@ render_template <- function(template, data = list(), package = "usethis") {
 find_template <- function(template_name, package = "usethis") {
   path <- system.file("templates", template_name, package = package)
   if (identical(path, "")) {
-    stop(
-      "Could not find template ", value(template_name),
-      " in package ", value(package),
-      call. = FALSE
-    )
+    stop(glue(
+      "Could not find template {value(template_name)}",
+      " in package {value(package)}"
+    ), call. = FALSE)
   }
   path
 }
 
 project_data <- function(base_path = proj_get()) {
   if (!is_proj(base_path)) {
-    stop(
-      value(base_path), " doesn't meet the usethis criteria for a project.\n",
-      "Read more in the help for ", code("proj_get()"), ".",
-      call. = FALSE
-    )
+    stop(glue(
+      "{value(base_path)} doesn't meet the usethis criteria for a project.\n",
+      "Read more in the help for {code(\"proj_get()\")}."
+    ), call. = FALSE)
   }
   if (is_package(base_path)) {
     data <- package_data(base_path)

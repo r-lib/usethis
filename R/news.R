@@ -19,7 +19,7 @@ use_news_heading <- function(version) {
   }
 
   news <- readLines(news_path)
-  title <- paste0("# ", project_name(), " ", version)
+  title <- glue("# {project_name()} {version}")
 
   if (title == news[[1]]) {
     return(invisible())

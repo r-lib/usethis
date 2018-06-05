@@ -37,14 +37,14 @@ use_travis <- function(browse = interactive()) {
 use_travis_badge <- function() {
   check_uses_github()
 
-  url <- file.path("https://travis-ci.org", github_owner(), github_repo())
-  img <- paste0(url, ".svg?branch=master")
+  url <- glue("https://travis-ci.org/{github_repo_spec()}")
+  img <- glue("{url}.svg?branch=master")
 
   use_badge("Travis build status", url, img)
 }
 
 travis_activate <- function(browse = interactive()) {
-  url <- file.path("https://travis-ci.org/profile", github_owner())
+  url <- glue("https://travis-ci.org/profile/{github_owner()}")
 
   todo("Turn on travis for your repo at ", url)
   if (browse) {
@@ -53,7 +53,7 @@ travis_activate <- function(browse = interactive()) {
 }
 
 uses_travis <- function(base_path = proj_get()) {
-  path <- file.path(base_path, ".travis.yml")
+  path <- glue("{base_path}/.travis.yml")
   file.exists(path)
 }
 
@@ -62,12 +62,11 @@ check_uses_travis <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop(
-    "Cannot detect that package ", value(project_name(base_path)),
+  stop(glue(
+    "Cannot detect that package {value(project_name(base_path))}",
     " already uses Travis.\n",
-    "Do you need to run ", code("use_travis()"), "?",
-    call. = FALSE
-  )
+    "Do you need to run {code('use_travis()')}?"
+  ), call. = FALSE)
 }
 
 #' @section `use_coverage()`:
@@ -109,26 +108,18 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
 
 use_codecov_badge <- function() {
   check_uses_github()
-  url <- paste0(
-    "https://codecov.io/github/", github_owner(), "/",
-    github_repo(), "?branch=master"
-  )
-  img <- file.path(
-    "https://codecov.io/gh", github_owner(), github_repo(),
-    "branch/master/graph/badge.svg"
+  url <- glue("https://codecov.io/github/{github_repo_spec()}?branch=master")
+  img <- glue(
+    "https://codecov.io/gh/{github_repo_spec()}/branch/master/graph/badge.svg"
   )
   use_badge("Coverage status", url, img)
 }
 
 use_coveralls_badge <- function() {
   check_uses_github()
-  url <- paste0(
-    "https://coveralls.io/r/", github_owner(), "/",
-    github_repo(), "?branch=master"
-  )
-  img <- file.path(
-    "https://coveralls.io/repos/github", github_owner(),
-    github_repo(), "badge.svg"
+  url <- glue("https://coveralls.io/r/{github_repo_spec()}?branch=master")
+  img <- glue(
+    "https://coveralls.io/repos/github/{github_repo_spec()}/badge.svg"
   )
   use_badge("Coverage status", url, img)
 }
@@ -165,19 +156,11 @@ use_appveyor_badge <- function() {
 
 appveyor_info <- function(base_path = proj_get()) {
   check_uses_github(base_path)
-  img <- paste0(
+  img <- glue(
     "https://ci.appveyor.com/api/projects/status/github/",
-    github_owner(),
-    "/",
-    github_repo(),
-    "?branch=master&svg=true"
+    "{github_repo_spec()}?branch=master&svg=true"
   )
-  url <- file.path(
-    "https://ci.appveyor.com",
-    "project",
-    github_owner(),
-    github_repo()
-  )
+  url <- glue("https://ci.appveyor.com/project/{github_repo_spec()}")
 
   list(url = url, img = img)
 }

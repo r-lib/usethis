@@ -87,7 +87,7 @@ github_link <- function(package = NULL) {
 cran_home <- function(package = NULL) {
   package <- package %||% project_name()
 
-  paste0("https://cran.r-project.org/package=", package)
+  glue("https://cran.r-project.org/package={package}")
 }
 
 github_url_rx <- function() {
@@ -111,5 +111,5 @@ github_url_rx <- function() {
 github_home <- function(package = NULL) {
   gh_link <- github_link(package)
   df <- rematch2::re_match(gh_link, github_url_rx())
-  file.path("https://github.com", df$owner, df$repo)
+  glue("https://github.com/{df$owner}/{df$repo}")
 }

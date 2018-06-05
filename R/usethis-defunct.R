@@ -10,9 +10,9 @@ NULL
 #' @rdname usethis-defunct
 #' @export
 use_depsy_badge <- function() {
-  msg <- paste0(
+  msg <- glue(
     "The Depsy project has officially concluded and is no longer ",
-    "being maintained. Therefore ", code('use_depsy_badge()'),
+    "being maintained. Therefore {code('use_depsy_badge()')}",
     " has been removed from usethis."
   )
   .Defunct(msg = msg)

@@ -1,8 +1,8 @@
 #' Use roxygen with markdown
 #'
 #' You'll need to manually re-document once enabled. If you are already using
-#' roxygen2, but not with markdown, the [roxygen2md](https://github.com/r-lib/roxygen2md) 
-#' package will be used to convert many Rd expressions to markdown. The 
+#' roxygen2, but not with markdown, the [roxygen2md](https://github.com/r-lib/roxygen2md)
+#' package will be used to convert many Rd expressions to markdown. The
 #' package uses heuristics, so you'll need to check the results.
 #'
 #' @export
@@ -22,7 +22,7 @@ use_roxygen_md <- function() {
     }
 
     todo("Run the following code, then re-document()")
-    code_block(paste0("roxygen2md::roxygen2md(\"", proj_get(), "\")"))
+    code_block(glue("roxygen2md::roxygen2md(\"{proj_get()}\")"))
   }
 
   invisible()

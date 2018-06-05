@@ -1,6 +1,6 @@
-bullet <- function(lines, bullet) {
-  lines <- paste0(bullet, " ", lines)
-  cat_line(lines)
+bullet <- function(line, bullet) {
+  line <- paste0(bullet, " ", line)
+  cat_line(line)
 }
 
 todo_bullet <- function() crayon::red(clisymbols::symbol$bullet)

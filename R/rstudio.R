@@ -66,7 +66,7 @@ use_blank_slate <- function(scope = c("user", "project")) {
   } # nocov end
 
   if (!is_rstudio_project()) {
-    stop(project_name(), " is not an RStudio Project", call. = FALSE)
+    stop(value(project_name()), " is not an RStudio Project", call. = FALSE)
   }
 
   rproj_fields <- modify_rproj(

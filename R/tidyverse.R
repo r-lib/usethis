@@ -157,9 +157,7 @@ use_tidy_contributing <- function() {
   use_template(
     "tidy-contributing.md",
     ".github/CONTRIBUTING.md",
-    data = list(
-      package = project_name()
-    )
+    data = list(package = project_name())
   )
 }
 
@@ -302,8 +300,8 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
   todo(length(contributors), " contributors identified")
   code_block(
     glue::glue_collapse(
-      glue::glue("[\\@{contributors}](https://github.com/{contributors})"),
-      ", ", last = ", and "
+      glue("[\\@{contributors}](https://github.com/{contributors})"),
+      sep = ", ", last = ", and "
     )
   )
   invisible(contributors)

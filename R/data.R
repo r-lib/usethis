@@ -73,8 +73,7 @@ get_objs_from_dots <- function(.dots) {
   if (length(duplicated_objs) > 0L) {
     objs <- unique(objs)
     warning(
-      "Saving duplicates only once: ",
-      paste(names(duplicated_objs), collapse = ", "),
+      "Saving duplicates only once: ", collapse(names(duplicated_objs)),
       call. = FALSE
     )
   }
@@ -94,7 +93,7 @@ check_files_absent <- function(base_path, paths, overwrite) {
   }
 
   stop(
-    paste(value(paths[!ok]), collapse = ", "), " already exist. ",
+    collapse(value(paths[!ok])), " already exist. ",
     "Use overwrite = TRUE to overwrite.",
     call. = FALSE
   )
