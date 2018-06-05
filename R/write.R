@@ -8,8 +8,9 @@ write_union <- function(path, new_lines, quiet = FALSE) {
   }
 
   new <- setdiff(new_lines, lines)
-  if (length(new) == 0)
+  if (length(new) == 0) {
     return(invisible(FALSE))
+  }
 
   if (!quiet) {
     done(glue("Adding {collapse(value(new))} to {value(path)}"))
@@ -20,20 +21,19 @@ write_union <- function(path, new_lines, quiet = FALSE) {
 }
 
 ## `contents` is a character vector of prospective lines
-write_over <- function(base_path, path, contents) {
+write_over <- function(path, contents) {
   stopifnot(is.character(contents), length(contents) > 0)
 
-  full_path <- file.path(base_path, path)
-  dir.create(dirname(full_path), showWarnings = FALSE)
-
-  if (same_contents(full_path, contents))
+  if (same_contents(path, contents)) {
     return(invisible(FALSE))
+  }
 
-  if (!can_overwrite(full_path))
+  if (!can_overwrite(path)) {
     stop(value(path), " already exists.", call. = FALSE)
+  }
 
   done("Writing ", value(path))
-  write_utf8(full_path, contents)
+  write_utf8(path, contents)
 }
 
 write_utf8 <- function(path, lines) {
@@ -52,8 +52,9 @@ write_utf8 <- function(path, lines) {
 }
 
 same_contents <- function(path, contents) {
-  if (!file.exists(path))
+  if (!file.exists(path)) {
     return(FALSE)
+  }
 
   identical(readLines(path), contents)
 }

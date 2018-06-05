@@ -39,7 +39,7 @@ use_template <- function(template,
                          open = FALSE,
                          package = "usethis") {
   template_contents <- render_template(template, data, package = package)
-  new <- write_over(proj_get(), save_as, template_contents)
+  new <- write_over(proj_path(save_as), template_contents)
 
   if (ignore) {
     use_build_ignore(save_as)
