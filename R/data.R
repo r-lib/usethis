@@ -37,13 +37,13 @@ use_data <- function(...,
 
   if (internal) {
     use_directory("R")
-    paths <- file.path("R", "sysdata.rda")
+    paths <- path("R", "sysdata.rda")
     objs <- list(objs)
   } else {
     use_directory("data")
-    paths <- file.path("data", paste0(objs, ".rda"))
+    paths <- path("data", objs, ext = "rda")
   }
-  check_files_absent(proj_get(), paths, overwrite = overwrite)
+  check_files_absent(proj_path(paths), overwrite = overwrite)
 
   done("Saving ", unlist(objs), " to ", paths, "\n")
 
@@ -80,13 +80,12 @@ get_objs_from_dots <- function(.dots) {
   objs
 }
 
-check_files_absent <- function(base_path, paths, overwrite) {
+check_files_absent <- function(paths, overwrite) {
   if (overwrite) {
     return()
   }
 
-  full_path <- file.path(base_path, paths)
-  ok <- !file.exists(full_path)
+  ok <- !file_exists(paths)
 
   if (all(ok)) {
     return()
@@ -106,6 +105,6 @@ use_data_raw <- function() {
   use_directory("data-raw", ignore = TRUE)
 
   message("Next:")
-  todo("Add data creation scripts in 'data-raw'")
-  todo("Use usethis::use_data() to add data to package")
+  todo("Add data creation scripts in ", value("data-raw"))
+  todo("Use ", code("usethis::use_data()"), " to add data to package")
 }
