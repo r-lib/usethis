@@ -45,8 +45,8 @@ use_badge <- function(badge_name, href, src) {
     return(invisible(FALSE))
   }
 
-  img <- glue("![{badge_name}]({src}")
-  link <- glue("[{img}]({href}")
+  img <- glue("![{badge_name}]({src})")
+  link <- glue("[{img}]({href})")
 
   todo(
     "Add a ",
