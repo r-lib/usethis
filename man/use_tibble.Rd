@@ -2,17 +2,32 @@
 % Please edit documentation in R/tibble.R
 \name{use_tibble}
 \alias{use_tibble}
-\title{Use tidyverse tibbles in your package}
+\title{Prepare to return a tibble}
 \usage{
 use_tibble()
 }
 \description{
-Does setup necessary to deal in objects of type \code{tbl_df} or "tibble" from
-your package. The tibble is the tidyverse's variant of the \code{data.frame}.
-\code{use_tibble()} ensures that tibbles returned by your package will use the
-tibble print method. Specifically, this function:
+Does minimum setup such that a tibble returned by your package
+is handled using the tibble method for generics like \code{print()} or \code{[}.
+Presumably you care about this if you've chosen to store and expose an
+object with class \code{tbl_df}. Specifically:
 \itemize{
-\item Adds tibble to "Imports" in DESCRIPTION
-\item Creates \code{R/utils-tibble.R} with the necessary roxygen template
+\item Check that the active package uses roxygen2
+\item Add the tibble package to "Imports" in DESCRIPTION
+\item Reveal the roxygen directive necessary to import at least one function
+from tibble.
+\item Offers support re: where to put this directive. Preferred location is
+in the roxygen snippet produced by \code{\link[=use_package_doc]{use_package_doc()}}.
+}
+
+This is necessary when your package returns a stored data object
+that has class \code{tbl_df}, but the package code does not make direct use of
+functions from the tibble package. If you do nothing, the tibble namespace
+is not necessarily loaded and your tibble may therefore be printed and
+subsetted like a base \code{data.frame}.
+}
+\examples{
+\dontrun{
+use_tibble()
 }
 }
