@@ -99,7 +99,7 @@ project_name <- function(base_path = proj_get()) {
   ## to learn package name from the path, in order to make DESCRIPTION
   ## and DESCRIPTION is how we recognize a package as a usethis project
   if (!is_proj(base_path)) {
-    return(basename(base_path))
+    return(path_file(base_path))
   }
 
   if (is_package(base_path)) {
@@ -218,7 +218,7 @@ use_dependency <- function(package, type, version = "*") {
 #' }
 use_directory <- function(path,
                           ignore = FALSE) {
-  if (!file.exists(proj_path(path))) {
+  if (!file_exists(proj_path(path))) {
     done("Creating ", value(path, "/"))
   }
   create_directory(proj_get(), path)
@@ -253,25 +253,21 @@ create_directory <- function(base_path, path) {
 }
 
 edit_file <- function(path) {
-  full_path <- path.expand(path)
-  create_directory(dirname(dirname(full_path)), basename(dirname(full_path)))
-
-  if (!file.exists(full_path)) {
-    file.create(full_path)
-  }
+  dir_create(path_dir(path), recursive = TRUE)
+  file_create(path)
 
   if (!interactive() || is_testing()) {
-    todo("Edit ", value(basename(path)))
+    todo("Edit ", value(proj_rel_path(path)))
   } else {
-    todo("Modify ", value(basename(path)))
+    todo("Modify ", value(proj_rel_path(path)))
 
     if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
-      rstudioapi::navigateToFile(full_path)
+      rstudioapi::navigateToFile(path)
     } else {
-      utils::file.edit(full_path)
+      utils::file.edit(path)
     }
   }
-  invisible(full_path)
+  invisible(path)
 }
 
 view_url <- function(..., open = interactive()) {

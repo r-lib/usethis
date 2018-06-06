@@ -32,6 +32,30 @@ test_that("create_directory() creates a directory", {
   expect_true(is_dir(new_dir))
 })
 
+test_that("edit_file() creates new directory and another and a file within", {
+  tmp <- file_temp()
+  expect_false(dir_exists(tmp))
+  capture.output(new_file <- edit_file(path(tmp, "new_dir", "new_file")))
+  expect_true(dir_exists(tmp))
+  expect_true(dir_exists(path(tmp, "new_dir")))
+  expect_true(file_exists(path(tmp, "new_dir", "new_file")))
+})
+
+test_that("edit_file() creates new file in existing directory", {
+  tmp <- file_temp()
+  dir_create(tmp)
+  capture.output(new_file <- edit_file(path(tmp, "new_file")))
+  expect_true(file_exists(path(tmp, "new_file")))
+})
+
+test_that("edit_file() copes with path to existing file", {
+  tmp <- file_temp()
+  dir_create(tmp)
+  existing <- file_create(path(tmp, "a_file"))
+  capture.output(res <- edit_file(path(tmp, "a_file")))
+  expect_identical(existing, res)
+})
+
 test_that("use_description_field() can address an existing field", {
   pkg <- scoped_temporary_package()
   orig <- tools::md5sum(proj_path("DESCRIPTION"))
