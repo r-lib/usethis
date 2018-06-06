@@ -33,9 +33,9 @@ use_test <- function(name = NULL, open = interactive()) {
     use_testthat()
   }
 
-  path <- file.path("tests", "testthat", filename)
+  path <- path("tests", "testthat", filename)
 
-  if (file.exists(proj_path(path))) {
+  if (file_exists(proj_path(path))) {
     edit_file(proj_path(path))
   } else {
     use_template(
@@ -51,8 +51,8 @@ use_test <- function(name = NULL, open = interactive()) {
 
 uses_testthat <- function(base_path = proj_get()) {
   paths <- c(
-    file.path(base_path, "inst", "tests"),
-    file.path(base_path, "tests", "testthat")
+    path(base_path, "inst", "tests"),
+    path(base_path, "tests", "testthat")
   )
 
   any(dir.exists(paths))
@@ -64,18 +64,21 @@ find_test_filename <- function(name = NULL) {
   }
 
   if (!rstudioapi::isAvailable()) {
-    stop("Argument ", code("name"), " is missing, with no default", call. = FALSE)
+    stop(
+      "Argument ", code("name"), " is missing, with no default",
+      call. = FALSE
+    )
   }
   active_file <- rstudioapi::getSourceEditorContext()$path
 
-  dir <- basename(dirname(active_file))
+  dir <- path_file(path_dir(active_file))
   if (dir != "R") {
-    stop("Open file not in `R/` directory", call. = FALSE)
+    stop("Open file not in ", code("R/"), " directory", call. = FALSE)
   }
 
   if (!grepl("\\.[Rr]$", active_file)) {
     stop("Open file is does not end in `.R`", call. = FALSE)
   }
 
-  paste0("test-", basename(active_file))
+  paste0("test-", path_file(active_file))
 }
