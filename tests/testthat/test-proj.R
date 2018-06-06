@@ -47,3 +47,17 @@ test_that("check_is_package() can reveal who's asking", {
   scoped_temporary_project()
   expect_error(check_is_package("foo"), "foo")
 })
+
+test_that("proj_path() appends to the project path", {
+  scoped_temporary_project()
+  expect_identical(
+    proj_path("a", "b", "c"),
+    as_fs_path(file.path(proj_get(), "a/b/c"))
+  )
+  expect_identical(proj_path("a", "b", "c"), proj_path("a/b/c"))
+})
+
+test_that("proj_rel_path() returns path part below the project", {
+  scoped_temporary_project()
+  expect_identical(proj_rel_path(proj_path("a/b/c")), as_fs_path("a/b/c"))
+})

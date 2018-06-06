@@ -109,3 +109,5 @@ proj_set <- function(path = ".", force = FALSE) {
 }
 
 proj_path <- function(..., ext = "") path(proj_get(), ..., ext = ext)
+
+proj_rel_path <- function(path) path_rel(path, start = proj_get())
