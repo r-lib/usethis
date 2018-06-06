@@ -52,7 +52,7 @@ test_that("proj_path() appends to the project path", {
   scoped_temporary_project()
   expect_equal(
     proj_path("a", "b", "c"),
-    file.path(proj_get(), "a/b/c")
+    path(proj_get(), "a/b/c")
   )
   expect_identical(proj_path("a", "b", "c"), proj_path("a/b/c"))
 })
