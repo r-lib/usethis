@@ -119,17 +119,3 @@ interactive <- function() {
 is_string <- function(x) {
   length(x) == 1 && is.character(x)
 }
-
-## inline a very stripped down version of httr::stop_for_status
-stop_for_status <- function (x) {
-  if (x < 300) {
-    return(invisible(x))
-  }
-
-  call <- sys.call(-1)
-
-  stop(structure(
-    list(message = paste("Failed with HTTP error", x), call = call),
-    class = c("http_error", "error", "condition")
-  ))
-}
