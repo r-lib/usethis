@@ -8,7 +8,7 @@
 #'   * Add the tibble package to "Imports" in DESCRIPTION
 #'   * Reveal the roxygen directive necessary to import at least one function
 #'     from tibble.
-#'   * Offers support re: where to put this directive. Preferred location is
+#'   * Offer support re: where to put this directive. Preferred location is
 #'     in the roxygen snippet produced by [use_package_doc()].
 #'
 #' @description This is necessary when your package returns a stored data object

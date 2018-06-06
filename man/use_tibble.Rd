@@ -16,7 +16,7 @@ object with class \code{tbl_df}. Specifically:
 \item Add the tibble package to "Imports" in DESCRIPTION
 \item Reveal the roxygen directive necessary to import at least one function
 from tibble.
-\item Offers support re: where to put this directive. Preferred location is
+\item Offer support re: where to put this directive. Preferred location is
 in the roxygen snippet produced by \code{\link[=use_package_doc]{use_package_doc()}}.
 }
 
