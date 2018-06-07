@@ -34,14 +34,15 @@ your PR.
 for documentation.  
 *  We use [testthat](https://cran.r-project.org/package=testthat). Contributions
 with test cases included are easier to accept.  
-*  For user-facing changes, add a bullet to the top of `NEWS.md` below the current
-development version header describing the changes made followed by your GitHub
-username, and links to relevant issue(s)/PR(s).
+*  For user-facing changes, add a bullet to the top of `NEWS.md` below the
+current development version header describing the changes made followed by your
+GitHub username, and links to relevant issue(s)/PR(s).
 
 ### Code of Conduct
 
-Please note that this project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to
-abide by its terms.
+Please note that the {{{ package }}} project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this
+project you agree to abide by its terms.
 
-### See tidyverse [development contributing guide](https://rstd.io/tidy-contrib) for further details.
+### See tidyverse [development contributing guide](https://rstd.io/tidy-contrib)
+for further details.
