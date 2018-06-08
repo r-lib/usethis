@@ -78,13 +78,18 @@ dots <- function(...) {
   eval(substitute(alist(...)))
 }
 
-slug <- function(x, ext) {
+asciify <- function(x) {
   stopifnot(is.character(x))
 
   x <- tolower(x)
-  x <- gsub("[^a-z0-9_]+", "-", x)
+  gsub("[^a-z0-9_]+", "-", x)
+}
 
-  paste0(x, ext)
+slug <- function(x, ext) {
+  x_base <- asciify(path_ext_remove(x))
+  x_ext <- path_ext(x)
+  ext <- if (identical(tolower(x_ext), tolower(ext))) x_ext else ext
+  path_ext_set(x_base, ext)
 }
 
 compact <- function(x) {
