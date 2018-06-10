@@ -16,7 +16,7 @@ use_code_of_conduct <- function(path = NULL) {
   if (!is.null(path)) {
     use_directory(path, ignore = is_package())
   }
-  save_as <- fs::path_join(c(path, "CODE_OF_CONDUCT.md"))
+  save_as <- path_join(c(path, "CODE_OF_CONDUCT.md"))
 
   use_template(
     "CODE_OF_CONDUCT.md",

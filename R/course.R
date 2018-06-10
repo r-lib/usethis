@@ -173,7 +173,7 @@ NULL
 download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   stopifnot(is_string(url))
   h <- curl::new_handle(noprogress = FALSE, progressfunction = progress_fun)
-  tmp <- fs::file_temp("usethis-use-course-")
+  tmp <- file_temp("usethis-use-course-")
   curl::curl_download(
     url, destfile = tmp, quiet = FALSE, mode = "wb", handle = h
   )
@@ -200,7 +200,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
       stop("Aborting", call. = FALSE)
     }
   }
-  full_path <- fs::path(base_path, base_name)
+  full_path <- path(base_path, base_name)
 
   if (!can_overwrite(full_path)) {
     ## TO DO: it pains me that can_overwrite() always strips to basename
@@ -211,7 +211,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
     "Downloaded ZIP file to ",
     if (is.null(destdir)) value(base_name) else value(full_path)
   )
-  fs::file_move(tmp, full_path)
+  file_move(tmp, full_path)
 }
 
 tidy_unzip <- function(zipfile) {
@@ -230,7 +230,7 @@ tidy_unzip <- function(zipfile) {
     target <- tools::file_path_sans_ext(zipfile)
     utils::unzip(zipfile, files = filenames, exdir = target)
   } else {
-    target <- file.path(dirname(zipfile), td)
+    target <- path(path_dir(zipfile), td)
     utils::unzip(zipfile, files = filenames, exdir = dirname(zipfile))
   }
   done(
@@ -264,8 +264,9 @@ normalize_url <- function(url) {
 
 conspicuous_place <- function() {
   Filter(dir.exists, c(
-    file.path(Sys.getenv("HOME"), "Desktop"), # typical macOS = ~/Desktop
-    file.path(Sys.getenv("USERPROFILE"), "Desktop"), # typical Windows Desktop
+    path(Sys.getenv("HOME"), "Desktop"), # typical macOS = ~/Desktop
+    ## TODO: think about this re: fs's approach to home directory
+    path(Sys.getenv("USERPROFILE"), "Desktop"), # typical Windows Desktop
     "~",
     getwd()
   ))[[1]]
