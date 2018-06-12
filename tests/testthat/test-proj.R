@@ -18,9 +18,9 @@ test_that("proj_set() errors if no criteria are fulfilled", {
 })
 
 test_that("proj_set() can be forced, even if no criteria are fulfilled", {
-  tmpdir <- tempfile(pattern = "i-am-not-a-project")
+  tmpdir <- file_temp(pattern = "i-am-not-a-project")
   on.exit(unlink(tmpdir, recursive = TRUE))
-  dir.create(tmpdir)
+  dir_create(tmpdir)
   expect_error_free(proj_set(tmpdir, force = TRUE))
   expect_identical(proj$cur, tmpdir)
   expect_error_free(proj_get())

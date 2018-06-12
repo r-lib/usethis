@@ -59,7 +59,7 @@ edit_git_config <- function(scope = c("user", "project")) {
   path <- switch(
     scope,
     user = ".gitconfig",
-    project = file.path(".git", "config")
+    project = path(".git", "config")
   )
   invisible(edit_file(scoped_git_path(scope, path)))
 }
@@ -94,8 +94,8 @@ git_ignore_path <- function(scope) {
 }
 
 
-scoped_path <- function(scope, ...) file.path(scope_dir(scope), ...)
-scoped_git_path <- function(scope, ...) file.path(scope_git_dir(scope), ...)
+scoped_path <- function(scope, ...) path(scope_dir(scope), ...)
+scoped_git_path <- function(scope, ...) path(scope_git_dir(scope), ...)
 
 
 scope_dir <- function(scope = c("user", "project")) {

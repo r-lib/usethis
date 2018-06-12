@@ -31,8 +31,8 @@ use_tibble <- function() {
   use_dependency("tibble", "Imports")
 
   directive <- "#' @importFrom tibble tibble"
-  package_doc <- file.path("R", paste0(project_name(), "-package.R"))
-  if (file.exists(package_doc)) {
+  package_doc <- path("R", paste0(project_name(), "-package"), ext = "R")
+  if (file_exists(package_doc)) {
     todo(
       "Add this line to the roxygen header for package-level docs ",
       value(package_doc), ":"

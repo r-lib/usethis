@@ -187,8 +187,11 @@ use_github_links <- function(auth_token = NULL,
   )
 
   use_description_field("URL", res$html_url, overwrite = overwrite)
-  use_description_field("BugReports", file.path(res$html_url, "issues"),
-    overwrite = overwrite)
+  use_description_field(
+    "BugReports",
+    path(res$html_url, "issues"),
+    overwrite = overwrite
+  )
 
   invisible()
 }

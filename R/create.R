@@ -75,7 +75,7 @@ create_project <- function(path,
       code("here::here()")
     )
     todo("Learn more at https://krlmlr.github.io/here/")
-    writeLines(character(), file.path(path, ".here"))
+    file_create(proj_path(".here"))
   }
   if (open) {
     open_project(path, name, rstudio = rstudio)
@@ -201,9 +201,9 @@ create_from_github <- function(repo_spec,
 }
 
 open_project <- function(path, name, rstudio = NA) {
-  project_path <- file.path(normalizePath(path), paste0(name, ".Rproj"))
+  project_path <- path(path_norm(path), path_set_ext(name, "Rproj"))
   if (is.na(rstudio)) {
-    rstudio <- file.exists(project_path)
+    rstudio <- file_exists(project_path)
   }
 
   if (rstudio && rstudioapi::hasFun("openProject")) {
