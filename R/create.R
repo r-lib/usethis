@@ -29,17 +29,12 @@ create_package <- function(path,
                            fields = NULL,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
-  path <- normalizePath(path, mustWork = FALSE)
-
-  name <- basename(path)
+  name <- path_file(path)
   check_package_name(name)
-  check_not_nested(dirname(path), name)
+  check_not_nested(path_dir(path), name)
 
-  create_directory(dirname(path), name)
+  create_directory(path_dir(path), name)
   cat_line(crayon::bold("Changing active project to", crayon::red(name)))
-  ## the initial normalizePath() may not have returned an absolute path,
-  ## if the path did not yet exist
-  path <- normalizePath(path, mustWork = TRUE)
   proj_set(path, force = TRUE)
 
   use_directory("R")
@@ -62,16 +57,11 @@ create_package <- function(path,
 create_project <- function(path,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
-  path <- normalizePath(path, mustWork = FALSE)
+  name <- path_file(path)
+  check_not_nested(path_dir(path), name)
 
-  name <- basename(path)
-  check_not_nested(dirname(path), name)
-
-  create_directory(dirname(path), name)
+  create_directory(path_dir(path), name)
   cat_line(crayon::bold("Changing active project to", crayon::red(name)))
-  ## the initial normalizePath() may not have returned an absolute path,
-  ## if the path did not yet exist
-  path <- normalizePath(path, mustWork = TRUE)
   proj_set(path, force = TRUE)
 
   use_directory("R")

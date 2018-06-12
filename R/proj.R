@@ -92,7 +92,7 @@ proj_set <- function(path = ".", force = FALSE) {
   check_is_dir(path)
 
   if (force) {
-    proj$cur <- path
+    proj$cur <- path_norm(path)
     return(invisible(old))
   }
 
