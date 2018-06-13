@@ -104,7 +104,7 @@ proj_set <- function(path = ".", force = FALSE) {
       call. = FALSE
     )
   }
-  proj$cur <- new_proj
+  proj$cur <- path_norm(new_proj)
   invisible(old)
 }
 
