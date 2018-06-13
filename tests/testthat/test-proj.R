@@ -22,8 +22,7 @@ test_that("proj_set() can be forced, even if no criteria are fulfilled", {
   on.exit(unlink(tmpdir, recursive = TRUE))
   dir_create(tmpdir)
   expect_error_free(proj_set(tmpdir, force = TRUE))
-  expect_identical(proj$cur, tmpdir)
-  expect_error_free(proj_get())
+  expect_identical(proj_get(), path_real(tmpdir))
   expect_error(
     proj_set(proj_get()),
     "does not appear to be inside a project or package"

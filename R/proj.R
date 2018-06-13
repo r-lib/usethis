@@ -92,7 +92,7 @@ proj_set <- function(path = ".", force = FALSE) {
   check_is_dir(path)
 
   if (force) {
-    proj$cur <- path_norm(path)
+    proj$cur <- path_real(path)
     return(invisible(old))
   }
 
@@ -104,7 +104,7 @@ proj_set <- function(path = ".", force = FALSE) {
       call. = FALSE
     )
   }
-  proj$cur <- path_norm(new_proj)
+  proj$cur <- path_real(new_proj)
   invisible(old)
 }
 
