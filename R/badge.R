@@ -129,7 +129,7 @@ use_binder_badge <- function() {
 
 has_badge <- function(href) {
   readme_path <- proj_path("README.md")
-  if (!file.exists(readme_path)) {
+  if (!file_exists(readme_path)) {
     return(FALSE)
   }
 

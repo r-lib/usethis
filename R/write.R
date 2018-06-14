@@ -1,7 +1,7 @@
 write_union <- function(path, new_lines, quiet = FALSE) {
   stopifnot(is.character(new_lines))
 
-  if (file.exists(path)) {
+  if (file_exists(path)) {
     lines <- readLines(path, warn = FALSE)
   } else {
     lines <- character()
@@ -54,7 +54,7 @@ write_utf8 <- function(path, lines) {
 }
 
 same_contents <- function(path, contents) {
-  if (!file.exists(path)) {
+  if (!file_exists(path)) {
     return(FALSE)
   }
 

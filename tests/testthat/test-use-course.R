@@ -21,7 +21,7 @@ test_that("normalize_url() prepends https:// (or not)", {
 test_that("conspicuous_place() returns a writeable directory", {
   expect_error_free(x <- conspicuous_place())
   expect_true(is_dir(x))
-  expect_equivalent(file.access(x, mode = 2), 0L)
+  expect_true(file_access(x, mode = "write"))
 })
 
 test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
@@ -185,20 +185,23 @@ test_that("top_directory() identifies a unique top directory (or not)", {
 })
 
 test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
-  tmp <- tempfile(fileext = ".zip")
-  file.copy(test_file("yo-loose-regular.zip"), tmp)
+  tmp <- file_temp(ext = ".zip")
+  file_copy(test_file("yo-loose-regular.zip"), tmp)
   capture_output(dest <- tidy_unzip(tmp))
-  loose_regular_files <- list.files(dest, recursive = TRUE)
+  loose_regular_files <- path_file(dir_ls(dest, recursive = TRUE))
+  dir_delete(dest)
 
-  tmp <- tempfile(fileext = ".zip")
-  file.copy(test_file("yo-loose-dropbox.zip"), tmp)
+  tmp <- file_temp(ext = ".zip")
+  file_copy(test_file("yo-loose-dropbox.zip"), tmp)
   capture_output(dest <- tidy_unzip(tmp))
-  loose_dropbox_files <- list.files(dest, recursive = TRUE)
+  loose_dropbox_files <- path_file(dir_ls(dest, recursive = TRUE))
+  dir_delete(dest)
 
-  tmp <- tempfile(fileext = ".zip")
-  file.copy(test_file("yo-not-loose.zip"), tmp)
+  tmp <- file_temp(ext = ".zip")
+  file_copy(test_file("yo-not-loose.zip"), tmp)
   capture_output(dest <- tidy_unzip(tmp))
-  not_loose_files <- list.files(dest, recursive = TRUE)
+  not_loose_files <- path_file(dir_ls(dest, recursive = TRUE))
+  dir_delete(dest)
 
   expect_identical(loose_regular_files, loose_dropbox_files)
   expect_identical(loose_dropbox_files, not_loose_files)

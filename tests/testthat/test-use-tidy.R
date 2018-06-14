@@ -42,7 +42,7 @@ test_that("use_tidy_eval() inserts the template file and Imports rlang", {
     use_description_field(name = "RoxygenNote", value = "6.0.1.9000")
   )
   capture_output(use_tidy_eval())
-  expect_match(list.files(proj_path("R")), "utils-tidy-eval.R")
+  expect_match(dir_ls(proj_path("R")), "utils-tidy-eval.R")
   expect_match(desc::desc_get("Imports", pkg), "rlang")
 })
 
@@ -55,10 +55,10 @@ test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
       capture_output(use_tidy_issue_template())
       capture_output(use_tidy_support())
       capture_output(use_tidy_coc())
-      expect_true(file.exists(proj_path(".github/CONTRIBUTING.md")))
-      expect_true(file.exists(proj_path(".github/ISSUE_TEMPLATE.md")))
-      expect_true(file.exists(proj_path(".github/SUPPORT.md")))
-      expect_true(file.exists(proj_path(".github/CODE_OF_CONDUCT.md")))
+      expect_true(file_exists(proj_path(".github/CONTRIBUTING.md")))
+      expect_true(file_exists(proj_path(".github/ISSUE_TEMPLATE.md")))
+      expect_true(file_exists(proj_path(".github/SUPPORT.md")))
+      expect_true(file_exists(proj_path(".github/CODE_OF_CONDUCT.md")))
       expect_true(is_build_ignored("^\\.github$"))
     }
   )
@@ -70,10 +70,10 @@ test_that("use_tidy_github() adds and Rbuildignores files", {
     `gh::gh_tree_remote` = function(path) list(username = "USER", repo = "REPO"), {
       scoped_temporary_package()
       capture_output(use_tidy_github())
-      expect_true(file.exists(proj_path(".github/CONTRIBUTING.md")))
-      expect_true(file.exists(proj_path(".github/ISSUE_TEMPLATE.md")))
-      expect_true(file.exists(proj_path(".github/SUPPORT.md")))
-      expect_true(file.exists(proj_path(".github/CODE_OF_CONDUCT.md")))
+      expect_true(file_exists(proj_path(".github/CONTRIBUTING.md")))
+      expect_true(file_exists(proj_path(".github/ISSUE_TEMPLATE.md")))
+      expect_true(file_exists(proj_path(".github/SUPPORT.md")))
+      expect_true(file_exists(proj_path(".github/CODE_OF_CONDUCT.md")))
       expect_true(is_build_ignored("^\\.github$"))
     }
   )

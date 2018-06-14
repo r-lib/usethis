@@ -70,10 +70,10 @@ use_blank_slate <- function(scope = c("user", "project")) {
   }
 
   rproj_fields <- modify_rproj(
-    proj_path(rproj_path()),
+    rproj_path(),
     list(RestoreWorkspace = "No", SaveWorkspace = "No")
   )
-  write_utf8(proj_path(rproj_path()), serialize_rproj(rproj_fields))
+  write_utf8(rproj_path(), serialize_rproj(rproj_fields))
   restart_rstudio("Restart RStudio with a blank slate?")
 
   invisible()
@@ -89,7 +89,7 @@ is_rstudio_project <- function(base_path = proj_get()) {
 }
 
 rproj_path <- function(base_path = proj_get()) {
-  rproj_path <- dir(base_path, pattern = "\\.Rproj$")
+  rproj_path <- dir_ls(base_path, regexp = "[.]Rproj$")
   if (length(rproj_path) > 1) {
     stop("Multiple .Rproj files found", call. = FALSE)
   }
@@ -108,7 +108,7 @@ in_rstudio <- function(base_path = proj_get()) {
 
   proj <- rstudioapi::getActiveProject()
 
-  normalizePath(proj) == normalizePath(base_path)
+  path_real(proj) == path_real(base_path)
 }
 
 in_rstudio_server <- function() {

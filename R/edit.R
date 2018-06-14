@@ -69,7 +69,7 @@ edit_git_config <- function(scope = c("user", "project")) {
 edit_git_ignore <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   file <- git_ignore_path(scope)
-  if (scope == "user" && !file.exists(file)) {
+  if (scope == "user" && !file_exists(file)) {
     done(
       "Adding new global gitignore to your git config: ",
       value(".gitignore")
@@ -86,9 +86,9 @@ git_ignore_path <- function(scope) {
   if (scope == "project") {
     return(path)
   }
-  if (!file.exists(path)) {
+  if (!file_exists(path)) {
     alt_path <- scoped_git_path("user", ".gitignore_global")
-    path <- if (file.exists(alt_path)) alt_path else path
+    path <- if (file_exists(alt_path)) alt_path else path
   }
   path
 }
@@ -102,7 +102,7 @@ scope_dir <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   switch(
     scope,
-    user = path.expand("~"),
+    user = path_home(),
     project = proj_get()
   )
 }
@@ -120,6 +120,6 @@ git_user_dot_home <- function() {
   if (.Platform$OS.type == "windows") {
     Sys.getenv("USERPROFILE")
   } else {
-    path.expand("~")
+    path_home()
   }
 }

@@ -4,7 +4,7 @@ pkgname <- "fghij"
 protocol <- "ssh"
 #protocol <- "https"
 
-pkgpath <- file.path(tempdir(), pkgname)
+pkgpath <- path_temp(pkgname)
 create_package(pkgpath, open = FALSE)
 
 ## should fail, not a git repo yet
@@ -22,7 +22,7 @@ withr::with_envvar(
 use_github(protocol = protocol)
 
 ## delete local and remote repo
-unlink(pkgpath, recursive = TRUE)
+dir_delete(pkgpath)
 (gh_account <- gh::gh_whoami())
 gh::gh(
   "DELETE /repos/:username/:pkg",

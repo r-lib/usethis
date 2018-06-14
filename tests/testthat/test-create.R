@@ -14,7 +14,7 @@ test_that("create_project() creates a non-package project", {
 
 test_that("nested package is disallowed, by default", {
   dir <- scoped_temporary_package()
-  expect_error(scoped_temporary_package(file.path(dir, "man")), "nested")
+  expect_error(scoped_temporary_package(path(dir, "man")), "nested")
 })
 
 test_that("nested project is disallowed, by default", {
@@ -28,7 +28,7 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
   ## take care to provide a **non-absolute** path
   path_package <- path_file(file_temp(pattern = "aaa"))
   withr::with_dir(
-    tempdir(), {
+    path_temp(), {
       ## better than proj_get() here because won't error if not in project
       old_proj <- proj$cur
       capture_output(
@@ -42,7 +42,7 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
 
   path_project <- path_file(file_temp(pattern = "aaa"))
   withr::with_dir(
-    tempdir(), {
+    path_temp(), {
       old_proj <- proj$cur
       capture_output(
         create_project(path_project, rstudio = FALSE, open = FALSE)

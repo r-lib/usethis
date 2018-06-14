@@ -177,7 +177,7 @@ create_from_github <- function(repo_spec,
   done("Cloning repo from ", value(origin_url), " into ", value(repo_path))
   git2r::clone(
     origin_url,
-    normalizePath(repo_path, mustWork = FALSE),
+    path_real(repo_path),
     credentials = credentials,
     progress = FALSE
   )
@@ -201,7 +201,7 @@ create_from_github <- function(repo_spec,
 }
 
 open_project <- function(path, name, rstudio = NA) {
-  project_path <- path(path_norm(path), path_set_ext(name, "Rproj"))
+  project_path <- path(path_norm(path), path_ext_set(name, "Rproj"))
   if (is.na(rstudio)) {
     rstudio <- file_exists(project_path)
   }

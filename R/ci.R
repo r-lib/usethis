@@ -54,7 +54,7 @@ travis_activate <- function(browse = interactive()) {
 
 uses_travis <- function(base_path = proj_get()) {
   path <- glue("{base_path}/.travis.yml")
-  file.exists(path)
+  file_exists(path)
 }
 
 check_uses_travis <- function(base_path = proj_get()) {

@@ -227,11 +227,11 @@ tidy_unzip <- function(zipfile) {
   loose_parts <- is.na(td)
 
   if (loose_parts) {
-    target <- tools::file_path_sans_ext(zipfile)
+    target <- path_ext_remove(zipfile)
     utils::unzip(zipfile, files = filenames, exdir = target)
   } else {
     target <- path(path_dir(zipfile), td)
-    utils::unzip(zipfile, files = filenames, exdir = dirname(zipfile))
+    utils::unzip(zipfile, files = filenames, exdir = path_dir(zipfile))
   }
   done(
     "Unpacking ZIP file into ", value(target),
@@ -241,7 +241,7 @@ tidy_unzip <- function(zipfile) {
   if (interactive()) {
     if (yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
       done("Deleting ", value(zipfile))
-      unlink(zipfile)
+      file_delete(zipfile)
     }
 
     if (is_rstudio_project(target) && rstudioapi::hasFun("openProject")) {
@@ -249,7 +249,7 @@ tidy_unzip <- function(zipfile) {
       rstudioapi::openProject(target, newSession = TRUE)
     } else if (!in_rstudio_server()) {
       done("Opening ", value(target), " in the file manager")
-      utils::browseURL(normalizePath(target))
+      utils::browseURL(path_real(target))
     }
   }
 
@@ -349,7 +349,7 @@ progress_fun <- function(down, up) {
 }
 
 make_filename <- function(cd,
-                          fallback = basename(tempfile())) {
+                          fallback = path_file(file_temp())) {
   ## TO DO(jennybc): the element named 'filename*' is preferred but I'm not
   ## sure how to parse it yet, so targetting 'filename' for now
   ## https://tools.ietf.org/html/rfc6266

@@ -1,5 +1,5 @@
 can_overwrite <- function(path) {
-  if (!file.exists(path)) {
+  if (!file_exists(path)) {
     return(TRUE)
   }
 
@@ -53,7 +53,7 @@ check_is_dir <- function(x) {
 }
 
 check_is_empty <- function(x) {
-  files <- list.files(x)
+  files <- dir_ls(x)
   if (length(files) > 0) {
     stop(value(x), " exists and is not an empty directory", call. = FALSE)
   }

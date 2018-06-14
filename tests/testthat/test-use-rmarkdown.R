@@ -3,7 +3,7 @@ context("use_rmarkdown_template")
 test_that("use_rmarkdown_template() creates everything as promised, defaults", {
   scoped_temporary_package()
   capture_output(use_rmarkdown_template())
-  path <- file.path("inst", "rmarkdown", "templates", "template-name")
+  path <- path("inst", "rmarkdown", "templates", "template-name")
   yml <- readLines(proj_path(path, "template.yaml"))
   expect_true(
     all(
@@ -12,7 +12,7 @@ test_that("use_rmarkdown_template() creates everything as promised, defaults", {
     )
   )
   expect_true(
-    file.exists(proj_path(path, "skeleton", "skeleton.Rmd"))
+    file_exists(proj_path(path, "skeleton", "skeleton.Rmd"))
   )
 })
 
@@ -24,7 +24,7 @@ test_that("use_rmarkdown_template() creates everything as promised, args", {
     template_description = "ccc",
     template_create_dir = TRUE
   ))
-  path <- file.path("inst", "rmarkdown", "templates", "bbb")
+  path <- path("inst", "rmarkdown", "templates", "bbb")
   yml <- readLines(proj_path(path, "template.yaml"))
   expect_true(
     all(
@@ -32,6 +32,6 @@ test_that("use_rmarkdown_template() creates everything as promised, args", {
     )
   )
   expect_true(
-    file.exists(proj_path(path, "skeleton", "skeleton.Rmd"))
+    file_exists(proj_path(path, "skeleton", "skeleton.Rmd"))
   )
 })

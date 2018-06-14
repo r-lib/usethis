@@ -14,7 +14,7 @@ use_news_md <- function(open = interactive()) {
 
 use_news_heading <- function(version) {
   news_path <- proj_path("NEWS.md")
-  if (!file.exists(news_path)) {
+  if (!file_exists(news_path)) {
     return(invisible())
   }
 
