@@ -70,6 +70,7 @@ use_git_hook <- function(hook, script) {
 #' @export
 use_git_ignore <- function(ignores, directory = ".") {
   write_union(
+    ## path_norm() needed for this: './.gitignore' --> '.gitignore'
     proj_path(path_norm(path(directory, ".gitignore"))),
     ignores
   )
