@@ -356,46 +356,15 @@ make_filename <- function(cd,
   cd <- cd[["filename"]]
   if (is.null(cd) || is.na(cd)) {
     stopifnot(is_string(fallback))
-    return(sanitize_filename(fallback))
+    return(path_sanitize(fallback))
   }
 
   ## I know I could use regex and lookahead but this is easier for me to
   ## maintain
   cd <- sub("^\"(.+)\"$", "\\1", cd)
 
-  sanitize_filename(cd)
+  path_sanitize(cd)
 }
-
-## replace this with something more robust when exists
-## https://github.com/r-lib/fs/issues/32
-## in the meantime ...
-## 1. take basename
-## 2. URL encode it
-## 3. Replace remaining obvious no-no's: C0 and C1 control characters, ".",
-##    "..", Windows reserved filenames, trailing dot or space (Windows thing)
-## 4. Truncate to 255 characters
-sanitize_filename <- function(x) {
-  x <- vapply(
-    basename(x),
-    function(z) utils::URLencode(z, reserved = TRUE),
-    character(1),
-    USE.NAMES = FALSE
-  )
-
-  alt <- "_"
-  x <- gsub(control_regex, alt, x)
-  x <- gsub(unix_reserved_regex, alt, x)
-  x <- gsub(windows_reserved_regex, alt, x, ignore.case = TRUE)
-  x <- gsub(windows_trailing_regex, alt, x)
-  substr(x, start = 1, stop = 255)
-}
-
-## R itself will truncate and warn on \x00 = embedded nul, leave it off
-control_regex <- "[\x01-\x1f\x80-\x9f]"
-unix_reserved_regex <- "^[.]{1,2}$"
-## https://msdn.microsoft.com/en-us/library/aa365247.aspx
-windows_reserved_regex <- "^(con|prn|aux|nul|com[0-9]|lpt[0-9])([.].*)?$"
-windows_trailing_regex <- "[. ]+$"
 
 ## https://stackoverflow.com/questions/21322614/use-curl-to-download-a-dropbox-folder-via-shared-link-not-public-link
 ## lesson: if using cURL, you'd want these options
