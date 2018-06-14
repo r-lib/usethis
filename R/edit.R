@@ -45,7 +45,7 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 edit_rstudio_snippets <- function(type = "R") {
   file <- scoped_path(
     "user",
-    ".R", "snippets", paste0(tolower(type), ".snippets")
+    ".R", "snippets", path_ext_set(tolower(type), "snippets")
   )
   invisible(edit_file(file))
 }

@@ -14,12 +14,12 @@
 use_rstudio <- function() {
   use_template(
     "template.Rproj",
-    paste0(project_name(), ".Rproj")
+    path_ext_set(project_name(), "Rproj")
   )
 
   use_git_ignore(".Rproj.user")
   if (is_package()) {
-    use_build_ignore(c(paste0(project_name(), ".Rproj"), ".Rproj.user"))
+    use_build_ignore(c(path_ext_set(project_name(), "Rproj"), ".Rproj.user"))
   }
 
   invisible(TRUE)
