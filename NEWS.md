@@ -16,7 +16,11 @@
 
 * `use_github()` fails earlier, with a more informative message, in the absence of a GitHub personal access token (PAT). Also looks for the PAT more proactively in the usual environment variables (i.e., GITHUB_PAT, GITHUB_TOKEN) (#320, #340, @cderv).
 
-* usethis newly depends on fs and, before the next release, will use it for all file and path operations. (#177)
+* All file system operations use the [fs]() package (#177). Therefore backports is no longer a dependency. This should not change how usethis functions, but users may notice these features of fs-mediated paths:
+
+  - Paths are "tidy", meaning `/` is the path separator and there are never multiple or trailing `/`.
+  - Paths are UTF-8 encoded.
+  - A Windows user's home directory is interpreted as `USERPROFILE` or `HOMEDRIVE`/`HOMEPATH`, by default. Read more in [`fs::path_expand()`]().
 
 * `use_spell_check()` is a new function that adds a whitelist of words and a unit test to spell check package documentation during `R CMD check` (#285 @jeroen).
 
