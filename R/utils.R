@@ -43,7 +43,7 @@ yep <- function(...) ask_user(..., true_for = "yes")
 
 check_is_dir <- function(x) {
   ## "checking it twice" for robustness to trailing slash issues on Windows
-  if (!file.exists(x) && !dir.exists(x)) {
+  if (!file_exists(x) && !dir_exists(x)) {
     stop("Directory does not exist:\n", value(x), call. = FALSE)
   }
   if (!is_dir(x)) {

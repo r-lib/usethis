@@ -135,7 +135,7 @@ create_from_github <- function(repo_spec,
   repo <- spec_repo(repo_spec)
 
   repo_path <- create_directory(destdir, repo)
-  if (dir.exists(repo_path)) {
+  if (dir_exists(repo_path)) {
     check_is_empty(repo_path)
   }
 
