@@ -12,14 +12,12 @@
 #'
 #' @export
 use_rstudio <- function() {
-  use_template(
-    "template.Rproj",
-    path_ext_set(project_name(), "Rproj")
-  )
+  rproj_file <- path_ext_set(project_name(), "Rproj")
+  use_template("template.Rproj", rproj_file)
 
   use_git_ignore(".Rproj.user")
   if (is_package()) {
-    use_build_ignore(c(path_ext_set(project_name(), "Rproj"), ".Rproj.user"))
+    use_build_ignore(c(rproj_file, ".Rproj.user"))
   }
 
   invisible(TRUE)

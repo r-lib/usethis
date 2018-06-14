@@ -21,9 +21,10 @@
 #'   that the directory can be recognized as a project by the
 #'   [here](https://krlmlr.github.io/here/) or
 #'   [rprojroot](https://krlmlr.github.io/rprojroot/) packages.
-#' @param open If `TRUE` and in RStudio, the new project is opened in a new
-#'   instance, if possible, or is switched to, otherwise. If `TRUE` and not
-#'   in RStudio, working directory is set to the new project.
+#' @param open If `TRUE` and in RStudio, a new RStudio project is opened in a
+#'   new instance, if possible, or is switched to, otherwise. If `TRUE` and not
+#'   in RStudio (or new project is not an RStudio project), working directory is
+#'   set to the new project.
 #' @export
 create_package <- function(path,
                            fields = NULL,
@@ -46,7 +47,7 @@ create_package <- function(path,
     use_rstudio()
   }
   if (open) {
-    open_project(path, name, rstudio = rstudio)
+    open_project(proj_get())
   }
 
   invisible(TRUE)
@@ -78,7 +79,7 @@ create_project <- function(path,
     file_create(proj_path(".here"))
   }
   if (open) {
-    open_project(path, name, rstudio = rstudio)
+    open_project(proj_get())
   }
 
   invisible(TRUE)
@@ -196,19 +197,19 @@ create_from_github <- function(repo_spec,
   }
 
   if (open) {
-    open_project(repo_path, repo)
+    open_project(proj_get())
   }
 }
 
-open_project <- function(path, name, rstudio = NA) {
-  project_path <- path(path_norm(path), path_ext_set(name, "Rproj"))
+open_project <- function(path, rstudio = NA) {
+  rproj_path <- rproj_path(path)
   if (is.na(rstudio)) {
-    rstudio <- file_exists(project_path)
+    rstudio <- !is.na(rproj_path)
   }
 
   if (rstudio && rstudioapi::hasFun("openProject")) {
     done("Opening project in RStudio")
-    rstudioapi::openProject(project_path, newSession = TRUE)
+    rstudioapi::openProject(rproj_path, newSession = TRUE)
   } else {
     setwd(path)
     done("Changing working directory to ", value(path))
