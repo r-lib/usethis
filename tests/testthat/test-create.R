@@ -69,7 +69,7 @@ test_that("rationalize_fork() won't attempt to fork w/o PAT", {
   )
   expect_error(
     rationalize_fork(fork = TRUE, repo_info = list(), pat_available = FALSE),
-    "No GitHub Personal Access Token available"
+    "No GitHub .+auth_token.+"
   )
 })
 

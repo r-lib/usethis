@@ -1,10 +1,10 @@
-load_all()
+devtools::load_all()
 
 pkgname <- "fghij"
-protocol <- "ssh"
-#protocol <- "https"
+#protocol <- "ssh"
+protocol <- "https"
 
-pkgpath <- path_temp(pkgname)
+(pkgpath <- path_temp(pkgname))
 create_package(pkgpath, open = FALSE)
 
 ## should fail, not a git repo yet

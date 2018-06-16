@@ -1,11 +1,13 @@
-load_all()
+devtools::load_all()
 library(testthat)
 
 ## this repo was chosen because it was first one listed for the cran gh user
-## i.e., totally arbitrary
+## the day I made this, i.e., it's totally arbitrary
+
+## make sure local copy does not exist
 dir_delete("~/Desktop/TailRank/")
 
-## I assume a PAT is configured
+## I assume a GitHub PAT is configured
 gh::gh_whoami()
 
 ## create from repo I do not have push access to
@@ -33,13 +35,13 @@ expect_setequal(
 )
 dir_delete("~/Desktop/TailRank/")
 
-## a repo I created just for testing
+## a repo I created just for testing, make sure local copy doesn't pre-exist
 dir_delete("~/Desktop/ethel/")
 
 ## create from repo I DO have push access to
 ## fork = FALSE
 create_from_github("jennybc/ethel", fork = FALSE)
-## make a local edit and push to confirm origin remote is properly setup
+## go make a local edit and push to confirm origin remote is properly setup
 dir_delete("~/Desktop/ethel")
 
 ## create from repo I do have push access to
@@ -88,3 +90,5 @@ dir_delete("~/Desktop/TailRank")
 ## fork = TRUE, explicitly provide token
 create_from_github("cran/TailRank", fork = TRUE, auth_token = token)
 ## fork and clone
+
+dir_delete("~/Desktop/TailRank")

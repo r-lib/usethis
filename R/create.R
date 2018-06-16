@@ -182,16 +182,16 @@ create_from_github <- function(repo_spec,
     credentials = credentials,
     progress = FALSE
   )
-  repo_path <- proj_set(repo_path)
+  proj_set(repo_path)
 
   if (fork) {
     r <- git2r::repository(proj_get())
-    done("Adding ", value("upstream"), " remote: ", value(upstream_url))
+    done(glue("Adding {value('upstream')} remote: {value(upstream_url)}"))
     git2r::remote_add(r, "upstream", upstream_url)
   }
 
   rstudio <- rstudio %||% rstudioapi::isAvailable()
-  rstudio <- rstudio && !is_rstudio_project(repo_path)
+  rstudio <- rstudio && !is_rstudio_project(proj_get())
   if (rstudio) {
     use_rstudio()
   }
@@ -256,9 +256,7 @@ rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
   }
 
   if (fork && !pat_available) {
-    stop(
-      "No GitHub Personal Access Token available. Can't fork.", call. = FALSE
-    )
+    check_gh_token(auth_token = NULL)
   }
 
   if (fork && identical(user, owner)) {
