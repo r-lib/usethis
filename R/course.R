@@ -172,6 +172,9 @@ NULL
 
 download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   stopifnot(is_string(url))
+  base_path <- destdir
+  check_is_dir(base_path)
+
   h <- curl::new_handle(noprogress = FALSE, progressfunction = progress_fun)
   tmp <- file_temp("usethis-use-course-")
   curl::curl_download(
@@ -181,9 +184,6 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   cat_line()
 
   cd <- content_disposition(h)
-
-  base_path <- destdir
-  check_is_dir(base_path)
   base_name <- make_filename(cd, fallback = basename(url))
 
   ## DO YOU KNOW WHERE YOUR STUFF IS GOING?!?

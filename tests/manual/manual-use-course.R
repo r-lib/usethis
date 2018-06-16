@@ -1,4 +1,5 @@
-devtools::load_all("~/rrr/usethis")
+devtools::load_all()
+library(fs)
 
 ## Inspiration for manual tests. Pretty rough.
 
@@ -16,6 +17,8 @@ devtools::load_all("~/rrr/usethis")
 ## if destdir doesn't exist, then target filepath can't exist
 
 gh_url <- "https://github.com/r-lib/rematch2/archive/master.zip"
+
+owd <- setwd(path_temp())
 
 ## Scenarios:
 
@@ -36,24 +39,24 @@ download_zip(gh_url)
 expect_true(file_exists("rematch2-master.zip"))
 
 ## destdir given & exists, target filepath doesn't exist ----
-dir_create("~/tmp/a")
-expect_true(file_exists("~/tmp/a"))
-file_delete("~/tmp/a/rematch2-master.zip")
-expect_false(file_exists("~/tmp/a/rematch2-master.zip"))
-download_zip(gh_url, destdir = "~/tmp/a")
+dir_create("a")
+expect_true(file_exists("a"))
+file_delete("a/rematch2-master.zip")
+expect_false(file_exists("a/rematch2-master.zip"))
+download_zip(gh_url, destdir = "a")
 ## should just download
-expect_true(file_exists("~/tmp/a/rematch2-master.zip"))
+expect_true(file_exists("a/rematch2-master.zip"))
 
 ## destdir given & exists, target filepath does exist ----
-expect_true(file_exists("~/tmp/a/rematch2-master.zip"))
-download_zip(gh_url, destdir = "~/tmp/a")
+expect_true(file_exists("a/rematch2-master.zip"))
+download_zip(gh_url, destdir = "a")
 ## should get "Overwrite...?" query
 ## no --> aborts
 ## yes --> downloads
 
 ## destdir given & does not exist ----
-expect_false(file_exists("~/tmp/b"))
-download_zip(gh_url, destdir = "~/tmp/b")
+expect_false(file_exists("b"))
+download_zip(gh_url, destdir = "b")
 ## should get error re: Directory does not exist
 
 ## Download from various places ----
@@ -102,13 +105,13 @@ tidy_unzip("yo.zip")
 
 ## Usage to feature in PR
 
-devtools::load_all("~/rrr/usethis")
+devtools::load_all("")
 
 ## ZIP from GitHub (it's a package, but you get the idea)
 rematch2 <- use_course("https://github.com/r-lib/rematch2/archive/master.zip")
 dir_ls(rematch2, all = TRUE, recursive = TRUE)
 
-devtools::load_all("~/rrr/usethis")
+devtools::load_all("")
 
 system.time(
 hadley <- use_course(
@@ -121,3 +124,5 @@ dir_ls(hadley, all = TRUE, recursive = TRUE)
 rematch2 <- use_course("github.com/r-lib/rematch2/archive/master.zip")
 use_course("rstd.io/usethis-src")
 use_course("bit.ly/uusseetthhiiss")
+
+setwd(owd)
