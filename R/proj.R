@@ -90,24 +90,34 @@ proj_set <- function(path = ".", force = FALSE) {
   old <- proj$cur
 
   check_is_dir(path)
+  path <- proj_path_prep(path)
 
   if (force) {
-    proj$cur <- path_real(path)
+    proj$cur <- path
     return(invisible(old))
   }
 
   new_proj <- proj_find(path)
   if (is.null(new_proj)) {
-    stop(
-      "Path ", value(path),
-      " does not appear to be inside a project or package.",
-      call. = FALSE
-    )
+    stop(glue(
+      "Path {value(path)} does not appear to be inside a project or package."
+    ), call. = FALSE)
   }
-  proj$cur <- path_real(new_proj)
+  proj$cur <- new_proj
   invisible(old)
 }
 
 proj_path <- function(..., ext = "") path(proj_get(), ..., ext = ext)
 
 proj_rel_path <- function(path) path_rel(path, start = proj_get())
+
+## usethis policy re: preparation of the path to active project
+proj_path_prep <- function(path) {
+  path_real(path)
+}
+
+## usethis policy re: preparation of user-provided path to a resource on user's
+## file system
+user_path_prep <- function(path) {
+  path_expand(path)
+}

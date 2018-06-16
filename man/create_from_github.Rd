@@ -15,12 +15,12 @@ The \code{repo} part will be the name of the new local repo.}
 \item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
 
 \item{fork}{If \code{TRUE}, we create and clone a fork. If \code{FALSE}, we clone
-\code{repo} itself. Will be set to \code{FALSE} if no \code{auth_token} (a.k.a. PAT) is
-provided or preconfigured. Otherwise, if unspecified, defaults to \code{FALSE}
-if you can push to \code{repo} and \code{TRUE} if you cannot. If a fork is created,
-the original target repo is added to the local repo as the \code{upstream}
-remote, using your preferred \code{protocol}, to make it easier to pull upstream
-changes in the future.}
+\code{repo_spec} itself. Will be set to \code{FALSE} if no \code{auth_token} (a.k.a. PAT)
+is provided or preconfigured. Otherwise, defaults to \code{FALSE} if you can
+push to \code{repo_spec} and \code{TRUE} if you cannot. If a fork is created, the
+original target repo is added to the local repo as the \code{upstream} remote,
+using your preferred \code{protocol}, to make it easier to pull upstream changes
+in the future.}
 
 \item{rstudio}{Initiate an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}?
 Defaults to \code{TRUE} if in an RStudio session and project has no

@@ -36,6 +36,7 @@ download_zip(gh_url)
 expect_true(file_exists("rematch2-master.zip"))
 
 ## destdir given & exists, target filepath doesn't exist ----
+dir_create("~/tmp/a")
 expect_true(file_exists("~/tmp/a"))
 file_delete("~/tmp/a/rematch2-master.zip")
 expect_false(file_exists("~/tmp/a/rematch2-master.zip"))

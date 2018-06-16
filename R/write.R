@@ -13,7 +13,10 @@ write_union <- function(path, new_lines, quiet = FALSE) {
   }
 
   if (!quiet) {
-    done(glue("Adding {collapse(value(new))} to {value(path)}"))
+    done(glue(
+      "Adding {collapse(value(new))} to ",
+      "{value(path_rel(path, proj_get() %||% ''))}"
+    ))
   }
 
   all <- union(lines, new_lines)
@@ -32,7 +35,7 @@ write_over <- function(path, contents, quiet = FALSE) {
     stop(value(path), " already exists.", call. = FALSE)
   }
   if (!quiet) {
-    done("Writing ", value(path))
+    done("Writing ", value(path_rel(path, proj_get() %||% "")))
   }
 
   write_utf8(path, contents)

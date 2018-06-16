@@ -30,6 +30,7 @@ create_package <- function(path,
                            fields = NULL,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
+  path <- user_path_prep(path)
   name <- path_file(path)
   check_package_name(name)
   check_not_nested(path_dir(path), name)
@@ -58,6 +59,7 @@ create_package <- function(path,
 create_project <- function(path,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
+  path <- user_path_prep(path)
   name <- path_file(path)
   check_not_nested(path_dir(path), name)
 
@@ -102,12 +104,12 @@ create_project <- function(path,
 #'   The `repo` part will be the name of the new local repo.
 #' @inheritParams use_course
 #' @param fork If `TRUE`, we create and clone a fork. If `FALSE`, we clone
-#'   `repo` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT) is
-#'   provided or preconfigured. Otherwise, if unspecified, defaults to `FALSE`
-#'   if you can push to `repo` and `TRUE` if you cannot. If a fork is created,
-#'   the original target repo is added to the local repo as the `upstream`
-#'   remote, using your preferred `protocol`, to make it easier to pull upstream
-#'   changes in the future.
+#'   `repo_spec` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT)
+#'   is provided or preconfigured. Otherwise, defaults to `FALSE` if you can
+#'   push to `repo_spec` and `TRUE` if you cannot. If a fork is created, the
+#'   original target repo is added to the local repo as the `upstream` remote,
+#'   using your preferred `protocol`, to make it easier to pull upstream changes
+#'   in the future.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'    Defaults to `TRUE` if in an RStudio session and project has no
@@ -127,18 +129,16 @@ create_from_github <- function(repo_spec,
                                credentials = NULL,
                                auth_token = NULL,
                                host = NULL) {
-  destdir <- destdir %||% conspicuous_place()
+  destdir <- path_expand(destdir %||% conspicuous_place())
   check_is_dir(destdir)
-  check_not_nested(destdir, repo)
   protocol <- match.arg(protocol)
 
   owner <- spec_owner(repo_spec)
   repo <- spec_repo(repo_spec)
+  check_not_nested(destdir, repo)
 
   repo_path <- create_directory(destdir, repo)
-  if (dir_exists(repo_path)) {
-    check_is_empty(repo_path)
-  }
+  check_is_empty(repo_path)
 
   pat <- auth_token %||% gh_token()
   pat_available <- pat != ""
@@ -175,14 +175,14 @@ create_from_github <- function(repo_spec,
     ssh = repo_info$ssh_url
   )
 
-  done("Cloning repo from ", value(origin_url), " into ", value(repo_path))
+  done(glue("Cloning repo from {value(origin_url)} into {value(repo_path)}"))
   git2r::clone(
     origin_url,
-    path_real(repo_path),
+    repo_path,
     credentials = credentials,
     progress = FALSE
   )
-  proj_set(repo_path)
+  repo_path <- proj_set(repo_path)
 
   if (fork) {
     r <- git2r::repository(proj_get())

@@ -265,10 +265,10 @@ normalize_url <- function(url) {
 conspicuous_place <- function() {
   Filter(dir_exists, c(
     path(Sys.getenv("HOME"), "Desktop"), # typical macOS = ~/Desktop
-    ## TODO: think about this re: fs's approach to home directory
-    path(Sys.getenv("USERPROFILE"), "Desktop"), # typical Windows Desktop
-    "~",
-    getwd()
+    path_home("Desktop"), # typical Windows Desktop
+    path_home(),
+    path_home_r(),
+    path_tidy(getwd())
   ))[[1]]
 }
 
