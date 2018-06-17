@@ -97,7 +97,7 @@ proj_set <- function(path = ".", force = FALSE) {
     return(invisible(old))
   }
 
-  new_proj <- proj_find(path)
+  new_proj <- proj_path_prep(proj_find(path))
   if (is.null(new_proj)) {
     stop(glue(
       "Path {value(path)} does not appear to be inside a project or package."
@@ -109,15 +109,33 @@ proj_set <- function(path = ".", force = FALSE) {
 
 proj_path <- function(..., ext = "") path(proj_get(), ..., ext = ext)
 
-proj_rel_path <- function(path) path_rel(path, start = proj_get())
+proj_rel_path <- function(path) {
+  if (is_in_proj(path)) {
+    path_rel(path, start = proj_get())
+  } else {
+    path
+  }
+}
 
 ## usethis policy re: preparation of the path to active project
 proj_path_prep <- function(path) {
+  if (is.null(path)) return(path)
   path_real(path)
 }
 
 ## usethis policy re: preparation of user-provided path to a resource on user's
 ## file system
 user_path_prep <- function(path) {
+  ## usethis uses fs's notion of home directory
+  ## this ensures we are consistent about that
   path_expand(path)
+}
+
+is_in_proj <- function(path) {
+  ## realize path, if possible; use "as is", otherwise
+  path <- tryCatch(path_real(path), error = function(e) NULL) %||% path
+  identical(
+    proj_get(),
+    path_common(c(proj_get(), path))
+  )
 }

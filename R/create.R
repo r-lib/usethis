@@ -218,9 +218,9 @@ open_project <- function(path, rstudio = NA) {
 }
 
 check_not_nested <- function(path, name) {
-  proj_root <- proj_find(path)
+  path_is_proj <- is_proj(path)
 
-  if (is.null(proj_root)) {
+  if (!path_is_proj) {
     return(invisible())
   }
 
@@ -234,7 +234,7 @@ check_not_nested <- function(path, name) {
 
   message <- glue(
     "New project {value(name)} is nested inside an existing project ",
-    "{value(proj_root)}."
+    "{value(path)}."
   )
   if (!interactive()) {
     stop(message, call. = FALSE)
