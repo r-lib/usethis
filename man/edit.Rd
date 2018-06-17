@@ -42,3 +42,8 @@ Path to the file, invisibly.
 \item \code{edit_rstudio_snippets(type)} opens \code{~/R/snippets/{type}.snippets}
 }
 }
+\details{
+The \code{edit_r_*()} and \code{edit_rstudio_*()} functions consult R's notion of
+user's home directory. The \code{edit_git_*()} functions inherit home directory
+pbehaviour from the \pkg{fs} package; see \code{\link[fs:path_home]{fs::path_home()}} for more details.
+}

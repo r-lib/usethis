@@ -7,6 +7,10 @@
 #' * `edit_git_ignore()` opens `.gitignore`
 #' * `edit_rstudio_snippets(type)` opens `~/R/snippets/{type}.snippets`
 #'
+#' The `edit_r_*()` and `edit_rstudio_*()` functions consult R's notion of
+#' user's home directory. The `edit_git_*()` functions inherit home directory
+#' pbehaviour from the \pkg{fs} package; see [fs::path_home()] for more details.
+#'
 #' @return Path to the file, invisibly.
 #'
 #' @param scope Edit globally for the current __user__, or locally for the
@@ -97,29 +101,22 @@ git_ignore_path <- function(scope) {
 scoped_path <- function(scope, ...) path(scope_dir(scope), ...)
 scoped_git_path <- function(scope, ...) path(scope_git_dir(scope), ...)
 
-
+## uses R's notion of user's home directory
 scope_dir <- function(scope = c("user", "project")) {
+  scope <- match.arg(scope)
+  switch(
+    scope,
+    user = path_home_r(),
+    project = proj_get()
+  )
+}
+
+## uses fs's notion of user's home directory
+scope_git_dir <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   switch(
     scope,
     user = path_home(),
     project = proj_get()
   )
-}
-
-scope_git_dir <- function(scope = c("user", "project")) {
-  scope <- match.arg(scope)
-  switch(
-    scope,
-    user = git_user_dot_home(),
-    project = proj_get()
-  )
-}
-
-git_user_dot_home <- function() {
-  if (.Platform$OS.type == "windows") {
-    Sys.getenv("USERPROFILE")
-  } else {
-    path_home()
-  }
 }
