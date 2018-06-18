@@ -25,7 +25,7 @@ Imports:
     crayon,
     curl (>= 2.7),
     desc,
-    fs,
+    fs (>= 1.2.0),
     gh,
     git2r (>= 0.21.0.9002),
     glue (>= 1.2.0.9000),
