@@ -39,7 +39,7 @@ Path to the file, invisibly.
 \item \code{edit_r_makevars()} opens \code{.R/Makevars}
 \item \code{edit_git_config()} opens \code{.gitconfig} or \code{.git/config}
 \item \code{edit_git_ignore()} opens \code{.gitignore}
-\item \code{edit_rstudio_snippets(type)} opens \code{~/R/snippets/{type}.snippets}
+\item \code{edit_rstudio_snippets(type)} opens \code{.R/snippets/{type}.snippets}
 }
 }
 \details{

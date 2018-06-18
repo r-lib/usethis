@@ -5,7 +5,7 @@
 #' * `edit_r_makevars()` opens `.R/Makevars`
 #' * `edit_git_config()` opens `.gitconfig` or `.git/config`
 #' * `edit_git_ignore()` opens `.gitignore`
-#' * `edit_rstudio_snippets(type)` opens `~/R/snippets/{type}.snippets`
+#' * `edit_rstudio_snippets(type)` opens `.R/snippets/{type}.snippets`
 #'
 #' The `edit_r_*()` and `edit_rstudio_*()` functions consult R's notion of
 #' user's home directory. The `edit_git_*()` functions -- and \pkg{usethis} in
