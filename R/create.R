@@ -129,7 +129,7 @@ create_from_github <- function(repo_spec,
                                credentials = NULL,
                                auth_token = NULL,
                                host = NULL) {
-  destdir <- path_expand(destdir %||% conspicuous_place())
+  destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_is_dir(destdir)
   protocol <- match.arg(protocol)
 
