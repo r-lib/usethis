@@ -20,8 +20,7 @@
 
   - Paths are "tidy", meaning `/` is the path separator and there are never multiple or trailing `/`.
   - Paths are UTF-8 encoded.
-  - A Windows user's home directory is interpreted as `USERPROFILE` or `HOMEDRIVE`/`HOMEPATH`, by default. Read more in [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html).
-  - Paths are typically expressed relative to the active project.
+  - A Windows user's home directory is interpreted as `C:\Users\username` (typical of Unix-oriented tools, like Git and ssh; also matches Python), as opposed to `C:\Users\username\Documents` (R's default on Windows). Read more in [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html).
 
 * `use_spell_check()` is a new function that adds a whitelist of words and a unit test to spell check package documentation during `R CMD check` (#285 @jeroen).
 
