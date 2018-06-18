@@ -107,7 +107,7 @@ proj_set <- function(path = ".", force = FALSE) {
   invisible(old)
 }
 
-proj_path <- function(..., ext = "") path(proj_get(), ..., ext = ext)
+proj_path <- function(..., ext = "") path_norm(path(proj_get(), ..., ext = ext))
 
 proj_rel_path <- function(path) {
   if (is_in_proj(path)) {
