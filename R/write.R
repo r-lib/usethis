@@ -32,7 +32,7 @@ write_over <- function(path, contents, quiet = FALSE) {
     stop(value(path), " already exists.", call. = FALSE)
   }
   if (!quiet) {
-    done("Writing ", value(path_rel(path, proj_get() %||% "")))
+    done("Writing ", value(proj_rel_path(path)))
   }
 
   write_utf8(path, contents)
