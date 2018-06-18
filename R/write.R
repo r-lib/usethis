@@ -13,10 +13,7 @@ write_union <- function(path, new_lines, quiet = FALSE) {
   }
 
   if (!quiet) {
-    done(glue(
-      "Adding {collapse(value(new))} to ",
-      "{value(path_rel(path, proj_get() %||% ''))}"
-    ))
+    done(glue("Adding {collapse(value(new))} to {value(proj_rel_path(path)}"))
   }
 
   all <- union(lines, new_lines)
