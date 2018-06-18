@@ -82,7 +82,7 @@ asciify <- function(x) {
   stopifnot(is.character(x))
 
   x <- tolower(x)
-  gsub("[^a-z0-9_]+", "-", x)
+  gsub("[^a-z0-9_-]+", "-", x)
 }
 
 slug <- function(x, ext) {
