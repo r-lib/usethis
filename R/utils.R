@@ -1,5 +1,5 @@
 can_overwrite <- function(path) {
-  if (!file.exists(path)) {
+  if (!file_exists(path)) {
     return(TRUE)
   }
 
@@ -41,11 +41,9 @@ ask_user <- function(...,
 nope <- function(...) ask_user(..., true_for = "no")
 yep <- function(...) ask_user(..., true_for = "yes")
 
-is_dir <- function(x) file.info(x)$isdir
-
 check_is_dir <- function(x) {
   ## "checking it twice" for robustness to trailing slash issues on Windows
-  if (!file.exists(x) && !dir.exists(x)) {
+  if (!file_exists(x) && !dir_exists(x)) {
     stop("Directory does not exist:\n", value(x), call. = FALSE)
   }
   if (!is_dir(x)) {
@@ -55,7 +53,7 @@ check_is_dir <- function(x) {
 }
 
 check_is_empty <- function(x) {
-  files <- list.files(x)
+  files <- dir_ls(x)
   if (length(files) > 0) {
     stop(value(x), " exists and is not an empty directory", call. = FALSE)
   }
@@ -80,13 +78,18 @@ dots <- function(...) {
   eval(substitute(alist(...)))
 }
 
-slug <- function(x, ext) {
+asciify <- function(x) {
   stopifnot(is.character(x))
 
   x <- tolower(x)
-  x <- gsub("[^a-z0-9_]+", "-", x)
+  gsub("[^a-z0-9_-]+", "-", x)
+}
 
-  paste0(x, ext)
+slug <- function(x, ext) {
+  x_base <- asciify(path_ext_remove(x))
+  x_ext <- path_ext(x)
+  ext <- if (identical(tolower(x_ext), tolower(ext))) x_ext else ext
+  path_ext_set(x_base, ext)
 }
 
 compact <- function(x) {

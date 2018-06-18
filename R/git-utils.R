@@ -13,17 +13,23 @@ check_uncommitted_changes <- function(path = proj_get()) {
   }
 }
 
+## suppress the warning about multiple remotes, which is triggered by
+## the common "origin" and "upstream" situation, e.g., fork and clone
+gh_tree_remote <- function(path) {
+  suppressWarnings(gh::gh_tree_remote(path))
+}
+
 ## Git remotes --> filter for GitHub --> owner, repo, repo_spec
 github_owner <- function(path = proj_get()) {
-  gh::gh_tree_remote(path)[["username"]]
+  gh_tree_remote(path)[["username"]]
 }
 
 github_repo <- function(path = proj_get()) {
-  gh::gh_tree_remote(path)[["repo"]]
+  gh_tree_remote(path)[["repo"]]
 }
 
 github_repo_spec <- function(path = proj_get()) {
-  collapse(gh::gh_tree_remote(path), sep = "/")
+  collapse(gh_tree_remote(path), sep = "/")
 }
 
 ## repo_spec --> owner, repo

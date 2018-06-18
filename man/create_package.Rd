@@ -26,9 +26,10 @@ that the directory can be recognized as a project by the
 \href{https://krlmlr.github.io/here/}{here} or
 \href{https://krlmlr.github.io/rprojroot/}{rprojroot} packages.}
 
-\item{open}{If \code{TRUE} and in RStudio, the new project is opened in a new
-instance, if possible, or is switched to, otherwise. If \code{TRUE} and not
-in RStudio, working directory is set to the new project.}
+\item{open}{If \code{TRUE} and in RStudio, a new RStudio project is opened in a
+new instance, if possible, or is switched to, otherwise. If \code{TRUE} and not
+in RStudio (or new project is not an RStudio project), working directory is
+set to the new project.}
 }
 \description{
 These functions create an R project:

@@ -49,7 +49,8 @@ check_is_package <- function(whos_asking = NULL) {
 #' root by looking for a `.here` file, an RStudio Project, a package
 #' `DESCRIPTION`, Git infrastructure, a `remake.yml` file, or a `.projectile`
 #' file. It then stores the active project for use for the remainder of the
-#' session. If needed, you can manually override by running `proj_set()`.
+#' session. Use `proj_get()` to see the active project and `proj_set()` to
+#' set it manually.
 #'
 #' @description In general, user scripts should not call `usethis::proj_get()`
 #'   or `usethis::proj_set()`. They are internal functions that are exported for
@@ -89,22 +90,52 @@ proj_set <- function(path = ".", force = FALSE) {
   old <- proj$cur
 
   check_is_dir(path)
+  path <- proj_path_prep(path)
 
   if (force) {
     proj$cur <- path
     return(invisible(old))
   }
 
-  new_proj <- proj_find(path)
+  new_proj <- proj_path_prep(proj_find(path))
   if (is.null(new_proj)) {
-    stop(
-      "Path ", value(path),
-      " does not appear to be inside a project or package.",
-      call. = FALSE
-    )
+    stop(glue(
+      "Path {value(path)} does not appear to be inside a project or package."
+    ), call. = FALSE)
   }
   proj$cur <- new_proj
   invisible(old)
 }
 
-proj_path <- function(...) file.path(proj_get(), ...)
+proj_path <- function(..., ext = "") path_norm(path(proj_get(), ..., ext = ext))
+
+proj_rel_path <- function(path) {
+  if (is_in_proj(path)) {
+    path_rel(path, start = proj_get())
+  } else {
+    path
+  }
+}
+
+## usethis policy re: preparation of the path to active project
+proj_path_prep <- function(path) {
+  if (is.null(path)) return(path)
+  path_real(path)
+}
+
+## usethis policy re: preparation of user-provided path to a resource on user's
+## file system
+user_path_prep <- function(path) {
+  ## usethis uses fs's notion of home directory
+  ## this ensures we are consistent about that
+  path_expand(path)
+}
+
+is_in_proj <- function(path) {
+  ## realize path, if possible; use "as is", otherwise
+  path <- tryCatch(path_real(path), error = function(e) NULL) %||% path
+  identical(
+    proj_get(),
+    path_common(c(proj_get(), path))
+  )
+}

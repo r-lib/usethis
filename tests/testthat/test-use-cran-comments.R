@@ -8,6 +8,6 @@ test_that("use_cran_comments() requires a package", {
 test_that("use_cran_comments() creates and ignores the promised file", {
   scoped_temporary_package()
   capture_output(use_cran_comments())
-  expect_true(file.exists(proj_path("cran-comments.md")))
+  expect_true(file_exists(proj_path("cran-comments.md")))
   expect_true(is_build_ignored("^cran-comments\\.md$"))
 })

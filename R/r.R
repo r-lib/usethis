@@ -6,7 +6,10 @@
 #' @seealso [use_test()]
 #' @export
 use_r <- function(name = NULL) {
-  name <- find_r_name(name)
+  name <- name %||% get_active_r_file(path = "tests/testthat")
+  name <- gsub("^test-", "", name)
+  name <- slug(name, "R")
+  check_file_name(name)
 
   use_directory("R")
   edit_file(proj_path("R", name))
@@ -15,38 +18,42 @@ use_r <- function(name = NULL) {
 }
 
 check_file_name <- function(name) {
-  if (!valid_file_name(name)) {
+  if (!valid_file_name(path_ext_remove(name))) {
     stop(
       value(name), " is not a valid file name. It should:\n",
       "* Contain only ASCII letters, numbers, '-', and '_'\n",
       call. = FALSE
     )
   }
+  name
 }
 
 valid_file_name <- function(x) {
   grepl("^[[:alnum:]_-]+$", x)
 }
 
-find_r_name <- function(name = NULL) {
-  if (!is.null(name)) {
-    check_file_name(name)
-    return(slug(name, ".R"))
-  }
-
+get_active_r_file <- function(path = "R") {
   if (!rstudioapi::isAvailable()) {
-    stop("Argument ", code("name"), " is missing, with no default", call. = FALSE)
+    stop(glue("Argument {code('name')} must be specified."), call. = FALSE)
   }
   active_file <- rstudioapi::getSourceEditorContext()$path
 
-  dir <- basename(dirname(active_file))
-  if (dir != "testthat") {
-    stop("Open file not in `tests/testthat/` directory", call. = FALSE)
+  rel_path <- proj_rel_path(active_file)
+  if (path_dir(rel_path) != path) {
+    stop(glue(
+      "Open file must be in the {value(path, '/')} directory of ",
+      "the active package.\n",
+      "  * Actual path: {value(rel_path)}"
+    ), call. = FALSE)
   }
 
-  if (!grepl("\\.[Rr]$", active_file)) {
-    stop("Open file is does not end in `.R`", call. = FALSE)
+  ext <- path_ext(active_file)
+  if (toupper(ext) != "R") {
+    stop(glue(
+      "Open file must have {value('.R')} or {value('.r')} as extension, ",
+      "not {value(ext)}."
+      , call. = FALSE))
   }
 
-  gsub("^test-", "", basename(active_file))
+  path_file(active_file)
 }

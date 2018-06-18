@@ -24,7 +24,7 @@ use_logo <- function(img, geometry = "120x140") {
   img_data <- magick::image_read(img)
   img_data <- magick::image_resize(img_data, geometry)
 
-  fs::dir_create(proj_path("man", "figures"))
+  dir_create(proj_path("man", "figures"))
   magick::image_write(img_data, proj_path("man", "figures", "logo.png"))
 
   done(
@@ -42,7 +42,7 @@ use_logo <- function(img, geometry = "120x140") {
 
 has_logo <- function() {
   readme_path <- proj_path("README.md")
-  if (!fs::file_exists(readme_path)) {
+  if (!file_exists(readme_path)) {
     return(FALSE)
   }
 

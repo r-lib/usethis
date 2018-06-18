@@ -22,9 +22,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,13 +36,12 @@
 <meta property="og:description" content="Creates a new local Git repository from a repository on GitHub. It is highly
 recommended that you pre-configure or pass a GitHub personal access token
 (PAT), which is facilitated by browse_github_pat(). In particular, a PAT is
-required in order for create_from_github() to do "fork and clone". It is also required
+required in order for create_from_github() to do &quot;fork and clone&quot;. It is also required
 by use_github(), which connects existing local projects to GitHub." />
 <meta name="twitter:card" content="summary" />
 
 
 <meta name="robots" content="noindex">
-
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -153,12 +154,12 @@ The <code>repo</code> part will be the name of the new local repo.</p></td>
     <tr>
       <th>fork</th>
       <td><p>If <code>TRUE</code>, we create and clone a fork. If <code>FALSE</code>, we clone
-<code>repo</code> itself. Will be set to <code>FALSE</code> if no <code>auth_token</code> (a.k.a. PAT) is
-provided or preconfigured. Otherwise, if unspecified, defaults to <code>FALSE</code>
-if you can push to <code>repo</code> and <code>TRUE</code> if you cannot. If a fork is created,
-the original target repo is added to the local repo as the <code>upstream</code>
-remote, using your preferred <code>protocol</code>, to make it easier to pull upstream
-changes in the future.</p></td>
+<code>repo_spec</code> itself. Will be set to <code>FALSE</code> if no <code>auth_token</code> (a.k.a. PAT)
+is provided or preconfigured. Otherwise, defaults to <code>FALSE</code> if you can
+push to <code>repo_spec</code> and <code>TRUE</code> if you cannot. If a fork is created, the
+original target repo is added to the local repo as the <code>upstream</code> remote,
+using your preferred <code>protocol</code>, to make it easier to pull upstream changes
+in the future.</p></td>
     </tr>
     <tr>
       <th>rstudio</th>
@@ -168,9 +169,10 @@ pre-existing <code>.Rproj</code> file. Defaults to <code>FALSE</code> otherwise.
     </tr>
     <tr>
       <th>open</th>
-      <td><p>If <code>TRUE</code> and in RStudio, the new project is opened in a new
-instance, if possible, or is switched to, otherwise. If <code>TRUE</code> and not
-in RStudio, working directory is set to the new project.</p></td>
+      <td><p>If <code>TRUE</code> and in RStudio, a new RStudio project is opened in a
+new instance, if possible, or is switched to, otherwise. If <code>TRUE</code> and not
+in RStudio (or new project is not an RStudio project), working directory is
+set to the new project.</p></td>
     </tr>
     <tr>
       <th>protocol</th>

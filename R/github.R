@@ -63,14 +63,7 @@ use_github <- function(organisation = NULL,
   check_uses_git()
   ## auth_token is used directly by git2r, therefore cannot be NULL
   auth_token <- auth_token %||% gh_token()
-
-  if (is.null(auth_token) || !nzchar(auth_token)) {
-    stop(glue(
-      "No GitHub {code('auth_token')}.\n",
-      "Provide explicitly or make available as an environment variable.\n",
-      "See {code('browse_github_pat()')} for help setting this up."
-    ), call. = FALSE)
-  }
+  check_gh_token(auth_token)
 
   if (uses_github(proj_get())) {
     done("GitHub is already initialized")
@@ -187,8 +180,11 @@ use_github_links <- function(auth_token = NULL,
   )
 
   use_description_field("URL", res$html_url, overwrite = overwrite)
-  use_description_field("BugReports", file.path(res$html_url, "issues"),
-    overwrite = overwrite)
+  use_description_field(
+    "BugReports",
+    paste0(res$html_url, "/issues"),
+    overwrite = overwrite
+  )
 
   invisible()
 }
@@ -240,7 +236,7 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
 
 uses_github <- function(base_path = proj_get()) {
   tryCatch({
-    gh::gh_tree_remote(base_path)
+    gh_tree_remote(base_path)
     TRUE
   }, error = function(e) FALSE)
 }
@@ -263,4 +259,15 @@ check_uses_github <- function(base_path = proj_get()) {
 gh_token <- function() {
   token <- Sys.getenv('GITHUB_PAT', "")
   if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
+}
+
+check_gh_token <- function(auth_token) {
+  if (is.null(auth_token) || !nzchar(auth_token)) {
+    stop(glue(
+      "No GitHub {code('auth_token')}.\n",
+      "Provide explicitly or make available as an environment variable.\n",
+      "See {code('browse_github_pat()')} for help setting this up."
+    ), call. = FALSE)
+  }
+  auth_token
 }

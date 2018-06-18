@@ -38,7 +38,7 @@ use_package <- function(package, type = "Imports") {
 
 show_includes <- function(package) {
   incl <- system.file("include", package = package)
-  h <- dir(incl, "\\.(h|hpp)$")
+  h <- dir_ls(incl, regexp = "[.](h|hpp)$")
   if (length(h) == 0) return()
 
   todo("Possible includes are:")

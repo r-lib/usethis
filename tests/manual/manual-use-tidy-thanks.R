@@ -1,6 +1,8 @@
 ## this is annoyingly slow to have in the automated tests
 ## not to mention, a bit fragile
 
+library(testthat)
+
 ## test use_tidy_thanks() on a repo with contributors and releases
 thanks <- use_tidy_thanks(
   "r-lib/usethis",

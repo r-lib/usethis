@@ -1,18 +1,30 @@
 context("edit")
 
-expect_user_file <- function(...) {
-  expect_true(file.exists(scoped_path("user", ...)))
+expect_r_file <- function(...) {
+  expect_true(file_exists(scoped_path_r("user", ...)))
 }
 
-expect_user_git_file <- function(...) {
-  expect_true(file.exists(scoped_git_path("user", ...)))
+expect_fs_file <- function(...) {
+  expect_true(file_exists(scoped_path_fs("user", ...)))
 }
 
-expect_project_file <- function(...) expect_true(file.exists(proj_path(...)))
+expect_project_file <- function(...) expect_true(file_exists(proj_path(...)))
 
 ## testing edit_XXX("user") only on travis and appveyor, because I don't want to
 ## risk creating user-level files de novo for an actual user, which would
 ## obligate me to some nerve-wracking clean up
+
+test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
+  ## run these manually if you already have these files or are happy to
+  ## have them or delete them
+  skip_if_not_ci()
+
+  capture_output(expect_error_free(edit_r_profile()))
+  capture_output(expect_error_free(edit_r_environ()))
+  capture_output(expect_error_free(edit_r_makevars()))
+  capture_output(expect_error_free(edit_git_config()))
+  capture_output(expect_error_free(edit_git_ignore()))
+})
 
 test_that("edit_r_XXX('user') ensures the file exists", {
   ## run these manually if you already have these files or are happy to
@@ -20,18 +32,18 @@ test_that("edit_r_XXX('user') ensures the file exists", {
   skip_if_not_ci()
 
   capture_output(edit_r_profile("user"))
-  expect_user_file(".Rprofile")
+  expect_r_file(".Rprofile")
 
   capture_output(edit_r_environ("user"))
-  expect_user_file(".Renviron")
+  expect_r_file(".Renviron")
 
   capture_output(edit_r_makevars("user"))
-  expect_user_file(".R", "Makevars")
+  expect_r_file(".R", "Makevars")
 
   capture_output(edit_rstudio_snippets(type = "R"))
-  expect_user_file(".R", "snippets", "r.snippets")
+  expect_r_file(".R", "snippets", "r.snippets")
   capture_output(edit_rstudio_snippets(type = "HTML"))
-  expect_user_file(".R", "snippets", "html.snippets")
+  expect_r_file(".R", "snippets", "html.snippets")
 })
 
 test_that("edit_git_XXX('user') ensures the file exists", {
@@ -40,10 +52,10 @@ test_that("edit_git_XXX('user') ensures the file exists", {
   skip_if_not_ci()
 
   capture_output(edit_git_config("user"))
-  expect_user_git_file(".gitconfig")
+  expect_fs_file(".gitconfig")
 
   capture_output(edit_git_ignore("user"))
-  expect_user_git_file(".gitignore")
+  expect_fs_file(".gitignore")
   cfg <- git2r::config()
   expect_match(cfg$global$core.excludesfile, "gitignore")
 })

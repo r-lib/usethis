@@ -54,10 +54,10 @@ use_git <- function(message = "Initial commit") {
 use_git_hook <- function(hook, script) {
   check_uses_git()
 
-  use_directory(".git/hooks")
-  hook_path <- file.path(".git/hooks", hook)
-  write_over(proj_get(), hook_path, script)
-  Sys.chmod(proj_path(hook_path), "0744")
+  hook_dir <- create_directory(proj_get(), ".git/hooks")
+  hook_path <- path(hook_dir, hook)
+  write_over(hook_path, script)
+  file_chmod(hook_path, "0744")
 
   invisible()
 }
@@ -65,11 +65,11 @@ use_git_hook <- function(hook, script) {
 #' Tell git to ignore files
 #'
 #' @param ignores Character vector of ignores, specified as file globs.
-#' @param directory Directory within current project to set ignores
+#' @param directory Directory relative to active project to set ignores
 #' @family git helpers
 #' @export
 use_git_ignore <- function(ignores, directory = ".") {
-  write_union(proj_get(), file.path(directory, ".gitignore"), ignores)
+  write_union(proj_path(directory, ".gitignore"), ignores)
 }
 
 #' Configure Git

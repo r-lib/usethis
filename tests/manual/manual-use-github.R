@@ -1,10 +1,10 @@
-load_all()
+devtools::load_all()
 
-pkgname <- "fghij"
+pkgname <- "klmnop"
 protocol <- "ssh"
 #protocol <- "https"
 
-pkgpath <- file.path(tempdir(), pkgname)
+(pkgpath <- path_temp(pkgname))
 create_package(pkgpath, open = FALSE)
 
 ## should fail, not a git repo yet
@@ -19,10 +19,18 @@ withr::with_envvar(
 )
 
 ## should work!
-use_github(protocol = protocol)
+if (.Platform$OS.type == "windows") {
+  cred <- git2r::cred_ssh_key(
+    publickey = fs::path_home(".ssh/id_rsa.pub"),
+    privatekey = fs::path_home(".ssh/id_rsa")
+  )
+} else {
+  cred <- NULL
+}
+use_github(protocol = protocol, credentials = cred)
 
 ## delete local and remote repo
-unlink(pkgpath, recursive = TRUE)
+dir_delete(pkgpath)
 (gh_account <- gh::gh_whoami())
 gh::gh(
   "DELETE /repos/:username/:pkg",

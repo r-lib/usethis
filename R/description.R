@@ -46,7 +46,7 @@ use_description <- function(fields = NULL) {
   fields[["Package"]] <- name
 
   desc <- build_description(fields)
-  write_over(proj_get(), "DESCRIPTION", desc)
+  write_over(proj_path("DESCRIPTION"), desc)
 }
 
 #' @rdname use_description

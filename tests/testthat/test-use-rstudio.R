@@ -3,8 +3,8 @@ context("use_rstudio")
 test_that("use_rstudio() creates .Rproj file, named after directory", {
   dir <- scoped_temporary_package(rstudio = FALSE)
   capture_output(use_rstudio())
-  rproj <- list.files(proj_get(), pattern = "\\.Rproj$")
-  expect_identical(rproj, paste0(basename(dir), ".Rproj"))
+  rproj <- path_file(dir_ls(proj_get(), regexp = "[.]Rproj$"))
+  expect_identical(path_ext_remove(rproj), path_file(dir))
 })
 
 test_that("a non-RStudio project is not recognized", {
@@ -21,15 +21,15 @@ test_that("an RStudio project is recognized", {
 
 test_that("we error for multiple Rproj files", {
   scoped_temporary_package(rstudio = TRUE)
-  file.copy(
-    proj_path(rproj_path()),
+  file_copy(
+    rproj_path(),
     proj_path("copy.Rproj")
   )
   expect_error(rproj_path(), "Multiple .Rproj files found", fixed = TRUE)
 })
 
 test_that("Rproj is parsed (actually, only colon-containing lines)", {
-  tmp <- tempfile()
+  tmp <- file_temp()
   writeLines(c("a: a", "", "b: b", "I have no colon"), tmp)
   expect_identical(
     parse_rproj(tmp),
@@ -38,7 +38,7 @@ test_that("Rproj is parsed (actually, only colon-containing lines)", {
 })
 
 test_that("Existing field(s) in Rproj can be modified", {
-  tmp <- tempfile()
+  tmp <- file_temp()
   writeLines(
     c(
       "Version: 1.0",
@@ -58,7 +58,7 @@ test_that("Existing field(s) in Rproj can be modified", {
 
 test_that("we can roundtrip an Rproj file", {
   scoped_temporary_package(rstudio = TRUE)
-  rproj_file <- proj_path(rproj_path())
+  rproj_file <- rproj_path()
   before <- readLines(rproj_file)
   rproj <- modify_rproj(rproj_file, list())
   writeLines(serialize_rproj(rproj), rproj_file)
@@ -69,7 +69,7 @@ test_that("we can roundtrip an Rproj file", {
 test_that("use_blank_state() modifies Rproj", {
   scoped_temporary_package(rstudio = TRUE)
   use_blank_slate("project")
-  rproj <- parse_rproj(proj_path(rproj_path()))
+  rproj <- parse_rproj(rproj_path())
   expect_equal(rproj$RestoreWorkspace, "No")
   expect_equal(rproj$SaveWorkspace, "No")
 })

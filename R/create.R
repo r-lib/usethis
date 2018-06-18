@@ -21,25 +21,22 @@
 #'   that the directory can be recognized as a project by the
 #'   [here](https://krlmlr.github.io/here/) or
 #'   [rprojroot](https://krlmlr.github.io/rprojroot/) packages.
-#' @param open If `TRUE` and in RStudio, the new project is opened in a new
-#'   instance, if possible, or is switched to, otherwise. If `TRUE` and not
-#'   in RStudio, working directory is set to the new project.
+#' @param open If `TRUE` and in RStudio, a new RStudio project is opened in a
+#'   new instance, if possible, or is switched to, otherwise. If `TRUE` and not
+#'   in RStudio (or new project is not an RStudio project), working directory is
+#'   set to the new project.
 #' @export
 create_package <- function(path,
                            fields = NULL,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
-  path <- normalizePath(path, mustWork = FALSE)
-
-  name <- basename(path)
+  path <- user_path_prep(path)
+  name <- path_file(path)
   check_package_name(name)
-  check_not_nested(dirname(path), name)
+  check_not_nested(path_dir(path), name)
 
-  create_directory(dirname(path), name)
+  create_directory(path_dir(path), name)
   cat_line(crayon::bold("Changing active project to", crayon::red(name)))
-  ## the initial normalizePath() may not have returned an absolute path,
-  ## if the path did not yet exist
-  path <- normalizePath(path, mustWork = TRUE)
   proj_set(path, force = TRUE)
 
   use_directory("R")
@@ -51,7 +48,7 @@ create_package <- function(path,
     use_rstudio()
   }
   if (open) {
-    open_project(path, name, rstudio = rstudio)
+    open_project(proj_get())
   }
 
   invisible(TRUE)
@@ -62,16 +59,12 @@ create_package <- function(path,
 create_project <- function(path,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
-  path <- normalizePath(path, mustWork = FALSE)
+  path <- user_path_prep(path)
+  name <- path_file(path)
+  check_not_nested(path_dir(path), name)
 
-  name <- basename(path)
-  check_not_nested(dirname(path), name)
-
-  create_directory(dirname(path), name)
+  create_directory(path_dir(path), name)
   cat_line(crayon::bold("Changing active project to", crayon::red(name)))
-  ## the initial normalizePath() may not have returned an absolute path,
-  ## if the path did not yet exist
-  path <- normalizePath(path, mustWork = TRUE)
   proj_set(path, force = TRUE)
 
   use_directory("R")
@@ -85,10 +78,10 @@ create_project <- function(path,
       code("here::here()")
     )
     todo("Learn more at https://krlmlr.github.io/here/")
-    writeLines(character(), file.path(path, ".here"))
+    file_create(proj_path(".here"))
   }
   if (open) {
-    open_project(path, name, rstudio = rstudio)
+    open_project(proj_get())
   }
 
   invisible(TRUE)
@@ -111,12 +104,12 @@ create_project <- function(path,
 #'   The `repo` part will be the name of the new local repo.
 #' @inheritParams use_course
 #' @param fork If `TRUE`, we create and clone a fork. If `FALSE`, we clone
-#'   `repo` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT) is
-#'   provided or preconfigured. Otherwise, if unspecified, defaults to `FALSE`
-#'   if you can push to `repo` and `TRUE` if you cannot. If a fork is created,
-#'   the original target repo is added to the local repo as the `upstream`
-#'   remote, using your preferred `protocol`, to make it easier to pull upstream
-#'   changes in the future.
+#'   `repo_spec` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT)
+#'   is provided or preconfigured. Otherwise, defaults to `FALSE` if you can
+#'   push to `repo_spec` and `TRUE` if you cannot. If a fork is created, the
+#'   original target repo is added to the local repo as the `upstream` remote,
+#'   using your preferred `protocol`, to make it easier to pull upstream changes
+#'   in the future.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'    Defaults to `TRUE` if in an RStudio session and project has no
@@ -136,18 +129,16 @@ create_from_github <- function(repo_spec,
                                credentials = NULL,
                                auth_token = NULL,
                                host = NULL) {
-  destdir <- destdir %||% conspicuous_place()
+  destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_is_dir(destdir)
-  check_not_nested(destdir, repo)
   protocol <- match.arg(protocol)
 
   owner <- spec_owner(repo_spec)
   repo <- spec_repo(repo_spec)
+  check_not_nested(destdir, repo)
 
   repo_path <- create_directory(destdir, repo)
-  if (dir.exists(repo_path)) {
-    check_is_empty(repo_path)
-  }
+  check_is_empty(repo_path)
 
   pat <- auth_token %||% gh_token()
   pat_available <- pat != ""
@@ -184,10 +175,10 @@ create_from_github <- function(repo_spec,
     ssh = repo_info$ssh_url
   )
 
-  done("Cloning repo from ", value(origin_url), " into ", value(repo_path))
+  done(glue("Cloning repo from {value(origin_url)} into {value(repo_path)}"))
   git2r::clone(
     origin_url,
-    normalizePath(repo_path, mustWork = FALSE),
+    repo_path,
     credentials = credentials,
     progress = FALSE
   )
@@ -195,30 +186,30 @@ create_from_github <- function(repo_spec,
 
   if (fork) {
     r <- git2r::repository(proj_get())
-    done("Adding ", value("upstream"), " remote: ", value(upstream_url))
+    done(glue("Adding {value('upstream')} remote: {value(upstream_url)}"))
     git2r::remote_add(r, "upstream", upstream_url)
   }
 
   rstudio <- rstudio %||% rstudioapi::isAvailable()
-  rstudio <- rstudio && !is_rstudio_project(repo_path)
+  rstudio <- rstudio && !is_rstudio_project(proj_get())
   if (rstudio) {
     use_rstudio()
   }
 
   if (open) {
-    open_project(repo_path, repo)
+    open_project(proj_get())
   }
 }
 
-open_project <- function(path, name, rstudio = NA) {
-  project_path <- file.path(normalizePath(path), paste0(name, ".Rproj"))
+open_project <- function(path, rstudio = NA) {
+  rproj_path <- rproj_path(path)
   if (is.na(rstudio)) {
-    rstudio <- file.exists(project_path)
+    rstudio <- !is.na(rproj_path)
   }
 
   if (rstudio && rstudioapi::hasFun("openProject")) {
     done("Opening project in RStudio")
-    rstudioapi::openProject(project_path, newSession = TRUE)
+    rstudioapi::openProject(rproj_path, newSession = TRUE)
   } else {
     setwd(path)
     done("Changing working directory to ", value(path))
@@ -227,9 +218,9 @@ open_project <- function(path, name, rstudio = NA) {
 }
 
 check_not_nested <- function(path, name) {
-  proj_root <- proj_find(path)
+  path_is_proj <- is_proj(path)
 
-  if (is.null(proj_root)) {
+  if (!path_is_proj) {
     return(invisible())
   }
 
@@ -243,7 +234,7 @@ check_not_nested <- function(path, name) {
 
   message <- glue(
     "New project {value(name)} is nested inside an existing project ",
-    "{value(proj_root)}."
+    "{value(path)}."
   )
   if (!interactive()) {
     stop(message, call. = FALSE)
@@ -265,9 +256,7 @@ rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
   }
 
   if (fork && !pat_available) {
-    stop(
-      "No GitHub Personal Access Token available. Can't fork.", call. = FALSE
-    )
+    check_gh_token(auth_token = NULL)
   }
 
   if (fork && identical(user, owner)) {
