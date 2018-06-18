@@ -264,8 +264,7 @@ normalize_url <- function(url) {
 
 conspicuous_place <- function() {
   Filter(dir_exists, c(
-    path(Sys.getenv("HOME"), "Desktop"), # typical macOS = ~/Desktop
-    path_home("Desktop"), # typical Windows Desktop
+    path_home("Desktop"),
     path_home(),
     path_home_r(),
     path_tidy(getwd())
