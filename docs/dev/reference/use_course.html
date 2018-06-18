@@ -22,9 +22,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,7 +36,7 @@
 <meta property="og:description" content="Special-purpose function to download a folder of course materials. The only
 demand on the user is to confirm or specify where the new folder should be
 stored. Workflow:
-User executes something like: use_course("bit.ly/xxx-yyy-zzz").
+User executes something like: use_course(&quot;bit.ly/xxx-yyy-zzz&quot;).
 User is asked to notice and confirm the location of the new folder. Specify
 destdir to skip this.
 User is asked if they'd like to delete the ZIP file.
@@ -45,7 +47,6 @@ folder is opened in the file manager, e.g. Finder or File Explorer.
 
 
 <meta name="robots" content="noindex">
-
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>

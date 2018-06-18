@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Open useful configuration files — edit • usethis</title>
+<title>Open configuration files — edit • usethis</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -22,28 +22,29 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Open useful configuration files — edit" />
+<meta property="og:title" content="Open configuration files — edit" />
 <meta property="og:description" content="
 edit_r_profile() opens .Rprofile
 edit_r_environ() opens .Renviron
 edit_r_makevars() opens .R/Makevars
-edit_git_config() opens .gitconfig
+edit_git_config() opens .gitconfig or .git/config
 edit_git_ignore() opens .gitignore
-edit_rstudio_snippets(type) opens ~/R/snippets/{type}.snippets
+edit_rstudio_snippets(type) opens .R/snippets/{type}.snippets
 " />
 <meta name="twitter:card" content="summary" />
 
 
 <meta name="robots" content="noindex">
-
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -124,7 +125,7 @@ edit_rstudio_snippets(type) opens ~/R/snippets/{type}.snippets
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Open useful configuration files</h1>
+    <h1>Open configuration files</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/edit.R'><code>R/edit.R</code></a></small>
     <div class="hidden name"><code>edit.Rd</code></div>
     </div>
@@ -134,9 +135,9 @@ edit_rstudio_snippets(type) opens ~/R/snippets/{type}.snippets
 <li><p><code>edit_r_profile()</code> opens <code>.Rprofile</code></p></li>
 <li><p><code>edit_r_environ()</code> opens <code>.Renviron</code></p></li>
 <li><p><code>edit_r_makevars()</code> opens <code>.R/Makevars</code></p></li>
-<li><p><code>edit_git_config()</code> opens <code>.gitconfig</code></p></li>
+<li><p><code>edit_git_config()</code> opens <code>.gitconfig</code> or <code>.git/config</code></p></li>
 <li><p><code>edit_git_ignore()</code> opens <code>.gitignore</code></p></li>
-<li><p><code>edit_rstudio_snippets(type)</code> opens <code>~/R/snippets/{type}.snippets</code></p></li>
+<li><p><code>edit_rstudio_snippets(type)</code> opens <code>.R/snippets/{type}.snippets</code></p></li>
 </ul>
     </div>
 
@@ -170,6 +171,14 @@ current <strong>project</strong></p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Path to the file, invisibly.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The <code>edit_r_*()</code> and <code>edit_rstudio_*()</code> functions consult R's notion of
+user's home directory. The <code>edit_git_*()</code> functions -- and <span class="pkg">usethis</span> in
+general -- inherit home directory behaviour from the <span class="pkg">fs</span> package, which
+differs from R itself on Windows. The <span class="pkg">fs</span> default is more conventional
+in terms of the location of user-level Git config files. See
+<code><a href='http://fs.r-lib.org/reference/path_expand.html'>fs::path_home()</a></code> for more details.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -177,6 +186,7 @@ current <strong>project</strong></p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

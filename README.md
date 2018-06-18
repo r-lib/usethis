@@ -108,14 +108,12 @@ use_readme_md()
 
 use_news_md()
 #> ✔ Writing 'NEWS.md'
-#> ● Edit 'NEWS.md'
 
 use_test("my-test")
 #> ✔ Adding 'testthat' to Suggests field in DESCRIPTION
 #> ✔ Creating 'tests/testthat/'
 #> ✔ Writing 'tests/testthat.R'
 #> ✔ Writing 'tests/testthat/test-my-test.R'
-#> ● Edit 'test-my-test.R'
 
 x <- 1
 y <- 2
@@ -128,7 +126,6 @@ use_data(x, y)
 use_git()
 #> ✔ Initialising Git repo
 #> ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to './.gitignore'
-#> ✔ Adding files and committing
 ```
 
 Please note that the usethis project is released with a [Contributor
