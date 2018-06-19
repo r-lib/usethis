@@ -1,3 +1,21 @@
+edit_file <- function(path) {
+  dir_create(path_dir(path), recursive = TRUE)
+  file_create(path)
+
+  if (!interactive() || is_testing()) {
+    todo("Edit ", value(proj_rel_path(path)))
+  } else {
+    todo("Modify ", value(proj_rel_path(path)))
+
+    if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
+      rstudioapi::navigateToFile(path)
+    } else {
+      utils::file.edit(path)
+    }
+  }
+  invisible(path)
+}
+
 #' Open configuration files
 #'
 #' * `edit_r_profile()` opens `.Rprofile`
