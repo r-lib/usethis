@@ -29,12 +29,12 @@ use_vignette <- function(name) {
   use_git_ignore(c("*.html", "*.R"), directory = "vignettes")
   use_git_ignore("inst/doc")
 
-  path <- path("vignettes", asciify(name), ext = "Rmd")
+  path <- proj_path("vignettes", asciify(name), ext = "Rmd")
 
-  done("Creating ", value(path))
+  done("Creating ", value(proj_rel_path(path)))
   rmarkdown::draft(
-    proj_path(path), "html_vignette", "rmarkdown",
+    path, "html_vignette", "rmarkdown",
     create_dir = FALSE, edit = FALSE
   )
-  edit_file(proj_path(path))
+  edit_file(path)
 }
