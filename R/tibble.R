@@ -31,11 +31,11 @@ use_tibble <- function() {
   use_dependency("tibble", "Imports")
 
   directive <- "#' @importFrom tibble tibble"
-  package_doc <- path("R", paste0(project_name(), "-package"), ext = "R")
+  package_doc <- proj_path("R", paste0(project_name(), "-package"), ext = "R")
   if (file_exists(package_doc)) {
     todo(
-      "Add this line to the roxygen header for package-level docs ",
-      value(package_doc), ":"
+      "Add this to the roxygen header for package-level docs in ",
+      value(proj_rel_path(package_doc)), ":"
     )
     code_block(directive)
     edit_file(package_doc)
