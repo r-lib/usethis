@@ -1,4 +1,21 @@
+#' Open file for editing
+#'
+#' Opens a file for editing in RStudio, if that is the active environment, or
+#' via [utils::file.edit()] otherwise. If the file does not exist, it is
+#' created. If the parent directory does not exist, it is also created.
+#'
+#' @param path Path to target file.
+#'
+#' @return Target path, invisibly.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' edit_file("DESCRIPTION")
+#' edit_file("~/.gitconfig")
+#' }
 edit_file <- function(path) {
+  path <- user_path_prep(path)
   dir_create(path_dir(path), recursive = TRUE)
   file_create(path)
 
