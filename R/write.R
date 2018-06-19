@@ -1,5 +1,30 @@
+#' Write into a file
+#'
+#' Writes lines to a file, taking the union of what's already there, if
+#' anything, and some new lines. Note, there is no explicit promise about the
+#' line order. This function is designed to modify simple config files like
+#' `.Rbuildignore` and `.gitignore`.
+#'
+#' @param path Path to target file. It is created if it does not exist, but the
+#'   parent directory must exist.
+#' @param new_lines Character vector of lines to add, if not already present.
+#' @param quiet Logical. Whether to message about what is happening.
+#'
+#' @return Logical indicating whether a write occurred, invisibly.
+#' @export
+#'
+#' @examples
+#' tmp <- tempfile()
+#' write_union(tmp, letters[1:3])
+#' readLines(tmp)
+#' write_union(tmp, letters[1:5])
+#' readLines(tmp)
+#'
+#' ## clean up
+#' file.remove(tmp)
 write_union <- function(path, new_lines, quiet = FALSE) {
   stopifnot(is.character(new_lines))
+  path <- user_path_prep(path)
 
   if (file_exists(path)) {
     lines <- readLines(path, warn = FALSE)
