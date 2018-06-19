@@ -1,39 +1,55 @@
-#' Write into a file
+#' Write into or over a file
 #'
-#' Writes lines to a file, taking the union of what's already there, if
-#' anything, and some new lines. Note, there is no explicit promise about the
-#' line order. This function is designed to modify simple config files like
-#' `.Rbuildignore` and `.gitignore`.
+#' Helpers to write into or over a new or pre-existing file. Designed mostly for
+#' for internal use. File is written with UTF-8 encoding.
 #'
+#' @name write-this
 #' @param path Path to target file. It is created if it does not exist, but the
 #'   parent directory must exist.
-#' @param new_lines Character vector of lines to add, if not already present.
+#' @param lines Character vector of lines. For `write_union()`, these are lines
+#'   to add to the target file, if not already present. For `write_over()`,
+#'   these are the exact lines desired in the target file.
 #' @param quiet Logical. Whether to message about what is happening.
-#'
 #' @return Logical indicating whether a write occurred, invisibly.
-#' @export
 #' @keywords internal
 #'
 #' @examples
-#' tmp <- tempfile()
-#' write_union(tmp, letters[1:3])
-#' readLines(tmp)
-#' write_union(tmp, letters[1:5])
-#' readLines(tmp)
+#' \dontshow{.old_wd <- setwd(tempdir())}
+#' write_union("a_file", letters[1:3])
+#' readLines("a_file")
+#' write_union("a_file", letters[1:5])
+#' readLines("a_file")
+#'
+#' write_over("another_file", letters[1:3])
+#' readLines("another_file")
+#' write_over("another_file", letters[1:3])
+#'
+#' \dontrun{
+#' ## will error if user isn't present to approve the overwrite
+#' write_over("another_file", letters[3:1])
+#' }
 #'
 #' ## clean up
-#' file.remove(tmp)
-write_union <- function(path, new_lines, quiet = FALSE) {
-  stopifnot(is.character(new_lines))
+#' file.remove("a_file", "another_file")
+#' \dontshow{setwd(.old_wd)}
+NULL
+
+#' @describeIn write-this writes lines to a file, taking the union of what's
+#'   already there, if anything, and some new lines. Note, there is no explicit
+#'   promise about the line order. Designed to modify simple config files like
+#'   `.Rbuildignore` and `.gitignore`.
+#' @export
+write_union <- function(path, lines, quiet = FALSE) {
+  stopifnot(is.character(lines))
   path <- user_path_prep(path)
 
   if (file_exists(path)) {
-    lines <- readLines(path, warn = FALSE)
+    existing_lines <- readLines(path, warn = FALSE)
   } else {
-    lines <- character()
+    existing_lines <- character()
   }
 
-  new <- setdiff(new_lines, lines)
+  new <- setdiff(lines, existing_lines)
   if (length(new) == 0) {
     return(invisible(FALSE))
   }
@@ -42,15 +58,19 @@ write_union <- function(path, new_lines, quiet = FALSE) {
     done(glue("Adding {collapse(value(new))} to {value(proj_rel_path(path))}"))
   }
 
-  all <- union(lines, new_lines)
+  all <- union(lines, existing_lines)
   write_utf8(path, all)
 }
 
-## `contents` is a character vector of prospective lines
-write_over <- function(path, contents, quiet = FALSE) {
-  stopifnot(is.character(contents), length(contents) > 0)
+#' @describeIn write-this writes a file with specific lines, creating it if
+#'   necessary or overwriting existing, if proposed contents are not identical
+#'   and user is available to give permission.
+#' @param contents Character vector of lines.
+#' @export
+write_over <- function(path, lines, quiet = FALSE) {
+  stopifnot(is.character(lines), length(lines) > 0)
 
-  if (same_contents(path, contents)) {
+  if (same_contents(path, lines)) {
     return(invisible(FALSE))
   }
 
@@ -61,7 +81,7 @@ write_over <- function(path, contents, quiet = FALSE) {
     done("Writing ", value(proj_rel_path(path)))
   }
 
-  write_utf8(path, contents)
+  write_utf8(path, lines)
 }
 
 write_utf8 <- function(path, lines) {
