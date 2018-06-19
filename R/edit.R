@@ -8,6 +8,7 @@
 #'
 #' @return Target path, invisibly.
 #' @export
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{

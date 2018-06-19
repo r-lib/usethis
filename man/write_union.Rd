@@ -33,3 +33,4 @@ readLines(tmp)
 ## clean up
 file.remove(tmp)
 }
+\keyword{internal}

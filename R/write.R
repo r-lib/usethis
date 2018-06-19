@@ -12,6 +12,7 @@
 #'
 #' @return Logical indicating whether a write occurred, invisibly.
 #' @export
+#' @keywords internal
 #'
 #' @examples
 #' tmp <- tempfile()

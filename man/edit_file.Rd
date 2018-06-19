@@ -23,3 +23,4 @@ edit_file("DESCRIPTION")
 edit_file("~/.gitconfig")
 }
 }
+\keyword{internal}
