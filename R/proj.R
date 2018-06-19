@@ -77,7 +77,7 @@ check_is_package <- function(whos_asking = NULL) {
 #' }
 proj_get <- function() {
   # Called for first time so try working directory
-  if (is.null(proj$cur)) {
+  if (!proj_active()) {
     proj_set(".")
   }
 
@@ -131,7 +131,13 @@ user_path_prep <- function(path) {
   path_expand(path)
 }
 
+proj_active <- function() !is.null(proj$cur)
+
 is_in_proj <- function(path) {
+  if (!proj_active()) {
+    return(FALSE)
+  }
+
   ## realize path, if possible; use "as is", otherwise
   path <- tryCatch(path_real(path), error = function(e) NULL) %||% path
   identical(
