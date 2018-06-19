@@ -69,6 +69,7 @@ write_union <- function(path, lines, quiet = FALSE) {
 #' @export
 write_over <- function(path, lines, quiet = FALSE) {
   stopifnot(is.character(lines), length(lines) > 0)
+  path <- user_path_prep(path)
 
   if (same_contents(path, lines)) {
     return(invisible(FALSE))
@@ -77,6 +78,7 @@ write_over <- function(path, lines, quiet = FALSE) {
   if (!can_overwrite(path)) {
     stop(value(path), " already exists.", call. = FALSE)
   }
+
   if (!quiet) {
     done("Writing ", value(proj_rel_path(path)))
   }
