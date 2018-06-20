@@ -27,7 +27,7 @@ test_that("write_union() adds lines", {
   tmp <- file_temp()
   writeLines(letters[1:3], tmp)
   write_union(tmp, letters[4:5], quiet = TRUE)
-  expect_identical(readLines(tmp), letters[1:5])
+  expect_setequal(readLines(tmp), letters[1:5])
 })
 
 test_that("write_over() writes a de novo file", {

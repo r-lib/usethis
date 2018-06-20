@@ -1,5 +1,7 @@
 # usethis 1.3.0.9000
 
+* `edit_file()`, `write_over()`, and `write_union()` are newly exported helpers. They are mostly for internal use, but can also be useful in packages that extend or customize usethis (#344, #366, #389).
+
 * `use_course()` reports progress during download (#276, #380).
 
 * `use_git()` only makes an initial commit of all files if user gives explicit consent (#378).
