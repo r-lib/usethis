@@ -13,13 +13,14 @@ use_dev_package(package, type = "Imports")
 \item{package}{Name of package to depend on.}
 
 \item{type}{Type of dependency: must be one of "Imports", "Depends",
-"Suggests", "Enhances", or "LinkingTo" (or unique abbreviation)}
+"Suggests", "Enhances", or "LinkingTo" (or unique abbreviation). Matching
+is case insensitive.}
 }
 \description{
 \code{use_package()} adds a CRAN package dependency to DESCRIPTION and offers a
-little advice about how to best use it. \code{use_dev_package()} adds a
-dependency on an in-development GitHub package, adding the repo to
-\code{Remotes} so it will be automatically installed from the correct location.
+little advice about how to best use it. \code{use_dev_package()} adds a dependency
+on an in-development GitHub package, adding the repo to \code{Remotes} so it will
+be automatically installed from the correct location.
 }
 \examples{
 \dontrun{

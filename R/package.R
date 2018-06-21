@@ -1,13 +1,14 @@
 #' Depend on another package
 #'
 #' `use_package()` adds a CRAN package dependency to DESCRIPTION and offers a
-#' little advice about how to best use it. `use_dev_package()` adds a
-#' dependency on an in-development GitHub package, adding the repo to
-#' `Remotes` so it will be automatically installed from the correct location.
+#' little advice about how to best use it. `use_dev_package()` adds a dependency
+#' on an in-development GitHub package, adding the repo to `Remotes` so it will
+#' be automatically installed from the correct location.
 #'
 #' @param package Name of package to depend on.
 #' @param type Type of dependency: must be one of "Imports", "Depends",
-#'   "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation)
+#'   "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation). Matching
+#'   is case insensitive.
 #' @export
 #' @examples
 #' \dontrun{
@@ -15,6 +16,8 @@
 #' use_package("dplyr", "suggests")
 #' }
 use_package <- function(package, type = "Imports") {
+  types <- tolower(c("Imports", "Depends", "Suggests", "Enhances", "LinkingTo"))
+  type <- match.arg(tolower(type), types)
   refuse_package(package, verboten = "tidyverse")
 
   use_dependency(package, type)
