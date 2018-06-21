@@ -50,10 +50,9 @@ use_dependency <- function(package, type, version = "*") {
 
   ## no downgrades
   if (match(existing_type, types) < match(type, types)) {
-    warning(
-      "Package ", value(package), " is already listed in ",
-      value(existing_type), " in DESCRIPTION, no change made.",
-      call. = FALSE
+    warning_glue(
+      "Package {value(package)} is already listed in ",
+      "{value(existing_type)} in DESCRIPTION, no change made."
     )
     return(invisible())
   }

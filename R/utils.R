@@ -124,6 +124,10 @@ stop_glue <- function(..., .sep = "", .envir = parent.frame()) {
   stop(usethis_error(glue(..., .sep = .sep, .envir = .envir)))
 }
 
+warning_glue <- function(..., .sep = "", .envir = parent.frame()) {
+  warning(glue(..., .sep = .sep, .envir = .envir), call. = FALSE)
+}
+
 usethis_error <- function(msg) {
   structure(
     class = c("usethis_error", "error", "condition"),
