@@ -64,7 +64,7 @@ use_blank_slate <- function(scope = c("user", "project")) {
   } # nocov end
 
   if (!is_rstudio_project()) {
-    stop(value(project_name()), " is not an RStudio Project", call. = FALSE)
+    stop_glue("{value(project_name())} is not an RStudio Project.")
   }
 
   rproj_fields <- modify_rproj(
@@ -89,7 +89,7 @@ is_rstudio_project <- function(base_path = proj_get()) {
 rproj_path <- function(base_path = proj_get()) {
   rproj_path <- dir_ls(base_path, regexp = "[.]Rproj$")
   if (length(rproj_path) > 1) {
-    stop("Multiple .Rproj files found", call. = FALSE)
+    stop_glue("Multiple .Rproj files found.")
   }
   if (length(rproj_path) == 1) rproj_path else NA_character_
 }

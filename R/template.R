@@ -60,10 +60,10 @@ render_template <- function(template, data = list(), package = "usethis") {
 find_template <- function(template_name, package = "usethis") {
   path <- system.file("templates", template_name, package = package)
   if (identical(path, "")) {
-    stop(glue(
+    stop_glue(
       "Could not find template {value(template_name)}",
-      " in package {value(package)}"
-    ), call. = FALSE)
+      " in package {value(package)}."
+    )
   }
   path
 }

@@ -8,10 +8,9 @@ use_description_field <- function(name,
   }
 
   if (!is.na(curr) && !overwrite) {
-    stop(
-      field(name), " has a different value in DESCRIPTION. ",
-      "Use overwrite = TRUE to overwrite.",
-      call. = FALSE
+    stop_glue(
+      "{field(name)} has a different value in DESCRIPTION. ",
+      "Use {code('overwrite = TRUE')} to overwrite."
     )
   }
 
@@ -25,10 +24,9 @@ use_dependency <- function(package, type, version = "*") {
   stopifnot(is_string(type))
 
   if (package != "R" && !requireNamespace(package, quietly = TRUE)) {
-    stop(
-      value(package),
-      " must be installed before you can take a dependency on it",
-      call. = FALSE
+    stop_glue(
+      "{value(package)} must be installed before you can ",
+      "take a dependency on it."
     )
   }
 

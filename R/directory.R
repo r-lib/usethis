@@ -28,11 +28,11 @@ use_directory <- function(path,
 
 create_directory <- function(base_path, path) {
   if (!file_exists(base_path)) {
-    stop(value(base_path), " does not exist", call. = FALSE)
+    stop_glue("{value(base_path)} does not exist.")
   }
 
   if (!is_dir(base_path)) {
-    stop(value(base_path), " is not a directory", call. = FALSE)
+    stop_glue("{value(base_path)} is not a directory.")
   }
 
   target_path <- path(base_path, path)
@@ -42,7 +42,7 @@ create_directory <- function(base_path, path) {
   }
 
   if (!is_dir(target_path)) {
-    stop(value(path), " exists but is not a directory.", call. = FALSE)
+    stop_glue("{value(path)} exists but is not a directory.")
   }
 
   target_path

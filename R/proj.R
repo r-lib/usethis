@@ -37,7 +37,7 @@ check_is_package <- function(whos_asking = NULL) {
       "{code(whos_asking)} is designed to work with packages. {message}"
     )
   }
-  stop(message, call. = FALSE)
+  stop_glue(message)
 }
 
 #' Get and set the active project
@@ -99,9 +99,9 @@ proj_set <- function(path = ".", force = FALSE) {
 
   new_proj <- proj_path_prep(proj_find(path))
   if (is.null(new_proj)) {
-    stop(glue(
+    stop_glue(
       "Path {value(path)} does not appear to be inside a project or package."
-    ), call. = FALSE)
+    )
   }
   proj$cur <- new_proj
   invisible(old)
@@ -148,10 +148,10 @@ is_in_proj <- function(path) {
 
 project_data <- function(base_path = proj_get()) {
   if (!is_proj(base_path)) {
-    stop(glue(
+    stop_glue(
       "{value(base_path)} doesn't meet the usethis criteria for a project.\n",
       "Read more in the help for {code(\"proj_get()\")}."
-    ), call. = FALSE)
+    )
   }
   if (is_package(base_path)) {
     data <- package_data(base_path)

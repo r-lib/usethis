@@ -88,13 +88,12 @@ build_description_list <- function(fields = list()) {
 
 check_package_name <- function(name) {
   if (!valid_name(name)) {
-    stop(
-      value(name), " is not a valid package name. It should:\n",
+    stop_glue(
+      "{value(name)} is not a valid package name. It should:\n",
       "* Contain only ASCII letters, numbers, and '.'\n",
       "* Have at least two characters\n",
       "* Start with a letter\n",
-      "* Not end with '.'\n",
-      call. = FALSE
+      "* Not end with '.'\n"
     )
   }
 

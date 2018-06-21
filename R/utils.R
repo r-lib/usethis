@@ -21,9 +21,9 @@ ask_user <- function(...,
 
   message <- paste0(..., collapse = "")
   if (!interactive()) {
-    stop(
+    stop_glue(
       "User input required in non-interactive session.\n",
-      "Query: ", message, call. = FALSE
+      "Query: {message}"
     )
   }
 
@@ -44,10 +44,10 @@ yep <- function(...) ask_user(..., true_for = "yes")
 check_is_dir <- function(x) {
   ## "checking it twice" for robustness to trailing slash issues on Windows
   if (!file_exists(x) && !dir_exists(x)) {
-    stop("Directory does not exist:\n", value(x), call. = FALSE)
+    stop_glue("Directory does not exist:\n{value(x)}")
   }
   if (!is_dir(x)) {
-    stop(value(x), " exists but is not a directory.", call. = FALSE)
+    stop_glue("{value(x)} exists but is not a directory.")
   }
   invisible(x)
 }
@@ -55,7 +55,7 @@ check_is_dir <- function(x) {
 check_is_empty <- function(x) {
   files <- dir_ls(x)
   if (length(files) > 0) {
-    stop(value(x), " exists and is not an empty directory", call. = FALSE)
+    stop_glue("{value(x)} exists and is not an empty directory.")
   }
   invisible(x)
 }
@@ -63,12 +63,12 @@ check_is_empty <- function(x) {
 check_is_named_list <- function(x, nm = deparse(substitute(x))) {
   if (!rlang::is_list(x)) {
     bad_class <- paste(class(x), collapse = "/")
-    stop(code(nm), " must be a list, not ", bad_class, call. = FALSE)
+    stop_glue("{code(nm)} must be a list, not {bad_class}.")
   }
   if (!rlang::is_dictionaryish(x)) {
-    stop(
-      "Names of ", code(nm), " must be non-missing, non-empty, and ",
-      "non-duplicated.", call. = FALSE
+    stop_glue(
+      "Names of {code(nm)} must be non-missing, non-empty, and ",
+      "non-duplicated."
     )
   }
   x
@@ -101,10 +101,7 @@ compact <- function(x) {
 
 check_installed <- function(pkg) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
-    stop(
-      "Package ", value(pkg), " required. Please install before re-trying",
-      call. = FALSE
-    )
+    stop_glue("Package {value(pkg)} required. Please install before re-trying.")
   }
 }
 
@@ -121,4 +118,15 @@ interactive <- function() {
 
 is_string <- function(x) {
   length(x) == 1 && is.character(x)
+}
+
+stop_glue <- function(..., .sep = "", .envir = parent.frame()) {
+  stop(usethis_error(glue(..., .sep = .sep, .envir = .envir)))
+}
+
+usethis_error <- function(msg) {
+  structure(
+    class = c("usethis_error", "error", "condition"),
+    list(message = msg)
+  )
 }

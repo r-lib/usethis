@@ -139,10 +139,9 @@ check_uses_git <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop(
+  stop_glue(
     "Cannot detect that project is already a Git repository.\n",
-    "Do you need to run ", code("use_git()"), "?",
-    call. = FALSE
+    "Do you need to run {code('use_git()')}?"
   )
 }
 

@@ -6,10 +6,7 @@ git_uncommitted <- function(path = proj_get()) {
 
 check_uncommitted_changes <- function(path = proj_get()) {
   if (uses_git(path) && git_uncommitted(path)) {
-    stop(
-      "Uncommited changes. Please commit to git before continuing",
-      call. = FALSE
-    )
+    stop_glue("Uncommited changes. Please commit to git before continuing.")
   }
 }
 
@@ -37,9 +34,7 @@ github_repo_spec <- function(path = proj_get()) {
 parse_repo_spec <- function(repo_spec) {
   repo_split <- strsplit(repo_spec, "/")[[1]]
   if (length(repo_split) != 2) {
-    stop(glue(
-      "{code('repo_spec')} must be of form {value('owner/repo')}"
-    ), call. = FALSE)
+    stop_glue("{code('repo_spec')} must be of form {value('owner/repo')}.")
   }
   list(owner = repo_split[[1]], repo = repo_split[[2]])
 }

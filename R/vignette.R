@@ -17,7 +17,7 @@
 use_vignette <- function(name) {
   check_is_package("use_vignette()")
   if (missing(name)) {
-    stop("Argument ", code("name"), " is missing, with no default", call. = FALSE)
+    stop_glue("Argument {code('name')} is missing, with no default.")
   }
   check_installed("rmarkdown")
 

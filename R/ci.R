@@ -62,11 +62,11 @@ check_uses_travis <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop(glue(
+  stop_glue(
     "Cannot detect that package {value(project_name(base_path))}",
     " already uses Travis.\n",
     "Do you need to run {code('use_travis()')}?"
-  ), call. = FALSE)
+  )
 }
 
 #' @section `use_coverage()`:

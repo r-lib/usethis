@@ -19,10 +19,9 @@ use_r <- function(name = NULL) {
 
 check_file_name <- function(name) {
   if (!valid_file_name(path_ext_remove(name))) {
-    stop(
-      value(name), " is not a valid file name. It should:\n",
-      "* Contain only ASCII letters, numbers, '-', and '_'\n",
-      call. = FALSE
+    stop_glue(
+      "{value(name)} is not a valid file name. It should:\n",
+      "* Contain only ASCII letters, numbers, '-', and '_'\n"
     )
   }
   name
@@ -34,25 +33,25 @@ valid_file_name <- function(x) {
 
 get_active_r_file <- function(path = "R") {
   if (!rstudioapi::isAvailable()) {
-    stop(glue("Argument {code('name')} must be specified."), call. = FALSE)
+    stop_glue("Argument {code('name')} must be specified.")
   }
   active_file <- rstudioapi::getSourceEditorContext()$path
 
   rel_path <- proj_rel_path(active_file)
   if (path_dir(rel_path) != path) {
-    stop(glue(
+    stop_glue(
       "Open file must be in the {value(path, '/')} directory of ",
       "the active package.\n",
       "  * Actual path: {value(rel_path)}"
-    ), call. = FALSE)
+    )
   }
 
   ext <- path_ext(active_file)
   if (toupper(ext) != "R") {
-    stop(glue(
+    stop_glue(
       "Open file must have {value('.R')} or {value('.r')} as extension, ",
       "not {value(ext)}."
-      , call. = FALSE))
+    )
   }
 
   path_file(active_file)

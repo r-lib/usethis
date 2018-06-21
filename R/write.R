@@ -76,7 +76,7 @@ write_over <- function(path, lines, quiet = FALSE) {
   }
 
   if (!can_overwrite(path)) {
-    stop(value(path), " already exists.", call. = FALSE)
+    stop_glue("{value(path)} already exists.")
   }
 
   if (!quiet) {

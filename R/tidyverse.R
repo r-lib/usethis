@@ -138,7 +138,7 @@ dep_version <- function(x) {
 #' @rdname tidyverse
 use_tidy_eval <- function() {
   if (!uses_roxygen()) {
-    stop("`use_tidy_eval()` requires that you use roxygen.", call. = FALSE)
+    stop_glue("{code('use_tidy_eval()')} requires that you use roxygen.")
   }
 
   use_dependency("rlang", "Imports", ">= 0.1.2")

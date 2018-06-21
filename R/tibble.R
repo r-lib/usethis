@@ -25,7 +25,7 @@
 use_tibble <- function() {
   check_is_package("use_tibble()")
   if (!uses_roxygen()) {
-    stop(code("use_tibble()"), " requires that you use roxygen", call. = FALSE)
+    stop_glue("{code('use_tibble()')} requires that you use roxygen.")
   }
 
   use_dependency("tibble", "Imports")

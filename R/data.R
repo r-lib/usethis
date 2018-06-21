@@ -60,12 +60,12 @@ use_data <- function(...,
 
 get_objs_from_dots <- function(.dots) {
   if (length(.dots) == 0L) {
-    stop("Nothing to save", call. = FALSE)
+    stop_glue("Nothing to save.")
   }
 
   is_name <- vapply(.dots, is.symbol, logical(1))
   if (any(!is_name)) {
-    stop("Can only save existing named objects", call. = FALSE)
+    stop_glue("Can only save existing named objects.")
   }
 
   objs <- vapply(.dots, as.character, character(1))
@@ -91,10 +91,9 @@ check_files_absent <- function(paths, overwrite) {
     return()
   }
 
-  stop(
-    collapse(value(paths[!ok])), " already exist. ",
-    "Use overwrite = TRUE to overwrite.",
-    call. = FALSE
+  stop_glue(
+    "{collapse(value(paths[!ok]))} already exist. ",
+    "Use {code('overwrite = TRUE')} to overwrite."
   )
 }
 
