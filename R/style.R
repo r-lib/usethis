@@ -25,12 +25,12 @@ glue_lines <- function(lines, .envir = parent.frame()) {
 
 # Functions designed for a single line ----------------------------------------
 todo <- function(..., .envir = parent.frame()) {
-  out <- glue(collapse(c(...), sep = ""), .envir = .envir)
+  out <- glue(..., .envir = .envir)
   cat_line(bulletize(out, bullet = todo_bullet()))
 }
 
 done <- function(..., .envir = parent.frame()) {
-  out <- glue(collapse(c(...), sep = ""), .envir = .envir)
+  out <- glue(..., .envir = .envir)
   cat_line(bulletize(out, bullet = done_bullet()))
 }
 
