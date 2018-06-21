@@ -89,7 +89,9 @@ proj_get <- function() {
 proj_set <- function(path = ".", force = FALSE) {
   old <- proj$cur
 
-  check_is_dir(path)
+  if (!is.null(path)) {
+    check_is_dir(path)
+  }
   path <- proj_path_prep(path)
 
   if (force) {

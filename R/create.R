@@ -37,7 +37,7 @@ create_package <- function(path,
 
   create_directory(path_dir(path), name)
   cat_line(crayon::bold("Changing active project to", crayon::red(name)))
-  proj_set(path, force = TRUE)
+  op <- proj_set(path, force = TRUE)
 
   use_directory("R")
   use_directory("man")
@@ -47,8 +47,16 @@ create_package <- function(path,
   if (rstudio) {
     use_rstudio()
   }
+
   if (open) {
-    open_project(proj_get())
+    fresh_rstudio <- open_project(proj_get())
+    if (fresh_rstudio) {
+      cat_line(
+        crayon::bold("Restoring original project state: "),
+        crayon::red(path_file(op %||% "-- no active project --"))
+      )
+      proj_set(op, force = TRUE)
+    }
   }
 
   invisible(TRUE)
@@ -65,7 +73,7 @@ create_project <- function(path,
 
   create_directory(path_dir(path), name)
   cat_line(crayon::bold("Changing active project to", crayon::red(name)))
-  proj_set(path, force = TRUE)
+  op <- proj_set(path, force = TRUE)
 
   use_directory("R")
 
@@ -80,8 +88,16 @@ create_project <- function(path,
     todo("Learn more at https://krlmlr.github.io/here/")
     file_create(proj_path(".here"))
   }
+
   if (open) {
-    open_project(proj_get())
+    fresh_rstudio <- open_project(proj_get())
+    if (fresh_rstudio) {
+      cat_line(
+        crayon::bold("Restoring original project state: "),
+        crayon::red(path_file(op %||% "-- no active project --"))
+      )
+      proj_set(op, force = TRUE)
+    }
   }
 
   invisible(TRUE)
@@ -182,7 +198,7 @@ create_from_github <- function(repo_spec,
     credentials = credentials,
     progress = FALSE
   )
-  proj_set(repo_path)
+  op <- proj_set(repo_path)
 
   if (fork) {
     r <- git2r::repository(proj_get())
@@ -197,24 +213,32 @@ create_from_github <- function(repo_spec,
   }
 
   if (open) {
-    open_project(proj_get())
+    fresh_rstudio <- open_project(proj_get())
+    if (fresh_rstudio) {
+      cat_line(
+        crayon::bold("Restoring original project state: "),
+        crayon::red(path_file(op %||% "-- no active project --"))
+      )
+      proj_set(op, force = TRUE)
+    }
   }
 }
 
 open_project <- function(path, rstudio = NA) {
-  rproj_path <- rproj_path(path)
   if (is.na(rstudio)) {
-    rstudio <- !is.na(rproj_path)
+    rstudio <- is_rstudio_project(path)
   }
 
   if (rstudio && rstudioapi::hasFun("openProject")) {
-    done("Opening project in RStudio")
-    rstudioapi::openProject(rproj_path, newSession = TRUE)
-  } else {
-    setwd(path)
-    done("Changing working directory to ", value(path))
+    done("Opening new project in RStudio")
+    rstudioapi::openProject(rproj_path(path), newSession = TRUE)
+    ## TODO: check this is correct on rstudio server / cloud
+    return(invisible(TRUE))
   }
-  invisible(TRUE)
+
+  setwd(path)
+  done("Changing working directory to ", value(path))
+  invisible(FALSE)
 }
 
 check_not_nested <- function(path, name) {
