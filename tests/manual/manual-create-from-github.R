@@ -5,10 +5,10 @@ library(fs)
 ## this repo was chosen because it was first one listed for the cran gh user
 ## the day I made this, i.e., it's totally arbitrary
 
-## make sure local copy does not exist
+## make sure local copy does not exist; this will error if doesn't pre-exist
 dir_delete("~/Desktop/TailRank/")
 
-## I assume a GitHub PAT is configured
+## check that a GitHub PAT is configured
 gh::gh_whoami()
 
 ## create from repo I do not have push access to
