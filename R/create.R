@@ -198,7 +198,7 @@ create_from_github <- function(repo_spec,
     credentials = credentials,
     progress = FALSE
   )
-  proj_set(repo_path)
+  op <- proj_set(repo_path)
 
   if (fork) {
     r <- git2r::repository(proj_get())
@@ -213,7 +213,14 @@ create_from_github <- function(repo_spec,
   }
 
   if (open) {
-    open_project(proj_get())
+    fresh_rstudio <- open_project(proj_get())
+    if (fresh_rstudio) {
+      cat_line(
+        crayon::bold("Restoring original project state: "),
+        crayon::red(path_file(op %||% "-- no active project --"))
+      )
+      proj_set(op, force = TRUE)
+    }
   }
 }
 
