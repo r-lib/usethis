@@ -31,9 +31,7 @@ use_logo <- function(img, geometry = "120x140") {
 
   todo("Add a logo by adding the following line to your README:")
   pkg <- project_name()
-
-  img <- glue("# {pkg} <img src=\"man/figures/logo.png\" align=\"right\" />")
-  code_block(img)
+  code_block("# {pkg} <img src=\"man/figures/logo.png\" align=\"right\" />")
 }
 
 has_logo <- function() {

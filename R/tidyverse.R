@@ -299,7 +299,7 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
   contributors <- sort(unique(pluck_chr(res, c("user", "login"))))
   todo("{length(contributors)} contributors identified")
   code_block(
-    glue::glue_collapse(
+    collapse(
       glue("[\\@{contributors}](https://github.com/{contributors})"),
       sep = ", ", last = ", and "
     )

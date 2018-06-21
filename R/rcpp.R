@@ -14,14 +14,14 @@ use_rcpp <- function() {
   if (uses_roxygen()) {
     todo("Include the following roxygen tags somewhere in your package")
     code_block(
-      glue("#' @useDynLib {project_name()}, .registration = TRUE"),
+      "#' @useDynLib {project_name()}, .registration = TRUE",
       "#' @importFrom Rcpp sourceCpp",
       "NULL"
     )
   } else {
     todo("Include the following directives in your NAMESPACE")
     code_block(
-      glue("useDynLib('{project_name()}', .registration = TRUE)"),
+      "useDynLib('{project_name()}', .registration = TRUE)",
       "importFrom('Rcpp', 'sourceCpp')"
     )
     edit_file(proj_path("NAMESPACE"))

@@ -45,7 +45,7 @@ show_includes <- function(package) {
   if (length(h) == 0) return()
 
   todo("Possible includes are:")
-  code_block(glue("#include <{path_file(h)}>"))
+  code_block("#include <{path_file(h)}>")
 }
 
 #' @export

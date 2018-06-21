@@ -77,8 +77,8 @@ use_github <- function(organisation = NULL,
   if (interactive()) {
     todo("Check title and description")
     code_block(
-      glue("Name:        {repo_name}"),
-      glue("Description: {repo_desc}"),
+      "Name:        {repo_name}",
+      "Description: {repo_desc}",
       copy = FALSE
     )
     if (nope("Are title and description ok?")) {
@@ -87,8 +87,8 @@ use_github <- function(organisation = NULL,
   } else {
     done("Setting title and description")
     code_block(
-      glue("Name:        {repo_name}"),
-      glue("Description: {repo_desc}"),
+      "Name:        {repo_name}",
+      "Description: {repo_desc}",
       copy = FALSE
     )
   }
