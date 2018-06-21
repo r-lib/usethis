@@ -80,7 +80,7 @@ write_over <- function(path, lines, quiet = FALSE) {
   }
 
   if (!quiet) {
-    done("Writing ", value(proj_rel_path(path)))
+    done("Writing {value(proj_rel_path(path))}")
   }
 
   write_utf8(path, lines)

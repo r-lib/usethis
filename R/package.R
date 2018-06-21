@@ -67,7 +67,9 @@ use_dev_package <- function(package, type = "Imports") {
     return(invisible())
   }
 
-  done("Adding ", value(package_remote), " to DESCRIPTION ", field("Remotes"))
+  done(
+    "Adding {value(package_remote)} to {field('Remotes')} field in DESCRIPTION"
+  )
   remotes <- c(remotes, package_remote)
   desc::desc_set_remotes(remotes, file = proj_get())
 

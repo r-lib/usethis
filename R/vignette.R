@@ -31,7 +31,7 @@ use_vignette <- function(name) {
 
   path <- proj_path("vignettes", asciify(name), ext = "Rmd")
 
-  done("Creating ", value(proj_rel_path(path)))
+  done("Creating {value(proj_rel_path(path))}")
   rmarkdown::draft(
     path, "html_vignette", "rmarkdown",
     create_dir = FALSE, edit = FALSE

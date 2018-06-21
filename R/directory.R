@@ -15,7 +15,7 @@
 use_directory <- function(path,
                           ignore = FALSE) {
   if (!file_exists(proj_path(path))) {
-    done("Creating ", value(path, "/"))
+    done("Creating {value(path, '/')}")
   }
   create_directory(proj_get(), path)
 

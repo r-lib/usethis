@@ -113,7 +113,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
       cfg <- git2r::config()
     }
   } else {
-    done("Writing to ", scope, " git config file")
+    done("Writing to {field(scope)} git config file")
     if (identical(scope, "global")) {
       cfg <- git2r::config(global = TRUE, ...)
     } else {
@@ -153,7 +153,7 @@ git_check_in <- function(base_path, paths, message) {
   if (!git_uncommitted(base_path))
     return(invisible())
 
-  done("Checking into git [", message, "]")
+  done("Checking into git [{message}]")
 
   r <- git2r::repository(base_path)
   git2r::add(r, paths)

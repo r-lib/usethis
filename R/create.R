@@ -155,7 +155,7 @@ create_from_github <- function(repo_spec,
   fork <- rationalize_fork(fork, repo_info, pat_available, user)
   if (fork) {
     ## https://developer.github.com/v3/repos/forks/#create-a-fork
-    done("Forking ", value(repo_info$full_name))
+    done("Forking {value(repo_info$full_name)}")
     upstream_url <- switch(
       protocol,
       https = repo_info$clone_url,
@@ -209,7 +209,7 @@ open_project <- function(path, rstudio = NA) {
     rstudioapi::openProject(rproj_path, newSession = TRUE)
   } else {
     setwd(path)
-    done("Changing working directory to ", value(path))
+    done("Changing working directory to {value(path)}")
   }
   invisible(TRUE)
 }

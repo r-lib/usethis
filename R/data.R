@@ -45,7 +45,7 @@ use_data <- function(...,
   }
   check_files_absent(proj_path(paths), overwrite = overwrite)
 
-  done("Saving ", unlist(objs), " to ", paths, "\n")
+  done("Saving {collapse(value(unlist(objs)))} to {collapse(value(paths))}")
 
   envir <- parent.frame()
   mapply(

@@ -41,9 +41,8 @@ use_tibble <- function() {
     edit_file(package_doc)
   } else {
     todo(
-      "Consider calling ", code('use_package_doc()'), " to initialize ",
-      "package-level docs, which is a good place to put the roxygen directive ",
-      "below."
+      "Consider calling {code('use_package_doc()')} to initialize ",
+      "docs, which is a good place to put the roxygen directive below."
     )
     todo("Add this line to a relevant roxygen header:")
     code_block(directive)
