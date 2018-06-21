@@ -19,8 +19,8 @@
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects).
 #'    If `FALSE` and a non-package project, a sentinel `.here` file is placed so
 #'   that the directory can be recognized as a project by the
-#'   [here](https://krlmlr.github.io/here/) or
-#'   [rprojroot](https://krlmlr.github.io/rprojroot/) packages.
+#'   [here](https://here.r-lib.org) or
+#'   [rprojroot](https://rprojroot.r-lib.org) packages.
 #' @param open If `TRUE` and in RStudio, a new RStudio project is opened in a
 #'   new instance, if possible, or is switched to, otherwise. If `TRUE` and not
 #'   in RStudio (or new project is not an RStudio project), working directory is

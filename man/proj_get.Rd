@@ -32,8 +32,8 @@ In general, user scripts should not call \code{usethis::proj_get()}
 or \code{usethis::proj_set()}. They are internal functions that are exported for
 occasional interactive use. If you need to detect a project
 programmatically in your code, you should probably be using
-\href{https://krlmlr.github.io/rprojroot/}{rprojroot} or its simpler companion,
-\href{https://krlmlr.github.io/here/}{here}, directly.
+\href{https://rprojroot.r-lib.org}{rprojroot} or its simpler companion,
+\href{https://here.r-lib.org}{here}, directly.
 }
 \examples{
 \dontrun{

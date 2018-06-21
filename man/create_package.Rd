@@ -23,8 +23,8 @@ personalized defaults using package options}
 project into an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}.
 If \code{FALSE} and a non-package project, a sentinel \code{.here} file is placed so
 that the directory can be recognized as a project by the
-\href{https://krlmlr.github.io/here/}{here} or
-\href{https://krlmlr.github.io/rprojroot/}{rprojroot} packages.}
+\href{https://here.r-lib.org}{here} or
+\href{https://rprojroot.r-lib.org}{rprojroot} packages.}
 
 \item{open}{If \code{TRUE} and in RStudio, a new RStudio project is opened in a
 new instance, if possible, or is switched to, otherwise. If \code{TRUE} and not

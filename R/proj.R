@@ -56,8 +56,8 @@ check_is_package <- function(whos_asking = NULL) {
 #'   or `usethis::proj_set()`. They are internal functions that are exported for
 #'   occasional interactive use. If you need to detect a project
 #'   programmatically in your code, you should probably be using
-#'   [rprojroot](https://krlmlr.github.io/rprojroot/) or its simpler companion,
-#'   [here](https://krlmlr.github.io/here/), directly.
+#'   [rprojroot](https://rprojroot.r-lib.org) or its simpler companion,
+#'   [here](https://here.r-lib.org), directly.
 #'
 #' @param path Path to set.
 #' @param force If `TRUE`, use this path without checking the usual criteria.
