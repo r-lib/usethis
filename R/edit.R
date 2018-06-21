@@ -21,9 +21,9 @@ edit_file <- function(path) {
   file_create(path)
 
   if (!interactive() || is_testing()) {
-    todo("Edit ", value(proj_rel_path(path)))
+    todo("Edit {(proj_rel_path(path))}")
   } else {
-    todo("Modify ", value(proj_rel_path(path)))
+    todo("Modify {value(proj_rel_path(path))}")
 
     if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
       rstudioapi::navigateToFile(path)
@@ -113,7 +113,7 @@ edit_git_ignore <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   file <- git_ignore_path(scope)
   if (scope == "user" && !file_exists(file)) {
-    done(glue("Creating new global gitignore: {value(file)}"))
+    done("Creating new global gitignore: {value(file)}")
     git2r::config(
       global = TRUE,
       core.excludesfile = path("~", path_rel(file, scope_dir_fs(scope)))

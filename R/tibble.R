@@ -35,7 +35,7 @@ use_tibble <- function() {
   if (file_exists(package_doc)) {
     todo(
       "Add this to the roxygen header for package-level docs in ",
-      value(proj_rel_path(package_doc)), ":"
+      "{value(proj_rel_path(package_doc))}:"
     )
     code_block(directive)
     edit_file(package_doc)
@@ -49,7 +49,7 @@ use_tibble <- function() {
     code_block(directive)
   }
 
-  todo("Run ", code("document()"), "to update NAMESPACE")
+  todo("Run {code('devtools::document()')} to update {value('NAMESPACE')}")
   todo("Document a returned tibble like so:")
   code_block("#' @return a [tibble][tibble::tibble-package]", copy = FALSE)
 }

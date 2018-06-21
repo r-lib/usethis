@@ -46,7 +46,7 @@ use_travis_badge <- function() {
 travis_activate <- function(browse = interactive()) {
   url <- glue("https://travis-ci.org/profile/{github_owner()}")
 
-  todo("Turn on travis for your repo at ", url)
+  todo("Turn on travis for your repo at {url}")
   if (browse) {
     utils::browseURL(url)
   }
@@ -85,7 +85,7 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
     codecov = {
       use_template("codecov.yml", ignore = TRUE)
       use_codecov_badge()
-      todo("Add to ", value(".travis.yml"), ":")
+      todo("Add to {value('.travis.yml')}:")
       code_block(
         "after_success:",
         "  - Rscript -e 'covr::codecov()'"
@@ -95,7 +95,7 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
     coveralls = {
       todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
       use_coveralls_badge()
-      todo("Add to ", value(".travis.yml"), ":")
+      todo("Add to {value('.travis.yml')}:")
       code_block(
         "after_success:",
         "  - Rscript -e 'covr::coveralls()'"
@@ -143,7 +143,7 @@ use_appveyor <- function(browse = interactive()) {
 
 appveyor_activate <- function(browse = interactive()) {
   url <- "https://ci.appveyor.com/projects/new"
-  todo("Turn on AppVeyor for this repo at ", url)
+  todo("Turn on AppVeyor for this repo at {url}")
   if (browse) {
     utils::browseURL(url)
   }

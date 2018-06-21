@@ -55,7 +55,7 @@ write_union <- function(path, lines, quiet = FALSE) {
   }
 
   if (!quiet) {
-    done(glue("Adding {collapse(value(new))} to {value(proj_rel_path(path))}"))
+    done("Adding {collapse(value(new))} to {value(proj_rel_path(path))}")
   }
 
   all <- union(lines, existing_lines)

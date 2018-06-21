@@ -42,15 +42,15 @@ check_is_package <- function(whos_asking = NULL) {
 
 #' Get and set the active project
 #'
-#' @description
-#' Most `use_*()` functions act on the **active project**. If it is unset,
-#' usethis uses [rprojroot](https://krlmlr.github.io/rprojroot/) to find the
-#' project root of the current working directory. It establishes the project
-#' root by looking for a `.here` file, an RStudio Project, a package
+#' @description Most `use_*()` functions act on the **active project**. If it is
+#' unset, usethis uses [rprojroot](https://rprojroot.r-lib.org) to
+#' find the project root of the current working directory. It establishes the
+#' project root by looking for a `.here` file, an RStudio Project, a package
 #' `DESCRIPTION`, Git infrastructure, a `remake.yml` file, or a `.projectile`
 #' file. It then stores the active project for use for the remainder of the
-#' session. Use `proj_get()` to see the active project and `proj_set()` to
-#' set it manually.
+#' session. Use `proj_get()` to see the active project and `proj_set()` to set
+#' it manually.
+
 #'
 #' @description In general, user scripts should not call `usethis::proj_get()`
 #'   or `usethis::proj_set()`. They are internal functions that are exported for

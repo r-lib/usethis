@@ -20,14 +20,17 @@ use_package <- function(package, type = "Imports") {
   use_dependency(package, type)
 
   switch(tolower(type),
-    imports = todo("Refer to functions with ", code(package, "::fun()")),
-    depends = todo("Are you sure you want Depends? Imports is almost always the better choice."),
+    imports = todo("Refer to functions with {code(package, '::fun()')}"),
+    depends = todo(
+      "Are you sure you want {field('Depends')}? ",
+      "{field('Imports')} is almost always the better choice."
+    ),
     suggests = {
       todo(
-        "Use ", code("requireNamespace(\"", package, "\", quietly = TRUE)"),
-        " to test if package is installed"
+        "Use {code('requireNamespace(\"', package, '\", quietly = TRUE)')} ",
+        "to test if package is installed"
       )
-      todo("Then use ", code(package, "::fun()"), " to refer to functions.")
+      todo("Then use {code(package, '::fun()')} to refer to functions.")
     },
     enhances = "",
     linkingTo = show_includes(package)
@@ -42,7 +45,7 @@ show_includes <- function(package) {
   if (length(h) == 0) return()
 
   todo("Possible includes are:")
-  code_block(glue("#include <{h}>"))
+  code_block(glue("#include <{path_file(h)}>"))
 }
 
 #' @export

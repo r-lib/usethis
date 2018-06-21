@@ -49,16 +49,16 @@ use_blank_slate <- function(scope = c("user", "project")) {
       "you must set this interactively, for now."
     )
     todo(
-      "In Global Options > General, ",
-      "do NOT check \"Restore .RData into workspace at startup\"."
+      "In {field('Global Options > General')}, ",
+      "do NOT check {field('Restore .RData into workspace at startup')}."
     )
     todo(
-      "In Global Options > General, ",
-      "set \"Save workspace to .RData on exit\" to \"Never\"."
+      "In {field('Global Options > General')}, ",
+      "set {field('Save workspace to .RData on exit')} to {field('Never')}."
     )
     todo(
-      "Call `use_blank_slate(\"project\")` to opt in to the blank slate ",
-      "workflow in this project."
+      "Call {code('use_blank_slate(\"project\")')} to opt in to the ",
+      "blank slate workflow for a specific project."
     )
     return(invisible())
   } # nocov end

@@ -228,10 +228,11 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
   )
   view_url(url)
   todo(
-    "Call ", code("edit_r_environ()"), " to open ", value(".Renviron"),
-    ", and store your PAT with a line like:\n", "GITHUB_PAT=xxxyyyzzz"
+    "Call {code('edit_r_environ()')} to open {value('.Renviron')} ",
+    "and store your PAT with a line like:"
   )
-  todo("Make sure ", value(".Renviron"), " ends with a newline!")
+  code_block("GITHUB_PAT=xxxyyyzzz", copy = FALSE)
+  todo("Make sure {value('.Renviron')} ends with a newline!")
 }
 
 uses_github <- function(base_path = proj_get()) {

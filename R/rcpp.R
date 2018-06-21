@@ -26,5 +26,5 @@ use_rcpp <- function() {
     )
     edit_file(proj_path("NAMESPACE"))
   }
-  todo("Run document()")
+  todo("Run {code('devtools::document()')}")
 }

@@ -1,15 +1,23 @@
-bullet <- function(line, bullet) {
-  line <- paste0(bullet, " ", line)
-  cat_line(line)
-}
-
 todo_bullet <- function() crayon::red(clisymbols::symbol$bullet)
+done_bullet <- function() crayon::green(clisymbols::symbol$tick)
 
-todo <- function(...) {
-  bullet(paste0(...), bullet = todo_bullet())
+## generates one line
+cat_line <- function(...) {
+  cat(..., "\n", sep = "")
 }
-done <- function(...) {
-  bullet(paste0(...), bullet = crayon::green(clisymbols::symbol$tick))
+
+## generates one bulletized line
+bulletize <- function(line, bullet = "*") {
+  line <- paste0(bullet, " ", line)
+}
+
+todo <- function(..., .envir = parent.frame()) {
+  out <- glue(collapse(c(...), sep = ""), .envir = .envir)
+  cat_line(bulletize(out, bullet = todo_bullet()))
+}
+done <- function(..., .envir = parent.frame()) {
+  out <- glue(collapse(c(...), sep = ""), .envir = .envir)
+  cat_line(bulletize(out, bullet = done_bullet()))
 }
 
 code_block <- function(..., copy = interactive()) {
@@ -21,9 +29,6 @@ code_block <- function(..., copy = interactive()) {
   cat_line(crayon::make_style("darkgrey")(block))
 }
 
-cat_line <- function(...) {
-  cat(..., "\n", sep = "")
-}
 
 field <- function(...) {
   x <- paste0(...)
@@ -40,5 +45,5 @@ code <- function(...) {
 }
 
 collapse <- function(x, sep = ", ") {
-  paste0(x, collapse = sep)
+  glue::glue_collapse(x, sep = sep)
 }

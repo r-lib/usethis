@@ -105,6 +105,6 @@ use_data_raw <- function() {
   use_directory("data-raw", ignore = TRUE)
 
   message("Next:")
-  todo("Add data creation scripts in ", value("data-raw"))
-  todo("Use ", code("usethis::use_data()"), " to add data to package")
+  todo("Add data creation scripts in {value('data-raw/')}")
+  todo("Use {code('usethis::use_data()')} to add data to package")
 }

@@ -22,7 +22,7 @@ use_git <- function(message = "Initial commit") {
 
   if (interactive() && git_uncommitted()) {
     paths <- unlist(git2r::status(r))
-    commit_consent_msg <- glue::glue(
+    commit_consent_msg <- glue(
       "OK to make an initial commit of {length(paths)} files?"
     )
     if (yep(commit_consent_msg)) {

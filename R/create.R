@@ -72,12 +72,9 @@ create_project <- function(path,
   if (rstudio) {
     use_rstudio()
   } else {
-    done("Writing a sentinel file ", value(".here"))
-    todo(
-      "Build robust paths within your project via ",
-      code("here::here()")
-    )
-    todo("Learn more at https://krlmlr.github.io/here/")
+    done("Writing a sentinel file {value('.here')}")
+    todo("Build robust paths within your project via {code('here::here()')}")
+    todo("Learn more at https://here.r-lib.org")
     file_create(proj_path(".here"))
   }
   if (open) {
@@ -175,7 +172,7 @@ create_from_github <- function(repo_spec,
     ssh = repo_info$ssh_url
   )
 
-  done(glue("Cloning repo from {value(origin_url)} into {value(repo_path)}"))
+  done("Cloning repo from {value(origin_url)} into {value(repo_path)}")
   git2r::clone(
     origin_url,
     repo_path,
@@ -186,7 +183,7 @@ create_from_github <- function(repo_spec,
 
   if (fork) {
     r <- git2r::repository(proj_get())
-    done(glue("Adding {value('upstream')} remote: {value(upstream_url)}"))
+    done("Adding {value('upstream')} remote: {value(upstream_url)}")
     git2r::remote_add(r, "upstream", upstream_url)
   }
 

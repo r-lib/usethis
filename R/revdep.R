@@ -23,5 +23,5 @@ use_revdep <- function() {
     "revdep/email.yml"
   )
 
-  todo("Run checks with ", code("revdepcheck::revdep_check(num_workers = 4)"))
+  todo("Run checks with {code('revdepcheck::revdep_check(num_workers = 4)')}")
 }

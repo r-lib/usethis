@@ -94,10 +94,10 @@ use_dependency <- function(package, type, version = "*") {
 view_url <- function(..., open = interactive()) {
   url <- paste(..., sep = "/")
   if (open) {
-    done("Opening url")
+    done("Opening URL {url}")
     utils::browseURL(url)
   } else {
-    todo("Open url ", url)
+    todo("Open URL {url}")
   }
   invisible(url)
 }
