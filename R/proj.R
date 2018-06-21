@@ -156,7 +156,7 @@ project_data <- function(base_path = proj_get()) {
   if (is_package(base_path)) {
     data <- package_data(base_path)
   } else {
-    data <- list(Project = basename(base_path))
+    data <- list(Project = path_file(base_path))
   }
   if (uses_github(base_path)) {
     data$github_owner <- github_owner()

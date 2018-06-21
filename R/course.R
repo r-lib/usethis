@@ -184,7 +184,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   cat_line()
 
   cd <- content_disposition(h)
-  base_name <- make_filename(cd, fallback = basename(url))
+  base_name <- make_filename(cd, fallback = path_file(url))
 
   ## DO YOU KNOW WHERE YOUR STUFF IS GOING?!?
   if (interactive() && pedantic) {
@@ -203,7 +203,6 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   full_path <- path(base_path, base_name)
 
   if (!can_overwrite(full_path)) {
-    ## TO DO: it pains me that can_overwrite() always strips to basename
     stop("Aborting.", call. = FALSE)
   }
 

@@ -4,7 +4,7 @@ can_overwrite <- function(path) {
   }
 
   if (interactive()) {
-    yep("Overwrite pre-existing file ", value(basename(path)), "?")
+    yep("Overwrite pre-existing file ", value(proj_rel_path(path)), "?")
   } else {
     FALSE
   }
