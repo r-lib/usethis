@@ -25,7 +25,7 @@
 use_tibble <- function() {
   check_is_package("use_tibble()")
   if (!uses_roxygen()) {
-    stop(code("use_tibble()"), " requires that you use roxygen", call. = FALSE)
+    stop_glue("{code('use_tibble()')} requires that you use roxygen.")
   }
 
   use_dependency("tibble", "Imports")
@@ -35,21 +35,20 @@ use_tibble <- function() {
   if (file_exists(package_doc)) {
     todo(
       "Add this to the roxygen header for package-level docs in ",
-      value(proj_rel_path(package_doc)), ":"
+      "{value(proj_rel_path(package_doc))}:"
     )
     code_block(directive)
     edit_file(package_doc)
   } else {
     todo(
-      "Consider calling ", code('use_package_doc()'), " to initialize ",
-      "package-level docs, which is a good place to put the roxygen directive ",
-      "below."
+      "Consider calling {code('use_package_doc()')} to initialize ",
+      "docs, which is a good place to put the roxygen directive below."
     )
     todo("Add this line to a relevant roxygen header:")
     code_block(directive)
   }
 
-  todo("Run ", code("document()"), "to update NAMESPACE")
+  todo("Run {code('devtools::document()')} to update {value('NAMESPACE')}")
   todo("Document a returned tibble like so:")
   code_block("#' @return a [tibble][tibble::tibble-package]", copy = FALSE)
 }

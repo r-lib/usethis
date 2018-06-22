@@ -14,15 +14,15 @@ use_roxygen_md <- function() {
 
     use_description_field("Roxygen", "list(markdown = TRUE)")
     use_description_field("RoxygenNote", roxy_ver)
-    todo("Re-document")
+    todo("Run {code('devtools::document()')}")
   } else if (!uses_roxygen_md()) {
     check_installed("roxygen2md")
     if (!uses_git()) {
       todo("Use git to ensure that you don't lose any data")
     }
 
-    todo("Run the following code, then re-document()")
-    code_block(glue("roxygen2md::roxygen2md(\"{proj_get()}\")"))
+    todo("Run the following code, then rerun {code('devtools::document()')}")
+    code_block("roxygen2md::roxygen2md(\"{proj_get()}\")")
   }
 
   invisible()

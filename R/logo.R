@@ -27,17 +27,11 @@ use_logo <- function(img, geometry = "120x140") {
   dir_create(proj_path("man", "figures"))
   magick::image_write(img_data, proj_path("man", "figures", "logo.png"))
 
-  done(
-    "Resized ", basename(img), " to ", geometry
-  )
+  done("Resized {value(path_file(img))} to {geometry}")
 
-  todo(
-    "Add a logo by adding the following line to your README:"
-  )
+  todo("Add a logo by adding the following line to your README:")
   pkg <- project_name()
-
-  img <- glue("# {pkg} <img src=\"man/figures/logo.png\" align=\"right\" />")
-  code_block(img)
+  code_block("# {pkg} <img src=\"man/figures/logo.png\" align=\"right\" />")
 }
 
 has_logo <- function() {

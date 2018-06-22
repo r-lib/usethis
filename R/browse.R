@@ -78,7 +78,7 @@ github_link <- function(package = NULL) {
   gh_links <- grep("^https?://github.com/", urls, value = TRUE)
 
   if (length(gh_links) == 0) {
-    stop("Package does not provide a GitHub URL", call. = FALSE)
+    stop_glue("Package does not provide a GitHub URL.")
   }
 
   gsub("/$", "", gh_links[[1]])

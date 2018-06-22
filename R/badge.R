@@ -49,9 +49,8 @@ use_badge <- function(badge_name, href, src) {
   link <- glue("[{img}]({href})")
 
   todo(
-    "Add a ",
-    badge_name,
-    " badge by adding the following line to your README:"
+    "Add a {field(badge_name)} badge by adding the following line ",
+    "to your README:"
   )
   code_block(link)
 }

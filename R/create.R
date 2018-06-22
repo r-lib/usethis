@@ -19,8 +19,8 @@
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects).
 #'    If `FALSE` and a non-package project, a sentinel `.here` file is placed so
 #'   that the directory can be recognized as a project by the
-#'   [here](https://krlmlr.github.io/here/) or
-#'   [rprojroot](https://krlmlr.github.io/rprojroot/) packages.
+#'   [here](https://here.r-lib.org) or
+#'   [rprojroot](https://rprojroot.r-lib.org) packages.
 #' @param open If `TRUE` and in RStudio, a new RStudio project is opened in a
 #'   new instance, if possible, or is switched to, otherwise. If `TRUE` and not
 #'   in RStudio (or new project is not an RStudio project), working directory is
@@ -72,12 +72,9 @@ create_project <- function(path,
   if (rstudio) {
     use_rstudio()
   } else {
-    done("Writing a sentinel file ", value(".here"))
-    todo(
-      "Build robust paths within your project via ",
-      code("here::here()")
-    )
-    todo("Learn more at https://krlmlr.github.io/here/")
+    done("Writing a sentinel file {value('.here')}")
+    todo("Build robust paths within your project via {code('here::here()')}")
+    todo("Learn more at https://here.r-lib.org")
     file_create(proj_path(".here"))
   }
   if (open) {
@@ -158,7 +155,7 @@ create_from_github <- function(repo_spec,
   fork <- rationalize_fork(fork, repo_info, pat_available, user)
   if (fork) {
     ## https://developer.github.com/v3/repos/forks/#create-a-fork
-    done("Forking ", value(repo_info$full_name))
+    done("Forking {value(repo_info$full_name)}")
     upstream_url <- switch(
       protocol,
       https = repo_info$clone_url,
@@ -175,7 +172,7 @@ create_from_github <- function(repo_spec,
     ssh = repo_info$ssh_url
   )
 
-  done(glue("Cloning repo from {value(origin_url)} into {value(repo_path)}"))
+  done("Cloning repo from {value(origin_url)} into {value(repo_path)}")
   git2r::clone(
     origin_url,
     repo_path,
@@ -186,7 +183,7 @@ create_from_github <- function(repo_spec,
 
   if (fork) {
     r <- git2r::repository(proj_get())
-    done(glue("Adding {value('upstream')} remote: {value(upstream_url)}"))
+    done("Adding {value('upstream')} remote: {value(upstream_url)}")
     git2r::remote_add(r, "upstream", upstream_url)
   }
 
@@ -212,7 +209,7 @@ open_project <- function(path, rstudio = NA) {
     rstudioapi::openProject(rproj_path, newSession = TRUE)
   } else {
     setwd(path)
-    done("Changing working directory to ", value(path))
+    done("Changing working directory to {value(path)}")
   }
   invisible(TRUE)
 }
@@ -237,11 +234,11 @@ check_not_nested <- function(path, name) {
     "{value(path)}."
   )
   if (!interactive()) {
-    stop(message, call. = FALSE)
+    stop_glue(message)
   }
 
   if (nope(message, " This is rarely a good idea. Do you wish to create anyway?")) {
-    stop("Aborting project creation", call. = FALSE)
+    stop_glue("Aborting project creation.")
   }
   invisible()
 }
@@ -260,10 +257,10 @@ rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
   }
 
   if (fork && identical(user, owner)) {
-    stop(glue(
+    stop_glue(
       "Repo {value(repo_info$full_name)} is owned by user ",
       "{value(user)}. Can't fork."
-    ), call. = FALSE)
+    )
   }
 
   fork

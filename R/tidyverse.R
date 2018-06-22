@@ -138,13 +138,13 @@ dep_version <- function(x) {
 #' @rdname tidyverse
 use_tidy_eval <- function() {
   if (!uses_roxygen()) {
-    stop("`use_tidy_eval()` requires that you use roxygen.", call. = FALSE)
+    stop_glue("{code('use_tidy_eval()')} requires that you use roxygen.")
   }
 
   use_dependency("rlang", "Imports", ">= 0.1.2")
   use_template("tidy-eval.R", "R/utils-tidy-eval.R")
 
-  todo("Run document()")
+  todo("Run {code('devtools::document()')}")
 }
 
 
@@ -297,9 +297,9 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
   }
 
   contributors <- sort(unique(pluck_chr(res, c("user", "login"))))
-  todo(length(contributors), " contributors identified")
+  todo("{length(contributors)} contributors identified")
   code_block(
-    glue::glue_collapse(
+    collapse(
       glue("[\\@{contributors}](https://github.com/{contributors})"),
       sep = ", ", last = ", and "
     )

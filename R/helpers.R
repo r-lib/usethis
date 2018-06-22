@@ -8,14 +8,13 @@ use_description_field <- function(name,
   }
 
   if (!is.na(curr) && !overwrite) {
-    stop(
-      field(name), " has a different value in DESCRIPTION. ",
-      "Use overwrite = TRUE to overwrite.",
-      call. = FALSE
+    stop_glue(
+      "{field(name)} has a different value in DESCRIPTION. ",
+      "Use {code('overwrite = TRUE')} to overwrite."
     )
   }
 
-  done("Setting ", field(name), " field in DESCRIPTION to ", value(value))
+  done("Setting {field(name)} field in DESCRIPTION to {value(value)}")
   desc::desc_set(name, value, file = base_path)
   invisible()
 }
@@ -25,10 +24,9 @@ use_dependency <- function(package, type, version = "*") {
   stopifnot(is_string(type))
 
   if (package != "R" && !requireNamespace(package, quietly = TRUE)) {
-    stop(
-      value(package),
-      " must be installed before you can take a dependency on it",
-      call. = FALSE
+    stop_glue(
+      "{value(package)} must be installed before you can ",
+      "take a dependency on it."
     )
   }
 
@@ -45,17 +43,16 @@ use_dependency <- function(package, type, version = "*") {
     !any(existing_dep) ||
     (existing_type != "LinkingTo" && type == "LinkingTo")
   ) {
-    done("Adding ", value(package), " to ", field(type), " field in DESCRIPTION")
+    done("Adding {value(package)} to {field(type)} field in DESCRIPTION")
     desc::desc_set_dep(package, type, version = version, file = proj_get())
     return(invisible())
   }
 
   ## no downgrades
   if (match(existing_type, types) < match(type, types)) {
-    warning(
-      "Package ", value(package), " is already listed in ",
-      value(existing_type), " in DESCRIPTION, no change made.",
-      call. = FALSE
+    warning_glue(
+      "Package {value(package)} is already listed in ",
+      "{value(existing_type)} in DESCRIPTION, no change made."
     )
     return(invisible())
   }
@@ -64,7 +61,7 @@ use_dependency <- function(package, type, version = "*") {
     if (existing_type != "LinkingTo") {
       ## prepare for an upgrade
       done(
-        "Removing ", value(package), " from ", field(existing_type),
+        "Removing {value(package)} from {field(existing_type)}",
         " field in DESCRIPTION"
       )
       desc::desc_del_dep(package, existing_type, file = proj_get())
@@ -74,8 +71,7 @@ use_dependency <- function(package, type, version = "*") {
     to_version <- any(existing_dep & deps$version != version)
     if (to_version) {
       done(
-        "Setting ", value(package), " version to ",
-        field(version), " field in DESCRIPTION"
+        "Setting {value(package)} version to {value(version)} in DESCRIPTION"
       )
       desc::desc_set_dep(package, type, version = version, file = proj_get())
     }
@@ -83,8 +79,8 @@ use_dependency <- function(package, type, version = "*") {
   }
 
   done(
-    "Adding ", value(package), " to ", field(type), " field in DESCRIPTION",
-    if (version != "*") ", with version ", field(version)
+    "Adding {value(package)} to {field(type)} field in DESCRIPTION",
+    if (version != "*") ", with version {value(version)}" else ""
   )
   desc::desc_set_dep(package, type, version = version, file = proj_get())
 
@@ -94,10 +90,10 @@ use_dependency <- function(package, type, version = "*") {
 view_url <- function(..., open = interactive()) {
   url <- paste(..., sep = "/")
   if (open) {
-    done("Opening url")
+    done("Opening URL {url}")
     utils::browseURL(url)
   } else {
-    todo("Open url ", url)
+    todo("Open URL {url}")
   }
   invisible(url)
 }

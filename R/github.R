@@ -77,8 +77,8 @@ use_github <- function(organisation = NULL,
   if (interactive()) {
     todo("Check title and description")
     code_block(
-      glue("Name:        {repo_name}"),
-      glue("Description: {repo_desc}"),
+      "Name:        {repo_name}",
+      "Description: {repo_desc}",
       copy = FALSE
     )
     if (nope("Are title and description ok?")) {
@@ -87,8 +87,8 @@ use_github <- function(organisation = NULL,
   } else {
     done("Setting title and description")
     code_block(
-      glue("Name:        {repo_name}"),
-      glue("Description: {repo_desc}"),
+      "Name:        {repo_name}",
+      "Description: {repo_desc}",
       copy = FALSE
     )
   }
@@ -228,10 +228,11 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
   )
   view_url(url)
   todo(
-    "Call ", code("edit_r_environ()"), " to open ", value(".Renviron"),
-    ", and store your PAT with a line like:\n", "GITHUB_PAT=xxxyyyzzz"
+    "Call {code('edit_r_environ()')} to open {value('.Renviron')} ",
+    "and store your PAT with a line like:"
   )
-  todo("Make sure ", value(".Renviron"), " ends with a newline!")
+  code_block("GITHUB_PAT=xxxyyyzzz", copy = FALSE)
+  todo("Make sure {value('.Renviron')} ends with a newline!")
 }
 
 uses_github <- function(base_path = proj_get()) {
@@ -247,10 +248,9 @@ check_uses_github <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop(
+  stop_glue(
     "Cannot detect that package already uses GitHub.\n",
-    "Do you need to run ", code("use_github()"), "?",
-    call. = FALSE
+    "Do you need to run {code('use_github()')}?"
   )
 }
 
@@ -263,11 +263,11 @@ gh_token <- function() {
 
 check_gh_token <- function(auth_token) {
   if (is.null(auth_token) || !nzchar(auth_token)) {
-    stop(glue(
+    stop_glue(
       "No GitHub {code('auth_token')}.\n",
       "Provide explicitly or make available as an environment variable.\n",
       "See {code('browse_github_pat()')} for help setting this up."
-    ), call. = FALSE)
+    )
   }
   auth_token
 }

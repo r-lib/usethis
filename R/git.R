@@ -22,7 +22,7 @@ use_git <- function(message = "Initial commit") {
 
   if (interactive() && git_uncommitted()) {
     paths <- unlist(git2r::status(r))
-    commit_consent_msg <- glue::glue(
+    commit_consent_msg <- glue(
       "OK to make an initial commit of {length(paths)} files?"
     )
     if (yep(commit_consent_msg)) {
@@ -113,7 +113,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
       cfg <- git2r::config()
     }
   } else {
-    done("Writing to ", scope, " git config file")
+    done("Writing to {field(scope)} git config file")
     if (identical(scope, "global")) {
       cfg <- git2r::config(global = TRUE, ...)
     } else {
@@ -139,10 +139,9 @@ check_uses_git <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop(
+  stop_glue(
     "Cannot detect that project is already a Git repository.\n",
-    "Do you need to run ", code("use_git()"), "?",
-    call. = FALSE
+    "Do you need to run {code('use_git()')}?"
   )
 }
 
@@ -153,7 +152,7 @@ git_check_in <- function(base_path, paths, message) {
   if (!git_uncommitted(base_path))
     return(invisible())
 
-  done("Checking into git [", message, "]")
+  done("Checking into git [{message}]")
 
   r <- git2r::repository(base_path)
   git2r::add(r, paths)

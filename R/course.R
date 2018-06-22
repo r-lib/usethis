@@ -184,7 +184,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   cat_line()
 
   cd <- content_disposition(h)
-  base_name <- make_filename(cd, fallback = basename(url))
+  base_name <- make_filename(cd, fallback = path_file(url))
 
   ## DO YOU KNOW WHERE YOUR STUFF IS GOING?!?
   if (interactive() && pedantic) {
@@ -197,20 +197,17 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
       code("destdir"), ".\n"
     )
     if (nope("Is it OK to write this file here?")) {
-      stop("Aborting", call. = FALSE)
+      stop_glue("Aborting.")
     }
   }
   full_path <- path(base_path, base_name)
 
   if (!can_overwrite(full_path)) {
-    ## TO DO: it pains me that can_overwrite() always strips to basename
-    stop("Aborting.", call. = FALSE)
+    stop_glue("Aborting.")
   }
 
-  done(
-    "Downloaded ZIP file to ",
-    if (is.null(destdir)) value(base_name) else value(full_path)
-  )
+  zip_dest <- if (is.null(destdir)) base_name else full_path
+  done("Downloaded ZIP file to {value(zip_dest)}")
   file_move(tmp, full_path)
 }
 
@@ -234,13 +231,13 @@ tidy_unzip <- function(zipfile) {
     utils::unzip(zipfile, files = filenames, exdir = path_dir(zipfile))
   }
   done(
-    "Unpacking ZIP file into ", value(target),
-    " (", length(filenames), " files extracted)"
+    "Unpacking ZIP file into {value(target)} ",
+    "({length(filenames)} files extracted)"
   )
 
   if (interactive()) {
     if (yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
-      done("Deleting ", value(zipfile))
+      done("Deleting {value(zipfile)}")
       file_delete(zipfile)
     }
 
@@ -248,7 +245,7 @@ tidy_unzip <- function(zipfile) {
       done("Opening project in RStudio")
       rstudioapi::openProject(target, newSession = TRUE)
     } else if (!in_rstudio_server()) {
-      done("Opening ", value(target), " in the file manager")
+      done("Opening {value(target)} in the file manager")
       utils::browseURL(path_real(target))
     }
   }
@@ -294,10 +291,10 @@ top_directory <- function(filenames) {
 check_is_zip <- function(h) {
   headers <- curl::parse_headers_list(curl::handle_data(h)$headers)
   if (headers[["content-type"]] != "application/zip") {
-    stop(glue(
-      "Download does not have MIME type {value('application/zip')}\n",
-      "Instead it's {value(headers[['content-type']])}"
-    ), call. = FALSE)
+    stop_glue(
+      "Download does not have MIME type {value('application/zip')}.\n",
+      "Instead it's {value(headers[['content-type']])}."
+    )
   }
   invisible()
 }
@@ -318,11 +315,11 @@ content_disposition <- function(h) {
 ##  GitHub eg: "attachment; filename=foo-master.zip"
 parse_content_disposition <- function(cd) {
   if (!grepl("^attachment;", cd)) {
-    stop(glue(
+    stop_glue(
       "{code('Content-Disposition')} header doesn't start with ",
-      "{value('attachment')}\n",
+      "{value('attachment')}.\n",
       "Actual header: {value(cd)}"
-    ), call. = FALSE)
+    )
   }
 
   cd <- sub("^attachment;\\s*", "", cd, ignore.case = TRUE)

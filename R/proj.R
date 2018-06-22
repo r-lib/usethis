@@ -37,27 +37,27 @@ check_is_package <- function(whos_asking = NULL) {
       "{code(whos_asking)} is designed to work with packages. {message}"
     )
   }
-  stop(message, call. = FALSE)
+  stop_glue(message)
 }
 
 #' Get and set the active project
 #'
-#' @description
-#' Most `use_*()` functions act on the **active project**. If it is unset,
-#' usethis uses [rprojroot](https://krlmlr.github.io/rprojroot/) to find the
-#' project root of the current working directory. It establishes the project
-#' root by looking for a `.here` file, an RStudio Project, a package
+#' @description Most `use_*()` functions act on the **active project**. If it is
+#' unset, usethis uses [rprojroot](https://rprojroot.r-lib.org) to
+#' find the project root of the current working directory. It establishes the
+#' project root by looking for a `.here` file, an RStudio Project, a package
 #' `DESCRIPTION`, Git infrastructure, a `remake.yml` file, or a `.projectile`
 #' file. It then stores the active project for use for the remainder of the
-#' session. Use `proj_get()` to see the active project and `proj_set()` to
-#' set it manually.
+#' session. Use `proj_get()` to see the active project and `proj_set()` to set
+#' it manually.
+
 #'
 #' @description In general, user scripts should not call `usethis::proj_get()`
 #'   or `usethis::proj_set()`. They are internal functions that are exported for
 #'   occasional interactive use. If you need to detect a project
 #'   programmatically in your code, you should probably be using
-#'   [rprojroot](https://krlmlr.github.io/rprojroot/) or its simpler companion,
-#'   [here](https://krlmlr.github.io/here/), directly.
+#'   [rprojroot](https://rprojroot.r-lib.org) or its simpler companion,
+#'   [here](https://here.r-lib.org), directly.
 #'
 #' @param path Path to set.
 #' @param force If `TRUE`, use this path without checking the usual criteria.
@@ -99,9 +99,9 @@ proj_set <- function(path = ".", force = FALSE) {
 
   new_proj <- proj_path_prep(proj_find(path))
   if (is.null(new_proj)) {
-    stop(glue(
+    stop_glue(
       "Path {value(path)} does not appear to be inside a project or package."
-    ), call. = FALSE)
+    )
   }
   proj$cur <- new_proj
   invisible(old)
@@ -148,15 +148,15 @@ is_in_proj <- function(path) {
 
 project_data <- function(base_path = proj_get()) {
   if (!is_proj(base_path)) {
-    stop(glue(
+    stop_glue(
       "{value(base_path)} doesn't meet the usethis criteria for a project.\n",
       "Read more in the help for {code(\"proj_get()\")}."
-    ), call. = FALSE)
+    )
   }
   if (is_package(base_path)) {
     data <- package_data(base_path)
   } else {
-    data <- list(Project = basename(base_path))
+    data <- list(Project = path_file(base_path))
   }
   if (uses_github(base_path)) {
     data$github_owner <- github_owner()

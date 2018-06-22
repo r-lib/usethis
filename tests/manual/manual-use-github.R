@@ -1,4 +1,5 @@
 devtools::load_all()
+library(fs)
 
 pkgname <- "klmnop"
 protocol <- "ssh"
