@@ -10,7 +10,7 @@ done_bullet <- function() crayon::green(clisymbols::symbol$tick)
 
 ## adds a leading bullet
 bulletize <- function(line, bullet = "*") {
-  line <- paste0(bullet, " ", line)
+  paste0(bullet, " ", line)
 }
 
 collapse <- function(x, sep = ", ", width = Inf, last = "") {
