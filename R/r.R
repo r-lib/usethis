@@ -35,7 +35,9 @@ get_active_r_file <- function(path = "R") {
   if (!rstudioapi::isAvailable()) {
     stop_glue("Argument {code('name')} must be specified.")
   }
-  active_file <- rstudioapi::getSourceEditorContext()$path
+  ## rstudioapi can return a path like '~/path/to/file' where '~' means
+  ## R's notion of user's home directory
+  active_file <- path_expand_r(rstudioapi::getSourceEditorContext()$path)
 
   rel_path <- proj_rel_path(active_file)
   if (path_dir(rel_path) != path) {
