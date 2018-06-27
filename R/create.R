@@ -213,9 +213,7 @@ open_project <- function(path, rstudio = NA) {
 }
 
 check_not_nested <- function(path, name) {
-  path_is_proj <- is_proj(path)
-
-  if (!path_is_proj) {
+  if (!possibly_in_proj(path)) {
     return(invisible())
   }
 

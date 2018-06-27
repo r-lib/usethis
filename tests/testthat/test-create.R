@@ -2,13 +2,13 @@ context("create")
 
 test_that("create_package() creates a package", {
   dir <- scoped_temporary_package()
-  expect_true(is_proj(dir))
+  expect_true(possibly_in_proj(dir))
   expect_true(is_package(dir))
 })
 
 test_that("create_project() creates a non-package project", {
   dir <- scoped_temporary_project()
-  expect_true(is_proj(dir))
+  expect_true(possibly_in_proj(dir))
   expect_false(is_package(dir))
 })
 
