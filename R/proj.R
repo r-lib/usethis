@@ -50,7 +50,6 @@ check_is_package <- function(whos_asking = NULL) {
 #' file. It then stores the active project for use for the remainder of the
 #' session. Use `proj_get()` to see the active project and `proj_set()` to set
 #' it manually.
-
 #'
 #' @description In general, user scripts should not call `usethis::proj_get()`
 #'   or `usethis::proj_set()`. They are internal functions that are exported for
@@ -65,6 +64,7 @@ check_is_package <- function(whos_asking = NULL) {
 #'   problem: you need to set the active project in order to add
 #'   project-signalling infrastructure, such as initialising a Git repo or
 #'   adding a DESCRIPTION file.
+#' @param quiet Logical. Whether to announce project activation.
 #' @keywords internal
 #' @export
 #' @examples
@@ -75,10 +75,10 @@ check_is_package <- function(whos_asking = NULL) {
 #' ## manually set the active project
 #' proj_set("path/to/target/project")
 #' }
-proj_get <- function() {
+proj_get <- function(quiet = FALSE) {
   # Called for first time so try working directory
   if (!proj_active()) {
-    proj_set(".")
+    proj_set(".", quiet = quiet)
   }
 
   proj$cur
@@ -86,7 +86,7 @@ proj_get <- function() {
 
 #' @export
 #' @rdname proj_get
-proj_set <- function(path = ".", force = FALSE) {
+proj_set <- function(path = ".", force = FALSE, quiet = FALSE) {
   old <- proj$cur
 
   check_is_dir(path)
@@ -94,6 +94,9 @@ proj_set <- function(path = ".", force = FALSE) {
 
   if (force) {
     proj$cur <- path
+    if (!quiet) {
+      done("Changing active project to {value(path)}")
+    }
     return(invisible(old))
   }
 
@@ -104,6 +107,9 @@ proj_set <- function(path = ".", force = FALSE) {
     )
   }
   proj$cur <- new_proj
+  if (!quiet) {
+    done("Changing active project to {value(path)}")
+  }
   invisible(old)
 }
 

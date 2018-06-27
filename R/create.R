@@ -36,7 +36,6 @@ create_package <- function(path,
   check_not_nested(path_dir(path), name)
 
   create_directory(path_dir(path), name)
-  cat_line(crayon::bold("Changing active project to", crayon::red(name)))
   proj_set(path, force = TRUE)
 
   use_directory("R")
@@ -64,7 +63,6 @@ create_project <- function(path,
   check_not_nested(path_dir(path), name)
 
   create_directory(path_dir(path), name)
-  cat_line(crayon::bold("Changing active project to", crayon::red(name)))
   proj_set(path, force = TRUE)
 
   use_directory("R")

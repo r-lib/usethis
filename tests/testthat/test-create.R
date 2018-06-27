@@ -35,7 +35,7 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
         create_package(path_package, rstudio = FALSE, open = FALSE)
       )
       new_proj <- proj_get()
-      if (!is.null(old_proj)) proj_set(old_proj)
+      if (!is.null(old_proj)) proj_set(old_proj, quiet = TRUE)
     }
   )
   expect_true(dir_exists(new_proj))
@@ -48,7 +48,7 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
         create_project(path_project, rstudio = FALSE, open = FALSE)
       )
       new_proj <- proj_get()
-      if (!is.null(old_proj)) proj_set(old_proj)
+      if (!is.null(old_proj)) proj_set(old_proj, quiet = TRUE)
     }
   )
   expect_true(dir_exists(new_proj))
