@@ -143,12 +143,10 @@ is_in_proj <- function(path) {
   if (!proj_active()) {
     return(FALSE)
   }
-
-  ## realize path, if possible; use "as is", otherwise
-  path <- tryCatch(path_real(path), error = function(e) NULL) %||% path
   identical(
     proj_get(),
-    path_common(c(proj_get(), path))
+    ## use path_abs() in case path does not exist yet
+    path_common(c(proj_get(), path_abs(path)))
   )
 }
 
