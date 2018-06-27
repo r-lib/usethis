@@ -1,3 +1,6 @@
+## attempt to activate a project, which is nice during development
+try(proj_set("."))
+
 ## putting `pattern` in the package or project name is part of our strategy for
 ## suspending the nested project check during testing
 pattern <- "aaa"
