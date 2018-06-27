@@ -36,7 +36,7 @@ create_package <- function(path,
   check_not_nested(path_dir(path), name)
 
   create_directory(path_dir(path), name)
-  proj_set(path, force = TRUE)
+  old_project <- proj_set(path, force = TRUE)
 
   use_directory("R")
   use_directory("man")
@@ -46,11 +46,9 @@ create_package <- function(path,
   if (rstudio) {
     use_rstudio()
   }
+
   if (open) {
-    fresh_rstudio <- open_project(proj_get())
-    if (fresh_rstudio) {
-      proj_revert()
-    }
+    open_project(proj_get(), restore = old_project)
   }
 
   invisible(TRUE)
@@ -66,7 +64,7 @@ create_project <- function(path,
   check_not_nested(path_dir(path), name)
 
   create_directory(path_dir(path), name)
-  proj_set(path, force = TRUE)
+  old_project <- proj_set(path, force = TRUE)
 
   use_directory("R")
 
@@ -79,10 +77,7 @@ create_project <- function(path,
     file_create(proj_path(".here"))
   }
   if (open) {
-    fresh_rstudio <- open_project(proj_get())
-    if (fresh_rstudio) {
-      proj_revert()
-    }
+    open_project(proj_get(), restore = old_project)
   }
 
   invisible(TRUE)
@@ -183,7 +178,7 @@ create_from_github <- function(repo_spec,
     credentials = credentials,
     progress = FALSE
   )
-  proj_set(repo_path)
+  old_project <- proj_set(repo_path)
 
   if (fork) {
     r <- git2r::repository(proj_get())
@@ -198,22 +193,26 @@ create_from_github <- function(repo_spec,
   }
 
   if (open) {
-    fresh_rstudio <- open_project(proj_get())
-    if (fresh_rstudio) {
-      proj_revert()
-    }
+    open_project(proj_get(), restore = old_project)
   }
+  invisible(TRUE)
+
 }
 
-open_project <- function(path, rstudio = NA) {
+## `rstudio` arg here is about whether to attempt a launch in RStudio
+## `rstudio` arg of `create_*()` functions is about whether to add .Rproj file
+open_project <- function(path, restore = NA, rstudio = NA) {
   if (is.na(rstudio)) {
     rstudio <- is_rstudio_project(path)
   }
 
   if (rstudio && rstudioapi::hasFun("openProject")) {
-    done("Opening new project in RStudio")
+    done("Opening new project {value(path_file(path))} in RStudio")
     rstudioapi::openProject(rproj_path(path), newSession = TRUE)
     ## TODO: check this is correct on rstudio server / cloud
+    if (!is.na(restore)) {
+      proj_set(restore, force = TRUE)
+    }
     return(invisible(TRUE))
   }
 
