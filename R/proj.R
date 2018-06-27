@@ -92,31 +92,26 @@ proj_set <- function(path = ".", force = FALSE, quiet = FALSE) {
   }
   path <- proj_path_prep(path)
 
-  if (force) {
-    return(proj_set_(path, quiet = quiet))
+  if (!force) {
+    new_project <- proj_path_prep(proj_find(path))
+    if (is.null(new_project)) {
+      stop_glue(
+        "Path {value(path)} does not appear to be inside a project or package."
+      )
+    }
+    path <- new_project
   }
 
-  new_proj <- proj_path_prep(proj_find(path))
-  if (is.null(new_proj)) {
-    stop_glue(
-      "Path {value(path)} does not appear to be inside a project or package."
-    )
-  }
-  proj_set_(new_proj, quiet = quiet)
+  proj_set_(path, quiet = quiet)
 }
 
 proj_set_ <- function(path, quiet = FALSE) {
-  force(path)
-  proj$prev <- proj$cur %||% NULL
+  old <- proj$cur
   proj$cur <- path
   if (!quiet) {
     done("Changing active project to {value(proj$cur)}")
   }
-  invisible(proj$prev)
-}
-
-proj_revert <- function(quiet = FALSE) {
-  proj_set_(proj$prev, quiet = quiet)
+  invisible(old)
 }
 
 proj_path <- function(..., ext = "") path_norm(path(proj_get(), ..., ext = ext))
