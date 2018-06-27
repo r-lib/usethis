@@ -20,19 +20,14 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
                                    thing = c("package", "project")) {
   thing <- match.arg(thing)
 
-  if (proj_active()) {
-    proj_to_restore <- proj_get()
-    ## Can't schedule a deferred project reset if calling this from the R
-    ## console, which is useful when developing tests
-    if (identical(env, globalenv())) {
-      done("Switching to a temporary project!")
-      todo(
-        "Restore current project with: ",
-        "{code('proj_set(\"', proj_to_restore, '\")')}"
-      )
-    } else {
-      withr::defer(proj_set(proj_to_restore, quiet = TRUE), envir = env)
-    }
+  ## Can't schedule a deferred project reset if calling this from the R
+  ## console, which is useful when developing tests
+  if (identical(env, globalenv())) {
+    done("Switching to a temporary project!")
+    todo("Restore current project with: {code('proj_revert()')}"
+    )
+  } else {
+    withr::defer(proj_revert(quiet = TRUE), envir = env)
   }
 
   switch(

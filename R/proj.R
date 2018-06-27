@@ -87,17 +87,13 @@ proj_get <- function(quiet = FALSE) {
 #' @export
 #' @rdname proj_get
 proj_set <- function(path = ".", force = FALSE, quiet = FALSE) {
-  old <- proj$cur
-
-  check_is_dir(path)
+  if (!is.null(path)) {
+    check_is_dir(path)
+  }
   path <- proj_path_prep(path)
 
   if (force) {
-    proj$cur <- path
-    if (!quiet) {
-      done("Changing active project to {value(path)}")
-    }
-    return(invisible(old))
+    return(proj_set_(path, quiet = quiet))
   }
 
   new_proj <- proj_path_prep(proj_find(path))
@@ -106,11 +102,21 @@ proj_set <- function(path = ".", force = FALSE, quiet = FALSE) {
       "Path {value(path)} does not appear to be inside a project or package."
     )
   }
-  proj$cur <- new_proj
+  proj_set_(new_proj, quiet = quiet)
+}
+
+proj_set_ <- function(path, quiet = FALSE) {
+  force(path)
+  proj$prev <- proj$cur %||% NULL
+  proj$cur <- path
   if (!quiet) {
-    done("Changing active project to {value(path)}")
+    done("Changing active project to {value(proj$cur)}")
   }
-  invisible(old)
+  return(invisible(proj$prev))
+}
+
+proj_revert <- function(quiet = FALSE) {
+  proj_set_(proj$prev, quiet = quiet)
 }
 
 proj_path <- function(..., ext = "") path_norm(path(proj_get(), ..., ext = ext))

@@ -47,7 +47,10 @@ create_package <- function(path,
     use_rstudio()
   }
   if (open) {
-    open_project(proj_get())
+    fresh_rstudio <- open_project(proj_get())
+    if (fresh_rstudio) {
+      proj_revert()
+    }
   }
 
   invisible(TRUE)
@@ -76,7 +79,10 @@ create_project <- function(path,
     file_create(proj_path(".here"))
   }
   if (open) {
-    open_project(proj_get())
+    fresh_rstudio <- open_project(proj_get())
+    if (fresh_rstudio) {
+      proj_revert()
+    }
   }
 
   invisible(TRUE)
@@ -192,24 +198,28 @@ create_from_github <- function(repo_spec,
   }
 
   if (open) {
-    open_project(proj_get())
+    fresh_rstudio <- open_project(proj_get())
+    if (fresh_rstudio) {
+      proj_revert()
+    }
   }
 }
 
 open_project <- function(path, rstudio = NA) {
-  rproj_path <- rproj_path(path)
   if (is.na(rstudio)) {
-    rstudio <- !is.na(rproj_path)
+    rstudio <- is_rstudio_project(path)
   }
 
   if (rstudio && rstudioapi::hasFun("openProject")) {
-    done("Opening project in RStudio")
-    rstudioapi::openProject(rproj_path, newSession = TRUE)
-  } else {
-    setwd(path)
-    done("Changing working directory to {value(path)}")
+    done("Opening new project in RStudio")
+    rstudioapi::openProject(rproj_path(path), newSession = TRUE)
+    ## TODO: check this is correct on rstudio server / cloud
+    return(invisible(TRUE))
   }
-  invisible(TRUE)
+
+  setwd(path)
+  done("Changing working directory to {value(path)}")
+  invisible(FALSE)
 }
 
 check_not_nested <- function(path, name) {
