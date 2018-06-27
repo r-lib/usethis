@@ -286,10 +286,14 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
     return(invisible())
   }
 
+  creation_time <- function(x) {
+    as.POSIXct(pluck_chr(x, "created_at"))
+  }
+
+  res <- res[creation_time(res) >= as.POSIXct(from_timestamp)]
+
   if (!is.null(to_timestamp)) {
-    to_POSIXct <- as.POSIXct(to_timestamp)
-    res_POSIXct <- as.POSIXct(pluck_chr(res, "created_at"))
-    res <- res[res_POSIXct <= to_POSIXct]
+    res <- res[creation_time(res) <= as.POSIXct(to_timestamp)]
   }
   if (length(res) == 0) {
     message("No matching issues/PRs found.")
