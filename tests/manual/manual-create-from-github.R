@@ -29,7 +29,7 @@ dir_delete("~/Desktop/TailRank/")
 create_from_github("cran/TailRank", fork = TRUE, credentials = cred)
 ## fork and clone --> should see origin and upstream remotes
 expect_setequal(
-  git2r::remotes(git2r::repository(proj_get())),
+  git2r::remotes(git2r::repository("~/Desktop/TailRank/")),
   c("origin", "upstream")
 )
 dir_delete("~/Desktop/TailRank/")
@@ -39,7 +39,7 @@ dir_delete("~/Desktop/TailRank/")
 create_from_github("cran/TailRank", fork = NA, credentials = cred)
 ## fork and clone --> should see origin and upstream remotes
 expect_setequal(
-  git2r::remotes(git2r::repository(proj_get())),
+  git2r::remotes(git2r::repository("~/Desktop/TailRank/")),
   c("origin", "upstream")
 )
 dir_delete("~/Desktop/TailRank/")
@@ -77,9 +77,12 @@ dir_delete("~/Desktop/TailRank/")
 ## fork = FALSE
 create_from_github("cran/TailRank", fork = FALSE, credentials = cred)
 ## created, clone, origin remote is cran/TailRank
-expect_setequal(git2r::remotes(git2r::repository(proj_get())), "origin")
 expect_setequal(
-  git2r::remote_url(git2r::repository(proj_get())),
+  git2r::remotes(git2r::repository("~/Desktop/TailRank/")),
+  "origin"
+)
+expect_setequal(
+  git2r::remote_url(git2r::repository("~/Desktop/TailRank/")),
   "git@github.com:cran/TailRank.git"
 )
 dir_delete("~/Desktop/TailRank/")
@@ -97,7 +100,9 @@ dir_delete("~/Desktop/TailRank")
 
 ## create from repo I do not have push access to
 ## fork = TRUE, explicitly provide token
-create_from_github("cran/TailRank", fork = TRUE, auth_token = token, credentials = cred)
+create_from_github(
+  "cran/TailRank", fork = TRUE, auth_token = token, credentials = cred
+)
 ## fork and clone
 
 dir_delete("~/Desktop/TailRank")
