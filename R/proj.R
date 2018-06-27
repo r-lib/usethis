@@ -112,7 +112,7 @@ proj_set_ <- function(path, quiet = FALSE) {
   if (!quiet) {
     done("Changing active project to {value(proj$cur)}")
   }
-  return(invisible(proj$prev))
+  invisible(proj$prev)
 }
 
 proj_revert <- function(quiet = FALSE) {
