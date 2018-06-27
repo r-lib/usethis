@@ -42,7 +42,7 @@ Suggests:
     rmarkdown,
     roxygen2,
     spelling,
-    styler,
+    styler (>= 1.0.2),
     testthat (>= 2.0.0),
     withr
 Remotes: 
