@@ -16,7 +16,7 @@ proj_find <- function(path = ".") {
   )
 }
 
-is_proj <- function(path = ".") !is.null(proj_find(path))
+possibly_in_proj <- function(path = ".") !is.null(proj_find(path))
 
 is_package <- function(base_path = proj_get()) {
   res <- tryCatch(
@@ -50,7 +50,6 @@ check_is_package <- function(whos_asking = NULL) {
 #' file. It then stores the active project for use for the remainder of the
 #' session. Use `proj_get()` to see the active project and `proj_set()` to set
 #' it manually.
-
 #'
 #' @description In general, user scripts should not call `usethis::proj_get()`
 #'   or `usethis::proj_set()`. They are internal functions that are exported for
@@ -65,6 +64,7 @@ check_is_package <- function(whos_asking = NULL) {
 #'   problem: you need to set the active project in order to add
 #'   project-signalling infrastructure, such as initialising a Git repo or
 #'   adding a DESCRIPTION file.
+#' @param quiet Logical. Whether to announce project activation.
 #' @keywords internal
 #' @export
 #' @examples
@@ -75,10 +75,10 @@ check_is_package <- function(whos_asking = NULL) {
 #' ## manually set the active project
 #' proj_set("path/to/target/project")
 #' }
-proj_get <- function() {
+proj_get <- function(quiet = FALSE) {
   # Called for first time so try working directory
   if (!proj_active()) {
-    proj_set(".")
+    proj_set(".", quiet = quiet)
   }
 
   proj$cur
@@ -86,24 +86,31 @@ proj_get <- function() {
 
 #' @export
 #' @rdname proj_get
-proj_set <- function(path = ".", force = FALSE) {
-  old <- proj$cur
-
-  check_is_dir(path)
+proj_set <- function(path = ".", force = FALSE, quiet = FALSE) {
+  if (!is.null(path)) {
+    check_is_dir(path)
+  }
   path <- proj_path_prep(path)
 
-  if (force) {
-    proj$cur <- path
-    return(invisible(old))
+  if (!force) {
+    new_project <- proj_path_prep(proj_find(path))
+    if (is.null(new_project)) {
+      stop_glue(
+        "Path {value(path)} does not appear to be inside a project or package."
+      )
+    }
+    path <- new_project
   }
 
-  new_proj <- proj_path_prep(proj_find(path))
-  if (is.null(new_proj)) {
-    stop_glue(
-      "Path {value(path)} does not appear to be inside a project or package."
-    )
+  proj_set_(path, quiet = quiet)
+}
+
+proj_set_ <- function(path, quiet = FALSE) {
+  old <- proj$cur
+  proj$cur <- path
+  if (!quiet) {
+    done("Changing active project to {value(proj$cur)}")
   }
-  proj$cur <- new_proj
   invisible(old)
 }
 
@@ -137,17 +144,15 @@ is_in_proj <- function(path) {
   if (!proj_active()) {
     return(FALSE)
   }
-
-  ## realize path, if possible; use "as is", otherwise
-  path <- tryCatch(path_real(path), error = function(e) NULL) %||% path
   identical(
     proj_get(),
-    path_common(c(proj_get(), path))
+    ## use path_abs() in case path does not exist yet
+    path_common(c(proj_get(), path_abs(path)))
   )
 }
 
 project_data <- function(base_path = proj_get()) {
-  if (!is_proj(base_path)) {
+  if (!possibly_in_proj(base_path)) {
     stop_glue(
       "{value(base_path)} doesn't meet the usethis criteria for a project.\n",
       "Read more in the help for {code(\"proj_get()\")}."
@@ -176,7 +181,7 @@ project_name <- function(base_path = proj_get()) {
   ## create_package() calls use_description(), which calls project_name()
   ## to learn package name from the path, in order to make DESCRIPTION
   ## and DESCRIPTION is how we recognize a package as a usethis project
-  if (!is_proj(base_path)) {
+  if (!possibly_in_proj(base_path)) {
     return(path_file(base_path))
   }
 

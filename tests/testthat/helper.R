@@ -1,3 +1,6 @@
+## attempt to activate a project, which is nice during development
+try(proj_set("."))
+
 ## putting `pattern` in the package or project name is part of our strategy for
 ## suspending the nested project check during testing
 pattern <- "aaa"
@@ -20,18 +23,20 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
                                    thing = c("package", "project")) {
   thing <- match.arg(thing)
 
-  if (proj_active()) {
-    proj_to_restore <- proj_get()
-    ## Can't schedule a deferred project reset if calling this from the R
-    ## console, which is useful when developing tests
-    if (identical(env, globalenv())) {
+  ## avoid proj_get() because it attempts to activate a project
+  old_project <- proj$cur
+  ## Can't schedule a deferred project reset if calling this from the R
+  ## console, which is useful when developing tests
+  if (identical(env, globalenv())) {
+    done("Switching to a temporary project!")
+    if (!is.null(old_project)) {
       todo(
-        "Switching to a temporary project! To restore current project:\n",
-        "proj_set(\"", proj_to_restore, "\")"
+        "Restore current project with: ",
+        "{code('proj_set(\"', proj_to_restore, '\")')}"
       )
-    } else {
-      withr::defer(proj_set(proj_to_restore), envir = env)
     }
+  } else {
+    withr::defer(proj_set(old_project, force = TRUE, quiet = TRUE), envir = env)
   }
 
   switch(

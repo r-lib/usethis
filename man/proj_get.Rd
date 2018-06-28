@@ -5,11 +5,13 @@
 \alias{proj_set}
 \title{Get and set the active project}
 \usage{
-proj_get()
+proj_get(quiet = FALSE)
 
-proj_set(path = ".", force = FALSE)
+proj_set(path = ".", force = FALSE, quiet = FALSE)
 }
 \arguments{
+\item{quiet}{Logical. Whether to announce project activation.}
+
 \item{path}{Path to set.}
 
 \item{force}{If \code{TRUE}, use this path without checking the usual criteria.

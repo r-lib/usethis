@@ -2,13 +2,13 @@ context("create")
 
 test_that("create_package() creates a package", {
   dir <- scoped_temporary_package()
-  expect_true(is_proj(dir))
+  expect_true(possibly_in_proj(dir))
   expect_true(is_package(dir))
 })
 
 test_that("create_project() creates a non-package project", {
   dir <- scoped_temporary_project()
-  expect_true(is_proj(dir))
+  expect_true(possibly_in_proj(dir))
   expect_false(is_package(dir))
 })
 
@@ -29,13 +29,12 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
   path_package <- path_file(file_temp(pattern = "aaa"))
   withr::with_dir(
     path_temp(), {
-      ## better than proj_get() here because won't error if not in project
-      old_proj <- proj$cur
+      old_project <- proj$cur
       capture_output(
         create_package(path_package, rstudio = FALSE, open = FALSE)
       )
       new_proj <- proj_get()
-      if (!is.null(old_proj)) proj_set(old_proj)
+      proj_set(old_project, force = TRUE, quiet = TRUE)
     }
   )
   expect_true(dir_exists(new_proj))
@@ -43,12 +42,12 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
   path_project <- path_file(file_temp(pattern = "aaa"))
   withr::with_dir(
     path_temp(), {
-      old_proj <- proj$cur
+      old_project <- proj$cur
       capture_output(
         create_project(path_project, rstudio = FALSE, open = FALSE)
       )
       new_proj <- proj_get()
-      if (!is.null(old_proj)) proj_set(old_proj)
+      proj_set(old_project, force = TRUE, quiet = TRUE)
     }
   )
   expect_true(dir_exists(new_proj))
