@@ -213,12 +213,12 @@ open_project <- function(path, restore = NA, rstudio = NA) {
     if (!is.na(restore)) {
       proj_set(restore, force = TRUE)
     }
-    return(invisible(TRUE))
+    invisible(TRUE)
+  } else {
+    setwd(path)
+    done("Changing working directory to {value(path)}")
+    invisible(FALSE)
   }
-
-  setwd(path)
-  done("Changing working directory to {value(path)}")
-  invisible(FALSE)
 }
 
 check_not_nested <- function(path, name) {
