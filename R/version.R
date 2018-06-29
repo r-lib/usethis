@@ -12,6 +12,10 @@
 #' @param which A string specifying which level to increment, one of: "major",
 #'   "minor", "patch", "dev". If `NULL`, user can choose interactively.
 #'
+#' @seealso The [version
+#'   section](http://r-pkgs.had.co.nz/description.html#version) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
+#'
 #' @examples
 #' \dontrun{
 #' ## for interactive selection, do this:

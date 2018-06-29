@@ -48,3 +48,7 @@ use_description(fields = list(Language = "es"))
 use_description_defaults()
 }
 }
+\seealso{
+The \href{http://r-pkgs.had.co.nz/description.html}{description chapter}
+of \href{http://r-pkgs.had.co.nz}{R Packages}.
+}

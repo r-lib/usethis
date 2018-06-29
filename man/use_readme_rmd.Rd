@@ -31,3 +31,6 @@ use_readme_rmd()
 use_readme_md()
 }
 }
+\seealso{
+The \href{http://r-pkgs.had.co.nz/release.html#important-files}{important files section} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+}
