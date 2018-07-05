@@ -269,7 +269,7 @@ conspicuous_place <- function() {
 }
 
 keep_lgl <- function(file,
-                     ignores = c(".Rproj.user", ".rproj.user", ".Rhistory", ".RData", ".git")) {
+                     ignores = c(".Rproj.user", ".rproj.user", ".Rhistory", ".RData", ".git", "__MACOSX", ".DS_Store")) {
   ignores <- paste0(
     "((\\/|\\A)", gsub("\\.", "[.]", ignores), "(\\/|\\Z))",
     collapse = "|"
