@@ -32,7 +32,7 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
     if (!is.null(old_project)) {
       todo(
         "Restore current project with: ",
-        "{code('proj_set(\"', proj_to_restore, '\")')}"
+        "{code('proj_set(\"', old_project, '\")')}"
       )
     }
   } else {
