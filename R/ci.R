@@ -75,7 +75,7 @@ use_travis_badge <- function() {
   use_badge("Travis build status", url, img)
 }
 
-#' @importFrom travis uses_travis
+#' @importFrom travis travis_is_enabled
 #' @section `use_coverage()`:
 #' Adds test coverage reports to a package that is already using Travis CI.
 #' @name use_coverage
