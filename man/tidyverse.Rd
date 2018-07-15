@@ -14,7 +14,7 @@
 \alias{use_tidy_style}
 \title{Helpers for the tidyverse}
 \usage{
-use_tidy_ci(browse = interactive())
+use_tidy_ci()
 
 use_tidy_description()
 

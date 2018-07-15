@@ -59,6 +59,6 @@ use_lifecycle_badge("stable")
 }
 }
 \seealso{
-The \link[=use_travis]{functions that set up continuous integration
+The \link[=use_ci]{functions that set up continuous integration
 services} also create badges.
 }
