@@ -9,17 +9,25 @@
 #'
 #' @details
 #' By default the CI-services "Travis" (Linux) and "Appveyor"
-#' (Windows) are used. Basic `.travis.yml` and `appveyor.yml` files are added
-#' to the top-level directory of a package.
+#' (Windows) will be set up. Basic `.travis.yml` and `appveyor.yml` files are
+#' added to the top-level directory of a package.
+#'
+#' This function is aimed at supporting the most common use cases.
+#' Users who require more control are advised to manually call the individual
+#' functions.
 #'
 #' @name use_ci
-#' @import travis
+#' @importFrom travis travis_set_pat
 #' @param path `[string]`\cr
 #'   The path to the repo to prepare.
 #' @param quiet `[flag]`\cr
 #'   Less verbose output? Default: `FALSE`.
 #' @param services `[character]`\cr
 #'   CI services to add.
+#' @param repo_type `[string]`\cr
+#'  The kind of project for which a tic.R file should be created.
+#'  This is automatically guessed when using [use_ci]. Valid values are `blogdown`,
+#'   `bookdown`, `package` and `site`.
 #' @export
 #' @rdname ci
 use_ci <- function(path = ".", quiet = FALSE,
@@ -51,7 +59,7 @@ use_ci <- function(path = ".", quiet = FALSE,
 
     #' 1. Create a default `tic.R` file depending on the repo type
     #'    (package, website, bookdown, ...)
-    travis:::use_tic_r(repo_type) #FIXME: Export function in travis
+    use_tic(repo_type)
 
     #' 1. Enable deployment (if necessary, depending on repo type)
     #'    via [use_travis_deploy()]
@@ -60,11 +68,19 @@ use_ci <- function(path = ".", quiet = FALSE,
     #' 1. Create a GitHub PAT and install it on Travis CI via [travis_set_pat()]
     travis_set_pat()
   })
+}
 
-  #'
-  #' This function is aimed at supporting the most common use cases.
-  #' Users who require more control are advised to manually call the individual
-  #' functions.
+#' @export
+#' @rdname ci
+use_tic <- function(repo_type) {
+  use_template_tic(repo_type, "tic.R")
+}
+
+use_template_tic <- function(..., target = basename(file.path(...))) {
+  source <- template_file(...)
+  safe_filecopy(source, target)
+  message("Added ", target, " from template.")
+  use_build_ignore(target)
 }
 
 use_travis_badge <- function() {
@@ -135,3 +151,65 @@ use_coveralls_badge <- function() {
   )
   use_badge("Coverage status", url, img)
 }
+
+#' Setup deployment for Travis CI
+#'
+#' Creates a public-private key pair,
+#' adds the public key to the GitHub repository via [github_add_key()],
+#' and stores the private key as an encrypted environment variable in Travis CI
+#' via [travis_set_var()],
+#' possibly in a different repository.
+#' The \pkg{tic} companion package contains facilities for installing such a key
+#' during a Travis CI build.
+#'
+#' @importFrom travis travis_set_var
+#' @importFrom travis github_add_key
+#' @importFrom openssl rsa_keygen
+#' @param path `[string]`\cr
+#'   The path to a GitHub-enabled Git repository (or a subdirectory thereof).
+#' @param info `[list]`\cr
+#'   GitHub information for the repository, by default obtained through
+#'   [github_info()].
+#' @param repo `[string|numeric]`\cr
+#'   The GitHub repo slug, by default obtained through [github_repo()].
+#'   Alternatively, the Travis CI repo ID, e.g. obtained through `travis_repo_id()`.
+#' @param travis_repo `[string]`\cr
+#'   The Travis CI repository to add the private key to, default: `repo`
+#'   (the GitHub repo to which the public deploy key is added).
+#'
+#' @export
+use_travis_deploy <- function(path = ".", info = travis:::github_info(path),
+                              repo = travis:::github_repo(info = info),
+                              travis_repo = repo) {
+
+  # authenticate on github and travis and set up keys/vars
+
+  # generate deploy key pair
+  key <- rsa_keygen()  # TOOD: num bits?
+
+  # encrypt private key using tempkey and iv
+  pub_key <- travis:::get_public_key(key)
+  private_key <- travis:::encode_private_key(key)
+
+  # add to GitHub first, because this can fail because of missing org permissions
+  title <- paste0("travis+tic", if (repo == travis_repo) "" else (paste0(" for ", repo)))
+  github_add_key(pub_key, title = title, info = info)
+
+  travis_set_var("id_rsa", private_key, public = FALSE, repo = travis_repo)
+
+  message("Successfully added private deploy key to ", travis_repo,
+          " as secure environment variable id_rsa to Travis CI.")
+
+}
+
+use_template_tic <- function(..., target = basename(file.path(...))) {
+  source <- template_file(...)
+  travis:::safe_filecopy(source, target)
+  message("Added ", target, " from template.")
+  use_build_ignore(target)
+}
+
+template_file <- function(...) {
+  system.file("templates", ..., package = utils::packageName(), mustWork = TRUE)
+}
+
