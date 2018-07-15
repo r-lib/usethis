@@ -2,9 +2,12 @@
 % Please edit documentation in R/ci.R
 \name{use_ci}
 \alias{use_ci}
+\alias{use_tic}
 \title{Continuous integration setup and badges}
 \usage{
 use_ci(path = ".", quiet = FALSE, services = c("Travis", "Appveyor"))
+
+use_tic(repo_type)
 }
 \arguments{
 \item{path}{\code{[string]}\cr
@@ -15,6 +18,10 @@ Less verbose output? Default: \code{FALSE}.}
 
 \item{services}{\code{[character]}\cr
 CI services to add.}
+
+\item{repo_type}{The kind of project for which a tic.R file should be created.
+This is automatically guessed when using \link{use_ci}. Valid values are \code{blogdown},
+\code{bookdown}, \code{package} and \code{site}.}
 }
 \description{
 Sets up continuous integration (CI) services for an R package that is

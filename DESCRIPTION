@@ -29,6 +29,7 @@ Imports:
     gh,
     git2r (>= 0.21.0.9002),
     glue (>= 1.2.0.9000),
+    openssl,
     rematch2,
     rlang,
     rprojroot (>= 1.2),
