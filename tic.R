@@ -5,7 +5,7 @@ if (Sys.getenv("TRAVIS_R_VERSION_STRING") == "release") {
     add_code_step(covr::codecov(quiet = FALSE))
 }
 
-if (Sys.getenv("id_rsa") != "") {
+if (Sys.getenv("id_rsa") != "" && Sys.getenv("TRAVIS_R_VERSION_STRING") == "release") {
   # pkgdown documentation can be built optionally. Other example criteria:
   # - `inherits(ci(), "TravisCI")`: Only for Travis CI
   # - `ci()$is_tag()`: Only for tags, not for branches
