@@ -2,6 +2,7 @@
 % Please edit documentation in R/github-labels.R
 \name{use_github_labels}
 \alias{use_github_labels}
+\alias{use_github_labels}
 \alias{tidy_labels}
 \title{Manage GitHub issue labels}
 \usage{
@@ -33,7 +34,7 @@ GitHub enterprise instance, for example,
 \code{use_github_labels()} creates new labels and/or changes label
 colours. It does not generally remove labels. But if you set
 \code{delete_default = TRUE}, it will delete labels that are (1) flagged by the
-API as being \href{https://help.github.com/articles/about-labels/#using-default-labels}{GitHub default labels}
+API as being \href{https://help.github.com/articles/about-labels/#using-default-labels}{GitHub defaultlabels}
 and (2) not present in the labels you provide via \code{labels}.
 
 \code{tidy_labels()} returns the labels and colours commonly used by tidyverse

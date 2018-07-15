@@ -21,7 +21,7 @@ GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3"}
 }
 \description{
-Opens a browser window to the GitHub page where you can generate a \href{https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line}{Personal Access Token}.
+Opens a browser window to the GitHub page where you can generate a \href{https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line}{PersonalAccessToken}.
 Make sure you have signed up for a free \href{https://github.com/}{GitHub.com}
 account and that you are signed in. Click "Generate token" after you have
 verified the scopes. Copy the token right away! You probably want to store it

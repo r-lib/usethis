@@ -9,5 +9,7 @@ use_depsy_badge()
 }
 \description{
 These functions are marked as defunct and have been removed from usethis.
+
+This function is defunct
 }
 \keyword{internal}

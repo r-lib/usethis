@@ -22,4 +22,3 @@ use_git()
 Other git helpers: \code{\link{use_git_config}},
   \code{\link{use_git_hook}}, \code{\link{use_git_ignore}}
 }
-\concept{git helpers}
