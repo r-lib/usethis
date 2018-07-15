@@ -33,6 +33,7 @@ Imports:
     rlang,
     rprojroot (>= 1.2),
     rstudioapi,
+    travis,
     utils,
     whisker
 Suggests: 
@@ -47,7 +48,8 @@ Suggests:
     withr
 Remotes: 
     ropensci/git2r,
-    tidyverse/glue
+    tidyverse/glue,
+    ropenscilabs/travis
 Encoding: UTF-8
 Language: en-US
 LazyData: true
