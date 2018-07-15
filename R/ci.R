@@ -1,41 +1,73 @@
 #' Continuous integration setup and badges
 #'
 #' Sets up continuous integration (CI) services for an R package that is
-#' developed on GitHub. CI services can run `R CMD check` automatically on
-#' various platforms, triggered by each push or pull request. These functions
-#' * Add service-specific configuration files and add them to `.Rbuildignore`.
-#' * Activate a service or give the user a detailed prompt.
-#' * Provide the markdown to insert a badge into README.
+#' developed on GitHub with CI-agnostic support by \pkg{tic}.
+#' CI services can run `R CMD check` automatically on
+#' various platforms, triggered by each push or pull request. This function
+#' * Adds service-specific configuration files and adds them to `.Rbuildignore`.
+#' * Activates a service or gives the user a detailed prompt.\cr
 #'
-#' @name ci
-#' @aliases NULL
-NULL
-
-#' @section `use_travis()`:
-#' Adds a basic `.travis.yml` to the top-level directory of a package. This is a
-#' configuration file for the [Travis CI](https://travis-ci.org/) continuous
-#' integration service.
-#' @param browse Open a browser window to enable automatic builds for the
-#'   package.
+#' @details
+#' By default the CI-services "Travis" (Linux) and "Appveyor"
+#' (Windows) are used. Basic `.travis.yml` and `appveyor.yml` files are added
+#' to the top-level directory of a package.
+#'
+#' @name use_ci
+#' @import travis
+#' @param path `[string]`\cr
+#'   The path to the repo to prepare.
+#' @param quiet `[flag]`\cr
+#'   Less verbose output? Default: `FALSE`.
+#' @param services `[character]`\cr
+#'   CI services to add.
 #' @export
 #' @rdname ci
-use_travis <- function(browse = interactive()) {
-  check_uses_github()
+use_ci <- function(path = ".", quiet = FALSE,
+                   services = c("Travis", "Appveyor")) {
+  #' @details
+  #' The following steps will be run:
+  withr::with_dir(path, {
+    #' 1. If necessary, create a GitHub repository via [use_github()]
+    travis:::use_github_interactive()
+    stopifnot(uses_github())
 
-  use_template(
-    "travis.yml",
-    ".travis.yml",
-    ignore = TRUE
-  )
+    if ("Travis" %in% services) {
+      #' 1. Enable Travis via [travis_enable()]
+      travis_enable()
 
-  travis_activate(browse)
-  use_travis_badge()
+      #' 1. Create a default `.travis.yml` file
+      #'    (overwrite after confirmation in interactive mode only)
+      travis:::use_travis_yml()
+    }
 
-  invisible(TRUE)
+    if ("Appveyor" %in% services) {
+      #' 1. Create a default `appveyor.yml` file
+      #'    (depending on repo type, overwrite after confirmation
+      #'    in interactive mode only)
+      repo_type <- travis:::detect_repo_type()
+      if (travis:::needs_appveyor(repo_type)) travis:::use_appveyor_yml()
+    }
+
+    #' 1. Create a default `tic.R` file depending on the repo type
+    #'    (package, website, bookdown, ...)
+    travis:::use_tic_r(repo_type)
+
+    #' 1. Enable deployment (if necessary, depending on repo type)
+    #'    via [use_travis_deploy()]
+    if (travis:::needs_deploy(repo_type)) use_travis_deploy()
+
+    #' 1. Create a GitHub PAT and install it on Travis CI via [travis_set_pat()]
+    travis_set_pat()
+  })
+
+  #'
+  #' This function is aimed at supporting the most common use cases.
+  #' Users who require more control are advised to manually call the individual
+  #' functions.
 }
 
 use_travis_badge <- function() {
-  check_uses_github()
+  uses_github()
 
   url <- glue("https://travis-ci.org/{github_repo_spec()}")
   img <- glue("{url}.svg?branch=master")
@@ -43,40 +75,15 @@ use_travis_badge <- function() {
   use_badge("Travis build status", url, img)
 }
 
-travis_activate <- function(browse = interactive()) {
-  url <- glue("https://travis-ci.org/profile/{github_owner()}")
-
-  todo("Turn on travis for your repo at {url}")
-  if (browse) {
-    utils::browseURL(url)
-  }
-}
-
-uses_travis <- function(base_path = proj_get()) {
-  path <- glue("{base_path}/.travis.yml")
-  file_exists(path)
-}
-
-check_uses_travis <- function(base_path = proj_get()) {
-  if (uses_travis(base_path)) {
-    return(invisible())
-  }
-
-  stop_glue(
-    "Cannot detect that package {value(project_name(base_path))}",
-    " already uses Travis.\n",
-    "Do you need to run {code('use_travis()')}?"
-  )
-}
-
+#' @importFrom travis uses_travis
 #' @section `use_coverage()`:
 #' Adds test coverage reports to a package that is already using Travis CI.
-#' @rdname ci
+#' @name use_coverage
 #' @param type Which web service to use for test reporting. Currently supports
 #'   [Codecov](https://codecov.io) and [Coveralls](https://coveralls.io).
 #' @export
 use_coverage <- function(type = c("codecov", "coveralls")) {
-  check_uses_travis()
+  travis:::travis_is_enabled()
   type <- match.arg(type)
 
   use_dependency("covr", "Suggests")
@@ -107,7 +114,7 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
 }
 
 use_codecov_badge <- function() {
-  check_uses_github()
+  uses_github()
   url <- glue("https://codecov.io/github/{github_repo_spec()}?branch=master")
   img <- glue(
     "https://codecov.io/gh/{github_repo_spec()}/branch/master/graph/badge.svg"
@@ -116,51 +123,10 @@ use_codecov_badge <- function() {
 }
 
 use_coveralls_badge <- function() {
-  check_uses_github()
+  uses_github()
   url <- glue("https://coveralls.io/r/{github_repo_spec()}?branch=master")
   img <- glue(
     "https://coveralls.io/repos/github/{github_repo_spec()}/badge.svg"
   )
   use_badge("Coverage status", url, img)
-}
-
-#' @section `use_appveyor()`:
-#' Adds a basic `appveyor.yml` to the top-level directory of a package. This is
-#' a configuration file for the [AppVeyor](https://www.appveyor.com) continuous
-#' integration service for Windows.
-#' @export
-#' @rdname ci
-use_appveyor <- function(browse = interactive()) {
-  check_uses_github()
-
-  use_template("appveyor.yml", ignore = TRUE)
-
-  appveyor_activate(browse)
-  use_appveyor_badge()
-
-  invisible(TRUE)
-}
-
-appveyor_activate <- function(browse = interactive()) {
-  url <- "https://ci.appveyor.com/projects/new"
-  todo("Turn on AppVeyor for this repo at {url}")
-  if (browse) {
-    utils::browseURL(url)
-  }
-}
-
-use_appveyor_badge <- function() {
-  appveyor <- appveyor_info(proj_get())
-  use_badge("AppVeyor build status", appveyor$url, appveyor$img)
-}
-
-appveyor_info <- function(base_path = proj_get()) {
-  check_uses_github(base_path)
-  img <- glue(
-    "https://ci.appveyor.com/api/projects/status/github/",
-    "{github_repo_spec()}?branch=master&svg=true"
-  )
-  url <- glue("https://ci.appveyor.com/project/{github_repo_spec()}")
-
-  list(url = url, img = img)
 }
