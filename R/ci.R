@@ -28,7 +28,7 @@ use_ci <- function(path = ".", quiet = FALSE,
   #' The following steps will be run:
   withr::with_dir(path, {
     #' 1. If necessary, create a GitHub repository via [use_github()]
-    travis:::use_github_interactive()
+    travis:::use_github_interactive() #FIXME: Export function in travis
     stopifnot(uses_github())
 
     if ("Travis" %in% services) {
@@ -37,24 +37,25 @@ use_ci <- function(path = ".", quiet = FALSE,
 
       #' 1. Create a default `.travis.yml` file
       #'    (overwrite after confirmation in interactive mode only)
-      travis:::use_travis_yml()
+      travis:::use_travis_yml() #FIXME: Export function in travis
     }
+
+    repo_type <- travis:::detect_repo_type() #FIXME: Export function in travis
 
     if ("Appveyor" %in% services) {
       #' 1. Create a default `appveyor.yml` file
       #'    (depending on repo type, overwrite after confirmation
       #'    in interactive mode only)
-      repo_type <- travis:::detect_repo_type()
-      if (travis:::needs_appveyor(repo_type)) travis:::use_appveyor_yml()
+      if (travis:::needs_appveyor(repo_type)) travis:::use_appveyor_yml() #FIXME: Export function in travis
     }
 
     #' 1. Create a default `tic.R` file depending on the repo type
     #'    (package, website, bookdown, ...)
-    travis:::use_tic_r(repo_type)
+    travis:::use_tic_r(repo_type) #FIXME: Export function in travis
 
     #' 1. Enable deployment (if necessary, depending on repo type)
     #'    via [use_travis_deploy()]
-    if (travis:::needs_deploy(repo_type)) use_travis_deploy()
+    if (travis:::needs_deploy(repo_type)) use_travis_deploy() #FIXME: Export function in travis
 
     #' 1. Create a GitHub PAT and install it on Travis CI via [travis_set_pat()]
     travis_set_pat()
@@ -75,6 +76,10 @@ use_travis_badge <- function() {
   use_badge("Travis build status", url, img)
 }
 
+#' Add test coverage via codecov or coveralls
+#'
+#' Enables test coverage reporting via codecov or coveralls
+#'
 #' @importFrom travis travis_is_enabled
 #' @section `use_coverage()`:
 #' Adds test coverage reports to a package that is already using Travis CI.
@@ -83,7 +88,7 @@ use_travis_badge <- function() {
 #'   [Codecov](https://codecov.io) and [Coveralls](https://coveralls.io).
 #' @export
 use_coverage <- function(type = c("codecov", "coveralls")) {
-  travis:::travis_is_enabled()
+  travis_is_enabled()
   type <- match.arg(type)
 
   use_dependency("covr", "Suggests")

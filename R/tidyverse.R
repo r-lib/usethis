@@ -4,6 +4,8 @@
 #' stricter than the defaults, reflecting the need for greater rigor in
 #' commonly used packages.
 #'
+#' @importFrom travis travis_enable
+#'
 #' @details
 #'
 #' * `use_tidy_ci()`: sets up [Travis CI](https://travis-ci.org) and
@@ -58,8 +60,8 @@ NULL
 
 #' @export
 #' @rdname tidyverse
-#' @inheritParams use_travis
-use_tidy_ci <- function(browse = interactive()) {
+#' @inheritParams use_ci
+use_tidy_ci <- function() {
   check_uses_github()
 
   new <- use_template(
@@ -69,6 +71,9 @@ use_tidy_ci <- function(browse = interactive()) {
   )
   use_template("codecov.yml", ignore = TRUE)
 
+  repo_type <- travis:::detect_repo_type()
+  travis:::use_tic_r(repo_type)
+
   use_dependency("R", "Depends", ">= 3.1")
   use_dependency("covr", "Suggests")
 
@@ -76,7 +81,7 @@ use_tidy_ci <- function(browse = interactive()) {
   use_codecov_badge()
 
   if (new) {
-    travis_activate(browse)
+    travis_enable()
   }
 
   invisible(TRUE)

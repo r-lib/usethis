@@ -28,7 +28,7 @@
 #' @param stage Stage of the package lifecycle
 #'
 #' @seealso The [functions that set up continuous integration
-#'   services][use_travis] also create badges.
+#'   services][use_ci] also create badges.
 #'
 #' @name badges
 #' @examples
