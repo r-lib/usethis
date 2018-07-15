@@ -24,10 +24,6 @@
 #'   Less verbose output? Default: `FALSE`.
 #' @param services `[character]`\cr
 #'   CI services to add.
-#' @param repo_type `[string]`\cr
-#'  The kind of project for which a tic.R file should be created.
-#'  This is automatically guessed when using [use_ci]. Valid values are `blogdown`,
-#'   `bookdown`, `package` and `site`.
 #' @export
 #' @rdname ci
 use_ci <- function(path = ".", quiet = FALSE,
@@ -70,8 +66,6 @@ use_ci <- function(path = ".", quiet = FALSE,
   })
 }
 
-#' @export
-#' @rdname ci
 use_tic <- function(repo_type) {
   use_template_tic(repo_type, "tic.R")
 }
