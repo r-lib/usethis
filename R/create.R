@@ -210,7 +210,7 @@ open_project <- function(path, restore = NA, rstudio = NA) {
     done("Opening new project {value(path_file(path))} in RStudio")
     rstudioapi::openProject(rproj_path(path), newSession = TRUE)
     ## TODO: check this is correct on rstudio server / cloud
-    if (!is.na(restore)) {
+    if (!is.null(restore) && !is.na(restore)) {
       proj_set(restore, force = TRUE)
     }
     invisible(TRUE)
