@@ -15,6 +15,5 @@ Creates \code{cran-comments.md}, a template for your communications with CRAN wh
 submitting a package. The goal is to clearly communicate the steps you have
 taken to check your package on a wide range of operating systems. If you are
 submitting an update to a package that is used by other packages, you also
-need to summarize the results of your \link[=use_revdep]{reverse dependency
-checks}.
+need to summarize the results of your \link[=use_revdep]{reverse dependency checks}.
 }
