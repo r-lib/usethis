@@ -117,7 +117,7 @@ in_rstudio_server <- function() {
 }
 
 parse_rproj <- function(file) {
-  lines <- as.list(readLines(file))
+  lines <- as.list(readLines(file, encoding = "UTF-8"))
   has_colon <- grepl(":", lines)
   fields <- lapply(lines[has_colon], function(x) strsplit(x, split = ": ")[[1]])
   lines[has_colon] <- vapply(fields, `[[`, "character", 2)

@@ -44,7 +44,7 @@ write_union <- function(path, lines, quiet = FALSE) {
   path <- user_path_prep(path)
 
   if (file_exists(path)) {
-    existing_lines <- readLines(path, warn = FALSE)
+    existing_lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
   } else {
     existing_lines <- character()
   }
@@ -106,5 +106,5 @@ same_contents <- function(path, contents) {
     return(FALSE)
   }
 
-  identical(readLines(path), contents)
+  identical(readLines(path, encoding = "UTF-8"), contents)
 }
