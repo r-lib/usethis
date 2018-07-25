@@ -27,6 +27,7 @@ use_testthat <- function() {
 #'   the name of the file open in the source editor.
 #' @export
 use_test <- function(name = NULL, open = interactive()) {
+  check_is_package("use_test()")
   name <- name %||% get_active_r_file(path = "R")
   name <- paste0("test-", name)
   name <- slug(name, "R")
