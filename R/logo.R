@@ -18,20 +18,32 @@ use_logo <- function(img, geometry = "120x140") {
     return(invisible(FALSE))
   }
 
-  check_installed("magick")
-  check_is_package("use_logo()")
-
-  img_data <- magick::image_read(img)
-  img_data <- magick::image_resize(img_data, geometry)
-
   dir_create(proj_path("man", "figures"))
-  magick::image_write(img_data, proj_path("man", "figures", "logo.png"))
 
-  done("Resized {value(path_file(img))} to {geometry}")
+  height <- as.integer(sub(".*x", "", geometry))
+
+  if (path_ext(img) == "svg") {
+    logo_path <- path("man", "figures", "logo.svg")
+    file_copy(img, proj_path(logo_path))
+
+  } else {
+    check_installed("magick")
+    check_is_package("use_logo()")
+
+    img_data <- magick::image_read(img)
+    img_data <- magick::image_resize(img_data, geometry)
+
+    logo_path <- path("man", "figures", "logo.png")
+
+    magick::image_write(img_data, proj_path(logo_path))
+
+    done("Resized {value(path_file(img))} to {geometry}")
+  }
+
+  pkg <- project_name()
 
   todo("Add a logo by adding the following line to your README:")
-  pkg <- project_name()
-  code_block("# {pkg} <img src=\"man/figures/logo.png\" align=\"right\" />")
+  code_block("# {pkg} <img src=\"{logo_path}\" align=\"right\" height={height}/>")
 }
 
 has_logo <- function() {
