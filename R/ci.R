@@ -32,8 +32,7 @@ use_ci <- function(path = ".", quiet = FALSE,
   #' The following steps will be run:
   withr::with_dir(path, {
     #' 1. If necessary, create a GitHub repository via [use_github()]
-    travis:::use_github_interactive() #FIXME: Export function in travis
-    stopifnot(uses_github())
+    use_github()
 
     if ("Travis" %in% services) {
       #' 1. Enable Travis via [travis_enable()]
