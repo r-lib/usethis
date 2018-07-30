@@ -27,7 +27,7 @@
 #' @export
 #' @rdname ci
 use_ci <- function(path = ".", quiet = FALSE,
-                   services = c("Travis", "Appveyor")) {
+                   services = c("travis", "appveyor")) {
   #' @details
   #' The following steps will be run:
   withr::with_dir(path, {
@@ -45,6 +45,7 @@ use_ci <- function(path = ".", quiet = FALSE,
         ".travis.yml",
         ignore = TRUE
       )
+    }
 
     repo_type <- travis:::detect_repo_type() #FIXME: Export function in travis
 
