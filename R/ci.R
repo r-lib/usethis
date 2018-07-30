@@ -34,18 +34,21 @@ use_ci <- function(path = ".", quiet = FALSE,
     #' 1. If necessary, create a GitHub repository via [use_github()]
     use_github()
 
-    if ("Travis" %in% services) {
+    if ("travis" %in% services) {
       #' 1. Enable Travis via [travis_enable()]
       travis_enable()
 
       #' 1. Create a default `.travis.yml` file
       #'    (overwrite after confirmation in interactive mode only)
-      travis:::use_travis_yml() #FIXME: Export function in travis
-    }
+      use_template(
+        "travis.yml",
+        ".travis.yml",
+        ignore = TRUE
+      )
 
     repo_type <- travis:::detect_repo_type() #FIXME: Export function in travis
 
-    if ("Appveyor" %in% services) {
+    if ("appveyor" %in% services) {
       #' 1. Create a default `appveyor.yml` file
       #'    (depending on repo type, overwrite after confirmation
       #'    in interactive mode only)
