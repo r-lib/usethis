@@ -101,3 +101,11 @@ view_url <- function(..., open = interactive()) {
 template_file <- function(...) {
   system.file("templates", ..., package = utils::packageName(), mustWork = TRUE)
 }
+
+detect_repo_type <- function() {
+  if (file.exists("_bookdown.yml")) return("bookdown")
+  if (file.exists("_site.yml")) return("site")
+  if (file.exists("config.toml")) return("blogdown")
+  if (file.exists("DESCRIPTION")) return("package")
+  "unknown"
+}

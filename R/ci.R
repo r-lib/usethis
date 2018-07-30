@@ -47,7 +47,7 @@ use_ci <- function(path = ".", quiet = FALSE,
       )
     }
 
-    repo_type <- travis:::detect_repo_type() #FIXME: Export function in travis
+    repo_type <- detect_repo_type()
 
     if ("appveyor" %in% services) {
       #' 1. Create a default `appveyor.yml` file
