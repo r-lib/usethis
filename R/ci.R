@@ -69,6 +69,14 @@ use_ci <- function(path = ".", quiet = FALSE,
   })
 }
 
+travis_activate <- function(browse = interactive()) {
+  url <- glue("https://travis-ci.org/profile/{github_owner()}")
+  todo("Turn on travis for your repo at {url}")
+  if (browse) {
+    utils::browseURL(url)
+  }
+}
+
 use_tic <- function(repo_type) {
   use_template_tic(repo_type, "tic.R")
 }
@@ -132,7 +140,7 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
 }
 
 use_codecov_badge <- function() {
-  uses_github()
+  check_uses_github()
   url <- glue("https://codecov.io/github/{github_repo_spec()}?branch=master")
   img <- glue(
     "https://codecov.io/gh/{github_repo_spec()}/branch/master/graph/badge.svg"
@@ -141,7 +149,7 @@ use_codecov_badge <- function() {
 }
 
 use_coveralls_badge <- function() {
-  uses_github()
+  check_uses_github()
   url <- glue("https://coveralls.io/r/{github_repo_spec()}?branch=master")
   img <- glue(
     "https://coveralls.io/repos/github/{github_repo_spec()}/badge.svg"
