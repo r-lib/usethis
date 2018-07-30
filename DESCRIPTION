@@ -49,8 +49,8 @@ Suggests:
     withr
 Remotes: 
     ropensci/git2r,
-    tidyverse/glue,
-    ropenscilabs/travis
+    ropenscilabs/travis,
+    tidyverse/glue
 Encoding: UTF-8
 Language: en-US
 LazyData: true
