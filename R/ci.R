@@ -123,6 +123,14 @@ travis_activate <- function(browse = interactive()) {
   }
 }
 
+appveyor_activate <- function(browse = interactive()) {
+  url <- "https://ci.appveyor.com/projects/new"
+  todo("Turn on AppVeyor for this repo at {url}")
+  if (browse) {
+    utils::browseURL(url)
+  }
+}
+
 check_uses_travis <- function(base_path = proj_get()) {
   if(isTRUE(travis::travis_is_enabled())) {
     return(invisible())
