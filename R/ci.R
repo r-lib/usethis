@@ -223,6 +223,8 @@ use_coveralls_badge <- function() {
 #'
 #' @importFrom travis travis_set_var
 #' @importFrom travis github_add_key
+#' @importFrom tic get_public_key
+#' @importFrom tic encode_private_key
 #' @importFrom openssl rsa_keygen
 #' @param path `[string]`\cr
 #'   The path to a GitHub-enabled Git repository (or a subdirectory thereof).
@@ -247,8 +249,8 @@ use_travis_deploy <- function(path = ".", info = travis:::github_info(path),
   key <- rsa_keygen()  # TOOD: num bits?
 
   # encrypt private key using tempkey and iv
-  pub_key <- travis:::get_public_key(key)
-  private_key <- travis:::encode_private_key(key)
+  pub_key <- get_public_key(key)
+  private_key <- encode_private_key(key)
 
   # add to GitHub first, because this can fail because of missing org permissions
   title <- paste0("travis+tic", if (repo == travis_repo) "" else (paste0(" for ", repo)))
