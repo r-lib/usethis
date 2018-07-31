@@ -4,9 +4,9 @@
 \alias{create_from_github}
 \title{Create a project from a GitHub repo}
 \usage{
-create_from_github(repo_spec, destdir = NULL, fork = NA, rstudio = NULL,
-  open = interactive(), protocol = c("ssh", "https"), credentials = NULL,
-  auth_token = NULL, host = NULL)
+create_from_github(repo_spec, destdir = NULL, fork = NA,
+  rstudio = NULL, open = interactive(), protocol = c("ssh", "https"),
+  credentials = NULL, auth_token = NULL, host = NULL)
 }
 \arguments{
 \item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.

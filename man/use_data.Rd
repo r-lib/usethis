@@ -5,7 +5,8 @@
 \alias{use_data_raw}
 \title{Create package data}
 \usage{
-use_data(..., internal = FALSE, overwrite = FALSE, compress = "bzip2")
+use_data(..., internal = FALSE, overwrite = FALSE,
+  compress = "bzip2")
 
 use_data_raw()
 }

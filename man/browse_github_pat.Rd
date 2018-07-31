@@ -4,8 +4,8 @@
 \alias{browse_github_pat}
 \title{Create a GitHub personal access token}
 \usage{
-browse_github_pat(scopes = c("repo", "gist"), description = "R:GITHUB_PAT",
-  host = "https://github.com")
+browse_github_pat(scopes = c("repo", "gist"),
+  description = "R:GITHUB_PAT", host = "https://github.com")
 }
 \arguments{
 \item{scopes}{Character vector of token permissions. These are just defaults

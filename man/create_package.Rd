@@ -5,8 +5,8 @@
 \alias{create_project}
 \title{Create a package or project}
 \usage{
-create_package(path, fields = NULL, rstudio = rstudioapi::isAvailable(),
-  open = interactive())
+create_package(path, fields = NULL,
+  rstudio = rstudioapi::isAvailable(), open = interactive())
 
 create_project(path, rstudio = rstudioapi::isAvailable(),
   open = interactive())
