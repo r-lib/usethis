@@ -6,8 +6,10 @@
 #' various platforms, triggered by each push or pull request. This function
 #' * Adds service-specific configuration files and adds them to `.Rbuildignore`.
 #' * Activates a service or gives the user a detailed prompt.\cr
-#'
-#' @details
+#' @name ci
+NULL
+
+#' @section `use_ci()`:
 #' By default the CI-services "Travis" (Linux) and "Appveyor"
 #' (Windows) will be set up. Basic `.travis.yml` and `appveyor.yml` files are
 #' added to the top-level directory of a package.
@@ -15,8 +17,6 @@
 #' This function is aimed at supporting the most common use cases.
 #' Users who require more control are advised to manually call the individual
 #' functions.
-#'
-#' @name use_ci
 #' @importFrom travis travis_set_pat
 #' @param path `[string]`\cr
 #'   The path to the repo to prepare.
@@ -29,7 +29,7 @@
 use_ci <- function(path = ".", quiet = FALSE,
                    services = c("travis", "appveyor")) {
   #' @details
-  #' The following steps will be run:
+  #' The following steps will be run (`use_ci()` only):
   withr::with_dir(path, {
     #' 1. If necessary, create a GitHub repository via [use_github()]
     use_github()
@@ -67,6 +67,46 @@ use_ci <- function(path = ".", quiet = FALSE,
     #' 1. Create a GitHub PAT and install it on Travis CI via [travis_set_pat()]
     travis_set_pat()
   })
+}
+
+#' @section `use_travis()`:
+#' Adds a basic `.travis.yml` to the top-level directory of a package. This is a
+#' configuration file for the [Travis CI](https://travis-ci.org/) continuous
+#' integration service.
+#' @param browse Open a browser window to enable automatic builds for the
+#'   package.
+#' @export
+#' @rdname ci
+use_travis <- function(browse = interactive()) {
+  check_uses_github()
+
+  use_template(
+    "travis.yml",
+    ".travis.yml",
+    ignore = TRUE
+  )
+
+  travis_activate(browse)
+  use_travis_badge()
+
+  invisible(TRUE)
+}
+
+#' @section `use_appveyor()`:
+#' Adds a basic `appveyor.yml` to the top-level directory of a package. This is
+#' a configuration file for the [AppVeyor](https://www.appveyor.com) continuous
+#' integration service for Windows.
+#' @export
+#' @rdname ci
+use_appveyor <- function(browse = interactive()) {
+  check_uses_github()
+
+  use_template("appveyor.yml", ignore = TRUE)
+
+  appveyor_activate(browse)
+  use_appveyor_badge()
+
+  invisible(TRUE)
 }
 
 travis_activate <- function(browse = interactive()) {
