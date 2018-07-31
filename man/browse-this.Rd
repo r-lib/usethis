@@ -38,7 +38,7 @@ and there is no guarantee there will be content at the destination.
 issue.
 \item \code{browse_github_pulls()}: Visits the GitHub Pull Request index or one
 specific pull request.
-\item \code{browse_travis()}: Visits the package's page on \href{https://travis-ci.org}{TravisCI}.
+\item \code{browse_travis()}: Visits the package's page on \href{https://travis-ci.org}{Travis CI}.
 \item \code{browse_cran()}: Visits the package on CRAN, via the canonical URL.
 }
 }

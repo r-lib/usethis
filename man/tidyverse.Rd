@@ -55,7 +55,7 @@ versions of R starting at 3.1.
 dependencies.
 \item \code{use_tidy_eval()}: imports a standard set of helpers to facilitate
 programming with the tidy eval toolkit.
-\item \code{use_tidy_style()}: styles source code according to the \href{http://style.tidyverse.org}{tidyverse styleguide}. This function will overwrite files! See
+\item \code{use_tidy_style()}: styles source code according to the \href{http://style.tidyverse.org}{tidyverse style guide}. This function will overwrite files! See
 below for usage advice.
 \item \code{use_tidy_versions()}: pins all dependencies to require at least
 the currently installed version.
@@ -73,7 +73,7 @@ document in a \code{.github/} subdirectory.
 \section{\code{use_tidy_style()}}{
 
 Uses the \href{http://styler.r-lib.org}{styler package} package to style all code
-in a package, project, or directory, according to the \href{http://style.tidyverse.org}{tidyverse styleguide}.
+in a package, project, or directory, according to the \href{http://style.tidyverse.org}{tidyverse style guide}.
 
 \strong{Warning:} This function will overwrite files! It is strongly suggested to
 only style files that are under version control or to first create a backup

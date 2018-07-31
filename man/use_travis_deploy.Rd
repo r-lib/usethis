@@ -5,7 +5,7 @@
 \title{Setup deployment for Travis CI}
 \usage{
 use_travis_deploy(path = ".", info = travis:::github_info(path),
-  repo = travis:::github_repo(info = info), travis_repo = repo)
+  repo = travis:::github_repo(info = info))
 }
 \arguments{
 \item{path}{\code{[string]}\cr
