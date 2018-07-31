@@ -123,6 +123,15 @@ travis_activate <- function(browse = interactive()) {
   }
 }
 
+check_uses_travis <- function(base_path = proj_get()) {
+  if(isTRUE(travis::travis_is_enabled())) {
+    return(invisible())
+  } else {
+    stop(glue("Travis is not enabled for this repo. Please use",
+              " `use_ci(services = 'travis')` to activate it."))
+  }
+}
+
 use_tic <- function(repo_type) {
   use_template_tic(repo_type, "tic.R")
 }
@@ -147,7 +156,6 @@ use_travis_badge <- function() {
 #'
 #' Enables test coverage reporting via codecov or coveralls
 #'
-#' @importFrom travis travis_is_enabled
 #' @section `use_coverage()`:
 #' Adds test coverage reports to a package that is already using Travis CI.
 #' @name use_coverage
@@ -155,7 +163,7 @@ use_travis_badge <- function() {
 #'   [Codecov](https://codecov.io) and [Coveralls](https://coveralls.io).
 #' @export
 use_coverage <- function(type = c("codecov", "coveralls")) {
-  travis_is_enabled()
+  check_uses_travis()
   type <- match.arg(type)
 
   use_dependency("covr", "Suggests")
