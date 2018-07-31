@@ -237,11 +237,9 @@ use_coveralls_badge <- function() {
 #' @param travis_repo `[string]`\cr
 #'   The Travis CI repository to add the private key to, default: `repo`
 #'   (the GitHub repo to which the public deploy key is added).
-#'
 #' @export
 use_travis_deploy <- function(path = ".", info = travis:::github_info(path),
-                              repo = travis:::github_repo(info = info),
-                              travis_repo = repo) {
+                              repo = travis:::github_repo(info = info)) {
 
   # authenticate on github and travis and set up keys/vars
 
@@ -253,13 +251,13 @@ use_travis_deploy <- function(path = ".", info = travis:::github_info(path),
   private_key <- encode_private_key(key)
 
   # add to GitHub first, because this can fail because of missing org permissions
-  title <- paste0("travis+tic", if (repo == travis_repo) "" else (paste0(" for ", repo)))
+  title <- glue("travis+tic for {repo}")
   github_add_key(pub_key, title = title, info = info)
 
-  travis_set_var("id_rsa", private_key, public = FALSE, repo = travis_repo)
+  travis_set_var("id_rsa", private_key, public = FALSE, repo = repo)
 
-  message("Successfully added private deploy key to ", travis_repo,
-          " as secure environment variable id_rsa to Travis CI.")
+  message(glue("Successfully added private deploy key to {repo}",
+          " as secure environment variable id_rsa to Travis CI."))
 
 }
 
