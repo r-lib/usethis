@@ -78,6 +78,9 @@ use_ci <- function(path = ".", quiet = FALSE,
 #' @export
 #' @rdname ci
 use_travis <- function(browse = interactive()) {
+
+  warning("`use_travis()` is deprecated. Please use `use_ci()` in the future.")
+
   check_uses_github()
 
   use_template(
@@ -99,6 +102,9 @@ use_travis <- function(browse = interactive()) {
 #' @export
 #' @rdname ci
 use_appveyor <- function(browse = interactive()) {
+
+  warning("`use_appveyor()` is deprecated. Please use `use_ci()` in the future.")
+
   check_uses_github()
 
   use_template("appveyor.yml", ignore = TRUE)
