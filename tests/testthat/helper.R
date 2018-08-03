@@ -39,10 +39,11 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
     withr::defer(proj_set(old_project, force = TRUE, quiet = TRUE), envir = env)
   }
 
+  withr::local_options(list(usethis.quiet = TRUE))
   switch(
     thing,
-    package = capture_output(create_package(dir, rstudio = rstudio, open = FALSE)),
-    project = capture_output(create_project(dir, rstudio = rstudio, open = FALSE))
+    package = create_package(dir, rstudio = rstudio, open = FALSE),
+    project = create_project(dir, rstudio = rstudio, open = FALSE)
   )
   invisible(dir)
 }

@@ -6,7 +6,7 @@ test_that("use_logo() doesn't error", {
   img <- magick::image_write(magick::image_read("logo:"), "logo.png")
   on.exit(file_delete("logo.png"))
 
-  expect_error_free(capture_output(use_logo("logo.png")))
+  expect_error_free(use_logo("logo.png"))
 })
 
 test_that("use_logo() does nothing if badge seems to pre-exist", {
