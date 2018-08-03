@@ -109,7 +109,7 @@ proj_set_ <- function(path, quiet = FALSE) {
   old <- proj$cur
   proj$cur <- path
   if (!quiet) {
-    done("Changing active project to {value(proj$cur)}")
+    done("Setting active project to {value(proj$cur)}")
   }
   invisible(old)
 }
