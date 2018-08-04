@@ -1,5 +1,7 @@
 # usethis 1.3.0.9000
 
+* `getOption("usethis.quiet")` is consulted when printing user-facing messages. Set this option to `TRUE` to suppress output, e.g., to use usethis functions quietly in another package. For example, use `withr::local_options(list(usethis.quiet = TRUE))` in the calling function (#416, #424).
+
 * `edit_file()`, `write_over()`, and `write_union()` are newly exported helpers. They are mostly for internal use, but can also be useful in packages that extend or customize usethis (#344, #366, #389).
 
 * `use_course()` reports progress during download (#276, #380).
