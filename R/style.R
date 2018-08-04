@@ -6,10 +6,9 @@
 ##   * eliminate `capture_output()` calls in usethis tests
 ##   * other packages, e.g., devtools can call usethis functions quietly
 cat_line <- function(...) {
-  quiet <- getOption("usethis.quiet", FALSE)
-  if (!quiet) {
-    cat(..., "\n", sep = "")
-  }
+  quiet <- getOption("usethis.quiet", default = FALSE)
+  if (quiet) return(invisible())
+  cat(..., "\n", sep = "")
 }
 
 todo_bullet <- function() crayon::red(clisymbols::symbol$bullet)
