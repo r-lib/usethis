@@ -67,3 +67,8 @@ code <- function(...) {
   x <- paste0(...)
   crayon::make_style("darkgrey")(encodeString(x, quote = "`"))
 }
+
+unset <- function(...) {
+  x <- paste0(...)
+  crayon::make_style("lightgrey")(x)
+}
