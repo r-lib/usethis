@@ -1,32 +1,25 @@
 proj <- new.env(parent = emptyenv())
 
-#' Get and set the active project
+#' Utility functions for the active project
 #'
-#' @description Most `use_*()` functions act on the **active project**. If it is
+#' Most `use_*()` functions act on the **active project**. If it is
 #' unset, usethis uses [rprojroot](https://rprojroot.r-lib.org) to
 #' find the project root of the current working directory. It establishes the
 #' project root by looking for a `.here` file, an RStudio Project, a package
 #' `DESCRIPTION`, Git infrastructure, a `remake.yml` file, or a `.projectile`
 #' file. It then stores the active project for use for the remainder of the
-#' session. Use `proj_get()` to see the active project and `proj_set()` to set
-#' it manually.
+#' session.
 #'
-#' @description In general, user scripts should not call `usethis::proj_get()`
-#'   or `usethis::proj_set()`. They are internal functions that are exported for
-#'   occasional interactive use. If you need to detect a project
-#'   programmatically in your code, you should probably be using
-#'   [rprojroot](https://rprojroot.r-lib.org) or its simpler companion,
-#'   [here](https://here.r-lib.org), directly.
+#' In general, end user code should not call `usethis::proj_get()`,
+#' `usethis::proj_set()`, or `usethis::proj_path()`. They are internal functions
+#' that are exported for occasional interactive use or use in packages that
+#' extend usethis. End user code should call functions in
+#' [rprojroot](https://rprojroot.r-lib.org) or its simpler companion,
+#' [here](https://here.r-lib.org), to programmatically detect a project and
+#' build paths within it.
 #'
-#' @param path Path to set.
-#' @param force If `TRUE`, use this path without checking the usual criteria.
-#'   Use sparingly! The main application is to solve a temporary chicken-egg
-#'   problem: you need to set the active project in order to add
-#'   project-signalling infrastructure, such as initialising a Git repo or
-#'   adding a DESCRIPTION file.
-#' @param quiet Logical. Whether to announce project activation.
+#' @name proj_utils
 #' @keywords internal
-#' @export
 #' @examples
 #' \dontrun{
 #' ## see the active project
@@ -34,7 +27,16 @@ proj <- new.env(parent = emptyenv())
 #'
 #' ## manually set the active project
 #' proj_set("path/to/target/project")
+#'
+#' ## build a path within the active project (both produce same result)
+#' proj_path("R/foo.R")
+#' proj_path("R", "foo", ext = "R")
 #' }
+NULL
+
+#' @describeIn proj_utils Retrieves the active project and, if necessary, attempts to set it in the first place.
+#' @param quiet Logical. Whether to announce project activation.
+#' @export
 proj_get <- function(quiet = FALSE) {
   # Called for first time so try working directory
   if (!proj_active()) {
@@ -44,8 +46,14 @@ proj_get <- function(quiet = FALSE) {
   proj$cur
 }
 
+#' @describeIn proj_utils Sets the active project.
+#' @param path Path to set.
+#' @param force If `TRUE`, use this path without checking the usual criteria.
+#'   Use sparingly! The main application is to solve a temporary chicken-egg
+#'   problem: you need to set the active project in order to add
+#'   project-signalling infrastructure, such as initialising a Git repo or
+#'   adding a DESCRIPTION file.
 #' @export
-#' @rdname proj_get
 proj_set <- function(path = ".", force = FALSE, quiet = FALSE) {
   if (!is.null(path)) {
     check_is_dir(path)
@@ -63,6 +71,14 @@ proj_set <- function(path = ".", force = FALSE, quiet = FALSE) {
   }
 
   proj_set_(path, quiet = quiet)
+}
+
+#' @describeIn proj_utils Builds a path within the active project. Thin wrapper
+#'   around [fs::path()].
+#' @inheritParams fs::path
+#' @export
+proj_path <- function(..., ext = "") {
+  path_norm(path(proj_get(), ..., ext = ext))
 }
 
 proj_set_ <- function(path, quiet = FALSE) {
@@ -88,7 +104,6 @@ user_path_prep <- function(path) {
   path_expand(path)
 }
 
-proj_path <- function(..., ext = "") path_norm(path(proj_get(), ..., ext = ext))
 
 proj_rel_path <- function(path) {
   if (is_in_proj(path)) {
