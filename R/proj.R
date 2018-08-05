@@ -1,45 +1,5 @@
 proj <- new.env(parent = emptyenv())
 
-proj_crit <- function() {
-  rprojroot::has_file(".here") |
-    rprojroot::is_rstudio_project |
-    rprojroot::is_r_package |
-    rprojroot::is_git_root |
-    rprojroot::is_remake_project |
-    rprojroot::is_projectile_project
-}
-
-proj_find <- function(path = ".") {
-  tryCatch(
-    rprojroot::find_root(proj_crit(), path = path),
-    error = function(e) NULL
-  )
-}
-
-possibly_in_proj <- function(path = ".") !is.null(proj_find(path))
-
-is_package <- function(base_path = proj_get()) {
-  res <- tryCatch(
-    rprojroot::find_package_root_file(path = base_path),
-    error = function(e) NULL
-  )
-  !is.null(res)
-}
-
-check_is_package <- function(whos_asking = NULL) {
-  if (is_package()) {
-    return(invisible())
-  }
-
-  message <- glue("Project {value(project_name())} is not an R package.")
-  if (!is.null(whos_asking)) {
-    message <- glue(
-      "{code(whos_asking)} is designed to work with packages. {message}"
-    )
-  }
-  stop_glue(message)
-}
-
 #' Get and set the active project
 #'
 #' @description Most `use_*()` functions act on the **active project**. If it is
@@ -114,16 +74,6 @@ proj_set_ <- function(path, quiet = FALSE) {
   invisible(old)
 }
 
-proj_path <- function(..., ext = "") path_norm(path(proj_get(), ..., ext = ext))
-
-proj_rel_path <- function(path) {
-  if (is_in_proj(path)) {
-    path_rel(path, start = proj_get())
-  } else {
-    path
-  }
-}
-
 ## usethis policy re: preparation of the path to active project
 proj_path_prep <- function(path) {
   if (is.null(path)) return(path)
@@ -136,6 +86,58 @@ user_path_prep <- function(path) {
   ## usethis uses fs's notion of home directory
   ## this ensures we are consistent about that
   path_expand(path)
+}
+
+proj_path <- function(..., ext = "") path_norm(path(proj_get(), ..., ext = ext))
+
+proj_rel_path <- function(path) {
+  if (is_in_proj(path)) {
+    path_rel(path, start = proj_get())
+  } else {
+    path
+  }
+}
+
+
+
+proj_crit <- function() {
+  rprojroot::has_file(".here") |
+    rprojroot::is_rstudio_project |
+    rprojroot::is_r_package |
+    rprojroot::is_git_root |
+    rprojroot::is_remake_project |
+    rprojroot::is_projectile_project
+}
+
+proj_find <- function(path = ".") {
+  tryCatch(
+    rprojroot::find_root(proj_crit(), path = path),
+    error = function(e) NULL
+  )
+}
+
+possibly_in_proj <- function(path = ".") !is.null(proj_find(path))
+
+is_package <- function(base_path = proj_get()) {
+  res <- tryCatch(
+    rprojroot::find_package_root_file(path = base_path),
+    error = function(e) NULL
+  )
+  !is.null(res)
+}
+
+check_is_package <- function(whos_asking = NULL) {
+  if (is_package()) {
+    return(invisible())
+  }
+
+  message <- glue("Project {value(project_name())} is not an R package.")
+  if (!is.null(whos_asking)) {
+    message <- glue(
+      "{code(whos_asking)} is designed to work with packages. {message}"
+    )
+  }
+  stop_glue(message)
 }
 
 proj_active <- function() !is.null(proj$cur)
