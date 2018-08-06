@@ -4,16 +4,12 @@
 \alias{use_travis_deploy}
 \title{Setup deployment for Travis CI}
 \usage{
-use_travis_deploy(path = ".", info = travis:::github_info(path),
-  repo = travis:::github_repo(info = info))
+use_travis_deploy(path = ".", repo = github_repo(info =
+  github_info(path)))
 }
 \arguments{
 \item{path}{\code{[string]}\cr
 The path to a GitHub-enabled Git repository (or a subdirectory thereof).}
-
-\item{info}{\code{[list]}\cr
-GitHub information for the repository, by default obtained through
-\code{\link[=github_info]{github_info()}}.}
 
 \item{repo}{\code{[string|numeric]}\cr
 The GitHub repo slug, by default obtained through \code{\link[=github_repo]{github_repo()}}.
