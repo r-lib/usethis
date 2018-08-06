@@ -109,3 +109,7 @@ detect_repo_type <- function() {
 needs_appveyor <- function(repo_type) {
   repo_type == "package"
 }
+
+needs_deploy <- function(repo_type) {
+  repo_type != "unknown"
+}

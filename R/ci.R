@@ -67,7 +67,7 @@ use_ci <- function(path = ".", quiet = FALSE,
 
     #' 1. Enable deployment (if necessary, depending on repo type)
     #'    via [use_travis_deploy()]
-    if (travis:::needs_deploy(repo_type)) use_travis_deploy() #FIXME: Export function in travis
+    if (needs_deploy(repo_type)) use_travis_deploy() #FIXME: Export function in travis
 
     #' 1. Create a GitHub PAT and install it on Travis CI via [travis_set_pat()]
     travis_set_pat()
