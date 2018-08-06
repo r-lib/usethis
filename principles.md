@@ -45,7 +45,14 @@ usethis relies on fs for file system operations. The main thing users will notic
 
 ## Communicating with the user
 
-User-facing messages are emitted via helpers in `style.R` and *everything* is routed through `cat_line()`. That is intentional and should be preserved. This function is under the control of an undocumented option: `usethis.quiet`. When `getOption("usethis.quiet", FALSE)` evaluates to `TRUE`, `cat_line()` does nothing. This eliminates the need for ubiquitous `capture_output()` calls in the usethis tests and makes it easier for other packages to call functions in usethis and suppress the usual messaging.
+User-facing messages are emitted via helpers in `style.R` (see `todo()` and `done()`) and *everything* is eventually routed through `cat_line()`. This is all intentional and should be preserved.
+
+`cat_line()` has a `quiet` argument and `quiet = TRUE` causes it to not produce output. Default value: `quiet = getOption("usethis.quiet", default = FALSE)`.
+
+  * Exploited in usethis tests: option is set and unset in `setup.R` and `teardown.R`. Eliminates the need for ubiquitous `capture_output()` calls.
+  * Other packages can muffle a usethis call via, e.g., `withr::local_options(list(usethis.quiet = TRUE))`.
+  
+Implication: don't call `cat_line(..., quiet = FALSE)` lightly, because it breaks the expectation that the option can be used to silence usethis.
 
 You might also notice that usethis communicates with the user via `cat()` instead of `message()`. Why?
 
