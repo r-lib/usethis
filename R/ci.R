@@ -272,8 +272,3 @@ use_travis_deploy <- function(path = ".",
           " as secure environment variable id_rsa to Travis CI."))
 
 }
-
-template_file <- function(...) {
-  system.file("templates", ..., package = utils::packageName(), mustWork = TRUE)
-}
-
