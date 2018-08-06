@@ -235,15 +235,14 @@ use_coveralls_badge <- function() {
 #' during a Travis CI build.
 #'
 #' @importFrom travis travis_set_var
+#' @importFrom travis github_repo
+#' @importFrom travis github_info
 #' @importFrom travis github_add_key
 #' @importFrom tic get_public_key
 #' @importFrom tic encode_private_key
 #' @importFrom openssl rsa_keygen
 #' @param path `[string]`\cr
 #'   The path to a GitHub-enabled Git repository (or a subdirectory thereof).
-#' @param info `[list]`\cr
-#'   GitHub information for the repository, by default obtained through
-#'   [github_info()].
 #' @param repo `[string|numeric]`\cr
 #'   The GitHub repo slug, by default obtained through [github_repo()].
 #'   Alternatively, the Travis CI repo ID, e.g. obtained through `travis_repo_id()`.
@@ -251,8 +250,8 @@ use_coveralls_badge <- function() {
 #'   The Travis CI repository to add the private key to, default: `repo`
 #'   (the GitHub repo to which the public deploy key is added).
 #' @export
-use_travis_deploy <- function(path = ".", info = travis:::github_info(path),
-                              repo = travis:::github_repo(info = info)) {
+use_travis_deploy <- function(path = ".",
+                              repo = github_repo(info = github_info(path))) {
 
   # authenticate on github and travis and set up keys/vars
 
