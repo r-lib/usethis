@@ -1,5 +1,7 @@
 # usethis 1.3.0.9000
 
+* `proj_sitrep()` is a new function that reports current working directory, the active usethis project, and the active RStudio Project. The print method offers advice in situations that seem suboptimal (#426).
+
 * `proj_path()` is newly exported. Use it to build paths within the active project. Like `proj_get()` and `proj_set()`, it is not aimed at end users, but rather for use in extension packages. End users should use [rprojroot](https://rprojroot.r-lib.org) or its simpler companion, [here](https://here.r-lib.org), to programmatically detect a project and
 build paths within it (#415, #425).
 
