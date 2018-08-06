@@ -265,7 +265,7 @@ use_travis_deploy <- function(path = ".", info = travis:::github_info(path),
 
   # add to GitHub first, because this can fail because of missing org permissions
   title <- glue("travis+tic for {repo}")
-  github_add_key(pub_key, title = title, info = info)
+  github_add_key(pub_key, title = title, info = path)
 
   travis_set_var("id_rsa", private_key, public = FALSE, repo = repo)
 
