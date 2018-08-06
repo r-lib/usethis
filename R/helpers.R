@@ -109,3 +109,7 @@ detect_repo_type <- function() {
   if (file.exists("DESCRIPTION")) return("package")
   "unknown"
 }
+
+needs_appveyor <- function(repo_type) {
+  repo_type == "package"
+}

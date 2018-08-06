@@ -53,7 +53,12 @@ use_ci <- function(path = ".", quiet = FALSE,
       #' 1. Create a default `appveyor.yml` file
       #'    (depending on repo type, overwrite after confirmation
       #'    in interactive mode only)
-      if (travis:::needs_appveyor(repo_type)) travis:::use_appveyor_yml() #FIXME: Export function in travis
+      if (needs_appveyor(repo_type))
+        use_template(
+          "appveyor.yml",
+          "appveyor.yml",
+          ignore = TRUE
+        )
     }
 
     #' 1. Create a default `tic.R` file depending on the repo type
@@ -267,13 +272,6 @@ use_travis_deploy <- function(path = ".", info = travis:::github_info(path),
   message(glue("Successfully added private deploy key to {repo}",
           " as secure environment variable id_rsa to Travis CI."))
 
-}
-
-use_template_tic <- function(..., target = basename(file.path(...))) {
-  source <- template_file(...)
-  travis:::safe_filecopy(source, target)
-  message("Added ", target, " from template.")
-  use_build_ignore(target)
 }
 
 template_file <- function(...) {
