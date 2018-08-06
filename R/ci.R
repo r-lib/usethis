@@ -79,7 +79,7 @@ use_ci <- function(path = ".", quiet = FALSE,
 #' @rdname ci
 use_travis <- function(browse = interactive()) {
 
-  warning("`use_travis()` is deprecated. Please use `use_ci()` in the future.")
+  message("`use_travis()` will be deprecated in the future. Please use `use_ci()`.")
 
   check_uses_github()
 
@@ -103,7 +103,7 @@ use_travis <- function(browse = interactive()) {
 #' @rdname ci
 use_appveyor <- function(browse = interactive()) {
 
-  warning("`use_appveyor()` is deprecated. Please use `use_ci()` in the future.")
+  message("`use_travis()` will be deprecated in the future. Please use `use_ci()`.")
 
   check_uses_github()
 
