@@ -98,10 +98,6 @@ view_url <- function(..., open = interactive()) {
   invisible(url)
 }
 
-template_file <- function(...) {
-  system.file("templates", ..., package = utils::packageName(), mustWork = TRUE)
-}
-
 detect_repo_type <- function() {
   if (file.exists("_bookdown.yml")) return("bookdown")
   if (file.exists("_site.yml")) return("site")

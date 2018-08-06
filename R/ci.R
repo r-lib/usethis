@@ -150,7 +150,7 @@ use_tic <- function(repo_type) {
 }
 
 use_template_tic <- function(..., target = basename(file.path(...))) {
-  source <- template_file(...)
+  source <- find_template(...)
   safe_filecopy(source, target)
   message("Added ", target, " from template.")
   use_build_ignore(target)
