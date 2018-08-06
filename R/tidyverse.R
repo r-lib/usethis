@@ -71,8 +71,8 @@ use_tidy_ci <- function() {
   )
   use_template("codecov.yml", ignore = TRUE)
 
-  repo_type <- travis:::detect_repo_type()
-  travis:::use_tic_r(repo_type)
+  repo_type <- detect_repo_type()
+  use_tic(repo_type)
 
   use_dependency("R", "Depends", ">= 3.1")
   use_dependency("covr", "Suggests")
