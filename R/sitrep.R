@@ -19,7 +19,7 @@ proj_sitrep <- function() {
     ## home_usethis = fs::path_home(),
     ## home_r = normalizePath("~")
   )
-  out <- ifelse(lengths(out) > 0, fs::path_tidy(out), out)
+  out <- ifelse(is_null(out), out, fs::path_tidy(out))
   structure(out, class = "sitrep")
 }
 
@@ -30,7 +30,7 @@ format.sitrep <- function(x, ...) {
   padded_names <- sprintf(format_string, names(x))
   glue::glue("
     {field(padded_names)}: \\
-    {ifelse(lengths(x) > 0, value(x), unset(x))}\n"
+    {ifelse(is_null(x), unset(x), value(x))}\n"
   )
 }
 
@@ -75,7 +75,7 @@ print.sitrep <- function(x, ...) {
   }
 
   if (!is.null(x[["active_rstudio_proj"]]) &&
-      !is.null(x[["active_rstudio_proj"]]) &&
+      !is.null(x[["active_usethis_proj"]]) &&
       x[["active_rstudio_proj"]] != x[["active_usethis_proj"]]) {
     todo("
          Your active RStudio Project is not the same as the active usethis project.
@@ -85,3 +85,5 @@ print.sitrep <- function(x, ...) {
 
   invisible(x)
 }
+
+is_null <- function(x) vapply(x, is.null, logical(1))
