@@ -46,7 +46,11 @@ use_description <- function(fields = NULL) {
   fields[["Package"]] <- name
 
   desc <- build_description(fields)
-  write_over(proj_path("DESCRIPTION"), desc)
+  desc <- desc::description$new(text = desc)
+  tidy_desc(desc)
+  lines <- desc$str(by_field = TRUE, normalize = FALSE, mode = "file")
+
+  write_over(proj_path("DESCRIPTION"), lines)
 }
 
 #' @rdname use_description
@@ -101,4 +105,23 @@ check_package_name <- function(name) {
 
 valid_name <- function(x) {
   grepl("^[[:alpha:]][[:alnum:].]+$", x) && !grepl("\\.$", x)
+}
+
+tidy_desc <- function(desc) {
+  stopifnot(inherits(desc, "description"), inherits(desc, "R6"))
+
+  # Alphabetise dependencies
+  deps <- desc$get_deps()
+  deps <- deps[order(deps$type, deps$package), , drop = FALSE]
+  desc$del_deps()
+  desc$set_deps(deps)
+
+  # Alphabetise remotes
+  remotes <- desc$get_remotes()
+  if (length(remotes) > 0) {
+    desc$set_remotes(sort(remotes))
+  }
+
+  # Normalize all fields (includes reordering)
+  desc$normalize()
 }

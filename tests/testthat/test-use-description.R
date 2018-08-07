@@ -61,7 +61,6 @@ test_that("build_description_list(): user's fields > options > defaults", {
 
 test_that("default description is tidy", {
   withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
-  options(usethis.description = NULL, devtools.desc = NULL)
   scoped_temporary_package()
   desc_lines_before <- readLines(proj_path("DESCRIPTION"))
   use_tidy_description()
