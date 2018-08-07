@@ -111,3 +111,14 @@ test_that("is_in_proj() detects whether files are (or would be) in project", {
   ## file exists and is not in project
   expect_false(is_in_proj(path_temp()))
 })
+
+test_that("proj_sitrep() reports current working/project state", {
+  pkg <- scoped_temporary_package()
+  x <- proj_sitrep()
+  expect_s3_class(x, "sitrep")
+  expect_false(is.null(x[["working_directory"]]))
+  expect_identical(
+    fs::path_file(pkg),
+    fs::path_file(x[["active_usethis_proj"]])
+  )
+})
