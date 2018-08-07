@@ -37,6 +37,11 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
     }
   } else {
     withr::defer(proj_set(old_project, force = TRUE, quiet = TRUE), envir = env)
+    ## only schedule deletion if it appears 'dir' will be created and,
+    ## therefore, clearly owned by scoped_temporary_thing()
+    if (!fs::dir_exists(dir)) {
+      withr::defer(fs::dir_delete(dir), envir = env)
+    }
   }
 
   withr::local_options(list(usethis.quiet = TRUE))
