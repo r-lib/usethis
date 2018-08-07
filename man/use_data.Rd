@@ -43,3 +43,6 @@ use_data(x, y) # For external use
 use_data(x, y, internal = TRUE) # For internal use
 }
 }
+\seealso{
+The \href{http://r-pkgs.had.co.nz/data.html}{data chapter} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+}

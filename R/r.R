@@ -3,7 +3,9 @@
 #' @param name File name, without extension; will create if it doesn't already
 #'   exist. If not specified, and you're currently in a test file, will guess
 #'   name based on test name.
-#' @seealso [use_test()]
+#' @seealso [use_test()], and also the [R code
+#'   chapter](http://r-pkgs.had.co.nz/r.html) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
 #' @export
 use_r <- function(name = NULL) {
   name <- name %||% get_active_r_file(path = "tests/testthat")

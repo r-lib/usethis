@@ -3,6 +3,9 @@
 #' This creates a basic `NEWS.md` in the root directory.
 #'
 #' @inheritParams use_template
+#' @seealso The [important files
+#'   section](http://r-pkgs.had.co.nz/release.html#important-files) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
 #' @export
 use_news_md <- function(open = interactive()) {
   use_template(
