@@ -58,3 +58,13 @@ test_that("build_description_list(): user's fields > options > defaults", {
   ## from usethis defaults
   expect_match(d$Description, "What the package does")
 })
+
+test_that("default description is tidy", {
+  withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
+  options(usethis.description = NULL, devtools.desc = NULL)
+  scoped_temporary_package()
+  desc_lines_before <- readLines(proj_path("DESCRIPTION"))
+  use_tidy_description()
+  desc_lines_after <- readLines(proj_path("DESCRIPTION"))
+  expect_identical(desc_lines_before, desc_lines_after)
+})
