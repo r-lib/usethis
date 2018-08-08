@@ -19,7 +19,7 @@ proj <- new.env(parent = emptyenv())
 #' build paths within it.
 #'
 #' @name proj_utils
-#' @keywords internal
+#' @family project functions
 #' @examples
 #' \dontrun{
 #' ## see the active project
@@ -104,7 +104,6 @@ user_path_prep <- function(path) {
   path_expand(path)
 }
 
-
 proj_rel_path <- function(path) {
   if (is_in_proj(path)) {
     path_rel(path, start = proj_get())
@@ -112,8 +111,6 @@ proj_rel_path <- function(path) {
     path
   }
 }
-
-
 
 proj_crit <- function() {
   rprojroot::has_file(".here") |

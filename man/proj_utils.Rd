@@ -70,4 +70,7 @@ proj_path("R/foo.R")
 proj_path("R", "foo", ext = "R")
 }
 }
-\keyword{internal}
+\seealso{
+Other project functions: \code{\link{proj_sitrep}}
+}
+\concept{project functions}

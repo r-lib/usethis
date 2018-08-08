@@ -1,5 +1,7 @@
 # usethis 1.3.0.9000
 
+* `proj_sitrep()` is a new function that reports current working directory, the active usethis project, and the active RStudio Project. Call this function if things seem weird and you're not sure what's wrong or how to fix it (#426).
+
 * usethis has a new logo! (#429)
 
 * `getOption("usethis.quiet")` is consulted when printing user-facing messages. Set this option to `TRUE` to suppress output, e.g., to use usethis functions quietly in another package. For example, use `withr::local_options(list(usethis.quiet = TRUE))` in the calling function (#416, #424).
