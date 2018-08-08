@@ -19,7 +19,7 @@ proj <- new.env(parent = emptyenv())
 #' build paths within it.
 #'
 #' @name proj_utils
-#' @keywords internal
+#' @family project functions
 #' @examples
 #' \dontrun{
 #' ## see the active project

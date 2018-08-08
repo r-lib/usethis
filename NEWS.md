@@ -1,11 +1,10 @@
 # usethis 1.3.0.9000
 
-* `proj_sitrep()` is a new function that reports current working directory, the active usethis project, and the active RStudio Project. The print method offers advice in situations that seem suboptimal (#426).
+* `proj_sitrep()` is a new function that reports current working directory, the active usethis project, and the active RStudio Project. Call this function if things seem weird and you're not sure what's wrong or how to fix it (#426).
 
 * usethis has a new logo! (#429)
 
 * `getOption("usethis.quiet")` is consulted when printing user-facing messages. Set this option to `TRUE` to suppress output, e.g., to use usethis functions quietly in another package. For example, use `withr::local_options(list(usethis.quiet = TRUE))` in the calling function (#416, #424).
->>>>>>> master
 
 * `proj_path()` is newly exported. Use it to build paths within the active project. Like `proj_get()` and `proj_set()`, it is not aimed at end users, but rather for use in extension packages. End users should use [rprojroot](https://rprojroot.r-lib.org) or its simpler companion, [here](https://here.r-lib.org), to programmatically detect a project and
 build paths within it (#415, #425).

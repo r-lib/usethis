@@ -12,8 +12,21 @@ reporting current working directory, active usethis project, and active
 RStudio Project
 }
 \description{
-Report working directory and usethis/RStudio project
+\code{proj_sitrep()} reports
+\itemize{
+\item current working directory
+\item the active usethis project
+\item the active RStudio Project
+Call this function if things seem weird and you're not sure what's wrong or
+how to fix it. Usually, all three of these should coincide (or be unset) and
+\code{proj_sitrep()} provides suggested commands for getting back to this happy
+state.
+}
 }
 \examples{
 proj_sitrep()
 }
+\seealso{
+Other project functions: \code{\link{proj_utils}}
+}
+\concept{project functions}
