@@ -16,14 +16,13 @@
 #' @family project functions
 #' @examples
 #' proj_sitrep()
-# should this be dr_proj()?
 proj_sitrep <- function() {
   out <- list(
     working_directory = getwd(),
-    active_usethis_proj = if (proj_active()) proj_get() else NULL,
+    active_usethis_proj = if (proj_active()) proj_get(),
     active_rstudio_proj = if (rstudioapi::hasFun("getActiveProject")) {
       rstudioapi::getActiveProject()
-    } else NULL
+    }
     ## TODO(?): address home directory to help clarify fs issues on Windows?
     ## home_usethis = fs::path_home(),
     ## home_r = normalizePath("~")
@@ -34,11 +33,8 @@ proj_sitrep <- function() {
 
 #' @export
 format.sitrep <- function(x, ...) {
-  max_width <- max(nchar(names(x)))
-  format_string <- glue::glue("%{max_width}s")
-  padded_names <- sprintf(format_string, names(x))
   glue::glue("
-    {field(padded_names)}: \\
+    {field(format(names(x), justify = 'right'))}: \\
     {ifelse(is_null(x), unset(x), value(x))}\n"
   )
 }
