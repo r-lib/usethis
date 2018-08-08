@@ -82,30 +82,14 @@ use_tidy_ci <- function(browse = interactive()) {
   invisible(TRUE)
 }
 
-
 #' @export
 #' @rdname tidyverse
 use_tidy_description <- function() {
-  base_path <- proj_get()
-
-  # Alphabetise dependencies
-  deps <- desc::desc_get_deps(base_path)
-  deps <- deps[order(deps$type, deps$package), , drop = FALSE]
-  desc::desc_del_deps(file = base_path)
-  desc::desc_set_deps(deps, file = base_path)
-
-  # Alphabetise remotes
-  remotes <- desc::desc_get_remotes(file = base_path)
-  if (length(remotes) > 0) {
-    desc::desc_set_remotes(sort(remotes), file = base_path)
-  }
-
-  # Reorder all fields
-  desc::desc_reorder_fields(file = base_path)
-
+  desc <- desc::description$new(file = proj_get())
+  tidy_desc(desc)
+  desc$write()
   invisible(TRUE)
 }
-
 
 #' @export
 #' @rdname tidyverse
