@@ -108,8 +108,6 @@ valid_name <- function(x) {
 }
 
 tidy_desc <- function(desc) {
-  stopifnot(inherits(desc, "description"), inherits(desc, "R6"))
-
   # Alphabetise dependencies
   deps <- desc$get_deps()
   deps <- deps[order(deps$type, deps$package), , drop = FALSE]
