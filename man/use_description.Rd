@@ -3,7 +3,7 @@
 \name{use_description}
 \alias{use_description}
 \alias{use_description_defaults}
-\title{Create a DESCRIPTION file}
+\title{Create or modify a DESCRIPTION file}
 \usage{
 use_description(fields = NULL)
 
@@ -18,11 +18,11 @@ personalized defaults using package options}
 usethis consults the following sources, in this order, to set DESCRIPTION
 fields:
 \itemize{
-\item \code{fields} argument of \code{\link[=create_package]{create_package()}} or \code{\link[=use_description]{use_description()}}
+\item \code{fields} argument of \code{\link[=create_package]{create_package()}} or \code{\link[=use_description]{use_description()}}.
 \item \code{getOption("usethis.description")} or \code{getOption("devtools.desc")}. The
 devtools option is consulted only for backwards compatibility and it's
 recommended to switch to an option named "usethis.description".
-\item Defaults built into usethis
+\item Defaults built into usethis.
 }
 
 The fields discovered via options or the usethis package can be viewed with
@@ -47,4 +47,8 @@ use_description(fields = list(Language = "es"))
 
 use_description_defaults()
 }
+}
+\seealso{
+The \href{http://r-pkgs.had.co.nz/description.html}{description chapter}
+of \href{http://r-pkgs.had.co.nz}{R Packages}.
 }

@@ -22,3 +22,6 @@ applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 adding \pkg{testthat} to the suggested packages. \code{use_test()}
 creates \file{tests/testthat/test-<name>.R} and opens it for editing.
 }
+\seealso{
+The \href{http://r-pkgs.had.co.nz/tests.html}{testing chapter} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+}

@@ -26,16 +26,14 @@ test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
   skip_if(getRversion() < 3.2)
 
   scoped_temporary_package()
-  capture_output(
-    use_description_field(
-      name = "Version",
-      value = "1.1.1.9000",
-      overwrite = TRUE
-    )
+  use_description_field(
+    name = "Version",
+    value = "1.1.1.9000",
+    overwrite = TRUE
   )
-  capture_output(use_news_md())
+  use_news_md()
 
-  capture_output(use_version("major"))
+  use_version("major")
   expect_identical(
     as.character(desc::desc_get_version(proj_get())),
     "2.0.0"
@@ -51,15 +49,13 @@ test_that("use_dev_version() appends .9000 to Version, exactly once", {
   skip_if(getRversion() < 3.2)
 
   scoped_temporary_package()
-  capture_output(
-    use_description_field(name = "Version", value = "0.0.1", overwrite = TRUE)
-  )
-  capture_output(use_dev_version())
+  use_description_field(name = "Version", value = "0.0.1", overwrite = TRUE)
+  use_dev_version()
   expect_identical(
     as.character(desc::desc_get_version(proj_get())),
     "0.0.1.9000"
   )
-  capture_output(use_dev_version())
+  use_dev_version()
   expect_identical(
     as.character(desc::desc_get_version(proj_get())),
     "0.0.1.9000"

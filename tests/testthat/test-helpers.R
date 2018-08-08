@@ -78,21 +78,17 @@ test_that("use_description_field() can address an existing field", {
   )
 
   ## overwrite existing field
-  capture_output(
-    use_description_field(
-      name = "Version",
-      value = "1.1.1",
-      base_path = pkg,
-      overwrite = TRUE
-    )
+  use_description_field(
+    name = "Version",
+    value = "1.1.1",
+    base_path = pkg,
+    overwrite = TRUE
   )
   expect_identical(c(Version = "1.1.1"), desc::desc_get("Version", pkg))
 })
 
 test_that("use_description_field() can add new field", {
   pkg <- scoped_temporary_package()
-  capture_output(
-    use_description_field(name = "foo", value = "bar", base_path = pkg)
-  )
+  use_description_field(name = "foo", value = "bar", base_path = pkg)
   expect_identical(c(foo = "bar"), desc::desc_get("foo", pkg))
 })

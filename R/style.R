@@ -1,7 +1,12 @@
 # Helpers --------------------------------------------------------------------
 
 ## anticipates usage where the `...` bits make up one line
-cat_line <- function(...) {
+##
+## 'usethis.quiet' is an undocumented option; anticipated usage:
+##   * eliminate `capture_output()` calls in usethis tests
+##   * other packages, e.g., devtools can call usethis functions quietly
+cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
+  if (quiet) return(invisible())
   cat(..., "\n", sep = "")
 }
 

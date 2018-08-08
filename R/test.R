@@ -5,6 +5,8 @@
 #' adding \pkg{testthat} to the suggested packages. `use_test()`
 #' creates \file{tests/testthat/test-<name>.R} and opens it for editing.
 #'
+#' @seealso The [testing chapter](http://r-pkgs.had.co.nz/tests.html) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
 #' @export
 #' @inheritParams use_template
 use_testthat <- function() {

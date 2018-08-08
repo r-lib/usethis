@@ -17,9 +17,9 @@ test_that("sets up git pre-commit hook iff pkg uses git", {
   skip_if_not_installed("rmarkdown")
 
   scoped_temporary_package()
-  capture_output(use_readme_rmd(open = FALSE))
+  use_readme_rmd(open = FALSE)
   expect_false(file_exists(proj_path(".git", "hooks", "pre-commit")))
-  capture_output(use_git())
-  capture_output(use_readme_rmd(open = FALSE))
+  use_git()
+  use_readme_rmd(open = FALSE)
   expect_true(file_exists(proj_path(".git", "hooks", "pre-commit")))
 })
