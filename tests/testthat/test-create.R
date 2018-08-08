@@ -14,13 +14,12 @@ test_that("create_project() creates a non-package project", {
 
 test_that("nested package is disallowed, by default", {
   dir <- scoped_temporary_package()
-  expect_error(scoped_temporary_package(path(dir, "man")), "nested")
+  expect_error(scoped_temporary_package(path(dir, "abcde")), "nested")
 })
 
 test_that("nested project is disallowed, by default", {
   dir <- scoped_temporary_project()
-  subdir <- create_directory(dir, "subdir")
-  expect_error(scoped_temporary_project(subdir), "nested")
+  expect_error(scoped_temporary_project(path(dir, "abcde")), "nested")
 })
 
 ## https://github.com/r-lib/usethis/issues/227
