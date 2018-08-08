@@ -22,6 +22,9 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
                                    rstudio = FALSE,
                                    thing = c("package", "project")) {
   thing <- match.arg(thing)
+  if (fs::dir_exists(dir)) {
+    stop_glue("Target {code('dir')} {value(dir)} already exists.")
+  }
 
   ## avoid proj_get() because it attempts to activate a project
   old_project <- proj$cur
@@ -37,6 +40,7 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
     }
   } else {
     withr::defer(proj_set(old_project, force = TRUE, quiet = TRUE), envir = env)
+    withr::defer(fs::dir_delete(dir), envir = env)
   }
 
   withr::local_options(list(usethis.quiet = TRUE))
