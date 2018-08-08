@@ -1,13 +1,13 @@
-#' Create a DESCRIPTION file
+#' Create or modify a DESCRIPTION file
 #'
 #' @description
 #' usethis consults the following sources, in this order, to set DESCRIPTION
 #' fields:
-#' * `fields` argument of [create_package()] or [use_description()]
+#' * `fields` argument of [create_package()] or [use_description()].
 #' * `getOption("usethis.description")` or `getOption("devtools.desc")`. The
 #' devtools option is consulted only for backwards compatibility and it's
 #' recommended to switch to an option named "usethis.description".
-#' * Defaults built into usethis
+#' * Defaults built into usethis.
 #'
 #' The fields discovered via options or the usethis package can be viewed with
 #' `use_description_defaults()`.
