@@ -9,6 +9,9 @@
 #' @param type Type of dependency: must be one of "Imports", "Depends",
 #'   "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation). Matching
 #'   is case insensitive.
+#' @seealso The [dependencies
+#'   section](http://r-pkgs.had.co.nz/description.html#dependencies) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
 #' @export
 #' @examples
 #' \dontrun{

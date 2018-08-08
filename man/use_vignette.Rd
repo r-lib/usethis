@@ -25,3 +25,7 @@ opens it for editing
 use_vignette("how-to-do-stuff")
 }
 }
+\seealso{
+The \href{http://r-pkgs.had.co.nz/vignettes.html}{vignettes chapter} of
+\href{http://r-pkgs.had.co.nz}{R Packages}.
+}

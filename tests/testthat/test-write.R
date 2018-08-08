@@ -9,9 +9,7 @@ test_that("write_union() does not activate a project", {
   expect_true(possibly_in_proj(tmpdir))
   expect_false(is_in_proj(tmpdir))
   ## don't use `quiet = TRUE` because prevents what I want to test
-  capture_output(
-    write_union(path(tmpdir, "abc"), lines = letters[1:3])
-  )
+  write_union(path(tmpdir, "abc"), lines = letters[1:3])
   expect_false(is_in_proj(tmpdir))
 })
 

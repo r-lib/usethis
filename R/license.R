@@ -23,6 +23,9 @@
 #' @param name Name of the copyright holder or holders. Separate multiple
 #'   individuals with `;`. You can supply a global default with
 #'   `options(usethis.full_name = "My name")`.
+#' @seealso The [license
+#'   section](http://r-pkgs.had.co.nz/description.html#license) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
 #' @aliases NULL
 NULL
 

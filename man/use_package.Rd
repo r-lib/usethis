@@ -28,3 +28,6 @@ use_package("ggplot2")
 use_package("dplyr", "suggests")
 }
 }
+\seealso{
+The \href{http://r-pkgs.had.co.nz/description.html#dependencies}{dependencies section} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+}

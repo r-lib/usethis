@@ -12,6 +12,9 @@
 #' YAML frontmatter and R fenced code blocks (`md`) or chunks (`Rmd`).
 #'
 #' @inheritParams use_template
+#' @seealso The [important files
+#'   section](http://r-pkgs.had.co.nz/release.html#important-files) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
 #' @export
 #' @examples
 #' \dontrun{

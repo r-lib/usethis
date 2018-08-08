@@ -9,7 +9,7 @@ test_that("use_data() stores new, non-internal data", {
   pkg <- scoped_temporary_package()
   letters2 <- letters
   month.abb2 <- month.abb
-  capture_output(use_data(letters2, month.abb2))
+  use_data(letters2, month.abb2)
   rm(letters2, month.abb2)
 
   load(proj_path("data", "letters2.rda"))
@@ -21,12 +21,12 @@ test_that("use_data() stores new, non-internal data", {
 test_that("use_data() honors `overwrite` for non-internal data", {
   pkg <- scoped_temporary_package()
   letters2 <- letters
-  capture_output(use_data(letters2))
+  use_data(letters2)
 
   expect_error(use_data(letters2), ".*data/letters2.rda.* already exist")
 
   letters2 <- rev(letters)
-  capture_output(use_data(letters2, overwrite = TRUE))
+  use_data(letters2, overwrite = TRUE)
 
   load(proj_path("data", "letters2.rda"))
   expect_identical(letters2, rev(letters))
@@ -36,7 +36,7 @@ test_that("use_data() stores new internal data", {
   pkg <- scoped_temporary_package()
   letters2 <- letters
   month.abb2 <- month.abb
-  capture_output(use_data(letters2, month.abb2, internal = TRUE))
+  use_data(letters2, month.abb2, internal = TRUE)
   rm(letters2, month.abb2)
 
   load(proj_path("R", "sysdata.rda"))
@@ -47,7 +47,7 @@ test_that("use_data() stores new internal data", {
 test_that("use_data() honors `overwrite` for internal data", {
   pkg <- scoped_temporary_package()
   letters2 <- letters
-  capture_output(use_data(letters2, internal = TRUE))
+  use_data(letters2, internal = TRUE)
   rm(letters2)
 
   expect_error(
@@ -56,7 +56,7 @@ test_that("use_data() honors `overwrite` for internal data", {
   )
 
   letters2 <- rev(letters)
-  capture_output(use_data(letters2, internal = TRUE, overwrite = TRUE))
+  use_data(letters2, internal = TRUE, overwrite = TRUE)
 
   load(proj_path("R", "sysdata.rda"))
   expect_identical(letters2, rev(letters))

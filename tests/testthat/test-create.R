@@ -14,13 +14,12 @@ test_that("create_project() creates a non-package project", {
 
 test_that("nested package is disallowed, by default", {
   dir <- scoped_temporary_package()
-  expect_error(scoped_temporary_package(path(dir, "man")), "nested")
+  expect_error(scoped_temporary_package(path(dir, "abcde")), "nested")
 })
 
 test_that("nested project is disallowed, by default", {
   dir <- scoped_temporary_project()
-  subdir <- create_directory(dir, "subdir")
-  expect_error(scoped_temporary_project(subdir), "nested")
+  expect_error(scoped_temporary_project(path(dir, "abcde")), "nested")
 })
 
 ## https://github.com/r-lib/usethis/issues/227
@@ -30,9 +29,7 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
   withr::with_dir(
     path_temp(), {
       old_project <- proj$cur
-      capture_output(
-        create_package(path_package, rstudio = FALSE, open = FALSE)
-      )
+      create_package(path_package, rstudio = FALSE, open = FALSE)
       new_proj <- proj_get()
       proj_set(old_project, force = TRUE, quiet = TRUE)
     }
@@ -43,9 +40,7 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
   withr::with_dir(
     path_temp(), {
       old_project <- proj$cur
-      capture_output(
-        create_project(path_project, rstudio = FALSE, open = FALSE)
-      )
+      create_project(path_project, rstudio = FALSE, open = FALSE)
       new_proj <- proj_get()
       proj_set(old_project, force = TRUE, quiet = TRUE)
     }

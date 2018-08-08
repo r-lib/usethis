@@ -114,19 +114,19 @@ test_that("top_directory() identifies a unique top directory (or not)", {
 test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
   tmp <- file_temp(ext = ".zip")
   file_copy(test_file("yo-loose-regular.zip"), tmp)
-  capture_output(dest <- tidy_unzip(tmp))
+  dest <- tidy_unzip(tmp)
   loose_regular_files <- path_file(dir_ls(dest, recursive = TRUE))
   dir_delete(dest)
 
   tmp <- file_temp(ext = ".zip")
   file_copy(test_file("yo-loose-dropbox.zip"), tmp)
-  capture_output(dest <- tidy_unzip(tmp))
+  dest <- tidy_unzip(tmp)
   loose_dropbox_files <- path_file(dir_ls(dest, recursive = TRUE))
   dir_delete(dest)
 
   tmp <- file_temp(ext = ".zip")
   file_copy(test_file("yo-not-loose.zip"), tmp)
-  capture_output(dest <- tidy_unzip(tmp))
+  dest <- tidy_unzip(tmp)
   not_loose_files <- path_file(dir_ls(dest, recursive = TRUE))
   dir_delete(dest)
 
