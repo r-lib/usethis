@@ -9,6 +9,8 @@
 #'
 #' @param name Base for file name to use for new vignette. Should consist only
 #'   of numbers, letters, _ and -. I recommend using lower case.
+#' @seealso The [vignettes chapter](http://r-pkgs.had.co.nz/vignettes.html) of
+#'   [R Packages](http://r-pkgs.had.co.nz).
 #' @export
 #' @examples
 #' \dontrun{

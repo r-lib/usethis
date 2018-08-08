@@ -7,3 +7,5 @@ if (nzchar(Sys.getenv("CI"))) {
                        "c485e443")
   Sys.setenv(GITHUB_PAT = github_PAT)
 }
+
+options(usethis.quiet = TRUE)

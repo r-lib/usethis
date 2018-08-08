@@ -42,3 +42,19 @@ Uncomfortable fact: `write_union()` uses the active project, if such exists, to 
 ## Home directory
 
 usethis relies on fs for file system operations. The main thing users will notice is the treatment of home directory on Windows. A Windows user's home directory is interpreted as `C:\Users\username` (typical of Unix-oriented tools, like Git and ssh; also matches Python), as opposed to `C:\Users\username\Documents` (R's default on Windows). In order to be consistent everywhere, all paths supplied by the user should be processed with `user_path_prep()`.
+
+## Communicating with the user
+
+User-facing messages are emitted via helpers in `style.R` (see `todo()` and `done()`) and *everything* is eventually routed through `cat_line()`. This is all intentional and should be preserved.
+
+`cat_line()` has a `quiet` argument and `quiet = TRUE` causes it to not produce output. Default value: `quiet = getOption("usethis.quiet", default = FALSE)`.
+
+  * Exploited in usethis tests: option is set and unset in `setup.R` and `teardown.R`. Eliminates the need for ubiquitous `capture_output()` calls.
+  * Other packages can muffle a usethis call via, e.g., `withr::local_options(list(usethis.quiet = TRUE))`.
+  
+Implication: don't call `cat_line(..., quiet = FALSE)` lightly, because it breaks the expectation that the option can be used to silence usethis.
+
+You might also notice that usethis communicates with the user via `cat()` instead of `message()`. Why?
+
+  * Pragmatic explanation: default styling of `message()` (at least in RStudio) is red, which suggests that something is wrong. We prefer default styling to be more neutral and less alarmist.
+  * Principled explanation: if one diverts where various streams go, `cat()` follows printed output, whereas `message()` goes to standard error.

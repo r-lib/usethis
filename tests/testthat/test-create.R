@@ -30,9 +30,7 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
   withr::with_dir(
     path_temp(), {
       old_project <- proj$cur
-      capture_output(
-        create_package(path_package, rstudio = FALSE, open = FALSE)
-      )
+      create_package(path_package, rstudio = FALSE, open = FALSE)
       new_proj <- proj_get()
       proj_set(old_project, force = TRUE, quiet = TRUE)
     }
@@ -43,9 +41,7 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
   withr::with_dir(
     path_temp(), {
       old_project <- proj$cur
-      capture_output(
-        create_project(path_project, rstudio = FALSE, open = FALSE)
-      )
+      create_project(path_project, rstudio = FALSE, open = FALSE)
       new_proj <- proj_get()
       proj_set(old_project, force = TRUE, quiet = TRUE)
     }
