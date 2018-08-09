@@ -4,7 +4,7 @@
 \alias{use_news_md}
 \title{Create a simple \code{NEWS.md}}
 \usage{
-use_news_md(open = TRUE)
+use_news_md(open = interactive())
 }
 \arguments{
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
@@ -12,4 +12,7 @@ applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 This creates a basic \code{NEWS.md} in the root directory.
+}
+\seealso{
+The \href{http://r-pkgs.had.co.nz/release.html#important-files}{important files section} of \href{http://r-pkgs.had.co.nz}{R Packages}.
 }

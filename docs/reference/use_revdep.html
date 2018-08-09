@@ -19,13 +19,29 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+
+<meta property="og:title" content="Reverse dependency checks — use_revdep" />
+<meta property="og:description" content="Performs set up for checking the reverse dependencies of an R package, as
+implemented by the revdepcheck package:
+Adds revdep directory and adds it to .Rbuildignore
+Populates revdep/.gitignore to prevent tracking of various revdep
+artefacts
+Creates revdep/email.yml for use with revdepcheck::revdep_email()
+Prompts user to run the checks with revdepcheck::revdep_check()
+" />
+<meta name="twitter:card" content="summary" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -49,8 +65,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">usethis</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">usethis</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +111,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,12 +119,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Reverse dependency checks</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/revdep.R'><code>R/revdep.R</code></a></small>
+    <div class="hidden name"><code>use_revdep.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     <p>Performs set up for checking the reverse dependencies of an R package, as
 implemented by the revdepcheck package:</p><ul>
 <li><p>Adds <code>revdep</code> directory and adds it to <code>.Rbuildignore</code></p></li>
@@ -112,6 +136,7 @@ artefacts</p></li>
 <li><p>Creates <code>revdep/email.yml</code> for use with <code><a href='http://www.rdocumentation.org/packages/revdepcheck/topics/revdep_email'>revdepcheck::revdep_email()</a></code></p></li>
 <li><p>Prompts user to run the checks with <code><a href='http://www.rdocumentation.org/packages/revdepcheck/topics/revdep_check'>revdepcheck::revdep_check()</a></code></p></li>
 </ul>
+    </div>
 
     <pre class="usage"><span class='fu'>use_revdep</span>()</pre>
 
@@ -128,7 +153,7 @@ artefacts</p></li>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -138,5 +163,8 @@ artefacts</p></li>
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

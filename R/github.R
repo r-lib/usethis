@@ -1,13 +1,9 @@
 #' Connect a local repo with GitHub
 #'
-#' @description
 #' `use_github()` takes a local project, creates an associated repo on GitHub,
 #' adds it to your local repo as the `origin` remote, and makes an initial push
 #' to synchronize. `use_github()` requires that your project already be a Git
 #' repository, which you can accomplish with [use_git()], if needed.
-#'
-#' `use_github_links()` populates the `URL` and `BugReports` fields of a
-#' GitHub-using R package with appropriate links (unless they already exist).
 #'
 #' @section Authentication:
 #' A new GitHub repo will be created via the GitHub API, therefore you must
@@ -20,8 +16,8 @@
 #' The argument `protocol` reflects how you wish to authenticate with GitHub
 #' for this repo in the long run. This determines the form of the URL for the
 #' `origin` remote:
-#'   * `protocol = "ssh"`: `git@@github.com:<USERNAME>/<REPO>.git`
-#'   * `protocol = "https"`: `https://github.com/<USERNAME>/<REPO>.git`
+#'   * `protocol = "ssh"`: `git@@github.com:<OWNER>/<REPO>.git`
+#'   * `protocol = "https"`: `https://github.com/<OWNER>/<REPO>.git`
 #'
 #' For `protocol = "ssh"`, it is assumed that public and private keys are in the
 #' default locations, `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively, and
@@ -48,9 +44,10 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' create_package("test.pkg") # creates package in current working directory
+#' pkgpath <- file.path(tempdir(), "testpkg")
+#' create_package(pkgpath) # creates package below temp directory
 #'
-#' ## now, working inside "test.pkg", initialize git repository
+#' ## now, working inside "testpkg", initialize git repository
 #' use_git()
 #'
 #' ## create github repository and configure as git remote
@@ -64,6 +61,9 @@ use_github <- function(organisation = NULL,
                        auth_token = NULL,
                        host = NULL) {
   check_uses_git()
+  ## auth_token is used directly by git2r, therefore cannot be NULL
+  auth_token <- auth_token %||% gh_token()
+  check_gh_token(auth_token)
 
   if (uses_github(proj_get())) {
     done("GitHub is already initialized")
@@ -77,8 +77,8 @@ use_github <- function(organisation = NULL,
   if (interactive()) {
     todo("Check title and description")
     code_block(
-      paste0("Name:        ", repo_name),
-      paste0("Description: ", repo_desc),
+      "Name:        {repo_name}",
+      "Description: {repo_desc}",
       copy = FALSE
     )
     if (nope("Are title and description ok?")) {
@@ -87,8 +87,8 @@ use_github <- function(organisation = NULL,
   } else {
     done("Setting title and description")
     code_block(
-      paste0("Name:        ", repo_name),
-      paste0("Description: ", repo_desc),
+      "Name:        {repo_name}",
+      "Description: {repo_desc}",
       copy = FALSE
     )
   }
@@ -141,36 +141,50 @@ use_github <- function(organisation = NULL,
     git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
   } else { ## protocol == "https"
     ## in https case, when GITHUB_PAT is passed as password,
-    ## the username is immaterial, but git2r doesn't know that
+    ## the username is immaterial, but git2r doesn't know that.
     cred <- git2r::cred_user_pass("EMAIL", auth_token)
     git2r::push(r, "origin", "refs/heads/master", credentials = cred)
   }
-  ## utils::head instead of git2r::head due to the conversion of git2r's head
-  ## from S4 --> S3 method in v0.21.0 --> 0.21.0.9000
-  git2r::branch_set_upstream(utils::head(r), "origin/master")
+  git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
 
   view_url(create$html_url)
 
   invisible(NULL)
 }
 
+#' Use GitHub links in URL and BugReports
+#'
+#' Populates the `URL` and `BugReports` fields of a GitHub-using R package with
+#' appropriate links.
+#'
+#' @inheritParams use_github
 #' @export
-#' @rdname use_github
+#' @param overwrite By default, `use_github_links()` will not overwrite existing
+#'   fields. Set to `TRUE` to overwrite existing links.
+#' @examples
+#' \dontrun{
+#' use_github_links()
+#' }
+#'
 use_github_links <- function(auth_token = NULL,
-                             host = "https://api.github.com") {
+                             host = "https://api.github.com",
+                             overwrite = FALSE) {
   check_uses_github()
 
-  info <- gh::gh_tree_remote(proj_get())
   res <- gh::gh(
     "GET /repos/:owner/:repo",
-    owner = info$username,
-    repo = info$repo,
+    owner = github_owner(),
+    repo = github_repo(),
     .api_url = host,
     .token = auth_token
   )
 
-  use_description_field("URL", res$html_url)
-  use_description_field("BugReports", file.path(res$html_url, "issues"))
+  use_description_field("URL", res$html_url, overwrite = overwrite)
+  use_description_field(
+    "BugReports",
+    paste0(res$html_url, "/issues"),
+    overwrite = overwrite
+  )
 
   invisible()
 }
@@ -214,15 +228,16 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
   )
   view_url(url)
   todo(
-    "Call ", code("edit_r_environ()"), " to open ", value(".Renviron"),
-    ", and store your PAT with a line like:\n", "GITHUB_PAT=xxxyyyzzz"
+    "Call {code('edit_r_environ()')} to open {value('.Renviron')} ",
+    "and store your PAT with a line like:"
   )
-  todo("Make sure ", value(".Renviron"), " ends with a newline!")
+  code_block("GITHUB_PAT=xxxyyyzzz", copy = FALSE)
+  todo("Make sure {value('.Renviron')} ends with a newline!")
 }
 
 uses_github <- function(base_path = proj_get()) {
   tryCatch({
-    gh::gh_tree_remote(base_path)
+    gh_tree_remote(base_path)
     TRUE
   }, error = function(e) FALSE)
 }
@@ -233,10 +248,9 @@ check_uses_github <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop(
+  stop_glue(
     "Cannot detect that package already uses GitHub.\n",
-    "Do you need to run ", code("use_github()"), "?",
-    call. = FALSE
+    "Do you need to run {code('use_github()')}?"
   )
 }
 
@@ -245,4 +259,15 @@ check_uses_github <- function(base_path = proj_get()) {
 gh_token <- function() {
   token <- Sys.getenv('GITHUB_PAT', "")
   if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
+}
+
+check_gh_token <- function(auth_token) {
+  if (is.null(auth_token) || !nzchar(auth_token)) {
+    stop_glue(
+      "No GitHub {code('auth_token')}.\n",
+      "Provide explicitly or make available as an environment variable.\n",
+      "See {code('browse_github_pat()')} for help setting this up."
+    )
+  }
+  auth_token
 }

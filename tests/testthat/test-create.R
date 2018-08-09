@@ -2,52 +2,50 @@ context("create")
 
 test_that("create_package() creates a package", {
   dir <- scoped_temporary_package()
-  expect_true(is_proj(dir))
+  expect_true(possibly_in_proj(dir))
   expect_true(is_package(dir))
 })
 
 test_that("create_project() creates a non-package project", {
   dir <- scoped_temporary_project()
-  expect_true(is_proj(dir))
+  expect_true(possibly_in_proj(dir))
   expect_false(is_package(dir))
 })
 
 test_that("nested package is disallowed, by default", {
   dir <- scoped_temporary_package()
-  expect_error(scoped_temporary_package(file.path(dir, "man")), "nested")
+  expect_error(scoped_temporary_package(path(dir, "abcde")), "nested")
 })
 
 test_that("nested project is disallowed, by default", {
   dir <- scoped_temporary_project()
-  subdir <- create_directory(dir, "subdir")
-  expect_error(scoped_temporary_project(subdir), "nested")
+  expect_error(scoped_temporary_project(path(dir, "abcde")), "nested")
 })
 
 ## https://github.com/r-lib/usethis/issues/227
-test_that("proj is normalized when path does not pre-exist", {
+test_that("create_* works w/ non-existing rel path and absolutizes it", {
   ## take care to provide a **non-absolute** path
-  path_package <- basename(tempfile(pattern = "aaa"))
+  path_package <- path_file(file_temp(pattern = "aaa"))
   withr::with_dir(
-    tempdir(), {
-      ## better than proj_get() here because won't error if not in project
-      old_proj <- proj$cur
-      capture_output(create_package(path_package, rstudio = FALSE, open = FALSE))
+    path_temp(), {
+      old_project <- proj$cur
+      create_package(path_package, rstudio = FALSE, open = FALSE)
       new_proj <- proj_get()
-      proj_set(old_proj)
+      proj_set(old_project, force = TRUE, quiet = TRUE)
     }
   )
-  expect_true(dir.exists(new_proj))
+  expect_true(dir_exists(new_proj))
 
-  path_project <- basename(tempfile(pattern = "aaa"))
+  path_project <- path_file(file_temp(pattern = "aaa"))
   withr::with_dir(
-    tempdir(), {
-      old_proj <- proj$cur
-      capture_output(create_project(path_project, rstudio = FALSE, open = FALSE))
+    path_temp(), {
+      old_project <- proj$cur
+      create_project(path_project, rstudio = FALSE, open = FALSE)
       new_proj <- proj_get()
-      proj_set(old_proj)
+      proj_set(old_project, force = TRUE, quiet = TRUE)
     }
   )
-  expect_true(dir.exists(new_proj))
+  expect_true(dir_exists(new_proj))
 })
 
 test_that("rationalize_fork() honors fork = FALSE", {
@@ -65,7 +63,7 @@ test_that("rationalize_fork() won't attempt to fork w/o PAT", {
   )
   expect_error(
     rationalize_fork(fork = TRUE, repo_info = list(), pat_available = FALSE),
-    "No GitHub Personal Access Token available"
+    "No GitHub .+auth_token.+"
   )
 })
 

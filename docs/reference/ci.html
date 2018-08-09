@@ -19,13 +19,28 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+
+<meta property="og:title" content="Continuous integration setup and badges — ci" />
+<meta property="og:description" content="Sets up continuous integration (CI) services for an R package that is
+developed on GitHub. CI services can run R CMD check automatically on
+various platforms, triggered by each push or pull request. These functions
+Add service-specific configuration files and add them to .Rbuildignore.
+Activate a service or give the user a detailed prompt.
+Provide the markdown to insert a badge into README.
+" />
+<meta name="twitter:card" content="summary" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -49,8 +64,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">usethis</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">usethis</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +110,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,12 +118,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Continuous integration setup and badges</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/ci.R'><code>R/ci.R</code></a></small>
+    <div class="hidden name"><code>ci.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     <p>Sets up continuous integration (CI) services for an R package that is
 developed on GitHub. CI services can run <code>R CMD check</code> automatically on
 various platforms, triggered by each push or pull request. These functions</p><ul>
@@ -111,6 +134,7 @@ various platforms, triggered by each push or pull request. These functions</p><u
 <li><p>Activate a service or give the user a detailed prompt.</p></li>
 <li><p>Provide the markdown to insert a badge into README.</p></li>
 </ul>
+    </div>
 
     <pre class="usage"><span class='fu'>use_travis</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'>interactive</span>())
 
@@ -118,7 +142,7 @@ various platforms, triggered by each push or pull request. These functions</p><u
 
 <span class='fu'>use_appveyor</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'>interactive</span>())</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -133,17 +157,17 @@ package.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="-code-use-travis-code-"><a class="anchor" href="#-code-use-travis-code-"></a>&lt;code&gt;use_travis()&lt;/code&gt;</h2>
+    <h2 class="hasAnchor" id="use-travis-"><a class="anchor" href="#use-travis-"></a><code>use_travis()</code></h2>
 
     
     <p>Adds a basic <code>.travis.yml</code> to the top-level directory of a package. This is a
 configuration file for the <a href='https://travis-ci.org/'>Travis CI</a> continuous
 integration service.</p>
-    <h2 class="hasAnchor" id="-code-use-coverage-code-"><a class="anchor" href="#-code-use-coverage-code-"></a>&lt;code&gt;use_coverage()&lt;/code&gt;</h2>
+    <h2 class="hasAnchor" id="use-coverage-"><a class="anchor" href="#use-coverage-"></a><code>use_coverage()</code></h2>
 
     
     <p>Adds test coverage reports to a package that is already using Travis CI.</p>
-    <h2 class="hasAnchor" id="-code-use-appveyor-code-"><a class="anchor" href="#-code-use-appveyor-code-"></a>&lt;code&gt;use_appveyor()&lt;/code&gt;</h2>
+    <h2 class="hasAnchor" id="use-appveyor-"><a class="anchor" href="#use-appveyor-"></a><code>use_appveyor()</code></h2>
 
     
     <p>Adds a basic <code>appveyor.yml</code> to the top-level directory of a package. This is
@@ -155,9 +179,9 @@ integration service for Windows.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#-code-use-travis-code-">&lt;code&gt;use_travis()&lt;/code&gt;</a></li>
-      <li><a href="#-code-use-coverage-code-">&lt;code&gt;use_coverage()&lt;/code&gt;</a></li>
-      <li><a href="#-code-use-appveyor-code-">&lt;code&gt;use_appveyor()&lt;/code&gt;</a></li>
+      <li><a href="#use-travis-"><code>use_travis()</code></a></li>
+      <li><a href="#use-coverage-"><code>use_coverage()</code></a></li>
+      <li><a href="#use-appveyor-"><code>use_appveyor()</code></a></li>
     </ul>
 
   </div>
@@ -165,7 +189,7 @@ integration service for Windows.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -175,5 +199,8 @@ integration service for Windows.</p>
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

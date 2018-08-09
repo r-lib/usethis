@@ -78,7 +78,7 @@ github_link <- function(package = NULL) {
   gh_links <- grep("^https?://github.com/", urls, value = TRUE)
 
   if (length(gh_links) == 0) {
-    stop("Package does not provide a GitHub URL", call. = FALSE)
+    stop_glue("Package does not provide a GitHub URL.")
   }
 
   gsub("/$", "", gh_links[[1]])
@@ -87,14 +87,14 @@ github_link <- function(package = NULL) {
 cran_home <- function(package = NULL) {
   package <- package %||% project_name()
 
-  paste0("https://cran.r-project.org/package=", package)
+  glue("https://cran.r-project.org/package={package}")
 }
 
 github_url_rx <- function() {
   paste0(
     "^",
     "(?:https?://github.com/)",
-    "(?<username>[^/]+)/",
+    "(?<owner>[^/]+)/",
     "(?<repo>[^/#]+)",
     "/?",
     "(?<fragment>.*)",
@@ -111,5 +111,5 @@ github_url_rx <- function() {
 github_home <- function(package = NULL) {
   gh_link <- github_link(package)
   df <- rematch2::re_match(gh_link, github_url_rx())
-  file.path("https://github.com", df$username, df$repo)
+  glue("https://github.com/{df$owner}/{df$repo}")
 }

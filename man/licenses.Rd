@@ -40,3 +40,6 @@ CRAN does not allow you to include copies of standard licenses in your
 package, so these functions save the license as \code{LICENSE.md} and add it
 to \code{.Rbuildignore}.
 }
+\seealso{
+The \href{http://r-pkgs.had.co.nz/description.html#license}{license section} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+}

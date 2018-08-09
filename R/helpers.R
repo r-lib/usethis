@@ -107,14 +107,13 @@ use_description_field <- function(name,
   }
 
   if (!is.na(curr) && !overwrite) {
-    stop(
-      field(name), " has a different value in DESCRIPTION. ",
-      "Use overwrite = TRUE to overwrite.",
-      call. = FALSE
+    stop_glue(
+      "{field(name)} has a different value in DESCRIPTION. ",
+      "Use {code('overwrite = TRUE')} to overwrite."
     )
   }
 
-  done("Setting ", field(name), " field in DESCRIPTION to ", value(value))
+  done("Setting {field(name)} field in DESCRIPTION to {value(value)}")
   desc::desc_set(name, value, file = base_path)
   invisible()
 }
@@ -124,10 +123,9 @@ use_dependency <- function(package, type, version = "*") {
   stopifnot(is_string(type))
 
   if (package != "R" && !requireNamespace(package, quietly = TRUE)) {
-    stop(
-      value(package),
-      " must be installed before you can take a dependency on it",
-      call. = FALSE
+    stop_glue(
+      "{value(package)} must be installed before you can ",
+      "take a dependency on it."
     )
   }
 
@@ -144,17 +142,16 @@ use_dependency <- function(package, type, version = "*") {
     !any(existing_dep) ||
     (existing_type != "LinkingTo" && type == "LinkingTo")
   ) {
-    done("Adding ", value(package), " to ", field(type), " field in DESCRIPTION")
+    done("Adding {value(package)} to {field(type)} field in DESCRIPTION")
     desc::desc_set_dep(package, type, version = version, file = proj_get())
     return(invisible())
   }
 
   ## no downgrades
   if (match(existing_type, types) < match(type, types)) {
-    warning(
-      "Package ", value(package), " is already listed in ",
-      value(existing_type), " in DESCRIPTION, no change made.",
-      call. = FALSE
+    warning_glue(
+      "Package {value(package)} is already listed in ",
+      "{value(existing_type)} in DESCRIPTION, no change made."
     )
     return(invisible())
   }
@@ -163,7 +160,7 @@ use_dependency <- function(package, type, version = "*") {
     if (existing_type != "LinkingTo") {
       ## prepare for an upgrade
       done(
-        "Removing ", value(package), " from ", field(existing_type),
+        "Removing {value(package)} from {field(existing_type)}",
         " field in DESCRIPTION"
       )
       desc::desc_del_dep(package, existing_type, file = proj_get())
@@ -173,8 +170,7 @@ use_dependency <- function(package, type, version = "*") {
     to_version <- any(existing_dep & deps$version != version)
     if (to_version) {
       done(
-        "Setting ", value(package), " version to ",
-        field(version), " field in DESCRIPTION"
+        "Setting {value(package)} version to {value(version)} in DESCRIPTION"
       )
       desc::desc_set_dep(package, type, version = version, file = proj_get())
     }
@@ -182,92 +178,21 @@ use_dependency <- function(package, type, version = "*") {
   }
 
   done(
-    "Adding ", value(package), " to ", field(type), " field in DESCRIPTION",
-    if (version != "*") ", with version ", field(version)
+    "Adding {value(package)} to {field(type)} field in DESCRIPTION",
+    if (version != "*") ", with version {value(version)}" else ""
   )
   desc::desc_set_dep(package, type, version = version, file = proj_get())
 
   invisible()
 }
 
-#' Use a directory
-#'
-#' `use_directory()` creates a directory (if it does not already exist) in the
-#' project's top-level directory. This function powers many of the other `use_`
-#' functions such as [use_data()] and [use_vignette()].
-#'
-#' @param path Path of the directory to create, relative to the project.
-#' @inheritParams use_template
-#'
-#' @export
-#' @examples
-#' \dontrun{
-#' use_directory("inst")
-#' }
-use_directory <- function(path,
-                          ignore = FALSE) {
-  if (!file.exists(proj_path(path))) {
-    done("Creating ", value(path, "/"))
-  }
-  create_directory(proj_get(), path)
-
-  if (ignore) {
-    use_build_ignore(path)
-  }
-
-  invisible(TRUE)
-}
-
-create_directory <- function(base_path, path) {
-  if (!file.exists(base_path)) {
-    stop(value(base_path), " does not exist", call. = FALSE)
-  }
-  target_path <- file.path(base_path, path)
-
-  if (file.exists(target_path)) {
-    if (!is_dir(target_path)) {
-      stop(value(path), " exists but is not a directory.", call. = FALSE)
-    }
-  } else {
-    ok <- dir.create(target_path, showWarnings = FALSE, recursive = TRUE)
-
-    if (!ok) {
-      stop("Failed to create path", call. = FALSE)
-    }
-  }
-
-  target_path
-}
-
-edit_file <- function(path) {
-  full_path <- path.expand(path)
-  create_directory(dirname(dirname(full_path)), basename(dirname(full_path)))
-
-  if (!file.exists(full_path)) {
-    file.create(full_path)
-  }
-
-  if (!interactive() || is_testing()) {
-    todo("Edit ", value(basename(path)))
-  } else {
-    todo("Modify ", value(basename(path)))
-
-    if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
-      rstudioapi::navigateToFile(full_path)
-    } else {
-      utils::file.edit(full_path)
-    }
-  }
-  invisible(full_path)
-}
-
 view_url <- function(..., open = interactive()) {
   url <- paste(..., sep = "/")
   if (open) {
-    done("Opening url")
+    done("Opening URL {url}")
     utils::browseURL(url)
   } else {
-    todo("Open url ", url)
+    todo("Open URL {url}")
   }
   invisible(url)
 }

@@ -18,6 +18,8 @@
 #'   files. If you really want to do so, set this to `TRUE`.
 #' @param compress Choose the type of compression used by [save()].
 #'   Should be one of "gzip", "bzip2", or "xz".
+#' @seealso The [data chapter](http://r-pkgs.had.co.nz/data.html) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
 #' @export
 #' @examples
 #' \dontrun{
@@ -37,15 +39,15 @@ use_data <- function(...,
 
   if (internal) {
     use_directory("R")
-    paths <- file.path("R", "sysdata.rda")
+    paths <- path("R", "sysdata.rda")
     objs <- list(objs)
   } else {
     use_directory("data")
-    paths <- file.path("data", paste0(objs, ".rda"))
+    paths <- path("data", objs, ext = "rda")
   }
-  check_files_absent(proj_get(), paths, overwrite = overwrite)
+  check_files_absent(proj_path(paths), overwrite = overwrite)
 
-  done("Saving ", unlist(objs), " to ", paths, "\n")
+  done("Saving {collapse(value(unlist(objs)))} to {collapse(value(paths))}")
 
   envir <- parent.frame()
   mapply(
@@ -60,43 +62,39 @@ use_data <- function(...,
 
 get_objs_from_dots <- function(.dots) {
   if (length(.dots) == 0L) {
-    stop("Nothing to save", call. = FALSE)
+    stop_glue("Nothing to save.")
   }
 
   is_name <- vapply(.dots, is.symbol, logical(1))
   if (any(!is_name)) {
-    stop("Can only save existing named objects", call. = FALSE)
+    stop_glue("Can only save existing named objects.")
   }
 
   objs <- vapply(.dots, as.character, character(1))
   duplicated_objs <- which(stats::setNames(duplicated(objs), objs))
   if (length(duplicated_objs) > 0L) {
     objs <- unique(objs)
-    warning(
-      "Saving duplicates only once: ",
-      paste(names(duplicated_objs), collapse = ", "),
-      call. = FALSE
+    warning_glue(
+      "Saving duplicates only once: {collapse(names(duplicated_objs))}"
     )
   }
   objs
 }
 
-check_files_absent <- function(base_path, paths, overwrite) {
+check_files_absent <- function(paths, overwrite) {
   if (overwrite) {
     return()
   }
 
-  full_path <- file.path(base_path, paths)
-  ok <- !file.exists(full_path)
+  ok <- !file_exists(paths)
 
   if (all(ok)) {
     return()
   }
 
-  stop(
-    paste(value(paths[!ok]), collapse = ", "), " already exist. ",
-    "Use overwrite = TRUE to overwrite.",
-    call. = FALSE
+  stop_glue(
+    "{collapse(value(paths[!ok]))} already exist. ",
+    "Use {code('overwrite = TRUE')} to overwrite."
   )
 }
 
@@ -107,6 +105,6 @@ use_data_raw <- function() {
   use_directory("data-raw", ignore = TRUE)
 
   message("Next:")
-  todo("Add data creation scripts in 'data-raw'")
-  todo("Use usethis::use_data() to add data to package")
+  todo("Add data creation scripts in {value('data-raw/')}")
+  todo("Use {code('usethis::use_data()')} to add data to package")
 }

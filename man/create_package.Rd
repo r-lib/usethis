@@ -5,7 +5,7 @@
 \alias{create_project}
 \title{Create a package or project}
 \usage{
-create_package(path, fields = getOption("devtools.desc"),
+create_package(path, fields = NULL,
   rstudio = rstudioapi::isAvailable(), open = interactive())
 
 create_project(path, rstudio = rstudioapi::isAvailable(),
@@ -15,21 +15,21 @@ create_project(path, rstudio = rstudioapi::isAvailable(),
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
 created, provided that the parent path exists.}
 
-\item{fields}{A named list of fields to add to \file{DESCRIPTION},
-potentially overriding the defaults. If \code{NULL}, retrieved from
-\code{getOption("usethis.description")}, and (for backward compatibility) from
-\code{getOption("devtools.desc")}.}
+\item{fields}{A named list of fields to add to DESCRIPTION, potentially
+overriding default values. See \code{\link[=use_description]{use_description()}} for how you can set
+personalized defaults using package options}
 
 \item{rstudio}{If \code{TRUE}, calls \code{\link[=use_rstudio]{use_rstudio()}} to make the new package or
 project into an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}.
 If \code{FALSE} and a non-package project, a sentinel \code{.here} file is placed so
 that the directory can be recognized as a project by the
-\href{https://krlmlr.github.io/here/}{here} or
-\href{https://krlmlr.github.io/rprojroot/}{rprojroot} packages.}
+\href{https://here.r-lib.org}{here} or
+\href{https://rprojroot.r-lib.org}{rprojroot} packages.}
 
-\item{open}{If \code{TRUE} and in RStudio, the new project is opened in a new
-instance, if possible, or is switched to, otherwise. If \code{TRUE} and not
-in RStudio, working directory is set to the new project.}
+\item{open}{If \code{TRUE} and in RStudio, a new RStudio project is opened in a
+new instance, if possible, or is switched to, otherwise. If \code{TRUE} and not
+in RStudio (or new project is not an RStudio project), working directory is
+set to the new project.}
 }
 \description{
 These functions create an R project:

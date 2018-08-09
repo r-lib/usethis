@@ -19,7 +19,7 @@ use_package_doc <- function() {
 
   use_template(
     "packagename-package.R",
-    file.path("R", paste0(name, "-package.R")),
+    path("R", paste0(name, "-package"), ext = "R"),
     data = list(name = name)
   )
 }

@@ -9,6 +9,8 @@
 #'
 #' @param name Base for file name to use for new vignette. Should consist only
 #'   of numbers, letters, _ and -. I recommend using lower case.
+#' @seealso The [vignettes chapter](http://r-pkgs.had.co.nz/vignettes.html) of
+#'   [R Packages](http://r-pkgs.had.co.nz).
 #' @export
 #' @examples
 #' \dontrun{
@@ -17,7 +19,7 @@
 use_vignette <- function(name) {
   check_is_package("use_vignette()")
   if (missing(name)) {
-    stop("Argument ", code("name"), " is missing, with no default", call. = FALSE)
+    stop_glue("Argument {code('name')} is missing, with no default.")
   }
   check_installed("rmarkdown")
 
@@ -29,12 +31,12 @@ use_vignette <- function(name) {
   use_git_ignore(c("*.html", "*.R"), directory = "vignettes")
   use_git_ignore("inst/doc")
 
-  path <- file.path("vignettes", slug(name, ".Rmd"))
+  path <- proj_path("vignettes", asciify(name), ext = "Rmd")
 
-  done("Creating ", value(path))
+  done("Creating {value(proj_rel_path(path))}")
   rmarkdown::draft(
-    proj_path(path), "html_vignette", "rmarkdown",
+    path, "html_vignette", "rmarkdown",
     create_dir = FALSE, edit = FALSE
   )
-  edit_file(proj_path(path))
+  edit_file(path)
 }

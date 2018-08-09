@@ -23,6 +23,9 @@
 #' @param name Name of the copyright holder or holders. Separate multiple
 #'   individuals with `;`. You can supply a global default with
 #'   `options(usethis.full_name = "My name")`.
+#' @seealso The [license
+#'   section](http://r-pkgs.had.co.nz/description.html#license) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
 #' @aliases NULL
 NULL
 
@@ -76,7 +79,7 @@ use_cc0_license <- function(name = find_name()) {
 
 
 use_license_template <- function(license, name) {
-  license_template <- paste0("license-", license, ".md")
+  license_template <- glue("license-{license}.md")
 
   use_template(
     license_template,
@@ -96,20 +99,19 @@ license_data <- function(name, base_path = proj_get()) {
 
 
 find_name <- function() {
-  name <- getOption("devtools.name")
-  if (!is.null(name) && name != "Your name goes here") {
-    return(name)
-  }
-
   name <- getOption("usethis.full_name")
   if (!is.null(name)) {
     return(name)
   }
 
-  stop(
-    code("name"), " argument is missing.\n",
-    "Set it globally with ", code('options(usethis.full_name = "My name")'),
-    ", probably in your ", value(".Rprofile"),
-    call. = FALSE
+  name <- getOption("devtools.name")
+  if (!is.null(name) && name != "Your name goes here") {
+    return(name)
+  }
+
+  stop_glue(
+    "{code('name')} argument is missing.\n",
+    "Set it globally with {code('options(usethis.full_name = \"My name\")')}",
+    ", probably in your {value('.Rprofile')}."
   )
 }

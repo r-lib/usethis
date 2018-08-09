@@ -5,7 +5,7 @@
 \title{Add an RMarkdown Template}
 \usage{
 use_rmarkdown_template(template_name = "Template Name",
-  template_dir = slug(template_name, ""),
+  template_dir = asciify(template_name),
   template_description = "A description of the template",
   template_create_dir = FALSE)
 }

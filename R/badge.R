@@ -11,9 +11,6 @@
 #' status](http://bioconductor.org/developers/)
 #' * `use_cran_badge()`: badge indicates what version of your package is
 #' available on CRAN, powered by <https://www.r-pkg.org>
-#' * `use_depsy_badge()`: badge shows the "percentile overall impact" of the
-#' project, powered by <http://depsy.org>, which only indexes projects that are
-#' on CRAN
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
 #' package, according to <https://www.tidyverse.org/lifecycle/>:
 #'   - Experimental
@@ -48,13 +45,12 @@ use_badge <- function(badge_name, href, src) {
     return(invisible(FALSE))
   }
 
-  img <- paste0("![", badge_name, "](", src, ")")
-  link <- paste0("[", img, "](", href, ")")
+  img <- glue("![{badge_name}]({src})")
+  link <- glue("[{img}]({href})")
 
   todo(
-    "Add a ",
-    badge_name,
-    " badge by adding the following line to your README:"
+    "Add a {field(badge_name)} badge by adding the following line ",
+    "to your README:"
   )
   code_block(link)
 }
@@ -65,8 +61,8 @@ use_cran_badge <- function() {
   check_is_package("use_cran_badge()")
   pkg <- project_name()
 
-  src <- file.path("https://www.r-pkg.org/badges/version", pkg)
-  href <- paste0("https://cran.r-project.org/package=", pkg)
+  src <- glue("https://www.r-pkg.org/badges/version/{pkg}")
+  href <- glue("https://cran.r-project.org/package={pkg}")
   use_badge("CRAN status", href, src)
 
   invisible(TRUE)
@@ -78,28 +74,13 @@ use_bioc_badge <- function() {
   check_is_package("use_bioc_badge()")
   pkg <- project_name()
 
-  src <- paste0(
-    "http://www.bioconductor.org/shields/build/release/bioc/",
-    pkg, ".svg"
+  src <- glue(
+    "http://www.bioconductor.org/shields/build/release/bioc/{pkg}.svg"
   )
-  href <- file.path(
-    "https://bioconductor.org/checkResults/release/bioc-LATEST",
-    pkg
+  href <- glue(
+    "https://bioconductor.org/checkResults/release/bioc-LATEST/{pkg}"
   )
   use_badge("BioC status", href, src)
-
-  invisible(TRUE)
-}
-
-#' @rdname badges
-#' @export
-use_depsy_badge <- function() {
-  check_is_package("use_depsy_badge()")
-  pkg <- project_name()
-
-  src <- file.path("http://depsy.org/api/package/cran", pkg, "badge.svg")
-  href <- file.path("http://depsy.org/package/r", pkg)
-  use_badge("Depsy", href, src)
 
   invisible(TRUE)
 }
@@ -113,10 +94,8 @@ use_lifecycle_badge <- function(stage) {
   stage <- match.arg(tolower(stage), names(stages))
   colour <- stages[[stage]]
 
-  src <- paste0(
-    "https://img.shields.io/badge/lifecycle-", stage, "-", colour, ".svg"
-  )
-  href <- paste0("https://www.tidyverse.org/lifecycle/#", stage)
+  src <- glue("https://img.shields.io/badge/lifecycle-{stage}-{colour}.svg")
+  href <- glue("https://www.tidyverse.org/lifecycle/#{stage}")
   use_badge("lifecycle", href, src)
 
   invisible(TRUE)
@@ -136,17 +115,9 @@ stages <- c(
 #' @export
 use_binder_badge <- function() {
 
-  if (uses_github(proj_get())) {
-    gh <- gh::gh_tree_remote(proj_get())
-
-    url <- file.path(
-      "https://mybinder.org/v2/gh",
-      gh$username,
-      gh$repo,
-      "master")
-
+  if (uses_github()) {
+    url <- glue("https://mybinder.org/v2/gh/{github_repo_spec()}/master")
     img <- "http://mybinder.org/badge.svg"
-
     use_badge("Binder", url, img)
   }
 
@@ -157,10 +128,10 @@ use_binder_badge <- function() {
 
 has_badge <- function(href) {
   readme_path <- proj_path("README.md")
-  if (!file.exists(readme_path)) {
+  if (!file_exists(readme_path)) {
     return(FALSE)
   }
 
-  readme <- readLines(readme_path)
+  readme <- readLines(readme_path, encoding = "UTF-8")
   any(grepl(href, readme, fixed = TRUE))
 }

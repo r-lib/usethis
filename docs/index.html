@@ -8,14 +8,20 @@
 <title>Automate Package and Project Setup • usethis</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Automate Package and Project Setup">
+<meta property="og:description" content="Automate package and project setup tasks that are otherwise
+    performed manually. This includes setting up unit testing, test 
+    coverage, continuous integration, Git, 'GitHub', licenses, 'Rcpp', 'RStudio' 
+    projects, and more.">
+<meta name="twitter:card" content="summary">
+<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -24,8 +30,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">usethis</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="index.html">usethis</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
@@ -76,23 +86,29 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     
 
     
     
-<div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<section id="usethis" class="level1"><div class="page-header"><h1>usethis</h1></div>
+<div id="usethis" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#usethis" class="anchor"></a>usethis</h1></div>
 
 <p>The goal of usethis is to automate many common package and analysis setup tasks.</p>
-<section id="installation" class="level2"><h2>Installation</h2>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the released version of usethis from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"usethis"</span>)</a></code></pre></div>
 <p>Or install the development version from GitHub with:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"r-lib/usethis"</span>)</a></code></pre></div>
-</section><section id="usage" class="level2"><h2>Usage</h2>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
 <p>Most <code>use_*()</code> functions operate on the <em>active project</em>. If you’ve just used usethis to create a new package or project, that will be the current project. Otherwise usethis tries to confirm that current working directory can be recognized as a project. Use <code><a href="reference/proj_get.html">proj_get()</a></code> and <code><a href="reference/proj_get.html">proj_set()</a></code> for manual intervention. Some functions have no strong connections to projects and will expect you to provide a path.</p>
 <p>usethis is quite chatty, explaining what it’s doing and assigning you tasks. <code>✔</code> indicates something usethis has done for you. <code>●</code> indicates that you’ll need to do some work yourself.</p>
 <p>Below is a quick look at how usethis can help to set up a package.</p>
@@ -176,32 +192,43 @@
 <a class="sourceLine" id="cb3-77" data-line-number="77"><span class="co">#&gt; ✔ Initialising Git repo</span></a>
 <a class="sourceLine" id="cb3-78" data-line-number="78"><span class="co">#&gt; ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to './.gitignore'</span></a>
 <a class="sourceLine" id="cb3-79" data-line-number="79"><span class="co">#&gt; ✔ Adding files and committing</span></a></code></pre></div>
-<p>Please note that this project is released with a <a href=".github/CODE_OF_CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
-</section></section>
+<p>Please note that this project is released with a <a href=".github/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+</div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2 class="hasAnchor">
-<a href="#sidebar" class="anchor"></a>Links</h2>
+    <div class="links">
+<h2>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cran.r-project.org/package=usethis">https://​cran.r-project.org/​package=usethis</a>
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=usethis">https://​cloud.r-project.org/​package=usethis</a>
 </li>
 <li>Browse source code at <br><a href="https://github.com/r-lib/usethis">https://​github.com/​r-lib/​usethis</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/r-lib/usethis/issues">https://​github.com/​r-lib/​usethis/​issues</a>
 </li>
 </ul>
+</div>
+<div class="license">
 <h2>License</h2>
-<p><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></p>
+<ul class="list-unstyled">
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
+</ul>
+</div>
+<div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="http://hadley.nz">Hadley Wickham</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4757-117X" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" height="16"></a> </li>
-<li>Jennifer Bryan <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6983-2759" target="orcid.widget" rel="noopener noreferrer" style="vertical-align:top;"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" height="16"></a> </li>
+<a href="http://hadley.nz">Hadley Wickham</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-4757-117X" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
+<li>Jennifer Bryan <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6983-2759" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
 <li>
-<a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<a href="https://www.rstudio.com"><img src="https://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
+</div>
+
+
+      <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/r-lib/usethis"><img src="https://travis-ci.org/r-lib/usethis.svg?branch=master" alt="Travis build status"></a></li>
@@ -211,12 +238,13 @@
 <li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
 </ul>
 </div>
+</div>
 
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Jennifer Bryan, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Jennifer Bryan, <a href="https://www.rstudio.com"><img src="https://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -225,6 +253,8 @@
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>

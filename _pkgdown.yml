@@ -12,13 +12,16 @@ navbar:
   - text: News
     menu:
     - text: "Blog posts"
-    - text: "usethis 1.0.0 (and 1.1.0)"
-      href: https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/
     - text: "usethis 1.3.0"
       href: https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/
+    - text: "usethis 1.0.0 (and 1.1.0)"
+      href: https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/
     - text: "------------------"
     - text: "Change log"
       href: news/index.html
+
+development:
+  mode: auto
 
 reference:
   - title: Create
@@ -43,15 +46,17 @@ reference:
     - use_namespace
     - use_r
     - use_test
+    - use_spell_check
     - use_data
     - use_coverage
-    - matches("build_ignore|pipe|rcpp")
-    - matches("roxygen_md|vignette|news_md|package_doc")
+    - matches("build_ignore|pipe|rcpp|tibble")
+    - matches("roxygen_md|vignette|news_md|package_doc|logo")
     - matches("readme")
     - matches("pkgdown|badge")
     - matches("dev_version|cran_comments|revdep")
     - use_rmarkdown_template
     - matches("use_tidy")
+    - use_github_links
   - title: "Configuration"
     desc: >
       Configure the behaviour of R, RStudio, or Git, globally as a user or
@@ -67,6 +72,7 @@ reference:
     - use_git_config
     - use_git
     - use_github
+    - use_github_links
     - use_git_ignore
     - use_git_hook
     - use_github_labels

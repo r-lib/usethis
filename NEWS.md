@@ -1,7 +1,41 @@
 # usethis 1.3.0.9000
 
-* usethis newly depends on fs and, before the next release, will use it for all file and path operations. (#177)
 * `use_template()` no longer errors when a user chooses not to overwrite an existing file and instead produces a message (#348, @boshek)
+
+* `proj_sitrep()` is a new function that reports current working directory, the active usethis project, and the active RStudio Project. Call this function if things seem weird and you're not sure what's wrong or how to fix it (#426).
+
+* usethis has a new logo! (#429)
+
+* `getOption("usethis.quiet")` is consulted when printing user-facing messages. Set this option to `TRUE` to suppress output, e.g., to use usethis functions quietly in another package. For example, use `withr::local_options(list(usethis.quiet = TRUE))` in the calling function (#416, #424).
+
+* `proj_path()` is newly exported. Use it to build paths within the active project. Like `proj_get()` and `proj_set()`, it is not aimed at end users, but rather for use in extension packages. End users should use [rprojroot](https://rprojroot.r-lib.org) or its simpler companion, [here](https://here.r-lib.org), to programmatically detect a project and
+build paths within it (#415, #425).
+
+* `edit_file()`, `write_over()`, and `write_union()` are newly exported helpers. They are mostly for internal use, but can also be useful in packages that extend or customize usethis (#344, #366, #389).
+
+* `use_course()` reports progress during download (#276, #380).
+
+* `use_git()` only makes an initial commit of all files if user gives explicit consent (#378).
+
+* `create_from_github()`: the `repo` argument is renamed to `repo_spec`, since it takes input of the form "OWNER/REPO" (#376).
+
+* The logic for setting DESCRIPTION fields in `create_package()` and `use_description()` has gotten a Spring Cleaning. Fields directly specified by the user take precedence, then the named list in `getOption("usethis.description")` is consulted, and finally defaults built into usethis. `use_description_defaults()` is a new function that reveals fields found in options and built into usethis. Options specific to one DESCRIPTION field, e.g. `devtools.desc.license`, are no longer supported. Instead, use a single named list for all fields, preferably stored in an option named `"usethis.description"` (however,`"devtools.desc"` is still consulted for backwards compatibility). (#159, #233, #367)
+
+* `use_tibble()` does minimum setup necessary for a package that returns or exports a tibble. For example, this guarantees a tibble will print as a tibble (#324 @martinjhnhadley).
+
+* `use_logo()` to resize and add a logo to a package (#358, @jimhester).
+
+* `use_depsy_badge()` is defunct. The Depsy project has officially concluded and is no longer being maintained (#354).
+
+* `use_github()` fails earlier, with a more informative message, in the absence of a GitHub personal access token (PAT). Also looks for the PAT more proactively in the usual environment variables (i.e., GITHUB_PAT, GITHUB_TOKEN) (#320, #340, @cderv).
+
+* All file system operations use the [fs](https://fs.r-lib.org) package (#177). Therefore backports is no longer a dependency. This should not change how usethis functions, but users may notice these features of fs-mediated paths:
+
+  - Paths are "tidy", meaning `/` is the path separator and there are never multiple or trailing `/`.
+  - Paths are UTF-8 encoded.
+  - A Windows user's home directory is interpreted as `C:\Users\username` (typical of Unix-oriented tools, like Git and ssh; also matches Python), as opposed to `C:\Users\username\Documents` (R's default on Windows). Read more in [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html).
+
+* `use_spell_check()` is a new function that adds a whitelist of words and a unit test to spell check package documentation during `R CMD check` (#285 @jeroen).
 
 # usethis 1.3.0
 

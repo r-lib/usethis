@@ -1,7 +1,7 @@
 #' Initialise a git repository
 #'
-#' `use_git()` initialises a Git repository, adds important files to
-#' `.gitignore`, and commits all files.
+#' `use_git()` initialises a Git repository and adds important files to
+#' `.gitignore`. If user consents, it also makes an initial commit.
 #'
 #' @param message Message to use for first commit.
 #' @family git helpers
@@ -20,10 +20,17 @@ use_git <- function(message = "Initial commit") {
 
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
 
-  done("Adding files and committing")
-  paths <- unlist(git2r::status(r))
-  git2r::add(r, paths)
-  git2r::commit(r, message)
+  if (interactive() && git_uncommitted()) {
+    paths <- unlist(git2r::status(r))
+    commit_consent_msg <- glue(
+      "OK to make an initial commit of {length(paths)} files?"
+    )
+    if (yep(commit_consent_msg)) {
+      done("Adding files and committing")
+      git2r::add(r, paths)
+      git2r::commit(r, message)
+    }
+  }
 
   restart_rstudio(
     "A restart of RStudio is required to activate the Git pane"
@@ -47,10 +54,10 @@ use_git <- function(message = "Initial commit") {
 use_git_hook <- function(hook, script) {
   check_uses_git()
 
-  use_directory(".git/hooks")
-  hook_path <- file.path(".git/hooks", hook)
-  write_over(proj_get(), hook_path, script)
-  Sys.chmod(proj_path(hook_path), "0744")
+  hook_dir <- create_directory(proj_get(), ".git/hooks")
+  hook_path <- path(hook_dir, hook)
+  write_over(hook_path, script)
+  file_chmod(hook_path, "0744")
 
   invisible()
 }
@@ -58,11 +65,11 @@ use_git_hook <- function(hook, script) {
 #' Tell git to ignore files
 #'
 #' @param ignores Character vector of ignores, specified as file globs.
-#' @param directory Directory within `base_path` to set ignores
+#' @param directory Directory relative to active project to set ignores
 #' @family git helpers
 #' @export
 use_git_ignore <- function(ignores, directory = ".") {
-  write_union(proj_get(), file.path(directory, ".gitignore"), ignores)
+  write_union(proj_path(directory, ".gitignore"), ignores)
 }
 
 #' Configure Git
@@ -106,7 +113,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
       cfg <- git2r::config()
     }
   } else {
-    done("Writing to ", scope, " git config file")
+    done("Writing to {field(scope)} git config file")
     if (identical(scope, "global")) {
       cfg <- git2r::config(global = TRUE, ...)
     } else {
@@ -132,10 +139,9 @@ check_uses_git <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop(
+  stop_glue(
     "Cannot detect that project is already a Git repository.\n",
-    "Do you need to run ", code("use_git()"), "?",
-    call. = FALSE
+    "Do you need to run {code('use_git()')}?"
   )
 }
 
@@ -146,7 +152,7 @@ git_check_in <- function(base_path, paths, message) {
   if (!git_uncommitted(base_path))
     return(invisible())
 
-  done("Checking into git [", message, "]")
+  done("Checking into git [{message}]")
 
   r <- git2r::repository(base_path)
   git2r::add(r, paths)

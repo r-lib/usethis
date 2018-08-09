@@ -19,13 +19,24 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+
+<meta property="og:title" content="Download and unpack a ZIP file — use_course_details" />
+<meta property="og:description" content="Details on the two functions that power use_course(). These internal
+functions are currently unexported but a course instructor may want more
+details." />
+<meta name="twitter:card" content="summary" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -49,8 +60,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">usethis</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">usethis</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +106,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,18 +114,22 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Download and unpack a ZIP file</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/course.R'><code>R/course.R</code></a></small>
+    <div class="hidden name"><code>use_course_details.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     <p>Details on the two functions that power <code><a href='use_course.html'>use_course()</a></code>. These internal
 functions are currently unexported but a course instructor may want more
 details.</p>
+    </div>
 
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -155,8 +175,8 @@ shortlinks. Both platforms offer a way to download an entire folder or repo
 as a ZIP file, with information about the original folder or repo transmitted
 in the <code>Content-Disposition</code> header. In the absence of this header, a
 filename is generated from the input URL. In either case, the filename is
-sanitized. Returns the path to downloaded ZIP file, invisibly.
-    <strong>DropBox:</strong></p>
+sanitized. Returns the path to downloaded ZIP file, invisibly.</p>
+<p><strong>DropBox:</strong></p>
 <p>To make a folder available for ZIP download, create a shared link for it:</p><ul>
 <li><p><a href='https://www.dropbox.com/help/files-folders/view-only-access'>https://www.dropbox.com/help/files-folders/view-only-access</a></p></li>
 </ul>
@@ -169,8 +189,8 @@ download link will have this form:</p><pre>https://www.dropbox.com/sh/12345abcde
 for <code>download_zip()</code>. After one or more redirections, this link will
 eventually lead to a download URL. For more details, see
 <a href='https://www.dropbox.com/help/desktop-web/force-download'>https://www.dropbox.com/help/desktop-web/force-download</a> and
-<a href='https://www.dropbox.com/en/help/desktop-web/download-entire-folders'>https://www.dropbox.com/en/help/desktop-web/download-entire-folders</a>.
-    <strong>GitHub:</strong></p>
+<a href='https://www.dropbox.com/en/help/desktop-web/download-entire-folders'>https://www.dropbox.com/en/help/desktop-web/download-entire-folders</a>.</p>
+<p><strong>GitHub:</strong></p>
 <p>Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
 button. Capture this URL, which will have this form:</p><pre>https://github.com/r-lib/usethis/archive/master.zip
 </pre>
@@ -195,8 +215,8 @@ Typical of DropBox ZIP files.</p></li>
 the way, is not necessarily called "foo"), unpack into said directory.
 Typical of GitHub ZIP files.</p></li>
 </ul>
-    <p>Returns path to the directory holding the unpacked files, invisibly.
-    <strong>DropBox:</strong>
+    <p>Returns path to the directory holding the unpacked files, invisibly.</p>
+<p><strong>DropBox:</strong>
 The ZIP files produced by DropBox are special. The file list tends to contain
 a spurious directory <code>"/"</code>, which we ignore during unzip. Also, if the
 directory is a Git repo and/or RStudio Project, we unzip-ignore various
@@ -204,7 +224,7 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
 <code>.Rproj.user</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other download functions: <code><a href='use_course.html'>use_course</a></code></p>
+    <div class='dont-index'><p>Other download functions: <code><a href='use_course.html'>use_course</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -230,7 +250,7 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -240,5 +260,8 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

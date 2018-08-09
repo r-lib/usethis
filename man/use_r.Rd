@@ -15,5 +15,5 @@ name based on test name.}
 Create a new R file
 }
 \seealso{
-\code{\link[=use_test]{use_test()}}
+\code{\link[=use_test]{use_test()}}, and also the \href{http://r-pkgs.had.co.nz/r.html}{R code chapter} of \href{http://r-pkgs.had.co.nz}{R Packages}.
 }

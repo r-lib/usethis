@@ -48,13 +48,12 @@ use_github_labels <- function(labels = tidy_labels(),
                               host = NULL) {
   check_uses_github()
 
-  info <- gh::gh_tree_remote(proj_get())
   gh <- function(endpoint, ...) {
     gh::gh(
       endpoint,
       ...,
-      owner = info$username,
-      repo = info$repo,
+      owner = github_owner(),
+      repo = github_repo(),
       .token = auth_token,
       .api_url = host
     )
@@ -70,7 +69,7 @@ use_github_labels <- function(labels = tidy_labels(),
   }
   new_labels <- setdiff(names(labels), cur_label_names)
   if (length(new_labels) > 0) {
-    done("Adding missing labels: ", collapse(value(new_labels)))
+    done("Adding missing labels: {collapse(value(new_labels))}")
 
     for (label in new_labels) {
       gh(
@@ -91,7 +90,7 @@ use_github_labels <- function(labels = tidy_labels(),
   col_labels <- cur_label_names[!is.na(tru_cols) & tru_cols != cur_cols]
 
   if (length(col_labels) > 0) {
-    done("Setting label colours: ", collapse(value(col_labels)))
+    done("Setting label colours: {collapse(value(col_labels))}")
 
     for (label in col_labels) {
       gh(
@@ -107,7 +106,7 @@ use_github_labels <- function(labels = tidy_labels(),
     def_labels <- setdiff(cur_label_names[default], names(labels))
 
     if (length(def_labels) > 0) {
-      done("Removing labels: ", collapse(value(def_labels)))
+      done("Removing labels: {collapse(value(def_labels))}")
 
       for (label in def_labels) {
         gh("DELETE /repos/:owner/:repo/labels/:name", name = label)

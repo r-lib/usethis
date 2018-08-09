@@ -3,8 +3,11 @@
 #' This creates a basic `NEWS.md` in the root directory.
 #'
 #' @inheritParams use_template
+#' @seealso The [important files
+#'   section](http://r-pkgs.had.co.nz/release.html#important-files) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
 #' @export
-use_news_md <- function(open = TRUE) {
+use_news_md <- function(open = interactive()) {
   use_template(
     "NEWS.md",
     data = package_data(),
@@ -14,12 +17,12 @@ use_news_md <- function(open = TRUE) {
 
 use_news_heading <- function(version) {
   news_path <- proj_path("NEWS.md")
-  if (!file.exists(news_path)) {
+  if (!file_exists(news_path)) {
     return(invisible())
   }
 
-  news <- readLines(news_path)
-  title <- paste0("# ", project_name(), " ", version)
+  news <- readLines(news_path, encoding = "UTF-8")
+  title <- glue("# {project_name()} {version}")
 
   if (title == news[[1]]) {
     return(invisible())

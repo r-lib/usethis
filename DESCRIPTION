@@ -20,29 +20,36 @@ BugReports: https://github.com/r-lib/usethis/issues
 Depends: 
     R (>= 3.1)
 Imports: 
-    backports (>= 1.1.0),
-    clipr,
+    clipr (>= 0.3.0),
     clisymbols,
     crayon,
     curl (>= 2.7),
     desc,
-    fs,
+    fs (>= 1.2.0),
     gh,
-    git2r,
-    httr,
+    git2r (>= 0.21.0.9002),
+    glue (>= 1.2.0.9000),
     rematch2,
-    rprojroot,
+    rlang,
+    rprojroot (>= 1.2),
     rstudioapi,
+    utils,
     whisker
 Suggests: 
     covr,
     knitr,
+    magick,
     rmarkdown,
     roxygen2,
-    styler,
+    spelling,
+    styler (>= 1.0.2),
     testthat (>= 2.0.0),
     withr
+Remotes: 
+    ropensci/git2r,
+    tidyverse/glue
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.0

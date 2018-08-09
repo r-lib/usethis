@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# usethis
+# usethis <img src="man/figures/logo.png" align="right" height=140/>
 
 [![Travis build
 status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
@@ -55,7 +55,7 @@ library(usethis)
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp)
-#> Changing active project to mypkg
+#> ✔ Setting active project to '/private/var/folders/vr/gzrbtprx6ybg85y5pvwm1ct40000gn/T/Rtmp0OBCDP/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
@@ -76,24 +76,24 @@ use_package("MASS", "Suggests")
 use_dev_package("callr")
 #> ✔ Adding 'callr' to Imports field in DESCRIPTION
 #> ● Refer to functions with `callr::fun()`
-#> ✔ Adding 'r-lib/callr' to DESCRIPTION Remotes
+#> ✔ Adding 'r-lib/callr' to Remotes field in DESCRIPTION
 
 # Set up various packages ---------------------------------------------
 use_roxygen_md()
 #> ✔ Setting Roxygen field in DESCRIPTION to 'list(markdown = TRUE)'
-#> ✔ Setting RoxygenNote field in DESCRIPTION to '6.0.1.9000'
-#> ● Re-document
+#> ✔ Setting RoxygenNote field in DESCRIPTION to '6.1.0'
+#> ● Run `devtools::document()`
 
 use_rcpp()
 #> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
-#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION*
+#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
 #> ● Include the following roxygen tags somewhere in your package
 #>   #' @useDynLib mypkg, .registration = TRUE
 #>   #' @importFrom Rcpp sourceCpp
 #>   NULL
-#> ● Run document()
+#> ● Run `devtools::document()`
 
 use_revdep()
 #> ✔ Creating 'revdep/'
@@ -108,29 +108,25 @@ use_readme_md()
 
 use_news_md()
 #> ✔ Writing 'NEWS.md'
-#> ● Edit 'NEWS.md'
 
 use_test("my-test")
 #> ✔ Adding 'testthat' to Suggests field in DESCRIPTION
 #> ✔ Creating 'tests/testthat/'
 #> ✔ Writing 'tests/testthat.R'
 #> ✔ Writing 'tests/testthat/test-my-test.R'
-#> ● Edit 'test-my-test.R'
 
 x <- 1
 y <- 2
 use_data(x, y)
 #> ✔ Creating 'data/'
-#> ✔ Saving x to data/x.rda
-#> ✔ Saving y to data/y.rda
+#> ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'
 
 # Use git ------------------------------------------------------------
 use_git()
 #> ✔ Initialising Git repo
-#> ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to './.gitignore'
-#> ✔ Adding files and committing
+#> ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'
 ```
 
-Please note that this project is released with a [Contributor Code of
-Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
-you agree to abide by its terms.
+Please note that the usethis project is released with a [Contributor
+Code of Conduct](.github/CODE_OF_CONDUCT.md). By contributing to this
+project, you agree to abide by its terms.

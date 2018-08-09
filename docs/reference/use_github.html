@@ -19,6 +19,8 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -26,6 +28,18 @@
 <script src="../pkgdown.js"></script>
   
   
+
+
+<meta property="og:title" content="Connect a local repo with GitHub — use_github" />
+<meta property="og:description" content="use_github() takes a local project, creates an associated repo on GitHub,
+adds it to your local repo as the origin remote, and makes an initial push
+to synchronize. use_github() requires that your project already be a Git
+repository, which you can accomplish with use_git(), if needed.
+use_github_links() populates the URL and BugReports fields of a
+GitHub-using R package with appropriate links (unless they already exist)." />
+<meta name="twitter:card" content="summary" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -49,8 +63,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">usethis</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">usethis</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +109,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,25 +117,29 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Connect a local repo with GitHub</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/github.R'><code>R/github.R</code></a></small>
+    <div class="hidden name"><code>use_github.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     <p><code>use_github()</code> takes a local project, creates an associated repo on GitHub,
 adds it to your local repo as the <code>origin</code> remote, and makes an initial push
 to synchronize. <code>use_github()</code> requires that your project already be a Git
-repository, which you can accomplish with <code><a href='use_git.html'>use_git()</a></code>, if needed.
-    <code>use_github_links()</code> populates the <code>URL</code> and <code>BugReports</code> fields of a
+repository, which you can accomplish with <code><a href='use_git.html'>use_git()</a></code>, if needed.</p>
+<p><code>use_github_links()</code> populates the <code>URL</code> and <code>BugReports</code> fields of a
 GitHub-using R package with appropriate links (unless they already exist).</p>
+    </div>
 
     <pre class="usage"><span class='fu'>use_github</span>(<span class='kw'>organisation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>private</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"ssh"</span>,
   <span class='st'>"https"</span>), <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>use_github_links</span>(<span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='st'>"https://api.github.com"</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -197,7 +220,7 @@ parameter. Read more about ssh setup in <a href='http://happygitwithr.com/ssh-ke
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -207,5 +230,8 @@ parameter. Read more about ssh setup in <a href='http://happygitwithr.com/ssh-ke
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
