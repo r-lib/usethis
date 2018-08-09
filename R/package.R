@@ -66,7 +66,7 @@ use_dev_package <- function(package, type = "Imports") {
     )
   }
 
-  use_package(package, type = type)
+  use_dependency(package, type = type, version = dep_version(package))
 
   package_remote <- package_remote(package)
   remotes <- desc::desc_get_remotes(proj_get())
