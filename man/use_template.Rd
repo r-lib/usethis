@@ -8,7 +8,7 @@ use_template(template, save_as = template, data = list(),
   ignore = FALSE, open = FALSE, package = "usethis")
 }
 \arguments{
-\item{template}{Path to template file relative to \code{"templates"} directory
+\item{template}{Path to template file relative to \code{templates/} directory
 within \code{package}; see details.}
 
 \item{save_as}{Name of file to create. Defaults to \code{template}}
