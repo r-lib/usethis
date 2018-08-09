@@ -28,16 +28,16 @@ write_over <- function(base_path, path, contents) {
   full_path <- file.path(base_path, path)
   dir.create(dirname(full_path), showWarnings = FALSE)
 
-  if (same_contents(full_path, contents))
+  if (same_contents(full_path, contents)) {
     return(invisible(FALSE))
+  }
 
-
-  if (!can_overwrite(full_path)) {
-    message(value(path), " not written.")
-    return(invisible(FALSE))
-  } else {
+  if (can_overwrite(full_path)) {
     done("Writing ", value(path))
     write_utf8(full_path, contents)
+  } else {
+    message(value(path), " not written.")
+    invisible(FALSE)
   }
 }
 
