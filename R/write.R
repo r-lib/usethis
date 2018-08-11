@@ -82,7 +82,7 @@ write_over <- function(path, lines, quiet = FALSE) {
     write_utf8(path, lines)
   } else {
     if (!quiet) {
-      message("{value(path)} not written.")
+      done("Leaving {value(path)} unchanged")
     }
     invisible(FALSE)
   }
