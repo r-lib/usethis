@@ -8,7 +8,5 @@ test_that("use_package_doc() requires a package", {
 test_that("use_package_doc() creates the promised file", {
   scoped_temporary_package()
   use_package_doc()
-  expect_true(file_exists(
-    proj_path("R", paste0(project_name(), "-package.R"))
-  ))
+  expect_proj_file("R", paste0(project_name(), "-package.R"))
 })

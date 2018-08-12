@@ -91,6 +91,9 @@ is_build_ignored <- function(pattern, ..., base_path = proj_get()) {
 
 test_file <- function(fname) testthat::test_path("ref", fname)
 
+expect_proj_file <- function(...) expect_true(file_exists(proj_path(...)))
+expect_proj_dir <- function(...) expect_true(dir_exists(proj_path(...)))
+
 ## use from testthat once > 2.0.0 is on CRAN
 skip_if_offline <- function(host = "r-project.org") {
   skip_if_not_installed("curl")
