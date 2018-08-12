@@ -19,7 +19,11 @@ bulletize <- function(line, bullet = "*") {
 }
 
 collapse <- function(x, sep = ", ", width = Inf, last = "") {
-  glue::glue_collapse(x, sep = sep, width = Inf, last = last)
+  if (utils::packageVersion("glue") > "1.2.0") {
+    utils::getFromNamespace("glue_collapse", "glue")(x, sep = sep, width = Inf, last = last)
+  } else {
+    utils::getFromNamespace("collapse", "glue")(x = x, sep = sep, width = width, last = last)
+  }
 }
 
 ## glue into lines stored as character vector

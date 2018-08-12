@@ -28,7 +28,7 @@ Imports:
     fs (>= 1.2.0),
     gh,
     git2r (>= 0.21.0.9002),
-    glue (>= 1.2.0.9000),
+    glue,
     rematch2,
     rlang,
     rprojroot (>= 1.2),
@@ -46,8 +46,7 @@ Suggests:
     testthat (>= 2.0.0),
     withr
 Remotes: 
-    ropensci/git2r,
-    tidyverse/glue
+    ropensci/git2r
 Encoding: UTF-8
 Language: en-US
 LazyData: true
