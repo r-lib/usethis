@@ -13,7 +13,7 @@ use_pipe <- function() {
   }
 
   use_dependency("magrittr", "Imports")
-  use_template("pipe.R", "R/utils-pipe.R")
-
+  new <- use_template("pipe.R", "R/utils-pipe.R")
   todo("Run {code('devtools::document()')}")
+  invisible(new)
 }

@@ -22,15 +22,15 @@ NULL
 use_travis <- function(browse = interactive()) {
   check_uses_github()
 
-  use_template(
+  new <- use_template(
     "travis.yml",
     ".travis.yml",
     ignore = TRUE
   )
+  if (!new) return(invisible(FALSE))
 
   travis_activate(browse)
   use_travis_badge()
-
   invisible(TRUE)
 }
 
@@ -81,26 +81,25 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
 
   use_dependency("covr", "Suggests")
 
-  switch(type,
-    codecov = {
-      use_template("codecov.yml", ignore = TRUE)
-      use_codecov_badge()
-      todo("Add to {value('.travis.yml')}:")
-      code_block(
-        "after_success:",
-        "  - Rscript -e 'covr::codecov()'"
-      )
-    },
+  if (type == "codecov") {
+    new <- use_template("codecov.yml", ignore = TRUE)
+    if (!new) return(invisible(FALSE))
+  }
 
-    coveralls = {
-      todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
-      use_coveralls_badge()
-      todo("Add to {value('.travis.yml')}:")
-      code_block(
-        "after_success:",
-        "  - Rscript -e 'covr::coveralls()'"
-      )
-    }
+  if (type == "coveralls") {
+    todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
+  }
+
+  switch(
+    type,
+    codecov = use_codecov_badge(),
+    coveralls = use_coveralls_badge()
+  )
+
+  todo("Add to {value('.travis.yml')}:")
+  code_block(
+    "after_success:",
+    "  - Rscript -e 'covr::{type}()'"
   )
 
   invisible(TRUE)
@@ -133,7 +132,8 @@ use_coveralls_badge <- function() {
 use_appveyor <- function(browse = interactive()) {
   check_uses_github()
 
-  use_template("appveyor.yml", ignore = TRUE)
+  new <- use_template("appveyor.yml", ignore = TRUE)
+  if (!new) return(invisible(FALSE))
 
   appveyor_activate(browse)
   use_appveyor_badge()

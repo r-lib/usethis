@@ -1,11 +1,13 @@
 context("use_template")
 
-test_that("message if try to overwrite existing file", {
+test_that("can leave existing file unchanged, without an error", {
   scoped_temporary_package()
-  expect_message(
-    use_template("NEWS.md", "DESCRIPTION"),
-    "not written"
+  desc_lines_before <- readLines(proj_path("DESCRIPTION"))
+  expect_error_free(
+    use_template("NEWS.md", "DESCRIPTION")
   )
+  desc_lines_after <- readLines(proj_path("DESCRIPTION"))
+  expect_identical(desc_lines_before, desc_lines_after)
 })
 
 # helpers -----------------------------------------------------------------

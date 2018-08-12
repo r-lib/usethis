@@ -17,6 +17,4 @@ use_cran_comments <- function(open = interactive()) {
     ignore = TRUE,
     open = open
   )
-
-  invisible(TRUE)
 }

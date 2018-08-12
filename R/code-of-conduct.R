@@ -18,7 +18,7 @@ use_code_of_conduct <- function(path = NULL) {
   }
   save_as <- path_join(c(path, "CODE_OF_CONDUCT.md"))
 
-  use_template(
+  new <- use_template(
     "CODE_OF_CONDUCT.md",
     save_as = save_as,
     ignore = is_package() && is.null(path)
@@ -30,4 +30,6 @@ use_code_of_conduct <- function(path = NULL) {
     "[Contributor Code of Conduct]({save_as}). ",
     "By contributing to this project, you agree to abide by its terms."
   ))
+
+  invisible(new)
 }
