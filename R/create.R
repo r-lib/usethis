@@ -91,9 +91,12 @@ create_project <- function(path,
 #' required in order for `create_from_github()` to do ["fork and
 #' clone"](https://help.github.com/articles/fork-a-repo/). It is also required
 #' by [use_github()], which connects existing local projects to GitHub.
+#' [use_github()] has more detailed advice on working with the `protocol` and
+#' `credentials` arguments.
 #'
-#' @seealso [use_course()] for one-time download of all files in a Git repo,
-#'   without any local or remote Git operations.
+#' @seealso [use_github()] for GitHub setup advice. [use_course()] for one-time
+#'   download of all files in a Git repo, without any local or remote Git
+#'   operations.
 #'
 #' @inheritParams create_package
 #' @param repo_spec GitHub repo specification in this form: `owner/repo`.
@@ -115,6 +118,17 @@ create_project <- function(path,
 #' @examples
 #' \dontrun{
 #' create_from_github("r-lib/usethis")
+#'
+#' create_from_github("r-lib/usethis", protocol = "https")
+#'
+#' ## various ways code can look when specifying ssh credential explicitly
+#' create_from_github("r-lib/usethis", credentials = git2r::cred_ssh_key())
+#'
+#' cred <- git2r::cred_ssh_key(
+#'   publickey = "path/to/id_rsa.pub",
+#'   privatekey = "path/to/id_rsa"
+#' )
+#' create_from_github("cran/TailRank", credentials = cred)
 #' }
 create_from_github <- function(repo_spec,
                                destdir = NULL,

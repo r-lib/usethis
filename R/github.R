@@ -3,7 +3,8 @@
 #' `use_github()` takes a local project, creates an associated repo on GitHub,
 #' adds it to your local repo as the `origin` remote, and makes an initial push
 #' to synchronize. `use_github()` requires that your project already be a Git
-#' repository, which you can accomplish with [use_git()], if needed.
+#' repository, which you can accomplish with [use_git()], if needed. See the
+#' Authentication section below for other necessary setup.
 #'
 #' @section Authentication:
 #' A new GitHub repo will be created via the GitHub API, therefore you must
@@ -13,8 +14,8 @@
 #' environment variable. Use [browse_github_pat()] to get help obtaining and
 #' storing your PAT. See [gh::gh_whoami()] for even more detail.
 #'
-#' The argument `protocol` reflects how you wish to authenticate with GitHub
-#' for this repo in the long run. This determines the form of the URL for the
+#' The argument `protocol` specifies the transport protocol you wish to use for
+#' this repo in the long run. This determines the form of the URL for the
 #' `origin` remote:
 #'   * `protocol = "ssh"`: `git@@github.com:<OWNER>/<REPO>.git`
 #'   * `protocol = "https"`: `https://github.com/<OWNER>/<REPO>.git`

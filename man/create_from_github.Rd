@@ -51,13 +51,27 @@ recommended that you pre-configure or pass a GitHub personal access token
 (PAT), which is facilitated by \code{\link[=browse_github_pat]{browse_github_pat()}}. In particular, a PAT is
 required in order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}. It is also required
 by \code{\link[=use_github]{use_github()}}, which connects existing local projects to GitHub.
+\code{\link[=use_github]{use_github()}} has more detailed advice on working with the \code{protocol} and
+\code{credentials} arguments.
 }
 \examples{
 \dontrun{
 create_from_github("r-lib/usethis")
+
+create_from_github("r-lib/usethis", protocol = "https")
+
+## various ways code can look when specifying ssh credential explicitly
+create_from_github("r-lib/usethis", credentials = git2r::cred_ssh_key())
+
+cred <- git2r::cred_ssh_key(
+  publickey = "path/to/id_rsa.pub",
+  privatekey = "path/to/id_rsa"
+)
+create_from_github("cran/TailRank", credentials = cred)
 }
 }
 \seealso{
-\code{\link[=use_course]{use_course()}} for one-time download of all files in a Git repo,
-without any local or remote Git operations.
+\code{\link[=use_github]{use_github()}} for GitHub setup advice. \code{\link[=use_course]{use_course()}} for one-time
+download of all files in a Git repo, without any local or remote Git
+operations.
 }

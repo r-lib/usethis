@@ -31,7 +31,8 @@ GitHub enterprise instance, for example,
 \code{use_github()} takes a local project, creates an associated repo on GitHub,
 adds it to your local repo as the \code{origin} remote, and makes an initial push
 to synchronize. \code{use_github()} requires that your project already be a Git
-repository, which you can accomplish with \code{\link[=use_git]{use_git()}}, if needed.
+repository, which you can accomplish with \code{\link[=use_git]{use_git()}}, if needed. See the
+Authentication section below for other necessary setup.
 }
 \section{Authentication}{
 
@@ -41,8 +42,8 @@ provide this directly via the \code{auth_token} argument or store it in an
 environment variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to get help obtaining and
 storing your PAT. See \code{\link[gh:gh_whoami]{gh::gh_whoami()}} for even more detail.
 
-The argument \code{protocol} reflects how you wish to authenticate with GitHub
-for this repo in the long run. This determines the form of the URL for the
+The argument \code{protocol} specifies the transport protocol you wish to use for
+this repo in the long run. This determines the form of the URL for the
 \code{origin} remote:
 \itemize{
 \item \code{protocol = "ssh"}: \code{git@github.com:<OWNER>/<REPO>.git}
