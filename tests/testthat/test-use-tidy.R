@@ -36,6 +36,8 @@ test_that("use_tidy_versions() does nothing for a base package", {
 })
 
 test_that("use_tidy_eval() inserts the template file and Imports rlang", {
+  skip_if_not_installed("roxygen2")
+
   pkg <- scoped_temporary_package()
   ## fake the use of roxygen; this better in a test than use_roxygen_md()
   use_description_field(name = "RoxygenNote", value = "6.0.1.9000")
