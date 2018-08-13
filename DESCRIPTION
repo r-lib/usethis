@@ -27,7 +27,7 @@ Imports:
     desc,
     fs (>= 1.2.0),
     gh,
-    git2r (>= 0.21.0.9002),
+    git2r (>= 0.23),
     glue,
     rematch2,
     rlang,
@@ -45,8 +45,6 @@ Suggests:
     styler (>= 1.0.2),
     testthat (>= 2.0.0),
     withr
-Remotes: 
-    ropensci/git2r
 Encoding: UTF-8
 Language: en-US
 LazyData: true
