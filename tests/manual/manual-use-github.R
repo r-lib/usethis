@@ -1,4 +1,5 @@
-devtools::load_all()
+#devtools::load_all()
+library(usethis)
 library(fs)
 
 pkgname <- "klmnop"
