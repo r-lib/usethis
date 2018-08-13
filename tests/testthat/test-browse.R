@@ -35,18 +35,17 @@ test_that("cran_home() produces canonical URL", {
 
 test_that("browse_XXX() goes to correct URL", {
   g <- function(x) paste0("https://github.com/", x)
-  with_mock(
-    `usethis:::todo` = function(...) NULL, {
-      expect_equal(browse_github("gh"), g("r-lib/gh#readme"))
-      ## be robust to trailing slash issues on Windows
-      expect_match(browse_github_issues("gh"), g("r-lib/gh/issues"))
-      expect_equal(browse_github_issues("gh", 1), g("r-lib/gh/issues/1"))
-      expect_equal(browse_github_issues("gh", "new"), g("r-lib/gh/issues/new"))
-      ## be robust to trailing slash issues on Windows
-      expect_match(browse_github_pulls("gh"), g("r-lib/gh/pulls"))
-      expect_equal(browse_github_pulls("gh", 1), g("r-lib/gh/pull/1"))
-      expect_equal(browse_travis("gh"), "https://travis-ci.org/r-lib/gh")
-      expect_equal(browse_cran("gh"), "https://cran.r-project.org/package=gh")
-    }
-  )
+
+  expect_equal(browse_github("gh"), g("r-lib/gh#readme"))
+
+  expect_match(browse_github_issues("gh"), g("r-lib/gh/issues"))
+  expect_equal(browse_github_issues("gh", 1), g("r-lib/gh/issues/1"))
+  expect_equal(browse_github_issues("gh", "new"), g("r-lib/gh/issues/new"))
+
+  expect_match(browse_github_pulls("gh"), g("r-lib/gh/pulls"))
+  expect_equal(browse_github_pulls("gh", 1), g("r-lib/gh/pull/1"))
+
+  expect_equal(browse_travis("usethis"), "https://travis-ci.org/r-lib/usethis")
+
+  expect_equal(browse_cran("usethis"), "https://cran.r-project.org/package=usethis")
 })
