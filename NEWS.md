@@ -1,6 +1,6 @@
 # usethis 1.3.0.9000
 
-* `use_template()` no longer errors when a user chooses not to overwrite an existing file and simply exits with confirmation that the file is unchanged (#348, @boshek).
+* `use_template()` no longer errors when a user chooses not to overwrite an existing file and simply exits with confirmation that the file is unchanged (#348, #350, @boshek).
 
 * `proj_sitrep()` is a new function that reports current working directory, the active usethis project, and the active RStudio Project. Call this function if things seem weird and you're not sure what's wrong or how to fix it (#426).
 
