@@ -11,7 +11,7 @@ test_that("use_pipe() adds promised file, Imports magrittr", {
       scoped_temporary_package()
       use_pipe()
       expect_match(desc::desc_get("Imports", proj_get()), "magrittr")
-      expect_true(file_exists(proj_path("R", "utils-pipe.R")))
+      expect_proj_file("R", "utils-pipe.R")
     }
   )
 })

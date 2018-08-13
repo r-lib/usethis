@@ -11,9 +11,7 @@ test_that("use_rmarkdown_template() creates everything as promised, defaults", {
         "   A description of the template", "create_dir: FALSE") %in% yml
     )
   )
-  expect_true(
-    file_exists(proj_path(path, "skeleton", "skeleton.Rmd"))
-  )
+  expect_proj_file(path, "skeleton", "skeleton.Rmd")
 })
 
 test_that("use_rmarkdown_template() creates everything as promised, args", {
@@ -31,7 +29,5 @@ test_that("use_rmarkdown_template() creates everything as promised, args", {
       c("name: aaa", "description: >", "   ccc", "create_dir: TRUE") %in% yml
     )
   )
-  expect_true(
-    file_exists(proj_path(path, "skeleton", "skeleton.Rmd"))
-  )
+  expect_proj_file(path, "skeleton", "skeleton.Rmd")
 })

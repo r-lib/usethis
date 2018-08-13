@@ -8,8 +8,6 @@ expect_fs_file <- function(...) {
   expect_true(file_exists(scoped_path_fs("user", ...)))
 }
 
-expect_project_file <- function(...) expect_true(file_exists(proj_path(...)))
-
 ## testing edit_XXX("user") only on travis and appveyor, because I don't want to
 ## risk creating user-level files de novo for an actual user, which would
 ## obligate me to some nerve-wracking clean up
@@ -63,45 +61,45 @@ test_that("edit_git_XXX('user') ensures the file exists", {
 test_that("edit_r_profile() ensures .Rprofile exists in project", {
   scoped_temporary_package()
   edit_r_profile("project")
-  expect_project_file(".Rprofile")
+  expect_proj_file(".Rprofile")
 
   scoped_temporary_project()
   edit_r_profile("project")
-  expect_project_file(".Rprofile")
+  expect_proj_file(".Rprofile")
 })
 
 test_that("edit_r_environ() ensures .Renviron exists in project", {
   scoped_temporary_package()
   edit_r_environ("project")
-  expect_project_file(".Renviron")
+  expect_proj_file(".Renviron")
 
   scoped_temporary_project()
   edit_r_environ("project")
-  expect_project_file(".Renviron")
+  expect_proj_file(".Renviron")
 })
 
 test_that("edit_r_makevars() ensures .R/Makevars exists in package", {
   scoped_temporary_package()
   edit_r_makevars("project")
-  expect_project_file(".R", "Makevars")
+  expect_proj_file(".R", "Makevars")
 })
 
 test_that("edit_git_config() ensures git ignore file exists in project", {
   scoped_temporary_package()
   edit_git_config("project")
-  expect_project_file(".git", "config")
+  expect_proj_file(".git", "config")
 
   scoped_temporary_project()
   edit_git_config("project")
-  expect_project_file(".git", "config")
+  expect_proj_file(".git", "config")
 })
 
 test_that("edit_git_ignore() ensures .gitignore exists in project", {
   scoped_temporary_package()
   edit_git_ignore("project")
-  expect_project_file(".gitignore")
+  expect_proj_file(".gitignore")
 
   scoped_temporary_project()
   edit_git_ignore("project")
-  expect_project_file(".gitignore")
+  expect_proj_file(".gitignore")
 })

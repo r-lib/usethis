@@ -13,7 +13,7 @@
 #' the `data` argument. Internally, this function uses
 #' [whisker::whisker.render()] to combine your template file with your data.
 #'
-#' @param template Path to template file relative to `"templates"` directory
+#' @param template Path to template file relative to `templates/` directory
 #'   within `package`; see details.
 #' @param save_as Name of file to create. Defaults to `template`
 #' @param data A list of data passed to the template.
@@ -45,7 +45,7 @@ use_template <- function(template,
     use_build_ignore(save_as)
   }
 
-  if (open) {
+  if (open && new) {
     edit_file(proj_path(save_as))
   }
 

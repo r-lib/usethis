@@ -62,7 +62,7 @@ NULL
 use_tidy_ci <- function(browse = interactive()) {
   check_uses_github()
 
-  new <- use_template(
+  new_travis <- use_template(
     "tidy-travis.yml",
     ".travis.yml",
     ignore = TRUE
@@ -75,7 +75,7 @@ use_tidy_ci <- function(browse = interactive()) {
   use_travis_badge()
   use_codecov_badge()
 
-  if (new) {
+  if (new_travis) {
     travis_activate(browse)
   }
 
@@ -125,9 +125,10 @@ use_tidy_eval <- function() {
 
   use_dependency("roxygen2", "Suggests")
   use_dependency("rlang", "Imports", ">= 0.1.2")
-  use_template("tidy-eval.R", "R/utils-tidy-eval.R")
+  new <- use_template("tidy-eval.R", "R/utils-tidy-eval.R")
 
   todo("Run {code('devtools::document()')}")
+  return(invisible(new))
 }
 
 

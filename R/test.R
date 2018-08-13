@@ -20,8 +20,6 @@ use_testthat <- function() {
     "tests/testthat.R",
     data = list(name = project_name())
   )
-
-  invisible(TRUE)
 }
 
 #' @rdname use_testthat
@@ -43,16 +41,15 @@ use_test <- function(name = NULL, open = interactive()) {
     if (open) {
       edit_file(proj_path(path))
     }
-  } else {
-    use_template(
-      "test-example.R",
-      path,
-      data = list(test_name = path_ext_remove(name)),
-      open = open
-    )
+    return(invisible(TRUE))
   }
 
-  invisible(TRUE)
+  use_template(
+    "test-example.R",
+    path,
+    data = list(test_name = path_ext_remove(name)),
+    open = open
+  )
 }
 
 uses_testthat <- function(base_path = proj_get()) {

@@ -13,14 +13,14 @@
 #' @export
 use_rstudio <- function() {
   rproj_file <- path_ext_set(project_name(), "Rproj")
-  use_template("template.Rproj", rproj_file)
+  new <- use_template("template.Rproj", rproj_file)
 
   use_git_ignore(".Rproj.user")
   if (is_package()) {
     use_build_ignore(c(rproj_file, ".Rproj.user"))
   }
 
-  invisible(TRUE)
+  invisible(new)
 }
 
 #' Don't save/load user workspace between sessions

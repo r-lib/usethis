@@ -75,15 +75,17 @@ write_over <- function(path, lines, quiet = FALSE) {
     return(invisible(FALSE))
   }
 
-  if (!can_overwrite(path)) {
-    stop_glue("{value(path)} already exists.")
+  if (can_overwrite(path)) {
+    if (!quiet) {
+      done("Writing {value(proj_rel_path(path))}")
+    }
+    write_utf8(path, lines)
+  } else {
+    if (!quiet) {
+      done("Leaving {value(path)} unchanged")
+    }
+    invisible(FALSE)
   }
-
-  if (!quiet) {
-    done("Writing {value(proj_rel_path(path))}")
-  }
-
-  write_utf8(path, lines)
 }
 
 write_utf8 <- function(path, lines) {
