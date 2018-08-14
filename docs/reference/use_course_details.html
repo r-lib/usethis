@@ -13,7 +13,6 @@
 <!-- Bootstrap -->
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -22,18 +21,22 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-
 <meta property="og:title" content="Download and unpack a ZIP file — use_course_details" />
+
 <meta property="og:description" content="Details on the two functions that power use_course(). These internal
 functions are currently unexported but a course instructor may want more
 details." />
+
+<meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -62,14 +65,17 @@ details." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">Home</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
   <a href="../articles/articles/usethis-setup.html">Setup</a>
@@ -86,10 +92,10 @@ details." />
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider"></li>
     <li>
@@ -98,6 +104,7 @@ details." />
   </ul>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
@@ -123,12 +130,14 @@ details." />
     </div>
 
     <div class="ref-description">
+    
     <p>Details on the two functions that power <code><a href='use_course.html'>use_course()</a></code>. These internal
 functions are currently unexported but a course instructor may want more
 details.</p>
+    
     </div>
 
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -155,7 +164,7 @@ proceed. Otherwise, user can abort and try again with the desired
       <td><p>Path to local ZIP file.</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="download-zip-"><a class="anchor" href="#download-zip-"></a>download_zip()</h2>
 
     <pre>## function signature
@@ -164,7 +173,7 @@ download_zip(url, destdir = getwd(), pedantic = FALSE)
 download_zip(
   url, ## after post-processing with normalize_url()
   ## conspicuous_place() = Desktop or home directory or working directory
-  destdir = destdir \%||\% conspicuous_place(),
+  destdir = destdir %||% conspicuous_place(),
   pedantic = is.null(destdir) &amp;&amp; interactive()
 )
 </pre>
@@ -199,6 +208,7 @@ for <code>download_zip()</code>. After one or more redirections, this link will
 eventually lead to a download URL. Here's an alternative link that also leads
 to ZIP download, albeit with a different filenaming scheme:</p><pre>https://api.github.com/repos/r-lib/usethis/zipball/master
 </pre>
+    
     <h2 class="hasAnchor" id="tidy-unzip-"><a class="anchor" href="#tidy-unzip-"></a>tidy_unzip()</h2>
 
     
@@ -222,9 +232,11 @@ a spurious directory <code>"/"</code>, which we ignore during unzip. Also, if th
 directory is a Git repo and/or RStudio Project, we unzip-ignore various
 hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those below <code>.git/</code> and
 <code>.Rproj.user</code>.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other download functions: <code><a href='use_course.html'>use_course</a></code></p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -239,9 +251,13 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#download-zip-">download_zip()</a></li>
+
       <li><a href="#tidy-unzip-">tidy_unzip()</a></li>
+
       <li><a href="#see-also">See also</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -250,7 +266,7 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">

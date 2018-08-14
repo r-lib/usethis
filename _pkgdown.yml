@@ -1,9 +1,13 @@
 url: http://usethis.r-lib.org
 
+authors:
+   Jennifer Bryan:
+     href: https://jennybryan.org
+
 navbar:
   type: default
   left:
-  - text: Home
+  - icon: fa-home fa-lg
     href: index.html
   - text: Setup
     href: articles/articles/usethis-setup.html

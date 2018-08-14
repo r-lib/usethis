@@ -13,7 +13,6 @@
 <!-- Bootstrap -->
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -22,20 +21,26 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
-
 <meta property="og:title" content="Create a project from a GitHub repo — create_from_github" />
+
 <meta property="og:description" content="Creates a new local Git repository from a repository on GitHub. It is highly
 recommended that you pre-configure or pass a GitHub personal access token
 (PAT), which is facilitated by browse_github_pat(). In particular, a PAT is
-required in order for create_from_github() to do "fork and clone". It is also required
-by use_github(), which connects existing local projects to GitHub." />
+required in order for create_from_github() to do &quot;fork and clone&quot;. It is also required
+by use_github(), which connects existing local projects to GitHub.
+use_github() has more detailed advice on working with the protocol and
+credentials arguments." />
+
+<meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -64,14 +69,17 @@ by use_github(), which connects existing local projects to GitHub." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">Home</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
   <a href="../articles/articles/usethis-setup.html">Setup</a>
@@ -88,10 +96,10 @@ by use_github(), which connects existing local projects to GitHub." />
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider"></li>
     <li>
@@ -100,6 +108,7 @@ by use_github(), which connects existing local projects to GitHub." />
   </ul>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
@@ -125,24 +134,28 @@ by use_github(), which connects existing local projects to GitHub." />
     </div>
 
     <div class="ref-description">
+    
     <p>Creates a new local Git repository from a repository on GitHub. It is highly
 recommended that you pre-configure or pass a GitHub personal access token
 (PAT), which is facilitated by <code><a href='browse_github_pat.html'>browse_github_pat()</a></code>. In particular, a PAT is
 required in order for <code>create_from_github()</code> to do <a href='https://help.github.com/articles/fork-a-repo/'>"fork and clone"</a>. It is also required
-by <code><a href='use_github.html'>use_github()</a></code>, which connects existing local projects to GitHub.</p>
+by <code><a href='use_github.html'>use_github()</a></code>, which connects existing local projects to GitHub.
+<code><a href='use_github.html'>use_github()</a></code> has more detailed advice on working with the <code>protocol</code> and
+<code>credentials</code> arguments.</p>
+    
     </div>
 
-    <pre class="usage"><span class='fu'>create_from_github</span>(<span class='no'>repo</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fork</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'>interactive</span>(), <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"ssh"</span>, <span class='st'>"https"</span>), <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-
+    <pre class="usage"><span class='fu'>create_from_github</span>(<span class='no'>repo_spec</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fork</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'>interactive</span>(), <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"ssh"</span>, <span class='st'>"https"</span>),
+  <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>repo</th>
-      <td><p>GitHub repo specification in this form: <code>owner/reponame</code>. The
-second part will be the name of the new local repo.</p></td>
+      <th>repo_spec</th>
+      <td><p>GitHub repo specification in this form: <code>owner/repo</code>.
+The <code>repo</code> part will be the name of the new local repo.</p></td>
     </tr>
     <tr>
       <th>destdir</th>
@@ -151,12 +164,12 @@ second part will be the name of the new local repo.</p></td>
     <tr>
       <th>fork</th>
       <td><p>If <code>TRUE</code>, we create and clone a fork. If <code>FALSE</code>, we clone
-<code>repo</code> itself. Will be set to <code>FALSE</code> if no <code>auth_token</code> (a.k.a. PAT) is
-provided or preconfigured. Otherwise, if unspecified, defaults to <code>FALSE</code>
-if you can push to <code>repo</code> and <code>TRUE</code> if you cannot. If a fork is created,
-the original target repo is added to the local repo as the <code>upstream</code>
-remote, using your preferred <code>protocol</code>, to make it easier to pull upstream
-changes in the future.</p></td>
+<code>repo_spec</code> itself. Will be set to <code>FALSE</code> if no <code>auth_token</code> (a.k.a. PAT)
+is provided or preconfigured. Otherwise, defaults to <code>FALSE</code> if you can
+push to <code>repo_spec</code> and <code>TRUE</code> if you cannot. If a fork is created, the
+original target repo is added to the local repo as the <code>upstream</code> remote,
+using your preferred <code>protocol</code>, to make it easier to pull upstream changes
+in the future.</p></td>
     </tr>
     <tr>
       <th>rstudio</th>
@@ -166,9 +179,10 @@ pre-existing <code>.Rproj</code> file. Defaults to <code>FALSE</code> otherwise.
     </tr>
     <tr>
       <th>open</th>
-      <td><p>If <code>TRUE</code> and in RStudio, the new project is opened in a new
-instance, if possible, or is switched to, otherwise. If <code>TRUE</code> and not
-in RStudio, working directory is set to the new project.</p></td>
+      <td><p>If <code>TRUE</code> and in RStudio, a new RStudio project is opened in a
+new instance, if possible, or is switched to, otherwise. If <code>TRUE</code> and not
+in RStudio (or new project is not an RStudio project), working directory is
+set to the new project.</p></td>
     </tr>
     <tr>
       <th>protocol</th>
@@ -193,22 +207,37 @@ GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3"</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='use_course.html'>use_course()</a></code> for one-time download of all files in a Git repo,
-without any local or remote Git operations.</p></div>
+    <div class='dont-index'><p><code><a href='use_github.html'>use_github()</a></code> for GitHub setup advice. <code><a href='use_course.html'>use_course()</a></code> for one-time
+download of all files in a Git repo, without any local or remote Git
+operations.</p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'>create_from_github</span>(<span class='st'>"r-lib/usethis"</span>)
+
+<span class='fu'>create_from_github</span>(<span class='st'>"r-lib/usethis"</span>, <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='st'>"https"</span>)
+
+<span class='co'>## various ways code can look when specifying ssh credential explicitly</span>
+<span class='fu'>create_from_github</span>(<span class='st'>"r-lib/usethis"</span>, <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='kw pkg'>git2r</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/git2r/topics/cred_ssh_key'>cred_ssh_key</a></span>())
+
+<span class='no'>cred</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>git2r</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/git2r/topics/cred_ssh_key'>cred_ssh_key</a></span>(
+  <span class='kw'>publickey</span> <span class='kw'>=</span> <span class='st'>"path/to/id_rsa.pub"</span>,
+  <span class='kw'>privatekey</span> <span class='kw'>=</span> <span class='st'>"path/to/id_rsa"</span>
+)
+<span class='fu'>create_from_github</span>(<span class='st'>"cran/TailRank"</span>, <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='no'>cred</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#see-also">See also</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -217,7 +246,7 @@ without any local or remote Git operations.</p></div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">

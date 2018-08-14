@@ -1,5 +1,5 @@
 pandoc: 2.1.3
-pkgdown: 1.0.0.9000
+pkgdown: 1.1.0
 pkgdown_sha: ~
 articles:
   usethis-setup: articles/usethis-setup.html

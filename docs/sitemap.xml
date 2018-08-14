@@ -25,10 +25,16 @@
     <loc>http://usethis.r-lib.org/reference/edit.html</loc>
   </url>
   <url>
+    <loc>http://usethis.r-lib.org/reference/edit_file.html</loc>
+  </url>
+  <url>
     <loc>http://usethis.r-lib.org/reference/licenses.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/proj_get.html</loc>
+    <loc>http://usethis.r-lib.org/reference/proj_sitrep.html</loc>
+  </url>
+  <url>
+    <loc>http://usethis.r-lib.org/reference/proj_utils.html</loc>
   </url>
   <url>
     <loc>http://usethis.r-lib.org/reference/tidyverse.html</loc>
@@ -79,6 +85,12 @@
     <loc>http://usethis.r-lib.org/reference/use_github_labels.html</loc>
   </url>
   <url>
+    <loc>http://usethis.r-lib.org/reference/use_github_links.html</loc>
+  </url>
+  <url>
+    <loc>http://usethis.r-lib.org/reference/use_logo.html</loc>
+  </url>
+  <url>
     <loc>http://usethis.r-lib.org/reference/use_namespace.html</loc>
   </url>
   <url>
@@ -118,10 +130,19 @@
     <loc>http://usethis.r-lib.org/reference/use_rstudio.html</loc>
   </url>
   <url>
+    <loc>http://usethis.r-lib.org/reference/use_spell_check.html</loc>
+  </url>
+  <url>
     <loc>http://usethis.r-lib.org/reference/use_template.html</loc>
   </url>
   <url>
     <loc>http://usethis.r-lib.org/reference/use_testthat.html</loc>
+  </url>
+  <url>
+    <loc>http://usethis.r-lib.org/reference/use_tibble.html</loc>
+  </url>
+  <url>
+    <loc>http://usethis.r-lib.org/reference/use_tidy_thanks.html</loc>
   </url>
   <url>
     <loc>http://usethis.r-lib.org/reference/use_usethis.html</loc>
@@ -133,7 +154,13 @@
     <loc>http://usethis.r-lib.org/reference/use_vignette.html</loc>
   </url>
   <url>
+    <loc>http://usethis.r-lib.org/reference/usethis-defunct.html</loc>
+  </url>
+  <url>
     <loc>http://usethis.r-lib.org/reference/usethis-package.html</loc>
+  </url>
+  <url>
+    <loc>http://usethis.r-lib.org/reference/write-this.html</loc>
   </url>
   <url>
     <loc>http://usethis.r-lib.org/articles/articles/usethis-setup.html</loc>

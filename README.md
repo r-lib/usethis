@@ -50,7 +50,7 @@ tasks. `✔` indicates something usethis has done for you. `●` indicates
 that you’ll need to do some work yourself.
 
 Below is a quick look at how usethis can help to set up a package. But
-remember, many usethis function are also applicable to analytical
+remember, many usethis functions are also applicable to analytical
 projects that are not packages.
 
 ``` r
@@ -59,7 +59,7 @@ library(usethis)
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp)
-#> ✔ Setting active project to '/private/var/folders/vr/gzrbtprx6ybg85y5pvwm1ct40000gn/T/RtmpUYoQJG/mypkg'
+#> ✔ Setting active project to '/private/var/folders/vr/gzrbtprx6ybg85y5pvwm1ct40000gn/T/RtmpGwzXO5/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
