@@ -1,4 +1,4 @@
-#' Create a new R file
+#' Create or edit a .R file
 #'
 #' @param name File name, without extension; will create if it doesn't already
 #'   exist. If not specified, and you're currently in a test file, will guess

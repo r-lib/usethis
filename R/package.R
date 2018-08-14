@@ -1,9 +1,9 @@
 #' Depend on another package
 #'
 #' `use_package()` adds a CRAN package dependency to DESCRIPTION and offers a
-#' little advice about how to best use it. `use_dev_package()` adds a dependency
-#' on an in-development GitHub package, adding the repo to `Remotes` so it will
-#' be automatically installed from the correct location.
+#' little advice about how to best use it. `use_dev_package()` adds a versioned
+#' dependency on an in-development GitHub package, adding the repo to `Remotes`
+#' so it will be automatically installed from the correct location.
 #'
 #' @param package Name of package to depend on.
 #' @param type Type of dependency: must be one of "Imports", "Depends",
@@ -17,6 +17,7 @@
 #' \dontrun{
 #' use_package("ggplot2")
 #' use_package("dplyr", "suggests")
+#' use_dev_package("glue")
 #' }
 use_package <- function(package, type = "Imports") {
   types <- tolower(c("Imports", "Depends", "Suggests", "Enhances", "LinkingTo"))

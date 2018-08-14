@@ -9,5 +9,5 @@ use_pkgdown()
 \description{
 \href{https://github.com/hadley/pkgdown}{pkgdown} makes it easy to turn your
 package into a beautiful website. This helper creates \code{_pkgdown.yml}
-and \code{docs/} for you, and adds to \code{.Rbuildignore}
+and \code{docs/} for you, and adds them to \code{.Rbuildignore}
 }

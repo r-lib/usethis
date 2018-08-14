@@ -1,4 +1,4 @@
-#' Helpers for the tidyverse
+#' Helpers for tidyverse development
 #'
 #' These helpers follow tidyverse conventions which are generally a little
 #' stricter than the defaults, reflecting the need for greater rigor in

@@ -2,7 +2,7 @@
 #'
 #' [pkgdown](https://github.com/hadley/pkgdown) makes it easy to turn your
 #' package into a beautiful website. This helper creates `_pkgdown.yml`
-#' and `docs/` for you, and adds to `.Rbuildignore`
+#' and `docs/` for you, and adds them to `.Rbuildignore`
 #'
 #' @export
 use_pkgdown <- function() {

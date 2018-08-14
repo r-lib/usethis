@@ -12,7 +12,7 @@
 \alias{use_tidy_coc}
 \alias{use_tidy_github}
 \alias{use_tidy_style}
-\title{Helpers for the tidyverse}
+\title{Helpers for tidyverse development}
 \usage{
 use_tidy_ci(browse = interactive())
 
