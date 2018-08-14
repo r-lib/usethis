@@ -13,8 +13,8 @@ status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](http
 status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
-usethis is a workflow package: it automates tasks that come up over and
-over again during project setup and development, both for R packages and
+usethis is a workflow package: it automates repetitive tasks that arise
+during project setup and development, both for R packages and
 non-package projects.
 
 ## Installation
@@ -59,7 +59,7 @@ library(usethis)
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp)
-#> ✔ Setting active project to '/private/var/folders/vr/gzrbtprx6ybg85y5pvwm1ct40000gn/T/Rtmp3FLirh/mypkg'
+#> ✔ Setting active project to '/private/var/folders/vr/gzrbtprx6ybg85y5pvwm1ct40000gn/T/RtmpUYoQJG/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'

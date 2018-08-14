@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 [![CRAN status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
-usethis is a workflow package: it automates tasks that come up over and over again during project setup and development, both for R packages and non-package projects.
+usethis is a workflow package: it automates repetitive tasks that arise during project setup and development, both for R packages and non-package projects.
 
 ## Installation
 
