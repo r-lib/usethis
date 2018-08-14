@@ -51,7 +51,7 @@ build paths within it (#415, #425).
 
 New Imports: fs, glue, utils
 
-No longer in Imports: backports, httr, rmarkdown (moved to Suggests), styler (moved to Suggests)
+No longer in Imports: backports, httr, rematch2, rmarkdown (moved to Suggests), styler (moved to Suggests)
 
 # usethis 1.3.0
 
