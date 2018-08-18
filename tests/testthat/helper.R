@@ -26,8 +26,7 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
     stop_glue("Target {code('dir')} {value(dir)} already exists.")
   }
 
-  ## avoid proj_get() because it attempts to activate a project
-  old_project <- proj$cur
+  old_project <- proj_get_()
   ## Can't schedule a deferred project reset if calling this from the R
   ## console, which is useful when developing tests
   if (identical(env, globalenv())) {

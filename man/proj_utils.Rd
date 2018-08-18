@@ -7,14 +7,15 @@
 \alias{proj_path}
 \title{Utility functions for the active project}
 \usage{
-proj_get(quiet = FALSE)
+proj_get(quiet = getOption("usethis.quiet", default = FALSE))
 
-proj_set(path = ".", force = FALSE, quiet = FALSE)
+proj_set(path = ".", force = FALSE,
+  quiet = getOption("usethis.quiet", default = FALSE))
 
 proj_path(..., ext = "")
 }
 \arguments{
-\item{quiet}{Logical. Whether to announce project activation.}
+\item{quiet}{Logical. Whether to suppress messages about project operations.}
 
 \item{path}{Path to set.}
 
@@ -39,22 +40,23 @@ file. It then stores the active project for use for the remainder of the
 session.
 }
 \details{
-In general, end user code should not call \code{usethis::proj_get()},
-\code{usethis::proj_set()}, or \code{usethis::proj_path()}. They are internal functions
-that are exported for occasional interactive use or use in packages that
-extend usethis. End user code should call functions in
+In general, end user scripts should not contain direct calls to
+\code{usethis::proj_*()} utility functions. They are internal functions that are
+exported for occasional interactive use or use in packages that extend
+usethis. End user code should call functions in
 \href{https://rprojroot.r-lib.org}{rprojroot} or its simpler companion,
 \href{https://here.r-lib.org}{here}, to programmatically detect a project and
 build paths within it.
 }
 \section{Functions}{
 \itemize{
-\item \code{proj_get}: Retrieves the active project and, if necessary, attempts to set it in the first place.
+\item \code{proj_get}: Retrieves the active project and, if necessary,
+attempts to set it in the first place.
 
 \item \code{proj_set}: Sets the active project.
 
-\item \code{proj_path}: Builds a path within the active project. Thin wrapper
-around \code{\link[fs:path]{fs::path()}}.
+\item \code{proj_path}: Builds a path within the active project returned by
+\code{proj_get()}. Thin wrapper around \code{\link[fs:path]{fs::path()}}.
 }}
 
 \examples{

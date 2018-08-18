@@ -1,5 +1,13 @@
 proj <- new.env(parent = emptyenv())
 
+proj_get_ <- function() proj$cur
+
+proj_set_ <- function(path) {
+  old <- proj$cur
+  proj$cur <- path
+  invisible(old)
+}
+
 #' Utility functions for the active project
 #'
 #' Most `use_*()` functions act on the **active project**. If it is
@@ -10,10 +18,10 @@ proj <- new.env(parent = emptyenv())
 #' file. It then stores the active project for use for the remainder of the
 #' session.
 #'
-#' In general, end user code should not call `usethis::proj_get()`,
-#' `usethis::proj_set()`, or `usethis::proj_path()`. They are internal functions
-#' that are exported for occasional interactive use or use in packages that
-#' extend usethis. End user code should call functions in
+#' In general, end user scripts should not contain direct calls to
+#' `usethis::proj_*()` utility functions. They are internal functions that are
+#' exported for occasional interactive use or use in packages that extend
+#' usethis. End user code should call functions in
 #' [rprojroot](https://rprojroot.r-lib.org) or its simpler companion,
 #' [here](https://here.r-lib.org), to programmatically detect a project and
 #' build paths within it.
@@ -34,16 +42,17 @@ proj <- new.env(parent = emptyenv())
 #' }
 NULL
 
-#' @describeIn proj_utils Retrieves the active project and, if necessary, attempts to set it in the first place.
-#' @param quiet Logical. Whether to announce project activation.
+#' @describeIn proj_utils Retrieves the active project and, if necessary,
+#'   attempts to set it in the first place.
+#' @param quiet Logical. Whether to suppress messages about project operations.
 #' @export
-proj_get <- function(quiet = FALSE) {
+proj_get <- function(quiet = getOption("usethis.quiet", default = FALSE)) {
   # Called for first time so try working directory
   if (!proj_active()) {
     proj_set(".", quiet = quiet)
   }
 
-  proj$cur
+  proj_get_()
 }
 
 #' @describeIn proj_utils Sets the active project.
@@ -54,40 +63,34 @@ proj_get <- function(quiet = FALSE) {
 #'   project-signalling infrastructure, such as initialising a Git repo or
 #'   adding a DESCRIPTION file.
 #' @export
-proj_set <- function(path = ".", force = FALSE, quiet = FALSE) {
-  if (!is.null(path)) {
-    check_is_dir(path)
-  }
-  path <- proj_path_prep(path)
-
-  if (!force) {
-    new_project <- proj_path_prep(proj_find(path))
-    if (is.null(new_project)) {
-      stop_glue(
-        "Path {value(path)} does not appear to be inside a project or package."
-      )
+proj_set <- function(path = ".",
+                     force = FALSE,
+                     quiet = getOption("usethis.quiet", default = FALSE)) {
+  if (is.null(path) || force) {
+    path <- proj_path_prep(path)
+    if (!quiet) {
+      proj <- if (is.null(path)) code("NULL") else value(path)
+      done("Setting active project to {proj}")
     }
-    path <- new_project
+    return(proj_set_(path))
   }
 
-  proj_set_(path, quiet = quiet)
+  check_is_dir(path)
+  new_project <- proj_find(path)
+  if (is.null(new_project)) {
+    stop_glue(
+      "Path {value(path)} does not appear to be inside a project or package."
+    )
+  }
+  proj_set(path = new_project, force = TRUE, quiet = quiet)
 }
 
-#' @describeIn proj_utils Builds a path within the active project. Thin wrapper
-#'   around [fs::path()].
+#' @describeIn proj_utils Builds a path within the active project returned by
+#'   `proj_get()`. Thin wrapper around [fs::path()].
 #' @inheritParams fs::path
 #' @export
 proj_path <- function(..., ext = "") {
   path_norm(path(proj_get(), ..., ext = ext))
-}
-
-proj_set_ <- function(path, quiet = FALSE) {
-  old <- proj$cur
-  proj$cur <- path
-  if (!quiet) {
-    done("Setting active project to {value(proj$cur)}")
-  }
-  invisible(old)
 }
 
 ## usethis policy re: preparation of the path to active project
@@ -152,7 +155,7 @@ check_is_package <- function(whos_asking = NULL) {
   stop_glue(message)
 }
 
-proj_active <- function() !is.null(proj$cur)
+proj_active <- function() !is.null(proj_get_())
 
 is_in_proj <- function(path) {
   if (!proj_active()) {
