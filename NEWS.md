@@ -1,4 +1,10 @@
-# usethis 1.4.0.9000
+# usethis *development version*
+
+* `with_project()` and `local_project()` are new withr-style functions to temporarily set an active usethis project. They make usethis functions easier to use from another package.
+
+## Dependency changes
+
+withr moves from Suggests to Imports
 
 # usethis 1.4.0
 
