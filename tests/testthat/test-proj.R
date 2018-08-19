@@ -122,3 +122,35 @@ test_that("proj_sitrep() reports current working/project state", {
     fs::path_file(x[["active_usethis_proj"]])
   )
 })
+
+test_that("with_project() runs code in temp proj, restores original proj", {
+  old_project <- proj_get_()
+  on.exit(proj_set_(old_project))
+
+  create_project(file_temp(pattern = "aaa"), rstudio = FALSE, open = FALSE)
+  new_proj <- proj_get()
+  proj_set_(NULL)
+
+  res <- with_project(new_proj, proj_sitrep())
+
+  expect_identical(res[["active_usethis_proj"]], as.character(new_proj))
+  expect_identical(proj_get_(), NULL)
+})
+
+test_that("local_project() activates proj til scope ends", {
+  old_project <- proj_get_()
+  on.exit(proj_set_(old_project))
+
+  create_project(file_temp(pattern = "aaa"), rstudio = FALSE, open = FALSE)
+  new_proj <- proj_get_()
+  proj_set_(NULL)
+
+  foo <- function() {
+    local_project(new_proj)
+    proj_sitrep()
+  }
+  res <- foo()
+
+  expect_identical(res[["active_usethis_proj"]], as.character(new_proj))
+  expect_identical(proj_get_(), NULL)
+})
