@@ -33,7 +33,8 @@ Imports:
     rprojroot (>= 1.2),
     rstudioapi,
     utils,
-    whisker
+    whisker,
+    withr
 Suggests: 
     covr,
     knitr,
@@ -42,8 +43,7 @@ Suggests:
     roxygen2,
     spelling (>= 1.2),
     styler (>= 1.0.2),
-    testthat (>= 2.0.0),
-    withr
+    testthat (>= 2.0.0)
 Encoding: UTF-8
 Language: en-US
 LazyData: true

@@ -5,6 +5,8 @@
 \alias{proj_get}
 \alias{proj_set}
 \alias{proj_path}
+\alias{with_project}
+\alias{local_project}
 \title{Utility functions for the active project}
 \usage{
 proj_get(quiet = getOption("usethis.quiet", default = FALSE))
@@ -13,6 +15,12 @@ proj_set(path = ".", force = FALSE,
   quiet = getOption("usethis.quiet", default = FALSE))
 
 proj_path(..., ext = "")
+
+with_project(path = ".", code, force = FALSE,
+  quiet = getOption("usethis.quiet", default = FALSE))
+
+local_project(path = ".", force = FALSE,
+  quiet = getOption("usethis.quiet", default = FALSE))
 }
 \arguments{
 \item{quiet}{Logical. Whether to suppress messages about project operations.}
@@ -29,6 +37,8 @@ adding a DESCRIPTION file.}
 NA.}
 
 \item{ext}{An optional extension to append to the generated path.}
+
+\item{code}{Code to run with temporary active project.}
 }
 \description{
 Most \code{use_*()} functions act on the \strong{active project}. If it is
@@ -57,6 +67,12 @@ attempts to set it in the first place.
 
 \item \code{proj_path}: Builds a path within the active project returned by
 \code{proj_get()}. Thin wrapper around \code{\link[fs:path]{fs::path()}}.
+
+\item \code{with_project}: Runs code with a temporary active project.
+
+\item \code{local_project}: Sets an active project until the current execution
+environment goes out of scope, e.g. the end of the current function or
+test.
 }}
 
 \examples{

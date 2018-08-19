@@ -93,6 +93,38 @@ proj_path <- function(..., ext = "") {
   path_norm(path(proj_get(), ..., ext = ext))
 }
 
+#' @describeIn proj_utils Runs code with a temporary active project.
+#' @param code Code to run with temporary active project.
+#' @export
+with_project <- function(path = ".",
+                         code,
+                         force = FALSE,
+                         quiet = getOption("usethis.quiet", default = FALSE)) {
+  old_quiet <- options(usethis.quiet = quiet)
+  old_proj  <- proj_set(path = path, force = force, quiet = quiet)
+
+  on.exit(proj_set(path = old_proj, force = TRUE, quiet = quiet))
+  on.exit(options(old_quiet), add = TRUE)
+
+  force(code)
+}
+
+#' @describeIn proj_utils Sets an active project until the current execution
+#'   environment goes out of scope, e.g. the end of the current function or
+#'   test.
+#' @export
+local_project <- function(path = ".",
+                          force = FALSE,
+                          quiet = getOption("usethis.quiet", default = FALSE)) {
+  old_quiet <- options(usethis.quiet = quiet)
+  old_proj  <- proj_set(path = path, force = force, quiet = quiet)
+
+  withr::defer({
+    proj_set(path = old_proj, force = TRUE, quiet = quiet)
+    options(old_quiet)
+  }, envir = parent.frame())
+}
+
 ## usethis policy re: preparation of the path to active project
 proj_path_prep <- function(path) {
   if (is.null(path)) return(path)
