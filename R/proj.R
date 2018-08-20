@@ -107,8 +107,10 @@ with_project <- function(path = ".",
   old_quiet <- options(usethis.quiet = quiet)
   old_proj  <- proj_set(path = path, force = force)
 
-  on.exit(proj_set(path = old_proj, force = TRUE))
-  on.exit(options(old_quiet), add = TRUE)
+  on.exit({
+    proj_set(path = old_proj, force = TRUE)
+    options(old_quiet)
+  })
 
   force(code)
 }
