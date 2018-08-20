@@ -39,6 +39,12 @@ proj_set_ <- function(path) {
 #' ## build a path within the active project (both produce same result)
 #' proj_path("R/foo.R")
 #' proj_path("R", "foo", ext = "R")
+#'
+#' ## build a path within SOME OTHER project
+#' with_project("path/to/some/other/project", proj_path("blah.R"))
+#'
+#' ## convince yourself that with_project() temporarily changes the project
+#' with_project("path/to/some/other/project", print(proj_sitrep()))
 #' }
 NULL
 
@@ -93,7 +99,8 @@ proj_path <- function(..., ext = "") {
   path_norm(path(proj_get(), ..., ext = ext))
 }
 
-#' @describeIn proj_utils Runs code with a temporary active project.
+#' @describeIn proj_utils Runs code with a temporary active project. It is an
+#'   example of the `with_*()` functions in [withr](http://withr.r-lib.org).
 #' @param code Code to run with temporary active project.
 #' @export
 with_project <- function(path = ".",
@@ -111,7 +118,8 @@ with_project <- function(path = ".",
 
 #' @describeIn proj_utils Sets an active project until the current execution
 #'   environment goes out of scope, e.g. the end of the current function or
-#'   test.
+#'   test.  It is an example of the `local_*()` functions in
+#'   [withr](http://withr.r-lib.org).
 #' @export
 local_project <- function(path = ".",
                           force = FALSE,

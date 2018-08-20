@@ -68,11 +68,13 @@ attempts to set it in the first place.
 \item \code{proj_path}: Builds a path within the active project returned by
 \code{proj_get()}. Thin wrapper around \code{\link[fs:path]{fs::path()}}.
 
-\item \code{with_project}: Runs code with a temporary active project.
+\item \code{with_project}: Runs code with a temporary active project. It is an
+example of the \code{with_*()} functions in \href{http://withr.r-lib.org}{withr}.
 
 \item \code{local_project}: Sets an active project until the current execution
 environment goes out of scope, e.g. the end of the current function or
-test.
+test.  It is an example of the \code{local_*()} functions in
+\href{http://withr.r-lib.org}{withr}.
 }}
 
 \examples{
@@ -86,6 +88,12 @@ proj_set("path/to/target/project")
 ## build a path within the active project (both produce same result)
 proj_path("R/foo.R")
 proj_path("R", "foo", ext = "R")
+
+## build a path within SOME OTHER project
+with_project("path/to/some/other/project", proj_path("blah.R"))
+
+## convince yourself that with_project() temporarily changes the project
+with_project("path/to/some/other/project", print(proj_sitrep()))
 }
 }
 \seealso{
