@@ -119,17 +119,20 @@ with_project <- function(path = ".",
 #'   environment goes out of scope, e.g. the end of the current function or
 #'   test.  It is an example of the `local_*()` functions in
 #'   [withr](http://withr.r-lib.org).
+#' @param .local_envir The environment to use for scoping. Defaults to current
+#'   execution environment.
 #' @export
 local_project <- function(path = ".",
                           force = FALSE,
-                          quiet = getOption("usethis.quiet", default = FALSE)) {
+                          quiet = getOption("usethis.quiet", default = FALSE),
+                          .local_envir = parent.frame()) {
   old_quiet <- options(usethis.quiet = quiet)
   old_proj  <- proj_set(path = path, force = force)
 
   withr::defer({
     proj_set(path = old_proj, force = TRUE)
     options(old_quiet)
-  }, envir = parent.frame())
+  }, envir = .local_envir)
 }
 
 ## usethis policy re: preparation of the path to active project

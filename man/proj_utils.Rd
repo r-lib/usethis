@@ -19,7 +19,8 @@ with_project(path = ".", code, force = FALSE,
   quiet = getOption("usethis.quiet", default = FALSE))
 
 local_project(path = ".", force = FALSE,
-  quiet = getOption("usethis.quiet", default = FALSE))
+  quiet = getOption("usethis.quiet", default = FALSE),
+  .local_envir = parent.frame())
 }
 \arguments{
 \item{path}{Path to set.}
@@ -39,6 +40,9 @@ NA.}
 
 \item{quiet}{Whether to suppress user-facing messages, while operating in the
 temporary active project.}
+
+\item{.local_envir}{The environment to use for scoping. Defaults to current
+execution environment.}
 }
 \description{
 Most \code{use_*()} functions act on the \strong{active project}. If it is
