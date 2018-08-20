@@ -21,7 +21,7 @@ test_that("proj_set() can be forced, even if no criteria are fulfilled", {
   tmpdir <- file_temp(pattern = "i-am-not-a-project")
   on.exit(dir_delete(tmpdir))
   dir_create(tmpdir)
-  expect_error_free(proj_set(tmpdir, force = TRUE, quiet = TRUE))
+  expect_error_free(proj_set(tmpdir, force = TRUE))
   expect_identical(proj_get(), path_real(tmpdir))
   expect_error(
     proj_set(proj_get()),
@@ -81,12 +81,12 @@ test_that("proj_set() enforces proj path preparation policy", {
   expect_equal(path_rel(path_with_symlinks, a), "b2/d")
 
   ## force = TRUE
-  proj_set(path_with_symlinks, force = TRUE, quiet = TRUE)
+  proj_set(path_with_symlinks, force = TRUE)
   expect_equal(path_rel(proj_get(), a), "b/d")
 
   ## force = FALSE
   file_create(path(b, "d", ".here"))
-  proj_set(path_with_symlinks, force = FALSE, quiet = TRUE)
+  proj_set(path_with_symlinks, force = FALSE)
   expect_equal(path_rel(proj_get(), a), "b/d")
 
   dir_delete(t)

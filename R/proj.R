@@ -50,12 +50,11 @@ NULL
 
 #' @describeIn proj_utils Retrieves the active project and, if necessary,
 #'   attempts to set it in the first place.
-#' @param quiet Logical. Whether to suppress messages about project operations.
 #' @export
-proj_get <- function(quiet = getOption("usethis.quiet", default = FALSE)) {
+proj_get <- function() {
   # Called for first time so try working directory
   if (!proj_active()) {
-    proj_set(".", quiet = quiet)
+    proj_set(".")
   }
 
   proj_get_()
@@ -69,15 +68,11 @@ proj_get <- function(quiet = getOption("usethis.quiet", default = FALSE)) {
 #'   project-signalling infrastructure, such as initialising a Git repo or
 #'   adding a DESCRIPTION file.
 #' @export
-proj_set <- function(path = ".",
-                     force = FALSE,
-                     quiet = getOption("usethis.quiet", default = FALSE)) {
+proj_set <- function(path = ".", force = FALSE) {
   if (is.null(path) || force) {
     path <- proj_path_prep(path)
-    if (!quiet) {
-      proj_string <- if (is.null(path)) code("NULL") else value(path)
-      done("Setting active project to {proj_string}")
-    }
+    proj_string <- if (is.null(path)) code("NULL") else value(path)
+    done("Setting active project to {proj_string}")
     return(proj_set_(path))
   }
 
@@ -88,7 +83,7 @@ proj_set <- function(path = ".",
       "Path {value(path)} does not appear to be inside a project or package."
     )
   }
-  proj_set(path = new_project, force = TRUE, quiet = quiet)
+  proj_set(path = new_project, force = TRUE)
 }
 
 #' @describeIn proj_utils Builds a path within the active project returned by
@@ -102,15 +97,17 @@ proj_path <- function(..., ext = "") {
 #' @describeIn proj_utils Runs code with a temporary active project. It is an
 #'   example of the `with_*()` functions in [withr](http://withr.r-lib.org).
 #' @param code Code to run with temporary active project.
+#' @param quiet Whether to suppress user-facing messages, while operating in the
+#'   temporary active project.
 #' @export
 with_project <- function(path = ".",
                          code,
                          force = FALSE,
                          quiet = getOption("usethis.quiet", default = FALSE)) {
   old_quiet <- options(usethis.quiet = quiet)
-  old_proj  <- proj_set(path = path, force = force, quiet = quiet)
+  old_proj  <- proj_set(path = path, force = force)
 
-  on.exit(proj_set(path = old_proj, force = TRUE, quiet = quiet))
+  on.exit(proj_set(path = old_proj, force = TRUE))
   on.exit(options(old_quiet), add = TRUE)
 
   force(code)
@@ -125,10 +122,10 @@ local_project <- function(path = ".",
                           force = FALSE,
                           quiet = getOption("usethis.quiet", default = FALSE)) {
   old_quiet <- options(usethis.quiet = quiet)
-  old_proj  <- proj_set(path = path, force = force, quiet = quiet)
+  old_proj  <- proj_set(path = path, force = force)
 
   withr::defer({
-    proj_set(path = old_proj, force = TRUE, quiet = quiet)
+    proj_set(path = old_proj, force = TRUE)
     options(old_quiet)
   }, envir = parent.frame())
 }

@@ -9,10 +9,9 @@
 \alias{local_project}
 \title{Utility functions for the active project}
 \usage{
-proj_get(quiet = getOption("usethis.quiet", default = FALSE))
+proj_get()
 
-proj_set(path = ".", force = FALSE,
-  quiet = getOption("usethis.quiet", default = FALSE))
+proj_set(path = ".", force = FALSE)
 
 proj_path(..., ext = "")
 
@@ -23,8 +22,6 @@ local_project(path = ".", force = FALSE,
   quiet = getOption("usethis.quiet", default = FALSE))
 }
 \arguments{
-\item{quiet}{Logical. Whether to suppress messages about project operations.}
-
 \item{path}{Path to set.}
 
 \item{force}{If \code{TRUE}, use this path without checking the usual criteria.
@@ -39,6 +36,9 @@ NA.}
 \item{ext}{An optional extension to append to the generated path.}
 
 \item{code}{Code to run with temporary active project.}
+
+\item{quiet}{Whether to suppress user-facing messages, while operating in the
+temporary active project.}
 }
 \description{
 Most \code{use_*()} functions act on the \strong{active project}. If it is
