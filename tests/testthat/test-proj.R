@@ -21,7 +21,7 @@ test_that("proj_set() can be forced, even if no criteria are fulfilled", {
   tmpdir <- file_temp(pattern = "i-am-not-a-project")
   on.exit(dir_delete(tmpdir))
   dir_create(tmpdir)
-  expect_error_free(proj_set(tmpdir, force = TRUE, quiet = TRUE))
+  expect_error_free(proj_set(tmpdir, force = TRUE))
   expect_identical(proj_get(), path_real(tmpdir))
   expect_error(
     proj_set(proj_get()),
@@ -81,12 +81,12 @@ test_that("proj_set() enforces proj path preparation policy", {
   expect_equal(path_rel(path_with_symlinks, a), "b2/d")
 
   ## force = TRUE
-  proj_set(path_with_symlinks, force = TRUE, quiet = TRUE)
+  proj_set(path_with_symlinks, force = TRUE)
   expect_equal(path_rel(proj_get(), a), "b/d")
 
   ## force = FALSE
   file_create(path(b, "d", ".here"))
-  proj_set(path_with_symlinks, force = FALSE, quiet = TRUE)
+  proj_set(path_with_symlinks, force = FALSE)
   expect_equal(path_rel(proj_get(), a), "b/d")
 
   dir_delete(t)
@@ -121,4 +121,36 @@ test_that("proj_sitrep() reports current working/project state", {
     fs::path_file(pkg),
     fs::path_file(x[["active_usethis_proj"]])
   )
+})
+
+test_that("with_project() runs code in temp proj, restores original proj", {
+  old_project <- proj_get_()
+  on.exit(proj_set_(old_project))
+
+  create_project(file_temp(pattern = "aaa"), rstudio = FALSE, open = FALSE)
+  new_proj <- proj_get()
+  proj_set_(NULL)
+
+  res <- with_project(new_proj, proj_sitrep())
+
+  expect_identical(res[["active_usethis_proj"]], as.character(new_proj))
+  expect_identical(proj_get_(), NULL)
+})
+
+test_that("local_project() activates proj til scope ends", {
+  old_project <- proj_get_()
+  on.exit(proj_set_(old_project))
+
+  create_project(file_temp(pattern = "aaa"), rstudio = FALSE, open = FALSE)
+  new_proj <- proj_get_()
+  proj_set_(NULL)
+
+  foo <- function() {
+    local_project(new_proj)
+    proj_sitrep()
+  }
+  res <- foo()
+
+  expect_identical(res[["active_usethis_proj"]], as.character(new_proj))
+  expect_identical(proj_get_(), NULL)
 })

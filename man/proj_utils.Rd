@@ -5,17 +5,24 @@
 \alias{proj_get}
 \alias{proj_set}
 \alias{proj_path}
+\alias{with_project}
+\alias{local_project}
 \title{Utility functions for the active project}
 \usage{
-proj_get(quiet = FALSE)
+proj_get()
 
-proj_set(path = ".", force = FALSE, quiet = FALSE)
+proj_set(path = ".", force = FALSE)
 
 proj_path(..., ext = "")
+
+with_project(path = ".", code, force = FALSE,
+  quiet = getOption("usethis.quiet", default = FALSE))
+
+local_project(path = ".", force = FALSE,
+  quiet = getOption("usethis.quiet", default = FALSE),
+  .local_envir = parent.frame())
 }
 \arguments{
-\item{quiet}{Logical. Whether to announce project activation.}
-
 \item{path}{Path to set.}
 
 \item{force}{If \code{TRUE}, use this path without checking the usual criteria.
@@ -28,6 +35,14 @@ adding a DESCRIPTION file.}
 NA.}
 
 \item{ext}{An optional extension to append to the generated path.}
+
+\item{code}{Code to run with temporary active project.}
+
+\item{quiet}{Whether to suppress user-facing messages, while operating in the
+temporary active project.}
+
+\item{.local_envir}{The environment to use for scoping. Defaults to current
+execution environment.}
 }
 \description{
 Most \code{use_*()} functions act on the \strong{active project}. If it is
@@ -39,22 +54,31 @@ file. It then stores the active project for use for the remainder of the
 session.
 }
 \details{
-In general, end user code should not call \code{usethis::proj_get()},
-\code{usethis::proj_set()}, or \code{usethis::proj_path()}. They are internal functions
-that are exported for occasional interactive use or use in packages that
-extend usethis. End user code should call functions in
+In general, end user scripts should not contain direct calls to
+\code{usethis::proj_*()} utility functions. They are internal functions that are
+exported for occasional interactive use or use in packages that extend
+usethis. End user code should call functions in
 \href{https://rprojroot.r-lib.org}{rprojroot} or its simpler companion,
 \href{https://here.r-lib.org}{here}, to programmatically detect a project and
 build paths within it.
 }
 \section{Functions}{
 \itemize{
-\item \code{proj_get}: Retrieves the active project and, if necessary, attempts to set it in the first place.
+\item \code{proj_get}: Retrieves the active project and, if necessary,
+attempts to set it in the first place.
 
 \item \code{proj_set}: Sets the active project.
 
-\item \code{proj_path}: Builds a path within the active project. Thin wrapper
-around \code{\link[fs:path]{fs::path()}}.
+\item \code{proj_path}: Builds a path within the active project returned by
+\code{proj_get()}. Thin wrapper around \code{\link[fs:path]{fs::path()}}.
+
+\item \code{with_project}: Runs code with a temporary active project. It is an
+example of the \code{with_*()} functions in \href{http://withr.r-lib.org}{withr}.
+
+\item \code{local_project}: Sets an active project until the current execution
+environment goes out of scope, e.g. the end of the current function or
+test.  It is an example of the \code{local_*()} functions in
+\href{http://withr.r-lib.org}{withr}.
 }}
 
 \examples{
@@ -68,6 +92,12 @@ proj_set("path/to/target/project")
 ## build a path within the active project (both produce same result)
 proj_path("R/foo.R")
 proj_path("R", "foo", ext = "R")
+
+## build a path within SOME OTHER project
+with_project("path/to/some/other/project", proj_path("blah.R"))
+
+## convince yourself that with_project() temporarily changes the project
+with_project("path/to/some/other/project", print(proj_sitrep()))
 }
 }
 \seealso{
