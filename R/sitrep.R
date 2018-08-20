@@ -1,13 +1,14 @@
 #' Report working directory and usethis/RStudio project
 #'
-#' `proj_sitrep()` reports
+#' @description `proj_sitrep()` reports
 #'   * current working directory
 #'   * the active usethis project
 #'   * the active RStudio Project
-#' Call this function if things seem weird and you're not sure what's wrong or
-#' how to fix it. Usually, all three of these should coincide (or be unset) and
-#' `proj_sitrep()` provides suggested commands for getting back to this happy
-#' state.
+#'
+#' @description Call this function if things seem weird and you're not sure
+#'   what's wrong or how to fix it. Usually, all three of these should coincide
+#'   (or be unset) and `proj_sitrep()` provides suggested commands for getting
+#'   back to this happy state.
 #'
 #' @return A named list, with S3 class `sitrep` (for printing purposes),
 #'   reporting current working directory, active usethis project, and active

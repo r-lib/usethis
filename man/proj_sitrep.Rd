@@ -17,11 +17,12 @@ RStudio Project
 \item current working directory
 \item the active usethis project
 \item the active RStudio Project
-Call this function if things seem weird and you're not sure what's wrong or
-how to fix it. Usually, all three of these should coincide (or be unset) and
-\code{proj_sitrep()} provides suggested commands for getting back to this happy
-state.
 }
+
+Call this function if things seem weird and you're not sure
+what's wrong or how to fix it. Usually, all three of these should coincide
+(or be unset) and \code{proj_sitrep()} provides suggested commands for getting
+back to this happy state.
 }
 \examples{
 proj_sitrep()
