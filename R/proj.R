@@ -61,10 +61,10 @@ proj_get <- function() {
 }
 
 #' @describeIn proj_utils Sets the active project.
-#' @param path Path to set.
-#' @param force If `TRUE`, use this path without checking the usual criteria.
-#'   Use sparingly! The main application is to solve a temporary chicken-egg
-#'   problem: you need to set the active project in order to add
+#' @param path Path to set. This `path` should exist or be `NULL`.
+#' @param force If `TRUE`, use this path without checking the usual criteria for
+#'   a project. Use sparingly! The main application is to solve a temporary
+#'   chicken-egg problem: you need to set the active project in order to add
 #'   project-signalling infrastructure, such as initialising a Git repo or
 #'   adding a DESCRIPTION file.
 #' @export

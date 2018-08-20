@@ -23,11 +23,11 @@ local_project(path = ".", force = FALSE,
   .local_envir = parent.frame())
 }
 \arguments{
-\item{path}{Path to set.}
+\item{path}{Path to set. This \code{path} should exist or be \code{NULL}.}
 
-\item{force}{If \code{TRUE}, use this path without checking the usual criteria.
-Use sparingly! The main application is to solve a temporary chicken-egg
-problem: you need to set the active project in order to add
+\item{force}{If \code{TRUE}, use this path without checking the usual criteria for
+a project. Use sparingly! The main application is to solve a temporary
+chicken-egg problem: you need to set the active project in order to add
 project-signalling infrastructure, such as initialising a Git repo or
 adding a DESCRIPTION file.}
 
