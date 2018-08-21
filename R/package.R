@@ -60,6 +60,8 @@ show_includes <- function(package) {
 use_dev_package <- function(package, type = "Imports") {
   refuse_package(package, verboten = "tidyverse")
 
+  ## TO DO: in a future refactoring, find a way to get rid of this?
+  ## this exact check appears in `use_dependency()`
   if (!requireNamespace(package, quietly = TRUE)) {
     stop_glue(
       "{value(package)} must be installed before you can ",
@@ -67,9 +69,8 @@ use_dev_package <- function(package, type = "Imports") {
     )
   }
 
-  use_dependency(package, type = type, version = dep_version(package))
-
   package_remote <- package_remote(package)
+  use_dependency(package, type = type, version = dep_version(package))
   remotes <- desc::desc_get_remotes(proj_get())
   if (package_remote %in% remotes) {
     return(invisible())
@@ -84,6 +85,7 @@ use_dev_package <- function(package, type = "Imports") {
   invisible()
 }
 
+## TO DO: make this less hard-wired to GitHub?
 package_remote <- function(package) {
   desc <- desc::desc(package = package)
   github_info <- desc$get(c("GithubUsername", "GithubRepo"))
