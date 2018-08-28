@@ -113,3 +113,28 @@ needs_appveyor <- function(repo_type) {
 needs_deploy <- function(repo_type) {
   repo_type != "unknown"
 }
+
+safe_filecopy <- function(source, target = basename(source)) {
+  eval(bquote(stopifnot(file.exists(.(source)))))
+  check_overwrite(target)
+  file.copy(source, target, overwrite = TRUE)
+}
+
+check_overwrite <- function(path) {
+  if (file.exists(path)) {
+    if (!interactive()) stopc("Not overwriting ", path, " in non-interactive mode.")
+    stopifnot(yesno("Overwrite ", path, "?"))
+  }
+}
+
+stopc <- function(...) {
+  stop(..., call. = FALSE, domain = NA)
+}
+
+yesno <- function(...) {
+  utils::menu(c("Yes", "No"), title = paste0(...)) == 1
+}
+
+template_file <- function(...) {
+  system.file("templates", ..., package = utils::packageName(), mustWork = TRUE)
+}
