@@ -1,10 +1,10 @@
 ---
 title: "{{{ vignette_title }}}"
-author: "Vignette Author"
+author: "{{{ vignette_author }}}"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{{{ open_curly }}}{{{ vignette_title }}}{{{ close_curly }}}
+  %\VignetteIndexEntry{{{ braced_vignette_title }}}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

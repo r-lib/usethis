@@ -34,8 +34,13 @@ use_vignette <- function(name) {
   path <- proj_path("vignettes", asciify(name), ext = "Rmd")
 
   done("Creating {value(proj_rel_path(path))}")
-  use_template("vignette.Rmd", save_as = proj_rel_path(path),
-    data = list(open_curly = "{", close_curly = "}", vignette_title = name)
+  use_template("vignette.Rmd",
+    save_as = proj_rel_path(path),
+    data = list(
+      vignette_title = name,
+      braced_vignette_title = glue::glue("{{{name}}}"),
+      vignette_author = "INSERT NAME HERE OR DELETE THIS LINE"
+    )
   )
   edit_file(path)
 }
