@@ -150,7 +150,7 @@ use_tic <- function(repo_type) {
 }
 
 use_template_tic <- function(..., target = basename(file.path(...))) {
-  source <- find_template(...)
+  source <- template_file(...)
   safe_filecopy(source, target)
   message("Added ", target, " from template.")
   use_build_ignore(target)
@@ -245,12 +245,9 @@ use_coveralls_badge <- function() {
 #' @param repo `[string|numeric]`\cr
 #'   The GitHub repo slug, by default obtained through [github_repo()].
 #'   Alternatively, the Travis CI repo ID, e.g. obtained through `travis_repo_id()`.
-#' @param travis_repo `[string]`\cr
-#'   The Travis CI repository to add the private key to, default: `repo`
-#'   (the GitHub repo to which the public deploy key is added).
 #' @export
 use_travis_deploy <- function(path = ".",
-                              repo = github_repo(info = github_info(path))) {
+                              repo = github_repo()) {
 
   # authenticate on github and travis and set up keys/vars
 
@@ -263,7 +260,7 @@ use_travis_deploy <- function(path = ".",
 
   # add to GitHub first, because this can fail because of missing org permissions
   title <- glue("travis+tic for {repo}")
-  github_add_key(pub_key, title = title, info = path)
+  github_add_key(pub_key, title = title, info = github_info(path))
 
   travis_set_var("id_rsa", private_key, public = FALSE, repo = repo)
 
