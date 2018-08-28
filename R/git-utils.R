@@ -21,10 +21,6 @@ github_owner <- function(path = proj_get()) {
   gh_tree_remote(path)[["username"]]
 }
 
-github_repo <- function(path = proj_get()) {
-  gh_tree_remote(path)[["repo"]]
-}
-
 github_repo_spec <- function(path = proj_get()) {
   collapse(gh_tree_remote(path), sep = "/")
 }
