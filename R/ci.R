@@ -111,7 +111,7 @@ use_codecov_badge <- function() {
   img <- glue(
     "https://codecov.io/gh/{github_repo_spec()}/branch/master/graph/badge.svg"
   )
-  use_badge("Coverage status", url, img)
+  use_badge("Codecov test coverage", url, img)
 }
 
 use_coveralls_badge <- function() {
@@ -120,7 +120,7 @@ use_coveralls_badge <- function() {
   img <- glue(
     "https://coveralls.io/repos/github/{github_repo_spec()}/badge.svg"
   )
-  use_badge("Coverage status", url, img)
+  use_badge("Coveralls test coverage", url, img)
 }
 
 #' @section `use_appveyor()`:

@@ -96,7 +96,7 @@ use_lifecycle_badge <- function(stage) {
 
   src <- glue("https://img.shields.io/badge/lifecycle-{stage}-{colour}.svg")
   href <- glue("https://www.tidyverse.org/lifecycle/#{stage}")
-  use_badge("lifecycle", href, src)
+  use_badge(paste0("Lifecycle: ", stage), href, src)
 
   invisible(TRUE)
 }
@@ -118,7 +118,7 @@ use_binder_badge <- function() {
   if (uses_github()) {
     url <- glue("https://mybinder.org/v2/gh/{github_repo_spec()}/master")
     img <- "http://mybinder.org/badge.svg"
-    use_badge("Binder", url, img)
+    use_badge("Launch binder", url, img)
   }
 
   invisible(TRUE)
