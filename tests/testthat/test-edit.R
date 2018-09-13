@@ -18,6 +18,7 @@ test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
   skip_if_not_ci()
 
   expect_error_free(edit_r_profile())
+  expect_error_free(edit_r_buildignore())
   expect_error_free(edit_r_environ())
   expect_error_free(edit_r_makevars())
   expect_error_free(edit_git_config())
@@ -31,6 +32,9 @@ test_that("edit_r_XXX('user') ensures the file exists", {
 
   edit_r_profile("user")
   expect_r_file(".Rprofile")
+
+  edit_r_buildignore("user")
+  expect_r_file(".Rbuildignore")
 
   edit_r_environ("user")
   expect_r_file(".Renviron")
@@ -66,6 +70,16 @@ test_that("edit_r_profile() ensures .Rprofile exists in project", {
   scoped_temporary_project()
   edit_r_profile("project")
   expect_proj_file(".Rprofile")
+})
+
+test_that("edit_r_buildignore() ensures .Rbuildignore exists in project", {
+  scoped_temporary_package()
+  edit_r_buildignore("project")
+  expect_proj_file(".Rbuildignore")
+
+  scoped_temporary_project()
+  edit_r_buildignore("project")
+  expect_proj_file(".Rbuildignore")
 })
 
 test_that("edit_r_environ() ensures .Renviron exists in project", {

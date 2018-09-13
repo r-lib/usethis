@@ -1,5 +1,7 @@
 # usethis *development version*
 
+* `edit_r_buildignore()` is added (#231, #462, @bfgray3).
+
 * `use_travis()` can now be used with `https://travis-ci.com`. It gains an `ext`
 argument, defaulting to `"org"` for use with `https://travis-ci.org`. Use `ext = "com"` 
 to use `https://travis-ci.com`. (@cderv, #500)
