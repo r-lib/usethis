@@ -46,20 +46,26 @@ use_version <- function(which = NULL) {
   if (is.null(which)) {
     choice <- utils::menu(
       choices = glue("{names(versions)} --> {versions}"),
-      title = glue("Current version is {ver}.\n", "Which part to increment?")
+      title = glue("Current version is {ver}.\n", "Which part to increment?",
+                   " (0 to Exit)")
     )
     which <- names(versions)[choice]
   }
-  which <- match.arg(which, c("major", "minor", "patch", "dev"))
-  new_ver <- versions[which]
+  # Exit gracefully in case a "0" selection was made
+  if (exists("choice", inherits = FALSE) && choice == 0) {
+    todo("You selected to quit! No changes will be made.")
+  } else {
+    which <- match.arg(which, c("major", "minor", "patch", "dev"))
+    new_ver <- versions[which]
 
-  use_description_field("Version", new_ver, overwrite = TRUE)
-  use_news_heading(new_ver)
-  git_check_in(
-    base_path = proj_get(),
-    paths = c("DESCRIPTION", "NEWS.md"),
-    message = "Increment version number"
-  )
+    use_description_field("Version", new_ver, overwrite = TRUE)
+    use_news_heading(new_ver)
+    git_check_in(
+      base_path = proj_get(),
+      paths = c("DESCRIPTION", "NEWS.md"),
+      message = "Increment version number"
+    )
+  }
   invisible(TRUE)
 }
 
