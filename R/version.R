@@ -37,7 +37,7 @@ use_version <- function(which = NULL) {
 
   ver <- desc::desc_get_version(proj_get())
 
-  if(is.null(which) && !interactive()) {
+  if (is.null(which) && !interactive()) {
     return(invisible(ver))
   }
 
@@ -45,11 +45,21 @@ use_version <- function(which = NULL) {
 
   if (is.null(which)) {
     choice <- utils::menu(
-      choices = glue("{names(versions)} --> {versions}"),
-      title = glue("Current version is {ver}.\n", "Which part to increment?")
+      choices = glue(
+        "{format(names(versions), justify = 'right')} --> {versions}"
+      ),
+      title = glue(
+        "Current version is {ver}.\n", "Which part to increment? (0 to exit)"
+      )
     )
-    which <- names(versions)[choice]
+    # Exit gracefully in case a "0" selection was made
+    if (choice == 0) {
+      return(invisible(FALSE))
+    } else {
+      which <- names(versions)[choice]
+    }
   }
+
   which <- match.arg(which, c("major", "minor", "patch", "dev"))
   new_ver <- versions[which]
 
