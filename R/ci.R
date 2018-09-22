@@ -107,7 +107,7 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
 
 use_codecov_badge <- function() {
   check_uses_github()
-  url <- glue("https://codecov.io/github/{github_repo_spec()}?branch=master")
+  url <- glue("https://codecov.io/gh/{github_repo_spec()}?branch=master")
   img <- glue(
     "https://codecov.io/gh/{github_repo_spec()}/branch/master/graph/badge.svg"
   )
