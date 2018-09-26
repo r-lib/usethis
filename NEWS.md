@@ -1,5 +1,7 @@
 # usethis *development version*
 
+* `use_rcpp_armadillo()` and `use_rcpp_eigen()` are new (exported) functions that set up a package to use RcppArmadillo or RcppEigen, respectively (#421, @duckmayr).
+
 * `with_project()` and `local_project()` are new withr-style functions to temporarily set an active usethis project. They make usethis functions easier to use in an *ad hoc* fashion or from another package (#441).
 
 * `proj_get()` and `proj_set()` no longer have a `quiet` argument. The user-facing message about setting a project is now under the same control as other messages, i.e. `getOption("usethis.quiet", default = FALSE)` (#441).
