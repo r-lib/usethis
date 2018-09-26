@@ -4,7 +4,12 @@
 \alias{use_pkgdown}
 \title{Use pkgdown}
 \usage{
-use_pkgdown()
+use_pkgdown(config_file = "_pkgdown.yml", build_dir = "docs")
+}
+\arguments{
+\item{config_file}{pkgdown yaml config file}
+
+\item{build_dir}{target directory for pkgdown docs}
 }
 \description{
 \href{https://github.com/hadley/pkgdown}{pkgdown} makes it easy to turn your
