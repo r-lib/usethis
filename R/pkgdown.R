@@ -1,8 +1,10 @@
 #' Use pkgdown
 #'
 #' [pkgdown](https://github.com/hadley/pkgdown) makes it easy to turn your
-#' package into a beautiful website. This helper creates `_pkgdown.yml`
-#' and `docs/` for you, and adds them to `.Rbuildignore`
+#' package into a beautiful website. This helper creates a pkgdown config file
+#' and a directory for pkgdown docs, and adds them to `.Rbuildignore`
+#'
+#' @seealso http://pkgdown.r-lib.org/articles/pkgdown.html#configuration
 #'
 #' @param config_file pkgdown yaml config file
 #' @param dst_path target directory for pkgdown docs

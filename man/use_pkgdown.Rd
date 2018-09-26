@@ -13,6 +13,9 @@ use_pkgdown(config_file = "_pkgdown.yml", dst_path = "docs")
 }
 \description{
 \href{https://github.com/hadley/pkgdown}{pkgdown} makes it easy to turn your
-package into a beautiful website. This helper creates \code{_pkgdown.yml}
-and \code{docs/} for you, and adds them to \code{.Rbuildignore}
+package into a beautiful website. This helper creates a pkgdown config file
+and a directory for pkgdown docs, and adds them to \code{.Rbuildignore}
+}
+\seealso{
+http://pkgdown.r-lib.org/articles/pkgdown.html#configuration
 }
