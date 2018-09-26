@@ -5,13 +5,13 @@
 #' and `docs/` for you, and adds them to `.Rbuildignore`
 #'
 #' @param config_file pkgdown yaml config file
-#' @param build_dir target directory for pkgdown docs
+#' @param dst_path target directory for pkgdown docs
 #'
 #' @export
-use_pkgdown <- function(config_file = "_pkgdown.yml", build_dir = "docs") {
+use_pkgdown <- function(config_file = "_pkgdown.yml", dst_path = "docs") {
   check_is_package("use_pkgdown()")
   edit_file(proj_path(config_file))
   use_build_ignore(config_file)
 
-  use_directory(build_dir, ignore = TRUE)
+  use_directory(dst_path, ignore = TRUE)
 }
