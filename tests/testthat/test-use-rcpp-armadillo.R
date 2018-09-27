@@ -6,6 +6,7 @@ test_that("use_rcpp_armadillo() requires a package", {
 })
 
 test_that("use_rcpp_armadillo() edits DESCRIPTION", {
+  skip_if_not_installed("RcppArmadillo")
   pkg <- scoped_temporary_package()
   use_rcpp_armadillo()
   expect_match(desc::desc_get("LinkingTo", pkg), "Rcpp")
@@ -14,6 +15,7 @@ test_that("use_rcpp_armadillo() edits DESCRIPTION", {
 })
 
 test_that("use_rcpp_armadillo() creates src/, edits Makevars and .gitignore", {
+  skip_if_not_installed("RcppArmadillo")
   pkg <- scoped_temporary_package()
   use_rcpp_armadillo()
   expect_proj_dir("src")

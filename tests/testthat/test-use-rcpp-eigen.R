@@ -6,6 +6,7 @@ test_that("use_rcpp_eigen() requires a package", {
 })
 
 test_that("use_rcpp_eigen() makes files/dirs, edits DESCRIPTION & .gitignore", {
+  skip_if_not_installed("RcppEigen")
   pkg <- scoped_temporary_package()
   use_rcpp_eigen()
   expect_match(desc::desc_get("LinkingTo", pkg), "Rcpp")
