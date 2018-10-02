@@ -3,6 +3,7 @@
 \name{licenses}
 \alias{use_mit_license}
 \alias{use_gpl3_license}
+\alias{use_lgpl_license}
 \alias{use_apl2_license}
 \alias{use_cc0_license}
 \title{License a package}
@@ -10,6 +11,8 @@
 use_mit_license(name = find_name())
 
 use_gpl3_license(name = find_name())
+
+use_lgpl_license(name = find_name())
 
 use_apl2_license(name = find_name())
 

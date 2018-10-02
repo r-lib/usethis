@@ -4,6 +4,8 @@
 
 * `proj_get()` and `proj_set()` no longer have a `quiet` argument. The user-facing message about setting a project is now under the same control as other messages, i.e. `getOption("usethis.quiet", default = FALSE)` (#441).
 
+* New `use_lgpl_license()` (#448, @krlmlr).
+
 ## Dependency changes
 
 withr moves from Suggests to Imports.
