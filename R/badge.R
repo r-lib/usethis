@@ -27,8 +27,8 @@
 #' @param href,src Badge link and image src
 #' @param stage Stage of the package lifecycle
 #'
-#' @seealso The [functions that set up continuous integration
-#'   services][use_travis] also create badges.
+#' @seealso The functions that set up continuous integration
+#'   services, [use_travis()] and [use_tic()], also create badges.
 #'
 #' @name badges
 #' @examples
