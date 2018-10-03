@@ -59,8 +59,12 @@ NULL
 #' @export
 #' @rdname tidyverse
 #' @inheritParams use_travis
-use_tidy_ci <- function(browse = interactive()) {
+use_tidy_ci <- function() {
   check_uses_github()
+
+  check_installed("travis")
+
+  travis_activate()
 
   new_travis <- use_template(
     "tidy-travis.yml",
@@ -74,10 +78,6 @@ use_tidy_ci <- function(browse = interactive()) {
 
   use_travis_badge()
   use_codecov_badge()
-
-  if (new_travis) {
-    travis_activate(browse)
-  }
 
   invisible(TRUE)
 }

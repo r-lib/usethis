@@ -14,7 +14,7 @@
 \alias{use_tidy_style}
 \title{Helpers for tidyverse development}
 \usage{
-use_tidy_ci(browse = interactive())
+use_tidy_ci()
 
 use_tidy_description()
 
@@ -35,9 +35,6 @@ use_tidy_github()
 use_tidy_style(strict = TRUE)
 }
 \arguments{
-\item{browse}{Open a browser window to enable automatic builds for the
-package.}
-
 \item{overwrite}{By default (\code{FALSE}), only dependencies without version
 specifications will be modified. Set to \code{TRUE} to modify all dependencies.}
 

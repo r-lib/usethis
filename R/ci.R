@@ -15,12 +15,14 @@ NULL
 #' Adds a basic `.travis.yml` to the top-level directory of a package. This is a
 #' configuration file for the [Travis CI](https://travis-ci.org/) continuous
 #' integration service.
-#' @param browse Open a browser window to enable automatic builds for the
-#'   package.
 #' @export
 #' @rdname ci
-use_travis <- function(browse = interactive()) {
+use_travis <- function() {
   check_uses_github()
+
+  check_installed("travis")
+
+  travis_activate()
 
   new <- use_template(
     "travis.yml",
@@ -29,7 +31,6 @@ use_travis <- function(browse = interactive()) {
   )
   if (!new) return(invisible(FALSE))
 
-  travis_activate(browse)
   use_travis_badge()
   invisible(TRUE)
 }
@@ -43,27 +44,23 @@ use_travis_badge <- function() {
   use_badge("Travis build status", url, img)
 }
 
-travis_activate <- function(browse = interactive()) {
-  url <- glue("https://travis-ci.org/profile/{github_owner()}")
-
-  todo("Turn on travis for your repo at {url}")
-  if (browse) {
-    utils::browseURL(url)
-  }
+travis_activate <- function() {
+  travis::travis_enable(repo = proj_get())
 }
 
-uses_travis <- function(base_path = proj_get()) {
-  path <- glue("{base_path}/.travis.yml")
-  file_exists(path)
+uses_travis <- function() {
+  check_installed("travis")
+
+  travis::travis_is_enabled(proj_get())
 }
 
-check_uses_travis <- function(base_path = proj_get()) {
-  if (uses_travis(base_path)) {
+check_uses_travis <- function() {
+  if (uses_travis()) {
     return(invisible())
   }
 
   stop_glue(
-    "Cannot detect that package {value(project_name(base_path))}",
+    "Cannot detect that package {value(project_name())}",
     " already uses Travis.\n",
     "Do you need to run {code('use_travis()')}?"
   )

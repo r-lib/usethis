@@ -43,7 +43,10 @@ Suggests:
     roxygen2,
     spelling (>= 1.2),
     styler (>= 1.0.2),
-    testthat (>= 2.0.0)
+    testthat (>= 2.0.0),
+    travis
+Remotes: 
+    ropenscilabs/travis
 Encoding: UTF-8
 Language: en-US
 LazyData: true
