@@ -45,13 +45,13 @@ use_travis_badge <- function() {
 }
 
 travis_activate <- function() {
-  travis::travis_enable(repo = proj_get())
+  travis::travis_enable(repo = github_repo_spec())
 }
 
 uses_travis <- function() {
   check_installed("travis")
 
-  travis::travis_is_enabled(proj_get())
+  travis::travis_is_enabled(github_repo_spec())
 }
 
 check_uses_travis <- function() {
