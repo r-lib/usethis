@@ -288,7 +288,7 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
   todo("{length(contributors)} contributors identified")
   code_block(
     collapse(
-      glue("[&#xFF20;{contributors}](https://github.com/{contributors})"),
+      glue("[&#x0040;{contributors}](https://github.com/{contributors})"),
       sep = ", ", last = ", and "
     )
   )
