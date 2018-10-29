@@ -26,12 +26,16 @@ use_directory <- function(path,
   invisible(TRUE)
 }
 
+is_traversable <- function(path) {
+  is_dir(path) || (is_link(path) && is_dir(Sys.readlink(path)))
+}
+
 create_directory <- function(base_path, path) {
   if (!file_exists(base_path)) {
     stop_glue("{value(base_path)} does not exist.")
   }
 
-  if (!is_dir(base_path)) {
+  if (!is_traversable(base_path)) {
     stop_glue("{value(base_path)} is not a directory.")
   }
 
@@ -41,7 +45,7 @@ create_directory <- function(base_path, path) {
     dir_create(target_path, recursive = TRUE)
   }
 
-  if (!is_dir(target_path)) {
+  if (!is_traversable(target_path)) {
     stop_glue("{value(path)} exists but is not a directory.")
   }
 
