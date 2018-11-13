@@ -7,7 +7,7 @@
 \usage{
 use_testthat()
 
-use_test(name = NULL, open = TRUE)
+use_test(name = NULL, open = interactive())
 }
 \arguments{
 \item{name}{Test name. if \code{NULL}, and you're using RStudio, will use
@@ -21,4 +21,7 @@ applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 \file{tests/testthat.R} and \file{tests/testthat/}, and
 adding \pkg{testthat} to the suggested packages. \code{use_test()}
 creates \file{tests/testthat/test-<name>.R} and opens it for editing.
+}
+\seealso{
+The \href{http://r-pkgs.had.co.nz/tests.html}{testing chapter} of \href{http://r-pkgs.had.co.nz}{R Packages}.
 }

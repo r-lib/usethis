@@ -12,6 +12,9 @@
 #' YAML frontmatter and R fenced code blocks (`md`) or chunks (`Rmd`).
 #'
 #' @inheritParams use_template
+#' @seealso The [important files
+#'   section](http://r-pkgs.had.co.nz/release.html#important-files) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
 #' @export
 #' @examples
 #' \dontrun{
@@ -24,13 +27,14 @@ use_readme_rmd <- function(open = interactive()) {
   data <- project_data()
   data$Rmd <- TRUE
 
-  use_template(
+  new <- use_template(
     if (is_package()) "package-README" else "project-README",
     "README.Rmd",
     data = data,
     ignore = TRUE,
     open = open
   )
+  if (!new) return(invisible(FALSE))
 
   if (uses_git()) {
     use_git_hook(

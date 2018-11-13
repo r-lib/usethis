@@ -1,12 +1,17 @@
-#' Create a new R file
+#' Create or edit a .R file
 #'
 #' @param name File name, without extension; will create if it doesn't already
 #'   exist. If not specified, and you're currently in a test file, will guess
 #'   name based on test name.
-#' @seealso [use_test()]
+#' @seealso [use_test()], and also the [R code
+#'   chapter](http://r-pkgs.had.co.nz/r.html) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
 #' @export
 use_r <- function(name = NULL) {
-  name <- find_r_name(name)
+  name <- name %||% get_active_r_file(path = "tests/testthat")
+  name <- gsub("^test-", "", name)
+  name <- slug(name, "R")
+  check_file_name(name)
 
   use_directory("R")
   edit_file(proj_path("R", name))
@@ -15,38 +20,43 @@ use_r <- function(name = NULL) {
 }
 
 check_file_name <- function(name) {
-  if (!valid_file_name(name)) {
-    stop(
-      value(name), " is not a valid file name. It should:\n",
-      "* Contain only ASCII letters, numbers, '-', and '_'\n",
-      call. = FALSE
+  if (!valid_file_name(path_ext_remove(name))) {
+    stop_glue(
+      "{value(name)} is not a valid file name. It should:\n",
+      "* Contain only ASCII letters, numbers, '-', and '_'\n"
     )
   }
+  name
 }
 
 valid_file_name <- function(x) {
   grepl("^[[:alnum:]_-]+$", x)
 }
 
-find_r_name <- function(name = NULL) {
-  if (!is.null(name)) {
-    check_file_name(name)
-    return(slug(name, ".R"))
-  }
-
+get_active_r_file <- function(path = "R") {
   if (!rstudioapi::isAvailable()) {
-    stop("Argument ", code("name"), " is missing, with no default", call. = FALSE)
+    stop_glue("Argument {code('name')} must be specified.")
   }
-  active_file <- rstudioapi::getSourceEditorContext()$path
+  ## rstudioapi can return a path like '~/path/to/file' where '~' means
+  ## R's notion of user's home directory
+  active_file <- path_expand_r(rstudioapi::getSourceEditorContext()$path)
 
-  dir <- basename(dirname(active_file))
-  if (dir != "testthat") {
-    stop("Open file not in `tests/testthat/` directory", call. = FALSE)
+  rel_path <- proj_rel_path(active_file)
+  if (path_dir(rel_path) != path) {
+    stop_glue(
+      "Open file must be in the {value(path, '/')} directory of ",
+      "the active package.\n",
+      "  * Actual path: {value(rel_path)}"
+    )
   }
 
-  if (!grepl("\\.[Rr]$", active_file)) {
-    stop("Open file is does not end in `.R`", call. = FALSE)
+  ext <- path_ext(active_file)
+  if (toupper(ext) != "R") {
+    stop_glue(
+      "Open file must have {value('.R')} or {value('.r')} as extension, ",
+      "not {value(ext)}."
+    )
   }
 
-  gsub("^test-", "", basename(active_file))
+  path_file(active_file)
 }

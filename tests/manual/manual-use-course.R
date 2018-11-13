@@ -1,4 +1,6 @@
-devtools::load_all("~/rrr/usethis")
+library(usethis)
+library(fs)
+library(testthat)
 
 ## Inspiration for manual tests. Pretty rough.
 
@@ -17,70 +19,73 @@ devtools::load_all("~/rrr/usethis")
 
 gh_url <- "https://github.com/r-lib/rematch2/archive/master.zip"
 
+owd <- setwd(path_temp())
+
 ## Scenarios:
 
 ## destdir = NULL, pedantic = TRUE, target filepath doesn't exist ----
-unlink("rematch2-master.zip")
-download_zip(gh_url, pedantic = TRUE)
+file_delete("rematch2-master.zip")
+usethis:::download_zip(gh_url, pedantic = TRUE)
 ## should get "Proceed...?" prompt
 ## no --> aborts
 ## yes --> downloads
-expect_true(file.exists("rematch2-master.zip"))
+expect_true(file_exists("rematch2-master.zip"))
 
 ## destdir = NULL, target filepath does exist ----
-expect_true(file.exists("rematch2-master.zip"))
-download_zip(gh_url)
+expect_true(file_exists("rematch2-master.zip"))
+usethis:::download_zip(gh_url)
 ## should get "Overwrite...?" query
 ## no --> aborts
 ## yes --> downloads
-expect_true(file.exists("rematch2-master.zip"))
+expect_true(file_exists("rematch2-master.zip"))
 
 ## destdir given & exists, target filepath doesn't exist ----
-expect_true(file.exists("~/tmp/a"))
-unlink("~/tmp/a/rematch2-master.zip")
-expect_false(file.exists("~/tmp/a/rematch2-master.zip"))
-download_zip(gh_url, destdir = "~/tmp/a")
+dir_create("a")
+expect_true(file_exists("a"))
+file_delete("a/rematch2-master.zip")
+expect_false(file_exists("a/rematch2-master.zip"))
+usethis:::download_zip(gh_url, destdir = "a")
 ## should just download
-expect_true(file.exists("~/tmp/a/rematch2-master.zip"))
+expect_true(file_exists("a/rematch2-master.zip"))
 
 ## destdir given & exists, target filepath does exist ----
-expect_true(file.exists("~/tmp/a/rematch2-master.zip"))
-download_zip(gh_url, destdir = "~/tmp/a")
+expect_true(file_exists("a/rematch2-master.zip"))
+usethis:::download_zip(gh_url, destdir = "a")
 ## should get "Overwrite...?" query
 ## no --> aborts
 ## yes --> downloads
 
 ## destdir given & does not exist ----
-expect_false(file.exists("~/tmp/b"))
-download_zip(gh_url, destdir = "~/tmp/b")
+expect_false(file_exists("b"))
+usethis:::download_zip(gh_url, destdir = "b")
 ## should get error re: Directory does not exist
 
 ## Download from various places ----
 
 ## usethis-test folder JB created for development
 dropbox1 <- "https://www.dropbox.com/sh/0pedgdob30bbbei/AACYL0JyZD6XcpZk_-YmtpgXa?dl=1"
-download_zip(dropbox1, pedantic = FALSE)
+usethis:::download_zip(dropbox1, pedantic = FALSE)
 
 ## an actual workshop folder from Hadley (big and slow)
 dropbox2 <- "https://www.dropbox.com/sh/ofc1gifr77ofej8/AACuBrToN1Yjo_ZxWfrYnEbJa?dl=1"
-download_zip(dropbox2, pedantic = FALSE)
+usethis:::download_zip(dropbox2, pedantic = FALSE)
 
 ## the ZIP URL favored by devtools
 gh_url <- "http://github.com/r-lib/rematch2/zipball/master/"
-download_zip(gh_url, pedantic = FALSE)
+usethis:::download_zip(gh_url, pedantic = FALSE)
 
 ## don't be surprised if asked whether to Overwrite, this may have been
 ## downloaded before, via other means
 bitly <- "http://bit.ly/uusseetthhiiss"
-download_zip(bitly, pedantic = FALSE)
+usethis:::download_zip(bitly, pedantic = FALSE)
 
 # tidy_unzip() ----
 
 ## if they are in wd
-tidy_unzip("17-tidy-tools.zip")
-tidy_unzip("r-lib-rematch2-335a55f.zip")
-tidy_unzip("rematch2-master.zip")
-tidy_unzip("usethis-test.zip")
+usethis:::tidy_unzip("17-tidy-tools.zip")
+usethis:::tidy_unzip("r-lib-rematch2-335a55f.zip")
+usethis:::tidy_unzip("rematch2-master.zip")
+usethis:::tidy_unzip("usethis-test.zip")
 
 ## if they are in ~/tmp
 tidy_unzip("~/tmp/manual/17-tidy-tools.zip")
@@ -89,25 +94,25 @@ tidy_unzip("rematch2-master.zip")
 tidy_unzip("~/tmp/manual/usethis-test.zip")
 
 # one-off test of GitHub vs DropBox
-download_zip("https://github.com/jennybc/yo/archive/master.zip", pedantic = FALSE)
-download_zip("https://www.dropbox.com/sh/afydxe6pkpz8v6m/AADHbMZAaW3IQ8zppH9mjNsga?dl=1", pedantic = FALSE)
+usethis:::download_zip("https://github.com/jennybc/yo/archive/master.zip", pedantic = FALSE)
+usethis:::download_zip("https://www.dropbox.com/sh/afydxe6pkpz8v6m/AADHbMZAaW3IQ8zppH9mjNsga?dl=1", pedantic = FALSE)
 
-tidy_unzip("yo-master.zip")
-file.rename("yo-master", "yo")
+usethis:::tidy_unzip("yo-master.zip")
+file_move("yo-master", "yo")
 ## git commit here
-unlink("yo")
+file_delete("yo")
 tidy_unzip("yo.zip")
 ## should see no diff on files in yo
 
 ## Usage to feature in PR
 
-devtools::load_all("~/rrr/usethis")
+devtools::load_all("")
 
 ## ZIP from GitHub (it's a package, but you get the idea)
 rematch2 <- use_course("https://github.com/r-lib/rematch2/archive/master.zip")
-list.files(rematch2, all.files = TRUE, recursive = TRUE)
+dir_ls(rematch2, all = TRUE, recursive = TRUE)
 
-devtools::load_all("~/rrr/usethis")
+devtools::load_all("")
 
 system.time(
 hadley <- use_course(
@@ -115,8 +120,10 @@ hadley <- use_course(
 )
 )
 
-list.files(hadley, all.files = TRUE, recursive = TRUE)
+dir_ls(hadley, all = TRUE, recursive = TRUE)
 
 rematch2 <- use_course("github.com/r-lib/rematch2/archive/master.zip")
 use_course("rstd.io/usethis-src")
 use_course("bit.ly/uusseetthhiiss")
+
+setwd(owd)

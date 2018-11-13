@@ -78,7 +78,7 @@ github_link <- function(package = NULL) {
   gh_links <- grep("^https?://github.com/", urls, value = TRUE)
 
   if (length(gh_links) == 0) {
-    stop("Package does not provide a GitHub URL", call. = FALSE)
+    stop_glue("Package does not provide a GitHub URL.")
   }
 
   gsub("/$", "", gh_links[[1]])
@@ -87,14 +87,14 @@ github_link <- function(package = NULL) {
 cran_home <- function(package = NULL) {
   package <- package %||% project_name()
 
-  paste0("https://cran.r-project.org/package=", package)
+  glue("https://cran.r-project.org/package={package}")
 }
 
 github_url_rx <- function() {
   paste0(
     "^",
     "(?:https?://github.com/)",
-    "(?<username>[^/]+)/",
+    "(?<owner>[^/]+)/",
     "(?<repo>[^/#]+)",
     "/?",
     "(?<fragment>.*)",
@@ -110,6 +110,39 @@ github_url_rx <- function() {
 ## output: "https://github.com/r-lib/gh"
 github_home <- function(package = NULL) {
   gh_link <- github_link(package)
-  df <- rematch2::re_match(gh_link, github_url_rx())
-  file.path("https://github.com", df$username, df$repo)
+  df <- re_match_inline(gh_link, github_url_rx())
+  glue("https://github.com/{df$owner}/{df$repo}")
+}
+
+## inline a simplified version of rematch2::re_match()
+re_match_inline <- function(text, pattern) {
+  match <- regexpr(pattern, text, perl = TRUE)
+  start  <- as.vector(match)
+  length <- attr(match, "match.length")
+  end    <- start + length - 1L
+
+  matchstr <- substring(text, start, end)
+  matchstr[ start == -1 ] <- NA_character_
+
+  res <- data.frame(
+    stringsAsFactors = FALSE,
+    .text = text,
+    .match = matchstr
+  )
+
+  if (!is.null(attr(match, "capture.start"))) {
+
+    gstart  <- attr(match, "capture.start")
+    glength <- attr(match, "capture.length")
+    gend    <- gstart + glength - 1L
+
+    groupstr <- substring(text, gstart, gend)
+    groupstr[ gstart == -1 ] <- NA_character_
+    dim(groupstr) <- dim(gstart)
+
+    res <- cbind(groupstr, res, stringsAsFactors = FALSE)
+  }
+
+  names(res) <- c(attr(match, "capture.names"), ".text", ".match")
+  res
 }

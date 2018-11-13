@@ -72,7 +72,7 @@ use_course <- function(url, destdir = NULL) {
 #' download_zip(
 #'   url, ## after post-processing with normalize_url()
 #'   ## conspicuous_place() = Desktop or home directory or working directory
-#'   destdir = destdir \\%||\\% conspicuous_place(),
+#'   destdir = destdir %||% conspicuous_place(),
 #'   pedantic = is.null(destdir) && interactive()
 #' )
 #' ```
@@ -172,44 +172,43 @@ NULL
 
 download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   stopifnot(is_string(url))
-  dl <- curl::curl_fetch_memory(url)
-
-  httr::stop_for_status(dl$status_code)
-  check_is_zip(dl)
-
-  cd <- content_disposition(dl)
-
   base_path <- destdir
   check_is_dir(base_path)
-  base_name <- make_filename(cd, fallback = basename(url))
+
+  h <- curl::new_handle(noprogress = FALSE, progressfunction = progress_fun)
+  tmp <- file_temp("usethis-use-course-")
+  curl::curl_download(
+    url, destfile = tmp, quiet = FALSE, mode = "wb", handle = h
+  )
+  check_is_zip(h)
+  cat_line()
+
+  cd <- content_disposition(h)
+  base_name <- make_filename(cd, fallback = path_file(url))
 
   ## DO YOU KNOW WHERE YOUR STUFF IS GOING?!?
   if (interactive() && pedantic) {
     message(
       "A ZIP file named:\n",
       "  ", value(base_name), "\n",
-      "will be downloaded to this folder:\n",
+      "will be copied to this folder:\n",
       "  ", value(base_path), "\n",
       "Prefer a different location? Cancel, try again, and specify ",
       code("destdir"), ".\n"
     )
-    if (nope("Proceed with this download?")) {
-      stop("Aborting download", call. = FALSE)
+    if (nope("Is it OK to write this file here?")) {
+      stop_glue("Aborting.")
     }
   }
-  full_path <- file.path(base_path, base_name)
+  full_path <- path(base_path, base_name)
 
   if (!can_overwrite(full_path)) {
-    ## TO DO: it pains me that can_overwrite() always strips to basename
-    stop("Aborting download", call. = FALSE)
+    stop_glue("Aborting.")
   }
 
-  done(
-    "Downloading ZIP file to ",
-    if (is.null(destdir)) value(base_name) else value(full_path)
-  )
-  writeBin(dl$content, full_path)
-  invisible(full_path)
+  zip_dest <- if (is.null(destdir)) base_name else full_path
+  done("Downloaded ZIP file to {value(zip_dest)}")
+  file_move(tmp, full_path)
 }
 
 tidy_unzip <- function(zipfile) {
@@ -225,29 +224,29 @@ tidy_unzip <- function(zipfile) {
   loose_parts <- is.na(td)
 
   if (loose_parts) {
-    target <- tools::file_path_sans_ext(zipfile)
+    target <- path_ext_remove(zipfile)
     utils::unzip(zipfile, files = filenames, exdir = target)
   } else {
-    target <- file.path(dirname(zipfile), td)
-    utils::unzip(zipfile, files = filenames, exdir = dirname(zipfile))
+    target <- path(path_dir(zipfile), td)
+    utils::unzip(zipfile, files = filenames, exdir = path_dir(zipfile))
   }
   done(
-    "Unpacking ZIP file into ", value(target),
-    " (", length(filenames), " files extracted)"
+    "Unpacking ZIP file into {value(target)} ",
+    "({length(filenames)} files extracted)"
   )
 
   if (interactive()) {
     if (yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
-      done("Deleting ", value(zipfile))
-      unlink(zipfile)
+      done("Deleting {value(zipfile)}")
+      file_delete(zipfile)
     }
 
     if (is_rstudio_project(target) && rstudioapi::hasFun("openProject")) {
       done("Opening project in RStudio")
       rstudioapi::openProject(target, newSession = TRUE)
     } else if (!in_rstudio_server()) {
-      done("Opening ", value(target), " in the file manager")
-      utils::browseURL(normalizePath(target))
+      done("Opening {value(target)} in the file manager")
+      utils::browseURL(path_real(target))
     }
   }
 
@@ -261,17 +260,20 @@ normalize_url <- function(url) {
 }
 
 conspicuous_place <- function() {
-  Filter(dir.exists, c(
-    file.path(Sys.getenv("HOME"), "Desktop"), # typical macOS = ~/Desktop
-    file.path(Sys.getenv("USERPROFILE"), "Desktop"), # typical Windows Desktop
-    "~",
-    getwd()
+  Filter(dir_exists, c(
+    path_home("Desktop"),
+    path_home(),
+    path_home_r(),
+    path_tidy(getwd())
   ))[[1]]
 }
 
 keep_lgl <- function(file,
-                     ignores = c(".Rproj.user", ".rproj.user", ".Rhistory", ".RData", ".git")) {
-  ignores <- paste0("((\\/|\\A)", gsub("\\.", "[.]", ignores), "(\\/|\\Z))", collapse = "|")
+                     ignores = c(".Rproj.user", ".rproj.user", ".Rhistory", ".RData", ".git", "__MACOSX", ".DS_Store")) {
+  ignores <- paste0(
+    "((\\/|\\A)", gsub("\\.", "[.]", ignores), "(\\/|\\Z))",
+    collapse = "|"
+  )
   !grepl(ignores, file, perl = TRUE)
 }
 
@@ -286,19 +288,20 @@ top_directory <- function(filenames) {
   }
 }
 
-check_is_zip <- function(download) {
-  headers <- curl::parse_headers_list(download$headers)
+check_is_zip <- function(h) {
+  headers <- curl::parse_headers_list(curl::handle_data(h)$headers)
   if (headers[["content-type"]] != "application/zip") {
-    stop(
-      "Download does not have MIME type ", value("application/zip"), "\n",
-      "Instead it's ", value(headers[["content-type"]]), call. = FALSE
+    stop_glue(
+      "Download does not have MIME type {value('application/zip')}.\n",
+      "Instead it's {value(headers[['content-type']])}."
     )
   }
   invisible()
 }
 
-content_disposition <- function(download) {
-  headers <- curl::parse_headers_list(download$headers)
+
+content_disposition <- function(h) {
+  headers <- curl::parse_headers_list(curl::handle_data(h)$headers)
   cd <- headers[["content-disposition"]]
   if (is.null(cd)) {
     return()
@@ -312,10 +315,10 @@ content_disposition <- function(download) {
 ##  GitHub eg: "attachment; filename=foo-master.zip"
 parse_content_disposition <- function(cd) {
   if (!grepl("^attachment;", cd)) {
-    stop(
-      code("Content-Disposition"), " header doesn't start with ",
-      value("attachment"), "\n",
-      "Actual header: ", value(cd), call. = FALSE
+    stop_glue(
+      "{code('Content-Disposition')} header doesn't start with ",
+      "{value('attachment')}.\n",
+      "Actual header: {value(cd)}"
     )
   }
 
@@ -328,54 +331,36 @@ parse_content_disposition <- function(cd) {
   )
 }
 
+progress_fun <- function(down, up) {
+  total <- down[[1]]
+  now <- down[[2]]
+  pct <- if(length(total) && total > 0) {
+    paste0("(", round(now/total * 100), "%)")
+  } else {
+    ""
+  }
+  if(now > 10000)
+    cat("\r Downloaded:", sprintf("%.2f", now / 2^20), "MB ", pct)
+  TRUE
+}
+
 make_filename <- function(cd,
-                          fallback = basename(tempfile())) {
+                          fallback = path_file(file_temp())) {
   ## TO DO(jennybc): the element named 'filename*' is preferred but I'm not
   ## sure how to parse it yet, so targetting 'filename' for now
   ## https://tools.ietf.org/html/rfc6266
   cd <- cd[["filename"]]
   if (is.null(cd) || is.na(cd)) {
     stopifnot(is_string(fallback))
-    return(sanitize_filename(fallback))
+    return(path_sanitize(fallback))
   }
 
   ## I know I could use regex and lookahead but this is easier for me to
   ## maintain
   cd <- sub("^\"(.+)\"$", "\\1", cd)
 
-  sanitize_filename(cd)
+  path_sanitize(cd)
 }
-
-## replace this with something more robust when exists
-## https://github.com/r-lib/fs/issues/32
-## in the meantime ...
-## 1. take basename
-## 2. URL encode it
-## 3. Replace remaining obvious no-no's: C0 and C1 control characters, ".",
-##    "..", Windows reserved filenames, trailing dot or space (Windows thing)
-## 4. Truncate to 255 characters
-sanitize_filename <- function(x) {
-  x <- vapply(
-    basename(x),
-    function(z) utils::URLencode(z, reserved = TRUE),
-    character(1),
-    USE.NAMES = FALSE
-  )
-
-  alt <- "_"
-  x <- gsub(control_regex, alt, x)
-  x <- gsub(unix_reserved_regex, alt, x)
-  x <- gsub(windows_reserved_regex, alt, x, ignore.case = TRUE)
-  x <- gsub(windows_trailing_regex, alt, x)
-  substr(x, start = 1, stop = 255)
-}
-
-## R itself will truncate and warn on \x00 = embedded nul, leave it off
-control_regex <- "[\x01-\x1f\x80-\x9f]"
-unix_reserved_regex <- "^[.]{1,2}$"
-## https://msdn.microsoft.com/en-us/library/aa365247.aspx
-windows_reserved_regex <- "^(con|prn|aux|nul|com[0-9]|lpt[0-9])([.].*)?$"
-windows_trailing_regex <- "[. ]+$"
 
 ## https://stackoverflow.com/questions/21322614/use-curl-to-download-a-dropbox-folder-via-shared-link-not-public-link
 ## lesson: if using cURL, you'd want these options

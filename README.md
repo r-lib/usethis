@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# usethis
+# usethis <img src="man/figures/logo.png" align="right" height=140/>
 
 [![Travis build
 status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
@@ -13,8 +13,9 @@ status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](http
 status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
-The goal of usethis is to automate many common package and analysis
-setup tasks.
+usethis is a workflow package: it automates repetitive tasks that arise
+during project setup and development, both for R packages and
+non-package projects.
 
 ## Installation
 
@@ -33,21 +34,24 @@ devtools::install_github("r-lib/usethis")
 
 ## Usage
 
-Most `use_*()` functions operate on the *active project*. If you’ve just
-used usethis to create a new package or project, that will be the
-current project. Otherwise usethis tries to confirm that current working
-directory can be recognized as a project. Use `proj_get()` and
-`proj_set()` for manual intervention. Some functions have no strong
-connections to projects and will expect you to provide a path.
+Most `use_*()` functions operate on the *active project*: literally, a
+directory on your computer. If you’ve just used usethis to create a new
+package or project, that will be the active project. Otherwise, usethis
+verifies that current working directory is or is below a valid project
+directory and that becomes the active project. Use `proj_get()` or
+`proj_sitrep()` to manually query the project and [read more in the
+docs](http://usethis.r-lib.org/reference/proj_get.html).
+
+A few usethis functions have no strong connections to projects and will
+expect you to provide a path.
 
 usethis is quite chatty, explaining what it’s doing and assigning you
 tasks. `✔` indicates something usethis has done for you. `●` indicates
 that you’ll need to do some work yourself.
 
-Below is a quick look at how usethis can help to set up a package.
-
-*Note: usethis is gaining more and more functionality for analytical
-project that are not packages. Stay tuned.*
+Below is a quick look at how usethis can help to set up a package. But
+remember, many usethis functions are also applicable to analytical
+projects that are not packages.
 
 ``` r
 library(usethis)
@@ -55,7 +59,7 @@ library(usethis)
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp)
-#> Changing active project to mypkg
+#> ✔ Setting active project to '/private/var/folders/vr/gzrbtprx6ybg85y5pvwm1ct40000gn/T/RtmpGwzXO5/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
@@ -75,25 +79,24 @@ use_package("MASS", "Suggests")
 
 use_dev_package("callr")
 #> ✔ Adding 'callr' to Imports field in DESCRIPTION
-#> ● Refer to functions with `callr::fun()`
-#> ✔ Adding 'r-lib/callr' to DESCRIPTION Remotes
+#> ✔ Adding 'r-lib/callr' to Remotes field in DESCRIPTION
 
 # Set up various packages ---------------------------------------------
 use_roxygen_md()
 #> ✔ Setting Roxygen field in DESCRIPTION to 'list(markdown = TRUE)'
-#> ✔ Setting RoxygenNote field in DESCRIPTION to '6.0.1.9000'
-#> ● Re-document
+#> ✔ Setting RoxygenNote field in DESCRIPTION to '6.1.0'
+#> ● Run `devtools::document()`
 
 use_rcpp()
 #> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
-#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION*
+#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
 #> ● Include the following roxygen tags somewhere in your package
 #>   #' @useDynLib mypkg, .registration = TRUE
 #>   #' @importFrom Rcpp sourceCpp
 #>   NULL
-#> ● Run document()
+#> ● Run `devtools::document()`
 
 use_revdep()
 #> ✔ Creating 'revdep/'
@@ -108,29 +111,25 @@ use_readme_md()
 
 use_news_md()
 #> ✔ Writing 'NEWS.md'
-#> ● Edit 'NEWS.md'
 
 use_test("my-test")
 #> ✔ Adding 'testthat' to Suggests field in DESCRIPTION
 #> ✔ Creating 'tests/testthat/'
 #> ✔ Writing 'tests/testthat.R'
 #> ✔ Writing 'tests/testthat/test-my-test.R'
-#> ● Edit 'test-my-test.R'
 
 x <- 1
 y <- 2
 use_data(x, y)
 #> ✔ Creating 'data/'
-#> ✔ Saving x to data/x.rda
-#> ✔ Saving y to data/y.rda
+#> ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'
 
 # Use git ------------------------------------------------------------
 use_git()
 #> ✔ Initialising Git repo
-#> ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to './.gitignore'
-#> ✔ Adding files and committing
+#> ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'
 ```
 
-Please note that this project is released with a [Contributor Code of
-Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
-you agree to abide by its terms.
+Please note that the usethis project is released with a [Contributor
+Code of Conduct](.github/CODE_OF_CONDUCT.md). By contributing to this
+project, you agree to abide by its terms.

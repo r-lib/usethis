@@ -15,7 +15,7 @@ use_build_ignore <- function(files, escape = TRUE) {
     files <- escape_path(files)
   }
 
-  write_union(proj_get(), ".Rbuildignore", files)
+  write_union(proj_path(".Rbuildignore"), files)
 }
 
 escape_path <- function(x) {

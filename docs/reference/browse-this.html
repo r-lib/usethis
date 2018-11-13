@@ -13,19 +13,33 @@
 <!-- Bootstrap -->
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Quickly browse to important package webpages — browse-this" />
+
+<meta property="og:description" content="These functions take you to various webpages associated with a package and
+return the target URL invisibly. Some URLs are formed from first principles
+and there is no guarantee there will be content at the destination." />
+
+<meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
+<meta name="twitter:card" content="summary" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -49,12 +63,19 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">usethis</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">usethis</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">Home</a>
+  <a href="../index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
   <a href="../articles/articles/usethis-setup.html">Setup</a>
@@ -71,10 +92,10 @@
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider"></li>
     <li>
@@ -83,6 +104,7 @@
   </ul>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
@@ -91,6 +113,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,15 +121,21 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Quickly browse to important package webpages</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/browse.R'><code>R/browse.R</code></a></small>
+    <div class="hidden name"><code>browse-this.Rd</code></div>
     </div>
 
+    <div class="ref-description">
+    
     <p>These functions take you to various webpages associated with a package and
 return the target URL invisibly. Some URLs are formed from first principles
 and there is no guarantee there will be content at the destination.</p>
+    
+    </div>
 
     <pre class="usage"><span class='fu'>browse_github</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
@@ -117,8 +146,8 @@ and there is no guarantee there will be content at the destination.</p>
 <span class='fu'>browse_travis</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>browse_cran</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -131,7 +160,7 @@ and there is no guarantee there will be content at the destination.</p>
 <code>"new"</code>.</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <ul>
@@ -144,15 +173,18 @@ specific pull request.</p></li>
 <li><p><code>browse_travis()</code>: Visits the package's page on <a href='https://travis-ci.org'>Travis CI</a>.</p></li>
 <li><p><code>browse_cran()</code>: Visits the package on CRAN, via the canonical URL.</p></li>
 </ul>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>browse_github</span>(<span class='st'>"gh"</span>)</div><div class='output co'>#&gt; ● Open url https://github.com/r-lib/gh#readme</div><div class='input'><span class='fu'>browse_github_issues</span>(<span class='st'>"backports"</span>)</div><div class='output co'>#&gt; ● Open url https://github.com/mllg/backports/issues/</div><div class='input'><span class='fu'>browse_github_issues</span>(<span class='st'>"backports"</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; ● Open url https://github.com/mllg/backports/issues/1</div><div class='input'><span class='fu'>browse_github_pulls</span>(<span class='st'>"rprojroot"</span>)</div><div class='output co'>#&gt; ● Open url https://github.com/krlmlr/rprojroot/pulls/</div><div class='input'><span class='fu'>browse_github_pulls</span>(<span class='st'>"rprojroot"</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt; ● Open url https://github.com/krlmlr/rprojroot/pull/3</div><div class='input'><span class='fu'>browse_travis</span>(<span class='st'>"usethis"</span>)</div><div class='output co'>#&gt; ● Open url https://travis-ci.org/r-lib/usethis</div><div class='input'><span class='fu'>browse_cran</span>(<span class='st'>"MASS"</span>)</div><div class='output co'>#&gt; ● Open url https://cran.r-project.org/package=MASS</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>browse_github</span>(<span class='st'>"gh"</span>)</div><div class='output co'>#&gt; ● Open URL https://github.com/r-lib/gh#readme</div><div class='input'><span class='fu'>browse_github_issues</span>(<span class='st'>"backports"</span>)</div><div class='output co'>#&gt; ● Open URL https://github.com/mllg/backports/issues/</div><div class='input'><span class='fu'>browse_github_issues</span>(<span class='st'>"backports"</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; ● Open URL https://github.com/mllg/backports/issues/1</div><div class='input'><span class='fu'>browse_github_pulls</span>(<span class='st'>"rprojroot"</span>)</div><div class='output co'>#&gt; ● Open URL https://github.com/krlmlr/rprojroot/pulls/</div><div class='input'><span class='fu'>browse_github_pulls</span>(<span class='st'>"rprojroot"</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt; ● Open URL https://github.com/krlmlr/rprojroot/pull/3</div><div class='input'><span class='fu'>browse_travis</span>(<span class='st'>"usethis"</span>)</div><div class='output co'>#&gt; ● Open URL https://travis-ci.org/r-lib/usethis</div><div class='input'><span class='fu'>browse_cran</span>(<span class='st'>"MASS"</span>)</div><div class='output co'>#&gt; ● Open URL https://cran.r-project.org/package=MASS</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#details">Details</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -161,7 +193,7 @@ specific pull request.</p></li>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -171,5 +203,8 @@ specific pull request.</p></li>
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

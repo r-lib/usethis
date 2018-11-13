@@ -12,6 +12,10 @@
 #' @param which A string specifying which level to increment, one of: "major",
 #'   "minor", "patch", "dev". If `NULL`, user can choose interactively.
 #'
+#' @seealso The [version
+#'   section](http://r-pkgs.had.co.nz/description.html#version) of [R
+#'   Packages](http://r-pkgs.had.co.nz).
+#'
 #' @examples
 #' \dontrun{
 #' ## for interactive selection, do this:
@@ -33,7 +37,7 @@ use_version <- function(which = NULL) {
 
   ver <- desc::desc_get_version(proj_get())
 
-  if(is.null(which) && !interactive()) {
+  if (is.null(which) && !interactive()) {
     return(invisible(ver))
   }
 
@@ -41,13 +45,21 @@ use_version <- function(which = NULL) {
 
   if (is.null(which)) {
     choice <- utils::menu(
-      choices = paste0(names(versions), " --> ", versions),
-      title = paste0(
-        "Current version is ", ver, "\n", "Which part to increment?"
+      choices = glue(
+        "{format(names(versions), justify = 'right')} --> {versions}"
+      ),
+      title = glue(
+        "Current version is {ver}.\n", "Which part to increment? (0 to exit)"
       )
     )
-    which <- names(versions)[choice]
+    # Exit gracefully in case a "0" selection was made
+    if (choice == 0) {
+      return(invisible(FALSE))
+    } else {
+      which <- names(versions)[choice]
+    }
   }
+
   which <- match.arg(which, c("major", "minor", "patch", "dev"))
   new_ver <- versions[which]
 
@@ -56,7 +68,7 @@ use_version <- function(which = NULL) {
   git_check_in(
     base_path = proj_get(),
     paths = c("DESCRIPTION", "NEWS.md"),
-    message = "Incrementing version number"
+    message = "Increment version number"
   )
   invisible(TRUE)
 }

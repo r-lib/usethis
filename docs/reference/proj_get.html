@@ -19,13 +19,34 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+
+<meta property="og:title" content="Get and set the active project — proj_get" />
+<meta property="og:description" content="Most use_*() functions act on the active project. If it is unset,
+usethis uses rprojroot to find the
+project root of the current working directory. It establishes the project
+root by looking for a .here file, an RStudio Project, a package
+DESCRIPTION, Git infrastructure, a remake.yml file, or a .projectile
+file. It then stores the active project for use for the remainder of the
+session. If needed, you can manually override by running proj_set().
+In general, user scripts should not call usethis::proj_get()
+or usethis::proj_set(). They are internal functions that are exported for
+occasional interactive use. If you need to detect a project
+programmatically in your code, you should probably be using
+rprojroot or its simpler companion,
+here, directly." />
+<meta name="twitter:card" content="summary" />
+
+
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -49,8 +70,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">usethis</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">usethis</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +116,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,12 +124,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get and set the active project</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/proj.R'><code>R/proj.R</code></a></small>
+    <div class="hidden name"><code>proj_get.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     <p>Most <code>use_*()</code> functions act on the <strong>active project</strong>. If it is unset,
 usethis uses <a href='https://krlmlr.github.io/rprojroot/'>rprojroot</a> to find the
 project root of the current working directory. It establishes the project
@@ -111,18 +140,19 @@ root by looking for a <code>.here</code> file, an RStudio Project, a package
 <code>DESCRIPTION</code>, Git infrastructure, a <code>remake.yml</code> file, or a <code>.projectile</code>
 file. It then stores the active project for use for the remainder of the
 session. If needed, you can manually override by running <code>proj_set()</code>.</p>
-<p>In general, user scripts should not call <code><a href='http://www.rdocumentation.org/packages/usethis/topics/proj_get'>usethis::proj_get()</a></code>
-or <code><a href='http://www.rdocumentation.org/packages/usethis/topics/proj_get'>usethis::proj_set()</a></code>. They are internal functions that are exported for
+<p>In general, user scripts should not call <code>usethis::proj_get()</code>
+or <code>usethis::proj_set()</code>. They are internal functions that are exported for
 occasional interactive use. If you need to detect a project
 programmatically in your code, you should probably be using
 <a href='https://krlmlr.github.io/rprojroot/'>rprojroot</a> or its simpler companion,
 <a href='https://krlmlr.github.io/here/'>here</a>, directly.</p>
+    </div>
 
     <pre class="usage"><span class='fu'>proj_get</span>()
 
 <span class='fu'>proj_set</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -161,7 +191,7 @@ adding a DESCRIPTION file.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Jennifer Bryan, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -171,5 +201,8 @@ adding a DESCRIPTION file.</p></td>
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

@@ -5,7 +5,8 @@
 \alias{use_data_raw}
 \title{Create package data}
 \usage{
-use_data(..., internal = FALSE, overwrite = FALSE, compress = "bzip2")
+use_data(..., internal = FALSE, overwrite = FALSE,
+  compress = "bzip2")
 
 use_data_raw()
 }
@@ -41,4 +42,7 @@ y <- 1:100
 use_data(x, y) # For external use
 use_data(x, y, internal = TRUE) # For internal use
 }
+}
+\seealso{
+The \href{http://r-pkgs.had.co.nz/data.html}{data chapter} of \href{http://r-pkgs.had.co.nz}{R Packages}.
 }

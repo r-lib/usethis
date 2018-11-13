@@ -7,8 +7,8 @@ test_that("use_revdep() requires a package", {
 
 test_that("use_revdep() creates and ignores files/dirs", {
   scoped_temporary_package()
-  capture_output(use_revdep())
-  expect_true(file.exists(proj_path("revdep/email.yml")))
-  expect_true(file.exists(proj_path("revdep/.gitignore")))
+  use_revdep()
+  expect_proj_file("revdep", "email.yml")
+  expect_proj_file("revdep", ".gitignore")
   expect_true(is_build_ignored("^revdep$"))
 })

@@ -2,7 +2,7 @@
 % Please edit documentation in R/r.R
 \name{use_r}
 \alias{use_r}
-\title{Create a new R file}
+\title{Create or edit a .R file}
 \usage{
 use_r(name = NULL)
 }
@@ -12,8 +12,8 @@ exist. If not specified, and you're currently in a test file, will guess
 name based on test name.}
 }
 \description{
-Create a new R file
+Create or edit a .R file
 }
 \seealso{
-\code{\link[=use_test]{use_test()}}
+\code{\link[=use_test]{use_test()}}, and also the \href{http://r-pkgs.had.co.nz/r.html}{R code chapter} of \href{http://r-pkgs.had.co.nz}{R Packages}.
 }

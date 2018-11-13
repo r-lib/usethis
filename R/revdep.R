@@ -18,10 +18,11 @@ use_revdep <- function() {
       "library.noindex", "data.sqlite", "*.html")
   )
 
-  use_template(
+  new <- use_template(
     "revdep-email.yml",
     "revdep/email.yml"
   )
 
-  todo("Run checks with ", code("revdepcheck::revdep_check(num_workers = 4)"))
+  todo("Run checks with {code('revdepcheck::revdep_check(num_workers = 4)')}")
+  invisible(new)
 }

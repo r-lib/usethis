@@ -1,10 +1,10 @@
 can_overwrite <- function(path) {
-  if (!file.exists(path)) {
+  if (!file_exists(path)) {
     return(TRUE)
   }
 
   if (interactive()) {
-    yep("Overwrite pre-existing file ", value(basename(path)), "?")
+    yep("Overwrite pre-existing file ", value(proj_rel_path(path)), "?")
   } else {
     FALSE
   }
@@ -21,9 +21,9 @@ ask_user <- function(...,
 
   message <- paste0(..., collapse = "")
   if (!interactive()) {
-    stop(
+    stop_glue(
       "User input required in non-interactive session.\n",
-      "Query: ", message, call. = FALSE
+      "Query: {message}"
     )
   }
 
@@ -41,38 +41,55 @@ ask_user <- function(...,
 nope <- function(...) ask_user(..., true_for = "no")
 yep <- function(...) ask_user(..., true_for = "yes")
 
-is_dir <- function(x) file.info(x)$isdir
-
 check_is_dir <- function(x) {
   ## "checking it twice" for robustness to trailing slash issues on Windows
-  if (!file.exists(x) && !dir.exists(x)) {
-    stop("Directory does not exist:\n", value(x), call. = FALSE)
+  if (!file_exists(x) && !dir_exists(x)) {
+    stop_glue("Directory does not exist:\n{value(x)}")
   }
   if (!is_dir(x)) {
-    stop(value(x), " exists but is not a directory.", call. = FALSE)
+    stop_glue("{value(x)} exists but is not a directory.")
   }
   invisible(x)
 }
 
 check_is_empty <- function(x) {
-  files <- list.files(x)
+  files <- dir_ls(x)
   if (length(files) > 0) {
-    stop(value(x), " exists and is not an empty directory", call. = FALSE)
+    stop_glue("{value(x)} exists and is not an empty directory.")
   }
   invisible(x)
+}
+
+check_is_named_list <- function(x, nm = deparse(substitute(x))) {
+  if (!rlang::is_list(x)) {
+    bad_class <- paste(class(x), collapse = "/")
+    stop_glue("{code(nm)} must be a list, not {bad_class}.")
+  }
+  if (!rlang::is_dictionaryish(x)) {
+    stop_glue(
+      "Names of {code(nm)} must be non-missing, non-empty, and ",
+      "non-duplicated."
+    )
+  }
+  x
 }
 
 dots <- function(...) {
   eval(substitute(alist(...)))
 }
 
-slug <- function(x, ext) {
+asciify <- function(x) {
   stopifnot(is.character(x))
 
   x <- tolower(x)
-  x <- gsub("[^a-z0-9_]+", "-", x)
+  gsub("[^a-z0-9_-]+", "-", x)
+}
 
-  paste0(x, ext)
+slug <- function(x, ext) {
+  x_base <- asciify(path_ext_remove(x))
+  x_ext <- path_ext(x)
+  ext <- if (identical(tolower(x_ext), tolower(ext))) x_ext else ext
+  path_ext_set(x_base, ext)
 }
 
 compact <- function(x) {
@@ -84,12 +101,12 @@ compact <- function(x) {
 
 check_installed <- function(pkg) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
-    stop(
-      "Package ", value(pkg), " required. Please install before re-trying",
-      call. = FALSE
-    )
+    stop_glue("Package {value(pkg)} required. Please install before re-trying.")
   }
 }
+
+## mimimalist, type-specific purrr::pluck()'s
+pluck_chr <- function(l, what) vapply(l, `[[`, character(1), what)
 
 is_testing <- function() {
   identical(Sys.getenv("TESTTHAT"), "true")
@@ -101,4 +118,19 @@ interactive <- function() {
 
 is_string <- function(x) {
   length(x) == 1 && is.character(x)
+}
+
+stop_glue <- function(..., .sep = "", .envir = parent.frame()) {
+  stop(usethis_error(glue(..., .sep = .sep, .envir = .envir)))
+}
+
+warning_glue <- function(..., .sep = "", .envir = parent.frame()) {
+  warning(glue(..., .sep = .sep, .envir = .envir), call. = FALSE)
+}
+
+usethis_error <- function(msg) {
+  structure(
+    class = c("usethis_error", "error", "condition"),
+    list(message = msg)
+  )
 }

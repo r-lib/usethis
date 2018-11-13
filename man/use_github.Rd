@@ -2,13 +2,10 @@
 % Please edit documentation in R/github.R
 \name{use_github}
 \alias{use_github}
-\alias{use_github_links}
 \title{Connect a local repo with GitHub}
 \usage{
 use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
   "https"), credentials = NULL, auth_token = NULL, host = NULL)
-
-use_github_links(auth_token = NULL, host = "https://api.github.com")
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this
@@ -34,10 +31,8 @@ GitHub enterprise instance, for example,
 \code{use_github()} takes a local project, creates an associated repo on GitHub,
 adds it to your local repo as the \code{origin} remote, and makes an initial push
 to synchronize. \code{use_github()} requires that your project already be a Git
-repository, which you can accomplish with \code{\link[=use_git]{use_git()}}, if needed.
-
-\code{use_github_links()} populates the \code{URL} and \code{BugReports} fields of a
-GitHub-using R package with appropriate links (unless they already exist).
+repository, which you can accomplish with \code{\link[=use_git]{use_git()}}, if needed. See the
+Authentication section below for other necessary setup.
 }
 \section{Authentication}{
 
@@ -47,12 +42,12 @@ provide this directly via the \code{auth_token} argument or store it in an
 environment variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to get help obtaining and
 storing your PAT. See \code{\link[gh:gh_whoami]{gh::gh_whoami()}} for even more detail.
 
-The argument \code{protocol} reflects how you wish to authenticate with GitHub
-for this repo in the long run. This determines the form of the URL for the
+The argument \code{protocol} specifies the transport protocol you wish to use for
+this repo in the long run. This determines the form of the URL for the
 \code{origin} remote:
 \itemize{
-\item \code{protocol = "ssh"}: \code{git@github.com:<USERNAME>/<REPO>.git}
-\item \code{protocol = "https"}: \code{https://github.com/<USERNAME>/<REPO>.git}
+\item \code{protocol = "ssh"}: \code{git@github.com:<OWNER>/<REPO>.git}
+\item \code{protocol = "https"}: \code{https://github.com/<OWNER>/<REPO>.git}
 }
 
 For \code{protocol = "ssh"}, it is assumed that public and private keys are in the
@@ -64,9 +59,10 @@ parameter. Read more about ssh setup in \href{http://happygitwithr.com/ssh-keys.
 
 \examples{
 \dontrun{
-create_package("test-pkg") # creates package in current working directory
+pkgpath <- file.path(tempdir(), "testpkg")
+create_package(pkgpath) # creates package below temp directory
 
-## now, working inside "test-pkg", initialize git repository
+## now, working inside "testpkg", initialize git repository
 use_git()
 
 ## create github repository and configure as git remote

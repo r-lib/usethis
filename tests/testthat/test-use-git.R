@@ -5,7 +5,7 @@ test_that('use_git_config(scope = "project) errors if project not using git', {
   skip_if(getRversion() < 3.2)
   scoped_temporary_package()
   expect_error(
-    capture_output(use_git_config(scope = "project", user.name = "USER.NAME")),
+    use_git_config(scope = "project", user.name = "USER.NAME"),
     "Cannot detect that project is already a Git repository"
   )
 })
@@ -16,13 +16,11 @@ test_that("use_git_config() can set local config", {
   skip_if_no_git_config()
 
   scoped_temporary_package()
-  capture_output(use_git())
-  capture_output(
-    use_git_config(
-      scope = "project",
-      user.name = "Jane",
-      user.email = "jane@example.org"
-    )
+  use_git()
+  use_git_config(
+    scope = "project",
+    user.name = "Jane",
+    user.email = "jane@example.org"
   )
   r <- git2r::repository(proj_get())
   cfg <- git2r::config(repo = r, global = FALSE)
