@@ -74,6 +74,7 @@ use_github <- function(organisation = NULL,
   pkg <- project_data()
   repo_name <- pkg$Project %||% gsub("\n", " ", pkg$Package)
   repo_desc <- pkg$Title %||% ""
+  repo_desc <- gsub("\n", " ", repo_desc)
 
   if (interactive()) {
     todo("Check title and description")
