@@ -135,13 +135,13 @@ create_from_github <- function(repo_spec,
                                fork = NA,
                                rstudio = NULL,
                                open = interactive(),
-                               protocol = c("ssh", "https"),
+                               protocol = getOption("usethis.protocol", default = "ssh"),
                                credentials = NULL,
                                auth_token = NULL,
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_is_dir(destdir)
-  protocol <- match.arg(protocol)
+  protocol <- match.arg(protocol, c("ssh", "https"))
 
   owner <- spec_owner(repo_spec)
   repo <- spec_repo(repo_spec)
