@@ -59,6 +59,16 @@ use_gpl3_license <- function(name = find_name()) {
 
 #' @rdname licenses
 #' @export
+use_lgpl_license <- function(name = find_name()) {
+  force(name)
+  check_is_package("use_lgpl_license()")
+
+  use_description_field("License", "LGPL (>= 2.1)", overwrite = TRUE)
+  use_license_template("LGPL-2.1", name)
+}
+
+#' @rdname licenses
+#' @export
 use_apl2_license <- function(name = find_name()) {
   force(name)
   check_is_package("use_apl2_license()")
