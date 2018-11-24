@@ -17,11 +17,13 @@ NULL
 #' integration service.
 #' @param browse Open a browser window to enable automatic builds for the
 #'   package.
+#' @param ext which travis website to use. default to `"org"`for
+#'   https://travis-ci.org. Change to `"com"` for https://travis-ci.com.
 #' @export
 #' @rdname ci
-use_travis <- function(browse = interactive()) {
+use_travis <- function(browse = interactive(), ext = c("org", "com")) {
   check_uses_github()
-
+  ext <- rlang::arg_match(ext)
   new <- use_template(
     "travis.yml",
     ".travis.yml",
@@ -29,22 +31,20 @@ use_travis <- function(browse = interactive()) {
   )
   if (!new) return(invisible(FALSE))
 
-  travis_activate(browse)
-  use_travis_badge()
+  travis_activate(browse, ext = ext)
+  use_travis_badge(ext = ext)
   invisible(TRUE)
 }
 
-use_travis_badge <- function() {
+use_travis_badge <- function(ext = "org") {
   check_uses_github()
-
-  url <- glue("https://travis-ci.org/{github_repo_spec()}")
+  url <- glue("https://travis-ci.{ext}/{github_repo_spec()}")
   img <- glue("{url}.svg?branch=master")
-
   use_badge("Travis build status", url, img)
 }
 
-travis_activate <- function(browse = interactive()) {
-  url <- glue("https://travis-ci.org/profile/{github_owner()}")
+travis_activate <- function(browse = interactive(), ext = "org") {
+  url <- glue("https://travis-ci.{ext}/profile/{github_owner()}")
 
   todo("Turn on travis for your repo at {url}")
   if (browse) {
