@@ -1,6 +1,6 @@
 #' Use pkgdown
 #'
-#' [pkgdown](https://github.com/hadley/pkgdown) makes it easy to turn your
+#' [pkgdown](https://github.com/r-lib/pkgdown) makes it easy to turn your
 #' package into a beautiful website. This helper creates a pkgdown config file
 #' and a directory for pkgdown docs, and adds them to `.Rbuildignore`
 #'
