@@ -2,7 +2,7 @@
 #'
 #' [pkgdown](https://github.com/r-lib/pkgdown) makes it easy to turn your
 #' package into a beautiful website. This helper creates a pkgdown config file
-#' and a directory for pkgdown docs, and adds them to `.Rbuildignore`
+#' and adds the file and destination diretory to `.Rbuildignore`
 #'
 #' @seealso http://pkgdown.r-lib.org/articles/pkgdown.html#configuration
 #'
