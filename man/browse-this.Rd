@@ -15,7 +15,7 @@ browse_github_issues(package = NULL, number = NULL)
 
 browse_github_pulls(package = NULL, number = NULL)
 
-browse_travis(package = NULL)
+browse_travis(package = NULL, ext = c("org", "com"))
 
 browse_cran(package = NULL)
 }
