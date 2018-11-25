@@ -12,8 +12,7 @@
 #' @export
 use_pkgdown <- function(config_file = "_pkgdown.yml", dst_path = "docs") {
   check_is_package("use_pkgdown()")
-  edit_file(proj_path(config_file))
-  use_build_ignore(config_file)
+  use_build_ignore(c(config_file, dst_path))
 
-  use_directory(dst_path, ignore = TRUE)
+  edit_file(proj_path(config_file))
 }
