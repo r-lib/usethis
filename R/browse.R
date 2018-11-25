@@ -51,6 +51,7 @@ browse_github_pulls <- function(package = NULL, number = NULL) {
 
 #' @export
 #' @rdname browse-this
+#' @param ext Version of travis to use.
 browse_travis <- function(package = NULL, ext = c("org", "com")) {
   gh <- github_home(package)
   ext <- rlang::arg_match(ext)
