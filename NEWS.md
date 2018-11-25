@@ -1,5 +1,9 @@
 # usethis *development version*
 
+* `use_travis()` can now be used with `https://travis-ci.com`. It gains an `ext`
+argument, defaulting to `"org"` for use with `https://travis-ci.org`. Use `ext = "com"` 
+to use `https://travis-ci.com`. (@cderv, #500)
+
 * `protocol` argument is now an option in `use_github()` and `create_from_github()`. The default is still to use `"ssh"` protocol but it can be changed globally to `"https"` with `options(usethis.protocol = "https")`. (#494, @cderv)
 
 * `with_project()` and `local_project()` are new withr-style functions to temporarily set an active usethis project. They make usethis functions easier to use in an *ad hoc* fashion or from another package (#441).
