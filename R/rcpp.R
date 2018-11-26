@@ -8,23 +8,24 @@ use_rcpp <- function() {
   use_dependency("Rcpp", "LinkingTo")
   use_dependency("Rcpp", "Imports")
 
+  use_src()
+  use_namespace_line(
+    "importFrom(Rcpp,sourceCpp)",
+    "@importFrom Rcpp sourceCpp"
+  )
+
+  invisible()
+}
+
+use_src <- function() {
+  check_is_package("use_src()")
+
   use_directory("src")
   use_git_ignore(c("*.o", "*.so", "*.dll"), "src")
+  use_namespace_line(
+    glue("useDynLib({project_name()}, .registration = TRUE)"),
+    glue("@useDynLib {project_name()}, .registration = TRUE")
+  )
 
-  if (uses_roxygen()) {
-    todo("Include the following roxygen tags somewhere in your package")
-    code_block(
-      "#' @useDynLib {project_name()}, .registration = TRUE",
-      "#' @importFrom Rcpp sourceCpp",
-      "NULL"
-    )
-  } else {
-    todo("Include the following directives in your NAMESPACE")
-    code_block(
-      "useDynLib('{project_name()}', .registration = TRUE)",
-      "importFrom('Rcpp', 'sourceCpp')"
-    )
-    edit_file(proj_path("NAMESPACE"))
-  }
-  todo("Run {code('devtools::document()')}")
+  invisible()
 }

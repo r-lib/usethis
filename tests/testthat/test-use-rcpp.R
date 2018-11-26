@@ -14,3 +14,13 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
   ignores <- readLines(proj_path("src", ".gitignore"))
   expect_true(all(c("*.o", "*.so", "*.dll") %in% ignores))
 })
+
+test_that("use_dynlib() doesn't message if not needed", {
+  pkg <- scoped_temporary_package()
+  use_rcpp()
+  expect_match(desc::desc_get("LinkingTo", pkg), "Rcpp")
+  expect_match(desc::desc_get("Imports", pkg), "Rcpp")
+  expect_proj_dir("src")
+  ignores <- readLines(proj_path("src", ".gitignore"))
+  expect_true(all(c("*.o", "*.so", "*.dll") %in% ignores))
+})
