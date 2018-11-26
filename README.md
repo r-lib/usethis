@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# usethis <img src="man/figures/logo.png" align="right" height=140/>
+# usethis <img src="man/figures/logo.png" align="right" height="139" />
 
 [![Travis build
 status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
