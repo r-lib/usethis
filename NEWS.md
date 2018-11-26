@@ -1,4 +1,7 @@
-# usethis *development version*
+# usethis (development version)
+
+* `use_version("dev")` now creates a standard "(development version)" heading
+  in `NEWS.md` (#440).
 
 * `use_covr_ignore()` makes it easy to ignore files in test coverage (#434).
 
