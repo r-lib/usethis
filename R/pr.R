@@ -39,6 +39,26 @@ pr_push <- function(force = FALSE) {
   )
 }
 
+pr_update <- function() {
+  check_on_branch()
+  check_uses_github()
+  check_uncommitted_changes()
+
+  repo <- proj_git_repo()
+  done("Fetching master branch from GitHub")
+  git2r::fetch(repo, "origin", refspec = "refs/head/master")
+
+  done("Merging master branch into PR branch")
+  out <- merge(repo, "master")
+  if (out$conflicts) {
+    todo("Merge conflicts found. Fix by hand, then try again.")
+    return(invisible(FALSE))
+  }
+
+  pr_push()
+  invisible(TRUE)
+}
+
 pr_open <- function() {
   url <- glue("https://github.com/{github_owner()}/{github_repo()}/compare/pkgman?expand=1")
   view_url(url)
