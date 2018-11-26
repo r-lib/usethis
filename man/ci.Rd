@@ -6,7 +6,7 @@
 \alias{use_appveyor}
 \title{Continuous integration setup and badges}
 \usage{
-use_travis(browse = interactive())
+use_travis(browse = interactive(), ext = c("org", "com"))
 
 use_coverage(type = c("codecov", "coveralls"))
 
@@ -15,6 +15,9 @@ use_appveyor(browse = interactive())
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
 package.}
+
+\item{ext}{which travis website to use. default to \code{"org"}for
+https://travis-ci.org. Change to \code{"com"} for https://travis-ci.com.}
 
 \item{type}{Which web service to use for test reporting. Currently supports
 \href{https://codecov.io}{Codecov} and \href{https://coveralls.io}{Coveralls}.}
