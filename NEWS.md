@@ -3,6 +3,10 @@
 * `use_version("dev")` now creates a standard "(development version)" heading
   in `NEWS.md` (#440).
 
+* `use_covr_ignore()` makes it easy to ignore files in test coverage (#434).
+
+* `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` (#502, @krlmlr).
+
 * `edit_r_buildignore()` is added (#462, @bfgray3).
 
 * `use_travis()` can now be used with `https://travis-ci.com`. It gains an `ext`
