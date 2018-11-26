@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `code_block()` now strips ascii escapes before copying code to clipboard 
+  (#447).
+
 * `use_version("dev")` now creates a standard "(development version)" heading
   in `NEWS.md` (#440).
 
