@@ -26,16 +26,21 @@ pr_use <- function(branch) {
 }
 
 
-pr_push <- function() {
+pr_push <- function(force = FALSE) {
   check_on_branch()
   check_uses_github()
   check_uncommitted_changes()
 
   done("Pushing to GitHub")
-  git2r::push(proj_git_repo(), "origin", paste0("refs/heads/", cur_branch$name))
+  git2r::push(
+    object = proj_git_repo(),
+    name = "origin",
+    refspec = paste0("refs/heads/", cur_branch$name),
+    force = force
+  )
 
   # TODO: figure out how to determine if PR already exists
-  url <- glue("https://github.com/{github_ower()}/{github_repo()}/compare/pkgman?expand=1")
+  url <- glue("https://github.com/{github_owner()}/{github_repo()}/compare/pkgman?expand=1")
   view_url(url)
 }
 
