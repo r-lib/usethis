@@ -64,7 +64,12 @@ use_version <- function(which = NULL) {
   new_ver <- versions[which]
 
   use_description_field("Version", new_ver, overwrite = TRUE)
-  use_news_heading(new_ver)
+  if (which == "dev") {
+    use_news_heading("(development version)")
+  } else {
+    use_news_heading(new_ver)
+  }
+
   git_check_in(
     base_path = proj_get(),
     paths = c("DESCRIPTION", "NEWS.md"),

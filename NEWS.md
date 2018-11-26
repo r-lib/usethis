@@ -1,5 +1,8 @@
 # usethis *development version*
 
+* `use_version("dev")` now creates a standard "(development version)" heading
+  in `NEWS.md` (#440).
+
 * `edit_r_buildignore()` is added (#462, @bfgray3).
 
 * `use_travis()` can now be used with `https://travis-ci.com`. It gains an `ext`
