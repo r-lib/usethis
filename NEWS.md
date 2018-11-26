@@ -1,5 +1,7 @@
 # usethis *development version*
 
+* `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` (#502, @krlmlr).
+
 * `use_travis()` can now be used with `https://travis-ci.com`. It gains an `ext`
 argument, defaulting to `"org"` for use with `https://travis-ci.org`. Use `ext = "com"` 
 to use `https://travis-ci.com`. (@cderv, #500)
