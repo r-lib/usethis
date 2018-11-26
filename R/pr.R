@@ -1,4 +1,4 @@
-pr_use <- function(branch) {
+pr_create <- function(branch) {
   check_uses_github()
 
   cur_branch <- proj_git_branch_get()
@@ -30,7 +30,7 @@ pr_push <- function(force = FALSE) {
   check_uses_github()
   check_uncommitted_changes()
 
-  done("Pushing to GitHub")
+  done("Pushing changes to GitHub PR")
   git2r::push(
     object = proj_git_repo(),
     name = "origin",
@@ -39,16 +39,20 @@ pr_push <- function(force = FALSE) {
   )
 }
 
-pr_update <- function() {
+pr_pull <- function() {
   check_on_branch()
   check_uses_github()
   check_uncommitted_changes()
 
+  done("Pulling changes from GitHub PR")
+  git2r::pull(repo)
+}
+
+pr_update <- function() {
   done("Fetching master branch from GitHub")
-  repo <- proj_git_repo()
   git2r::fetch(repo, "origin", refspec = "refs/head/master")
 
-  done("Merging master branch into PR branch")
+  done("Merging master branch")
   out <- merge(repo, "origin/master")
   if (out$conflicts) {
     todo("Merge conflicts found. Fix by hand, then try again.")
@@ -56,6 +60,7 @@ pr_update <- function() {
   }
 
   pr_push()
+
   invisible(TRUE)
 }
 
