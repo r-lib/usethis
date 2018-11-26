@@ -25,7 +25,6 @@ pr_use <- function(branch) {
   invisible()
 }
 
-
 pr_push <- function(force = FALSE) {
   check_on_branch()
   check_uses_github()
@@ -38,11 +37,13 @@ pr_push <- function(force = FALSE) {
     refspec = paste0("refs/heads/", cur_branch$name),
     force = force
   )
+}
 
-  # TODO: figure out how to determine if PR already exists
+pr_open <- function() {
   url <- glue("https://github.com/{github_owner()}/{github_repo()}/compare/pkgman?expand=1")
   view_url(url)
 }
+
 
 # Helpers -----------------------------------------------------------------
 
