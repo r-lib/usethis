@@ -18,6 +18,7 @@ test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
   skip_if_not_ci()
 
   expect_error_free(edit_r_profile())
+  expect_error_free(edit_r_buildignore())
   expect_error_free(edit_r_environ())
   expect_error_free(edit_r_makevars())
   expect_error_free(edit_git_config())
@@ -31,6 +32,9 @@ test_that("edit_r_XXX('user') ensures the file exists", {
 
   edit_r_profile("user")
   expect_r_file(".Rprofile")
+
+  edit_r_buildignore("user")
+  expect_r_file(".Rbuildignore")
 
   edit_r_environ("user")
   expect_r_file(".Renviron")

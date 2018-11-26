@@ -3,6 +3,7 @@
 \name{edit}
 \alias{edit}
 \alias{edit_r_profile}
+\alias{edit_r_buildignore}
 \alias{edit_r_environ}
 \alias{edit_r_makevars}
 \alias{edit_rstudio_snippets}
@@ -11,6 +12,8 @@
 \title{Open configuration files}
 \usage{
 edit_r_profile(scope = c("user", "project"))
+
+edit_r_buildignore(scope = c("user", "project"))
 
 edit_r_environ(scope = c("user", "project"))
 
