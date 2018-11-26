@@ -8,21 +8,19 @@
 #' @export
 use_coverage <- function(type = c("codecov", "coveralls")) {
   check_uses_travis()
-  type <- match.arg(type)
-
   use_dependency("covr", "Suggests")
 
+  type <- match.arg(type)
   if (type == "codecov") {
     new <- use_template("codecov.yml", ignore = TRUE)
-    if (!new) return(invisible(FALSE))
-  }
-
-  if (type == "coveralls") {
+    if (!new)  {
+      return(invisible(FALSE))
+    }
+  } else if (type == "coveralls") {
     todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
   }
 
-  switch(
-    type,
+  switch(type,
     codecov = use_codecov_badge(),
     coveralls = use_coveralls_badge()
   )
@@ -34,6 +32,14 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
   )
 
   invisible(TRUE)
+}
+
+#' @export
+#' @rdname use_coverage
+#' @param files Character vector of file globs.
+use_covr_ignore <- function(files) {
+  use_build_ignore(".covrignore")
+  write_union(proj_path(".covrignore"), files)
 }
 
 use_codecov_badge <- function() {

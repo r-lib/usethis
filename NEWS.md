@@ -1,5 +1,7 @@
 # usethis *development version*
 
+* `use_covr_ignore()` makes it easy to ignore files in test coverage (#434).
+
 * `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` (#502, @krlmlr).
 
 * `edit_r_buildignore()` is added (#462, @bfgray3).
