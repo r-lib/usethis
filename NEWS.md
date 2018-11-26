@@ -1,4 +1,4 @@
-# usethis *development version*
+# usethis (development version)
 
 * `use_version("dev")` now creates a standard "(development version)" heading
   in `NEWS.md` (#440).
