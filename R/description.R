@@ -122,6 +122,8 @@ tidy_desc <- function(desc) {
     desc$set_remotes(sort(remotes))
   }
 
+  desc$set("Encoding" = "UTF-8")
+
   # Normalize all fields (includes reordering)
   desc$normalize()
 }
