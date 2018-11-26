@@ -8,10 +8,3 @@ test_that("use_logo() doesn't error", {
 
   expect_error_free(use_logo("logo.png"))
 })
-
-test_that("use_logo() does nothing if badge seems to pre-exist", {
-  pkg <- scoped_temporary_package()
-  img_link <- "<img src=\"man/figures/logo.png\" align=\"right\" />"
-  writeLines(img_link, proj_path("README.md"))
-  expect_false(use_logo("logo.png"))
-})

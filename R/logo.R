@@ -14,13 +14,12 @@
 #' }
 #' @export
 use_logo <- function(img, geometry = "120x140") {
-  if (has_logo()) {
+  logo_path <- proj_path("man", "figures", "logo", ext = path_ext(img))
+  if (!can_overwrite(logo_path)) {
     return(invisible(FALSE))
   }
 
-  dir_create(proj_path("man", "figures"))
-
-  height <- as.integer(sub(".*x", "", geometry))
+  dir_create(path_dir(logo_path))
 
   if (path_ext(img) == "svg") {
     logo_path <- path("man", "figures", "logo.svg")
@@ -41,17 +40,8 @@ use_logo <- function(img, geometry = "120x140") {
   }
 
   pkg <- project_name()
+  height <- as.integer(sub(".*x", "", geometry))
 
   todo("Add a logo by adding the following line to your README:")
   code_block("# {pkg} <img src=\"{logo_path}\" align=\"right\" height={height}/>")
-}
-
-has_logo <- function() {
-  readme_path <- proj_path("README.md")
-  if (!file_exists(readme_path)) {
-    return(FALSE)
-  }
-
-  readme <- readLines(readme_path, encoding = "UTF-8")
-  any(grepl("<img src=\"man/figures/logo.png\" align=\"right\" />", readme, fixed = TRUE))
 }
