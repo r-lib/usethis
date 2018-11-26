@@ -72,16 +72,6 @@ test_that("edit_r_profile() ensures .Rprofile exists in project", {
   expect_proj_file(".Rprofile")
 })
 
-test_that("edit_r_buildignore() ensures .Rbuildignore exists in project", {
-  scoped_temporary_package()
-  edit_r_buildignore("project")
-  expect_proj_file(".Rbuildignore")
-
-  scoped_temporary_project()
-  edit_r_buildignore("project")
-  expect_proj_file(".Rbuildignore")
-})
-
 test_that("edit_r_environ() ensures .Renviron exists in project", {
   scoped_temporary_package()
   edit_r_environ("project")
