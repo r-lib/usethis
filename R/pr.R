@@ -44,12 +44,12 @@ pr_update <- function() {
   check_uses_github()
   check_uncommitted_changes()
 
-  repo <- proj_git_repo()
   done("Fetching master branch from GitHub")
+  repo <- proj_git_repo()
   git2r::fetch(repo, "origin", refspec = "refs/head/master")
 
   done("Merging master branch into PR branch")
-  out <- merge(repo, "master")
+  out <- merge(repo, "origin/master")
   if (out$conflicts) {
     todo("Merge conflicts found. Fix by hand, then try again.")
     return(invisible(FALSE))
