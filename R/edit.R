@@ -67,6 +67,13 @@ edit_r_profile <- function(scope = c("user", "project")) {
 
 #' @export
 #' @rdname edit
+edit_r_buildignore <- function(scope = c("user", "project")) {
+  file <- edit_file(scoped_path_r(scope, ".Rbuildignore"))
+  invisible(file)
+}
+
+#' @export
+#' @rdname edit
 edit_r_environ <- function(scope = c("user", "project")) {
   file <- edit_file(scoped_path_r(scope, ".Renviron"))
   todo("Restart R for changes to take effect")
