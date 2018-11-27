@@ -10,6 +10,10 @@
 
 * `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` (#502, @krlmlr).
 
+* `use_logo()` can override existing logo if user gives permission (#454).
+  It also produces retina approrpriate logos by default, and matches the 
+  aspect ratio to the hexb.in specifcation (#499).
+
 * `edit_r_buildignore()` is added (#462, @bfgray3).
 
 * `use_travis()` can now be used with `https://travis-ci.com`. It gains an `ext`
