@@ -9,6 +9,8 @@
 #' @param type Type of dependency: must be one of "Imports", "Depends",
 #'   "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation). Matching
 #'   is case insensitive.
+#' @param min_version Optionally, supply a minimum version for the package.
+#'   Set to `TRUE` to use the currently installed version.
 #' @seealso The [dependencies
 #'   section](http://r-pkgs.had.co.nz/description.html#dependencies) of [R
 #'   Packages](http://r-pkgs.had.co.nz).
@@ -19,12 +21,12 @@
 #' use_package("dplyr", "suggests")
 #' use_dev_package("glue")
 #' }
-use_package <- function(package, type = "Imports") {
+use_package <- function(package, type = "Imports", min_version = NULL) {
   types <- tolower(c("Imports", "Depends", "Suggests", "Enhances", "LinkingTo"))
   type <- match.arg(tolower(type), types)
   refuse_package(package, verboten = "tidyverse")
 
-  use_dependency(package, type)
+  use_dependency(package, type, min_version = min_version)
 
   switch(tolower(type),
     imports = todo("Refer to functions with {code(package, '::fun()')}"),
@@ -70,7 +72,7 @@ use_dev_package <- function(package, type = "Imports") {
   }
 
   package_remote <- package_remote(package)
-  use_dependency(package, type = type, version = dep_version(package))
+  use_dependency(package, type = type, min_version = TRUE)
   remotes <- desc::desc_get_remotes(proj_get())
   if (package_remote %in% remotes) {
     return(invisible())
