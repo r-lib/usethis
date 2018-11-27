@@ -1,3 +1,17 @@
+#' Helpers for GitHub pull requests
+#'
+#' @description
+#' * `pr_init()` creates a new local branch for the PR
+#' * `pr_push()` pushes local changes to GitHub. On first use, it will prompt
+#'    you to create a PR on GitHub.
+#' * `pr_pull()` retrives changes from the GitHub PR. Run this if others
+#'    have made suggestions or pushed to your PR.
+#' * `pr_view()` open the PR in the browser
+#'
+#' @details
+#' These functions have been designed to support the git and GitHub best
+#' practices described in <http://happygitwithr.com/>.
+#' @export
 pr_init <- function(branch) {
   check_uses_github()
   check_branch_current("master")
@@ -45,6 +59,8 @@ pr_push <- function(force = FALSE) {
   }
 }
 
+#' @export
+#' @rdname pr_init
 pr_pull <- function() {
   check_uses_github()
   check_branch_not_master()
@@ -54,6 +70,8 @@ pr_pull <- function() {
   git2r::pull(repo)
 }
 
+#' @export
+#' @rdname pr_init
 pr_view <- function() {
   url <- pr_url()
   if (is.null(url)) {
@@ -133,7 +151,7 @@ check_branch_current <- function(branch = git_branch_name()) {
 
   stop(
     glue::glue(
-      "master branch is out of date.
+      "{branch} branch is out of date.
       Please resolve (somehow) before continuing.
       "
     ),
@@ -175,7 +193,7 @@ git_branch_exists <- function(branch) {
 }
 
 git_branch_create <- function(branch, commit = NULL) {
-  git2r::branch_create(proj_git_commit(commit), branch)
+  git2r::branch_create(git_commit_find(commit), branch)
 }
 
 git_branch_compare <- function(branch = git_branch_name()) {
@@ -215,7 +233,7 @@ git_branch_remote <- function(branch = git_branch_name()) {
   upstream$name
 }
 
-git_branch_track <- function(branch) {
+git_branch_track <- function(branch, remote = origin, remote_branch = branch) {
   branch_obj <- git2r::branches(git_repo())[[branch]]
-  git2r::branch_set_upstream(branch_obj, paste0("origin/", branch))
+  git2r::branch_set_upstream(branch_obj, paste0(remote, "/", remote_branch))
 }
