@@ -189,7 +189,19 @@ git_branch_compare <- function(branch = git_branch_name()) {
 
 git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
   branch_obj <- git2r::branches(git_repo())[[branch]]
-  git2r::push(branch_obj)
+
+  upstream <- git2r::branch_get_upstream(branch_obj)
+  if (is.null(upstream)) {
+    stop("Branch does not track a remote", call. = FALSE)
+  }
+  name <- git2r::branch_remote_name(upstream)
+
+  git2r::push(
+    git_repo(),
+    name = name,
+    refspec = paste0("refs/heads/", branch),
+    force = force
+  )
 }
 
 git_branch_pull <- function(branch) {
