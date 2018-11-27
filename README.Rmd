@@ -60,8 +60,6 @@ use_mit_license("My Name")
 
 use_package("MASS", "Suggests")
 
-use_dev_package("callr")
-
 # Set up various packages ---------------------------------------------
 use_roxygen_md()
 

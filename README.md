@@ -59,7 +59,7 @@ library(usethis)
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp)
-#> ✔ Setting active project to '/private/var/folders/vr/gzrbtprx6ybg85y5pvwm1ct40000gn/T/RtmpGwzXO5/mypkg'
+#> ✔ Setting active project to '/private/tmp/RtmpWdqGST/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
@@ -77,14 +77,10 @@ use_package("MASS", "Suggests")
 #> ● Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed
 #> ● Then use `MASS::fun()` to refer to functions.
 
-use_dev_package("callr")
-#> ✔ Adding 'callr' to Imports field in DESCRIPTION
-#> ✔ Adding 'r-lib/callr' to Remotes field in DESCRIPTION
-
 # Set up various packages ---------------------------------------------
 use_roxygen_md()
 #> ✔ Setting Roxygen field in DESCRIPTION to 'list(markdown = TRUE)'
-#> ✔ Setting RoxygenNote field in DESCRIPTION to '6.1.0'
+#> ✔ Setting RoxygenNote field in DESCRIPTION to '6.1.1'
 #> ● Run `devtools::document()`
 
 use_rcpp()
