@@ -59,11 +59,14 @@ library(usethis)
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp)
-#> ✔ Setting active project to '/private/tmp/RtmpWdqGST/mypkg'
+#> ✔ Setting active project to '/private/tmp/RtmpDEpfC5/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
 #> ✔ Writing 'NAMESPACE'
+#> ✔ Setting active project to '<no active project>'
+proj_set(tmp)
+#> ✔ Setting active project to '/private/tmp/RtmpDEpfC5/mypkg'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")

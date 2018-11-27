@@ -54,6 +54,7 @@ library(usethis)
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp)
+proj_set(tmp)
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")

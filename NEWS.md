@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `create_()` always restore the active project. If you're not using RStudio,
+  this means it's now your responsibility to change to the new project (#453).
+
 * `code_block()` now strips ascii escapes before copying code to clipboard 
   (#447).
 

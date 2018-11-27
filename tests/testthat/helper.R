@@ -38,7 +38,8 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
       )
     }
   } else {
-    withr::defer(proj_set(old_project, force = TRUE), envir = env)
+    withr::defer(proj_set(old_project), envir = env)
+    withr::defer(setwd(old_project), envir = env)
     withr::defer(fs::dir_delete(dir), envir = env)
   }
 
@@ -48,6 +49,8 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
     package = create_package(dir, rstudio = rstudio, open = FALSE),
     project = create_project(dir, rstudio = rstudio, open = FALSE)
   )
+  proj_set(dir, force = TRUE)
+  setwd(dir)
   invisible(dir)
 }
 

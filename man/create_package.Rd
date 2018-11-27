@@ -27,9 +27,8 @@ that the directory can be recognized as a project by the
 \href{https://rprojroot.r-lib.org}{rprojroot} packages.}
 
 \item{open}{If \code{TRUE} and in RStudio, a new RStudio project is opened in a
-new instance, if possible, or is switched to, otherwise. If \code{TRUE} and not
-in RStudio (or new project is not an RStudio project), working directory is
-set to the new project.}
+new instance, if possible, or is switched to, otherwise. If you're not
+using RStudio, it's your responsibility to switch to the new project.}
 }
 \description{
 These functions create an R project:
@@ -40,7 +39,7 @@ project
 }
 
 Both functions can add project infrastructure to an existing directory of
-files or can create a completely new project. Both functions change the
-active project, so that subsequent \code{use_*()} calls affect the project
-that you've just created. See \code{\link[=proj_set]{proj_set()}} to manually reset it.
+files or can create a completely new project. These functions \strong{do not}
+change the active project in the current session; it's your responsibility
+to use \code{\link[=proj_set]{proj_set()}} (or otherwise) to change it.
 }

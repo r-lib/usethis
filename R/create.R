@@ -7,9 +7,9 @@
 #'   project
 #'
 #' Both functions can add project infrastructure to an existing directory of
-#' files or can create a completely new project. Both functions change the
-#' active project, so that subsequent `use_*()` calls affect the project
-#' that you've just created. See [proj_set()] to manually reset it.
+#' files or can create a completely new project. These functions **do not**
+#' change the active project in the current session; it's your responsibility
+#' to use [proj_set()] (or otherwise) to change it.
 #'
 #' @param path A path. If it exists, it is used. If it does not exist, it is
 #'   created, provided that the parent path exists.
@@ -22,9 +22,8 @@
 #'   [here](https://here.r-lib.org) or
 #'   [rprojroot](https://rprojroot.r-lib.org) packages.
 #' @param open If `TRUE` and in RStudio, a new RStudio project is opened in a
-#'   new instance, if possible, or is switched to, otherwise. If `TRUE` and not
-#'   in RStudio (or new project is not an RStudio project), working directory is
-#'   set to the new project.
+#'   new instance, if possible, or is switched to, otherwise. If you're not
+#'   using RStudio, it's your responsibility to switch to the new project.
 #' @export
 create_package <- function(path,
                            fields = NULL,
@@ -37,6 +36,7 @@ create_package <- function(path,
 
   create_directory(path_dir(path), name)
   old_project <- proj_set(path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
   use_directory("man")
@@ -44,11 +44,7 @@ create_package <- function(path,
   use_namespace()
 
   if (rstudio) {
-    use_rstudio()
-  }
-
-  if (open) {
-    open_project(proj_get(), restore = old_project)
+    use_rstudio(open = open)
   }
 
   invisible(TRUE)
@@ -65,19 +61,17 @@ create_project <- function(path,
 
   create_directory(path_dir(path), name)
   old_project <- proj_set(path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
 
   if (rstudio) {
-    use_rstudio()
+    use_rstudio(open = open)
   } else {
     done("Writing a sentinel file {value('.here')}")
     todo("Build robust paths within your project via {code('here::here()')}")
     todo("Learn more at https://here.r-lib.org")
     file_create(proj_path(".here"))
-  }
-  if (open) {
-    open_project(proj_get(), restore = old_project)
   }
 
   invisible(TRUE)
@@ -192,7 +186,8 @@ create_from_github <- function(repo_spec,
     credentials = credentials,
     progress = FALSE
   )
-  old_project <- proj_set(repo_path)
+  old_project <- proj_set(path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   if (fork) {
     r <- git2r::repository(proj_get())
@@ -203,39 +198,10 @@ create_from_github <- function(repo_spec,
   rstudio <- rstudio %||% rstudioapi::isAvailable()
   rstudio <- rstudio && !is_rstudio_project(proj_get())
   if (rstudio) {
-    use_rstudio()
+    use_rstudio(open = open)
   }
 
-  if (open) {
-    open_project(proj_get(), restore = old_project)
-  }
   invisible(TRUE)
-
-}
-
-## `restore = NA` means do not restore, because ...
-## `restore = NULL` has to be reserved for the scenario where we restore state of "no active project"
-##
-## `rstudio` arg here is about whether to attempt a launch in RStudio
-## `rstudio` arg of `create_*()` functions is about whether to add .Rproj file
-open_project <- function(path, restore = NA, rstudio = NA) {
-  if (is.na(rstudio)) {
-    rstudio <- is_rstudio_project(path)
-  }
-
-  if (rstudio && rstudioapi::hasFun("openProject")) {
-    done("Opening new project {value(path_file(path))} in RStudio")
-    rstudioapi::openProject(rproj_path(path), newSession = TRUE)
-    ## TODO: check this is correct on rstudio server / cloud
-    if (is.null(restore) || !is.na(restore)) {
-      proj_set(restore, force = TRUE)
-    }
-    invisible(TRUE)
-  } else {
-    setwd(path)
-    done("Changing working directory to {value(path)}")
-    invisible(FALSE)
-  }
 }
 
 check_not_nested <- function(path, name) {
