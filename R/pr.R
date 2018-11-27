@@ -50,14 +50,13 @@ pr_fetch <- function(number) {
   remote <- paste0(user, "/", ref)
 
   if (!user %in% git2r::remotes(git_repo())) {
-    # add requestor's fork as a named remote
-    done("Fetching remote branch {remote}")
+    done("Adding remote {remote}")
     git2r::remote_add(git_repo(), user, pr$head$repo$git_url)
-    git2r::fetch(git_repo(), user, refspec = remote, verbose = FALSE)
   }
 
   if (!git_branch_exists(branch)) {
     done("Creating local branch {branch}")
+    git2r::fetch(git_repo(), user, refspec = remote, verbose = FALSE)
     git_branch_create(branch, remote)
     git_branch_track(branch, user, ref)
   }
