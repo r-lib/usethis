@@ -1,12 +1,12 @@
 pr_init <- function(branch) {
   check_uses_github()
 
-  cur_branch <- proj_git_branch_get()
+  cur_branch <- proj_git_branch()
   if (cur_branch$name == branch) {
     return(invisible(TRUE))
   }
 
-  pr_branch <- proj_git_branch_find(branch)
+  pr_branch <- proj_git_branches()[[branch]]
   if (is.null(pr_branch)) {
     if (cur_branch$name != "master") {
       if (nope("Create local PR branch with non-master parent?")) {
@@ -83,7 +83,7 @@ pr_view <- function() {
 }
 
 pr_create_gh <- function() {
-  branch <- proj_git_branch_get()$name
+  branch <- proj_git_branch()$name
 
   done("Create PR at:")
   view_url(glue("https://github.com/{github_owner()}/{github_repo()}/compare/{branch}"))
@@ -92,7 +92,7 @@ pr_create_gh <- function() {
 
 pr_url <- function() {
   repo <- proj_git_repo()
-  branch <- proj_git_branch_get()$name
+  branch <- proj_git_branch()$name
 
   # Look first in cache (stored in git config)
   config_url <- glue("branch.{branch}.pull-url")
@@ -128,7 +128,7 @@ pr_url <- function() {
 # Helpers -----------------------------------------------------------------
 
 check_on_branch <- function() {
-  cur_branch <- proj_git_branch_get()
+  cur_branch <- proj_git_branch()
   if (cur_branch$name == "master") {
     stop(glue::glue("
       Currently on master branch.
@@ -142,7 +142,7 @@ proj_git_repo <- function() {
   git2r::repository(proj_path())
 }
 
-proj_git_branch_get <- function() {
+proj_git_branch <- function() {
   repo <- proj_git_repo()
   branch <- git2r::repository_head(repo)
   if (!git2r::is_branch(branch)) {
@@ -152,9 +152,8 @@ proj_git_branch_get <- function() {
   branch
 }
 
-proj_git_branch_find <- function(branch) {
+proj_git_branches <- function() {
   repo <- proj_git_repo()
-  branches <- git2r::branches(repo, "local")
-  Find(function(x) x$name == branch, branches)
+  git2r::branches(repo)
 }
 
