@@ -36,16 +36,49 @@ pr_init <- function(branch) {
   invisible()
 }
 
+pr_fetch <- function(number) {
+  done("Retrieving PR data")
+  pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
+    owner = github_owner(),
+    repo = github_repo(),
+    number = number
+  )
+
+  user <- pr$user$login
+  ref <- pr$head$ref
+  branch <- paste0(user, "-", ref)
+  remote <- paste0(user, "/", ref)
+
+  if (!user %in% git2r::remotes(git_repo())) {
+    # add requestor's fork as a named remote
+    done("Fetching remote branch {remote}")
+    git2r::remote_add(git_repo(), user, pr$head$repo$git_url)
+    git2r::fetch(git_repo(), user, refspec = remote, verbose = FALSE)
+  }
+
+  if (!git_branch_exists(branch)) {
+    done("Creating local branch {branch}")
+    git_branch_create(branch, remote)
+    git_branch_track(branch, user, ref)
+  }
+
+  if (git_branch_name() != branch) {
+    git2r::checkout(git_repo(), branch)
+  }
+}
+
+#' @export
+#' @rdname pr_init
 pr_push <- function(force = FALSE) {
   check_uses_github()
   check_branch_not_master()
-  check_branch_current()
   check_uncommitted_changes()
 
   if (is.null(git_branch_remote(branch))) {
     done("Tracking remote PR branch")
     git_branch_track(branch)
   }
+  check_branch_current()
 
   done("Pushing changes to GitHub PR")
   git_branch_push(force = force)
