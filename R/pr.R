@@ -13,11 +13,6 @@ pr_init <- function(branch) {
     git_branch_create(branch)
   }
 
-  if (is.null(git_branch_remote(branch))) {
-    done("Tracking remote PR branch")
-    git_branch_track(branch)
-  }
-
   if (git_branch_name() == branch) {
     done("Switching to branch {value(branch)}")
     git2r::checkout(repo, branch)
@@ -32,6 +27,11 @@ pr_push <- function(force = FALSE) {
   check_branch_not_master()
   check_branch_current()
   check_uncommitted_changes()
+
+  if (is.null(git_branch_remote(branch))) {
+    done("Tracking remote PR branch")
+    git_branch_track(branch)
+  }
 
   done("Pushing changes to GitHub PR")
   git_branch_push(force = force)
