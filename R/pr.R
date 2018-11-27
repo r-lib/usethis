@@ -64,11 +64,46 @@ pr_update <- function() {
   invisible(TRUE)
 }
 
-pr_open <- function() {
-  url <- glue("https://github.com/{github_owner()}/{github_repo()}/compare/pkgman?expand=1")
-  view_url(url)
+pr_view <- function() {
+  view_url(pr_url())
 }
 
+pr_url <- function() {
+  repo <- proj_git_repo()
+  branch <- proj_git_branch_get()$name
+
+  # Look first in cache (stored in git config)
+  config_url <- glue("branch.{branch}.pull-url")
+  url <- git2r::config()$local[[config_url]]
+  if (!is.null(url)) {
+    return(url)
+  }
+
+  # Look at all PRs
+  prs <- gh::gh("GET /repos/:owner/:repo/pulls",
+    owner = github_owner(),
+    repo = github_repo(),
+    .limit = Inf
+  )
+  refs <- vapply(prs, function(x) x$head$ref %||% NA_character_, character(1))
+  match <- which(refs == branch)
+
+  if (length(match) == 0) {
+    done("Create PR")
+    url <- glue("https://github.com/{github_owner()}/{github_repo()}/compare/{branch}")
+    NULL
+  } else if (length(match) > 1) {
+    stop("Multiple PRs correspond to this branch. Please close before continuing", call = FALSE)
+  } else {
+    url <- prs[[match]]$html_url
+
+    config <- list(repo, url)
+    names(config) <- c("repo", config_url)
+    do.call(git2r::config, config)
+
+    url
+  }
+}
 
 # Helpers -----------------------------------------------------------------
 
