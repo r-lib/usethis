@@ -1,43 +1,40 @@
 pr_init <- function(branch) {
   check_uses_github()
+  check_branch_current("master")
 
-  cur_branch <- proj_git_branch()
-  if (cur_branch$name == branch) {
-    return(invisible(TRUE))
-  }
-
-  pr_branch <- proj_git_branches()[[branch]]
-  if (is.null(pr_branch)) {
-    if (cur_branch$name != "master") {
+  if (!git_branch_exists(branch)) {
+    if (cur_branch != "master") {
       if (nope("Create local PR branch with non-master parent?")) {
         return(invisible(FALSE))
       }
     }
 
     done("Creating local PR branch {value(branch)}")
-    head <- git2r::commits(repo, n = 1)[[1]]
-    pr_branch <- git2r::branch_create(head, branch)
+    git_branch_create(branch)
   }
 
-  done("Switching to branch {value(branch)}")
-  git2r::checkout(pr_branch)
+  if (is.null(git_branch_remote(branch))) {
+    done("Tracking remote PR branch")
+    git_branch_track(branch)
+  }
+
+  if (git_branch_name() == branch) {
+    done("Switching to branch {value(branch)}")
+    git2r::checkout(repo, branch)
+  }
 
   todo("Use {code('pr_push()')} to create PR")
   invisible()
 }
 
 pr_push <- function(force = FALSE) {
-  check_on_branch()
   check_uses_github()
+  check_branch_not_master()
+  check_branch_current()
   check_uncommitted_changes()
 
   done("Pushing changes to GitHub PR")
-  git2r::push(
-    object = proj_git_repo(),
-    name = "origin",
-    refspec = paste0("refs/heads/", cur_branch$name),
-    force = force
-  )
+  git_branch_push(force = force)
 
   # Prompt to create on first push
   url <- pr_url()
@@ -49,28 +46,12 @@ pr_push <- function(force = FALSE) {
 }
 
 pr_pull <- function() {
-  check_on_branch()
   check_uses_github()
+  check_branch_not_master()
   check_uncommitted_changes()
 
   done("Pulling changes from GitHub PR")
   git2r::pull(repo)
-}
-
-pr_update <- function() {
-  done("Fetching master branch from GitHub")
-  git2r::fetch(repo, "origin", refspec = "refs/head/master")
-
-  done("Merging master branch")
-  out <- merge(repo, "origin/master")
-  if (out$conflicts) {
-    todo("Merge conflicts found. Fix by hand, then re-run {code('pr_update()')}.")
-    return(invisible(FALSE))
-  }
-
-  pr_push()
-
-  invisible(TRUE)
 }
 
 pr_view <- function() {
@@ -83,16 +64,17 @@ pr_view <- function() {
 }
 
 pr_create_gh <- function() {
-  branch <- proj_git_branch()$name
+  owner <- github_owner()
+  repo <- github_repo()
+  name <- git_branch_name()
 
   done("Create PR at:")
-  view_url(glue("https://github.com/{github_owner()}/{github_repo()}/compare/{branch}"))
-  invisible()
+  view_url(glue("https://github.com/{owner}/{repo}/compare/{branch}"))
 }
 
 pr_url <- function() {
-  repo <- proj_git_repo()
-  branch <- proj_git_branch()$name
+  repo <- git_repo()
+  branch <- git_branch_name()
 
   # Look first in cache (stored in git config)
   config_url <- glue("branch.{branch}.pull-url")
@@ -125,35 +107,103 @@ pr_url <- function() {
   }
 }
 
-# Helpers -----------------------------------------------------------------
+# Checkers -----------------------------------------------------------------
 
-check_on_branch <- function() {
-  cur_branch <- proj_git_branch()
-  if (cur_branch$name == "master") {
-    stop(glue::glue("
+check_branch_not_master <- function() {
+  if (git_branch_name() != "master") {
+    return()
+  }
+
+  stop(
+    glue::glue("
       Currently on master branch.
       Do you need to call {code('pr_init()')} first?"
-    ), call. = FALSE)
-  }
+    ),
+    call. = FALSE
+  )
 }
 
-proj_git_repo <- function() {
+check_branch_current <- function(branch = git_branch_name()) {
+  done("Checking that {branch} branch is up to date")
+  diff <- git_branch_compare(branch)
+
+  if (diff[[2]] == 0) {
+    return()
+  }
+
+  stop(
+    glue::glue(
+      "master branch is out of date.
+      Please resolve (somehow) before continuing.
+      "
+    ),
+    call. = FALSE
+  )
+}
+
+# Git helpers -------------------------------------------------------------
+
+git_repo <- function() {
   check_uses_git()
   git2r::repository(proj_path())
 }
 
-proj_git_branch <- function() {
-  repo <- proj_git_repo()
+git_commit_find <- function(refspec = NULL) {
+  repo <- git_repo()
+
+  if (is.null(refspec)) {
+    git2r::last_commit(repo)
+  } else {
+    git2r::revparse_single(repo, refspec)
+  }
+}
+
+git_branch_name <- function() {
+  repo <- git_repo()
+
   branch <- git2r::repository_head(repo)
   if (!git2r::is_branch(branch)) {
     stop("Detached head; can't continue", call. = FALSE)
   }
 
-  branch
+  branch$name
 }
 
-proj_git_branches <- function() {
-  repo <- proj_git_repo()
-  git2r::branches(repo)
+git_branch_exists <- function(branch) {
+  repo <- git_repo()
+  branch %in% names(git2r::branches(repo))
 }
 
+git_branch_create <- function(branch, commit = NULL) {
+  git2r::branch_create(proj_git_commit(commit), branch)
+}
+
+git_branch_compare <- function(branch = git_branch_name()) {
+  repo <- git_repo()
+  git2r::fetch(repo, "origin", refspec = branch)
+  git2r::ahead_behind(
+    git_commit_find(branch),
+    git_commit_find(paste0("origin/", branch))
+  )
+}
+
+git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
+  branch_obj <- git2r::branches(git_repo())[[branch]]
+  git2r::push(branch_obj)
+}
+
+git_branch_pull <- function(branch) {
+  git2r::fetch(repo, "origin", refspec = branch)
+  merge(repo, paste0("origin/", branch), fail = TRUE)
+}
+
+git_branch_remote <- function(branch = git_branch_name()) {
+  branch_obj <- git2r::branches(git_repo())[[branch]]
+  upstream <- git2r::branch_get_upstream(branch_obj)
+  upstream$name
+}
+
+git_branch_track <- function(branch) {
+  branch_obj <- git2r::branches(git_repo())[[branch]]
+  git2r::branch_set_upstream(branch_obj, paste0("origin/", branch))
+}
