@@ -9,12 +9,12 @@ pr_init <- function(branch) {
   pr_branch <- proj_git_branch_find(branch)
   if (is.null(pr_branch)) {
     if (cur_branch$name != "master") {
-      if (nope("Create pull request branch with non-master parent?")) {
+      if (nope("Create local PR branch with non-master parent?")) {
         return(invisible(FALSE))
       }
     }
 
-    done("Creating branch {value(branch)}")
+    done("Creating local PR branch {value(branch)}")
     head <- git2r::commits(repo, n = 1)[[1]]
     pr_branch <- git2r::branch_create(head, branch)
   }
@@ -22,6 +22,7 @@ pr_init <- function(branch) {
   done("Switching to branch {value(branch)}")
   git2r::checkout(pr_branch)
 
+  todo("Use {code('pr_push()')} to create PR")
   invisible()
 }
 
@@ -43,7 +44,7 @@ pr_push <- function(force = FALSE) {
   if (is.null(url)) {
     pr_create_gh()
   } else {
-    done("See progress at {value(url)}")
+    done("View PR at {value(url)}")
   }
 }
 
@@ -63,7 +64,7 @@ pr_update <- function() {
   done("Merging master branch")
   out <- merge(repo, "origin/master")
   if (out$conflicts) {
-    todo("Merge conflicts found. Fix by hand, then re-run `pr_update()`.")
+    todo("Merge conflicts found. Fix by hand, then re-run {code('pr_update()')}.")
     return(invisible(FALSE))
   }
 
@@ -129,7 +130,10 @@ pr_url <- function() {
 check_on_branch <- function() {
   cur_branch <- proj_git_branch_get()
   if (cur_branch$name == "master") {
-    stop("Currently on master branch. Do you need to call `pr_init()` first?", call. = FALSE)
+    stop(glue::glue("
+      Currently on master branch.
+      Do you need to call {code('pr_init()')} first?"
+    ), call. = FALSE)
   }
 }
 
