@@ -1,4 +1,4 @@
-pr_create <- function(branch) {
+pr_init <- function(branch) {
   check_uses_github()
 
   cur_branch <- proj_git_branch_get()
@@ -9,7 +9,7 @@ pr_create <- function(branch) {
   pr_branch <- proj_git_branch_find(branch)
   if (is.null(pr_branch)) {
     if (cur_branch$name != "master") {
-      if (nope("Start pull-request from non-master branch?")) {
+      if (nope("Create pull request branch with non-master parent?")) {
         return(invisible(FALSE))
       }
     }
@@ -63,7 +63,7 @@ pr_update <- function() {
   done("Merging master branch")
   out <- merge(repo, "origin/master")
   if (out$conflicts) {
-    todo("Merge conflicts found. Fix by hand, then try again.")
+    todo("Merge conflicts found. Fix by hand, then re-run `pr_update()`.")
     return(invisible(FALSE))
   }
 
@@ -129,7 +129,7 @@ pr_url <- function() {
 check_on_branch <- function() {
   cur_branch <- proj_git_branch_get()
   if (cur_branch$name == "master") {
-    stop("Currently on master branch. Do you need to call `pr_use()` first?", call. = FALSE)
+    stop("Currently on master branch. Do you need to call `pr_init()` first?", call. = FALSE)
   }
 }
 
