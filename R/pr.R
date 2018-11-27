@@ -37,6 +37,14 @@ pr_push <- function(force = FALSE) {
     refspec = paste0("refs/heads/", cur_branch$name),
     force = force
   )
+
+  # Prompt to create on first push
+  url <- pr_url()
+  if (is.null(url)) {
+    pr_create_gh()
+  } else {
+    done("See progress at {value(url)}")
+  }
 }
 
 pr_pull <- function() {
@@ -65,7 +73,20 @@ pr_update <- function() {
 }
 
 pr_view <- function() {
-  view_url(pr_url())
+  url <- pr_url()
+  if (is.null(url)) {
+    pr_create()
+  } else {
+    view_url(pr_url())
+  }
+}
+
+pr_create_gh <- function() {
+  branch <- proj_git_branch_get()$name
+
+  done("Create PR at:")
+  view_url(glue("https://github.com/{github_owner()}/{github_repo()}/compare/{branch}"))
+  invisible()
 }
 
 pr_url <- function() {
@@ -89,8 +110,6 @@ pr_url <- function() {
   match <- which(refs == branch)
 
   if (length(match) == 0) {
-    done("Create PR")
-    url <- glue("https://github.com/{github_owner()}/{github_repo()}/compare/{branch}")
     NULL
   } else if (length(match) > 1) {
     stop("Multiple PRs correspond to this branch. Please close before continuing", call = FALSE)
