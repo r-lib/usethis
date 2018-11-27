@@ -1,0 +1,9 @@
+pandoc: '2.2'
+pkgdown: 1.2.0
+pkgdown_sha: ~
+articles:
+  usethis-setup: articles/usethis-setup.html
+urls:
+  reference: http://usethis.r-lib.org/reference
+  article: http://usethis.r-lib.org/articles
+
