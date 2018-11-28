@@ -65,69 +65,69 @@ use_github <- function(organisation = NULL,
                        auth_token = NULL,
                        host = NULL) {
   check_uses_git()
+  check_uncommitted_changes()
+  r <- git2r::repository(proj_get())
+
   ## auth_token is used directly by git2r, therefore cannot be NULL
   auth_token <- auth_token %||% gh_token()
   check_gh_token(auth_token)
-
-  if (uses_github(proj_get())) {
-    done("GitHub is already initialized")
-    return(invisible())
-  }
-
-  pkg <- project_data()
-  repo_name <- pkg$Project %||% gsub("\n", " ", pkg$Package)
-  repo_desc <- pkg$Title %||% ""
-
-  if (interactive()) {
-    todo("Check title and description")
-    code_block(
-      "Name:        {repo_name}",
-      "Description: {repo_desc}",
-      copy = FALSE
-    )
-    if (nope("Are title and description ok?")) {
-      return(invisible())
-    }
-  } else {
-    done("Setting title and description")
-    code_block(
-      "Name:        {repo_name}",
-      "Description: {repo_desc}",
-      copy = FALSE
-    )
-  }
-
-  done("Creating GitHub repository")
-
-  if (is.null(organisation)) {
-    create <- gh::gh(
-      "POST /user/repos",
-      name = repo_name,
-      description = repo_desc,
-      private = private,
-      .api_url = host,
-      .token = auth_token
-    )
-  } else {
-    create <- gh::gh(
-      "POST /orgs/:org/repos",
-      org = organisation,
-      name = repo_name,
-      description = repo_desc,
-      private = private,
-      .api_url = host,
-      .token = auth_token
-    )
-  }
-
-  done("Adding GitHub remote")
-  r <- git2r::repository(proj_get())
   protocol <- match.arg(protocol, c("ssh", "https"))
-  origin_url <- switch(protocol,
-    https = create$clone_url,
-    ssh = create$ssh_url
-  )
-  git2r::remote_add(r, "origin", origin_url)
+
+  if (!uses_github(proj_get())) {
+    pkg <- project_data()
+    repo_name <- pkg$Project %||% gsub("\n", " ", pkg$Package)
+    repo_desc <- pkg$Title %||% ""
+
+    if (interactive()) {
+      todo("Check title and description")
+      code_block(
+        "Name:        {repo_name}",
+        "Description: {repo_desc}",
+        copy = FALSE
+      )
+      if (nope("Are title and description ok?")) {
+        return(invisible())
+      }
+    } else {
+      done("Setting title and description")
+      code_block(
+        "Name:        {repo_name}",
+        "Description: {repo_desc}",
+        copy = FALSE
+      )
+    }
+
+    done("Creating GitHub repository")
+
+    if (is.null(organisation)) {
+      create <- gh::gh(
+        "POST /user/repos",
+        name = repo_name,
+        description = repo_desc,
+        private = private,
+        .api_url = host,
+        .token = auth_token
+      )
+    } else {
+      create <- gh::gh(
+        "POST /orgs/:org/repos",
+        org = organisation,
+        name = repo_name,
+        description = repo_desc,
+        private = private,
+        .api_url = host,
+        .token = auth_token
+      )
+    }
+    view_url(create$html_url)
+
+    done("Adding GitHub remote")
+    origin_url <- switch(protocol,
+      https = create$clone_url,
+      ssh = create$ssh_url
+    )
+    git2r::remote_add(r, "origin", origin_url)
+  }
 
   if (is_package()) {
     done("Adding GitHub links to DESCRIPTION")
@@ -138,20 +138,17 @@ use_github <- function(organisation = NULL,
     }
   }
 
-  done("Pushing to GitHub and setting remote tracking branch")
-  if (protocol == "ssh") {
-    ## [1] push via ssh required for success setting remote tracking branch
-    ## [2] to get passphrase from ssh-agent, you must use NULL credentials
+  head <- git2r::repository_head(r)
+  if (is.null(git2r::branch_get_upstream(head))) {
+    done("Pushing to GitHub and setting remote tracking branch")
+    if (protocol == "https") {
+      ## in https case, when GITHUB_PAT is passed as password,
+      ## the username is immaterial, but git2r doesn't know that.
+      credentials <- git2r::cred_user_pass("EMAIL", auth_token)
+    }
     git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
-  } else { ## protocol == "https"
-    ## in https case, when GITHUB_PAT is passed as password,
-    ## the username is immaterial, but git2r doesn't know that.
-    cred <- git2r::cred_user_pass("EMAIL", auth_token)
-    git2r::push(r, "origin", "refs/heads/master", credentials = cred)
+    git2r::branch_set_upstream(head, "origin/master")
   }
-  git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
-
-  view_url(create$html_url)
 
   invisible(NULL)
 }
