@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_badge()` and friends now automate badge creation if your badge block
+  starts with `<-- badge:start -->` and ends with `<-- badge:end -->` (#497)
+
 * `pr_init()`, `pr_fetch()`, `pr_push()`, and `pr_pull()` are a new family
   of helpers designed to help with the GitHub PR process. Currently they 
   assume that you're working on your own repo (i.e. no fork), but once we've
