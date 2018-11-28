@@ -5,6 +5,10 @@
   assume that you're working on your own repo (i.e. no fork), but once we've
   happy with them, we'll extend to work in more situations (#346).
 
+* `use_vignette()` now has a `title` argument which is used to propagate the vignette YAML header, where the title of the vignette needs to be entered in two places. The vignettes also lose their author and date fields by default, as these were deemed unnecessary (@rorynolan, #445).
+
+* `use_description()` once again prints the generated description (#287).
+
 * `code_block()` now strips ascii escapes before copying code to clipboard 
   (#447).
 
@@ -14,6 +18,10 @@
 * `use_covr_ignore()` makes it easy to ignore files in test coverage (#434).
 
 * `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` (#502, @krlmlr).
+
+* `use_logo()` can override existing logo if user gives permission (#454).
+  It also produces retina approrpriate logos by default, and matches the 
+  aspect ratio to the hexb.in specifcation (#499).
 
 * `edit_r_buildignore()` is added (#462, @bfgray3).
 
