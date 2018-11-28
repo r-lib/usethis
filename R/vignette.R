@@ -15,7 +15,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' use_vignette("how-to-do-stuff")
+#' use_vignette("how-to-do-stuff", "How to do stuff")
 #' }
 use_vignette <- function(name, title) {
   check_is_package("use_vignette()")
