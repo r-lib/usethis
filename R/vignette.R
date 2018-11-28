@@ -9,18 +9,21 @@
 #'
 #' @param name Base for file name to use for new vignette. Should consist only
 #'   of numbers, letters, _ and -. I recommend using lower case.
+#' @param title The title of the vignette.
 #' @seealso The [vignettes chapter](http://r-pkgs.had.co.nz/vignettes.html) of
 #'   [R Packages](http://r-pkgs.had.co.nz).
 #' @export
 #' @examples
 #' \dontrun{
-#' use_vignette("how-to-do-stuff")
+#' use_vignette("how-to-do-stuff", "How to do stuff")
 #' }
-use_vignette <- function(name) {
+use_vignette <- function(name, title) {
   check_is_package("use_vignette()")
   if (missing(name)) {
     stop_glue("Argument {code('name')} is missing, with no default.")
   }
+  stopifnot(is_string(name))
+  stopifnot(is_string(title))
   check_installed("rmarkdown")
 
   use_dependency("knitr", "Suggests")
@@ -34,9 +37,12 @@ use_vignette <- function(name) {
   path <- proj_path("vignettes", asciify(name), ext = "Rmd")
 
   done("Creating {value(proj_rel_path(path))}")
-  rmarkdown::draft(
-    path, "html_vignette", "rmarkdown",
-    create_dir = FALSE, edit = FALSE
+  use_template("vignette.Rmd",
+    save_as = proj_rel_path(path),
+    data = list(
+      vignette_title = title,
+      braced_vignette_title = glue::glue("{{{title}}}")
+    )
   )
   edit_file(path)
 }

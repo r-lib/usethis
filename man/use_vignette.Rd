@@ -4,11 +4,13 @@
 \alias{use_vignette}
 \title{Create a vignette}
 \usage{
-use_vignette(name)
+use_vignette(name, title)
 }
 \arguments{
 \item{name}{Base for file name to use for new vignette. Should consist only
 of numbers, letters, _ and -. I recommend using lower case.}
+
+\item{title}{The title of the vignette.}
 }
 \description{
 Performs general set up for vignettes and initializes a new individual

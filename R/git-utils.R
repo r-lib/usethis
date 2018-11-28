@@ -5,6 +5,10 @@ git_uncommitted <- function(path = proj_get()) {
 }
 
 check_uncommitted_changes <- function(path = proj_get()) {
+  if (rstudioapi::hasFun("documentSaveAll")) {
+    rstudioapi::documentSaveAll()
+  }
+
   if (uses_git(path) && git_uncommitted(path)) {
     stop_glue("Uncommited changes. Please commit to git before continuing.")
   }
