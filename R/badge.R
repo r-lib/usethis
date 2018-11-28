@@ -59,7 +59,7 @@ use_badge <- function(badge_name, href, src) {
     code_block(link)
     todo(
       "Allow badges to be added automatically by adding ",
-      "{code('<!-- badges -->')} to the first line of the badges paragraph"
+      "{code(badge_start)} and {code(badge_end)} before and after your badges."
     )
     return(invisible(FALSE))
   }
