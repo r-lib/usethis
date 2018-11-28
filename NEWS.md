@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `browse_github()` now falls back (with a warning) to CRAN organisation if 
+  package doesn't have it's own GitHub repo (#186).
+
 * `use_badge()` and friends now automate badge creation if your badge block
   starts with `<-- badge:start -->` and ends with `<-- badge:end -->` (#497)
 
