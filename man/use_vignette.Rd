@@ -24,7 +24,7 @@ opens it for editing
 }
 \examples{
 \dontrun{
-use_vignette("how-to-do-stuff")
+use_vignette("how-to-do-stuff", "How to do stuff")
 }
 }
 \seealso{
