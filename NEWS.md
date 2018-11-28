@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `pr_init()`, `pr_fetch()`, `pr_push()`, and `pr_pull()` are a new family
+  of helpers designed to help with the GitHub PR process. Currently they 
+  assume that you're working on your own repo (i.e. no fork), but once we've
+  happy with them, we'll extend to work in more situations (#346).
+
 * `code_block()` now strips ascii escapes before copying code to clipboard 
   (#447).
 

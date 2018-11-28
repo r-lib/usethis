@@ -1,23 +1,27 @@
 #' Helpers for GitHub pull requests
 #'
 #' @description
-#' * `pr_init()` creates a new local branch for the PR
-#' * `pr_push()` pushes local changes to GitHub. On first use, it will prompt
-#'    you to create a PR on GitHub.
+#' * `pr_init("name")` creates a new local branch for a PR.
+#' * `pr_create(number)` downloads a remote PR so you can edit locally.
+#' * `pr_push()` pushes local changes to GitHub, after checking that there
+#'    aren't any remote changes you need to retrieve first. On first use,
+#'    it will prompt you to create a PR on GitHub.
 #' * `pr_pull()` retrives changes from the GitHub PR. Run this if others
-#'    have made suggestions or pushed to your PR.
+#'    have made suggestions or pushed into your PR.
 #' * `pr_view()` open the PR in the browser
 #'
 #' @details
 #' These functions have been designed to support the git and GitHub best
 #' practices described in <http://happygitwithr.com/>.
 #' @export
+#' @param branch branch name. Should usually consist of lower case letters,
+#'   numbers, and `-`.
 pr_init <- function(branch) {
   check_uses_github()
   check_branch_current("master")
 
   if (!git_branch_exists(branch)) {
-    if (cur_branch != "master") {
+    if (git_branch_name() != "master") {
       if (nope("Create local PR branch with non-master parent?")) {
         return(invisible(FALSE))
       }
@@ -29,13 +33,16 @@ pr_init <- function(branch) {
 
   if (git_branch_name() == branch) {
     done("Switching to branch {value(branch)}")
-    git2r::checkout(repo, branch)
+    git_branch_switch(branch)
   }
 
   todo("Use {code('pr_push()')} to create PR")
   invisible()
 }
 
+#' @export
+#' @rdname pr_init
+#' @param number Number of PR to fetch.
 pr_fetch <- function(number) {
   done("Retrieving PR data")
   pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
@@ -62,17 +69,19 @@ pr_fetch <- function(number) {
   }
 
   if (git_branch_name() != branch) {
-    git2r::checkout(git_repo(), branch)
+    done("Switching to branch {value(branch)}")
+    git_branch_switch(branch)
   }
 }
 
 #' @export
 #' @rdname pr_init
-pr_push <- function(force = FALSE) {
+pr_push <- function() {
   check_uses_github()
   check_branch_not_master()
   check_uncommitted_changes()
 
+  branch <- git_branch_name()
   if (is.null(git_branch_remote(branch))) {
     done("Tracking remote PR branch")
     git_branch_track(branch)
@@ -80,7 +89,7 @@ pr_push <- function(force = FALSE) {
   check_branch_current()
 
   done("Pushing changes to GitHub PR")
-  git_branch_push(force = force)
+  git_branch_push(branch)
 
   # Prompt to create on first push
   url <- pr_url()
@@ -99,7 +108,9 @@ pr_pull <- function() {
   check_uncommitted_changes()
 
   done("Pulling changes from GitHub PR")
-  git2r::pull(repo)
+  capture.output(git2r::pull(git_repo()))
+
+  invisible(TRUE)
 }
 
 #' @export
@@ -107,7 +118,7 @@ pr_pull <- function() {
 pr_view <- function() {
   url <- pr_url()
   if (is.null(url)) {
-    pr_create()
+    pr_create_gh()
   } else {
     view_url(pr_url())
   }
@@ -116,7 +127,7 @@ pr_view <- function() {
 pr_create_gh <- function() {
   owner <- github_owner()
   repo <- github_repo()
-  name <- git_branch_name()
+  branch <- git_branch_name()
 
   done("Create PR at:")
   view_url(glue("https://github.com/{owner}/{repo}/compare/{branch}"))
@@ -164,13 +175,10 @@ check_branch_not_master <- function() {
     return()
   }
 
-  stop(
-    glue::glue("
-      Currently on master branch.
-      Do you need to call {code('pr_init()')} first?"
-    ),
-    call. = FALSE
-  )
+  stop_glue("
+    Currently on master branch.
+    Do you need to call {code('pr_init()')} first?
+  ")
 }
 
 check_branch_current <- function(branch = git_branch_name()) {
@@ -181,14 +189,10 @@ check_branch_current <- function(branch = git_branch_name()) {
     return()
   }
 
-  stop(
-    glue::glue(
-      "{branch} branch is out of date.
-      Please resolve (somehow) before continuing.
-      "
-    ),
-    call. = FALSE
-  )
+  stop_glue("
+    {branch} branch is out of date.
+    Please resolve (somehow) before continuing.
+  ")
 }
 
 # Git helpers -------------------------------------------------------------
@@ -228,9 +232,13 @@ git_branch_create <- function(branch, commit = NULL) {
   git2r::branch_create(git_commit_find(commit), branch)
 }
 
+git_branch_switch <- function(branch) {
+  git2r::checkout(git_repo(), branch)
+}
+
 git_branch_compare <- function(branch = git_branch_name()) {
   repo <- git_repo()
-  git2r::fetch(repo, "origin", refspec = branch)
+  git2r::fetch(repo, "origin", refspec = branch, verbose = FALSE)
   git2r::ahead_behind(
     git_commit_find(branch),
     git_commit_find(paste0("origin/", branch))
@@ -255,7 +263,8 @@ git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
 }
 
 git_branch_pull <- function(branch) {
-  git2r::fetch(repo, "origin", refspec = branch)
+  repo <- git_repo()
+  git2r::fetch(repo, "origin", refspec = branch, verbose = FALSE)
   merge(repo, paste0("origin/", branch), fail = TRUE)
 }
 
@@ -265,7 +274,7 @@ git_branch_remote <- function(branch = git_branch_name()) {
   upstream$name
 }
 
-git_branch_track <- function(branch, remote = origin, remote_branch = branch) {
+git_branch_track <- function(branch, remote = "origin", remote_branch = branch) {
   branch_obj <- git2r::branches(git_repo())[[branch]]
   git2r::branch_set_upstream(branch_obj, paste0(remote, "/", remote_branch))
 }
