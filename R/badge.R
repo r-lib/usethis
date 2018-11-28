@@ -2,8 +2,8 @@
 #'
 #' These helpers produce the markdown text you need in your README to include
 #' badges that report information, such as the CRAN version or test coverage,
-#' and link out to relevant external resources. To add badges auomatically
-#' ensure your badge block is starts with a line containing only
+#' and link out to relevant external resources. To add badges automatically
+#' ensure your badge block starts with a line containing only
 #' `<!-- badges: start -->` and ends with a line containing only
 #' `<!-- badges: end -->`.
 #'
