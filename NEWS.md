@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_badge()` and friends now automate badge creation if your badge block
+  starts with `<-- badge:start -->` and ends with `<-- badge:end -->` (#497)
+
 * `use_description()` once again prints the generated description (#287).
 
 * `code_block()` now strips ascii escapes before copying code to clipboard 

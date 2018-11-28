@@ -17,6 +17,9 @@ knitr::opts_chunk$set(
 
 # {{{ Package }}}
 
+<!-- badges: start -->
+<!-- badges: end -->
+
 The goal of {{{ Package }}} is to ...
 
 ## Installation
