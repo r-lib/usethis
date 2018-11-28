@@ -59,10 +59,20 @@ library(usethis)
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp)
-#> ✔ Setting active project to '/private/tmp/RtmpWdqGST/mypkg'
+#> ✔ Setting active project to '/private/tmp/RtmpJt0Zjc/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
+#> Package: mypkg
+#> Title: What the Package Does (One Line, Title Case)
+#> Version: 0.0.0.9000
+#> Authors@R (parsed):
+#>     * Hadley Wickham <hadley@rstudio.com> [aut, cre]
+#>     * RStudio [cph]
+#> Description: What the package does (one paragraph).
+#> License: GPL-3
+#> Encoding: UTF-8
+#> LazyData: true
 #> ✔ Writing 'NAMESPACE'
 
 # Modify the description ----------------------------------------------
