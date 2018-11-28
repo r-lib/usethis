@@ -116,8 +116,8 @@
 <h2 class="hasAnchor">
 <a href="#use-usethis-in-interactive-work" class="anchor"></a>Use usethis in interactive work</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="../../reference/use_usethis.html">use_usethis</a></span>()</a></code></pre></div>
-<p><code><a href="../../reference/use_usethis.html">usethis::use_usethis()</a></code> helps you make usethis available whenever you are working with R interactively. It opens <code>.Rprofile</code> for editing, shows the necessary code snippet in the console, and puts it on your clipboard. Paste, save, close, restart R. Done.</p>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="../../reference/rprofile-helper.html">use_usethis</a></span>()</a></code></pre></div>
+<p><code><a href="../../reference/rprofile-helper.html">usethis::use_usethis()</a></code> helps you make usethis available whenever you are working with R interactively. It opens <code>.Rprofile</code> for editing, shows the necessary code snippet in the console, and puts it on your clipboard. Paste, save, close, restart R. Done.</p>
 <p>This is the snippet that needs to go in <code>.Rprofile</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/interactive">interactive</a></span>()) {</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(usethis))</a>

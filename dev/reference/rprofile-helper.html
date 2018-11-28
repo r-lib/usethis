@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a vignette — use_vignette • usethis</title>
+<title>Helpers to make useful changes to <code>.Rprofile</code> — rprofile-helper • usethis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,14 +30,12 @@
 
 
 
-<meta property="og:title" content="Create a vignette — use_vignette" />
+<meta property="og:title" content="Helpers to make useful changes to <code>.Rprofile</code> — rprofile-helper" />
 
-<meta property="og:description" content="Performs general set up for vignettes and initializes a new individual
-vignette:
-Adds needed packages to DESCRIPTION
-Adds inst/doc to .gitignore so built vignettes aren't tracked
-Creates a new draft .Rmd vignette in vignettes/ and, if possible,
-opens it for editing
+<meta property="og:description" content="All functions open your .Rprofile and gives you the code you need to
+paste in.
+use_usethis(): makes usethis available in interactive sessions.
+use_partial_warning(): warn on partial matches.
 " />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
@@ -130,59 +128,31 @@ opens it for editing
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a vignette</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/vignette.R'><code>R/vignette.R</code></a></small>
-    <div class="hidden name"><code>use_vignette.Rd</code></div>
+    <h1>Helpers to make useful changes to <code>.Rprofile</code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/rprofile.R'><code>R/rprofile.R</code></a></small>
+    <div class="hidden name"><code>rprofile-helper.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Performs general set up for vignettes and initializes a new individual
-vignette:</p><ul>
-<li><p>Adds needed packages to <code>DESCRIPTION</code></p></li>
-<li><p>Adds <code>inst/doc</code> to <code>.gitignore</code> so built vignettes aren't tracked</p></li>
-<li><p>Creates a new draft <code>.Rmd</code> vignette in <code>vignettes/</code> and, if possible,
-opens it for editing</p></li>
+    <p>All functions open your <code>.Rprofile</code> and gives you the code you need to
+paste in.</p><ul>
+<li><p><code>use_usethis()</code>: makes usethis available in interactive sessions.</p></li>
+<li><p><code>use_partial_warning()</code>: warn on partial matches.</p></li>
 </ul>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_vignette</span>(<span class='no'>name</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='no'>name</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>name</th>
-      <td><p>Base for file name to use for new vignette. Should consist only
-of numbers, letters, _ and -. I recommend using lower case.</p></td>
-    </tr>
-    <tr>
-      <th>title</th>
-      <td><p>The title of the vignette.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <pre class="usage"><span class='fu'>use_usethis</span>()
 
-    <div class='dont-index'><p>The <a href='http://r-pkgs.had.co.nz/vignettes.html'>vignettes chapter</a> of
-<a href='http://r-pkgs.had.co.nz'>R Packages</a>.</p></div>
-    
+<span class='fu'>use_partial_warnings</span>()</pre>
+        
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>use_vignette</span>(<span class='st'>"how-to-do-stuff"</span>, <span class='st'>"How to do stuff"</span>)
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>
