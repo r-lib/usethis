@@ -4,7 +4,7 @@
 \alias{use_vignette}
 \title{Create a vignette}
 \usage{
-use_vignette(name, title)
+use_vignette(name, title = name)
 }
 \arguments{
 \item{name}{Base for file name to use for new vignette. Should consist only
