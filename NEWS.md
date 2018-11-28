@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `pr_init()`, `pr_fetch()`, `pr_push()`, and `pr_pull()` are a new family
+  of helpers designed to help with the GitHub PR process. Currently they 
+  assume that you're working on your own repo (i.e. no fork), but once we've
+  happy with them, we'll extend to work in more situations (#346).
+
 * `use_vignette()` now has a `title` argument which is used to propagate the vignette YAML header, where the title of the vignette needs to be entered in two places. The vignettes also lose their author and date fields by default, as these were deemed unnecessary (@rorynolan, #445).
 
 * `use_description()` once again prints the generated description (#287).
