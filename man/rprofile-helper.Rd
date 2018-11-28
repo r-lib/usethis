@@ -4,17 +4,21 @@
 \alias{rprofile-helper}
 \alias{use_usethis}
 \alias{use_partial_warnings}
+\alias{use_conflicted}
 \title{Helpers to make useful changes to \code{.Rprofile}}
 \usage{
 use_usethis()
 
 use_partial_warnings()
+
+use_conflicted()
 }
 \description{
 All functions open your \code{.Rprofile} and gives you the code you need to
 paste in.
 \itemize{
-\item \code{use_usethis()}: makes usethis available in interactive sessions.
+\item \code{use_conflicted()}:  makes conflicted available in interactive sessions.
 \item \code{use_partial_warning()}: warn on partial matches.
+\item \code{use_usethis()}: makes usethis available in interactive sessions.
 }
 }
