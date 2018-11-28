@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_description()` once again prints the generated description (#287).
+
 * `code_block()` now strips ascii escapes before copying code to clipboard 
   (#447).
 
