@@ -51,6 +51,7 @@ code_block <- function(..., copy = interactive(), .envir = parent.frame()) {
   lines <- glue_lines(c(...), .envir = .envir)
   block <- paste0("  ", lines, collapse = "\n")
   if (copy && clipr::clipr_available()) {
+    lines <- crayon::strip_style(lines)
     clipr::write_clip(collapse(lines, sep = "\n"))
     message("Copying code to clipboard:")
   }

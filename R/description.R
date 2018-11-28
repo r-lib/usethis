@@ -53,6 +53,10 @@ use_description <- function(fields = NULL) {
   lines <- desc$str(by_field = TRUE, normalize = FALSE, mode = "file")
 
   write_over(proj_path("DESCRIPTION"), lines)
+
+  if (!getOption("usethis.quiet", default = FALSE)) {
+    print(desc)
+  }
 }
 
 #' @rdname use_description
@@ -121,6 +125,8 @@ tidy_desc <- function(desc) {
   if (length(remotes) > 0) {
     desc$set_remotes(sort(remotes))
   }
+
+  desc$set("Encoding" = "UTF-8")
 
   # Normalize all fields (includes reordering)
   desc$normalize()

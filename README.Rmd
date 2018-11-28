@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# usethis <img src="man/figures/logo.png" align="right" height=140/>
+# usethis <img src="man/figures/logo.png" align="right" height="139" />
 
 [![Travis build status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis)
@@ -59,8 +59,6 @@ create_package(tmp)
 use_mit_license("My Name")
 
 use_package("MASS", "Suggests")
-
-use_dev_package("callr")
 
 # Set up various packages ---------------------------------------------
 use_roxygen_md()

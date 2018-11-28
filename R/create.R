@@ -135,13 +135,13 @@ create_from_github <- function(repo_spec,
                                fork = NA,
                                rstudio = NULL,
                                open = interactive(),
-                               protocol = c("ssh", "https"),
+                               protocol = getOption("usethis.protocol", default = "ssh"),
                                credentials = NULL,
                                auth_token = NULL,
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_is_dir(destdir)
-  protocol <- match.arg(protocol)
+  protocol <- match.arg(protocol, c("ssh", "https"))
 
   owner <- spec_owner(repo_spec)
   repo <- spec_repo(repo_spec)
@@ -213,6 +213,9 @@ create_from_github <- function(repo_spec,
 
 }
 
+## `restore = NA` means do not restore, because ...
+## `restore = NULL` has to be reserved for the scenario where we restore state of "no active project"
+##
 ## `rstudio` arg here is about whether to attempt a launch in RStudio
 ## `rstudio` arg of `create_*()` functions is about whether to add .Rproj file
 open_project <- function(path, restore = NA, rstudio = NA) {
@@ -224,7 +227,7 @@ open_project <- function(path, restore = NA, rstudio = NA) {
     done("Opening new project {value(path_file(path))} in RStudio")
     rstudioapi::openProject(rproj_path(path), newSession = TRUE)
     ## TODO: check this is correct on rstudio server / cloud
-    if (!is.null(restore) && !is.na(restore)) {
+    if (is.null(restore) || !is.na(restore)) {
       proj_set(restore, force = TRUE)
     }
     invisible(TRUE)

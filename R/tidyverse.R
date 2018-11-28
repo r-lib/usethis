@@ -8,7 +8,8 @@
 #'
 #' * `use_tidy_ci()`: sets up [Travis CI](https://travis-ci.org) and
 #' [Codecov](https://codecov.io), ensuring that the package works on all
-#' versions of R starting at 3.1.
+#' versions of R starting at 3.1. It also ignores `compat-` and `deprec-`
+#' files from code coverage.
 #'
 #' * `use_tidy_description()`: puts fields in standard order and alphabetises
 #'   dependencies.
@@ -71,6 +72,7 @@ use_tidy_ci <- function(browse = interactive()) {
 
   use_dependency("R", "Depends", ">= 3.1")
   use_dependency("covr", "Suggests")
+  use_covr_ignore(c("R/deprec-*.R", "R/compat-*.R"))
 
   use_travis_badge()
   use_codecov_badge()
@@ -288,7 +290,7 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
   todo("{length(contributors)} contributors identified")
   code_block(
     collapse(
-      glue("[&#xFF20;{contributors}](https://github.com/{contributors})"),
+      glue("[&#x0040;{contributors}](https://github.com/{contributors})"),
       sep = ", ", last = ", and "
     )
   )

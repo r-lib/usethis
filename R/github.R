@@ -28,6 +28,8 @@
 #' Git](http://happygitwithr.com/ssh-keys.html), especially the [troubleshooting
 #' section](http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
 #'
+#' You can change the default globally with `options(usethis.protocol = "https")`.
+#'
 #' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
 #'   organisation. You must have access to create repositories.
@@ -39,7 +41,8 @@
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
 #'   "https://github.hostname.com/api/v3"
-#' @param protocol transfer protocol, either "ssh" (the default) or "https"
+#' @param protocol transfer protocol, either "ssh" (the default) or "https".
+#'   You can supply a global default with `options(usethis.protocol = "https")`.
 #' @param credentials A [git2r::cred_ssh_key()] specifying specific ssh
 #'   credentials or `NULL` for default ssh key and ssh-agent behaviour.
 #' @export
@@ -57,7 +60,7 @@
 #' }
 use_github <- function(organisation = NULL,
                        private = FALSE,
-                       protocol = c("ssh", "https"),
+                       protocol = getOption("usethis.protocol", default = "ssh"),
                        credentials = NULL,
                        auth_token = NULL,
                        host = NULL) {
@@ -119,7 +122,7 @@ use_github <- function(organisation = NULL,
 
   done("Adding GitHub remote")
   r <- git2r::repository(proj_get())
-  protocol <- match.arg(protocol)
+  protocol <- match.arg(protocol, c("ssh", "https"))
   origin_url <- switch(protocol,
     https = create$clone_url,
     ssh = create$ssh_url

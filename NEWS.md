@@ -1,10 +1,36 @@
-# usethis *development version*
+# usethis (development version)
+
+* `use_vignette()` now has a `title` argument which is used to propagate the vignette YAML header, where the title of the vignette needs to be entered in two places. The vignettes also lose their author and date fields by default, as these were deemed unnecessary (@rorynolan, #445).
+
+* `use_description()` once again prints the generated description (#287).
+
+* `code_block()` now strips ascii escapes before copying code to clipboard 
+  (#447).
+
+* `use_version("dev")` now creates a standard "(development version)" heading
+  in `NEWS.md` (#440).
+
+* `use_covr_ignore()` makes it easy to ignore files in test coverage (#434).
+
+* `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` (#502, @krlmlr).
+
+* `use_logo()` can override existing logo if user gives permission (#454).
+  It also produces retina approrpriate logos by default, and matches the 
+  aspect ratio to the hexb.in specifcation (#499).
+
+* `edit_r_buildignore()` is added (#462, @bfgray3).
+
+* `use_travis()` can now be used with `https://travis-ci.com`. It gains an `ext`
+argument, defaulting to `"org"` for use with `https://travis-ci.org`. Use `ext = "com"` 
+to use `https://travis-ci.com`. (@cderv, #500)
+
+* `protocol` argument is now an option in `use_github()` and `create_from_github()`. The default is still to use `"ssh"` protocol but it can be changed globally to `"https"` with `options(usethis.protocol = "https")`. (#494, @cderv)
 
 * `with_project()` and `local_project()` are new withr-style functions to temporarily set an active usethis project. They make usethis functions easier to use in an *ad hoc* fashion or from another package (#441).
 
 * `proj_get()` and `proj_set()` no longer have a `quiet` argument. The user-facing message about setting a project is now under the same control as other messages, i.e. `getOption("usethis.quiet", default = FALSE)` (#441).
 
-* `use_vignette()` now has a `title` argument which is used to propagate the vignette YAML header, where the title of the vignette needs to be entered in two places. The vignettes also lose their author and date fields by default, as these were deemed unnecessary (@rorynolan, #445).
+* New `use_lgpl_license()` (#448, @krlmlr).
 
 ## Dependency changes
 

@@ -5,7 +5,8 @@
 \title{Create a project from a GitHub repo}
 \usage{
 create_from_github(repo_spec, destdir = NULL, fork = NA,
-  rstudio = NULL, open = interactive(), protocol = c("ssh", "https"),
+  rstudio = NULL, open = interactive(),
+  protocol = getOption("usethis.protocol", default = "ssh"),
   credentials = NULL, auth_token = NULL, host = NULL)
 }
 \arguments{
@@ -31,7 +32,8 @@ new instance, if possible, or is switched to, otherwise. If \code{TRUE} and not
 in RStudio (or new project is not an RStudio project), working directory is
 set to the new project.}
 
-\item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
+\item{protocol}{transfer protocol, either "ssh" (the default) or "https".
+You can supply a global default with \code{options(usethis.protocol = "https")}.}
 
 \item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific ssh
 credentials or \code{NULL} for default ssh key and ssh-agent behaviour.}
