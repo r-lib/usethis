@@ -4,6 +4,8 @@
 
 * `proj_get()` and `proj_set()` no longer have a `quiet` argument. The user-facing message about setting a project is now under the same control as other messages, i.e. `getOption("usethis.quiet", default = FALSE)` (#441).
 
+* `use_vignette()` now has a `title` argument which is used to propagate the vignette YAML header, where the title of the vignette needs to be entered in two places. The vignettes also lose their author and date fields by default, as these were deemed unnecessary (@rorynolan, #445).
+
 ## Dependency changes
 
 withr moves from Suggests to Imports.
