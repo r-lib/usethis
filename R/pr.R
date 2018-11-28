@@ -108,7 +108,7 @@ pr_pull <- function() {
   check_uncommitted_changes()
 
   done("Pulling changes from GitHub PR")
-  capture.output(git2r::pull(git_repo()))
+  utils::capture.output(git2r::pull(git_repo()))
 
   invisible(TRUE)
 }
