@@ -31,7 +31,7 @@ pr_init <- function(branch) {
     git_branch_create(branch)
   }
 
-  if (git_branch_name() == branch) {
+  if (git_branch_name() != branch) {
     done("Switching to branch {value(branch)}")
     git_branch_switch(branch)
   }
