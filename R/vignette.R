@@ -17,11 +17,8 @@
 #' \dontrun{
 #' use_vignette("how-to-do-stuff", "How to do stuff")
 #' }
-use_vignette <- function(name, title) {
+use_vignette <- function(name, title = name) {
   check_is_package("use_vignette()")
-  if (missing(name)) {
-    stop_glue("Argument {code('name')} is missing, with no default.")
-  }
   stopifnot(is_string(name))
   stopifnot(is_string(title))
   check_installed("rmarkdown")
@@ -37,12 +34,14 @@ use_vignette <- function(name, title) {
   path <- proj_path("vignettes", asciify(name), ext = "Rmd")
 
   done("Creating {value(proj_rel_path(path))}")
+
+  data <- project_data()
+  data$vignette_title <- title
+  data$braced_vignette_title <- glue::glue("{{{title}}}")
+
   use_template("vignette.Rmd",
     save_as = proj_rel_path(path),
-    data = list(
-      vignette_title = title,
-      braced_vignette_title = glue::glue("{{{title}}}")
-    )
+    data = data
   )
   edit_file(path)
 }
