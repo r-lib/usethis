@@ -1,7 +1,5 @@
 ---
 title: "{{{ vignette_title }}}"
-author: "{{{ vignette_author }}}"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{{{ braced_vignette_title }}}
