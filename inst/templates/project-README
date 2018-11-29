@@ -5,7 +5,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r setup, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -14,6 +14,9 @@ knitr::opts_chunk$set(
 {{/Rmd}}
 
 # {{{ Project }}}
+
+<!-- badges: start -->
+<!-- badges: end -->
 
 The goal of {{{ Project }}} is to ...
 

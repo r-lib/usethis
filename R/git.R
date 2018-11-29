@@ -16,14 +16,17 @@ use_git <- function(message = "Initial commit") {
   }
 
   done("Initialising Git repo")
-  r <- git2r::init(proj_get())
+  r <- git_init()
 
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
 
   if (interactive() && git_uncommitted()) {
-    paths <- unlist(git2r::status(r))
-    commit_consent_msg <- glue(
-      "OK to make an initial commit of {length(paths)} files?"
+    paths <- sort(unlist(git2r::status(r)))
+    bullets <- glue("* {value(paths)}")
+
+    commit_consent_msg <- glue("
+      OK to make an initial commit of {length(paths)} files?
+      {bullets}"
     )
     if (yep(commit_consent_msg)) {
       done("Adding files and committing")
@@ -81,17 +84,15 @@ use_git_ignore <- function(ignores, directory = ".") {
 #' where local config overrides global, if present. Use [git2r::config()]
 #' directly or the command line for general Git configuration.
 #'
-#' @return  A list with components `user.name` and `user.email`.
-#'
+#' @param ... Name-value pairs.
+#' @return Invisibly, the previous values of the modified components.
 #' @inheritParams edit
-#' @inheritParams git2r::config
 #'
 #' @family git helpers
 #' @export
 #' @examples
 #' \dontrun{
-#' ## see if user name and email are currently configured
-#' use_git_config()
+#' git_sitrep()
 #'
 #' ## set the user's global user.name and user.email
 #' use_git_config(user.name = "Jane", user.email = "jane@example.org")
@@ -104,45 +105,14 @@ use_git_ignore <- function(ignores, directory = ".") {
 #' )
 #' }
 use_git_config <- function(scope = c("user", "project"), ...) {
-  scope <- switch(match.arg(scope), user = "global", project = "local")
+  scope <- match.arg(scope)
 
-  if (length(list(...)) == 0) {
-    if (uses_git()) {
-      cfg <- git2r::config(repo = git2r::repository(proj_get()))
-    } else {
-      cfg <- git2r::config()
-    }
+  if (scope == "user") {
+    git_config(...)
   } else {
-    done("Writing to {field(scope)} git config file")
-    if (identical(scope, "global")) {
-      cfg <- git2r::config(global = TRUE, ...)
-    } else {
-      check_uses_git()
-      r <- git2r::repository(proj_get())
-      cfg <- git2r::config(repo = r, global = FALSE, ...)
-    }
+    check_uses_git()
+    git_config(..., .repo = git_repo())
   }
-
-  local_cfg <- cfg[["local"]] %||% list()
-  global_cfg <- cfg[["global"]] %||% list()
-  cfg <- utils::modifyList(global_cfg, local_cfg)
-  nms <- c("user.name", "user.email")
-  return(stats::setNames(cfg[nms], nms))
-}
-
-uses_git <- function(path = proj_get()) {
-  !is.null(git2r::discover_repository(path))
-}
-
-check_uses_git <- function(base_path = proj_get()) {
-  if (uses_git(base_path)) {
-    return(invisible())
-  }
-
-  stop_glue(
-    "Cannot detect that project is already a Git repository.\n",
-    "Do you need to run {code('use_git()')}?"
-  )
 }
 
 git_check_in <- function(base_path, paths, message) {
@@ -160,3 +130,61 @@ git_check_in <- function(base_path, paths, message) {
 
   invisible(TRUE)
 }
+
+
+#' git/GitHub sitrep
+#'
+#' Get a situation report on your current git/GitHub status. Useful for
+#' diagnosing problems
+#'
+#' @export
+#' @examples
+#' git_sitrep()
+git_sitrep <- function() {
+  name <- git_config_get("user.name", global = TRUE)
+  email <- git_config_get("user.email", global = TRUE)
+
+  hd_line <- function(name) {
+    cat_line(crayon::bold(name))
+  }
+  kv_line <- function(key, value) {
+    if (is.null(value)) {
+      value <- crayon::red("<unset>")
+    } else {
+      value <- value(value)
+    }
+    cat_line("* ", field(key), ": ", value)
+  }
+
+  hd_line("User")
+  kv_line("Name", name)
+  kv_line("Email", email)
+  kv_line("Has SSH keys", git_has_ssh())
+
+  hd_line("git2r")
+  kv_line("Supports SSH", git2r::libgit2_features()$ssh)
+
+  if (proj_active()) {
+    hd_line("Project")
+    if (uses_git()) {
+      repo <- git_repo()
+      kv_line("Path", repo$path)
+      kv_line("Branch", git_branch_name())
+      kv_line("Remote", git_branch_remote())
+    } else {
+      cat_line("Git not activated")
+    }
+  }
+
+  hd_line("GitHub")
+  if (!nzchar(gh_token())) {
+    cat_line("No token available")
+  } else {
+    who <- gh::gh_whoami()
+    kv_line("User", who$login)
+    kv_line("Name", who$name)
+  }
+}
+
+
+

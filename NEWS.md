@@ -1,5 +1,64 @@
 # usethis (development version)
 
+* New convention for automatically adding roxygen tags to a package 
+  documentation file. This is used by `use_tibble()` to reduce the amount
+  of manual work involved (#517).
+
+    ```R
+    ## usethis namespace: start
+    ## usethis namespace: end
+    NULL
+    ```
+
+* `use_github_release()` creates a draft GitHub release using the entries
+  in  `NEWS.md` (#137).
+
+* `create_tidy_package()` creates a package following the standard
+  tidyverse principles (#461).
+
+* `use_tidy_release_test_env()` writes a standard test environment section to
+  `cran-comments()` (#496)
+
+* `use_tidy_label()` conventions have been revamped: colours are less saturated,
+  docs is now documentation, we use some emoji, and performance has been 
+  removed (#519).
+
+* `use_github_labels()` has been rewritten be more flexible. You can
+  now supply a repo name, and `descriptions`, and you can set 
+  colours/descriptions independently of creating labels. You 
+  can also `rename` existing labels (#290). 
+  
+* `use_tidy_labels()` calls `use_github_labels()` with tidyverse conventions.
+
+* `use_release_issue()` creates a GitHub issue containing a release checklist 
+  capturing best practices discovered by the tidyverse team (#338)
+
+* `use_github_config()` now invisibly returns the previous values of the
+   settings.
+   
+* `git_sitrep()` lets you know what's up with your git and GitHub config (#328).
+
+* `use_conflicted()` (#362) and `use_reprex()` (#465) help add useful packages 
+  to your `.Rprofile`.
+  
+* `use_partial_warnings()` helps use add standard warning block to your
+  `DESCRIPTION` (#64).
+
+* `browse_github()` now falls back (with a warning) to CRAN organisation if 
+  package doesn't have it's own GitHub repo (#186).
+
+* `use_badge()` and friends now automate badge creation if your badge block
+  starts with `<-- badge:start -->` and ends with `<-- badge:end -->` (#497)
+
+* `pr_init()`, `pr_fetch()`, `pr_push()`, `pr_pull()`, and `pr_finish()` are a
+  new family of helpers designed to help with the GitHub PR process. Currently 
+  they assume that you're working on your own repo (i.e. no fork), but once 
+  we've happy with them, we'll extend to work in more situations (#346).
+
+* `use_vignette()` now has a `title` argument which is used to propagate the vignette YAML header, where the title of the vignette needs to be entered in two places. The vignettes also lose their author and date fields by default, as these were deemed unnecessary (@rorynolan, #445).
+
+* `use_description()` once again prints the generated description (#287).
+
 * `code_block()` now strips ascii escapes before copying code to clipboard 
   (#447).
 
@@ -10,6 +69,10 @@
 
 * `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` (#502, @krlmlr).
 
+* `use_logo()` can override existing logo if user gives permission (#454).
+  It also produces retina approrpriate logos by default, and matches the 
+  aspect ratio to the hexb.in specifcation (#499).
+
 * `edit_r_buildignore()` is added (#462, @bfgray3).
 
 * `use_travis()` can now be used with `https://travis-ci.com`. It gains an `ext`
@@ -17,6 +80,8 @@ argument, defaulting to `"org"` for use with `https://travis-ci.org`. Use `ext =
 to use `https://travis-ci.com`. (@cderv, #500)
 
 * `protocol` argument is now an option in `use_github()` and `create_from_github()`. The default is still to use `"ssh"` protocol but it can be changed globally to `"https"` with `options(usethis.protocol = "https")`. (#494, @cderv)
+
+* `use_pkgdown()` is now configurable with site options (@jayhesselberth, #467).
 
 * `with_project()` and `local_project()` are new withr-style functions to temporarily set an active usethis project. They make usethis functions easier to use in an *ad hoc* fashion or from another package (#441).
 

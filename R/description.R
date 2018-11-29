@@ -21,7 +21,7 @@
 #'   usethis.description = list(
 #'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
 #'     License = "MIT + file LICENSE",
-#'     Language: es
+#'     Language =  "es"
 #'   )
 #' )
 #' ```
@@ -53,6 +53,10 @@ use_description <- function(fields = NULL) {
   lines <- desc$str(by_field = TRUE, normalize = FALSE, mode = "file")
 
   write_over(proj_path("DESCRIPTION"), lines)
+
+  if (!getOption("usethis.quiet", default = FALSE)) {
+    print(desc)
+  }
 }
 
 #' @rdname use_description

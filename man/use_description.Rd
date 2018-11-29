@@ -34,7 +34,7 @@ code to include in \code{.Rprofile}:\preformatted{options(
   usethis.description = list(
     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
     License = "MIT + file LICENSE",
-    Language: es
+    Language =  "es"
   )
 )
 }
