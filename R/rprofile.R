@@ -6,23 +6,42 @@
 #'
 #' * `use_conflicted()`:  makes conflicted available in interactive sessions.
 #' * `use_partial_warning()`: warn on partial matches.
+#' * `use_reprex()`: makes reprex available in interactive sessions.
 #' * `use_usethis()`: makes usethis available in interactive sessions.
 #' @name rprofile-helper
 NULL
 
 #' @rdname rprofile-helper
 #' @export
+use_conflicted <- function() {
+  edit_r_profile("user")
+  use_rprofile_package("conflicted")
+}
+
+#' @rdname rprofile-helper
+#' @export
+use_reprex <- function() {
+  edit_r_profile("user")
+  use_rprofile_package("reprex")
+}
+
+#' @rdname rprofile-helper
+#' @export
 use_usethis <- function() {
+  edit_r_profile("user")
+  use_rprofile_package("usethis")
+}
+
+use_rprofile_package <- function(package) {
   edit_r_profile("user")
 
   todo(
-    "Include this code in {value('.Rprofile')} to make {field('usethis')} ",
+    "Include this code in {value('.Rprofile')} to make {field(package)} ",
     "available in all interactive sessions"
   )
-  ## in glue, you get a literal brace by using doubled braces
   code_block(
     "if (interactive()) {{",
-    "  suppressMessages(require(usethis))",
+    "  suppressMessages(require({package}))",
     "}}"
   )
 }
@@ -42,24 +61,5 @@ use_partial_warnings <- function() {
     "  warnPartialMatchDollar = TRUE,",
     "  warnPartialMatchAttr = TRUE",
     ")"
-  )
-}
-
-
-
-#' @rdname rprofile-helper
-#' @export
-use_conflicted <- function() {
-  edit_r_profile("user")
-
-  todo(
-    "Include this code in {value('.Rprofile')} to use {field('conflicted')} ",
-    "available in all interactive sessions"
-  )
-  ## in glue, you get a literal brace by using doubled braces
-  code_block(
-    "if (interactive()) {{",
-    "  suppressMessages(require(conflicted))",
-    "}}"
   )
 }
