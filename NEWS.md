@@ -1,5 +1,15 @@
 # usethis (development version)
 
+* New convention for automatically adding roxygen tags to a package 
+  documentation file. This is used by `use_tibble()` to reduce the amount
+  of manual work involved (#517).
+
+    ```R
+    ## usethis namespace: start
+    ## usethis namespace: end
+    NULL
+    ```
+
 * `use_github_release()` creates a draft GitHub release using the entries
   in  `NEWS.md` (#137).
 

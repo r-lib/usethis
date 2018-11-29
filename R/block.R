@@ -1,4 +1,5 @@
-block_append <- function(desc, value, path, block_start, block_end) {
+block_append <- function(desc, value, path, block_start, block_end,
+                         block_prefix = NULL, block_suffix = NULL) {
   if (!is.null(path) && file_exists(path)) {
     lines <- readLines(path)
     if (value %in% lines)
@@ -12,9 +13,11 @@ block_append <- function(desc, value, path, block_start, block_end) {
   if (is.null(block_lines)) {
     todo("Copy and paste the following lines into {value(path)}:")
     code_block(c(
+      block_prefix,
       block_start,
       value,
-      block_end
+      block_end,
+      block_suffix
     ))
     return(FALSE)
   }

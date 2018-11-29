@@ -30,7 +30,7 @@ test_that("use_badge() does nothing if badge seems to pre-exist", {
 test_that("default readme has placeholders / can add to empty badge block", {
   withr::local_options(list(usethis.quiet = FALSE))
   scoped_temporary_package()
-  use_readme_md()
+  expect_output(use_readme_md())
 
   expect_output(use_cran_badge(), "Adding CRAN status badge")
   expect_output(use_cran_badge(), NA)

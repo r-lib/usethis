@@ -15,11 +15,12 @@
 #' @export
 use_package_doc <- function() {
   check_is_package("use_package_doc()")
-  name <- project_name()
-
   use_template(
     "packagename-package.R",
-    path("R", paste0(name, "-package"), ext = "R"),
-    data = list(name = name)
+    package_doc_path()
   )
+}
+
+package_doc_path <- function() {
+  path("R", paste0(project_name(), "-package"), ext = "R")
 }
