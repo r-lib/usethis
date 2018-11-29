@@ -137,10 +137,7 @@ pr_create_gh <- function() {
   view_url(glue("https://github.com/{owner}/{repo}/compare/{branch}"))
 }
 
-pr_url <- function() {
-  repo <- git_repo()
-  branch <- git_branch_name()
-
+pr_url <- function(branch = git_branch_name()) {
   # Look first in cache (stored in git config)
   config_url <- glue("branch.{branch}.pull-url")
   url <- git_config_get(config_url)
@@ -148,22 +145,34 @@ pr_url <- function() {
     return(url)
   }
 
+  urls <- pr_find(github_owner(), github_repo(), branch)
+
+  if (length(urls) == 0) {
+    NULL
+  } else if (length(urls) == 1) {
+    git_config_set(config_url, urls[[1]])
+    urls[[1]]
+  } else {
+    stop(
+      "Multiple PRs correspond to this branch. Please close before continuing",
+      call. = FALSE
+    )
+  }
+}
+
+pr_find <- function(owner, repo, branch = git_branch_name()) {
   # Look at all PRs
   prs <- gh::gh("GET /repos/:owner/:repo/pulls",
-    owner = github_owner(),
-    repo = github_repo(),
-    .limit = Inf
+    owner = owner,
+    repo = repo,
+    head = paste0(owner, ":", branch)
   )
-  refs <- vapply(prs, function(x) x$head$ref %||% NA_character_, character(1))
-  match <- which(refs == branch)
-
-  if (length(match) == 0) {
-    NULL
-  } else if (length(match) > 1) {
-    stop("Multiple PRs correspond to this branch. Please close before continuing", call = FALSE)
-  } else {
-    url <- prs[[match]]$html_url
-    git_config_set(config_url, url)
-    url
+  if (identical(prs[[1]], "")) {
+    return(character())
   }
+
+  refs <- purrr::map_chr(prs, c("head", "ref"), .default = NA_character_)
+  urls <- purrr::map_chr(prs, c("html_url"), .default = NA_character_)
+
+  urls[refs == branch]
 }
