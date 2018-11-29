@@ -9,6 +9,12 @@ git_init <- function() {
   git2r::init(proj_get())
 }
 
+git_pull <- function() {
+  repo <- git_repo()
+  utils::capture.output(out <- git2r::pull())
+  invisible(out)
+}
+
 uses_git <- function(path = proj_get()) {
   !is.null(git2r::discover_repository(path))
 }
@@ -76,12 +82,6 @@ git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
     refspec = paste0("refs/heads/", branch),
     force = force
   )
-}
-
-git_branch_pull <- function(branch) {
-  repo <- git_repo()
-  git2r::fetch(repo, "origin", refspec = branch, verbose = FALSE)
-  merge(repo, paste0("origin/", branch), fail = TRUE)
 }
 
 git_branch_remote <- function(branch = git_branch_name()) {

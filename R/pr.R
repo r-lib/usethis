@@ -112,7 +112,7 @@ pr_pull <- function() {
   check_uncommitted_changes()
 
   done("Pulling changes from GitHub PR")
-  utils::capture.output(git2r::pull(git_repo()))
+  git_pull()
 
   invisible(TRUE)
 }
@@ -131,10 +131,16 @@ pr_view <- function() {
 #' @export
 #' @rdname pr_init
 pr_finish <- function() {
+  check_branch_not_master()
   pr <- git_branch_name()
 
+  done("Switching back to master branch")
   git_branch_switch("master")
-  git_branch_pull("master")
+
+  done("Pulling changes from GitHub")
+  git_pull()
+
+  done("Deleting local {pr} branch")
   git_branch_delete(pr)
 }
 
