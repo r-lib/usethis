@@ -122,7 +122,7 @@
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># Create a new package -------------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">tmp &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"mypkg"</span>)</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="reference/create_package.html">create_package</a></span>(tmp)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Setting active project to '/tmp/RtmpZzDqlR/mypkg'</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Setting active project to '/tmp/RtmpNAfU2T/mypkg'</span></a>
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ Creating 'R/'</span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ✔ Creating 'man/'</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; ✔ Writing 'DESCRIPTION'</span></a>
@@ -156,46 +156,51 @@
 <a class="sourceLine" id="cb3-37" data-line-number="37"><span class="co">#&gt; ● Run `devtools::document()`</span></a>
 <a class="sourceLine" id="cb3-38" data-line-number="38"></a>
 <a class="sourceLine" id="cb3-39" data-line-number="39"><span class="kw"><a href="reference/use_rcpp.html">use_rcpp</a></span>()</a>
-<a class="sourceLine" id="cb3-40" data-line-number="40"><span class="co">#&gt; ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION</span></a>
-<a class="sourceLine" id="cb3-41" data-line-number="41"><span class="co">#&gt; ✔ Adding 'Rcpp' to Imports field in DESCRIPTION</span></a>
-<a class="sourceLine" id="cb3-42" data-line-number="42"><span class="co">#&gt; ✔ Creating 'src/'</span></a>
-<a class="sourceLine" id="cb3-43" data-line-number="43"><span class="co">#&gt; ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'</span></a>
-<a class="sourceLine" id="cb3-44" data-line-number="44"><span class="co">#&gt; ● Include the following roxygen tags somewhere in your package</span></a>
-<a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt;   #' @useDynLib mypkg, .registration = TRUE</span></a>
-<a class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt;   #' @importFrom Rcpp sourceCpp</span></a>
-<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt;   NULL</span></a>
-<a class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt; ● Run `devtools::document()`</span></a>
-<a class="sourceLine" id="cb3-49" data-line-number="49"></a>
-<a class="sourceLine" id="cb3-50" data-line-number="50"><span class="kw"><a href="reference/use_revdep.html">use_revdep</a></span>()</a>
-<a class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt; ✔ Creating 'revdep/'</span></a>
-<a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt; ✔ Adding '^revdep$' to '.Rbuildignore'</span></a>
-<a class="sourceLine" id="cb3-53" data-line-number="53"><span class="co">#&gt; ✔ Adding 'checks', 'library', 'checks.noindex', 'library.noindex', 'data.sqlite', '*.html' to 'revdep/.gitignore'</span></a>
-<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="co">#&gt; ✔ Writing 'revdep/email.yml'</span></a>
-<a class="sourceLine" id="cb3-55" data-line-number="55"><span class="co">#&gt; ● Run checks with `revdepcheck::revdep_check(num_workers = 4)`</span></a>
-<a class="sourceLine" id="cb3-56" data-line-number="56"></a>
-<a class="sourceLine" id="cb3-57" data-line-number="57"><span class="co"># Set up other files -------------------------------------------------</span></a>
-<a class="sourceLine" id="cb3-58" data-line-number="58"><span class="kw"><a href="reference/use_readme_rmd.html">use_readme_md</a></span>()</a>
-<a class="sourceLine" id="cb3-59" data-line-number="59"><span class="co">#&gt; ✔ Writing 'README.md'</span></a>
-<a class="sourceLine" id="cb3-60" data-line-number="60"></a>
-<a class="sourceLine" id="cb3-61" data-line-number="61"><span class="kw"><a href="reference/use_news_md.html">use_news_md</a></span>()</a>
-<a class="sourceLine" id="cb3-62" data-line-number="62"><span class="co">#&gt; ✔ Writing 'NEWS.md'</span></a>
-<a class="sourceLine" id="cb3-63" data-line-number="63"></a>
-<a class="sourceLine" id="cb3-64" data-line-number="64"><span class="kw"><a href="reference/use_testthat.html">use_test</a></span>(<span class="st">"my-test"</span>)</a>
-<a class="sourceLine" id="cb3-65" data-line-number="65"><span class="co">#&gt; ✔ Adding 'testthat' to Suggests field in DESCRIPTION</span></a>
-<a class="sourceLine" id="cb3-66" data-line-number="66"><span class="co">#&gt; ✔ Creating 'tests/testthat/'</span></a>
-<a class="sourceLine" id="cb3-67" data-line-number="67"><span class="co">#&gt; ✔ Writing 'tests/testthat.R'</span></a>
-<a class="sourceLine" id="cb3-68" data-line-number="68"><span class="co">#&gt; ✔ Writing 'tests/testthat/test-my-test.R'</span></a>
-<a class="sourceLine" id="cb3-69" data-line-number="69"></a>
-<a class="sourceLine" id="cb3-70" data-line-number="70">x &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb3-71" data-line-number="71">y &lt;-<span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb3-72" data-line-number="72"><span class="kw"><a href="reference/use_data.html">use_data</a></span>(x, y)</a>
-<a class="sourceLine" id="cb3-73" data-line-number="73"><span class="co">#&gt; ✔ Creating 'data/'</span></a>
-<a class="sourceLine" id="cb3-74" data-line-number="74"><span class="co">#&gt; ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span></a>
-<a class="sourceLine" id="cb3-75" data-line-number="75"></a>
-<a class="sourceLine" id="cb3-76" data-line-number="76"><span class="co"># Use git ------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb3-77" data-line-number="77"><span class="kw"><a href="reference/use_git.html">use_git</a></span>()</a>
-<a class="sourceLine" id="cb3-78" data-line-number="78"><span class="co">#&gt; ✔ Initialising Git repo</span></a>
-<a class="sourceLine" id="cb3-79" data-line-number="79"><span class="co">#&gt; ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-40" data-line-number="40"><span class="co">#&gt; ✔ Creating 'src/'</span></a>
+<a class="sourceLine" id="cb3-41" data-line-number="41"><span class="co">#&gt; ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'</span></a>
+<a class="sourceLine" id="cb3-42" data-line-number="42"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/RtmpNAfU2T/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-43" data-line-number="43"><span class="co">#&gt;   ## usethis namespace: start</span></a>
+<a class="sourceLine" id="cb3-44" data-line-number="44"><span class="co">#&gt;   #' @useDynLib mypkg, .registration = TRUE</span></a>
+<a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt;   ## usethis namespace: end</span></a>
+<a class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt;   NULL</span></a>
+<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION</span></a>
+<a class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt; ✔ Adding 'Rcpp' to Imports field in DESCRIPTION</span></a>
+<a class="sourceLine" id="cb3-49" data-line-number="49"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/RtmpNAfU2T/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt;   ## usethis namespace: start</span></a>
+<a class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt;   #' @importFrom Rcpp sourceCpp</span></a>
+<a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt;   ## usethis namespace: end</span></a>
+<a class="sourceLine" id="cb3-53" data-line-number="53"><span class="co">#&gt;   NULL</span></a>
+<a class="sourceLine" id="cb3-54" data-line-number="54"></a>
+<a class="sourceLine" id="cb3-55" data-line-number="55"><span class="kw"><a href="reference/use_revdep.html">use_revdep</a></span>()</a>
+<a class="sourceLine" id="cb3-56" data-line-number="56"><span class="co">#&gt; ✔ Creating 'revdep/'</span></a>
+<a class="sourceLine" id="cb3-57" data-line-number="57"><span class="co">#&gt; ✔ Adding '^revdep$' to '.Rbuildignore'</span></a>
+<a class="sourceLine" id="cb3-58" data-line-number="58"><span class="co">#&gt; ✔ Adding 'checks', 'library', 'checks.noindex', 'library.noindex', 'data.sqlite', '*.html' to 'revdep/.gitignore'</span></a>
+<a class="sourceLine" id="cb3-59" data-line-number="59"><span class="co">#&gt; ✔ Writing 'revdep/email.yml'</span></a>
+<a class="sourceLine" id="cb3-60" data-line-number="60"><span class="co">#&gt; ● Run checks with `revdepcheck::revdep_check(num_workers = 4)`</span></a>
+<a class="sourceLine" id="cb3-61" data-line-number="61"></a>
+<a class="sourceLine" id="cb3-62" data-line-number="62"><span class="co"># Set up other files -------------------------------------------------</span></a>
+<a class="sourceLine" id="cb3-63" data-line-number="63"><span class="kw"><a href="reference/use_readme_rmd.html">use_readme_md</a></span>()</a>
+<a class="sourceLine" id="cb3-64" data-line-number="64"><span class="co">#&gt; ✔ Writing 'README.md'</span></a>
+<a class="sourceLine" id="cb3-65" data-line-number="65"></a>
+<a class="sourceLine" id="cb3-66" data-line-number="66"><span class="kw"><a href="reference/use_news_md.html">use_news_md</a></span>()</a>
+<a class="sourceLine" id="cb3-67" data-line-number="67"><span class="co">#&gt; ✔ Writing 'NEWS.md'</span></a>
+<a class="sourceLine" id="cb3-68" data-line-number="68"></a>
+<a class="sourceLine" id="cb3-69" data-line-number="69"><span class="kw"><a href="reference/use_testthat.html">use_test</a></span>(<span class="st">"my-test"</span>)</a>
+<a class="sourceLine" id="cb3-70" data-line-number="70"><span class="co">#&gt; ✔ Adding 'testthat' to Suggests field in DESCRIPTION</span></a>
+<a class="sourceLine" id="cb3-71" data-line-number="71"><span class="co">#&gt; ✔ Creating 'tests/testthat/'</span></a>
+<a class="sourceLine" id="cb3-72" data-line-number="72"><span class="co">#&gt; ✔ Writing 'tests/testthat.R'</span></a>
+<a class="sourceLine" id="cb3-73" data-line-number="73"><span class="co">#&gt; ✔ Writing 'tests/testthat/test-my-test.R'</span></a>
+<a class="sourceLine" id="cb3-74" data-line-number="74"></a>
+<a class="sourceLine" id="cb3-75" data-line-number="75">x &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb3-76" data-line-number="76">y &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb3-77" data-line-number="77"><span class="kw"><a href="reference/use_data.html">use_data</a></span>(x, y)</a>
+<a class="sourceLine" id="cb3-78" data-line-number="78"><span class="co">#&gt; ✔ Creating 'data/'</span></a>
+<a class="sourceLine" id="cb3-79" data-line-number="79"><span class="co">#&gt; ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span></a>
+<a class="sourceLine" id="cb3-80" data-line-number="80"></a>
+<a class="sourceLine" id="cb3-81" data-line-number="81"><span class="co"># Use git ------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb3-82" data-line-number="82"><span class="kw"><a href="reference/use_git.html">use_git</a></span>()</a>
+<a class="sourceLine" id="cb3-83" data-line-number="83"><span class="co">#&gt; ✔ Initialising Git repo</span></a>
+<a class="sourceLine" id="cb3-84" data-line-number="84"><span class="co">#&gt; ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'</span></a></code></pre></div>
 <p>Please note that the usethis project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
