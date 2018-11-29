@@ -21,9 +21,12 @@ use_git <- function(message = "Initial commit") {
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
 
   if (interactive() && git_uncommitted()) {
-    paths <- unlist(git2r::status(r))
-    commit_consent_msg <- glue(
-      "OK to make an initial commit of {length(paths)} files?"
+    paths <- sort(unlist(git2r::status(r)))
+    bullets <- glue("* {value(paths)}")
+
+    commit_consent_msg <- glue("
+      OK to make an initial commit of {length(paths)} files?
+      {bullets}"
     )
     if (yep(commit_consent_msg)) {
       done("Adding files and committing")
