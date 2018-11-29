@@ -79,6 +79,7 @@ use_tidy_ci <- function(browse = interactive()) {
 
   use_travis_badge()
   use_codecov_badge()
+  use_tidy_release_test_env()
 
   if (new_travis) {
     travis_activate(browse)
