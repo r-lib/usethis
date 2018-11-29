@@ -9,13 +9,13 @@ use_pkgdown(config_file = "_pkgdown.yml", destdir = "docs")
 \arguments{
 \item{config_file}{pkgdown yaml config file}
 
-\item{dst_path}{target directory for pkgdown docs}
+\item{destdir}{target directory for pkgdown docs}
 }
 \description{
 \href{https://github.com/r-lib/pkgdown}{pkgdown} makes it easy to turn your
 package into a beautiful website. This helper creates a pkgdown config file
-and adds the file and destination directory to \code{.Rbuildignore}
+and adds the file and destination directory to \code{.Rbuildignore}.
 }
 \seealso{
-http://pkgdown.r-lib.org/articles/pkgdown.html#configuration
+\url{http://pkgdown.r-lib.org/articles/pkgdown.html#configuration}
 }
