@@ -3,18 +3,32 @@
 \name{use_github_labels}
 \alias{use_github_labels}
 \alias{tidy_labels}
+\alias{tidy_label_colours}
+\alias{tidy_label_descriptions}
 \title{Manage GitHub issue labels}
 \usage{
-use_github_labels(labels = tidy_labels(), delete_default = FALSE,
+use_github_labels(repo = github_repo_spec(), labels = tidy_labels(),
+  colours = tidy_label_colours(),
+  descriptions = tidy_label_descriptions(), delete_default = FALSE,
   auth_token = NULL, host = NULL)
 
 tidy_labels()
+
+tidy_label_colours()
+
+tidy_label_descriptions()
 }
 \arguments{
-\item{labels}{Named character vector of labels. The names are the label text,
-such as "bug", and the values are the label colours in hexadecimal, such as
-"e02a2a". First, labels that don't yet exist are created, then label
-colours are updated.}
+\item{repo}{Optional repository specification (\code{owner/repo}) if you
+don't want to use the current project.}
+
+\item{labels}{A character vector giving labels to add.}
+
+\item{colours, descriptions}{Named character vectors giving hexadecimal
+colours (like \code{e02a2a}) and longer descriptions. The names should match
+label names, and anything unmatched will be left unchanged. If you
+create a new label, and don't supply colours, it will be givein a random
+colour.}
 
 \item{delete_default}{If \code{TRUE}, will remove GitHub default labels that do
 not appear in the \code{labels} vector (presumably defaults that aren't relevant
@@ -30,14 +44,12 @@ GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3"}
 }
 \description{
-\code{use_github_labels()} creates new labels and/or changes label
-colours. It does not generally remove labels. But if you set
-\code{delete_default = TRUE}, it will delete labels that are (1) flagged by the
-API as being \href{https://help.github.com/articles/about-labels/#using-default-labels}{GitHub default labels}
-and (2) not present in the labels you provide via \code{labels}.
+\code{use_github_labels()} creates new labels, updates colours and descriptions,
+and optionally removes GitHub's default labels (if \code{delete_default = TRUE}).
 
-\code{tidy_labels()} returns the labels and colours commonly used by tidyverse
-packages.
+\code{tidy_labels()}, \code{tidy_label_colours()} and \code{tidy_label_descriptions()}
+return the conventions used in the tidyverse; supply your own values to
+create your own conventions.
 }
 \section{Label usage}{
 
@@ -59,7 +71,21 @@ example, and that a reply has been sent requesting one from the user.
 
 \examples{
 \dontrun{
-## typical use in, e.g., a new tidyverse project
+# typical use in, e.g., a new tidyverse project
 use_github_labels(delete_default = TRUE)
+
+# create labels without changing colours/descriptions
+use_github_labels(
+  labels = c("foofy", "foofier", "foofiest"),
+  colours = NULL,
+  descriptions = NULL
+)
+
+# change descriptions without changing names/colours
+use_github_labels(
+  labels = NULL,
+  colours = NULL,
+  descriptions = c("foofiest" = "the foofiest issue you ever saw")
+)
 }
 }

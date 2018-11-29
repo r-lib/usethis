@@ -29,6 +29,7 @@ Imports:
     gh,
     git2r (>= 0.23),
     glue,
+    purrr,
     rlang,
     rprojroot (>= 1.2),
     rstudioapi,
