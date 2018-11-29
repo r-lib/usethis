@@ -9,6 +9,7 @@
 #'
 #' @param version Version number for release
 #' @export
+#' @examples
 #' \dontrun{
 #' use_release_issue("2.0.0")
 #' }

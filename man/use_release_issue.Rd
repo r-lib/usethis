@@ -17,3 +17,8 @@ where you are in the process, and feel a sense of satisfaction as you
 progress. It also helps watchers of your package stay informed about where
 you are in the process.
 }
+\examples{
+\dontrun{
+use_release_issue("2.0.0")
+}
+}
