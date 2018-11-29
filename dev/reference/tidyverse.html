@@ -139,7 +139,9 @@ commonly used packages.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_tidy_ci</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())
+    <pre class="usage"><span class='fu'>create_tidy_package</span>(<span class='no'>path</span>, <span class='no'>copyright_holder</span>)
+
+<span class='fu'>use_tidy_ci</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())
 
 <span class='fu'>use_tidy_description</span>()
 
@@ -164,6 +166,14 @@ commonly used packages.</p>
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>path</th>
+      <td><p>Path to create new package</p></td>
+    </tr>
+    <tr>
+      <th>copyright_holder</th>
+      <td><p>Owner of code in package (e.g. "RStudio")</p></td>
+    </tr>
     <tr>
       <th>browse</th>
       <td><p>Open a browser window to enable automatic builds for the
