@@ -4,9 +4,9 @@
 #' `use_github_labels()` creates new labels, updates colours and descriptions,
 #' and optionally removes GitHub's default labels (if `delete_default = TRUE`).
 #'
-#' `tidy_labels()`, `tidy_label_colours()` and `tidy_label_descriptions()`
-#' return the conventions used in the tidyverse; supply your own values to
-#' create your own conventions.
+#' `tidy_labels()`, `tidy_labels_rename()`, `tidy_label_colours()` and
+#' `tidy_label_descriptions()` return the conventions used in the tidyverse;
+#' supply your own values to create your own conventions.
 #'
 #' @section Label usage:
 #' Labels are used as part of the issue-triage process, designed to minimise the
@@ -25,6 +25,8 @@
 #' @param repo Optional repository specification (`owner/repo`) if you
 #'   don't want to use the current project.
 #' @param labels A character vector giving labels to add.
+#' @param rename A named vector with names giving old names and values giving
+#'   new values.
 #' @param colours,descriptions Named character vectors giving hexadecimal
 #'   colours (like `e02a2a`) and longer descriptions. The names should match
 #'   label names, and anything unmatched will be left unchanged. If you
@@ -57,6 +59,7 @@
 use_github_labels <- function(
                               repo = github_repo_spec(),
                               labels = tidy_labels(),
+                              rename = tidy_labels_rename(),
                               colours = tidy_label_colours(),
                               descriptions = tidy_label_descriptions(),
                               delete_default = FALSE,
@@ -84,6 +87,25 @@ use_github_labels <- function(
     cur_label_names <- purrr::map_chr(cur_labels, "name")
   } else {
     cur_label_names <- character()
+  }
+
+  # Rename existing labels
+  to_rename <- intersect(cur_label_names, names(rename))
+  if (length(to_rename) > 0) {
+    delta <- paste0(value(to_rename), " -> ", value(rename[to_rename]),
+      collapse = ", ")
+    done("Renaming labels: {delta}")
+
+    for (label in to_rename) {
+      gh(
+        "PATCH /repos/:owner/:repo/labels/:current_name",
+        current_name = label,
+        name = rename[[label]]
+      )
+    }
+
+    update <- match(to_rename, cur_label_names)
+    cur_label_names[update] <- rename[to_rename]
   }
 
   # Add missing labels
@@ -135,7 +157,7 @@ use_github_labels <- function(
     to_remove <- setdiff(cur_label_names[default], labels)
 
     if (length(to_remove) > 0) {
-      done("Removing labels: {collapse(value(to_remove))}")
+      done("Removing default labels: {collapse(value(to_remove))}")
 
       for (label in to_remove) {
         gh("DELETE /repos/:owner/:repo/labels/:name", name = label)
@@ -149,6 +171,16 @@ use_github_labels <- function(
 tidy_labels <- function() {
   names(tidy_label_colours())
 }
+
+#' @rdname use_github_labels
+#' @export
+tidy_labels_rename <- function() {
+  c(
+    "enhancement" = "feature",
+    "question" = "reprex"
+  )
+}
+
 
 #' @rdname use_github_labels
 #' @export

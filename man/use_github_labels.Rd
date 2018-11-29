@@ -3,16 +3,19 @@
 \name{use_github_labels}
 \alias{use_github_labels}
 \alias{tidy_labels}
+\alias{tidy_labels_rename}
 \alias{tidy_label_colours}
 \alias{tidy_label_descriptions}
 \title{Manage GitHub issue labels}
 \usage{
 use_github_labels(repo = github_repo_spec(), labels = tidy_labels(),
-  colours = tidy_label_colours(),
+  rename = tidy_labels_rename(), colours = tidy_label_colours(),
   descriptions = tidy_label_descriptions(), delete_default = FALSE,
   auth_token = NULL, host = NULL)
 
 tidy_labels()
+
+tidy_labels_rename()
 
 tidy_label_colours()
 
@@ -23,6 +26,9 @@ tidy_label_descriptions()
 don't want to use the current project.}
 
 \item{labels}{A character vector giving labels to add.}
+
+\item{rename}{A named vector with names giving old names and values giving
+new values.}
 
 \item{colours, descriptions}{Named character vectors giving hexadecimal
 colours (like \code{e02a2a}) and longer descriptions. The names should match
@@ -47,9 +53,9 @@ GitHub enterprise instance, for example,
 \code{use_github_labels()} creates new labels, updates colours and descriptions,
 and optionally removes GitHub's default labels (if \code{delete_default = TRUE}).
 
-\code{tidy_labels()}, \code{tidy_label_colours()} and \code{tidy_label_descriptions()}
-return the conventions used in the tidyverse; supply your own values to
-create your own conventions.
+\code{tidy_labels()}, \code{tidy_labels_rename()}, \code{tidy_label_colours()} and
+\code{tidy_label_descriptions()} return the conventions used in the tidyverse;
+supply your own values to create your own conventions.
 }
 \section{Label usage}{
 
