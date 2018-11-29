@@ -1,8 +1,93 @@
-git_uncommitted <- function(path = proj_get()) {
-  r <- git2r::repository(path, discover = TRUE)
-  st <- vapply(git2r::status(r), length, integer(1))
-  any(st != 0)
+# Repository --------------------------------------------------------------
+
+git_repo <- function() {
+  check_uses_git()
+  git2r::repository(proj_path())
 }
+
+# Commit ------------------------------------------------------------------
+
+git_commit_find <- function(refspec = NULL) {
+  repo <- git_repo()
+
+  if (is.null(refspec)) {
+    git2r::last_commit(repo)
+  } else {
+    git2r::revparse_single(repo, refspec)
+  }
+}
+
+# Branch ------------------------------------------------------------------
+
+git_branch_name <- function() {
+  repo <- git_repo()
+
+  branch <- git2r::repository_head(repo)
+  if (!git2r::is_branch(branch)) {
+    stop("Detached head; can't continue", call. = FALSE)
+  }
+
+  branch$name
+}
+
+git_branch_exists <- function(branch) {
+  repo <- git_repo()
+  branch %in% names(git2r::branches(repo))
+}
+
+git_branch_create <- function(branch, commit = NULL) {
+  git2r::branch_create(git_commit_find(commit), branch)
+}
+
+git_branch_switch <- function(branch) {
+  git2r::checkout(git_repo(), branch)
+}
+
+git_branch_compare <- function(branch = git_branch_name()) {
+  repo <- git_repo()
+  git2r::fetch(repo, "origin", refspec = branch, verbose = FALSE)
+  git2r::ahead_behind(
+    git_commit_find(branch),
+    git_commit_find(paste0("origin/", branch))
+  )
+}
+
+git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
+  branch_obj <- git2r::branches(git_repo())[[branch]]
+
+  upstream <- git2r::branch_get_upstream(branch_obj)
+  if (is.null(upstream)) {
+    name <- "origin"
+  } else {
+    name <- git2r::branch_remote_name(upstream)
+  }
+
+  git2r::push(
+    git_repo(),
+    name = name,
+    refspec = paste0("refs/heads/", branch),
+    force = force
+  )
+}
+
+git_branch_pull <- function(branch) {
+  repo <- git_repo()
+  git2r::fetch(repo, "origin", refspec = branch, verbose = FALSE)
+  merge(repo, paste0("origin/", branch), fail = TRUE)
+}
+
+git_branch_remote <- function(branch = git_branch_name()) {
+  branch_obj <- git2r::branches(git_repo())[[branch]]
+  upstream <- git2r::branch_get_upstream(branch_obj)
+  upstream$name
+}
+
+git_branch_track <- function(branch, remote = "origin", remote_branch = branch) {
+  branch_obj <- git2r::branches(git_repo())[[branch]]
+  git2r::branch_set_upstream(branch_obj, paste0(remote, "/", remote_branch))
+}
+
+# Checks ------------------------------------------------------------------
 
 check_uncommitted_changes <- function(path = proj_get()) {
   if (rstudioapi::hasFun("documentSaveAll")) {
@@ -14,34 +99,34 @@ check_uncommitted_changes <- function(path = proj_get()) {
   }
 }
 
-## suppress the warning about multiple remotes, which is triggered by
-## the common "origin" and "upstream" situation, e.g., fork and clone
-gh_tree_remote <- function(path) {
-  suppressWarnings(gh::gh_tree_remote(path))
+git_uncommitted <- function(path = proj_get()) {
+  r <- git2r::repository(path, discover = TRUE)
+  st <- vapply(git2r::status(r), length, integer(1))
+  any(st != 0)
 }
 
-## Git remotes --> filter for GitHub --> owner, repo, repo_spec
-github_owner <- function(path = proj_get()) {
-  gh_tree_remote(path)[["username"]]
-}
 
-github_repo <- function(path = proj_get()) {
-  gh_tree_remote(path)[["repo"]]
-}
-
-github_repo_spec <- function(path = proj_get()) {
-  collapse(gh_tree_remote(path), sep = "/")
-}
-
-## repo_spec --> owner, repo
-## TODO: could use more general facilities for parsing GitHub URL/spec
-parse_repo_spec <- function(repo_spec) {
-  repo_split <- strsplit(repo_spec, "/")[[1]]
-  if (length(repo_split) != 2) {
-    stop_glue("{code('repo_spec')} must be of form {value('owner/repo')}.")
+check_branch_not_master <- function() {
+  if (git_branch_name() != "master") {
+    return()
   }
-  list(owner = repo_split[[1]], repo = repo_split[[2]])
+
+  stop_glue("
+    Currently on master branch.
+    Do you need to call {code('pr_init()')} first?
+  ")
 }
 
-spec_owner <- function(repo_spec) parse_repo_spec(repo_spec)$owner
-spec_repo <- function(repo_spec) parse_repo_spec(repo_spec)$repo
+check_branch_current <- function(branch = git_branch_name()) {
+  done("Checking that {branch} branch is up to date")
+  diff <- git_branch_compare(branch)
+
+  if (diff[[2]] == 0) {
+    return()
+  }
+
+  stop_glue("
+    {branch} branch is out of date.
+    Please resolve (somehow) before continuing.
+  ")
+}
