@@ -3,7 +3,9 @@
 * `use_github_labels()` has been rewritten be more flexible. You can
   now supply a repo name, and `descriptions`, and you can set 
   colours/descriptions independently of creating labels. You 
-  can also `rename` existing labels (#290).
+  can also `rename` existing labels (#290). 
+  
+* `use_tidy_labels()` calls `use_github_labels()` with tidyverse conventions.
 
 * `use_conflicted()` (#362) and `use_reprex()` (#465) help add useful packages 
   to your `.Rprofile`.

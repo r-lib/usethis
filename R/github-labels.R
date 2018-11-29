@@ -1,13 +1,13 @@
 #' Manage GitHub issue labels
 #'
 #' @description
-#' `use_github_labels()` creates new labels, updates colours and descriptions,
-#' and optionally removes GitHub's default labels (if `delete_default = TRUE`).
+#' `use_github_labels()` can create new labels, update colours and descriptions,
+#' and optionally delete GitHub's default labels (if `delete_default = TRUE`).
 #' It will never delete labels that have associated issues.
 #'
-#' `tidy_labels()`, `tidy_labels_rename()`, `tidy_label_colours()` and
-#' `tidy_label_descriptions()` return the conventions used in thep tidyverse;
-#' supply your own values to create your own conventions.
+#' `use_tidy_labels()` calls `use_github_labels()` with tidyverse conventions
+#' powered by `tidy_labels()`, `tidy_labels_rename()`, `tidy_label_colours()` and
+#' `tidy_label_descriptions()`.
 #'
 #' @section Label usage:
 #' Labels are used as part of the issue-triage process, designed to minimise the
@@ -59,10 +59,10 @@
 #' }
 use_github_labels <- function(
                               repo = github_repo_spec(),
-                              labels = tidy_labels(),
-                              rename = tidy_labels_rename(),
-                              colours = tidy_label_colours(),
-                              descriptions = tidy_label_descriptions(),
+                              labels = character(),
+                              rename = character(),
+                              colours = character(),
+                              descriptions = character(),
                               delete_default = FALSE,
                               auth_token = NULL,
                               host = NULL) {
@@ -173,6 +173,25 @@ use_github_labels <- function(
 }
 
 
+
+#' @export
+#' @rdname use_github_labels
+use_tidy_labels <- function(
+                              repo = github_repo_spec(),
+                              auth_token = NULL,
+                              host = NULL) {
+
+  use_github_labels(
+    repo = repo,
+    labels = tidy_labels(),
+    rename = tidy_labels_rename(),
+    colours = tidy_label_colours(),
+    descriptions = tidy_label_descriptions(),
+    delete_default = TRUE,
+    auth_token = auth_token,
+    host = host
+  )
+}
 
 #' @rdname use_github_labels
 #' @export

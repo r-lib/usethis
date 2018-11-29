@@ -186,6 +186,7 @@ use_tidy_coc <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_github <- function() {
+  use_tidy_labels()
   use_tidy_contributing()
   use_tidy_issue_template()
   use_tidy_support()
