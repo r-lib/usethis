@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use Rcpp — use_rcpp • usethis</title>
+<title>Use C and C++. — use_rcpp • usethis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Use Rcpp — use_rcpp" />
+<meta property="og:title" content="Use C and C++. — use_rcpp" />
 
-<meta property="og:description" content="Creates src/ and adds needed packages to DESCRIPTION." />
+<meta property="og:description" content="Creates src/ and adds needed packages to DESCRIPTION, and
+optionally creates .c or .cpp file." />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -124,24 +125,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use Rcpp</h1>
+    <h1>Use C and C++.</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/rcpp.R'><code>R/rcpp.R</code></a></small>
     <div class="hidden name"><code>use_rcpp.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Creates <code>src/</code> and adds needed packages to <code>DESCRIPTION</code>.</p>
+    <p>Creates <code>src/</code> and adds needed packages to <code>DESCRIPTION</code>, and
+optionally creates <code>.c</code> or <code>.cpp</code> file.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_rcpp</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>use_rcpp</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>use_c</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>name</th>
+      <td><p>If supplied, creates and opens <code>src/name.{c,cpp}</code>.</p></td>
+    </tr>
+    </table>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>
