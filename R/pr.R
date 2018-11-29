@@ -143,7 +143,7 @@ pr_url <- function() {
 
   # Look first in cache (stored in git config)
   config_url <- glue("branch.{branch}.pull-url")
-  url <- git2r::config()$local[[config_url]]
+  url <- git_config_get(config_url)
   if (!is.null(url)) {
     return(url)
   }
@@ -163,11 +163,7 @@ pr_url <- function() {
     stop("Multiple PRs correspond to this branch. Please close before continuing", call = FALSE)
   } else {
     url <- prs[[match]]$html_url
-
-    config <- list(repo, url)
-    names(config) <- c("repo", config_url)
-    do.call(git2r::config, config)
-
+    git_config_set(config_url, url)
     url
   }
 }

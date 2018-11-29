@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `use_github_config()` now invisibly returns the previous values of the
+   settings.
+   
+* `git_sitrep()` lets you know what's up with your git and GitHub config (#328).
+
 * `use_conflicted()` (#362) and `use_reprex()` (#465) help add useful packages 
   to your `.Rprofile`.
   
