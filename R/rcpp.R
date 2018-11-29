@@ -5,27 +5,25 @@
 #' @export
 use_rcpp <- function() {
   check_is_package("use_rcpp()")
-  use_dependency("Rcpp", "LinkingTo")
-  use_dependency("Rcpp", "Imports")
+  check_uses_roxygen("use_rcpp()")
 
   use_src()
-  use_namespace_line(
-    "importFrom(Rcpp,sourceCpp)",
-    "@importFrom Rcpp sourceCpp"
-  )
+
+  use_dependency("Rcpp", "LinkingTo")
+  use_dependency("Rcpp", "Imports")
+  roxygen_ns_append("@importFrom Rcpp sourceCpp") && roxygen_update()
 
   invisible()
 }
 
 use_src <- function() {
   check_is_package("use_src()")
+  check_uses_roxygen("use_rcpp()")
 
   use_directory("src")
   use_git_ignore(c("*.o", "*.so", "*.dll"), "src")
-  use_namespace_line(
-    glue("useDynLib({project_name()}, .registration = TRUE)"),
-    glue("@useDynLib {project_name()}, .registration = TRUE")
-  )
+  roxygen_ns_append(glue("@useDynLib {project_name()}, .registration = TRUE")) &&
+    roxygen_update()
 
   invisible()
 }

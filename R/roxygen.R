@@ -63,6 +63,7 @@ roxygen_ns_append <- function(tag) {
 
 roxygen_update <- function() {
   todo("Run {code('devtools::document()')} to update value('NAMESPACE')")
+  TRUE
 }
 
 

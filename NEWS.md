@@ -1,14 +1,18 @@
 # usethis (development version)
 
 * New convention for automatically adding roxygen tags to a package 
-  documentation file. This is used by `use_tibble()` to reduce the amount
-  of manual work involved (#517).
+  documentation file. This is now used by `use_tibble()` and `use_rcpp()`
+  to reduce the amount of manual work involved (#517).
 
     ```R
     ## usethis namespace: start
     ## usethis namespace: end
     NULL
     ```
+    
+    Unfortunately this means that `use_rcpp()` no longer supports package
+    development if you don't use roxygen2, but I suspect the set of people
+    who use usethis and Rcpp but not roxygen2 is very small.
 
 * `use_github_release()` creates a draft GitHub release using the entries
   in  `NEWS.md` (#137).
