@@ -32,13 +32,12 @@
 
 <meta property="og:title" content="Manage GitHub issue labels — use_github_labels" />
 
-<meta property="og:description" content="use_github_labels() creates new labels and/or changes label
-colours. It does not generally remove labels. But if you set
-delete_default = TRUE, it will delete labels that are (1) flagged by the
-API as being GitHub default labels
-and (2) not present in the labels you provide via labels.
-tidy_labels() returns the labels and colours commonly used by tidyverse
-packages." />
+<meta property="og:description" content="use_github_labels() can create new labels, update colours and descriptions,
+and optionally delete GitHub's default labels (if delete_default = TRUE).
+It will never delete labels that have associated issues.
+use_tidy_labels() calls use_github_labels() with tidyverse conventions
+powered by tidy_labels(), tidy_labels_rename(), tidy_label_colours() and
+tidy_label_descriptions()." />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -137,35 +136,60 @@ packages." />
 
     <div class="ref-description">
     
-    <p><code>use_github_labels()</code> creates new labels and/or changes label
-colours. It does not generally remove labels. But if you set
-<code>delete_default = TRUE</code>, it will delete labels that are (1) flagged by the
-API as being <a href='https://help.github.com/articles/about-labels/#using-default-labels'>GitHub default labels</a>
-and (2) not present in the labels you provide via <code>labels</code>.</p>
-<p><code>tidy_labels()</code> returns the labels and colours commonly used by tidyverse
-packages.</p>
+    <p><code>use_github_labels()</code> can create new labels, update colours and descriptions,
+and optionally delete GitHub's default labels (if <code>delete_default = TRUE</code>).
+It will never delete labels that have associated issues.</p>
+<p><code>use_tidy_labels()</code> calls <code>use_github_labels()</code> with tidyverse conventions
+powered by <code>tidy_labels()</code>, <code>tidy_labels_rename()</code>, <code>tidy_label_colours()</code> and
+<code>tidy_label_descriptions()</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_github_labels</span>(<span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>tidy_labels</span>(), <span class='kw'>delete_default</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>use_github_labels</span>(<span class='kw'>repo</span> <span class='kw'>=</span> <span class='fu'>github_repo_spec</span>(), <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(),
+  <span class='kw'>rename</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(), <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(),
+  <span class='kw'>descriptions</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(), <span class='kw'>delete_default</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>tidy_labels</span>()</pre>
+<span class='fu'>use_tidy_labels</span>(<span class='kw'>repo</span> <span class='kw'>=</span> <span class='fu'>github_repo_spec</span>(), <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>tidy_labels</span>()
+
+<span class='fu'>tidy_labels_rename</span>()
+
+<span class='fu'>tidy_label_colours</span>()
+
+<span class='fu'>tidy_label_descriptions</span>()</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>repo</th>
+      <td><p>Optional repository specification (<code>owner/repo</code>) if you
+don't want to use the current project.</p></td>
+    </tr>
+    <tr>
       <th>labels</th>
-      <td><p>Named character vector of labels. The names are the label text,
-such as "bug", and the values are the label colours in hexadecimal, such as
-"e02a2a". First, labels that don't yet exist are created, then label
-colours are updated.</p></td>
+      <td><p>A character vector giving labels to add.</p></td>
+    </tr>
+    <tr>
+      <th>rename</th>
+      <td><p>A named vector with names giving old names and values giving
+new values.</p></td>
+    </tr>
+    <tr>
+      <th>colours, descriptions</th>
+      <td><p>Named character vectors giving hexadecimal
+colours (like <code>e02a2a</code>) and longer descriptions. The names should match
+label names, and anything unmatched will be left unchanged. If you
+create a new label, and don't supply colours, it will be givein a random
+colour.</p></td>
     </tr>
     <tr>
       <th>delete_default</th>
       <td><p>If <code>TRUE</code>, will remove GitHub default labels that do
-not appear in the <code>labels</code> vector (presumably defaults that aren't relevant
+not appear in the <code>labels</code> vector, and do not have associated issues.
 to your workflow).</p></td>
     </tr>
     <tr>
@@ -194,7 +218,6 @@ example, and that a reply has been sent requesting one from the user.</p></li>
 <li><p><code>bug</code> type, indicates an unexpected problem or unintended behavior.</p></li>
 <li><p><code>feature</code> type, indicates a feature request or enhancement.</p></li>
 <li><p><code>docs</code> type, indicates an issue with the documentation.</p></li>
-<li><p><code>performance</code> indicates a non-breaking area related to performance.</p></li>
 <li><p><code>wip</code> indicates that someone else is working on it or has promised to.</p></li>
 <li><p><code>good first issue</code> indicates a good issue for first-time contributors.</p></li>
 <li><p><code>help wanted</code> indicates that a maintainer wants help on an issue.</p></li>
@@ -203,8 +226,22 @@ example, and that a reply has been sent requesting one from the user.</p></li>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>## typical use in, e.g., a new tidyverse project</span>
+<span class='co'># typical use in, e.g., a new tidyverse project</span>
 <span class='fu'>use_github_labels</span>(<span class='kw'>delete_default</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># create labels without changing colours/descriptions</span>
+<span class='fu'>use_github_labels</span>(
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"foofy"</span>, <span class='st'>"foofier"</span>, <span class='st'>"foofiest"</span>),
+  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>descriptions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)
+
+<span class='co'># change descriptions without changing names/colours</span>
+<span class='fu'>use_github_labels</span>(
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>descriptions</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"foofiest"</span> <span class='kw'>=</span> <span class='st'>"the foofiest issue you ever saw"</span>)
+)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
