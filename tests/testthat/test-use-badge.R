@@ -32,6 +32,6 @@ test_that("default readme has placeholders / can add to empty badge block", {
   scoped_temporary_package()
   use_readme_md()
 
-  expect_output(use_cran_badge(), "Adding a CRAN status badge")
+  expect_output(use_cran_badge(), "Adding CRAN status badge")
   expect_output(use_cran_badge(), NA)
 })

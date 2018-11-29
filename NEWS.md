@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_tidy_release_test_env()` writes a standard test environment section to
+  `cran-comments()` (#496)
+
 * `use_tidy_label()` conventions have been revamped: colours are less saturated,
   docs is now documentation, we use some emoji, and performance has been 
   removed (#519).

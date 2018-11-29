@@ -28,6 +28,9 @@
 #'
 #' * `use_tidy_issue_template()`: adds a standard tidyverse issue template.
 #'
+#' * `use_tidy_release_test_env()`: updates the test environment section in
+#'   `cran-comments.md`.
+#'
 #' * `use_tidy_support()`: adds a standard description of support resources for
 #'    the tidyverse.
 #'
@@ -213,6 +216,34 @@ use_tidy_style <- function(strict = TRUE) {
   cat_line()
   done("Styled project according to the tidyverse style guide")
   invisible(styled)
+}
+
+#' @export
+#' @rdname tidyverse
+use_tidy_release_test_env <- function() {
+  block_replace(
+    "release environment",
+    tidy_release_test_env(),
+    path = proj_path("cran-comments.md"),
+    block_start = "## Test environments",
+    block_end = "## R CMD check results"
+  )
+}
+
+tidy_release_test_env <- function() {
+  use_bullet <- function(name, versions) {
+    versions <- paste(versions, collapse = ", ")
+    glue("* {name}: {versions}")
+  }
+
+  c(
+    "",
+    use_bullet("local", paste0(R.version$os, "-", R.version$major, ".", R.version$minor)),
+    use_bullet("travis", c("3.1", "3.2", "3.3", "oldrel", "release", "devel")),
+    use_bullet("r-hub", c("windows-x86_64-devel", "ubuntu-gcc-release", "fedora-clang-devel")),
+    use_bullet("win-builder", "windows-x86_64-devel"),
+    ""
+  )
 }
 
 #' Identify contributors via GitHub activity

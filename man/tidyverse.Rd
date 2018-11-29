@@ -12,6 +12,7 @@
 \alias{use_tidy_coc}
 \alias{use_tidy_github}
 \alias{use_tidy_style}
+\alias{use_tidy_release_test_env}
 \title{Helpers for tidyverse development}
 \usage{
 use_tidy_ci(browse = interactive())
@@ -33,6 +34,8 @@ use_tidy_coc()
 use_tidy_github()
 
 use_tidy_style(strict = TRUE)
+
+use_tidy_release_test_env()
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -65,6 +68,8 @@ below for usage advice.
 the currently installed version.
 \item \code{use_tidy_contributing()}: adds standard tidyverse contributing guidelines.
 \item \code{use_tidy_issue_template()}: adds a standard tidyverse issue template.
+\item \code{use_tidy_release_test_env()}: updates the test environment section in
+\code{cran-comments.md}.
 \item \code{use_tidy_support()}: adds a standard description of support resources for
 the tidyverse.
 \item \code{use_tidy_coc()}: equivalent to \code{use_code_of_conduct()}, but puts the
