@@ -1,5 +1,7 @@
 # usethis *development version*
 
+* `use_pkgdown()` is now configurable with site options (@jayhesselberth, #467).
+
 * `with_project()` and `local_project()` are new withr-style functions to temporarily set an active usethis project. They make usethis functions easier to use in an *ad hoc* fashion or from another package (#441).
 
 * `proj_get()` and `proj_set()` no longer have a `quiet` argument. The user-facing message about setting a project is now under the same control as other messages, i.e. `getOption("usethis.quiet", default = FALSE)` (#441).
