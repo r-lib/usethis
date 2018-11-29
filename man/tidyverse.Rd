@@ -2,6 +2,7 @@
 % Please edit documentation in R/tidyverse.R
 \name{tidyverse}
 \alias{tidyverse}
+\alias{create_tidy_package}
 \alias{use_tidy_ci}
 \alias{use_tidy_description}
 \alias{use_tidy_versions}
@@ -15,6 +16,8 @@
 \alias{use_tidy_release_test_env}
 \title{Helpers for tidyverse development}
 \usage{
+create_tidy_package(path, copyright_holder)
+
 use_tidy_ci(browse = interactive())
 
 use_tidy_description()
@@ -38,6 +41,10 @@ use_tidy_style(strict = TRUE)
 use_tidy_release_test_env()
 }
 \arguments{
+\item{path}{Path to create new package}
+
+\item{copyright_holder}{Owner of code in package (e.g. "RStudio")}
+
 \item{browse}{Open a browser window to enable automatic builds for the
 package.}
 

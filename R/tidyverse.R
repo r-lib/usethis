@@ -59,6 +59,33 @@
 #' @name tidyverse
 NULL
 
+#' @export
+#' @rdname tidyverse
+#' @param path Path to create new package
+#' @param copyright_holder Owner of code in package (e.g. "RStudio")
+create_tidy_package <- function(path,
+                                copyright_holder
+                                ) {
+
+  create_package(path, rstudio = TRUE, open = FALSE)
+  old <- proj_set(path)
+  on.exit(proj_set(old), add = TRUE)
+
+  use_description_field("Roxygen", "list(markdown = TRUE)")
+  use_testthat()
+  use_gpl3_license("RStudio")
+  use_tidy_description()
+
+  use_readme_rmd()
+  use_lifecycle_badge("experimental")
+  use_cran_badge()
+  use_cran_comments()
+
+  use_tidy_github()
+  todo(code("use_git()"))
+  todo(code("use_github()"))
+  todo(code("use_tidy_ci()"))
+}
 
 #' @export
 #' @rdname tidyverse
@@ -141,8 +168,6 @@ use_tidy_eval <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_contributing <- function() {
-  check_uses_github()
-
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy-contributing.md",
@@ -155,8 +180,6 @@ use_tidy_contributing <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_issue_template <- function() {
-  check_uses_github()
-
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy-issue.md",
@@ -168,8 +191,6 @@ use_tidy_issue_template <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_support <- function() {
-  check_uses_github()
-
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy-support.md",
@@ -182,8 +203,6 @@ use_tidy_support <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_coc <- function() {
-  check_uses_github()
-
   use_code_of_conduct(path = ".github")
 }
 

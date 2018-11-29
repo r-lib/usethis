@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `create_tidy_package()` creates a package following the standard
+  tidyverse principles (#461).
+
 * `use_tidy_release_test_env()` writes a standard test environment section to
   `cran-comments()` (#496)
 
