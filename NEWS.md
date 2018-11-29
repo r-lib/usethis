@@ -7,6 +7,14 @@
   
 * `use_tidy_labels()` calls `use_github_labels()` with tidyverse conventions.
 
+* `use_release_issue()` creates a GitHub issue containing a release checklist 
+  capturing best practices discovered by the tidyverse team (#338)
+
+* `use_github_config()` now invisibly returns the previous values of the
+   settings.
+   
+* `git_sitrep()` lets you know what's up with your git and GitHub config (#328).
+
 * `use_conflicted()` (#362) and `use_reprex()` (#465) help add useful packages 
   to your `.Rprofile`.
   
@@ -49,6 +57,8 @@ argument, defaulting to `"org"` for use with `https://travis-ci.org`. Use `ext =
 to use `https://travis-ci.com`. (@cderv, #500)
 
 * `protocol` argument is now an option in `use_github()` and `create_from_github()`. The default is still to use `"ssh"` protocol but it can be changed globally to `"https"` with `options(usethis.protocol = "https")`. (#494, @cderv)
+
+* `use_pkgdown()` is now configurable with site options (@jayhesselberth, #467).
 
 * `with_project()` and `local_project()` are new withr-style functions to temporarily set an active usethis project. They make usethis functions easier to use in an *ad hoc* fashion or from another package (#441).
 
