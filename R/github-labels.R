@@ -18,7 +18,6 @@
 #' * `bug` type, indicates an unexpected problem or unintended behavior.
 #' * `feature` type, indicates a feature request or enhancement.
 #' * `docs` type, indicates an issue with the documentation.
-#' * `performance` indicates a non-breaking area related to performance.
 #' * `wip` indicates that someone else is working on it or has promised to.
 #' * `good first issue` indicates a good issue for first-time contributors.
 #' * `help wanted` indicates that a maintainer wants help on an issue.
@@ -204,7 +203,10 @@ tidy_labels <- function() {
 tidy_labels_rename <- function() {
   c(
     "enhancement" = "feature",
-    "question" = "reprex"
+    "question" = "reprex",
+    "good first issue" = "good first issue :heart:",
+    "help wanted" = "help wanted :heart:",
+    "docs" = "documentation"
   )
 }
 
@@ -212,15 +214,16 @@ tidy_labels_rename <- function() {
 #' @rdname use_github_labels
 #' @export
 tidy_label_colours <- function() {
+  # http://tristen.ca/hcl-picker/#/hlc/5/0.26/E0B3A2/E1B996
   c(
-    "bug"               = "e02a2a",
-    "feature"           = "009800",
-    "reprex"            = "eb6420",
-    "wip"               = "eb6420",
-    "docs"              = "0052cc",
-    "performance"       = "fbca04",
-    "good first issue"  = "484fb5",
-    "help wanted"       = "008672"
+    "breaking change :skull_and_crossbones:" = "E0B3A2",
+    "bug" = "E0B3A2",
+    "documentation" = "CBBAB8",
+    "feature" = "B4C3AE",
+    "good first issue :heart:" = "CBBAB8",
+    "help wanted :heart:" = "C5C295",
+    "reprex" = "C5C295",
+    "wip" = "E1B996"
   )
 }
 
@@ -228,14 +231,14 @@ tidy_label_colours <- function() {
 #' @export
 tidy_label_descriptions <- function() {
   c(
-    "bug"              = "an unexpected problem or unintended behavior",
-    "feature"          = "a feature request or enhancement",
-    "reprex"           = "issue needs a minimal reproducible example",
-    "wip"              = "someone is (or has promised to) work on the issue",
-    "docs"             = "better documentation needed",
-    "performance"      = "we need more speed!",
-    "good first issue" = "good issue for first-time contributors",
-    "help wanted"      = "we'd love your help!"
+    "bug" = "an unexpected problem or unintended behavior",
+    "feature" = "a feature request or enhancement",
+    "reprex" = "needs a minimal reproducible example",
+    "wip" = "work in progress",
+    "documentation" = "",
+    "good first issue :heart:" = "good issue for first-time contributors",
+    "help wanted :heart:" = "we'd love your help!",
+    "breaking change :skull_and_crossbones:" = "API change likely to affect existing code"
   )
 }
 

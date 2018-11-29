@@ -73,7 +73,6 @@ example, and that a reply has been sent requesting one from the user.
 \item \code{bug} type, indicates an unexpected problem or unintended behavior.
 \item \code{feature} type, indicates a feature request or enhancement.
 \item \code{docs} type, indicates an issue with the documentation.
-\item \code{performance} indicates a non-breaking area related to performance.
 \item \code{wip} indicates that someone else is working on it or has promised to.
 \item \code{good first issue} indicates a good issue for first-time contributors.
 \item \code{help wanted} indicates that a maintainer wants help on an issue.
