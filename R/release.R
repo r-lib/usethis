@@ -62,7 +62,7 @@ release_checklist <- function(version) {
     "",
     "Wait for CRAN...",
     "",
-    todo("Tag release"),
+    todo("`usethis::use_release_tag()`"),
     todo("`usethis::use_dev_version()`"),
     todo("`usethis::use_news()`", !on_cran),
     todo("Finish blog post", type != "patch"),
@@ -83,6 +83,36 @@ release_type <- function(version) {
   }
 }
 
+#' Draft a GitHub release
+#'
+#' Creates a __draft__ GitHub release for the current package using the current
+#' version and `NEWS.md`. If you are comfortable that it is correct, you will
+#' need to publish the release from GitHub.
+#'
+#' @inheritParams use_github_links
+#' @export
+use_github_release <- function(host = NULL, auth_token = NULL) {
+  check_uses_github()
+  check_branch_current()
+
+  package <- package_data()
+
+  release <- gh::gh(
+    "POST /repos/:owner/:repo/releases",
+    owner = github_owner(),
+    repo = github_repo(),
+    tag_name = paste0("v", package$Version),
+    name = paste0(package$Package, " ", package$Version),
+    body = news_latest(),
+    draft = TRUE,
+    .api_url = host,
+    .token = auth_token
+  )
+
+  view_url(release$html_url)
+}
+
+
 cran_version <- function(package = project_name(),
                          available = utils::available.packages()
                          ) {
@@ -92,4 +122,31 @@ cran_version <- function(package = project_name(),
   } else {
     NULL
   }
+}
+
+
+news_latest <- function() {
+  path <- proj_path("NEWS.md")
+  if (!file_exists(path)) {
+    stop_glue("{value('NEWS.md')} not found")
+  }
+
+  lines <- readLines(path)
+  headings <- which(grepl("^#\\s+", lines))
+
+  if (length(headings == 1))
+
+  if (length(headings) == 0) {
+    stop_glue("No top-level headings found in {value('NEWS.md')}")
+  } else if (length(headings) == 1) {
+    news <- lines[seq2(headings + 1, length(lines))]
+  } else {
+    news <- lines[seq2(headings[[1]] + 1, headings[[2]] - 1)]
+  }
+
+  # Remove leading and trailing empty lines
+  text <- which(news != "")
+  news <- news[text[[1]]:text[[length(text)]]]
+
+  paste(news, "\n", collapse = "")
 }

@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_github_release()` creates a draft GitHub release using the entries
+  in  `NEWS.md` (#137).
+
 * `create_tidy_package()` creates a package following the standard
   tidyverse principles (#461).
 
