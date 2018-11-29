@@ -57,3 +57,10 @@ test_that("write_over() leaves file 'as is'", {
   write_over(tmp, letters[1:3], quiet = TRUE)
   expect_identical(before, readLines(tmp))
 })
+
+# https://github.com/r-lib/usethis/issues/514
+test_that("write_ut8 always produces a trailing newline", {
+  path <- file_temp()
+  write_utf8(path, "x")
+  expect_equal(readChar(path, 2), "x\n")
+})
