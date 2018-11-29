@@ -1,5 +1,16 @@
 # usethis (development version)
 
+* `use_tidy_label()` conventions have been revamped: colours are less saturated,
+  docs is now documentation, we use some emoji, and performance has been 
+  removed (#519).
+
+* `use_github_labels()` has been rewritten be more flexible. You can
+  now supply a repo name, and `descriptions`, and you can set 
+  colours/descriptions independently of creating labels. You 
+  can also `rename` existing labels (#290). 
+  
+* `use_tidy_labels()` calls `use_github_labels()` with tidyverse conventions.
+
 * `use_release_issue()` creates a GitHub issue containing a release checklist 
   capturing best practices discovered by the tidyverse team (#338)
 
