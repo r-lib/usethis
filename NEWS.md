@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_rcpp("foo")` now creates `src/foo.cpp` (#117).
+
+* `use_c("foo")` sets up `src/` and creates `src/foo.c` (#117).
+
 * New convention for automatically adding roxygen tags to a package 
   documentation file. This is now used by `use_tibble()` and `use_rcpp()`
   to reduce the amount of manual work involved (#517).
