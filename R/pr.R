@@ -128,6 +128,16 @@ pr_view <- function() {
   }
 }
 
+#' @export
+#' @rdname pr_init
+pr_finish <- function() {
+  pr <- git_branch_name()
+
+  git_branch_switch("master")
+  git_branch_pull("master")
+  git_branch_delete(pr)
+}
+
 pr_create_gh <- function() {
   owner <- github_owner()
   repo <- github_repo()

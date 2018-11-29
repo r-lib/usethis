@@ -6,6 +6,7 @@
 \alias{pr_push}
 \alias{pr_pull}
 \alias{pr_view}
+\alias{pr_finish}
 \title{Helpers for GitHub pull requests}
 \usage{
 pr_init(branch)
@@ -17,6 +18,8 @@ pr_push()
 pr_pull()
 
 pr_view()
+
+pr_finish()
 }
 \arguments{
 \item{branch}{branch name. Should usually consist of lower case letters,
