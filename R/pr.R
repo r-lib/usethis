@@ -82,14 +82,18 @@ pr_push <- function() {
   check_uncommitted_changes()
 
   branch <- git_branch_name()
-  if (is.null(git_branch_remote(branch))) {
-    done("Tracking remote PR branch")
-    git_branch_track(branch)
+  has_remote <- !is.null(git_branch_remote(branch))
+  if (has_remote) {
+    check_branch_current()
   }
-  check_branch_current()
 
   done("Pushing changes to GitHub PR")
   git_branch_push(branch)
+
+  if (!has_remote) {
+    done("Tracking remote PR branch")
+    git_branch_track(branch)
+  }
 
   # Prompt to create on first push
   url <- pr_url()
@@ -250,9 +254,10 @@ git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
 
   upstream <- git2r::branch_get_upstream(branch_obj)
   if (is.null(upstream)) {
-    stop("Branch does not track a remote", call. = FALSE)
+    name <- "origin"
+  } else {
+    name <- git2r::branch_remote_name(upstream)
   }
-  name <- git2r::branch_remote_name(upstream)
 
   git2r::push(
     git_repo(),
