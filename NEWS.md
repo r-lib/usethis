@@ -1,5 +1,11 @@
 # usethis (development version)
 
+* `use_conflicted()` (#362) and `use_reprex()` (#465) help add useful packages 
+  to your `.Rprofile`.
+  
+* `use_partial_warnings()` helps use add standard warning block to your
+  `DESCRIPTION` (#64).
+
 * `browse_github()` now falls back (with a warning) to CRAN organisation if 
   package doesn't have it's own GitHub repo (#186).
 
