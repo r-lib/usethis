@@ -3,9 +3,10 @@
 #' @description
 #' `use_github_labels()` creates new labels, updates colours and descriptions,
 #' and optionally removes GitHub's default labels (if `delete_default = TRUE`).
+#' It will never delete labels that have associated issues.
 #'
 #' `tidy_labels()`, `tidy_labels_rename()`, `tidy_label_colours()` and
-#' `tidy_label_descriptions()` return the conventions used in the tidyverse;
+#' `tidy_label_descriptions()` return the conventions used in thep tidyverse;
 #' supply your own values to create your own conventions.
 #'
 #' @section Label usage:
@@ -33,7 +34,7 @@
 #'   create a new label, and don't supply colours, it will be givein a random
 #'   colour.
 #' @param delete_default If `TRUE`, will remove GitHub default labels that do
-#'   not appear in the `labels` vector (presumably defaults that aren't relevant
+#'   not appear in the `labels` vector, and do not have associated issues.
 #'   to your workflow).
 #' @inheritParams use_github_links
 #' @export
@@ -68,7 +69,7 @@ use_github_labels <- function(
   check_uses_github()
 
   gh <- function(endpoint, ...) {
-    gh::gh(
+    out <- gh::gh(
       endpoint,
       ...,
       owner = spec_owner(repo),
@@ -79,15 +80,15 @@ use_github_labels <- function(
         "Accept" = "application/vnd.github.symmetra-preview+json"
       )
     )
+    if (identical(out[[1]], "")) {
+      list()
+    } else {
+      out
+    }
   }
 
   cur_labels <- gh("GET /repos/:owner/:repo/labels")
-  has_labels <- !identical(cur_labels[[1]], "")
-  if (has_labels) {
-    cur_label_names <- purrr::map_chr(cur_labels, "name")
-  } else {
-    cur_label_names <- character()
-  }
+  cur_label_names <- purrr::map_chr(cur_labels, "name")
 
   # Rename existing labels
   to_rename <- intersect(cur_label_names, names(rename))
@@ -160,11 +161,18 @@ use_github_labels <- function(
       done("Removing default labels: {collapse(value(to_remove))}")
 
       for (label in to_remove) {
-        gh("DELETE /repos/:owner/:repo/labels/:name", name = label)
+        issues <- gh("GET /repos/:owner/:repo/issues", labels = label)
+        if (length(issues) > 0) {
+          todo("Delete {value(label)} label manually; it has associated issues")
+        } else {
+          gh("DELETE /repos/:owner/:repo/labels/:name", name = label)
+        }
       }
     }
   }
 }
+
+
 
 #' @rdname use_github_labels
 #' @export

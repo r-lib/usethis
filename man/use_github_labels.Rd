@@ -37,7 +37,7 @@ create a new label, and don't supply colours, it will be givein a random
 colour.}
 
 \item{delete_default}{If \code{TRUE}, will remove GitHub default labels that do
-not appear in the \code{labels} vector (presumably defaults that aren't relevant
+not appear in the \code{labels} vector, and do not have associated issues.
 to your workflow).}
 
 \item{auth_token}{Provide a personal access token (PAT) from
@@ -52,6 +52,7 @@ GitHub enterprise instance, for example,
 \description{
 \code{use_github_labels()} creates new labels, updates colours and descriptions,
 and optionally removes GitHub's default labels (if \code{delete_default = TRUE}).
+It will never delete labels that have associated issues.
 
 \code{tidy_labels()}, \code{tidy_labels_rename()}, \code{tidy_label_colours()} and
 \code{tidy_label_descriptions()} return the conventions used in the tidyverse;
