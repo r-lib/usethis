@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_release_issue()` creates a GitHub issue containing a release checklist 
+  capturing best practices discovered by the tidyverse team (#338)
+
 * `use_github_config()` now invisibly returns the previous values of the
    settings.
    
