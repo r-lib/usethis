@@ -22,39 +22,12 @@
 #' use_dev_package("glue")
 #' }
 use_package <- function(package, type = "Imports", min_version = NULL) {
-  types <- tolower(c("Imports", "Depends", "Suggests", "Enhances", "LinkingTo"))
-  type <- match.arg(tolower(type), types)
   refuse_package(package, verboten = "tidyverse")
 
   use_dependency(package, type, min_version = min_version)
-
-  switch(tolower(type),
-    imports = todo("Refer to functions with {code(package, '::fun()')}"),
-    depends = todo(
-      "Are you sure you want {field('Depends')}? ",
-      "{field('Imports')} is almost always the better choice."
-    ),
-    suggests = {
-      todo(
-        "Use {code('requireNamespace(\"', package, '\", quietly = TRUE)')} ",
-        "to test if package is installed"
-      )
-      todo("Then use {code(package, '::fun()')} to refer to functions.")
-    },
-    enhances = "",
-    linkingTo = show_includes(package)
-  )
+  how_to_use(package, type)
 
   invisible()
-}
-
-show_includes <- function(package) {
-  incl <- system.file("include", package = package)
-  h <- dir_ls(incl, regexp = "[.](h|hpp)$")
-  if (length(h) == 0) return()
-
-  todo("Possible includes are:")
-  code_block("#include <{path_file(h)}>")
 }
 
 #' @export
@@ -62,17 +35,15 @@ show_includes <- function(package) {
 use_dev_package <- function(package, type = "Imports") {
   refuse_package(package, verboten = "tidyverse")
 
-  ## TO DO: in a future refactoring, find a way to get rid of this?
-  ## this exact check appears in `use_dependency()`
-  if (!requireNamespace(package, quietly = TRUE)) {
-    stop_glue(
-      "{value(package)} must be installed before you can ",
-      "take a dependency on it."
-    )
-  }
-
-  package_remote <- package_remote(package)
   use_dependency(package, type = type, min_version = TRUE)
+  use_remote(package)
+  how_to_use(package, type)
+
+  invisible()
+}
+
+use_remote <- function(package) {
+  package_remote <- package_remote(package)
   remotes <- desc::desc_get_remotes(proj_get())
   if (package_remote %in% remotes) {
     return(invisible())
@@ -83,9 +54,10 @@ use_dev_package <- function(package, type = "Imports") {
   )
   remotes <- c(remotes, package_remote)
   desc::desc_set_remotes(remotes, file = proj_get())
-
   invisible()
 }
+
+# Helpers -----------------------------------------------------------------
 
 ## TO DO: make this less hard-wired to GitHub?
 package_remote <- function(package) {
@@ -108,4 +80,35 @@ refuse_package <- function(package, verboten) {
     )
   }
   invisible(package)
+}
+
+how_to_use <- function(package, type) {
+  types <- tolower(c("Imports", "Depends", "Suggests", "Enhances", "LinkingTo"))
+  type <- match.arg(tolower(type), types)
+
+  switch(type,
+    imports = todo("Refer to functions with {code(package, '::fun()')}"),
+    depends = todo(
+      "Are you sure you want {field('Depends')}? ",
+      "{field('Imports')} is almost always the better choice."
+    ),
+    suggests = {
+      todo(
+        "Use {code('requireNamespace(\"', package, '\", quietly = TRUE)')} ",
+        "to test if package is installed"
+      )
+      todo("Then use {code(package, '::fun()')} to refer to functions.")
+    },
+    enhances = "",
+    linkingto = show_includes(package)
+  )
+}
+
+show_includes <- function(package) {
+  incl <- system.file("include", package = package)
+  h <- dir_ls(incl, regexp = "[.](h|hpp)$")
+  if (length(h) == 0) return()
+
+  todo("Possible includes are:")
+  code_block("#include <{path_file(h)}>", copy = FALSE)
 }
