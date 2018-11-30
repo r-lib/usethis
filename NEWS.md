@@ -2,8 +2,8 @@
 
 * `use_package()` gains a `min_version` argument so you can specify a minimum
   required version (#498). Set to `TRUE` to use the currently installed 
-  version (#386). This is used by `use_tidy()` in order to require 0.1.2 
-  or greater (#484).
+  version (#386). This is used by `use_tidy()` in order to require version 
+  0.1.2 or greater (#484).
 
 * `code_block()` now strips ascii escapes before copying code to clipboard 
   (#447).
