@@ -177,6 +177,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
 
   h <- curl::new_handle(noprogress = FALSE, progressfunction = progress_fun)
   tmp <- file_temp("usethis-use-course-")
+  ui_done("Downloading {ui_value(url)}")
   curl::curl_download(
     url, destfile = tmp, quiet = FALSE, mode = "wb", handle = h
   )
@@ -189,11 +190,10 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   ## DO YOU KNOW WHERE YOUR STUFF IS GOING?!?
   if (interactive() && pedantic) {
     ui_line(c(
-      "A ZIP file named: {ui_value(base_name)}",
-      "will be copied to this folder: {ui_path(base_path)}",
+      "The ZIP file, {ui_value(base_name)}, will be copied to  {ui_path(base_path)}.",
       "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}"
     ))
-    if (ui_nope("Is it OK to write this file here?")) {
+    if (ui_nope("OK to proceed?")) {
       ui_stop("Aborting.")
     }
   }
@@ -204,11 +204,13 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   }
 
   zip_dest <- if (is.null(destdir)) base_name else full_path
-  ui_done("Downloaded ZIP file to {ui_value(zip_dest)}")
+  ui_done("Copied ZIP file to {ui_path(zip_dest, base_path)}")
   file_move(tmp, full_path)
 }
 
 tidy_unzip <- function(zipfile) {
+  base_path <- path_dir(zipfile)
+
   filenames <- utils::unzip(zipfile, list = TRUE)[["Name"]]
 
   ## deal with DropBox's peculiar habit of including "/" as a file --> drop it
@@ -228,13 +230,13 @@ tidy_unzip <- function(zipfile) {
     utils::unzip(zipfile, files = filenames, exdir = path_dir(zipfile))
   }
   ui_done(
-    "Unpacking ZIP file into {ui_path(target)} \\
+    "Unpacking ZIP file into {ui_path(target, base_path)} \\
     ({length(filenames)} files extracted)"
   )
 
   if (interactive()) {
-    if (ui_yeah("Shall we delete the ZIP file ({ui_path(zipfile)})?")) {
-      ui_done("Deleting {ui_path(zipfile)}")
+    if (ui_yeah("Shall we delete the ZIP file ({ui_path(zipfile, base_path)})?")) {
+      ui_done("Deleting {ui_path(zipfile, base_path)}")
       file_delete(zipfile)
     }
 
@@ -242,7 +244,7 @@ tidy_unzip <- function(zipfile) {
       ui_done("Opening project in RStudio")
       rstudioapi::openProject(target, newSession = TRUE)
     } else if (!in_rstudio_server()) {
-      ui_done("Opening {ui_path(target)} in the file manager")
+      ui_done("Opening {ui_path(target, base_path)} in the file manager")
       utils::browseURL(path_real(target))
     }
   }
@@ -336,7 +338,7 @@ progress_fun <- function(down, up) {
     ""
   }
   if(now > 10000)
-    cat("\r Downloaded:", sprintf("%.2f", now / 2^20), "MB ", pct)
+    cat("\rDownloaded:", sprintf("%.2f", now / 2^20), "MB ", pct)
   TRUE
 }
 

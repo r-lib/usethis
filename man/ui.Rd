@@ -36,7 +36,7 @@ ui_field(x)
 
 ui_value(x)
 
-ui_path(x)
+ui_path(x, base = NULL)
 
 ui_code(x)
 }
@@ -53,6 +53,8 @@ environment. For expert use only.}
 
 \item{copy}{If \code{TRUE}, the session is interactive, and the clipr package
 is installed, will copy the code block to the clipboard.}
+
+\item{base}{If specified, paths will be displayed relative to this path.}
 }
 \value{
 The block styles, conditions, and questions are called for their
