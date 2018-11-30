@@ -28,6 +28,9 @@
 #'
 #' * `use_tidy_issue_template()`: adds a standard tidyverse issue template.
 #'
+#' * `use_tidy_release_test_env()`: updates the test environment section in
+#'   `cran-comments.md`.
+#'
 #' * `use_tidy_support()`: adds a standard description of support resources for
 #'    the tidyverse.
 #'
@@ -56,6 +59,33 @@
 #' @name tidyverse
 NULL
 
+#' @export
+#' @rdname tidyverse
+#' @param path Path to create new package
+#' @param copyright_holder Owner of code in package (e.g. "RStudio")
+create_tidy_package <- function(path,
+                                copyright_holder
+                                ) {
+
+  create_package(path, rstudio = TRUE, open = FALSE)
+  old <- proj_set(path)
+  on.exit(proj_set(old), add = TRUE)
+
+  use_description_field("Roxygen", "list(markdown = TRUE)")
+  use_testthat()
+  use_gpl3_license("RStudio")
+  use_tidy_description()
+
+  use_readme_rmd()
+  use_lifecycle_badge("experimental")
+  use_cran_badge()
+  use_cran_comments()
+
+  use_tidy_github()
+  todo(code("use_git()"))
+  todo(code("use_github()"))
+  todo(code("use_tidy_ci()"))
+}
 
 #' @export
 #' @rdname tidyverse
@@ -76,6 +106,7 @@ use_tidy_ci <- function(browse = interactive()) {
 
   use_travis_badge()
   use_codecov_badge()
+  use_tidy_release_test_env()
 
   if (new_travis) {
     travis_activate(browse)
@@ -137,8 +168,6 @@ use_tidy_eval <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_contributing <- function() {
-  check_uses_github()
-
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy-contributing.md",
@@ -151,8 +180,6 @@ use_tidy_contributing <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_issue_template <- function() {
-  check_uses_github()
-
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy-issue.md",
@@ -164,8 +191,6 @@ use_tidy_issue_template <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_support <- function() {
-  check_uses_github()
-
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy-support.md",
@@ -178,8 +203,6 @@ use_tidy_support <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_coc <- function() {
-  check_uses_github()
-
   use_code_of_conduct(path = ".github")
 }
 
@@ -213,6 +236,34 @@ use_tidy_style <- function(strict = TRUE) {
   cat_line()
   done("Styled project according to the tidyverse style guide")
   invisible(styled)
+}
+
+#' @export
+#' @rdname tidyverse
+use_tidy_release_test_env <- function() {
+  block_replace(
+    "release environment",
+    tidy_release_test_env(),
+    path = proj_path("cran-comments.md"),
+    block_start = "## Test environments",
+    block_end = "## R CMD check results"
+  )
+}
+
+tidy_release_test_env <- function() {
+  use_bullet <- function(name, versions) {
+    versions <- paste(versions, collapse = ", ")
+    glue("* {name}: {versions}")
+  }
+
+  c(
+    "",
+    use_bullet("local", paste0(R.version$os, "-", R.version$major, ".", R.version$minor)),
+    use_bullet("travis", c("3.1", "3.2", "3.3", "oldrel", "release", "devel")),
+    use_bullet("r-hub", c("windows-x86_64-devel", "ubuntu-gcc-release", "fedora-clang-devel")),
+    use_bullet("win-builder", "windows-x86_64-devel"),
+    ""
+  )
 }
 
 #' Identify contributors via GitHub activity

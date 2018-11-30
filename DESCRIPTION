@@ -29,6 +29,7 @@ Imports:
     gh,
     git2r (>= 0.23),
     glue,
+    purrr,
     rlang,
     rprojroot (>= 1.2),
     rstudioapi,
@@ -49,4 +50,3 @@ Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
-X-usethis-tidy-description: TRUE

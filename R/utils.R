@@ -134,3 +134,11 @@ usethis_error <- function(msg) {
     list(message = msg)
   )
 }
+
+seq2 <- function(from, to) {
+  if (from > to) {
+    integer()
+  } else {
+    seq(from, to)
+  }
+}

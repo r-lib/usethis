@@ -49,3 +49,35 @@ uses_roxygen_md <- function(base_path = proj_get()) {
 uses_roxygen <- function(base_path = proj_get()) {
   desc::desc_has_fields("RoxygenNote", base_path)
 }
+
+roxygen_ns_append <- function(tag) {
+  block_append(
+    glue("{value(tag)}"),
+    glue("#' {tag}"),
+    path = proj_path(package_doc_path()),
+    block_start = "## usethis namespace: start",
+    block_end = "## usethis namespace: end",
+    block_suffix = "NULL"
+  )
+}
+
+roxygen_update <- function() {
+  todo("Run {code('devtools::document()')} to update value('NAMESPACE')")
+  TRUE
+}
+
+
+# Checkers ----------------------------------------------------------------
+
+check_uses_roxygen <- function(whos_asking) {
+  force(whos_asking)
+
+  if (uses_roxygen()) {
+    return(invisible())
+  }
+
+  stop_glue("
+    Project {value(project_name())} does not use roxygen2.
+    {code(whos_asking)} can not work without it."
+  )
+}

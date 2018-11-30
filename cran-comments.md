@@ -1,9 +1,9 @@
 ## Test environments
 
-* local macOS Sierra 10.12.6 + R 3.5.1
-* Ubuntu trusty (14.04.5 LTS) via travis-ci, R 3.1 -> R-devel
-* Windows Server 2012 + R 3.5.1 Patched (2018-08-10 r75106) via appveyor
-* Windows + R Under development (unstable) (2018-08-11 r75106) via win-builder
+* local: darwin15.6.0-3.5.1
+* travis: 3.1, 3.2, 3.3, oldrel, release, devel
+* r-hub: windows-x86_64-devel, ubuntu-gcc-release, fedora-clang-devel
+* win-builder: windows-x86_64-devel
 
 ## R CMD check results
 
