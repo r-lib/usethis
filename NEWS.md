@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `git_vaccinate()` vaccinates your global git ignore file ensuring that
+  you never check in files likely to contain confidental information (#469).
+
 * `use_rcpp("foo")` now creates `src/foo.cpp` (#117).
 
 * `use_c("foo")` sets up `src/` and creates `src/foo.c` (#117).

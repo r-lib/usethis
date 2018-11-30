@@ -131,7 +131,6 @@ git_check_in <- function(base_path, paths, message) {
   invisible(TRUE)
 }
 
-
 #' git/GitHub sitrep
 #'
 #' Get a situation report on your current git/GitHub status. Useful for
@@ -160,6 +159,7 @@ git_sitrep <- function() {
   kv_line("Name", name)
   kv_line("Email", email)
   kv_line("Has SSH keys", git_has_ssh())
+  kv_line("Vaccinated: ", git_vaccinated())
 
   hd_line("git2r")
   kv_line("Supports SSH", git2r::libgit2_features()$ssh)
@@ -187,4 +187,34 @@ git_sitrep <- function() {
 }
 
 
+# Vaccination -------------------------------------------------------------
+
+#' Vaccinate your global git ignore
+#'
+#' Adds `.DS_Store`, `.Rproj.user`, and `.Rhistory` to your global
+#' `.gitignore`. This is good practices as it ensures that you will never
+#' accidentally leak credentials to GitHub.
+#'
+#' @export
+git_vaccinate <- function() {
+  path <- git_ignore_path("user")
+  write_union(path, git_global_ignore)
+}
+
+git_vaccinated <- function() {
+  path <- git_ignore_path("user")
+  if (!file_exists(path)) {
+    return(FALSE)
+  }
+
+  lines <- readLines(path)
+  all(git_global_ignore %in% lines)
+}
+
+git_global_ignore <- c(
+  ".Rproj.user",
+  ".Rhistory",
+  ".Rdata",
+  ".DS_Store"
+)
 
