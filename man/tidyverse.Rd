@@ -22,7 +22,7 @@ use_tidy_ci(browse = interactive())
 
 use_tidy_description()
 
-use_tidy_versions(overwrite = FALSE)
+use_tidy_versions(overwrite = FALSE, source = c("local", "CRAN"))
 
 use_tidy_eval()
 
@@ -50,6 +50,8 @@ package.}
 
 \item{overwrite}{By default (\code{FALSE}), only dependencies without version
 specifications will be modified. Set to \code{TRUE} to modify all dependencies.}
+
+\item{source}{Use "local" or "CRAN" package versions.}
 
 \item{strict}{Boolean indicating whether or not a strict version of styling
 should be applied. See \code{\link[styler:tidyverse_style]{styler::tidyverse_style()}} for details.}

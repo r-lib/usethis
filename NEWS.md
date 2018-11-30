@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_tidy_versions()` has source argument so that you can choose to use
+  local or CRAN versions (#309).
+
 * `use_package()` gains a `min_version` argument so you can specify a minimum
   required version (#498). Set to `TRUE` to use the currently installed 
   version (#386). This is used by `use_tidy()` in order to require version 
