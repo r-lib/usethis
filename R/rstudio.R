@@ -44,21 +44,21 @@ use_blank_slate <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
 
   if (scope == "user") { # nocov start
-    todo(
-      "To start ALL RStudio sessions with a blank slate, ",
-      "you must set this interactively, for now."
+    ui_todo(
+      "To start ALL RStudio sessions with a blank slate, \\
+      you must set this interactively, for now."
     )
-    todo(
-      "In {field('Global Options > General')}, ",
-      "do NOT check {field('Restore .RData into workspace at startup')}."
+    ui_todo(
+      "In {field('Global Options > General')}, \\
+      do NOT check {field('Restore .RData into workspace at startup')}."
     )
-    todo(
-      "In {field('Global Options > General')}, ",
-      "set {field('Save workspace to .RData on exit')} to {field('Never')}."
+    ui_todo(
+      "In {field('Global Options > General')}, \\
+      set {field('Save workspace to .RData on exit')} to {field('Never')}."
     )
-    todo(
-      "Call {code('use_blank_slate(\"project\")')} to opt in to the ",
-      "blank slate workflow for a specific project."
+    ui_todo(
+      "Call {code('use_blank_slate(\"project\")')} to opt in to the \\
+      blank slate workflow for a specific project."
     )
     return(invisible())
   } # nocov end
@@ -146,14 +146,14 @@ restart_rstudio <- function(message = NULL) {
   }
 
   if (!is.null(message)) {
-    todo(message)
+    ui_todo(message)
   }
 
   if (!rstudioapi::hasFun("openProject")) {
     return(FALSE)
   }
 
-  if (nope(todo_bullet(), " Restart now?")) {
+  if (nope("Restart now?")) {
     return(FALSE)
   }
 

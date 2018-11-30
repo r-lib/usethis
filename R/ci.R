@@ -46,7 +46,7 @@ use_travis_badge <- function(ext = "org") {
 travis_activate <- function(browse = interactive(), ext = "org") {
   url <- glue("https://travis-ci.{ext}/profile/{github_owner()}")
 
-  todo("Turn on travis for your repo at {url}")
+  ui_todo("Turn on travis for your repo at {url}")
   if (browse) {
     utils::browseURL(url)
   }
@@ -89,7 +89,7 @@ use_appveyor <- function(browse = interactive()) {
 
 appveyor_activate <- function(browse = interactive()) {
   url <- "https://ci.appveyor.com/projects/new"
-  todo("Turn on AppVeyor for this repo at {url}")
+  ui_todo("Turn on AppVeyor for this repo at {url}")
   if (browse) {
     utils::browseURL(url)
   }

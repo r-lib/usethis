@@ -54,7 +54,7 @@ use_badge <- function(badge_name, href, src) {
   )
 
   if (changed && path_ext(path) == "Rmd") {
-    todo("Re-knit {value(proj_rel_path(path))}")
+    ui_todo("Re-knit {value(proj_rel_path(path))}")
   }
   invisible(changed)
 }

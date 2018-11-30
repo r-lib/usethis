@@ -35,7 +35,7 @@ use_usethis <- function() {
 use_rprofile_package <- function(package) {
   edit_r_profile("user")
 
-  todo(
+  ui_todo(
     "Include this code in {value('.Rprofile')} to make {field(package)} ",
     "available in all interactive sessions"
   )
@@ -53,7 +53,7 @@ use_rprofile_package <- function(package) {
 use_partial_warnings <- function() {
   edit_r_profile("user")
 
-  todo(
+  ui_todo(
     "Include this code in {value('.Rprofile')} to warn on partial matches"
   )
   ui_code_block(

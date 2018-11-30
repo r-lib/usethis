@@ -24,7 +24,7 @@ use_code_of_conduct <- function(path = NULL) {
     ignore = is_package() && is.null(path)
   )
 
-  todo("Don't forget to describe the code of conduct in your README:")
+  ui_todo("Don't forget to describe the code of conduct in your README:")
   ui_code_block("
     Please note that the {value(project_name())} project is released with a
     [Contributor Code of Conduct]({save_as}).

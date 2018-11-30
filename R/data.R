@@ -47,7 +47,7 @@ use_data <- function(...,
   }
   check_files_absent(proj_path(paths), overwrite = overwrite)
 
-  done("Saving {glue_collapse(value(unlist(objs)))} to {glue_collapse(value(paths))}")
+  ui_done("Saving {glue_collapse(value(unlist(objs)))} to {glue_collapse(value(paths))}")
 
   envir <- parent.frame()
   mapply(
@@ -105,6 +105,6 @@ use_data_raw <- function() {
   use_directory("data-raw", ignore = TRUE)
 
   message("Next:")
-  todo("Add data creation scripts in {value('data-raw/')}")
-  todo("Use {code('usethis::use_data()')} to add data to package")
+  ui_todo("Add data creation scripts in {value('data-raw/')}")
+  ui_todo("Use {code('usethis::use_data()')} to add data to package")
 }

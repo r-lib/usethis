@@ -17,7 +17,7 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
       return(invisible(FALSE))
     }
   } else if (type == "coveralls") {
-    todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
+    ui_todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
   }
 
   switch(type,
@@ -25,10 +25,12 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
     coveralls = use_coveralls_badge()
   )
 
-  todo("Add to {value('.travis.yml')}:")
-  ui_code_block("
+  ui_todo("Add to {value('.travis.yml')}:")
+  ui_code_block(
+    "
     after_success:
-      - Rscript -e 'covr::{type}()'"
+      - Rscript -e 'covr::{type}()'
+    "
   )
 
   invisible(TRUE)

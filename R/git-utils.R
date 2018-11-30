@@ -141,7 +141,7 @@ check_branch_not_master <- function() {
 }
 
 check_branch_current <- function(branch = git_branch_name()) {
-  done("Checking that {branch} branch is up to date")
+  ui_done("Checking that {branch} branch is up to date")
   diff <- git_branch_compare(branch)
 
   if (diff[[2]] == 0) {

@@ -21,9 +21,9 @@ edit_file <- function(path) {
   file_create(path)
 
   if (!interactive() || is_testing()) {
-    todo("Edit {(proj_rel_path(path))}")
+    ui_todo("Edit {(proj_rel_path(path))}")
   } else {
-    todo("Modify {value(proj_rel_path(path))}")
+    ui_todo("Modify {value(proj_rel_path(path))}")
 
     if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
       rstudioapi::navigateToFile(path)
@@ -60,7 +60,7 @@ NULL
 #' @export
 #' @rdname edit
 edit_r_profile <- function(scope = c("user", "project")) {
-  todo("Restart R for changes to take effect")
+  ui_todo("Restart R for changes to take effect")
   path <- scoped_path_r(scope, ".Rprofile", envvar = "R_PROFILE_USER")
   edit_file(path)
 }
@@ -68,7 +68,7 @@ edit_r_profile <- function(scope = c("user", "project")) {
 #' @export
 #' @rdname edit
 edit_r_environ <- function(scope = c("user", "project")) {
-  todo("Restart R for changes to take effect")
+  ui_todo("Restart R for changes to take effect")
   path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
   edit_file(path)
 }
@@ -138,7 +138,7 @@ edit_git_ignore <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   file <- git_ignore_path(scope)
   if (scope == "user" && !file_exists(file)) {
-    done("Setting up new global gitignore: {value(file)}")
+    ui_done("Setting up new global gitignore: {value(file)}")
     # Describe relative to home directory
     path <- path("~", path_rel(file, path_home()))
     git_config_set("core.excludesfile", path, global = TRUE)

@@ -72,7 +72,7 @@ proj_set <- function(path = ".", force = FALSE) {
   if (is.null(path) || force) {
     path <- proj_path_prep(path)
     proj_string <- if (is.null(path)) "<no active project>" else path
-    done("Setting active project to {value(proj_string)}")
+    ui_done("Setting active project to {value(proj_string)}")
     return(proj_set_(path))
   }
 

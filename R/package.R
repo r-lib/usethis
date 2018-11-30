@@ -49,7 +49,7 @@ use_remote <- function(package) {
     return(invisible())
   }
 
-  done(
+  ui_done(
     "Adding {value(package_remote)} to {field('Remotes')} field in DESCRIPTION"
   )
   remotes <- c(remotes, package_remote)
@@ -87,17 +87,17 @@ how_to_use <- function(package, type) {
   type <- match.arg(tolower(type), types)
 
   switch(type,
-    imports = todo("Refer to functions with {code(package, '::fun()')}"),
-    depends = todo(
-      "Are you sure you want {field('Depends')}? ",
-      "{field('Imports')} is almost always the better choice."
+    imports = ui_todo("Refer to functions with {code(package, '::fun()')}"),
+    depends = ui_todo(
+      "Are you sure you want {field('Depends')}?\\
+      {field('Imports')} is almost always the better choice."
     ),
     suggests = {
-      todo(
-        "Use {code('requireNamespace(\"', package, '\", quietly = TRUE)')} ",
-        "to test if package is installed"
+      ui_todo(
+        "Use {code('requireNamespace(\"', package, '\", quietly = TRUE)')}\\
+        to test if package is installed"
       )
-      todo("Then use {code(package, '::fun()')} to refer to functions.")
+      ui_todo("Then use {code(package, '::fun()')} to refer to functions.")
     },
     enhances = "",
     linkingto = show_includes(package)
@@ -109,6 +109,6 @@ show_includes <- function(package) {
   h <- dir_ls(incl, regexp = "[.](h|hpp)$")
   if (length(h) == 0) return()
 
-  todo("Possible includes are:")
+  ui_todo("Possible includes are:")
   ui_code_block("#include <{path_file(h)}>", copy = FALSE)
 }

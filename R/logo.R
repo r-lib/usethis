@@ -29,7 +29,7 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
   if (path_ext(img) == "svg") {
     logo_path <- path("man", "figures", "logo.svg")
     file_copy(img, proj_path(logo_path))
-    done("Copied {value(path_file(img))} to {value(logo_path)}")
+    ui_done("Copied {value(path_file(img))} to {value(logo_path)}")
 
     height <- as.integer(sub(".*x", "", geometry))
   } else {
@@ -38,7 +38,7 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
     img_data <- magick::image_read(img)
     img_data <- magick::image_resize(img_data, geometry)
     magick::image_write(img_data, logo_path)
-    done("Resized {value(path_file(img))} to {geometry}")
+    ui_done("Resized {value(path_file(img))} to {geometry}")
 
     height <- magick::image_info(magick::image_read(logo_path))$height
   }
@@ -48,6 +48,6 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
     height <- height / 2
   }
 
-  todo("Add logo to your README with the following html:")
+  ui_todo("Add logo to your README with the following html:")
   ui_code_block("# {pkg} <img src=\"{proj_rel_path(logo_path)}\" align=\"right\" height=\"{height}\" />")
 }

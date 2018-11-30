@@ -55,7 +55,7 @@ write_union <- function(path, lines, quiet = FALSE) {
   }
 
   if (!quiet) {
-    done("Adding {glue_collapse(value(new))} to {value(proj_rel_path(path))}")
+    ui_done("Adding {glue_collapse(value(new))} to {value(proj_rel_path(path))}")
   }
 
   all <- union(lines, existing_lines)
@@ -77,12 +77,12 @@ write_over <- function(path, lines, quiet = FALSE) {
 
   if (can_overwrite(path)) {
     if (!quiet) {
-      done("Writing {value(proj_rel_path(path))}")
+      ui_done("Writing {value(proj_rel_path(path))}")
     }
     write_utf8(path, lines)
   } else {
     if (!quiet) {
-      done("Leaving {value(path)} unchanged")
+      ui_done("Leaving {value(path)} unchanged")
     }
     invisible(FALSE)
   }

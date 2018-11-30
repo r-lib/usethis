@@ -11,13 +11,13 @@ block_append <- function(desc, value, path, block_start, block_end,
   }
 
   if (is.null(block_lines)) {
-    todo("Copy and paste the following lines into {value(path)}:")
+    ui_todo("Copy and paste the following lines into {value(path)}:")
     lines <- c(block_prefix, block_start, value, block_end, block_suffix)
     ui_code_block(glue_collapse(lines, "\n"))
     return(FALSE)
   }
 
-  done("Adding {desc} to {value(proj_rel_path(path))}")
+  ui_done("Adding {desc} to {value(proj_rel_path(path))}")
 
   start <- block_lines[[1]]
   end <- block_lines[[2]]
@@ -43,7 +43,7 @@ block_replace <- function(desc, value, path, block_start, block_end) {
   }
 
   if (is.null(block_lines)) {
-    todo("Copy and paste the following lines into {value(path)}:")
+    ui_todo("Copy and paste the following lines into {value(path)}:")
     lines <- c(block_start, value, block_end)
     ui_code_block(glue_collapse(lines, "\n"))
     return(invisible(FALSE))
@@ -57,7 +57,7 @@ block_replace <- function(desc, value, path, block_start, block_end) {
     return(invisible(FALSE))
   }
 
-  done("Replacing {desc} in {value(proj_rel_path(path))}")
+  ui_done("Replacing {desc} in {value(proj_rel_path(path))}")
 
   lines <- c(
     lines[seq2(1, start - 1L)],

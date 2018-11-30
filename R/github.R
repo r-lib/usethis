@@ -70,7 +70,7 @@ use_github <- function(organisation = NULL,
   check_gh_token(auth_token)
 
   if (uses_github(proj_get())) {
-    done("GitHub is already initialized")
+    ui_done("GitHub is already initialized")
     return(invisible())
   }
 
@@ -79,7 +79,7 @@ use_github <- function(organisation = NULL,
   repo_desc <- pkg$Title %||% ""
 
   if (interactive()) {
-    todo("Check title and description")
+    ui_todo("Check title and description")
     ui_code_block(
       "
       Name:        {repo_name},
@@ -91,7 +91,7 @@ use_github <- function(organisation = NULL,
       return(invisible())
     }
   } else {
-    done("Setting title and description")
+    ui_todo("Setting title and description")
     ui_code_block(
       "
       Name:        {repo_name}
@@ -101,7 +101,7 @@ use_github <- function(organisation = NULL,
     )
   }
 
-  done("Creating GitHub repository")
+  ui_done("Creating GitHub repository")
 
   if (is.null(organisation)) {
     create <- gh::gh(
@@ -124,7 +124,7 @@ use_github <- function(organisation = NULL,
     )
   }
 
-  done("Adding GitHub remote")
+  ui_done("Adding GitHub remote")
   r <- git2r::repository(proj_get())
   protocol <- match.arg(protocol, c("ssh", "https"))
   origin_url <- switch(protocol,
@@ -134,7 +134,7 @@ use_github <- function(organisation = NULL,
   git2r::remote_add(r, "origin", origin_url)
 
   if (is_package()) {
-    done("Adding GitHub links to DESCRIPTION")
+    ui_done("Adding GitHub links to DESCRIPTION")
     use_github_links(auth_token = auth_token, host = host)
     if (git_uncommitted()) {
       git2r::add(r, "DESCRIPTION")
@@ -142,7 +142,7 @@ use_github <- function(organisation = NULL,
     }
   }
 
-  done("Pushing to GitHub and setting remote tracking branch")
+  ui_done("Pushing to GitHub and setting remote tracking branch")
   if (protocol == "ssh") {
     ## [1] push via ssh required for success setting remote tracking branch
     ## [2] to get passphrase from ssh-agent, you must use NULL credentials
@@ -236,10 +236,10 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
   )
   view_url(url)
 
-  todo("Call {code('edit_r_environ()')} to open {value('.Renviron')}")
-  todo("Store your PAT with a line like:")
+  ui_todo("Call {code('edit_r_environ()')} to open {value('.Renviron')}")
+  ui_todo("Store your PAT with a line like:")
   ui_code_block("GITHUB_PAT=xxxyyyzzz")
-  todo("Make sure {value('.Renviron')} ends with a newline!")
+  ui_todo("Make sure {value('.Renviron')} ends with a newline!")
 }
 
 uses_github <- function(base_path = proj_get()) {

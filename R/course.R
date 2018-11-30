@@ -207,7 +207,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   }
 
   zip_dest <- if (is.null(destdir)) base_name else full_path
-  done("Downloaded ZIP file to {value(zip_dest)}")
+  ui_done("Downloaded ZIP file to {value(zip_dest)}")
   file_move(tmp, full_path)
 }
 
@@ -230,22 +230,22 @@ tidy_unzip <- function(zipfile) {
     target <- path(path_dir(zipfile), td)
     utils::unzip(zipfile, files = filenames, exdir = path_dir(zipfile))
   }
-  done(
-    "Unpacking ZIP file into {value(target)} ",
-    "({length(filenames)} files extracted)"
+  ui_done(
+    "Unpacking ZIP file into {value(target)} \\
+    ({length(filenames)} files extracted)"
   )
 
   if (interactive()) {
     if (yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
-      done("Deleting {value(zipfile)}")
+      ui_done("Deleting {value(zipfile)}")
       file_delete(zipfile)
     }
 
     if (is_rstudio_project(target) && rstudioapi::hasFun("openProject")) {
-      done("Opening project in RStudio")
+      ui_done("Opening project in RStudio")
       rstudioapi::openProject(target, newSession = TRUE)
     } else if (!in_rstudio_server()) {
-      done("Opening {value(target)} in the file manager")
+      ui_done("Opening {value(target)} in the file manager")
       utils::browseURL(path_real(target))
     }
   }

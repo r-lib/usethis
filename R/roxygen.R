@@ -14,14 +14,14 @@ use_roxygen_md <- function() {
 
     use_description_field("Roxygen", "list(markdown = TRUE)")
     use_description_field("RoxygenNote", roxy_ver)
-    todo("Run {code('devtools::document()')}")
+    ui_todo("Run {code('devtools::document()')}")
   } else if (!uses_roxygen_md()) {
     check_installed("roxygen2md")
     if (!uses_git()) {
-      todo("Use git to ensure that you don't lose any data")
+      ui_todo("Use git to ensure that you don't lose any data")
     }
 
-    todo("Run the following code, then rerun {code('devtools::document()')}")
+    ui_todo("Run the following code, then rerun {code('devtools::document()')}")
     ui_code_block("roxygen2md::roxygen2md(\"{proj_get()}\")")
   }
 
@@ -62,7 +62,7 @@ roxygen_ns_append <- function(tag) {
 }
 
 roxygen_update <- function() {
-  todo("Run {code('devtools::document()')} to update value('NAMESPACE')")
+  ui_todo("Run {code('devtools::document()')} to update {value('NAMESPACE')}")
   TRUE
 }
 

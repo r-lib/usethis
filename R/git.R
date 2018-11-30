@@ -15,7 +15,7 @@ use_git <- function(message = "Initial commit") {
     return(invisible())
   }
 
-  done("Initialising Git repo")
+  ui_done("Initialising Git repo")
   r <- git_init()
 
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
@@ -29,7 +29,7 @@ use_git <- function(message = "Initial commit") {
       {bullets}"
     )
     if (yep(commit_consent_msg)) {
-      done("Adding files and committing")
+      ui_done("Adding files and committing")
       git2r::add(r, paths)
       git2r::commit(r, message)
     }
@@ -123,7 +123,7 @@ git_check_in <- function(base_path, paths, message) {
   if (!git_uncommitted(base_path))
     return(invisible())
 
-  done("Checking into git [{message}]")
+  ui_done("Checking into git [{message}]")
 
   r <- git2r::repository(base_path)
   git2r::add(r, paths)

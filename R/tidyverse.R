@@ -82,9 +82,9 @@ create_tidy_package <- function(path,
   use_cran_comments()
 
   use_tidy_github()
-  todo(code("use_git()"))
-  todo(code("use_github()"))
-  todo(code("use_tidy_ci()"))
+  ui_todo(code("use_git()"))
+  ui_todo(code("use_github()"))
+  ui_todo(code("use_tidy_ci()"))
 }
 
 #' @export
@@ -167,7 +167,7 @@ use_tidy_eval <- function() {
   use_dependency("rlang", "Imports", min_version = "0.1.2")
   new <- use_template("tidy-eval.R", "R/utils-tidy-eval.R")
 
-  todo("Run {code('devtools::document()')}")
+  ui_todo("Run {code('devtools::document()')}")
   return(invisible(new))
 }
 
@@ -241,7 +241,7 @@ use_tidy_style <- function(strict = TRUE) {
     )
   }
   cat_line()
-  done("Styled project according to the tidyverse style guide")
+  ui_done("Styled project according to the tidyverse style guide")
   invisible(styled)
 }
 
@@ -347,7 +347,7 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
   contributors <- sort(unique(pluck_chr(res, c("user", "login"))))
   contrib_link <- glue("[&#x0040;{contributors}](https://github.com/{contributors})")
 
-  todo("{length(contributors)} contributors identified")
+  ui_todo("{length(contributors)} contributors identified")
   ui_code_block(glue_collapse(contrib_link, sep = ", ", last = ", and "))
 
   invisible(contributors)

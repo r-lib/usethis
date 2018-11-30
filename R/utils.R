@@ -142,3 +142,8 @@ seq2 <- function(from, to) {
     seq(from, to)
   }
 }
+
+indent <- function(x, first = "  ", indent = first) {
+  x <- gsub("\n", paste0("\n", indent), x)
+  paste0(first, x)
+}

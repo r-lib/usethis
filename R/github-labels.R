@@ -94,7 +94,7 @@ use_github_labels <- function(
   if (length(to_rename) > 0) {
     delta <- paste0(value(to_rename), " -> ", value(rename[to_rename]),
       collapse = ", ")
-    done("Renaming labels: {delta}")
+    ui_done("Renaming labels: {delta}")
 
     for (label in to_rename) {
       gh(
@@ -111,7 +111,7 @@ use_github_labels <- function(
   # Add missing labels
   to_add <- setdiff(labels, cur_label_names)
   if (length(to_add) > 0) {
-    done("Adding missing labels: {glue_collapse(value(to_add))}")
+    ui_done("Adding missing labels: {glue_collapse(value(to_add))}")
 
     for (label in to_add) {
       gh(
@@ -126,7 +126,7 @@ use_github_labels <- function(
   # Update colours
   to_update <- intersect(cur_label_names, names(colours))
   if (length(to_update) > 0) {
-    done("Updating colours")
+    ui_done("Updating colours")
 
     for (label in to_update) {
       gh(
@@ -140,7 +140,7 @@ use_github_labels <- function(
   # Update descriptions
   to_update <- intersect(cur_label_names, names(descriptions))
   if (length(to_update) > 0) {
-    done("Updating descriptions")
+    ui_done("Updating descriptions")
 
     for (label in to_update) {
       gh(
@@ -157,12 +157,12 @@ use_github_labels <- function(
     to_remove <- setdiff(cur_label_names[default], labels)
 
     if (length(to_remove) > 0) {
-      done("Removing default labels: {glue_collapse(value(to_remove))}")
+      ui_done("Removing default labels: {glue_collapse(value(to_remove))}")
 
       for (label in to_remove) {
         issues <- gh("GET /repos/:owner/:repo/issues", labels = label)
         if (length(issues) > 0) {
-          todo("Delete {value(label)} label manually; it has associated issues")
+          ui_todo("Delete {value(label)} label manually; it has associated issues")
         } else {
           gh("DELETE /repos/:owner/:repo/labels/:name", name = label)
         }

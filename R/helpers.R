@@ -16,7 +16,7 @@ use_description_field <- function(name,
     )
   }
 
-  done("Setting {field(name)} field in DESCRIPTION to {value(value)}")
+  ui_done("Setting {field(name)} field in DESCRIPTION to {value(value)}")
   desc::desc_set(name, value, file = base_path)
   invisible()
 }
@@ -51,7 +51,7 @@ use_dependency <- function(package, type, min_version = NULL) {
 
   # No existing dependecy, so can simply add
   if (!any(existing_dep) || is_linking_to) {
-    done("Adding {value(package)} to {field(type)} field in DESCRIPTION")
+    ui_done("Adding {value(package)} to {field(type)} field in DESCRIPTION")
     desc::desc_set_dep(package, type, version = version, file = proj_get())
     return(invisible())
   }
@@ -67,7 +67,7 @@ use_dependency <- function(package, type, min_version = NULL) {
     # change version
     upgrade <- existing_ver == "*" || numeric_version(min_version) > version_spec(existing_ver)
     if (upgrade) {
-      done(
+      ui_done(
         "Increasing {value(package)} version to {value(version)} in DESCRIPTION"
       )
       desc::desc_set_dep(package, type, version = version, file = proj_get())
@@ -75,9 +75,11 @@ use_dependency <- function(package, type, min_version = NULL) {
   } else if (delta > 0) {
     # upgrade
     if (existing_type != "LinkingTo") {
-      done(
-        "Moving {value(package)} from {field(existing_type)} to {field(type)}",
-        " field in DESCRIPTION"
+      ui_done(
+        "
+        Moving {value(package)} from {field(existing_type)} to {field(type)}\\
+        field in DESCRIPTION
+        "
       )
       desc::desc_del_dep(package, existing_type, file = proj_get())
       desc::desc_set_dep(package, type, version = version, file = proj_get())
@@ -95,10 +97,10 @@ version_spec <- function(x) {
 view_url <- function(..., open = interactive()) {
   url <- paste(..., sep = "/")
   if (open) {
-    done("Opening URL {url}")
+    ui_done("Opening URL {url}")
     utils::browseURL(url)
   } else {
-    todo("Open URL {url}")
+    ui_todo("Open URL {url}")
   }
   invisible(url)
 }

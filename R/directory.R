@@ -29,7 +29,7 @@ create_directory <- function(path) {
     stop_glue("{value(path)} exists but is not a directory.")
   }
 
-  done("Creating {value(path, '/')}")
+  ui_done("Creating {value(path, '/')}")
   dir_create(path, recursive = TRUE)
   invisible(TRUE)
 }

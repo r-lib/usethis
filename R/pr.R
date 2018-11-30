@@ -27,16 +27,16 @@ pr_init <- function(branch) {
       }
     }
 
-    done("Creating local PR branch {value(branch)}")
+    ui_done("Creating local PR branch {value(branch)}")
     git_branch_create(branch)
   }
 
   if (git_branch_name() != branch) {
-    done("Switching to branch {value(branch)}")
+    ui_done("Switching to branch {value(branch)}")
     git_branch_switch(branch)
   }
 
-  todo("Use {code('pr_push()')} to create PR")
+  ui_todo("Use {code('pr_push()')} to create PR")
   invisible()
 }
 
@@ -44,7 +44,7 @@ pr_init <- function(branch) {
 #' @rdname pr_init
 #' @param number Number of PR to fetch.
 pr_fetch <- function(number) {
-  done("Retrieving PR data")
+  ui_done("Retrieving PR data")
   pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
     owner = github_owner(),
     repo = github_repo(),
@@ -57,19 +57,19 @@ pr_fetch <- function(number) {
   remote <- paste0(user, "/", ref)
 
   if (!user %in% git2r::remotes(git_repo())) {
-    done("Adding remote {remote}")
+    ui_done("Adding remote {remote}")
     git2r::remote_add(git_repo(), user, pr$head$repo$git_url)
   }
 
   if (!git_branch_exists(branch)) {
-    done("Creating local branch {branch}")
+    ui_done("Creating local branch {branch}")
     git2r::fetch(git_repo(), user, refspec = remote, verbose = FALSE)
     git_branch_create(branch, remote)
     git_branch_track(branch, user, ref)
   }
 
   if (git_branch_name() != branch) {
-    done("Switching to branch {value(branch)}")
+    ui_done("Switching to branch {value(branch)}")
     git_branch_switch(branch)
   }
 }
@@ -87,11 +87,11 @@ pr_push <- function() {
     check_branch_current()
   }
 
-  done("Pushing changes to GitHub PR")
+  ui_done("Pushing changes to GitHub PR")
   git_branch_push(branch)
 
   if (!has_remote) {
-    done("Tracking remote PR branch")
+    ui_done("Tracking remote PR branch")
     git_branch_track(branch)
   }
 
@@ -100,7 +100,7 @@ pr_push <- function() {
   if (is.null(url)) {
     pr_create_gh()
   } else {
-    done("View PR at {value(url)}")
+    ui_done("View PR at {value(url)}")
   }
 }
 
@@ -111,7 +111,7 @@ pr_pull <- function() {
   check_branch_not_master()
   check_uncommitted_changes()
 
-  done("Pulling changes from GitHub PR")
+  ui_done("Pulling changes from GitHub PR")
   git_pull()
 
   invisible(TRUE)
@@ -134,13 +134,13 @@ pr_finish <- function() {
   check_branch_not_master()
   pr <- git_branch_name()
 
-  done("Switching back to master branch")
+  ui_done("Switching back to master branch")
   git_branch_switch("master")
 
-  done("Pulling changes from GitHub")
+  ui_done("Pulling changes from GitHub")
   git_pull()
 
-  done("Deleting local {pr} branch")
+  ui_done("Deleting local {pr} branch")
   git_branch_delete(pr)
 }
 
@@ -149,7 +149,7 @@ pr_create_gh <- function() {
   repo <- github_repo()
   branch <- git_branch_name()
 
-  done("Create PR at:")
+  ui_done("Create PR at:")
   view_url(glue("https://github.com/{owner}/{repo}/compare/{branch}"))
 }
 

@@ -29,6 +29,6 @@ use_tibble <- function() {
   use_dependency("tibble", "Imports")
   roxygen_ns_append("@importFrom tibble tibble") && roxygen_update()
 
-  todo("Document a returned tibble like so:")
+  ui_todo("Document a returned tibble like so:")
   ui_code_block("#' @return a [tibble][tibble::tibble-package]", copy = FALSE)
 }

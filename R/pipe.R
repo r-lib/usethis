@@ -14,6 +14,6 @@ use_pipe <- function() {
 
   use_dependency("magrittr", "Imports")
   new <- use_template("pipe.R", "R/utils-pipe.R")
-  todo("Run {code('devtools::document()')}")
+  ui_todo("Run {code('devtools::document()')}")
   invisible(new)
 }
