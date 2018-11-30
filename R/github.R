@@ -225,7 +225,7 @@ use_github_links <- function(auth_token = NULL,
 browse_github_pat <- function(scopes = c("repo", "gist"),
                               description = "R:GITHUB_PAT",
                               host = "https://github.com") {
-  scopes <- collapse(scopes, ",")
+  scopes <- glue_collapse(scopes, ",")
   url <- sprintf(
     "%s/settings/tokens/new?scopes=%s&description=%s",
     host, scopes, description

@@ -68,7 +68,7 @@ package_remote <- function(package) {
     stop_glue("{value(package)} was not installed from GitHub.")
   }
 
-  collapse(github_info, sep = "/")
+  glue_collapse(github_info, sep = "/")
 }
 
 refuse_package <- function(package, verboten) {

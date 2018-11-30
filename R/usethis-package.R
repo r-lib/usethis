@@ -1,5 +1,5 @@
 #' @keywords internal
-#' @importFrom glue glue
+#' @importFrom glue glue glue_collapse
 #' @import fs
 "_PACKAGE"
 

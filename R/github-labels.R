@@ -111,7 +111,7 @@ use_github_labels <- function(
   # Add missing labels
   to_add <- setdiff(labels, cur_label_names)
   if (length(to_add) > 0) {
-    done("Adding missing labels: {collapse(value(to_add))}")
+    done("Adding missing labels: {glue_collapse(value(to_add))}")
 
     for (label in to_add) {
       gh(
@@ -157,7 +157,7 @@ use_github_labels <- function(
     to_remove <- setdiff(cur_label_names[default], labels)
 
     if (length(to_remove) > 0) {
-      done("Removing default labels: {collapse(value(to_remove))}")
+      done("Removing default labels: {glue_collapse(value(to_remove))}")
 
       for (label in to_remove) {
         issues <- gh("GET /repos/:owner/:repo/issues", labels = label)

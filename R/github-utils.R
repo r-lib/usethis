@@ -14,7 +14,7 @@ github_repo <- function(path = proj_get()) {
 }
 
 github_repo_spec <- function(path = proj_get()) {
-  collapse(gh_tree_remote(path), sep = "/")
+  paste0(gh_tree_remote(path), collapse = "/")
 }
 
 ## repo_spec --> owner, repo

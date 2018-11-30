@@ -18,19 +18,10 @@ bulletize <- function(line, bullet = "*") {
   paste0(bullet, " ", line)
 }
 
-collapse <- function(x, sep = ", ", width = Inf, last = "") {
-  if (utils::packageVersion("glue") > "1.2.0") {
-    utils::getFromNamespace("glue_collapse", "glue")(x, sep = sep, width = Inf, last = last)
-  } else {
-    utils::getFromNamespace("collapse", "glue")(x = x, sep = sep, width = width, last = last)
-  }
-}
-
 ## glue into lines stored as character vector
 glue_lines <- function(lines, .envir = parent.frame()) {
   unlist(lapply(lines, glue, .envir = .envir))
 }
-
 
 # Functions designed for a single line ----------------------------------------
 todo <- function(..., .envir = parent.frame()) {
@@ -53,7 +44,7 @@ code_block <- function(..., copy = interactive(), .envir = parent.frame()) {
   cat_line(crayon::make_style("darkgrey")(block))
   if (copy && clipr::clipr_available()) {
     lines <- crayon::strip_style(lines)
-    clipr::write_clip(collapse(lines, sep = "\n"))
+    clipr::write_clip(glue_collapse(lines, sep = "\n"))
     message("[Copyied to clipboard]")
   }
 }

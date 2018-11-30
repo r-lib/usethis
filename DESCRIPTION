@@ -28,7 +28,7 @@ Imports:
     fs (>= 1.2.0),
     gh,
     git2r (>= 0.23),
-    glue,
+    glue (>= 1.2.0),
     purrr,
     rlang,
     rprojroot (>= 1.2),

@@ -82,7 +82,7 @@ build_description <- function(fields = list()) {
   desc_list <- build_description_list(fields)
 
   # Collapse all vector arguments to single strings
-  desc <- vapply(desc_list, collapse, character(1))
+  desc <- vapply(desc_list, glue_collapse, character(1))
 
   glue("{names(desc)}: {desc}")
 }

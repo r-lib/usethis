@@ -47,7 +47,7 @@ use_data <- function(...,
   }
   check_files_absent(proj_path(paths), overwrite = overwrite)
 
-  done("Saving {collapse(value(unlist(objs)))} to {collapse(value(paths))}")
+  done("Saving {glue_collapse(value(unlist(objs)))} to {glue_collapse(value(paths))}")
 
   envir <- parent.frame()
   mapply(
@@ -75,7 +75,7 @@ get_objs_from_dots <- function(.dots) {
   if (length(duplicated_objs) > 0L) {
     objs <- unique(objs)
     warning_glue(
-      "Saving duplicates only once: {collapse(names(duplicated_objs))}"
+      "Saving duplicates only once: {glue_collapse(names(duplicated_objs))}"
     )
   }
   objs
@@ -93,7 +93,7 @@ check_files_absent <- function(paths, overwrite) {
   }
 
   stop_glue(
-    "{collapse(value(paths[!ok]))} already exist. ",
+    "{glue_collapse(value(paths[!ok]))} already exist. ",
     "Use {code('overwrite = TRUE')} to overwrite."
   )
 }
