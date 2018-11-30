@@ -73,6 +73,7 @@ ui_value <- function(x) {
 
 ui_path <- function(x) {
   x <- proj_rel_path(x)
+  x <- paste0(x, ifelse(is_dir(x), "/", ""))
   x <- ui_value(x)
   x
 }
