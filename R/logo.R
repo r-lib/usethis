@@ -21,11 +21,10 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
   check_is_package("use_logo()")
 
   logo_path <- proj_path("man", "figures", "logo", ext = path_ext(img))
+  create_directory(path_dir(logo_path))
   if (!can_overwrite(logo_path)) {
     return(invisible(FALSE))
   }
-
-  dir_create(path_dir(logo_path))
 
   if (path_ext(img) == "svg") {
     logo_path <- path("man", "figures", "logo.svg")

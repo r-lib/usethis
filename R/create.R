@@ -31,11 +31,13 @@ create_package <- function(path,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
   path <- user_path_prep(path)
+  check_path_is_directory(path_dir(path))
+
   name <- path_file(path)
   check_package_name(name)
   check_not_nested(path_dir(path), name)
 
-  create_directory(path_dir(path), name)
+  create_directory(path)
   old_project <- proj_set(path, force = TRUE)
 
   use_directory("R")
@@ -63,7 +65,7 @@ create_project <- function(path,
   name <- path_file(path)
   check_not_nested(path_dir(path), name)
 
-  create_directory(path_dir(path), name)
+  create_directory(path)
   old_project <- proj_set(path, force = TRUE)
 
   use_directory("R")
@@ -147,7 +149,8 @@ create_from_github <- function(repo_spec,
   repo <- spec_repo(repo_spec)
   check_not_nested(destdir, repo)
 
-  repo_path <- create_directory(destdir, repo)
+  repo_path <- path(destdir, repo)
+  create_directory(repo_path)
   check_is_empty(repo_path)
 
   pat <- auth_token %||% gh_token()

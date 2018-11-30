@@ -57,8 +57,9 @@ use_git <- function(message = "Initial commit") {
 use_git_hook <- function(hook, script) {
   check_uses_git()
 
-  hook_dir <- create_directory(proj_get(), ".git/hooks")
-  hook_path <- path(hook_dir, hook)
+  hook_path <- proj_path(".git", "hooks", hook)
+  create_directory(path_dir(hook_path))
+
   write_over(hook_path, script)
   file_chmod(hook_path, "0744")
 

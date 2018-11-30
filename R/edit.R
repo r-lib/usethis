@@ -17,7 +17,7 @@
 #' }
 edit_file <- function(path) {
   path <- user_path_prep(path)
-  dir_create(path_dir(path), recursive = TRUE)
+  create_directory(path_dir(path))
   file_create(path)
 
   if (!interactive() || is_testing()) {

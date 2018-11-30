@@ -14,11 +14,7 @@
 #' }
 use_directory <- function(path,
                           ignore = FALSE) {
-  if (!file_exists(proj_path(path))) {
-    done("Creating {value(path, '/')}")
-  }
-  create_directory(proj_get(), path)
-
+  create_directory(proj_path(path))
   if (ignore) {
     use_build_ignore(path)
   }
@@ -26,24 +22,24 @@ use_directory <- function(path,
   invisible(TRUE)
 }
 
-create_directory <- function(base_path, path) {
-  if (!file_exists(base_path)) {
-    stop_glue("{value(base_path)} does not exist.")
-  }
-
-  if (!is_dir(base_path)) {
-    stop_glue("{value(base_path)} is not a directory.")
-  }
-
-  target_path <- path(base_path, path)
-
-  if (!file_exists(target_path)) {
-    dir_create(target_path, recursive = TRUE)
-  }
-
-  if (!is_dir(target_path)) {
+create_directory <- function(path) {
+  if (dir_exists(path)) {
+    return(invisible(FALSE))
+  } else if (file_exists(path)) {
     stop_glue("{value(path)} exists but is not a directory.")
   }
 
-  target_path
+  done("Creating {value(path, '/')}")
+  dir_create(path, recursive = TRUE)
+  invisible(TRUE)
+}
+
+check_path_is_directory <- function(path) {
+  if (!file_exists(path)) {
+    stop_glue("{value(path)} does not exist.")
+  }
+
+  if (!is_dir(path)) {
+    stop_glue("{value(path)} is not a directory.")
+  }
 }
