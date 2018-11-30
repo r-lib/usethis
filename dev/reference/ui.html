@@ -159,7 +159,7 @@ as usethis.</p>
 
 <span class='fu'>ui_value</span>(<span class='no'>x</span>)
 
-<span class='fu'>ui_path</span>(<span class='no'>x</span>)
+<span class='fu'>ui_path</span>(<span class='no'>x</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>ui_code</span>(<span class='no'>x</span>)</pre>
     
@@ -183,6 +183,10 @@ environment. For expert use only.</p></td>
       <th>copy</th>
       <td><p>If <code>TRUE</code>, the session is interactive, and the clipr package
 is installed, will copy the code block to the clipboard.</p></td>
+    </tr>
+    <tr>
+      <th>base</th>
+      <td><p>If specified, paths will be displayed relative to this path.</p></td>
     </tr>
     </table>
     
