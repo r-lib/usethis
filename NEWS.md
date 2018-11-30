@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `edit_r_profile()` and `edit_r_environ()` now respect environment variables
+  `R_PROFILE_USER` and `R_ENVIRON_USER` respectively (#480).
+
 * `use_tidy_versions()` has source argument so that you can choose to use
   local or CRAN versions (#309).
 
@@ -13,6 +16,8 @@
 
 * `git_vaccinate()` vaccinates your global git ignore file ensuring that
   you never check in files likely to contain confidental information (#469).
+  It is called automatically if `use_git_ignore()` creates a new `.gitnore`
+  file for you.
 
 * `use_rcpp("foo")` now creates `src/foo.cpp` (#117).
 
