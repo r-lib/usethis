@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a vignette — use_vignette • usethis</title>
+<title>Create a vignette or article. — use_vignette • usethis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,15 +30,12 @@
 
 
 
-<meta property="og:title" content="Create a vignette — use_vignette" />
+<meta property="og:title" content="Create a vignette or article. — use_vignette" />
 
-<meta property="og:description" content="Performs general set up for vignettes and initializes a new individual
-vignette:
-Adds needed packages to DESCRIPTION
-Adds inst/doc to .gitignore so built vignettes aren't tracked
-Creates a new draft .Rmd vignette in vignettes/ and, if possible,
-opens it for editing
-" />
+<meta property="og:description" content="Creates new vignette/article in vignettes/. Article are a special
+type of vignette that appear on pkgdown websites, but are not included
+in the package itself (because they are added to .Rbuildignore
+automatically)." />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -130,24 +127,23 @@ opens it for editing
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a vignette</h1>
+    <h1>Create a vignette or article.</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/vignette.R'><code>R/vignette.R</code></a></small>
     <div class="hidden name"><code>use_vignette.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Performs general set up for vignettes and initializes a new individual
-vignette:</p><ul>
-<li><p>Adds needed packages to <code>DESCRIPTION</code></p></li>
-<li><p>Adds <code>inst/doc</code> to <code>.gitignore</code> so built vignettes aren't tracked</p></li>
-<li><p>Creates a new draft <code>.Rmd</code> vignette in <code>vignettes/</code> and, if possible,
-opens it for editing</p></li>
-</ul>
+    <p>Creates new vignette/article in <code>vignettes/</code>. Article are a special
+type of vignette that appear on pkgdown websites, but are not included
+in the package itself (because they are added to <code>.Rbuildignore</code>
+automatically).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_vignette</span>(<span class='no'>name</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='no'>name</span>)</pre>
+    <pre class="usage"><span class='fu'>use_vignette</span>(<span class='no'>name</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='no'>name</span>)
+
+<span class='fu'>use_article</span>(<span class='no'>name</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='no'>name</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,6 +158,16 @@ of numbers, letters, _ and -. I recommend using lower case.</p></td>
       <td><p>The title of the vignette.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="general-setup"><a class="anchor" href="#general-setup"></a>General setup</h2>
+
+    
+    <ul>
+<li><p>Adds needed packages to <code>DESCRIPTION</code>.</p></li>
+<li><p>Adds <code>inst/doc</code> to <code>.gitignore</code> so built vignettes aren't tracked.</p></li>
+<li><p>Adds <code>vignettes/*.html</code> and <code>vignettes/*.R</code> to <code>.gitignore</code> so
+you never accidental track rendered vignettes.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -179,6 +185,8 @@ of numbers, letters, _ and -. I recommend using lower case.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#general-setup">General setup</a></li>
+
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
