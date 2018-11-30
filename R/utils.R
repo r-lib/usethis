@@ -4,7 +4,7 @@ can_overwrite <- function(path) {
   }
 
   if (interactive()) {
-    yep("Overwrite pre-existing file ", value(proj_rel_path(path)), "?")
+    yep("Overwrite pre-existing file ", ui_path(path), "?")
   } else {
     FALSE
   }
@@ -44,10 +44,10 @@ yep <- function(...) ask_user(..., true_for = "yes")
 check_is_dir <- function(x) {
   ## "checking it twice" for robustness to trailing slash issues on Windows
   if (!file_exists(x) && !dir_exists(x)) {
-    stop_glue("Directory does not exist:\n{value(x)}")
+    stop_glue("Directory does not exist:\n{ui_path(x)}")
   }
   if (!is_dir(x)) {
-    stop_glue("{value(x)} exists but is not a directory.")
+    stop_glue("{ui_path(x)} exists but is not a directory.")
   }
   invisible(x)
 }
@@ -55,7 +55,7 @@ check_is_dir <- function(x) {
 check_is_empty <- function(x) {
   files <- dir_ls(x)
   if (length(files) > 0) {
-    stop_glue("{value(x)} exists and is not an empty directory.")
+    stop_glue("{ui_path(x)} exists and is not an empty directory.")
   }
   invisible(x)
 }
@@ -63,11 +63,11 @@ check_is_empty <- function(x) {
 check_is_named_list <- function(x, nm = deparse(substitute(x))) {
   if (!rlang::is_list(x)) {
     bad_class <- paste(class(x), collapse = "/")
-    stop_glue("{code(nm)} must be a list, not {bad_class}.")
+    stop_glue("{ui_code(nm)} must be a list, not {bad_class}.")
   }
   if (!rlang::is_dictionaryish(x)) {
     stop_glue(
-      "Names of {code(nm)} must be non-missing, non-empty, and ",
+      "Names of {ui_code(nm)} must be non-missing, non-empty, and ",
       "non-duplicated."
     )
   }
@@ -101,7 +101,7 @@ compact <- function(x) {
 
 check_installed <- function(pkg) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
-    stop_glue("Package {value(pkg)} required. Please install before re-trying.")
+    stop_glue("Package {ui_value(pkg)} required. Please install before re-trying.")
   }
 }
 

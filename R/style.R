@@ -11,6 +11,7 @@ ui_done <- function(x, .envir = parent.frame()) {
 }
 
 ui_code_block <- function(x, copy = interactive(), .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
   block <- indent(x, "  ")
@@ -26,27 +27,34 @@ ui_code_block <- function(x, copy = interactive(), .envir = parent.frame()) {
 
 # Inline styling functions ------------------------------------------------
 
-## use these inside ui_todo(), ui_done(), and ui_code_block()
-## ^^ and let these functions handle any glue()ing ^^
-field <- function(...) {
-  x <- paste0(...)
-  crayon::green(x)
+ui_field <- function(x) {
+  x <- crayon::green(x)
+  x <- glue_collapse(x, sep = ", ")
+  x
 }
 
-value <- function(...) {
-  x <- paste0(...)
-  crayon::blue(encodeString(x, quote = "'"))
+ui_value <- function(x) {
+  if (is.character(x)) {
+    x <- encodeString(x, quote = "'")
+  }
+  x <- crayon::blue(x)
+  x <- glue_collapse(x, sep = ", ")
+  x
 }
 
-code <- function(...) {
-  x <- paste0(...)
-  crayon::make_style("darkgrey")(encodeString(x, quote = "`"))
+ui_path <- function(x) {
+  x <- proj_rel_path(x)
+  x <- ui_value(x)
+  x
 }
 
-unset <- function(...) {
-  x <- paste0(...)
-  crayon::make_style("lightgrey")(x)
+ui_code <- function(x) {
+  x <- encodeString(x, quote = "`")
+  x <- crayon::make_style("darkgrey")(x)
+  x <- glue_collapse(x, sep = ", ")
+  x
 }
+
 
 # Cat wrappers ---------------------------------------------------------------
 

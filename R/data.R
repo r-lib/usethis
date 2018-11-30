@@ -47,7 +47,7 @@ use_data <- function(...,
   }
   check_files_absent(proj_path(paths), overwrite = overwrite)
 
-  ui_done("Saving {glue_collapse(value(unlist(objs)))} to {glue_collapse(value(paths))}")
+  ui_done("Saving {ui_value(unlist(objs))} to {ui_value(paths)}")
 
   envir <- parent.frame()
   mapply(
@@ -75,7 +75,7 @@ get_objs_from_dots <- function(.dots) {
   if (length(duplicated_objs) > 0L) {
     objs <- unique(objs)
     warning_glue(
-      "Saving duplicates only once: {glue_collapse(names(duplicated_objs))}"
+      "Saving duplicates only once: {ui_valie(names(duplicated_objs))}"
     )
   }
   objs
@@ -93,8 +93,8 @@ check_files_absent <- function(paths, overwrite) {
   }
 
   stop_glue(
-    "{glue_collapse(value(paths[!ok]))} already exist. ",
-    "Use {code('overwrite = TRUE')} to overwrite."
+    "{ui_path(paths[!ok])} already exist. ",
+    "Use {ui_code('overwrite = TRUE')} to overwrite."
   )
 }
 
@@ -105,6 +105,6 @@ use_data_raw <- function() {
   use_directory("data-raw", ignore = TRUE)
 
   message("Next:")
-  ui_todo("Add data creation scripts in {value('data-raw/')}")
-  ui_todo("Use {code('usethis::use_data()')} to add data to package")
+  ui_todo("Add data creation scripts in {ui_value('data-raw/')}")
+  ui_todo("Use {ui_code('usethis::use_data()')} to add data to package")
 }

@@ -82,9 +82,9 @@ create_tidy_package <- function(path,
   use_cran_comments()
 
   use_tidy_github()
-  ui_todo(code("use_git()"))
-  ui_todo(code("use_github()"))
-  ui_todo(code("use_tidy_ci()"))
+  ui_todo(ui_code("use_git()"))
+  ui_todo(ui_code("use_github()"))
+  ui_todo(ui_code("use_tidy_ci()"))
 }
 
 #' @export
@@ -167,7 +167,7 @@ use_tidy_eval <- function() {
   use_dependency("rlang", "Imports", min_version = "0.1.2")
   new <- use_template("tidy-eval.R", "R/utils-tidy-eval.R")
 
-  ui_todo("Run {code('devtools::document()')}")
+  ui_todo("Run {ui_code('devtools::document()')}")
   return(invisible(new))
 }
 
@@ -359,7 +359,7 @@ as_timestamp <- function(x = NULL, repo_spec = github_repo_spec()) {
   if (is.null(x)) return(NULL)
   as_POSIXct <- try(as.POSIXct(x), silent = TRUE)
   if (inherits(as_POSIXct, "POSIXct")) return(x)
-  message("Resolving timestamp for ref ", value(x))
+  message("Resolving timestamp for ref ", ui_value(x))
   ref_df(x, repo_spec)$timestamp
 }
 

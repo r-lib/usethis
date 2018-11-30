@@ -63,9 +63,9 @@ check_uses_travis <- function(base_path = proj_get()) {
   }
 
   stop_glue(
-    "Cannot detect that package {value(project_name(base_path))}",
+    "Cannot detect that package {ui_(project_name(base_path))}",
     " already uses Travis.\n",
-    "Do you need to run {code('use_travis()')}?"
+    "Do you need to run {ui_code('use_travis()')}?"
   )
 }
 

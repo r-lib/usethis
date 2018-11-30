@@ -50,7 +50,7 @@ use_remote <- function(package) {
   }
 
   ui_done(
-    "Adding {value(package_remote)} to {field('Remotes')} field in DESCRIPTION"
+    "Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in DESCRIPTION"
   )
   remotes <- c(remotes, package_remote)
   desc::desc_set_remotes(remotes, file = proj_get())
@@ -65,7 +65,7 @@ package_remote <- function(package) {
   github_info <- desc$get(c("GithubUsername", "GithubRepo"))
 
   if (any(is.na(github_info))) {
-    stop_glue("{value(package)} was not installed from GitHub.")
+    stop_glue("{ui_value(package)} was not installed from GitHub.")
   }
 
   glue_collapse(github_info, sep = "/")
@@ -74,7 +74,7 @@ package_remote <- function(package) {
 refuse_package <- function(package, verboten) {
   if (identical(package, verboten)) {
     stop_glue(
-      "{value(package)} is a meta-package and it is rarely a good idea to ",
+      "{ui_value(package)} is a meta-package and it is rarely a good idea to ",
       "depend on it. Please determine the specific underlying package(s) that ",
       "offer the function(s) you need and depend on that instead."
     )
@@ -87,17 +87,17 @@ how_to_use <- function(package, type) {
   type <- match.arg(tolower(type), types)
 
   switch(type,
-    imports = ui_todo("Refer to functions with {code(package, '::fun()')}"),
+    imports = ui_todo("Refer to functions with {ui_code(paste0(package, '::fun()'))}"),
     depends = ui_todo(
-      "Are you sure you want {field('Depends')}?\\
-      {field('Imports')} is almost always the better choice."
+      "Are you sure you want {ui_field('Depends')}?\\
+      {ui_field('Imports')} is almost always the better choice."
     ),
     suggests = {
       ui_todo(
-        "Use {code('requireNamespace(\"', package, '\", quietly = TRUE)')}\\
+        "Use {ui_code(paste0('requireNamespace(\"', package, '\", quietly = TRUE)'))}\\
         to test if package is installed"
       )
-      ui_todo("Then use {code(package, '::fun()')} to refer to functions.")
+      ui_todo("Then use {ui_code(paste0(package, '::fun()'))} to refer to functions.")
     },
     enhances = "",
     linkingto = show_includes(package)

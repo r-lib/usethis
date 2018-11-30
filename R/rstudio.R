@@ -49,22 +49,22 @@ use_blank_slate <- function(scope = c("user", "project")) {
       you must set this interactively, for now."
     )
     ui_todo(
-      "In {field('Global Options > General')}, \\
-      do NOT check {field('Restore .RData into workspace at startup')}."
+      "In {ui_field('Global Options > General')}, \\
+      do NOT check {ui_field('Restore .RData into workspace at startup')}."
     )
     ui_todo(
-      "In {field('Global Options > General')}, \\
-      set {field('Save workspace to .RData on exit')} to {field('Never')}."
+      "In {ui_field('Global Options > General')}, \\
+      set {ui_field('Save workspace to .RData on exit')} to {ui_value('Never')}."
     )
     ui_todo(
-      "Call {code('use_blank_slate(\"project\")')} to opt in to the \\
+      "Call {ui_code('use_blank_slate(\"project\")')} to opt in to the \\
       blank slate workflow for a specific project."
     )
     return(invisible())
   } # nocov end
 
   if (!is_rstudio_project()) {
-    stop_glue("{value(project_name())} is not an RStudio Project.")
+    stop_glue("{ui_value(project_name())} is not an RStudio Project.")
   }
 
   rproj_fields <- modify_rproj(

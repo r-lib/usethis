@@ -11,13 +11,12 @@ block_append <- function(desc, value, path, block_start, block_end,
   }
 
   if (is.null(block_lines)) {
-    ui_todo("Copy and paste the following lines into {value(path)}:")
-    lines <- c(block_prefix, block_start, value, block_end, block_suffix)
-    ui_code_block(glue_collapse(lines, "\n"))
+    ui_todo("Copy and paste the following lines into {ui_value(path)}:")
+    ui_code_block(c(block_prefix, block_start, value, block_end, block_suffix))
     return(FALSE)
   }
 
-  ui_done("Adding {desc} to {value(proj_rel_path(path))}")
+  ui_done("Adding {desc} to {ui_path(path)}")
 
   start <- block_lines[[1]]
   end <- block_lines[[2]]
@@ -43,9 +42,8 @@ block_replace <- function(desc, value, path, block_start, block_end) {
   }
 
   if (is.null(block_lines)) {
-    ui_todo("Copy and paste the following lines into {value(path)}:")
-    lines <- c(block_start, value, block_end)
-    ui_code_block(glue_collapse(lines, "\n"))
+    ui_todo("Copy and paste the following lines into {ui_value(path)}:")
+    ui_code_block(c(block_start, value, block_end))
     return(invisible(FALSE))
   }
 
@@ -57,7 +55,7 @@ block_replace <- function(desc, value, path, block_start, block_end) {
     return(invisible(FALSE))
   }
 
-  ui_done("Replacing {desc} in {value(proj_rel_path(path))}")
+  ui_done("Replacing {desc} in {ui_path(path)}")
 
   lines <- c(
     lines[seq2(1, start - 1L)],
@@ -89,7 +87,7 @@ block_find <- function(lines, block_start, block_end) {
   if (!(length(start) == 1 && length(end) == 1 && start < end)) {
     stop_glue(
       "Invalid block specification.
-      Must start with {code(block_start)} and end with {code(block_end)}"
+      Must start with {ui_code(block_start)} and end with {ui_code(block_end)}"
     )
   }
 

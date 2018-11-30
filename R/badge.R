@@ -46,7 +46,7 @@ NULL
 use_badge <- function(badge_name, href, src) {
   path <- find_readme()
   changed <- block_append(
-    glue("{field(badge_name)} badge"),
+    glue("{ui_field(badge_name)} badge"),
     glue("[![{badge_name}]({src})]({href})"),
     path = path,
     block_start = badge_start,
@@ -54,7 +54,7 @@ use_badge <- function(badge_name, href, src) {
   )
 
   if (changed && path_ext(path) == "Rmd") {
-    ui_todo("Re-knit {value(proj_rel_path(path))}")
+    ui_todo("Re-knit {ui_path(path)}")
   }
   invisible(changed)
 }

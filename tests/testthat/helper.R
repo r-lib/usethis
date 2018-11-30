@@ -23,7 +23,7 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
                                    thing = c("package", "project")) {
   thing <- match.arg(thing)
   if (fs::dir_exists(dir)) {
-    stop_glue("Target {code('dir')} {value(dir)} already exists.")
+    stop_glue("Target {ui_code('dir')} {ui_path(dir)} already exists.")
   }
 
   old_project <- proj_get_()
@@ -32,8 +32,9 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
   if (identical(env, globalenv())) {
     ui_done("Switching to a temporary project!")
     if (!is.null(old_project)) {
+      command <- paste0('proj_set(\"', old_project, '\")')
       ui_todo(
-        "Restore current project with: {code('proj_set(\"', old_project, '\")')}"
+        "Restore current project with: {ui_code(command)}"
       )
     }
   } else {

@@ -12,7 +12,7 @@ NULL
 use_depsy_badge <- function() {
   msg <- glue(
     "The Depsy project has officially concluded and is no longer ",
-    "being maintained. Therefore {code('use_depsy_badge()')}",
+    "being maintained. Therefore {ui_code('use_depsy_badge()')}",
     " has been removed from usethis."
   )
   .Defunct(msg = msg)

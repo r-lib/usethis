@@ -22,7 +22,7 @@ use_r <- function(name = NULL) {
 check_file_name <- function(name) {
   if (!valid_file_name(path_ext_remove(name))) {
     stop_glue(
-      "{value(name)} is not a valid file name. It should:\n",
+      "{ui_value(name)} is not a valid file name. It should:\n",
       "* Contain only ASCII letters, numbers, '-', and '_'\n"
     )
   }
@@ -35,7 +35,7 @@ valid_file_name <- function(x) {
 
 get_active_r_file <- function(path = "R") {
   if (!rstudioapi::isAvailable()) {
-    stop_glue("Argument {code('name')} must be specified.")
+    stop_glue("Argument {ui_code('name')} must be specified.")
   }
   ## rstudioapi can return a path like '~/path/to/file' where '~' means
   ## R's notion of user's home directory
@@ -44,17 +44,17 @@ get_active_r_file <- function(path = "R") {
   rel_path <- proj_rel_path(active_file)
   if (path_dir(rel_path) != path) {
     stop_glue(
-      "Open file must be in the {value(path, '/')} directory of ",
+      "Open file must be in the {ui_path(path)} directory of ",
       "the active package.\n",
-      "  * Actual path: {value(rel_path)}"
+      "  * Actual path: {ui_path(rel_path)}"
     )
   }
 
   ext <- path_ext(active_file)
   if (toupper(ext) != "R") {
     stop_glue(
-      "Open file must have {value('.R')} or {value('.r')} as extension, ",
-      "not {value(ext)}."
+      "Open file must have {ui_value('.R')} or {ui_value('.r')} as extension, ",
+      "not {ui_value(ext)}."
     )
   }
 

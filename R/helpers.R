@@ -11,12 +11,12 @@ use_description_field <- function(name,
 
   if (!is.na(curr) && !overwrite) {
     stop_glue(
-      "{field(name)} has a different value in DESCRIPTION. ",
-      "Use {code('overwrite = TRUE')} to overwrite."
+      "{ui_field(name)} has a different value in DESCRIPTION. ",
+      "Use {ui_code('overwrite = TRUE')} to overwrite."
     )
   }
 
-  ui_done("Setting {field(name)} field in DESCRIPTION to {value(value)}")
+  ui_done("Setting {ui_field(name)} field in DESCRIPTION to {ui_value(value)}")
   desc::desc_set(name, value, file = base_path)
   invisible()
 }
@@ -27,7 +27,7 @@ use_dependency <- function(package, type, min_version = NULL) {
 
   if (package != "R" && !requireNamespace(package, quietly = TRUE)) {
     stop_glue(
-      "{value(package)} must be installed before you can ",
+      "{ui_value(package)} must be installed before you can ",
       "take a dependency on it."
     )
   }
@@ -51,7 +51,7 @@ use_dependency <- function(package, type, min_version = NULL) {
 
   # No existing dependecy, so can simply add
   if (!any(existing_dep) || is_linking_to) {
-    ui_done("Adding {value(package)} to {field(type)} field in DESCRIPTION")
+    ui_done("Adding {ui_value(package)} to {ui_field(type)} field in DESCRIPTION")
     desc::desc_set_dep(package, type, version = version, file = proj_get())
     return(invisible())
   }
@@ -60,15 +60,15 @@ use_dependency <- function(package, type, min_version = NULL) {
   if (delta < 0) {
     # don't downgrade
     warning_glue(
-      "Package {value(package)} is already listed in ",
-      "{value(existing_type)} in DESCRIPTION, no change made."
+      "Package {ui_value(package)} is already listed in ",
+      "{ui_value(existing_type)} in DESCRIPTION, no change made."
     )
   } else if (delta == 0 && !is.null(min_version)) {
     # change version
     upgrade <- existing_ver == "*" || numeric_version(min_version) > version_spec(existing_ver)
     if (upgrade) {
       ui_done(
-        "Increasing {value(package)} version to {value(version)} in DESCRIPTION"
+        "Increasing {ui_value(package)} version to {ui_value(version)} in DESCRIPTION"
       )
       desc::desc_set_dep(package, type, version = version, file = proj_get())
     }
@@ -77,7 +77,7 @@ use_dependency <- function(package, type, min_version = NULL) {
     if (existing_type != "LinkingTo") {
       ui_done(
         "
-        Moving {value(package)} from {field(existing_type)} to {field(type)}\\
+        Moving {ui_value(package)} from {ui_field(existing_type)} to {ui_field(type)}\\
         field in DESCRIPTION
         "
       )

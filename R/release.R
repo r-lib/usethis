@@ -129,7 +129,7 @@ cran_version <- function(package = project_name(),
 news_latest <- function() {
   path <- proj_path("NEWS.md")
   if (!file_exists(path)) {
-    stop_glue("{value('NEWS.md')} not found")
+    stop_glue("{ui_path(path)} not found")
   }
 
   lines <- readLines(path)
@@ -138,7 +138,7 @@ news_latest <- function() {
   if (length(headings == 1))
 
   if (length(headings) == 0) {
-    stop_glue("No top-level headings found in {value('NEWS.md')}")
+    stop_glue("No top-level headings found in {ui_value(path)}")
   } else if (length(headings) == 1) {
     news <- lines[seq2(headings + 1, length(lines))]
   } else {

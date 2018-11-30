@@ -109,7 +109,7 @@ check_uses_git <- function(base_path = proj_get()) {
 
   stop_glue(
     "Cannot detect that project is already a Git repository.\n",
-    "Do you need to run {code('use_git()')}?"
+    "Do you need to run {ui_code('use_git()')}?"
   )
 }
 
@@ -136,7 +136,7 @@ check_branch_not_master <- function() {
 
   stop_glue("
     Currently on master branch.
-    Do you need to call {code('pr_init()')} first?
+    Do you need to call {ui_code('pr_init()')} first?
   ")
 }
 

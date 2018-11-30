@@ -27,16 +27,16 @@ pr_init <- function(branch) {
       }
     }
 
-    ui_done("Creating local PR branch {value(branch)}")
+    ui_done("Creating local PR branch {ui_value(branch)}")
     git_branch_create(branch)
   }
 
   if (git_branch_name() != branch) {
-    ui_done("Switching to branch {value(branch)}")
+    ui_done("Switching to branch {ui_value(branch)}")
     git_branch_switch(branch)
   }
 
-  ui_todo("Use {code('pr_push()')} to create PR")
+  ui_todo("Use {ui_code('pr_push()')} to create PR")
   invisible()
 }
 
@@ -100,7 +100,7 @@ pr_push <- function() {
   if (is.null(url)) {
     pr_create_gh()
   } else {
-    ui_done("View PR at {value(url)}")
+    ui_done("View PR at {ui_value(url)}")
   }
 }
 

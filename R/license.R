@@ -120,8 +120,8 @@ find_name <- function() {
   }
 
   stop_glue(
-    "{code('name')} argument is missing.\n",
-    "Set it globally with {code('options(usethis.full_name = \"My name\")')}",
-    ", probably in your {value('.Rprofile')}."
+    "{ui_code('name')} argument is missing.\n",
+    "Set it globally with {ui_code('options(usethis.full_name = \"My name\")')}",
+    ", probably in your {ui_path('.Rprofile')}."
   )
 }

@@ -25,7 +25,7 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
     coveralls = use_coveralls_badge()
   )
 
-  ui_todo("Add to {value('.travis.yml')}:")
+  ui_todo("Add to {ui_path('.travis.yml')}:")
   ui_code_block(
     "
     after_success:

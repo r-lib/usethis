@@ -190,11 +190,11 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   if (interactive() && pedantic) {
     message(
       "A ZIP file named:\n",
-      "  ", value(base_name), "\n",
+      "  ", ui_value(base_name), "\n",
       "will be copied to this folder:\n",
-      "  ", value(base_path), "\n",
+      "  ", ui_value(base_path), "\n",
       "Prefer a different location? Cancel, try again, and specify ",
-      code("destdir"), ".\n"
+      ui_code("destdir"), ".\n"
     )
     if (nope("Is it OK to write this file here?")) {
       stop_glue("Aborting.")
@@ -207,7 +207,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   }
 
   zip_dest <- if (is.null(destdir)) base_name else full_path
-  ui_done("Downloaded ZIP file to {value(zip_dest)}")
+  ui_done("Downloaded ZIP file to {ui_value(zip_dest)}")
   file_move(tmp, full_path)
 }
 
@@ -231,13 +231,13 @@ tidy_unzip <- function(zipfile) {
     utils::unzip(zipfile, files = filenames, exdir = path_dir(zipfile))
   }
   ui_done(
-    "Unpacking ZIP file into {value(target)} \\
+    "Unpacking ZIP file into {ui_path(target)} \\
     ({length(filenames)} files extracted)"
   )
 
   if (interactive()) {
-    if (yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
-      ui_done("Deleting {value(zipfile)}")
+    if (yep("Shall we delete the ZIP file ", ui_path(zipfile), "?")) {
+      ui_done("Deleting {ui_path(zipfile)}")
       file_delete(zipfile)
     }
 
@@ -245,7 +245,7 @@ tidy_unzip <- function(zipfile) {
       ui_done("Opening project in RStudio")
       rstudioapi::openProject(target, newSession = TRUE)
     } else if (!in_rstudio_server()) {
-      ui_done("Opening {value(target)} in the file manager")
+      ui_done("Opening {ui_path(target)} in the file manager")
       utils::browseURL(path_real(target))
     }
   }
@@ -292,8 +292,8 @@ check_is_zip <- function(h) {
   headers <- curl::parse_headers_list(curl::handle_data(h)$headers)
   if (headers[["content-type"]] != "application/zip") {
     stop_glue(
-      "Download does not have MIME type {value('application/zip')}.\n",
-      "Instead it's {value(headers[['content-type']])}."
+      "Download does not have MIME type {ui_value('application/zip')}.\n",
+      "Instead it's {ui_value(headers[['content-type']])}."
     )
   }
   invisible()
@@ -316,9 +316,9 @@ content_disposition <- function(h) {
 parse_content_disposition <- function(cd) {
   if (!grepl("^attachment;", cd)) {
     stop_glue(
-      "{code('Content-Disposition')} header doesn't start with ",
-      "{value('attachment')}.\n",
-      "Actual header: {value(cd)}"
+      "{ui_code('Content-Disposition')} header doesn't start with ",
+      "{ui_value('attachment')}.\n",
+      "Actual header: {ui_value(cd)}"
     )
   }
 

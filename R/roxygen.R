@@ -14,14 +14,14 @@ use_roxygen_md <- function() {
 
     use_description_field("Roxygen", "list(markdown = TRUE)")
     use_description_field("RoxygenNote", roxy_ver)
-    ui_todo("Run {code('devtools::document()')}")
+    ui_todo("Run {ui_code('devtools::document()')}")
   } else if (!uses_roxygen_md()) {
     check_installed("roxygen2md")
     if (!uses_git()) {
       ui_todo("Use git to ensure that you don't lose any data")
     }
 
-    ui_todo("Run the following code, then rerun {code('devtools::document()')}")
+    ui_todo("Run the following code, then rerun {ui_code('devtools::document()')}")
     ui_code_block("roxygen2md::roxygen2md(\"{proj_get()}\")")
   }
 
@@ -52,7 +52,7 @@ uses_roxygen <- function(base_path = proj_get()) {
 
 roxygen_ns_append <- function(tag) {
   block_append(
-    glue("{value(tag)}"),
+    glue("{ui_value(tag)}"),
     glue("#' {tag}"),
     path = proj_path(package_doc_path()),
     block_start = "## usethis namespace: start",
@@ -62,7 +62,7 @@ roxygen_ns_append <- function(tag) {
 }
 
 roxygen_update <- function() {
-  ui_todo("Run {code('devtools::document()')} to update {value('NAMESPACE')}")
+  ui_todo("Run {ui_code('devtools::document()')} to update {ui_path('NAMESPACE')}")
   TRUE
 }
 
@@ -77,7 +77,7 @@ check_uses_roxygen <- function(whos_asking) {
   }
 
   stop_glue("
-    Project {value(project_name())} does not use roxygen2.
-    {code(whos_asking)} can not work without it."
+    Project {ui_value(project_name())} does not use roxygen2.
+    {ui_code(whos_asking)} can not work without it."
   )
 }

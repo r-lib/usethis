@@ -236,10 +236,10 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
   )
   view_url(url)
 
-  ui_todo("Call {code('edit_r_environ()')} to open {value('.Renviron')}")
+  ui_todo("Call {ui_code('edit_r_environ()')} to open {ui_path('.Renviron')}")
   ui_todo("Store your PAT with a line like:")
   ui_code_block("GITHUB_PAT=xxxyyyzzz")
-  ui_todo("Make sure {value('.Renviron')} ends with a newline!")
+  ui_todo("Make sure {ui_value('.Renviron')} ends with a newline!")
 }
 
 uses_github <- function(base_path = proj_get()) {
@@ -257,7 +257,7 @@ check_uses_github <- function(base_path = proj_get()) {
 
   stop_glue(
     "Cannot detect that package already uses GitHub.\n",
-    "Do you need to run {code('use_github()')}?"
+    "Do you need to run {ui_code('use_github()')}?"
   )
 }
 
@@ -271,9 +271,9 @@ gh_token <- function() {
 check_gh_token <- function(auth_token) {
   if (is.null(auth_token) || !nzchar(auth_token)) {
     stop_glue(
-      "No GitHub {code('auth_token')}.\n",
+      "No GitHub {ui_code('auth_token')}.\n",
       "Provide explicitly or make available as an environment variable.\n",
-      "See {code('browse_github_pat()')} for help setting this up."
+      "See {ui_code('browse_github_pat()')} for help setting this up."
     )
   }
   auth_token

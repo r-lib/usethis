@@ -22,7 +22,7 @@ use_git <- function(message = "Initial commit") {
 
   if (interactive() && git_uncommitted()) {
     paths <- sort(unlist(git2r::status(r)))
-    bullets <- glue("* {value(paths)}")
+    bullets <- glue("* {ui_value(paths)}")
 
     commit_consent_msg <- glue("
       OK to make an initial commit of {length(paths)} files?
@@ -151,9 +151,9 @@ git_sitrep <- function() {
     if (is.null(value)) {
       value <- crayon::red("<unset>")
     } else {
-      value <- value(value)
+      value <- ui_value(value)
     }
-    cat_line("* ", field(key), ": ", value)
+    cat_line("* ", ui_field(key), ": ", value)
   }
 
   hd_line("User")

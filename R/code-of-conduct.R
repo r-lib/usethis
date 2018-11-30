@@ -26,7 +26,7 @@ use_code_of_conduct <- function(path = NULL) {
 
   ui_todo("Don't forget to describe the code of conduct in your README:")
   ui_code_block("
-    Please note that the {value(project_name())} project is released with a
+    Please note that the {ui_value(project_name())} project is released with a
     [Contributor Code of Conduct]({save_as}).
     By contributing to this project, you agree to abide by its terms."
   )

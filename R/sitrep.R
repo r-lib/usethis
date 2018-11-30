@@ -34,8 +34,13 @@ proj_sitrep <- function() {
 
 #' @export
 format.sitrep <- function(x, ...) {
-  keys <- field(format(names(x)))
-  vals <- ifelse(is_null(x), unset(x), value(x))
+  unset <- function(...) {
+    x <- paste0(...)
+    crayon::make_style("lightgrey")(x)
+  }
+
+  keys <- ui_field(format(names(x)))
+  vals <- ifelse(is_null(x), unset(x), ui_value(x))
   glue::glue("{keys}: {vals}")
 }
 
@@ -60,7 +65,7 @@ print.sitrep <- function(x, ...) {
       "
       There is currently no active usethis project.
       usethis attempts to activate a project upon first need.
-      Call {code('proj_get()')} to explicitly initiate project activation.
+      Call {ui_code('proj_get()')} to explicitly initiate project activation.
       "
     )
   }
@@ -70,8 +75,8 @@ print.sitrep <- function(x, ...) {
     ui_todo(
       "
       Your working directory is not the same as the active usethis project.
-      To set working directory to the project: {code('setwd(proj_get())')}
-      To activate project in working directory: {code('proj_set(getwd())')}
+      To set working directory to the project: {ui_code('setwd(proj_get())')}
+      To activate project in working directory: {ui_code('proj_set(getwd())')}
       "
     )
   }
@@ -81,7 +86,7 @@ print.sitrep <- function(x, ...) {
     ui_todo(
       "
       Your working directory is not the same as the active RStudio Project.
-      To set working directory to the Project: {code('setwd(rstudioapi::getActiveProject())')}
+      To set working directory to the Project: {ui_code('setwd(rstudioapi::getActiveProject())')}
       "
     )
   }
@@ -92,7 +97,7 @@ print.sitrep <- function(x, ...) {
     ui_todo(
       "
       Your active RStudio Project is not the same as the active usethis project.
-      To set usethis project to RStudio Project: {code('proj_set(rstudioapi::getActiveProject())')}
+      To set usethis project to RStudio Project: {ui_code('proj_set(rstudioapi::getActiveProject())')}
       "
     )
   }
