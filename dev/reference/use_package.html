@@ -141,7 +141,7 @@ so it will be automatically installed from the correct location.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_package</span>(<span class='no'>package</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"Imports"</span>)
+    <pre class="usage"><span class='fu'>use_package</span>(<span class='no'>package</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"Imports"</span>, <span class='kw'>min_version</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>use_dev_package</span>(<span class='no'>package</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"Imports"</span>)</pre>
     
@@ -157,6 +157,11 @@ so it will be automatically installed from the correct location.</p>
       <td><p>Type of dependency: must be one of "Imports", "Depends",
 "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation). Matching
 is case insensitive.</p></td>
+    </tr>
+    <tr>
+      <th>min_version</th>
+      <td><p>Optionally, supply a minimum version for the package.
+Set to <code>TRUE</code> to use the currently installed version.</p></td>
     </tr>
     </table>
     
