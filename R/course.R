@@ -173,7 +173,7 @@ NULL
 download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   stopifnot(is_string(url))
   base_path <- destdir
-  check_is_dir(base_path)
+  check_path_is_directory(base_path)
 
   h <- curl::new_handle(noprogress = FALSE, progressfunction = progress_fun)
   tmp <- file_temp("usethis-use-course-")

@@ -142,7 +142,7 @@ create_from_github <- function(repo_spec,
                                auth_token = NULL,
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
-  check_is_dir(destdir)
+  check_path_is_directory(destdir)
   protocol <- match.arg(protocol, c("ssh", "https"))
 
   owner <- spec_owner(repo_spec)
@@ -151,7 +151,7 @@ create_from_github <- function(repo_spec,
 
   repo_path <- path(destdir, repo)
   create_directory(repo_path)
-  check_is_empty(repo_path)
+  check_directory_is_empty(repo_path)
 
   pat <- auth_token %||% gh_token()
   pat_available <- pat != ""

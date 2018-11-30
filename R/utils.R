@@ -10,30 +10,6 @@ can_overwrite <- function(path) {
   }
 }
 
-check_is_dir <- function(x) {
-  ## "checking it twice" for robustness to trailing slash issues on Windows
-  if (!file_exists(x) && !dir_exists(x)) {
-    ui_stop(
-      "
-      Directory does not exist:
-      {ui_path(x)}
-      "
-    )
-  }
-  if (!is_dir(x)) {
-    ui_stop("{ui_path(x)} exists but is not a directory.")
-  }
-  invisible(x)
-}
-
-check_is_empty <- function(x) {
-  files <- dir_ls(x)
-  if (length(files) > 0) {
-    ui_stop("{ui_path(x)} exists and is not an empty directory.")
-  }
-  invisible(x)
-}
-
 check_is_named_list <- function(x, nm = deparse(substitute(x))) {
   if (!rlang::is_list(x)) {
     bad_class <- paste(class(x), collapse = "/")

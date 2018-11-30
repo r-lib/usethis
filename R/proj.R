@@ -76,7 +76,7 @@ proj_set <- function(path = ".", force = FALSE) {
     return(proj_set_(path))
   }
 
-  check_is_dir(path)
+  check_path_is_directory(path)
   new_project <- proj_find(path)
   if (is.null(new_project)) {
     ui_stop(
