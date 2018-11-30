@@ -26,9 +26,9 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
   )
 
   todo("Add to {value('.travis.yml')}:")
-  code_block(
-    "after_success:",
-    "  - Rscript -e 'covr::{type}()'"
+  ui_code_block("
+    after_success:
+      - Rscript -e 'covr::{type}()'"
   )
 
   invisible(TRUE)

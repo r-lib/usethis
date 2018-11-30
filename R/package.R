@@ -110,5 +110,5 @@ show_includes <- function(package) {
   if (length(h) == 0) return()
 
   todo("Possible includes are:")
-  code_block("#include <{path_file(h)}>", copy = FALSE)
+  ui_code_block("#include <{path_file(h)}>", copy = FALSE)
 }

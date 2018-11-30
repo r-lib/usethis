@@ -80,9 +80,11 @@ use_github <- function(organisation = NULL,
 
   if (interactive()) {
     todo("Check title and description")
-    code_block(
-      "Name:        {repo_name}",
-      "Description: {repo_desc}",
+    ui_code_block(
+      "
+      Name:        {repo_name},
+      Description: {repo_desc}
+      ",
       copy = FALSE
     )
     if (nope("Are title and description ok?")) {
@@ -90,9 +92,11 @@ use_github <- function(organisation = NULL,
     }
   } else {
     done("Setting title and description")
-    code_block(
-      "Name:        {repo_name}",
-      "Description: {repo_desc}",
+    ui_code_block(
+      "
+      Name:        {repo_name}
+      Description: {repo_desc}
+      ",
       copy = FALSE
     )
   }
@@ -231,11 +235,10 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
     host, scopes, description
   )
   view_url(url)
-  todo(
-    "Call {code('edit_r_environ()')} to open {value('.Renviron')} ",
-    "and store your PAT with a line like:"
-  )
-  code_block("GITHUB_PAT=xxxyyyzzz", copy = FALSE)
+
+  todo("Call {code('edit_r_environ()')} to open {value('.Renviron')}")
+  todo("Store your PAT with a line like:")
+  ui_code_block("GITHUB_PAT=xxxyyyzzz")
   todo("Make sure {value('.Renviron')} ends with a newline!")
 }
 

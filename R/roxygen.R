@@ -22,7 +22,7 @@ use_roxygen_md <- function() {
     }
 
     todo("Run the following code, then rerun {code('devtools::document()')}")
-    code_block("roxygen2md::roxygen2md(\"{proj_get()}\")")
+    ui_code_block("roxygen2md::roxygen2md(\"{proj_get()}\")")
   }
 
   invisible()

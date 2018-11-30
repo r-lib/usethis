@@ -30,5 +30,5 @@ use_tibble <- function() {
   roxygen_ns_append("@importFrom tibble tibble") && roxygen_update()
 
   todo("Document a returned tibble like so:")
-  code_block("#' @return a [tibble][tibble::tibble-package]", copy = FALSE)
+  ui_code_block("#' @return a [tibble][tibble::tibble-package]", copy = FALSE)
 }

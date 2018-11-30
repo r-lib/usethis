@@ -18,11 +18,6 @@ bulletize <- function(line, bullet = "*") {
   paste0(bullet, " ", line)
 }
 
-## glue into lines stored as character vector
-glue_lines <- function(lines, .envir = parent.frame()) {
-  unlist(lapply(lines, glue, .envir = .envir))
-}
-
 # Functions designed for a single line ----------------------------------------
 todo <- function(..., .envir = parent.frame()) {
   out <- glue(..., .envir = .envir)
@@ -34,21 +29,24 @@ done <- function(..., .envir = parent.frame()) {
   cat_line(bulletize(out, bullet = done_bullet()))
 }
 
+ui_code_block <- function(code, copy = interactive(), .envir = parent.frame()) {
+  code <- glue(code, .envir = .envir)
 
-# Function designed for several lines -------------------------------------
+  block <- indent(code, "  ")
+  block <- crayon::make_style("darkgrey")(block)
+  cat_line(block)
 
-## ALERT: each individual bit of `...` is destined to be a line
-code_block <- function(..., copy = interactive(), .envir = parent.frame()) {
-  lines <- glue_lines(c(...), .envir = .envir)
-  block <- paste0("  ", lines, collapse = "\n")
-  cat_line(crayon::make_style("darkgrey")(block))
   if (copy && clipr::clipr_available()) {
-    lines <- crayon::strip_style(lines)
-    clipr::write_clip(glue_collapse(lines, sep = "\n"))
-    message("[Copyied to clipboard]")
+    code <- crayon::strip_style(code)
+    clipr::write_clip(code)
+    cat_line("  [Copied to clipboard]")
   }
 }
 
+indent <- function(x, indent = "  ") {
+  x <- gsub("\n", paste0("\n", indent), x)
+  paste0(indent, x)
+}
 
 # Inline styling functions ------------------------------------------------
 

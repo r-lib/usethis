@@ -49,5 +49,5 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
   }
 
   todo("Add logo to your README with the following html:")
-  code_block("# {pkg} <img src=\"{proj_rel_path(logo_path)}\" align=\"right\" height=\"{height}\" />")
+  ui_code_block("# {pkg} <img src=\"{proj_rel_path(logo_path)}\" align=\"right\" height=\"{height}\" />")
 }

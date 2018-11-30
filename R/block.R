@@ -12,13 +12,8 @@ block_append <- function(desc, value, path, block_start, block_end,
 
   if (is.null(block_lines)) {
     todo("Copy and paste the following lines into {value(path)}:")
-    code_block(c(
-      block_prefix,
-      block_start,
-      value,
-      block_end,
-      block_suffix
-    ))
+    lines <- c(block_prefix, block_start, value, block_end, block_suffix)
+    ui_code_block(glue_collapse(lines, "\n"))
     return(FALSE)
   }
 
@@ -49,11 +44,8 @@ block_replace <- function(desc, value, path, block_start, block_end) {
 
   if (is.null(block_lines)) {
     todo("Copy and paste the following lines into {value(path)}:")
-    code_block(c(
-      block_start,
-      value,
-      block_end
-    ))
+    lines <- c(block_start, value, block_end)
+    ui_code_block(glue_collapse(lines, "\n"))
     return(invisible(FALSE))
   }
 

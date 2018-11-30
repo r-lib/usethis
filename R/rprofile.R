@@ -39,10 +39,12 @@ use_rprofile_package <- function(package) {
     "Include this code in {value('.Rprofile')} to make {field(package)} ",
     "available in all interactive sessions"
   )
-  code_block(
-    "if (interactive()) {{",
-    "  suppressMessages(require({package}))",
-    "}}"
+  ui_code_block(
+    "
+    if (interactive()) {{
+      suppressMessages(require({package}))
+    }}
+    "
   )
 }
 
@@ -54,12 +56,13 @@ use_partial_warnings <- function() {
   todo(
     "Include this code in {value('.Rprofile')} to warn on partial matches"
   )
-  ## in glue, you get a literal brace by using doubled braces
-  code_block(
-    "options(",
-    "  warnPartialMatchArgs = TRUE,",
-    "  warnPartialMatchDollar = TRUE,",
-    "  warnPartialMatchAttr = TRUE",
-    ")"
+  ui_code_block(
+    "
+    options(
+      warnPartialMatchArgs = TRUE,
+      warnPartialMatchDollar = TRUE,
+      warnPartialMatchAttr = TRUE
+    )
+    "
   )
 }
