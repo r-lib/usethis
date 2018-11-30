@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>git/GitHub sitrep — git_sitrep • usethis</title>
+<title>Vaccinate your global git ignore — git_vaccinate • usethis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,11 @@
 
 
 
-<meta property="og:title" content="git/GitHub sitrep — git_sitrep" />
+<meta property="og:title" content="Vaccinate your global git ignore — git_vaccinate" />
 
-<meta property="og:description" content="Get a situation report on your current git/GitHub status. Useful for
-diagnosing problems" />
+<meta property="og:description" content="Adds .DS_Store, .Rproj.user, and .Rhistory to your global
+.gitignore. This is good practices as it ensures that you will never
+accidentally leak credentials to GitHub." />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -125,38 +126,27 @@ diagnosing problems" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>git/GitHub sitrep</h1>
+    <h1>Vaccinate your global git ignore</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/git.R'><code>R/git.R</code></a></small>
-    <div class="hidden name"><code>git_sitrep.Rd</code></div>
+    <div class="hidden name"><code>git_vaccinate.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get a situation report on your current git/GitHub status. Useful for
-diagnosing problems</p>
+    <p>Adds <code>.DS_Store</code>, <code>.Rproj.user</code>, and <code>.Rhistory</code> to your global
+<code>.gitignore</code>. This is good practices as it ensures that you will never
+accidentally leak credentials to GitHub.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>git_sitrep</span>()</pre>
+    <pre class="usage"><span class='fu'>git_vaccinate</span>()</pre>
         
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>git_sitrep</span>()</div><div class='output co'>#&gt; <span style='font-weight: bold;'>User</span><span>
-#&gt; * </span><span style='color: #00BB00;'>Name</span><span>: </span><span style='color: #0000BB;'>'Travis CI User'</span><span>
-#&gt; * </span><span style='color: #00BB00;'>Email</span><span>: </span><span style='color: #0000BB;'>'travis@example.org'</span><span>
-#&gt; * </span><span style='color: #00BB00;'>Has SSH keys</span><span>: </span><span style='color: #0000BB;'>'FALSE'</span><span>
-#&gt; * </span><span style='color: #00BB00;'>Vaccinated: </span><span>: </span><span style='color: #0000BB;'>'FALSE'</span><span>
-#&gt; </span><span style='font-weight: bold;'>git2r</span><span>
-#&gt; * </span><span style='color: #00BB00;'>Supports SSH</span><span>: </span><span style='color: #0000BB;'>'TRUE'</span><span>
-#&gt; </span><span style='font-weight: bold;'>GitHub</span><span>
-#&gt; No token available</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>
