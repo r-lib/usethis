@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_citation()` creates a basic `CITATION` template and puts it in the 
+  right place (#100).
+
 * `git_vaccinate()` vaccinates your global git ignore file ensuring that
   you never check in files likely to contain confidental information (#469).
 
