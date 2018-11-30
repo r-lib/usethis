@@ -76,8 +76,10 @@ check_uses_roxygen <- function(whos_asking) {
     return(invisible())
   }
 
-  stop_glue("
+  ui_stop(
+    "
     Project {ui_value(project_name())} does not use roxygen2.
-    {ui_code(whos_asking)} can not work without it."
+    {ui_code(whos_asking)} can not work without it.
+    "
   )
 }

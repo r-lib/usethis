@@ -79,7 +79,7 @@ proj_set <- function(path = ".", force = FALSE) {
   check_is_dir(path)
   new_project <- proj_find(path)
   if (is.null(new_project)) {
-    stop_glue(
+    ui_stop(
       "Path {ui_path(path)} does not appear to be inside a project or package."
     )
   }
@@ -188,13 +188,14 @@ check_is_package <- function(whos_asking = NULL) {
     return(invisible())
   }
 
-  message <- glue("Project {ui_value(project_name())} is not an R package.")
+  message <- "Project {ui_value(project_name())} is not an R package."
   if (!is.null(whos_asking)) {
-    message <- glue(
-      "{ui_code(whos_asking)} is designed to work with packages. {message}"
+    message <- c(
+      "{ui_code(whos_asking)} is designed to work with packages.",
+      message
     )
   }
-  stop_glue(message)
+  ui_stop(message)
 }
 
 proj_active <- function() !is.null(proj_get_())
@@ -212,10 +213,10 @@ is_in_proj <- function(path) {
 
 project_data <- function(base_path = proj_get()) {
   if (!possibly_in_proj(base_path)) {
-    stop_glue(
-      "{ui_path(base_path)} doesn't meet the usethis criteria for a project.\n",
+    ui_stop(c(
+      "{ui_path(base_path)} doesn't meet the usethis criteria for a project.",
       "Read more in the help for {ui_code(\"proj_get()\")}."
-    )
+    ))
   }
   if (is_package(base_path)) {
     data <- package_data(base_path)

@@ -255,10 +255,10 @@ check_uses_github <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop_glue(
-    "Cannot detect that package already uses GitHub.\n",
+  ui_stop(c(
+    "Cannot detect that package already uses GitHub.",
     "Do you need to run {ui_code('use_github()')}?"
-  )
+  ))
 }
 
 ## use from gh when/if exported
@@ -270,11 +270,11 @@ gh_token <- function() {
 
 check_gh_token <- function(auth_token) {
   if (is.null(auth_token) || !nzchar(auth_token)) {
-    stop_glue(
-      "No GitHub {ui_code('auth_token')}.\n",
-      "Provide explicitly or make available as an environment variable.\n",
+    ui_stop(c(
+      "No GitHub {ui_code('auth_token')}.",
+      "Provide explicitly or make available as an environment variable.",
       "See {ui_code('browse_github_pat()')} for help setting this up."
-    )
+    ))
   }
   auth_token
 }

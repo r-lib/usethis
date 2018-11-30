@@ -259,11 +259,11 @@ check_not_nested <- function(path, name) {
     "{ui_path(path)}."
   )
   if (!interactive()) {
-    stop_glue(message)
+    ui_stop(message)
   }
 
   if (nope(message, " This is rarely a good idea. Do you wish to create anyway?")) {
-    stop_glue("Aborting project creation.")
+    ui_stop("Aborting project creation.")
   }
   invisible()
 }
@@ -282,9 +282,9 @@ rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
   }
 
   if (fork && identical(user, owner)) {
-    stop_glue(
-      "Repo {ui_value(repo_info$full_name)} is owned by user ",
-      "{ui_value(user)}. Can't fork."
+    ui_stop(
+      "Repo {ui_value(repo_info$full_name)} is owned by user\\
+      {ui_value(user)}. Can't fork."
     )
   }
 

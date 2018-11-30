@@ -23,7 +23,7 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
                                    thing = c("package", "project")) {
   thing <- match.arg(thing)
   if (fs::dir_exists(dir)) {
-    stop_glue("Target {ui_code('dir')} {ui_path(dir)} already exists.")
+    ui_stop("Target {ui_code('dir')} {ui_path(dir)} already exists.")
   }
 
   old_project <- proj_get_()

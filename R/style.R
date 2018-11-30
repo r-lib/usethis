@@ -1,11 +1,19 @@
-# Glue wrappers -----------------------------------------------------------
+# Block styles ------------------------------------------------------------
+
+ui_line <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+  cat_line(x)
+}
 
 ui_todo <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
   cat_bullet(x, crayon::red(clisymbols::symbol$bullet))
 }
 
 ui_done <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
   cat_bullet(x, crayon::red(crayon::green(clisymbols::symbol$tick)))
 }
@@ -25,7 +33,28 @@ ui_code_block <- function(x, copy = interactive(), .envir = parent.frame()) {
   }
 }
 
-# Inline styling functions ------------------------------------------------
+# Conditions --------------------------------------------------------------
+
+ui_stop <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+
+  cnd <- structure(
+    class = c("usethis_error", "error", "condition"),
+    list(message = x)
+  )
+
+  stop(cnd)
+}
+
+ui_warn <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+
+  warning(x, call. = FALSE, immediate. = TRUE)
+}
+
+# Inline styles -----------------------------------------------------------
 
 ui_field <- function(x) {
   x <- crayon::green(x)
@@ -54,7 +83,6 @@ ui_code <- function(x) {
   x <- glue_collapse(x, sep = ", ")
   x
 }
-
 
 # Cat wrappers ---------------------------------------------------------------
 

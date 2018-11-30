@@ -26,7 +26,7 @@ create_directory <- function(path) {
   if (dir_exists(path)) {
     return(invisible(FALSE))
   } else if (file_exists(path)) {
-    stop_glue("{ui_path(path)} exists but is not a directory.")
+    ui_stop("{ui_path(path)} exists but is not a directory.")
   }
 
   ui_done("Creating {ui_path(path)}")
@@ -36,10 +36,10 @@ create_directory <- function(path) {
 
 check_path_is_directory <- function(path) {
   if (!file_exists(path)) {
-    stop_glue("{ui_path(path)} does not exist.")
+    ui_stop("{ui_path(path)} does not exist.")
   }
 
   if (!is_dir(path)) {
-    stop_glue("{ui_path(path)} is not a directory.")
+    ui_stop("{ui_path(path)} is not a directory.")
   }
 }

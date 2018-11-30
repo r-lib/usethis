@@ -169,10 +169,7 @@ pr_url <- function(branch = git_branch_name()) {
     git_config_set(config_url, urls[[1]])
     urls[[1]]
   } else {
-    stop(
-      "Multiple PRs correspond to this branch. Please close before continuing",
-      call. = FALSE
-    )
+    ui_stop("Multiple PRs correspond to this branch. Please close before continuing")
   }
 }
 

@@ -38,7 +38,7 @@ git_branch_name <- function() {
 
   branch <- git2r::repository_head(repo)
   if (!git2r::is_branch(branch)) {
-    stop("Detached head; can't continue", call. = FALSE)
+    ui_stop("Detached head; can't continue")
   }
 
   branch$name
@@ -107,9 +107,11 @@ check_uses_git <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop_glue(
-    "Cannot detect that project is already a Git repository.\n",
-    "Do you need to run {ui_code('use_git()')}?"
+  ui_stop(
+    "
+    Cannot detect that project is already a Git repository.
+    Do you need to run {ui_code('use_git()')}?
+    "
   )
 }
 
@@ -119,7 +121,7 @@ check_uncommitted_changes <- function(path = proj_get()) {
   }
 
   if (uses_git(path) && git_uncommitted(path)) {
-    stop_glue("Uncommited changes. Please commit to git before continuing.")
+    ui_stop("Uncommited changes. Please commit to git before continuing.")
   }
 }
 
@@ -134,10 +136,12 @@ check_branch_not_master <- function() {
     return()
   }
 
-  stop_glue("
+  ui_stop(
+    "
     Currently on master branch.
     Do you need to call {ui_code('pr_init()')} first?
-  ")
+    "
+  )
 }
 
 check_branch_current <- function(branch = git_branch_name()) {
@@ -148,10 +152,12 @@ check_branch_current <- function(branch = git_branch_name()) {
     return()
   }
 
-  stop_glue("
+  ui_stop(
+    "
     {branch} branch is out of date.
     Please resolve (somehow) before continuing.
-  ")
+    "
+  )
 }
 
 

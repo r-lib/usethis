@@ -62,21 +62,19 @@ use_data <- function(...,
 
 get_objs_from_dots <- function(.dots) {
   if (length(.dots) == 0L) {
-    stop_glue("Nothing to save.")
+    ui_stop("Nothing to save.")
   }
 
   is_name <- vapply(.dots, is.symbol, logical(1))
   if (any(!is_name)) {
-    stop_glue("Can only save existing named objects.")
+    ui_stop("Can only save existing named objects.")
   }
 
   objs <- vapply(.dots, as.character, character(1))
   duplicated_objs <- which(stats::setNames(duplicated(objs), objs))
   if (length(duplicated_objs) > 0L) {
     objs <- unique(objs)
-    warning_glue(
-      "Saving duplicates only once: {ui_valie(names(duplicated_objs))}"
-    )
+    ui_warn("Saving duplicates only once: {ui_value(names(duplicated_objs))}")
   }
   objs
 }
@@ -92,9 +90,11 @@ check_files_absent <- function(paths, overwrite) {
     return()
   }
 
-  stop_glue(
-    "{ui_path(paths[!ok])} already exist. ",
-    "Use {ui_code('overwrite = TRUE')} to overwrite."
+  ui_stop(
+    "
+    {ui_path(paths[!ok])} already exist.,
+    Use {ui_code('overwrite = TRUE')} to overwrite.
+    "
   )
 }
 
@@ -104,7 +104,7 @@ check_files_absent <- function(paths, overwrite) {
 use_data_raw <- function() {
   use_directory("data-raw", ignore = TRUE)
 
-  message("Next:")
+  ui_line("Next:")
   ui_todo("Add data creation scripts in {ui_value('data-raw/')}")
   ui_todo("Use {ui_code('usethis::use_data()')} to add data to package")
 }

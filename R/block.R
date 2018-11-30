@@ -85,7 +85,7 @@ block_find <- function(lines, block_start, block_end) {
     return(NULL)
 
   if (!(length(start) == 1 && length(end) == 1 && start < end)) {
-    stop_glue(
+    ui_stop(
       "Invalid block specification.
       Must start with {ui_code(block_start)} and end with {ui_code(block_end)}"
     )

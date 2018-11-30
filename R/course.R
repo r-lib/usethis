@@ -197,13 +197,13 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
       ui_code("destdir"), ".\n"
     )
     if (nope("Is it OK to write this file here?")) {
-      stop_glue("Aborting.")
+      ui_stop("Aborting.")
     }
   }
   full_path <- path(base_path, base_name)
 
   if (!can_overwrite(full_path)) {
-    stop_glue("Aborting.")
+    ui_stop("Aborting.")
   }
 
   zip_dest <- if (is.null(destdir)) base_name else full_path
@@ -291,10 +291,10 @@ top_directory <- function(filenames) {
 check_is_zip <- function(h) {
   headers <- curl::parse_headers_list(curl::handle_data(h)$headers)
   if (headers[["content-type"]] != "application/zip") {
-    stop_glue(
-      "Download does not have MIME type {ui_value('application/zip')}.\n",
+    ui_stop(c(
+      "Download does not have MIME type {ui_value('application/zip')}.",
       "Instead it's {ui_value(headers[['content-type']])}."
-    )
+    ))
   }
   invisible()
 }
@@ -315,11 +315,10 @@ content_disposition <- function(h) {
 ##  GitHub eg: "attachment; filename=foo-master.zip"
 parse_content_disposition <- function(cd) {
   if (!grepl("^attachment;", cd)) {
-    stop_glue(
-      "{ui_code('Content-Disposition')} header doesn't start with ",
-      "{ui_value('attachment')}.\n",
+    ui_stop(c(
+      "{ui_code('Content-Disposition')} header doesn't start with {ui_value('attachment')}.",
       "Actual header: {ui_value(cd)}"
-    )
+    ))
   }
 
   cd <- sub("^attachment;\\s*", "", cd, ignore.case = TRUE)

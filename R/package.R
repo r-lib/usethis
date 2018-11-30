@@ -65,7 +65,7 @@ package_remote <- function(package) {
   github_info <- desc$get(c("GithubUsername", "GithubRepo"))
 
   if (any(is.na(github_info))) {
-    stop_glue("{ui_value(package)} was not installed from GitHub.")
+    ui_stop("{ui_value(package)} was not installed from GitHub.")
   }
 
   glue_collapse(github_info, sep = "/")
@@ -73,10 +73,10 @@ package_remote <- function(package) {
 
 refuse_package <- function(package, verboten) {
   if (identical(package, verboten)) {
-    stop_glue(
-      "{ui_value(package)} is a meta-package and it is rarely a good idea to ",
-      "depend on it. Please determine the specific underlying package(s) that ",
-      "offer the function(s) you need and depend on that instead."
+    ui_stop(
+      "{ui_value(package)} is a meta-package and it is rarely a good idea to \\
+      depend on it. Please determine the specific underlying package(s) that \\
+      offer the function(s) you need and depend on that instead."
     )
   }
   invisible(package)
