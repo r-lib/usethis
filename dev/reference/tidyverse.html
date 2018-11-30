@@ -145,7 +145,7 @@ commonly used packages.</p>
 
 <span class='fu'>use_tidy_description</span>()
 
-<span class='fu'>use_tidy_versions</span>(<span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>use_tidy_versions</span>(<span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>source</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"local"</span>, <span class='st'>"CRAN"</span>))
 
 <span class='fu'>use_tidy_eval</span>()
 
@@ -183,6 +183,10 @@ package.</p></td>
       <th>overwrite</th>
       <td><p>By default (<code>FALSE</code>), only dependencies without version
 specifications will be modified. Set to <code>TRUE</code> to modify all dependencies.</p></td>
+    </tr>
+    <tr>
+      <th>source</th>
+      <td><p>Use "local" or "CRAN" package versions.</p></td>
     </tr>
     <tr>
       <th>strict</th>
