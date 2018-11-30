@@ -4,44 +4,11 @@ can_overwrite <- function(path) {
   }
 
   if (interactive()) {
-    yep("Overwrite pre-existing file ", ui_path(path), "?")
+    ui_yeah("Overwrite pre-existing file {ui_path(path)}?")
   } else {
     FALSE
   }
 }
-
-## returns TRUE if user selects answer corresponding to `true_for`
-## returns FALSE if user selects other answer or enters 0
-## errors in non-interactive() session
-## it is caller's responsibility to avoid that
-ask_user <- function(...,
-                     true_for = c("yes", "no")) {
-  true_for <- match.arg(true_for)
-  yes <- true_for == "yes"
-
-  message <- paste0(..., collapse = "")
-  if (!interactive()) {
-    ui_stop(
-      "
-      User input required in non-interactive session.
-      Query: {message}
-      "
-    )
-  }
-
-  yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
-  nos <- c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not")
-
-  qs <- c(sample(yeses, 1), sample(nos, 2))
-  rand <- sample(length(qs))
-  ret <- if(yes) rand == 1 else rand != 1
-
-  cat(message)
-  ret[utils::menu(qs[rand])]
-}
-
-nope <- function(...) ask_user(..., true_for = "no")
-yep <- function(...) ask_user(..., true_for = "yes")
 
 check_is_dir <- function(x) {
   ## "checking it twice" for robustness to trailing slash issues on Windows

@@ -16,30 +16,38 @@ use_git <- function(message = "Initial commit") {
   }
 
   ui_done("Initialising Git repo")
-  r <- git_init()
+  git_init()
 
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
+  git_ask_commit()
 
-  if (interactive() && git_uncommitted()) {
-    paths <- sort(unlist(git2r::status(r)))
-    bullets <- glue("* {ui_value(paths)}")
+  restart_rstudio("A restart of RStudio is required to activate the Git pane")
+  invisible(TRUE)
+}
 
-    commit_consent_msg <- glue("
-      OK to make an initial commit of {length(paths)} files?
-      {bullets}"
-    )
-    if (yep(commit_consent_msg)) {
-      ui_done("Adding files and committing")
-      git2r::add(r, paths)
-      git2r::commit(r, message)
-    }
+git_ask_commit <- function() {
+  if (!interactive() || !git_uncommitted())
+    return(invisible())
+
+  paths <- unlist(git_status())
+  paths <- sort(paths)
+  paths <- purrr::map_chr(paths, ui_path)
+  n <- length(paths)
+  if (n > 20) {
+    paths <- c(paths[1:20], "...")
   }
 
-  restart_rstudio(
-    "A restart of RStudio is required to activate the Git pane"
-  )
-  invisible(TRUE)
+  ui_line(c(
+    "There are {n} files uncommited files:",
+    paste0("* ", paths)
+  ))
 
+  if (ui_yeah("Is it ok to commit them?")) {
+    ui_done("Adding files and committing")
+    repo <- git_repo()
+    git2r::add(repo, paths)
+    git2r::commit(repo, message)
+  }
 }
 
 #' Add a git hook

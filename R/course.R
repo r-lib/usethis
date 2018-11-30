@@ -193,7 +193,7 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
       "will be copied to this folder: {ui_path(base_path)}",
       "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}"
     ))
-    if (nope("Is it OK to write this file here?")) {
+    if (ui_nope("Is it OK to write this file here?")) {
       ui_stop("Aborting.")
     }
   }
@@ -233,7 +233,7 @@ tidy_unzip <- function(zipfile) {
   )
 
   if (interactive()) {
-    if (yep("Shall we delete the ZIP file ", ui_path(zipfile), "?")) {
+    if (ui_yeah("Shall we delete the ZIP file ({ui_path(zipfile)})?")) {
       ui_done("Deleting {ui_path(zipfile)}")
       file_delete(zipfile)
     }

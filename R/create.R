@@ -254,15 +254,11 @@ check_not_nested <- function(path, name) {
     return()
   }
 
-  message <- glue(
-    "New project {ui_value(name)} is nested inside an existing project ",
-    "{ui_path(path)}."
+  ui_line(
+    "New project {ui_value(name)} is nested inside an existing project\\
+    {ui_path(path)}, which is rarely a good idea."
   )
-  if (!interactive()) {
-    ui_stop(message)
-  }
-
-  if (nope(message, " This is rarely a good idea. Do you wish to create anyway?")) {
+  if (ui_nope("Do you want to create anyway?")) {
     ui_stop("Aborting project creation.")
   }
   invisible()

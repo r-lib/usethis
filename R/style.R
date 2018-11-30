@@ -54,6 +54,34 @@ ui_warn <- function(x, .envir = parent.frame()) {
   warning(x, call. = FALSE, immediate. = TRUE)
 }
 
+# Questions ---------------------------------------------------------------
+
+ui_yeah <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+
+  if (!interactive()) {
+    ui_stop(c(
+      "User input required, but session is not interactive.",
+      "Query: {x}"
+    ))
+  }
+
+  ayes <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
+  nays <- c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not")
+
+  qs <- c(sample(ayes, 1), sample(nays, 2))
+  ord <- sample(length(qs))
+
+  cat_line(x)
+  out <- utils::menu(qs[ord])
+  out != 0L && (ord == 1)[[out]]
+}
+
+ui_nope <- function(x, .envir = parent.frame()) {
+  !ui_yeah(x, .envir = .envir)
+}
+
 # Inline styles -----------------------------------------------------------
 
 ui_field <- function(x) {

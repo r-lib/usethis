@@ -87,7 +87,7 @@ use_github <- function(organisation = NULL,
       ",
       copy = FALSE
     )
-    if (nope("Are title and description ok?")) {
+    if (ui_nope("Are title and description ok?")) {
       return(invisible())
     }
   } else {

@@ -15,6 +15,10 @@ git_pull <- function() {
   invisible(out)
 }
 
+git_status <- function() {
+  git2r::status(git_repo())
+}
+
 uses_git <- function(path = proj_get()) {
   !is.null(git2r::discover_repository(path))
 }

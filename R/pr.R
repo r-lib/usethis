@@ -22,7 +22,7 @@ pr_init <- function(branch) {
 
   if (!git_branch_exists(branch)) {
     if (git_branch_name() != "master") {
-      if (nope("Create local PR branch with non-master parent?")) {
+      if (ui_nope("Create local PR branch with non-master parent?")) {
         return(invisible(FALSE))
       }
     }
