@@ -326,7 +326,7 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
     .limit = Inf
   )
   if (identical(res[[1]], "")) {
-    message("No matching issues/PRs found.")
+    ui_line("No matching issues/PRs found.")
     return(invisible())
   }
 
@@ -340,7 +340,7 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
     res <- res[creation_time(res) <= as.POSIXct(to_timestamp)]
   }
   if (length(res) == 0) {
-    message("No matching issues/PRs found.")
+    ui_line("No matching issues/PRs found.")
     return(invisible())
   }
 
@@ -359,7 +359,7 @@ as_timestamp <- function(x = NULL, repo_spec = github_repo_spec()) {
   if (is.null(x)) return(NULL)
   as_POSIXct <- try(as.POSIXct(x), silent = TRUE)
   if (inherits(as_POSIXct, "POSIXct")) return(x)
-  message("Resolving timestamp for ref ", ui_value(x))
+  ui_line("Resolving timestamp for ref ", ui_value(x))
   ref_df(x, repo_spec)$timestamp
 }
 

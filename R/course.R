@@ -188,14 +188,11 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
 
   ## DO YOU KNOW WHERE YOUR STUFF IS GOING?!?
   if (interactive() && pedantic) {
-    message(
-      "A ZIP file named:\n",
-      "  ", ui_value(base_name), "\n",
-      "will be copied to this folder:\n",
-      "  ", ui_value(base_path), "\n",
-      "Prefer a different location? Cancel, try again, and specify ",
-      ui_code("destdir"), ".\n"
-    )
+    ui_line(c(
+      "A ZIP file named: {ui_value(base_name)}",
+      "will be copied to this folder: {ui_path(base_path)}",
+      "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}"
+    ))
     if (nope("Is it OK to write this file here?")) {
       ui_stop("Aborting.")
     }
