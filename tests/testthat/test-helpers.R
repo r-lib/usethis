@@ -92,3 +92,10 @@ test_that("use_description_field() can add new field", {
   use_description_field(name = "foo", value = "bar", base_path = pkg)
   expect_identical(c(foo = "bar"), desc::desc_get("foo", pkg))
 })
+
+test_that("use_description_field() ignores whitespace", {
+  pkg <- scoped_temporary_package()
+  use_description_field(name = "foo", value = "\n bar")
+  use_description_field(name = "foo", value = "bar")
+  expect_identical(c(foo = "\n bar"), desc::desc_get("foo", pkg))
+})

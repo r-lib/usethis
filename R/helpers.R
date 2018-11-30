@@ -3,6 +3,8 @@ use_description_field <- function(name,
                                   base_path = proj_get(),
                                   overwrite = FALSE) {
   curr <- desc::desc_get(name, file = base_path)[[1]]
+  curr <- gsub("^\\s*|\\s*$", "", curr)
+
   if (identical(curr, value)) {
     return(invisible())
   }

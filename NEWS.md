@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_description_field()` is no longer sensitive to whitespace, which
+  allows `use_vignette()` to work even if the `VignetteBuilder` field is
+  spread over multiple lines (#439).
+
 * `edit_r_profile()` and `edit_r_environ()` now respect environment variables
   `R_PROFILE_USER` and `R_ENVIRON_USER` respectively (#480).
 
