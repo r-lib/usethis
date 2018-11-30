@@ -1,5 +1,14 @@
 # usethis (development version)
 
+* A new family of `ui_` functions makes it possible to make use of the 
+  user interface of usethis in your own code (#308). There are four families 
+  of functions:
+
+    * block styles: `ui_line()`, `ui_done()`, `ui_todo()`.
+    * conditions: `ui_stop()`, `ui_warn()`.
+    * questions: `ui_yeah()`, `ui_nope()`.
+    * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`.
+
 * `use_article()` creates articles which are vignettes that are automatically
   added to `.Rbuildignore`. These appear on pkgdown sites, but are not 
   included with the package itself (#281).
