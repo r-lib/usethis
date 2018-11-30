@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_article()` creates articles which are vignettes that are automatically
+  added to `.Rbuildignore`. These appear on pkgdown sites, but are not 
+  included with the package itself (#281).
+
 * `use_description_field()` is no longer sensitive to whitespace, which
   allows `use_vignette()` to work even if the `VignetteBuilder` field is
   spread over multiple lines (#439).
