@@ -51,10 +51,16 @@ pr_fetch <- function(number) {
     number = number
   )
 
-  user <- pr$user$login
   ref <- pr$head$ref
-  branch <- paste0(user, "-", ref)
+  user <- pr$head$user$login
+  if (user == github_owner()) {
+    user <- "origin"
+    branch <- ref
+  } else {
+    branch <- paste0(user, "-", ref)
+  }
   remote <- paste0(user, "/", ref)
+  browser()
 
   if (!user %in% git2r::remotes(git_repo())) {
     ui_done("Adding remote {remote}")
