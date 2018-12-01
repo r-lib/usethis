@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* If used with testthat 2.1.0 and above (the future release of testthat), 
+  `use_test()` will not include a `context()` in the generated file (#325).
+
 * A new family of `ui_` functions makes it possible to make use of the 
   user interface of usethis in your own code (#308). There are four families 
   of functions:
