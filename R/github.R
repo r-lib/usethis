@@ -147,9 +147,10 @@ use_github <- function(organisation = NULL,
     if (protocol == "ssh") {
       ## [1] push via ssh required for success setting remote tracking branch
       ## [2] to get passphrase from ssh-agent, you must use NULL credentials
-      git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
-      git2r::branch_set_upstream(head, "origin/master")
+      credentials <- git2r::cred_user_pass("EMAIL", auth_token)
     }
+    git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
+    git2r::branch_set_upstream(head, "origin/master")
   }
 
   invisible(NULL)
