@@ -62,19 +62,19 @@ pr_fetch <- function(number) {
   remote <- paste0(user, "/", ref)
 
   if (!user %in% git2r::remotes(git_repo())) {
-    ui_done("Adding remote {remote}")
+    ui_done("Adding remote {ui_value(remote)}")
     git2r::remote_add(git_repo(), user, pr$head$repo$git_url)
   }
 
   if (!git_branch_exists(branch)) {
-    ui_done("Creating local branch {branch}")
+    ui_done("Creating local branch {ui_value(branch)}")
     git2r::fetch(git_repo(), user, refspec = remote, verbose = FALSE)
     git_branch_create(branch, remote)
     git_branch_track(branch, user, ref)
   }
 
   if (git_branch_name() != branch) {
-    ui_done("Switching to branch {value(branch)}")
+    ui_done("Switching to branch {ui_value(branch)}")
     git_branch_switch(branch)
   }
 }
