@@ -111,8 +111,9 @@ scoped_path_r  <- function(scope = c("user", "project"), ..., envvar = NULL) {
 
   # Try environment variable in user scopes
   if (scope == "user" && !is.null(envvar)) {
-    env <- Sys.getenv(envvar, unset = "")
-    if (!identical(env, "")) {
+    ## unset = "" does not work reliably on Windows for R_ENVIRON_USER
+    env <- Sys.getenv(envvar, unset = "UNSET")
+    if (!identical(env, "UNSET")) {
       return(user_path_prep(env))
     }
   }
