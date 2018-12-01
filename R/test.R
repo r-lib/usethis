@@ -44,12 +44,22 @@ use_test <- function(name = NULL, open = interactive()) {
     return(invisible(TRUE))
   }
 
-  use_template(
-    "test-example.R",
-    path,
-    data = list(test_name = path_ext_remove(name)),
-    open = open
-  )
+  # As of testthat 2.1.0, a context() is no longer needed/wanted
+  if (packageVersion("testthat") >= "2.1.0") {
+    use_dependency("testthat", "suggests", "2.1.0")
+    use_template(
+      "test-example-2.1.R",
+      path,
+      open = open
+    )
+  } else {
+    use_template(
+      "test-example.R",
+      path,
+      data = list(test_name = path_ext_remove(name)),
+      open = open
+    )
+  }
 }
 
 uses_testthat <- function(base_path = proj_get()) {

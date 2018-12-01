@@ -28,6 +28,9 @@
 #'
 #' * `use_tidy_issue_template()`: adds a standard tidyverse issue template.
 #'
+#' * `use_tidy_release_test_env()`: updates the test environment section in
+#'   `cran-comments.md`.
+#'
 #' * `use_tidy_support()`: adds a standard description of support resources for
 #'    the tidyverse.
 #'
@@ -56,6 +59,33 @@
 #' @name tidyverse
 NULL
 
+#' @export
+#' @rdname tidyverse
+#' @param path Path to create new package
+#' @param copyright_holder Owner of code in package (e.g. "RStudio")
+create_tidy_package <- function(path,
+                                copyright_holder
+                                ) {
+
+  create_package(path, rstudio = TRUE, open = FALSE)
+  old <- proj_set(path)
+  on.exit(proj_set(old), add = TRUE)
+
+  use_description_field("Roxygen", "list(markdown = TRUE)")
+  use_testthat()
+  use_gpl3_license("RStudio")
+  use_tidy_description()
+
+  use_readme_rmd()
+  use_lifecycle_badge("experimental")
+  use_cran_badge()
+  use_cran_comments()
+
+  use_tidy_github()
+  ui_todo(ui_code("use_git()"))
+  ui_todo(ui_code("use_github()"))
+  ui_todo(ui_code("use_tidy_ci()"))
+}
 
 #' @export
 #' @rdname tidyverse
@@ -70,12 +100,13 @@ use_tidy_ci <- function(browse = interactive()) {
   )
   use_template("codecov.yml", ignore = TRUE)
 
-  use_dependency("R", "Depends", ">= 3.1")
+  use_dependency("R", "Depends", min_version = "3.1")
   use_dependency("covr", "Suggests")
   use_covr_ignore(c("R/deprec-*.R", "R/compat-*.R"))
 
   use_travis_badge()
   use_codecov_badge()
+  use_tidy_release_test_env()
 
   if (new_travis) {
     travis_activate(browse)
@@ -97,28 +128,35 @@ use_tidy_description <- function() {
 #' @rdname tidyverse
 #' @param overwrite By default (`FALSE`), only dependencies without version
 #'   specifications will be modified. Set to `TRUE` to modify all dependencies.
-use_tidy_versions <- function(overwrite = FALSE) {
+#' @param source Use "local" or "CRAN" package versions.
+use_tidy_versions <- function(overwrite = FALSE, source = c("local", "CRAN")) {
   deps <- desc::desc_get_deps(proj_get())
+  deps <- update_versions(deps, overwrite = overwrite, source = source)
+  desc::desc_set_deps(deps, file = proj_get())
 
+  invisible(TRUE)
+}
+
+update_versions <- function(deps, overwrite = FALSE, source = c("local", "CRAN")) {
   baserec <- base_and_recommended()
   to_change <- !deps$package %in% c("R", baserec)
   if (!overwrite) {
     to_change <- to_change & deps$version == "*"
   }
 
-  deps$version[to_change] <- vapply(deps$package[to_change], dep_version, character(1))
-  desc::desc_set_deps(deps, file = proj_get())
+  packages <- deps$package[to_change]
+  versions <- switch(match.arg(source),
+    local = purrr::map_chr(packages, package_version),
+    CRAN = utils::available.packages()[packages, "Version"]
+  )
+  deps$version[to_change] <- paste0(">= ", versions)
 
-  invisible(TRUE)
+  deps
 }
 
-is_installed <- function(x) {
-  length(find.package(x, quiet = TRUE)) > 0
+package_version <- function(x) {
+  as.character(utils::packageVersion(x))
 }
-dep_version <- function(x) {
-  if (is_installed(x)) paste0(">= ", utils::packageVersion(x)) else "*"
-}
-
 
 #' @export
 #' @rdname tidyverse
@@ -126,10 +164,10 @@ use_tidy_eval <- function() {
   check_is_package("use_tidy_eval()")
 
   use_dependency("roxygen2", "Suggests")
-  use_dependency("rlang", "Imports", ">= 0.1.2")
+  use_dependency("rlang", "Imports", min_version = "0.1.2")
   new <- use_template("tidy-eval.R", "R/utils-tidy-eval.R")
 
-  todo("Run {code('devtools::document()')}")
+  ui_todo("Run {ui_code('devtools::document()')}")
   return(invisible(new))
 }
 
@@ -137,8 +175,6 @@ use_tidy_eval <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_contributing <- function() {
-  check_uses_github()
-
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy-contributing.md",
@@ -151,8 +187,6 @@ use_tidy_contributing <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_issue_template <- function() {
-  check_uses_github()
-
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy-issue.md",
@@ -164,8 +198,6 @@ use_tidy_issue_template <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_support <- function() {
-  check_uses_github()
-
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy-support.md",
@@ -178,8 +210,6 @@ use_tidy_support <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_coc <- function() {
-  check_uses_github()
-
   use_code_of_conduct(path = ".github")
 }
 
@@ -211,8 +241,36 @@ use_tidy_style <- function(strict = TRUE) {
     )
   }
   cat_line()
-  done("Styled project according to the tidyverse style guide")
+  ui_done("Styled project according to the tidyverse style guide")
   invisible(styled)
+}
+
+#' @export
+#' @rdname tidyverse
+use_tidy_release_test_env <- function() {
+  block_replace(
+    "release environment",
+    tidy_release_test_env(),
+    path = proj_path("cran-comments.md"),
+    block_start = "## Test environments",
+    block_end = "## R CMD check results"
+  )
+}
+
+tidy_release_test_env <- function() {
+  use_bullet <- function(name, versions) {
+    versions <- paste(versions, collapse = ", ")
+    glue("* {name}: {versions}")
+  }
+
+  c(
+    "",
+    use_bullet("local", paste0(R.version$os, "-", R.version$major, ".", R.version$minor)),
+    use_bullet("travis", c("3.1", "3.2", "3.3", "oldrel", "release", "devel")),
+    use_bullet("r-hub", c("windows-x86_64-devel", "ubuntu-gcc-release", "fedora-clang-devel")),
+    use_bullet("win-builder", "windows-x86_64-devel"),
+    ""
+  )
 }
 
 #' Identify contributors via GitHub activity
@@ -268,7 +326,7 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
     .limit = Inf
   )
   if (identical(res[[1]], "")) {
-    message("No matching issues/PRs found.")
+    ui_line("No matching issues/PRs found.")
     return(invisible())
   }
 
@@ -282,18 +340,16 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
     res <- res[creation_time(res) <= as.POSIXct(to_timestamp)]
   }
   if (length(res) == 0) {
-    message("No matching issues/PRs found.")
+    ui_line("No matching issues/PRs found.")
     return(invisible())
   }
 
   contributors <- sort(unique(pluck_chr(res, c("user", "login"))))
-  todo("{length(contributors)} contributors identified")
-  code_block(
-    collapse(
-      glue("[&#x0040;{contributors}](https://github.com/{contributors})"),
-      sep = ", ", last = ", and "
-    )
-  )
+  contrib_link <- glue("[&#x0040;{contributors}](https://github.com/{contributors})")
+
+  ui_todo("{length(contributors)} contributors identified")
+  ui_code_block(glue_collapse(contrib_link, sep = ", ", last = ", and "))
+
   invisible(contributors)
 }
 
@@ -303,7 +359,7 @@ as_timestamp <- function(x = NULL, repo_spec = github_repo_spec()) {
   if (is.null(x)) return(NULL)
   as_POSIXct <- try(as.POSIXct(x), silent = TRUE)
   if (inherits(as_POSIXct, "POSIXct")) return(x)
-  message("Resolving timestamp for ref ", value(x))
+  ui_line("Resolving timestamp for ref ", ui_value(x))
   ref_df(x, repo_spec)$timestamp
 }
 

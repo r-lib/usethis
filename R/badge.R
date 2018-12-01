@@ -2,7 +2,10 @@
 #'
 #' These helpers produce the markdown text you need in your README to include
 #' badges that report information, such as the CRAN version or test coverage,
-#' and link out to relevant external resources.
+#' and link out to relevant external resources. To add badges automatically
+#' ensure your badge block starts with a line containing only
+#' `<!-- badges: start -->` and ends with a line containing only
+#' `<!-- badges: end -->`.
 #'
 #' @details
 #'
@@ -41,18 +44,19 @@ NULL
 #' @rdname badges
 #' @export
 use_badge <- function(badge_name, href, src) {
-  if (has_badge(href)) {
-    return(invisible(FALSE))
-  }
-
-  img <- glue("![{badge_name}]({src})")
-  link <- glue("[{img}]({href})")
-
-  todo(
-    "Add a {field(badge_name)} badge by adding the following line ",
-    "to your README:"
+  path <- find_readme()
+  changed <- block_append(
+    glue("{ui_field(badge_name)} badge"),
+    glue("[![{badge_name}]({src})]({href})"),
+    path = path,
+    block_start = badge_start,
+    block_end = badge_end
   )
-  code_block(link)
+
+  if (changed && path_ext(path) == "Rmd") {
+    ui_todo("Re-knit {ui_path(path)}")
+  }
+  invisible(changed)
 }
 
 #' @rdname badges
@@ -74,12 +78,8 @@ use_bioc_badge <- function() {
   check_is_package("use_bioc_badge()")
   pkg <- project_name()
 
-  src <- glue(
-    "http://www.bioconductor.org/shields/build/release/bioc/{pkg}.svg"
-  )
-  href <- glue(
-    "https://bioconductor.org/checkResults/release/bioc-LATEST/{pkg}"
-  )
+  src <- glue("http://www.bioconductor.org/shields/build/release/bioc/{pkg}.svg")
+  href <- glue("https://bioconductor.org/checkResults/release/bioc-LATEST/{pkg}")
   use_badge("BioC status", href, src)
 
   invisible(TRUE)
@@ -124,8 +124,6 @@ use_binder_badge <- function() {
   invisible(TRUE)
 }
 
-
-
 has_badge <- function(href) {
   readme_path <- proj_path("README.md")
   if (!file_exists(readme_path)) {
@@ -134,4 +132,21 @@ has_badge <- function(href) {
 
   readme <- readLines(readme_path, encoding = "UTF-8")
   any(grepl(href, readme, fixed = TRUE))
+}
+
+# Badge data structure ----------------------------------------------------
+
+badge_start <- "<!-- badges: start -->"
+badge_end <- "<!-- badges: end -->"
+
+find_readme <- function() {
+  Rmd <- proj_path("README.Rmd")
+  if (file_exists(Rmd))
+    return(Rmd)
+
+  md <- proj_path("README.md")
+  if (file_exists(md))
+    return(md)
+
+  NULL
 }

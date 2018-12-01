@@ -81,7 +81,11 @@ github_link <- function(package = NULL) {
   gh_links <- grep("^https?://github.com/", urls, value = TRUE)
 
   if (length(gh_links) == 0) {
-    stop_glue("Package does not provide a GitHub URL.")
+    ui_warn("
+      Package does not provide a GitHub URL.
+      Falling back to GitHub CRAN mirror"
+    )
+    return(glue("https://github.com/cran/{package}"))
   }
 
   gsub("/$", "", gh_links[[1]])

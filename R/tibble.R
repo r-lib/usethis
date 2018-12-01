@@ -24,31 +24,11 @@
 #' }
 use_tibble <- function() {
   check_is_package("use_tibble()")
-  if (!uses_roxygen()) {
-    stop_glue("{code('use_tibble()')} requires that you use roxygen.")
-  }
+  check_uses_roxygen("use_tibble()")
 
   use_dependency("tibble", "Imports")
+  roxygen_ns_append("@importFrom tibble tibble") && roxygen_update()
 
-  directive <- "#' @importFrom tibble tibble"
-  package_doc <- proj_path("R", paste0(project_name(), "-package"), ext = "R")
-  if (file_exists(package_doc)) {
-    todo(
-      "Add this to the roxygen header for package-level docs in ",
-      "{value(proj_rel_path(package_doc))}:"
-    )
-    code_block(directive)
-    edit_file(package_doc)
-  } else {
-    todo(
-      "Consider calling {code('use_package_doc()')} to initialize ",
-      "docs, which is a good place to put the roxygen directive below."
-    )
-    todo("Add this line to a relevant roxygen header:")
-    code_block(directive)
-  }
-
-  todo("Run {code('devtools::document()')} to update {value('NAMESPACE')}")
-  todo("Document a returned tibble like so:")
-  code_block("#' @return a [tibble][tibble::tibble-package]", copy = FALSE)
+  ui_todo("Document a returned tibble like so:")
+  ui_code_block("#' @return a [tibble][tibble::tibble-package]", copy = FALSE)
 }

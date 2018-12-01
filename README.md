@@ -3,15 +3,19 @@
 
 # usethis <img src="man/figures/logo.png" align="right" height="139" />
 
+<!-- badges: start -->
+
 [![Travis build
 status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis)
-[![Coverage
-status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/github/r-lib/usethis?branch=master)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis)
+[![Codecov test
+coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/usethis?branch=master)
 [![CRAN
-status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+status](https://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+<!-- badges: end -->
 
 usethis is a workflow package: it automates repetitive tasks that arise
 during project setup and development, both for R packages and
@@ -59,14 +63,23 @@ library(usethis)
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp)
-#> ✔ Setting active project to '/private/tmp/RtmpDEpfC5/mypkg'
+#> ✔ Setting active project to '/private/tmp/Rtmp89Rov4/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
+#> Package: mypkg
+#> Title: What the Package Does (One Line, Title Case)
+#> Version: 0.0.0.9000
+#> Authors@R (parsed):
+#>     * Hadley Wickham <hadley@rstudio.com> [aut, cre]
+#>     * RStudio [cph]
+#> Description: What the package does (one paragraph).
+#> License: GPL-3
+#> Encoding: UTF-8
+#> LazyData: true
 #> ✔ Writing 'NAMESPACE'
-#> ✔ Setting active project to '<no active project>'
 proj_set(tmp)
-#> ✔ Setting active project to '/private/tmp/RtmpDEpfC5/mypkg'
+#> ✔ Setting active project to '/private/tmp/Rtmp89Rov4/mypkg'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -87,15 +100,20 @@ use_roxygen_md()
 #> ● Run `devtools::document()`
 
 use_rcpp()
-#> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
-#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
-#> ● Include the following roxygen tags somewhere in your package
+#> ● Copy and paste the following lines into '/private/tmp/Rtmp89Rov4/mypkg/R/mypkg-package.R':
+#>   ## usethis namespace: start
 #>   #' @useDynLib mypkg, .registration = TRUE
-#>   #' @importFrom Rcpp sourceCpp
+#>   ## usethis namespace: end
 #>   NULL
-#> ● Run `devtools::document()`
+#> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
+#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
+#> ● Copy and paste the following lines into '/private/tmp/Rtmp89Rov4/mypkg/R/mypkg-package.R':
+#>   ## usethis namespace: start
+#>   #' @importFrom Rcpp sourceCpp
+#>   ## usethis namespace: end
+#>   NULL
 
 use_revdep()
 #> ✔ Creating 'revdep/'

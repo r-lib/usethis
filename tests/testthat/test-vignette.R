@@ -18,7 +18,7 @@ test_that("use_vignette() does the promised setup", {
   skip_if_not_installed("rmarkdown")
 
   scoped_temporary_package()
-  use_vignette("name")
+  use_vignette("name", "title")
 
   ignores <- readLines(proj_path(".gitignore"), warn = FALSE)
   expect_true("inst/doc" %in% ignores)
