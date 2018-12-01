@@ -66,7 +66,7 @@ use_github <- function(organisation = NULL,
                        host = NULL) {
   check_uses_git()
   check_uncommitted_changes()
-  r <- git2r::repository(proj_get())
+  r <- git_repo()
 
   ## auth_token is used directly by git2r, therefore cannot be NULL
   auth_token <- auth_token %||% gh_token()
