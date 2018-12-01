@@ -62,5 +62,5 @@ test_that("write_over() leaves file 'as is'", {
 test_that("write_ut8 always produces a trailing newline", {
   path <- file_temp()
   write_utf8(path, "x")
-  expect_equal(readChar(path, 2), "x\n")
+  expect_equal(readChar(path, 3), "x\n")
 })
