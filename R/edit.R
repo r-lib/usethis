@@ -62,6 +62,7 @@ NULL
 edit_r_profile <- function(scope = c("user", "project")) {
   ui_todo("Restart R for changes to take effect")
   path <- scoped_path_r(scope, ".Rprofile", envvar = "R_PROFILE_USER")
+  if (scope == "user") cat("path to .Rprofile: ", path, "\n")
   edit_file(path)
 }
 
