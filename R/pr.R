@@ -60,7 +60,6 @@ pr_fetch <- function(number) {
     branch <- paste0(user, "-", ref)
   }
   remote <- paste0(user, "/", ref)
-  browser()
 
   if (!user %in% git2r::remotes(git_repo())) {
     ui_done("Adding remote {remote}")
