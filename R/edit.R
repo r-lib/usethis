@@ -104,8 +104,10 @@ scoped_path_r  <- function(scope = c("user", "project"), ..., envvar = NULL) {
   # Try environment variable in user scopes
   if (scope == "user" && !is.null(envvar)) {
     env <- Sys.getenv(envvar, unset = "")
-    if (!identical(env, "")) {
-      return(env)
+    ## some Windows systems (notably AppVeyor) inexplicably return
+    ## 'no_such_file' for R_ENVIRON_USER (yes, quoted)
+    if (!env %in% c("", "'no_such_file'")) {
+      return(user_path_prep(env))
     }
   }
 
