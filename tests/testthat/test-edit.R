@@ -49,7 +49,7 @@ test_that("edit_r_XXX('user') ensures the file exists", {
 })
 
 test_that("edit_r_profile() respects R_PROFILE_USER", {
-  path1 <- tempfile()
+  path1 <- user_path_prep(tempfile())
   withr::local_envvar(list(R_PROFILE_USER = path1))
 
   path2 <- edit_r_profile("user")
