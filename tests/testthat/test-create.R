@@ -12,6 +12,19 @@ test_that("create_project() creates a non-package project", {
   expect_false(is_package(dir))
 })
 
+test_that("create functions restore active project", {
+  path <- tempfile()
+  cur_proj <- proj_get()
+
+  create_package(path)
+  expect_equal(proj_get(), cur_proj)
+  dir_delete(path)
+
+  create_project(path)
+  expect_equal(proj_get(), cur_proj)
+  dir_delete(path)
+})
+
 test_that("nested package is disallowed, by default", {
   dir <- scoped_temporary_package()
   expect_error(scoped_temporary_package(path(dir, "abcde")), "anyway")
