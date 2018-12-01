@@ -8,6 +8,13 @@
 
 <title>Use pkgdown — use_pkgdown • usethis</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -33,8 +40,10 @@
 <meta property="og:title" content="Use pkgdown — use_pkgdown" />
 
 <meta property="og:description" content="pkgdown makes it easy to turn your
-package into a beautiful website. This helper creates a pkgdown config file
-and adds the file and destination directory to .Rbuildignore." />
+package into a beautiful website. use_pkgdown() helper creates a pkgdown
+config file and adds the file and destination directory to .Rbuildignore.
+use_pkgdown_travis() helps you set up pkgdown for automatic deployment
+on travis." />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -134,12 +143,16 @@ and adds the file and destination directory to .Rbuildignore." />
     <div class="ref-description">
     
     <p><a href='https://github.com/r-lib/pkgdown'>pkgdown</a> makes it easy to turn your
-package into a beautiful website. This helper creates a pkgdown config file
-and adds the file and destination directory to <code>.Rbuildignore</code>.</p>
+package into a beautiful website. <code>use_pkgdown()</code> helper creates a pkgdown
+config file and adds the file and destination directory to <code>.Rbuildignore</code>.
+<code>use_pkgdown_travis()</code> helps you set up pkgdown for automatic deployment
+on travis.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_pkgdown</span>(<span class='kw'>config_file</span> <span class='kw'>=</span> <span class='st'>"_pkgdown.yml"</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='st'>"docs"</span>)</pre>
+    <pre class="usage"><span class='fu'>use_pkgdown</span>(<span class='kw'>config_file</span> <span class='kw'>=</span> <span class='st'>"_pkgdown.yml"</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='st'>"docs"</span>)
+
+<span class='fu'>use_pkgdown_travis</span>()</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
