@@ -51,3 +51,8 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
   ui_todo("Add logo to your README with the following html:")
   ui_code_block("# {pkg} <img src=\"{ui_path(logo_path)}\" align=\"right\" height=\"{height}\" />")
 }
+
+has_logo <- function() {
+  file_exists(proj_path("man", "figures", "logo.png")) ||
+    file_exists(proj_path("man", "figures", "logo.svg"))
+}

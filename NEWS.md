@@ -37,6 +37,9 @@
 * `use_partial_warnings()` helps use add standard warning block to your
   `.Rprofile` (#64).
 
+* `use_pkgdown_travis()` helps you set up pkgdown for automatic deployment
+  from travis to github pages (#524).
+
 * `use_rcpp("foo")` now creates `src/foo.cpp` (#117).
 
 * `use_release_issue()` creates a GitHub issue containing a release checklist 
@@ -106,6 +109,9 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `NEWS.md` for the development version should use "(development version)" 
   rather than the specific version (#440).
+
+* pkgdown sites should now be built by travis and deployed automatically to
+  GitHub pages. `use_pkgdown_travis()` will help you set that up.
 
 * When starting the release process, call `use_release_issue()` to create a 
   release checklist issue.
