@@ -2,27 +2,38 @@
 % Please edit documentation in R/vignette.R
 \name{use_vignette}
 \alias{use_vignette}
-\title{Create a vignette}
+\alias{use_article}
+\title{Create a vignette or article.}
 \usage{
-use_vignette(name)
+use_vignette(name, title = name)
+
+use_article(name, title = name)
 }
 \arguments{
 \item{name}{Base for file name to use for new vignette. Should consist only
 of numbers, letters, _ and -. I recommend using lower case.}
+
+\item{title}{The title of the vignette.}
 }
 \description{
-Performs general set up for vignettes and initializes a new individual
-vignette:
+Creates new vignette/article in \code{vignettes/}. Article are a special
+type of vignette that appear on pkgdown websites, but are not included
+in the package itself (because they are added to \code{.Rbuildignore}
+automatically).
+}
+\section{General setup}{
+
 \itemize{
-\item Adds needed packages to \code{DESCRIPTION}
-\item Adds \code{inst/doc} to \code{.gitignore} so built vignettes aren't tracked
-\item Creates a new draft \code{.Rmd} vignette in \code{vignettes/} and, if possible,
-opens it for editing
+\item Adds needed packages to \code{DESCRIPTION}.
+\item Adds \code{inst/doc} to \code{.gitignore} so built vignettes aren't tracked.
+\item Adds \code{vignettes/*.html} and \code{vignettes/*.R} to \code{.gitignore} so
+you never accidental track rendered vignettes.
 }
 }
+
 \examples{
 \dontrun{
-use_vignette("how-to-do-stuff")
+use_vignette("how-to-do-stuff", "How to do stuff")
 }
 }
 \seealso{

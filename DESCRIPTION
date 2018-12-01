@@ -28,7 +28,8 @@ Imports:
     fs (>= 1.2.0),
     gh,
     git2r (>= 0.23),
-    glue,
+    glue (>= 1.2.0),
+    purrr,
     rlang,
     rprojroot (>= 1.2),
     rstudioapi,
@@ -48,4 +49,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1

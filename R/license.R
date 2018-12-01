@@ -59,6 +59,16 @@ use_gpl3_license <- function(name = find_name()) {
 
 #' @rdname licenses
 #' @export
+use_lgpl_license <- function(name = find_name()) {
+  force(name)
+  check_is_package("use_lgpl_license()")
+
+  use_description_field("License", "LGPL (>= 2.1)", overwrite = TRUE)
+  use_license_template("LGPL-2.1", name)
+}
+
+#' @rdname licenses
+#' @export
 use_apl2_license <- function(name = find_name()) {
   force(name)
   check_is_package("use_apl2_license()")
@@ -109,9 +119,11 @@ find_name <- function() {
     return(name)
   }
 
-  stop_glue(
-    "{code('name')} argument is missing.\n",
-    "Set it globally with {code('options(usethis.full_name = \"My name\")')}",
-    ", probably in your {value('.Rprofile')}."
+  ui_stop(
+    "
+    {ui_code('name')} argument is missing.
+    Set it globally with {ui_code('options(usethis.full_name = \"My name\")')}\\
+    probably in your {ui_path('.Rprofile')}.
+    "
   )
 }

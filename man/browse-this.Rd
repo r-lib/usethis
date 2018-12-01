@@ -15,7 +15,7 @@ browse_github_issues(package = NULL, number = NULL)
 
 browse_github_pulls(package = NULL, number = NULL)
 
-browse_travis(package = NULL)
+browse_travis(package = NULL, ext = c("org", "com"))
 
 browse_cran(package = NULL)
 }
@@ -24,6 +24,8 @@ browse_cran(package = NULL)
 
 \item{number}{For GitHub issues and pull requests. Can be a number or
 \code{"new"}.}
+
+\item{ext}{Version of travis to use.}
 }
 \description{
 These functions take you to various webpages associated with a package and

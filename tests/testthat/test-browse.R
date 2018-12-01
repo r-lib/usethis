@@ -1,8 +1,9 @@
 context("browse")
 
-test_that("github_link() errors for package with no GitHub URL", {
+test_that("github_link() has fall back", {
   scoped_temporary_package()
-  expect_error(github_link(), "does not provide a GitHub URL")
+  expect_warning(out <- github_link("utils"), "CRAN mirror")
+  expect_equal(out, "https://github.com/cran/utils")
 })
 
 test_that("github_link() reports GitHub URL 'as is'", {
@@ -46,6 +47,7 @@ test_that("browse_XXX() goes to correct URL", {
   expect_equal(browse_github_pulls("gh", 1), g("r-lib/gh/pull/1"))
 
   expect_equal(browse_travis("usethis"), "https://travis-ci.org/r-lib/usethis")
+  expect_equal(browse_travis("usethis", ext = "com"), "https://travis-ci.com/r-lib/usethis")
 
   expect_equal(browse_cran("usethis"), "https://cran.r-project.org/package=usethis")
 })

@@ -4,71 +4,20 @@ can_overwrite <- function(path) {
   }
 
   if (interactive()) {
-    yep("Overwrite pre-existing file ", value(proj_rel_path(path)), "?")
+    ui_yeah("Overwrite pre-existing file {ui_path(path)}?")
   } else {
     FALSE
   }
 }
 
-## returns TRUE if user selects answer corresponding to `true_for`
-## returns FALSE if user selects other answer or enters 0
-## errors in non-interactive() session
-## it is caller's responsibility to avoid that
-ask_user <- function(...,
-                     true_for = c("yes", "no")) {
-  true_for <- match.arg(true_for)
-  yes <- true_for == "yes"
-
-  message <- paste0(..., collapse = "")
-  if (!interactive()) {
-    stop_glue(
-      "User input required in non-interactive session.\n",
-      "Query: {message}"
-    )
-  }
-
-  yeses <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
-  nos <- c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not")
-
-  qs <- c(sample(yeses, 1), sample(nos, 2))
-  rand <- sample(length(qs))
-  ret <- if(yes) rand == 1 else rand != 1
-
-  cat(message)
-  ret[utils::menu(qs[rand])]
-}
-
-nope <- function(...) ask_user(..., true_for = "no")
-yep <- function(...) ask_user(..., true_for = "yes")
-
-check_is_dir <- function(x) {
-  ## "checking it twice" for robustness to trailing slash issues on Windows
-  if (!file_exists(x) && !dir_exists(x)) {
-    stop_glue("Directory does not exist:\n{value(x)}")
-  }
-  if (!is_dir(x)) {
-    stop_glue("{value(x)} exists but is not a directory.")
-  }
-  invisible(x)
-}
-
-check_is_empty <- function(x) {
-  files <- dir_ls(x)
-  if (length(files) > 0) {
-    stop_glue("{value(x)} exists and is not an empty directory.")
-  }
-  invisible(x)
-}
-
 check_is_named_list <- function(x, nm = deparse(substitute(x))) {
   if (!rlang::is_list(x)) {
     bad_class <- paste(class(x), collapse = "/")
-    stop_glue("{code(nm)} must be a list, not {bad_class}.")
+    ui_stop("{ui_code(nm)} must be a list, not {bad_class}.")
   }
   if (!rlang::is_dictionaryish(x)) {
-    stop_glue(
-      "Names of {code(nm)} must be non-missing, non-empty, and ",
-      "non-duplicated."
+    ui_stop(
+      "Names of {ui_code(nm)} must be non-missing, non-empty, and non-duplicated."
     )
   }
   x
@@ -101,7 +50,7 @@ compact <- function(x) {
 
 check_installed <- function(pkg) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
-    stop_glue("Package {value(pkg)} required. Please install before re-trying.")
+    ui_stop("Package {ui_value(pkg)} required. Please install before re-trying.")
   }
 }
 
@@ -120,17 +69,15 @@ is_string <- function(x) {
   length(x) == 1 && is.character(x)
 }
 
-stop_glue <- function(..., .sep = "", .envir = parent.frame()) {
-  stop(usethis_error(glue(..., .sep = .sep, .envir = .envir)))
+seq2 <- function(from, to) {
+  if (from > to) {
+    integer()
+  } else {
+    seq(from, to)
+  }
 }
 
-warning_glue <- function(..., .sep = "", .envir = parent.frame()) {
-  warning(glue(..., .sep = .sep, .envir = .envir), call. = FALSE)
-}
-
-usethis_error <- function(msg) {
-  structure(
-    class = c("usethis_error", "error", "condition"),
-    list(message = msg)
-  )
+indent <- function(x, first = "  ", indent = first) {
+  x <- gsub("\n", paste0("\n", indent), x)
+  paste0(first, x)
 }

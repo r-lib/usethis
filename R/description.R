@@ -21,7 +21,7 @@
 #'   usethis.description = list(
 #'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
 #'     License = "MIT + file LICENSE",
-#'     Language: es
+#'     Language =  "es"
 #'   )
 #' )
 #' ```
@@ -53,6 +53,10 @@ use_description <- function(fields = NULL) {
   lines <- desc$str(by_field = TRUE, normalize = FALSE, mode = "file")
 
   write_over(proj_path("DESCRIPTION"), lines)
+
+  if (!getOption("usethis.quiet", default = FALSE)) {
+    print(desc)
+  }
 }
 
 #' @rdname use_description
@@ -78,7 +82,7 @@ build_description <- function(fields = list()) {
   desc_list <- build_description_list(fields)
 
   # Collapse all vector arguments to single strings
-  desc <- vapply(desc_list, collapse, character(1))
+  desc <- vapply(desc_list, glue_collapse, character(1))
 
   glue("{names(desc)}: {desc}")
 }
@@ -94,13 +98,13 @@ build_description_list <- function(fields = list()) {
 
 check_package_name <- function(name) {
   if (!valid_name(name)) {
-    stop_glue(
-      "{value(name)} is not a valid package name. It should:\n",
-      "* Contain only ASCII letters, numbers, and '.'\n",
-      "* Have at least two characters\n",
-      "* Start with a letter\n",
-      "* Not end with '.'\n"
-    )
+    ui_stop(c(
+      "{ui_value(name)} is not a valid package name. It should:",
+      "* Contain only ASCII letters, numbers, and '.'",
+      "* Have at least two characters",
+      "* Start with a letter",
+      "* Not end with '.'"
+    ))
   }
 
 }
@@ -121,6 +125,8 @@ tidy_desc <- function(desc) {
   if (length(remotes) > 0) {
     desc$set_remotes(sort(remotes))
   }
+
+  desc$set("Encoding" = "UTF-8")
 
   # Normalize all fields (includes reordering)
   desc$normalize()
