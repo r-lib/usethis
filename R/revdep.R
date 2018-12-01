@@ -23,6 +23,6 @@ use_revdep <- function() {
     "revdep/email.yml"
   )
 
-  todo("Run checks with {code('revdepcheck::revdep_check(num_workers = 4)')}")
+  ui_todo("Run checks with {ui_code('revdepcheck::revdep_check(num_workers = 4)')}")
   invisible(new)
 }

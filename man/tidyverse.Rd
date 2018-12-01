@@ -2,6 +2,7 @@
 % Please edit documentation in R/tidyverse.R
 \name{tidyverse}
 \alias{tidyverse}
+\alias{create_tidy_package}
 \alias{use_tidy_ci}
 \alias{use_tidy_description}
 \alias{use_tidy_versions}
@@ -12,13 +13,16 @@
 \alias{use_tidy_coc}
 \alias{use_tidy_github}
 \alias{use_tidy_style}
+\alias{use_tidy_release_test_env}
 \title{Helpers for tidyverse development}
 \usage{
+create_tidy_package(path, copyright_holder)
+
 use_tidy_ci(browse = interactive())
 
 use_tidy_description()
 
-use_tidy_versions(overwrite = FALSE)
+use_tidy_versions(overwrite = FALSE, source = c("local", "CRAN"))
 
 use_tidy_eval()
 
@@ -33,13 +37,21 @@ use_tidy_coc()
 use_tidy_github()
 
 use_tidy_style(strict = TRUE)
+
+use_tidy_release_test_env()
 }
 \arguments{
+\item{path}{Path to create new package}
+
+\item{copyright_holder}{Owner of code in package (e.g. "RStudio")}
+
 \item{browse}{Open a browser window to enable automatic builds for the
 package.}
 
 \item{overwrite}{By default (\code{FALSE}), only dependencies without version
 specifications will be modified. Set to \code{TRUE} to modify all dependencies.}
+
+\item{source}{Use "local" or "CRAN" package versions.}
 
 \item{strict}{Boolean indicating whether or not a strict version of styling
 should be applied. See \code{\link[styler:tidyverse_style]{styler::tidyverse_style()}} for details.}
@@ -65,6 +77,8 @@ below for usage advice.
 the currently installed version.
 \item \code{use_tidy_contributing()}: adds standard tidyverse contributing guidelines.
 \item \code{use_tidy_issue_template()}: adds a standard tidyverse issue template.
+\item \code{use_tidy_release_test_env()}: updates the test environment section in
+\code{cran-comments.md}.
 \item \code{use_tidy_support()}: adds a standard description of support resources for
 the tidyverse.
 \item \code{use_tidy_coc()}: equivalent to \code{use_code_of_conduct()}, but puts the

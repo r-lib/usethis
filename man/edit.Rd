@@ -3,8 +3,8 @@
 \name{edit}
 \alias{edit}
 \alias{edit_r_profile}
-\alias{edit_r_buildignore}
 \alias{edit_r_environ}
+\alias{edit_r_buildignore}
 \alias{edit_r_makevars}
 \alias{edit_rstudio_snippets}
 \alias{edit_git_config}
@@ -13,9 +13,9 @@
 \usage{
 edit_r_profile(scope = c("user", "project"))
 
-edit_r_buildignore(scope = c("user", "project"))
-
 edit_r_environ(scope = c("user", "project"))
+
+edit_r_buildignore(scope = c("user", "project"))
 
 edit_r_makevars(scope = c("user", "project"))
 

@@ -3,15 +3,19 @@
 
 # usethis <img src="man/figures/logo.png" align="right" height="139" />
 
+<!-- badges: start -->
+
 [![Travis build
 status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis)
-[![Coverage
-status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/github/r-lib/usethis?branch=master)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis)
+[![Codecov test
+coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/usethis?branch=master)
 [![CRAN
-status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+status](https://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+<!-- badges: end -->
 
 usethis is a workflow package: it automates repetitive tasks that arise
 during project setup and development, both for R packages and

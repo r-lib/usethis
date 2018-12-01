@@ -1,35 +1,17 @@
 context("helpers")
 
-test_that("create_directory() requires base_path to be pre-existing directory", {
-  tmp <- file_temp()
-  expect_error(create_directory(tmp, "nope"), "does not exist")
-  writeLines("I exist now", tmp)
-  expect_error(create_directory(tmp, "nope"), "not a directory")
-})
-
 test_that("create_directory() doesn't bother a pre-existing target dir", {
   tmp <- file_temp()
   dir_create(tmp)
   expect_true(is_dir(tmp))
-  expect_error_free(create_directory(path_dir(tmp), path_file(tmp)))
+  expect_error_free(create_directory(tmp))
   expect_true(is_dir(tmp))
 })
 
-test_that("create_directory() catches if pre-existing target is not a dir", {
-  tmp <- file_temp()
-  file_create(tmp)
-  expect_false(is_dir(tmp))
-  expect_error(
-    create_directory(path_dir(tmp), path_file(tmp)),
-    "exists but is not a directory"
-  )
-})
-
 test_that("create_directory() creates a directory", {
-  tmp <- file_temp()
-  dir_create(tmp)
-  new_dir <- create_directory(tmp, "yes")
-  expect_true(is_dir(new_dir))
+  tmp <- file_temp("yes")
+  create_directory(tmp)
+  expect_true(is_dir(tmp))
 })
 
 test_that("edit_file() creates new directory and another and a file within", {
@@ -91,4 +73,11 @@ test_that("use_description_field() can add new field", {
   pkg <- scoped_temporary_package()
   use_description_field(name = "foo", value = "bar", base_path = pkg)
   expect_identical(c(foo = "bar"), desc::desc_get("foo", pkg))
+})
+
+test_that("use_description_field() ignores whitespace", {
+  pkg <- scoped_temporary_package()
+  use_description_field(name = "foo", value = "\n bar")
+  use_description_field(name = "foo", value = "bar")
+  expect_identical(c(foo = "\n bar"), desc::desc_get("foo", pkg))
 })

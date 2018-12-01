@@ -31,11 +31,13 @@ create_package <- function(path,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
   path <- user_path_prep(path)
+  check_path_is_directory(path_dir(path))
+
   name <- path_file(path)
   check_package_name(name)
   check_not_nested(path_dir(path), name)
 
-  create_directory(path_dir(path), name)
+  create_directory(path)
   old_project <- proj_set(path, force = TRUE)
 
   use_directory("R")
@@ -63,7 +65,7 @@ create_project <- function(path,
   name <- path_file(path)
   check_not_nested(path_dir(path), name)
 
-  create_directory(path_dir(path), name)
+  create_directory(path)
   old_project <- proj_set(path, force = TRUE)
 
   use_directory("R")
@@ -71,9 +73,9 @@ create_project <- function(path,
   if (rstudio) {
     use_rstudio()
   } else {
-    done("Writing a sentinel file {value('.here')}")
-    todo("Build robust paths within your project via {code('here::here()')}")
-    todo("Learn more at https://here.r-lib.org")
+    ui_done("Writing a sentinel file {ui_path('.here')}")
+    ui_todo("Build robust paths within your project via {ui_code('here::here()')}")
+    ui_todo("Learn more at <https://here.r-lib.org>")
     file_create(proj_path(".here"))
   }
   if (open) {
@@ -140,15 +142,16 @@ create_from_github <- function(repo_spec,
                                auth_token = NULL,
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
-  check_is_dir(destdir)
+  check_path_is_directory(destdir)
   protocol <- match.arg(protocol, c("ssh", "https"))
 
   owner <- spec_owner(repo_spec)
   repo <- spec_repo(repo_spec)
   check_not_nested(destdir, repo)
 
-  repo_path <- create_directory(destdir, repo)
-  check_is_empty(repo_path)
+  repo_path <- path(destdir, repo)
+  create_directory(repo_path)
+  check_directory_is_empty(repo_path)
 
   pat <- auth_token %||% gh_token()
   pat_available <- pat != ""
@@ -168,7 +171,7 @@ create_from_github <- function(repo_spec,
   fork <- rationalize_fork(fork, repo_info, pat_available, user)
   if (fork) {
     ## https://developer.github.com/v3/repos/forks/#create-a-fork
-    done("Forking {value(repo_info$full_name)}")
+    ui_done("Forking {ui_value(repo_info$full_name)}")
     upstream_url <- switch(
       protocol,
       https = repo_info$clone_url,
@@ -185,7 +188,7 @@ create_from_github <- function(repo_spec,
     ssh = repo_info$ssh_url
   )
 
-  done("Cloning repo from {value(origin_url)} into {value(repo_path)}")
+  ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
   git2r::clone(
     origin_url,
     repo_path,
@@ -196,7 +199,7 @@ create_from_github <- function(repo_spec,
 
   if (fork) {
     r <- git2r::repository(proj_get())
-    done("Adding {value('upstream')} remote: {value(upstream_url)}")
+    ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     git2r::remote_add(r, "upstream", upstream_url)
   }
 
@@ -224,7 +227,7 @@ open_project <- function(path, restore = NA, rstudio = NA) {
   }
 
   if (rstudio && rstudioapi::hasFun("openProject")) {
-    done("Opening new project {value(path_file(path))} in RStudio")
+    ui_done("Opening new project {ui_path(path)} in RStudio")
     rstudioapi::openProject(rproj_path(path), newSession = TRUE)
     ## TODO: check this is correct on rstudio server / cloud
     if (is.null(restore) || !is.na(restore)) {
@@ -233,7 +236,7 @@ open_project <- function(path, restore = NA, rstudio = NA) {
     invisible(TRUE)
   } else {
     setwd(path)
-    done("Changing working directory to {value(path)}")
+    ui_done("Changing working directory to {ui_path(path)}")
     invisible(FALSE)
   }
 }
@@ -251,16 +254,12 @@ check_not_nested <- function(path, name) {
     return()
   }
 
-  message <- glue(
-    "New project {value(name)} is nested inside an existing project ",
-    "{value(path)}."
+  ui_line(
+    "New project {ui_value(name)} is nested inside an existing project\\
+    {ui_path(path)}, which is rarely a good idea."
   )
-  if (!interactive()) {
-    stop_glue(message)
-  }
-
-  if (nope(message, " This is rarely a good idea. Do you wish to create anyway?")) {
-    stop_glue("Aborting project creation.")
+  if (ui_nope("Do you want to create anyway?")) {
+    ui_stop("Aborting project creation.")
   }
   invisible()
 }
@@ -279,9 +278,9 @@ rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
   }
 
   if (fork && identical(user, owner)) {
-    stop_glue(
-      "Repo {value(repo_info$full_name)} is owned by user ",
-      "{value(user)}. Can't fork."
+    ui_stop(
+      "Repo {ui_value(repo_info$full_name)} is owned by user\\
+      {ui_value(user)}. Can't fork."
     )
   }
 

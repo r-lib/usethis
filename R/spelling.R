@@ -22,5 +22,5 @@ use_spell_check <- function(vignettes = TRUE, lang = "en-US", error = FALSE) {
   spelling::spell_check_setup(
     pkg = proj_get(), vignettes = vignettes, lang = lang, error = error
   )
-  todo("Run {code('devtools::check()')} to trigger spell check")
+  ui_todo("Run {ui_code('devtools::check()')} to trigger spell check")
 }

@@ -79,25 +79,28 @@ use_github <- function(organisation = NULL,
     repo_desc <- pkg$Title %||% ""
 
     if (interactive()) {
-      todo("Check title and description")
-      code_block(
-        "Name:        {repo_name}",
-        "Description: {repo_desc}",
+      ui_todo("Check title and description")
+      ui_code_block(
+        "
+        Name:        {repo_name},
+        Description: {repo_desc}
+        ",
         copy = FALSE
       )
-      if (nope("Are title and description ok?")) {
+      if (ui_nope("Are title and description ok?")) {
         return(invisible())
       }
     } else {
-      done("Setting title and description")
-      code_block(
-        "Name:        {repo_name}",
-        "Description: {repo_desc}",
+      ui_todo("Setting title and description")
+      ui_code_block(
+        "
+        Name:        {repo_name}
+        Description: {repo_desc}
+        ",
         copy = FALSE
       )
     }
-
-    done("Creating GitHub repository")
+    ui_done("Creating GitHub repository")
 
     if (is.null(organisation)) {
       create <- gh::gh(
@@ -121,7 +124,7 @@ use_github <- function(organisation = NULL,
     }
     view_url(create$html_url)
 
-    done("Adding GitHub remote")
+    ui_done("Adding GitHub remote")
     origin_url <- switch(protocol,
       https = create$clone_url,
       ssh = create$ssh_url
@@ -130,7 +133,7 @@ use_github <- function(organisation = NULL,
   }
 
   if (is_package()) {
-    done("Adding GitHub links to DESCRIPTION")
+    ui_done("Adding GitHub links to DESCRIPTION")
     use_github_links(auth_token = auth_token, host = host)
     if (git_uncommitted()) {
       git2r::add(r, "DESCRIPTION")
@@ -140,14 +143,13 @@ use_github <- function(organisation = NULL,
 
   head <- git2r::repository_head(r)
   if (is.null(git2r::branch_get_upstream(head))) {
-    done("Pushing to GitHub and setting remote tracking branch")
-    if (protocol == "https") {
-      ## in https case, when GITHUB_PAT is passed as password,
-      ## the username is immaterial, but git2r doesn't know that.
-      credentials <- git2r::cred_user_pass("EMAIL", auth_token)
+    ui_done("Pushing to GitHub and setting remote tracking branch")
+    if (protocol == "ssh") {
+      ## [1] push via ssh required for success setting remote tracking branch
+      ## [2] to get passphrase from ssh-agent, you must use NULL credentials
+      git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
+      git2r::branch_set_upstream(head, "origin/master")
     }
-    git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
-    git2r::branch_set_upstream(head, "origin/master")
   }
 
   invisible(NULL)
@@ -222,18 +224,17 @@ use_github_links <- function(auth_token = NULL,
 browse_github_pat <- function(scopes = c("repo", "gist"),
                               description = "R:GITHUB_PAT",
                               host = "https://github.com") {
-  scopes <- collapse(scopes, ",")
+  scopes <- glue_collapse(scopes, ",")
   url <- sprintf(
     "%s/settings/tokens/new?scopes=%s&description=%s",
     host, scopes, description
   )
   view_url(url)
-  todo(
-    "Call {code('edit_r_environ()')} to open {value('.Renviron')} ",
-    "and store your PAT with a line like:"
-  )
-  code_block("GITHUB_PAT=xxxyyyzzz", copy = FALSE)
-  todo("Make sure {value('.Renviron')} ends with a newline!")
+
+  ui_todo("Call {ui_code('edit_r_environ()')} to open {ui_path('.Renviron')}")
+  ui_todo("Store your PAT with a line like:")
+  ui_code_block("GITHUB_PAT=xxxyyyzzz")
+  ui_todo("Make sure {ui_value('.Renviron')} ends with a newline!")
 }
 
 uses_github <- function(base_path = proj_get()) {
@@ -249,10 +250,10 @@ check_uses_github <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop_glue(
-    "Cannot detect that package already uses GitHub.\n",
-    "Do you need to run {code('use_github()')}?"
-  )
+  ui_stop(c(
+    "Cannot detect that package already uses GitHub.",
+    "Do you need to run {ui_code('use_github()')}?"
+  ))
 }
 
 ## use from gh when/if exported
@@ -264,11 +265,11 @@ gh_token <- function() {
 
 check_gh_token <- function(auth_token) {
   if (is.null(auth_token) || !nzchar(auth_token)) {
-    stop_glue(
-      "No GitHub {code('auth_token')}.\n",
-      "Provide explicitly or make available as an environment variable.\n",
-      "See {code('browse_github_pat()')} for help setting this up."
-    )
+    ui_stop(c(
+      "No GitHub {ui_code('auth_token')}.",
+      "Provide explicitly or make available as an environment variable.",
+      "See {ui_code('browse_github_pat()')} for help setting this up."
+    ))
   }
   auth_token
 }

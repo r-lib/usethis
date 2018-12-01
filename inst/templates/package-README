@@ -5,7 +5,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r setup, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -16,6 +16,9 @@ knitr::opts_chunk$set(
 {{/Rmd}}
 
 # {{{ Package }}}
+
+<!-- badges: start -->
+<!-- badges: end -->
 
 The goal of {{{ Package }}} is to ...
 
@@ -32,7 +35,7 @@ And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("{{{username}}}/{{{repo}}}")
+devtools::install_github("{{{owner}}}/{{{repo}}}")
 ```
 {{/github}}
 ## Example
@@ -44,6 +47,7 @@ This is a basic example which shows you how to solve a common problem:
 {{/Rmd}}
 {{^Rmd}}``` r
 {{/Rmd}}
+library({{Package}})
 ## basic example code
 ```
 

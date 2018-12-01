@@ -46,7 +46,7 @@ use_travis_badge <- function(ext = "org") {
 travis_activate <- function(browse = interactive(), ext = "org") {
   url <- glue("https://travis-ci.{ext}/profile/{github_owner()}")
 
-  todo("Turn on travis for your repo at {url}")
+  ui_todo("Turn on travis for your repo at {url}")
   if (browse) {
     utils::browseURL(url)
   }
@@ -62,10 +62,11 @@ check_uses_travis <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop_glue(
-    "Cannot detect that package {value(project_name(base_path))}",
-    " already uses Travis.\n",
-    "Do you need to run {code('use_travis()')}?"
+  ui_stop(
+    "
+    Cannot detect that package {ui_(project_name(base_path))} already uses Travis.
+    Do you need to run {ui_code('use_travis()')}?
+    "
   )
 }
 
@@ -89,7 +90,7 @@ use_appveyor <- function(browse = interactive()) {
 
 appveyor_activate <- function(browse = interactive()) {
   url <- "https://ci.appveyor.com/projects/new"
-  todo("Turn on AppVeyor for this repo at {url}")
+  ui_todo("Turn on AppVeyor for this repo at {url}")
   if (browse) {
     utils::browseURL(url)
   }
