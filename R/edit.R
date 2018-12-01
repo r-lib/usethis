@@ -61,6 +61,9 @@ NULL
 #' @rdname edit
 edit_r_profile <- function(scope = c("user", "project")) {
   ui_todo("Restart R for changes to take effect")
+  if (scope == "user") {
+    cat("R_PROFILE_USER = ", Sys.getenv("R_PROFILE_USER", unset = "<unset>"), "\n")
+  }
   path <- scoped_path_r(scope, ".Rprofile", envvar = "R_PROFILE_USER")
   if (scope == "user") cat("path to .Rprofile: ", path, "\n")
   edit_file(path)
@@ -70,6 +73,9 @@ edit_r_profile <- function(scope = c("user", "project")) {
 #' @rdname edit
 edit_r_environ <- function(scope = c("user", "project")) {
   ui_todo("Restart R for changes to take effect")
+  if (scope == "user") {
+    cat("R_ENVIRON_USER = ", Sys.getenv("R_ENVIRON_USER", unset = "<unset>"), "\n")
+  }
   path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
   if (scope == "user") cat("path to .Renviron: ", path, "\n")
   edit_file(path)
