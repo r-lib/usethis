@@ -66,6 +66,7 @@ release_checklist <- function(version) {
     todo("`usethis::use_release_tag()`"),
     todo("`usethis::use_dev_version()`"),
     todo("`usethis::use_news()`", !on_cran),
+    todo("Update install instructions in README", !on_cran),
     todo("Finish blog post", type != "patch"),
     todo("Tweet"),
     todo("Add link to blog post in pkgdown news menu", type != "patch")
