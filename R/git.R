@@ -43,9 +43,10 @@ git_ask_commit <- function(message) {
   ))
 
   if (ui_yeah("Is it ok to commit them?")) {
-    ui_done("Adding files and committing")
+    ui_done("Adding files")
     repo <- git_repo()
     git2r::add(repo, paths)
+    ui_done("Commit with message {value(message)}")
     git2r::commit(repo, message)
   }
 }
@@ -122,22 +123,6 @@ use_git_config <- function(scope = c("user", "project"), ...) {
     check_uses_git()
     git_config(..., .repo = git_repo())
   }
-}
-
-git_check_in <- function(base_path, paths, message) {
-  if (!uses_git(base_path))
-    return(invisible())
-
-  if (!git_uncommitted(base_path))
-    return(invisible())
-
-  ui_done("Checking into git [{message}]")
-
-  r <- git2r::repository(base_path)
-  git2r::add(r, paths)
-  git2r::commit(r, message)
-
-  invisible(TRUE)
 }
 
 #' git/GitHub sitrep

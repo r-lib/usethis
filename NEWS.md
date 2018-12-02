@@ -183,6 +183,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
 * `use_travis()` gains an `ext` argument, defaulting to `"org"`. 
   Use `ext = "com"` for `https://travis-ci.com`. (@cderv, #500)
 
+* `use_version()` asks before committing.
+
 * `use_vignette()` now has a `title` argument which is used in YAML header
   (in the two places where it is needed). The vignettes also lose the default
   author and date fields (@rorynolan, #445), and the RMarkdown starter material.
