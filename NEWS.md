@@ -163,6 +163,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
   It also produces retina approrpriate logos by default, and matches the 
   aspect ratio to the <http://hexb.in/sticker.html> specification (#499).
 
+* `use_news_md()` will optionally commit.
+
 * `use_package()` gains a `min_version` argument to specify a minimum
   version requirement (#498). Set to `TRUE` to use the currently installed 
   version (#386). This is used by `use_tidy()` in order to require version 

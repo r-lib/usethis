@@ -46,7 +46,7 @@ git_ask_commit <- function(message) {
     ui_done("Adding files")
     repo <- git_repo()
     git2r::add(repo, paths)
-    ui_done("Commit with message {value(message)}")
+    ui_done("Commit with message {ui_value(message)}")
     git2r::commit(repo, message)
   }
 }
