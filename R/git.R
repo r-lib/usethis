@@ -29,17 +29,18 @@ git_ask_commit <- function(message) {
   if (!interactive() || !git_uncommitted())
     return(invisible())
 
-  paths <- unlist(git_status())
+  paths <- unlist(git_status(), use.names = FALSE)
   paths <- sort(paths)
-  paths <- purrr::map_chr(paths, ui_path)
-  n <- length(paths)
+
+  ui_paths <- purrr::map_chr(paths, ui_path)
+  n <- length(ui_paths)
   if (n > 20) {
-    paths <- c(paths[1:20], "...")
+    ui_paths <- c(ui_paths[1:20], "...")
   }
 
   ui_line(c(
     "There are {n} files uncommited files:",
-    paste0("* ", paths)
+    paste0("* ", ui_paths)
   ))
 
   if (ui_yeah("Is it ok to commit them?")) {
