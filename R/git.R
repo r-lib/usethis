@@ -26,10 +26,13 @@ use_git <- function(message = "Initial commit") {
 }
 
 git_ask_commit <- function(message) {
-  if (!interactive() || !git_uncommitted())
+  if (!interactive())
     return(invisible())
 
   paths <- unlist(git_status(), use.names = FALSE)
+  if (length(paths) == 0)
+    return(invisible())
+
   paths <- sort(paths)
 
   ui_paths <- purrr::map_chr(paths, ui_path)
@@ -50,6 +53,7 @@ git_ask_commit <- function(message) {
     ui_done("Commit with message {ui_value(message)}")
     git2r::commit(repo, message)
   }
+  invisible()
 }
 
 #' Add a git hook
