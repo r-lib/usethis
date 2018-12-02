@@ -17,11 +17,13 @@ NULL
 #' integration service.
 #' @param browse Open a browser window to enable automatic builds for the
 #'   package.
+#' @param ext which travis website to use. default to `"org"`for
+#'   https://travis-ci.org. Change to `"com"` for https://travis-ci.com.
 #' @export
 #' @rdname ci
-use_travis <- function(browse = interactive()) {
+use_travis <- function(browse = interactive(), ext = c("org", "com")) {
   check_uses_github()
-
+  ext <- rlang::arg_match(ext)
   new <- use_template(
     "travis.yml",
     ".travis.yml",
@@ -29,24 +31,22 @@ use_travis <- function(browse = interactive()) {
   )
   if (!new) return(invisible(FALSE))
 
-  travis_activate(browse)
-  use_travis_badge()
+  travis_activate(browse, ext = ext)
+  use_travis_badge(ext = ext)
   invisible(TRUE)
 }
 
-use_travis_badge <- function() {
+use_travis_badge <- function(ext = "org") {
   check_uses_github()
-
-  url <- glue("https://travis-ci.org/{github_repo_spec()}")
+  url <- glue("https://travis-ci.{ext}/{github_repo_spec()}")
   img <- glue("{url}.svg?branch=master")
-
   use_badge("Travis build status", url, img)
 }
 
-travis_activate <- function(browse = interactive()) {
-  url <- glue("https://travis-ci.org/profile/{github_owner()}")
+travis_activate <- function(browse = interactive(), ext = "org") {
+  url <- glue("https://travis-ci.{ext}/profile/{github_owner()}")
 
-  todo("Turn on travis for your repo at {url}")
+  ui_todo("Turn on travis for your repo at {url}")
   if (browse) {
     utils::browseURL(url)
   }
@@ -62,65 +62,12 @@ check_uses_travis <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  stop_glue(
-    "Cannot detect that package {value(project_name(base_path))}",
-    " already uses Travis.\n",
-    "Do you need to run {code('use_travis()')}?"
+  ui_stop(
+    "
+    Cannot detect that package {ui_(project_name(base_path))} already uses Travis.
+    Do you need to run {ui_code('use_travis()')}?
+    "
   )
-}
-
-#' @section `use_coverage()`:
-#' Adds test coverage reports to a package that is already using Travis CI.
-#' @rdname ci
-#' @param type Which web service to use for test reporting. Currently supports
-#'   [Codecov](https://codecov.io) and [Coveralls](https://coveralls.io).
-#' @export
-use_coverage <- function(type = c("codecov", "coveralls")) {
-  check_uses_travis()
-  type <- match.arg(type)
-
-  use_dependency("covr", "Suggests")
-
-  if (type == "codecov") {
-    new <- use_template("codecov.yml", ignore = TRUE)
-    if (!new) return(invisible(FALSE))
-  }
-
-  if (type == "coveralls") {
-    todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
-  }
-
-  switch(
-    type,
-    codecov = use_codecov_badge(),
-    coveralls = use_coveralls_badge()
-  )
-
-  todo("Add to {value('.travis.yml')}:")
-  code_block(
-    "after_success:",
-    "  - Rscript -e 'covr::{type}()'"
-  )
-
-  invisible(TRUE)
-}
-
-use_codecov_badge <- function() {
-  check_uses_github()
-  url <- glue("https://codecov.io/gh/{github_repo_spec()}?branch=master")
-  img <- glue(
-    "https://codecov.io/gh/{github_repo_spec()}/branch/master/graph/badge.svg"
-  )
-  use_badge("Codecov test coverage", url, img)
-}
-
-use_coveralls_badge <- function() {
-  check_uses_github()
-  url <- glue("https://coveralls.io/r/{github_repo_spec()}?branch=master")
-  img <- glue(
-    "https://coveralls.io/repos/github/{github_repo_spec()}/badge.svg"
-  )
-  use_badge("Coveralls test coverage", url, img)
 }
 
 #' @section `use_appveyor()`:
@@ -143,7 +90,7 @@ use_appveyor <- function(browse = interactive()) {
 
 appveyor_activate <- function(browse = interactive()) {
   url <- "https://ci.appveyor.com/projects/new"
-  todo("Turn on AppVeyor for this repo at {url}")
+  ui_todo("Turn on AppVeyor for this repo at {url}")
   if (browse) {
     utils::browseURL(url)
   }

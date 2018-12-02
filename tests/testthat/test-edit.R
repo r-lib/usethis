@@ -1,11 +1,11 @@
 context("edit")
 
 expect_r_file <- function(...) {
-  expect_true(file_exists(scoped_path_r("user", ...)))
+  expect_true(file_exists(path_home_r(...)))
 }
 
 expect_fs_file <- function(...) {
-  expect_true(file_exists(scoped_path_fs("user", ...)))
+  expect_true(file_exists(path_home(...)))
 }
 
 ## testing edit_XXX("user") only on travis and appveyor, because I don't want to
@@ -18,6 +18,7 @@ test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
   skip_if_not_ci()
 
   expect_error_free(edit_r_profile())
+  expect_error_free(edit_r_buildignore())
   expect_error_free(edit_r_environ())
   expect_error_free(edit_r_makevars())
   expect_error_free(edit_git_config())
@@ -32,6 +33,9 @@ test_that("edit_r_XXX('user') ensures the file exists", {
   edit_r_profile("user")
   expect_r_file(".Rprofile")
 
+  edit_r_buildignore("user")
+  expect_r_file(".Rbuildignore")
+
   edit_r_environ("user")
   expect_r_file(".Renviron")
 
@@ -43,6 +47,15 @@ test_that("edit_r_XXX('user') ensures the file exists", {
   edit_rstudio_snippets(type = "HTML")
   expect_r_file(".R", "snippets", "html.snippets")
 })
+
+test_that("edit_r_profile() respects R_PROFILE_USER", {
+  path1 <- user_path_prep(tempfile())
+  withr::local_envvar(list(R_PROFILE_USER = path1))
+
+  path2 <- edit_r_profile("user")
+  expect_equal(path1, as.character(path2))
+})
+
 
 test_that("edit_git_XXX('user') ensures the file exists", {
   ## run these manually if you already have these files or are happy to

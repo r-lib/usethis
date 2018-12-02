@@ -9,14 +9,17 @@ addons:
     packages:
       - libmagick++-dev
 
-r:
-- 3.1
-- 3.2
-- 3.3
-- oldrel
-- release
-- devel
-
-# Only report coverage for the release version
-after_success:
-  - test $TRAVIS_R_VERSION_STRING = "release" && Rscript -e 'covr::codecov()'
+matrix:
+  include:
+  - r: devel
+  - r: release
+    after_success: Rscript -e 'covr::codecov()'
+    before_deploy: Rscript -e 'install.packages("pkgdown")'
+    deploy:
+      provider: script
+      script: Rscript -e 'pkgdown::deploy_site_github()'
+      skip_cleanup: true
+  - r: oldrel
+  - r: 3.3
+  - r: 3.2
+  - r: 3.1

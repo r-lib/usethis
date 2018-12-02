@@ -43,24 +43,38 @@ reference:
     desc: >
       Add or modify files typically found in R packages
     contents:
+    - use_data
+    - use_package
+    - use_r
+    - use_rmarkdown_template
+    - use_spell_check
+    - use_test
+    - use_vignette
+  - title: Package setup
+    desc: >
+      Package setup tasks, typically performed once.
+    contents:
     - create_package
     - use_description
     - matches("license")
-    - use_package
     - use_namespace
-    - use_r
-    - use_test
-    - use_spell_check
-    - use_data
     - use_coverage
     - matches("build_ignore|pipe|rcpp|tibble")
-    - matches("roxygen_md|vignette|news_md|package_doc|logo")
+    - matches("roxygen_md|news_md|package_doc|logo")
     - matches("readme")
     - matches("pkgdown|badge")
-    - matches("dev_version|cran_comments|revdep")
-    - use_rmarkdown_template
-    - matches("use_tidy")
     - use_github_links
+  - title: Package release
+    desc: >
+      Tasks done prior to release
+    contents:
+    - matches("cran_comments|revdep")
+    - use_version
+  - title: Tidyverse development
+    desc: >
+      Conventions used in the tidyverse and r-lib organisations
+    contents:
+    - matches("use_tidy")
   - title: "Configuration"
     desc: >
       Configure the behaviour of R, RStudio, or Git, globally as a user or

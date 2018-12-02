@@ -173,10 +173,11 @@ NULL
 download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
   stopifnot(is_string(url))
   base_path <- destdir
-  check_is_dir(base_path)
+  check_path_is_directory(base_path)
 
   h <- curl::new_handle(noprogress = FALSE, progressfunction = progress_fun)
   tmp <- file_temp("usethis-use-course-")
+  ui_done("Downloading {ui_value(url)}")
   curl::curl_download(
     url, destfile = tmp, quiet = FALSE, mode = "wb", handle = h
   )
@@ -188,30 +189,28 @@ download_zip <- function(url, destdir = getwd(), pedantic = FALSE) {
 
   ## DO YOU KNOW WHERE YOUR STUFF IS GOING?!?
   if (interactive() && pedantic) {
-    message(
-      "A ZIP file named:\n",
-      "  ", value(base_name), "\n",
-      "will be copied to this folder:\n",
-      "  ", value(base_path), "\n",
-      "Prefer a different location? Cancel, try again, and specify ",
-      code("destdir"), ".\n"
-    )
-    if (nope("Is it OK to write this file here?")) {
-      stop_glue("Aborting.")
+    ui_line(c(
+      "The ZIP file, {ui_value(base_name)}, will be copied to  {ui_path(base_path)}.",
+      "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}"
+    ))
+    if (ui_nope("OK to proceed?")) {
+      ui_stop("Aborting.")
     }
   }
   full_path <- path(base_path, base_name)
 
   if (!can_overwrite(full_path)) {
-    stop_glue("Aborting.")
+    ui_stop("Aborting.")
   }
 
   zip_dest <- if (is.null(destdir)) base_name else full_path
-  done("Downloaded ZIP file to {value(zip_dest)}")
+  ui_done("Copied ZIP file to {ui_path(zip_dest, base_path)}")
   file_move(tmp, full_path)
 }
 
 tidy_unzip <- function(zipfile) {
+  base_path <- path_dir(zipfile)
+
   filenames <- utils::unzip(zipfile, list = TRUE)[["Name"]]
 
   ## deal with DropBox's peculiar habit of including "/" as a file --> drop it
@@ -230,22 +229,22 @@ tidy_unzip <- function(zipfile) {
     target <- path(path_dir(zipfile), td)
     utils::unzip(zipfile, files = filenames, exdir = path_dir(zipfile))
   }
-  done(
-    "Unpacking ZIP file into {value(target)} ",
-    "({length(filenames)} files extracted)"
+  ui_done(
+    "Unpacking ZIP file into {ui_path(target, base_path)} \\
+    ({length(filenames)} files extracted)"
   )
 
   if (interactive()) {
-    if (yep("Shall we delete the ZIP file ", value(zipfile), "?")) {
-      done("Deleting {value(zipfile)}")
+    if (ui_yeah("Shall we delete the ZIP file ({ui_path(zipfile, base_path)})?")) {
+      ui_done("Deleting {ui_path(zipfile, base_path)}")
       file_delete(zipfile)
     }
 
     if (is_rstudio_project(target) && rstudioapi::hasFun("openProject")) {
-      done("Opening project in RStudio")
+      ui_done("Opening project in RStudio")
       rstudioapi::openProject(target, newSession = TRUE)
     } else if (!in_rstudio_server()) {
-      done("Opening {value(target)} in the file manager")
+      ui_done("Opening {ui_path(target, base_path)} in the file manager")
       utils::browseURL(path_real(target))
     }
   }
@@ -291,10 +290,10 @@ top_directory <- function(filenames) {
 check_is_zip <- function(h) {
   headers <- curl::parse_headers_list(curl::handle_data(h)$headers)
   if (headers[["content-type"]] != "application/zip") {
-    stop_glue(
-      "Download does not have MIME type {value('application/zip')}.\n",
-      "Instead it's {value(headers[['content-type']])}."
-    )
+    ui_stop(c(
+      "Download does not have MIME type {ui_value('application/zip')}.",
+      "Instead it's {ui_value(headers[['content-type']])}."
+    ))
   }
   invisible()
 }
@@ -315,11 +314,10 @@ content_disposition <- function(h) {
 ##  GitHub eg: "attachment; filename=foo-master.zip"
 parse_content_disposition <- function(cd) {
   if (!grepl("^attachment;", cd)) {
-    stop_glue(
-      "{code('Content-Disposition')} header doesn't start with ",
-      "{value('attachment')}.\n",
-      "Actual header: {value(cd)}"
-    )
+    ui_stop(c(
+      "{ui_code('Content-Disposition')} header doesn't start with {ui_value('attachment')}.",
+      "Actual header: {ui_value(cd)}"
+    ))
   }
 
   cd <- sub("^attachment;\\s*", "", cd, ignore.case = TRUE)
@@ -340,7 +338,7 @@ progress_fun <- function(down, up) {
     ""
   }
   if(now > 10000)
-    cat("\r Downloaded:", sprintf("%.2f", now / 2^20), "MB ", pct)
+    cat("\rDownloaded:", sprintf("%.2f", now / 2^20), "MB ", pct)
   TRUE
 }
 

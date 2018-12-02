@@ -28,7 +28,8 @@ Imports:
     fs (>= 1.2.0),
     gh,
     git2r (>= 0.23),
-    glue,
+    glue (>= 1.2.0),
+    purrr,
     rlang,
     rprojroot (>= 1.2),
     rstudioapi,
@@ -40,6 +41,7 @@ Suggests:
     knitr,
     magick,
     rmarkdown,
+    pkgdown (>= 1.1.0),
     roxygen2,
     spelling (>= 1.2),
     styler (>= 1.0.2),
@@ -48,4 +50,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1

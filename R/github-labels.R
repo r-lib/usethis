@@ -1,14 +1,13 @@
 #' Manage GitHub issue labels
 #'
-#' @description `use_github_labels()` creates new labels and/or changes label
-#'   colours. It does not generally remove labels. But if you set
-#'   `delete_default = TRUE`, it will delete labels that are (1) flagged by the
-#'   API as being [GitHub default
-#'   labels](https://help.github.com/articles/about-labels/#using-default-labels)
-#'   and (2) not present in the labels you provide via `labels`.
+#' @description
+#' `use_github_labels()` can create new labels, update colours and descriptions,
+#' and optionally delete GitHub's default labels (if `delete_default = TRUE`).
+#' It will never delete labels that have associated issues.
 #'
-#'   `tidy_labels()` returns the labels and colours commonly used by tidyverse
-#'   packages.
+#' `use_tidy_labels()` calls `use_github_labels()` with tidyverse conventions
+#' powered by `tidy_labels()`, `tidy_labels_rename()`, `tidy_label_colours()` and
+#' `tidy_label_descriptions()`.
 #'
 #' @section Label usage:
 #' Labels are used as part of the issue-triage process, designed to minimise the
@@ -19,113 +18,230 @@
 #' * `bug` type, indicates an unexpected problem or unintended behavior.
 #' * `feature` type, indicates a feature request or enhancement.
 #' * `docs` type, indicates an issue with the documentation.
-#' * `performance` indicates a non-breaking area related to performance.
 #' * `wip` indicates that someone else is working on it or has promised to.
 #' * `good first issue` indicates a good issue for first-time contributors.
 #' * `help wanted` indicates that a maintainer wants help on an issue.
 #'
-#' @param labels Named character vector of labels. The names are the label text,
-#'   such as "bug", and the values are the label colours in hexadecimal, such as
-#'   "e02a2a". First, labels that don't yet exist are created, then label
-#'   colours are updated.
+#' @param repo Optional repository specification (`owner/repo`) if you
+#'   don't want to use the current project.
+#' @param labels A character vector giving labels to add.
+#' @param rename A named vector with names giving old names and values giving
+#'   new values.
+#' @param colours,descriptions Named character vectors giving hexadecimal
+#'   colours (like `e02a2a`) and longer descriptions. The names should match
+#'   label names, and anything unmatched will be left unchanged. If you
+#'   create a new label, and don't supply colours, it will be givein a random
+#'   colour.
 #' @param delete_default If `TRUE`, will remove GitHub default labels that do
-#'   not appear in the `labels` vector (presumably defaults that aren't relevant
+#'   not appear in the `labels` vector, and do not have associated issues.
 #'   to your workflow).
 #' @inheritParams use_github_links
-#' @name use_github_labels
-NULL
-
-#' @rdname use_github_labels
 #' @export
 #' @examples
 #' \dontrun{
-#' ## typical use in, e.g., a new tidyverse project
+#' # typical use in, e.g., a new tidyverse project
 #' use_github_labels(delete_default = TRUE)
+#'
+#' # create labels without changing colours/descriptions
+#' use_github_labels(
+#'   labels = c("foofy", "foofier", "foofiest"),
+#'   colours = NULL,
+#'   descriptions = NULL
+#' )
+#'
+#' # change descriptions without changing names/colours
+#' use_github_labels(
+#'   labels = NULL,
+#'   colours = NULL,
+#'   descriptions = c("foofiest" = "the foofiest issue you ever saw")
+#' )
 #' }
-use_github_labels <- function(labels = tidy_labels(),
+use_github_labels <- function(
+                              repo = github_repo_spec(),
+                              labels = character(),
+                              rename = character(),
+                              colours = character(),
+                              descriptions = character(),
                               delete_default = FALSE,
                               auth_token = NULL,
                               host = NULL) {
   check_uses_github()
 
   gh <- function(endpoint, ...) {
-    gh::gh(
+    out <- gh::gh(
       endpoint,
       ...,
-      owner = github_owner(),
-      repo = github_repo(),
+      owner = spec_owner(repo),
+      repo = spec_repo(repo),
       .token = auth_token,
-      .api_url = host
+      .api_url = host,
+      .send_headers = c(
+        "Accept" = "application/vnd.github.symmetra-preview+json"
+      )
     )
+    if (identical(out[[1]], "")) {
+      list()
+    } else {
+      out
+    }
   }
 
   cur_labels <- gh("GET /repos/:owner/:repo/labels")
+  cur_label_names <- purrr::map_chr(cur_labels, "name")
+
+  # Rename existing labels
+  to_rename <- intersect(cur_label_names, names(rename))
+  if (length(to_rename) > 0) {
+    delta <- paste0(ui_value(to_rename), " -> ", ui_value(rename[to_rename]),
+      collapse = ", ")
+    ui_done("Renaming labels: {delta}")
+
+    for (label in to_rename) {
+      gh(
+        "PATCH /repos/:owner/:repo/labels/:current_name",
+        current_name = label,
+        name = rename[[label]]
+      )
+    }
+
+    update <- match(to_rename, cur_label_names)
+    cur_label_names[update] <- rename[to_rename]
+  }
 
   # Add missing labels
-  if (identical(cur_labels[[1]], "")) {
-    cur_label_names <- character()
-  } else {
-    cur_label_names <- vapply(cur_labels, "[[", "name", FUN.VALUE = character(1))
-  }
-  new_labels <- setdiff(names(labels), cur_label_names)
-  if (length(new_labels) > 0) {
-    done("Adding missing labels: {collapse(value(new_labels))}")
+  to_add <- setdiff(labels, cur_label_names)
+  if (length(to_add) > 0) {
+    ui_done("Adding missing labels: {ui_value(to_add)}")
 
-    for (label in new_labels) {
+    for (label in to_add) {
       gh(
         "POST /repos/:owner/:repo/labels",
         name = label,
-        color = labels[[label]]
+        color = purrr::pluck(colours, label, .default = random_colour()),
+        description = purrr::pluck(descriptions, label, .default = "")
       )
     }
   }
 
-  # Correct bad colours
-  if (identical(cur_labels[[1]], "")) {
-    cur_cols <- character()
-  } else {
-    cur_cols <- vapply(cur_labels, "[[", "color", FUN.VALUE = character(1))
-  }
-  tru_cols <- labels[cur_label_names]
-  col_labels <- cur_label_names[!is.na(tru_cols) & tru_cols != cur_cols]
+  # Update colours
+  to_update <- intersect(cur_label_names, names(colours))
+  if (length(to_update) > 0) {
+    ui_done("Updating colours")
 
-  if (length(col_labels) > 0) {
-    done("Setting label colours: {collapse(value(col_labels))}")
-
-    for (label in col_labels) {
+    for (label in to_update) {
       gh(
         "PATCH /repos/:owner/:repo/labels/:name",
         name = label,
-        color = labels[[label]]
+        color = colours[[label]]
       )
     }
   }
 
-  if (delete_default && length(cur_labels) > 0) {
-    default <- vapply(cur_labels, "[[", "default", FUN.VALUE = logical(1))
-    def_labels <- setdiff(cur_label_names[default], names(labels))
+  # Update descriptions
+  to_update <- intersect(cur_label_names, names(descriptions))
+  if (length(to_update) > 0) {
+    ui_done("Updating descriptions")
 
-    if (length(def_labels) > 0) {
-      done("Removing labels: {collapse(value(def_labels))}")
+    for (label in to_update) {
+      gh(
+        "PATCH /repos/:owner/:repo/labels/:name",
+        name = label,
+        description = descriptions[[label]]
+      )
+    }
+  }
 
-      for (label in def_labels) {
-        gh("DELETE /repos/:owner/:repo/labels/:name", name = label)
+  # Delete unused default labels
+  if (delete_default) {
+    default <- purrr::map_lgl(cur_labels, "default")
+    to_remove <- setdiff(cur_label_names[default], labels)
+
+    if (length(to_remove) > 0) {
+      ui_done("Removing default labels: {ui_value(to_remove)}")
+
+      for (label in to_remove) {
+        issues <- gh("GET /repos/:owner/:repo/issues", labels = label)
+        if (length(issues) > 0) {
+          ui_todo("Delete {ui_value(label)} label manually; it has associated issues")
+        } else {
+          gh("DELETE /repos/:owner/:repo/labels/:name", name = label)
+        }
       }
     }
   }
 }
 
+
+
+#' @export
+#' @rdname use_github_labels
+use_tidy_labels <- function(
+                              repo = github_repo_spec(),
+                              auth_token = NULL,
+                              host = NULL) {
+
+  use_github_labels(
+    repo = repo,
+    labels = tidy_labels(),
+    rename = tidy_labels_rename(),
+    colours = tidy_label_colours(),
+    descriptions = tidy_label_descriptions(),
+    delete_default = TRUE,
+    auth_token = auth_token,
+    host = host
+  )
+}
+
 #' @rdname use_github_labels
 #' @export
 tidy_labels <- function() {
+  names(tidy_label_colours())
+}
+
+#' @rdname use_github_labels
+#' @export
+tidy_labels_rename <- function() {
   c(
-                 "bug" = "e02a2a",
-             "feature" = "009800",
-              "reprex" = "eb6420",
-                 "wip" = "eb6420",
-                "docs" = "0052cc",
-         "performance" = "fbca04",
-    "good first issue" = "484fb5",
-         "help wanted" = "008672"
+    "enhancement" = "feature",
+    "question" = "reprex",
+    "good first issue" = "good first issue :heart:",
+    "help wanted" = "help wanted :heart:",
+    "docs" = "documentation"
   )
+}
+
+
+#' @rdname use_github_labels
+#' @export
+tidy_label_colours <- function() {
+  # http://tristen.ca/hcl-picker/#/hlc/5/0.26/E0B3A2/E1B996
+  c(
+    "breaking change :skull_and_crossbones:" = "E0B3A2",
+    "bug" = "E0B3A2",
+    "documentation" = "CBBAB8",
+    "feature" = "B4C3AE",
+    "good first issue :heart:" = "CBBAB8",
+    "help wanted :heart:" = "C5C295",
+    "reprex" = "C5C295",
+    "wip" = "E1B996"
+  )
+}
+
+#' @rdname use_github_labels
+#' @export
+tidy_label_descriptions <- function() {
+  c(
+    "bug" = "an unexpected problem or unintended behavior",
+    "feature" = "a feature request or enhancement",
+    "reprex" = "needs a minimal reproducible example",
+    "wip" = "work in progress",
+    "documentation" = "",
+    "good first issue :heart:" = "good issue for first-time contributors",
+    "help wanted :heart:" = "we'd love your help!",
+    "breaking change :skull_and_crossbones:" = "API change likely to affect existing code"
+  )
+}
+
+random_colour <- function() {
+  format(as.hexmode(sample(256 * 256 * 256 - 1, 1)), width = 6)
 }

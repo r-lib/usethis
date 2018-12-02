@@ -2,22 +2,46 @@
 % Please edit documentation in R/github-labels.R
 \name{use_github_labels}
 \alias{use_github_labels}
+\alias{use_tidy_labels}
 \alias{tidy_labels}
+\alias{tidy_labels_rename}
+\alias{tidy_label_colours}
+\alias{tidy_label_descriptions}
 \title{Manage GitHub issue labels}
 \usage{
-use_github_labels(labels = tidy_labels(), delete_default = FALSE,
+use_github_labels(repo = github_repo_spec(), labels = character(),
+  rename = character(), colours = character(),
+  descriptions = character(), delete_default = FALSE,
   auth_token = NULL, host = NULL)
 
+use_tidy_labels(repo = github_repo_spec(), auth_token = NULL,
+  host = NULL)
+
 tidy_labels()
+
+tidy_labels_rename()
+
+tidy_label_colours()
+
+tidy_label_descriptions()
 }
 \arguments{
-\item{labels}{Named character vector of labels. The names are the label text,
-such as "bug", and the values are the label colours in hexadecimal, such as
-"e02a2a". First, labels that don't yet exist are created, then label
-colours are updated.}
+\item{repo}{Optional repository specification (\code{owner/repo}) if you
+don't want to use the current project.}
+
+\item{labels}{A character vector giving labels to add.}
+
+\item{rename}{A named vector with names giving old names and values giving
+new values.}
+
+\item{colours, descriptions}{Named character vectors giving hexadecimal
+colours (like \code{e02a2a}) and longer descriptions. The names should match
+label names, and anything unmatched will be left unchanged. If you
+create a new label, and don't supply colours, it will be givein a random
+colour.}
 
 \item{delete_default}{If \code{TRUE}, will remove GitHub default labels that do
-not appear in the \code{labels} vector (presumably defaults that aren't relevant
+not appear in the \code{labels} vector, and do not have associated issues.
 to your workflow).}
 
 \item{auth_token}{Provide a personal access token (PAT) from
@@ -30,14 +54,13 @@ GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3"}
 }
 \description{
-\code{use_github_labels()} creates new labels and/or changes label
-colours. It does not generally remove labels. But if you set
-\code{delete_default = TRUE}, it will delete labels that are (1) flagged by the
-API as being \href{https://help.github.com/articles/about-labels/#using-default-labels}{GitHub default labels}
-and (2) not present in the labels you provide via \code{labels}.
+\code{use_github_labels()} can create new labels, update colours and descriptions,
+and optionally delete GitHub's default labels (if \code{delete_default = TRUE}).
+It will never delete labels that have associated issues.
 
-\code{tidy_labels()} returns the labels and colours commonly used by tidyverse
-packages.
+\code{use_tidy_labels()} calls \code{use_github_labels()} with tidyverse conventions
+powered by \code{tidy_labels()}, \code{tidy_labels_rename()}, \code{tidy_label_colours()} and
+\code{tidy_label_descriptions()}.
 }
 \section{Label usage}{
 
@@ -50,7 +73,6 @@ example, and that a reply has been sent requesting one from the user.
 \item \code{bug} type, indicates an unexpected problem or unintended behavior.
 \item \code{feature} type, indicates a feature request or enhancement.
 \item \code{docs} type, indicates an issue with the documentation.
-\item \code{performance} indicates a non-breaking area related to performance.
 \item \code{wip} indicates that someone else is working on it or has promised to.
 \item \code{good first issue} indicates a good issue for first-time contributors.
 \item \code{help wanted} indicates that a maintainer wants help on an issue.
@@ -59,7 +81,21 @@ example, and that a reply has been sent requesting one from the user.
 
 \examples{
 \dontrun{
-## typical use in, e.g., a new tidyverse project
+# typical use in, e.g., a new tidyverse project
 use_github_labels(delete_default = TRUE)
+
+# create labels without changing colours/descriptions
+use_github_labels(
+  labels = c("foofy", "foofier", "foofiest"),
+  colours = NULL,
+  descriptions = NULL
+)
+
+# change descriptions without changing names/colours
+use_github_labels(
+  labels = NULL,
+  colours = NULL,
+  descriptions = c("foofiest" = "the foofiest issue you ever saw")
+)
 }
 }

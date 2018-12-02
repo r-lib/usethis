@@ -10,11 +10,10 @@ use_git_config(scope = c("user", "project"), ...)
 \item{scope}{Edit globally for the current \strong{user}, or locally for the
 current \strong{project}}
 
-\item{...}{Additional options to write or delete from the
-configuration.}
+\item{...}{Name-value pairs.}
 }
 \value{
-A list with components \code{user.name} and \code{user.email}.
+Invisibly, the previous values of the modified components.
 }
 \description{
 Sets Git options, for either the user or the project ("global" or "local", in
@@ -26,8 +25,7 @@ directly or the command line for general Git configuration.
 }
 \examples{
 \dontrun{
-## see if user name and email are currently configured
-use_git_config()
+git_sitrep()
 
 ## set the user's global user.name and user.email
 use_git_config(user.name = "Jane", user.email = "jane@example.org")
