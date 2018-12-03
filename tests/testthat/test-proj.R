@@ -23,8 +23,8 @@ test_that("proj_set() can be forced, even if no criteria are fulfilled", {
   on.exit(dir_delete(tmpdir))
   dir_create(tmpdir)
   expect_error_free(old <- proj_set(tmpdir, force = TRUE))
-  on.exit(proj_set(old))
   expect_identical(proj_get(), path_real(tmpdir))
+  on.exit(proj_set(old), add = TRUE)
   expect_error(
     proj_set(proj_get()),
     "does not appear to be inside a project or package"
