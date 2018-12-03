@@ -17,6 +17,11 @@ test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
   ## have them or delete them
   skip_if_not_ci()
 
+  ## on Windows, under R CMD check, some env vars are set to sentinel values
+  ## https://github.com/wch/r-source/blob/78da6e06aa0017564ec057b768f98c5c79e4d958/src/library/tools/R/check.R#L257
+  ## we need to explicitly ensure R_ENVIRON_USER="" here
+  withr::local_envvar(list(R_ENVIRON_USER = ""))
+
   expect_error_free(edit_r_profile())
   expect_error_free(edit_r_buildignore())
   expect_error_free(edit_r_environ())
@@ -30,14 +35,19 @@ test_that("edit_r_XXX('user') ensures the file exists", {
   ## have them or delete them
   skip_if_not_ci()
 
+  ## on Windows, under R CMD check, some env vars are set to sentinel values
+  ## https://github.com/wch/r-source/blob/78da6e06aa0017564ec057b768f98c5c79e4d958/src/library/tools/R/check.R#L257
+  ## we need to explicitly ensure R_ENVIRON_USER="" here
+  withr::local_envvar(list(R_ENVIRON_USER = ""))
+
+  edit_r_environ("user")
+  expect_r_file(".Renviron")
+
   edit_r_profile("user")
   expect_r_file(".Rprofile")
 
   edit_r_buildignore("user")
   expect_r_file(".Rbuildignore")
-
-  edit_r_environ("user")
-  expect_r_file(".Renviron")
 
   edit_r_makevars("user")
   expect_r_file(".R", "Makevars")
@@ -49,7 +59,7 @@ test_that("edit_r_XXX('user') ensures the file exists", {
 })
 
 test_that("edit_r_profile() respects R_PROFILE_USER", {
-  path1 <- tempfile()
+  path1 <- user_path_prep(file_temp())
   withr::local_envvar(list(R_PROFILE_USER = path1))
 
   path2 <- edit_r_profile("user")

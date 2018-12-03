@@ -2,9 +2,12 @@
 % Please edit documentation in R/pkgdown.R
 \name{use_pkgdown}
 \alias{use_pkgdown}
+\alias{use_pkgdown_travis}
 \title{Use pkgdown}
 \usage{
 use_pkgdown(config_file = "_pkgdown.yml", destdir = "docs")
+
+use_pkgdown_travis()
 }
 \arguments{
 \item{config_file}{pkgdown yaml config file}
@@ -13,8 +16,10 @@ use_pkgdown(config_file = "_pkgdown.yml", destdir = "docs")
 }
 \description{
 \href{https://github.com/r-lib/pkgdown}{pkgdown} makes it easy to turn your
-package into a beautiful website. This helper creates a pkgdown config file
-and adds the file and destination directory to \code{.Rbuildignore}.
+package into a beautiful website. \code{use_pkgdown()} helper creates a pkgdown
+config file and adds the file and destination directory to \code{.Rbuildignore}.
+\code{use_pkgdown_travis()} helps you set up pkgdown for automatic deployment
+on travis.
 }
 \seealso{
 \url{http://pkgdown.r-lib.org/articles/pkgdown.html#configuration}

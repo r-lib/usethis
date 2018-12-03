@@ -1,3 +1,4 @@
+^pkgdown$
 ^\.covrignore$
 ^CRAN-RELEASE$
 ^usethis-full-logo\.png$

@@ -37,6 +37,9 @@
 * `use_partial_warnings()` helps use add standard warning block to your
   `.Rprofile` (#64).
 
+* `use_pkgdown_travis()` helps you set up pkgdown for automatic deployment
+  from travis to github pages (#524).
+
 * `use_rcpp("foo")` now creates `src/foo.cpp` (#117).
 
 * `use_release_issue()` creates a GitHub issue containing a release checklist 
@@ -107,6 +110,9 @@ usethis gains tooling to manage part of a file. This currently used for managing
 * `NEWS.md` for the development version should use "(development version)" 
   rather than the specific version (#440).
 
+* pkgdown sites should now be built by travis and deployed automatically to
+  GitHub pages. `use_pkgdown_travis()` will help you set that up.
+
 * When starting the release process, call `use_release_issue()` to create a 
   release checklist issue.
 
@@ -157,6 +163,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
   It also produces retina approrpriate logos by default, and matches the 
   aspect ratio to the <http://hexb.in/sticker.html> specification (#499).
 
+* `use_news_md()` will optionally commit.
+
 * `use_package()` gains a `min_version` argument to specify a minimum
   version requirement (#498). Set to `TRUE` to use the currently installed 
   version (#386). This is used by `use_tidy()` in order to require version 
@@ -176,6 +184,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `use_travis()` gains an `ext` argument, defaulting to `"org"`. 
   Use `ext = "com"` for `https://travis-ci.com`. (@cderv, #500)
+
+* `use_version()` asks before committing.
 
 * `use_vignette()` now has a `title` argument which is used in YAML header
   (in the two places where it is needed). The vignettes also lose the default

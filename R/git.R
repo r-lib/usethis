@@ -19,35 +19,41 @@ use_git <- function(message = "Initial commit") {
   git_init()
 
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
-  git_ask_commit()
+  git_ask_commit(message)
 
   restart_rstudio("A restart of RStudio is required to activate the Git pane")
   invisible(TRUE)
 }
 
-git_ask_commit <- function() {
-  if (!interactive() || !git_uncommitted())
+git_ask_commit <- function(message) {
+  if (!interactive())
     return(invisible())
 
-  paths <- unlist(git_status())
+  paths <- unlist(git_status(), use.names = FALSE)
+  if (length(paths) == 0)
+    return(invisible())
+
   paths <- sort(paths)
-  paths <- purrr::map_chr(paths, ui_path)
-  n <- length(paths)
+
+  ui_paths <- purrr::map_chr(paths, ui_path)
+  n <- length(ui_paths)
   if (n > 20) {
-    paths <- c(paths[1:20], "...")
+    ui_paths <- c(ui_paths[1:20], "...")
   }
 
   ui_line(c(
     "There are {n} files uncommited files:",
-    paste0("* ", paths)
+    paste0("* ", ui_paths)
   ))
 
   if (ui_yeah("Is it ok to commit them?")) {
-    ui_done("Adding files and committing")
+    ui_done("Adding files")
     repo <- git_repo()
     git2r::add(repo, paths)
+    ui_done("Commit with message {ui_value(message)}")
     git2r::commit(repo, message)
   }
+  invisible()
 }
 
 #' Add a git hook
@@ -122,22 +128,6 @@ use_git_config <- function(scope = c("user", "project"), ...) {
     check_uses_git()
     git_config(..., .repo = git_repo())
   }
-}
-
-git_check_in <- function(base_path, paths, message) {
-  if (!uses_git(base_path))
-    return(invisible())
-
-  if (!git_uncommitted(base_path))
-    return(invisible())
-
-  ui_done("Checking into git [{message}]")
-
-  r <- git2r::repository(base_path)
-  git2r::add(r, paths)
-  git2r::commit(r, message)
-
-  invisible(TRUE)
 }
 
 #' git/GitHub sitrep

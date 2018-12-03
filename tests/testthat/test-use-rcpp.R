@@ -19,11 +19,13 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
 })
 
 test_that("use_src() doesn't message if not needed", {
-  withr::local_options(list(usethis.quiet = FALSE))
   scoped_temporary_package()
-  expect_output(use_roxygen_md())
-  expect_output(use_package_doc())
+  use_roxygen_md()
+  use_package_doc()
+  use_src()
 
-  expect_output(use_src())
-  expect_output(use_src(), NA)
+  withr::with_options(
+    list(usethis.quiet = FALSE),
+    expect_silent(use_src())
+  )
 })

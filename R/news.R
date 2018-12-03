@@ -8,11 +8,15 @@
 #'   Packages](http://r-pkgs.had.co.nz).
 #' @export
 use_news_md <- function(open = interactive()) {
+  check_uncommitted_changes()
+
   use_template(
     "NEWS.md",
     data = package_data(),
     open = open
   )
+
+  git_ask_commit("Add NEWS.md")
 }
 
 use_news_heading <- function(version) {
