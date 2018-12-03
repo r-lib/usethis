@@ -22,7 +22,7 @@ use_rstudio <- function(open = TRUE) {
   }
 
   if (open) {
-    done("Opening new project {value(path_file(path))} in RStudio")
+    ui_done("Opening new project {ui_value(path_file(path))} in RStudio")
     rstudioapi::openProject(rproj_path(path), newSession = TRUE)
   }
 
