@@ -51,7 +51,7 @@ use_pkgdown_travis <- function() {
   ui_todo("Insert the following code in {ui_path('.travis.yml')}")
   ui_code_block(
     "
-    before_deploy: Rscript -e 'install.packages(\"pkgdown\")'
+    before_deploy: Rscript -e 'remotes::install_cran(\"pkgdown\")'
     deploy:
       provider: script
       script: Rscript -e 'pkgdown::deploy_site_github()'
