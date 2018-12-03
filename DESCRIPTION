@@ -41,6 +41,7 @@ Suggests:
     knitr,
     magick,
     rmarkdown,
+    pkgdown (>= 1.1.0),
     roxygen2,
     spelling (>= 1.2),
     styler (>= 1.0.2),

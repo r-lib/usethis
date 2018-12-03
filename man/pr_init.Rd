@@ -30,7 +30,7 @@ numbers, and \code{-}.}
 \description{
 \itemize{
 \item \code{pr_init("name")} creates a new local branch for a PR.
-\item \code{pr_create(number)} downloads a remote PR so you can edit locally.
+\item \code{pr_fetch(number)} downloads a remote PR so you can edit locally.
 \item \code{pr_push()} pushes local changes to GitHub, after checking that there
 aren't any remote changes you need to retrieve first. On first use,
 it will prompt you to create a PR on GitHub.

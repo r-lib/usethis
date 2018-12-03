@@ -45,7 +45,7 @@ use_test <- function(name = NULL, open = interactive()) {
   }
 
   # As of testthat 2.1.0, a context() is no longer needed/wanted
-  if (packageVersion("testthat") >= "2.1.0") {
+  if (utils::packageVersion("testthat") >= "2.1.0") {
     use_dependency("testthat", "suggests", "2.1.0")
     use_template(
       "test-example-2.1.R",
