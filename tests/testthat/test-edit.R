@@ -19,7 +19,7 @@ test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
 
   ## on Windows, under R CMD check, some env vars are set to sentinel values
   ## https://github.com/wch/r-source/blob/78da6e06aa0017564ec057b768f98c5c79e4d958/src/library/tools/R/check.R#L257
-  ## we need to ensure R_ENVIRON_USER='no_such_file' here
+  ## we need to explicitly ensure R_ENVIRON_USER="" here
   withr::local_envvar(list(R_ENVIRON_USER = ""))
 
   expect_error_free(edit_r_profile())
@@ -37,7 +37,7 @@ test_that("edit_r_XXX('user') ensures the file exists", {
 
   ## on Windows, under R CMD check, some env vars are set to sentinel values
   ## https://github.com/wch/r-source/blob/78da6e06aa0017564ec057b768f98c5c79e4d958/src/library/tools/R/check.R#L257
-  ## we need to ensure R_ENVIRON_USER='no_such_file' here
+  ## we need to explicitly ensure R_ENVIRON_USER="" here
   withr::local_envvar(list(R_ENVIRON_USER = ""))
 
   edit_r_environ("user")
