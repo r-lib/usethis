@@ -217,6 +217,7 @@ parameter. Read more about ssh setup in <a href='http://happygitwithr.com/ssh-ke
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='no'>pkgpath</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"testpkg"</span>)
 <span class='fu'><a href='create_package.html'>create_package</a></span>(<span class='no'>pkgpath</span>) <span class='co'># creates package below temp directory</span>
+<span class='fu'><a href='proj_utils.html'>proj_set</a></span>(<span class='no'>pkgpath</span>)
 
 <span class='co'>## now, working inside "testpkg", initialize git repository</span>
 <span class='fu'><a href='use_git.html'>use_git</a></span>()
