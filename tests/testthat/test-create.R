@@ -40,25 +40,17 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
   ## take care to provide a **non-absolute** path
   path_package <- path_file(file_temp(pattern = "aaa"))
   withr::with_dir(
-    path_temp(), {
-      old_project <- proj_get_()
-      create_package(path_package, rstudio = FALSE, open = FALSE)
-      new_proj <- proj_get_()
-      proj_set(old_project, force = TRUE)
-    }
+    path_temp(),
+    create_package(path_package, rstudio = FALSE, open = FALSE)
   )
-  expect_true(dir_exists(new_proj))
+  expect_true(dir_exists(path_temp(path_package)))
 
   path_project <- path_file(file_temp(pattern = "aaa"))
   withr::with_dir(
-    path_temp(), {
-      old_project <- proj_get_()
-      create_project(path_project, rstudio = FALSE, open = FALSE)
-      new_proj <- proj_get_()
-      proj_set(old_project, force = TRUE)
-    }
+    path_temp(),
+    create_project(path_project, rstudio = FALSE, open = FALSE)
   )
-  expect_true(dir_exists(new_proj))
+  expect_true(dir_exists(path_temp(path_project)))
 })
 
 test_that("rationalize_fork() honors fork = FALSE", {

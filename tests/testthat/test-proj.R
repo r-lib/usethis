@@ -144,8 +144,8 @@ test_that("local_project() activates proj til scope ends", {
   old_project <- proj_get_()
   on.exit(proj_set_(old_project))
 
-  create_project(file_temp(pattern = "aaa"), rstudio = FALSE, open = FALSE)
-  new_proj <- proj_get_()
+  new_proj <- file_temp(pattern = "aaa")
+  create_project(new_proj, rstudio = FALSE, open = FALSE)
   proj_set_(NULL)
 
   foo <- function() {
@@ -154,6 +154,9 @@ test_that("local_project() activates proj til scope ends", {
   }
   res <- foo()
 
-  expect_identical(res[["active_usethis_proj"]], as.character(new_proj))
-  expect_identical(proj_get_(), NULL)
+  expect_identical(
+    res[["active_usethis_proj"]],
+    as.character(proj_path_prep(new_proj))
+  )
+  expect_null(proj_get_())
 })
