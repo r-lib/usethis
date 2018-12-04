@@ -162,7 +162,8 @@ Here is an example of R code that sets the authors, license, and version in all 
 options(
   usethis.name = "Jane Doe",
   usethis.description = list(
-    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
+    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), 
+    comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "MIT + file LICENSE",
     Version = "0.0.0.9000"
   )
