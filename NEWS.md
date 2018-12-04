@@ -2,8 +2,10 @@
 
 ## New features
 
-* `create_()` always restore the active project. If you're not using RStudio,
-  this means it's now your responsibility to change to the new project (#453).
+* `create_*()` functions always leave the active usethis project as they found
+  it and return the path to the newly created project, invisibly. If you're not
+  opening the new project in a new RStudio session, this means it's now your
+  responsibility to change to the new project (#453, #511).
 
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
   config (#328).
