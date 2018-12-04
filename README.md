@@ -63,7 +63,8 @@ library(usethis)
 # Create a new package -------------------------------------------------
 tmp <- file.path(tempdir(), "mypkg")
 create_package(tmp)
-#> ✔ Setting active project to '/private/tmp/RtmpJt0Zjc/mypkg'
+#> ✔ Creating '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpjZk7fg/mypkg/'
+#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpjZk7fg/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
@@ -71,10 +72,9 @@ create_package(tmp)
 #> Title: What the Package Does (One Line, Title Case)
 #> Version: 0.0.0.9000
 #> Authors@R (parsed):
-#>     * Hadley Wickham <hadley@rstudio.com> [aut, cre]
-#>     * RStudio [cph]
+#>     * First Last <first.last@example.com> [aut, cre]
 #> Description: What the package does (one paragraph).
-#> License: GPL-3
+#> License: What license it uses
 #> Encoding: UTF-8
 #> LazyData: true
 #> ✔ Writing 'NAMESPACE'
@@ -98,15 +98,20 @@ use_roxygen_md()
 #> ● Run `devtools::document()`
 
 use_rcpp()
-#> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
-#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
-#> ● Include the following roxygen tags somewhere in your package
+#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpjZk7fg/mypkg/R/mypkg-package.R':
+#>   ## usethis namespace: start
 #>   #' @useDynLib mypkg, .registration = TRUE
-#>   #' @importFrom Rcpp sourceCpp
+#>   ## usethis namespace: end
 #>   NULL
-#> ● Run `devtools::document()`
+#> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
+#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
+#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpjZk7fg/mypkg/R/mypkg-package.R':
+#>   ## usethis namespace: start
+#>   #' @importFrom Rcpp sourceCpp
+#>   ## usethis namespace: end
+#>   NULL
 
 use_revdep()
 #> ✔ Creating 'revdep/'
