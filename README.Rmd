@@ -54,8 +54,7 @@ Below is a quick look at how usethis can help to set up a package. But remember,
 library(usethis)
 
 # Create a new package -------------------------------------------------
-new_pkg <- create_package(file.path(tempdir(), "mypkg"))
-proj_set(new_pkg)
+create_package(file.path(tempdir(), "mypkg"), open = TRUE)
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
