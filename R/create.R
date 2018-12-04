@@ -49,7 +49,7 @@ create_package <- function(path,
     use_rstudio(open = open)
   }
 
-  invisible(TRUE)
+  invisible(proj_get())
 }
 
 #' @export
@@ -76,7 +76,7 @@ create_project <- function(path,
     file_create(proj_path(".here"))
   }
 
-  invisible(TRUE)
+  invisible(proj_get())
 }
 
 #' Create a project from a GitHub repo
@@ -204,7 +204,7 @@ create_from_github <- function(repo_spec,
     use_rstudio(open = open)
   }
 
-  invisible(TRUE)
+  invisible(proj_get())
 }
 
 check_not_nested <- function(path, name) {
