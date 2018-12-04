@@ -162,13 +162,14 @@ ui_value <- function(x) {
 #' @export
 #' @param base If specified, paths will be displayed relative to this path.
 ui_path <- function(x, base = NULL) {
+  is_directory <- is_dir(x)
   if (is.null(base)) {
     x <- proj_rel_path(x)
   } else {
     x <- path_rel(x, base)
   }
 
-  x <- paste0(x, ifelse(is_dir(x), "/", ""))
+  x <- paste0(x, ifelse(is_directory, "/", ""))
   x <- ui_value(x)
   x
 }

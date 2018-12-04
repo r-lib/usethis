@@ -39,8 +39,8 @@ format.sitrep <- function(x, ...) {
     crayon::make_style("lightgrey")(x)
   }
 
-  keys <- ui_field(format(names(x)))
-  vals <- ifelse(is_null(x), unset(x), ui_value(x))
+  keys <- purrr::map_chr(format(names(x), justify = "right"), ui_field)
+  vals <- ifelse(is_null(x), unset(x), purrr::map(x, ui_value))
   glue::glue("{keys}: {vals}")
 }
 
