@@ -2,7 +2,7 @@ context("use_rstudio")
 
 test_that("use_rstudio() creates .Rproj file, named after directory", {
   dir <- scoped_temporary_package(rstudio = FALSE)
-  use_rstudio(FALSE)
+  use_rstudio()
   rproj <- path_file(dir_ls(proj_get(), regexp = "[.]Rproj$"))
   expect_identical(path_ext_remove(rproj), path_file(dir))
 })

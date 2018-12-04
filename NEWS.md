@@ -2,11 +2,6 @@
 
 ## New features
 
-* `create_*()` functions always leave the active usethis project as they found
-  it and return the path to the newly created project, invisibly. If you're not
-  opening the new project in a new RStudio session, this means it's now your
-  responsibility to change to the new project (#453, #511).
-
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
   config (#328).
 
@@ -19,6 +14,10 @@
   new family of helpers designed to help with the GitHub PR process. Currently 
   they assume that you're working on your own repo (i.e. no fork), but once 
   we've happy with them, we'll extend to work on more situations (#346).
+
+* New `proj_activate()` lets you activate a project either opening a new 
+  RStudio session (if you use RStudio), or changing the working directory 
+  (#511).
 
 * `use_article()` creates articles, vignettes that are automatically
   added to `.Rbuildignore`. These appear on pkgdown sites, but are not 
@@ -136,6 +135,9 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `browse_github()` now falls back to CRAN organisation (with a warning) if 
   package doesn't have it's own GitHub repo (#186).
+
+* `create_*()`restore the active project if they error part way through, 
+  and use `proj_activate()` (#453, #511).
 
 * `edit_r_buildignore()` opens `.Rbuildignore` for manual editing 
    (#462, @bfgray3).

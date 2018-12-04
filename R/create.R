@@ -6,10 +6,8 @@
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
 #'   project
 #'
-#' Both functions can add project infrastructure to an existing directory of
-#' files or can create a completely new project. These functions **do not**
-#' change the active project in the current session; it's your responsibility
-#' to use [proj_set()] (or otherwise) to change it.
+#' Both functions can be called on an existing project; you will be asked
+#' before any existing files are changed.
 #'
 #' @param path A path. If it exists, it is used. If it does not exist, it is
 #'   created, provided that the parent path exists.
@@ -21,9 +19,11 @@
 #'   that the directory can be recognized as a project by the
 #'   [here](https://here.r-lib.org) or
 #'   [rprojroot](https://rprojroot.r-lib.org) packages.
-#' @param open If `TRUE` and in RStudio, a new RStudio project is opened in a
-#'   new instance, if possible, or is switched to, otherwise. If you're not
-#'   using RStudio, it's your responsibility to switch to the new project.
+#' @param open If `TRUE`, [activates][proj_activate()] the new project:
+#'
+#'   * If RStudio desktop, the package is opened in a new session.
+#'   * If on RStudio server, the current RStudio project is activated.
+#'   * Otherwse, the working directory and active project is changed.
 #'
 #' @return Path to the newly created project or package, invisibly.
 #' @export
@@ -48,7 +48,14 @@ create_package <- function(path,
   use_namespace()
 
   if (rstudio) {
-    use_rstudio(open = open)
+    use_rstudio()
+  }
+
+  if (open) {
+    if (proj_activate(path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
+    }
   }
 
   invisible(proj_get())
@@ -70,12 +77,19 @@ create_project <- function(path,
   use_directory("R")
 
   if (rstudio) {
-    use_rstudio(open = open)
+    use_rstudio()
   } else {
     ui_done("Writing a sentinel file {ui_path('.here')}")
     ui_todo("Build robust paths within your project via {ui_code('here::here()')}")
     ui_todo("Learn more at <https://here.r-lib.org>")
     file_create(proj_path(".here"))
+  }
+
+  if (open) {
+    if (proj_activate(path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
+    }
   }
 
   invisible(proj_get())
@@ -203,7 +217,14 @@ create_from_github <- function(repo_spec,
   rstudio <- rstudio %||% rstudioapi::isAvailable()
   rstudio <- rstudio && !is_rstudio_project(proj_get())
   if (rstudio) {
-    use_rstudio(open = open)
+    use_rstudio()
+  }
+
+  if (open) {
+    if (proj_activate(path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
+    }
   }
 
   invisible(proj_get())

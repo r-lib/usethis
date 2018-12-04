@@ -27,9 +27,12 @@ in the future.}
 Defaults to \code{TRUE} if in an RStudio session and project has no
 pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
 
-\item{open}{If \code{TRUE} and in RStudio, a new RStudio project is opened in a
-new instance, if possible, or is switched to, otherwise. If you're not
-using RStudio, it's your responsibility to switch to the new project.}
+\item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
+\itemize{
+\item If RStudio desktop, the package is opened in a new session.
+\item If on RStudio server, the current RStudio project is activated.
+\item Otherwse, the working directory and active project is changed.
+}}
 
 \item{protocol}{transfer protocol, either "ssh" (the default) or "https".
 You can supply a global default with \code{options(usethis.protocol = "https")}.}

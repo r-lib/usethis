@@ -4,10 +4,7 @@
 \alias{use_rstudio}
 \title{Add RStudio Project infrastructure}
 \usage{
-use_rstudio(open = TRUE)
-}
-\arguments{
-\item{open}{If \code{TRUE}, will open project in new RStudio session.}
+use_rstudio()
 }
 \description{
 It is likely that you want to use \code{\link[=create_project]{create_project()}} or \code{\link[=create_package]{create_package()}}

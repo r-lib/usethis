@@ -26,9 +26,12 @@ that the directory can be recognized as a project by the
 \href{https://here.r-lib.org}{here} or
 \href{https://rprojroot.r-lib.org}{rprojroot} packages.}
 
-\item{open}{If \code{TRUE} and in RStudio, a new RStudio project is opened in a
-new instance, if possible, or is switched to, otherwise. If you're not
-using RStudio, it's your responsibility to switch to the new project.}
+\item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
+\itemize{
+\item If RStudio desktop, the package is opened in a new session.
+\item If on RStudio server, the current RStudio project is activated.
+\item Otherwse, the working directory and active project is changed.
+}}
 }
 \value{
 Path to the newly created project or package, invisibly.
@@ -41,8 +44,6 @@ These functions create an R project:
 project
 }
 
-Both functions can add project infrastructure to an existing directory of
-files or can create a completely new project. These functions \strong{do not}
-change the active project in the current session; it's your responsibility
-to use \code{\link[=proj_set]{proj_set()}} (or otherwise) to change it.
+Both functions can be called on an existing project; you will be asked
+before any existing files are changed.
 }

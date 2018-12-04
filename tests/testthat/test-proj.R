@@ -25,6 +25,8 @@ test_that("proj_set() can be forced, even if no criteria are fulfilled", {
   expect_error_free(old <- proj_set(tmpdir, force = TRUE))
   on.exit(proj_set(old), add = TRUE)
   expect_identical(proj_get(), proj_path_prep(tmpdir))
+
+  proj_set_(tempdir())
   expect_error(
     proj_set(proj_get()),
     "does not appear to be inside a project or package"

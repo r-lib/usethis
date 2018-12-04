@@ -11,19 +11,13 @@
 #'   * Adds RStudio files to `.Rbuildignore`, if project is a package
 #'
 #' @export
-#' @param open If `TRUE`, will open project in new RStudio session.
-use_rstudio <- function(open = TRUE) {
+use_rstudio <- function() {
   rproj_file <- path_ext_set(project_name(), "Rproj")
   new <- use_template("template.Rproj", rproj_file)
 
   use_git_ignore(".Rproj.user")
   if (is_package()) {
     use_build_ignore(c(rproj_file, ".Rproj.user"))
-  }
-
-  if (open) {
-    ui_done("Opening new project {ui_value(proj_get())} in RStudio")
-    rstudioapi::openProject(rproj_path(proj_get()), newSession = TRUE)
   }
 
   invisible(new)
