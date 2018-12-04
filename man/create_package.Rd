@@ -30,6 +30,9 @@ that the directory can be recognized as a project by the
 new instance, if possible, or is switched to, otherwise. If you're not
 using RStudio, it's your responsibility to switch to the new project.}
 }
+\value{
+Path to the newly created project or package, invisibly.
+}
 \description{
 These functions create an R project:
 \itemize{

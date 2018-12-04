@@ -61,10 +61,9 @@ projects that are not packages.
 library(usethis)
 
 # Create a new package -------------------------------------------------
-tmp <- file.path(tempdir(), "mypkg")
-create_package(tmp)
-#> ✔ Creating '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/Rtmpy67zyO/mypkg/'
-#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/Rtmpy67zyO/mypkg'
+new_pkg <- create_package(file.path(tempdir(), "mypkg"))
+#> ✔ Creating '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWYFO0I/mypkg/'
+#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWYFO0I/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
@@ -79,8 +78,8 @@ create_package(tmp)
 #> LazyData: true
 #> ✔ Writing 'NAMESPACE'
 #> ✔ Setting active project to '<no active project>'
-proj_set(tmp)
-#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/Rtmpy67zyO/mypkg'
+proj_set(new_pkg)
+#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWYFO0I/mypkg'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -103,14 +102,14 @@ use_roxygen_md()
 use_rcpp()
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
-#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/Rtmpy67zyO/mypkg/R/mypkg-package.R':
+#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWYFO0I/mypkg/R/mypkg-package.R':
 #>   ## usethis namespace: start
 #>   #' @useDynLib mypkg, .registration = TRUE
 #>   ## usethis namespace: end
 #>   NULL
 #> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
 #> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
-#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/Rtmpy67zyO/mypkg/R/mypkg-package.R':
+#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWYFO0I/mypkg/R/mypkg-package.R':
 #>   ## usethis namespace: start
 #>   #' @importFrom Rcpp sourceCpp
 #>   ## usethis namespace: end

@@ -24,6 +24,8 @@
 #' @param open If `TRUE` and in RStudio, a new RStudio project is opened in a
 #'   new instance, if possible, or is switched to, otherwise. If you're not
 #'   using RStudio, it's your responsibility to switch to the new project.
+#'
+#' @return Path to the newly created project or package, invisibly.
 #' @export
 create_package <- function(path,
                            fields = NULL,
