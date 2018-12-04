@@ -66,7 +66,7 @@ git_branch_compare <- function(branch = git_branch_name()) {
   git2r::fetch(repo, "origin", refspec = branch, verbose = FALSE)
   git2r::ahead_behind(
     git_commit_find(branch),
-    git_commit_find(paste0("origin/", branch))
+    git_commit_find(git_branch_remote(branch))
   )
 }
 
