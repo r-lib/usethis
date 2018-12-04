@@ -93,11 +93,10 @@ how_to_use <- function(package, type) {
       {ui_field('Imports')} is almost always the better choice."
     ),
     suggests = {
-      ui_todo(
-        "Use {ui_code(paste0('requireNamespace(\"', package, '\", quietly = TRUE)'))}\\
-        to test if package is installed"
-      )
-      ui_todo("Then use {ui_code(paste0(package, '::fun()'))} to refer to functions.")
+      code <- glue("requireNamespace(\"{package}\", quietly = TRUE)")
+      ui_todo("Use {ui_code(code)} to test if package is installed")
+      code <- glue("{package}::fun()")
+      ui_todo("Then use {ui_code(code)} to refer to functions.")
     },
     enhances = "",
     linkingto = show_includes(package)
