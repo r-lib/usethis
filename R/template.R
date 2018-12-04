@@ -15,7 +15,8 @@
 #'
 #' @param template Path to template file relative to `templates/` directory
 #'   within `package`; see details.
-#' @param save_as Name of file to create. Defaults to `template`
+#' @param save_as Path of file to create, relative to root of active project.
+#'   Defaults to `template`
 #' @param data A list of data passed to the template.
 #' @param ignore Should the newly created file be added to `.Rbuildignore`?
 #' @param open Open the newly created file for editing? Happens in RStudio, if
