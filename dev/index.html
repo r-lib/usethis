@@ -128,8 +128,8 @@
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># Create a new package -------------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">tmp &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"mypkg"</span>)</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="reference/create_package.html">create_package</a></span>(tmp)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Creating '/tmp/RtmpBkEWit/mypkg'</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ Setting active project to '/tmp/RtmpBkEWit/mypkg'</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Creating '/tmp/Rtmp6aGmxy/mypkg/'</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ Setting active project to '/tmp/Rtmp6aGmxy/mypkg'</span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ✔ Creating 'R/'</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; ✔ Creating 'man/'</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; ✔ Writing 'DESCRIPTION'</span></a>
@@ -153,7 +153,7 @@
 <a class="sourceLine" id="cb3-28" data-line-number="28"></a>
 <a class="sourceLine" id="cb3-29" data-line-number="29"><span class="kw"><a href="reference/use_package.html">use_package</a></span>(<span class="st">"MASS"</span>, <span class="st">"Suggests"</span>)</a>
 <a class="sourceLine" id="cb3-30" data-line-number="30"><span class="co">#&gt; ✔ Adding 'MASS' to Suggests field in DESCRIPTION</span></a>
-<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="co">#&gt; ● Use `requireNamespace("MASS", quietly = TRUE)`to test if package is installed</span></a>
+<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="co">#&gt; ● Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed</span></a>
 <a class="sourceLine" id="cb3-32" data-line-number="32"><span class="co">#&gt; ● Then use `MASS::fun()` to refer to functions.</span></a>
 <a class="sourceLine" id="cb3-33" data-line-number="33"></a>
 <a class="sourceLine" id="cb3-34" data-line-number="34"><span class="co"># Set up various packages ---------------------------------------------</span></a>
@@ -163,16 +163,16 @@
 <a class="sourceLine" id="cb3-38" data-line-number="38"><span class="co">#&gt; ● Run `devtools::document()`</span></a>
 <a class="sourceLine" id="cb3-39" data-line-number="39"></a>
 <a class="sourceLine" id="cb3-40" data-line-number="40"><span class="kw"><a href="reference/use_rcpp.html">use_rcpp</a></span>()</a>
-<a class="sourceLine" id="cb3-41" data-line-number="41"><span class="co">#&gt; ✔ Creating 'src'</span></a>
+<a class="sourceLine" id="cb3-41" data-line-number="41"><span class="co">#&gt; ✔ Creating 'src/'</span></a>
 <a class="sourceLine" id="cb3-42" data-line-number="42"><span class="co">#&gt; ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'</span></a>
-<a class="sourceLine" id="cb3-43" data-line-number="43"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/RtmpBkEWit/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-43" data-line-number="43"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/Rtmp6aGmxy/mypkg/R/mypkg-package.R':</span></a>
 <a class="sourceLine" id="cb3-44" data-line-number="44"><span class="co">#&gt;   ## usethis namespace: start</span></a>
 <a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt;   #' @useDynLib mypkg, .registration = TRUE</span></a>
 <a class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt;   ## usethis namespace: end</span></a>
 <a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt;   NULL</span></a>
 <a class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt; ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION</span></a>
 <a class="sourceLine" id="cb3-49" data-line-number="49"><span class="co">#&gt; ✔ Adding 'Rcpp' to Imports field in DESCRIPTION</span></a>
-<a class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/RtmpBkEWit/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/Rtmp6aGmxy/mypkg/R/mypkg-package.R':</span></a>
 <a class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt;   ## usethis namespace: start</span></a>
 <a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt;   #' @importFrom Rcpp sourceCpp</span></a>
 <a class="sourceLine" id="cb3-53" data-line-number="53"><span class="co">#&gt;   ## usethis namespace: end</span></a>
@@ -201,7 +201,7 @@
 <a class="sourceLine" id="cb3-76" data-line-number="76">x &lt;-<span class="st"> </span><span class="dv">1</span></a>
 <a class="sourceLine" id="cb3-77" data-line-number="77">y &lt;-<span class="st"> </span><span class="dv">2</span></a>
 <a class="sourceLine" id="cb3-78" data-line-number="78"><span class="kw"><a href="reference/use_data.html">use_data</a></span>(x, y)</a>
-<a class="sourceLine" id="cb3-79" data-line-number="79"><span class="co">#&gt; ✔ Creating 'data'</span></a>
+<a class="sourceLine" id="cb3-79" data-line-number="79"><span class="co">#&gt; ✔ Creating 'data/'</span></a>
 <a class="sourceLine" id="cb3-80" data-line-number="80"><span class="co">#&gt; ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span></a>
 <a class="sourceLine" id="cb3-81" data-line-number="81"></a>
 <a class="sourceLine" id="cb3-82" data-line-number="82"><span class="co"># Use git ------------------------------------------------------------</span></a>
