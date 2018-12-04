@@ -61,9 +61,10 @@ projects that are not packages.
 library(usethis)
 
 # Create a new package -------------------------------------------------
-create_package(file.path(tempdir(), "mypkg"), open = TRUE)
-#> ✔ Creating '/tmp/RtmpNRJSh6/mypkg/'
-#> ✔ Setting active project to '/private/tmp/RtmpNRJSh6/mypkg'
+path <- file.path(tempdir(), "mypkg")
+create_package(path)
+#> ✔ Creating '/tmp/RtmplWepAV/mypkg/'
+#> ✔ Setting active project to '/private/tmp/RtmplWepAV/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
@@ -78,7 +79,11 @@ create_package(file.path(tempdir(), "mypkg"), open = TRUE)
 #> Encoding: UTF-8
 #> LazyData: true
 #> ✔ Writing 'NAMESPACE'
-#> ✔ Changing working directory to '/tmp/RtmpNRJSh6/mypkg/'
+#> ✔ Setting active project to '<no active project>'
+# only needed since this session isn't interactive
+proj_activate(path)
+#> ✔ Changing working directory to '/tmp/RtmplWepAV/mypkg/'
+#> ✔ Setting active project to '/private/tmp/RtmplWepAV/mypkg'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -101,14 +106,14 @@ use_roxygen_md()
 use_rcpp()
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
-#> ● Copy and paste the following lines into '/private/tmp/RtmpNRJSh6/mypkg/R/mypkg-package.R':
+#> ● Copy and paste the following lines into '/private/tmp/RtmplWepAV/mypkg/R/mypkg-package.R':
 #>   ## usethis namespace: start
 #>   #' @useDynLib mypkg, .registration = TRUE
 #>   ## usethis namespace: end
 #>   NULL
 #> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
 #> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
-#> ● Copy and paste the following lines into '/private/tmp/RtmpNRJSh6/mypkg/R/mypkg-package.R':
+#> ● Copy and paste the following lines into '/private/tmp/RtmplWepAV/mypkg/R/mypkg-package.R':
 #>   ## usethis namespace: start
 #>   #' @importFrom Rcpp sourceCpp
 #>   ## usethis namespace: end
