@@ -44,6 +44,9 @@ pr_init <- function(branch) {
 #' @rdname pr_init
 #' @param number Number of PR to fetch.
 pr_fetch <- function(number) {
+  check_branch_current("master")
+  check_uncommitted_changes()
+
   ui_done("Retrieving PR data")
   pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
     owner = github_owner(),
@@ -68,7 +71,7 @@ pr_fetch <- function(number) {
 
   if (!git_branch_exists(branch)) {
     ui_done("Creating local branch {ui_value(branch)}")
-    git2r::fetch(git_repo(), user, refspec = remote, verbose = FALSE)
+    git2r::fetch(git_repo(), user, refspec = branch, verbose = FALSE)
     git_branch_create(branch, remote)
     git_branch_track(branch, user, ref)
   }
