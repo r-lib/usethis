@@ -69,6 +69,10 @@ proj_get <- function() {
 #'   adding a DESCRIPTION file.
 #' @export
 proj_set <- function(path = ".", force = FALSE) {
+  if (!is.null(path) && dir_exists(path) && identical(proj_get_(), proj_path_prep(path))) {
+    return(invisible())
+  }
+
   if (is.null(path) || force) {
     path <- proj_path_prep(path)
     proj_string <- if (is.null(path)) "<no active project>" else path
@@ -249,5 +253,31 @@ project_name <- function(base_path = proj_get()) {
     project_data(base_path)$Package
   } else {
     project_data(base_path)$Project
+  }
+}
+
+#' Activate a project
+#'
+#' Activates a project in usethis, R session, and (if relevant) RStudio senses.
+#' If you are in RStudio, this will open a new RStudio session. If not, it will
+#' change the working directory and [active project][proj_set()].
+#'
+#' @param path Project directory
+#' @return Single logical value indicating if current session is modified.
+#' @export
+proj_activate <- function(path) {
+  check_path_is_directory(path)
+  path <- user_path_prep(path)
+
+  if (rstudioapi::isAvailable()) {
+    rstudioapi::openProject(path, newSession = TRUE)
+    invisible(FALSE)
+  } else {
+    if (user_path_prep(getwd()) != path) {
+      ui_done("Changing working directory to {ui_path(path)}")
+      setwd(path)
+    }
+    proj_set(path)
+    invisible(TRUE)
   }
 }

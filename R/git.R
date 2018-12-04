@@ -35,7 +35,7 @@ git_ask_commit <- function(message) {
 
   paths <- sort(paths)
 
-  ui_paths <- purrr::map_chr(paths, ui_path)
+  ui_paths <- purrr::map_chr(proj_path(paths), ui_path)
   n <- length(ui_paths)
   if (n > 20) {
     ui_paths <- c(ui_paths[1:20], "...")

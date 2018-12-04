@@ -15,6 +15,10 @@
   they assume that you're working on your own repo (i.e. no fork), but once 
   we've happy with them, we'll extend to work on more situations (#346).
 
+* New `proj_activate()` lets you activate a project either opening a new 
+  RStudio session (if you use RStudio), or changing the working directory 
+  (#511).
+
 * `use_article()` creates articles, vignettes that are automatically
   added to `.Rbuildignore`. These appear on pkgdown sites, but are not 
   included with the package itself (#281).
@@ -131,6 +135,9 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `browse_github()` now falls back to CRAN organisation (with a warning) if 
   package doesn't have it's own GitHub repo (#186).
+
+* `create_*()`restore the active project if they error part way through, 
+  and use `proj_activate()` (#453, #511).
 
 * `edit_r_buildignore()` opens `.Rbuildignore` for manual editing 
    (#462, @bfgray3).
