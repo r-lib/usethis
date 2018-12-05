@@ -205,7 +205,7 @@ create_from_github <- function(repo_spec,
     credentials = credentials,
     progress = FALSE
   )
-  old_project <- proj_set(path, force = TRUE)
+  old_project <- proj_set(repo_path, force = TRUE)
   on.exit(proj_set(old_project), add = TRUE)
 
   if (fork) {
@@ -221,7 +221,7 @@ create_from_github <- function(repo_spec,
   }
 
   if (open) {
-    if (proj_activate(path)) {
+    if (proj_activate(repo_path)) {
       # Working directory/active project changed; so don't undo on exit
       on.exit()
     }
