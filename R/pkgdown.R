@@ -36,7 +36,7 @@ use_pkgdown_travis <- function() {
   if (!uses_pkgdown()) {
     ui_stop(c(
       "Package doesn't use pkgdown.",
-      "Do you need to call code('use_pkgdown())?"
+      "Do you need to call {ui_code('use_pkgdown()')}?"
     ))
   }
 
@@ -60,7 +60,7 @@ use_pkgdown_travis <- function() {
   )
 
   if (!git_branch_exists("gh-pages")) {
-    ui_todo("Create gh-pages branch")
+    ui_todo("Create gh-pages branch. See {ui_code('?pkgdown::deploy_site_github')} for the git commands.")
   }
 
   invisible()
