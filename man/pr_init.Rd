@@ -11,7 +11,7 @@
 \usage{
 pr_init(branch)
 
-pr_fetch(number)
+pr_fetch(number, owner = NULL)
 
 pr_push()
 
@@ -26,6 +26,9 @@ pr_finish()
 numbers, and \code{-}.}
 
 \item{number}{Number of PR to fetch.}
+
+\item{owner}{Name of the owner of the repository that is the target of the
+pull request. Default of \code{NULL} tries to deduce that from \code{origin} remote.}
 }
 \description{
 \itemize{
@@ -42,4 +45,11 @@ have made suggestions or pushed into your PR.
 \details{
 These functions have been designed to support the git and GitHub best
 practices described in \url{http://happygitwithr.com/}.
+}
+\examples{
+\dontrun{
+## scenario: current project is a local copy of fork of a repo owned by
+## 'tidyverse', not you
+pr_fetch(123, owner = "tidyverse")
+}
 }
