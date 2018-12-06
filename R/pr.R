@@ -43,13 +43,22 @@ pr_init <- function(branch) {
 #' @export
 #' @rdname pr_init
 #' @param number Number of PR to fetch.
-pr_fetch <- function(number) {
+#' @param owner Name of the owner of the repository that is the target of the
+#'   pull request. Default of `NULL` tries to deduce that from `origin` remote.
+#'
+#' @examples
+#' \dontrun{
+#' ## scenario: current project is a local copy of fork of a repo owned by
+#' ## 'tidyverse', not you
+#' pr_fetch(123, owner = "tidyverse")
+#' }
+pr_fetch <- function(number, owner = NULL) {
   check_branch_current("master")
   check_uncommitted_changes()
 
   ui_done("Retrieving PR data")
   pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
-    owner = github_owner(),
+    owner = owner %||% github_owner(),
     repo = github_repo(),
     number = number
   )
