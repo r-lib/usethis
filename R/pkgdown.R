@@ -70,3 +70,23 @@ uses_pkgdown <- function() {
   file_exists(proj_path("_pkgdown.yml")) ||
     file_exists(proj_path("pkgdown", "_pkgdown.yml"))
 }
+
+pkgdown_link <- function() {
+  if (!uses_pkgdown()) {
+    return(NULL)
+  }
+
+  path <- proj_path("_pkgdown.yml")
+
+  yaml <- yaml::yaml.load_file(path) %||% list()
+
+  if (is.null(yaml$url)) {
+    ui_warn("
+      Package does not provide a pkgdown URL.
+      Set one in the `url:` field of `_pkgdown.yml`"
+    )
+    return(NULL)
+  }
+
+  gsub("/$", "", yaml$url)
+}
