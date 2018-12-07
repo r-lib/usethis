@@ -13,7 +13,7 @@ Presumably you care about this if you've chosen to store and expose an
 object with class \code{tbl_df}. Specifically:
 \itemize{
 \item Check that the active package uses roxygen2
-\item Add the tibble package to "Imports" in DESCRIPTION
+\item Add the tibble package to "Imports" in \code{DESCRIPTION}
 \item Reveal the roxygen directive necessary to import at least one function
 from tibble.
 \item Offer support re: where to put this directive. Preferred location is

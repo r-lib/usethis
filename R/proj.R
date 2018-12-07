@@ -66,7 +66,7 @@ proj_get <- function() {
 #'   a project. Use sparingly! The main application is to solve a temporary
 #'   chicken-egg problem: you need to set the active project in order to add
 #'   project-signalling infrastructure, such as initialising a Git repo or
-#'   adding a DESCRIPTION file.
+#'   adding a `DESCRIPTION` file.
 #' @export
 proj_set <- function(path = ".", force = FALSE) {
   if (dir_exists(path %||% "") && is_in_proj(path)) {

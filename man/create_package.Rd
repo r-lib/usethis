@@ -15,7 +15,7 @@ create_project(path, rstudio = rstudioapi::isAvailable(),
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
 created, provided that the parent path exists.}
 
-\item{fields}{A named list of fields to add to DESCRIPTION, potentially
+\item{fields}{A named list of fields to add to \code{DESCRIPTION}, potentially
 overriding default values. See \code{\link[=use_description]{use_description()}} for how you can set
 personalized defaults using package options}
 
