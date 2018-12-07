@@ -97,10 +97,10 @@ version_spec <- function(x) {
 view_url <- function(..., open = interactive()) {
   url <- paste(..., sep = "/")
   if (open) {
-    ui_done("Opening URL {url}")
+    ui_done("Opening URL {ui_value(url)}")
     utils::browseURL(url)
   } else {
-    ui_todo("Open URL {url}")
+    ui_todo("Open URL {ui_value(url)}")
   }
   invisible(url)
 }
