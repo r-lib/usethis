@@ -2,7 +2,7 @@
 #'
 #' @description
 #' * `pr_init("name")` creates a new local branch for a PR.
-#' * `pr_create(number)` downloads a remote PR so you can edit locally.
+#' * `pr_fetch(number)` downloads a remote PR so you can edit locally.
 #' * `pr_push()` pushes local changes to GitHub, after checking that there
 #'    aren't any remote changes you need to retrieve first. On first use,
 #'    it will prompt you to create a PR on GitHub.
@@ -43,10 +43,22 @@ pr_init <- function(branch) {
 #' @export
 #' @rdname pr_init
 #' @param number Number of PR to fetch.
-pr_fetch <- function(number) {
+#' @param owner Name of the owner of the repository that is the target of the
+#'   pull request. Default of `NULL` tries to deduce that from `origin` remote.
+#'
+#' @examples
+#' \dontrun{
+#' ## scenario: current project is a local copy of fork of a repo owned by
+#' ## 'tidyverse', not you
+#' pr_fetch(123, owner = "tidyverse")
+#' }
+pr_fetch <- function(number, owner = NULL) {
+  check_branch_current("master")
+  check_uncommitted_changes()
+
   ui_done("Retrieving PR data")
   pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
-    owner = github_owner(),
+    owner = owner %||% github_owner(),
     repo = github_repo(),
     number = number
   )
@@ -63,12 +75,12 @@ pr_fetch <- function(number) {
 
   if (!user %in% git2r::remotes(git_repo())) {
     ui_done("Adding remote {ui_value(remote)}")
-    git2r::remote_add(git_repo(), user, pr$head$repo$git_url)
+    git2r::remote_add(git_repo(), user, pr$head$repo$ssh_url)
   }
 
   if (!git_branch_exists(branch)) {
     ui_done("Creating local branch {ui_value(branch)}")
-    git2r::fetch(git_repo(), user, refspec = remote, verbose = FALSE)
+    git2r::fetch(git_repo(), user, refspec = ref, verbose = FALSE)
     git_branch_create(branch, remote)
     git_branch_track(branch, user, ref)
   }

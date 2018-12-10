@@ -19,10 +19,14 @@ test_that("proj_set() errors if no criteria are fulfilled", {
 
 test_that("proj_set() can be forced, even if no criteria are fulfilled", {
   tmpdir <- file_temp(pattern = "i-am-not-a-project")
+
   on.exit(dir_delete(tmpdir))
   dir_create(tmpdir)
-  expect_error_free(proj_set(tmpdir, force = TRUE))
-  expect_identical(proj_get(), path_real(tmpdir))
+  expect_error_free(old <- proj_set(tmpdir, force = TRUE))
+  on.exit(proj_set(old), add = TRUE)
+  expect_identical(proj_get(), proj_path_prep(tmpdir))
+
+  proj_set_(tempdir())
   expect_error(
     proj_set(proj_get()),
     "does not appear to be inside a project or package"
@@ -81,7 +85,8 @@ test_that("proj_set() enforces proj path preparation policy", {
   expect_equal(path_rel(path_with_symlinks, a), "b2/d")
 
   ## force = TRUE
-  proj_set(path_with_symlinks, force = TRUE)
+  old <- proj_set(path_with_symlinks, force = TRUE)
+  on.exit(proj_set(old))
   expect_equal(path_rel(proj_get(), a), "b/d")
 
   ## force = FALSE
@@ -141,8 +146,8 @@ test_that("local_project() activates proj til scope ends", {
   old_project <- proj_get_()
   on.exit(proj_set_(old_project))
 
-  create_project(file_temp(pattern = "aaa"), rstudio = FALSE, open = FALSE)
-  new_proj <- proj_get_()
+  new_proj <- file_temp(pattern = "aaa")
+  create_project(new_proj, rstudio = FALSE, open = FALSE)
   proj_set_(NULL)
 
   foo <- function() {
@@ -151,6 +156,9 @@ test_that("local_project() activates proj til scope ends", {
   }
   res <- foo()
 
-  expect_identical(res[["active_usethis_proj"]], as.character(new_proj))
-  expect_identical(proj_get_(), NULL)
+  expect_identical(
+    res[["active_usethis_proj"]],
+    as.character(proj_path_prep(new_proj))
+  )
+  expect_null(proj_get_())
 })

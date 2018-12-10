@@ -15,6 +15,10 @@
   they assume that you're working on your own repo (i.e. no fork), but once 
   we've happy with them, we'll extend to work on more situations (#346).
 
+* New `proj_activate()` lets you activate a project either opening a new 
+  RStudio session (if you use RStudio), or changing the working directory 
+  (#511).
+
 * `use_article()` creates articles, vignettes that are automatically
   added to `.Rbuildignore`. These appear on pkgdown sites, but are not 
   included with the package itself (#281).
@@ -36,6 +40,9 @@
 
 * `use_partial_warnings()` helps use add standard warning block to your
   `.Rprofile` (#64).
+
+* `use_pkgdown_travis()` helps you set up pkgdown for automatic deployment
+  from travis to github pages (#524).
 
 * `use_rcpp("foo")` now creates `src/foo.cpp` (#117).
 
@@ -99,13 +106,17 @@ usethis gains tooling to manage part of a file. This currently used for managing
 * Call `use_logo()` to update the package logo to the latest specifications:
   `man/figure/logo.png` should be 240 x 278, and README should contain
   `<img src="man/figures/logo.png" align="right" height="139" />`.
-  This gives a nicer display on retina displays.
+  This gives a nicer display on retina displays. The logo is also linked to the
+  pkgdown site if available (#536).
 
 * When creating a new package, use `create_tidy_package()` to start with a
   package following the tidyverse standards (#461). 
 
 * `NEWS.md` for the development version should use "(development version)" 
   rather than the specific version (#440).
+
+* pkgdown sites should now be built by travis and deployed automatically to
+  GitHub pages. `use_pkgdown_travis()` will help you set that up.
 
 * When starting the release process, call `use_release_issue()` to create a 
   release checklist issue.
@@ -125,6 +136,9 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `browse_github()` now falls back to CRAN organisation (with a warning) if 
   package doesn't have it's own GitHub repo (#186).
+
+* `create_*()`restore the active project if they error part way through, 
+  and use `proj_activate()` (#453, #511).
 
 * `edit_r_buildignore()` opens `.Rbuildignore` for manual editing 
    (#462, @bfgray3).
@@ -157,6 +171,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
   It also produces retina approrpriate logos by default, and matches the 
   aspect ratio to the <http://hexb.in/sticker.html> specification (#499).
 
+* `use_news_md()` will optionally commit.
+
 * `use_package()` gains a `min_version` argument to specify a minimum
   version requirement (#498). Set to `TRUE` to use the currently installed 
   version (#386). This is used by `use_tidy()` in order to require version 
@@ -176,6 +192,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `use_travis()` gains an `ext` argument, defaulting to `"org"`. 
   Use `ext = "com"` for `https://travis-ci.com`. (@cderv, #500)
+
+* `use_version()` asks before committing.
 
 * `use_vignette()` now has a `title` argument which is used in YAML header
   (in the two places where it is needed). The vignettes also lose the default

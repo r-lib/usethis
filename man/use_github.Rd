@@ -65,6 +65,7 @@ You can change the default globally with \code{options(usethis.protocol = "https
 \dontrun{
 pkgpath <- file.path(tempdir(), "testpkg")
 create_package(pkgpath) # creates package below temp directory
+proj_set(pkgpath)
 
 ## now, working inside "testpkg", initialize git repository
 use_git()

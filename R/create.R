@@ -6,10 +6,8 @@
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
 #'   project
 #'
-#' Both functions can add project infrastructure to an existing directory of
-#' files or can create a completely new project. Both functions change the
-#' active project, so that subsequent `use_*()` calls affect the project
-#' that you've just created. See [proj_set()] to manually reset it.
+#' Both functions can be called on an existing project; you will be asked
+#' before any existing files are changed.
 #'
 #' @param path A path. If it exists, it is used. If it does not exist, it is
 #'   created, provided that the parent path exists.
@@ -21,10 +19,13 @@
 #'   that the directory can be recognized as a project by the
 #'   [here](https://here.r-lib.org) or
 #'   [rprojroot](https://rprojroot.r-lib.org) packages.
-#' @param open If `TRUE` and in RStudio, a new RStudio project is opened in a
-#'   new instance, if possible, or is switched to, otherwise. If `TRUE` and not
-#'   in RStudio (or new project is not an RStudio project), working directory is
-#'   set to the new project.
+#' @param open If `TRUE`, [activates][proj_activate()] the new project:
+#'
+#'   * If RStudio desktop, the package is opened in a new session.
+#'   * If on RStudio server, the current RStudio project is activated.
+#'   * Otherwse, the working directory and active project is changed.
+#'
+#' @return Path to the newly created project or package, invisibly.
 #' @export
 create_package <- function(path,
                            fields = NULL,
@@ -39,6 +40,7 @@ create_package <- function(path,
 
   create_directory(path)
   old_project <- proj_set(path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
   use_directory("man")
@@ -50,10 +52,13 @@ create_package <- function(path,
   }
 
   if (open) {
-    open_project(proj_get(), restore = old_project)
+    if (proj_activate(path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
+    }
   }
 
-  invisible(TRUE)
+  invisible(proj_get())
 }
 
 #' @export
@@ -67,6 +72,7 @@ create_project <- function(path,
 
   create_directory(path)
   old_project <- proj_set(path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
 
@@ -78,11 +84,15 @@ create_project <- function(path,
     ui_todo("Learn more at <https://here.r-lib.org>")
     file_create(proj_path(".here"))
   }
+
   if (open) {
-    open_project(proj_get(), restore = old_project)
+    if (proj_activate(path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
+    }
   }
 
-  invisible(TRUE)
+  invisible(proj_get())
 }
 
 #' Create a project from a GitHub repo
@@ -195,7 +205,8 @@ create_from_github <- function(repo_spec,
     credentials = credentials,
     progress = FALSE
   )
-  old_project <- proj_set(repo_path)
+  old_project <- proj_set(repo_path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   if (fork) {
     r <- git2r::repository(proj_get())
@@ -210,35 +221,13 @@ create_from_github <- function(repo_spec,
   }
 
   if (open) {
-    open_project(proj_get(), restore = old_project)
-  }
-  invisible(TRUE)
-
-}
-
-## `restore = NA` means do not restore, because ...
-## `restore = NULL` has to be reserved for the scenario where we restore state of "no active project"
-##
-## `rstudio` arg here is about whether to attempt a launch in RStudio
-## `rstudio` arg of `create_*()` functions is about whether to add .Rproj file
-open_project <- function(path, restore = NA, rstudio = NA) {
-  if (is.na(rstudio)) {
-    rstudio <- is_rstudio_project(path)
-  }
-
-  if (rstudio && rstudioapi::hasFun("openProject")) {
-    ui_done("Opening new project {ui_path(path)} in RStudio")
-    rstudioapi::openProject(rproj_path(path), newSession = TRUE)
-    ## TODO: check this is correct on rstudio server / cloud
-    if (is.null(restore) || !is.na(restore)) {
-      proj_set(restore, force = TRUE)
+    if (proj_activate(repo_path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
     }
-    invisible(TRUE)
-  } else {
-    setwd(path)
-    ui_done("Changing working directory to {ui_path(path)}")
-    invisible(FALSE)
   }
+
+  invisible(proj_get())
 }
 
 check_not_nested <- function(path, name) {

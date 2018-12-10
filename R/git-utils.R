@@ -66,7 +66,7 @@ git_branch_compare <- function(branch = git_branch_name()) {
   git2r::fetch(repo, "origin", refspec = branch, verbose = FALSE)
   git2r::ahead_behind(
     git_commit_find(branch),
-    git_commit_find(paste0("origin/", branch))
+    git_commit_find(git_branch_remote(branch))
   )
 }
 
@@ -149,11 +149,11 @@ check_branch_not_master <- function() {
 }
 
 check_branch_current <- function(branch = git_branch_name()) {
-  ui_done("Checking that {branch} branch is up to date")
+  ui_done("Checking that {ui_value(branch)} branch is up to date")
   diff <- git_branch_compare(branch)
 
   if (diff[[2]] == 0) {
-    return()
+    return(invisible())
   }
 
   ui_stop(

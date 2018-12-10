@@ -105,7 +105,7 @@ scoped_path_r  <- function(scope = c("user", "project"), ..., envvar = NULL) {
   if (scope == "user" && !is.null(envvar)) {
     env <- Sys.getenv(envvar, unset = "")
     if (!identical(env, "")) {
-      return(env)
+      return(user_path_prep(env))
     }
   }
 

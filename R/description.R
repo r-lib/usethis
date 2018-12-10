@@ -1,7 +1,7 @@
 #' Create or modify a DESCRIPTION file
 #'
 #' @description
-#' usethis consults the following sources, in this order, to set DESCRIPTION
+#' usethis consults the following sources, in this order, to set `DESCRIPTION`
 #' fields:
 #' * `fields` argument of [create_package()] or [use_description()].
 #' * `getOption("usethis.description")` or `getOption("devtools.desc")`. The
@@ -26,7 +26,7 @@
 #' )
 #' ```
 #'
-#' @param fields A named list of fields to add to DESCRIPTION, potentially
+#' @param fields A named list of fields to add to `DESCRIPTION`, potentially
 #'   overriding default values. See [use_description()] for how you can set
 #'   personalized defaults using package options
 #' @seealso The [description chapter](http://r-pkgs.had.co.nz/description.html)
