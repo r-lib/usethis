@@ -239,13 +239,11 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
   ui_todo("Make sure {ui_value('.Renviron')} ends with a newline!")
 }
 
+## checks for existence of 'origin' remote with 'github' in URL
 uses_github <- function(base_path = proj_get()) {
-  tryCatch({
-    gh_tree_remote(base_path)
-    TRUE
-  }, error = function(e) FALSE)
+  if (!uses_git()) return(FALSE)
+  length(github_origin(base_path)) > 0
 }
-
 
 check_uses_github <- function(base_path = proj_get()) {
   if (uses_github(base_path)) {
@@ -253,7 +251,7 @@ check_uses_github <- function(base_path = proj_get()) {
   }
 
   ui_stop(c(
-    "Cannot detect that package already uses GitHub.",
+    "Cannot detect that this project already uses GitHub.",
     "Do you need to run {ui_code('use_github()')}?"
   ))
 }

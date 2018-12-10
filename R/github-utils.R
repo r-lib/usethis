@@ -1,24 +1,30 @@
-## suppress the warning about multiple remotes, which is triggered by
-## the common "origin" and "upstream" situation, e.g., fork and clone
-gh_tree_remote <- function(path) {
-  suppressWarnings(gh::gh_tree_remote(path))
+github_remotes <- function(path = proj_get()) {
+  remotes <- git_remotes(path)
+  if (length(remotes) == 0) return(NULL)
+  m <- vapply(remotes, function(x) grepl("github", x), logical(1))
+  if (length(m) == 0) return(NULL)
+  remotes[m]
 }
 
-## Git remotes --> filter for GitHub --> owner, repo, repo_spec
+github_origin <- function(path = proj_get()) {
+  r <- github_remotes(path)
+  if (length(r) == 0) return(NULL)
+  parse_github_remotes(r)[["origin"]]
+}
+
 github_owner <- function(path = proj_get()) {
-  gh_tree_remote(path)[["username"]]
+  github_origin(path)[["owner"]]
 }
 
 github_repo <- function(path = proj_get()) {
-  gh_tree_remote(path)[["repo"]]
+  github_origin(path)[["repo"]]
 }
 
 github_repo_spec <- function(path = proj_get()) {
-  paste0(gh_tree_remote(path), collapse = "/")
+  paste0(github_origin(path), collapse = "/")
 }
 
 ## repo_spec --> owner, repo
-## TODO: could use more general facilities for parsing GitHub URL/spec
 parse_repo_spec <- function(repo_spec) {
   repo_split <- strsplit(repo_spec, "/")[[1]]
   if (length(repo_split) != 2) {
@@ -29,3 +35,14 @@ parse_repo_spec <- function(repo_spec) {
 
 spec_owner <- function(repo_spec) parse_repo_spec(repo_spec)$owner
 spec_repo <- function(repo_spec) parse_repo_spec(repo_spec)$repo
+
+## named vector/list of Git remote URLs --> named list of (owner, repo)
+parse_github_remotes <- function(x) {
+  # https://github.com/r-lib/devtools.git --> rlib, devtools
+  # https://github.com/r-lib/devtools     --> rlib, devtools
+  # git@github.com:r-lib/devtools.git     --> rlib, devtools
+  re <- "github[^/:]*[/:]([^/]+)/(.*?)(?:\\.git)?$"
+  m <- regexec(re, x)
+  match <- regmatches(x, m)
+  lapply(match, function(y) list(owner = y[[2]], repo = y[[3]]))
+}
