@@ -24,8 +24,7 @@ test_that("use_src() doesn't message if not needed", {
   use_package_doc()
   use_src()
 
-  withr::with_options(
-    list(usethis.quiet = FALSE),
-    expect_silent(use_src())
-  )
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  expect_silent(use_src())
 })

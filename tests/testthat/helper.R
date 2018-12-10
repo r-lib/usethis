@@ -39,7 +39,10 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
     }
   } else {
     withr::defer({
-      proj_set(old_project, force = TRUE)
+      withr::with_options(
+        list(usethis.quiet = TRUE),
+        proj_set(old_project, force = TRUE)
+      )
       setwd(old_project)
       fs::dir_delete(dir)
     }, envir = env)
