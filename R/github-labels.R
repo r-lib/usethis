@@ -92,10 +92,11 @@ use_github_labels <- function(
   # Rename existing labels
   to_rename <- intersect(cur_label_names, names(rename))
   if (length(to_rename) > 0) {
-    delta <- paste0(ui_value(to_rename), " -> ", ui_value(rename[to_rename]),
-      collapse = ", "
+    delta <- map2_chr(
+      to_rename, rename[to_rename],
+      ~ paste0(ui_value(.x), " -> ", ui_value(.y))
     )
-    ui_done("Renaming labels: {delta}")
+    ui_done("Renaming labels: {paste0(delta, collapse = ', ')}")
 
     for (label in to_rename) {
       gh(
