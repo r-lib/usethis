@@ -2,7 +2,7 @@
 
 git_repo <- function() {
   check_uses_git()
-  git2r::repository(proj_path())
+  git2r::repository(proj_get())
 }
 
 git_init <- function() {
@@ -21,6 +21,14 @@ git_status <- function() {
 
 uses_git <- function(path = proj_get()) {
   !is.null(git2r::discover_repository(path))
+}
+
+# Remotes ------------------------------------------------------------------
+git_remotes <- function(path = proj_get()) {
+  r <- git2r::repository(path, discover = TRUE)
+  rnames <- git2r::remotes(r)
+  if (length(rnames) == 0) return(NULL)
+  stats::setNames(as.list(git2r::remote_url(r, rnames)), rnames)
 }
 
 # Commit ------------------------------------------------------------------
