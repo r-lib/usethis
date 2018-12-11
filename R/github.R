@@ -251,7 +251,7 @@ check_uses_github <- function(base_path = proj_get()) {
   }
 
   ui_stop(c(
-    "Cannot detect that this project already uses GitHub.",
+    "This project does not have a GitHub remote configured as {ui_value('origin')}.",
     "Do you need to run {ui_code('use_github()')}?"
   ))
 }
