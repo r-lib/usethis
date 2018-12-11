@@ -31,6 +31,12 @@ git_remotes <- function(path = proj_get()) {
   stats::setNames(as.list(git2r::remote_url(r, rnames)), rnames)
 }
 
+git_remote_find <- function(path = proj_get(), rname = "origin") {
+  remotes <- git_remotes(path)
+  if (length(remotes) == 0) return(NULL)
+  remotes[[rname]]
+}
+
 # Commit ------------------------------------------------------------------
 
 git_commit_find <- function(refspec = NULL) {
