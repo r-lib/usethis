@@ -11,7 +11,8 @@ use_template(template, save_as = template, data = list(),
 \item{template}{Path to template file relative to \code{templates/} directory
 within \code{package}; see details.}
 
-\item{save_as}{Name of file to create. Defaults to \code{template}}
+\item{save_as}{Path of file to create, relative to root of active project.
+Defaults to \code{template}}
 
 \item{data}{A list of data passed to the template.}
 

@@ -7,7 +7,7 @@
 use_citation <- function() {
   use_directory("inst")
   use_template(
-    "CITATION",
+    "citation-template.R",
     path("inst", "CITATION"),
     data = package_data(),
     open = TRUE

@@ -92,9 +92,11 @@ use_github_labels <- function(
   # Rename existing labels
   to_rename <- intersect(cur_label_names, names(rename))
   if (length(to_rename) > 0) {
-    delta <- paste0(ui_value(to_rename), " -> ", ui_value(rename[to_rename]),
-      collapse = ", ")
-    ui_done("Renaming labels: {delta}")
+    delta <- purrr::map2_chr(
+      to_rename, rename[to_rename],
+      ~ paste0(ui_value(.x), " -> ", ui_value(.y))
+    )
+    ui_done("Renaming labels: {paste0(delta, collapse = ', ')}")
 
     for (label in to_rename) {
       gh(
@@ -175,11 +177,9 @@ use_github_labels <- function(
 
 #' @export
 #' @rdname use_github_labels
-use_tidy_labels <- function(
-                              repo = github_repo_spec(),
-                              auth_token = NULL,
-                              host = NULL) {
-
+use_tidy_labels <- function(repo = github_repo_spec(),
+                            auth_token = NULL,
+                            host = NULL) {
   use_github_labels(
     repo = repo,
     labels = tidy_labels(),
@@ -223,6 +223,7 @@ tidy_label_colours <- function() {
     "good first issue :heart:" = "CBBAB8",
     "help wanted :heart:" = "C5C295",
     "reprex" = "C5C295",
+    "tidy-dev-day :nerd_face:" = "CBBAB8",
     "wip" = "E1B996"
   )
 }
@@ -238,7 +239,8 @@ tidy_label_descriptions <- function() {
     "documentation" = "",
     "good first issue :heart:" = "good issue for first-time contributors",
     "help wanted :heart:" = "we'd love your help!",
-    "breaking change :skull_and_crossbones:" = "API change likely to affect existing code"
+    "breaking change :skull_and_crossbones:" = "API change likely to affect existing code",
+    "tidy-dev-day :nerd_face:" = "Tidyverse Developer Day rstd.io/tidy-dev-day"
   )
 }
 

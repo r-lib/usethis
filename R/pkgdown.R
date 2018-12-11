@@ -36,7 +36,7 @@ use_pkgdown_travis <- function() {
   if (!uses_pkgdown()) {
     ui_stop(c(
       "Package doesn't use pkgdown.",
-      "Do you need to call code('use_pkgdown())?"
+      "Do you need to call {ui_code('use_pkgdown()')}?"
     ))
   }
 
@@ -60,7 +60,7 @@ use_pkgdown_travis <- function() {
   )
 
   if (!git_branch_exists("gh-pages")) {
-    ui_todo("Create gh-pages branch")
+    ui_todo("Create gh-pages branch. See {ui_code('?pkgdown::deploy_site_github')} for the git commands.")
   }
 
   invisible()
@@ -69,4 +69,24 @@ use_pkgdown_travis <- function() {
 uses_pkgdown <- function() {
   file_exists(proj_path("_pkgdown.yml")) ||
     file_exists(proj_path("pkgdown", "_pkgdown.yml"))
+}
+
+pkgdown_link <- function() {
+  if (!uses_pkgdown()) {
+    return(NULL)
+  }
+
+  path <- proj_path("_pkgdown.yml")
+
+  yaml <- yaml::yaml.load_file(path) %||% list()
+
+  if (is.null(yaml$url)) {
+    ui_warn("
+      Package does not provide a pkgdown URL.
+      Set one in the `url:` field of `_pkgdown.yml`"
+    )
+    return(NULL)
+  }
+
+  gsub("/$", "", yaml$url)
 }

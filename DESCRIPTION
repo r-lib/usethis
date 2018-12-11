@@ -35,13 +35,14 @@ Imports:
     rstudioapi,
     utils,
     whisker,
-    withr
+    withr,
+    yaml
 Suggests: 
     covr,
     knitr,
     magick,
-    rmarkdown,
     pkgdown (>= 1.1.0),
+    rmarkdown,
     roxygen2,
     spelling (>= 1.2),
     styler (>= 1.0.2),
