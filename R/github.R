@@ -144,7 +144,7 @@ use_github <- function(organisation = NULL,
     }
   }
 
-  ui_done("Pushing to GitHub and setting remote tracking branch")
+  ui_done("Pushing {ui_value('master')} to GitHub and setting remote tracking branch")
   if (protocol == "ssh") {
     ## [1] push via ssh required for success setting remote tracking branch
     ## [2] to get passphrase from ssh-agent, you must use NULL credentials
@@ -269,7 +269,11 @@ check_no_origin <- function(path = proj_get()) {
   origin <- git_remote_find(path, rname = "origin")
   if (is.null(origin)) return(invisible())
   ui_stop(
-    "This project already has {ui_value(origin)} configured as the {ui_value('origin')} remote.",
+    "
+    This repo already has an {ui_value('origin')} remote, with value {ui_value(origin)}.
+    How to remove this setting in the shell::
+    {ui_code('git remote rm origin')}
+    "
   )
 }
 

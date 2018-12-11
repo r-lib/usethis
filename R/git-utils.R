@@ -166,7 +166,14 @@ check_branch <- function(branch) {
   ui_done("Checking that current branch is {ui_value(branch)}")
   actual <- git_branch_name()
   if (actual == branch) return()
-  ui_stop("On branch {ui_value(actual)}. Please checkout {ui_value(branch)}.")
+  code <- glue("git checkout {branch}")
+  ui_stop(
+    "
+    Must be on branch {ui_value(branch)}, not {ui_value(actual)}.
+    How to switch to the correct branch in the shell:
+    {ui_code(code)}
+    "
+  )
 }
 
 check_branch_current <- function(branch = git_branch_name()) {
