@@ -126,7 +126,6 @@ use_github <- function(organisation = NULL,
       .token = auth_token
     )
   }
-  view_url(create$html_url)
 
   origin_url <- switch(protocol,
     https = create$clone_url,
@@ -156,6 +155,7 @@ use_github <- function(organisation = NULL,
     git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
     git2r::branch_set_upstream(head, "origin/master")
   }
+  view_url(create$html_url)
 
   invisible(NULL)
 }
