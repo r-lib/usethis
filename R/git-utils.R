@@ -24,15 +24,15 @@ uses_git <- function(path = proj_get()) {
 }
 
 # Remotes ------------------------------------------------------------------
-git_remotes <- function(path = proj_get()) {
-  r <- git2r::repository(path, discover = TRUE)
+git_remotes <- function() {
+  r <- git_repo()
   rnames <- git2r::remotes(r)
   if (length(rnames) == 0) return(NULL)
   stats::setNames(as.list(git2r::remote_url(r, rnames)), rnames)
 }
 
-git_remote_find <- function(path = proj_get(), rname = "origin") {
-  remotes <- git_remotes(path)
+git_remote_find <- function(rname = "origin") {
+  remotes <- git_remotes()
   if (length(remotes) == 0) return(NULL)
   remotes[[rname]]
 }
