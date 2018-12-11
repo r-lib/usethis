@@ -36,13 +36,15 @@ parse_repo_spec <- function(repo_spec) {
 spec_owner <- function(repo_spec) parse_repo_spec(repo_spec)$owner
 spec_repo <- function(repo_spec) parse_repo_spec(repo_spec)$repo
 
-## named vector/list of Git remote URLs --> named list of (owner, repo)
+## named vector or list of Git remote URLs --> named list of (owner, repo)
 parse_github_remotes <- function(x) {
   # https://github.com/r-lib/devtools.git --> rlib, devtools
   # https://github.com/r-lib/devtools     --> rlib, devtools
   # git@github.com:r-lib/devtools.git     --> rlib, devtools
   re <- "github[^/:]*[/:]([^/]+)/(.*?)(?:\\.git)?$"
-  m <- regexec(re, x)
-  match <- regmatches(x, m)
+  ## on R < 3.4.2, regexec() fails to apply as.character() to first 2 args,
+  ## though it is documented
+  m <- regexec(re, as.character(x))
+  match <- stats::setNames(regmatches(as.character(x), m), names(x))
   lapply(match, function(y) list(owner = y[[2]], repo = y[[3]]))
 }
