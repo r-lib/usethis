@@ -144,17 +144,34 @@ use_github <- function(organisation = NULL,
     }
   }
 
-  head <- git2r::repository_head(r)
-  if (is.null(git2r::branch_get_upstream(head))) {
-    ui_done("Pushing to GitHub and setting remote tracking branch")
-    if (protocol == "ssh") {
-      ## [1] push via ssh required for success setting remote tracking branch
-      ## [2] to get passphrase from ssh-agent, you must use NULL credentials
-      credentials <- git2r::cred_user_pass("EMAIL", auth_token)
-    }
-    git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
-    git2r::branch_set_upstream(head, "origin/master")
+  ui_done("Pushing to GitHub and setting remote tracking branch")
+  if (protocol == "ssh") {
+    ## [1] push via ssh required for success setting remote tracking branch
+    ## [2] to get passphrase from ssh-agent, you must use NULL credentials
+    pushed <- tryCatch({
+      git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
+      TRUE
+    }, error = function(e) FALSE)
+  } else { ## protocol == "https"
+    ## in https case, when GITHUB_PAT is passed as password,
+    ## the username is immaterial, but git2r doesn't know that.
+    cred <- git2r::cred_user_pass("EMAIL", auth_token)
+    pushed <- tryCatch({
+      git2r::push(r, "origin", "refs/heads/master", credentials = cred)
+      TRUE
+    }, error = function(e) FALSE)
   }
+  if (pushed) {
+    git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
+  } else {
+    ui_todo(c(
+      "Failed to push and set tracking branch.",
+      "This often indicates a problem with git2r and the credentials.",
+      "Try this in the shell, to complete the set up:",
+      "{ui_code('git push --set-upstream origin master')}"
+    ))
+  }
+
   view_url(create$html_url)
 
   invisible(NULL)
@@ -252,7 +269,7 @@ check_no_origin <- function(path = proj_get()) {
   origin <- git_remote_find(path, rname = "origin")
   if (is.null(origin)) return(invisible())
   ui_stop(
-    "This project already has {ui_value(origin)} configured as the {ui_value('origin')} remote",
+    "This project already has {ui_value(origin)} configured as the {ui_value('origin')} remote.",
   )
 }
 
