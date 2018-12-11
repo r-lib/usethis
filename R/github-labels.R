@@ -92,7 +92,7 @@ use_github_labels <- function(
   # Rename existing labels
   to_rename <- intersect(cur_label_names, names(rename))
   if (length(to_rename) > 0) {
-    delta <- map2_chr(
+    delta <- purrr::map2_chr(
       to_rename, rename[to_rename],
       ~ paste0(ui_value(.x), " -> ", ui_value(.y))
     )
