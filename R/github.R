@@ -66,7 +66,9 @@ use_github <- function(organisation = NULL,
                        auth_token = NULL,
                        host = NULL) {
   check_uses_git()
+  check_branch_current("master")
   check_uncommitted_changes()
+  check_no_origin()
   r <- git_repo()
 
   ## auth_token is used directly by git2r, therefore cannot be NULL
@@ -74,64 +76,65 @@ use_github <- function(organisation = NULL,
   check_gh_token(auth_token)
   protocol <- match.arg(protocol, c("ssh", "https"))
 
-  if (!uses_github(proj_get())) {
-    pkg <- project_data()
-    repo_name <- pkg$Project %||% gsub("\n", " ", pkg$Package)
-    repo_desc <- pkg$Title %||% ""
+  owner <- organisation %||% gh::gh_whoami(auth_token)[["login"]]
+  repo_name <- project_name()
+  check_no_github_repo(owner, repo_name, host, auth_token)
 
-    if (interactive()) {
-      ui_todo("Check title and description")
-      ui_code_block(
-        "
+  repo_desc <- project_data()$Title %||% ""
+
+  if (interactive()) {
+    ui_todo("Check title and description")
+    ui_code_block(
+      "
         Name:        {repo_name},
         Description: {repo_desc}
         ",
-        copy = FALSE
-      )
-      if (ui_nope("Are title and description ok?")) {
-        return(invisible())
-      }
-    } else {
-      ui_todo("Setting title and description")
-      ui_code_block(
-        "
+      copy = FALSE
+    )
+    if (ui_nope("Are title and description ok?")) {
+      return(invisible())
+    }
+  } else {
+    ui_todo("Setting title and description")
+    ui_code_block(
+      "
         Name:        {repo_name}
         Description: {repo_desc}
         ",
-        copy = FALSE
-      )
-    }
-    ui_done("Creating GitHub repository")
-
-    if (is.null(organisation)) {
-      create <- gh::gh(
-        "POST /user/repos",
-        name = repo_name,
-        description = repo_desc,
-        private = private,
-        .api_url = host,
-        .token = auth_token
-      )
-    } else {
-      create <- gh::gh(
-        "POST /orgs/:org/repos",
-        org = organisation,
-        name = repo_name,
-        description = repo_desc,
-        private = private,
-        .api_url = host,
-        .token = auth_token
-      )
-    }
-    view_url(create$html_url)
-
-    ui_done("Adding GitHub remote")
-    origin_url <- switch(protocol,
-      https = create$clone_url,
-      ssh = create$ssh_url
+      copy = FALSE
     )
-    git2r::remote_add(r, "origin", origin_url)
   }
+  ui_done("Creating GitHub repository")
+
+  if (is.null(organisation)) {
+    create <- gh::gh(
+      "POST /user/repos",
+      name = repo_name,
+      description = repo_desc,
+      private = private,
+      .api_url = host,
+      .token = auth_token
+    )
+  } else {
+    create <- gh::gh(
+      "POST /orgs/:org/repos",
+      org = organisation,
+      name = repo_name,
+      description = repo_desc,
+      private = private,
+      .api_url = host,
+      .token = auth_token
+    )
+  }
+  view_url(create$html_url)
+
+  origin_url <- switch(protocol,
+    https = create$clone_url,
+    ssh = create$ssh_url
+  )
+
+  ui_done("Setting remote {ui_value('origin')} to {ui_value(origin_url)}")
+  git2r::remote_add(r, "origin", origin_url)
 
   if (is_package()) {
     ui_done("Adding GitHub links to DESCRIPTION")
@@ -245,8 +248,16 @@ uses_github <- function(base_path = proj_get()) {
   length(github_origin(base_path)) > 0
 }
 
-check_uses_github <- function(base_path = proj_get()) {
-  if (uses_github(base_path)) {
+check_no_origin <- function(path = proj_get()) {
+  origin <- git_remote_find(path, rname = "origin")
+  if (is.null(origin)) return(invisible())
+  ui_stop(
+    "This project already has {ui_value(origin)} configured as the {ui_value('origin')} remote",
+  )
+}
+
+check_uses_github <- function(path = proj_get()) {
+  if (uses_github(path)) {
     return(invisible())
   }
 
@@ -256,10 +267,33 @@ check_uses_github <- function(base_path = proj_get()) {
   ))
 }
 
+github_repo_exists <- function(owner, repo, host, auth_token) {
+  tryCatch(
+    error = function(err) FALSE, {
+      gh::gh(
+        "/repos/:owner/:repo",
+        owner = owner, repo = repo,
+        .api_url = host,
+        .token = auth_token
+      )
+      TRUE
+    }
+  )
+}
+
+check_no_github_repo <- function(owner, repo, host, auth_token) {
+  if (!github_repo_exists(owner, repo, host, auth_token)) {
+    return(invisible())
+  }
+  spec <- paste(owner, repo, sep = "/")
+  where <- if (is.null(host)) "github.com" else host
+  ui_stop("Repo {ui_value(spec)} already exists on {ui_value(where)}.")
+}
+
 ## use from gh when/if exported
 ## https://github.com/r-lib/gh/issues/74
 gh_token <- function() {
-  token <- Sys.getenv('GITHUB_PAT', "")
+  token <- Sys.getenv("GITHUB_PAT", "")
   if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
 }
 
