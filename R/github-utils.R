@@ -1,27 +1,27 @@
-github_remotes <- function(path = proj_get()) {
-  remotes <- git_remotes(path)
+github_remotes <- function() {
+  remotes <- git_remotes()
   if (length(remotes) == 0) return(NULL)
   m <- vapply(remotes, function(x) grepl("github", x), logical(1))
   if (length(m) == 0) return(NULL)
   remotes[m]
 }
 
-github_origin <- function(path = proj_get()) {
-  r <- github_remotes(path)
+github_origin <- function() {
+  r <- github_remotes()
   if (length(r) == 0) return(NULL)
   parse_github_remotes(r)[["origin"]]
 }
 
-github_owner <- function(path = proj_get()) {
-  github_origin(path)[["owner"]]
+github_owner <- function() {
+  github_origin()[["owner"]]
 }
 
-github_repo <- function(path = proj_get()) {
-  github_origin(path)[["repo"]]
+github_repo <- function() {
+  github_origin()[["repo"]]
 }
 
-github_repo_spec <- function(path = proj_get()) {
-  paste0(github_origin(path), collapse = "/")
+github_repo_spec <- function() {
+  paste0(github_origin(), collapse = "/")
 }
 
 ## repo_spec --> owner, repo

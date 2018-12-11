@@ -227,10 +227,10 @@ project_data <- function(base_path = proj_get()) {
   } else {
     data <- list(Project = path_file(base_path))
   }
-  if (uses_github(base_path)) {
+  if (proj_active() && uses_github()) {
     data$github_owner <- github_owner()
-    data$github_repo <- github_repo()
-    data$github_spec <- github_repo_spec()
+    data$github_repo  <- github_repo()
+    data$github_spec  <- github_repo_spec()
   }
   data
 }

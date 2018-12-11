@@ -260,13 +260,13 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
 }
 
 ## checks for existence of 'origin' remote with 'github' in URL
-uses_github <- function(base_path = proj_get()) {
+uses_github <- function() {
   if (!uses_git()) return(FALSE)
-  length(github_origin(base_path)) > 0
+  length(github_origin()) > 0
 }
 
-check_no_origin <- function(path = proj_get()) {
-  origin <- git_remote_find(path, rname = "origin")
+check_no_origin <- function() {
+  origin <- git_remote_find(rname = "origin")
   if (is.null(origin)) return(invisible())
   ui_stop(
     "
@@ -277,8 +277,8 @@ check_no_origin <- function(path = proj_get()) {
   )
 }
 
-check_uses_github <- function(path = proj_get()) {
-  if (uses_github(path)) {
+check_uses_github <- function() {
+  if (uses_github()) {
     return(invisible())
   }
 

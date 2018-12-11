@@ -1,9 +1,8 @@
 devtools::load_all()
-library(fs)
 
 pkgname <- "klmnop"
-#protocol <- "ssh"
-protocol <- "https"
+protocol <- "ssh"
+#protocol <- "https"
 
 (pkgpath <- path_temp(pkgname))
 create_package(pkgpath, open = FALSE)
@@ -69,7 +68,7 @@ setwd(proj_get())
 proj_sitrep()
 
 ## delete local and remote repo
-dir_delete(pkgpath)
+fs::dir_delete(pkgpath)
 (gh_account <- gh::gh_whoami())
 gh::gh(
   "DELETE /repos/:username/:pkg",
