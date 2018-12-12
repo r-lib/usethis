@@ -144,7 +144,7 @@ use_github <- function(organisation = NULL,
     }
   }
 
-  ui_done("Pushing {ui_value('master')} to GitHub and setting remote tracking branch")
+  ui_done("Pushing {ui_value('master')} branch to GitHub and setting remote tracking branch")
   if (protocol == "ssh") {
     ## [1] push via ssh required for success setting remote tracking branch
     ## [2] to get passphrase from ssh-agent, you must use NULL credentials
