@@ -125,12 +125,10 @@ check_uses_git <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  ui_stop(
-    "
-    Cannot detect that project is already a Git repository.
-    Do you need to run {ui_code('use_git()')}?
-    "
-  )
+  ui_stop(c(
+    "Cannot detect that project is already a Git repository.",
+    "Do you need to run {ui_code('use_git()')}?"
+  ))
 }
 
 check_uncommitted_changes <- function(path = proj_get()) {
