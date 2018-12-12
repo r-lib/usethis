@@ -194,8 +194,9 @@ cat_bullet <- function(x, bullet) {
 # All UI output must eventually go through cat_line() so that it
 # can be quieted with 'usethis.quiet' when needed.
 cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
-  if (quiet)
+  if (quiet) {
     return(invisible())
+  }
 
   lines <- paste0(..., "\n")
   cat(lines, sep = "")

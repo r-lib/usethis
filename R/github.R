@@ -261,13 +261,17 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
 
 ## checks for existence of 'origin' remote with 'github' in URL
 uses_github <- function() {
-  if (!uses_git()) return(FALSE)
+  if (!uses_git()) {
+    return(FALSE)
+  }
   length(github_origin()) > 0
 }
 
 check_no_origin <- function() {
   origin <- git_remote_find(rname = "origin")
-  if (is.null(origin)) return(invisible())
+  if (is.null(origin)) {
+    return(invisible())
+  }
   ui_stop(c(
     "This repo already has an {ui_value('origin')} remote, with value {ui_value(origin)}.",
     "How to remove this setting in the shell:",
