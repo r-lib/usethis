@@ -23,7 +23,7 @@
 #'
 #'   * If RStudio desktop, the package is opened in a new session.
 #'   * If on RStudio server, the current RStudio project is activated.
-#'   * Otherwse, the working directory and active project is changed.
+#'   * Otherwise, the working directory and active project is changed.
 #'
 #' @return Path to the newly created project or package, invisibly.
 #' @export
