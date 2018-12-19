@@ -44,7 +44,7 @@ package or project, that will be the active project. Otherwise, usethis
 verifies that current working directory is or is below a valid project
 directory and that becomes the active project. Use `proj_get()` or
 `proj_sitrep()` to manually query the project and [read more in the
-docs](http://usethis.r-lib.org/reference/proj_get.html).
+docs](https://usethis.r-lib.org/reference/proj_utils.html).
 
 A few usethis functions have no strong connections to projects and will
 expect you to provide a path.
