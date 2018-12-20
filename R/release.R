@@ -64,7 +64,7 @@ release_checklist <- function(version) {
     "",
     "Wait for CRAN...",
     "",
-    todo("`usethis::use_release_tag()`"),
+    todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version()`"),
     todo("`usethis::use_news()`", !on_cran),
     todo("Update install instructions in README", !on_cran),
