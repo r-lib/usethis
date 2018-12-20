@@ -31,7 +31,7 @@ pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
 \itemize{
 \item If RStudio desktop, the package is opened in a new session.
 \item If on RStudio server, the current RStudio project is activated.
-\item Otherwse, the working directory and active project is changed.
+\item Otherwise, the working directory and active project is changed.
 }}
 
 \item{protocol}{transfer protocol, either "ssh" (the default) or "https".
