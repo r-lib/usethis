@@ -5,13 +5,18 @@
 \alias{use_readme_md}
 \title{Create README files}
 \usage{
-use_readme_rmd(open = interactive())
+use_readme_rmd(open = interactive(), use_hook = NULL)
 
 use_readme_md(open = interactive())
 }
 \arguments{
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+
+\item{use_hook}{Use pre commit Git hook to enforce README.Rmd and README.md
+to be in sync or not. Defaults to NULL which will result in asking user
+in interactive session and simple not set the hook in non-interactive
+session.}
 }
 \description{
 Creates skeleton README files with sections for

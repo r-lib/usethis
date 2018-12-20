@@ -12,6 +12,10 @@
 #' YAML frontmatter and R fenced code blocks (`md`) or chunks (`Rmd`).
 #'
 #' @inheritParams use_template
+#' @param use_hook Use pre commit Git hook to enforce README.Rmd and README.md
+#'   to be in sync or not. Defaults to NULL which will result in asking user
+#'   in interactive session and simple not set the hook in non-interactive
+#'   session.
 #' @seealso The [important files
 #'   section](http://r-pkgs.had.co.nz/release.html#important-files) of [R
 #'   Packages](http://r-pkgs.had.co.nz).
@@ -21,7 +25,7 @@
 #' use_readme_rmd()
 #' use_readme_md()
 #' }
-use_readme_rmd <- function(open = interactive()) {
+use_readme_rmd <- function(open = interactive(), use_hook = NULL) {
   check_installed("rmarkdown")
 
   data <- project_data()
@@ -43,10 +47,28 @@ use_readme_rmd <- function(open = interactive()) {
   if (!new) return(invisible(FALSE))
 
   if (uses_git()) {
-    use_git_hook(
-      "pre-commit",
-      render_template("readme-rmd-pre-commit.sh")
-    )
+    if ( interactive() & is.null(use_hook) ){
+      use_hook <-
+        utils::menu(
+          choices = c("yes", "no"),
+          title = "Do you want to use Git pre commit hooks enforcing README.Rmd and README.md to keep in sync?"
+        )
+      use_hook <- use_hook == 1
+    } else if( !is.null(use_hook) ){
+      # do nothing, just use whatever was set in use_hook
+    } else {
+      use_hook <- FALSE
+    }
+
+    if ( use_hook ) {
+      use_git_hook(
+        "pre-commit",
+        render_template("readme-rmd-pre-commit.sh")
+      )
+      message("Pre commit Git hook installed.")
+    }else{
+      # do nothing
+    }
   }
 
   invisible(TRUE)
