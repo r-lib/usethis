@@ -5,7 +5,7 @@
 \title{Connect a local repo with GitHub}
 \usage{
 use_github(organisation = NULL, private = FALSE,
-  protocol = getOption("usethis.protocol", default = "ssh"),
+  protocol = getOption("usethis.protocol", default = NULL),
   credentials = NULL, auth_token = NULL, host = NULL)
 }
 \arguments{

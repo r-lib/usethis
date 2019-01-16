@@ -61,7 +61,7 @@
 #' }
 use_github <- function(organisation = NULL,
                        private = FALSE,
-                       protocol = getOption("usethis.protocol", default = "ssh"),
+                       protocol = getOption("usethis.protocol", default = NULL),
                        credentials = NULL,
                        auth_token = NULL,
                        host = NULL) {
@@ -127,7 +127,13 @@ use_github <- function(organisation = NULL,
 
   ui_done("Adding GitHub remote")
   r <- git2r::repository(proj_get())
-  protocol <- match.arg(protocol, c("ssh", "https"))
+
+  if (is.null(protocol)) {
+    protocol <- detect_protocol(credentials)
+  } else {
+    protocol <- match.arg(protocol, c("ssh", "https"))
+  }
+
   origin_url <- switch(protocol,
     https = create$clone_url,
     ssh = create$ssh_url
@@ -278,4 +284,22 @@ check_gh_token <- function(auth_token) {
     ))
   }
   auth_token
+}
+
+detect_protocol <- function(credentials) {
+  # If a non-null credentials just return ssh
+  if (!is.null(credentials)) {
+    return("ssh")
+  }
+
+  res <- processx::run("ssh", c("-T", "git@github.com"), error_on_status = FALSE)
+
+  has_ssh <- identical(res$status, 1L) &&
+    grepl("successfully authenticated", res$stderr)[[1]]
+
+  if (has_ssh) {
+    "ssh"
+  } else {
+    "https"
+  }
 }

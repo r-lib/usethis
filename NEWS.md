@@ -2,6 +2,8 @@
 
 ## New features
 
+* `use_github()` now detects whether to use ssh or https automatically.
+
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
   config (#328).
 
