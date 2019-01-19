@@ -9,6 +9,6 @@ test_that("use_tutorial() requires a `name`", {
 
 test_that("use_tutorial() creates a tutorials folder", {
   scoped_temporary_package()
-  use_tutorial("test-file", "test-title")
+  use_tutorial("tutorial-file", "Tutorial Title")
   expect_proj_dir(path("inst", "tutorials"))
 })
