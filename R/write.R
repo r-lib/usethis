@@ -58,7 +58,7 @@ write_union <- function(path, lines, quiet = FALSE) {
     ui_done("Adding {ui_value(new)} to {ui_path(path)}")
   }
 
-  all <- union(lines, existing_lines)
+  all <- c(lines, existing_lines)
   write_utf8(path, all)
 }
 
