@@ -1,64 +1,44 @@
-#' Create README files
+#' Create a tutorial.
 #'
-#' Creates skeleton README files with sections for
-#' \itemize{
-#' \item a high-level description of the package and its goals
-#' \item R code to install from GitHub, if GitHub usage detected
-#' \item a basic example
-#' }
-#' Use `Rmd` if you want a rich intermingling of code and data. Use
-#' `md` for a basic README. `README.Rmd` will be automatically
-#' added to `.Rbuildignore`. The resulting README is populated with default
-#' YAML frontmatter and R fenced code blocks (`md`) or chunks (`Rmd`).
+#' Creates new tutorial in `inst/tutorials`. Tutorials are interactive R Markdown documents built with the `learnr` package.
 #'
+#' @section General setup:
+#' * Adds needed packages to `DESCRIPTION`.
+#' * Adds `inst/tutorials/*.html` to `.gitignore` so
+#'   you never accidental track rendered tutorials.
+#' @param name Base for file name to use for new tutorials. Should consist only
+#'   of numbers, letters, _ and -. We recommend using lower case.
+#' @param title The title of the tutorial
 #' @inheritParams use_template
-#' @seealso The [important files
-#'   section](http://r-pkgs.had.co.nz/release.html#important-files) of [R
-#'   Packages](http://r-pkgs.had.co.nz).
+#' @seealso The [`learnr` package documentation](https://rstudio.github.io/learnr/index.html).
 #' @export
 #' @examples
 #' \dontrun{
-#' use_readme_rmd()
-#' use_readme_md()
+#' use_tutorial("learn-to-do-stuff", "Learn to do stuff")
 #' }
-use_readme_rmd <- function(open = interactive()) {
-  check_installed("rmarkdown")
+use_tutorial <- function(name, title, open = interactive()) {
+  stopifnot(is_string(name))
+  stopifnot(is_string(title))
+
+  dir_path <- path("inst", "tutorials")
+
+  use_directory(dir_path)
+  use_git_ignore(c("*.html"), directory = dir_path)
+  use_dependency("learnr", "Suggests")
+
+  path <- path(dir_path, asciify(name), ext = "Rmd")
 
   data <- project_data()
-  data$Rmd <- TRUE
-  if (uses_github()) {
-    data$github <- list(
-      owner = github_owner(),
-      repo = github_repo()
-    )
-  }
+  data$tutorial_title <- title
 
   new <- use_template(
-    if (is_package()) "package-README" else "project-README",
-    "README.Rmd",
+    "tutorial-template.Rmd",
+    save_as = path,
     data = data,
     ignore = TRUE,
     open = open
   )
   if (!new) return(invisible(FALSE))
 
-  if (uses_git()) {
-    use_git_hook(
-      "pre-commit",
-      render_template("readme-rmd-pre-commit.sh")
-    )
-  }
-
   invisible(TRUE)
-}
-
-#' @export
-#' @rdname use_readme_rmd
-use_readme_md <- function(open = interactive()) {
-  use_template(
-    if (is_package()) "package-README" else "project-README",
-    "README.md",
-    data = project_data(),
-    open = open
-  )
 }
