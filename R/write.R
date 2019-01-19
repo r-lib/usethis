@@ -62,6 +62,34 @@ write_union <- function(path, lines, quiet = FALSE) {
   write_utf8(path, all)
 }
 
+#' @describeIn write-this writes lines to a file, taking what's
+#'   already there, if anything, and appending some new lines. Note, there is no
+#'   explicit promise about the line order. Designed to modify simple config
+#'   files like `.Rbuildignore` and `.gitignore`.
+#' @export
+write_append <- function(path, lines, quiet = FALSE) {
+  stopifnot(is.character(lines))
+  path <- user_path_prep(path)
+
+  if (file_exists(path)) {
+    existing_lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  } else {
+    existing_lines <- character()
+  }
+
+  new <- setdiff(lines, existing_lines)
+  if (length(new) == 0) {
+    return(invisible(FALSE))
+  }
+
+  if (!quiet) {
+    ui_done("Adding {ui_value(new)} to {ui_path(path)}")
+  }
+
+  all <- c(lines, existing_lines)
+  write_utf8(path, all)
+}
+
 #' @describeIn write-this writes a file with specific lines, creating it if
 #'   necessary or overwriting existing, if proposed contents are not identical
 #'   and user is available to give permission.
