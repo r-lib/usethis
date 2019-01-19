@@ -22,7 +22,7 @@
 #' }
 use_vignette <- function(name, title = name) {
   check_is_package("use_vignette()")
-  check_filename(name)
+  check_vignette_name(name)
 
   use_dependency("knitr", "Suggests")
   use_description_field("VignetteBuilder", "knitr")
