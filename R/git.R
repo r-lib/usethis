@@ -197,7 +197,7 @@ git_sitrep <- function() {
 #' @export
 git_vaccinate <- function() {
   path <- git_ignore_path("user")
-  write_union(path, git_global_ignore)
+  write_append(path, git_global_ignore)
 }
 
 git_vaccinated <- function() {
