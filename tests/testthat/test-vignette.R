@@ -11,15 +11,15 @@ test_that("use_vignette() requires a `name`", {
   skip_if_not_installed("rmarkdown")
 
   scoped_temporary_package()
-  expect_error(use_vignette("01-test"), "invalid vignette name")
-  expect_error(use_vignette("test.1"), "invalid vignette name")
+  expect_error(use_vignette(), "no default")
 })
 
-test_that("use_vignette() `name` is valid", {
+test_that("use_vignette() requires valid `name`", {
   skip_if_not_installed("rmarkdown")
 
   scoped_temporary_package()
-  expect_error(use_vignette(), "no default")
+  expect_error(use_vignette("01-test"), "invalid vignette name")
+  expect_error(use_vignette("test.1"), "invalid vignette name")
 })
 
 test_that("use_vignette() does the promised setup", {
