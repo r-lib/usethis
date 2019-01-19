@@ -255,7 +255,27 @@ tidy_unzip <- function(zipfile) {
 normalize_url <- function(url) {
   stopifnot(is.character(url))
   has_scheme <- grepl("^http[s]?://", url)
-  ifelse(has_scheme, url, paste0("https://", url))
+
+  if(!has_scheme){
+    if(!is_shortlink(url)){
+      url <- purrr::possibly(expand_github, url)(url)
+    }
+    url <- paste0("https://", url)
+  }
+  url
+}
+
+is_shortlink <- function(url) {
+  shortlink_hosts <- c("rstd\\.io", "bit\\.ly")
+  any(purrr::map_lgl(shortlink_hosts, grepl,
+    x = url))
+}
+
+expand_github <- function(url){
+  # mostly to handle errors in the spec
+  repo_spec <- parse_repo_spec(url)
+  paste0("github.com/", repo_spec$owner, "/",
+    repo_spec$repo, "/archive/master.zip")
 }
 
 conspicuous_place <- function() {
