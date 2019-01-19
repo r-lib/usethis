@@ -261,13 +261,19 @@ normalize_url <- function(url) {
   stopifnot(is.character(url))
   has_scheme <- grepl("^http[s]?://", url)
 
-  if(!has_scheme){
-    if(!is_shortlink(url)){
-      url <- purrr::possibly(expand_github, url)(url)
-    }
-    url <- paste0("https://", url)
+  if (has_scheme){
+    return(url)
   }
-  url
+
+  if (!is_shortlink(url)){
+    url <- tryCatch(
+      expand_github(url),
+      error = function(e) url
+    )
+  }
+
+  paste0("https://", url)
+
 }
 
 is_shortlink <- function(url) {
