@@ -8,10 +8,12 @@ test_that("adds http(s) if missing, otherwise leaves unchanged", {
 })
 
 test_that("shortlinks pass through", {
-  url <- "bit.ly/usethis-shortlink-example"
-  expect_equal(normalize_url(url), paste0("https://", url))
-  expect_equal(normalize_url(paste0("https://", url)), paste0("https://", url))
-  expect_equal(normalize_url(paste0("http://", url)), paste0("http://", url))
+  url1 <- "bit.ly/usethis-shortlink-example"
+  url2 <- "rstd.io/usethis-shortlink-example"
+  expect_equal(normalize_url(url1), paste0("https://", url1))
+  expect_equal(normalize_url(url2), paste0("https://", url2))
+  expect_equal(normalize_url(paste0("https://", url1)), paste0("https://", url1))
+  expect_equal(normalize_url(paste0("http://", url1)), paste0("http://", url1))
 })
 
 test_that("github links get expanded", {
