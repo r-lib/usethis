@@ -54,7 +54,8 @@ If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named &quot;usethis.description&quot;. Here's an example of
 code to include in .Rprofile:options(
   usethis.description = list(
-    `Authors@R` = 'person(&quot;Jane&quot;, &quot;Doe&quot;, email = &quot;jane@example.com&quot;, role = c(&quot;aut&quot;, &quot;cre&quot;))',
+    `Authors@R` = 'person(&quot;Jane&quot;, &quot;Doe&quot;, email = &quot;jane@example.com&quot;, role = c(&quot;aut&quot;, &quot;cre&quot;),
+                          comment = c(ORCID = &quot;YOUR-ORCID-ID&quot;))',
     License = &quot;MIT + file LICENSE&quot;,
     Language =  &quot;es&quot;
   )
@@ -173,7 +174,8 @@ recommended to switch to an option named "usethis.description".</p></li>
 named list in an option named <code>"usethis.description"</code>. Here's an example of
 code to include in <code>.Rprofile</code>:</p><pre>options(
   usethis.description = list(
-    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
+    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
+                          comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "MIT + file LICENSE",
     Language =  "es"
   )
