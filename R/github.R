@@ -83,7 +83,7 @@ use_github <- function(organisation = NULL,
     ui_todo("Check title and description")
     ui_code_block(
       "
-      Name:        {repo_name},
+      Name:        {repo_name}
       Description: {repo_desc}
       ",
       copy = FALSE
