@@ -28,6 +28,6 @@ use_addin <- function(addin = "new_addin", open = interactive()) {
     edit_file(proj_path(addin_dcf_path))
   }
 
-  invisible(return(TRUE))
+  invisible(TRUE)
 }
 
