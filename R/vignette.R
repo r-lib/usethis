@@ -57,9 +57,9 @@ use_vignette_template <- function(template, name, title) {
   data$braced_vignette_title <- glue::glue("{{{title}}}")
 
   use_template(template,
-               save_as = path,
-               data = data,
-               open = TRUE
+    save_as = path,
+    data = data,
+    open = TRUE
   )
 
   path
