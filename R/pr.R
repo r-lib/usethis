@@ -74,7 +74,7 @@ pr_fetch <- function(number, owner = NULL) {
   remote <- paste0(user, "/", ref)
 
   if (!user %in% git2r::remotes(git_repo())) {
-    ui_done("Adding remote {ui_value(remote)}")
+    ui_done("Adding remote {ui_value(user)}")
     git2r::remote_add(git_repo(), user, pr$head$repo$ssh_url)
   }
 
