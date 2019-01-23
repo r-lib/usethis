@@ -4,8 +4,9 @@
 \alias{use_github}
 \title{Connect a local repo with GitHub}
 \usage{
-use_github(organisation = NULL, private = FALSE, protocol = c("ssh",
-  "https"), credentials = NULL, auth_token = NULL, host = NULL)
+use_github(organisation = NULL, private = FALSE,
+  protocol = getOption("usethis.protocol", default = "ssh"),
+  credentials = NULL, auth_token = NULL, host = NULL)
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this
@@ -13,7 +14,8 @@ organisation. You must have access to create repositories.}
 
 \item{private}{If \code{TRUE}, creates a private repository.}
 
-\item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
+\item{protocol}{transfer protocol, either "ssh" (the default) or "https".
+You can supply a global default with \code{options(usethis.protocol = "https")}.}
 
 \item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific ssh
 credentials or \code{NULL} for default ssh key and ssh-agent behaviour.}
@@ -55,12 +57,15 @@ default locations, \code{~/.ssh/id_rsa.pub} and \code{~/.ssh/id_rsa}, respective
 that \code{ssh-agent} is configured to manage any associated passphrase.
 Alternatively, specify a \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} object via the \code{credentials}
 parameter. Read more about ssh setup in \href{http://happygitwithr.com/ssh-keys.html}{Happy Git}, especially the \href{http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting}{troubleshooting section}.
+
+You can change the default globally with \code{options(usethis.protocol = "https")}.
 }
 
 \examples{
 \dontrun{
 pkgpath <- file.path(tempdir(), "testpkg")
 create_package(pkgpath) # creates package below temp directory
+proj_set(pkgpath)
 
 ## now, working inside "testpkg", initialize git repository
 use_git()

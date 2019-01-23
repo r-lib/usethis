@@ -34,59 +34,72 @@ proj_sitrep <- function() {
 
 #' @export
 format.sitrep <- function(x, ...) {
-  glue::glue("
-    {field(format(names(x), justify = 'right'))}: \\
-    {ifelse(is_null(x), unset(x), value(x))}\n"
-  )
+  unset <- function(...) {
+    x <- paste0(...)
+    crayon::make_style("lightgrey")(x)
+  }
+
+  keys <- purrr::map_chr(format(names(x), justify = "right"), ui_field)
+  vals <- ifelse(is_null(x), unset(x), purrr::map(x, ui_value))
+  glue::glue("{keys}: {vals}")
 }
 
 #' @export
 print.sitrep <- function(x, ...) {
   out <- format(x)
-  for (i in seq_along(x)) cat_line(out[[i]])
+  cat_line(out)
 
-  cat_line()
   if (rstudioapi::isAvailable() && is.null(x[["active_rstudio_proj"]])) {
-    todo("
-         You are working in RStudio, but are not in an RStudio Project.
-           A Project-based workflow offers many advantages. Read more at:
-           https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects
-           https://www.tidyverse.org/articles/2017/12/workflow-vs-script/
-         ")
+    ui_todo(
+      "
+      You are working in RStudio, but are not in an RStudio Project.
+      A Project-based workflow offers many advantages. Read more at:
+      https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects
+      https://www.tidyverse.org/articles/2017/12/workflow-vs-script/
+      "
+    )
   }
 
   if (is.null(x[["active_usethis_proj"]])) {
-    todo("
-         There is currently no active usethis project.
-           usethis attempts to activate a project upon first need.
-           Call {code('proj_get()')} to explicitly initiate project activation.
-         ")
+    ui_todo(
+      "
+      There is currently no active usethis project.
+      usethis attempts to activate a project upon first need.
+      Call {ui_code('proj_get()')} to explicitly initiate project activation.
+      "
+    )
   }
 
   if (!is.null(x[["active_usethis_proj"]]) &&
       x[["working_directory"]] != x[["active_usethis_proj"]]) {
-    todo("
-         Your working directory is not the same as the active usethis project.
-           To set working directory to the project: {code('setwd(proj_get())')}
-           To activate project in working directory: {code('proj_set(getwd())')}
-         ")
+    ui_todo(
+      "
+      Your working directory is not the same as the active usethis project.
+      To set working directory to the project: {ui_code('setwd(proj_get())')}
+      To activate project in working directory: {ui_code('proj_set(getwd())')}
+      "
+    )
   }
 
   if (!is.null(x[["active_rstudio_proj"]]) &&
       x[["working_directory"]] != x[["active_rstudio_proj"]]) {
-    todo("
-         Your working directory is not the same as the active RStudio Project.
-           To set working directory to the Project: {code('setwd(rstudioapi::getActiveProject())')}
-         ")
+    ui_todo(
+      "
+      Your working directory is not the same as the active RStudio Project.
+      To set working directory to the Project: {ui_code('setwd(rstudioapi::getActiveProject())')}
+      "
+    )
   }
 
   if (!is.null(x[["active_rstudio_proj"]]) &&
       !is.null(x[["active_usethis_proj"]]) &&
       x[["active_rstudio_proj"]] != x[["active_usethis_proj"]]) {
-    todo("
-         Your active RStudio Project is not the same as the active usethis project.
-           To set usethis project to RStudio Project: {code('proj_set(rstudioapi::getActiveProject())')}
-         ")
+    ui_todo(
+      "
+      Your active RStudio Project is not the same as the active usethis project.
+      To set usethis project to RStudio Project: {ui_code('proj_set(rstudioapi::getActiveProject())')}
+      "
+    )
   }
 
   invisible(x)

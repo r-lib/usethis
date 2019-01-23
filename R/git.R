@@ -15,31 +15,45 @@ use_git <- function(message = "Initial commit") {
     return(invisible())
   }
 
-  done("Initialising Git repo")
-  r <- git2r::init(proj_get())
+  ui_done("Initialising Git repo")
+  git_init()
 
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
+  git_ask_commit(message)
 
-  if (interactive() && git_uncommitted()) {
-    paths <- unlist(git2r::status(r))
-    commit_consent_msg <- glue(
-      "OK to make an initial commit of {length(paths)} files?"
-    )
-    if (yep(commit_consent_msg)) {
-      done("Adding files and committing")
-      git2r::add(r, paths)
-      if (length(paths) > 0) {
-        git2r::add(r, paths)
-      }
-      git2r::commit(r, message)
-    }
+  restart_rstudio("A restart of RStudio is required to activate the Git pane")
+  invisible(TRUE)
+}
+
+git_ask_commit <- function(message) {
+  if (!interactive())
+    return(invisible())
+
+  paths <- unlist(git_status(), use.names = FALSE)
+  if (length(paths) == 0)
+    return(invisible())
+
+  paths <- sort(paths)
+
+  ui_paths <- purrr::map_chr(proj_path(paths), ui_path)
+  n <- length(ui_paths)
+  if (n > 20) {
+    ui_paths <- c(ui_paths[1:20], "...")
   }
 
-  restart_rstudio(
-    "A restart of RStudio is required to activate the Git pane"
-  )
-  invisible(TRUE)
+  ui_line(c(
+    "There are {n} files uncommited files:",
+    paste0("* ", ui_paths)
+  ))
 
+  if (ui_yeah("Is it ok to commit them?")) {
+    ui_done("Adding files")
+    repo <- git_repo()
+    git2r::add(repo, paths)
+    ui_done("Commit with message {ui_value(message)}")
+    git2r::commit(repo, message)
+  }
+  invisible()
 }
 
 #' Add a git hook
@@ -57,8 +71,9 @@ use_git <- function(message = "Initial commit") {
 use_git_hook <- function(hook, script) {
   check_uses_git()
 
-  hook_dir <- create_directory(proj_get(), ".git/hooks")
-  hook_path <- path(hook_dir, hook)
+  hook_path <- proj_path(".git", "hooks", hook)
+  create_directory(path_dir(hook_path))
+
   write_over(hook_path, script)
   file_chmod(hook_path, "0744")
 
@@ -84,17 +99,15 @@ use_git_ignore <- function(ignores, directory = ".") {
 #' where local config overrides global, if present. Use [git2r::config()]
 #' directly or the command line for general Git configuration.
 #'
-#' @return  A list with components `user.name` and `user.email`.
-#'
+#' @param ... Name-value pairs.
+#' @return Invisibly, the previous values of the modified components.
 #' @inheritParams edit
-#' @inheritParams git2r::config
 #'
 #' @family git helpers
 #' @export
 #' @examples
 #' \dontrun{
-#' ## see if user name and email are currently configured
-#' use_git_config()
+#' git_sitrep()
 #'
 #' ## set the user's global user.name and user.email
 #' use_git_config(user.name = "Jane", user.email = "jane@example.org")
@@ -107,59 +120,100 @@ use_git_ignore <- function(ignores, directory = ".") {
 #' )
 #' }
 use_git_config <- function(scope = c("user", "project"), ...) {
-  scope <- switch(match.arg(scope), user = "global", project = "local")
+  scope <- match.arg(scope)
 
-  if (length(list(...)) == 0) {
-    if (uses_git()) {
-      cfg <- git2r::config(repo = git2r::repository(proj_get()))
-    } else {
-      cfg <- git2r::config()
-    }
+  if (scope == "user") {
+    git_config(...)
   } else {
-    done("Writing to {field(scope)} git config file")
-    if (identical(scope, "global")) {
-      cfg <- git2r::config(global = TRUE, ...)
+    check_uses_git()
+    git_config(..., .repo = git_repo())
+  }
+}
+
+#' git/GitHub sitrep
+#'
+#' Get a situation report on your current git/GitHub status. Useful for
+#' diagnosing problems
+#'
+#' @export
+#' @examples
+#' git_sitrep()
+git_sitrep <- function() {
+  name <- git_config_get("user.name", global = TRUE)
+  email <- git_config_get("user.email", global = TRUE)
+
+  hd_line <- function(name) {
+    cat_line(crayon::bold(name))
+  }
+  kv_line <- function(key, value) {
+    if (is.null(value)) {
+      value <- crayon::red("<unset>")
     } else {
-      check_uses_git()
-      r <- git2r::repository(proj_get())
-      cfg <- git2r::config(repo = r, global = FALSE, ...)
+      value <- ui_value(value)
+    }
+    cat_line("* ", ui_field(key), ": ", value)
+  }
+
+  hd_line("User")
+  kv_line("Name", name)
+  kv_line("Email", email)
+  kv_line("Has SSH keys", git_has_ssh())
+  kv_line("Vaccinated: ", git_vaccinated())
+
+  hd_line("git2r")
+  kv_line("Supports SSH", git2r::libgit2_features()$ssh)
+
+  if (proj_active()) {
+    hd_line("Project")
+    if (uses_git()) {
+      repo <- git_repo()
+      kv_line("Path", repo$path)
+      kv_line("Branch", git_branch_name())
+      kv_line("Remote", git_branch_remote())
+    } else {
+      cat_line("Git not activated")
     }
   }
 
-  local_cfg <- cfg[["local"]] %||% list()
-  global_cfg <- cfg[["global"]] %||% list()
-  cfg <- utils::modifyList(global_cfg, local_cfg)
-  nms <- c("user.name", "user.email")
-  return(stats::setNames(cfg[nms], nms))
+  hd_line("GitHub")
+  if (!nzchar(gh_token())) {
+    cat_line("No token available")
+  } else {
+    who <- gh::gh_whoami()
+    kv_line("User", who$login)
+    kv_line("Name", who$name)
+  }
 }
 
-uses_git <- function(path = proj_get()) {
-  !is.null(git2r::discover_repository(path))
+
+# Vaccination -------------------------------------------------------------
+
+#' Vaccinate your global git ignore
+#'
+#' Adds `.DS_Store`, `.Rproj.user`, and `.Rhistory` to your global
+#' `.gitignore`. This is good practices as it ensures that you will never
+#' accidentally leak credentials to GitHub.
+#'
+#' @export
+git_vaccinate <- function() {
+  path <- git_ignore_path("user")
+  write_union(path, git_global_ignore)
 }
 
-check_uses_git <- function(base_path = proj_get()) {
-  if (uses_git(base_path)) {
-    return(invisible())
+git_vaccinated <- function() {
+  path <- git_ignore_path("user")
+  if (!file_exists(path)) {
+    return(FALSE)
   }
 
-  stop_glue(
-    "Cannot detect that project is already a Git repository.\n",
-    "Do you need to run {code('use_git()')}?"
-  )
+  lines <- readLines(path)
+  all(git_global_ignore %in% lines)
 }
 
-git_check_in <- function(base_path, paths, message) {
-  if (!uses_git(base_path))
-    return(invisible())
+git_global_ignore <- c(
+  ".Rproj.user",
+  ".Rhistory",
+  ".Rdata",
+  ".DS_Store"
+)
 
-  if (!git_uncommitted(base_path))
-    return(invisible())
-
-  done("Checking into git [{message}]")
-
-  r <- git2r::repository(base_path)
-  git2r::add(r, paths)
-  git2r::commit(r, message)
-
-  invisible(TRUE)
-}

@@ -6,10 +6,8 @@
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
 #'   project
 #'
-#' Both functions can add project infrastructure to an existing directory of
-#' files or can create a completely new project. Both functions change the
-#' active project, so that subsequent `use_*()` calls affect the project
-#' that you've just created. See [proj_set()] to manually reset it.
+#' Both functions can be called on an existing project; you will be asked
+#' before any existing files are changed.
 #'
 #' @param path A path. If it exists, it is used. If it does not exist, it is
 #'   created, provided that the parent path exists.
@@ -21,22 +19,28 @@
 #'   that the directory can be recognized as a project by the
 #'   [here](https://here.r-lib.org) or
 #'   [rprojroot](https://rprojroot.r-lib.org) packages.
-#' @param open If `TRUE` and in RStudio, a new RStudio project is opened in a
-#'   new instance, if possible, or is switched to, otherwise. If `TRUE` and not
-#'   in RStudio (or new project is not an RStudio project), working directory is
-#'   set to the new project.
+#' @param open If `TRUE`, [activates][proj_activate()] the new project:
+#'
+#'   * If RStudio desktop, the package is opened in a new session.
+#'   * If on RStudio server, the current RStudio project is activated.
+#'   * Otherwise, the working directory and active project is changed.
+#'
+#' @return Path to the newly created project or package, invisibly.
 #' @export
 create_package <- function(path,
                            fields = NULL,
                            rstudio = rstudioapi::isAvailable(),
                            open = interactive()) {
   path <- user_path_prep(path)
+  check_path_is_directory(path_dir(path))
+
   name <- path_file(path)
   check_package_name(name)
   check_not_nested(path_dir(path), name)
 
-  create_directory(path_dir(path), name)
+  create_directory(path)
   old_project <- proj_set(path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
   use_directory("man")
@@ -48,10 +52,13 @@ create_package <- function(path,
   }
 
   if (open) {
-    open_project(proj_get(), restore = old_project)
+    if (proj_activate(path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
+    }
   }
 
-  invisible(TRUE)
+  invisible(proj_get())
 }
 
 #' @export
@@ -63,24 +70,29 @@ create_project <- function(path,
   name <- path_file(path)
   check_not_nested(path_dir(path), name)
 
-  create_directory(path_dir(path), name)
+  create_directory(path)
   old_project <- proj_set(path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
 
   if (rstudio) {
     use_rstudio()
   } else {
-    done("Writing a sentinel file {value('.here')}")
-    todo("Build robust paths within your project via {code('here::here()')}")
-    todo("Learn more at https://here.r-lib.org")
+    ui_done("Writing a sentinel file {ui_path('.here')}")
+    ui_todo("Build robust paths within your project via {ui_code('here::here()')}")
+    ui_todo("Learn more at <https://here.r-lib.org>")
     file_create(proj_path(".here"))
   }
+
   if (open) {
-    open_project(proj_get(), restore = old_project)
+    if (proj_activate(path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
+    }
   }
 
-  invisible(TRUE)
+  invisible(proj_get())
 }
 
 #' Create a project from a GitHub repo
@@ -135,20 +147,21 @@ create_from_github <- function(repo_spec,
                                fork = NA,
                                rstudio = NULL,
                                open = interactive(),
-                               protocol = c("ssh", "https"),
+                               protocol = getOption("usethis.protocol", default = "ssh"),
                                credentials = NULL,
                                auth_token = NULL,
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
-  check_is_dir(destdir)
-  protocol <- match.arg(protocol)
+  check_path_is_directory(destdir)
+  protocol <- match.arg(protocol, c("ssh", "https"))
 
   owner <- spec_owner(repo_spec)
   repo <- spec_repo(repo_spec)
   check_not_nested(destdir, repo)
 
-  repo_path <- create_directory(destdir, repo)
-  check_is_empty(repo_path)
+  repo_path <- path(destdir, repo)
+  create_directory(repo_path)
+  check_directory_is_empty(repo_path)
 
   pat <- auth_token %||% gh_token()
   pat_available <- pat != ""
@@ -168,7 +181,7 @@ create_from_github <- function(repo_spec,
   fork <- rationalize_fork(fork, repo_info, pat_available, user)
   if (fork) {
     ## https://developer.github.com/v3/repos/forks/#create-a-fork
-    done("Forking {value(repo_info$full_name)}")
+    ui_done("Forking {ui_value(repo_info$full_name)}")
     upstream_url <- switch(
       protocol,
       https = repo_info$clone_url,
@@ -185,18 +198,19 @@ create_from_github <- function(repo_spec,
     ssh = repo_info$ssh_url
   )
 
-  done("Cloning repo from {value(origin_url)} into {value(repo_path)}")
+  ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
   git2r::clone(
     origin_url,
     repo_path,
     credentials = credentials,
     progress = FALSE
   )
-  old_project <- proj_set(repo_path)
+  old_project <- proj_set(repo_path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   if (fork) {
     r <- git2r::repository(proj_get())
-    done("Adding {value('upstream')} remote: {value(upstream_url)}")
+    ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     git2r::remote_add(r, "upstream", upstream_url)
   }
 
@@ -207,35 +221,13 @@ create_from_github <- function(repo_spec,
   }
 
   if (open) {
-    open_project(proj_get(), restore = old_project)
-  }
-  invisible(TRUE)
-
-}
-
-## `restore = NA` means do not restore, because ...
-## `restore = NULL` has to be reserved for the scenario where we restore state of "no active project"
-##
-## `rstudio` arg here is about whether to attempt a launch in RStudio
-## `rstudio` arg of `create_*()` functions is about whether to add .Rproj file
-open_project <- function(path, restore = NA, rstudio = NA) {
-  if (is.na(rstudio)) {
-    rstudio <- is_rstudio_project(path)
-  }
-
-  if (rstudio && rstudioapi::hasFun("openProject")) {
-    done("Opening new project {value(path_file(path))} in RStudio")
-    rstudioapi::openProject(rproj_path(path), newSession = TRUE)
-    ## TODO: check this is correct on rstudio server / cloud
-    if (is.null(restore) || !is.na(restore)) {
-      proj_set(restore, force = TRUE)
+    if (proj_activate(repo_path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
     }
-    invisible(TRUE)
-  } else {
-    setwd(path)
-    done("Changing working directory to {value(path)}")
-    invisible(FALSE)
   }
+
+  invisible(proj_get())
 }
 
 check_not_nested <- function(path, name) {
@@ -251,16 +243,12 @@ check_not_nested <- function(path, name) {
     return()
   }
 
-  message <- glue(
-    "New project {value(name)} is nested inside an existing project ",
-    "{value(path)}."
+  ui_line(
+    "New project {ui_value(name)} is nested inside an existing project\\
+    {ui_path(path)}, which is rarely a good idea."
   )
-  if (!interactive()) {
-    stop_glue(message)
-  }
-
-  if (nope(message, " This is rarely a good idea. Do you wish to create anyway?")) {
-    stop_glue("Aborting project creation.")
+  if (ui_nope("Do you want to create anyway?")) {
+    ui_stop("Aborting project creation.")
   }
   invisible()
 }
@@ -279,9 +267,9 @@ rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
   }
 
   if (fork && identical(user, owner)) {
-    stop_glue(
-      "Repo {value(repo_info$full_name)} is owned by user ",
-      "{value(user)}. Can't fork."
+    ui_stop(
+      "Repo {ui_value(repo_info$full_name)} is owned by user\\
+      {ui_value(user)}. Can't fork."
     )
   }
 

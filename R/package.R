@@ -1,6 +1,6 @@
 #' Depend on another package
 #'
-#' `use_package()` adds a CRAN package dependency to DESCRIPTION and offers a
+#' `use_package()` adds a CRAN package dependency to `DESCRIPTION` and offers a
 #' little advice about how to best use it. `use_dev_package()` adds a versioned
 #' dependency on an in-development GitHub package, adding the repo to `Remotes`
 #' so it will be automatically installed from the correct location.
@@ -9,6 +9,8 @@
 #' @param type Type of dependency: must be one of "Imports", "Depends",
 #'   "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation). Matching
 #'   is case insensitive.
+#' @param min_version Optionally, supply a minimum version for the package.
+#'   Set to `TRUE` to use the currently installed version.
 #' @seealso The [dependencies
 #'   section](http://r-pkgs.had.co.nz/description.html#dependencies) of [R
 #'   Packages](http://r-pkgs.had.co.nz).
@@ -19,40 +21,13 @@
 #' use_package("dplyr", "suggests")
 #' use_dev_package("glue")
 #' }
-use_package <- function(package, type = "Imports") {
-  types <- tolower(c("Imports", "Depends", "Suggests", "Enhances", "LinkingTo"))
-  type <- match.arg(tolower(type), types)
+use_package <- function(package, type = "Imports", min_version = NULL) {
   refuse_package(package, verboten = "tidyverse")
 
-  use_dependency(package, type)
-
-  switch(tolower(type),
-    imports = todo("Refer to functions with {code(package, '::fun()')}"),
-    depends = todo(
-      "Are you sure you want {field('Depends')}? ",
-      "{field('Imports')} is almost always the better choice."
-    ),
-    suggests = {
-      todo(
-        "Use {code('requireNamespace(\"', package, '\", quietly = TRUE)')} ",
-        "to test if package is installed"
-      )
-      todo("Then use {code(package, '::fun()')} to refer to functions.")
-    },
-    enhances = "",
-    linkingTo = show_includes(package)
-  )
+  use_dependency(package, type, min_version = min_version)
+  how_to_use(package, type)
 
   invisible()
-}
-
-show_includes <- function(package) {
-  incl <- system.file("include", package = package)
-  h <- dir_ls(incl, regexp = "[.](h|hpp)$")
-  if (length(h) == 0) return()
-
-  todo("Possible includes are:")
-  code_block("#include <{path_file(h)}>")
 }
 
 #' @export
@@ -60,30 +35,29 @@ show_includes <- function(package) {
 use_dev_package <- function(package, type = "Imports") {
   refuse_package(package, verboten = "tidyverse")
 
-  ## TO DO: in a future refactoring, find a way to get rid of this?
-  ## this exact check appears in `use_dependency()`
-  if (!requireNamespace(package, quietly = TRUE)) {
-    stop_glue(
-      "{value(package)} must be installed before you can ",
-      "take a dependency on it."
-    )
-  }
+  use_dependency(package, type = type, min_version = TRUE)
+  use_remote(package)
+  how_to_use(package, type)
 
+  invisible()
+}
+
+use_remote <- function(package) {
   package_remote <- package_remote(package)
-  use_dependency(package, type = type, version = dep_version(package))
   remotes <- desc::desc_get_remotes(proj_get())
   if (package_remote %in% remotes) {
     return(invisible())
   }
 
-  done(
-    "Adding {value(package_remote)} to {field('Remotes')} field in DESCRIPTION"
+  ui_done(
+    "Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in DESCRIPTION"
   )
   remotes <- c(remotes, package_remote)
   desc::desc_set_remotes(remotes, file = proj_get())
-
   invisible()
 }
+
+# Helpers -----------------------------------------------------------------
 
 ## TO DO: make this less hard-wired to GitHub?
 package_remote <- function(package) {
@@ -91,19 +65,49 @@ package_remote <- function(package) {
   github_info <- desc$get(c("GithubUsername", "GithubRepo"))
 
   if (any(is.na(github_info))) {
-    stop_glue("{value(package)} was not installed from GitHub.")
+    ui_stop("{ui_value(package)} was not installed from GitHub.")
   }
 
-  collapse(github_info, sep = "/")
+  glue_collapse(github_info, sep = "/")
 }
 
 refuse_package <- function(package, verboten) {
   if (identical(package, verboten)) {
-    stop_glue(
-      "{value(package)} is a meta-package and it is rarely a good idea to ",
-      "depend on it. Please determine the specific underlying package(s) that ",
-      "offer the function(s) you need and depend on that instead."
+    ui_stop(
+      "{ui_value(package)} is a meta-package and it is rarely a good idea to \\
+      depend on it. Please determine the specific underlying package(s) that \\
+      offer the function(s) you need and depend on that instead."
     )
   }
   invisible(package)
+}
+
+how_to_use <- function(package, type) {
+  types <- tolower(c("Imports", "Depends", "Suggests", "Enhances", "LinkingTo"))
+  type <- match.arg(tolower(type), types)
+
+  switch(type,
+    imports = ui_todo("Refer to functions with {ui_code(paste0(package, '::fun()'))}"),
+    depends = ui_todo(
+      "Are you sure you want {ui_field('Depends')}?\\
+      {ui_field('Imports')} is almost always the better choice."
+    ),
+    suggests = {
+      code <- glue("requireNamespace(\"{package}\", quietly = TRUE)")
+      ui_todo("Use {ui_code(code)} to test if package is installed")
+      code <- glue("{package}::fun()")
+      ui_todo("Then use {ui_code(code)} to refer to functions.")
+    },
+    enhances = "",
+    linkingto = show_includes(package)
+  )
+}
+
+show_includes <- function(package) {
+  incl <- system.file("include", package = package)
+  h <- dir_ls(incl, regexp = "[.](h|hpp)$")
+  if (length(h) == 0) return()
+
+  ui_todo("Possible includes are:")
+  ui_code_block("#include <{path_file(h)}>", copy = FALSE)
 }

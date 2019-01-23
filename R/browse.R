@@ -51,9 +51,12 @@ browse_github_pulls <- function(package = NULL, number = NULL) {
 
 #' @export
 #' @rdname browse-this
-browse_travis <- function(package = NULL) {
+#' @param ext Version of travis to use.
+browse_travis <- function(package = NULL, ext = c("org", "com")) {
   gh <- github_home(package)
-  view_url(sub("github.com", "travis-ci.org", gh))
+  ext <- rlang::arg_match(ext)
+  travis_url <- glue::glue("travis-ci.{ext}")
+  view_url(sub("github.com", travis_url, gh))
 }
 
 #' @export
@@ -78,7 +81,11 @@ github_link <- function(package = NULL) {
   gh_links <- grep("^https?://github.com/", urls, value = TRUE)
 
   if (length(gh_links) == 0) {
-    stop_glue("Package does not provide a GitHub URL.")
+    ui_warn("
+      Package does not provide a GitHub URL.
+      Falling back to GitHub CRAN mirror"
+    )
+    return(glue("https://github.com/cran/{package}"))
   }
 
   gsub("/$", "", gh_links[[1]])

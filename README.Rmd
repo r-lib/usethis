@@ -13,13 +13,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-# usethis <img src="man/figures/logo.png" align="right" height=140/>
+# usethis <img src="man/figures/logo.png" align="right" height="139" />
 
+<!-- badges: start -->
 [![Travis build status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis)
-[![Coverage status](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/github/r-lib/usethis?branch=master)
-[![CRAN status](http://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis)
+[![Codecov test coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/usethis?branch=master)
+[![CRAN status](https://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+<!-- badges: end -->
 
 usethis is a workflow package: it automates repetitive tasks that arise during project setup and development, both for R packages and non-package projects.
 
@@ -40,7 +42,7 @@ devtools::install_github("r-lib/usethis")
 
 ## Usage
 
-Most `use_*()` functions operate on the *active project*: literally, a directory on your computer. If you've just used usethis to create a new package or project, that will be the active project. Otherwise, usethis verifies that current working directory is or is below a valid project directory and that becomes the active project. Use `proj_get()` or `proj_sitrep()` to manually query the project and [read more in the docs](http://usethis.r-lib.org/reference/proj_get.html).
+Most `use_*()` functions operate on the *active project*: literally, a directory on your computer. If you've just used usethis to create a new package or project, that will be the active project. Otherwise, usethis verifies that current working directory is or is below a valid project directory and that becomes the active project. Use `proj_get()` or `proj_sitrep()` to manually query the project and [read more in the docs](https://usethis.r-lib.org/reference/proj_utils.html).
 
 A few usethis functions have no strong connections to projects and will expect you to provide a path.
 
@@ -52,15 +54,15 @@ Below is a quick look at how usethis can help to set up a package. But remember,
 library(usethis)
 
 # Create a new package -------------------------------------------------
-tmp <- file.path(tempdir(), "mypkg")
-create_package(tmp)
+path <- file.path(tempdir(), "mypkg")
+create_package(path)
+# only needed since this session isn't interactive
+proj_activate(path)
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
 
 use_package("MASS", "Suggests")
-
-use_dev_package("callr")
 
 # Set up various packages ---------------------------------------------
 use_roxygen_md()

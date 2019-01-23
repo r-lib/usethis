@@ -1,7 +1,7 @@
 #' Create or modify a DESCRIPTION file
 #'
 #' @description
-#' usethis consults the following sources, in this order, to set DESCRIPTION
+#' usethis consults the following sources, in this order, to set `DESCRIPTION`
 #' fields:
 #' * `fields` argument of [create_package()] or [use_description()].
 #' * `getOption("usethis.description")` or `getOption("devtools.desc")`. The
@@ -19,14 +19,15 @@
 #' ```
 #' options(
 #'   usethis.description = list(
-#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
+#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
+#'                           comment = c(ORCID = "YOUR-ORCID-ID"))',
 #'     License = "MIT + file LICENSE",
-#'     Language: es
+#'     Language =  "es"
 #'   )
 #' )
 #' ```
 #'
-#' @param fields A named list of fields to add to DESCRIPTION, potentially
+#' @param fields A named list of fields to add to `DESCRIPTION`, potentially
 #'   overriding default values. See [use_description()] for how you can set
 #'   personalized defaults using package options
 #' @seealso The [description chapter](http://r-pkgs.had.co.nz/description.html)
@@ -53,6 +54,10 @@ use_description <- function(fields = NULL) {
   lines <- desc$str(by_field = TRUE, normalize = FALSE, mode = "file")
 
   write_over(proj_path("DESCRIPTION"), lines)
+
+  if (!getOption("usethis.quiet", default = FALSE)) {
+    print(desc)
+  }
 }
 
 #' @rdname use_description
@@ -66,7 +71,7 @@ use_description_defaults <- function() {
       Version = "0.0.0.9000",
       Title = "What the Package Does (One Line, Title Case)",
       Description = "What the package does (one paragraph).",
-      "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"))',
+      "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
       License = "What license it uses",
       Encoding = "UTF-8",
       LazyData = "true"
@@ -78,7 +83,7 @@ build_description <- function(fields = list()) {
   desc_list <- build_description_list(fields)
 
   # Collapse all vector arguments to single strings
-  desc <- vapply(desc_list, collapse, character(1))
+  desc <- vapply(desc_list, glue_collapse, character(1))
 
   glue("{names(desc)}: {desc}")
 }
@@ -94,13 +99,13 @@ build_description_list <- function(fields = list()) {
 
 check_package_name <- function(name) {
   if (!valid_name(name)) {
-    stop_glue(
-      "{value(name)} is not a valid package name. It should:\n",
-      "* Contain only ASCII letters, numbers, and '.'\n",
-      "* Have at least two characters\n",
-      "* Start with a letter\n",
-      "* Not end with '.'\n"
-    )
+    ui_stop(c(
+      "{ui_value(name)} is not a valid package name. It should:",
+      "* Contain only ASCII letters, numbers, and '.'",
+      "* Have at least two characters",
+      "* Start with a letter",
+      "* Not end with '.'"
+    ))
   }
 
 }
@@ -121,6 +126,8 @@ tidy_desc <- function(desc) {
   if (length(remotes) > 0) {
     desc$set_remotes(sort(remotes))
   }
+
+  desc$set("Encoding" = "UTF-8")
 
   # Normalize all fields (includes reordering)
   desc$normalize()

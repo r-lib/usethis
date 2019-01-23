@@ -10,12 +10,12 @@ use_description(fields = NULL)
 use_description_defaults()
 }
 \arguments{
-\item{fields}{A named list of fields to add to DESCRIPTION, potentially
+\item{fields}{A named list of fields to add to \code{DESCRIPTION}, potentially
 overriding default values. See \code{\link[=use_description]{use_description()}} for how you can set
 personalized defaults using package options}
 }
 \description{
-usethis consults the following sources, in this order, to set DESCRIPTION
+usethis consults the following sources, in this order, to set \code{DESCRIPTION}
 fields:
 \itemize{
 \item \code{fields} argument of \code{\link[=create_package]{create_package()}} or \code{\link[=use_description]{use_description()}}.
@@ -32,9 +32,10 @@ If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named \code{"usethis.description"}. Here's an example of
 code to include in \code{.Rprofile}:\preformatted{options(
   usethis.description = list(
-    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
+    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
+                          comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "MIT + file LICENSE",
-    Language: es
+    Language =  "es"
   )
 )
 }

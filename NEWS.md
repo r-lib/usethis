@@ -1,12 +1,209 @@
-# usethis *development version*
+# usethis (development version)
 
-* `with_project()` and `local_project()` are new withr-style functions to temporarily set an active usethis project. They make usethis functions easier to use in an *ad hoc* fashion or from another package (#441).
+## New features
 
-* `proj_get()` and `proj_set()` no longer have a `quiet` argument. The user-facing message about setting a project is now under the same control as other messages, i.e. `getOption("usethis.quiet", default = FALSE)` (#441).
+* `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
+  config (#328).
 
-## Dependency changes
+* `git_vaccinate()` vaccinates your global git ignore file ensuring that
+  you never check in files likely to contain confidental information (#469).
+  It is called automatically if `use_git_ignore()` creates a new `.gitnore`
+  file.
 
-withr moves from Suggests to Imports.
+* `pr_init()`, `pr_fetch()`, `pr_push()`, `pr_pull()`, and `pr_finish()` are a
+  new family of helpers designed to help with the GitHub PR process. Currently 
+  they assume that you're working on your own repo (i.e. no fork), but once 
+  we've happy with them, we'll extend to work on more situations (#346).
+
+* New `proj_activate()` lets you activate a project either opening a new 
+  RStudio session (if you use RStudio), or changing the working directory 
+  (#511).
+
+* `use_article()` creates articles, vignettes that are automatically
+  added to `.Rbuildignore`. These appear on pkgdown sites, but are not 
+  included with the package itself (#281).
+
+* `use_citation()` creates a basic `CITATION` template and puts it in the 
+  right place (#100).
+
+* `use_c("foo")` sets up `src/` and creates `src/foo.c` (#117).
+
+* `use_conflicted()` (#362) and `use_reprex()` (#465) help add useful packages 
+  to your `.Rprofile`.
+  
+* `use_covr_ignore()` makes it easy to ignore files in test coverage (#434).
+
+* `use_github_release()` creates a draft GitHub release using the entries
+  in  `NEWS.md` (#137).
+
+* `use_lgpl_license()` automates set up of the LGL license (#448, @krlmlr).
+
+* `use_partial_warnings()` helps use add standard warning block to your
+  `.Rprofile` (#64).
+
+* `use_pkgdown_travis()` helps you set up pkgdown for automatic deployment
+  from travis to github pages (#524).
+
+* `use_rcpp("foo")` now creates `src/foo.cpp` (#117).
+
+* `use_release_issue()` creates a GitHub issue containing a release checklist 
+  capturing best practices discovered by the tidyverse team (#338)
+
+## Partial file management
+
+usethis gains tooling to manage part of a file. This currently used for managing badges in your README, and roxygen import tags:
+
+*   `use_badge()` and friends now automatically add badges if your README 
+    contains a specially formatted badge block (#497):
+
+    ```
+    <-- badge:start -->
+    <-- badge:end -->
+    ```
+ 
+*   `use_tibble()` and `use_rcpp()` automatically adding roxygen tags to 
+    to `{package}-package.R` if it contains a specially formatted namespace
+    block (#517):
+
+    ```R
+    ## usethis namespace: start
+    ## usethis namespace: end
+    NULL
+    ```
+    
+    Unfortunately this means that `use_rcpp()` no longer supports non-roxygen2
+    workflows, but I suspect the set of people who use usethis and Rcpp but 
+    not roxygen2 is very small.
+
+## Extending and wrapping usethis
+
+* `proj_get()` and `proj_set()` no longer have a `quiet` argument. The 
+  user-facing message about setting a project is now under the same control 
+  as other messages, i.e. `getOption("usethis.quiet", default = FALSE)` (#441).
+
+* A new family of `ui_` functions makes it possible to make use of the 
+  user interface of usethis in your own code (#308). There are four families 
+  of functions:
+
+    * block styles: `ui_line()`, `ui_done()`, `ui_todo()`.
+    * conditions: `ui_stop()`, `ui_warn()`.
+    * questions: `ui_yeah()`, `ui_nope()`.
+    * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`.
+
+* `with_project()` and `local_project()` are new withr-style functions to 
+  temporarily set an active usethis project. They make usethis functions easier 
+  to use in an *ad hoc* fashion or from another package (#441).
+
+## Tidyverse standards
+
+(These standards are used by all tidyverse packages; you are welcome to use them if you find them helpful.)
+
+* Call `use_tidy_labels()` to update GitHub labels. Colours are less 
+  saturated, docs is now documentation, we use some emoji, and performance is 
+  no longer automatically added to all repos (#519). Repo specific issues
+  should be given colour `#eeeeee` and have an emoji.
+
+* Call `use_logo()` to update the package logo to the latest specifications:
+  `man/figure/logo.png` should be 240 x 278, and README should contain
+  `<img src="man/figures/logo.png" align="right" height="139" />`.
+  This gives a nicer display on retina displays. The logo is also linked to the
+  pkgdown site if available (#536).
+
+* When creating a new package, use `create_tidy_package()` to start with a
+  package following the tidyverse standards (#461). 
+
+* `NEWS.md` for the development version should use "(development version)" 
+  rather than the specific version (#440).
+
+* pkgdown sites should now be built by travis and deployed automatically to
+  GitHub pages. `use_pkgdown_travis()` will help you set that up.
+
+* When starting the release process, call `use_release_issue()` to create a 
+  release checklist issue.
+
+* Prior to CRAN submission call `use_tidy_release_test_env()` to update the 
+  test environment section in `cran-comments()` (#496).
+
+* After acceptance, try `use_github_release()` to automatically create a 
+  release. It's created as a draft so you have a chance to look over before
+  publishing.
+
+* `use_vignette()` includes the a standard initialisation chunk with
+  `knitr::opts_chunk$set(comment = "#>", collapse = TRUE)` which should
+  be used for all Rmds.
+
+## Minor bug fixes and improvements
+
+* `browse_github()` now falls back to CRAN organisation (with a warning) if 
+  package doesn't have it's own GitHub repo (#186).
+
+* `create_*()`restore the active project if they error part way through, 
+  and use `proj_activate()` (#453, #511).
+
+* `edit_r_buildignore()` opens `.Rbuildignore` for manual editing 
+   (#462, @bfgray3).
+
+* `edit_r_profile()` and `edit_r_environ()` now respect environment variables
+  `R_PROFILE_USER` and `R_ENVIRON_USER` respectively (#480).
+
+* `ui_code_block()` now strips ascii escapes before copying code to clipboard 
+  (#447).
+
+* `use_description()` once again prints the generated description (#287).
+
+* `use_description_field()` is no longer sensitive to whitespace, which
+  allows `use_vignette()` to work even if the `VignetteBuilder` field is
+  spread over multiple lines (#439).
+
+* `use_git_config()` now invisibly returns the previous values of the
+  settings.
+
+* `use_github()` and `create_from_github()` gain a `protocol` argument. The
+  default is still `"ssh"`, but it can be changed globally to `"https"` with 
+  `options(usethis.protocol = "https")`. (#494, @cderv)
+
+* `use_github_labels()` has been rewritten be more flexible. You can
+  now supply a repo name, and `descriptions`, and you can set 
+  colours/descriptions independently of creating labels. You can also `rename` 
+  existing labels (#290). 
+
+* `use_logo()` can override existing logo if user gives permission (#454).
+  It also produces retina approrpriate logos by default, and matches the 
+  aspect ratio to the <http://hexb.in/sticker.html> specification (#499).
+
+* `use_news_md()` will optionally commit.
+
+* `use_package()` gains a `min_version` argument to specify a minimum
+  version requirement (#498). Set to `TRUE` to use the currently installed 
+  version (#386). This is used by `use_tidy()` in order to require version 
+  0.1.2 or greater of rlang (#484).
+
+* `use_pkgdown()` is now configurable with site options (@jayhesselberth, #467),
+  and no longer creates the `docs/` directory (#495).
+
+* `use_test()` will not include a `context()` in the generated file if used 
+  with testthat 2.1.0 and above (the future release of testthat) (#325).
+
+* `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` 
+  (#502, @krlmlr).
+
+* `use_tidy_versions()` has source argument so that you can choose to use
+  local or CRAN versions (#309).
+
+* `use_travis()` gains an `ext` argument, defaulting to `"org"`. 
+  Use `ext = "com"` for `https://travis-ci.com`. (@cderv, #500)
+
+* `use_version()` asks before committing.
+
+* `use_vignette()` now has a `title` argument which is used in YAML header
+  (in the two places where it is needed). The vignettes also lose the default
+  author and date fields (@rorynolan, #445), and the RMarkdown starter material.
+  They gain a standard setup chunk.
+
+* `use_version("dev")` now creates a standard "(development version)" heading
+  in `NEWS.md` (#440).
+
+* withr moves from Suggests to Imports.
 
 # usethis 1.4.0
 

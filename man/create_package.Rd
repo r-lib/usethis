@@ -15,7 +15,7 @@ create_project(path, rstudio = rstudioapi::isAvailable(),
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
 created, provided that the parent path exists.}
 
-\item{fields}{A named list of fields to add to DESCRIPTION, potentially
+\item{fields}{A named list of fields to add to \code{DESCRIPTION}, potentially
 overriding default values. See \code{\link[=use_description]{use_description()}} for how you can set
 personalized defaults using package options}
 
@@ -26,10 +26,15 @@ that the directory can be recognized as a project by the
 \href{https://here.r-lib.org}{here} or
 \href{https://rprojroot.r-lib.org}{rprojroot} packages.}
 
-\item{open}{If \code{TRUE} and in RStudio, a new RStudio project is opened in a
-new instance, if possible, or is switched to, otherwise. If \code{TRUE} and not
-in RStudio (or new project is not an RStudio project), working directory is
-set to the new project.}
+\item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
+\itemize{
+\item If RStudio desktop, the package is opened in a new session.
+\item If on RStudio server, the current RStudio project is activated.
+\item Otherwise, the working directory and active project is changed.
+}}
+}
+\value{
+Path to the newly created project or package, invisibly.
 }
 \description{
 These functions create an R project:
@@ -39,8 +44,6 @@ These functions create an R project:
 project
 }
 
-Both functions can add project infrastructure to an existing directory of
-files or can create a completely new project. Both functions change the
-active project, so that subsequent \code{use_*()} calls affect the project
-that you've just created. See \code{\link[=proj_set]{proj_set()}} to manually reset it.
+Both functions can be called on an existing project; you will be asked
+before any existing files are changed.
 }

@@ -5,7 +5,7 @@
 \alias{use_dev_package}
 \title{Depend on another package}
 \usage{
-use_package(package, type = "Imports")
+use_package(package, type = "Imports", min_version = NULL)
 
 use_dev_package(package, type = "Imports")
 }
@@ -15,9 +15,12 @@ use_dev_package(package, type = "Imports")
 \item{type}{Type of dependency: must be one of "Imports", "Depends",
 "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation). Matching
 is case insensitive.}
+
+\item{min_version}{Optionally, supply a minimum version for the package.
+Set to \code{TRUE} to use the currently installed version.}
 }
 \description{
-\code{use_package()} adds a CRAN package dependency to DESCRIPTION and offers a
+\code{use_package()} adds a CRAN package dependency to \code{DESCRIPTION} and offers a
 little advice about how to best use it. \code{use_dev_package()} adds a versioned
 dependency on an in-development GitHub package, adding the repo to \code{Remotes}
 so it will be automatically installed from the correct location.

@@ -17,13 +17,13 @@
 #' }
 edit_file <- function(path) {
   path <- user_path_prep(path)
-  dir_create(path_dir(path), recursive = TRUE)
+  create_directory(path_dir(path))
   file_create(path)
 
   if (!interactive() || is_testing()) {
-    todo("Edit {(proj_rel_path(path))}")
+    ui_todo("Edit {ui_path(path)}")
   } else {
-    todo("Modify {value(proj_rel_path(path))}")
+    ui_todo("Modify {ui_path(path)}")
 
     if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
       rstudioapi::navigateToFile(path)
@@ -60,25 +60,31 @@ NULL
 #' @export
 #' @rdname edit
 edit_r_profile <- function(scope = c("user", "project")) {
-  file <- edit_file(scoped_path_r(scope, ".Rprofile"))
-  todo("Restart R for changes to take effect")
-  invisible(file)
+  ui_todo("Restart R for changes to take effect")
+  path <- scoped_path_r(scope, ".Rprofile", envvar = "R_PROFILE_USER")
+  edit_file(path)
 }
 
 #' @export
 #' @rdname edit
 edit_r_environ <- function(scope = c("user", "project")) {
-  file <- edit_file(scoped_path_r(scope, ".Renviron"))
-  todo("Restart R for changes to take effect")
-  invisible(file)
+  ui_todo("Restart R for changes to take effect")
+  path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
+  edit_file(path)
+}
+
+#' @export
+#' @rdname edit
+edit_r_buildignore <- function(scope = c("user", "project")) {
+  path <- scoped_path_r(scope, ".Rbuildignore")
+  edit_file(path)
 }
 
 #' @export
 #' @rdname edit
 edit_r_makevars <- function(scope = c("user", "project")) {
-  file <- edit_file(scoped_path_r(scope, ".R", "Makevars"))
-  todo("Restart R for changes to take effect")
-  invisible(file)
+  path <- scoped_path_r(scope, ".R", "Makevars")
+  edit_file(path)
 }
 
 #' @export
@@ -86,14 +92,33 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 #' @param type Snippet type. One of: "R", "markdown", "C_Cpp", "Tex",
 #'   "Javascript", "HTML", "SQL"
 edit_rstudio_snippets <- function(type = "R") {
-  file <- scoped_path_r(
-    "user",
-    ".R", "snippets", path_ext_set(tolower(type), "snippets")
-  )
-  invisible(edit_file(file))
+  # RStudio snippets stored using R's definition of ~
+  # https://github.com/rstudio/rstudio/blob/4febd2feba912b2a9f8e77e3454a95c23a09d0a2/src/cpp/core/system/Win32System.cpp#L411-L458
+  path <- path_home_r(".R", "snippets", path_ext_set(tolower(type), "snippets"))
+  edit_file(path)
 }
 
-# git files are special ----
+scoped_path_r  <- function(scope = c("user", "project"), ..., envvar = NULL) {
+  scope <- match.arg(scope)
+
+  # Try environment variable in user scopes
+  if (scope == "user" && !is.null(envvar)) {
+    env <- Sys.getenv(envvar, unset = "")
+    if (!identical(env, "")) {
+      return(user_path_prep(env))
+    }
+  }
+
+  root <- switch(scope,
+    user = path_home_r(),
+    project = proj_get()
+  )
+  path(root, ...)
+}
+
+# git paths ---------------------------------------------------------------
+# Note that on windows R's definition of ~ is in a nonstandard place,
+# so it is important to use path_home(), not path_home_r()
 
 #' @export
 #' @rdname edit
@@ -101,10 +126,10 @@ edit_git_config <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   path <- switch(
     scope,
-    user = ".gitconfig",
-    project = path(".git", "config")
+    user = path_home(".gitconfig"),
+    project = proj_path(".git", "config")
   )
-  invisible(edit_file(scoped_path_fs(scope, path)))
+  invisible(edit_file(path))
 }
 
 #' @export
@@ -113,49 +138,32 @@ edit_git_ignore <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
   file <- git_ignore_path(scope)
   if (scope == "user" && !file_exists(file)) {
-    done("Creating new global gitignore: {value(file)}")
-    git2r::config(
-      global = TRUE,
-      core.excludesfile = path("~", path_rel(file, scope_dir_fs(scope)))
-    )
+    ui_done("Setting up new global gitignore: {ui_path(file)}")
+    # Describe relative to home directory
+    path <- path("~", path_rel(file, path_home()))
+    git_config_set("core.excludesfile", path, global = TRUE)
+    git_vaccinate()
   }
   invisible(edit_file(file))
 }
 
-## .gitignore is more common, but .gitignore_global appears in some
-## very prominent places --> we must allow for the latter, if pre-exists
-git_ignore_path <- function(scope) {
-  path <- scoped_path_fs(scope, ".gitignore")
+git_ignore_path <- function(scope = c("user", "project")) {
+  scope <- match.arg(scope)
   if (scope == "project") {
+    return(proj_path(".gitignore"))
+  }
+
+  # .gitignore is most common, but .gitignore_global appears in prominent
+  # places --> so we allow the latter, but prefer the former
+  path <- path_home(".gitignore")
+  if (file_exists(path)) {
     return(path)
   }
-  if (!file_exists(path)) {
-    alt_path <- scoped_path_fs("user", ".gitignore_global")
-    path <- if (file_exists(alt_path)) alt_path else path
+
+  alt_path <- path_home(".gitignore_global")
+  if (file_exists(alt_path)) {
+    return(alt_path)
   }
+
   path
-}
-
-
-scoped_path_r  <- function(scope, ...) path(scope_dir_r(scope), ...)
-scoped_path_fs <- function(scope, ...) path(scope_dir_fs(scope), ...)
-
-## uses R's notion of user's home directory, via fs::path_home_r()
-scope_dir_r <- function(scope = c("user", "project")) {
-  scope <- match.arg(scope)
-  switch(
-    scope,
-    user = path_home_r(),
-    project = proj_get()
-  )
-}
-
-## uses fs's notion of user's home directory, via fs:path_home()
-scope_dir_fs <- function(scope = c("user", "project")) {
-  scope <- match.arg(scope)
-  switch(
-    scope,
-    user = path_home(),
-    project = proj_get()
-  )
 }

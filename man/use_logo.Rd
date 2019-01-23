@@ -4,12 +4,17 @@
 \alias{use_logo}
 \title{Use a package logo}
 \usage{
-use_logo(img, geometry = "120x140")
+use_logo(img, geometry = "240x278", retina = TRUE)
 }
 \arguments{
 \item{img}{The path to an existing image file}
 
-\item{geometry}{a \link[magick:geometry]{magick::geometry} string specifying size}
+\item{geometry}{a \link[magick:geometry]{magick::geometry} string specifying size. The default
+assumes that you have a hex logo using spec from
+\url{http://hexb.in/sticker.html}.}
+
+\item{retina}{\code{TRUE}, the default, scales the image on the README,
+assuming that geometry is double the desired size.}
 }
 \description{
 This function helps you use a logo in your package:

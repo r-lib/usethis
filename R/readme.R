@@ -26,6 +26,12 @@ use_readme_rmd <- function(open = interactive()) {
 
   data <- project_data()
   data$Rmd <- TRUE
+  if (uses_github()) {
+    data$github <- list(
+      owner = github_owner(),
+      repo = github_repo()
+    )
+  }
 
   new <- use_template(
     if (is_package()) "package-README" else "project-README",

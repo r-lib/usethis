@@ -29,7 +29,7 @@ local_project(path = ".", force = FALSE,
 a project. Use sparingly! The main application is to solve a temporary
 chicken-egg problem: you need to set the active project in order to add
 project-signalling infrastructure, such as initialising a Git repo or
-adding a DESCRIPTION file.}
+adding a \code{DESCRIPTION} file.}
 
 \item{...}{character vectors, if any values are NA, the result will also be
 NA.}

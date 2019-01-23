@@ -5,7 +5,8 @@
 \title{Create a project from a GitHub repo}
 \usage{
 create_from_github(repo_spec, destdir = NULL, fork = NA,
-  rstudio = NULL, open = interactive(), protocol = c("ssh", "https"),
+  rstudio = NULL, open = interactive(),
+  protocol = getOption("usethis.protocol", default = "ssh"),
   credentials = NULL, auth_token = NULL, host = NULL)
 }
 \arguments{
@@ -26,12 +27,15 @@ in the future.}
 Defaults to \code{TRUE} if in an RStudio session and project has no
 pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
 
-\item{open}{If \code{TRUE} and in RStudio, a new RStudio project is opened in a
-new instance, if possible, or is switched to, otherwise. If \code{TRUE} and not
-in RStudio (or new project is not an RStudio project), working directory is
-set to the new project.}
+\item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
+\itemize{
+\item If RStudio desktop, the package is opened in a new session.
+\item If on RStudio server, the current RStudio project is activated.
+\item Otherwise, the working directory and active project is changed.
+}}
 
-\item{protocol}{transfer protocol, either "ssh" (the default) or "https"}
+\item{protocol}{transfer protocol, either "ssh" (the default) or "https".
+You can supply a global default with \code{options(usethis.protocol = "https")}.}
 
 \item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific ssh
 credentials or \code{NULL} for default ssh key and ssh-agent behaviour.}

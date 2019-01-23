@@ -23,23 +23,29 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
                                    thing = c("package", "project")) {
   thing <- match.arg(thing)
   if (fs::dir_exists(dir)) {
-    stop_glue("Target {code('dir')} {value(dir)} already exists.")
+    ui_stop("Target {ui_code('dir')} {ui_path(dir)} already exists.")
   }
 
   old_project <- proj_get_()
   ## Can't schedule a deferred project reset if calling this from the R
   ## console, which is useful when developing tests
   if (identical(env, globalenv())) {
-    done("Switching to a temporary project!")
+    ui_done("Switching to a temporary project!")
     if (!is.null(old_project)) {
-      todo(
-        "Restore current project with: ",
-        "{code('proj_set(\"', old_project, '\")')}"
+      command <- paste0('proj_set(\"', old_project, '\")')
+      ui_todo(
+        "Restore current project with: {ui_code(command)}"
       )
     }
   } else {
-    withr::defer(proj_set(old_project, force = TRUE), envir = env)
-    withr::defer(fs::dir_delete(dir), envir = env)
+    withr::defer({
+      withr::with_options(
+        list(usethis.quiet = TRUE),
+        proj_set(old_project, force = TRUE)
+      )
+      setwd(old_project)
+      fs::dir_delete(dir)
+    }, envir = env)
   }
 
   withr::local_options(list(usethis.quiet = TRUE))
@@ -48,6 +54,8 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
     package = create_package(dir, rstudio = rstudio, open = FALSE),
     project = create_project(dir, rstudio = rstudio, open = FALSE)
   )
+  proj_set(dir)
+  setwd(dir)
   invisible(dir)
 }
 
