@@ -11,7 +11,7 @@ use_stale <- function(open = interactive()) {
     dir.create(".github", showWarnings = FALSE)
   }
   new <- use_template(
-    "stale",
+    "stale.yml",
     ".github/stale.yml",
     ignore = TRUE,
     open = open
