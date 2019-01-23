@@ -97,12 +97,12 @@ appveyor_activate <- function(browse = interactive()) {
 }
 
 use_appveyor_badge <- function() {
-  appveyor <- appveyor_info(proj_get())
+  appveyor <- appveyor_info()
   use_badge("AppVeyor build status", appveyor$url, appveyor$img)
 }
 
-appveyor_info <- function(base_path = proj_get()) {
-  check_uses_github(base_path)
+appveyor_info <- function() {
+  check_uses_github()
   img <- glue(
     "https://ci.appveyor.com/api/projects/status/github/",
     "{github_repo_spec()}?branch=master&svg=true"

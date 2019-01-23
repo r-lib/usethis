@@ -83,8 +83,7 @@ github_link <- function(package = NULL) {
   if (length(gh_links) == 0) {
     ui_warn("
       Package does not provide a GitHub URL.
-      Falling back to GitHub CRAN mirror"
-    )
+      Falling back to GitHub CRAN mirror")
     return(glue("https://github.com/cran/{package}"))
   }
 
@@ -124,9 +123,9 @@ github_home <- function(package = NULL) {
 ## inline a simplified version of rematch2::re_match()
 re_match_inline <- function(text, pattern) {
   match <- regexpr(pattern, text, perl = TRUE)
-  start  <- as.vector(match)
+  start <- as.vector(match)
   length <- attr(match, "match.length")
-  end    <- start + length - 1L
+  end <- start + length - 1L
 
   matchstr <- substring(text, start, end)
   matchstr[ start == -1 ] <- NA_character_
@@ -138,10 +137,9 @@ re_match_inline <- function(text, pattern) {
   )
 
   if (!is.null(attr(match, "capture.start"))) {
-
-    gstart  <- attr(match, "capture.start")
+    gstart <- attr(match, "capture.start")
     glength <- attr(match, "capture.length")
-    gend    <- gstart + glength - 1L
+    gend <- gstart + glength - 1L
 
     groupstr <- substring(text, gstart, gend)
     groupstr[ gstart == -1 ] <- NA_character_

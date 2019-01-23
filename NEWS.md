@@ -2,6 +2,8 @@
 
 ## New features
 
+* `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
+
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
   config (#328).
 
