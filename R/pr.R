@@ -9,6 +9,8 @@
 #' * `pr_pull()` retrives changes from the GitHub PR. Run this if others
 #'    have made suggestions or pushed into your PR.
 #' * `pr_view()` open the PR in the browser
+#' * `pr_finish()` changes local branch to master, pulls new changes and delete
+#' the pr branche. Run this from the pr branch when your PR has been merged.
 #'
 #' @details
 #' These functions have been designed to support the git and GitHub best

@@ -40,6 +40,8 @@ it will prompt you to create a PR on GitHub.
 \item \code{pr_pull()} retrives changes from the GitHub PR. Run this if others
 have made suggestions or pushed into your PR.
 \item \code{pr_view()} open the PR in the browser
+\item \code{pr_finish()} changes local branch to master, pulls new changes and delete
+the pr branche. Run this from the pr branch when your PR has been merged.
 }
 }
 \details{
