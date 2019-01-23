@@ -72,7 +72,7 @@ pr_fetch <- function(number, owner = NULL) {
     our_branch <- their_branch
   } else {
     remote <- them
-    our_branch <- paste0(them, "-", their_branch)
+    our_branch <- glue("{them}-{their_branch}")
   }
 
   if (!remote %in% git2r::remotes(git_repo())) {
@@ -121,14 +121,14 @@ pr_push <- function() {
   }
 
   ui_done("Pushing changes to GitHub PR")
-  git_branch_push(branch)
+  git2r::push(git_branch_current())
 
   if (!has_remote) {
     ui_done("Tracking remote PR branch")
     git_branch_track(branch)
   }
 
-  # Prompt to create on first push
+  # Prompt to create PR on first push
   url <- pr_url()
   if (is.null(url)) {
     pr_create_gh()
@@ -211,7 +211,7 @@ pr_find <- function(owner, repo, branch = git_branch_name()) {
   prs <- gh::gh("GET /repos/:owner/:repo/pulls",
     owner = owner,
     repo = repo,
-    head = paste0(owner, ":", branch)
+    head = glue("{pr_owner}:{pr_branch}")
   )
   if (identical(prs[[1]], "")) {
     return(character())

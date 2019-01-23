@@ -50,21 +50,36 @@ git_commit_find <- function(refspec = NULL) {
 }
 
 # Branch ------------------------------------------------------------------
+git_branch <- function(name = NULL) {
+  if (is.null(name)) {
+    return(git_branch_current())
+  }
+  b <- git2r::branches(git_repo())
+  b[[name]]
+}
 
-git_branch_name <- function() {
+git_branch_current <- function() {
   repo <- git_repo()
 
   branch <- git2r::repository_head(repo)
   if (!git2r::is_branch(branch)) {
     ui_stop("Detached head; can't continue")
   }
+  branch
+}
 
-  branch$name
+git_branch_name <- function() {
+  git_branch_current()$name
 }
 
 git_branch_exists <- function(branch) {
   repo <- git_repo()
   branch %in% names(git2r::branches(repo))
+}
+
+git_branch_upstream <- function(branch) {
+  b <- git_branch(name = branch)
+  git2r::branch_get_upstream(b)$name
 }
 
 git_branch_create <- function(branch, commit = NULL) {
@@ -109,12 +124,12 @@ git_branch_remote <- function(branch = git_branch_name()) {
 }
 
 git_branch_track <- function(branch, remote = "origin", remote_branch = branch) {
-  branch_obj <- git2r::branches(git_repo())[[branch]]
-  git2r::branch_set_upstream(branch_obj, paste0(remote, "/", remote_branch))
+  branch_obj <- git_branch(branch)
+  git2r::branch_set_upstream(branch_obj, git_remref(remote, remote_branch))
 }
 
 git_branch_delete <- function(branch) {
-  branch <- git2r::branches(git_repo(), "local")[[branch]]
+  branch <- git_branch(branch)
   git2r::branch_delete(branch)
 }
 
