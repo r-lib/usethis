@@ -70,6 +70,10 @@ reference:
     contents:
     - matches("cran_comments|revdep")
     - use_version
+  - title: Continuous integration
+    contents:
+    - use_travis
+    - use_appveyor
   - title: Tidyverse development
     desc: >
       Conventions used in the tidyverse and r-lib organisations
