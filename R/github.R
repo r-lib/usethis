@@ -237,7 +237,7 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
   )
   view_url(url)
 
-  ui_todo("Call {ui_code('edit_r_environ()')} to open {ui_path('.Renviron')}")
+  ui_todo("Call {ui_code('usethis::edit_r_environ()')} to open {ui_path('.Renviron')}")
   ui_todo("Store your PAT with a line like:")
   ui_code_block("GITHUB_PAT=xxxyyyzzz")
   ui_todo("Make sure {ui_value('.Renviron')} ends with a newline!")
