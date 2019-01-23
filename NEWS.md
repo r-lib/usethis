@@ -2,6 +2,8 @@
 
 ## New features
 
+* `use_github()` now removes newline `\n` characters when pushing that can cause `gh::gh` fail (#493, @muschellij2).
+
 * `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
 
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
@@ -261,8 +263,6 @@ build paths within it (#415, #425).
 New Imports: fs, glue, utils
 
 No longer in Imports: backports, httr, rematch2, rmarkdown (moved to Suggests), styler (moved to Suggests)
-
-* Added condition for `length(paths) > 0` in `use_git()` so that no error occurs if `paths = NULL` (#128, @muschellij2).
 
 # usethis 1.3.0
 
