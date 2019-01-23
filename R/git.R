@@ -26,12 +26,14 @@ use_git <- function(message = "Initial commit") {
 }
 
 git_ask_commit <- function(message) {
-  if (!interactive())
+  if (!interactive()) {
     return(invisible())
+  }
 
   paths <- unlist(git_status(), use.names = FALSE)
-  if (length(paths) == 0)
+  if (length(paths) == 0) {
     return(invisible())
+  }
 
   paths <- sort(paths)
 
@@ -216,4 +218,3 @@ git_global_ignore <- c(
   ".Rdata",
   ".DS_Store"
 )
-

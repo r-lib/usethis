@@ -33,6 +33,7 @@ Imports:
     rlang,
     rprojroot (>= 1.2),
     rstudioapi,
+    stats,
     utils,
     whisker,
     withr,

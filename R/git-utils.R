@@ -2,7 +2,7 @@
 
 git_repo <- function() {
   check_uses_git()
-  git2r::repository(proj_path())
+  git2r::repository(proj_get())
 }
 
 git_init <- function() {
@@ -21,6 +21,20 @@ git_status <- function() {
 
 uses_git <- function(path = proj_get()) {
   !is.null(git2r::discover_repository(path))
+}
+
+# Remotes ------------------------------------------------------------------
+git_remotes <- function() {
+  r <- git_repo()
+  rnames <- git2r::remotes(r)
+  if (length(rnames) == 0) return(NULL)
+  stats::setNames(as.list(git2r::remote_url(r, rnames)), rnames)
+}
+
+git_remote_find <- function(rname = "origin") {
+  remotes <- git_remotes()
+  if (length(remotes) == 0) return(NULL)
+  remotes[[rname]]
 }
 
 # Commit ------------------------------------------------------------------
@@ -111,12 +125,10 @@ check_uses_git <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  ui_stop(
-    "
-    Cannot detect that project is already a Git repository.
-    Do you need to run {ui_code('use_git()')}?
-    "
-  )
+  ui_stop(c(
+    "Cannot detect that project is already a Git repository.",
+    "Do you need to run {ui_code('use_git()')}?"
+  ))
 }
 
 check_uncommitted_changes <- function(path = proj_get()) {
@@ -144,6 +156,20 @@ check_branch_not_master <- function() {
     "
     Currently on master branch.
     Do you need to call {ui_code('pr_init()')} first?
+    "
+  )
+}
+
+check_branch <- function(branch) {
+  ui_done("Checking that current branch is {ui_value(branch)}")
+  actual <- git_branch_name()
+  if (actual == branch) return()
+  code <- glue("git checkout {branch}")
+  ui_stop(
+    "
+    Must be on branch {ui_value(branch)}, not {ui_value(actual)}.
+    How to switch to the correct branch in the shell:
+    {ui_code(code)}
     "
   )
 }

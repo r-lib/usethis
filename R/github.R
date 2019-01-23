@@ -66,18 +66,21 @@ use_github <- function(organisation = NULL,
                        auth_token = NULL,
                        host = NULL) {
   check_uses_git()
+  check_branch("master")
+  check_uncommitted_changes()
+  check_no_origin()
+  r <- git_repo()
+
   ## auth_token is used directly by git2r, therefore cannot be NULL
   auth_token <- auth_token %||% gh_token()
   check_gh_token(auth_token)
+  protocol <- match.arg(protocol, c("ssh", "https"))
 
-  if (uses_github(proj_get())) {
-    ui_done("GitHub is already initialized")
-    return(invisible())
-  }
+  owner <- organisation %||% gh::gh_whoami(auth_token)[["login"]]
+  repo_name <- project_name()
+  check_no_github_repo(owner, repo_name, host, auth_token)
 
-  pkg <- project_data()
-  repo_name <- pkg$Project %||% gsub("\n", " ", pkg$Package)
-  repo_desc <- pkg$Title %||% ""
+  repo_desc <- project_data()$Title %||% ""
 
   if (interactive()) {
     ui_todo("Check title and description")
@@ -101,7 +104,6 @@ use_github <- function(organisation = NULL,
       copy = FALSE
     )
   }
-
   ui_done("Creating GitHub repository")
 
   if (is.null(organisation)) {
@@ -125,13 +127,12 @@ use_github <- function(organisation = NULL,
     )
   }
 
-  ui_done("Adding GitHub remote")
-  r <- git2r::repository(proj_get())
-  protocol <- match.arg(protocol, c("ssh", "https"))
   origin_url <- switch(protocol,
     https = create$clone_url,
     ssh = create$ssh_url
   )
+
+  ui_done("Setting remote {ui_value('origin')} to {ui_value(origin_url)}")
   git2r::remote_add(r, "origin", origin_url)
 
   if (is_package()) {
@@ -143,18 +144,33 @@ use_github <- function(organisation = NULL,
     }
   }
 
-  ui_done("Pushing to GitHub and setting remote tracking branch")
+  ui_done("Pushing {ui_value('master')} branch to GitHub and setting remote tracking branch")
   if (protocol == "ssh") {
     ## [1] push via ssh required for success setting remote tracking branch
     ## [2] to get passphrase from ssh-agent, you must use NULL credentials
-    git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
+    pushed <- tryCatch({
+      git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
+      TRUE
+    }, error = function(e) FALSE)
   } else { ## protocol == "https"
     ## in https case, when GITHUB_PAT is passed as password,
     ## the username is immaterial, but git2r doesn't know that.
     cred <- git2r::cred_user_pass("EMAIL", auth_token)
-    git2r::push(r, "origin", "refs/heads/master", credentials = cred)
+    pushed <- tryCatch({
+      git2r::push(r, "origin", "refs/heads/master", credentials = cred)
+      TRUE
+    }, error = function(e) FALSE)
   }
-  git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
+  if (pushed) {
+    git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
+  } else {
+    ui_todo(c(
+      "Failed to push and set tracking branch.",
+      "This often indicates a problem with git2r and the credentials.",
+      "Try this in the shell, to complete the set up:",
+      "{ui_code('git push --set-upstream origin master')}"
+    ))
+  }
 
   view_url(create$html_url)
 
@@ -243,29 +259,64 @@ browse_github_pat <- function(scopes = c("repo", "gist"),
   ui_todo("Make sure {ui_value('.Renviron')} ends with a newline!")
 }
 
-uses_github <- function(base_path = proj_get()) {
-  tryCatch({
-    gh_tree_remote(base_path)
-    TRUE
-  }, error = function(e) FALSE)
+## checks for existence of 'origin' remote with 'github' in URL
+uses_github <- function() {
+  if (!uses_git()) {
+    return(FALSE)
+  }
+  length(github_origin()) > 0
 }
 
+check_no_origin <- function() {
+  origin <- git_remote_find(rname = "origin")
+  if (is.null(origin)) {
+    return(invisible())
+  }
+  ui_stop(c(
+    "This repo already has an {ui_value('origin')} remote, with value {ui_value(origin)}.",
+    "How to remove this setting in the shell:",
+    "{ui_code('git remote rm origin')}"
+  ))
+}
 
-check_uses_github <- function(base_path = proj_get()) {
-  if (uses_github(base_path)) {
+check_uses_github <- function() {
+  if (uses_github()) {
     return(invisible())
   }
 
   ui_stop(c(
-    "Cannot detect that package already uses GitHub.",
+    "This project does not have a GitHub remote configured as {ui_value('origin')}.",
     "Do you need to run {ui_code('use_github()')}?"
   ))
+}
+
+github_repo_exists <- function(owner, repo, host, auth_token) {
+  tryCatch(
+    error = function(err) FALSE, {
+      gh::gh(
+        "/repos/:owner/:repo",
+        owner = owner, repo = repo,
+        .api_url = host,
+        .token = auth_token
+      )
+      TRUE
+    }
+  )
+}
+
+check_no_github_repo <- function(owner, repo, host, auth_token) {
+  if (!github_repo_exists(owner, repo, host, auth_token)) {
+    return(invisible())
+  }
+  spec <- paste(owner, repo, sep = "/")
+  where <- if (is.null(host)) "github.com" else host
+  ui_stop("Repo {ui_value(spec)} already exists on {ui_value(where)}.")
 }
 
 ## use from gh when/if exported
 ## https://github.com/r-lib/gh/issues/74
 gh_token <- function() {
-  token <- Sys.getenv('GITHUB_PAT', "")
+  token <- Sys.getenv("GITHUB_PAT", "")
   if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
 }
 
