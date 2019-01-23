@@ -58,38 +58,52 @@ pr_fetch <- function(number, owner = NULL) {
   check_branch_current("master")
   check_uncommitted_changes()
 
-  ui_done("Retrieving PR data")
+  ui_done("Retrieving data for PR #{number}")
   pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
     owner = owner %||% github_owner(),
     repo = github_repo(),
     number = number
   )
 
-  ref <- pr$head$ref
-  user <- pr$head$user$login
-  if (user == github_owner()) {
-    user <- "origin"
-    branch <- ref
+  their_branch <- pr$head$ref
+  them <- pr$head$user$login
+  if (them == github_owner()) {
+    remote <- "origin"
+    our_branch <- their_branch
   } else {
-    branch <- paste0(user, "-", ref)
-  }
-  remote <- paste0(user, "/", ref)
-
-  if (!user %in% git2r::remotes(git_repo())) {
-    ui_done("Adding remote {ui_value(user)}")
-    git2r::remote_add(git_repo(), user, pr$head$repo$ssh_url)
+    remote <- them
+    our_branch <- paste0(them, "-", their_branch)
   }
 
-  if (!git_branch_exists(branch)) {
-    ui_done("Creating local branch {ui_value(branch)}")
-    git2r::fetch(git_repo(), user, refspec = ref, verbose = FALSE)
-    git_branch_create(branch, remote)
-    git_branch_track(branch, user, ref)
+  if (!remote %in% git2r::remotes(git_repo())) {
+    ui_done("Adding remote {ui_value(remote)}")
+    git2r::remote_add(git_repo(), remote, pr$head$repo$ssh_url)
   }
 
-  if (git_branch_name() != branch) {
-    ui_done("Switching to branch {ui_value(branch)}")
-    git_branch_switch(branch)
+  if (!git_branch_exists(our_branch)) {
+    their_refname <- glue("{remote}/{their_branch}")
+
+    ui_done("Creating local branch {ui_value(our_branch)}")
+    git2r::fetch(git_repo(), remote, refspec = their_branch, verbose = FALSE)
+    git_branch_create(our_branch, their_refname)
+
+    ui_done("Setting upstream tracking branch to {ui_value(their_refname)}")
+    git_branch_track(our_branch, remote, their_branch)
+
+    if (remote != "origin" && our_branch != their_branch) {
+      ui_done("Setting {ui_value(remote)} push config as {ui_value(glue('{our_branch}:{their_refname}'))}")
+      config_key <- glue("remote.{remote}.push")
+      config_value <- glue("refs/heads/{our_branch}:refs/heads/{their_branch}")
+      config_args <- rlang::list2(
+        repo = git_repo(), global = FALSE, !!config_key := config_value
+      )
+      do.call(git2r::config, config_args)
+    }
+  }
+
+  if (git_branch_name() != our_branch) {
+    ui_done("Switching to branch {ui_value(our_branch)}")
+    git_branch_switch(our_branch)
   }
 }
 
