@@ -89,7 +89,7 @@ pr_fetch <- function(number, owner = NULL) {
 
     git_branch_track(our_branch, remote, their_branch)
 
-    ui_done("Caching URL for PR #{number} in config for branch {ui_value(our_branch)}")
+    # Cache URL for PR in config for branch
     config_url <- glue("branch.{our_branch}.pr-url")
     git_config_set(config_url, pr$html_url)
 
