@@ -2,6 +2,10 @@
 
 ## New features
 
+* `use_rcpp_armadillo()` and `use_rcpp_eigen()` are new (exported) functions 
+   that set up a package to use RcppArmadillo or RcppEigen, respectively
+   (#601, @duckmayr, @coatless).
+
 * `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
 
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 

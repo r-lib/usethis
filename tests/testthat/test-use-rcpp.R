@@ -18,6 +18,39 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
   expect_true(all(c("*.o", "*.so", "*.dll") %in% ignores))
 })
 
+test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
+  skip_if_not_installed("RcppArmadillo")
+
+  pkg <- scoped_temporary_package()
+  use_roxygen_md()
+
+  use_rcpp_armadillo()
+  expect_match(desc::desc_get("LinkingTo", pkg), "RcppArmadillo")
+
+  makevars_settings <- c(
+    "CXX_STD = CXX11",
+    "PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS)",
+    "PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)"
+  )
+
+  makevars <- readLines(proj_path("src", "Makevars"))
+  expect_true(all(makevars_settings %in% makevars))
+
+  makevars_win <- readLines(proj_path("src", "Makevars.win"))
+  expect_true(all(makevars_settings %in% makevars_win))
+})
+
+test_that("use_rcpp_eigen() edits DESCRIPTION", {
+  skip_if_not_installed("RcppEigen")
+
+  pkg <- scoped_temporary_package()
+  use_roxygen_md()
+
+  use_rcpp_eigen()
+  expect_match(desc::desc_get("LinkingTo", pkg), "RcppEigen")
+  expect_match(desc::desc_get("Imports", pkg), "RcppEigen")
+})
+
 test_that("use_src() doesn't message if not needed", {
   scoped_temporary_package()
   use_roxygen_md()
