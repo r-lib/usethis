@@ -22,6 +22,7 @@
 #' }
 use_vignette <- function(name, title = name) {
   check_is_package("use_vignette()")
+  check_vignette_name(name)
 
   use_dependency("knitr", "Suggests")
   use_description_field("VignetteBuilder", "knitr")
@@ -62,4 +63,18 @@ use_vignette_template <- function(template, name, title) {
   )
 
   path
+}
+
+check_vignette_name <- function(name) {
+  if (!valid_vignette_name(name)) {
+    ui_stop(c(
+      "{ui_value(name)} is an invalid vignette name. It should:",
+      "* Start with an ASCII letter",
+      "* Contain only ASCII letters, numbers, '_', and '-'"
+    ))
+  }
+}
+
+valid_vignette_name <- function(x) {
+  grepl("^[[:alpha:]][[:alnum:]\\-_]+$", x)
 }

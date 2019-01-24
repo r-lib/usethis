@@ -209,6 +209,10 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * withr moves from Suggests to Imports.
 
+* `use_vignette` now checks if the vignette name is valid (starts with letter 
+  and consists of letters, numbers, hyphen, and underscore) and throws an error 
+  if not (@akgold, #555).
+
 # usethis 1.4.0
 
 ## File system
