@@ -119,10 +119,12 @@ git_branch_switch <- function(branch) {
 
 git_branch_compare <- function(branch = git_branch_name()) {
   repo <- git_repo()
-  git2r::fetch(repo, "origin", refspec = branch, verbose = FALSE)
+
+  remref <- git_branch_tracking(branch)
+  git2r::fetch(repo, remref_remote(remref), refspec = branch, verbose = FALSE)
   git2r::ahead_behind(
     git_commit_find(branch),
-    git_commit_find(git_branch_tracking(branch))
+    git_commit_find(remref)
   )
 }
 
