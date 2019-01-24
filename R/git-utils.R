@@ -37,6 +37,10 @@ git_remote_find <- function(rname = "origin") {
   remotes[[rname]]
 }
 
+git_remote_exists <- function(rname = "origin") {
+  rname %in% git_remotes()
+}
+
 # Commit ------------------------------------------------------------------
 
 git_commit_find <- function(refspec = NULL) {
@@ -95,8 +99,14 @@ git_branch_exists <- function(branch) {
 }
 
 git_branch_tracking <- function(branch = git_branch_name()) {
-  b <- git_branch(name = branch)
-  git2r::branch_get_upstream(b)$name
+  if (identical(branch, "master") && git_remote_exists("upstream")) {
+    # We always pretend that the master branch of a fork tracks the
+    # master branch in the source repo
+    "upstream/master"
+  } else {
+    b <- git_branch(name = branch)
+    git2r::branch_get_upstream(b)$name
+  }
 }
 
 git_branch_create <- function(branch, commit = NULL) {
