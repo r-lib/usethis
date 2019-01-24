@@ -87,7 +87,6 @@ pr_fetch <- function(number, owner = NULL) {
     git2r::fetch(git_repo(), remote, refspec = their_branch, verbose = FALSE)
     git_branch_create(our_branch, their_refname)
 
-    ui_done("Setting upstream tracking branch to {ui_value(their_refname)}")
     git_branch_track(our_branch, remote, their_branch)
 
     ui_done("Caching URL for PR #{number} in config for branch {ui_value(our_branch)}")
@@ -124,11 +123,9 @@ pr_push <- function() {
     check_branch_current()
   }
 
-  ui_done("Pushing changes to GitHub PR")
-  git2r::push(git_branch_current())
+  git_branch_push(branch)
 
   if (!has_upstream) {
-    ui_done("Tracking remote PR branch")
     git_branch_track(branch)
   }
 
