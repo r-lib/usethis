@@ -97,10 +97,7 @@ pr_fetch <- function(number, owner = NULL) {
       ui_done("Setting {ui_value(remote)} push config as {ui_value(glue('{our_branch}:{their_refname}'))}")
       config_key <- glue("remote.{remote}.push")
       config_value <- glue("refs/heads/{our_branch}:refs/heads/{their_branch}")
-      config_args <- rlang::list2(
-        repo = git_repo(), global = FALSE, !!config_key := config_value
-      )
-      do.call(git2r::config, config_args)
+      git_config_set(config_key, config_value, global = FALSE)
     }
   }
 
