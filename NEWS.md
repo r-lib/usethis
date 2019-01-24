@@ -188,6 +188,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` 
   (#502, @krlmlr).
+  
+* `use_tidy_eval()` re-exports `:=` (#595, @jonthegeek).
 
 * `use_tidy_versions()` has source argument so that you can choose to use
   local or CRAN versions (#309).
