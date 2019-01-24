@@ -160,7 +160,7 @@ git_sitrep <- function() {
   kv_line("Name", name)
   kv_line("Email", email)
   kv_line("Has SSH keys", git_has_ssh())
-  kv_line("Vaccinated: ", git_vaccinated())
+  kv_line("Vaccinated:", git_vaccinated())
 
   hd_line("git2r")
   kv_line("Supports SSH", git2r::libgit2_features()$ssh)
@@ -170,8 +170,8 @@ git_sitrep <- function() {
     if (uses_git()) {
       repo <- git_repo()
       kv_line("Path", repo$path)
-      kv_line("Branch", git_branch_name())
-      kv_line("Upstream", git_branch_upstream())
+      kv_line("Local branch", git_branch_name())
+      kv_line("Remote branch", git_branch_tracking())
     } else {
       cat_line("Git not activated")
     }
