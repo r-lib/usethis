@@ -32,16 +32,21 @@ pull request. Default of \code{NULL} tries to deduce that from \code{origin} rem
 }
 \description{
 \itemize{
-\item \code{pr_init("name")} creates a new local branch for a PR.
+\item \code{pr_init("name")} creates and checks out a new local branch, in
+anticipation of making a PR.
 \item \code{pr_fetch(number)} downloads a remote PR so you can edit locally.
 \item \code{pr_push()} pushes local changes to GitHub, after checking that there
-aren't any remote changes you need to retrieve first. On first use,
-it will prompt you to create a PR on GitHub.
-\item \code{pr_pull()} retrives changes from the GitHub PR. Run this if others
+aren't any remote changes you need to retrieve first.
+\itemize{
+\item If in a branch associated with an existing PR, pushes back into the PR.
+\item Otherwise, prompts you to create a PR on GitHub.
+}
+\item \code{pr_pull()} retrieves changes from the GitHub PR. Run this if others
 have made suggestions or pushed into your PR.
-\item \code{pr_view()} open the PR in the browser
-\item \code{pr_finish()} changes local branch to master, pulls new changes and delete
-the pr branche. Run this from the pr branch when your PR has been merged.
+\item \code{pr_view()} opens the PR in the browser
+\item \code{pr_finish()} changes local branch to \code{master}, pulls new changes, and
+deletes the PR branch. Run this from the PR branch after is has been
+merged.
 }
 }
 \details{

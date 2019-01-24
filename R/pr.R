@@ -1,16 +1,19 @@
 #' Helpers for GitHub pull requests
 #'
 #' @description
-#' * `pr_init("name")` creates a new local branch for a PR.
+#' * `pr_init("name")` creates and checks out a new local branch, in
+#'    anticipation of making a PR.
 #' * `pr_fetch(number)` downloads a remote PR so you can edit locally.
 #' * `pr_push()` pushes local changes to GitHub, after checking that there
-#'    aren't any remote changes you need to retrieve first. On first use,
-#'    it will prompt you to create a PR on GitHub.
-#' * `pr_pull()` retrives changes from the GitHub PR. Run this if others
+#'    aren't any remote changes you need to retrieve first.
+#'    - If in a branch associated with an existing PR, pushes back into the PR.
+#'    - Otherwise, prompts you to create a PR on GitHub.
+#' * `pr_pull()` retrieves changes from the GitHub PR. Run this if others
 #'    have made suggestions or pushed into your PR.
-#' * `pr_view()` open the PR in the browser
-#' * `pr_finish()` changes local branch to master, pulls new changes and delete
-#' the pr branche. Run this from the pr branch when your PR has been merged.
+#' * `pr_view()` opens the PR in the browser
+#' * `pr_finish()` changes local branch to `master`, pulls new changes, and
+#'    deletes the PR branch. Run this from the PR branch after is has been
+#'    merged.
 #'
 #' @details
 #' These functions have been designed to support the git and GitHub best
@@ -165,13 +168,13 @@ pr_finish <- function() {
   check_branch_not_master()
   pr <- git_branch_name()
 
-  ui_done("Switching back to master branch")
+  ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
 
   ui_done("Pulling changes from GitHub")
   git_pull()
 
-  ui_done("Deleting local {pr} branch")
+  ui_done("Deleting local {ui_value(pr)} branch")
   git_branch_delete(pr)
 }
 
