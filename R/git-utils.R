@@ -49,6 +49,23 @@ git_commit_find <- function(refspec = NULL) {
   }
 }
 
+# Remote refs -------------------------------------------------------------
+git_remref <- function(remote = "origin", branch = "master") {
+  glue("{remote}/{branch}")
+}
+
+## remref --> remote, branch
+git_parse_remref <- function(remref) {
+  remref_split <- strsplit(remref, "/")[[1]]
+  if (length(remref_split) != 2) {
+    ui_stop("{ui_code('rmref')} must be of form {ui_value('remote/branch')}.")
+  }
+  list(remote = remref_split[[1]], branch = remref_split[[2]])
+}
+
+remref_remote <- function(remref) git_parse_remref(remref)$remote
+remref_branch <- function(remref) git_parse_remref(remref)$branch
+
 # Branch ------------------------------------------------------------------
 git_branch <- function(name = NULL) {
   if (is.null(name)) {
