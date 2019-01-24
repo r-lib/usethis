@@ -81,7 +81,7 @@ pr_fetch <- function(number, owner = NULL) {
   }
 
   if (!git_branch_exists(our_branch)) {
-    their_refname <- glue("{remote}/{their_branch}")
+    their_refname <- git_remref(remote, their_branch)
 
     ui_done("Creating local branch {ui_value(our_branch)}")
     git2r::fetch(git_repo(), remote, refspec = their_branch, verbose = FALSE)
