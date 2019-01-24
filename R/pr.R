@@ -58,38 +58,52 @@ pr_fetch <- function(number, owner = NULL) {
   check_branch_current("master")
   check_uncommitted_changes()
 
-  ui_done("Retrieving PR data")
+  ui_done("Retrieving data for PR #{number}")
   pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
     owner = owner %||% github_owner(),
     repo = github_repo(),
     number = number
   )
 
-  ref <- pr$head$ref
-  user <- pr$head$user$login
-  if (user == github_owner()) {
-    user <- "origin"
-    branch <- ref
+  their_branch <- pr$head$ref
+  them <- pr$head$user$login
+  if (them == github_owner()) {
+    remote <- "origin"
+    our_branch <- their_branch
   } else {
-    branch <- paste0(user, "-", ref)
-  }
-  remote <- paste0(user, "/", ref)
-
-  if (!user %in% git2r::remotes(git_repo())) {
-    ui_done("Adding remote {ui_value(user)}")
-    git2r::remote_add(git_repo(), user, pr$head$repo$ssh_url)
+    remote <- them
+    our_branch <- glue("{them}-{their_branch}")
   }
 
-  if (!git_branch_exists(branch)) {
-    ui_done("Creating local branch {ui_value(branch)}")
-    git2r::fetch(git_repo(), user, refspec = ref, verbose = FALSE)
-    git_branch_create(branch, remote)
-    git_branch_track(branch, user, ref)
+  if (!remote %in% git2r::remotes(git_repo())) {
+    ui_done("Adding remote {ui_value(remote)}")
+    git2r::remote_add(git_repo(), remote, pr$head$repo$ssh_url)
   }
 
-  if (git_branch_name() != branch) {
-    ui_done("Switching to branch {ui_value(branch)}")
-    git_branch_switch(branch)
+  if (!git_branch_exists(our_branch)) {
+    their_refname <- git_remref(remote, their_branch)
+
+    ui_done("Creating local branch {ui_value(our_branch)}")
+    git2r::fetch(git_repo(), remote, refspec = their_branch, verbose = FALSE)
+    git_branch_create(our_branch, their_refname)
+
+    git_branch_track(our_branch, remote, their_branch)
+
+    # Cache URL for PR in config for branch
+    config_url <- glue("branch.{our_branch}.pr-url")
+    git_config_set(config_url, pr$html_url)
+
+    if (remote != "origin" && our_branch != their_branch) {
+      ui_done("Setting {ui_value(remote)} push config as {ui_value(glue('{our_branch}:{their_refname}'))}")
+      config_key <- glue("remote.{remote}.push")
+      config_value <- glue("refs/heads/{our_branch}:refs/heads/{their_branch}")
+      git_config_set(config_key, config_value, global = FALSE)
+    }
+  }
+
+  if (git_branch_name() != our_branch) {
+    ui_done("Switching to branch {ui_value(our_branch)}")
+    git_branch_switch(our_branch)
   }
 }
 
@@ -101,20 +115,18 @@ pr_push <- function() {
   check_uncommitted_changes()
 
   branch <- git_branch_name()
-  has_remote <- !is.null(git_branch_remote(branch))
-  if (has_remote) {
+  has_upstream <- !is.null(git_branch_upstream(branch))
+  if (has_upstream) {
     check_branch_current()
   }
 
-  ui_done("Pushing changes to GitHub PR")
   git_branch_push(branch)
 
-  if (!has_remote) {
-    ui_done("Tracking remote PR branch")
+  if (!has_upstream) {
     git_branch_track(branch)
   }
 
-  # Prompt to create on first push
+  # Prompt to create PR on first push
   url <- pr_url()
   if (is.null(url)) {
     pr_create_gh()
@@ -173,14 +185,23 @@ pr_create_gh <- function() {
 }
 
 pr_url <- function(branch = git_branch_name()) {
-  # Look first in cache (stored in git config)
-  config_url <- glue("branch.{branch}.pull-url")
+  # Have we done this before? Check if we've cached pr-url in git config.
+  config_url <- glue("branch.{branch}.pr-url")
   url <- git_config_get(config_url)
   if (!is.null(url)) {
     return(url)
   }
 
-  urls <- pr_find(github_owner(), github_repo(), branch)
+  upstream <- git_branch_upstream(branch)
+  if (is.null(upstream)) {
+    pr_owner  <- github_owner()
+    pr_branch <- branch
+  } else {
+    pr_owner  <- remref_remote(upstream)
+    pr_branch <- remref_branch(upstream)
+  }
+
+  urls <- pr_find(github_owner(), github_repo(), pr_owner, pr_branch)
 
   if (length(urls) == 0) {
     NULL
@@ -192,12 +213,12 @@ pr_url <- function(branch = git_branch_name()) {
   }
 }
 
-pr_find <- function(owner, repo, branch = git_branch_name()) {
+pr_find <- function(owner, repo, pr_owner = owner, pr_branch = git_branch_name()) {
   # Look at all PRs
   prs <- gh::gh("GET /repos/:owner/:repo/pulls",
     owner = owner,
     repo = repo,
-    head = paste0(owner, ":", branch)
+    head = glue("{pr_owner}:{pr_branch}")
   )
   if (identical(prs[[1]], "")) {
     return(character())
@@ -206,5 +227,5 @@ pr_find <- function(owner, repo, branch = git_branch_name()) {
   refs <- purrr::map_chr(prs, c("head", "ref"), .default = NA_character_)
   urls <- purrr::map_chr(prs, c("html_url"), .default = NA_character_)
 
-  urls[refs == branch]
+  urls[refs == pr_branch]
 }

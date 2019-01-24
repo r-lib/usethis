@@ -49,22 +49,54 @@ git_commit_find <- function(refspec = NULL) {
   }
 }
 
-# Branch ------------------------------------------------------------------
+# Remote refs -------------------------------------------------------------
+git_remref <- function(remote = "origin", branch = "master") {
+  glue("{remote}/{branch}")
+}
 
-git_branch_name <- function() {
+## remref --> remote, branch
+git_parse_remref <- function(remref) {
+  remref_split <- strsplit(remref, "/")[[1]]
+  if (length(remref_split) != 2) {
+    ui_stop("{ui_code('rmref')} must be of form {ui_value('remote/branch')}.")
+  }
+  list(remote = remref_split[[1]], branch = remref_split[[2]])
+}
+
+remref_remote <- function(remref) git_parse_remref(remref)$remote
+remref_branch <- function(remref) git_parse_remref(remref)$branch
+
+# Branch ------------------------------------------------------------------
+git_branch <- function(name = NULL) {
+  if (is.null(name)) {
+    return(git_branch_current())
+  }
+  b <- git2r::branches(git_repo())
+  b[[name]]
+}
+
+git_branch_current <- function() {
   repo <- git_repo()
 
   branch <- git2r::repository_head(repo)
   if (!git2r::is_branch(branch)) {
     ui_stop("Detached head; can't continue")
   }
+  branch
+}
 
-  branch$name
+git_branch_name <- function() {
+  git_branch_current()$name
 }
 
 git_branch_exists <- function(branch) {
   repo <- git_repo()
   branch %in% names(git2r::branches(repo))
+}
+
+git_branch_upstream <- function(branch = git_branch_name()) {
+  b <- git_branch(name = branch)
+  git2r::branch_get_upstream(b)$name
 }
 
 git_branch_create <- function(branch, commit = NULL) {
@@ -80,41 +112,40 @@ git_branch_compare <- function(branch = git_branch_name()) {
   git2r::fetch(repo, "origin", refspec = branch, verbose = FALSE)
   git2r::ahead_behind(
     git_commit_find(branch),
-    git_commit_find(git_branch_remote(branch))
+    git_commit_find(git_branch_upstream(branch))
   )
 }
 
 git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
-  branch_obj <- git2r::branches(git_repo())[[branch]]
+  branch_obj <- git_branch(branch)
 
-  upstream <- git2r::branch_get_upstream(branch_obj)
+  upstream <- git_branch_upstream(branch)
   if (is.null(upstream)) {
-    name <- "origin"
+    remote_name   <- "origin"
+    remote_branch <- branch
   } else {
-    name <- git2r::branch_remote_name(upstream)
+    remote_name   <- remref_remote(upstream)
+    remote_branch <- remref_branch(upstream)
   }
 
+  ui_done("Pushing local {ui_value(branch)} branch to {ui_value(upstream)}")
   git2r::push(
     git_repo(),
-    name = name,
-    refspec = paste0("refs/heads/", branch),
+    name = remote_name,
+    refspec = glue("refs/heads/{branch}:refs/heads/{remote_branch}"),
     force = force
   )
 }
 
-git_branch_remote <- function(branch = git_branch_name()) {
-  branch_obj <- git2r::branches(git_repo())[[branch]]
-  upstream <- git2r::branch_get_upstream(branch_obj)
-  upstream$name
-}
-
 git_branch_track <- function(branch, remote = "origin", remote_branch = branch) {
-  branch_obj <- git2r::branches(git_repo())[[branch]]
-  git2r::branch_set_upstream(branch_obj, paste0(remote, "/", remote_branch))
+  branch_obj <- git_branch(branch)
+  upstream <- git_remref(remote, remote_branch)
+  ui_done("Setting upstream tracking branch for {ui_value(branch)} to {ui_value(upstream)}")
+  git2r::branch_set_upstream(branch_obj, upstream)
 }
 
 git_branch_delete <- function(branch) {
-  branch <- git2r::branches(git_repo(), "local")[[branch]]
+  branch <- git_branch(branch)
   git2r::branch_delete(branch)
 }
 
