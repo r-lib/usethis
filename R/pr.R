@@ -115,15 +115,15 @@ pr_push <- function() {
   check_uncommitted_changes()
 
   branch <- git_branch_name()
-  has_remote <- !is.null(git_branch_remote(branch))
-  if (has_remote) {
+  has_upstream <- !is.null(git_branch_upstream(branch))
+  if (has_upstream) {
     check_branch_current()
   }
 
   ui_done("Pushing changes to GitHub PR")
   git2r::push(git_branch_current())
 
-  if (!has_remote) {
+  if (!has_upstream) {
     ui_done("Tracking remote PR branch")
     git_branch_track(branch)
   }

@@ -94,7 +94,7 @@ git_branch_exists <- function(branch) {
   branch %in% names(git2r::branches(repo))
 }
 
-git_branch_upstream <- function(branch) {
+git_branch_upstream <- function(branch = git_branch_name()) {
   b <- git_branch(name = branch)
   git2r::branch_get_upstream(b)$name
 }
@@ -112,7 +112,7 @@ git_branch_compare <- function(branch = git_branch_name()) {
   git2r::fetch(repo, "origin", refspec = branch, verbose = FALSE)
   git2r::ahead_behind(
     git_commit_find(branch),
-    git_commit_find(git_branch_remote(branch))
+    git_commit_find(git_branch_upstream(branch))
   )
 }
 
@@ -132,12 +132,6 @@ git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
     refspec = paste0("refs/heads/", branch),
     force = force
   )
-}
-
-git_branch_remote <- function(branch = git_branch_name()) {
-  branch_obj <- git2r::branches(git_repo())[[branch]]
-  upstream <- git2r::branch_get_upstream(branch_obj)
-  upstream$name
 }
 
 git_branch_track <- function(branch, remote = "origin", remote_branch = branch) {
