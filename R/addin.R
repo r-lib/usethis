@@ -19,7 +19,7 @@ use_addin <- function(addin = "new_addin", open = interactive()) {
   }
 
   addin_info <- render_template("addins.dcf", data = list(addin = addin))
-  addin_info[5] <- ""
+  addin_info[length(addin_info) + 1] <- ""
   write_utf8(addin_dcf_path, addin_info, append = TRUE)
   ui_done("Adding binding to {ui_code(addin)} to addins.dcf.")
 
