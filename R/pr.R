@@ -90,6 +90,10 @@ pr_fetch <- function(number, owner = NULL) {
     ui_done("Setting upstream tracking branch to {ui_value(their_refname)}")
     git_branch_track(our_branch, remote, their_branch)
 
+    ui_done("Caching URL for PR #{number} in config for branch {ui_value(our_branch)}")
+    config_url <- glue("branch.{our_branch}.pr-url")
+    git_config_set(config_url, pr$html_url)
+
     if (remote != "origin" && our_branch != their_branch) {
       ui_done("Setting {ui_value(remote)} push config as {ui_value(glue('{our_branch}:{their_refname}'))}")
       config_key <- glue("remote.{remote}.push")
@@ -187,14 +191,23 @@ pr_create_gh <- function() {
 }
 
 pr_url <- function(branch = git_branch_name()) {
-  # Look first in cache (stored in git config)
-  config_url <- glue("branch.{branch}.pull-url")
+  # Have we done this before? Check if we've cached pr-url in git config.
+  config_url <- glue("branch.{branch}.pr-url")
   url <- git_config_get(config_url)
   if (!is.null(url)) {
     return(url)
   }
 
-  urls <- pr_find(github_owner(), github_repo(), branch)
+  upstream <- git_branch_upstream(branch)
+  if (is.null(upstream)) {
+    pr_owner  <- github_owner()
+    pr_branch <- branch
+  } else {
+    pr_owner  <- remref_remote(upstream)
+    pr_branch <- remref_branch(upstream)
+  }
+
+  urls <- pr_find(github_owner(), github_repo(), pr_owner, pr_branch)
 
   if (length(urls) == 0) {
     NULL
@@ -206,7 +219,7 @@ pr_url <- function(branch = git_branch_name()) {
   }
 }
 
-pr_find <- function(owner, repo, branch = git_branch_name()) {
+pr_find <- function(owner, repo, pr_owner = owner, pr_branch = git_branch_name()) {
   # Look at all PRs
   prs <- gh::gh("GET /repos/:owner/:repo/pulls",
     owner = owner,
@@ -220,5 +233,5 @@ pr_find <- function(owner, repo, branch = git_branch_name()) {
   refs <- purrr::map_chr(prs, c("head", "ref"), .default = NA_character_)
   urls <- purrr::map_chr(prs, c("html_url"), .default = NA_character_)
 
-  urls[refs == branch]
+  urls[refs == pr_branch]
 }
