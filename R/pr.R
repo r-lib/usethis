@@ -14,6 +14,8 @@
 #' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_update_source()`, and
 #'   `pr_push()`
 #' * `pr_view()` opens the PR in the browser
+#' * `pr_pause()` makes sure you're synched with the PR and then switches
+#'    back to master.
 #' * `pr_finish()` changes local branch to `master`, pulls new changes, and
 #'    deletes the PR branch. Run this from the PR branch after is has been
 #'    merged.
@@ -181,6 +183,17 @@ pr_view <- function() {
   } else {
     view_url(pr_url())
   }
+}
+
+#' @export
+#' @rdname pr_init
+pr_pause <- function() {
+  check_branch_not_master()
+  check_uncommitted_changes()
+  check_branch_current(use = "pr_pull()")
+
+  ui_done("Switching back to {ui_value('master')} branch")
+  git_branch_switch("master")
 }
 
 #' @export

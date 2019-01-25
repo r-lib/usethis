@@ -8,6 +8,7 @@
 \alias{pr_update_source}
 \alias{pr_sync}
 \alias{pr_view}
+\alias{pr_pause}
 \alias{pr_finish}
 \title{Helpers for GitHub pull requests}
 \usage{
@@ -24,6 +25,8 @@ pr_update_source()
 pr_sync()
 
 pr_view()
+
+pr_pause()
 
 pr_finish()
 }
@@ -51,6 +54,8 @@ have made suggestions or pushed into your PR.
 \item \code{pr_sync()} is a shortcut for \code{pr_pull()}, \code{pr_update_source()}, and
 \code{pr_push()}
 \item \code{pr_view()} opens the PR in the browser
+\item \code{pr_pause()} makes sure you're synched with the PR and then switches
+back to master.
 \item \code{pr_finish()} changes local branch to \code{master}, pulls new changes, and
 deletes the PR branch. Run this from the PR branch after is has been
 merged.
