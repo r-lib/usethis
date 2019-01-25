@@ -1,29 +1,51 @@
 #' Helpers for GitHub pull requests
 #'
-#' @description
-#' * `pr_init("name")` creates and checks out a new local branch, in
-#'    anticipation of making a PR.
-#' * `pr_fetch(number)` downloads a remote PR so you can edit locally.
-#' * `pr_push()` pushes local changes to GitHub, after checking that there
-#'    aren't any remote changes you need to retrieve first.
-#'    - If in a branch associated with an existing PR, pushes back into the PR.
-#'    - Otherwise, prompts you to create a PR on GitHub.
-#' * `pr_pull()` retrieves changes from the GitHub PR. Run this if others
-#'    have made suggestions or pushed into your PR.
-#' * `pr_view()` opens the PR in the browser
-#' * `pr_finish()` changes local branch to `master`, pulls new changes, and
-#'    deletes the PR branch. Run this from the PR branch after is has been
-#'    merged.
+#' The `pr_*` family of functions are designed to make working with GitHub
+#' PRs as painless as possible for both contributors and package maintainers.
+#' They are designed to support the git and GitHub best practices described in
+#' <http://happygitwithr.com/>.
 #'
-#' @details
-#' These functions have been designed to support the git and GitHub best
-#' practices described in <http://happygitwithr.com/>.
+#' @section For contributors:
+#' To contribute to a package, first use `create_from_github(owner/repo)` to
+#' fork the source repository, and then check out a local copy. Next use
+#' `pr_init()` to create a branch for your PR (__never__ submit a PR from the
+#' master branch). You'll then work locally, making changes to files
+#' and checking them into git. Once you're ready to submit, run `pr_push()`
+#' to push your local branch to GitHub, and open a webpage that lets you
+#' initiate the PR.
+#'
+#' If you are lucky, your PR will be perfect, and the maintainer will accept
+#' it. You can then run `pr_finish()` to close and delete your PR branch.
+#' In most cases, however, the maintainer will ask you to make some changes.
+#' Make the changes, then run `pr_push()` to sync back up to GitHub.
+#'
+#' It's also possible that the maintainer will contribute some code to your
+#' PR: you get that code back to your computer, run `pr_pull()`. It's also
+#' possible that other changes have occured to the package while you've been
+#' working on your PR, and you need to "merge master". Do that by running
+#' `pr_pull_source()`: this makes sure that your copy of the package is
+#' up-to-date with the maintainer's latest changes. Either of the pull
+#' functions may cause merge conflicts, so be prepared to resolve before
+#' continuing.
+#'
+#' @section For maintainers:
+#' To download a PR locally so that you can experiment with it, run
+#' `pr_fetch(<pr_number>)`. If you make changes, run `pr_push()` to push
+#' them back to GitHub. After you have merged the PR, run `pr_finish()`
+#' to delete the local branch.
+#'
+#' @section Other helpful functions:
+#' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_pull_source()`, and
+#'   `pr_push()`
+#' * `pr_pause()` makes sure you're synched with the PR and then switches
+#'    back to master.
+#' * `pr_view()` opens the PR in the browser
 #' @export
 #' @param branch branch name. Should usually consist of lower case letters,
 #'   numbers, and `-`.
 pr_init <- function(branch) {
   check_uses_github()
-  check_branch_current("master")
+  check_branch_current("master", "pr_pull_source()")
 
   if (!git_branch_exists(branch)) {
     if (git_branch_name() != "master") {
@@ -49,7 +71,9 @@ pr_init <- function(branch) {
 #' @rdname pr_init
 #' @param number Number of PR to fetch.
 #' @param owner Name of the owner of the repository that is the target of the
-#'   pull request. Default of `NULL` tries to deduce that from `origin` remote.
+#'   pull request. Default of `NULL` tries to identify the source repo and uses
+#'   the owner of the `upstream` remote, if present, or the owner of `origin`
+#'   otherwise.
 #'
 #' @examples
 #' \dontrun{
@@ -58,12 +82,11 @@ pr_init <- function(branch) {
 #' pr_fetch(123, owner = "tidyverse")
 #' }
 pr_fetch <- function(number, owner = NULL) {
-  check_branch_current("master")
   check_uncommitted_changes()
 
   ui_done("Retrieving data for PR #{number}")
   pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
-    owner = owner %||% github_owner(),
+    owner = owner %||% github_source() %||% github_owner(),
     repo = github_repo(),
     number = number
   )
@@ -96,12 +119,10 @@ pr_fetch <- function(number, owner = NULL) {
     config_url <- glue("branch.{our_branch}.pr-url")
     git_config_set(config_url, pr$html_url)
 
-    if (remote != "origin" && our_branch != their_branch) {
-      ui_done("Setting {ui_value(remote)} push config as {ui_value(glue('{our_branch}:{their_refname}'))}")
-      config_key <- glue("remote.{remote}.push")
-      config_value <- glue("refs/heads/{our_branch}:refs/heads/{their_branch}")
-      git_config_set(config_key, config_value, global = FALSE)
-    }
+    # `git push` will not work if the branch names differ, unless
+    # `push.default=upstream`; there's no simple way to make it work without
+    # drawbacks, due to the design of git. `pr_push()`, however, will always
+    # work.
   }
 
   if (git_branch_name() != our_branch) {
@@ -120,7 +141,7 @@ pr_push <- function() {
   branch <- git_branch_name()
   has_remote_branch <- !is.null(git_branch_tracking(branch))
   if (has_remote_branch) {
-    check_branch_current()
+    check_branch_current(use = "pr_pull()")
   }
 
   git_branch_push(branch)
@@ -153,6 +174,25 @@ pr_pull <- function() {
 
 #' @export
 #' @rdname pr_init
+pr_pull_source <- function() {
+  check_uses_github()
+  check_uncommitted_changes()
+
+  source <- if (git_is_fork()) "upstream/master" else "origin/master"
+  ui_done("Pulling changes from GitHub source repo {ui_value(source)}")
+  git_pull(source)
+}
+
+#' @export
+#' @rdname pr_init
+pr_sync <- function() {
+  pr_pull()
+  pr_pull_source()
+  pr_push()
+}
+
+#' @export
+#' @rdname pr_init
 pr_view <- function() {
   url <- pr_url()
   if (is.null(url)) {
@@ -164,6 +204,17 @@ pr_view <- function() {
 
 #' @export
 #' @rdname pr_init
+pr_pause <- function() {
+  check_branch_not_master()
+  check_uncommitted_changes()
+  check_branch_current(use = "pr_pull()")
+
+  ui_done("Switching back to {ui_value('master')} branch")
+  git_branch_switch("master")
+}
+
+#' @export
+#' @rdname pr_init
 pr_finish <- function() {
   check_branch_not_master()
   pr <- git_branch_name()
@@ -171,9 +222,9 @@ pr_finish <- function() {
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
 
-  ui_done("Pulling changes from GitHub")
-  git_pull()
+  pr_pull_source()
 
+  # TODO: check that this is merged!
   ui_done("Deleting local {ui_value(pr)} branch")
   git_branch_delete(pr)
 }
@@ -195,16 +246,15 @@ pr_url <- function(branch = git_branch_name()) {
     return(url)
   }
 
-  remote_branch <- git_branch_tracking(branch)
-  if (is.null(remote_branch)) {
-    pr_owner  <- github_owner()
-    pr_branch <- branch
+  if (git_is_fork()) {
+    source <- github_source()
+    pr_branch <- remref_branch(git_branch_tracking(branch))
   } else {
-    pr_owner  <- remref_remote(remote_branch)
-    pr_branch <- remref_branch(remote_branch)
+    source <- github_owner()
+    pr_branch <- branch
   }
 
-  urls <- pr_find(github_owner(), github_repo(), pr_owner, pr_branch)
+  urls <- pr_find(source, github_repo(), github_owner(), pr_branch)
 
   if (length(urls) == 0) {
     NULL
@@ -221,14 +271,16 @@ pr_find <- function(owner, repo, pr_owner = owner, pr_branch = git_branch_name()
   prs <- gh::gh("GET /repos/:owner/:repo/pulls",
     owner = owner,
     repo = repo,
-    head = glue("{pr_owner}:{pr_branch}")
+    .limit = Inf
   )
+
   if (identical(prs[[1]], "")) {
     return(character())
   }
 
   refs <- purrr::map_chr(prs, c("head", "ref"), .default = NA_character_)
+  user <- purrr::map_chr(prs, c("head", "user", "login"), .default = NA_character_)
   urls <- purrr::map_chr(prs, c("html_url"), .default = NA_character_)
 
-  urls[refs == pr_branch]
+  urls[refs == pr_branch & user == pr_owner]
 }

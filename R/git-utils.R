@@ -9,10 +9,18 @@ git_init <- function() {
   git2r::init(proj_get())
 }
 
-git_pull <- function() {
+git_pull <- function(remote_branch = git_branch_tracking()) {
   repo <- git_repo()
-  utils::capture.output(out <- git2r::pull())
-  invisible(out)
+
+  git2r::fetch(
+    git_repo(),
+    name = remref_remote(remote_branch),
+    refspec = remref_branch(remote_branch),
+    verbose = FALSE
+  )
+  git2r::merge(git_repo(), remote_branch, fail = TRUE)
+
+  invisible()
 }
 
 git_status <- function() {
@@ -38,7 +46,13 @@ git_remote_find <- function(rname = "origin") {
 }
 
 git_remote_exists <- function(rname = "origin") {
-  rname %in% git_remotes()
+  rname %in% names(git_remotes())
+}
+
+# GitHub ------------------------------------------------------------------
+
+git_is_fork <- function() {
+  git_remote_exists("upstream")
 }
 
 # Commit ------------------------------------------------------------------
@@ -99,7 +113,7 @@ git_branch_exists <- function(branch) {
 }
 
 git_branch_tracking <- function(branch = git_branch_name()) {
-  if (identical(branch, "master") && git_remote_exists("upstream")) {
+  if (identical(branch, "master") && git_is_fork()) {
     # We always pretend that the master branch of a fork tracks the
     # master branch in the source repo
     "upstream/master"
@@ -114,7 +128,9 @@ git_branch_create <- function(branch, commit = NULL) {
 }
 
 git_branch_switch <- function(branch) {
+  old <- git_branch_current()
   git2r::checkout(git_repo(), branch)
+  invisible(old)
 }
 
 git_branch_compare <- function(branch = git_branch_name()) {
@@ -133,6 +149,7 @@ git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
   if (is.null(remote)) {
     remote_name   <- "origin"
     remote_branch <- branch
+    remote <- paste0(remote_name, ":", remote_branch)
   } else {
     remote_name   <- remref_remote(remote)
     remote_branch <- remref_branch(remote)
@@ -195,7 +212,7 @@ check_branch_not_master <- function() {
 
   ui_stop(
     "
-    Currently on master branch.
+    Currently on {ui_value('master')} branch.
     Do you need to call {ui_code('pr_init()')} first?
     "
   )
@@ -215,7 +232,7 @@ check_branch <- function(branch) {
   )
 }
 
-check_branch_current <- function(branch = git_branch_name()) {
+check_branch_current <- function(branch = git_branch_name(), use = "git pull") {
   ui_done("Checking that {ui_value(branch)} branch is up to date")
   diff <- git_branch_compare(branch)
 
@@ -223,14 +240,8 @@ check_branch_current <- function(branch = git_branch_name()) {
     return(invisible())
   }
 
-  ui_stop(
-    "
-    {branch} branch is out of date.
-    Please resolve (somehow) before continuing.
-    "
-  )
+  ui_stop("Branch {ui_value(branch)} is out of date. Please use {ui_code(use)} to update.")
 }
-
 
 # config ------------------------------------------------------------------
 
