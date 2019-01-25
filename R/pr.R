@@ -7,11 +7,11 @@
 #' * `pr_push()` pushes local changes to GitHub, after checking that there
 #'    aren't any remote changes you need to retrieve first. It will create
 #'    a PR if needed
-#' * `pr_update_source()` updates your PR with changes from the source
-#'    repository
 #' * `pr_pull()` retrieves changes from the GitHub PR. Run this if others
 #'    have made suggestions or pushed into your PR.
-#' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_update_source()`, and
+#' * `pr_pull_source()` updates your PR with changes from the source
+#'    repository
+#' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_pull_source()`, and
 #'   `pr_push()`
 #' * `pr_view()` opens the PR in the browser
 #' * `pr_pause()` makes sure you're synched with the PR and then switches
@@ -28,7 +28,7 @@
 #'   numbers, and `-`.
 pr_init <- function(branch) {
   check_uses_github()
-  check_branch_current("master", "pr_update_source()")
+  check_branch_current("master", "pr_pull_source()")
 
   if (!git_branch_exists(branch)) {
     if (git_branch_name() != "master") {
@@ -154,7 +154,7 @@ pr_pull <- function() {
 
 #' @export
 #' @rdname pr_init
-pr_update_source <- function() {
+pr_pull_source <- function() {
   check_uses_github()
   check_uncommitted_changes()
 
@@ -170,7 +170,7 @@ pr_update_source <- function() {
 #' @rdname pr_init
 pr_sync <- function() {
   pr_pull()
-  pr_update_source()
+  pr_pull_source()
   pr_push()
 }
 
@@ -205,7 +205,7 @@ pr_finish <- function() {
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
 
-  pr_update_source()
+  pr_pull_source()
 
   ui_done("Deleting local {ui_value(pr)} branch")
   git_branch_delete(pr)

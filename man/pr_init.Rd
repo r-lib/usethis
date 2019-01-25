@@ -5,7 +5,7 @@
 \alias{pr_fetch}
 \alias{pr_push}
 \alias{pr_pull}
-\alias{pr_update_source}
+\alias{pr_pull_source}
 \alias{pr_sync}
 \alias{pr_view}
 \alias{pr_pause}
@@ -20,7 +20,7 @@ pr_push()
 
 pr_pull()
 
-pr_update_source()
+pr_pull_source()
 
 pr_sync()
 
@@ -47,11 +47,11 @@ anticipation of making a PR.
 \item \code{pr_push()} pushes local changes to GitHub, after checking that there
 aren't any remote changes you need to retrieve first. It will create
 a PR if needed
-\item \code{pr_update_source()} updates your PR with changes from the source
-repository
 \item \code{pr_pull()} retrieves changes from the GitHub PR. Run this if others
 have made suggestions or pushed into your PR.
-\item \code{pr_sync()} is a shortcut for \code{pr_pull()}, \code{pr_update_source()}, and
+\item \code{pr_pull_source()} updates your PR with changes from the source
+repository
+\item \code{pr_sync()} is a shortcut for \code{pr_pull()}, \code{pr_pull_source()}, and
 \code{pr_push()}
 \item \code{pr_view()} opens the PR in the browser
 \item \code{pr_pause()} makes sure you're synched with the PR and then switches
