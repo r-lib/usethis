@@ -36,11 +36,14 @@ use_rcpp_armadillo <- function(name = NULL) {
   makevars_path <- proj_path("src/Makevars")
   makevars_win_path <- proj_path("src/Makevars.win")
 
-  package <- "RcppArmadillo"
-  set_makevars(makevars_path)
-  ui_done("Adding {ui_value(package)} settings to {ui_value(makevars_path)}")
-  set_makevars(makevars_win_path)
-  ui_done("Adding {ui_value(package)} settings to {ui_value(makevars_win_path)}")
+  makevars_settings <- c(
+    "CXX_STD = CXX11",
+    "PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS)",
+    "PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)"
+  )
+
+  create_makevars(makevars_path, "RcppArmadillo", makevars_settings)
+  create_makevars(makevars_win_path, "RcppArmadillo", makevars_settings)
 
   invisible()
 }
@@ -85,51 +88,24 @@ use_src <- function() {
   invisible()
 }
 
-set_makevars <- function(path) {
-  # This will (at first) be similar to write_union() (in R/write.R),
-  # but we also have to handle the case where some flags are already set,
-  # so we will be appending text to the end of a line
-  # (rather than always adding new lines)
+create_makevars <- function(path, package, settings = NULL) {
 
-  path <- user_path_prep(path)
-
-  # If a Makevars file exists, read in its lines;
-  # otherwise, make an empty character vector
-  if (file_exists(path)) {
-    makevars <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  if (!is.null(settings)) {
+    makevars_settings <- paste0(settings, collapse = "\n")
   } else {
-    makevars <- character()
+    makevars_settings <- c("# For help writing Makevars{.win}, please see",
+                           "# Writing R Extensions' Section 1.2.1: Using Makevars.")
   }
 
-  # These are the settings we'll ultimately want
-  # (as they would be set by RcppArmadillo::RcppArmadillo.package.skeleton):
-  settings <- c("CXX11", "$(SHLIB_OPENMP_CXXFLAGS)",
-                "$(SHLIB_OPENMP_CXXFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)")
-  names(settings) <- c("CXX_STD", "PKG_CXXFLAGS", "PKG_LIBS")
-
-  # For each of CXX_STD, PKG_CXXFLAGS, and PKG_LIBS
-  for (flag in names(settings)) {
-    flag_entry <- which(grepl(flag, makevars))
-    if (length(flag_entry) == 0) {
-      # If there is no entry for it, set it from our defaults
-      makevars <- c(makevars, paste(flag, "=", settings[flag]))
-    } else {
-      # Otherwise, we get each setting already entered as a vector
-      existing_flags <- sub(paste0(flag, "\\s*=\\s*"), "", makevars[flag_entry])
-      existing_flags <- unlist(strsplit(existing_flags, " "))
-      # Split up our settings as well
-      desired_flags <- unlist(strsplit(settings[flag], " "))
-      # Get a character vector of length one of
-      # (1) first, all the settings they had that we didn't,
-      # (2) THEN the settings we need for RcppArmadillo,
-      # separated by a space
-      desired_flags <- c(setdiff(existing_flags, desired_flags), desired_flags)
-      desired_flags <- paste(desired_flags, collapse = " ")
-      # And replace that element of makevars
-      makevars[flag_entry] <- paste(flag, "=", desired_flags)
-    }
+  if (!file_exists(path)) {
+    write_utf8(path, makevars_settings)
+    ui_done("Added {ui_value(package)} settings to {ui_path(path)}.")
+  } else {
+    ui_todo("Ensure the Makevars settings required by {ui_value(package)} are found in {ui_path(path)}.")
+    ui_code_block(
+      makevars_settings
+    )
+    edit_file(path)
   }
 
-  # Then we write it all out
-  write_utf8(path, makevars)
 }
