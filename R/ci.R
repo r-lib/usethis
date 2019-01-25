@@ -118,9 +118,8 @@ appveyor_info <- function(base_path = proj_get()) {
 #' integration service for Gitlab.
 #' @export
 #' @rdname ci
-use_gitlab_ci <- function(browse = interactive()) {
+use_gitlab_ci <- function() {
   check_uses_git()
-  ext <- rlang::arg_match(ext)
   new <- use_template(
     "gitlab-ci.yml",
     ".gitlab-ci.yml",
@@ -132,6 +131,19 @@ use_gitlab_ci <- function(browse = interactive()) {
 }
 
 uses_gitlab_ci <- function(base_path = proj_get()) {
-  path <- glue("{base_path}/.gitlab-ci.yml")
+  path <- path(base_path, ".gitlab-ci.yml")
   file_exists(path)
+}
+
+check_uses_gitlab_ci <- function() {
+  if (uses_gitlab_ci()) {
+    return(invisible())
+  }
+
+  ui_stop(
+    "
+    Cannot detect that package {ui_(project_name(base_path))} already uses Gitlab CI.
+    Do you need to run {ui_code('use_gitlab_ci()')}?
+    "
+  )
 }
