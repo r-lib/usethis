@@ -18,7 +18,7 @@ git_pull <- function(remote_branch = git_branch_tracking()) {
     refspec = remref_branch(remote_branch),
     verbose = FALSE
   )
-  git2r::merge(git_repo(), remote_branch)
+  git2r::merge(git_repo(), remote_branch, fail = TRUE)
 
   invisible()
 }
