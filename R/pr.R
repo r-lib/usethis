@@ -118,14 +118,14 @@ pr_push <- function() {
   check_uncommitted_changes()
 
   branch <- git_branch_name()
-  has_upstream <- !is.null(git_branch_upstream(branch))
-  if (has_upstream) {
+  has_remote_branch <- !is.null(git_branch_tracking(branch))
+  if (has_remote_branch) {
     check_branch_current()
   }
 
   git_branch_push(branch)
 
-  if (!has_upstream) {
+  if (!has_remote_branch) {
     git_branch_track(branch)
   }
 
@@ -195,13 +195,13 @@ pr_url <- function(branch = git_branch_name()) {
     return(url)
   }
 
-  upstream <- git_branch_upstream(branch)
-  if (is.null(upstream)) {
+  remote_branch <- git_branch_tracking(branch)
+  if (is.null(remote_branch)) {
     pr_owner  <- github_owner()
     pr_branch <- branch
   } else {
-    pr_owner  <- remref_remote(upstream)
-    pr_branch <- remref_branch(upstream)
+    pr_owner  <- remref_remote(remote_branch)
+    pr_branch <- remref_branch(remote_branch)
   }
 
   urls <- pr_find(github_owner(), github_repo(), pr_owner, pr_branch)
