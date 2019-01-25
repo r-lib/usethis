@@ -5,15 +5,15 @@
 #'    anticipation of making a PR.
 #' * `pr_fetch(number)` downloads a remote PR so you can edit locally.
 #' * `pr_push()` pushes local changes to GitHub, after checking that there
-#'    aren't any remote changes you need to retrieve first. It will create
-#'    a PR if needed
-#' * `pr_pull()` retrieves changes from the GitHub PR. Run this if others
-#'    have made suggestions or pushed into your PR.
+#'    aren't any remote changes you need to retrieve first. It will help you
+#'    initiate a PR, if needed.
+#' * `pr_pull()` retrieves changes from the GitHub PR. Run this if the remote PR
+#'    has commits you don't have.
 #' * `pr_pull_source()` updates your PR with changes from the source
-#'    repository
+#'    repository.
 #' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_pull_source()`, and
-#'   `pr_push()`
-#' * `pr_view()` opens the PR in the browser
+#'   `pr_push()`.
+#' * `pr_view()` opens the PR in the browser.
 #' * `pr_pause()` makes sure you're synched with the PR and then switches
 #'    back to master.
 #' * `pr_finish()` changes local branch to `master`, pulls new changes, and
@@ -54,7 +54,9 @@ pr_init <- function(branch) {
 #' @rdname pr_init
 #' @param number Number of PR to fetch.
 #' @param owner Name of the owner of the repository that is the target of the
-#'   pull request. Default of `NULL` uses the source repo.
+#'   pull request. Default of `NULL` tries to identify the source repo and uses
+#'   the owner of the `upstream` remote, if present, or the owner of `origin`
+#'   otherwise.
 #'
 #' @examples
 #' \dontrun{
@@ -100,9 +102,10 @@ pr_fetch <- function(number, owner = NULL) {
     config_url <- glue("branch.{our_branch}.pr-url")
     git_config_set(config_url, pr$html_url)
 
-    # `git push` will not work unless `push.default=upstream`; there's no simple
-    # way to make it work without substantial drawbacks, due to the design of
-    # git. `pr_push()`, however, will always work
+    # `git push` will not work if the branch names differ, unless
+    # `push.default=upstream`; there's no simple way to make it work without
+    # drawbacks, due to the design of git. `pr_push()`, however, will always
+    # work.
   }
 
   if (git_branch_name() != our_branch) {

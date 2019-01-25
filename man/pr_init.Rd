@@ -37,7 +37,9 @@ numbers, and \code{-}.}
 \item{number}{Number of PR to fetch.}
 
 \item{owner}{Name of the owner of the repository that is the target of the
-pull request. Default of \code{NULL} uses the source repo.}
+pull request. Default of \code{NULL} tries to identify the source repo and uses
+the owner of the \code{upstream} remote, if present, or the owner of \code{origin}
+otherwise.}
 }
 \description{
 \itemize{
@@ -45,15 +47,15 @@ pull request. Default of \code{NULL} uses the source repo.}
 anticipation of making a PR.
 \item \code{pr_fetch(number)} downloads a remote PR so you can edit locally.
 \item \code{pr_push()} pushes local changes to GitHub, after checking that there
-aren't any remote changes you need to retrieve first. It will create
-a PR if needed
-\item \code{pr_pull()} retrieves changes from the GitHub PR. Run this if others
-have made suggestions or pushed into your PR.
+aren't any remote changes you need to retrieve first. It will help you
+initiate a PR, if needed.
+\item \code{pr_pull()} retrieves changes from the GitHub PR. Run this if the remote PR
+has commits you don't have.
 \item \code{pr_pull_source()} updates your PR with changes from the source
-repository
+repository.
 \item \code{pr_sync()} is a shortcut for \code{pr_pull()}, \code{pr_pull_source()}, and
-\code{pr_push()}
-\item \code{pr_view()} opens the PR in the browser
+\code{pr_push()}.
+\item \code{pr_view()} opens the PR in the browser.
 \item \code{pr_pause()} makes sure you're synched with the PR and then switches
 back to master.
 \item \code{pr_finish()} changes local branch to \code{master}, pulls new changes, and
