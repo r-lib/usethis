@@ -212,7 +212,7 @@ check_branch_not_master <- function() {
 
   ui_stop(
     "
-    Currently on master branch.
+    Currently on {ui_value('master')} branch.
     Do you need to call {ui_code('pr_init()')} first?
     "
   )
@@ -240,7 +240,7 @@ check_branch_current <- function(branch = git_branch_name(), use = "git pull") {
     return(invisible())
   }
 
-  ui_stop("{branch} branch is out of date. Please use {ui_code(use)} to update.")
+  ui_stop("Branch {ui_value(branch)} is out of date. Please use {ui_code(use)} to update.")
 }
 
 # config ------------------------------------------------------------------
