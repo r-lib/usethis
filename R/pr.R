@@ -195,8 +195,7 @@ pr_finish <- function() {
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
 
-  ui_done("Pulling changes from GitHub")
-  git_pull()
+  pr_update_source()
 
   ui_done("Deleting local {ui_value(pr)} branch")
   git_branch_delete(pr)
@@ -219,16 +218,15 @@ pr_url <- function(branch = git_branch_name()) {
     return(url)
   }
 
-  remote_branch <- git_branch_tracking(branch)
-  if (is.null(remote_branch)) {
-    pr_owner  <- github_owner()
-    pr_branch <- branch
+  if (git_is_fork()) {
+    source <- github_source()
+    pr_branch <- remref_branch(git_branch_tracking(branch))
   } else {
-    pr_owner  <- remref_remote(remote_branch)
-    pr_branch <- remref_branch(remote_branch)
+    source <- github_owner()
+    pr_branch <- branch
   }
 
-  urls <- pr_find(github_owner(), github_repo(), pr_owner, pr_branch)
+  urls <- pr_find(source, github_repo(), github_owner(), pr_branch)
 
   if (length(urls) == 0) {
     NULL
@@ -245,14 +243,16 @@ pr_find <- function(owner, repo, pr_owner = owner, pr_branch = git_branch_name()
   prs <- gh::gh("GET /repos/:owner/:repo/pulls",
     owner = owner,
     repo = repo,
-    head = glue("{pr_owner}:{pr_branch}")
+    .limit = Inf
   )
+
   if (identical(prs[[1]], "")) {
     return(character())
   }
 
   refs <- purrr::map_chr(prs, c("head", "ref"), .default = NA_character_)
+  user <- purrr::map_chr(prs, c("head", "user", "login"), .default = NA_character_)
   urls <- purrr::map_chr(prs, c("html_url"), .default = NA_character_)
 
-  urls[refs == pr_branch]
+  urls[refs == pr_branch & user == pr_owner]
 }
