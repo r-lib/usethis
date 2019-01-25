@@ -1,28 +1,45 @@
 #' Helpers for GitHub pull requests
 #'
-#' @description
-#' * `pr_init("name")` creates and checks out a new local branch, in
-#'    anticipation of making a PR.
-#' * `pr_fetch(number)` downloads a remote PR so you can edit locally.
-#' * `pr_push()` pushes local changes to GitHub, after checking that there
-#'    aren't any remote changes you need to retrieve first. It will create
-#'    a PR if needed
-#' * `pr_pull()` retrieves changes from the GitHub PR. Run this if others
-#'    have made suggestions or pushed into your PR.
-#' * `pr_pull_source()` updates your PR with changes from the source
-#'    repository
+#' The `pr_*` family of functions are designed to make working with GitHub
+#' PRs as painless as possible for both contributors and package maintainers.
+#' They are designed to support the git and GitHub best practices described in
+#' <http://happygitwithr.com/>.
+#'
+#' @section For contributors:
+#' To contribute to a package, first use `create_from_github(owner/repo)` to
+#' fork the source repository, and then check out a local copy. Next use
+#' `pr_init()` to create a branch for your PR (__never__ submit a PR from the
+#' master branch). You'll then work locally, making changes to files
+#' and checking them into git. Once you're ready to submit, run `pr_push()`
+#' to push your local branch to GitHub, and open a webpage that lets you
+#' initiate the PR.
+#'
+#' If you are lucky, your PR will be perfect, and the maintainer will accept
+#' it. You can then run `pr_finish()` to close and delete your PR branch.
+#' In most cases, however, the maintainer will ask you to make some changes.
+#' Make the changes, then run `pr_push()` to sync back up to GitHub.
+#'
+#' It's also possible that the maintainer will contribute some code to your
+#' PR: you get that code back to your computer, run `pr_pull()`. It's also
+#' possible that other changes have occured to the package while you've been
+#' working on your PR, and you need to "merge master". Do that by running
+#' `pr_pull_source()`: this makes sure that your copy of the package is
+#' up-to-date with the maintainer's latest changes. Either of the pull
+#' functions may cause merge conflicts, so be prepared to resolve before
+#' continuing.
+#'
+#' @section For maintainers:
+#' To download a PR locally so that you can experiment with it, run
+#' `pr_fetch(<pr_number>)`. If you make changes, run `pr_push()` to push
+#' them back to GitHub. After you have merged the PR, run `pr_finish()`
+#' to delete the local branch.
+#'
+#' @section Other helpful functions:
 #' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_pull_source()`, and
 #'   `pr_push()`
-#' * `pr_view()` opens the PR in the browser
 #' * `pr_pause()` makes sure you're synched with the PR and then switches
 #'    back to master.
-#' * `pr_finish()` changes local branch to `master`, pulls new changes, and
-#'    deletes the PR branch. Run this from the PR branch after is has been
-#'    merged.
-#'
-#' @details
-#' These functions have been designed to support the git and GitHub best
-#' practices described in <http://happygitwithr.com/>.
+#' * `pr_view()` opens the PR in the browser
 #' @export
 #' @param branch branch name. Should usually consist of lower case letters,
 #'   numbers, and `-`.
@@ -207,6 +224,7 @@ pr_finish <- function() {
 
   pr_pull_source()
 
+  # TODO: check that this is merged!
   ui_done("Deleting local {ui_value(pr)} branch")
   git_branch_delete(pr)
 }
