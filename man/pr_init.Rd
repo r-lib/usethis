@@ -37,7 +37,9 @@ numbers, and \code{-}.}
 \item{number}{Number of PR to fetch.}
 
 \item{owner}{Name of the owner of the repository that is the target of the
-pull request. Default of \code{NULL} uses the source repo.}
+pull request. Default of \code{NULL} tries to identify the source repo and uses
+the owner of the \code{upstream} remote, if present, or the owner of \code{origin}
+otherwise.}
 }
 \description{
 The \code{pr_*} family of functions are designed to make working with GitHub

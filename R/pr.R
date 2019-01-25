@@ -71,7 +71,9 @@ pr_init <- function(branch) {
 #' @rdname pr_init
 #' @param number Number of PR to fetch.
 #' @param owner Name of the owner of the repository that is the target of the
-#'   pull request. Default of `NULL` uses the source repo.
+#'   pull request. Default of `NULL` tries to identify the source repo and uses
+#'   the owner of the `upstream` remote, if present, or the owner of `origin`
+#'   otherwise.
 #'
 #' @examples
 #' \dontrun{
@@ -117,9 +119,10 @@ pr_fetch <- function(number, owner = NULL) {
     config_url <- glue("branch.{our_branch}.pr-url")
     git_config_set(config_url, pr$html_url)
 
-    # `git push` will not work unless `push.default=upstream`; there's no simple
-    # way to make it work without substantial drawbacks, due to the design of
-    # git. `pr_push()`, however, will always work
+    # `git push` will not work if the branch names differ, unless
+    # `push.default=upstream`; there's no simple way to make it work without
+    # drawbacks, due to the design of git. `pr_push()`, however, will always
+    # work.
   }
 
   if (git_branch_name() != our_branch) {
@@ -175,12 +178,9 @@ pr_pull_source <- function() {
   check_uses_github()
   check_uncommitted_changes()
 
-  ui_done("Pulling changes from GitHub source repo")
-  if (git_is_fork()) {
-    git_pull("upstream/master")
-  } else {
-    git_pull("origin/master")
-  }
+  source <- if (git_is_fork()) "upstream/master" else "origin/master"
+  ui_done("Pulling changes from GitHub source repo {ui_value(source)}")
+  git_pull(source)
 }
 
 #' @export
