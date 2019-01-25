@@ -5,11 +5,14 @@
 #'    anticipation of making a PR.
 #' * `pr_fetch(number)` downloads a remote PR so you can edit locally.
 #' * `pr_push()` pushes local changes to GitHub, after checking that there
-#'    aren't any remote changes you need to retrieve first.
-#'    - If in a branch associated with an existing PR, pushes back into the PR.
-#'    - Otherwise, prompts you to create a PR on GitHub.
+#'    aren't any remote changes you need to retrieve first. It will create
+#'    a PR if needed
+#' * `pr_update_source()` updates your PR with changes from the source
+#'    repository
 #' * `pr_pull()` retrieves changes from the GitHub PR. Run this if others
 #'    have made suggestions or pushed into your PR.
+#' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_update_source()`, and
+#'   `pr_push()`
 #' * `pr_view()` opens the PR in the browser
 #' * `pr_finish()` changes local branch to `master`, pulls new changes, and
 #'    deletes the PR branch. Run this from the PR branch after is has been
@@ -23,7 +26,7 @@
 #'   numbers, and `-`.
 pr_init <- function(branch) {
   check_uses_github()
-  check_branch_current("master")
+  check_branch_current("master", "pr_update_source()")
 
   if (!git_branch_exists(branch)) {
     if (git_branch_name() != "master") {
@@ -58,7 +61,6 @@ pr_init <- function(branch) {
 #' pr_fetch(123, owner = "tidyverse")
 #' }
 pr_fetch <- function(number, owner = NULL) {
-  check_branch_current("master")
   check_uncommitted_changes()
 
   ui_done("Retrieving data for PR #{number}")
@@ -120,7 +122,7 @@ pr_push <- function() {
   branch <- git_branch_name()
   has_remote_branch <- !is.null(git_branch_tracking(branch))
   if (has_remote_branch) {
-    check_branch_current()
+    check_branch_current(use = "git pull")
   }
 
   git_branch_push(branch)
@@ -149,6 +151,28 @@ pr_pull <- function() {
   git_pull()
 
   invisible(TRUE)
+}
+
+#' @export
+#' @rdname pr_init
+pr_update_source <- function() {
+  check_uses_github()
+  check_uncommitted_changes()
+
+  ui_done("Pulling changes from GitHub source repo")
+  if (git_is_fork()) {
+    git_pull("upstream/master")
+  } else {
+    git_pull("origin/master")
+  }
+}
+
+#' @export
+#' @rdname pr_init
+pr_sync <- function() {
+  pr_pull()
+  pr_update_source()
+  pr_push()
 }
 
 #' @export
