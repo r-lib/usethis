@@ -39,22 +39,10 @@
 
 <meta property="og:title" content="Helpers for GitHub pull requests — pr_init" />
 
-<meta property="og:description" content="
-pr_init(&quot;name&quot;) creates and checks out a new local branch, in
-anticipation of making a PR.
-pr_fetch(number) downloads a remote PR so you can edit locally.
-pr_push() pushes local changes to GitHub, after checking that there
-aren't any remote changes you need to retrieve first.
-If in a branch associated with an existing PR, pushes back into the PR.
-Otherwise, prompts you to create a PR on GitHub.
-
-pr_pull() retrieves changes from the GitHub PR. Run this if others
-have made suggestions or pushed into your PR.
-pr_view() opens the PR in the browser
-pr_finish() changes local branch to master, pulls new changes, and
-deletes the PR branch. Run this from the PR branch after is has been
-merged.
-" />
+<meta property="og:description" content="The pr_* family of functions are designed to make working with GitHub
+PRs as painless as possible for both contributors and package maintainers.
+They are designed to support the git and GitHub best practices described in
+http://happygitwithr.com/." />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -153,22 +141,10 @@ merged.
 
     <div class="ref-description">
     
-    <ul>
-<li><p><code>pr_init("name")</code> creates and checks out a new local branch, in
-anticipation of making a PR.</p></li>
-<li><p><code>pr_fetch(number)</code> downloads a remote PR so you can edit locally.</p></li>
-<li><p><code>pr_push()</code> pushes local changes to GitHub, after checking that there
-aren't any remote changes you need to retrieve first.</p><ul>
-<li><p>If in a branch associated with an existing PR, pushes back into the PR.</p></li>
-<li><p>Otherwise, prompts you to create a PR on GitHub.</p></li>
-</ul></li>
-<li><p><code>pr_pull()</code> retrieves changes from the GitHub PR. Run this if others
-have made suggestions or pushed into your PR.</p></li>
-<li><p><code>pr_view()</code> opens the PR in the browser</p></li>
-<li><p><code>pr_finish()</code> changes local branch to <code>master</code>, pulls new changes, and
-deletes the PR branch. Run this from the PR branch after is has been
-merged.</p></li>
-</ul>
+    <p>The <code>pr_*</code> family of functions are designed to make working with GitHub
+PRs as painless as possible for both contributors and package maintainers.
+They are designed to support the git and GitHub best practices described in
+<a href='http://happygitwithr.com/'>http://happygitwithr.com/</a>.</p>
     
     </div>
 
@@ -180,7 +156,13 @@ merged.</p></li>
 
 <span class='fu'>pr_pull</span>()
 
+<span class='fu'>pr_pull_source</span>()
+
+<span class='fu'>pr_sync</span>()
+
 <span class='fu'>pr_view</span>()
+
+<span class='fu'>pr_pause</span>()
 
 <span class='fu'>pr_finish</span>()</pre>
     
@@ -199,14 +181,53 @@ numbers, and <code>-</code>.</p></td>
     <tr>
       <th>owner</th>
       <td><p>Name of the owner of the repository that is the target of the
-pull request. Default of <code>NULL</code> tries to deduce that from <code>origin</code> remote.</p></td>
+pull request. Default of <code>NULL</code> tries to identify the source repo and uses
+the owner of the <code>upstream</code> remote, if present, or the owner of <code>origin</code>
+otherwise.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="for-contributors"><a class="anchor" href="#for-contributors"></a>For contributors</h2>
 
-    <p>These functions have been designed to support the git and GitHub best
-practices described in <a href='http://happygitwithr.com/'>http://happygitwithr.com/</a>.</p>
+    
+    <p>To contribute to a package, first use <code><a href='create_from_github.html'>create_from_github(owner/repo)</a></code> to
+fork the source repository, and then check out a local copy. Next use
+<code>pr_init()</code> to create a branch for your PR (<strong>never</strong> submit a PR from the
+master branch). You'll then work locally, making changes to files
+and checking them into git. Once you're ready to submit, run <code>pr_push()</code>
+to push your local branch to GitHub, and open a webpage that lets you
+initiate the PR.</p>
+<p>If you are lucky, your PR will be perfect, and the maintainer will accept
+it. You can then run <code>pr_finish()</code> to close and delete your PR branch.
+In most cases, however, the maintainer will ask you to make some changes.
+Make the changes, then run <code>pr_push()</code> to sync back up to GitHub.</p>
+<p>It's also possible that the maintainer will contribute some code to your
+PR: you get that code back to your computer, run <code>pr_pull()</code>. It's also
+possible that other changes have occured to the package while you've been
+working on your PR, and you need to "merge master". Do that by running
+<code>pr_pull_source()</code>: this makes sure that your copy of the package is
+up-to-date with the maintainer's latest changes. Either of the pull
+functions may cause merge conflicts, so be prepared to resolve before
+continuing.</p>
+    
+    <h2 class="hasAnchor" id="for-maintainers"><a class="anchor" href="#for-maintainers"></a>For maintainers</h2>
+
+    
+    <p>To download a PR locally so that you can experiment with it, run
+<code>pr_fetch(&lt;pr_number&gt;)</code>. If you make changes, run <code>pr_push()</code> to push
+them back to GitHub. After you have merged the PR, run <code>pr_finish()</code>
+to delete the local branch.</p>
+    
+    <h2 class="hasAnchor" id="other-helpful-functions"><a class="anchor" href="#other-helpful-functions"></a>Other helpful functions</h2>
+
+    
+    <ul>
+<li><p><code>pr_sync()</code> is a shortcut for <code>pr_pull()</code>, <code>pr_pull_source()</code>, and
+<code>pr_push()</code></p></li>
+<li><p><code>pr_pause()</code> makes sure you're synched with the PR and then switches
+back to master.</p></li>
+<li><p><code>pr_view()</code> opens the PR in the browser</p></li>
+</ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -221,7 +242,11 @@ practices described in <a href='http://happygitwithr.com/'>http://happygitwithr.
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#details">Details</a></li>
+      <li><a href="#for-contributors">For contributors</a></li>
+
+      <li><a href="#for-maintainers">For maintainers</a></li>
+
+      <li><a href="#other-helpful-functions">Other helpful functions</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
