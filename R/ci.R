@@ -135,8 +135,8 @@ uses_gitlab_ci <- function(base_path = proj_get()) {
   file_exists(path)
 }
 
-check_uses_gitlab_ci <- function() {
-  if (uses_gitlab_ci()) {
+check_uses_gitlab_ci <- function(base_path = proj_get()) {
+  if (uses_gitlab_ci(base_path)) {
     return(invisible())
   }
 
