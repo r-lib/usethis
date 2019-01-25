@@ -161,12 +161,9 @@ pr_pull_source <- function() {
   check_uses_github()
   check_uncommitted_changes()
 
-  ui_done("Pulling changes from GitHub source repo")
-  if (git_is_fork()) {
-    git_pull("upstream/master")
-  } else {
-    git_pull("origin/master")
-  }
+  source <- if (git_is_fork()) "upstream/master" else "origin/master"
+  ui_done("Pulling changes from GitHub source repo {ui_value(source)}")
+  git_pull(source)
 }
 
 #' @export
