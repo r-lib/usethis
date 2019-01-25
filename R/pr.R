@@ -122,7 +122,7 @@ pr_push <- function() {
   branch <- git_branch_name()
   has_remote_branch <- !is.null(git_branch_tracking(branch))
   if (has_remote_branch) {
-    check_branch_current(use = "git pull")
+    check_branch_current(use = "pr_pull()")
   }
 
   git_branch_push(branch)

@@ -149,6 +149,7 @@ git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
   if (is.null(remote)) {
     remote_name   <- "origin"
     remote_branch <- branch
+    remote <- paste0(remote_name, ":", remote_branch)
   } else {
     remote_name   <- remref_remote(remote)
     remote_branch <- remref_branch(remote)
