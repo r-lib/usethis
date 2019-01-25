@@ -98,12 +98,9 @@ pr_fetch <- function(number, owner = NULL) {
     config_url <- glue("branch.{our_branch}.pr-url")
     git_config_set(config_url, pr$html_url)
 
-    if (remote != "origin" && our_branch != their_branch) {
-      ui_done("Setting {ui_value(remote)} push config as {ui_value(glue('{our_branch}:{their_refname}'))}")
-      config_key <- glue("remote.{remote}.push")
-      config_value <- glue("refs/heads/{our_branch}:refs/heads/{their_branch}")
-      git_config_set(config_key, config_value, global = FALSE)
-    }
+    # `git push` will not work unless `push.default=upstream`; there's no simple
+    # way to make it work without substantial drawbacks, due to the design of
+    # git. `pr_push()`, however, will always work
   }
 
   if (git_branch_name() != our_branch) {
