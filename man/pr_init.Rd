@@ -34,7 +34,7 @@ numbers, and \code{-}.}
 \item{number}{Number of PR to fetch.}
 
 \item{owner}{Name of the owner of the repository that is the target of the
-pull request. Default of \code{NULL} tries to deduce that from \code{origin} remote.}
+pull request. Default of \code{NULL} uses the source repo.}
 }
 \description{
 \itemize{
