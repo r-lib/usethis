@@ -19,8 +19,6 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
 })
 
 test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
-  skip_if_not_installed("RcppArmadillo")
-
   pkg <- scoped_temporary_package()
   use_roxygen_md()
 
@@ -41,8 +39,6 @@ test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
 })
 
 test_that("use_rcpp_eigen() edits DESCRIPTION", {
-  skip_if_not_installed("RcppEigen")
-
   pkg <- scoped_temporary_package()
   use_roxygen_md()
 
