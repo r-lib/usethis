@@ -234,7 +234,7 @@ pr_create_gh <- function() {
   repo <- github_repo()
   branch <- git_branch_name()
 
-  ui_done("Create PR at:")
+  ui_done("Create PR at link given below")
   view_url(glue("https://github.com/{owner}/{repo}/compare/{branch}"))
 }
 
