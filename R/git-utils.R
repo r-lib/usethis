@@ -189,19 +189,19 @@ check_uses_git <- function(base_path = proj_get()) {
   ))
 }
 
-check_uncommitted_changes <- function(path = proj_get()) {
+check_uncommitted_changes <- function(path = proj_get(), untracked = FALSE) {
   if (rstudioapi::hasFun("documentSaveAll")) {
     rstudioapi::documentSaveAll()
   }
 
-  if (uses_git(path) && git_uncommitted(path)) {
+  if (uses_git(path) && git_uncommitted(path, untracked = untracked)) {
     ui_stop("Uncommited changes. Please commit to git before continuing.")
   }
 }
 
-git_uncommitted <- function(path = proj_get()) {
+git_uncommitted <- function(path = proj_get(), untracked = FALSE) {
   r <- git2r::repository(path, discover = TRUE)
-  st <- vapply(git2r::status(r), length, integer(1))
+  st <- vapply(git2r::status(r, untracked = untracked), length, integer(1))
   any(st != 0)
 }
 
