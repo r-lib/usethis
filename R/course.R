@@ -22,7 +22,7 @@
 #'
 #' @param url Link to a ZIP file containing the materials, possibly behind a
 #'   shortlink. Links of the form `"repo/user"` will expanded to the appropriate
-#'   url for a repo on Github. Function developed with DropBox and GitHub in
+#'   url for a repo on GitHub. Function developed with DropBox and GitHub in
 #'   mind, but should work for ZIP files generally. If no "http" prefix is
 #'   found, "https://" is prepended. See [use_course_details] for more.
 #' @param destdir The new folder is stored here. Defaults to user's Desktop.
