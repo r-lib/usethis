@@ -9,7 +9,7 @@ use_course(url, destdir = NULL)
 \arguments{
 \item{url}{Link to a ZIP file containing the materials, possibly behind a
 shortlink. Links of the form \code{"repo/user"} will expanded to the appropriate
-url for a repo on Github. Function developed with DropBox and GitHub in
+url for a repo on GitHub. Function developed with DropBox and GitHub in
 mind, but should work for ZIP files generally. If no "http" prefix is
 found, "https://" is prepended. See \link{use_course_details} for more.}
 

@@ -285,8 +285,8 @@ is_shortlink <- function(url) {
 expand_github <- function(url){
   # mostly to handle errors in the spec
   repo_spec <- parse_repo_spec(url)
-  paste0("github.com/", repo_spec$owner, "/",
-    repo_spec$repo, "/archive/master.zip")
+  glue::glue_data(repo_spec,
+    "github.com/{owner}/{repo}/archive/master.zip")
 }
 
 conspicuous_place <- function() {
