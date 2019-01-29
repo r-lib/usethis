@@ -244,7 +244,7 @@ check_not_nested <- function(path, name) {
   }
 
   ui_line(
-    "New project {ui_value(name)} is nested inside an existing project\\
+    "New project {ui_value(name)} is nested inside an existing project \\
     {ui_path(path)}, which is rarely a good idea."
   )
   if (ui_nope("Do you want to create anyway?")) {
