@@ -18,7 +18,10 @@ git_pull <- function(remote_branch = git_branch_tracking()) {
     refspec = remref_branch(remote_branch),
     verbose = FALSE
   )
-  git2r::merge(git_repo(), remote_branch, fail = TRUE)
+  mr <- git2r::merge(git_repo(), remote_branch)
+  if (isTRUE(mr$conflicts)) {
+    stop("Merge conflict! Please resolve before continuing", call. = FALSE)
+  }
 
   invisible()
 }
