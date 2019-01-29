@@ -2,6 +2,8 @@
 
 ## New features
 
+* `use_ccby_license()` adds a CCBY 4.0 license (#547)
+
 * `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
 
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 

@@ -87,6 +87,18 @@ use_cc0_license <- function(name = find_name()) {
   use_license_template("cc0", name)
 }
 
+#' @rdname licenses
+#' @export
+use_ccby_license <- function(name = find_name()) {
+  force(name)
+  check_is_package("use_ccby_license()")
+
+  use_description_field("License",
+                        "CCBY-4.0",
+                        overwrite = TRUE)
+  use_license_template("ccby-4", name)
+}
+
 
 use_license_template <- function(license, name) {
   license_template <- glue("license-{license}.md")

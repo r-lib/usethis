@@ -6,6 +6,7 @@
 \alias{use_lgpl_license}
 \alias{use_apl2_license}
 \alias{use_cc0_license}
+\alias{use_ccby_license}
 \title{License a package}
 \usage{
 use_mit_license(name = find_name())
@@ -17,6 +18,8 @@ use_lgpl_license(name = find_name())
 use_apl2_license(name = find_name())
 
 use_cc0_license(name = find_name())
+
+use_ccby_license(name = find_name())
 }
 \arguments{
 \item{name}{Name of the copyright holder or holders. Separate multiple
