@@ -76,5 +76,5 @@ check_vignette_name <- function(name) {
 }
 
 valid_vignette_name <- function(x) {
-  grepl("^[[:alpha:]][[:alnum:]\\-_]+$", x)
+  grepl("^[[:alpha:]][[:alnum:]_-]+$", x)
 }
