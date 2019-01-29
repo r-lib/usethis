@@ -44,7 +44,7 @@ git_ask_commit <- function(message) {
   }
 
   ui_line(c(
-    "There are {n} files uncommited files:",
+    "There are {n} uncommitted files:",
     paste0("* ", ui_paths)
   ))
 
