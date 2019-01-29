@@ -29,6 +29,8 @@ use_vignette <- function(name, title = name) {
   use_git_ignore("inst/doc")
 
   use_vignette_template("vignette.Rmd", name, title)
+
+  invisible()
 }
 
 #' @export
