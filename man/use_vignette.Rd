@@ -11,12 +11,12 @@ use_article(name, title = name)
 }
 \arguments{
 \item{name}{Base for file name to use for new vignette. Should consist only
-of numbers, letters, _ and -. I recommend using lower case.}
+of numbers, letters, \code{_} and \code{-}. Lower case is recommended.}
 
 \item{title}{The title of the vignette.}
 }
 \description{
-Creates new vignette/article in \code{vignettes/}. Article are a special
+Creates a new vignette or article in \code{vignettes/}. Articles are a special
 type of vignette that appear on pkgdown websites, but are not included
 in the package itself (because they are added to \code{.Rbuildignore}
 automatically).
@@ -27,7 +27,7 @@ automatically).
 \item Adds needed packages to \code{DESCRIPTION}.
 \item Adds \code{inst/doc} to \code{.gitignore} so built vignettes aren't tracked.
 \item Adds \code{vignettes/*.html} and \code{vignettes/*.R} to \code{.gitignore} so
-you never accidental track rendered vignettes.
+you never accidentally track rendered vignettes.
 }
 }
 
