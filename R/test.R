@@ -32,9 +32,24 @@ use_test <- function(name = NULL, open = interactive()) {
   }
 
   name <- name %||% get_active_r_file(path = "R")
+  check_file_name(name)
+  # REMOVE THIS PRIOR TO MERGE: #581
+  # if (is.null(name)) {
+  #   name <- get_active_r_file(path = "R")
+  #   if (!valid_file_name(fs::path_ext_remove(name))) {
+  #     warning(
+  #       stringr::str_glue(
+  #         "Active file contains non-ASCII characters.
+  #         Consider renaming file using only ASCII letters, numbers,
+  #         '-', and '_'."
+  #       ),
+  #       call. = FALSE)
+  #   }
+  # } else {
+  # }
+  # RM ABOVE -> issue #581
   name <- paste0("test-", name)
   name <- slug(name, "R")
-
   path <- path("tests", "testthat", name)
 
   if (file_exists(proj_path(path))) {

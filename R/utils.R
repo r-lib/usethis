@@ -29,13 +29,11 @@ dots <- function(...) {
 
 asciify <- function(x) {
   stopifnot(is.character(x))
-
-  x <- tolower(x)
-  gsub("[^a-z0-9_-]+", "-", x)
+  gsub("[^a-zA-Z0-9_-]+", "-", x)
 }
 
 slug <- function(x, ext) {
-  x_base <- asciify(path_ext_remove(x))
+  x_base <- path_ext_remove(x)
   x_ext <- path_ext(x)
   ext <- if (identical(tolower(x_ext), tolower(ext))) x_ext else ext
   path_ext_set(x_base, ext)
