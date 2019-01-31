@@ -1,3 +1,4 @@
+^\.gitlab-ci\.yml$
 ^pkgdown$
 ^\.covrignore$
 ^CRAN-RELEASE$
