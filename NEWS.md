@@ -36,6 +36,9 @@
 * `use_github_release()` creates a draft GitHub release using the entries
   in  `NEWS.md` (#137).
 
+* `use_gitlab_ci()` creates a draft gitlab-ci.yaml for use with Gitlab 
+  (#565, @overmar).
+
 * `use_lgpl_license()` automates set up of the LGL license (#448, @krlmlr).
 
 * `use_partial_warnings()` helps use add standard warning block to your
