@@ -10,7 +10,7 @@ use_travis(browse = interactive(), ext = c("org", "com"))
 
 use_appveyor(browse = interactive())
 
-use_gitlab_ci(browse = interactive())
+use_gitlab_ci()
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
