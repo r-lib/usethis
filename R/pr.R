@@ -23,7 +23,7 @@
 #' PR: you get that code back to your computer, run `pr_pull()`. It's also
 #' possible that other changes have occured to the package while you've been
 #' working on your PR, and you need to "merge master". Do that by running
-#' `pr_pull_source()`: this makes sure that your copy of the package is
+#' `pr_pull_upstream()`: this makes sure that your copy of the package is
 #' up-to-date with the maintainer's latest changes. Either of the pull
 #' functions may cause merge conflicts, so be prepared to resolve before
 #' continuing.
@@ -35,7 +35,7 @@
 #' to delete the local branch.
 #'
 #' @section Other helpful functions:
-#' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_pull_source()`, and
+#' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_pull_upstream()`, and
 #'   `pr_push()`
 #' * `pr_pause()` makes sure you're synched with the PR and then switches
 #'    back to master.
@@ -45,7 +45,7 @@
 #'   numbers, and `-`.
 pr_init <- function(branch) {
   check_uses_github()
-  check_branch_current("master", "pr_pull_source()")
+  check_branch_current("master", "pr_pull_upstream()")
 
   if (!git_branch_exists(branch)) {
     if (git_branch_name() != "master") {
@@ -174,7 +174,7 @@ pr_pull <- function() {
 
 #' @export
 #' @rdname pr_init
-pr_pull_source <- function() {
+pr_pull_upstream <- function() {
   check_uses_github()
   check_uncommitted_changes()
 
@@ -187,7 +187,7 @@ pr_pull_source <- function() {
 #' @rdname pr_init
 pr_sync <- function() {
   pr_pull()
-  pr_pull_source()
+  pr_pull_upstream()
   pr_push()
 }
 
@@ -222,7 +222,7 @@ pr_finish <- function() {
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
 
-  pr_pull_source()
+  pr_pull_upstream()
 
   # TODO: check that this is merged!
   ui_done("Deleting local {ui_value(pr)} branch")
