@@ -50,7 +50,7 @@
   capturing best practices discovered by the tidyverse team (#338)
   
 * New `use_addin()` helps setup necessary binding information for RStudio 
-  addins. (#591, #353)
+  addins. (#353, @haozhu233)
 
 ## Partial file management
 
