@@ -2,6 +2,8 @@
 
 ## New features
 
+* `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
+
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
   config (#328).
 
@@ -50,7 +52,7 @@
   capturing best practices discovered by the tidyverse team (#338)
   
 * New `use_addin()` helps setup necessary binding information for RStudio 
-  addins. (#591, #353)
+  addins. (#353, @haozhu233)
 
 ## Partial file management
 
@@ -189,6 +191,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` 
   (#502, @krlmlr).
+  
+* `use_tidy_eval()` re-exports `:=` (#595, @jonthegeek).
 
 * `use_tidy_versions()` has source argument so that you can choose to use
   local or CRAN versions (#309).
@@ -207,6 +211,14 @@ usethis gains tooling to manage part of a file. This currently used for managing
   in `NEWS.md` (#440).
 
 * withr moves from Suggests to Imports.
+
+* `use_vignette` now checks if the vignette name is valid (starts with letter 
+  and consists of letters, numbers, hyphen, and underscore) and throws an error 
+  if not (@akgold, #555).
+  
+* `restart_rstudio()` now returns `FALSE` in RStudio if no project is open,
+  fixing an issue that caused errors in helpers that suggest restarting 
+  RStudio (@gadenbuie, #571).
 
 # usethis 1.4.0
 

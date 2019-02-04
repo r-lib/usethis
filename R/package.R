@@ -96,7 +96,7 @@ how_to_use <- function(package, type) {
       code <- glue("requireNamespace(\"{package}\", quietly = TRUE)")
       ui_todo("Use {ui_code(code)} to test if package is installed")
       code <- glue("{package}::fun()")
-      ui_todo("Then use {ui_code(code)} to refer to functions.")
+      ui_todo("Then directly refer to functons like {ui_code(code)} (replacing {ui_code('fun()')}).")
     },
     enhances = "",
     linkingto = show_includes(package)

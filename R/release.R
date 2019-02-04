@@ -47,7 +47,6 @@ release_checklist <- function(version) {
     todo("`devtools::check()`"),
     todo("`devtools::check_win_devel()`"),
     todo("`rhub::check_for_cran()`"),
-    todo("`rhub::check(platform = 'solaris-x86-patched')`", has_src),
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
     todo("`rhub::check_with_sanitizers()`", has_src),
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran),
@@ -57,13 +56,14 @@ release_checklist <- function(version) {
     "",
     "Submit to CRAN:",
     "",
-    todo("`usethis::use_version('{version}')`"),
-    todo("`devtools::check_win_devel()` (again!)"),
+    todo("`usethis::use_version()`"),
+    todo("Update `cran-comments.md`"),
     todo("`devtools::submit_cran()`"),
     todo("Approve email"),
     "",
     "Wait for CRAN...",
     "",
+    todo("Accepted :tada:"),
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version()`"),
     todo("`usethis::use_news()`", !on_cran),
@@ -117,8 +117,7 @@ use_github_release <- function(host = NULL, auth_token = NULL) {
 
 
 cran_version <- function(package = project_name(),
-                         available = utils::available.packages()
-                         ) {
+                         available = utils::available.packages()) {
   idx <- available[, "Package"] == package
   if (any(idx)) {
     as.package_version(available[package, "Version"])
@@ -137,14 +136,14 @@ news_latest <- function() {
   lines <- readLines(path)
   headings <- which(grepl("^#\\s+", lines))
 
-  if (length(headings == 1))
-
-  if (length(headings) == 0) {
-    ui_stop("No top-level headings found in {ui_value(path)}")
-  } else if (length(headings) == 1) {
-    news <- lines[seq2(headings + 1, length(lines))]
-  } else {
-    news <- lines[seq2(headings[[1]] + 1, headings[[2]] - 1)]
+  if (length(headings == 1)) {
+    if (length(headings) == 0) {
+      ui_stop("No top-level headings found in {ui_value(path)}")
+    } else if (length(headings) == 1) {
+      news <- lines[seq2(headings + 1, length(lines))]
+    } else {
+      news <- lines[seq2(headings[[1]] + 1, headings[[2]] - 1)]
+    }
   }
 
   # Remove leading and trailing empty lines

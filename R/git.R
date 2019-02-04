@@ -26,12 +26,14 @@ use_git <- function(message = "Initial commit") {
 }
 
 git_ask_commit <- function(message) {
-  if (!interactive())
+  if (!interactive()) {
     return(invisible())
+  }
 
   paths <- unlist(git_status(), use.names = FALSE)
-  if (length(paths) == 0)
+  if (length(paths) == 0) {
     return(invisible())
+  }
 
   paths <- sort(paths)
 
@@ -42,7 +44,7 @@ git_ask_commit <- function(message) {
   }
 
   ui_line(c(
-    "There are {n} files uncommited files:",
+    "There are {n} uncommitted files:",
     paste0("* ", ui_paths)
   ))
 
@@ -158,7 +160,7 @@ git_sitrep <- function() {
   kv_line("Name", name)
   kv_line("Email", email)
   kv_line("Has SSH keys", git_has_ssh())
-  kv_line("Vaccinated: ", git_vaccinated())
+  kv_line("Vaccinated:", git_vaccinated())
 
   hd_line("git2r")
   kv_line("Supports SSH", git2r::libgit2_features()$ssh)
@@ -168,8 +170,8 @@ git_sitrep <- function() {
     if (uses_git()) {
       repo <- git_repo()
       kv_line("Path", repo$path)
-      kv_line("Branch", git_branch_name())
-      kv_line("Remote", git_branch_remote())
+      kv_line("Local branch", git_branch_name())
+      kv_line("Remote branch", git_branch_tracking())
     } else {
       cat_line("Git not activated")
     }
@@ -216,4 +218,3 @@ git_global_ignore <- c(
   ".Rdata",
   ".DS_Store"
 )
-

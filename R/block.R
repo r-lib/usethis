@@ -2,8 +2,9 @@ block_append <- function(desc, value, path, block_start, block_end,
                          block_prefix = NULL, block_suffix = NULL) {
   if (!is.null(path) && file_exists(path)) {
     lines <- readLines(path)
-    if (value %in% lines)
+    if (value %in% lines) {
       return(FALSE)
+    }
 
     block_lines <- block_find(lines, block_start, block_end)
   } else {
@@ -74,15 +75,17 @@ block_show <- function(path, block_start, block_end) {
 
 block_find <- function(lines, block_start, block_end) {
   # No file
-  if (is.null(lines))
+  if (is.null(lines)) {
     return(NULL)
+  }
 
   start <- which(lines == block_start)
   end <- which(lines == block_end)
 
   # No block
-  if (length(start) == 0 && length(end) == 0)
+  if (length(start) == 0 && length(end) == 0) {
     return(NULL)
+  }
 
   if (!(length(start) == 1 && length(end) == 1 && start < end)) {
     ui_stop(

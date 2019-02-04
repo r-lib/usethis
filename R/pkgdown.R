@@ -41,6 +41,9 @@ use_pkgdown_travis <- function() {
   }
 
   use_build_ignore("docs/")
+  use_git_ignore("docs/")
+  # TODO: suggest git rm -r --cache docs/
+  # Can't currently detect if git known files in that directory
 
   if (has_logo()) {
     pkgdown::build_favicon(proj_get())
@@ -51,7 +54,7 @@ use_pkgdown_travis <- function() {
   ui_todo("Insert the following code in {ui_path('.travis.yml')}")
   ui_code_block(
     "
-    before_deploy: Rscript -e 'remotes::install_cran(\"pkgdown\")'
+    before_cache: Rscript -e 'remotes::install_cran(\"pkgdown\")'
     deploy:
       provider: script
       script: Rscript -e 'pkgdown::deploy_site_github()'
@@ -59,11 +62,33 @@ use_pkgdown_travis <- function() {
     "
   )
 
-  if (!git_branch_exists("gh-pages")) {
-    ui_todo("Create gh-pages branch. See {ui_code('?pkgdown::deploy_site_github')} for the git commands.")
+  if (!git_branch_exists("origin/gh-pages")) {
+    create_gh_pages_branch()
   }
 
   invisible()
+}
+
+create_gh_pages_branch <- function() {
+  # git hash-object -t tree /dev/null.
+  sha_empty_tree <- "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
+
+  # Create commit with empty tree
+  res <- gh::gh("POST /repos/:owner/:repo/git/commits",
+    owner = github_owner(),
+    repo = github_repo(),
+    message = "first commit",
+    tree = sha_empty_tree
+  )
+
+  # Assign ref to above commit
+  gh::gh(
+    "POST /repos/:owner/:repo/git/refs",
+    owner = github_owner(),
+    repo = github_repo(),
+    ref = "refs/heads/gh-pages",
+    sha = res$sha
+  )
 }
 
 uses_pkgdown <- function() {
