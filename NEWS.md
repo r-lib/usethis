@@ -215,6 +215,10 @@ usethis gains tooling to manage part of a file. This currently used for managing
 * `use_vignette` now checks if the vignette name is valid (starts with letter 
   and consists of letters, numbers, hyphen, and underscore) and throws an error 
   if not (@akgold, #555).
+  
+* `restart_rstudio()` now returns `FALSE` in RStudio if no project is open,
+  fixing an issue that caused errors in helpers that suggest restarting 
+  RStudio (@gadenbuie, #571).
 
 # usethis 1.4.0
 
