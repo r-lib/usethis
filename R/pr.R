@@ -74,6 +74,13 @@ pr_init <- function(branch) {
 #'   pull request. Default of `NULL` tries to identify the source repo and uses
 #'   the owner of the `upstream` remote, if present, or the owner of `origin`
 #'   otherwise.
+#' @param protocol transfer protocol, either "ssh" (the default) or "https".
+#'   You can supply a global default with `options(usethis.protocol = "https")`.
+#'
+#'     * if "ssh", the remote url used will be shh one and the ssh key will be
+#'     used as credentials
+#'     * if "https, the remote url used will be https and
+#'     the credentials used will be GITHUB_PAT environment variable..
 #'
 #' @examples
 #' \dontrun{
@@ -81,9 +88,9 @@ pr_init <- function(branch) {
 #' ## 'tidyverse', not you
 #' pr_fetch(123, owner = "tidyverse")
 #' }
-pr_fetch <- function(number, owner = NULL) {
+pr_fetch <- function(number, owner = NULL, protocol = getOption("usethis.protocol", default = "ssh")) {
   check_uncommitted_changes()
-
+  protocol = rlang::arg_match(protocol, c("ssh", "https"))
   ui_done("Retrieving data for PR #{number}")
   pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
     owner = owner %||% github_source() %||% github_owner(),
@@ -103,14 +110,25 @@ pr_fetch <- function(number, owner = NULL) {
 
   if (!remote %in% git2r::remotes(git_repo())) {
     ui_done("Adding remote {ui_value(remote)}")
-    git2r::remote_add(git_repo(), remote, pr$head$repo$ssh_url)
+    remote_url <- if(protocol == "ssh") {
+      pr$head$repo$ssh_url
+    } else if (protocol == "https") {
+      pr$head$repo$clone_url
+    }
+    git2r::remote_add(git_repo(), remote, remote_url)
   }
 
   if (!git_branch_exists(our_branch)) {
     their_refname <- git_remref(remote, their_branch)
 
     ui_done("Creating local branch {ui_value(our_branch)}")
-    git2r::fetch(git_repo(), remote, refspec = their_branch, verbose = FALSE)
+    cred <- if(protocol == "https") {
+      git2r::cred_token("GITHUB_PAT")
+    } else {
+      NULL
+    }
+    git2r::fetch(git_repo(), remote, refspec = their_branch,
+                 verbose = FALSE, credentials = cred)
     git_branch_create(our_branch, their_refname)
 
     git_branch_track(our_branch, remote, their_branch)
