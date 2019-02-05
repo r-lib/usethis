@@ -2,7 +2,7 @@
 
 ## New features
 
-* `use_ccby_license()` adds a CCBY 4.0 license (#547)
+* `use_ccby_license()` adds a CCBY 4.0 license (#547, @njtierney)
 
 * `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
 
