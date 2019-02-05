@@ -46,7 +46,8 @@ parse_github_remotes <- function(x) {
   # https://github.com/r-lib/devtools.git --> rlib, devtools
   # https://github.com/r-lib/devtools     --> rlib, devtools
   # git@github.com:r-lib/devtools.git     --> rlib, devtools
-  re <- "github[^/:]*[/:]([^/]+)/(.*?)(?:\\.git)?$"
+  # git@github.com:/r-hub/rhub.git        --> r-hub, rhub
+  re <- "github[^/:]*[:/]{1,2}([^/]+)/(.*?)(?:\\.git)?$"
   ## on R < 3.4.2, regexec() fails to apply as.character() to first 2 args,
   ## though it is documented
   m <- regexec(re, as.character(x))
