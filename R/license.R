@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Adds the necessary infrastructure to declare your package as licensed
-#' with one of four popular open source license:
+#' with one of these popular open source license:
 #'
 #' * [CC0](https://creativecommons.org/publicdomain/zero/1.0/): dedicated
 #'   to public domain. Appropriate for data packages.
@@ -11,6 +11,7 @@
 #'   provides patent protection.
 #' * [GPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing
 #'   of improvements.
+#' * [CCBY 4.0](https://creativecommons.org/licenses/by/4.0/): Free to share and adapt, must give appropriate credit. A suitable license for data.
 #'
 #' See <https://choosealicense.com> for more details and other options.
 #'
