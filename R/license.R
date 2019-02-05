@@ -95,11 +95,11 @@ use_ccby_license <- function(name = find_name()) {
   check_is_package("use_ccby_license()")
 
   use_description_field("License",
-                        "CCBY-4.0",
-                        overwrite = TRUE)
+    "CCBY-4.0",
+    overwrite = TRUE
+  )
   use_license_template("ccby-4", name)
 }
-
 
 use_license_template <- function(license, name) {
   license_template <- glue("license-{license}.md")
