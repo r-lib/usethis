@@ -235,7 +235,7 @@ check_branch <- function(branch) {
   )
 }
 
-check_branch_current <- function(branch = git_branch_name(), use = "git pull") {
+check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
   ui_done("Checking that {ui_value(branch)} branch is up to date")
   diff <- git_branch_compare(branch)
 
@@ -245,6 +245,8 @@ check_branch_current <- function(branch = git_branch_name(), use = "git pull") {
 
   ui_stop("Branch {ui_value(branch)} is out of date. Please use {ui_code(use)} to update.")
 }
+
+
 
 # config ------------------------------------------------------------------
 
