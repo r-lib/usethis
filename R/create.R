@@ -43,7 +43,6 @@ create_package <- function(path,
   on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
-  use_directory("man")
   use_description(fields)
   use_namespace()
 
