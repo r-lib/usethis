@@ -28,16 +28,14 @@ use_reprex <- function() {
 #' @rdname rprofile-helper
 #' @export
 use_usethis <- function() {
-  edit_r_profile("user")
   use_rprofile_package("usethis")
 }
 
 use_rprofile_package <- function(package) {
   edit_r_profile("user")
-
   ui_todo(
-    "Include this code in {ui_value('.Rprofile')} to make {ui_field(package)} ",
-    "available in all interactive sessions"
+    "Include this code in {ui_value('.Rprofile')} to make \\
+    {ui_field(package)} available in all interactive sessions"
   )
   ui_code_block(
     "
