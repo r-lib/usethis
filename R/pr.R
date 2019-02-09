@@ -90,7 +90,7 @@ pr_init <- function(branch) {
 #' }
 pr_fetch <- function(number, owner = NULL, protocol = getOption("usethis.protocol", default = "ssh")) {
   check_uncommitted_changes()
-  protocol = rlang::arg_match(protocol, c("ssh", "https"))
+  protocol <- rlang::arg_match(protocol, c("ssh", "https"))
   ui_done("Retrieving data for PR #{number}")
   pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
     owner = owner %||% github_source() %||% github_owner(),
@@ -110,10 +110,10 @@ pr_fetch <- function(number, owner = NULL, protocol = getOption("usethis.protoco
 
   if (!remote %in% git2r::remotes(git_repo())) {
     ui_done("Adding remote {ui_value(remote)}")
-    remote_url <- if(protocol == "ssh") {
-      pr$head$repo$ssh_url
-    } else if (protocol == "https") {
+    remote_url <- if(protocol == "https") {
       pr$head$repo$clone_url
+    } else {
+      pr$head$repo$ssh_url
     }
     git2r::remote_add(git_repo(), remote, remote_url)
   }
@@ -122,13 +122,11 @@ pr_fetch <- function(number, owner = NULL, protocol = getOption("usethis.protoco
     their_refname <- git_remref(remote, their_branch)
 
     ui_done("Creating local branch {ui_value(our_branch)}")
-    cred <- if(protocol == "https") {
-      git2r::cred_token("GITHUB_PAT")
-    } else {
-      NULL
-    }
-    git2r::fetch(git_repo(), remote, refspec = their_branch,
-                 verbose = FALSE, credentials = cred)
+    git2r::fetch(git_repo(), remote,
+                 refspec = their_branch,
+                 verbose = FALSE,
+                 credentials = git_credentials(protocol)
+    )
     git_branch_create(our_branch, their_refname)
 
     git_branch_track(our_branch, remote, their_branch)

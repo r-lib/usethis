@@ -296,3 +296,11 @@ git_has_ssh <- function() {
   )
 }
 
+git_credentials <- function(protocol = getOption("usethis.protocol", default = "ssh")) {
+  if(protocol == "https") {
+    git2r::cred_token(gh_token())
+  } else {
+    NULL
+  }
+}
+
