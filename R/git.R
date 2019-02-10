@@ -161,6 +161,7 @@ git_sitrep <- function() {
   kv_line("Email", email)
   kv_line("Has SSH keys", git_has_ssh())
   kv_line("Vaccinated:", git_vaccinated())
+  kv_line("Default protocol:", getOption("usethis.protocol", default = "ssh"))
 
   hd_line("git2r")
   kv_line("Supports SSH", git2r::libgit2_features()$ssh)
