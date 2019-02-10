@@ -308,7 +308,7 @@ git_has_ssh <- function() {
 git_credentials <- function(protocol = getOption("usethis.protocol", default = "ssh")) {
   if(protocol == "https") {
     token_var <- git_token_var()
-    if (token_var != "") {
+    if (nzchar(token_var)) {
       git2r::cred_token(token = token_var)
     } else {
       ui_stop(
