@@ -102,6 +102,7 @@ pr_fetch <- function(number, owner = NULL) {
 
   if (!remote %in% git2r::remotes(git_repo())) {
     ui_done("Adding remote {ui_value(remote)}")
+    protocol <- getOption("usethis.protocol", default = "ssh")
     remote_url <- if(protocol == "https") {
       pr$head$repo$clone_url
     } else {
