@@ -324,8 +324,11 @@ git_credentials <- function(protocol = getOption("usethis.protocol", default = "
 }
 
 git_token_var <- function() {
-  env_var <- Sys.getenv(c("GITHUB_PAT", "GITHUB_TOKEN"), unset = "", names = TRUE)
-  which_set  <- nzchar(env_var)
+  env_var <- Sys.getenv(
+    c("GITHUB_PAT", "GITHUB_TOKEN"),
+    unset = "",
+    names = TRUE)
+  which_set <- nzchar(env_var)
   if (any(which_set)) {
     token_env <- names(env_var)[which_set][[1]]
   } else {
