@@ -14,7 +14,8 @@
 \usage{
 pr_init(branch)
 
-pr_fetch(number, owner = NULL)
+pr_fetch(number, owner = NULL, protocol = getOption("usethis.protocol",
+  default = "ssh"))
 
 pr_push()
 
@@ -40,6 +41,13 @@ numbers, and \code{-}.}
 pull request. Default of \code{NULL} tries to identify the source repo and uses
 the owner of the \code{upstream} remote, if present, or the owner of \code{origin}
 otherwise.}
+
+\item{protocol}{transfer protocol, either "ssh" (the default) or "https".
+You can supply a global default with \code{options(usethis.protocol = "https")}.\preformatted{* if "ssh", the remote url used will be shh one and the ssh key will be
+used as credentials
+* if "https, the remote url used will be https and
+the credentials used will be GITHUB_PAT environment variable..
+}}
 }
 \description{
 The \code{pr_*} family of functions are designed to make working with GitHub
