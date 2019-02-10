@@ -307,11 +307,9 @@ git_has_ssh <- function() {
 
 git_credentials <- function(protocol = getOption("usethis.protocol", default = "ssh")) {
   if(protocol == "https") {
-    env_var <- Sys.getenv(c("GITHUB_PAT", "GITHUB_TOKEN"), unset = "", names = TRUE)
-    which_set  <- env_var != ""
-    if (any(which_set)) {
-      token_env <- names(env_var)[which_set][[1]]
-      git2r::cred_token(token = token_env)
+    token_var <- git_token_var()
+    if (token_var != "") {
+      git2r::cred_token(token = token_var)
     } else {
       ui_stop(
         "
@@ -323,4 +321,15 @@ git_credentials <- function(protocol = getOption("usethis.protocol", default = "
     # use default ssh from git2r
     NULL
   }
+}
+
+git_token_var <- function() {
+  env_var <- Sys.getenv(c("GITHUB_PAT", "GITHUB_TOKEN"), unset = "", names = TRUE)
+  which_set  <- nzchar(env_var)
+  if (any(which_set)) {
+    token_env <- names(env_var)[which_set][[1]]
+  } else {
+    token_env <- ""
+  }
+  token_env
 }
