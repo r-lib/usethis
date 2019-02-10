@@ -9,8 +9,7 @@ git_init <- function() {
   git2r::init(proj_get())
 }
 
-git_pull <- function(remote_branch = git_branch_tracking(),
-                     protocol = getOption("usethis.protocol", default = "ssh")) {
+git_pull <- function(remote_branch = git_branch_tracking()) {
   repo <- git_repo()
 
   git2r::fetch(
@@ -18,7 +17,7 @@ git_pull <- function(remote_branch = git_branch_tracking(),
     name = remref_remote(remote_branch),
     refspec = remref_branch(remote_branch),
     verbose = FALSE,
-    credentials = git_credentials(protocol)
+    credentials = git_credentials()
   )
   mr <- git2r::merge(git_repo(), remote_branch)
   if (isTRUE(mr$conflicts)) {
@@ -138,15 +137,14 @@ git_branch_switch <- function(branch) {
   invisible(old)
 }
 
-git_branch_compare <- function(branch = git_branch_name(),
-                               protocol = getOption("usethis.protocol", default = "ssh")) {
+git_branch_compare <- function(branch = git_branch_name()) {
   repo <- git_repo()
 
   remref <- git_branch_tracking(branch)
   git2r::fetch(repo, remref_remote(remref),
                refspec = branch,
                verbose = FALSE,
-               credentials = git_credentials(protocol))
+               credentials = git_credentials())
   git2r::ahead_behind(
     git_commit_find(branch),
     git_commit_find(remref)
@@ -154,8 +152,7 @@ git_branch_compare <- function(branch = git_branch_name(),
 }
 
 git_branch_push <- function(branch = git_branch_name(),
-                            force = FALSE,
-                            protocol = getOption("usethis.protocol", default = "ssh")) {
+                            force = FALSE) {
   remote <- git_branch_tracking(branch)
   if (is.null(remote)) {
     remote_name   <- "origin"
@@ -172,7 +169,7 @@ git_branch_push <- function(branch = git_branch_name(),
     name = remote_name,
     refspec = glue("refs/heads/{branch}:refs/heads/{remote_branch}"),
     force = force,
-    credentials = git_credentials(protocol)
+    credentials = git_credentials()
   )
 }
 
@@ -305,7 +302,8 @@ git_has_ssh <- function() {
   )
 }
 
-git_credentials <- function(protocol = getOption("usethis.protocol", default = "ssh")) {
+git_credentials <- function() {
+  protocol <- getOption("usethis.protocol", default = "ssh")
   if(protocol == "https") {
     token_var <- git_token_var()
     if (nzchar(token_var)) {
