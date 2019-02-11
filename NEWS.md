@@ -48,6 +48,9 @@
 
 * `use_release_issue()` creates a GitHub issue containing a release checklist 
   capturing best practices discovered by the tidyverse team (#338)
+  
+* `write_union` now appends all of `lines` to the file, instead of just those
+parts not already in `path` (@khailper, #583)
 
 ## Partial file management
 
