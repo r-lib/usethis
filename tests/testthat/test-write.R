@@ -78,3 +78,15 @@ test_that("write_ut8 always produces a trailing newline", {
     expect_equal(readChar(path, 2), "x\n")
   }
 })
+
+test_that("write_ut8 can append text when requested", {
+  path <- file_temp()
+  write_utf8(path, "x")
+  write_utf8(path, "x", append = TRUE)
+
+  if (identical(Sys.info()[["sysname"]], "Windows")) {
+    expect_equal(readChar(path, 6), "x\r\nx\r\n")
+  } else {
+    expect_equal(readChar(path, 4), "x\nx\n")
+  }
+})

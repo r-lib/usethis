@@ -2,6 +2,8 @@
 
 ## New features
 
+* `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
+
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
   config (#328).
 
@@ -28,8 +30,8 @@
 
 * `use_c("foo")` sets up `src/` and creates `src/foo.c` (#117).
 
-* `use_conflicted()` (#362) and `use_reprex()` (#465) help add useful packages 
-  to your `.Rprofile`.
+* `use_devtools()` (#624), `use_conflicted()` (#362), and `use_reprex()` (#465)
+  help add useful packages to your `.Rprofile`.
   
 * `use_covr_ignore()` makes it easy to ignore files in test coverage (#434).
 
@@ -49,8 +51,13 @@
 * `use_release_issue()` creates a GitHub issue containing a release checklist 
   capturing best practices discovered by the tidyverse team (#338)
   
+
 * `write_union` now appends all of `lines` to the file, instead of just those
 parts not already in `path` (@khailper, #583)
+
+* New `use_addin()` helps setup necessary binding information for RStudio 
+  addins. (#353, @haozhu233)
+
 
 ## Partial file management
 
@@ -189,6 +196,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` 
   (#502, @krlmlr).
+  
+* `use_tidy_eval()` re-exports `:=` (#595, @jonthegeek).
 
 * `use_tidy_versions()` has source argument so that you can choose to use
   local or CRAN versions (#309).
@@ -207,6 +216,14 @@ usethis gains tooling to manage part of a file. This currently used for managing
   in `NEWS.md` (#440).
 
 * withr moves from Suggests to Imports.
+
+* `use_vignette` now checks if the vignette name is valid (starts with letter 
+  and consists of letters, numbers, hyphen, and underscore) and throws an error 
+  if not (@akgold, #555).
+  
+* `restart_rstudio()` now returns `FALSE` in RStudio if no project is open,
+  fixing an issue that caused errors in helpers that suggest restarting 
+  RStudio (@gadenbuie, #571).
 
 # usethis 1.4.0
 

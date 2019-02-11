@@ -32,7 +32,8 @@ If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named \code{"usethis.description"}. Here's an example of
 code to include in \code{.Rprofile}:\preformatted{options(
   usethis.description = list(
-    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
+    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
+                          comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "MIT + file LICENSE",
     Language =  "es"
   )
