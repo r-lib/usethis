@@ -9,6 +9,7 @@
 \alias{edit_rstudio_snippets}
 \alias{edit_git_config}
 \alias{edit_git_ignore}
+\alias{edit_workflow}
 \title{Open configuration files}
 \usage{
 edit_r_profile(scope = c("user", "project"))
@@ -24,6 +25,8 @@ edit_rstudio_snippets(type = "R")
 edit_git_config(scope = c("user", "project"))
 
 edit_git_ignore(scope = c("user", "project"))
+
+edit_workflow()
 }
 \arguments{
 \item{scope}{Edit globally for the current \strong{user}, or locally for the
@@ -42,6 +45,7 @@ Path to the file, invisibly.
 \item \code{edit_r_makevars()} opens \code{.R/Makevars}
 \item \code{edit_git_config()} opens \code{.gitconfig} or \code{.git/config}
 \item \code{edit_git_ignore()} opens \code{.gitignore}
+\item \code{edit_workflow()} opens \code{main.workflow}
 \item \code{edit_rstudio_snippets(type)} opens \code{.R/snippets/{type}.snippets}
 }
 }
