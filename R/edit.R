@@ -41,7 +41,7 @@ edit_file <- function(path) {
 #' * `edit_r_makevars()` opens `.R/Makevars`
 #' * `edit_git_config()` opens `.gitconfig` or `.git/config`
 #' * `edit_git_ignore()` opens `.gitignore`
-#' * `edit_workflow()` opens `main.workflow`
+#' * `edit_workflow()` opens `.github/main.workflow`
 #' * `edit_rstudio_snippets(type)` opens `.R/snippets/{type}.snippets`
 #'
 #' The `edit_r_*()` and `edit_rstudio_*()` functions consult R's notion of
@@ -172,7 +172,7 @@ git_ignore_path <- function(scope = c("user", "project")) {
 #' @export
 #' @rdname edit
 edit_workflow <- function() {
-  path <- usethis::proj_path(".github", "main.workflow")
+  path <- proj_path(".github", "main.workflow")
   ui_todo("Commit and push for the changes to take effect.")
   invisible(edit_file(path))
 }

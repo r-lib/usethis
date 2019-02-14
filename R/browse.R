@@ -12,6 +12,7 @@
 #' issue.
 #' * `browse_github_pulls()`: Visits the GitHub Pull Request index or one
 #' specific pull request.
+#' * `browse_github_actions()`: Visits the GitHub Actions tab.
 #' * `browse_travis()`: Visits the package's page on [Travis
 #' CI](https://travis-ci.org).
 #' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.
@@ -25,6 +26,8 @@
 #' browse_github_issues("backports", 1)
 #' browse_github_pulls("rprojroot")
 #' browse_github_pulls("rprojroot", 3)
+#' # Leads to 404, because usethis does not currently use GitHub Actions.
+#' browse_github_actions("usethis")
 #' browse_travis("usethis")
 #' browse_cran("MASS")
 #' @name browse-this

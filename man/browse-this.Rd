@@ -43,6 +43,7 @@ and there is no guarantee there will be content at the destination.
 issue.
 \item \code{browse_github_pulls()}: Visits the GitHub Pull Request index or one
 specific pull request.
+\item \code{browse_github_actions()}: Visits the GitHub Actions tab.
 \item \code{browse_travis()}: Visits the package's page on \href{https://travis-ci.org}{Travis CI}.
 \item \code{browse_cran()}: Visits the package on CRAN, via the canonical URL.
 }
@@ -53,6 +54,8 @@ browse_github_issues("backports")
 browse_github_issues("backports", 1)
 browse_github_pulls("rprojroot")
 browse_github_pulls("rprojroot", 3)
+# Leads to 404, because usethis does not currently use GitHub Actions.
+browse_github_actions("usethis")
 browse_travis("usethis")
 browse_cran("MASS")
 }
