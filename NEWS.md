@@ -2,6 +2,8 @@
 
 ## New features
 
+* `edit_workflow()` and `browse_github_actions()` to interact with [GitHub actions](http://github.com/features/actions) (#625, @VerenaHeld @maxheld83)
+
 * `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
 
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
