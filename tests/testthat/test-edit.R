@@ -28,6 +28,7 @@ test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
   expect_error_free(edit_r_makevars())
   expect_error_free(edit_git_config())
   expect_error_free(edit_git_ignore())
+  expect_error_free(edit_workflow())
 })
 
 test_that("edit_r_XXX('user') ensures the file exists", {
@@ -125,4 +126,13 @@ test_that("edit_git_ignore() ensures .gitignore exists in project", {
   scoped_temporary_project()
   edit_git_ignore("project")
   expect_proj_file(".gitignore")
+})
+
+test_that("edit_workflow() ensures .github/main.workflow exists in project", {
+  # workflows only exist per project, never at user level
+  # so we only test project level, and function has no arguments
+  scoped_temporary_project()
+  edit_workflow()
+  expect_proj_dir(".github")
+  expect_proj_file(".github/main.workflow")
 })
