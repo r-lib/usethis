@@ -142,7 +142,7 @@ check_uses_gitlab_ci <- function(base_path = proj_get()) {
 
   ui_stop(
     "
-    Cannot detect that package {ui_(project_name(base_path))} already uses Gitlab CI.
+    Cannot detect that package {ui_(project_name(base_path))} already uses GitLab CI.
     Do you need to run {ui_code('use_gitlab_ci()')}?
     "
   )
