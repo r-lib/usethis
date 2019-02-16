@@ -47,6 +47,6 @@ integration service for Windows.
 
 Adds a basic \code{.gitlab-ci.yml} to the top-level directory of a package. This is
 a configuration file for the \href{https://docs.gitlab.com/ee/ci/}{Gitlab CI/CD} continuous
-integration service for Gitlab.
+integration service for GitLab.
 }
 
