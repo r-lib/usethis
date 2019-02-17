@@ -1,8 +1,8 @@
 #' Use C, C++, RcppArmadillo, or RcppEigen.
 #'
 #' Creates `src/`, adds required packages to `DESCRIPTION`,
-#' optionally creates `.c` or `.cpp` files
-#' as well as `Makevars` and `Makevars.win` files.
+#' optionally creates `.c` or `.cpp` files, and
+#' where needed, `Makevars` and `Makevars.win` files.
 #'
 #' @param name If supplied, creates and opens `src/name.{c,cpp}`.
 #' @export
