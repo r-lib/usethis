@@ -88,17 +88,16 @@ use_makevars <- function(settings = NULL) {
   check_is_named_list(settings_list)
 
   makevars_entries <- vapply(settings_list, glue_collapse, character(1))
-  makevars_content <- glue("{names(makevars_entries)}={makevars_entries}")
+  makevars_content <- glue("{names(makevars_entries)} = {makevars_entries}")
 
-  makevars_path <- proj_path("src/Makevars")
-  makevars_win_path <- proj_path("src/Makevars.win")
-  makevars_files <- c(makevars_path, makevars_win_path)
+  makevars_path <- proj_path("src", "Makevars")
+  makevars_win_path <- proj_path("src", "Makevars.win")
 
-  if (all(!file_exists(makevars_files))) {
-    for(makevars_file_path in makevars_files) {
-      write_utf8(makevars_file_path, makevars_content)
-      ui_done("Created {ui_path(makevars_file_path)} with requested compilation settings.")
-    }
+  if (!file_exists(makevars_path) && !file_exists(makevars_win_path)) {
+    write_utf8(makevars_path, makevars_content)
+    file_copy(makevars_path, makevars_win_path)
+    ui_done("Created {ui_path(makevars_path)} and {ui_path(makevars_win_path)} \\
+             with requested compilation settings.")
   } else {
     ui_todo("Ensure the following Makevars compilation settings are set for both \\
             {ui_path(makevars_path)} and {ui_path(makevars_win_path)}:")
