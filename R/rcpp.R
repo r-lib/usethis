@@ -49,7 +49,6 @@ use_rcpp_eigen <- function(name = NULL) {
   use_rcpp(name)
 
   use_dependency("RcppEigen", "LinkingTo")
-  use_dependency("RcppEigen", "Imports")
 
   roxygen_ns_append("@import RcppEigen") && roxygen_update()
 
