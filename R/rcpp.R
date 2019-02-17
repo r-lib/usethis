@@ -84,6 +84,8 @@ use_src <- function() {
 
 use_makevars <- function(settings = NULL) {
 
+  use_directory("src")
+
   settings_list <- settings %||% list()
   check_is_named_list(settings_list)
 

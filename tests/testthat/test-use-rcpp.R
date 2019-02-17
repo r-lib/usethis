@@ -51,6 +51,7 @@ test_that("use_src() doesn't message if not needed", {
 test_that("use_makevars() respects pre-existing Makevars", {
   pkg <- scoped_temporary_package()
 
+  dir_create(proj_path("src"))
   makevars_file <- proj_path("src", "Makevars")
   makevars_win_file <- proj_path("src", "Makevars.win")
 
@@ -79,8 +80,8 @@ test_that("use_makevars() creates Makevars files with appropriate configuration"
 
   makevars_content <- paste0(names(makevars_settings)," = ", makevars_settings)
 
-  expect_identical(makevars_content, readLines(makevars_file))
-  expect_identical(makevars_content, readLines(makevars_win_file))
+  expect_identical(makevars_content, readLines(proj_path("src", "Makevars")))
+  expect_identical(makevars_content, readLines(proj_path("src", "Makevars.win")))
 })
 
 
