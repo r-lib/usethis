@@ -13,8 +13,15 @@
 #' \dontrun{
 #' use_release_issue("2.0.0")
 #' }
-use_release_issue <- function(version) {
+use_release_issue <- function(version = NULL) {
   check_uses_github()
+  check_is_package("use_release_issue()")
+
+  version <- version %||% choose_version()
+  if (is.null(version)) {
+    return(invisible(FALSE))
+  }
+
   checklist <- release_checklist(version)
 
   issue <- gh::gh("POST /repos/:owner/:repo/issues",

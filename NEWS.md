@@ -30,8 +30,8 @@
 
 * `use_c("foo")` sets up `src/` and creates `src/foo.c` (#117).
 
-* `use_conflicted()` (#362) and `use_reprex()` (#465) help add useful packages 
-  to your `.Rprofile`.
+* `use_devtools()` (#624), `use_conflicted()` (#362), and `use_reprex()` (#465)
+  help add useful packages to your `.Rprofile`.
   
 * `use_covr_ignore()` makes it easy to ignore files in test coverage (#434).
 
