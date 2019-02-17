@@ -47,3 +47,40 @@ test_that("use_src() doesn't message if not needed", {
 
   expect_silent(use_src())
 })
+
+test_that("use_makevars() respects pre-existing Makevars", {
+  pkg <- scoped_temporary_package()
+
+  makevars_file <- proj_path("src", "Makevars")
+  makevars_win_file <- proj_path("src", "Makevars.win")
+
+  writeLines("USE_CXX = CXX11", makevars_file)
+  file_copy(makevars_file, makevars_win_file)
+
+  before_makevars_file <- readLines(makevars_file)
+  before_makevars_win_file <- readLines(makevars_win_file)
+
+  makevars_settings <- list(
+    "PKG_CXXFLAGS" = "-Wno-reorder"
+  )
+  use_makevars(makevars_settings)
+
+  expect_identical(before_makevars_file, readLines(makevars_file))
+  expect_identical(before_makevars_win_file, readLines(makevars_win_file))
+})
+
+test_that("use_makevars() creates Makevars files with appropriate configuration", {
+  pkg <- scoped_temporary_package()
+
+  makevars_settings <- list(
+    "CXX_STD"="CXX11"
+  )
+  use_makevars(makevars_settings)
+
+  makevars_content <- paste0(names(makevars_settings)," = ", makevars_settings)
+
+  expect_identical(makevars_content, readLines(makevars_file))
+  expect_identical(makevars_content, readLines(makevars_win_file))
+})
+
+
