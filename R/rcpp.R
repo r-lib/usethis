@@ -33,17 +33,12 @@ use_rcpp_armadillo <- function(name = NULL) {
 
   use_dependency("RcppArmadillo", "LinkingTo")
 
-  makevars_path <- proj_path("src/Makevars")
-  makevars_win_path <- proj_path("src/Makevars.win")
-
-  makevars_settings <- c(
-    "CXX_STD = CXX11",
-    "PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS)",
-    "PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)"
+  makevars_settings <- list(
+    "CXX_STD"="CXX11",
+    "PKG_CXXFLAGS"="$(SHLIB_OPENMP_CXXFLAGS)",
+    "PKG_LIBS"="$(SHLIB_OPENMP_CXXFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)"
   )
-
-  create_makevars(makevars_path, "RcppArmadillo", makevars_settings)
-  create_makevars(makevars_win_path, "RcppArmadillo", makevars_settings)
+  use_makevars(makevars_settings)
 
   invisible()
 }
@@ -88,24 +83,31 @@ use_src <- function() {
   invisible()
 }
 
-create_makevars <- function(path, package, settings = NULL) {
+use_makevars <- function(settings = NULL) {
 
-  if (!is.null(settings)) {
-    makevars_settings <- paste0(settings, collapse = "\n")
-  } else {
-    makevars_settings <- c("# For help writing Makevars{.win}, please see",
-                           "# Writing R Extensions' Section 1.2.1: Using Makevars.")
-  }
+  settings_list <- settings %||% list()
+  check_is_named_list(settings_list)
 
-  if (!file_exists(path)) {
-    write_utf8(path, makevars_settings)
-    ui_done("Added {ui_value(package)} settings to {ui_path(path)}.")
+  makevars_entries <- vapply(settings_list, glue_collapse, character(1))
+  makevars_content <- glue("{names(makevars_entries)}={makevars_entries}")
+
+  makevars_path <- proj_path("src/Makevars")
+  makevars_win_path <- proj_path("src/Makevars.win")
+  makevars_files <- c(makevars_path, makevars_win_path)
+
+  if (all(!file_exists(makevars_files))) {
+    for(makevars_file_path in makevars_files) {
+      write_utf8(makevars_file_path, makevars_content)
+      ui_done("Created {ui_path(makevars_file_path)} with requested compilation settings.")
+    }
   } else {
-    ui_todo("Ensure the Makevars settings required by {ui_value(package)} are found in {ui_path(path)}.")
+    ui_todo("Ensure the following Makevars compilation settings are set for both \\
+            {ui_path(makevars_path)} and {ui_path(makevars_win_path)}:")
     ui_code_block(
-      makevars_settings
+      makevars_content
     )
-    edit_file(path)
+    edit_file(makevars_path)
+    edit_file(makevars_win_path)
   }
 
 }
