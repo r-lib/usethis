@@ -45,8 +45,6 @@ Suggests:
     pkgdown (>= 1.1.0),
     rmarkdown,
     roxygen2,
-    RcppEigen,
-    RcppArmadillo,
     spelling (>= 1.2),
     styler (>= 1.0.2),
     testthat (>= 2.0.0)
