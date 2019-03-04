@@ -43,7 +43,6 @@ create_package <- function(path,
   on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
-  use_directory("man")
   use_description(fields)
   use_namespace()
 
@@ -244,7 +243,7 @@ check_not_nested <- function(path, name) {
   }
 
   ui_line(
-    "New project {ui_value(name)} is nested inside an existing project\\
+    "New project {ui_value(name)} is nested inside an existing project \\
     {ui_path(path)}, which is rarely a good idea."
   )
   if (ui_nope("Do you want to create anyway?")) {

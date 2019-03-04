@@ -337,8 +337,9 @@ progress_fun <- function(down, up) {
   } else {
     ""
   }
-  if(now > 10000)
+  if (now > 10000) {
     cat("\rDownloaded:", sprintf("%.2f", now / 2^20), "MB ", pct)
+  }
   TRUE
 }
 

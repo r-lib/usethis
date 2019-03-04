@@ -26,10 +26,10 @@ use_dependency <- function(package, type, min_version = NULL) {
   stopifnot(is_string(type))
 
   if (package != "R" && !requireNamespace(package, quietly = TRUE)) {
-    ui_stop(
+    ui_stop(c(
       "{ui_value(package)} must be installed before you can ",
       "take a dependency on it."
-    )
+    ))
   }
 
   if (isTRUE(min_version)) {
