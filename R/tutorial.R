@@ -1,16 +1,17 @@
-#' Create a tutorial.
+#' Create a learnr tutorial.
 #'
-#' Creates new tutorial in `inst/tutorials`. Tutorials are interactive R Markdown documents built with the `learnr` package.
+#' Creates a new tutorial in `inst/tutorials`. Tutorials are interactive R
+#' Markdown documents built with the `learnr` package.
 #'
 #' @section General setup:
 #' * Adds needed packages to `DESCRIPTION`.
 #' * Adds `inst/tutorials/*.html` to `.gitignore` so
-#'   you never accidental track rendered tutorials.
+#'   you never accidentally track rendered tutorials.
 #' @param name Base for file name to use for new tutorials. Should consist only
 #'   of numbers, letters, _ and -. We recommend using lower case.
 #' @param title The title of the tutorial
 #' @inheritParams use_template
-#' @seealso The [`learnr` package documentation](https://rstudio.github.io/learnr/index.html).
+#' @seealso The [learnr package documentation](https://rstudio.github.io/learnr/index.html).
 #' @export
 #' @examples
 #' \dontrun{
@@ -23,7 +24,7 @@ use_tutorial <- function(name, title, open = interactive()) {
   dir_path <- path("inst", "tutorials")
 
   use_directory(dir_path)
-  use_git_ignore(c("*.html"), directory = dir_path)
+  use_git_ignore("*.html", directory = dir_path)
   use_dependency("learnr", "Suggests")
 
   path <- path(dir_path, asciify(name), ext = "Rmd")
@@ -38,7 +39,6 @@ use_tutorial <- function(name, title, open = interactive()) {
     ignore = TRUE,
     open = open
   )
-  if (!new) return(invisible(FALSE))
 
-  invisible(TRUE)
+  invisible(new)
 }
