@@ -102,6 +102,9 @@ reference:
     - use_readme_rmd
     - matches("browse")
     - matches("edit_git_")
+  - title: Pull requests
+    contents:
+    - starts_with("pr_")
   - title: Edit
     contents:
     - starts_with("edit_")
