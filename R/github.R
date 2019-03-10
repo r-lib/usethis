@@ -145,22 +145,13 @@ use_github <- function(organisation = NULL,
   }
 
   ui_done("Pushing {ui_value('master')} branch to GitHub and setting remote tracking branch")
-  if (protocol == "ssh") {
-    ## [1] push via ssh required for success setting remote tracking branch
-    ## [2] to get passphrase from ssh-agent, you must use NULL credentials
-    pushed <- tryCatch({
-      git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
-      TRUE
-    }, error = function(e) FALSE)
-  } else { ## protocol == "https"
-    ## in https case, when GITHUB_PAT is passed as password,
-    ## the username is immaterial, but git2r doesn't know that.
-    cred <- git2r::cred_user_pass("EMAIL", auth_token)
-    pushed <- tryCatch({
-      git2r::push(r, "origin", "refs/heads/master", credentials = cred)
-      TRUE
-    }, error = function(e) FALSE)
+  if (protocol == "https") {
+    credentials <- credentials %||% git2r::cred_user_pass("EMAIL", auth_token)
   }
+  pushed <- tryCatch({
+    git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
+    TRUE
+  }, error = function(e) FALSE)
   if (pushed) {
     git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
   } else {
