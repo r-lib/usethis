@@ -1,8 +1,8 @@
 devtools::load_all()
 
 pkgname <- "klmnop"
-protocol <- "ssh"
-#protocol <- "https"
+#protocol <- "ssh"
+protocol <- "https"
 
 (pkgpath <- path_temp(pkgname))
 create_package(pkgpath, open = FALSE)
