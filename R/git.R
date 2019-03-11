@@ -155,7 +155,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
 #'
 #' For `protocol = "ssh"`, usethis passes `NULL` credentials straight through to
 #' git2r. This will do the right thing if you have the exact configuration
-#' expected by git2r: you public and private keys are in the default locations,
+#' expected by git2r: your public and private keys are in the default locations,
 #' `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively, and your `ssh-agent`
 #' is configured to manage any associated passphrase, if relevant. Read more
 #' about SSH setup in [Happy Git](http://happygitwithr.com/ssh-keys.html),
@@ -196,7 +196,7 @@ use_git_protocol <- function(protocol = NULL) {
   if (is.na(protocol)) {
     protocol <- choose_protocol()
     if (is.null(protocol)) {
-      ui_stop("{ui_code('protocol')} must be either {ui_value('ssh')} or , {ui_value('https')}'.")
+      ui_stop("{ui_code('protocol')} must be either {ui_value('ssh')} or {ui_value('https')}'.")
     }
     code <- glue("options(usethis.protocol = \"{protocol}\")")
     ui_todo(c(
