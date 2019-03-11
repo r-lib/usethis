@@ -2,6 +2,8 @@
 
 ## New features
 
+* `use_git_protocol()` helps to set git the protocol to `"ssh"` or `"https"`. It takes direct input, but also consults the `usethis.protocol` option and, in interactive sessions, asks the user what they want. (#648)
+
 * `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
 
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
