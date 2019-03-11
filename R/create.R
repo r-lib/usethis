@@ -195,6 +195,9 @@ create_from_github <- function(repo_spec,
   )
 
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
+  if (protocol == "https") {
+    credentials <- credentials %||% git2r::cred_user_pass("EMAIL", pat)
+  }
   git2r::clone(
     origin_url,
     repo_path,
