@@ -18,3 +18,42 @@ test_that("git_config returns old global values", {
   out <- git_config(pkgdown.test = NULL)
   expect_equal(out, list(pkgdown.test = "x"))
 })
+
+test_that("git_use_protocol() errors for bad input", {
+  expect_error(use_git_protocol(c("ssh", "https")), "length.*not TRUE")
+  expect_error(use_git_protocol("nope"), "protocol.*not TRUE")
+  expect_error(use_git_protocol(NA), "interactive.*not TRUE")
+})
+
+test_that("git_use_protocol() defaults to 'ssh' in a non-interactive session", {
+  withr::with_options(
+    list(usethis.protocol = NULL),
+    expect_identical(use_git_protocol(), "ssh")
+  )
+})
+
+test_that("git_use_protocol() honors, vets, and lowercases the option", {
+  withr::with_options(
+    list(usethis.protocol = "ssh"),
+    expect_identical(use_git_protocol(), "ssh")
+  )
+  withr::with_options(
+    list(usethis.protocol = "SSH"),
+    expect_identical(use_git_protocol(), "ssh")
+  )
+  withr::with_options(
+    list(usethis.protocol = "https"),
+    expect_identical(use_git_protocol(), "https")
+  )
+  withr::with_options(
+    list(usethis.protocol = "nope"),
+    expect_error(use_git_protocol(), "should be one of")
+  )
+})
+
+test_that("git_use_protocol() prioritizes and lowercases direct input", {
+  withr::with_options(
+    list(usethis.protocol = "ssh"),
+    expect_identical(use_git_protocol("HTTPS"), "https")
+  )
+})

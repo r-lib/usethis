@@ -4,8 +4,7 @@
 \alias{use_github}
 \title{Connect a local repo with GitHub}
 \usage{
-use_github(organisation = NULL, private = FALSE,
-  protocol = getOption("usethis.protocol", default = "ssh"),
+use_github(organisation = NULL, private = FALSE, protocol = NULL,
   credentials = NULL, auth_token = NULL, host = NULL)
 }
 \arguments{
@@ -14,11 +13,13 @@ organisation. You must have access to create repositories.}
 
 \item{private}{If \code{TRUE}, creates a private repository.}
 
-\item{protocol}{transfer protocol, either "ssh" (the default) or "https".
-You can supply a global default with \code{options(usethis.protocol = "https")}.}
+\item{protocol}{"ssh" or "https". Defaults to the option \code{usethis.protocol}
+and, if unset, to an interactive choice or, in non-interactive sessions,
+"ssh".}
 
-\item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific ssh
-credentials or \code{NULL} for default ssh key and ssh-agent behaviour.}
+\item{credentials}{Optional. If provided, must be the output of a git2r
+credential function, such as \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}. We recommend you rely
+on default behaviour, if possible.}
 
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
@@ -43,22 +44,6 @@ make a \href{https://github.com/settings/tokens}{GitHub personal access token (P
 provide this directly via the \code{auth_token} argument or store it in an
 environment variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to get help obtaining and
 storing your PAT. See \code{\link[gh:gh_whoami]{gh::gh_whoami()}} for even more detail.
-
-The argument \code{protocol} specifies the transport protocol you wish to use for
-this repo in the long run. This determines the form of the URL for the
-\code{origin} remote:
-\itemize{
-\item \code{protocol = "ssh"}: \code{git@github.com:<OWNER>/<REPO>.git}
-\item \code{protocol = "https"}: \code{https://github.com/<OWNER>/<REPO>.git}
-}
-
-For \code{protocol = "ssh"}, it is assumed that public and private keys are in the
-default locations, \code{~/.ssh/id_rsa.pub} and \code{~/.ssh/id_rsa}, respectively, and
-that \code{ssh-agent} is configured to manage any associated passphrase.
-Alternatively, specify a \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} object via the \code{credentials}
-parameter. Read more about ssh setup in \href{http://happygitwithr.com/ssh-keys.html}{Happy Git}, especially the \href{http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting}{troubleshooting section}.
-
-You can change the default globally with \code{options(usethis.protocol = "https")}.
 }
 
 \examples{
@@ -71,7 +56,6 @@ proj_set(pkgpath)
 use_git()
 
 ## create github repository and configure as git remote
-use_github()                   ## to use default ssh protocol
-use_github(protocol = "https") ## to use https
+use_github()
 }
 }

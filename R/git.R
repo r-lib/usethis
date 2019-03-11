@@ -132,6 +132,102 @@ use_git_config <- function(scope = c("user", "project"), ...) {
   }
 }
 
+#' Choose git protocol and credential defaults
+#'
+#' Decide whether to use the SSH or HTTPS protocol for the current session.
+#' This affects two things:
+#'   * The URL format of newly configured git remotes:
+#'     - `protocol = "ssh"` implies `git@@github.com:<OWNER>/<REPO>.git`
+#'     - `protocol = "https"` implies `https://github.com/<OWNER>/<REPO>.git`
+#'   * The strategy for creating default credentials when none are given.
+#'     Credentials are needed for git operations like `git push` that address a
+#'     remote, typically GitHub. Remember you can always pass explicit
+#'     `credentials` made with [git2r::cred_ssh_key()], [git2r::cred_user_pass],
+#'      and friends.
+#' This function also gives a reminder of how to set a default protocol via an
+#' option: `options(usethis.protocol = "ssh")` or
+#' `options(usethis.protocol = "https")`.
+#'
+#' @section Default credentials:
+#'
+#' The current git protocol is consulted to create default credentials when
+#' they are needed but left unspecified.
+#'
+#' For `protocol = "ssh"`, usethis passes `NULL` credentials straight through to
+#' git2r. This will do the right thing if you have the exact configuration
+#' expected by git2r: you public and private keys are in the default locations,
+#' `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively, and your `ssh-agent`
+#' is configured to manage any associated passphrase, if relevant. Read more
+#' about SSH setup in [Happy Git](http://happygitwithr.com/ssh-keys.html),
+#' especially the [troubleshooting
+#' section](http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
+#'
+#' For `protocol = "https"`, usethis attempts to use a GitHub personal access
+#' token (PAT), with preference for an `auth_token` that is passed explicitly.
+#' If that is `NULL`, the environment variables `GITHUB_PAT` and `GITHUB_TOKEN`
+#' are consulted, in that order. If a PAT is found, we make an HTTPS credential
+#' with [git2r::cred_user_pass()]. The PAT is sent as the password and dummy
+#' text is sent as the username (only the PAT is truly required).
+#'
+#' @param protocol "ssh" or "https". Defaults to the option `usethis.protocol`
+#'   and, if unset, to an interactive choice or, in non-interactive sessions,
+#'   "ssh".
+#'
+#' @return "ssh" or "https"
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' use_git_protocol()
+#' use_git_protocol("ssh")
+#' use_git_protocol("https")
+#' }
+use_git_protocol <- function(protocol = NULL) {
+  if (!is.null(protocol)) {
+    stopifnot(
+      length(protocol) == 1,
+      tolower(protocol) %in% c("ssh", "https") ||
+        (interactive() && is.na(protocol))
+    )
+  }
+  default <- if (interactive()) NA else "ssh"
+  protocol <- protocol %||% getOption("usethis.protocol") %||% default
+
+  if (is.na(protocol)) {
+    protocol <- choose_protocol()
+    if (is.null(protocol)) {
+      ui_stop("{ui_code('protocol')} must be either {ui_value('ssh')} or , {ui_value('https')}'.")
+    }
+    code <- glue("options(usethis.protocol = \"{protocol}\")")
+    ui_todo(c(
+      "Tip: To suppress this menu in future, put",
+      "{ui_code(code)}",
+      "in your script or in a user- or project-level startup file, {ui_value('.Rprofile')}.",
+      "Call {ui_code('usethis::edit_r_profile()')} to open it for editing."
+    ))
+  }
+
+  protocol <- match.arg(tolower(protocol), c("ssh", "https"))
+  options("usethis.protocol" = protocol)
+  protocol
+}
+
+choose_protocol <- function() {
+  choices <- c(
+    ssh   = "ssh   <-- presumes that you have set up ssh keys",
+    https = "https <-- choose this if you don't have ssh keys (or don't know if you do)"
+  )
+  choice <- utils::menu(
+    choices = choices,
+    title = "Which git protocol to use? (enter 0 to exit)"
+  )
+  if (choice == 0) {
+    invisible()
+  } else {
+    names(choices)[choice]
+  }
+}
+
 #' git/GitHub sitrep
 #'
 #' Get a situation report on your current git/GitHub status. Useful for
@@ -159,6 +255,7 @@ git_sitrep <- function() {
   hd_line("User")
   kv_line("Name", name)
   kv_line("Email", email)
+  kv_line("Protocol", getOption("usethis.protocol"))
   kv_line("Has SSH keys", git_has_ssh())
   kv_line("Vaccinated:", git_vaccinated())
 
