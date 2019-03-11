@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Report working directory and usethis/RStudio project — proj_sitrep • usethis</title>
+<title>Choose git protocol and credential defaults — use_git_protocol • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,18 +37,23 @@
 
 
 
-<meta property="og:title" content="Report working directory and usethis/RStudio project — proj_sitrep" />
+<meta property="og:title" content="Choose git protocol and credential defaults — use_git_protocol" />
 
-<meta property="og:description" content="proj_sitrep() reports
-current working directory
-the active usethis project
-the active RStudio Project
+<meta property="og:description" content="Decide whether to use the SSH or HTTPS protocol for the current session.
+This affects two things:
+The URL format of newly configured git remotes:
+protocol = &quot;ssh&quot; implies git@github.com:&amp;lt;OWNER&amp;gt;/&amp;lt;REPO&amp;gt;.git
+protocol = &quot;https&quot; implies https://github.com/&amp;lt;OWNER&amp;gt;/&amp;lt;REPO&amp;gt;.git
+
+The strategy for creating default credentials when none are given.
+Credentials are needed for git operations like git push that address a
+remote, typically GitHub. Remember you can always pass explicit
+credentials made with git2r::cred_ssh_key(), git2r::cred_user_pass,
+and friends.
+This function also gives a reminder of how to set a default protocol via an
+option: options(usethis.protocol = &quot;ssh&quot;) or
+options(usethis.protocol = &quot;https&quot;).
 " />
-
-<meta property="og:description" content="Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and proj_sitrep() provides suggested commands for getting
-back to this happy state." />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -140,54 +145,83 @@ back to this happy state." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Report working directory and usethis/RStudio project</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/sitrep.R'><code>R/sitrep.R</code></a></small>
-    <div class="hidden name"><code>proj_sitrep.Rd</code></div>
+    <h1>Choose git protocol and credential defaults</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/git.R'><code>R/git.R</code></a></small>
+    <div class="hidden name"><code>use_git_protocol.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>proj_sitrep()</code> reports</p><ul>
-<li><p>current working directory</p></li>
-<li><p>the active usethis project</p></li>
-<li><p>the active RStudio Project</p></li>
+    <p>Decide whether to use the SSH or HTTPS protocol for the current session.
+This affects two things:</p><ul>
+<li><p>The URL format of newly configured git remotes:</p><ul>
+<li><p><code>protocol = "ssh"</code> implies <code>git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git</code></p></li>
+<li><p><code>protocol = "https"</code> implies <code>https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git</code></p></li>
+</ul></li>
+<li><p>The strategy for creating default credentials when none are given.
+Credentials are needed for git operations like <code>git push</code> that address a
+remote, typically GitHub. Remember you can always pass explicit
+<code>credentials</code> made with <code><a href='https://www.rdocumentation.org/packages/git2r/topics/cred_ssh_key'>git2r::cred_ssh_key()</a></code>, <a href='https://www.rdocumentation.org/packages/git2r/topics/cred_user_pass'>git2r::cred_user_pass</a>,
+and friends.
+This function also gives a reminder of how to set a default protocol via an
+option: <code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options(usethis.protocol = "ssh")</a></code> or
+<code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options(usethis.protocol = "https")</a></code>.</p></li>
 </ul>
-
-    <p>Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and <code>proj_sitrep()</code> provides suggested commands for getting
-back to this happy state.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>proj_sitrep</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>use_git_protocol</span>(<span class='kw'>protocol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>protocol</th>
+      <td><p>"ssh" or "https". Defaults to the option <code>usethis.protocol</code>
+and, if unset, to an interactive choice or, in non-interactive sessions,
+"ssh".</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A named list, with S3 class <code>sitrep</code> (for printing purposes),
-reporting current working directory, active usethis project, and active
-RStudio Project</p>
+    <p>"ssh" or "https"</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="default-credentials"><a class="anchor" href="#default-credentials"></a>Default credentials</h2>
 
-    <div class='dont-index'><p>Other project functions: <code><a href='proj_utils.html'>proj_utils</a></code></p></div>
+    
+    <p>The current git protocol is consulted to create default credentials when
+they are needed but left unspecified.</p>
+<p>For <code>protocol = "ssh"</code>, usethis passes <code>NULL</code> credentials straight through to
+git2r. This will do the right thing if you have the exact configuration
+expected by git2r: you public and private keys are in the default locations,
+<code>~/.ssh/id_rsa.pub</code> and <code>~/.ssh/id_rsa</code>, respectively, and your <code>ssh-agent</code>
+is configured to manage any associated passphrase, if relevant. Read more
+about SSH setup in <a href='http://happygitwithr.com/ssh-keys.html'>Happy Git</a>,
+especially the <a href='http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting'>troubleshooting section</a>.</p>
+<p>For <code>protocol = "https"</code>, usethis attempts to use a GitHub personal access
+token (PAT), with preference for an <code>auth_token</code> that is passed explicitly.
+If that is <code>NULL</code>, the environment variables <code>GITHUB_PAT</code> and <code>GITHUB_TOKEN</code>
+are consulted, in that order. If a PAT is found, we make an HTTPS credential
+with <code><a href='https://www.rdocumentation.org/packages/git2r/topics/cred_user_pass'>git2r::cred_user_pass()</a></code>. The PAT is sent as the password and dummy
+text is sent as the username (only the PAT is truly required).</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; <span style='color: #00BB00;'>  working_directory</span><span>: </span><span style='color: #0000BB;'>'/tmp/RtmplwSyWa/file42ef29081e3b/dev/reference'</span><span>
-#&gt; </span><span style='color: #00BB00;'>active_usethis_proj</span><span>: </span><span style='color: #C6C6C6;'>NULL</span><span>
-#&gt; </span><span style='color: #00BB00;'>active_rstudio_proj</span><span>: </span><span style='color: #C6C6C6;'>NULL</span><span>
-#&gt; </span><span style='color: #BB0000;'>●</span><span> There is currently no active usethis project.
-#&gt;   usethis attempts to activate a project upon first need.
-#&gt;   Call </span><span style='color: #9E9E9E;'>`proj_get()`</span><span> to explicitly initiate project activation.</div></span></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>use_git_protocol</span>()
+<span class='fu'>use_git_protocol</span>(<span class='st'>"ssh"</span>)
+<span class='fu'>use_git_protocol</span>(<span class='st'>"https"</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#default-credentials">Default credentials</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
