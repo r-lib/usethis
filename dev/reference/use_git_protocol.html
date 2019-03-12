@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Choose git protocol and credential defaults — use_git_protocol • usethis</title>
+<title>Choose default git protocol and credential defaults — use_git_protocol • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,7 +37,7 @@
 
 
 
-<meta property="og:title" content="Choose git protocol and credential defaults — use_git_protocol" />
+<meta property="og:title" content="Choose default git protocol and credential defaults — use_git_protocol" />
 
 <meta property="og:description" content="Decide whether to use the SSH or HTTPS protocol for the current session.
 This affects two things:
@@ -145,7 +145,7 @@ options(usethis.protocol = &quot;https&quot;).
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Choose git protocol and credential defaults</h1>
+    <h1>Choose default git protocol and credential defaults</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/git.R'><code>R/git.R</code></a></small>
     <div class="hidden name"><code>use_git_protocol.Rd</code></div>
     </div>
@@ -194,7 +194,7 @@ and, if unset, to an interactive choice or, in non-interactive sessions,
 they are needed but left unspecified.</p>
 <p>For <code>protocol = "ssh"</code>, usethis passes <code>NULL</code> credentials straight through to
 git2r. This will do the right thing if you have the exact configuration
-expected by git2r: you public and private keys are in the default locations,
+expected by git2r: your public and private keys are in the default locations,
 <code>~/.ssh/id_rsa.pub</code> and <code>~/.ssh/id_rsa</code>, respectively, and your <code>ssh-agent</code>
 is configured to manage any associated passphrase, if relevant. Read more
 about SSH setup in <a href='http://happygitwithr.com/ssh-keys.html'>Happy Git</a>,
