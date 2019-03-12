@@ -9,3 +9,7 @@ if (nzchar(Sys.getenv("CI"))) {
 }
 
 options(usethis.quiet = TRUE)
+
+## make ui_*() output easier to test against
+## just say no to ANSI escape codes
+options("crayon.enabled" = FALSE)

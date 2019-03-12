@@ -22,7 +22,6 @@ test_that("git_config returns old global values", {
 test_that("git_use_protocol() errors for bad input", {
   expect_error(use_git_protocol(c("ssh", "https")), "length.*not TRUE")
   expect_error(use_git_protocol("nope"), "protocol.*not TRUE")
-  expect_error(use_git_protocol(NA), "interactive.*not TRUE")
 })
 
 test_that("git_use_protocol() defaults to 'ssh' in a non-interactive session", {
@@ -30,6 +29,10 @@ test_that("git_use_protocol() defaults to 'ssh' in a non-interactive session", {
     list(usethis.protocol = NULL),
     expect_identical(use_git_protocol(), "ssh")
   )
+})
+
+test_that("non-interactive git_use_protocol(NA) is like dismissing the menu", {
+  expect_error(use_git_protocol(NA), "must be either")
 })
 
 test_that("git_use_protocol() honors, vets, and lowercases the option", {

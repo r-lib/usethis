@@ -186,8 +186,7 @@ use_git_protocol <- function(protocol = NULL) {
   if (!is.null(protocol)) {
     stopifnot(
       length(protocol) == 1,
-      tolower(protocol) %in% c("ssh", "https") ||
-        (interactive() && is.na(protocol))
+      tolower(protocol) %in% c("ssh", "https", NA)
     )
   }
   default <- if (interactive()) NA else "ssh"
@@ -213,6 +212,10 @@ use_git_protocol <- function(protocol = NULL) {
 }
 
 choose_protocol <- function() {
+  ## intercept with our internal interactive()
+  if (!interactive()) {
+    return(invisible())
+  }
   choices <- c(
     ssh   = "ssh   <-- presumes that you have set up ssh keys",
     https = "https <-- choose this if you don't have ssh keys (or don't know if you do)"
