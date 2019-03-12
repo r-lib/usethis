@@ -2,7 +2,7 @@
 % Please edit documentation in R/git.R
 \name{use_git_protocol}
 \alias{use_git_protocol}
-\title{Choose git protocol and credential defaults}
+\title{Choose default git protocol and credential defaults}
 \usage{
 use_git_protocol(protocol = NULL)
 }
@@ -41,7 +41,7 @@ they are needed but left unspecified.
 
 For \code{protocol = "ssh"}, usethis passes \code{NULL} credentials straight through to
 git2r. This will do the right thing if you have the exact configuration
-expected by git2r: you public and private keys are in the default locations,
+expected by git2r: your public and private keys are in the default locations,
 \code{~/.ssh/id_rsa.pub} and \code{~/.ssh/id_rsa}, respectively, and your \code{ssh-agent}
 is configured to manage any associated passphrase, if relevant. Read more
 about SSH setup in \href{http://happygitwithr.com/ssh-keys.html}{Happy Git},

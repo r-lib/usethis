@@ -132,7 +132,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
   }
 }
 
-#' Choose git protocol and credential defaults
+#' Choose default git protocol and credential defaults
 #'
 #' Decide whether to use the SSH or HTTPS protocol for the current session.
 #' This affects two things:
