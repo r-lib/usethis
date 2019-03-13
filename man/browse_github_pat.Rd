@@ -18,7 +18,7 @@ distinguish various tokens on GitHub.}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3"}
+"https://github.hostname.com/api/v3".}
 }
 \description{
 Opens a browser window to the GitHub page where you can generate a \href{https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line}{Personal Access Token}.

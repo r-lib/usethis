@@ -16,19 +16,15 @@
 #'
 #' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
-#'   organisation. You must have access to create repositories.
-#' @param auth_token Provide a personal access token (PAT) from
-#'   <https://github.com/settings/tokens>. If `NULL`, will use the logic
-#'   described in [gh::gh_whoami()] to look for a token stored in an environment
-#'   variable. Use [browse_github_pat()] to help set up your PAT.
+#'   organisation, instead of the account of the user associated with the
+#'   `auth_token`. You must have permission to create repositories.
 #' @param private If `TRUE`, creates a private repository.
+#' @inheritParams use_git_protocol
+#' @inheritParams use_git2r_credentials
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
-#'   "https://github.hostname.com/api/v3"
-#' @inheritParams use_git_protocol
-#' @param credentials Optional. If provided, must be the output of a git2r
-#'   credential function, such as [git2r::cred_ssh_key()]. We recommend you rely
-#'   on default behaviour, if possible.
+#'   "https://github.hostname.com/api/v3".
+#'
 #' @export
 #' @examples
 #' \dontrun{
@@ -44,8 +40,8 @@
 #' }
 use_github <- function(organisation = NULL,
                        private = FALSE,
-                       protocol = NULL,
-                       credentials = NULL,
+                       protocol = git_protocol(),
+                       credentials = git2r_credentials(),
                        auth_token = NULL,
                        host = NULL) {
   check_uses_git()
