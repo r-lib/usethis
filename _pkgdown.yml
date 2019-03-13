@@ -103,6 +103,8 @@ reference:
     - use_readme_rmd
     - matches("browse")
     - matches("edit_git_")
+    - git_sitrep
+    - git_vaccinate
   - title: Pull requests
     contents:
     - starts_with("pr_")
