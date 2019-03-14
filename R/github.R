@@ -41,7 +41,7 @@
 use_github <- function(organisation = NULL,
                        private = FALSE,
                        protocol = git_protocol(),
-                       credentials = git2r_credentials(),
+                       credentials = git2r_credentials(protocol, auth_token),
                        auth_token = NULL,
                        host = NULL) {
   check_uses_git()

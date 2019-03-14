@@ -15,6 +15,7 @@ repo_name <- "crewsocks"
 
 ## make sure we'll be using HTTPS
 use_git_protocol("https")
+git_protocol()
 
 ## this should work
 x <- create_from_github(paste0(user, "/", repo_name))

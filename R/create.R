@@ -136,7 +136,7 @@ create_from_github <- function(repo_spec,
                                rstudio = NULL,
                                open = interactive(),
                                protocol = git_protocol(),
-                               credentials = git2r_credentials(),
+                               credentials = git2r_credentials(protocol, auth_token),
                                auth_token = NULL,
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
