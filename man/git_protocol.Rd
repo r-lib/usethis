@@ -21,14 +21,14 @@ or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.
 Git operations that address a remote use a so-called "transport protocol".
 usethis supports SSH and HTTPS. The protocol affects two things:
 \itemize{
-\item The default URL format:
+\item The default URL format for repos with no existing remote protocol:
 \itemize{
 \item \code{protocol = "ssh"} implies \code{git@github.com:<OWNER>/<REPO>.git}
 \item \code{protocol = "https"} implies \code{https://github.com/<OWNER>/<REPO>.git}
 }
 \item The strategy for creating \code{credentials} when none are given. See
 \code{\link[=git2r_credentials]{git2r_credentials()}} for details.
-Two helper functions are relevant:
+Two helper functions are available:
 \item \code{git_protocol()} returns the user's preferred protocol, if known, and,
 otherwise, asks the user (interactive session) or defaults to SSH
 (non-interactive session).

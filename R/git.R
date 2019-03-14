@@ -136,12 +136,12 @@ use_git_config <- function(scope = c("user", "project"), ...) {
 #'
 #' Git operations that address a remote use a so-called "transport protocol".
 #' usethis supports SSH and HTTPS. The protocol affects two things:
-#'   * The default URL format:
+#'   * The default URL format for repos with no existing remote protocol:
 #'     - `protocol = "ssh"` implies `git@@github.com:<OWNER>/<REPO>.git`
 #'     - `protocol = "https"` implies `https://github.com/<OWNER>/<REPO>.git`
 #'   * The strategy for creating `credentials` when none are given. See
 #'     [git2r_credentials()] for details.
-#' Two helper functions are relevant:
+#' Two helper functions are available:
 #'   * `git_protocol()` returns the user's preferred protocol, if known, and,
 #'     otherwise, asks the user (interactive session) or defaults to SSH
 #'     (non-interactive session).
@@ -282,7 +282,8 @@ git2r_env <- new.env(parent = emptyenv())
 #' my_cred <- git2r::cred_ssh_key(
 #'    publickey  = "path/to/your/id_rsa.pub",
 #'    privatekey = "path/to/your/id_rsa",
-#'    passphrase = "my_supersecret_passphrase"
+#'    # include / omit passphrase as appropriate to your situation
+#'    passphrase = getPass::getPass()
 #' )
 #' use_git2r_credentials(credentials = my_cred)
 #' ```
@@ -305,7 +306,7 @@ git2r_env <- new.env(parent = emptyenv())
 #' ```
 #' my_cred <- git2r::cred_user_pass(
 #'   username = "janedoe",
-#'   password = "super_secret_password"
+#'   password = getPass::getPass()
 #' )
 #' use_git2r_credentials(credentials = my_cred)
 #' ```

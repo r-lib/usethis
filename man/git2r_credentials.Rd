@@ -69,7 +69,8 @@ with \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} and register that w
 \code{use_git2r_credentials()} for the rest of the session:\preformatted{my_cred <- git2r::cred_ssh_key(
    publickey  = "path/to/your/id_rsa.pub",
    privatekey = "path/to/your/id_rsa",
-   passphrase = "my_supersecret_passphrase"
+   # include / omit passphrase as appropriate to your situation
+   passphrase = getPass::getPass()
 )
 use_git2r_credentials(credentials = my_cred)
 }
@@ -93,7 +94,7 @@ that order. If a PAT is found, we make an HTTPS credential with
 is sent as the username (the PAT is what really matters in this case). You
 can also register an explicit credential yourself in a similar way:\preformatted{my_cred <- git2r::cred_user_pass(
   username = "janedoe",
-  password = "super_secret_password"
+  password = getPass::getPass()
 )
 use_git2r_credentials(credentials = my_cred)
 }
