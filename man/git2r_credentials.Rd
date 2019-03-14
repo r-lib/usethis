@@ -5,7 +5,7 @@
 \alias{use_git2r_credentials}
 \title{Produce or register git2r credentials}
 \usage{
-git2r_credentials(protocol = NULL, auth_token = NULL)
+git2r_credentials(protocol = git_protocol(), auth_token = NULL)
 
 use_git2r_credentials(credentials)
 }

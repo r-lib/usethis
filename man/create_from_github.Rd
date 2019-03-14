@@ -6,7 +6,8 @@
 \usage{
 create_from_github(repo_spec, destdir = NULL, fork = NA,
   rstudio = NULL, open = interactive(), protocol = git_protocol(),
-  credentials = git2r_credentials(), auth_token = NULL, host = NULL)
+  credentials = git2r_credentials(protocol, auth_token),
+  auth_token = NULL, host = NULL)
 }
 \arguments{
 \item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}. The

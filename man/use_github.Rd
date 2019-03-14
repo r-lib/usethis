@@ -5,8 +5,8 @@
 \title{Connect a local repo with GitHub}
 \usage{
 use_github(organisation = NULL, private = FALSE,
-  protocol = git_protocol(), credentials = git2r_credentials(),
-  auth_token = NULL, host = NULL)
+  protocol = git_protocol(), credentials = git2r_credentials(protocol,
+  auth_token), auth_token = NULL, host = NULL)
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this

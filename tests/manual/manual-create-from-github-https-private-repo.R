@@ -23,6 +23,10 @@ x <- create_from_github(paste0(user, "/", repo_name))
 expect_equal(path_file(x), "crewsocks")
 expect_true(dir_exists(x))
 expect_true(file_exists(path(x, "crewsocks.Rproj")))
+expect_match(
+  git2r::remote_url(git2r::repository(x)),
+  "^https"
+)
 
 ## cleanup
 dir_delete(x)

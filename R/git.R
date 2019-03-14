@@ -330,7 +330,7 @@ git2r_env <- new.env(parent = emptyenv())
 #' git2r_credentials(protocol = "ssh")
 #' git2r_credentials(protocol = "https")
 #' git2r_credentials(protocol = "https", auth_token = "MY_GITHUB_PAT")
-git2r_credentials <- function(protocol = NULL,
+git2r_credentials <- function(protocol = git_protocol(),
                               auth_token = NULL) {
   if (rlang::env_has(git2r_env, "credentials")) {
     return(git2r_env$credentials)
