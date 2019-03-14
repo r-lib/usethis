@@ -152,7 +152,7 @@ create_from_github <- function(repo_spec,
 
   auth_token <- auth_token %||% github_token()
   pat_available <- auth_token != ""
-  user <- if (pat_available) gh::gh_whoami(auth_token)[["login"]] else NULL
+  user <- if (pat_available) github_user()[["login"]] else NULL
 
   gh <- function(endpoint, ...) {
     gh::gh(

@@ -62,3 +62,10 @@ github_token <- function() {
   if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
 }
 
+github_user <- function(auth_token = NULL) {
+  auth_token <- auth_token %||% github_token()
+  if (!nzchar(auth_token)) {
+    return(NULL)
+  }
+  tryCatch(gh::gh_whoami(auth_token), error = function(e) NULL)
+}

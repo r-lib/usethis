@@ -405,9 +405,13 @@ git_sitrep <- function() {
   if (!nzchar(github_token())) {
     cat_line("No token available")
   } else {
-    who <- gh::gh_whoami()
-    kv_line("User", who$login)
-    kv_line("Name", who$name)
+    who <- github_user()
+    if (is.null(who)) {
+      cat_line("Token not associated with a user")
+    } else {
+      kv_line("User", who$login)
+      kv_line("Name", who$name)
+    }
   }
 }
 

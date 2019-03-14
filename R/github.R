@@ -54,7 +54,7 @@ use_github <- function(organisation = NULL,
   auth_token <- auth_token %||% github_token()
   check_github_token(auth_token)
 
-  owner <- organisation %||% gh::gh_whoami(auth_token)[["login"]]
+  owner <- organisation %||% github_user(auth_token)[["login"]]
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host, auth_token)
 
@@ -289,6 +289,10 @@ check_github_token <- function(auth_token) {
       "Provide explicitly or make available as an environment variable.",
       "See {ui_code('browse_github_pat()')} for help setting this up."
     ))
+  }
+  user <- github_user(auth_token)
+  if (is.null(user)) {
+    ui_stop("GitHub {ui_code('auth_token')} is not associated with a user.")
   }
   auth_token
 }
