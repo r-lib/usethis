@@ -28,6 +28,12 @@
     <loc>http://usethis.r-lib.org/reference/edit_file.html</loc>
   </url>
   <url>
+    <loc>http://usethis.r-lib.org/reference/git2r_credentials.html</loc>
+  </url>
+  <url>
+    <loc>http://usethis.r-lib.org/reference/git_protocol.html</loc>
+  </url>
+  <url>
     <loc>http://usethis.r-lib.org/reference/git_sitrep.html</loc>
   </url>
   <url>
@@ -104,9 +110,6 @@
   </url>
   <url>
     <loc>http://usethis.r-lib.org/reference/use_git_ignore.html</loc>
-  </url>
-  <url>
-    <loc>http://usethis.r-lib.org/reference/use_git_protocol.html</loc>
   </url>
   <url>
     <loc>http://usethis.r-lib.org/reference/use_github.html</loc>

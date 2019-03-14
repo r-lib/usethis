@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Report working directory and usethis/RStudio project — proj_sitrep • usethis</title>
+<title>Produce or register git protocol — git_protocol • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,18 +37,28 @@
 
 
 
-<meta property="og:title" content="Report working directory and usethis/RStudio project — proj_sitrep" />
+<meta property="og:title" content="Produce or register git protocol — git_protocol" />
 
-<meta property="og:description" content="proj_sitrep() reports
-current working directory
-the active usethis project
-the active RStudio Project
+<meta property="og:description" content="Git operations that address a remote use a so-called &quot;transport protocol&quot;.
+usethis supports SSH and HTTPS. The protocol affects two things:
+The default URL format for repos with no existing remote protocol:
+protocol = &quot;ssh&quot; implies git@github.com:&amp;lt;OWNER&amp;gt;/&amp;lt;REPO&amp;gt;.git
+protocol = &quot;https&quot; implies https://github.com/&amp;lt;OWNER&amp;gt;/&amp;lt;REPO&amp;gt;.git
+
+The strategy for creating credentials when none are given. See
+git2r_credentials() for details.
+Two helper functions are available:
+git_protocol() returns the user's preferred protocol, if known, and,
+otherwise, asks the user (interactive session) or defaults to SSH
+(non-interactive session).
+use_git_protocol() allows the user to set the git protocol, which is
+stored in the usethis.protocol option.
+Any interactive choice re: protocol comes with a reminder of how to set the
+protocol at startup by setting an option in .Rprofile:
+options(usethis.protocol = &quot;ssh&quot;)
+## or
+options(usethis.protocol = &quot;https&quot;)
 " />
-
-<meta property="og:description" content="Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and proj_sitrep() provides suggested commands for getting
-back to this happy state." />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -140,54 +150,72 @@ back to this happy state." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Report working directory and usethis/RStudio project</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/sitrep.R'><code>R/sitrep.R</code></a></small>
-    <div class="hidden name"><code>proj_sitrep.Rd</code></div>
+    <h1>Produce or register git protocol</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/git.R'><code>R/git.R</code></a></small>
+    <div class="hidden name"><code>git_protocol.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>proj_sitrep()</code> reports</p><ul>
-<li><p>current working directory</p></li>
-<li><p>the active usethis project</p></li>
-<li><p>the active RStudio Project</p></li>
-</ul>
-
-    <p>Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and <code>proj_sitrep()</code> provides suggested commands for getting
-back to this happy state.</p>
+    <p>Git operations that address a remote use a so-called "transport protocol".
+usethis supports SSH and HTTPS. The protocol affects two things:</p><ul>
+<li><p>The default URL format for repos with no existing remote protocol:</p><ul>
+<li><p><code>protocol = "ssh"</code> implies <code>git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git</code></p></li>
+<li><p><code>protocol = "https"</code> implies <code>https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git</code></p></li>
+</ul></li>
+<li><p>The strategy for creating <code>credentials</code> when none are given. See
+<code><a href='git2r_credentials.html'>git2r_credentials()</a></code> for details.
+Two helper functions are available:</p></li>
+<li><p><code>git_protocol()</code> returns the user's preferred protocol, if known, and,
+otherwise, asks the user (interactive session) or defaults to SSH
+(non-interactive session).</p></li>
+<li><p><code>use_git_protocol()</code> allows the user to set the git protocol, which is
+stored in the <code>usethis.protocol</code> option.
+Any interactive choice re: <code>protocol</code> comes with a reminder of how to set the
+protocol at startup by setting an option in <code>.Rprofile</code>:</p></li>
+</ul><pre>options(usethis.protocol = "ssh")
+## or
+options(usethis.protocol = "https")
+</pre>
     
     </div>
 
-    <pre class="usage"><span class='fu'>proj_sitrep</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>git_protocol</span>()
+
+<span class='fu'>use_git_protocol</span>(<span class='no'>protocol</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>protocol</th>
+      <td><p>Optional. Should be "ssh" or "https", if specified. Defaults
+to the option <code>usethis.protocol</code> and, if unset, to an interactive choice
+or, in non-interactive sessions, "ssh". <code>NA</code> triggers the interactive menu.</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A named list, with S3 class <code>sitrep</code> (for printing purposes),
-reporting current working directory, active usethis project, and active
-RStudio Project</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other project functions: <code><a href='proj_utils.html'>proj_utils</a></code></p></div>
+    <p>"ssh" or "https"</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; <span style='color: #00BB00;'>  working_directory</span><span>: </span><span style='color: #0000BB;'>'/tmp/RtmphAbUGR/file44cc58c431d6/dev/reference'</span><span>
-#&gt; </span><span style='color: #00BB00;'>active_usethis_proj</span><span>: </span><span style='color: #C6C6C6;'>NULL</span><span>
-#&gt; </span><span style='color: #00BB00;'>active_rstudio_proj</span><span>: </span><span style='color: #C6C6C6;'>NULL</span><span>
-#&gt; </span><span style='color: #BB0000;'>●</span><span> There is currently no active usethis project.
-#&gt;   usethis attempts to activate a project upon first need.
-#&gt;   Call </span><span style='color: #9E9E9E;'>`proj_get()`</span><span> to explicitly initiate project activation.</div></span></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## consult the option and maybe get an interactive menu</span>
+<span class='fu'>git_protocol</span>()
+
+<span class='co'>## explicitly set the protocol</span>
+<span class='fu'>use_git_protocol</span>(<span class='st'>"ssh"</span>)
+<span class='fu'>use_git_protocol</span>(<span class='st'>"https"</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

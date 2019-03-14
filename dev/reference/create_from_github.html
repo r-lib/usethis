@@ -151,7 +151,7 @@ by <code><a href='use_github.html'>use_github()</a></code>, which connects exist
     </div>
 
     <pre class="usage"><span class='fu'>create_from_github</span>(<span class='no'>repo_spec</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fork</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='fu'><a href='git_protocol.html'>git_protocol</a></span>(),
   <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -192,15 +192,15 @@ pre-existing <code>.Rproj</code> file. Defaults to <code>FALSE</code> otherwise.
     </tr>
     <tr>
       <th>protocol</th>
-      <td><p>"ssh" or "https". Defaults to the option <code>usethis.protocol</code>
-and, if unset, to an interactive choice or, in non-interactive sessions,
-"ssh".</p></td>
+      <td><p>Optional. Should be "ssh" or "https", if specified. Defaults
+to the option <code>usethis.protocol</code> and, if unset, to an interactive choice
+or, in non-interactive sessions, "ssh". <code>NA</code> triggers the interactive menu.</p></td>
     </tr>
     <tr>
       <th>credentials</th>
-      <td><p>Optional. If provided, must be the output of a git2r
-credential function, such as <code><a href='https://www.rdocumentation.org/packages/git2r/topics/cred_ssh_key'>git2r::cred_ssh_key()</a></code>. We recommend you rely
-on default behaviour, if possible.</p></td>
+      <td><p>A git2r credential object produced with
+<code><a href='https://www.rdocumentation.org/packages/git2r/topics/cred_env'>git2r::cred_env()</a></code>, <code><a href='https://www.rdocumentation.org/packages/git2r/topics/cred_ssh_key'>git2r::cred_ssh_key()</a></code>, <code><a href='https://www.rdocumentation.org/packages/git2r/topics/cred_token'>git2r::cred_token()</a></code>, or
+<code><a href='https://www.rdocumentation.org/packages/git2r/topics/cred_user_pass'>git2r::cred_user_pass()</a></code>.</p></td>
     </tr>
     <tr>
       <th>auth_token</th>
@@ -213,30 +213,21 @@ variable. Use <code><a href='browse_github_pat.html'>browse_github_pat()</a></co
       <th>host</th>
       <td><p>GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3"</p></td>
+"https://github.hostname.com/api/v3".</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='use_github.html'>use_github()</a></code> for GitHub setup advice. <code><a href='use_git_protocol.html'>use_git_protocol()</a></code> for
-background on <code>protocol</code> and <code>credentials</code>. <code><a href='use_course.html'>use_course()</a></code> for one-time
-download of all files in a Git repo, without any local or remote Git
-operations.</p></div>
+    <div class='dont-index'><p><code><a href='use_github.html'>use_github()</a></code> for GitHub setup advice. <code><a href='git_protocol.html'>git_protocol()</a></code> and
+<code><a href='git2r_credentials.html'>git2r_credentials()</a></code> for background on <code>protocol</code> and <code>credentials</code>.
+<code><a href='use_course.html'>use_course()</a></code> for one-time download of all files in a Git repo, without
+any local or remote Git operations.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'>create_from_github</span>(<span class='st'>"r-lib/usethis"</span>)
-
-<span class='co'>## various ways code can look when specifying ssh credential explicitly</span>
-<span class='fu'>create_from_github</span>(<span class='st'>"r-lib/usethis"</span>, <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='kw pkg'>git2r</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/git2r/topics/cred_ssh_key'>cred_ssh_key</a></span>())
-
-<span class='no'>cred</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>git2r</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/git2r/topics/cred_ssh_key'>cred_ssh_key</a></span>(
-  <span class='kw'>publickey</span> <span class='kw'>=</span> <span class='st'>"path/to/id_rsa.pub"</span>,
-  <span class='kw'>privatekey</span> <span class='kw'>=</span> <span class='st'>"path/to/id_rsa"</span>
-)
-<span class='fu'>create_from_github</span>(<span class='st'>"cran/TailRank"</span>, <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='no'>cred</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
