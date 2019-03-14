@@ -4,22 +4,24 @@
 \alias{use_github}
 \title{Connect a local repo with GitHub}
 \usage{
-use_github(organisation = NULL, private = FALSE, protocol = NULL,
-  credentials = NULL, auth_token = NULL, host = NULL)
+use_github(organisation = NULL, private = FALSE,
+  protocol = git_protocol(), credentials = NULL, auth_token = NULL,
+  host = NULL)
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this
-organisation. You must have access to create repositories.}
+organisation, instead of the account of the user associated with the
+\code{auth_token}. You must have permission to create repositories.}
 
 \item{private}{If \code{TRUE}, creates a private repository.}
 
-\item{protocol}{"ssh" or "https". Defaults to the option \code{usethis.protocol}
-and, if unset, to an interactive choice or, in non-interactive sessions,
-"ssh".}
+\item{protocol}{Optional. Should be "ssh" or "https", if specified. Defaults
+to the option \code{usethis.protocol} and, if unset, to an interactive choice
+or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
 
-\item{credentials}{Optional. If provided, must be the output of a git2r
-credential function, such as \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}. We recommend you rely
-on default behaviour, if possible.}
+\item{credentials}{A git2r credential object produced with
+\code{\link[git2r:cred_env]{git2r::cred_env()}}, \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}, \code{\link[git2r:cred_token]{git2r::cred_token()}}, or
+\code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}.}
 
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
@@ -28,7 +30,7 @@ variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set 
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3"}
+"https://github.hostname.com/api/v3".}
 }
 \description{
 \code{use_github()} takes a local project, creates an associated repo on GitHub,

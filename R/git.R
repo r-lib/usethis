@@ -132,70 +132,70 @@ use_git_config <- function(scope = c("user", "project"), ...) {
   }
 }
 
-#' Choose default git protocol and credential defaults
+#' Produce or register git protocol
 #'
-#' Decide whether to use the SSH or HTTPS protocol for the current session.
-#' This affects two things:
-#'   * The URL format of newly configured git remotes:
+#' Git operations that address a remote use a so-called "transport protocol".
+#' usethis supports SSH and HTTPS. The protocol affects two things:
+#'   * The default URL format for repos with no existing remote protocol:
 #'     - `protocol = "ssh"` implies `git@@github.com:<OWNER>/<REPO>.git`
 #'     - `protocol = "https"` implies `https://github.com/<OWNER>/<REPO>.git`
-#'   * The strategy for creating default credentials when none are given.
-#'     Credentials are needed for git operations like `git push` that address a
-#'     remote, typically GitHub. Remember you can always pass explicit
-#'     `credentials` made with [git2r::cred_ssh_key()], [git2r::cred_user_pass],
-#'      and friends.
-#' This function also gives a reminder of how to set a default protocol via an
-#' option: `options(usethis.protocol = "ssh")` or
-#' `options(usethis.protocol = "https")`.
+#'   * The strategy for creating `credentials` when none are given. See
+#'     [git2r_credentials()] for details.
+#' Two helper functions are available:
+#'   * `git_protocol()` returns the user's preferred protocol, if known, and,
+#'     otherwise, asks the user (interactive session) or defaults to SSH
+#'     (non-interactive session).
+#'   * `use_git_protocol()` allows the user to set the git protocol, which is
+#'     stored in the `usethis.protocol` option.
+#' Any interactive choice re: `protocol` comes with a reminder of how to set the
+#' protocol at startup by setting an option in `.Rprofile`:
+#' ```
+#' options(usethis.protocol = "ssh")
+#' ## or
+#' options(usethis.protocol = "https")
+#' ```
 #'
-#' @section Default credentials:
-#'
-#' The current git protocol is consulted to create default credentials when
-#' they are needed but left unspecified.
-#'
-#' For `protocol = "ssh"`, usethis passes `NULL` credentials straight through to
-#' git2r. This will do the right thing if you have the exact configuration
-#' expected by git2r: your public and private keys are in the default locations,
-#' `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively, and your `ssh-agent`
-#' is configured to manage any associated passphrase, if relevant. Read more
-#' about SSH setup in [Happy Git](http://happygitwithr.com/ssh-keys.html),
-#' especially the [troubleshooting
-#' section](http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
-#'
-#' For `protocol = "https"`, usethis attempts to use a GitHub personal access
-#' token (PAT), with preference for an `auth_token` that is passed explicitly.
-#' If that is `NULL`, the environment variables `GITHUB_PAT` and `GITHUB_TOKEN`
-#' are consulted, in that order. If a PAT is found, we make an HTTPS credential
-#' with [git2r::cred_user_pass()]. The PAT is sent as the password and dummy
-#' text is sent as the username (only the PAT is truly required).
-#'
-#' @param protocol "ssh" or "https". Defaults to the option `usethis.protocol`
-#'   and, if unset, to an interactive choice or, in non-interactive sessions,
-#'   "ssh".
+#' @param protocol Optional. Should be "ssh" or "https", if specified. Defaults
+#'   to the option `usethis.protocol` and, if unset, to an interactive choice
+#'   or, in non-interactive sessions, "ssh". `NA` triggers the interactive menu.
 #'
 #' @return "ssh" or "https"
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' use_git_protocol()
+#' ## consult the option and maybe get an interactive menu
+#' git_protocol()
+#'
+#' ## explicitly set the protocol
 #' use_git_protocol("ssh")
 #' use_git_protocol("https")
 #' }
-use_git_protocol <- function(protocol = NULL) {
-  if (!is.null(protocol)) {
-    stopifnot(
-      length(protocol) == 1,
-      tolower(protocol) %in% c("ssh", "https", NA)
+git_protocol <- function() {
+  protocol <- getOption(
+    "usethis.protocol",
+    default = if (interactive()) NA else "ssh"
+  )
+
+  ## this is where a user-supplied protocol gets checked, because
+  ## use_git_protocol() shoves it in the option unconditionally and calls this
+  bad_protocol <- length(protocol) != 1 ||
+    ! (tolower(protocol) %in% c("ssh", "https", NA))
+  if (bad_protocol) {
+    options(usethis.protocol = NULL)
+    ui_stop(
+      "{ui_code('protocol')} must be one of {ui_value('ssh')}, \\
+       {ui_value('https')}', or {ui_value('NA')}."
     )
   }
-  default <- if (interactive()) NA else "ssh"
-  protocol <- protocol %||% getOption("usethis.protocol") %||% default
 
   if (is.na(protocol)) {
     protocol <- choose_protocol()
     if (is.null(protocol)) {
-      ui_stop("{ui_code('protocol')} must be either {ui_value('ssh')} or {ui_value('https')}'.")
+      ui_stop(
+      "{ui_code('protocol')} must be either {ui_value('ssh')} or \\
+       {ui_value('https')}'."
+      )
     }
     code <- glue("options(usethis.protocol = \"{protocol}\")")
     ui_todo(c(
@@ -208,7 +208,14 @@ use_git_protocol <- function(protocol = NULL) {
 
   protocol <- match.arg(tolower(protocol), c("ssh", "https"))
   options("usethis.protocol" = protocol)
-  protocol
+  getOption("usethis.protocol")
+}
+
+#' @rdname git_protocol
+#' @export
+use_git_protocol <- function(protocol) {
+  options("usethis.protocol" = protocol)
+  git_protocol()
 }
 
 choose_protocol <- function() {
@@ -229,6 +236,124 @@ choose_protocol <- function() {
   } else {
     names(choices)[choice]
   }
+}
+
+git2r_env <- new.env(parent = emptyenv())
+
+#' Produce or register git2r credentials
+#'
+#' Credentials are needed for git operations like `git push` that address a
+#' remote, typically GitHub. usethis uses the git2r package. git2r tries to use
+#' the same credentials as command line git, but sometimes fails. usethis tries
+#' to increase the chance that things "just work" and, when they don't, to
+#' provide the user a way to intervene:
+#'   * `git2r_credentials()` returns any `credentials` that have been registered
+#'     with `use_git2r_credentials()` and, otherwise, implements usethis's
+#'     default strategy.
+#'   * `use_git2r_credentials()` allows you to register `credentials` explicitly
+#'     for use in all usethis functions in an R session. Do this only after
+#'     proven failure of the defaults.
+#'
+#' @section Default credentials:
+#'
+#'   If the default behaviour of usethis + git2r works, rejoice and leave well
+#'   enough alone. Keep reading if you need more control or understanding.
+#'
+#' @section SSH credentials:
+#'
+#'   For `protocol = "ssh"`, by default, usethis passes `NULL` credentials
+#'   to git2r. This will work if you have the exact configuration expected by
+#'   git2r:
+#'     1. Your public and private keys are in the default locations,
+#'     `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively.
+#'     1. All the relevant software agrees on the definition of `~/`, i.e.
+#'     your home directory. This is harder than it sounds on Windows.
+#'     1. Your `ssh-agent` is configured to manage your SSH passphrase, if you
+#'     have one. This too can be a problem on Windows.
+#'   Read more about SSH setup in [Happy
+#'   Git](http://happygitwithr.com/ssh-keys.html), especially the
+#'   [troubleshooting
+#'   section](http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
+#'
+#'   If the `NULL` default doesn't work, you can make `credentials` explicitly
+#'   with [git2r::cred_ssh_key()] and register that with
+#'   `use_git2r_credentials()` for the rest of the session:
+#' ```
+#' my_cred <- git2r::cred_ssh_key(
+#'    publickey  = "path/to/your/id_rsa.pub",
+#'    privatekey = "path/to/your/id_rsa",
+#'    # include / omit passphrase as appropriate to your situation
+#'    passphrase = getPass::getPass()
+#' )
+#' use_git2r_credentials(credentials = my_cred)
+#' ```
+#'   For the remainder of the session, `git2r_credentials()` will return
+#'   `my_cred`.
+#'
+#' @section HTTPS credentials:
+#'
+#'   For `protocol = "https"`, we must send username and password. It is
+#'   possible that your OS has cached this and git2r will successfully use that.
+#'   However, usethis can offer even more chance of success in the HTTPS case.
+#'   GitHub also accepts a personal access token (PAT) via HTTPS. If
+#'   `credentials = NULL` and a PAT is available, we send it. Preference is
+#'   given to any `auth_token` that is passed explicitly. Otherwise, the
+#'   environment variables `GITHUB_PAT` and `GITHUB_TOKEN` are consulted, in
+#'   that order. If a PAT is found, we make an HTTPS credential with
+#'   [git2r::cred_user_pass()]. The PAT is sent as the password and dummy text
+#'   is sent as the username (the PAT is what really matters in this case). You
+#'   can also register an explicit credential yourself in a similar way:
+#' ```
+#' my_cred <- git2r::cred_user_pass(
+#'   username = "janedoe",
+#'   password = getPass::getPass()
+#' )
+#' use_git2r_credentials(credentials = my_cred)
+#' ```
+#'   For the remainder of the session, `git2r_credentials()` will return
+#'   `my_cred`.
+#'
+#' @inheritParams git_protocol
+#' @param auth_token Provide a personal access token (PAT) from
+#'   <https://github.com/settings/tokens>. If `NULL`, will use the logic
+#'   described in [gh::gh_whoami()] to look for a token stored in an environment
+#'   variable. Use [browse_github_pat()] to help set up your PAT.
+#' @param credentials A git2r credential object produced with
+#'   [git2r::cred_env()], [git2r::cred_ssh_key()], [git2r::cred_token()], or
+#'   [git2r::cred_user_pass()].
+#'
+#' @return Either `NULL` or a git2r credential object, invisibly. I.e.,
+#'   something to be passed to git2r as `credentials`.
+#' @export
+#'
+#' @examples
+#' git2r_credentials()
+#' git2r_credentials(protocol = "ssh")
+#' git2r_credentials(protocol = "https")
+#' git2r_credentials(protocol = "https", auth_token = "MY_GITHUB_PAT")
+git2r_credentials <- function(protocol = git_protocol(),
+                              auth_token = NULL) {
+  if (rlang::env_has(git2r_env, "credentials")) {
+    return(git2r_env$credentials)
+  }
+
+  if (is.null(protocol) || protocol == "ssh") {
+    return(NULL)
+  }
+
+  auth_token <- auth_token %||% github_token()
+  if (nzchar(auth_token)) {
+    git2r::cred_user_pass("EMAIL", auth_token)
+  } else {
+    NULL
+  }
+}
+
+#' @rdname git2r_credentials
+#' @export
+use_git2r_credentials <- function(credentials) {
+  git2r_env$credentials <- credentials
+  invisible(git2r_credentials())
 }
 
 #' git/GitHub sitrep
@@ -278,12 +403,16 @@ git_sitrep <- function() {
   }
 
   hd_line("GitHub")
-  if (!nzchar(gh_token())) {
+  if (!nzchar(github_token())) {
     cat_line("No token available")
   } else {
-    who <- gh::gh_whoami()
-    kv_line("User", who$login)
-    kv_line("Name", who$name)
+    who <- github_user()
+    if (is.null(who)) {
+      cat_line("Token not associated with a user")
+    } else {
+      kv_line("User", who$login)
+      kv_line("Name", who$name)
+    }
   }
 }
 

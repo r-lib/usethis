@@ -16,19 +16,15 @@
 #'
 #' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
-#'   organisation. You must have access to create repositories.
-#' @param auth_token Provide a personal access token (PAT) from
-#'   <https://github.com/settings/tokens>. If `NULL`, will use the logic
-#'   described in [gh::gh_whoami()] to look for a token stored in an environment
-#'   variable. Use [browse_github_pat()] to help set up your PAT.
+#'   organisation, instead of the account of the user associated with the
+#'   `auth_token`. You must have permission to create repositories.
 #' @param private If `TRUE`, creates a private repository.
+#' @inheritParams use_git_protocol
+#' @inheritParams use_git2r_credentials
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
-#'   "https://github.hostname.com/api/v3"
-#' @inheritParams use_git_protocol
-#' @param credentials Optional. If provided, must be the output of a git2r
-#'   credential function, such as [git2r::cred_ssh_key()]. We recommend you rely
-#'   on default behaviour, if possible.
+#'   "https://github.hostname.com/api/v3".
+#'
 #' @export
 #' @examples
 #' \dontrun{
@@ -44,7 +40,7 @@
 #' }
 use_github <- function(organisation = NULL,
                        private = FALSE,
-                       protocol = NULL,
+                       protocol = git_protocol(),
                        credentials = NULL,
                        auth_token = NULL,
                        host = NULL) {
@@ -55,11 +51,11 @@ use_github <- function(organisation = NULL,
   r <- git_repo()
 
   ## auth_token is used directly by git2r, therefore cannot be NULL
-  auth_token <- auth_token %||% gh_token()
-  check_gh_token(auth_token)
-  protocol <- use_git_protocol(protocol)
+  auth_token <- auth_token %||% github_token()
+  check_github_token(auth_token)
+  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
 
-  owner <- organisation %||% gh::gh_whoami(auth_token)[["login"]]
+  owner <- organisation %||% github_user(auth_token)[["login"]]
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host, auth_token)
 
@@ -287,20 +283,17 @@ check_no_github_repo <- function(owner, repo, host, auth_token) {
   ui_stop("Repo {ui_value(spec)} already exists on {ui_value(where)}.")
 }
 
-## use from gh when/if exported
-## https://github.com/r-lib/gh/issues/74
-gh_token <- function() {
-  token <- Sys.getenv("GITHUB_PAT", "")
-  if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
-}
-
-check_gh_token <- function(auth_token) {
+check_github_token <- function(auth_token) {
   if (is.null(auth_token) || !nzchar(auth_token)) {
     ui_stop(c(
       "No GitHub {ui_code('auth_token')}.",
       "Provide explicitly or make available as an environment variable.",
       "See {ui_code('browse_github_pat()')} for help setting this up."
     ))
+  }
+  user <- github_user(auth_token)
+  if (is.null(user)) {
+    ui_stop("GitHub {ui_code('auth_token')} is not associated with a user.")
   }
   auth_token
 }

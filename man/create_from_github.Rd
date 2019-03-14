@@ -5,7 +5,7 @@
 \title{Create a project from a GitHub repo}
 \usage{
 create_from_github(repo_spec, destdir = NULL, fork = NA,
-  rstudio = NULL, open = interactive(), protocol = NULL,
+  rstudio = NULL, open = interactive(), protocol = git_protocol(),
   credentials = NULL, auth_token = NULL, host = NULL)
 }
 \arguments{
@@ -33,13 +33,13 @@ pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
 \item Otherwise, the working directory and active project is changed.
 }}
 
-\item{protocol}{"ssh" or "https". Defaults to the option \code{usethis.protocol}
-and, if unset, to an interactive choice or, in non-interactive sessions,
-"ssh".}
+\item{protocol}{Optional. Should be "ssh" or "https", if specified. Defaults
+to the option \code{usethis.protocol} and, if unset, to an interactive choice
+or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
 
-\item{credentials}{Optional. If provided, must be the output of a git2r
-credential function, such as \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}. We recommend you rely
-on default behaviour, if possible.}
+\item{credentials}{A git2r credential object produced with
+\code{\link[git2r:cred_env]{git2r::cred_env()}}, \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}, \code{\link[git2r:cred_token]{git2r::cred_token()}}, or
+\code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}.}
 
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
@@ -48,7 +48,7 @@ variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set 
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3"}
+"https://github.hostname.com/api/v3".}
 }
 \description{
 Creates a new local Git repository from a repository on GitHub. It is highly
@@ -60,20 +60,11 @@ by \code{\link[=use_github]{use_github()}}, which connects existing local projec
 \examples{
 \dontrun{
 create_from_github("r-lib/usethis")
-
-## various ways code can look when specifying ssh credential explicitly
-create_from_github("r-lib/usethis", credentials = git2r::cred_ssh_key())
-
-cred <- git2r::cred_ssh_key(
-  publickey = "path/to/id_rsa.pub",
-  privatekey = "path/to/id_rsa"
-)
-create_from_github("cran/TailRank", credentials = cred)
 }
 }
 \seealso{
-\code{\link[=use_github]{use_github()}} for GitHub setup advice. \code{\link[=use_git_protocol]{use_git_protocol()}} for
-background on \code{protocol} and \code{credentials}. \code{\link[=use_course]{use_course()}} for one-time
-download of all files in a Git repo, without any local or remote Git
-operations.
+\code{\link[=use_github]{use_github()}} for GitHub setup advice. \code{\link[=git_protocol]{git_protocol()}} and
+\code{\link[=git2r_credentials]{git2r_credentials()}} for background on \code{protocol} and \code{credentials}.
+\code{\link[=use_course]{use_course()}} for one-time download of all files in a Git repo, without
+any local or remote Git operations.
 }

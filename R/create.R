@@ -103,10 +103,10 @@ create_project <- function(path,
 #' clone"](https://help.github.com/articles/fork-a-repo/). It is also required
 #' by [use_github()], which connects existing local projects to GitHub.
 #'
-#' @seealso [use_github()] for GitHub setup advice. [use_git_protocol()] for
-#'   background on `protocol` and `credentials`. [use_course()] for one-time
-#'   download of all files in a Git repo, without any local or remote Git
-#'   operations.
+#' @seealso [use_github()] for GitHub setup advice. [git_protocol()] and
+#'   [git2r_credentials()] for background on `protocol` and `credentials`.
+#'   [use_course()] for one-time download of all files in a Git repo, without
+#'   any local or remote Git operations.
 #'
 #' @inheritParams create_package
 #' @param repo_spec GitHub repo specification in this form: `owner/repo`. The
@@ -124,32 +124,23 @@ create_project <- function(path,
 #'    Defaults to `TRUE` if in an RStudio session and project has no
 #'   pre-existing `.Rproj` file. Defaults to `FALSE` otherwise.
 #' @inheritParams use_github
+#'
 #' @export
 #' @examples
 #' \dontrun{
 #' create_from_github("r-lib/usethis")
-#'
-#' ## various ways code can look when specifying ssh credential explicitly
-#' create_from_github("r-lib/usethis", credentials = git2r::cred_ssh_key())
-#'
-#' cred <- git2r::cred_ssh_key(
-#'   publickey = "path/to/id_rsa.pub",
-#'   privatekey = "path/to/id_rsa"
-#' )
-#' create_from_github("cran/TailRank", credentials = cred)
 #' }
 create_from_github <- function(repo_spec,
                                destdir = NULL,
                                fork = NA,
                                rstudio = NULL,
                                open = interactive(),
-                               protocol = NULL,
+                               protocol = git_protocol(),
                                credentials = NULL,
                                auth_token = NULL,
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
-  protocol <- use_git_protocol(protocol)
 
   owner <- spec_owner(repo_spec)
   repo <- spec_repo(repo_spec)
@@ -159,9 +150,10 @@ create_from_github <- function(repo_spec,
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  pat <- auth_token %||% gh_token()
-  pat_available <- pat != ""
-  user <- if (pat_available) gh::gh_whoami(pat)[["login"]] else NULL
+  auth_token <- auth_token %||% github_token()
+  pat_available <- auth_token != ""
+  user <- if (pat_available) github_user()[["login"]] else NULL
+  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
 
   gh <- function(endpoint, ...) {
     gh::gh(
@@ -195,9 +187,6 @@ create_from_github <- function(repo_spec,
   )
 
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
-  if (protocol == "https") {
-    credentials <- credentials %||% git2r::cred_user_pass("EMAIL", pat)
-  }
   git2r::clone(
     origin_url,
     repo_path,
@@ -262,7 +251,7 @@ rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
   }
 
   if (fork && !pat_available) {
-    check_gh_token(auth_token = NULL)
+    check_github_token(auth_token = NULL)
   }
 
   if (fork && identical(user, owner)) {
