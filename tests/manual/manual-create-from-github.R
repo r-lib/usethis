@@ -66,7 +66,7 @@ create_from_github("jennybc/ethel", fork = NA)
 dir_delete("~/Desktop/ethel")
 
 ## store my PAT
-token <- gh_token()
+token <- github_token()
 
 ## make my PAT unavailable via env vars
 Sys.unsetenv(c("GITHUB_PAT", "GITHUB_TOKEN"))

@@ -51,8 +51,8 @@ use_github <- function(organisation = NULL,
   r <- git_repo()
 
   ## auth_token is used directly by git2r, therefore cannot be NULL
-  auth_token <- auth_token %||% gh_token()
-  check_gh_token(auth_token)
+  auth_token <- auth_token %||% github_token()
+  check_github_token(auth_token)
 
   owner <- organisation %||% gh::gh_whoami(auth_token)[["login"]]
   repo_name <- project_name()
@@ -282,14 +282,7 @@ check_no_github_repo <- function(owner, repo, host, auth_token) {
   ui_stop("Repo {ui_value(spec)} already exists on {ui_value(where)}.")
 }
 
-## use from gh when/if exported
-## https://github.com/r-lib/gh/issues/74
-gh_token <- function() {
-  token <- Sys.getenv("GITHUB_PAT", "")
-  if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
-}
-
-check_gh_token <- function(auth_token) {
+check_github_token <- function(auth_token) {
   if (is.null(auth_token) || !nzchar(auth_token)) {
     ui_stop(c(
       "No GitHub {ui_code('auth_token')}.",

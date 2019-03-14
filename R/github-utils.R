@@ -54,3 +54,11 @@ parse_github_remotes <- function(x) {
   match <- stats::setNames(regmatches(as.character(x), m), names(x))
   lapply(match, function(y) list(owner = y[[2]], repo = y[[3]]))
 }
+
+## use from gh when/if exported
+## https://github.com/r-lib/gh/issues/74
+github_token <- function() {
+  token <- Sys.getenv("GITHUB_PAT", "")
+  if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
+}
+

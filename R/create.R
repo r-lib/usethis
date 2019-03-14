@@ -150,15 +150,15 @@ create_from_github <- function(repo_spec,
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  pat <- auth_token %||% gh_token()
-  pat_available <- pat != ""
-  user <- if (pat_available) gh::gh_whoami(pat)[["login"]] else NULL
+  auth_token <- auth_token %||% github_token()
+  pat_available <- auth_token != ""
+  user <- if (pat_available) gh::gh_whoami(auth_token)[["login"]] else NULL
 
   gh <- function(endpoint, ...) {
     gh::gh(
       endpoint,
       ...,
-      .token = pat,
+      .token = auth_token,
       .api_url = host
     )
   }
@@ -250,7 +250,7 @@ rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
   }
 
   if (fork && !pat_available) {
-    check_gh_token(auth_token = NULL)
+    check_github_token(auth_token = NULL)
   }
 
   if (fork && identical(user, owner)) {

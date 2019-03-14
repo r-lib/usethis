@@ -340,9 +340,9 @@ git2r_credentials <- function(protocol = git_protocol(),
     return(NULL)
   }
 
-  pat <- auth_token %||% gh_token()
-  if (nzchar(pat)) {
-    git2r::cred_user_pass("EMAIL", pat)
+  auth_token <- auth_token %||% github_token()
+  if (nzchar(auth_token)) {
+    git2r::cred_user_pass("EMAIL", auth_token)
   } else {
     NULL
   }
@@ -402,7 +402,7 @@ git_sitrep <- function() {
   }
 
   hd_line("GitHub")
-  if (!nzchar(gh_token())) {
+  if (!nzchar(github_token())) {
     cat_line("No token available")
   } else {
     who <- gh::gh_whoami()
