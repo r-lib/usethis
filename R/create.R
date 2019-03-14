@@ -136,7 +136,7 @@ create_from_github <- function(repo_spec,
                                rstudio = NULL,
                                open = interactive(),
                                protocol = git_protocol(),
-                               credentials = git2r_credentials(protocol, auth_token),
+                               credentials = NULL,
                                auth_token = NULL,
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
@@ -153,6 +153,7 @@ create_from_github <- function(repo_spec,
   auth_token <- auth_token %||% github_token()
   pat_available <- auth_token != ""
   user <- if (pat_available) github_user()[["login"]] else NULL
+  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
 
   gh <- function(endpoint, ...) {
     gh::gh(

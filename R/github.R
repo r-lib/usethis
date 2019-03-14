@@ -41,7 +41,7 @@
 use_github <- function(organisation = NULL,
                        private = FALSE,
                        protocol = git_protocol(),
-                       credentials = git2r_credentials(protocol, auth_token),
+                       credentials = NULL,
                        auth_token = NULL,
                        host = NULL) {
   check_uses_git()
@@ -53,6 +53,7 @@ use_github <- function(organisation = NULL,
   ## auth_token is used directly by git2r, therefore cannot be NULL
   auth_token <- auth_token %||% github_token()
   check_github_token(auth_token)
+  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
 
   owner <- organisation %||% github_user(auth_token)[["login"]]
   repo_name <- project_name()
