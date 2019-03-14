@@ -141,7 +141,6 @@ create_from_github <- function(repo_spec,
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
-  protocol <- use_git_protocol(protocol)
 
   owner <- spec_owner(repo_spec)
   repo <- spec_repo(repo_spec)

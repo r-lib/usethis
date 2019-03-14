@@ -53,7 +53,6 @@ use_github <- function(organisation = NULL,
   ## auth_token is used directly by git2r, therefore cannot be NULL
   auth_token <- auth_token %||% gh_token()
   check_gh_token(auth_token)
-  protocol <- use_git_protocol(protocol)
 
   owner <- organisation %||% gh::gh_whoami(auth_token)[["login"]]
   repo_name <- project_name()
