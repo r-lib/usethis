@@ -55,15 +55,7 @@ parse_github_remotes <- function(x) {
   lapply(match, function(y) list(owner = y[[2]], repo = y[[3]]))
 }
 
-## use from gh when/if exported
-## https://github.com/r-lib/gh/issues/74
-github_token <- function() {
-  token <- Sys.getenv("GITHUB_PAT", "")
-  if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
-}
-
-github_user <- function(auth_token = NULL) {
-  auth_token <- auth_token %||% github_token()
+github_user <- function(auth_token = github_token()) {
   if (!nzchar(auth_token)) {
     return(NULL)
   }

@@ -98,8 +98,8 @@ create_project <- function(path,
 #'
 #' Creates a new local Git repository from a repository on GitHub. It is highly
 #' recommended that you pre-configure or pass a GitHub personal access token
-#' (PAT), which is facilitated by [browse_github_pat()]. In particular, a PAT is
-#' required in order for `create_from_github()` to do ["fork and
+#' (PAT), which is facilitated by [browse_github_token()]. In particular, a PAT
+#' is required in order for `create_from_github()` to do ["fork and
 #' clone"](https://help.github.com/articles/fork-a-repo/). It is also required
 #' by [use_github()], which connects existing local projects to GitHub.
 #'
@@ -137,7 +137,7 @@ create_from_github <- function(repo_spec,
                                open = interactive(),
                                protocol = git_protocol(),
                                credentials = NULL,
-                               auth_token = NULL,
+                               auth_token = github_token(),
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
@@ -150,7 +150,6 @@ create_from_github <- function(repo_spec,
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  auth_token <- auth_token %||% github_token()
   pat_available <- auth_token != ""
   user <- if (pat_available) github_user()[["login"]] else NULL
   credentials <- credentials %||% git2r_credentials(protocol, auth_token)

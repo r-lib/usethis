@@ -102,7 +102,8 @@ release_type <- function(version) {
 #'
 #' @inheritParams use_github_links
 #' @export
-use_github_release <- function(host = NULL, auth_token = NULL) {
+use_github_release <- function(host = NULL,
+                               auth_token = github_token()) {
   cran_release <- proj_path("CRAN-RELEASE")
   if (file_exists(cran_release)) {
     file_delete(cran_release)

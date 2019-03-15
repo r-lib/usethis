@@ -12,10 +12,10 @@
 use_github_labels(repo_spec = github_repo_spec(), labels = character(),
   rename = character(), colours = character(),
   descriptions = character(), delete_default = FALSE,
-  auth_token = NULL, host = NULL)
+  auth_token = github_token(), host = NULL)
 
-use_tidy_labels(repo_spec = github_repo_spec(), auth_token = NULL,
-  host = NULL)
+use_tidy_labels(repo_spec = github_repo_spec(),
+  auth_token = github_token(), host = NULL)
 
 tidy_labels()
 
@@ -44,10 +44,7 @@ colour.}
 not appear in the \code{labels} vector, and do not have associated issues.
 to your workflow).}
 
-\item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
-described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
-variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
+\item{auth_token}{GitHub personal access token (PAT).}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
