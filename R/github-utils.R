@@ -16,7 +16,7 @@ github_owner <- function() {
   github_origin()[["owner"]]
 }
 
-github_source <- function() {
+github_owner_upstream <- function() {
   upstream <- parse_github_remotes(github_remotes())[["upstream"]]
   upstream[["owner"]]
 }

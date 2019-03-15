@@ -84,11 +84,16 @@ pr_init <- function(branch) {
 pr_fetch <- function(number, owner = NULL) {
   check_uncommitted_changes()
 
-  ui_done("Retrieving data for PR #{number}")
-  pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
-    owner = owner %||% github_source() %||% github_owner(),
-    repo = github_repo(),
-    number = number
+  owner <- owner %||% github_owner_upstream() %||% github_owner()
+  repo <- github_repo()
+  pr_string <- glue("{owner}/{repo}/#{number}")
+  ui_done("Retrieving data for PR {ui_value(pr_string)}")
+  pr <- gh::gh(
+    "GET /repos/:owner/:repo/pulls/:number",
+    owner = owner,
+    repo = repo,
+    number = number,
+    .token = auth_token
   )
 
   their_branch <- pr$head$ref
@@ -247,7 +252,7 @@ pr_url <- function(branch = git_branch_name()) {
   }
 
   if (git_is_fork()) {
-    source <- github_source()
+    source <- github_owner_upstream()
     pr_branch <- remref_branch(git_branch_tracking(branch))
   } else {
     source <- github_owner()
