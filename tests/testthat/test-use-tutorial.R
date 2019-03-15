@@ -14,7 +14,7 @@ test_that("use_tutorial() creates a tutorial", {
   scoped_temporary_package()
   with_mock(
     ## need to pass the check re: whether learnr is installed
-    `usethis:::check_installed` = function(pkg) TRUE, {
+    `usethis:::is_installed` = function(pkg) TRUE, {
       use_tutorial(name = "AAA", title = "BBB")
       tute_file <- path("inst", "tutorials", "AAA", ext = "Rmd")
       expect_proj_file(tute_file)
