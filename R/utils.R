@@ -49,9 +49,13 @@ compact <- function(x) {
 "%||%" <- function(a, b) if (!is.null(a)) a else b
 
 check_installed <- function(pkg) {
-  if (!requireNamespace(pkg, quietly = TRUE)) {
+  if (!is_installed(pkg)) {
     ui_stop("Package {ui_value(pkg)} required. Please install before re-trying.")
   }
+}
+
+is_installed <- function(pkg) {
+  requireNamespace(pkg, quietly = TRUE)
 }
 
 ## mimimalist, type-specific purrr::pluck()'s
