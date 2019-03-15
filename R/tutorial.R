@@ -1,17 +1,22 @@
 #' Create a learnr tutorial
 #'
-#' Creates a new tutorial in `inst/tutorials`. Tutorials are interactive R
-#' Markdown documents built with the `learnr` package.
+#' Creates a new tutorial below `inst/tutorials/`. Tutorials are interactive R
+#' Markdown documents built with the [`learnr`
+#' package](https://rstudio.github.io/learnr/index.html). `use_tutorial()` does
+#' this setup:
+#'   * Adds learnr to Suggests in `DESCRIPTION`.
+#'   * Gitignores `inst/tutorials/*.html` so you don't accidentally track
+#'     rendered tutorials.
+#'   * Creates a new `.Rmd` tutorial from a template and, optionally, opens it
+#'     for editing.
+#'   * Adds new `.Rmd` to `.Rbuildignore`.
 #'
-#' @section General setup:
-#' * Adds needed packages to `DESCRIPTION`.
-#' * Adds `inst/tutorials/*.html` to `.gitignore` so
-#'   you never accidentally track rendered tutorials.
-#' @param name Base for file name to use for new tutorials. Should consist only
-#'   of numbers, letters, _ and -. We recommend using lower case.
-#' @param title The title of the tutorial
+#' @param name Base for file name to use for new `.Rmd` tutorial. Should consist
+#'   only of numbers, letters, `_` and `-`. We recommend using lower case.
+#' @param title The human-facing title of the tutorial.
 #' @inheritParams use_template
-#' @seealso The [learnr package documentation](https://rstudio.github.io/learnr/index.html).
+#' @seealso The [learnr package
+#'   documentation](https://rstudio.github.io/learnr/index.html).
 #' @export
 #' @examples
 #' \dontrun{

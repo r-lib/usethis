@@ -2,31 +2,32 @@
 % Please edit documentation in R/tutorial.R
 \name{use_tutorial}
 \alias{use_tutorial}
-\title{Create a tutorial.}
+\title{Create a learnr tutorial}
 \usage{
 use_tutorial(name, title, open = interactive())
 }
 \arguments{
-\item{name}{Base for file name to use for new tutorials. Should consist only
-of numbers, letters, _ and -. We recommend using lower case.}
+\item{name}{Base for file name to use for new \code{.Rmd} tutorial. Should consist
+only of numbers, letters, \code{_} and \code{-}. We recommend using lower case.}
 
-\item{title}{The title of the tutorial}
+\item{title}{The human-facing title of the tutorial.}
 
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
-Creates new tutorial in \code{inst/tutorials}. Tutorials are interactive R Markdown documents built with the \code{learnr} package.
-}
-\section{General setup}{
-
+Creates a new tutorial below \code{inst/tutorials/}. Tutorials are interactive R
+Markdown documents built with the \href{https://rstudio.github.io/learnr/index.html}{learnr package}. \code{use_tutorial()} does
+this setup:
 \itemize{
-\item Adds needed packages to \code{DESCRIPTION}.
-\item Adds \code{inst/tutorials/*.html} to \code{.gitignore} so
-you never accidental track rendered tutorials.
+\item Adds learnr to Suggests in \code{DESCRIPTION}.
+\item Gitignores \code{inst/tutorials/*.html} so you don't accidentally track
+rendered tutorials.
+\item Creates a new \code{.Rmd} tutorial from a template and, optionally, opens it
+for editing.
+\item Adds new \code{.Rmd} to \code{.Rbuildignore}.
 }
 }
-
 \examples{
 \dontrun{
 use_tutorial("learn-to-do-stuff", "Learn to do stuff")
