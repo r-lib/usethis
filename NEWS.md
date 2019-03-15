@@ -2,6 +2,10 @@
 
 ## New features
 
+* `use_tutorial()` creates a new interactive R Markdown tutorial, as implemented
+  by the [`learnr` package](https://rstudio.github.io/learnr/index.html)
+  (@angela-li, #645).
+
 * `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
 
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
