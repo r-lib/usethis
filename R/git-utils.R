@@ -246,9 +246,11 @@ check_branch <- function(branch) {
 }
 
 check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
-  local <- paste0("local/", branch)
   remote <- git_branch_tracking(branch)
-  ui_done("Checking that {ui_value(local)} has changes in {ui_value(remote)}")
+  ui_done(
+    "Checking that local branch {ui_value(branch)} has the changes \\
+     in {ui_value(remote)}"
+  )
 
   diff <- git_branch_compare(branch)
   if (diff[[2]] == 0) {
@@ -256,7 +258,7 @@ check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
   }
 
   ui_stop(c(
-    "{ui_value(local)} is behind {ui_value(remote)}.",
+    "Local branch {ui_value(branch)} is behind {ui_value(remote)}.",
     "Please use {ui_code(use)} to update."
   ))
 }
