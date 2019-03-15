@@ -9,14 +9,16 @@ git_init <- function() {
   git2r::init(proj_get())
 }
 
-git_pull <- function(remote_branch = git_branch_tracking()) {
+git_pull <- function(remote_branch = git_branch_tracking(),
+                     credentials = NULL) {
   repo <- git_repo()
 
   git2r::fetch(
     repo,
     name = remref_remote(remote_branch),
     refspec = remref_branch(remote_branch),
-    verbose = FALSE
+    verbose = FALSE,
+    credentials = credentials
   )
   mr <- git2r::merge(repo, remote_branch)
   if (isTRUE(mr$conflicts)) {
@@ -152,7 +154,9 @@ git_branch_compare <- function(branch = git_branch_name()) {
   )
 }
 
-git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
+git_branch_push <- function(branch = git_branch_name(),
+                            credentials = NULL,
+                            force = FALSE) {
   remote <- git_branch_tracking(branch)
   if (is.null(remote)) {
     remote_name   <- "origin"
@@ -168,7 +172,8 @@ git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
     git_repo(),
     name = remote_name,
     refspec = glue("refs/heads/{branch}:refs/heads/{remote_branch}"),
-    force = force
+    force = force,
+    credentials
   )
 }
 
