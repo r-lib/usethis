@@ -18,8 +18,8 @@
 #'   organisation, instead of the account of the user associated with the
 #'   `auth_token`. You must have permission to create repositories.
 #' @param private If `TRUE`, creates a private repository.
-#' @inheritParams use_git_protocol
-#' @inheritParams use_git2r_credentials
+#' @inheritParams git_protocol
+#' @inheritParams git2r_credentials
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
 #'   "https://github.hostname.com/api/v3".
