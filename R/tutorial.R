@@ -25,6 +25,7 @@
 use_tutorial <- function(name, title, open = interactive()) {
   stopifnot(is_string(name))
   stopifnot(is_string(title))
+  check_installed("learnr")
 
   dir_path <- path("inst", "tutorials")
 
