@@ -11,10 +11,10 @@ test_that("use_tutorial() checks its inputs", {
 test_that("use_tutorial() creates a tutorial", {
   skip_if(getRversion() < 3.2) ## mock doesn't seem to work on 3.1
 
-  scoped_temporary_package()
   with_mock(
     ## need to pass the check re: whether learnr is installed
     `usethis:::is_installed` = function(pkg) TRUE, {
+      scoped_temporary_package()
       use_tutorial(name = "AAA", title = "BBB")
       tute_file <- path("inst", "tutorials", "AAA", ext = "Rmd")
       expect_proj_file(tute_file)
