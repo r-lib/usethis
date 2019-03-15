@@ -6,6 +6,24 @@ github_remotes <- function() {
   remotes[m]
 }
 
+github_origin_protocol <- function() {
+  # https://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols
+  r <- github_remotes()
+  if (length(r) == 0) return(NULL)
+  origin <- r[["origin"]]
+  if (is.null(origin)) return(NULL)
+  switch(
+    substr(origin, 1, 5),
+    `https` = "https",
+    `git@g` = "ssh",
+    ui_stop(
+      "Can't classify URL for {ui_value('origin')} remote as \\
+       {ui_value('ssh')}' or {ui_value('https')}:\\
+       \n{ui_code(origin)}"
+    )
+  )
+}
+
 github_origin <- function() {
   r <- github_remotes()
   if (length(r) == 0) return(NULL)

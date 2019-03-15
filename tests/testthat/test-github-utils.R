@@ -47,3 +47,50 @@ test_that("github_user() returns NULL for bad token", {
     expect_null(github_user())
   )
 })
+
+test_that("github_origin_protocol() picks up ssh and https", {
+  r <- list(
+    origin = "git@github.com:OWNER/REPO.git"
+  )
+  with_mock(
+    `usethis:::github_remotes` = function() r, {
+      expect_identical(github_origin_protocol(), "ssh")
+    }
+  )
+  r <- list(
+    origin = "https://github.com/OWNER/REPO.git"
+  )
+  with_mock(
+    `usethis:::github_remotes` = function() r, {
+      expect_identical(github_origin_protocol(), "https")
+    }
+  )
+})
+
+test_that("github_origin_protocol() errors for unrecognized URL", {
+  r <- list(
+    origin = "file:///srv/git/project.git"
+  )
+  with_mock(
+    `usethis:::github_remotes` = function() r, {
+      expect_error(github_origin_protocol(), "Can't classify URL")
+    }
+  )
+})
+
+test_that("github_origin_protocol() returns NULL if no github origin", {
+  r <- NULL
+  with_mock(
+    `usethis:::github_remotes` = function() r, {
+      expect_null(github_origin_protocol())
+    }
+  )
+  r <- list(
+    non_standard_remote_name = "https://github.com/OWNER/REPO.git"
+  )
+  with_mock(
+    `usethis:::github_remotes` = function() r, {
+      expect_null(github_origin_protocol())
+    }
+  )
+})
