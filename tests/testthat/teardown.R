@@ -1,1 +1,1 @@
-options(usethis.quiet = NULL)
+options(pre_test_options)

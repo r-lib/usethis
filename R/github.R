@@ -14,37 +14,17 @@
 #' environment variable. Use [browse_github_pat()] to get help obtaining and
 #' storing your PAT. See [gh::gh_whoami()] for even more detail.
 #'
-#' The argument `protocol` specifies the transport protocol you wish to use for
-#' this repo in the long run. This determines the form of the URL for the
-#' `origin` remote:
-#'   * `protocol = "ssh"`: `git@@github.com:<OWNER>/<REPO>.git`
-#'   * `protocol = "https"`: `https://github.com/<OWNER>/<REPO>.git`
-#'
-#' For `protocol = "ssh"`, it is assumed that public and private keys are in the
-#' default locations, `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively, and
-#' that `ssh-agent` is configured to manage any associated passphrase.
-#' Alternatively, specify a [git2r::cred_ssh_key()] object via the `credentials`
-#' parameter. Read more about ssh setup in [Happy
-#' Git](http://happygitwithr.com/ssh-keys.html), especially the [troubleshooting
-#' section](http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
-#'
-#' You can change the default globally with `options(usethis.protocol = "https")`.
-#'
 #' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
-#'   organisation. You must have access to create repositories.
-#' @param auth_token Provide a personal access token (PAT) from
-#'   <https://github.com/settings/tokens>. If `NULL`, will use the logic
-#'   described in [gh::gh_whoami()] to look for a token stored in an environment
-#'   variable. Use [browse_github_pat()] to help set up your PAT.
+#'   organisation, instead of the account of the user associated with the
+#'   `auth_token`. You must have permission to create repositories.
 #' @param private If `TRUE`, creates a private repository.
+#' @inheritParams use_git_protocol
+#' @inheritParams use_git2r_credentials
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
-#'   "https://github.hostname.com/api/v3"
-#' @param protocol transfer protocol, either "ssh" (the default) or "https".
-#'   You can supply a global default with `options(usethis.protocol = "https")`.
-#' @param credentials A [git2r::cred_ssh_key()] specifying specific ssh
-#'   credentials or `NULL` for default ssh key and ssh-agent behaviour.
+#'   "https://github.hostname.com/api/v3".
+#'
 #' @export
 #' @examples
 #' \dontrun{
@@ -56,12 +36,11 @@
 #' use_git()
 #'
 #' ## create github repository and configure as git remote
-#' use_github()                   ## to use default ssh protocol
-#' use_github(protocol = "https") ## to use https
+#' use_github()
 #' }
 use_github <- function(organisation = NULL,
                        private = FALSE,
-                       protocol = getOption("usethis.protocol", default = "ssh"),
+                       protocol = git_protocol(),
                        credentials = NULL,
                        auth_token = NULL,
                        host = NULL) {
@@ -72,11 +51,11 @@ use_github <- function(organisation = NULL,
   r <- git_repo()
 
   ## auth_token is used directly by git2r, therefore cannot be NULL
-  auth_token <- auth_token %||% gh_token()
-  check_gh_token(auth_token)
-  protocol <- match.arg(protocol, c("ssh", "https"))
+  auth_token <- auth_token %||% github_token()
+  check_github_token(auth_token)
+  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
 
-  owner <- organisation %||% gh::gh_whoami(auth_token)[["login"]]
+  owner <- organisation %||% github_user(auth_token)[["login"]]
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host, auth_token)
 
@@ -145,22 +124,10 @@ use_github <- function(organisation = NULL,
   }
 
   ui_done("Pushing {ui_value('master')} branch to GitHub and setting remote tracking branch")
-  if (protocol == "ssh") {
-    ## [1] push via ssh required for success setting remote tracking branch
-    ## [2] to get passphrase from ssh-agent, you must use NULL credentials
-    pushed <- tryCatch({
-      git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
-      TRUE
-    }, error = function(e) FALSE)
-  } else { ## protocol == "https"
-    ## in https case, when GITHUB_PAT is passed as password,
-    ## the username is immaterial, but git2r doesn't know that.
-    cred <- git2r::cred_user_pass("EMAIL", auth_token)
-    pushed <- tryCatch({
-      git2r::push(r, "origin", "refs/heads/master", credentials = cred)
-      TRUE
-    }, error = function(e) FALSE)
-  }
+  pushed <- tryCatch({
+    git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
+    TRUE
+  }, error = function(e) FALSE)
   if (pushed) {
     git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
   } else {
@@ -313,20 +280,17 @@ check_no_github_repo <- function(owner, repo, host, auth_token) {
   ui_stop("Repo {ui_value(spec)} already exists on {ui_value(where)}.")
 }
 
-## use from gh when/if exported
-## https://github.com/r-lib/gh/issues/74
-gh_token <- function() {
-  token <- Sys.getenv("GITHUB_PAT", "")
-  if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
-}
-
-check_gh_token <- function(auth_token) {
+check_github_token <- function(auth_token) {
   if (is.null(auth_token) || !nzchar(auth_token)) {
     ui_stop(c(
       "No GitHub {ui_code('auth_token')}.",
       "Provide explicitly or make available as an environment variable.",
       "See {ui_code('browse_github_pat()')} for help setting this up."
     ))
+  }
+  user <- github_user(auth_token)
+  if (is.null(user)) {
+    ui_stop("GitHub {ui_code('auth_token')} is not associated with a user.")
   }
   auth_token
 }

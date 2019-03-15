@@ -9,7 +9,7 @@ use_github_release(host = NULL, auth_token = NULL)
 \arguments{
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3"}
+"https://github.hostname.com/api/v3".}
 
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
