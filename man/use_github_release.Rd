@@ -9,7 +9,7 @@ use_github_release(host = NULL, auth_token = NULL)
 \arguments{
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3"}
+"https://github.hostname.com/api/v3".}
 
 \item{auth_token}{Provide a personal access token (PAT) from
 \url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
@@ -19,5 +19,6 @@ variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set 
 \description{
 Creates a \strong{draft} GitHub release for the current package using the current
 version and \code{NEWS.md}. If you are comfortable that it is correct, you will
-need to publish the release from GitHub.
+need to publish the release from GitHub. It also deletes \code{CRAN-RELEASE}
+and checks that you've pushed all commits to GitHub.
 }

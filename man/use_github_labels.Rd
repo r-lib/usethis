@@ -51,7 +51,7 @@ variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set 
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3"}
+"https://github.hostname.com/api/v3".}
 }
 \description{
 \code{use_github_labels()} can create new labels, update colours and descriptions,

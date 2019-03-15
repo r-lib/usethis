@@ -46,10 +46,26 @@ parse_github_remotes <- function(x) {
   # https://github.com/r-lib/devtools.git --> rlib, devtools
   # https://github.com/r-lib/devtools     --> rlib, devtools
   # git@github.com:r-lib/devtools.git     --> rlib, devtools
-  re <- "github[^/:]*[/:]([^/]+)/(.*?)(?:\\.git)?$"
+  # git@github.com:/r-hub/rhub.git        --> r-hub, rhub
+  re <- "github[^/:]*[:/]{1,2}([^/]+)/(.*?)(?:\\.git)?$"
   ## on R < 3.4.2, regexec() fails to apply as.character() to first 2 args,
   ## though it is documented
   m <- regexec(re, as.character(x))
   match <- stats::setNames(regmatches(as.character(x), m), names(x))
   lapply(match, function(y) list(owner = y[[2]], repo = y[[3]]))
+}
+
+## use from gh when/if exported
+## https://github.com/r-lib/gh/issues/74
+github_token <- function() {
+  token <- Sys.getenv("GITHUB_PAT", "")
+  if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
+}
+
+github_user <- function(auth_token = NULL) {
+  auth_token <- auth_token %||% github_token()
+  if (!nzchar(auth_token)) {
+    return(NULL)
+  }
+  tryCatch(gh::gh_whoami(auth_token), error = function(e) NULL)
 }

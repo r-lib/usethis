@@ -45,7 +45,7 @@
 #'   numbers, and `-`.
 pr_init <- function(branch) {
   check_uses_github()
-  check_branch_current("master", "pr_pull_upstream()")
+  check_branch_pulled("master", "pr_pull_upstream()")
 
   if (!git_branch_exists(branch)) {
     if (git_branch_name() != "master") {
@@ -141,7 +141,7 @@ pr_push <- function() {
   branch <- git_branch_name()
   has_remote_branch <- !is.null(git_branch_tracking(branch))
   if (has_remote_branch) {
-    check_branch_current(use = "pr_pull()")
+    check_branch_pulled(use = "pr_pull()")
   }
 
   git_branch_push(branch)
@@ -207,7 +207,7 @@ pr_view <- function() {
 pr_pause <- function() {
   check_branch_not_master()
   check_uncommitted_changes()
-  check_branch_current(use = "pr_pull()")
+  check_branch_pulled(use = "pr_pull()")
 
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")

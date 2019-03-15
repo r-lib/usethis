@@ -10,10 +10,10 @@
 #'
 #' @export
 use_addin <- function(addin = "new_addin", open = interactive()) {
-  addin_dcf_path <- "inst/rstudio/addins.dcf"
+  addin_dcf_path <- proj_path("inst", "rstudio", "addins.dcf")
 
   if (!file_exists(addin_dcf_path)) {
-    create_directory("inst/rstudio")
+    create_directory(proj_path("inst", "rstudio"))
     file_create(addin_dcf_path)
     ui_done("Creating {ui_path(addin_dcf_path)}")
   }
@@ -24,7 +24,7 @@ use_addin <- function(addin = "new_addin", open = interactive()) {
   ui_done("Adding binding to {ui_code(addin)} to addins.dcf.")
 
   if (open) {
-    edit_file(proj_path(addin_dcf_path))
+    edit_file(addin_dcf_path)
   }
 
   invisible(TRUE)

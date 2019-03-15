@@ -13,6 +13,9 @@ install:
 cache:
   - C:\RLibrary
 
+environment:
+  NOT_CRAN: true
+
 # Adapt as necessary starting from here
 
 build_script:
