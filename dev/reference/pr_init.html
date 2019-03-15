@@ -156,7 +156,7 @@ They are designed to support the git and GitHub best practices described in
 
 <span class='fu'>pr_pull</span>()
 
-<span class='fu'>pr_pull_source</span>()
+<span class='fu'>pr_pull_upstream</span>()
 
 <span class='fu'>pr_sync</span>()
 
@@ -205,7 +205,7 @@ Make the changes, then run <code>pr_push()</code> to sync back up to GitHub.</p>
 PR: you get that code back to your computer, run <code>pr_pull()</code>. It's also
 possible that other changes have occured to the package while you've been
 working on your PR, and you need to "merge master". Do that by running
-<code>pr_pull_source()</code>: this makes sure that your copy of the package is
+<code>pr_pull_upstream()</code>: this makes sure that your copy of the package is
 up-to-date with the maintainer's latest changes. Either of the pull
 functions may cause merge conflicts, so be prepared to resolve before
 continuing.</p>
@@ -222,7 +222,7 @@ to delete the local branch.</p>
 
     
     <ul>
-<li><p><code>pr_sync()</code> is a shortcut for <code>pr_pull()</code>, <code>pr_pull_source()</code>, and
+<li><p><code>pr_sync()</code> is a shortcut for <code>pr_pull()</code>, <code>pr_pull_upstream()</code>, and
 <code>pr_push()</code></p></li>
 <li><p><code>pr_pause()</code> makes sure you're synched with the PR and then switches
 back to master.</p></li>
