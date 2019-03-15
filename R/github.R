@@ -124,9 +124,6 @@ use_github <- function(organisation = NULL,
   }
 
   ui_done("Pushing {ui_value('master')} branch to GitHub and setting remote tracking branch")
-  if (protocol == "https") {
-    credentials <- credentials %||% git2r::cred_user_pass("EMAIL", auth_token)
-  }
   pushed <- tryCatch({
     git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
     TRUE
