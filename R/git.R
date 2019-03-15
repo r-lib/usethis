@@ -326,8 +326,12 @@ git2r_env <- new.env(parent = emptyenv())
 #' @examples
 #' git2r_credentials()
 #' git2r_credentials(protocol = "ssh")
+#'
+#' \dontrun{
+#' # these calls look for a GitHub PAT
 #' git2r_credentials(protocol = "https")
 #' git2r_credentials(protocol = "https", auth_token = "MY_GITHUB_PAT")
+#' }
 git2r_credentials <- function(protocol = git_protocol(),
                               auth_token = github_token()) {
   if (rlang::env_has(git2r_env, "credentials")) {
@@ -339,6 +343,7 @@ git2r_credentials <- function(protocol = git_protocol(),
   }
 
   if (nzchar(auth_token)) {
+    check_github_token(auth_token)
     git2r::cred_user_pass("EMAIL", auth_token)
   } else {
     NULL

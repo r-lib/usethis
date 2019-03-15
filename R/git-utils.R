@@ -155,18 +155,15 @@ git_branch_compare <- function(branch = git_branch_name()) {
 }
 
 git_branch_push <- function(branch = git_branch_name(),
+                            remote_name = NULL,
+                            remote_branch = NULL,
                             credentials = NULL,
                             force = FALSE) {
-  remote <- git_branch_tracking(branch)
-  if (is.null(remote)) {
-    remote_name   <- "origin"
-    remote_branch <- branch
-    remote <- paste0(remote_name, ":", remote_branch)
-  } else {
-    remote_name   <- remref_remote(remote)
-    remote_branch <- remref_branch(remote)
-  }
+  remote_info   <- git_branch_remote(branch)
+  remote_name   <- remote_name %||% remote_info$remote_name
+  remote_branch <- remote_branch %||% remote_info$remote_branch
 
+  remote <- paste0(remote_name, ":", remote_branch)
   ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remote)}")
   git2r::push(
     git_repo(),
@@ -175,6 +172,21 @@ git_branch_push <- function(branch = git_branch_name(),
     force = force,
     credentials
   )
+}
+
+git_branch_remote <- function(branch = git_branch_name()) {
+  remote <- git_branch_tracking(branch)
+  if (is.null(remote)) {
+    list(
+      remote_name   = "origin",
+      remote_branch = branch
+    )
+  } else {
+    list(
+      remote_name   = remref_remote(remote),
+      remote_branch = remref_branch(remote)
+    )
+  }
 }
 
 git_branch_track <- function(branch, remote = "origin", remote_branch = branch) {

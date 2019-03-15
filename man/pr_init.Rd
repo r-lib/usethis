@@ -14,21 +14,22 @@
 \usage{
 pr_init(branch)
 
-pr_fetch(number, owner = NULL)
+pr_fetch(number, owner = NULL, credentials = NULL,
+  auth_token = github_token())
 
-pr_push()
+pr_push(credentials = NULL, auth_token = github_token())
 
-pr_pull()
+pr_pull(credentials = NULL, auth_token = github_token())
 
-pr_pull_upstream()
+pr_pull_upstream(credentials = NULL, auth_token = github_token())
 
-pr_sync()
+pr_sync(credentials = NULL, auth_token = github_token())
 
 pr_view()
 
 pr_pause()
 
-pr_finish()
+pr_finish(credentials = NULL, auth_token = github_token())
 }
 \arguments{
 \item{branch}{branch name. Should usually consist of lower case letters,
@@ -40,13 +41,27 @@ numbers, and \code{-}.}
 pull request. Default of \code{NULL} tries to identify the source repo and uses
 the owner of the \code{upstream} remote, if present, or the owner of \code{origin}
 otherwise.}
+
+\item{credentials}{A git2r credential object produced with
+\code{\link[git2r:cred_env]{git2r::cred_env()}}, \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}, \code{\link[git2r:cred_token]{git2r::cred_token()}}, or
+\code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}.}
+
+\item{auth_token}{GitHub personal access token (PAT).}
 }
 \description{
-The \code{pr_*} family of functions are designed to make working with GitHub
+The \code{pr_*} family of functions is designed to make working with GitHub
 PRs as painless as possible for both contributors and package maintainers.
 They are designed to support the git and GitHub best practices described in
 \url{http://happygitwithr.com/}.
 }
+\section{Set up advice}{
+
+These functions make heavy use of git2r and the GitHub API. You'll need a
+GitHub personal access token (PAT); see \code{\link[=browse_github_token]{browse_github_token()}} for help
+with that. If git2r does not seem to be finding your git credentials, read
+\code{\link[=git2r_credentials]{git2r_credentials()}} for troubleshooting advice.
+}
+
 \section{For contributors}{
 
 To contribute to a package, first use \code{create_from_github(owner/repo)} to

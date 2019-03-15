@@ -47,11 +47,10 @@ use_github <- function(organisation = NULL,
   check_branch("master")
   check_uncommitted_changes()
   check_no_origin()
-  r <- git_repo()
-
   check_github_token(auth_token)
-  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
 
+  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
+  r <- git_repo()
   owner <- organisation %||% github_user(auth_token)[["login"]]
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host, auth_token)
@@ -103,9 +102,10 @@ use_github <- function(organisation = NULL,
     )
   }
 
-  origin_url <- switch(protocol,
+  origin_url <- switch(
+    protocol,
     https = create$clone_url,
-    ssh = create$ssh_url
+    ssh   = create$ssh_url
   )
 
   ui_done("Setting remote {ui_value('origin')} to {ui_value(origin_url)}")

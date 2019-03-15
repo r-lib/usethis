@@ -104,6 +104,10 @@ For the remainder of the session, \code{git2r_credentials()} will return
 \examples{
 git2r_credentials()
 git2r_credentials(protocol = "ssh")
+
+\dontrun{
+# these calls look for a GitHub PAT
 git2r_credentials(protocol = "https")
 git2r_credentials(protocol = "https", auth_token = "MY_GITHUB_PAT")
+}
 }
