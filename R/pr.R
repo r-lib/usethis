@@ -1,6 +1,6 @@
 #' Helpers for GitHub pull requests
 #'
-#' The `pr_*` family of functions are designed to make working with GitHub
+#' The `pr_*` family of functions is designed to make working with GitHub
 #' PRs as painless as possible for both contributors and package maintainers.
 #' They are designed to support the git and GitHub best practices described in
 #' <http://happygitwithr.com/>.
