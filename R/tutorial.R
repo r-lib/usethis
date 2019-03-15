@@ -1,4 +1,4 @@
-#' Create a learnr tutorial.
+#' Create a learnr tutorial
 #'
 #' Creates a new tutorial in `inst/tutorials`. Tutorials are interactive R
 #' Markdown documents built with the `learnr` package.
