@@ -8,19 +8,17 @@ test_that("use_tutorial() checks its inputs", {
   expect_error(use_tutorial(name = "tutorial-file"), "no default")
 })
 
-test_that("use_tutorial() checks the created tutorial", {
+test_that("use_tutorial() creates a tutorial", {
+  skip_if(getRversion() < 3.2) ## mock doesn't seem to work on 3.1
+
   scoped_temporary_package()
-  file_name <- "tutorial-file"
-  title <- "Tutorial Title"
-
-  use_tutorial("tutorial-file", "Tutorial Title")
-  expect_proj_dir(path("inst", "tutorials"))
-
-  use_tutorial(file_name, "Tutorial Title")
-  expect_proj_file(path("inst", "tutorials", file_name, ext = "Rmd"))
-
-  use_tutorial("tutorial-file", title)
-  expect_equal(title, rmarkdown::yaml_front_matter(
-    path("inst", "tutorials", "tutorial-file", ext = "Rmd")
-  )$title)
+  with_mock(
+    ## need to pass the check re: whether learnr is installed
+    `usethis:::check_installed` = function(pkg) TRUE, {
+      use_tutorial(name = "AAA", title = "BBB")
+      tute_file <- path("inst", "tutorials", "AAA", ext = "Rmd")
+      expect_proj_file(tute_file)
+      expect_equal(rmarkdown::yaml_front_matter(tute_file)$title, "BBB")
+    }
+  )
 })
