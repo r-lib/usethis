@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Report working directory and usethis/RStudio project — proj_sitrep • usethis</title>
+<title>Create a learnr tutorial — use_tutorial • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,18 +37,18 @@
 
 
 
-<meta property="og:title" content="Report working directory and usethis/RStudio project — proj_sitrep" />
+<meta property="og:title" content="Create a learnr tutorial — use_tutorial" />
 
-<meta property="og:description" content="proj_sitrep() reports
-current working directory
-the active usethis project
-the active RStudio Project
+<meta property="og:description" content="Creates a new tutorial below inst/tutorials/. Tutorials are interactive R
+Markdown documents built with the learnr package. use_tutorial() does
+this setup:
+Adds learnr to Suggests in DESCRIPTION.
+Gitignores inst/tutorials/*.html so you don't accidentally track
+rendered tutorials.
+Creates a new .Rmd tutorial from a template and, optionally, opens it
+for editing.
+Adds new .Rmd to .Rbuildignore.
 " />
-
-<meta property="og:description" content="Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and proj_sitrep() provides suggested commands for getting
-back to this happy state." />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -140,53 +140,62 @@ back to this happy state." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Report working directory and usethis/RStudio project</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/sitrep.R'><code>R/sitrep.R</code></a></small>
-    <div class="hidden name"><code>proj_sitrep.Rd</code></div>
+    <h1>Create a learnr tutorial</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/tutorial.R'><code>R/tutorial.R</code></a></small>
+    <div class="hidden name"><code>use_tutorial.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>proj_sitrep()</code> reports</p><ul>
-<li><p>current working directory</p></li>
-<li><p>the active usethis project</p></li>
-<li><p>the active RStudio Project</p></li>
+    <p>Creates a new tutorial below <code>inst/tutorials/</code>. Tutorials are interactive R
+Markdown documents built with the <a href='https://rstudio.github.io/learnr/index.html'>learnr package</a>. <code>use_tutorial()</code> does
+this setup:</p><ul>
+<li><p>Adds learnr to Suggests in <code>DESCRIPTION</code>.</p></li>
+<li><p>Gitignores <code>inst/tutorials/*.html</code> so you don't accidentally track
+rendered tutorials.</p></li>
+<li><p>Creates a new <code>.Rmd</code> tutorial from a template and, optionally, opens it
+for editing.</p></li>
+<li><p>Adds new <code>.Rmd</code> to <code>.Rbuildignore</code>.</p></li>
 </ul>
-
-    <p>Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and <code>proj_sitrep()</code> provides suggested commands for getting
-back to this happy state.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>proj_sitrep</span>()</pre>
-        
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A named list, with S3 class <code>sitrep</code> (for printing purposes),
-reporting current working directory, active usethis project, and active
-RStudio Project</p>
+    <pre class="usage"><span class='fu'>use_tutorial</span>(<span class='no'>name</span>, <span class='no'>title</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>name</th>
+      <td><p>Base for file name to use for new <code>.Rmd</code> tutorial. Should consist
+only of numbers, letters, <code>_</code> and <code>-</code>. We recommend using lower case.</p></td>
+    </tr>
+    <tr>
+      <th>title</th>
+      <td><p>The human-facing title of the tutorial.</p></td>
+    </tr>
+    <tr>
+      <th>open</th>
+      <td><p>Open the newly created file for editing? Happens in RStudio, if
+applicable, or via <code><a href='https://www.rdocumentation.org/packages/utils/topics/file.edit'>utils::file.edit()</a></code> otherwise.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other project functions: <code><a href='proj_utils.html'>proj_utils</a></code></p></div>
+    <div class='dont-index'><p>The <a href='https://rstudio.github.io/learnr/index.html'>learnr package documentation</a>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; <span style='color: #00BB00;'>  working_directory</span><span>: </span><span style='color: #0000BB;'>'/tmp/Rtmp88qAiy/file45122a8713da/dev/reference'</span><span>
-#&gt; </span><span style='color: #00BB00;'>active_usethis_proj</span><span>: </span><span style='color: #C6C6C6;'>NULL</span><span>
-#&gt; </span><span style='color: #00BB00;'>active_rstudio_proj</span><span>: </span><span style='color: #C6C6C6;'>NULL</span><span>
-#&gt; </span><span style='color: #BB0000;'>●</span><span> There is currently no active usethis project.
-#&gt;   usethis attempts to activate a project upon first need.
-#&gt;   Call </span><span style='color: #9E9E9E;'>`proj_get()`</span><span> to explicitly initiate project activation.</div></span></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>use_tutorial</span>(<span class='st'>"learn-to-do-stuff"</span>, <span class='st'>"Learn to do stuff"</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
