@@ -153,7 +153,7 @@ RStudio. It creates:</p><ul>
     </div>
 
     <pre class="usage"><span class='fu'>use_rmarkdown_template</span>(<span class='kw'>template_name</span> <span class='kw'>=</span> <span class='st'>"Template Name"</span>,
-  <span class='kw'>template_dir</span> <span class='kw'>=</span> <span class='fu'>asciify</span>(<span class='no'>template_name</span>),
+  <span class='kw'>template_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/chartr'>tolower</a></span>(<span class='fu'>asciify</span>(<span class='no'>template_name</span>)),
   <span class='kw'>template_description</span> <span class='kw'>=</span> <span class='st'>"A description of the template"</span>,
   <span class='kw'>template_create_dir</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
