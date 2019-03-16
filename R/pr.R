@@ -110,7 +110,7 @@ pr_fetch <- function(number,
     number = number,
     .token = auth_token
   )
-  ui_done('PR from {ui_value(paste0("@", pr$user$login))}: "{pr$title}"')
+  ui_done('PR from {ui_value(paste0("@", pr$user$login))}: {ui_value(pr$title)}')
 
   their_branch <- pr$head$ref
   them <- pr$head$user$login
