@@ -261,11 +261,11 @@ normalize_url <- function(url) {
   stopifnot(is.character(url))
   has_scheme <- grepl("^http[s]?://", url)
 
-  if (has_scheme){
+  if (has_scheme) {
     return(url)
   }
 
-  if (!is_shortlink(url)){
+  if (!is_shortlink(url)) {
     url <- tryCatch(
       expand_github(url),
       error = function(e) url
@@ -273,20 +273,17 @@ normalize_url <- function(url) {
   }
 
   paste0("https://", url)
-
 }
 
 is_shortlink <- function(url) {
   shortlink_hosts <- c("rstd\\.io", "bit\\.ly")
-  any(purrr::map_lgl(shortlink_hosts, grepl,
-    x = url))
+  any(purrr::map_lgl(shortlink_hosts, grepl, x = url))
 }
 
-expand_github <- function(url){
+expand_github <- function(url) {
   # mostly to handle errors in the spec
   repo_spec <- parse_repo_spec(url)
-  glue::glue_data(repo_spec,
-    "github.com/{owner}/{repo}/archive/master.zip")
+  glue::glue_data(repo_spec, "github.com/{owner}/{repo}/archive/master.zip")
 }
 
 conspicuous_place <- function() {
