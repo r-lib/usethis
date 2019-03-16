@@ -170,7 +170,7 @@ git_branch_push <- function(branch = git_branch_name(),
     name = remote_name,
     refspec = glue("refs/heads/{branch}:refs/heads/{remote_branch}"),
     force = force,
-    credentials
+    credentials = credentials
   )
 }
 
