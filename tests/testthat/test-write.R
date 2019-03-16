@@ -43,6 +43,17 @@ test_that("write_union() adds lines", {
   expect_setequal(readLines(tmp), letters[1:5])
 })
 
+# https://github.com/r-lib/usethis/issues/526
+test_that("write_union() doesn't remove duplicated lines in the input", {
+  tmp <- file_temp()
+  before <- rep(letters[1:2], 3)
+  add_me <- c("z", "a", "c", "a", "b")
+  writeLines(before, tmp)
+  expect_identical(before, readLines(tmp))
+  write_union(tmp, add_me, quiet = TRUE)
+  expect_identical(readLines(tmp), c(before, c("z", "c")))
+})
+
 test_that("write_over() writes a de novo file", {
   tmp <- file_temp()
   expect_false(file_exists(tmp))
