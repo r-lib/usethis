@@ -13,10 +13,10 @@ use_testthat <- function() {
   check_installed("testthat")
 
   use_dependency("testthat", "Suggests")
-  use_directory("tests/testthat")
+  use_directory(path("tests", "testthat"))
   use_template(
     "testthat.R",
-    "tests/testthat.R",
+    save_as = path("tests", "testthat.R"),
     data = list(name = project_name())
   )
 }
@@ -60,16 +60,16 @@ use_test <- function(name = NULL, open = interactive()) {
 
   # As of testthat 2.1.0, a context() is no longer needed/wanted
   if (utils::packageVersion("testthat") >= "2.1.0") {
-    use_dependency("testthat", "suggests", "2.1.0")
+    use_dependency("testthat", "Suggests", "2.1.0")
     use_template(
       "test-example-2.1.R",
-      path,
+      save_as = path,
       open = open
     )
   } else {
     use_template(
       "test-example.R",
-      path,
+      save_as = path,
       data = list(test_name = path_ext_remove(name)),
       open = open
     )
