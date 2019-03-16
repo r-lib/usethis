@@ -8,7 +8,7 @@ use_course(url, destdir = NULL)
 }
 \arguments{
 \item{url}{Link to a ZIP file containing the materials, possibly behind a
-shortlink. Links of the form \code{"repo/user"} will expanded to the appropriate
+shortlink. Links of the form \code{"repo/user"} are expanded to the appropriate
 url for a repo on GitHub. Function developed with DropBox and GitHub in
 mind, but should work for ZIP files generally. If no "http" prefix is
 found, "https://" is prepended. See \link{use_course_details} for more.}
@@ -33,9 +33,9 @@ folder is opened in the file manager, e.g. Finder or File Explorer.
 }
 \details{
 If \code{url} has no "http" prefix, "https://" is prepended, allowing for even
-less typing by the user. A \code{url} of the form \code{"repo/user"}, will be assumed
-to refer to a Github repository and be expanded appropriately, unless \code{url}
-matches a URL shortener service, currently only \code{"bit.ly"} or \code{"rstd.io"} only.
+less typing by the user. A \code{url} of the form \code{"repo/user"}, is assumed to
+refer to a GitHub repository and is expanded appropriately, unless \code{url}
+matches a URL shortener service, currently only \code{"bit.ly"} or \code{"rstd.io"}.
 Most URL shorteners give HTTPS links and, anecdotally, we note this appears
 to work with \href{https://bitly.com/}{bit.ly} links, even though they are
 nominally HTTP.
