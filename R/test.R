@@ -1,12 +1,11 @@
 #' Create tests
 #'
-#' `use_testthat()` sets up testing infrastructure, creating
-#' \file{tests/testthat.R} and \file{tests/testthat/}, and
-#' adding \pkg{testthat} to the suggested packages. `use_test()`
-#' creates \file{tests/testthat/test-<name>.R} and opens it for editing.
+#' `use_testthat()` sets up testing infrastructure, creating `tests/testthat.R`
+#' and `tests/testthat/`, and adding testthat as a Suggested package.
+#' `use_test()` creates `tests/testthat/test-<name>.R` and opens it for editing.
 #'
-#' @seealso The [testing chapter](http://r-pkgs.had.co.nz/tests.html) of [R
-#'   Packages](http://r-pkgs.had.co.nz).
+#' @seealso The [testing chapter](https://r-pkgs.org/tests.html) of [R
+#'   Packages](https://r-pkgs.org).
 #' @export
 #' @inheritParams use_template
 use_testthat <- function() {
@@ -23,8 +22,8 @@ use_testthat <- function() {
 }
 
 #' @rdname use_testthat
-#' @param name Test name. if `NULL`, and you're using RStudio, will use
-#'   the name of the file open in the source editor.
+#' @param name Base of test file name. If `NULL`, and you're using RStudio, will
+#'   be based on the name of the file open in the source editor.
 #' @export
 use_test <- function(name = NULL, open = interactive()) {
   if (!uses_testthat()) {
