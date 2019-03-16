@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Adds the necessary infrastructure to declare your package as licensed
-#' with one of these popular open source license:
+#' with one of these popular open source licenses:
 #'
 #' * [CC0](https://creativecommons.org/publicdomain/zero/1.0/): dedicated
 #'   to public domain. Appropriate for data packages.
@@ -11,7 +11,8 @@
 #'   provides patent protection.
 #' * [GPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing
 #'   of improvements.
-#' * [CCBY 4.0](https://creativecommons.org/licenses/by/4.0/): Free to share and adapt, must give appropriate credit. A suitable license for data.
+#' * [CCBY 4.0](https://creativecommons.org/licenses/by/4.0/): Free to share and
+#'    adapt, must give appropriate credit. Appropriate for data packages.
 #'
 #' See <https://choosealicense.com> for more details and other options.
 #'
@@ -25,8 +26,8 @@
 #'   individuals with `;`. You can supply a global default with
 #'   `options(usethis.full_name = "My name")`.
 #' @seealso The [license
-#'   section](http://r-pkgs.had.co.nz/description.html#license) of [R
-#'   Packages](http://r-pkgs.had.co.nz).
+#'   section](https://r-pkgs.org/description.html#license) of [R
+#'   Packages](https://r-pkgs.org).
 #' @aliases NULL
 NULL
 
@@ -42,7 +43,7 @@ use_mit_license <- function(name = find_name()) {
   # Fill in template
   use_template(
     "license-mit.txt",
-    "LICENSE",
+    save_as = "LICENSE",
     data = license_data(name)
   )
 }
@@ -103,7 +104,7 @@ use_license_template <- function(license, name) {
 
   use_template(
     license_template,
-    "LICENSE.md",
+    save_as = "LICENSE.md",
     data = license_data(name),
     ignore = TRUE
   )
