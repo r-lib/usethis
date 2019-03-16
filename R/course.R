@@ -13,14 +13,18 @@
 #' folder is opened in the file manager, e.g. Finder or File Explorer.
 #'
 #' If `url` has no "http" prefix, "https://" is prepended, allowing for even
-#' less typing by the user. Most URL shorteners give HTTPS links and,
-#' anecdotally, we note this appears to work with [bit.ly](https://bitly.com/)
-#' links, even though they are nominally HTTP.
+#' less typing by the user. A `url` of the form `"repo/user"`, is assumed to
+#' refer to a GitHub repository and is expanded appropriately, unless `url`
+#' matches a URL shortener service, currently only `"bit.ly"` or `"rstd.io"`.
+#' Most URL shorteners give HTTPS links and, anecdotally, we note this appears
+#' to work with [bit.ly](https://bitly.com/) links, even though they are
+#' nominally HTTP.
 #'
 #' @param url Link to a ZIP file containing the materials, possibly behind a
-#'   shortlink. Function developed with DropBox and GitHub in mind, but should
-#'   work for ZIP files generally. If no "http" prefix is found, "https://" is
-#'   prepended. See [use_course_details] for more.
+#'   shortlink. Links of the form `"repo/user"` are expanded to the appropriate
+#'   url for a repo on GitHub. Function developed with DropBox and GitHub in
+#'   mind, but should work for ZIP files generally. If no "http" prefix is
+#'   found, "https://" is prepended. See [use_course_details] for more.
 #' @param destdir The new folder is stored here. Defaults to user's Desktop.
 #'
 #' @return Path to the new directory holding the course materials, invisibly.
@@ -38,7 +42,8 @@
 #' ## from CRAN
 #' use_course("https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zip")
 #'
-#' ## from GitHub, 2 ways
+#' ## from GitHub, 3 ways
+#' use_course("r-lib/rematch2")
 #' use_course("https://github.com/r-lib/rematch2/archive/master.zip")
 #' use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
 #' }
@@ -255,7 +260,30 @@ tidy_unzip <- function(zipfile) {
 normalize_url <- function(url) {
   stopifnot(is.character(url))
   has_scheme <- grepl("^http[s]?://", url)
-  ifelse(has_scheme, url, paste0("https://", url))
+
+  if (has_scheme) {
+    return(url)
+  }
+
+  if (!is_shortlink(url)) {
+    url <- tryCatch(
+      expand_github(url),
+      error = function(e) url
+    )
+  }
+
+  paste0("https://", url)
+}
+
+is_shortlink <- function(url) {
+  shortlink_hosts <- c("rstd\\.io", "bit\\.ly")
+  any(purrr::map_lgl(shortlink_hosts, grepl, x = url))
+}
+
+expand_github <- function(url) {
+  # mostly to handle errors in the spec
+  repo_spec <- parse_repo_spec(url)
+  glue::glue_data(repo_spec, "github.com/{owner}/{repo}/archive/master.zip")
 }
 
 conspicuous_place <- function() {
