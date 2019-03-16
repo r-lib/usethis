@@ -183,6 +183,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
 * `use_pkgdown()` is now configurable with site options (@jayhesselberth, #467),
   and no longer creates the `docs/` directory (#495).
 
+* `use_test()` no longer forces the filename to be lowercase (#613, @stufield).
+
 * `use_test()` will not include a `context()` in the generated file if used 
   with testthat 2.1.0 and above (the future release of testthat) (#325).
 
