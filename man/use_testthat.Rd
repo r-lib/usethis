@@ -10,18 +10,17 @@ use_testthat()
 use_test(name = NULL, open = interactive())
 }
 \arguments{
-\item{name}{Test name. if \code{NULL}, and you're using RStudio, will use
-the name of the file open in the source editor.}
+\item{name}{Base of test file name. If \code{NULL}, and you're using RStudio, will
+be based on the name of the file open in the source editor.}
 
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
-\code{use_testthat()} sets up testing infrastructure, creating
-\file{tests/testthat.R} and \file{tests/testthat/}, and
-adding \pkg{testthat} to the suggested packages. \code{use_test()}
-creates \file{tests/testthat/test-<name>.R} and opens it for editing.
+\code{use_testthat()} sets up testing infrastructure, creating \code{tests/testthat.R}
+and \code{tests/testthat/}, and adding testthat as a Suggested package.
+\code{use_test()} creates \code{tests/testthat/test-<name>.R} and opens it for editing.
 }
 \seealso{
-The \href{http://r-pkgs.had.co.nz/tests.html}{testing chapter} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+The \href{https://r-pkgs.org/tests.html}{testing chapter} of \href{https://r-pkgs.org}{R Packages}.
 }

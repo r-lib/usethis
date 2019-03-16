@@ -4,7 +4,7 @@
 \alias{use_release_issue}
 \title{Create a release issue checklist}
 \usage{
-use_release_issue(version)
+use_release_issue(version = NULL)
 }
 \arguments{
 \item{version}{Version number for release}

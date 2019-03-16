@@ -32,36 +32,17 @@ NULL
 #' @rdname use_version
 #' @export
 use_version <- function(which = NULL) {
+  if (is.null(which) && !interactive()) {
+    return(invisible(FALSE))
+  }
+
   check_is_package("use_version()")
   check_uncommitted_changes()
 
-  ver <- desc::desc_get_version(proj_get())
-
-  if (is.null(which) && !interactive()) {
-    return(invisible(ver))
+  new_ver <- choose_version(which)
+  if (is.null(new_ver)) {
+    return(invisible(FALSE))
   }
-
-  versions <- bump_version(ver)
-
-  if (is.null(which)) {
-    choice <- utils::menu(
-      choices = glue(
-        "{format(names(versions), justify = 'right')} --> {versions}"
-      ),
-      title = glue(
-        "Current version is {ver}.\n", "Which part to increment? (0 to exit)"
-      )
-    )
-    # Exit gracefully in case a "0" selection was made
-    if (choice == 0) {
-      return(invisible(FALSE))
-    } else {
-      which <- names(versions)[choice]
-    }
-  }
-
-  which <- match.arg(which, c("major", "minor", "patch", "dev"))
-  new_ver <- versions[which]
 
   use_description_field("Version", new_ver, overwrite = TRUE)
   if (which == "dev") {
@@ -85,6 +66,29 @@ use_dev_version <- function() {
   use_version(which = "dev")
 }
 
+choose_version <- function(which = NULL) {
+  ver <- desc::desc_get_version(proj_get())
+  versions <- bump_version(ver)
+
+  if (is.null(which)) {
+    choice <- utils::menu(
+      choices = glue(
+        "{format(names(versions), justify = 'right')} --> {versions}"
+      ),
+      title = glue(
+        "Current version is {ver}.\n", "Which part to increment? (0 to exit)"
+      )
+    )
+    if (choice == 0) {
+      return(invisible())
+    } else {
+      which <- names(versions)[choice]
+    }
+  }
+
+  which <- match.arg(which, c("major", "minor", "patch", "dev"))
+  versions[which]
+}
 
 bump_version <- function(ver) {
   bumps <- c("major", "minor", "patch", "dev")

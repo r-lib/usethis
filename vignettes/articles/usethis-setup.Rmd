@@ -188,5 +188,5 @@ Update R and all of your packages. And expect to keep doing so frequently.
 
 There are functions that verify whether R package build tools are installed and available. The home and name of this function is in flux, as it is affected by the restructing of the devtools universe (written early 2018).
 
-  * `pkgbuild::check_build_tools()` is the most current function, but at the time of writing, pkgbuild is not on CRAN yet. It is being developed at <https://github.com/r-lib/pkgbuild> and can be installed via `devtools::install_github("r-lib/pkgbuild")`.
+  * `pkgbuild::check_build_tools()` is the most current function. It can be installed via `install.packages("pkgbuild")`.
   * `devtools::has_devel()` was a function in devtools, at least up to v1.13.5, so you might still see references to that. All functionality related to package building now lives in pkgbuild. But once you have installed pkgbuild, you should just use the function `pkgbuild::check_build_tools()` instead.

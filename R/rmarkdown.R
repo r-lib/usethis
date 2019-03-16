@@ -19,7 +19,7 @@
 #' use_rmarkdown_template()
 #' }
 use_rmarkdown_template <- function(template_name = "Template Name",
-                                   template_dir = asciify(template_name),
+                                   template_dir = tolower(asciify(template_name)),
                                    template_description = "A description of the template",
                                    template_create_dir = FALSE) {
 

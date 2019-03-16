@@ -13,8 +13,15 @@
 #' \dontrun{
 #' use_release_issue("2.0.0")
 #' }
-use_release_issue <- function(version) {
+use_release_issue <- function(version = NULL) {
   check_uses_github()
+  check_is_package("use_release_issue()")
+
+  version <- version %||% choose_version()
+  if (is.null(version)) {
+    return(invisible(FALSE))
+  }
+
   checklist <- release_checklist(version)
 
   issue <- gh::gh("POST /repos/:owner/:repo/issues",
@@ -56,7 +63,7 @@ release_checklist <- function(version) {
     "",
     "Submit to CRAN:",
     "",
-    todo("`usethis::use_version()`"),
+    todo("`usethis::use_version('{type}')`"),
     todo("Update `cran-comments.md`"),
     todo("`devtools::submit_cran()`"),
     todo("Approve email"),
@@ -90,13 +97,19 @@ release_type <- function(version) {
 #'
 #' Creates a __draft__ GitHub release for the current package using the current
 #' version and `NEWS.md`. If you are comfortable that it is correct, you will
-#' need to publish the release from GitHub.
+#' need to publish the release from GitHub. It also deletes `CRAN-RELEASE`
+#' and checks that you've pushed all commits to GitHub.
 #'
 #' @inheritParams use_github_links
 #' @export
 use_github_release <- function(host = NULL, auth_token = NULL) {
+  cran_release <- proj_path("CRAN-RELEASE")
+  if (file_exists(cran_release)) {
+    file_delete(cran_release)
+  }
+
   check_uses_github()
-  check_branch_current()
+  check_branch_pushed()
 
   package <- package_data()
 

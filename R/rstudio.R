@@ -106,6 +106,10 @@ in_rstudio <- function(base_path = proj_get()) {
 
   proj <- rstudioapi::getActiveProject()
 
+  if (is.null(proj)) {
+    return(FALSE)
+  }
+
   path_real(proj) == path_real(base_path)
 }
 

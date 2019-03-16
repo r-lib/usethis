@@ -5,7 +5,7 @@
 \alias{pr_fetch}
 \alias{pr_push}
 \alias{pr_pull}
-\alias{pr_pull_source}
+\alias{pr_pull_upstream}
 \alias{pr_sync}
 \alias{pr_view}
 \alias{pr_pause}
@@ -20,7 +20,7 @@ pr_push()
 
 pr_pull()
 
-pr_pull_source()
+pr_pull_upstream()
 
 pr_sync()
 
@@ -66,7 +66,7 @@ It's also possible that the maintainer will contribute some code to your
 PR: you get that code back to your computer, run \code{pr_pull()}. It's also
 possible that other changes have occured to the package while you've been
 working on your PR, and you need to "merge master". Do that by running
-\code{pr_pull_source()}: this makes sure that your copy of the package is
+\code{pr_pull_upstream()}: this makes sure that your copy of the package is
 up-to-date with the maintainer's latest changes. Either of the pull
 functions may cause merge conflicts, so be prepared to resolve before
 continuing.
@@ -83,7 +83,7 @@ to delete the local branch.
 \section{Other helpful functions}{
 
 \itemize{
-\item \code{pr_sync()} is a shortcut for \code{pr_pull()}, \code{pr_pull_source()}, and
+\item \code{pr_sync()} is a shortcut for \code{pr_pull()}, \code{pr_pull_upstream()}, and
 \code{pr_push()}
 \item \code{pr_pause()} makes sure you're synched with the PR and then switches
 back to master.

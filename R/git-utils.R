@@ -13,12 +13,12 @@ git_pull <- function(remote_branch = git_branch_tracking()) {
   repo <- git_repo()
 
   git2r::fetch(
-    git_repo(),
+    repo,
     name = remref_remote(remote_branch),
     refspec = remref_branch(remote_branch),
     verbose = FALSE
   )
-  mr <- git2r::merge(git_repo(), remote_branch)
+  mr <- git2r::merge(repo, remote_branch)
   if (isTRUE(mr$conflicts)) {
     stop("Merge conflict! Please resolve before continuing", call. = FALSE)
   }
@@ -36,10 +36,10 @@ uses_git <- function(path = proj_get()) {
 
 # Remotes ------------------------------------------------------------------
 git_remotes <- function() {
-  r <- git_repo()
-  rnames <- git2r::remotes(r)
+  repo <- git_repo()
+  rnames <- git2r::remotes(repo)
   if (length(rnames) == 0) return(NULL)
-  stats::setNames(as.list(git2r::remote_url(r, rnames)), rnames)
+  stats::setNames(as.list(git2r::remote_url(repo, rnames)), rnames)
 }
 
 git_remote_find <- function(rname = "origin") {
@@ -140,7 +140,12 @@ git_branch_compare <- function(branch = git_branch_name()) {
   repo <- git_repo()
 
   remref <- git_branch_tracking(branch)
-  git2r::fetch(repo, remref_remote(remref), refspec = branch, verbose = FALSE)
+  git2r::fetch(
+    repo,
+    name = remref_remote(remref),
+    refspec = branch,
+    verbose = FALSE
+  )
   git2r::ahead_behind(
     git_commit_find(branch),
     git_commit_find(remref)
@@ -235,15 +240,36 @@ check_branch <- function(branch) {
   )
 }
 
-check_branch_current <- function(branch = git_branch_name(), use = "git pull") {
-  ui_done("Checking that {ui_value(branch)} branch is up to date")
-  diff <- git_branch_compare(branch)
+check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
+  local <- paste0("local/", branch)
+  remote <- git_branch_tracking(branch)
+  ui_done("Checking that {ui_value(local)} has changes in {ui_value(remote)}")
 
+  diff <- git_branch_compare(branch)
   if (diff[[2]] == 0) {
     return(invisible())
   }
 
-  ui_stop("Branch {ui_value(branch)} is out of date. Please use {ui_code(use)} to update.")
+  ui_stop(c(
+    "{ui_value(local)} is behind {ui_value(remote)}.",
+    "Please use {ui_code(use)} to update."
+  ))
+}
+
+check_branch_pushed <- function(branch = git_branch_name(), use = "git push") {
+  local <- paste0("local/", branch)
+  remote <- git_branch_tracking(branch)
+  ui_done("Checking that {ui_value(remote)} has changes in {ui_value(local)}")
+
+  diff <- git_branch_compare(branch)
+  if (diff[[1]] == 0) {
+    return(invisible())
+  }
+
+  ui_stop(c(
+    "{ui_value(remote)} is behind {ui_value(local)}",
+    "Please use {ui_code(use)} to update."
+  ))
 }
 
 # config ------------------------------------------------------------------
