@@ -168,9 +168,10 @@ folder is opened in the file manager, e.g. Finder or File Explorer.</p></li>
     <tr>
       <th>url</th>
       <td><p>Link to a ZIP file containing the materials, possibly behind a
-shortlink. Function developed with DropBox and GitHub in mind, but should
-work for ZIP files generally. If no "http" prefix is found, "https://" is
-prepended. See <a href='use_course_details.html'>use_course_details</a> for more.</p></td>
+shortlink. Links of the form <code>"repo/user"</code> are expanded to the appropriate
+url for a repo on GitHub. Function developed with DropBox and GitHub in
+mind, but should work for ZIP files generally. If no "http" prefix is
+found, "https://" is prepended. See <a href='use_course_details.html'>use_course_details</a> for more.</p></td>
     </tr>
     <tr>
       <th>destdir</th>
@@ -185,9 +186,12 @@ prepended. See <a href='use_course_details.html'>use_course_details</a> for more
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If <code>url</code> has no "http" prefix, "https://" is prepended, allowing for even
-less typing by the user. Most URL shorteners give HTTPS links and,
-anecdotally, we note this appears to work with <a href='https://bitly.com/'>bit.ly</a>
-links, even though they are nominally HTTP.</p>
+less typing by the user. A <code>url</code> of the form <code>"repo/user"</code>, is assumed to
+refer to a GitHub repository and is expanded appropriately, unless <code>url</code>
+matches a URL shortener service, currently only <code>"bit.ly"</code> or <code>"rstd.io"</code>.
+Most URL shorteners give HTTPS links and, anecdotally, we note this appears
+to work with <a href='https://bitly.com/'>bit.ly</a> links, even though they are
+nominally HTTP.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -206,7 +210,8 @@ links, even though they are nominally HTTP.</p>
 <span class='co'>## from CRAN</span>
 <span class='fu'>use_course</span>(<span class='st'>"https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zip"</span>)
 
-<span class='co'>## from GitHub, 2 ways</span>
+<span class='co'>## from GitHub, 3 ways</span>
+<span class='fu'>use_course</span>(<span class='st'>"r-lib/rematch2"</span>)
 <span class='fu'>use_course</span>(<span class='st'>"https://github.com/r-lib/rematch2/archive/master.zip"</span>)
 <span class='fu'>use_course</span>(<span class='st'>"https://api.github.com/repos/r-lib/rematch2/zipball/master"</span>)
 <span class='co'># }</span></pre>
