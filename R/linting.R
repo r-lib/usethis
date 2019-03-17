@@ -1,14 +1,17 @@
 #' Use code linting
 #'
-#' `use_lintr()` Adds support for code linting using the `lintr` package in one of three ways:
-#' local interactive linting only, non-failing (post-build) Travis CI linting, or failing local and Travis CI `testthat` unit test.
+#' `use_lintr()` Adds support for code linting using the `lintr` package. THere are three linting modes available:
 #'
-#' @param type Options are \code{local}, \code{travis} or \code{test}.
+#' * "local": local interactive linting only
+#' * "travis": non-failing, post-build linting on Travis CI
+#' * "test": testthat unit test
+#'
+#' @param mode Options are `"local"`, `"travis"`, or `"test"`.
 #' @export
-use_lintr <- function(type = c("local", "travis", "test")){
-  type <- match.arg(type)
-
-  if(type == "test"){
+use_lintr <- function(mode = c("local", "travis", "test")){
+  mode <- match.arg(mode)
+  use_package("lintr", "suggests")
+  if(mode == "test"){
     create_directory("inst")
     .lintr <- "inst/.lintr"
   } else {
@@ -16,9 +19,11 @@ use_lintr <- function(type = c("local", "travis", "test")){
   }
   write_over(.lintr, c("linters: with_defaults(", "  line_length_linter(80))"))
 
-  if(type == "test" && !file.exists(".lintr")) file.symlink("inst/.lintr", ".lintr")
+  if(mode == "test" && !file.exists(".lintr")) file.symlink("inst/.lintr", ".lintr")
   use_build_ignore(".lintr")
-  if(type == "test"){
+  if(mode =="local"){
+    ui_todo("Code linting set up for interactive use. Edit {ui_path('.lintr')} as needed.")
+  } else if(mode == "test"){
     use_build_ignore("inst/.lintr")
     write_over(
       "tests/testthat/test-lintr.R",
@@ -29,7 +34,7 @@ use_lintr <- function(type = c("local", "travis", "test")){
         "  })", "}")
     )
     ui_todo("Code linting set up as a unit test. Edit {ui_path('inst/.lintr')} as needed.")
-  } else if(type == "travis"){
+  } else {
     ui_todo("Insert the following code in {ui_path('.travis.yml')}")
     ui_code_block(
       "
@@ -39,8 +44,5 @@ use_lintr <- function(type = c("local", "travis", "test")){
       "
     )
     ui_todo("Code linting set up for Travis CI. Edit {ui_path('inst/.lintr')} as needed.")
-  } else {
-    ui_todo("Code linting set up for interactive use. Edit {ui_path('.lintr')} as needed.")
   }
-  use_package("lintr", "suggests")
 }

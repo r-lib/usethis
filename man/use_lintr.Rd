@@ -4,12 +4,18 @@
 \alias{use_lintr}
 \title{Use code linting}
 \usage{
-use_lintr(type = c("local", "travis", "test"))
+use_lintr(mode = c("local", "travis", "test"))
 }
 \arguments{
-\item{type}{Options are \code{local}, \code{travis} or \code{test}.}
+\item{mode}{Options are \code{"local"}, \code{"travis"}, or \code{"test"}.}
 }
 \description{
-\code{use_lintr()} Adds support for code linting using the \code{lintr} package in one of three ways:
-local interactive linting only, non-failing (post-build) Travis CI linting, or failing local and Travis CI \code{testthat} unit test.
+\code{use_lintr()} Adds support for code linting using the \code{lintr} package. THere are three linting modes available:
+}
+\details{
+\itemize{
+\item "local": local interactive linting only
+\item "travis": non-failing, post-build linting on Travis CI
+\item "test": testthat unit test
+}
 }
