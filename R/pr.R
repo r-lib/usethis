@@ -234,7 +234,7 @@ pr_pull_upstream <- function() {
 #' @rdname pr_init
 pr_sync <- function() {
   pr_pull()
-  pr_pull_source()
+  pr_pull_upstream()
   pr_push()
 }
 
