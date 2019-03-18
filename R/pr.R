@@ -101,8 +101,6 @@ pr_fetch <- function(number,
 
   owner <- owner %||% github_owner_upstream() %||% github_owner()
   repo <- github_repo()
-  pr_string <- glue("{owner}/{repo}/#{number}")
-  ui_done("Retrieving data for PR {ui_value(pr_string)}")
   pr <- gh::gh(
     "GET /repos/:owner/:repo/pulls/:number",
     owner = owner,
@@ -110,7 +108,12 @@ pr_fetch <- function(number,
     number = number,
     .token = auth_token
   )
-  ui_done('PR from {ui_value(paste0("@", pr$user$login))}: {ui_value(pr$title)}')
+  pr_string <- glue("{owner}/{repo}/#{number}")
+  pr_user <- glue("@{pr$user$login}")
+  ui_done(
+    'Checking out PR {ui_value(pr_string)} ({ui_field(pr_user)}): \\
+    {ui_value(pr$title)}'
+  )
 
   their_branch <- pr$head$ref
   them <- pr$head$user$login
