@@ -61,7 +61,7 @@ with that. If git2r does not seem to be finding your git credentials, read
 To contribute to a package, first use \code{create_from_github(owner/repo)} to
 fork the source repository, and then check out a local copy. Next use
 \code{pr_init()} to create a branch for your PR (\strong{never} submit a PR from the
-master branch). You'll then work locally, making changes to files
+\code{master} branch). You'll then work locally, making changes to files
 and checking them into git. Once you're ready to submit, run \code{pr_push()}
 to push your local branch to GitHub, and open a webpage that lets you
 initiate the PR.

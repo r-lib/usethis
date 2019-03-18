@@ -16,7 +16,7 @@
 #' To contribute to a package, first use `create_from_github(owner/repo)` to
 #' fork the source repository, and then check out a local copy. Next use
 #' `pr_init()` to create a branch for your PR (__never__ submit a PR from the
-#' master branch). You'll then work locally, making changes to files
+#' `master` branch). You'll then work locally, making changes to files
 #' and checking them into git. Once you're ready to submit, run `pr_push()`
 #' to push your local branch to GitHub, and open a webpage that lets you
 #' initiate the PR.
