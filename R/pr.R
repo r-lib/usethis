@@ -219,15 +219,15 @@ pr_pull_upstream <- function() {
   check_uses_github()
   check_uncommitted_changes()
 
-  protocol <- github_remote_protocol()
+  branch <- "master"
+  remote <- if (git_is_fork()) "upstream" else "origin"
+  source <- git_remref(remote, branch)
+
+  protocol <- github_remote_protocol(remote)
   credentials <- git2r_credentials(protocol)
 
-  source <- if (git_is_fork()) "upstream/master" else "origin/master"
-  ## TODO: this claim seems a bit like wishful thinking ... what assumptions
-  ## are we making about the setup here?
   ui_done("Pulling changes from GitHub source repo {ui_value(source)}")
-  ## TODO: why are we not passing `source`?
-  git_pull(credentials = credentials)
+  git_pull(source, credentials = credentials)
 }
 
 #' @export
