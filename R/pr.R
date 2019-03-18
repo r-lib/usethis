@@ -9,7 +9,8 @@
 #' These functions make heavy use of git2r and the GitHub API. You'll need a
 #' GitHub personal access token (PAT); see [browse_github_token()] for help
 #' with that. If git2r does not seem to be finding your git credentials, read
-#' [git2r_credentials()] for troubleshooting advice.
+#' [git2r_credentials()] for troubleshooting advice. The transport protocol
+#' (SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.
 #'
 #' @section For contributors:
 #' To contribute to a package, first use `create_from_github(owner/repo)` to
