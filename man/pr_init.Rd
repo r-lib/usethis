@@ -14,22 +14,21 @@
 \usage{
 pr_init(branch)
 
-pr_fetch(number, owner = NULL, credentials = NULL,
-  auth_token = github_token())
+pr_fetch(number, owner = NULL)
 
-pr_push(credentials = NULL, auth_token = github_token())
+pr_push()
 
-pr_pull(credentials = NULL, auth_token = github_token())
+pr_pull()
 
-pr_pull_upstream(credentials = NULL, auth_token = github_token())
+pr_pull_upstream()
 
-pr_sync(credentials = NULL, auth_token = github_token())
+pr_sync()
 
 pr_view()
 
 pr_pause()
 
-pr_finish(credentials = NULL, auth_token = github_token())
+pr_finish()
 }
 \arguments{
 \item{branch}{branch name. Should usually consist of lower case letters,
@@ -41,12 +40,6 @@ numbers, and \code{-}.}
 pull request. Default of \code{NULL} tries to identify the source repo and uses
 the owner of the \code{upstream} remote, if present, or the owner of \code{origin}
 otherwise.}
-
-\item{credentials}{A git2r credential object produced with
-\code{\link[git2r:cred_env]{git2r::cred_env()}}, \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}, \code{\link[git2r:cred_token]{git2r::cred_token()}}, or
-\code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}.}
-
-\item{auth_token}{GitHub personal access token (PAT).}
 }
 \description{
 The \code{pr_*} family of functions is designed to make working with GitHub

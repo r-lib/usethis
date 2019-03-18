@@ -80,7 +80,6 @@ pr_init <- function(branch) {
 #'   pull request. Default of `NULL` tries to identify the source repo and uses
 #'   the owner of the `upstream` remote, if present, or the owner of `origin`
 #'   otherwise.
-#' @inheritParams git2r_credentials
 #'
 #' @examples
 #' \dontrun{
@@ -89,15 +88,15 @@ pr_init <- function(branch) {
 #' pr_fetch(123, owner = "tidyverse")
 #' }
 pr_fetch <- function(number,
-                     owner = NULL,
-                     credentials = NULL,
-                     auth_token = github_token()) {
+                     owner = NULL) {
   check_uses_github()
   check_uncommitted_changes()
+
+  auth_token <- github_token()
   check_github_token(auth_token)
 
   protocol <- github_remote_protocol()
-  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
+  credentials <- git2r_credentials(protocol, auth_token)
 
   owner <- owner %||% github_owner_upstream() %||% github_owner()
   repo <- github_repo()
@@ -167,8 +166,7 @@ pr_fetch <- function(number,
 
 #' @export
 #' @rdname pr_init
-pr_push <- function(credentials = NULL,
-                    auth_token = github_token()) {
+pr_push <- function() {
   check_uses_github()
   check_branch_not_master()
   check_uncommitted_changes()
@@ -181,7 +179,7 @@ pr_push <- function(credentials = NULL,
 
   remote_info <- git_branch_remote(branch)
   protocol <- github_remote_protocol(remote_info$remote_name)
-  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
+  credentials <- git2r_credentials(protocol)
 
   git_branch_push(branch, credentials = credentials)
 
@@ -200,14 +198,13 @@ pr_push <- function(credentials = NULL,
 
 #' @export
 #' @rdname pr_init
-pr_pull <- function(credentials = NULL,
-                    auth_token = github_token()) {
+pr_pull <- function() {
   check_uses_github()
   check_branch_not_master()
   check_uncommitted_changes()
 
   protocol <- github_remote_protocol()
-  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
+  credentials <- git2r_credentials(protocol)
 
   ui_done("Pulling changes from GitHub PR")
   git_pull(credentials = credentials)
@@ -217,13 +214,12 @@ pr_pull <- function(credentials = NULL,
 
 #' @export
 #' @rdname pr_init
-pr_pull_upstream <- function(credentials = NULL,
-                             auth_token = github_token()) {
+pr_pull_upstream <- function() {
   check_uses_github()
   check_uncommitted_changes()
 
   protocol <- github_remote_protocol()
-  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
+  credentials <- git2r_credentials(protocol)
 
   source <- if (git_is_fork()) "upstream/master" else "origin/master"
   ## TODO: this claim seems a bit like wishful thinking ... what assumptions
@@ -235,11 +231,10 @@ pr_pull_upstream <- function(credentials = NULL,
 
 #' @export
 #' @rdname pr_init
-pr_sync <- function(credentials = NULL,
-                    auth_token = github_token()) {
-  pr_pull(credentials, auth_token)
-  pr_pull_source(credentials, auth_token)
-  pr_push(credentials, auth_token)
+pr_sync <- function() {
+  pr_pull()
+  pr_pull_source()
+  pr_push()
 }
 
 #' @export
@@ -266,15 +261,14 @@ pr_pause <- function() {
 
 #' @export
 #' @rdname pr_init
-pr_finish <- function(credentials = NULL,
-                      auth_token = github_token()) {
+pr_finish <- function() {
   check_branch_not_master()
   pr <- git_branch_name()
 
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
 
-  pr_pull_upstream(credentials, auth_token)
+  pr_pull_upstream()
 
   # TODO: check that this is merged!
   ui_done("Deleting local {ui_value(pr)} branch")
@@ -321,14 +315,13 @@ pr_url <- function(branch = git_branch_name()) {
 pr_find <- function(owner,
                     repo,
                     pr_owner = owner,
-                    pr_branch = git_branch_name(),
-                    auth_token = github_token()) {
+                    pr_branch = git_branch_name()) {
   # Look at all PRs
   prs <- gh::gh("GET /repos/:owner/:repo/pulls",
     owner = owner,
     repo = repo,
     .limit = Inf,
-    .token = auth_token
+    .token = github_token()
   )
 
   if (identical(prs[[1]], "")) {
