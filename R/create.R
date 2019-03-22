@@ -144,8 +144,8 @@ create_from_github <- function(repo_spec,
 
     choice <- utils::menu(
       choices = c(
-        "filesystem dialog",
-        glue::glue("default location: {ui_value(conspicuous_place())}")
+        "Filesystem dialog",
+        glue::glue("Default location: {ui_value(conspicuous_place())}")
       ),
       title = "Choose parent directory of project-directory using:"
     )
