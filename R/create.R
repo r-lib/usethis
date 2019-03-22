@@ -141,16 +141,32 @@ create_from_github <- function(repo_spec,
                                host = NULL) {
 
   if (interactive() && is.null(destdir)) {
-    # TODO: on my mac, the output of ui_todo() is rendered *after*
-    #   rstudioapi::selectDirectory() finishes.
-    #   - would like it to render before selectDirectory() starts
-    ui_todo("Select directory where project-directory will be created")
-    caption <- "Create Project as Subdirectory of"
-    destdir <- rstudioapi::selectDirectory(caption = caption)
 
-    if (is.null(destdir)) {
-      ui_stop("directory-selection cancelled")
+    choice <- utils::menu(
+      choices = c(
+        "filesystem dialog",
+        glue::glue("default location: {ui_value(conspicuous_place())}")
+      ),
+      title = "Choose parent directory of project-directory using:"
+    )
+
+    # if user exits, treat as cancelling entire transaction
+    if (identical(choice, 0L)) {
+      ui_stop("cancelled")
     }
+
+    if (identical(choice, 1L)) {
+      # specify destdir using filsesystem dialog
+      caption <- "Create Project as Subdirectory of"
+      destdir <- rstudioapi::selectDirectory(caption = caption)
+
+      # if user hits cancel, treat as cancelling entire transaction
+      if (is.null(destdir)) {
+        ui_stop("directory-selection cancelled")
+      }
+    }
+
+    # choosing "default location" passes through
   }
 
   destdir <- user_path_prep(destdir %||% conspicuous_place())
