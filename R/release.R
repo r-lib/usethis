@@ -57,7 +57,7 @@ release_checklist <- function(version) {
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
     todo("`rhub::check_with_sanitizers()`", has_src),
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran),
-    todo("[Polish NEWS](https://style.tidyverse.org/news.html#before-release)", on_cran),
+    todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("Polish pkgdown reference index"),
     todo("Draft blog post", type != "patch"),
     "",
