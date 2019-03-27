@@ -23,7 +23,7 @@ test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
   skip_if(getRversion() < 3.2) ## mock doesn't seem to work on 3.1
 
   with_mock(
-    ## Required to pass the check re: whether `RcppArmadillo` is installed
+    ## Required to pass the check re: whether RcppArmadillo is installed
     `usethis:::is_installed` = function(pkg) TRUE, {
       pkg <- scoped_temporary_package()
       use_roxygen_md()
@@ -37,11 +37,16 @@ test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
 })
 
 test_that("use_rcpp_eigen() edits DESCRIPTION", {
-  pkg <- scoped_temporary_package()
-  use_roxygen_md()
+  with_mock(
+    ## Required to pass the check re: whether RcppEigen is installed
+    `usethis:::is_installed` = function(pkg) TRUE, {
+      pkg <- scoped_temporary_package()
+      use_roxygen_md()
 
-  use_rcpp_eigen()
-  expect_match(desc::desc_get("LinkingTo", pkg), "RcppEigen")
+      use_rcpp_eigen()
+      expect_match(desc::desc_get("LinkingTo", pkg), "RcppEigen")
+    }
+  )
 })
 
 test_that("use_src() doesn't message if not needed", {
