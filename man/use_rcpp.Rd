@@ -5,7 +5,7 @@
 \alias{use_rcpp_armadillo}
 \alias{use_rcpp_eigen}
 \alias{use_c}
-\title{Use C, C++, RcppArmadillo, or RcppEigen.}
+\title{Use C, C++, RcppArmadillo, or RcppEigen}
 \usage{
 use_rcpp(name = NULL)
 

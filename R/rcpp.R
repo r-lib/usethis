@@ -1,5 +1,4 @@
-
-#' Use C, C++, RcppArmadillo, or RcppEigen.
+#' Use C, C++, RcppArmadillo, or RcppEigen
 #'
 #' Creates `src/`, adds required packages to `DESCRIPTION`,
 #' optionally creates `.c` or `.cpp` files, and
@@ -35,9 +34,9 @@ use_rcpp_armadillo <- function(name = NULL) {
   use_dependency("RcppArmadillo", "LinkingTo")
 
   makevars_settings <- list(
-    "CXX_STD"="CXX11",
-    "PKG_CXXFLAGS"="$(SHLIB_OPENMP_CXXFLAGS)",
-    "PKG_LIBS"="$(SHLIB_OPENMP_CXXFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)"
+    "CXX_STD" = "CXX11",
+    "PKG_CXXFLAGS" = "$(SHLIB_OPENMP_CXXFLAGS)",
+    "PKG_LIBS" = "$(SHLIB_OPENMP_CXXFLAGS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)"
   )
   use_makevars(makevars_settings)
 
@@ -84,7 +83,6 @@ use_src <- function() {
 }
 
 use_makevars <- function(settings = NULL) {
-
   use_directory("src")
 
   settings_list <- settings %||% list()
@@ -110,5 +108,4 @@ use_makevars <- function(settings = NULL) {
     edit_file(makevars_path)
     edit_file(makevars_win_path)
   }
-
 }
