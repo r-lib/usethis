@@ -69,15 +69,18 @@ Once Git is installed, introduce yourself to Git.
 library(usethis)
 use_git_config(user.name = "Jane Doe", user.email = "jane@example.com")
 
-## reveals config, even if not changing anything
-use_git_config()
+## check by running a git situation-report: 
+##   - your user.name and user.email should appear under "User"
+git_sitrep()
 ```
 
-`usethis::use_git_config()` helps you configure your `user.name` and `user.email`. Substitute **your name** and **your email address**.
+`usethis::use_git_config()` helps you configure your `user.name` and `user.email`. Substitute **your name** and **your email address**. 
 
 What user name should you give to Git? This does not have to be your GitHub username, although it can be. Another good option is your actual first name and last name. Your commits will be labelled with this name, so this should be informative to potential collaborators.
 
 What email should you give to Git? This must be the email associated with your GitHub account.
+
+`usethis::git_sitrep()` generates a git situation-report. It can help you confirm things will work as expected; it can also help you diagnose problems.
 
 ### Equivalent Git commands
 
@@ -142,6 +145,14 @@ Sys.getenv("GITHUB_PAT")
 ```
 
 Now usethis (and a few other packages) can find this PAT automatically in order to deal with GitHub on your behalf.
+
+You can confirm this is working by running another git situation-report:
+
+```{r, eval = FALSE}
+## check by running a git situation-report: 
+##   - your GitHub account information should appear under "GitHub"
+git_sitrep()
+```
 
 ## Store default values for DESCRIPTION fields in all new packages
 
