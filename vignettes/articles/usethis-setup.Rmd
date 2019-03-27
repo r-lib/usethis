@@ -74,7 +74,7 @@ use_git_config(user.name = "Jane Doe", user.email = "jane@example.com")
 git_sitrep()
 ```
 
-`usethis::use_git_config()` helps you configure your `user.name` and `user.email`. Substitute **your name** and **your email address**. 
+`usethis::use_git_config()` helps you configure your `user.name` and `user.email`. Substitute **your name** and **your email address**.
 
 What user name should you give to Git? This does not have to be your GitHub username, although it can be. Another good option is your actual first name and last name. Your commits will be labelled with this name, so this should be informative to potential collaborators.
 
