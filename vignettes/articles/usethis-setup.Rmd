@@ -119,8 +119,9 @@ Once Git is installed, introduce yourself to Git.
 library(usethis) ## or library(devtools)
 use_git_config(user.name = "Jane Doe", user.email = "jane@example.com")
 
-## reveals config, even if not changing anything
-use_git_config()
+## check by running a git situation-report: 
+##   - your user.name and user.email should appear under "User"
+git_sitrep()
 ```
 
 `usethis::use_git_config()` helps you configure your `user.name` and `user.email`. Substitute **your name** and **your email address**.
@@ -128,6 +129,8 @@ use_git_config()
 What user name should you give to Git? This does not have to be your GitHub username, although it can be. Another good option is your actual first name and last name. Your commits will be labelled with this name, so this should be informative to potential collaborators.
 
 What email should you give to Git? This must be the email associated with your GitHub account.
+
+`usethis::git_sitrep()` generates a git situation-report. It can help you confirm things will work as expected; it can also help you diagnose problems.
 
 ### Equivalent Git commands
 
@@ -191,6 +194,7 @@ Restart R and confirm your PAT is now available:
 
 ```{r, eval = FALSE}
 Sys.getenv("GITHUB_PAT")
+
 ## or, alternatively,
 library(usethis)
 github_token()

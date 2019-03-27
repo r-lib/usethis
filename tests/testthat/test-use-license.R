@@ -61,3 +61,11 @@ test_that("use_cc0_license() works", {
   expect_proj_file("LICENSE.md")
   expect_true(is_build_ignored("^LICENSE\\.md$"))
 })
+
+test_that("use_ccby_license() works", {
+  pkg <- scoped_temporary_package()
+  use_ccby_license(name = "CCBY-4.0 License")
+  expect_match(desc::desc_get("License", file = pkg), "CCBY-4.0")
+  expect_proj_file("LICENSE.md")
+  expect_true(is_build_ignored("^LICENSE\\.md$"))
+})

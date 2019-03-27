@@ -316,6 +316,7 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
                             to = NULL) {
   from_timestamp <- as_timestamp(from, repo_spec) %||% "2008-01-01"
   to_timestamp <- as_timestamp(to, repo_spec)
+  ui_done("Looking for contributors from {as.Date(from_timestamp)} to {to_timestamp %||% 'now'}")
 
   res <- gh::gh(
     "/repos/:owner/:repo/issues",
@@ -347,7 +348,7 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
   contributors <- sort(unique(pluck_chr(res, c("user", "login"))))
   contrib_link <- glue("[&#x0040;{contributors}](https://github.com/{contributors})")
 
-  ui_todo("{length(contributors)} contributors identified")
+  ui_done("Found {length(contributors)} contributors:")
   ui_code_block(glue_collapse(contrib_link, sep = ", ", last = ", and "))
 
   invisible(contributors)
