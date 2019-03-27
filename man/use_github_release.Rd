@@ -4,17 +4,14 @@
 \alias{use_github_release}
 \title{Draft a GitHub release}
 \usage{
-use_github_release(host = NULL, auth_token = NULL)
+use_github_release(host = NULL, auth_token = github_token())
 }
 \arguments{
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3".}
 
-\item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
-described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
-variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
+\item{auth_token}{GitHub personal access token (PAT).}
 }
 \description{
 Creates a \strong{draft} GitHub release for the current package using the current

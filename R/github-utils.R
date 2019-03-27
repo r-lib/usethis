@@ -6,6 +6,24 @@ github_remotes <- function() {
   remotes[m]
 }
 
+github_remote_protocol <- function(name = "origin") {
+  # https://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols
+  r <- github_remotes()
+  if (length(r) == 0) return(NULL)
+  url <- r[[name]]
+  if (is.null(url)) return(NULL)
+  switch(
+    substr(url, 1, 5),
+    `https` = "https",
+    `git@g` = "ssh",
+    ui_stop(
+      "Can't classify URL for {ui_value(name)} remote as \\
+       {ui_value('ssh')}' or {ui_value('https')}:\\
+       \n{ui_code(url)}"
+    )
+  )
+}
+
 github_origin <- function() {
   r <- github_remotes()
   if (length(r) == 0) return(NULL)
@@ -16,7 +34,7 @@ github_owner <- function() {
   github_origin()[["owner"]]
 }
 
-github_source <- function() {
+github_owner_upstream <- function() {
   upstream <- parse_github_remotes(github_remotes())[["upstream"]]
   upstream[["owner"]]
 }
@@ -55,15 +73,7 @@ parse_github_remotes <- function(x) {
   lapply(match, function(y) list(owner = y[[2]], repo = y[[3]]))
 }
 
-## use from gh when/if exported
-## https://github.com/r-lib/gh/issues/74
-github_token <- function() {
-  token <- Sys.getenv("GITHUB_PAT", "")
-  if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
-}
-
-github_user <- function(auth_token = NULL) {
-  auth_token <- auth_token %||% github_token()
+github_user <- function(auth_token = github_token()) {
   if (!nzchar(auth_token)) {
     return(NULL)
   }

@@ -4,14 +4,11 @@
 \alias{use_github_links}
 \title{Use GitHub links in URL and BugReports}
 \usage{
-use_github_links(auth_token = NULL, host = "https://api.github.com",
-  overwrite = FALSE)
+use_github_links(auth_token = github_token(),
+  host = "https://api.github.com", overwrite = FALSE)
 }
 \arguments{
-\item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
-described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
-variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
+\item{auth_token}{GitHub personal access token (PAT).}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,

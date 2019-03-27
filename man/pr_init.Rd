@@ -42,17 +42,26 @@ the owner of the \code{upstream} remote, if present, or the owner of \code{origi
 otherwise.}
 }
 \description{
-The \code{pr_*} family of functions are designed to make working with GitHub
+The \code{pr_*} family of functions is designed to make working with GitHub
 PRs as painless as possible for both contributors and package maintainers.
 They are designed to support the git and GitHub best practices described in
 \url{http://happygitwithr.com/}.
 }
+\section{Set up advice}{
+
+These functions make heavy use of git2r and the GitHub API. You'll need a
+GitHub personal access token (PAT); see \code{\link[=browse_github_token]{browse_github_token()}} for help
+with that. If git2r does not seem to be finding your git credentials, read
+\code{\link[=git2r_credentials]{git2r_credentials()}} for troubleshooting advice. The transport protocol
+(SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.
+}
+
 \section{For contributors}{
 
 To contribute to a package, first use \code{create_from_github(owner/repo)} to
 fork the source repository, and then check out a local copy. Next use
 \code{pr_init()} to create a branch for your PR (\strong{never} submit a PR from the
-master branch). You'll then work locally, making changes to files
+\code{master} branch). You'll then work locally, making changes to files
 and checking them into git. Once you're ready to submit, run \code{pr_push()}
 to push your local branch to GitHub, and open a webpage that lets you
 initiate the PR.

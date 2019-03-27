@@ -6,7 +6,7 @@
 \usage{
 create_from_github(repo_spec, destdir = NULL, fork = NA,
   rstudio = NULL, open = interactive(), protocol = git_protocol(),
-  credentials = NULL, auth_token = NULL, host = NULL)
+  credentials = NULL, auth_token = github_token(), host = NULL)
 }
 \arguments{
 \item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}. The
@@ -41,10 +41,7 @@ or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.
 \code{\link[git2r:cred_env]{git2r::cred_env()}}, \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}, \code{\link[git2r:cred_token]{git2r::cred_token()}}, or
 \code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}.}
 
-\item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
-described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
-variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
+\item{auth_token}{GitHub personal access token (PAT).}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
@@ -53,8 +50,8 @@ GitHub enterprise instance, for example,
 \description{
 Creates a new local Git repository from a repository on GitHub. It is highly
 recommended that you pre-configure or pass a GitHub personal access token
-(PAT), which is facilitated by \code{\link[=browse_github_pat]{browse_github_pat()}}. In particular, a PAT is
-required in order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}. It is also required
+(PAT), which is facilitated by \code{\link[=browse_github_token]{browse_github_token()}}. In particular, a PAT
+is required in order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}. It is also required
 by \code{\link[=use_github]{use_github()}}, which connects existing local projects to GitHub.
 }
 \examples{

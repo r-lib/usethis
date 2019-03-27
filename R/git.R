@@ -297,12 +297,12 @@ git2r_env <- new.env(parent = emptyenv())
 #'   However, usethis can offer even more chance of success in the HTTPS case.
 #'   GitHub also accepts a personal access token (PAT) via HTTPS. If
 #'   `credentials = NULL` and a PAT is available, we send it. Preference is
-#'   given to any `auth_token` that is passed explicitly. Otherwise, the
-#'   environment variables `GITHUB_PAT` and `GITHUB_TOKEN` are consulted, in
-#'   that order. If a PAT is found, we make an HTTPS credential with
-#'   [git2r::cred_user_pass()]. The PAT is sent as the password and dummy text
-#'   is sent as the username (the PAT is what really matters in this case). You
-#'   can also register an explicit credential yourself in a similar way:
+#'   given to any `auth_token` that is passed explicitly. Otherwise,
+#'   [`github_token()`] is called. If a PAT is found, we make an HTTPS
+#'   credential with [git2r::cred_user_pass()]. The PAT is sent as the password
+#'   and dummy text is sent as the username (the PAT is what really matters in
+#'   this case). You can also register an explicit credential yourself in a
+#'   similar way:
 #' ```
 #' my_cred <- git2r::cred_user_pass(
 #'   username = "janedoe",
@@ -314,10 +314,7 @@ git2r_env <- new.env(parent = emptyenv())
 #'   `my_cred`.
 #'
 #' @inheritParams git_protocol
-#' @param auth_token Provide a personal access token (PAT) from
-#'   <https://github.com/settings/tokens>. If `NULL`, will use the logic
-#'   described in [gh::gh_whoami()] to look for a token stored in an environment
-#'   variable. Use [browse_github_pat()] to help set up your PAT.
+#' @param auth_token GitHub personal access token (PAT).
 #' @param credentials A git2r credential object produced with
 #'   [git2r::cred_env()], [git2r::cred_ssh_key()], [git2r::cred_token()], or
 #'   [git2r::cred_user_pass()].
@@ -329,10 +326,14 @@ git2r_env <- new.env(parent = emptyenv())
 #' @examples
 #' git2r_credentials()
 #' git2r_credentials(protocol = "ssh")
+#'
+#' \dontrun{
+#' # these calls look for a GitHub PAT
 #' git2r_credentials(protocol = "https")
 #' git2r_credentials(protocol = "https", auth_token = "MY_GITHUB_PAT")
+#' }
 git2r_credentials <- function(protocol = git_protocol(),
-                              auth_token = NULL) {
+                              auth_token = github_token()) {
   if (rlang::env_has(git2r_env, "credentials")) {
     return(git2r_env$credentials)
   }
@@ -341,8 +342,8 @@ git2r_credentials <- function(protocol = git_protocol(),
     return(NULL)
   }
 
-  auth_token <- auth_token %||% github_token()
   if (nzchar(auth_token)) {
+    check_github_token(auth_token)
     git2r::cred_user_pass("EMAIL", auth_token)
   } else {
     NULL
@@ -410,6 +411,7 @@ git_sitrep <- function() {
     if (is.null(who)) {
       cat_line("Token not associated with a user")
     } else {
+      ui_done("GitHub personal access token found")
       kv_line("User", who$login)
       kv_line("Name", who$name)
     }

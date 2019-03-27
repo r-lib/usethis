@@ -9,14 +9,16 @@ git_init <- function() {
   git2r::init(proj_get())
 }
 
-git_pull <- function(remote_branch = git_branch_tracking()) {
+git_pull <- function(remote_branch = git_branch_tracking(),
+                     credentials = NULL) {
   repo <- git_repo()
 
   git2r::fetch(
     repo,
     name = remref_remote(remote_branch),
     refspec = remref_branch(remote_branch),
-    verbose = FALSE
+    verbose = FALSE,
+    credentials = credentials
   )
   mr <- git2r::merge(repo, remote_branch)
   if (isTRUE(mr$conflicts)) {
@@ -152,24 +154,39 @@ git_branch_compare <- function(branch = git_branch_name()) {
   )
 }
 
-git_branch_push <- function(branch = git_branch_name(), force = FALSE) {
-  remote <- git_branch_tracking(branch)
-  if (is.null(remote)) {
-    remote_name   <- "origin"
-    remote_branch <- branch
-    remote <- paste0(remote_name, ":", remote_branch)
-  } else {
-    remote_name   <- remref_remote(remote)
-    remote_branch <- remref_branch(remote)
-  }
+git_branch_push <- function(branch = git_branch_name(),
+                            remote_name = NULL,
+                            remote_branch = NULL,
+                            credentials = NULL,
+                            force = FALSE) {
+  remote_info   <- git_branch_remote(branch)
+  remote_name   <- remote_name %||% remote_info$remote_name
+  remote_branch <- remote_branch %||% remote_info$remote_branch
 
+  remote <- paste0(remote_name, ":", remote_branch)
   ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remote)}")
   git2r::push(
     git_repo(),
     name = remote_name,
     refspec = glue("refs/heads/{branch}:refs/heads/{remote_branch}"),
-    force = force
+    force = force,
+    credentials = credentials
   )
+}
+
+git_branch_remote <- function(branch = git_branch_name()) {
+  remote <- git_branch_tracking(branch)
+  if (is.null(remote)) {
+    list(
+      remote_name   = "origin",
+      remote_branch = branch
+    )
+  } else {
+    list(
+      remote_name   = remref_remote(remote),
+      remote_branch = remref_branch(remote)
+    )
+  }
 }
 
 git_branch_track <- function(branch, remote = "origin", remote_branch = branch) {
@@ -241,9 +258,11 @@ check_branch <- function(branch) {
 }
 
 check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
-  local <- paste0("local/", branch)
   remote <- git_branch_tracking(branch)
-  ui_done("Checking that {ui_value(local)} has changes in {ui_value(remote)}")
+  ui_done(
+    "Checking that local branch {ui_value(branch)} has the changes \\
+     in {ui_value(remote)}"
+  )
 
   diff <- git_branch_compare(branch)
   if (diff[[2]] == 0) {
@@ -251,7 +270,7 @@ check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
   }
 
   ui_stop(c(
-    "{ui_value(local)} is behind {ui_value(remote)}.",
+    "Local branch {ui_value(branch)} is behind {ui_value(remote)}.",
     "Please use {ui_code(use)} to update."
   ))
 }

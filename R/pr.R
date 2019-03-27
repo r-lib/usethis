@@ -1,15 +1,22 @@
 #' Helpers for GitHub pull requests
 #'
-#' The `pr_*` family of functions are designed to make working with GitHub
+#' The `pr_*` family of functions is designed to make working with GitHub
 #' PRs as painless as possible for both contributors and package maintainers.
 #' They are designed to support the git and GitHub best practices described in
 #' <http://happygitwithr.com/>.
+#'
+#' @section Set up advice:
+#' These functions make heavy use of git2r and the GitHub API. You'll need a
+#' GitHub personal access token (PAT); see [browse_github_token()] for help
+#' with that. If git2r does not seem to be finding your git credentials, read
+#' [git2r_credentials()] for troubleshooting advice. The transport protocol
+#' (SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.
 #'
 #' @section For contributors:
 #' To contribute to a package, first use `create_from_github(owner/repo)` to
 #' fork the source repository, and then check out a local copy. Next use
 #' `pr_init()` to create a branch for your PR (__never__ submit a PR from the
-#' master branch). You'll then work locally, making changes to files
+#' `master` branch). You'll then work locally, making changes to files
 #' and checking them into git. Once you're ready to submit, run `pr_push()`
 #' to push your local branch to GitHub, and open a webpage that lets you
 #' initiate the PR.
@@ -81,14 +88,31 @@ pr_init <- function(branch) {
 #' ## 'tidyverse', not you
 #' pr_fetch(123, owner = "tidyverse")
 #' }
-pr_fetch <- function(number, owner = NULL) {
+pr_fetch <- function(number,
+                     owner = NULL) {
+  check_uses_github()
   check_uncommitted_changes()
 
-  ui_done("Retrieving data for PR #{number}")
-  pr <- gh::gh("GET /repos/:owner/:repo/pulls/:number",
-    owner = owner %||% github_source() %||% github_owner(),
-    repo = github_repo(),
-    number = number
+  auth_token <- github_token()
+  check_github_token(auth_token)
+
+  protocol <- github_remote_protocol()
+  credentials <- git2r_credentials(protocol, auth_token)
+
+  owner <- owner %||% github_owner_upstream() %||% github_owner()
+  repo <- github_repo()
+  pr <- gh::gh(
+    "GET /repos/:owner/:repo/pulls/:number",
+    owner = owner,
+    repo = repo,
+    number = number,
+    .token = auth_token
+  )
+  pr_string <- glue("{owner}/{repo}/#{number}")
+  pr_user <- glue("@{pr$user$login}")
+  ui_done(
+    'Checking out PR {ui_value(pr_string)} ({ui_field(pr_user)}): \\
+    {ui_value(pr$title)}'
   )
 
   their_branch <- pr$head$ref
@@ -102,17 +126,27 @@ pr_fetch <- function(number, owner = NULL) {
   }
 
   if (!remote %in% git2r::remotes(git_repo())) {
-    ui_done("Adding remote {ui_value(remote)}")
-    git2r::remote_add(git_repo(), remote, pr$head$repo$ssh_url)
+    url <- switch(
+      protocol,
+      https = pr$head$repo$clone_url,
+      ssh   = pr$head$repo$ssh_url
+    )
+    ui_done("Adding remote {ui_value(remote)} as {ui_value(url)}")
+    git2r::remote_add(git_repo(), remote, url)
   }
 
   if (!git_branch_exists(our_branch)) {
     their_refname <- git_remref(remote, their_branch)
 
     ui_done("Creating local branch {ui_value(our_branch)}")
-    git2r::fetch(git_repo(), remote, refspec = their_branch, verbose = FALSE)
+    git2r::fetch(
+      git_repo(),
+      name = remote,
+      credentials = credentials,
+      refspec = their_branch,
+      verbose = FALSE
+    )
     git_branch_create(our_branch, their_refname)
-
     git_branch_track(our_branch, remote, their_branch)
 
     # Cache URL for PR in config for branch
@@ -144,7 +178,11 @@ pr_push <- function() {
     check_branch_pulled(use = "pr_pull()")
   }
 
-  git_branch_push(branch)
+  remote_info <- git_branch_remote(branch)
+  protocol <- github_remote_protocol(remote_info$remote_name)
+  credentials <- git2r_credentials(protocol)
+
+  git_branch_push(branch, credentials = credentials)
 
   if (!has_remote_branch) {
     git_branch_track(branch)
@@ -166,8 +204,11 @@ pr_pull <- function() {
   check_branch_not_master()
   check_uncommitted_changes()
 
+  protocol <- github_remote_protocol()
+  credentials <- git2r_credentials(protocol)
+
   ui_done("Pulling changes from GitHub PR")
-  git_pull()
+  git_pull(credentials = credentials)
 
   invisible(TRUE)
 }
@@ -178,9 +219,15 @@ pr_pull_upstream <- function() {
   check_uses_github()
   check_uncommitted_changes()
 
-  source <- if (git_is_fork()) "upstream/master" else "origin/master"
+  branch <- "master"
+  remote <- if (git_is_fork()) "upstream" else "origin"
+  source <- git_remref(remote, branch)
+
+  protocol <- github_remote_protocol(remote)
+  credentials <- git2r_credentials(protocol)
+
   ui_done("Pulling changes from GitHub source repo {ui_value(source)}")
-  git_pull(source)
+  git_pull(source, credentials = credentials)
 }
 
 #' @export
@@ -247,7 +294,7 @@ pr_url <- function(branch = git_branch_name()) {
   }
 
   if (git_is_fork()) {
-    source <- github_source()
+    source <- github_owner_upstream()
     pr_branch <- remref_branch(git_branch_tracking(branch))
   } else {
     source <- github_owner()
@@ -266,12 +313,16 @@ pr_url <- function(branch = git_branch_name()) {
   }
 }
 
-pr_find <- function(owner, repo, pr_owner = owner, pr_branch = git_branch_name()) {
+pr_find <- function(owner,
+                    repo,
+                    pr_owner = owner,
+                    pr_branch = git_branch_name()) {
   # Look at all PRs
   prs <- gh::gh("GET /repos/:owner/:repo/pulls",
     owner = owner,
     repo = repo,
-    .limit = Inf
+    .limit = Inf,
+    .token = github_token()
   )
 
   if (identical(prs[[1]], "")) {

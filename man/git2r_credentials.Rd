@@ -5,7 +5,8 @@
 \alias{use_git2r_credentials}
 \title{Produce or register git2r credentials}
 \usage{
-git2r_credentials(protocol = git_protocol(), auth_token = NULL)
+git2r_credentials(protocol = git_protocol(),
+  auth_token = github_token())
 
 use_git2r_credentials(credentials)
 }
@@ -14,10 +15,7 @@ use_git2r_credentials(credentials)
 to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
 
-\item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
-described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
-variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
+\item{auth_token}{GitHub personal access token (PAT).}
 
 \item{credentials}{A git2r credential object produced with
 \code{\link[git2r:cred_env]{git2r::cred_env()}}, \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}, \code{\link[git2r:cred_token]{git2r::cred_token()}}, or
@@ -87,12 +85,12 @@ possible that your OS has cached this and git2r will successfully use that.
 However, usethis can offer even more chance of success in the HTTPS case.
 GitHub also accepts a personal access token (PAT) via HTTPS. If
 \code{credentials = NULL} and a PAT is available, we send it. Preference is
-given to any \code{auth_token} that is passed explicitly. Otherwise, the
-environment variables \code{GITHUB_PAT} and \code{GITHUB_TOKEN} are consulted, in
-that order. If a PAT is found, we make an HTTPS credential with
-\code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}. The PAT is sent as the password and dummy text
-is sent as the username (the PAT is what really matters in this case). You
-can also register an explicit credential yourself in a similar way:\preformatted{my_cred <- git2r::cred_user_pass(
+given to any \code{auth_token} that is passed explicitly. Otherwise,
+\code{\link[=github_token]{github_token()}} is called. If a PAT is found, we make an HTTPS
+credential with \code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}. The PAT is sent as the password
+and dummy text is sent as the username (the PAT is what really matters in
+this case). You can also register an explicit credential yourself in a
+similar way:\preformatted{my_cred <- git2r::cred_user_pass(
   username = "janedoe",
   password = getPass::getPass()
 )
@@ -106,6 +104,10 @@ For the remainder of the session, \code{git2r_credentials()} will return
 \examples{
 git2r_credentials()
 git2r_credentials(protocol = "ssh")
+
+\dontrun{
+# these calls look for a GitHub PAT
 git2r_credentials(protocol = "https")
 git2r_credentials(protocol = "https", auth_token = "MY_GITHUB_PAT")
+}
 }

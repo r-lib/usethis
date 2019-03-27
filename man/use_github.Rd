@@ -5,8 +5,8 @@
 \title{Connect a local repo with GitHub}
 \usage{
 use_github(organisation = NULL, private = FALSE,
-  protocol = git_protocol(), credentials = NULL, auth_token = NULL,
-  host = NULL)
+  protocol = git_protocol(), credentials = NULL,
+  auth_token = github_token(), host = NULL)
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this
@@ -23,10 +23,7 @@ or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.
 \code{\link[git2r:cred_env]{git2r::cred_env()}}, \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}, \code{\link[git2r:cred_token]{git2r::cred_token()}}, or
 \code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}.}
 
-\item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
-described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
-variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
+\item{auth_token}{GitHub personal access token (PAT).}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
@@ -43,9 +40,8 @@ Authentication section below for other necessary setup.
 
 A new GitHub repo will be created via the GitHub API, therefore you must
 make a \href{https://github.com/settings/tokens}{GitHub personal access token (PAT)} available. You can either
-provide this directly via the \code{auth_token} argument or store it in an
-environment variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to get help obtaining and
-storing your PAT. See \code{\link[gh:gh_whoami]{gh::gh_whoami()}} for even more detail.
+provide this directly via the \code{auth_token} argument or store it for retrieval
+with \code{\link[=github_token]{github_token()}}.
 }
 
 \examples{
