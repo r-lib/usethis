@@ -154,11 +154,13 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../../reference/use_git_config.html">use_git_config</a></span>(<span class="dt">user.name =</span> <span class="st">"Jane Doe"</span>, <span class="dt">user.email =</span> <span class="st">"jane@example.com"</span>)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">## reveals config, even if not changing anything</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw"><a href="../../reference/use_git_config.html">use_git_config</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb4-4" data-line-number="4">## check by running a git situation-report: </a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">##   - your user.name and user.email should appear under "User"</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="kw"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()</a></code></pre></div>
 <p><code><a href="../../reference/use_git_config.html">usethis::use_git_config()</a></code> helps you configure your <code>user.name</code> and <code>user.email</code>. Substitute <strong>your name</strong> and <strong>your email address</strong>.</p>
 <p>What user name should you give to Git? This does not have to be your GitHub username, although it can be. Another good option is your actual first name and last name. Your commits will be labelled with this name, so this should be informative to potential collaborators.</p>
 <p>What email should you give to Git? This must be the email associated with your GitHub account.</p>
+<p><code><a href="../../reference/git_sitrep.html">usethis::git_sitrep()</a></code> generates a git situation-report. It can help you confirm things will work as expected; it can also help you diagnose problems.</p>
 <div id="equivalent-git-commands" class="section level3">
 <h3 class="hasAnchor">
 <a href="#equivalent-git-commands" class="anchor"></a>Equivalent Git commands</h3>
@@ -199,25 +201,29 @@
 <p>Restart R and confirm your PAT is now available:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.getenv">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)</a></code></pre></div>
 <p>Now usethis (and a few other packages) can find this PAT automatically in order to deal with GitHub on your behalf.</p>
+<p>You can confirm this is working by running another git situation-report:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">## check by running a git situation-report: </a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">##   - your GitHub account information should appear under "GitHub"</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()</a></code></pre></div>
 </div>
 <div id="store-default-values-for-description-fields-in-all-new-packages" class="section level2">
 <h2 class="hasAnchor">
 <a href="#store-default-values-for-description-fields-in-all-new-packages" class="anchor"></a>Store default values for DESCRIPTION fields in all new packages</h2>
 <p>If you want to override the defaults for the DESCRIPTION file of packages that you create via <code><a href="../../reference/create_package.html">usethis::create_package()</a></code>, define those fields via <code>usethis.*</code> options in your <code>.Rprofile</code>.</p>
 <p>The options are consulted for a named list called <code>usethis.description</code> and, if that does not exist, for backwards compatibility, <code>devtools.desc</code> is also consulted.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="../../reference/edit.html">edit_r_profile</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="../../reference/edit.html">edit_r_profile</a></span>()</a></code></pre></div>
 <p><code><a href="../../reference/edit.html">usethis::edit_r_profile()</a></code> opens your <code>.Rprofile</code> for editing.</p>
 <p>Here is an example of R code that sets the authors, license, and version in all future DESCRIPTION files created by usethis:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">usethis.name =</span> <span class="st">"Jane Doe"</span>,</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">usethis.description =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">    <span class="st">`</span><span class="dt">Authors@R</span><span class="st">`</span> =<span class="st"> 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), </span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">    comment = c(ORCID = "YOUR-ORCID-ID"))'</span>,</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">    <span class="dt">License =</span> <span class="st">"MIT + file LICENSE"</span>,</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7">    <span class="dt">Version =</span> <span class="st">"0.0.0.9000"</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb12-9" data-line-number="9">)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="dt">usethis.name =</span> <span class="st">"Jane Doe"</span>,</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="dt">usethis.description =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">    <span class="st">`</span><span class="dt">Authors@R</span><span class="st">`</span> =<span class="st"> 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), </span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="st">    comment = c(ORCID = "YOUR-ORCID-ID"))'</span>,</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">    <span class="dt">License =</span> <span class="st">"MIT + file LICENSE"</span>,</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">    <span class="dt">Version =</span> <span class="st">"0.0.0.9000"</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">  )</a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">)</a></code></pre></div>
 <p>Save similar code in your <code>.Rprofile</code> and restart R for it to take effect.</p>
 </div>
 <div id="prepare-your-system-to-build-packages-from-source" class="section level2">
