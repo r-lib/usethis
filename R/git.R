@@ -411,6 +411,7 @@ git_sitrep <- function() {
     if (is.null(who)) {
       cat_line("Token not associated with a user")
     } else {
+      ui_done("GitHub personal access token found")
       kv_line("User", who$login)
       kv_line("Name", who$name)
     }

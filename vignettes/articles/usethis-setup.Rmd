@@ -200,6 +200,12 @@ library(usethis)
 github_token()
 ```
 
+The GitHub section of `usethis::git_sitrep()` will also reveal if a PAT is found and, if so, the associated user.
+
+```{r, eval = FALSE}
+git_sitrep()
+```
+
 Now usethis (and a few other packages) can find this PAT automatically in order to deal with GitHub on your behalf.
 
 ## Prepare your system to build packages from source
