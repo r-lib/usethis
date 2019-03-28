@@ -79,6 +79,7 @@ git_remref <- function(remote = "origin", branch = "master") {
 
 ## remref --> remote, branch
 git_parse_remref <- function(remref) {
+  ## changes coming here!
   remref_split <- strsplit(remref, "/")[[1]]
   if (length(remref_split) != 2) {
     ui_stop("{ui_code('rmref')} must be of form {ui_value('remote/branch')}.")
