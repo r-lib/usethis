@@ -79,11 +79,11 @@ git_remref <- function(remote = "origin", branch = "master") {
 
 ## remref --> remote, branch
 git_parse_remref <- function(remref) {
-  remref_split <- strsplit(remref, "/")[[1]]
-  if (length(remref_split) != 2) {
-    ui_stop("{ui_code('rmref')} must be of form {ui_value('remote/branch')}.")
-  }
-  list(remote = remref_split[[1]], branch = remref_split[[2]])
+  repo <- git_repo()
+  rnames <- git2r::remotes(repo)
+  rnames <- paste0("^", rnames, collapse = "|")
+  regex <- glue("({rnames})/(.*)")
+  list(remote = sub(regex, "\\1", remref), branch = sub(regex, "\\2", remref))
 }
 
 remref_remote <- function(remref) git_parse_remref(remref)$remote
