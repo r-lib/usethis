@@ -2,6 +2,10 @@
 
 ## New features
 
+* `use_rcpp_armadillo()` and `use_rcpp_eigen()` are new functions 
+   that set up a package to use RcppArmadillo or RcppEigen, respectively
+   (#421, @coatless, @duckmayr).
+
 * `use_tutorial()` creates a new interactive R Markdown tutorial, as implemented
   by the [`learnr` package](https://rstudio.github.io/learnr/index.html)
   (@angela-li, #645).
