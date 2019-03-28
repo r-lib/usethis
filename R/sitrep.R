@@ -54,8 +54,8 @@ print.sitrep <- function(x, ...) {
       "
       You are working in RStudio, but are not in an RStudio Project.
       A Project-based workflow offers many advantages. Read more at:
-      https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects
-      https://www.tidyverse.org/articles/2017/12/workflow-vs-script/
+      {ui_field('https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects')}
+      {ui_field('https://whattheyforgot.org/project-oriented-workflow.html')}
       "
     )
   }
