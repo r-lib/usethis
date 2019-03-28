@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use C and C++. — use_rcpp • usethis</title>
+<title>Use C, C++, RcppArmadillo, or RcppEigen — use_rcpp • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,10 +37,11 @@
 
 
 
-<meta property="og:title" content="Use C and C++. — use_rcpp" />
+<meta property="og:title" content="Use C, C++, RcppArmadillo, or RcppEigen — use_rcpp" />
 
-<meta property="og:description" content="Creates src/ and adds needed packages to DESCRIPTION, and
-optionally creates .c or .cpp file." />
+<meta property="og:description" content="Creates src/, adds required packages to DESCRIPTION,
+optionally creates .c or .cpp files, and
+where needed, Makevars and Makevars.win files." />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -132,19 +133,24 @@ optionally creates .c or .cpp file." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use C and C++.</h1>
+    <h1>Use C, C++, RcppArmadillo, or RcppEigen</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/rcpp.R'><code>R/rcpp.R</code></a></small>
     <div class="hidden name"><code>use_rcpp.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Creates <code>src/</code> and adds needed packages to <code>DESCRIPTION</code>, and
-optionally creates <code>.c</code> or <code>.cpp</code> file.</p>
+    <p>Creates <code>src/</code>, adds required packages to <code>DESCRIPTION</code>,
+optionally creates <code>.c</code> or <code>.cpp</code> files, and
+where needed, <code>Makevars</code> and <code>Makevars.win</code> files.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>use_rcpp</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>use_rcpp_armadillo</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>use_rcpp_eigen</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>use_c</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
