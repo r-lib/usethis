@@ -49,7 +49,18 @@ print.sitrep <- function(x, ...) {
   out <- format(x)
   cat_line(out)
 
-  if (rstudioapi::isAvailable() && is.null(x[["active_rstudio_proj"]])) {
+  rstudio_proj_is_active <- !is.null(x[["active_rstudio_proj"]])
+  usethis_proj_is_active <- !is.null(x[["active_usethis_proj"]])
+
+  rstudio_proj_is_not_wd <- rstudio_proj_is_active &&
+    x[["working_directory"]] != x[["active_rstudio_proj"]]
+  usethis_proj_is_not_wd <- usethis_proj_is_active &&
+    x[["working_directory"]] != x[["active_usethis_proj"]]
+  usethis_proj_is_not_rstudio_proj <- usethis_proj_is_active &&
+    rstudio_proj_is_active &&
+    x[["active_rstudio_proj"]] != x[["active_usethis_proj"]]
+
+  if (rstudioapi::isAvailable() && !rstudio_proj_is_active) {
     ui_todo(
       "
       You are working in RStudio, but are not in an RStudio Project.
@@ -60,7 +71,7 @@ print.sitrep <- function(x, ...) {
     )
   }
 
-  if (is.null(x[["active_usethis_proj"]])) {
+  if (!usethis_proj_is_active) {
     ui_todo(
       "
       There is currently no active usethis project.
@@ -73,8 +84,7 @@ print.sitrep <- function(x, ...) {
     )
   }
 
-  if (!is.null(x[["active_usethis_proj"]]) &&
-      x[["working_directory"]] != x[["active_usethis_proj"]]) {
+  if (usethis_proj_is_not_wd) {
     ui_todo(
       "
       Your working directory is not the same as the active usethis project.
@@ -84,8 +94,7 @@ print.sitrep <- function(x, ...) {
     )
   }
 
-  if (!is.null(x[["active_rstudio_proj"]]) &&
-      x[["working_directory"]] != x[["active_rstudio_proj"]]) {
+  if (rstudio_proj_is_not_wd) {
     ui_todo(
       "
       Your working directory is not the same as the active RStudio Project.
@@ -94,9 +103,7 @@ print.sitrep <- function(x, ...) {
     )
   }
 
-  if (!is.null(x[["active_rstudio_proj"]]) &&
-      !is.null(x[["active_usethis_proj"]]) &&
-      x[["active_rstudio_proj"]] != x[["active_usethis_proj"]]) {
+  if (usethis_proj_is_not_rstudio_proj) {
     ui_todo(
       "
       Your active RStudio Project is not the same as the active usethis project.
