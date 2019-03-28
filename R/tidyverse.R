@@ -64,9 +64,7 @@ NULL
 #' @param path Path to create new package
 #' @param copyright_holder Owner of code in package (e.g. "RStudio")
 create_tidy_package <- function(path,
-                                copyright_holder
-                                ) {
-
+                                copyright_holder) {
   create_package(path, rstudio = TRUE, open = FALSE)
   old <- proj_set(path)
   on.exit(proj_set(old), add = TRUE)
@@ -403,9 +401,11 @@ base_and_recommended <- function() {
   # keep <- av[ , "Priority", drop = TRUE] %in% "recommended"
   # rec_pkgs <- unname(av[keep, "Package", drop = TRUE])
   # dput(sort(unique(c(base_pkgs, rec_pkgs))))
-  c("base", "boot", "class", "cluster", "codetools", "compiler",
+  c(
+    "base", "boot", "class", "cluster", "codetools", "compiler",
     "datasets", "foreign", "graphics", "grDevices", "grid", "KernSmooth",
     "lattice", "MASS", "Matrix", "methods", "mgcv", "nlme", "nnet",
     "parallel", "rpart", "spatial", "splines", "stats", "stats4",
-    "survival", "tcltk", "tools", "utils")
+    "survival", "tcltk", "tools", "utils"
+  )
 }
