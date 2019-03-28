@@ -110,30 +110,82 @@
 <p>Key steps that accelerate your R development workflow (details on <em>how</em> to do all this follow):</p>
 <ul>
 <li>Make usethis available in interactive R sessions.</li>
+<li>Provide usethis with info to use in all new R packages you create.</li>
+<li>Use the “sitrep” functions to get a health check or gather info when you’re going to ask for help.</li>
 <li>Sign up for a free GitHub.com account, if you plan to use GitHub.</li>
 <li>Install Git.</li>
 <li>Configure your Git <code>user.name</code> and <code>user.email</code>.</li>
 <li>If you use RStudio, make sure RStudio can find your Git executable. If you use GitHub, make sure you can pull/push from your local computer to GitHub.com, in general and from RStudio.</li>
 <li>Get a personal access token from GitHub.com and make it available in R sessions.</li>
-<li>Provide usethis with info you’d like in the DESCRIPTION file of all new R packages you create.</li>
+<li>Prepare your system to build R packages from source.</li>
 </ul>
-<p>As you participate more in the R development scene, you will need to be able to install packages from source that contain compiled code, e.g. C or C++. This will come up even if <em>you</em> do not write such packages (yet). We touch on this at the end.</p>
-<div id="use-usethis-in-interactive-work" class="section level2">
+<div id="use-usethis-or-devtools-in-interactive-work" class="section level2">
 <h2 class="hasAnchor">
-<a href="#use-usethis-in-interactive-work" class="anchor"></a>Use usethis in interactive work</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="../../reference/rprofile-helper.html">use_usethis</a></span>()</a></code></pre></div>
-<p><code><a href="../../reference/rprofile-helper.html">usethis::use_usethis()</a></code> helps you make usethis available whenever you are working with R interactively. It opens <code>.Rprofile</code> for editing, shows the necessary code snippet in the console, and puts it on your clipboard. Paste, save, close, restart R. Done.</p>
-<p>This is the snippet that needs to go in <code>.Rprofile</code>:</p>
+<a href="#use-usethis-or-devtools-in-interactive-work" class="anchor"></a>Use usethis or devtools in interactive work</h2>
+<p>The usethis package was carved out of the <a href="https://devtools.r-lib.org">devtools package</a> as part of its “conscious uncoupling” in <a href="https://www.tidyverse.org/articles/2018/10/devtools-2-0-0/">the v2.0.0 release</a>. But note that devtools makes all of usethis’s functions available and they should feel like they are part of devtools itself. In addition, devtools offers some functions of its own and exposes selected functionality from a few other packages. You might enjoy making devtools (and therefore usethis) available in all your interactive R work.</p>
+<p>Call <code><a href="../../reference/rprofile-helper.html">usethis::use_devtools()</a></code> for prompts to do this:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(devtools) ## or library(usethis)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="../../reference/rprofile-helper.html">use_devtools</a></span>()</a></code></pre></div>
+<p>This will:</p>
+<ul>
+<li>Open your <code>.Rprofile</code> startup file for editing.</li>
+<li>Show the necessary code snippet in the console and put it on your clipboard.</li>
+<li>Prompt you to paste, save, close, restart R. Done!</li>
+</ul>
+<p>The suggested snippet looks like this:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/interactive">interactive</a></span>()) {</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(usethis))</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools))</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">}</a></code></pre></div>
-<p>In the long-run, <a href="https://github.com/r-lib/devtools">devtools</a> should make all of usethis’s functions available and it should feel like they are part of devtools itself. But while the “devtools diaspora” is in process (written in first half of 2018), you may need to work with both usethis and devtools. If you attach both, we recommend attaching devtools, then usethis. In <code>.Rprofile</code>, that would look like so:</p>
+<p>If, for some reason, you would prefer to do same, but only for usethis, call <code><a href="../../reference/rprofile-helper.html">usethis::use_usethis()</a></code> instead. If you decide to attach both packages, we recommend attaching devtools, then usethis.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/interactive">interactive</a></span>()) {</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools))</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(usethis))</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">}</a></code></pre></div>
-<p>You can read more about <code>.Rprofile</code> in the official <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html">Startup documentation</a> or in Kevin Ushey’s blog post <a href="http://kevinushey.github.io/blog/2015/02/02/rprofile-essentials/">RProfile Essentials</a>.</p>
+<p>More resources on <code>.Rprofile</code>:</p>
+<ul>
+<li>The official <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html">Startup documentation</a>
+</li>
+<li>The <a href="https://whattheyforgot.org/r-startup.html">Startup chapter</a> of the What They Forgot to Teach You About R workshop materials</li>
+<li>Kevin Ushey’s blog post <a href="http://kevinushey.github.io/blog/2015/02/02/rprofile-essentials/">RProfile Essentials</a>
+</li>
+</ul>
+</div>
+<div id="store-default-values-for-description-fields-and-other-preferences" class="section level2">
+<h2 class="hasAnchor">
+<a href="#store-default-values-for-description-fields-and-other-preferences" class="anchor"></a>Store default values for DESCRIPTION fields and other preferences</h2>
+<p>Certain options are consulted by usethis and allow you to set personal defaults:</p>
+<ul>
+<li>
+<code>usethis.full_name</code>: consulted for making, e.g., supplemental license files.</li>
+<li>
+<code>usethis.protocol</code>: specifies your preferred transport protocol for Git. Either “ssh” or “https”. See the help for <code><a href="../../reference/git_protocol.html">git_protocol()</a></code> for more.</li>
+<li>
+<code>usethis.description</code>: named list of default DESCRIPTION fields for new packages made with <code><a href="../../reference/create_package.html">usethis::create_package()</a></code>.</li>
+</ul>
+<p>Define any of these options in your <code>.Rprofile</code>, which can be opened for editing via <code><a href="../../reference/edit.html">usethis::edit_r_profile()</a></code>. Here is example code:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="dt">usethis.full_name =</span> <span class="st">"Jane Doe"</span>,</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">usethis.description =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="st">`</span><span class="dt">Authors@R</span><span class="st">`</span> =<span class="st"> 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), </span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">    comment = c(ORCID = "YOUR-ORCID-ID"))'</span>,</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">    <span class="dt">License =</span> <span class="st">"MIT + file LICENSE"</span>,</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">    <span class="dt">Version =</span> <span class="st">"0.0.0.9000"</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">  ),</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">  <span class="dt">usethis.protocol  =</span> <span class="st">"ssh"</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">)</a></code></pre></div>
+<p>Save similar code in your <code>.Rprofile</code> and restart R for it to take effect.</p>
+</div>
+<div id="the-sitrep-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#the-sitrep-functions" class="anchor"></a>The “sitrep” functions</h2>
+<p>These functions gather information that help you or others troubleshoot things:</p>
+<ul>
+<li>
+<code><a href="../../reference/proj_sitrep.html">proj_sitrep()</a></code>: prints info about the active usethis project, working directory, and the active RStudio Project. Points out when things are peculiar and how to fix.</li>
+<li>
+<code><a href="../../reference/git_sitrep.html">git_sitrep()</a></code>: prints info about your current Git, git2r, and GitHub setup.</li>
+</ul>
 </div>
 <div id="get-a-github-com-account" class="section level2">
 <h2 class="hasAnchor">
@@ -144,19 +196,19 @@
 <h2 class="hasAnchor">
 <a href="#install-git" class="anchor"></a>Install Git</h2>
 <p>Please see <a href="http://happygitwithr.com/install-git.html">Happy Git and GitHub for the useR</a> for instructions on how to install Git. It is beyond the scope of this article.</p>
-<p>usethis itself does not actually need the Git that you install, because it uses the <a href="https://cran.r-project.org/package=git2r">git2r</a> package which wraps <a href="https://libgit2.github.com">libgit2</a>. But, chances are, you want to do normal Git things, like diff and commit and push, and for that you must install Git.</p>
+<p>usethis itself does not actually need the Git that you install, because it uses the <a href="https://cran.r-project.org/package=git2r">git2r</a> package which wraps <a href="https://libgit2.github.com">libgit2</a>. But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git.</p>
 </div>
 <div id="configure-user-name-and-user-email" class="section level2">
 <h2 class="hasAnchor">
 <a href="#configure-user-name-and-user-email" class="anchor"></a>Configure <code>user.name</code> and <code>user.email</code>
 </h2>
 <p>Once Git is installed, introduce yourself to Git.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../../reference/use_git_config.html">use_git_config</a></span>(<span class="dt">user.name =</span> <span class="st">"Jane Doe"</span>, <span class="dt">user.email =</span> <span class="st">"jane@example.com"</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">## check by running a git situation-report: </a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">##   - your user.name and user.email should appear under "User"</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="kw"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis) ## or library(devtools)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../../reference/use_git_config.html">use_git_config</a></span>(<span class="dt">user.name =</span> <span class="st">"Jane Doe"</span>, <span class="dt">user.email =</span> <span class="st">"jane@example.com"</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">## check by running a git situation-report: </a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">##   - your user.name and user.email should appear under "User"</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="kw"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()</a></code></pre></div>
 <p><code><a href="../../reference/use_git_config.html">usethis::use_git_config()</a></code> helps you configure your <code>user.name</code> and <code>user.email</code>. Substitute <strong>your name</strong> and <strong>your email address</strong>.</p>
 <p>What user name should you give to Git? This does not have to be your GitHub username, although it can be. Another good option is your actual first name and last name. Your commits will be labelled with this name, so this should be informative to potential collaborators.</p>
 <p>What email should you give to Git? This must be the email associated with your GitHub account.</p>
@@ -165,15 +217,15 @@
 <h3 class="hasAnchor">
 <a href="#equivalent-git-commands" class="anchor"></a>Equivalent Git commands</h3>
 <p>The code chunk above is doing the equivalent of this:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="fu">git</span> config --global user.name <span class="st">'Jane Doe'</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="fu">git</span> config --global user.email <span class="st">'jane@example.com'</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="fu">git</span> config --global --list</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="fu">git</span> config --global user.name <span class="st">'Jane Doe'</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="fu">git</span> config --global user.email <span class="st">'jane@example.com'</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="fu">git</span> config --global --list</a></code></pre></div>
 </div>
 <div id="optional-configure-gits-editor" class="section level3">
 <h3 class="hasAnchor">
 <a href="#optional-configure-gits-editor" class="anchor"></a>Optional: configure Git’s editor</h3>
 <p>Another Git option that many people eventually configure is the editor. This will come up if you use Git from a shell. At some point, you will fail to give Git what it wants in terms of a commit message and it will kick you into an editor. This can be distressing, if it’s not your editor of choice and you don’t even know how to save and quit. You can enforce your will by executing this in a shell (not in R!):</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="fu">git</span> config --global core.editor emacs</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="fu">git</span> config --global core.editor emacs</a></code></pre></div>
 <p>Substitute your preferred editor for emacs here. A popular choice is <a href="https://www.nano-editor.org/">nano</a>. The default, if you don’t configure <code>core.editor</code>, is usually vim.</p>
 </div>
 </div>
@@ -181,50 +233,33 @@
 <h2 class="hasAnchor">
 <a href="#connections-git-github-rstudio" class="anchor"></a>Connections: Git, GitHub, RStudio</h2>
 <p>As stated above, usethis doesn’t actually use the Git you install and has no absolute requirement that you use GitHub or use RStudio. But use of usethis is highly correlated with the desire to do all of these things, in a pleasant way.</p>
-<p>If you plan to use GitHub, you need to make sure your local Git can pull from and push to GitHub.com. That is beyond the scope of this article, but see the <a href="http://happygitwithr.com/push-pull-github.html">Connect to GitHub</a> section in Happy Git. You probably don’t want to enter your username and password all the time, so either <a href="http://happygitwithr.com/credential-caching.html">cache credentials for HTTPS</a> or <a href="http://happygitwithr.com/ssh-keys.html">set up SSH keys</a>. This can make it much easier for you to use <code><a href="../../reference/use_github.html">usethis::use_github()</a></code> in the future.</p>
+<p>If you plan to use GitHub, you need to make sure your local Git can pull from and push to GitHub.com. That is beyond the scope of this article, but see the <a href="http://happygitwithr.com/push-pull-github.html">Connect to GitHub</a> section in Happy Git. You probably don’t want to enter your username and password all the time, so either <a href="http://happygitwithr.com/credential-caching.html">cache credentials for HTTPS</a> or <a href="http://happygitwithr.com/ssh-keys.html">set up SSH keys</a>. Then set the <code>usethis.protocol</code> option to match, i.e. to either “https” or “ssh”. This setup makes functions like <code><a href="../../reference/use_github.html">usethis::use_github()</a></code> much easier to use.</p>
 <p>If you want to use RStudio to work with Git (and therefore GitHub, see previous paragraph), you need to make sure RStudio can find your Git executable. This usually “just works”. The <a href="http://happygitwithr.com/rstudio-git-github.html">Connect RStudio to Git and GitHub</a> section of Happy Git helps you confirm that all is well. If all is not well, there are also <a href="http://happygitwithr.com/rstudio-see-git.html">troubleshooting tips</a>.</p>
 </div>
 <div id="get-and-store-a-github-personal-access-token" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-and-store-a-github-personal-access-token" class="anchor"></a>Get and store a GitHub personal access token</h2>
 <p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">usethis::use_github()</a></code> and <code><a href="../../reference/create_from_github.html">usethis::create_from_github(..., fork = TRUE)</a></code>. In both cases, usethis must create a new GitHub repository on your behalf. This is <strong>not</strong> a regular Git operation (like pulling and pushing to existing repos) and your usual method of providing credentials to GitHub does not work for this.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="../../reference/browse_github_pat.html">browse_github_pat</a></span>()</a></code></pre></div>
-<p><code><a href="../../reference/browse_github_pat.html">usethis::browse_github_pat()</a></code> takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on “Generate new token” from <a href="https://github.com/settings/tokens" class="uri">https://github.com/settings/tokens</a>.</p>
-<p>As the page says, you must <strong>store this token somewhere</strong> because you’ll never be able to see it again, once you leave that page or close the windows. If you somehow goof this up, just generate a new PAT and, so you don’t confuse yourself, delete the lost token.</p>
-<p><code><a href="../../reference/browse_github_pat.html">browse_github_pat()</a></code> provides advice on how to store your PAT, also repeated here. It is customary to save the PAT as an environment variable in your <code>.Renviron</code>, with the name <code>GITHUB_PAT</code>.</p>
+<p>Other functions, such as the <code>pr_*()</code> family, may also use your GitHub PAT for fetch/pull/push if you are using the HTTPS protocol.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="../../reference/edit.html">edit_r_environ</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="../../reference/browse_github_token.html">browse_github_token</a></span>()</a></code></pre></div>
+<p><code><a href="../../reference/browse_github_token.html">usethis::browse_github_token()</a></code> takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on “Generate new token” from <a href="https://github.com/settings/tokens" class="uri">https://github.com/settings/tokens</a>.</p>
+<p>As the page says, you must <strong>store this token somewhere</strong> because you’ll never be able to see it again, once you leave that page or close the windows. If you somehow goof this up, just generate a new PAT and, so you don’t confuse yourself, delete the lost token.</p>
+<p><code><a href="../../reference/browse_github_token.html">browse_github_token()</a></code> provides advice on how to store your PAT, also repeated here. It is customary to save the PAT as an environment variable in your <code>.Renviron</code>, with the name <code>GITHUB_PAT</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../../reference/edit.html">edit_r_environ</a></span>()</a></code></pre></div>
 <p><code><a href="../../reference/edit.html">usethis::edit_r_environ()</a></code> will open <code>.Renviron</code> for editing. Add a line like this, <strong>but substitute your PAT</strong>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="va">GITHUB_PAT=</span>8c70fd8419398999c9ac5bacf3192882193cadf2</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="va">GITHUB_PAT=</span>8c70fd8419398999c9ac5bacf3192882193cadf2</a></code></pre></div>
 <p>Make sure this file ends in a newline! Lack of a newline can lead to silent failure to load this environment variable, which can be tricky to debug.</p>
 <p>Restart R and confirm your PAT is now available:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.getenv">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.getenv">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">## or, alternatively,</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw"><a href="../../reference/browse_github_token.html">github_token</a></span>()</a></code></pre></div>
+<p>The GitHub section of <code><a href="../../reference/git_sitrep.html">usethis::git_sitrep()</a></code> will also reveal if a PAT is found and, if so, the associated user.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()</a></code></pre></div>
 <p>Now usethis (and a few other packages) can find this PAT automatically in order to deal with GitHub on your behalf.</p>
-<p>You can confirm this is working by running another git situation-report:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">## check by running a git situation-report: </a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">##   - your GitHub account information should appear under "GitHub"</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()</a></code></pre></div>
-</div>
-<div id="store-default-values-for-description-fields-in-all-new-packages" class="section level2">
-<h2 class="hasAnchor">
-<a href="#store-default-values-for-description-fields-in-all-new-packages" class="anchor"></a>Store default values for DESCRIPTION fields in all new packages</h2>
-<p>If you want to override the defaults for the DESCRIPTION file of packages that you create via <code><a href="../../reference/create_package.html">usethis::create_package()</a></code>, define those fields via <code>usethis.*</code> options in your <code>.Rprofile</code>.</p>
-<p>The options are consulted for a named list called <code>usethis.description</code> and, if that does not exist, for backwards compatibility, <code>devtools.desc</code> is also consulted.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="../../reference/edit.html">edit_r_profile</a></span>()</a></code></pre></div>
-<p><code><a href="../../reference/edit.html">usethis::edit_r_profile()</a></code> opens your <code>.Rprofile</code> for editing.</p>
-<p>Here is an example of R code that sets the authors, license, and version in all future DESCRIPTION files created by usethis:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="dt">usethis.name =</span> <span class="st">"Jane Doe"</span>,</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="dt">usethis.description =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">    <span class="st">`</span><span class="dt">Authors@R</span><span class="st">`</span> =<span class="st"> 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), </span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="st">    comment = c(ORCID = "YOUR-ORCID-ID"))'</span>,</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">    <span class="dt">License =</span> <span class="st">"MIT + file LICENSE"</span>,</a>
-<a class="sourceLine" id="cb13-7" data-line-number="7">    <span class="dt">Version =</span> <span class="st">"0.0.0.9000"</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb13-9" data-line-number="9">)</a></code></pre></div>
-<p>Save similar code in your <code>.Rprofile</code> and restart R for it to take effect.</p>
 </div>
 <div id="prepare-your-system-to-build-packages-from-source" class="section level2">
 <h2 class="hasAnchor">
@@ -250,13 +285,14 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#use-usethis-in-interactive-work">Use usethis in interactive work</a></li>
+<li><a href="#use-usethis-or-devtools-in-interactive-work">Use usethis or devtools in interactive work</a></li>
+      <li><a href="#store-default-values-for-description-fields-and-other-preferences">Store default values for DESCRIPTION fields and other preferences</a></li>
+      <li><a href="#the-sitrep-functions">The “sitrep” functions</a></li>
       <li><a href="#get-a-github-com-account">Get a GitHub.com account</a></li>
       <li><a href="#install-git">Install Git</a></li>
       <li><a href="#configure-user-name-and-user-email">Configure <code>user.name</code> and <code>user.email</code></a></li>
       <li><a href="#connections-git-github-rstudio">Connections: Git, GitHub, RStudio</a></li>
       <li><a href="#get-and-store-a-github-personal-access-token">Get and store a GitHub personal access token</a></li>
-      <li><a href="#store-default-values-for-description-fields-in-all-new-packages">Store default values for DESCRIPTION fields in all new packages</a></li>
       <li><a href="#prepare-your-system-to-build-packages-from-source">Prepare your system to build packages from source</a></li>
       </ul>
 </div>

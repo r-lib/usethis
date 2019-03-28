@@ -39,7 +39,7 @@
 
 <meta property="og:title" content="Helpers for GitHub pull requests — pr_init" />
 
-<meta property="og:description" content="The pr_* family of functions are designed to make working with GitHub
+<meta property="og:description" content="The pr_* family of functions is designed to make working with GitHub
 PRs as painless as possible for both contributors and package maintainers.
 They are designed to support the git and GitHub best practices described in
 http://happygitwithr.com/." />
@@ -141,7 +141,7 @@ http://happygitwithr.com/." />
 
     <div class="ref-description">
     
-    <p>The <code>pr_*</code> family of functions are designed to make working with GitHub
+    <p>The <code>pr_*</code> family of functions is designed to make working with GitHub
 PRs as painless as possible for both contributors and package maintainers.
 They are designed to support the git and GitHub best practices described in
 <a href='http://happygitwithr.com/'>http://happygitwithr.com/</a>.</p>
@@ -187,13 +187,22 @@ otherwise.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="set-up-advice"><a class="anchor" href="#set-up-advice"></a>Set up advice</h2>
+
+    
+    <p>These functions make heavy use of git2r and the GitHub API. You'll need a
+GitHub personal access token (PAT); see <code><a href='browse_github_token.html'>browse_github_token()</a></code> for help
+with that. If git2r does not seem to be finding your git credentials, read
+<code><a href='git2r_credentials.html'>git2r_credentials()</a></code> for troubleshooting advice. The transport protocol
+(SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.</p>
+    
     <h2 class="hasAnchor" id="for-contributors"><a class="anchor" href="#for-contributors"></a>For contributors</h2>
 
     
     <p>To contribute to a package, first use <code><a href='create_from_github.html'>create_from_github(owner/repo)</a></code> to
 fork the source repository, and then check out a local copy. Next use
 <code>pr_init()</code> to create a branch for your PR (<strong>never</strong> submit a PR from the
-master branch). You'll then work locally, making changes to files
+<code>master</code> branch). You'll then work locally, making changes to files
 and checking them into git. Once you're ready to submit, run <code>pr_push()</code>
 to push your local branch to GitHub, and open a webpage that lets you
 initiate the PR.</p>
@@ -242,6 +251,8 @@ back to master.</p></li>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#set-up-advice">Set up advice</a></li>
+
       <li><a href="#for-contributors">For contributors</a></li>
 
       <li><a href="#for-maintainers">For maintainers</a></li>

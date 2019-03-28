@@ -41,8 +41,8 @@
 
 <meta property="og:description" content="Creates a new local Git repository from a repository on GitHub. It is highly
 recommended that you pre-configure or pass a GitHub personal access token
-(PAT), which is facilitated by browse_github_pat(). In particular, a PAT is
-required in order for create_from_github() to do &quot;fork and clone&quot;. It is also required
+(PAT), which is facilitated by browse_github_token(). In particular, a PAT
+is required in order for create_from_github() to do &quot;fork and clone&quot;. It is also required
 by use_github(), which connects existing local projects to GitHub." />
 
 <meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
@@ -144,15 +144,15 @@ by use_github(), which connects existing local projects to GitHub." />
     
     <p>Creates a new local Git repository from a repository on GitHub. It is highly
 recommended that you pre-configure or pass a GitHub personal access token
-(PAT), which is facilitated by <code><a href='browse_github_pat.html'>browse_github_pat()</a></code>. In particular, a PAT is
-required in order for <code>create_from_github()</code> to do <a href='https://help.github.com/articles/fork-a-repo/'>"fork and clone"</a>. It is also required
+(PAT), which is facilitated by <code><a href='browse_github_token.html'>browse_github_token()</a></code>. In particular, a PAT
+is required in order for <code>create_from_github()</code> to do <a href='https://help.github.com/articles/fork-a-repo/'>"fork and clone"</a>. It is also required
 by <code><a href='use_github.html'>use_github()</a></code>, which connects existing local projects to GitHub.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>create_from_github</span>(<span class='no'>repo_spec</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fork</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='fu'><a href='git_protocol.html'>git_protocol</a></span>(),
-  <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='browse_github_token.html'>github_token</a></span>(), <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,10 +204,7 @@ or, in non-interactive sessions, "ssh". <code>NA</code> triggers the interactive
     </tr>
     <tr>
       <th>auth_token</th>
-      <td><p>Provide a personal access token (PAT) from
-<a href='https://github.com/settings/tokens'>https://github.com/settings/tokens</a>. If <code>NULL</code>, will use the logic
-described in <code><a href='https://www.rdocumentation.org/packages/gh/topics/gh_whoami'>gh::gh_whoami()</a></code> to look for a token stored in an environment
-variable. Use <code><a href='browse_github_pat.html'>browse_github_pat()</a></code> to help set up your PAT.</p></td>
+      <td><p>GitHub personal access token (PAT).</p></td>
     </tr>
     <tr>
       <th>host</th>

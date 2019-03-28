@@ -155,10 +155,10 @@ powered by <code>tidy_labels()</code>, <code>tidy_labels_rename()</code>, <code>
     <pre class="usage"><span class='fu'>use_github_labels</span>(<span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='fu'>github_repo_spec</span>(), <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(),
   <span class='kw'>rename</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(), <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(),
   <span class='kw'>descriptions</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(), <span class='kw'>delete_default</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='browse_github_token.html'>github_token</a></span>(), <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>use_tidy_labels</span>(<span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='fu'>github_repo_spec</span>(), <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>use_tidy_labels</span>(<span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='fu'>github_repo_spec</span>(),
+  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='browse_github_token.html'>github_token</a></span>(), <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>tidy_labels</span>()
 
@@ -201,10 +201,7 @@ to your workflow).</p></td>
     </tr>
     <tr>
       <th>auth_token</th>
-      <td><p>Provide a personal access token (PAT) from
-<a href='https://github.com/settings/tokens'>https://github.com/settings/tokens</a>. If <code>NULL</code>, will use the logic
-described in <code><a href='https://www.rdocumentation.org/packages/gh/topics/gh_whoami'>gh::gh_whoami()</a></code> to look for a token stored in an environment
-variable. Use <code><a href='browse_github_pat.html'>browse_github_pat()</a></code> to help set up your PAT.</p></td>
+      <td><p>GitHub personal access token (PAT).</p></td>
     </tr>
     <tr>
       <th>host</th>

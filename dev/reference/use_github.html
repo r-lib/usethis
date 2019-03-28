@@ -151,8 +151,8 @@ Authentication section below for other necessary setup.</p>
     </div>
 
     <pre class="usage"><span class='fu'>use_github</span>(<span class='kw'>organisation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>private</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='fu'><a href='git_protocol.html'>git_protocol</a></span>(), <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='fu'><a href='git_protocol.html'>git_protocol</a></span>(), <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='browse_github_token.html'>github_token</a></span>(), <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -181,10 +181,7 @@ or, in non-interactive sessions, "ssh". <code>NA</code> triggers the interactive
     </tr>
     <tr>
       <th>auth_token</th>
-      <td><p>Provide a personal access token (PAT) from
-<a href='https://github.com/settings/tokens'>https://github.com/settings/tokens</a>. If <code>NULL</code>, will use the logic
-described in <code><a href='https://www.rdocumentation.org/packages/gh/topics/gh_whoami'>gh::gh_whoami()</a></code> to look for a token stored in an environment
-variable. Use <code><a href='browse_github_pat.html'>browse_github_pat()</a></code> to help set up your PAT.</p></td>
+      <td><p>GitHub personal access token (PAT).</p></td>
     </tr>
     <tr>
       <th>host</th>
@@ -199,9 +196,8 @@ GitHub enterprise instance, for example,
     
     <p>A new GitHub repo will be created via the GitHub API, therefore you must
 make a <a href='https://github.com/settings/tokens'>GitHub personal access token (PAT)</a> available. You can either
-provide this directly via the <code>auth_token</code> argument or store it in an
-environment variable. Use <code><a href='browse_github_pat.html'>browse_github_pat()</a></code> to get help obtaining and
-storing your PAT. See <code><a href='https://www.rdocumentation.org/packages/gh/topics/gh_whoami'>gh::gh_whoami()</a></code> for even more detail.</p>
+provide this directly via the <code>auth_token</code> argument or store it for retrieval
+with <code><a href='browse_github_token.html'>github_token()</a></code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
