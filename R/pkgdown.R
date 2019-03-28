@@ -1,14 +1,15 @@
 #' Use pkgdown
 #'
-#' [pkgdown](https://github.com/r-lib/pkgdown) makes it easy to turn your
-#' package into a beautiful website. `use_pkgdown()` helper creates a pkgdown
-#' config file and adds the file and destination directory to `.Rbuildignore`.
-#' `use_pkgdown_travis()` helps you set up pkgdown for automatic deployment
-#' on travis.
+#' [pkgdown](https://pkgdown.r-lib.org) makes it easy to turn your package into
+#' a beautiful website. There are two helper functions:
+#'   * `use_pkgdown()`: creates a pkgdown config file and adds the file and
+#'     destination directory to `.Rbuildignore`.
+#'   * `use_pkgdown_travis()`: helps you set up pkgdown for automatic deployment
+#'     on Travis-CI.
 #'
-#' @seealso <http://pkgdown.r-lib.org/articles/pkgdown.html#configuration>
-#' @param config_file pkgdown yaml config file
-#' @param destdir target directory for pkgdown docs
+#' @seealso <https://pkgdown.r-lib.org/articles/pkgdown.html#configuration>
+#' @param config_file Path to the pkgdown yaml config file
+#' @param destdir Target directory for pkgdown docs
 #' @export
 use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   check_is_package("use_pkgdown()")
