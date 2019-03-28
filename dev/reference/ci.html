@@ -156,7 +156,9 @@ various platforms, triggered by each push or pull request. These functions</p><u
 
     <pre class="usage"><span class='fu'>use_travis</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>ext</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"org"</span>, <span class='st'>"com"</span>))
 
-<span class='fu'>use_appveyor</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())</pre>
+<span class='fu'>use_appveyor</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())
+
+<span class='fu'>use_gitlab_ci</span>()</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,6 +189,13 @@ integration service.</p>
 a configuration file for the <a href='https://www.appveyor.com'>AppVeyor</a> continuous
 integration service for Windows.</p>
     
+    <h2 class="hasAnchor" id="use-gitlab-ci-"><a class="anchor" href="#use-gitlab-ci-"></a><code>use_gitlab_ci()</code></h2>
+
+    
+    <p>Adds a basic <code>.gitlab-ci.yml</code> to the top-level directory of a package. This is
+a configuration file for the <a href='https://docs.gitlab.com/ee/ci/'>Gitlab CI/CD</a> continuous
+integration service for GitLab.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -197,6 +206,8 @@ integration service for Windows.</p>
       <li><a href="#use-travis-"><code>use_travis()</code></a></li>
 
       <li><a href="#use-appveyor-"><code>use_appveyor()</code></a></li>
+
+      <li><a href="#use-gitlab-ci-"><code>use_gitlab_ci()</code></a></li>
           </ul>
 
   </div>
