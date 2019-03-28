@@ -65,7 +65,10 @@ print.sitrep <- function(x, ...) {
       "
       There is currently no active usethis project.
       usethis attempts to activate a project upon first need.
-      Call {ui_code('proj_get()')} to explicitly initiate project activation.
+      Call {ui_code('proj_get()')} to initiate project discovery.
+      Call {ui_code('proj_set(\"path/to/project\")')} or \\
+      {ui_code('proj_activate(\"path/to/project\")')} to provide
+      an explicit path.
       "
     )
   }
@@ -75,8 +78,8 @@ print.sitrep <- function(x, ...) {
     ui_todo(
       "
       Your working directory is not the same as the active usethis project.
-      To set working directory to the project: {ui_code('setwd(proj_get())')}
-      To activate project in working directory: {ui_code('proj_set(getwd())')}
+      Set working directory to the project: {ui_code('setwd(proj_get())')}
+      Set project to working directory:     {ui_code('proj_set(getwd())')}
       "
     )
   }
@@ -86,7 +89,7 @@ print.sitrep <- function(x, ...) {
     ui_todo(
       "
       Your working directory is not the same as the active RStudio Project.
-      To set working directory to the Project: {ui_code('setwd(rstudioapi::getActiveProject())')}
+      Set working directory to the Project: {ui_code('setwd(rstudioapi::getActiveProject())')}
       "
     )
   }
@@ -97,7 +100,12 @@ print.sitrep <- function(x, ...) {
     ui_todo(
       "
       Your active RStudio Project is not the same as the active usethis project.
-      To set usethis project to RStudio Project: {ui_code('proj_set(rstudioapi::getActiveProject())')}
+      Set usethis project to RStudio Project: \\
+      {ui_code('proj_set(rstudioapi::getActiveProject())')}
+      Restart RStudio in the usethis project: \\
+      {ui_code('rstudioapi::openProject(proj_get())')}
+      Open the usethis project in a new instance of RStudio: \\
+      {ui_code('proj_activate(proj_get())')}
       "
     )
   }
