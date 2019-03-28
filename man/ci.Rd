@@ -3,11 +3,14 @@
 \name{ci}
 \alias{use_travis}
 \alias{use_appveyor}
+\alias{use_gitlab_ci}
 \title{Continuous integration setup and badges}
 \usage{
 use_travis(browse = interactive(), ext = c("org", "com"))
 
 use_appveyor(browse = interactive())
+
+use_gitlab_ci()
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -38,5 +41,12 @@ integration service.
 Adds a basic \code{appveyor.yml} to the top-level directory of a package. This is
 a configuration file for the \href{https://www.appveyor.com}{AppVeyor} continuous
 integration service for Windows.
+}
+
+\section{\code{use_gitlab_ci()}}{
+
+Adds a basic \code{.gitlab-ci.yml} to the top-level directory of a package. This is
+a configuration file for the \href{https://docs.gitlab.com/ee/ci/}{Gitlab CI/CD} continuous
+integration service for GitLab.
 }
 
