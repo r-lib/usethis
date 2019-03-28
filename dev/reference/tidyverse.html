@@ -43,7 +43,7 @@
 stricter than the defaults, reflecting the need for greater rigor in
 commonly used packages." />
 
-<meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
+<meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
@@ -146,7 +146,7 @@ commonly used packages.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>create_tidy_package</span>(<span class='no'>path</span>, <span class='no'>copyright_holder</span>)
+    <pre class="usage"><span class='fu'>create_tidy_package</span>(<span class='no'>path</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"RStudio"</span>)
 
 <span class='fu'>use_tidy_ci</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())
 
@@ -175,11 +175,14 @@ commonly used packages.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
-      <td><p>Path to create new package</p></td>
+      <td><p>A path. If it exists, it is used. If it does not exist, it is
+created, provided that the parent path exists.</p></td>
     </tr>
     <tr>
-      <th>copyright_holder</th>
-      <td><p>Owner of code in package (e.g. "RStudio")</p></td>
+      <th>name</th>
+      <td><p>Name of the copyright holder or holders. Separate multiple
+individuals with <code>;</code>. You can supply a global default with
+<code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options(usethis.full_name = "My name")</a></code>.</p></td>
     </tr>
     <tr>
       <th>browse</th>
@@ -205,6 +208,9 @@ should be applied. See <code><a href='https://www.rdocumentation.org/packages/st
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <ul>
+<li><p><code>create_tidy_package()</code>: creates a new package, immediately applies as many
+of the tidyverse conventions as possible, issues a few reminders, and
+activates the new package.</p></li>
 <li><p><code>use_tidy_ci()</code>: sets up <a href='https://travis-ci.org'>Travis CI</a> and
 <a href='https://codecov.io'>Codecov</a>, ensuring that the package works on all
 versions of R starting at 3.1. It also ignores <code>compat-</code> and <code>deprec-</code>

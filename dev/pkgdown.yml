@@ -4,6 +4,6 @@ pkgdown_sha: ~
 articles:
   usethis-setup: articles/usethis-setup.html
 urls:
-  reference: http://usethis.r-lib.org/reference
-  article: http://usethis.r-lib.org/articles
+  reference: https://usethis.r-lib.org/reference
+  article: https://usethis.r-lib.org/articles
 

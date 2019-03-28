@@ -1,207 +1,207 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://usethis.r-lib.org/index.html</loc>
+    <loc>https://usethis.r-lib.org/index.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/badges.html</loc>
+    <loc>https://usethis.r-lib.org/reference/badges.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/browse-this.html</loc>
+    <loc>https://usethis.r-lib.org/reference/browse-this.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/browse_github_token.html</loc>
+    <loc>https://usethis.r-lib.org/reference/browse_github_token.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/ci.html</loc>
+    <loc>https://usethis.r-lib.org/reference/ci.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/create_from_github.html</loc>
+    <loc>https://usethis.r-lib.org/reference/create_from_github.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/create_package.html</loc>
+    <loc>https://usethis.r-lib.org/reference/create_package.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/edit.html</loc>
+    <loc>https://usethis.r-lib.org/reference/edit.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/edit_file.html</loc>
+    <loc>https://usethis.r-lib.org/reference/edit_file.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/git2r_credentials.html</loc>
+    <loc>https://usethis.r-lib.org/reference/git2r_credentials.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/git_protocol.html</loc>
+    <loc>https://usethis.r-lib.org/reference/git_protocol.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/git_sitrep.html</loc>
+    <loc>https://usethis.r-lib.org/reference/git_sitrep.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/git_vaccinate.html</loc>
+    <loc>https://usethis.r-lib.org/reference/git_vaccinate.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/licenses.html</loc>
+    <loc>https://usethis.r-lib.org/reference/licenses.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/pr_init.html</loc>
+    <loc>https://usethis.r-lib.org/reference/pr_init.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/proj_activate.html</loc>
+    <loc>https://usethis.r-lib.org/reference/proj_activate.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/proj_sitrep.html</loc>
+    <loc>https://usethis.r-lib.org/reference/proj_sitrep.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/proj_utils.html</loc>
+    <loc>https://usethis.r-lib.org/reference/proj_utils.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/rprofile-helper.html</loc>
+    <loc>https://usethis.r-lib.org/reference/rprofile-helper.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/tidyverse.html</loc>
+    <loc>https://usethis.r-lib.org/reference/tidyverse.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/ui.html</loc>
+    <loc>https://usethis.r-lib.org/reference/ui.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_addin.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_addin.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_blank_slate.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_blank_slate.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_build_ignore.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_build_ignore.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_citation.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_citation.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_code_of_conduct.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_code_of_conduct.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_course.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_course.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_course_details.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_course_details.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_coverage.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_coverage.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_cran_comments.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_cran_comments.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_data.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_data.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_description.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_description.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_directory.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_directory.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_git.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_git.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_git_config.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_git_config.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_git_hook.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_git_hook.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_git_ignore.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_git_ignore.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_github.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_github.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_github_labels.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_github_labels.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_github_links.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_github_links.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_github_release.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_github_release.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_logo.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_logo.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_namespace.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_namespace.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_news_md.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_news_md.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_package.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_package.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_package_doc.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_package_doc.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_pipe.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_pipe.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_pkgdown.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_pkgdown.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_r.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_r.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_rcpp.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_rcpp.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_readme_rmd.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_readme_rmd.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_release_issue.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_release_issue.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_revdep.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_revdep.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_rmarkdown_template.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_rmarkdown_template.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_roxygen_md.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_roxygen_md.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_rstudio.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_rstudio.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_spell_check.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_spell_check.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_template.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_template.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_testthat.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_testthat.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_tibble.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_tibble.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_tidy_thanks.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_tidy_thanks.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_tutorial.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_tutorial.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_version.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_version.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/use_vignette.html</loc>
+    <loc>https://usethis.r-lib.org/reference/use_vignette.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/usethis-defunct.html</loc>
+    <loc>https://usethis.r-lib.org/reference/usethis-defunct.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/usethis-package.html</loc>
+    <loc>https://usethis.r-lib.org/reference/usethis-package.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/reference/write-this.html</loc>
+    <loc>https://usethis.r-lib.org/reference/write-this.html</loc>
   </url>
   <url>
-    <loc>http://usethis.r-lib.org/articles/articles/usethis-setup.html</loc>
+    <loc>https://usethis.r-lib.org/articles/articles/usethis-setup.html</loc>
   </url>
 </urlset>
