@@ -6,6 +6,10 @@
 #'
 #' @details
 #'
+#' * `create_tidy_package()`: creates a new package, immediately applies as many
+#' of the tidyverse conventions as possible, issues a few reminders, and
+#' activates the new package.
+#'
 #' * `use_tidy_ci()`: sets up [Travis CI](https://travis-ci.org) and
 #' [Codecov](https://codecov.io), ensuring that the package works on all
 #' versions of R starting at 3.1. It also ignores `compat-` and `deprec-`
@@ -61,28 +65,33 @@ NULL
 
 #' @export
 #' @rdname tidyverse
-#' @param path Path to create new package
-#' @param copyright_holder Owner of code in package (e.g. "RStudio")
+#' @inheritParams create_package
+#' @inheritParams licenses
 create_tidy_package <- function(path,
-                                copyright_holder) {
-  create_package(path, rstudio = TRUE, open = FALSE)
-  old <- proj_set(path)
-  on.exit(proj_set(old), add = TRUE)
+                                name = "RStudio") {
+  path <- create_package(path, rstudio = TRUE, open = FALSE)
+  old_project <- proj_set(path)
+  on.exit(proj_set(old_project), add = TRUE)
 
-  use_description_field("Roxygen", "list(markdown = TRUE)")
+  use_roxygen_md()
   use_testthat()
-  use_gpl3_license("RStudio")
+  use_gpl3_license(name)
   use_tidy_description()
 
-  use_readme_rmd()
+  use_readme_rmd(open = FALSE)
   use_lifecycle_badge("experimental")
   use_cran_badge()
-  use_cran_comments()
+  use_cran_comments(open = FALSE)
 
   use_tidy_github()
-  ui_todo(ui_code("use_git()"))
-  ui_todo(ui_code("use_github()"))
-  ui_todo(ui_code("use_tidy_ci()"))
+  ui_todo("In the new package, remember to do:")
+  ui_todo("{ui_code('use_git()')}")
+  ui_todo("{ui_code('use_github()')}")
+  ui_todo("{ui_code('use_tidy_ci()')}")
+  ui_todo("{ui_code('use_pkgdown()')}")
+  ui_todo("{ui_code('use_pkgdown_travis()')}")
+
+  proj_activate(path)
 }
 
 #' @export

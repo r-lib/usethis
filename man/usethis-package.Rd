@@ -16,6 +16,7 @@ Automate package and project setup tasks that are otherwise
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://usethis.r-lib.org}
   \item \url{https://github.com/r-lib/usethis}
   \item Report bugs at \url{https://github.com/r-lib/usethis/issues}
 }
