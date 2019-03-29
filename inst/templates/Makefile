@@ -1,29 +1,26 @@
-R = R --vanilla CMD
+# h/t to @jimhester and @yihui for this parse block:
+# https://github.com/yihui/knitr/blob/dc5ead7bcfc0ebd2789fe99c527c7d91afb3de4a/Makefile#L1-L4
+# Note the portability change as suggested in the manual:
+# https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-portable-packages
+PKGNAME = `sed -n "s/Package: *\([^ ]*\)/\1/p" DESCRIPTION`
+PKGVERS = `sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION`
 
 
-all: build check install clean
+all: check
 
 build:
-	$(R) build .
+	R CMD build .
 
 check: build
-	$(R) check --no-manual *.tar.gz
+	R CMD check --no-manual $(PKGNAME)_$(PKGVERS).tar.gz
 
-define devtools_check
-	Rscript -e " \
-		tryCatch( \
-			invisible(packageVersion('devtools')), \
-			error = function(e) { \
-				install.packages('devtools', repos = 'https://cloud.r-project.org') \
-			} \
-		)"
-endef
-install:
-	@$(devtools_check); \
-	Rscript -e 'devtools::install()'
+install_deps:
+	Rscript \
+	-e 'if (!requireNamespace("remotes") install.packages("remotes")' \
+	-e 'remotes::install_deps(dependencies = TRUE)'
 
-install_src:
-	$(R) INSTALL .
+install: install_deps build
+	R CMD INSTALL $(PKGNAME)_$(PKGVERS).tar.gz
 
 clean:
-	rm -rf *.tar.gz *.Rcheck ..Rcheck
+	@rm -rf $(PKGNAME)_$(PKGVERS).tar.gz $(PKGNAME).Rcheck
