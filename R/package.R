@@ -1,6 +1,6 @@
 #' Depend on another package
 #'
-#' `use_package()` adds a CRAN package dependency to DESCRIPTION and offers a
+#' `use_package()` adds a CRAN package dependency to `DESCRIPTION` and offers a
 #' little advice about how to best use it. `use_dev_package()` adds a versioned
 #' dependency on an in-development GitHub package, adding the repo to `Remotes`
 #' so it will be automatically installed from the correct location.
@@ -93,11 +93,10 @@ how_to_use <- function(package, type) {
       {ui_field('Imports')} is almost always the better choice."
     ),
     suggests = {
-      ui_todo(
-        "Use {ui_code(paste0('requireNamespace(\"', package, '\", quietly = TRUE)'))}\\
-        to test if package is installed"
-      )
-      ui_todo("Then use {ui_code(paste0(package, '::fun()'))} to refer to functions.")
+      code <- glue("requireNamespace(\"{package}\", quietly = TRUE)")
+      ui_todo("Use {ui_code(code)} to test if package is installed")
+      code <- glue("{package}::fun()")
+      ui_todo("Then directly refer to functons like {ui_code(code)} (replacing {ui_code('fun()')}).")
     },
     enhances = "",
     linkingto = show_includes(package)

@@ -5,7 +5,7 @@
 #' Presumably you care about this if you've chosen to store and expose an
 #' object with class `tbl_df`. Specifically:
 #'   * Check that the active package uses roxygen2
-#'   * Add the tibble package to "Imports" in DESCRIPTION
+#'   * Add the tibble package to "Imports" in `DESCRIPTION`
 #'   * Reveal the roxygen directive necessary to import at least one function
 #'     from tibble.
 #'   * Offer support re: where to put this directive. Preferred location is

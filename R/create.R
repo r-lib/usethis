@@ -6,10 +6,8 @@
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
 #'   project
 #'
-#' Both functions can add project infrastructure to an existing directory of
-#' files or can create a completely new project. Both functions change the
-#' active project, so that subsequent `use_*()` calls affect the project
-#' that you've just created. See [proj_set()] to manually reset it.
+#' Both functions can be called on an existing project; you will be asked
+#' before any existing files are changed.
 #'
 #' @param path A path. If it exists, it is used. If it does not exist, it is
 #'   created, provided that the parent path exists.
@@ -21,10 +19,13 @@
 #'   that the directory can be recognized as a project by the
 #'   [here](https://here.r-lib.org) or
 #'   [rprojroot](https://rprojroot.r-lib.org) packages.
-#' @param open If `TRUE` and in RStudio, a new RStudio project is opened in a
-#'   new instance, if possible, or is switched to, otherwise. If `TRUE` and not
-#'   in RStudio (or new project is not an RStudio project), working directory is
-#'   set to the new project.
+#' @param open If `TRUE`, [activates][proj_activate()] the new project:
+#'
+#'   * If RStudio desktop, the package is opened in a new session.
+#'   * If on RStudio server, the current RStudio project is activated.
+#'   * Otherwise, the working directory and active project is changed.
+#'
+#' @return Path to the newly created project or package, invisibly.
 #' @export
 create_package <- function(path,
                            fields = NULL,
@@ -39,9 +40,9 @@ create_package <- function(path,
 
   create_directory(path)
   old_project <- proj_set(path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
-  use_directory("man")
   use_description(fields)
   use_namespace()
 
@@ -50,10 +51,13 @@ create_package <- function(path,
   }
 
   if (open) {
-    open_project(proj_get(), restore = old_project)
+    if (proj_activate(path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
+    }
   }
 
-  invisible(TRUE)
+  invisible(proj_get())
 }
 
 #' @export
@@ -67,6 +71,7 @@ create_project <- function(path,
 
   create_directory(path)
   old_project <- proj_set(path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
 
@@ -78,31 +83,34 @@ create_project <- function(path,
     ui_todo("Learn more at <https://here.r-lib.org>")
     file_create(proj_path(".here"))
   }
+
   if (open) {
-    open_project(proj_get(), restore = old_project)
+    if (proj_activate(path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
+    }
   }
 
-  invisible(TRUE)
+  invisible(proj_get())
 }
 
 #' Create a project from a GitHub repo
 #'
 #' Creates a new local Git repository from a repository on GitHub. It is highly
 #' recommended that you pre-configure or pass a GitHub personal access token
-#' (PAT), which is facilitated by [browse_github_pat()]. In particular, a PAT is
-#' required in order for `create_from_github()` to do ["fork and
+#' (PAT), which is facilitated by [browse_github_token()]. In particular, a PAT
+#' is required in order for `create_from_github()` to do ["fork and
 #' clone"](https://help.github.com/articles/fork-a-repo/). It is also required
 #' by [use_github()], which connects existing local projects to GitHub.
-#' [use_github()] has more detailed advice on working with the `protocol` and
-#' `credentials` arguments.
 #'
-#' @seealso [use_github()] for GitHub setup advice. [use_course()] for one-time
-#'   download of all files in a Git repo, without any local or remote Git
-#'   operations.
+#' @seealso [use_github()] for GitHub setup advice. [git_protocol()] and
+#'   [git2r_credentials()] for background on `protocol` and `credentials`.
+#'   [use_course()] for one-time download of all files in a Git repo, without
+#'   any local or remote Git operations.
 #'
 #' @inheritParams create_package
-#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
-#'   The `repo` part will be the name of the new local repo.
+#' @param repo_spec GitHub repo specification in this form: `owner/repo`. The
+#'   `repo` part will be the name of the new local repo.
 #' @inheritParams use_course
 #' @param fork If `TRUE`, we create and clone a fork. If `FALSE`, we clone
 #'   `repo_spec` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT)
@@ -116,34 +124,23 @@ create_project <- function(path,
 #'    Defaults to `TRUE` if in an RStudio session and project has no
 #'   pre-existing `.Rproj` file. Defaults to `FALSE` otherwise.
 #' @inheritParams use_github
+#'
 #' @export
 #' @examples
 #' \dontrun{
 #' create_from_github("r-lib/usethis")
-#'
-#' create_from_github("r-lib/usethis", protocol = "https")
-#'
-#' ## various ways code can look when specifying ssh credential explicitly
-#' create_from_github("r-lib/usethis", credentials = git2r::cred_ssh_key())
-#'
-#' cred <- git2r::cred_ssh_key(
-#'   publickey = "path/to/id_rsa.pub",
-#'   privatekey = "path/to/id_rsa"
-#' )
-#' create_from_github("cran/TailRank", credentials = cred)
 #' }
 create_from_github <- function(repo_spec,
                                destdir = NULL,
                                fork = NA,
                                rstudio = NULL,
                                open = interactive(),
-                               protocol = getOption("usethis.protocol", default = "ssh"),
+                               protocol = git_protocol(),
                                credentials = NULL,
-                               auth_token = NULL,
+                               auth_token = github_token(),
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
-  protocol <- match.arg(protocol, c("ssh", "https"))
 
   owner <- spec_owner(repo_spec)
   repo <- spec_repo(repo_spec)
@@ -153,9 +150,9 @@ create_from_github <- function(repo_spec,
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  pat <- auth_token %||% gh_token()
-  pat_available <- pat != ""
-  user <- if (pat_available) gh::gh_whoami(pat)[["login"]] else NULL
+  pat_available <- auth_token != ""
+  user <- if (pat_available) github_user()[["login"]] else NULL
+  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
 
   gh <- function(endpoint, ...) {
     gh::gh(
@@ -195,7 +192,8 @@ create_from_github <- function(repo_spec,
     credentials = credentials,
     progress = FALSE
   )
-  old_project <- proj_set(repo_path)
+  old_project <- proj_set(repo_path, force = TRUE)
+  on.exit(proj_set(old_project), add = TRUE)
 
   if (fork) {
     r <- git2r::repository(proj_get())
@@ -210,35 +208,13 @@ create_from_github <- function(repo_spec,
   }
 
   if (open) {
-    open_project(proj_get(), restore = old_project)
-  }
-  invisible(TRUE)
-
-}
-
-## `restore = NA` means do not restore, because ...
-## `restore = NULL` has to be reserved for the scenario where we restore state of "no active project"
-##
-## `rstudio` arg here is about whether to attempt a launch in RStudio
-## `rstudio` arg of `create_*()` functions is about whether to add .Rproj file
-open_project <- function(path, restore = NA, rstudio = NA) {
-  if (is.na(rstudio)) {
-    rstudio <- is_rstudio_project(path)
-  }
-
-  if (rstudio && rstudioapi::hasFun("openProject")) {
-    ui_done("Opening new project {ui_path(path)} in RStudio")
-    rstudioapi::openProject(rproj_path(path), newSession = TRUE)
-    ## TODO: check this is correct on rstudio server / cloud
-    if (is.null(restore) || !is.na(restore)) {
-      proj_set(restore, force = TRUE)
+    if (proj_activate(repo_path)) {
+      # Working directory/active project changed; so don't undo on exit
+      on.exit()
     }
-    invisible(TRUE)
-  } else {
-    setwd(path)
-    ui_done("Changing working directory to {ui_path(path)}")
-    invisible(FALSE)
   }
+
+  invisible(proj_get())
 }
 
 check_not_nested <- function(path, name) {
@@ -255,7 +231,7 @@ check_not_nested <- function(path, name) {
   }
 
   ui_line(
-    "New project {ui_value(name)} is nested inside an existing project\\
+    "New project {ui_value(name)} is nested inside an existing project \\
     {ui_path(path)}, which is rarely a good idea."
   )
   if (ui_nope("Do you want to create anyway?")) {
@@ -274,7 +250,7 @@ rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
   }
 
   if (fork && !pat_available) {
-    check_gh_token(auth_token = NULL)
+    check_github_token(auth_token = NULL)
   }
 
   if (fork && identical(user, owner)) {

@@ -1,12 +1,11 @@
 #' Create tests
 #'
-#' `use_testthat()` sets up testing infrastructure, creating
-#' \file{tests/testthat.R} and \file{tests/testthat/}, and
-#' adding \pkg{testthat} to the suggested packages. `use_test()`
-#' creates \file{tests/testthat/test-<name>.R} and opens it for editing.
+#' `use_testthat()` sets up testing infrastructure, creating `tests/testthat.R`
+#' and `tests/testthat/`, and adding testthat as a Suggested package.
+#' `use_test()` creates `tests/testthat/test-<name>.R` and opens it for editing.
 #'
-#' @seealso The [testing chapter](http://r-pkgs.had.co.nz/tests.html) of [R
-#'   Packages](http://r-pkgs.had.co.nz).
+#' @seealso The [testing chapter](https://r-pkgs.org/tests.html) of [R
+#'   Packages](https://r-pkgs.org).
 #' @export
 #' @inheritParams use_template
 use_testthat <- function() {
@@ -14,27 +13,31 @@ use_testthat <- function() {
   check_installed("testthat")
 
   use_dependency("testthat", "Suggests")
-  use_directory("tests/testthat")
+  use_directory(path("tests", "testthat"))
   use_template(
     "testthat.R",
-    "tests/testthat.R",
+    save_as = path("tests", "testthat.R"),
     data = list(name = project_name())
   )
 }
 
 #' @rdname use_testthat
-#' @param name Test name. if `NULL`, and you're using RStudio, will use
-#'   the name of the file open in the source editor.
+#' @param name Base of test file name. If `NULL`, and you're using RStudio, will
+#'   be based on the name of the file open in the source editor.
 #' @export
 use_test <- function(name = NULL, open = interactive()) {
   if (!uses_testthat()) {
     use_testthat()
   }
 
-  name <- name %||% get_active_r_file(path = "R")
+  if (is.null(name)) {
+    name <- get_active_r_file(path = "R")
+  } else {
+    check_file_name(name)
+  }
+
   name <- paste0("test-", name)
   name <- slug(name, "R")
-
   path <- path("tests", "testthat", name)
 
   if (file_exists(proj_path(path))) {
@@ -46,16 +49,16 @@ use_test <- function(name = NULL, open = interactive()) {
 
   # As of testthat 2.1.0, a context() is no longer needed/wanted
   if (utils::packageVersion("testthat") >= "2.1.0") {
-    use_dependency("testthat", "suggests", "2.1.0")
+    use_dependency("testthat", "Suggests", "2.1.0")
     use_template(
       "test-example-2.1.R",
-      path,
+      save_as = path,
       open = open
     )
   } else {
     use_template(
       "test-example.R",
-      path,
+      save_as = path,
       data = list(test_name = path_ext_remove(name)),
       open = open
     )

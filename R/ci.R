@@ -97,12 +97,12 @@ appveyor_activate <- function(browse = interactive()) {
 }
 
 use_appveyor_badge <- function() {
-  appveyor <- appveyor_info(proj_get())
+  appveyor <- appveyor_info()
   use_badge("AppVeyor build status", appveyor$url, appveyor$img)
 }
 
-appveyor_info <- function(base_path = proj_get()) {
-  check_uses_github(base_path)
+appveyor_info <- function() {
+  check_uses_github()
   img <- glue(
     "https://ci.appveyor.com/api/projects/status/github/",
     "{github_repo_spec()}?branch=master&svg=true"
@@ -110,4 +110,40 @@ appveyor_info <- function(base_path = proj_get()) {
   url <- glue("https://ci.appveyor.com/project/{github_repo_spec()}")
 
   list(url = url, img = img)
+}
+
+#' @section `use_gitlab_ci()`:
+#' Adds a basic `.gitlab-ci.yml` to the top-level directory of a package. This is
+#' a configuration file for the [Gitlab CI/CD](https://docs.gitlab.com/ee/ci/) continuous
+#' integration service for GitLab.
+#' @export
+#' @rdname ci
+use_gitlab_ci <- function() {
+  check_uses_git()
+  new <- use_template(
+    "gitlab-ci.yml",
+    ".gitlab-ci.yml",
+    ignore = TRUE
+  )
+  if (!new) return(invisible(FALSE))
+
+  invisible(TRUE)
+}
+
+uses_gitlab_ci <- function(base_path = proj_get()) {
+  path <- path(base_path, ".gitlab-ci.yml")
+  file_exists(path)
+}
+
+check_uses_gitlab_ci <- function(base_path = proj_get()) {
+  if (uses_gitlab_ci(base_path)) {
+    return(invisible())
+  }
+
+  ui_stop(
+    "
+    Cannot detect that package {ui_(project_name(base_path))} already uses GitLab CI.
+    Do you need to run {ui_code('use_gitlab_ci()')}?
+    "
+  )
 }

@@ -1,6 +1,21 @@
 ## attempt to activate a project, which is nice during development
 try(proj_set("."))
 
+## If session temp directory appears to be, or be within, a project, there
+## will be large scale, spurious test failures.
+## The IDE sometimes leaves .Rproj files behind in session temp directory or
+## one of its parents.
+## Delete such files manually.
+session_temp_proj <- proj_find(path_temp())
+if (!is.null(session_temp_proj)) {
+  Rproj_files <- fs::dir_ls(session_temp_proj, glob = "*.Rproj")
+  ui_line(c(
+    "Rproj file(s) found at or above session temp dir:",
+    paste0("* ", Rproj_files),
+    "Expect this to cause spurious test failures."
+  ))
+}
+
 ## putting `pattern` in the package or project name is part of our strategy for
 ## suspending the nested project check during testing
 pattern <- "aaa"
@@ -38,8 +53,14 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
       )
     }
   } else {
-    withr::defer(proj_set(old_project, force = TRUE), envir = env)
-    withr::defer(fs::dir_delete(dir), envir = env)
+    withr::defer({
+      withr::with_options(
+        list(usethis.quiet = TRUE),
+        proj_set(old_project, force = TRUE)
+      )
+      setwd(old_project)
+      fs::dir_delete(dir)
+    }, envir = env)
   }
 
   withr::local_options(list(usethis.quiet = TRUE))
@@ -48,6 +69,8 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
     package = create_package(dir, rstudio = rstudio, open = FALSE),
     project = create_project(dir, rstudio = rstudio, open = FALSE)
   )
+  proj_set(dir)
+  setwd(dir)
   invisible(dir)
 }
 

@@ -1,7 +1,7 @@
 #' Create or modify a DESCRIPTION file
 #'
 #' @description
-#' usethis consults the following sources, in this order, to set DESCRIPTION
+#' usethis consults the following sources, in this order, to set `DESCRIPTION`
 #' fields:
 #' * `fields` argument of [create_package()] or [use_description()].
 #' * `getOption("usethis.description")` or `getOption("devtools.desc")`. The
@@ -19,14 +19,15 @@
 #' ```
 #' options(
 #'   usethis.description = list(
-#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
+#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
+#'                           comment = c(ORCID = "YOUR-ORCID-ID"))',
 #'     License = "MIT + file LICENSE",
 #'     Language =  "es"
 #'   )
 #' )
 #' ```
 #'
-#' @param fields A named list of fields to add to DESCRIPTION, potentially
+#' @param fields A named list of fields to add to `DESCRIPTION`, potentially
 #'   overriding default values. See [use_description()] for how you can set
 #'   personalized defaults using package options
 #' @seealso The [description chapter](http://r-pkgs.had.co.nz/description.html)
@@ -70,7 +71,7 @@ use_description_defaults <- function() {
       Version = "0.0.0.9000",
       Title = "What the Package Does (One Line, Title Case)",
       Description = "What the package does (one paragraph).",
-      "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"))',
+      "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
       License = "What license it uses",
       Encoding = "UTF-8",
       LazyData = "true"

@@ -2,6 +2,20 @@
 
 ## New features
 
+* `use_rcpp_armadillo()` and `use_rcpp_eigen()` are new functions 
+   that set up a package to use RcppArmadillo or RcppEigen, respectively
+   (#421, @coatless, @duckmayr).
+
+* `use_tutorial()` creates a new interactive R Markdown tutorial, as implemented
+  by the [`learnr` package](https://rstudio.github.io/learnr/index.html)
+  (@angela-li, #645).
+
+* `use_ccby_license()` adds a CCBY 4.0 license (#547, @njtierney)
+
+* `git_protocol()` + `use_git_protocol()` and `git2r_credentials()` + `use_git2r_credentials()` are new helpers to summon or set git transport protocol (SSH or HTTPS) or git2r credentials, respectively. These functions are primarily for internal use. Most users can rely on default behaviour, but these helpers can be used to intervene if git2r isn't discovering the right credentials (#653).
+
+* `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
+
 * `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
   config (#328).
 
@@ -15,6 +29,10 @@
   they assume that you're working on your own repo (i.e. no fork), but once 
   we've happy with them, we'll extend to work on more situations (#346).
 
+* New `proj_activate()` lets you activate a project either opening a new 
+  RStudio session (if you use RStudio), or changing the working directory 
+  (#511).
+
 * `use_article()` creates articles, vignettes that are automatically
   added to `.Rbuildignore`. These appear on pkgdown sites, but are not 
   included with the package itself (#281).
@@ -24,13 +42,16 @@
 
 * `use_c("foo")` sets up `src/` and creates `src/foo.c` (#117).
 
-* `use_conflicted()` (#362) and `use_reprex()` (#465) help add useful packages 
-  to your `.Rprofile`.
+* `use_devtools()` (#624), `use_conflicted()` (#362), and `use_reprex()` (#465)
+  help add useful packages to your `.Rprofile`.
   
 * `use_covr_ignore()` makes it easy to ignore files in test coverage (#434).
 
 * `use_github_release()` creates a draft GitHub release using the entries
   in  `NEWS.md` (#137).
+
+* `use_gitlab_ci()` creates a draft gitlab-ci.yaml for use with GitLab 
+  (#565, @overmar).
 
 * `use_lgpl_license()` automates set up of the LGL license (#448, @krlmlr).
 
@@ -44,6 +65,13 @@
 
 * `use_release_issue()` creates a GitHub issue containing a release checklist 
   capturing best practices discovered by the tidyverse team (#338)
+  
+* `write_union` appends the novel `lines`, but does not remove duplicates from
+  existing lines (#583, @khailper).
+
+* New `use_addin()` helps setup necessary binding information for RStudio 
+  addins. (#353, @haozhu233)
+
 
 ## Partial file management
 
@@ -102,7 +130,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
 * Call `use_logo()` to update the package logo to the latest specifications:
   `man/figure/logo.png` should be 240 x 278, and README should contain
   `<img src="man/figures/logo.png" align="right" height="139" />`.
-  This gives a nicer display on retina displays.
+  This gives a nicer display on retina displays. The logo is also linked to the
+  pkgdown site if available (#536).
 
 * When creating a new package, use `create_tidy_package()` to start with a
   package following the tidyverse standards (#461). 
@@ -131,6 +160,9 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `browse_github()` now falls back to CRAN organisation (with a warning) if 
   package doesn't have it's own GitHub repo (#186).
+
+* `create_*()`restore the active project if they error part way through, 
+  and use `proj_activate()` (#453, #511).
 
 * `edit_r_buildignore()` opens `.Rbuildignore` for manual editing 
    (#462, @bfgray3).
@@ -173,11 +205,15 @@ usethis gains tooling to manage part of a file. This currently used for managing
 * `use_pkgdown()` is now configurable with site options (@jayhesselberth, #467),
   and no longer creates the `docs/` directory (#495).
 
+* `use_test()` no longer forces the filename to be lowercase (#613, @stufield).
+
 * `use_test()` will not include a `context()` in the generated file if used 
   with testthat 2.1.0 and above (the future release of testthat) (#325).
 
 * `use_tidy_description()` sets the `Encoding` field in `DESCRIPTION` 
   (#502, @krlmlr).
+  
+* `use_tidy_eval()` re-exports `:=` (#595, @jonthegeek).
 
 * `use_tidy_versions()` has source argument so that you can choose to use
   local or CRAN versions (#309).
@@ -196,6 +232,14 @@ usethis gains tooling to manage part of a file. This currently used for managing
   in `NEWS.md` (#440).
 
 * withr moves from Suggests to Imports.
+
+* `use_vignette` now checks if the vignette name is valid (starts with letter 
+  and consists of letters, numbers, hyphen, and underscore) and throws an error 
+  if not (@akgold, #555).
+  
+* `restart_rstudio()` now returns `FALSE` in RStudio if no project is open,
+  fixing an issue that caused errors in helpers that suggest restarting 
+  RStudio (@gadenbuie, #571).
 
 # usethis 1.4.0
 

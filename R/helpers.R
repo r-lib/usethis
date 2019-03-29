@@ -25,11 +25,11 @@ use_dependency <- function(package, type, min_version = NULL) {
   stopifnot(is_string(package))
   stopifnot(is_string(type))
 
-  if (package != "R" && !requireNamespace(package, quietly = TRUE)) {
-    ui_stop(
+  if (package != "R" && !is_installed(package)) {
+    ui_stop(c(
       "{ui_value(package)} must be installed before you can ",
       "take a dependency on it."
-    )
+    ))
   }
 
   if (isTRUE(min_version)) {
@@ -97,10 +97,10 @@ version_spec <- function(x) {
 view_url <- function(..., open = interactive()) {
   url <- paste(..., sep = "/")
   if (open) {
-    ui_done("Opening URL {url}")
+    ui_done("Opening URL {ui_value(url)}")
     utils::browseURL(url)
   } else {
-    ui_todo("Open URL {url}")
+    ui_todo("Open URL {ui_value(url)}")
   }
   invisible(url)
 }

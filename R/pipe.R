@@ -2,7 +2,7 @@
 #'
 #' Does setup necessary to use magrittr's pipe internally in your package and to
 #' re-export it for users of your package:
-#' * Adds magrittr to "Imports" in DESCRIPTION
+#' * Adds magrittr to "Imports" in `DESCRIPTION`
 #' * Creates `R/utils-pipe.R` with the necessary roxygen template
 #'
 #' @export

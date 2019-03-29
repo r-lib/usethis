@@ -13,8 +13,15 @@
 #' \dontrun{
 #' use_release_issue("2.0.0")
 #' }
-use_release_issue <- function(version) {
+use_release_issue <- function(version = NULL) {
   check_uses_github()
+  check_is_package("use_release_issue()")
+
+  version <- version %||% choose_version()
+  if (is.null(version)) {
+    return(invisible(FALSE))
+  }
+
   checklist <- release_checklist(version)
 
   issue <- gh::gh("POST /repos/:owner/:repo/issues",
@@ -47,24 +54,24 @@ release_checklist <- function(version) {
     todo("`devtools::check()`"),
     todo("`devtools::check_win_devel()`"),
     todo("`rhub::check_for_cran()`"),
-    todo("`rhub::check(platform = 'solaris-x86-patched')`", has_src),
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
-    todo("`rhub::check_with_sanitizers()", has_src),
+    todo("`rhub::check_with_sanitizers()`", has_src),
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran),
-    todo("[Polish NEWS](http://style.tidyverse.org/news.html#before-release)", on_cran),
+    todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("Polish pkgdown reference index"),
     todo("Draft blog post", type != "patch"),
     "",
     "Submit to CRAN:",
     "",
-    todo("`usethis::use_version('{version}')`"),
-    todo("`devtools::check_win_devel()` (again!)"),
+    todo("`usethis::use_version('{type}')`"),
+    todo("Update `cran-comments.md`"),
     todo("`devtools::submit_cran()`"),
     todo("Approve email"),
     "",
     "Wait for CRAN...",
     "",
-    todo("`usethis::use_release_tag()`"),
+    todo("Accepted :tada:"),
+    todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version()`"),
     todo("`usethis::use_news()`", !on_cran),
     todo("Update install instructions in README", !on_cran),
@@ -90,13 +97,20 @@ release_type <- function(version) {
 #'
 #' Creates a __draft__ GitHub release for the current package using the current
 #' version and `NEWS.md`. If you are comfortable that it is correct, you will
-#' need to publish the release from GitHub.
+#' need to publish the release from GitHub. It also deletes `CRAN-RELEASE`
+#' and checks that you've pushed all commits to GitHub.
 #'
 #' @inheritParams use_github_links
 #' @export
-use_github_release <- function(host = NULL, auth_token = NULL) {
+use_github_release <- function(host = NULL,
+                               auth_token = github_token()) {
+  cran_release <- proj_path("CRAN-RELEASE")
+  if (file_exists(cran_release)) {
+    file_delete(cran_release)
+  }
+
   check_uses_github()
-  check_branch_current()
+  check_branch_pushed()
 
   package <- package_data()
 
@@ -117,8 +131,7 @@ use_github_release <- function(host = NULL, auth_token = NULL) {
 
 
 cran_version <- function(package = project_name(),
-                         available = utils::available.packages()
-                         ) {
+                         available = utils::available.packages()) {
   idx <- available[, "Package"] == package
   if (any(idx)) {
     as.package_version(available[package, "Version"])
@@ -137,14 +150,14 @@ news_latest <- function() {
   lines <- readLines(path)
   headings <- which(grepl("^#\\s+", lines))
 
-  if (length(headings == 1))
-
-  if (length(headings) == 0) {
-    ui_stop("No top-level headings found in {ui_value(path)}")
-  } else if (length(headings) == 1) {
-    news <- lines[seq2(headings + 1, length(lines))]
-  } else {
-    news <- lines[seq2(headings[[1]] + 1, headings[[2]] - 1)]
+  if (length(headings == 1)) {
+    if (length(headings) == 0) {
+      ui_stop("No top-level headings found in {ui_value(path)}")
+    } else if (length(headings) == 1) {
+      news <- lines[seq2(headings + 1, length(lines))]
+    } else {
+      news <- lines[seq2(headings[[1]] + 1, headings[[2]] - 1)]
+    }
   }
 
   # Remove leading and trailing empty lines

@@ -22,8 +22,8 @@
 #' * `good first issue` indicates a good issue for first-time contributors.
 #' * `help wanted` indicates that a maintainer wants help on an issue.
 #'
-#' @param repo Optional repository specification (`owner/repo`) if you
-#'   don't want to use the current project.
+#' @param repo_spec Optional repository specification (`owner/repo`) if you
+#'   don't want to target the current project.
 #' @param labels A character vector giving labels to add.
 #' @param rename A named vector with names giving old names and values giving
 #'   new values.
@@ -56,14 +56,13 @@
 #'   descriptions = c("foofiest" = "the foofiest issue you ever saw")
 #' )
 #' }
-use_github_labels <- function(
-                              repo = github_repo_spec(),
+use_github_labels <- function(repo_spec = github_repo_spec(),
                               labels = character(),
                               rename = character(),
                               colours = character(),
                               descriptions = character(),
                               delete_default = FALSE,
-                              auth_token = NULL,
+                              auth_token = github_token(),
                               host = NULL) {
   check_uses_github()
 
@@ -71,8 +70,8 @@ use_github_labels <- function(
     out <- gh::gh(
       endpoint,
       ...,
-      owner = spec_owner(repo),
-      repo = spec_repo(repo),
+      owner = spec_owner(repo_spec),
+      repo = spec_repo(repo_spec),
       .token = auth_token,
       .api_url = host,
       .send_headers = c(
@@ -92,9 +91,11 @@ use_github_labels <- function(
   # Rename existing labels
   to_rename <- intersect(cur_label_names, names(rename))
   if (length(to_rename) > 0) {
-    delta <- paste0(ui_value(to_rename), " -> ", ui_value(rename[to_rename]),
-      collapse = ", ")
-    ui_done("Renaming labels: {delta}")
+    delta <- purrr::map2_chr(
+      to_rename, rename[to_rename],
+      ~ paste0(ui_value(.x), " -> ", ui_value(.y))
+    )
+    ui_done("Renaming labels: {paste0(delta, collapse = ', ')}")
 
     for (label in to_rename) {
       gh(
@@ -175,13 +176,11 @@ use_github_labels <- function(
 
 #' @export
 #' @rdname use_github_labels
-use_tidy_labels <- function(
-                              repo = github_repo_spec(),
-                              auth_token = NULL,
-                              host = NULL) {
-
+use_tidy_labels <- function(repo_spec = github_repo_spec(),
+                            auth_token = github_token(),
+                            host = NULL) {
   use_github_labels(
-    repo = repo,
+    repo_spec = repo_spec,
     labels = tidy_labels(),
     rename = tidy_labels_rename(),
     colours = tidy_label_colours(),
@@ -223,6 +222,7 @@ tidy_label_colours <- function() {
     "good first issue :heart:" = "CBBAB8",
     "help wanted :heart:" = "C5C295",
     "reprex" = "C5C295",
+    "tidy-dev-day :nerd_face:" = "CBBAB8",
     "wip" = "E1B996"
   )
 }
@@ -238,7 +238,8 @@ tidy_label_descriptions <- function() {
     "documentation" = "",
     "good first issue :heart:" = "good issue for first-time contributors",
     "help wanted :heart:" = "we'd love your help!",
-    "breaking change :skull_and_crossbones:" = "API change likely to affect existing code"
+    "breaking change :skull_and_crossbones:" = "API change likely to affect existing code",
+    "tidy-dev-day :nerd_face:" = "Tidyverse Developer Day rstd.io/tidy-dev-day"
   )
 }
 

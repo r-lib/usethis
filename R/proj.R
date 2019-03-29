@@ -66,9 +66,13 @@ proj_get <- function() {
 #'   a project. Use sparingly! The main application is to solve a temporary
 #'   chicken-egg problem: you need to set the active project in order to add
 #'   project-signalling infrastructure, such as initialising a Git repo or
-#'   adding a DESCRIPTION file.
+#'   adding a `DESCRIPTION` file.
 #' @export
 proj_set <- function(path = ".", force = FALSE) {
+  if (dir_exists(path %||% "") && is_in_proj(path)) {
+    return(invisible())
+  }
+
   if (is.null(path) || force) {
     path <- proj_path_prep(path)
     proj_string <- if (is.null(path)) "<no active project>" else path
@@ -207,7 +211,7 @@ is_in_proj <- function(path) {
   identical(
     proj_get(),
     ## use path_abs() in case path does not exist yet
-    path_common(c(proj_get(), path_abs(path)))
+    path_common(c(proj_get(), path_expand(path_abs(path))))
   )
 }
 
@@ -223,10 +227,10 @@ project_data <- function(base_path = proj_get()) {
   } else {
     data <- list(Project = path_file(base_path))
   }
-  if (uses_github(base_path)) {
+  if (proj_active() && uses_github()) {
     data$github_owner <- github_owner()
-    data$github_repo <- github_repo()
-    data$github_spec <- github_repo_spec()
+    data$github_repo  <- github_repo()
+    data$github_spec  <- github_repo_spec()
   }
   data
 }
@@ -249,5 +253,32 @@ project_name <- function(base_path = proj_get()) {
     project_data(base_path)$Package
   } else {
     project_data(base_path)$Project
+  }
+}
+
+#' Activate a project
+#'
+#' Activates a project in usethis, R session, and (if relevant) RStudio senses.
+#' If you are in RStudio, this will open a new RStudio session. If not, it will
+#' change the working directory and [active project][proj_set()].
+#'
+#' @param path Project directory
+#' @return Single logical value indicating if current session is modified.
+#' @export
+proj_activate <- function(path) {
+  check_path_is_directory(path)
+  path <- user_path_prep(path)
+
+  if (rstudioapi::isAvailable()) {
+    ui_done("Opening {ui_path(path, base = NA)} in new RStudio session")
+    rstudioapi::openProject(path, newSession = TRUE)
+    invisible(FALSE)
+  } else {
+    if (user_path_prep(getwd()) != path) {
+      ui_done("Changing working directory to {ui_path(path, base = NA)}")
+      setwd(path)
+    }
+    proj_set(path)
+    invisible(TRUE)
   }
 }

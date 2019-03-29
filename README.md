@@ -44,7 +44,7 @@ package or project, that will be the active project. Otherwise, usethis
 verifies that current working directory is or is below a valid project
 directory and that becomes the active project. Use `proj_get()` or
 `proj_sitrep()` to manually query the project and [read more in the
-docs](http://usethis.r-lib.org/reference/proj_get.html).
+docs](https://usethis.r-lib.org/reference/proj_utils.html).
 
 A few usethis functions have no strong connections to projects and will
 expect you to provide a path.
@@ -61,9 +61,10 @@ projects that are not packages.
 library(usethis)
 
 # Create a new package -------------------------------------------------
-tmp <- file.path(tempdir(), "mypkg")
-create_package(tmp)
-#> ✔ Setting active project to '/private/tmp/RtmpJt0Zjc/mypkg'
+path <- file.path(tempdir(), "mypkg")
+create_package(path)
+#> ✔ Creating '/tmp/RtmplWepAV/mypkg/'
+#> ✔ Setting active project to '/private/tmp/RtmplWepAV/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Creating 'man/'
 #> ✔ Writing 'DESCRIPTION'
@@ -78,6 +79,11 @@ create_package(tmp)
 #> Encoding: UTF-8
 #> LazyData: true
 #> ✔ Writing 'NAMESPACE'
+#> ✔ Setting active project to '<no active project>'
+# only needed since this session isn't interactive
+proj_activate(path)
+#> ✔ Changing working directory to '/tmp/RtmplWepAV/mypkg/'
+#> ✔ Setting active project to '/private/tmp/RtmplWepAV/mypkg'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -98,15 +104,20 @@ use_roxygen_md()
 #> ● Run `devtools::document()`
 
 use_rcpp()
-#> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
-#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
-#> ● Include the following roxygen tags somewhere in your package
+#> ● Copy and paste the following lines into '/private/tmp/RtmplWepAV/mypkg/R/mypkg-package.R':
+#>   ## usethis namespace: start
 #>   #' @useDynLib mypkg, .registration = TRUE
-#>   #' @importFrom Rcpp sourceCpp
+#>   ## usethis namespace: end
 #>   NULL
-#> ● Run `devtools::document()`
+#> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
+#> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
+#> ● Copy and paste the following lines into '/private/tmp/RtmplWepAV/mypkg/R/mypkg-package.R':
+#>   ## usethis namespace: start
+#>   #' @importFrom Rcpp sourceCpp
+#>   ## usethis namespace: end
+#>   NULL
 
 use_revdep()
 #> ✔ Creating 'revdep/'

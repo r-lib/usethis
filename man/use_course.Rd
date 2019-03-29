@@ -8,9 +8,10 @@ use_course(url, destdir = NULL)
 }
 \arguments{
 \item{url}{Link to a ZIP file containing the materials, possibly behind a
-shortlink. Function developed with DropBox and GitHub in mind, but should
-work for ZIP files generally. If no "http" prefix is found, "https://" is
-prepended. See \link{use_course_details} for more.}
+shortlink. Links of the form \code{"repo/user"} are expanded to the appropriate
+url for a repo on GitHub. Function developed with DropBox and GitHub in
+mind, but should work for ZIP files generally. If no "http" prefix is
+found, "https://" is prepended. See \link{use_course_details} for more.}
 
 \item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
 }
@@ -32,9 +33,12 @@ folder is opened in the file manager, e.g. Finder or File Explorer.
 }
 \details{
 If \code{url} has no "http" prefix, "https://" is prepended, allowing for even
-less typing by the user. Most URL shorteners give HTTPS links and,
-anecdotally, we note this appears to work with \href{https://bitly.com/}{bit.ly}
-links, even though they are nominally HTTP.
+less typing by the user. A \code{url} of the form \code{"repo/user"}, is assumed to
+refer to a GitHub repository and is expanded appropriately, unless \code{url}
+matches a URL shortener service, currently only \code{"bit.ly"} or \code{"rstd.io"}.
+Most URL shorteners give HTTPS links and, anecdotally, we note this appears
+to work with \href{https://bitly.com/}{bit.ly} links, even though they are
+nominally HTTP.
 }
 \examples{
 \dontrun{
@@ -48,7 +52,8 @@ use_course("http://bit.ly/usethis-shortlink-example")
 ## from CRAN
 use_course("https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zip")
 
-## from GitHub, 2 ways
+## from GitHub, 3 ways
+use_course("r-lib/rematch2")
 use_course("https://github.com/r-lib/rematch2/archive/master.zip")
 use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
 }

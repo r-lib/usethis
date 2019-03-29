@@ -1,4 +1,4 @@
-url: http://usethis.r-lib.org
+url: https://usethis.r-lib.org
 
 authors:
    Jennifer Bryan:
@@ -70,6 +70,10 @@ reference:
     contents:
     - matches("cran_comments|revdep")
     - use_version
+  - title: Continuous integration
+    contents:
+    - use_travis
+    - use_appveyor
   - title: Tidyverse development
     desc: >
       Conventions used in the tidyverse and r-lib organisations
@@ -89,6 +93,7 @@ reference:
     - create_from_github
     - use_git_config
     - use_git
+    - use_git_protocol
     - use_github
     - use_github_links
     - use_git_ignore
@@ -98,6 +103,11 @@ reference:
     - use_readme_rmd
     - matches("browse")
     - matches("edit_git_")
+    - git_sitrep
+    - git_vaccinate
+  - title: Pull requests
+    contents:
+    - starts_with("pr_")
   - title: Edit
     contents:
     - starts_with("edit_")
