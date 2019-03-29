@@ -298,7 +298,7 @@ git2r_env <- new.env(parent = emptyenv())
 #'   GitHub also accepts a personal access token (PAT) via HTTPS. If
 #'   `credentials = NULL` and a PAT is available, we send it. Preference is
 #'   given to any `auth_token` that is passed explicitly. Otherwise,
-#'   [`github_token()`] is called. If a PAT is found, we make an HTTPS
+#'   [github_token()] is called. If a PAT is found, we make an HTTPS
 #'   credential with [git2r::cred_user_pass()]. The PAT is sent as the password
 #'   and dummy text is sent as the username (the PAT is what really matters in
 #'   this case). You can also register an explicit credential yourself in a

@@ -11,7 +11,7 @@
 #' make a [GitHub personal access token
 #' (PAT)](https://github.com/settings/tokens) available. You can either
 #' provide this directly via the `auth_token` argument or store it for retrieval
-#' with [`github_token()`].
+#' with [github_token()].
 #'
 #' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
