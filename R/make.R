@@ -14,6 +14,6 @@ use_make <- function() {
 }
 
 uses_make <- function(base_path = proj_get()) {
-  makefile_path <- path(base_path, "Makefile")
+  makefile_path <- proj_path("Makefile")
   file_exists(makefile_path)
 }

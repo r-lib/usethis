@@ -10,9 +10,7 @@
 #' @seealso [use_make()]
 #' @export
 use_jenkins <- function() {
-  if (!uses_make()) {
-    use_make()
-  }
+  use_make()
   use_template(
     "Jenkinsfile",
     data = list(name = project_name())
