@@ -44,8 +44,6 @@ compact <- function(x) {
   x[!is_empty]
 }
 
-"%||%" <- function(a, b) if (!is.null(a)) a else b
-
 check_installed <- function(pkg) {
   if (!is_installed(pkg)) {
     ui_stop("Package {ui_value(pkg)} required. Please install before re-trying.")
