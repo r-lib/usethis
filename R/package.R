@@ -43,12 +43,12 @@ use_dev_package <- function(package, type = "Imports") {
 }
 
 use_remote <- function(package) {
-  package_remote <- package_remote(package)
   remotes <- desc::desc_get_remotes(proj_get())
-  if (package_remote %in% remotes) {
+  if (any(grepl(package, remotes))) {
     return(invisible())
   }
 
+  package_remote <- package_remote(package)
   ui_done(
     "Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in DESCRIPTION"
   )
