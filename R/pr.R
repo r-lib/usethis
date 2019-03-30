@@ -93,11 +93,7 @@ pr_fetch <- function(number,
   check_uses_github()
   check_uncommitted_changes()
 
-  auth_token <- github_token()
-  check_github_token(auth_token)
-
-  protocol <- github_remote_protocol()
-  credentials <- git2r_credentials(protocol, auth_token)
+  auth_token <- check_github_token(allow_empty = TRUE)
 
   owner <- owner %||% github_owner_upstream() %||% github_owner()
   repo <- github_repo()
@@ -125,6 +121,8 @@ pr_fetch <- function(number,
     our_branch <- glue("{them}-{their_branch}")
   }
 
+  protocol <- github_remote_protocol()
+
   if (!remote %in% git2r::remotes(git_repo())) {
     url <- switch(
       protocol,
@@ -137,7 +135,7 @@ pr_fetch <- function(number,
 
   if (!git_branch_exists(our_branch)) {
     their_refname <- git_remref(remote, their_branch)
-
+    credentials <- git2r_credentials(protocol, auth_token)
     ui_done("Creating local branch {ui_value(our_branch)}")
     git2r::fetch(
       git_repo(),
@@ -322,7 +320,7 @@ pr_find <- function(owner,
     owner = owner,
     repo = repo,
     .limit = Inf,
-    .token = github_token()
+    .token = check_github_token(allow_empty = TRUE)
   )
 
   if (identical(prs[[1]], "")) {

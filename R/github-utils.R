@@ -72,10 +72,3 @@ parse_github_remotes <- function(x) {
   match <- stats::setNames(regmatches(as.character(x), m), names(x))
   lapply(match, function(y) list(owner = y[[2]], repo = y[[3]]))
 }
-
-github_user <- function(auth_token = github_token()) {
-  if (!nzchar(auth_token)) {
-    return(NULL)
-  }
-  tryCatch(gh::gh_whoami(auth_token), error = function(e) NULL)
-}

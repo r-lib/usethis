@@ -342,9 +342,8 @@ git2r_credentials <- function(protocol = git_protocol(),
     return(NULL)
   }
 
-  if (nzchar(auth_token)) {
-    check_github_token(auth_token)
-    git2r::cred_user_pass("EMAIL", auth_token)
+  if (have_github_token(auth_token)) {
+    git2r::cred_user_pass("EMAIL", check_github_token(auth_token))
   } else {
     NULL
   }
@@ -404,20 +403,19 @@ git_sitrep <- function() {
   }
 
   hd_line("GitHub")
-  if (!nzchar(github_token())) {
-    cat_line("No token available")
-  } else {
+  if (have_github_token()) {
+    ui_done("Personal access token found in env var")
     who <- github_user()
     if (is.null(who)) {
-      cat_line("Token not associated with a user")
+      cat_line("Token is invalid")
     } else {
-      ui_done("GitHub personal access token found")
       kv_line("User", who$login)
       kv_line("Name", who$name)
     }
+  } else {
+    cat_line("No personal access token found")
   }
 }
-
 
 # Vaccination -------------------------------------------------------------
 
