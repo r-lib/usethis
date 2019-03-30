@@ -241,24 +241,21 @@ check_not_nested <- function(path, name) {
 }
 
 rationalize_fork <- function(fork, repo_info, auth_token) {
-  perms <- repo_info$permissions
-  owner <- repo_info$owner$login
+  have_token <- have_github_token(auth_token)
+  can_push <- isTRUE(repo_info$permissions)
+  repo_owner <- repo_info$owner$login
+  user <- if (have_token) github_user(auth_token)[["login"]]
 
   if (is.na(fork)) {
-    fork <- have_github_token(auth_token) && !isTRUE(perms$push)
+    fork <- have_token && !can_push
   }
 
-  if (fork && !have_github_token(auth_token)) {
+  if (fork && !have_token) {
     ## throw the usual error for bad/missing token
     validate_github_token(auth_token)
   }
 
-  user <- if (have_github_token(auth_token)) {
-    github_user(auth_token)[["login"]]
-  } else {
-    NULL
-  }
-  if (fork && identical(user, owner)) {
+  if (fork && identical(user, repo_owner)) {
     ui_stop(
       "Repo {ui_value(repo_info$full_name)} is owned by user \\
       {ui_value(user)}. Can't fork."
