@@ -70,7 +70,7 @@ test_that("rationalize_fork() won't attempt to fork w/o auth_token", {
   )
   expect_error(
     rationalize_fork(fork = TRUE, repo_info = list(), auth_token = ""),
-    "GitHub .+auth_token.+ is not associated with a user"
+    "No GitHub .+auth_token.+ is available"
   )
 })
 

@@ -337,6 +337,9 @@ validate_github_token <- function(auth_token = github_token()) {
     bad_class <- paste(class(auth_token), collapse = "/")
     local_stop("GitHub {ui_code('auth_token')} must be character, not {bad_class}.")
   }
+  if (isTRUE(auth_token == "")) {
+    local_stop("No GitHub {ui_code('auth_token')} is available.")
+  }
   user <- github_user(auth_token)
   if (is.null(user)) {
     local_stop("GitHub {ui_code('auth_token')} is not associated with a user.")

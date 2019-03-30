@@ -17,8 +17,12 @@ repo_name <- "crewsocks"
 use_git_protocol("https")
 git_protocol()
 
+## remove any pre-existing repo
+dir_delete(path(conspicuous_place(), repo_name))
+expect_false(dir_exists(path(conspicuous_place(), repo_name)))
+
 ## this should work
-x <- create_from_github(paste0(user, "/", repo_name))
+x <- create_from_github(paste0(user, "/", repo_name), open = FALSE)
 
 expect_equal(path_file(x), "crewsocks")
 expect_true(dir_exists(x))
