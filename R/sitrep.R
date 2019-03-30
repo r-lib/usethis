@@ -19,7 +19,7 @@
 #' proj_sitrep()
 proj_sitrep <- function() {
   out <- list(
-    working_directory = getwd(),
+      working_directory = getwd(),
     active_usethis_proj = if (proj_active()) proj_get(),
     active_rstudio_proj = if (rstudioapi::hasFun("getActiveProject")) {
       rstudioapi::getActiveProject()
@@ -28,7 +28,7 @@ proj_sitrep <- function() {
     ## home_usethis = fs::path_home(),
     ## home_r = normalizePath("~")
   )
-  out <- ifelse(is_null(out), out, fs::path_tidy(out))
+  out <- ifelse(purrr::map_lgl(out, is.null), out, as.character(path_tidy(out)))
   structure(out, class = "sitrep")
 }
 
@@ -107,5 +107,3 @@ print.sitrep <- function(x, ...) {
 
   invisible(x)
 }
-
-is_null <- function(x) vapply(x, is.null, logical(1))
