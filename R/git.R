@@ -368,18 +368,6 @@ git_sitrep <- function() {
   name <- git_config_get("user.name", global = TRUE)
   email <- git_config_get("user.email", global = TRUE)
 
-  hd_line <- function(name) {
-    cat_line(crayon::bold(name))
-  }
-  kv_line <- function(key, value) {
-    if (is.null(value)) {
-      value <- crayon::red("<unset>")
-    } else {
-      value <- ui_value(value)
-    }
-    cat_line("* ", ui_field(key), ": ", value)
-  }
-
   hd_line("User")
   kv_line("Name", name)
   kv_line("Email", email)

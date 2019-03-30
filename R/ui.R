@@ -201,3 +201,18 @@ cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
   lines <- paste0(..., "\n")
   cat(lines, sep = "")
 }
+
+# Sitrep helpers ---------------------------------------------------------------
+
+hd_line <- function(name) {
+  cat_line(crayon::bold(name))
+}
+
+kv_line <- function(key, value) {
+  if (is.null(value)) {
+    value <- crayon::red("<unset>")
+  } else {
+    value <- ui_value(value)
+  }
+  cat_line("* ", ui_field(key), ": ", value)
+}
