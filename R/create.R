@@ -150,9 +150,7 @@ create_from_github <- function(repo_spec,
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  pat_available <- auth_token != ""
-  user <- if (pat_available) github_user()[["login"]] else NULL
-  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
+  auth_token <- maybe_github_token(auth_token)
 
   gh <- function(endpoint, ...) {
     gh::gh(
@@ -165,7 +163,7 @@ create_from_github <- function(repo_spec,
 
   repo_info <- gh("GET /repos/:owner/:repo", owner = owner, repo = repo)
 
-  fork <- rationalize_fork(fork, repo_info, pat_available, user)
+  fork <- rationalize_fork(fork, repo_info, auth_token)
   if (fork) {
     ## https://developer.github.com/v3/repos/forks/#create-a-fork
     ui_done("Forking {ui_value(repo_info$full_name)}")
@@ -175,7 +173,8 @@ create_from_github <- function(repo_spec,
       ssh = repo_info$ssh_url
     )
     repo_info <- gh(
-      "POST /repos/:owner/:repo/forks", owner = owner, repo = repo
+      "POST /repos/:owner/:repo/forks",
+      owner = owner, repo = repo
     )
   }
 
@@ -186,6 +185,7 @@ create_from_github <- function(repo_spec,
   )
 
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
+  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
   git2r::clone(
     origin_url,
     repo_path,
@@ -240,22 +240,27 @@ check_not_nested <- function(path, name) {
   invisible()
 }
 
-rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
-
+rationalize_fork <- function(fork, repo_info, auth_token) {
   perms <- repo_info$permissions
   owner <- repo_info$owner$login
 
   if (is.na(fork)) {
-    fork <- pat_available && !isTRUE(perms$push)
+    fork <- have_github_token(auth_token) && !isTRUE(perms$push)
   }
 
-  if (fork && !pat_available) {
-    check_github_token(auth_token = NULL)
+  if (fork && !have_github_token(auth_token)) {
+    ## throw the usual error for bad/missing token
+    validate_github_token(auth_token)
   }
 
+  user <- if (have_github_token(auth_token)) {
+    github_user(auth_token)[["login"]]
+  } else {
+    NULL
+  }
   if (fork && identical(user, owner)) {
     ui_stop(
-      "Repo {ui_value(repo_info$full_name)} is owned by user\\
+      "Repo {ui_value(repo_info$full_name)} is owned by user \\
       {ui_value(user)}. Can't fork."
     )
   }

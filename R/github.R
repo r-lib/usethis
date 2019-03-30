@@ -47,7 +47,7 @@ use_github <- function(organisation = NULL,
   check_branch("master")
   check_uncommitted_changes()
   check_no_origin()
-  check_github_token(auth_token)
+  validate_github_token(auth_token)
 
   credentials <- credentials %||% git2r_credentials(protocol, auth_token)
   r <- git_repo()
@@ -165,7 +165,7 @@ use_github_links <- function(auth_token = github_token(),
     owner = github_owner(),
     repo = github_repo(),
     .api_url = host,
-    .token = auth_token
+    .token = maybe_github_token(auth_token)
   )
 
   use_description_field("URL", res$html_url, overwrite = overwrite)
@@ -305,17 +305,51 @@ check_no_github_repo <- function(owner, repo, host, auth_token) {
   ui_stop("Repo {ui_value(spec)} already exists on {ui_value(where)}.")
 }
 
-check_github_token <- function(auth_token) {
-  if (is.null(auth_token) || !nzchar(auth_token)) {
+
+# github token helpers ----------------------------------------------------
+
+## minimal check: token is not ""
+have_github_token <- function(auth_token = github_token()) {
+  !isTRUE(auth_token == "")
+}
+
+## tolerate "", but explicitly validate the token otherwise
+maybe_github_token <- function(auth_token = github_token()) {
+  if (!have_github_token(auth_token)) {
+    return("")
+  }
+  validate_github_token(auth_token)
+}
+
+## rigorous checks, including against the GitHub API
+validate_github_token <- function(auth_token = github_token()) {
+  local_stop <- function(msg) {
     ui_stop(c(
-      "No GitHub {ui_code('auth_token')}.",
-      "Provide explicitly or make available as an environment variable.",
-      "See {ui_code('browse_github_token()')} for help setting this up."
+      msg,
+      "See {ui_code('browse_github_token()')} for help storing a token as an environment variable."
     ))
+  }
+
+  if (length(auth_token) != 1) {
+    local_stop("GitHub {ui_code('auth_token')} must be a single string.")
+  }
+  if (!is_string(auth_token)) {
+    bad_class <- paste(class(auth_token), collapse = "/")
+    local_stop("GitHub {ui_code('auth_token')} must be character, not {bad_class}.")
   }
   user <- github_user(auth_token)
   if (is.null(user)) {
-    ui_stop("GitHub {ui_code('auth_token')} is not associated with a user.")
+    local_stop("GitHub {ui_code('auth_token')} is not associated with a user.")
   }
   auth_token
+}
+
+## AFAICT there is no targetted way to check validity of a PAT
+## GET /user seems to be the simplest API call to verify a PAT
+## that's what gh::gh_whoami() does
+## https://developer.github.com/v3/auth/#via-oauth-tokens
+github_user <- function(auth_token = github_token()) {
+  suppressMessages(
+    tryCatch(gh::gh_whoami(auth_token), error = function(e) NULL)
+  )
 }
