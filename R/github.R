@@ -327,7 +327,7 @@ check_github_token <- function(auth_token = github_token(),
     ))
   }
 
-  if (!is_string(auth_token)) {
+  if (!is_string(auth_token) || is.na(auth_token)) {
     local_stop("GitHub {ui_code('auth_token')} must be a single string.")
   }
   if (!have_github_token(auth_token)) {
