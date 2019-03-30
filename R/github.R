@@ -308,17 +308,16 @@ check_no_github_repo <- function(owner, repo, host, auth_token) {
 
 # github token helpers ----------------------------------------------------
 
-## minimal check: token is not ""
+## minimal check: token is not the value that means "we have no PAT",
+## which is currently the empty string "", for compatibility with gh
 have_github_token <- function(auth_token = github_token()) {
   !isTRUE(auth_token == "")
 }
 
-## if allow_empty, tolerate ""
-## else do rigorous checks, including against the GitHub API
 check_github_token <- function(auth_token = github_token(),
                                allow_empty = FALSE) {
   if (allow_empty && !have_github_token(auth_token)) {
-    return("")
+    return(auth_token)
   }
 
   local_stop <- function(msg) {
@@ -328,19 +327,15 @@ check_github_token <- function(auth_token = github_token(),
     ))
   }
 
-  if (length(auth_token) != 1) {
+  if (!is_string(auth_token)) {
     local_stop("GitHub {ui_code('auth_token')} must be a single string.")
   }
-  if (!is_string(auth_token)) {
-    bad_class <- paste(class(auth_token), collapse = "/")
-    local_stop("GitHub {ui_code('auth_token')} must be character, not {bad_class}.")
-  }
-  if (isTRUE(auth_token == "")) {
+  if (!have_github_token(auth_token)) {
     local_stop("No GitHub {ui_code('auth_token')} is available.")
   }
   user <- github_user(auth_token)
   if (is.null(user)) {
-    local_stop("GitHub {ui_code('auth_token')} is not associated with a user.")
+    local_stop("GitHub {ui_code('auth_token')} is invalid.")
   }
   auth_token
 }
