@@ -47,7 +47,7 @@ use_github <- function(organisation = NULL,
   check_branch("master")
   check_uncommitted_changes()
   check_no_origin()
-  validate_github_token(auth_token)
+  check_github_token(auth_token)
 
   credentials <- credentials %||% git2r_credentials(protocol, auth_token)
   r <- git_repo()
@@ -165,7 +165,7 @@ use_github_links <- function(auth_token = github_token(),
     owner = github_owner(),
     repo = github_repo(),
     .api_url = host,
-    .token = maybe_github_token(auth_token)
+    .token = check_github_token(auth_token, allow_empty = TRUE)
   )
 
   use_description_field("URL", res$html_url, overwrite = overwrite)
@@ -313,16 +313,14 @@ have_github_token <- function(auth_token = github_token()) {
   !isTRUE(auth_token == "")
 }
 
-## tolerate "", but explicitly validate the token otherwise
-maybe_github_token <- function(auth_token = github_token()) {
-  if (!have_github_token(auth_token)) {
+## if allow_empty, tolerate ""
+## else do rigorous checks, including against the GitHub API
+check_github_token <- function(auth_token = github_token(),
+                               allow_empty = FALSE) {
+  if (allow_empty && !have_github_token(auth_token)) {
     return("")
   }
-  validate_github_token(auth_token)
-}
 
-## rigorous checks, including against the GitHub API
-validate_github_token <- function(auth_token = github_token()) {
   local_stop <- function(msg) {
     ui_stop(c(
       msg,

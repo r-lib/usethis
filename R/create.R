@@ -150,7 +150,7 @@ create_from_github <- function(repo_spec,
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  auth_token <- maybe_github_token(auth_token)
+  auth_token <- check_github_token(auth_token, allow_empty = TRUE)
 
   gh <- function(endpoint, ...) {
     gh::gh(
@@ -252,7 +252,7 @@ rationalize_fork <- function(fork, repo_info, auth_token) {
 
   if (fork && !have_token) {
     ## throw the usual error for bad/missing token
-    validate_github_token(auth_token)
+    check_github_token(auth_token)
   }
 
   if (fork && identical(user, repo_owner)) {

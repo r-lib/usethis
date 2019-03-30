@@ -93,7 +93,7 @@ pr_fetch <- function(number,
   check_uses_github()
   check_uncommitted_changes()
 
-  auth_token <- maybe_github_token()
+  auth_token <- check_github_token(allow_empty = TRUE)
 
   owner <- owner %||% github_owner_upstream() %||% github_owner()
   repo <- github_repo()
@@ -320,7 +320,7 @@ pr_find <- function(owner,
     owner = owner,
     repo = repo,
     .limit = Inf,
-    .token = maybe_github_token()
+    .token = check_github_token(allow_empty = TRUE)
   )
 
   if (identical(prs[[1]], "")) {

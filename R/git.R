@@ -343,7 +343,7 @@ git2r_credentials <- function(protocol = git_protocol(),
   }
 
   if (have_github_token(auth_token)) {
-    git2r::cred_user_pass("EMAIL", validate_github_token(auth_token))
+    git2r::cred_user_pass("EMAIL", check_github_token(auth_token))
   } else {
     NULL
   }

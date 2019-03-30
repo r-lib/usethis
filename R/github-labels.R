@@ -65,7 +65,7 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
                               auth_token = github_token(),
                               host = NULL) {
   check_uses_github()
-  validate_github_token(auth_token)
+  check_github_token(auth_token)
 
   gh <- function(endpoint, ...) {
     out <- gh::gh(
