@@ -33,21 +33,9 @@ proj_sitrep <- function() {
 }
 
 #' @export
-format.sitrep <- function(x, ...) {
-  unset <- function(...) {
-    x <- paste0(...)
-    crayon::make_style("lightgrey")(x)
-  }
-
-  keys <- purrr::map_chr(format(names(x), justify = "right"), ui_field)
-  vals <- ifelse(is_null(x), unset(x), purrr::map(x, ui_value))
-  glue::glue("{keys}: {vals}")
-}
-
-#' @export
 print.sitrep <- function(x, ...) {
-  out <- format(x)
-  cat_line(out)
+  keys <- format(names(x), justify = "right")
+  purrr::walk2(keys, x, kv_line)
 
   rstudio_proj_is_active <- !is.null(x[["active_rstudio_proj"]])
   usethis_proj_is_active <- !is.null(x[["active_usethis_proj"]])
