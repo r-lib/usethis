@@ -32,7 +32,8 @@ reference:
     desc: >
       Create a project de novo or from an existing source, either local or remote
     contents:
-    - starts_with("create_")
+    - create_package
+    - create_from_github
     - use_course
   - title: Active project
     desc: >
@@ -50,6 +51,9 @@ reference:
     - use_spell_check
     - use_test
     - use_vignette
+    - use_addin
+    - use_citation
+    - use_tutorial
   - title: Package setup
     desc: >
       Package setup tasks, typically performed once.
@@ -65,9 +69,8 @@ reference:
     - matches("pkgdown|badge")
     - use_github_links
   - title: Package release
-    desc: >
-      Tasks done prior to release
     contents:
+    - matches("release")
     - matches("cran_comments|revdep")
     - use_version
   - title: Continuous integration
@@ -78,14 +81,17 @@ reference:
     desc: >
       Conventions used in the tidyverse and r-lib organisations
     contents:
-    - matches("use_tidy")
+    - matches("tidy")
   - title: "Configuration"
     desc: >
       Configure the behaviour of R, RStudio, or Git, globally as a user or
       for a specific project
     contents:
     - use_blank_slate
+    - use_devtools
     - use_usethis
+    - use_reprex
+    - use_conflicted
     - use_git_config
     - matches("edit_r")
   - title: Git and GitHub
@@ -94,6 +100,7 @@ reference:
     - use_git_config
     - use_git
     - use_git_protocol
+    - use_git_remote
     - use_github
     - use_github_links
     - use_git_ignore
@@ -103,6 +110,7 @@ reference:
     - use_readme_rmd
     - matches("browse")
     - matches("edit_git_")
+    - use_git2r_credentials
     - git_sitrep
     - git_vaccinate
   - title: Pull requests

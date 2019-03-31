@@ -24,6 +24,7 @@ All functions open your \code{.Rprofile} and give you the code you need to
 paste in.
 \itemize{
 \item \code{use_devtools()}: makes devtools available in interactive sessions.
+\item \code{use_usethis()}: makes usethis available in interactive sessions.
 \item \code{use_reprex()}: makes reprex available in interactive sessions.
 \item \code{use_conflicted()}:  makes conflicted available in interactive sessions.
 \item \code{use_partial_warning()}: warns on partial matches.
