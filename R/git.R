@@ -382,7 +382,7 @@ git_sitrep <- function() {
     hd_line("Project")
     if (uses_git()) {
       repo <- git_repo()
-      kv_line("Path", repo$path)
+      kv_line("Path", path_dir(repo$path))
       kv_line("Local branch", git_branch_name())
       kv_line("Remote branch", git_branch_tracking())
     } else {

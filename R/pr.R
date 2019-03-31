@@ -333,3 +333,34 @@ pr_find <- function(owner,
 
   urls[refs == pr_branch & user == pr_owner]
 }
+
+pr_sitrep <- function() {
+  if (!proj_active()) {
+    cat_line("No active usethis project")
+    return()
+  }
+  if (!uses_git()) {
+    cat_line("Active project is not a Git repo")
+    return()
+  }
+
+  repo <- git_repo()
+  hd_line("Repo")
+  kv_line("Path", path_dir(repo$path))
+  kv_line("Uncommitted changes", git_uncommitted())
+
+  hd_line("Remotes")
+  remotes <- github_remotes()
+  if (length(remotes) == 0) {
+    cat_line("This repo does not have any GitHub remotes")
+    return()
+  }
+  purrr::walk2(names(remotes), remotes, kv_line)
+
+  hd_line("Branch")
+  kv_line("Local branch", git_branch_name())
+  kv_line("Remote branch", git_branch_tracking())
+
+  hd_line("Pull Request")
+  kv_line("PR URL", pr_url())
+}
