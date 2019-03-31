@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Report working directory and usethis/RStudio project — proj_sitrep • usethis</title>
+<title>Configure and report Git remotes — use_git_remote • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,18 +37,13 @@
 
 
 
-<meta property="og:title" content="Report working directory and usethis/RStudio project — proj_sitrep" />
+<meta property="og:title" content="Configure and report Git remotes — use_git_remote" />
 
-<meta property="og:description" content="proj_sitrep() reports
-current working directory
-the active usethis project
-the active RStudio Project
+<meta property="og:description" content="Two helpers are available:
+use_git_remote() sets the remote associated with name to url.
+git_remotes() reports the configured remotes, similar to
+git remote -v.
 " />
-
-<meta property="og:description" content="Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and proj_sitrep() provides suggested commands for getting
-back to this happy state." />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -140,56 +135,96 @@ back to this happy state." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Report working directory and usethis/RStudio project</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/sitrep.R'><code>R/sitrep.R</code></a></small>
-    <div class="hidden name"><code>proj_sitrep.Rd</code></div>
+    <h1>Configure and report Git remotes</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/git.R'><code>R/git.R</code></a></small>
+    <div class="hidden name"><code>use_git_remote.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>proj_sitrep()</code> reports</p><ul>
-<li><p>current working directory</p></li>
-<li><p>the active usethis project</p></li>
-<li><p>the active RStudio Project</p></li>
+    <p>Two helpers are available:</p><ul>
+<li><p><code>use_git_remote()</code> sets the remote associated with <code>name</code> to <code>url</code>.</p></li>
+<li><p><code>git_remotes()</code> reports the configured remotes, similar to
+<code>git remote -v</code>.</p></li>
 </ul>
-
-    <p>Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and <code>proj_sitrep()</code> provides suggested commands for getting
-back to this happy state.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>proj_sitrep</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>use_git_remote</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"origin"</span>, <span class='no'>url</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='fu'>git_remotes</span>()</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>name</th>
+      <td><p>A string giving the short name of a remote.</p></td>
+    </tr>
+    <tr>
+      <th>url</th>
+      <td><p>A string giving the url of a remote.</p></td>
+    </tr>
+    <tr>
+      <th>overwrite</th>
+      <td><p>Logical. Controls whether an existing remote can be
+modified.</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A named list, with S3 class <code>sitrep</code> (for printing purposes),
-reporting current working directory, active usethis project, and active
-RStudio Project</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other project functions: <code><a href='proj_utils.html'>proj_utils</a></code></p></div>
+    <p>Named list of Git remotes.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; * <span style='color: #00BB00;'>  working_directory</span><span>: </span><span style='color: #0000BB;'>'/tmp/RtmpnqzHpE/file451662a437ef/dev/reference'</span><span>
-#&gt; * </span><span style='color: #00BB00;'>active_usethis_proj</span><span>: </span><span style='color: #BB0000;'>&lt;unset&gt;</span><span>
-#&gt; * </span><span style='color: #00BB00;'>active_rstudio_proj</span><span>: </span><span style='color: #BB0000;'>&lt;unset&gt;</span><span>
-#&gt; </span><span style='color: #BB0000;'>●</span><span> There is currently no active usethis project.
-#&gt;   usethis attempts to activate a project upon first need.
-#&gt;   Call </span><span style='color: #9E9E9E;'>`proj_get()`</span><span> to initiate project discovery.
-#&gt;   Call </span><span style='color: #9E9E9E;'>`proj_set("path/to/project")`</span><span> or </span><span style='color: #9E9E9E;'>`proj_activate("path/to/project")`</span><span> to provide
-#&gt;   an explicit path.</div></span></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># see current remotes</span>
+<span class='fu'>git_remotes</span>()
+
+<span class='co'># add new remote named 'foo', a la `git remote add &lt;name&gt; &lt;url&gt;`</span>
+<span class='fu'>use_git_remote</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"foo"</span>, <span class='kw'>url</span> <span class='kw'>=</span> <span class='st'>"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>)
+
+<span class='co'># remove existing 'foo' remote, a la `git remote remove &lt;name&gt;`</span>
+<span class='fu'>use_git_remote</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"foo"</span>, <span class='kw'>url</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># change URL of remote 'foo', a la `git remote set-url &lt;name&gt; &lt;newurl&gt;`</span>
+<span class='fu'>use_git_remote</span>(
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"foo"</span>,
+  <span class='kw'>url</span> <span class='kw'>=</span> <span class='st'>"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>,
+  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)
+
+<span class='co'># Scenario: Fix remotes when you cloned someone's repo, but you should</span>
+<span class='co'># have fork-and-cloned (in order to make a pull request).</span>
+
+<span class='co'># Store origin = main repo's URL, e.g., "git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>
+<span class='no'>upstream_url</span> <span class='kw'>&lt;-</span> <span class='fu'>git_remotes</span>()<span class='kw'>[[</span><span class='st'>"origin"</span>]]
+
+<span class='co'># IN THE BROWSER: fork the main GitHub repo and get your fork's remote URL</span>
+<span class='no'>my_url</span> <span class='kw'>&lt;-</span> <span class='st'>"git@github.com:&lt;ME&gt;/&lt;REPO&gt;.git"</span>
+
+<span class='co'># Rotate the remotes</span>
+<span class='fu'>use_git_remote</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"origin"</span>, <span class='kw'>url</span> <span class='kw'>=</span> <span class='no'>my_url</span>)
+<span class='fu'>use_git_remote</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"upstream"</span>, <span class='kw'>url</span> <span class='kw'>=</span> <span class='no'>upstream_url</span>)
+<span class='fu'>git_remotes</span>()
+
+<span class='co'># Scenario: Add upstream remote to a repo that you fork-and-cloned, so you</span>
+<span class='co'># can pull upstream changes.</span>
+<span class='co'># Note: If you fork-and-clone via `usethis::create_from_github()`, this is</span>
+<span class='co'># done automatically!</span>
+
+<span class='co'># Get URL of main GitHub repo, probably in the browser</span>
+<span class='no'>upstream_url</span> <span class='kw'>&lt;-</span> <span class='st'>"git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>
+<span class='fu'>use_git_remote</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"upstream"</span>, <span class='kw'>url</span> <span class='kw'>=</span> <span class='no'>upstream_url</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
