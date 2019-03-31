@@ -68,7 +68,7 @@ with \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} and register that w
    publickey  = "path/to/your/id_rsa.pub",
    privatekey = "path/to/your/id_rsa",
    # include / omit passphrase as appropriate to your situation
-   passphrase = getPass::getPass()
+   passphrase = askpass::askpass()
 )
 use_git2r_credentials(credentials = my_cred)
 }
@@ -92,7 +92,7 @@ and dummy text is sent as the username (the PAT is what really matters in
 this case). You can also register an explicit credential yourself in a
 similar way:\preformatted{my_cred <- git2r::cred_user_pass(
   username = "janedoe",
-  password = getPass::getPass()
+  password = askpass::askpass()
 )
 use_git2r_credentials(credentials = my_cred)
 }

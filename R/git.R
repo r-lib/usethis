@@ -377,7 +377,7 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #'    publickey  = "path/to/your/id_rsa.pub",
 #'    privatekey = "path/to/your/id_rsa",
 #'    # include / omit passphrase as appropriate to your situation
-#'    passphrase = getPass::getPass()
+#'    passphrase = askpass::askpass()
 #' )
 #' use_git2r_credentials(credentials = my_cred)
 #' ```
@@ -400,7 +400,7 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #' ```
 #' my_cred <- git2r::cred_user_pass(
 #'   username = "janedoe",
-#'   password = getPass::getPass()
+#'   password = askpass::askpass()
 #' )
 #' use_git2r_credentials(credentials = my_cred)
 #' ```
