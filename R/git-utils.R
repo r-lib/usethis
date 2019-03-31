@@ -278,7 +278,10 @@ check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
 check_branch_pushed <- function(branch = git_branch_name(), use = "git push") {
   local <- paste0("local/", branch)
   remote <- git_branch_tracking(branch)
-  ui_done("Checking that {ui_value(remote)} has changes in {ui_value(local)}")
+  ui_done(
+    "Checking that remote branch {ui_value(remote)} has the changes \\
+     in {ui_value(local)}"
+  )
 
   diff <- git_branch_compare(branch)
   if (diff[[1]] == 0) {
