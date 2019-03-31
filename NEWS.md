@@ -2,6 +2,9 @@
 
 ## New features
 
+* `git_remotes()` and `use_git_remote()` are new helpers to inspect or modify
+  Git remote URLs for the repo associated with the active project (#649).
+
 * `use_rcpp_armadillo()` and `use_rcpp_eigen()` are new functions 
    that set up a package to use RcppArmadillo or RcppEigen, respectively
    (#421, @coatless, @duckmayr).
