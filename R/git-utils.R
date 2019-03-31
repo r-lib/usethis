@@ -37,12 +37,6 @@ uses_git <- function(path = proj_get()) {
 }
 
 # Remotes ------------------------------------------------------------------
-git_remotes <- function() {
-  repo <- git_repo()
-  rnames <- git2r::remotes(repo)
-  if (length(rnames) == 0) return(NULL)
-  stats::setNames(as.list(git2r::remote_url(repo, rnames)), rnames)
-}
 
 git_remote_find <- function(rname = "origin") {
   remotes <- git_remotes()
@@ -343,4 +337,3 @@ git_has_ssh <- function() {
     }
   )
 }
-

@@ -238,6 +238,76 @@ choose_protocol <- function() {
   }
 }
 
+#' Configure and report Git remotes
+#'
+#' Two helpers are available:
+#'   * `use_git_remote()` sets the remote associated with `name` to `url`.
+#'   * `git_remotes()` reports the configured remotes, similar to
+#'     `git remote -v`.
+#'
+#' @param name A string giving the short name of a remote.
+#' @param url A string giving the url of a remote.
+#' @param overwrite Logical. Controls whether an existing remote can be
+#'   modified.
+#'
+#' @return Named list of Git remotes.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' ## see current remotes
+#' git_remotes()
+#'
+#' ## add a new remote, a la `git remote add <name> <url>`
+#' use_git_remote(name = "origin", url = "https://github.com/<OWNER>/<REPO>.git")
+#'
+#' ## remove an existing remote, a la `git remote remove <name>`
+#' use_git_remote(name = "foo", url = NULL, overwrite = TRUE)
+#'
+#' ## change URL of existing remote, a la `git remote set-url <name> <newurl>`
+#' use_git_remote(
+#'   name = "foo",
+#'   url = "https://github.com/<OWNER>/<REPO>.git",
+#'   overwrite = TRUE
+#' )
+#' }
+use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
+  stopifnot(is_string(name))
+  stopifnot(is.null(url) || is_string(url))
+  stopifnot(rlang::is_true(overwrite) || rlang::is_false(overwrite))
+
+  repo <- git_repo()
+  remotes <- git_remotes()
+
+  if (name %in% names(remotes) && !overwrite) {
+    ui_stop("Remote {ui_value(name)} already exists. Use \\
+            {ui_code('overwrite = TRUE')} to edit it anyway.")
+  }
+
+  if (name %in% names(remotes)) {
+    if (is.null(url)) {
+      git2r::remote_remove(repo = repo, name = name)
+    } else {
+      git2r::remote_set_url(repo = repo, name = name, url = url)
+    }
+  } else {
+    git2r::remote_add(repo = repo, name = name, url = url)
+  }
+
+  invisible(git_remotes())
+}
+
+#' @rdname use_git_remote
+#' @export
+git_remotes <- function() {
+  repo <- git_repo()
+  rnames <- git2r::remotes(repo)
+  if (length(rnames) == 0) {
+    return(NULL)
+  }
+  stats::setNames(as.list(git2r::remote_url(repo, rnames)), rnames)
+}
+
 git2r_env <- new.env(parent = emptyenv())
 
 #' Produce or register git2r credentials
