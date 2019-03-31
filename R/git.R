@@ -258,18 +258,32 @@ choose_protocol <- function() {
 #' ## see current remotes
 #' git_remotes()
 #'
-#' ## add a new remote, a la `git remote add <name> <url>`
-#' use_git_remote(name = "origin", url = "https://github.com/<OWNER>/<REPO>.git")
+#' ## add new remote named 'foo', a la `git remote add <name> <url>`
+#' use_git_remote(name = "foo", url = "https://github.com/<OWNER>/<REPO>.git")
 #'
-#' ## remove an existing remote, a la `git remote remove <name>`
+#' ## remove existing 'foo' remote, a la `git remote remove <name>`
 #' use_git_remote(name = "foo", url = NULL, overwrite = TRUE)
 #'
-#' ## change URL of existing remote, a la `git remote set-url <name> <newurl>`
+#' ## change URL of remote 'foo', a la `git remote set-url <name> <newurl>`
 #' use_git_remote(
 #'   name = "foo",
 #'   url = "https://github.com/<OWNER>/<REPO>.git",
 #'   overwrite = TRUE
 #' )
+#'
+#' ## Scenario: Fix remotes when you cloned someone's repo, but you should
+#' ## have fork-and-cloned (in order to make a pull request).
+#'
+#' ## Store origin = main repo's URL, e.g., "git@github.com:<OWNER>/<REPO>.git"
+#' upstream_url <- git_remotes()[["origin"]]
+#'
+#' ## IN THE BROWSER: fork the main GitHub repo and get your fork's remote URL
+#' my_url <- "git@github.com:<ME>/<REPO>.git"
+#'
+#' ## Rotate the remotes
+#' use_git_remote(name = "origin", url = my_url)
+#' use_git_remote(name = "upstream", url = upstream_url)
+#' git_remotes()
 #' }
 use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
   stopifnot(is_string(name))
