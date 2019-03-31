@@ -100,6 +100,7 @@ reference:
     - use_git_config
     - use_git
     - use_git_protocol
+    - use_git_remote
     - use_github
     - use_github_links
     - use_git_ignore
