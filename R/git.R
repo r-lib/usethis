@@ -332,6 +332,7 @@ git_remotes <- function() {
 }
 
 git2r_env <- new.env(parent = emptyenv())
+have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 
 #' Produce or register git2r credentials
 #'
@@ -427,7 +428,7 @@ git2r_env <- new.env(parent = emptyenv())
 #' }
 git2r_credentials <- function(protocol = git_protocol(),
                               auth_token = github_token()) {
-  if (rlang::env_has(git2r_env, "credentials")) {
+  if (have_git2r_credentials()) {
     return(git2r_env$credentials)
   }
 
