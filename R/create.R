@@ -242,7 +242,7 @@ check_not_nested <- function(path, name) {
 
 rationalize_fork <- function(fork, repo_info, auth_token) {
   have_token <- have_github_token(auth_token)
-  can_push <- isTRUE(repo_info$permissions)
+  can_push <- isTRUE(repo_info$permissions$push)
   repo_owner <- repo_info$owner$login
   user <- if (have_token) github_user(auth_token)[["login"]]
 
