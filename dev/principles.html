@@ -181,7 +181,7 @@
 <div id="communicating-with-the-user" class="section level2">
 <h2 class="hasAnchor">
 <a href="#communicating-with-the-user" class="anchor"></a>Communicating with the user</h2>
-<p>User-facing messages are emitted via helpers in <code>style.R</code> (see <code>todo()</code> and <code>done()</code>) and <em>everything</em> is eventually routed through <code>cat_line()</code>. This is all intentional and should be preserved.</p>
+<p>User-facing messages are emitted via helpers in <code>style.R</code> (see <code><a href="reference/ui.html">ui_todo()</a></code> and <code><a href="reference/ui.html">ui_done()</a></code>) and <em>everything</em> is eventually routed through <code>cat_line()</code>. This is all intentional and should be preserved.</p>
 <p><code>cat_line()</code> has a <code>quiet</code> argument and <code>quiet = TRUE</code> causes it to not produce output. Default value: <code>quiet = getOption("usethis.quiet", default = FALSE)</code>.</p>
 <ul>
 <li>Exploited in usethis tests: option is set and unset in <code>setup.R</code> and <code>teardown.R</code>. Eliminates the need for ubiquitous <code>capture_output()</code> calls.</li>
@@ -193,6 +193,27 @@
 <li>Pragmatic explanation: default styling of <code><a href="https://www.rdocumentation.org/packages/base/topics/message">message()</a></code> (at least in RStudio) is red, which suggests that something is wrong. We prefer default styling to be more neutral and less alarmist.</li>
 <li>Principled explanation: if one diverts where various streams go, <code><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat()</a></code> follows printed output, whereas <code><a href="https://www.rdocumentation.org/packages/base/topics/message">message()</a></code> goes to standard error.</li>
 </ul>
+</div>
+<div id="git" class="section level2">
+<h2 class="hasAnchor">
+<a href="#git" class="anchor"></a>Git</h2>
+<p>We make a strong assumption that user follows these conventions for branch and remote names:</p>
+<ul>
+<li>
+<code>master</code> is the main default branch.</li>
+<li>If you’ve got only one remote, it’s called <code>origin</code>.</li>
+<li>If you’ve got multiple remotes, one of them is <code>origin</code> and it is the main default remote.</li>
+<li>If you’ve forked something, you have at least two remotes:
+<ul>
+<li>
+<code>origin</code> is your copy.</li>
+<li>
+<code>upstream</code> is the original repo you forked.</li>
+</ul>
+</li>
+</ul>
+<p>We assume a user habitually uses one transport protocol, either SSH or HTTPS, i.e. that they don’t intentionally switch between them willy-nilly.</p>
+<p>If the default summoning of Git credentials or protocol or GitHub PAT doesn’t work for you, you must set them explicitly via <code>use_git_credentials()</code>, <code><a href="reference/git_protocol.html">use_git_protocol()</a></code>, or <code><a href="https://www.rdocumentation.org/packages/base/topics/Sys.setenv">Sys.setenv("GITHUB_PAT")</a></code>. We aren’t going to offer fine control of this, everywhere, by repetitively offering a ton of function arguments.</p>
 </div>
 </div>
 
