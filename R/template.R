@@ -14,8 +14,9 @@
 #' [whisker::whisker.render()] to combine your template file with your data.
 #'
 #' @details When using `use_template()` inside your package, you won't be able
-#' to test your package using [devtools::load_all()], and therefore not using
-#' [devtools::test()], because `pkgload` masks `system.file()` with its own
+#' to test your package, or at least not the function(s) by using `use_template()`,
+#'  using [devtools::load_all()], and therefore not by using [devtools::test()]
+#'  either, because `pkgload` masks `system.file()` with its own
 #' version. Therefore, to test your package that uses `use_template()`
 #' \begin{itemize}
 #' \item _interactively_, use `devtools::build()` and a clean R session instead
