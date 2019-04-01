@@ -13,6 +13,16 @@
 #' the `data` argument. Internally, this function uses
 #' [whisker::whisker.render()] to combine your template file with your data.
 #'
+#' @details When using `use_template()` inside your package, you won't be able
+#' to test your package using [devtools::load_all()], and therefore not using
+#' [devtools::test()], because `pkgload` masks `system.file()` with its own
+#' version. Therefore, to test your package that uses `use_template()`
+#' \begin{itemize}
+#' \item _interactively_, use `devtools::build()` and a clean R session instead
+#' of relying on `devtools::load_all()`.
+#' \item _non-interactively_, use `devtools::check()`, not `devtools::test()`.
+#' \end{itemize}
+#'
 #' @param template Path to template file relative to `templates/` directory
 #'   within `package`; see details.
 #' @param save_as Path of file to create, relative to root of active project.

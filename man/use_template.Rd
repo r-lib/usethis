@@ -40,6 +40,16 @@ to determine the path to your template file; it will be expected at
 To interpolate your data into the template, supply a list using
 the \code{data} argument. Internally, this function uses
 \code{\link[whisker:whisker.render]{whisker::whisker.render()}} to combine your template file with your data.
+
+When using \code{use_template()} inside your package, you won't be able
+to test your package using \code{\link[devtools:load_all]{devtools::load_all()}}, and therefore not using
+\code{\link[devtools:test]{devtools::test()}}, because \code{pkgload} masks \code{system.file()} with its own
+version. Therefore, to test your package that uses \code{use_template()}
+\begin{itemize}
+\item \emph{interactively}, use \code{devtools::build()} and a clean R session instead
+of relying on \code{devtools::load_all()}.
+\item \emph{non-interactively}, use \code{devtools::check()}, not \code{devtools::test()}.
+\end{itemize}
 }
 \examples{
 \dontrun{
