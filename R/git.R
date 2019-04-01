@@ -134,7 +134,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
 #'     - `protocol = "ssh"` implies `git@@github.com:<OWNER>/<REPO>.git`
 #'     - `protocol = "https"` implies `https://github.com/<OWNER>/<REPO>.git`
 #'   * The strategy for creating `credentials` when none are given. See
-#'     [git2r_credentials()] for details.
+#'     [git_credentials()] for details.
 #' Two helper functions are available:
 #'   * `git_protocol()` returns the user's preferred protocol, if known, and,
 #'     otherwise, asks the user (interactive session) or defaults to SSH
@@ -328,17 +328,17 @@ git_remotes <- function() {
 git2r_env <- new.env(parent = emptyenv())
 have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 
-#' Produce or register git2r credentials
+#' Produce or register git credentials
 #'
 #' Credentials are needed for git operations like `git push` that address a
 #' remote, typically GitHub. usethis uses the git2r package. git2r tries to use
 #' the same credentials as command line git, but sometimes fails. usethis tries
 #' to increase the chance that things "just work" and, when they don't, to
 #' provide the user a way to intervene:
-#'   * `git2r_credentials()` returns any `credentials` that have been registered
-#'     with `use_git2r_credentials()` and, otherwise, implements usethis's
+#'   * `git_credentials()` returns any `credentials` that have been registered
+#'     with `use_git_credentials()` and, otherwise, implements usethis's
 #'     default strategy.
-#'   * `use_git2r_credentials()` allows you to register `credentials` explicitly
+#'   * `use_git_credentials()` allows you to register `credentials` explicitly
 #'     for use in all usethis functions in an R session. Do this only after
 #'     proven failure of the defaults.
 #'
@@ -365,7 +365,7 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #'
 #'   If the `NULL` default doesn't work, you can make `credentials` explicitly
 #'   with [git2r::cred_ssh_key()] and register that with
-#'   `use_git2r_credentials()` for the rest of the session:
+#'   `use_git_credentials()` for the rest of the session:
 #' ```
 #' my_cred <- git2r::cred_ssh_key(
 #'    publickey  = "path/to/your/id_rsa.pub",
@@ -373,9 +373,9 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #'    # include / omit passphrase as appropriate to your situation
 #'    passphrase = askpass::askpass()
 #' )
-#' use_git2r_credentials(credentials = my_cred)
+#' use_git_credentials(credentials = my_cred)
 #' ```
-#'   For the remainder of the session, `git2r_credentials()` will return
+#'   For the remainder of the session, `git_credentials()` will return
 #'   `my_cred`.
 #'
 #' @section HTTPS credentials:
@@ -396,9 +396,9 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #'   username = "janedoe",
 #'   password = askpass::askpass()
 #' )
-#' use_git2r_credentials(credentials = my_cred)
+#' use_git_credentials(credentials = my_cred)
 #' ```
-#'   For the remainder of the session, `git2r_credentials()` will return
+#'   For the remainder of the session, `git_credentials()` will return
 #'   `my_cred`.
 #'
 #' @inheritParams git_protocol
@@ -412,16 +412,16 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #' @export
 #'
 #' @examples
-#' git2r_credentials()
-#' git2r_credentials(protocol = "ssh")
+#' git_credentials()
+#' git_credentials(protocol = "ssh")
 #'
 #' \dontrun{
 #' # these calls look for a GitHub PAT
-#' git2r_credentials(protocol = "https")
-#' git2r_credentials(protocol = "https", auth_token = "MY_GITHUB_PAT")
+#' git_credentials(protocol = "https")
+#' git_credentials(protocol = "https", auth_token = "MY_GITHUB_PAT")
 #' }
-git2r_credentials <- function(protocol = git_protocol(),
-                              auth_token = github_token()) {
+git_credentials <- function(protocol = git_protocol(),
+                            auth_token = github_token()) {
   if (have_git2r_credentials()) {
     return(git2r_env$credentials)
   }
@@ -437,11 +437,11 @@ git2r_credentials <- function(protocol = git_protocol(),
   }
 }
 
-#' @rdname git2r_credentials
+#' @rdname git_credentials
 #' @export
-use_git2r_credentials <- function(credentials) {
+use_git_credentials <- function(credentials) {
   git2r_env$credentials <- credentials
-  invisible(git2r_credentials())
+  invisible(git_credentials())
 }
 
 #' git/GitHub sitrep
@@ -467,7 +467,7 @@ git_sitrep <- function() {
   hd_line("git2r")
   kv_line("Supports SSH", git2r::libgit2_features()$ssh)
   credentials_value <- if (have_git2r_credentials()) {
-    glue("<user-provided git2r credential object with class {class(git2r_credentials())}>")
+    glue("<user-provided git2r credential object with class {class(git_credentials())}>")
   } else {
     "<usethis + git2r default behaviour>"
   }

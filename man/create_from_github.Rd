@@ -61,7 +61,7 @@ create_from_github("r-lib/usethis")
 }
 \seealso{
 \code{\link[=use_github]{use_github()}} for GitHub setup advice. \code{\link[=git_protocol]{git_protocol()}} and
-\code{\link[=git2r_credentials]{git2r_credentials()}} for background on \code{protocol} and \code{credentials}.
+\code{\link[=git_credentials]{git_credentials()}} for background on \code{protocol} and \code{credentials}.
 \code{\link[=use_course]{use_course()}} for one-time download of all files in a Git repo, without
 any local or remote Git operations.
 }

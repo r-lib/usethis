@@ -19,7 +19,7 @@
 #'   `auth_token`. You must have permission to create repositories.
 #' @param private If `TRUE`, creates a private repository.
 #' @inheritParams git_protocol
-#' @inheritParams git2r_credentials
+#' @inheritParams git_credentials
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
 #'   "https://github.hostname.com/api/v3".
@@ -49,7 +49,7 @@ use_github <- function(organisation = NULL,
   check_no_origin()
   check_github_token(auth_token)
 
-  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
+  credentials <- credentials %||% git_credentials(protocol, auth_token)
   r <- git_repo()
   owner <- organisation %||% github_user(auth_token)[["login"]]
   repo_name <- project_name()

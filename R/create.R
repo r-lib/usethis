@@ -104,7 +104,7 @@ create_project <- function(path,
 #' by [use_github()], which connects existing local projects to GitHub.
 #'
 #' @seealso [use_github()] for GitHub setup advice. [git_protocol()] and
-#'   [git2r_credentials()] for background on `protocol` and `credentials`.
+#'   [git_credentials()] for background on `protocol` and `credentials`.
 #'   [use_course()] for one-time download of all files in a Git repo, without
 #'   any local or remote Git operations.
 #'
@@ -185,7 +185,7 @@ create_from_github <- function(repo_spec,
   )
 
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
-  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
+  credentials <- credentials %||% git_credentials(protocol, auth_token)
   git2r::clone(
     origin_url,
     repo_path,

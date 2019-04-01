@@ -9,7 +9,7 @@
 #' These functions make heavy use of git2r and the GitHub API. You'll need a
 #' GitHub personal access token (PAT); see [browse_github_token()] for help
 #' with that. If git2r does not seem to be finding your git credentials, read
-#' [git2r_credentials()] for troubleshooting advice. The transport protocol
+#' [git_credentials()] for troubleshooting advice. The transport protocol
 #' (SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.
 #'
 #' @section For contributors:
@@ -135,7 +135,7 @@ pr_fetch <- function(number,
 
   if (!git_branch_exists(our_branch)) {
     their_refname <- git_remref(remote, their_branch)
-    credentials <- git2r_credentials(protocol, auth_token)
+    credentials <- git_credentials(protocol, auth_token)
     ui_done("Creating local branch {ui_value(our_branch)}")
     git2r::fetch(
       git_repo(),
@@ -178,7 +178,7 @@ pr_push <- function() {
 
   remote_info <- git_branch_remote(branch)
   protocol <- github_remote_protocol(remote_info$remote_name)
-  credentials <- git2r_credentials(protocol)
+  credentials <- git_credentials(protocol)
 
   git_branch_push(branch, credentials = credentials)
 
@@ -203,7 +203,7 @@ pr_pull <- function() {
   check_uncommitted_changes()
 
   protocol <- github_remote_protocol()
-  credentials <- git2r_credentials(protocol)
+  credentials <- git_credentials(protocol)
 
   ui_done("Pulling changes from GitHub PR")
   git_pull(credentials = credentials)
@@ -222,7 +222,7 @@ pr_pull_upstream <- function() {
   source <- git_remref(remote, branch)
 
   protocol <- github_remote_protocol(remote)
-  credentials <- git2r_credentials(protocol)
+  credentials <- git_credentials(protocol)
 
   ui_done("Pulling changes from GitHub source repo {ui_value(source)}")
   git_pull(source, credentials = credentials)
