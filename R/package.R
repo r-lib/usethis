@@ -89,7 +89,7 @@ how_to_use <- function(package, type) {
   switch(type,
     imports = ui_todo("Refer to functions with {ui_code(paste0(package, '::fun()'))}"),
     depends = ui_todo(
-      "Are you sure you want {ui_field('Depends')}?\\
+      "Are you sure you want {ui_field('Depends')}? \\
       {ui_field('Imports')} is almost always the better choice."
     ),
     suggests = {
@@ -104,7 +104,7 @@ how_to_use <- function(package, type) {
 }
 
 show_includes <- function(package) {
-  incl <- system.file("include", package = package)
+  incl <- path_package("include", package = package)
   h <- dir_ls(incl, regexp = "[.](h|hpp)$")
   if (length(h) == 0) return()
 
