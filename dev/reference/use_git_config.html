@@ -40,11 +40,7 @@
 <meta property="og:title" content="Configure Git — use_git_config" />
 
 <meta property="og:description" content="Sets Git options, for either the user or the project (&quot;global&quot; or &quot;local&quot;, in
-Git terminology). The mandate is currently very narrow: to manage the user
-name and email. The scope argument is consulted when writing. When reading,
-use_git_config() ignores scope and simply reports the options in effect,
-where local config overrides global, if present. Use git2r::config()
-directly or the command line for general Git configuration." />
+Git terminology)." />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -144,11 +140,7 @@ directly or the command line for general Git configuration." />
     <div class="ref-description">
     
     <p>Sets Git options, for either the user or the project ("global" or "local", in
-Git terminology). The mandate is currently very narrow: to manage the user
-name and email. The <code>scope</code> argument is consulted when writing. When reading,
-<code>use_git_config()</code> ignores <code>scope</code> and simply reports the options in effect,
-where local config overrides global, if present. Use <code><a href='https://www.rdocumentation.org/packages/git2r/topics/config'>git2r::config()</a></code>
-directly or the command line for general Git configuration.</p>
+Git terminology).</p>
     
     </div>
 
@@ -180,12 +172,10 @@ current <strong>project</strong></p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='git_sitrep.html'>git_sitrep</a></span>()
-
-<span class='co'>## set the user's global user.name and user.email</span>
+<span class='co'># set the user's global user.name and user.email</span>
 <span class='fu'>use_git_config</span>(<span class='kw'>user.name</span> <span class='kw'>=</span> <span class='st'>"Jane"</span>, <span class='kw'>user.email</span> <span class='kw'>=</span> <span class='st'>"jane@example.org"</span>)
 
-<span class='co'>## set the user.name and user.email locally, i.e. for current repo/project</span>
+<span class='co'># set the user.name and user.email locally, i.e. for current repo/project</span>
 <span class='fu'>use_git_config</span>(
   <span class='kw'>scope</span> <span class='kw'>=</span> <span class='st'>"project"</span>,
   <span class='kw'>user.name</span> <span class='kw'>=</span> <span class='st'>"Jane"</span>,
