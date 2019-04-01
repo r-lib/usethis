@@ -324,16 +324,3 @@ git_config <- function(..., .repo = NULL) {
   names(old) <- names(values)
   invisible(old)
 }
-
-
-# Auth --------------------------------------------------------------------
-
-git_has_ssh <- function() {
-  tryCatch(
-    error = function(err) FALSE,
-    {
-      git2r::cred_ssh_key()
-      TRUE
-    }
-  )
-}

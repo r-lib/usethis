@@ -465,12 +465,19 @@ git_sitrep <- function() {
   hd_line("User")
   kv_line("Name", name)
   kv_line("Email", email)
-  kv_line("Protocol", getOption("usethis.protocol"))
-  kv_line("Has SSH keys", git_has_ssh())
+  kv_line("Default protocol", getOption("usethis.protocol"))
+  ## TODO: forward info from the credentials package once we start using it
+  ## e.g., git version, HTTPS credential helpers, SSH keys, etc.
   kv_line("Vaccinated", git_vaccinated())
 
   hd_line("git2r")
   kv_line("Supports SSH", git2r::libgit2_features()$ssh)
+  credentials_value <- if (have_git2r_credentials()) {
+    glue("<user-provided git2r credential object with class {class(git2r_credentials())}>")
+  } else {
+    "<usethis + git2r default behaviour>"
+  }
+  kv_line("Credentials", credentials_value)
 
   if (proj_active()) {
     hd_line("Project")
