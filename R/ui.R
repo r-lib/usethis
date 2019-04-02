@@ -50,7 +50,7 @@ ui_line <- function(x, .envir = parent.frame()) {
 ui_todo <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, crayon::red(clisymbols::symbol$bullet))
+  cat_bullet(x, ui_orange(clisymbols::symbol$bullet))
 }
 
 #' @rdname ui
@@ -58,7 +58,23 @@ ui_todo <- function(x, .envir = parent.frame()) {
 ui_done <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, crayon::red(crayon::green(clisymbols::symbol$tick)))
+  cat_bullet(x, ui_cyan(clisymbols::symbol$tick))
+}
+
+#' @rdname ui
+#' @export
+ui_oops <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+  cat_bullet(x, ui_orange(clisymbols::symbol$cross))
+}
+
+#' @rdname ui
+#' @export
+ui_info <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+  cat_bullet(x, ui_yellow(clisymbols::symbol$info))
 }
 
 #' @param copy If `TRUE`, the session is interactive, and the clipr package
@@ -70,7 +86,7 @@ ui_code_block <- function(x, copy = interactive(), .envir = parent.frame()) {
   x <- glue(x, .envir = .envir)
 
   block <- indent(x, "  ")
-  block <- crayon::make_style("darkgrey")(block)
+  block <- ui_grey(block)
   cat_line(block)
 
   if (copy && clipr::clipr_available()) {
@@ -142,7 +158,7 @@ ui_nope <- function(x, .envir = parent.frame()) {
 #' @rdname ui
 #' @export
 ui_field <- function(x) {
-  x <- crayon::green(x)
+  x <- ui_green(x)
   x <- glue_collapse(x, sep = ", ")
   x
 }
@@ -150,10 +166,10 @@ ui_field <- function(x) {
 #' @rdname ui
 #' @export
 ui_value <- function(x) {
-  if (is.character(x)) {
+  if (is.character(x) && !crayon::has_color()) {
     x <- encodeString(x, quote = "'")
   }
-  x <- crayon::blue(x)
+  x <- ui_blue(x)
   x <- glue_collapse(x, sep = ", ")
   x
 }
@@ -178,7 +194,7 @@ ui_path <- function(x, base = NULL) {
 #' @export
 ui_code <- function(x) {
   x <- encodeString(x, quote = "`")
-  x <- crayon::make_style("darkgrey")(x)
+  x <- ui_grey(x)
   x <- glue_collapse(x, sep = ", ")
   x
 }
@@ -209,10 +225,50 @@ hd_line <- function(name) {
 }
 
 kv_line <- function(key, value) {
-  if (is.null(value)) {
-    value <- crayon::red("<unset>")
+  value <- value %||% "<unset>"
+  if (length(value) == 1 && grepl("^<.*>$", value)) {
+    value <- ui_grey(value)
   } else {
     value <- ui_value(value)
   }
-  cat_line("* ", ui_field(key), ": ", value)
+  cat_line("* ", key, ": ", value)
 }
+
+# Color helpers ---------------------------------------------------------------
+solarized_hex<- c(
+  base03 = "#002b36", base02 = "#073642",  base01 = "#586e75",
+  base00 = "#657b83",  base0 = "#839496",   base1 = "#93a1a1",
+  base2  = "#eee8d5",  base3 = "#fdf6e3",  yellow = "#b58900",
+  orange = "#cb4b16",    red = "#dc322f", magenta = "#d33682",
+  violet = "#6c71c4",   blue = "#268bd2",    cyan = "#2aa198",
+   green = "#859900"
+)
+
+solarized_xterm <- c(
+  base03 = "#1c1c1c", base02 = "#262626",  base01 = "#585858",
+  base00 = "#626262",  base0 = "#808080",   base1 = "#8a8a8a",
+   base2 = "#e4e4e4",  base3 = "#ffffd7",  yellow = "#af8700",
+  orange = "#d75f00",    red = "#d70000", magenta = "#af005f",
+  violet = "#5f5faf",   blue = "#0087ff",    cyan = "#00afaf",
+   green = "#5f8700"
+)
+
+ui_yellow  <- crayon::make_style(solarized_hex["yellow"])
+ui_orange  <- crayon::make_style(solarized_hex["orange"])
+ui_red     <- crayon::make_style(solarized_hex["red"])
+ui_magenta <- crayon::make_style(solarized_hex["magenta"])
+ui_violet  <- crayon::make_style(solarized_hex["violet"])
+ui_blue    <- crayon::make_style(solarized_hex["blue"])
+ui_cyan    <- crayon::make_style(solarized_hex["cyan"])
+ui_green   <- crayon::make_style(solarized_hex["green"])
+
+ui_grey    <- crayon::make_style(solarized_xterm["base0"])
+
+ui_base03 <- crayon::make_style(solarized_xterm["base03"])
+ui_base02 <- crayon::make_style(solarized_xterm["base02"])
+ui_base01 <- crayon::make_style(solarized_xterm["base01"])
+ui_base00 <- crayon::make_style(solarized_xterm["base00"])
+ui_base0  <- crayon::make_style(solarized_xterm["base0"])
+ui_base1  <- crayon::make_style(solarized_xterm["base1"])
+ui_base2  <- crayon::make_style(solarized_xterm["base2"])
+ui_base3  <- crayon::make_style(solarized_xterm["base3"])

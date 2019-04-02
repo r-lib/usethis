@@ -1,0 +1,17 @@
+SOLARIZED,HEX,xterm_hex
+base03,#002b36,#1c1c1c
+base02,#073642,#262626
+base01,#586e75,#585858
+base00,#657b83,#626262
+base0,#839496,#808080
+base1,#93a1a1,#8a8a8a
+base2,#eee8d5,#e4e4e4
+base3,#fdf6e3,#ffffd7
+yellow,#b58900,#af8700
+orange,#cb4b16,#d75f00
+red,#dc322f,#d70000
+magenta,#d33682,#af005f
+violet,#6c71c4,#5f5faf
+blue,#268bd2,#0087ff
+cyan,#2aa198,#00afaf
+green,#859900,#5f8700
