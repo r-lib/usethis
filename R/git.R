@@ -451,7 +451,9 @@ use_git_credentials <- function(credentials) {
 #'
 #' @export
 #' @examples
+#' \dontrun{
 #' git_sitrep()
+#' }
 git_sitrep <- function() {
 
   # user --------------------------------------------------------------------
