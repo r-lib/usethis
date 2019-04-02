@@ -6,11 +6,15 @@ github_remotes <- function() {
   remotes[m]
 }
 
+github_remote <- function(name) {
+  remotes <- github_remotes()
+  if (length(remotes) == 0) return(NULL)
+  remotes[[name]]
+}
+
 github_remote_protocol <- function(name = "origin") {
   # https://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols
-  r <- github_remotes()
-  if (length(r) == 0) return(NULL)
-  url <- r[[name]]
+  url <- github_remote(name)
   if (is.null(url)) return(NULL)
   switch(
     substr(url, 1, 5),
@@ -25,9 +29,15 @@ github_remote_protocol <- function(name = "origin") {
 }
 
 github_origin <- function() {
-  r <- github_remotes()
+  r <- github_remote("origin")
   if (length(r) == 0) return(NULL)
-  parse_github_remotes(r)[["origin"]]
+  parse_github_remotes(r)[[1]]
+}
+
+github_upstream <- function() {
+  r <- github_remote("upstream")
+  if (length(r) == 0) return(NULL)
+  parse_github_remotes(r)[[1]]
 }
 
 github_owner <- function() {
@@ -35,16 +45,16 @@ github_owner <- function() {
 }
 
 github_owner_upstream <- function() {
-  upstream <- parse_github_remotes(github_remotes())[["upstream"]]
-  upstream[["owner"]]
+  github_upstream()[["owner"]]
 }
 
 github_repo <- function() {
   github_origin()[["repo"]]
 }
 
-github_repo_spec <- function() {
-  paste0(github_origin(), collapse = "/")
+github_repo_spec <- function(name = "origin") {
+  url <- github_remote(name)
+  paste0(parse_github_remotes(url)[[1]], collapse = "/")
 }
 
 ## repo_spec --> owner, repo

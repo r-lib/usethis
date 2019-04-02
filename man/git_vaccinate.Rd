@@ -8,6 +8,6 @@ git_vaccinate()
 }
 \description{
 Adds \code{.DS_Store}, \code{.Rproj.user}, and \code{.Rhistory} to your global
-\code{.gitignore}. This is good practices as it ensures that you will never
+\code{.gitignore}. This is a good practice as it decreases the chance that you
 accidentally leak credentials to GitHub.
 }
