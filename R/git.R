@@ -457,17 +457,18 @@ use_git_credentials <- function(credentials) {
 git_sitrep <- function() {
 
   # user --------------------------------------------------------------------
-  hd_line("User")
+  hd_line("Git user")
   kv_line("Name", git_config_get("user.name", global = TRUE))
   kv_line("Email", git_config_get("user.email", global = TRUE))
-  kv_line("Default protocol", getOption("usethis.protocol"))
   ## TODO: forward info from the credentials package once we start using it
+  ## and it reflects the credentials situation usethis will actually meet
   ## e.g., git version, HTTPS credential helpers, SSH keys, etc.
   kv_line("Vaccinated", git_vaccinated())
 
-  # git2r --------------------------------------------------------------------
-  hd_line("git2r")
-  kv_line("Supports SSH", git2r::libgit2_features()$ssh)
+  # usethis + git2r ----------------------------------------------------------
+  hd_line("usethis + git2r")
+  kv_line("Default usethis protocol", getOption("usethis.protocol"))
+  kv_line("git2r supports SSH", git2r::libgit2_features()$ssh)
   credentials_value <- if (have_git2r_credentials()) {
     glue("<user-provided git2r credential object with class {class(git_credentials())}>")
   } else {
@@ -481,7 +482,7 @@ git_sitrep <- function() {
     kv_line("Personal access token", "<found in env var>")
     who <- github_user()
     if (is.null(who)) {
-      ui_line("Token is invalid.")
+      ui_oops("Token is invalid.")
     } else {
       kv_line("User", who$login)
       kv_line("Name", who$name)
@@ -504,15 +505,17 @@ git_sitrep <- function() {
   }
 
   kv_line("Path", git_repo()$path)
-  kv_line("Local branch", git_branch_name())
-  kv_line("Remote branch", git_branch_tracking())
+  branch <- tryCatch(git_branch_name(), error = function(e) NULL)
+  kv_line("Local branch", branch)
+  tracking_branch <- if (is.null(branch)) NULL else git_branch_tracking()
+  kv_line("Remote branch", tracking_branch)
 
   # repo remotes -------------------------------------------------------------
   hd_line("Remotes")
   remotes <- git_remotes()
   if (length(remotes) == 0) {
     ui_line("This repo has no remotes.")
-    return()
+    return(invisible())
   }
   purrr::walk2(names(remotes), remotes, kv_line)
 
@@ -521,21 +524,21 @@ git_sitrep <- function() {
   if (is.null(github_remote("origin")) && is.null(github_remote("upstream"))) {
     ui_line(
       "
-      This repo has neither a {ui_value('origin')} nor {ui_value('upstream')} \\
-      remote on GitHub.com.
+      This repo has neither an {ui_value('origin')} nor an \\
+      {ui_value('upstream')} remote on GitHub.com.
       "
     )
     return()
   }
 
-  origin <- github_remote_scrutinize("origin")
-  upstream <- github_remote_scrutinize("upstream")
+  origin   <- git_remote_scrutinize("origin")
+  upstream <- git_remote_scrutinize("upstream")
 
   kv_line("origin", github_remote_report(origin))
   kv_line("upstream", github_remote_report(upstream))
 }
 
-github_remote_scrutinize <- function(name) {
+git_remote_scrutinize <- function(name) {
   out <- list(
     exists = FALSE,
     is_github = NA,
@@ -601,7 +604,7 @@ github_remote_report <- function(info) {
 #' Vaccinate your global git ignore
 #'
 #' Adds `.DS_Store`, `.Rproj.user`, and `.Rhistory` to your global
-#' `.gitignore`. This is good practices as it ensures that you will never
+#' `.gitignore`. This is a good practice as it decreases the chance that you
 #' accidentally leak credentials to GitHub.
 #'
 #' @export

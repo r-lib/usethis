@@ -111,6 +111,9 @@ git_branch_exists <- function(branch) {
   branch %in% names(git2r::branches(repo))
 }
 
+## TODO: this is 50% 'which branch should we be tracking?' and
+## 50% 'which branch are we tracking?' and it's not easy to
+## parse the usages out
 git_branch_tracking <- function(branch = git_branch_name()) {
   if (identical(branch, "master") && git_is_fork()) {
     # We always pretend that the master branch of a fork tracks the

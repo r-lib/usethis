@@ -58,7 +58,7 @@ ui_todo <- function(x, .envir = parent.frame()) {
 ui_done <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, ui_cyan(clisymbols::symbol$tick))
+  cat_bullet(x, ui_green(clisymbols::symbol$tick))
 }
 
 #' @rdname ui
