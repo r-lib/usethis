@@ -245,7 +245,8 @@ tidy_unzip <- function(zipfile) {
       file_delete(zipfile)
     }
 
-    if (is_rstudio_project(target) && rstudioapi::hasFun("openProject")) {
+    rproj_path <- dir_ls(target, regexp = "[.]Rproj$")
+    if (length(rproj_path) == 1 && rstudioapi::hasFun("openProject")) {
       ui_done("Opening project in RStudio")
       rstudioapi::openProject(target, newSession = TRUE)
     } else if (!in_rstudio_server()) {
