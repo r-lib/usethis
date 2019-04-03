@@ -112,7 +112,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
   user interface of usethis in your own code (#308). There are four families 
   of functions:
 
-    * block styles: `ui_line()`, `ui_done()`, `ui_todo()`.
+    * block styles: `ui_line()`, `ui_done()`, `ui_todo()`, `ui_oops()`,
+      `ui_info()`.
     * conditions: `ui_stop()`, `ui_warn()`.
     * questions: `ui_yeah()`, `ui_nope()`.
     * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`.

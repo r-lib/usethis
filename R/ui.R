@@ -6,7 +6,7 @@
 #'
 #' The `ui_` functions can be broken down into four main categories:
 #'
-#' * block styles: `ui_line()`, `ui_done()`, `ui_todo()`.
+#' * block styles: `ui_line()`, `ui_done()`, `ui_todo()`
 #' * conditions: `ui_stop()`, `ui_warn()`.
 #' * questions: `ui_yeah()`, `ui_nope()`.
 #' * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`.
@@ -59,6 +59,22 @@ ui_done <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
   cat_bullet(x, crayon::green(clisymbols::symbol$tick))
+}
+
+#' @rdname ui
+#' @export
+ui_oops <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+  cat_bullet(x, crayon::red(clisymbols::symbol$cross))
+}
+
+#' @rdname ui
+#' @export
+ui_info <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+  cat_bullet(x, crayon::yellow(clisymbols::symbol$info))
 }
 
 #' @param copy If `TRUE`, the session is interactive, and the clipr package

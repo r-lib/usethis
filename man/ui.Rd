@@ -5,6 +5,8 @@
 \alias{ui_line}
 \alias{ui_todo}
 \alias{ui_done}
+\alias{ui_oops}
+\alias{ui_info}
 \alias{ui_code_block}
 \alias{ui_stop}
 \alias{ui_warn}
@@ -21,6 +23,10 @@ ui_line(x, .envir = parent.frame())
 ui_todo(x, .envir = parent.frame())
 
 ui_done(x, .envir = parent.frame())
+
+ui_oops(x, .envir = parent.frame())
+
+ui_info(x, .envir = parent.frame())
 
 ui_code_block(x, copy = interactive(), .envir = parent.frame())
 
@@ -68,7 +74,7 @@ as usethis.
 \details{
 The \code{ui_} functions can be broken down into four main categories:
 \itemize{
-\item block styles: \code{ui_line()}, \code{ui_done()}, \code{ui_todo()}.
+\item block styles: \code{ui_line()}, \code{ui_done()}, \code{ui_todo()}
 \item conditions: \code{ui_stop()}, \code{ui_warn()}.
 \item questions: \code{ui_yeah()}, \code{ui_nope()}.
 \item inline styles: \code{ui_field()}, \code{ui_value()}, \code{ui_path()}, \code{ui_code()}.
