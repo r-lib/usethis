@@ -1,13 +1,23 @@
 #' Create tests
 #'
-#' `use_testthat()` sets up testing infrastructure, creating `tests/testthat.R`
-#' and `tests/testthat/`, and adding testthat as a Suggested package.
-#' `use_test()` creates `tests/testthat/test-<name>.R` and opens it for editing.
+#' There are two helper functions:
+#' * `use_testthat()` sets up overall testing infrastructure: creates
+#'   `tests/testthat/`, `tests/testthat.R`, and adds testthat to Suggests.
+#' * `use_test()` sets up individual test files: creates
+#'   `tests/testthat/test-<name>.R` and, optionally, opens it for editing.
 #'
 #' @seealso The [testing chapter](https://r-pkgs.org/tests.html) of [R
 #'   Packages](https://r-pkgs.org).
 #' @export
 #' @inheritParams use_template
+#' @examples
+#' \dontrun{
+#' use_testthat()
+#'
+#' use_test()
+#'
+#' use_test("something-management")
+#' }
 use_testthat <- function() {
   check_is_package("use_testthat()")
   check_installed("testthat")
@@ -18,6 +28,10 @@ use_testthat <- function() {
     "testthat.R",
     save_as = path("tests", "testthat.R"),
     data = list(name = project_name())
+  )
+  ui_todo(
+    "Call {ui_code('use_test()')} to initialize a basic test file and open it \\
+    for editing."
   )
 }
 

@@ -17,9 +17,22 @@ be based on the name of the file open in the source editor.}
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
-\code{use_testthat()} sets up testing infrastructure, creating \code{tests/testthat.R}
-and \code{tests/testthat/}, and adding testthat as a Suggested package.
-\code{use_test()} creates \code{tests/testthat/test-<name>.R} and opens it for editing.
+There are two helper functions:
+\itemize{
+\item \code{use_testthat()} sets up overall testing infrastructure: creates
+\code{tests/testthat/}, \code{tests/testthat.R}, and adds testthat to Suggests.
+\item \code{use_test()} sets up individual test files: creates
+\code{tests/testthat/test-<name>.R} and, optionally, opens it for editing.
+}
+}
+\examples{
+\dontrun{
+use_testthat()
+
+use_test()
+
+use_test("something-management")
+}
 }
 \seealso{
 The \href{https://r-pkgs.org/tests.html}{testing chapter} of \href{https://r-pkgs.org}{R Packages}.
