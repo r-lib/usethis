@@ -171,7 +171,7 @@ pr_push <- function() {
   check_uncommitted_changes()
 
   branch <- git_branch_name()
-  has_remote_branch <- !is.null(git_branch_tracking(branch))
+  has_remote_branch <- !is.null(git_branch_tracking_FIXME(branch))
   if (has_remote_branch) {
     check_branch_pulled(use = "pr_pull()")
   }
@@ -293,7 +293,7 @@ pr_url <- function(branch = git_branch_name()) {
 
   if (git_is_fork()) {
     source <- github_owner_upstream()
-    pr_branch <- remref_branch(git_branch_tracking(branch))
+    pr_branch <- remref_branch(git_branch_tracking_FIXME(branch))
   } else {
     source <- github_owner()
     pr_branch <- branch

@@ -479,7 +479,7 @@ git_sitrep <- function() {
       repo <- git_repo()
       kv_line("Path", repo$path)
       kv_line("Local branch", git_branch_name())
-      kv_line("Remote branch", git_branch_tracking())
+      kv_line("Remote branch", git_branch_tracking_FIXME())
     } else {
       cat_line("Git not activated")
     }
