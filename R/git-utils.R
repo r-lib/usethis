@@ -22,7 +22,7 @@ git_pull <- function(remote_branch = git_branch_tracking(),
   )
   mr <- git2r::merge(repo, remote_branch)
   if (isTRUE(mr$conflicts)) {
-    stop("Merge conflict! Please resolve before continuing", call. = FALSE)
+    ui_stop("Merge conflict! Please resolve before continuing")
   }
 
   invisible()
