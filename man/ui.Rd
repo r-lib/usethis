@@ -74,7 +74,8 @@ as usethis.
 \details{
 The \code{ui_} functions can be broken down into four main categories:
 \itemize{
-\item block styles: \code{ui_line()}, \code{ui_done()}, \code{ui_todo()}
+\item block styles: \code{ui_line()}, \code{ui_done()}, \code{ui_todo()}, \code{ui_oops()},
+\code{ui_info()}.
 \item conditions: \code{ui_stop()}, \code{ui_warn()}.
 \item questions: \code{ui_yeah()}, \code{ui_nope()}.
 \item inline styles: \code{ui_field()}, \code{ui_value()}, \code{ui_path()}, \code{ui_code()}.
