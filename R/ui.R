@@ -230,5 +230,5 @@ kv_line <- function(key, value) {
   } else {
     value <- ui_value(value)
   }
-  cat_line("* ", ui_field(key), ": ", value)
+  cat_line("* ", key, ": ", value)
 }
