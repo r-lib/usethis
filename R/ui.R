@@ -226,7 +226,7 @@ hd_line <- function(name) {
 
 kv_line <- function(key, value) {
   if (is.null(value)) {
-    value <- crayon::red("<unset>")
+    value <- crayon::silver("<unset>")
   } else {
     value <- ui_value(value)
   }
