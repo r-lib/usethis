@@ -453,19 +453,19 @@ use_git_credentials <- function(credentials) {
 #' @examples
 #' git_sitrep()
 git_sitrep <- function() {
-  name <- git_config_get("user.name", global = TRUE)
-  email <- git_config_get("user.email", global = TRUE)
-
-  hd_line("User")
-  kv_line("Name", name)
-  kv_line("Email", email)
-  kv_line("Default protocol", getOption("usethis.protocol"))
+  # git user ------------------------------------------------------------------
+  hd_line("Git user")
+  kv_line("Name", git_config_get("user.name", global = TRUE))
+  kv_line("Email", git_config_get("user.email", global = TRUE))
   ## TODO: forward info from the credentials package once we start using it
+  ## and it reflects the credentials situation usethis will actually meet
   ## e.g., git version, HTTPS credential helpers, SSH keys, etc.
   kv_line("Vaccinated", git_vaccinated())
 
-  hd_line("git2r")
-  kv_line("Supports SSH", git2r::libgit2_features()$ssh)
+  # usethis + git2r ----------------------------------------------------------
+  hd_line("usethis + git2r")
+  kv_line("Default usethis protocol", getOption("usethis.protocol"))
+  kv_line("git2r supports SSH", git2r::libgit2_features()$ssh)
   credentials_value <- if (have_git2r_credentials()) {
     glue("<user-provided git2r credential object with class {class(git_credentials())}>")
   } else {
@@ -473,31 +473,121 @@ git_sitrep <- function() {
   }
   kv_line("Credentials", credentials_value)
 
-  if (proj_active()) {
-    hd_line("Project")
-    if (uses_git()) {
-      repo <- git_repo()
-      kv_line("Path", repo$path)
-      kv_line("Local branch", git_branch_name())
-      kv_line("Remote branch", git_branch_tracking())
-    } else {
-      cat_line("Git not activated")
-    }
-  }
-
+  # github user ---------------------------------------------------------------
   hd_line("GitHub")
-  if (have_github_token()) {
-    ui_done("Personal access token found in env var")
+  have_token <- have_github_token()
+  if (have_token) {
+    kv_line("Personal access token", "<found in env var>")
     who <- github_user()
     if (is.null(who)) {
-      cat_line("Token is invalid")
+      ui_oops("Token is invalid.")
+      have_token <- FALSE
     } else {
       kv_line("User", who$login)
       kv_line("Name", who$name)
     }
   } else {
-    cat_line("No personal access token found")
+    kv_line("Personal access token", NULL)
   }
+
+  # repo overview -------------------------------------------------------------
+  hd_line("Repo")
+  withr::with_options(
+    list(usethis.quiet = TRUE),
+    try(proj_get(), silent = TRUE)
+  )
+  if (!proj_active()) {
+    ui_info("No active usethis project.")
+    return(invisible())
+  }
+
+  if (!uses_git()) {
+    ui_info("Active project is not a Git repo.")
+    return(invisible())
+  }
+
+  kv_line("Path", git_repo()$path)
+  branch <- tryCatch(git_branch_name(), error = function(e) NULL)
+  tracking_branch <- if (is.null(branch)) NULL else git_branch_tracking()
+  ## TODO: rework when ui_*() functions make it possible to do better
+  branch <- if (is.null(branch)) "<unset>" else branch
+  tracking_branch <- if (is.null(tracking_branch)) "<unset>" else tracking_branch
+  cat_line("* ", "Local branch -> remote tracking branch: ",
+           ui_value(branch), " -> ", ui_value(tracking_branch))
+
+  # PR outlook -------------------------------------------------------------
+  hd_line("GitHub pull request readiness")
+  if (is.null(github_remote("origin")) && is.null(github_remote("upstream"))) {
+    ui_info(
+      "
+      This repo has neither {ui_value('origin')} nor {ui_value('upstream')} \\
+      remote on GitHub.com.
+      "
+    )
+    return(invisible())
+  }
+
+  origin   <- git_remote_scrutinize("origin", have_token)
+  upstream <- git_remote_scrutinize("upstream", have_token)
+
+  kv_line("origin", github_remote_report(origin))
+  kv_line("upstream", github_remote_report(upstream))
+}
+
+git_remote_scrutinize <- function(name, have_token = have_github_token()) {
+  out <- list(
+    exists = FALSE,
+    is_github = NA,
+    spec = NA,
+    perms = NA_character_,
+    is_fork = NA,
+    fork_spec = NA_character_
+  )
+  remotes <- git_remotes()
+  if (is.null(remotes)) {
+    return(out)
+  }
+
+  if (is.null(remotes[[name]])) {
+    return(out)
+  }
+  out$exists <- TRUE
+
+  gh_remote <- github_remote(name)
+  if (is.null(gh_remote)) {
+    out$is_github <- FALSE
+    return(out)
+  }
+  out$is_github <- TRUE
+  out$spec <- github_repo_spec(name)
+
+  gh_GET <- if (have_token) gh::gh(glue("/repos/{out$spec}")) else NULL
+  if (is.null(gh_GET)) {
+    return(out)
+  }
+  out$perms <- if (isTRUE(gh_GET$permissions$push)) "can push" else "read only"
+  out$is_fork <- isTRUE(gh_GET$fork)
+
+  if (!out$is_fork) {
+    return(out)
+  }
+  out$fork_spec <- gh_GET$parent$full_name
+
+  out
+}
+
+github_remote_report <- function(info) {
+  if (!info$exists) {
+    return("<no such remote>")
+  }
+  if (!info$is_github) {
+    return("<not a GitHub remote>")
+  }
+  out <- info[c("spec", "perms")]
+  if (isTRUE(info$is_fork)) {
+    out <- c(out, glue("forked from {info$fork_spec}"))
+  }
+  out
 }
 
 # Vaccination -------------------------------------------------------------
