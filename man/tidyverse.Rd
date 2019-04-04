@@ -42,7 +42,10 @@ use_tidy_release_test_env()
 }
 \arguments{
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
-created, provided that the parent path exists.}
+created, provided that the parent path exists. If you are using
+\href{https://rstudio.cloud}{RStudio Cloud}, our current advice is to use
+\code{"/cloud/project"} as a home directory, and to specify \code{path} to be within
+\code{"/cloud/project"}.}
 
 \item{name}{Name of the copyright holder or holders. Separate multiple
 individuals with \code{;}. You can supply a global default with

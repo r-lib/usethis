@@ -13,7 +13,10 @@ url for a repo on GitHub. Function developed with DropBox and GitHub in
 mind, but should work for ZIP files generally. If no "http" prefix is
 found, "https://" is prepended. See \link{use_course_details} for more.}
 
-\item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
+\item{destdir}{The new folder is stored here. Defaults to user's Desktop.
+If you are using  \href{https://rstudio.cloud}{RStudio Cloud}, our current
+advice is to use \code{"/cloud/project"} as a home directory, and to specify
+\code{destdir} to be within \code{"/cloud/project"}.}
 }
 \value{
 Path to the new directory holding the course materials, invisibly.

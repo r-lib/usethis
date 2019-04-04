@@ -12,7 +12,10 @@ create_from_github(repo_spec, destdir = NULL, fork = NA,
 \item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}. The
 \code{repo} part will be the name of the new local repo.}
 
-\item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
+\item{destdir}{The new folder is stored here. Defaults to user's Desktop.
+If you are using  \href{https://rstudio.cloud}{RStudio Cloud}, our current
+advice is to use \code{"/cloud/project"} as a home directory, and to specify
+\code{destdir} to be within \code{"/cloud/project"}.}
 
 \item{fork}{If \code{TRUE}, we create and clone a fork. If \code{FALSE}, we clone
 \code{repo_spec} itself. Will be set to \code{FALSE} if no \code{auth_token} (a.k.a. PAT)

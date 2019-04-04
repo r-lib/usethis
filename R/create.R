@@ -10,7 +10,10 @@
 #' before any existing files are changed.
 #'
 #' @param path A path. If it exists, it is used. If it does not exist, it is
-#'   created, provided that the parent path exists.
+#'   created, provided that the parent path exists. If you are using
+#'   [RStudio Cloud](https://rstudio.cloud), our current advice is to use
+#'   `"/cloud/project"` as a home directory, and to specify `path` to be within
+#'   `"/cloud/project"`.
 #' @inheritParams use_description
 #' @param rstudio If `TRUE`, calls [use_rstudio()] to make the new package or
 #'   project into an [RStudio
