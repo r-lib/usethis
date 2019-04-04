@@ -37,7 +37,7 @@ new values.}
 \item{colours, descriptions}{Named character vectors giving hexadecimal
 colours (like \code{e02a2a}) and longer descriptions. The names should match
 label names, and anything unmatched will be left unchanged. If you
-create a new label, and don't supply colours, it will be givein a random
+create a new label, and don't supply colours, it will be given a random
 colour.}
 
 \item{delete_default}{If \code{TRUE}, will remove GitHub default labels that do

@@ -28,7 +28,7 @@
 #'
 #' It's also possible that the maintainer will contribute some code to your
 #' PR: you get that code back to your computer, run `pr_pull()`. It's also
-#' possible that other changes have occured to the package while you've been
+#' possible that other changes have occurred to the package while you've been
 #' working on your PR, and you need to "merge master". Do that by running
 #' `pr_pull_upstream()`: this makes sure that your copy of the package is
 #' up-to-date with the maintainer's latest changes. Either of the pull
@@ -44,7 +44,7 @@
 #' @section Other helpful functions:
 #' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_pull_upstream()`, and
 #'   `pr_push()`
-#' * `pr_pause()` makes sure you're synched with the PR and then switches
+#' * `pr_pause()` makes sure you're synced with the PR and then switches
 #'    back to master.
 #' * `pr_view()` opens the PR in the browser
 #' @export

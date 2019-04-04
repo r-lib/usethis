@@ -46,7 +46,7 @@ integration service for Windows.
 \section{\code{use_gitlab_ci()}}{
 
 Adds a basic \code{.gitlab-ci.yml} to the top-level directory of a package. This is
-a configuration file for the \href{https://docs.gitlab.com/ee/ci/}{Gitlab CI/CD} continuous
+a configuration file for the \href{https://docs.gitlab.com/ee/ci/}{GitLab CI/CD} continuous
 integration service for GitLab.
 }
 

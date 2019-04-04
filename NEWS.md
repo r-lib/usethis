@@ -23,7 +23,7 @@
   config (#328).
 
 * `git_vaccinate()` vaccinates your global git ignore file ensuring that
-  you never check in files likely to contain confidental information (#469).
+  you never check in files likely to contain confidential information (#469).
   It is called automatically if `use_git_ignore()` creates a new `.gitnore`
   file.
 
@@ -196,7 +196,7 @@ usethis gains tooling to manage part of a file. This currently used for managing
   existing labels (#290). 
 
 * `use_logo()` can override existing logo if user gives permission (#454).
-  It also produces retina approrpriate logos by default, and matches the 
+  It also produces retina appropriate logos by default, and matches the 
   aspect ratio to the <http://hexb.in/sticker.html> specification (#499).
 
 * `use_news_md()` will optionally commit.
@@ -229,7 +229,7 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `use_vignette()` now has a `title` argument which is used in YAML header
   (in the two places where it is needed). The vignettes also lose the default
-  author and date fields (@rorynolan, #445), and the RMarkdown starter material.
+  author and date fields (@rorynolan, #445), and the R Markdown starter material.
   They gain a standard setup chunk.
 
 * `use_version("dev")` now creates a standard "(development version)" heading

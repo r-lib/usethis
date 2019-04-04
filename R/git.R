@@ -447,7 +447,7 @@ use_git_credentials <- function(credentials) {
 #' git/GitHub sitrep
 #'
 #' Get a situation report on your current git/GitHub status. Useful for
-#' diagnosing problems
+#' diagnosing problems.
 #'
 #' @export
 #' @examples

@@ -114,7 +114,7 @@ appveyor_info <- function() {
 
 #' @section `use_gitlab_ci()`:
 #' Adds a basic `.gitlab-ci.yml` to the top-level directory of a package. This is
-#' a configuration file for the [Gitlab CI/CD](https://docs.gitlab.com/ee/ci/) continuous
+#' a configuration file for the [GitLab CI/CD](https://docs.gitlab.com/ee/ci/) continuous
 #' integration service for GitLab.
 #' @export
 #' @rdname ci
