@@ -51,6 +51,7 @@
 #' @param branch branch name. Should usually consist of lower case letters,
 #'   numbers, and `-`.
 pr_init <- function(branch) {
+  stopifnot(is_string(branch))
   check_uses_github()
   check_branch_pulled("master", "pr_pull_upstream()")
 
@@ -63,6 +64,8 @@ pr_init <- function(branch) {
 
     ui_done("Creating local PR branch {ui_value(branch)}")
     git_branch_create(branch)
+    config_key <- glue("branch.{branch}.created-by")
+    git_config_set(config_key, "usethis::pr_init")
   }
 
   if (git_branch_name() != branch) {
@@ -131,6 +134,8 @@ pr_fetch <- function(number,
     )
     ui_done("Adding remote {ui_value(remote)} as {ui_value(url)}")
     git2r::remote_add(git_repo(), remote, url)
+    config_key <- glue("remote.{remote}.created-by")
+    git_config_set(config_key, "usethis::pr_fetch")
   }
 
   if (!git_branch_exists(our_branch)) {
@@ -146,6 +151,9 @@ pr_fetch <- function(number,
     )
     git_branch_create(our_branch, their_refname)
     git_branch_track(our_branch, remote, their_branch)
+
+    config_key <- glue("branch.{our_branch}.created-by")
+    git_config_set(config_key, "usethis::pr_fetch")
 
     # Cache URL for PR in config for branch
     config_url <- glue("branch.{our_branch}.pr-url")
