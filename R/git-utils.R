@@ -116,14 +116,16 @@ git_branch_tracking <- function(branch = git_branch_name()) {
     git2r::branch_get_upstream(b)$name
 }
 
+## FIXME: this function is 50% "actual tracking branch" and
+## 50% "what we think tracking branch should be"
+## different uses need to be untangled, then we can give a better name
 git_branch_tracking_FIXME <- function(branch = git_branch_name()) {
   if (identical(branch, "master") && git_is_fork()) {
     # We always pretend that the master branch of a fork tracks the
     # master branch in the source repo
     "upstream/master"
   } else {
-    b <- git_branch(name = branch)
-    git2r::branch_get_upstream(b)$name
+    git_branch_tracking(branch)
   }
 }
 
