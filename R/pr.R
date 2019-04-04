@@ -271,6 +271,7 @@ pr_pause <- function() {
 pr_finish <- function() {
   check_branch_not_master()
   pr <- git_branch_name()
+  tracking_branch <- git_branch_tracking()
 
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
@@ -280,6 +281,25 @@ pr_finish <- function() {
   # TODO: check that this is merged!
   ui_done("Deleting local {ui_value(pr)} branch")
   git_branch_delete(pr)
+
+  if (is.null(tracking_branch)) {
+    return()
+  }
+
+  remote <- remref_remote(tracking_branch)
+  created_by <- git_config_get(glue("remote.{remote}.created-by"))
+  if (is.null(created_by) || !grepl("^usethis::pr_", created_by)) {
+    return()
+  }
+
+  b <- git2r::branches(git_repo(), flags = "local")
+  remote_specs <- purrr::map(b, ~ git2r::branch_get_upstream(.x)$name)
+  remote_specs <- purrr::compact(remote_specs)
+  remote_specs <- purrr::keep(remote_specs, ~ grepl(glue("^{remote}/"), .x))
+  if (length(remote_specs) == 0 &&
+      ui_yeah("Remote {ui_value(remote)} is no longer needed. Delete?")) {
+    git2r::remote_remove(git_repo(), remote)
+  }
 }
 
 pr_create_gh <- function() {
