@@ -584,7 +584,7 @@ github_remote_report <- function(info) {
     return("<not a GitHub remote>")
   }
   out <- info[c("spec", "perms")]
-  if (info$is_fork) {
+  if (isTRUE(info$is_fork)) {
     out <- c(out, glue("forked from {info$fork_spec}"))
   }
   out
