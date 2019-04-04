@@ -20,7 +20,8 @@ is provided or preconfigured. Otherwise, defaults to \code{FALSE} if you can
 push to \code{repo_spec} and \code{TRUE} if you cannot. If a fork is created, the
 original target repo is added to the local repo as the \code{upstream} remote,
 using your preferred \code{protocol}, to make it easier to pull upstream changes
-in the future.}
+in the future; the master branch of your local repo will be pulled from
+\code{upstream} master.}
 
 \item{rstudio}{Initiate an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}?
 Defaults to \code{TRUE} if in an RStudio session and project has no

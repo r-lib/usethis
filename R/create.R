@@ -118,7 +118,8 @@ create_project <- function(path,
 #'   push to `repo_spec` and `TRUE` if you cannot. If a fork is created, the
 #'   original target repo is added to the local repo as the `upstream` remote,
 #'   using your preferred `protocol`, to make it easier to pull upstream changes
-#'   in the future.
+#'   in the future; the master branch of your local repo will be pulled from
+#'   `upstream` master.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'    Defaults to `TRUE` if in an RStudio session and project has no
@@ -199,6 +200,7 @@ create_from_github <- function(repo_spec,
     r <- git2r::repository(proj_get())
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     git2r::remote_add(r, "upstream", upstream_url)
+    pr_pull_upstream()
   }
 
   rstudio <- rstudio %||% rstudioapi::isAvailable()
