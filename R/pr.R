@@ -199,8 +199,10 @@ pr_push <- function() {
   if (is.null(url)) {
     pr_create_gh()
   } else {
-    ui_done("View PR at {ui_value(url)}")
+    ui_done("View PR at {ui_value(url)} or call {ui_code('pr_view()')}")
   }
+
+  invisible()
 }
 
 #' @export
@@ -283,13 +285,13 @@ pr_finish <- function() {
   git_branch_delete(pr)
 
   if (is.null(tracking_branch)) {
-    return()
+    return(invisible())
   }
 
   remote <- remref_remote(tracking_branch)
   created_by <- git_config_get(glue("remote.{remote}.created-by"))
   if (is.null(created_by) || !grepl("^usethis::pr_", created_by)) {
-    return()
+    return(invisible())
   }
 
   b <- git2r::branches(git_repo(), flags = "local")
