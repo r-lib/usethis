@@ -174,14 +174,12 @@ RStudio Project</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; *   working_directory: <span style='color: #0000BB;'>'/tmp/Rtmp7vHK0I/file45111b16b6f1/dev/reference'</span><span>
-#&gt; * active_usethis_proj: </span><span style='color: #555555;'>&lt;unset&gt;</span><span>
+    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; *   working_directory: <span style='color: #0000BB;'>'/tmp/RtmpZfBTy4/file4519300a02cd/dev/reference'</span><span>
+#&gt; * active_usethis_proj: </span><span style='color: #0000BB;'>'/tmp/RtmpZfBTy4/file4519300a02cd'</span><span>
 #&gt; * active_rstudio_proj: </span><span style='color: #555555;'>&lt;unset&gt;</span><span>
-#&gt; </span><span style='color: #BB0000;'>●</span><span> There is currently no active usethis project.
-#&gt;   usethis attempts to activate a project upon first need.
-#&gt;   Call </span><span style='color: #555555;'>`proj_get()`</span><span> to initiate project discovery.
-#&gt;   Call </span><span style='color: #555555;'>`proj_set("path/to/project")`</span><span> or </span><span style='color: #555555;'>`proj_activate("path/to/project")`</span><span> to provide
-#&gt;   an explicit path.</div></span></pre>
+#&gt; </span><span style='color: #BB0000;'>●</span><span> Your working directory is not the same as the active usethis project.
+#&gt;   Set working directory to the project: </span><span style='color: #555555;'>`setwd(proj_get())`</span><span>
+#&gt;   Set project to working directory:     </span><span style='color: #555555;'>`proj_set(getwd())`</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
