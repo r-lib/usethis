@@ -295,9 +295,8 @@ pr_finish <- function() {
   b <- git2r::branches(git_repo(), flags = "local")
   remote_specs <- purrr::map(b, ~ git2r::branch_get_upstream(.x)$name)
   remote_specs <- purrr::compact(remote_specs)
-  remote_specs <- purrr::keep(remote_specs, ~ grepl(glue("^{remote}/"), .x))
-  if (length(remote_specs) == 0 &&
-      ui_yeah("Remote {ui_value(remote)} is no longer needed. Delete?")) {
+  if (sum(grepl(glue("^{remote}/"), remote_specs)) == 0) {
+    ui_done("Removing remote {ui_value(remote)}")
     git2r::remote_remove(git_repo(), remote)
   }
 }
