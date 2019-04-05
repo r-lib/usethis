@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: {{{ image }}}
+    steps:
+      - restore_cache:
+          keys:
+            - cache
+      - checkout
+      - run:
+          name: Install package dependencies
+          command: R -e "devtools::install_deps(dependencies = TRUE)"
+      - run:
+          name: Build package
+          command: R CMD build .
+      - run:
+          name: Check package
+          command: R CMD check --as-cran --no-manual *tar.gz
+      - store_artifacts:
+          path: {{{ package }}}.Rcheck/
+      - save_cache:
+          key: cache
+          paths:
+            - "/usr/local/lib/R/site-library"
