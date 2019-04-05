@@ -8,6 +8,13 @@
 
 <title>Changelog • usethis</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -32,7 +39,7 @@
 
 <meta property="og:title" content="Changelog" />
 
-<meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
+<meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -63,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
       </span>
     </div>
 
@@ -174,9 +181,9 @@
 <li><p>The logic for setting DESCRIPTION fields in <code><a href="../reference/create_package.html">create_package()</a></code> and <code><a href="../reference/use_description.html">use_description()</a></code> got a Spring Cleaning. Fields directly specified by the user take precedence, then the named list in <code><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption("usethis.description")</a></code> is consulted, and finally defaults built into usethis. <code><a href="../reference/use_description.html">use_description_defaults()</a></code> is a new function that reveals fields found in options and built into usethis. Options specific to one DESCRIPTION field, e.g. <code>devtools.desc.license</code>, are no longer supported. Instead, use a single named list for all fields, preferably stored in an option named <code>"usethis.description"</code> (however,<code>"devtools.desc"</code> is still consulted for backwards compatibility). (<a href='https://github.com/r-lib/usethis/issues/159'>#159</a>, <a href='https://github.com/r-lib/usethis/issues/233'>#233</a>, <a href='https://github.com/r-lib/usethis/issues/367'>#367</a>)</p></li>
 </ul>
 </div>
-<div id="dependency-changes-1" class="section level2">
+<div id="dependency-changes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes-1" class="anchor"></a>Dependency changes</h2>
+<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
 <p>New Imports: fs, glue, utils</p>
 <p>No longer in Imports: backports, httr, rematch2, rmarkdown (moved to Suggests), styler (moved to Suggests)</p>
 </div>
@@ -200,7 +207,7 @@
 <a href="#new-functions-1" class="anchor"></a>New functions</h2>
 <ul>
 <li><p><code><a href="../reference/use_git_config.html">use_git_config()</a></code> can set user’s Git name or email, globally or locally in a project/repo (<a href='https://github.com/r-lib/usethis/issues/267'>#267</a>).</p></li>
-<li><p><code><a href="../reference/browse_github_pat.html">browse_github_pat()</a></code> goes to the webpage where a GitHub user can create a personal access token (PAT) for the GitHub API. If the user configures a PAT, they can use functions like <code><a href="../reference/create_from_github.html">create_from_github()</a></code> and <code><a href="../reference/use_github.html">use_github()</a></code> to easily create and connect GitHub repos to local projects. (<a href='https://github.com/r-lib/usethis/issues/248'>#248</a>, <a href='https://github.com/r-lib/usethis/issues/257'>#257</a>, <a href='https://github.com/jeroen'>@jeroen</a>, via <a href='https://github.com/jennybc'>@jennybc</a>).</p></li>
+<li><p><code><a href="../reference/browse_github_token.html">browse_github_pat()</a></code> goes to the webpage where a GitHub user can create a personal access token (PAT) for the GitHub API. If the user configures a PAT, they can use functions like <code><a href="../reference/create_from_github.html">create_from_github()</a></code> and <code><a href="../reference/use_github.html">use_github()</a></code> to easily create and connect GitHub repos to local projects. (<a href='https://github.com/r-lib/usethis/issues/248'>#248</a>, <a href='https://github.com/r-lib/usethis/issues/257'>#257</a>, <a href='https://github.com/jeroen'>@jeroen</a>, via <a href='https://github.com/jennybc'>@jennybc</a>).</p></li>
 <li><p><code><a href="../reference/use_version.html">use_version()</a></code> increments the version of the active package, including an interactive chooser. <code><a href="../reference/use_version.html">use_dev_version()</a></code> is now a special case wrapper around this. (<a href='https://github.com/r-lib/usethis/issues/188'>#188</a>, <a href='https://github.com/r-lib/usethis/issues/223'>#223</a>, <a href='https://github.com/EmilHvitfeldt'>@EmilHvitfeldt</a>).</p></li>
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_github()</a></code> creates a standard set of files that make a GitHub repository more navigable for users and contributors: an issue template, contributing guidelines, support documentation, and a code of conduct. All are now placed in a <code>.github/</code> subdirectory (<a href='https://github.com/r-lib/usethis/issues/165'>#165</a>, <a href='https://github.com/batpigandme'>@batpigandme</a>).</p></li>
 <li><p><code>use_bioc_badge</code> creates a Bioconductor badge that links to the build report (<a href='https://github.com/r-lib/usethis/issues/271'>#271</a>, <a href='https://github.com/LiNk-NY'>@LiNk-NY</a>).</p></li>
@@ -284,7 +291,7 @@
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_ci()</a></code> which sets up travis and codecov using the tidyverse conventions (<a href='https://github.com/r-lib/usethis/issues/14'>#14</a>)</p></li>
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_description()</a></code> puts description fields in a standard order and alphabetises dependencies.</p></li>
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> imports and re-exports the recommend set of tidy eval helpers if your package uses tidy eval (<a href='https://github.com/r-lib/usethis/issues/46'>#46</a>).</p></li>
-<li><p><code><a href="../reference/use_usethis.html">use_usethis()</a></code> opens your <code>.Rprofile</code> and gives you the code to copy and paste in.</p></li>
+<li><p><code><a href="../reference/rprofile-helper.html">use_usethis()</a></code> opens your <code>.Rprofile</code> and gives you the code to copy and paste in.</p></li>
 </ul>
 </div>
 <div id="new-edit-functions" class="section level2">
@@ -373,7 +380,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>

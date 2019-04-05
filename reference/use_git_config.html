@@ -8,6 +8,13 @@
 
 <title>Configure Git — use_git_config • usethis</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -33,13 +40,9 @@
 <meta property="og:title" content="Configure Git — use_git_config" />
 
 <meta property="og:description" content="Sets Git options, for either the user or the project (&quot;global&quot; or &quot;local&quot;, in
-Git terminology). The mandate is currently very narrow: to manage the user
-name and email. The scope argument is consulted when writing. When reading,
-use_git_config() ignores scope and simply reports the options in effect,
-where local config overrides global, if present. Use git2r::config()
-directly or the command line for general Git configuration." />
+Git terminology)." />
 
-<meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
+<meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -70,7 +73,7 @@ directly or the command line for general Git configuration." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
       </span>
     </div>
 
@@ -137,11 +140,7 @@ directly or the command line for general Git configuration." />
     <div class="ref-description">
     
     <p>Sets Git options, for either the user or the project ("global" or "local", in
-Git terminology). The mandate is currently very narrow: to manage the user
-name and email. The <code>scope</code> argument is consulted when writing. When reading,
-<code>use_git_config()</code> ignores <code>scope</code> and simply reports the options in effect,
-where local config overrides global, if present. Use <code><a href='https://www.rdocumentation.org/packages/git2r/topics/config'>git2r::config()</a></code>
-directly or the command line for general Git configuration.</p>
+Git terminology).</p>
     
     </div>
 
@@ -157,14 +156,13 @@ current <strong>project</strong></p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional options to write or delete from the
-configuration.</p></td>
+      <td><p>Name-value pairs.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list with components <code>user.name</code> and <code>user.email</code>.</p>
+    <p>Invisibly, the previous values of the modified components.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -174,13 +172,10 @@ configuration.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>## see if user name and email are currently configured</span>
-<span class='fu'>use_git_config</span>()
-
-<span class='co'>## set the user's global user.name and user.email</span>
+<span class='co'># set the user's global user.name and user.email</span>
 <span class='fu'>use_git_config</span>(<span class='kw'>user.name</span> <span class='kw'>=</span> <span class='st'>"Jane"</span>, <span class='kw'>user.email</span> <span class='kw'>=</span> <span class='st'>"jane@example.org"</span>)
 
-<span class='co'>## set the user.name and user.email locally, i.e. for current repo/project</span>
+<span class='co'># set the user.name and user.email locally, i.e. for current repo/project</span>
 <span class='fu'>use_git_config</span>(
   <span class='kw'>scope</span> <span class='kw'>=</span> <span class='st'>"project"</span>,
   <span class='kw'>user.name</span> <span class='kw'>=</span> <span class='st'>"Jane"</span>,
@@ -209,7 +204,7 @@ configuration.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>

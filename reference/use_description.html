@@ -8,6 +8,13 @@
 
 <title>Create or modify a DESCRIPTION file — use_description • usethis</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -47,14 +54,15 @@ If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named &quot;usethis.description&quot;. Here's an example of
 code to include in .Rprofile:options(
   usethis.description = list(
-    `Authors@R` = 'person(&quot;Jane&quot;, &quot;Doe&quot;, email = &quot;jane@example.com&quot;, role = c(&quot;aut&quot;, &quot;cre&quot;))',
+    `Authors@R` = 'person(&quot;Jane&quot;, &quot;Doe&quot;, email = &quot;jane@example.com&quot;, role = c(&quot;aut&quot;, &quot;cre&quot;),
+                          comment = c(ORCID = &quot;YOUR-ORCID-ID&quot;))',
     License = &quot;MIT + file LICENSE&quot;,
-    Language: es
+    Language =  &quot;es&quot;
   )
 )
 " />
 
-<meta property="og:image" content="http://usethis.r-lib.org/logo.png" />
+<meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -85,7 +93,7 @@ code to include in .Rprofile:options(
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
       </span>
     </div>
 
@@ -151,7 +159,7 @@ code to include in .Rprofile:options(
 
     <div class="ref-description">
     
-    <p>usethis consults the following sources, in this order, to set DESCRIPTION
+    <p>usethis consults the following sources, in this order, to set <code>DESCRIPTION</code>
 fields:</p><ul>
 <li><p><code>fields</code> argument of <code><a href='create_package.html'>create_package()</a></code> or <code>use_description()</code>.</p></li>
 <li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption("usethis.description")</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption("devtools.desc")</a></code>. The
@@ -166,9 +174,10 @@ recommended to switch to an option named "usethis.description".</p></li>
 named list in an option named <code>"usethis.description"</code>. Here's an example of
 code to include in <code>.Rprofile</code>:</p><pre>options(
   usethis.description = list(
-    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))',
+    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
+                          comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "MIT + file LICENSE",
-    Language: es
+    Language =  "es"
   )
 )
 </pre>
@@ -184,7 +193,7 @@ code to include in <code>.Rprofile</code>:</p><pre>options(
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>fields</th>
-      <td><p>A named list of fields to add to DESCRIPTION, potentially
+      <td><p>A named list of fields to add to <code>DESCRIPTION</code>, potentially
 overriding default values. See <code>use_description()</code> for how you can set
 personalized defaults using package options</p></td>
     </tr>
@@ -224,7 +233,7 @@ of <a href='http://r-pkgs.had.co.nz'>R Packages</a>.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
    </div>
