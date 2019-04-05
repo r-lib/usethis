@@ -48,12 +48,11 @@
 
 # Revdeps
 
-## Couldn't check (2)
+## Couldn't check (1)
 
-|package                    |version |error |warning |note |source                                              |
-|:--------------------------|:-------|:-----|:-------|:----|:---------------------------------------------------|
-|clustcurv                  |?       |      |        |     |[cran/clustcurv](https://github.com/cran/clustcurv) |
-|[POUMM](problems.md#poumm) |2.1.5   |1     |        |     |[cran/POUMM](https://github.com/cran/POUMM)         |
+|package                    |version |error |warning |note |source                                      |
+|:--------------------------|:-------|:-----|:-------|:----|:-------------------------------------------|
+|[POUMM](problems.md#poumm) |2.1.5   |1     |        |     |[cran/POUMM](https://github.com/cran/POUMM) |
 
 ## Broken (1)
 
