@@ -61,3 +61,14 @@ test_that("use_data() honors `overwrite` for internal data", {
   load(proj_path("R", "sysdata.rda"))
   expect_identical(letters2, rev(letters))
 })
+
+test_that("use_data_raw() does setup", {
+  scoped_temporary_package()
+  use_data_raw(open = FALSE)
+  expect_proj_file(path("data-raw", "DATASET.R"))
+
+  use_data_raw("daisy", open = FALSE)
+  expect_proj_file(path("data-raw", "daisy.R"))
+
+  expect_true(is_build_ignored("^data-raw$"))
+})

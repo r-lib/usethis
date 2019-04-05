@@ -98,13 +98,27 @@ check_files_absent <- function(paths, overwrite) {
   )
 }
 
-
+#' @param name Name of the dataset to be prepared for inclusion in the package.
+#' @inheritParams use_template
 #' @rdname use_data
 #' @export
-use_data_raw <- function() {
+#' @examples
+#' \dontrun{
+#' use_data_raw("daisy")
+#' }
+use_data_raw <- function(name = "DATASET", open = interactive()) {
+  stopifnot(is_string(name))
+  r_path <- path("data-raw", asciify(name), ext = "R")
   use_directory("data-raw", ignore = TRUE)
 
-  ui_line("Next:")
-  ui_todo("Add data creation scripts in {ui_value('data-raw/')}")
-  ui_todo("Use {ui_code('usethis::use_data()')} to add data to package")
+  use_template(
+    "packagename-data-prep.R",
+    save_as = r_path,
+    data = list(name = name),
+    ignore = FALSE,
+    open = open
+  )
+
+  ui_todo("Finish the data preparation script in {ui_value(r_path)}")
+  ui_todo("Use {ui_code('usethis::use_data()')} to add prepared data to package")
 }
