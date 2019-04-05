@@ -197,7 +197,18 @@ pr_push <- function() {
   protocol <- github_remote_protocol(remote_info$remote_name)
   credentials <- git_credentials(protocol)
 
-  git_branch_push(branch, credentials = credentials)
+  # TODO: I suspect the tryCatch (and perhaps the git_branch_compare()?) is
+  # better pushed down into git_branch_push(), which could then return TRUE for
+  # success and FALSE for failure
+  pushed <- tryCatch(
+    git_branch_push(branch, credentials = credentials),
+    error = function(e) {
+      ui_stop(
+        "The push was not successful. Consider that user can decline to allow
+         maintainers to modify a PR."
+      )
+    }
+  )
   if (!has_remote_branch) {
     git_branch_track(branch)
   }
