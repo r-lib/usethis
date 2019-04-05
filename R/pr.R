@@ -198,9 +198,16 @@ pr_push <- function() {
   credentials <- git_credentials(protocol)
 
   git_branch_push(branch, credentials = credentials)
-
   if (!has_remote_branch) {
     git_branch_track(branch)
+  }
+
+  diff <- git_branch_compare(branch)
+  if (diff[[1]] != 0) {
+    ui_stop(
+    "The push was not successful. Consider that user can decline to allow
+    maintainers to modify a PR."
+    )
   }
 
   # Prompt to create PR on first push
