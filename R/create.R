@@ -201,6 +201,8 @@ create_from_github <- function(repo_spec,
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     git2r::remote_add(r, "upstream", upstream_url)
     pr_pull_upstream()
+    config_key <- glue("remote.upstream.created-by")
+    git_config_set(config_key, "usethis::create_from_github")
   }
 
   rstudio <- rstudio %||% rstudioapi::isAvailable()
