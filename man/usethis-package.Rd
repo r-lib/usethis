@@ -23,11 +23,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Hadley Wickham \email{hadley@rstudio.com} (0000-0003-4757-117X)
+\strong{Maintainer}: Jennifer Bryan \email{jenny@rstudio.com} (0000-0002-6983-2759)
 
 Authors:
 \itemize{
-  \item Jennifer Bryan \email{jenny@rstudio.com} (0000-0002-6983-2759)
+  \item Hadley Wickham \email{hadley@rstudio.com} (0000-0003-4757-117X)
 }
 
 Other contributors:
