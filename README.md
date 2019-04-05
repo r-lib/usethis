@@ -1,4 +1,5 @@
 <!-- Don't even think of editing this PR -->
+<!-- aah but what if I did? --jb -->
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
