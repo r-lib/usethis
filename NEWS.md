@@ -2,6 +2,9 @@
 
 ## New features
 
+* `use_data()` gains a `version` argument and defaults to serialization format
+  version 2 (#675).
+
 * `use_data_raw()` accepts a name for the to-be-prepared dataset and opens a
   templated R script (#646).
 
