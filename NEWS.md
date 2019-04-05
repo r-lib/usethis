@@ -188,7 +188,9 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 * `use_github()` and `create_from_github()` gain a `protocol` argument. The
   default is still `"ssh"`, but it can be changed globally to `"https"` with 
-  `options(usethis.protocol = "https")`. (#494, @cderv)
+  `options(usethis.protocol = "https")` (#494, @cderv). For forked 
+  repositories, `create_from_github()` will pull the upstream master 
+  (#695, @ijlyttle).
 
 * `use_github_labels()` has been rewritten be more flexible. You can
   now supply a repo name, and `descriptions`, and you can set 
