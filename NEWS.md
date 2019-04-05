@@ -1,5 +1,7 @@
 # usethis (development version)
 
+Jenny was here
+
 ## New features
 
 * `git_remotes()` and `use_git_remote()` are new helpers to inspect or modify
