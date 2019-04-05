@@ -2,6 +2,9 @@
 
 ## New features
 
+* `use_data_raw()` accepts a name for the to-be-prepared dataset and opens a
+  templated R script (#646).
+
 * `git_remotes()` and `use_git_remote()` are new helpers to inspect or modify
   Git remote URLs for the repo associated with the active project (#649).
 
