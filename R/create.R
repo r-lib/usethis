@@ -115,11 +115,11 @@ create_project <- function(path,
 #' @param fork If `TRUE`, we create and clone a fork. If `FALSE`, we clone
 #'   `repo_spec` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT)
 #'   is provided or preconfigured. Otherwise, defaults to `FALSE` if you can
-#'   push to `repo_spec` and `TRUE` if you cannot. If a fork is created, the
+#'   push to `repo_spec` and `TRUE` if you cannot. In the case of a fork, the
 #'   original target repo is added to the local repo as the `upstream` remote,
-#'   using your preferred `protocol`, to make it easier to pull upstream changes
-#'   in the future; the master branch of your local repo will be pulled from
-#'   `upstream` master.
+#'   using the preferred `protocol`. The `master` branch is immediately pulled
+#'   from `upstream`, which matters in the case of a pre-existing, out-of-date
+#'   fork.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'    Defaults to `TRUE` if in an RStudio session and project has no
