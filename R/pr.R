@@ -114,6 +114,15 @@ pr_fetch <- function(number,
     {ui_value(pr$title)}'
   )
 
+  maintainer_can_modify <- isTRUE(pr$maintainer_can_modify)
+  if (!maintainer_can_modify) {
+    ui_info("
+      Note that user does NOT allow maintainer to modify this PR \\
+      at this time,
+      although this can be changed.
+      ")
+  }
+
   their_branch <- pr$head$ref
   them <- pr$head$user$login
   if (them == github_owner()) {
@@ -188,10 +197,28 @@ pr_push <- function() {
   protocol <- github_remote_protocol(remote_info$remote_name)
   credentials <- git_credentials(protocol)
 
-  git_branch_push(branch, credentials = credentials)
-
+  # TODO: I suspect the tryCatch (and perhaps the git_branch_compare()?) is
+  # better pushed down into git_branch_push(), which could then return TRUE for
+  # success and FALSE for failure
+  pushed <- tryCatch(
+    git_branch_push(branch, credentials = credentials),
+    error = function(e) {
+      ui_stop(
+        "The push was not successful. Consider that user can decline to allow
+         maintainers to modify a PR."
+      )
+    }
+  )
   if (!has_remote_branch) {
     git_branch_track(branch)
+  }
+
+  diff <- git_branch_compare(branch)
+  if (diff[[1]] != 0) {
+    ui_stop(
+    "The push was not successful. Consider that user can decline to allow
+    maintainers to modify a PR."
+    )
   }
 
   # Prompt to create PR on first push
