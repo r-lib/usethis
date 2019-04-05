@@ -6,6 +6,8 @@ some text inserted by Jenny, who gave herself permission to push into Jim's fork
 
 more Jenny text
 
+even more Jenny text
+
 
 ## New features
 
