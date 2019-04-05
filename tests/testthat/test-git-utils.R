@@ -12,11 +12,11 @@ test_that("git_config returns old local values", {
 })
 
 test_that("git_config returns old global values", {
-  out <- git_config(pkgdown.test = "x")
-  expect_equal(out, list(pkgdown.test = NULL))
+  out <- git_config(usethis.test1 = "val1", usethis.test2 = "val2")
+  expect_equal(out, list(usethis.test1 = NULL, usethis.test2 = NULL))
 
-  out <- git_config(pkgdown.test = NULL)
-  expect_equal(out, list(pkgdown.test = "x"))
+  out <- git_config(usethis.test1 = NULL, usethis.test2 = NULL)
+  expect_equal(out, list(usethis.test1 = "val1", usethis.test2 = "val2"))
 })
 
 test_that("git_protocol() catches bad input from usethis.protocol option", {

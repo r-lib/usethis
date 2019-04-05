@@ -321,7 +321,8 @@ git_config <- function(..., .repo = NULL) {
   values <- list(...)
 
   if (is.null(.repo)) {
-    old <- git2r::config()$global[names(values)]
+    old <- git2r::config()$global %||% list()
+    old <- old[names(values)]
     do.call(git2r::config, c(list(global = TRUE), values))
   } else {
     old <- git2r::config(.repo)$local[names(values)]
