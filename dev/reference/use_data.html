@@ -149,7 +149,7 @@ use <code>use_data_raw()</code> to set it up.</p>
     <pre class="usage"><span class='fu'>use_data</span>(<span class='no'>...</span>, <span class='kw'>internal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>compress</span> <span class='kw'>=</span> <span class='st'>"bzip2"</span>)
 
-<span class='fu'>use_data_raw</span>()</pre>
+<span class='fu'>use_data_raw</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"DATASET"</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,6 +179,15 @@ files. If you really want to do so, set this to <code>TRUE</code>.</p></td>
       <td><p>Choose the type of compression used by <code><a href='https://www.rdocumentation.org/packages/base/topics/save'>save()</a></code>.
 Should be one of "gzip", "bzip2", or "xz".</p></td>
     </tr>
+    <tr>
+      <th>name</th>
+      <td><p>Name of the dataset to be prepared for inclusion in the package.</p></td>
+    </tr>
+    <tr>
+      <th>open</th>
+      <td><p>Open the newly created file for editing? Happens in RStudio, if
+applicable, or via <code><a href='https://www.rdocumentation.org/packages/utils/topics/file.edit'>utils::file.edit()</a></code> otherwise.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -193,6 +202,8 @@ Should be one of "gzip", "bzip2", or "xz".</p></td>
 
 <span class='fu'>use_data</span>(<span class='no'>x</span>, <span class='no'>y</span>) <span class='co'># For external use</span>
 <span class='fu'>use_data</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>internal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># For internal use</span>
+<span class='co'># }</span><span class='co'># NOT RUN {</span>
+<span class='fu'>use_data_raw</span>(<span class='st'>"daisy"</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
