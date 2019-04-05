@@ -147,7 +147,7 @@ use <code>use_data_raw()</code> to set it up.</p>
     </div>
 
     <pre class="usage"><span class='fu'>use_data</span>(<span class='no'>...</span>, <span class='kw'>internal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>compress</span> <span class='kw'>=</span> <span class='st'>"bzip2"</span>)
+  <span class='kw'>compress</span> <span class='kw'>=</span> <span class='st'>"bzip2"</span>, <span class='kw'>version</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 
 <span class='fu'>use_data_raw</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"DATASET"</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())</pre>
     
@@ -178,6 +178,12 @@ files. If you really want to do so, set this to <code>TRUE</code>.</p></td>
       <th>compress</th>
       <td><p>Choose the type of compression used by <code><a href='https://www.rdocumentation.org/packages/base/topics/save'>save()</a></code>.
 Should be one of "gzip", "bzip2", or "xz".</p></td>
+    </tr>
+    <tr>
+      <th>version</th>
+      <td><p>The serialization format version to use. The default, 2, was
+the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
+R 3.6.0 and can only be read by R versions 3.5.0 and higher.</p></td>
     </tr>
     <tr>
       <th>name</th>
