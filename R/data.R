@@ -18,6 +18,10 @@
 #'   files. If you really want to do so, set this to `TRUE`.
 #' @param compress Choose the type of compression used by [save()].
 #'   Should be one of "gzip", "bzip2", or "xz".
+#' @param version The serialization format version to use. The default, 2, was
+#'   the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
+#'   R 3.6.0 and can only be read by R versions 3.5.0 and higher.
+#'
 #' @seealso The [data chapter](http://r-pkgs.had.co.nz/data.html) of [R
 #'   Packages](http://r-pkgs.had.co.nz).
 #' @export
@@ -32,7 +36,8 @@
 use_data <- function(...,
                      internal = FALSE,
                      overwrite = FALSE,
-                     compress = "bzip2") {
+                     compress = "bzip2",
+                     version = 2) {
   check_is_package("use_data()")
 
   objs <- get_objs_from_dots(dots(...))
@@ -54,7 +59,7 @@ use_data <- function(...,
     save,
     list = objs,
     file = proj_path(paths),
-    MoreArgs = list(envir = envir, compress = compress)
+    MoreArgs = list(envir = envir, compress = compress, version = version)
   )
 
   invisible()

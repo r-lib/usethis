@@ -62,6 +62,17 @@ test_that("use_data() honors `overwrite` for internal data", {
   expect_identical(letters2, rev(letters))
 })
 
+test_that("use_data() writes version 2 by default", {
+  scoped_temporary_package()
+
+  x <- letters
+  use_data(x, internal = TRUE, version = 2, compress = FALSE)
+  expect_identical(
+    rawToChar(readBin(proj_path("R", "sysdata.rda"), n = 4, what = "raw")),
+    "RDX2"
+  )
+})
+
 test_that("use_data_raw() does setup", {
   scoped_temporary_package()
   use_data_raw(open = FALSE)
