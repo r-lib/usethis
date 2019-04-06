@@ -1,5 +1,7 @@
 # usethis 1.5.0
 
+some text
+
 ## Git, GitHub (and GitLab)
 
 usethis gains several functions to inspect and manipulate the Git situation for the current project = repository. We also provide more control and visibility
