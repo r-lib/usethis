@@ -22,7 +22,7 @@ package.}
 \item{ext}{which travis website to use. default to \code{"org"}for
 https://travis-ci.org. Change to \code{"com"} for https://travis-ci.com.}
 
-\item{image}{The Docker image to use for build. Has to be available on
+\item{image}{The Docker image to use for build. Must be available on
 \href{https://hub.docker.com}{DockerHub}. The
 \href{https://hub.docker.com/r/rocker/verse}{rocker/verse} image includes TeX
 Live, pandoc, and the tidyverse packages. For a minimal image, try

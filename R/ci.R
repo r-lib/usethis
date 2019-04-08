@@ -152,7 +152,7 @@ check_uses_gitlab_ci <- function(base_path = proj_get()) {
 #' Adds a basic `.circleci/config.yml` to the top-level directory of a package. This is a
 #' configuration file for the [CircleCI](https://circleci.com/) continuous
 #' integration service.
-#' @param image The Docker image to use for build. Has to be available on
+#' @param image The Docker image to use for build. Must be available on
 #'   [DockerHub](https://hub.docker.com). The
 #'   [rocker/verse](https://hub.docker.com/r/rocker/verse) image includes TeX
 #'   Live, pandoc, and the tidyverse packages. For a minimal image, try
@@ -167,7 +167,7 @@ use_circleci <- function(browse = interactive(), image = "rocker/verse:latest") 
   new <- use_template(
     "circleci-config.yml",
     ".circleci/config.yml",
-    data = list(package = project_name(), image =  image),
+    data = list(package = project_name(), image = image),
     ignore = TRUE
   )
   if (!new) return(invisible(FALSE))
