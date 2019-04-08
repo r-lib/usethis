@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.4.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.5.0.9000</span>
       </span>
     </div>
 
@@ -133,6 +133,152 @@
       <small>Source: <a href='https://github.com/r-lib/usethis/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="usethis-1-5-0" class="section level1">
+<h1 class="page-header">
+<a href="#usethis-1-5-0" class="anchor"></a>usethis 1.5.0<small> Unreleased </small>
+</h1>
+<div id="git-github-and-gitlab" class="section level2">
+<h2 class="hasAnchor">
+<a href="#git-github-and-gitlab" class="anchor"></a>Git, GitHub (and GitLab)</h2>
+<p>usethis gains several functions to inspect and manipulate the Git situation for the current project = repository. We also provide more control and visibility into git2r’s workings, especially around credentials (usethis uses git2r for all Git operations).</p>
+<ul>
+<li><p><code><a href="../reference/git_sitrep.html">git_sitrep()</a></code> lets you know what’s up with your Git, git2r and GitHub config (<a href='https://github.com/r-lib/usethis/issues/328'>#328</a>).</p></li>
+<li><p><code><a href="../reference/git_vaccinate.html">git_vaccinate()</a></code> vaccinates your global (i.e. user-level) git ignore file. It adds standard entries for R users, such as <code>.Rhistory</code> and <code>.Rdata</code>. This decreases the chance that you commit and push files containing confidential information (<a href='https://github.com/r-lib/usethis/issues/469'>#469</a>).</p></li>
+<li><p><code><a href="../reference/use_git_remote.html">git_remotes()</a></code> and <code><a href="../reference/use_git_remote.html">use_git_remote()</a></code> are new helpers to inspect or modify Git remote URLs for the repo associated with the active project (<a href='https://github.com/r-lib/usethis/issues/649'>#649</a>).</p></li>
+<li><p><code><a href="../reference/git_protocol.html">git_protocol()</a></code> + <code><a href="../reference/git_protocol.html">use_git_protocol()</a></code> and <code><a href="../reference/git_credentials.html">git_credentials()</a></code> + <code><a href="../reference/git_credentials.html">use_git_credentials()</a></code> are new helpers to summon or set Git transport protocol (SSH or HTTPS) or git2r credentials, respectively. These functions are primarily for internal use. Most users can rely on default behaviour. Use these helpers to intervene if git2r isn’t discovering the right credentials (<a href='https://github.com/r-lib/usethis/issues/653'>#653</a>). usethis honors the <code>usethis.protocol</code> option, which allows you to express a general preference for SSH vs. HTTPS.</p></li>
+</ul>
+<p>Other improvements and bug fixes:</p>
+<ul>
+<li><p><code><a href="../reference/use_github.html">use_github()</a></code> tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (<a href='https://github.com/r-lib/usethis/issues/221'>#221</a>).</p></li>
+<li><p><code><a href="../reference/use_github.html">use_github()</a></code> and <code><a href="../reference/create_from_github.html">create_from_github()</a></code> gain a <code>protocol</code> argument (<a href='https://github.com/r-lib/usethis/issues/494'>#494</a>, <a href='https://github.com/cderv'>@cderv</a>).</p></li>
+<li><p><code><a href="../reference/create_from_github.html">create_from_github()</a></code> pulls from upstream master in a fork (<a href='https://github.com/r-lib/usethis/issues/695'>#695</a>, <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</p></li>
+<li><p><code><a href="../reference/use_release_issue.html">use_release_issue()</a></code> creates a GitHub issue containing a release checklist, reflecting the standard practices of the tidyverse team (<a href='https://github.com/r-lib/usethis/issues/338'>#338</a>).</p></li>
+<li><p><code><a href="../reference/use_github_release.html">use_github_release()</a></code> creates a draft GitHub release using the entries in <code>NEWS.md</code> (<a href='https://github.com/r-lib/usethis/issues/137'>#137</a>).</p></li>
+<li><p><code><a href="../reference/ci.html">use_gitlab_ci()</a></code> creates a <code>gitlab-ci.yaml</code> config file for GitLab CI (<a href='https://github.com/r-lib/usethis/issues/565'>#565</a>, <a href='https://github.com/overmar'>@overmar</a>).</p></li>
+<li><p><code><a href="../reference/use_git_config.html">use_git_config()</a></code> now invisibly returns the previous values of the settings.</p></li>
+<li><p><code><a href="../reference/use_github_labels.html">use_github_labels()</a></code> has been rewritten be more flexible. You can now supply a repo name, and <code>descriptions</code>, and you can set colours/descriptions independently of creating labels. You can also <code>rename</code> existing labels (<a href='https://github.com/r-lib/usethis/issues/290'>#290</a>).</p></li>
+</ul>
+</div>
+<div id="github-pull-requests" class="section level2">
+<h2 class="hasAnchor">
+<a href="#github-pull-requests" class="anchor"></a>GitHub pull requests</h2>
+<p>We’ve added <strong>experimental</strong> functions to work with GitHub pull requests. They are aimed at both a maintainer (who may make, review, and modify pull requests) and a contributor (who may make or explore pull requests).</p>
+<ul>
+<li><p><code><a href="../reference/git_sitrep.html">git_sitrep()</a></code> includes a section at the end aimed at describing “pull request readiness”. Expect that to develop and expand.</p></li>
+<li><p><code><a href="../reference/pr_init.html">pr_init()</a></code>, <code><a href="../reference/pr_init.html">pr_fetch()</a></code>, <code><a href="../reference/pr_init.html">pr_push()</a></code>, <code><a href="../reference/pr_init.html">pr_pull()</a></code>, <code><a href="../reference/pr_init.html">pr_finish()</a></code>, and <code><a href="../reference/pr_init.html">pr_view()</a></code> constitute the new family of helpers. They are designed to be smart about the significance of remotes with the standard names of <code>origin</code> and <code>upstream</code> and to facilitate both internal and external pull requests.</p></li>
+</ul>
+</div>
+<div id="partial-file-management" class="section level2">
+<h2 class="hasAnchor">
+<a href="#partial-file-management" class="anchor"></a>Partial file management</h2>
+<p>usethis gains tooling to manage part of a file. This is currently used for managing badges in your README and roxygen import tags:</p>
+<ul>
+<li>
+<p><code><a href="../reference/badges.html">use_badge()</a></code> and friends now automatically add badges if your README contains a specially formatted badge block (<a href='https://github.com/r-lib/usethis/issues/497'>#497</a>):</p>
+<pre><code>&lt;-- badge:start --&gt;
+&lt;-- badge:end --&gt;</code></pre>
+</li>
+<li>
+<p><code><a href="../reference/use_tibble.html">use_tibble()</a></code> and <code><a href="../reference/use_rcpp.html">use_rcpp()</a></code> automatically add roxygen tags to to <code>{package}-package.R</code> if it contains a specially formatted namespace block (<a href='https://github.com/r-lib/usethis/issues/517'>#517</a>):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">## usethis namespace: start</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">## usethis namespace: end</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="ot">NULL</span></a></code></pre></div>
+<p>Unfortunately this means that <code><a href="../reference/use_rcpp.html">use_rcpp()</a></code> no longer supports non-roxygen2 workflows, but I suspect the set of people who use usethis and Rcpp but not roxygen2 is very small.</p>
+</li>
+</ul>
+</div>
+<div id="extending-and-wrapping-usethis" class="section level2">
+<h2 class="hasAnchor">
+<a href="#extending-and-wrapping-usethis" class="anchor"></a>Extending and wrapping usethis</h2>
+<ul>
+<li><p>New <code><a href="../reference/proj_activate.html">proj_activate()</a></code> lets you activate a project, either opening a new RStudio session (if you use RStudio) or changing the working directory (<a href='https://github.com/r-lib/usethis/issues/511'>#511</a>).</p></li>
+<li><p><code><a href="../reference/proj_utils.html">proj_get()</a></code> and <code><a href="../reference/proj_utils.html">proj_set()</a></code> no longer have a <code>quiet</code> argument. The user-facing message about setting a project is now under the same control as other messages, i.e. <code><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption("usethis.quiet", default = FALSE)</a></code> (<a href='https://github.com/r-lib/usethis/issues/441'>#441</a>).</p></li>
+<li>
+<p>A new set of <code>ui_*()</code> functions makes it possible to give your own code the same user interface as usethis (<a href='https://github.com/r-lib/usethis/issues/308'>#308</a>). All use the glue and crayon and packages to power easy interpolation and formatting. There are four families of functions:</p>
+<ul>
+<li>block styles: <code><a href="../reference/ui.html">ui_line()</a></code>, <code><a href="../reference/ui.html">ui_done()</a></code>, <code><a href="../reference/ui.html">ui_todo()</a></code>, <code><a href="../reference/ui.html">ui_oops()</a></code>, <code><a href="../reference/ui.html">ui_info()</a></code>.</li>
+<li>conditions: <code><a href="../reference/ui.html">ui_stop()</a></code>, <code><a href="../reference/ui.html">ui_warn()</a></code>.</li>
+<li>questions: <code><a href="../reference/ui.html">ui_yeah()</a></code>, <code><a href="../reference/ui.html">ui_nope()</a></code>.</li>
+<li>inline styles: <code><a href="../reference/ui.html">ui_field()</a></code>, <code><a href="../reference/ui.html">ui_value()</a></code>, <code><a href="../reference/ui.html">ui_path()</a></code>, <code><a href="../reference/ui.html">ui_code()</a></code>.</li>
+</ul>
+</li>
+<li><p><code><a href="../reference/proj_utils.html">with_project()</a></code> and <code><a href="../reference/proj_utils.html">local_project()</a></code> are new withr-style functions to temporarily set an active usethis project. They make usethis functions easier to use in an <em>ad hoc</em> fashion or from another package (<a href='https://github.com/r-lib/usethis/issues/441'>#441</a>).</p></li>
+</ul>
+</div>
+<div id="tidyverse-standards" class="section level2">
+<h2 class="hasAnchor">
+<a href="#tidyverse-standards" class="anchor"></a>Tidyverse standards</h2>
+<p>These standards are (aspirationally) used by all tidyverse packages; you are welcome to use them if you find them helpful.</p>
+<ul>
+<li><p>Call <code><a href="../reference/use_github_labels.html">use_tidy_labels()</a></code> to update GitHub labels. Colours are less saturated, docs is now documentation, we use some emoji, and performance is no longer automatically added to all repos (<a href='https://github.com/r-lib/usethis/issues/519'>#519</a>). Repo specific issues should be given colour <code>#eeeeee</code> and have an emoji.</p></li>
+<li><p>Call <code><a href="../reference/use_logo.html">use_logo()</a></code> to update the package logo to the latest specifications: <code>man/figure/logo.png</code> should be 240 x 278, and README should contain <code>&lt;img src="man/figures/logo.png" align="right" height="139" /&gt;</code>. This gives a nicer display on retina displays. The logo is also linked to the pkgdown site if available (<a href='https://github.com/r-lib/usethis/issues/536'>#536</a>).</p></li>
+<li><p>When creating a new package, use <code><a href="../reference/tidyverse.html">create_tidy_package()</a></code> to start with a package following the tidyverse standards (<a href='https://github.com/r-lib/usethis/issues/461'>#461</a>).</p></li>
+<li><p><code>NEWS.md</code> for the development version should use “(development version)” rather than the specific version (<a href='https://github.com/r-lib/usethis/issues/440'>#440</a>).</p></li>
+<li><p>pkgdown sites should now be built by travis and deployed automatically to GitHub pages. <code><a href="../reference/use_pkgdown.html">use_pkgdown_travis()</a></code> will help you set that up.</p></li>
+<li><p>When starting the release process, call <code><a href="../reference/use_release_issue.html">use_release_issue()</a></code> to create a release checklist issue (<a href='https://github.com/r-lib/usethis/issues/338'>#338</a>).</p></li>
+<li><p>Prior to CRAN submission call <code><a href="../reference/tidyverse.html">use_tidy_release_test_env()</a></code> to update the test environment section in <code>cran-comments()</code> (<a href='https://github.com/r-lib/usethis/issues/496'>#496</a>).</p></li>
+<li><p>After acceptance, try <code><a href="../reference/use_github_release.html">use_github_release()</a></code> to automatically create a release. It’s created as a draft so you have a chance to look over before publishing.</p></li>
+<li><p><code><a href="../reference/use_vignette.html">use_vignette()</a></code> includes the a standard initialisation chunk with <code>knitr::opts_chunk$set(comment = "#&gt;", collapse = TRUE)</code> which should be used for all Rmds.</p></li>
+</ul>
+</div>
+<div id="new-functions-not-already-mentioned" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-functions-not-already-mentioned" class="anchor"></a>New functions not already mentioned</h2>
+<ul>
+<li><p><code><a href="../reference/rprofile-helper.html">use_devtools()</a></code> (<a href='https://github.com/r-lib/usethis/issues/624'>#624</a>), <code><a href="../reference/rprofile-helper.html">use_conflicted()</a></code> (<a href='https://github.com/r-lib/usethis/issues/362'>#362</a>), and <code><a href="../reference/rprofile-helper.html">use_reprex()</a></code> (<a href='https://github.com/r-lib/usethis/issues/465'>#465</a>) help add useful packages to your <code>.Rprofile</code>.</p></li>
+<li><p><code><a href="../reference/rprofile-helper.html">use_partial_warnings()</a></code> helps the user add a standard warning block to <code>.Rprofile</code> (<a href='https://github.com/r-lib/usethis/issues/64'>#64</a>).</p></li>
+<li><p><code><a href="../reference/edit.html">edit_r_buildignore()</a></code> opens <code>.Rbuildignore</code> for manual editing (<a href='https://github.com/r-lib/usethis/issues/462'>#462</a>, <a href='https://github.com/bfgray3'>@bfgray3</a>).</p></li>
+<li><p><code><a href="../reference/licenses.html">use_lgpl_license()</a></code> automates set up of the LGL license (<a href='https://github.com/r-lib/usethis/issues/448'>#448</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>).</p></li>
+<li><p><code><a href="../reference/licenses.html">use_ccby_license()</a></code> adds a CCBY 4.0 license (<a href='https://github.com/r-lib/usethis/issues/547'>#547</a>, <a href='https://github.com/njtierney'>@njtierney</a>).</p></li>
+<li><p><code><a href="../reference/use_rcpp.html">use_rcpp_armadillo()</a></code> and <code><a href="../reference/use_rcpp.html">use_rcpp_eigen()</a></code> set up a package to use RcppArmadillo or RcppEigen, respectively (<a href='https://github.com/r-lib/usethis/issues/421'>#421</a>, <a href='https://github.com/coatless'>@coatless</a>, <a href='https://github.com/duckmayr'>@duckmayr</a>).</p></li>
+<li><p><code><a href="../reference/use_rcpp.html">use_c("foo")</a></code> sets up <code>src/</code> and creates <code>src/foo.c</code> (<a href='https://github.com/r-lib/usethis/issues/117'>#117</a>).</p></li>
+<li><p><code><a href="../reference/use_coverage.html">use_covr_ignore()</a></code> makes it easy to ignore files in test coverage (<a href='https://github.com/r-lib/usethis/issues/434'>#434</a>).</p></li>
+<li><p><code><a href="../reference/use_pkgdown.html">use_pkgdown_travis()</a></code> helps you set up pkgdown for automatic build-and-deploy from Travis-CI to GitHub Pages (<a href='https://github.com/r-lib/usethis/issues/524'>#524</a>).</p></li>
+<li><p><code><a href="../reference/use_addin.html">use_addin()</a></code> does setup for RStudio addins (<a href='https://github.com/r-lib/usethis/issues/353'>#353</a>, <a href='https://github.com/haozhu233'>@haozhu233</a>).</p></li>
+<li><p><code><a href="../reference/use_tutorial.html">use_tutorial()</a></code> creates a new interactive R Markdown tutorial, as implemented by the <a href="https://rstudio.github.io/learnr/index.html"><code>learnr</code> package</a> (<a href='https://github.com/angela-li'>@angela-li</a>, <a href='https://github.com/r-lib/usethis/issues/645'>#645</a>).</p></li>
+<li><p><code><a href="../reference/use_vignette.html">use_article()</a></code> creates articles, vignettes that are automatically added to <code>.Rbuildignore</code>. These appear on pkgdown sites, but are not included with the package itself (<a href='https://github.com/r-lib/usethis/issues/281'>#281</a>).</p></li>
+<li><p><code><a href="../reference/use_citation.html">use_citation()</a></code> creates a basic <code>CITATION</code> template and puts it in the right place (<a href='https://github.com/r-lib/usethis/issues/100'>#100</a>).</p></li>
+</ul>
+</div>
+<div id="other-minor-bug-fixes-and-improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-minor-bug-fixes-and-improvements" class="anchor"></a>Other minor bug fixes and improvements</h2>
+<ul>
+<li><p><code>write_union</code> appends the novel <code>lines</code>, but does not remove duplicates from existing lines (<a href='https://github.com/r-lib/usethis/issues/583'>#583</a>, <a href='https://github.com/khailper'>@khailper</a>).</p></li>
+<li><p><code><a href="../reference/use_rcpp.html">use_rcpp("foo")</a></code> now creates <code>src/foo.cpp</code> (<a href='https://github.com/r-lib/usethis/issues/117'>#117</a>).</p></li>
+<li><p><code><a href="../reference/use_data.html">use_data()</a></code> gains a <code>version</code> argument and defaults to serialization format version 2 (<a href='https://github.com/r-lib/usethis/issues/675'>#675</a>).</p></li>
+<li><p><code><a href="../reference/use_data.html">use_data_raw()</a></code> accepts a name for the to-be-prepared dataset and opens a templated R script (<a href='https://github.com/r-lib/usethis/issues/646'>#646</a>).</p></li>
+<li><p><code><a href="../reference/browse-this.html">browse_github()</a></code> now falls back to CRAN organisation (with a warning) if package doesn’t have its own GitHub repo (<a href='https://github.com/r-lib/usethis/issues/186'>#186</a>).</p></li>
+<li><p><code>create_*()</code> restore the active project if they error part way through, and use <code><a href="../reference/proj_activate.html">proj_activate()</a></code> (<a href='https://github.com/r-lib/usethis/issues/453'>#453</a>, <a href='https://github.com/r-lib/usethis/issues/511'>#511</a>).</p></li>
+<li><p><code><a href="../reference/edit.html">edit_r_profile()</a></code> and <code><a href="../reference/edit.html">edit_r_environ()</a></code> now respect environment variables <code>R_PROFILE_USER</code> and <code>R_ENVIRON_USER</code>, respectively (<a href='https://github.com/r-lib/usethis/issues/480'>#480</a>).</p></li>
+<li><p><code><a href="../reference/use_description.html">use_description()</a></code> once again prints the generated description (<a href='https://github.com/r-lib/usethis/issues/287'>#287</a>).</p></li>
+<li><p><code>use_description_field()</code> is no longer sensitive to whitespace, which allows <code><a href="../reference/use_vignette.html">use_vignette()</a></code> to work even if the <code>VignetteBuilder</code> field is spread over multiple lines (<a href='https://github.com/r-lib/usethis/issues/439'>#439</a>).</p></li>
+<li><p><code><a href="../reference/use_logo.html">use_logo()</a></code> can override existing logo if user gives permission (<a href='https://github.com/r-lib/usethis/issues/454'>#454</a>). It also produces retina appropriate logos by default, and matches the aspect ratio to the <a href="http://hexb.in/sticker.html" class="uri">http://hexb.in/sticker.html</a> specification (<a href='https://github.com/r-lib/usethis/issues/499'>#499</a>).</p></li>
+<li><p><code><a href="../reference/use_news_md.html">use_news_md()</a></code> will optionally commit.</p></li>
+<li><p><code><a href="../reference/use_package.html">use_package()</a></code> gains a <code>min_version</code> argument to specify a minimum version requirement (<a href='https://github.com/r-lib/usethis/issues/498'>#498</a>). Set to <code>TRUE</code> to use the currently installed version (<a href='https://github.com/r-lib/usethis/issues/386'>#386</a>). This is used by <code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> in order to require version 0.1.2 or greater of rlang (<a href='https://github.com/r-lib/usethis/issues/484'>#484</a>).</p></li>
+<li><p><code><a href="../reference/use_pkgdown.html">use_pkgdown()</a></code> is now configurable with site options (<a href='https://github.com/jayhesselberth'>@jayhesselberth</a>, <a href='https://github.com/r-lib/usethis/issues/467'>#467</a>), and no longer creates the <code>docs/</code> directory (<a href='https://github.com/r-lib/usethis/issues/495'>#495</a>).</p></li>
+<li><p><code><a href="../reference/use_testthat.html">use_test()</a></code> no longer forces the filename to be lowercase (<a href='https://github.com/r-lib/usethis/issues/613'>#613</a>, <a href='https://github.com/stufield'>@stufield</a>).</p></li>
+<li><p><code><a href="../reference/use_testthat.html">use_test()</a></code> will not include a <code>context()</code> in the generated file if used with testthat 2.1.0 and above (the future release of testthat) (<a href='https://github.com/r-lib/usethis/issues/325'>#325</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_description()</a></code> sets the <code>Encoding</code> field in <code>DESCRIPTION</code> (<a href='https://github.com/r-lib/usethis/issues/502'>#502</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> re-exports <code>:=</code> (<a href='https://github.com/r-lib/usethis/issues/595'>#595</a>, <a href='https://github.com/jonthegeek'>@jonthegeek</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_versions()</a></code> has source argument so that you can choose to use local or CRAN versions (<a href='https://github.com/r-lib/usethis/issues/309'>#309</a>).</p></li>
+<li><p><code><a href="../reference/ci.html">use_travis()</a></code> gains an <code>ext</code> argument, defaulting to <code>"org"</code>. Use <code>ext = "com"</code> for <code>https://travis-ci.com</code> (<a href='https://github.com/cderv'>@cderv</a>, <a href='https://github.com/r-lib/usethis/issues/500'>#500</a>).</p></li>
+<li><p><code><a href="../reference/use_version.html">use_version()</a></code> asks before committing.</p></li>
+<li><p><code><a href="../reference/use_vignette.html">use_vignette()</a></code> now has a <code>title</code> argument which is used in YAML header (in the two places where it is needed). The vignettes also lose the default author and date fields (<a href='https://github.com/rorynolan'>@rorynolan</a>, <a href='https://github.com/r-lib/usethis/issues/445'>#445</a>), and the R Markdown starter material. They gain a standard setup chunk.</p></li>
+<li><p><code><a href="../reference/use_version.html">use_version("dev")</a></code> now creates a standard “(development version)” heading in <code>NEWS.md</code> (<a href='https://github.com/r-lib/usethis/issues/440'>#440</a>).</p></li>
+<li><p><code>use_vignette</code> now checks if the vignette name is valid (starts with letter and consists of letters, numbers, hyphen, and underscore) and throws an error if not (<a href='https://github.com/akgold'>@akgold</a>, <a href='https://github.com/r-lib/usethis/issues/555'>#555</a>).</p></li>
+<li><p><code>restart_rstudio()</code> now returns <code>FALSE</code> in RStudio if no project is open, fixing an issue that caused errors in helpers that suggest restarting RStudio (<a href='https://github.com/gadenbuie'>@gadenbuie</a>, <a href='https://github.com/r-lib/usethis/issues/571'>#571</a>).</p></li>
+</ul>
+</div>
+<div id="dependency-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
+<ul>
+<li><p>withr moves from Suggests to Imports.</p></li>
+<li><p>purrr and yaml are new in Imports.</p></li>
+</ul>
+</div>
+</div>
     <div id="usethis-1-4-0" class="section level1">
 <h1 class="page-header">
 <a href="#usethis-1-4-0" class="anchor"></a>usethis 1.4.0<small> 2018-08-14 </small>
@@ -181,9 +327,9 @@
 <li><p>The logic for setting DESCRIPTION fields in <code><a href="../reference/create_package.html">create_package()</a></code> and <code><a href="../reference/use_description.html">use_description()</a></code> got a Spring Cleaning. Fields directly specified by the user take precedence, then the named list in <code><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption("usethis.description")</a></code> is consulted, and finally defaults built into usethis. <code><a href="../reference/use_description.html">use_description_defaults()</a></code> is a new function that reveals fields found in options and built into usethis. Options specific to one DESCRIPTION field, e.g. <code>devtools.desc.license</code>, are no longer supported. Instead, use a single named list for all fields, preferably stored in an option named <code>"usethis.description"</code> (however,<code>"devtools.desc"</code> is still consulted for backwards compatibility). (<a href='https://github.com/r-lib/usethis/issues/159'>#159</a>, <a href='https://github.com/r-lib/usethis/issues/233'>#233</a>, <a href='https://github.com/r-lib/usethis/issues/367'>#367</a>)</p></li>
 </ul>
 </div>
-<div id="dependency-changes" class="section level2">
+<div id="dependency-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
+<a href="#dependency-changes-1" class="anchor"></a>Dependency changes</h2>
 <p>New Imports: fs, glue, utils</p>
 <p>No longer in Imports: backports, httr, rematch2, rmarkdown (moved to Suggests), styler (moved to Suggests)</p>
 </div>
@@ -363,6 +509,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#usethis-1-5-0">1.5.0</a></li>
         <li><a href="#usethis-1-4-0">1.4.0</a></li>
         <li><a href="#usethis-1-3-0">1.3.0</a></li>
         <li><a href="#usethis-1-2-0">1.2.0</a></li>
