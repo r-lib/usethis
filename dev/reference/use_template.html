@@ -193,7 +193,7 @@ to derive the path to your template file; it will be expected at
 <code><a href='http://fs.r-lib.org/reference/path_package.html'>fs::path_package(package = package, "templates", template)</a></code>. We use
 <code><a href='http://fs.r-lib.org/reference/path_package.html'>fs::path_package()</a></code> instead of <code><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>base::system.file()</a></code> so that path
 construction works even in a development workflow, e.g., works with
-<code><a href='https://www.rdocumentation.org/packages/devtools/topics/load_all'>devtools::load_all()</a></code> or <code><a href='https://www.rdocumentation.org/packages/pkgload/topics/load_all'>pkgload::load_all()</a></code>. <em>Note this describes the
+<code>devtools::load_all()</code> or <code><a href='https://www.rdocumentation.org/packages/pkgload/topics/load_all'>pkgload::load_all()</a></code>. <em>Note this describes the
 behaviour of <code><a href='http://fs.r-lib.org/reference/path_package.html'>fs::path_package()</a></code> in fs v1.2.7.9001 and higher.</em></p>
 <p>To interpolate your data into the template, supply a list using
 the <code>data</code> argument. Internally, this function uses

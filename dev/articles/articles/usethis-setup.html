@@ -264,7 +264,7 @@
 <div id="prepare-your-system-to-build-packages-from-source" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prepare-your-system-to-build-packages-from-source" class="anchor"></a>Prepare your system to build packages from source</h2>
-<p>As you participate more in R development, you will inevitably want to run development versions of other people’s packages, i.e. not the version available from CRAN. A typical way to do this is to install a package from GitHub with <code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("OWNER/REPO")</a></code>.</p>
+<p>As you participate more in R development, you will inevitably want to run development versions of other people’s packages, i.e. not the version available from CRAN. A typical way to do this is to install a package from GitHub with <code>devtools::install_github("OWNER/REPO")</code>.</p>
 <p>But, unlike using <code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages()</a></code> and CRAN, you will be downloading and installing a <em>source</em> package, not a <em>binary</em> package. This means your system needs to be set up for building R packages. And, before long, you will need to build an R package with compiled code in it.</p>
 <p>A full description of setting up an R development environment is beyond the scope of this article, but we give some pointers and diagnostics to get you started.</p>
 <p>Update R and all of your packages. And expect to keep doing so frequently.</p>
@@ -275,7 +275,7 @@
 <li>
 <code><a href="https://www.rdocumentation.org/packages/pkgbuild/topics/has_build_tools">pkgbuild::check_build_tools()</a></code> is the most current function. It can be installed via <code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages("pkgbuild")</a></code>.</li>
 <li>
-<code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::has_devel()</a></code> was a function in devtools, at least up to v1.13.5, so you might still see references to that. All functionality related to package building now lives in pkgbuild. But once you have installed pkgbuild, you should just use the function <code><a href="https://www.rdocumentation.org/packages/pkgbuild/topics/has_build_tools">pkgbuild::check_build_tools()</a></code> instead.</li>
+<code>devtools::has_devel()</code> was a function in devtools, at least up to v1.13.5, so you might still see references to that. All functionality related to package building now lives in pkgbuild. But once you have installed pkgbuild, you should just use the function <code><a href="https://www.rdocumentation.org/packages/pkgbuild/topics/has_build_tools">pkgbuild::check_build_tools()</a></code> instead.</li>
 </ul>
 </div>
   </div>
