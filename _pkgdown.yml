@@ -27,7 +27,7 @@ navbar:
       href: news/index.html
 
 development:
-  mode: release
+  mode: auto
 
 reference:
   - title: Create
