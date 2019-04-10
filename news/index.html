@@ -97,6 +97,9 @@
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Blog posts</li>
     <li>
+      <a href="https://www.tidyverse.org/articles/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+    </li>
+    <li>
       <a href="https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
     </li>
     <li>
@@ -135,7 +138,7 @@
 
     <div id="usethis-1-5-0" class="section level1">
 <h1 class="page-header">
-<a href="#usethis-1-5-0" class="anchor"></a>usethis 1.5.0<small> Unreleased </small>
+<a href="#usethis-1-5-0" class="anchor"></a>usethis 1.5.0<small> 2019-04-07 </small>
 </h1>
 <div id="git-github-and-gitlab" class="section level2">
 <h2 class="hasAnchor">
@@ -244,7 +247,7 @@
 <h2 class="hasAnchor">
 <a href="#other-minor-bug-fixes-and-improvements" class="anchor"></a>Other minor bug fixes and improvements</h2>
 <ul>
-<li><p><code>write_union</code> appends the novel <code>lines</code>, but does not remove duplicates from existing lines (<a href='https://github.com/r-lib/usethis/issues/583'>#583</a>, <a href='https://github.com/khailper'>@khailper</a>).</p></li>
+<li><p><code><a href="../reference/write-this.html">write_union()</a></code> appends the novel <code>lines</code>, but does not remove duplicates from existing lines (<a href='https://github.com/r-lib/usethis/issues/583'>#583</a>, <a href='https://github.com/khailper'>@khailper</a>).</p></li>
 <li><p><code><a href="../reference/use_rcpp.html">use_rcpp("foo")</a></code> now creates <code>src/foo.cpp</code> (<a href='https://github.com/r-lib/usethis/issues/117'>#117</a>).</p></li>
 <li><p><code><a href="../reference/use_data.html">use_data()</a></code> gains a <code>version</code> argument and defaults to serialization format version 2 (<a href='https://github.com/r-lib/usethis/issues/675'>#675</a>).</p></li>
 <li><p><code><a href="../reference/use_data.html">use_data_raw()</a></code> accepts a name for the to-be-prepared dataset and opens a templated R script (<a href='https://github.com/r-lib/usethis/issues/646'>#646</a>).</p></li>
@@ -266,7 +269,7 @@
 <li><p><code><a href="../reference/use_version.html">use_version()</a></code> asks before committing.</p></li>
 <li><p><code><a href="../reference/use_vignette.html">use_vignette()</a></code> now has a <code>title</code> argument which is used in YAML header (in the two places where it is needed). The vignettes also lose the default author and date fields (<a href='https://github.com/rorynolan'>@rorynolan</a>, <a href='https://github.com/r-lib/usethis/issues/445'>#445</a>), and the R Markdown starter material. They gain a standard setup chunk.</p></li>
 <li><p><code><a href="../reference/use_version.html">use_version("dev")</a></code> now creates a standard “(development version)” heading in <code>NEWS.md</code> (<a href='https://github.com/r-lib/usethis/issues/440'>#440</a>).</p></li>
-<li><p><code>use_vignette</code> now checks if the vignette name is valid (starts with letter and consists of letters, numbers, hyphen, and underscore) and throws an error if not (<a href='https://github.com/akgold'>@akgold</a>, <a href='https://github.com/r-lib/usethis/issues/555'>#555</a>).</p></li>
+<li><p><code><a href="../reference/use_vignette.html">use_vignette()</a></code> now checks if the vignette name is valid (starts with letter and consists of letters, numbers, hyphen, and underscore) and throws an error if not (<a href='https://github.com/akgold'>@akgold</a>, <a href='https://github.com/r-lib/usethis/issues/555'>#555</a>).</p></li>
 <li><p><code>restart_rstudio()</code> now returns <code>FALSE</code> in RStudio if no project is open, fixing an issue that caused errors in helpers that suggest restarting RStudio (<a href='https://github.com/gadenbuie'>@gadenbuie</a>, <a href='https://github.com/r-lib/usethis/issues/571'>#571</a>).</p></li>
 </ul>
 </div>
@@ -298,8 +301,13 @@
 <a href="#extending-or-wrapping-usethis" class="anchor"></a>Extending or wrapping usethis</h2>
 <p>These changes make it easier for others to extend usethis, i.e. to create workflow packages specific to their organization, or to use usethis in other packages.</p>
 <ul>
-<li><p><code><a href="../reference/proj_utils.html">proj_path()</a></code> is newly exported. Use it to build paths within the active project. Like <code><a href="../reference/proj_utils.html">proj_get()</a></code> and <code><a href="../reference/proj_utils.html">proj_set()</a></code>, it is not aimed at end users, but rather for use in extension packages. End users should use <a href="https://rprojroot.r-lib.org">rprojroot</a> or its simpler companion, <a href="https://here.r-lib.org">here</a>, to programmatically detect a project and build paths within it (<a href='https://github.com/r-lib/usethis/issues/415'>#415</a>, <a href='https://github.com/r-lib/usethis/issues/425'>#425</a>).</p></li>
-<li><p><code><a href="../reference/edit_file.html">edit_file()</a></code>, <code><a href="../reference/write-this.html">write_over()</a></code>, and <code><a href="../reference/write-this.html">write_union()</a></code> are newly exported helpers. They are mostly for internal use, but can also be useful in packages that extend or customize usethis (<a href='https://github.com/r-lib/usethis/issues/344'>#344</a>, <a href='https://github.com/r-lib/usethis/issues/366'>#366</a>, <a href='https://github.com/r-lib/usethis/issues/389'>#389</a>).</p></li>
+<li>
+<p><code><a href="../reference/proj_utils.html">proj_path()</a></code> is newly exported. Use it to build paths within the active project. Like <code><a href="../reference/proj_utils.html">proj_get()</a></code> and <code><a href="../reference/proj_utils.html">proj_set()</a></code>, it is not aimed at end users, but rather for use in extension packages. End users should use <a href="https://rprojroot.r-lib.org">rprojroot</a> or its simpler companion, <a href="https://here.r-lib.org">here</a>, to programmatically detect a project and build paths within it (<a href='https://github.com/r-lib/usethis/issues/415'>#415</a>, <a href='https://github.com/r-lib/usethis/issues/425'>#425</a>).</p>
+<ul>
+<li>
+<code><a href="../reference/edit_file.html">edit_file()</a></code>, <code><a href="../reference/write-this.html">write_over()</a></code>, and <code><a href="../reference/write-this.html">write_union()</a></code> are newly exported helpers. They are mostly for internal use, but can also be useful in packages that extend or customize usethis (<a href='https://github.com/r-lib/usethis/issues/344'>#344</a>, <a href='https://github.com/r-lib/usethis/issues/366'>#366</a>, <a href='https://github.com/r-lib/usethis/issues/389'>#389</a>).</li>
+</ul>
+</li>
 <li><p><code><a href="../reference/use_template.html">use_template()</a></code> no longer errors when a user chooses not to overwrite an existing file and simply exits with confirmation that the file is unchanged (<a href='https://github.com/r-lib/usethis/issues/348'>#348</a>, <a href='https://github.com/r-lib/usethis/issues/350'>#350</a>, <a href='https://github.com/boshek'>@boshek</a>).</p></li>
 <li><p><code><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption("usethis.quiet", default = FALSE)</a></code> is consulted when printing user-facing messages. Set this option to <code>TRUE</code> to suppress output, e.g., to use usethis functions quietly in another package. For example, use <code><a href="https://www.rdocumentation.org/packages/withr/topics/with_options">withr::local_options(list(usethis.quiet = TRUE))</a></code> in the calling function (<a href='https://github.com/r-lib/usethis/issues/416'>#416</a>, <a href='https://github.com/r-lib/usethis/issues/424'>#424</a>).</p></li>
 </ul>
