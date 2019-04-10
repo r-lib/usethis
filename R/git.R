@@ -349,23 +349,24 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #'
 #' @section SSH credentials:
 #'
-#'   For `protocol = "ssh"`, by default, usethis passes `NULL` credentials
-#'   to git2r. This will work if you have the exact configuration expected by
-#'   git2r:
-#'     1. Your public and private keys are in the default locations,
-#'     `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively.
-#'     1. All the relevant software agrees on the definition of `~/`, i.e.
-#'     your home directory. This is harder than it sounds on Windows.
-#'     1. Your `ssh-agent` is configured to manage your SSH passphrase, if you
-#'     have one. This too can be a problem on Windows.
-#'   Read more about SSH setup in [Happy
-#'   Git](http://happygitwithr.com/ssh-keys.html), especially the
-#'   [troubleshooting
-#'   section](http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
+#' For `protocol = "ssh"`, by default, usethis passes `NULL` credentials
+#' to git2r. This will work if you have the exact configuration expected by
+#' git2r:
 #'
-#'   If the `NULL` default doesn't work, you can make `credentials` explicitly
-#'   with [git2r::cred_ssh_key()] and register that with
-#'   `use_git_credentials()` for the rest of the session:
+#' 1. Your public and private keys are in the default locations,
+#' `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively.
+#' 1. All the relevant software agrees on the definition of `~/`, i.e.
+#' your home directory. This is harder than it sounds on Windows.
+#' 1. Your `ssh-agent` is configured to manage your SSH passphrase, if you
+#' have one. This too can be a problem on Windows.
+#' Read more about SSH setup in [Happy
+#' Git](http://happygitwithr.com/ssh-keys.html), especially the
+#' [troubleshooting
+#' section](http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
+#'
+#' If the `NULL` default doesn't work, you can make `credentials` explicitly
+#' with [git2r::cred_ssh_key()] and register that with
+#' `use_git_credentials()` for the rest of the session:
 #' ```
 #' my_cred <- git2r::cred_ssh_key(
 #'    publickey  = "path/to/your/id_rsa.pub",
@@ -375,8 +376,8 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #' )
 #' use_git_credentials(credentials = my_cred)
 #' ```
-#'   For the remainder of the session, `git_credentials()` will return
-#'   `my_cred`.
+#' For the remainder of the session, `git_credentials()` will return
+#' `my_cred`.
 #'
 #' @section HTTPS credentials:
 #'

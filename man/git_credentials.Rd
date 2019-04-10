@@ -52,14 +52,16 @@ enough alone. Keep reading if you need more control or understanding.
 For \code{protocol = "ssh"}, by default, usethis passes \code{NULL} credentials
 to git2r. This will work if you have the exact configuration expected by
 git2r:
-1. Your public and private keys are in the default locations,
+\enumerate{
+\item Your public and private keys are in the default locations,
 \code{~/.ssh/id_rsa.pub} and \code{~/.ssh/id_rsa}, respectively.
-1. All the relevant software agrees on the definition of \code{~/}, i.e.
+\item All the relevant software agrees on the definition of \code{~/}, i.e.
 your home directory. This is harder than it sounds on Windows.
-1. Your \code{ssh-agent} is configured to manage your SSH passphrase, if you
+\item Your \code{ssh-agent} is configured to manage your SSH passphrase, if you
 have one. This too can be a problem on Windows.
 Read more about SSH setup in \href{http://happygitwithr.com/ssh-keys.html}{Happy Git}, especially the
 \href{http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting}{troubleshooting section}.
+}
 
 If the \code{NULL} default doesn't work, you can make \code{credentials} explicitly
 with \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} and register that with
