@@ -199,8 +199,8 @@ welcome to use them if you find them helpful.
 
 ## Other minor bug fixes and improvements
 
-* `write_union` appends the novel `lines`, but does not remove duplicates from
-  existing lines (#583, @khailper).
+* `write_union()` appends the novel `lines`, but does not remove duplicates
+  from existing lines (#583, @khailper).
 
 * `use_rcpp("foo")` now creates `src/foo.cpp` (#117).
 
@@ -265,7 +265,7 @@ welcome to use them if you find them helpful.
 * `use_version("dev")` now creates a standard "(development version)" heading
   in `NEWS.md` (#440).
 
-* `use_vignette` now checks if the vignette name is valid (starts with letter 
+* `use_vignette()` now checks if the vignette name is valid (starts with letter
   and consists of letters, numbers, hyphen, and underscore) and throws an error 
   if not (@akgold, #555).
   
@@ -296,7 +296,7 @@ These changes make it easier for others to extend usethis, i.e. to create workfl
 * `proj_path()` is newly exported. Use it to build paths within the active project. Like `proj_get()` and `proj_set()`, it is not aimed at end users, but rather for use in extension packages. End users should use [rprojroot](https://rprojroot.r-lib.org) or its simpler companion, [here](https://here.r-lib.org), to programmatically detect a project and
 build paths within it (#415, #425).
 
-* `edit_file()`, `write_over()`, and `write_union()` are newly exported helpers. They are mostly for internal use, but can also be useful in packages that extend or customize usethis (#344, #366, #389).
+  * `edit_file()`, `write_over()`, and `write_union()` are newly exported helpers. They are mostly for internal use, but can also be useful in packages that extend or customize usethis (#344, #366, #389).
 
 * `use_template()` no longer errors when a user chooses not to overwrite an existing file and simply exits with confirmation that the file is unchanged (#348, #350, @boshek).
 
