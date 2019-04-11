@@ -15,7 +15,9 @@
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Automate Package and Project Setup">
+<script src="pkgdown.js"></script><!-- docsearch --><script src="docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
+<link href="docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Automate Package and Project Setup">
 <meta property="og:description" content="Automate package and project setup tasks that are otherwise
     performed manually. This includes setting up unit testing, test 
     coverage, continuous integration, Git, 'GitHub', licenses, 'Rcpp', 'RStudio' 
@@ -92,7 +94,13 @@
   </a>
 </li>
       </ul>
+<form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
+      </form>
+      
+    </div>
 <!--/.nav-collapse -->
   </div>
 <!--/.container -->
@@ -135,8 +143,8 @@
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># Create a new package -------------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"mypkg"</span>)</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="reference/create_package.html">create_package</a></span>(path)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Creating '/tmp/Rtmp5jx8n1/mypkg/'</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ Setting active project to '/tmp/Rtmp5jx8n1/mypkg'</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Creating '/tmp/RtmpR6hmpX/mypkg/'</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ Setting active project to '/tmp/RtmpR6hmpX/mypkg'</span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ✔ Creating 'R/'</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; ✔ Writing 'DESCRIPTION'</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; Package: mypkg</span></a>
@@ -152,8 +160,8 @@
 <a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; ✔ Setting active project to '&lt;no active project&gt;'</span></a>
 <a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co"># only needed since this session isn't interactive</span></a>
 <a class="sourceLine" id="cb3-22" data-line-number="22"><span class="kw"><a href="reference/proj_activate.html">proj_activate</a></span>(path)</a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; ✔ Changing working directory to '/tmp/Rtmp5jx8n1/mypkg/'</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; ✔ Setting active project to '/tmp/Rtmp5jx8n1/mypkg'</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; ✔ Changing working directory to '/tmp/RtmpR6hmpX/mypkg/'</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; ✔ Setting active project to '/tmp/RtmpR6hmpX/mypkg'</span></a>
 <a class="sourceLine" id="cb3-25" data-line-number="25"></a>
 <a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co"># Modify the description ----------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-27" data-line-number="27"><span class="kw"><a href="reference/licenses.html">use_mit_license</a></span>(<span class="st">"My Name"</span>)</a>
@@ -176,14 +184,14 @@
 <a class="sourceLine" id="cb3-44" data-line-number="44"><span class="kw"><a href="reference/use_rcpp.html">use_rcpp</a></span>()</a>
 <a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt; ✔ Creating 'src/'</span></a>
 <a class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt; ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'</span></a>
-<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/Rtmp5jx8n1/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/RtmpR6hmpX/mypkg/R/mypkg-package.R':</span></a>
 <a class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt;   ## usethis namespace: start</span></a>
 <a class="sourceLine" id="cb3-49" data-line-number="49"><span class="co">#&gt;   #' @useDynLib mypkg, .registration = TRUE</span></a>
 <a class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt;   ## usethis namespace: end</span></a>
 <a class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt;   NULL</span></a>
 <a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt; ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION</span></a>
 <a class="sourceLine" id="cb3-53" data-line-number="53"><span class="co">#&gt; ✔ Adding 'Rcpp' to Imports field in DESCRIPTION</span></a>
-<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/Rtmp5jx8n1/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/RtmpR6hmpX/mypkg/R/mypkg-package.R':</span></a>
 <a class="sourceLine" id="cb3-55" data-line-number="55"><span class="co">#&gt;   ## usethis namespace: start</span></a>
 <a class="sourceLine" id="cb3-56" data-line-number="56"><span class="co">#&gt;   #' @importFrom Rcpp sourceCpp</span></a>
 <a class="sourceLine" id="cb3-57" data-line-number="57"><span class="co">#&gt;   ## usethis namespace: end</span></a>
@@ -282,6 +290,20 @@
 </div>
 
   
-
-  </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
+  docsearch({
+    
+    
+    apiKey: 'f67d4c46004acc8326e8d95f296a680e',
+    indexName: 'usethis',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+</body>
 </html>
