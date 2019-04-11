@@ -36,6 +36,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 <meta property="og:title" content="Report working directory and usethis/RStudio project — proj_sitrep" />
 
@@ -133,6 +139,12 @@ back to this happy state." />
 </li>
       </ul>
       
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -177,8 +189,8 @@ RStudio Project</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; *   working_directory: <span style='color: #0000BB;'>'/tmp/RtmplCtYWv/file41f9a9f5cb2/reference'</span><span>
-#&gt; * active_usethis_proj: </span><span style='color: #0000BB;'>'/tmp/RtmplCtYWv/file41f9a9f5cb2'</span><span>
+    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; *   working_directory: <span style='color: #0000BB;'>'/tmp/RtmpRUlSZv/file41f37b3dded6/reference'</span><span>
+#&gt; * active_usethis_proj: </span><span style='color: #0000BB;'>'/tmp/RtmpRUlSZv/file41f37b3dded6'</span><span>
 #&gt; * active_rstudio_proj: </span><span style='color: #555555;'>&lt;unset&gt;</span><span>
 #&gt; </span><span style='color: #BB0000;'>●</span><span> Your working directory is not the same as the active usethis project.
 #&gt;   Set working directory to the project: </span><span style='color: #555555;'>`setwd(proj_get())`</span><span>
@@ -210,6 +222,23 @@ RStudio Project</p>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: 'f67d4c46004acc8326e8d95f296a680e',
+    indexName: 'usethis',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>
