@@ -4,6 +4,15 @@ authors:
    Jennifer Bryan:
      href: https://jennybryan.org
 
+template:
+  params:
+    docsearch:
+      api_key: f67d4c46004acc8326e8d95f296a680e
+      index_name: usethis
+
+development:
+  mode: auto
+
 navbar:
   type: default
   left:
@@ -25,9 +34,6 @@ navbar:
     - text: "------------------"
     - text: "Change log"
       href: news/index.html
-
-development:
-  mode: auto
 
 reference:
   - title: Create
