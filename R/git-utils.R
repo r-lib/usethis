@@ -262,6 +262,7 @@ check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
   remote <- git_branch_tracking_FIXME(branch)
   # if no remote branch, nothing to check
   if (is.null(remote)) {
+    ui_done("No remote branch yet for local branch {ui_value(branch)}")
     return(invisible())
   }
 
