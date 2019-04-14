@@ -260,6 +260,11 @@ check_branch <- function(branch) {
 
 check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
   remote <- git_branch_tracking_FIXME(branch)
+  # if no remote branch, nothing to check
+  if (is.null(remote)) {
+    return(invisible())
+  }
+
   ui_done(
     "Checking that local branch {ui_value(branch)} has the changes \\
      in {ui_value(remote)}"
