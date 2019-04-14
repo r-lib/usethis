@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `pr_pause()` can now switch back to master even if no remote branch exists (@cderv, #715). 
+
 # usethis 1.5.0
 
 ## Git, GitHub (and GitLab)
