@@ -55,37 +55,37 @@ use_dependency <- function(package, type, min_version = NULL) {
     desc::desc_set_dep(package, type, version = version, file = proj_get())
     return(invisible())
   }
-
-  delta <- sign(match(existing_type, types) - match(type, types))
-  if (delta < 0) {
-    # don't downgrade
-    ui_warn(
-      "Package {ui_value(package)} is already listed in\\
-      {ui_value(existing_type)} in DESCRIPTION, no change made."
-    )
-  } else if (delta == 0 && !is.null(min_version)) {
-    # change version
-    upgrade <- existing_ver == "*" || numeric_version(min_version) > version_spec(existing_ver)
-    if (upgrade) {
-      ui_done(
-        "Increasing {ui_value(package)} version to {ui_value(version)} in DESCRIPTION"
+  for (i in seq_along(existing_type)) {
+    delta <- match(existing_type[i], types) - match(type, types)
+    if (delta < 0) {
+      # don't downgrade
+      ui_warn(
+        "Package {ui_value(package)} is already listed in\\
+        {ui_value(existing_type[i])} in DESCRIPTION, no change made."
       )
-      desc::desc_set_dep(package, type, version = version, file = proj_get())
-    }
-  } else if (delta > 0) {
-    # upgrade
-    if (existing_type != "LinkingTo") {
-      ui_done(
-        "
-        Moving {ui_value(package)} from {ui_field(existing_type)} to {ui_field(type)}\\
-        field in DESCRIPTION
-        "
-      )
-      desc::desc_del_dep(package, existing_type, file = proj_get())
-      desc::desc_set_dep(package, type, version = version, file = proj_get())
+    } else if (delta == 0 && !is.null(min_version)) {
+      # change version
+      upgrade <- existing_ver == "*" || numeric_version(min_version) > version_spec(existing_ver)
+      if (upgrade) {
+        ui_done(
+          "Increasing {ui_value(package)} version to {ui_value(version)} in DESCRIPTION"
+        )
+        desc::desc_set_dep(package, type, version = version, file = proj_get())
+      }
+    } else if (delta > 0) {
+      # upgrade
+      if (existing_type[i] != "LinkingTo") {
+        ui_done(
+          "
+          Moving {ui_value(package)} from {ui_field(existing_type[i])} to {ui_field(type)}\\
+          field in DESCRIPTION
+          "
+        )
+        desc::desc_del_dep(package, existing_type[i], file = proj_get())
+        desc::desc_set_dep(package, type, version = version, file = proj_get())
+      }
     }
   }
-
   invisible()
 }
 
