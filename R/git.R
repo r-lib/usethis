@@ -479,26 +479,15 @@ git_sitrep <- function() {
   have_token <- have_github_token()
   if (have_token) {
     kv_line("Personal access token", "<found in env var>")
-
-    who <-
-      suppressMessages(
-        tryCatch(
-          gh::gh_whoami(),
-          http_error_401 = function(e) {
-            ui_oops("Token is invalid.")
-            NULL
-          },
-          error = function(e) {
-            ui_oops("Network not reachable.")
-            NULL
-          }
-        )
-      )
-
-    if (!is.null(who)) {
-      kv_line("User", who$login)
-      kv_line("Name", who$name)
-    }
+    tryCatch(
+      {
+        who <- gh::gh_whoami(github_token())
+        kv_line("User", who$login)
+        kv_line("Name", who$name)
+      },
+      http_error_401 = function(e) ui_oops("Token is invalid."),
+      error = function(e) ui_oops("Network not reachable.")
+    )
   } else {
     kv_line("Personal access token", NULL)
   }
