@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `git_sitrep()`, if a token-check fails, issues feedback according to the nature of the error (#725, @ijlyttle).
+
 # usethis 1.5.0
 
 ## Git, GitHub (and GitLab)
