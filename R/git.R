@@ -19,18 +19,18 @@ use_git <- function(message = "Initial commit") {
   git_init()
 
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
-  git_ask_commit(message)
+  git_ask_commit(message, untracked = TRUE)
 
   restart_rstudio("A restart of RStudio is required to activate the Git pane")
   invisible(TRUE)
 }
 
-git_ask_commit <- function(message) {
+git_ask_commit <- function(message, untracked = FALSE) {
   if (!interactive()) {
     return(invisible())
   }
 
-  paths <- unlist(git_status(), use.names = FALSE)
+  paths <- unlist(git_status(untracked = untracked), use.names = FALSE)
   if (length(paths) == 0) {
     return(invisible())
   }
