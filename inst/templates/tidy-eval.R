@@ -2,22 +2,22 @@
 #'
 #' @description
 #'
-#' * \code{\link[rlang]{sym}()} creates a symbol from a string and
-#'   \code{\link[rlang]{syms}()} creates a list of symbols from a
+#' * \code{\link[rlang:quotation]{sym}()} creates a symbol from a string and
+#'   \code{\link[rlang:quotation]{syms}()} creates a list of symbols from a
 #'   character vector.
 #'
-#' * \code{\link[rlang]{expr}()} and \code{\link[rlang]{quo}()} quote
+#' * \code{\link[rlang:quotation]{expr}()} and \code{\link[rlang:quotation]{quo}()} quote
 #'   one expression. `quo()` wraps the quoted expression in a quosure.
 #'
-#'   The plural variants [rlang::exprs()] and
-#'   \code{\link[rlang]{quos}()} return a list of quoted expressions or
+#'   The plural variants \code{\link[rlang:quotation]{exprs()}} and
+#'   \code{\link[rlang:quotation]{quos}()} return a list of quoted expressions or
 #'   quosures.
 #'
-#' * \code{\link[rlang]{enexpr}()} and \code{\link[rlang]{enquo}()}
+#' * \code{\link[rlang:quotation]{enexpr}()} and \code{\link[rlang:quotation]{enquo}()}
 #'   capture the expression supplied as argument by the user of the
 #'   current function (`enquo()` wraps this expression in a quosure).
 #'
-#'   \code{\link[rlang]{enexprs}()} and \code{\link[rlang]{enquos}()}
+#'   \code{\link[rlang:quotation]{enexprs}()} and \code{\link[rlang:quotation]{enquos}()}
 #'   capture multiple expressions supplied as arguments, including
 #'   `...`.
 #'
