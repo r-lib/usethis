@@ -29,6 +29,9 @@ Git operations).
 
 Other improvements and bug fixes:
 
+* `use_github()` now removes newline `\n` characters when pushing that can cause 
+  `gh::gh` fail (#493, @muschellij2).  
+
 * `use_github()` tries harder but also fails earlier, with more informative
   messages, making it less likely to leave the repo partially configured (#221).
   
