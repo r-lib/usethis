@@ -1,0 +1,46 @@
+image: rocker/tidyverse
+
+stages:
+  - build
+  - test
+  - deploy
+
+building:
+  stage: build
+  script:
+    - R -e "remotes::install_deps(dependencies = T)"
+    - R -e 'devtools::check()'
+
+# To have the converage percentge appear as a gitlab badge follow these instructions
+# https://docs.gitlab.com/ee/user/project/pipelines/settings.html#test-coverage-parsing
+# The coverage parsing string is
+# Code coverage: \d+\.\d+
+
+testing:
+    stage: test
+    allow_failure: true
+    when: on_success
+    only:
+        - master
+    script:
+        - Rscript -e 'install.pacakges("DT")'
+        - Rscript -e 'cc <- covr::package_coverage; covr::gitlab(coverage = cc); cat("Code coverage:", paste0(format(covr::percent_coverage(cc), nsmall = 1),"%"))'
+    artifacts:
+        paths:
+            - public
+
+# To produce a code coverage report as a GitLab page see
+# https://about.gitlab.com/2016/11/03/publish-code-coverage-report-with-gitlab-pages/
+
+pages:
+    stage: deploy
+    dependencies:
+        - testing
+    script:
+        - ls
+    artifacts:
+        paths:
+            - public
+        expire_in: 30 days
+    only:
+        - master

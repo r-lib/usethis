@@ -6,9 +6,9 @@
 \title{Create package data}
 \usage{
 use_data(..., internal = FALSE, overwrite = FALSE,
-  compress = "bzip2")
+  compress = "bzip2", version = 2)
 
-use_data_raw()
+use_data_raw(name = "DATASET", open = interactive())
 }
 \arguments{
 \item{...}{Unquoted names of existing objects to save.}
@@ -28,6 +28,15 @@ files. If you really want to do so, set this to \code{TRUE}.}
 
 \item{compress}{Choose the type of compression used by \code{\link[=save]{save()}}.
 Should be one of "gzip", "bzip2", or "xz".}
+
+\item{version}{The serialization format version to use. The default, 2, was
+the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
+R 3.6.0 and can only be read by R versions 3.5.0 and higher.}
+
+\item{name}{Name of the dataset to be prepared for inclusion in the package.}
+
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 \code{use_data()} makes it easy to save package data in the correct format.
@@ -41,6 +50,9 @@ y <- 1:100
 
 use_data(x, y) # For external use
 use_data(x, y, internal = TRUE) # For internal use
+}
+\dontrun{
+use_data_raw("daisy")
 }
 }
 \seealso{

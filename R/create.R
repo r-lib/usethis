@@ -43,7 +43,6 @@ create_package <- function(path,
   on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
-  use_directory("man")
   use_description(fields)
   use_namespace()
 
@@ -99,61 +98,50 @@ create_project <- function(path,
 #'
 #' Creates a new local Git repository from a repository on GitHub. It is highly
 #' recommended that you pre-configure or pass a GitHub personal access token
-#' (PAT), which is facilitated by [browse_github_pat()]. In particular, a PAT is
-#' required in order for `create_from_github()` to do ["fork and
+#' (PAT), which is facilitated by [browse_github_token()]. In particular, a PAT
+#' is required in order for `create_from_github()` to do ["fork and
 #' clone"](https://help.github.com/articles/fork-a-repo/). It is also required
 #' by [use_github()], which connects existing local projects to GitHub.
-#' [use_github()] has more detailed advice on working with the `protocol` and
-#' `credentials` arguments.
 #'
-#' @seealso [use_github()] for GitHub setup advice. [use_course()] for one-time
-#'   download of all files in a Git repo, without any local or remote Git
-#'   operations.
+#' @seealso [use_github()] for GitHub setup advice. [git_protocol()] and
+#'   [git_credentials()] for background on `protocol` and `credentials`.
+#'   [use_course()] for one-time download of all files in a Git repo, without
+#'   any local or remote Git operations.
 #'
 #' @inheritParams create_package
-#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
-#'   The `repo` part will be the name of the new local repo.
+#' @param repo_spec GitHub repo specification in this form: `owner/repo`. The
+#'   `repo` part will be the name of the new local repo.
 #' @inheritParams use_course
 #' @param fork If `TRUE`, we create and clone a fork. If `FALSE`, we clone
 #'   `repo_spec` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT)
 #'   is provided or preconfigured. Otherwise, defaults to `FALSE` if you can
-#'   push to `repo_spec` and `TRUE` if you cannot. If a fork is created, the
+#'   push to `repo_spec` and `TRUE` if you cannot. In the case of a fork, the
 #'   original target repo is added to the local repo as the `upstream` remote,
-#'   using your preferred `protocol`, to make it easier to pull upstream changes
-#'   in the future.
+#'   using the preferred `protocol`. The `master` branch is immediately pulled
+#'   from `upstream`, which matters in the case of a pre-existing, out-of-date
+#'   fork.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'    Defaults to `TRUE` if in an RStudio session and project has no
 #'   pre-existing `.Rproj` file. Defaults to `FALSE` otherwise.
 #' @inheritParams use_github
+#'
 #' @export
 #' @examples
 #' \dontrun{
 #' create_from_github("r-lib/usethis")
-#'
-#' create_from_github("r-lib/usethis", protocol = "https")
-#'
-#' ## various ways code can look when specifying ssh credential explicitly
-#' create_from_github("r-lib/usethis", credentials = git2r::cred_ssh_key())
-#'
-#' cred <- git2r::cred_ssh_key(
-#'   publickey = "path/to/id_rsa.pub",
-#'   privatekey = "path/to/id_rsa"
-#' )
-#' create_from_github("cran/TailRank", credentials = cred)
 #' }
 create_from_github <- function(repo_spec,
                                destdir = NULL,
                                fork = NA,
                                rstudio = NULL,
                                open = interactive(),
-                               protocol = getOption("usethis.protocol", default = "ssh"),
+                               protocol = git_protocol(),
                                credentials = NULL,
-                               auth_token = NULL,
+                               auth_token = github_token(),
                                host = NULL) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
-  protocol <- match.arg(protocol, c("ssh", "https"))
 
   owner <- spec_owner(repo_spec)
   repo <- spec_repo(repo_spec)
@@ -163,9 +151,7 @@ create_from_github <- function(repo_spec,
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  pat <- auth_token %||% gh_token()
-  pat_available <- pat != ""
-  user <- if (pat_available) gh::gh_whoami(pat)[["login"]] else NULL
+  auth_token <- check_github_token(auth_token, allow_empty = TRUE)
 
   gh <- function(endpoint, ...) {
     gh::gh(
@@ -178,7 +164,7 @@ create_from_github <- function(repo_spec,
 
   repo_info <- gh("GET /repos/:owner/:repo", owner = owner, repo = repo)
 
-  fork <- rationalize_fork(fork, repo_info, pat_available, user)
+  fork <- rationalize_fork(fork, repo_info, auth_token)
   if (fork) {
     ## https://developer.github.com/v3/repos/forks/#create-a-fork
     ui_done("Forking {ui_value(repo_info$full_name)}")
@@ -188,7 +174,8 @@ create_from_github <- function(repo_spec,
       ssh = repo_info$ssh_url
     )
     repo_info <- gh(
-      "POST /repos/:owner/:repo/forks", owner = owner, repo = repo
+      "POST /repos/:owner/:repo/forks",
+      owner = owner, repo = repo
     )
   }
 
@@ -199,6 +186,7 @@ create_from_github <- function(repo_spec,
   )
 
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
+  credentials <- credentials %||% git_credentials(protocol, auth_token)
   git2r::clone(
     origin_url,
     repo_path,
@@ -212,6 +200,9 @@ create_from_github <- function(repo_spec,
     r <- git2r::repository(proj_get())
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     git2r::remote_add(r, "upstream", upstream_url)
+    pr_pull_upstream()
+    config_key <- glue("remote.upstream.created-by")
+    git_config_set(config_key, "usethis::create_from_github")
   }
 
   rstudio <- rstudio %||% rstudioapi::isAvailable()
@@ -244,7 +235,7 @@ check_not_nested <- function(path, name) {
   }
 
   ui_line(
-    "New project {ui_value(name)} is nested inside an existing project\\
+    "New project {ui_value(name)} is nested inside an existing project \\
     {ui_path(path)}, which is rarely a good idea."
   )
   if (ui_nope("Do you want to create anyway?")) {
@@ -253,22 +244,24 @@ check_not_nested <- function(path, name) {
   invisible()
 }
 
-rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
-
-  perms <- repo_info$permissions
-  owner <- repo_info$owner$login
+rationalize_fork <- function(fork, repo_info, auth_token) {
+  have_token <- have_github_token(auth_token)
+  can_push <- isTRUE(repo_info$permissions$push)
+  repo_owner <- repo_info$owner$login
+  user <- if (have_token) github_user(auth_token)[["login"]]
 
   if (is.na(fork)) {
-    fork <- pat_available && !isTRUE(perms$push)
+    fork <- have_token && !can_push
   }
 
-  if (fork && !pat_available) {
-    check_gh_token(auth_token = NULL)
+  if (fork && !have_token) {
+    ## throw the usual error for bad/missing token
+    check_github_token(auth_token)
   }
 
-  if (fork && identical(user, owner)) {
+  if (fork && identical(user, repo_owner)) {
     ui_stop(
-      "Repo {ui_value(repo_info$full_name)} is owned by user\\
+      "Repo {ui_value(repo_info$full_name)} is owned by user \\
       {ui_value(user)}. Can't fork."
     )
   }

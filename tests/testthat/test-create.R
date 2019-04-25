@@ -57,32 +57,34 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
 
 test_that("rationalize_fork() honors fork = FALSE", {
   expect_false(
-    rationalize_fork(fork = FALSE, repo_info = list(), pat_available = TRUE)
+    rationalize_fork(fork = FALSE, repo_info = list(), auth_token = "PAT")
   )
   expect_false(
-    rationalize_fork(fork = FALSE, repo_info = list(), pat_available = FALSE)
+    rationalize_fork(fork = FALSE, repo_info = list(), auth_token = "")
   )
 })
 
-test_that("rationalize_fork() won't attempt to fork w/o PAT", {
+test_that("rationalize_fork() won't attempt to fork w/o auth_token", {
   expect_false(
-    rationalize_fork(fork = NA, repo_info = list(), pat_available = FALSE)
+    rationalize_fork(fork = NA, repo_info = list(), auth_token = "")
   )
   expect_error(
-    rationalize_fork(fork = TRUE, repo_info = list(), pat_available = FALSE),
-    "No GitHub .+auth_token.+"
+    rationalize_fork(fork = TRUE, repo_info = list(), auth_token = ""),
+    "No GitHub .+auth_token.+ is available"
   )
 })
 
 test_that("rationalize_fork() won't attempt to fork repo owned by user", {
-  expect_error(
-    rationalize_fork(
-      fork = TRUE,
-      repo_info = list(full_name = "USER/REPO", owner = list(login = "USER")),
-      pat_available = TRUE,
-      user = "USER"
-    ),
-    "Can't fork"
+  with_mock(
+    `usethis:::github_user` = function(auth_token) list(login = "USER"),
+    expect_error(
+      rationalize_fork(
+        fork = TRUE,
+        repo_info = list(full_name = "USER/REPO", owner = list(login = "USER")),
+        auth_token = "PAT"
+      ),
+      "Can't fork"
+    )
   )
 })
 
@@ -91,7 +93,7 @@ test_that("rationalize_fork() forks by default iff user cannot push", {
     rationalize_fork(
       fork = NA,
       repo_info = list(permissions = list(push = TRUE)),
-      pat_available = TRUE
+      auth_token = ""
     )
   )
   expect_true(
@@ -101,7 +103,7 @@ test_that("rationalize_fork() forks by default iff user cannot push", {
         owner = list(login = "SOMEONE_ELSE"),
         permissions = list(push = FALSE)
       ),
-      pat_available = TRUE
+      auth_token = "PAT"
     )
   )
 })

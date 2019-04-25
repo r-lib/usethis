@@ -16,7 +16,7 @@
 \alias{use_tidy_release_test_env}
 \title{Helpers for tidyverse development}
 \usage{
-create_tidy_package(path, copyright_holder)
+create_tidy_package(path, name = "RStudio")
 
 use_tidy_ci(browse = interactive())
 
@@ -41,9 +41,12 @@ use_tidy_style(strict = TRUE)
 use_tidy_release_test_env()
 }
 \arguments{
-\item{path}{Path to create new package}
+\item{path}{A path. If it exists, it is used. If it does not exist, it is
+created, provided that the parent path exists.}
 
-\item{copyright_holder}{Owner of code in package (e.g. "RStudio")}
+\item{name}{Name of the copyright holder or holders. Separate multiple
+individuals with \code{;}. You can supply a global default with
+\code{options(usethis.full_name = "My name")}.}
 
 \item{browse}{Open a browser window to enable automatic builds for the
 package.}
@@ -63,6 +66,9 @@ commonly used packages.
 }
 \details{
 \itemize{
+\item \code{create_tidy_package()}: creates a new package, immediately applies as many
+of the tidyverse conventions as possible, issues a few reminders, and
+activates the new package.
 \item \code{use_tidy_ci()}: sets up \href{https://travis-ci.org}{Travis CI} and
 \href{https://codecov.io}{Codecov}, ensuring that the package works on all
 versions of R starting at 3.1. It also ignores \code{compat-} and \code{deprec-}

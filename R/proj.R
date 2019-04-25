@@ -73,8 +73,8 @@ proj_set <- function(path = ".", force = FALSE) {
     return(invisible())
   }
 
+  path <- proj_path_prep(path)
   if (is.null(path) || force) {
-    path <- proj_path_prep(path)
     proj_string <- if (is.null(path)) "<no active project>" else path
     ui_done("Setting active project to {ui_value(proj_string)}")
     return(proj_set_(path))
@@ -211,7 +211,7 @@ is_in_proj <- function(path) {
   identical(
     proj_get(),
     ## use path_abs() in case path does not exist yet
-    path_common(c(proj_get(), path_abs(path)))
+    path_common(c(proj_get(), path_expand(path_abs(path))))
   )
 }
 
@@ -270,12 +270,12 @@ proj_activate <- function(path) {
   path <- user_path_prep(path)
 
   if (rstudioapi::isAvailable()) {
-    ui_done("Opening {ui_path(path)} in new RStudio session")
+    ui_done("Opening {ui_path(path, base = NA)} in new RStudio session")
     rstudioapi::openProject(path, newSession = TRUE)
     invisible(FALSE)
   } else {
     if (user_path_prep(getwd()) != path) {
-      ui_done("Changing working directory to {ui_path(path)}")
+      ui_done("Changing working directory to {ui_path(path, base = NA)}")
       setwd(path)
     }
     proj_set(path)

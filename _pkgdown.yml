@@ -1,8 +1,17 @@
-url: http://usethis.r-lib.org
+url: https://usethis.r-lib.org
 
 authors:
    Jennifer Bryan:
      href: https://jennybryan.org
+
+template:
+  params:
+    docsearch:
+      api_key: f67d4c46004acc8326e8d95f296a680e
+      index_name: usethis
+
+development:
+  mode: auto
 
 navbar:
   type: default
@@ -16,6 +25,8 @@ navbar:
   - text: News
     menu:
     - text: "Blog posts"
+    - text: "usethis 1.5.0 (and 1.4.0)"
+      href: https://www.tidyverse.org/articles/2019/04/usethis-1.5.0/
     - text: "usethis 1.3.0"
       href: https://www.tidyverse.org/articles/2018/02/usethis-1-3-0/
     - text: "usethis 1.0.0 (and 1.1.0)"
@@ -24,15 +35,13 @@ navbar:
     - text: "Change log"
       href: news/index.html
 
-development:
-  mode: auto
-
 reference:
   - title: Create
     desc: >
       Create a project de novo or from an existing source, either local or remote
     contents:
-    - starts_with("create_")
+    - create_package
+    - create_from_github
     - use_course
   - title: Active project
     desc: >
@@ -50,6 +59,9 @@ reference:
     - use_spell_check
     - use_test
     - use_vignette
+    - use_addin
+    - use_citation
+    - use_tutorial
   - title: Package setup
     desc: >
       Package setup tasks, typically performed once.
@@ -65,23 +77,29 @@ reference:
     - matches("pkgdown|badge")
     - use_github_links
   - title: Package release
-    desc: >
-      Tasks done prior to release
     contents:
+    - matches("release")
     - matches("cran_comments|revdep")
     - use_version
+  - title: Continuous integration
+    contents:
+    - use_travis
+    - use_appveyor
   - title: Tidyverse development
     desc: >
       Conventions used in the tidyverse and r-lib organisations
     contents:
-    - matches("use_tidy")
+    - matches("tidy")
   - title: "Configuration"
     desc: >
       Configure the behaviour of R, RStudio, or Git, globally as a user or
       for a specific project
     contents:
     - use_blank_slate
+    - use_devtools
     - use_usethis
+    - use_reprex
+    - use_conflicted
     - use_git_config
     - matches("edit_r")
   - title: Git and GitHub
@@ -89,6 +107,8 @@ reference:
     - create_from_github
     - use_git_config
     - use_git
+    - use_git_protocol
+    - use_git_remote
     - use_github
     - use_github_links
     - use_git_ignore
@@ -98,6 +118,12 @@ reference:
     - use_readme_rmd
     - matches("browse")
     - matches("edit_git_")
+    - use_git_credentials
+    - git_sitrep
+    - git_vaccinate
+  - title: Pull requests
+    contents:
+    - starts_with("pr_")
   - title: Edit
     contents:
     - starts_with("edit_")

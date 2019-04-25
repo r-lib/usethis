@@ -49,7 +49,7 @@ usethis relies on fs for file system operations. The main thing users will notic
 
 ## Communicating with the user
 
-User-facing messages are emitted via helpers in `style.R` (see `todo()` and `done()`) and *everything* is eventually routed through `cat_line()`. This is all intentional and should be preserved.
+User-facing messages are emitted via helpers in `style.R` (see `ui_todo()` and `ui_done()`) and *everything* is eventually routed through `cat_line()`. This is all intentional and should be preserved.
 
 `cat_line()` has a `quiet` argument and `quiet = TRUE` causes it to not produce output. Default value: `quiet = getOption("usethis.quiet", default = FALSE)`.
 
@@ -62,3 +62,18 @@ You might also notice that usethis communicates with the user via `cat()` instea
 
   * Pragmatic explanation: default styling of `message()` (at least in RStudio) is red, which suggests that something is wrong. We prefer default styling to be more neutral and less alarmist.
   * Principled explanation: if one diverts where various streams go, `cat()` follows printed output, whereas `message()` goes to standard error.
+
+## Git
+
+We make a strong assumption that user follows these conventions for branch and remote names:
+
+  * `master` is the main default branch.
+  * If you've got only one remote, it's called `origin`.
+  * If you've got multiple remotes, one of them is `origin` and it is the main default remote.
+  * If you've forked something, you have at least two remotes:
+    - `origin` is your copy.
+    - `upstream` is the original repo you forked.
+
+We assume a user habitually uses one transport protocol, either SSH or HTTPS, i.e. that they don't intentionally switch between them willy-nilly.
+
+If the default summoning of Git credentials or protocol or GitHub PAT doesn't work for you, you must set them explicitly via `use_git_credentials()`, `use_git_protocol()`, or `Sys.setenv("GITHUB_PAT")`. We aren't going to offer fine control of this, everywhere, by repetitively offering a ton of function arguments.

@@ -30,7 +30,7 @@
 #' @param colours,descriptions Named character vectors giving hexadecimal
 #'   colours (like `e02a2a`) and longer descriptions. The names should match
 #'   label names, and anything unmatched will be left unchanged. If you
-#'   create a new label, and don't supply colours, it will be givein a random
+#'   create a new label, and don't supply colours, it will be given a random
 #'   colour.
 #' @param delete_default If `TRUE`, will remove GitHub default labels that do
 #'   not appear in the `labels` vector, and do not have associated issues.
@@ -62,9 +62,10 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
                               colours = character(),
                               descriptions = character(),
                               delete_default = FALSE,
-                              auth_token = NULL,
+                              auth_token = github_token(),
                               host = NULL) {
   check_uses_github()
+  check_github_token(auth_token)
 
   gh <- function(endpoint, ...) {
     out <- gh::gh(
@@ -177,7 +178,7 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
 #' @export
 #' @rdname use_github_labels
 use_tidy_labels <- function(repo_spec = github_repo_spec(),
-                            auth_token = NULL,
+                            auth_token = github_token(),
                             host = NULL) {
   use_github_labels(
     repo_spec = repo_spec,

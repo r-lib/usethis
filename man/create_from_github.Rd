@@ -5,23 +5,23 @@
 \title{Create a project from a GitHub repo}
 \usage{
 create_from_github(repo_spec, destdir = NULL, fork = NA,
-  rstudio = NULL, open = interactive(),
-  protocol = getOption("usethis.protocol", default = "ssh"),
-  credentials = NULL, auth_token = NULL, host = NULL)
+  rstudio = NULL, open = interactive(), protocol = git_protocol(),
+  credentials = NULL, auth_token = github_token(), host = NULL)
 }
 \arguments{
-\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
-The \code{repo} part will be the name of the new local repo.}
+\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}. The
+\code{repo} part will be the name of the new local repo.}
 
 \item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
 
 \item{fork}{If \code{TRUE}, we create and clone a fork. If \code{FALSE}, we clone
 \code{repo_spec} itself. Will be set to \code{FALSE} if no \code{auth_token} (a.k.a. PAT)
 is provided or preconfigured. Otherwise, defaults to \code{FALSE} if you can
-push to \code{repo_spec} and \code{TRUE} if you cannot. If a fork is created, the
+push to \code{repo_spec} and \code{TRUE} if you cannot. In the case of a fork, the
 original target repo is added to the local repo as the \code{upstream} remote,
-using your preferred \code{protocol}, to make it easier to pull upstream changes
-in the future.}
+using the preferred \code{protocol}. The \code{master} branch is immediately pulled
+from \code{upstream}, which matters in the case of a pre-existing, out-of-date
+fork.}
 
 \item{rstudio}{Initiate an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}?
 Defaults to \code{TRUE} if in an RStudio session and project has no
@@ -34,48 +34,35 @@ pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
 \item Otherwise, the working directory and active project is changed.
 }}
 
-\item{protocol}{transfer protocol, either "ssh" (the default) or "https".
-You can supply a global default with \code{options(usethis.protocol = "https")}.}
+\item{protocol}{Optional. Should be "ssh" or "https", if specified. Defaults
+to the option \code{usethis.protocol} and, if unset, to an interactive choice
+or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
 
-\item{credentials}{A \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} specifying specific ssh
-credentials or \code{NULL} for default ssh key and ssh-agent behaviour.}
+\item{credentials}{A git2r credential object produced with
+\code{\link[git2r:cred_env]{git2r::cred_env()}}, \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}, \code{\link[git2r:cred_token]{git2r::cred_token()}}, or
+\code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}.}
 
-\item{auth_token}{Provide a personal access token (PAT) from
-\url{https://github.com/settings/tokens}. If \code{NULL}, will use the logic
-described in \code{\link[gh:gh_whoami]{gh::gh_whoami()}} to look for a token stored in an environment
-variable. Use \code{\link[=browse_github_pat]{browse_github_pat()}} to help set up your PAT.}
+\item{auth_token}{GitHub personal access token (PAT).}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3"}
+"https://github.hostname.com/api/v3".}
 }
 \description{
 Creates a new local Git repository from a repository on GitHub. It is highly
 recommended that you pre-configure or pass a GitHub personal access token
-(PAT), which is facilitated by \code{\link[=browse_github_pat]{browse_github_pat()}}. In particular, a PAT is
-required in order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}. It is also required
+(PAT), which is facilitated by \code{\link[=browse_github_token]{browse_github_token()}}. In particular, a PAT
+is required in order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}. It is also required
 by \code{\link[=use_github]{use_github()}}, which connects existing local projects to GitHub.
-\code{\link[=use_github]{use_github()}} has more detailed advice on working with the \code{protocol} and
-\code{credentials} arguments.
 }
 \examples{
 \dontrun{
 create_from_github("r-lib/usethis")
-
-create_from_github("r-lib/usethis", protocol = "https")
-
-## various ways code can look when specifying ssh credential explicitly
-create_from_github("r-lib/usethis", credentials = git2r::cred_ssh_key())
-
-cred <- git2r::cred_ssh_key(
-  publickey = "path/to/id_rsa.pub",
-  privatekey = "path/to/id_rsa"
-)
-create_from_github("cran/TailRank", credentials = cred)
 }
 }
 \seealso{
-\code{\link[=use_github]{use_github()}} for GitHub setup advice. \code{\link[=use_course]{use_course()}} for one-time
-download of all files in a Git repo, without any local or remote Git
-operations.
+\code{\link[=use_github]{use_github()}} for GitHub setup advice. \code{\link[=git_protocol]{git_protocol()}} and
+\code{\link[=git_credentials]{git_credentials()}} for background on \code{protocol} and \code{credentials}.
+\code{\link[=use_course]{use_course()}} for one-time download of all files in a Git repo, without
+any local or remote Git operations.
 }

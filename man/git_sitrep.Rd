@@ -8,7 +8,7 @@ git_sitrep()
 }
 \description{
 Get a situation report on your current git/GitHub status. Useful for
-diagnosing problems
+diagnosing problems.
 }
 \examples{
 git_sitrep()

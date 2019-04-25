@@ -2,10 +2,16 @@
 % Please edit documentation in R/rcpp.R
 \name{use_rcpp}
 \alias{use_rcpp}
+\alias{use_rcpp_armadillo}
+\alias{use_rcpp_eigen}
 \alias{use_c}
-\title{Use C and C++.}
+\title{Use C, C++, RcppArmadillo, or RcppEigen}
 \usage{
 use_rcpp(name = NULL)
+
+use_rcpp_armadillo(name = NULL)
+
+use_rcpp_eigen(name = NULL)
 
 use_c(name = NULL)
 }
@@ -13,6 +19,7 @@ use_c(name = NULL)
 \item{name}{If supplied, creates and opens \code{src/name.{c,cpp}}.}
 }
 \description{
-Creates \code{src/} and adds needed packages to \code{DESCRIPTION}, and
-optionally creates \code{.c} or \code{.cpp} file.
+Creates \code{src/}, adds required packages to \code{DESCRIPTION},
+optionally creates \code{.c} or \code{.cpp} files, and
+where needed, \code{Makevars} and \code{Makevars.win} files.
 }

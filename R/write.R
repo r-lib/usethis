@@ -58,7 +58,7 @@ write_union <- function(path, lines, quiet = FALSE) {
     ui_done("Adding {ui_value(new)} to {ui_path(path)}")
   }
 
-  all <- union(lines, existing_lines)
+  all <- c(existing_lines, new)
   write_utf8(path, all)
 }
 
@@ -88,11 +88,13 @@ write_over <- function(path, lines, quiet = FALSE) {
   }
 }
 
-write_utf8 <- function(path, lines) {
+write_utf8 <- function(path, lines, append = FALSE) {
   stopifnot(is.character(path))
   stopifnot(is.character(lines))
 
-  con <- file(path, encoding = "utf-8")
+  file_mode <- if (append) "a" else ""
+
+  con <- file(path, open = file_mode, encoding = "utf-8")
   on.exit(close(con), add = TRUE)
 
   lines <- paste0(lines, "\n", collapse = "")

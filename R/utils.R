@@ -13,7 +13,7 @@ can_overwrite <- function(path) {
 check_is_named_list <- function(x, nm = deparse(substitute(x))) {
   if (!rlang::is_list(x)) {
     bad_class <- paste(class(x), collapse = "/")
-    ui_stop("{ui_code(nm)} must be a list, not {bad_class}.")
+    ui_stop("{ui_code(nm)} must be a list, not {ui_value(bad_class)}.")
   }
   if (!rlang::is_dictionaryish(x)) {
     ui_stop(
@@ -29,13 +29,11 @@ dots <- function(...) {
 
 asciify <- function(x) {
   stopifnot(is.character(x))
-
-  x <- tolower(x)
-  gsub("[^a-z0-9_-]+", "-", x)
+  gsub("[^a-zA-Z0-9_-]+", "-", x)
 }
 
 slug <- function(x, ext) {
-  x_base <- asciify(path_ext_remove(x))
+  x_base <- path_ext_remove(x)
   x_ext <- path_ext(x)
   ext <- if (identical(tolower(x_ext), tolower(ext))) x_ext else ext
   path_ext_set(x_base, ext)
@@ -46,12 +44,14 @@ compact <- function(x) {
   x[!is_empty]
 }
 
-"%||%" <- function(a, b) if (!is.null(a)) a else b
-
 check_installed <- function(pkg) {
-  if (!requireNamespace(pkg, quietly = TRUE)) {
+  if (!is_installed(pkg)) {
     ui_stop("Package {ui_value(pkg)} required. Please install before re-trying.")
   }
+}
+
+is_installed <- function(pkg) {
+  requireNamespace(pkg, quietly = TRUE)
 }
 
 ## mimimalist, type-specific purrr::pluck()'s

@@ -16,17 +16,18 @@ Automate package and project setup tasks that are otherwise
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://usethis.r-lib.org}
   \item \url{https://github.com/r-lib/usethis}
   \item Report bugs at \url{https://github.com/r-lib/usethis/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Hadley Wickham \email{hadley@rstudio.com} (0000-0003-4757-117X)
+\strong{Maintainer}: Jennifer Bryan \email{jenny@rstudio.com} (0000-0002-6983-2759)
 
 Authors:
 \itemize{
-  \item Jennifer Bryan \email{jenny@rstudio.com} (0000-0002-6983-2759)
+  \item Hadley Wickham \email{hadley@rstudio.com} (0000-0003-4757-117X)
 }
 
 Other contributors:

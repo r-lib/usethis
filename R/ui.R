@@ -6,7 +6,8 @@
 #'
 #' The `ui_` functions can be broken down into four main categories:
 #'
-#' * block styles: `ui_line()`, `ui_done()`, `ui_todo()`.
+#' * block styles: `ui_line()`, `ui_done()`, `ui_todo()`, `ui_oops()`,
+#'   `ui_info()`.
 #' * conditions: `ui_stop()`, `ui_warn()`.
 #' * questions: `ui_yeah()`, `ui_nope()`.
 #' * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`.
@@ -58,7 +59,23 @@ ui_todo <- function(x, .envir = parent.frame()) {
 ui_done <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, crayon::red(crayon::green(clisymbols::symbol$tick)))
+  cat_bullet(x, crayon::green(clisymbols::symbol$tick))
+}
+
+#' @rdname ui
+#' @export
+ui_oops <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+  cat_bullet(x, crayon::red(clisymbols::symbol$cross))
+}
+
+#' @rdname ui
+#' @export
+ui_info <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+  cat_bullet(x, crayon::yellow(clisymbols::symbol$info))
 }
 
 #' @param copy If `TRUE`, the session is interactive, and the clipr package
@@ -70,7 +87,7 @@ ui_code_block <- function(x, copy = interactive(), .envir = parent.frame()) {
   x <- glue(x, .envir = .envir)
 
   block <- indent(x, "  ")
-  block <- crayon::make_style("darkgrey")(block)
+  block <- crayon::silver(block)
   cat_line(block)
 
   if (copy && clipr::clipr_available()) {
@@ -165,7 +182,7 @@ ui_path <- function(x, base = NULL) {
   is_directory <- is_dir(x)
   if (is.null(base)) {
     x <- proj_rel_path(x)
-  } else {
+  } else if (!identical(base, NA)) {
     x <- path_rel(x, base)
   }
 
@@ -178,7 +195,7 @@ ui_path <- function(x, base = NULL) {
 #' @export
 ui_code <- function(x) {
   x <- encodeString(x, quote = "`")
-  x <- crayon::make_style("darkgrey")(x)
+  x <- crayon::silver(x)
   x <- glue_collapse(x, sep = ", ")
   x
 }
@@ -200,4 +217,19 @@ cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
 
   lines <- paste0(..., "\n")
   cat(lines, sep = "")
+}
+
+# Sitrep helpers ---------------------------------------------------------------
+
+hd_line <- function(name) {
+  cat_line(crayon::bold(name))
+}
+
+kv_line <- function(key, value) {
+  if (is.null(value)) {
+    value <- crayon::silver("<unset>")
+  } else {
+    value <- ui_value(value)
+  }
+  cat_line("* ", key, ": ", value)
 }

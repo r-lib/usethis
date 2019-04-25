@@ -18,6 +18,22 @@ test_that("normalize_url() prepends https:// (or not)", {
   )
 })
 
+test_that("shortlinks pass through", {
+  url1 <- "bit.ly/usethis-shortlink-example"
+  url2 <- "rstd.io/usethis-shortlink-example"
+  expect_equal(normalize_url(url1), paste0("https://", url1))
+  expect_equal(normalize_url(url2), paste0("https://", url2))
+  expect_equal(normalize_url(paste0("https://", url1)), paste0("https://", url1))
+  expect_equal(normalize_url(paste0("http://", url1)), paste0("http://", url1))
+})
+
+test_that("github links get expanded", {
+  expect_equal(
+    normalize_url("OWNER/REPO"),
+    "https://github.com/OWNER/REPO/archive/master.zip"
+  )
+})
+
 test_that("conspicuous_place() returns a writeable directory", {
   expect_error_free(x <- conspicuous_place())
   expect_true(is_dir(x))

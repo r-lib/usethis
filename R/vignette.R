@@ -1,6 +1,6 @@
 #' Create a vignette or article.
 #'
-#' Creates new vignette/article in `vignettes/`. Article are a special
+#' Creates a new vignette or article in `vignettes/`. Articles are a special
 #' type of vignette that appear on pkgdown websites, but are not included
 #' in the package itself (because they are added to `.Rbuildignore`
 #' automatically).
@@ -9,9 +9,9 @@
 #' * Adds needed packages to `DESCRIPTION`.
 #' * Adds `inst/doc` to `.gitignore` so built vignettes aren't tracked.
 #' * Adds `vignettes/*.html` and `vignettes/*.R` to `.gitignore` so
-#'   you never accidental track rendered vignettes.
+#'   you never accidentally track rendered vignettes.
 #' @param name Base for file name to use for new vignette. Should consist only
-#'   of numbers, letters, _ and -. I recommend using lower case.
+#'   of numbers, letters, `_` and `-`. Lower case is recommended.
 #' @param title The title of the vignette.
 #' @seealso The [vignettes chapter](http://r-pkgs.had.co.nz/vignettes.html) of
 #'   [R Packages](http://r-pkgs.had.co.nz).
@@ -22,12 +22,15 @@
 #' }
 use_vignette <- function(name, title = name) {
   check_is_package("use_vignette()")
+  check_vignette_name(name)
 
   use_dependency("knitr", "Suggests")
   use_description_field("VignetteBuilder", "knitr")
   use_git_ignore("inst/doc")
 
   use_vignette_template("vignette.Rmd", name, title)
+
+  invisible()
 }
 
 #' @export
@@ -62,4 +65,18 @@ use_vignette_template <- function(template, name, title) {
   )
 
   path
+}
+
+check_vignette_name <- function(name) {
+  if (!valid_vignette_name(name)) {
+    ui_stop(c(
+      "{ui_value(name)} is not a valid filename for a vignette. It must:",
+      "* Start with a letter.",
+      "* Contain only letters, numbers, '_', and '-'."
+    ))
+  }
+}
+
+valid_vignette_name <- function(x) {
+  grepl("^[[:alpha:]][[:alnum:]_-]+$", x)
 }

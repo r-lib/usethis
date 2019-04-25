@@ -10,18 +10,30 @@ use_testthat()
 use_test(name = NULL, open = interactive())
 }
 \arguments{
-\item{name}{Test name. if \code{NULL}, and you're using RStudio, will use
-the name of the file open in the source editor.}
+\item{name}{Base of test file name. If \code{NULL}, and you're using RStudio, will
+be based on the name of the file open in the source editor.}
 
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
-\code{use_testthat()} sets up testing infrastructure, creating
-\file{tests/testthat.R} and \file{tests/testthat/}, and
-adding \pkg{testthat} to the suggested packages. \code{use_test()}
-creates \file{tests/testthat/test-<name>.R} and opens it for editing.
+There are two helper functions:
+\itemize{
+\item \code{use_testthat()} sets up overall testing infrastructure: creates
+\code{tests/testthat/}, \code{tests/testthat.R}, and adds testthat to Suggests.
+\item \code{use_test()} sets up individual test files: creates
+\code{tests/testthat/test-<name>.R} and, optionally, opens it for editing.
+}
+}
+\examples{
+\dontrun{
+use_testthat()
+
+use_test()
+
+use_test("something-management")
+}
 }
 \seealso{
-The \href{http://r-pkgs.had.co.nz/tests.html}{testing chapter} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+The \href{https://r-pkgs.org/tests.html}{testing chapter} of \href{https://r-pkgs.org}{R Packages}.
 }

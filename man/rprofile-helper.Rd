@@ -5,6 +5,7 @@
 \alias{use_conflicted}
 \alias{use_reprex}
 \alias{use_usethis}
+\alias{use_devtools}
 \alias{use_partial_warnings}
 \title{Helpers to make useful changes to \code{.Rprofile}}
 \usage{
@@ -14,15 +15,18 @@ use_reprex()
 
 use_usethis()
 
+use_devtools()
+
 use_partial_warnings()
 }
 \description{
-All functions open your \code{.Rprofile} and gives you the code you need to
+All functions open your \code{.Rprofile} and give you the code you need to
 paste in.
 \itemize{
-\item \code{use_conflicted()}:  makes conflicted available in interactive sessions.
-\item \code{use_partial_warning()}: warn on partial matches.
-\item \code{use_reprex()}: makes reprex available in interactive sessions.
+\item \code{use_devtools()}: makes devtools available in interactive sessions.
 \item \code{use_usethis()}: makes usethis available in interactive sessions.
+\item \code{use_reprex()}: makes reprex available in interactive sessions.
+\item \code{use_conflicted()}:  makes conflicted available in interactive sessions.
+\item \code{use_partial_warning()}: warns on partial matches.
 }
 }

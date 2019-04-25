@@ -5,7 +5,10 @@
 \alias{pr_fetch}
 \alias{pr_push}
 \alias{pr_pull}
+\alias{pr_pull_upstream}
+\alias{pr_sync}
 \alias{pr_view}
+\alias{pr_pause}
 \alias{pr_finish}
 \title{Helpers for GitHub pull requests}
 \usage{
@@ -17,7 +20,13 @@ pr_push()
 
 pr_pull()
 
+pr_pull_upstream()
+
+pr_sync()
+
 pr_view()
+
+pr_pause()
 
 pr_finish()
 }
@@ -28,26 +37,69 @@ numbers, and \code{-}.}
 \item{number}{Number of PR to fetch.}
 
 \item{owner}{Name of the owner of the repository that is the target of the
-pull request. Default of \code{NULL} tries to deduce that from \code{origin} remote.}
+pull request. Default of \code{NULL} tries to identify the source repo and uses
+the owner of the \code{upstream} remote, if present, or the owner of \code{origin}
+otherwise.}
 }
 \description{
+The \code{pr_*} family of functions is designed to make working with GitHub
+PRs as painless as possible for both contributors and package maintainers.
+They are designed to support the git and GitHub best practices described in
+\url{http://happygitwithr.com/}.
+}
+\section{Set up advice}{
+
+These functions make heavy use of git2r and the GitHub API. You'll need a
+GitHub personal access token (PAT); see \code{\link[=browse_github_token]{browse_github_token()}} for help
+with that. If git2r does not seem to be finding your git credentials, read
+\code{\link[=git_credentials]{git_credentials()}} for troubleshooting advice. The transport protocol
+(SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.
+}
+
+\section{For contributors}{
+
+To contribute to a package, first use \code{create_from_github(owner/repo)} to
+fork the source repository, and then check out a local copy. Next use
+\code{pr_init()} to create a branch for your PR (\strong{never} submit a PR from the
+\code{master} branch). You'll then work locally, making changes to files
+and checking them into git. Once you're ready to submit, run \code{pr_push()}
+to push your local branch to GitHub, and open a webpage that lets you
+initiate the PR.
+
+If you are lucky, your PR will be perfect, and the maintainer will accept
+it. You can then run \code{pr_finish()} to close and delete your PR branch.
+In most cases, however, the maintainer will ask you to make some changes.
+Make the changes, then run \code{pr_push()} to sync back up to GitHub.
+
+It's also possible that the maintainer will contribute some code to your
+PR: you get that code back to your computer, run \code{pr_pull()}. It's also
+possible that other changes have occurred to the package while you've been
+working on your PR, and you need to "merge master". Do that by running
+\code{pr_pull_upstream()}: this makes sure that your copy of the package is
+up-to-date with the maintainer's latest changes. Either of the pull
+functions may cause merge conflicts, so be prepared to resolve before
+continuing.
+}
+
+\section{For maintainers}{
+
+To download a PR locally so that you can experiment with it, run
+\code{pr_fetch(<pr_number>)}. If you make changes, run \code{pr_push()} to push
+them back to GitHub. After you have merged the PR, run \code{pr_finish()}
+to delete the local branch.
+}
+
+\section{Other helpful functions}{
+
 \itemize{
-\item \code{pr_init("name")} creates a new local branch for a PR.
-\item \code{pr_fetch(number)} downloads a remote PR so you can edit locally.
-\item \code{pr_push()} pushes local changes to GitHub, after checking that there
-aren't any remote changes you need to retrieve first. On first use,
-it will prompt you to create a PR on GitHub.
-\item \code{pr_pull()} retrives changes from the GitHub PR. Run this if others
-have made suggestions or pushed into your PR.
-\item \code{pr_view()} open the PR in the browser
-\item \code{pr_finish()} changes local branch to master, pulls new changes and delete
-the pr branche. Run this from the pr branch when your PR has been merged.
+\item \code{pr_sync()} is a shortcut for \code{pr_pull()}, \code{pr_pull_upstream()}, and
+\code{pr_push()}
+\item \code{pr_pause()} makes sure you're synced with the PR and then switches
+back to master.
+\item \code{pr_view()} opens the PR in the browser
 }
 }
-\details{
-These functions have been designed to support the git and GitHub best
-practices described in \url{http://happygitwithr.com/}.
-}
+
 \examples{
 \dontrun{
 ## scenario: current project is a local copy of fork of a repo owned by

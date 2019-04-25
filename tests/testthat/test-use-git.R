@@ -40,3 +40,23 @@ test_that("use_git_hook errors if project not using git", {
     "Cannot detect that project is already a Git repository"
   )
 })
+
+test_that("git remote handlers work", {
+  # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
+  skip_if(getRversion() < 3.2)
+  skip_if_no_git_config()
+
+  scoped_temporary_package()
+  use_git()
+
+  expect_null(git_remotes())
+
+  use_git_remote(name = "foo", url = "foo_url")
+  expect_identical(git_remotes(), list(foo = "foo_url"))
+
+  use_git_remote(name = "foo", url = "new_url", overwrite = TRUE)
+  expect_identical(git_remotes(), list(foo = "new_url"))
+
+  use_git_remote(name = "foo", url = NULL, overwrite = TRUE)
+  expect_null(git_remotes())
+})
