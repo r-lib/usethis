@@ -38,7 +38,6 @@ use_devtools <- function() {
 }
 
 use_rprofile_package <- function(package) {
-  edit_r_profile("user")
   ui_todo(
     "Include this code in {ui_value('.Rprofile')} to make \\
     {ui_field(package)} available in all interactive sessions."
@@ -50,12 +49,13 @@ use_rprofile_package <- function(package) {
     }}
     "
   )
+  edit_r_profile("user")
 }
 
 #' @rdname rprofile-helper
 #' @export
 use_partial_warnings <- function() {
-  edit_r_profile("user")
+  
 
   ui_todo(
     "Include this code in {ui_path('.Rprofile')} to warn on partial matches."
@@ -69,4 +69,5 @@ use_partial_warnings <- function() {
     )
     "
   )
+  edit_r_profile("user")
 }
