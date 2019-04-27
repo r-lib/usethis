@@ -63,6 +63,7 @@ edit_r_profile <- function(scope = c("user", "project")) {
   path <- scoped_path_r(scope, ".Rprofile", envvar = "R_PROFILE_USER")
   edit_file(path)
   ui_todo("Restart R for changes to take effect")
+  invisible(path)
 }
 
 #' @export
@@ -71,6 +72,7 @@ edit_r_environ <- function(scope = c("user", "project")) {
   path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
   edit_file(path)
   ui_todo("Restart R for changes to take effect")
+  invisible(path)
 }
 
 #' @export
