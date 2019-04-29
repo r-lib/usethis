@@ -23,7 +23,7 @@ testing:
     only:
         - master
     script:
-        - Rscript -e 'install.pacakges("DT")'
+        - Rscript -e 'install.packages("DT")'
         - Rscript -e 'covr::gitlab(quiet = FALSE)'
     artifacts:
         paths:
