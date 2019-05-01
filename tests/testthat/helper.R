@@ -102,6 +102,10 @@ skip_if_no_git_config <- function() {
   skip("No Git user configured")
 }
 
+expect_usethis_error <- function(...) {
+  expect_error(..., class = "usethis_error")
+}
+
 expect_error_free <- function(...) {
   expect_error(..., regexp = NA)
 }

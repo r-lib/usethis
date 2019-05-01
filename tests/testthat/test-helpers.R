@@ -50,7 +50,7 @@ test_that("use_description_field() can address an existing field", {
   )
   expect_identical(orig, tools::md5sum(proj_path("DESCRIPTION")))
 
-  expect_error(
+  expect_usethis_error(
     use_description_field(
       name = "Version",
       value = "1.1.1",

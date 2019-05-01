@@ -4,7 +4,7 @@ test_that("use_vignette() requires a package", {
   skip_if_not_installed("rmarkdown")
 
   scoped_temporary_project()
-  expect_error(use_vignette(), "not an R package")
+  expect_usethis_error(use_vignette(), "not an R package")
 })
 
 test_that("use_vignette() requires a `name`", {
