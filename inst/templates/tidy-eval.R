@@ -32,14 +32,16 @@
 #' @md
 #' @name     tidyeval
 #' @keywords internal
-#' @importFrom rlang quo quos enquo enquos quo_name sym ensym syms
+#' @importFrom rlang quo quos enquo enquos sym ensym syms
 #'                   ensyms expr exprs enexpr enexprs .data :=
-#' @aliases  quo quos enquo enquos quo_name
+#'                   as_name as_label
+#' @aliases  quo quos enquo enquos
 #'           sym ensym syms ensyms
 #'           expr exprs enexpr enexprs
-#'           .data :=
-#' @export   quo quos enquo enquos quo_name
+#'           .data := as_name as_label
+#' @export   quo quos enquo enquos
 #' @export   sym ensym syms ensyms
 #' @export   expr enexpr enexprs
 #' @export   .data :=
+#' @export   as_name as_label
 NULL
