@@ -161,6 +161,10 @@ welcome to use them if you find them helpful.
 
 ## New functions not already mentioned
 
+* `use_make()` and `use_jenkins()` (@ryapric, #501) add a Makefile and
+  Jenkinsfile, respectively, to your project.
+
+
 * `use_devtools()` (#624), `use_conflicted()` (#362), and `use_reprex()` (#465)
   help add useful packages to your `.Rprofile`.
 
