@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_make()` and `use_jenkins()` add a Makefile and Jenkinsfile, respectively
+  (@ryapric, #501) 
+
 # usethis 1.5.0
 
 ## Git, GitHub (and GitLab)
@@ -160,10 +163,6 @@ welcome to use them if you find them helpful.
   be used for all Rmds.
 
 ## New functions not already mentioned
-
-* `use_make()` and `use_jenkins()` (@ryapric, #501) add a Makefile and
-  Jenkinsfile, respectively, to your project.
-
 
 * `use_devtools()` (#624), `use_conflicted()` (#362), and `use_reprex()` (#465)
   help add useful packages to your `.Rprofile`.
