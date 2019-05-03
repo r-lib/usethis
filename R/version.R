@@ -45,7 +45,7 @@ use_version <- function(which = NULL) {
   }
 
   use_description_field("Version", new_ver, overwrite = TRUE)
-  if (which == "dev") {
+  if (names(new_ver) == "dev") {
     use_news_heading("(development version)")
   } else {
     use_news_heading(new_ver)

@@ -19,7 +19,7 @@
 #' proj_sitrep()
 proj_sitrep <- function() {
   out <- list(
-    working_directory = getwd(),
+      working_directory = getwd(),
     active_usethis_proj = if (proj_active()) proj_get(),
     active_rstudio_proj = if (rstudioapi::hasFun("getActiveProject")) {
       rstudioapi::getActiveProject()
@@ -28,26 +28,14 @@ proj_sitrep <- function() {
     ## home_usethis = fs::path_home(),
     ## home_r = normalizePath("~")
   )
-  out <- ifelse(is_null(out), out, fs::path_tidy(out))
+  out <- ifelse(purrr::map_lgl(out, is.null), out, as.character(path_tidy(out)))
   structure(out, class = "sitrep")
 }
 
 #' @export
-format.sitrep <- function(x, ...) {
-  unset <- function(...) {
-    x <- paste0(...)
-    crayon::make_style("lightgrey")(x)
-  }
-
-  keys <- purrr::map_chr(format(names(x), justify = "right"), ui_field)
-  vals <- ifelse(is_null(x), unset(x), purrr::map(x, ui_value))
-  glue::glue("{keys}: {vals}")
-}
-
-#' @export
 print.sitrep <- function(x, ...) {
-  out <- format(x)
-  cat_line(out)
+  keys <- format(names(x), justify = "right")
+  purrr::walk2(keys, x, kv_line)
 
   rstudio_proj_is_active <- !is.null(x[["active_rstudio_proj"]])
   usethis_proj_is_active <- !is.null(x[["active_usethis_proj"]])
@@ -119,5 +107,3 @@ print.sitrep <- function(x, ...) {
 
   invisible(x)
 }
-
-is_null <- function(x) vapply(x, is.null, logical(1))

@@ -18,6 +18,10 @@
 #'   files. If you really want to do so, set this to `TRUE`.
 #' @param compress Choose the type of compression used by [save()].
 #'   Should be one of "gzip", "bzip2", or "xz".
+#' @param version The serialization format version to use. The default, 2, was
+#'   the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
+#'   R 3.6.0 and can only be read by R versions 3.5.0 and higher.
+#'
 #' @seealso The [data chapter](http://r-pkgs.had.co.nz/data.html) of [R
 #'   Packages](http://r-pkgs.had.co.nz).
 #' @export
@@ -32,7 +36,8 @@
 use_data <- function(...,
                      internal = FALSE,
                      overwrite = FALSE,
-                     compress = "bzip2") {
+                     compress = "bzip2",
+                     version = 2) {
   check_is_package("use_data()")
 
   objs <- get_objs_from_dots(dots(...))
@@ -54,7 +59,7 @@ use_data <- function(...,
     save,
     list = objs,
     file = proj_path(paths),
-    MoreArgs = list(envir = envir, compress = compress)
+    MoreArgs = list(envir = envir, compress = compress, version = version)
   )
 
   invisible()
@@ -98,13 +103,27 @@ check_files_absent <- function(paths, overwrite) {
   )
 }
 
-
+#' @param name Name of the dataset to be prepared for inclusion in the package.
+#' @inheritParams use_template
 #' @rdname use_data
 #' @export
-use_data_raw <- function() {
+#' @examples
+#' \dontrun{
+#' use_data_raw("daisy")
+#' }
+use_data_raw <- function(name = "DATASET", open = interactive()) {
+  stopifnot(is_string(name))
+  r_path <- path("data-raw", asciify(name), ext = "R")
   use_directory("data-raw", ignore = TRUE)
 
-  ui_line("Next:")
-  ui_todo("Add data creation scripts in {ui_value('data-raw/')}")
-  ui_todo("Use {ui_code('usethis::use_data()')} to add data to package")
+  use_template(
+    "packagename-data-prep.R",
+    save_as = r_path,
+    data = list(name = name),
+    ignore = FALSE,
+    open = open
+  )
+
+  ui_todo("Finish the data preparation script in {ui_value(r_path)}")
+  ui_todo("Use {ui_code('usethis::use_data()')} to add prepared data to package")
 }

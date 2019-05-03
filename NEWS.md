@@ -1,81 +1,77 @@
 # usethis (development version)
 
-## New features
+# usethis 1.5.0
 
-* `use_rcpp_armadillo()` and `use_rcpp_eigen()` are new functions 
-   that set up a package to use RcppArmadillo or RcppEigen, respectively
-   (#421, @coatless, @duckmayr).
+## Git, GitHub (and GitLab)
 
-* `use_tutorial()` creates a new interactive R Markdown tutorial, as implemented
-  by the [`learnr` package](https://rstudio.github.io/learnr/index.html)
-  (@angela-li, #645).
+usethis gains several functions to inspect and manipulate the Git situation for the current project = repository. We also provide more control and visibility
+into git2r's workings, especially around credentials (usethis uses git2r for all
+Git operations).
 
-* `use_ccby_license()` adds a CCBY 4.0 license (#547, @njtierney)
-
-* `git_protocol()` + `use_git_protocol()` and `git2r_credentials()` + `use_git2r_credentials()` are new helpers to summon or set git transport protocol (SSH or HTTPS) or git2r credentials, respectively. These functions are primarily for internal use. Most users can rely on default behaviour, but these helpers can be used to intervene if git2r isn't discovering the right credentials (#653).
-
-* `use_github()` tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (#221).
-
-* `git_sitrep()` lets you know what's up with your git, git2r and GitHub 
+* `git_sitrep()` lets you know what's up with your Git, git2r and GitHub 
   config (#328).
 
-* `git_vaccinate()` vaccinates your global git ignore file ensuring that
-  you never check in files likely to contain confidental information (#469).
-  It is called automatically if `use_git_ignore()` creates a new `.gitnore`
-  file.
+* `git_vaccinate()` vaccinates your global (i.e. user-level) git ignore file.
+  It adds standard entries for R users, such as `.Rhistory` and `.Rdata`. This
+  decreases the chance that you commit and push files containing confidential
+  information (#469).
 
-* `pr_init()`, `pr_fetch()`, `pr_push()`, `pr_pull()`, and `pr_finish()` are a
-  new family of helpers designed to help with the GitHub PR process. Currently 
-  they assume that you're working on your own repo (i.e. no fork), but once 
-  we've happy with them, we'll extend to work on more situations (#346).
-
-* New `proj_activate()` lets you activate a project either opening a new 
-  RStudio session (if you use RStudio), or changing the working directory 
-  (#511).
-
-* `use_article()` creates articles, vignettes that are automatically
-  added to `.Rbuildignore`. These appear on pkgdown sites, but are not 
-  included with the package itself (#281).
-
-* `use_citation()` creates a basic `CITATION` template and puts it in the 
-  right place (#100).
-
-* `use_c("foo")` sets up `src/` and creates `src/foo.c` (#117).
-
-* `use_devtools()` (#624), `use_conflicted()` (#362), and `use_reprex()` (#465)
-  help add useful packages to your `.Rprofile`.
+* `git_remotes()` and `use_git_remote()` are new helpers to inspect or modify
+  Git remote URLs for the repo associated with the active project (#649).
   
-* `use_covr_ignore()` makes it easy to ignore files in test coverage (#434).
+* `git_protocol()` + `use_git_protocol()` and `git_credentials()` +
+  `use_git_credentials()` are new helpers to summon or set Git transport
+  protocol (SSH or HTTPS) or git2r credentials, respectively. These functions
+  are primarily for internal use. Most users can rely on default behaviour. Use
+  these helpers to intervene if git2r isn't discovering the right credentials
+  (#653). usethis honors the `usethis.protocol` option, which allows you to
+  express a general preference for SSH vs. HTTPS.
 
-* `use_github_release()` creates a draft GitHub release using the entries
-  in  `NEWS.md` (#137).
+Other improvements and bug fixes:
 
-* `use_gitlab_ci()` creates a draft gitlab-ci.yaml for use with GitLab 
+* `use_github()` tries harder but also fails earlier, with more informative
+  messages, making it less likely to leave the repo partially configured (#221).
+  
+* `use_github()` and `create_from_github()` gain a `protocol` argument
+  (#494, @cderv).
+  
+* `create_from_github()` pulls from upstream master in a fork (#695, @ijlyttle).
+
+* `use_release_issue()` creates a GitHub issue containing a release checklist,
+  reflecting the standard practices of the tidyverse team (#338).
+
+* `use_github_release()` creates a draft GitHub release using the entries in
+  `NEWS.md` (#137).
+
+* `use_gitlab_ci()` creates a `gitlab-ci.yaml` config file for GitLab CI
   (#565, @overmar).
 
-* `use_lgpl_license()` automates set up of the LGL license (#448, @krlmlr).
+* `use_git_config()` now invisibly returns the previous values of the
+  settings.
 
-* `use_partial_warnings()` helps use add standard warning block to your
-  `.Rprofile` (#64).
-
-* `use_pkgdown_travis()` helps you set up pkgdown for automatic deployment
-  from travis to github pages (#524).
-
-* `use_rcpp("foo")` now creates `src/foo.cpp` (#117).
-
-* `use_release_issue()` creates a GitHub issue containing a release checklist 
-  capturing best practices discovered by the tidyverse team (#338)
+* `use_github_labels()` has been rewritten be more flexible. You can now supply
+  a repo name, and `descriptions`, and you can set colours/descriptions
+  independently of creating labels. You can also `rename` existing labels
+  (#290). 
   
-* `write_union` appends the novel `lines`, but does not remove duplicates from
-  existing lines (#583, @khailper).
+## GitHub pull requests
 
-* New `use_addin()` helps setup necessary binding information for RStudio 
-  addins. (#353, @haozhu233)
+We've added **experimental** functions to work with GitHub pull requests. They
+are aimed at both a maintainer (who may make, review, and modify pull
+requests) and a contributor (who may make or explore pull requests).
 
+* `git_sitrep()` includes a section at the end aimed at describing "pull request
+  readiness". Expect that to develop and expand.
+
+* `pr_init()`, `pr_fetch()`, `pr_push()`, `pr_pull()`, `pr_finish()`, and
+  `pr_view()` constitute the new family of helpers. They are designed to be
+  smart about the significance of remotes with the standard names of `origin`
+  and `upstream` and to facilitate both internal and external pull requests.
 
 ## Partial file management
 
-usethis gains tooling to manage part of a file. This currently used for managing badges in your README, and roxygen import tags:
+usethis gains tooling to manage part of a file. This is currently used for
+managing badges in your README and roxygen import tags:
 
 *   `use_badge()` and friends now automatically add badges if your README 
     contains a specially formatted badge block (#497):
@@ -85,7 +81,7 @@ usethis gains tooling to manage part of a file. This currently used for managing
     <-- badge:end -->
     ```
  
-*   `use_tibble()` and `use_rcpp()` automatically adding roxygen tags to 
+*   `use_tibble()` and `use_rcpp()` automatically add roxygen tags to 
     to `{package}-package.R` if it contains a specially formatted namespace
     block (#517):
 
@@ -101,15 +97,21 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 ## Extending and wrapping usethis
 
+* New `proj_activate()` lets you activate a project, either opening a new 
+  RStudio session (if you use RStudio) or changing the working directory 
+  (#511).
+
 * `proj_get()` and `proj_set()` no longer have a `quiet` argument. The 
   user-facing message about setting a project is now under the same control 
   as other messages, i.e. `getOption("usethis.quiet", default = FALSE)` (#441).
 
-* A new family of `ui_` functions makes it possible to make use of the 
-  user interface of usethis in your own code (#308). There are four families 
+* A new set of `ui_*()` functions makes it possible to give your own code
+  the same user interface as usethis (#308). All use the glue and crayon and
+  packages to power easy interpolation and formatting. There are four families
   of functions:
 
-    * block styles: `ui_line()`, `ui_done()`, `ui_todo()`.
+    * block styles: `ui_line()`, `ui_done()`, `ui_todo()`, `ui_oops()`,
+      `ui_info()`.
     * conditions: `ui_stop()`, `ui_warn()`.
     * questions: `ui_yeah()`, `ui_nope()`.
     * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`.
@@ -120,7 +122,8 @@ usethis gains tooling to manage part of a file. This currently used for managing
 
 ## Tidyverse standards
 
-(These standards are used by all tidyverse packages; you are welcome to use them if you find them helpful.)
+These standards are (aspirationally) used by all tidyverse packages; you are
+welcome to use them if you find them helpful.
 
 * Call `use_tidy_labels()` to update GitHub labels. Colours are less 
   saturated, docs is now documentation, we use some emoji, and performance is 
@@ -143,7 +146,7 @@ usethis gains tooling to manage part of a file. This currently used for managing
   GitHub pages. `use_pkgdown_travis()` will help you set that up.
 
 * When starting the release process, call `use_release_issue()` to create a 
-  release checklist issue.
+  release checklist issue (#338).
 
 * Prior to CRAN submission call `use_tidy_release_test_env()` to update the 
   test environment section in `cran-comments()` (#496).
@@ -156,22 +159,65 @@ usethis gains tooling to manage part of a file. This currently used for managing
   `knitr::opts_chunk$set(comment = "#>", collapse = TRUE)` which should
   be used for all Rmds.
 
-## Minor bug fixes and improvements
+## New functions not already mentioned
 
-* `browse_github()` now falls back to CRAN organisation (with a warning) if 
-  package doesn't have it's own GitHub repo (#186).
+* `use_devtools()` (#624), `use_conflicted()` (#362), and `use_reprex()` (#465)
+  help add useful packages to your `.Rprofile`.
 
-* `create_*()`restore the active project if they error part way through, 
-  and use `proj_activate()` (#453, #511).
+* `use_partial_warnings()` helps the user add a standard warning block to
+  `.Rprofile` (#64).
 
 * `edit_r_buildignore()` opens `.Rbuildignore` for manual editing 
    (#462, @bfgray3).
 
-* `edit_r_profile()` and `edit_r_environ()` now respect environment variables
-  `R_PROFILE_USER` and `R_ENVIRON_USER` respectively (#480).
+* `use_lgpl_license()` automates set up of the LGL license (#448, @krlmlr).
 
-* `ui_code_block()` now strips ascii escapes before copying code to clipboard 
-  (#447).
+* `use_ccby_license()` adds a CCBY 4.0 license (#547, @njtierney).
+
+* `use_rcpp_armadillo()` and `use_rcpp_eigen()` set up a package to use
+  RcppArmadillo or RcppEigen, respectively (#421, @coatless, @duckmayr).
+
+* `use_c("foo")` sets up `src/` and creates `src/foo.c` (#117).
+  
+* `use_covr_ignore()` makes it easy to ignore files in test coverage (#434).
+
+* `use_pkgdown_travis()` helps you set up pkgdown for automatic build-and-deploy
+  from Travis-CI to GitHub Pages (#524).
+
+* `use_addin()` does setup for RStudio addins (#353, @haozhu233).
+
+* `use_tutorial()` creates a new interactive R Markdown tutorial, as implemented
+  by the [`learnr` package](https://rstudio.github.io/learnr/index.html)
+  (@angela-li, #645).
+
+* `use_article()` creates articles, vignettes that are automatically added to
+  `.Rbuildignore`. These appear on pkgdown sites, but are not included with the
+  package itself (#281).
+
+* `use_citation()` creates a basic `CITATION` template and puts it in the 
+  right place (#100).
+
+## Other minor bug fixes and improvements
+
+* `write_union()` appends the novel `lines`, but does not remove duplicates
+  from existing lines (#583, @khailper).
+
+* `use_rcpp("foo")` now creates `src/foo.cpp` (#117).
+
+* `use_data()` gains a `version` argument and defaults to serialization format
+  version 2 (#675).
+
+* `use_data_raw()` accepts a name for the to-be-prepared dataset and opens a
+  templated R script (#646).
+
+* `browse_github()` now falls back to CRAN organisation (with a warning) if 
+  package doesn't have its own GitHub repo (#186).
+
+* `create_*()` restore the active project if they error part way through, 
+  and use `proj_activate()` (#453, #511).
+
+* `edit_r_profile()` and `edit_r_environ()` now respect environment variables
+  `R_PROFILE_USER` and `R_ENVIRON_USER`, respectively (#480).
 
 * `use_description()` once again prints the generated description (#287).
 
@@ -179,27 +225,15 @@ usethis gains tooling to manage part of a file. This currently used for managing
   allows `use_vignette()` to work even if the `VignetteBuilder` field is
   spread over multiple lines (#439).
 
-* `use_git_config()` now invisibly returns the previous values of the
-  settings.
-
-* `use_github()` and `create_from_github()` gain a `protocol` argument. The
-  default is still `"ssh"`, but it can be changed globally to `"https"` with 
-  `options(usethis.protocol = "https")`. (#494, @cderv)
-
-* `use_github_labels()` has been rewritten be more flexible. You can
-  now supply a repo name, and `descriptions`, and you can set 
-  colours/descriptions independently of creating labels. You can also `rename` 
-  existing labels (#290). 
-
 * `use_logo()` can override existing logo if user gives permission (#454).
-  It also produces retina approrpriate logos by default, and matches the 
+  It also produces retina appropriate logos by default, and matches the 
   aspect ratio to the <http://hexb.in/sticker.html> specification (#499).
 
 * `use_news_md()` will optionally commit.
 
 * `use_package()` gains a `min_version` argument to specify a minimum
   version requirement (#498). Set to `TRUE` to use the currently installed 
-  version (#386). This is used by `use_tidy()` in order to require version 
+  version (#386). This is used by `use_tidy_eval()` in order to require version 
   0.1.2 or greater of rlang (#484).
 
 * `use_pkgdown()` is now configurable with site options (@jayhesselberth, #467),
@@ -218,28 +252,32 @@ usethis gains tooling to manage part of a file. This currently used for managing
 * `use_tidy_versions()` has source argument so that you can choose to use
   local or CRAN versions (#309).
 
-* `use_travis()` gains an `ext` argument, defaulting to `"org"`. 
-  Use `ext = "com"` for `https://travis-ci.com`. (@cderv, #500)
+* `use_travis()` gains an `ext` argument, defaulting to `"org"`. Use
+  `ext = "com"` for `https://travis-ci.com` (@cderv, #500).
 
 * `use_version()` asks before committing.
 
 * `use_vignette()` now has a `title` argument which is used in YAML header
   (in the two places where it is needed). The vignettes also lose the default
-  author and date fields (@rorynolan, #445), and the RMarkdown starter material.
+  author and date fields (@rorynolan, #445), and the R Markdown starter material.
   They gain a standard setup chunk.
 
 * `use_version("dev")` now creates a standard "(development version)" heading
   in `NEWS.md` (#440).
 
-* withr moves from Suggests to Imports.
-
-* `use_vignette` now checks if the vignette name is valid (starts with letter 
+* `use_vignette()` now checks if the vignette name is valid (starts with letter
   and consists of letters, numbers, hyphen, and underscore) and throws an error 
   if not (@akgold, #555).
   
 * `restart_rstudio()` now returns `FALSE` in RStudio if no project is open,
   fixing an issue that caused errors in helpers that suggest restarting 
   RStudio (@gadenbuie, #571).
+
+## Dependency changes
+
+* withr moves from Suggests to Imports.
+
+* purrr and yaml are new in Imports.
 
 # usethis 1.4.0
 
@@ -258,7 +296,7 @@ These changes make it easier for others to extend usethis, i.e. to create workfl
 * `proj_path()` is newly exported. Use it to build paths within the active project. Like `proj_get()` and `proj_set()`, it is not aimed at end users, but rather for use in extension packages. End users should use [rprojroot](https://rprojroot.r-lib.org) or its simpler companion, [here](https://here.r-lib.org), to programmatically detect a project and
 build paths within it (#415, #425).
 
-* `edit_file()`, `write_over()`, and `write_union()` are newly exported helpers. They are mostly for internal use, but can also be useful in packages that extend or customize usethis (#344, #366, #389).
+  * `edit_file()`, `write_over()`, and `write_union()` are newly exported helpers. They are mostly for internal use, but can also be useful in packages that extend or customize usethis (#344, #366, #389).
 
 * `use_template()` no longer errors when a user chooses not to overwrite an existing file and simply exits with confirmation that the file is unchanged (#348, #350, @boshek).
 

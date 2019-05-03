@@ -3,14 +3,14 @@
 |field    |value                        |
 |:--------|:----------------------------|
 |version  |R version 3.5.3 (2019-03-11) |
-|os       |macOS Mojave 10.14.3         |
+|os       |macOS Mojave 10.14.4         |
 |system   |x86_64, darwin15.6.0         |
 |ui       |X11                          |
 |language |(EN)                         |
 |collate  |en_CA.UTF-8                  |
 |ctype    |en_CA.UTF-8                  |
-|tz       |America/Mexico_City          |
-|date     |2019-03-21                   |
+|tz       |America/Vancouver            |
+|date     |2019-04-05                   |
 
 # Dependencies
 
@@ -34,11 +34,11 @@
 |jsonlite   |1.6    |1.6        |   |
 |magrittr   |NA     |1.5        |*  |
 |mime       |0.6    |0.6        |   |
-|openssl    |1.2.2  |1.2.2      |   |
+|openssl    |1.3    |1.3        |   |
 |purrr      |NA     |0.3.2      |*  |
 |R6         |2.4.0  |2.4.0      |   |
 |Rcpp       |1.0.1  |1.0.1      |   |
-|rlang      |0.3.2  |0.3.2      |   |
+|rlang      |0.3.3  |0.3.3      |   |
 |rprojroot  |1.3-2  |1.3-2      |   |
 |rstudioapi |0.10   |0.10       |   |
 |sys        |3.1    |3.1        |   |
@@ -48,37 +48,15 @@
 
 # Revdeps
 
-## Broken (2)
+## Couldn't check (1)
 
-|package                                  |version |error  |warning |note |
-|:----------------------------------------|:-------|:------|:-------|:----|
-|[DataPackageR](problems.md#datapackager) |0.15.6  |__+2__ |__+1__  |     |
-|[exampletestr](problems.md#exampletestr) |1.4.1   |__+1__ |        |     |
+|package                    |version |error |warning |note |source                                      |
+|:--------------------------|:-------|:-----|:-------|:----|:-------------------------------------------|
+|[POUMM](problems.md#poumm) |2.1.5   |1     |        |     |[cran/POUMM](https://github.com/cran/POUMM) |
 
-## All (22)
+## Broken (1)
 
-|package                                                  |version |error  |warning |note |
-|:--------------------------------------------------------|:-------|:------|:-------|:----|
-|[cartools](problems.md#cartools)                         |0.1.0   |       |        |1    |
-|[codemetar](problems.md#codemetar)                       |0.1.7   |1      |        |1    |
-|[CongreveLamsdell2016](problems.md#congrevelamsdell2016) |1.0.1   |1      |        |     |
-|[DataPackageR](problems.md#datapackager)                 |0.15.6  |__+2__ |__+1__  |     |
-|devtools                                                 |2.0.1   |       |        |     |
-|[exampletestr](problems.md#exampletestr)                 |1.4.1   |__+1__ |        |     |
-|[fakemake](problems.md#fakemake)                         |1.4.0   |       |        |1    |
-|gitgadget                                                |0.4.0   |       |        |     |
-|[KSPM](problems.md#kspm)                                 |0.1.1   |       |        |1    |
-|piggyback                                                |0.0.10  |       |        |     |
-|pkgverse                                                 |0.0.1   |       |        |     |
-|[prodigenr](problems.md#prodigenr)                       |0.4.0   |       |        |1    |
-|Quartet                                                  |1.0.2   |       |        |     |
-|[riskclustr](problems.md#riskclustr)                     |0.1.0   |       |        |1    |
-|rsimsum                                                  |0.5.1   |       |        |     |
-|[rstanarm](problems.md#rstanarm)                         |2.18.2  |       |1       |3    |
-|[spectrolab](problems.md#spectrolab)                     |0.0.8   |       |        |1    |
-|testthat                                                 |2.0.1   |       |        |     |
-|testthis                                                 |1.0.4   |       |        |     |
-|uCAREChemSuiteCLI                                        |0.1.2   |       |        |     |
-|[vdiffr](problems.md#vdiffr)                             |0.3.0   |       |        |1    |
-|vegawidget                                               |0.1.0   |       |        |     |
+|package                                  |version |error  |warning |note |source                                                    |
+|:----------------------------------------|:-------|:------|:-------|:----|:---------------------------------------------------------|
+|[exampletestr](problems.md#exampletestr) |1.4.1   |__+1__ |        |     |[cran/exampletestr](https://github.com/cran/exampletestr) |
 

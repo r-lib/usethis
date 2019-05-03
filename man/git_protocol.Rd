@@ -27,7 +27,7 @@ usethis supports SSH and HTTPS. The protocol affects two things:
 \item \code{protocol = "https"} implies \code{https://github.com/<OWNER>/<REPO>.git}
 }
 \item The strategy for creating \code{credentials} when none are given. See
-\code{\link[=git2r_credentials]{git2r_credentials()}} for details.
+\code{\link[=git_credentials]{git_credentials()}} for details.
 Two helper functions are available:
 \item \code{git_protocol()} returns the user's preferred protocol, if known, and,
 otherwise, asks the user (interactive session) or defaults to SSH

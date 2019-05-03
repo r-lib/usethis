@@ -9,7 +9,7 @@ git_init <- function() {
   git2r::init(proj_get())
 }
 
-git_pull <- function(remote_branch = git_branch_tracking(),
+git_pull <- function(remote_branch = git_branch_tracking_FIXME(),
                      credentials = NULL) {
   repo <- git_repo()
 
@@ -22,14 +22,14 @@ git_pull <- function(remote_branch = git_branch_tracking(),
   )
   mr <- git2r::merge(repo, remote_branch)
   if (isTRUE(mr$conflicts)) {
-    stop("Merge conflict! Please resolve before continuing", call. = FALSE)
+    ui_stop("Merge conflict! Please resolve before continuing")
   }
 
   invisible()
 }
 
-git_status <- function() {
-  git2r::status(git_repo())
+git_status <- function(...) {
+  git2r::status(..., repo = git_repo())
 }
 
 uses_git <- function(path = proj_get()) {
@@ -37,12 +37,6 @@ uses_git <- function(path = proj_get()) {
 }
 
 # Remotes ------------------------------------------------------------------
-git_remotes <- function() {
-  repo <- git_repo()
-  rnames <- git2r::remotes(repo)
-  if (length(rnames) == 0) return(NULL)
-  stats::setNames(as.list(git2r::remote_url(repo, rnames)), rnames)
-}
 
 git_remote_find <- function(rname = "origin") {
   remotes <- git_remotes()
@@ -118,13 +112,20 @@ git_branch_exists <- function(branch) {
 }
 
 git_branch_tracking <- function(branch = git_branch_name()) {
+    b <- git_branch(name = branch)
+    git2r::branch_get_upstream(b)$name
+}
+
+## FIXME: this function is 50% "actual tracking branch" and
+## 50% "what we think tracking branch should be"
+## different uses need to be untangled, then we can give a better name
+git_branch_tracking_FIXME <- function(branch = git_branch_name()) {
   if (identical(branch, "master") && git_is_fork()) {
     # We always pretend that the master branch of a fork tracks the
     # master branch in the source repo
     "upstream/master"
   } else {
-    b <- git_branch(name = branch)
-    git2r::branch_get_upstream(b)$name
+    git_branch_tracking(branch)
   }
 }
 
@@ -141,7 +142,7 @@ git_branch_switch <- function(branch) {
 git_branch_compare <- function(branch = git_branch_name()) {
   repo <- git_repo()
 
-  remref <- git_branch_tracking(branch)
+  remref <- git_branch_tracking_FIXME(branch)
   git2r::fetch(
     repo,
     name = remref_remote(remref),
@@ -175,7 +176,7 @@ git_branch_push <- function(branch = git_branch_name(),
 }
 
 git_branch_remote <- function(branch = git_branch_name()) {
-  remote <- git_branch_tracking(branch)
+  remote <- git_branch_tracking_FIXME(branch)
   if (is.null(remote)) {
     list(
       remote_name   = "origin",
@@ -258,7 +259,7 @@ check_branch <- function(branch) {
 }
 
 check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
-  remote <- git_branch_tracking(branch)
+  remote <- git_branch_tracking_FIXME(branch)
   ui_done(
     "Checking that local branch {ui_value(branch)} has the changes \\
      in {ui_value(remote)}"
@@ -277,8 +278,11 @@ check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
 
 check_branch_pushed <- function(branch = git_branch_name(), use = "git push") {
   local <- paste0("local/", branch)
-  remote <- git_branch_tracking(branch)
-  ui_done("Checking that {ui_value(remote)} has changes in {ui_value(local)}")
+  remote <- git_branch_tracking_FIXME(branch)
+  ui_done(
+    "Checking that remote branch {ui_value(remote)} has the changes \\
+     in {ui_value(local)}"
+  )
 
   diff <- git_branch_compare(branch)
   if (diff[[1]] == 0) {
@@ -317,7 +321,8 @@ git_config <- function(..., .repo = NULL) {
   values <- list(...)
 
   if (is.null(.repo)) {
-    old <- git2r::config()$global[names(values)]
+    old <- git2r::config()$global %||% list()
+    old <- old[names(values)]
     do.call(git2r::config, c(list(global = TRUE), values))
   } else {
     old <- git2r::config(.repo)$local[names(values)]
@@ -327,17 +332,3 @@ git_config <- function(..., .repo = NULL) {
   names(old) <- names(values)
   invisible(old)
 }
-
-
-# Auth --------------------------------------------------------------------
-
-git_has_ssh <- function() {
-  tryCatch(
-    error = function(err) FALSE,
-    {
-      git2r::cred_ssh_key()
-      TRUE
-    }
-  )
-}
-

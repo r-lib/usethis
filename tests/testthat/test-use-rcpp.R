@@ -2,7 +2,7 @@ context("use_rcpp")
 
 test_that("use_rcpp() requires a package", {
   scoped_temporary_project()
-  expect_error(use_rcpp(), "not an R package")
+  expect_usethis_error(use_rcpp(), "not an R package")
 })
 
 test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {

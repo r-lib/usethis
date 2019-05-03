@@ -52,7 +52,7 @@ They are designed to support the git and GitHub best practices described in
 These functions make heavy use of git2r and the GitHub API. You'll need a
 GitHub personal access token (PAT); see \code{\link[=browse_github_token]{browse_github_token()}} for help
 with that. If git2r does not seem to be finding your git credentials, read
-\code{\link[=git2r_credentials]{git2r_credentials()}} for troubleshooting advice. The transport protocol
+\code{\link[=git_credentials]{git_credentials()}} for troubleshooting advice. The transport protocol
 (SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.
 }
 
@@ -73,7 +73,7 @@ Make the changes, then run \code{pr_push()} to sync back up to GitHub.
 
 It's also possible that the maintainer will contribute some code to your
 PR: you get that code back to your computer, run \code{pr_pull()}. It's also
-possible that other changes have occured to the package while you've been
+possible that other changes have occurred to the package while you've been
 working on your PR, and you need to "merge master". Do that by running
 \code{pr_pull_upstream()}: this makes sure that your copy of the package is
 up-to-date with the maintainer's latest changes. Either of the pull
@@ -94,7 +94,7 @@ to delete the local branch.
 \itemize{
 \item \code{pr_sync()} is a shortcut for \code{pr_pull()}, \code{pr_pull_upstream()}, and
 \code{pr_push()}
-\item \code{pr_pause()} makes sure you're synched with the PR and then switches
+\item \code{pr_pause()} makes sure you're synced with the PR and then switches
 back to master.
 \item \code{pr_view()} opens the PR in the browser
 }

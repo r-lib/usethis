@@ -49,7 +49,7 @@ test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
   ## yes the version numbers for R and curl are just a coincidence
   skip_if(getRversion() < 3.2 && packageVersion("curl") < 3.2)
 
-  expect_error(
+  expect_usethis_error(
     download_zip("https://httpbin.org/get"),
     "does not have MIME type"
   )
@@ -74,7 +74,7 @@ test_that("parse_content_disposition() parses Content-Description", {
 })
 
 test_that("parse_content_disposition() errors on ill-formed `content-disposition` header", {
-  expect_error(
+  expect_usethis_error(
     parse_content_disposition("aa;bb=cc;dd"),
     "doesn't start with"
   )

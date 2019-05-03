@@ -3,11 +3,11 @@ context("use_license")
 test_that("find_name() errors when no name seems to be intentionally set", {
   withr::with_options(
     list(usethis.full_name = NULL, devtools.name = NULL),
-    expect_error(find_name(), ".*name.* argument is missing")
+    expect_usethis_error(find_name(), ".*name.* argument is missing")
   )
   withr::with_options(
     list(usethis.full_name = NULL, devtools.name = "Your name goes here"),
-    expect_error(find_name(), ".*name.* argument is missing")
+    expect_usethis_error(find_name(), ".*name.* argument is missing")
   )
 })
 

@@ -63,8 +63,8 @@ gh::gh(
 # }
 use_github()
 
-## cleanup
-proj_set("~/rrr/usethis")
+## restore initial project, presunably usethis itself
+proj_set(rstudioapi::getActiveProject())
 setwd(proj_get())
 proj_sitrep()
 

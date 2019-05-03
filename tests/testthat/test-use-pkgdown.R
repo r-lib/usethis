@@ -2,7 +2,7 @@ context("use_pkgdown")
 
 test_that("use_pkgdown() requires a package", {
   scoped_temporary_project()
-  expect_error(use_pkgdown(), "not an R package")
+  expect_usethis_error(use_pkgdown(), "not an R package")
 })
 
 test_that("use_pkgdown() creates and ignores the promised file/dir", {

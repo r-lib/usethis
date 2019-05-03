@@ -1,9 +1,12 @@
 ## Test environments
 
-* local: darwin15.6.0-3.5.1
-* travis: 3.1, 3.2, 3.3, oldrel, release, devel
+* local macOS Mojave 10.14.4 + R 3.5.3 (2019-03-11)
+* win-builder: devel and release
 * r-hub: windows-x86_64-devel, ubuntu-gcc-release, fedora-clang-devel
-* win-builder: windows-x86_64-devel
+* travis-ci:
+  - Ubuntu trusty (14.04.5 LTS)
+  - devel, release, oldrel, 3.3, 3.2, 3.1
+* appveyor: Windows Server 2012 + R 3.5.3 Patched (2019-03-11 r76275)
 
 ## R CMD check results
 
@@ -11,12 +14,25 @@
 
 ## revdepcheck results
 
-We checked 6 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 28 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
-2 of 6 pass R CMD check with no NOTEs, WARNINGS, or ERRORs: testthis, uCAREChemSuiteCLI
+ * We saw 1 new problem
+ * We failed to check 2 packages
+ 
+The problem seen in exampletestr is a single failing test and I believe the test just needs to be rewritten. I've corresponded with the maintainer and he'll fix
+when he is back at work (in next couple weeks).
 
-3 of 6 have a NOTE, but the NOTE is present with both the CRAN version of usethis and the current submission (it has nothing to do with usethis): codemetar, fakemake, prodigenr
+Issues with CRAN packages are summarised below.
 
-1 of 6 shows an ERROR but the ERROR is present with both the CRAN version of usethis and the current submission (it has nothing to do with usethis): rstantools
+### New problems
+(This reports the first line of each new failure)
+
+* exampletestr
+  checking tests ...
+
+### Failed to check
+
+* POUMM
+* BIOMASS
 
 See our revdep check results at <https://github.com/r-lib/usethis/tree/master/revdep>.

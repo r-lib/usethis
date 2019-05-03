@@ -6,8 +6,12 @@
 #'
 #' This function can be used as the engine for a templating function in other
 #' packages. The `template` argument is used along with the `package` argument
-#' to determine the path to your template file; it will be expected at
-#' `system.file("templates", template, package = package)`.
+#' to derive the path to your template file; it will be expected at
+#' `fs::path_package(package = package, "templates", template)`. We use
+#' `fs::path_package()` instead of `base::system.file()` so that path
+#' construction works even in a development workflow, e.g., works with
+#' `devtools::load_all()` or `pkgload::load_all()`. *Note this describes the
+#' behaviour of `fs::path_package()` in fs v1.2.7.9001 and higher.*
 #'
 #' To interpolate your data into the template, supply a list using
 #' the `data` argument. Internally, this function uses
@@ -59,7 +63,16 @@ render_template <- function(template, data = list(), package = "usethis") {
 }
 
 find_template <- function(template_name, package = "usethis") {
-  path <- system.file("templates", template_name, package = package)
+  ## TODO: remove this once we can increment min version of fs and use
+  ## fs::path_package() unconditionally
+  path <- if (utils::packageVersion("fs") > "1.2.7") {
+    tryCatch(
+      path_package(package = package, "templates", template_name),
+      error = function(e) ""
+    )
+  } else {
+    system.file("templates", template_name, package = package)
+  }
   if (identical(path, "")) {
     ui_stop(
       "Could not find template {ui_value(template_name)}\\

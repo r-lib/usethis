@@ -17,20 +17,14 @@ Invisibly, the previous values of the modified components.
 }
 \description{
 Sets Git options, for either the user or the project ("global" or "local", in
-Git terminology). The mandate is currently very narrow: to manage the user
-name and email. The \code{scope} argument is consulted when writing. When reading,
-\code{use_git_config()} ignores \code{scope} and simply reports the options in effect,
-where local config overrides global, if present. Use \code{\link[git2r:config]{git2r::config()}}
-directly or the command line for general Git configuration.
+Git terminology).
 }
 \examples{
 \dontrun{
-git_sitrep()
-
-## set the user's global user.name and user.email
+# set the user's global user.name and user.email
 use_git_config(user.name = "Jane", user.email = "jane@example.org")
 
-## set the user.name and user.email locally, i.e. for current repo/project
+# set the user.name and user.email locally, i.e. for current repo/project
 use_git_config(
   scope = "project",
   user.name = "Jane",

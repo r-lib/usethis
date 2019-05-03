@@ -13,7 +13,7 @@ can_overwrite <- function(path) {
 check_is_named_list <- function(x, nm = deparse(substitute(x))) {
   if (!rlang::is_list(x)) {
     bad_class <- paste(class(x), collapse = "/")
-    ui_stop("{ui_code(nm)} must be a list, not {bad_class}.")
+    ui_stop("{ui_code(nm)} must be a list, not {ui_value(bad_class)}.")
   }
   if (!rlang::is_dictionaryish(x)) {
     ui_stop(

@@ -104,7 +104,7 @@ create_project <- function(path,
 #' by [use_github()], which connects existing local projects to GitHub.
 #'
 #' @seealso [use_github()] for GitHub setup advice. [git_protocol()] and
-#'   [git2r_credentials()] for background on `protocol` and `credentials`.
+#'   [git_credentials()] for background on `protocol` and `credentials`.
 #'   [use_course()] for one-time download of all files in a Git repo, without
 #'   any local or remote Git operations.
 #'
@@ -115,10 +115,11 @@ create_project <- function(path,
 #' @param fork If `TRUE`, we create and clone a fork. If `FALSE`, we clone
 #'   `repo_spec` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT)
 #'   is provided or preconfigured. Otherwise, defaults to `FALSE` if you can
-#'   push to `repo_spec` and `TRUE` if you cannot. If a fork is created, the
+#'   push to `repo_spec` and `TRUE` if you cannot. In the case of a fork, the
 #'   original target repo is added to the local repo as the `upstream` remote,
-#'   using your preferred `protocol`, to make it easier to pull upstream changes
-#'   in the future.
+#'   using the preferred `protocol`. The `master` branch is immediately pulled
+#'   from `upstream`, which matters in the case of a pre-existing, out-of-date
+#'   fork.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'    Defaults to `TRUE` if in an RStudio session and project has no
@@ -150,9 +151,7 @@ create_from_github <- function(repo_spec,
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  pat_available <- auth_token != ""
-  user <- if (pat_available) github_user()[["login"]] else NULL
-  credentials <- credentials %||% git2r_credentials(protocol, auth_token)
+  auth_token <- check_github_token(auth_token, allow_empty = TRUE)
 
   gh <- function(endpoint, ...) {
     gh::gh(
@@ -165,7 +164,7 @@ create_from_github <- function(repo_spec,
 
   repo_info <- gh("GET /repos/:owner/:repo", owner = owner, repo = repo)
 
-  fork <- rationalize_fork(fork, repo_info, pat_available, user)
+  fork <- rationalize_fork(fork, repo_info, auth_token)
   if (fork) {
     ## https://developer.github.com/v3/repos/forks/#create-a-fork
     ui_done("Forking {ui_value(repo_info$full_name)}")
@@ -175,7 +174,8 @@ create_from_github <- function(repo_spec,
       ssh = repo_info$ssh_url
     )
     repo_info <- gh(
-      "POST /repos/:owner/:repo/forks", owner = owner, repo = repo
+      "POST /repos/:owner/:repo/forks",
+      owner = owner, repo = repo
     )
   }
 
@@ -186,6 +186,7 @@ create_from_github <- function(repo_spec,
   )
 
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
+  credentials <- credentials %||% git_credentials(protocol, auth_token)
   git2r::clone(
     origin_url,
     repo_path,
@@ -199,6 +200,9 @@ create_from_github <- function(repo_spec,
     r <- git2r::repository(proj_get())
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     git2r::remote_add(r, "upstream", upstream_url)
+    pr_pull_upstream()
+    config_key <- glue("remote.upstream.created-by")
+    git_config_set(config_key, "usethis::create_from_github")
   }
 
   rstudio <- rstudio %||% rstudioapi::isAvailable()
@@ -240,22 +244,24 @@ check_not_nested <- function(path, name) {
   invisible()
 }
 
-rationalize_fork <- function(fork, repo_info, pat_available, user = NULL) {
-
-  perms <- repo_info$permissions
-  owner <- repo_info$owner$login
+rationalize_fork <- function(fork, repo_info, auth_token) {
+  have_token <- have_github_token(auth_token)
+  can_push <- isTRUE(repo_info$permissions$push)
+  repo_owner <- repo_info$owner$login
+  user <- if (have_token) github_user(auth_token)[["login"]]
 
   if (is.na(fork)) {
-    fork <- pat_available && !isTRUE(perms$push)
+    fork <- have_token && !can_push
   }
 
-  if (fork && !pat_available) {
-    check_github_token(auth_token = NULL)
+  if (fork && !have_token) {
+    ## throw the usual error for bad/missing token
+    check_github_token(auth_token)
   }
 
-  if (fork && identical(user, owner)) {
+  if (fork && identical(user, repo_owner)) {
     ui_stop(
-      "Repo {ui_value(repo_info$full_name)} is owned by user\\
+      "Repo {ui_value(repo_info$full_name)} is owned by user \\
       {ui_value(user)}. Can't fork."
     )
   }

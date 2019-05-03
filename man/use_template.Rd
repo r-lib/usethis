@@ -34,8 +34,12 @@ inspection.
 \details{
 This function can be used as the engine for a templating function in other
 packages. The \code{template} argument is used along with the \code{package} argument
-to determine the path to your template file; it will be expected at
-\code{system.file("templates", template, package = package)}.
+to derive the path to your template file; it will be expected at
+\code{fs::path_package(package = package, "templates", template)}. We use
+\code{fs::path_package()} instead of \code{base::system.file()} so that path
+construction works even in a development workflow, e.g., works with
+\code{devtools::load_all()} or \code{pkgload::load_all()}. \emph{Note this describes the
+behaviour of \code{fs::path_package()} in fs v1.2.7.9001 and higher.}
 
 To interpolate your data into the template, supply a list using
 the \code{data} argument. Internally, this function uses
