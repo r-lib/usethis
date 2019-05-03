@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_make()` and `use_jenkins()` add a Makefile and Jenkinsfile, respectively
+  (@ryapric, #501) 
+
 # usethis 1.5.0
 
 ## Git, GitHub (and GitLab)
