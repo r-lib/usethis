@@ -127,7 +127,13 @@
     <loc>https://usethis.r-lib.org/reference/use_github_release.html</loc>
   </url>
   <url>
+    <loc>https://usethis.r-lib.org/reference/use_jenkins.html</loc>
+  </url>
+  <url>
     <loc>https://usethis.r-lib.org/reference/use_logo.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/use_make.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/use_namespace.html</loc>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Report working directory and usethis/RStudio project — proj_sitrep • usethis</title>
+<title>Create Makefile — use_make • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -43,18 +43,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Report working directory and usethis/RStudio project — proj_sitrep" />
+<meta property="og:title" content="Create Makefile — use_make" />
 
-<meta property="og:description" content="proj_sitrep() reports
-current working directory
-the active usethis project
-the active RStudio Project
-" />
-
-<meta property="og:description" content="Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and proj_sitrep() provides suggested commands for getting
-back to this happy state." />
+<meta property="og:description" content="use_make() adds a basic Makefile to the project root directory." />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -155,57 +146,31 @@ back to this happy state." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Report working directory and usethis/RStudio project</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/sitrep.R'><code>R/sitrep.R</code></a></small>
-    <div class="hidden name"><code>proj_sitrep.Rd</code></div>
+    <h1>Create Makefile</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/make.R'><code>R/make.R</code></a></small>
+    <div class="hidden name"><code>use_make.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>proj_sitrep()</code> reports</p><ul>
-<li><p>current working directory</p></li>
-<li><p>the active usethis project</p></li>
-<li><p>the active RStudio Project</p></li>
-</ul>
-
-    <p>Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and <code>proj_sitrep()</code> provides suggested commands for getting
-back to this happy state.</p>
+    <p><code>use_make()</code> adds a basic Makefile to the project root directory.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>proj_sitrep</span>()</pre>
+    <pre class="usage"><span class='fu'>use_make</span>()</pre>
         
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A named list, with S3 class <code>sitrep</code> (for printing purposes),
-reporting current working directory, active usethis project, and active
-RStudio Project</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other project functions: <code><a href='proj_utils.html'>proj_utils</a></code></p></div>
+    <div class='dont-index'><p>The <a href='https://www.gnu.org/software/make/manual/html_node'>documentation for GNU Make</a>.</p></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; *   working_directory: <span style='color: #0000BB;'>'/tmp/RtmpyDRVzK/file4332692b04ea/dev/reference'</span><span>
-#&gt; * active_usethis_proj: </span><span style='color: #0000BB;'>'/tmp/RtmpyDRVzK/file4332692b04ea'</span><span>
-#&gt; * active_rstudio_proj: </span><span style='color: #555555;'>&lt;unset&gt;</span><span>
-#&gt; </span><span style='color: #BB0000;'>●</span><span> Your working directory is not the same as the active usethis project.
-#&gt;   Set working directory to the project: </span><span style='color: #555555;'>`setwd(proj_get())`</span><span>
-#&gt;   Set project to working directory:     </span><span style='color: #555555;'>`proj_set(getwd())`</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
