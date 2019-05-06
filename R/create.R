@@ -108,6 +108,29 @@ create_project <- function(path,
 #'   [use_course()] for one-time download of all files in a Git repo, without
 #'   any local or remote Git operations.
 #'
+#' @section Using SSH Keys on Windows:
+#' If you are a Windows user and want to use SSH keys to authenticate to Github,
+#' we advise that you explicitly specify the paths to your keys and register them
+#' in the current R session.
+#'
+#' Note: *This is for SSH authentication only.*
+#'
+#' In the snippet below, replace <USERNAME> with your Windows username. Replace
+#' <OWNER/REPO> with the appropriate GitHub specificaction.
+#'
+#'```
+#' use_git_protocol("ssh")
+#'
+#' creds <- git2r::cred_ssh_key(publickey = "C:/Users/<USERNAME>/.ssh/id_rsa.pub",
+#'                              privatekey = "C:/Users/<USERNAME>/.ssh/id_rsa",
+#'                              passphrase = character(0))
+#'
+#' use_git_credentials(credentials = creds)
+#'
+#' create_from_github(repo_spec = "<OWNER/REPO>",
+#'                    destdir = "C:/Users/<USERNAME>/Desktop")
+#'```
+#'
 #' @inheritParams create_package
 #' @param repo_spec GitHub repo specification in this form: `owner/repo`. The
 #'   `repo` part will be the name of the new local repo.
