@@ -128,17 +128,20 @@ test_that("proj_sitrep() reports current working/project state", {
   )
 })
 
-test_that("with_project() runs code in temp proj, restores original proj", {
+test_that("with_project() runs code in temp proj, restores (lack of) proj", {
   old_project <- proj_get_()
   on.exit(proj_set_(old_project))
 
-  create_project(file_temp(pattern = "aaa"), rstudio = FALSE, open = FALSE)
-  new_proj <- proj_get()
+  temp_proj <- create_project(
+    file_temp(pattern = "TEMPPROJ"), rstudio = FALSE, open = FALSE
+  )
+
   proj_set_(NULL)
+  expect_identical(proj_get_(), NULL)
 
-  res <- with_project(new_proj, proj_sitrep())
+  res <- with_project(path = temp_proj, proj_get_())
 
-  expect_identical(res[["active_usethis_proj"]], as.character(new_proj))
+  expect_identical(res, temp_proj)
   expect_identical(proj_get_(), NULL)
 })
 
