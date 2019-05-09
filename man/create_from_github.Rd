@@ -55,6 +55,32 @@ recommended that you pre-configure or pass a GitHub personal access token
 is required in order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}. It is also required
 by \code{\link[=use_github]{use_github()}}, which connects existing local projects to GitHub.
 }
+\section{Using SSH Keys on Windows}{
+
+If you are a Windows user who connects to GitHub using SSH, as opposed to
+HTTPS, you may need to explicitly specify the paths to your keys and register
+this credential in the current R session. This helps if git2r, which usethis
+uses for Git operations, does not automatically find your keys or handle your
+passphrase.
+
+In the snippet below, do whatever is necessary to make the paths correct,
+e.g., replace \code{<USERNAME>} with your Windows username. Omit the \code{passphrase}
+part if you don't have one. Replace \code{<OWNER/REPO>} with the appropriate
+GitHub specification. You get the idea.\preformatted{creds <- git2r::cred_ssh_key(
+  publickey  = "C:/Users/<USERNAME>/.ssh/id_rsa.pub",
+  privatekey = "C:/Users/<USERNAME>/.ssh/id_rsa",
+  passphrase = character(0)
+)
+use_git_protocol("ssh")
+use_git_credentials(credentials = creds)
+
+create_from_github(
+  repo_spec = "<OWNER/REPO>",
+  ...
+)
+}
+}
+
 \examples{
 \dontrun{
 create_from_github("r-lib/usethis")

@@ -50,7 +50,7 @@ test_that("use_description_field() can address an existing field", {
   )
   expect_identical(orig, tools::md5sum(proj_path("DESCRIPTION")))
 
-  expect_error(
+  expect_usethis_error(
     use_description_field(
       name = "Version",
       value = "1.1.1",
@@ -80,4 +80,32 @@ test_that("use_description_field() ignores whitespace", {
   use_description_field(name = "foo", value = "\n bar")
   use_description_field(name = "foo", value = "bar")
   expect_identical(c(foo = "\n bar"), desc::desc_get("foo", pkg))
+})
+
+test_that("valid_package_name() enforces valid package names", {
+  # Contain only ASCII letters, numbers, and '.'
+  # Have at least two characters
+  # Start with a letter
+  # Not end with '.'
+
+  expect_true(valid_package_name("aa"))
+  expect_true(valid_package_name("a7"))
+  expect_true(valid_package_name("a.2"))
+
+  expect_false(valid_package_name("a"))
+  expect_false(valid_package_name("a-2"))
+  expect_false(valid_package_name("2fa"))
+  expect_false(valid_package_name(".fa"))
+  expect_false(valid_package_name("aa\u00C0")) # \u00C0 is a-grave
+  expect_false(valid_package_name("a3."))
+})
+
+test_that("valid_file_name() enforces valid file names", {
+  # Contain only ASCII letters, numbers, '-', and '_'
+  expect_true(valid_file_name("aa.R"))
+  expect_true(valid_file_name("a7.R"))
+  expect_true(valid_file_name("a-2.R"))
+  expect_true(valid_file_name("a_2.R"))
+  expect_false(valid_file_name("aa\u00C0.R")) # \u00C0 is a-grave
+  expect_false(valid_file_name("a?3.R"))
 })

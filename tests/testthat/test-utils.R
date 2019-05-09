@@ -4,9 +4,9 @@ test_that("check_is_named_list() works", {
   l <- list(a = "a", b = 2, c = letters)
   expect_identical(l, check_is_named_list(l))
 
-  expect_error(check_is_named_list(NULL), "must be a list")
-  expect_error(check_is_named_list(c(a = "a", b = "b")), "must be a list")
-  expect_error(check_is_named_list(list("a", b = 2)), "Names of .+ must be")
+  expect_usethis_error(check_is_named_list(NULL), "must be a list")
+  expect_usethis_error(check_is_named_list(c(a = "a", b = "b")), "must be a list")
+  expect_usethis_error(check_is_named_list(list("a", b = 2)), "Names of .+ must be")
 })
 
 test_that("asciify() substitutes non-ASCII but respects case", {

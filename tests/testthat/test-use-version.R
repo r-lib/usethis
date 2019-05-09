@@ -9,8 +9,8 @@ test_that("bump_version() presents all possible incremented versions", {
 
 test_that("use_version() and use_dev_version() require a package", {
   scoped_temporary_project()
-  expect_error(use_version("major"), "not an R package")
-  expect_error(use_dev_version(), "not an R package")
+  expect_usethis_error(use_version("major"), "not an R package")
+  expect_usethis_error(use_dev_version(), "not an R package")
 })
 
 test_that("use_version() errors for invalid `which`", {

@@ -2,6 +2,9 @@
 
 * `use_tidy_ci()` updated for R 3.6 (support for R 3.1 is officially sunsetted)
 
+* `use_make()` and `use_jenkins()` add a Makefile and Jenkinsfile, respectively
+  (@ryapric, #501) 
+
 # usethis 1.5.0
 
 ## Git, GitHub (and GitLab)
