@@ -165,6 +165,23 @@ test_that("with_project() runs code in temp proj, restores original proj", {
   expect_identical(proj_get(), host)
 })
 
+test_that("with_project() works when temp proj == original proj", {
+  old_project <- proj_get_()
+  on.exit(proj_set_(old_project))
+
+  host <- create_project(
+    file_temp(pattern = "host"), rstudio = FALSE, open = FALSE
+  )
+
+  proj_set(host)
+  expect_identical(proj_get_(), host)
+
+  res <- with_project(path = host, proj_get_())
+
+  expect_identical(res, host)
+  expect_identical(proj_get(), host)
+})
+
 test_that("local_project() activates proj til scope ends", {
   old_project <- proj_get_()
   on.exit(proj_set_(old_project))
