@@ -230,6 +230,30 @@ GitHub enterprise instance, for example,
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="using-ssh-keys-on-windows"><a class="anchor" href="#using-ssh-keys-on-windows"></a>Using SSH Keys on Windows</h2>
+
+    
+    <p>If you are a Windows user who connects to GitHub using SSH, as opposed to
+HTTPS, you may need to explicitly specify the paths to your keys and register
+this credential in the current R session. This helps if git2r, which usethis
+uses for Git operations, does not automatically find your keys or handle your
+passphrase.</p>
+<p>In the snippet below, do whatever is necessary to make the paths correct,
+e.g., replace <code>&lt;USERNAME&gt;</code> with your Windows username. Omit the <code>passphrase</code>
+part if you don't have one. Replace <code>&lt;OWNER/REPO&gt;</code> with the appropriate
+GitHub specification. You get the idea.</p><pre>creds &lt;- git2r::cred_ssh_key(
+  publickey  = "C:/Users/&lt;USERNAME&gt;/.ssh/id_rsa.pub",
+  privatekey = "C:/Users/&lt;USERNAME&gt;/.ssh/id_rsa",
+  passphrase = character(0)
+)
+use_git_protocol("ssh")
+use_git_credentials(credentials = creds)
+    create_from_github(
+  repo_spec = "&lt;OWNER/REPO&gt;",
+  ...
+)
+</pre>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='use_github.html'>use_github()</a></code> for GitHub setup advice. <code><a href='git_protocol.html'>git_protocol()</a></code> and
@@ -248,6 +272,8 @@ any local or remote Git operations.</p></div>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#using-ssh-keys-on-windows">Using SSH Keys on Windows</a></li>
+
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
