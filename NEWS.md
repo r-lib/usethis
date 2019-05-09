@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_tidy_ci()` updated for R 3.6 (support for R 3.1 is officially sunsetted)
+
 * `use_make()` and `use_jenkins()` add a Makefile and Jenkinsfile, respectively
   (@ryapric, #501) 
 
