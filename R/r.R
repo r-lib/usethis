@@ -30,7 +30,7 @@ check_file_name <- function(name) {
 }
 
 valid_file_name <- function(x) {
-  grepl("^[[:alnum:]_-]+$", x)
+  grepl("^[a-zA-Z0-9._-]+$", x)
 }
 
 get_active_r_file <- function(path = "R") {
