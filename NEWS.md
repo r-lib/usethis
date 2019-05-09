@@ -5,6 +5,10 @@
 * `use_make()` and `use_jenkins()` add a Makefile and Jenkinsfile, respectively
   (@ryapric, #501) 
 
+## Dependency changes
+
+* fs minimum version is now v1.3.0.
+
 # usethis 1.5.0
 
 ## Git, GitHub (and GitLab)
