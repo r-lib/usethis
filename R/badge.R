@@ -116,7 +116,7 @@ stages <- c(
 use_binder_badge <- function() {
   if (uses_github()) {
     url <- glue("https://mybinder.org/v2/gh/{github_repo_spec()}/master")
-    img <- "http://mybinder.org/badge.svg"
+    img <- "https://mybinder.org/badge_logo.svg"
     use_badge("Launch binder", url, img)
   }
 

@@ -131,19 +131,19 @@ test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
   tmp <- file_temp(ext = ".zip")
   file_copy(test_file("yo-loose-regular.zip"), tmp)
   dest <- tidy_unzip(tmp)
-  loose_regular_files <- path_file(dir_ls(dest, recursive = TRUE))
+  loose_regular_files <- path_file(dir_ls(dest, recurse = TRUE))
   dir_delete(dest)
 
   tmp <- file_temp(ext = ".zip")
   file_copy(test_file("yo-loose-dropbox.zip"), tmp)
   dest <- tidy_unzip(tmp)
-  loose_dropbox_files <- path_file(dir_ls(dest, recursive = TRUE))
+  loose_dropbox_files <- path_file(dir_ls(dest, recurse = TRUE))
   dir_delete(dest)
 
   tmp <- file_temp(ext = ".zip")
   file_copy(test_file("yo-not-loose.zip"), tmp)
   dest <- tidy_unzip(tmp)
-  not_loose_files <- path_file(dir_ls(dest, recursive = TRUE))
+  not_loose_files <- path_file(dir_ls(dest, recurse = TRUE))
   dir_delete(dest)
 
   expect_identical(loose_regular_files, loose_dropbox_files)

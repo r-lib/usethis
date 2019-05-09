@@ -110,7 +110,7 @@ devtools::load_all("")
 
 ## ZIP from GitHub (it's a package, but you get the idea)
 rematch2 <- use_course("https://github.com/r-lib/rematch2/archive/master.zip")
-dir_ls(rematch2, all = TRUE, recursive = TRUE)
+dir_ls(rematch2, all = TRUE, recurse = TRUE)
 
 devtools::load_all("")
 
@@ -120,7 +120,7 @@ hadley <- use_course(
 )
 )
 
-dir_ls(hadley, all = TRUE, recursive = TRUE)
+dir_ls(hadley, all = TRUE, recurse = TRUE)
 
 rematch2 <- use_course("github.com/r-lib/rematch2/archive/master.zip")
 use_course("rstd.io/usethis-src")
