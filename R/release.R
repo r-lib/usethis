@@ -64,6 +64,7 @@ release_checklist <- function(version) {
     "Submit to CRAN:",
     "",
     todo("`usethis::use_version('{type}')`"),
+    todo('`usethis_use_tidy_versions(TRUE, "CRAN")`'),
     todo("Update `cran-comments.md`"),
     todo("`devtools::submit_cran()`"),
     todo("Approve email"),
