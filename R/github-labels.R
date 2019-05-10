@@ -89,21 +89,24 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   }
 
   cur_labels <- gh("GET /repos/:owner/:repo/labels")
-  cur_label_names <- purrr::map_chr(cur_labels, "name")
+  label_attr <- function(x, l, mapper = purrr::map_chr) {
+    mapper(l, x, .default = NA)
+  }
 
   # Rename existing labels
+  cur_label_names <- label_attr("name", cur_labels)
   to_rename <- intersect(cur_label_names, names(rename))
-  # TODO: check for no overlap of current names and new names
   if (length(to_rename) > 0) {
     delta <- purrr::map2_chr(
       to_rename, rename[to_rename],
       ~ paste0(ui_value(.x), " -> ", ui_value(.y))
     )
-    # TODO: add new lines here
-    ui_done("Renaming labels: {paste0(delta, collapse = ', ')}")
+    ui_done("Renaming labels: {paste0(delta, collapse = '\n')}")
 
-    # get affected issues
-    # https://developer.github.com/v3/issues/#list-issues-for-a-repository
+    # Can't do this at label level, i.e. "old_label_name --> new_label_name"
+    # Fails if "new_label_name" already exists
+    # https://github.com/r-lib/usethis/issues/551
+    # Must first PATCH issues, then sort out labels
     issues <- purrr::map(
       to_rename,
       ~ gh("GET /repos/:owner/:repo/issues", labels = .x)
@@ -116,31 +119,39 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
     )
     df$labels <- purrr::flatten(old_labels)
     df$labels <- purrr::map_chr(df$labels, "name")
-    df <- df[!duplicated(df), ]
 
     # enact relabelling
     m <- match(df$labels, names(rename))
     df$labels[!is.na(m)] <- rename[m[!is.na(m)]]
     df <- df[!duplicated(df), ]
     new_labels <- split(df$labels, df$number)
-    # https://developer.github.com/v3/issues/#edit-an-issue
     purrr::iwalk(
       new_labels,
       ~ gh(
         "PATCH /repos/:owner/:repo/issues/:issue_number",
         issue_number = .y,
-        labels = .x
+        labels = I(.x)
       )
     )
-    # TODO: get rid of old labels no longer needed
+
+    # issues have correct labels now; safe to edit labels themselves
+    purrr::walk(
+      to_rename,
+      ~ gh("DELETE /repos/:owner/:repo/labels/:name", name = .x)
+    )
+    labels <- union(labels, setdiff(rename, cur_label_names))
+  } else {
+    ui_info("No labels need renaming")
   }
 
   cur_labels <- gh("GET /repos/:owner/:repo/labels")
-  cur_label_names <- purrr::map_chr(cur_labels, "name")
+  cur_label_names <- label_attr("name", cur_labels)
 
   # Add missing labels
-  to_add <- setdiff(labels, cur_label_names)
-  if (length(to_add) > 0) {
+  if (all(labels %in% cur_label_names)) {
+    ui_info("No new labels needed")
+  } else {
+    to_add <- setdiff(labels, cur_label_names)
     ui_done("Adding missing labels: {ui_value(to_add)}")
 
     for (label in to_add) {
@@ -153,10 +164,18 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
     }
   }
 
+  cur_labels <- gh("GET /repos/:owner/:repo/labels")
+  cur_label_names <- label_attr("name", cur_labels)
+
   # Update colours
-  to_update <- intersect(cur_label_names, names(colours))
-  if (length(to_update) > 0) {
-    ui_done("Updating colours")
+  cur_label_colours <- rlang::set_names(
+    label_attr("color", cur_labels), cur_label_names
+  )
+  if (identical(cur_label_colours[names(colours)], colours)) {
+    ui_info("Label colours are up-to-date")
+  } else {
+    to_update <- intersect(cur_label_names, names(colours))
+    ui_done("Updating colours: {ui_value(to_update)}")
 
     for (label in to_update) {
       gh(
@@ -168,9 +187,14 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   }
 
   # Update descriptions
-  to_update <- intersect(cur_label_names, names(descriptions))
-  if (length(to_update) > 0) {
-    ui_done("Updating descriptions")
+  cur_label_descriptions <- rlang::set_names(
+    label_attr("description", cur_labels), cur_label_names
+  )
+  if (identical(cur_label_descriptions[names(descriptions)], descriptions)) {
+    ui_info("Label descriptions are up-to-date")
+  } else {
+    to_update <- intersect(cur_label_names, names(descriptions))
+    ui_done("Updating descriptions: {ui_value(to_update)}")
 
     for (label in to_update) {
       gh(
@@ -201,8 +225,6 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   }
 }
 
-
-
 #' @export
 #' @rdname use_github_labels
 use_tidy_labels <- function(repo_spec = github_repo_spec(),
@@ -230,11 +252,12 @@ tidy_labels <- function() {
 #' @export
 tidy_labels_rename <- function() {
   c(
-    "enhancement" = "feature",
-    "question" = "reprex",
+    # before           = after
+    "enhancement"      = "feature",
+    "question"         = "reprex",
     "good first issue" = "good first issue :heart:",
-    "help wanted" = "help wanted :heart:",
-    "docs" = "documentation"
+    "help wanted"      = "help wanted :heart:",
+    "docs"             = "documentation"
   )
 }
 
