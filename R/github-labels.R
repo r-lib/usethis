@@ -93,24 +93,50 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
 
   # Rename existing labels
   to_rename <- intersect(cur_label_names, names(rename))
+  # TODO: check for no overlap of current names and new names
   if (length(to_rename) > 0) {
     delta <- purrr::map2_chr(
       to_rename, rename[to_rename],
       ~ paste0(ui_value(.x), " -> ", ui_value(.y))
     )
+    # TODO: add new lines here
     ui_done("Renaming labels: {paste0(delta, collapse = ', ')}")
 
-    for (label in to_rename) {
-      gh(
-        "PATCH /repos/:owner/:repo/labels/:current_name",
-        current_name = label,
-        name = rename[[label]]
-      )
-    }
+    # get affected issues
+    # https://developer.github.com/v3/issues/#list-issues-for-a-repository
+    issues <- purrr::map(
+      to_rename,
+      ~ gh("GET /repos/:owner/:repo/issues", labels = .x)
+    )
+    issues <- purrr::flatten(issues)
+    number <- purrr::map_int(issues, "number")
+    old_labels <- purrr::map(issues, "labels")
+    df <- data.frame(
+      number = rep.int(number, lengths(old_labels))
+    )
+    df$labels <- purrr::flatten(old_labels)
+    df$labels <- purrr::map_chr(df$labels, "name")
+    df <- df[!duplicated(df), ]
 
-    update <- match(to_rename, cur_label_names)
-    cur_label_names[update] <- rename[to_rename]
+    # enact relabelling
+    m <- match(df$labels, names(rename))
+    df$labels[!is.na(m)] <- rename[m[!is.na(m)]]
+    df <- df[!duplicated(df), ]
+    new_labels <- split(df$labels, df$number)
+    # https://developer.github.com/v3/issues/#edit-an-issue
+    purrr::iwalk(
+      new_labels,
+      ~ gh(
+        "PATCH /repos/:owner/:repo/issues/:issue_number",
+        issue_number = .y,
+        labels = .x
+      )
+    )
+    # TODO: get rid of old labels no longer needed
   }
+
+  cur_labels <- gh("GET /repos/:owner/:repo/labels")
+  cur_label_names <- purrr::map_chr(cur_labels, "name")
 
   # Add missing labels
   to_add <- setdiff(labels, cur_label_names)
