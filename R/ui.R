@@ -186,7 +186,9 @@ ui_path <- function(x, base = NULL) {
     x <- path_rel(x, base)
   }
 
-  x <- paste0(x, ifelse(is_directory, "/", ""))
+  if (!endsWith(x, "/")) {
+    x <- paste0(x, ifelse(is_directory, "/", ""))
+  }
   x <- ui_value(x)
   x
 }
