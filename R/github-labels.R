@@ -6,8 +6,8 @@
 #' It will never delete labels that have associated issues.
 #'
 #' `use_tidy_labels()` calls `use_github_labels()` with tidyverse conventions
-#' powered by `tidy_labels()`, `tidy_labels_rename()`, `tidy_label_colours()` and
-#' `tidy_label_descriptions()`.
+#' powered by `tidy_labels()`, `tidy_labels_rename()`, `tidy_label_colours()`
+#' and `tidy_label_descriptions()`.
 #'
 #' @section Label usage:
 #' Labels are used as part of the issue-triage process, designed to minimise the
@@ -15,10 +15,10 @@
 #' is new, and has yet to be triaged.
 #' * `reprex` indicates that an issue does not have a minimal reproducible
 #'   example, and that a reply has been sent requesting one from the user.
-#' * `bug` type, indicates an unexpected problem or unintended behavior.
-#' * `feature` type, indicates a feature request or enhancement.
-#' * `docs` type, indicates an issue with the documentation.
-#' * `wip` indicates that someone else is working on it or has promised to.
+#' * `bug` indicates an unexpected problem or unintended behavior.
+#' * `feature` indicates a feature request or enhancement.
+#' * `docs` indicates an issue with the documentation.
+#' * `wip` indicates that someone is working on it or has promised to.
 #' * `good first issue` indicates a good issue for first-time contributors.
 #' * `help wanted` indicates that a maintainer wants help on an issue.
 #'
@@ -26,15 +26,15 @@
 #'   don't want to target the current project.
 #' @param labels A character vector giving labels to add.
 #' @param rename A named vector with names giving old names and values giving
-#'   new values.
+#'   new names.
 #' @param colours,descriptions Named character vectors giving hexadecimal
 #'   colours (like `e02a2a`) and longer descriptions. The names should match
 #'   label names, and anything unmatched will be left unchanged. If you
 #'   create a new label, and don't supply colours, it will be given a random
 #'   colour.
-#' @param delete_default If `TRUE`, will remove GitHub default labels that do
-#'   not appear in the `labels` vector, and do not have associated issues.
-#'   to your workflow).
+#' @param delete_default If `TRUE`, removes GitHub default labels that do
+#'   not appear in the `labels` vector and that do not have associated issues.
+#'
 #' @inheritParams use_github_links
 #' @export
 #' @examples
