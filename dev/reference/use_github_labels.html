@@ -49,8 +49,8 @@
 and optionally delete GitHub's default labels (if delete_default = TRUE).
 It will never delete labels that have associated issues.
 use_tidy_labels() calls use_github_labels() with tidyverse conventions
-powered by tidy_labels(), tidy_labels_rename(), tidy_label_colours() and
-tidy_label_descriptions()." />
+powered by tidy_labels(), tidy_labels_rename(), tidy_label_colours()
+and tidy_label_descriptions()." />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -162,8 +162,8 @@ tidy_label_descriptions()." />
 and optionally delete GitHub's default labels (if <code>delete_default = TRUE</code>).
 It will never delete labels that have associated issues.</p>
 <p><code>use_tidy_labels()</code> calls <code>use_github_labels()</code> with tidyverse conventions
-powered by <code>tidy_labels()</code>, <code>tidy_labels_rename()</code>, <code>tidy_label_colours()</code> and
-<code>tidy_label_descriptions()</code>.</p>
+powered by <code>tidy_labels()</code>, <code>tidy_labels_rename()</code>, <code>tidy_label_colours()</code>
+and <code>tidy_label_descriptions()</code>.</p>
     
     </div>
 
@@ -198,7 +198,7 @@ don't want to target the current project.</p></td>
     <tr>
       <th>rename</th>
       <td><p>A named vector with names giving old names and values giving
-new values.</p></td>
+new names.</p></td>
     </tr>
     <tr>
       <th>colours, descriptions</th>
@@ -210,9 +210,8 @@ colour.</p></td>
     </tr>
     <tr>
       <th>delete_default</th>
-      <td><p>If <code>TRUE</code>, will remove GitHub default labels that do
-not appear in the <code>labels</code> vector, and do not have associated issues.
-to your workflow).</p></td>
+      <td><p>If <code>TRUE</code>, removes GitHub default labels that do
+not appear in the <code>labels</code> vector and that do not have associated issues.</p></td>
     </tr>
     <tr>
       <th>auth_token</th>
@@ -234,10 +233,10 @@ time spent re-reading issues. The absence of a label indicates that an issue
 is new, and has yet to be triaged.</p><ul>
 <li><p><code>reprex</code> indicates that an issue does not have a minimal reproducible
 example, and that a reply has been sent requesting one from the user.</p></li>
-<li><p><code>bug</code> type, indicates an unexpected problem or unintended behavior.</p></li>
-<li><p><code>feature</code> type, indicates a feature request or enhancement.</p></li>
-<li><p><code>docs</code> type, indicates an issue with the documentation.</p></li>
-<li><p><code>wip</code> indicates that someone else is working on it or has promised to.</p></li>
+<li><p><code>bug</code> indicates an unexpected problem or unintended behavior.</p></li>
+<li><p><code>feature</code> indicates a feature request or enhancement.</p></li>
+<li><p><code>docs</code> indicates an issue with the documentation.</p></li>
+<li><p><code>wip</code> indicates that someone is working on it or has promised to.</p></li>
 <li><p><code>good first issue</code> indicates a good issue for first-time contributors.</p></li>
 <li><p><code>help wanted</code> indicates that a maintainer wants help on an issue.</p></li>
 </ul>
