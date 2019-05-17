@@ -6,7 +6,8 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - cache
+            - r-pkg-cache-{{ arch }}-{{ .Branch }}
+            - r-pkg-cache-{{ arch }}-
       - checkout
       - run:
           name: Install package dependencies
@@ -22,6 +23,6 @@ jobs:
       - store_artifacts:
           path: {{{ package }}}.Rcheck/
       - save_cache:
-          key: cache
+          key: r-pkg-cache-{{ arch }}-{{ .Branch }}
           paths:
             - "/usr/local/lib/R/site-library"
