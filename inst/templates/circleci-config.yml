@@ -10,7 +10,9 @@ jobs:
       - checkout
       - run:
           name: Install package dependencies
-          command: R -e "devtools::install_deps(dependencies = TRUE)"
+          command: |
+            R -e 'install.packages("remotes")'
+            R -e 'devtools::install_deps(dependencies = TRUE)'
       - run:
           name: Build package
           command: R CMD build .
