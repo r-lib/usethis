@@ -449,7 +449,7 @@ use_git_credentials <- function(credentials) {
 #'
 #' Get a situation report on your current git/GitHub status. Useful for
 #' diagnosing problems.
-#'
+#' To vaccinate (have a general git ignore file) use [edit_git_ignore()]
 #' @export
 #' @examples
 #' git_sitrep()
