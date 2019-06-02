@@ -12,7 +12,8 @@ create_from_github(repo_spec, destdir = NULL, fork = NA,
 \item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}. The
 \code{repo} part will be the name of the new local repo.}
 
-\item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
+\item{destdir}{The new folder is stored here. If \code{NULL}, defaults to user's
+Desktop or some other conspicuous place.}
 
 \item{fork}{If \code{TRUE}, we create and clone a fork. If \code{FALSE}, we clone
 \code{repo_spec} itself. Will be set to \code{FALSE} if no \code{auth_token} (a.k.a. PAT)
