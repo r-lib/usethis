@@ -79,9 +79,6 @@
     <loc>https://usethis.r-lib.org/reference/use_code_of_conduct.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/reference/use_course.html</loc>
-  </url>
-  <url>
     <loc>https://usethis.r-lib.org/reference/use_course_details.html</loc>
   </url>
   <url>
@@ -209,6 +206,9 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/write-this.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/zip-utils.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/articles/articles/usethis-setup.html</loc>
