@@ -1,6 +1,7 @@
 # usethis (development version)
 
-* `pr_pause()` can now switch back to master even if no remote branch exists (@cderv, #715). 
+* `pr_pause()` can switch back to master even if there is no remote tracking
+  branch (@cderv, #715). 
 
 # usethis 1.5.0
 
