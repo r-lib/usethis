@@ -30,7 +30,7 @@ check_file_name <- function(name) {
 }
 
 valid_file_name <- function(x) {
-  grepl("^[[:alnum:]_-]+$", x)
+  grepl("^[a-zA-Z0-9._-]+$", x)
 }
 
 get_active_r_file <- function(path = "R") {
@@ -39,7 +39,7 @@ get_active_r_file <- function(path = "R") {
   }
   ## rstudioapi can return a path like '~/path/to/file' where '~' means
   ## R's notion of user's home directory
-  active_file <- path_expand_r(rstudioapi::getSourceEditorContext()$path)
+  active_file <- proj_path_prep(rstudioapi::getSourceEditorContext()$path)
 
   rel_path <- proj_rel_path(active_file)
   if (path_dir(rel_path) != path) {

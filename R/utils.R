@@ -81,3 +81,7 @@ indent <- function(x, first = "  ", indent = first) {
   x <- gsub("\n", paste0("\n", indent), x)
   paste0(first, x)
 }
+
+isNA <- function(x) {
+  length(x) == 1 && is.na(x)
+}

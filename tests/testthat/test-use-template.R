@@ -13,7 +13,7 @@ test_that("can leave existing file unchanged, without an error", {
 # helpers -----------------------------------------------------------------
 
 test_that("find_template errors if template missing", {
-  expect_error(find_template("xxx"), "Could not find template")
+  expect_usethis_error(find_template("xxx"), "Could not find template")
 })
 
 test_that("find_template can find templates for tricky Rbuildignored files", {

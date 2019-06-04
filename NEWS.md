@@ -3,6 +3,20 @@
 * `pr_pause()` can switch back to master even if there is no remote tracking
   branch (@cderv, #715). 
 
+* `use_zip()` is a new variant of `use_course()` that downloads and unpacks a
+  ZIP file, with less pedantic behaviour re: the destination directory. Both
+  functions now also work for ZIP files with MIME type
+  "application/x-zip-compressed" (#573).
+
+* `use_tidy_ci()` updated for R 3.6 (support for R 3.1 is officially sunsetted)
+
+* `use_make()` and `use_jenkins()` add a Makefile and Jenkinsfile, respectively
+  (#501, @ryapric).
+
+## Dependency changes
+
+* fs minimum version is now v1.3.0.
+
 # usethis 1.5.0
 
 ## Git, GitHub (and GitLab)

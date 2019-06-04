@@ -2,7 +2,7 @@ context("use_pipe")
 
 test_that("use_pipe() requires a package", {
   scoped_temporary_project()
-  expect_error(use_pipe(), "not an R package")
+  expect_usethis_error(use_pipe(), "not an R package")
 })
 
 test_that("use_pipe() adds promised file, Imports magrittr", {

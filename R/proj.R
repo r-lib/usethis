@@ -70,7 +70,7 @@ proj_get <- function() {
 #' @export
 proj_set <- function(path = ".", force = FALSE) {
   if (dir_exists(path %||% "") && is_in_proj(path)) {
-    return(invisible())
+    return(invisible(proj_get_()))
   }
 
   path <- proj_path_prep(path)

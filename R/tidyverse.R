@@ -107,7 +107,7 @@ use_tidy_ci <- function(browse = interactive()) {
   )
   use_template("codecov.yml", ignore = TRUE)
 
-  use_dependency("R", "Depends", min_version = "3.1")
+  use_dependency("R", "Depends", min_version = "3.2")
   use_dependency("covr", "Suggests")
   use_covr_ignore(c("R/deprec-*.R", "R/compat-*.R"))
 

@@ -28,8 +28,8 @@ git_pull <- function(remote_branch = git_branch_tracking_FIXME(),
   invisible()
 }
 
-git_status <- function() {
-  git2r::status(git_repo())
+git_status <- function(...) {
+  git2r::status(..., repo = git_repo())
 }
 
 uses_git <- function(path = proj_get()) {

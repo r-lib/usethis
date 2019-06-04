@@ -2,7 +2,7 @@
 % Please edit documentation in R/course.R
 \name{use_course_details}
 \alias{use_course_details}
-\title{Download and unpack a ZIP file}
+\title{Helpers to download and unpack a ZIP file}
 \arguments{
 \item{url}{Download link for the ZIP file, possibly behind a shortlink or
 other redirect. See Details.}
@@ -11,28 +11,22 @@ other redirect. See Details.}
 stored. Defaults to current working directory, but note that \code{\link[=use_course]{use_course()}}
 has different default behavior.}
 
-\item{pedantic}{Logical. When \code{TRUE} and in an interactive session, the user
-is told where the ZIP file will be stored. If happy, user can elect to
-proceed. Otherwise, user can abort and try again with the desired
-\code{destdir}. Intentional friction for a pedagogical setting.}
-
 \item{zipfile}{Path to local ZIP file.}
 }
 \description{
-Details on the two functions that power \code{\link[=use_course]{use_course()}}. These internal
-functions are currently unexported but a course instructor may want more
+Details on the internal functions that power \code{\link[=use_course]{use_course()}} and \code{\link[=use_zip]{use_zip()}}.
+These helpers are currently unexported but a course instructor may want more
 details.
 }
-\section{download_zip()}{
+\section{tidy_download()}{
 \preformatted{## function signature
-download_zip(url, destdir = getwd(), pedantic = FALSE)
+tidy_download(url, destdir = getwd())
 
 ## as called inside use_course()
-download_zip(
+tidy_download(
   url, ## after post-processing with normalize_url()
-  ## conspicuous_place() = Desktop or home directory or working directory
-  destdir = destdir \%||\% conspicuous_place(),
-  pedantic = is.null(destdir) && interactive()
+  # conspicuous_place() = Desktop or home directory or working directory
+  destdir = destdir \%||\% conspicuous_place()
 )
 }
 
@@ -60,7 +54,7 @@ download link will have this form:\preformatted{https://www.dropbox.com/sh/12345
 }
 
 This download link (or a shortlink that points to it) is suitable as input
-for \code{download_zip()}. After one or more redirections, this link will
+for \code{tidy_download()}. After one or more redirections, this link will
 eventually lead to a download URL. For more details, see
 \url{https://www.dropbox.com/help/desktop-web/force-download} and
 \url{https://www.dropbox.com/en/help/desktop-web/download-entire-folders}.
@@ -72,7 +66,7 @@ button. Capture this URL, which will have this form:\preformatted{https://github
 }
 
 This download link (or a shortlink that points to it) is suitable as input
-for \code{download_zip()}. After one or more redirections, this link will
+for \code{tidy_download()}. After one or more redirections, this link will
 eventually lead to a download URL. Here's an alternative link that also leads
 to ZIP download, albeit with a different filenaming scheme:\preformatted{https://api.github.com/repos/r-lib/usethis/zipball/master
 }
@@ -109,16 +103,12 @@ hidden files, such as \code{.RData}, \code{.Rhistory}, and those below \code{.gi
 
 \examples{
 \dontrun{
-download_zip("https://github.com/r-lib/rematch2/archive/master.zip")
+tidy_download("https://github.com/r-lib/rematch2/archive/master.zip")
 }
 
 \dontrun{
-download_zip("https://github.com/r-lib/rematch2/archive/master.zip")
+tidy_download("https://github.com/r-lib/rematch2/archive/master.zip")
 tidy_unzip("rematch2-master.zip")
 }
 }
-\seealso{
-Other download functions: \code{\link{use_course}}
-}
-\concept{download functions}
 \keyword{internal}

@@ -46,13 +46,13 @@ test_that("check_github_token() passes good input through", {
 })
 
 test_that("check_github_token() errors informatively for bad input", {
-  expect_error(check_github_token(c("PAT1", "PAT2")), "single string")
-  expect_error(check_github_token(NA), "single string")
-  expect_error(check_github_token(NA_character_), "single string")
-  expect_error(check_github_token(""), "No.*available")
+  expect_usethis_error(check_github_token(c("PAT1", "PAT2")), "single string")
+  expect_usethis_error(check_github_token(NA), "single string")
+  expect_usethis_error(check_github_token(NA_character_), "single string")
+  expect_usethis_error(check_github_token(""), "No.*available")
   with_mock(
     `usethis:::github_user` = function(auth_token) NULL,
-    expect_error(check_github_token("PAT"), "invalid")
+    expect_usethis_error(check_github_token("PAT"), "invalid")
   )
 })
 
@@ -96,7 +96,7 @@ test_that("github_remote_protocol() errors for unrecognized URL", {
   )
   with_mock(
     `usethis:::github_remotes` = function() r, {
-      expect_error(github_remote_protocol(), "Can't classify URL")
+      expect_usethis_error(github_remote_protocol(), "Can't classify URL")
     }
   )
 })

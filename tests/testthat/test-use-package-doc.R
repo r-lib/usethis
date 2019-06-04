@@ -2,7 +2,7 @@ context("use_package_doc")
 
 test_that("use_package_doc() requires a package", {
   scoped_temporary_project()
-  expect_error(use_package_doc(), "not an R package")
+  expect_usethis_error(use_package_doc(), "not an R package")
 })
 
 test_that("use_package_doc() creates the promised file", {
