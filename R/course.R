@@ -3,10 +3,9 @@
 #' Download and unpack a ZIP file
 #'
 #' Functions to download and unpack a ZIP file into a local folder of files,
-#' with very intentional default behaviour. At most, the user is asked to
-#' confirm or specify where the new folder should be stored. Useful in
-#' pedagogical settings or anytime you need a large audience to download a set
-#' of files quickly and actually be able to find them.
+#' with very intentional default behaviour. Useful in pedagogical settings or
+#' anytime you need a large audience to download a set of files quickly and
+#' actually be able to find them.
 #'
 #' @param url Link to a ZIP file containing the materials. Various short forms
 #'   are accepted, to reduce the typing burden in live settings:
@@ -16,6 +15,9 @@
 #'   for ZIP files generally. See examples and [use_course_details] for more.
 #' @param destdir The new folder is stored here. If `NULL`, defaults to user's
 #'   Desktop or some other conspicuous place.
+#' @param cleanup Whether to delete the original ZIP file after unpacking its
+#'   contents. In an interactive setting, `NA` leads to a menu where user can
+#'   approve the deletion (or decline).
 #'
 #' @return Path to the new directory holding the unpacked ZIP file, invisibly.
 #' @name zip-utils
@@ -70,10 +72,12 @@ use_course <- function(url, destdir = NULL) {
 }
 
 #' @describeIn zip-utils More useful in day-to-day work. Downloads in current
-#'   working directory, by default, and doesn't insist on interactive
-#'   confirmation.
+#'   working directory, by default, and allows `cleanup` behaviour to be
+#'   specified.
 #' @export
-use_zip <- function(url, destdir = getwd()) {
+use_zip <- function(url,
+                    destdir = getwd(),
+                    cleanup = if (interactive()) NA else FALSE) {
   url <- normalize_url(url)
   check_path_is_directory(destdir)
   ui_done("Downloading from {ui_value(url)}")
@@ -81,7 +85,7 @@ use_zip <- function(url, destdir = getwd()) {
   cat_line()
   ui_done("Download stored in {ui_path(zipfile)}")
   check_is_zip(attr(zipfile, "content-type"))
-  tidy_unzip(zipfile)
+  tidy_unzip(zipfile, cleanup)
 }
 
 #' Helpers to download and unpack a ZIP file
@@ -144,7 +148,7 @@ use_zip <- function(url, destdir = getwd()) {
 #' https://github.com/r-lib/usethis/archive/master.zip
 #' ```
 #' This download link (or a shortlink that points to it) is suitable as input
-#' for `download_zip()`. After one or more redirections, this link will
+#' for `tidy_download()`. After one or more redirections, this link will
 #' eventually lead to a download URL. Here's an alternative link that also leads
 #' to ZIP download, albeit with a different filenaming scheme:
 #' ```
@@ -219,7 +223,7 @@ tidy_download <- function(url, destdir = getwd()) {
   invisible(full_path)
 }
 
-tidy_unzip <- function(zipfile) {
+tidy_unzip <- function(zipfile, cleanup = FALSE) {
   base_path <- path_dir(zipfile)
 
   filenames <- utils::unzip(zipfile, list = TRUE)[["Name"]]
@@ -245,12 +249,17 @@ tidy_unzip <- function(zipfile) {
     ({length(filenames)} files extracted)"
   )
 
-  if (interactive()) {
-    if (ui_yeah("Shall we delete the ZIP file ({ui_path(zipfile, base_path)})?")) {
-      ui_done("Deleting {ui_path(zipfile, base_path)}")
-      file_delete(zipfile)
-    }
+  if (isNA(cleanup)) {
+    cleanup <- interactive() &&
+      ui_yeah("Shall we delete the ZIP file ({ui_path(zipfile, base_path)})?")
+  }
 
+  if (isTRUE(cleanup)) {
+    ui_done("Deleting {ui_path(zipfile, base_path)}")
+    file_delete(zipfile)
+  }
+
+  if (interactive()) {
     rproj_path <- dir_ls(target, regexp = "[.]Rproj$")
     if (length(rproj_path) == 1 && rstudioapi::hasFun("openProject")) {
       ui_done("Opening project in RStudio")

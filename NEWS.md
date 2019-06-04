@@ -1,8 +1,8 @@
 # usethis (development version)
 
 * `use_zip()` is a new variant of `use_course()` that downloads and unpacks a
-  ZIP file, with different and less pedantic behaviour re: the destination
-  directory. Both functions now also work for ZIP files with MIME type
+  ZIP file, with less pedantic behaviour re: the destination directory. Both
+  functions now also work for ZIP files with MIME type
   "application/x-zip-compressed" (#573).
 
 * `use_tidy_ci()` updated for R 3.6 (support for R 3.1 is officially sunsetted)

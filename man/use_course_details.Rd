@@ -15,7 +15,7 @@ has different default behavior.}
 }
 \description{
 Details on the internal functions that power \code{\link[=use_course]{use_course()}} and \code{\link[=use_zip]{use_zip()}}.
-These helper are currently unexported but a course instructor may want more
+These helpers are currently unexported but a course instructor may want more
 details.
 }
 \section{tidy_download()}{
@@ -66,7 +66,7 @@ button. Capture this URL, which will have this form:\preformatted{https://github
 }
 
 This download link (or a shortlink that points to it) is suitable as input
-for \code{download_zip()}. After one or more redirections, this link will
+for \code{tidy_download()}. After one or more redirections, this link will
 eventually lead to a download URL. Here's an alternative link that also leads
 to ZIP download, albeit with a different filenaming scheme:\preformatted{https://api.github.com/repos/r-lib/usethis/zipball/master
 }

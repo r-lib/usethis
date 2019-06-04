@@ -8,7 +8,8 @@
 \usage{
 use_course(url, destdir = NULL)
 
-use_zip(url, destdir = getwd())
+use_zip(url, destdir = getwd(), cleanup = if (interactive()) NA else
+  FALSE)
 }
 \arguments{
 \item{url}{Link to a ZIP file containing the materials. Various short forms
@@ -20,16 +21,19 @@ for ZIP files generally. See examples and \link{use_course_details} for more.}
 
 \item{destdir}{The new folder is stored here. If \code{NULL}, defaults to user's
 Desktop or some other conspicuous place.}
+
+\item{cleanup}{Whether to delete the original ZIP file after unpacking its
+contents. In an interactive setting, \code{NA} leads to a menu where user can
+approve the deletion (or decline).}
 }
 \value{
 Path to the new directory holding the unpacked ZIP file, invisibly.
 }
 \description{
 Functions to download and unpack a ZIP file into a local folder of files,
-with very intentional default behaviour. At most, the user is asked to
-confirm or specify where the new folder should be stored. Useful in
-pedagogical settings or anytime you need a large audience to download a set
-of files quickly and actually be able to find them.
+with very intentional default behaviour. Useful in pedagogical settings or
+anytime you need a large audience to download a set of files quickly and
+actually be able to find them.
 }
 \section{Functions}{
 \itemize{
@@ -46,8 +50,8 @@ or File Explorer.
 }
 
 \item \code{use_zip}: More useful in day-to-day work. Downloads in current
-working directory, by default, and doesn't insist on interactive
-confirmation.
+working directory, by default, and allows \code{cleanup} behaviour to be
+specified.
 }}
 
 \examples{
