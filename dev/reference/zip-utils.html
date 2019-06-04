@@ -46,10 +46,9 @@
 <meta property="og:title" content="Download and unpack a ZIP file — zip-utils" />
 
 <meta property="og:description" content="Functions to download and unpack a ZIP file into a local folder of files,
-with very intentional default behaviour. At most, the user is asked to
-confirm or specify where the new folder should be stored. Useful in
-pedagogical settings or anytime you need a large audience to download a set
-of files quickly and actually be able to find them." />
+with very intentional default behaviour. Useful in pedagogical settings or
+anytime you need a large audience to download a set of files quickly and
+actually be able to find them." />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -158,16 +157,16 @@ of files quickly and actually be able to find them." />
     <div class="ref-description">
     
     <p>Functions to download and unpack a ZIP file into a local folder of files,
-with very intentional default behaviour. At most, the user is asked to
-confirm or specify where the new folder should be stored. Useful in
-pedagogical settings or anytime you need a large audience to download a set
-of files quickly and actually be able to find them.</p>
+with very intentional default behaviour. Useful in pedagogical settings or
+anytime you need a large audience to download a set of files quickly and
+actually be able to find them.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>use_course</span>(<span class='no'>url</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>use_zip</span>(<span class='no'>url</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/getwd'>getwd</a></span>())</pre>
+<span class='fu'>use_zip</span>(<span class='no'>url</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/getwd'>getwd</a></span>(), <span class='kw'>cleanup</span> <span class='kw'>=</span> <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>()) <span class='fl'>NA</span> <span class='kw'>else</span>
+  <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,6 +184,12 @@ for ZIP files generally. See examples and <a href='use_course_details.html'>use_
       <th>destdir</th>
       <td><p>The new folder is stored here. If <code>NULL</code>, defaults to user's
 Desktop or some other conspicuous place.</p></td>
+    </tr>
+    <tr>
+      <th>cleanup</th>
+      <td><p>Whether to delete the original ZIP file after unpacking its
+contents. In an interactive setting, <code>NA</code> leads to a menu where user can
+approve the deletion (or decline).</p></td>
     </tr>
     </table>
     
@@ -206,8 +211,8 @@ launched. Otherwise, the folder is opened in the file manager, e.g. Finder
 or File Explorer.</p></li>
 </ul></li>
 <li><p><code>use_zip</code>: More useful in day-to-day work. Downloads in current
-working directory, by default, and doesn't insist on interactive
-confirmation.</p></li>
+working directory, by default, and allows <code>cleanup</code> behaviour to be
+specified.</p></li>
 </ul>
     
 
