@@ -65,10 +65,9 @@ use_course <- function(url, destdir = NULL) {
 
   ui_done("Downloading from {ui_value(url)}")
   zipfile <- tidy_download(url, destdir)
-  cat_line()
   ui_done("Download stored in {ui_path(zipfile)}")
   check_is_zip(attr(zipfile, "content-type"))
-  tidy_unzip(zipfile)
+  tidy_unzip(zipfile, cleanup = NA)
 }
 
 #' @describeIn zip-utils More useful in day-to-day work. Downloads in current
@@ -82,7 +81,6 @@ use_zip <- function(url,
   check_path_is_directory(destdir)
   ui_done("Downloading from {ui_value(url)}")
   zipfile <- tidy_download(url, destdir)
-  cat_line()
   ui_done("Download stored in {ui_path(zipfile)}")
   check_is_zip(attr(zipfile, "content-type"))
   tidy_unzip(zipfile, cleanup)
@@ -213,6 +211,7 @@ tidy_download <- function(url, destdir = getwd()) {
   base_name <- make_filename(cd, fallback = path_file(url))
   full_path <- path(destdir, base_name)
 
+  cat_line()
   if (!can_overwrite(full_path)) {
     ui_stop("Aborting.")
   }
