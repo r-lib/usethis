@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `pr_pause()` can switch back to master even if there is no remote tracking
+  branch (@cderv, #715). 
+
 * `use_zip()` is a new variant of `use_course()` that downloads and unpacks a
   ZIP file, with less pedantic behaviour re: the destination directory. Both
   functions now also work for ZIP files with MIME type
