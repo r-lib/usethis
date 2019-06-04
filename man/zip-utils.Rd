@@ -13,9 +13,10 @@ use_zip(url, destdir = getwd(), cleanup = if (interactive()) NA else
 }
 \arguments{
 \item{url}{Link to a ZIP file containing the materials. Various short forms
-are accepted, to reduce the typing burden in live settings:
-* bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy"
+are accepted, to reduce the typing burden in live settings:\preformatted{* bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy"
 * GitHub repo spec: "OWNER/REPO"
+}
+
 Function works well with DropBox folders and GitHub repos, but should work
 for ZIP files generally. See examples and \link{use_course_details} for more.}
 
