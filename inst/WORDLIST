@@ -30,6 +30,7 @@ DropBox
 emacs
 eval
 filenaming
+foofy
 frontmatter
 fs
 funder
@@ -52,6 +53,7 @@ initialisation
 Initialise
 initialises
 initialising
+io
 Javascript
 Jenkinsfile
 Jupyter
@@ -107,6 +109,7 @@ roxygen
 RProfile
 rprojroot
 RStudio
+rstd
 Rtools
 SHA
 shortener
@@ -138,3 +141,5 @@ Xcode
 xz
 yaml
 YAML
+yyy
+zzz
