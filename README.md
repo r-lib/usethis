@@ -33,7 +33,7 @@ Or install the development version from GitHub with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("r-lib/usethis")
+remotes::install_github("r-lib/usethis")
 ```
 
 ## Usage
