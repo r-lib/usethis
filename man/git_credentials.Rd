@@ -21,7 +21,7 @@ or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.
 \code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}.}
 }
 \value{
-Either \code{NULL} or a git2r credential object, invisibly. I.e.,
+Either \code{NULL} or a git2r credential object, invisibly, i.e.
 something to be passed to git2r as \code{credentials}.
 }
 \description{
