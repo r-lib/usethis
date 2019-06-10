@@ -408,7 +408,7 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #'   [git2r::cred_env()], [git2r::cred_ssh_key()], [git2r::cred_token()], or
 #'   [git2r::cred_user_pass()].
 #'
-#' @return Either `NULL` or a git2r credential object, invisibly. I.e.,
+#' @return Either `NULL` or a git2r credential object, invisibly, i.e.
 #'   something to be passed to git2r as `credentials`.
 #' @export
 #'
