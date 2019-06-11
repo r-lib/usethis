@@ -23,7 +23,7 @@ test_that("use_circleci() configures CircleCI", {
   expect_proj_dir(".circleci")
   expect_proj_file(".circleci/config.yml")
   yml <- yaml::yaml.load_file(".circleci/config.yml")
-  expect_identical(yml$jobs$build$steps[[6]]$store_artifacts$path,
+  expect_identical(yml$jobs$build$steps[[7]]$store_artifacts$path,
                    paste0(project_name(), ".Rcheck/"))
 })
 
