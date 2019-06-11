@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: {{{ image }}}
+    environment:
+      R_LIBS: ~/R/Library
     steps:
       - restore_cache:
           keys:
@@ -12,6 +14,7 @@ jobs:
       - run:
           name: Install package dependencies
           command: |
+            mkdir -p ~/R/Library
             R -e 'install.packages("remotes")'
             R -e 'remotes::install_deps(dependencies = TRUE)'
       - run:
@@ -25,4 +28,4 @@ jobs:
       - save_cache:
           key: r-pkg-cache-{{ arch }}-{{ .Branch }}
           paths:
-            - "/usr/local/lib/R/site-library"
+            - "~/R/Library"
