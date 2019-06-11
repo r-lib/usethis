@@ -15,8 +15,14 @@ jobs:
           name: Install package dependencies
           command: |
             mkdir -p ~/R/Library
-            R -e 'install.packages("remotes")'
-            R -e 'remotes::install_deps(dependencies = TRUE)'
+            Rscript -e 'install.packages("remotes")'
+            Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+      - run:
+          name: Session information and installed package versions
+          command: |
+            Rscript -e 'sessionInfo()'
+            Rscript -e 'installed.packages()[, c("Package", "Version")]'
+            Rscript -e 'rmarkdown::pandoc_version()'
       - run:
           name: Build package
           command: R CMD build .
