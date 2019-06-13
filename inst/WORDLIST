@@ -76,23 +76,16 @@ minimise
 msg
 nano
 organisation
-<<<<<<< HEAD
 organisations
 pkgbuild
-=======
 pandoc
->>>>>>> Update test and spelling list.
 pkgdown
 pre
 preconfigured
 programmatically
-<<<<<<< HEAD
 PRs
 purrr
 r's
-=======
-ver
->>>>>>> Update test and spelling list.
 Rcpp
 RcppArmadillo
 RcppEigen
@@ -144,6 +137,7 @@ UI
 useR
 usethis's
 Ushey's
+ver
 whitelisted
 Wickham
 withr
