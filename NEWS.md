@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_pipe()` gains a logical `export` argument, so it can do the setup necessary to use the pipe operator when it is re-exported (`export = TRUE`, which is the default and preserves the previous behaviour) and when it is not (`export = FALSE`) (#783).
+
 * `use_circleci()` creates a `.circleci/config.yaml` config file for CircleCI
   (#703, @jdblischak).
 
