@@ -170,7 +170,9 @@ use_circleci <- function(browse = interactive(), image = "rocker/verse:latest") 
     data = list(package = project_name(), image = image),
     ignore = TRUE
   )
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   circleci_activate(browse)
   use_circleci_badge()
