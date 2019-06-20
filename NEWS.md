@@ -512,7 +512,7 @@ A new class of functions make it easy to edit common config files:
   to follow standard licensing best practices while adhering to CRANs 
   requirements (#10).
 
-* `use_package_doc()` uses more modern roxygen2 template requires that 
+* `use_package_doc()` uses more a modern roxygen2 template that requires
   less duplication.
 
 * `use_test()` will use the name of the currently open file in RStudio
