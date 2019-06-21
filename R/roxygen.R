@@ -80,6 +80,7 @@ check_uses_roxygen <- function(whos_asking) {
     "
     Project {ui_value(project_name())} does not use roxygen2.
     {ui_code(whos_asking)} can not work without it.
+    You might just need to run {ui_code('devtools::document()')} once, then try again.
     "
   )
 }
