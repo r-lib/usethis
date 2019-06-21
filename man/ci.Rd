@@ -4,6 +4,7 @@
 \alias{use_travis}
 \alias{use_appveyor}
 \alias{use_gitlab_ci}
+\alias{use_circleci}
 \title{Continuous integration setup and badges}
 \usage{
 use_travis(browse = interactive(), ext = c("org", "com"))
@@ -11,6 +12,8 @@ use_travis(browse = interactive(), ext = c("org", "com"))
 use_appveyor(browse = interactive())
 
 use_gitlab_ci()
+
+use_circleci(browse = interactive(), image = "rocker/verse:latest")
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -18,6 +21,14 @@ package.}
 
 \item{ext}{which travis website to use. default to \code{"org"}for
 https://travis-ci.org. Change to \code{"com"} for https://travis-ci.com.}
+
+\item{image}{The Docker image to use for build. Must be available on
+\href{https://hub.docker.com}{DockerHub}. The
+\href{https://hub.docker.com/r/rocker/verse}{rocker/verse} image includes TeX
+Live, pandoc, and the tidyverse packages. For a minimal image, try
+\href{https://hub.docker.com/r/rocker/r-ver}{rocker/r-ver}. To specify a version
+of R, change the tag from \code{latest} to the version you want, e.g.
+\code{rocker/r-ver:3.5.3}.}
 }
 \description{
 Sets up continuous integration (CI) services for an R package that is
@@ -48,5 +59,12 @@ integration service for Windows.
 Adds a basic \code{.gitlab-ci.yml} to the top-level directory of a package. This is
 a configuration file for the \href{https://docs.gitlab.com/ee/ci/}{GitLab CI/CD} continuous
 integration service for GitLab.
+}
+
+\section{\code{use_circleci()}}{
+
+Adds a basic \code{.circleci/config.yml} to the top-level directory of a package. This is a
+configuration file for the \href{https://circleci.com/}{CircleCI} continuous
+integration service.
 }
 

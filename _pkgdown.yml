@@ -85,6 +85,8 @@ reference:
     contents:
     - use_travis
     - use_appveyor
+    - use_gitlab_ci
+    - use_circleci
   - title: Tidyverse development
     desc: >
       Conventions used in the tidyverse and r-lib organisations

@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_circleci()` creates a `.circleci/config.yaml` config file for CircleCI
+  (#703, @jdblischak).
+
 * `pr_pause()` can switch back to master even if there is no remote tracking
   branch (@cderv, #715). 
 
