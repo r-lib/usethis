@@ -45,10 +45,13 @@
 
 <meta property="og:title" content="Use magrittr's pipe in your package — use_pipe" />
 
-<meta property="og:description" content="Does setup necessary to use magrittr's pipe internally in your package and to
-re-export it for users of your package:
-Adds magrittr to &quot;Imports&quot; in DESCRIPTION
-Creates R/utils-pipe.R with the necessary roxygen template
+<meta property="og:description" content="Does setup necessary to use magrittr's pipe operator, %&amp;gt;% in your package.
+This function requires the use roxygen.
+Adds magrittr to &quot;Imports&quot; in DESCRIPTION.
+Imports the pipe operator specifically, which is necessary for internal
+use.
+Exports the pipe operator, if export = TRUE, which is necessary to make
+%&amp;gt;% available to the users of your package.
 " />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
@@ -157,22 +160,43 @@ Creates R/utils-pipe.R with the necessary roxygen template
 
     <div class="ref-description">
     
-    <p>Does setup necessary to use magrittr's pipe internally in your package and to
-re-export it for users of your package:</p><ul>
-<li><p>Adds magrittr to "Imports" in <code>DESCRIPTION</code></p></li>
-<li><p>Creates <code>R/utils-pipe.R</code> with the necessary roxygen template</p></li>
+    <p>Does setup necessary to use magrittr's pipe operator, <code>%&gt;%</code> in your package.
+This function requires the use roxygen.</p><ul>
+<li><p>Adds magrittr to "Imports" in <code>DESCRIPTION</code>.</p></li>
+<li><p>Imports the pipe operator specifically, which is necessary for internal
+use.</p></li>
+<li><p>Exports the pipe operator, if <code>export = TRUE</code>, which is necessary to make
+<code>%&gt;%</code> available to the users of your package.</p></li>
 </ul>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_pipe</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>use_pipe</span>(<span class='kw'>export</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>export</th>
+      <td><p>If <code>TRUE</code>, the file <code>R/utils-pipe.R</code> is added, which provides
+the roxygen template to import and re-export <code>%&gt;%</code>. If <code>FALSE</code>, the necessary
+roxygen directive is added, if possible, or otherwise instructions are given.</p></td>
+    </tr>
+    </table>
+    
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>use_pipe</span>()
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
