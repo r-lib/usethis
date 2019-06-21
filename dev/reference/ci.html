@@ -173,7 +173,9 @@ various platforms, triggered by each push or pull request. These functions</p><u
 
 <span class='fu'>use_appveyor</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())
 
-<span class='fu'>use_gitlab_ci</span>()</pre>
+<span class='fu'>use_gitlab_ci</span>()
+
+<span class='fu'>use_circleci</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>image</span> <span class='kw'>=</span> <span class='st'>"rocker/verse:latest"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,6 +189,16 @@ package.</p></td>
       <th>ext</th>
       <td><p>which travis website to use. default to <code>"org"</code>for
 https://travis-ci.org. Change to <code>"com"</code> for https://travis-ci.com.</p></td>
+    </tr>
+    <tr>
+      <th>image</th>
+      <td><p>The Docker image to use for build. Must be available on
+<a href='https://hub.docker.com'>DockerHub</a>. The
+<a href='https://hub.docker.com/r/rocker/verse'>rocker/verse</a> image includes TeX
+Live, pandoc, and the tidyverse packages. For a minimal image, try
+<a href='https://hub.docker.com/r/rocker/r-ver'>rocker/r-ver</a>. To specify a version
+of R, change the tag from <code>latest</code> to the version you want, e.g.
+<code>rocker/r-ver:3.5.3</code>.</p></td>
     </tr>
     </table>
     
@@ -211,6 +223,13 @@ integration service for Windows.</p>
 a configuration file for the <a href='https://docs.gitlab.com/ee/ci/'>GitLab CI/CD</a> continuous
 integration service for GitLab.</p>
     
+    <h2 class="hasAnchor" id="use-circleci-"><a class="anchor" href="#use-circleci-"></a><code>use_circleci()</code></h2>
+
+    
+    <p>Adds a basic <code>.circleci/config.yml</code> to the top-level directory of a package. This is a
+configuration file for the <a href='https://circleci.com/'>CircleCI</a> continuous
+integration service.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -223,6 +242,8 @@ integration service for GitLab.</p>
       <li><a href="#use-appveyor-"><code>use_appveyor()</code></a></li>
 
       <li><a href="#use-gitlab-ci-"><code>use_gitlab_ci()</code></a></li>
+
+      <li><a href="#use-circleci-"><code>use_circleci()</code></a></li>
           </ul>
 
   </div>
