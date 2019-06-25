@@ -21,8 +21,7 @@ use_roxygen_md <- function() {
       ui_todo("Use git to ensure that you don't lose any data")
     }
 
-    ui_todo("Run the following code, then rerun {ui_code('devtools::document()')}")
-    ui_code_block("roxygen2md::roxygen2md(\"{proj_get()}\")")
+    ui_todo("Refer to {ui_code('roxygen2md::roxygen2md()')} to add markdown support to Roxygen")
   }
 
   invisible()
