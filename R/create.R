@@ -228,6 +228,13 @@ create_from_github <- function(repo_spec,
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     git2r::remote_add(r, "upstream", upstream_url)
     pr_pull_upstream()
+    ui_done(
+      "
+      Setting remote tracking branch for local {ui_value('master')} branch to \\
+      {ui_value('upstream/master')}
+      "
+    )
+    git2r::branch_set_upstream(git2r::repository_head(r), "upstream/master")
     config_key <- glue("remote.upstream.created-by")
     git_config_set(config_key, "usethis::create_from_github")
   }
