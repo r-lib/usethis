@@ -9,6 +9,8 @@ template:
     docsearch:
       api_key: f67d4c46004acc8326e8d95f296a680e
       index_name: usethis
+    ganalytics: UA-115082821-1
+
 
 development:
   mode: auto
