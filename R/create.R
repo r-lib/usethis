@@ -144,9 +144,9 @@ create_project <- function(path,
 #'   is provided or preconfigured. Otherwise, defaults to `FALSE` if you can
 #'   push to `repo_spec` and `TRUE` if you cannot. In the case of a fork, the
 #'   original target repo is added to the local repo as the `upstream` remote,
-#'   using the preferred `protocol`. The `master` branch is immediately pulled
-#'   from `upstream`, which matters in the case of a pre-existing, out-of-date
-#'   fork.
+#'   using the preferred `protocol`. The `master` branch is set to track
+#'   `upstream/master` and is immediately pulled, which matters in the case of a
+#'   pre-existing, out-of-date fork.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'    Defaults to `TRUE` if in an RStudio session and project has no
