@@ -144,9 +144,9 @@ create_project <- function(path,
 #'   is provided or preconfigured. Otherwise, defaults to `FALSE` if you can
 #'   push to `repo_spec` and `TRUE` if you cannot. In the case of a fork, the
 #'   original target repo is added to the local repo as the `upstream` remote,
-#'   using the preferred `protocol`. The `master` branch is immediately pulled
-#'   from `upstream`, which matters in the case of a pre-existing, out-of-date
-#'   fork.
+#'   using the preferred `protocol`. The `master` branch is set to track
+#'   `upstream/master` and is immediately pulled, which matters in the case of a
+#'   pre-existing, out-of-date fork.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'    Defaults to `TRUE` if in an RStudio session and project has no
@@ -228,6 +228,13 @@ create_from_github <- function(repo_spec,
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     git2r::remote_add(r, "upstream", upstream_url)
     pr_pull_upstream()
+    ui_done(
+      "
+      Setting remote tracking branch for local {ui_value('master')} branch to \\
+      {ui_value('upstream/master')}
+      "
+    )
+    git2r::branch_set_upstream(git2r::repository_head(r), "upstream/master")
     config_key <- glue("remote.upstream.created-by")
     git_config_set(config_key, "usethis::create_from_github")
   }
