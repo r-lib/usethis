@@ -199,9 +199,9 @@ Desktop or some other conspicuous place.</p></td>
 is provided or preconfigured. Otherwise, defaults to <code>FALSE</code> if you can
 push to <code>repo_spec</code> and <code>TRUE</code> if you cannot. In the case of a fork, the
 original target repo is added to the local repo as the <code>upstream</code> remote,
-using the preferred <code>protocol</code>. The <code>master</code> branch is immediately pulled
-from <code>upstream</code>, which matters in the case of a pre-existing, out-of-date
-fork.</p></td>
+using the preferred <code>protocol</code>. The <code>master</code> branch is set to track
+<code>upstream/master</code> and is immediately pulled, which matters in the case of a
+pre-existing, out-of-date fork.</p></td>
     </tr>
     <tr>
       <th>rstudio</th>
