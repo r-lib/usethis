@@ -15,7 +15,8 @@ test_that("check_uses_circleci() can throw error", {
   scoped_temporary_package()
   expect_error(
     check_uses_circleci(),
-    "Do you need to run `use_circleci\\(\\)`"
+    "Do you need to run `use_circleci()`?",
+    fixed = TRUE, class = "usethis_error"
   )
 })
 
