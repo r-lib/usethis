@@ -66,7 +66,7 @@ use_cran_badge <- function() {
   pkg <- project_name()
 
   src <- glue("https://www.r-pkg.org/badges/version/{pkg}")
-  href <- glue("https://cran.r-project.org/package={pkg}")
+  href <- glue("https://CRAN.R-project.org/package={pkg}")
   use_badge("CRAN status", href, src)
 
   invisible(TRUE)
