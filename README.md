@@ -63,8 +63,8 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✔ Creating '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpsumDrz/mypkg/'
-#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpsumDrz/mypkg'
+#> ✔ Creating '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg/'
+#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Writing 'DESCRIPTION'
 #> Package: mypkg
@@ -80,8 +80,8 @@ create_package(path)
 #> ✔ Setting active project to '<no active project>'
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✔ Changing working directory to '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpsumDrz/mypkg/'
-#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpsumDrz/mypkg'
+#> ✔ Changing working directory to '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg/'
+#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -104,14 +104,14 @@ use_roxygen_md()
 use_rcpp()
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
-#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpsumDrz/mypkg/R/mypkg-package.R':
+#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg/R/mypkg-package.R':
 #>   ## usethis namespace: start
 #>   #' @useDynLib mypkg, .registration = TRUE
 #>   ## usethis namespace: end
 #>   NULL
 #> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
 #> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
-#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpsumDrz/mypkg/R/mypkg-package.R':
+#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg/R/mypkg-package.R':
 #>   ## usethis namespace: start
 #>   #' @importFrom Rcpp sourceCpp
 #>   ## usethis namespace: end
@@ -136,6 +136,7 @@ use_test("my-test")
 #> ✔ Creating 'tests/testthat/'
 #> ✔ Writing 'tests/testthat.R'
 #> ● Call `use_test()` to initialize a basic test file and open it for editing.
+#> ✔ Increasing 'testthat' version to '>= 2.1.0' in DESCRIPTION
 #> ✔ Writing 'tests/testthat/test-my-test.R'
 
 x <- 1
@@ -151,5 +152,5 @@ use_git()
 ```
 
 Please note that the usethis project is released with a [Contributor
-Code of Conduct](.github/CODE_OF_CONDUCT.md). By contributing to this
-project, you agree to abide by its terms.
+Code of Conduct](https://usethis.r-lib.org/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.
