@@ -75,11 +75,11 @@ test_that("use_version() updates (development version) directly", {
 
   expect_match(
     readLines(proj_path("NEWS.md"), n = 1),
-    "0\\.0\\.2"
+    "0[.]0[.]2"
   )
 
   expect_match(
     readLines(proj_path("NEWS.md"), n = 3)[3],
-    "0\\.0\\.1"
+    "0[.]0[.]1"
   )
 })
