@@ -114,15 +114,6 @@ pr_fetch <- function(number,
     {ui_value(pr$title)}'
   )
 
-  maintainer_can_modify <- isTRUE(pr$maintainer_can_modify)
-  if (!maintainer_can_modify) {
-    ui_info("
-      Note that user does NOT allow maintainer to modify this PR \\
-      at this time,
-      although this can be changed.
-      ")
-  }
-
   their_branch <- pr$head$ref
   them <- pr$head$user$login
   if (them == github_owner()) {
@@ -131,6 +122,13 @@ pr_fetch <- function(number,
   } else {
     remote <- them
     our_branch <- glue("{them}-{their_branch}")
+    if (!isTRUE(pr$maintainer_can_modify)) {
+      ui_info("
+      Note that user does NOT allow maintainer to modify this PR \\
+      at this time,
+      although this can be changed.
+      ")
+    }
   }
 
   protocol <- github_remote_protocol()
