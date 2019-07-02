@@ -11,10 +11,6 @@ template:
       index_name: usethis
     ganalytics: UA-115082821-1
 
-
-development:
-  mode: auto
-
 navbar:
   type: default
   left:
@@ -73,7 +69,7 @@ reference:
     - matches("license")
     - use_namespace
     - use_coverage
-    - matches("build_ignore|pipe|rcpp|tibble")
+    - matches("build_ignore|pipe|rcpp|tibble|make")
     - matches("roxygen_md|news_md|package_doc|logo")
     - matches("readme")
     - matches("pkgdown|badge")
@@ -89,6 +85,7 @@ reference:
     - use_appveyor
     - use_gitlab_ci
     - use_circleci
+    - use_jenkins
   - title: Tidyverse development
     desc: >
       Conventions used in the tidyverse and r-lib organisations
