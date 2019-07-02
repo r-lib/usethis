@@ -6,6 +6,7 @@ test_that("use_pkgdown() requires a package", {
 })
 
 test_that("use_pkgdown() creates and ignores the promised file/dir", {
+  skip_if_not_installed("pkgdown", "1.1.0")
   scoped_temporary_package()
   use_pkgdown()
   expect_proj_file("_pkgdown.yml")
