@@ -61,3 +61,25 @@ test_that("use_dev_version() appends .9000 to Version, exactly once", {
     "0.0.1.9000"
   )
 })
+
+test_that("use_version() updates (development version) directly", {
+  scoped_temporary_package()
+  use_description_field(name = "Version", value = "0.0.1", overwrite = TRUE)
+  use_news_md()
+
+  # bump to dev to set (development version)
+  use_dev_version()
+
+  # directly overwrite development header
+  use_version("patch")
+
+  expect_match(
+    readLines(proj_path("NEWS.md"), n = 1),
+    "0[.]0[.]2"
+  )
+
+  expect_match(
+    readLines(proj_path("NEWS.md"), n = 3)[3],
+    "0[.]0[.]1"
+  )
+})

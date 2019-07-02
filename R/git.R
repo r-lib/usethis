@@ -26,7 +26,7 @@ use_git <- function(message = "Initial commit") {
 }
 
 git_ask_commit <- function(message, untracked = FALSE) {
-  if (!interactive()) {
+  if (!interactive() || !uses_git()) {
     return(invisible())
   }
 
