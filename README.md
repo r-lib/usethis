@@ -12,7 +12,7 @@ status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=
 [![Codecov test
 coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/usethis?branch=master)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/usethis)](https://cran.r-project.org/package=usethis)
+status](https://www.r-pkg.org/badges/version/usethis)](https://CRAN.R-project.org/package=usethis)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 <!-- badges: end -->
@@ -63,8 +63,8 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✔ Creating '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg/'
-#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg'
+#> ✔ Creating '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg/'
+#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Writing 'DESCRIPTION'
 #> Package: mypkg
@@ -80,8 +80,8 @@ create_package(path)
 #> ✔ Setting active project to '<no active project>'
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✔ Changing working directory to '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg/'
-#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg'
+#> ✔ Changing working directory to '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg/'
+#> ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -104,14 +104,14 @@ use_roxygen_md()
 use_rcpp()
 #> ✔ Creating 'src/'
 #> ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'
-#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg/R/mypkg-package.R':
+#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg/R/mypkg-package.R':
 #>   ## usethis namespace: start
 #>   #' @useDynLib mypkg, .registration = TRUE
 #>   ## usethis namespace: end
 #>   NULL
 #> ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION
 #> ✔ Adding 'Rcpp' to Imports field in DESCRIPTION
-#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpMDB6ic/mypkg/R/mypkg-package.R':
+#> ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg/R/mypkg-package.R':
 #>   ## usethis namespace: start
 #>   #' @importFrom Rcpp sourceCpp
 #>   ## usethis namespace: end
