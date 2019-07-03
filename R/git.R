@@ -19,18 +19,18 @@ use_git <- function(message = "Initial commit") {
   git_init()
 
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
-  git_ask_commit(message)
+  git_ask_commit(message, untracked = TRUE)
 
   restart_rstudio("A restart of RStudio is required to activate the Git pane")
   invisible(TRUE)
 }
 
-git_ask_commit <- function(message) {
-  if (!interactive()) {
+git_ask_commit <- function(message, untracked = FALSE) {
+  if (!interactive() || !uses_git()) {
     return(invisible())
   }
 
-  paths <- unlist(git_status(), use.names = FALSE)
+  paths <- unlist(git_status(untracked = untracked), use.names = FALSE)
   if (length(paths) == 0) {
     return(invisible())
   }
@@ -357,12 +357,11 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #' `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively.
 #' 1. All the relevant software agrees on the definition of `~/`, i.e.
 #' your home directory. This is harder than it sounds on Windows.
-#' 1. Your `ssh-agent` is configured to manage your SSH passphrase, if you
-#' have one. This too can be a problem on Windows.
-#' Read more about SSH setup in [Happy
-#' Git](http://happygitwithr.com/ssh-keys.html), especially the
-#' [troubleshooting
-#' section](http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
+#' 1. Your `ssh-agent` is configured to manage your SSH passphrase, if you have
+#' one. This too can be a problem on Windows. Read more about SSH setup in
+#' [Happy Git and GitHub for the useR](https://happygitwithr.com/ssh-keys.html),
+#' especially the [troubleshooting
+#' section](https://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
 #'
 #' If the `NULL` default doesn't work, you can make `credentials` explicitly
 #' with [git2r::cred_ssh_key()] and register that with
@@ -408,7 +407,7 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #'   [git2r::cred_env()], [git2r::cred_ssh_key()], [git2r::cred_token()], or
 #'   [git2r::cred_user_pass()].
 #'
-#' @return Either `NULL` or a git2r credential object, invisibly. I.e.,
+#' @return Either `NULL` or a git2r credential object, invisibly, i.e.
 #'   something to be passed to git2r as `credentials`.
 #' @export
 #'
@@ -448,8 +447,8 @@ use_git_credentials <- function(credentials) {
 #' git/GitHub sitrep
 #'
 #' Get a situation report on your current git/GitHub status. Useful for
-#' diagnosing problems.
-#'
+#' diagnosing problems. [git_vaccinate()] adds some basic R- and RStudio-related
+#' entries to the user-level git ignore file.
 #' @export
 #' @examples
 #' git_sitrep()

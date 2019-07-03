@@ -13,11 +13,11 @@ test_that("use_lifecycle_badge() handles bad and good input", {
   expect_error_free(use_lifecycle_badge("stable"))
 })
 
-test_that("use_binder_badge() the github repository works", {
+test_that("use_binder_badge() needs a github repository", {
   skip_if(getRversion() < 3.2)
   skip_if_no_git_config()
   scoped_temporary_project()
-  expect_error_free(use_binder_badge())
+  expect_error(use_binder_badge())
 })
 
 test_that("use_badge() does nothing if badge seems to pre-exist", {

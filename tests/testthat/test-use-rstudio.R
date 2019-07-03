@@ -25,7 +25,7 @@ test_that("we error for multiple Rproj files", {
     rproj_path(),
     proj_path("copy.Rproj")
   )
-  expect_error(rproj_path(), "Multiple .Rproj files found", fixed = TRUE)
+  expect_usethis_error(rproj_path(), "Multiple .Rproj files found", fixed = TRUE)
 })
 
 test_that("Rproj is parsed (actually, only colon-containing lines)", {

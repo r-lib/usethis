@@ -8,13 +8,14 @@ stages:
 building:
   stage: build
   script:
-    - R -e "remotes::install_deps(dependencies = T)"
+    - R -e "remotes::install_deps(dependencies = TRUE)"
     - R -e 'devtools::check()'
 
-# To have the converage percentge appear as a gitlab badge follow these instructions
+# To have the coverage percentage appear as a gitlab badge follow these
+# instructions:
 # https://docs.gitlab.com/ee/user/project/pipelines/settings.html#test-coverage-parsing
 # The coverage parsing string is
-# Code coverage: \d+\.\d+
+# Coverage: \d+\.\d+
 
 testing:
     stage: test
@@ -23,8 +24,8 @@ testing:
     only:
         - master
     script:
-        - Rscript -e 'install.pacakges("DT")'
-        - Rscript -e 'cc <- covr::package_coverage; covr::gitlab(coverage = cc); cat("Code coverage:", paste0(format(covr::percent_coverage(cc), nsmall = 1),"%"))'
+        - Rscript -e 'install.packages("DT")'
+        - Rscript -e 'covr::gitlab(quiet = FALSE)'
     artifacts:
         paths:
             - public
