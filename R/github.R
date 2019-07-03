@@ -56,6 +56,7 @@ use_github <- function(organisation = NULL,
   check_no_github_repo(owner, repo_name, host, auth_token)
 
   repo_desc <- project_data()$Title %||% ""
+  repo_desc <- gsub("\n", " ", repo_desc)
 
   if (interactive()) {
     ui_todo("Check title and description")
