@@ -152,14 +152,12 @@ news_latest <- function() {
   lines <- readLines(path)
   headings <- which(grepl("^#\\s+", lines))
 
-  if (length(headings == 1)) {
-    if (length(headings) == 0) {
-      ui_stop("No top-level headings found in {ui_value(path)}")
-    } else if (length(headings) == 1) {
-      news <- lines[seq2(headings + 1, length(lines))]
-    } else {
-      news <- lines[seq2(headings[[1]] + 1, headings[[2]] - 1)]
-    }
+  if (length(headings) == 0) {
+    ui_stop("No top-level headings found in {ui_value(path)}")
+  } else if (length(headings) == 1) {
+    news <- lines[seq2(headings + 1, length(lines))]
+  } else {
+    news <- lines[seq2(headings[[1]] + 1, headings[[2]] - 1)]
   }
 
   # Remove leading and trailing empty lines
