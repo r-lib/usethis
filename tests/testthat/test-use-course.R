@@ -1,5 +1,65 @@
-context("use_course")
+## tidy_download ----
 
+test_that("tidy_download() errors early if destdir is not a directory", {
+  tmp <- fs::path_temp("I_am_just_a_file")
+  expect_error(
+    tidy_download("URL", destdir = tmp), "does not exist",
+    class = "usethis_error"
+  )
+
+  fs::file_create(tmp)
+  expect_error(
+    tidy_download("URL", destdir = tmp), "not a directory",
+    class = "usethis_error"
+  )
+})
+
+test_that("tidy_download() works", {
+  skip_on_cran()
+  skip_if_offline()
+
+  tmp <- fs::file_temp("tidy-download-test-")
+  fs::dir_create(tmp)
+  on.exit(fs::dir_delete(tmp))
+
+  gh_url <- "https://github.com/r-lib/rematch2/archive/master.zip"
+  expected <- fs::path(tmp, "rematch2-master.zip")
+
+  out <- tidy_download(gh_url, destdir = tmp)
+  expect_true(fs::file_exists(expected))
+  expect_equivalent(out, expected)
+  expect_identical(attr(out, "content-type"), "application/zip")
+
+  # refuse to overwrite when non-interactive
+  expect_error(tidy_download(gh_url, destdir = tmp))
+})
+
+## tidy_unzip ----
+
+test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
+  tmp <- file_temp(ext = ".zip")
+  fs::file_copy(test_file("yo-loose-regular.zip"), tmp)
+  dest <- tidy_unzip(tmp)
+  loose_regular_files <- fs::path_file(fs::dir_ls(dest, recurse = TRUE))
+  fs::dir_delete(dest)
+
+  tmp <- file_temp(ext = ".zip")
+  fs::file_copy(test_file("yo-loose-dropbox.zip"), tmp)
+  dest <- tidy_unzip(tmp)
+  loose_dropbox_files <- fs::path_file(fs::dir_ls(dest, recurse = TRUE))
+  fs::dir_delete(dest)
+
+  tmp <- file_temp(ext = ".zip")
+  fs::file_copy(test_file("yo-not-loose.zip"), tmp)
+  dest <- tidy_unzip(tmp)
+  not_loose_files <- fs::path_file(fs::dir_ls(dest, recurse = TRUE))
+  fs::dir_delete(dest)
+
+  expect_identical(loose_regular_files, loose_dropbox_files)
+  expect_identical(loose_dropbox_files, not_loose_files)
+})
+
+## helpers ----
 test_that("normalize_url() prepends https:// (or not)", {
   expect_error(normalize_url(1), "is\\.character.*not TRUE")
   expect_identical(normalize_url("http://bit.ly/aaa"), "http://bit.ly/aaa")
@@ -41,15 +101,10 @@ test_that("conspicuous_place() returns a writeable directory", {
 })
 
 test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
-  skip_if_offline()
-  ## download timed out on a CRAN submission, so let's not take a chance
+  skip("work this into a use_course test")
   skip_on_cran()
-  ## curl::parse_headers_list() calls trimws()
-  ## curl got an internal trimws() backport in v3.2
-  ## yes the version numbers for R and curl are just a coincidence
-  skip_if(getRversion() < 3.2 && packageVersion("curl") < 3.2)
-
-  expect_error(
+  skip_if_offline()
+  expect_usethis_error(
     download_zip("https://httpbin.org/get"),
     "does not have MIME type"
   )
@@ -74,7 +129,7 @@ test_that("parse_content_disposition() parses Content-Description", {
 })
 
 test_that("parse_content_disposition() errors on ill-formed `content-disposition` header", {
-  expect_error(
+  expect_usethis_error(
     parse_content_disposition("aa;bb=cc;dd"),
     "doesn't start with"
   )
@@ -125,27 +180,4 @@ test_that("top_directory() identifies a unique top directory (or not)", {
   expect_identical(top_directory("a/"), "a/")
   expect_identical(top_directory(c("a/", "a/b")), "a/")
   expect_identical(top_directory(c("a/", "a/b", "a/c")), "a/")
-})
-
-test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
-  tmp <- file_temp(ext = ".zip")
-  file_copy(test_file("yo-loose-regular.zip"), tmp)
-  dest <- tidy_unzip(tmp)
-  loose_regular_files <- path_file(dir_ls(dest, recursive = TRUE))
-  dir_delete(dest)
-
-  tmp <- file_temp(ext = ".zip")
-  file_copy(test_file("yo-loose-dropbox.zip"), tmp)
-  dest <- tidy_unzip(tmp)
-  loose_dropbox_files <- path_file(dir_ls(dest, recursive = TRUE))
-  dir_delete(dest)
-
-  tmp <- file_temp(ext = ".zip")
-  file_copy(test_file("yo-not-loose.zip"), tmp)
-  dest <- tidy_unzip(tmp)
-  not_loose_files <- path_file(dir_ls(dest, recursive = TRUE))
-  dir_delete(dest)
-
-  expect_identical(loose_regular_files, loose_dropbox_files)
-  expect_identical(loose_dropbox_files, not_loose_files)
 })

@@ -4,13 +4,26 @@
 \alias{use_pipe}
 \title{Use magrittr's pipe in your package}
 \usage{
-use_pipe()
+use_pipe(export = TRUE)
+}
+\arguments{
+\item{export}{If \code{TRUE}, the file \code{R/utils-pipe.R} is added, which provides
+the roxygen template to import and re-export \code{\%>\%}. If \code{FALSE}, the necessary
+roxygen directive is added, if possible, or otherwise instructions are given.}
 }
 \description{
-Does setup necessary to use magrittr's pipe internally in your package and to
-re-export it for users of your package:
+Does setup necessary to use magrittr's pipe operator, \code{\%>\%} in your package.
+This function requires the use roxygen.
 \itemize{
-\item Adds magrittr to "Imports" in \code{DESCRIPTION}
-\item Creates \code{R/utils-pipe.R} with the necessary roxygen template
+\item Adds magrittr to "Imports" in \code{DESCRIPTION}.
+\item Imports the pipe operator specifically, which is necessary for internal
+use.
+\item Exports the pipe operator, if \code{export = TRUE}, which is necessary to make
+\code{\%>\%} available to the users of your package.
+}
+}
+\examples{
+\dontrun{
+use_pipe()
 }
 }

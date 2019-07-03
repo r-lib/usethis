@@ -29,12 +29,12 @@ test_that("create functions return path to new proj, but restore active proj", {
 
 test_that("nested package is disallowed, by default", {
   dir <- scoped_temporary_package()
-  expect_error(scoped_temporary_package(path(dir, "abcde")), "anyway")
+  expect_usethis_error(scoped_temporary_package(path(dir, "abcde")), "anyway")
 })
 
 test_that("nested project is disallowed, by default", {
   dir <- scoped_temporary_project()
-  expect_error(scoped_temporary_project(path(dir, "abcde")), "anyway")
+  expect_usethis_error(scoped_temporary_project(path(dir, "abcde")), "anyway")
 })
 
 ## https://github.com/r-lib/usethis/issues/227
@@ -68,7 +68,7 @@ test_that("rationalize_fork() won't attempt to fork w/o auth_token", {
   expect_false(
     rationalize_fork(fork = NA, repo_info = list(), auth_token = "")
   )
-  expect_error(
+  expect_usethis_error(
     rationalize_fork(fork = TRUE, repo_info = list(), auth_token = ""),
     "No GitHub .+auth_token.+ is available"
   )
@@ -77,7 +77,7 @@ test_that("rationalize_fork() won't attempt to fork w/o auth_token", {
 test_that("rationalize_fork() won't attempt to fork repo owned by user", {
   with_mock(
     `usethis:::github_user` = function(auth_token) list(login = "USER"),
-    expect_error(
+    expect_usethis_error(
       rationalize_fork(
         fork = TRUE,
         repo_info = list(full_name = "USER/REPO", owner = list(login = "USER")),

@@ -1,5 +1,29 @@
 # usethis (development version)
 
+* `create_from_github()` sets remote tracking branch of `master` to `upstream/master`, when it creates (and clones) a fork (#792).
+
+* `use_pipe()` gains a logical `export` argument, so it can do the setup necessary to use the pipe operator when it is re-exported (`export = TRUE`, which is the default and preserves the previous behaviour) and when it is not (`export = FALSE`) (#783).
+
+* `use_circleci()` creates a `.circleci/config.yaml` config file for CircleCI
+  (#703, @jdblischak).
+
+* `pr_pause()` can switch back to master even if there is no remote tracking
+  branch (@cderv, #715). 
+
+* `use_zip()` is a new variant of `use_course()` that downloads and unpacks a
+  ZIP file, with less pedantic behaviour re: the destination directory. Both
+  functions now also work for ZIP files with MIME type
+  "application/x-zip-compressed" (#573).
+
+* `use_tidy_ci()` updated for R 3.6 (support for R 3.1 is officially sunsetted)
+
+* `use_make()` and `use_jenkins()` add a Makefile and Jenkinsfile, respectively
+  (#501, @ryapric).
+
+## Dependency changes
+
+* fs minimum version is now v1.3.0.
+
 # usethis 1.5.0
 
 ## Git, GitHub (and GitLab)
@@ -28,6 +52,9 @@ Git operations).
   express a general preference for SSH vs. HTTPS.
 
 Other improvements and bug fixes:
+
+* `use_github()` now removes newline `\n` characters when pushing that can cause 
+  `gh::gh` fail (#493, @muschellij2).  
 
 * `use_github()` tries harder but also fails earlier, with more informative
   messages, making it less likely to leave the repo partially configured (#221).
@@ -492,7 +519,7 @@ A new class of functions make it easy to edit common config files:
   to follow standard licensing best practices while adhering to CRANs 
   requirements (#10).
 
-* `use_package_doc()` uses more modern roxygen2 template requires that 
+* `use_package_doc()` uses more a modern roxygen2 template that requires
   less duplication.
 
 * `use_test()` will use the name of the currently open file in RStudio

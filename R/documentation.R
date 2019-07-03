@@ -24,3 +24,7 @@ use_package_doc <- function() {
 package_doc_path <- function() {
   path("R", paste0(project_name(), "-package"), ext = "R")
 }
+
+has_package_doc <- function() {
+  file_exists(proj_path(package_doc_path()))
+}

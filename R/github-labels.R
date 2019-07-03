@@ -6,8 +6,8 @@
 #' It will never delete labels that have associated issues.
 #'
 #' `use_tidy_labels()` calls `use_github_labels()` with tidyverse conventions
-#' powered by `tidy_labels()`, `tidy_labels_rename()`, `tidy_label_colours()` and
-#' `tidy_label_descriptions()`.
+#' powered by `tidy_labels()`, `tidy_labels_rename()`, `tidy_label_colours()`
+#' and `tidy_label_descriptions()`.
 #'
 #' @section Label usage:
 #' Labels are used as part of the issue-triage process, designed to minimise the
@@ -15,10 +15,10 @@
 #' is new, and has yet to be triaged.
 #' * `reprex` indicates that an issue does not have a minimal reproducible
 #'   example, and that a reply has been sent requesting one from the user.
-#' * `bug` type, indicates an unexpected problem or unintended behavior.
-#' * `feature` type, indicates a feature request or enhancement.
-#' * `docs` type, indicates an issue with the documentation.
-#' * `wip` indicates that someone else is working on it or has promised to.
+#' * `bug` indicates an unexpected problem or unintended behavior.
+#' * `feature` indicates a feature request or enhancement.
+#' * `docs` indicates an issue with the documentation.
+#' * `wip` indicates that someone is working on it or has promised to.
 #' * `good first issue` indicates a good issue for first-time contributors.
 #' * `help wanted` indicates that a maintainer wants help on an issue.
 #'
@@ -26,15 +26,15 @@
 #'   don't want to target the current project.
 #' @param labels A character vector giving labels to add.
 #' @param rename A named vector with names giving old names and values giving
-#'   new values.
+#'   new names.
 #' @param colours,descriptions Named character vectors giving hexadecimal
 #'   colours (like `e02a2a`) and longer descriptions. The names should match
 #'   label names, and anything unmatched will be left unchanged. If you
 #'   create a new label, and don't supply colours, it will be given a random
 #'   colour.
-#' @param delete_default If `TRUE`, will remove GitHub default labels that do
-#'   not appear in the `labels` vector, and do not have associated issues.
-#'   to your workflow).
+#' @param delete_default If `TRUE`, removes GitHub default labels that do
+#'   not appear in the `labels` vector and that do not have associated issues.
+#'
 #' @inheritParams use_github_links
 #' @export
 #' @examples
@@ -64,7 +64,9 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
                               delete_default = FALSE,
                               auth_token = github_token(),
                               host = NULL) {
-  check_uses_github()
+  if (missing(repo_spec)) {
+    check_uses_github()
+  }
   check_github_token(auth_token)
 
   gh <- function(endpoint, ...) {
@@ -87,32 +89,69 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   }
 
   cur_labels <- gh("GET /repos/:owner/:repo/labels")
-  cur_label_names <- purrr::map_chr(cur_labels, "name")
+  label_attr <- function(x, l, mapper = purrr::map_chr) {
+    mapper(l, x, .default = NA)
+  }
 
   # Rename existing labels
+  cur_label_names <- label_attr("name", cur_labels)
   to_rename <- intersect(cur_label_names, names(rename))
   if (length(to_rename) > 0) {
     delta <- purrr::map2_chr(
       to_rename, rename[to_rename],
       ~ paste0(ui_value(.x), " -> ", ui_value(.y))
     )
-    ui_done("Renaming labels: {paste0(delta, collapse = ', ')}")
+    ui_done("Renaming labels: {paste0(delta, collapse = '\n')}")
 
-    for (label in to_rename) {
-      gh(
-        "PATCH /repos/:owner/:repo/labels/:current_name",
-        current_name = label,
-        name = rename[[label]]
+    # Can't do this at label level, i.e. "old_label_name --> new_label_name"
+    # Fails if "new_label_name" already exists
+    # https://github.com/r-lib/usethis/issues/551
+    # Must first PATCH issues, then sort out labels
+    issues <- purrr::map(
+      to_rename,
+      ~ gh("GET /repos/:owner/:repo/issues", labels = .x)
+    )
+    issues <- purrr::flatten(issues)
+    number <- purrr::map_int(issues, "number")
+    old_labels <- purrr::map(issues, "labels")
+    df <- data.frame(
+      number = rep.int(number, lengths(old_labels))
+    )
+    df$labels <- purrr::flatten(old_labels)
+    df$labels <- purrr::map_chr(df$labels, "name")
+
+    # enact relabelling
+    m <- match(df$labels, names(rename))
+    df$labels[!is.na(m)] <- rename[m[!is.na(m)]]
+    df <- df[!duplicated(df), ]
+    new_labels <- split(df$labels, df$number)
+    purrr::iwalk(
+      new_labels,
+      ~ gh(
+        "PATCH /repos/:owner/:repo/issues/:issue_number",
+        issue_number = .y,
+        labels = I(.x)
       )
-    }
+    )
 
-    update <- match(to_rename, cur_label_names)
-    cur_label_names[update] <- rename[to_rename]
+    # issues have correct labels now; safe to edit labels themselves
+    purrr::walk(
+      to_rename,
+      ~ gh("DELETE /repos/:owner/:repo/labels/:name", name = .x)
+    )
+    labels <- union(labels, setdiff(rename, cur_label_names))
+  } else {
+    ui_info("No labels need renaming")
   }
 
+  cur_labels <- gh("GET /repos/:owner/:repo/labels")
+  cur_label_names <- label_attr("name", cur_labels)
+
   # Add missing labels
-  to_add <- setdiff(labels, cur_label_names)
-  if (length(to_add) > 0) {
+  if (all(labels %in% cur_label_names)) {
+    ui_info("No new labels needed")
+  } else {
+    to_add <- setdiff(labels, cur_label_names)
     ui_done("Adding missing labels: {ui_value(to_add)}")
 
     for (label in to_add) {
@@ -125,10 +164,18 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
     }
   }
 
+  cur_labels <- gh("GET /repos/:owner/:repo/labels")
+  cur_label_names <- label_attr("name", cur_labels)
+
   # Update colours
-  to_update <- intersect(cur_label_names, names(colours))
-  if (length(to_update) > 0) {
-    ui_done("Updating colours")
+  cur_label_colours <- rlang::set_names(
+    label_attr("color", cur_labels), cur_label_names
+  )
+  if (identical(cur_label_colours[names(colours)], colours)) {
+    ui_info("Label colours are up-to-date")
+  } else {
+    to_update <- intersect(cur_label_names, names(colours))
+    ui_done("Updating colours: {ui_value(to_update)}")
 
     for (label in to_update) {
       gh(
@@ -140,9 +187,14 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   }
 
   # Update descriptions
-  to_update <- intersect(cur_label_names, names(descriptions))
-  if (length(to_update) > 0) {
-    ui_done("Updating descriptions")
+  cur_label_descriptions <- rlang::set_names(
+    label_attr("description", cur_labels), cur_label_names
+  )
+  if (identical(cur_label_descriptions[names(descriptions)], descriptions)) {
+    ui_info("Label descriptions are up-to-date")
+  } else {
+    to_update <- intersect(cur_label_names, names(descriptions))
+    ui_done("Updating descriptions: {ui_value(to_update)}")
 
     for (label in to_update) {
       gh(
@@ -173,8 +225,6 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   }
 }
 
-
-
 #' @export
 #' @rdname use_github_labels
 use_tidy_labels <- function(repo_spec = github_repo_spec(),
@@ -202,11 +252,12 @@ tidy_labels <- function() {
 #' @export
 tidy_labels_rename <- function() {
   c(
-    "enhancement" = "feature",
-    "question" = "reprex",
+    # before           = after
+    "enhancement"      = "feature",
+    "question"         = "reprex",
     "good first issue" = "good first issue :heart:",
-    "help wanted" = "help wanted :heart:",
-    "docs" = "documentation"
+    "help wanted"      = "help wanted :heart:",
+    "docs"             = "documentation"
   )
 }
 

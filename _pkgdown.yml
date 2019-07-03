@@ -9,9 +9,7 @@ template:
     docsearch:
       api_key: f67d4c46004acc8326e8d95f296a680e
       index_name: usethis
-
-development:
-  mode: auto
+    ganalytics: UA-115082821-1
 
 navbar:
   type: default
@@ -71,7 +69,7 @@ reference:
     - matches("license")
     - use_namespace
     - use_coverage
-    - matches("build_ignore|pipe|rcpp|tibble")
+    - matches("build_ignore|pipe|rcpp|tibble|make")
     - matches("roxygen_md|news_md|package_doc|logo")
     - matches("readme")
     - matches("pkgdown|badge")
@@ -85,6 +83,9 @@ reference:
     contents:
     - use_travis
     - use_appveyor
+    - use_gitlab_ci
+    - use_circleci
+    - use_jenkins
   - title: Tidyverse development
     desc: >
       Conventions used in the tidyverse and r-lib organisations
