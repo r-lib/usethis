@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Download and unpack a ZIP file — use_course_details • usethis</title>
+<title>Helpers to download and unpack a ZIP file — use_course_details • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -43,10 +43,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Download and unpack a ZIP file — use_course_details" />
+<meta property="og:title" content="Helpers to download and unpack a ZIP file — use_course_details" />
 
-<meta property="og:description" content="Details on the two functions that power use_course(). These internal
-functions are currently unexported but a course instructor may want more
+<meta property="og:description" content="Details on the internal functions that power use_course() and use_zip().
+These helpers are currently unexported but a course instructor may want more
 details." />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
@@ -64,6 +64,16 @@ details." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115082821-1');
+</script>
+
   </head>
 
   <body>
@@ -80,7 +90,7 @@ details." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9000</span>
       </span>
     </div>
 
@@ -148,15 +158,15 @@ details." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Download and unpack a ZIP file</h1>
+    <h1>Helpers to download and unpack a ZIP file</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/course.R'><code>R/course.R</code></a></small>
     <div class="hidden name"><code>use_course_details.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Details on the two functions that power <code><a href='use_course.html'>use_course()</a></code>. These internal
-functions are currently unexported but a course instructor may want more
+    <p>Details on the internal functions that power <code><a href='zip-utils.html'>use_course()</a></code> and <code><a href='zip-utils.html'>use_zip()</a></code>.
+These helpers are currently unexported but a course instructor may want more
 details.</p>
     
     </div>
@@ -173,15 +183,8 @@ other redirect. See Details.</p></td>
     <tr>
       <th>destdir</th>
       <td><p>Path to existing local directory where the ZIP file will be
-stored. Defaults to current working directory, but note that <code><a href='use_course.html'>use_course()</a></code>
+stored. Defaults to current working directory, but note that <code><a href='zip-utils.html'>use_course()</a></code>
 has different default behavior.</p></td>
-    </tr>
-    <tr>
-      <th>pedantic</th>
-      <td><p>Logical. When <code>TRUE</code> and in an interactive session, the user
-is told where the ZIP file will be stored. If happy, user can elect to
-proceed. Otherwise, user can abort and try again with the desired
-<code>destdir</code>. Intentional friction for a pedagogical setting.</p></td>
     </tr>
     <tr>
       <th>zipfile</th>
@@ -189,16 +192,15 @@ proceed. Otherwise, user can abort and try again with the desired
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="download-zip-"><a class="anchor" href="#download-zip-"></a>download_zip()</h2>
+    <h2 class="hasAnchor" id="tidy-download-"><a class="anchor" href="#tidy-download-"></a>tidy_download()</h2>
 
     <pre>## function signature
-download_zip(url, destdir = getwd(), pedantic = FALSE)
+tidy_download(url, destdir = getwd())
     ## as called inside use_course()
-download_zip(
+tidy_download(
   url, ## after post-processing with normalize_url()
-  ## conspicuous_place() = Desktop or home directory or working directory
-  destdir = destdir %||% conspicuous_place(),
-  pedantic = is.null(destdir) &amp;&amp; interactive()
+  # conspicuous_place() = Desktop or home directory or working directory
+  destdir = destdir %||% conspicuous_place()
 )
 </pre>
     <p>Special-purpose function to download a ZIP file and automatically determine
@@ -219,7 +221,7 @@ sanitized. Returns the path to downloaded ZIP file, invisibly.</p>
 download link will have this form:</p><pre>https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
 </pre>
     <p>This download link (or a shortlink that points to it) is suitable as input
-for <code>download_zip()</code>. After one or more redirections, this link will
+for <code>tidy_download()</code>. After one or more redirections, this link will
 eventually lead to a download URL. For more details, see
 <a href='https://www.dropbox.com/help/desktop-web/force-download'>https://www.dropbox.com/help/desktop-web/force-download</a> and
 <a href='https://www.dropbox.com/en/help/desktop-web/download-entire-folders'>https://www.dropbox.com/en/help/desktop-web/download-entire-folders</a>.</p>
@@ -228,7 +230,7 @@ eventually lead to a download URL. For more details, see
 button. Capture this URL, which will have this form:</p><pre>https://github.com/r-lib/usethis/archive/master.zip
 </pre>
     <p>This download link (or a shortlink that points to it) is suitable as input
-for <code>download_zip()</code>. After one or more redirections, this link will
+for <code>tidy_download()</code>. After one or more redirections, this link will
 eventually lead to a download URL. Here's an alternative link that also leads
 to ZIP download, albeit with a different filenaming scheme:</p><pre>https://api.github.com/repos/r-lib/usethis/zipball/master
 </pre>
@@ -257,17 +259,13 @@ directory is a Git repo and/or RStudio Project, we unzip-ignore various
 hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those below <code>.git/</code> and
 <code>.Rproj.user</code>.</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other download functions: <code><a href='use_course.html'>use_course</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>download_zip</span>(<span class='st'>"https://github.com/r-lib/rematch2/archive/master.zip"</span>)
+<span class='fu'>tidy_download</span>(<span class='st'>"https://github.com/r-lib/rematch2/archive/master.zip"</span>)
 <span class='co'># }</span><div class='input'>
 </div><span class='co'># NOT RUN {</span>
-<span class='fu'>download_zip</span>(<span class='st'>"https://github.com/r-lib/rematch2/archive/master.zip"</span>)
+<span class='fu'>tidy_download</span>(<span class='st'>"https://github.com/r-lib/rematch2/archive/master.zip"</span>)
 <span class='fu'>tidy_unzip</span>(<span class='st'>"rematch2-master.zip"</span>)
 <span class='co'># }</span></pre>
   </div>
@@ -276,11 +274,9 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#download-zip-">download_zip()</a></li>
+      <li><a href="#tidy-download-">tidy_download()</a></li>
 
       <li><a href="#tidy-unzip-">tidy_unzip()</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -71,6 +71,16 @@ back to this happy state." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115082821-1');
+</script>
+
   </head>
 
   <body>
@@ -87,7 +97,7 @@ back to this happy state." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9000</span>
       </span>
     </div>
 
@@ -189,8 +199,8 @@ RStudio Project</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; *   working_directory: <span style='color: #0000BB;'>'/tmp/RtmpRUlSZv/file41f37b3dded6/reference'</span><span>
-#&gt; * active_usethis_proj: </span><span style='color: #0000BB;'>'/tmp/RtmpRUlSZv/file41f37b3dded6'</span><span>
+    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; *   working_directory: <span style='color: #0000BB;'>'/tmp/RtmpVudU77/file48204c3970a5/reference'</span><span>
+#&gt; * active_usethis_proj: </span><span style='color: #0000BB;'>'/tmp/RtmpVudU77/file48204c3970a5'</span><span>
 #&gt; * active_rstudio_proj: </span><span style='color: #555555;'>&lt;unset&gt;</span><span>
 #&gt; </span><span style='color: #BB0000;'>●</span><span> Your working directory is not the same as the active usethis project.
 #&gt;   Set working directory to the project: </span><span style='color: #555555;'>`setwd(proj_get())`</span><span>

@@ -67,6 +67,16 @@ ensure your badge block starts with a line containing only
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115082821-1');
+</script>
+
   </head>
 
   <body>
@@ -83,7 +93,7 @@ ensure your badge block starts with a line containing only
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9000</span>
       </span>
     </div>
 
@@ -175,7 +185,7 @@ ensure your badge block starts with a line containing only
 
 <span class='fu'>use_lifecycle_badge</span>(<span class='no'>stage</span>)
 
-<span class='fu'>use_binder_badge</span>()</pre>
+<span class='fu'>use_binder_badge</span>(<span class='kw'>urlpath</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,6 +201,13 @@ ensure your badge block starts with a line containing only
     <tr>
       <th>stage</th>
       <td><p>Stage of the package lifecycle</p></td>
+    </tr>
+    <tr>
+      <th>urlpath</th>
+      <td><p>An optional <code>urlpath</code> component to add to the link, e.g. <code>"rstudio"</code>
+to open an RStudio IDE instead of a Jupyter notebook.
+See the <a href='https://mybinder.readthedocs.io/en/latest/howto/user_interface.html'>binder documentation</a>
+for additional examples.</p></td>
     </tr>
     </table>
     

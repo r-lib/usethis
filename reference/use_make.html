@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Configure Git — use_git_config • usethis</title>
+<title>Create Makefile — use_make • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -43,10 +43,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Configure Git — use_git_config" />
+<meta property="og:title" content="Create Makefile — use_make" />
 
-<meta property="og:description" content="Sets Git options, for either the user or the project (&quot;global&quot; or &quot;local&quot;, in
-Git terminology)." />
+<meta property="og:description" content="use_make() adds a basic Makefile to the project root directory." />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -157,68 +156,31 @@ Git terminology)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Configure Git</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/git.R'><code>R/git.R</code></a></small>
-    <div class="hidden name"><code>use_git_config.Rd</code></div>
+    <h1>Create Makefile</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/make.R'><code>R/make.R</code></a></small>
+    <div class="hidden name"><code>use_make.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Sets Git options, for either the user or the project ("global" or "local", in
-Git terminology).</p>
+    <p><code>use_make()</code> adds a basic Makefile to the project root directory.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_git_config</span>(<span class='kw'>scope</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>), <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>scope</th>
-      <td><p>Edit globally for the current <strong>user</strong>, or locally for the
-current <strong>project</strong></p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Name-value pairs.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Invisibly, the previous values of the modified components.</p>
-    
+    <pre class="usage"><span class='fu'>use_make</span>()</pre>
+        
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other git helpers: <code><a href='use_git_hook.html'>use_git_hook</a></code>,
-  <code><a href='use_git_ignore.html'>use_git_ignore</a></code>, <code><a href='use_git.html'>use_git</a></code></p></div>
+    <div class='dont-index'><p>The <a href='https://www.gnu.org/software/make/manual/html_node'>documentation for GNU Make</a>.</p></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># set the user's global user.name and user.email</span>
-<span class='fu'>use_git_config</span>(<span class='kw'>user.name</span> <span class='kw'>=</span> <span class='st'>"Jane"</span>, <span class='kw'>user.email</span> <span class='kw'>=</span> <span class='st'>"jane@example.org"</span>)
-
-<span class='co'># set the user.name and user.email locally, i.e. for current repo/project</span>
-<span class='fu'>use_git_config</span>(
-  <span class='kw'>scope</span> <span class='kw'>=</span> <span class='st'>"project"</span>,
-  <span class='kw'>user.name</span> <span class='kw'>=</span> <span class='st'>"Jane"</span>,
-  <span class='kw'>user.email</span> <span class='kw'>=</span> <span class='st'>"jane@example.org"</span>
-)
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

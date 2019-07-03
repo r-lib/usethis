@@ -27,7 +27,13 @@
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script><script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115082821-1');
+</script>
 </head>
 <body>
     <div class="container template-article">
@@ -42,7 +48,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9000</span>
       </span>
     </div>
 
@@ -142,8 +148,8 @@
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># Create a new package -------------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"mypkg"</span>)</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="reference/create_package.html">create_package</a></span>(path)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Creating '/tmp/RtmpmD2Wvh/mypkg/'</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ Setting active project to '/tmp/RtmpmD2Wvh/mypkg'</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Creating '/tmp/Rtmpel7L2O/mypkg/'</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ Setting active project to '/tmp/Rtmpel7L2O/mypkg'</span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ✔ Creating 'R/'</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; ✔ Writing 'DESCRIPTION'</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; Package: mypkg</span></a>
@@ -159,8 +165,8 @@
 <a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; ✔ Setting active project to '&lt;no active project&gt;'</span></a>
 <a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co"># only needed since this session isn't interactive</span></a>
 <a class="sourceLine" id="cb3-22" data-line-number="22"><span class="kw"><a href="reference/proj_activate.html">proj_activate</a></span>(path)</a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; ✔ Changing working directory to '/tmp/RtmpmD2Wvh/mypkg/'</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; ✔ Setting active project to '/tmp/RtmpmD2Wvh/mypkg'</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; ✔ Changing working directory to '/tmp/Rtmpel7L2O/mypkg/'</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; ✔ Setting active project to '/tmp/Rtmpel7L2O/mypkg'</span></a>
 <a class="sourceLine" id="cb3-25" data-line-number="25"></a>
 <a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co"># Modify the description ----------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-27" data-line-number="27"><span class="kw"><a href="reference/licenses.html">use_mit_license</a></span>(<span class="st">"My Name"</span>)</a>
@@ -183,14 +189,14 @@
 <a class="sourceLine" id="cb3-44" data-line-number="44"><span class="kw"><a href="reference/use_rcpp.html">use_rcpp</a></span>()</a>
 <a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt; ✔ Creating 'src/'</span></a>
 <a class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt; ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'</span></a>
-<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/RtmpmD2Wvh/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/Rtmpel7L2O/mypkg/R/mypkg-package.R':</span></a>
 <a class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt;   ## usethis namespace: start</span></a>
 <a class="sourceLine" id="cb3-49" data-line-number="49"><span class="co">#&gt;   #' @useDynLib mypkg, .registration = TRUE</span></a>
 <a class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt;   ## usethis namespace: end</span></a>
 <a class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt;   NULL</span></a>
 <a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt; ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION</span></a>
 <a class="sourceLine" id="cb3-53" data-line-number="53"><span class="co">#&gt; ✔ Adding 'Rcpp' to Imports field in DESCRIPTION</span></a>
-<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/RtmpmD2Wvh/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/Rtmpel7L2O/mypkg/R/mypkg-package.R':</span></a>
 <a class="sourceLine" id="cb3-55" data-line-number="55"><span class="co">#&gt;   ## usethis namespace: start</span></a>
 <a class="sourceLine" id="cb3-56" data-line-number="56"><span class="co">#&gt;   #' @importFrom Rcpp sourceCpp</span></a>
 <a class="sourceLine" id="cb3-57" data-line-number="57"><span class="co">#&gt;   ## usethis namespace: end</span></a>
@@ -215,19 +221,20 @@
 <a class="sourceLine" id="cb3-76" data-line-number="76"><span class="co">#&gt; ✔ Creating 'tests/testthat/'</span></a>
 <a class="sourceLine" id="cb3-77" data-line-number="77"><span class="co">#&gt; ✔ Writing 'tests/testthat.R'</span></a>
 <a class="sourceLine" id="cb3-78" data-line-number="78"><span class="co">#&gt; ● Call `use_test()` to initialize a basic test file and open it for editing.</span></a>
-<a class="sourceLine" id="cb3-79" data-line-number="79"><span class="co">#&gt; ✔ Writing 'tests/testthat/test-my-test.R'</span></a>
-<a class="sourceLine" id="cb3-80" data-line-number="80"></a>
-<a class="sourceLine" id="cb3-81" data-line-number="81">x &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb3-82" data-line-number="82">y &lt;-<span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb3-83" data-line-number="83"><span class="kw"><a href="reference/use_data.html">use_data</a></span>(x, y)</a>
-<a class="sourceLine" id="cb3-84" data-line-number="84"><span class="co">#&gt; ✔ Creating 'data/'</span></a>
-<a class="sourceLine" id="cb3-85" data-line-number="85"><span class="co">#&gt; ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span></a>
-<a class="sourceLine" id="cb3-86" data-line-number="86"></a>
-<a class="sourceLine" id="cb3-87" data-line-number="87"><span class="co"># Use git ------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb3-88" data-line-number="88"><span class="kw"><a href="reference/use_git.html">use_git</a></span>()</a>
-<a class="sourceLine" id="cb3-89" data-line-number="89"><span class="co">#&gt; ✔ Initialising Git repo</span></a>
-<a class="sourceLine" id="cb3-90" data-line-number="90"><span class="co">#&gt; ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'</span></a></code></pre></div>
-<p>Please note that the usethis project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<a class="sourceLine" id="cb3-79" data-line-number="79"><span class="co">#&gt; ✔ Increasing 'testthat' version to '&gt;= 2.1.0' in DESCRIPTION</span></a>
+<a class="sourceLine" id="cb3-80" data-line-number="80"><span class="co">#&gt; ✔ Writing 'tests/testthat/test-my-test.R'</span></a>
+<a class="sourceLine" id="cb3-81" data-line-number="81"></a>
+<a class="sourceLine" id="cb3-82" data-line-number="82">x &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb3-83" data-line-number="83">y &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb3-84" data-line-number="84"><span class="kw"><a href="reference/use_data.html">use_data</a></span>(x, y)</a>
+<a class="sourceLine" id="cb3-85" data-line-number="85"><span class="co">#&gt; ✔ Creating 'data/'</span></a>
+<a class="sourceLine" id="cb3-86" data-line-number="86"><span class="co">#&gt; ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span></a>
+<a class="sourceLine" id="cb3-87" data-line-number="87"></a>
+<a class="sourceLine" id="cb3-88" data-line-number="88"><span class="co"># Use git ------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb3-89" data-line-number="89"><span class="kw"><a href="reference/use_git.html">use_git</a></span>()</a>
+<a class="sourceLine" id="cb3-90" data-line-number="90"><span class="co">#&gt; ✔ Initialising Git repo</span></a>
+<a class="sourceLine" id="cb3-91" data-line-number="91"><span class="co">#&gt; ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'</span></a></code></pre></div>
+<p>Please note that the usethis project is released with a <a href="https://usethis.r-lib.org/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
   </div>
@@ -269,7 +276,7 @@
 <li><a href="https://travis-ci.org/r-lib/usethis"><img src="https://travis-ci.org/r-lib/usethis.svg?branch=master" alt="Travis build status"></a></li>
 <li><a href="https://ci.appveyor.com/project/r-lib/usethis"><img src="https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://codecov.io/gh/r-lib/usethis?branch=master"><img src="https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://cran.r-project.org/package=usethis"><img src="https://www.r-pkg.org/badges/version/usethis" alt="CRAN status"></a></li>
+<li><a href="https://CRAN.R-project.org/package=usethis"><img src="https://www.r-pkg.org/badges/version/usethis" alt="CRAN status"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 </ul>
 </div>

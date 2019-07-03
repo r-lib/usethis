@@ -60,6 +60,16 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-115082821-1');
+</script>
+
   </head>
 
   <body>
@@ -76,7 +86,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9000</span>
       </span>
     </div>
 
@@ -285,9 +295,9 @@
 <li><p><code>restart_rstudio()</code> now returns <code>FALSE</code> in RStudio if no project is open, fixing an issue that caused errors in helpers that suggest restarting RStudio (<a href='https://github.com/gadenbuie'>@gadenbuie</a>, <a href='https://github.com/r-lib/usethis/issues/571'>#571</a>).</p></li>
 </ul>
 </div>
-<div id="dependency-changes" class="section level2">
+<div id="dependency-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
+<a href="#dependency-changes-1" class="anchor"></a>Dependency changes</h2>
 <ul>
 <li><p>withr moves from Suggests to Imports.</p></li>
 <li><p>purrr and yaml are new in Imports.</p></li>
@@ -339,7 +349,7 @@
 <a href="#other-small-changes-and-bug-fixes" class="anchor"></a>Other small changes and bug fixes</h2>
 <ul>
 <li><p>usethis has a new logo! (<a href='https://github.com/r-lib/usethis/issues/429'>#429</a>)</p></li>
-<li><p><code><a href="../reference/use_course.html">use_course()</a></code> reports progress during download (<a href='https://github.com/r-lib/usethis/issues/276'>#276</a>, <a href='https://github.com/r-lib/usethis/issues/380'>#380</a>).</p></li>
+<li><p><code><a href="../reference/zip-utils.html">use_course()</a></code> reports progress during download (<a href='https://github.com/r-lib/usethis/issues/276'>#276</a>, <a href='https://github.com/r-lib/usethis/issues/380'>#380</a>).</p></li>
 <li><p><code><a href="../reference/use_git.html">use_git()</a></code> only makes an initial commit of all files if user gives explicit consent (<a href='https://github.com/r-lib/usethis/issues/378'>#378</a>).</p></li>
 <li><p><code><a href="../reference/create_from_github.html">create_from_github()</a></code>: the <code>repo</code> argument is renamed to <code>repo_spec</code>, since it takes input of the form “OWNER/REPO” (<a href='https://github.com/r-lib/usethis/issues/376'>#376</a>).</p></li>
 <li><p><code><a href="../reference/usethis-defunct.html">use_depsy_badge()</a></code> is defunct. The Depsy project has officially concluded and is no longer being maintained (<a href='https://github.com/r-lib/usethis/issues/354'>#354</a>).</p></li>
@@ -347,9 +357,9 @@
 <li><p>The logic for setting DESCRIPTION fields in <code><a href="../reference/create_package.html">create_package()</a></code> and <code><a href="../reference/use_description.html">use_description()</a></code> got a Spring Cleaning. Fields directly specified by the user take precedence, then the named list in <code><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption("usethis.description")</a></code> is consulted, and finally defaults built into usethis. <code><a href="../reference/use_description.html">use_description_defaults()</a></code> is a new function that reveals fields found in options and built into usethis. Options specific to one DESCRIPTION field, e.g. <code>devtools.desc.license</code>, are no longer supported. Instead, use a single named list for all fields, preferably stored in an option named <code>"usethis.description"</code> (however,<code>"devtools.desc"</code> is still consulted for backwards compatibility). (<a href='https://github.com/r-lib/usethis/issues/159'>#159</a>, <a href='https://github.com/r-lib/usethis/issues/233'>#233</a>, <a href='https://github.com/r-lib/usethis/issues/367'>#367</a>)</p></li>
 </ul>
 </div>
-<div id="dependency-changes-1" class="section level2">
+<div id="dependency-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes-1" class="anchor"></a>Dependency changes</h2>
+<a href="#dependency-changes-2" class="anchor"></a>Dependency changes</h2>
 <p>New Imports: fs, glue, utils</p>
 <p>No longer in Imports: backports, httr, rematch2, rmarkdown (moved to Suggests), styler (moved to Suggests)</p>
 </div>
@@ -389,7 +399,7 @@
 <h2 class="hasAnchor">
 <a href="#new-functions-2" class="anchor"></a>New functions</h2>
 <ul>
-<li><p><code><a href="../reference/use_course.html">use_course()</a></code> downloads a folder’s worth of materials from a ZIP file, with deliberate choices around the default folder name and location. Developed for use at the start of a workshop. Helps participants obtain materials from, e.g., a DropBox folder or GitHub repo (<a href='https://github.com/r-lib/usethis/issues/196'>#196</a>).</p></li>
+<li><p><code><a href="../reference/zip-utils.html">use_course()</a></code> downloads a folder’s worth of materials from a ZIP file, with deliberate choices around the default folder name and location. Developed for use at the start of a workshop. Helps participants obtain materials from, e.g., a DropBox folder or GitHub repo (<a href='https://github.com/r-lib/usethis/issues/196'>#196</a>).</p></li>
 <li><p><code><a href="../reference/use_blank_slate.html">use_blank_slate()</a></code> provides a way to opt in to an RStudio workflow where the user’s workspace is neither saved nor reloaded between R sessions. Automated for <code>scope = "project"</code>. Provides UI instructions for <code>scope = "user"</code>, for now (<a href='https://github.com/r-lib/usethis/issues/139'>#139</a>).</p></li>
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_style()</a></code> styles an entire project according to <a href="http://style.tidyverse.org" class="uri">http://style.tidyverse.org</a> (<a href='https://github.com/r-lib/usethis/issues/72'>#72</a>, <a href='https://github.com/r-lib/usethis/issues/197'>#197</a> <a href='https://github.com/lorenzwalthert'>@lorenzwalthert</a>).</p></li>
 <li><p>GitHub conventions common to tidyverse packages are enacted by <code><a href="../reference/tidyverse.html">use_tidy_contributing()</a></code>, <code><a href="../reference/tidyverse.html">use_tidy_issue_template()</a></code>, and <code><a href="../reference/tidyverse.html">use_tidy_support()</a></code> (<a href='https://github.com/batpigandme'>@batpigandme</a>, <a href='https://github.com/r-lib/usethis/issues/143'>#143</a>, <a href='https://github.com/r-lib/usethis/issues/166'>#166</a>).</p></li>
@@ -492,7 +502,7 @@
 <li><p><code><a href="../reference/use_coverage.html">use_coverage("codecov")</a></code> now sets a default threshold of 1% to try and reduce false positives (<a href='https://github.com/r-lib/usethis/issues/8'>#8</a>).</p></li>
 <li><p><code><a href="../reference/use_description.html">use_description()</a></code> now sets <code>ByteCompile: true</code> so you can benefit from the byte compiler (<a href='https://github.com/r-lib/usethis/issues/29'>#29</a>)</p></li>
 <li><p>The license functions (<code><a href="../reference/licenses.html">use_mit_license()</a></code>, <code><a href="../reference/licenses.html">use_apl2_license()</a></code>, and <code><a href="../reference/licenses.html">use_gpl3_license()</a></code>) save a copy of the standard license text in <code>LICENSE.md</code>, which is then added to <code>.Rbuildignore</code>. This allows you to follow standard licensing best practices while adhering to CRANs requirements (<a href='https://github.com/r-lib/usethis/issues/10'>#10</a>).</p></li>
-<li><p><code><a href="../reference/use_package_doc.html">use_package_doc()</a></code> uses more modern roxygen2 template requires that less duplication.</p></li>
+<li><p><code><a href="../reference/use_package_doc.html">use_package_doc()</a></code> uses more a modern roxygen2 template that requires less duplication.</p></li>
 <li><p><code><a href="../reference/use_testthat.html">use_test()</a></code> will use the name of the currently open file in RStudio if you don’t supply an explicit name (<a href='https://github.com/r-lib/usethis/issues/89'>#89</a>).</p></li>
 <li><p><code><a href="../reference/use_readme_rmd.html">use_readme_rmd()</a></code> now puts images in <code>man/figures/</code> and no longer adds to <code>.Rbuildgnore</code>. This ensures that the rendered <code>README.md</code> will also work on CRAN (<a href='https://github.com/r-lib/usethis/issues/16'>#16</a>, <a href='https://github.com/r-lib/usethis/issues/19'>#19</a>). The first chunk now uses <code>include = FALSE</code> and is named setup (<a href='https://github.com/r-lib/usethis/issues/19'>#19</a>).</p></li>
 <li><p><code><a href="../reference/use_revdep.html">use_revdep()</a></code> creates structure for use with revdepcheck package, the preferred way to run revdepchecks. (<a href='https://github.com/r-lib/usethis/issues/33'>#33</a>)</p></li>
