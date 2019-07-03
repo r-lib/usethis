@@ -57,10 +57,10 @@ git2r:
 \code{~/.ssh/id_rsa.pub} and \code{~/.ssh/id_rsa}, respectively.
 \item All the relevant software agrees on the definition of \code{~/}, i.e.
 your home directory. This is harder than it sounds on Windows.
-\item Your \code{ssh-agent} is configured to manage your SSH passphrase, if you
-have one. This too can be a problem on Windows.
-Read more about SSH setup in \href{http://happygitwithr.com/ssh-keys.html}{Happy Git}, especially the
-\href{http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting}{troubleshooting section}.
+\item Your \code{ssh-agent} is configured to manage your SSH passphrase, if you have
+one. This too can be a problem on Windows. Read more about SSH setup in
+\href{https://happygitwithr.com/ssh-keys.html}{Happy Git and GitHub for the useR},
+especially the \href{https://happygitwithr.com/ssh-keys.html#ssh-troubleshooting}{troubleshooting section}.
 }
 
 If the \code{NULL} default doesn't work, you can make \code{credentials} explicitly

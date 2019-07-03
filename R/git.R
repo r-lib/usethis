@@ -26,7 +26,7 @@ use_git <- function(message = "Initial commit") {
 }
 
 git_ask_commit <- function(message, untracked = FALSE) {
-  if (!interactive()) {
+  if (!interactive() || !uses_git()) {
     return(invisible())
   }
 
@@ -357,12 +357,11 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #' `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively.
 #' 1. All the relevant software agrees on the definition of `~/`, i.e.
 #' your home directory. This is harder than it sounds on Windows.
-#' 1. Your `ssh-agent` is configured to manage your SSH passphrase, if you
-#' have one. This too can be a problem on Windows.
-#' Read more about SSH setup in [Happy
-#' Git](http://happygitwithr.com/ssh-keys.html), especially the
-#' [troubleshooting
-#' section](http://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
+#' 1. Your `ssh-agent` is configured to manage your SSH passphrase, if you have
+#' one. This too can be a problem on Windows. Read more about SSH setup in
+#' [Happy Git and GitHub for the useR](https://happygitwithr.com/ssh-keys.html),
+#' especially the [troubleshooting
+#' section](https://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
 #'
 #' If the `NULL` default doesn't work, you can make `credentials` explicitly
 #' with [git2r::cred_ssh_key()] and register that with

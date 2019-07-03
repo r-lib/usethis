@@ -3,7 +3,7 @@
 #' The `pr_*` family of functions is designed to make working with GitHub
 #' PRs as painless as possible for both contributors and package maintainers.
 #' They are designed to support the git and GitHub best practices described in
-#' [Happy Git](http://happygitwithr.com).
+#' [Happy Git and GitHub for the useR](https://happygitwithr.com).
 #'
 #' @section Set up advice:
 #' These functions make heavy use of git2r and the GitHub API. You'll need a
