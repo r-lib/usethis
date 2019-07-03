@@ -174,6 +174,7 @@
 </ul>
 <p>Other improvements and bug fixes:</p>
 <ul>
+<li><p><code><a href="../reference/use_github.html">use_github()</a></code> now removes newline <code>\n</code> characters when pushing that can cause <code><a href="https://www.rdocumentation.org/packages/gh/topics/gh">gh::gh</a></code> fail (<a href='https://github.com/r-lib/usethis/issues/493'>#493</a>, <a href='https://github.com/muschellij2'>@muschellij2</a>).</p></li>
 <li><p><code><a href="../reference/use_github.html">use_github()</a></code> tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (<a href='https://github.com/r-lib/usethis/issues/221'>#221</a>).</p></li>
 <li><p><code><a href="../reference/use_github.html">use_github()</a></code> and <code><a href="../reference/create_from_github.html">create_from_github()</a></code> gain a <code>protocol</code> argument (<a href='https://github.com/r-lib/usethis/issues/494'>#494</a>, <a href='https://github.com/cderv'>@cderv</a>).</p></li>
 <li><p><code><a href="../reference/create_from_github.html">create_from_github()</a></code> pulls from upstream master in a fork (<a href='https://github.com/r-lib/usethis/issues/695'>#695</a>, <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</p></li>
