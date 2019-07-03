@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `git_sitrep()` gives better feedback if the GitHub PAT doesn't check out
+  (#725, @ijlyttle).
+
 * The templates used by `use_pipe()` and `use_tidy_eval()` use a more robust
   form of cross-reference links, linking to files rather than topics. This
   should silence some warnings upon installation (#730, #731 @jmgirard).

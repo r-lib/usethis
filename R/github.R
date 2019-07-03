@@ -315,6 +315,9 @@ have_github_token <- function(auth_token = github_token()) {
   !isTRUE(auth_token == "")
 }
 
+# TODO(@jennybc): this should be used / usable by git_sitrep(), which
+# currently uses one-off code for checking the token
+
 check_github_token <- function(auth_token = github_token(),
                                allow_empty = FALSE) {
   if (allow_empty && !have_github_token(auth_token)) {
