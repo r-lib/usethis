@@ -1,7 +1,7 @@
 context("projects")
 
 test_that("proj_set() errors on non-existent path", {
-  expect_error(
+  expect_usethis_error(
     proj_set("abcedefgihklmnopqrstuv"),
     "does not exist"
   )
@@ -11,7 +11,7 @@ test_that("proj_set() errors if no criteria are fulfilled", {
   tmpdir <- file_temp(pattern = "i-am-not-a-project")
   on.exit(dir_delete(tmpdir))
   dir_create(tmpdir)
-  expect_error(
+  expect_usethis_error(
     proj_set(tmpdir),
     "does not appear to be inside a project or package"
   )
@@ -27,7 +27,7 @@ test_that("proj_set() can be forced, even if no criteria are fulfilled", {
   expect_identical(proj_get(), proj_path_prep(tmpdir))
 
   proj_set_(tempdir())
-  expect_error(
+  expect_usethis_error(
     proj_set(proj_get()),
     "does not appear to be inside a project or package"
   )
@@ -43,12 +43,12 @@ test_that("is_package() detects package-hood", {
 
 test_that("check_is_package() errors for non-package", {
   scoped_temporary_project()
-  expect_error(check_is_package(), "not an R package")
+  expect_usethis_error(check_is_package(), "not an R package")
 })
 
 test_that("check_is_package() can reveal who's asking", {
   scoped_temporary_project()
-  expect_error(check_is_package("foo"), "foo")
+  expect_usethis_error(check_is_package("foo"), "foo")
 })
 
 test_that("proj_path() appends to the project path", {
@@ -128,18 +128,58 @@ test_that("proj_sitrep() reports current working/project state", {
   )
 })
 
+test_that("with_project() runs code in temp proj, restores (lack of) proj", {
+  old_project <- proj_get_()
+  on.exit(proj_set_(old_project))
+
+  temp_proj <- create_project(
+    file_temp(pattern = "TEMPPROJ"), rstudio = FALSE, open = FALSE
+  )
+
+  proj_set_(NULL)
+  expect_identical(proj_get_(), NULL)
+
+  res <- with_project(path = temp_proj, proj_get_())
+
+  expect_identical(res, temp_proj)
+  expect_identical(proj_get_(), NULL)
+})
+
 test_that("with_project() runs code in temp proj, restores original proj", {
   old_project <- proj_get_()
   on.exit(proj_set_(old_project))
 
-  create_project(file_temp(pattern = "aaa"), rstudio = FALSE, open = FALSE)
-  new_proj <- proj_get()
-  proj_set_(NULL)
+  host <- create_project(
+    file_temp(pattern = "host"), rstudio = FALSE, open = FALSE
+  )
+  guest <- create_project(
+    file_temp(pattern = "guest"), rstudio = FALSE, open = FALSE
+  )
 
-  res <- with_project(new_proj, proj_sitrep())
+  proj_set(host)
+  expect_identical(proj_get_(), host)
 
-  expect_identical(res[["active_usethis_proj"]], as.character(new_proj))
-  expect_identical(proj_get_(), NULL)
+  res <- with_project(path = guest, proj_get_())
+
+  expect_identical(res, guest)
+  expect_identical(proj_get(), host)
+})
+
+test_that("with_project() works when temp proj == original proj", {
+  old_project <- proj_get_()
+  on.exit(proj_set_(old_project))
+
+  host <- create_project(
+    file_temp(pattern = "host"), rstudio = FALSE, open = FALSE
+  )
+
+  proj_set(host)
+  expect_identical(proj_get_(), host)
+
+  res <- with_project(path = host, proj_get_())
+
+  expect_identical(res, host)
+  expect_identical(proj_get(), host)
 })
 
 test_that("local_project() activates proj til scope ends", {

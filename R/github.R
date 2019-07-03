@@ -317,7 +317,7 @@ have_github_token <- function(auth_token = github_token()) {
 check_github_token <- function(auth_token = github_token(),
                                allow_empty = FALSE) {
   if (allow_empty && !have_github_token(auth_token)) {
-    return(auth_token)
+    return(invisible(auth_token))
   }
 
   local_stop <- function(msg) {
@@ -337,7 +337,7 @@ check_github_token <- function(auth_token = github_token(),
   if (is.null(user)) {
     local_stop("GitHub {ui_code('auth_token')} is invalid.")
   }
-  auth_token
+  invisible(auth_token)
 }
 
 ## AFAICT there is no targetted way to check validity of a PAT

@@ -32,7 +32,7 @@ don't want to target the current project.}
 \item{labels}{A character vector giving labels to add.}
 
 \item{rename}{A named vector with names giving old names and values giving
-new values.}
+new names.}
 
 \item{colours, descriptions}{Named character vectors giving hexadecimal
 colours (like \code{e02a2a}) and longer descriptions. The names should match
@@ -40,9 +40,8 @@ label names, and anything unmatched will be left unchanged. If you
 create a new label, and don't supply colours, it will be given a random
 colour.}
 
-\item{delete_default}{If \code{TRUE}, will remove GitHub default labels that do
-not appear in the \code{labels} vector, and do not have associated issues.
-to your workflow).}
+\item{delete_default}{If \code{TRUE}, removes GitHub default labels that do
+not appear in the \code{labels} vector and that do not have associated issues.}
 
 \item{auth_token}{GitHub personal access token (PAT).}
 
@@ -56,8 +55,8 @@ and optionally delete GitHub's default labels (if \code{delete_default = TRUE}).
 It will never delete labels that have associated issues.
 
 \code{use_tidy_labels()} calls \code{use_github_labels()} with tidyverse conventions
-powered by \code{tidy_labels()}, \code{tidy_labels_rename()}, \code{tidy_label_colours()} and
-\code{tidy_label_descriptions()}.
+powered by \code{tidy_labels()}, \code{tidy_labels_rename()}, \code{tidy_label_colours()}
+and \code{tidy_label_descriptions()}.
 }
 \section{Label usage}{
 
@@ -67,10 +66,10 @@ is new, and has yet to be triaged.
 \itemize{
 \item \code{reprex} indicates that an issue does not have a minimal reproducible
 example, and that a reply has been sent requesting one from the user.
-\item \code{bug} type, indicates an unexpected problem or unintended behavior.
-\item \code{feature} type, indicates a feature request or enhancement.
-\item \code{docs} type, indicates an issue with the documentation.
-\item \code{wip} indicates that someone else is working on it or has promised to.
+\item \code{bug} indicates an unexpected problem or unintended behavior.
+\item \code{feature} indicates a feature request or enhancement.
+\item \code{docs} indicates an issue with the documentation.
+\item \code{wip} indicates that someone is working on it or has promised to.
 \item \code{good first issue} indicates a good issue for first-time contributors.
 \item \code{help wanted} indicates that a maintainer wants help on an issue.
 }

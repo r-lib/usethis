@@ -64,7 +64,7 @@ check_uses_travis <- function(base_path = proj_get()) {
 
   ui_stop(
     "
-    Cannot detect that package {ui_(project_name(base_path))} already uses Travis.
+    Cannot detect that package {ui_value(project_name(base_path))} already uses Travis.
     Do you need to run {ui_code('use_travis()')}?
     "
   )
@@ -142,8 +142,73 @@ check_uses_gitlab_ci <- function(base_path = proj_get()) {
 
   ui_stop(
     "
-    Cannot detect that package {ui_(project_name(base_path))} already uses GitLab CI.
+    Cannot detect that package {ui_value(project_name(base_path))} already uses GitLab CI.
     Do you need to run {ui_code('use_gitlab_ci()')}?
+    "
+  )
+}
+
+#' @section `use_circleci()`:
+#' Adds a basic `.circleci/config.yml` to the top-level directory of a package. This is a
+#' configuration file for the [CircleCI](https://circleci.com/) continuous
+#' integration service.
+#' @param image The Docker image to use for build. Must be available on
+#'   [DockerHub](https://hub.docker.com). The
+#'   [rocker/verse](https://hub.docker.com/r/rocker/verse) image includes TeX
+#'   Live, pandoc, and the tidyverse packages. For a minimal image, try
+#'   [rocker/r-ver](https://hub.docker.com/r/rocker/r-ver). To specify a version
+#'   of R, change the tag from `latest` to the version you want, e.g.
+#'   `rocker/r-ver:3.5.3`.
+#' @export
+#' @rdname ci
+use_circleci <- function(browse = interactive(), image = "rocker/verse:latest") {
+  check_uses_github()
+  use_directory(".circleci")
+  new <- use_template(
+    "circleci-config.yml",
+    ".circleci/config.yml",
+    data = list(package = project_name(), image = image),
+    ignore = TRUE
+  )
+  if (!new) {
+    return(invisible(FALSE))
+  }
+
+  circleci_activate(browse)
+  use_circleci_badge()
+  invisible(TRUE)
+}
+
+use_circleci_badge <- function() {
+  check_uses_github()
+  url <- glue("https://circleci.com/gh/{github_repo_spec()}")
+  img <- glue("{url}.svg?style=svg")
+  use_badge("CircleCI build status", url, img)
+}
+
+circleci_activate <- function(browse = interactive()) {
+  url <- glue("https://circleci.com/add-projects/gh/{github_owner()}")
+
+  ui_todo("Turn on CircleCI for your repo at {url}")
+  if (browse) {
+    utils::browseURL(url)
+  }
+}
+
+uses_circleci <- function(base_path = proj_get()) {
+  path <- glue("{base_path}/.circleci/config.yml")
+  file_exists(path)
+}
+
+check_uses_circleci <- function(base_path = proj_get()) {
+  if (uses_circleci(base_path)) {
+    return(invisible())
+  }
+
+  ui_stop(
+    "
+    Cannot detect that package {ui_field(project_name(base_path))} already uses CircleCI.
+    Do you need to run {ui_code('use_circleci()')}?
     "
   )
 }

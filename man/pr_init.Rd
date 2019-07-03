@@ -45,7 +45,7 @@ otherwise.}
 The \code{pr_*} family of functions is designed to make working with GitHub
 PRs as painless as possible for both contributors and package maintainers.
 They are designed to support the git and GitHub best practices described in
-\url{http://happygitwithr.com/}.
+\href{https://happygitwithr.com}{Happy Git and GitHub for the useR}.
 }
 \section{Set up advice}{
 

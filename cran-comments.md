@@ -1,12 +1,10 @@
 ## Test environments
 
-* local macOS Mojave 10.14.4 + R 3.5.3 (2019-03-11)
+* local: macOS Mojave 10.14.4 + 3.6.0
 * win-builder: devel and release
+* travis: Ubuntu 14.04.5 LTS (trusty) + 3.2, 3.3, 3.4, oldrel, release, devel
 * r-hub: windows-x86_64-devel, ubuntu-gcc-release, fedora-clang-devel
-* travis-ci:
-  - Ubuntu trusty (14.04.5 LTS)
-  - devel, release, oldrel, 3.3, 3.2, 3.1
-* appveyor: Windows Server 2012 + R 3.5.3 Patched (2019-03-11 r76275)
+* appveyor: Windows Server 2012 + R 3.6.0 Patched (2019-06-23 r76734)
 
 ## R CMD check results
 

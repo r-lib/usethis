@@ -2,7 +2,7 @@ context("use_tibble")
 
 test_that("use_tibble() requires a package", {
   scoped_temporary_project()
-  expect_error(use_tibble(), "not an R package")
+  expect_usethis_error(use_tibble(), "not an R package")
 })
 
 test_that("use_tibble() Imports tibble", {

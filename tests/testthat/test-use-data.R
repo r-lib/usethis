@@ -2,7 +2,7 @@ context("use_data")
 
 test_that("use_data() errors for a non-package project", {
   scoped_temporary_project()
-  expect_error(use_data(letters), "not an R package")
+  expect_usethis_error(use_data(letters), "not an R package")
 })
 
 test_that("use_data() stores new, non-internal data", {
@@ -23,7 +23,7 @@ test_that("use_data() honors `overwrite` for non-internal data", {
   letters2 <- letters
   use_data(letters2)
 
-  expect_error(use_data(letters2), ".*data/letters2.rda.* already exist")
+  expect_usethis_error(use_data(letters2), ".*data/letters2.rda.* already exist")
 
   letters2 <- rev(letters)
   use_data(letters2, overwrite = TRUE)
@@ -50,7 +50,7 @@ test_that("use_data() honors `overwrite` for internal data", {
   use_data(letters2, internal = TRUE)
   rm(letters2)
 
-  expect_error(
+  expect_usethis_error(
     use_data(letters2, internal = TRUE),
     ".*R/sysdata.rda.* already exist"
   )

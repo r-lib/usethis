@@ -32,6 +32,14 @@ use_news_heading <- function(version) {
     return(invisible())
   }
 
+  development_title <- glue("# {project_name()} (development version)")
+  if (development_title == news[[1]]) {
+    news[[1]] <- title
+
+    ui_done("Replacing development heading in NEWS.md")
+    return(write_utf8(news_path, news))
+  }
+
   ui_done("Adding new heading to NEWS.md")
   write_utf8(news_path, c(title, "", news))
 }

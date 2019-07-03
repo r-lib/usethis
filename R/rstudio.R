@@ -12,7 +12,7 @@
 #'
 #' @export
 use_rstudio <- function() {
-  rproj_file <- path_ext_set(project_name(), "Rproj")
+  rproj_file <- paste0(project_name(), ".Rproj")
   new <- use_template("template.Rproj", rproj_file)
 
   use_git_ignore(".Rproj.user")

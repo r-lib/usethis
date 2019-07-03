@@ -108,6 +108,33 @@ create_project <- function(path,
 #'   [use_course()] for one-time download of all files in a Git repo, without
 #'   any local or remote Git operations.
 #'
+#' @section Using SSH Keys on Windows:
+#' If you are a Windows user who connects to GitHub using SSH, as opposed to
+#' HTTPS, you may need to explicitly specify the paths to your keys and register
+#' this credential in the current R session. This helps if git2r, which usethis
+#' uses for Git operations, does not automatically find your keys or handle your
+#' passphrase.
+#'
+#' In the snippet below, do whatever is necessary to make the paths correct,
+#' e.g., replace `<USERNAME>` with your Windows username. Omit the `passphrase`
+#' part if you don't have one. Replace `<OWNER/REPO>` with the appropriate
+#' GitHub specification. You get the idea.
+#'
+#' ```
+#' creds <- git2r::cred_ssh_key(
+#'   publickey  = "C:/Users/<USERNAME>/.ssh/id_rsa.pub",
+#'   privatekey = "C:/Users/<USERNAME>/.ssh/id_rsa",
+#'   passphrase = character(0)
+#' )
+#' use_git_protocol("ssh")
+#' use_git_credentials(credentials = creds)
+#'
+#' create_from_github(
+#'   repo_spec = "<OWNER/REPO>",
+#'   ...
+#' )
+#' ```
+#'
 #' @inheritParams create_package
 #' @param repo_spec GitHub repo specification in this form: `owner/repo`. The
 #'   `repo` part will be the name of the new local repo.
@@ -117,9 +144,9 @@ create_project <- function(path,
 #'   is provided or preconfigured. Otherwise, defaults to `FALSE` if you can
 #'   push to `repo_spec` and `TRUE` if you cannot. In the case of a fork, the
 #'   original target repo is added to the local repo as the `upstream` remote,
-#'   using the preferred `protocol`. The `master` branch is immediately pulled
-#'   from `upstream`, which matters in the case of a pre-existing, out-of-date
-#'   fork.
+#'   using the preferred `protocol`. The `master` branch is set to track
+#'   `upstream/master` and is immediately pulled, which matters in the case of a
+#'   pre-existing, out-of-date fork.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'    Defaults to `TRUE` if in an RStudio session and project has no
@@ -201,6 +228,13 @@ create_from_github <- function(repo_spec,
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     git2r::remote_add(r, "upstream", upstream_url)
     pr_pull_upstream()
+    ui_done(
+      "
+      Setting remote tracking branch for local {ui_value('master')} branch to \\
+      {ui_value('upstream/master')}
+      "
+    )
+    git2r::branch_set_upstream(git2r::repository_head(r), "upstream/master")
     config_key <- glue("remote.upstream.created-by")
     git_config_set(config_key, "usethis::create_from_github")
   }
