@@ -447,8 +447,8 @@ use_git_credentials <- function(credentials) {
 #' git/GitHub sitrep
 #'
 #' Get a situation report on your current git/GitHub status. Useful for
-#' diagnosing problems.
-#'
+#' diagnosing problems. [git_vaccinate()] adds some basic R- and RStudio-related
+#' entries to the user-level git ignore file.
 #' @export
 #' @examples
 #' git_sitrep()
