@@ -1,5 +1,12 @@
 # usethis (development version)
 
+* `create_from_github()` sets remote tracking branch of `master` to `upstream/master`, when it creates (and clones) a fork (#792).
+
+* `use_pipe()` gains a logical `export` argument, so it can do the setup necessary to use the pipe operator when it is re-exported (`export = TRUE`, which is the default and preserves the previous behaviour) and when it is not (`export = FALSE`) (#783).
+
+* `use_circleci()` creates a `.circleci/config.yaml` config file for CircleCI
+  (#703, @jdblischak).
+
 * `pr_pause()` can switch back to master even if there is no remote tracking
   branch (@cderv, #715). 
 
@@ -509,7 +516,7 @@ A new class of functions make it easy to edit common config files:
   to follow standard licensing best practices while adhering to CRANs 
   requirements (#10).
 
-* `use_package_doc()` uses more modern roxygen2 template requires that 
+* `use_package_doc()` uses more a modern roxygen2 template that requires
   less duplication.
 
 * `use_test()` will use the name of the currently open file in RStudio
