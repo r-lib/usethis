@@ -1,6 +1,7 @@
 # usethis (development version)
 
-* `git_sitrep()`, if a token-check fails, issues feedback according to the nature of the error (#725, @ijlyttle).
+* `git_sitrep()` gives better feedback if the GitHub PAT doesn't check out
+  (#725, @ijlyttle).
 
 # usethis 1.5.0
 
