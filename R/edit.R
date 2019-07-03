@@ -60,17 +60,19 @@ NULL
 #' @export
 #' @rdname edit
 edit_r_profile <- function(scope = c("user", "project")) {
-  ui_todo("Restart R for changes to take effect")
   path <- scoped_path_r(scope, ".Rprofile", envvar = "R_PROFILE_USER")
   edit_file(path)
+  ui_todo("Restart R for changes to take effect")
+  invisible(path)
 }
 
 #' @export
 #' @rdname edit
 edit_r_environ <- function(scope = c("user", "project")) {
-  ui_todo("Restart R for changes to take effect")
   path <- scoped_path_r(scope, ".Renviron", envvar = "R_ENVIRON_USER")
   edit_file(path)
+  ui_todo("Restart R for changes to take effect")
+  invisible(path)
 }
 
 #' @export
