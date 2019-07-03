@@ -486,7 +486,7 @@ git_sitrep <- function() {
         kv_line("Name", who$name)
       },
       http_error_401 = function(e) ui_oops("Token is invalid."),
-      error = function(e) ui_oops("Network not reachable.")
+      error = function(e) ui_oops("Can't validate token. Is the network reachable?")
     )
   } else {
     kv_line("Personal access token", NULL)
