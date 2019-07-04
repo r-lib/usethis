@@ -35,5 +35,5 @@ use_dev_version()
 
 }
 \seealso{
-The \href{http://r-pkgs.had.co.nz/description.html#version}{version section} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+The \href{https://r-pkgs.org/description.html#version}{version section} of \href{https://r-pkgs.org}{R Packages}.
 }

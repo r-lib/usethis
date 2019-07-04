@@ -12,8 +12,8 @@
 #' @param min_version Optionally, supply a minimum version for the package.
 #'   Set to `TRUE` to use the currently installed version.
 #' @seealso The [dependencies
-#'   section](http://r-pkgs.had.co.nz/description.html#dependencies) of [R
-#'   Packages](http://r-pkgs.had.co.nz).
+#'   section](https://r-pkgs.org/description.html#dependencies) of [R
+#'   Packages](https://r-pkgs.org).
 #' @export
 #' @examples
 #' \dontrun{

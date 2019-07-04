@@ -30,8 +30,8 @@
 #' @param fields A named list of fields to add to `DESCRIPTION`, potentially
 #'   overriding default values. See [use_description()] for how you can set
 #'   personalized defaults using package options
-#' @seealso The [description chapter](http://r-pkgs.had.co.nz/description.html)
-#'   of [R Packages](http://r-pkgs.had.co.nz).
+#' @seealso The [description chapter](https://r-pkgs.org/description.html#dependencies)
+#'   of [R Packages](https://r-pkgs.org).
 #' @export
 #' @examples
 #' \dontrun{

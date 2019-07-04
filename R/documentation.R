@@ -9,8 +9,8 @@
 #' directives that apply to the whole package (vs. a specific function), such as
 #' global namespace tags like `@importFrom`.
 #'
-#' @seealso The [documentation chapter](http://r-pkgs.had.co.nz/man.html) of [R
-#'   Packages](http://r-pkgs.had.co.nz)
+#' @seealso The [documentation chapter](https://r-pkgs.org/man.html) of [R
+#'   Packages](https://r-pkgs.org)
 #'
 #' @export
 use_package_doc <- function() {

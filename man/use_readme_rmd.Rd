@@ -32,5 +32,5 @@ use_readme_md()
 }
 }
 \seealso{
-The \href{http://r-pkgs.had.co.nz/release.html#important-files}{important files section} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+The \href{https://r-pkgs.org/release.html#important-files}{important files section} of \href{https://r-pkgs.org}{R Packages}.
 }

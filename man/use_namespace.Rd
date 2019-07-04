@@ -11,6 +11,6 @@ This \code{NAMESPACE} exports everything, except functions that start
 with a \code{.}.
 }
 \seealso{
-The \href{http://r-pkgs.had.co.nz/namespace.html}{namespace chapter} of
-\href{http://r-pkgs.had.co.nz}{R Packages}.
+The \href{https://r-pkgs.org/namespace.html}{namespace chapter} of
+\href{https://r-pkgs.org}{R Packages}.
 }

@@ -4,8 +4,8 @@
 #'
 #' @inheritParams use_template
 #' @seealso The [important files
-#'   section](http://r-pkgs.had.co.nz/release.html#important-files) of [R
-#'   Packages](http://r-pkgs.had.co.nz).
+#'   section](https://r-pkgs.org/release.html#important-files) of [R
+#'   Packages](https://r-pkgs.org).
 #' @export
 use_news_md <- function(open = interactive()) {
   check_uncommitted_changes()
