@@ -1,6 +1,6 @@
 Package: usethis
 Title: Automate Package and Project Setup
-Version: 1.5.0.9000
+Version: 1.5.1
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut",
       comment = c(ORCID = "0000-0003-4757-117X")

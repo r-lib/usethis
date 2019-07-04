@@ -1,4 +1,4 @@
-# usethis (development version)
+# usethis 1.5.1
 
 * `git_sitrep()` gives better feedback if the GitHub PAT doesn't check out
   (#725, @ijlyttle).
