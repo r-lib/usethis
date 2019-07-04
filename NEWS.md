@@ -1,6 +1,6 @@
 # usethis 1.5.1
 
-This is a patch release with various small features and bugfixes.
+This is a patch release with various small features and bug fixes.
 
 ## Using the pipe `%>%` or the tidy eval toolkit in your package
 
