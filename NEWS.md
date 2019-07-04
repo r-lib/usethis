@@ -1,3 +1,5 @@
+# usethis (development version)
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
