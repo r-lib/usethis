@@ -26,8 +26,8 @@ file_delete(cp("rematch2-master.zip"))
 # download of a DropBox folder
 # usethis-manual-test folder JB created for development
 dropbox <- "https://www.dropbox.com/sh/iep7x58py4vpa9n/AAAju4kvYCjjD6s8WJqyICHBa?dl=1"
-use_zip(dropbox1, destdir = cp())
-expect_true(dir_exists(path(conspicuous_place(), "usethis-manual-test")))
+use_zip(dropbox, destdir = cp())
+expect_true(dir_exists(cp("usethis-manual-test")))
 dir_delete(cp("usethis-manual-test"))
 file_delete(cp("usethis-manual-test.zip"))
 
