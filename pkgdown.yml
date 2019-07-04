@@ -2,6 +2,7 @@ pandoc: '2.2'
 pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
+  pr-functions: articles/pr-functions.html
   usethis-setup: articles/usethis-setup.html
 urls:
   reference: https://usethis.r-lib.org/reference
