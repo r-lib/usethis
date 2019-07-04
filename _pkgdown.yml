@@ -20,6 +20,10 @@ navbar:
     href: articles/articles/usethis-setup.html
   - text: Reference
     href: reference/index.html
+  - text: Articles
+    menu:
+    - text: Pull request helpers
+      href: articles/articles/pr-functions.html
   - text: News
     menu:
     - text: "Blog posts"
