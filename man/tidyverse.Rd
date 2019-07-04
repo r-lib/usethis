@@ -70,8 +70,9 @@ commonly used packages.
 of the tidyverse conventions as possible, issues a few reminders, and
 activates the new package.
 \item \code{use_tidy_ci()}: sets up \href{https://travis-ci.org}{Travis CI} and
-\href{https://codecov.io}{Codecov}, ensuring that the package works on all
-versions of R starting at 3.1. It also ignores \code{compat-} and \code{deprec-}
+\href{https://codecov.io}{Codecov}, ensuring that the package is actively tested
+on the versions of R officially supported by the Tidyverse (current release,
+devel, and four previous versions). It also ignores \code{compat-} and \code{deprec-}
 files from code coverage.
 \item \code{use_tidy_description()}: puts fields in standard order and alphabetises
 dependencies.

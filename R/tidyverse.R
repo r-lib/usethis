@@ -11,8 +11,9 @@
 #' activates the new package.
 #'
 #' * `use_tidy_ci()`: sets up [Travis CI](https://travis-ci.org) and
-#' [Codecov](https://codecov.io), ensuring that the package works on all
-#' versions of R starting at 3.1. It also ignores `compat-` and `deprec-`
+#' [Codecov](https://codecov.io), ensuring that the package is actively tested
+#' on the versions of R officially supported by the Tidyverse (current release,
+#' devel, and four previous versions). It also ignores `compat-` and `deprec-`
 #' files from code coverage.
 #'
 #' * `use_tidy_description()`: puts fields in standard order and alphabetises
