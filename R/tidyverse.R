@@ -23,7 +23,7 @@
 #'   programming with the tidy eval toolkit.
 #'
 #' * `use_tidy_style()`: styles source code according to the [tidyverse style
-#' guide](http://style.tidyverse.org). This function will overwrite files! See
+#' guide](https://style.tidyverse.org). This function will overwrite files! See
 #' below for usage advice.
 #'
 #' * `use_tidy_versions()`: pins all dependencies to require at least
@@ -47,9 +47,9 @@
 #' `use_tidy_coc()`.
 #'
 #' @section `use_tidy_style()`:
-#' Uses the [styler package](http://styler.r-lib.org) package to style all code
+#' Uses the [styler package](https://styler.r-lib.org) package to style all code
 #' in a package, project, or directory, according to the [tidyverse style
-#' guide](http://style.tidyverse.org).
+#' guide](https://style.tidyverse.org).
 #'
 #' **Warning:** This function will overwrite files! It is strongly suggested to
 #' only style files that are under version control or to first create a backup

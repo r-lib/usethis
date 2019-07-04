@@ -42,7 +42,7 @@ ensure your badge block starts with a line containing only
 \details{
 \itemize{
 \item \code{use_badge()}: a general helper used in all badge functions
-\item \code{use_bioc_badge()}: badge indicates \href{http://bioconductor.org/developers/}{BioConductor build status}
+\item \code{use_bioc_badge()}: badge indicates \href{https://bioconductor.org/developers/}{BioConductor build status}
 \item \code{use_cran_badge()}: badge indicates what version of your package is
 available on CRAN, powered by \url{https://www.r-pkg.org}
 \item \code{use_lifecycle_badge()}: badge declares the developmental stage of a

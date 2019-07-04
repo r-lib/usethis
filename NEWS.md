@@ -393,7 +393,7 @@ No longer in Imports: backports, httr, rematch2, rmarkdown (moved to Suggests), 
 
 # usethis 1.3.0
 
-* usethis has a website: <http://usethis.r-lib.org> (#217). It includes an article with advice on system setup, for usethis and for R development more generally.
+* usethis has a website: <https://usethis.r-lib.org> (#217). It includes an article with advice on system setup, for usethis and for R development more generally.
 
 * `edit_*()` functions now return the target path, invisibly (#255).
 
@@ -431,7 +431,7 @@ No longer in Imports: backports, httr, rematch2, rmarkdown (moved to Suggests), 
 
 * `use_blank_slate()` provides a way to opt in to an RStudio workflow where the user's workspace is neither saved nor reloaded between R sessions. Automated for `scope = "project"`. Provides UI instructions for `scope = "user"`, for now (#139).
 
-* `use_tidy_style()` styles an entire project according to <http://style.tidyverse.org> (#72, #197 @lorenzwalthert).
+* `use_tidy_style()` styles an entire project according to <https://style.tidyverse.org> (#72, #197 @lorenzwalthert).
 
 * GitHub conventions common to tidyverse packages are enacted by `use_tidy_contributing()`, `use_tidy_issue_template()`, and `use_tidy_support()` (@batpigandme, #143, #166).
 

@@ -11,7 +11,7 @@
 #'
 #' * `use_badge()`: a general helper used in all badge functions
 #' * `use_bioc_badge()`: badge indicates [BioConductor build
-#' status](http://bioconductor.org/developers/)
+#' status](https://bioconductor.org/developers/)
 #' * `use_cran_badge()`: badge indicates what version of your package is
 #' available on CRAN, powered by <https://www.r-pkg.org>
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
