@@ -1,5 +1,7 @@
 # usethis (development version)
 
+A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
