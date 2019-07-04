@@ -8,7 +8,7 @@ This is a patch release with bug fixes and small features.
 * r-hub: windows-x86_64-devel, ubuntu-gcc-release, fedora-clang-devel
 * appveyor: Windows Server 2012 + R 3.6.0 Patched (2019-06-23 r76734)
 
-usethis v1.5.0 is currently in ERROR on Solaris due to the lack of dependency git2r. I'm not sure what that is about, but it is beyond our control to fix. git2r itself has status OK on Solaris at the moment.
+usethis v1.5.0 is currently in ERROR on Solaris due to the lack of a dependency (git2r). I'm not sure why that is, but I believe it's beyond our control to fix. git2r itself has status OK on Solaris at the moment.
 
 ## R CMD check results
 
