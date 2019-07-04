@@ -18,10 +18,13 @@ There is 1 note about a "(possibly) invalid URL" in an Rd file. The URL is https
 
 ## revdepcheck results
 
-We checked 39 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 39 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package. We see no differences and, in particular, no changes for the worse.
 
-We failed to check 2 packages, but see no difference across usethis versions. Same result with CRAN version (v1.5.0) and this submission (v1.5.1):
-   - portalr, R CMD check timed out
-   - POUMM, failed to install, due to openmp issues
+Automated check failed for 2 packages:
+  - portalr, R CMD check timed out
+    I re-checked manually. It seems to hang on building vignettes and testing.
+    portalr is currently in ERROR on CRAN for several platforms.
+    I assume I am seeing the same problem and that it's not related to usethis.
+  - POUMM, failed to install, due to openmp issues
 
-See our revdep check results at <https://github.com/r-lib/usethis/tree/master/revdep>.
+See our automated revdep check results at <https://github.com/r-lib/usethis/tree/master/revdep>.
