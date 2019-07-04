@@ -90,7 +90,7 @@ commonly used packages." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -237,8 +237,9 @@ should be applied. See <code><a href='https://www.rdocumentation.org/packages/st
 of the tidyverse conventions as possible, issues a few reminders, and
 activates the new package.</p></li>
 <li><p><code>use_tidy_ci()</code>: sets up <a href='https://travis-ci.org'>Travis CI</a> and
-<a href='https://codecov.io'>Codecov</a>, ensuring that the package works on all
-versions of R starting at 3.1. It also ignores <code>compat-</code> and <code>deprec-</code>
+<a href='https://codecov.io'>Codecov</a>, ensuring that the package is actively tested
+on the versions of R officially supported by the Tidyverse (current release,
+devel, and four previous versions). It also ignores <code>compat-</code> and <code>deprec-</code>
 files from code coverage.</p></li>
 <li><p><code>use_tidy_description()</code>: puts fields in standard order and alphabetises
 dependencies.</p></li>

@@ -86,7 +86,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -158,6 +158,54 @@
       <small>Source: <a href='https://github.com/r-lib/usethis/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="usethis-1-5-1" class="section level1">
+<h1 class="page-header">
+<a href="#usethis-1-5-1" class="anchor"></a>usethis 1.5.1<small> Unreleased </small>
+</h1>
+<p>This is a patch release with various small features and bugfixes.</p>
+<div id="using-the-pipe-or-the-tidy-eval-toolkit-in-your-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#using-the-pipe-or-the-tidy-eval-toolkit-in-your-package" class="anchor"></a>Using the pipe <code>%&gt;%</code> or the tidy eval toolkit in your package</h2>
+<ul>
+<li><p>The templates used by <code><a href="../reference/use_pipe.html">use_pipe()</a></code> and <code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> use a more robust form of cross-reference links, linking to files rather than topics. This should silence some warnings seen on Windows at install time (<a href='https://github.com/r-lib/usethis/issues/730'>#730</a>, <a href='https://github.com/r-lib/usethis/issues/731'>#731</a> <a href='https://github.com/jmgirard'>@jmgirard</a>).</p></li>
+<li><p><code><a href="../reference/use_pipe.html">use_pipe()</a></code> gains a logical <code>export</code> argument, so it can do the setup necessary to use the pipe operator when it is re-exported (<code>export = TRUE</code>, which is the default and preserves the previous behaviour) and when it is not (<code>export = FALSE</code>) (<a href='https://github.com/r-lib/usethis/issues/783'>#783</a>).</p></li>
+</ul>
+</div>
+<div id="git-github-and-pull-requests" class="section level2">
+<h2 class="hasAnchor">
+<a href="#git-github-and-pull-requests" class="anchor"></a>Git, GitHub, and pull requests</h2>
+<ul>
+<li><p><code><a href="../reference/use_github.html">use_github()</a></code> removes newline <code>\n</code> characters from the description that can cause the initial push to fail (<a href='https://github.com/r-lib/usethis/issues/493'>#493</a>, <a href='https://github.com/muschellij2'>@muschellij2</a>).</p></li>
+<li><p><code><a href="../reference/git_sitrep.html">git_sitrep()</a></code> gives better feedback if we can’t validate the GitHub PAT (<a href='https://github.com/r-lib/usethis/issues/725'>#725</a>, <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</p></li>
+<li><p><code><a href="../reference/create_from_github.html">create_from_github()</a></code> sets remote tracking branch of <code>master</code> to <code>upstream/master</code>, when it creates (and clones) a fork (<a href='https://github.com/r-lib/usethis/issues/792'>#792</a>).</p></li>
+<li><p><code><a href="../reference/pr_init.html">pr_pause()</a></code> can switch back to master even if there is no remote tracking branch (<a href='https://github.com/r-lib/usethis/issues/715'>#715</a>, <a href='https://github.com/cderv'>@cderv</a>).</p></li>
+</ul>
+</div>
+<div id="build-tools-and-continuous-integration" class="section level2">
+<h2 class="hasAnchor">
+<a href="#build-tools-and-continuous-integration" class="anchor"></a>Build tools and continuous integration</h2>
+<ul>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_ci()</a></code> is updated for R 3.6, meaning that R 3.2 is the oldest version of R supported through proactive testing.</p></li>
+<li><p><code><a href="../reference/use_make.html">use_make()</a></code> and <code><a href="../reference/use_jenkins.html">use_jenkins()</a></code> add a Makefile and Jenkinsfile, respectively (<a href='https://github.com/r-lib/usethis/issues/501'>#501</a>, <a href='https://github.com/ryapric'>@ryapric</a>).</p></li>
+<li><p><code><a href="../reference/ci.html">use_circleci()</a></code> creates a <code>.circleci/config.yaml</code> config file for CircleCI (<a href='https://github.com/r-lib/usethis/issues/703'>#703</a>, <a href='https://github.com/jdblischak'>@jdblischak</a>).</p></li>
+</ul>
+</div>
+<div id="other" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other" class="anchor"></a>Other</h2>
+<ul>
+<li><p><code><a href="../reference/zip-utils.html">use_zip()</a></code> is a new variant of <code><a href="../reference/zip-utils.html">use_course()</a></code> that downloads and unpacks a ZIP file, with less pedantic behaviour re: the destination directory. Both functions now also work for ZIP files with MIME type <code>"application/x-zip-compressed"</code> (<a href='https://github.com/r-lib/usethis/issues/573'>#573</a>).</p></li>
+<li><p><code><a href="../reference/use_version.html">use_version()</a></code> can detect <code>"(development version)"</code> in a NEWS header and update it with an actual version (<a href='https://github.com/r-lib/usethis/issues/768'>#768</a>, <a href='https://github.com/DavisVaughan'>@DavisVaughan</a>).</p></li>
+</ul>
+</div>
+<div id="dependency-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
+<p>R 3.1 is no longer explicitly supported or tested. Our general practice is to support the current release (3.6, at time of writing), devel, and the 4 previous versions of R (3.5, 3.4, 3.3, 3.2).</p>
+<p>fs minimum version is stated to be v1.3.0.</p>
+<p>glue minimum version is stated to be v1.3.0.</p>
+</div>
+</div>
     <div id="usethis-1-5-0" class="section level1">
 <h1 class="page-header">
 <a href="#usethis-1-5-0" class="anchor"></a>usethis 1.5.0<small> 2019-04-07 </small>
@@ -174,7 +222,6 @@
 </ul>
 <p>Other improvements and bug fixes:</p>
 <ul>
-<li><p><code><a href="../reference/use_github.html">use_github()</a></code> now removes newline <code>\n</code> characters when pushing that can cause <code><a href="https://www.rdocumentation.org/packages/gh/topics/gh">gh::gh</a></code> fail (<a href='https://github.com/r-lib/usethis/issues/493'>#493</a>, <a href='https://github.com/muschellij2'>@muschellij2</a>).</p></li>
 <li><p><code><a href="../reference/use_github.html">use_github()</a></code> tries harder but also fails earlier, with more informative messages, making it less likely to leave the repo partially configured (<a href='https://github.com/r-lib/usethis/issues/221'>#221</a>).</p></li>
 <li><p><code><a href="../reference/use_github.html">use_github()</a></code> and <code><a href="../reference/create_from_github.html">create_from_github()</a></code> gain a <code>protocol</code> argument (<a href='https://github.com/r-lib/usethis/issues/494'>#494</a>, <a href='https://github.com/cderv'>@cderv</a>).</p></li>
 <li><p><code><a href="../reference/create_from_github.html">create_from_github()</a></code> pulls from upstream master in a fork (<a href='https://github.com/r-lib/usethis/issues/695'>#695</a>, <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</p></li>
@@ -540,6 +587,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#usethis-1-5-1">1.5.1</a></li>
         <li><a href="#usethis-1-5-0">1.5.0</a></li>
         <li><a href="#usethis-1-4-0">1.4.0</a></li>
         <li><a href="#usethis-1-3-0">1.3.0</a></li>
