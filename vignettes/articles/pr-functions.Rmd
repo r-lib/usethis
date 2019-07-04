@@ -122,7 +122,7 @@ Let's go ahead and make the change, which is adding the word "yeahyah" to the
 with this change.
 
 ```{r, echo = FALSE}
-knitr::include_graphics("../../../man/figures/pr-functions-diff.png", dpi = 300)
+knitr::include_graphics("img/pr-functions-diff.png", dpi = 300)
 ```
 
 You might spot that we made two mistakes here: (1) We intended to add "yeahyah" 
@@ -147,7 +147,7 @@ This launches a browser window at the URL specified in the last message, which
 looks like the following.
 
 ```{r, echo = FALSE}
-knitr::include_graphics("../../../man/figures/pr-functions-pull-request.png", dpi = 300)
+knitr::include_graphics("img/pr-functions-pull-request.png", dpi = 300)
 ```
 
 Once we submit the pull request, GitHub will ping the package maintainer, and they will review our pull request. We can view this pull request in the browser with 
@@ -169,7 +169,7 @@ However, in this case our it's not perfect. So the package maintainer leaves us
 comments requesting changes.
 
 ```{r, echo = FALSE}
-knitr::include_graphics("../../../man/figures/pr-functions-comments.png", dpi = 300)
+knitr::include_graphics("img/pr-functions-comments.png", dpi = 300)
 ```
 
 Being a somewhat careless contributor, we'll address one of these comments (fix 
@@ -177,7 +177,7 @@ spelling, but still make a mistake!) but not the other (forget to add the comma)
 We make the change, and commit it.
 
 ```{r, echo = FALSE}
-knitr::include_graphics("../../../man/figures/pr-functions-address-comments.png", dpi = 300)
+knitr::include_graphics("img/pr-functions-address-comments.png", dpi = 300)
 ```
 
 And then run `pr_push()` again to sync back up to GitHub.
