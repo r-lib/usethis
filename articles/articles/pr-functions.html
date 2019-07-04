@@ -191,7 +191,7 @@ div.output pre.r { background-color:#FFFFFF; }
 <h3 class="hasAnchor">
 <a href="#submit-pull-request" class="anchor"></a>Submit pull request</h3>
 <p>Let’s go ahead and make the change, which is adding the word “yeahyah” to the <code>exclamation.R</code> file in the package. Below is the diff and the commit associated with this change.</p>
-<p><img src="../../../man/figures/pr-functions-diff.png"><!-- --></p>
+<p><img src="img/pr-functions-diff.png"><!-- --></p>
 <p>You might spot that we made two mistakes here: (1) We intended to add “yeahyah” but added “yeahyeah” instead, ans (2) we forgot a comma at the end of the line. Let’s assume we didn’t actually catch these mistakes, and didn’t build and check the package, which would have revelaed the lack of comma mistake, and initiate the process for submitting the PR with <code><a href="../../reference/pr_init.html">pr_push()</a></code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../../reference/pr_init.html">pr_push</a></span>()</a></code></pre></div>
 <div class="output">
@@ -201,7 +201,7 @@ div.output pre.r { background-color:#FFFFFF; }
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; ✔ Opening URL 'https://github.com/mine-cetinkaya-rundel/praise/compare/yeahyah'</span></a></code></pre></div>
 </div>
 <p>This launches a browser window at the URL specified in the last message, which looks like the following.</p>
-<p><img src="../../../man/figures/pr-functions-pull-request.png"><!-- --></p>
+<p><img src="img/pr-functions-pull-request.png"><!-- --></p>
 <p>Once we submit the pull request, GitHub will ping the package maintainer, and they will review our pull request. We can view this pull request in the browser with <code><a href="../../reference/pr_init.html">pr_view()</a></code>. And anyone can follow along with it <a href="https://github.com/rladies/praise/pull/84">here</a>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../../reference/pr_init.html">pr_view</a></span>()</a></code></pre></div>
 <div class="output">
@@ -212,9 +212,9 @@ div.output pre.r { background-color:#FFFFFF; }
 <h3 class="hasAnchor">
 <a href="#review-of-the-pull-request" class="anchor"></a>Review of the pull request</h3>
 <p>If we’re lucky, and our pull request is perfect, the maintainer will accept it. However, in this case our it’s not perfect. So the package maintainer leaves us comments requesting changes.</p>
-<p><img src="../../../man/figures/pr-functions-comments.png"><!-- --></p>
+<p><img src="img/pr-functions-comments.png"><!-- --></p>
 <p>Being a somewhat careless contributor, we’ll address one of these comments (fix spelling, but still make a mistake!) but not the other (forget to add the comma). We make the change, and commit it.</p>
-<p><img src="../../../man/figures/pr-functions-address-comments.png"><!-- --></p>
+<p><img src="img/pr-functions-address-comments.png"><!-- --></p>
 <p>And then run <code><a href="../../reference/pr_init.html">pr_push()</a></code> again to sync back up to GitHub.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../../reference/pr_init.html">pr_push</a></span>()</a></code></pre></div>
 <div class="output">
