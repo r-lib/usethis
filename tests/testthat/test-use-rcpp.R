@@ -19,9 +19,6 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
 })
 
 test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
-
-  skip_if(getRversion() < 3.2) ## mock doesn't seem to work on 3.1
-
   with_mock(
     ## Required to pass the check re: whether RcppArmadillo is installed
     `usethis:::is_installed` = function(pkg) TRUE, {
