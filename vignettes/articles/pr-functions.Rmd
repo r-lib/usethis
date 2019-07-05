@@ -117,7 +117,7 @@ pr_init(branch = "yeahyah")
 ```
 </div>
 
-This creates a local branch called `yeahyah` and we switch to it (or "check it out"). In RStudio, you may need to hit the refresh button in your Git pane to confirm that you have indeed switched over to this branch. Now you can work locally, making changes to files and commiting that to git. 
+This creates a local branch called `yeahyah` and we switch to it (or "check it out"). In RStudio, you may need to hit the refresh button in your Git pane to confirm that you have indeed switched over to this branch. Now you can work locally, making changes to files and committing that to git. 
 
 Let's go ahead and make the change, which is adding the word "yeahyah" to the 
 `exclamation.R` file in the package. Below is the diff and the commit associated 
@@ -271,7 +271,7 @@ pr_pull()
 ```
 </div>
 
-Finally, we can also conclue the PR process on our end with `pr_finish()`.
+Finally, we can also conclude the PR process on our end with `pr_finish()`.
 
 <div class = "output">
 ```{r pr_finish_contributor, eval=FALSE}
@@ -297,7 +297,7 @@ Remember you can see how this whole PR unfolded at [rladies/praise#84](https://g
 There are a few other functions in the `pr_*()` family that we didn't encounter 
 in this PR scenario:
 
-- `pr_pull_upstream()` is used for getting changes that have occured in the 
+- `pr_pull_upstream()` is used for getting changes that have occurred in the 
 package while we have been working on this PR, i.e. to `git pull upstream master`. This makes sure that our copy of the package is up-to-date with the source repo.
 
 - `pr_sync()` is a helpful shortcut for pulling changes from the PR `pr_pull()`), merging to `master` (`pr_pull_upstream()`) and pushing all these changes back into our PR (`pr_push()`). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the `master` branch.
