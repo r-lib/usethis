@@ -273,7 +273,7 @@ pr_pull()
 
 Finally, we can also conclue the PR process on our end with `pr_finish()`.
 
-<div class = "reviewer">
+<div class = "output">
 ```{r pr_finish_contributor, eval=FALSE}
 usethis::pr_finish()
 ```
