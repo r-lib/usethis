@@ -61,6 +61,14 @@ Specifically, the `pr_*()` functions make use of:
     - If usethis can't figure this out, it might ask you. You can set the
     `usethis.protocol` option to proactively address this.
 
+## Attach usethis
+
+All the code below assumes you've attached usethis in your R session:
+
+```{r eval = FALSE}
+library(usethis)
+```
+
 ## Fork and clone
 
 The first step is to fork the source repository, to get your own copy on GitHub, and then clone that, to get your own local copy. There are many ways to accomplish these two steps, but here we demonstrate `usethis::create_from_github()`:
@@ -205,7 +213,7 @@ To do so, the reviewer fetches the PR to their local machine with `pr_fetch()`.
 
 <div class = "reviewer">
 ```{r pr_fetch_reviewer, eval=FALSE}
-usethis::pr_fetch(84)
+pr_fetch(84)
 ```
 </div>
 <div class = "output">
@@ -229,7 +237,7 @@ into our PR.
 
 <div class = "reviewer">
 ```{r pr_push_reviewer, eval=FALSE}
-usethis::pr_push()
+pr_push()
 ```
 </div>
 <div class = "output">
@@ -247,7 +255,7 @@ Finally, the reviewer merges our pull request on GitHub. They can run
 
 <div class = "reviewer">
 ```{r pr_finish_reviewer, eval=FALSE}
-usethis::pr_finish()
+pr_finish()
 ```
 </div>
 <div class = "output">
@@ -275,7 +283,7 @@ Finally, we can also conclude the PR process on our end with `pr_finish()`.
 
 <div class = "output">
 ```{r pr_finish_contributor, eval=FALSE}
-usethis::pr_finish()
+pr_finish()
 ```
 </div>
 <div class = "output">
