@@ -80,13 +80,13 @@ Define any of these options in your `.Rprofile`, which can be opened for editing
 ```{r, eval = FALSE}
 options(
   usethis.full_name = "Jane Doe",
+  usethis.protocol  = "ssh",
   usethis.description = list(
     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), 
     comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "MIT + file LICENSE",
     Version = "0.0.0.9000"
-  ),
-  usethis.protocol  = "ssh"
+  )
 )
 ```
 
