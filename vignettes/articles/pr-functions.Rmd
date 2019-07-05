@@ -166,7 +166,7 @@ looks like the following.
 knitr::include_graphics("img/pr-functions-pull-request.png", dpi = 300)
 ```
 
-Click "Create pull request" to make the PR. GitHub will ping the package maintainer and they will review our pull request. We can view this pull request in the browser with `pr_view()`. And anyone can follow along with this PR [[rladies/praise#84](https://github.com/rladies/praise/pull/84).
+Click "Create pull request" to make the PR. GitHub will ping the package maintainer and they will review our pull request. We can view this pull request in the browser with `pr_view()`. And anyone can follow along with this PR [rladies/praise#84](https://github.com/rladies/praise/pull/84).
 
 ```{r pr_view, eval=FALSE}
 pr_view()
@@ -205,9 +205,7 @@ pr_push()
 ```
 </div>
 
-Now the reviewer gets a chance to review our changes. At this point they might 
-choose to just make the necessary changes and push their commits into our pull 
-request to finish things up.
+Now the reviewer gets another chance to review our changes. At this point they might choose to just make the necessary changes and push their commits into our pull request to finish things up.
 
 To do so, the reviewer fetches the PR to their local machine with `pr_fetch()`.
 
@@ -250,8 +248,7 @@ pr_push()
 
 ## Merge and finish
 
-Finally, the reviewer merges our pull request on GitHub. They can run 
-`pr_finish()` to switch back to the `master` branch, pull, delete the local branch created during the process of interacting with our PR, and delete the associated remote.
+Finally, the reviewer merges our pull request on GitHub. Locally, they can run `pr_finish()` to switch back to the `master` branch, pull, delete the local branch created during the process of interacting with our PR, and delete the associated remote.
 
 <div class = "reviewer">
 ```{r pr_finish_reviewer, eval=FALSE}
