@@ -237,7 +237,7 @@ div.output pre.r { background-color:#FFFFFF; }
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; ✔ Switching to branch 'yeahyah'</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; ● Use `pr_push()` to create PR</span></a></code></pre></div>
 </div>
-<p>This creates a local branch called <code>yeahyah</code> and we switch to it (or “check it out”). In RStudio, you may need to hit the refresh button in your Git pane to confirm that you have indeed switched over to this branch. Now you can work locally, making changes to files and commiting that to git.</p>
+<p>This creates a local branch called <code>yeahyah</code> and we switch to it (or “check it out”). In RStudio, you may need to hit the refresh button in your Git pane to confirm that you have indeed switched over to this branch. Now you can work locally, making changes to files and committing that to git.</p>
 <p>Let’s go ahead and make the change, which is adding the word “yeahyah” to the <code>exclamation.R</code> file in the package. Below is the diff and the commit associated with this change.</p>
 <p><img src="img/pr-functions-diff.png"><!-- --></p>
 <p>You might spot that we made two mistakes here:</p>
@@ -322,8 +322,8 @@ div.output pre.r { background-color:#FFFFFF; }
 <div class="output">
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co">#&gt; ✔ Pulling changes from GitHub PR</span></a></code></pre></div>
 </div>
-<p>Finally, we can also conclue the PR process on our end with <code><a href="../../reference/pr_init.html">pr_finish()</a></code>.</p>
-<div class="reviewer">
+<p>Finally, we can also conclude the PR process on our end with <code><a href="../../reference/pr_init.html">pr_finish()</a></code>.</p>
+<div class="output">
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_finish</a></span>()</a></code></pre></div>
 </div>
 <div class="output">
@@ -339,7 +339,7 @@ div.output pre.r { background-color:#FFFFFF; }
 <a href="#other-helpful-functions" class="anchor"></a>Other helpful functions</h2>
 <p>There are a few other functions in the <code>pr_*()</code> family that we didn’t encounter in this PR scenario:</p>
 <ul>
-<li><p><code><a href="../../reference/pr_init.html">pr_pull_upstream()</a></code> is used for getting changes that have occured in the package while we have been working on this PR, i.e. to <code>git pull upstream master</code>. This makes sure that our copy of the package is up-to-date with the source repo.</p></li>
+<li><p><code><a href="../../reference/pr_init.html">pr_pull_upstream()</a></code> is used for getting changes that have occurred in the package while we have been working on this PR, i.e. to <code>git pull upstream master</code>. This makes sure that our copy of the package is up-to-date with the source repo.</p></li>
 <li><p><code><a href="../../reference/pr_init.html">pr_sync()</a></code> is a helpful shortcut for pulling changes from the PR <code><a href="../../reference/pr_init.html">pr_pull()</a></code>), merging to <code>master</code> (<code><a href="../../reference/pr_init.html">pr_pull_upstream()</a></code>) and pushing all these changes back into our PR (<code><a href="../../reference/pr_init.html">pr_push()</a></code>). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the <code>master</code> branch.</p></li>
 <li><p><code><a href="../../reference/pr_init.html">pr_pause()</a></code> makes sure you’re synced with the PR and then switches back to the <code>master</code> branch. This is likely something a package maintainer reviewing numerous PRs will need to use as they switch back and forth from review to working on <code>master</code> to another review.</p></li>
 </ul>
