@@ -291,9 +291,7 @@ pr_finish()
 ```
 </div>
 
-At this point we can use the push button in the RStudio Git pane to push the 
-last change (deletion of the local `yeahyah` branch) to GitHub so that we 
-wrap up the PR with everything up-to-date!
+At this point, the contributor still has a remote `yeahyah` branch on GitHub, which is not harming anyone. But it can also be deleted, e.g. in the browser.
 
 Remember you can see how this whole PR unfolded at [rladies/praise#84](https://github.com/rladies/praise/pull/84).
 
