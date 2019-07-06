@@ -75,7 +75,7 @@ find_template <- function(template_name, package = "usethis") {
   }
   if (identical(path, "")) {
     ui_stop(
-      "Could not find template {ui_value(template_name)}\\
+      "Could not find template {ui_value(template_name)} \\
       in package {ui_value(package)}."
     )
   }

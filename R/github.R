@@ -56,6 +56,7 @@ use_github <- function(organisation = NULL,
   check_no_github_repo(owner, repo_name, host, auth_token)
 
   repo_desc <- project_data()$Title %||% ""
+  repo_desc <- gsub("\n", " ", repo_desc)
 
   if (interactive()) {
     ui_todo("Check title and description")
@@ -314,10 +315,13 @@ have_github_token <- function(auth_token = github_token()) {
   !isTRUE(auth_token == "")
 }
 
+# TODO(@jennybc): this should be used / usable by git_sitrep(), which
+# currently uses one-off code for checking the token
+
 check_github_token <- function(auth_token = github_token(),
                                allow_empty = FALSE) {
   if (allow_empty && !have_github_token(auth_token)) {
-    return(auth_token)
+    return(invisible(auth_token))
   }
 
   local_stop <- function(msg) {
@@ -337,7 +341,7 @@ check_github_token <- function(auth_token = github_token(),
   if (is.null(user)) {
     local_stop("GitHub {ui_code('auth_token')} is invalid.")
   }
-  auth_token
+  invisible(auth_token)
 }
 
 ## AFAICT there is no targetted way to check validity of a PAT

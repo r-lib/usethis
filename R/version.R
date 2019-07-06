@@ -13,8 +13,8 @@
 #'   "minor", "patch", "dev". If `NULL`, user can choose interactively.
 #'
 #' @seealso The [version
-#'   section](http://r-pkgs.had.co.nz/description.html#version) of [R
-#'   Packages](http://r-pkgs.had.co.nz).
+#'   section](https://r-pkgs.org/description.html#version) of [R
+#'   Packages](https://r-pkgs.org).
 #'
 #' @examples
 #' \dontrun{

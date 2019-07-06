@@ -1,0 +1,309 @@
+---
+title: "Pull request helpers"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Pull request helpers}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<style>
+div.reviewer pre.r { background-color:#e3dece; }
+div.output pre.r { background-color:#FFFFFF; }
+</style>
+
+## Contributing to someone else's package
+
+So, you want to contribute to an R package? That's fantastic! 
+
+Here we walk through the process of making a so-called **pull request** to the [praise](https://github.com/rladies/praise) package. This package is designed to help package developers "build friendly R packages that praise their users if they have done something good, or they just need it to feel better." You can use praise to construct encouraging feedback by sampling from its collection of positive adjectives, adverbs, verbs, smileys, and exclamations:
+
+```{r eval = FALSE}
+library(praise)
+
+template <- "${EXCLAMATION} - your pull request is ${adjective}!"
+
+praise(template)
+#> [1] "YEE-HAW - your pull request is groovy!"
+```
+
+We are going to propose a new exclamation: "yeah-yah".
+
+## What's a pull request?
+
+A [pull request](https://help.github.com/en/articles/about-pull-requests) is how you propose a change to a GitHub repository. Think of it as a _request_ for the maintainer to _pull_ your changes into their repo.
+
+The `pr_*()` family of functions is designed to make working with GitHub pull requests as painless as possible, for both contributors and package maintainers. They are designed to support the Git and GitHub workflows recommended in 
+[Happy Git and GitHub for the useR](http://happygitwithr.com/).
+
+A pull request (PR) involves two players, a contributor and a reviewer. To make it more clear who runs which code, the code chunks in this article are color coded: code executed by the contributor appears in chunks with light gray background and code executed by the reviewer appears in chunks with beige background.
+
+```{r sample_contributor, eval=FALSE}
+# contributor code
+```
+<div class = "reviewer">
+```{r sample_reviewer, eval=FALSE}
+# reviewer code
+```
+</div>
+
+## Set up advice
+
+This article assumes that you have already done the Git and GitHub parts of the [setup vignette](/articles/articles/usethis-setup). A good way to check that you are ready to use the `pr_*` family of functions is to run `git_sitrep()`, which prints info about your current Git, git2r, and GitHub setup.
+
+Specifically, the `pr_*()` functions make use of:
+
+  * The GitHub API, which requires a personal access token (PAT).
+    - `browse_github_token()` helps you set one up.
+  * git2r, an R package which does git operations from R.
+    - See the help for `git_credentials()` if git2r doesn't seem to find your git credentials.
+  * Your preferred git transport protocol: `"ssh"` or `"https"`.
+    - If usethis can't figure this out, it might ask you. You can set the
+    `usethis.protocol` option to proactively address this.
+
+## Attach usethis
+
+All the code below assumes you've attached usethis in your R session:
+
+```{r eval = FALSE}
+library(usethis)
+```
+
+## Fork and clone
+
+The first step is to fork the source repository, to get your own copy on GitHub, and then clone that, to get your own local copy. There are many ways to accomplish these two steps, but here we demonstrate `usethis::create_from_github()`:
+
+```{r create_from_github, eval=FALSE}
+create_from_github("rladies/praise")
+```
+<div class = "output">
+```{r eval=FALSE}
+#> ✔ Creating '/Users/mine/Desktop/praise/'
+#> ✔ Forking 'rladies/praise'
+#> ✔ Cloning repo from 'git@github.com:mine-cetinkaya-rundel/praise.git' into '/Users/mine/Desktop/praise'
+#> ✔ Setting active project to '/Users/mine/Desktop/praise'
+#> ✔ Adding 'upstream' remote: 'git@github.com:rladies/praise.git'
+#> ✔ Pulling changes from GitHub source repo 'upstream/master'
+#> ✔ Setting remote tracking branch for local 'master' branch to 'upstream/master'
+#> ✔ Opening '/Users/mine/Desktop/praise/' in new RStudio session
+```
+</div>
+
+What this does:
+
+  * Forks the praise repo, owned by rladies on GitHub, into your GitHub account.
+  * Clones your praise repo into a folder named "praise" on your desktop (or
+    similar).
+    - `origin` remote is set to your praise repo.
+  * Does additional git setup:
+    - `upstream` remote is set to the praise repo owned by rladies.
+    - `master` branch is set to track `upstream/master`, so you can pull
+      upstream changes in the future.
+  * Opens a new instance of RStudio in the praise project, if you're working in
+    RStudio. Otherwise, switches your current R session to that project.
+
+Arguments you might like to know about:
+
+  * Specify `fork = TRUE` or `fork = FALSE` if you don't want to defer to the
+    default behaviour.
+  * Use `destdir` to put praise in a specific location on your computer.
+
+## Branch, then make your change
+
+We start the process of contributing to the package with `pr_init()`, which 
+creates a branch in our repository for the pull request. It is a good idea to make your pull requests from a non-`master` branch. We'll call this branch `"yeahyah"`.
+
+```{r pr_init, eval=FALSE}
+pr_init(branch = "yeahyah")
+```
+<div class = "output">
+```{r eval=FALSE}
+#> ✔ Setting active project to '/Users/mine/Desktop/praise'
+#> ✔ Checking that local branch 'master' has the changes in 'upstream/master'
+#> ✔ Creating local PR branch 'yeahyah'
+#> ✔ Switching to branch 'yeahyah'
+#> ● Use `pr_push()` to create PR
+```
+</div>
+
+This creates a local branch called `yeahyah` and we switch to it (or "check it out"). In RStudio, you may need to hit the refresh button in your Git pane to confirm that you have indeed switched over to this branch. Now you can work locally, making changes to files and committing that to git. 
+
+Let's go ahead and make the change, which is adding the word "yeahyah" to the 
+`exclamation.R` file in the package. Below is the diff and the commit associated 
+with this change.
+
+```{r, echo = FALSE}
+knitr::include_graphics("img/pr-functions-diff.png", dpi = 300)
+```
+
+You might spot that we made two mistakes here:
+
+  1. We intended to add "yeahyah", but added "yeahyeah" instead.
+  2. We forgot a comma at the end of the line. 
+  
+Let's assume we didn't actually catch these mistakes, and didn't build and check 
+the package, which would have revealed the missing comma. We all make mistakes.
+
+## Submit pull request
+
+`pr_push()` pushes the local change to your copy of praise on GitHub and puts you in position to make your pull request.
+
+```{r pr_push, eval=FALSE}
+pr_push()
+```
+<div class = "output">
+```{r eval=FALSE}
+#> ✔ Pushing local 'yeahyah' branch to 'origin:yeahyah'
+#> ✔ Setting upstream tracking branch for 'yeahyah' to 'origin/yeahyah'
+#> ✔ Create PR at link given below
+#> ✔ Opening URL 'https://github.com/mine-cetinkaya-rundel/praise/compare/yeahyah'
+```
+</div>
+
+This launches a browser window at the URL specified in the last message, which 
+looks like the following.
+
+```{r, echo = FALSE}
+knitr::include_graphics("img/pr-functions-pull-request.png", dpi = 300)
+```
+
+Click "Create pull request" to make the PR. GitHub will ping the package maintainer and they will review our pull request. We can view this pull request in the browser with `pr_view()`. And anyone can follow along with this PR [rladies/praise#84](https://github.com/rladies/praise/pull/84).
+
+```{r pr_view, eval=FALSE}
+pr_view()
+```
+<div class = "output">
+```{r eval=FALSE}
+#> ✔ Opening URL 'https://github.com/rladies/praise/pull/84'
+```
+</div>
+
+## Review of the pull request
+
+If we're lucky, and our pull request is perfect, the maintainer will accept it, a.k.a. merge it. However, in this case, the PR still needs some work. So the package maintainer leaves us comments requesting changes.
+
+```{r, echo = FALSE}
+knitr::include_graphics("img/pr-functions-comments.png", dpi = 300)
+```
+
+Being somewhat new to all this, we try to address one of these comments (fix spelling, but still make a mistake!) and neglect the other (forget to add the comma). We make another change and commit it.
+
+```{r, echo = FALSE}
+knitr::include_graphics("img/pr-functions-address-comments.png", dpi = 300)
+```
+
+Run `pr_push()` again to update the branch in our fork, which is automatically reflected in the PR.
+
+```{r pr_push_again, eval=FALSE}
+pr_push()
+```
+<div class = "output">
+```{r eval=FALSE}
+#> ✔ Pushing local 'yeahyah' branch to 'origin:yeahyah'
+#> ✔ Setting upstream tracking branch for 'yeahyah' to 'origin/yeahyah'
+#> ✔ Create PR at link given below
+#> ✔ Opening URL 'https://github.com/mine-cetinkaya-rundel/praise/compare/yeahyah'
+```
+</div>
+
+Now the reviewer gets another chance to review our changes. At this point they might choose to just make the necessary changes and push their commits into our pull request to finish things up.
+
+To do so, the reviewer fetches the PR to their local machine with `pr_fetch()`.
+
+<div class = "reviewer">
+```{r pr_fetch_reviewer, eval=FALSE}
+pr_fetch(84)
+```
+</div>
+<div class = "output">
+```{r eval=FALSE}
+#> ✔ Setting active project to '/Users/gaborcsardi/works/praise'
+#> ✔ Checking out PR 'rladies/praise/#84' (@mine-cetinkaya-rundel): 'Add "yeahyah" to exclamations'
+#> ✔ Creating local branch 'mine-cetinkaya-rundel-yeahyah'
+#> ✔ Setting upstream tracking branch for 'mine-cetinkaya-rundel-yeahyah' to 'mine-cetinkaya-rundel/yeahyah'
+#> ✔ Switching to branch 'mine-cetinkaya-rundel-yeahyah'
+```
+</div>
+
+Fetching the PR creates a local branch for them called `mine-cetinkaya-rundel-yeahyah`, which is a text string comprised of the 
+GitHub username of the contributor and the name of the branch they had created 
+for this PR. `pr_fetch()` also then sets an upstream tracking branch 
+for the local branch that got created and switches to that branch so the 
+reviewer can make their changes on the correct branch.
+
+Once the reviewer makes the necessary changes, such as fixing the spelling (again!) and adding the missing comma, they run `pr_push()` to push their changes
+into our PR.
+
+<div class = "reviewer">
+```{r pr_push_reviewer, eval=FALSE}
+pr_push()
+```
+</div>
+<div class = "output">
+```{r eval=FALSE}
+#> ✔ Checking that local branch 'mine-cetinkaya-rundel-yeahyah' has the changes in 'mine-cetinkaya-rundel/yeahyah'
+#> ✔ Pushing local 'mine-cetinkaya-rundel-yeahyah' branch to 'mine-cetinkaya-rundel:yeahyah'
+#> ✔ View PR at 'https://github.com/rladies/praise/pull/84' or call `pr_view()`
+```
+</div>
+
+## Merge and finish
+
+Finally, the reviewer merges our pull request on GitHub. Locally, they can run `pr_finish()` to switch back to the `master` branch, pull, delete the local branch created during the process of interacting with our PR, and remove the associated remote.
+
+<div class = "reviewer">
+```{r pr_finish_reviewer, eval=FALSE}
+pr_finish()
+```
+</div>
+<div class = "output">
+```{r eval=FALSE}
+#> ✔ Switching back to 'master' branch
+#> ✔ Pulling changes from GitHub source repo 'origin/master'
+#> ✔ Deleting local 'mine-cetinkaya-rundel-yeahyah' branch
+#> ✔ Removing remote 'mine-cetinkaya-rundel'
+```
+</div>
+
+Since the reviewer has contributed some code to our pull request, we can get 
+that code back to our computer with `pr_pull()`. This is optional here, since the full PR has already been incorporated into `master` of the source repo. But `pr_pull()` can be useful in PRs if there are a few rounds of alternating contributions from you and the maintainer.
+
+```{r pr_pull, eval=FALSE}
+pr_pull()
+```
+<div class = "output">
+```{r eval=FALSE}
+#> ✔ Pulling changes from GitHub PR
+```
+</div>
+
+Finally, we can also conclude the PR process on our end with `pr_finish()`.
+
+<div class = "output">
+```{r pr_finish_contributor, eval=FALSE}
+pr_finish()
+```
+</div>
+<div class = "output">
+```{r eval=FALSE}
+#> ✔ Switching back to 'master' branch
+#> ✔ Pulling changes from GitHub source repo 'upstream/master'
+#> ✔ Deleting local 'yeahyah' branch
+```
+</div>
+
+At this point, the contributor still has a remote `yeahyah` branch on GitHub, which is not harming anyone. But it can also be deleted, e.g. in the browser.
+
+Remember you can see how this whole PR unfolded at [rladies/praise#84](https://github.com/rladies/praise/pull/84).
+
+## Other helpful functions
+
+There are a few other functions in the `pr_*()` family that we didn't encounter 
+in this PR scenario:
+
+- `pr_pull_upstream()` is used for getting changes that have occurred in the 
+package while we have been working on this PR, i.e. to `git pull upstream master`. This makes sure that our copy of the package is up-to-date with the source repo.
+
+- `pr_sync()` is a helpful shortcut for pulling changes from the PR `pr_pull()`), merging to `master` (`pr_pull_upstream()`) and pushing all these changes back into our PR (`pr_push()`). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the `master` branch.
+
+- `pr_pause()` makes sure you're synced with the PR and then switches back to the `master` branch. This is likely something a package maintainer reviewing numerous PRs will need to use as they switch back and forth from review to working on `master` to another review.

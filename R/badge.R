@@ -11,7 +11,7 @@
 #'
 #' * `use_badge()`: a general helper used in all badge functions
 #' * `use_bioc_badge()`: badge indicates [BioConductor build
-#' status](http://bioconductor.org/developers/)
+#' status](https://bioconductor.org/developers/)
 #' * `use_cran_badge()`: badge indicates what version of your package is
 #' available on CRAN, powered by <https://www.r-pkg.org>
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
@@ -66,7 +66,7 @@ use_cran_badge <- function() {
   pkg <- project_name()
 
   src <- glue("https://www.r-pkg.org/badges/version/{pkg}")
-  href <- glue("https://cran.r-project.org/package={pkg}")
+  href <- glue("https://CRAN.R-project.org/package={pkg}")
   use_badge("CRAN status", href, src)
 
   invisible(TRUE)
@@ -112,13 +112,22 @@ stages <- c(
 )
 
 #' @rdname badges
+#' @param urlpath An optional `urlpath` component to add to the link, e.g. `"rstudio"`
+#'   to open an RStudio IDE instead of a Jupyter notebook.
+#'   See the [binder documentation](https://mybinder.readthedocs.io/en/latest/howto/user_interface.html)
+#'   for additional examples.
 #' @export
-use_binder_badge <- function() {
-  if (uses_github()) {
-    url <- glue("https://mybinder.org/v2/gh/{github_repo_spec()}/master")
-    img <- "http://mybinder.org/badge.svg"
-    use_badge("Launch binder", url, img)
+use_binder_badge <- function(urlpath = NULL) {
+  check_uses_github()
+
+  if (is.null(urlpath)) {
+    urlpath <- ""
+  } else {
+    urlpath <- glue("?urlpath={urlpath}")
   }
+  url <- glue("https://mybinder.org/v2/gh/{github_repo_spec()}/master{urlpath}")
+  img <- "https://mybinder.org/badge_logo.svg"
+  use_badge("Launch binder", url, img)
 
   invisible(TRUE)
 }

@@ -38,6 +38,7 @@ release_checklist <- function(version) {
   type <- release_type(version)
   on_cran <- !is.null(cran_version())
   has_src <- dir_exists(proj_path("src"))
+  has_news <- file_exists(proj_path("NEWS.md"))
 
   todo <- function(x, cond = TRUE) {
     x <- glue(x, .envir = parent.frame())
@@ -73,7 +74,7 @@ release_checklist <- function(version) {
     todo("Accepted :tada:"),
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version()`"),
-    todo("`usethis::use_news()`", !on_cran),
+    todo("`usethis::use_news_md()`", !has_news),
     todo("Update install instructions in README", !on_cran),
     todo("Finish blog post", type != "patch"),
     todo("Tweet"),
@@ -151,14 +152,12 @@ news_latest <- function() {
   lines <- readLines(path)
   headings <- which(grepl("^#\\s+", lines))
 
-  if (length(headings == 1)) {
-    if (length(headings) == 0) {
-      ui_stop("No top-level headings found in {ui_value(path)}")
-    } else if (length(headings) == 1) {
-      news <- lines[seq2(headings + 1, length(lines))]
-    } else {
-      news <- lines[seq2(headings[[1]] + 1, headings[[2]] - 1)]
-    }
+  if (length(headings) == 0) {
+    ui_stop("No top-level headings found in {ui_value(path)}")
+  } else if (length(headings) == 1) {
+    news <- lines[seq2(headings + 1, length(lines))]
+  } else {
+    news <- lines[seq2(headings[[1]] + 1, headings[[2]] - 1)]
   }
 
   # Remove leading and trailing empty lines

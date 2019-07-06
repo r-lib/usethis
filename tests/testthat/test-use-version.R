@@ -14,17 +14,11 @@ test_that("use_version() and use_dev_version() require a package", {
 })
 
 test_that("use_version() errors for invalid `which`", {
-  # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
-  skip_if(getRversion() < 3.2)
-
   scoped_temporary_package()
   expect_error(use_version("1.2.3"), "should be one of")
 })
 
 test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
-  # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
-  skip_if(getRversion() < 3.2)
-
   scoped_temporary_package()
   use_description_field(
     name = "Version",
@@ -45,9 +39,6 @@ test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
 })
 
 test_that("use_dev_version() appends .9000 to Version, exactly once", {
-  # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
-  skip_if(getRversion() < 3.2)
-
   scoped_temporary_package()
   use_description_field(name = "Version", value = "0.0.1", overwrite = TRUE)
   use_dev_version()
@@ -59,5 +50,27 @@ test_that("use_dev_version() appends .9000 to Version, exactly once", {
   expect_identical(
     as.character(desc::desc_get_version(proj_get())),
     "0.0.1.9000"
+  )
+})
+
+test_that("use_version() updates (development version) directly", {
+  scoped_temporary_package()
+  use_description_field(name = "Version", value = "0.0.1", overwrite = TRUE)
+  use_news_md()
+
+  # bump to dev to set (development version)
+  use_dev_version()
+
+  # directly overwrite development header
+  use_version("patch")
+
+  expect_match(
+    readLines(proj_path("NEWS.md"), n = 1),
+    "0[.]0[.]2"
+  )
+
+  expect_match(
+    readLines(proj_path("NEWS.md"), n = 3)[3],
+    "0[.]0[.]1"
   )
 })

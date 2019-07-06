@@ -4,8 +4,8 @@
 #'
 #' @inheritParams use_template
 #' @seealso The [important files
-#'   section](http://r-pkgs.had.co.nz/release.html#important-files) of [R
-#'   Packages](http://r-pkgs.had.co.nz).
+#'   section](https://r-pkgs.org/release.html#important-files) of [R
+#'   Packages](https://r-pkgs.org).
 #' @export
 use_news_md <- function(open = interactive()) {
   check_uncommitted_changes()
@@ -30,6 +30,14 @@ use_news_heading <- function(version) {
 
   if (title == news[[1]]) {
     return(invisible())
+  }
+
+  development_title <- glue("# {project_name()} (development version)")
+  if (development_title == news[[1]]) {
+    news[[1]] <- title
+
+    ui_done("Replacing development heading in NEWS.md")
+    return(write_utf8(news_path, news))
   }
 
   ui_done("Adding new heading to NEWS.md")

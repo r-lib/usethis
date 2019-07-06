@@ -50,6 +50,6 @@ use_description_defaults()
 }
 }
 \seealso{
-The \href{http://r-pkgs.had.co.nz/description.html}{description chapter}
-of \href{http://r-pkgs.had.co.nz}{R Packages}.
+The \href{https://r-pkgs.org/description.html#dependencies}{description chapter}
+of \href{https://r-pkgs.org}{R Packages}.
 }

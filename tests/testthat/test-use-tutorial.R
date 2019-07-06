@@ -9,8 +9,6 @@ test_that("use_tutorial() checks its inputs", {
 })
 
 test_that("use_tutorial() creates a tutorial", {
-  skip_if(getRversion() < 3.2) ## mock doesn't seem to work on 3.1
-
   with_mock(
     ## need to pass the check re: whether learnr is installed
     `usethis:::is_installed` = function(pkg) TRUE, {

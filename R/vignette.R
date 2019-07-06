@@ -13,8 +13,8 @@
 #' @param name Base for file name to use for new vignette. Should consist only
 #'   of numbers, letters, `_` and `-`. Lower case is recommended.
 #' @param title The title of the vignette.
-#' @seealso The [vignettes chapter](http://r-pkgs.had.co.nz/vignettes.html) of
-#'   [R Packages](http://r-pkgs.had.co.nz).
+#' @seealso The [vignettes chapter](https://r-pkgs.org/vignettes.html) of
+#'   [R Packages](https://r-pkgs.org).
 #' @export
 #' @examples
 #' \dontrun{

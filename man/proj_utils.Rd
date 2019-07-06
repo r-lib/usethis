@@ -73,12 +73,12 @@ attempts to set it in the first place.
 \code{proj_get()}. Thin wrapper around \code{\link[fs:path]{fs::path()}}.
 
 \item \code{with_project}: Runs code with a temporary active project. It is an
-example of the \code{with_*()} functions in \href{http://withr.r-lib.org}{withr}.
+example of the \code{with_*()} functions in \href{https://withr.r-lib.org}{withr}.
 
 \item \code{local_project}: Sets an active project until the current execution
 environment goes out of scope, e.g. the end of the current function or
 test.  It is an example of the \code{local_*()} functions in
-\href{http://withr.r-lib.org}{withr}.
+\href{https://withr.r-lib.org}{withr}.
 }}
 
 \examples{

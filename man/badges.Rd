@@ -17,7 +17,7 @@ use_bioc_badge()
 
 use_lifecycle_badge(stage)
 
-use_binder_badge()
+use_binder_badge(urlpath = NULL)
 }
 \arguments{
 \item{badge_name}{Badge name. Used in error message and alt text}
@@ -25,6 +25,11 @@ use_binder_badge()
 \item{href, src}{Badge link and image src}
 
 \item{stage}{Stage of the package lifecycle}
+
+\item{urlpath}{An optional \code{urlpath} component to add to the link, e.g. \code{"rstudio"}
+to open an RStudio IDE instead of a Jupyter notebook.
+See the \href{https://mybinder.readthedocs.io/en/latest/howto/user_interface.html}{binder documentation}
+for additional examples.}
 }
 \description{
 These helpers produce the markdown text you need in your README to include
@@ -37,7 +42,7 @@ ensure your badge block starts with a line containing only
 \details{
 \itemize{
 \item \code{use_badge()}: a general helper used in all badge functions
-\item \code{use_bioc_badge()}: badge indicates \href{http://bioconductor.org/developers/}{BioConductor build status}
+\item \code{use_bioc_badge()}: badge indicates \href{https://bioconductor.org/developers/}{BioConductor build status}
 \item \code{use_cran_badge()}: badge indicates what version of your package is
 available on CRAN, powered by \url{https://www.r-pkg.org}
 \item \code{use_lifecycle_badge()}: badge declares the developmental stage of a

@@ -56,5 +56,5 @@ use_data_raw("daisy")
 }
 }
 \seealso{
-The \href{http://r-pkgs.had.co.nz/data.html}{data chapter} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+The \href{https://r-pkgs.org/data.html}{data chapter} of \href{https://r-pkgs.org}{R Packages}.
 }

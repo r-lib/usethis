@@ -3,6 +3,10 @@ library(usethis)
 library(testthat)
 library(fs)
 
+## make sure we'll be using SSH
+use_git_protocol("ssh")
+git_protocol()
+
 ## this repo was chosen because it was first one listed for the cran gh user
 ## the day I made this, i.e., it's totally arbitrary
 
@@ -86,6 +90,7 @@ expect_setequal(
   git2r::remote_url(git2r::repository(path(conspicuous_place(), "TailRank"))),
   "git@github.com:cran/TailRank.git"
 )
+
 dir_delete(path(conspicuous_place(), "TailRank"))
 
 ## create from repo I do not have push access to

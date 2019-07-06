@@ -11,8 +11,9 @@
 #' activates the new package.
 #'
 #' * `use_tidy_ci()`: sets up [Travis CI](https://travis-ci.org) and
-#' [Codecov](https://codecov.io), ensuring that the package works on all
-#' versions of R starting at 3.1. It also ignores `compat-` and `deprec-`
+#' [Codecov](https://codecov.io), ensuring that the package is actively tested
+#' on the versions of R officially supported by the Tidyverse (current release,
+#' devel, and four previous versions). It also ignores `compat-` and `deprec-`
 #' files from code coverage.
 #'
 #' * `use_tidy_description()`: puts fields in standard order and alphabetises
@@ -22,7 +23,7 @@
 #'   programming with the tidy eval toolkit.
 #'
 #' * `use_tidy_style()`: styles source code according to the [tidyverse style
-#' guide](http://style.tidyverse.org). This function will overwrite files! See
+#' guide](https://style.tidyverse.org). This function will overwrite files! See
 #' below for usage advice.
 #'
 #' * `use_tidy_versions()`: pins all dependencies to require at least
@@ -46,9 +47,9 @@
 #' `use_tidy_coc()`.
 #'
 #' @section `use_tidy_style()`:
-#' Uses the [styler package](http://styler.r-lib.org) package to style all code
+#' Uses the [styler package](https://styler.r-lib.org) package to style all code
 #' in a package, project, or directory, according to the [tidyverse style
-#' guide](http://style.tidyverse.org).
+#' guide](https://style.tidyverse.org).
 #'
 #' **Warning:** This function will overwrite files! It is strongly suggested to
 #' only style files that are under version control or to first create a backup
@@ -107,7 +108,7 @@ use_tidy_ci <- function(browse = interactive()) {
   )
   use_template("codecov.yml", ignore = TRUE)
 
-  use_dependency("R", "Depends", min_version = "3.1")
+  use_dependency("R", "Depends", min_version = "3.2")
   use_dependency("covr", "Suggests")
   use_covr_ignore(c("R/deprec-*.R", "R/compat-*.R"))
 

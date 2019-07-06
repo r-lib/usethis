@@ -4,8 +4,8 @@
 #' `.Rbuildignore`, in the case of a package. The goal of a code of conduct is
 #' to foster an environment of inclusiveness, and to explicitly discourage
 #' inappropriate behaviour. The template comes from
-#' <http://contributor-covenant.org>, version 1:
-#' <http://contributor-covenant.org/version/1/0/0/>.
+#' <https://contributor-covenant.org>, version 1:
+#' <https://contributor-covenant.org/version/1/0/0>.
 #'
 #' @param path Path of the directory to put `CODE_OF_CONDUCT.md` in, relative to
 #'   the active project. Passed along to [use_directory()]. Default is to locate
