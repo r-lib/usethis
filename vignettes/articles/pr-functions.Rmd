@@ -266,7 +266,7 @@ pr_finish()
 </div>
 
 Since the reviewer has contributed some code to our pull request, we can get 
-that code back to our computer with `pr_pull()`. This is optional here, since the full PR has already been incorporated into `master` of the source repo. But `pr_pull()` can be useful in PRs with if there are a few rounds of alternating contributions from you and the maintainer.
+that code back to our computer with `pr_pull()`. This is optional here, since the full PR has already been incorporated into `master` of the source repo. But `pr_pull()` can be useful in PRs if there are a few rounds of alternating contributions from you and the maintainer.
 
 ```{r pr_pull, eval=FALSE}
 pr_pull()
