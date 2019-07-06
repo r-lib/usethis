@@ -84,6 +84,7 @@ create_from_github("rladies/praise")
 #> ✔ Setting active project to '/Users/mine/Desktop/praise'
 #> ✔ Adding 'upstream' remote: 'git@github.com:rladies/praise.git'
 #> ✔ Pulling changes from GitHub source repo 'upstream/master'
+#> ✔ Setting remote tracking branch for local 'master' branch to 'upstream/master'
 #> ✔ Opening '/Users/mine/Desktop/praise/' in new RStudio session
 ```
 </div>
