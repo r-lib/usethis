@@ -204,7 +204,8 @@ div.output pre.r { background-color:#FFFFFF; }
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; ✔ Setting active project to '/Users/mine/Desktop/praise'</span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; ✔ Adding 'upstream' remote: 'git@github.com:rladies/praise.git'</span></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; ✔ Pulling changes from GitHub source repo 'upstream/master'</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; ✔ Opening '/Users/mine/Desktop/praise/' in new RStudio session</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; ✔ Setting remote tracking branch for local 'master' branch to 'upstream/master'</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; ✔ Opening '/Users/mine/Desktop/praise/' in new RStudio session</span></a></code></pre></div>
 </div>
 <p>What this does:</p>
 <ul>
@@ -313,7 +314,7 @@ div.output pre.r { background-color:#FFFFFF; }
 <div id="merge-and-finish" class="section level2">
 <h2 class="hasAnchor">
 <a href="#merge-and-finish" class="anchor"></a>Merge and finish</h2>
-<p>Finally, the reviewer merges our pull request on GitHub. Locally, they can run <code><a href="../../reference/pr_init.html">pr_finish()</a></code> to switch back to the <code>master</code> branch, pull, delete the local branch created during the process of interacting with our PR, and delete the associated remote.</p>
+<p>Finally, the reviewer merges our pull request on GitHub. Locally, they can run <code><a href="../../reference/pr_init.html">pr_finish()</a></code> to switch back to the <code>master</code> branch, pull, delete the local branch created during the process of interacting with our PR, and remove the associated remote.</p>
 <div class="reviewer">
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="../../reference/pr_init.html">pr_finish</a></span>()</a></code></pre></div>
 </div>
@@ -323,7 +324,7 @@ div.output pre.r { background-color:#FFFFFF; }
 <a class="sourceLine" id="cb20-3" data-line-number="3"><span class="co">#&gt; ✔ Deleting local 'mine-cetinkaya-rundel-yeahyah' branch</span></a>
 <a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co">#&gt; ✔ Removing remote 'mine-cetinkaya-rundel'</span></a></code></pre></div>
 </div>
-<p>Since the reviewer has contributed some code to our pull request, we can get that code back to our computer with <code><a href="../../reference/pr_init.html">pr_pull()</a></code>. This is optional here, since the full PR has already been incorporated into <code>master</code> of the source repo. But <code><a href="../../reference/pr_init.html">pr_pull()</a></code> can be useful in PRs with if there are a few rounds of alternating contributions from you and the maintainer.</p>
+<p>Since the reviewer has contributed some code to our pull request, we can get that code back to our computer with <code><a href="../../reference/pr_init.html">pr_pull()</a></code>. This is optional here, since the full PR has already been incorporated into <code>master</code> of the source repo. But <code><a href="../../reference/pr_init.html">pr_pull()</a></code> can be useful in PRs if there are a few rounds of alternating contributions from you and the maintainer.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../../reference/pr_init.html">pr_pull</a></span>()</a></code></pre></div>
 <div class="output">
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co">#&gt; ✔ Pulling changes from GitHub PR</span></a></code></pre></div>
