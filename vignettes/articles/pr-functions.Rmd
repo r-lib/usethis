@@ -249,7 +249,7 @@ pr_push()
 
 ## Merge and finish
 
-Finally, the reviewer merges our pull request on GitHub. Locally, they can run `pr_finish()` to switch back to the `master` branch, pull, delete the local branch created during the process of interacting with our PR, and delete the associated remote.
+Finally, the reviewer merges our pull request on GitHub. Locally, they can run `pr_finish()` to switch back to the `master` branch, pull, delete the local branch created during the process of interacting with our PR, and remove the associated remote.
 
 <div class = "reviewer">
 ```{r pr_finish_reviewer, eval=FALSE}
