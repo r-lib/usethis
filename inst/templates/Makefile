@@ -16,7 +16,7 @@ check: build
 
 install_deps:
 	Rscript \
-	-e 'if (!requireNamespace("remotes") install.packages("remotes")' \
+	-e 'if (!requireNamespace("remotes")) install.packages("remotes")' \
 	-e 'remotes::install_deps(dependencies = TRUE)'
 
 install: install_deps build
