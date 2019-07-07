@@ -160,8 +160,8 @@
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># Create a new package -------------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"mypkg"</span>)</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="reference/create_package.html">create_package</a></span>(path)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Creating '/tmp/RtmpAU8iiU/mypkg/'</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ Setting active project to '/tmp/RtmpAU8iiU/mypkg'</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Creating '/tmp/Rtmp1IIuik/mypkg/'</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ Setting active project to '/tmp/Rtmp1IIuik/mypkg'</span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ✔ Creating 'R/'</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; ✔ Writing 'DESCRIPTION'</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; Package: mypkg</span></a>
@@ -177,8 +177,8 @@
 <a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; ✔ Setting active project to '&lt;no active project&gt;'</span></a>
 <a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co"># only needed since this session isn't interactive</span></a>
 <a class="sourceLine" id="cb3-22" data-line-number="22"><span class="kw"><a href="reference/proj_activate.html">proj_activate</a></span>(path)</a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; ✔ Changing working directory to '/tmp/RtmpAU8iiU/mypkg/'</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; ✔ Setting active project to '/tmp/RtmpAU8iiU/mypkg'</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; ✔ Changing working directory to '/tmp/Rtmp1IIuik/mypkg/'</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; ✔ Setting active project to '/tmp/Rtmp1IIuik/mypkg'</span></a>
 <a class="sourceLine" id="cb3-25" data-line-number="25"></a>
 <a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co"># Modify the description ----------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-27" data-line-number="27"><span class="kw"><a href="reference/licenses.html">use_mit_license</a></span>(<span class="st">"My Name"</span>)</a>
@@ -201,14 +201,14 @@
 <a class="sourceLine" id="cb3-44" data-line-number="44"><span class="kw"><a href="reference/use_rcpp.html">use_rcpp</a></span>()</a>
 <a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt; ✔ Creating 'src/'</span></a>
 <a class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt; ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'</span></a>
-<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/RtmpAU8iiU/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/Rtmp1IIuik/mypkg/R/mypkg-package.R':</span></a>
 <a class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt;   ## usethis namespace: start</span></a>
 <a class="sourceLine" id="cb3-49" data-line-number="49"><span class="co">#&gt;   #' @useDynLib mypkg, .registration = TRUE</span></a>
 <a class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt;   ## usethis namespace: end</span></a>
 <a class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt;   NULL</span></a>
 <a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt; ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION</span></a>
 <a class="sourceLine" id="cb3-53" data-line-number="53"><span class="co">#&gt; ✔ Adding 'Rcpp' to Imports field in DESCRIPTION</span></a>
-<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/RtmpAU8iiU/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/Rtmp1IIuik/mypkg/R/mypkg-package.R':</span></a>
 <a class="sourceLine" id="cb3-55" data-line-number="55"><span class="co">#&gt;   ## usethis namespace: start</span></a>
 <a class="sourceLine" id="cb3-56" data-line-number="56"><span class="co">#&gt;   #' @importFrom Rcpp sourceCpp</span></a>
 <a class="sourceLine" id="cb3-57" data-line-number="57"><span class="co">#&gt;   ## usethis namespace: end</span></a>
