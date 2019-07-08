@@ -154,6 +154,27 @@ use_zip <- function(url,
 #' https://api.github.com/repos/r-lib/usethis/zipball/master
 #' ```
 #'
+#' **Google Drive:**
+#'
+#' It looks like it's not possible to directly share as a ZIP file the content
+#' of a folder storred in Google Drive. It is however possible to share a ZIP
+#' file storred in Google Drive. To get this URL, click on
+#' "Get the shareable link" (within the "Share" menu). This URL doesn't allow
+#' for direct download as it's designed to be processed in a web browser first.
+#' Such a sharing link looks like:
+#'
+#' ```
+#' https://drive.google.com/open?id=123456789xxyyyzzz
+#' ```
+#'
+#' To be able to get the URL suitable for direct download, you need to extract
+#' the "id" element from the URL and include it in this URL format:
+#'
+#' ```
+#' https://docs.google.com/uc?export=download&id=123456789xxyyyzzz
+#' ```
+#'
+#'
 #' @param url Download link for the ZIP file, possibly behind a shortlink or
 #'   other redirect. See Details.
 #' @param destdir Path to existing local directory where the ZIP file will be
