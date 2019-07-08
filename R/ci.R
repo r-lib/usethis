@@ -36,6 +36,10 @@ use_travis <- function(browse = interactive(), ext = c("org", "com")) {
   invisible(TRUE)
 }
 
+#' @section `use_travis_badge()`:
+#' Adds a badge for the status of your continuous integration with travis-ci.
+#' @export
+#' @rdname ci
 use_travis_badge <- function(ext = "org") {
   check_uses_github()
   url <- glue("https://travis-ci.{ext}/{github_repo_spec()}")
@@ -96,6 +100,11 @@ appveyor_activate <- function(browse = interactive()) {
   }
 }
 
+#' @section `use_appveyor_badge()`:
+#' Adds a badge for the status of [AppVeyor](https://www.appveyor.com)
+#'   continuous integration service for Windows.
+#' @export
+#' @rdname ci
 use_appveyor_badge <- function() {
   appveyor <- appveyor_info()
   use_badge("AppVeyor build status", appveyor$url, appveyor$img)

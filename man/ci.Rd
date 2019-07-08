@@ -2,14 +2,20 @@
 % Please edit documentation in R/ci.R
 \name{ci}
 \alias{use_travis}
+\alias{use_travis_badge}
 \alias{use_appveyor}
+\alias{use_appveyor_badge}
 \alias{use_gitlab_ci}
 \alias{use_circleci}
 \title{Continuous integration setup and badges}
 \usage{
 use_travis(browse = interactive(), ext = c("org", "com"))
 
+use_travis_badge(ext = "org")
+
 use_appveyor(browse = interactive())
+
+use_appveyor_badge()
 
 use_gitlab_ci()
 
@@ -47,11 +53,22 @@ configuration file for the \href{https://travis-ci.org/}{Travis CI} continuous
 integration service.
 }
 
+\section{\code{use_travis_badge()}}{
+
+Adds a badge for the status of your continuous integration with travis-ci.
+}
+
 \section{\code{use_appveyor()}}{
 
 Adds a basic \code{appveyor.yml} to the top-level directory of a package. This is
 a configuration file for the \href{https://www.appveyor.com}{AppVeyor} continuous
 integration service for Windows.
+}
+
+\section{\code{use_appveyor_badge()}}{
+
+Adds a badge for the status of \href{https://www.appveyor.com}{AppVeyor}
+continuous integration service for Windows.
 }
 
 \section{\code{use_gitlab_ci()}}{
