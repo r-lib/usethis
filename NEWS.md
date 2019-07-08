@@ -6,6 +6,8 @@
 
 * Fix quoting of dataset name in template for `use_data_raw()` (#736, @mitchelloharawild).
 
+* Remove unexported function from `use_markdown_template()` (#761, @fmichonneau)
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
