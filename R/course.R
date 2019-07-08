@@ -128,8 +128,9 @@ use_zip <- function(url,
 #' ```
 #' https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
 #' ```
-#' Replace the `dl=0` at the end with `dl=1` to create a download link. The ZIP
-#' download link will have this form:
+#' Replace the `dl=0` at the end with `dl=1` to create a download link (or use
+#' the `convert_teaching_url()` function). The ZIP download link will have this
+#' form:
 #' ```
 #' https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
 #' ```
@@ -168,7 +169,7 @@ use_zip <- function(url,
 #' ```
 #'
 #' To be able to get the URL suitable for direct download, you need to extract
-#' the "id" element from the URL and include it in this URL format:
+#' the "id" element from the URL and include it in this URL format (or):
 #'
 #' ```
 #' https://docs.google.com/uc?export=download&id=123456789xxyyyzzz
@@ -292,6 +293,25 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
   }
 
   invisible(target)
+}
+
+## takes a Dropbox or Google Drive URL as provided in the web browser, and
+## converts into an URL suitable for direct download (as expected by
+## tidy_download() for instance).
+convert_teaching_url <- function(url) {
+  stopifnot(is.character(url))
+  stopifnot(grepl("^http[s]?://", url))
+
+  if (grepl("drive.google.com", url)) {
+    id <- regmatches(url, regexpr("id=[^&]+&?", url))
+    return(glue::glue("https://drive.google.com/uc?export=download&{id}"))
+  }
+
+  if (grepl("dropbox.com/sh", url)) {
+    return(gsub("dl=0", "dl=1", url))
+  }
+
+  url
 }
 
 normalize_url <- function(url) {
