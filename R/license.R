@@ -42,7 +42,7 @@ use_mit_license <- function(name = find_name()) {
 
   # Fill in template
   use_template(
-    "license-mit.txt",
+    "year-copyright.txt",
     save_as = "LICENSE",
     data = license_data(name)
   )
@@ -59,7 +59,7 @@ use_gpl3_license <- function(name = find_name()) {
   use_license_template("GPL-3", name)
 
   use_template(
-    "license-mit.txt",
+    "year-copyright.txt",
     save_as = "LICENSE",
     data = license_data(name)
   )
