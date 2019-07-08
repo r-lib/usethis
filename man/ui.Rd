@@ -74,6 +74,8 @@ The \code{ui_} functions can be broken down into four main categories:
 \item questions: \code{ui_yeah()}, \code{ui_nope()}.
 \item inline styles: \code{ui_field()}, \code{ui_value()}, \code{ui_path()}, \code{ui_code()}.
 }
+
+For additional details on the question functions please see the \link{ui_question} help page.
 }
 \examples{
 new_val <- "oxnard"
@@ -86,4 +88,8 @@ ui_code_block(c(
   "Line 3"
 ))
 }
+\seealso{
+Other user interface functions: \code{\link{ui_question}}
+}
+\concept{user interface functions}
 \keyword{internal}

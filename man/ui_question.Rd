@@ -42,7 +42,7 @@ opposite of \code{ui_yeah}.
 }
 \description{
 These functions are used to interact with the user by posing a simple
-yes or no question.
+yes or no question. For details on the other ui function see the \link{ui} help page.
 }
 \examples{
 \dontrun{
@@ -51,3 +51,8 @@ ui_nope("Have you tried turning it off and on again?", n_yes = 1, n_no = 1)
 ui_yeah("Are you sure its plugged in?", yes = "Yes", no = "No", shuffle = FALSE)
 }
 }
+\seealso{
+Other user interface functions: \code{\link{ui}}
+}
+\concept{user interface functions}
+\keyword{internal}

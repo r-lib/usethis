@@ -12,6 +12,8 @@
 #' * questions: `ui_yeah()`, `ui_nope()`.
 #' * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`.
 #'
+#' For additional details on the question functions please see the [ui_question] help page.
+#'
 #' @param x A character vector.
 #'
 #'   For block styles, conditions, and questions, each element of the
@@ -23,6 +25,7 @@
 #' @return The block styles, conditions, and questions are called for their
 #'   side-effect. The inline styles return a string.
 #' @keywords internal
+#' @family user interface functions
 #' @name ui
 #' @examples
 #' new_val <- "oxnard"
@@ -127,7 +130,7 @@ ui_warn <- function(x, .envir = parent.frame()) {
 #' User interface - Questions
 #'
 #' These functions are used to interact with the user by posing a simple
-#' yes or no question.
+#' yes or no question. For details on the other ui function see the [ui] help page.
 #'
 #' @param x A character vector. Each element of the vector becomes a line,
 #'   and the result is processed by [glue::glue()].
@@ -144,6 +147,8 @@ ui_warn <- function(x, .envir = parent.frame()) {
 #'   when either a no option or no selection is made (canceled). `ui_nope` is the logical
 #'   opposite of `ui_yeah`.
 #' @name ui_question
+#' @keywords internal
+#' @family user interface functions
 #' @examples
 #' \dontrun{
 #' ui_yeah("Do you like R?")
