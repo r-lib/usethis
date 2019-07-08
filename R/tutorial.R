@@ -26,7 +26,8 @@ use_tutorial <- function(name, title, open = interactive()) {
   stopifnot(is_string(name))
   stopifnot(is_string(title))
 
-  dir_path <- path("inst", "tutorials")
+  dir_path <- path("inst", "tutorials", name)
+  dir_create(dir_path)
 
   use_directory(dir_path)
   use_git_ignore("*.html", directory = dir_path)
