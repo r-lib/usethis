@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* Feature fix, updated issue template to current github format (#756 @Maschette)
+
 * A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
 
 * Fix typo in Makefile template generated via `use_make()` (#804, @ryapric).
