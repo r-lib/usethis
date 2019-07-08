@@ -15,9 +15,10 @@
 #'   `\\.` and surround with `^` and `$`.
 #' @export
 #' @examples
+#' \dontrun{
 #' # ignore all Excel files
 #' use_build_ignore("[.]xls$", escape = FALSE)
-#'
+#' }
 use_build_ignore <- function(files, escape = TRUE) {
   if (escape) {
     files <- escape_path(files)

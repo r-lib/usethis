@@ -25,7 +25,8 @@ want to ignore \emph{all} files with a given extension, consider providing
 an "as-is" regular expression, using \code{escape = FALSE}; see examples.
 }
 \examples{
+\donttest{
 # ignore all Excel files
-use_build_ignore("[.]xls$")
-
+use_build_ignore("[.]xls$", escape = FALSE)
+}
 }
