@@ -22,7 +22,10 @@
 #' use_dev_package("glue")
 #' }
 use_package <- function(package, type = "Imports", min_version = NULL) {
-  refuse_package(package, verboten = "tidyverse")
+
+  if (type == "Imports") {
+    refuse_package(package, verboten = "tidyverse")
+  }
 
   use_dependency(package, type, min_version = min_version)
   how_to_use(package, type)
@@ -76,7 +79,13 @@ refuse_package <- function(package, verboten) {
     ui_stop(
       "{ui_value(package)} is a meta-package and it is rarely a good idea to \\
       depend on it. Please determine the specific underlying package(s) that \\
-      offer the function(s) you need and depend on that instead."
+      offer the function(s) you need and depend on that instead.\\
+      (For data analysis projects that use a package structure but do not implement\\
+      a formal R package, adding {{ui_value(package)}} to Depends is a reasonable compromise. \\
+      Use {
+      ui_code(x = glue::glue('use_package({package},type=\\'depends\\')'))
+        } to achieve this.)
+      "
     )
   }
   invisible(package)
