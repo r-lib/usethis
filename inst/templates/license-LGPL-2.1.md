@@ -470,7 +470,7 @@ have at least the "copyright" line and a pointer to where the full
 notice is found.
 
     one line to give the library's name and an idea of what it does.
-    {{{project}}} Copyright (C) {{{year}}} {{{name}}}
+    Copyright (C) year  name of author
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
