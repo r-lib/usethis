@@ -598,3 +598,6 @@ A new class of functions make it easy to edit common config files:
 
 * `use_vignette()` now adds `*.html` and `*.R` to your `.gitgnore` so you
   don't accidentally add in compiled vignette products (#35).
+
+* `use_travis_badge()` and `use_appveyor_badge()` are now exported functions, 
+  so they can be used even if ci was separately set up (#765, @smwindecker). 
