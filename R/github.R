@@ -220,7 +220,7 @@ use_github_links <- function(auth_token = github_token(),
 #' edit_r_environ()
 #' ## which helps you store the PAT as an env var
 #' }
-browse_github_token <- function(scopes = c("repo", "gist"),
+browse_github_token <- function(scopes = c("repo", "gist", "user:email"),
                                 description = "R:GITHUB_PAT",
                                 host = "https://github.com") {
   scopes <- glue_collapse(scopes, ",")
