@@ -2,7 +2,7 @@ context("test-use-tutorial")
 
 test_that("use_tutorial() checks its inputs", {
   skip_if_not_installed("rmarkdown")
-
+  
   scoped_temporary_package()
   expect_error(use_tutorial(), "no default")
   expect_error(use_tutorial(name = "tutorial-file"), "no default")
@@ -17,6 +17,17 @@ test_that("use_tutorial() creates a tutorial", {
       tute_file <- path("inst", "tutorials", "aaa", "aaa", ext = "Rmd")
       expect_proj_file(tute_file)
       expect_equal(rmarkdown::yaml_front_matter(tute_file)$title, "bbb")
+    }
+  )
+})
+
+test_that("use_tutorial(learner_friendly = TRUE) adds promised file, Imports learnr", {
+  with_mock(
+    `usethis:::uses_roxygen` = function(base_path) TRUE, {
+      scoped_temporary_package()
+      use_tutorial(name = "aaa", title = "bbb", learner_friendly = TRUE)
+      expect_match(desc::desc_get("Imports", proj_get()), "learnr")
+      expect_proj_file("R", "utils-run-tutorial.R")
     }
   )
 })

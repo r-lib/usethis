@@ -4,13 +4,16 @@
 \alias{use_tutorial}
 \title{Create a learnr tutorial}
 \usage{
-use_tutorial(name, title, open = interactive())
+use_tutorial(name, title, learner_friendly = FALSE,
+  open = interactive())
 }
 \arguments{
 \item{name}{Base for file name to use for new \code{.Rmd} tutorial. Should consist
 only of numbers, letters, \code{_} and \code{-}. We recommend using lower case.}
 
 \item{title}{The human-facing title of the tutorial.}
+
+\item{learner_friendly}{If \code{TRUE}, adds \code{learnr} to Imports instead of Suggests to install \code{learnr} alongside the tutorial package. Re-exports \code{run_tutorial()} to make it immediately available to tutorial package users.}
 
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}

@@ -14,6 +14,7 @@
 #' @param name Base for file name to use for new `.Rmd` tutorial. Should consist
 #'   only of numbers, letters, `_` and `-`. We recommend using lower case.
 #' @param title The human-facing title of the tutorial.
+#' @param learner_friendly If `TRUE`, adds `learnr` to Imports instead of Suggests to install `learnr` alongside the tutorial package. Re-exports `run_tutorial()` to make it immediately available to tutorial package users.
 #' @inheritParams use_template
 #' @seealso The [learnr package
 #'   documentation](https://rstudio.github.io/learnr/index.html).
@@ -22,7 +23,8 @@
 #' \dontrun{
 #' use_tutorial("learn-to-do-stuff", "Learn to do stuff")
 #' }
-use_tutorial <- function(name, title, open = interactive()) {
+use_tutorial <- function(name, title, learner_friendly = FALSE,
+                         open = interactive()) {
   stopifnot(is_string(name))
   stopifnot(is_string(title))
 
@@ -31,8 +33,14 @@ use_tutorial <- function(name, title, open = interactive()) {
 
   use_directory(dir_path)
   use_git_ignore("*.html", directory = dir_path)
-  use_dependency("learnr", "Suggests")
-
+  
+  if(learner_friendly) {
+    use_dependency("learnr", "Imports")
+    use_template("run-tutorial.R", "R/utils-run-tutorial.R")
+  } else {
+    use_dependency("learnr", "Suggests")
+  }
+  
   path <- path(dir_path, asciify(name), ext = "Rmd")
 
   data <- project_data()
@@ -45,6 +53,6 @@ use_tutorial <- function(name, title, open = interactive()) {
     ignore = TRUE,
     open = open
   )
-
+  
   invisible(new)
 }
