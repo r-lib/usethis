@@ -4,6 +4,8 @@
 
 * Fix typo in Makefile template generated via `use_make()` (#804, @ryapric).
 
+* Fix quoting of dataset name in template for `use_data_raw()` (#736, @mitchelloharawild).
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
