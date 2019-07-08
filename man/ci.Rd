@@ -55,7 +55,8 @@ integration service.
 
 \section{\code{use_travis_badge()}}{
 
-Adds a badge for the status of your continuous integration with travis-ci.
+Adds a badge for the status of your continuous integration
+with \href{https://travis-ci.org/}{Travis CI}.
 }
 
 \section{\code{use_appveyor()}}{

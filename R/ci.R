@@ -37,7 +37,8 @@ use_travis <- function(browse = interactive(), ext = c("org", "com")) {
 }
 
 #' @section `use_travis_badge()`:
-#' Adds a badge for the status of your continuous integration with travis-ci.
+#' Adds a badge for the status of your continuous integration
+#'   with [Travis CI](https://travis-ci.org/).
 #' @export
 #' @rdname ci
 use_travis_badge <- function(ext = "org") {
