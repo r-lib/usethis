@@ -19,3 +19,13 @@ usually easier to work with specific file names. By default,
 expression that will only match that path. Repeated entries will be
 silently removed.
 }
+\details{
+\code{use_build_ignore} is designed to ignore \emph{individual} files. If you
+want to ignore \emph{all} files with a given extension, consider providing
+an "as-is" regular expression, using \code{escape = FALSE}; see examples.
+}
+\examples{
+# ignore all Excel files
+use_build_ignore("[.]xls$")
+
+}
