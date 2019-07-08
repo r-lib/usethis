@@ -76,15 +76,14 @@ package_remote <- function(package) {
 
 refuse_package <- function(package, verboten) {
   if (identical(package, verboten)) {
+    code <- glue("use_package(\"{package}\", type = \"depends\")")
     ui_stop(
       "{ui_value(package)} is a meta-package and it is rarely a good idea to \\
       depend on it. Please determine the specific underlying package(s) that \\
-      offer the function(s) you need and depend on that instead.\\
-      (For data analysis projects that use a package structure but do not implement\\
-      a formal R package, adding {{ui_value(package)}} to Depends is a reasonable compromise. \\
-      Use {
-      ui_code(x = glue::glue('use_package({package},type=\\'depends\\')'))
-        } to achieve this.)
+      offer the function(s) you need and depend on that instead. \\
+      For data analysis projects that use a package structure but do not implement \\
+      a formal R package, adding {ui_value(package)} to Depends is a \\
+      reasonable compromise. Call {ui_code(code)} to achieve this.
       "
     )
   }
