@@ -3,6 +3,7 @@
 * A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
 
 * Fix typo in Makefile template generated via `use_make()` (#804, @ryapric).
+* Document `use_r` and `use_test` in the same `.Rd` file (#726, @friep). 
 
 # usethis 1.5.1
 

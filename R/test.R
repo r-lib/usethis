@@ -1,12 +1,8 @@
-#' Create tests
-#'
-#' There are two helper functions:
-#' * `use_testthat()` sets up overall testing infrastructure: creates
+#' Sets up overall testing infrastructure
+#' creates
 #'   `tests/testthat/`, `tests/testthat.R`, and adds testthat to Suggests.
-#' * `use_test()` sets up individual test files: creates
-#'   `tests/testthat/test-<name>.R` and, optionally, opens it for editing.
 #'
-#' @seealso The [testing chapter](https://r-pkgs.org/tests.html) of [R
+#' @seealso [use_test] to create test files. The [testing chapter](https://r-pkgs.org/tests.html) of [R
 #'   Packages](https://r-pkgs.org).
 #' @export
 #' @inheritParams use_template
@@ -35,9 +31,7 @@ use_testthat <- function() {
   )
 }
 
-#' @rdname use_testthat
-#' @param name Base of test file name. If `NULL`, and you're using RStudio, will
-#'   be based on the name of the file open in the source editor.
+#' @rdname use_r
 #' @export
 use_test <- function(name = NULL, open = interactive()) {
   if (!uses_testthat()) {

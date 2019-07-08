@@ -2,28 +2,16 @@
 % Please edit documentation in R/test.R
 \name{use_testthat}
 \alias{use_testthat}
-\alias{use_test}
-\title{Create tests}
+\title{Sets up overall testing infrastructure
+creates
+\code{tests/testthat/}, \code{tests/testthat.R}, and adds testthat to Suggests.}
 \usage{
 use_testthat()
-
-use_test(name = NULL, open = interactive())
-}
-\arguments{
-\item{name}{Base of test file name. If \code{NULL}, and you're using RStudio, will
-be based on the name of the file open in the source editor.}
-
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
-There are two helper functions:
-\itemize{
-\item \code{use_testthat()} sets up overall testing infrastructure: creates
+Sets up overall testing infrastructure
+creates
 \code{tests/testthat/}, \code{tests/testthat.R}, and adds testthat to Suggests.
-\item \code{use_test()} sets up individual test files: creates
-\code{tests/testthat/test-<name>.R} and, optionally, opens it for editing.
-}
 }
 \examples{
 \dontrun{
@@ -35,5 +23,5 @@ use_test("something-management")
 }
 }
 \seealso{
-The \href{https://r-pkgs.org/tests.html}{testing chapter} of \href{https://r-pkgs.org}{R Packages}.
+\link{use_test} to create test files. The \href{https://r-pkgs.org/tests.html}{testing chapter} of \href{https://r-pkgs.org}{R Packages}.
 }
