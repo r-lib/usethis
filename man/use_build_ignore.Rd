@@ -27,6 +27,6 @@ an "as-is" regular expression, using \code{escape = FALSE}; see examples.
 \examples{
 \dontrun{
 # ignore all Excel files
-use_build_ignore("[.]xls$", escape = FALSE)
+use_build_ignore("[.]xlsx$", escape = FALSE)
 }
 }
