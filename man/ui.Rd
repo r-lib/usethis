@@ -10,8 +10,6 @@
 \alias{ui_code_block}
 \alias{ui_stop}
 \alias{ui_warn}
-\alias{ui_yeah}
-\alias{ui_nope}
 \alias{ui_field}
 \alias{ui_value}
 \alias{ui_path}
@@ -33,10 +31,6 @@ ui_code_block(x, copy = interactive(), .envir = parent.frame())
 ui_stop(x, .envir = parent.frame())
 
 ui_warn(x, .envir = parent.frame())
-
-ui_yeah(x, .envir = parent.frame())
-
-ui_nope(x, .envir = parent.frame())
 
 ui_field(x)
 

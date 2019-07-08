@@ -124,7 +124,35 @@ ui_warn <- function(x, .envir = parent.frame()) {
 
 # Questions ---------------------------------------------------------------
 
-#' @rdname ui
+#' User interface - Questions
+#'
+#' These functions are used to interact with the user by posing a simple
+#' yes or no question.
+#'
+#' @param x A character vector. Each element of the vector becomes a line,
+#'   and the result is processed by [glue::glue()].
+#' @param yes A character vector. A set of yes strings that will be randomly
+#'   sampled to populate the menu.
+#' @param no A character vector. A set of no strings that will be randomly
+#'   sampled to populate the menu.
+#' @param n_yes An integer. The number of yes strings to include.
+#' @param n_no An integer. The number of no strings to include.
+#' @param shuffle A logical. Should the order of the menu options be randomly shuffled.
+#' @param .envir Used to ensure that [glue::glue()] gets the correct
+#'   environment. For expert use only.
+#' @return A logical. `ui_yeah` returns `TRUE` when the user selects a yes option and `FALSE`
+#'   when either a no option or no selection is made (canceled). `ui_nope` is the logical
+#'   opposite of `ui_yeah`.
+#' @name ui_question
+#' @examples
+#' \dontrun{
+#' ui_yeah("Do you like R?")
+#' ui_nope("Have you tried turning it off and on again?", n_yes = 1, n_no = 1)
+#' ui_yeah("Are you sure its plugged in?", yes = "Yes", no = "No", shuffle = FALSE)
+#' }
+NULL
+
+#' @rdname ui_question
 #' @export
 ui_yeah <- function(
   x,
@@ -156,7 +184,7 @@ ui_yeah <- function(
   out != 0L && qs[[out]] %in% yes
 }
 
-#' @rdname ui
+#' @rdname ui_question
 #' @export
 ui_nope <- function(
   x,
