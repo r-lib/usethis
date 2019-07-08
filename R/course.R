@@ -35,6 +35,9 @@
 #' use_course("r-lib/rematch2")
 #' use_course("https://github.com/r-lib/rematch2/archive/master.zip")
 #' use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
+#'
+#' ## from a folder from Google Drive. Example link captured from here: https://insights.stackoverflow.com/survey
+#' use_course("https://drive.google.com/uc?export=download&id=1_9On2-nsBQIw3JiY43sWbrF8EjrqrR4U")
 #' }
 NULL
 
