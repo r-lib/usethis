@@ -55,8 +55,8 @@ integration service.
 
 \section{\code{use_travis_badge()}}{
 
-Adds a badge for the status of your continuous integration
-with \href{https://travis-ci.org/}{Travis CI}.
+Only adds the \href{https://travis-ci.org/}{Travis CI} badge. Use for a project
+where Travis is already configured.
 }
 
 \section{\code{use_appveyor()}}{
@@ -68,8 +68,8 @@ integration service for Windows.
 
 \section{\code{use_appveyor_badge()}}{
 
-Adds a badge for the status of \href{https://www.appveyor.com}{AppVeyor}
-continuous integration service for Windows.
+Only adds the \href{https://www.appveyor.com}{AppVeyor} badge. Use for a project
+where AppVeyor is already configured.
 }
 
 \section{\code{use_gitlab_ci()}}{
