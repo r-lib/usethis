@@ -154,13 +154,11 @@ NULL
 
 #' @rdname ui_question
 #' @export
-ui_yeah <- function(
-  x,
-  yes =  c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
-  no  =  c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
-  n_yes = 1, n_no = 2, shuffle = TRUE,
-  .envir = parent.frame()
-) {
+ui_yeah <- function(x,
+                    yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
+                    no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+                    n_yes = 1, n_no = 2, shuffle = TRUE,
+                    .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
@@ -176,8 +174,9 @@ ui_yeah <- function(
 
   qs <- c(sample(yes, n_yes), sample(no, n_no))
 
-  if (shuffle)
+  if (shuffle) {
     qs <- sample(qs)
+  }
 
   cat_line(x)
   out <- utils::menu(qs)
@@ -186,17 +185,17 @@ ui_yeah <- function(
 
 #' @rdname ui_question
 #' @export
-ui_nope <- function(
-  x,
-  yes =  c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
-  no  =  c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
-  n_yes = 1, n_no = 2, shuffle = TRUE,
-  .envir = parent.frame()
-) {
-  !ui_yeah(x = x, yes = yes, no = no,
-           n_yes = n_yes, n_no = n_no,
-           shuffle = shuffle,
-           .envir = .envir)
+ui_nope <- function(x,
+                    yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
+                    no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+                    n_yes = 1, n_no = 2, shuffle = TRUE,
+                    .envir = parent.frame()) {
+  !ui_yeah(
+    x = x, yes = yes, no = no,
+    n_yes = n_yes, n_no = n_no,
+    shuffle = shuffle,
+    .envir = .envir
+  )
 }
 
 # Inline styles -----------------------------------------------------------
