@@ -1,17 +1,4 @@
-#' Create or edit files
-#'
-#' There are two functions:
-#' * `use_r()` creates `<name>.R` file in the `R` directory.
-#' * `use_test()` sets up individual test files: creates `tests/testthat/test-<name>.R` and, optionally, opens it for editing.
-#'
-#' @param name
-#' * for `use_r()`: File name, without extension; will create if it doesn't already
-#'   exist. If not specified, and you're currently in a test file, will guess
-#'   name based on test name.
-#' * for `use_test()`: Base of test file name. If `NULL`, and you're using RStudio, will
-#'   be based on the name of the file open in the source editor.
-#' @param open
-#' * If TRUE, opens the file for editing. Defaults to return value of `interactive()`.
+#' @rdname creating-files
 #' @seealso [use_testthat()] to set up the testing infrastructure. The [testing](https://r-pkgs.org/tests.html)
 #' and [R code](https://r-pkgs.org/r.html) chapters of [R Packages](https://r-pkgs.org).
 #' @export

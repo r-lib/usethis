@@ -31,7 +31,9 @@ use_testthat <- function() {
   )
 }
 
-#' @rdname use_r
+#' @rdname creating-files
+#' @param open
+#' * If TRUE, opens the file for editing. Defaults to return value of `interactive()`.
 #' @export
 use_test <- function(name = NULL, open = interactive()) {
   if (!uses_testthat()) {
