@@ -126,7 +126,13 @@ ui_warn <- function(x, .envir = parent.frame()) {
 
 #' @rdname ui
 #' @export
-ui_yeah <- function(x, .envir = parent.frame()) {
+ui_yeah <- function(
+  x,
+  yes =  c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
+  no  =  c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+  n_yes = 1, n_no = 2, shuffle = TRUE,
+  .envir = parent.frame()
+) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
@@ -137,21 +143,32 @@ ui_yeah <- function(x, .envir = parent.frame()) {
     ))
   }
 
-  ayes <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
-  nays <- c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not")
+  n_yes <- min(n_yes, length(yes))
+  n_no <- min(n_no, length(no))
 
-  qs <- c(sample(ayes, 1), sample(nays, 2))
-  ord <- sample(length(qs))
+  qs <- c(sample(yes, n_yes), sample(no, n_no))
+
+  if (shuffle)
+    qs <- sample(qs)
 
   cat_line(x)
-  out <- utils::menu(qs[ord])
-  out != 0L && (ord == 1)[[out]]
+  out <- utils::menu(qs)
+  out != 0L && qs[[out]] %in% yes
 }
 
 #' @rdname ui
 #' @export
-ui_nope <- function(x, .envir = parent.frame()) {
-  !ui_yeah(x, .envir = .envir)
+ui_nope <- function(
+  x,
+  yes =  c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
+  no  =  c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+  n_yes = 1, n_no = 2, shuffle = TRUE,
+  .envir = parent.frame()
+) {
+  !ui_yeah(x = x, yes = yes, no = no,
+           n_yes = n_yes, n_no = n_no,
+           shuffle = shuffle,
+           .envir = .envir)
 }
 
 # Inline styles -----------------------------------------------------------
