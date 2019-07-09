@@ -195,10 +195,10 @@ use_tidy_contributing <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_issue_template <- function() {
-  use_directory(".github", ignore = TRUE)
+  use_directory(path(".github", "ISSUE_TEMPLATE"), ignore = TRUE)
   use_template(
     "tidy-issue.md",
-    ".github/ISSUE_TEMPLATE.md"
+    ".github/ISSUE_TEMPLATE/issue_template.md"
   )
 }
 

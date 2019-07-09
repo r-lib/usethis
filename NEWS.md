@@ -2,11 +2,15 @@
 
 * `git_sitrep()` reports email(s) associated with your GitHub account(#724, @dragosmg).
 
+* Feature fix, updated issue template to current github format (#756 @Maschette)
+
 * A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
 
 * Fix typo in Makefile template generated via `use_make()` (#804, @ryapric).
 
 * Fix quoting of dataset name in template for `use_data_raw()` (#736, @mitchelloharawild).
+
+* Remove unexported function from the signature of `use_markdown_template()` (#761, @fmichonneau).
 
 # usethis 1.5.1
 
@@ -600,3 +604,6 @@ A new class of functions make it easy to edit common config files:
 
 * `use_vignette()` now adds `*.html` and `*.R` to your `.gitgnore` so you
   don't accidentally add in compiled vignette products (#35).
+
+* `use_travis_badge()` and `use_appveyor_badge()` are now exported functions, 
+  so they can be used even if ci was separately set up (#765, @smwindecker). 
