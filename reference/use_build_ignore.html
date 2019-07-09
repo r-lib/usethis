@@ -47,9 +47,12 @@
 
 <meta property="og:description" content=".Rbuildignore has a regular expression on each line, but it's
 usually easier to work with specific file names. By default,
-use_build_ignore will (crudely) turn a filename into a regular
+use_build_ignore() will (crudely) turn a filename into a regular
 expression that will only match that path. Repeated entries will be
-silently removed." />
+silently removed.
+use_build_ignore() is designed to ignore individual files. If you
+want to ignore all files with a given extension, consider providing
+an &quot;as-is&quot; regular expression, using escape = FALSE; see examples." />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -181,9 +184,12 @@ silently removed." />
     
     <p><code>.Rbuildignore</code> has a regular expression on each line, but it's
 usually easier to work with specific file names. By default,
-<code>use_build_ignore</code> will (crudely) turn a filename into a regular
+<code>use_build_ignore()</code> will (crudely) turn a filename into a regular
 expression that will only match that path. Repeated entries will be
 silently removed.</p>
+<p><code>use_build_ignore()</code> is designed to ignore <em>individual</em> files. If you
+want to ignore <em>all</em> files with a given extension, consider providing
+an "as-is" regular expression, using <code>escape = FALSE</code>; see examples.</p>
     
     </div>
 
@@ -203,12 +209,6 @@ silently removed.</p>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><code>use_build_ignore</code> is designed to ignore <em>individual</em> files. If you
-want to ignore <em>all</em> files with a given extension, consider providing
-an "as-is" regular expression, using <code>escape = FALSE</code>; see examples.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -220,9 +220,7 @@ an "as-is" regular expression, using <code>escape = FALSE</code>; see examples.<
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-      
+            
       <li><a href="#examples">Examples</a></li>
     </ul>
 
