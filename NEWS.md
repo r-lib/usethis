@@ -1,14 +1,9 @@
 # usethis (development version)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 * Feature fix, updated issue template to current github format (#756 @Maschette)
-=======
+
 * Added LICENSE file for use_gpl3_license function and fixed template for LGPL license (#814 and #683, @Cervangirard)  
->>>>>>> Add test for license LGPL and update NEW.md
-=======
-* Added LICENSE file for use_gpl3_license function and fixed template for LGPL license (#814 and #683, @Cervangirard)  
->>>>>>> 21370d41eca9ffd2bdd12bcd59aa782b626fadb3
 
 * A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
 
