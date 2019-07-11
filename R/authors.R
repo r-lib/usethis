@@ -46,7 +46,11 @@
 #'           comment = c(ORCID = "YOUR-ORCID-ID"))
 #'
 #' # Adds a second author Ali2
-#' use_author(given = "Ali2", family = "Val2", role = c("cph", "fnd"), email = "alval2@example.com", comment = NULL)
+#'use_author(given = "Ali2",
+#'           family = "Val2",
+#'           role = c("cph", "fnd"),
+#'           email = "alval2@example.com",
+#'           comment = NULL)
 #' }
 #'
 
