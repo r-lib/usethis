@@ -47,3 +47,21 @@ test_that("use_circleci() specifies Docker image", {
   yml <- yaml::yaml.load_file(".circleci/config.yml")
   expect_identical(yml$jobs$build$docker[[1]]$image, docker)
 })
+
+test_that("use_circleci() properly formats keys for cache", {
+  skip_if_no_git_config()
+
+  scoped_temporary_package()
+  use_git()
+  use_git_remote(name = "origin", url = "https://github.com/fake/fake")
+  use_circleci(browse = FALSE)
+  yml <- yaml::yaml.load_file(".circleci/config.yml")
+  expect_identical(
+    yml$jobs$build$steps[[1]]$restore_cache$keys,
+    c("r-pkg-cache-{{ arch }}-{{ .Branch }}", "r-pkg-cache-{{ arch }}-")
+  )
+  expect_identical(
+    yml$jobs$build$steps[[8]]$save_cache$key,
+    "r-pkg-cache-{{ arch }}-{{ .Branch }}"
+  )
+})
