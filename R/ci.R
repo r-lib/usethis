@@ -180,6 +180,7 @@ use_circleci <- function(browse = interactive(), image = "rocker/verse:latest") 
     data = list(package = project_name(), image = image),
     ignore = TRUE
   )
+  use_build_ignore(".circleci")
   if (!new) {
     return(invisible(FALSE))
   }
