@@ -5,7 +5,8 @@
 \alias{use_git_credentials}
 \title{Produce or register git credentials}
 \usage{
-git_credentials(protocol = git_protocol(), auth_token = github_token())
+git_credentials(protocol = git_protocol(), auth_token = github_token(),
+  host = NULL)
 
 use_git_credentials(credentials)
 }
@@ -15,6 +16,12 @@ to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
 
 \item{auth_token}{GitHub personal access token (PAT).}
+
+\item{host}{GitHub API host to use. Override with the endpoint-root for your
+GitHub enterprise instance, for example,
+"https://github.hostname.com/api/v3".
+You can also set GITHUB_API_URL environment variable that will be used as
+default host by underlying gh package.}
 
 \item{credentials}{A git2r credential object produced with
 \code{\link[git2r:cred_env]{git2r::cred_env()}}, \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}, \code{\link[git2r:cred_token]{git2r::cred_token()}}, or

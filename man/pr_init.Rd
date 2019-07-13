@@ -14,21 +14,21 @@
 \usage{
 pr_init(branch)
 
-pr_fetch(number, owner = NULL)
+pr_fetch(number, owner = NULL, host = host)
 
-pr_push()
+pr_push(host = NULL)
 
-pr_pull()
+pr_pull(host = NULL)
 
-pr_pull_upstream()
+pr_pull_upstream(host = NULL)
 
-pr_sync()
+pr_sync(host = NULL)
 
-pr_view()
+pr_view(host = NULL)
 
 pr_pause()
 
-pr_finish()
+pr_finish(host = NULL)
 }
 \arguments{
 \item{branch}{branch name. Should usually consist of lower case letters,
@@ -40,6 +40,12 @@ numbers, and \code{-}.}
 pull request. Default of \code{NULL} tries to identify the source repo and uses
 the owner of the \code{upstream} remote, if present, or the owner of \code{origin}
 otherwise.}
+
+\item{host}{GitHub API host to use. Override with the endpoint-root for your
+GitHub enterprise instance, for example,
+"https://github.hostname.com/api/v3".
+You can also set GITHUB_API_URL environment variable that will be used as
+default host by underlying gh package.}
 }
 \description{
 The \code{pr_*} family of functions is designed to make working with GitHub

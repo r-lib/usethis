@@ -47,7 +47,9 @@ not appear in the \code{labels} vector and that do not have associated issues.}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
+"https://github.hostname.com/api/v3".
+You can also set GITHUB_API_URL environment variable that will be used as
+default host by underlying gh package.}
 }
 \description{
 \code{use_github_labels()} can create new labels, update colours and descriptions,

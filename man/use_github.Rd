@@ -27,7 +27,9 @@ or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
+"https://github.hostname.com/api/v3".
+You can also set GITHUB_API_URL environment variable that will be used as
+default host by underlying gh package.}
 }
 \description{
 \code{use_github()} takes a local project, creates an associated repo on GitHub,
