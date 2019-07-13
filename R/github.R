@@ -23,6 +23,8 @@
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
 #'   "https://github.hostname.com/api/v3".
+#'   You can also set GITHUB_API_URL environment variable that will be used as
+#'   default host by underlying gh package.
 #'
 #' @export
 #' @examples
@@ -47,11 +49,11 @@ use_github <- function(organisation = NULL,
   check_branch("master")
   check_uncommitted_changes()
   check_no_origin()
-  check_github_token(auth_token)
+  check_github_token(auth_token, host = host)
 
-  credentials <- credentials %||% git_credentials(protocol, auth_token)
+  credentials <- credentials %||% git_credentials(protocol, auth_token, host = host)
   r <- git_repo()
-  owner <- organisation %||% github_user(auth_token)[["login"]]
+  owner <- organisation %||% github_user(auth_token, host = host)[["login"]]
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host, auth_token)
 
@@ -166,7 +168,7 @@ use_github_links <- function(auth_token = github_token(),
     owner = github_owner(),
     repo = github_repo(),
     .api_url = host,
-    .token = check_github_token(auth_token, allow_empty = TRUE)
+    .token = check_github_token(auth_token, allow_empty = TRUE, host = host)
   )
 
   use_description_field("URL", res$html_url, overwrite = overwrite)
@@ -319,7 +321,8 @@ have_github_token <- function(auth_token = github_token()) {
 # currently uses one-off code for checking the token
 
 check_github_token <- function(auth_token = github_token(),
-                               allow_empty = FALSE) {
+                               allow_empty = FALSE,
+                               host = NULL) {
   if (allow_empty && !have_github_token(auth_token)) {
     return(invisible(auth_token))
   }
@@ -337,7 +340,7 @@ check_github_token <- function(auth_token = github_token(),
   if (!have_github_token(auth_token)) {
     local_stop("No GitHub {ui_code('auth_token')} is available.")
   }
-  user <- github_user(auth_token)
+  user <- github_user(auth_token, host = host)
   if (is.null(user)) {
     local_stop("GitHub {ui_code('auth_token')} is invalid.")
   }
@@ -348,8 +351,8 @@ check_github_token <- function(auth_token = github_token(),
 ## GET /user seems to be the simplest API call to verify a PAT
 ## that's what gh::gh_whoami() does
 ## https://developer.github.com/v3/auth/#via-oauth-tokens
-github_user <- function(auth_token = github_token()) {
+github_user <- function(auth_token = github_token(), host = NULL) {
   suppressMessages(
-    tryCatch(gh::gh_whoami(auth_token), error = function(e) NULL)
+    tryCatch(gh::gh_whoami(auth_token, .api_url = host), error = function(e) NULL)
   )
 }

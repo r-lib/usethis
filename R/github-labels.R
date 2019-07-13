@@ -36,6 +36,7 @@
 #'   not appear in the `labels` vector and that do not have associated issues.
 #'
 #' @inheritParams use_github_links
+#' @inheritParams use_github
 #' @export
 #' @examples
 #' \dontrun{
@@ -67,7 +68,7 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   if (missing(repo_spec)) {
     check_uses_github()
   }
-  check_github_token(auth_token)
+  check_github_token(auth_token, host = host)
 
   gh <- function(endpoint, ...) {
     out <- gh::gh(

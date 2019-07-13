@@ -402,6 +402,7 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #'   `my_cred`.
 #'
 #' @inheritParams git_protocol
+#' @inheritParams use_github
 #' @param auth_token GitHub personal access token (PAT).
 #' @param credentials A git2r credential object produced with
 #'   [git2r::cred_env()], [git2r::cred_ssh_key()], [git2r::cred_token()], or
@@ -421,7 +422,8 @@ have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
 #' git_credentials(protocol = "https", auth_token = "MY_GITHUB_PAT")
 #' }
 git_credentials <- function(protocol = git_protocol(),
-                            auth_token = github_token()) {
+                            auth_token = github_token(),
+                            host = NULL) {
   if (have_git2r_credentials()) {
     return(git2r_env$credentials)
   }
@@ -431,7 +433,7 @@ git_credentials <- function(protocol = git_protocol(),
   }
 
   if (have_github_token(auth_token)) {
-    git2r::cred_user_pass("EMAIL", check_github_token(auth_token))
+    git2r::cred_user_pass("EMAIL", check_github_token(auth_token, host = host))
   } else {
     NULL
   }

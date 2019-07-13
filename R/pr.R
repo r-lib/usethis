@@ -84,6 +84,7 @@ pr_init <- function(branch) {
 #'   pull request. Default of `NULL` tries to identify the source repo and uses
 #'   the owner of the `upstream` remote, if present, or the owner of `origin`
 #'   otherwise.
+#' @inheritParams use_github
 #'
 #' @examples
 #' \dontrun{
@@ -92,11 +93,12 @@ pr_init <- function(branch) {
 #' pr_fetch(123, owner = "tidyverse")
 #' }
 pr_fetch <- function(number,
-                     owner = NULL) {
+                     owner = NULL,
+                     host = host) {
   check_uses_github()
   check_uncommitted_changes()
 
-  auth_token <- check_github_token(allow_empty = TRUE)
+  auth_token <- check_github_token(allow_empty = TRUE, host = host)
 
   owner <- owner %||% github_owner_upstream() %||% github_owner()
   repo <- github_repo()
@@ -105,6 +107,7 @@ pr_fetch <- function(number,
     owner = owner,
     repo = repo,
     number = number,
+    .api_url = host,
     .token = auth_token
   )
   pr_string <- glue("{owner}/{repo}/#{number}")
@@ -147,7 +150,7 @@ pr_fetch <- function(number,
 
   if (!git_branch_exists(our_branch)) {
     their_refname <- git_remref(remote, their_branch)
-    credentials <- git_credentials(protocol, auth_token)
+    credentials <- git_credentials(protocol, auth_token, host = host)
     ui_done("Creating local branch {ui_value(our_branch)}")
     git2r::fetch(
       git_repo(),
@@ -180,7 +183,7 @@ pr_fetch <- function(number,
 
 #' @export
 #' @rdname pr_init
-pr_push <- function() {
+pr_push <- function(host = NULL) {
   check_uses_github()
   check_branch_not_master()
   check_uncommitted_changes()
@@ -193,7 +196,7 @@ pr_push <- function() {
 
   remote_info <- git_branch_remote(branch)
   protocol <- github_remote_protocol(remote_info$remote_name)
-  credentials <- git_credentials(protocol)
+  credentials <- git_credentials(protocol, host = host)
 
   # TODO: I suspect the tryCatch (and perhaps the git_branch_compare()?) is
   # better pushed down into git_branch_push(), which could then return TRUE for
@@ -232,13 +235,13 @@ pr_push <- function() {
 
 #' @export
 #' @rdname pr_init
-pr_pull <- function() {
+pr_pull <- function(host = NULL) {
   check_uses_github()
   check_branch_not_master()
   check_uncommitted_changes()
 
   protocol <- github_remote_protocol()
-  credentials <- git_credentials(protocol)
+  credentials <- git_credentials(protocol, host = host)
 
   ui_done("Pulling changes from GitHub PR")
   git_pull(credentials = credentials)
@@ -248,7 +251,7 @@ pr_pull <- function() {
 
 #' @export
 #' @rdname pr_init
-pr_pull_upstream <- function() {
+pr_pull_upstream <- function(host = NULL) {
   check_uses_github()
   check_uncommitted_changes()
 
@@ -257,7 +260,7 @@ pr_pull_upstream <- function() {
   source <- git_remref(remote, branch)
 
   protocol <- github_remote_protocol(remote)
-  credentials <- git_credentials(protocol)
+  credentials <- git_credentials(protocol, host = host)
 
   ui_done("Pulling changes from GitHub source repo {ui_value(source)}")
   git_pull(source, credentials = credentials)
@@ -265,20 +268,20 @@ pr_pull_upstream <- function() {
 
 #' @export
 #' @rdname pr_init
-pr_sync <- function() {
-  pr_pull()
-  pr_pull_upstream()
-  pr_push()
+pr_sync <- function(host = NULL) {
+  pr_pull(host = host)
+  pr_pull_upstream(host = host)
+  pr_push(host = host)
 }
 
 #' @export
 #' @rdname pr_init
-pr_view <- function() {
-  url <- pr_url()
+pr_view <- function(host = NULL) {
+  url <- pr_url(host = host)
   if (is.null(url)) {
     pr_create_gh()
   } else {
-    view_url(pr_url())
+    view_url(url)
   }
 }
 
@@ -295,7 +298,7 @@ pr_pause <- function() {
 
 #' @export
 #' @rdname pr_init
-pr_finish <- function() {
+pr_finish <- function(host = NULL) {
   check_branch_not_master()
   pr <- git_branch_name()
   tracking_branch <- git_branch_tracking()
@@ -303,7 +306,7 @@ pr_finish <- function() {
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
 
-  pr_pull_upstream()
+  pr_pull_upstream(host = host)
 
   # TODO: check that this is merged!
   ui_done("Deleting local {ui_value(pr)} branch")
@@ -328,7 +331,7 @@ pr_finish <- function() {
   }
 }
 
-pr_create_gh <- function() {
+pr_create_gh <- function(s) {
   owner <- github_owner()
   repo <- github_repo()
   branch <- git_branch_name()
@@ -337,7 +340,7 @@ pr_create_gh <- function() {
   view_url(glue("https://github.com/{owner}/{repo}/compare/{branch}"))
 }
 
-pr_url <- function(branch = git_branch_name()) {
+pr_url <- function(branch = git_branch_name(), host = NULL) {
   # Have we done this before? Check if we've cached pr-url in git config.
   config_url <- glue("branch.{branch}.pr-url")
   url <- git_config_get(config_url)
@@ -353,7 +356,7 @@ pr_url <- function(branch = git_branch_name()) {
     pr_branch <- branch
   }
 
-  urls <- pr_find(source, github_repo(), github_owner(), pr_branch)
+  urls <- pr_find(source, github_repo(), github_owner(), pr_branch, host = host)
 
   if (length(urls) == 0) {
     NULL
@@ -368,13 +371,15 @@ pr_url <- function(branch = git_branch_name()) {
 pr_find <- function(owner,
                     repo,
                     pr_owner = owner,
-                    pr_branch = git_branch_name()) {
+                    pr_branch = git_branch_name(),
+                    host = NULL) {
   # Look at all PRs
   prs <- gh::gh("GET /repos/:owner/:repo/pulls",
     owner = owner,
     repo = repo,
     .limit = Inf,
-    .token = check_github_token(allow_empty = TRUE)
+    .api_url = host,
+    .token = check_github_token(allow_empty = TRUE, host = host)
   )
 
   if (identical(prs[[1]], "")) {

@@ -112,7 +112,7 @@ use_github_release <- function(host = NULL,
 
   check_uses_github()
   check_branch_pushed()
-  check_github_token(auth_token)
+  check_github_token(auth_token, host = host)
 
   package <- package_data()
 

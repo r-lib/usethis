@@ -178,7 +178,7 @@ create_from_github <- function(repo_spec,
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  auth_token <- check_github_token(auth_token, allow_empty = TRUE)
+  auth_token <- check_github_token(auth_token, allow_empty = TRUE, host = host)
 
   gh <- function(endpoint, ...) {
     gh::gh(
@@ -191,7 +191,7 @@ create_from_github <- function(repo_spec,
 
   repo_info <- gh("GET /repos/:owner/:repo", owner = owner, repo = repo)
 
-  fork <- rationalize_fork(fork, repo_info, auth_token)
+  fork <- rationalize_fork(fork, repo_info, auth_token, host = host)
   if (fork) {
     ## https://developer.github.com/v3/repos/forks/#create-a-fork
     ui_done("Forking {ui_value(repo_info$full_name)}")
@@ -278,11 +278,11 @@ check_not_nested <- function(path, name) {
   invisible()
 }
 
-rationalize_fork <- function(fork, repo_info, auth_token) {
+rationalize_fork <- function(fork, repo_info, auth_token, host = NULL) {
   have_token <- have_github_token(auth_token)
   can_push <- isTRUE(repo_info$permissions$push)
   repo_owner <- repo_info$owner$login
-  user <- if (have_token) github_user(auth_token)[["login"]]
+  user <- if (have_token) github_user(auth_token, host = host)[["login"]]
 
   if (is.na(fork)) {
     fork <- have_token && !can_push
@@ -290,7 +290,7 @@ rationalize_fork <- function(fork, repo_info, auth_token) {
 
   if (fork && !have_token) {
     ## throw the usual error for bad/missing token
-    check_github_token(auth_token)
+    check_github_token(auth_token, host = NULL)
   }
 
   if (fork && identical(user, repo_owner)) {
