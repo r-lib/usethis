@@ -257,7 +257,7 @@ uses_github <- function() {
   if (!uses_git()) {
     return(FALSE)
   }
-  length(github_origin()) > 0
+  length(github_main()) > 0
 }
 
 check_no_origin <- function() {
