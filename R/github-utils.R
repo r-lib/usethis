@@ -40,8 +40,14 @@ github_upstream <- function() {
   parse_github_remotes(r)[[1]]
 }
 
+github_main <- function() {
+  r <- github_remote("upstream") %||% github_remote("origin")
+  if (is.null(r)) return(r)
+  parse_github_remotes(r)[[1]]
+}
+
 github_owner <- function() {
-  github_origin()[["owner"]]
+  github_main()[["owner"]]
 }
 
 github_owner_upstream <- function() {
@@ -49,7 +55,7 @@ github_owner_upstream <- function() {
 }
 
 github_repo <- function() {
-  github_origin()[["repo"]]
+  github_main()[["repo"]]
 }
 
 github_repo_spec <- function(name = "origin") {
