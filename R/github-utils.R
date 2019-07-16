@@ -58,8 +58,16 @@ github_repo <- function() {
   github_main()[["repo"]]
 }
 
-github_repo_spec <- function(name = "origin") {
-  url <- github_remote(name)
+github_repo_spec <- function(name = NULL) {
+  if (is.null(name)) {
+    url <- github_remote("upstream") %||% github_remote("origin")
+  } else {
+    url <- github_remote(name)
+  }
+  if (is.null(url)) {
+    rlang::abort("Can't find repository URL.")
+  }
+
   paste0(parse_github_remotes(url)[[1]], collapse = "/")
 }
 
