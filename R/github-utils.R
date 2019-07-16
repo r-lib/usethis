@@ -56,6 +56,9 @@ github_user <- function() {
 github_owner <- function() {
   github_user()[["owner"]]
 }
+github_main_owner <- function() {
+  github_main()[["owner"]]
+}
 
 github_owner_upstream <- function() {
   github_upstream()[["owner"]]
@@ -63,6 +66,9 @@ github_owner_upstream <- function() {
 
 github_repo <- function() {
   github_user()[["repo"]]
+}
+github_main_repo <- function() {
+  github_main()[["repo"]]
 }
 
 github_repo_spec <- function(name = NULL) {

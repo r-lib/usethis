@@ -49,7 +49,8 @@ use_travis_badge <- function(ext = "org") {
 }
 
 travis_activate <- function(browse = interactive(), ext = "org") {
-  url <- glue("https://travis-ci.{ext}/profile/{github_owner()}")
+  owner <- github_main_owner()
+  url <- glue("https://travis-ci.{ext}/profile/{owner}")
 
   ui_todo("Turn on travis for your repo at {url}")
   if (browse) {
