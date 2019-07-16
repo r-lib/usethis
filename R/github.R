@@ -252,12 +252,12 @@ github_token <- function() {
   if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
 }
 
-## checks for existence of 'origin' remote with 'github' in URL
+## checks for existence of 'origin' || 'upstream' remote with 'github' in URL
 uses_github <- function() {
   if (!uses_git()) {
     return(FALSE)
   }
-  length(github_main()) > 0
+  length(github_user()) > 0
 }
 
 check_no_origin <- function() {

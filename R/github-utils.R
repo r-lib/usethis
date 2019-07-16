@@ -40,14 +40,21 @@ github_upstream <- function() {
   parse_github_remotes(r)[[1]]
 }
 
+# The main repository is upstream || origin.
+# The user repository is origin || upstream.
 github_main <- function() {
   r <- github_remote("upstream") %||% github_remote("origin")
   if (is.null(r)) return(r)
   parse_github_remotes(r)[[1]]
 }
+github_user <- function() {
+  r <- github_remote("origin") %||% github_remote("upstream")
+  if (is.null(r)) return(r)
+  parse_github_remotes(r)[[1]]
+}
 
 github_owner <- function() {
-  github_main()[["owner"]]
+  github_user()[["owner"]]
 }
 
 github_owner_upstream <- function() {
@@ -55,7 +62,7 @@ github_owner_upstream <- function() {
 }
 
 github_repo <- function() {
-  github_main()[["repo"]]
+  github_user()[["repo"]]
 }
 
 github_repo_spec <- function(name = NULL) {
