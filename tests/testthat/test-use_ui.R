@@ -18,7 +18,7 @@ test_that("use_ui() Imports usethis", {
       package_doc <- readLines(proj_path(package_doc_path()))
       expect_match(
         package_doc,
-        "^#' @importFrom usethis ui_line ui_todo ui_done ui_todo  ui_oops ui_info",
+        "^#' @importFrom usethis ui_line ui_todo ui_done ui_todo ui_oops ui_info",
         all = FALSE
       )
       expect_match(package_doc, "^#' @importFrom usethis ui_code_block", all = FALSE)
