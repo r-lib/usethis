@@ -41,6 +41,7 @@ Imports:
 Suggests: 
     covr,
     knitr,
+    lifecycle,
     magick,
     pkgdown (>= 1.1.0),
     rmarkdown,
