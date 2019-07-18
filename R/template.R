@@ -63,16 +63,10 @@ render_template <- function(template, data = list(), package = "usethis") {
 }
 
 find_template <- function(template_name, package = "usethis") {
-  ## TODO: remove this once we can increment min version of fs and use
-  ## fs::path_package() unconditionally
-  path <- if (utils::packageVersion("fs") > "1.2.7") {
-    tryCatch(
-      path_package(package = package, "templates", template_name),
-      error = function(e) ""
-    )
-  } else {
-    system.file("templates", template_name, package = package)
-  }
+  path <- tryCatch(
+    path_package(package = package, "templates", template_name),
+    error = function(e) ""
+  )
   if (identical(path, "")) {
     ui_stop(
       "Could not find template {ui_value(template_name)} \\
