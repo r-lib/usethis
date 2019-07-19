@@ -16,6 +16,7 @@ use_lifecycle <- function() {
   check_is_package("use_lifecycle()")
 
   use_package("lifecycle")
+  use_rd_macros("lifecycle")
 
   dest_dir <- fs::dir_create(fs::path(proj_get(), "man", "figures"))
   templ_dir <- fs::path_package("usethis", "templates")
@@ -46,4 +47,3 @@ use_lifecycle <- function() {
 
   invisible(TRUE)
 }
-

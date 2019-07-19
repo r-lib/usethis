@@ -8,3 +8,21 @@ test_that("use_lifecycle() imports badges", {
   # Idempotent
   expect_error(use_lifecycle(), regexp = NA)
 })
+
+test_that("use_lifecycle() adds RdMacros field", {
+  scoped_temporary_package()
+  use_lifecycle()
+
+  expect_true(desc::desc_has_fields("RdMacros"))
+  expect_identical(desc::desc_get_field("RdMacros"), "lifecycle")
+})
+
+test_that("use_lifecycle() respects existing RdMacros field", {
+  scoped_temporary_package()
+
+  desc::desc_set(RdMacros = "foo, bar")
+  use_lifecycle()
+
+  expect_true(desc::desc_has_fields("RdMacros"))
+  expect_identical(desc::desc_get_field("RdMacros"), "foo,\n    bar,\n    lifecycle")
+})
