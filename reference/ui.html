@@ -47,7 +47,16 @@
 
 <meta property="og:description" content="These functions are used to construct the user interface of usethis. Use
 them in your own package so that your use_ functions work the same way
-as usethis." />
+as usethis.
+The ui_ functions can be broken down into four main categories:
+block styles: ui_line(), ui_done(), ui_todo(), ui_oops(),
+ui_info().
+conditions: ui_stop(), ui_warn().
+questions: ui_yeah(), ui_nope().
+inline styles: ui_field(), ui_value(), ui_path(), ui_code().
+" />
+
+<meta property="og:description" content="The question functions ui_yeah() and ui_nope() have their own help page." />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -180,6 +189,15 @@ as usethis." />
     <p>These functions are used to construct the user interface of usethis. Use
 them in your own package so that your <code>use_</code> functions work the same way
 as usethis.</p>
+<p>The <code>ui_</code> functions can be broken down into four main categories:</p><ul>
+<li><p>block styles: <code>ui_line()</code>, <code>ui_done()</code>, <code>ui_todo()</code>, <code>ui_oops()</code>,
+<code>ui_info()</code>.</p></li>
+<li><p>conditions: <code>ui_stop()</code>, <code>ui_warn()</code>.</p></li>
+<li><p>questions: <code><a href='ui-questions.html'>ui_yeah()</a></code>, <code><a href='ui-questions.html'>ui_nope()</a></code>.</p></li>
+<li><p>inline styles: <code>ui_field()</code>, <code>ui_value()</code>, <code>ui_path()</code>, <code>ui_code()</code>.</p></li>
+</ul>
+
+    <p>The question functions <code><a href='ui-questions.html'>ui_yeah()</a></code> and <code><a href='ui-questions.html'>ui_nope()</a></code> have their own <a href='ui-questions.html'>help page</a>.</p>
     
     </div>
 
@@ -198,10 +216,6 @@ as usethis.</p>
 <span class='fu'>ui_stop</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
 
 <span class='fu'>ui_warn</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
-
-<span class='fu'>ui_yeah</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
-
-<span class='fu'>ui_nope</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
 
 <span class='fu'>ui_field</span>(<span class='no'>x</span>)
 
@@ -243,15 +257,9 @@ is installed, will copy the code block to the clipboard.</p></td>
     <p>The block styles, conditions, and questions are called for their
 side-effect. The inline styles return a string.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>The <code>ui_</code> functions can be broken down into four main categories:</p><ul>
-<li><p>block styles: <code>ui_line()</code>, <code>ui_done()</code>, <code>ui_todo()</code>, <code>ui_oops()</code>,
-<code>ui_info()</code>.</p></li>
-<li><p>conditions: <code>ui_stop()</code>, <code>ui_warn()</code>.</p></li>
-<li><p>questions: <code>ui_yeah()</code>, <code>ui_nope()</code>.</p></li>
-<li><p>inline styles: <code>ui_field()</code>, <code>ui_value()</code>, <code>ui_path()</code>, <code>ui_code()</code>.</p></li>
-</ul>
+    <div class='dont-index'><p>Other user interface functions: <code><a href='ui-questions.html'>ui-questions</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -272,7 +280,7 @@ side-effect. The inline styles return a string.</p>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

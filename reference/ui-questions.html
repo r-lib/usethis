@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Report working directory and usethis/RStudio project — proj_sitrep • usethis</title>
+<title>User interface - Questions — ui-questions • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -43,18 +43,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Report working directory and usethis/RStudio project — proj_sitrep" />
+<meta property="og:title" content="User interface - Questions — ui-questions" />
 
-<meta property="og:description" content="proj_sitrep() reports
-current working directory
-the active usethis project
-the active RStudio Project
-" />
-
-<meta property="og:description" content="Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and proj_sitrep() provides suggested commands for getting
-back to this happy state." />
+<meta property="og:description" content="These functions are used to interact with the user by posing a simple yes or
+no question. For details on the other ui_*() functions, see the ui help
+page." />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -177,50 +170,93 @@ back to this happy state." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Report working directory and usethis/RStudio project</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/sitrep.R'><code>R/sitrep.R</code></a></small>
-    <div class="hidden name"><code>proj_sitrep.Rd</code></div>
+    <h1>User interface - Questions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/ui.R'><code>R/ui.R</code></a></small>
+    <div class="hidden name"><code>ui-questions.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>proj_sitrep()</code> reports</p><ul>
-<li><p>current working directory</p></li>
-<li><p>the active usethis project</p></li>
-<li><p>the active RStudio Project</p></li>
-</ul>
-
-    <p>Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and <code>proj_sitrep()</code> provides suggested commands for getting
-back to this happy state.</p>
+    <p>These functions are used to interact with the user by posing a simple yes or
+no question. For details on the other <code>ui_*()</code> functions, see the <a href='ui.html'>ui</a> help
+page.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>proj_sitrep</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>ui_yeah</span>(<span class='no'>x</span>, <span class='kw'>yes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Yes"</span>, <span class='st'>"Definitely"</span>, <span class='st'>"For sure"</span>, <span class='st'>"Yup"</span>, <span class='st'>"Yeah"</span>,
+  <span class='st'>"I agree"</span>, <span class='st'>"Absolutely"</span>), <span class='kw'>no</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"No way"</span>, <span class='st'>"Not now"</span>, <span class='st'>"Negative"</span>, <span class='st'>"No"</span>,
+  <span class='st'>"Nope"</span>, <span class='st'>"Absolutely not"</span>), <span class='kw'>n_yes</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n_no</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
+
+<span class='fu'>ui_nope</span>(<span class='no'>x</span>, <span class='kw'>yes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Yes"</span>, <span class='st'>"Definitely"</span>, <span class='st'>"For sure"</span>, <span class='st'>"Yup"</span>, <span class='st'>"Yeah"</span>,
+  <span class='st'>"I agree"</span>, <span class='st'>"Absolutely"</span>), <span class='kw'>no</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"No way"</span>, <span class='st'>"Not now"</span>, <span class='st'>"Negative"</span>, <span class='st'>"No"</span>,
+  <span class='st'>"Nope"</span>, <span class='st'>"Absolutely not"</span>), <span class='kw'>n_yes</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n_no</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A character vector.</p>
+<p>For block styles, conditions, and questions, each element of the
+vector becomes a line, and the result is processed by <code><a href='https://www.rdocumentation.org/packages/glue/topics/glue'>glue::glue()</a></code>.
+For inline styles, each element of the vector becomes an entry in a
+comma separated list.</p></td>
+    </tr>
+    <tr>
+      <th>yes</th>
+      <td><p>A character vector of "yes" strings, which are randomly sampled to
+populate the menu.</p></td>
+    </tr>
+    <tr>
+      <th>no</th>
+      <td><p>A character vector of "no" strings, which are randomly sampled to
+populate the menu.</p></td>
+    </tr>
+    <tr>
+      <th>n_yes</th>
+      <td><p>An integer. The number of "yes" strings to include.</p></td>
+    </tr>
+    <tr>
+      <th>n_no</th>
+      <td><p>An integer. The number of "no" strings to include.</p></td>
+    </tr>
+    <tr>
+      <th>shuffle</th>
+      <td><p>A logical. Should the order of the menu options be randomly
+shuffled?</p></td>
+    </tr>
+    <tr>
+      <th>.envir</th>
+      <td><p>Used to ensure that <code><a href='https://www.rdocumentation.org/packages/glue/topics/glue'>glue::glue()</a></code> gets the correct
+environment. For expert use only.</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A named list, with S3 class <code>sitrep</code> (for printing purposes),
-reporting current working directory, active usethis project, and active
-RStudio Project</p>
+    <p>A logical. <code>ui_yeah()</code> returns <code>TRUE</code> when the user selects a "yes"
+option and <code>FALSE</code> otherwise, i.e. when user selects a "no" option or
+refuses to make a selection (cancels). <code>ui_nope()</code> is the logical opposite
+of <code>ui_yeah()</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other project functions: <code><a href='proj_utils.html'>proj_utils</a></code></p></div>
+    <div class='dont-index'><p>Other user interface functions: <code><a href='ui.html'>ui</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; *   working_directory: <span style='color: #0000BB;'>'/tmp/Rtmpi0VuMF/file45105e5256a6/reference'</span><span>
-#&gt; * active_usethis_proj: </span><span style='color: #0000BB;'>'/tmp/Rtmpi0VuMF/file45105e5256a6'</span><span>
-#&gt; * active_rstudio_proj: </span><span style='color: #555555;'>&lt;unset&gt;</span><span>
-#&gt; </span><span style='color: #BB0000;'>●</span><span> Your working directory is not the same as the active usethis project.
-#&gt;   Set working directory to the project: </span><span style='color: #555555;'>`setwd(proj_get())`</span><span>
-#&gt;   Set project to working directory:     </span><span style='color: #555555;'>`proj_set(getwd())`</span><span></div></span></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>ui_yeah</span>(<span class='st'>"Do you like R?"</span>)
+<span class='fu'>ui_nope</span>(<span class='st'>"Have you tried turning it off and on again?"</span>, <span class='kw'>n_yes</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n_no</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='fu'>ui_yeah</span>(<span class='st'>"Are you sure its plugged in?"</span>, <span class='kw'>yes</span> <span class='kw'>=</span> <span class='st'>"Yes"</span>, <span class='kw'>no</span> <span class='kw'>=</span> <span class='st'>"No"</span>, <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
 
