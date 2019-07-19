@@ -77,6 +77,10 @@ check_vignette_name <- function(name) {
   }
 }
 
+# https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-package-vignettes
+# "To ensure that they can be accessed from a browser (as an HTML index is
+# provided), the file names should start with an ASCII letter and be comprised
+# entirely of ASCII letters or digits or hyphen or underscore."
 valid_vignette_name <- function(x) {
-  grepl("^[[:alpha:]][[:alnum:]_-]+$", x)
+  grepl("^[[:alpha:]][[:alnum:]_-]*$", x)
 }
