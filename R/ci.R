@@ -36,6 +36,11 @@ use_travis <- function(browse = interactive(), ext = c("org", "com")) {
   invisible(TRUE)
 }
 
+#' @section `use_travis_badge()`:
+#' Only adds the [Travis CI](https://travis-ci.org/) badge. Use for a project
+#'  where Travis is already configured.
+#' @export
+#' @rdname ci
 use_travis_badge <- function(ext = "org") {
   check_uses_github()
   url <- glue("https://travis-ci.{ext}/{github_repo_spec()}")
@@ -96,6 +101,11 @@ appveyor_activate <- function(browse = interactive()) {
   }
 }
 
+#' @section `use_appveyor_badge()`:
+#' Only adds the [AppVeyor](https://www.appveyor.com) badge. Use for a project
+#'  where AppVeyor is already configured.
+#' @export
+#' @rdname ci
 use_appveyor_badge <- function() {
   appveyor <- appveyor_info()
   use_badge("AppVeyor build status", appveyor$url, appveyor$img)
