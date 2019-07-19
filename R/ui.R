@@ -1,5 +1,6 @@
 #' User interface
 #'
+#' @description
 #' These functions are used to construct the user interface of usethis. Use
 #' them in your own package so that your `use_` functions work the same way
 #' as usethis.
@@ -9,10 +10,11 @@
 #' * block styles: `ui_line()`, `ui_done()`, `ui_todo()`, `ui_oops()`,
 #'   `ui_info()`.
 #' * conditions: `ui_stop()`, `ui_warn()`.
-#' * questions: `ui_yeah()`, `ui_nope()`.
+#' * questions: [ui_yeah()], [ui_nope()].
 #' * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`.
 #'
-#' For additional details on the question functions please see the [ui_question] help page.
+#' The question functions [ui_yeah()] and [ui_nope()] have their own [help
+#' page][ui-questions].
 #'
 #' @param x A character vector.
 #'
@@ -22,6 +24,7 @@
 #'   comma separated list.
 #' @param .envir Used to ensure that [glue::glue()] gets the correct
 #'   environment. For expert use only.
+#'
 #' @return The block styles, conditions, and questions are called for their
 #'   side-effect. The inline styles return a string.
 #' @keywords internal
@@ -129,24 +132,25 @@ ui_warn <- function(x, .envir = parent.frame()) {
 
 #' User interface - Questions
 #'
-#' These functions are used to interact with the user by posing a simple
-#' yes or no question. For details on the other ui function see the [ui] help page.
+#' These functions are used to interact with the user by posing a simple yes or
+#' no question. For details on the other `ui_*()` functions, see the [ui] help
+#' page.
 #'
-#' @param x A character vector. Each element of the vector becomes a line,
-#'   and the result is processed by [glue::glue()].
-#' @param yes A character vector. A set of yes strings that will be randomly
-#'   sampled to populate the menu.
-#' @param no A character vector. A set of no strings that will be randomly
-#'   sampled to populate the menu.
-#' @param n_yes An integer. The number of yes strings to include.
-#' @param n_no An integer. The number of no strings to include.
-#' @param shuffle A logical. Should the order of the menu options be randomly shuffled.
-#' @param .envir Used to ensure that [glue::glue()] gets the correct
-#'   environment. For expert use only.
-#' @return A logical. `ui_yeah` returns `TRUE` when the user selects a yes option and `FALSE`
-#'   when either a no option or no selection is made (canceled). `ui_nope` is the logical
-#'   opposite of `ui_yeah`.
-#' @name ui_question
+#' @inheritParams ui
+#' @param yes A character vector of "yes" strings, which are randomly sampled to
+#'   populate the menu.
+#' @param no A character vector of "no" strings, which are randomly sampled to
+#'   populate the menu.
+#' @param n_yes An integer. The number of "yes" strings to include.
+#' @param n_no An integer. The number of "no" strings to include.
+#' @param shuffle A logical. Should the order of the menu options be randomly
+#'   shuffled?
+#'
+#' @return A logical. `ui_yeah()` returns `TRUE` when the user selects a "yes"
+#'   option and `FALSE` otherwise, i.e. when user selects a "no" option or
+#'   refuses to make a selection (cancels). `ui_nope()` is the logical opposite
+#'   of `ui_yeah()`.
+#' @name ui-questions
 #' @keywords internal
 #' @family user interface functions
 #' @examples
@@ -157,7 +161,7 @@ ui_warn <- function(x, .envir = parent.frame()) {
 #' }
 NULL
 
-#' @rdname ui_question
+#' @rdname ui-questions
 #' @export
 ui_yeah <- function(x,
                     yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
@@ -188,13 +192,14 @@ ui_yeah <- function(x,
   out != 0L && qs[[out]] %in% yes
 }
 
-#' @rdname ui_question
+#' @rdname ui-questions
 #' @export
 ui_nope <- function(x,
                     yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
                     no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
                     n_yes = 1, n_no = 2, shuffle = TRUE,
                     .envir = parent.frame()) {
+  # TODO(jennybc): is this correct in the case of no selection / cancelling?
   !ui_yeah(
     x = x, yes = yes, no = no,
     n_yes = n_yes, n_no = n_no,
