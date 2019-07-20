@@ -1,11 +1,10 @@
 # usethis (development version)
 
-
 * Feature fix, updated issue template to current github format (#756 @Maschette)
 
 * The `ui_yeah()` and `ui_nope()` question functions allow a developer to override the default "yes" and "no" strings and to opt-out of shuffling (#796, @rundel).
 
-* Added LICENSE file for use_gpl3_license function and fixed template for LGPL license (#814 and #683, @Cervangirard)  
+* `use_gpl3_license()` now completes the license by providing additional information in a file named LICENSE, just like `use_mit_license()` and friends (#683, @Cervangirard).
 
 * A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
 
