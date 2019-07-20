@@ -53,6 +53,9 @@
 pr_init <- function(branch) {
   stopifnot(is_string(branch))
   check_uses_github()
+  # TODO(@jennybc): if no internet, could offer option to proceed anyway
+  # Error in git2r::fetch(repo, name = remref_remote(remref), refspec = branch,  :
+  # Error in 'git2r_remote_fetch': failed to resolve address for github.com: nodename nor servname provided, or not known
   check_branch_pulled("master", "pr_pull_upstream()")
 
   if (!git_branch_exists(branch)) {
