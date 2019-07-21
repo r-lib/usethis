@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `git_sitrep()` reports email(s) associated with your GitHub account(#724, @dragosmg).
+
 * Feature fix, updated issue template to current github format (#756 @Maschette)
 
 * The `ui_yeah()` and `ui_nope()` question functions allow a developer to override the default "yes" and "no" strings and to opt-out of shuffling (#796, @rundel).
