@@ -66,7 +66,7 @@ test_that("use_circleci() properly formats keys for cache", {
   )
 })
 
-test_that("uses_circleci() configures .Rbuildignore", {
+test_that("use_circleci() configures .Rbuildignore", {
   skip_if_no_git_config()
 
   scoped_temporary_package()
@@ -74,9 +74,5 @@ test_that("uses_circleci() configures .Rbuildignore", {
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
   use_circleci(browse = FALSE)
-  ignored <- readLines(".Rbuildignore")
-  expect_identical(
-    ignored,
-    c("^\\.circleci/config\\.yml$", "^\\.circleci$")
-  )
+  expect_true(is_build_ignored("^\\.circleci$"))
 })
