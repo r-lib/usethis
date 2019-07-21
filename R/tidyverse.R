@@ -210,7 +210,7 @@ use_tidy_support <- function() {
   use_template(
     "tidy-support.md",
     ".github/SUPPORT.md",
-    data = list(package = project_name())
+    data = list(package = github_repo_spec())
   )
 }
 
