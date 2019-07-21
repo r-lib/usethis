@@ -173,7 +173,7 @@ check_uses_gitlab_ci <- function(base_path = proj_get()) {
 #' @rdname ci
 use_circleci <- function(browse = interactive(), image = "rocker/verse:latest") {
   check_uses_github()
-  use_directory(".circleci")
+  use_directory(".circleci", ignore = TRUE)
   new <- use_template(
     "circleci-config.yml",
     ".circleci/config.yml",
