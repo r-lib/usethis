@@ -55,7 +55,7 @@ test_that("use_circleci() properly formats keys for cache", {
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
   use_circleci(browse = FALSE)
-  yml <- yaml::yaml.load_file(".circleci/config.yml")
+  yml <- yaml::yaml.load_file(proj_path(".circleci", "config.yml"))
   expect_identical(
     yml$jobs$build$steps[[1]]$restore_cache$keys,
     c("r-pkg-cache-{{ arch }}-{{ .Branch }}", "r-pkg-cache-{{ arch }}-")
