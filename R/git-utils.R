@@ -141,11 +141,15 @@ git_branch_switch <- function(branch) {
 
 git_branch_compare <- function(branch = git_branch_name()) {
   repo <- git_repo()
+  auth_token <- check_github_token(allow_empty = TRUE)
+  protocol <- github_remote_protocol()
+  credentials <- git_credentials(protocol, auth_token)
 
   remref <- git_branch_tracking_FIXME(branch)
   git2r::fetch(
     repo,
     name = remref_remote(remref),
+    credentials = credentials,
     refspec = branch,
     verbose = FALSE
   )
