@@ -60,14 +60,14 @@ release_checklist <- function(version) {
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
     todo("`rhub::check_with_sanitizers()`", has_src),
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran),
+    todo("Update `cran-comments.md`"),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
-    todo("Polish pkgdown reference index"),
+    todo("Polish pkgdown reference index", type != "patch"),
     todo("Draft blog post", type != "patch"),
     "",
     "Submit to CRAN:",
     "",
     todo("`usethis::use_version('{type}')`"),
-    todo("Update `cran-comments.md`"),
     todo("`devtools::submit_cran()`"),
     todo("Approve email"),
     "",
@@ -79,7 +79,7 @@ release_checklist <- function(version) {
     todo("`usethis::use_news_md()`", !has_news),
     todo("Update install instructions in README", !on_cran),
     todo("Finish blog post", type != "patch"),
-    todo("Tweet"),
+    todo("Tweet", type != "patch"),
     todo("Add link to blog post in pkgdown news menu", type != "patch")
   )
 }
