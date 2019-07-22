@@ -37,6 +37,7 @@ use_release_issue <- function(version = NULL) {
 release_checklist <- function(version) {
   type <- release_type(version)
   on_cran <- !is.null(cran_version())
+  cran_results <- cran_results_url()
   has_src <- dir_exists(proj_path("src"))
   has_news <- file_exists(proj_path("NEWS.md"))
 
@@ -52,6 +53,7 @@ release_checklist <- function(version) {
     todo("Check that description is informative", !on_cran),
     todo("Check licensing of included files", !on_cran),
     todo("`usethis::use_cran_comments()`", !on_cran),
+    todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo("`devtools::check()`"),
     todo("`devtools::check_win_devel()`"),
     todo("`rhub::check_for_cran()`"),
@@ -142,6 +144,9 @@ cran_version <- function(package = project_name(),
   }
 }
 
+cran_results_url <- function(package = project_name()) {
+  glue("https://cran.rstudio.org/web/checks/check_results_{package}.html")
+}
 
 news_latest <- function() {
   path <- proj_path("NEWS.md")
