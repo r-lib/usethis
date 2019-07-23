@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* New `use_lifecycle()` helper to import the lifecycle badges for functions and arguments in your package. See https://lifecycle.r-lib.org/.
+
 * `git_sitrep()` reports email(s) associated with your GitHub account(#724, @dragosmg).
 
 * Feature fix, updated issue template to current github format (#756 @Maschette)
