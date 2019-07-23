@@ -33,23 +33,22 @@ use_lifecycle <- function() {
   purrr::walk(templ_files, file_copy, dest_dir, overwrite = TRUE)
   ui_done("Copied SVG badges to {ui_path(dest_dir)}")
 
-  macro <- "\\Sexpr[results=rd, stage=render]{lifecycle::badge(\"stage\")}"
   ui_todo(
     "
     Add badges in documentation topics by inserting this macro:
 
-      { macro }
+      \\lifecycle{{experimental}}
 
     You can choose from the following lifecycle stages:
 
-    - \"experimental\"
-    - \"maturing\"
-    - \"stable\"
-    - \"questioning\"
-    - \"soft-deprecated\"
-    - \"deprecated\"
-    - \"defunct\"
-    - \"archived\"
+    - experimental
+    - maturing
+    - stable
+    - questioning
+    - soft-deprecated
+    - deprecated
+    - defunct
+    - archived
     "
   )
 
