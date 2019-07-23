@@ -1,4 +1,4 @@
-context("r-lib")
+context("lifecycle")
 
 test_that("use_lifecycle() imports badges", {
   scoped_temporary_package()

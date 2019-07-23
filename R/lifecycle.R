@@ -7,10 +7,6 @@
 #'   folder. See [lifecycle::badge()] for how to incorporate these
 #'   badges in your documentation.
 #'
-#' @name r-lib
-NULL
-
-#' @rdname r-lib
 #' @export
 use_lifecycle <- function() {
   check_is_package("use_lifecycle()")
