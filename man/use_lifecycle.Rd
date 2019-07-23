@@ -15,7 +15,7 @@ package.
 can use the \code{\\lifecycle{}} macro in your documentation.
 }
 
-See the \href{https://lifecycle.r-lib.org/articles/usage.html}{usage vignette} of the
+See the \href{http://lifecycle.r-lib.org/articles/lifecycle.html}{getting started vignette} of the
 lifecycle package.
 }
 \seealso{

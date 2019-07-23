@@ -10,8 +10,8 @@
 #' * The `RdMacros` field of the DESCRIPTION file is updated so you
 #'   can use the `\\lifecycle{}` macro in your documentation.
 #'
-#' See the [usage
-#' vignette](https://lifecycle.r-lib.org/articles/usage.html) of the
+#' See the [getting started
+#' vignette](http://lifecycle.r-lib.org/articles/lifecycle.html) of the
 #' lifecycle package.
 #'
 #' @seealso [use_lifecycle_badge()] to signal the [global lifecycle
