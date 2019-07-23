@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>git/GitHub sitrep — git_sitrep • usethis</title>
+<title>Use lifecycle badges — use_lifecycle • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -43,11 +43,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="git/GitHub sitrep — git_sitrep" />
+<meta property="og:title" content="Use lifecycle badges — use_lifecycle" />
 
-<meta property="og:description" content="Get a situation report on your current git/GitHub status. Useful for
-diagnosing problems. git_vaccinate() adds some basic R- and RStudio-related
-entries to the user-level git ignore file." />
+<meta property="og:description" content="Call this to import the lifecycle badges and Rd macro into your
+package.
+The SVG badges are imported in man/figures.
+The RdMacros field of the DESCRIPTION file is updated so you
+can use the \lifecycle{} macro in your documentation.
+" />
+
+<meta property="og:description" content="See the getting started vignette of the
+lifecycle package." />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -170,46 +176,39 @@ entries to the user-level git ignore file." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>git/GitHub sitrep</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/git.R'><code>R/git.R</code></a></small>
-    <div class="hidden name"><code>git_sitrep.Rd</code></div>
+    <h1>Use lifecycle badges</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/lifecycle.R'><code>R/lifecycle.R</code></a></small>
+    <div class="hidden name"><code>use_lifecycle.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Get a situation report on your current git/GitHub status. Useful for
-diagnosing problems. <code><a href='git_vaccinate.html'>git_vaccinate()</a></code> adds some basic R- and RStudio-related
-entries to the user-level git ignore file.</p>
+    <p>Call this to import the lifecycle badges and Rd macro into your
+package.</p><ul>
+<li><p>The SVG badges are imported in <code>man/figures</code>.</p></li>
+<li><p>The <code>RdMacros</code> field of the DESCRIPTION file is updated so you
+can use the <code>\lifecycle{}</code> macro in your documentation.</p></li>
+</ul>
+
+    <p>See the <a href='http://lifecycle.r-lib.org/articles/lifecycle.html'>getting started vignette</a> of the
+lifecycle package.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>git_sitrep</span>()</pre>
+    <pre class="usage"><span class='fu'>use_lifecycle</span>()</pre>
         
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>git_sitrep</span>()</div><div class='output co'>#&gt; <span style='font-weight: bold;'>Git user</span><span>
-#&gt; * Name: </span><span style='color: #0000BB;'>'Travis CI User'</span><span>
-#&gt; * Email: </span><span style='color: #0000BB;'>'travis@example.org'</span><span>
-#&gt; * Vaccinated: </span><span style='color: #0000BB;'>TRUE</span><span>
-#&gt; </span><span style='font-weight: bold;'>usethis + git2r</span><span>
-#&gt; * Default usethis protocol: </span><span style='color: #0000BB;'>'ssh'</span><span>
-#&gt; * git2r supports SSH: </span><span style='color: #0000BB;'>TRUE</span><span>
-#&gt; * Credentials: </span><span style='color: #0000BB;'>'&lt;usethis + git2r default behaviour&gt;'</span><span>
-#&gt; </span><span style='font-weight: bold;'>GitHub</span><span>
-#&gt; * Personal access token: </span><span style='color: #555555;'>&lt;unset&gt;</span><span>
-#&gt; </span><span style='font-weight: bold;'>Repo</span><span>
-#&gt; * Path: </span><span style='color: #0000BB;'>'/tmp/RtmpvZisTq/file464710b59d6d/.git'</span><span>
-#&gt; * Local branch -&gt; remote tracking branch: </span><span style='color: #0000BB;'>'gh-pages'</span><span> -&gt; </span><span style='color: #0000BB;'>'origin/gh-pages'</span><span>
-#&gt; </span><span style='font-weight: bold;'>GitHub pull request readiness</span><span>
-#&gt; * origin: </span><span style='color: #0000BB;'>r-lib/usethis</span><span>, </span><span style='color: #0000BB;'>NA</span><span>
-#&gt; * upstream: </span><span style='color: #0000BB;'>'&lt;no such remote&gt;'</span><span></div></span></pre>
+    <div class='dont-index'><p><code><a href='badges.html'>use_lifecycle_badge()</a></code> to signal the <a href='https://www.tidyverse.org/lifecycle/'>global lifecycle stage</a> of your package.</p></div>
+    
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>
