@@ -6,7 +6,7 @@ test_that("use_lifecycle() imports badges", {
   expect_proj_file("man", "figures", "lifecycle-stable.svg")
 
   # Idempotent
-  expect_error(use_lifecycle(), regexp = NA)
+  expect_error_free(use_lifecycle())
 })
 
 test_that("use_lifecycle() adds RdMacros field", {
