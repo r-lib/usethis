@@ -1,5 +1,7 @@
 context("lifecycle")
 
+with_mock(`usethis:::is_installed` = function(pkg) TRUE, {
+
 test_that("use_lifecycle() imports badges", {
   scoped_temporary_package()
   use_lifecycle()
@@ -25,4 +27,6 @@ test_that("use_lifecycle() respects existing RdMacros field", {
 
   expect_true(desc::desc_has_fields("RdMacros"))
   expect_identical(desc::desc_get_field("RdMacros"), "foo,\n    bar,\n    lifecycle")
+})
+
 })

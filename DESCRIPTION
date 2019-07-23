@@ -41,7 +41,6 @@ Imports:
 Suggests: 
     covr,
     knitr,
-    lifecycle,
     magick,
     pkgdown (>= 1.1.0),
     rmarkdown,
@@ -49,8 +48,6 @@ Suggests:
     spelling (>= 1.2),
     styler (>= 1.0.2),
     testthat (>= 2.1.0)
-Remotes:
-    r-lib/lifecycle
 Encoding: UTF-8
 Language: en-US
 LazyData: true
