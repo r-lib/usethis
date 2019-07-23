@@ -14,7 +14,9 @@ use_lifecycle <- function() {
   use_package("lifecycle")
   use_rd_macros("lifecycle")
 
-  dest_dir <- create_directory(proj_path("man", "figures"))
+  dest_dir <- proj_path("man", "figures")
+  create_directory(dest_dir)
+
   templ_dir <- path_package("usethis", "templates")
   templ_files <- dir_ls(templ_dir, glob = "*/lifecycle-*.svg")
 
