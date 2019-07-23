@@ -1,11 +1,21 @@
-#' Helpers from the r-lib organisation
+#' Use lifecycle badges
 #'
-#' @details
+#' @description
 #'
-#' * `use_lifecycle()`: adds a dependency on the lifecycle
-#'   package and imports the lifecycle SVG badges to the `man/figures`
-#'   folder. See [lifecycle::badge()] for how to incorporate these
-#'   badges in your documentation.
+#' Call this to import the lifecycle badges and Rd macro into your
+#' package.
+#'
+#' * The SVG badges are imported in `man/figures`.
+#'
+#' * The `RdMacros` field of the DESCRIPTION file is updated so you
+#'   can use the `\lifecycle{}` macro in your documentation.
+#'
+#' See the [usage
+#' vignette](https://lifecycle.r-lib.org/articles/usage.html) of the
+#' lifecycle package.
+#'
+#' @seealso [use_lifecycle_badge()] to signal the (global lifecycle
+#'   stage)[https://www.tidyverse.org/lifecycle/] of your package.
 #'
 #' @export
 use_lifecycle <- function() {

@@ -2,18 +2,23 @@
 % Please edit documentation in R/lifecycle.R
 \name{use_lifecycle}
 \alias{use_lifecycle}
-\title{Helpers from the r-lib organisation}
+\title{Use lifecycle badges}
 \usage{
 use_lifecycle()
 }
 \description{
-Helpers from the r-lib organisation
-}
-\details{
+Call this to import the lifecycle badges and Rd macro into your
+package.
 \itemize{
-\item \code{use_lifecycle()}: adds a dependency on the lifecycle
-package and imports the lifecycle SVG badges to the \code{man/figures}
-folder. See \code{\link[lifecycle:badge]{lifecycle::badge()}} for how to incorporate these
-badges in your documentation.
+\item The SVG badges are imported in \code{man/figures}.
+\item The \code{RdMacros} field of the DESCRIPTION file is updated so you
+can use the \code{\lifecycle{}} macro in your documentation.
 }
+
+See the \href{https://lifecycle.r-lib.org/articles/usage.html}{usage vignette} of the
+lifecycle package.
+}
+\seealso{
+\code{\link[=use_lifecycle_badge]{use_lifecycle_badge()}} to signal the (global lifecycle
+stage)\link{https://www.tidyverse.org/lifecycle/} of your package.
 }
