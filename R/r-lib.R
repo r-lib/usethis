@@ -19,10 +19,10 @@ use_lifecycle <- function() {
   use_rd_macros("lifecycle")
 
   dest_dir <- create_directory(proj_path("man", "figures"))
-  templ_dir <- fs::path_package("usethis", "templates")
-  templ_files <- fs::dir_ls(templ_dir, glob = "*/lifecycle-*.svg")
+  templ_dir <- path_package("usethis", "templates")
+  templ_files <- dir_ls(templ_dir, glob = "*/lifecycle-*.svg")
 
-  purrr::walk(templ_files, fs::file_copy, dest_dir, overwrite = TRUE)
+  purrr::walk(templ_files, file_copy, dest_dir, overwrite = TRUE)
   ui_done("Copied SVG badges to {ui_path(dest_dir)}")
 
   macro <- "\\Sexpr[results=rd, stage=render]{lifecycle::badge(\"stage\")}"
