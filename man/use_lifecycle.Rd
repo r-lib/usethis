@@ -12,13 +12,12 @@ package.
 \itemize{
 \item The SVG badges are imported in \code{man/figures}.
 \item The \code{RdMacros} field of the DESCRIPTION file is updated so you
-can use the \code{\lifecycle{}} macro in your documentation.
+can use the \code{\\lifecycle{}} macro in your documentation.
 }
 
 See the \href{https://lifecycle.r-lib.org/articles/usage.html}{usage vignette} of the
 lifecycle package.
 }
 \seealso{
-\code{\link[=use_lifecycle_badge]{use_lifecycle_badge()}} to signal the (global lifecycle
-stage)\link{https://www.tidyverse.org/lifecycle/} of your package.
+\code{\link[=use_lifecycle_badge]{use_lifecycle_badge()}} to signal the \href{https://www.tidyverse.org/lifecycle/}{global lifecycle stage} of your package.
 }
