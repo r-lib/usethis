@@ -20,6 +20,12 @@ use_c(name = NULL)
 }
 \description{
 Creates \code{src/}, adds required packages to \code{DESCRIPTION},
-optionally creates \code{.c} or \code{.cpp} files, and
-where needed, \code{Makevars} and \code{Makevars.win} files.
+optionally creates \code{.c} or \code{.cpp} files with a supplied name or
+if the \code{src/} is empty, and where needed, \code{Makevars} and \code{Makevars.win} files.
+}
+\details{
+When using compiled code, please note that there must be at least one file
+inside the \code{src/} directory prior to building the package. As a result,
+if an empty \code{src/} directory is detected, either a \code{.c} or \code{.cpp} file will
+be added.
 }

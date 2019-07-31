@@ -1,10 +1,18 @@
 #' Use C, C++, RcppArmadillo, or RcppEigen
 #'
 #' Creates `src/`, adds required packages to `DESCRIPTION`,
-#' optionally creates `.c` or `.cpp` files, and
-#' where needed, `Makevars` and `Makevars.win` files.
+#' optionally creates `.c` or `.cpp` files with a supplied name or
+#' if the `src/` is empty, and where needed, `Makevars` and `Makevars.win` files.
 #'
 #' @param name If supplied, creates and opens `src/name.{c,cpp}`.
+#'
+#' @details
+#'
+#' When using compiled code, please note that there must be at least one file
+#' inside the `src/` directory prior to building the package. As a result,
+#' if an empty `src/` directory is detected, either a `.c` or `.cpp` file will
+#' be added.
+#'
 #' @export
 use_rcpp <- function(name = NULL) {
   check_is_package("use_rcpp()")
