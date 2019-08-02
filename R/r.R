@@ -8,6 +8,7 @@
 #'   Packages](https://r-pkgs.org).
 #' @export
 use_r <- function(name = NULL) {
+  check_file_name_length(name)
   name <- name %||% get_active_r_file(path = "tests/testthat")
   name <- gsub("^test-", "", name)
   name <- slug(name, "R")
