@@ -29,6 +29,18 @@ check_file_name <- function(name) {
   name
 }
 
+check_file_name_length <- function(name) {
+  if (!valid_file_name_length(name)) {
+    ui_stop(c("Specified names {ui_value(name)} do not have a valid length.",
+            "Please only specify names with a length of one."))
+  }
+  name
+}
+
+valid_file_name_length <- function(x) {
+  identical(length(x), 1L)
+}
+
 valid_file_name <- function(x) {
   grepl("^[a-zA-Z0-9._-]+$", x)
 }
