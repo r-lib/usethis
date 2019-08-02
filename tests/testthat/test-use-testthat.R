@@ -14,3 +14,8 @@ test_that("use_test() creates a test file", {
   use_test("foo", open = FALSE)
   expect_proj_file("tests", "testthat", "test-foo.R")
 })
+
+test_that("use_test() doesn't accept multiple file names", {
+  pkg <- scoped_temporary_package()
+  expect_error(use_test(c("file1", "file2")))
+})
