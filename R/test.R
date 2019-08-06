@@ -44,14 +44,11 @@ use_test <- function(name = NULL, open = interactive()) {
     use_testthat()
   }
 
-  if (is.null(name)) {
-    name <- get_active_r_file(path = "R")
-  } else {
-    check_file_name(name)
-  }
-
+  name <- name %||% get_active_r_file(path = "R")
   name <- paste0("test-", name)
   name <- slug(name, "R")
+  check_file_name(name)
+
   path <- path("tests", "testthat", name)
 
   if (file_exists(proj_path(path))) {
