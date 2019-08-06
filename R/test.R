@@ -47,7 +47,6 @@ use_test <- function(name = NULL, open = interactive()) {
   if (is.null(name)) {
     name <- get_active_r_file(path = "R")
   } else {
-    check_file_name_length(name)
     check_file_name(name)
   }
 

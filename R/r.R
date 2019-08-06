@@ -8,7 +8,6 @@
 #'   Packages](https://r-pkgs.org).
 #' @export
 use_r <- function(name = NULL) {
-  check_file_name_length(name)
   name <- name %||% get_active_r_file(path = "tests/testthat")
   name <- gsub("^test-", "", name)
   name <- slug(name, "R")
@@ -21,6 +20,10 @@ use_r <- function(name = NULL) {
 }
 
 check_file_name <- function(name) {
+  if (!is_string(name)) {
+    ui_stop(c("Provided name(s) {ui_value(name)} not a proper string.",
+              "Please only provide a character name having a length of one."))
+  }
   if (!valid_file_name(path_ext_remove(name))) {
     ui_stop(c(
       "{ui_value(name)} is not a valid file name. It should:",
@@ -28,18 +31,6 @@ check_file_name <- function(name) {
     ))
   }
   name
-}
-
-check_file_name_length <- function(name) {
-  if (!valid_file_name_length(name)) {
-    ui_stop(c("Specified names {ui_value(name)} do not have a valid length.",
-            "Please only specify names with a length of one."))
-  }
-  name
-}
-
-valid_file_name_length <- function(x) {
-  identical(length(x), 1L)
 }
 
 valid_file_name <- function(x) {
