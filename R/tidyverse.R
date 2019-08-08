@@ -186,7 +186,7 @@ use_tidy_contributing <- function() {
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy-contributing.md",
-    ".github/CONTRIBUTING.md",
+    path(".github", "CONTRIBUTING.md"),
     data = list(package = project_name())
   )
 }
@@ -198,7 +198,7 @@ use_tidy_issue_template <- function() {
   use_directory(path(".github", "ISSUE_TEMPLATE"), ignore = TRUE)
   use_template(
     "tidy-issue.md",
-    ".github/ISSUE_TEMPLATE/issue_template.md"
+    path(".github", "ISSUE_TEMPLATE", "issue_template.md")
   )
 }
 
@@ -209,7 +209,7 @@ use_tidy_support <- function() {
   use_directory(".github", ignore = TRUE)
   use_template(
     "tidy-support.md",
-    ".github/SUPPORT.md",
+    path(".github", "SUPPORT.md"),
     data = list(package = project_name())
   )
 }
