@@ -237,6 +237,13 @@ use_azure_pipelines <- function(browse = interactive()) {
     ignore = TRUE
   )
 
+  use_dependency("xml2", "Suggests")
+  use_directory(path("tests", "testthat"))
+  use_template(
+    "junit-testthat.R",
+    save_as = path("tests", "testthat.R"),
+    data = list(name = project_name())
+  )
   azure_activate(browse)
   use_azure_badge()
   use_azure_test_badge()
