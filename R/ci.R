@@ -247,6 +247,8 @@ use_azure_pipelines <- function(browse = interactive()) {
   azure_activate(browse)
   use_azure_badge()
   use_azure_test_badge()
+
+  use_dependency("covr", "Suggests")
   use_azure_coverage_badge()
 
   invisible(TRUE)
