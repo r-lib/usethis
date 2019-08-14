@@ -19,21 +19,51 @@ use_author(given = "Jane", family = "Doe", role = c("aut", "cre"),
 \item{comment}{a character string providing comments related to the author to be added.}
 }
 \description{
-If the \code{Authors@R} field is not included in the DESCRIPTION file then \code{use_author()} adds the field assigns
-the author defined by the input parameters. If the \code{Authors@R} field exists already in the DESCRIPTION then
-\code{use_author()} will add the author defined by the input parameters as an additional new author.
+If the \code{Authors@R} field is not included in the DESCRIPTION file
+then \code{use_author()} adds the field assigns the author defined by the input
+parameters. If the \code{Authors@R} field exists already in the DESCRIPTION then
+\code{use_author()} will add the author defined by the input parameters as an
+additional new author.
 
-The \code{use_author()} function should be used after \code{\link[=create_package]{create_package()}} or \code{\link[=use_description]{use_description()}}.
+The \code{use_author()} function should be used after [create_package()] or
+[use_description()].
 
 If you create a lot of packages, consider storing personalized defaults as a
-named list in an option named \code{"usethis.description"}. \code{\link[=use_description]{use_description()}} will automatically
-fill using this information. Here's an example of code to include in \code{.Rprofile}:\preformatted{options(
-  usethis.description = list(
-    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
-                          comment = c(ORCID = "YOUR-ORCID-ID"))',
-    License = "MIT + file LICENSE",
-    Language =  "es"
-  )
+named list in an option named \code{"usethis.description"}. [use_description()]
+will automatically fill using this information. Here's an example of code to
+include in \code{.Rprofile}:
+
+``` options( usethis.description = list( \code{Authors@R} = 'person("Jane", "Doe",
+email = "jane@example.com", role = c("aut", "cre"), comment = c(ORCID =
+"YOUR-ORCID-ID"))', License = "MIT + file LICENSE", Language =  "es" ) )\preformatted{
+
+[create_package()]: R:create_package()
+[use_description()]: R:use_description()
+[use_description()]: R:use_description()
+}
+}
+\examples{
+\dontrun{
+# Adds the default Jane Doe to author
+
+use_author()
+
+# Adds the author information for Ali
+use_author(
+  given = "Ali",
+  family = "Val",
+  role = c("aut", "cre"),
+  email = "alval@example.com",
+  comment = c(ORCID = "YOUR-ORCID-ID")
+)
+
+# Adds a second author Ali2
+use_author(
+  given = "Ali2",
+  family = "Val2",
+  role = c("cph", "fnd"),
+  email = "alval2@example.com",
+  comment = NULL
 )
 }
 }

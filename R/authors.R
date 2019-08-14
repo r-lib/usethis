@@ -1,25 +1,22 @@
 #' Create or modify the `Authors@R` field in the DESCRIPTION file
 #'
-#' @description
-#' If the `Authors@R` field is not included in the DESCRIPTION file then `use_author()` adds the field assigns
-#' the author defined by the input parameters. If the `Authors@R` field exists already in the DESCRIPTION then
-#' `use_author()` will add the author defined by the input parameters as an additional new author.
+#' @description If the `Authors@R` field is not included in the DESCRIPTION file
+#' then `use_author()` adds the field assigns the author defined by the input
+#' parameters. If the `Authors@R` field exists already in the DESCRIPTION then
+#' `use_author()` will add the author defined by the input parameters as an
+#' additional new author.
 #'
-#' The `use_author()` function should be used after [create_package()] or [use_description()].
+#' The `use_author()` function should be used after [create_package()] or
+#' [use_description()].
 #'
 #' If you create a lot of packages, consider storing personalized defaults as a
-#' named list in an option named `"usethis.description"`. [use_description()] will automatically
-#' fill using this information. Here's an example of code to include in `.Rprofile`:
+#' named list in an option named `"usethis.description"`. [use_description()]
+#' will automatically fill using this information. Here's an example of code to
+#' include in `.Rprofile`:
 #'
-#' ```
-#' options(
-#'   usethis.description = list(
-#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
-#'                           comment = c(ORCID = "YOUR-ORCID-ID"))',
-#'     License = "MIT + file LICENSE",
-#'     Language =  "es"
-#'   )
-#' )
+#' ``` options( usethis.description = list( `Authors@R` = 'person("Jane", "Doe",
+#' email = "jane@example.com", role = c("aut", "cre"), comment = c(ORCID =
+#' "YOUR-ORCID-ID"))', License = "MIT + file LICENSE", Language =  "es" ) )
 #' ```
 #'
 #' @param given a character string with the given (first) name of the author.
@@ -53,15 +50,14 @@
 #'   email = "alval2@example.com",
 #'   comment = NULL
 #' )
-# }
+#' }
 
 
 use_author <- function(given = "Jane", family = "Doe", role = c("aut", "cre"), email = "jane@example.com", comment = c(ORCID = "YOUR-ORCID-ID")) {
   # Adapted from use_dependency code and tools provided in the desc package
-  # TODO allow generic authors input like desc_set_authors(authors, file = ".", normalize = FALSE) for multiple author input
-  # TODO create addin to prompt for author information
-  # TODO create a snippet with author information for DESCRIPTION
-  # TODO add tests
+  # TODO long term: create addin to prompt for author information
+  # TODO long term: create a snippet with author information for DESCRIPTION
+  # TODO long term: add tests
 
   # Set the author as a person
   author <- utils::person(given = given, family = given, role = role, email = email, comment = comment)
