@@ -37,24 +37,3 @@ fill using this information. Here's an example of code to include in \code{.Rpro
 )
 }
 }
-\examples{
-\dontrun{
-# Adds the default Jane Doe to author
-use_author()
-
-# Adds the author information for Ali
-use_author(given = "Ali",
-          family = "Val",
-          role = c("aut", "cre"),
-          email = "alval@example.com",
-          comment = c(ORCID = "YOUR-ORCID-ID"))
-
-# Adds a second author Ali2
-use_author(given = "Ali2",
-          family = "Val2",
-          role = c("cph", "fnd"),
-          email = "alval2@example.com",
-          comment = NULL)
-}
-
-}

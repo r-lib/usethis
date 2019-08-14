@@ -33,25 +33,30 @@
 #' @examples
 #' \dontrun{
 #' # Adds the default Jane Doe to author
+#'
 #' use_author()
 #'
 #' # Adds the author information for Ali
-#' use_author(given = "Ali",
-#'           family = "Val",
-#'           role = c("aut", "cre"),
-#'           email = "alval@example.com",
-#'           comment = c(ORCID = "YOUR-ORCID-ID"))
+#' use_author(
+#'   given = "Ali",
+#'   family = "Val",
+#'   role = c("aut", "cre"),
+#'   email = "alval@example.com",
+#'   comment = c(ORCID = "YOUR-ORCID-ID")
+#' )
 #'
 #' # Adds a second author Ali2
-#'use_author(given = "Ali2",
-#'           family = "Val2",
-#'           role = c("cph", "fnd"),
-#'           email = "alval2@example.com",
-#'           comment = NULL)
-#' }
-#'
+#' use_author(
+#'   given = "Ali2",
+#'   family = "Val2",
+#'   role = c("cph", "fnd"),
+#'   email = "alval2@example.com",
+#'   comment = NULL
+#' )
+# }
 
-use_author <- function(given = "Jane", family = "Doe", role = c("aut", "cre"), email = "jane@example.com", comment = c(ORCID = "YOUR-ORCID-ID")){
+
+use_author <- function(given = "Jane", family = "Doe", role = c("aut", "cre"), email = "jane@example.com", comment = c(ORCID = "YOUR-ORCID-ID")) {
   # Adapted from use_dependency code and tools provided in the desc package
   # TODO allow generic authors input like desc_set_authors(authors, file = ".", normalize = FALSE) for multiple author input
   # TODO create addin to prompt for author information
@@ -59,24 +64,26 @@ use_author <- function(given = "Jane", family = "Doe", role = c("aut", "cre"), e
   # TODO add tests
 
   # Set the author as a person
-  author = utils::person(given = given, family = given, role = role, email = email, comment = comment)
+  author <- utils::person(given = given, family = given, role = role, email = email, comment = comment)
 
   # Obtain the current DESCRIPTION fields
   current_desc_fields <- desc::desc_fields()
 
   # If the `Authors@R` is not a current field then add the field and fill in the author provided
-  if(any(current_desc_fields == "Authors@R") == FALSE){
+  if (any(current_desc_fields == "Authors@R") == FALSE) {
     ui_done("`Authors@R` field added to DESCRIPTION and filled with {ui_value(author)}.")
-    desc::desc_set_authors(authors = author,
-                           file = proj_get(),
-                           normalize = TRUE)
+    desc::desc_set_authors(
+      authors = author,
+      file = proj_get(),
+      normalize = TRUE
+    )
     return(invisible())
-  } else if (any(current_desc_fields == "Authors@R") == TRUE){
+  } else if (any(current_desc_fields == "Authors@R") == TRUE) {
     # Obtain the current authors in the description
-    desc_authors = desc::desc_get_authors()
+    desc_authors <- desc::desc_get_authors()
 
     # Check if any current author in the DESCRIPTION is exactly identical to the author input
-    if(any(lapply(desc_authors, identical, author) == TRUE)){
+    if (any(lapply(desc_authors, identical, author) == TRUE)) {
       ui_warn(
         "Author {ui_value(author)} is already listed in\\
         `Authors@R` in DESCRIPTION, no change made."
@@ -91,10 +98,3 @@ use_author <- function(given = "Jane", family = "Doe", role = c("aut", "cre"), e
     # or replace the existing author
   }
 }
-
-
-
-
-
-
-
