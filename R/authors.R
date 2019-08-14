@@ -30,9 +30,6 @@
 #'
 #' @export
 #'
-#' @importFrom desc desc_add_author desc_fields desc_get_authors desc_set_authors
-#' @importFrom utils person
-#'
 #' @examples
 #' \dontrun{
 #' # Adds the default Jane Doe to author
