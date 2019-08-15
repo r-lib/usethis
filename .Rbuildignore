@@ -1,4 +1,3 @@
-^R/stale\.R$
 ^pkgdown$
 ^\.covrignore$
 ^CRAN-RELEASE$
