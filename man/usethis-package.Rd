@@ -8,10 +8,10 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right'}}
 
-Automate package and project setup tasks that are otherwise
-    performed manually. This includes setting up unit testing, test 
-    coverage, continuous integration, Git, 'GitHub', licenses, 'Rcpp', 'RStudio' 
-    projects, and more.
+Automate package and project setup tasks that are
+    otherwise performed manually. This includes setting up unit testing,
+    test coverage, continuous integration, Git, 'GitHub', licenses,
+    'Rcpp', 'RStudio' projects, and more.
 }
 \seealso{
 Useful links:
@@ -28,6 +28,7 @@ Useful links:
 Authors:
 \itemize{
   \item Hadley Wickham \email{hadley@rstudio.com} (0000-0003-4757-117X)
+  \item Jane Doe \email{jane@example.com} (YOUR-ORCID-ID)
 }
 
 Other contributors:
