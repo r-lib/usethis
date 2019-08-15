@@ -4,7 +4,7 @@
 \alias{use_author}
 \title{Create or modify the \code{Authors@R} field in the DESCRIPTION file}
 \usage{
-use_author(given = "Jane", family = "Doe", role = c("aut", "cre"),
+use_author(given = "Jane", family = "Doe", role = "aut",
   email = "jane@example.com", comment = c(ORCID = "YOUR-ORCID-ID"))
 }
 \arguments{
@@ -34,7 +34,7 @@ will automatically fill using this information. Here's an example of code to
 include in \code{.Rprofile}:
 
 ``` options( usethis.description = list( \code{Authors@R} = 'person("Jane", "Doe",
-email = "jane@example.com", role = c("aut", "cre"), comment = c(ORCID =
+email = "jane@example.com", role = "aut", comment = c(ORCID =
 "YOUR-ORCID-ID"))', License = "MIT + file LICENSE", Language =  "es" ) )\preformatted{
 
 [create_package()]: R:create_package()
@@ -52,7 +52,7 @@ use_author()
 use_author(
   given = "Ali",
   family = "Val",
-  role = c("aut", "cre"),
+  role = "aut",
   email = "alval@example.com",
   comment = c(ORCID = "YOUR-ORCID-ID")
 )
@@ -61,9 +61,10 @@ use_author(
 use_author(
   given = "Ali2",
   family = "Val2",
-  role = c("cph", "fnd"),
+  role = "cph",
   email = "alval2@example.com",
   comment = NULL
 )
 }
+
 }
