@@ -1,18 +1,14 @@
 context("git")
 
 test_that('use_git_config(scope = "project) errors if project not using git', {
-  # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
-  skip_if(getRversion() < 3.2)
   scoped_temporary_package()
-  expect_error(
+  expect_usethis_error(
     use_git_config(scope = "project", user.name = "USER.NAME"),
     "Cannot detect that project is already a Git repository"
   )
 })
 
 test_that("use_git_config() can set local config", {
-  # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
-  skip_if(getRversion() < 3.2)
   skip_if_no_git_config()
 
   scoped_temporary_package()
@@ -29,10 +25,8 @@ test_that("use_git_config() can set local config", {
 })
 
 test_that("use_git_hook errors if project not using git", {
-  # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
-  skip_if(getRversion() < 3.2)
   scoped_temporary_package()
-  expect_error(
+  expect_usethis_error(
     use_git_hook(
       "pre-commit",
       render_template("readme-rmd-pre-commit.sh")
@@ -42,8 +36,6 @@ test_that("use_git_hook errors if project not using git", {
 })
 
 test_that("git remote handlers work", {
-  # git2r::git2r::discover_repository() not working on R 3.1 (Travis)
-  skip_if(getRversion() < 3.2)
   skip_if_no_git_config()
 
   scoped_temporary_package()

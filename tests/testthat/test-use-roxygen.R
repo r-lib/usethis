@@ -14,7 +14,6 @@ test_that("use_roxygen_md() adds DESCRIPTION fields to naive package", {
 
 test_that("use_roxygen_md() does not error on a roxygen-using package", {
   skip_if_not_installed("roxygen2")
-  skip_if(getRversion() < 3.2) ## mock doesn't seem to work on 3.1
   with_mock(
     ## need to pass the check re: whether roxygen2md is installed
     `usethis:::check_installed` = function(pkg) TRUE, {

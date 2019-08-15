@@ -13,8 +13,8 @@
 #' @param name Base for file name to use for new vignette. Should consist only
 #'   of numbers, letters, `_` and `-`. Lower case is recommended.
 #' @param title The title of the vignette.
-#' @seealso The [vignettes chapter](http://r-pkgs.had.co.nz/vignettes.html) of
-#'   [R Packages](http://r-pkgs.had.co.nz).
+#' @seealso The [vignettes chapter](https://r-pkgs.org/vignettes.html) of
+#'   [R Packages](https://r-pkgs.org).
 #' @export
 #' @examples
 #' \dontrun{
@@ -39,7 +39,7 @@ use_article <- function(name, title = name) {
   check_is_package("use_article()")
 
   path <- use_vignette_template("article.Rmd", name, title)
-  use_build_ignore(path)
+  use_build_ignore("vignettes/articles")
 
   invisible()
 }
@@ -77,6 +77,10 @@ check_vignette_name <- function(name) {
   }
 }
 
+# https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-package-vignettes
+# "To ensure that they can be accessed from a browser (as an HTML index is
+# provided), the file names should start with an ASCII letter and be comprised
+# entirely of ASCII letters or digits or hyphen or underscore."
 valid_vignette_name <- function(x) {
-  grepl("^[[:alpha:]][[:alnum:]_-]+$", x)
+  grepl("^[[:alpha:]][[:alnum:]_-]*$", x)
 }

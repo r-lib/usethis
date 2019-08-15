@@ -4,8 +4,8 @@
 #'   exist. If not specified, and you're currently in a test file, will guess
 #'   name based on test name.
 #' @seealso [use_test()], and also the [R code
-#'   chapter](http://r-pkgs.had.co.nz/r.html) of [R
-#'   Packages](http://r-pkgs.had.co.nz).
+#'   chapter](https://r-pkgs.org/r.html) of [R
+#'   Packages](https://r-pkgs.org).
 #' @export
 use_r <- function(name = NULL) {
   name <- name %||% get_active_r_file(path = "tests/testthat")
@@ -30,7 +30,7 @@ check_file_name <- function(name) {
 }
 
 valid_file_name <- function(x) {
-  grepl("^[[:alnum:]_-]+$", x)
+  grepl("^[a-zA-Z0-9._-]+$", x)
 }
 
 get_active_r_file <- function(path = "R") {
@@ -39,7 +39,7 @@ get_active_r_file <- function(path = "R") {
   }
   ## rstudioapi can return a path like '~/path/to/file' where '~' means
   ## R's notion of user's home directory
-  active_file <- path_expand_r(rstudioapi::getSourceEditorContext()$path)
+  active_file <- proj_path_prep(rstudioapi::getSourceEditorContext()$path)
 
   rel_path <- proj_rel_path(active_file)
   if (path_dir(rel_path) != path) {

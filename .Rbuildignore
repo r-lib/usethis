@@ -3,6 +3,7 @@
 ^\.covrignore$
 ^CRAN-RELEASE$
 ^usethis-full-logo\.png$
+^usethis-og-1280x640\.png$
 ^principles\.md$
 ^usethis\.Rproj$
 ^\.Rproj\.user$

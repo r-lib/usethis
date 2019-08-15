@@ -3,8 +3,8 @@
 #' This `NAMESPACE` exports everything, except functions that start
 #' with a `.`.
 #'
-#' @seealso The [namespace chapter](http://r-pkgs.had.co.nz/namespace.html) of
-#'   [R Packages](http://r-pkgs.had.co.nz).
+#' @seealso The [namespace chapter](https://r-pkgs.org/namespace.html) of
+#'   [R Packages](https://r-pkgs.org).
 #'
 #' @export
 use_namespace <- function() {

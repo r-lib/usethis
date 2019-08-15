@@ -220,7 +220,7 @@ use_github_links <- function(auth_token = github_token(),
 #' edit_r_environ()
 #' ## which helps you store the PAT as an env var
 #' }
-browse_github_token <- function(scopes = c("repo", "gist"),
+browse_github_token <- function(scopes = c("repo", "gist", "user:email"),
                                 description = "R:GITHUB_PAT",
                                 host = "https://github.com") {
   scopes <- glue_collapse(scopes, ",")
@@ -232,7 +232,7 @@ browse_github_token <- function(scopes = c("repo", "gist"),
   ui_todo(
     "Call {ui_code('usethis::edit_r_environ()')} to open {ui_path('.Renviron')}."
   )
-  ui_todo("Store your PAT with a line like:")
+  ui_todo("Store your PAT (personal access token) with a line like:")
   ui_code_block("GITHUB_PAT=xxxyyyzzz")
   ui_todo("Make sure {ui_value('.Renviron')} ends with a newline!")
   invisible()
@@ -315,10 +315,13 @@ have_github_token <- function(auth_token = github_token()) {
   !isTRUE(auth_token == "")
 }
 
+# TODO(@jennybc): this should be used / usable by git_sitrep(), which
+# currently uses one-off code for checking the token
+
 check_github_token <- function(auth_token = github_token(),
                                allow_empty = FALSE) {
   if (allow_empty && !have_github_token(auth_token)) {
-    return(auth_token)
+    return(invisible(auth_token))
   }
 
   local_stop <- function(msg) {
@@ -338,7 +341,7 @@ check_github_token <- function(auth_token = github_token(),
   if (is.null(user)) {
     local_stop("GitHub {ui_code('auth_token')} is invalid.")
   }
-  auth_token
+  invisible(auth_token)
 }
 
 ## AFAICT there is no targetted way to check validity of a PAT

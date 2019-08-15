@@ -12,16 +12,17 @@ create_from_github(repo_spec, destdir = NULL, fork = NA,
 \item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}. The
 \code{repo} part will be the name of the new local repo.}
 
-\item{destdir}{The new folder is stored here. Defaults to user's Desktop.}
+\item{destdir}{The new folder is stored here. If \code{NULL}, defaults to user's
+Desktop or some other conspicuous place.}
 
 \item{fork}{If \code{TRUE}, we create and clone a fork. If \code{FALSE}, we clone
 \code{repo_spec} itself. Will be set to \code{FALSE} if no \code{auth_token} (a.k.a. PAT)
 is provided or preconfigured. Otherwise, defaults to \code{FALSE} if you can
 push to \code{repo_spec} and \code{TRUE} if you cannot. In the case of a fork, the
 original target repo is added to the local repo as the \code{upstream} remote,
-using the preferred \code{protocol}. The \code{master} branch is immediately pulled
-from \code{upstream}, which matters in the case of a pre-existing, out-of-date
-fork.}
+using the preferred \code{protocol}. The \code{master} branch is set to track
+\code{upstream/master} and is immediately pulled, which matters in the case of a
+pre-existing, out-of-date fork.}
 
 \item{rstudio}{Initiate an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}?
 Defaults to \code{TRUE} if in an RStudio session and project has no
@@ -55,6 +56,32 @@ recommended that you pre-configure or pass a GitHub personal access token
 is required in order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}. It is also required
 by \code{\link[=use_github]{use_github()}}, which connects existing local projects to GitHub.
 }
+\section{Using SSH Keys on Windows}{
+
+If you are a Windows user who connects to GitHub using SSH, as opposed to
+HTTPS, you may need to explicitly specify the paths to your keys and register
+this credential in the current R session. This helps if git2r, which usethis
+uses for Git operations, does not automatically find your keys or handle your
+passphrase.
+
+In the snippet below, do whatever is necessary to make the paths correct,
+e.g., replace \code{<USERNAME>} with your Windows username. Omit the \code{passphrase}
+part if you don't have one. Replace \code{<OWNER/REPO>} with the appropriate
+GitHub specification. You get the idea.\preformatted{creds <- git2r::cred_ssh_key(
+  publickey  = "C:/Users/<USERNAME>/.ssh/id_rsa.pub",
+  privatekey = "C:/Users/<USERNAME>/.ssh/id_rsa",
+  passphrase = character(0)
+)
+use_git_protocol("ssh")
+use_git_credentials(credentials = creds)
+
+create_from_github(
+  repo_spec = "<OWNER/REPO>",
+  ...
+)
+}
+}
+
 \examples{
 \dontrun{
 create_from_github("r-lib/usethis")

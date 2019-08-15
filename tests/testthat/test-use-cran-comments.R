@@ -2,7 +2,7 @@ context("use-cran-comments")
 
 test_that("use_cran_comments() requires a package", {
   scoped_temporary_project()
-  expect_error(use_cran_comments(), "not an R package")
+  expect_usethis_error(use_cran_comments(), "not an R package")
 })
 
 test_that("use_cran_comments() creates and ignores the promised file", {

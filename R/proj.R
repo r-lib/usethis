@@ -70,7 +70,7 @@ proj_get <- function() {
 #' @export
 proj_set <- function(path = ".", force = FALSE) {
   if (dir_exists(path %||% "") && is_in_proj(path)) {
-    return(invisible())
+    return(invisible(proj_get_()))
   }
 
   path <- proj_path_prep(path)
@@ -99,7 +99,7 @@ proj_path <- function(..., ext = "") {
 }
 
 #' @describeIn proj_utils Runs code with a temporary active project. It is an
-#'   example of the `with_*()` functions in [withr](http://withr.r-lib.org).
+#'   example of the `with_*()` functions in [withr](https://withr.r-lib.org).
 #' @param code Code to run with temporary active project.
 #' @param quiet Whether to suppress user-facing messages, while operating in the
 #'   temporary active project.
@@ -122,7 +122,7 @@ with_project <- function(path = ".",
 #' @describeIn proj_utils Sets an active project until the current execution
 #'   environment goes out of scope, e.g. the end of the current function or
 #'   test.  It is an example of the `local_*()` functions in
-#'   [withr](http://withr.r-lib.org).
+#'   [withr](https://withr.r-lib.org).
 #' @param .local_envir The environment to use for scoping. Defaults to current
 #'   execution environment.
 #' @export

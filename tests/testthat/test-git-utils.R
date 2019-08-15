@@ -22,20 +22,20 @@ test_that("git_config returns old global values", {
 test_that("git_protocol() catches bad input from usethis.protocol option", {
   withr::with_options(
     list(usethis.protocol = "nope"), {
-      expect_error(git_protocol(), "must be one of")
+      expect_usethis_error(git_protocol(), "must be one of")
       expect_null(getOption("usethis.protocol"))
     }
   )
   withr::with_options(
     list(usethis.protocol = c("ssh", "https")), {
-      expect_error(git_protocol(), "must be one of")
+      expect_usethis_error(git_protocol(), "must be one of")
       expect_null(getOption("usethis.protocol"))
     }
   )
 })
 
 test_that("use_git_protocol() errors for bad input", {
-  expect_error(use_git_protocol("nope"), "must be one of")
+  expect_usethis_error(use_git_protocol("nope"), "must be one of")
 })
 
 test_that("git_protocol() defaults to 'ssh' in a non-interactive session", {
@@ -46,7 +46,7 @@ test_that("git_protocol() defaults to 'ssh' in a non-interactive session", {
 })
 
 test_that("non-interactive use_git_protocol(NA) is like dismissing the menu", {
-  expect_error(use_git_protocol(NA), "must be either")
+  expect_usethis_error(use_git_protocol(NA), "must be either")
 })
 
 test_that("git_protocol() honors, vets, and lowercases the option", {
@@ -64,7 +64,7 @@ test_that("git_protocol() honors, vets, and lowercases the option", {
   )
   withr::with_options(
     list(usethis.protocol = "nope"),
-    expect_error(git_protocol(), "must be one of")
+    expect_usethis_error(git_protocol(), "must be one of")
   )
 })
 

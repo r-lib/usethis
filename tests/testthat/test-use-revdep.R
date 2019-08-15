@@ -2,7 +2,7 @@ context("use_revdep")
 
 test_that("use_revdep() requires a package", {
   scoped_temporary_project()
-  expect_error(use_revdep(), "not an R package")
+  expect_usethis_error(use_revdep(), "not an R package")
 })
 
 test_that("use_revdep() creates and ignores files/dirs", {

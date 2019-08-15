@@ -3,7 +3,7 @@
 #' The `pr_*` family of functions is designed to make working with GitHub
 #' PRs as painless as possible for both contributors and package maintainers.
 #' They are designed to support the git and GitHub best practices described in
-#' <http://happygitwithr.com/>.
+#' [Happy Git and GitHub for the useR](https://happygitwithr.com).
 #'
 #' @section Set up advice:
 #' These functions make heavy use of git2r and the GitHub API. You'll need a
@@ -53,6 +53,9 @@
 pr_init <- function(branch) {
   stopifnot(is_string(branch))
   check_uses_github()
+  # TODO(@jennybc): if no internet, could offer option to proceed anyway
+  # Error in git2r::fetch(repo, name = remref_remote(remref), refspec = branch,  :
+  # Error in 'git2r_remote_fetch': failed to resolve address for github.com: nodename nor servname provided, or not known
   check_branch_pulled("master", "pr_pull_upstream()")
 
   if (!git_branch_exists(branch)) {
@@ -114,15 +117,6 @@ pr_fetch <- function(number,
     {ui_value(pr$title)}'
   )
 
-  maintainer_can_modify <- isTRUE(pr$maintainer_can_modify)
-  if (!maintainer_can_modify) {
-    ui_info("
-      Note that user does NOT allow maintainer to modify this PR \\
-      at this time,
-      although this can be changed.
-      ")
-  }
-
   their_branch <- pr$head$ref
   them <- pr$head$user$login
   if (them == github_owner()) {
@@ -131,6 +125,13 @@ pr_fetch <- function(number,
   } else {
     remote <- them
     our_branch <- glue("{them}-{their_branch}")
+    if (!isTRUE(pr$maintainer_can_modify)) {
+      ui_info("
+      Note that user does NOT allow maintainer to modify this PR \\
+      at this time,
+      although this can be changed.
+      ")
+    }
   }
 
   protocol <- github_remote_protocol()

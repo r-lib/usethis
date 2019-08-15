@@ -37,6 +37,6 @@ use_vignette("how-to-do-stuff", "How to do stuff")
 }
 }
 \seealso{
-The \href{http://r-pkgs.had.co.nz/vignettes.html}{vignettes chapter} of
-\href{http://r-pkgs.had.co.nz}{R Packages}.
+The \href{https://r-pkgs.org/vignettes.html}{vignettes chapter} of
+\href{https://r-pkgs.org}{R Packages}.
 }

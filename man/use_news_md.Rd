@@ -14,5 +14,5 @@ applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 This creates a basic \code{NEWS.md} in the root directory.
 }
 \seealso{
-The \href{http://r-pkgs.had.co.nz/release.html#important-files}{important files section} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+The \href{https://r-pkgs.org/release.html#important-files}{important files section} of \href{https://r-pkgs.org}{R Packages}.
 }

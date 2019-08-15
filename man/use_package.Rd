@@ -33,5 +33,5 @@ use_dev_package("glue")
 }
 }
 \seealso{
-The \href{http://r-pkgs.had.co.nz/description.html#dependencies}{dependencies section} of \href{http://r-pkgs.had.co.nz}{R Packages}.
+The \href{https://r-pkgs.org/description.html#dependencies}{dependencies section} of \href{https://r-pkgs.org}{R Packages}.
 }

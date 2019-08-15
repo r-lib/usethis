@@ -1,5 +1,5 @@
 ## attempt to activate a project, which is nice during development
-try(proj_set("."))
+tryCatch(proj_set("."), error = function(e) NULL)
 
 ## If session temp directory appears to be, or be within, a project, there
 ## will be large scale, spurious test failures.
@@ -100,6 +100,10 @@ skip_if_no_git_config <- function() {
     return(invisible(TRUE))
   }
   skip("No Git user configured")
+}
+
+expect_usethis_error <- function(...) {
+  expect_error(..., class = "usethis_error")
 }
 
 expect_error_free <- function(...) {

@@ -141,11 +141,15 @@ git_branch_switch <- function(branch) {
 
 git_branch_compare <- function(branch = git_branch_name()) {
   repo <- git_repo()
+  auth_token <- check_github_token(allow_empty = TRUE)
+  protocol <- github_remote_protocol()
+  credentials <- git_credentials(protocol, auth_token)
 
   remref <- git_branch_tracking_FIXME(branch)
   git2r::fetch(
     repo,
     name = remref_remote(remref),
+    credentials = credentials,
     refspec = branch,
     verbose = FALSE
   )
@@ -260,6 +264,11 @@ check_branch <- function(branch) {
 
 check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
   remote <- git_branch_tracking_FIXME(branch)
+  if (is.null(remote)) {
+    ui_done("Local branch {ui_value(branch)} is not tracking a remote branch.")
+    return(invisible())
+  }
+
   ui_done(
     "Checking that local branch {ui_value(branch)} has the changes \\
      in {ui_value(remote)}"

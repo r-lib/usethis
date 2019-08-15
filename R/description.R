@@ -30,8 +30,8 @@
 #' @param fields A named list of fields to add to `DESCRIPTION`, potentially
 #'   overriding default values. See [use_description()] for how you can set
 #'   personalized defaults using package options
-#' @seealso The [description chapter](http://r-pkgs.had.co.nz/description.html)
-#'   of [R Packages](http://r-pkgs.had.co.nz).
+#' @seealso The [description chapter](https://r-pkgs.org/description.html#dependencies)
+#'   of [R Packages](https://r-pkgs.org).
 #' @export
 #' @examples
 #' \dontrun{
@@ -98,7 +98,7 @@ build_description_list <- function(fields = list()) {
 }
 
 check_package_name <- function(name) {
-  if (!valid_name(name)) {
+  if (!valid_package_name(name)) {
     ui_stop(c(
       "{ui_value(name)} is not a valid package name. It should:",
       "* Contain only ASCII letters, numbers, and '.'",
@@ -110,8 +110,8 @@ check_package_name <- function(name) {
 
 }
 
-valid_name <- function(x) {
-  grepl("^[[:alpha:]][[:alnum:].]+$", x) && !grepl("\\.$", x)
+valid_package_name <- function(x) {
+  grepl("^[a-zA-Z][a-zA-Z0-9.]+$", x) && !grepl("\\.$", x)
 }
 
 tidy_desc <- function(desc) {
