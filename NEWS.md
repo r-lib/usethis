@@ -1,6 +1,6 @@
 # usethis (development version)
 
-* Sub out `.` for `-` in Appveyor badges (@muschellij2, #735).
+* Sub out `.` for `-` in Appveyor badges (#735, @muschellij2).
 
 * New `use_lifecycle()` helper to import the lifecycle badges for functions and arguments in your package. See https://lifecycle.r-lib.org/.
 
