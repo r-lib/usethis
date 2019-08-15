@@ -71,6 +71,8 @@ use_pkgdown_travis <- function() {
 }
 
 create_gh_pages_branch <- function() {
+  ui_done("Initializing empty gh-pages branch")
+
   # git hash-object -t tree /dev/null.
   sha_empty_tree <- "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
 
