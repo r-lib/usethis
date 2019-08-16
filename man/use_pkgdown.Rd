@@ -21,14 +21,14 @@ a beautiful website. There are two helper functions:
 \item \code{use_pkgdown()}: creates a pkgdown config file and adds the file and
 destination directory to \code{.Rbuildignore}.
 \item \code{use_pkgdown_travis()}: helps you set up pkgdown for automatic deployment
-on Travis-CI by:
+on Travis-CI. Specifically, it:
 \itemize{
-\item Adding the \code{docs/} folder to \code{.gitignore} and \code{.Rbuildignore}.
-\item Optionally building favicons if your package contains a package logo,
-and adding the resulting \code{pkgdown/} folder to \code{.Rbuildignore}.
-\item Creating an empty \code{gh-pages} branch for the pkgdown site to be
+\item Adds the \code{docs/} folder to \code{.gitignore} and \code{.Rbuildignore}.
+\item Builds favicons if your package contains a package logo,
+and adds the resulting \code{pkgdown/} folder to \code{.Rbuildignore}.
+\item Creates an empty \code{gh-pages} branch for the pkgdown site to be
 deployed to.
-\item Prompting you about what to do next regarding Travis-CI deployment
+\item Prompts you about what to do next regarding Travis-CI deployment
 keys and updating your \code{.travis.yml}.
 }
 }
