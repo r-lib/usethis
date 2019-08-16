@@ -40,6 +40,7 @@ release_checklist <- function(version) {
   cran_results <- cran_results_url()
   has_src <- dir_exists(proj_path("src"))
   has_news <- file_exists(proj_path("NEWS.md"))
+  has_pkgdown <- file_exists(proj_path("_pkgdown.yml"))
 
   todo <- function(x, cond = TRUE) {
     x <- glue(x, .envir = parent.frame())
@@ -62,7 +63,7 @@ release_checklist <- function(version) {
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran),
     todo("Update `cran-comments.md`"),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
-    todo("Polish pkgdown reference index", type != "patch"),
+    todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown),
     todo("Draft blog post", type != "patch"),
     "",
     "Submit to CRAN:",
