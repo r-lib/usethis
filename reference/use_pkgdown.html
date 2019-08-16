@@ -50,7 +50,15 @@ a beautiful website. There are two helper functions:
 use_pkgdown(): creates a pkgdown config file and adds the file and
 destination directory to .Rbuildignore.
 use_pkgdown_travis(): helps you set up pkgdown for automatic deployment
-on Travis-CI.
+on Travis-CI. Specifically, it:
+Adds the docs/ folder to .gitignore and .Rbuildignore.
+Builds favicons if your package contains a package logo,
+and adds the resulting pkgdown/ folder to .Rbuildignore.
+Creates an empty gh-pages branch for the pkgdown site to be
+deployed to.
+Prompts you about what to do next regarding Travis-CI deployment
+keys and updating your .travis.yml.
+
 " />
 
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
@@ -186,7 +194,15 @@ a beautiful website. There are two helper functions:</p><ul>
 <li><p><code>use_pkgdown()</code>: creates a pkgdown config file and adds the file and
 destination directory to <code>.Rbuildignore</code>.</p></li>
 <li><p><code>use_pkgdown_travis()</code>: helps you set up pkgdown for automatic deployment
-on Travis-CI.</p></li>
+on Travis-CI. Specifically, it:</p><ul>
+<li><p>Adds the <code>docs/</code> folder to <code>.gitignore</code> and <code>.Rbuildignore</code>.</p></li>
+<li><p>Builds favicons if your package contains a package logo,
+and adds the resulting <code>pkgdown/</code> folder to <code>.Rbuildignore</code>.</p></li>
+<li><p>Creates an empty <code>gh-pages</code> branch for the pkgdown site to be
+deployed to.</p></li>
+<li><p>Prompts you about what to do next regarding Travis-CI deployment
+keys and updating your <code>.travis.yml</code>.</p></li>
+</ul></li>
 </ul>
     
     </div>
