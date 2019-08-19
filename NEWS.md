@@ -111,9 +111,6 @@ Other improvements and bug fixes:
 * `use_github()` tries harder but also fails earlier, with more informative
   messages, making it less likely to leave the repo partially configured (#221).
 
-* `use_github()` now removes newline `\n` characters when pushing that can cause 
-  `gh::gh` fail (#493, @muschellij2).  
-
 * `use_github()` and `create_from_github()` gain a `protocol` argument
   (#494, @cderv).
   
