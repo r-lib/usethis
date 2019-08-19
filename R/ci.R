@@ -265,21 +265,21 @@ azure_activate <- function(browse = interactive(), ext = "org") {
 
 use_azure_badge <- function() {
   check_uses_github()
-  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=2&branchName=master")
+  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=1&branchName=master")
   img <- glue("https://img.shields.io/azure-devops/build/{github_repo_spec()}/2")
   use_badge("Azure pipelines build status", url, img)
 }
 
 use_azure_test_badge <- function() {
   check_uses_github()
-  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=2&branchName=master")
+  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=1&branchName=master")
   img <- glue("https://img.shields.io/azure-devops/tests/{github_repo_spec()}/2?color=brightgreen&compact_message")
   use_badge("Azure pipelines test status", url, img)
 }
 
 use_azure_coverage_badge <- function() {
   check_uses_github()
-  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=2&branchName=master")
+  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=1&branchName=master")
   img <- glue("https://img.shields.io/azure-devops/coverage/{github_repo_spec()}/2")
   use_badge("Azure pipelines coverage status", url, img)
 }
