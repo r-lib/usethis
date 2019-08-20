@@ -231,13 +231,15 @@ check_uses_circleci <- function(base_path = proj_get()) {
 #' @rdname ci
 use_azure_pipelines <- function(browse = interactive()) {
   check_uses_github()
+  use_dependency("xml2", "Suggests")
+  use_dependency("covr", "Suggests")
+
   new <- use_template(
     "azure-pipelines.yml",
     "azure-pipelines.yml",
     ignore = TRUE
   )
 
-  use_dependency("xml2", "Suggests")
   use_directory(path("tests", "testthat"))
   use_template(
     "junit-testthat.R",
@@ -248,7 +250,6 @@ use_azure_pipelines <- function(browse = interactive()) {
   use_azure_badge()
   use_azure_test_badge()
 
-  use_dependency("covr", "Suggests")
   use_azure_coverage_badge()
 
   invisible(TRUE)
