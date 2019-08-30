@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -43,15 +45,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Depend on another package — use_package" />
 
+<meta property="og:title" content="Depend on another package — use_package" />
 <meta property="og:description" content="use_package() adds a CRAN package dependency to DESCRIPTION and offers a
 little advice about how to best use it. use_dev_package() adds a versioned
 dependency on an in-development GitHub package, adding the repo to Remotes
 so it will be automatically installed from the correct location." />
-
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -145,7 +147,6 @@ so it will be automatically installed from the correct location." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
@@ -177,18 +178,16 @@ so it will be automatically installed from the correct location." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>use_package()</code> adds a CRAN package dependency to <code>DESCRIPTION</code> and offers a
 little advice about how to best use it. <code>use_dev_package()</code> adds a versioned
 dependency on an in-development GitHub package, adding the repo to <code>Remotes</code>
 so it will be automatically installed from the correct location.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>use_package</span>(<span class='no'>package</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"Imports"</span>, <span class='kw'>min_version</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>use_dev_package</span>(<span class='no'>package</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"Imports"</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -208,11 +207,10 @@ is case insensitive.</p></td>
 Set to <code>TRUE</code> to use the currently installed version.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>The <a href='https://r-pkgs.org/description.html#dependencies'>dependencies section</a> of <a href='https://r-pkgs.org'>R Packages</a>.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -225,9 +223,7 @@ Set to <code>TRUE</code> to use the currently installed version.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

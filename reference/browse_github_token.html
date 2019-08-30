@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -43,8 +45,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Create and retrieve a GitHub personal access token — browse_github_token" />
 
+<meta property="og:title" content="Create and retrieve a GitHub personal access token — browse_github_token" />
 <meta property="og:description" content="A personal access token
 (PAT) is needed for git operations via the GitHub API. Two helper functions
 are provided:
@@ -57,9 +59,9 @@ GITHUB_TOKEN environment variable
 the empty string &quot;&quot;
 
 " />
-
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -153,7 +155,6 @@ the empty string &quot;&quot;
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
@@ -185,7 +186,6 @@ the empty string &quot;&quot;
     </div>
 
     <div class="ref-description">
-    
     <p>A <a href='https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line'>personal access token</a>
 (PAT) is needed for git operations via the GitHub API. Two helper functions
 are provided:</p><ul>
@@ -198,7 +198,6 @@ advice on how to store this.</p></li>
 <li><p>the empty string <code>""</code></p></li>
 </ul></li>
 </ul>
-    
     </div>
 
     <pre class="usage"><span class='fu'>browse_github_token</span>(<span class='kw'>scopes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"repo"</span>, <span class='st'>"gist"</span>, <span class='st'>"user:email"</span>),
@@ -208,7 +207,7 @@ advice on how to store this.</p></li>
   <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"R:GITHUB_PAT"</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='st'>"https://github.com"</span>)
 
 <span class='fu'>github_token</span>()</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -231,11 +230,10 @@ GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3".</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>github_token()</code> returns a string, a GitHub PAT or <code>""</code>.</p>
-    
     <h2 class="hasAnchor" id=""><a class="anchor" href="#"></a></h2>
 
     <p>Get and store a PAT:
@@ -244,11 +242,9 @@ Call <code>browse_github_token()</code>. Verify the scopes and click "Generate t
 Copy the token right away! A common approach is to store in <code>.Renviron</code> as
 the <code>GITHUB_PAT</code> environment variable. <code><a href='edit.html'>edit_r_environ()</a></code> opens this file for
 editing.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/gh/topics/gh_whoami'>gh::gh_whoami()</a></code> for information on an existing token.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -264,13 +260,9 @@ editing.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#"></a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -43,17 +45,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Manage GitHub issue labels — use_github_labels" />
 
+<meta property="og:title" content="Manage GitHub issue labels — use_github_labels" />
 <meta property="og:description" content="use_github_labels() can create new labels, update colours and descriptions,
 and optionally delete GitHub's default labels (if delete_default = TRUE).
 It will never delete labels that have associated issues.
 use_tidy_labels() calls use_github_labels() with tidyverse conventions
 powered by tidy_labels(), tidy_labels_rename(), tidy_label_colours()
 and tidy_label_descriptions()." />
-
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -147,7 +149,6 @@ and tidy_label_descriptions()." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
@@ -179,14 +180,12 @@ and tidy_label_descriptions()." />
     </div>
 
     <div class="ref-description">
-    
     <p><code>use_github_labels()</code> can create new labels, update colours and descriptions,
 and optionally delete GitHub's default labels (if <code>delete_default = TRUE</code>).
 It will never delete labels that have associated issues.</p>
 <p><code>use_tidy_labels()</code> calls <code>use_github_labels()</code> with tidyverse conventions
 powered by <code>tidy_labels()</code>, <code>tidy_labels_rename()</code>, <code>tidy_label_colours()</code>
 and <code>tidy_label_descriptions()</code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>use_github_labels</span>(<span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='fu'>github_repo_spec</span>(), <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(),
@@ -204,7 +203,7 @@ and <code>tidy_label_descriptions()</code>.</p>
 <span class='fu'>tidy_label_colours</span>()
 
 <span class='fu'>tidy_label_descriptions</span>()</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -246,7 +245,7 @@ GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3".</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="label-usage"><a class="anchor" href="#label-usage"></a>Label usage</h2>
 
     
@@ -262,7 +261,6 @@ example, and that a reply has been sent requesting one from the user.</p></li>
 <li><p><code>good first issue</code> indicates a good issue for first-time contributors.</p></li>
 <li><p><code>help wanted</code> indicates that a maintainer wants help on an issue.</p></li>
 </ul>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -288,9 +286,7 @@ example, and that a reply has been sent requesting one from the user.</p></li>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#label-usage">Label usage</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

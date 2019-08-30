@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -43,15 +45,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Helpers for GitHub pull requests — pr_init" />
 
+<meta property="og:title" content="Helpers for GitHub pull requests — pr_init" />
 <meta property="og:description" content="The pr_* family of functions is designed to make working with GitHub
 PRs as painless as possible for both contributors and package maintainers.
 They are designed to support the git and GitHub best practices described in
 Happy Git and GitHub for the useR." />
-
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -145,7 +147,6 @@ Happy Git and GitHub for the useR." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
@@ -177,12 +178,10 @@ Happy Git and GitHub for the useR." />
     </div>
 
     <div class="ref-description">
-    
     <p>The <code>pr_*</code> family of functions is designed to make working with GitHub
 PRs as painless as possible for both contributors and package maintainers.
 They are designed to support the git and GitHub best practices described in
 <a href='https://happygitwithr.com'>Happy Git and GitHub for the useR</a>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>pr_init</span>(<span class='no'>branch</span>)
@@ -202,7 +201,7 @@ They are designed to support the git and GitHub best practices described in
 <span class='fu'>pr_pause</span>()
 
 <span class='fu'>pr_finish</span>()</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -223,7 +222,7 @@ the owner of the <code>upstream</code> remote, if present, or the owner of <code
 otherwise.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="set-up-advice"><a class="anchor" href="#set-up-advice"></a>Set up advice</h2>
 
     
@@ -232,7 +231,6 @@ GitHub personal access token (PAT); see <code><a href='browse_github_token.html'
 with that. If git2r does not seem to be finding your git credentials, read
 <code><a href='git_credentials.html'>git_credentials()</a></code> for troubleshooting advice. The transport protocol
 (SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.</p>
-    
     <h2 class="hasAnchor" id="for-contributors"><a class="anchor" href="#for-contributors"></a>For contributors</h2>
 
     
@@ -255,7 +253,6 @@ working on your PR, and you need to "merge master". Do that by running
 up-to-date with the maintainer's latest changes. Either of the pull
 functions may cause merge conflicts, so be prepared to resolve before
 continuing.</p>
-    
     <h2 class="hasAnchor" id="for-maintainers"><a class="anchor" href="#for-maintainers"></a>For maintainers</h2>
 
     
@@ -263,7 +260,6 @@ continuing.</p>
 <code>pr_fetch(&lt;pr_number&gt;)</code>. If you make changes, run <code>pr_push()</code> to push
 them back to GitHub. After you have merged the PR, run <code>pr_finish()</code>
 to delete the local branch.</p>
-    
     <h2 class="hasAnchor" id="other-helpful-functions"><a class="anchor" href="#other-helpful-functions"></a>Other helpful functions</h2>
 
     
@@ -274,7 +270,6 @@ to delete the local branch.</p>
 back to master.</p></li>
 <li><p><code>pr_view()</code> opens the PR in the browser</p></li>
 </ul>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -287,15 +282,10 @@ back to master.</p></li>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#set-up-advice">Set up advice</a></li>
-
       <li><a href="#for-contributors">For contributors</a></li>
-
       <li><a href="#for-maintainers">For maintainers</a></li>
-
       <li><a href="#other-helpful-functions">Other helpful functions</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

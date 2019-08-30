@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -43,8 +45,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Continuous integration setup and badges — ci" />
 
+<meta property="og:title" content="Continuous integration setup and badges — ci" />
 <meta property="og:description" content="Sets up continuous integration (CI) services for an R package that is
 developed on GitHub. CI services can run R CMD check automatically on
 various platforms, triggered by each push or pull request. These functions
@@ -52,9 +54,9 @@ Add service-specific configuration files and add them to .Rbuildignore.
 Activate a service or give the user a detailed prompt.
 Provide the markdown to insert a badge into README.
 " />
-
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -148,7 +150,6 @@ Provide the markdown to insert a badge into README.
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
@@ -180,7 +181,6 @@ Provide the markdown to insert a badge into README.
     </div>
 
     <div class="ref-description">
-    
     <p>Sets up continuous integration (CI) services for an R package that is
 developed on GitHub. CI services can run <code>R CMD check</code> automatically on
 various platforms, triggered by each push or pull request. These functions</p><ul>
@@ -188,7 +188,6 @@ various platforms, triggered by each push or pull request. These functions</p><u
 <li><p>Activate a service or give the user a detailed prompt.</p></li>
 <li><p>Provide the markdown to insert a badge into README.</p></li>
 </ul>
-    
     </div>
 
     <pre class="usage"><span class='fu'>use_travis</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>ext</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"org"</span>, <span class='st'>"com"</span>))
@@ -202,7 +201,7 @@ various platforms, triggered by each push or pull request. These functions</p><u
 <span class='fu'>use_gitlab_ci</span>()
 
 <span class='fu'>use_circleci</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>image</span> <span class='kw'>=</span> <span class='st'>"rocker/verse:latest"</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -227,66 +226,54 @@ of R, change the tag from <code>latest</code> to the version you want, e.g.
 <code>rocker/r-ver:3.5.3</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="use-travis-"><a class="anchor" href="#use-travis-"></a><code>use_travis()</code></h2>
 
     
     <p>Adds a basic <code>.travis.yml</code> to the top-level directory of a package. This is a
 configuration file for the <a href='https://travis-ci.org/'>Travis CI</a> continuous
 integration service.</p>
-    
     <h2 class="hasAnchor" id="use-travis-badge-"><a class="anchor" href="#use-travis-badge-"></a><code>use_travis_badge()</code></h2>
 
     
     <p>Only adds the <a href='https://travis-ci.org/'>Travis CI</a> badge. Use for a project
 where Travis is already configured.</p>
-    
     <h2 class="hasAnchor" id="use-appveyor-"><a class="anchor" href="#use-appveyor-"></a><code>use_appveyor()</code></h2>
 
     
     <p>Adds a basic <code>appveyor.yml</code> to the top-level directory of a package. This is
 a configuration file for the <a href='https://www.appveyor.com'>AppVeyor</a> continuous
 integration service for Windows.</p>
-    
     <h2 class="hasAnchor" id="use-appveyor-badge-"><a class="anchor" href="#use-appveyor-badge-"></a><code>use_appveyor_badge()</code></h2>
 
     
     <p>Only adds the <a href='https://www.appveyor.com'>AppVeyor</a> badge. Use for a project
 where AppVeyor is already configured.</p>
-    
     <h2 class="hasAnchor" id="use-gitlab-ci-"><a class="anchor" href="#use-gitlab-ci-"></a><code>use_gitlab_ci()</code></h2>
 
     
     <p>Adds a basic <code>.gitlab-ci.yml</code> to the top-level directory of a package. This is
 a configuration file for the <a href='https://docs.gitlab.com/ee/ci/'>GitLab CI/CD</a> continuous
 integration service for GitLab.</p>
-    
     <h2 class="hasAnchor" id="use-circleci-"><a class="anchor" href="#use-circleci-"></a><code>use_circleci()</code></h2>
 
     
     <p>Adds a basic <code>.circleci/config.yml</code> to the top-level directory of a package. This is a
 configuration file for the <a href='https://circleci.com/'>CircleCI</a> continuous
 integration service.</p>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#use-travis-"><code>use_travis()</code></a></li>
-
       <li><a href="#use-travis-badge-"><code>use_travis_badge()</code></a></li>
-
       <li><a href="#use-appveyor-"><code>use_appveyor()</code></a></li>
-
       <li><a href="#use-appveyor-badge-"><code>use_appveyor_badge()</code></a></li>
-
       <li><a href="#use-gitlab-ci-"><code>use_gitlab_ci()</code></a></li>
-
       <li><a href="#use-circleci-"><code>use_circleci()</code></a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>

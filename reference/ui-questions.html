@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -43,14 +45,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="User interface - Questions — ui-questions" />
 
+<meta property="og:title" content="User interface - Questions — ui-questions" />
 <meta property="og:description" content="These functions are used to interact with the user by posing a simple yes or
 no question. For details on the other ui_*() functions, see the ui help
 page." />
-
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -144,7 +146,6 @@ page." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
@@ -176,11 +177,9 @@ page." />
     </div>
 
     <div class="ref-description">
-    
     <p>These functions are used to interact with the user by posing a simple yes or
 no question. For details on the other <code>ui_*()</code> functions, see the <a href='ui.html'>ui</a> help
 page.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>ui_yeah</span>(<span class='no'>x</span>, <span class='kw'>yes</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Yes"</span>, <span class='st'>"Definitely"</span>, <span class='st'>"For sure"</span>, <span class='st'>"Yup"</span>, <span class='st'>"Yeah"</span>,
@@ -192,7 +191,7 @@ page.</p>
   <span class='st'>"I agree"</span>, <span class='st'>"Absolutely"</span>), <span class='kw'>no</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"No way"</span>, <span class='st'>"Not now"</span>, <span class='st'>"Negative"</span>, <span class='st'>"No"</span>,
   <span class='st'>"Nope"</span>, <span class='st'>"Absolutely not"</span>), <span class='kw'>n_yes</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n_no</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -233,18 +232,16 @@ shuffled?</p></td>
 environment. For expert use only.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A logical. <code>ui_yeah()</code> returns <code>TRUE</code> when the user selects a "yes"
 option and <code>FALSE</code> otherwise, i.e. when user selects a "no" option or
 refuses to make a selection (cancels). <code>ui_nope()</code> is the logical opposite
 of <code>ui_yeah()</code>.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other user interface functions: <code><a href='ui.html'>ui</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -257,11 +254,8 @@ of <code>ui_yeah()</code>.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

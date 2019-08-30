@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -43,8 +45,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Utility functions for the active project — proj_utils" />
 
+<meta property="og:title" content="Utility functions for the active project — proj_utils" />
 <meta property="og:description" content="Most use_*() functions act on the active project. If it is
 unset, usethis uses rprojroot to
 find the project root of the current working directory. It establishes the
@@ -52,9 +54,9 @@ project root by looking for a .here file, an RStudio Project, a package
 DESCRIPTION, Git infrastructure, a remake.yml file, or a .projectile
 file. It then stores the active project for use for the remainder of the
 session." />
-
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -148,7 +150,6 @@ session." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
@@ -180,7 +181,6 @@ session." />
     </div>
 
     <div class="ref-description">
-    
     <p>Most <code>use_*()</code> functions act on the <strong>active project</strong>. If it is
 unset, usethis uses <a href='https://rprojroot.r-lib.org'>rprojroot</a> to
 find the project root of the current working directory. It establishes the
@@ -188,7 +188,6 @@ project root by looking for a <code>.here</code> file, an RStudio Project, a pac
 <code>DESCRIPTION</code>, Git infrastructure, a <code>remake.yml</code> file, or a <code>.projectile</code>
 file. It then stores the active project for use for the remainder of the
 session.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>proj_get</span>()
@@ -203,7 +202,7 @@ session.</p>
 <span class='fu'>local_project</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"usethis.quiet"</span>, <span class='kw'>default</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>),
   <span class='kw'>.local_envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -243,7 +242,7 @@ temporary active project.</p></td>
 execution environment.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>In general, end user scripts should not contain direct calls to
@@ -253,7 +252,6 @@ usethis. End user code should call functions in
 <a href='https://rprojroot.r-lib.org'>rprojroot</a> or its simpler companion,
 <a href='https://here.r-lib.org'>here</a>, to programmatically detect a project and
 build paths within it.</p>
-    
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     <ul>
@@ -269,11 +267,9 @@ environment goes out of scope, e.g. the end of the current function or
 test.  It is an example of the <code>local_*()</code> functions in
 <a href='https://withr.r-lib.org'>withr</a>.</p></li>
 </ul>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other project functions: <code><a href='proj_sitrep.html'>proj_sitrep</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
@@ -298,13 +294,9 @@ test.  It is an example of the <code>local_*()</code> functions in
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#details">Details</a></li>
-
       <li><a href="#functions">Functions</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
