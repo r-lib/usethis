@@ -18,6 +18,8 @@
 
 * Remove unexported function from the signature of `use_markdown_template()` (#761, @fmichonneau).
 
+* Fix delimiters in CircleCI template used by `use_circleci()` (#835, @jdblischak)
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
