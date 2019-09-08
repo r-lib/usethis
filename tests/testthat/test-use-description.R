@@ -67,3 +67,13 @@ test_that("default description is tidy", {
   desc_lines_after <- readLines(proj_path("DESCRIPTION"))
   expect_identical(desc_lines_before, desc_lines_after)
 })
+
+test_that("valid CRAN names checked", {
+  withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
+  suppressWarnings(
+    scoped_temporary_package(dir = file_temp(pattern = "invalid_pkg_name"))
+  )
+  expect_warning(use_description())
+  expect_error(use_description(stop_for_name = TRUE))
+})
+
