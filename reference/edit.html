@@ -234,12 +234,15 @@ current <strong>project</strong></p></td>
     <p>Path to the file, invisibly.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>edit_r_*()</code> and <code>edit_rstudio_*()</code> functions consult R's notion of
-user's home directory. The <code>edit_git_*()</code> functions -- and <span class="pkg">usethis</span> in
-general -- inherit home directory behaviour from the <span class="pkg">fs</span> package, which
-differs from R itself on Windows. The <span class="pkg">fs</span> default is more conventional
-in terms of the location of user-level Git config files. See
+    <p>The <code>edit_r_*()</code> functions and <code>edit_rstudio_snippets()</code> consult R's notion
+of user's home directory. The <code>edit_git_*()</code> functions -- and <span class="pkg">usethis</span>
+in general -- inherit home directory behaviour from the <span class="pkg">fs</span> package,
+which differs from R itself on Windows. The <span class="pkg">fs</span> default is more
+conventional in terms of the location of user-level Git config files. See
 <code><a href='http://fs.r-lib.org/reference/path_expand.html'>fs::path_home()</a></code> for more details.</p>
+<p>Files created by <code>edit_rstudio_snippets()</code> will <em>mask</em>, not supplement,
+the built-in default snippets. If you like the built-in snippets, copy them
+and include with your custom snippets.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
