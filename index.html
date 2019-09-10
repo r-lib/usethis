@@ -13,14 +13,15 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><!-- docsearch --><script src="docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Automate Package and Project Setup">
 <meta property="og:description" content="Automate package and project setup tasks that are otherwise
     performed manually. This includes setting up unit testing, test 
-    coverage, continuous integration, Git, 'GitHub', licenses, 'Rcpp', 'RStudio' 
+    coverage, continuous integration, Git, GitHub, licenses, Rcpp, RStudio 
     projects, and more.">
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png">
 <meta name="twitter:card" content="summary">
@@ -36,7 +37,7 @@
 </script>
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -96,8 +97,7 @@
       <a href="https://www.tidyverse.org/articles/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
-    </li>
-<li>
+    <li>
       <a href="news/index.html">Change log</a>
     </li>
   </ul>
@@ -106,12 +106,12 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/r-lib/usethis">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
-<form class="navbar-form navbar-right" role="search">
+<form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
@@ -125,13 +125,9 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    
 
-    
-    
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+      </header><div class="row">
+  <div class="contents col-md-9">
 <div id="usethis" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#usethis" class="anchor"></a>usethis <img src="reference/figures/logo.png" align="right" height="139">
@@ -143,7 +139,7 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the released version of usethis from CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"usethis"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"usethis"</span>)</a></code></pre></div>
 <p>Or install the development version from GitHub with:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"r-lib/usethis"</span>)</a></code></pre></div>
@@ -155,13 +151,13 @@
 <p>A few usethis functions have no strong connections to projects and will expect you to provide a path.</p>
 <p>usethis is quite chatty, explaining what it’s doing and assigning you tasks. <code>✔</code> indicates something usethis has done for you. <code>●</code> indicates that you’ll need to do some work yourself.</p>
 <p>Below is a quick look at how usethis can help to set up a package. But remember, many usethis functions are also applicable to analytical projects that are not packages.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(usethis)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># Create a new package -------------------------------------------------</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"mypkg"</span>)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">path &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"mypkg"</span>)</a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="reference/create_package.html">create_package</a></span>(path)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Creating '/tmp/Rtmp9p0uGt/mypkg/'</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ Setting active project to '/tmp/Rtmp9p0uGt/mypkg'</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ✔ Creating '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg/'</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg'</span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ✔ Creating 'R/'</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; ✔ Writing 'DESCRIPTION'</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; Package: mypkg</span></a>
@@ -177,8 +173,8 @@
 <a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; ✔ Setting active project to '&lt;no active project&gt;'</span></a>
 <a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co"># only needed since this session isn't interactive</span></a>
 <a class="sourceLine" id="cb3-22" data-line-number="22"><span class="kw"><a href="reference/proj_activate.html">proj_activate</a></span>(path)</a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; ✔ Changing working directory to '/tmp/Rtmp9p0uGt/mypkg/'</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; ✔ Setting active project to '/tmp/Rtmp9p0uGt/mypkg'</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; ✔ Changing working directory to '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg/'</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; ✔ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg'</span></a>
 <a class="sourceLine" id="cb3-25" data-line-number="25"></a>
 <a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co"># Modify the description ----------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-27" data-line-number="27"><span class="kw"><a href="reference/licenses.html">use_mit_license</a></span>(<span class="st">"My Name"</span>)</a>
@@ -201,14 +197,14 @@
 <a class="sourceLine" id="cb3-44" data-line-number="44"><span class="kw"><a href="reference/use_rcpp.html">use_rcpp</a></span>()</a>
 <a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt; ✔ Creating 'src/'</span></a>
 <a class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt; ✔ Adding '*.o', '*.so', '*.dll' to 'src/.gitignore'</span></a>
-<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/Rtmp9p0uGt/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg/R/mypkg-package.R':</span></a>
 <a class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt;   ## usethis namespace: start</span></a>
 <a class="sourceLine" id="cb3-49" data-line-number="49"><span class="co">#&gt;   #' @useDynLib mypkg, .registration = TRUE</span></a>
 <a class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt;   ## usethis namespace: end</span></a>
 <a class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt;   NULL</span></a>
 <a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt; ✔ Adding 'Rcpp' to LinkingTo field in DESCRIPTION</span></a>
 <a class="sourceLine" id="cb3-53" data-line-number="53"><span class="co">#&gt; ✔ Adding 'Rcpp' to Imports field in DESCRIPTION</span></a>
-<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="co">#&gt; ● Copy and paste the following lines into '/tmp/Rtmp9p0uGt/mypkg/R/mypkg-package.R':</span></a>
+<a class="sourceLine" id="cb3-54" data-line-number="54"><span class="co">#&gt; ● Copy and paste the following lines into '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpWNMVxG/mypkg/R/mypkg-package.R':</span></a>
 <a class="sourceLine" id="cb3-55" data-line-number="55"><span class="co">#&gt;   ## usethis namespace: start</span></a>
 <a class="sourceLine" id="cb3-56" data-line-number="56"><span class="co">#&gt;   #' @importFrom Rcpp sourceCpp</span></a>
 <a class="sourceLine" id="cb3-57" data-line-number="57"><span class="co">#&gt;   ## usethis namespace: end</span></a>
@@ -270,20 +266,26 @@
 <li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
 </ul>
 </div>
+<div class="community">
+<h2>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
+</ul>
+</div>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="http://hadley.nz">Hadley Wickham</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4757-117X" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<a href="http://hadley.nz">Hadley Wickham</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-4757-117X" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 <li>
-<a href="https://jennybryan.org">Jennifer Bryan</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6983-2759" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<a href="https://jennybryan.org">Jennifer Bryan</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6983-2759" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 <li>
 <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
 </div>
 
-
-      <div class="dev-status">
+  <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/r-lib/usethis"><img src="https://travis-ci.org/r-lib/usethis.svg?branch=master" alt="Travis build status"></a></li>
@@ -294,7 +296,6 @@
 </ul>
 </div>
 </div>
-
 </div>
 
 
@@ -303,8 +304,9 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
 </div>
 

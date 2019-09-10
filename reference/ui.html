@@ -25,13 +25,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -56,8 +58,9 @@ ui_info().
 conditions: ui_stop(), ui_warn().
 questions: ui_yeah(), ui_nope().
 inline styles: ui_field(), ui_value(), ui_path(), ui_code().
-" />
-<meta property="og:description" content="The question functions ui_yeah() and ui_nope() have their own help page." />
+
+
+The question functions ui_yeah() and ui_nope() have their own help page." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -83,6 +86,7 @@ inline styles: ui_field(), ui_value(), ui_path(), ui_code().
 
   gtag('config', 'UA-115082821-1');
 </script>
+
 
   </head>
 
@@ -157,13 +161,13 @@ inline styles: ui_field(), ui_value(), ui_path(), ui_code().
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right" role="search">
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -174,6 +178,7 @@ inline styles: ui_field(), ui_value(), ui_path(), ui_code().
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -195,24 +200,25 @@ as usethis.</p>
 <li><p>questions: <code><a href='ui-questions.html'>ui_yeah()</a></code>, <code><a href='ui-questions.html'>ui_nope()</a></code>.</p></li>
 <li><p>inline styles: <code>ui_field()</code>, <code>ui_value()</code>, <code>ui_path()</code>, <code>ui_code()</code>.</p></li>
 </ul>
-    <p>The question functions <code><a href='ui-questions.html'>ui_yeah()</a></code> and <code><a href='ui-questions.html'>ui_nope()</a></code> have their own <a href='ui-questions.html'>help page</a>.</p>
+
+<p>The question functions <code><a href='ui-questions.html'>ui_yeah()</a></code> and <code><a href='ui-questions.html'>ui_nope()</a></code> have their own <a href='ui-questions.html'>help page</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ui_line</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
+    <pre class="usage"><span class='fu'>ui_line</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_todo</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
+<span class='fu'>ui_todo</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_done</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
+<span class='fu'>ui_done</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_oops</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
+<span class='fu'>ui_oops</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_info</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
+<span class='fu'>ui_info</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_code_block</span>(<span class='no'>x</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
+<span class='fu'>ui_code_block</span>(<span class='no'>x</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>(), <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_stop</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
+<span class='fu'>ui_stop</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_warn</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>())
+<span class='fu'>ui_warn</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
 <span class='fu'>ui_field</span>(<span class='no'>x</span>)
 
@@ -229,13 +235,13 @@ as usethis.</p>
       <th>x</th>
       <td><p>A character vector.</p>
 <p>For block styles, conditions, and questions, each element of the
-vector becomes a line, and the result is processed by <code><a href='https://www.rdocumentation.org/packages/glue/topics/glue'>glue::glue()</a></code>.
+vector becomes a line, and the result is processed by <code><a href='https://rdrr.io/pkg/glue/man/glue.html'>glue::glue()</a></code>.
 For inline styles, each element of the vector becomes an entry in a
 comma separated list.</p></td>
     </tr>
     <tr>
       <th>.envir</th>
-      <td><p>Used to ensure that <code><a href='https://www.rdocumentation.org/packages/glue/topics/glue'>glue::glue()</a></code> gets the correct
+      <td><p>Used to ensure that <code><a href='https://rdrr.io/pkg/glue/man/glue.html'>glue::glue()</a></code> gets the correct
 environment. For expert use only.</p></td>
     </tr>
     <tr>
@@ -260,7 +266,7 @@ side-effect. The inline styles return a string.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>new_val</span> <span class='kw'>&lt;-</span> <span class='st'>"oxnard"</span>
 <span class='fu'>ui_done</span>(<span class='st'>"{ui_field('name')} set to {ui_value(new_val)}"</span>)</div><div class='output co'>#&gt; <span style='color: #00BB00;'>✔</span><span> </span><span style='color: #00BB00;'>name</span><span> set to </span><span style='color: #0000BB;'>'oxnard'</span><span></div><div class='input'><span class='fu'>ui_todo</span>(<span class='st'>"Redocument with {ui_code('devtools::document()')}"</span>)</div><div class='output co'>#&gt; </span><span style='color: #BB0000;'>●</span><span> Redocument with </span><span style='color: #555555;'>`devtools::document()`</span><span></div><div class='input'>
-<span class='fu'>ui_code_block</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(
+<span class='fu'>ui_code_block</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
   <span class='st'>"Line 1"</span>,
   <span class='st'>"Line 2"</span>,
   <span class='st'>"Line 3"</span>
@@ -280,14 +286,16 @@ side-effect. The inline styles return a string.</p>
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
@@ -310,6 +318,8 @@ side-effect. The inline styles return a string.</p>
 </script>
 
 
+
   </body>
 </html>
+
 

@@ -13,8 +13,9 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
 <script src="../../pkgdown.js"></script><!-- docsearch --><script src="../../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="usethis setup">
@@ -102,12 +103,12 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/r-lib/usethis">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
-<form class="navbar-form navbar-right" role="search">
+<form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
@@ -121,6 +122,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -152,7 +154,7 @@
 <a href="#use-usethis-or-devtools-in-interactive-work" class="anchor"></a>Use usethis or devtools in interactive work</h2>
 <p>The usethis package was carved out of the <a href="https://devtools.r-lib.org">devtools package</a> as part of its “conscious uncoupling” in <a href="https://www.tidyverse.org/articles/2018/10/devtools-2-0-0/">the v2.0.0 release</a>. But note that devtools makes all of usethis’s functions available and they should feel like they are part of devtools itself. In addition, devtools offers some functions of its own and exposes selected functionality from a few other packages. You might enjoy making devtools (and therefore usethis) available in all your interactive R work.</p>
 <p>Call <code><a href="../../reference/rprofile-helper.html">usethis::use_devtools()</a></code> for prompts to do this:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(devtools) ## or library(usethis)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(devtools) ## or library(usethis)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="../../reference/rprofile-helper.html">use_devtools</a></span>()</a></code></pre></div>
 <p>This will:</p>
@@ -162,13 +164,13 @@
 <li>Prompt you to paste, save, close, restart R. Done!</li>
 </ul>
 <p>The suggested snippet looks like this:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/interactive">interactive</a></span>()) {</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools))</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/interactive.html">interactive</a></span>()) {</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(devtools))</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">}</a></code></pre></div>
 <p>If, for some reason, you would prefer to do same, but only for usethis, call <code><a href="../../reference/rprofile-helper.html">usethis::use_usethis()</a></code> instead. If you decide to attach both packages, we recommend attaching devtools, then usethis.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/interactive">interactive</a></span>()) {</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools))</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(usethis))</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/interactive.html">interactive</a></span>()) {</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(devtools))</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="kw"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(usethis))</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">}</a></code></pre></div>
 <p>More resources on <code>.Rprofile</code>:</p>
 <ul>
@@ -192,10 +194,10 @@
 <code>usethis.description</code>: named list of default DESCRIPTION fields for new packages made with <code><a href="../../reference/create_package.html">usethis::create_package()</a></code>.</li>
 </ul>
 <p>Define any of these options in your <code>.Rprofile</code>, which can be opened for editing via <code><a href="../../reference/edit.html">usethis::edit_r_profile()</a></code>. Here is example code:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="dt">usethis.full_name =</span> <span class="st">"Jane Doe"</span>,</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">usethis.protocol  =</span> <span class="st">"ssh"</span>,</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">usethis.description =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">usethis.description =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5">    <span class="st">`</span><span class="dt">Authors@R</span><span class="st">`</span> =<span class="st"> 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), </span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="st">    comment = c(ORCID = "YOUR-ORCID-ID"))'</span>,</a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">    <span class="dt">License =</span> <span class="st">"MIT + file LICENSE"</span>,</a>
@@ -231,7 +233,7 @@
 <a href="#configure-user-name-and-user-email" class="anchor"></a>Configure <code>user.name</code> and <code>user.email</code>
 </h2>
 <p>Once Git is installed, introduce yourself to Git.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis) ## or library(devtools)</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(usethis) ## or library(devtools)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../../reference/use_git_config.html">use_git_config</a></span>(<span class="dt">user.name =</span> <span class="st">"Jane Doe"</span>, <span class="dt">user.email =</span> <span class="st">"jane@example.com"</span>)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4">## check by running a git situation-report: </a>
@@ -269,21 +271,21 @@
 <a href="#get-and-store-a-github-personal-access-token" class="anchor"></a>Get and store a GitHub personal access token</h2>
 <p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">usethis::use_github()</a></code> and <code><a href="../../reference/create_from_github.html">usethis::create_from_github(..., fork = TRUE)</a></code>. In both cases, usethis must create a new GitHub repository on your behalf. This is <strong>not</strong> a regular Git operation (like pulling and pushing to existing repos) and your usual method of providing credentials to GitHub does not work for this.</p>
 <p>Other functions, such as the <code>pr_*()</code> family, may also use your GitHub PAT for fetch/pull/push if you are using the HTTPS protocol.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(usethis)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="../../reference/browse_github_token.html">browse_github_token</a></span>()</a></code></pre></div>
 <p><code><a href="../../reference/browse_github_token.html">usethis::browse_github_token()</a></code> takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on “Generate new token” from <a href="https://github.com/settings/tokens" class="uri">https://github.com/settings/tokens</a>.</p>
 <p>As the page says, you must <strong>store this token somewhere</strong> because you’ll never be able to see it again, once you leave that page or close the windows. If you somehow goof this up, just generate a new PAT and, so you don’t confuse yourself, delete the lost token.</p>
 <p><code><a href="../../reference/browse_github_token.html">browse_github_token()</a></code> provides advice on how to store your PAT, also repeated here. It is customary to save the PAT as an environment variable in your <code>.Renviron</code>, with the name <code>GITHUB_PAT</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(usethis)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../../reference/edit.html">edit_r_environ</a></span>()</a></code></pre></div>
 <p><code><a href="../../reference/edit.html">usethis::edit_r_environ()</a></code> will open <code>.Renviron</code> for editing. Add a line like this, <strong>but substitute your PAT</strong>:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="va">GITHUB_PAT=</span>8c70fd8419398999c9ac5bacf3192882193cadf2</a></code></pre></div>
 <p>Make sure this file ends in a newline! Lack of a newline can lead to silent failure to load this environment variable, which can be tricky to debug.</p>
 <p>Restart R and confirm your PAT is now available:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.getenv">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)</a>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">## or, alternatively,</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(usethis)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(usethis)</a>
 <a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw"><a href="../../reference/browse_github_token.html">github_token</a></span>()</a></code></pre></div>
 <p>The GitHub section of <code><a href="../../reference/git_sitrep.html">usethis::git_sitrep()</a></code> will also reveal if a PAT is found and, if so, the associated user.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()</a></code></pre></div>
@@ -293,7 +295,7 @@
 <h2 class="hasAnchor">
 <a href="#prepare-your-system-to-build-packages-from-source" class="anchor"></a>Prepare your system to build packages from source</h2>
 <p>As you participate more in R development, you will inevitably want to run development versions of other people’s packages, i.e. not the version available from CRAN. A typical way to do this is to install a package from GitHub with <code>devtools::install_github("OWNER/REPO")</code>.</p>
-<p>But, unlike using <code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages()</a></code> and CRAN, you will be downloading and installing a <em>source</em> package, not a <em>binary</em> package. This means your system needs to be set up for building R packages. And, before long, you will need to build an R package with compiled code in it.</p>
+<p>But, unlike using <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> and CRAN, you will be downloading and installing a <em>source</em> package, not a <em>binary</em> package. This means your system needs to be set up for building R packages. And, before long, you will need to build an R package with compiled code in it.</p>
 <p>A full description of setting up an R development environment is beyond the scope of this article, but we give some pointers and diagnostics to get you started.</p>
 <p>Update R and all of your packages. And expect to keep doing so frequently.</p>
 <p><strong>Mac OS</strong>: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is <em>much smaller</em> than full Xcode. In a shell, enter <code>xcode-select --install</code>. For installing almost anything else, consider using <a href="https://brew.sh">Homebrew</a>.</p>
@@ -301,9 +303,9 @@
 <p>There are functions that verify whether R package build tools are installed and available. The home and name of this function is in flux, as it is affected by the restructing of the devtools universe (written early 2018).</p>
 <ul>
 <li>
-<code><a href="https://www.rdocumentation.org/packages/pkgbuild/topics/has_build_tools">pkgbuild::check_build_tools()</a></code> is the most current function. It can be installed via <code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages("pkgbuild")</a></code>.</li>
+<code><a href="https://rdrr.io/pkg/pkgbuild/man/has_build_tools.html">pkgbuild::check_build_tools()</a></code> is the most current function. It can be installed via <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("pkgbuild")</a></code>.</li>
 <li>
-<code>devtools::has_devel()</code> was a function in devtools, at least up to v1.13.5, so you might still see references to that. All functionality related to package building now lives in pkgbuild. But once you have installed pkgbuild, you should just use the function <code><a href="https://www.rdocumentation.org/packages/pkgbuild/topics/has_build_tools">pkgbuild::check_build_tools()</a></code> instead.</li>
+<code>devtools::has_devel()</code> was a function in devtools, at least up to v1.13.5, so you might still see references to that. All functionality related to package building now lives in pkgbuild. But once you have installed pkgbuild, you should just use the function <code><a href="https://rdrr.io/pkg/pkgbuild/man/has_build_tools.html">pkgbuild::check_build_tools()</a></code> instead.</li>
 </ul>
 </div>
   </div>
@@ -330,13 +332,15 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://jennybryan.org">Jennifer Bryan</a>, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
 </div>
 

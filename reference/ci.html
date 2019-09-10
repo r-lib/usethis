@@ -25,13 +25,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -53,6 +55,7 @@ various platforms, triggered by each push or pull request. These functions
 Add service-specific configuration files and add them to .Rbuildignore.
 Activate a service or give the user a detailed prompt.
 Provide the markdown to insert a badge into README.
+
 " />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -79,6 +82,7 @@ Provide the markdown to insert a badge into README.
 
   gtag('config', 'UA-115082821-1');
 </script>
+
 
   </head>
 
@@ -153,13 +157,13 @@ Provide the markdown to insert a badge into README.
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right" role="search">
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -170,6 +174,7 @@ Provide the markdown to insert a badge into README.
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -188,19 +193,22 @@ various platforms, triggered by each push or pull request. These functions</p><u
 <li><p>Activate a service or give the user a detailed prompt.</p></li>
 <li><p>Provide the markdown to insert a badge into README.</p></li>
 </ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>use_travis</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>ext</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"org"</span>, <span class='st'>"com"</span>))
+    <pre class="usage"><span class='fu'>use_travis</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>(), <span class='kw'>ext</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"org"</span>, <span class='st'>"com"</span>))
 
 <span class='fu'>use_travis_badge</span>(<span class='kw'>ext</span> <span class='kw'>=</span> <span class='st'>"org"</span>)
 
-<span class='fu'>use_appveyor</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())
+<span class='fu'>use_appveyor</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>())
 
 <span class='fu'>use_appveyor_badge</span>()
 
 <span class='fu'>use_gitlab_ci</span>()
 
-<span class='fu'>use_circleci</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>image</span> <span class='kw'>=</span> <span class='st'>"rocker/verse:latest"</span>)</pre>
+<span class='fu'>use_circleci</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>(), <span class='kw'>image</span> <span class='kw'>=</span> <span class='st'>"rocker/verse:latest"</span>)
+
+<span class='fu'>use_azure_pipelines</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,36 +238,49 @@ of R, change the tag from <code>latest</code> to the version you want, e.g.
     <h2 class="hasAnchor" id="use-travis-"><a class="anchor" href="#use-travis-"></a><code>use_travis()</code></h2>
 
     
-    <p>Adds a basic <code>.travis.yml</code> to the top-level directory of a package. This is a
+
+<p>Adds a basic <code>.travis.yml</code> to the top-level directory of a package. This is a
 configuration file for the <a href='https://travis-ci.org/'>Travis CI</a> continuous
 integration service.</p>
     <h2 class="hasAnchor" id="use-travis-badge-"><a class="anchor" href="#use-travis-badge-"></a><code>use_travis_badge()</code></h2>
 
     
-    <p>Only adds the <a href='https://travis-ci.org/'>Travis CI</a> badge. Use for a project
+
+<p>Only adds the <a href='https://travis-ci.org/'>Travis CI</a> badge. Use for a project
 where Travis is already configured.</p>
     <h2 class="hasAnchor" id="use-appveyor-"><a class="anchor" href="#use-appveyor-"></a><code>use_appveyor()</code></h2>
 
     
-    <p>Adds a basic <code>appveyor.yml</code> to the top-level directory of a package. This is
+
+<p>Adds a basic <code>appveyor.yml</code> to the top-level directory of a package. This is
 a configuration file for the <a href='https://www.appveyor.com'>AppVeyor</a> continuous
 integration service for Windows.</p>
     <h2 class="hasAnchor" id="use-appveyor-badge-"><a class="anchor" href="#use-appveyor-badge-"></a><code>use_appveyor_badge()</code></h2>
 
     
-    <p>Only adds the <a href='https://www.appveyor.com'>AppVeyor</a> badge. Use for a project
+
+<p>Only adds the <a href='https://www.appveyor.com'>AppVeyor</a> badge. Use for a project
 where AppVeyor is already configured.</p>
     <h2 class="hasAnchor" id="use-gitlab-ci-"><a class="anchor" href="#use-gitlab-ci-"></a><code>use_gitlab_ci()</code></h2>
 
     
-    <p>Adds a basic <code>.gitlab-ci.yml</code> to the top-level directory of a package. This is
+
+<p>Adds a basic <code>.gitlab-ci.yml</code> to the top-level directory of a package. This is
 a configuration file for the <a href='https://docs.gitlab.com/ee/ci/'>GitLab CI/CD</a> continuous
 integration service for GitLab.</p>
     <h2 class="hasAnchor" id="use-circleci-"><a class="anchor" href="#use-circleci-"></a><code>use_circleci()</code></h2>
 
     
-    <p>Adds a basic <code>.circleci/config.yml</code> to the top-level directory of a package. This is a
+
+<p>Adds a basic <code>.circleci/config.yml</code> to the top-level directory of a package. This is a
 configuration file for the <a href='https://circleci.com/'>CircleCI</a> continuous
+integration service.</p>
+    <h2 class="hasAnchor" id="use-azure-pipelines-"><a class="anchor" href="#use-azure-pipelines-"></a><code>use_azure_pipelines()</code></h2>
+
+    
+
+<p>Adds a basic <code>azure-pipelines.yml</code> to the top-level directory of a package. This is
+a configuration file for the <a href='https://azure.microsoft.com/en-us/services/devops/pipelines/'>Azure Pipelines</a> continuous
 integration service.</p>
 
   </div>
@@ -273,10 +294,12 @@ integration service.</p>
       <li><a href="#use-appveyor-badge-"><code>use_appveyor_badge()</code></a></li>
       <li><a href="#use-gitlab-ci-"><code>use_gitlab_ci()</code></a></li>
       <li><a href="#use-circleci-"><code>use_circleci()</code></a></li>
+      <li><a href="#use-azure-pipelines-"><code>use_azure_pipelines()</code></a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -284,8 +307,9 @@ integration service.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
@@ -308,6 +332,8 @@ integration service.</p>
 </script>
 
 
+
   </body>
 </html>
+
 

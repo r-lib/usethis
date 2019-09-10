@@ -25,13 +25,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -72,6 +74,7 @@
 
   gtag('config', 'UA-115082821-1');
 </script>
+
 
   </head>
 
@@ -146,13 +149,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-lib/usethis">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
       
-      <form class="navbar-form navbar-right" role="search">
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
         </div>
@@ -163,6 +166,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -172,6 +176,23 @@
       <small>Source: <a href='https://github.com/r-lib/usethis/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="usethis-development-version" class="section level1">
+<h1 class="page-header">
+<a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
+</h1>
+<ul>
+<li><p>New <code><a href="../reference/use_lifecycle.html">use_lifecycle()</a></code> helper to import the lifecycle badges for functions and arguments in your package. See <a href="https://lifecycle.r-lib.org/" class="uri">https://lifecycle.r-lib.org/</a>.</p></li>
+<li><p><code><a href="../reference/git_sitrep.html">git_sitrep()</a></code> reports email(s) associated with your GitHub account(<a href='https://github.com/r-lib/usethis/issues/724'>#724</a>, <a href='https://github.com/dragosmg'>@dragosmg</a>).</p></li>
+<li><p>Feature fix, updated issue template to current github format (<a href='https://github.com/r-lib/usethis/issues/756'>#756</a> <a href='https://github.com/Maschette'>@Maschette</a>)</p></li>
+<li><p>The <code><a href="../reference/ui-questions.html">ui_yeah()</a></code> and <code><a href="../reference/ui-questions.html">ui_nope()</a></code> question functions allow a developer to override the default “yes” and “no” strings and to opt-out of shuffling (<a href='https://github.com/r-lib/usethis/issues/796'>#796</a>, <a href='https://github.com/rundel'>@rundel</a>).</p></li>
+<li><p><code><a href="../reference/licenses.html">use_gpl3_license()</a></code> now completes the license by providing additional information in a file named LICENSE, just like <code><a href="../reference/licenses.html">use_mit_license()</a></code> and friends (<a href='https://github.com/r-lib/usethis/issues/683'>#683</a>, <a href='https://github.com/Cervangirard'>@Cervangirard</a>).</p></li>
+<li><p>A new article <a href="https://usethis.r-lib.org/articles/articles/pr-functions.html">Pull request helpers</a> demonstrating the <code>pr_*()</code> functions is available in the usethis website (<a href='https://github.com/r-lib/usethis/issues/802'>#802</a>, <a href='https://github.com/mine-cetinkaya-rundel'>@mine-cetinkaya-rundel</a>).</p></li>
+<li><p>Fix typo in Makefile template generated via <code><a href="../reference/use_make.html">use_make()</a></code> (<a href='https://github.com/r-lib/usethis/issues/804'>#804</a>, <a href='https://github.com/ryapric'>@ryapric</a>).</p></li>
+<li><p>Fix quoting of dataset name in template for <code><a href="../reference/use_data.html">use_data_raw()</a></code> (<a href='https://github.com/r-lib/usethis/issues/736'>#736</a>, <a href='https://github.com/mitchelloharawild'>@mitchelloharawild</a>).</p></li>
+<li><p>Remove unexported function from the signature of <code>use_markdown_template()</code> (<a href='https://github.com/r-lib/usethis/issues/761'>#761</a>, <a href='https://github.com/fmichonneau'>@fmichonneau</a>).</p></li>
+<li><p>Fix delimiters in CircleCI template used by <code><a href="../reference/ci.html">use_circleci()</a></code> (<a href='https://github.com/r-lib/usethis/issues/835'>#835</a>, <a href='https://github.com/jdblischak'>@jdblischak</a>)</p></li>
+</ul>
+</div>
     <div id="usethis-1-5-1" class="section level1">
 <h1 class="page-header">
 <a href="#usethis-1-5-1" class="anchor"></a>usethis 1.5.1<small> 2019-07-04 </small>
@@ -279,7 +300,7 @@
 <a href="#extending-and-wrapping-usethis" class="anchor"></a>Extending and wrapping usethis</h2>
 <ul>
 <li><p>New <code><a href="../reference/proj_activate.html">proj_activate()</a></code> lets you activate a project, either opening a new RStudio session (if you use RStudio) or changing the working directory (<a href='https://github.com/r-lib/usethis/issues/511'>#511</a>).</p></li>
-<li><p><code><a href="../reference/proj_utils.html">proj_get()</a></code> and <code><a href="../reference/proj_utils.html">proj_set()</a></code> no longer have a <code>quiet</code> argument. The user-facing message about setting a project is now under the same control as other messages, i.e. <code><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption("usethis.quiet", default = FALSE)</a></code> (<a href='https://github.com/r-lib/usethis/issues/441'>#441</a>).</p></li>
+<li><p><code><a href="../reference/proj_utils.html">proj_get()</a></code> and <code><a href="../reference/proj_utils.html">proj_set()</a></code> no longer have a <code>quiet</code> argument. The user-facing message about setting a project is now under the same control as other messages, i.e. <code><a href="https://rdrr.io/r/base/options.html">getOption("usethis.quiet", default = FALSE)</a></code> (<a href='https://github.com/r-lib/usethis/issues/441'>#441</a>).</p></li>
 <li>
 <p>A new set of <code>ui_*()</code> functions makes it possible to give your own code the same user interface as usethis (<a href='https://github.com/r-lib/usethis/issues/308'>#308</a>). All use the glue and crayon and packages to power easy interpolation and formatting. There are four families of functions:</p>
 <ul>
@@ -375,7 +396,7 @@
 <a href="#file-system" class="anchor"></a>File system</h2>
 <p>All usethis file system operations now use the <a href="https://fs.r-lib.org">fs</a> package (<a href='https://github.com/r-lib/usethis/issues/177'>#177</a>). This should not change how usethis functions, but users may notice these features of fs-mediated paths:</p>
 <ul>
-<li>Paths are “tidy”, meaning <code>/</code> is the path separator and there are never multiple or trailing <code>/</code>.</li>
+<li>Paths are “tidy”, meaning <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code> is the path separator and there are never multiple or trailing <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code>.</li>
 <li>Paths are UTF-8 encoded.</li>
 <li>A Windows user’s home directory is interpreted as <code>C:\Users\username</code> (typical of Unix-oriented tools, like Git and ssh; also matches Python), as opposed to <code>C:\Users\username\Documents</code> (R’s default on Windows). Read more in <a href="https://fs.r-lib.org/reference/path_expand.html"><code><a href="http://fs.r-lib.org/reference/path_expand.html">fs::path_expand()</a></code></a>.</li>
 </ul>
@@ -393,7 +414,7 @@
 </ul>
 </li>
 <li><p><code><a href="../reference/use_template.html">use_template()</a></code> no longer errors when a user chooses not to overwrite an existing file and simply exits with confirmation that the file is unchanged (<a href='https://github.com/r-lib/usethis/issues/348'>#348</a>, <a href='https://github.com/r-lib/usethis/issues/350'>#350</a>, <a href='https://github.com/boshek'>@boshek</a>).</p></li>
-<li><p><code><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption("usethis.quiet", default = FALSE)</a></code> is consulted when printing user-facing messages. Set this option to <code>TRUE</code> to suppress output, e.g., to use usethis functions quietly in another package. For example, use <code><a href="https://www.rdocumentation.org/packages/withr/topics/with_options">withr::local_options(list(usethis.quiet = TRUE))</a></code> in the calling function (<a href='https://github.com/r-lib/usethis/issues/416'>#416</a>, <a href='https://github.com/r-lib/usethis/issues/424'>#424</a>).</p></li>
+<li><p><code><a href="https://rdrr.io/r/base/options.html">getOption("usethis.quiet", default = FALSE)</a></code> is consulted when printing user-facing messages. Set this option to <code>TRUE</code> to suppress output, e.g., to use usethis functions quietly in another package. For example, use <code><a href="https://rdrr.io/pkg/withr/man/with_options.html">withr::local_options(list(usethis.quiet = TRUE))</a></code> in the calling function (<a href='https://github.com/r-lib/usethis/issues/416'>#416</a>, <a href='https://github.com/r-lib/usethis/issues/424'>#424</a>).</p></li>
 </ul>
 </div>
 <div id="new-functions" class="section level2">
@@ -416,7 +437,7 @@
 <li><p><code><a href="../reference/create_from_github.html">create_from_github()</a></code>: the <code>repo</code> argument is renamed to <code>repo_spec</code>, since it takes input of the form “OWNER/REPO” (<a href='https://github.com/r-lib/usethis/issues/376'>#376</a>).</p></li>
 <li><p><code><a href="../reference/usethis-defunct.html">use_depsy_badge()</a></code> is defunct. The Depsy project has officially concluded and is no longer being maintained (<a href='https://github.com/r-lib/usethis/issues/354'>#354</a>).</p></li>
 <li><p><code><a href="../reference/use_github.html">use_github()</a></code> fails earlier, with a more informative message, in the absence of a GitHub personal access token (PAT). Also looks for the PAT more proactively in the usual environment variables (i.e., GITHUB_PAT, GITHUB_TOKEN) (<a href='https://github.com/r-lib/usethis/issues/320'>#320</a>, <a href='https://github.com/r-lib/usethis/issues/340'>#340</a>, <a href='https://github.com/cderv'>@cderv</a>).</p></li>
-<li><p>The logic for setting DESCRIPTION fields in <code><a href="../reference/create_package.html">create_package()</a></code> and <code><a href="../reference/use_description.html">use_description()</a></code> got a Spring Cleaning. Fields directly specified by the user take precedence, then the named list in <code><a href="https://www.rdocumentation.org/packages/base/topics/options">getOption("usethis.description")</a></code> is consulted, and finally defaults built into usethis. <code><a href="../reference/use_description.html">use_description_defaults()</a></code> is a new function that reveals fields found in options and built into usethis. Options specific to one DESCRIPTION field, e.g. <code>devtools.desc.license</code>, are no longer supported. Instead, use a single named list for all fields, preferably stored in an option named <code>"usethis.description"</code> (however,<code>"devtools.desc"</code> is still consulted for backwards compatibility). (<a href='https://github.com/r-lib/usethis/issues/159'>#159</a>, <a href='https://github.com/r-lib/usethis/issues/233'>#233</a>, <a href='https://github.com/r-lib/usethis/issues/367'>#367</a>)</p></li>
+<li><p>The logic for setting DESCRIPTION fields in <code><a href="../reference/create_package.html">create_package()</a></code> and <code><a href="../reference/use_description.html">use_description()</a></code> got a Spring Cleaning. Fields directly specified by the user take precedence, then the named list in <code><a href="https://rdrr.io/r/base/options.html">getOption("usethis.description")</a></code> is consulted, and finally defaults built into usethis. <code><a href="../reference/use_description.html">use_description_defaults()</a></code> is a new function that reveals fields found in options and built into usethis. Options specific to one DESCRIPTION field, e.g. <code>devtools.desc.license</code>, are no longer supported. Instead, use a single named list for all fields, preferably stored in an option named <code>"usethis.description"</code> (however,<code>"devtools.desc"</code> is still consulted for backwards compatibility). (<a href='https://github.com/r-lib/usethis/issues/159'>#159</a>, <a href='https://github.com/r-lib/usethis/issues/233'>#233</a>, <a href='https://github.com/r-lib/usethis/issues/367'>#367</a>)</p></li>
 </ul>
 </div>
 <div id="dependency-changes-2" class="section level2">
@@ -587,10 +608,10 @@
 <code><a href="../reference/create_package.html">create_package()</a></code> no longer creates a dependency on the current version of
 <p>R.</p>
 </li>
-<li><p><code><a href="../reference/use_build_ignore.html">use_build_ignore()</a></code> now strips trailing <code>/</code></p></li>
+<li><p><code><a href="../reference/use_build_ignore.html">use_build_ignore()</a></code> now strips trailing <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code></p></li>
 <li><p><code><a href="../reference/use_git.html">use_git()</a></code> will restart RStudio if needed (and possible) (<a href='https://github.com/r-lib/usethis/issues/42'>#42</a>).</p></li>
 <li><p><code><a href="../reference/use_github.html">use_github()</a></code> now has an organisation parameter so you can create repos in organisations (<a href='https://github.com/r-lib/usethis/issues/4'>#4</a>).</p></li>
-<li><p><code><a href="../reference/use_template.html">use_template()</a></code> and <code><a href="../reference/use_testthat.html">use_test()</a></code> now convert title to a slug that only contains lowercase letters, numbers, and <code>-</code>.</p></li>
+<li><p><code><a href="../reference/use_template.html">use_template()</a></code> and <code><a href="../reference/use_testthat.html">use_test()</a></code> now convert title to a slug that only contains lowercase letters, numbers, and <code><a href="https://rdrr.io/r/base/Arithmetic.html">-</a></code>.</p></li>
 <li><p><code><a href="../reference/use_vignette.html">use_vignette()</a></code> now adds <code>*.html</code> and <code>*.R</code> to your <code>.gitgnore</code> so you don’t accidentally add in compiled vignette products (<a href='https://github.com/r-lib/usethis/issues/35'>#35</a>).</p></li>
 <li><p><code><a href="../reference/ci.html">use_travis_badge()</a></code> and <code><a href="../reference/ci.html">use_appveyor_badge()</a></code> are now exported functions, so they can be used even if ci was separately set up (<a href='https://github.com/r-lib/usethis/issues/765'>#765</a>, <a href='https://github.com/smwindecker'>@smwindecker</a>).</p></li>
 </ul>
@@ -602,6 +623,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#usethis-development-version">development version</a></li>
         <li><a href="#usethis-1-5-1">1.5.1</a></li>
         <li><a href="#usethis-1-5-0">1.5.0</a></li>
         <li><a href="#usethis-1-4-0">1.4.0</a></li>
@@ -615,14 +637,16 @@
 
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
@@ -645,6 +669,8 @@
 </script>
 
 
+
   </body>
 </html>
+
 
