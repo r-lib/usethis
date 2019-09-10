@@ -43,12 +43,16 @@ edit_file <- function(path) {
 #' * `edit_git_ignore()` opens `.gitignore`
 #' * `edit_rstudio_snippets(type)` opens `.R/snippets/{type}.snippets`
 #'
-#' The `edit_r_*()` and `edit_rstudio_*()` functions consult R's notion of
-#' user's home directory. The `edit_git_*()` functions -- and \pkg{usethis} in
-#' general -- inherit home directory behaviour from the \pkg{fs} package, which
-#' differs from R itself on Windows. The \pkg{fs} default is more conventional
-#' in terms of the location of user-level Git config files. See
+#' The `edit_r_*()` functions and `edit_rstudio_snippets()` consult R's notion
+#' of user's home directory. The `edit_git_*()` functions -- and \pkg{usethis}
+#' in general -- inherit home directory behaviour from the \pkg{fs} package,
+#' which differs from R itself on Windows. The \pkg{fs} default is more
+#' conventional in terms of the location of user-level Git config files. See
 #' [fs::path_home()] for more details.
+#'
+#' Files created by `edit_rstudio_snippets()` will *mask*, not supplement,
+#' the built-in default snippets. If you like the built-in snippets, copy them
+#' and include with your custom snippets.
 #'
 #' @return Path to the file, invisibly.
 #'
