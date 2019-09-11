@@ -108,7 +108,7 @@ use_makevars <- function(settings = NULL) {
   }
 }
 
-use_src_example_script <- function(name, src_type = c("cpp", "c")) {
+use_src_example_script <- function(name = NULL, src_type = c("cpp", "c")) {
   src_type <- match.arg(src_type)
 
   if (!directory_has_files(path("src"))) {
