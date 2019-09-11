@@ -61,6 +61,9 @@ use_rcpp_eigen <- function(name = NULL) {
 #' @rdname use_rcpp
 #' @export
 use_c <- function(name = NULL) {
+  check_is_package("use_c()")
+  check_uses_roxygen("use_c()")
+
   use_src()
 
   use_src_example_script(name, "c")
@@ -69,9 +72,6 @@ use_c <- function(name = NULL) {
 }
 
 use_src <- function() {
-  check_is_package("use_src()")
-  check_uses_roxygen("use_rcpp()")
-
   use_directory("src")
   use_git_ignore(c("*.o", "*.so", "*.dll"), "src")
   roxygen_ns_append(glue("@useDynLib {project_name()}, .registration = TRUE")) &&
