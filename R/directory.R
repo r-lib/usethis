@@ -48,12 +48,12 @@ count_directory_files <- function(x) {
   length(dir_ls(x))
 }
 
-check_directory_has_files <- function(x) {
+directory_has_files <- function(x) {
   count_directory_files(x) >= 1
 }
 
 check_directory_is_empty <- function(x) {
-  if (check_directory_has_files(x)) {
+  if (directory_has_files(x)) {
     ui_stop("{ui_path(x)} exists and is not an empty directory.")
   }
   invisible(x)

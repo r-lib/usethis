@@ -112,8 +112,8 @@ use_src_example_script <- function(name, src_type = c("cpp", "c") ) {
 
   src_type = match.arg(src_type)
 
-  if (is.null(name) && !check_directory_has_files(path("src"))) {
-    name <- "code"
+  if (!directory_has_files(path("src"))) {
+    name <- name %||% "code"
   }
 
   if(!is.null(name)) {
