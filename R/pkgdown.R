@@ -54,7 +54,7 @@ use_pkgdown_travis <- function() {
   # Can't currently detect if git known files in that directory
 
   if (has_logo()) {
-    pkgdown::build_favicon(proj_get())
+    pkgdown::build_favicons(proj_get(), overwrite = TRUE)
     use_build_ignore("pkgdown")
   }
 
