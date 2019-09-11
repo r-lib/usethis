@@ -58,4 +58,3 @@ check_directory_is_empty <- function(x) {
   }
   invisible(x)
 }
-

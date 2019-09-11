@@ -108,15 +108,14 @@ use_makevars <- function(settings = NULL) {
   }
 }
 
-use_src_example_script <- function(name, src_type = c("cpp", "c") ) {
-
-  src_type = match.arg(src_type)
+use_src_example_script <- function(name, src_type = c("cpp", "c")) {
+  src_type <- match.arg(src_type)
 
   if (!directory_has_files(path("src"))) {
     name <- name %||% "code"
   }
 
-  if(!is.null(name)) {
+  if (!is.null(name)) {
     name <- slug(name, src_type)
     check_file_name(name)
     use_template(slug("code", src_type), path("src", name), open = TRUE)
