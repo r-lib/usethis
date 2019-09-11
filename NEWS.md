@@ -1,6 +1,6 @@
 # usethis (development version)
 
-* `use_description()` and `create_package()` gain the argument `stop_for_name` to control whether to allow names invalid for CRAN (#883 @noamross)
+* `use_description()` and `create_package()` gain the argument `check_name` to control whether to check for package names invalid for CRAN (#883, @noamross).
 
 * New `use_lifecycle()` helper to import the lifecycle badges for functions and arguments in your package. See https://lifecycle.r-lib.org/.
 

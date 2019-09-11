@@ -71,7 +71,7 @@ test_that("default description is tidy", {
 test_that("valid CRAN names checked", {
   withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
   scoped_temporary_package(dir = file_temp(pattern = "invalid_pkg_name"))
-  expect_error(use_description(check_name = FALSE), NA)
+  expect_error_free(use_description(check_name = FALSE))
   expect_error(
     use_description(check_name = TRUE),
     "is not a valid package name",

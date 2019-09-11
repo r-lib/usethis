@@ -101,7 +101,7 @@ build_description_list <- function(fields = list()) {
   compact(utils::modifyList(defaults, fields))
 }
 
-check_package_name <- function(name, stop_for_name) {
+check_package_name <- function(name) {
   if (!valid_package_name(name)) {
     ui_stop(c(
       "{ui_value(name)} is not a valid package name. To be allowed on CRAN, it should:",
