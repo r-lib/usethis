@@ -1,8 +1,10 @@
 #' Use C, C++, RcppArmadillo, or RcppEigen
 #'
-#' Creates `src/`, adds required packages to `DESCRIPTION`,
-#' optionally creates `.c` or `.cpp` files with a supplied name or
-#' if the `src/` is empty, and where needed, `Makevars` and `Makevars.win` files.
+#' Adds infrastructure commonly needed when using compiled code:
+#'   * Creates `src/`
+#'   * Adds required packages to `DESCRIPTION`
+#'   * May create an initial placeholder `.c` or `.cpp` file
+#'   * Creates `Makevars` and `Makevars.win` files (`use_rcpp_armadillo()` only)
 #'
 #' @param name If supplied, creates and opens `src/name.{c,cpp}`.
 #'
