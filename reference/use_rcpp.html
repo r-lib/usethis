@@ -49,9 +49,13 @@
 
 
 <meta property="og:title" content="Use C, C++, RcppArmadillo, or RcppEigen — use_rcpp" />
-<meta property="og:description" content="Creates src/, adds required packages to DESCRIPTION,
-optionally creates .c or .cpp files, and
-where needed, Makevars and Makevars.win files." />
+<meta property="og:description" content="Adds infrastructure commonly needed when using compiled code:
+Creates src/
+Adds required packages to DESCRIPTION
+May create an initial placeholder .c or .cpp file
+Creates Makevars and Makevars.win files (use_rcpp_armadillo() only)
+
+" />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -181,9 +185,13 @@ where needed, Makevars and Makevars.win files." />
     </div>
 
     <div class="ref-description">
-    <p>Creates <code>src/</code>, adds required packages to <code>DESCRIPTION</code>,
-optionally creates <code>.c</code> or <code>.cpp</code> files, and
-where needed, <code>Makevars</code> and <code>Makevars.win</code> files.</p>
+    <p>Adds infrastructure commonly needed when using compiled code:</p><ul>
+<li><p>Creates <code>src/</code></p></li>
+<li><p>Adds required packages to <code>DESCRIPTION</code></p></li>
+<li><p>May create an initial placeholder <code>.c</code> or <code>.cpp</code> file</p></li>
+<li><p>Creates <code>Makevars</code> and <code>Makevars.win</code> files (<code>use_rcpp_armadillo()</code> only)</p></li>
+</ul>
+
     </div>
 
     <pre class="usage"><span class='fu'>use_rcpp</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
@@ -203,12 +211,19 @@ where needed, <code>Makevars</code> and <code>Makevars.win</code> files.</p>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>When using compiled code, please note that there must be at least one file
+inside the <code>src/</code> directory prior to building the package. As a result,
+if an empty <code>src/</code> directory is detected, either a <code>.c</code> or <code>.cpp</code> file will
+be added.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>
