@@ -30,8 +30,8 @@
 #' @param fields A named list of fields to add to `DESCRIPTION`, potentially
 #'   overriding default values. See [use_description()] for how you can set
 #'   personalized defaults using package options
-#' @param stop_for_name Whether to throw an error if the package name is not
-#'   valid for CRAN
+#' @param check_name Whether to check if the name is valid for CRAN and throw an
+#'   error if not
 #' @seealso The [description chapter](https://r-pkgs.org/description.html#dependencies)
 #'   of [R Packages](https://r-pkgs.org).
 #' @export
@@ -43,9 +43,11 @@
 #'
 #' use_description_defaults()
 #' }
-use_description <- function(fields = NULL, stop_for_name = FALSE) {
+use_description <- function(fields = NULL, check_name = TRUE) {
   name <- project_name()
-  check_package_name(name, stop_for_name = stop_for_name)
+  if (check_name) {
+    check_package_name(name)
+  }
   fields <- fields %||% list()
   check_is_named_list(fields)
   fields[["Package"]] <- name
@@ -101,20 +103,14 @@ build_description_list <- function(fields = list()) {
 
 check_package_name <- function(name, stop_for_name) {
   if (!valid_package_name(name)) {
-    msg <- c(
+    ui_stop(c(
       "{ui_value(name)} is not a valid package name. To be allowed on CRAN, it should:",
       "* Contain only ASCII letters, numbers, and '.'",
       "* Have at least two characters",
       "* Start with a letter",
       "* Not end with '.'"
-    )
-    if (stop_for_name) {
-      ui_stop(msg)
-    } else {
-      ui_warn(stop_for_name)
-    }
+    ))
   }
-
 }
 
 valid_package_name <- function(x) {

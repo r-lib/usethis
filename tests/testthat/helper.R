@@ -67,7 +67,7 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
   switch(
     thing,
     package = create_package(dir, rstudio = rstudio, open = FALSE,
-                             stop_for_name = FALSE),
+                             check_name = FALSE),
     project = create_project(dir, rstudio = rstudio, open = FALSE)
   )
   proj_set(dir)

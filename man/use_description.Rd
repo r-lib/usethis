@@ -5,7 +5,7 @@
 \alias{use_description_defaults}
 \title{Create or modify a DESCRIPTION file}
 \usage{
-use_description(fields = NULL, stop_for_name = FALSE)
+use_description(fields = NULL, check_name = TRUE)
 
 use_description_defaults()
 }
@@ -14,8 +14,8 @@ use_description_defaults()
 overriding default values. See \code{\link[=use_description]{use_description()}} for how you can set
 personalized defaults using package options}
 
-\item{stop_for_name}{Whether to throw an error if the package name is not
-valid for CRAN}
+\item{check_name}{Whether to check if the name is valid for CRAN and throw an
+error if not}
 }
 \description{
 usethis consults the following sources, in this order, to set \code{DESCRIPTION}

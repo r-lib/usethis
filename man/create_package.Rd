@@ -6,7 +6,7 @@
 \title{Create a package or project}
 \usage{
 create_package(path, fields = NULL,
-  rstudio = rstudioapi::isAvailable(), stop_for_name = TRUE,
+  rstudio = rstudioapi::isAvailable(), check_name = TRUE,
   open = interactive())
 
 create_project(path, rstudio = rstudioapi::isAvailable(),
@@ -27,8 +27,8 @@ that the directory can be recognized as a project by the
 \href{https://here.r-lib.org}{here} or
 \href{https://rprojroot.r-lib.org}{rprojroot} packages.}
 
-\item{stop_for_name}{Whether to throw an error if the package name is not
-valid for CRAN}
+\item{check_name}{Whether to check if the name is valid for CRAN and throw an
+error if not}
 
 \item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
 \itemize{

@@ -30,14 +30,14 @@
 create_package <- function(path,
                            fields = NULL,
                            rstudio = rstudioapi::isAvailable(),
-                           stop_for_name = TRUE,
+                           check_name = TRUE,
                            open = interactive()) {
   path <- user_path_prep(path)
   check_path_is_directory(path_dir(path))
 
   name <- path_file(path)
-  if (stop_for_name) {
-    check_package_name(name, stop_for_name = stop_for_name)
+  if (check_name) {
+    check_package_name(name)
   }
   check_not_nested(path_dir(path), name)
 
@@ -46,7 +46,7 @@ create_package <- function(path,
   on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
-  use_description(fields, stop_for_name = stop_for_name)
+  use_description(fields, check_name = check_name)
   use_namespace()
 
   if (rstudio) {
