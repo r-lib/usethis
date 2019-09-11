@@ -19,7 +19,17 @@ use_c(name = NULL)
 \item{name}{If supplied, creates and opens \code{src/name.{c,cpp}}.}
 }
 \description{
-Creates \code{src/}, adds required packages to \code{DESCRIPTION},
-optionally creates \code{.c} or \code{.cpp} files, and
-where needed, \code{Makevars} and \code{Makevars.win} files.
+Adds infrastructure commonly needed when using compiled code:
+\itemize{
+\item Creates \code{src/}
+\item Adds required packages to \code{DESCRIPTION}
+\item May create an initial placeholder \code{.c} or \code{.cpp} file
+\item Creates \code{Makevars} and \code{Makevars.win} files (\code{use_rcpp_armadillo()} only)
+}
+}
+\details{
+When using compiled code, please note that there must be at least one file
+inside the \code{src/} directory prior to building the package. As a result,
+if an empty \code{src/} directory is detected, either a \code{.c} or \code{.cpp} file will
+be added.
 }

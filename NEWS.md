@@ -12,6 +12,9 @@
 
 * `use_gpl3_license()` now completes the license by providing additional information in a file named LICENSE, just like `use_mit_license()` and friends (#683, @Cervangirard).
 
+* `use_rcpp()` and `use_c()` now ensure `src/` contains at least one `.cpp` or
+  `.c` placeholder file, so that the package can be built (#720, @coatless).
+
 * A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
 
 * Fix typo in Makefile template generated via `use_make()` (#804, @ryapric).
