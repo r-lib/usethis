@@ -150,7 +150,7 @@ proj_path_prep <- function(path) {
 user_path_prep <- function(path) {
   ## usethis uses fs's notion of home directory
   ## this ensures we are consistent about that
-  path_expand(path)
+  path_real(path)
 }
 
 proj_rel_path <- function(path) {
