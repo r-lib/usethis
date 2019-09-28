@@ -107,7 +107,7 @@ edit_rstudio_snippets <- function(type = "r") {
   if (!file_exists(path)) {
     ui_done("File for snippets created {ui_path(path)}")
     ui_warn(c("The default snippets for {ui_field(type)} may not work!",
-      "To restore the default snippets, this file should be deleted and RStudio restarted."))
+      "If it is needed to restore the default snippets, this file should be deleted and RStudio restarted."))
   }
   edit_file(path)
 }
