@@ -104,6 +104,11 @@ edit_rstudio_snippets <- function(type = "r") {
     "javascript", "python", "sql", "stan", "tex")
   type <- match.arg(tolower(type), available_types)
   path <- path_home_r(".R", "snippets", path_ext_set(type, "snippets"))
+  if (!file_exists(path)) {
+    ui_done("File for snippets created {ui_path(path)}")
+    ui_warn(c("The default snippets for {ui_field(type)} may not work!",
+      "To restore the default snippets, this file should be deleted and RStudio restarted."))
+  }
   edit_file(path)
 }
 
