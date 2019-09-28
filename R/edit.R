@@ -95,12 +95,15 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 
 #' @export
 #' @rdname edit
-#' @param type Snippet type. One of: "R", "markdown", "C_Cpp", "Tex",
-#'   "Javascript", "HTML", "SQL"
-edit_rstudio_snippets <- function(type = "R") {
+#' @param type Snippet type. One of: "r", "markdown", "c_cpp", "css", "html",
+#' "java", "javascript", "python", "sql", "stan", "tex" (case insensitive).
+edit_rstudio_snippets <- function(type = "r") {
   # RStudio snippets stored using R's definition of ~
   # https://github.com/rstudio/rstudio/blob/4febd2feba912b2a9f8e77e3454a95c23a09d0a2/src/cpp/core/system/Win32System.cpp#L411-L458
-  path <- path_home_r(".R", "snippets", path_ext_set(tolower(type), "snippets"))
+  available_types <- c("r", "markdown", "c_cpp", "css", "html", "java",
+    "javascript", "python", "sql", "stan", "tex")
+  type <- match.arg(tolower(type), available_types)
+  path <- path_home_r(".R", "snippets", path_ext_set(type, "snippets"))
   edit_file(path)
 }
 
