@@ -19,7 +19,7 @@ edit_r_buildignore(scope = c("user", "project"))
 
 edit_r_makevars(scope = c("user", "project"))
 
-edit_rstudio_snippets(type = "R")
+edit_rstudio_snippets(type = "r")
 
 edit_git_config(scope = c("user", "project"))
 
@@ -29,8 +29,8 @@ edit_git_ignore(scope = c("user", "project"))
 \item{scope}{Edit globally for the current \strong{user}, or locally for the
 current \strong{project}}
 
-\item{type}{Snippet type. One of: "R", "markdown", "C_Cpp", "Tex",
-"Javascript", "HTML", "SQL"}
+\item{type}{Snippet type. One of: "r", "markdown", "c_cpp", "css", "html",
+"java", "javascript", "python", "sql", "stan", "tex" (case insensitive).}
 }
 \value{
 Path to the file, invisibly.
