@@ -56,6 +56,7 @@ test_that("edit_r_XXX('user') ensures the file exists", {
   expect_r_file(".R", "snippets", "r.snippets")
   edit_rstudio_snippets(type = "HTML")
   expect_r_file(".R", "snippets", "html.snippets")
+  expect_error(edit_rstudio_snippets("not-existing-type"))
 })
 
 test_that("edit_r_profile() respects R_PROFILE_USER", {
