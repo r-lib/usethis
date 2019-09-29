@@ -52,9 +52,13 @@ test_that("edit_r_XXX('user') ensures the file exists", {
   edit_r_makevars("user")
   expect_r_file(".R", "Makevars")
 
+  # Expect warning as a new file is created
+  expect_warning(edit_rstudio_snippets(type = "R"))
+  # No warning is expected as the file already exists
   edit_rstudio_snippets(type = "R")
   expect_r_file(".R", "snippets", "r.snippets")
-  edit_rstudio_snippets(type = "HTML")
+  # Expect warning as a new file is created
+  expect_warning(edit_rstudio_snippets(type = "HTML"))
   expect_r_file(".R", "snippets", "html.snippets")
   expect_error(edit_rstudio_snippets("not-existing-type"))
 })
