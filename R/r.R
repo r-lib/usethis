@@ -37,9 +37,8 @@ get_active_r_file <- function(path = "R") {
   if (!rstudioapi::isAvailable()) {
     ui_stop("Argument {ui_code('name')} must be specified.")
   }
-  ## rstudioapi can return a path like '~/path/to/file' where '~' means
-  ## R's notion of user's home directory
-  active_file <- proj_path_prep(rstudioapi::getSourceEditorContext()$path)
+  active_file <- rstudioapi_path_prep(rstudioapi::getSourceEditorContext()$path)
+  active_file <- proj_path_prep(active_file)
 
   rel_path <- proj_rel_path(active_file)
   if (path_dir(rel_path) != path) {

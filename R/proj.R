@@ -153,6 +153,25 @@ user_path_prep <- function(path) {
   path_expand(path)
 }
 
+## rstudioapi can return a path like '~/path/to/file' where '~' means
+## R's notion of user's home directory
+rstudioapi_path_prep <- function(path) {
+  if(!grepl("^~", path)) {
+    return(path)
+  }
+
+  possibilities <- c(path_expand(path), path_expand_r(path))
+
+  exists <- file_exists(possibilities)
+  if (!any(exists)) {
+    ui_stop(
+      "Path does not appear to exist: {ui_path(path)}."
+    )
+  }
+
+  possibilities[exists][[1]]
+}
+
 proj_rel_path <- function(path) {
   if (is_in_proj(path)) {
     path_rel(path, start = proj_get())
