@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_test()` should work again on Windows, when called with no argument, i.e. when the active `.R` file is determined from RStudio's source editor context (#901).
+
 * `use_description()` and `create_package()` gain the argument `check_name` to control whether to check for package names invalid for CRAN (#883, @noamross).
 
 * New `use_lifecycle()` helper to import the lifecycle badges for functions and arguments in your package. See https://lifecycle.r-lib.org/.
