@@ -105,9 +105,11 @@ edit_rstudio_snippets <- function(type = c("r", "markdown", "c_cpp", "css",
 
   path <- path_home_r(".R", "snippets", path_ext_set(type, "snippets"))
   if (!file_exists(path)) {
-    ui_done("File for snippets created {ui_path(path)}")
-    ui_warn(c("The default snippets for {ui_field(type)} may not work!",
-      "If it is needed to restore the default snippets, this file should be deleted and RStudio restarted."))
+    ui_done("New snippet file at {ui_path(path)}")
+    ui_info(c(
+      "This masks the default snippets for {ui_field(type)}.",
+      "Delete this file and restart RStudio to restore the default snippets."
+    ))
   }
   edit_file(path)
 }
