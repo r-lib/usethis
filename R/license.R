@@ -11,7 +11,7 @@
 #'   provides patent protection.
 #' * [GPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing
 #'   of improvements.
-#' * [CCBY 4.0](https://creativecommons.org/licenses/by/4.0/): Free to share and
+#' * [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): Free to share and
 #'    adapt, must give appropriate credit. Appropriate for data packages.
 #'
 #' See <https://choosealicense.com> for more details and other options.
@@ -101,7 +101,7 @@ use_ccby_license <- function(name = find_name()) {
   force(name)
   check_is_package("use_ccby_license()")
 
-  use_description_field("License", "CCBY-4.0", overwrite = TRUE)
+  use_description_field("License", "CC BY 4.0", overwrite = TRUE)
   use_license_template("ccby-4", name)
 }
 
