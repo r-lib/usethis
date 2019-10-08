@@ -84,7 +84,6 @@ options(
   usethis.description = list(
     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), 
     comment = c(ORCID = "YOUR-ORCID-ID"))',
-    License = "MIT + file LICENSE",
     Version = "0.0.0.9000"
   )
 )
