@@ -62,7 +62,6 @@ browse_travis <- function(package = NULL, ext = c("org", "com")) {
 #' @export
 #' @rdname browse-this
 browse_circle <- function(package = NULL) {
-  browser()
   gh <- github_home(package)
   circle_url <- glue::glue("circleci.com/gh")
   view_url(sub("github.com", circle_url, gh))
