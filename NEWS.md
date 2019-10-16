@@ -18,6 +18,8 @@
 
 * Remove unexported function from the signature of `use_markdown_template()` (#761, @fmichonneau).
 
+* Adds AGPL license and explicitly refers to it and to LGPL in DESCRIPTION (#870, @pachamaltese)
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
