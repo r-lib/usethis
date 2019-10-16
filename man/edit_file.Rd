@@ -4,10 +4,14 @@
 \alias{edit_file}
 \title{Open file for editing}
 \usage{
-edit_file(path)
+edit_file(path, open = NULL)
 }
 \arguments{
 \item{path}{Path to target file.}
+
+\item{open}{If, \code{NULL}, the default, will open the file when in an
+interactive environment that is not running tests. Use \code{TRUE} or
+\code{FALSE} to override the default.}
 }
 \value{
 Target path, invisibly.

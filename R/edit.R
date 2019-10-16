@@ -5,7 +5,9 @@
 #' created. If the parent directory does not exist, it is also created.
 #'
 #' @param path Path to target file.
-#'
+#' @param open If, `NULL`, the default, will open the file when in an
+#'   interactive environment that is not running tests. Use `TRUE` or
+#'   `FALSE` to override the default.
 #' @return Target path, invisibly.
 #' @export
 #' @keywords internal
@@ -15,14 +17,14 @@
 #' edit_file("DESCRIPTION")
 #' edit_file("~/.gitconfig")
 #' }
-edit_file <- function(path) {
+edit_file <- function(path, open = NULL) {
   path <- user_path_prep(path)
   create_directory(path_dir(path))
   file_create(path)
 
-  if (!interactive() || is_testing()) {
-    ui_todo("Edit {ui_path(path)}")
-  } else {
+  open <- open %||% (interactive() && !is_testing())
+
+  if (open) {
     ui_todo("Modify {ui_path(path)}")
 
     if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
@@ -30,6 +32,8 @@ edit_file <- function(path) {
     } else {
       utils::file.edit(path)
     }
+  } else {
+    ui_todo("Edit {ui_path(path)}")
   }
   invisible(path)
 }

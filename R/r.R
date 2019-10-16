@@ -12,26 +12,26 @@
 #'   the R file is open, `use_test()` will create/open the corresponding
 #'   test file; if the test file is open, `use_r()` will create/open the
 #'   corresponding R file.
-#' @param open If `TRUE`, opens the file for editing.
+#' @inheritParams edit_file
 #' @seealso The [testing](https://r-pkgs.org/tests.html) and
 #'   [R code](https://r-pkgs.org/r.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
 #' @export
-use_r <- function(name = NULL) {
+use_r <- function(name = NULL, open = NULL) {
   name <- name %||% get_active_r_file(path = "tests/testthat")
   name <- gsub("^test-", "", name)
   name <- slug(name, "R")
   check_file_name(name)
 
   use_directory("R")
-  edit_file(proj_path("R", name))
+  edit_file(proj_path("R", name), open = open)
 
   invisible(TRUE)
 }
 
 #' @rdname use_r
 #' @export
-use_test <- function(name = NULL, open = interactive()) {
+use_test <- function(name = NULL, open = NULL) {
   if (!uses_testthat()) {
     use_testthat()
   }
@@ -42,13 +42,7 @@ use_test <- function(name = NULL, open = interactive()) {
   check_file_name(name)
 
   path <- path("tests", "testthat", name)
-
-  if (file_exists(proj_path(path))) {
-    if (open) {
-      edit_file(proj_path(path))
-    }
-    return(invisible(TRUE))
-  }
+  edit_file(proj_path(path), open = open)
 
   # As of testthat 2.1.0, a context() is no longer needed/wanted
   if (utils::packageVersion("testthat") >= "2.1.0") {

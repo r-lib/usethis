@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `edit_file()` and `use_test()` gain an `open` parameter that allows you to
+  control whether or not the function is opened for editing by the user (#817).
+
 * Document `use_r()` and `use_test()` in the same `.Rd` file (#726, @friep). 
 
 * `use_r()` and `use_test()` would throw an error if multiple names are provided in their 'name' argument (#862, @strboul).
