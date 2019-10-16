@@ -222,3 +222,65 @@ check_uses_circleci <- function(base_path = proj_get()) {
     "
   )
 }
+
+#' @section `use_azure_pipelines()`:
+#' Adds a basic `azure-pipelines.yml` to the top-level directory of a package. This is
+#' a configuration file for the [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) continuous
+#' integration service.
+#' @export
+#' @rdname ci
+use_azure_pipelines <- function(browse = interactive()) {
+  check_uses_github()
+  use_dependency("xml2", "Suggests")
+  use_dependency("covr", "Suggests")
+
+  new <- use_template(
+    "azure-pipelines.yml",
+    "azure-pipelines.yml",
+    ignore = TRUE
+  )
+
+  use_directory(path("tests", "testthat"))
+  use_template(
+    "junit-testthat.R",
+    save_as = path("tests", "testthat.R"),
+    data = list(name = project_name())
+  )
+  azure_activate(browse)
+  use_azure_badge()
+  use_azure_test_badge()
+
+  use_azure_coverage_badge()
+
+  invisible(TRUE)
+}
+
+azure_activate <- function(browse = interactive(), ext = "org") {
+  url <- glue("https://github.com/{github_repo_spec()}/settings/installations")
+
+  ui_todo("Setup a azure project for your repo by configuring the Azure Pipeline GitHub App at {url}")
+  if (browse) {
+    utils::browseURL(url)
+  }
+}
+
+use_azure_badge <- function() {
+  check_uses_github()
+  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=1&branchName=master")
+  img <- glue("https://img.shields.io/azure-devops/build/{github_repo_spec()}/2")
+  use_badge("Azure pipelines build status", url, img)
+}
+
+use_azure_test_badge <- function() {
+  check_uses_github()
+  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=1&branchName=master")
+  img <- glue("https://img.shields.io/azure-devops/tests/{github_repo_spec()}/2?color=brightgreen&compact_message")
+  use_badge("Azure pipelines test status", url, img)
+}
+
+use_azure_coverage_badge <- function() {
+  check_uses_github()
+  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=1&branchName=master")
+  img <- glue("https://img.shields.io/azure-devops/coverage/{github_repo_spec()}/2")
+  use_badge("Azure pipelines coverage status", url, img)
+}

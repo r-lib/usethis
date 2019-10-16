@@ -7,6 +7,7 @@
 \alias{use_appveyor_badge}
 \alias{use_gitlab_ci}
 \alias{use_circleci}
+\alias{use_azure_pipelines}
 \title{Continuous integration setup and badges}
 \usage{
 use_travis(browse = interactive(), ext = c("org", "com"))
@@ -20,6 +21,8 @@ use_appveyor_badge()
 use_gitlab_ci()
 
 use_circleci(browse = interactive(), image = "rocker/verse:latest")
+
+use_azure_pipelines(browse = interactive())
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -83,6 +86,13 @@ integration service for GitLab.
 
 Adds a basic \code{.circleci/config.yml} to the top-level directory of a package. This is a
 configuration file for the \href{https://circleci.com/}{CircleCI} continuous
+integration service.
+}
+
+\section{\code{use_azure_pipelines()}}{
+
+Adds a basic \code{azure-pipelines.yml} to the top-level directory of a package. This is
+a configuration file for the \href{https://azure.microsoft.com/en-us/services/devops/pipelines/}{Azure Pipelines} continuous
 integration service.
 }
 

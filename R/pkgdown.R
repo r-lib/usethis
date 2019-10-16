@@ -5,7 +5,14 @@
 #'   * `use_pkgdown()`: creates a pkgdown config file and adds the file and
 #'     destination directory to `.Rbuildignore`.
 #'   * `use_pkgdown_travis()`: helps you set up pkgdown for automatic deployment
-#'     on Travis-CI.
+#'     on Travis-CI. Specifically, it:
+#'       * Adds the `docs/` folder to `.gitignore` and `.Rbuildignore`.
+#'       * Builds favicons if your package contains a package logo,
+#'         and adds the resulting `pkgdown/` folder to `.Rbuildignore`.
+#'       * Creates an empty `gh-pages` branch for the pkgdown site to be
+#'         deployed to.
+#'       * Prompts you about what to do next regarding Travis-CI deployment
+#'         keys and updating your `.travis.yml`.
 #'
 #' @seealso <https://pkgdown.r-lib.org/articles/pkgdown.html#configuration>
 #' @param config_file Path to the pkgdown yaml config file
@@ -47,7 +54,7 @@ use_pkgdown_travis <- function() {
   # Can't currently detect if git known files in that directory
 
   if (has_logo()) {
-    pkgdown::build_favicon(proj_get())
+    pkgdown::build_favicons(proj_get(), overwrite = TRUE)
     use_build_ignore("pkgdown")
   }
 
@@ -71,6 +78,8 @@ use_pkgdown_travis <- function() {
 }
 
 create_gh_pages_branch <- function() {
+  ui_done("Initializing empty gh-pages branch")
+
   # git hash-object -t tree /dev/null.
   sha_empty_tree <- "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
 

@@ -37,7 +37,7 @@ to public domain. Appropriate for data packages.
 provides patent protection.
 \item \href{https://choosealicense.com/licenses/gpl-3.0/}{GPL v3}: requires sharing
 of improvements.
-\item \href{https://creativecommons.org/licenses/by/4.0/}{CCBY 4.0}: Free to share and
+\item \href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}: Free to share and
 adapt, must give appropriate credit. Appropriate for data packages.
 }
 

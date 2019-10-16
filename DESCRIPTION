@@ -42,7 +42,7 @@ Suggests:
     covr,
     knitr,
     magick,
-    pkgdown (>= 1.1.0),
+    pkgdown (>= 1.4.0),
     rmarkdown,
     roxygen2,
     spelling (>= 1.2),
