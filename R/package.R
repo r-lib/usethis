@@ -22,7 +22,10 @@
 #' use_dev_package("glue")
 #' }
 use_package <- function(package, type = "Imports", min_version = NULL) {
-  refuse_package(package, verboten = "tidyverse")
+
+  if (type == "Imports") {
+    refuse_package(package, verboten = "tidyverse")
+  }
 
   use_dependency(package, type, min_version = min_version)
   how_to_use(package, type)
@@ -59,24 +62,32 @@ use_remote <- function(package) {
 
 # Helpers -----------------------------------------------------------------
 
-## TO DO: make this less hard-wired to GitHub?
+## TO DO: make this less hard-wired to GitHub
 package_remote <- function(package) {
   desc <- desc::desc(package = package)
-  github_info <- desc$get(c("GithubUsername", "GithubRepo"))
+  # @jimhester and @gaborscardi say that the Github* fields are basically
+  # legacy, e.g., to support older tools like packrat
+  # Remote* fields are the way to go now
+  github_info <- desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo"))
 
-  if (any(is.na(github_info))) {
+  if (!identical(github_info[["RemoteType"]], "github")) {
     ui_stop("{ui_value(package)} was not installed from GitHub.")
   }
 
-  glue_collapse(github_info, sep = "/")
+  glue::glue_data(as.list(github_info), "{RemoteUsername}/{RemoteRepo}")
 }
 
 refuse_package <- function(package, verboten) {
   if (identical(package, verboten)) {
+    code <- glue("use_package(\"{package}\", type = \"depends\")")
     ui_stop(
       "{ui_value(package)} is a meta-package and it is rarely a good idea to \\
       depend on it. Please determine the specific underlying package(s) that \\
-      offer the function(s) you need and depend on that instead."
+      offer the function(s) you need and depend on that instead. \\
+      For data analysis projects that use a package structure but do not implement \\
+      a formal R package, adding {ui_value(package)} to Depends is a \\
+      reasonable compromise. Call {ui_code(code)} to achieve this.
+      "
     )
   }
   invisible(package)

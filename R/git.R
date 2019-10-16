@@ -487,6 +487,15 @@ git_sitrep <- function() {
       http_error_401 = function(e) ui_oops("Token is invalid."),
       error = function(e) ui_oops("Can't validate token. Is the network reachable?")
     )
+    tryCatch(
+      {
+        emails <- unlist(gh::gh("/user/emails", .token = github_token()))
+        emails <- emails[names(emails) == "email"]
+        kv_line("Email(s)", emails)
+      },
+      http_error_404 = function(e) kv_line("Email(s)", "<unknown>"),
+      error = function(e) ui_oops("Can't validate token. Is the network reachable?")
+    )
   } else {
     kv_line("Personal access token", NULL)
   }

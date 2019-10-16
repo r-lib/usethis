@@ -78,6 +78,7 @@ reference:
     - matches("readme")
     - matches("pkgdown|badge")
     - use_github_links
+    - use_lifecycle
   - title: Package release
     contents:
     - matches("release")

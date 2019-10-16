@@ -2,18 +2,27 @@
 % Please edit documentation in R/ci.R
 \name{ci}
 \alias{use_travis}
+\alias{use_travis_badge}
 \alias{use_appveyor}
+\alias{use_appveyor_badge}
 \alias{use_gitlab_ci}
 \alias{use_circleci}
+\alias{use_azure_pipelines}
 \title{Continuous integration setup and badges}
 \usage{
 use_travis(browse = interactive(), ext = c("org", "com"))
 
+use_travis_badge(ext = "org")
+
 use_appveyor(browse = interactive())
+
+use_appveyor_badge()
 
 use_gitlab_ci()
 
 use_circleci(browse = interactive(), image = "rocker/verse:latest")
+
+use_azure_pipelines(browse = interactive())
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -47,11 +56,23 @@ configuration file for the \href{https://travis-ci.org/}{Travis CI} continuous
 integration service.
 }
 
+\section{\code{use_travis_badge()}}{
+
+Only adds the \href{https://travis-ci.org/}{Travis CI} badge. Use for a project
+where Travis is already configured.
+}
+
 \section{\code{use_appveyor()}}{
 
 Adds a basic \code{appveyor.yml} to the top-level directory of a package. This is
 a configuration file for the \href{https://www.appveyor.com}{AppVeyor} continuous
 integration service for Windows.
+}
+
+\section{\code{use_appveyor_badge()}}{
+
+Only adds the \href{https://www.appveyor.com}{AppVeyor} badge. Use for a project
+where AppVeyor is already configured.
 }
 
 \section{\code{use_gitlab_ci()}}{
@@ -65,6 +86,13 @@ integration service for GitLab.
 
 Adds a basic \code{.circleci/config.yml} to the top-level directory of a package. This is a
 configuration file for the \href{https://circleci.com/}{CircleCI} continuous
+integration service.
+}
+
+\section{\code{use_azure_pipelines()}}{
+
+Adds a basic \code{azure-pipelines.yml} to the top-level directory of a package. This is
+a configuration file for the \href{https://azure.microsoft.com/en-us/services/devops/pipelines/}{Azure Pipelines} continuous
 integration service.
 }
 

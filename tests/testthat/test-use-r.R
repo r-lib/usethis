@@ -5,3 +5,7 @@ test_that("use_r() creates a .R file below R/", {
   use_r("foo")
   expect_proj_file("R/foo.R")
 })
+
+test_that("check_file_name() requires single vector", {
+  expect_usethis_error(check_file_name(c("a", "b")), "single string")
+})

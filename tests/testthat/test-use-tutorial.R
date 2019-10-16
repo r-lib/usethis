@@ -14,7 +14,7 @@ test_that("use_tutorial() creates a tutorial", {
     `usethis:::is_installed` = function(pkg) TRUE, {
       scoped_temporary_package()
       use_tutorial(name = "aaa", title = "bbb")
-      tute_file <- path("inst", "tutorials", "aaa", ext = "Rmd")
+      tute_file <- path("inst", "tutorials", "aaa", "aaa", ext = "Rmd")
       expect_proj_file(tute_file)
       expect_equal(rmarkdown::yaml_front_matter(tute_file)$title, "bbb")
     }
