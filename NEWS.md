@@ -31,6 +31,8 @@
 
 * Fix delimiters in CircleCI template used by `use_circleci()` (#835, @jdblischak)
 
+* Adds AGPL license and explicitly refers to it and to LGPL in DESCRIPTION (#870, @pachamaltese)
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
