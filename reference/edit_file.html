@@ -186,7 +186,7 @@ via <code><a href='https://rdrr.io/r/utils/file.edit.html'>utils::file.edit()</a
 created. If the parent directory does not exist, it is also created.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>edit_file</span>(<span class='no'>path</span>)</pre>
+    <pre class="usage"><span class='fu'>edit_file</span>(<span class='no'>path</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,6 +194,12 @@ created. If the parent directory does not exist, it is also created.</p>
     <tr>
       <th>path</th>
       <td><p>Path to target file.</p></td>
+    </tr>
+    <tr>
+      <th>open</th>
+      <td><p>If, <code>NULL</code>, the default, will open the file when in an
+interactive environment that is not running tests. Use <code>TRUE</code> or
+<code>FALSE</code> to override the default.</p></td>
     </tr>
     </table>
 

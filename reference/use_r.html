@@ -192,9 +192,9 @@ to create (or navigate to) the paired file based on the currently open
 script.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_r</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>use_r</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>use_test</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>())</pre>
+<span class='fu'>use_test</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,7 +209,9 @@ corresponding R file.</p></td>
     </tr>
     <tr>
       <th>open</th>
-      <td><p>If <code>TRUE</code>, opens the file for editing.</p></td>
+      <td><p>If, <code>NULL</code>, the default, will open the file when in an
+interactive environment that is not running tests. Use <code>TRUE</code> or
+<code>FALSE</code> to override the default.</p></td>
     </tr>
     </table>
 
