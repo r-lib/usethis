@@ -21,8 +21,7 @@ use_r <- function(name = NULL) {
 
 check_file_name <- function(name) {
   if (!is_string(name)) {
-    ui_stop(c("Provided name(s) {ui_value(name)} not a proper string.",
-              "Please only provide a character name having a length of one."))
+    ui_stop("Name must be a single string")
   }
   if (!valid_file_name(path_ext_remove(name))) {
     ui_stop(c(

@@ -6,7 +6,6 @@ test_that("use_r() creates a .R file below R/", {
   expect_proj_file("R/foo.R")
 })
 
-test_that("use_r() doesn't accept multiple file names", {
-  pkg <- scoped_temporary_package()
-  expect_error(use_r(c("file1", "file2")))
+test_that("check_file_name() requires single vector", {
+  expect_usethis_error(check_file_name(c("a", "b")), "single string")
 })
