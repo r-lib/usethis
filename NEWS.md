@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_lifecycle()` now adds `@importFrom lifecycle deprecate_soft` to 
+  silent an R CMD check note (#896).
+
 * `create_package()` now turns markdown processing for roxygen2 on by default 
   (#911).
 
