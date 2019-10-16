@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `create_package()` now turns markdown processing for roxygen2 on by default 
+  (#911).
+
 * `edit_file()` and `use_test()` gain an `open` parameter that allows you to
   control whether or not the function is opened for editing by the user (#817).
 
