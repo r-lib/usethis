@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_r()` and `use_test()` would throw an error if multiple names are provided in their 'name' argument (#862, @strboul).
+
 * `edit_rstudio_snippets()` makes it more clear which snippet types are allowed and that user's snippets mask the built-in snippets (#885, @GegznaV).
 
 * `use_test()` should work again on Windows, when called with no argument, i.e. when the active `.R` file is determined from RStudio's source editor context (#901).
