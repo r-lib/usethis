@@ -1,4 +1,4 @@
-#' Use roxygen with markdown
+#' Use roxygen2 with markdown
 #'
 #' If you are already using roxygen2, but not with markdown, you'll need to use
 #' [roxygen2md](https://roxygen2md.r-lib.org) to convert existing Rd

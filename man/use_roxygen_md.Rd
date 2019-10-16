@@ -2,7 +2,7 @@
 % Please edit documentation in R/roxygen.R
 \name{use_roxygen_md}
 \alias{use_roxygen_md}
-\title{Use roxygen with markdown}
+\title{Use roxygen2 with markdown}
 \usage{
 use_roxygen_md()
 }
