@@ -8,9 +8,3 @@ test_that("use_testhat() sets up infrastructure", {
   expect_proj_file("tests", "testthat.R")
   expect_true(uses_testthat())
 })
-
-test_that("use_test() creates a test file", {
-  pkg <- scoped_temporary_package()
-  use_test("foo", open = FALSE)
-  expect_proj_file("tests", "testthat", "test-foo.R")
-})

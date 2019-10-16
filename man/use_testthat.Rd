@@ -2,16 +2,13 @@
 % Please edit documentation in R/test.R
 \name{use_testthat}
 \alias{use_testthat}
-\title{Sets up overall testing infrastructure
-creates
-\code{tests/testthat/}, \code{tests/testthat.R}, and adds testthat to Suggests.}
+\title{Sets up overall testing infrastructure}
 \usage{
 use_testthat()
 }
 \description{
-Sets up overall testing infrastructure
-creates
-\code{tests/testthat/}, \code{tests/testthat.R}, and adds testthat to Suggests.
+Creates \code{tests/testthat/}, \code{tests/testthat.R}, and adds the testthat package
+to the Suggests field. Learn more in \url{https://r-pkgs.org/tests.html}
 }
 \examples{
 \dontrun{
@@ -23,5 +20,5 @@ use_test("something-management")
 }
 }
 \seealso{
-\link{use_test} to create test files. The \href{https://r-pkgs.org/tests.html}{testing chapter} of \href{https://r-pkgs.org}{R Packages}.
+\code{\link[=use_test]{use_test()}} to create individual test files
 }
