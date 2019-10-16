@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create tests — use_testthat • usethis</title>
+<title>Sets up overall testing infrastructure — use_testthat • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,14 +48,9 @@
 
 
 
-<meta property="og:title" content="Create tests — use_testthat" />
-<meta property="og:description" content="There are two helper functions:
-use_testthat() sets up overall testing infrastructure: creates
-tests/testthat/, tests/testthat.R, and adds testthat to Suggests.
-use_test() sets up individual test files: creates
-tests/testthat/test-&amp;lt;name&amp;gt;.R and, optionally, opens it for editing.
-
-" />
+<meta property="og:title" content="Sets up overall testing infrastructure — use_testthat" />
+<meta property="og:description" content="Creates tests/testthat/, tests/testthat.R, and adds the testthat package
+to the Suggests field. Learn more in https://r-pkgs.org/tests.html" />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -179,57 +174,35 @@ tests/testthat/test-&amp;lt;name&amp;gt;.R and, optionally, opens it for editing
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create tests</h1>
+    <h1>Sets up overall testing infrastructure</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/test.R'><code>R/test.R</code></a></small>
     <div class="hidden name"><code>use_testthat.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>There are two helper functions:</p><ul>
-<li><p><code>use_testthat()</code> sets up overall testing infrastructure: creates
-<code>tests/testthat/</code>, <code>tests/testthat.R</code>, and adds testthat to Suggests.</p></li>
-<li><p><code>use_test()</code> sets up individual test files: creates
-<code>tests/testthat/test-&lt;name&gt;.R</code> and, optionally, opens it for editing.</p></li>
-</ul>
-
+    <p>Creates <code>tests/testthat/</code>, <code>tests/testthat.R</code>, and adds the testthat package
+to the Suggests field. Learn more in <a href='https://r-pkgs.org/tests.html'>https://r-pkgs.org/tests.html</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_testthat</span>()
+    <pre class="usage"><span class='fu'>use_testthat</span>()</pre>
 
-<span class='fu'>use_test</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>())</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>name</th>
-      <td><p>Base of test file name. If <code>NULL</code>, and you're using RStudio, will
-be based on the name of the file open in the source editor.</p></td>
-    </tr>
-    <tr>
-      <th>open</th>
-      <td><p>Open the newly created file for editing? Happens in RStudio, if
-applicable, or via <code><a href='https://rdrr.io/r/utils/file.edit.html'>utils::file.edit()</a></code> otherwise.</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>The <a href='https://r-pkgs.org/tests.html'>testing chapter</a> of <a href='https://r-pkgs.org'>R Packages</a>.</p></div>
+    <div class='dont-index'><p><code><a href='use_r.html'>use_test()</a></code> to create individual test files</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>use_testthat</span>()
 
-<span class='fu'>use_test</span>()
+<span class='fu'><a href='use_r.html'>use_test</a></span>()
 
-<span class='fu'>use_test</span>(<span class='st'>"something-management"</span>)
+<span class='fu'><a href='use_r.html'>use_test</a></span>(<span class='st'>"something-management"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

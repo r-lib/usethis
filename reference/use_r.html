@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create or edit a .R file — use_r • usethis</title>
+<title>Create or edit R or test files — use_r • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,8 +48,13 @@
 
 
 
-<meta property="og:title" content="Create or edit a .R file — use_r" />
-<meta property="og:description" content="Create or edit a .R file" />
+<meta property="og:title" content="Create or edit R or test files — use_r" />
+<meta property="og:description" content="This pair of functions makes it easy to create paired R and test files,
+using the convention that the tests for R/foofy.R should live
+in tests/testhat/test-foofy.R. You can use them to create new files
+from scratch by supplying name, or if you use RStudio, you can call
+to create (or navigate to) the paired file based on the currently open
+script." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -173,31 +178,46 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create or edit a .R file</h1>
+    <h1>Create or edit R or test files</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/r.R'><code>R/r.R</code></a></small>
     <div class="hidden name"><code>use_r.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create or edit a .R file</p>
+    <p>This pair of functions makes it easy to create paired R and test files,
+using the convention that the tests for <code>R/foofy.R</code> should live
+in <code>tests/testhat/test-foofy.R</code>. You can use them to create new files
+from scratch by supplying <code>name</code>, or if you use RStudio, you can call
+to create (or navigate to) the paired file based on the currently open
+script.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_r</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>use_r</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>use_test</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>open</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>File name, without extension; will create if it doesn't already
-exist. If not specified, and you're currently in a test file, will guess
-name based on test name.</p></td>
+      <td><p>Either a name without extension, or <code>NULL</code> to create the
+paired file based on currently open file in the script editor. If
+the R file is open, <code>use_test()</code> will create/open the corresponding
+test file; if the test file is open, <code>use_r()</code> will create/open the
+corresponding R file.</p></td>
+    </tr>
+    <tr>
+      <th>open</th>
+      <td><p>If <code>TRUE</code>, opens the file for editing.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='use_testthat.html'>use_test()</a></code>, and also the <a href='https://r-pkgs.org/r.html'>R code chapter</a> of <a href='https://r-pkgs.org'>R Packages</a>.</p></div>
+    <div class='dont-index'><p>The <a href='https://r-pkgs.org/tests.html'>testing</a> and
+<a href='https://r-pkgs.org/r.html'>R code</a> chapters of
+<a href='https://r-pkgs.org'>R Packages</a>.</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
