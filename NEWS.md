@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* Document `use_r()` and `use_test()` in the same `.Rd` file (#726, @friep). 
+
 * `use_r()` and `use_test()` would throw an error if multiple names are provided in their 'name' argument (#862, @strboul).
 
 * `edit_rstudio_snippets()` makes it more clear which snippet types are allowed and that user's snippets mask the built-in snippets (#885, @GegznaV).

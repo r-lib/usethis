@@ -2,18 +2,32 @@
 % Please edit documentation in R/r.R
 \name{use_r}
 \alias{use_r}
-\title{Create or edit a .R file}
+\alias{use_test}
+\title{Create or edit R or test files}
 \usage{
 use_r(name = NULL)
+
+use_test(name = NULL, open = interactive())
 }
 \arguments{
-\item{name}{File name, without extension; will create if it doesn't already
-exist. If not specified, and you're currently in a test file, will guess
-name based on test name.}
+\item{name}{Either a name without extension, or \code{NULL} to create the
+paired file based on currently open file in the script editor. If
+the R file is open, \code{use_test()} will create/open the corresponding
+test file; if the test file is open, \code{use_r()} will create/open the
+corresponding R file.}
+
+\item{open}{If \code{TRUE}, opens the file for editing.}
 }
 \description{
-Create or edit a .R file
+This pair of functions makes it easy to create paired R and test files,
+using the convention that the tests for \code{R/foofy.R} should live
+in \code{tests/testhat/test-foofy.R}. You can use them to create new files
+from scratch by supplying \code{name}, or if you use RStudio, you can call
+to create (or navigate to) the paired file based on the currently open
+script.
 }
 \seealso{
-\code{\link[=use_test]{use_test()}}, and also the \href{https://r-pkgs.org/r.html}{R code chapter} of \href{https://r-pkgs.org}{R Packages}.
+The \href{https://r-pkgs.org/tests.html}{testing} and
+\href{https://r-pkgs.org/r.html}{R code} chapters of
+\href{https://r-pkgs.org}{R Packages}.
 }
