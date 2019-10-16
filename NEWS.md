@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* Document `use_r()` and `use_test()` in the same `.Rd` file (#726, @friep). 
+
 * `use_r()` and `use_test()` would throw an error if multiple names are provided in their 'name' argument (#862, @strboul).
 
 * `edit_rstudio_snippets()` makes it more clear which snippet types are allowed and that user's snippets mask the built-in snippets (#885, @GegznaV).
@@ -24,7 +26,6 @@
 * A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
 
 * Fix typo in Makefile template generated via `use_make()` (#804, @ryapric).
-* Document `use_r` and `use_test` in the same `.Rd` file (#726, @friep). 
 
 * Fix quoting of dataset name in template for `use_data_raw()` (#736, @mitchelloharawild).
 
