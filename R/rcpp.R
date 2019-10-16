@@ -1,10 +1,20 @@
 #' Use C, C++, RcppArmadillo, or RcppEigen
 #'
-#' Creates `src/`, adds required packages to `DESCRIPTION`,
-#' optionally creates `.c` or `.cpp` files, and
-#' where needed, `Makevars` and `Makevars.win` files.
+#' Adds infrastructure commonly needed when using compiled code:
+#'   * Creates `src/`
+#'   * Adds required packages to `DESCRIPTION`
+#'   * May create an initial placeholder `.c` or `.cpp` file
+#'   * Creates `Makevars` and `Makevars.win` files (`use_rcpp_armadillo()` only)
 #'
 #' @param name If supplied, creates and opens `src/name.{c,cpp}`.
+#'
+#' @details
+#'
+#' When using compiled code, please note that there must be at least one file
+#' inside the `src/` directory prior to building the package. As a result,
+#' if an empty `src/` directory is detected, either a `.c` or `.cpp` file will
+#' be added.
+#'
 #' @export
 use_rcpp <- function(name = NULL) {
   check_is_package("use_rcpp()")
@@ -16,12 +26,7 @@ use_rcpp <- function(name = NULL) {
   use_dependency("Rcpp", "Imports")
   roxygen_ns_append("@importFrom Rcpp sourceCpp") && roxygen_update()
 
-  if (!is.null(name)) {
-    name <- slug(name, "cpp")
-    check_file_name(name)
-
-    use_template("code.cpp", path("src", name), open = TRUE)
-  }
+  use_src_example_script(name, "cpp")
 
   invisible()
 }
@@ -58,22 +63,17 @@ use_rcpp_eigen <- function(name = NULL) {
 #' @rdname use_rcpp
 #' @export
 use_c <- function(name = NULL) {
+  check_is_package("use_c()")
+  check_uses_roxygen("use_c()")
+
   use_src()
 
-  if (!is.null(name)) {
-    name <- slug(name, "c")
-    check_file_name(name)
-
-    use_template("code.c", path("src", name), open = TRUE)
-  }
+  use_src_example_script(name, "c")
 
   invisible(TRUE)
 }
 
 use_src <- function() {
-  check_is_package("use_src()")
-  check_uses_roxygen("use_rcpp()")
-
   use_directory("src")
   use_git_ignore(c("*.o", "*.so", "*.dll"), "src")
   roxygen_ns_append(glue("@useDynLib {project_name()}, .registration = TRUE")) &&
@@ -107,5 +107,19 @@ use_makevars <- function(settings = NULL) {
     )
     edit_file(makevars_path)
     edit_file(makevars_win_path)
+  }
+}
+
+use_src_example_script <- function(name = NULL, src_type = c("cpp", "c")) {
+  src_type <- match.arg(src_type)
+
+  if (!directory_has_files(path("src"))) {
+    name <- name %||% "code"
+  }
+
+  if (!is.null(name)) {
+    name <- slug(name, src_type)
+    check_file_name(name)
+    use_template(slug("code", src_type), path("src", name), open = interactive())
   }
 }

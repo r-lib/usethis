@@ -120,7 +120,7 @@ use_ccby_license <- function(name = find_name()) {
   force(name)
   check_is_package("use_ccby_license()")
 
-  use_description_field("License", "CCBY-4.0", overwrite = TRUE)
+  use_description_field("License", "CC BY 4.0", overwrite = TRUE)
   use_license_template("ccby-4", name)
 }
 

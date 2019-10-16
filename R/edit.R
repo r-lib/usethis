@@ -43,12 +43,16 @@ edit_file <- function(path) {
 #' * `edit_git_ignore()` opens `.gitignore`
 #' * `edit_rstudio_snippets(type)` opens `.R/snippets/{type}.snippets`
 #'
-#' The `edit_r_*()` and `edit_rstudio_*()` functions consult R's notion of
-#' user's home directory. The `edit_git_*()` functions -- and \pkg{usethis} in
-#' general -- inherit home directory behaviour from the \pkg{fs} package, which
-#' differs from R itself on Windows. The \pkg{fs} default is more conventional
-#' in terms of the location of user-level Git config files. See
+#' The `edit_r_*()` functions and `edit_rstudio_snippets()` consult R's notion
+#' of user's home directory. The `edit_git_*()` functions -- and \pkg{usethis}
+#' in general -- inherit home directory behaviour from the \pkg{fs} package,
+#' which differs from R itself on Windows. The \pkg{fs} default is more
+#' conventional in terms of the location of user-level Git config files. See
 #' [fs::path_home()] for more details.
+#'
+#' Files created by `edit_rstudio_snippets()` will *mask*, not supplement,
+#' the built-in default snippets. If you like the built-in snippets, copy them
+#' and include with your custom snippets.
 #'
 #' @return Path to the file, invisibly.
 #'
@@ -91,12 +95,22 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 
 #' @export
 #' @rdname edit
-#' @param type Snippet type. One of: "R", "markdown", "C_Cpp", "Tex",
-#'   "Javascript", "HTML", "SQL"
-edit_rstudio_snippets <- function(type = "R") {
+#' @param type Snippet type (case insensitive text).
+edit_rstudio_snippets <- function(type = c("r", "markdown", "c_cpp", "css",
+  "html", "java", "javascript", "python", "sql", "stan", "tex")) {
   # RStudio snippets stored using R's definition of ~
   # https://github.com/rstudio/rstudio/blob/4febd2feba912b2a9f8e77e3454a95c23a09d0a2/src/cpp/core/system/Win32System.cpp#L411-L458
-  path <- path_home_r(".R", "snippets", path_ext_set(tolower(type), "snippets"))
+  type <- tolower(type)
+  type <- match.arg(type)
+
+  path <- path_home_r(".R", "snippets", path_ext_set(type, "snippets"))
+  if (!file_exists(path)) {
+    ui_done("New snippet file at {ui_path(path)}")
+    ui_info(c(
+      "This masks the default snippets for {ui_field(type)}.",
+      "Delete this file and restart RStudio to restore the default snippets."
+    ))
+  }
   edit_file(path)
 }
 

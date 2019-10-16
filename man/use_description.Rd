@@ -5,7 +5,7 @@
 \alias{use_description_defaults}
 \title{Create or modify a DESCRIPTION file}
 \usage{
-use_description(fields = NULL)
+use_description(fields = NULL, check_name = TRUE)
 
 use_description_defaults()
 }
@@ -13,6 +13,9 @@ use_description_defaults()
 \item{fields}{A named list of fields to add to \code{DESCRIPTION}, potentially
 overriding default values. See \code{\link[=use_description]{use_description()}} for how you can set
 personalized defaults using package options}
+
+\item{check_name}{Whether to check if the name is valid for CRAN and throw an
+error if not}
 }
 \description{
 usethis consults the following sources, in this order, to set \code{DESCRIPTION}
