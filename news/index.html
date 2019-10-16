@@ -181,6 +181,7 @@
 <a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/use_r.html">use_r()</a></code> and <code><a href="../reference/use_testthat.html">use_test()</a></code> would throw an error if multiple names are provided in their ‘name’ argument (<a href='https://github.com/r-lib/usethis/issues/862'>#862</a>, <a href='https://github.com/strboul'>@strboul</a>).</p></li>
 <li><p><code><a href="../reference/edit.html">edit_rstudio_snippets()</a></code> makes it more clear which snippet types are allowed and that user’s snippets mask the built-in snippets (<a href='https://github.com/r-lib/usethis/issues/885'>#885</a>, <a href='https://github.com/GegznaV'>@GegznaV</a>).</p></li>
 <li><p><code><a href="../reference/use_testthat.html">use_test()</a></code> should work again on Windows, when called with no argument, i.e. when the active <code>.R</code> file is determined from RStudio’s source editor context (<a href='https://github.com/r-lib/usethis/issues/901'>#901</a>).</p></li>
 <li><p><code><a href="../reference/use_description.html">use_description()</a></code> and <code><a href="../reference/create_package.html">create_package()</a></code> gain the argument <code>check_name</code> to control whether to check for package names invalid for CRAN (<a href='https://github.com/r-lib/usethis/issues/883'>#883</a>, <a href='https://github.com/noamross'>@noamross</a>).</p></li>
