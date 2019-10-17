@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Report working directory and usethis/RStudio project — proj_sitrep • usethis</title>
+<title>Use "latest" versions of all dependencies — use_latest_dependencies • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,17 +48,10 @@
 
 
 
-<meta property="og:title" content="Report working directory and usethis/RStudio project — proj_sitrep" />
-<meta property="og:description" content="proj_sitrep() reports
-current working directory
-the active usethis project
-the active RStudio Project
-
-
-Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and proj_sitrep() provides suggested commands for getting
-back to this happy state." />
+<meta property="og:title" content="Use "latest" versions of all dependencies — use_latest_dependencies" />
+<meta property="og:description" content="Pins minimum version of dependencies to latest (as determined by &quot;source)&quot;
+Useful for tidyverse package, but should otherwise be used with extreme
+care." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -182,50 +175,39 @@ back to this happy state." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Report working directory and usethis/RStudio project</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/sitrep.R'><code>R/sitrep.R</code></a></small>
-    <div class="hidden name"><code>proj_sitrep.Rd</code></div>
+    <h1>Use "latest" versions of all dependencies</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/latest-dependencies.R'><code>R/latest-dependencies.R</code></a></small>
+    <div class="hidden name"><code>use_latest_dependencies.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>proj_sitrep()</code> reports</p><ul>
-<li><p>current working directory</p></li>
-<li><p>the active usethis project</p></li>
-<li><p>the active RStudio Project</p></li>
-</ul>
-
-<p>Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and <code>proj_sitrep()</code> provides suggested commands for getting
-back to this happy state.</p>
+    <p>Pins minimum version of dependencies to latest (as determined by "source)"
+Useful for tidyverse package, but should otherwise be used with extreme
+care.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>proj_sitrep</span>()</pre>
+    <pre class="usage"><span class='fu'>use_latest_dependencies</span>(<span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>source</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"local"</span>, <span class='st'>"CRAN"</span>))</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>overwrite</th>
+      <td><p>By default (<code>FALSE</code>), only dependencies without version
+specifications will be modified. Set to <code>TRUE</code> to modify all dependencies.</p></td>
+    </tr>
+    <tr>
+      <th>source</th>
+      <td><p>Use "local" or "CRAN" package versions.</p></td>
+    </tr>
+    </table>
 
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A named list, with S3 class <code>sitrep</code> (for printing purposes),
-reporting current working directory, active usethis project, and active
-RStudio Project</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other project functions: <code><a href='proj_utils.html'>proj_utils</a></code></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; *   working_directory: <span style='color: #0000BB;'>'/tmp/Rtmppa0vQq/file3c29121db076/reference'</span><span>
-#&gt; * active_usethis_proj: </span><span style='color: #0000BB;'>'/tmp/Rtmppa0vQq/file3c29121db076'</span><span>
-#&gt; * active_rstudio_proj: </span><span style='color: #555555;'>&lt;unset&gt;</span><span>
-#&gt; </span><span style='color: #BB0000;'>●</span><span> Your working directory is not the same as the active usethis project.
-#&gt;   Set working directory to the project: </span><span style='color: #555555;'>`setwd(proj_get())`</span><span>
-#&gt;   Set project to working directory:     </span><span style='color: #555555;'>`proj_set(getwd())`</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#arguments">Arguments</a></li>
     </ul>
 
   </div>

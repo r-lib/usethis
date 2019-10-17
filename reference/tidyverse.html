@@ -192,8 +192,6 @@ commonly used packages.</p>
 
 <span class='fu'>use_tidy_description</span>()
 
-<span class='fu'>use_tidy_versions</span>(<span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>source</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"local"</span>, <span class='st'>"CRAN"</span>))
-
 <span class='fu'>use_tidy_eval</span>()
 
 <span class='fu'>use_tidy_contributing</span>()
@@ -230,15 +228,6 @@ individuals with <code>;</code>. You can supply a global default with
 package.</p></td>
     </tr>
     <tr>
-      <th>overwrite</th>
-      <td><p>By default (<code>FALSE</code>), only dependencies without version
-specifications will be modified. Set to <code>TRUE</code> to modify all dependencies.</p></td>
-    </tr>
-    <tr>
-      <th>source</th>
-      <td><p>Use "local" or "CRAN" package versions.</p></td>
-    </tr>
-    <tr>
       <th>strict</th>
       <td><p>Boolean indicating whether or not a strict version of styling
 should be applied. See <code><a href='https://rdrr.io/pkg/styler/man/tidyverse_style.html'>styler::tidyverse_style()</a></code> for details.</p></td>
@@ -263,8 +252,6 @@ dependencies.</p></li>
 programming with the tidy eval toolkit.</p></li>
 <li><p><code>use_tidy_style()</code>: styles source code according to the <a href='https://style.tidyverse.org'>tidyverse style guide</a>. This function will overwrite files! See
 below for usage advice.</p></li>
-<li><p><code>use_tidy_versions()</code>: pins all dependencies to require at least
-the currently installed version.</p></li>
 <li><p><code>use_tidy_contributing()</code>: adds standard tidyverse contributing guidelines.</p></li>
 <li><p><code>use_tidy_issue_template()</code>: adds a standard tidyverse issue template.</p></li>
 <li><p><code>use_tidy_release_test_env()</code>: updates the test environment section in

@@ -181,6 +181,7 @@
 <a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code>use_tidy_version()</code> is now <code><a href="../reference/use_latest_dependencies.html">use_latest_dependencies()</a></code> to better reflect it’s usage (<a href='https://github.com/r-lib/usethis/issues/771'>#771</a>).</p></li>
 <li><p><code><a href="../reference/create_package.html">create_package()</a></code> will now create a package in a symlink to a directory (<a href='https://github.com/r-lib/usethis/issues/794'>#794</a>).</p></li>
 <li><p><code><a href="../reference/git_sitrep.html">git_sitrep()</a></code> now reports project-specific user name and email, if set (<a href='https://github.com/r-lib/usethis/issues/837'>#837</a>).</p></li>
 <li><p><code><a href="../reference/pr_init.html">pr_finish()</a></code> checks that you don’t have any local changes (<a href='https://github.com/r-lib/usethis/issues/805'>#805</a>).</p></li>
@@ -382,7 +383,7 @@
 <li><p><code><a href="../reference/use_r.html">use_test()</a></code> will not include a <code>context()</code> in the generated file if used with testthat 2.1.0 and above (the future release of testthat) (<a href='https://github.com/r-lib/usethis/issues/325'>#325</a>).</p></li>
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_description()</a></code> sets the <code>Encoding</code> field in <code>DESCRIPTION</code> (<a href='https://github.com/r-lib/usethis/issues/502'>#502</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>).</p></li>
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> re-exports <code>:=</code> (<a href='https://github.com/r-lib/usethis/issues/595'>#595</a>, <a href='https://github.com/jonthegeek'>@jonthegeek</a>).</p></li>
-<li><p><code><a href="../reference/tidyverse.html">use_tidy_versions()</a></code> has source argument so that you can choose to use local or CRAN versions (<a href='https://github.com/r-lib/usethis/issues/309'>#309</a>).</p></li>
+<li><p><code>use_tidy_versions()</code> has source argument so that you can choose to use local or CRAN versions (<a href='https://github.com/r-lib/usethis/issues/309'>#309</a>).</p></li>
 <li><p><code><a href="../reference/ci.html">use_travis()</a></code> gains an <code>ext</code> argument, defaulting to <code>"org"</code>. Use <code>ext = "com"</code> for <code>https://travis-ci.com</code> (<a href='https://github.com/cderv'>@cderv</a>, <a href='https://github.com/r-lib/usethis/issues/500'>#500</a>).</p></li>
 <li><p><code><a href="../reference/use_version.html">use_version()</a></code> asks before committing.</p></li>
 <li><p><code><a href="../reference/use_vignette.html">use_vignette()</a></code> now has a <code>title</code> argument which is used in YAML header (in the two places where it is needed). The vignettes also lose the default author and date fields (<a href='https://github.com/rorynolan'>@rorynolan</a>, <a href='https://github.com/r-lib/usethis/issues/445'>#445</a>), and the R Markdown starter material. They gain a standard setup chunk.</p></li>
@@ -525,7 +526,7 @@
 <li><p><code><a href="../reference/badges.html">use_lifecycle_badge()</a></code> creates a badge describing current stage in project lifecycle (<a href='https://github.com/r-lib/usethis/issues/48'>#48</a>).</p></li>
 <li><p><code><a href="../reference/use_pkgdown.html">use_pkgdown()</a></code> creates the basics needed for a <a href="https://github.com/hadley/pkgdown">pkgdown</a> website (<a href='https://github.com/r-lib/usethis/issues/88'>#88</a>).</p></li>
 <li><p><code><a href="../reference/use_r.html">use_r("foo")</a></code> creates and edit <code>R/foo.R</code> file. If you have a test file open, <code><a href="../reference/use_r.html">use_r()</a></code> will open the corresponding <code>.R</code> file (<a href='https://github.com/r-lib/usethis/issues/105'>#105</a>).</p></li>
-<li><p><code><a href="../reference/tidyverse.html">use_tidy_versions()</a></code> sets minimum version requirement for all dependencies.</p></li>
+<li><p><code>use_tidy_versions()</code> sets minimum version requirement for all dependencies.</p></li>
 </ul>
 </div>
 <div id="bug-fixes-and-improvements" class="section level2">
