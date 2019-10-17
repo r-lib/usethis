@@ -42,24 +42,27 @@ use_test <- function(name = NULL, open = NULL) {
   check_file_name(name)
 
   path <- path("tests", "testthat", name)
+  if (!file_exists(path)) {
+    # As of testthat 2.1.0, a context() is no longer needed/wanted
+    if (utils::packageVersion("testthat") >= "2.1.0") {
+      use_dependency("testthat", "Suggests", "2.1.0")
+      use_template(
+        "test-example-2.1.R",
+        save_as = path,
+        open = open
+      )
+    } else {
+      use_template(
+        "test-example.R",
+        save_as = path,
+        data = list(test_name = path_ext_remove(name)),
+        open = open
+      )
+    }
+  }
+
   edit_file(proj_path(path), open = open)
 
-  # As of testthat 2.1.0, a context() is no longer needed/wanted
-  if (utils::packageVersion("testthat") >= "2.1.0") {
-    use_dependency("testthat", "Suggests", "2.1.0")
-    use_template(
-      "test-example-2.1.R",
-      save_as = path,
-      open = open
-    )
-  } else {
-    use_template(
-      "test-example.R",
-      save_as = path,
-      data = list(test_name = path_ext_remove(name)),
-      open = open
-    )
-  }
 }
 
 
