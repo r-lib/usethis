@@ -44,6 +44,7 @@ issue.
 \item \code{browse_github_pulls()}: Visits the GitHub Pull Request index or one
 specific pull request.
 \item \code{browse_travis()}: Visits the package's page on \href{https://travis-ci.org}{Travis CI}.
+\item \code{browse_circle()}: Visits the package's page on \href{https://circleci.com}{Circle CI}
 \item \code{browse_cran()}: Visits the package on CRAN, via the canonical URL.
 }
 }

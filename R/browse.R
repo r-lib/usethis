@@ -14,6 +14,8 @@
 #' specific pull request.
 #' * `browse_travis()`: Visits the package's page on [Travis
 #' CI](https://travis-ci.org).
+#' * `browse_circle()`: Visits the package's page on [Circle
+#' CI](https://circleci.com)
 #' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.
 #'
 #' @param package Name of package; leave as `NULL` to use current package
