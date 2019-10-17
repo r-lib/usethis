@@ -10,5 +10,5 @@ test_that("symlink to directory is directory", {
   base_a <- dir_create(path(base, "a"))
   base_b <- link_create(base_a, path(base, "b"))
 
-  check_path_is_directory(base_b)
+  expect_error_free(check_path_is_directory(base_b))
 })
