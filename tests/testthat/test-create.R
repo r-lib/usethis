@@ -37,6 +37,12 @@ test_that("nested project is disallowed, by default", {
   expect_usethis_error(scoped_temporary_project(path(dir, "abcde")), "anyway")
 })
 
+test_that("can create package in current directory", {
+  dir <- dir_create(path(file_temp(), "mypackage"))
+  withr::local_dir(dir)
+  expect_error_free(create_package("."))
+})
+
 ## https://github.com/r-lib/usethis/issues/227
 test_that("create_* works w/ non-existing rel path and absolutizes it", {
   ## take care to provide a **non-absolute** path
