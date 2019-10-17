@@ -54,6 +54,8 @@
 
 * Adds AGPL license and explicitly refers to it and to LGPL in DESCRIPTION (#870, @pachamaltese)
 
+* Export `use_circleci_badge()` (#920, @pat-s)
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
