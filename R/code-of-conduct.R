@@ -11,7 +11,8 @@
 #' be an absolute link to a rendered website as `CODE_OF_CONDUCT.md` is not
 #' included in the package sent to CRAN. `use_code_of_conduct()` will
 #' automatically generate this link if you use pkgdown and have set the
-#' `url` field in `pkgdown.yml`; otherwise you'll need to fill it in yourself.
+#' `url` field in `pkgdown.yml`; otherwise it'll link to
+#' <https://contributor-covenant.org/version/1/0/0>.
 #'
 #' @param path Path of the directory to put `CODE_OF_CONDUCT.md` in, relative to
 #'   the active project. Passed along to [use_directory()]. Default is to locate
@@ -30,11 +31,7 @@ use_code_of_conduct <- function(path = NULL) {
     ignore = is_package() && is.null(path)
   )
 
-  href <- project_pkgdown_url()
-  if (is.null(href)) {
-    ui_todo("Couldn't find pkgdown website; make sure to adjust block below")
-    href <- "{INSERT WEBSITE HERE}"
-  }
+  href <- project_pkgdown_url() %||% "https://contributor-covenant.org/version/1/0/0"
   href <- paste0(href, "/CODE_OF_CONDUCT.html")
 
   ui_todo("Don't forget to describe the code of conduct in your README:")
