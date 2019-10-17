@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
+  it's usage (#771).
+
 * `use_code_of_conduct()` now generates link to rendered code of conduct on 
   pkgdown website. If you don't use pkgdown, you'll need to manually adjust
   the link (#772).
