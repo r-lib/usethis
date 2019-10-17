@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `git_sitrep()` now reports project-specific user name and email, if set 
+  (#837).
+
 * `pr_finish()` checks that you don't have any local changes (#805).
 
 * `use_lifecycle()` now adds `@importFrom lifecycle deprecate_soft` to 
