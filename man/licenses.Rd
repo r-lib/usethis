@@ -40,7 +40,7 @@ to public domain. Appropriate for data packages.
 provides patent protection.
 \item \href{https://choosealicense.com/licenses/gpl-3.0/}{GPL v3}: requires sharing
 of improvements.
-\item \href{https://choosealicense.com/licenses/gpl-3.0/}{AGPL v3}: requires sharing
+\item \href{https://choosealicense.com/licenses/agpl-3.0/}{AGPL v3}: requires sharing
 of improvements.
 \item \href{https://choosealicense.com/licenses/lgpl-3.0/}{LGPL v3}: requires sharing
 of improvements.
