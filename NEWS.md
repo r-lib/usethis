@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `create_package()` will now create a package in a symlink to a directory (#794).
+
 * `git_sitrep()` now reports project-specific user name and email, if set 
   (#837).
 
