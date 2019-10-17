@@ -208,6 +208,8 @@ various platforms, triggered by each push or pull request. These functions</p><u
 
 <span class='fu'>use_circleci</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>(), <span class='kw'>image</span> <span class='kw'>=</span> <span class='st'>"rocker/verse:latest"</span>)
 
+<span class='fu'>use_circleci_badge</span>()
+
 <span class='fu'>use_azure_pipelines</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -275,6 +277,12 @@ integration service for GitLab.</p>
 <p>Adds a basic <code>.circleci/config.yml</code> to the top-level directory of a package. This is a
 configuration file for the <a href='https://circleci.com/'>CircleCI</a> continuous
 integration service.</p>
+    <h2 class="hasAnchor" id="use-circleci-badge-"><a class="anchor" href="#use-circleci-badge-"></a><code>use_circleci_badge()</code></h2>
+
+    
+
+<p>Only adds the <a href='https://www.circleci.com'>Circle CI</a> badge. Use for a project
+where Circle CI is already configured.</p>
     <h2 class="hasAnchor" id="use-azure-pipelines-"><a class="anchor" href="#use-azure-pipelines-"></a><code>use_azure_pipelines()</code></h2>
 
     
@@ -294,6 +302,7 @@ integration service.</p>
       <li><a href="#use-appveyor-badge-"><code>use_appveyor_badge()</code></a></li>
       <li><a href="#use-gitlab-ci-"><code>use_gitlab_ci()</code></a></li>
       <li><a href="#use-circleci-"><code>use_circleci()</code></a></li>
+      <li><a href="#use-circleci-badge-"><code>use_circleci_badge()</code></a></li>
       <li><a href="#use-azure-pipelines-"><code>use_azure_pipelines()</code></a></li>
     </ul>
 
