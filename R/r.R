@@ -1,25 +1,77 @@
-#' Create or edit a .R file
+#' Create or edit R or test files
 #'
-#' @param name File name, without extension; will create if it doesn't already
-#'   exist. If not specified, and you're currently in a test file, will guess
-#'   name based on test name.
-#' @seealso [use_test()], and also the [R code
-#'   chapter](https://r-pkgs.org/r.html) of [R
-#'   Packages](https://r-pkgs.org).
+#' This pair of functions makes it easy to create paired R and test files,
+#' using the convention that the tests for `R/foofy.R` should live
+#' in `tests/testhat/test-foofy.R`. You can use them to create new files
+#' from scratch by supplying `name`, or if you use RStudio, you can call
+#' to create (or navigate to) the paired file based on the currently open
+#' script.
+#'
+#' @param name Either a name without extension, or `NULL` to create the
+#'   paired file based on currently open file in the script editor. If
+#'   the R file is open, `use_test()` will create/open the corresponding
+#'   test file; if the test file is open, `use_r()` will create/open the
+#'   corresponding R file.
+#' @inheritParams edit_file
+#' @seealso The [testing](https://r-pkgs.org/tests.html) and
+#'   [R code](https://r-pkgs.org/r.html) chapters of
+#'   [R Packages](https://r-pkgs.org).
 #' @export
-use_r <- function(name = NULL) {
+use_r <- function(name = NULL, open = NULL) {
   name <- name %||% get_active_r_file(path = "tests/testthat")
   name <- gsub("^test-", "", name)
   name <- slug(name, "R")
   check_file_name(name)
 
   use_directory("R")
-  edit_file(proj_path("R", name))
+  edit_file(proj_path("R", name), open = open)
 
   invisible(TRUE)
 }
 
+#' @rdname use_r
+#' @export
+use_test <- function(name = NULL, open = NULL) {
+  if (!uses_testthat()) {
+    use_testthat()
+  }
+
+  name <- name %||% get_active_r_file(path = "R")
+  name <- paste0("test-", name)
+  name <- slug(name, "R")
+  check_file_name(name)
+
+  path <- path("tests", "testthat", name)
+  if (!file_exists(path)) {
+    # As of testthat 2.1.0, a context() is no longer needed/wanted
+    if (utils::packageVersion("testthat") >= "2.1.0") {
+      use_dependency("testthat", "Suggests", "2.1.0")
+      use_template(
+        "test-example-2.1.R",
+        save_as = path,
+        open = FALSE
+      )
+    } else {
+      use_template(
+        "test-example.R",
+        save_as = path,
+        data = list(test_name = path_ext_remove(name)),
+        open = FALSE
+      )
+    }
+  }
+
+  edit_file(proj_path(path), open = open)
+
+}
+
+
+# helpers -----------------------------------------------------------------
+
 check_file_name <- function(name) {
+  if (!is_string(name)) {
+    ui_stop("Name must be a single string")
+  }
   if (!valid_file_name(path_ext_remove(name))) {
     ui_stop(c(
       "{ui_value(name)} is not a valid file name. It should:",

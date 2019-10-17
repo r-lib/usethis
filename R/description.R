@@ -76,9 +76,10 @@ use_description_defaults <- function() {
       Title = "What the Package Does (One Line, Title Case)",
       Description = "What the package does (one paragraph).",
       "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
-      License = "What license it uses",
+      License = " `use_mit_license()`, `use_gpl3_license()` or friends to pick a license",
       Encoding = "UTF-8",
-      LazyData = "true"
+      LazyData = "true",
+      Roxygen = "list(markdown = TRUE)"
     )
   )
 }

@@ -3,6 +3,7 @@
 \name{licenses}
 \alias{use_mit_license}
 \alias{use_gpl3_license}
+\alias{use_agpl3_license}
 \alias{use_lgpl_license}
 \alias{use_apl2_license}
 \alias{use_cc0_license}
@@ -12,6 +13,8 @@
 use_mit_license(name = find_name())
 
 use_gpl3_license(name = find_name())
+
+use_agpl3_license(name = find_name())
 
 use_lgpl_license(name = find_name())
 
@@ -37,7 +40,11 @@ to public domain. Appropriate for data packages.
 provides patent protection.
 \item \href{https://choosealicense.com/licenses/gpl-3.0/}{GPL v3}: requires sharing
 of improvements.
-\item \href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0}: Free to share and
+\item \href{https://choosealicense.com/licenses/gpl-3.0/}{AGPL v3}: requires sharing
+of improvements.
+\item \href{https://choosealicense.com/licenses/lgpl-3.0/}{LGPL v3}: requires sharing
+of improvements.
+\item \href{https://creativecommons.org/licenses/by/4.0/}{CCBY 4.0}: Free to share and
 adapt, must give appropriate credit. Appropriate for data packages.
 }
 

@@ -11,7 +11,11 @@
 #'   provides patent protection.
 #' * [GPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing
 #'   of improvements.
-#' * [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/): Free to share and
+#' * [AGPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing
+#'   of improvements.
+#' * [LGPL v3](https://choosealicense.com/licenses/lgpl-3.0/): requires sharing
+#'   of improvements.
+#' * [CCBY 4.0](https://creativecommons.org/licenses/by/4.0/): Free to share and
 #'    adapt, must give appropriate credit. Appropriate for data packages.
 #'
 #' See <https://choosealicense.com> for more details and other options.
@@ -48,21 +52,24 @@ use_mit_license <- function(name = find_name()) {
   )
 }
 
-
 #' @rdname licenses
 #' @export
 use_gpl3_license <- function(name = find_name()) {
   force(name)
   check_is_package("use_gpl3_license()")
 
-  use_description_field("License", "GPL-3 + file LICENSE", overwrite = TRUE)
+  use_description_field("License", "GPL-3", overwrite = TRUE)
   use_license_template("GPL-3", name)
+}
 
-  use_template(
-    "year-copyright.txt",
-    save_as = "LICENSE",
-    data = license_data(name)
-  )
+#' @rdname licenses
+#' @export
+use_agpl3_license <- function(name = find_name()) {
+  force(name)
+  check_is_package("use_agpl3_license()")
+
+  use_description_field("License", "AGPL-3", overwrite = TRUE)
+  use_license_template("AGPL-3", name)
 }
 
 #' @rdname licenses

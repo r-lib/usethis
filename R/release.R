@@ -55,7 +55,7 @@ release_checklist <- function(version) {
     todo("Check licensing of included files", !on_cran),
     todo("`usethis::use_cran_comments()`", !on_cran),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
-    todo("`devtools::check()`"),
+    todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
     todo("`devtools::check_win_devel()`"),
     todo("`rhub::check_for_cran()`"),
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),

@@ -23,6 +23,8 @@ use_lifecycle <- function() {
 
   use_package("lifecycle")
   use_rd_macros("lifecycle")
+  # silence R CMD check NOTE
+  roxygen_ns_append("@importFrom lifecycle deprecate_soft")
 
   dest_dir <- proj_path("man", "figures")
   create_directory(dest_dir)
@@ -33,24 +35,17 @@ use_lifecycle <- function() {
   purrr::walk(templ_files, file_copy, dest_dir, overwrite = TRUE)
   ui_done("Copied SVG badges to {ui_path(dest_dir)}")
 
-  ui_todo(
-    "
-    Add badges in documentation topics by inserting this macro:
-
-      \\lifecycle{{experimental}}
-
-    You can choose from the following lifecycle stages:
-
-    - experimental
-    - maturing
-    - stable
-    - questioning
-    - soft-deprecated
-    - deprecated
-    - defunct
-    - archived
-    "
-  )
+  ui_todo(c(
+    "Add badges in documentation topics by inserting one of:",
+    "- \\lifecycle{{experimental}}",
+    "- \\lifecycle{{maturing}}",
+    "- \\lifecycle{{stable}}",
+    "- \\lifecycle{{questioning}}",
+    "- \\lifecycle{{soft-deprecated}}",
+    "- \\lifecycle{{deprecated}}",
+    "- \\lifecycle{{defunct}}",
+    "- \\lifecycle{{archived}}"
+  ))
 
   invisible(TRUE)
 }
