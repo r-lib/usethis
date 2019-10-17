@@ -74,6 +74,8 @@ use_pkgdown_travis <- function() {
     create_gh_pages_branch()
   }
 
+  ui_todo("Turn on GitHub pages at <{github_home()}/settings> (using gh-pages as source)")
+
   invisible()
 }
 
