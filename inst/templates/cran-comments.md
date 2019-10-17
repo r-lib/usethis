@@ -1,7 +1,7 @@
 ## Test environments
-* local OS X install, R {{{ rversion }}}
-* ubuntu 14.04 (on travis-ci), R {{{ rversion }}}
-* win-builder (devel and release)
+* local R installation, R {{{ rversion }}}
+* ubuntu 16.04 (on travis-ci), R {{{ rversion }}}
+* win-builder (devel)
 
 ## R CMD check results
 

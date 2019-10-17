@@ -39,6 +39,10 @@ check_path_is_directory <- function(path) {
     ui_stop("Directory {ui_path(path)} does not exist.")
   }
 
+  if (is_link(path)) {
+    path <- link_path(path)
+  }
+
   if (!is_dir(path)) {
     ui_stop("{ui_path(path)} is not a directory.")
   }

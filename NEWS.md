@@ -1,5 +1,26 @@
 # usethis (development version)
 
+* `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
+  it's usage (#771).
+
+* `create_package()` will now create a package in a symlink to a directory (#794).
+
+* `git_sitrep()` now reports project-specific user name and email, if set 
+  (#837).
+
+* `pr_finish()` checks that you don't have any local changes (#805).
+
+* `use_lifecycle()` now adds `@importFrom lifecycle deprecate_soft` to 
+  silent an R CMD check note (#896).
+
+* `create_package()` now turns markdown processing for roxygen2 on by default 
+  (#911).
+
+* `edit_file()` and `use_test()` gain an `open` parameter that allows you to
+  control whether or not the function is opened for editing by the user (#817).
+
+* Document `use_r()` and `use_test()` in the same `.Rd` file (#726, @friep). 
+
 * `use_r()` and `use_test()` would throw an error if multiple names are provided in their 'name' argument (#862, @strboul).
 
 * `edit_rstudio_snippets()` makes it more clear which snippet types are allowed and that user's snippets mask the built-in snippets (#885, @GegznaV).

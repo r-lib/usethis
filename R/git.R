@@ -453,14 +453,24 @@ use_git_credentials <- function(credentials) {
 #' @examples
 #' git_sitrep()
 git_sitrep <- function() {
-  # git user ------------------------------------------------------------------
-  hd_line("Git user")
+  # git global ----------------------------------------------------------------
+  hd_line("Git config (global)")
   kv_line("Name", git_config_get("user.name", global = TRUE))
   kv_line("Email", git_config_get("user.email", global = TRUE))
   ## TODO: forward info from the credentials package once we start using it
   ## and it reflects the credentials situation usethis will actually meet
   ## e.g., git version, HTTPS credential helpers, SSH keys, etc.
   kv_line("Vaccinated", git_vaccinated())
+
+  # git project ---------------------------------------------------------------
+  if (proj_active() && uses_git()) {
+    local <- git2r::config(git_repo())$local
+    if (any(c("user.name", "user.email") %in% names(local))) {
+      hd_line("Git config (project)")
+      kv_line("Name", git_config_get("user.name"))
+      kv_line("Email", git_config_get("user.email"))
+    }
+  }
 
   # usethis + git2r ----------------------------------------------------------
   hd_line("usethis + git2r")

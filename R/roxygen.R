@@ -1,10 +1,9 @@
-#' Use roxygen with markdown
+#' Use roxygen2 with markdown
 #'
-#' You'll need to manually re-document once enabled. If you are already using
-#' roxygen2, but not with markdown, the
-#' [roxygen2md](https://roxygen2md.r-lib.org) package will be used to
-#' convert many Rd expressions to markdown. The package uses heuristics, so
-#' you'll need to check the results.
+#' If you are already using roxygen2, but not with markdown, you'll need to use
+#' [roxygen2md](https://roxygen2md.r-lib.org) to convert existing Rd
+#' expressions to markdown. The conversion is not perfect, so make sure
+#' to check the results.
 #'
 #' @export
 use_roxygen_md <- function() {
@@ -17,15 +16,13 @@ use_roxygen_md <- function() {
     use_description_field("RoxygenNote", roxy_ver)
     ui_todo("Run {ui_code('devtools::document()')}")
   } else if (!uses_roxygen_md()) {
-    check_installed("roxygen2md")
+    use_description_field("Roxygen", "list(markdown = TRUE)")
+
     if (!uses_git()) {
       ui_todo("Use git to ensure that you don't lose any data")
     }
     ui_todo(
-      "
-      Refer to {ui_code('roxygen2md::roxygen2md()')} to use markdown markup \\
-      with roxygen2.
-      "
+      "Run {ui_code('roxygen2md::roxygen2md()')} to convert existing Rd markdown to RMarkdown"
     )
     ui_todo("Run {ui_code('devtools::document()')} when you're done.")
   }
