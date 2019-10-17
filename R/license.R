@@ -11,7 +11,7 @@
 #'   provides patent protection.
 #' * [GPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing
 #'   of improvements.
-#' * [AGPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing
+#' * [AGPL v3](https://choosealicense.com/licenses/agpl-3.0/): requires sharing
 #'   of improvements.
 #' * [LGPL v3](https://choosealicense.com/licenses/lgpl-3.0/): requires sharing
 #'   of improvements.
