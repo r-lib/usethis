@@ -189,6 +189,12 @@ use_circleci <- function(browse = interactive(), image = "rocker/verse:latest") 
   invisible(TRUE)
 }
 
+#' @section `use_circleci_badge()`:
+#' Only adds the [Circle CI](https://www.circleci.com) badge. Use for a project
+#'  where Circle CI is already configured.
+#' @export
+#' @rdname ci
+#' @export
 use_circleci_badge <- function() {
   check_uses_github()
   url <- glue("https://circleci.com/gh/{github_repo_spec()}")
