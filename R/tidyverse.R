@@ -183,7 +183,7 @@ use_tidy_eval <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_contributing <- function() {
-  use_directory(".github", ignore = TRUE)
+  use_dot_github()
   use_template(
     "tidy-contributing.md",
     path(".github", "CONTRIBUTING.md"),
@@ -195,7 +195,8 @@ use_tidy_contributing <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_issue_template <- function() {
-  use_directory(path(".github", "ISSUE_TEMPLATE"), ignore = TRUE)
+  use_dot_github()
+  use_directory(path(".github", "ISSUE_TEMPLATE"))
   use_template(
     "tidy-issue.md",
     path(".github", "ISSUE_TEMPLATE", "issue_template.md")
@@ -206,7 +207,7 @@ use_tidy_issue_template <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_support <- function() {
-  use_directory(".github", ignore = TRUE)
+  use_dot_github()
   use_template(
     "tidy-support.md",
     path(".github", "SUPPORT.md"),
@@ -218,16 +219,23 @@ use_tidy_support <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_coc <- function() {
+  use_dot_github()
   use_code_of_conduct(path = ".github")
 }
 
 #' @export
 #' @rdname tidyverse
 use_tidy_github <- function() {
+  use_dot_github()
   use_tidy_contributing()
   use_tidy_issue_template()
   use_tidy_support()
   use_tidy_coc()
+}
+
+use_dot_github <- function() {
+  use_directory(".github", ignore = TRUE)
+  use_git_ignore("*.html", directory = ".github")
 }
 
 #' @export
