@@ -21,8 +21,7 @@ Set to \code{TRUE} to use the currently installed version.}
 
 \item{remote}{The default is to establish a GitHub remote. Optionally,
 you can supply a character string to specify the remote, e.g.
-\code{"gitlab::jimhester/covr"}. See the \href{https://remotes.r-lib.org/articles/dependencies.html#other-sources}{remotes documentation}
-for syntax examples.}
+\code{"gitlab::jimhester/covr"}.}
 }
 \description{
 \code{use_package()} adds a CRAN package dependency to \code{DESCRIPTION} and offers a
@@ -38,5 +37,6 @@ use_dev_package("glue")
 }
 }
 \seealso{
-The \href{https://r-pkgs.org/description.html#dependencies}{dependencies section} of \href{https://r-pkgs.org}{R Packages}.
+The \href{https://r-pkgs.org/description.html#dependencies}{dependencies section} of \href{https://r-pkgs.org}{R Packages}, the \href{https://remotes.r-lib.org/articles/dependencies.html#other-sources}{remotes documentation}
+for syntax examples for the \code{remote} argument.
 }

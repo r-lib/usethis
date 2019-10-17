@@ -13,12 +13,12 @@
 #'   Set to `TRUE` to use the currently installed version.
 #' @param remote The default is to establish a GitHub remote. Optionally,
 #'   you can supply a character string to specify the remote, e.g.
-#'   `"gitlab::jimhester/covr"`. See the [remotes documentation](
-#'   https://remotes.r-lib.org/articles/dependencies.html#other-sources)
-#'   for syntax examples.
+#'   `"gitlab::jimhester/covr"`.
 #' @seealso The [dependencies
 #'   section](https://r-pkgs.org/description.html#dependencies) of [R
-#'   Packages](https://r-pkgs.org).
+#'   Packages](https://r-pkgs.org), the [remotes documentation](
+#'   https://remotes.r-lib.org/articles/dependencies.html#other-sources)
+#'   for syntax examples for the `remote` argument.
 #' @export
 #' @examples
 #' \dontrun{
