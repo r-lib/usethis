@@ -26,9 +26,6 @@
 #' guide](https://style.tidyverse.org). This function will overwrite files! See
 #' below for usage advice.
 #'
-#' * `use_tidy_versions()`: pins all dependencies to require at least
-#'   the currently installed version.
-#'
 #' * `use_tidy_contributing()`: adds standard tidyverse contributing guidelines.
 #'
 #' * `use_tidy_issue_template()`: adds a standard tidyverse issue template.
@@ -134,40 +131,6 @@ use_tidy_description <- function() {
 
 #' @export
 #' @rdname tidyverse
-#' @param overwrite By default (`FALSE`), only dependencies without version
-#'   specifications will be modified. Set to `TRUE` to modify all dependencies.
-#' @param source Use "local" or "CRAN" package versions.
-use_tidy_versions <- function(overwrite = FALSE, source = c("local", "CRAN")) {
-  deps <- desc::desc_get_deps(proj_get())
-  deps <- update_versions(deps, overwrite = overwrite, source = source)
-  desc::desc_set_deps(deps, file = proj_get())
-
-  invisible(TRUE)
-}
-
-update_versions <- function(deps, overwrite = FALSE, source = c("local", "CRAN")) {
-  baserec <- base_and_recommended()
-  to_change <- !deps$package %in% c("R", baserec)
-  if (!overwrite) {
-    to_change <- to_change & deps$version == "*"
-  }
-
-  packages <- deps$package[to_change]
-  versions <- switch(match.arg(source),
-    local = purrr::map_chr(packages, package_version),
-    CRAN = utils::available.packages()[packages, "Version"]
-  )
-  deps$version[to_change] <- paste0(">= ", versions)
-
-  deps
-}
-
-package_version <- function(x) {
-  as.character(utils::packageVersion(x))
-}
-
-#' @export
-#' @rdname tidyverse
 use_tidy_eval <- function() {
   check_is_package("use_tidy_eval()")
 
@@ -178,7 +141,6 @@ use_tidy_eval <- function() {
   ui_todo("Run {ui_code('devtools::document()')}")
   return(invisible(new))
 }
-
 
 #' @export
 #' @rdname tidyverse

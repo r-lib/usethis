@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
+  it's usage (#771).
+
 * `create_package()` will now create a package in a symlink to a directory (#794).
 
 * `git_sitrep()` now reports project-specific user name and email, if set 

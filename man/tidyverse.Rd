@@ -5,7 +5,6 @@
 \alias{create_tidy_package}
 \alias{use_tidy_ci}
 \alias{use_tidy_description}
-\alias{use_tidy_versions}
 \alias{use_tidy_eval}
 \alias{use_tidy_contributing}
 \alias{use_tidy_support}
@@ -21,8 +20,6 @@ create_tidy_package(path, name = "RStudio")
 use_tidy_ci(browse = interactive())
 
 use_tidy_description()
-
-use_tidy_versions(overwrite = FALSE, source = c("local", "CRAN"))
 
 use_tidy_eval()
 
@@ -51,11 +48,6 @@ individuals with \code{;}. You can supply a global default with
 \item{browse}{Open a browser window to enable automatic builds for the
 package.}
 
-\item{overwrite}{By default (\code{FALSE}), only dependencies without version
-specifications will be modified. Set to \code{TRUE} to modify all dependencies.}
-
-\item{source}{Use "local" or "CRAN" package versions.}
-
 \item{strict}{Boolean indicating whether or not a strict version of styling
 should be applied. See \code{\link[styler:tidyverse_style]{styler::tidyverse_style()}} for details.}
 }
@@ -80,8 +72,6 @@ dependencies.
 programming with the tidy eval toolkit.
 \item \code{use_tidy_style()}: styles source code according to the \href{https://style.tidyverse.org}{tidyverse style guide}. This function will overwrite files! See
 below for usage advice.
-\item \code{use_tidy_versions()}: pins all dependencies to require at least
-the currently installed version.
 \item \code{use_tidy_contributing()}: adds standard tidyverse contributing guidelines.
 \item \code{use_tidy_issue_template()}: adds a standard tidyverse issue template.
 \item \code{use_tidy_release_test_env()}: updates the test environment section in
