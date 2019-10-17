@@ -74,22 +74,6 @@ use_agpl3_license <- function(name = find_name()) {
 
 #' @rdname licenses
 #' @export
-use_agpl3_license <- function(name = find_name()) {
-  force(name)
-  check_is_package("use_agpl3_license()")
-
-  use_description_field("License", "AGPL-3 + file LICENSE", overwrite = TRUE)
-  use_license_template("AGPL-3", name)
-
-  use_template(
-    "year-copyright.txt",
-    save_as = "LICENSE",
-    data = license_data(name)
-  )
-}
-
-#' @rdname licenses
-#' @export
 use_lgpl_license <- function(name = find_name()) {
   force(name)
   check_is_package("use_lgpl_license()")
