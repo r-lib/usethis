@@ -8,8 +8,8 @@
 \alias{use_tidy_versions}
 \alias{use_tidy_eval}
 \alias{use_tidy_contributing}
-\alias{use_tidy_issue_template}
 \alias{use_tidy_support}
+\alias{use_tidy_issue_template}
 \alias{use_tidy_coc}
 \alias{use_tidy_github}
 \alias{use_tidy_style}
@@ -28,9 +28,9 @@ use_tidy_eval()
 
 use_tidy_contributing()
 
-use_tidy_issue_template()
-
 use_tidy_support()
+
+use_tidy_issue_template()
 
 use_tidy_coc()
 

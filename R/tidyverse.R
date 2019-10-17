@@ -191,6 +191,17 @@ use_tidy_contributing <- function() {
   )
 }
 
+#' @export
+#' @rdname tidyverse
+use_tidy_support <- function() {
+  use_dot_github()
+  use_template(
+    "tidy-support.md",
+    path(".github", "SUPPORT.md"),
+    data = project_data()
+  )
+}
+
 
 #' @export
 #' @rdname tidyverse
@@ -202,19 +213,6 @@ use_tidy_issue_template <- function() {
     path(".github", "ISSUE_TEMPLATE", "issue_template.md")
   )
 }
-
-
-#' @export
-#' @rdname tidyverse
-use_tidy_support <- function() {
-  use_dot_github()
-  use_template(
-    "tidy-support.md",
-    path(".github", "SUPPORT.md"),
-    data = list(package = project_name())
-  )
-}
-
 
 #' @export
 #' @rdname tidyverse
