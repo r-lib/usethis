@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_code_of_conduct()` now generates link to rendered code of conduct on 
+  pkgdown website. If you don't use pkgdown, you'll need to manually adjust
+  the link (#772).
+
 * `create_package()` will now create a package in a symlink to a directory (#794).
 
 * `git_sitrep()` now reports project-specific user name and email, if set 
