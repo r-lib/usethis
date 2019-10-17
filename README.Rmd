@@ -50,6 +50,11 @@ usethis is quite chatty, explaining what it's doing and assigning you tasks. `âœ
 
 Below is a quick look at how usethis can help to set up a package. But remember, many usethis functions are also applicable to analytical projects that are not packages.
 
+```{r, include = FALSE}
+# Reset possible options
+options(usethis.description = list())
+```
+
 ```{r}
 library(usethis)
 
@@ -63,13 +68,6 @@ proj_activate(path)
 use_mit_license("My Name")
 
 use_package("MASS", "Suggests")
-
-# Set up various packages ---------------------------------------------
-use_roxygen_md()
-
-use_rcpp()
-
-use_revdep()
 
 # Set up other files -------------------------------------------------
 use_readme_md()
