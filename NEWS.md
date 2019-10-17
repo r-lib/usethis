@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `pr_finish()` checks that you don't have any local changes (#805).
+
 * `use_lifecycle()` now adds `@importFrom lifecycle deprecate_soft` to 
   silent an R CMD check note (#896).
 

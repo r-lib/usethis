@@ -300,15 +300,16 @@ pr_pause <- function() {
 #' @rdname pr_init
 pr_finish <- function() {
   check_branch_not_master()
+  check_uncommitted_changes()
+  check_branch_pushed(use = "pr_push()")
+
   pr <- git_branch_name()
   tracking_branch <- git_branch_tracking()
 
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
-
   pr_pull_upstream()
 
-  # TODO: check that this is merged!
   ui_done("Deleting local {ui_value(pr)} branch")
   git_branch_delete(pr)
 
