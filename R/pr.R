@@ -201,13 +201,13 @@ pr_push <- function() {
   # TODO: I suspect the tryCatch (and perhaps the git_branch_compare()?) is
   # better pushed down into git_branch_push(), which could then return TRUE for
   # success and FALSE for failure
-  pushed <- tryCatch(
+  tryCatch(
     git_branch_push(branch, credentials = credentials),
     error = function(e) {
-      ui_stop(
-        "The push was not successful. Consider that user can decline to allow
-         maintainers to modify a PR."
-      )
+      ui_stop(c(
+        "Push errored",
+        "Check that the PR branch is editable, then check your git2r config"
+      ))
     }
   )
   if (!has_remote_branch) {
@@ -216,10 +216,10 @@ pr_push <- function() {
 
   diff <- git_branch_compare(branch)
   if (diff[[1]] != 0) {
-    ui_stop(
-    "The push was not successful. Consider that user can decline to allow
-    maintainers to modify a PR."
-    )
+    ui_stop(c(
+      "Push failed to update remote branch",
+      "Check that the PR branch is editable, then check your git2r config"
+    ))
   }
 
   # Prompt to create PR on first push
