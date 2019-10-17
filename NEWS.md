@@ -1,7 +1,9 @@
 # usethis (development version)
 
+* `use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The default behavior, to establish a GitHub remote, is unchanged (#918, @ijlyttle).
+
 * `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
-  it's usage (#771).
+  its usage (#771).
 
 * `create_package()` will now create a package in a symlink to a directory (#794).
 

@@ -7,7 +7,7 @@
 \usage{
 use_package(package, type = "Imports", min_version = NULL)
 
-use_dev_package(package, type = "Imports")
+use_dev_package(package, type = "Imports", remote = NULL)
 }
 \arguments{
 \item{package}{Name of package to depend on.}
@@ -18,6 +18,11 @@ is case insensitive.}
 
 \item{min_version}{Optionally, supply a minimum version for the package.
 Set to \code{TRUE} to use the currently installed version.}
+
+\item{remote}{The default is to establish a GitHub remote. Optionally,
+you can supply a character string to specify the remote, e.g.
+\code{"gitlab::jimhester/covr"}. See the \href{https://remotes.r-lib.org/articles/dependencies.html#other-sources}{remotes documentation}
+for syntax examples.}
 }
 \description{
 \code{use_package()} adds a CRAN package dependency to \code{DESCRIPTION} and offers a

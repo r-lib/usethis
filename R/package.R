@@ -11,6 +11,11 @@
 #'   is case insensitive.
 #' @param min_version Optionally, supply a minimum version for the package.
 #'   Set to `TRUE` to use the currently installed version.
+#' @param remote The default is to establish a GitHub remote. Optionally,
+#'   you can supply a character string to specify the remote, e.g.
+#'   `"gitlab::jimhester/covr"`. See the [remotes documentation](
+#'   https://remotes.r-lib.org/articles/dependencies.html#other-sources)
+#'   for syntax examples.
 #' @seealso The [dependencies
 #'   section](https://r-pkgs.org/description.html#dependencies) of [R
 #'   Packages](https://r-pkgs.org).
@@ -35,23 +40,23 @@ use_package <- function(package, type = "Imports", min_version = NULL) {
 
 #' @export
 #' @rdname use_package
-use_dev_package <- function(package, type = "Imports") {
+use_dev_package <- function(package, type = "Imports", remote = NULL) {
   refuse_package(package, verboten = "tidyverse")
 
   use_dependency(package, type = type, min_version = TRUE)
-  use_remote(package)
+  use_remote(package, remote)
   how_to_use(package, type)
 
   invisible()
 }
 
-use_remote <- function(package) {
+use_remote <- function(package, remote = NULL) {
   remotes <- desc::desc_get_remotes(proj_get())
   if (any(grepl(package, remotes))) {
     return(invisible())
   }
 
-  package_remote <- package_remote(package)
+  package_remote <- remote %||% package_remote(package)
   ui_done(
     "Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in DESCRIPTION"
   )
