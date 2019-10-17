@@ -49,14 +49,14 @@ use_test <- function(name = NULL, open = NULL) {
       use_template(
         "test-example-2.1.R",
         save_as = path,
-        open = open
+        open = FALSE
       )
     } else {
       use_template(
         "test-example.R",
         save_as = path,
         data = list(test_name = path_ext_remove(name)),
-        open = open
+        open = FALSE
       )
     }
   }
