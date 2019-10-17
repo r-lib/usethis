@@ -1,4 +1,4 @@
-# Contributing to {{{ package }}}
+# Contributing to {{{ Package }}}
 
 This outlines how to propose a change to {{{ Package }}}. 
 For more detailed info about contributing to this, and other tidyverse packages, please see the
