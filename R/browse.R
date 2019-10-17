@@ -14,7 +14,7 @@
 #' specific pull request.
 #' * `browse_travis()`: Visits the package's page on [Travis
 #' CI](https://travis-ci.org).
-#' * `browse_circle()`: Visits the package's page on [Circle
+#' * `browse_circleci()`: Visits the package's page on [Circle
 #' CI](https://circleci.com)
 #' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.
 #'
@@ -28,6 +28,7 @@
 #' browse_github_pulls("rprojroot")
 #' browse_github_pulls("rprojroot", 3)
 #' browse_travis("usethis")
+#' browse_circle("circle")
 #' browse_cran("MASS")
 #' @name browse-this
 NULL
@@ -63,7 +64,7 @@ browse_travis <- function(package = NULL, ext = c("org", "com")) {
 
 #' @export
 #' @rdname browse-this
-browse_circle <- function(package = NULL) {
+browse_circleci <- function(package = NULL) {
   gh <- github_home(package)
   circle_url <- "circleci.com/gh"
   view_url(sub("github.com", circle_url, gh))
