@@ -7,6 +7,7 @@
 \alias{use_appveyor_badge}
 \alias{use_gitlab_ci}
 \alias{use_circleci}
+\alias{use_circleci_badge}
 \alias{use_azure_pipelines}
 \title{Continuous integration setup and badges}
 \usage{
@@ -21,6 +22,8 @@ use_appveyor_badge()
 use_gitlab_ci()
 
 use_circleci(browse = interactive(), image = "rocker/verse:latest")
+
+use_circleci_badge()
 
 use_azure_pipelines(browse = interactive())
 }
@@ -87,6 +90,12 @@ integration service for GitLab.
 Adds a basic \code{.circleci/config.yml} to the top-level directory of a package. This is a
 configuration file for the \href{https://circleci.com/}{CircleCI} continuous
 integration service.
+}
+
+\section{\code{use_circleci_badge()}}{
+
+Only adds the \href{https://www.circleci.com}{Circle CI} badge. Use for a project
+where Circle CI is already configured.
 }
 
 \section{\code{use_azure_pipelines()}}{
