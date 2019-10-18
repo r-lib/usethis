@@ -41,6 +41,8 @@
 
 * `use_rcpp()` and `use_c()` now ensure `src/` contains at least one `.cpp` or
   `.c` placeholder file, so that the package can be built (#720, @coatless).
+  
+* add `browse_circle()` to open the project dashboard on Circle CI
 
 * A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
 
