@@ -1,11 +1,10 @@
 # usethis (development version)
 
+* `use_code_of_conduct()` now generates absolute link to code of conduct on 
+  pkgdown website or original source to avoid R CMD check issues (#772).
+
 * `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
   it's usage (#771).
-
-* `use_code_of_conduct()` now generates link to rendered code of conduct on 
-  pkgdown website. If you don't use pkgdown, you'll need to manually adjust
-  the link (#772).
 
 * `create_package()` will now create a package in a symlink to a directory (#794).
 
