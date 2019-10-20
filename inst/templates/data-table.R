@@ -1,26 +1,14 @@
-#' data.table special symbols
+#' data.table is generally careful to minimize the scope for namespace
+#' conflicts (i.e., functions with the same name as in other packages);
+#' a more conservative approach using `@importFrom` should be careful to
+#' import any needed `data.table` special symbols as well, e.g., if you
+#' run `DT[ , .N, by='grp']` in your package, you'll need to add
+#' `@importFrom data.table .N` to prevent the `NOTE` from `R CMD check`.
+#' See \code{?data.table::`special-symbols`} for the list of such symbols
+#' `data.table` defines; see the 'Importing data.table' vignette for more
+#' advice (`vignette('datatable-importing', 'data.table')`).
 #'
-#' These special symbols are used within [] in data.table;
-#'   see ?data.table::.N for details about the usage of each;
-#'   these need to be defined in your package to prevent the R CMD check
-#'   warning about 'visible bindings for global variables' owing to
-#'   non-standard evaluation. If you are also using un-quoted symbols in
-#'   your package code, you'll want to set these to NULL as well, e.g.
-#'     DT[ , x := 4]
-#'   will create a warning about x not having a visible binding; resolve
-#'   this by defining x=NULL either in your package's top-level environment
-#'   or within the function body where it's used. See the vignette
-#'   on importing data.table for more: vignette('datatable-importing')
-#'
-#' If you use := , we recommend defining this yourself rather than importing
-#'   the value defined in data.table:
-#' `:=` = function(...) NULL
-#'
-#' @importFrom data.table .N .I .BY .GRP .SD
-#' @aliases               .N .I .BY .GRP .SD
-#'
-#' @importFrom data.table data.table
-#' @aliases               data.table
+#' @import data.table
 #'
 #' @name data.table
 NULL

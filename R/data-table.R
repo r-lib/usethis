@@ -3,20 +3,13 @@
 #' @description `use_data_table` facilitates importing `data.table` by
 #' handling up-front some common set-up tasks for using it in your package.
 #'
-#' @details This function does three main things:
+#' @details This function does two main things:
 #'
-#' (1) `data.table` non-standard evaluation (NSE) can lead to some
-#' `NOTE`s from `R CMD check`; e.g., the common idiom `DT[ , .N, by = grp]` to
-#' count rows grouping by the column `grp` uses the symbol `.N`;
-#' `R CMD check` sees this value is used but undefined and complains. To get
-#' around this, we import this symbol from `data.table`'s namespace.
+#' (1) Import the entire `data.table` namespace
 #'
-#' (2) Import the `data.table` function (the most fundamental function
-#' from the package)
-#'
-#' (3) Block the usage of `data.table` as a dependency (`DESCRIPTION`
+#' (2) Block the usage of `data.table` as a dependency (`DESCRIPTION`
 #' field `Depends`); `data.table` should be used as an _import_ or _suggested_
-#' package only.
+#' package only. See this \url{https://github.com/Rdatatable/data.table/issues/3076}{discussion}.
 
 #' @export
 use_data_table = function() {
