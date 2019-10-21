@@ -9,7 +9,7 @@
 #'
 #' 2. Block the usage of `data.table` as a dependency (`DESCRIPTION`
 #' field `Depends`); `data.table` should be used as an _import_ or _suggested_
-#' package only. See this \url{https://github.com/Rdatatable/data.table/issues/3076}{discussion}.
+#' package only. See this [discussion](https://github.com/Rdatatable/data.table/issues/3076).
 #'
 #' `data.table` is generally careful to minimize the scope for namespace
 #' conflicts (i.e., functions with the same name as in other packages);
