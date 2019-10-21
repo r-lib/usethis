@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_code_of_conduct()` now generates absolute link to code of conduct on 
+  pkgdown website or original source to avoid R CMD check issues (#772).
+
 * `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
   it's usage (#771).
 

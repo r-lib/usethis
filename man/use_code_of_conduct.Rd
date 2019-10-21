@@ -19,3 +19,11 @@ inappropriate behaviour. The template comes from
 \url{https://contributor-covenant.org}, version 1:
 \url{https://contributor-covenant.org/version/1/0/0}.
 }
+\details{
+If your package is going to CRAN, the link to the CoC in your README must
+be an absolute link to a rendered website as \code{CODE_OF_CONDUCT.md} is not
+included in the package sent to CRAN. \code{use_code_of_conduct()} will
+automatically generate this link if you use pkgdown and have set the
+\code{url} field in \code{pkgdown.yml}; otherwise it'll link to
+\url{https://contributor-covenant.org/version/1/0/0}.
+}
