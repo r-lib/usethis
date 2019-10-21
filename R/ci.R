@@ -43,8 +43,12 @@ use_travis <- function(browse = interactive(), ext = c("org", "com")) {
 #' @rdname ci
 use_travis_badge <- function(ext = "org") {
   check_uses_github()
-  url <- glue("https://travis-ci.{ext}/{github_repo_spec()}")
-  img <- glue("{url}.svg?branch=master")
+  if (ext == "com") {
+    url <- glue("https://img.shields.io/travis/com/{github_repo_spec()}")
+  } else {
+    url <- glue("https://img.shields.io/travis/{github_repo_spec()}")
+  }
+  img <- glue("{url}/master?logo=travis")
   use_badge("Travis build status", url, img)
 }
 
@@ -114,8 +118,8 @@ use_appveyor_badge <- function() {
 appveyor_info <- function() {
   check_uses_github()
   img <- glue(
-    "https://ci.appveyor.com/api/projects/status/github/",
-    "{github_repo_spec()}?branch=master&svg=true"
+    "https://img.shields.io/appveyor/ci/",
+    "{github_repo_spec()}?label=Windows&logo=appveyor"
   )
   url <- glue("https://ci.appveyor.com/project/{github_repo_spec()}")
 
@@ -197,8 +201,8 @@ use_circleci <- function(browse = interactive(), image = "rocker/verse:latest") 
 #' @export
 use_circleci_badge <- function() {
   check_uses_github()
-  url <- glue("https://circleci.com/gh/{github_repo_spec()}")
-  img <- glue("{url}.svg?style=svg")
+  url <- glue("https://img.shields.io/circleci/build/gh/{github_repo_spec()}")
+  img <- glue("{url}/master?label=Linux&logo=circle&logoColor=green")
   use_badge("CircleCI build status", url, img)
 }
 
