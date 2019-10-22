@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* New `use_data_table()` to set up a package for Import-ing `data.table` (#897, @michaelchirico).
+
 * `use_code_of_conduct()` now generates absolute link to code of conduct on 
   pkgdown website or original source to avoid R CMD check issues (#772).
 
