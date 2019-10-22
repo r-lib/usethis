@@ -205,12 +205,21 @@ at top-level, but <code>.github/</code> is also common.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If your package is going to CRAN, the link to the CoC in your README must
+be an absolute link to a rendered website as <code>CODE_OF_CONDUCT.md</code> is not
+included in the package sent to CRAN. <code>use_code_of_conduct()</code> will
+automatically generate this link if you use pkgdown and have set the
+<code>url</code> field in <code>pkgdown.yml</code>; otherwise it'll link to
+<a href='https://contributor-covenant.org/version/1/0/0'>https://contributor-covenant.org/version/1/0/0</a>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>
