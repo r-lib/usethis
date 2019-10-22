@@ -148,15 +148,5 @@ badge_start <- "<!-- badges: start -->"
 badge_end <- "<!-- badges: end -->"
 
 find_readme <- function() {
-  Rmd <- proj_path("README.Rmd")
-  if (file_exists(Rmd)) {
-    return(Rmd)
-  }
-
-  md <- proj_path("README.md")
-  if (file_exists(md)) {
-    return(md)
-  }
-
-  NULL
+  path_first_existing(proj_path(c("README.Rmd", "README.md")))
 }

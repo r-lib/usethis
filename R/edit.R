@@ -5,7 +5,9 @@
 #' created. If the parent directory does not exist, it is also created.
 #'
 #' @param path Path to target file.
-#'
+#' @param open If, `NULL`, the default, will open the file when in an
+#'   interactive environment that is not running tests. Use `TRUE` or
+#'   `FALSE` to override the default.
 #' @return Target path, invisibly.
 #' @export
 #' @keywords internal
@@ -15,14 +17,14 @@
 #' edit_file("DESCRIPTION")
 #' edit_file("~/.gitconfig")
 #' }
-edit_file <- function(path) {
+edit_file <- function(path, open = NULL) {
   path <- user_path_prep(path)
   create_directory(path_dir(path))
   file_create(path)
 
-  if (!interactive() || is_testing()) {
-    ui_todo("Edit {ui_path(path)}")
-  } else {
+  open <- open %||% (interactive() && !is_testing())
+
+  if (open) {
     ui_todo("Modify {ui_path(path)}")
 
     if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
@@ -30,6 +32,8 @@ edit_file <- function(path) {
     } else {
       utils::file.edit(path)
     }
+  } else {
+    ui_todo("Edit {ui_path(path)}")
   }
   invisible(path)
 }
@@ -95,12 +99,22 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 
 #' @export
 #' @rdname edit
-#' @param type Snippet type. One of: "R", "markdown", "C_Cpp", "Tex",
-#'   "Javascript", "HTML", "SQL"
-edit_rstudio_snippets <- function(type = "R") {
+#' @param type Snippet type (case insensitive text).
+edit_rstudio_snippets <- function(type = c("r", "markdown", "c_cpp", "css",
+  "html", "java", "javascript", "python", "sql", "stan", "tex")) {
   # RStudio snippets stored using R's definition of ~
   # https://github.com/rstudio/rstudio/blob/4febd2feba912b2a9f8e77e3454a95c23a09d0a2/src/cpp/core/system/Win32System.cpp#L411-L458
-  path <- path_home_r(".R", "snippets", path_ext_set(tolower(type), "snippets"))
+  type <- tolower(type)
+  type <- match.arg(type)
+
+  path <- path_home_r(".R", "snippets", path_ext_set(type, "snippets"))
+  if (!file_exists(path)) {
+    ui_done("New snippet file at {ui_path(path)}")
+    ui_info(c(
+      "This masks the default snippets for {ui_field(type)}.",
+      "Delete this file and restart RStudio to restore the default snippets."
+    ))
+  }
   edit_file(path)
 }
 

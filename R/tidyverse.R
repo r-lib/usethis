@@ -26,9 +26,6 @@
 #' guide](https://style.tidyverse.org). This function will overwrite files! See
 #' below for usage advice.
 #'
-#' * `use_tidy_versions()`: pins all dependencies to require at least
-#'   the currently installed version.
-#'
 #' * `use_tidy_contributing()`: adds standard tidyverse contributing guidelines.
 #'
 #' * `use_tidy_issue_template()`: adds a standard tidyverse issue template.
@@ -134,40 +131,6 @@ use_tidy_description <- function() {
 
 #' @export
 #' @rdname tidyverse
-#' @param overwrite By default (`FALSE`), only dependencies without version
-#'   specifications will be modified. Set to `TRUE` to modify all dependencies.
-#' @param source Use "local" or "CRAN" package versions.
-use_tidy_versions <- function(overwrite = FALSE, source = c("local", "CRAN")) {
-  deps <- desc::desc_get_deps(proj_get())
-  deps <- update_versions(deps, overwrite = overwrite, source = source)
-  desc::desc_set_deps(deps, file = proj_get())
-
-  invisible(TRUE)
-}
-
-update_versions <- function(deps, overwrite = FALSE, source = c("local", "CRAN")) {
-  baserec <- base_and_recommended()
-  to_change <- !deps$package %in% c("R", baserec)
-  if (!overwrite) {
-    to_change <- to_change & deps$version == "*"
-  }
-
-  packages <- deps$package[to_change]
-  versions <- switch(match.arg(source),
-    local = purrr::map_chr(packages, package_version),
-    CRAN = utils::available.packages()[packages, "Version"]
-  )
-  deps$version[to_change] <- paste0(">= ", versions)
-
-  deps
-}
-
-package_version <- function(x) {
-  as.character(utils::packageVersion(x))
-}
-
-#' @export
-#' @rdname tidyverse
 use_tidy_eval <- function() {
   check_is_package("use_tidy_eval()")
 
@@ -179,15 +142,25 @@ use_tidy_eval <- function() {
   return(invisible(new))
 }
 
-
 #' @export
 #' @rdname tidyverse
 use_tidy_contributing <- function() {
-  use_directory(".github", ignore = TRUE)
+  use_dot_github()
   use_template(
     "tidy-contributing.md",
     path(".github", "CONTRIBUTING.md"),
-    data = list(package = project_name())
+    data = project_data()
+  )
+}
+
+#' @export
+#' @rdname tidyverse
+use_tidy_support <- function() {
+  use_dot_github()
+  use_template(
+    "tidy-support.md",
+    path(".github", "SUPPORT.md"),
+    data = project_data()
   )
 }
 
@@ -195,39 +168,34 @@ use_tidy_contributing <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_issue_template <- function() {
-  use_directory(path(".github", "ISSUE_TEMPLATE"), ignore = TRUE)
+  use_dot_github()
+  use_directory(path(".github", "ISSUE_TEMPLATE"))
   use_template(
     "tidy-issue.md",
     path(".github", "ISSUE_TEMPLATE", "issue_template.md")
   )
 }
 
-
-#' @export
-#' @rdname tidyverse
-use_tidy_support <- function() {
-  use_directory(".github", ignore = TRUE)
-  use_template(
-    "tidy-support.md",
-    path(".github", "SUPPORT.md"),
-    data = list(package = project_name())
-  )
-}
-
-
 #' @export
 #' @rdname tidyverse
 use_tidy_coc <- function() {
+  use_dot_github()
   use_code_of_conduct(path = ".github")
 }
 
 #' @export
 #' @rdname tidyverse
 use_tidy_github <- function() {
+  use_dot_github()
   use_tidy_contributing()
   use_tidy_issue_template()
   use_tidy_support()
   use_tidy_coc()
+}
+
+use_dot_github <- function() {
+  use_directory(".github", ignore = TRUE)
+  use_git_ignore("*.html", directory = ".github")
 }
 
 #' @export
