@@ -55,6 +55,5 @@ browse_github_issues("backports", 1)
 browse_github_pulls("rprojroot")
 browse_github_pulls("rprojroot", 3)
 browse_travis("usethis")
-browse_circle("circle")
 browse_cran("MASS")
 }
