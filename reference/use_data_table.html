@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Report working directory and usethis/RStudio project — proj_sitrep • usethis</title>
+<title>Prepare for importing data.table — use_data_table • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,17 +48,9 @@
 
 
 
-<meta property="og:title" content="Report working directory and usethis/RStudio project — proj_sitrep" />
-<meta property="og:description" content="proj_sitrep() reports
-current working directory
-the active usethis project
-the active RStudio Project
-
-
-Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and proj_sitrep() provides suggested commands for getting
-back to this happy state." />
+<meta property="og:title" content="Prepare for importing data.table — use_data_table" />
+<meta property="og:description" content="use_data_table facilitates importing data.table by
+handling up-front some common set-up tasks for using it in your package." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -182,50 +174,38 @@ back to this happy state." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Report working directory and usethis/RStudio project</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/sitrep.R'><code>R/sitrep.R</code></a></small>
-    <div class="hidden name"><code>proj_sitrep.Rd</code></div>
+    <h1>Prepare for importing data.table</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/data-table.R'><code>R/data-table.R</code></a></small>
+    <div class="hidden name"><code>use_data_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>proj_sitrep()</code> reports</p><ul>
-<li><p>current working directory</p></li>
-<li><p>the active usethis project</p></li>
-<li><p>the active RStudio Project</p></li>
-</ul>
-
-<p>Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and <code>proj_sitrep()</code> provides suggested commands for getting
-back to this happy state.</p>
+    <p><code>use_data_table</code> facilitates importing <code>data.table</code> by
+handling up-front some common set-up tasks for using it in your package.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>proj_sitrep</span>()</pre>
+    <pre class="usage"><span class='fu'>use_data_table</span>()</pre>
 
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A named list, with S3 class <code>sitrep</code> (for printing purposes),
-reporting current working directory, active usethis project, and active
-RStudio Project</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>This function does three main things:</p>
+<p>(1) <code>data.table</code> non-standard evaluation (NSE) can lead to some
+<code>NOTE</code>s from <code>R CMD check</code>; e.g., the common idiom <code>DT[ , .N, by = grp]</code> to
+count rows grouping by the column <code>grp</code> uses the symbol <code>.N</code>;
+<code>R CMD check</code> sees this value is used but undefined and complains. To get
+around this, we import this symbol from <code>data.table</code>'s namespace.</p>
+<p>(2) Import the <code>data.table</code> function (the most fundamental function
+from the package)</p>
+<p>(3) Block the usage of <code>data.table</code> as a dependency (<code>DESCRIPTION</code>
+field <code>Depends</code>); <code>data.table</code> should be used as an <em>import</em> or <em>suggested</em>
+package only.</p>
 
-    <div class='dont-index'><p>Other project functions: <code><a href='proj_utils.html'>proj_utils</a></code></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; *   working_directory: <span style='color: #0000BB;'>'/tmp/RtmpIhpDWP/file3c383ea96f0b/reference'</span><span>
-#&gt; * active_usethis_proj: </span><span style='color: #0000BB;'>'/tmp/RtmpIhpDWP/file3c383ea96f0b'</span><span>
-#&gt; * active_rstudio_proj: </span><span style='color: #555555;'>&lt;unset&gt;</span><span>
-#&gt; </span><span style='color: #BB0000;'>●</span><span> Your working directory is not the same as the active usethis project.
-#&gt;   Set working directory to the project: </span><span style='color: #555555;'>`setwd(proj_get())`</span><span>
-#&gt;   Set project to working directory:     </span><span style='color: #555555;'>`proj_set(getwd())`</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>
