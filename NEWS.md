@@ -3,6 +3,7 @@
 * New `use_github_actions()`, `use_github_action_check_release()`, `use_github_action_check_full()`,
   `use_github_action_pr_commands()`, `use_github_actions_tidy()` to set up a GitHub Actions
   for a package (@jimhester).
+* usethis now outputs with message conditions on standard output. (@jimhester)
 
 * New `use_data_table()` to set up a package for Import-ing `data.table` (#897, @michaelchirico).
 

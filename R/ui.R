@@ -272,7 +272,9 @@ cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
   }
 
   lines <- paste0(..., "\n")
-  cat(lines, sep = "")
+  inform_on_stdout(lines)
+
+  invisible()
 }
 
 # Sitrep helpers ---------------------------------------------------------------
@@ -288,4 +290,20 @@ kv_line <- function(key, value) {
     value <- ui_value(value)
   }
   cat_line("* ", key, ": ", value)
+}
+
+# This is a version of rlang::inform / base::message which outputs on stdout
+# instead of stderr, which avoids red text in RStudio and the Windows GUI
+inform_on_stdout <- function(message, ..., .file = stdout(), .subclass = NULL) {
+  message <- paste0(message, collapse = "\n")
+  message <- paste0(message, "\n")
+  cnd <- rlang::message_cnd(.subclass, ..., message = message)
+  message(cnd)
+  #withRestarts(
+    #expr = {
+      #signalCondition(cnd)
+      #cat(conditionMessage(cnd), file = .file, sep = "")
+    #},
+    #muffleMessage = function() NULL
+  #)
 }
