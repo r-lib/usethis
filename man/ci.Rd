@@ -44,6 +44,8 @@ Live, pandoc, and the tidyverse packages. For a minimal image, try
 \href{https://hub.docker.com/r/rocker/r-ver}{rocker/r-ver}. To specify a version
 of R, change the tag from \code{latest} to the version you want, e.g.
 \code{rocker/r-ver:3.5.3}.}
+
+\item{name}{The name to give to the GitHub Actions workflow}
 }
 \description{
 Sets up continuous integration (CI) services for an R package that is

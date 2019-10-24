@@ -310,6 +310,7 @@ use_github_actions <- function(name = "R") {
 #' @section `use_github_actions_badge()`:
 #' Only adds the [GitHub Actions](https://github.com/features/actions) badge. Use for a project
 #'  where GitHub actions is already configured.
+#' @param name The name to give to the GitHub Actions workflow
 #' @export
 #' @rdname ci
 use_github_actions_badge <- function(name = "R") {
