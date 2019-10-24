@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* New `use_github_actions()` to set up a GitHub actions for a package (@jimhester).
+
 * New `use_data_table()` to set up a package for Import-ing `data.table` (#897, @michaelchirico).
 
 * `use_code_of_conduct()` now generates absolute link to code of conduct on 

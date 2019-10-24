@@ -290,3 +290,34 @@ use_azure_coverage_badge <- function() {
   img <- glue("https://img.shields.io/azure-devops/coverage/{github_repo_spec()}/2")
   use_badge("Azure pipelines coverage status", url, img)
 }
+
+use_github_actions <- function(name = "R") {
+  check_uses_github()
+
+  new <- use_template(
+    "github-actions-r.yml",
+    glue(".github/workflows/{name}.yml"),
+    ignore = TRUE,
+    data = list(name = name)
+  )
+
+  if (!new) return(invisible(FALSE))
+  use_github_actions_badge()
+
+  invisible(TRUE)
+}
+
+#' @section `use_github_actions_badge()`:
+#' Only adds the [GitHub Actions](https://github.com/features/actions) badge. Use for a project
+#'  where GitHub actions is already configured.
+#' @export
+#' @rdname ci
+use_github_actions_badge <- function(name = "R") {
+  check_uses_github()
+
+  name <- utils::URLencode(name)
+  url <- glue("{github_home()}/actions?workflow={name}")
+  img <- glue("{github_home()}/workflows/{name}/badge.svg")
+
+  use_badge("R build status", url, img)
+}

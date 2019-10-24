@@ -9,6 +9,7 @@
 \alias{use_circleci}
 \alias{use_circleci_badge}
 \alias{use_azure_pipelines}
+\alias{use_github_actions_badge}
 \title{Continuous integration setup and badges}
 \usage{
 use_travis(browse = interactive(), ext = c("org", "com"))
@@ -26,6 +27,8 @@ use_circleci(browse = interactive(), image = "rocker/verse:latest")
 use_circleci_badge()
 
 use_azure_pipelines(browse = interactive())
+
+use_github_actions_badge(name = "R")
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -103,5 +106,11 @@ where Circle CI is already configured.
 Adds a basic \code{azure-pipelines.yml} to the top-level directory of a package. This is
 a configuration file for the \href{https://azure.microsoft.com/en-us/services/devops/pipelines/}{Azure Pipelines} continuous
 integration service.
+}
+
+\section{\code{use_github_actions_badge()}}{
+
+Only adds the \href{https://github.com/features/actions}{GitHub Actions} badge. Use for a project
+where GitHub actions is already configured.
 }
 
