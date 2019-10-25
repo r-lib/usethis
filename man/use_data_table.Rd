@@ -9,20 +9,12 @@ use_data_table()
 \description{
 \code{use_data_table} facilitates importing \code{data.table} by
 handling up-front some common set-up tasks for using it in your package.
-}
-\details{
-This function does three main things:
 
-(1) \code{data.table} non-standard evaluation (NSE) can lead to some
-\code{NOTE}s from \code{R CMD check}; e.g., the common idiom \code{DT[ , .N, by = grp]} to
-count rows grouping by the column \code{grp} uses the symbol \code{.N};
-\code{R CMD check} sees this value is used but undefined and complains. To get
-around this, we import this symbol from \code{data.table}'s namespace.
-
-(2) Import the \code{data.table} function (the most fundamental function
-from the package)
-
-(3) Block the usage of \code{data.table} as a dependency (\code{DESCRIPTION}
+This function does two main things:
+\enumerate{
+\item Import the entire \code{data.table} namespace (with \code{@import}).
+\item Block the usage of \code{data.table} as a dependency (\code{DESCRIPTION}
 field \code{Depends}); \code{data.table} should be used as an \emph{import} or \emph{suggested}
-package only.
+package only. See this \href{https://github.com/Rdatatable/data.table/issues/3076}{discussion}.
+}
 }
