@@ -300,6 +300,7 @@ use_azure_coverage_badge <- function() {
 #' @section `use_github_actions()`:
 #' Adds a basic ‘r.yaml’ file to the `.github/workflows` directory of a
 #'  package. This is a configuration file for the GitHub Actions service'
+#' @rdname ci
 #' @export
 use_github_actions <- function() {
   check_uses_github()
@@ -362,6 +363,7 @@ use_github_actions_badge <- function(name = "R") {
 #'   [@r-lib/actions/examples](https://github.com/r-lib/actions/tree/master/examples) or a custom action
 #'   given by the `url` parameter.
 #' @param url The full URL to the action yaml file.
+#' @inheritParams use_template
 #' @rdname ci
 use_action <- function(name,
                        url = glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"),
