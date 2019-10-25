@@ -10,6 +10,7 @@
 \alias{use_circleci_badge}
 \alias{use_azure_pipelines}
 \alias{use_github_actions_badge}
+\alias{use_action}
 \title{Continuous integration setup and badges}
 \usage{
 use_travis(browse = interactive(), ext = c("org", "com"))
@@ -29,6 +30,10 @@ use_circleci_badge()
 use_azure_pipelines(browse = interactive())
 
 use_github_actions_badge(name = "R")
+
+use_action(name,
+  url = glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"),
+  save_as = basename(url), ignore = FALSE, open = FALSE)
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -46,6 +51,8 @@ of R, change the tag from \code{latest} to the version you want, e.g.
 \code{rocker/r-ver:3.5.3}.}
 
 \item{name}{The name to give to the GitHub Actions workflow}
+
+\item{url}{The full URL to the action yaml file.}
 }
 \description{
 Sets up continuous integration (CI) services for an R package that is
@@ -114,5 +121,12 @@ integration service.
 
 Only adds the \href{https://github.com/features/actions}{GitHub Actions} badge. Use for a project
 where GitHub actions is already configured.
+}
+
+\section{\code{use_action()}}{
+
+Use a specific action, either one fo the example actions from
+\href{https://github.com/r-lib/actions/tree/master/examples}{@r-lib/actions/examples} or a custom action
+given by the \code{url} parameter.
 }
 

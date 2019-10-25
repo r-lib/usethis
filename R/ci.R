@@ -29,7 +29,9 @@ use_travis <- function(browse = interactive(), ext = c("org", "com")) {
     ".travis.yml",
     ignore = TRUE
   )
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   travis_activate(browse, ext = ext)
   use_travis_badge(ext = ext)
@@ -85,7 +87,9 @@ use_appveyor <- function(browse = interactive()) {
   check_uses_github()
 
   new <- use_template("appveyor.yml", ignore = TRUE)
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   appveyor_activate(browse)
   use_appveyor_badge()
@@ -135,7 +139,9 @@ use_gitlab_ci <- function() {
     ".gitlab-ci.yml",
     ignore = TRUE
   )
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   invisible(TRUE)
 }
@@ -291,18 +297,46 @@ use_azure_coverage_badge <- function() {
   use_badge("Azure pipelines coverage status", url, img)
 }
 
-use_github_actions <- function(name = "R") {
+#' @section `use_github_actions()`:
+#' Adds a basic ‘r.yaml’ file to the `.github/workflows` directory of a
+#'  package. This is a configuration file for the GitHub Actions service'
+#' @export
+use_github_actions <- function() {
   check_uses_github()
 
-  new <- use_template(
-    "github-actions-r.yml",
-    glue(".github/workflows/{name}.yml"),
-    ignore = TRUE,
-    data = list(name = name)
+  new <- use_action(
+    "quickstart.yaml",
+    save_as = "R.yaml",
+    ignore = TRUE
   )
 
-  if (!new) return(invisible(FALSE))
-  use_github_actions_badge()
+  if (!new) {
+    return(invisible(FALSE))
+  }
+  use_github_actions_badge("R")
+
+  invisible(TRUE)
+}
+
+use_tidy_actions <- function() {
+  check_uses_github()
+
+  new <- 
+    use_action(
+      "tidyverse.yaml",
+      save_as = "R.yaml",
+      ignore = TRUE
+    ) &&
+    use_action(
+      "commands.yaml",
+      ignore = TRUE
+    )
+
+  if (!new) {
+    return(invisible(FALSE))
+  }
+
+  use_github_actions_badge("R")
 
   invisible(TRUE)
 }
@@ -321,4 +355,32 @@ use_github_actions_badge <- function(name = "R") {
   img <- glue("{github_home()}/workflows/{name}/badge.svg")
 
   use_badge("R build status", url, img)
+}
+
+#' @section `use_action()`:
+#' Use a specific action, either one fo the example actions from
+#'   [@r-lib/actions/examples](https://github.com/r-lib/actions/tree/master/examples) or a custom action
+#'   given by the `url` parameter.
+#' @param url The full URL to the action yaml file.
+#' @rdname ci
+use_action <- function(name,
+                       url = glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"),
+                       save_as = basename(url),
+                       ignore = FALSE,
+                       open = FALSE) {
+  contents <- readLines(url)
+
+  save_as <- path(".github", "workflows", save_as)
+
+  new <- write_over(proj_path(save_as), contents)
+
+  if (ignore) {
+    use_build_ignore(save_as)
+  }
+
+  if (open && new) {
+    edit_file(proj_path(save_as))
+  }
+
+  invisible(new)
 }
