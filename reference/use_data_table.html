@@ -50,7 +50,14 @@
 
 <meta property="og:title" content="Prepare for importing data.table — use_data_table" />
 <meta property="og:description" content="use_data_table facilitates importing data.table by
-handling up-front some common set-up tasks for using it in your package." />
+handling up-front some common set-up tasks for using it in your package.
+This function does two main things:
+Import the entire data.table namespace (with @import).
+Block the usage of data.table as a dependency (DESCRIPTION
+field Depends); data.table should be used as an import or suggested
+package only. See this discussion.
+
+" />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -182,30 +189,23 @@ handling up-front some common set-up tasks for using it in your package." />
     <div class="ref-description">
     <p><code>use_data_table</code> facilitates importing <code>data.table</code> by
 handling up-front some common set-up tasks for using it in your package.</p>
+<p>This function does two main things:</p><ol>
+<li><p>Import the entire <code>data.table</code> namespace (with <code>@import</code>).</p></li>
+<li><p>Block the usage of <code>data.table</code> as a dependency (<code>DESCRIPTION</code>
+field <code>Depends</code>); <code>data.table</code> should be used as an <em>import</em> or <em>suggested</em>
+package only. See this <a href='https://github.com/Rdatatable/data.table/issues/3076'>discussion</a>.</p></li>
+</ol>
+
     </div>
 
     <pre class="usage"><span class='fu'>use_data_table</span>()</pre>
 
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This function does three main things:</p>
-<p>(1) <code>data.table</code> non-standard evaluation (NSE) can lead to some
-<code>NOTE</code>s from <code>R CMD check</code>; e.g., the common idiom <code>DT[ , .N, by = grp]</code> to
-count rows grouping by the column <code>grp</code> uses the symbol <code>.N</code>;
-<code>R CMD check</code> sees this value is used but undefined and complains. To get
-around this, we import this symbol from <code>data.table</code>'s namespace.</p>
-<p>(2) Import the <code>data.table</code> function (the most fundamental function
-from the package)</p>
-<p>(3) Block the usage of <code>data.table</code> as a dependency (<code>DESCRIPTION</code>
-field <code>Depends</code>); <code>data.table</code> should be used as an <em>import</em> or <em>suggested</em>
-package only.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>
