@@ -105,6 +105,6 @@ use_action_ci_full <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) 
 
 #' @rdname actions
 #' @export
-use_action_pr_commands <- function(save_as = "pr-commands.yaml", ignore = true, open = FALSE) {
+use_action_pr_commands <- function(save_as = "pr-commands.yaml", ignore = TRUE, open = FALSE) {
   use_action("pr-commands.yaml", save_as = save_as, ignore = ignore, open = open)
 }
