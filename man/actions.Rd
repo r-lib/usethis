@@ -15,7 +15,7 @@ use_github_actions()
 use_github_actions_badge(name = "R")
 
 use_action(name,
-  url = glue(" https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"),
+  url = glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"),
   save_as = basename(url), ignore = TRUE, open = FALSE)
 
 use_action_ci_quick(save_as = "R.yaml", ignore = TRUE, open = FALSE)

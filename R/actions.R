@@ -70,7 +70,7 @@ use_github_actions_badge <- function(name = "R") {
 #' @inheritParams use_template
 #' @rdname actions
 use_action <- function(name,
-                       url = glue(" https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"),
+                       url = glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"),
                        save_as = basename(url),
                        ignore = TRUE,
                        open = FALSE) {
