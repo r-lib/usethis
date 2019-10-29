@@ -15,11 +15,7 @@ NULL
 use_github_actions <- function() {
   check_uses_github()
 
-  new <- use_action(
-    "quickstart.yaml",
-    save_as = "R.yaml",
-    ignore = TRUE
-  )
+  new <- use_action_ci_quick()
 
   if (!new) {
     return(invisible(FALSE))
@@ -35,6 +31,7 @@ use_github_actions <- function() {
 #'   commands to be used in pull requests, `\document` to run
 #'   `roxygen2::roxygenise()` and update the PR, and `\style` to run
 #'   `styler::style_pkg()` and update the PR.
+#' @export
 use_tidy_actions <- function() {
   check_uses_github()
 

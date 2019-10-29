@@ -39,7 +39,7 @@ Defaults to \code{template}}
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
-Sets up continous integration (CI) for an R package that is developed on
+Sets up continuous integration (CI) for an R package that is developed on
 GitHub using \href{https://github.com/features/actions}{GitHub Actions}. These functions
 \itemize{
 \item Add the necessary configuration files and place them in \code{.Rbuildignore}.
