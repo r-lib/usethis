@@ -91,18 +91,34 @@ use_action <- function(name,
   invisible(new)
 }
 
+#' @section `use_action_ci_quick()`:
+#' This action installs latest stable R version on macOS and runs R CMD
+#'   check via the [rcmdcheck](https://github.com/r-lib/rcmdcheck) package.
 #' @rdname actions
 #' @export
 use_action_ci_quick <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
   use_action("ci-quick.yaml", save_as = save_as, ignore = ignore, open = open)
 }
 
+#' @section `use_action_ci_full()`:
+#' This action installs the last 5 minor R versions and runs R CMD check
+#'   via the [rcmdcheck](https://github.com/r-lib/rcmdcheck) package on the
+#'   three major OSs (linux, macOS and Windows). This action is what the
+#'   tidyverse teams uses on their repositories, but is overkill for less
+#'   widely used packages, which are better off using the simpler
+#'   `use_action_ci_quick()`.
 #' @rdname actions
 #' @export
 use_action_ci_full <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
   use_action("ci-full.yaml", save_as = save_as, ignore = ignore, open = open)
 }
 
+#' @section `use_action_pr_commands()`:
+#' This workflow enables the use of 2 R specific commands in pull request
+#'   issue comments. `\document` will use
+#'   [roxygen2](https://roxygen2.r-lib.org/) to rebuild the documentation for
+#'   the package and commit the result to the pull request. `\style` will use
+#'   [styler](https://styler.r-lib.org/) to restyle your package.
 #' @rdname actions
 #' @export
 use_action_pr_commands <- function(save_as = "pr-commands.yaml", ignore = TRUE, open = FALSE) {
