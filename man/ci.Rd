@@ -9,9 +9,6 @@
 \alias{use_circleci}
 \alias{use_circleci_badge}
 \alias{use_azure_pipelines}
-\alias{use_github_actions}
-\alias{use_github_actions_badge}
-\alias{use_action}
 \title{Continuous integration setup and badges}
 \usage{
 use_travis(browse = interactive(), ext = c("org", "com"))
@@ -29,14 +26,6 @@ use_circleci(browse = interactive(), image = "rocker/verse:latest")
 use_circleci_badge()
 
 use_azure_pipelines(browse = interactive())
-
-use_github_actions()
-
-use_github_actions_badge(name = "R")
-
-use_action(name,
-  url = glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"),
-  save_as = basename(url), ignore = FALSE, open = FALSE)
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -52,18 +41,6 @@ Live, pandoc, and the tidyverse packages. For a minimal image, try
 \href{https://hub.docker.com/r/rocker/r-ver}{rocker/r-ver}. To specify a version
 of R, change the tag from \code{latest} to the version you want, e.g.
 \code{rocker/r-ver:3.5.3}.}
-
-\item{name}{The name to give to the GitHub Actions workflow}
-
-\item{url}{The full URL to the action yaml file.}
-
-\item{save_as}{Path of file to create, relative to root of active project.
-Defaults to \code{template}}
-
-\item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
-
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 Sets up continuous integration (CI) services for an R package that is
@@ -126,24 +103,5 @@ where Circle CI is already configured.
 Adds a basic \code{azure-pipelines.yml} to the top-level directory of a package. This is
 a configuration file for the \href{https://azure.microsoft.com/en-us/services/devops/pipelines/}{Azure Pipelines} continuous
 integration service.
-}
-
-\section{\code{use_github_actions()}}{
-
-Adds a basic ‘r.yaml’ file to the \code{.github/workflows} directory of a
-package. This is a configuration file for the GitHub Actions service'
-}
-
-\section{\code{use_github_actions_badge()}}{
-
-Only adds the \href{https://github.com/features/actions}{GitHub Actions} badge. Use for a project
-where GitHub actions is already configured.
-}
-
-\section{\code{use_action()}}{
-
-Use a specific action, either one fo the example actions from
-\href{https://github.com/r-lib/actions/tree/master/examples}{@r-lib/actions/examples} or a custom action
-given by the \code{url} parameter.
 }
 
