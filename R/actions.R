@@ -41,8 +41,6 @@ use_tidy_actions <- function() {
     return(invisible(FALSE))
   }
 
-  use_github_actions_badge("R")
-
   invisible(TRUE)
 }
 
@@ -98,6 +96,8 @@ use_action <- function(name,
 #' @export
 use_action_ci_quick <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
   use_action("ci-quick.yaml", save_as = save_as, ignore = ignore, open = open)
+
+  use_github_actions_badge("R")
 }
 
 #' @section `use_action_ci_full()`:
@@ -111,6 +111,8 @@ use_action_ci_quick <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE)
 #' @export
 use_action_ci_full <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
   use_action("ci-full.yaml", save_as = save_as, ignore = ignore, open = open)
+
+  use_github_actions_badge("R")
 }
 
 #' @section `use_action_pr_commands()`:
