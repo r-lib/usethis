@@ -25,7 +25,7 @@ Either \code{NULL} or a git2r credential object, invisibly, i.e.
 something to be passed to git2r as \code{credentials}.
 }
 \description{
-Credentials are needed for git operations like \code{git push} that address a
+Credentials are needed for git operations like \verb{git push} that address a
 remote, typically GitHub. usethis uses the git2r package. git2r tries to use
 the same credentials as command line git, but sometimes fails. usethis tries
 to increase the chance that things "just work" and, when they don't, to
@@ -54,8 +54,8 @@ to git2r. This will work if you have the exact configuration expected by
 git2r:
 \enumerate{
 \item Your public and private keys are in the default locations,
-\code{~/.ssh/id_rsa.pub} and \code{~/.ssh/id_rsa}, respectively.
-\item All the relevant software agrees on the definition of \code{~/}, i.e.
+\verb{~/.ssh/id_rsa.pub} and \verb{~/.ssh/id_rsa}, respectively.
+\item All the relevant software agrees on the definition of \verb{~/}, i.e.
 your home directory. This is harder than it sounds on Windows.
 \item Your \code{ssh-agent} is configured to manage your SSH passphrase, if you have
 one. This too can be a problem on Windows. Read more about SSH setup in

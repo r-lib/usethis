@@ -40,11 +40,11 @@ https://travis-ci.org. Change to \code{"com"} for https://travis-ci.com.}
 Live, pandoc, and the tidyverse packages. For a minimal image, try
 \href{https://hub.docker.com/r/rocker/r-ver}{rocker/r-ver}. To specify a version
 of R, change the tag from \code{latest} to the version you want, e.g.
-\code{rocker/r-ver:3.5.3}.}
+\verb{rocker/r-ver:3.5.3}.}
 }
 \description{
 Sets up continuous integration (CI) services for an R package that is
-developed on GitHub. CI services can run \code{R CMD check} automatically on
+developed on GitHub. CI services can run \verb{R CMD check} automatically on
 various platforms, triggered by each push or pull request. These functions
 \itemize{
 \item Add service-specific configuration files and add them to \code{.Rbuildignore}.

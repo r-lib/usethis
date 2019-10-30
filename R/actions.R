@@ -117,9 +117,9 @@ use_action_ci_full <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) 
 
 #' @section `use_action_pr_commands()`:
 #' This workflow enables the use of 2 R specific commands in pull request
-#'   issue comments. `\document` will use
+#'   issue comments. \verb{\\document} will use
 #'   [roxygen2](https://roxygen2.r-lib.org/) to rebuild the documentation for
-#'   the package and commit the result to the pull request. `\style` will use
+#'   the package and commit the result to the pull request. \verb{\\style} will use
 #'   [styler](https://styler.r-lib.org/) to restyle your package.
 #' @rdname actions
 #' @export

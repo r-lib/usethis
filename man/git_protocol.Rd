@@ -23,8 +23,8 @@ usethis supports SSH and HTTPS. The protocol affects two things:
 \itemize{
 \item The default URL format for repos with no existing remote protocol:
 \itemize{
-\item \code{protocol = "ssh"} implies \code{git@github.com:<OWNER>/<REPO>.git}
-\item \code{protocol = "https"} implies \code{https://github.com/<OWNER>/<REPO>.git}
+\item \code{protocol = "ssh"} implies \verb{git@github.com:<OWNER>/<REPO>.git}
+\item \code{protocol = "https"} implies \verb{https://github.com/<OWNER>/<REPO>.git}
 }
 \item The strategy for creating \code{credentials} when none are given. See
 \code{\link[=git_credentials]{git_credentials()}} for details.

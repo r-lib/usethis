@@ -14,7 +14,7 @@ help available to the user via \code{?foo} or \code{package?foo}. Once you call
 the \code{DESCRIPTION}. That ensures you don't need to repeat the same information
 in multiple places. This \code{.R} file is also a good place for roxygen
 directives that apply to the whole package (vs. a specific function), such as
-global namespace tags like \code{@importFrom}.
+global namespace tags like \verb{@importFrom}.
 }
 \seealso{
 The \href{https://r-pkgs.org/man.html}{documentation chapter} of \href{https://r-pkgs.org}{R Packages}

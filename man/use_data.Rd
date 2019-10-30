@@ -5,8 +5,13 @@
 \alias{use_data_raw}
 \title{Create package data}
 \usage{
-use_data(..., internal = FALSE, overwrite = FALSE,
-  compress = "bzip2", version = 2)
+use_data(
+  ...,
+  internal = FALSE,
+  overwrite = FALSE,
+  compress = "bzip2",
+  version = 2
+)
 
 use_data_raw(name = "DATASET", open = interactive())
 }
@@ -14,7 +19,7 @@ use_data_raw(name = "DATASET", open = interactive())
 \item{...}{Unquoted names of existing objects to save.}
 
 \item{internal}{If \code{FALSE}, saves each object in its own \code{.rda}
-file in the \code{data/} directory. These data files bypass the usual
+file in the \verb{data/} directory. These data files bypass the usual
 export mechanism and are available whenever the package is loaded
 (or via \code{\link[=data]{data()}} if \code{LazyData} is not true).
 

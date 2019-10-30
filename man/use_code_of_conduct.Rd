@@ -9,7 +9,7 @@ use_code_of_conduct(path = NULL)
 \arguments{
 \item{path}{Path of the directory to put \code{CODE_OF_CONDUCT.md} in, relative to
 the active project. Passed along to \code{\link[=use_directory]{use_directory()}}. Default is to locate
-at top-level, but \code{.github/} is also common.}
+at top-level, but \verb{.github/} is also common.}
 }
 \description{
 Adds a \code{CODE_OF_CONDUCT.md} file to the active project and lists in

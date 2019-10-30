@@ -14,16 +14,23 @@ use_github_actions()
 
 use_github_actions_badge(name = "R")
 
-use_action(name,
+use_action(
+  name,
   url = glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"),
-  save_as = basename(url), ignore = TRUE, open = FALSE)
+  save_as = basename(url),
+  ignore = TRUE,
+  open = FALSE
+)
 
 use_action_ci_quick(save_as = "R.yaml", ignore = TRUE, open = FALSE)
 
 use_action_ci_full(save_as = "R.yaml", ignore = TRUE, open = FALSE)
 
-use_action_pr_commands(save_as = "pr-commands.yaml", ignore = TRUE,
-  open = FALSE)
+use_action_pr_commands(
+  save_as = "pr-commands.yaml",
+  ignore = TRUE,
+  open = FALSE
+)
 }
 \arguments{
 \item{name}{The name to give to the GitHub Actions workflow}
@@ -84,9 +91,9 @@ widely used packages, which are better off using the simpler
 \section{\code{use_action_pr_commands()}}{
 
 This workflow enables the use of 2 R specific commands in pull request
-issue comments. \code{\document} will use
+issue comments. \verb{\\document} will use
 \href{https://roxygen2.r-lib.org/}{roxygen2} to rebuild the documentation for
-the package and commit the result to the pull request. \code{\style} will use
+the package and commit the result to the pull request. \verb{\\style} will use
 \href{https://styler.r-lib.org/}{styler} to restyle your package.
 }
 
