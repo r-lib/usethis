@@ -37,7 +37,7 @@ use_readme_rmd <- function(open = interactive()) {
     if (is_package()) "package-README" else "project-README",
     "README.Rmd",
     data = data,
-    ignore = TRUE,
+    ignore = if(is_package()) TRUE else FALSE,
     open = open
   )
   if (!new) return(invisible(FALSE))
