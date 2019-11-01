@@ -59,6 +59,28 @@ test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
   expect_identical(loose_dropbox_files, not_loose_files)
 })
 
+## convert_teaching_url ----
+
+test_that("convert_teaching_url() does the appropriate conversions", {
+  expect_identical(
+    convert_teaching_url("https://rstudio.com"), "https://rstudio.com"
+  )
+  expect_equal(
+    convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz"),
+    "https://drive.google.com/uc?export=download&id=123456789xxyyyzzz"
+  )
+  expect_equal(
+    convert_teaching_url(
+      "https://drive.google.com/file/d/123456789xxxyyyzzz/view"
+    ),
+    "https://drive.google.com/uc?export=download&id=123456789xxxyyyzzz"
+  )
+  expect_equal(
+    convert_teaching_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0"),
+    "https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1"
+  )
+})
+
 ## helpers ----
 test_that("normalize_url() prepends https:// (or not)", {
   expect_error(normalize_url(1), "is\\.character.*not TRUE")
@@ -67,16 +89,16 @@ test_that("normalize_url() prepends https:// (or not)", {
   expect_identical(
     normalize_url("https://github.com/r-lib/rematch2/archive/master.zip"),
     "https://github.com/r-lib/rematch2/archive/master.zip"
-  )
-  expect_identical(
-    normalize_url("https://rstd.io/usethis-src"),
-    "https://rstd.io/usethis-src"
-  )
-  expect_identical(
-    normalize_url("rstd.io/usethis-src"),
-    "https://rstd.io/usethis-src"
-  )
-})
+    )
+    expect_identical(
+      normalize_url("https://rstd.io/usethis-src"),
+      "https://rstd.io/usethis-src"
+    )
+    expect_identical(
+      normalize_url("rstd.io/usethis-src"),
+      "https://rstd.io/usethis-src"
+    )
+  })
 
 test_that("shortlinks pass through", {
   url1 <- "bit.ly/usethis-shortlink-example"
