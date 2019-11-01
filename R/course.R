@@ -159,9 +159,9 @@ use_zip <- function(url,
 #'
 #' It looks like it's not possible to directly share as a ZIP file the content
 #' of a folder storred in Google Drive. It is however possible to share a ZIP
-#' file storred in Google Drive. To get this URL, click on
+#' file stored in Google Drive. To get this URL, click on
 #' "Get the shareable link" (within the "Share" menu). This URL doesn't allow
-#' for direct download as it's designed to be processed in a web browser first.
+#' for direct download, as it's designed to be processed in a web browser first.
 #' Such a sharing link looks like:
 #'
 #' ```
@@ -295,7 +295,7 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
   invisible(target)
 }
 
-## takes a Dropbox or Google Drive URL as provided in the web browser, and
+## takes a Dropbox or Google Drive URL as captured from the web browser, and
 ## converts into an URL suitable for direct download (as expected by
 ## tidy_download() for instance).
 convert_teaching_url <- function(url) {
