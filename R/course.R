@@ -169,7 +169,8 @@ use_zip <- function(url,
 #' ```
 #'
 #' To be able to get the URL suitable for direct download, you need to extract
-#' the "id" element from the URL and include it in this URL format (or):
+#' the "id" element from the URL and include it in this URL format (or use the
+#' function [convert_teaching_url()]):
 #'
 #' ```
 #' https://docs.google.com/uc?export=download&id=123456789xxyyyzzz
@@ -295,22 +296,48 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
   invisible(target)
 }
 
-## takes a Dropbox or Google Drive URL as captured from the web browser, and
-## converts into an URL suitable for direct download (as expected by
-## tidy_download() for instance).
+#' Helper to convert a Dropbox or Google Drive URL
+#'
+#' The URL provided by Dropbox or Google Drive in a web browser can't be used to
+#' access the files programmatically. This function converts these URLs into a
+#' format suitable for direct download (as expected by [tidy_download()] for
+#' instance). See [use_course_details] for more information.
+#'
+#' This function currently supports:
+#'
+#' * Google Drive with URLs having the following formats:
+#'   - `https://drive.google.com/open?id=123456789xxyyyzzz`
+#'   - `https://drive.google.com/file/d/123456789xxxyyyzzz/view`
+#' * Dropbox URLs having the following format:
+#'   - `https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0`
+#'
+#' @param url a Dropbox or Google Drive URL as copied from a web browser.
+#'
+#' @examples
+#' \dontrun{
+#'   convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz")
+#' }
+#' @export
 convert_teaching_url <- function(url) {
-  stopifnot(is.character(url))
+  stopifnot(is_string(url))
   stopifnot(grepl("^http[s]?://", url))
 
   if (grepl("drive.google.com", url)) {
     id <- regmatches(url, regexpr("id=[^&]+&?", url))
-    return(glue::glue("https://drive.google.com/uc?export=download&{id}"))
+    if (length(id) == 0) {
+      id <- regmatches(url, regexpr("d/[^/]+/view", url))
+      id <- gsub(".+/(.+)/.+", "id=\\1", id)
+    }
+    if (length(id) == 1) {
+      return(glue::glue("https://drive.google.com/uc?export=download&{id}"))
+    }
   }
 
   if (grepl("dropbox.com/sh", url)) {
     return(gsub("dl=0", "dl=1", url))
   }
 
+  ui_info("Format not recognized, no changes were made to the URL.")
   url
 }
 
