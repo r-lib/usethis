@@ -55,8 +55,8 @@ GitHub using \href{https://github.com/features/actions}{GitHub Actions}. These f
 }
 \section{\code{use_github_actions()}}{
 
-Adds a basic ‘r.yaml’ file to the \code{.github/workflows} directory of a
-package. This is a configuration file for the \href{https://github.com/features/actions}{GitHub Actions} service'
+Adds a basic ‘R.yaml’ file to the \code{.github/workflows} directory of a
+package. This is a configuration file for the \href{https://github.com/features/actions}{GitHub Actions} service.
 }
 
 \section{\code{use_github_actions_badge()}}{

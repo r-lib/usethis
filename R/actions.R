@@ -8,9 +8,9 @@
 NULL
 
 #' @section `use_github_actions()`:
-#' Adds a basic ‘r.yaml’ file to the `.github/workflows` directory of a
+#' Adds a basic ‘R.yaml’ file to the `.github/workflows` directory of a
 #'  package. This is a configuration file for the [GitHub
-#'  Actions](https://github.com/features/actions) service'
+#'  Actions](https://github.com/features/actions) service.
 #' @rdname actions
 #' @export
 use_github_actions <- function() {
@@ -19,15 +19,15 @@ use_github_actions <- function() {
   new <- use_action_check_release()
 
   if (!new) {
-    return(invisible(FALSE))
+    return(invisible(new))
   }
-  use_github_actions_badge("R")
+  use_github_actions_badge("R-CMD-check")
 
-  invisible(TRUE)
+  invisible(new)
 }
 
-#' @section `use_tidy_actions()`
-#' Sets up tidyverse actions that check the R versions officially support by
+#' @section `use_tidy_actions()`:
+#' Sets up tidyverse actions that check the R versions officially supported by
 #'   the tidyverse, (current release, devel and four previous versions). It also
 #'   adds two commands to be used in pull requests, `\document` to run
 #'   `roxygen2::roxygenise()` and update the PR, and `\style` to run
@@ -38,11 +38,7 @@ use_tidy_actions <- function() {
 
   new <- use_action_check_full() && use_action_pr_commands()
 
-  if (!new) {
-    return(invisible(FALSE))
-  }
-
-  invisible(TRUE)
+  invisible(new)
 }
 
 #' @section `use_github_actions_badge()`:
