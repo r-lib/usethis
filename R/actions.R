@@ -32,6 +32,7 @@ use_github_actions <- function() {
 #'   adds two commands to be used in pull requests, `\document` to run
 #'   `roxygen2::roxygenise()` and update the PR, and `\style` to run
 #'   `styler::style_pkg()` and update the PR.
+#' @rdname actions
 #' @export
 use_tidy_actions <- function() {
   check_uses_github()
