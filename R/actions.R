@@ -50,7 +50,7 @@ use_tidy_actions <- function() {
 #' @param name The name to give to the GitHub Actions workflow
 #' @export
 #' @rdname actions
-use_github_actions_badge <- function(name = "R") {
+use_github_actions_badge <- function(name = "R-CMD-check") {
   check_uses_github()
 
   name <- utils::URLencode(name)
