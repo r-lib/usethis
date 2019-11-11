@@ -15,7 +15,7 @@ NULL
 use_github_actions <- function() {
   check_uses_github()
 
-  new <- use_action_ci_quick()
+  new <- use_action_check_quick()
 
   if (!new) {
     return(invisible(FALSE))
@@ -35,7 +35,7 @@ use_github_actions <- function() {
 use_tidy_actions <- function() {
   check_uses_github()
 
-  new <- use_action_ci_full() && use_action_pr_commands()
+  new <- use_action_check_full() && use_action_pr_commands()
 
   if (!new) {
     return(invisible(FALSE))
@@ -89,28 +89,28 @@ use_action <- function(name,
   invisible(new)
 }
 
-#' @section `use_action_ci_quick()`:
+#' @section `use_action_check_quick()`:
 #' This action installs latest stable R version on macOS and runs R CMD
 #'   check via the [rcmdcheck](https://github.com/r-lib/rcmdcheck) package.
 #' @rdname actions
 #' @export
-use_action_ci_quick <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
-  use_action("ci-quick.yaml", save_as = save_as, ignore = ignore, open = open)
+use_action_check_quick <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
+  use_action("check-quick.yaml", save_as = save_as, ignore = ignore, open = open)
 
   use_github_actions_badge("R")
 }
 
-#' @section `use_action_ci_full()`:
+#' @section `use_action_check_full()`:
 #' This action installs the last 5 minor R versions and runs R CMD check
 #'   via the [rcmdcheck](https://github.com/r-lib/rcmdcheck) package on the
 #'   three major OSs (linux, macOS and Windows). This action is what the
 #'   tidyverse teams uses on their repositories, but is overkill for less
 #'   widely used packages, which are better off using the simpler
-#'   `use_action_ci_quick()`.
+#'   `use_action_check_quick()`.
 #' @rdname actions
 #' @export
-use_action_ci_full <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
-  use_action("ci-full.yaml", save_as = save_as, ignore = ignore, open = open)
+use_action_check_full <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
+  use_action("check-full.yaml", save_as = save_as, ignore = ignore, open = open)
 
   use_github_actions_badge("R")
 }
