@@ -18,4 +18,3 @@
 ^_pkgdown\.yml$
 ^docs$
 ^vignettes/articles$
-^\.github/workflows/R\.yaml$
