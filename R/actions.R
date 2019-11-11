@@ -76,6 +76,7 @@ use_action <- function(name,
 
   save_as <- path(".github", "workflows", save_as)
 
+  create_directory(proj_path(save_as))
   new <- write_over(proj_path(save_as), contents)
 
   if (ignore) {

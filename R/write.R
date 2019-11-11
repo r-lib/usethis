@@ -70,7 +70,6 @@ write_union <- function(path, lines, quiet = FALSE) {
 write_over <- function(path, lines, quiet = FALSE) {
   stopifnot(is.character(lines), length(lines) > 0)
   path <- user_path_prep(path)
-  fs::dir_create(dirname(path))
 
   if (same_contents(path, lines)) {
     return(invisible(FALSE))
