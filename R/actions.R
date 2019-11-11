@@ -9,7 +9,8 @@ NULL
 
 #' @section `use_github_actions()`:
 #' Adds a basic ‘r.yaml’ file to the `.github/workflows` directory of a
-#'  package. This is a configuration file for the GitHub Actions service'
+#'  package. This is a configuration file for the [GitHub
+#'  Actions](https://github.com/features/actions) service'
 #' @rdname actions
 #' @export
 use_github_actions <- function() {
@@ -26,9 +27,9 @@ use_github_actions <- function() {
 }
 
 #' @section `use_tidy_actions()`
-#' Sets up tidyverse actions that support the officially supported R versions
-#'   (current release, devel and four previous versions). It also adds two
-#'   commands to be used in pull requests, `\document` to run
+#' Sets up tidyverse actions that check the R versions officially support by
+#'   the tidyverse, (current release, devel and four previous versions). It also
+#'   adds two commands to be used in pull requests, `\document` to run
 #'   `roxygen2::roxygenise()` and update the PR, and `\style` to run
 #'   `styler::style_pkg()` and update the PR.
 #' @export
@@ -47,7 +48,8 @@ use_tidy_actions <- function() {
 #' @section `use_github_actions_badge()`:
 #' Only adds the [GitHub Actions](https://github.com/features/actions) badge. Use for a project
 #'   where GitHub actions is already configured.
-#' @param name The name to give to the GitHub Actions workflow
+#' @param name The name to give to the [GitHub
+#'   Actions](https://github.com/features/actions) workflow.
 #' @export
 #' @rdname actions
 use_github_actions_badge <- function(name = "R-CMD-check") {
@@ -76,7 +78,7 @@ use_action <- function(name,
 
   save_as <- path(".github", "workflows", save_as)
 
-  create_directory(proj_path(save_as))
+  create_directory(dirname(proj_path(save_as)))
   new <- write_over(proj_path(save_as), contents)
 
   if (ignore) {
@@ -98,7 +100,7 @@ use_action <- function(name,
 use_action_check_quick <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
   use_action("check-quick.yaml", save_as = save_as, ignore = ignore, open = open)
 
-  use_github_actions_badge("R")
+  use_github_actions_badge("R-CMD-check")
 }
 
 #' @section `use_action_check_full()`:
@@ -113,7 +115,7 @@ use_action_check_quick <- function(save_as = "R.yaml", ignore = TRUE, open = FAL
 use_action_check_full <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
   use_action("check-full.yaml", save_as = save_as, ignore = ignore, open = open)
 
-  use_github_actions_badge("R")
+  use_github_actions_badge("R-CMD-check")
 }
 
 #' @section `use_action_pr_commands()`:

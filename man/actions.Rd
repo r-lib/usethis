@@ -12,7 +12,7 @@
 \usage{
 use_github_actions()
 
-use_github_actions_badge(name = "R")
+use_github_actions_badge(name = "R-CMD-check")
 
 use_action(
   name,
@@ -33,7 +33,7 @@ use_action_pr_commands(
 )
 }
 \arguments{
-\item{name}{The name to give to the GitHub Actions workflow}
+\item{name}{The name to give to the \href{https://github.com/features/actions}{GitHub Actions} workflow.}
 
 \item{url}{The full URL to the action yaml file.}
 
@@ -56,7 +56,7 @@ GitHub using \href{https://github.com/features/actions}{GitHub Actions}. These f
 \section{\code{use_github_actions()}}{
 
 Adds a basic ‘r.yaml’ file to the \code{.github/workflows} directory of a
-package. This is a configuration file for the GitHub Actions service'
+package. This is a configuration file for the \href{https://github.com/features/actions}{GitHub Actions} service'
 }
 
 \section{\code{use_github_actions_badge()}}{
