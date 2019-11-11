@@ -5,7 +5,7 @@
 \alias{use_github_actions}
 \alias{use_github_actions_badge}
 \alias{use_action}
-\alias{use_action_check_quick}
+\alias{use_action_check_release}
 \alias{use_action_check_full}
 \alias{use_action_pr_commands}
 \title{GitHub Actions setup and badges}
@@ -22,7 +22,7 @@ use_action(
   open = FALSE
 )
 
-use_action_check_quick(save_as = "R.yaml", ignore = TRUE, open = FALSE)
+use_action_check_release(save_as = "R.yaml", ignore = TRUE, open = FALSE)
 
 use_action_check_full(save_as = "R.yaml", ignore = TRUE, open = FALSE)
 
@@ -72,9 +72,9 @@ Use a specific action, either one of the example actions from
 given by the \code{url} parameter.
 }
 
-\section{\code{use_action_check_quick()}}{
+\section{\code{use_action_check_release()}}{
 
-This action installs latest stable R version on macOS and runs R CMD
+This action installs the latest release R version on macOS and runs R CMD
 check via the \href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package.
 }
 
@@ -85,7 +85,7 @@ via the \href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package on the
 three major OSs (linux, macOS and Windows). This action is what the
 tidyverse teams uses on their repositories, but is overkill for less
 widely used packages, which are better off using the simpler
-\code{use_action_check_quick()}.
+\code{use_action_check_release()}.
 }
 
 \section{\code{use_action_pr_commands()}}{

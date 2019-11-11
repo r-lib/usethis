@@ -16,7 +16,7 @@ NULL
 use_github_actions <- function() {
   check_uses_github()
 
-  new <- use_action_check_quick()
+  new <- use_action_check_release()
 
   if (!new) {
     return(invisible(FALSE))
@@ -92,13 +92,13 @@ use_action <- function(name,
   invisible(new)
 }
 
-#' @section `use_action_check_quick()`:
-#' This action installs latest stable R version on macOS and runs R CMD
+#' @section `use_action_check_release()`:
+#' This action installs the latest release R version on macOS and runs R CMD
 #'   check via the [rcmdcheck](https://github.com/r-lib/rcmdcheck) package.
 #' @rdname actions
 #' @export
-use_action_check_quick <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
-  use_action("check-quick.yaml", save_as = save_as, ignore = ignore, open = open)
+use_action_check_release <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
+  use_action("check-release.yaml", save_as = save_as, ignore = ignore, open = open)
 
   use_github_actions_badge("R-CMD-check")
 }
@@ -109,7 +109,7 @@ use_action_check_quick <- function(save_as = "R.yaml", ignore = TRUE, open = FAL
 #'   three major OSs (linux, macOS and Windows). This action is what the
 #'   tidyverse teams uses on their repositories, but is overkill for less
 #'   widely used packages, which are better off using the simpler
-#'   `use_action_check_quick()`.
+#'   `use_action_check_release()`.
 #' @rdname actions
 #' @export
 use_action_check_full <- function(save_as = "R.yaml", ignore = TRUE, open = FALSE) {
