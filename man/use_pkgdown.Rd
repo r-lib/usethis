@@ -23,9 +23,9 @@ destination directory to \code{.Rbuildignore}.
 \item \code{use_pkgdown_travis()}: helps you set up pkgdown for automatic deployment
 on Travis-CI. Specifically, it:
 \itemize{
-\item Adds the \verb{docs/} folder to \code{.gitignore} and \code{.Rbuildignore}.
+\item Adds the \code{docs/} folder to \code{.gitignore} and \code{.Rbuildignore}.
 \item Builds favicons if your package contains a package logo,
-and adds the resulting \verb{pkgdown/} folder to \code{.Rbuildignore}.
+and adds the resulting \code{pkgdown/} folder to \code{.Rbuildignore}.
 \item Creates an empty \code{gh-pages} branch for the pkgdown site to be
 deployed to.
 \item Prompts you about what to do next regarding Travis-CI deployment

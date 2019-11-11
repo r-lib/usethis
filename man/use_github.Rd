@@ -4,14 +4,9 @@
 \alias{use_github}
 \title{Connect a local repo with GitHub}
 \usage{
-use_github(
-  organisation = NULL,
-  private = FALSE,
-  protocol = git_protocol(),
-  credentials = NULL,
-  auth_token = github_token(),
-  host = NULL
-)
+use_github(organisation = NULL, private = FALSE,
+  protocol = git_protocol(), credentials = NULL,
+  auth_token = github_token(), host = NULL)
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this

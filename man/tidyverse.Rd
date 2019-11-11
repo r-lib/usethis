@@ -42,7 +42,7 @@ use_tidy_release_test_env()
 created, provided that the parent path exists.}
 
 \item{name}{Name of the copyright holder or holders. Separate multiple
-individuals with \verb{;}. You can supply a global default with
+individuals with \code{;}. You can supply a global default with
 \code{options(usethis.full_name = "My name")}.}
 
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -64,7 +64,7 @@ activates the new package.
 \item \code{use_tidy_ci()}: sets up \href{https://travis-ci.org}{Travis CI} and
 \href{https://codecov.io}{Codecov}, ensuring that the package is actively tested
 on the versions of R officially supported by the Tidyverse (current release,
-devel, and four previous versions). It also ignores \verb{compat-} and \verb{deprec-}
+devel, and four previous versions). It also ignores \code{compat-} and \code{deprec-}
 files from code coverage.
 \item \code{use_tidy_description()}: puts fields in standard order and alphabetises
 dependencies.
@@ -79,7 +79,7 @@ below for usage advice.
 \item \code{use_tidy_support()}: adds a standard description of support resources for
 the tidyverse.
 \item \code{use_tidy_coc()}: equivalent to \code{use_code_of_conduct()}, but puts the
-document in a \verb{.github/} subdirectory.
+document in a \code{.github/} subdirectory.
 \item \code{use_tidy_github()}: convenience wrapper that calls
 \code{use_tidy_contributing()}, \code{use_tidy_issue_template()}, \code{use_tidy_support()},
 \code{use_tidy_coc()}.

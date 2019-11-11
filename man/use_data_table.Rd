@@ -12,7 +12,7 @@ handling up-front some common set-up tasks for using it in your package.
 
 This function does two main things:
 \enumerate{
-\item Import the entire \code{data.table} namespace (with \verb{@import}).
+\item Import the entire \code{data.table} namespace (with \code{@import}).
 \item Block the usage of \code{data.table} as a dependency (\code{DESCRIPTION}
 field \code{Depends}); \code{data.table} should be used as an \emph{import} or \emph{suggested}
 package only. See this \href{https://github.com/Rdatatable/data.table/issues/3076}{discussion}.

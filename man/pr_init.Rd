@@ -32,7 +32,7 @@ pr_finish()
 }
 \arguments{
 \item{branch}{branch name. Should usually consist of lower case letters,
-numbers, and \verb{-}.}
+numbers, and \code{-}.}
 
 \item{number}{Number of PR to fetch.}
 
@@ -42,7 +42,7 @@ the owner of the \code{upstream} remote, if present, or the owner of \code{origi
 otherwise.}
 }
 \description{
-The \verb{pr_*} family of functions is designed to make working with GitHub
+The \code{pr_*} family of functions is designed to make working with GitHub
 PRs as painless as possible for both contributors and package maintainers.
 They are designed to support the git and GitHub best practices described in
 \href{https://happygitwithr.com}{Happy Git and GitHub for the useR}.
@@ -84,7 +84,7 @@ continuing.
 \section{For maintainers}{
 
 To download a PR locally so that you can experiment with it, run
-\verb{pr_fetch(<pr_number>)}. If you make changes, run \code{pr_push()} to push
+\code{pr_fetch(<pr_number>)}. If you make changes, run \code{pr_push()} to push
 them back to GitHub. After you have merged the PR, run \code{pr_finish()}
 to delete the local branch.
 }

@@ -12,7 +12,7 @@ package.
 \itemize{
 \item The SVG badges are imported in \code{man/figures}.
 \item The \code{RdMacros} field of the DESCRIPTION file is updated so you
-can use the \verb{\\\\lifecycle\{\}} macro in your documentation.
+can use the \code{\\lifecycle{}} macro in your documentation.
 }
 
 See the \href{http://lifecycle.r-lib.org/articles/lifecycle.html}{getting started vignette} of the
