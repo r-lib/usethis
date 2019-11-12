@@ -4,9 +4,6 @@
     <loc>https://usethis.r-lib.org/index.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/reference/actions.html</loc>
-  </url>
-  <url>
     <loc>https://usethis.r-lib.org/reference/badges.html</loc>
   </url>
   <url>
@@ -41,6 +38,9 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/git_vaccinate.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/github_actions.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/licenses.html</loc>
