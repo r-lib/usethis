@@ -1,7 +1,7 @@
 # usethis (development version)
 
-* New `use_github_actions()`, `use_action_check_release()`, `use_action_check_full()`,
-  `use_action_pr_commands()`, `use_tidy_actions()` to set up a GitHub Actions
+* New `use_github_actions()`, `use_github_action_check_release()`, `use_github_action_check_full()`,
+  `use_github_action_pr_commands()`, `use_github_actions_tidy()` to set up a GitHub Actions
   for a package (@jimhester).
 
 * New `use_data_table()` to set up a package for Import-ing `data.table` (#897, @michaelchirico).
