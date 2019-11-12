@@ -67,10 +67,12 @@ libgit
 lifecycle
 Lifecycle
 LinkingTo
+linux
 ly
 magrittr
 magrittr's
 maintainer's
+macOS
 Makefile
 md
 minimise
@@ -78,6 +80,8 @@ msg
 nano
 organisation
 organisations
+OSs
+rcmdcheck
 pkgbuild
 pandoc
 pkgdown

@@ -29,7 +29,9 @@ use_travis <- function(browse = interactive(), ext = c("org", "com")) {
     ".travis.yml",
     ignore = TRUE
   )
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   travis_activate(browse, ext = ext)
   use_travis_badge(ext = ext)
@@ -85,7 +87,9 @@ use_appveyor <- function(browse = interactive()) {
   check_uses_github()
 
   new <- use_template("appveyor.yml", ignore = TRUE)
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   appveyor_activate(browse)
   use_appveyor_badge()
@@ -135,7 +139,9 @@ use_gitlab_ci <- function() {
     ".gitlab-ci.yml",
     ignore = TRUE
   )
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   invisible(TRUE)
 }
