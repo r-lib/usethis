@@ -34,7 +34,7 @@ test_that("use_pipe(export = FALSE) gives advice if no package doc", {
     `usethis:::uses_roxygen` = function(base_path) TRUE, {
       scoped_temporary_package()
       withr::local_options(list(usethis.quiet = FALSE))
-      expect_output(
+      expect_message(
         use_pipe(export = FALSE),
         "Copy and paste this line"
       )

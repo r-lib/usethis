@@ -4,6 +4,8 @@
   `use_github_action_pr_commands()`, `use_github_actions_tidy()` to set up a GitHub Actions
   for a package (@jimhester).
 
+* usethis now outputs with message conditions. (@jimhester)
+
 * New `use_data_table()` to set up a package for Import-ing `data.table` (#897, @michaelchirico).
 
 * `use_code_of_conduct()` now generates absolute link to code of conduct on 
