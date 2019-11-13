@@ -265,14 +265,14 @@ side-effect. The inline styles return a string.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>new_val</span> <span class='kw'>&lt;-</span> <span class='st'>"oxnard"</span>
-<span class='fu'>ui_done</span>(<span class='st'>"{ui_field('name')} set to {ui_value(new_val)}"</span>)</div><div class='output co'>#&gt; <span style='color: #00BB00;'>✔</span><span> </span><span style='color: #00BB00;'>name</span><span> set to </span><span style='color: #0000BB;'>'oxnard'</span><span></div><div class='input'><span class='fu'>ui_todo</span>(<span class='st'>"Redocument with {ui_code('devtools::document()')}"</span>)</div><div class='output co'>#&gt; </span><span style='color: #BB0000;'>●</span><span> Redocument with </span><span style='color: #555555;'>`devtools::document()`</span><span></div><div class='input'>
+<span class='fu'>ui_done</span>(<span class='st'>"{ui_field('name')} set to {ui_value(new_val)}"</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #00BB00;'>name</span><span> set to </span><span style='color: #0000BB;'>'oxnard'</span><span></span></div><div class='input'><span class='fu'>ui_todo</span>(<span class='st'>"Redocument with {ui_code('devtools::document()')}"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Redocument with </span><span style='color: #555555;'>`devtools::document()`</span><span></span></div><div class='input'>
 <span class='fu'>ui_code_block</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
   <span class='st'>"Line 1"</span>,
   <span class='st'>"Line 2"</span>,
   <span class='st'>"Line 3"</span>
-))</div><div class='output co'>#&gt; </span><span style='color: #555555;'>  Line 1
-#&gt;   Line 2
-#&gt;   Line 3</span><span></div></span></pre>
+))</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #555555;'>  Line 1</span>
+#&gt; <span class='message'>  Line 2</span>
+#&gt; <span class='message'>  Line 3</span><span></span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
