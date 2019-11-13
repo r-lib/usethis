@@ -192,13 +192,22 @@ powered by <code>tidy_labels()</code>, <code>tidy_labels_rename()</code>, <code>
 and <code>tidy_label_descriptions()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_github_labels</span>(<span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='fu'>github_repo_spec</span>(), <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>rename</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(), <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>descriptions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(), <span class='kw'>delete_default</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='browse_github_token.html'>github_token</a></span>(), <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>use_github_labels</span>(
+  <span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='fu'>github_repo_spec</span>(),
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>rename</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>descriptions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>delete_default</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='browse_github_token.html'>github_token</a></span>(),
+  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)
 
-<span class='fu'>use_tidy_labels</span>(<span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='fu'>github_repo_spec</span>(),
-  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='browse_github_token.html'>github_token</a></span>(), <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>use_tidy_labels</span>(
+  <span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='fu'>github_repo_spec</span>(),
+  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='browse_github_token.html'>github_token</a></span>(),
+  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)
 
 <span class='fu'>tidy_labels</span>()
 
