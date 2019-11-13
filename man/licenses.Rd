@@ -26,7 +26,7 @@ use_ccby_license(name = find_name())
 }
 \arguments{
 \item{name}{Name of the copyright holder or holders. Separate multiple
-individuals with \code{;}. You can supply a global default with
+individuals with \verb{;}. You can supply a global default with
 \code{options(usethis.full_name = "My name")}.}
 }
 \description{

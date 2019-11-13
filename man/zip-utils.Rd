@@ -8,8 +8,7 @@
 \usage{
 use_course(url, destdir = NULL)
 
-use_zip(url, destdir = getwd(), cleanup = if (interactive()) NA else
-  FALSE)
+use_zip(url, destdir = getwd(), cleanup = if (interactive()) NA else FALSE)
 }
 \arguments{
 \item{url}{Link to a ZIP file containing the materials. Various short forms

@@ -9,13 +9,22 @@
 \alias{tidy_label_descriptions}
 \title{Manage GitHub issue labels}
 \usage{
-use_github_labels(repo_spec = github_repo_spec(), labels = character(),
-  rename = character(), colours = character(),
-  descriptions = character(), delete_default = FALSE,
-  auth_token = github_token(), host = NULL)
+use_github_labels(
+  repo_spec = github_repo_spec(),
+  labels = character(),
+  rename = character(),
+  colours = character(),
+  descriptions = character(),
+  delete_default = FALSE,
+  auth_token = github_token(),
+  host = NULL
+)
 
-use_tidy_labels(repo_spec = github_repo_spec(),
-  auth_token = github_token(), host = NULL)
+use_tidy_labels(
+  repo_spec = github_repo_spec(),
+  auth_token = github_token(),
+  host = NULL
+)
 
 tidy_labels()
 
@@ -70,8 +79,8 @@ example, and that a reply has been sent requesting one from the user.
 \item \code{feature} indicates a feature request or enhancement.
 \item \code{docs} indicates an issue with the documentation.
 \item \code{wip} indicates that someone is working on it or has promised to.
-\item \code{good first issue} indicates a good issue for first-time contributors.
-\item \code{help wanted} indicates that a maintainer wants help on an issue.
+\item \verb{good first issue} indicates a good issue for first-time contributors.
+\item \verb{help wanted} indicates that a maintainer wants help on an issue.
 }
 }
 

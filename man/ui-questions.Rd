@@ -6,15 +6,25 @@
 \alias{ui_nope}
 \title{User interface - Questions}
 \usage{
-ui_yeah(x, yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah",
-  "I agree", "Absolutely"), no = c("No way", "Not now", "Negative", "No",
-  "Nope", "Absolutely not"), n_yes = 1, n_no = 2, shuffle = TRUE,
-  .envir = parent.frame())
+ui_yeah(
+  x,
+  yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
+  no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+  n_yes = 1,
+  n_no = 2,
+  shuffle = TRUE,
+  .envir = parent.frame()
+)
 
-ui_nope(x, yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah",
-  "I agree", "Absolutely"), no = c("No way", "Not now", "Negative", "No",
-  "Nope", "Absolutely not"), n_yes = 1, n_no = 2, shuffle = TRUE,
-  .envir = parent.frame())
+ui_nope(
+  x,
+  yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
+  no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+  n_yes = 1,
+  n_no = 2,
+  shuffle = TRUE,
+  .envir = parent.frame()
+)
 }
 \arguments{
 \item{x}{A character vector.
@@ -48,7 +58,7 @@ of \code{ui_yeah()}.
 }
 \description{
 These functions are used to interact with the user by posing a simple yes or
-no question. For details on the other \code{ui_*()} functions, see the \link{ui} help
+no question. For details on the other \verb{ui_*()} functions, see the \link{ui} help
 page.
 }
 \examples{
@@ -59,7 +69,8 @@ ui_yeah("Are you sure its plugged in?", yes = "Yes", no = "No", shuffle = FALSE)
 }
 }
 \seealso{
-Other user interface functions: \code{\link{ui}}
+Other user interface functions: 
+\code{\link{ui}}
 }
 \concept{user interface functions}
 \keyword{internal}

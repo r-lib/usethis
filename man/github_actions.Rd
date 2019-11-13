@@ -66,7 +66,7 @@ GitHub using \href{https://github.com/features/actions}{GitHub Actions}. These f
 }
 \section{\code{use_github_actions()}}{
 
-Adds a basic ‘R-CMD-check.yaml’ file to the \code{.github/workflows} directory of a
+Adds a basic \code{R-CMD-check.yaml} file to the \code{.github/workflows} directory of a
 package. This is a configuration file for the \href{https://github.com/features/actions}{GitHub Actions} service.
 }
 

@@ -88,7 +88,8 @@ ui_code_block(c(
 ))
 }
 \seealso{
-Other user interface functions: \code{\link{ui-questions}}
+Other user interface functions: 
+\code{\link{ui-questions}}
 }
 \concept{user interface functions}
 \keyword{internal}
