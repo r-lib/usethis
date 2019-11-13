@@ -8,7 +8,7 @@
 NULL
 
 #' @section `use_github_actions()`:
-#' Adds a basic ‘R-CMD-check.yaml’ file to the `.github/workflows` directory of a
+#' Adds a basic `R-CMD-check.yaml` file to the `.github/workflows` directory of a
 #'  package. This is a configuration file for the [GitHub
 #'  Actions](https://github.com/features/actions) service.
 #' @rdname github_actions
