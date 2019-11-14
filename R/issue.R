@@ -1,5 +1,8 @@
 issue_close_community <- function(number, reprex = FALSE) {
   info <- issue_info(number)
+  if (info$state == "closed") {
+    ui_stop("Issue {number} is already closed")
+  }
 
   message <- glue(
     "Hi @{info$user$login},\n",
@@ -10,25 +13,37 @@ issue_close_community <- function(number, reprex = FALSE) {
     "Thanks!"
   )
 
-  issue_close(number, message)
+  issue_comment_add(number, message)
+  issue_edit(number, state = "closed")
 }
 
-issue_comment_add <- function(number, message) {
-  message <- paste0(message, collape = "")
+issue_needs_reprex <- function(number) {
+  info <- issue_info(number)
+  labels <- purrr::map_chr(info$labels, "name")
 
+  if ("reprex" %in% labels) {
+    ui_stop("Issue {number} already has 'reprex' label")
+  }
+
+  message <- glue(
+    "Can you please provide a minimal reproducible example using the [reprex](http://reprex.tidyverse.org) package? ",
+    "The goal of a reprex is to make it as easy as possible for me to recreate your problem so that I can fix it. ",
+    "If you've never made a minimal reprex before, there is lots of good advice [here](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html)."
+  )
+  issue_comment_add(number, message)
+  issue_edit(number, labels = as.list(union(labels, "reprex")))
+}
+
+# low-level operations ----------------------------------------------------
+
+issue_comment_add <- function(number, message) {
   issue_gh("POST /repos/:owner/:repo/issues/:issue_number/comments", number,
     body = message
   )
 }
 
-issue_close <- function(number, message) {
-  if (!is.null(message)) {
-    issue_comment_add(number, message)
-  }
-
-  issue_gh("PATCH /repos/:owner/:repo/issues/:issue_number", number,
-    state = "closed"
-  )
+issue_edit <- function(number, ...) {
+  issue_gh("PATCH /repos/:owner/:repo/issues/:issue_number", number, ...)
 }
 
 issue_info <- function(number) {
