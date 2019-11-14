@@ -1,3 +1,21 @@
+#' Helpers for GitHub issues
+#'
+#' @description
+#' The `issue_*` family of functions allows to perform common operations on
+#' GitHub issues from within R. They're designed to help you efficiently deal
+#' with large numbers of issues, particularly motived but the challenges faced
+#' by the tidyverse team.
+#'
+#' * `issue_close_community()` closes an issue because it's not a bug report or
+#'   features, and points the author towards RStudio community for additional
+#'   help.
+#'
+#' * `issue_reprex_needed()` labels the issue with the "reprex" label and
+#'   gives the author some advice about what is needed.
+#'
+#' @param number Issue number
+#' @param reprex Does the issue also need a reprex?
+#' @export
 issue_close_community <- function(number, reprex = FALSE) {
   info <- issue_info(number)
   if (info$state == "closed") {
@@ -17,7 +35,9 @@ issue_close_community <- function(number, reprex = FALSE) {
   issue_edit(number, state = "closed")
 }
 
-issue_needs_reprex <- function(number) {
+#' @rdname issue_close_community
+#' @export
+issue_reprex_needed <- function(number) {
   info <- issue_info(number)
   labels <- purrr::map_chr(info$labels, "name")
 
