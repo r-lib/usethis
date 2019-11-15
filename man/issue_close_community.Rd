@@ -27,3 +27,14 @@ help.
 gives the author some advice about what is needed.
 }
 }
+\section{Saved replies}{
+
+Compared to saved replies, these functions can:
+\itemize{
+\item Be shared between people
+\item Also perform other actions like labelling, or closing.
+\item Have additional arguments.
+\item Include randomness (like friendly gifs)
+}
+}
+

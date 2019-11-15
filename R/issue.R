@@ -13,6 +13,13 @@
 #' * `issue_reprex_needed()` labels the issue with the "reprex" label and
 #'   gives the author some advice about what is needed.
 #'
+#' @section Saved replies:
+#'
+#' Compared to saved replies, these functions can:
+#' * Be shared between people
+#' * Also perform other actions like labelling, or closing.
+#' * Have additional arguments.
+#' * Include randomness (like friendly gifs)
 #' @param number Issue number
 #' @param reprex Does the issue also need a reprex?
 #' @export
