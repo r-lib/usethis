@@ -46,10 +46,9 @@ use_github_actions_badge <- function(name = "R-CMD-check") {
   check_uses_github()
 
   name <- utils::URLencode(name)
-  url <- glue("{github_home()}/actions?workflow={name}")
   img <- glue("{github_home()}/workflows/{name}/badge.svg")
 
-  use_badge("R build status", url, img)
+  use_badge("R build status", github_home(), img)
 }
 
 #' @section `use_github_action()`:
