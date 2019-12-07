@@ -1,5 +1,19 @@
 context("projects")
 
+test_that("proj_activate() on relative dir", {
+  tmpdir <- file_temp()
+  tmpleaf <- basename(tmpdir)
+  tmpparent <- dirname(tmpdir)
+  on.exit(dir_delete(tmpdir))
+  dir_create(tmpdir)
+  setwd(tmpparent)
+  proj_activate(tmpleaf) # This is the important part.
+  expect_equal(
+    getwd(),
+    tmpdir
+  )
+})
+
 test_that("proj_set() errors on non-existent path", {
   expect_usethis_error(
     proj_set("abcedefgihklmnopqrstuv"),
