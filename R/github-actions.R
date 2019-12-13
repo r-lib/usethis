@@ -56,6 +56,7 @@ use_github_actions_badge <- function(name = "R-CMD-check") {
 #'   [r-lib/actions/examples](https://github.com/r-lib/actions/tree/master/examples) or a custom action
 #'   given by the `url` parameter.
 #' @param url The full URL to the GitHub Actions yaml file.
+#' @export
 #' @inheritParams use_template
 #' @rdname github_actions
 use_github_action <- function(name,
