@@ -26,7 +26,7 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   use_build_ignore("pkgdown")
 
   if (has_logo()) {
-    pkgdown::build_favicon(proj_get())
+    pkgdown::build_favicons(proj_get(), overwrite = TRUE)
   }
 
   config <- proj_path(config_file)
