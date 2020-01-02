@@ -21,6 +21,8 @@
 
 * `pr_finish()` checks that you don't have any local changes (#805).
 
+* `pr_finish()` does not error if the remote branch was already deleted (#950)
+
 * `use_lifecycle()` now adds `@importFrom lifecycle deprecate_soft` to 
   silent an R CMD check note (#896).
 
