@@ -87,7 +87,7 @@ browse_active_file <- function(branch = NULL) {
   gh_link <- github_link()
   df <- re_match_inline(gh_link, github_url_rx())
   file <- stringr::str_split(rstudioapi::getSourceEditorContext()$path,
-                             pattern = glue("{df$repo}/"), simplify = TRUE
+    pattern = glue("{df$repo}/"), simplify = TRUE
   )[2]
   if (!is.null(branch)) {
     branch <- branch
