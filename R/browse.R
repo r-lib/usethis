@@ -17,10 +17,12 @@
 #' * `browse_circleci()`: Visits the package's page on [Circle
 #' CI](https://circleci.com)
 #' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.
+#' * `browse_active_file()`: Open the active file on Github.
 #'
 #' @param package Name of package; leave as `NULL` to use current package
 #' @param number For GitHub issues and pull requests. Can be a number or
 #'   `"new"`.
+#' @param branch Which branch to use. Defaults to "master" branch.
 #' @examples
 #' browse_github("gh")
 #' browse_github_issues("backports")
@@ -29,6 +31,7 @@
 #' browse_github_pulls("rprojroot", 3)
 #' browse_travis("usethis")
 #' browse_cran("MASS")
+#' browse_active_file()
 #' @name browse-this
 NULL
 
@@ -73,6 +76,25 @@ browse_circleci <- function(package = NULL) {
 #' @rdname browse-this
 browse_cran <- function(package = NULL) {
   view_url(cran_home(package))
+}
+
+#' @export
+#' @rdname browse-this
+browse_active_file <- function(branch = NULL) {
+  if (Sys.getenv("RSTUDIO") != 1) {
+    stop("Only supported in RStudio.")
+  }
+  gh_link <- github_link()
+  df <- re_match_inline(gh_link, github_url_rx())
+  file <- stringr::str_split(rstudioapi::getSourceEditorContext()$path,
+                             pattern = glue("{df$repo}/"), simplify = TRUE
+  )[2]
+  if (!is.null(branch)) {
+    branch <- branch
+  } else {
+    branch <- git_branch_name()
+  }
+  view_url(glue("https://github.com/{df$owner}/{df$repo}/tree/{branch}/{file}"))
 }
 
 ## gets at most one GitHub link from the URL field of DESCRIPTION

@@ -69,6 +69,8 @@
 
 * Export `use_circleci_badge()` (#920, @pat-s)
 
+* Add `browse_active_file()` to open the active file in RStudio on Github (#951, @pat-s)
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
