@@ -62,5 +62,7 @@ browse_github_pulls("rprojroot")
 browse_github_pulls("rprojroot", 3)
 browse_travis("usethis")
 browse_cran("MASS")
+\dontrun{
 browse_active_file()
+}
 }
