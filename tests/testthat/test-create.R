@@ -55,6 +55,16 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
   expect_true(dir_exists(path_temp(path_project)))
 })
 
+test_that("create_package(.) works within valid project directory", {
+  temp_pkg = file.path(tempdir(), 'pkg')
+  dir.create(temp_pkg, recursive = TRUE, showWarnings = FALSE)
+  withr::with_dir(temp_pkg, {
+    create_package('.')
+    expect_true(possibly_in_proj('.'))
+    expect_true(is_package('.'))
+  })
+})
+
 test_that("rationalize_fork() honors fork = FALSE", {
   expect_false(
     rationalize_fork(fork = FALSE, repo_info = list(), auth_token = "PAT")
