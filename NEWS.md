@@ -69,6 +69,8 @@
 
 * Export `use_circleci_badge()` (#920, @pat-s)
 
+* `create_package('.')` now works if the current directory is a valid package (@michaelchirico)
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.

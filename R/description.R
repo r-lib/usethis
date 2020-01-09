@@ -114,8 +114,9 @@ check_package_name <- function(name) {
   }
 }
 
+# at least two characters in [a-z0-9.], starting with letter, not ending with .
 valid_package_name <- function(x) {
-  grepl("^[a-zA-Z][a-zA-Z0-9.]+$", x) && !grepl("\\.$", x)
+  grepl("^[a-z][a-z0-9.]*[a-z0-9]$", x, ignore.case = TRUE)
 }
 
 tidy_desc <- function(desc) {
