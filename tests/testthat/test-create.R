@@ -56,7 +56,7 @@ test_that("create_* works w/ non-existing rel path and absolutizes it", {
 })
 
 test_that("create_package(.) works within valid project directory", {
-  temp_pkg = file.path(tempdir(), 'pkg')
+  temp_pkg <- file.path(tempdir(), 'pkg')
   dir.create(temp_pkg, recursive = TRUE, showWarnings = FALSE)
   withr::with_dir(temp_pkg, {
     create_package('.')

@@ -37,7 +37,7 @@ create_package <- function(path,
 
   name <- path_file(path)
   # e.g. create_package('.') will expand . to the current dirname
-  name = basename(normalizePath(name))
+  name <- basename(normalizePath(name))
   if (check_name) {
     check_package_name(name)
   }
