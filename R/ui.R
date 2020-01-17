@@ -272,6 +272,9 @@ cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
   }
 
   lines <- paste0(...)
+  if (length(lines) < 1) {
+    lines <- ""
+  }
   rlang::inform(lines)
 
   invisible()
