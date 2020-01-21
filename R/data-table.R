@@ -19,7 +19,7 @@ use_data_table <- function() {
     desc::desc_del_dep("data.table", "Depends", file = proj_get())
   }
   use_dependency("data.table", "Imports")
-  new <- use_template("data.table.R", "R/utils-data-table.R")
+  new <- use_template("data-table.R", "R/utils-data-table.R")
   ui_todo("Run {ui_code('devtools::document()')}")
   invisible(new)
 }
