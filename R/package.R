@@ -27,6 +27,10 @@ use_package <- function(package, type = "Imports", min_version = NULL) {
     refuse_package(package, verboten = "tidyverse")
   }
 
+  if (min_version == "renv") {
+    min_version <- get_renv_version(package)
+  }
+
   use_dependency(package, type, min_version = min_version)
   how_to_use(package, type)
 
@@ -121,4 +125,11 @@ show_includes <- function(package) {
 
   ui_todo("Possible includes are:")
   ui_code_block("#include <{path_file(h)}>", copy = FALSE)
+}
+
+get_renv_version <- function(package){
+
+  renv_lock <- jsonlite::read_json("renv.lock")
+  min_version <- renv[["Packages"]][[package]][["Version"]]
+  return(min_version)
 }
