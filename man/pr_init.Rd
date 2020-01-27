@@ -32,7 +32,7 @@ pr_finish()
 }
 \arguments{
 \item{branch}{branch name. Should usually consist of lower case letters,
-numbers, and \verb{-}.}
+numbers, and \code{-}.}
 
 \item{number}{Number of PR to fetch.}
 
