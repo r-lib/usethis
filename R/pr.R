@@ -381,7 +381,7 @@ pr_find <- function(owner,
     .token = check_github_token(allow_empty = TRUE)
   )
 
-  if (identical(length(prs), 0L) || identical(prs[[1]], "")) {
+  if (is_new_pr(prs)) {
     return(character())
   }
 
@@ -390,4 +390,9 @@ pr_find <- function(owner,
   urls <- purrr::map_chr(prs, c("html_url"), .default = NA_character_)
 
   urls[refs == pr_branch & user == pr_owner]
+}
+
+is_new_pr <- function(prs) {
+  # rhs errors if the repo has 0 pr
+  identical(length(prs), 0L) || identical(prs[[1]], "")
 }
