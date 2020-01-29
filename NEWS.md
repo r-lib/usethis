@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `pr_push()` can now push new pull requests to a repository with no previous pull request (#990, @maurolepore).
+
 * New `use_github_actions()`, `use_github_action_check_release()`, `use_github_action_check_full()`,
   `use_github_action_pr_commands()`, `use_github_actions_tidy()` to set up a GitHub Actions
   for a package (@jimhester).

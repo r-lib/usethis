@@ -381,7 +381,7 @@ pr_find <- function(owner,
     .token = check_github_token(allow_empty = TRUE)
   )
 
-  if (identical(prs[[1]], "")) {
+  if (identical(length(prs), 0L) || identical(prs[[1]], "")) {
     return(character())
   }
 
