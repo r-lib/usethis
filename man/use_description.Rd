@@ -21,7 +21,9 @@ error if not}
 \code{use_description()} creates a \code{DESCRIPTION} file. \code{DESCRIPTION} files are
 also useful in non-package projects, particularly for declaring dependencies,
 as a project \code{DESCRIPTION} allows users to install required packages with
-\code{\link[devtools:install_deps]{devtools::install_deps()}}.
+\code{\link[devtools:install_deps]{devtools::install_deps()}}. Note that \code{use_decription()} checks that the
+project has a valid package name, which isn't necessary for a project; turn
+this off with \code{check_name = FALSE}.
 
 usethis consults the following sources, in this order, to set \code{DESCRIPTION}
 fields: * \code{fields} argument of \code{\link[=create_package]{create_package()}} or \code{\link[=use_description]{use_description()}}. *

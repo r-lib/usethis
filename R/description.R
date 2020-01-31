@@ -5,7 +5,9 @@
 #' `use_description()` creates a `DESCRIPTION` file. `DESCRIPTION` files are
 #' also useful in non-package projects, particularly for declaring dependencies,
 #' as a project `DESCRIPTION` allows users to install required packages with
-#' [`devtools::install_deps()`].
+#' [`devtools::install_deps()`]. Note that `use_decription()` checks that the
+#' project has a valid package name, which isn't necessary for a project; turn
+#' this off with `check_name = FALSE`.
 #'
 #' usethis consults the following sources, in this order, to set `DESCRIPTION`
 #' fields: * `fields` argument of [create_package()] or [use_description()]. *
