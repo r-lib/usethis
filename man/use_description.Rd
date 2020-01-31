@@ -18,30 +18,26 @@ personalized defaults using package options}
 error if not}
 }
 \description{
+\code{use_description()} creates a \code{DESCRIPTION} file. \code{DESCRIPTION} files are
+also useful in non-package projects, particularly for declaring dependencies,
+as a project \code{DESCRIPTION} allows users to install required packages with
+\code{\link[devtools:install_deps]{devtools::install_deps()}}.
+
 usethis consults the following sources, in this order, to set \code{DESCRIPTION}
-fields:
-\itemize{
-\item \code{fields} argument of \code{\link[=create_package]{create_package()}} or \code{\link[=use_description]{use_description()}}.
-\item \code{getOption("usethis.description")} or \code{getOption("devtools.desc")}. The
+fields: * \code{fields} argument of \code{\link[=create_package]{create_package()}} or \code{\link[=use_description]{use_description()}}. *
+\code{getOption("usethis.description")} or \code{getOption("devtools.desc")}. The
 devtools option is consulted only for backwards compatibility and it's
-recommended to switch to an option named "usethis.description".
-\item Defaults built into usethis.
-}
+recommended to switch to an option named "usethis.description". * Defaults
+built into usethis.
 
 The fields discovered via options or the usethis package can be viewed with
 \code{use_description_defaults()}.
 
 If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named \code{"usethis.description"}. Here's an example of
-code to include in \code{.Rprofile}:\preformatted{options(
-  usethis.description = list(
-    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
-                          comment = c(ORCID = "YOUR-ORCID-ID"))',
-    License = "MIT + file LICENSE",
-    Language =  "es"
-  )
-)
-}
+code to include in \code{.Rprofile}:
+
+\code{options( usethis.description = list( `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))', License = "MIT + file LICENSE", Language =  "es" ) )}
 }
 \examples{
 \dontrun{
@@ -53,6 +49,5 @@ use_description_defaults()
 }
 }
 \seealso{
-The \href{https://r-pkgs.org/description.html#dependencies}{description chapter}
-of \href{https://r-pkgs.org}{R Packages}.
+The \href{https://r-pkgs.org/description.html#dependencies}{description chapter} of \href{https://r-pkgs.org}{R Packages}.
 }

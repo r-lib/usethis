@@ -1,13 +1,18 @@
 #' Create or modify a DESCRIPTION file
 #'
 #' @description
+#'
+#' `use_description()` creates a `DESCRIPTION` file. `DESCRIPTION` files are
+#' also useful in non-package projects, particularly for declaring dependencies,
+#' as a project `DESCRIPTION` allows users to install required packages with
+#' [`devtools::install_deps()`].
+#'
 #' usethis consults the following sources, in this order, to set `DESCRIPTION`
-#' fields:
-#' * `fields` argument of [create_package()] or [use_description()].
-#' * `getOption("usethis.description")` or `getOption("devtools.desc")`. The
+#' fields: * `fields` argument of [create_package()] or [use_description()]. *
+#' `getOption("usethis.description")` or `getOption("devtools.desc")`. The
 #' devtools option is consulted only for backwards compatibility and it's
-#' recommended to switch to an option named "usethis.description".
-#' * Defaults built into usethis.
+#' recommended to switch to an option named "usethis.description". * Defaults
+#' built into usethis.
 #'
 #' The fields discovered via options or the usethis package can be viewed with
 #' `use_description_defaults()`.
@@ -16,24 +21,18 @@
 #' named list in an option named `"usethis.description"`. Here's an example of
 #' code to include in `.Rprofile`:
 #'
-#' ```
-#' options(
-#'   usethis.description = list(
-#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
-#'                           comment = c(ORCID = "YOUR-ORCID-ID"))',
-#'     License = "MIT + file LICENSE",
-#'     Language =  "es"
-#'   )
-#' )
-#' ```
+#' ``` options( usethis.description = list( `Authors@R` = 'person("Jane", "Doe",
+#' email = "jane@example.com", role = c("aut", "cre"), comment = c(ORCID =
+#' "YOUR-ORCID-ID"))', License = "MIT + file LICENSE", Language =  "es" ) ) ```
 #'
 #' @param fields A named list of fields to add to `DESCRIPTION`, potentially
 #'   overriding default values. See [use_description()] for how you can set
 #'   personalized defaults using package options
 #' @param check_name Whether to check if the name is valid for CRAN and throw an
 #'   error if not
-#' @seealso The [description chapter](https://r-pkgs.org/description.html#dependencies)
-#'   of [R Packages](https://r-pkgs.org).
+#' @seealso The [description
+#'   chapter](https://r-pkgs.org/description.html#dependencies) of [R
+#'   Packages](https://r-pkgs.org).
 #' @export
 #' @examples
 #' \dontrun{
