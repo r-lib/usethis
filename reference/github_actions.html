@@ -196,33 +196,7 @@ GitHub using <a href='https://github.com/features/actions'>GitHub Actions</a>. T
 
 <span class='fu'>use_github_actions_tidy</span>()
 
-<span class='fu'>use_github_actions_badge</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check"</span>)
-
-<span class='fu'>use_github_action</span>(
-  <span class='no'>name</span>,
-  <span class='kw'>url</span> <span class='kw'>=</span> <span class='fu'>glue</span>(<span class='st'>"https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"</span>),
-  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/basename.html'>basename</a></span>(<span class='no'>url</span>),
-  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
-
-<span class='fu'>use_github_action_check_release</span>(
-  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check.yaml"</span>,
-  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
-
-<span class='fu'>use_github_action_check_full</span>(
-  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check.yaml"</span>,
-  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
-
-<span class='fu'>use_github_action_pr_commands</span>(
-  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"pr-commands.yaml"</span>,
-  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+<span class='fu'>use_github_actions_badge</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,24 +204,6 @@ GitHub using <a href='https://github.com/features/actions'>GitHub Actions</a>. T
     <tr>
       <th>name</th>
       <td><p>The name to give to the <a href='https://github.com/features/actions'>GitHub Actions</a> workflow.</p></td>
-    </tr>
-    <tr>
-      <th>url</th>
-      <td><p>The full URL to the GitHub Actions yaml file.</p></td>
-    </tr>
-    <tr>
-      <th>save_as</th>
-      <td><p>Path of file to create, relative to root of active project.
-Defaults to <code>template</code></p></td>
-    </tr>
-    <tr>
-      <th>ignore</th>
-      <td><p>Should the newly created file be added to <code>.Rbuildignore</code>?</p></td>
-    </tr>
-    <tr>
-      <th>open</th>
-      <td><p>Open the newly created file for editing? Happens in RStudio, if
-applicable, or via <code><a href='https://rdrr.io/r/utils/file.edit.html'>utils::file.edit()</a></code> otherwise.</p></td>
     </tr>
     </table>
 
@@ -272,38 +228,9 @@ adds two commands to be used in pull requests, <code>\document</code> to run
 
 <p>Only adds the <a href='https://github.com/features/actions'>GitHub Actions</a> badge. Use for a project
 where GitHub Actions is already configured.</p>
-    <h2 class="hasAnchor" id="use-github-action-"><a class="anchor" href="#use-github-action-"></a><code>use_github_action()</code></h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    
-
-<p>Use a specific action, either one of the example actions from
-<a href='https://github.com/r-lib/actions/tree/master/examples'>r-lib/actions/examples</a> or a custom action
-given by the <code>url</code> parameter.</p>
-    <h2 class="hasAnchor" id="use-github-action-check-release-"><a class="anchor" href="#use-github-action-check-release-"></a><code>use_github_action_check_release()</code></h2>
-
-    
-
-<p>This action installs the latest release R version on macOS and runs <code>R CMD check</code>
-via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package.</p>
-    <h2 class="hasAnchor" id="use-github-action-check-full-"><a class="anchor" href="#use-github-action-check-full-"></a><code>use_github_action_check_full()</code></h2>
-
-    
-
-<p>This action installs the last 5 minor R versions and runs R CMD check
-via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package on the
-three major OSs (linux, macOS and Windows). This action is what the
-tidyverse teams uses on their repositories, but is overkill for less
-widely used packages, which are better off using the simpler
-<code>use_github_action_check_release()</code>.</p>
-    <h2 class="hasAnchor" id="use-github-action-pr-commands-"><a class="anchor" href="#use-github-action-pr-commands-"></a><code>use_github_action_pr_commands()</code></h2>
-
-    
-
-<p>This workflow enables the use of 2 R specific commands in pull request
-issue comments. <code>\document</code> will use
-<a href='https://roxygen2.r-lib.org/'>roxygen2</a> to rebuild the documentation for
-the package and commit the result to the pull request. <code>\style</code> will use
-<a href='https://styler.r-lib.org/'>styler</a> to restyle your package.</p>
+    <div class='dont-index'><p><code><a href='use_github_action.html'>use_github_action()</a></code> for setting up a specific action.</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -313,10 +240,7 @@ the package and commit the result to the pull request. <code>\style</code> will 
       <li><a href="#use-github-actions-"><code>use_github_actions()</code></a></li>
       <li><a href="#use-github-actions-tidy-"><code>use_github_actions_tidy()</code></a></li>
       <li><a href="#use-github-actions-badge-"><code>use_github_actions_badge()</code></a></li>
-      <li><a href="#use-github-action-"><code>use_github_action()</code></a></li>
-      <li><a href="#use-github-action-check-release-"><code>use_github_action_check_release()</code></a></li>
-      <li><a href="#use-github-action-check-full-"><code>use_github_action_check_full()</code></a></li>
-      <li><a href="#use-github-action-pr-commands-"><code>use_github_action_pr_commands()</code></a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>

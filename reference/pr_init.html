@@ -240,13 +240,13 @@ with that. If git2r does not seem to be finding your git credentials, read
 
     
 
-<p>To contribute to a package, first use <code><a href='create_from_github.html'>create_from_github(owner/repo)</a></code> to
-fork the source repository, and then check out a local copy. Next use
-<code>pr_init()</code> to create a branch for your PR (<strong>never</strong> submit a PR from the
-<code>master</code> branch). You'll then work locally, making changes to files
-and checking them into git. Once you're ready to submit, run <code>pr_push()</code>
-to push your local branch to GitHub, and open a webpage that lets you
-initiate the PR.</p>
+<p>To contribute to a package, first use <code><a href='create_from_github.html'>create_from_github("OWNER/REPO", fork = TRUE)</a></code> to fork the source repository, and then check out a local copy. Next
+use <code>pr_init()</code> to create a branch for your PR (<strong>never</strong> submit a PR from
+the <code>master</code> branch). You'll then work locally, making changes to files and
+checking them into git. Once you're ready to submit, run <code>pr_push()</code> to push
+your local branch to GitHub, and open a webpage that lets you initiate the
+PR. To learn more about the process of making a pull request, read the <a href='https://usethis.r-lib.org/articles/articles/pr-functions.html'>Pull Request Helpers</a>
+vignette.</p>
 <p>If you are lucky, your PR will be perfect, and the maintainer will accept
 it. You can then run <code>pr_finish()</code> to close and delete your PR branch.
 In most cases, however, the maintainer will ask you to make some changes.

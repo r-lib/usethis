@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>git/GitHub sitrep — git_sitrep • usethis</title>
+<title>Use a specific GitHub action — use_github_action • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,10 +48,10 @@
 
 
 
-<meta property="og:title" content="git/GitHub sitrep — git_sitrep" />
-<meta property="og:description" content="Get a situation report on your current git/GitHub status. Useful for
-diagnosing problems. git_vaccinate() adds some basic R- and RStudio-related
-entries to the user-level git ignore file." />
+<meta property="og:title" content="Use a specific GitHub action — use_github_action" />
+<meta property="og:description" content="Use a specific action, either one of the example actions from
+r-lib/actions/examples
+or a custom action given by the url parameter." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -175,28 +175,110 @@ entries to the user-level git ignore file." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>git/GitHub sitrep</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/git.R'><code>R/git.R</code></a></small>
-    <div class="hidden name"><code>git_sitrep.Rd</code></div>
+    <h1>Use a specific GitHub action</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/github-action.R'><code>R/github-action.R</code></a></small>
+    <div class="hidden name"><code>use_github_action.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get a situation report on your current git/GitHub status. Useful for
-diagnosing problems. <code><a href='git_vaccinate.html'>git_vaccinate()</a></code> adds some basic R- and RStudio-related
-entries to the user-level git ignore file.</p>
+    <p>Use a specific action, either one of the example actions from
+<a href='https://github.com/r-lib/actions/tree/master/examples'>r-lib/actions/examples</a>
+or a custom action given by the <code>url</code> parameter.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>git_sitrep</span>()</pre>
+    <pre class="usage"><span class='fu'>use_github_action</span>(
+  <span class='no'>name</span>,
+  <span class='kw'>url</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
+<span class='fu'>use_github_action_check_release</span>(
+  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check.yaml"</span>,
+  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
+<span class='fu'>use_github_action_check_full</span>(
+  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check.yaml"</span>,
+  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>git_sitrep</span>()</div><div class='output co'>#&gt; <span class='message'><span style='font-weight: bold;'>Git config (global)</span><span></span></div><div class='output co'>#&gt; <span class='message'>* Name: </span><span style='color: #0000BB;'>'Travis CI User'</span><span></span></div><div class='output co'>#&gt; <span class='message'>* Email: </span><span style='color: #0000BB;'>'travis@example.org'</span><span></span></div><div class='output co'>#&gt; <span class='message'>* Vaccinated: </span><span style='color: #0000BB;'>TRUE</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='font-weight: bold;'>usethis + git2r</span><span></span></div><div class='output co'>#&gt; <span class='message'>* Default usethis protocol: </span><span style='color: #0000BB;'>'ssh'</span><span></span></div><div class='output co'>#&gt; <span class='message'>* git2r supports SSH: </span><span style='color: #0000BB;'>TRUE</span><span></span></div><div class='output co'>#&gt; <span class='message'>* Credentials: </span><span style='color: #0000BB;'>'&lt;usethis + git2r default behaviour&gt;'</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='font-weight: bold;'>GitHub</span><span></span></div><div class='output co'>#&gt; <span class='message'>* Personal access token: </span><span style='color: #555555;'>&lt;unset&gt;</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='font-weight: bold;'>Repo</span><span></span></div><div class='output co'>#&gt; <span class='message'>* Path: </span><span style='color: #0000BB;'>'/tmp/RtmpdNaYTF/file443222266487/.git'</span><span></span></div><div class='output co'>#&gt; <span class='message'>* Local branch -&gt; remote tracking branch: </span><span style='color: #0000BB;'>'gh-pages'</span><span> -&gt; </span><span style='color: #0000BB;'>'origin/gh-pages'</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='font-weight: bold;'>GitHub pull request readiness</span><span></span></div><div class='output co'>#&gt; <span class='message'>* origin: </span><span style='color: #0000BB;'>r-lib/usethis</span><span>, </span><span style='color: #0000BB;'>NA</span><span></span></div><div class='output co'>#&gt; <span class='message'>* upstream: </span><span style='color: #0000BB;'>'&lt;no such remote&gt;'</span><span></span></div></span></pre>
+<span class='fu'>use_github_action_pr_commands</span>(
+  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"pr-commands.yaml"</span>,
+  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>name</th>
+      <td><p>Name of the GitHub action, with or without <code>.yaml</code> extension</p></td>
+    </tr>
+    <tr>
+      <th>url</th>
+      <td><p>The full URL to the GitHub Actions yaml file.
+By default, the corresponding action in https://github.com/r-lib/actions
+will be used.</p></td>
+    </tr>
+    <tr>
+      <th>save_as</th>
+      <td><p>Name of the actions file. Defaults to <code><a href='https://rdrr.io/r/base/basename.html'>basename(url)</a></code>
+for <code>use_github_action()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>ignore</th>
+      <td><p>Should the newly created file be added to <code>.Rbuildignore</code>?</p></td>
+    </tr>
+    <tr>
+      <th>open</th>
+      <td><p>Open the newly created file for editing? Happens in RStudio, if
+applicable, or via <code><a href='https://rdrr.io/r/utils/file.edit.html'>utils::file.edit()</a></code> otherwise.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="use-github-action-check-release-"><a class="anchor" href="#use-github-action-check-release-"></a><code>use_github_action_check_release()</code></h2>
+
+    
+
+<p>This action installs the latest release R version on macOS and runs <code>R CMD check</code>
+via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package.</p>
+    <h2 class="hasAnchor" id="use-github-action-check-full-"><a class="anchor" href="#use-github-action-check-full-"></a><code>use_github_action_check_full()</code></h2>
+
+    
+
+<p>This action installs the last 5 minor R versions and runs R CMD check
+via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package on the
+three major OSs (linux, macOS and Windows). This action is what the
+tidyverse teams uses on their repositories, but is overkill for less
+widely used packages, which are better off using the simpler
+<code>use_github_action_check_release()</code>.</p>
+    <h2 class="hasAnchor" id="use-github-action-pr-commands-"><a class="anchor" href="#use-github-action-pr-commands-"></a><code>use_github_action_pr_commands()</code></h2>
+
+    
+
+<p>This workflow enables the use of 2 R specific commands in pull request
+issue comments. <code>\document</code> will use
+<a href='https://roxygen2.r-lib.org/'>roxygen2</a> to rebuild the documentation for
+the package and commit the result to the pull request. <code>\style</code> will use
+<a href='https://styler.r-lib.org/'>styler</a> to restyle your package.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='github_actions.html'>github_actions</a> for generic workflows.</p></div>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#use-github-action-check-release-"><code>use_github_action_check_release()</code></a></li>
+      <li><a href="#use-github-action-check-full-"><code>use_github_action_check_full()</code></a></li>
+      <li><a href="#use-github-action-pr-commands-"><code>use_github_action_pr_commands()</code></a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>
