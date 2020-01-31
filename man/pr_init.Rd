@@ -58,14 +58,12 @@ with that. If git2r does not seem to be finding your git credentials, read
 
 \section{For contributors}{
 
-To contribute to a package, first use \code{create_from_github(owner/repo)} to
-fork the source repository, and then check out a local copy. Next use
-\code{pr_init()} to create a branch for your PR (\strong{never} submit a PR from the
-\code{master} branch). You'll then work locally, making changes to files
-and checking them into git. Once you're ready to submit, run \code{pr_push()}
-to push your local branch to GitHub, and open a webpage that lets you
-initiate the PR. To learn more about the process of making a so-called pull
-request, read \href{https://usethis.r-lib.org/articles/articles/pr-functions.html}{Pull Request Helpers}
+To contribute to a package, first use \code{create_from_github("OWNER/REPO", fork = TRUE)} to fork the source repository, and then check out a local copy. Next
+use \code{pr_init()} to create a branch for your PR (\strong{never} submit a PR from
+the \code{master} branch). You'll then work locally, making changes to files and
+checking them into git. Once you're ready to submit, run \code{pr_push()} to push
+your local branch to GitHub, and open a webpage that lets you initiate the
+PR. To learn more about the process of making a pull request, read the \href{https://usethis.r-lib.org/articles/articles/pr-functions.html}{Pull Request Helpers}
 vignette.
 
 If you are lucky, your PR will be perfect, and the maintainer will accept
