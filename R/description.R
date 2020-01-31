@@ -2,12 +2,12 @@
 #'
 #' @description
 #'
-#' `use_description()` creates a `DESCRIPTION` file. `DESCRIPTION` files are
-#' also useful in non-package projects, particularly for declaring dependencies,
-#' as a project `DESCRIPTION` allows users to install required packages with
-#' [`devtools::install_deps()`]. Note that `use_decription()` checks that the
-#' project has a valid package name, which isn't necessary for a project; turn
-#' this off with `check_name = FALSE`.
+#' `use_description()` creates a `DESCRIPTION` file. Although mostly associated
+#' with R packages, a `DESCRIPTION` file can also be used to declare
+#' dependencies for a non-package projects. Within such a project,
+#' [`devtools::install_deps()`] can then be used to install all the required
+#' packages. Note that, by default, `use_decription()` checks for a
+#' CRAN-compliant package name. You can turn this off with `check_name = FALSE`.
 #'
 #' usethis consults the following sources, in this order, to set `DESCRIPTION`
 #' fields:

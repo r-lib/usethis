@@ -18,12 +18,12 @@ personalized defaults using package options}
 error if not}
 }
 \description{
-\code{use_description()} creates a \code{DESCRIPTION} file. \code{DESCRIPTION} files are
-also useful in non-package projects, particularly for declaring dependencies,
-as a project \code{DESCRIPTION} allows users to install required packages with
-\code{\link[devtools:install_deps]{devtools::install_deps()}}. Note that \code{use_decription()} checks that the
-project has a valid package name, which isn't necessary for a project; turn
-this off with \code{check_name = FALSE}.
+\code{use_description()} creates a \code{DESCRIPTION} file. Although mostly associated
+with R packages, a \code{DESCRIPTION} file can also be used to declare
+dependencies for a non-package projects. Within such a project,
+\code{\link[devtools:install_deps]{devtools::install_deps()}} can then be used to install all the required
+packages. Note that, by default, \code{use_decription()} checks for a
+CRAN-compliant package name. You can turn this off with \code{check_name = FALSE}.
 
 usethis consults the following sources, in this order, to set \code{DESCRIPTION}
 fields:
