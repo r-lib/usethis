@@ -381,7 +381,8 @@ pr_find <- function(owner,
     .token = check_github_token(allow_empty = TRUE)
   )
 
-  if (is_new_pr(prs)) {
+  # prs has length zero if gh >= v1.1.0 and is "" for earlier versions
+  if (length(prs) < 1 || identical(prs[[1]], "")) {
     return(character())
   }
 
@@ -392,7 +393,3 @@ pr_find <- function(owner,
   urls[refs == pr_branch & user == pr_owner]
 }
 
-is_new_pr <- function(prs) {
-  # rhs errors if the repo has 0 pr
-  identical(length(prs), 0L) || identical(prs[[1]], "")
-}
