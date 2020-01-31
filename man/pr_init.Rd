@@ -58,7 +58,7 @@ with that. If git2r does not seem to be finding your git credentials, read
 
 \section{For contributors}{
 
-To contribute to a package, first use \code{create_from_github(owner/repo)} to
+\href{https://usethis.r-lib.org/articles/articles/pr-functions.html}{To contribute to a package}, first use \code{create_from_github(owner/repo)} to
 fork the source repository, and then check out a local copy. Next use
 \code{pr_init()} to create a branch for your PR (\strong{never} submit a PR from the
 \code{master} branch). You'll then work locally, making changes to files
