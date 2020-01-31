@@ -50,8 +50,8 @@ applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 Use a specific action, either one of the example actions from
-\href{https://github.com/r-lib/actions/tree/master/examples}{r-lib/actions/examples} or a custom action
-given by the \code{url} parameter.
+\href{https://github.com/r-lib/actions/tree/master/examples}{r-lib/actions/examples}
+or a custom action given by the \code{url} parameter.
 }
 \section{\code{use_github_action_check_release()}}{
 

@@ -1,10 +1,10 @@
 #' Use a specific GitHub action
 #'
 #' Use a specific action, either one of the example actions from
-#'   [r-lib/actions/examples](https://github.com/r-lib/actions/tree/master/examples) or a custom action
-#'   given by the `url` parameter.
+#' [r-lib/actions/examples](https://github.com/r-lib/actions/tree/master/examples)
+#' or a custom action given by the `url` parameter.
 #'
-#' @inheritParams template
+#' @inheritParams use_template
 #' @param name Name of the GitHub action, with or without `.yaml` extension
 #' @param url The full URL to the GitHub Actions yaml file.
 #'   By default, the corresponding action in https://github.com/r-lib/actions
