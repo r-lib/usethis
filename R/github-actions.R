@@ -5,6 +5,7 @@
 #' - Add the necessary configuration files and place them in `.Rbuildignore`.
 #' - Provide the markdown to insert a badge into your README
 #' @name github_actions
+#' @seealso [use_github_action()] for setting up a specific action.
 NULL
 
 #' @section `use_github_actions()`:
@@ -49,37 +50,6 @@ use_github_actions_badge <- function(name = "R-CMD-check") {
   img <- glue("{github_home()}/workflows/{name}/badge.svg")
 
   use_badge("R build status", github_home(), img)
-}
-
-#' @section `use_github_action()`:
-#' Use a specific action, either one of the example actions from
-#'   [r-lib/actions/examples](https://github.com/r-lib/actions/tree/master/examples) or a custom action
-#'   given by the `url` parameter.
-#' @param url The full URL to the GitHub Actions yaml file.
-#' @export
-#' @inheritParams use_template
-#' @rdname github_actions
-use_github_action <- function(name,
-                       url = glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"),
-                       save_as = basename(url),
-                       ignore = TRUE,
-                       open = FALSE) {
-  contents <- readLines(url)
-
-  save_as <- path(".github", "workflows", save_as)
-
-  create_directory(dirname(proj_path(save_as)))
-  new <- write_over(proj_path(save_as), contents)
-
-  if (ignore) {
-    use_build_ignore(save_as)
-  }
-
-  if (open && new) {
-    edit_file(proj_path(save_as))
-  }
-
-  invisible(new)
 }
 
 #' @section `use_github_action_check_release()`:
