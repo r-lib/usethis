@@ -5,9 +5,6 @@
 \alias{use_github_actions}
 \alias{use_github_actions_tidy}
 \alias{use_github_actions_badge}
-\alias{use_github_action_check_release}
-\alias{use_github_action_check_full}
-\alias{use_github_action_pr_commands}
 \title{GitHub Actions setup and badges}
 \usage{
 use_github_actions()
@@ -15,24 +12,6 @@ use_github_actions()
 use_github_actions_tidy()
 
 use_github_actions_badge(name = "R-CMD-check")
-
-use_github_action_check_release(
-  save_as = "R-CMD-check.yaml",
-  ignore = TRUE,
-  open = FALSE
-)
-
-use_github_action_check_full(
-  save_as = "R-CMD-check.yaml",
-  ignore = TRUE,
-  open = FALSE
-)
-
-use_github_action_pr_commands(
-  save_as = "pr-commands.yaml",
-  ignore = TRUE,
-  open = FALSE
-)
 }
 \arguments{
 \item{name}{The name to give to the \href{https://github.com/features/actions}{GitHub Actions} workflow.}
@@ -64,31 +43,6 @@ adds two commands to be used in pull requests, \verb{\\document} to run
 
 Only adds the \href{https://github.com/features/actions}{GitHub Actions} badge. Use for a project
 where GitHub Actions is already configured.
-}
-
-\section{\code{use_github_action_check_release()}}{
-
-This action installs the latest release R version on macOS and runs \verb{R CMD check}
-via the \href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package.
-}
-
-\section{\code{use_github_action_check_full()}}{
-
-This action installs the last 5 minor R versions and runs R CMD check
-via the \href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package on the
-three major OSs (linux, macOS and Windows). This action is what the
-tidyverse teams uses on their repositories, but is overkill for less
-widely used packages, which are better off using the simpler
-\code{use_github_action_check_release()}.
-}
-
-\section{\code{use_github_action_pr_commands()}}{
-
-This workflow enables the use of 2 R specific commands in pull request
-issue comments. \verb{\\document} will use
-\href{https://roxygen2.r-lib.org/}{roxygen2} to rebuild the documentation for
-the package and commit the result to the pull request. \verb{\\style} will use
-\href{https://styler.r-lib.org/}{styler} to restyle your package.
 }
 
 \seealso{
