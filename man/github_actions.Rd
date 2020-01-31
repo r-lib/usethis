@@ -5,7 +5,6 @@
 \alias{use_github_actions}
 \alias{use_github_actions_tidy}
 \alias{use_github_actions_badge}
-\alias{use_github_action}
 \alias{use_github_action_check_release}
 \alias{use_github_action_check_full}
 \alias{use_github_action_pr_commands}
@@ -16,14 +15,6 @@ use_github_actions()
 use_github_actions_tidy()
 
 use_github_actions_badge(name = "R-CMD-check")
-
-use_github_action(
-  name,
-  url = glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"),
-  save_as = basename(url),
-  ignore = TRUE,
-  open = FALSE
-)
 
 use_github_action_check_release(
   save_as = "R-CMD-check.yaml",
@@ -45,16 +36,6 @@ use_github_action_pr_commands(
 }
 \arguments{
 \item{name}{The name to give to the \href{https://github.com/features/actions}{GitHub Actions} workflow.}
-
-\item{url}{The full URL to the GitHub Actions yaml file.}
-
-\item{save_as}{Path of file to create, relative to root of active project.
-Defaults to \code{template}}
-
-\item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
-
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 Sets up continuous integration (CI) for an R package that is developed on
@@ -85,13 +66,6 @@ Only adds the \href{https://github.com/features/actions}{GitHub Actions} badge. 
 where GitHub Actions is already configured.
 }
 
-\section{\code{use_github_action()}}{
-
-Use a specific action, either one of the example actions from
-\href{https://github.com/r-lib/actions/tree/master/examples}{r-lib/actions/examples} or a custom action
-given by the \code{url} parameter.
-}
-
 \section{\code{use_github_action_check_release()}}{
 
 This action installs the latest release R version on macOS and runs \verb{R CMD check}
@@ -117,3 +91,6 @@ the package and commit the result to the pull request. \verb{\\style} will use
 \href{https://styler.r-lib.org/}{styler} to restyle your package.
 }
 
+\seealso{
+\code{\link[=use_github_action]{use_github_action()}} for setting up a specific action.
+}
