@@ -53,44 +53,6 @@ use_github_actions_badge <- function(name = "R-CMD-check") {
   use_badge("R build status", github_home(), img)
 }
 
-#' @section `use_github_action_check_release()`:
-#' This action installs the latest release R version on macOS and runs `R CMD check`
-#'   via the [rcmdcheck](https://github.com/r-lib/rcmdcheck) package.
-#' @rdname github_actions
-#' @export
-use_github_action_check_release <- function(save_as = "R-CMD-check.yaml", ignore = TRUE, open = FALSE) {
-  use_github_action("check-release.yaml", save_as = save_as, ignore = ignore, open = open)
-
-  use_github_actions_badge("R-CMD-check")
-}
-
-#' @section `use_github_action_check_full()`:
-#' This action installs the last 5 minor R versions and runs R CMD check
-#'   via the [rcmdcheck](https://github.com/r-lib/rcmdcheck) package on the
-#'   three major OSs (linux, macOS and Windows). This action is what the
-#'   tidyverse teams uses on their repositories, but is overkill for less
-#'   widely used packages, which are better off using the simpler
-#'   `use_github_action_check_release()`.
-#' @rdname github_actions
-#' @export
-use_github_action_check_full <- function(save_as = "R-CMD-check.yaml", ignore = TRUE, open = FALSE) {
-  use_github_action("check-full.yaml", save_as = save_as, ignore = ignore, open = open)
-
-  use_github_actions_badge("R-CMD-check")
-}
-
-#' @section `use_github_action_pr_commands()`:
-#' This workflow enables the use of 2 R specific commands in pull request
-#'   issue comments. `\document` will use
-#'   [roxygen2](https://roxygen2.r-lib.org/) to rebuild the documentation for
-#'   the package and commit the result to the pull request. `\style` will use
-#'   [styler](https://styler.r-lib.org/) to restyle your package.
-#' @rdname github_actions
-#' @export
-use_github_action_pr_commands <- function(save_as = "pr-commands.yaml", ignore = TRUE, open = FALSE) {
-  use_github_action("pr-commands.yaml", save_as = save_as, ignore = ignore, open = open)
-}
-
 uses_github_actions <- function(base_path = proj_get()) {
   path <- glue("{base_path}/.github/workflows")
   file_exists(path)
