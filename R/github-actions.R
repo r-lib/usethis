@@ -30,9 +30,10 @@ use_github_actions <- function() {
 use_github_actions_tidy <- function() {
   check_uses_github()
 
-  new <- use_github_action_check_full() && use_github_action_pr_commands()
+  full_status <- use_github_action_check_full()
+  pr_status <- use_github_action_pr_commands()
 
-  invisible(new)
+  invisible(full_status && pr_status)
 }
 
 #' @section `use_github_actions_badge()`:
