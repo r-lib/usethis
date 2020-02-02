@@ -19,7 +19,7 @@
 #'   - Experimental
 #'   - Maturing
 #'   - Stable
-#'   - Retired
+#'   - Superseded
 #'   - Archived
 #'   - Dormant
 #'   - Questioning
