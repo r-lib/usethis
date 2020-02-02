@@ -105,7 +105,7 @@ stages <- c(
   experimental = "orange",
   maturing = "blue",
   stable = "brightgreen",
-  retired = "orange",
+  superseded = "blue",
   archived = "red",
   dormant = "blue",
   questioning = "blue"
