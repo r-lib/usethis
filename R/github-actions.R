@@ -31,6 +31,8 @@ use_github_actions <- function() {
 use_github_actions_tidy <- function() {
   check_uses_github()
 
+  use_coverage()
+
   full_status <- use_github_action_check_full()
   pr_status <- use_github_action_pr_commands()
 
