@@ -4,6 +4,8 @@
 #' GitHub using [GitHub Actions](https://github.com/features/actions). These functions
 #' - Add the necessary configuration files and place them in `.Rbuildignore`.
 #' - Provide the markdown to insert a badge into your README
+#' 
+#' Note: for packages with system dependencies, the YAML files may need customization.
 #' @name github_actions
 #' @seealso [use_github_action()] for setting up a specific action.
 NULL
