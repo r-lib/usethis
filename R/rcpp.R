@@ -75,7 +75,7 @@ use_c <- function(name = NULL) {
 
 use_src <- function() {
   use_directory("src")
-  use_git_ignore(c("*.o", "*.so", "*.dll"), "src")
+  use_git_ignore(c("*.o", "*.so", "*.dll", "*.dylib"), "src")
   roxygen_ns_append(glue("@useDynLib {project_name()}, .registration = TRUE")) &&
     roxygen_update()
 
