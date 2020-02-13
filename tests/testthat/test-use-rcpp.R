@@ -15,7 +15,7 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
   expect_proj_dir("src")
 
   ignores <- readLines(proj_path("src", ".gitignore"))
-  expect_true(all(c("*.o", "*.so", "*.dll") %in% ignores))
+  expect_true(all(c("*.o", "*.so", "*.dll", "*.dylib") %in% ignores))
 })
 
 test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
