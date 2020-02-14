@@ -72,9 +72,9 @@ widely used packages, which are better off using the simpler
 \section{\code{use_github_action_pr_commands()}}{
 
 This workflow enables the use of 2 R specific commands in pull request
-issue comments. \verb{\\document} will use
+issue comments. \verb{/document} will use
 \href{https://roxygen2.r-lib.org/}{roxygen2} to rebuild the documentation for
-the package and commit the result to the pull request. \verb{\\style} will use
+the package and commit the result to the pull request. \verb{/style} will use
 \href{https://styler.r-lib.org/}{styler} to restyle your package.
 }
 
