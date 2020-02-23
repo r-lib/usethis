@@ -292,6 +292,15 @@ check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
 check_branch_pushed <- function(branch = git_branch_name(), use = "git push") {
   local <- paste0("local/", branch)
   remote <- git_branch_tracking_FIXME(branch)
+  if (is.null(remote)) {
+    if (ui_yeah(
+      "Checking that branch has been pushed, but can't find a remote tracking \\
+       branch. Proceed anyway?")) {
+      return(invisible())
+    } else {
+      ui_stop("Aborting.")
+    }
+  }
   ui_done(
     "Checking that remote branch {ui_value(remote)} has the changes \\
      in {ui_value(local)}"
