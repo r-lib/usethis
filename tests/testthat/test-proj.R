@@ -202,3 +202,22 @@ test_that("local_project() activates proj til scope ends", {
   )
   expect_null(proj_get_())
 })
+
+test_that("proj_activate() works with relative paths when RStudio is not detected", {
+  parent_dir <- tempfile()
+  dir.create(parent_dir)
+  old_wd <- setwd(parent_dir)
+  old_proj <- proj_get()
+  on.exit({
+    setwd(old_wd)
+    proj_set(old_proj)
+    unlink(parent_dir, recursive = TRUE)
+  }, add = TRUE)
+
+  # create a new project
+  dir.create("child_dir")
+  file.create("child_dir/.here")
+
+  with_mock("rstudioapi::isAvailable" = function(x) FALSE, proj_activate("child_dir"))
+  expect_equal(getwd(), normalizePath(file.path(parent_dir, "child_dir")))
+})

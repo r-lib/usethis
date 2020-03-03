@@ -287,7 +287,7 @@ project_pkgdown_url <- function(base_path = proj_get()) {
 #' @export
 proj_activate <- function(path) {
   check_path_is_directory(path)
-  path <- user_path_prep(path)
+  path <- proj_path_prep(path)
 
   if (rstudioapi::isAvailable()) {
     ui_done("Opening {ui_path(path, base = NA)} in new RStudio session")

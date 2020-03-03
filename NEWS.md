@@ -73,6 +73,8 @@
 
 * Export `use_circleci_badge()` (#920, @pat-s)
 
+* `proj_activate()` now works with relative paths outside of RStudio (#1024, @malcolmbarrett. Thanks to Thomas Levine and @lettucehead filing and investigating)
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
