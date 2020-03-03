@@ -219,5 +219,5 @@ test_that("proj_activate() works with relative paths when RStudio is not detecte
   file.create("child_dir/.here")
 
   with_mock("rstudioapi::isAvailable" = function(x) FALSE, proj_activate("child_dir"))
-  expect_equal(getwd(), normalizePath(file.path(parent_dir, "child_dir")))
+  expect_equal(normalizePath(getwd()), normalizePath(file.path(parent_dir, "child_dir")))
 })
