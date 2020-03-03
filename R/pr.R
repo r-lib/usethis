@@ -19,8 +19,8 @@
 #' the `master` branch). You'll then work locally, making changes to files and
 #' checking them into git. Once you're ready to submit, run `pr_push()` to push
 #' your local branch to GitHub, and open a webpage that lets you initiate the
-#' PR. To learn more about the process of making a pull request, read the [Pull
-#' Request
+#' PR (or draft PR). To learn more about the process of making a pull request,
+#' read the [Pull Request
 #' Helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html)
 #' vignette.
 #'
