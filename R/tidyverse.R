@@ -193,8 +193,8 @@ use_tidy_github <- function() {
   use_tidy_coc()
 }
 
-use_dot_github <- function() {
-  use_directory(".github", ignore = TRUE)
+use_dot_github <- function(ignore = TRUE) {
+  use_directory(".github", ignore = ignore)
   use_git_ignore("*.html", directory = ".github")
 }
 
