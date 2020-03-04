@@ -60,7 +60,7 @@ test_that("use_github_actions() configures .Rbuildignore", {
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
   use_description_field("URL", "https://github.com/fake/fake")
   use_github_actions()
-  expect_true(is_build_ignored("^\\.github/workflows"))
+  expect_true(is_build_ignored("^\\.github$"))
 })
 
 test_that("use_github_action_check_full() configures full GitHub Actions", {

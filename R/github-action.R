@@ -45,7 +45,7 @@ use_github_action <- function(name,
   new <- write_over(proj_path(save_as), contents)
 
   if (ignore) {
-    use_build_ignore(save_as)
+    use_build_ignore(path(".github"))
   }
 
   if (open && new) {
