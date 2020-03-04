@@ -39,14 +39,13 @@ use_github_action <- function(name,
 
   contents <- readLines(url)
 
+
+  use_dot_github(ignore = ignore)
+
   save_as <- path(".github", "workflows", save_as)
-
   create_directory(dirname(proj_path(save_as)))
-  new <- write_over(proj_path(save_as), contents)
 
-  if (ignore) {
-    use_build_ignore(save_as)
-  }
+  new <- write_over(proj_path(save_as), contents)
 
   if (open && new) {
     edit_file(proj_path(save_as))
