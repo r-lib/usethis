@@ -4,6 +4,7 @@
 \alias{badges}
 \alias{use_badge}
 \alias{use_cran_badge}
+\alias{use_downloads_badge}
 \alias{use_bioc_badge}
 \alias{use_lifecycle_badge}
 \alias{use_binder_badge}
@@ -12,6 +13,8 @@
 use_badge(badge_name, href, src)
 
 use_cran_badge()
+
+use_downloads_badge()
 
 use_bioc_badge()
 

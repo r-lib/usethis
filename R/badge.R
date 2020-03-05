@@ -74,6 +74,19 @@ use_cran_badge <- function() {
 
 #' @rdname badges
 #' @export
+use_downloads_badge = function() {
+  check_is_package("use_downloads_badge()")
+  pkg <- project_name()
+
+  src <- glue("https://cranlogs.r-pkg.org/badges/{pkg}")
+  href <- glue("https://CRAN.R-project.org/package={pkg}")
+  use_badge("CRAN Downloads", href, src)
+
+  invisible(TRUE)
+}
+
+#' @rdname badges
+#' @export
 use_bioc_badge <- function() {
   check_is_package("use_bioc_badge()")
   pkg <- project_name()

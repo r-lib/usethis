@@ -117,9 +117,12 @@ use_appveyor_badge <- function() {
 
 appveyor_info <- function() {
   check_uses_github()
+  # appveyor builds with . in repo name convert to -
+  spec = github_repo_spec()
+  spec = gsub("[.]", "-", spec)
   img <- glue(
     "https://ci.appveyor.com/api/projects/status/github/",
-    "{github_repo_spec()}?branch=master&svg=true"
+    "{spec}?branch=master&svg=true"
   )
   url <- glue("https://ci.appveyor.com/project/{github_repo_spec()}")
 
