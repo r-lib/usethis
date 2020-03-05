@@ -4,6 +4,7 @@ test_that("use_[cran|bioc]_badge() don't error", {
   scoped_temporary_package()
   expect_error_free(use_cran_badge())
   expect_error_free(use_bioc_badge())
+  expect_error_free(use_downloads_badge())
 })
 
 test_that("use_lifecycle_badge() handles bad and good input", {
@@ -34,4 +35,7 @@ test_that("default readme has placeholders / can add to empty badge block", {
   expect_message(use_readme_md())
   expect_message(use_cran_badge(), "Adding CRAN status badge")
   expect_silent(use_cran_badge())
+
+  expect_message(use_downloads_badge(), "Adding CRAN Downloads badge")
+  expect_silent(use_downloads_badge())
 })
