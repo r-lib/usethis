@@ -25,7 +25,8 @@ tidy_download(url, destdir = getwd())
 ## as called inside use_course()
 tidy_download(
   url, ## after post-processing with normalize_url()
-  # conspicuous_place() = Desktop or home directory or working directory
+  # conspicuous_place() = `getOption('usethis.destdir')` or desktop or home
+  # directory or working directory
   destdir = destdir \%||\% conspicuous_place()
 )
 }

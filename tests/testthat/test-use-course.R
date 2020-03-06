@@ -102,6 +102,14 @@ test_that("conspicuous_place() returns a writeable directory", {
   expect_true(file_access(x, mode = "write"))
 })
 
+test_that("conspicuous_place() uses `usethis.destdir` when set", {
+  tdestdir_temp <- path(tempdir(), "destdir_temp")
+  dir_create(tdestdir_temp)
+  withr::local_options(list(usethis.destdir = tdestdir_temp))
+  expect_error_free(x <- conspicuous_place())
+  expect_equal(path(tdestdir_temp), x)
+})
+
 test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
   skip("work this into a use_course test")
   skip_on_cran()

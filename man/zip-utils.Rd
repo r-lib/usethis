@@ -20,7 +20,9 @@ Function works well with DropBox folders and GitHub repos, but should work
 for ZIP files generally. See examples and \link{use_course_details} for more.}
 
 \item{destdir}{The new folder is stored here. If \code{NULL}, defaults to user's
-Desktop or some other conspicuous place.}
+Desktop or some other conspicuous place. You can also set a default
+location using the option \code{usethis.destdir}, e.g. \code{options(usethis.destdir = "a/good/dir")}, perhaps saved to your \code{.Rprofile} with
+\code{\link[=edit_r_profile]{edit_r_profile()}}}
 
 \item{cleanup}{Whether to delete the original ZIP file after unpacking its
 contents. In an interactive setting, \code{NA} leads to a menu where user can
