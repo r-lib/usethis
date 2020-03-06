@@ -38,7 +38,16 @@ use_tidy_github_actions <- function() {
   pr_status <- use_github_action_pr_commands()
   pkgdown_status <- use_github_action("pkgdown")
 
-  invisible(full_status && pr_status && pkdown_status)
+  old_configs <- proj_path(c(".travis.yml", "appveyor.yml"))
+  has_appveyor_travis <- file_exists(old_configs)
+
+  if (any(has_appveyor_travis)) {
+    if (ui_yeah("Remove existing .travis.yml and appveyor.yml?")) {
+      file_delete(old_configs[has_appveyor_travis])
+    }
+  }
+
+  invisible(full_status && pr_status && pkgdown_status)
 }
 
 #' @section `use_github_actions_badge()`:
