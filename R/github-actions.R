@@ -20,7 +20,7 @@ use_github_actions <- function() {
   use_github_action_check_release()
 }
 
-#' @section `use_github_actions_tidy()`:
+#' @section `use_tidy_github_actions()`:
 #' Sets up tidyverse actions that check the R versions officially supported by
 #'   the tidyverse, (current release, devel and four previous versions). It also
 #'   adds two commands to be used in pull requests, `\document` to run
@@ -28,7 +28,7 @@ use_github_actions <- function() {
 #'   `styler::style_pkg()` and update the PR.
 #' @rdname github_actions
 #' @export
-use_github_actions_tidy <- function() {
+use_tidy_github_actions <- function() {
   check_uses_github()
 
   use_coverage()

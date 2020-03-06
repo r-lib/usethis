@@ -3,13 +3,13 @@
 \name{github_actions}
 \alias{github_actions}
 \alias{use_github_actions}
-\alias{use_github_actions_tidy}
+\alias{use_tidy_github_actions}
 \alias{use_github_actions_badge}
 \title{GitHub Actions setup and badges}
 \usage{
 use_github_actions()
 
-use_github_actions_tidy()
+use_tidy_github_actions()
 
 use_github_actions_badge(name = "R-CMD-check")
 }
@@ -30,7 +30,7 @@ Adds a basic \code{R-CMD-check.yaml} file to the \code{.github/workflows} direct
 package. This is a configuration file for the \href{https://github.com/features/actions}{GitHub Actions} service.
 }
 
-\section{\code{use_github_actions_tidy()}}{
+\section{\code{use_tidy_github_actions()}}{
 
 Sets up tidyverse actions that check the R versions officially supported by
 the tidyverse, (current release, devel and four previous versions). It also
