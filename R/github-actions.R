@@ -20,13 +20,14 @@ use_github_actions <- function() {
   use_github_action_check_release()
 }
 
-#' @section `use_tidy_github_actions()`:
-#' Sets up tidyverse actions that check the R versions officially supported by
-#'   the tidyverse, (current release, devel and four previous versions). It also
-#'   adds two commands to be used in pull requests, `\document` to run
-#'   `roxygen2::roxygenise()` and update the PR, and `\style` to run
-#'   `styler::style_pkg()` and update the PR.
-#' @rdname github_actions
+#' @details
+#' - `use_tidy_github_actions()`: Sets up the following workflows using [GitHub Actions](https://github.com/features/actions)
+#'   - Run R CMD check on the current release, devel and four previous versions
+#'   - Adds adds two commands to be used in pull requests, `\document` to run
+#'     `roxygen2::roxygenise()` and update the PR, and `\style` to run
+#'     `styler::style_pkg()` and update the PR.
+#'   - Builds a pkgdown site for the package
+#' @rdname tidyverse
 #' @export
 use_tidy_github_actions <- function() {
   check_uses_github()
