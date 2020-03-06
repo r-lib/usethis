@@ -73,6 +73,8 @@
 
 * Export `use_circleci_badge()` (#920, @pat-s)
 
+* `use_github_release()` now tags the latest local commit instead of the latest remote commit on the default branch (#1029, @davidchall)
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
