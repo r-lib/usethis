@@ -35,8 +35,9 @@ use_tidy_github_actions <- function() {
 
   full_status <- use_github_action_check_full()
   pr_status <- use_github_action_pr_commands()
+  pkgdown_status <- use_github_action("pkgdown")
 
-  invisible(full_status && pr_status)
+  invisible(full_status && pr_status && pkdown_status)
 }
 
 #' @section `use_github_actions_badge()`:
