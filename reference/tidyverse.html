@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Helpers for tidyverse development — tidyverse • usethis</title>
+<title>Helpers for tidyverse development — use_tidy_github_actions • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,7 +48,7 @@
 
 
 
-<meta property="og:title" content="Helpers for tidyverse development — tidyverse" />
+<meta property="og:title" content="Helpers for tidyverse development — use_tidy_github_actions" />
 <meta property="og:description" content="These helpers follow tidyverse conventions which are generally a little
 stricter than the defaults, reflecting the need for greater rigor in
 commonly used packages." />
@@ -176,7 +176,7 @@ commonly used packages." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Helpers for tidyverse development</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/tidyverse.R'><code>R/tidyverse.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/github-actions.R'><code>R/github-actions.R</code></a>, <a href='https://github.com/r-lib/usethis/blob/master/R/tidyverse.R'><code>R/tidyverse.R</code></a></small>
     <div class="hidden name"><code>tidyverse.Rd</code></div>
     </div>
 
@@ -186,7 +186,9 @@ stricter than the defaults, reflecting the need for greater rigor in
 commonly used packages.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_tidy_package</span>(<span class='no'>path</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"RStudio"</span>)
+    <pre class="usage"><span class='fu'>use_tidy_github_actions</span>()
+
+<span class='fu'>create_tidy_package</span>(<span class='no'>path</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"RStudio"</span>)
 
 <span class='fu'>use_tidy_ci</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>())
 
@@ -237,6 +239,17 @@ should be applied. See <code><a href='https://rdrr.io/pkg/styler/man/tidyverse_s
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
+<ul>
+<li><p><code>use_tidy_github_actions()</code>: Sets up the following workflows using <a href='https://github.com/features/actions'>GitHub Actions</a>:</p><ul>
+<li><p>Runs <code>R CMD check</code> on the current release, devel, and four previous
+versions of R.</p></li>
+<li><p>Adds adds two commands to be used in pull requests: <code>/document</code> to run
+<code><a href='https://roxygen2.r-lib.org/reference/roxygenize.html'>roxygen2::roxygenise()</a></code> and update the PR, and <code>/style</code> to run
+<code><a href='https://rdrr.io/pkg/styler/man/style_pkg.html'>styler::style_pkg()</a></code> and update the PR.</p></li>
+<li><p>Builds a pkgdown site for the package.</p></li>
+</ul></li>
+</ul>
+
 <ul>
 <li><p><code>create_tidy_package()</code>: creates a new package, immediately applies as many
 of the tidyverse conventions as possible, issues a few reminders, and

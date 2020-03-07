@@ -194,8 +194,6 @@ GitHub using <a href='https://github.com/features/actions'>GitHub Actions</a>. T
 
     <pre class="usage"><span class='fu'>use_github_actions</span>()
 
-<span class='fu'>use_github_actions_tidy</span>()
-
 <span class='fu'>use_github_actions_badge</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -213,15 +211,6 @@ GitHub using <a href='https://github.com/features/actions'>GitHub Actions</a>. T
 
 <p>Adds a basic <code>R-CMD-check.yaml</code> file to the <code>.github/workflows</code> directory of a
 package. This is a configuration file for the <a href='https://github.com/features/actions'>GitHub Actions</a> service.</p>
-    <h2 class="hasAnchor" id="use-github-actions-tidy-"><a class="anchor" href="#use-github-actions-tidy-"></a><code>use_github_actions_tidy()</code></h2>
-
-    
-
-<p>Sets up tidyverse actions that check the R versions officially supported by
-the tidyverse, (current release, devel and four previous versions). It also
-adds two commands to be used in pull requests, <code>\document</code> to run
-<code><a href='https://roxygen2.r-lib.org/reference/roxygenize.html'>roxygen2::roxygenise()</a></code> and update the PR, and <code>\style</code> to run
-<code><a href='https://rdrr.io/pkg/styler/man/style_pkg.html'>styler::style_pkg()</a></code> and update the PR.</p>
     <h2 class="hasAnchor" id="use-github-actions-badge-"><a class="anchor" href="#use-github-actions-badge-"></a><code>use_github_actions_badge()</code></h2>
 
     
@@ -238,7 +227,6 @@ where GitHub Actions is already configured.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#use-github-actions-"><code>use_github_actions()</code></a></li>
-      <li><a href="#use-github-actions-tidy-"><code>use_github_actions_tidy()</code></a></li>
       <li><a href="#use-github-actions-badge-"><code>use_github_actions_badge()</code></a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
