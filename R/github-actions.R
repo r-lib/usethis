@@ -20,23 +20,40 @@ use_github_actions <- function() {
   use_github_action_check_release()
 }
 
-#' @section `use_github_actions_tidy()`:
-#' Sets up tidyverse actions that check the R versions officially supported by
-#'   the tidyverse, (current release, devel and four previous versions). It also
-#'   adds two commands to be used in pull requests, `\document` to run
-#'   `roxygen2::roxygenise()` and update the PR, and `\style` to run
-#'   `styler::style_pkg()` and update the PR.
-#' @rdname github_actions
+#' @details
+
+#' * `use_tidy_github_actions()`: Sets up the following workflows using [GitHub
+#' Actions](https://github.com/features/actions):
+#'   - Runs `R CMD check` on the current release, devel, and four previous
+#'     versions of R.
+#'   - Adds adds two commands to be used in pull requests: `/document` to run
+#'     `roxygen2::roxygenise()` and update the PR, and `/style` to run
+#'     `styler::style_pkg()` and update the PR.
+#'   - Builds a pkgdown site for the package.
+#' @rdname tidyverse
 #' @export
-use_github_actions_tidy <- function() {
+use_tidy_github_actions <- function() {
   check_uses_github()
 
   use_coverage()
 
-  full_status <- use_github_action_check_full()
-  pr_status <- use_github_action_pr_commands()
+  full_status    <- use_github_action_check_full()
+  pr_status      <- use_github_action_pr_commands()
+  pkgdown_status <- use_github_action("pkgdown")
 
-  invisible(full_status && pr_status)
+  old_configs <- proj_path(c(".travis.yml", "appveyor.yml"))
+  has_appveyor_travis <- file_exists(old_configs)
+
+  if (any(has_appveyor_travis)) {
+    if (ui_yeah(
+      "Remove existing {ui_path('.travis.yml')} and {ui_path('appveyor.yml')}?"
+    )) {
+      file_delete(old_configs[has_appveyor_travis])
+      ui_todo("Remove old badges from README")
+    }
+  }
+
+  invisible(full_status && pr_status && pkgdown_status)
 }
 
 #' @section `use_github_actions_badge()`:
