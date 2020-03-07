@@ -44,6 +44,7 @@ use_tidy_github_actions <- function() {
   if (any(has_appveyor_travis)) {
     if (ui_yeah("Remove existing .travis.yml and appveyor.yml?")) {
       file_delete(old_configs[has_appveyor_travis])
+      ui_todo("Remove old badges from README")
     }
   }
 
