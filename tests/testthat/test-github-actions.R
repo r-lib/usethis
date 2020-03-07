@@ -120,8 +120,7 @@ test_that("use_tidy_github_actions() configures the full check and pr commands",
   use_readme_md()
 
   use_tidy_github_actions()
-  expect_proj_dir(".github")
-  expect_proj_dir(".github/workflows")
   expect_proj_file(".github/workflows/R-CMD-check.yaml")
   expect_proj_file(".github/workflows/pr-commands.yaml")
+  expect_proj_file(".github/workflows/pkgdown.yaml")
 })
