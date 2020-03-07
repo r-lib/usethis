@@ -5,10 +5,8 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis)
+[![R build
+status](https://github.com/r-lib/usethis/workflows/R-CMD-check/badge.svg)](https://github.com/r-lib/usethis/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/usethis?branch=master)
 [![CRAN
@@ -63,8 +61,8 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✔ Creating '/tmp/RtmpIjDPXx/mypkg/'
-#> ✔ Setting active project to '/private/tmp/RtmpIjDPXx/mypkg'
+#> ✔ Creating '/tmp/RtmpbbiMqB/mypkg/'
+#> ✔ Setting active project to '/private/tmp/RtmpbbiMqB/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Writing 'DESCRIPTION'
 #> Package: mypkg
@@ -82,8 +80,8 @@ create_package(path)
 #> ✔ Setting active project to '<no active project>'
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✔ Changing working directory to '/tmp/RtmpIjDPXx/mypkg/'
-#> ✔ Setting active project to '/private/tmp/RtmpIjDPXx/mypkg'
+#> ✔ Changing working directory to '/tmp/RtmpbbiMqB/mypkg/'
+#> ✔ Setting active project to '/private/tmp/RtmpbbiMqB/mypkg'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -118,6 +116,7 @@ y <- 2
 use_data(x, y)
 #> ✔ Creating 'data/'
 #> ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'
+#> ● Document your data (see 'https://r-pkgs.org/data.html')
 
 # Use git ------------------------------------------------------------
 use_git()
