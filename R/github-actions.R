@@ -21,12 +21,15 @@ use_github_actions <- function() {
 }
 
 #' @details
-#' - `use_tidy_github_actions()`: Sets up the following workflows using [GitHub Actions](https://github.com/features/actions)
-#'   - Run R CMD check on the current release, devel and four previous versions
-#'   - Adds adds two commands to be used in pull requests, `\document` to run
-#'     `roxygen2::roxygenise()` and update the PR, and `\style` to run
+
+#' * `use_tidy_github_actions()`: Sets up the following workflows using [GitHub
+#' Actions](https://github.com/features/actions):
+#'   - Runs `R CMD check` on the current release, devel, and four previous
+#'     versions of R.
+#'   - Adds adds two commands to be used in pull requests: `/document` to run
+#'     `roxygen2::roxygenise()` and update the PR, and `/style` to run
 #'     `styler::style_pkg()` and update the PR.
-#'   - Builds a pkgdown site for the package
+#'   - Builds a pkgdown site for the package.
 #' @rdname tidyverse
 #' @export
 use_tidy_github_actions <- function() {
@@ -34,15 +37,17 @@ use_tidy_github_actions <- function() {
 
   use_coverage()
 
-  full_status <- use_github_action_check_full()
-  pr_status <- use_github_action_pr_commands()
+  full_status    <- use_github_action_check_full()
+  pr_status      <- use_github_action_pr_commands()
   pkgdown_status <- use_github_action("pkgdown")
 
   old_configs <- proj_path(c(".travis.yml", "appveyor.yml"))
   has_appveyor_travis <- file_exists(old_configs)
 
   if (any(has_appveyor_travis)) {
-    if (ui_yeah("Remove existing .travis.yml and appveyor.yml?")) {
+    if (ui_yeah(
+      "Remove existing {ui_path('.travis.yml')} and {ui_path('appveyor.yml')}?"
+    )) {
       file_delete(old_configs[has_appveyor_travis])
       ui_todo("Remove old badges from README")
     }
