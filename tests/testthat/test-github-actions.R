@@ -60,7 +60,7 @@ test_that("use_github_actions() configures .Rbuildignore", {
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
   use_description_field("URL", "https://github.com/fake/fake")
   use_github_actions()
-  expect_true(is_build_ignored("^\\.github/workflows"))
+  expect_true(is_build_ignored("^\\.github$"))
 })
 
 test_that("use_github_action_check_full() configures full GitHub Actions", {
@@ -110,7 +110,7 @@ test_that("use_github_action_check_full() configures the pr commands", {
   expect_proj_file(".github/workflows/pr-commands.yaml")
 })
 
-test_that("use_github_actions_tidy() configures the full check and pr commands", {
+test_that("use_tidy_github_actions() configures the full check and pr commands", {
   skip_if_no_git_config()
 
   scoped_temporary_package()
@@ -119,9 +119,8 @@ test_that("use_github_actions_tidy() configures the full check and pr commands",
   use_description_field("URL", "https://github.com/fake/fake")
   use_readme_md()
 
-  use_github_actions_tidy()
-  expect_proj_dir(".github")
-  expect_proj_dir(".github/workflows")
+  use_tidy_github_actions()
   expect_proj_file(".github/workflows/R-CMD-check.yaml")
   expect_proj_file(".github/workflows/pr-commands.yaml")
+  expect_proj_file(".github/workflows/pkgdown.yaml")
 })

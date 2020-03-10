@@ -193,8 +193,8 @@ use_tidy_github <- function() {
   use_tidy_coc()
 }
 
-use_dot_github <- function() {
-  use_directory(".github", ignore = TRUE)
+use_dot_github <- function(ignore = TRUE) {
+  use_directory(".github", ignore = ignore)
   use_git_ignore("*.html", directory = ".github")
 }
 
@@ -325,7 +325,7 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
   contrib_link <- glue("[&#x0040;{contributors}](https://github.com/{contributors})")
 
   ui_done("Found {length(contributors)} contributors:")
-  ui_code_block(glue_collapse(contrib_link, sep = ", ", last = ", and "))
+  ui_code_block(glue_collapse(contrib_link, sep = ", ", last = ", and ") + glue("."))
 
   invisible(contributors)
 }

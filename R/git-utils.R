@@ -225,7 +225,11 @@ check_uncommitted_changes <- function(path = proj_get(), untracked = FALSE) {
   }
 
   if (uses_git(path) && git_uncommitted(path, untracked = untracked)) {
-    ui_stop("Uncommited changes. Please commit to git before continuing.")
+    if (ui_yeah("There are uncommitted changes. Do you want to proceed anyway?")) {
+      return()
+    } else {
+      ui_stop("Uncommitted changes. Please commit to git before continuing.")
+    }
   }
 }
 

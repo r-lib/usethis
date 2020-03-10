@@ -16,6 +16,5 @@ use_covr_ignore(files)
 \item{files}{Character vector of file globs.}
 }
 \description{
-\code{use_coverage()} Adds test coverage reports to a package that is already
-using Travis CI.
+\code{use_coverage()} Adds test coverage reports to a package.
 }

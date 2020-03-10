@@ -44,9 +44,9 @@ R 3.6.0 and can only be read by R versions 3.5.0 and higher.}
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
-\code{use_data()} makes it easy to save package data in the correct format.
-I recommend you save scripts that generate package data in \code{data-raw}:
-use \code{use_data_raw()} to set it up.
+\code{use_data()} makes it easy to save package data in the correct format. I
+recommend you save scripts that generate package data in \code{data-raw}: use
+\code{use_data_raw()} to set it up. You also need to document exported datasets.
 }
 \examples{
 \dontrun{

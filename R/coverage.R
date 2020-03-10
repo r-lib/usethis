@@ -1,13 +1,11 @@
 #' Test coverage
 #'
-#' `use_coverage()` Adds test coverage reports to a package that is already
-#' using Travis CI.
+#' `use_coverage()` Adds test coverage reports to a package.
 #'
 #' @param type Which web service to use for test reporting. Currently supports
 #'   [Codecov](https://codecov.io) and [Coveralls](https://coveralls.io).
 #' @export
 use_coverage <- function(type = c("codecov", "coveralls")) {
-  check_uses_travis()
   use_dependency("covr", "Suggests")
 
   type <- match.arg(type)

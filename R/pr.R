@@ -13,13 +13,16 @@
 #' (SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.
 #'
 #' @section For contributors:
-#' To contribute to a package, first use `create_from_github(owner/repo)` to
-#' fork the source repository, and then check out a local copy. Next use
-#' `pr_init()` to create a branch for your PR (__never__ submit a PR from the
-#' `master` branch). You'll then work locally, making changes to files
-#' and checking them into git. Once you're ready to submit, run `pr_push()`
-#' to push your local branch to GitHub, and open a webpage that lets you
-#' initiate the PR.
+#' To contribute to a package, first use `create_from_github("OWNER/REPO", fork
+#' = TRUE)` to fork the source repository, and then check out a local copy. Next
+#' use `pr_init()` to create a branch for your PR (__never__ submit a PR from
+#' the `master` branch). You'll then work locally, making changes to files and
+#' checking them into git. Once you're ready to submit, run `pr_push()` to push
+#' your local branch to GitHub, and open a webpage that lets you initiate the
+#' PR. To learn more about the process of making a pull request, read the [Pull
+#' Request
+#' Helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html)
+#' vignette.
 #'
 #' If you are lucky, your PR will be perfect, and the maintainer will accept
 #' it. You can then run `pr_finish()` to close and delete your PR branch.
@@ -381,7 +384,8 @@ pr_find <- function(owner,
     .token = check_github_token(allow_empty = TRUE)
   )
 
-  if (identical(prs[[1]], "")) {
+  # prs has length zero if gh >= v1.1.0 and is "" for earlier versions
+  if (length(prs) < 1 || identical(prs[[1]], "")) {
     return(character())
   }
 
@@ -391,3 +395,4 @@ pr_find <- function(owner,
 
   urls[refs == pr_branch & user == pr_owner]
 }
+

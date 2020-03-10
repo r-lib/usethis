@@ -51,7 +51,7 @@ package, according to \url{https://www.tidyverse.org/lifecycle/}:
 \item Experimental
 \item Maturing
 \item Stable
-\item Retired
+\item Superseded
 \item Archived
 \item Dormant
 \item Questioning
