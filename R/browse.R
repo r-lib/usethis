@@ -12,6 +12,8 @@
 #' issue.
 #' * `browse_github_pulls()`: Visits the GitHub Pull Request index or one
 #' specific pull request.
+#' * `browse_github_settings()`: Visits the repo settings; only accessible for repo admins.
+#' * `browse_github_secrets()`: Visits the secrets tab of the repo settings; only accessible for repo admins.
 #' * `browse_travis()`: Visits the package's page on [Travis
 #' CI](https://travis-ci.org).
 #' * `browse_circleci()`: Visits the package's page on [Circle
@@ -27,6 +29,7 @@
 #' browse_github_issues("backports", 1)
 #' browse_github_pulls("rprojroot")
 #' browse_github_pulls("rprojroot", 3)
+#' browse_github_secrets("rprojroot")
 #' browse_travis("usethis")
 #' browse_cran("MASS")
 #' @name browse-this
@@ -49,6 +52,19 @@ browse_github_issues <- function(package = NULL, number = NULL) {
 browse_github_pulls <- function(package = NULL, number = NULL) {
   pull <- if (is.null(number)) "pulls" else "pull"
   view_url(github_home(package), pull, number)
+}
+
+#' @export
+#' @param setting Name of the vertical setting tab; leave as `NULL` for index
+#' @rdname browse-this
+browse_github_settings <- function(package = NULL, setting = NULL) {
+  view_url(github_home(package), "settings", setting)
+}
+
+#' @export
+#' @rdname browse-this
+browse_github_secrets <- function(package = NULL) {
+  browse_github_settings(package = package, setting = "secrets")
 }
 
 #' @export

@@ -5,6 +5,8 @@
 \alias{browse_github}
 \alias{browse_github_issues}
 \alias{browse_github_pulls}
+\alias{browse_github_settings}
+\alias{browse_github_secrets}
 \alias{browse_travis}
 \alias{browse_circleci}
 \alias{browse_cran}
@@ -15,6 +17,10 @@ browse_github(package = NULL)
 browse_github_issues(package = NULL, number = NULL)
 
 browse_github_pulls(package = NULL, number = NULL)
+
+browse_github_settings(package = NULL, setting = NULL)
+
+browse_github_secrets(package = NULL)
 
 browse_travis(package = NULL, ext = c("org", "com"))
 
@@ -27,6 +33,8 @@ browse_cran(package = NULL)
 
 \item{number}{For GitHub issues and pull requests. Can be a number or
 \code{"new"}.}
+
+\item{setting}{Name of the vertical setting tab; leave as \code{NULL} for index}
 
 \item{ext}{Version of travis to use.}
 }
@@ -43,6 +51,8 @@ and there is no guarantee there will be content at the destination.
 issue.
 \item \code{browse_github_pulls()}: Visits the GitHub Pull Request index or one
 specific pull request.
+\item \code{browse_github_settings()}: Visits the repo settings; only accessible for repo admins.
+\item \code{browse_github_secrets()}: Visits the secrets tab of the repo settings; only accessible for repo admins.
 \item \code{browse_travis()}: Visits the package's page on \href{https://travis-ci.org}{Travis CI}.
 \item \code{browse_circleci()}: Visits the package's page on \href{https://circleci.com}{Circle CI}
 \item \code{browse_cran()}: Visits the package on CRAN, via the canonical URL.
@@ -54,6 +64,7 @@ browse_github_issues("backports")
 browse_github_issues("backports", 1)
 browse_github_pulls("rprojroot")
 browse_github_pulls("rprojroot", 3)
+browse_github_secrets("rprojroot")
 browse_travis("usethis")
 browse_cran("MASS")
 }
