@@ -89,9 +89,13 @@ use_zip <- function(url,
 
 #' Helpers to download and unpack a ZIP file
 #'
+#' @description
 #' Details on the internal functions that power [use_course()] and [use_zip()].
 #' These helpers are currently unexported but a course instructor may want more
 #' details.
+#'
+#' `convert_teaching_url()` is exported function that helps you get the right
+#' url for Google drive and dropbox.
 #'
 #' @name use_course_details
 #' @keywords internal
@@ -119,7 +123,7 @@ use_zip <- function(url,
 #' filename is generated from the input URL. In either case, the filename is
 #' sanitized. Returns the path to downloaded ZIP file, invisibly.
 #'
-#' **DropBox:**
+#' ## DropBox
 #'
 #' To make a folder available for ZIP download, create a shared link for it:
 #' * <https://www.dropbox.com/help/files-folders/view-only-access>
@@ -140,7 +144,9 @@ use_zip <- function(url,
 #' <https://www.dropbox.com/help/desktop-web/force-download> and
 #' <https://www.dropbox.com/en/help/desktop-web/download-entire-folders>.
 #'
-#' **GitHub:**
+#' Use `convert_teaching_url()` to perform this transformation automatically.
+#'
+#' ## GitHub
 #'
 #' Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
 #' button. Capture this URL, which will have this form:
@@ -155,7 +161,7 @@ use_zip <- function(url,
 #' https://api.github.com/repos/r-lib/usethis/zipball/master
 #' ```
 #'
-#' **Google Drive:**
+#' ## Google Drive
 #'
 #' It looks like it's not possible to directly share as a ZIP file the content
 #' of a folder storred in Google Drive. It is however possible to share a ZIP
@@ -169,13 +175,13 @@ use_zip <- function(url,
 #' ```
 #'
 #' To be able to get the URL suitable for direct download, you need to extract
-#' the "id" element from the URL and include it in this URL format (or use the
-#' function [convert_teaching_url()]):
+#' the "id" element from the URL and include it in this URL format:
 #'
 #' ```
 #' https://docs.google.com/uc?export=download&id=123456789xxyyyzzz
 #' ```
 #'
+#' Use `convert_teaching_url()` to perform this transformation automatically.
 #'
 #' @param url Download link for the ZIP file, possibly behind a shortlink or
 #'   other redirect. See Details.
@@ -296,27 +302,12 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
   invisible(target)
 }
 
-#' Helper to convert a Dropbox or Google Drive URL
-#'
-#' The URL provided by Dropbox or Google Drive in a web browser can't be used to
-#' access the files programmatically. This function converts these URLs into a
-#' format suitable for direct download (as expected by [tidy_download()] for
-#' instance). See [use_course_details] for more information.
-#'
-#' This function currently supports:
-#'
-#' * Google Drive with URLs having the following formats:
-#'   - `https://drive.google.com/open?id=123456789xxyyyzzz`
-#'   - `https://drive.google.com/file/d/123456789xxxyyyzzz/view`
-#' * Dropbox URLs having the following format:
-#'   - `https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0`
-#'
+#' @rdname use_course_details
 #' @param url a Dropbox or Google Drive URL as copied from a web browser.
-#'
 #' @examples
-#' \dontrun{
-#'   convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz")
-#' }
+#' convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz")
+#' convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz/view")
+#' convert_teaching_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0")
 #' @export
 convert_teaching_url <- function(url) {
   stopifnot(is_string(url))

@@ -2,10 +2,13 @@
 % Please edit documentation in R/course.R
 \name{use_course_details}
 \alias{use_course_details}
+\alias{convert_teaching_url}
 \title{Helpers to download and unpack a ZIP file}
+\usage{
+convert_teaching_url(url)
+}
 \arguments{
-\item{url}{Download link for the ZIP file, possibly behind a shortlink or
-other redirect. See Details.}
+\item{url}{a Dropbox or Google Drive URL as copied from a web browser.}
 
 \item{destdir}{Path to existing local directory where the ZIP file will be
 stored. Defaults to current working directory, but note that \code{\link[=use_course]{use_course()}}
@@ -17,6 +20,9 @@ has different default behavior.}
 Details on the internal functions that power \code{\link[=use_course]{use_course()}} and \code{\link[=use_zip]{use_zip()}}.
 These helpers are currently unexported but a course instructor may want more
 details.
+
+\code{convert_teaching_url()} is exported function that helps you get the right
+url for Google drive and dropbox.
 }
 \section{tidy_download()}{
 \preformatted{## function signature
@@ -38,8 +44,7 @@ as a ZIP file, with information about the original folder or repo transmitted
 in the \code{Content-Disposition} header. In the absence of this header, a
 filename is generated from the input URL. In either case, the filename is
 sanitized. Returns the path to downloaded ZIP file, invisibly.
-
-\strong{DropBox:}
+\subsection{DropBox}{
 
 To make a folder available for ZIP download, create a shared link for it:
 \itemize{
@@ -49,8 +54,9 @@ To make a folder available for ZIP download, create a shared link for it:
 A shared link will have this form:\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
 }
 
-Replace the \code{dl=0} at the end with \code{dl=1} to create a download link. The ZIP
-download link will have this form:\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
+Replace the \code{dl=0} at the end with \code{dl=1} to create a download link (or use
+the \code{convert_teaching_url()} function). The ZIP download link will have this
+form:\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
 }
 
 This download link (or a shortlink that points to it) is suitable as input
@@ -59,7 +65,10 @@ eventually lead to a download URL. For more details, see
 \url{https://www.dropbox.com/help/desktop-web/force-download} and
 \url{https://www.dropbox.com/en/help/desktop-web/download-entire-folders}.
 
-\strong{GitHub:}
+Use \code{convert_teaching_url()} to perform this transformation automatically.
+}
+
+\subsection{GitHub}{
 
 Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
 button. Capture this URL, which will have this form:\preformatted{https://github.com/r-lib/usethis/archive/master.zip
@@ -69,6 +78,24 @@ This download link (or a shortlink that points to it) is suitable as input
 for \code{tidy_download()}. After one or more redirections, this link will
 eventually lead to a download URL. Here's an alternative link that also leads
 to ZIP download, albeit with a different filenaming scheme:\preformatted{https://api.github.com/repos/r-lib/usethis/zipball/master
+}
+}
+
+\subsection{Google Drive}{
+
+It looks like it's not possible to directly share as a ZIP file the content
+of a folder storred in Google Drive. It is however possible to share a ZIP
+file stored in Google Drive. To get this URL, click on
+"Get the shareable link" (within the "Share" menu). This URL doesn't allow
+for direct download, as it's designed to be processed in a web browser first.
+Such a sharing link looks like:\preformatted{https://drive.google.com/open?id=123456789xxyyyzzz
+}
+
+To be able to get the URL suitable for direct download, you need to extract
+the "id" element from the URL and include it in this URL format:\preformatted{https://docs.google.com/uc?export=download&id=123456789xxyyyzzz
+}
+
+Use \code{convert_teaching_url()} to perform this transformation automatically.
 }
 }
 
@@ -110,5 +137,9 @@ tidy_download("https://github.com/r-lib/rematch2/archive/master.zip")
 tidy_download("https://github.com/r-lib/rematch2/archive/master.zip")
 tidy_unzip("rematch2-master.zip")
 }
+convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz")
+convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz/view")
+convert_teaching_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0")
+
 }
 \keyword{internal}
