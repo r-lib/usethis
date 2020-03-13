@@ -35,7 +35,7 @@ create_package <- function(path,
   path <- user_path_prep(path)
   check_path_is_directory(path_dir(path))
 
-  name <- path_file(path)
+  name <- path_file(path_real(path))
   if (check_name) {
     check_package_name(name)
   }
