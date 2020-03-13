@@ -5,11 +5,15 @@
 \alias{create_project}
 \title{Create a package or project}
 \usage{
-create_package(path, fields = NULL,
-  rstudio = rstudioapi::isAvailable(), open = interactive())
+create_package(
+  path,
+  fields = NULL,
+  rstudio = rstudioapi::isAvailable(),
+  check_name = TRUE,
+  open = interactive()
+)
 
-create_project(path, rstudio = rstudioapi::isAvailable(),
-  open = interactive())
+create_project(path, rstudio = rstudioapi::isAvailable(), open = interactive())
 }
 \arguments{
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
@@ -25,6 +29,9 @@ If \code{FALSE} and a non-package project, a sentinel \code{.here} file is place
 that the directory can be recognized as a project by the
 \href{https://here.r-lib.org}{here} or
 \href{https://rprojroot.r-lib.org}{rprojroot} packages.}
+
+\item{check_name}{Whether to check if the name is valid for CRAN and throw an
+error if not}
 
 \item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
 \itemize{

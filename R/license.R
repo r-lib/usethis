@@ -11,6 +11,10 @@
 #'   provides patent protection.
 #' * [GPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing
 #'   of improvements.
+#' * [AGPL v3](https://choosealicense.com/licenses/agpl-3.0/): requires sharing
+#'   of improvements.
+#' * [LGPL v3](https://choosealicense.com/licenses/lgpl-3.0/): requires sharing
+#'   of improvements.
 #' * [CCBY 4.0](https://creativecommons.org/licenses/by/4.0/): Free to share and
 #'    adapt, must give appropriate credit. Appropriate for data packages.
 #'
@@ -42,12 +46,11 @@ use_mit_license <- function(name = find_name()) {
 
   # Fill in template
   use_template(
-    "license-mit.txt",
+    "year-copyright.txt",
     save_as = "LICENSE",
     data = license_data(name)
   )
 }
-
 
 #' @rdname licenses
 #' @export
@@ -57,6 +60,16 @@ use_gpl3_license <- function(name = find_name()) {
 
   use_description_field("License", "GPL-3", overwrite = TRUE)
   use_license_template("GPL-3", name)
+}
+
+#' @rdname licenses
+#' @export
+use_agpl3_license <- function(name = find_name()) {
+  force(name)
+  check_is_package("use_agpl3_license()")
+
+  use_description_field("License", "AGPL-3", overwrite = TRUE)
+  use_license_template("AGPL-3", name)
 }
 
 #' @rdname licenses
@@ -95,7 +108,7 @@ use_ccby_license <- function(name = find_name()) {
   force(name)
   check_is_package("use_ccby_license()")
 
-  use_description_field("License", "CCBY-4.0", overwrite = TRUE)
+  use_description_field("License", "CC BY 4.0", overwrite = TRUE)
   use_license_template("ccby-4", name)
 }
 

@@ -4,16 +4,19 @@
 \alias{use_rmarkdown_template}
 \title{Add an RMarkdown Template}
 \usage{
-use_rmarkdown_template(template_name = "Template Name",
-  template_dir = tolower(asciify(template_name)),
+use_rmarkdown_template(
+  template_name = "Template Name",
+  template_dir = NULL,
   template_description = "A description of the template",
-  template_create_dir = FALSE)
+  template_create_dir = FALSE
+)
 }
 \arguments{
 \item{template_name}{The name as printed in the template menu.}
 
 \item{template_dir}{Name of the directory the template will live in within
-\code{inst/rmarkdown/templates}.}
+\code{inst/rmarkdown/templates}. If none is provided by the user, it will be
+created from \code{template_name}.}
 
 \item{template_description}{Sets the value of \code{description} in
 \code{template.yml}.}

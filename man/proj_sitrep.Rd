@@ -28,6 +28,7 @@ back to this happy state.
 proj_sitrep()
 }
 \seealso{
-Other project functions: \code{\link{proj_utils}}
+Other project functions: 
+\code{\link{proj_utils}}
 }
 \concept{project functions}

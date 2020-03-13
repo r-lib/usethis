@@ -1,6 +1,14 @@
 #' Create or modify a DESCRIPTION file
 #'
 #' @description
+#'
+#' `use_description()` creates a `DESCRIPTION` file. Although mostly associated
+#' with R packages, a `DESCRIPTION` file can also be used to declare
+#' dependencies for a non-package projects. Within such a project,
+#' [`devtools::install_deps()`] can then be used to install all the required
+#' packages. Note that, by default, `use_decription()` checks for a
+#' CRAN-compliant package name. You can turn this off with `check_name = FALSE`.
+#'
 #' usethis consults the following sources, in this order, to set `DESCRIPTION`
 #' fields:
 #' * `fields` argument of [create_package()] or [use_description()].
@@ -30,6 +38,8 @@
 #' @param fields A named list of fields to add to `DESCRIPTION`, potentially
 #'   overriding default values. See [use_description()] for how you can set
 #'   personalized defaults using package options
+#' @param check_name Whether to check if the name is valid for CRAN and throw an
+#'   error if not
 #' @seealso The [description chapter](https://r-pkgs.org/description.html#dependencies)
 #'   of [R Packages](https://r-pkgs.org).
 #' @export
@@ -41,9 +51,11 @@
 #'
 #' use_description_defaults()
 #' }
-use_description <- function(fields = NULL) {
+use_description <- function(fields = NULL, check_name = TRUE) {
   name <- project_name()
-  check_package_name(name)
+  if (check_name) {
+    check_package_name(name)
+  }
   fields <- fields %||% list()
   check_is_named_list(fields)
   fields[["Package"]] <- name
@@ -72,9 +84,10 @@ use_description_defaults <- function() {
       Title = "What the Package Does (One Line, Title Case)",
       Description = "What the package does (one paragraph).",
       "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
-      License = "What license it uses",
+      License = " `use_mit_license()`, `use_gpl3_license()` or friends to pick a license",
       Encoding = "UTF-8",
-      LazyData = "true"
+      LazyData = "true",
+      Roxygen = "list(markdown = TRUE)"
     )
   )
 }
@@ -100,14 +113,13 @@ build_description_list <- function(fields = list()) {
 check_package_name <- function(name) {
   if (!valid_package_name(name)) {
     ui_stop(c(
-      "{ui_value(name)} is not a valid package name. It should:",
+      "{ui_value(name)} is not a valid package name. To be allowed on CRAN, it should:",
       "* Contain only ASCII letters, numbers, and '.'",
       "* Have at least two characters",
       "* Start with a letter",
       "* Not end with '.'"
     ))
   }
-
 }
 
 valid_package_name <- function(x) {

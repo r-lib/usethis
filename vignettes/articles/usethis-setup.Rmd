@@ -50,15 +50,6 @@ if (interactive()) {
 }
 ```
 
-If, for some reason, you would prefer to do same, but only for usethis, call `usethis::use_usethis()` instead. If you decide to attach both packages, we recommend attaching devtools, then usethis.
-
-```{r, eval = FALSE}
-if (interactive()) {
-  suppressMessages(require(devtools))
-  suppressMessages(require(usethis))
-}
-```
-
 More resources on `.Rprofile`:
 
   * The official [Startup documentation](https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html)
@@ -84,7 +75,6 @@ options(
   usethis.description = list(
     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), 
     comment = c(ORCID = "YOUR-ORCID-ID"))',
-    License = "MIT + file LICENSE",
     Version = "0.0.0.9000"
   )
 )

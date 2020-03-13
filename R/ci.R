@@ -29,13 +29,20 @@ use_travis <- function(browse = interactive(), ext = c("org", "com")) {
     ".travis.yml",
     ignore = TRUE
   )
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   travis_activate(browse, ext = ext)
   use_travis_badge(ext = ext)
   invisible(TRUE)
 }
 
+#' @section `use_travis_badge()`:
+#' Only adds the [Travis CI](https://travis-ci.org/) badge. Use for a project
+#'  where Travis is already configured.
+#' @export
+#' @rdname ci
 use_travis_badge <- function(ext = "org") {
   check_uses_github()
   url <- glue("https://travis-ci.{ext}/{github_repo_spec()}")
@@ -80,7 +87,9 @@ use_appveyor <- function(browse = interactive()) {
   check_uses_github()
 
   new <- use_template("appveyor.yml", ignore = TRUE)
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   appveyor_activate(browse)
   use_appveyor_badge()
@@ -96,6 +105,11 @@ appveyor_activate <- function(browse = interactive()) {
   }
 }
 
+#' @section `use_appveyor_badge()`:
+#' Only adds the [AppVeyor](https://www.appveyor.com) badge. Use for a project
+#'  where AppVeyor is already configured.
+#' @export
+#' @rdname ci
 use_appveyor_badge <- function() {
   appveyor <- appveyor_info()
   use_badge("AppVeyor build status", appveyor$url, appveyor$img)
@@ -125,7 +139,9 @@ use_gitlab_ci <- function() {
     ".gitlab-ci.yml",
     ignore = TRUE
   )
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   invisible(TRUE)
 }
@@ -163,7 +179,7 @@ check_uses_gitlab_ci <- function(base_path = proj_get()) {
 #' @rdname ci
 use_circleci <- function(browse = interactive(), image = "rocker/verse:latest") {
   check_uses_github()
-  use_directory(".circleci")
+  use_directory(".circleci", ignore = TRUE)
   new <- use_template(
     "circleci-config.yml",
     ".circleci/config.yml",
@@ -179,6 +195,12 @@ use_circleci <- function(browse = interactive(), image = "rocker/verse:latest") 
   invisible(TRUE)
 }
 
+#' @section `use_circleci_badge()`:
+#' Only adds the [Circle CI](https://www.circleci.com) badge. Use for a project
+#'  where Circle CI is already configured.
+#' @export
+#' @rdname ci
+#' @export
 use_circleci_badge <- function() {
   check_uses_github()
   url <- glue("https://circleci.com/gh/{github_repo_spec()}")

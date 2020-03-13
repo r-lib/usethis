@@ -1,10 +1,77 @@
 # usethis (development version)
 
+* `pr_push()` works with gh v1.1.0 (and earlier versions), for a repository with no open pull requests (#990, @maurolepore).
+
+* New `use_github_actions()`, `use_github_action_check_release()`, `use_github_action_check_full()`,
+  `use_github_action_pr_commands()`, `use_github_actions_tidy()` to set up a GitHub Actions
+  for a package (@jimhester).
+
+* Fix `use_logo()` README href if pkgdown `url` is set. (#986, @mitchelloharawild).
+
+* usethis now outputs with message conditions. (@jimhester)
+
+* New `use_data_table()` to set up a package for Import-ing `data.table` (#897, @michaelchirico).
+
+* `use_code_of_conduct()` now generates absolute link to code of conduct on 
+  pkgdown website or original source to avoid R CMD check issues (#772).
+
+* `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
+  it's usage (#771).
+
+* `create_package()` will now create a package in a symlink to a directory (#794).
+
+* `git_sitrep()` now reports project-specific user name and email, if set 
+  (#837).
+
+* `pr_finish()` checks that you don't have any local changes (#805).
+
+* `use_lifecycle()` now adds `@importFrom lifecycle deprecate_soft` to 
+  silent an R CMD check note (#896).
+
+* `create_package()` now turns markdown processing for roxygen2 on by default 
+  (#911).
+
+* `edit_file()` and `use_test()` gain an `open` parameter that allows you to
+  control whether or not the function is opened for editing by the user (#817).
+
+* Document `use_r()` and `use_test()` in the same `.Rd` file (#726, @friep). 
+
+* `use_r()` and `use_test()` would throw an error if multiple names are provided in their 'name' argument (#862, @strboul).
+
+* `edit_rstudio_snippets()` makes it more clear which snippet types are allowed and that user's snippets mask the built-in snippets (#885, @GegznaV).
+
+* `use_test()` should work again on Windows, when called with no argument, i.e. when the active `.R` file is determined from RStudio's source editor context (#901).
+
+* `use_description()` and `create_package()` gain the argument `check_name` to control whether to check for package names invalid for CRAN (#883, @noamross).
+
+* New `use_lifecycle()` helper to import the lifecycle badges for functions and arguments in your package. See https://lifecycle.r-lib.org/.
+
+* `git_sitrep()` reports email(s) associated with your GitHub account(#724, @dragosmg).
+
+* Feature fix, updated issue template to current github format (#756 @Maschette)
+
+* The `ui_yeah()` and `ui_nope()` question functions allow a developer to override the default "yes" and "no" strings and to opt-out of shuffling (#796, @rundel).
+
+* `use_gpl3_license()` now completes the license by providing additional information in a file named LICENSE, just like `use_mit_license()` and friends (#683, @Cervangirard).
+
+* `use_rcpp()` and `use_c()` now ensure `src/` contains at least one `.cpp` or
+  `.c` placeholder file, so that the package can be built (#720, @coatless).
+  
+* add `browse_circle()` to open the project dashboard on Circle CI
+
 * A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
 
 * Fix typo in Makefile template generated via `use_make()` (#804, @ryapric).
 
 * Fix quoting of dataset name in template for `use_data_raw()` (#736, @mitchelloharawild).
+
+* Remove unexported function from the signature of `use_markdown_template()` (#761, @fmichonneau).
+
+* Fix delimiters in CircleCI template used by `use_circleci()` (#835, @jdblischak)
+
+* Adds AGPL license and explicitly refers to it and to LGPL in DESCRIPTION (#870, @pachamaltese)
+
+* Export `use_circleci_badge()` (#920, @pat-s)
 
 # usethis 1.5.1
 
@@ -598,3 +665,6 @@ A new class of functions make it easy to edit common config files:
 
 * `use_vignette()` now adds `*.html` and `*.R` to your `.gitgnore` so you
   don't accidentally add in compiled vignette products (#35).
+
+* `use_travis_badge()` and `use_appveyor_badge()` are now exported functions, 
+  so they can be used even if ci was separately set up (#765, @smwindecker). 

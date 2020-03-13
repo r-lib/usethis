@@ -3,12 +3,7 @@ context("use_description")
 test_that("build_description_list() defaults to values built into usethis", {
   withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
   d <- build_description_list()
-  expect_identical(d$Version, "0.0.0.9000")
-  expect_match(d$Title, "What the Package Does")
-  expect_match(d$Description, "What the package does")
-  expect_match(d$License, "What license it uses")
-  expect_match(d$Encoding, "UTF-8")
-  expect_match(d$LazyData, "true")
+  expect_equal(d, use_description_defaults()$usethis)
 })
 
 test_that("build_description_list(): user's fields > usethis defaults", {
@@ -67,3 +62,15 @@ test_that("default description is tidy", {
   desc_lines_after <- readLines(proj_path("DESCRIPTION"))
   expect_identical(desc_lines_before, desc_lines_after)
 })
+
+test_that("valid CRAN names checked", {
+  withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
+  scoped_temporary_package(dir = file_temp(pattern = "invalid_pkg_name"))
+  expect_error_free(use_description(check_name = FALSE))
+  expect_error(
+    use_description(check_name = TRUE),
+    "is not a valid package name",
+    class = "usethis_error"
+  )
+})
+

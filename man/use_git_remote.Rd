@@ -25,7 +25,7 @@ Two helpers are available:
 \itemize{
 \item \code{use_git_remote()} sets the remote associated with \code{name} to \code{url}.
 \item \code{git_remotes()} reports the configured remotes, similar to
-\code{git remote -v}.
+\verb{git remote -v}.
 }
 }
 \examples{

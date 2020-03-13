@@ -220,7 +220,7 @@ use_github_links <- function(auth_token = github_token(),
 #' edit_r_environ()
 #' ## which helps you store the PAT as an env var
 #' }
-browse_github_token <- function(scopes = c("repo", "gist"),
+browse_github_token <- function(scopes = c("repo", "gist", "user:email"),
                                 description = "R:GITHUB_PAT",
                                 host = "https://github.com") {
   scopes <- glue_collapse(scopes, ",")
@@ -232,7 +232,7 @@ browse_github_token <- function(scopes = c("repo", "gist"),
   ui_todo(
     "Call {ui_code('usethis::edit_r_environ()')} to open {ui_path('.Renviron')}."
   )
-  ui_todo("Store your PAT with a line like:")
+  ui_todo("Store your PAT (personal access token) with a line like:")
   ui_code_block("GITHUB_PAT=xxxyyyzzz")
   ui_todo("Make sure {ui_value('.Renviron')} ends with a newline!")
   invisible()

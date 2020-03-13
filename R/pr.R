@@ -13,13 +13,16 @@
 #' (SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.
 #'
 #' @section For contributors:
-#' To contribute to a package, first use `create_from_github(owner/repo)` to
-#' fork the source repository, and then check out a local copy. Next use
-#' `pr_init()` to create a branch for your PR (__never__ submit a PR from the
-#' `master` branch). You'll then work locally, making changes to files
-#' and checking them into git. Once you're ready to submit, run `pr_push()`
-#' to push your local branch to GitHub, and open a webpage that lets you
-#' initiate the PR.
+#' To contribute to a package, first use `create_from_github("OWNER/REPO", fork
+#' = TRUE)` to fork the source repository, and then check out a local copy. Next
+#' use `pr_init()` to create a branch for your PR (__never__ submit a PR from
+#' the `master` branch). You'll then work locally, making changes to files and
+#' checking them into git. Once you're ready to submit, run `pr_push()` to push
+#' your local branch to GitHub, and open a webpage that lets you initiate the
+#' PR. To learn more about the process of making a pull request, read the [Pull
+#' Request
+#' Helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html)
+#' vignette.
 #'
 #' If you are lucky, your PR will be perfect, and the maintainer will accept
 #' it. You can then run `pr_finish()` to close and delete your PR branch.
@@ -53,6 +56,9 @@
 pr_init <- function(branch) {
   stopifnot(is_string(branch))
   check_uses_github()
+  # TODO(@jennybc): if no internet, could offer option to proceed anyway
+  # Error in git2r::fetch(repo, name = remref_remote(remref), refspec = branch,  :
+  # Error in 'git2r_remote_fetch': failed to resolve address for github.com: nodename nor servname provided, or not known
   check_branch_pulled("master", "pr_pull_upstream()")
 
   if (!git_branch_exists(branch)) {
@@ -198,13 +204,13 @@ pr_push <- function() {
   # TODO: I suspect the tryCatch (and perhaps the git_branch_compare()?) is
   # better pushed down into git_branch_push(), which could then return TRUE for
   # success and FALSE for failure
-  pushed <- tryCatch(
+  tryCatch(
     git_branch_push(branch, credentials = credentials),
     error = function(e) {
-      ui_stop(
-        "The push was not successful. Consider that user can decline to allow
-         maintainers to modify a PR."
-      )
+      ui_stop(c(
+        "Push errored",
+        "Check that the PR branch is editable, then check your git2r config"
+      ))
     }
   )
   if (!has_remote_branch) {
@@ -213,10 +219,10 @@ pr_push <- function() {
 
   diff <- git_branch_compare(branch)
   if (diff[[1]] != 0) {
-    ui_stop(
-    "The push was not successful. Consider that user can decline to allow
-    maintainers to modify a PR."
-    )
+    ui_stop(c(
+      "Push failed to update remote branch",
+      "Check that the PR branch is editable, then check your git2r config"
+    ))
   }
 
   # Prompt to create PR on first push
@@ -297,15 +303,16 @@ pr_pause <- function() {
 #' @rdname pr_init
 pr_finish <- function() {
   check_branch_not_master()
+  check_uncommitted_changes()
+  check_branch_pushed(use = "pr_push()")
+
   pr <- git_branch_name()
   tracking_branch <- git_branch_tracking()
 
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
-
   pr_pull_upstream()
 
-  # TODO: check that this is merged!
   ui_done("Deleting local {ui_value(pr)} branch")
   git_branch_delete(pr)
 
@@ -377,7 +384,8 @@ pr_find <- function(owner,
     .token = check_github_token(allow_empty = TRUE)
   )
 
-  if (identical(prs[[1]], "")) {
+  # prs has length zero if gh >= v1.1.0 and is "" for earlier versions
+  if (length(prs) < 1 || identical(prs[[1]], "")) {
     return(character())
   }
 
@@ -387,3 +395,4 @@ pr_find <- function(owner,
 
   urls[refs == pr_branch & user == pr_owner]
 }
+

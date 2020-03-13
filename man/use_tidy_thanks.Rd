@@ -4,8 +4,11 @@
 \alias{use_tidy_thanks}
 \title{Identify contributors via GitHub activity}
 \usage{
-use_tidy_thanks(repo_spec = github_repo_spec(),
-  from = releases(repo_spec)[[1]], to = NULL)
+use_tidy_thanks(
+  repo_spec = github_repo_spec(),
+  from = releases(repo_spec)[[1]],
+  to = NULL
+)
 }
 \arguments{
 \item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.

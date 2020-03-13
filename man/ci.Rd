@@ -2,18 +2,27 @@
 % Please edit documentation in R/ci.R
 \name{ci}
 \alias{use_travis}
+\alias{use_travis_badge}
 \alias{use_appveyor}
+\alias{use_appveyor_badge}
 \alias{use_gitlab_ci}
 \alias{use_circleci}
+\alias{use_circleci_badge}
 \title{Continuous integration setup and badges}
 \usage{
 use_travis(browse = interactive(), ext = c("org", "com"))
 
+use_travis_badge(ext = "org")
+
 use_appveyor(browse = interactive())
+
+use_appveyor_badge()
 
 use_gitlab_ci()
 
 use_circleci(browse = interactive(), image = "rocker/verse:latest")
+
+use_circleci_badge()
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -28,11 +37,11 @@ https://travis-ci.org. Change to \code{"com"} for https://travis-ci.com.}
 Live, pandoc, and the tidyverse packages. For a minimal image, try
 \href{https://hub.docker.com/r/rocker/r-ver}{rocker/r-ver}. To specify a version
 of R, change the tag from \code{latest} to the version you want, e.g.
-\code{rocker/r-ver:3.5.3}.}
+\verb{rocker/r-ver:3.5.3}.}
 }
 \description{
 Sets up continuous integration (CI) services for an R package that is
-developed on GitHub. CI services can run \code{R CMD check} automatically on
+developed on GitHub. CI services can run \verb{R CMD check} automatically on
 various platforms, triggered by each push or pull request. These functions
 \itemize{
 \item Add service-specific configuration files and add them to \code{.Rbuildignore}.
@@ -47,11 +56,23 @@ configuration file for the \href{https://travis-ci.org/}{Travis CI} continuous
 integration service.
 }
 
+\section{\code{use_travis_badge()}}{
+
+Only adds the \href{https://travis-ci.org/}{Travis CI} badge. Use for a project
+where Travis is already configured.
+}
+
 \section{\code{use_appveyor()}}{
 
 Adds a basic \code{appveyor.yml} to the top-level directory of a package. This is
 a configuration file for the \href{https://www.appveyor.com}{AppVeyor} continuous
 integration service for Windows.
+}
+
+\section{\code{use_appveyor_badge()}}{
+
+Only adds the \href{https://www.appveyor.com}{AppVeyor} badge. Use for a project
+where AppVeyor is already configured.
 }
 
 \section{\code{use_gitlab_ci()}}{
@@ -66,5 +87,11 @@ integration service for GitLab.
 Adds a basic \code{.circleci/config.yml} to the top-level directory of a package. This is a
 configuration file for the \href{https://circleci.com/}{CircleCI} continuous
 integration service.
+}
+
+\section{\code{use_circleci_badge()}}{
+
+Only adds the \href{https://www.circleci.com}{Circle CI} badge. Use for a project
+where Circle CI is already configured.
 }
 

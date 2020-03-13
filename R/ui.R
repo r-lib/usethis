@@ -1,5 +1,6 @@
 #' User interface
 #'
+#' @description
 #' These functions are used to construct the user interface of usethis. Use
 #' them in your own package so that your `use_` functions work the same way
 #' as usethis.
@@ -9,8 +10,11 @@
 #' * block styles: `ui_line()`, `ui_done()`, `ui_todo()`, `ui_oops()`,
 #'   `ui_info()`.
 #' * conditions: `ui_stop()`, `ui_warn()`.
-#' * questions: `ui_yeah()`, `ui_nope()`.
+#' * questions: [ui_yeah()], [ui_nope()].
 #' * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`.
+#'
+#' The question functions [ui_yeah()] and [ui_nope()] have their own [help
+#' page][ui-questions].
 #'
 #' @param x A character vector.
 #'
@@ -20,9 +24,11 @@
 #'   comma separated list.
 #' @param .envir Used to ensure that [glue::glue()] gets the correct
 #'   environment. For expert use only.
+#'
 #' @return The block styles, conditions, and questions are called for their
 #'   side-effect. The inline styles return a string.
 #' @keywords internal
+#' @family user interface functions
 #' @name ui
 #' @examples
 #' new_val <- "oxnard"
@@ -124,9 +130,44 @@ ui_warn <- function(x, .envir = parent.frame()) {
 
 # Questions ---------------------------------------------------------------
 
-#' @rdname ui
+#' User interface - Questions
+#'
+#' These functions are used to interact with the user by posing a simple yes or
+#' no question. For details on the other `ui_*()` functions, see the [ui] help
+#' page.
+#'
+#' @inheritParams ui
+#' @param yes A character vector of "yes" strings, which are randomly sampled to
+#'   populate the menu.
+#' @param no A character vector of "no" strings, which are randomly sampled to
+#'   populate the menu.
+#' @param n_yes An integer. The number of "yes" strings to include.
+#' @param n_no An integer. The number of "no" strings to include.
+#' @param shuffle A logical. Should the order of the menu options be randomly
+#'   shuffled?
+#'
+#' @return A logical. `ui_yeah()` returns `TRUE` when the user selects a "yes"
+#'   option and `FALSE` otherwise, i.e. when user selects a "no" option or
+#'   refuses to make a selection (cancels). `ui_nope()` is the logical opposite
+#'   of `ui_yeah()`.
+#' @name ui-questions
+#' @keywords internal
+#' @family user interface functions
+#' @examples
+#' \dontrun{
+#' ui_yeah("Do you like R?")
+#' ui_nope("Have you tried turning it off and on again?", n_yes = 1, n_no = 1)
+#' ui_yeah("Are you sure its plugged in?", yes = "Yes", no = "No", shuffle = FALSE)
+#' }
+NULL
+
+#' @rdname ui-questions
 #' @export
-ui_yeah <- function(x, .envir = parent.frame()) {
+ui_yeah <- function(x,
+                    yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
+                    no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+                    n_yes = 1, n_no = 2, shuffle = TRUE,
+                    .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
@@ -137,21 +178,34 @@ ui_yeah <- function(x, .envir = parent.frame()) {
     ))
   }
 
-  ayes <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
-  nays <- c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not")
+  n_yes <- min(n_yes, length(yes))
+  n_no <- min(n_no, length(no))
 
-  qs <- c(sample(ayes, 1), sample(nays, 2))
-  ord <- sample(length(qs))
+  qs <- c(sample(yes, n_yes), sample(no, n_no))
+
+  if (shuffle) {
+    qs <- sample(qs)
+  }
 
   cat_line(x)
-  out <- utils::menu(qs[ord])
-  out != 0L && (ord == 1)[[out]]
+  out <- utils::menu(qs)
+  out != 0L && qs[[out]] %in% yes
 }
 
-#' @rdname ui
+#' @rdname ui-questions
 #' @export
-ui_nope <- function(x, .envir = parent.frame()) {
-  !ui_yeah(x, .envir = .envir)
+ui_nope <- function(x,
+                    yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
+                    no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+                    n_yes = 1, n_no = 2, shuffle = TRUE,
+                    .envir = parent.frame()) {
+  # TODO(jennybc): is this correct in the case of no selection / cancelling?
+  !ui_yeah(
+    x = x, yes = yes, no = no,
+    n_yes = n_yes, n_no = n_no,
+    shuffle = shuffle,
+    .envir = .envir
+  )
 }
 
 # Inline styles -----------------------------------------------------------
@@ -217,8 +271,16 @@ cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
     return(invisible())
   }
 
-  lines <- paste0(..., "\n")
-  cat(lines, sep = "")
+  lines <- paste0(...)
+  # TODO: remove this once I can bump minimum version of rlang to get
+  # https://github.com/r-lib/rlang/commit/c726908afcf1857fd98378f403d3d194ac9753bf
+  # presumably rlang 0.4.3
+  if (length(lines) < 1) {
+    lines <- ""
+  }
+  rlang::inform(lines)
+
+  invisible()
 }
 
 # Sitrep helpers ---------------------------------------------------------------

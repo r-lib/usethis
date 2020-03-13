@@ -6,11 +6,17 @@
 \alias{github_token}
 \title{Create and retrieve a GitHub personal access token}
 \usage{
-browse_github_token(scopes = c("repo", "gist"),
-  description = "R:GITHUB_PAT", host = "https://github.com")
+browse_github_token(
+  scopes = c("repo", "gist", "user:email"),
+  description = "R:GITHUB_PAT",
+  host = "https://github.com"
+)
 
-browse_github_pat(scopes = c("repo", "gist"),
-  description = "R:GITHUB_PAT", host = "https://github.com")
+browse_github_pat(
+  scopes = c("repo", "gist", "user:email"),
+  description = "R:GITHUB_PAT",
+  host = "https://github.com"
+)
 
 github_token()
 }

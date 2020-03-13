@@ -10,12 +10,22 @@ use_build_ignore(files, escape = TRUE)
 \item{files}{Character vector of path names.}
 
 \item{escape}{If \code{TRUE}, the default, will escape \code{.} to
-\code{\\.} and surround with \code{^} and \code{$}.}
+\verb{\\\\.} and surround with \code{^} and \code{$}.}
 }
 \description{
 \code{.Rbuildignore} has a regular expression on each line, but it's
 usually easier to work with specific file names. By default,
-\code{use_build_ignore} will (crudely) turn a filename into a regular
+\code{use_build_ignore()} will (crudely) turn a filename into a regular
 expression that will only match that path. Repeated entries will be
 silently removed.
+
+\code{use_build_ignore()} is designed to ignore \emph{individual} files. If you
+want to ignore \emph{all} files with a given extension, consider providing
+an "as-is" regular expression, using \code{escape = FALSE}; see examples.
+}
+\examples{
+\dontrun{
+# ignore all Excel files
+use_build_ignore("[.]xlsx$", escape = FALSE)
+}
 }

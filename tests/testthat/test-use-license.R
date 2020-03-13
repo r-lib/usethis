@@ -44,6 +44,7 @@ test_that("use_gpl3_license() works", {
   expect_match(desc::desc_get("License", file = pkg), "GPL-3")
   expect_proj_file("LICENSE.md")
   expect_true(is_build_ignored("^LICENSE\\.md$"))
+  expect_true(is_build_ignored("^LICENSE$", invert = TRUE))
 })
 
 test_that("use_apl2_license() works", {
@@ -65,7 +66,15 @@ test_that("use_cc0_license() works", {
 test_that("use_ccby_license() works", {
   pkg <- scoped_temporary_package()
   use_ccby_license(name = "CCBY-4.0 License")
-  expect_match(desc::desc_get("License", file = pkg), "CCBY-4.0")
+  expect_match(desc::desc_get("License", file = pkg), "CC BY 4.0")
+  expect_proj_file("LICENSE.md")
+  expect_true(is_build_ignored("^LICENSE\\.md$"))
+})
+
+test_that("use_lgpl_license() works", {
+  pkg <- scoped_temporary_package()
+  use_lgpl_license(name = "LGPL (>= 2.1)")
+  expect_match(desc::desc_get("License", file = pkg), "LGPL")
   expect_proj_file("LICENSE.md")
   expect_true(is_build_ignored("^LICENSE\\.md$"))
 })

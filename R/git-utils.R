@@ -141,11 +141,15 @@ git_branch_switch <- function(branch) {
 
 git_branch_compare <- function(branch = git_branch_name()) {
   repo <- git_repo()
+  auth_token <- check_github_token(allow_empty = TRUE)
+  protocol <- github_remote_protocol()
+  credentials <- git_credentials(protocol, auth_token)
 
   remref <- git_branch_tracking_FIXME(branch)
   git2r::fetch(
     repo,
     name = remref_remote(remref),
+    credentials = credentials,
     refspec = branch,
     verbose = FALSE
   )
@@ -221,7 +225,11 @@ check_uncommitted_changes <- function(path = proj_get(), untracked = FALSE) {
   }
 
   if (uses_git(path) && git_uncommitted(path, untracked = untracked)) {
-    ui_stop("Uncommited changes. Please commit to git before continuing.")
+    if (ui_yeah("There are uncommitted changes. Do you want to proceed anyway?")) {
+      return()
+    } else {
+      ui_stop("Uncommitted changes. Please commit to git before continuing.")
+    }
   }
 }
 

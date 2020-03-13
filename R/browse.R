@@ -14,6 +14,8 @@
 #' specific pull request.
 #' * `browse_travis()`: Visits the package's page on [Travis
 #' CI](https://travis-ci.org).
+#' * `browse_circleci()`: Visits the package's page on [Circle
+#' CI](https://circleci.com)
 #' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.
 #'
 #' @param package Name of package; leave as `NULL` to use current package
@@ -57,6 +59,14 @@ browse_travis <- function(package = NULL, ext = c("org", "com")) {
   ext <- rlang::arg_match(ext)
   travis_url <- glue::glue("travis-ci.{ext}")
   view_url(sub("github.com", travis_url, gh))
+}
+
+#' @export
+#' @rdname browse-this
+browse_circleci <- function(package = NULL) {
+  gh <- github_home(package)
+  circle_url <- "circleci.com/gh"
+  view_url(sub("github.com", circle_url, gh))
 }
 
 #' @export

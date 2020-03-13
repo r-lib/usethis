@@ -97,7 +97,7 @@ Returns path to the directory holding the unpacked files, invisibly.
 The ZIP files produced by DropBox are special. The file list tends to contain
 a spurious directory \code{"/"}, which we ignore during unzip. Also, if the
 directory is a Git repo and/or RStudio Project, we unzip-ignore various
-hidden files, such as \code{.RData}, \code{.Rhistory}, and those below \code{.git/} and
+hidden files, such as \code{.RData}, \code{.Rhistory}, and those below \verb{.git/} and
 \code{.Rproj.user}.
 }
 
