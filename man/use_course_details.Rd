@@ -8,7 +8,7 @@
 convert_teaching_url(url)
 }
 \arguments{
-\item{url}{a Dropbox or Google Drive URL as copied from a web browser.}
+\item{url}{a DropBox or Google Drive URL as copied from a web browser.}
 
 \item{destdir}{Path to existing local directory where the ZIP file will be
 stored. Defaults to current working directory, but note that \code{\link[=use_course]{use_course()}}
@@ -22,7 +22,7 @@ These helpers are currently unexported but a course instructor may want more
 details.
 
 \code{convert_teaching_url()} is exported function that helps you get the right
-url for Google drive and dropbox.
+url for Google drive and DropBox.
 }
 \section{tidy_download()}{
 \preformatted{## function signature
@@ -84,7 +84,7 @@ to ZIP download, albeit with a different filenaming scheme:\preformatted{https:/
 \subsection{Google Drive}{
 
 It looks like it's not possible to directly share as a ZIP file the content
-of a folder storred in Google Drive. It is however possible to share a ZIP
+of a folder stored in Google Drive. It is however possible to share a ZIP
 file stored in Google Drive. To get this URL, click on
 "Get the shareable link" (within the "Share" menu). This URL doesn't allow
 for direct download, as it's designed to be processed in a web browser first.
@@ -140,6 +140,5 @@ tidy_unzip("rematch2-master.zip")
 convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz")
 convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz/view")
 convert_teaching_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0")
-
 }
 \keyword{internal}

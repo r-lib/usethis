@@ -95,7 +95,7 @@ use_zip <- function(url,
 #' details.
 #'
 #' `convert_teaching_url()` is exported function that helps you get the right
-#' url for Google drive and dropbox.
+#' url for Google drive and DropBox.
 #'
 #' @name use_course_details
 #' @keywords internal
@@ -164,7 +164,7 @@ use_zip <- function(url,
 #' ## Google Drive
 #'
 #' It looks like it's not possible to directly share as a ZIP file the content
-#' of a folder storred in Google Drive. It is however possible to share a ZIP
+#' of a folder stored in Google Drive. It is however possible to share a ZIP
 #' file stored in Google Drive. To get this URL, click on
 #' "Get the shareable link" (within the "Share" menu). This URL doesn't allow
 #' for direct download, as it's designed to be processed in a web browser first.
@@ -303,7 +303,7 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
 }
 
 #' @rdname use_course_details
-#' @param url a Dropbox or Google Drive URL as copied from a web browser.
+#' @param url a DropBox or Google Drive URL as copied from a web browser.
 #' @examples
 #' convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz")
 #' convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz/view")
