@@ -117,8 +117,7 @@ use_rd_macros <- function(package) {
 
   if (!package %in% macros) {
     macros <- c(macros, package)
-    macros <- paste0("    ", macros, collapse = ",\n")
-    desc::desc_set(RdMacros = macros, file = proj, normalize = TRUE)
+    desc::desc_set(RdMacros = macros, file = proj)
   }
 
   invisible()

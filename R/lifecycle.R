@@ -21,7 +21,7 @@
 use_lifecycle <- function() {
   check_is_package("use_lifecycle()")
 
-  use_package("lifecycle")
+  use_dependency("lifecycle", "imports")
   use_rd_macros("lifecycle")
   # silence R CMD check NOTE
   roxygen_ns_append("@importFrom lifecycle deprecate_soft")
