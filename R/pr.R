@@ -77,6 +77,7 @@ pr_init <- function(branch) {
   if (git_branch_name() != branch) {
     ui_done("Switching to branch {ui_value(branch)}")
     git_branch_switch(branch)
+    pr_pull()
   }
 
   ui_todo("Use {ui_code('pr_push()')} to create PR")
@@ -181,6 +182,7 @@ pr_fetch <- function(number,
   if (git_branch_name() != our_branch) {
     ui_done("Switching to branch {ui_value(our_branch)}")
     git_branch_switch(our_branch)
+    pr_pull()
   }
 }
 
@@ -297,6 +299,7 @@ pr_pause <- function() {
 
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
+  pr_pull_upstream()
 }
 
 #' @export
