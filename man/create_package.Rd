@@ -5,12 +5,15 @@
 \alias{create_project}
 \title{Create a package or project}
 \usage{
-create_package(path, fields = NULL,
-  rstudio = rstudioapi::isAvailable(), check_name = TRUE,
-  open = interactive())
+create_package(
+  path,
+  fields = NULL,
+  rstudio = rstudioapi::isAvailable(),
+  check_name = TRUE,
+  open = interactive()
+)
 
-create_project(path, rstudio = rstudioapi::isAvailable(),
-  open = interactive())
+create_project(path, rstudio = rstudioapi::isAvailable(), open = interactive())
 }
 \arguments{
 \item{path}{A path. If it exists, it is used. If it does not exist, it is

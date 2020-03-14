@@ -4,9 +4,17 @@
 \alias{create_from_github}
 \title{Create a project from a GitHub repo}
 \usage{
-create_from_github(repo_spec, destdir = NULL, fork = NA,
-  rstudio = NULL, open = interactive(), protocol = git_protocol(),
-  credentials = NULL, auth_token = github_token(), host = NULL)
+create_from_github(
+  repo_spec,
+  destdir = NULL,
+  fork = NA,
+  rstudio = NULL,
+  open = interactive(),
+  protocol = git_protocol(),
+  credentials = NULL,
+  auth_token = github_token(),
+  host = NULL
+)
 }
 \arguments{
 \item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}. The
@@ -65,8 +73,8 @@ uses for Git operations, does not automatically find your keys or handle your
 passphrase.
 
 In the snippet below, do whatever is necessary to make the paths correct,
-e.g., replace \code{<USERNAME>} with your Windows username. Omit the \code{passphrase}
-part if you don't have one. Replace \code{<OWNER/REPO>} with the appropriate
+e.g., replace \verb{<USERNAME>} with your Windows username. Omit the \code{passphrase}
+part if you don't have one. Replace \verb{<OWNER/REPO>} with the appropriate
 GitHub specification. You get the idea.\preformatted{creds <- git2r::cred_ssh_key(
   publickey  = "C:/Users/<USERNAME>/.ssh/id_rsa.pub",
   privatekey = "C:/Users/<USERNAME>/.ssh/id_rsa",

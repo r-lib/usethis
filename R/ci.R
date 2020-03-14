@@ -13,15 +13,15 @@ NULL
 
 #' @section `use_travis()`:
 #' Adds a basic `.travis.yml` to the top-level directory of a package. This is a
-#' configuration file for the [Travis CI](https://travis-ci.org/) continuous
+#' configuration file for the [Travis CI](https://travis-ci.com/) continuous
 #' integration service.
 #' @param browse Open a browser window to enable automatic builds for the
 #'   package.
-#' @param ext which travis website to use. default to `"org"`for
-#'   https://travis-ci.org. Change to `"com"` for https://travis-ci.com.
+#' @param ext Which travis website to use. Defaults to `"com"` for
+#'   https://travis-ci.com. Change to `"org"` for https://travis-ci.org.
 #' @export
 #' @rdname ci
-use_travis <- function(browse = interactive(), ext = c("org", "com")) {
+use_travis <- function(browse = interactive(), ext = c("com", "org")) {
   check_uses_github()
   ext <- rlang::arg_match(ext)
   new <- use_template(
@@ -29,7 +29,9 @@ use_travis <- function(browse = interactive(), ext = c("org", "com")) {
     ".travis.yml",
     ignore = TRUE
   )
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   travis_activate(browse, ext = ext)
   use_travis_badge(ext = ext)
@@ -37,18 +39,20 @@ use_travis <- function(browse = interactive(), ext = c("org", "com")) {
 }
 
 #' @section `use_travis_badge()`:
-#' Only adds the [Travis CI](https://travis-ci.org/) badge. Use for a project
+#' Only adds the [Travis CI](https://travis-ci.com/) badge. Use for a project
 #'  where Travis is already configured.
 #' @export
 #' @rdname ci
-use_travis_badge <- function(ext = "org") {
+use_travis_badge <- function(ext = c("com", "org")) {
   check_uses_github()
+  ext <- rlang::arg_match(ext)
   url <- glue("https://travis-ci.{ext}/{github_repo_spec()}")
   img <- glue("{url}.svg?branch=master")
   use_badge("Travis build status", url, img)
 }
 
-travis_activate <- function(browse = interactive(), ext = "org") {
+travis_activate <- function(browse = interactive(), ext = c("com", "org")) {
+  ext <- rlang::arg_match(ext)
   url <- glue("https://travis-ci.{ext}/profile/{github_owner()}")
 
   ui_todo("Turn on travis for your repo at {url}")
@@ -85,7 +89,9 @@ use_appveyor <- function(browse = interactive()) {
   check_uses_github()
 
   new <- use_template("appveyor.yml", ignore = TRUE)
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   appveyor_activate(browse)
   use_appveyor_badge()
@@ -135,7 +141,9 @@ use_gitlab_ci <- function() {
     ".gitlab-ci.yml",
     ignore = TRUE
   )
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   invisible(TRUE)
 }
@@ -189,6 +197,12 @@ use_circleci <- function(browse = interactive(), image = "rocker/verse:latest") 
   invisible(TRUE)
 }
 
+#' @section `use_circleci_badge()`:
+#' Only adds the [Circle CI](https://www.circleci.com) badge. Use for a project
+#'  where Circle CI is already configured.
+#' @export
+#' @rdname ci
+#' @export
 use_circleci_badge <- function() {
   check_uses_github()
   url <- glue("https://circleci.com/gh/{github_repo_spec()}")
@@ -221,66 +235,4 @@ check_uses_circleci <- function(base_path = proj_get()) {
     Do you need to run {ui_code('use_circleci()')}?
     "
   )
-}
-
-#' @section `use_azure_pipelines()`:
-#' Adds a basic `azure-pipelines.yml` to the top-level directory of a package. This is
-#' a configuration file for the [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) continuous
-#' integration service.
-#' @export
-#' @rdname ci
-use_azure_pipelines <- function(browse = interactive()) {
-  check_uses_github()
-  use_dependency("xml2", "Suggests")
-  use_dependency("covr", "Suggests")
-
-  new <- use_template(
-    "azure-pipelines.yml",
-    "azure-pipelines.yml",
-    ignore = TRUE
-  )
-
-  use_directory(path("tests", "testthat"))
-  use_template(
-    "junit-testthat.R",
-    save_as = path("tests", "testthat.R"),
-    data = list(name = project_name())
-  )
-  azure_activate(browse)
-  use_azure_badge()
-  use_azure_test_badge()
-
-  use_azure_coverage_badge()
-
-  invisible(TRUE)
-}
-
-azure_activate <- function(browse = interactive(), ext = "org") {
-  url <- glue("https://github.com/{github_repo_spec()}/settings/installations")
-
-  ui_todo("Setup a azure project for your repo by configuring the Azure Pipeline GitHub App at {url}")
-  if (browse) {
-    utils::browseURL(url)
-  }
-}
-
-use_azure_badge <- function() {
-  check_uses_github()
-  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=1&branchName=master")
-  img <- glue("https://img.shields.io/azure-devops/build/{github_repo_spec()}/2")
-  use_badge("Azure pipelines build status", url, img)
-}
-
-use_azure_test_badge <- function() {
-  check_uses_github()
-  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=1&branchName=master")
-  img <- glue("https://img.shields.io/azure-devops/tests/{github_repo_spec()}/2?color=brightgreen&compact_message")
-  use_badge("Azure pipelines test status", url, img)
-}
-
-use_azure_coverage_badge <- function() {
-  check_uses_github()
-  url <- glue("https://dev.azure.com/{github_repo_spec()}/_build/latest?definitionId=1&branchName=master")
-  img <- glue("https://img.shields.io/azure-devops/coverage/{github_repo_spec()}/2")
-  use_badge("Azure pipelines coverage status", url, img)
 }

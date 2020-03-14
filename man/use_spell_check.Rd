@@ -8,7 +8,7 @@ use_spell_check(vignettes = TRUE, lang = "en-US", error = FALSE)
 }
 \arguments{
 \item{vignettes}{Logical, \code{TRUE} to spell check all \code{rmd} and \code{rnw} files in
-the \code{vignettes/} folder.}
+the \verb{vignettes/} folder.}
 
 \item{lang}{Preferred spelling language. Usually either \code{"en-US"} or
 \code{"en-GB"}.}
@@ -19,7 +19,7 @@ prints potential spelling errors}
 }
 \description{
 Adds a unit test to automatically run a spell check on documentation and,
-optionally, vignettes during \code{R CMD check}, using the
+optionally, vignettes during \verb{R CMD check}, using the
 \link[spelling:spell_check_package]{spelling} package. Also adds a \code{WORDLIST}
 file to the package, which is a dictionary of whitelisted words. See
 \link[spelling:wordlist]{spelling::wordlist} for details.

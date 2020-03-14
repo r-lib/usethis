@@ -26,7 +26,7 @@ use_ccby_license(name = find_name())
 }
 \arguments{
 \item{name}{Name of the copyright holder or holders. Separate multiple
-individuals with \code{;}. You can supply a global default with
+individuals with \verb{;}. You can supply a global default with
 \code{options(usethis.full_name = "My name")}.}
 }
 \description{
@@ -40,7 +40,7 @@ to public domain. Appropriate for data packages.
 provides patent protection.
 \item \href{https://choosealicense.com/licenses/gpl-3.0/}{GPL v3}: requires sharing
 of improvements.
-\item \href{https://choosealicense.com/licenses/gpl-3.0/}{AGPL v3}: requires sharing
+\item \href{https://choosealicense.com/licenses/agpl-3.0/}{AGPL v3}: requires sharing
 of improvements.
 \item \href{https://choosealicense.com/licenses/lgpl-3.0/}{LGPL v3}: requires sharing
 of improvements.

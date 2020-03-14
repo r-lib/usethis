@@ -77,7 +77,7 @@ use_dependency <- function(package, type, min_version = NULL) {
     if (existing_type != "LinkingTo") {
       ui_done(
         "
-        Moving {ui_value(package)} from {ui_field(existing_type)} to {ui_field(type)}\\
+        Moving {ui_value(package)} from {ui_field(existing_type)} to {ui_field(type)} \\
         field in DESCRIPTION
         "
       )

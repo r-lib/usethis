@@ -36,8 +36,8 @@ These helpers produce the markdown text you need in your README to include
 badges that report information, such as the CRAN version or test coverage,
 and link out to relevant external resources. To add badges automatically
 ensure your badge block starts with a line containing only
-\code{<!-- badges: start -->} and ends with a line containing only
-\code{<!-- badges: end -->}.
+\verb{<!-- badges: start -->} and ends with a line containing only
+\verb{<!-- badges: end -->}.
 }
 \details{
 \itemize{
@@ -51,7 +51,7 @@ package, according to \url{https://www.tidyverse.org/lifecycle/}:
 \item Experimental
 \item Maturing
 \item Stable
-\item Retired
+\item Superseded
 \item Archived
 \item Dormant
 \item Questioning

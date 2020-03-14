@@ -85,3 +85,13 @@ indent <- function(x, first = "  ", indent = first) {
 isNA <- function(x) {
   length(x) == 1 && is.na(x)
 }
+
+path_first_existing <- function(...) {
+  paths <- path(...)
+  for (path in paths) {
+    if (file_exists(path))
+      return(path)
+  }
+
+  NULL
+}

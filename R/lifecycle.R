@@ -40,6 +40,7 @@ use_lifecycle <- function() {
     "- \\lifecycle{{experimental}}",
     "- \\lifecycle{{maturing}}",
     "- \\lifecycle{{stable}}",
+    "- \\lifecycle{{superseded}}",
     "- \\lifecycle{{questioning}}",
     "- \\lifecycle{{soft-deprecated}}",
     "- \\lifecycle{{deprecated}}",

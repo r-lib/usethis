@@ -16,8 +16,7 @@ knitr::opts_chunk$set(
 # usethis <img src="man/figures/logo.png" align="right" height="139" />
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/r-lib/usethis.svg?branch=master)](https://travis-ci.org/r-lib/usethis)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/r-lib/usethis?branch=master&svg=true)](https://ci.appveyor.com/project/r-lib/usethis)
+[![R build status](https://github.com/r-lib/usethis/workflows/R-CMD-check/badge.svg)](https://github.com/r-lib/usethis/actions)
 [![Codecov test coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/usethis?branch=master)
 [![CRAN status](https://www.r-pkg.org/badges/version/usethis)](https://CRAN.R-project.org/package=usethis)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
@@ -50,6 +49,11 @@ usethis is quite chatty, explaining what it's doing and assigning you tasks. `âœ
 
 Below is a quick look at how usethis can help to set up a package. But remember, many usethis functions are also applicable to analytical projects that are not packages.
 
+```{r, include = FALSE}
+# Reset possible options
+options(usethis.description = list())
+```
+
 ```{r}
 library(usethis)
 
@@ -63,13 +67,6 @@ proj_activate(path)
 use_mit_license("My Name")
 
 use_package("MASS", "Suggests")
-
-# Set up various packages ---------------------------------------------
-use_roxygen_md()
-
-use_rcpp()
-
-use_revdep()
 
 # Set up other files -------------------------------------------------
 use_readme_md()
@@ -85,5 +82,7 @@ use_data(x, y)
 # Use git ------------------------------------------------------------
 use_git()
 ```
+
+## Code of Conduct
 
 Please note that the usethis project is released with a [Contributor Code of Conduct](https://usethis.r-lib.org/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

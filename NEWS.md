@@ -1,6 +1,26 @@
 # usethis (development version)
 
+
 * `use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The default behavior, to establish a GitHub remote, is unchanged (#918, @ijlyttle).
+
+* In `use_travis()`, `use_travis_badge()` and `browse_travis()`, argument `ext`
+now defaults to `"com"` instead of `"ext"`, given travis-ci.com is now
+recommended over travis-ci.org (#1038, @riccardoporreca).
+
+* `pr_push()` works with gh v1.1.0 (and earlier versions), for a repository with no open pull requests (#990, @maurolepore).
+
+* New `use_github_actions()`, `use_github_action_check_release()`, `use_github_action_check_full()`,
+  `use_github_action_pr_commands()`, `use_github_actions_tidy()` to set up a GitHub Actions
+  for a package (@jimhester).
+
+* Fix `use_logo()` README href if pkgdown `url` is set. (#986, @mitchelloharawild).
+
+* usethis now outputs with message conditions. (@jimhester)
+
+* New `use_data_table()` to set up a package for Import-ing `data.table` (#897, @michaelchirico).
+
+* `use_code_of_conduct()` now generates absolute link to code of conduct on 
+  pkgdown website or original source to avoid R CMD check issues (#772).
 
 * `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
   its usage (#771).
@@ -43,6 +63,8 @@
 
 * `use_rcpp()` and `use_c()` now ensure `src/` contains at least one `.cpp` or
   `.c` placeholder file, so that the package can be built (#720, @coatless).
+  
+* add `browse_circle()` to open the project dashboard on Circle CI
 
 * A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
 
@@ -55,6 +77,10 @@
 * Fix delimiters in CircleCI template used by `use_circleci()` (#835, @jdblischak)
 
 * Adds AGPL license and explicitly refers to it and to LGPL in DESCRIPTION (#870, @pachamaltese)
+
+* Export `use_circleci_badge()` (#920, @pat-s)
+
+* `use_github_release()` now tags the latest local commit instead of the latest remote commit on the default branch (#1029, @davidchall)
 
 # usethis 1.5.1
 

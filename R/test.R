@@ -5,7 +5,6 @@
 #'
 #' @seealso [use_test()] to create individual test files
 #' @export
-#' @inheritParams use_template
 #' @examples
 #' \dontrun{
 #' use_testthat()

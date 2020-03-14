@@ -16,12 +16,12 @@ use_rcpp_eigen(name = NULL)
 use_c(name = NULL)
 }
 \arguments{
-\item{name}{If supplied, creates and opens \code{src/name.{c,cpp}}.}
+\item{name}{If supplied, creates and opens \verb{src/name.\{c,cpp\}}.}
 }
 \description{
 Adds infrastructure commonly needed when using compiled code:
 \itemize{
-\item Creates \code{src/}
+\item Creates \verb{src/}
 \item Adds required packages to \code{DESCRIPTION}
 \item May create an initial placeholder \code{.c} or \code{.cpp} file
 \item Creates \code{Makevars} and \code{Makevars.win} files (\code{use_rcpp_armadillo()} only)
@@ -29,7 +29,7 @@ Adds infrastructure commonly needed when using compiled code:
 }
 \details{
 When using compiled code, please note that there must be at least one file
-inside the \code{src/} directory prior to building the package. As a result,
-if an empty \code{src/} directory is detected, either a \code{.c} or \code{.cpp} file will
+inside the \verb{src/} directory prior to building the package. As a result,
+if an empty \verb{src/} directory is detected, either a \code{.c} or \code{.cpp} file will
 be added.
 }

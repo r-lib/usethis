@@ -4,8 +4,11 @@
 \alias{use_github_links}
 \title{Use GitHub links in URL and BugReports}
 \usage{
-use_github_links(auth_token = github_token(),
-  host = "https://api.github.com", overwrite = FALSE)
+use_github_links(
+  auth_token = github_token(),
+  host = "https://api.github.com",
+  overwrite = FALSE
+)
 }
 \arguments{
 \item{auth_token}{GitHub personal access token (PAT).}

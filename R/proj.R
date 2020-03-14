@@ -256,6 +256,26 @@ project_name <- function(base_path = proj_get()) {
   }
 }
 
+project_pkgdown <- function(base_path = proj_get()) {
+  path <- path_first_existing(
+    base_path,
+    c("_pkgdown.yml",
+      "_pkgdown.yaml",
+      "pkgdown/_pkgdown.yml",
+      "inst/_pkgdown.yml"
+    )
+  )
+  if (is.null(path)) {
+    NULL
+  } else {
+    yaml::read_yaml(path)
+  }
+}
+
+project_pkgdown_url <- function(base_path = proj_get()) {
+  project_pkgdown(base_path)$url
+}
+
 #' Activate a project
 #'
 #' Activates a project in usethis, R session, and (if relevant) RStudio senses.

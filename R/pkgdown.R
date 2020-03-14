@@ -26,7 +26,7 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   use_build_ignore("pkgdown")
 
   if (has_logo()) {
-    pkgdown::build_favicon(proj_get())
+    pkgdown::build_favicons(proj_get(), overwrite = TRUE)
   }
 
   config <- proj_path(config_file)
@@ -73,6 +73,8 @@ use_pkgdown_travis <- function() {
   if (!git_branch_exists("origin/gh-pages")) {
     create_gh_pages_branch()
   }
+
+  ui_todo("Turn on GitHub pages at <{github_home()}/settings> (using gh-pages as source)")
 
   invisible()
 }

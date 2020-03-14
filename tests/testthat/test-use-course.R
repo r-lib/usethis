@@ -2,6 +2,8 @@
 
 test_that("tidy_download() errors early if destdir is not a directory", {
   tmp <- fs::path_temp("I_am_just_a_file")
+  on.exit(fs::file_delete(tmp))
+
   expect_error(
     tidy_download("URL", destdir = tmp), "does not exist",
     class = "usethis_error"

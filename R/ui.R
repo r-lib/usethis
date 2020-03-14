@@ -271,8 +271,16 @@ cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
     return(invisible())
   }
 
-  lines <- paste0(..., "\n")
-  cat(lines, sep = "")
+  lines <- paste0(...)
+  # TODO: remove this once I can bump minimum version of rlang to get
+  # https://github.com/r-lib/rlang/commit/c726908afcf1857fd98378f403d3d194ac9753bf
+  # presumably rlang 0.4.3
+  if (length(lines) < 1) {
+    lines <- ""
+  }
+  rlang::inform(lines)
+
+  invisible()
 }
 
 # Sitrep helpers ---------------------------------------------------------------

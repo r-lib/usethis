@@ -10,7 +10,7 @@ use_build_ignore(files, escape = TRUE)
 \item{files}{Character vector of path names.}
 
 \item{escape}{If \code{TRUE}, the default, will escape \code{.} to
-\code{\\.} and surround with \code{^} and \code{$}.}
+\verb{\\\\.} and surround with \code{^} and \code{$}.}
 }
 \description{
 \code{.Rbuildignore} has a regular expression on each line, but it's
