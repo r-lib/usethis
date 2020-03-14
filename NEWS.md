@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* In `use_travis()`, `use_travis_badge()` and `browse_travis()`, argument `ext`
+now defaults to `"com"` instead of `"ext"`, given travis-ci.com is now
+recommended over travis-ci.org (#1038, @riccardoporreca).
+
 * `pr_push()` works with gh v1.1.0 (and earlier versions), for a repository with no open pull requests (#990, @maurolepore).
 
 * New `use_github_actions()`, `use_github_action_check_release()`, `use_github_action_check_full()`,

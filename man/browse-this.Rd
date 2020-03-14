@@ -16,7 +16,7 @@ browse_github_issues(package = NULL, number = NULL)
 
 browse_github_pulls(package = NULL, number = NULL)
 
-browse_travis(package = NULL, ext = c("org", "com"))
+browse_travis(package = NULL, ext = c("com", "org"))
 
 browse_circleci(package = NULL)
 
@@ -43,7 +43,7 @@ and there is no guarantee there will be content at the destination.
 issue.
 \item \code{browse_github_pulls()}: Visits the GitHub Pull Request index or one
 specific pull request.
-\item \code{browse_travis()}: Visits the package's page on \href{https://travis-ci.org}{Travis CI}.
+\item \code{browse_travis()}: Visits the package's page on \href{https://travis-ci.com}{Travis CI}.
 \item \code{browse_circleci()}: Visits the package's page on \href{https://circleci.com}{Circle CI}
 \item \code{browse_cran()}: Visits the package on CRAN, via the canonical URL.
 }
