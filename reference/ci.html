@@ -195,9 +195,9 @@ various platforms, triggered by each push or pull request. These functions</p><u
 
     </div>
 
-    <pre class="usage"><span class='fu'>use_travis</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>(), <span class='kw'>ext</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"org"</span>, <span class='st'>"com"</span>))
+    <pre class="usage"><span class='fu'>use_travis</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>(), <span class='kw'>ext</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>))
 
-<span class='fu'>use_travis_badge</span>(<span class='kw'>ext</span> <span class='kw'>=</span> <span class='st'>"org"</span>)
+<span class='fu'>use_travis_badge</span>(<span class='kw'>ext</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>))
 
 <span class='fu'>use_appveyor</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>())
 
@@ -219,8 +219,8 @@ package.</p></td>
     </tr>
     <tr>
       <th>ext</th>
-      <td><p>which travis website to use. default to <code>"org"</code>for
-https://travis-ci.org. Change to <code>"com"</code> for https://travis-ci.com.</p></td>
+      <td><p>Which travis website to use. Defaults to <code>"com"</code> for
+https://travis-ci.com. Change to <code>"org"</code> for https://travis-ci.org.</p></td>
     </tr>
     <tr>
       <th>image</th>
@@ -239,13 +239,13 @@ of R, change the tag from <code>latest</code> to the version you want, e.g.
     
 
 <p>Adds a basic <code>.travis.yml</code> to the top-level directory of a package. This is a
-configuration file for the <a href='https://travis-ci.org/'>Travis CI</a> continuous
+configuration file for the <a href='https://travis-ci.com/'>Travis CI</a> continuous
 integration service.</p>
     <h2 class="hasAnchor" id="use-travis-badge-"><a class="anchor" href="#use-travis-badge-"></a><code>use_travis_badge()</code></h2>
 
     
 
-<p>Only adds the <a href='https://travis-ci.org/'>Travis CI</a> badge. Use for a project
+<p>Only adds the <a href='https://travis-ci.com/'>Travis CI</a> badge. Use for a project
 where Travis is already configured.</p>
     <h2 class="hasAnchor" id="use-appveyor-"><a class="anchor" href="#use-appveyor-"></a><code>use_appveyor()</code></h2>
 
