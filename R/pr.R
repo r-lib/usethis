@@ -304,7 +304,12 @@ pr_pause <- function() {
 
 #' @export
 #' @rdname pr_init
-pr_finish <- function() {
+pr_finish <- function(number = NULL) {
+
+  if (!is.null(number)) {
+    pr_fetch(number)
+  }
+
   check_branch_not_master()
   check_uncommitted_changes()
   check_branch_pushed(use = "pr_push()")
