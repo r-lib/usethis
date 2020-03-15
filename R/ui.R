@@ -16,6 +16,11 @@
 #' The question functions [ui_yeah()] and [ui_nope()] have their own [help
 #' page][ui-questions].
 #'
+#' @section Silencing output:
+#' All UI output (apart from `ui_yeah()`/`ui_nope()` prompts) can be silenced
+#' by setting `options(usethis.quiet = TRUE)`. Use `ui_silence()` to selected
+#' actions.
+#'
 #' @param x A character vector.
 #'
 #'   For block styles, conditions, and questions, each element of the
@@ -126,6 +131,19 @@ ui_warn <- function(x, .envir = parent.frame()) {
   x <- glue(x, .envir = .envir)
 
   warning(x, call. = FALSE, immediate. = TRUE)
+}
+
+
+# Silence -----------------------------------------------------------------
+
+#' @rdname ui
+#' @param code Code to execute with usually UI output silenced.
+#' @export
+ui_silence <- function(code) {
+  old <- options(usethis.quiet = TRUE)
+  on.exit(options(old))
+
+  code
 }
 
 # Questions ---------------------------------------------------------------

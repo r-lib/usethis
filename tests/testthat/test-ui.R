@@ -15,6 +15,13 @@ test_that("basic UI actions behave as expected", {
   })
 })
 
+test_that("ui_silence() suppressed output", {
+  # suppress test silencing
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  expect_output(ui_silence(ui_line()), NA)
+})
+
 test_that("trailing slash behaviour of ui_path()", {
   # target doesn't exist so no empirical evidence that it's a directory
   expect_match(ui_path("abc"), "abc'$")

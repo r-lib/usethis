@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* New `ui_silence()` makes it easier to selectively silence some UI output.
+
 * In `use_travis()`, `use_travis_badge()` and `browse_travis()`, argument `ext`
 now defaults to `"com"` instead of `"ext"`, given travis-ci.com is now
 recommended over travis-ci.org (#1038, @riccardoporreca).
