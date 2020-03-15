@@ -46,10 +46,10 @@ NULL
 
 #' @rdname ui
 #' @export
-ui_line <- function(x, .envir = parent.frame()) {
+ui_line <- function(x = character(), .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_line(x)
+  ui_inform(x)
 }
 
 #' @rdname ui
@@ -57,7 +57,7 @@ ui_line <- function(x, .envir = parent.frame()) {
 ui_todo <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, crayon::red(clisymbols::symbol$bullet))
+  ui_inform(x, crayon::red(clisymbols::symbol$bullet))
 }
 
 #' @rdname ui
@@ -65,7 +65,7 @@ ui_todo <- function(x, .envir = parent.frame()) {
 ui_done <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, crayon::green(clisymbols::symbol$tick))
+  ui_inform(x, crayon::green(clisymbols::symbol$tick))
 }
 
 #' @rdname ui
@@ -73,7 +73,7 @@ ui_done <- function(x, .envir = parent.frame()) {
 ui_oops <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, crayon::red(clisymbols::symbol$cross))
+  ui_inform(x, crayon::red(clisymbols::symbol$cross))
 }
 
 #' @rdname ui
@@ -81,7 +81,7 @@ ui_oops <- function(x, .envir = parent.frame()) {
 ui_info <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, crayon::yellow(clisymbols::symbol$info))
+  ui_inform(x, crayon::yellow(clisymbols::symbol$info))
 }
 
 #' @param copy If `TRUE`, the session is interactive, and the clipr package
@@ -94,12 +94,12 @@ ui_code_block <- function(x, copy = interactive(), .envir = parent.frame()) {
 
   block <- indent(x, "  ")
   block <- crayon::silver(block)
-  cat_line(block)
+  ui_inform(block)
 
   if (copy && clipr::clipr_available()) {
     x <- crayon::strip_style(x)
     clipr::write_clip(x)
-    cat_line("  [Copied to clipboard]")
+    ui_inform("  [Copied to clipboard]")
   }
 }
 
@@ -187,7 +187,7 @@ ui_yeah <- function(x,
     qs <- sample(qs)
   }
 
-  cat_line(x)
+  rlang::inform(x)
   out <- utils::menu(qs)
   out != 0L && qs[[out]] %in% yes
 }
@@ -261,24 +261,15 @@ ui_code <- function(x) {
 cat_bullet <- function(x, bullet) {
   bullet <- paste0(bullet, " ")
   x <- indent(x, bullet, "  ")
-  cat_line(x)
+  ui_inform(x)
 }
 
-# All UI output must eventually go through cat_line() so that it
+# All UI output must eventually go through ui_inform() so that it
 # can be quieted with 'usethis.quiet' when needed.
-cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
-  if (quiet) {
-    return(invisible())
+ui_inform <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
+  if (!quiet) {
+    rlang::inform(paste0(...))
   }
-
-  lines <- paste0(...)
-  # TODO: remove this once I can bump minimum version of rlang to get
-  # https://github.com/r-lib/rlang/commit/c726908afcf1857fd98378f403d3d194ac9753bf
-  # presumably rlang 0.4.3
-  if (length(lines) < 1) {
-    lines <- ""
-  }
-  rlang::inform(lines)
 
   invisible()
 }
@@ -286,7 +277,7 @@ cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
 # Sitrep helpers ---------------------------------------------------------------
 
 hd_line <- function(name) {
-  cat_line(crayon::bold(name))
+  ui_inform(crayon::bold(name))
 }
 
 kv_line <- function(key, value) {
@@ -295,5 +286,5 @@ kv_line <- function(key, value) {
   } else {
     value <- ui_value(value)
   }
-  cat_line("* ", key, ": ", value)
+  ui_inform("* ", key, ": ", value)
 }

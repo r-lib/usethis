@@ -532,7 +532,7 @@ git_sitrep <- function() {
   ## TODO: rework when ui_*() functions make it possible to do better
   branch <- if (is.null(branch)) "<unset>" else branch
   tracking_branch <- if (is.null(tracking_branch)) "<unset>" else tracking_branch
-  cat_line("* ", "Local branch -> remote tracking branch: ",
+  ui_inform("* ", "Local branch -> remote tracking branch: ",
            ui_value(branch), " -> ", ui_value(tracking_branch))
 
   # PR outlook -------------------------------------------------------------
