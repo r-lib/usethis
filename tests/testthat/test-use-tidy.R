@@ -17,7 +17,6 @@ test_that("use_tidy_eval() inserts the template file and Imports rlang", {
 
   pkg <- scoped_temporary_package()
   ## fake the use of roxygen; this better in a test than use_roxygen_md()
-  use_description_field(name = "RoxygenNote", value = "6.0.1.9000")
   use_tidy_eval()
   expect_match(dir_ls(proj_path("R")), "utils-tidy-eval.R")
   expect_match(desc::desc_get("Imports", pkg), "rlang")

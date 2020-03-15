@@ -1,5 +1,11 @@
 # usethis (development version)
 
+* `create_package()` gains a `roxygen` argument. If `TRUE` (the default), 
+  adds a `RoxygenNote` field to the `DESCRIPTION` (which means the first run
+  of `devtools::check()` will re-document the package, #963), and creates an 
+  empty `NAMESPACE` (which means you'll need always need explicit `@export` 
+  if you want to export functions, #927).
+
 * In `use_travis()`, `use_travis_badge()` and `browse_travis()`, argument `ext`
 now defaults to `"com"` instead of `"ext"`, given travis-ci.com is now
 recommended over travis-ci.org (#1038, @riccardoporreca).
