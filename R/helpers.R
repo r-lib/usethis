@@ -105,21 +105,3 @@ view_url <- function(..., open = interactive()) {
   invisible(url)
 }
 
-use_rd_macros <- function(package) {
-  proj <- proj_get()
-
-  if (desc::desc_has_fields("RdMacros", file = proj)) {
-    macros <- desc::desc_get_field("RdMacros", file = proj)
-    macros <- strsplit(macros, ",")[[1]]
-  } else {
-    macros <- character()
-  }
-
-  if (!package %in% macros) {
-    macros <- c(macros, package)
-    desc::desc_set(RdMacros = macros, file = proj)
-  }
-
-  invisible()
-}
-

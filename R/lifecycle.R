@@ -50,3 +50,22 @@ use_lifecycle <- function() {
 
   invisible(TRUE)
 }
+
+use_rd_macros <- function(package) {
+  proj <- proj_get()
+
+  if (desc::desc_has_fields("RdMacros", file = proj)) {
+    macros <- desc::desc_get_field("RdMacros", file = proj)
+    macros <- strsplit(macros, ",")[[1]]
+    macros <- gsub("^\\s+|\\s+$", "", macros)
+  } else {
+    macros <- character()
+  }
+
+  if (!package %in% macros) {
+    macros <- c(macros, package)
+    desc::desc_set(RdMacros = paste0(macros, collapse = ", "), file = proj)
+  }
+
+  invisible()
+}
