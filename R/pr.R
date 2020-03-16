@@ -77,7 +77,10 @@ pr_init <- function(branch) {
   if (git_branch_name() != branch) {
     ui_done("Switching to branch {ui_value(branch)}")
     git_branch_switch(branch)
-    pr_pull()
+    has_remote_branch <- !is.null(git_branch_tracking_FIXME(branch))
+    if (has_remote_branch) {
+      pr_pull()
+    }
   }
 
   ui_todo("Use {ui_code('pr_push()')} to create PR")
