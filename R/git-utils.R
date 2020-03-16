@@ -22,10 +22,22 @@ git_pull <- function(remote_branch = git_branch_tracking_FIXME(),
   )
   mr <- git2r::merge(repo, remote_branch)
   if (isTRUE(mr$conflicts)) {
-    ui_stop("Merge conflict! Please resolve before continuing")
+    git_conflict_report()
   }
 
   invisible()
+}
+
+git_conflict_report <- function() {
+  st <- git_status(staged = FALSE, untracked = FALSE)$unstaged
+  conflicted <- unname(st[names(st) == "conflicted"])
+  conflicted_path <- purrr::map_chr(conflicted, ui_path)
+
+  ui_line(c(
+    "There are {length(conflicted)} conflicted files:",
+    paste0("* ", conflicted_path)
+  ))
+  ui_stop("Please fix, stage, and commit to continue")
 }
 
 git_status <- function(...) {
