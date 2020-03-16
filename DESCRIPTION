@@ -21,7 +21,7 @@ Depends:
     R (>= 3.2)
 Imports: 
     clipr (>= 0.3.0),
-    clisymbols,
+    cli,
     crayon,
     curl (>= 2.7),
     desc,
