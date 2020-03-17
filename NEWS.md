@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `browse_github()` now always goes to the canoncial Github site: 
+  `https://github.com/user/repo`. This is slightly worse than the current 
+  behaviour but makes the function more consistent across packages, and 
+  considerably simplifies the implementation.
+
 * usethis should do a better job of not messing up UTF-8 files on windows 
   (#969).
 
