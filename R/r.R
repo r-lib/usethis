@@ -135,7 +135,7 @@ rename_files <- function(old, new) {
     ui_done("Updating paths in {ui_path(test_path)}")
 
     for (i in seq_along(old_test)) {
-      test_lines <- gsub(path_file(old_test[[i]]), path_file(new_test[[i]]), test_lines, fixed = TRUE)
+      lines <- gsub(path_file(old_test[[i]]), path_file(new_test[[i]]), lines, fixed = TRUE)
     }
   }
 
