@@ -94,6 +94,10 @@ rename_files <- function(old, new) {
     file_move(r_old_path, r_new_path)
   }
 
+  if (!uses_testthat()) {
+    return()
+  }
+
   # Move test files
   rename_test <- function(path) {
     file <- gsub(glue("^test-{old}"), glue("test-{new}"), path_file(path))
