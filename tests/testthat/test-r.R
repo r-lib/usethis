@@ -26,6 +26,23 @@ test_that("renames R and test files", {
   expect_proj_file("tests/testthat/test-bar.R")
 })
 
+test_that("strips context from test file", {
+  scoped_temporary_package()
+  git_init()
+
+  use_testthat()
+  write_utf8(
+    proj_path("tests", "testthat", "test-foo.R"),
+    c(
+      "context('bar')",
+      "",
+      "a <- 1"
+    )
+  )
+  rename_files("foo", "bar")
+  lines <- read_utf8(proj_path("tests", "testthat", "test-bar.R"))
+  expect_equal(lines, "a <- 1")
+})
 
 # helpers -----------------------------------------------------------------
 
