@@ -630,7 +630,7 @@ git_vaccinated <- function() {
     return(FALSE)
   }
 
-  lines <- readLines(path)
+  lines <- read_utf8(path)
   all(git_global_ignore %in% lines)
 }
 
