@@ -4,6 +4,9 @@
   vector (and the package has been loaded with `load_all()`), then 
   `use_release_issue()` will include extra bullets in the issue (#941).
 
+* usethis should do a better job of not messing up UTF-8 files on windows 
+  (#969).
+
 * In `use_travis()`, `use_travis_badge()` and `browse_travis()`, argument `ext`
 now defaults to `"com"` instead of `"ext"`, given travis-ci.com is now
 recommended over travis-ci.org (#1038, @riccardoporreca).
