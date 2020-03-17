@@ -7,7 +7,7 @@
 \usage{
 create_package(
   path,
-  fields = NULL,
+  fields = list(),
   rstudio = rstudioapi::isAvailable(),
   check_name = TRUE,
   open = interactive()

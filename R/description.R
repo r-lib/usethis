@@ -51,63 +51,59 @@
 #'
 #' use_description_defaults()
 #' }
-use_description <- function(fields = NULL, check_name = TRUE) {
+use_description <- function(fields = list(), check_name = TRUE) {
   name <- project_name()
   if (check_name) {
     check_package_name(name)
   }
-  fields <- fields %||% list()
-  check_is_named_list(fields)
-  fields[["Package"]] <- name
 
-  desc <- build_description(fields)
-  desc <- desc::description$new(text = desc)
-  tidy_desc(desc)
+  desc <- build_description(fields, package = name)
   lines <- desc$str(by_field = TRUE, normalize = FALSE, mode = "file")
 
   write_over(proj_path("DESCRIPTION"), lines)
-
   if (!getOption("usethis.quiet", default = FALSE)) {
     print(desc)
   }
 }
 
 #' @rdname use_description
+#' @param package Package name
 #' @export
-use_description_defaults <- function() {
-  list(
-    usethis.description = getOption("usethis.description"),
-    devtools.desc = getOption("devtools.desc"),
-    usethis = list(
-      Package = "valid.package.name.goes.here",
-      Version = "0.0.0.9000",
-      Title = "What the Package Does (One Line, Title Case)",
-      Description = "What the package does (one paragraph).",
-      "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
-      License = " `use_mit_license()`, `use_gpl3_license()` or friends to pick a license",
-      Encoding = "UTF-8",
-      LazyData = "true",
-      Roxygen = "list(markdown = TRUE)"
-    )
+use_description_defaults <- function(package = NULL, fields = list()) {
+  check_is_named_list(fields)
+
+  usethis <- list(
+    Package = package %||% "valid.package.name.goes.here",
+    Version = "0.0.0.9000",
+    Title = "What the Package Does (One Line, Title Case)",
+    Description = "What the package does (one paragraph).",
+    "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
+    License = "`use_mit_license()`, `use_gpl3_license()` or friends to pick a license",
+    Encoding = "UTF-8",
+    LazyData = "true",
+    Roxygen = "list(markdown = TRUE)"
   )
+  options <- getOption("usethis.description") %||% getOption("devtools.desc") %||% list()
+
+  defaults <- utils::modifyList(usethis, options)
+  defaults <- utils::modifyList(defaults, fields)
+
+  # Ensure each element is a single string
+  if (inherits(defaults$`Authors@R`, "person")) {
+    defaults$`Authors@R` <- format(defaults$`Authors@R`, style = "R")
+    defaults$`Authors@R` <- paste0(defaults$`Authors@R`, collapse = "\n")
+  }
+  defaults <- lapply(defaults, paste, collapse = "")
+
+  compact(defaults)
 }
 
-build_description <- function(fields = list()) {
-  desc_list <- build_description_list(fields)
+build_description <- function(fields, package) {
+  fields <- use_description_defaults(package, fields)
 
-  # Collapse all vector arguments to single strings
-  desc <- vapply(desc_list, glue_collapse, character(1))
-
-  glue("{names(desc)}: {desc}")
-}
-
-build_description_list <- function(fields = list()) {
-  defaults <- use_description_defaults()
-  defaults <- utils::modifyList(
-    defaults$usethis,
-    defaults$usethis.description %||% defaults$devtools.desc %||% list()
-  )
-  compact(utils::modifyList(defaults, fields))
+  desc <- desc::desc(text = glue("{names(fields)}: {fields}"))
+  tidy_desc(desc)
+  desc
 }
 
 check_package_name <- function(name) {
@@ -142,5 +138,6 @@ tidy_desc <- function(desc) {
   desc$set("Encoding" = "UTF-8")
 
   # Normalize all fields (includes reordering)
-  desc$normalize()
+  # Wrap in a try() so it always succeeds, even if user options are malformed
+  try(desc$normalize(), silent = TRUE)
 }

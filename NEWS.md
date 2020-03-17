@@ -1,5 +1,16 @@
 # usethis (development version)
 
+* `create_package()` no longer fails partway through if you have a malformed
+  `usethis.description` option (#961).
+  
+* In `usethis.description`, you can now set `Authors@R = person()` directly,
+  without having to wrap in additional layer of quotes. If setting this in
+  your `.Rprofile`, you'll need to use `utils::person` since the utils 
+  package isn't loaded until after your profile is executed.
+
+* `use_description_defaults()` now shows the default fields combined with
+  an options that you have set.
+
 * In `use_travis()`, `use_travis_badge()` and `browse_travis()`, argument `ext`
 now defaults to `"com"` instead of `"ext"`, given travis-ci.com is now
 recommended over travis-ci.org (#1038, @riccardoporreca).

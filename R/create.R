@@ -28,7 +28,7 @@
 #' @return Path to the newly created project or package, invisibly.
 #' @export
 create_package <- function(path,
-                           fields = NULL,
+                           fields = list(),
                            rstudio = rstudioapi::isAvailable(),
                            check_name = TRUE,
                            open = interactive()) {
@@ -46,7 +46,7 @@ create_package <- function(path,
   on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
-  use_description(fields, check_name = check_name)
+  use_description(fields, check_name = FALSE)
   use_namespace()
 
   if (rstudio) {
