@@ -65,6 +65,64 @@ use_test <- function(name = NULL, open = NULL) {
 
 }
 
+rename_files <- function(old, new) {
+  # Might potentially overwrite existing files so make sure using git
+  check_uses_git()
+
+  old <- path_ext_remove(old)
+  new <- path_ext_remove(new)
+
+  # Move .R file
+  r_old_path <- proj_path("R", old, ext = "R")
+  r_new_path <- proj_path("R", new, ext = "R")
+  if (file_exists(r_old_path)) {
+    ui_done("Moving {ui_path(r_old_path)} to {ui_path(r_new_path)}")
+    file_move(r_old_path, r_new_path)
+  }
+
+  # Move test files
+  rename_test <- function(path) {
+    file <- gsub(glue("^test-{old}"), glue("test-{new}"), path_file(path))
+    path(path_dir(path), file)
+  }
+  old_test <- dir_ls(proj_path("tests", "testthat"), glob = glue("*/test-{old}*"))
+  new_test <- rename_test(old_test)
+  if (length(old_test) > 0) {
+    ui_done("Moving {ui_path(old_test)} to {ui_path(new_test)}")
+    file_move(old_test, new_test)
+  }
+
+  # Update test file
+  test_path <- proj_path("tests", "testthat", glue("test-{new}"), ext = "R")
+  if (!file_exists(test_path)) {
+    return(invisible())
+  }
+
+  lines <- read_utf8(test_path)
+
+  # Remove old context lines
+  context <- grepl("context\\(.*\\)", lines)
+  if (any(context)) {
+    ui_done("Removing call to {ui_code('context()')}")
+    lines <- lines[!context]
+    if (lines[[1]] == "") {
+      lines <- lines[-1]
+    }
+  }
+
+  old_test <- old_test[new_test != test_path]
+  new_test <- new_test[new_test != test_path]
+
+  if (length(old_test) > 0) {
+    ui_done("Updating paths in {ui_path(test_path)}")
+
+    for (i in seq_along(old_test)) {
+      test_lines <- gsub(path_file(old_test[[i]]), path_file(new_test[[i]]), test_lines, fixed = TRUE)
+    }
+  }
+
+  write_utf8(test_path, lines)
+}
 
 # helpers -----------------------------------------------------------------
 
