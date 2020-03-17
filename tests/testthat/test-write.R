@@ -25,22 +25,22 @@ test_that("write_union() writes a de novo file", {
   tmp <- file_temp()
   expect_false(file_exists(tmp))
   write_union(tmp, letters[1:3], quiet = TRUE)
-  expect_identical(readLines(tmp), letters[1:3])
+  expect_identical(read_utf8(tmp), letters[1:3])
 })
 
 test_that("write_union() leaves file 'as is'", {
   tmp <- file_temp()
   writeLines(letters[1:3], tmp)
-  before <- readLines(tmp)
+  before <- read_utf8(tmp)
   write_union(tmp, "b", quiet = TRUE)
-  expect_identical(before, readLines(tmp))
+  expect_identical(before, read_utf8(tmp))
 })
 
 test_that("write_union() adds lines", {
   tmp <- file_temp()
   writeLines(letters[1:3], tmp)
   write_union(tmp, letters[4:5], quiet = TRUE)
-  expect_setequal(readLines(tmp), letters[1:5])
+  expect_setequal(read_utf8(tmp), letters[1:5])
 })
 
 # https://github.com/r-lib/usethis/issues/526
@@ -49,24 +49,24 @@ test_that("write_union() doesn't remove duplicated lines in the input", {
   before <- rep(letters[1:2], 3)
   add_me <- c("z", "a", "c", "a", "b")
   writeLines(before, tmp)
-  expect_identical(before, readLines(tmp))
+  expect_identical(before, read_utf8(tmp))
   write_union(tmp, add_me, quiet = TRUE)
-  expect_identical(readLines(tmp), c(before, c("z", "c")))
+  expect_identical(read_utf8(tmp), c(before, c("z", "c")))
 })
 
 test_that("write_over() writes a de novo file", {
   tmp <- file_temp()
   expect_false(file_exists(tmp))
   write_over(tmp, letters[1:3], quiet = TRUE)
-  expect_identical(readLines(tmp), letters[1:3])
+  expect_identical(read_utf8(tmp), letters[1:3])
 })
 
 test_that("write_over() leaves file 'as is'", {
   tmp <- file_temp()
   writeLines(letters[1:3], tmp)
-  before <- readLines(tmp)
+  before <- read_utf8(tmp)
   write_over(tmp, letters[1:3], quiet = TRUE)
-  expect_identical(before, readLines(tmp))
+  expect_identical(before, read_utf8(tmp))
 })
 
 # https://github.com/r-lib/usethis/issues/514

@@ -44,7 +44,7 @@ write_union <- function(path, lines, quiet = FALSE) {
   path <- user_path_prep(path)
 
   if (file_exists(path)) {
-    existing_lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+    existing_lines <- read_utf8(path)
   } else {
     existing_lines <- character()
   }
@@ -88,6 +88,10 @@ write_over <- function(path, lines, quiet = FALSE) {
   }
 }
 
+read_utf8 <- function(path, n = -1L) {
+  base::readLines(path, n = n, encoding = "UTF-8", warn = FALSE)
+}
+
 write_utf8 <- function(path, lines, append = FALSE) {
   stopifnot(is.character(path))
   stopifnot(is.character(lines))
@@ -108,5 +112,5 @@ same_contents <- function(path, contents) {
     return(FALSE)
   }
 
-  identical(readLines(path, encoding = "UTF-8"), contents)
+  identical(read_utf8(path), contents)
 }

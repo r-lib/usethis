@@ -7,7 +7,7 @@ test_that("use_tidy_description() alphabetises dependencies", {
   use_package("withr", "Suggests")
   use_package("gh", "Suggests")
   use_tidy_description()
-  desc <- readLines(proj_path("DESCRIPTION"))
+  desc <- read_utf8(proj_path("DESCRIPTION"))
   expect_gt(grep("usethis", desc), grep("desc", desc))
   expect_gt(grep("withr", desc), grep("gh", desc))
 })

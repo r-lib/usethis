@@ -156,7 +156,7 @@ news_latest <- function() {
     ui_stop("{ui_path(path)} not found")
   }
 
-  lines <- readLines(path)
+  lines <- read_utf8(path)
   headings <- which(grepl("^#\\s+", lines))
 
   if (length(headings) == 0) {
