@@ -147,7 +147,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-lib/usethis">
+  <a href="https://github.com/r-lib/usethis/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -180,6 +180,7 @@
 <a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>usethis should do a better job of not messing up UTF-8 files on windows (<a href='https://github.com/r-lib/usethis/issues/969'>#969</a>).</p></li>
 <li><p>In <code><a href="../reference/ci.html">use_travis()</a></code>, <code><a href="../reference/ci.html">use_travis_badge()</a></code> and <code><a href="../reference/browse-this.html">browse_travis()</a></code>, argument <code>ext</code> now defaults to <code>"com"</code> instead of <code>"ext"</code>, given travis-ci.com is now recommended over travis-ci.org (<a href='https://github.com/r-lib/usethis/issues/1038'>#1038</a>, <a href='https://github.com/riccardoporreca'>@riccardoporreca</a>).</p></li>
 <li><p><code><a href="../reference/pr_init.html">pr_push()</a></code> works with gh v1.1.0 (and earlier versions), for a repository with no open pull requests (<a href='https://github.com/r-lib/usethis/issues/990'>#990</a>, <a href='https://github.com/maurolepore'>@maurolepore</a>).</p></li>
 <li><p>New <code><a href="../reference/github_actions.html">use_github_actions()</a></code>, <code><a href="../reference/use_github_action.html">use_github_action_check_release()</a></code>, <code><a href="../reference/use_github_action.html">use_github_action_check_full()</a></code>, <code><a href="../reference/use_github_action.html">use_github_action_pr_commands()</a></code>, <code>use_github_actions_tidy()</code> to set up a GitHub Actions for a package (<a href='https://github.com/jimhester'>@jimhester</a>).</p></li>
