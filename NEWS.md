@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* If your package has a `release_bullets()` function which returns a character
+  vector (and the package has been loaded with `load_all()`), then 
+  `use_release_issue()` will include extra bullets in the issue (#941).
+
 * In `use_travis()`, `use_travis_badge()` and `browse_travis()`, argument `ext`
 now defaults to `"com"` instead of `"ext"`, given travis-ci.com is now
 recommended over travis-ci.org (#1038, @riccardoporreca).

@@ -22,7 +22,8 @@ use_release_issue <- function(version = NULL) {
     return(invisible(FALSE))
   }
 
-  checklist <- release_checklist(version)
+  on_cran <- !is.null(cran_version())
+  checklist <- release_checklist(version, on_cran)
 
   issue <- gh::gh("POST /repos/:owner/:repo/issues",
     owner = github_owner(),
@@ -34,13 +35,13 @@ use_release_issue <- function(version = NULL) {
   view_url(issue$html_url)
 }
 
-release_checklist <- function(version) {
+release_checklist <- function(version, on_cran) {
   type <- release_type(version)
-  on_cran <- !is.null(cran_version())
   cran_results <- cran_results_url()
   has_src <- dir_exists(proj_path("src"))
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- file_exists(proj_path("_pkgdown.yml"))
+  has_extra <- exists("release_bullets", parent.env(globalenv()))
 
   todo <- function(x, cond = TRUE) {
     x <- glue(x, .envir = parent.frame())
@@ -65,6 +66,7 @@ release_checklist <- function(version) {
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown),
     todo("Draft blog post", type != "patch"),
+    if (has_extra) paste0("* [ ] ", get("release_bullets", parent.env(globalenv()))()),
     "",
     "Submit to CRAN:",
     "",
