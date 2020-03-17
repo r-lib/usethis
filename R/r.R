@@ -65,8 +65,22 @@ use_test <- function(name = NULL, open = NULL) {
 
 }
 
+
+#' Automatically rename paired `R/` and `test/` files
+#'
+#' @description
+#' * Moves `R/{old}.R` to `R/{new}.R`
+#' * Moves `tests/testthat/test-{old}.R` to `tests/testthat/test-{new}.R`
+#' * Moves `tests/testthat/test-{old}-*.*` to `tests/testthat/test-{new}-*.*`
+#'   and updates paths in the test file.
+#' * Also removes now unneeded `context()` calls from the test file.
+#'
+#' This is a potentially dangerous operation, so you must be using Git in
+#' order to use this function
+#'
+#' @param old,new Old and new file names
+#' @export
 rename_files <- function(old, new) {
-  # Might potentially overwrite existing files so make sure using git
   check_uses_git()
 
   old <- path_ext_remove(old)
