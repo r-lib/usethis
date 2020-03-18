@@ -4,6 +4,13 @@
   `use_release_issue()` reminds you to use it to re-generate `README.md`
   and `index.md`, if needed.
 
+* `pr_*()` functions automatically refresh RStudio's git pane (#706).
+
+* `pr_finish()` can optionally finish any PR, not just the current (#1040).
+
+* `pr_pause()` and `pr_fetch()` now automatically pull to get latest changes 
+  (#959, #960).
+
 * usethis should do a better job of not messing up UTF-8 files on windows 
   (#969).
 

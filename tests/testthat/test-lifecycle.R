@@ -26,7 +26,8 @@ test_that("use_lifecycle() respects existing RdMacros field", {
   use_lifecycle()
 
   expect_true(desc::desc_has_fields("RdMacros"))
-  expect_identical(desc::desc_get_field("RdMacros"), "foo,\n    bar,\n    lifecycle")
+  expect_identical(desc::desc_get_field("RdMacros"), "foo, bar, lifecycle")
 })
 
 })
+
