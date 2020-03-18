@@ -30,8 +30,10 @@ use_github_action <- function(name,
   }
 
   if (is.null(url)) {
-    url <- glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}")
+    url <- "https://raw.githubusercontent.com/r-lib/actions/master/examples"
   }
+
+  url <- glue("{url}/{name}")
 
   if (is.null(save_as)) {
     save_as <- basename(url)

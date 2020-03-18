@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* Fix `use_github_action()` URL parameter ensure custom URLs are allowed.
+  (@coatless, #1065).
+
 * usethis should do a better job of not messing up UTF-8 files on windows 
   (#969).
 
