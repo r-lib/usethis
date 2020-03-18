@@ -235,9 +235,9 @@ code to include in <code>.Rprofile</code>:</p><pre><span class='fu'><a href='htt
 
     </div>
 
-    <pre class="usage"><span class='fu'>use_description</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>check_name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>roxygen</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>use_description</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>check_name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>roxygen</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>use_description_defaults</span>()</pre>
+<span class='fu'>use_description_defaults</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>roxygen</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -256,6 +256,10 @@ error if not</p></td>
     <tr>
       <th>roxygen</th>
       <td><p>If <code>TRUE</code>, sets <code>RoxygenNote</code> to current roxygen2 version.</p></td>
+    </tr>
+    <tr>
+      <th>package</th>
+      <td><p>Package name</p></td>
     </tr>
     </table>
 
