@@ -163,3 +163,10 @@ restart_rstudio <- function(message = NULL) {
 
   rstudioapi::openProject(proj_get())
 }
+
+rstudio_git_tickle <- function() {
+  if (rstudioapi::hasFun("executeCommand")) {
+    rstudioapi::executeCommand("vcsRefresh")
+  }
+  invisible()
+}
