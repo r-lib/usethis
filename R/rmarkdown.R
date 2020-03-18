@@ -50,6 +50,16 @@ use_rmarkdown_template <- function(template_name = "Template Name",
   invisible(TRUE)
 }
 
+#' Knit a `.Rmd` in a clean session
+#'
+#' `knit_rmd()` runs a [rmarkdown::render()] in separate R session so that
+#' the document doesn't inherit anything from your current session. It's
+#' useful for rebuilding `README.Rmd` or `INDEX.Rmd`.
+#'
+#' @param path Path to file within current project
+#' @param ... Additional arguments passed on to [rmarkdown::render()]
+#' @param quiet If `TRUE`, will suppress output from knitr.
+#' @export
 knit_rmd <- function(path, ..., quiet = FALSE) {
   check_installed("callr")
 
@@ -80,7 +90,6 @@ knit_rmd <- function(path, ..., quiet = FALSE) {
       )
     }
   )
-
 
   invisible(path)
 }

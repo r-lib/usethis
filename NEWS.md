@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* New `knit_rmd()` knits Rmd files in a clean session (#967).
+
 * usethis should do a better job of not messing up UTF-8 files on windows 
   (#969).
 
