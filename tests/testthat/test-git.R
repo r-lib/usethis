@@ -1,4 +1,6 @@
 test_that("git_has_commit() changes after first commit", {
+  skip_if_no_git_config()
+
   scoped_temporary_package()
   git_init()
 
