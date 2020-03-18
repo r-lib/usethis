@@ -198,6 +198,7 @@ git_branch_push <- function(branch = git_branch_name(),
     force = force,
     credentials = credentials
   )
+  rstudio_git_tickle()
 }
 
 git_branch_remote <- function(branch = git_branch_name()) {
