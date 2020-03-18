@@ -1,5 +1,3 @@
-context("use_description")
-
 test_that("build_description_list() defaults to values built into usethis", {
   withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
   d <- build_description_list()

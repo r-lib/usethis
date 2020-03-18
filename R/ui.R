@@ -286,7 +286,7 @@ ui_bullet <- function(x, bullet) {
 # can be quieted with 'usethis.quiet' when needed.
 ui_inform <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
   if (!quiet) {
-    rlang::inform(paste0(...))
+    inform(paste0(...))
   }
 
   invisible()
