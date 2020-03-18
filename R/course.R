@@ -207,7 +207,7 @@ tidy_download <- function(url, destdir = getwd()) {
   tmp <- file_temp("tidy-download-")
   h <- curl::new_handle(noprogress = FALSE, progressfunction = progress_fun)
   curl::curl_download(url, tmp, quiet = FALSE, mode = "wb", handle = h)
-  cat_line()
+  ui_line()
 
   cd <- content_disposition(h)
   base_name <- make_filename(cd, fallback = path_file(url))

@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* New `ui_silence()` makes it easier to selectively silence some UI output.
+
 * New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
   (#784).
 

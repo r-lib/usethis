@@ -216,7 +216,7 @@ use_tidy_style <- function(strict = TRUE) {
       strict = strict
     )
   }
-  cat_line()
+  ui_line()
   ui_done("Styled project according to the tidyverse style guide")
   invisible(styled)
 }
