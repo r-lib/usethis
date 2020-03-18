@@ -203,7 +203,7 @@ as usethis.</p>
 <p>The question functions <code><a href='ui-questions.html'>ui_yeah()</a></code> and <code><a href='ui-questions.html'>ui_nope()</a></code> have their own <a href='ui-questions.html'>help page</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ui_line</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+    <pre class="usage"><span class='fu'>ui_line</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(), <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
 <span class='fu'>ui_todo</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
@@ -218,6 +218,8 @@ as usethis.</p>
 <span class='fu'>ui_stop</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
 <span class='fu'>ui_warn</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+
+<span class='fu'>ui_silence</span>(<span class='no'>code</span>)
 
 <span class='fu'>ui_field</span>(<span class='no'>x</span>)
 
@@ -249,6 +251,10 @@ environment. For expert use only.</p></td>
 is installed, will copy the code block to the clipboard.</p></td>
     </tr>
     <tr>
+      <th>code</th>
+      <td><p>Code to execute with usually UI output silenced.</p></td>
+    </tr>
+    <tr>
       <th>base</th>
       <td><p>If specified, paths will be displayed relative to this path.</p></td>
     </tr>
@@ -258,6 +264,13 @@ is installed, will copy the code block to the clipboard.</p></td>
 
     <p>The block styles, conditions, and questions are called for their
 side-effect. The inline styles return a string.</p>
+    <h2 class="hasAnchor" id="silencing-output"><a class="anchor" href="#silencing-output"></a>Silencing output</h2>
+
+    
+
+<p>All UI output (apart from <code><a href='ui-questions.html'>ui_yeah()</a></code>/<code><a href='ui-questions.html'>ui_nope()</a></code> prompts) can be silenced
+by setting <code><a href='https://rdrr.io/r/base/options.html'>options(usethis.quiet = TRUE)</a></code>. Use <code>ui_silence()</code> to selected
+actions.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other user interface functions: 
@@ -279,6 +292,7 @@ side-effect. The inline styles return a string.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#silencing-output">Silencing output</a></li>
       <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>

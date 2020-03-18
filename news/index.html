@@ -180,6 +180,7 @@
 <a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>New <code><a href="../reference/ui.html">ui_silence()</a></code> makes it easier to selectively silence some UI output.</p></li>
 <li><p>New <code><a href="../reference/rename_files.html">rename_files()</a></code> makes it easy to rename paired <code>R/</code> and <code>test/</code> files (<a href='https://github.com/r-lib/usethis/issues/784'>#784</a>).</p></li>
 <li><p><code><a href="../reference/create_package.html">create_package()</a></code> no longer fails partway through if you have a malformed <code>usethis.description</code> option (<a href='https://github.com/r-lib/usethis/issues/961'>#961</a>).</p></li>
 <li><p>In <code>usethis.description</code>, you can now set <code>Authors@R = person()</code> directly, without having to wrap in additional layer of quotes. If setting this in your <code>.Rprofile</code>, you’ll need to use <code><a href="https://rdrr.io/r/utils/person.html">utils::person</a></code> since the utils package isn’t loaded until after your profile is executed.</p></li>
