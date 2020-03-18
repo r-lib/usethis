@@ -9,9 +9,10 @@
 #' Both functions can be called on an existing project; you will be asked
 #' before any existing files are changed.
 #'
+#' @inheritParams use_description
 #' @param path A path. If it exists, it is used. If it does not exist, it is
 #'   created, provided that the parent path exists.
-#' @inheritParams use_description
+#' @param roxygen Do you plan to use roxygen2 to document your package?
 #' @param rstudio If `TRUE`, calls [use_rstudio()] to make the new package or
 #'   project into an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects).
@@ -28,8 +29,9 @@
 #' @return Path to the newly created project or package, invisibly.
 #' @export
 create_package <- function(path,
-                           fields = NULL,
+                           fields = list(),
                            rstudio = rstudioapi::isAvailable(),
+                           roxygen = TRUE,
                            check_name = TRUE,
                            open = interactive()) {
   path <- user_path_prep(path)
@@ -46,8 +48,8 @@ create_package <- function(path,
   on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
-  use_description(fields, check_name = check_name)
-  use_namespace()
+  use_description(fields, check_name = FALSE, roxygen = roxygen)
+  use_namespace(roxygen = roxygen)
 
   if (rstudio) {
     use_rstudio()

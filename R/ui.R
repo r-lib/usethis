@@ -278,7 +278,7 @@ cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
   if (length(lines) < 1) {
     lines <- ""
   }
-  rlang::inform(lines)
+  inform(lines)
 
   invisible()
 }
