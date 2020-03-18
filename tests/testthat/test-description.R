@@ -1,74 +1,86 @@
-test_that("build_description_list() defaults to values built into usethis", {
-  withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
-  d <- build_description_list()
-  expect_equal(d, use_description_defaults()$usethis)
+
+# use_description_defaults() ----------------------------------------------
+
+test_that("user's fields > usethis defaults", {
+  d <- use_description_defaults("pkg", fields = list(Title = "TEST1", URL = "TEST1"))
+  expect_equal(d$Title, "TEST1")
+  expect_equal(d$URL, "TEST1")
+  expect_equal(d$Version, "0.0.0.9000")
 })
 
-test_that("build_description_list(): user's fields > usethis defaults", {
-  d <- build_description_list(
-    fields = list(Title = "aaa", URL = "https://www.r-project.org")
-  )
-  ## user's field overwrites default
-  expect_identical(d$Title, "aaa")
-  ## user's field is novel
-  expect_identical(d$URL, "https://www.r-project.org")
-  ## from usethis defaults
-  expect_match(d$Description, "What the package does")
+test_that("usethis options > usethis defaults", {
+  withr::local_options(list(
+    usethis.description = list(License = "TEST")
+  ))
+
+  d <- use_description_defaults()
+  expect_equal(d$License, "TEST")
+  expect_equal(d$Version, "0.0.0.9000")
 })
 
-test_that("build_description_list(): usethis options > usethis defaults", {
-  withr::local_options(list(usethis.description = list(
-    License = "BSD_2_clause"
-  )))
-  d <- build_description_list()
-  ## from usethis options
-  expect_identical(d$License, "BSD_2_clause")
-  ## from usethis defaults
-  expect_match(d$Description, "What the package does")
-})
-
-test_that("build_description_list(): devtools options can be picked up", {
+test_that("devtools options can be picked up", {
   withr::local_options(list(
     usethis.description = NULL,
-    devtools.desc = list(License = "LGPL-3")
+    devtools.desc = list(License = "TEST")
   ))
-  d <- build_description_list()
-  ## from devtools options
-  expect_identical(d$License, "LGPL-3")
-  ## from usethis defaults
-  expect_match(d$Description, "What the package does")
+
+  d <- use_description_defaults()
+  expect_equal(d$License, "TEST")
+  expect_equal(d$Version, "0.0.0.9000")
 })
 
-test_that("build_description_list(): user's fields > options > defaults", {
+test_that("user's fields > options > defaults", {
   withr::local_options(list(
-    usethis.description = list(Version = "4.0.0")
+    usethis.description = list(License = "TEST1", Title = "TEST1")
   ))
-  d <- build_description_list(fields = list(Title = "aaa"))
-  ## from user's fields
-  expect_identical(d$Title, "aaa")
-  ## from usethis options
-  expect_identical(d$Version, "4.0.0")
-  ## from usethis defaults
-  expect_match(d$Description, "What the package does")
+
+  d <- use_description_defaults("pkg", fields = list(Title = "TEST2"))
+  expect_equal(d$Title, "TEST2")
+  expect_equal(d$License, "TEST1")
+  expect_equal(d$Version, "0.0.0.9000")
+})
+
+test_that("automatically converts person object to text", {
+  d <- use_description_defaults("pkg", fields = list(`Authors@R` = person("H", "W")))
+  expect_equal(d$`Authors@R`, "person(given = \"H\",\n       family = \"W\")")
+})
+
+test_that("can set package", {
+  d <- use_description_defaults(package = "TEST")
+  expect_equal(d$Package, "TEST")
+})
+
+
+
+# use_description ---------------------------------------------------------
+
+test_that("creation succeeds even if options are broken", {
+  withr::local_options(list(usethis.description = list(
+    `Authors@R` = 'person('
+  )))
+  scoped_temporary_project()
+
+  expect_error(use_description(), NA)
 })
 
 test_that("default description is tidy", {
   withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
   scoped_temporary_package()
-  desc_lines_before <- read_utf8(proj_path("DESCRIPTION"))
+
+  before <- readLines(proj_path("DESCRIPTION"))
   use_tidy_description()
-  desc_lines_after <- read_utf8(proj_path("DESCRIPTION"))
-  expect_identical(desc_lines_before, desc_lines_after)
+  after <- readLines(proj_path("DESCRIPTION"))
+  expect_equal(before, after)
 })
 
 test_that("valid CRAN names checked", {
   withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
   scoped_temporary_package(dir = file_temp(pattern = "invalid_pkg_name"))
-  expect_error_free(use_description(check_name = FALSE))
+
+  expect_error(use_description(check_name = FALSE), NA)
   expect_error(
     use_description(check_name = TRUE),
     "is not a valid package name",
     class = "usethis_error"
   )
 })
-

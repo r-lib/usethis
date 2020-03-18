@@ -1,5 +1,16 @@
 # usethis (development version)
 
+* `create_package()` no longer fails partway through if you have a malformed
+  `usethis.description` option (#961).
+  
+* In `usethis.description`, you can now set `Authors@R = person()` directly,
+  without having to wrap in additional layer of quotes. If setting this in
+  your `.Rprofile`, you'll need to use `utils::person` since the utils 
+  package isn't loaded until after your profile is executed.
+
+* `use_description_defaults()` now shows the default fields combined with
+  any options that you have set.
+
 * `use_git()` will now create initial commit if needed (#852)
 
 * If your package has a `release_bullets()` function which returns a character

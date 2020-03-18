@@ -29,7 +29,7 @@
 #' @return Path to the newly created project or package, invisibly.
 #' @export
 create_package <- function(path,
-                           fields = NULL,
+                           fields = list(),
                            rstudio = rstudioapi::isAvailable(),
                            roxygen = TRUE,
                            check_name = TRUE,
@@ -48,7 +48,7 @@ create_package <- function(path,
   on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
-  use_description(fields, check_name = check_name, roxygen = roxygen)
+  use_description(fields, check_name = FALSE, roxygen = roxygen)
   use_namespace(roxygen = roxygen)
 
   if (rstudio) {
