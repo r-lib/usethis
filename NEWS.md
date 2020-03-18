@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* If your package has a `release_bullets()` function which returns a character
+  vector (and the package has been loaded with `load_all()`), then 
+  `use_release_issue()` will include extra bullets in the issue (#941).
+
 * `use_data()` automatically bumps R dependency to 2.10 (#962).
 
 * `create_package()` gains a `roxygen` argument. If `TRUE` (the default), 
