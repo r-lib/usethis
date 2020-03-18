@@ -59,10 +59,10 @@ test_that("Existing field(s) in Rproj can be modified", {
 test_that("we can roundtrip an Rproj file", {
   scoped_temporary_package(rstudio = TRUE)
   rproj_file <- rproj_path()
-  before <- readLines(rproj_file)
+  before <- read_utf8(rproj_file)
   rproj <- modify_rproj(rproj_file, list())
   writeLines(serialize_rproj(rproj), rproj_file)
-  after <- readLines(rproj_file)
+  after <- read_utf8(rproj_file)
   expect_identical(before, after)
 })
 
