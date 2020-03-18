@@ -9,7 +9,7 @@
   package isn't loaded until after your profile is executed.
 
 * `use_description_defaults()` now shows the default fields combined with
-  an options that you have set.
+  any options that you have set.
 
 * In `use_travis()`, `use_travis_badge()` and `browse_travis()`, argument `ext`
 now defaults to `"com"` instead of `"ext"`, given travis-ci.com is now
