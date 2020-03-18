@@ -37,7 +37,10 @@ git_conflict_report <- function() {
     "There are {length(conflicted)} conflicted files:",
     paste0("* ", conflicted_path)
   ))
-  ui_stop("Please fix, stage, and commit to continue")
+  ui_stop(c(
+    "Please fix, stage, and commit to continue",
+    "Or run {ui_code('git merge --abort')} in the terminal"
+  ))
 }
 
 git_status <- function(...) {
