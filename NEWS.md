@@ -2,7 +2,7 @@
 
 * `pr_*()` functions automatically refresh RStudio's git pane (#706).
 
-* `pr_fetch()` can optionally finish any PR, not just the current (#1040).
+* `pr_finish()` can optionally finish any PR, not just the current (#1040).
 
 * `pr_pause()` and `pr_fetch()` now automatically pull to get latest changes 
   (#959, #960).
