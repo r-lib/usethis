@@ -61,29 +61,28 @@ test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
   expect_identical(loose_dropbox_files, not_loose_files)
 })
 
-## convert_teaching_url ----
-
-test_that("convert_teaching_url() does the appropriate conversions", {
+## helpers ----
+test_that("create_download_url() works", {
   expect_identical(
-    convert_teaching_url("https://rstudio.com"), "https://rstudio.com"
+    create_download_url("https://rstudio.com"),
+    "https://rstudio.com"
   )
   expect_equal(
-    convert_teaching_url("https://drive.google.com/open?id=123456789xxyyyzzz"),
+    create_download_url("https://drive.google.com/open?id=123456789xxyyyzzz"),
     "https://drive.google.com/uc?export=download&id=123456789xxyyyzzz"
   )
   expect_equal(
-    convert_teaching_url(
+    create_download_url(
       "https://drive.google.com/file/d/123456789xxxyyyzzz/view"
     ),
     "https://drive.google.com/uc?export=download&id=123456789xxxyyyzzz"
   )
   expect_equal(
-    convert_teaching_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0"),
+    create_download_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0"),
     "https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1"
   )
 })
 
-## helpers ----
 test_that("normalize_url() prepends https:// (or not)", {
   expect_error(normalize_url(1), "is\\.character.*not TRUE")
   expect_identical(normalize_url("http://bit.ly/aaa"), "http://bit.ly/aaa")
