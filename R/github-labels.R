@@ -168,7 +168,7 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   cur_label_names <- label_attr("name", cur_labels)
 
   # Update colours
-  cur_label_colours <- rlang::set_names(
+  cur_label_colours <- set_names(
     label_attr("color", cur_labels), cur_label_names
   )
   if (identical(cur_label_colours[names(colours)], colours)) {
@@ -187,7 +187,7 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   }
 
   # Update descriptions
-  cur_label_descriptions <- rlang::set_names(
+  cur_label_descriptions <- set_names(
     label_attr("description", cur_labels), cur_label_names
   )
   if (identical(cur_label_descriptions[names(descriptions)], descriptions)) {
