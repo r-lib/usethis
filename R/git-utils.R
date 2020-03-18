@@ -31,12 +31,17 @@ git_pull <- function(remote_branch = git_branch_tracking_FIXME(),
 git_conflict_report <- function() {
   st <- git_status(staged = FALSE, untracked = FALSE)$unstaged
   conflicted <- unname(st[names(st) == "conflicted"])
-  conflicted_path <- purrr::map_chr(conflicted, ui_path)
+  if (length(conflicted) == 0) {
+    return(invisible())
+  }
 
+  conflicted_path <- purrr::map_chr(conflicted, ui_path)
   ui_line(c(
     "There are {length(conflicted)} conflicted files:",
     paste0("* ", conflicted_path)
   ))
+  purrr::walk(conflicted, edit_file)
+
   ui_stop(c(
     "Please fix, stage, and commit to continue",
     "Or run {ui_code('git merge --abort')} in the terminal"
