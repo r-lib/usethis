@@ -1,4 +1,6 @@
-test_that("use_rmarkdown_template() creates everything as promised, defaults", {
+# use_rmarkdown_template() ------------------------------------------------
+
+test_that("creates everything as promised, defaults", {
   scoped_temporary_package()
   use_rmarkdown_template()
   path <- path("inst", "rmarkdown", "templates", "template-name")
@@ -12,7 +14,7 @@ test_that("use_rmarkdown_template() creates everything as promised, defaults", {
   expect_proj_file(path, "skeleton", "skeleton.Rmd")
 })
 
-test_that("use_rmarkdown_template() creates everything as promised, args", {
+test_that("creates everything as promised, args", {
   scoped_temporary_package()
   use_rmarkdown_template(
     template_name = "aaa",
