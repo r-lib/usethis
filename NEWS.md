@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_data()` automatically bumps R dependency to 2.10 (#962).
+
 * `create_package()` gains a `roxygen` argument. If `TRUE` (the default), 
   adds a `RoxygenNote` field to the `DESCRIPTION` (which means the first run
   of `devtools::check()` will re-document the package, #963), and creates an 
