@@ -73,7 +73,7 @@ use_test <- function(name = NULL, open = NULL) {
 #' * Moves `tests/testthat/test-{old}.R` to `tests/testthat/test-{new}.R`
 #' * Moves `tests/testthat/test-{old}-*.*` to `tests/testthat/test-{new}-*.*`
 #'   and updates paths in the test file.
-#' * Also removes now unneeded `context()` calls from the test file.
+#' * Removes `context()` calls from the test file, which are unnecessary (and discouraged) as of testthat v2.1.0.
 #'
 #' This is a potentially dangerous operation, so you must be using Git in
 #' order to use this function

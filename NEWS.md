@@ -1,6 +1,6 @@
 # usethis (development version)
 
-* New `rename_file()` makes it easy to rename paired `R/` and `test/` files 
+* New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
   (#784).
 
 * usethis should do a better job of not messing up UTF-8 files on windows 
