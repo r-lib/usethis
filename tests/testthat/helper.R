@@ -112,7 +112,7 @@ expect_error_free <- function(...) {
 }
 
 is_build_ignored <- function(pattern, ..., base_path = proj_get()) {
-  lines <- readLines(path(base_path, ".Rbuildignore"), warn = FALSE)
+  lines <- read_utf8(path(base_path, ".Rbuildignore"))
   length(grep(pattern, x = lines, fixed = TRUE, ...)) > 0
 }
 
