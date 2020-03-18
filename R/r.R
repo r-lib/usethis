@@ -73,12 +73,13 @@ use_test <- function(name = NULL, open = NULL) {
 #' * Moves `tests/testthat/test-{old}.R` to `tests/testthat/test-{new}.R`
 #' * Moves `tests/testthat/test-{old}-*.*` to `tests/testthat/test-{new}-*.*`
 #'   and updates paths in the test file.
-#' * Removes `context()` calls from the test file, which are unnecessary (and discouraged) as of testthat v2.1.0.
+#' * Removes `context()` calls from the test file, which are unnecessary
+#'   (and discouraged) as of testthat v2.1.0.
 #'
 #' This is a potentially dangerous operation, so you must be using Git in
-#' order to use this function
+#' order to use this function.
 #'
-#' @param old,new Old and new file names
+#' @param old,new Old and new file names (with or without extensions).
 #' @export
 rename_files <- function(old, new) {
   check_uses_git()

@@ -7,7 +7,7 @@
 rename_files(old, new)
 }
 \arguments{
-\item{old, new}{Old and new file names}
+\item{old, new}{Old and new file names (with or without extensions).}
 }
 \description{
 \itemize{
@@ -15,9 +15,10 @@ rename_files(old, new)
 \item Moves \verb{tests/testthat/test-\{old\}.R} to \verb{tests/testthat/test-\{new\}.R}
 \item Moves \verb{tests/testthat/test-\{old\}-*.*} to \verb{tests/testthat/test-\{new\}-*.*}
 and updates paths in the test file.
-\item Also removes now unneeded \code{context()} calls from the test file.
+\item Removes \code{context()} calls from the test file, which are unnecessary
+(and discouraged) as of testthat v2.1.0.
 }
 
 This is a potentially dangerous operation, so you must be using Git in
-order to use this function
+order to use this function.
 }
