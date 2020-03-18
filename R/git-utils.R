@@ -156,6 +156,7 @@ git_branch_create <- function(branch, commit = NULL) {
 git_branch_switch <- function(branch) {
   old <- git_branch_current()
   git2r::checkout(git_repo(), branch)
+  rstudio_git_tickle()
   invisible(old)
 }
 

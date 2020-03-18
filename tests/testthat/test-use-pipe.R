@@ -23,7 +23,7 @@ test_that("use_pipe(export = FALSE) adds roxygen to package doc", {
       use_package_doc()
       use_pipe(export = FALSE)
       expect_match(desc::desc_get("Imports", proj_get()), "magrittr")
-      package_doc <- readLines(proj_path(package_doc_path()))
+      package_doc <- read_utf8(proj_path(package_doc_path()))
       expect_match(package_doc, "#' @importFrom magrittr %>%", all = FALSE)
     }
   )
