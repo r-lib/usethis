@@ -6,6 +6,9 @@
   empty `NAMESPACE` (which means you'll always need an explicit `@export` 
   if you want to export functions, #927).
 
+* `pr_pull()` gives more information about which files have merge conflicts 
+  and automatically opens conflicted files for editing (#1056).
+
 * `browse_github()` now always goes to the canonical Github site: 
   `https://github.com/user/repo`. This is slightly worse than the current 
   behaviour but makes the function more consistent across packages, and 
