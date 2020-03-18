@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
+  (#784).
+
 * `create_package()` no longer fails partway through if you have a malformed
   `usethis.description` option (#961).
   
