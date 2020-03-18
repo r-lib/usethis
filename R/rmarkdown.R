@@ -84,7 +84,7 @@ knit_rmd <- function(path, ..., quiet = FALSE) {
       show = !quiet,
     ),
     error = function(cnd) {
-      abort(
+      rlang::abort(
         c("Failed to render RMarkdown", strsplit(cnd$stderr, "\r?\n")[[1]]),
         parent = cnd
       )
