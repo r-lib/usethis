@@ -274,8 +274,7 @@ tidy_label_colours <- function() {
     "good first issue :heart:" = "CBBAB8",
     "help wanted :heart:" = "C5C295",
     "reprex" = "C5C295",
-    "tidy-dev-day :nerd_face:" = "CBBAB8",
-    "wip" = "E1B996"
+    "tidy-dev-day :nerd_face:" = "CBBAB8"
   )
 }
 
