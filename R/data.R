@@ -42,6 +42,7 @@ use_data <- function(...,
 
   objs <- get_objs_from_dots(dots(...))
 
+  use_dependency("R", "depends", "2.10")
   if (internal) {
     use_directory("R")
     paths <- path("R", "sysdata.rda")
