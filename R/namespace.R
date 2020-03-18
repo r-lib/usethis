@@ -1,11 +1,11 @@
 #' Use a basic `NAMESPACE`
 #'
-#' If `roxygen` is `TRUE` generates a empty `NAMESPACE` that exports nothing;
+#' If `roxygen` is `TRUE` generates an empty `NAMESPACE` that exports nothing;
 #' you'll need to explicitly export functions with `@export`. If `roxygen`
 #' is `FALSE`, generates a default `NAMESPACE` that exports all functions
 #' except those that start with `.`.
 #'
-#' @param roxygen Are you planning to use roxygen2?
+#' @param roxygen Do you plan to manage `NAMESPACE` with roxygen2?
 #' @seealso The [namespace chapter](https://r-pkgs.org/namespace.html) of
 #'   [R Packages](https://r-pkgs.org).
 #' @export
