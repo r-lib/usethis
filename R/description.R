@@ -40,6 +40,7 @@
 #'   personalized defaults using package options
 #' @param check_name Whether to check if the name is valid for CRAN and throw an
 #'   error if not
+#' @param roxygen If `TRUE`, sets `RoxygenNote` to current roxygen2 version.
 #' @seealso The [description chapter](https://r-pkgs.org/description.html#dependencies)
 #'   of [R Packages](https://r-pkgs.org).
 #' @export
@@ -51,13 +52,13 @@
 #'
 #' use_description_defaults()
 #' }
-use_description <- function(fields = list(), check_name = TRUE) {
+use_description <- function(fields = list(), check_name = TRUE, roxygen = TRUE) {
   name <- project_name()
   if (check_name) {
     check_package_name(name)
   }
 
-  desc <- build_description(fields, package = name)
+  desc <- build_description(name, roxygen = roxygen, fields = fields)
   lines <- desc$str(by_field = TRUE, normalize = FALSE, mode = "file")
 
   write_over(proj_path("DESCRIPTION"), lines)
@@ -69,7 +70,7 @@ use_description <- function(fields = list(), check_name = TRUE) {
 #' @rdname use_description
 #' @param package Package name
 #' @export
-use_description_defaults <- function(package = NULL, fields = list()) {
+use_description_defaults <- function(package = NULL, roxygen = TRUE, fields = list()) {
   check_is_named_list(fields)
 
   usethis <- list(
@@ -81,8 +82,10 @@ use_description_defaults <- function(package = NULL, fields = list()) {
     License = "`use_mit_license()`, `use_gpl3_license()` or friends to pick a license",
     Encoding = "UTF-8",
     LazyData = "true",
-    Roxygen = "list(markdown = TRUE)"
+    Roxygen = "list(markdown = TRUE)",
+    RoxygenNote = if (roxygen) utils::packageVersion("roxygen2")
   )
+
   options <- getOption("usethis.description") %||% getOption("devtools.desc") %||% list()
 
   defaults <- utils::modifyList(usethis, options)
@@ -98,8 +101,8 @@ use_description_defaults <- function(package = NULL, fields = list()) {
   compact(defaults)
 }
 
-build_description <- function(fields, package) {
-  fields <- use_description_defaults(package, fields)
+build_description <- function(package, roxygen = TRUE, fields = list()) {
+  fields <- use_description_defaults(package, roxygen = roxygen, fields)
 
   desc <- desc::desc(text = glue("{names(fields)}: {fields}"))
   tidy_desc(desc)

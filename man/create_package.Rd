@@ -9,6 +9,7 @@ create_package(
   path,
   fields = list(),
   rstudio = rstudioapi::isAvailable(),
+  roxygen = TRUE,
   check_name = TRUE,
   open = interactive()
 )
@@ -29,6 +30,8 @@ If \code{FALSE} and a non-package project, a sentinel \code{.here} file is place
 that the directory can be recognized as a project by the
 \href{https://here.r-lib.org}{here} or
 \href{https://rprojroot.r-lib.org}{rprojroot} packages.}
+
+\item{roxygen}{Do you plan to use roxygen2 to document your package?}
 
 \item{check_name}{Whether to check if the name is valid for CRAN and throw an
 error if not}

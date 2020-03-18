@@ -11,6 +11,30 @@
 * `use_description_defaults()` now shows the default fields combined with
   any options that you have set.
 
+* `create_package()` gains a `roxygen` argument. If `TRUE` (the default), 
+  adds a `RoxygenNote` field to the `DESCRIPTION` (which means the first run
+  of `devtools::check()` will re-document the package, #963), and creates an 
+  empty `NAMESPACE` (which means you'll always need an explicit `@export` 
+  if you want to export functions, #927).
+
+* `pr_pull()` gives more information about which files have merge conflicts 
+  and automatically opens conflicted files for editing (#1056).
+
+* `browse_github()` now always goes to the canonical Github site: 
+  `https://github.com/user/repo`. This is slightly worse than the current 
+  behaviour but makes the function more consistent across packages, and 
+  considerably simplifies the implementation.
+
+* `pr_*()` functions automatically refresh RStudio's git pane (#706).
+
+* `pr_finish()` can optionally finish any PR, not just the current (#1040).
+
+* `pr_pause()` and `pr_fetch()` now automatically pull to get latest changes 
+  (#959, #960).
+
+* usethis should do a better job of not messing up UTF-8 files on windows 
+  (#969).
+
 * In `use_travis()`, `use_travis_badge()` and `browse_travis()`, argument `ext`
 now defaults to `"com"` instead of `"ext"`, given travis-ci.com is now
 recommended over travis-ci.org (#1038, @riccardoporreca).

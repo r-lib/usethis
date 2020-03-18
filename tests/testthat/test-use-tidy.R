@@ -7,7 +7,7 @@ test_that("use_tidy_description() alphabetises dependencies", {
   use_package("withr", "Suggests")
   use_package("gh", "Suggests")
   use_tidy_description()
-  desc <- readLines(proj_path("DESCRIPTION"))
+  desc <- read_utf8(proj_path("DESCRIPTION"))
   expect_gt(grep("usethis", desc), grep("desc", desc))
   expect_gt(grep("withr", desc), grep("gh", desc))
 })
@@ -16,8 +16,6 @@ test_that("use_tidy_eval() inserts the template file and Imports rlang", {
   skip_if_not_installed("roxygen2")
 
   pkg <- scoped_temporary_package()
-  ## fake the use of roxygen; this better in a test than use_roxygen_md()
-  use_description_field(name = "RoxygenNote", value = "6.0.1.9000")
   use_tidy_eval()
   expect_match(dir_ls(proj_path("R")), "utils-tidy-eval.R")
   expect_match(desc::desc_get("Imports", pkg), "rlang")
