@@ -31,3 +31,15 @@ test_that("creates everything as promised, args", {
   )
   expect_proj_file(path, "skeleton", "skeleton.Rmd")
 })
+
+# knit_rmd ----------------------------------------------------------------
+
+test_that("doesn't build html file", {
+  scoped_temporary_project()
+  use_readme_rmd()
+
+  knit_rmd("README.Rmd", quiet = TRUE)
+  expect_true(file_exists(proj_path("README.md")))
+  expect_false(file_exists(proj_path("README.html")))
+})
+
