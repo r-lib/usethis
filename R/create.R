@@ -12,7 +12,7 @@
 #' @inheritParams use_description
 #' @param path A path. If it exists, it is used. If it does not exist, it is
 #'   created, provided that the parent path exists.
-#' @param roxygen Are you planning on using roxygen to document your package?
+#' @param roxygen Do you plan to use roxygen2 to document your package?
 #' @param rstudio If `TRUE`, calls [use_rstudio()] to make the new package or
 #'   project into an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects).
