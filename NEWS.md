@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `browse_github()` now always goes to the canonical Github site: 
+  `https://github.com/user/repo`. This is slightly worse than the current 
+  behaviour but makes the function more consistent across packages, and 
+  considerably simplifies the implementation.
+
 * `pr_*()` functions automatically refresh RStudio's git pane (#706).
 
 * `pr_finish()` can optionally finish any PR, not just the current (#1040).
