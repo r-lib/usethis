@@ -180,6 +180,7 @@
 <a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/create_package.html">create_package()</a></code> gains a <code>roxygen</code> argument. If <code>TRUE</code> (the default), adds a <code>RoxygenNote</code> field to the <code>DESCRIPTION</code> (which means the first run of <code>devtools::check()</code> will re-document the package, <a href='https://github.com/r-lib/usethis/issues/963'>#963</a>), and creates an empty <code>NAMESPACE</code> (which means you’ll always need an explicit <code>@export</code> if you want to export functions, <a href='https://github.com/r-lib/usethis/issues/927'>#927</a>).</p></li>
 <li><p><code><a href="../reference/pr_init.html">pr_pull()</a></code> gives more information about which files have merge conflicts and automatically opens conflicted files for editing (<a href='https://github.com/r-lib/usethis/issues/1056'>#1056</a>).</p></li>
 <li><p><code><a href="../reference/browse-this.html">browse_github()</a></code> now always goes to the canonical Github site: <code>https://github.com/user/repo</code>. This is slightly worse than the current behaviour but makes the function more consistent across packages, and considerably simplifies the implementation.</p></li>
 <li><p><code>pr_*()</code> functions automatically refresh RStudio’s git pane (<a href='https://github.com/r-lib/usethis/issues/706'>#706</a>).</p></li>

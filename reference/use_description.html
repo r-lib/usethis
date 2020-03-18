@@ -235,7 +235,7 @@ code to include in <code>.Rprofile</code>:</p><pre><span class='fu'><a href='htt
 
     </div>
 
-    <pre class="usage"><span class='fu'>use_description</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>check_name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>use_description</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>check_name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>roxygen</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='fu'>use_description_defaults</span>()</pre>
 
@@ -252,6 +252,10 @@ personalized defaults using package options</p></td>
       <th>check_name</th>
       <td><p>Whether to check if the name is valid for CRAN and throw an
 error if not</p></td>
+    </tr>
+    <tr>
+      <th>roxygen</th>
+      <td><p>If <code>TRUE</code>, sets <code>RoxygenNote</code> to current roxygen2 version.</p></td>
     </tr>
     </table>
 

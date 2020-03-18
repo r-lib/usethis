@@ -49,8 +49,10 @@
 
 
 <meta property="og:title" content="Use a basic <code>NAMESPACE</code> — use_namespace" />
-<meta property="og:description" content="This NAMESPACE exports everything, except functions that start
-with a .." />
+<meta property="og:description" content="If roxygen is TRUE generates an empty NAMESPACE that exports nothing;
+you'll need to explicitly export functions with @export. If roxygen
+is FALSE, generates a default NAMESPACE that exports all functions
+except those that start with .." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -179,12 +181,22 @@ with a .." />
     </div>
 
     <div class="ref-description">
-    <p>This <code>NAMESPACE</code> exports everything, except functions that start
-with a <code>.</code>.</p>
+    <p>If <code>roxygen</code> is <code>TRUE</code> generates an empty <code>NAMESPACE</code> that exports nothing;
+you'll need to explicitly export functions with <code>@export</code>. If <code>roxygen</code>
+is <code>FALSE</code>, generates a default <code>NAMESPACE</code> that exports all functions
+except those that start with <code>.</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_namespace</span>()</pre>
+    <pre class="usage"><span class='fu'>use_namespace</span>(<span class='kw'>roxygen</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>roxygen</th>
+      <td><p>Do you plan to manage <code>NAMESPACE</code> with roxygen2?</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -195,6 +207,7 @@ with a <code>.</code>.</p>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 
