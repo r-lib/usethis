@@ -40,7 +40,7 @@ git_conflict_report <- function() {
     "There are {length(conflicted)} conflicted files:",
     paste0("* ", conflicted_path)
   ))
-  purrr::walk(conflicted, edit_file)
+  ui_silence(purrr::walk(conflicted, edit_file))
 
   ui_stop(c(
     "Please fix, stage, and commit to continue",
