@@ -41,6 +41,8 @@ release_checklist <- function(version) {
   has_src <- dir_exists(proj_path("src"))
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- file_exists(proj_path("_pkgdown.yml"))
+  has_readme <- file_exists(proj_path("README.Rmd"))
+  has_index <- file_exists(proj_path("index.Rmd"))
 
   todo <- function(x, cond = TRUE) {
     x <- glue(x, .envir = parent.frame())
@@ -53,6 +55,8 @@ release_checklist <- function(version) {
     "",
     todo("Check that description is informative", !on_cran),
     todo("Check licensing of included files", !on_cran),
+    todo("`usethis::knit_rmd('README.Rmd')", has_readme),
+    todo("`usethis::knit_rmd('index.Rmd')", has_index),
     todo("`usethis::use_cran_comments()`", !on_cran),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
