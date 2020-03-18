@@ -49,3 +49,37 @@ use_rmarkdown_template <- function(template_name = "Template Name",
 
   invisible(TRUE)
 }
+
+knit_rmd <- function(path, ..., quiet = FALSE) {
+  path <- proj_path(path)
+  if (!file_exists(path)) {
+    ui_stop("Can't find {ui_path(path)}")
+  }
+
+  args <- list(
+    input = path,
+    output_options = list(html_preview = FALSE),
+    encoding = "UTF-8",
+    envir = globalenv(),
+    ...,
+    quiet = quiet
+  )
+
+  path <- tryCatch(
+    callr::r_safe(
+      function(...) rmarkdown::render(...),
+      args = args,
+      show = !quiet,
+    ),
+    error = function(cnd) {
+      abort(
+        c("Failed to render RMarkdown", strsplit(cnd$stderr, "\r?\n")[[1]]),
+        parent = cnd
+      )
+    }
+  )
+
+
+  invisible(path)
+}
+
