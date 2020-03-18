@@ -291,7 +291,7 @@ choose_protocol <- function() {
 use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
   stopifnot(is_string(name))
   stopifnot(is.null(url) || is_string(url))
-  stopifnot(rlang::is_true(overwrite) || rlang::is_false(overwrite))
+  stopifnot(is_true(overwrite) || is_false(overwrite))
 
   repo <- git_repo()
   remotes <- git_remotes()
@@ -326,7 +326,7 @@ git_remotes <- function() {
 }
 
 git2r_env <- new.env(parent = emptyenv())
-have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
+have_git2r_credentials <- function() env_has(git2r_env, "credentials")
 
 #' Produce or register git credentials
 #'

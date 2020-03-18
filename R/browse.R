@@ -56,7 +56,7 @@ browse_github_pulls <- function(package = NULL, number = NULL) {
 #' @param ext Version of travis to use.
 browse_travis <- function(package = NULL, ext = c("com", "org")) {
   gh <- github_home(package)
-  ext <- rlang::arg_match(ext)
+  ext <- arg_match(ext)
   travis_url <- glue::glue("travis-ci.{ext}")
   view_url(sub("github.com", travis_url, gh))
 }
