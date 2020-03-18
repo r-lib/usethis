@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_git()` will now create initial commit if needed (#852)
+
 * If your package has a `release_bullets()` function which returns a character
   vector (and the package has been loaded with `load_all()`), then 
   `use_release_issue()` will include extra bullets in the issue (#941).
