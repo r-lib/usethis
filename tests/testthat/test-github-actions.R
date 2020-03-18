@@ -47,7 +47,7 @@ test_that("use_github_actions() configures GitHub Actions", {
   )
 
   # Badge is correct
-  readme_lines <- readLines(proj_path("README.md"))
+  readme_lines <- read_utf8(proj_path("README.md"))
   expect_true(any(grepl("R-CMD-check", readme_lines)))
 })
 
@@ -92,7 +92,7 @@ test_that("use_github_action_check_full() configures full GitHub Actions", {
   expect_true(length(yml$jobs[[1]]$strategy$matrix) > 0)
 
   # Badge is correct
-  readme_lines <- readLines(proj_path("README.md"))
+  readme_lines <- read_utf8(proj_path("README.md"))
   expect_true(any(grepl("R-CMD-check", readme_lines)))
 })
 

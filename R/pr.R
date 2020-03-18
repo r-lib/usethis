@@ -149,6 +149,11 @@ pr_fetch <- function(number,
       https = pr$head$repo$clone_url,
       ssh   = pr$head$repo$ssh_url
     )
+
+    if (is.null(url)) {
+      ui_stop("No remote found. Has repo been deleted?")
+    }
+
     ui_done("Adding remote {ui_value(remote)} as {ui_value(url)}")
     git2r::remote_add(git_repo(), remote, url)
     config_key <- glue("remote.{remote}.created-by")
