@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Report working directory and usethis/RStudio project — proj_sitrep • usethis</title>
+<title>Automatically rename paired <code>R/</code> and <code>test/</code> files — rename_files • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -48,17 +48,19 @@
 
 
 
-<meta property="og:title" content="Report working directory and usethis/RStudio project — proj_sitrep" />
-<meta property="og:description" content="proj_sitrep() reports
-current working directory
-the active usethis project
-the active RStudio Project
+<meta property="og:title" content="Automatically rename paired <code>R/</code> and <code>test/</code> files — rename_files" />
+<meta property="og:description" content="
+
+Moves R/{old}.R to R/{new}.R
+Moves tests/testthat/test-{old}.R to tests/testthat/test-{new}.R
+Moves tests/testthat/test-{old}-*.* to tests/testthat/test-{new}-*.*
+and updates paths in the test file.
+Removes context() calls from the test file, which are unnecessary
+(and discouraged) as of testthat v2.1.0.
 
 
-Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and proj_sitrep() provides suggested commands for getting
-back to this happy state." />
+This is a potentially dangerous operation, so you must be using Git in
+order to use this function." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -181,48 +183,43 @@ back to this happy state." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Report working directory and usethis/RStudio project</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/sitrep.R'><code>R/sitrep.R</code></a></small>
-    <div class="hidden name"><code>proj_sitrep.Rd</code></div>
+    <h1>Automatically rename paired <code>R/</code> and <code>test/</code> files</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/r.R'><code>R/r.R</code></a></small>
+    <div class="hidden name"><code>rename_files.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>proj_sitrep()</code> reports</p><ul>
-<li><p>current working directory</p></li>
-<li><p>the active usethis project</p></li>
-<li><p>the active RStudio Project</p></li>
+    
+<ul>
+<li><p>Moves <code>R/{old}.R</code> to <code>R/{new}.R</code></p></li>
+<li><p>Moves <code>tests/testthat/test-{old}.R</code> to <code>tests/testthat/test-{new}.R</code></p></li>
+<li><p>Moves <code>tests/testthat/test-{old}-*.*</code> to <code>tests/testthat/test-{new}-*.*</code>
+and updates paths in the test file.</p></li>
+<li><p>Removes <code>context()</code> calls from the test file, which are unnecessary
+(and discouraged) as of testthat v2.1.0.</p></li>
 </ul>
 
-<p>Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and <code>proj_sitrep()</code> provides suggested commands for getting
-back to this happy state.</p>
+<p>This is a potentially dangerous operation, so you must be using Git in
+order to use this function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>proj_sitrep</span>()</pre>
+    <pre class="usage"><span class='fu'>rename_files</span>(<span class='no'>old</span>, <span class='no'>new</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>old, new</th>
+      <td><p>Old and new file names (with or without extensions).</p></td>
+    </tr>
+    </table>
 
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A named list, with S3 class <code>sitrep</code> (for printing purposes),
-reporting current working directory, active usethis project, and active
-RStudio Project</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other project functions: 
-<code><a href='proj_utils.html'>proj_utils</a></code></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span>()</div><div class='output co'>#&gt; <span class='message'>*   working_directory: <span style='color: #0000BB;'>'/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpKOJmKM/file7bf293cf609/reference'</span><span></span></div><div class='output co'>#&gt; <span class='message'>* active_usethis_proj: </span><span style='color: #0000BB;'>'/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpKOJmKM/file7bf293cf609'</span><span></span></div><div class='output co'>#&gt; <span class='message'>* active_rstudio_proj: </span><span style='color: #555555;'>&lt;unset&gt;</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Your working directory is not the same as the active usethis project.</span>
-#&gt; <span class='message'>  Set working directory to the project: </span><span style='color: #555555;'>`setwd(proj_get())`</span><span></span>
-#&gt; <span class='message'>  Set project to working directory:     </span><span style='color: #555555;'>`proj_set(getwd())`</span><span></span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#arguments">Arguments</a></li>
     </ul>
 
   </div>
