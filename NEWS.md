@@ -1,5 +1,11 @@
 # usethis (development version)
 
+* `create_package()` gains a `roxygen` argument. If `TRUE` (the default), 
+  adds a `RoxygenNote` field to the `DESCRIPTION` (which means the first run
+  of `devtools::check()` will re-document the package, #963), and creates an 
+  empty `NAMESPACE` (which means you'll always need an explicit `@export` 
+  if you want to export functions, #927).
+
 * `pr_pull()` gives more information about which files have merge conflicts 
   and automatically opens conflicted files for editing (#1056).
 
