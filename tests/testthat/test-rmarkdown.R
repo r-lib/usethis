@@ -1,5 +1,3 @@
-context("use_rmarkdown_template")
-
 test_that("use_rmarkdown_template() creates everything as promised, defaults", {
   scoped_temporary_package()
   use_rmarkdown_template()
