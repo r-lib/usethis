@@ -28,7 +28,7 @@ pr_view()
 
 pr_pause()
 
-pr_finish()
+pr_finish(number = NULL)
 }
 \arguments{
 \item{branch}{branch name. Should usually consist of lower case letters,
