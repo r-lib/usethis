@@ -1,5 +1,3 @@
-context("use_description")
-
 test_that("build_description_list() defaults to values built into usethis", {
   withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
   d <- build_description_list()
@@ -57,9 +55,9 @@ test_that("build_description_list(): user's fields > options > defaults", {
 test_that("default description is tidy", {
   withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
   scoped_temporary_package()
-  desc_lines_before <- readLines(proj_path("DESCRIPTION"))
+  desc_lines_before <- read_utf8(proj_path("DESCRIPTION"))
   use_tidy_description()
-  desc_lines_after <- readLines(proj_path("DESCRIPTION"))
+  desc_lines_after <- read_utf8(proj_path("DESCRIPTION"))
   expect_identical(desc_lines_before, desc_lines_after)
 })
 

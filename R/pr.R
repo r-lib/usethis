@@ -77,6 +77,10 @@ pr_init <- function(branch) {
   if (git_branch_name() != branch) {
     ui_done("Switching to branch {ui_value(branch)}")
     git_branch_switch(branch)
+    has_remote_branch <- !is.null(git_branch_tracking_FIXME(branch))
+    if (has_remote_branch) {
+      pr_pull()
+    }
   }
 
   ui_todo("Use {ui_code('pr_push()')} to create PR")
@@ -145,6 +149,11 @@ pr_fetch <- function(number,
       https = pr$head$repo$clone_url,
       ssh   = pr$head$repo$ssh_url
     )
+
+    if (is.null(url)) {
+      ui_stop("No remote found. Has repo been deleted?")
+    }
+
     ui_done("Adding remote {ui_value(remote)} as {ui_value(url)}")
     git2r::remote_add(git_repo(), remote, url)
     config_key <- glue("remote.{remote}.created-by")
@@ -181,6 +190,7 @@ pr_fetch <- function(number,
   if (git_branch_name() != our_branch) {
     ui_done("Switching to branch {ui_value(our_branch)}")
     git_branch_switch(our_branch)
+    pr_pull()
   }
 }
 
@@ -297,11 +307,17 @@ pr_pause <- function() {
 
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
+  pr_pull_upstream()
 }
 
 #' @export
 #' @rdname pr_init
-pr_finish <- function() {
+pr_finish <- function(number = NULL) {
+
+  if (!is.null(number)) {
+    pr_fetch(number)
+  }
+
   check_branch_not_master()
   check_uncommitted_changes()
   check_branch_pushed(use = "pr_push()")
