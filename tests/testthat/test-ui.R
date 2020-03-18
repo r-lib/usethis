@@ -15,7 +15,7 @@ test_that("basic UI actions behave as expected", {
   })
 })
 
-test_that("ui_silence() suppressed output", {
+test_that("ui_silence() suppresses output", {
   # suppress test silencing
   withr::local_options(list(usethis.quiet = FALSE))
 
