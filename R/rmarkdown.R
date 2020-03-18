@@ -51,6 +51,8 @@ use_rmarkdown_template <- function(template_name = "Template Name",
 }
 
 knit_rmd <- function(path, ..., quiet = FALSE) {
+  check_installed("callr")
+
   path <- proj_path(path)
   if (!file_exists(path)) {
     ui_stop("Can't find {ui_path(path)}")

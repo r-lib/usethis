@@ -39,6 +39,7 @@ Imports:
     withr,
     yaml
 Suggests: 
+    callr,
     covr,
     knitr,
     magick,
