@@ -14,7 +14,7 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
   expect_match(desc::desc_get("Imports", pkg), "Rcpp")
   expect_proj_dir("src")
 
-  ignores <- readLines(proj_path("src", ".gitignore"))
+  ignores <- read_utf8(proj_path("src", ".gitignore"))
   expect_true(all(c("*.o", "*.so", "*.dll") %in% ignores))
 })
 
@@ -67,16 +67,16 @@ test_that("use_makevars() respects pre-existing Makevars", {
   writeLines("USE_CXX = CXX11", makevars_file)
   file_copy(makevars_file, makevars_win_file)
 
-  before_makevars_file <- readLines(makevars_file)
-  before_makevars_win_file <- readLines(makevars_win_file)
+  before_makevars_file <- read_utf8(makevars_file)
+  before_makevars_win_file <- read_utf8(makevars_win_file)
 
   makevars_settings <- list(
     "PKG_CXXFLAGS" = "-Wno-reorder"
   )
   use_makevars(makevars_settings)
 
-  expect_identical(before_makevars_file, readLines(makevars_file))
-  expect_identical(before_makevars_win_file, readLines(makevars_win_file))
+  expect_identical(before_makevars_file, read_utf8(makevars_file))
+  expect_identical(before_makevars_win_file, read_utf8(makevars_win_file))
 })
 
 test_that("use_makevars() creates Makevars files with appropriate configuration", {
@@ -89,6 +89,6 @@ test_that("use_makevars() creates Makevars files with appropriate configuration"
 
   makevars_content <- paste0(names(makevars_settings)," = ", makevars_settings)
 
-  expect_identical(makevars_content, readLines(proj_path("src", "Makevars")))
-  expect_identical(makevars_content, readLines(proj_path("src", "Makevars.win")))
+  expect_identical(makevars_content, read_utf8(proj_path("src", "Makevars")))
+  expect_identical(makevars_content, read_utf8(proj_path("src", "Makevars.win")))
 })

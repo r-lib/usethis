@@ -40,6 +40,7 @@
 #'   personalized defaults using package options
 #' @param check_name Whether to check if the name is valid for CRAN and throw an
 #'   error if not
+#' @param roxygen If `TRUE`, sets `RoxygenNote` to current roxygen2 version.
 #' @seealso The [description chapter](https://r-pkgs.org/description.html#dependencies)
 #'   of [R Packages](https://r-pkgs.org).
 #' @export
@@ -51,7 +52,7 @@
 #'
 #' use_description_defaults()
 #' }
-use_description <- function(fields = NULL, check_name = TRUE) {
+use_description <- function(fields = NULL, check_name = TRUE, roxygen = TRUE) {
   name <- project_name()
   if (check_name) {
     check_package_name(name)
@@ -59,6 +60,9 @@ use_description <- function(fields = NULL, check_name = TRUE) {
   fields <- fields %||% list()
   check_is_named_list(fields)
   fields[["Package"]] <- name
+  if (roxygen) {
+    fields[["RoxygenNote"]] <- utils::packageVersion("roxygen2")
+  }
 
   desc <- build_description(fields)
   desc <- desc::description$new(text = desc)

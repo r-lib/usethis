@@ -25,7 +25,7 @@ use_vignette <- function(name, title = name) {
   check_vignette_name(name)
 
   use_dependency("knitr", "Suggests")
-  use_description_field("VignetteBuilder", "knitr")
+  use_description_field("VignetteBuilder", "knitr", overwrite = TRUE)
   use_git_ignore("inst/doc")
 
   use_vignette_template("vignette.Rmd", name, title)

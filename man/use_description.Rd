@@ -5,7 +5,7 @@
 \alias{use_description_defaults}
 \title{Create or modify a DESCRIPTION file}
 \usage{
-use_description(fields = NULL, check_name = TRUE)
+use_description(fields = NULL, check_name = TRUE, roxygen = TRUE)
 
 use_description_defaults()
 }
@@ -16,6 +16,8 @@ personalized defaults using package options}
 
 \item{check_name}{Whether to check if the name is valid for CRAN and throw an
 error if not}
+
+\item{roxygen}{If \code{TRUE}, sets \code{RoxygenNote} to current roxygen2 version.}
 }
 \description{
 \code{use_description()} creates a \code{DESCRIPTION} file. Although mostly associated

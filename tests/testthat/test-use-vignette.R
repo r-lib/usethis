@@ -26,7 +26,7 @@ test_that("use_vignette() does the promised setup", {
   scoped_temporary_package()
   use_vignette("name", "title")
 
-  ignores <- readLines(proj_path(".gitignore"), warn = FALSE)
+  ignores <- read_utf8(proj_path(".gitignore"))
   expect_true("inst/doc" %in% ignores)
 
   deps <- desc::desc_get_deps(proj_get())
