@@ -7,10 +7,10 @@
 use_namespace(roxygen = TRUE)
 }
 \arguments{
-\item{roxygen}{Are you planning to use roxygen2?}
+\item{roxygen}{Do you plan to manage \code{NAMESPACE} with roxygen2?}
 }
 \description{
-If \code{roxygen} is \code{TRUE} generates a empty \code{NAMESPACE} that exports nothing;
+If \code{roxygen} is \code{TRUE} generates an empty \code{NAMESPACE} that exports nothing;
 you'll need to explicitly export functions with \verb{@export}. If \code{roxygen}
 is \code{FALSE}, generates a default \code{NAMESPACE} that exports all functions
 except those that start with \code{.}.

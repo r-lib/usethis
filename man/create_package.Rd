@@ -31,7 +31,7 @@ that the directory can be recognized as a project by the
 \href{https://here.r-lib.org}{here} or
 \href{https://rprojroot.r-lib.org}{rprojroot} packages.}
 
-\item{roxygen}{Are you planning on using roxygen to document your package?}
+\item{roxygen}{Do you plan to use roxygen2 to document your package?}
 
 \item{check_name}{Whether to check if the name is valid for CRAN and throw an
 error if not}
