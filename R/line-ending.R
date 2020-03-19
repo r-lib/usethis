@@ -26,8 +26,9 @@ proj_line_ending <- function() {
     }
   }
 
-  # Then give up
-  "\n"
+  # Then give up - this is used (for example), when writing the
+  # first file into the package
+  if (.Platform$OS.type == "windows") "\r\n" else "\n"
 }
 
 detect_line_ending <- function(path) {

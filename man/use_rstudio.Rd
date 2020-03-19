@@ -4,7 +4,10 @@
 \alias{use_rstudio}
 \title{Add RStudio Project infrastructure}
 \usage{
-use_rstudio()
+use_rstudio(os = .Platform$OS.type)
+}
+\arguments{
+\item{os}{Operating system; used to set default line endings.}
 }
 \description{
 It is likely that you want to use \code{\link[=create_project]{create_project()}} or \code{\link[=create_package]{create_package()}}

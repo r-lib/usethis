@@ -10,11 +10,12 @@
 #'   * Adds RStudio files to `.gitignore`
 #'   * Adds RStudio files to `.Rbuildignore`, if project is a package
 #'
+#' @param os Operating system; used to set default line endings.
 #' @export
-use_rstudio <- function() {
+use_rstudio <- function(os = .Platform$OS.type) {
   rproj_file <- paste0(project_name(), ".Rproj")
   new <- use_template("template.Rproj", rproj_file,
-    data = list(line_ending = line_ending())
+    data = list(line_ending = line_ending(os))
   )
 
   use_git_ignore(".Rproj.user")
