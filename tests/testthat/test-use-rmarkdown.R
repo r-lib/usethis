@@ -1,6 +1,6 @@
-# use_rmarkdown_template() ------------------------------------------------
+context("use_rmarkdown_template")
 
-test_that("creates everything as promised, defaults", {
+test_that("use_rmarkdown_template() creates everything as promised, defaults", {
   scoped_temporary_package()
   use_rmarkdown_template()
   path <- path("inst", "rmarkdown", "templates", "template-name")
@@ -14,7 +14,7 @@ test_that("creates everything as promised, defaults", {
   expect_proj_file(path, "skeleton", "skeleton.Rmd")
 })
 
-test_that("creates everything as promised, args", {
+test_that("use_rmarkdown_template() creates everything as promised, args", {
   scoped_temporary_package()
   use_rmarkdown_template(
     template_name = "aaa",
@@ -31,15 +31,3 @@ test_that("creates everything as promised, args", {
   )
   expect_proj_file(path, "skeleton", "skeleton.Rmd")
 })
-
-# knit_rmd ----------------------------------------------------------------
-
-test_that("doesn't build html file", {
-  scoped_temporary_project()
-  use_readme_rmd()
-
-  knit_rmd("README.Rmd", quiet = TRUE)
-  expect_true(file_exists(proj_path("README.md")))
-  expect_false(file_exists(proj_path("README.html")))
-})
-
