@@ -75,6 +75,18 @@ browse_cran <- function(package = NULL) {
   view_url(cran_home(package))
 }
 
+github_url_rx <- function() {
+  paste0(
+    "^",
+    "(?:https?://github.com/)",
+    "(?<owner>[^/]+)/",
+    "(?<repo>[^/#]+)",
+    "/?",
+    "(?<fragment>.*)",
+    "$"
+  )
+}
+
 # gets at most one GitHub link from BugReports/URL fields;
 # always creates canonical GitHub url, even if the maintainer specified
 # something else
@@ -105,16 +117,7 @@ github_home <- function(package = NULL) {
     return(glue("https://github.com/cran/{package}"))
   }
 
-  re <- paste0(
-    "^",
-    "(?:https?://github.com/)",
-    "(?<owner>[^/]+)/",
-    "(?<repo>[^/#]+)",
-    "/?",
-    "(?<fragment>.*)",
-    "$"
-  )
-  remote <- rematch2::re_match(gh_links[[1]], re)
+  remote <- rematch2::re_match(gh_links[[1]], github_url_rx())
   glue("https://github.com/{remote$owner}/{remote$repo}")
 }
 

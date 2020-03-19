@@ -362,8 +362,8 @@ modify_dropbox_url <- function(url) {
 }
 
 modify_github_url <- function(url) {
-  df <- re_match_inline(url, github_url_rx())
-  glue::glue_data(df, "https://github.com/{owner}/{repo}/archive/master.zip")
+  df <- rematch2::re_match(url, github_url_rx())
+  glue("https://github.com/{df$owner}/{df$repo}/archive/master.zip")
 }
 
 hopeless_url <- function(url) {
