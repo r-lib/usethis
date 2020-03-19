@@ -62,19 +62,19 @@ use_remote <- function(package) {
 
 # Helpers -----------------------------------------------------------------
 
-## TO DO: make this less hard-wired to GitHub
 package_remote <- function(package) {
   desc <- desc::desc(package = package)
-  # @jimhester and @gaborscardi say that the Github* fields are basically
-  # legacy, e.g., to support older tools like packrat
-  # Remote* fields are the way to go now
-  github_info <- desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo"))
+  remote_info <- desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo"))
 
-  if (!identical(github_info[["RemoteType"]], "github")) {
-    ui_stop("{ui_value(package)} was not installed from GitHub.")
+
+  # Check Remote{Type,Username,Repo} are all non-na scalar strings
+  is_valid_remote <- all(purrr::map_lgl(remote_info,
+                                        ~ rlang::is_string(.x) && !is.na(.x)))
+  if (!is_valid_remote) {
+    ui_stop("{ui_value(package)} was not installed from a supported remote.")
   }
 
-  glue::glue_data(as.list(github_info), "{RemoteUsername}/{RemoteRepo}")
+  glue::glue_data(as.list(remote_info), "{RemoteType}::{RemoteUsername}/{RemoteRepo}")
 }
 
 refuse_package <- function(package, verboten) {
