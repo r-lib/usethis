@@ -42,7 +42,6 @@ release_checklist <- function(version, on_cran) {
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- file_exists(proj_path("_pkgdown.yml"))
   has_readme <- file_exists(proj_path("README.Rmd"))
-  has_index <- file_exists(proj_path("index.Rmd"))
   has_extra <- exists("release_bullets", parent.env(globalenv()))
 
   todo <- function(x, cond = TRUE) {
