@@ -8,7 +8,8 @@
 create_download_url(url)
 }
 \arguments{
-\item{url}{a DropBox or Google Drive URL as copied from a web browser.}
+\item{url}{a GitHub, DropBox, or Google Drive URL, as copied from a web
+browser.}
 
 \item{destdir}{Path to existing local directory where the ZIP file will be
 stored. Defaults to current working directory, but note that \code{\link[=use_course]{use_course()}}
@@ -73,12 +74,15 @@ for \code{tidy_download()}. After one or more redirections, this link will
 eventually lead to a download URL. Here's an alternative link that also leads
 to ZIP download, albeit with a different filenaming scheme:\preformatted{https://api.github.com/repos/r-lib/usethis/zipball/master
 }
+
+You can use \code{create_download_url()} to create the "Download ZIP" URL from
+a typical GitHub browser URL.
 }
 
 \subsection{Google Drive}{
 
 To our knowledge, it is not possible to download a Google Drive folder as a
-ZIP archive. It is however possible to share a ZIP file stored in Google
+ZIP archive. It is however possible to share a ZIP file stored on Google
 Drive. To get its URL, click on "Get the shareable link" (within the "Share"
 menu). This URL doesn't allow for direct download, as it's designed to be
 processed in a web browser first. Such a sharing link looks like:\preformatted{https://drive.google.com/open?id=123456789xxyyyzzz
@@ -130,8 +134,15 @@ tidy_download("https://github.com/r-lib/rematch2/archive/master.zip")
 tidy_download("https://github.com/r-lib/rematch2/archive/master.zip")
 tidy_unzip("rematch2-master.zip")
 }
+# GitHub
+create_download_url("https://github.com/r-lib/usethis")
+create_download_url("https://github.com/r-lib/usethis/issues")
+
+# DropBox
+create_download_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0")
+
+# Google Drive
 create_download_url("https://drive.google.com/open?id=123456789xxyyyzzz")
 create_download_url("https://drive.google.com/open?id=123456789xxyyyzzz/view")
-create_download_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0")
 }
 \keyword{internal}

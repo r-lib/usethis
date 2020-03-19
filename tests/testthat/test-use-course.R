@@ -63,7 +63,7 @@ test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
 
 ## helpers ----
 test_that("create_download_url() works", {
-  expect_identical(
+  expect_equal(
     create_download_url("https://rstudio.com"),
     "https://rstudio.com"
   )
@@ -80,6 +80,21 @@ test_that("create_download_url() works", {
   expect_equal(
     create_download_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0"),
     "https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1"
+  )
+
+  # GitHub
+  usethis_url <- "https://github.com/r-lib/usethis/archive/master.zip"
+  expect_equal(
+    create_download_url("https://github.com/r-lib/usethis"),
+    usethis_url
+  )
+  expect_equal(
+    create_download_url("https://github.com/r-lib/usethis/issues"),
+    usethis_url
+  )
+  expect_equal(
+    create_download_url("https://github.com/r-lib/usethis#readme"),
+    usethis_url
   )
 })
 

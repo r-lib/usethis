@@ -16,7 +16,8 @@
 #'     * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
 #'       The instructor must then arrange for the shortlink to point to a valid
 #'       download URL for the target ZIP file. The helper
-#'       [create_download_url()] can help create these URLs.
+#'       [create_download_url()] help create such URLs for GitHub, DropBox,
+#'       and Google Drive.
 #' @param destdir The new folder is stored here. If `NULL`, defaults to user's
 #'   Desktop or some other conspicuous place.
 #' @param cleanup Whether to delete the original ZIP file after unpacking its
@@ -161,11 +162,13 @@ use_zip <- function(url,
 #' https://api.github.com/repos/r-lib/usethis/zipball/master
 #' ```
 #'
+#' You can use `create_download_url()` to create the "Download ZIP" URL from
+#' a typical GitHub browser URL.
+#'
 #' ## Google Drive
 #'
-
 #' To our knowledge, it is not possible to download a Google Drive folder as a
-#' ZIP archive. It is however possible to share a ZIP file stored in Google
+#' ZIP archive. It is however possible to share a ZIP file stored on Google
 #' Drive. To get its URL, click on "Get the shareable link" (within the "Share"
 #' menu). This URL doesn't allow for direct download, as it's designed to be
 #' processed in a web browser first. Such a sharing link looks like:
@@ -303,11 +306,19 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
 }
 
 #' @rdname use_course_details
-#' @param url a DropBox or Google Drive URL as copied from a web browser.
+#' @param url a GitHub, DropBox, or Google Drive URL, as copied from a web
+#'   browser.
 #' @examples
+#' # GitHub
+#' create_download_url("https://github.com/r-lib/usethis")
+#' create_download_url("https://github.com/r-lib/usethis/issues")
+#'
+#' # DropBox
+#' create_download_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0")
+#'
+#' # Google Drive
 #' create_download_url("https://drive.google.com/open?id=123456789xxyyyzzz")
 #' create_download_url("https://drive.google.com/open?id=123456789xxyyyzzz/view")
-#' create_download_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0")
 #' @export
 create_download_url <- function(url) {
   stopifnot(is_string(url))
@@ -318,6 +329,7 @@ create_download_url <- function(url) {
     classify_url(url),
     drive   = modify_drive_url(url),
     dropbox = modify_dropbox_url(url),
+    github  = modify_github_url(url),
     hopeless_url(url)
   )
 }
@@ -328,6 +340,9 @@ classify_url <- function(url) {
   }
   if (grepl("dropbox.com/sh", url)) {
     return("dropbox")
+  }
+  if (grepl("github.com", url)) {
+    return("github")
   }
   "unknown"
 }
@@ -344,6 +359,11 @@ modify_drive_url <- function(url) {
 
 modify_dropbox_url <- function(url) {
   gsub("dl=0", "dl=1", url)
+}
+
+modify_github_url <- function(url) {
+  df <- re_match_inline(url, github_url_rx())
+  glue::glue_data(df, "https://github.com/{owner}/{repo}/archive/master.zip")
 }
 
 hopeless_url <- function(url) {
