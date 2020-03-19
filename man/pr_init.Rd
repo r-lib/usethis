@@ -28,7 +28,7 @@ pr_view()
 
 pr_pause()
 
-pr_finish()
+pr_finish(number = NULL)
 }
 \arguments{
 \item{branch}{branch name. Should usually consist of lower case letters,
@@ -63,7 +63,8 @@ use \code{pr_init()} to create a branch for your PR (\strong{never} submit a PR 
 the \code{master} branch). You'll then work locally, making changes to files and
 checking them into git. Once you're ready to submit, run \code{pr_push()} to push
 your local branch to GitHub, and open a webpage that lets you initiate the
-PR. To learn more about the process of making a pull request, read the \href{https://usethis.r-lib.org/articles/articles/pr-functions.html}{Pull Request Helpers}
+PR (or draft PR). To learn more about the process of making a pull request,
+read the \href{https://usethis.r-lib.org/articles/articles/pr-functions.html}{Pull Request Helpers}
 vignette.
 
 If you are lucky, your PR will be perfect, and the maintainer will accept

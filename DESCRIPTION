@@ -21,7 +21,7 @@ Depends:
     R (>= 3.2)
 Imports: 
     clipr (>= 0.3.0),
-    clisymbols,
+    cli,
     crayon,
     curl (>= 2.7),
     desc,
@@ -30,7 +30,8 @@ Imports:
     git2r (>= 0.23),
     glue (>= 1.3.0),
     purrr,
-    rlang (>= 0.4.2),
+    rematch2,
+    rlang (>= 0.4.3),
     rprojroot (>= 1.2),
     rstudioapi,
     stats,
@@ -46,7 +47,7 @@ Suggests:
     rmarkdown,
     roxygen2,
     spelling (>= 1.2),
-    styler (>= 1.0.2),
+    styler (>= 1.2.0),
     testthat (>= 2.1.0)
 Encoding: UTF-8
 Language: en-US

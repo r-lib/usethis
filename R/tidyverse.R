@@ -10,7 +10,7 @@
 #' of the tidyverse conventions as possible, issues a few reminders, and
 #' activates the new package.
 #'
-#' * `use_tidy_ci()`: sets up [Travis CI](https://travis-ci.org) and
+#' * `use_tidy_ci()`: sets up [Travis CI](https://travis-ci.com) and
 #' [Codecov](https://codecov.io), ensuring that the package is actively tested
 #' on the versions of R officially supported by the Tidyverse (current release,
 #' devel, and four previous versions). It also ignores `compat-` and `deprec-`
@@ -216,7 +216,7 @@ use_tidy_style <- function(strict = TRUE) {
       strict = strict
     )
   }
-  cat_line()
+  ui_line()
   ui_done("Styled project according to the tidyverse style guide")
   invisible(styled)
 }

@@ -121,7 +121,7 @@ in_rstudio_server <- function() {
 }
 
 parse_rproj <- function(file) {
-  lines <- as.list(readLines(file, encoding = "UTF-8"))
+  lines <- as.list(read_utf8(file))
   has_colon <- grepl(":", lines)
   fields <- lapply(lines[has_colon], function(x) strsplit(x, split = ": ")[[1]])
   lines[has_colon] <- vapply(fields, `[[`, "character", 2)
@@ -162,4 +162,11 @@ restart_rstudio <- function(message = NULL) {
   }
 
   rstudioapi::openProject(proj_get())
+}
+
+rstudio_git_tickle <- function() {
+  if (rstudioapi::hasFun("executeCommand")) {
+    rstudioapi::executeCommand("vcsRefresh")
+  }
+  invisible()
 }

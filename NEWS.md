@@ -1,5 +1,57 @@
 # usethis (development version)
 
+* New `ui_silence()` makes it easier to selectively silence some UI output.
+
+* New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
+  (#784).
+
+* `create_package()` no longer fails partway through if you have a malformed
+  `usethis.description` option (#961).
+  
+* In `usethis.description`, you can now set `Authors@R = person()` directly,
+  without having to wrap in additional layer of quotes. If setting this in
+  your `.Rprofile`, you'll need to use `utils::person` since the utils 
+  package isn't loaded until after your profile is executed.
+
+* `use_description_defaults()` now shows the default fields combined with
+  any options that you have set.
+
+* `use_git()` will now create initial commit if needed (#852)
+
+* If your package has a `release_bullets()` function which returns a character
+  vector (and the package has been loaded with `load_all()`), then 
+  `use_release_issue()` will include extra bullets in the issue (#941).
+
+* `use_data()` automatically bumps R dependency to 2.10 (#962).
+
+* `create_package()` gains a `roxygen` argument. If `TRUE` (the default), 
+  adds a `RoxygenNote` field to the `DESCRIPTION` (which means the first run
+  of `devtools::check()` will re-document the package, #963), and creates an 
+  empty `NAMESPACE` (which means you'll always need an explicit `@export` 
+  if you want to export functions, #927).
+
+* `pr_pull()` gives more information about which files have merge conflicts 
+  and automatically opens conflicted files for editing (#1056).
+
+* `browse_github()` now always goes to the canonical Github site: 
+  `https://github.com/user/repo`. This is slightly worse than the current 
+  behaviour but makes the function more consistent across packages, and 
+  considerably simplifies the implementation.
+
+* `pr_*()` functions automatically refresh RStudio's git pane (#706).
+
+* `pr_finish()` can optionally finish any PR, not just the current (#1040).
+
+* `pr_pause()` and `pr_fetch()` now automatically pull to get latest changes 
+  (#959, #960).
+
+* usethis should do a better job of not messing up UTF-8 files on windows 
+  (#969).
+
+* In `use_travis()`, `use_travis_badge()` and `browse_travis()`, argument `ext`
+now defaults to `"com"` instead of `"ext"`, given travis-ci.com is now
+recommended over travis-ci.org (#1038, @riccardoporreca).
+
 * `pr_push()` works with gh v1.1.0 (and earlier versions), for a repository with no open pull requests (#990, @maurolepore).
 
 * New `use_github_actions()`, `use_github_action_check_release()`, `use_github_action_check_full()`,
@@ -72,6 +124,8 @@
 * Adds AGPL license and explicitly refers to it and to LGPL in DESCRIPTION (#870, @pachamaltese)
 
 * Export `use_circleci_badge()` (#920, @pat-s)
+
+* `use_github_release()` now tags the latest local commit instead of the latest remote commit on the default branch (#1029, @davidchall)
 
 # usethis 1.5.1
 

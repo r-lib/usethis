@@ -37,7 +37,7 @@ use_github_action <- function(name,
     save_as <- basename(url)
   }
 
-  contents <- readLines(url)
+  contents <- read_utf8(url)
 
 
   use_dot_github(ignore = ignore)

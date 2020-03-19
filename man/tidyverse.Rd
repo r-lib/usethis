@@ -76,7 +76,7 @@ versions of R.
 \item \code{create_tidy_package()}: creates a new package, immediately applies as many
 of the tidyverse conventions as possible, issues a few reminders, and
 activates the new package.
-\item \code{use_tidy_ci()}: sets up \href{https://travis-ci.org}{Travis CI} and
+\item \code{use_tidy_ci()}: sets up \href{https://travis-ci.com}{Travis CI} and
 \href{https://codecov.io}{Codecov}, ensuring that the package is actively tested
 on the versions of R officially supported by the Tidyverse (current release,
 devel, and four previous versions). It also ignores \verb{compat-} and \verb{deprec-}

@@ -13,7 +13,7 @@
 #' * `browse_github_pulls()`: Visits the GitHub Pull Request index or one
 #' specific pull request.
 #' * `browse_travis()`: Visits the package's page on [Travis
-#' CI](https://travis-ci.org).
+#' CI](https://travis-ci.com).
 #' * `browse_circleci()`: Visits the package's page on [Circle
 #' CI](https://circleci.com)
 #' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.
@@ -35,7 +35,7 @@ NULL
 #' @export
 #' @rdname browse-this
 browse_github <- function(package = NULL) {
-  view_url(github_link(package))
+  view_url(github_home(package))
 }
 
 #' @export
@@ -54,9 +54,9 @@ browse_github_pulls <- function(package = NULL, number = NULL) {
 #' @export
 #' @rdname browse-this
 #' @param ext Version of travis to use.
-browse_travis <- function(package = NULL, ext = c("org", "com")) {
+browse_travis <- function(package = NULL, ext = c("com", "org")) {
   gh <- github_home(package)
-  ext <- rlang::arg_match(ext)
+  ext <- arg_match(ext)
   travis_url <- glue::glue("travis-ci.{ext}")
   view_url(sub("github.com", travis_url, gh))
 }
@@ -75,39 +75,37 @@ browse_cran <- function(package = NULL) {
   view_url(cran_home(package))
 }
 
-## gets at most one GitHub link from the URL field of DESCRIPTION
-## strips any trailing slash
-## respects the URL given by maintainer, e.g.
-## "https://github.com/simsem/semTools/wiki" <-- note the "wiki" part
-## "https://github.com/r-lib/gh#readme" <-- note trailing "#readme"
-github_link <- function(package = NULL) {
+# gets at most one GitHub link from BugReports/URL fields;
+# always creates canonical GitHub url, even if the maintainer specified
+# something else
+github_home <- function(package = NULL) {
   if (is.null(package)) {
+    remote <- github_upstream() %||% github_origin()
+    if (!is.null(remote)) {
+      return(glue("https://github.com/{remote$owner}/{remote$repo}"))
+    }
+
     desc <- desc::desc(proj_get())
+    package <- project_name()
   } else {
     desc <- desc::desc(package = package)
   }
 
-  urls <- desc$get_urls()
+  urls <- c(
+    desc$get_field("BugReports", default = character()),
+    desc$get_urls()
+  )
   gh_links <- grep("^https?://github.com/", urls, value = TRUE)
 
   if (length(gh_links) == 0) {
-    ui_warn("
-      Package does not provide a GitHub URL.
-      Falling back to GitHub CRAN mirror")
+    ui_warn(c(
+      "Package does not provide a GitHub URL.",
+      "Falling back to GitHub CRAN mirror"
+    ))
     return(glue("https://github.com/cran/{package}"))
   }
 
-  gsub("/$", "", gh_links[[1]])
-}
-
-cran_home <- function(package = NULL) {
-  package <- package %||% project_name()
-
-  glue("https://cran.r-project.org/package={package}")
-}
-
-github_url_rx <- function() {
-  paste0(
+  re <- paste0(
     "^",
     "(?:https?://github.com/)",
     "(?<owner>[^/]+)/",
@@ -116,48 +114,12 @@ github_url_rx <- function() {
     "(?<fragment>.*)",
     "$"
   )
+  remote <- rematch2::re_match(gh_links[[1]], re)
+  glue("https://github.com/{remote$owner}/{remote$repo}")
 }
 
-## takes URL return by github_link() and strips it down to support
-## appending path parts for issues or pull requests
-##  input: "https://github.com/simsem/semTools/wiki"
-## output: "https://github.com/simsem/semTools"
-##  input: "https://github.com/r-lib/gh#readme"
-## output: "https://github.com/r-lib/gh"
-github_home <- function(package = NULL) {
-  gh_link <- github_link(package)
-  df <- re_match_inline(gh_link, github_url_rx())
-  glue("https://github.com/{df$owner}/{df$repo}")
-}
+cran_home <- function(package = NULL) {
+  package <- package %||% project_name()
 
-## inline a simplified version of rematch2::re_match()
-re_match_inline <- function(text, pattern) {
-  match <- regexpr(pattern, text, perl = TRUE)
-  start <- as.vector(match)
-  length <- attr(match, "match.length")
-  end <- start + length - 1L
-
-  matchstr <- substring(text, start, end)
-  matchstr[ start == -1 ] <- NA_character_
-
-  res <- data.frame(
-    stringsAsFactors = FALSE,
-    .text = text,
-    .match = matchstr
-  )
-
-  if (!is.null(attr(match, "capture.start"))) {
-    gstart <- attr(match, "capture.start")
-    glength <- attr(match, "capture.length")
-    gend <- gstart + glength - 1L
-
-    groupstr <- substring(text, gstart, gend)
-    groupstr[ gstart == -1 ] <- NA_character_
-    dim(groupstr) <- dim(gstart)
-
-    res <- cbind(groupstr, res, stringsAsFactors = FALSE)
-  }
-
-  names(res) <- c(attr(match, "capture.names"), ".text", ".match")
-  res
+  glue("https://cran.r-project.org/package={package}")
 }

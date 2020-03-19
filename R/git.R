@@ -11,17 +11,21 @@
 #' use_git()
 #' }
 use_git <- function(message = "Initial commit") {
-  if (uses_git()) {
-    return(invisible())
+  needs_init <- !uses_git()
+  if (needs_init) {
+    ui_done("Initialising Git repo")
+    git_init()
   }
 
-  ui_done("Initialising Git repo")
-  git_init()
-
   use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
-  git_ask_commit(message, untracked = TRUE)
+  if (git_uncommitted(untracked = TRUE)) {
+    git_ask_commit(message, untracked = TRUE)
+  }
 
-  restart_rstudio("A restart of RStudio is required to activate the Git pane")
+  if (needs_init) {
+    restart_rstudio("A restart of RStudio is required to activate the Git pane")
+  }
+
   invisible(TRUE)
 }
 
@@ -49,13 +53,21 @@ git_ask_commit <- function(message, untracked = FALSE) {
   ))
 
   if (ui_yeah("Is it ok to commit them?")) {
-    ui_done("Adding files")
-    repo <- git_repo()
-    git2r::add(repo, paths)
-    ui_done("Commit with message {ui_value(message)}")
-    git2r::commit(repo, message)
+    git_commit(paths, message)
   }
   invisible()
+}
+
+git_commit <- function(paths, message) {
+  ui_done("Adding files")
+  repo <- git_repo()
+  git2r::add(repo, paths)
+  ui_done("Commit with message {ui_value(message)}")
+  git2r::commit(repo, message)
+}
+
+git_has_commits <- function() {
+  length(git2r::commits(n = 1, repo = git_repo())) > 0
 }
 
 #' Add a git hook
@@ -291,7 +303,7 @@ choose_protocol <- function() {
 use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
   stopifnot(is_string(name))
   stopifnot(is.null(url) || is_string(url))
-  stopifnot(rlang::is_true(overwrite) || rlang::is_false(overwrite))
+  stopifnot(is_true(overwrite) || is_false(overwrite))
 
   repo <- git_repo()
   remotes <- git_remotes()
@@ -326,7 +338,7 @@ git_remotes <- function() {
 }
 
 git2r_env <- new.env(parent = emptyenv())
-have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
+have_git2r_credentials <- function() env_has(git2r_env, "credentials")
 
 #' Produce or register git credentials
 #'
@@ -532,7 +544,7 @@ git_sitrep <- function() {
   ## TODO: rework when ui_*() functions make it possible to do better
   branch <- if (is.null(branch)) "<unset>" else branch
   tracking_branch <- if (is.null(tracking_branch)) "<unset>" else tracking_branch
-  cat_line("* ", "Local branch -> remote tracking branch: ",
+  ui_inform("* ", "Local branch -> remote tracking branch: ",
            ui_value(branch), " -> ", ui_value(tracking_branch))
 
   # PR outlook -------------------------------------------------------------
@@ -630,7 +642,7 @@ git_vaccinated <- function() {
     return(FALSE)
   }
 
-  lines <- readLines(path)
+  lines <- read_utf8(path)
   all(git_global_ignore %in% lines)
 }
 
