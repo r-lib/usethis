@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_testthat()` and `use_test()` now works in projects, not just packages 
+  (#1017).
+
 * `use_release_issue()` reminds you to use it to re-generate `README.md`,
   if needed (#767).
 

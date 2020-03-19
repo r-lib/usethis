@@ -10,6 +10,10 @@ test_that("use_test() creates a test file", {
   expect_proj_file("tests", "testthat", "test-foo.R")
 })
 
+test_that("can use use_test() in a project", {
+  scoped_temporary_project()
+  expect_error(use_test("foofy"), NA)
+})
 
 # rename_files ------------------------------------------------------------
 
