@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_dev_package` now supports any remote of the form `type::username/repo` (@antoine-sachet, #1071)
+
 * New `ui_silence()` makes it easier to selectively silence some UI output.
 
 * New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
