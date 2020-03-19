@@ -62,3 +62,12 @@ test_that("trims blank lines when extracting bullets", {
   )
   expect_equal(news_latest(lines), "Contents 1\n")
 })
+
+test_that("returns empty string if no bullets", {
+  lines <- c(
+    "# Heading",
+    "",
+    "# Heading"
+  )
+  expect_equal(news_latest(lines), "")
+})

@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_github_release()` no longer fails if you have no news bullets (#1048).
+
 * `use_release_issue()` reminds you to use it to re-generate `README.md`,
   if needed (#767).
 

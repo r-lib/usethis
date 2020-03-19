@@ -173,6 +173,10 @@ news_latest <- function(lines) {
 
   # Remove leading and trailing empty lines
   text <- which(news != "")
+  if (length(text) == 0) {
+    return("")
+  }
+
   news <- news[text[[1]]:text[[length(text)]]]
 
   paste0(news, "\n", collapse = "")
