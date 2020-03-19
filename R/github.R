@@ -321,7 +321,7 @@ have_github_token <- function(auth_token = github_token()) {
 check_github_token <- function(auth_token = github_token(),
                                allow_empty = FALSE) {
 
-  if (!pingr::is_online()) {
+  if (!is_online("github.com")) {
     ui_stop("Internet connection is not available")
   }
 
