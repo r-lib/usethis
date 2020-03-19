@@ -13,7 +13,9 @@
 #' @export
 use_rstudio <- function() {
   rproj_file <- paste0(project_name(), ".Rproj")
-  new <- use_template("template.Rproj", rproj_file)
+  new <- use_template("template.Rproj", rproj_file,
+    data = list(line_ending = line_ending())
+  )
 
   use_git_ignore(".Rproj.user")
   if (is_package()) {
@@ -21,6 +23,10 @@ use_rstudio <- function() {
   }
 
   invisible(new)
+}
+
+line_ending <- function(os = .Platform$OS.type) {
+  if (os == "windows") "Windows" else "Posix"
 }
 
 #' Don't save/load user workspace between sessions
