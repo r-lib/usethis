@@ -4,6 +4,49 @@
   `use_release_issue()` reminds you to use it to re-generate `README.md`
   and `index.md`, if needed.
 
+* `create_download_url()` is a new helper for making "ZIP file download" 
+  URLs suitable for use with `use_course()` and `use_zip()`, starting with the
+  URLs that mere mortals can usually get their hands on in a browser
+  (#406, @fmichonneau).
+
+* New `ui_silence()` makes it easier to selectively silence some UI output.
+
+* New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
+  (#784).
+
+* `create_package()` no longer fails partway through if you have a malformed
+  `usethis.description` option (#961).
+  
+* In `usethis.description`, you can now set `Authors@R = person()` directly,
+  without having to wrap in additional layer of quotes. If setting this in
+  your `.Rprofile`, you'll need to use `utils::person` since the utils 
+  package isn't loaded until after your profile is executed.
+
+* `use_description_defaults()` now shows the default fields combined with
+  any options that you have set.
+
+* `use_git()` will now create initial commit if needed (#852)
+
+* If your package has a `release_bullets()` function which returns a character
+  vector (and the package has been loaded with `load_all()`), then 
+  `use_release_issue()` will include extra bullets in the issue (#941).
+
+* `use_data()` automatically bumps R dependency to 2.10 (#962).
+
+* `create_package()` gains a `roxygen` argument. If `TRUE` (the default), 
+  adds a `RoxygenNote` field to the `DESCRIPTION` (which means the first run
+  of `devtools::check()` will re-document the package, #963), and creates an 
+  empty `NAMESPACE` (which means you'll always need an explicit `@export` 
+  if you want to export functions, #927).
+
+* `pr_pull()` gives more information about which files have merge conflicts 
+  and automatically opens conflicted files for editing (#1056).
+
+* `browse_github()` now always goes to the canonical Github site: 
+  `https://github.com/user/repo`. This is slightly worse than the current 
+  behaviour but makes the function more consistent across packages, and 
+  considerably simplifies the implementation.
+
 * `pr_*()` functions automatically refresh RStudio's git pane (#706).
 
 * `pr_finish()` can optionally finish any PR, not just the current (#1040).

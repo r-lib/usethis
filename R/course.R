@@ -5,15 +5,19 @@
 #' Functions to download and unpack a ZIP file into a local folder of files,
 #' with very intentional default behaviour. Useful in pedagogical settings or
 #' anytime you need a large audience to download a set of files quickly and
-#' actually be able to find them.
+#' actually be able to find them. The underlying helpers are documented in
+#' [use_course_details].
 #'
-#' @param url Link to a ZIP file containing the materials. Various short forms
-#'   are accepted, to reduce the typing burden in live settings:
+#' @param url Link to a ZIP file containing the materials. To reduce the chance
+#'   of typos in live settings, these shorter forms are accepted:
 #'
-#'     * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy"
-#'     * GitHub repo spec: "OWNER/REPO"
-#'   Function works well with DropBox folders and GitHub repos, but should work
-#'   for ZIP files generally. See examples and [use_course_details] for more.
+#'     * GitHub repo spec: "OWNER/REPO". Auto-expands to
+#'       `https://github.com/r-lib/OWNER/REPO/master.zip`.
+#'     * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
+#'       The instructor must then arrange for the shortlink to point to a valid
+#'       download URL for the target ZIP file. The helper
+#'       [create_download_url()] help create such URLs for GitHub, DropBox,
+#'       and Google Drive.
 #' @param destdir The new folder is stored here. If `NULL`, defaults to user's
 #'   Desktop or some other conspicuous place.
 #' @param cleanup Whether to delete the original ZIP file after unpacking its
@@ -28,18 +32,20 @@
 #' use_course("bit.ly/usethis-shortlink-example")
 #' use_course("http://bit.ly/usethis-shortlink-example")
 #'
-#' ## download the source of rematch2 package, from CRAN and GitHub
+#' # download the source of rematch2 package from CRAN
 #' use_course("https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zip")
 #'
-#' ## from GitHub, 3 ways
+#' # download the source of rematch2 package from GitHub, 3 ways
 #' use_course("r-lib/rematch2")
 #' use_course("https://github.com/r-lib/rematch2/archive/master.zip")
 #' use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
 #' }
 NULL
 
-#' @describeIn zip-utils Designed with live workshops in mind. Includes
-#'   intentional friction to highlight the download destination. Workflow:
+#' @describeIn zip-utils
+#'
+#'  Designed with live workshops in mind. Includes intentional friction to
+#'  highlight the download destination. Workflow:
 #' * User executes, e.g., `use_course("bit.ly/xxx-yyy-zzz")`.
 #' * User is asked to notice and confirm the location of the new folder. Specify
 #'   `destdir` to prevent this.
@@ -71,9 +77,10 @@ use_course <- function(url, destdir = NULL) {
   tidy_unzip(zipfile, cleanup = NA)
 }
 
-#' @describeIn zip-utils More useful in day-to-day work. Downloads in current
-#'   working directory, by default, and allows `cleanup` behaviour to be
-#'   specified.
+#' @describeIn zip-utils
+#'
+#' More useful in day-to-day work. Downloads in current working directory, by
+#' default, and allows `cleanup` behaviour to be specified.
 #' @export
 use_zip <- function(url,
                     destdir = getwd(),
@@ -89,9 +96,9 @@ use_zip <- function(url,
 
 #' Helpers to download and unpack a ZIP file
 #'
-#' Details on the internal functions that power [use_course()] and [use_zip()].
-#' These helpers are currently unexported but a course instructor may want more
-#' details.
+#' @description
+#' Details on the internal and helper functions that power [use_course()] and
+#' [use_zip()]. Only `create_download_url()` is exported.
 #'
 #' @name use_course_details
 #' @keywords internal
@@ -102,7 +109,7 @@ use_zip <- function(url,
 #' ## function signature
 #' tidy_download(url, destdir = getwd())
 #'
-#' ## as called inside use_course()
+#' # as called inside use_course()
 #' tidy_download(
 #'   url, ## after post-processing with normalize_url()
 #'   # conspicuous_place() = Desktop or home directory or working directory
@@ -119,7 +126,7 @@ use_zip <- function(url,
 #' filename is generated from the input URL. In either case, the filename is
 #' sanitized. Returns the path to downloaded ZIP file, invisibly.
 #'
-#' **DropBox:**
+#' ## DropBox
 #'
 #' To make a folder available for ZIP download, create a shared link for it:
 #' * <https://www.dropbox.com/help/files-folders/view-only-access>
@@ -128,18 +135,19 @@ use_zip <- function(url,
 #' ```
 #' https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
 #' ```
-#' Replace the `dl=0` at the end with `dl=1` to create a download link. The ZIP
-#' download link will have this form:
+#' Replace the `dl=0` at the end with `dl=1` to create a download link:
 #' ```
 #' https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
 #' ```
+#' You can use `create_download_url()` to do this conversion.
+#'
 #' This download link (or a shortlink that points to it) is suitable as input
 #' for `tidy_download()`. After one or more redirections, this link will
 #' eventually lead to a download URL. For more details, see
 #' <https://www.dropbox.com/help/desktop-web/force-download> and
 #' <https://www.dropbox.com/en/help/desktop-web/download-entire-folders>.
 #'
-#' **GitHub:**
+#' ## GitHub
 #'
 #' Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
 #' button. Capture this URL, which will have this form:
@@ -153,6 +161,30 @@ use_zip <- function(url,
 #' ```
 #' https://api.github.com/repos/r-lib/usethis/zipball/master
 #' ```
+#'
+#' You can use `create_download_url()` to create the "Download ZIP" URL from
+#' a typical GitHub browser URL.
+#'
+#' ## Google Drive
+#'
+#' To our knowledge, it is not possible to download a Google Drive folder as a
+#' ZIP archive. It is however possible to share a ZIP file stored on Google
+#' Drive. To get its URL, click on "Get the shareable link" (within the "Share"
+#' menu). This URL doesn't allow for direct download, as it's designed to be
+#' processed in a web browser first. Such a sharing link looks like:
+#'
+#' ```
+#' https://drive.google.com/open?id=123456789xxyyyzzz
+#' ```
+#'
+#' To be able to get the URL suitable for direct download, you need to extract
+#' the "id" element from the URL and include it in this URL format:
+#'
+#' ```
+#' https://docs.google.com/uc?export=download&id=123456789xxyyyzzz
+#' ```
+#'
+#' Use `create_download_url()` to perform this transformation automatically.
 #'
 #' @param url Download link for the ZIP file, possibly behind a shortlink or
 #'   other redirect. See Details.
@@ -207,7 +239,7 @@ tidy_download <- function(url, destdir = getwd()) {
   tmp <- file_temp("tidy-download-")
   h <- curl::new_handle(noprogress = FALSE, progressfunction = progress_fun)
   curl::curl_download(url, tmp, quiet = FALSE, mode = "wb", handle = h)
-  cat_line()
+  ui_line()
 
   cd <- content_disposition(h)
   base_name <- make_filename(cd, fallback = path_file(url))
@@ -271,6 +303,75 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
   }
 
   invisible(target)
+}
+
+#' @rdname use_course_details
+#' @param url a GitHub, DropBox, or Google Drive URL, as copied from a web
+#'   browser.
+#' @examples
+#' # GitHub
+#' create_download_url("https://github.com/r-lib/usethis")
+#' create_download_url("https://github.com/r-lib/usethis/issues")
+#'
+#' # DropBox
+#' create_download_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0")
+#'
+#' # Google Drive
+#' create_download_url("https://drive.google.com/open?id=123456789xxyyyzzz")
+#' create_download_url("https://drive.google.com/open?id=123456789xxyyyzzz/view")
+#' @export
+create_download_url <- function(url) {
+  stopifnot(is_string(url))
+  stopifnot(grepl("^http[s]?://", url))
+
+  # TODO: we should support GitHub here too
+  switch(
+    classify_url(url),
+    drive   = modify_drive_url(url),
+    dropbox = modify_dropbox_url(url),
+    github  = modify_github_url(url),
+    hopeless_url(url)
+  )
+}
+
+classify_url <- function(url) {
+  if (grepl("drive.google.com", url)) {
+    return("drive")
+  }
+  if (grepl("dropbox.com/sh", url)) {
+    return("dropbox")
+  }
+  if (grepl("github.com", url)) {
+    return("github")
+  }
+  "unknown"
+}
+
+modify_drive_url <- function(url) {
+  # id-isolating approach taken from the gargle / googleverse
+  id_loc <- regexpr("/d/([^/])+|/folders/([^/])+|id=([^/])+", url)
+  if (id_loc == -1) {
+    return(hopeless_url(url))
+  }
+  id <- gsub("/d/|/folders/|id=", "", regmatches(url, id_loc))
+  glue("https://drive.google.com/uc?export=download&id={id}")
+}
+
+modify_dropbox_url <- function(url) {
+  gsub("dl=0", "dl=1", url)
+}
+
+modify_github_url <- function(url) {
+  df <- rematch2::re_match(url, github_url_rx())
+  glue("https://github.com/{df$owner}/{df$repo}/archive/master.zip")
+}
+
+hopeless_url <- function(url) {
+  ui_info(
+    "URL does not match a recognized form for Google Drive or DropBox. \\
+     No change made."
+  )
+  url
 }
 
 normalize_url <- function(url) {
@@ -350,7 +451,7 @@ check_is_zip <- function(ct) {
   # MIME type "application/x-zip-compressed"
   # see https://github.com/r-lib/usethis/issues/573
   allowed <- c("application/zip", "application/x-zip-compressed")
-  if (!ct %in% allowed ) {
+  if (!ct %in% allowed) {
     ui_stop(c(
       "Download does not have MIME type {ui_value('application/zip')}.",
       "Instead it's {ui_value(ct)}."
@@ -385,8 +486,8 @@ parse_content_disposition <- function(cd) {
 progress_fun <- function(down, up) {
   total <- down[[1]]
   now <- down[[2]]
-  pct <- if(length(total) && total > 0) {
-    paste0("(", round(now/total * 100), "%)")
+  pct <- if (length(total) && total > 0) {
+    paste0("(", round(now / total * 100), "%)")
   } else {
     ""
   }

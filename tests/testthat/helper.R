@@ -54,23 +54,21 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
     }
   } else {
     withr::defer({
-      withr::with_options(
-        list(usethis.quiet = TRUE),
+      ui_silence({
         proj_set(old_project, force = TRUE)
-      )
+      })
       setwd(old_project)
       fs::dir_delete(dir)
     }, envir = env)
   }
 
-  withr::local_options(list(usethis.quiet = TRUE))
-  switch(
-    thing,
-    package = create_package(dir, rstudio = rstudio, open = FALSE,
-                             check_name = FALSE),
-    project = create_project(dir, rstudio = rstudio, open = FALSE)
-  )
-  proj_set(dir)
+  ui_silence({
+    switch(thing,
+      package = create_package(dir, rstudio = rstudio, open = FALSE, check_name = FALSE),
+      project = create_project(dir, rstudio = rstudio, open = FALSE)
+    )
+    proj_set(dir)
+  })
   setwd(dir)
   invisible(dir)
 }
