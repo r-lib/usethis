@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `create_download_url()` is a new helper for making "ZIP file download" 
+  URLs suitable for use with `use_course()` and `use_zip()`, starting with the
+  URLs that mere mortals can usually get their hands on in a browser
+  (#406, @fmichonneau).
+
 * New `ui_silence()` makes it easier to selectively silence some UI output.
 
 * New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
