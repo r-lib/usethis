@@ -24,6 +24,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
+
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
@@ -77,7 +81,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -171,15 +175,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
       <small>Source: <a href='https://github.com/r-lib/usethis/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
     <div id="usethis-development-version" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="usethis development version">
 <a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/use_course_details.html">create_download_url()</a></code> is a new helper for making “ZIP file download” URLs suitable for use with <code><a href="../reference/zip-utils.html">use_course()</a></code> and <code><a href="../reference/zip-utils.html">use_zip()</a></code>, starting with the URLs that mere mortals can usually get their hands on in a browser (<a href='https://github.com/r-lib/usethis/issues/406'>#406</a>, <a href='https://github.com/fmichonneau'>@fmichonneau</a>).</p></li>
 <li><p>New <code><a href="../reference/ui.html">ui_silence()</a></code> makes it easier to selectively silence some UI output.</p></li>
 <li><p>New <code><a href="../reference/rename_files.html">rename_files()</a></code> makes it easy to rename paired <code>R/</code> and <code>test/</code> files (<a href='https://github.com/r-lib/usethis/issues/784'>#784</a>).</p></li>
 <li><p><code><a href="../reference/create_package.html">create_package()</a></code> no longer fails partway through if you have a malformed <code>usethis.description</code> option (<a href='https://github.com/r-lib/usethis/issues/961'>#961</a>).</p></li>
@@ -232,7 +237,7 @@
 </ul>
 </div>
     <div id="usethis-151" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="usethis 1.5.1">
 <a href="#usethis-151" class="anchor"></a>usethis 1.5.1<small> 2019-07-04 </small>
 </h1>
 <p>This is a patch release with various small features and bug fixes.</p>
@@ -280,7 +285,7 @@
 </div>
 </div>
     <div id="usethis-150" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="usethis 1.5.0">
 <a href="#usethis-150" class="anchor"></a>usethis 1.5.0<small> 2019-04-07 </small>
 </h1>
 <div id="git-github-and-gitlab" class="section level2">
@@ -426,7 +431,7 @@
 </div>
 </div>
     <div id="usethis-140" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="usethis 1.4.0">
 <a href="#usethis-140" class="anchor"></a>usethis 1.4.0<small> 2018-08-14 </small>
 </h1>
 <div id="file-system" class="section level2">
@@ -486,7 +491,7 @@
 </div>
 </div>
     <div id="usethis-130" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="usethis 1.3.0">
 <a href="#usethis-130" class="anchor"></a>usethis 1.3.0<small> 2018-02-24 </small>
 </h1>
 <ul>
@@ -513,7 +518,7 @@
 </div>
 </div>
     <div id="usethis-120" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="usethis 1.2.0">
 <a href="#usethis-120" class="anchor"></a>usethis 1.2.0<small> 2018-01-19 </small>
 </h1>
 <div id="new-functions-2" class="section level2">
@@ -537,7 +542,7 @@
 </div>
 </div>
     <div id="usethis-110" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="usethis 1.1.0">
 <a href="#usethis-110" class="anchor"></a>usethis 1.1.0<small> 2017-11-17 </small>
 </h1>
 <div id="new-helpers" class="section level2">
@@ -564,7 +569,7 @@
 </div>
 </div>
     <div id="usethis-100" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="usethis 1.0.0">
 <a href="#usethis-100" class="anchor"></a>usethis 1.0.0<small> 2017-10-22 </small>
 </h1>
 <p>This is a new package that extracts out many functions that previously lived in devtools, as well as providing more building blocks so you can create your own helpers. As well as the many new helpers listed below, there are three main improvements to the package:</p>
@@ -658,19 +663,9 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#usethis-development-version">development version</a></li>
-        <li><a href="#usethis-151">1.5.1</a></li>
-        <li><a href="#usethis-150">1.5.0</a></li>
-        <li><a href="#usethis-140">1.4.0</a></li>
-        <li><a href="#usethis-130">1.3.0</a></li>
-        <li><a href="#usethis-120">1.2.0</a></li>
-        <li><a href="#usethis-110">1.1.0</a></li>
-        <li><a href="#usethis-100">1.0.0</a></li>
-      </ul>
-    </div>
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
