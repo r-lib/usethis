@@ -1,5 +1,14 @@
 # usethis (development version)
 
+* `use_rstudio()` now sets the `LineEndingConversion` to your platform default.
+  That ensures that when other people edit your package with RStudio, they'll
+  use the same line ending as you (#1002).
+  
+* When writing files, usethis now respects line endings. Default line endings 
+  are taken from the `.Rproj` file (if available), otherwise the `DESCRIPTION`,
+  otherwise the first file found in `R/`, then all else failing to your 
+  platform default (#767).
+
 * `create_download_url()` is a new helper for making "ZIP file download" 
   URLs suitable for use with `use_course()` and `use_zip()`, starting with the
   URLs that mere mortals can usually get their hands on in a browser
