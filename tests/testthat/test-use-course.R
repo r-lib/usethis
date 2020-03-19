@@ -105,16 +105,16 @@ test_that("normalize_url() prepends https:// (or not)", {
   expect_identical(
     normalize_url("https://github.com/r-lib/rematch2/archive/master.zip"),
     "https://github.com/r-lib/rematch2/archive/master.zip"
-    )
-    expect_identical(
-      normalize_url("https://rstd.io/usethis-src"),
-      "https://rstd.io/usethis-src"
-    )
-    expect_identical(
-      normalize_url("rstd.io/usethis-src"),
-      "https://rstd.io/usethis-src"
-    )
-  })
+  )
+  expect_identical(
+    normalize_url("https://rstd.io/usethis-src"),
+    "https://rstd.io/usethis-src"
+  )
+  expect_identical(
+    normalize_url("rstd.io/usethis-src"),
+    "https://rstd.io/usethis-src"
+  )
+})
 
 test_that("shortlinks pass through", {
   url1 <- "bit.ly/usethis-shortlink-example"

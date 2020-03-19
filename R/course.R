@@ -451,7 +451,7 @@ check_is_zip <- function(ct) {
   # MIME type "application/x-zip-compressed"
   # see https://github.com/r-lib/usethis/issues/573
   allowed <- c("application/zip", "application/x-zip-compressed")
-  if (!ct %in% allowed ) {
+  if (!ct %in% allowed) {
     ui_stop(c(
       "Download does not have MIME type {ui_value('application/zip')}.",
       "Instead it's {ui_value(ct)}."
@@ -486,8 +486,8 @@ parse_content_disposition <- function(cd) {
 progress_fun <- function(down, up) {
   total <- down[[1]]
   now <- down[[2]]
-  pct <- if(length(total) && total > 0) {
-    paste0("(", round(now/total * 100), "%)")
+  pct <- if (length(total) && total > 0) {
+    paste0("(", round(now / total * 100), "%)")
   } else {
     ""
   }
