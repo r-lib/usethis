@@ -1,3 +1,6 @@
+
+# release bullets ---------------------------------------------------------
+
 test_that("release bullets don't change accidentally", {
   # Avoid finding any files in real usethis project
   old <- proj_set(dir_create(path_temp("usethis")), force = TRUE)
@@ -27,4 +30,35 @@ test_that("get extra news bullets if available", {
 
   new <- setdiff(release_checklist("1.0.0", TRUE), standard)
   expect_equal(new, "* [ ] Extra bullets")
+})
+
+# news --------------------------------------------------------------------
+
+test_that("must have at least one heading", {
+  expect_error(
+    news_latest(""),
+    regexp = "No top-level headings",
+    class = "usethis_error"
+  )
+})
+
+test_that("trims blank lines when extracting bullets", {
+  lines <- c(
+    "# Heading",
+    "",
+    "Contents",
+    ""
+  )
+  expect_equal(news_latest(lines), "Contents\n")
+
+  lines <- c(
+    "# Heading",
+    "",
+    "Contents 1",
+    "",
+    "# Heading",
+    "",
+    "Contents 2"
+  )
+  expect_equal(news_latest(lines), "Contents 1\n")
 })
