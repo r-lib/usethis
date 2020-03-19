@@ -1,8 +1,7 @@
 # usethis (development version)
 
-* New `knit_rmd()` knits Rmd files in a clean session (#967).
-  `use_release_issue()` reminds you to use it to re-generate `README.md`
-  and `index.md`, if needed.
+* `use_release_issue()` reminds you to use it to re-generate `README.md`,
+  if needed.
 
 * `create_download_url()` is a new helper for making "ZIP file download" 
   URLs suitable for use with `use_course()` and `use_zip()`, starting with the
