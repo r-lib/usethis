@@ -102,6 +102,7 @@ use_git_hook <- function(hook, script) {
 #' @export
 use_git_ignore <- function(ignores, directory = ".") {
   write_union(proj_path(directory, ".gitignore"), ignores)
+  rstudio_git_tickle()
 }
 
 #' Configure Git
