@@ -60,7 +60,7 @@ use_course <- function(url, destdir = getOption("usethis.destdir")) {
   if (destdir_not_specified && interactive()) {
     ui_line(c(
       "Downloading into {ui_path(destdir)}.",
-      "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}
+      "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}"
     ))
     if (ui_nope("OK to proceed?")) {
       ui_stop("Aborting.")
