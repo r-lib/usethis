@@ -75,7 +75,7 @@ test_that("valid_file_name() enforces valid file names", {
 
 test_that("we message for new type and are silent for same type", {
   scoped_temporary_package()
-  withr::local_options(list(usethis.quiet = FALSE))
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(
     use_dependency("crayon", "Imports"),
@@ -86,7 +86,7 @@ test_that("we message for new type and are silent for same type", {
 
 test_that("we message for version change and are silent for same version", {
   scoped_temporary_package()
-  withr::local_options(list(usethis.quiet = FALSE))
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(
     use_dependency("crayon", "Imports"),
@@ -107,7 +107,7 @@ test_that("we message for version change and are silent for same version", {
 ## https://github.com/r-lib/usethis/issues/99
 test_that("use_dependency() upgrades a dependency", {
   scoped_temporary_package()
-  withr::local_options(list(usethis.quiet = FALSE))
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_dependency("usethis", "Suggests"))
   expect_match(desc::desc_get("Suggests", proj_get()), "usethis")
@@ -120,7 +120,7 @@ test_that("use_dependency() upgrades a dependency", {
 ## https://github.com/r-lib/usethis/issues/99
 test_that("use_dependency() declines to downgrade a dependency", {
   scoped_temporary_package()
-  withr::local_options(list(usethis.quiet = FALSE))
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_dependency("usethis", "Imports"))
   expect_match(desc::desc_get("Imports", proj_get()), "usethis")
@@ -132,7 +132,7 @@ test_that("use_dependency() declines to downgrade a dependency", {
 
 test_that("can add LinkingTo dependency if other dependency already exists", {
   scoped_temporary_package()
-  withr::local_options(list(usethis.quiet = FALSE))
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_dependency("Rcpp", "Imports"))
   expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
@@ -141,7 +141,7 @@ test_that("can add LinkingTo dependency if other dependency already exists", {
 test_that("can add any dependency if LinkingTo dependency already exists", {
   scoped_temporary_package()
 
-  withr::local_options(list(usethis.quiet = FALSE))
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
   expect_message(use_dependency("Rcpp", "LinkingTo"))
   expect_message(use_dependency("Rcpp", "Import"), "Adding 'Rcpp'")
 })
