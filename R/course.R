@@ -16,9 +16,9 @@
 #'   for ZIP files generally. See examples and [use_course_details] for more.
 #' @param destdir The new folder is stored here. If `NULL`, defaults to user's
 #'   Desktop or some other conspicuous place. You can also set a default
-#'   location using the option `usethis.destdir`, e.g. `options(usethis.destdir
-#'   = "a/good/dir")`, perhaps saved to your `.Rprofile` with
-#'   [`edit_r_profile()`]
+#'   location using the option `usethis.destdir`, e.g.
+#'   `options(usethis.destdir = "a/good/dir")`, perhaps saved to your
+#'   `.Rprofile` with [`edit_r_profile()`]
 #' @param cleanup Whether to delete the original ZIP file after unpacking its
 #'   contents. In an interactive setting, `NA` leads to a menu where user can
 #'   approve the deletion (or decline).
@@ -51,17 +51,16 @@ NULL
 #'   launched. Otherwise, the folder is opened in the file manager, e.g. Finder
 #'   or File Explorer.
 #' @export
-use_course <- function(url, destdir = NULL) {
+use_course <- function(url, destdir = getOption("usethis.destdir")) {
   url <- normalize_url(url)
-  destdir_not_specified <- is.null(destdir) && is.null(getOption("usethis.destdir"))
+  destdir_not_specified <- is.null(destdir)
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
 
   if (destdir_not_specified && interactive()) {
     ui_line(c(
       "Downloading into {ui_path(destdir)}.",
-      "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}//
-      or set with option {ui_code('usethis.destdir')} in your R profile"
+      "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}
     ))
     if (ui_nope("OK to proceed?")) {
       ui_stop("Aborting.")
