@@ -97,14 +97,12 @@ write_utf8 <- function(path, lines, append = FALSE, line_ending = proj_line_endi
   stopifnot(is.character(lines))
 
   file_mode <- if (append) "ab" else "wb"
-
   con <- file(path, open = file_mode, encoding = "utf-8")
   on.exit(close(con), add = TRUE)
 
   # convert embedded newlines
   lines <- gsub("\r?\n", line_ending, lines)
-  lines <- paste0(lines, sep = line_ending, collapse = "")
-  cat(lines, file = con, sep = "")
+  base::writeLines(enc2utf8(lines), con, sep = line_ending, useBytes = TRUE)
 
   invisible(TRUE)
 }
