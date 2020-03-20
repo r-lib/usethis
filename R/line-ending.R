@@ -28,6 +28,10 @@ proj_line_ending <- function() {
 
   # Then give up - this is used (for example), when writing the
   # first file into the package
+  platform_line_ending()
+}
+
+platform_line_ending <- function() {
   if (.Platform$OS.type == "windows") "\r\n" else "\n"
 }
 

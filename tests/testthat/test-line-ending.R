@@ -8,6 +8,23 @@ test_that("can detect path from RStudio project file", {
   expect_equal(proj_line_ending(), "\r\n")
 })
 
+test_that("can detect path from DESCRIPTION or .R file", {
+  scoped_temporary_project()
+
+  write_utf8(proj_path("DESCRIPTION"), c("x", "y", "z"), line_ending = "\r\n")
+  expect_equal(proj_line_ending(), "\r\n")
+  file_delete(proj_path("DESCRIPTION"))
+
+  dir_create(proj_path("R"))
+  write_utf8(proj_path("R/test.R"), c("x", "y", "z"), line_ending = "\r\n")
+  expect_equal(proj_line_ending(), "\r\n")
+})
+
+test_that("falls back to platform specific encoding", {
+  scoped_temporary_project()
+  expect_equal(proj_line_ending(), platform_line_ending())
+})
+
 test_that("correctly detect line encoding", {
   path <- file_temp()
 
