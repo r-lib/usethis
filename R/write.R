@@ -96,7 +96,7 @@ write_utf8 <- function(path, lines, append = FALSE, line_ending = proj_line_endi
   stopifnot(is.character(path))
   stopifnot(is.character(lines))
 
-  file_mode <- if (append) "a" else ""
+  file_mode <- if (append) "ab" else "wb"
 
   con <- file(path, open = file_mode, encoding = "utf-8")
   on.exit(close(con), add = TRUE)
