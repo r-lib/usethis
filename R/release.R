@@ -41,6 +41,7 @@ release_checklist <- function(version, on_cran) {
   has_src <- dir_exists(proj_path("src"))
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- file_exists(proj_path("_pkgdown.yml"))
+  has_readme <- file_exists(proj_path("README.Rmd"))
   has_extra <- exists("release_bullets", parent.env(globalenv()))
 
   todo <- function(x, cond = TRUE) {
@@ -54,6 +55,7 @@ release_checklist <- function(version, on_cran) {
     "",
     todo("Check that description is informative", !on_cran),
     todo("Check licensing of included files", !on_cran),
+    todo("`devtools::build_readme()", has_readme),
     todo("`usethis::use_cran_comments()`", !on_cran),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
