@@ -1,5 +1,3 @@
-context("use_package_doc")
-
 test_that("use_package_doc() requires a package", {
   scoped_temporary_project()
   expect_false(has_package_doc())
