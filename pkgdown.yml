@@ -4,7 +4,7 @@ pkgdown_sha: 4500ef2dacb28f793a2e05e1e09598ce6cff5c57
 articles:
   pr-functions: articles/pr-functions.html
   usethis-setup: articles/usethis-setup.html
-last_built: 2020-03-20T20:52Z
+last_built: 2020-03-20T21:26Z
 urls:
   reference: https://usethis.r-lib.org/reference
   article: https://usethis.r-lib.org/articles
