@@ -185,7 +185,7 @@ use_zip <- function(url,
 #' the "id" element from the URL and include it in this URL format:
 #'
 #' ```
-#' https://docs.google.com/uc?export=download&id=123456789xxyyyzzz
+#' https://drive.google.com/uc?export=download&id=123456789xxyyyzzz
 #' ```
 #'
 #' Use `create_download_url()` to perform this transformation automatically.
