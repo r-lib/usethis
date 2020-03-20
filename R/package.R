@@ -66,7 +66,6 @@ package_remote <- function(package) {
   desc <- desc::desc(package = package)
   remote_info <- desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo"))
 
-
   # Check Remote{Type,Username,Repo} are all non-na scalar strings
   is_valid_remote <- all(purrr::map_lgl(remote_info,
                                         ~ rlang::is_string(.x) && !is.na(.x)))
@@ -74,7 +73,12 @@ package_remote <- function(package) {
     ui_stop("{ui_value(package)} was not installed from a supported remote.")
   }
 
-  glue::glue_data(as.list(remote_info), "{RemoteType}::{RemoteUsername}/{RemoteRepo}")
+  # Github remotes don't get the 'RemoteType::' prefix
+  remote_format <- if (identical(remote_info[["RemoteType"]], "github")) {
+    "{RemoteUsername}/{RemoteRepo}"
+  } else "{RemoteType}::{RemoteUsername}/{RemoteRepo}"
+
+  glue::glue_data(as.list(remote_info), remote_format)
 }
 
 refuse_package <- function(package, verboten) {
