@@ -134,15 +134,8 @@ test_that("can add LinkingTo dependency if other dependency already exists", {
   scoped_temporary_package()
   withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
-  expect_message(use_dependency("Rcpp", "Imports"))
+  expect_message(use_dependency("Rcpp", "Imports"), "Adding 'Rcpp'")
   expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
+  expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
+  expect_message(use_dependency("Rcpp", "Import"), NA)
 })
-
-test_that("can add any dependency if LinkingTo dependency already exists", {
-  scoped_temporary_package()
-
-  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
-  expect_message(use_dependency("Rcpp", "LinkingTo"))
-  expect_message(use_dependency("Rcpp", "Import"), "Adding 'Rcpp'")
-})
-
