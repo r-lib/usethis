@@ -54,23 +54,21 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
     }
   } else {
     withr::defer({
-      withr::with_options(
-        list(usethis.quiet = TRUE),
+      ui_silence({
         proj_set(old_project, force = TRUE)
-      )
+      })
       setwd(old_project)
       fs::dir_delete(dir)
     }, envir = env)
   }
 
-  withr::local_options(list(usethis.quiet = TRUE))
-  switch(
-    thing,
-    package = create_package(dir, rstudio = rstudio, open = FALSE,
-                             check_name = FALSE),
-    project = create_project(dir, rstudio = rstudio, open = FALSE)
-  )
-  proj_set(dir)
+  ui_silence({
+    switch(thing,
+      package = create_package(dir, rstudio = rstudio, open = FALSE, check_name = FALSE),
+      project = create_project(dir, rstudio = rstudio, open = FALSE)
+    )
+    proj_set(dir)
+  })
   setwd(dir)
   invisible(dir)
 }
@@ -112,7 +110,7 @@ expect_error_free <- function(...) {
 }
 
 is_build_ignored <- function(pattern, ..., base_path = proj_get()) {
-  lines <- readLines(path(base_path, ".Rbuildignore"), warn = FALSE)
+  lines <- read_utf8(path(base_path, ".Rbuildignore"))
   length(grep(pattern, x = lines, fixed = TRUE, ...)) > 0
 }
 
@@ -120,12 +118,3 @@ test_file <- function(fname) testthat::test_path("ref", fname)
 
 expect_proj_file <- function(...) expect_true(file_exists(proj_path(...)))
 expect_proj_dir <- function(...) expect_true(dir_exists(proj_path(...)))
-
-## use from testthat once > 2.0.0 is on CRAN
-skip_if_offline <- function(host = "r-project.org") {
-  skip_if_not_installed("curl")
-  has_internet <- !is.null(curl::nslookup(host, error = FALSE))
-  if (!has_internet) {
-    skip("offline")
-  }
-}

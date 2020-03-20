@@ -33,7 +33,7 @@ test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
     "2.0.0"
   )
   expect_match(
-    readLines(proj_path("NEWS.md"), n = 1),
+    read_utf8(proj_path("NEWS.md"), n = 1),
     "2.0.0"
   )
 })
@@ -65,12 +65,12 @@ test_that("use_version() updates (development version) directly", {
   use_version("patch")
 
   expect_match(
-    readLines(proj_path("NEWS.md"), n = 1),
+    read_utf8(proj_path("NEWS.md"), n = 1),
     "0[.]0[.]2"
   )
 
   expect_match(
-    readLines(proj_path("NEWS.md"), n = 3)[3],
+    read_utf8(proj_path("NEWS.md"), n = 3)[3],
     "0[.]0[.]1"
   )
 })

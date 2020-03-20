@@ -23,7 +23,7 @@ NULL
 #' @rdname ci
 use_travis <- function(browse = interactive(), ext = c("com", "org")) {
   check_uses_github()
-  ext <- rlang::arg_match(ext)
+  ext <- arg_match(ext)
   new <- use_template(
     "travis.yml",
     ".travis.yml",
@@ -45,14 +45,14 @@ use_travis <- function(browse = interactive(), ext = c("com", "org")) {
 #' @rdname ci
 use_travis_badge <- function(ext = c("com", "org")) {
   check_uses_github()
-  ext <- rlang::arg_match(ext)
+  ext <- arg_match(ext)
   url <- glue("https://travis-ci.{ext}/{github_repo_spec()}")
   img <- glue("{url}.svg?branch=master")
   use_badge("Travis build status", url, img)
 }
 
 travis_activate <- function(browse = interactive(), ext = c("com", "org")) {
-  ext <- rlang::arg_match(ext)
+  ext <- arg_match(ext)
   url <- glue("https://travis-ci.{ext}/profile/{github_owner()}")
 
   ui_todo("Turn on travis for your repo at {url}")
