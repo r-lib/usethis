@@ -19,7 +19,10 @@
 #'       [create_download_url()] help create such URLs for GitHub, DropBox,
 #'       and Google Drive.
 #' @param destdir The new folder is stored here. If `NULL`, defaults to user's
-#'   Desktop or some other conspicuous place.
+#'   Desktop or some other conspicuous place. You can also set a default
+#'   location using the option `usethis.destdir`, e.g.
+#'   `options(usethis.destdir = "a/good/dir")`, perhaps saved to your
+#'   `.Rprofile` with [`edit_r_profile()`]
 #' @param cleanup Whether to delete the original ZIP file after unpacking its
 #'   contents. In an interactive setting, `NA` leads to a menu where user can
 #'   approve the deletion (or decline).
@@ -54,7 +57,7 @@ NULL
 #'   launched. Otherwise, the folder is opened in the file manager, e.g. Finder
 #'   or File Explorer.
 #' @export
-use_course <- function(url, destdir = NULL) {
+use_course <- function(url, destdir = getOption("usethis.destdir")) {
   url <- normalize_url(url)
   destdir_not_specified <- is.null(destdir)
   destdir <- user_path_prep(destdir %||% conspicuous_place())
@@ -112,7 +115,8 @@ use_zip <- function(url,
 #' # as called inside use_course()
 #' tidy_download(
 #'   url, ## after post-processing with normalize_url()
-#'   # conspicuous_place() = Desktop or home directory or working directory
+#'   # conspicuous_place() = `getOption('usethis.destdir')` or desktop or home
+#'   # directory or working directory
 #'   destdir = destdir %||% conspicuous_place()
 #' )
 #' ```
@@ -404,6 +408,9 @@ expand_github <- function(url) {
 }
 
 conspicuous_place <- function() {
+  destdir_opt <- getOption("usethis.destdir")
+  if (!is.null(destdir_opt)) return(path_tidy(destdir_opt))
+
   Filter(dir_exists, c(
     path_home("Desktop"),
     path_home(),
