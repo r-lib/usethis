@@ -6,6 +6,16 @@ test_that("use_package() won't facilitate dependency on tidyverse", {
 
 # use_dev_package() -----------------------------------------------------------
 
+test_that("use_dev_package() can override over default remote", {
+  scoped_temporary_package()
+
+  use_dev_package("usethis", remote = "github::r-lib/usethis")
+
+  desc <- desc::desc(proj_path("DESCRIPTION"))
+  expect_equal(desc$get_remotes(), "github::r-lib/usethis")
+})
+
+
 test_that("package_remote() extracts and generates correct strings", {
   d <- desc::desc(text = c(
     "Package: test",
