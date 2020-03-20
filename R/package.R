@@ -51,7 +51,7 @@ use_remote <- function(package) {
     return(invisible())
   }
 
-  package_remote <- package_remote(package)
+  package_remote <- package_remote(desc::desc(package = package))
   ui_done(
     "Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in DESCRIPTION"
   )
@@ -62,23 +62,21 @@ use_remote <- function(package) {
 
 # Helpers -----------------------------------------------------------------
 
-package_remote <- function(package) {
-  desc <- desc::desc(package = package)
-  remote_info <- desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo"))
+package_remote <- function(desc) {
+  package <- desc$get_field("Package")
+  remote <- as.list(desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo")))
 
-  # Check Remote{Type,Username,Repo} are all non-na scalar strings
-  is_valid_remote <- all(purrr::map_lgl(remote_info,
-                                        ~ rlang::is_string(.x) && !is.na(.x)))
+  is_valid_remote <- all(purrr::map_lgl(remote, ~ is_string(.x) && !is.na(.x)))
   if (!is_valid_remote) {
     ui_stop("{ui_value(package)} was not installed from a supported remote.")
   }
 
   # Github remotes don't get the 'RemoteType::' prefix
-  remote_format <- if (identical(remote_info[["RemoteType"]], "github")) {
-    "{RemoteUsername}/{RemoteRepo}"
-  } else "{RemoteType}::{RemoteUsername}/{RemoteRepo}"
-
-  glue::glue_data(as.list(remote_info), remote_format)
+  if (identical(remote$RemoteType, "github")) {
+    paste0(remote$RemoteUsername, "/", remote$RemoteRepo)
+  } else {
+    paste0(remote$RemoteType, "::", remote$RemoteUsername, "/", remote$RemoteRepo)
+  }
 }
 
 refuse_package <- function(package, verboten) {
