@@ -56,6 +56,7 @@ use_dependency <- function(package, type, min_version = NULL) {
     return(invisible())
   }
 
+  existing_type <- setdiff(existing_type, "LinkingTo")
   delta <- sign(match(existing_type, types) - match(type, types))
   if (delta < 0) {
     # don't downgrade
