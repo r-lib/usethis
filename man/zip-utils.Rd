@@ -6,7 +6,7 @@
 \alias{use_zip}
 \title{Download and unpack a ZIP file}
 \usage{
-use_course(url, destdir = NULL)
+use_course(url, destdir = getOption("usethis.destdir"))
 
 use_zip(url, destdir = getwd(), cleanup = if (interactive()) NA else FALSE)
 }
@@ -21,8 +21,9 @@ for ZIP files generally. See examples and \link{use_course_details} for more.}
 
 \item{destdir}{The new folder is stored here. If \code{NULL}, defaults to user's
 Desktop or some other conspicuous place. You can also set a default
-location using the option \code{usethis.destdir}, e.g. \code{options(usethis.destdir = "a/good/dir")}, perhaps saved to your \code{.Rprofile} with
-\code{\link[=edit_r_profile]{edit_r_profile()}}}
+location using the option \code{usethis.destdir}, e.g.
+\code{options(usethis.destdir = "a/good/dir")}, perhaps saved to your
+\code{.Rprofile} with \code{\link[=edit_r_profile]{edit_r_profile()}}}
 
 \item{cleanup}{Whether to delete the original ZIP file after unpacking its
 contents. In an interactive setting, \code{NA} leads to a menu where user can

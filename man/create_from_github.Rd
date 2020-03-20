@@ -22,8 +22,9 @@ create_from_github(
 
 \item{destdir}{The new folder is stored here. If \code{NULL}, defaults to user's
 Desktop or some other conspicuous place. You can also set a default
-location using the option \code{usethis.destdir}, e.g. \code{options(usethis.destdir = "a/good/dir")}, perhaps saved to your \code{.Rprofile} with
-\code{\link[=edit_r_profile]{edit_r_profile()}}}
+location using the option \code{usethis.destdir}, e.g.
+\code{options(usethis.destdir = "a/good/dir")}, perhaps saved to your
+\code{.Rprofile} with \code{\link[=edit_r_profile]{edit_r_profile()}}}
 
 \item{fork}{If \code{TRUE}, we create and clone a fork. If \code{FALSE}, we clone
 \code{repo_spec} itself. Will be set to \code{FALSE} if no \code{auth_token} (a.k.a. PAT)
