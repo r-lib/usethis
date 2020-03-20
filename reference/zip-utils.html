@@ -193,7 +193,7 @@ actually be able to find them. The underlying helpers are documented in
 <a href='use_course_details.html'>use_course_details</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_course</span>(<span class='no'>url</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>use_course</span>(<span class='no'>url</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"usethis.destdir"</span>))
 
 <span class='fu'>use_zip</span>(<span class='no'>url</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='kw'>cleanup</span> <span class='kw'>=</span> <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) <span class='fl'>NA</span> <span class='kw'>else</span> <span class='fl'>FALSE</span>)</pre>
 
@@ -215,7 +215,10 @@ of typos in live settings, these shorter forms are accepted:</p><pre>* GitHub re
     <tr>
       <th>destdir</th>
       <td><p>The new folder is stored here. If <code>NULL</code>, defaults to user's
-Desktop or some other conspicuous place.</p></td>
+Desktop or some other conspicuous place. You can also set a default
+location using the option <code>usethis.destdir</code>, e.g.
+<code><a href='https://rdrr.io/r/base/options.html'>options(usethis.destdir = "a/good/dir")</a></code>, perhaps saved to your
+<code>.Rprofile</code> with <code><a href='edit.html'>edit_r_profile()</a></code></p></td>
     </tr>
     <tr>
       <th>cleanup</th>

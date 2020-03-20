@@ -187,6 +187,11 @@
 <code>usethis.protocol</code>: specifies your preferred transport protocol for Git. Either “ssh” or “https”. See the help for <code><a href="../../reference/git_protocol.html">git_protocol()</a></code> for more.</li>
 <li>
 <code>usethis.description</code>: named list of default DESCRIPTION fields for new packages made with <code><a href="../../reference/create_package.html">usethis::create_package()</a></code>.</li>
+<li>
+<code>usethis.quiet</code>: if <code>TRUE</code>, prevent usethis from printing messages to the console.</li>
+<li>
+<code>usethis.destdir</code>: a default directory to use in <code><a href="../../reference/create_from_github.html">create_from_github()</a></code> and <code><a href="../../reference/zip-utils.html">use_course()</a></code>
+</li>
 </ul>
 <p>Define any of these options in your <code>.Rprofile</code>, which can be opened for editing via <code><a href="../../reference/edit.html">usethis::edit_r_profile()</a></code>. Here is example code:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(</span>

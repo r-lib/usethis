@@ -218,7 +218,8 @@ has different default behavior.</p></td>
 <span class='co'># as called inside use_course()</span>
 <span class='fu'>tidy_download</span>(
   <span class='no'>url</span>, <span class='co'>## after post-processing with normalize_url()</span>
-  <span class='co'># conspicuous_place() = Desktop or home directory or working directory</span>
+  <span class='co'># conspicuous_place() = `getOption('usethis.destdir')` or desktop or home</span>
+  <span class='co'># directory or working directory</span>
   <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='no'>destdir</span> <span class='kw'>%||%</span> <span class='fu'>conspicuous_place</span>()
 )</pre>
 
