@@ -55,7 +55,7 @@ release_checklist <- function(version, on_cran) {
     "",
     todo("Check that description is informative", !on_cran),
     todo("Check licensing of included files", !on_cran),
-    todo("`devtools::build_readme()", has_readme),
+    todo("`devtools::build_readme()`", has_readme),
     todo("`usethis::use_cran_comments()`", !on_cran),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
