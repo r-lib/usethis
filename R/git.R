@@ -64,6 +64,7 @@ git_commit <- function(paths, message) {
   git2r::add(repo, paths)
   ui_done("Commit with message {ui_value(message)}")
   git2r::commit(repo, message)
+  rstudio_git_tickle()
 }
 
 git_has_commits <- function() {
