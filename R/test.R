@@ -15,7 +15,7 @@
 #' }
 use_testthat <- function() {
   check_installed("testthat")
-  if (packageVersion("testthat") < "2.1.0") {
+  if (utils::packageVersion("testthat") < "2.1.0") {
     ui_stop("testthat 2.1.0 or greater needed. Please install before re-trying")
   }
 
