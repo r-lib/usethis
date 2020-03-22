@@ -64,6 +64,7 @@ git_commit <- function(paths, message) {
   git2r::add(repo, paths)
   ui_done("Commit with message {ui_value(message)}")
   git2r::commit(repo, message)
+  rstudio_git_tickle()
 }
 
 git_has_commits <- function() {
@@ -102,6 +103,7 @@ use_git_hook <- function(hook, script) {
 #' @export
 use_git_ignore <- function(ignores, directory = ".") {
   write_union(proj_path(directory, ".gitignore"), ignores)
+  rstudio_git_tickle()
 }
 
 #' Configure Git
