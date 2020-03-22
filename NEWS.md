@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_testthat()` and `use_test()` now works in projects, not just packages 
+  (#1017).
+
 * `use_github_release()` no longer fails if you have no news bullets (#1048).
 
 * `use_dev_package` now supports any remote of the form `type::username/repo` (@antoine-sachet, #1071)
