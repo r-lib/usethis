@@ -38,7 +38,7 @@ use_r <- function(name = NULL, open = NULL) {
 #' @export
 use_test <- function(name = NULL, open = NULL) {
   if (!uses_testthat()) {
-  use_testthat()
+    use_testthat()
   }
 
   name <- name %||% get_active_r_file(path = "R")
@@ -48,16 +48,11 @@ use_test <- function(name = NULL, open = NULL) {
 
   path <- path("tests", "testthat", name)
   if (!file_exists(path)) {
-    use_template(
-      "test-example-2.1.R",
-      save_as = path,
-      open = FALSE
-    )
+    use_template("test-example-2.1.R", save_as = path, open = FALSE)
   }
 
   edit_file(proj_path(path), open = open)
 }
-
 
 #' Automatically rename paired `R/` and `test/` files
 #'
