@@ -26,6 +26,11 @@ use_r <- function(name = NULL, open = NULL) {
   use_directory("R")
   edit_file(proj_path("R", name), open = open)
 
+  test_path <- proj_path("tests", "testthat", paste0("test-", name, ".R"))
+  if (!file_exists(test_path)) {
+    ui_todo("Call {ui_code('use_test()')} to create a matching test file")
+  }
+
   invisible(TRUE)
 }
 

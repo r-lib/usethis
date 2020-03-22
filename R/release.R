@@ -55,7 +55,7 @@ release_checklist <- function(version, on_cran) {
     "",
     todo("Check that description is informative", !on_cran),
     todo("Check licensing of included files", !on_cran),
-    todo("`devtools::build_readme()", has_readme),
+    todo("`devtools::build_readme()`", has_readme),
     todo("`usethis::use_cran_comments()`", !on_cran),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
@@ -121,6 +121,12 @@ use_github_release <- function(host = NULL,
   check_branch_pushed()
   check_github_token(auth_token)
 
+  path <- proj_path("NEWS.md")
+  if (!file_exists(path)) {
+    ui_stop("{ui_path('NEWS.md')} not found")
+  }
+  news <- news_latest(read_utf8(path))
+
   package <- package_data()
 
   release <- gh::gh(
@@ -154,17 +160,11 @@ cran_results_url <- function(package = project_name()) {
   glue("https://cran.rstudio.org/web/checks/check_results_{package}.html")
 }
 
-news_latest <- function() {
-  path <- proj_path("NEWS.md")
-  if (!file_exists(path)) {
-    ui_stop("{ui_path(path)} not found")
-  }
-
-  lines <- read_utf8(path)
+news_latest <- function(lines) {
   headings <- which(grepl("^#\\s+", lines))
 
   if (length(headings) == 0) {
-    ui_stop("No top-level headings found in {ui_value(path)}")
+    ui_stop("No top-level headings found in {ui_value('NEWS.md')}")
   } else if (length(headings) == 1) {
     news <- lines[seq2(headings + 1, length(lines))]
   } else {
@@ -173,7 +173,11 @@ news_latest <- function() {
 
   # Remove leading and trailing empty lines
   text <- which(news != "")
+  if (length(text) == 0) {
+    return("")
+  }
+
   news <- news[text[[1]]:text[[length(text)]]]
 
-  paste(news, "\n", collapse = "")
+  paste0(news, "\n", collapse = "")
 }

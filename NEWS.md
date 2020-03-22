@@ -3,6 +3,10 @@
 * `use_testthat()` and `use_test()` now works in projects, not just packages 
   (#1017).
 
+* `use_github_release()` no longer fails if you have no news bullets (#1048).
+
+* `use_dev_package` now supports any remote of the form `type::username/repo` (@antoine-sachet, #1071)
+
 * `use_release_issue()` reminds you to use it to re-generate `README.md`,
   if needed (#767).
 
