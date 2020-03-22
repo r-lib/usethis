@@ -90,7 +90,7 @@ processed in a web browser first. Such a sharing link looks like:\preformatted{h
 }
 
 To be able to get the URL suitable for direct download, you need to extract
-the "id" element from the URL and include it in this URL format:\preformatted{https://docs.google.com/uc?export=download&id=123456789xxyyyzzz
+the "id" element from the URL and include it in this URL format:\preformatted{https://drive.google.com/uc?export=download&id=123456789xxyyyzzz
 }
 
 Use \code{create_download_url()} to perform this transformation automatically.
