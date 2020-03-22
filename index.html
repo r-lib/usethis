@@ -156,10 +156,10 @@
 <span class="co"># Create a new package -------------------------------------------------</span>
 <span class="no">path</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"mypkg"</span>)
 <span class="fu"><a href="reference/create_package.html">create_package</a></span>(<span class="no">path</span>)
-<span class="co">#&gt; ✔ Creating '/tmp/RtmpbbiMqB/mypkg/'</span>
-<span class="co">#&gt; ✔ Setting active project to '/private/tmp/RtmpbbiMqB/mypkg'</span>
-<span class="co">#&gt; ✔ Creating 'R/'</span>
-<span class="co">#&gt; ✔ Writing 'DESCRIPTION'</span>
+<span class="co">#&gt; ✓ Creating '/tmp/RtmppskQJj/mypkg/'</span>
+<span class="co">#&gt; ✓ Setting active project to '/private/tmp/RtmppskQJj/mypkg'</span>
+<span class="co">#&gt; ✓ Creating 'R/'</span>
+<span class="co">#&gt; ✓ Writing 'DESCRIPTION'</span>
 <span class="co">#&gt; Package: mypkg</span>
 <span class="co">#&gt; Title: What the Package Does (One Line, Title Case)</span>
 <span class="co">#&gt; Version: 0.0.0.9000</span>
@@ -171,52 +171,53 @@
 <span class="co">#&gt; Encoding: UTF-8</span>
 <span class="co">#&gt; LazyData: true</span>
 <span class="co">#&gt; Roxygen: list(markdown = TRUE)</span>
-<span class="co">#&gt; ✔ Writing 'NAMESPACE'</span>
-<span class="co">#&gt; ✔ Setting active project to '&lt;no active project&gt;'</span>
+<span class="co">#&gt; RoxygenNote: 7.1.0</span>
+<span class="co">#&gt; ✓ Writing 'NAMESPACE'</span>
+<span class="co">#&gt; ✓ Setting active project to '&lt;no active project&gt;'</span>
 <span class="co"># only needed since this session isn't interactive</span>
 <span class="fu"><a href="reference/proj_activate.html">proj_activate</a></span>(<span class="no">path</span>)
-<span class="co">#&gt; ✔ Changing working directory to '/tmp/RtmpbbiMqB/mypkg/'</span>
-<span class="co">#&gt; ✔ Setting active project to '/private/tmp/RtmpbbiMqB/mypkg'</span>
+<span class="co">#&gt; ✓ Changing working directory to '/tmp/RtmppskQJj/mypkg/'</span>
+<span class="co">#&gt; ✓ Setting active project to '/private/tmp/RtmppskQJj/mypkg'</span>
 
 <span class="co"># Modify the description ----------------------------------------------</span>
 <span class="fu"><a href="reference/licenses.html">use_mit_license</a></span>(<span class="st">"My Name"</span>)
-<span class="co">#&gt; ✔ Setting License field in DESCRIPTION to 'MIT + file LICENSE'</span>
-<span class="co">#&gt; ✔ Writing 'LICENSE.md'</span>
-<span class="co">#&gt; ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'</span>
-<span class="co">#&gt; ✔ Writing 'LICENSE'</span>
+<span class="co">#&gt; ✓ Setting License field in DESCRIPTION to 'MIT + file LICENSE'</span>
+<span class="co">#&gt; ✓ Writing 'LICENSE.md'</span>
+<span class="co">#&gt; ✓ Adding '^LICENSE\\.md$' to '.Rbuildignore'</span>
+<span class="co">#&gt; ✓ Writing 'LICENSE'</span>
 
 <span class="fu"><a href="reference/use_package.html">use_package</a></span>(<span class="st">"MASS"</span>, <span class="st">"Suggests"</span>)
-<span class="co">#&gt; ✔ Adding 'MASS' to Suggests field in DESCRIPTION</span>
+<span class="co">#&gt; ✓ Adding 'MASS' to Suggests field in DESCRIPTION</span>
 <span class="co">#&gt; ● Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed</span>
 <span class="co">#&gt; ● Then directly refer to functons like `MASS::fun()` (replacing `fun()`).</span>
 
 <span class="co"># Set up other files -------------------------------------------------</span>
 <span class="fu"><a href="reference/use_readme_rmd.html">use_readme_md</a></span>()
-<span class="co">#&gt; ✔ Writing 'README.md'</span>
+<span class="co">#&gt; ✓ Writing 'README.md'</span>
 
 <span class="fu"><a href="reference/use_news_md.html">use_news_md</a></span>()
-<span class="co">#&gt; ✔ Writing 'NEWS.md'</span>
+<span class="co">#&gt; ✓ Writing 'NEWS.md'</span>
 
 <span class="fu"><a href="reference/use_r.html">use_test</a></span>(<span class="st">"my-test"</span>)
-<span class="co">#&gt; ✔ Adding 'testthat' to Suggests field in DESCRIPTION</span>
-<span class="co">#&gt; ✔ Creating 'tests/testthat/'</span>
-<span class="co">#&gt; ✔ Writing 'tests/testthat.R'</span>
+<span class="co">#&gt; ✓ Adding 'testthat' to Suggests field in DESCRIPTION</span>
+<span class="co">#&gt; ✓ Creating 'tests/testthat/'</span>
+<span class="co">#&gt; ✓ Writing 'tests/testthat.R'</span>
 <span class="co">#&gt; ● Call `use_test()` to initialize a basic test file and open it for editing.</span>
-<span class="co">#&gt; ✔ Increasing 'testthat' version to '&gt;= 2.1.0' in DESCRIPTION</span>
-<span class="co">#&gt; ✔ Writing 'tests/testthat/test-my-test.R'</span>
+<span class="co">#&gt; ✓ Writing 'tests/testthat/test-my-test.R'</span>
 <span class="co">#&gt; ● Edit 'tests/testthat/test-my-test.R'</span>
 
 <span class="no">x</span> <span class="kw">&lt;-</span> <span class="fl">1</span>
 <span class="no">y</span> <span class="kw">&lt;-</span> <span class="fl">2</span>
 <span class="fu"><a href="reference/use_data.html">use_data</a></span>(<span class="no">x</span>, <span class="no">y</span>)
-<span class="co">#&gt; ✔ Creating 'data/'</span>
-<span class="co">#&gt; ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span>
+<span class="co">#&gt; ✓ Adding 'R' to Depends field in DESCRIPTION</span>
+<span class="co">#&gt; ✓ Creating 'data/'</span>
+<span class="co">#&gt; ✓ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span>
 <span class="co">#&gt; ● Document your data (see 'https://r-pkgs.org/data.html')</span>
 
 <span class="co"># Use git ------------------------------------------------------------</span>
 <span class="fu"><a href="reference/use_git.html">use_git</a></span>()
-<span class="co">#&gt; ✔ Initialising Git repo</span>
-<span class="co">#&gt; ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'</span></pre></div>
+<span class="co">#&gt; ✓ Initialising Git repo</span>
+<span class="co">#&gt; ✓ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'</span></pre></div>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
