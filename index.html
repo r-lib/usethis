@@ -139,10 +139,10 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the released version of usethis from CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"usethis"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"usethis"</span>)</pre></div>
 <p>Or install the development version from GitHub with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># install.packages("devtools")</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"r-lib/usethis"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="co"># install.packages("devtools")</span>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"r-lib/usethis"</span>)</pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -151,72 +151,72 @@
 <p>A few usethis functions have no strong connections to projects and will expect you to provide a path.</p>
 <p>usethis is quite chatty, explaining what it’s doing and assigning you tasks. <code>✔</code> indicates something usethis has done for you. <code>●</code> indicates that you’ll need to do some work yourself.</p>
 <p>Below is a quick look at how usethis can help to set up a package. But remember, many usethis functions are also applicable to analytical projects that are not packages.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(usethis)</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co"># Create a new package -------------------------------------------------</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>path &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"mypkg"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="kw"><a href="reference/create_package.html">create_package</a></span>(path)</span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; ✔ Creating '/tmp/RtmpbbiMqB/mypkg/'</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; ✔ Setting active project to '/private/tmp/RtmpbbiMqB/mypkg'</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; ✔ Creating 'R/'</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; ✔ Writing 'DESCRIPTION'</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt; Package: mypkg</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; Title: What the Package Does (One Line, Title Case)</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; Version: 0.0.0.9000</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; Authors@R (parsed):</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt;     * First Last &lt;first.last@example.com&gt; [aut, cre] (&lt;https://orcid.org/YOUR-ORCID-ID&gt;)</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt; Description: What the package does (one paragraph).</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt; License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a</span></span>
-<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt;     license</span></span>
-<span id="cb3-18"><a href="#cb3-18"></a><span class="co">#&gt; Encoding: UTF-8</span></span>
-<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#&gt; LazyData: true</span></span>
-<span id="cb3-20"><a href="#cb3-20"></a><span class="co">#&gt; Roxygen: list(markdown = TRUE)</span></span>
-<span id="cb3-21"><a href="#cb3-21"></a><span class="co">#&gt; ✔ Writing 'NAMESPACE'</span></span>
-<span id="cb3-22"><a href="#cb3-22"></a><span class="co">#&gt; ✔ Setting active project to '&lt;no active project&gt;'</span></span>
-<span id="cb3-23"><a href="#cb3-23"></a><span class="co"># only needed since this session isn't interactive</span></span>
-<span id="cb3-24"><a href="#cb3-24"></a><span class="kw"><a href="reference/proj_activate.html">proj_activate</a></span>(path)</span>
-<span id="cb3-25"><a href="#cb3-25"></a><span class="co">#&gt; ✔ Changing working directory to '/tmp/RtmpbbiMqB/mypkg/'</span></span>
-<span id="cb3-26"><a href="#cb3-26"></a><span class="co">#&gt; ✔ Setting active project to '/private/tmp/RtmpbbiMqB/mypkg'</span></span>
-<span id="cb3-27"><a href="#cb3-27"></a></span>
-<span id="cb3-28"><a href="#cb3-28"></a><span class="co"># Modify the description ----------------------------------------------</span></span>
-<span id="cb3-29"><a href="#cb3-29"></a><span class="kw"><a href="reference/licenses.html">use_mit_license</a></span>(<span class="st">"My Name"</span>)</span>
-<span id="cb3-30"><a href="#cb3-30"></a><span class="co">#&gt; ✔ Setting License field in DESCRIPTION to 'MIT + file LICENSE'</span></span>
-<span id="cb3-31"><a href="#cb3-31"></a><span class="co">#&gt; ✔ Writing 'LICENSE.md'</span></span>
-<span id="cb3-32"><a href="#cb3-32"></a><span class="co">#&gt; ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'</span></span>
-<span id="cb3-33"><a href="#cb3-33"></a><span class="co">#&gt; ✔ Writing 'LICENSE'</span></span>
-<span id="cb3-34"><a href="#cb3-34"></a></span>
-<span id="cb3-35"><a href="#cb3-35"></a><span class="kw"><a href="reference/use_package.html">use_package</a></span>(<span class="st">"MASS"</span>, <span class="st">"Suggests"</span>)</span>
-<span id="cb3-36"><a href="#cb3-36"></a><span class="co">#&gt; ✔ Adding 'MASS' to Suggests field in DESCRIPTION</span></span>
-<span id="cb3-37"><a href="#cb3-37"></a><span class="co">#&gt; ● Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed</span></span>
-<span id="cb3-38"><a href="#cb3-38"></a><span class="co">#&gt; ● Then directly refer to functons like `MASS::fun()` (replacing `fun()`).</span></span>
-<span id="cb3-39"><a href="#cb3-39"></a></span>
-<span id="cb3-40"><a href="#cb3-40"></a><span class="co"># Set up other files -------------------------------------------------</span></span>
-<span id="cb3-41"><a href="#cb3-41"></a><span class="kw"><a href="reference/use_readme_rmd.html">use_readme_md</a></span>()</span>
-<span id="cb3-42"><a href="#cb3-42"></a><span class="co">#&gt; ✔ Writing 'README.md'</span></span>
-<span id="cb3-43"><a href="#cb3-43"></a></span>
-<span id="cb3-44"><a href="#cb3-44"></a><span class="kw"><a href="reference/use_news_md.html">use_news_md</a></span>()</span>
-<span id="cb3-45"><a href="#cb3-45"></a><span class="co">#&gt; ✔ Writing 'NEWS.md'</span></span>
-<span id="cb3-46"><a href="#cb3-46"></a></span>
-<span id="cb3-47"><a href="#cb3-47"></a><span class="kw"><a href="reference/use_r.html">use_test</a></span>(<span class="st">"my-test"</span>)</span>
-<span id="cb3-48"><a href="#cb3-48"></a><span class="co">#&gt; ✔ Adding 'testthat' to Suggests field in DESCRIPTION</span></span>
-<span id="cb3-49"><a href="#cb3-49"></a><span class="co">#&gt; ✔ Creating 'tests/testthat/'</span></span>
-<span id="cb3-50"><a href="#cb3-50"></a><span class="co">#&gt; ✔ Writing 'tests/testthat.R'</span></span>
-<span id="cb3-51"><a href="#cb3-51"></a><span class="co">#&gt; ● Call `use_test()` to initialize a basic test file and open it for editing.</span></span>
-<span id="cb3-52"><a href="#cb3-52"></a><span class="co">#&gt; ✔ Increasing 'testthat' version to '&gt;= 2.1.0' in DESCRIPTION</span></span>
-<span id="cb3-53"><a href="#cb3-53"></a><span class="co">#&gt; ✔ Writing 'tests/testthat/test-my-test.R'</span></span>
-<span id="cb3-54"><a href="#cb3-54"></a><span class="co">#&gt; ● Edit 'tests/testthat/test-my-test.R'</span></span>
-<span id="cb3-55"><a href="#cb3-55"></a></span>
-<span id="cb3-56"><a href="#cb3-56"></a>x &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb3-57"><a href="#cb3-57"></a>y &lt;-<span class="st"> </span><span class="dv">2</span></span>
-<span id="cb3-58"><a href="#cb3-58"></a><span class="kw"><a href="reference/use_data.html">use_data</a></span>(x, y)</span>
-<span id="cb3-59"><a href="#cb3-59"></a><span class="co">#&gt; ✔ Creating 'data/'</span></span>
-<span id="cb3-60"><a href="#cb3-60"></a><span class="co">#&gt; ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span></span>
-<span id="cb3-61"><a href="#cb3-61"></a><span class="co">#&gt; ● Document your data (see 'https://r-pkgs.org/data.html')</span></span>
-<span id="cb3-62"><a href="#cb3-62"></a></span>
-<span id="cb3-63"><a href="#cb3-63"></a><span class="co"># Use git ------------------------------------------------------------</span></span>
-<span id="cb3-64"><a href="#cb3-64"></a><span class="kw"><a href="reference/use_git.html">use_git</a></span>()</span>
-<span id="cb3-65"><a href="#cb3-65"></a><span class="co">#&gt; ✔ Initialising Git repo</span></span>
-<span id="cb3-66"><a href="#cb3-66"></a><span class="co">#&gt; ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">usethis</span>)
+
+<span class="co"># Create a new package -------------------------------------------------</span>
+<span class="no">path</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"mypkg"</span>)
+<span class="fu"><a href="reference/create_package.html">create_package</a></span>(<span class="no">path</span>)
+<span class="co">#&gt; ✔ Creating '/tmp/RtmpbbiMqB/mypkg/'</span>
+<span class="co">#&gt; ✔ Setting active project to '/private/tmp/RtmpbbiMqB/mypkg'</span>
+<span class="co">#&gt; ✔ Creating 'R/'</span>
+<span class="co">#&gt; ✔ Writing 'DESCRIPTION'</span>
+<span class="co">#&gt; Package: mypkg</span>
+<span class="co">#&gt; Title: What the Package Does (One Line, Title Case)</span>
+<span class="co">#&gt; Version: 0.0.0.9000</span>
+<span class="co">#&gt; Authors@R (parsed):</span>
+<span class="co">#&gt;     * First Last &lt;first.last@example.com&gt; [aut, cre] (&lt;https://orcid.org/YOUR-ORCID-ID&gt;)</span>
+<span class="co">#&gt; Description: What the package does (one paragraph).</span>
+<span class="co">#&gt; License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a</span>
+<span class="co">#&gt;     license</span>
+<span class="co">#&gt; Encoding: UTF-8</span>
+<span class="co">#&gt; LazyData: true</span>
+<span class="co">#&gt; Roxygen: list(markdown = TRUE)</span>
+<span class="co">#&gt; ✔ Writing 'NAMESPACE'</span>
+<span class="co">#&gt; ✔ Setting active project to '&lt;no active project&gt;'</span>
+<span class="co"># only needed since this session isn't interactive</span>
+<span class="fu"><a href="reference/proj_activate.html">proj_activate</a></span>(<span class="no">path</span>)
+<span class="co">#&gt; ✔ Changing working directory to '/tmp/RtmpbbiMqB/mypkg/'</span>
+<span class="co">#&gt; ✔ Setting active project to '/private/tmp/RtmpbbiMqB/mypkg'</span>
+
+<span class="co"># Modify the description ----------------------------------------------</span>
+<span class="fu"><a href="reference/licenses.html">use_mit_license</a></span>(<span class="st">"My Name"</span>)
+<span class="co">#&gt; ✔ Setting License field in DESCRIPTION to 'MIT + file LICENSE'</span>
+<span class="co">#&gt; ✔ Writing 'LICENSE.md'</span>
+<span class="co">#&gt; ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'</span>
+<span class="co">#&gt; ✔ Writing 'LICENSE'</span>
+
+<span class="fu"><a href="reference/use_package.html">use_package</a></span>(<span class="st">"MASS"</span>, <span class="st">"Suggests"</span>)
+<span class="co">#&gt; ✔ Adding 'MASS' to Suggests field in DESCRIPTION</span>
+<span class="co">#&gt; ● Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed</span>
+<span class="co">#&gt; ● Then directly refer to functons like `MASS::fun()` (replacing `fun()`).</span>
+
+<span class="co"># Set up other files -------------------------------------------------</span>
+<span class="fu"><a href="reference/use_readme_rmd.html">use_readme_md</a></span>()
+<span class="co">#&gt; ✔ Writing 'README.md'</span>
+
+<span class="fu"><a href="reference/use_news_md.html">use_news_md</a></span>()
+<span class="co">#&gt; ✔ Writing 'NEWS.md'</span>
+
+<span class="fu"><a href="reference/use_r.html">use_test</a></span>(<span class="st">"my-test"</span>)
+<span class="co">#&gt; ✔ Adding 'testthat' to Suggests field in DESCRIPTION</span>
+<span class="co">#&gt; ✔ Creating 'tests/testthat/'</span>
+<span class="co">#&gt; ✔ Writing 'tests/testthat.R'</span>
+<span class="co">#&gt; ● Call `use_test()` to initialize a basic test file and open it for editing.</span>
+<span class="co">#&gt; ✔ Increasing 'testthat' version to '&gt;= 2.1.0' in DESCRIPTION</span>
+<span class="co">#&gt; ✔ Writing 'tests/testthat/test-my-test.R'</span>
+<span class="co">#&gt; ● Edit 'tests/testthat/test-my-test.R'</span>
+
+<span class="no">x</span> <span class="kw">&lt;-</span> <span class="fl">1</span>
+<span class="no">y</span> <span class="kw">&lt;-</span> <span class="fl">2</span>
+<span class="fu"><a href="reference/use_data.html">use_data</a></span>(<span class="no">x</span>, <span class="no">y</span>)
+<span class="co">#&gt; ✔ Creating 'data/'</span>
+<span class="co">#&gt; ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span>
+<span class="co">#&gt; ● Document your data (see 'https://r-pkgs.org/data.html')</span>
+
+<span class="co"># Use git ------------------------------------------------------------</span>
+<span class="fu"><a href="reference/use_git.html">use_git</a></span>()
+<span class="co">#&gt; ✔ Initialising Git repo</span>
+<span class="co">#&gt; ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'</span></pre></div>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">

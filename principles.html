@@ -192,9 +192,9 @@
 <h3 class="hasAnchor">
 <a href="#activation-upon-load-or-attach-no" class="anchor"></a>Activation upon load or attach? No.</h3>
 <p>We’ve contemplated project activation in <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onLoad()</a></code> or <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onAttach()</a></code>, but it’s not clear which is more appropriate. Which suggests that neither is appropriate. If we ever do this, <code>zzz.R</code> would include something like this:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>.onLoad &lt;-<span class="st"> </span><span class="cf">function</span>(libname, pkgname) {</span>
-<span id="cb1-2"><a href="#cb1-2"></a>  <span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span>(<span class="kw"><a href="reference/proj_utils.html">proj_set</a></span>(<span class="st">"."</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>), <span class="dt">silent =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><pre class="r"><span class="no">.onLoad</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">libname</span>, <span class="no">pkgname</span>) {
+  <span class="fu"><a href="https://rdrr.io/r/base/try.html">try</a></span>(<span class="fu"><a href="reference/proj_utils.html">proj_set</a></span>(<span class="st">"."</span>, <span class="kw">quiet</span> <span class="kw">=</span> <span class="fl">TRUE</span>), <span class="kw">silent</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+}</pre></html></div>
 <p>Why not <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onAttach()</a></code>?</p>
 <ul>
 <li>A package that imported usethis would also need to set project on attach.</li>
@@ -263,6 +263,12 @@
 </div>
 </div>
 
+  </div>
+
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
