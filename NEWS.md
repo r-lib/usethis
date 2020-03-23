@@ -1,5 +1,14 @@
 # usethis (development version)
 
+* `use_rstudio()` now sets the `LineEndingConversion` to your `Posix` so that
+  packages created using usethis always use LF line endings, regardless of 
+  who contributes to them (#1002).
+  
+* When writing files, usethis now respects line endings. Default line endings 
+  are taken from the `.Rproj` file (if available), otherwise the `DESCRIPTION`,
+  otherwise the first file found in `R/`, then all else failing to your 
+  platform default (#767).
+
 * `use_testthat()` and `use_test()` now works in projects, not just packages 
   (#1017).
 

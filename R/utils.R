@@ -58,7 +58,7 @@ is_installed <- function(pkg) {
 pluck_chr <- function(l, what) vapply(l, `[[`, character(1), what)
 
 is_testing <- function() {
-  identical(Sys.getenv("TESTTHAT"), "true")
+  identical(Sys.getenv("TESTTHAT"), "true") || identical(Sys.getenv("R_COVR"), "true")
 }
 
 interactive <- function() {

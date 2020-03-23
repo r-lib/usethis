@@ -10,10 +10,16 @@
 #'   * Adds RStudio files to `.gitignore`
 #'   * Adds RStudio files to `.Rbuildignore`, if project is a package
 #'
+#' @param line_ending Line ending
 #' @export
-use_rstudio <- function() {
+use_rstudio <- function(line_ending = c("posix", "windows")) {
+  line_ending <- arg_match(line_ending)
+  line_ending <- c("posix" = "Posix", "windows" = "Windows")[[line_ending]]
+
   rproj_file <- paste0(project_name(), ".Rproj")
-  new <- use_template("template.Rproj", rproj_file)
+  new <- use_template("template.Rproj", rproj_file,
+    data = list(line_ending = line_ending)
+  )
 
   use_git_ignore(".Rproj.user")
   if (is_package()) {

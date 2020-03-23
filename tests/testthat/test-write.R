@@ -72,23 +72,24 @@ test_that("write_over() leaves file 'as is'", {
 # https://github.com/r-lib/usethis/issues/514
 test_that("write_ut8 always produces a trailing newline", {
   path <- file_temp()
-  write_utf8(path, "x")
-
-  if (identical(Sys.info()[["sysname"]], "Windows")) {
-    expect_equal(readChar(path, 3), "x\r\n")
-  } else {
-    expect_equal(readChar(path, 2), "x\n")
-  }
+  write_utf8(path, "x", line_ending = "\n")
+  expect_equal(readChar(path, 2), "x\n")
 })
 
 test_that("write_ut8 can append text when requested", {
   path <- file_temp()
-  write_utf8(path, "x")
-  write_utf8(path, "x", append = TRUE)
+  write_utf8(path, "x", line_ending = "\n")
+  write_utf8(path, "x", line_ending = "\n", append = TRUE)
 
-  if (identical(Sys.info()[["sysname"]], "Windows")) {
-    expect_equal(readChar(path, 6), "x\r\nx\r\n")
-  } else {
-    expect_equal(readChar(path, 4), "x\nx\n")
-  }
+  expect_equal(readChar(path, 4), "x\nx\n")
+})
+
+test_that("write_utf8 respects line ending", {
+  path <- file_temp()
+
+  write_utf8(path, "x", line_ending = "\n")
+  expect_equal(detect_line_ending(path), "\n")
+
+  write_utf8(path, "x", line_ending = "\r\n")
+  expect_equal(detect_line_ending(path), "\r\n")
 })
