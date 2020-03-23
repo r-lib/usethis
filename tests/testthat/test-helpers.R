@@ -137,5 +137,5 @@ test_that("can add LinkingTo dependency if other dependency already exists", {
   expect_message(use_dependency("Rcpp", "Imports"), "Adding 'Rcpp'")
   expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
   expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
-  expect_message(use_dependency("Rcpp", "Import"), NA)
+  expect_message(use_dependency("Rcpp", "Import"), "Adding 'Rcpp'")
 })

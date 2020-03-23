@@ -46,11 +46,11 @@ use_dependency <- function(package, type, min_version = NULL) {
   existing_dep <- deps$package == package
   existing_type <- deps$type[existing_dep]
   existing_ver <- deps$version[existing_dep]
-  is_linking_to <- (existing_type != "LinkingTo" && type == "LinkingTo") ||
-    (existing_type == "LinkingTo" && type != "LinkingTo")
+  is_linking_to <- (existing_type != "LinkingTo" & type == "LinkingTo") |
+    (existing_type == "LinkingTo" & type != "LinkingTo")
 
   # No existing dependency, so can simply add
-  if (!any(existing_dep) || is_linking_to) {
+  if (!any(existing_dep) || any(is_linking_to)) {
     ui_done("Adding {ui_value(package)} to {ui_field(type)} field in DESCRIPTION")
     desc::desc_set_dep(package, type, version = version, file = proj_get())
     return(invisible())
