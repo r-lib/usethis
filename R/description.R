@@ -73,6 +73,16 @@ use_description <- function(fields = list(), check_name = TRUE, roxygen = TRUE) 
 use_description_defaults <- function(package = NULL, roxygen = TRUE, fields = list()) {
   check_is_named_list(fields)
 
+  if (roxygen) {
+    if (is_installed("roxygen2")) {
+      roxygen_note <- utils::packageVersion("roxygen2")
+    } else {
+      roxygen_note <- "7.0.0" # version doesn't really matter
+    }
+  } else {
+    roxygen_note <- NULL
+  }
+
   usethis <- list(
     Package = package %||% "valid.package.name.goes.here",
     Version = "0.0.0.9000",
@@ -83,7 +93,7 @@ use_description_defaults <- function(package = NULL, roxygen = TRUE, fields = li
     Encoding = "UTF-8",
     LazyData = "true",
     Roxygen = "list(markdown = TRUE)",
-    RoxygenNote = if (roxygen) utils::packageVersion("roxygen2")
+    RoxygenNote = roxygen_note
   )
 
   options <- getOption("usethis.description") %||% getOption("devtools.desc") %||% list()
