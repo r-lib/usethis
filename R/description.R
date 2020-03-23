@@ -71,6 +71,7 @@ use_description <- function(fields = list(), check_name = TRUE, roxygen = TRUE) 
 #' @param package Package name
 #' @export
 use_description_defaults <- function(package = NULL, roxygen = TRUE, fields = list()) {
+  fields <- fields %||% list()
   check_is_named_list(fields)
 
   if (roxygen) {
