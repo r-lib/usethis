@@ -1,6 +1,6 @@
 test_that("can detect path from RStudio project file", {
   scoped_temporary_package()
-  use_rstudio("unix")
+  use_rstudio("posix")
   expect_equal(proj_line_ending(), "\n")
 
   file_delete(proj_path(paste(paste0(project_name(), ".Rproj"))))

@@ -1,8 +1,8 @@
 # usethis (development version)
 
-* `use_rstudio()` now sets the `LineEndingConversion` to your platform default.
-  That ensures that when other people edit your package with RStudio, they'll
-  use the same line ending as you (#1002).
+* `use_rstudio()` now sets the `LineEndingConversion` to your `Posix` so that
+  packages created using usethis always use LF line endings, regardless of 
+  who contributes to them (#1002).
   
 * When writing files, usethis now respects line endings. Default line endings 
   are taken from the `.Rproj` file (if available), otherwise the `DESCRIPTION`,
