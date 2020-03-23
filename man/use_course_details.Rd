@@ -28,7 +28,8 @@ tidy_download(url, destdir = getwd())
 # as called inside use_course()
 tidy_download(
   url, ## after post-processing with normalize_url()
-  # conspicuous_place() = Desktop or home directory or working directory
+  # conspicuous_place() = `getOption('usethis.destdir')` or desktop or home
+  # directory or working directory
   destdir = destdir \%||\% conspicuous_place()
 )
 }
@@ -89,7 +90,7 @@ processed in a web browser first. Such a sharing link looks like:\preformatted{h
 }
 
 To be able to get the URL suitable for direct download, you need to extract
-the "id" element from the URL and include it in this URL format:\preformatted{https://docs.google.com/uc?export=download&id=123456789xxyyyzzz
+the "id" element from the URL and include it in this URL format:\preformatted{https://drive.google.com/uc?export=download&id=123456789xxyyyzzz
 }
 
 Use \code{create_download_url()} to perform this transformation automatically.

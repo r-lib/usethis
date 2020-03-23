@@ -14,16 +14,22 @@
 #' use_test("something-management")
 #' }
 use_testthat <- function() {
-  check_is_package("use_testthat()")
   check_installed("testthat")
+  if (utils::packageVersion("testthat") < "2.1.0") {
+    ui_stop("testthat 2.1.0 or greater needed. Please install before re-trying")
+  }
 
-  use_dependency("testthat", "Suggests")
+  if (is_package()) {
+    use_dependency("testthat", "Suggests")
+  }
+
   use_directory(path("tests", "testthat"))
   use_template(
     "testthat.R",
     save_as = path("tests", "testthat.R"),
     data = list(name = project_name())
   )
+
   ui_todo(
     "Call {ui_code('use_test()')} to initialize a basic test file and open it \\
     for editing."

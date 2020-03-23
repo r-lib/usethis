@@ -26,6 +26,11 @@ use_r <- function(name = NULL, open = NULL) {
   use_directory("R")
   edit_file(proj_path("R", name), open = open)
 
+  test_path <- proj_path("tests", "testthat", paste0("test-", name, ".R"))
+  if (!file_exists(test_path)) {
+    ui_todo("Call {ui_code('use_test()')} to create a matching test file")
+  }
+
   invisible(TRUE)
 }
 
@@ -43,28 +48,11 @@ use_test <- function(name = NULL, open = NULL) {
 
   path <- path("tests", "testthat", name)
   if (!file_exists(path)) {
-    # As of testthat 2.1.0, a context() is no longer needed/wanted
-    if (utils::packageVersion("testthat") >= "2.1.0") {
-      use_dependency("testthat", "Suggests", "2.1.0")
-      use_template(
-        "test-example-2.1.R",
-        save_as = path,
-        open = FALSE
-      )
-    } else {
-      use_template(
-        "test-example.R",
-        save_as = path,
-        data = list(test_name = path_ext_remove(name)),
-        open = FALSE
-      )
-    }
+    use_template("test-example-2.1.R", save_as = path, open = FALSE)
   }
 
   edit_file(proj_path(path), open = open)
-
 }
-
 
 #' Automatically rename paired `R/` and `test/` files
 #'
