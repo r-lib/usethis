@@ -184,6 +184,8 @@
 <a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/use_rstudio.html">use_rstudio()</a></code> now sets the <code>LineEndingConversion</code> to your <code>Posix</code> so that packages created using usethis always use LF line endings, regardless of who contributes to them (<a href='https://github.com/r-lib/usethis/issues/1002'>#1002</a>).</p></li>
+<li><p>When writing files, usethis now respects line endings. Default line endings are taken from the <code>.Rproj</code> file (if available), otherwise the <code>DESCRIPTION</code>, otherwise the first file found in <code>R/</code>, then all else failing to your platform default (<a href='https://github.com/r-lib/usethis/issues/767'>#767</a>).</p></li>
 <li><p><code><a href="../reference/use_testthat.html">use_testthat()</a></code> and <code><a href="../reference/use_r.html">use_test()</a></code> now works in projects, not just packages (<a href='https://github.com/r-lib/usethis/issues/1017'>#1017</a>).</p></li>
 <li><p><code><a href="../reference/use_github_release.html">use_github_release()</a></code> no longer fails if you have no news bullets (<a href='https://github.com/r-lib/usethis/issues/1048'>#1048</a>).</p></li>
 <li><p><code>use_dev_package</code> now supports any remote of the form <code>type::username/repo</code> (<a href='https://github.com/antoine-sachet'>@antoine-sachet</a>, <a href='https://github.com/r-lib/usethis/issues/1071'>#1071</a>)</p></li>
