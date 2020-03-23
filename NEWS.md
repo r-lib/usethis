@@ -1,5 +1,13 @@
 # usethis (development version)
 
+## GitHub actions
+
+* New `use_github_actions()`, `use_github_action_check_release()`, `use_github_action_check_full()`,
+  `use_github_action_pr_commands()`, `use_github_actions_tidy()` to set up a GitHub Actions
+  for a package (@jimhester).
+
+## Package creation
+
 * `use_rstudio()` now sets the `LineEndingConversion` to your `Posix` so that
   packages created using usethis always use LF line endings, regardless of 
   who contributes to them (#1002).
@@ -8,6 +16,59 @@
   are taken from the `.Rproj` file (if available), otherwise the `DESCRIPTION`,
   otherwise the first file found in `R/`, then all else failing to your 
   platform default (#767).
+
+* In `usethis.description`, you can now set `Authors@R = person()` directly,
+  without having to wrap in additional layer of quotes. If setting this in
+  your `.Rprofile`, you'll need to use `utils::person` since the utils 
+  package isn't loaded until after your profile is executed.
+
+* `create_package()` gains a `roxygen` argument. If `TRUE` (the default), 
+  adds a `RoxygenNote` field to the `DESCRIPTION` (which means the first run
+  of `devtools::check()` will re-document the package, #963), and creates an 
+  empty `NAMESPACE` (which means you'll always need an explicit `@export` 
+  if you want to export functions, #927).
+
+* `create_package()` now turns markdown processing for roxygen2 on by default 
+  (#911).
+
+## Other new features
+
+* New `ui_silence()` makes it easier to selectively silence some UI output.
+
+* New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
+  (#784).
+
+* `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
+  it's usage (#771).
+
+* New `use_data_table()` to set up a package for Import-ing `data.table` (#897, @michaelchirico).
+
+* `use_lifecycle()` now adds `@importFrom lifecycle deprecate_soft` to 
+  silent an R CMD check note (#896).
+
+* New `use_lifecycle()` helper to import the lifecycle badges for functions and arguments in your package. See https://lifecycle.r-lib.org/.
+
+* If your package has a `release_bullets()` function which returns a character
+  vector (and the package has been loaded with `load_all()`), then 
+  `use_release_issue()` will include extra bullets in the issue (#941).
+
+## PR helpers
+
+* A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
+
+* `pr_pull()` gives more information about which files have merge conflicts 
+  and automatically opens conflicted files for editing (#1056).
+
+* `pr_*()` functions automatically refresh RStudio's git pane (#706).
+
+* `pr_finish()` can optionally finish any PR, not just the current (#1040).
+
+* `pr_pause()` and `pr_fetch()` now automatically pull to get latest changes 
+  (#959, #960).
+
+* `pr_finish()` checks that you don't have any local changes (#805).
+
+## Minor improvements and bug fixes
 
 * `use_testthat()` and `use_test()` now works in projects, not just packages 
   (#1017).
@@ -24,50 +85,20 @@
   URLs that mere mortals can usually get their hands on in a browser
   (#406, @fmichonneau).
 
-* New `ui_silence()` makes it easier to selectively silence some UI output.
-
-* New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
-  (#784).
-
-* `create_package()` no longer fails partway through if you have a malformed
-  `usethis.description` option (#961).
-  
-* In `usethis.description`, you can now set `Authors@R = person()` directly,
-  without having to wrap in additional layer of quotes. If setting this in
-  your `.Rprofile`, you'll need to use `utils::person` since the utils 
-  package isn't loaded until after your profile is executed.
-
-* `use_description_defaults()` now shows the default fields combined with
-  any options that you have set.
-
-* `use_git()` will now create initial commit if needed (#852)
-
-* If your package has a `release_bullets()` function which returns a character
-  vector (and the package has been loaded with `load_all()`), then 
-  `use_release_issue()` will include extra bullets in the issue (#941).
-
-* `use_data()` automatically bumps R dependency to 2.10 (#962).
-
-* `create_package()` gains a `roxygen` argument. If `TRUE` (the default), 
-  adds a `RoxygenNote` field to the `DESCRIPTION` (which means the first run
-  of `devtools::check()` will re-document the package, #963), and creates an 
-  empty `NAMESPACE` (which means you'll always need an explicit `@export` 
-  if you want to export functions, #927).
-
-* `pr_pull()` gives more information about which files have merge conflicts 
-  and automatically opens conflicted files for editing (#1056).
-
 * `browse_github()` now always goes to the canonical Github site: 
   `https://github.com/user/repo`. This is slightly worse than the current 
   behaviour but makes the function more consistent across packages, and 
   considerably simplifies the implementation.
 
-* `pr_*()` functions automatically refresh RStudio's git pane (#706).
+* `create_package()` no longer fails partway through if you have a malformed
+  `usethis.description` option (#961).
+  
+* `use_description_defaults()` now shows the default fields combined with
+  any options that you have set.
 
-* `pr_finish()` can optionally finish any PR, not just the current (#1040).
+* `use_git()` will now create initial commit if needed (#852)
 
-* `pr_pause()` and `pr_fetch()` now automatically pull to get latest changes 
-  (#959, #960).
+* `use_data()` automatically bumps R dependency to 2.10 (#962).
 
 * usethis should do a better job of not messing up UTF-8 files on windows 
   (#969).
@@ -78,64 +109,17 @@ recommended over travis-ci.org (#1038, @riccardoporreca).
 
 * `pr_push()` works with gh v1.1.0 (and earlier versions), for a repository with no open pull requests (#990, @maurolepore).
 
-* New `use_github_actions()`, `use_github_action_check_release()`, `use_github_action_check_full()`,
-  `use_github_action_pr_commands()`, `use_github_actions_tidy()` to set up a GitHub Actions
-  for a package (@jimhester).
-
 * Fix `use_logo()` README href if pkgdown `url` is set. (#986, @mitchelloharawild).
 
 * usethis now outputs with message conditions. (@jimhester)
 
-* New `use_data_table()` to set up a package for Import-ing `data.table` (#897, @michaelchirico).
-
 * `use_code_of_conduct()` now generates absolute link to code of conduct on 
   pkgdown website or original source to avoid R CMD check issues (#772).
-
-* `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
-  it's usage (#771).
 
 * `create_package()` will now create a package in a symlink to a directory (#794).
 
 * `git_sitrep()` now reports project-specific user name and email, if set 
   (#837).
-
-* `pr_finish()` checks that you don't have any local changes (#805).
-
-* `use_lifecycle()` now adds `@importFrom lifecycle deprecate_soft` to 
-  silent an R CMD check note (#896).
-
-* `create_package()` now turns markdown processing for roxygen2 on by default 
-  (#911).
-
-* `edit_file()` and `use_test()` gain an `open` parameter that allows you to
-  control whether or not the function is opened for editing by the user (#817).
-
-* Document `use_r()` and `use_test()` in the same `.Rd` file (#726, @friep). 
-
-* `use_r()` and `use_test()` would throw an error if multiple names are provided in their 'name' argument (#862, @strboul).
-
-* `edit_rstudio_snippets()` makes it more clear which snippet types are allowed and that user's snippets mask the built-in snippets (#885, @GegznaV).
-
-* `use_test()` should work again on Windows, when called with no argument, i.e. when the active `.R` file is determined from RStudio's source editor context (#901).
-
-* `use_description()` and `create_package()` gain the argument `check_name` to control whether to check for package names invalid for CRAN (#883, @noamross).
-
-* New `use_lifecycle()` helper to import the lifecycle badges for functions and arguments in your package. See https://lifecycle.r-lib.org/.
-
-* `git_sitrep()` reports email(s) associated with your GitHub account(#724, @dragosmg).
-
-* Feature fix, updated issue template to current github format (#756 @Maschette)
-
-* The `ui_yeah()` and `ui_nope()` question functions allow a developer to override the default "yes" and "no" strings and to opt-out of shuffling (#796, @rundel).
-
-* `use_gpl3_license()` now completes the license by providing additional information in a file named LICENSE, just like `use_mit_license()` and friends (#683, @Cervangirard).
-
-* `use_rcpp()` and `use_c()` now ensure `src/` contains at least one `.cpp` or
-  `.c` placeholder file, so that the package can be built (#720, @coatless).
-  
-* add `browse_circle()` to open the project dashboard on Circle CI
-
-* A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
 
 * Fix typo in Makefile template generated via `use_make()` (#804, @ryapric).
 
@@ -150,6 +134,33 @@ recommended over travis-ci.org (#1038, @riccardoporreca).
 * Export `use_circleci_badge()` (#920, @pat-s)
 
 * `use_github_release()` now tags the latest local commit instead of the latest remote commit on the default branch (#1029, @davidchall)
+
+* `git_sitrep()` reports email(s) associated with your GitHub account(#724, @dragosmg).
+
+* Feature fix, updated issue template to current github format (#756 @Maschette)
+
+* The `ui_yeah()` and `ui_nope()` question functions allow a developer to override the default "yes" and "no" strings and to opt-out of shuffling (#796, @rundel).
+
+* `use_gpl3_license()` now completes the license by providing additional information in a file named LICENSE, just like `use_mit_license()` and friends (#683, @Cervangirard).
+
+* `use_rcpp()` and `use_c()` now ensure `src/` contains at least one `.cpp` or
+  `.c` placeholder file, so that the package can be built (#720, @coatless).
+  
+* add `browse_circle()` to open the project dashboard on Circle CI
+
+
+* `edit_file()` and `use_test()` gain an `open` parameter that allows you to
+  control whether or not the function is opened for editing by the user (#817).
+
+* Document `use_r()` and `use_test()` in the same `.Rd` file (#726, @friep). 
+
+* `use_r()` and `use_test()` would throw an error if multiple names are provided in their 'name' argument (#862, @strboul).
+
+* `edit_rstudio_snippets()` makes it more clear which snippet types are allowed and that user's snippets mask the built-in snippets (#885, @GegznaV).
+
+* `use_test()` should work again on Windows, when called with no argument, i.e. when the active `.R` file is determined from RStudio's source editor context (#901).
+
+* `use_description()` and `create_package()` gain the argument `check_name` to control whether to check for package names invalid for CRAN (#883, @noamross).
 
 # usethis 1.5.1
 
