@@ -65,16 +65,12 @@
 |codemetar |0.1.8   |1     |        |1    |
 |RxODE     |0.9.2-0 |1     |        |1    |
 
-## New problems (8)
+## New problems (4)
 
-|package                                            |version |error  |warning |note |
-|:--------------------------------------------------|:-------|:------|:-------|:----|
-|[BiocWorkflowTools](problems.md#biocworkflowtools) |1.12.0  |__+1__ |        |1    |
-|[cleanr](problems.md#cleanr)                       |1.3.0   |__+2__ |        |     |
-|[DataPackageR](problems.md#datapackager)           |0.15.7  |__+1__ |        |     |
-|[devtools](problems.md#devtools)                   |2.2.2   |       |__+1__  |     |
-|[etl](problems.md#etl)                             |0.3.8   |__+1__ |        |     |
-|[hardhat](problems.md#hardhat)                     |0.1.2   |__+1__ |        |     |
-|[portalr](problems.md#portalr)                     |0.3.1   |__+1__ |        |     |
-|[rstantools](problems.md#rstantools)               |2.0.0   |__+1__ |        |     |
+|package                                  |version |error  |warning |note |
+|:----------------------------------------|:-------|:------|:-------|:----|
+|[DataPackageR](problems.md#datapackager) |0.15.7  |__+1__ |        |     |
+|[devtools](problems.md#devtools)         |2.2.2   |       |__+1__  |     |
+|[etl](problems.md#etl)                   |0.3.8   |__+1__ |        |     |
+|[portalr](problems.md#portalr)           |0.3.1   |__+1__ |        |     |
 
