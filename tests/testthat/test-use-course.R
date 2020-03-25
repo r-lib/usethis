@@ -147,12 +147,11 @@ test_that("conspicuous_place() uses `usethis.destdir` when set", {
   expect_equal(destdir_temp, x)
 })
 
-test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
-  skip("work this into a use_course test")
+test_that("use_course() errors if MIME type is not 'application/zip'", {
   skip_on_cran()
   skip_if_offline()
-  expect_usethis_error(
-    download_zip("https://httpbin.org/get"),
+  expect_error(
+    use_course("https://httpbin.org/get", destdir = fs::path_temp()),
     "does not have MIME type"
   )
 })
