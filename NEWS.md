@@ -1,77 +1,168 @@
 # usethis (development version)
 
-* `pr_push()` works with gh v1.1.0 (and earlier versions), for a repository with no open pull requests (#990, @maurolepore).
+## GitHub actions
 
-* New `use_github_actions()`, `use_github_action_check_release()`, `use_github_action_check_full()`,
-  `use_github_action_pr_commands()`, `use_github_actions_tidy()` to set up a GitHub Actions
-  for a package (@jimhester).
+* New `use_github_actions()`, `use_github_action_check_release()`,
+  `use_github_action_check_full()`, `use_github_action_pr_commands()`,
+  to set up a GitHub Actions for a package (@jimhester).
 
-* Fix `use_logo()` README href if pkgdown `url` is set. (#986, @mitchelloharawild).
+* We now recommend GitHub actions instead of travis or appveyor, and strongly
+  recommended upgrading your packages.
 
-* usethis now outputs with message conditions. (@jimhester)
+## Package creation
 
-* New `use_data_table()` to set up a package for Import-ing `data.table` (#897, @michaelchirico).
+* `create_package()` gains a `roxygen` argument. If `TRUE` (the default), 
+  it adds a `RoxygenNote` field to the `DESCRIPTION` (which means the first run
+  of `devtools::check()` will re-document the package, #963), and creates an 
+  empty `NAMESPACE` (which means you'll always need an explicit `@export` 
+  if you want to export functions, #927). It also turns markdown processing 
+  on by default (#911).
 
-* `use_code_of_conduct()` now generates absolute link to code of conduct on 
-  pkgdown website or original source to avoid R CMD check issues (#772).
+* `use_rstudio()` now sets the `LineEndingConversion` to your `Posix` so that
+  packages created using usethis always use LF line endings, regardless of 
+  who contributes to them (#1002).
 
-* `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
-  it's usage (#771).
+* In the `usethis.description` option, you can now set `Authors@R = person()` 
+  directly, without having to wrap in additional layer of quotes. If setting 
+  this in your `.Rprofile`, you'll need to use `utils::person` since the utils 
+  package isn't loaded until after your profile is executed.
 
-* `create_package()` will now create a package in a symlink to a directory (#794).
+## PR helpers
 
-* `git_sitrep()` now reports project-specific user name and email, if set 
-  (#837).
+* A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) 
+  demonstrates how to use the  `pr_*()` functions (@mine-cetinkaya-rundel, #802).
 
-* `pr_finish()` checks that you don't have any local changes (#805).
+* `pr_finish()` checks that you don't have any local changes (#805), and can 
+  optionally finish any PR, not just the current (#1040).
 
-* `use_lifecycle()` now adds `@importFrom lifecycle deprecate_soft` to 
-  silent an R CMD check note (#896).
+* `pr_pause()` and `pr_fetch()` now automatically pull to get latest changes 
+  (#959, #960) and refresh RStudio's git pane (#706).
 
-* `create_package()` now turns markdown processing for roxygen2 on by default 
-  (#911).
+* `pr_push()` now works with for a repository with no open pull requests 
+  (@maurolepore, #990).
+
+* `pr_pull()` gives more information about which files have merge conflicts 
+  and automatically opens conflicted files for editing (#1056).
+
+## Other new features
+
+* New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
+  (#784).
+
+* New `ui_silence()` makes it easier to selectively silence some UI output.
+
+* New `use_agpl3_license()` (@pachamaltese, #870).
+
+* New `use_data_table()` to set up a package for Import-ing `data.table` 
+  (@michaelchirico, #897).
+
+* `use_latest_dependencies()` replaces `use_tidy_version()` as the new name
+  better reflect its usage (#771).
+
+* New `use_lifecycle()` helper to import the lifecycle badges for functions and 
+  arguments in your package. Learn more at <https://lifecycle.r-lib.org/>.
+
+* `use_release_issuue()` will include additional bullets if your package
+  includes `release_bullets()` function which returns a character
+  vector (and the package has been loaded with `load_all()`) (#941).
+
+## Minor improvements and bug fixes
+
+* When writing files, usethis now respects line endings. Default line endings 
+  are taken from the `.Rproj` file (if available), otherwise the `DESCRIPTION`,
+  otherwise the first file found in `R/`, then all else failing to your 
+  platform default (#767). It should do a better job of preserving UTF-8 files 
+  on windows (#969).
+
+* `browse_github()` now always goes to the canonical Github site: 
+  `https://github.com/user/repo`. This is slightly worse than the current 
+  behaviour but makes the function more consistent across packages, and 
+  considerably simplifies the implementation.
+
+* `browse_circle()` opens the project dashboard on Circle CI.
+
+* `create_download_url()` is a new helper for making "ZIP file download" 
+  URLs suitable for use with `use_course()` and `use_zip()`, starting with the
+  URLs that mere mortals can usually get their hands on in a browser
+  (@fmichonneau, #406).
+
+* `create_package()` no longer fails partway through if you have a malformed
+  `usethis.description` option (#961).
+
+* `create_package()` will now create a package in a symlink to a directory 
+  (#794).
+
+* `create_package()` and `use_description()` gain `check_name` argument to 
+  control whether to check for package names invalid for CRAN (@noamross, #883).
 
 * `edit_file()` and `use_test()` gain an `open` parameter that allows you to
   control whether or not the function is opened for editing by the user (#817).
 
-* Document `use_r()` and `use_test()` in the same `.Rd` file (#726, @friep). 
+* `edit_rstudio_snippets()` makes it more clear which snippet types are 
+  allowed and that user's snippets mask the built-in snippets (@GegznaV, #885).
 
-* `use_r()` and `use_test()` would throw an error if multiple names are provided in their 'name' argument (#862, @strboul).
+* `git_sitrep()` now reports project-specific user name and email, if set 
+  (#837), and email(s) associated with your GitHub account (@dragosmg, #724).
 
-* `edit_rstudio_snippets()` makes it more clear which snippet types are allowed and that user's snippets mask the built-in snippets (#885, @GegznaV).
+* `ui_yeah()` and `ui_nope()` can now override the default "yes" and "no" 
+  strings and to opt-out of shuffling (@rundel, #796).
 
-* `use_test()` should work again on Windows, when called with no argument, i.e. when the active `.R` file is determined from RStudio's source editor context (#901).
+* `use_circleci()` uses correct delimiters in template (@jdblischak, #835).
 
-* `use_description()` and `create_package()` gain the argument `check_name` to control whether to check for package names invalid for CRAN (#883, @noamross).
+* `use_circleci_badge()` is now exported (@pat-s, #920).
 
-* New `use_lifecycle()` helper to import the lifecycle badges for functions and arguments in your package. See https://lifecycle.r-lib.org/.
+* `use_code_of_conduct()` now generates absolute link to code of conduct on 
+  pkgdown website or original source to avoid R CMD check issues (#772).
 
-* `git_sitrep()` reports email(s) associated with your GitHub account(#724, @dragosmg).
+* `use_data()` automatically bumps R dependency to 2.10 (#962).
 
-* Feature fix, updated issue template to current github format (#756 @Maschette)
+* `use_data_raw()` template quotes of dataset name correctly 
+  (#736, @mitchelloharawild).
 
-* The `ui_yeah()` and `ui_nope()` question functions allow a developer to override the default "yes" and "no" strings and to opt-out of shuffling (#796, @rundel).
+* `use_description_defaults()` now shows the default fields combined with
+  any options that you have set.
 
-* `use_gpl3_license()` now completes the license by providing additional information in a file named LICENSE, just like `use_mit_license()` and friends (#683, @Cervangirard).
+* `use_dev_package()` now supports packages installed from any remote type,
+   not just GitHub (@antoine-sachet, #1071).
+
+* `use_git()` will now create initial commit if needed (#852)
+
+* `use_github_release()` no longer fails if you have no news bullets (#1048).
+
+* `use_github_release()` now tags the latest local commit instead of the latest 
+  remote commit on the default branch (@davidchall, #1029)
+
+* `use_gpl3_license()` now completes the license by providing additional 
+  information in a file named LICENSE, just like `use_mit_license()` and 
+  friends (@Cervangirard, #683).
+
+* `use_logo()` now generates the correct href if the pkgdown `url` is set 
+  (@mitchelloharawild, #986).
+
+* `use_make()` gains missing closing parenthesis (@ryapric, #804).
+
+* `use_markdown_template()` no longer uses an unexported function in its
+  default arguments (@fmichonneau, #761).
+
+* `use_testthat()` and `use_test()` now work in projects, not just packages 
+  (#1017).
+
+* `use_test()` works on Windows when called without arguments (#901).
+
+* `use_tidy_issue_template()` uses current github format (@Maschette, #756).
+
+* `use_travis()`, `use_travis_badge()`, and `browse_travis()`, now default
+  to `ext = "com"` since travis-ci.com is now recommended over travis-ci.org 
+  (@riccardoporreca, #1038).
+
+* `use_release_issue()` reminds you to use it to re-generate `README.md`,
+  if needed (#767).
+
+* `use_r()` and `use_test()` throw a clear error if multiple names are provided 
+  (@strboul, #862).
 
 * `use_rcpp()` and `use_c()` now ensure `src/` contains at least one `.cpp` or
-  `.c` placeholder file, so that the package can be built (#720, @coatless).
-  
-* add `browse_circle()` to open the project dashboard on Circle CI
-
-* A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
-
-* Fix typo in Makefile template generated via `use_make()` (#804, @ryapric).
-
-* Fix quoting of dataset name in template for `use_data_raw()` (#736, @mitchelloharawild).
-
-* Remove unexported function from the signature of `use_markdown_template()` (#761, @fmichonneau).
-
-* Fix delimiters in CircleCI template used by `use_circleci()` (#835, @jdblischak)
-
-* Adds AGPL license and explicitly refers to it and to LGPL in DESCRIPTION (#870, @pachamaltese)
-
-* Export `use_circleci_badge()` (#920, @pat-s)
+  `.c` placeholder file, so that the package can be built (@coatless, #720).
 
 # usethis 1.5.1
 

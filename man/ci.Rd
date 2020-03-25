@@ -10,9 +10,9 @@
 \alias{use_circleci_badge}
 \title{Continuous integration setup and badges}
 \usage{
-use_travis(browse = interactive(), ext = c("org", "com"))
+use_travis(browse = interactive(), ext = c("com", "org"))
 
-use_travis_badge(ext = "org")
+use_travis_badge(ext = c("com", "org"))
 
 use_appveyor(browse = interactive())
 
@@ -28,8 +28,8 @@ use_circleci_badge()
 \item{browse}{Open a browser window to enable automatic builds for the
 package.}
 
-\item{ext}{which travis website to use. default to \code{"org"}for
-https://travis-ci.org. Change to \code{"com"} for https://travis-ci.com.}
+\item{ext}{Which travis website to use. Defaults to \code{"com"} for
+https://travis-ci.com. Change to \code{"org"} for https://travis-ci.org.}
 
 \item{image}{The Docker image to use for build. Must be available on
 \href{https://hub.docker.com}{DockerHub}. The
@@ -52,13 +52,13 @@ various platforms, triggered by each push or pull request. These functions
 \section{\code{use_travis()}}{
 
 Adds a basic \code{.travis.yml} to the top-level directory of a package. This is a
-configuration file for the \href{https://travis-ci.org/}{Travis CI} continuous
+configuration file for the \href{https://travis-ci.com/}{Travis CI} continuous
 integration service.
 }
 
 \section{\code{use_travis_badge()}}{
 
-Only adds the \href{https://travis-ci.org/}{Travis CI} badge. Use for a project
+Only adds the \href{https://travis-ci.com/}{Travis CI} badge. Use for a project
 where Travis is already configured.
 }
 

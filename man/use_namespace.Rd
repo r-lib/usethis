@@ -4,11 +4,16 @@
 \alias{use_namespace}
 \title{Use a basic \code{NAMESPACE}}
 \usage{
-use_namespace()
+use_namespace(roxygen = TRUE)
+}
+\arguments{
+\item{roxygen}{Do you plan to manage \code{NAMESPACE} with roxygen2?}
 }
 \description{
-This \code{NAMESPACE} exports everything, except functions that start
-with a \code{.}.
+If \code{roxygen} is \code{TRUE} generates an empty \code{NAMESPACE} that exports nothing;
+you'll need to explicitly export functions with \verb{@export}. If \code{roxygen}
+is \code{FALSE}, generates a default \code{NAMESPACE} that exports all functions
+except those that start with \code{.}.
 }
 \seealso{
 The \href{https://r-pkgs.org/namespace.html}{namespace chapter} of

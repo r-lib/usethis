@@ -11,11 +11,11 @@ can_overwrite <- function(path) {
 }
 
 check_is_named_list <- function(x, nm = deparse(substitute(x))) {
-  if (!rlang::is_list(x)) {
+  if (!is_list(x)) {
     bad_class <- paste(class(x), collapse = "/")
     ui_stop("{ui_code(nm)} must be a list, not {ui_value(bad_class)}.")
   }
-  if (!rlang::is_dictionaryish(x)) {
+  if (!is_dictionaryish(x)) {
     ui_stop(
       "Names of {ui_code(nm)} must be non-missing, non-empty, and non-duplicated."
     )
@@ -58,7 +58,7 @@ is_installed <- function(pkg) {
 pluck_chr <- function(l, what) vapply(l, `[[`, character(1), what)
 
 is_testing <- function() {
-  identical(Sys.getenv("TESTTHAT"), "true")
+  identical(Sys.getenv("TESTTHAT"), "true") || identical(Sys.getenv("R_COVR"), "true")
 }
 
 interactive <- function() {
@@ -94,4 +94,8 @@ path_first_existing <- function(...) {
   }
 
   NULL
+}
+
+is_online <- function(host) {
+  !is.null(curl::nslookup(host, error = FALSE))
 }

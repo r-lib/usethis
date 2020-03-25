@@ -23,13 +23,15 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
     coveralls = use_coveralls_badge()
   )
 
-  ui_todo("Add to {ui_path('.travis.yml')}:")
-  ui_code_block(
-    "
-    after_success:
-      - Rscript -e 'covr::{type}()'
-    "
-  )
+  if (uses_travis()) {
+    ui_todo("Add to {ui_path('.travis.yml')}:")
+    ui_code_block(
+      "
+      after_success:
+        - Rscript -e 'covr::{type}()'
+      "
+    )
+  }
 
   invisible(TRUE)
 }

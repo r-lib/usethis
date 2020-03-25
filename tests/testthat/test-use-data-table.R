@@ -10,7 +10,7 @@ test_that("use_data_table() Imports data.table", {
       scoped_temporary_package()
       use_data_table()
       expect_match(desc::desc_get("Imports", proj_get()), "data.table")
-      datatable_doc <- readLines(proj_path("R", "utils-data-table.R"))
+      datatable_doc <- read_utf8(proj_path("R", "utils-data-table.R"))
       expect_match(datatable_doc, "#' @import data.table", all = FALSE)
     }
   )

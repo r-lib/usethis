@@ -167,7 +167,9 @@ looks like the following.
 knitr::include_graphics("img/pr-functions-pull-request.png", dpi = 300)
 ```
 
-Click "Create pull request" to make the PR. GitHub will ping the package maintainer and they will review our pull request. We can view this pull request in the browser with `pr_view()`. And anyone can follow along with this PR [rladies/praise#84](https://github.com/rladies/praise/pull/84).
+Click "Create pull request" to make the PR. After clicking you will be able to choose between [draft PR](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests) and actual PR (If opening a draft PR, [mark it as ready for review](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request) once you're done e.g. after a few more commits and one new call to `pr_push()`). 
+
+GitHub will ping the package maintainer and they will review our pull request. We can view this pull request in the browser with `pr_view()`. And anyone can follow along with this PR [rladies/praise#84](https://github.com/rladies/praise/pull/84).
 
 ```{r pr_view, eval=FALSE}
 pr_view()

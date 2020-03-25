@@ -138,7 +138,7 @@ has_badge <- function(href) {
     return(FALSE)
   }
 
-  readme <- readLines(readme_path, encoding = "UTF-8")
+  readme <- read_utf8(readme_path)
   any(grepl(href, readme, fixed = TRUE))
 }
 

@@ -62,6 +62,42 @@ test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
 })
 
 ## helpers ----
+test_that("create_download_url() works", {
+  expect_equal(
+    create_download_url("https://rstudio.com"),
+    "https://rstudio.com"
+  )
+  expect_equal(
+    create_download_url("https://drive.google.com/open?id=123456789xxyyyzzz"),
+    "https://drive.google.com/uc?export=download&id=123456789xxyyyzzz"
+  )
+  expect_equal(
+    create_download_url(
+      "https://drive.google.com/file/d/123456789xxxyyyzzz/view"
+    ),
+    "https://drive.google.com/uc?export=download&id=123456789xxxyyyzzz"
+  )
+  expect_equal(
+    create_download_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0"),
+    "https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1"
+  )
+
+  # GitHub
+  usethis_url <- "https://github.com/r-lib/usethis/archive/master.zip"
+  expect_equal(
+    create_download_url("https://github.com/r-lib/usethis"),
+    usethis_url
+  )
+  expect_equal(
+    create_download_url("https://github.com/r-lib/usethis/issues"),
+    usethis_url
+  )
+  expect_equal(
+    create_download_url("https://github.com/r-lib/usethis#readme"),
+    usethis_url
+  )
+})
+
 test_that("normalize_url() prepends https:// (or not)", {
   expect_error(normalize_url(1), "is\\.character.*not TRUE")
   expect_identical(normalize_url("http://bit.ly/aaa"), "http://bit.ly/aaa")
@@ -100,6 +136,14 @@ test_that("conspicuous_place() returns a writeable directory", {
   expect_error_free(x <- conspicuous_place())
   expect_true(is_dir(x))
   expect_true(file_access(x, mode = "write"))
+})
+
+test_that("conspicuous_place() uses `usethis.destdir` when set", {
+  tdestdir_temp <- path(tempdir(), "destdir_temp")
+  dir_create(tdestdir_temp)
+  withr::local_options(list(usethis.destdir = tdestdir_temp))
+  expect_error_free(x <- conspicuous_place())
+  expect_equal(path(tdestdir_temp), x)
 })
 
 test_that("check_is_zip() errors if MIME type is not 'application/zip'", {

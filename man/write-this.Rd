@@ -42,7 +42,7 @@ and user is available to give permission.
 }}
 
 \examples{
-\dontshow{.old_wd <- setwd(tempdir())}
+\dontshow{.old_wd <- setwd(tempdir()); proj_set(force = TRUE)}
 write_union("a_file", letters[1:3])
 readLines("a_file")
 write_union("a_file", letters[1:5])

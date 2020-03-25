@@ -69,6 +69,7 @@ reference:
       Package setup tasks, typically performed once.
     contents:
     - create_package
+    - use_data_table
     - use_description
     - matches("license")
     - use_namespace
@@ -79,18 +80,22 @@ reference:
     - matches("pkgdown|badge")
     - use_github_links
     - use_lifecycle
+    - use_testthat
   - title: Package release
     contents:
-    - matches("release")
-    - matches("cran_comments|revdep")
+    - use_cran_comments
+    - use_github_release
+    - use_release_issue
+    - use_revdep
     - use_version
   - title: Continuous integration
     contents:
-    - use_travis
+    - use_github_action
     - use_appveyor
-    - use_gitlab_ci
     - use_circleci
+    - use_gitlab_ci
     - use_jenkins
+    - use_travis
   - title: Tidyverse development
     desc: >
       Conventions used in the tidyverse and r-lib organisations
@@ -133,6 +138,7 @@ reference:
   - title: Edit
     contents:
     - starts_with("edit_")
+    - rename_files
   - title: Browse
     contents:
     - starts_with("browse_")

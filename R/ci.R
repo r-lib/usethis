@@ -13,17 +13,17 @@ NULL
 
 #' @section `use_travis()`:
 #' Adds a basic `.travis.yml` to the top-level directory of a package. This is a
-#' configuration file for the [Travis CI](https://travis-ci.org/) continuous
+#' configuration file for the [Travis CI](https://travis-ci.com/) continuous
 #' integration service.
 #' @param browse Open a browser window to enable automatic builds for the
 #'   package.
-#' @param ext which travis website to use. default to `"org"`for
-#'   https://travis-ci.org. Change to `"com"` for https://travis-ci.com.
+#' @param ext Which travis website to use. Defaults to `"com"` for
+#'   https://travis-ci.com. Change to `"org"` for https://travis-ci.org.
 #' @export
 #' @rdname ci
-use_travis <- function(browse = interactive(), ext = c("org", "com")) {
+use_travis <- function(browse = interactive(), ext = c("com", "org")) {
   check_uses_github()
-  ext <- rlang::arg_match(ext)
+  ext <- arg_match(ext)
   new <- use_template(
     "travis.yml",
     ".travis.yml",
@@ -39,18 +39,20 @@ use_travis <- function(browse = interactive(), ext = c("org", "com")) {
 }
 
 #' @section `use_travis_badge()`:
-#' Only adds the [Travis CI](https://travis-ci.org/) badge. Use for a project
+#' Only adds the [Travis CI](https://travis-ci.com/) badge. Use for a project
 #'  where Travis is already configured.
 #' @export
 #' @rdname ci
-use_travis_badge <- function(ext = "org") {
+use_travis_badge <- function(ext = c("com", "org")) {
   check_uses_github()
+  ext <- arg_match(ext)
   url <- glue("https://travis-ci.{ext}/{github_repo_spec()}")
   img <- glue("{url}.svg?branch=master")
   use_badge("Travis build status", url, img)
 }
 
-travis_activate <- function(browse = interactive(), ext = "org") {
+travis_activate <- function(browse = interactive(), ext = c("com", "org")) {
+  ext <- arg_match(ext)
   url <- glue("https://travis-ci.{ext}/profile/{github_owner()}")
 
   ui_todo("Turn on travis for your repo at {url}")
