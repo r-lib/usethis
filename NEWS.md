@@ -163,6 +163,10 @@
 
 * `use_rcpp()` and `use_c()` now ensure `src/` contains at least one `.cpp` or
   `.c` placeholder file, so that the package can be built (@coatless, #720).
+  
+* `usethis.destdir` is a new option that is consulted when deciding where to
+  put a new folder created by `use_course()` or `create_from_github()`
+  (@malcolmbarrett, #1015).
 
 # usethis 1.5.1
 
