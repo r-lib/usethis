@@ -139,11 +139,12 @@ test_that("conspicuous_place() returns a writeable directory", {
 })
 
 test_that("conspicuous_place() uses `usethis.destdir` when set", {
-  tdestdir_temp <- path(tempdir(), "destdir_temp")
-  dir_create(tdestdir_temp)
-  withr::local_options(list(usethis.destdir = tdestdir_temp))
+  destdir_temp <- fs::path_temp("destdir_temp")
+  on.exit(fs::dir_delete(destdir_temp))
+  dir_create(destdir_temp)
+  withr::local_options(list(usethis.destdir = destdir_temp))
   expect_error_free(x <- conspicuous_place())
-  expect_equal(path(tdestdir_temp), x)
+  expect_equal(destdir_temp, x)
 })
 
 test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
