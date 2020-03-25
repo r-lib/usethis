@@ -17,7 +17,7 @@ of typos in live settings, these shorter forms are accepted:\preformatted{* GitH
 * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
   The instructor must then arrange for the shortlink to point to a valid
   download URL for the target ZIP file. The helper
-  [create_download_url()] help create such URLs for GitHub, DropBox,
+  [create_download_url()] helps to create such URLs for GitHub, DropBox,
   and Google Drive.
 }}
 
