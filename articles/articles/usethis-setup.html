@@ -188,20 +188,24 @@
 <li>
 <code>usethis.description</code>: named list of default DESCRIPTION fields for new packages made with <code><a href="../../reference/create_package.html">usethis::create_package()</a></code>.</li>
 <li>
-<code>usethis.quiet</code>: if <code>TRUE</code>, prevent usethis from printing messages to the console.</li>
+<code>usethis.quiet</code>: if <code>TRUE</code>, prevents usethis from printing messages to the console.</li>
 <li>
-<code>usethis.destdir</code>: a default directory to use in <code><a href="../../reference/create_from_github.html">create_from_github()</a></code> and <code><a href="../../reference/zip-utils.html">use_course()</a></code>
-</li>
+<code>usethis.destdir</code>: a default directory to use in <code><a href="../../reference/create_from_github.html">create_from_github()</a></code> and <code><a href="../../reference/zip-utils.html">use_course()</a></code>.</li>
 </ul>
 <p>Define any of these options in your <code>.Rprofile</code>, which can be opened for editing via <code><a href="../../reference/edit.html">usethis::edit_r_profile()</a></code>. Here is example code:</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(
   <span class="kw">usethis.full_name</span> <span class="kw">=</span> <span class="st">"Jane Doe"</span>,
   <span class="kw">usethis.protocol</span>  <span class="kw">=</span> <span class="st">"ssh"</span>,
   <span class="kw">usethis.description</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="kw">`Authors@R`</span> <span class="kw">=</span> <span class="st">'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), 
-    comment = c(ORCID = "YOUR-ORCID-ID"))'</span>,
+    <span class="st">"Authors@R"</span> <span class="kw">=</span> <span class="kw pkg">utils</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/r/utils/person.html">person</a></span>(
+        <span class="st">"Jane"</span>, <span class="st">"Doe"</span>,
+        <span class="kw">email</span> <span class="kw">=</span> <span class="st">"jane@example.com"</span>,
+        <span class="kw">role</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"aut"</span>, <span class="st">"cre"</span>),
+        <span class="kw">comment</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">ORCID</span> <span class="kw">=</span> <span class="st">"JANE'S-ORCID-ID"</span>)
+    ),
     <span class="kw">Version</span> <span class="kw">=</span> <span class="st">"0.0.0.9000"</span>
-  )
+  ),
+  <span class="kw">usethis.destdir</span> <span class="kw">=</span> <span class="st">"~/the/place/where/I/keep/my/R/projects"</span>
 )</pre></body></html></div>
 <p>Save similar code in your <code>.Rprofile</code> and restart R for it to take effect.</p>
 </div>
@@ -324,7 +328,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
 </div>
 
       </footer>

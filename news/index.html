@@ -188,7 +188,7 @@
 <a href="#github-actions" class="anchor"></a>GitHub actions</h2>
 <ul>
 <li><p>New <code><a href="../reference/github_actions.html">use_github_actions()</a></code>, <code><a href="../reference/use_github_action.html">use_github_action_check_release()</a></code>, <code><a href="../reference/use_github_action.html">use_github_action_check_full()</a></code>, <code><a href="../reference/use_github_action.html">use_github_action_pr_commands()</a></code>, to set up a GitHub Actions for a package (<a href='https://github.com/jimhester'>@jimhester</a>).</p></li>
-<li><p>We now recommend GitHub actions instead of travis or appveyor, and strongly recommended upgrading your packages.</p></li>
+<li><p>We now recommend GitHub Actions instead of Travis-CI or AppVeyor, and strongly recommend upgrading your packages.</p></li>
 </ul>
 </div>
 <div id="package-creation" class="section level2">
@@ -229,7 +229,7 @@
 <a href="#minor-improvements-and-bug-fixes" class="anchor"></a>Minor improvements and bug fixes</h2>
 <ul>
 <li><p>When writing files, usethis now respects line endings. Default line endings are taken from the <code>.Rproj</code> file (if available), otherwise the <code>DESCRIPTION</code>, otherwise the first file found in <code>R/</code>, then all else failing to your platform default (<a href='https://github.com/r-lib/usethis/issues/767'>#767</a>). It should do a better job of preserving UTF-8 files on windows (<a href='https://github.com/r-lib/usethis/issues/969'>#969</a>).</p></li>
-<li><p><code><a href="../reference/browse-this.html">browse_github()</a></code> now always goes to the canonical Github site: <code>https://github.com/user/repo</code>. This is slightly worse than the current behaviour but makes the function more consistent across packages, and considerably simplifies the implementation.</p></li>
+<li><p><code><a href="../reference/browse-this.html">browse_github()</a></code> now always goes to the canonical GitHub site: <code>https://github.com/user/repo</code>. This is slightly worse than the current behaviour but makes the function more consistent across packages, and considerably simplifies the implementation.</p></li>
 <li><p><code>browse_circle()</code> opens the project dashboard on Circle CI.</p></li>
 <li><p><code><a href="../reference/use_course_details.html">create_download_url()</a></code> is a new helper for making “ZIP file download” URLs suitable for use with <code><a href="../reference/zip-utils.html">use_course()</a></code> and <code><a href="../reference/zip-utils.html">use_zip()</a></code>, starting with the URLs that mere mortals can usually get their hands on in a browser (<a href='https://github.com/fmichonneau'>@fmichonneau</a>, <a href='https://github.com/r-lib/usethis/issues/406'>#406</a>).</p></li>
 <li><p><code><a href="../reference/create_package.html">create_package()</a></code> no longer fails partway through if you have a malformed <code>usethis.description</code> option (<a href='https://github.com/r-lib/usethis/issues/961'>#961</a>).</p></li>
@@ -260,6 +260,7 @@
 <li><p><code><a href="../reference/use_release_issue.html">use_release_issue()</a></code> reminds you to use it to re-generate <code>README.md</code>, if needed (<a href='https://github.com/r-lib/usethis/issues/767'>#767</a>).</p></li>
 <li><p><code><a href="../reference/use_r.html">use_r()</a></code> and <code><a href="../reference/use_r.html">use_test()</a></code> throw a clear error if multiple names are provided (<a href='https://github.com/strboul'>@strboul</a>, <a href='https://github.com/r-lib/usethis/issues/862'>#862</a>).</p></li>
 <li><p><code><a href="../reference/use_rcpp.html">use_rcpp()</a></code> and <code><a href="../reference/use_rcpp.html">use_c()</a></code> now ensure <code>src/</code> contains at least one <code>.cpp</code> or <code>.c</code> placeholder file, so that the package can be built (<a href='https://github.com/coatless'>@coatless</a>, <a href='https://github.com/r-lib/usethis/issues/720'>#720</a>).</p></li>
+<li><p><code>usethis.destdir</code> is a new option that is consulted when deciding where to put a new folder created by <code><a href="../reference/zip-utils.html">use_course()</a></code> or <code><a href="../reference/create_from_github.html">create_from_github()</a></code> (<a href='https://github.com/malcolmbarrett'>@malcolmbarrett</a>, <a href='https://github.com/r-lib/usethis/issues/1015'>#1015</a>).</p></li>
 </ul>
 </div>
 </div>
@@ -704,7 +705,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
 </div>
 
       </footer>
