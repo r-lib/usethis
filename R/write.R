@@ -14,7 +14,7 @@
 #' @keywords internal
 #'
 #' @examples
-#' \dontshow{.old_wd <- setwd(tempdir()); proj_set(force = TRUE)}
+#' \dontshow{.old_wd <- setwd(tempdir())}
 #' write_union("a_file", letters[1:3])
 #' readLines("a_file")
 #' write_union("a_file", letters[1:5])
