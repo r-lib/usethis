@@ -6,8 +6,8 @@
   `use_github_action_check_full()`, `use_github_action_pr_commands()`,
   to set up a GitHub Actions for a package (@jimhester).
 
-* We now recommend GitHub actions instead of travis or appveyor, and strongly
-  recommended upgrading your packages.
+* We now recommend GitHub Actions instead of Travis-CI or AppVeyor, and strongly
+  recommend upgrading your packages.
 
 ## Package creation
 
@@ -74,7 +74,7 @@
   platform default (#767). It should do a better job of preserving UTF-8 files 
   on windows (#969).
 
-* `browse_github()` now always goes to the canonical Github site: 
+* `browse_github()` now always goes to the canonical GitHub site: 
   `https://github.com/user/repo`. This is slightly worse than the current 
   behaviour but makes the function more consistent across packages, and 
   considerably simplifies the implementation.

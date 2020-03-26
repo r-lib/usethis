@@ -40,7 +40,6 @@ frontmatter
 fs
 funder
 gc
-gh
 Git's
 github
 gitignore
@@ -64,6 +63,7 @@ Jenkinsfile
 Jupyter
 labelled
 learnr
+LF
 LGL
 libgit
 lifecycle
