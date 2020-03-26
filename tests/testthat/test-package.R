@@ -20,7 +20,7 @@ test_that("package_remote() extracts and generates correct strings", {
   expect_equal(package_remote(d), "GitLab::tidyverse/test")
 
   d$del("RemoteType")
-  expect_error(package_remote(d), "supported remote")
+  expect_usethis_error(package_remote(d), "supported remote")
 })
 
 
