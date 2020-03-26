@@ -35,7 +35,9 @@ test_that("tidy_download() works", {
   expect_identical(attr(out, "content-type"), "application/zip")
 
   # refuse to overwrite when non-interactive
-  expect_error(tidy_download(gh_url, destdir = tmp))
+  expect_error(capture.output(
+    tidy_download(gh_url, destdir = tmp)
+  ))
 })
 
 ## tidy_unzip ----
