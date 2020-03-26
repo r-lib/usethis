@@ -9,7 +9,7 @@ test_that('use_git_config(scope = "project) errors if project not using git', {
 })
 
 test_that("use_git_config() can set local config", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   use_git()
@@ -36,7 +36,7 @@ test_that("use_git_hook errors if project not using git", {
 })
 
 test_that("git remote handlers work", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   use_git()

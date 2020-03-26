@@ -90,7 +90,7 @@ skip_if_not_ci <- function() {
   skip("Not on GitHub Actions, Travis, or Appveyor")
 }
 
-skip_if_no_git_config <- function() {
+skip_if_no_git_user <- function() {
   cfg <- git2r::config()
   user_name <- cfg$local$`user.name` %||% cfg$global$`user.name`
   user_email <- cfg$local$`user.email` %||% cfg$global$`user.email`

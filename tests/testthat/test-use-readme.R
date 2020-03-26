@@ -15,7 +15,7 @@ test_that("use_readme_rmd() creates README.Rmd", {
 })
 
 test_that("use_readme_rmd() sets up git pre-commit hook if pkg uses git", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
   skip_if_not_installed("rmarkdown")
 
   scoped_temporary_package()

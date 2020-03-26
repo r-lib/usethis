@@ -15,7 +15,7 @@ test_that("use_lifecycle_badge() handles bad and good input", {
 
 test_that("use_binder_badge() needs a github repository", {
   skip_if(getRversion() < 3.2)
-  skip_if_no_git_config()
+  skip_if_no_git_user()
   scoped_temporary_project()
   expect_error(use_binder_badge())
 })

@@ -1,7 +1,7 @@
 context("use_circleci")
 
 test_that("uses_circleci() reports usage of CircleCI", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   expect_false(uses_circleci())
@@ -21,7 +21,7 @@ test_that("check_uses_circleci() can throw error", {
 })
 
 test_that("use_circleci() configures CircleCI", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   use_git()
@@ -37,7 +37,7 @@ test_that("use_circleci() configures CircleCI", {
 })
 
 test_that("use_circleci() specifies Docker image", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   use_git()
@@ -49,7 +49,7 @@ test_that("use_circleci() specifies Docker image", {
 })
 
 test_that("use_circleci() properly formats keys for cache", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   use_git()
@@ -67,7 +67,7 @@ test_that("use_circleci() properly formats keys for cache", {
 })
 
 test_that("use_circleci() configures .Rbuildignore", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   expect_false(uses_circleci())
