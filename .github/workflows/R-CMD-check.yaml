@@ -71,8 +71,8 @@ jobs:
 
       - name: Configure Git user
         run: |
-          git config --local user.email "ghau@example.com"
-          git config --local user.name "Dummy User"
+          git config --global user.email "ghau@example.com"
+          git config --global user.name "GitHub Actions User"
 
       - name: Check
         run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning", check_dir = "check")
