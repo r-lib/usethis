@@ -27,7 +27,9 @@ test_that("tidy_download() works", {
   gh_url <- "https://github.com/r-lib/rematch2/archive/master.zip"
   expected <- fs::path(tmp, "rematch2-master.zip")
 
-  out <- tidy_download(gh_url, destdir = tmp)
+  capture.output(
+    out <- tidy_download(gh_url, destdir = tmp)
+  )
   expect_true(fs::file_exists(expected))
   expect_equivalent(out, expected)
   expect_identical(attr(out, "content-type"), "application/zip")
