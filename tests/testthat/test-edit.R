@@ -38,6 +38,7 @@ test_that("edit_file() copes with path to existing file", {
 ## obligate me to some nerve-wracking clean up
 
 test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
+  skip_if_no_git_user()
   ## run these manually if you already have these files or are happy to
   ## have them or delete them
   skip_if_not_ci()
@@ -98,6 +99,7 @@ test_that("edit_r_profile() respects R_PROFILE_USER", {
 
 
 test_that("edit_git_XXX('user') ensures the file exists", {
+  skip_if_no_git_user()
   ## run these manually if you already have these files or are happy to
   ## have them or delete them
   skip_if_not_ci()
