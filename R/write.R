@@ -92,13 +92,21 @@ read_utf8 <- function(path, n = -1L) {
   base::readLines(path, n = n, encoding = "UTF-8", warn = FALSE)
 }
 
-write_utf8 <- function(path, lines, append = FALSE, line_ending = proj_line_ending()) {
+write_utf8 <- function(path, lines, append = FALSE, line_ending = NULL) {
   stopifnot(is.character(path))
   stopifnot(is.character(lines))
 
   file_mode <- if (append) "ab" else "wb"
   con <- file(path, open = file_mode, encoding = "utf-8")
   on.exit(close(con), add = TRUE)
+
+  if (is.null(line_ending)) {
+    if (possibly_in_proj(path)) {
+      line_ending <- proj_line_ending()
+    } else {
+      line_ending <- platform_line_ending()
+    }
+  }
 
   # convert embedded newlines
   lines <- gsub("\r?\n", line_ending, lines)
