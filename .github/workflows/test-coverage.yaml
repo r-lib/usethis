@@ -38,6 +38,11 @@ jobs:
           remotes::install_cran("covr")
         shell: Rscript {0}
 
+      - name: Configure Git user
+        run: |
+          git config --global user.email "ghau@example.com"
+          git config --global user.name "GitHub Actions User"
+
       - name: Test coverage
         run: covr::codecov()
         shell: Rscript {0}
