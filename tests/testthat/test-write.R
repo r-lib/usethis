@@ -96,12 +96,18 @@ test_that("write_utf8() respects line ending", {
 
 test_that("write_utf8() can operate outside of a project", {
   tmpdir <- file_temp()
-  on.exit(dir_delete(tmpdir))
   dir_create(tmpdir)
+  # doing this "by hand" vs. via withr because Windows appears to be unwilling
+  # to delete current working directory
+  oldwd <- setwd(tmpdir)
+  on.exit({
+    setwd(oldwd)
+    dir_delete(tmpdir)
+  })
 
-  withr::local_dir(tmpdir)
   local_project(NULL)
 
   expect_false(proj_active())
   expect_error_free(write_utf8(path = "foo", letters[1:3]))
+
 })
