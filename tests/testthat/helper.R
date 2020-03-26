@@ -82,11 +82,12 @@ test_mode <- function() {
 }
 
 skip_if_not_ci <- function() {
-  ci <- any(toupper(Sys.getenv(c("TRAVIS", "APPVEYOR"))) == "TRUE")
+  ci_providers <- c("GITHUB_ACTIONS", "TRAVIS", "APPVEYOR")
+  ci <- any(toupper(Sys.getenv(ci_providers)) == "TRUE")
   if (ci) {
     return(invisible(TRUE))
   }
-  skip("Not on Travis or Appveyor")
+  skip("Not on GitHub Actions, Travis, or Appveyor")
 }
 
 skip_if_no_git_config <- function() {
