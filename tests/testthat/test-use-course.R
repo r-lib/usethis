@@ -1,3 +1,62 @@
+## download_url ----
+
+test_that("download_url() retry logic works as advertised", {
+  faux_download <- function(n_failures) {
+    i <- 0
+    function(url, destfile, quiet, mode, handle) {
+      i <<- i + 1
+      if (i <= n_failures) simpleError(paste0("try ", i)) else "success"
+    }
+  }
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  # succeed on first try
+  out <- with_mock(
+    `usethis:::try_download` = faux_download(0),
+    download_url(url = "URL", destfile = "destfile")
+  )
+  expect_s3_class(out, "curl_handle")
+
+  # fail, then succeed
+  expect_message(
+    out <- with_mock(
+      `usethis:::try_download` = faux_download(1),
+      download_url(url = "URL", destfile = "destfile")
+    ),
+    "Retrying.*attempt 2"
+  )
+  expect_s3_class(out, "curl_handle")
+
+  # fail, fail, then succeed (default n_tries = 3, so should allow)
+  expect_message(
+    out <- with_mock(
+      `usethis:::try_download` = faux_download(2),
+      download_url(url = "URL", destfile = "destfile")
+    ),
+    "Retrying.*attempt 3"
+  )
+  expect_s3_class(out, "curl_handle")
+
+  # fail, fail, fail (exceed n_failures > n_tries = 3)
+  expect_error(
+    out <- with_mock(
+      `usethis:::try_download` = faux_download(5),
+      download_url(url = "URL", destfile = "destfile", n_tries = 3)
+    ),
+    "try 3"
+  )
+
+  # fail, fail, fail, succeed (make sure n_tries is adjustable)
+  expect_message(
+    out <- with_mock(
+      `usethis:::try_download` = faux_download(3),
+      download_url(url = "URL", destfile = "destfile", n_tries = 10)
+    ),
+    "Retrying.*attempt 4"
+  )
+  expect_s3_class(out, "curl_handle")
+})
+
 ## tidy_download ----
 
 test_that("tidy_download() errors early if destdir is not a directory", {
