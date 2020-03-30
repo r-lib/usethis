@@ -230,7 +230,10 @@ shortlinks. Both platforms offer a way to download an entire folder or repo
 as a ZIP file, with information about the original folder or repo transmitted
 in the <code>Content-Disposition</code> header. In the absence of this header, a
 filename is generated from the input URL. In either case, the filename is
-sanitized. Returns the path to downloaded ZIP file, invisibly.</p><h3>DropBox</h3>
+sanitized. Returns the path to downloaded ZIP file, invisibly.</p>
+<p><code>tidy_download()</code> is setup to retry after a download failure. In an
+interactive session, it asks for user's consent. All retries use a longer
+connect timeout.</p><h3>DropBox</h3>
 
 
 <p>To make a folder available for ZIP download, create a shared link for it:</p><ul>
