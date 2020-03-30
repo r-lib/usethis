@@ -42,6 +42,10 @@ as a ZIP file, with information about the original folder or repo transmitted
 in the \code{Content-Disposition} header. In the absence of this header, a
 filename is generated from the input URL. In either case, the filename is
 sanitized. Returns the path to downloaded ZIP file, invisibly.
+
+\code{tidy_download()} is setup to retry after a download failure. In an
+interactive session, it asks for user's consent. All retries use a longer
+connect timeout.
 \subsection{DropBox}{
 
 To make a folder available for ZIP download, create a shared link for it:

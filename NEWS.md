@@ -113,6 +113,10 @@
 
 * `use_code_of_conduct()` now generates absolute link to code of conduct on 
   pkgdown website or original source to avoid R CMD check issues (#772).
+  
+* `use_course()` and `use_zip()` are now equipped with some retry capability,
+  to cope with intermittent failure or the need for a longer connect timeout
+  (#988).
 
 * `use_data()` automatically bumps R dependency to 2.10 (#962).
 

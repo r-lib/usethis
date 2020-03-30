@@ -48,7 +48,7 @@ highlight the download destination. Workflow:
 \itemize{
 \item User executes, e.g., \code{use_course("bit.ly/xxx-yyy-zzz")}.
 \item User is asked to notice and confirm the location of the new folder. Specify
-\code{destdir} to prevent this.
+\code{destdir} or configure the \code{"usethis.destdir"} option to prevent this.
 \item User is asked if they'd like to delete the ZIP file.
 \item If new folder contains an \code{.Rproj} file, a new instance of RStudio is
 launched. Otherwise, the folder is opened in the file manager, e.g. Finder
