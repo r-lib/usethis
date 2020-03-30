@@ -93,7 +93,9 @@ ui_info <- function(x, .envir = parent.frame()) {
 #'   is installed, will copy the code block to the clipboard.
 #' @rdname ui
 #' @export
-ui_code_block <- function(x, copy = interactive(), .envir = parent.frame()) {
+ui_code_block <- function(x,
+                          copy = rlang::is_interactive(),
+                          .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
@@ -189,7 +191,7 @@ ui_yeah <- function(x,
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
-  if (!interactive()) {
+  if (!is_interactive()) {
     ui_stop(c(
       "User input required, but session is not interactive.",
       "Query: {x}"

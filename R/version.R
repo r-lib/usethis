@@ -32,7 +32,7 @@ NULL
 #' @rdname use_version
 #' @export
 use_version <- function(which = NULL) {
-  if (is.null(which) && !interactive()) {
+  if (is.null(which) && !is_interactive()) {
     return(invisible(FALSE))
   }
 

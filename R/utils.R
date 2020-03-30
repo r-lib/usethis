@@ -3,7 +3,7 @@ can_overwrite <- function(path) {
     return(TRUE)
   }
 
-  if (interactive()) {
+  if (is_interactive()) {
     ui_yeah("Overwrite pre-existing file {ui_path(path)}?")
   } else {
     FALSE
@@ -62,7 +62,10 @@ is_testing <- function() {
 }
 
 interactive <- function() {
-  base::interactive() && !is_testing()
+  ui_stop(
+    "Internal error: use rlang's {ui_code('is_interactive()')} \\
+     instead of {ui_code('base::interactive()')}"
+  )
 }
 
 is_string <- function(x) {

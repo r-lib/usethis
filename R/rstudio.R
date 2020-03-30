@@ -151,7 +151,7 @@ restart_rstudio <- function(message = NULL) {
     return(FALSE)
   }
 
-  if (!interactive()) {
+  if (!is_interactive()) {
     return(FALSE)
   }
 

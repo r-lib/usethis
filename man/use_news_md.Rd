@@ -4,7 +4,7 @@
 \alias{use_news_md}
 \title{Create a simple \code{NEWS.md}}
 \usage{
-use_news_md(open = interactive())
+use_news_md(open = rlang::is_interactive())
 }
 \arguments{
 \item{open}{Open the newly created file for editing? Happens in RStudio, if

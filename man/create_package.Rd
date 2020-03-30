@@ -11,10 +11,14 @@ create_package(
   rstudio = rstudioapi::isAvailable(),
   roxygen = TRUE,
   check_name = TRUE,
-  open = interactive()
+  open = rlang::is_interactive()
 )
 
-create_project(path, rstudio = rstudioapi::isAvailable(), open = interactive())
+create_project(
+  path,
+  rstudio = rstudioapi::isAvailable(),
+  open = rlang::is_interactive()
+)
 }
 \arguments{
 \item{path}{A path. If it exists, it is used. If it does not exist, it is

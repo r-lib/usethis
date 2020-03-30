@@ -95,7 +95,7 @@ version_spec <- function(x) {
   numeric_version(x)
 }
 
-view_url <- function(..., open = interactive()) {
+view_url <- function(..., open = is_interactive()) {
   url <- paste(..., sep = "/")
   if (open) {
     ui_done("Opening URL {ui_value(url)}")
