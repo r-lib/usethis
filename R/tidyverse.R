@@ -95,7 +95,7 @@ create_tidy_package <- function(path,
 #' @export
 #' @rdname tidyverse
 #' @inheritParams use_travis
-use_tidy_ci <- function(browse = interactive()) {
+use_tidy_ci <- function(browse = rlang::is_interactive()) {
   check_uses_github()
 
   new_travis <- use_template(

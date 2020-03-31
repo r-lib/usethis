@@ -27,7 +27,7 @@ ui_oops(x, .envir = parent.frame())
 
 ui_info(x, .envir = parent.frame())
 
-ui_code_block(x, copy = interactive(), .envir = parent.frame())
+ui_code_block(x, copy = rlang::is_interactive(), .envir = parent.frame())
 
 ui_stop(x, .envir = parent.frame())
 

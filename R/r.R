@@ -17,7 +17,7 @@
 #'   [R code](https://r-pkgs.org/r.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
 #' @export
-use_r <- function(name = NULL, open = NULL) {
+use_r <- function(name = NULL, open = rlang::is_interactive()) {
   name <- name %||% get_active_r_file(path = "tests/testthat")
   name <- gsub("^test-", "", name)
   name <- slug(name, "R")
@@ -36,7 +36,7 @@ use_r <- function(name = NULL, open = NULL) {
 
 #' @rdname use_r
 #' @export
-use_test <- function(name = NULL, open = NULL) {
+use_test <- function(name = NULL, open = rlang::is_interactive()) {
   if (!uses_testthat()) {
     use_testthat()
   }

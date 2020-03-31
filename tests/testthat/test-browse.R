@@ -17,7 +17,7 @@ test_that("cran_home() produces canonical URL", {
 })
 
 test_that("browse_XXX() goes to correct URL", {
-  skip_if(interactive())
+  skip_if(rlang::is_interactive())
   g <- function(x) paste0("https://github.com/", x)
 
   expect_equal(browse_github("gh"), g("r-lib/gh"))

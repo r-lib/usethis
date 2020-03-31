@@ -33,7 +33,7 @@ create_package <- function(path,
                            rstudio = rstudioapi::isAvailable(),
                            roxygen = TRUE,
                            check_name = TRUE,
-                           open = interactive()) {
+                           open = rlang::is_interactive()) {
   path <- user_path_prep(path)
   check_path_is_directory(path_dir(path))
 
@@ -69,7 +69,7 @@ create_package <- function(path,
 #' @rdname create_package
 create_project <- function(path,
                            rstudio = rstudioapi::isAvailable(),
-                           open = interactive()) {
+                           open = rlang::is_interactive()) {
   path <- user_path_prep(path)
   name <- path_file(path)
   check_not_nested(path_dir(path), name)
@@ -167,7 +167,7 @@ create_from_github <- function(repo_spec,
                                destdir = NULL,
                                fork = NA,
                                rstudio = NULL,
-                               open = interactive(),
+                               open = rlang::is_interactive(),
                                protocol = git_protocol(),
                                credentials = NULL,
                                auth_token = github_token(),

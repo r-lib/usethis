@@ -73,11 +73,11 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
   invisible(dir)
 }
 
-test_mode <- function() {
-  before <- Sys.getenv("TESTTHAT")
-  after <- if (before == "true") "false" else "true"
-  Sys.setenv(TESTTHAT = after)
-  cat("TESTTHAT:", before, "-->", after, "\n")
+toggle_rlang_interactive <- function() {
+  before <- getOption("rlang_interactive")
+  after <- if (identical(before, FALSE)) TRUE else FALSE
+  options(rlang_interactive = after)
+  ui_line(glue::glue("rlang_interactive: {before %||% '<unset>'} --> {after}"))
   invisible()
 }
 

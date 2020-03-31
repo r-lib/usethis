@@ -4,7 +4,7 @@
 \alias{use_cran_comments}
 \title{CRAN submission comments}
 \usage{
-use_cran_comments(open = interactive())
+use_cran_comments(open = rlang::is_interactive())
 }
 \arguments{
 \item{open}{Open the newly created file for editing? Happens in RStudio, if

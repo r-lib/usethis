@@ -63,7 +63,7 @@ use_course <- function(url, destdir = getOption("usethis.destdir")) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
 
-  if (destdir_not_specified && interactive()) {
+  if (destdir_not_specified && is_interactive()) {
     ui_line(c(
       "Downloading into {ui_path(destdir)}.",
       "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}"
@@ -87,7 +87,7 @@ use_course <- function(url, destdir = getOption("usethis.destdir")) {
 #' @export
 use_zip <- function(url,
                     destdir = getwd(),
-                    cleanup = if (interactive()) NA else FALSE) {
+                    cleanup = if (rlang::is_interactive()) NA else FALSE) {
   url <- normalize_url(url)
   check_path_is_directory(destdir)
   ui_done("Downloading from {ui_value(url)}")
@@ -295,7 +295,7 @@ download_url <- function(url,
   }
 
   status <- try_download(url, destfile, handle = handle)
-  if (inherits(status, "error") && interactive()) {
+  if (inherits(status, "error") && is_interactive()) {
     ui_oops(status$message)
     if (ui_nope("
       Download failed :(
@@ -366,7 +366,7 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
   )
 
   if (isNA(cleanup)) {
-    cleanup <- interactive() &&
+    cleanup <- is_interactive() &&
       ui_yeah("Shall we delete the ZIP file ({ui_path(zipfile, base_path)})?")
   }
 
@@ -375,7 +375,7 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
     file_delete(zipfile)
   }
 
-  if (interactive()) {
+  if (is_interactive()) {
     rproj_path <- dir_ls(target, regexp = "[.]Rproj$")
     if (length(rproj_path) == 1 && rstudioapi::hasFun("openProject")) {
       ui_done("Opening project in RStudio")

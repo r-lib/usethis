@@ -8,7 +8,11 @@
 \usage{
 use_course(url, destdir = getOption("usethis.destdir"))
 
-use_zip(url, destdir = getwd(), cleanup = if (interactive()) NA else FALSE)
+use_zip(
+  url,
+  destdir = getwd(),
+  cleanup = if (rlang::is_interactive()) NA else FALSE
+)
 }
 \arguments{
 \item{url}{Link to a ZIP file containing the materials. To reduce the chance
