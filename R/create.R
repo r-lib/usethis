@@ -261,7 +261,7 @@ create_from_github <- function(repo_spec,
 }
 
 # creates a backdoor we can exploit in tests
-nested_is_allowed <- function() FALSE
+allow_nested_project <- function() FALSE
 
 check_not_nested <- function(path, name) {
   if (!possibly_in_proj(path)) {
@@ -269,7 +269,7 @@ check_not_nested <- function(path, name) {
   }
 
   # we mock this in a few tests, to allow a nested project
-  if (nested_is_allowed()) {
+  if (allow_nested_project()) {
     return()
   }
 

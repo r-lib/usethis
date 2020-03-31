@@ -35,9 +35,37 @@ test_that("nested project is disallowed, by default", {
   expect_usethis_error(create_project(path(dir, "abcde")), "anyway")
 })
 
+test_that("nested package can be created if user really, really wants to", {
+  parent <- scoped_temporary_package()
+  with_mock(
+    # since user can't approve interactively, use the backdoor
+    `usethis:::allow_nested_project` = function() TRUE,
+    child <- create_package(path(parent, "fghijk"))
+  )
+  expect_true(possibly_in_proj(child))
+  expect_true(is_package(child))
+})
+
+test_that("nested project can be created if user really, really wants to", {
+  parent <- scoped_temporary_project()
+  with_mock(
+    # since user can't approve interactively, use the backdoor
+    `usethis:::allow_nested_project` = function() TRUE,
+    child <- create_project(path(parent, "fghijk"))
+  )
+  expect_true(possibly_in_proj(child))
+  expect_false(is_package(child))
+})
+
 test_that("can create package in current directory", {
-  dir <- dir_create(path(file_temp(), "mypackage"))
-  withr::local_dir(dir)
+  # doing this "by hand" vs. via withr because Windows appears to be unwilling
+  # to delete current working directory
+  newdir <- dir_create(path(file_temp(), "mypackage"))
+  oldwd <- setwd(newdir)
+  on.exit({
+    setwd(oldwd)
+    dir_delete(newdir)
+  })
   expect_error_free(create_package("."))
 })
 
