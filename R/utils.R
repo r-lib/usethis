@@ -68,14 +68,6 @@ interactive <- function() {
   )
 }
 
-seq2 <- function(from, to) {
-  if (from > to) {
-    integer()
-  } else {
-    seq(from, to)
-  }
-}
-
 indent <- function(x, first = "  ", indent = first) {
   x <- gsub("\n", paste0("\n", indent), x)
   paste0(first, x)
