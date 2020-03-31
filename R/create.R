@@ -275,7 +275,10 @@ check_not_nested <- function(path, name) {
 
   ui_line(
     "New project {ui_value(name)} is nested inside an existing project \\
-    {ui_path(path)}, which is rarely a good idea."
+    {ui_path(path)}, which is rarely a good idea.
+    If this is unexpected, the here package has a function, \\
+    {ui_code('here::dr_here()')} that reveals why {ui_path(path)} \\
+    is regarded as a project."
   )
   if (ui_nope("Do you want to create anyway?")) {
     ui_stop("Aborting project creation.")
