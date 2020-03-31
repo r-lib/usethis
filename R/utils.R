@@ -68,10 +68,6 @@ interactive <- function() {
   )
 }
 
-is_string <- function(x) {
-  length(x) == 1 && is.character(x)
-}
-
 seq2 <- function(from, to) {
   if (from > to) {
     integer()
