@@ -46,14 +46,14 @@ test_that("can create package in current directory", {
 ## https://github.com/r-lib/usethis/issues/227
 test_that("create_* works w/ non-existing rel path and absolutizes it", {
   ## take care to provide a **non-absolute** path
-  path_package <- path_file(file_temp(pattern = "aaa"))
+  path_package <- path_file(file_temp(pattern = "abc"))
   withr::with_dir(
     path_temp(),
     create_package(path_package, rstudio = FALSE, open = FALSE)
   )
   expect_true(dir_exists(path_temp(path_package)))
 
-  path_project <- path_file(file_temp(pattern = "aaa"))
+  path_project <- path_file(file_temp(pattern = "abc"))
   withr::with_dir(
     path_temp(),
     create_project(path_project, rstudio = FALSE, open = FALSE)
