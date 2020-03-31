@@ -1,5 +1,3 @@
-context("create")
-
 test_that("create_package() creates a package", {
   dir <- scoped_temporary_package()
   expect_true(possibly_in_proj(dir))
@@ -29,12 +27,12 @@ test_that("create functions return path to new proj, but restore active proj", {
 
 test_that("nested package is disallowed, by default", {
   dir <- scoped_temporary_package()
-  expect_usethis_error(scoped_temporary_package(path(dir, "abcde")), "anyway")
+  expect_usethis_error(create_package(path(dir, "abcde")), "anyway")
 })
 
 test_that("nested project is disallowed, by default", {
   dir <- scoped_temporary_project()
-  expect_usethis_error(scoped_temporary_project(path(dir, "abcde")), "anyway")
+  expect_usethis_error(create_project(path(dir, "abcde")), "anyway")
 })
 
 test_that("can create package in current directory", {
