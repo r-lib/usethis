@@ -195,7 +195,11 @@ actually be able to find them. The underlying helpers are documented in
 
     <pre class="usage"><span class='fu'>use_course</span>(<span class='no'>url</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"usethis.destdir"</span>))
 
-<span class='fu'>use_zip</span>(<span class='no'>url</span>, <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='kw'>cleanup</span> <span class='kw'>=</span> <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) <span class='fl'>NA</span> <span class='kw'>else</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>use_zip</span>(
+  <span class='no'>url</span>,
+  <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(),
+  <span class='kw'>cleanup</span> <span class='kw'>=</span> <span class='kw'>if</span> (<span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>()) <span class='fl'>NA</span> <span class='kw'>else</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
