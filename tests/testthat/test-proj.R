@@ -186,7 +186,7 @@ test_that("local_project() activates proj til scope ends", {
   old_project <- proj_get_()
   on.exit(proj_set_(old_project))
 
-  new_proj <- file_temp(pattern = "aaa")
+  new_proj <- file_temp(pattern = "localprojtest")
   create_project(new_proj, rstudio = FALSE, open = FALSE)
   proj_set_(NULL)
 

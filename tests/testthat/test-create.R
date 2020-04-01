@@ -1,5 +1,3 @@
-context("create")
-
 test_that("create_package() creates a package", {
   dir <- scoped_temporary_package()
   expect_true(possibly_in_proj(dir))
@@ -29,31 +27,59 @@ test_that("create functions return path to new proj, but restore active proj", {
 
 test_that("nested package is disallowed, by default", {
   dir <- scoped_temporary_package()
-  expect_usethis_error(scoped_temporary_package(path(dir, "abcde")), "anyway")
+  expect_usethis_error(create_package(path(dir, "abcde")), "anyway")
 })
 
 test_that("nested project is disallowed, by default", {
   dir <- scoped_temporary_project()
-  expect_usethis_error(scoped_temporary_project(path(dir, "abcde")), "anyway")
+  expect_usethis_error(create_project(path(dir, "abcde")), "anyway")
+})
+
+test_that("nested package can be created if user really, really wants to", {
+  parent <- scoped_temporary_package()
+  with_mock(
+    # since user can't approve interactively, use the backdoor
+    `usethis:::allow_nested_project` = function() TRUE,
+    child <- create_package(path(parent, "fghijk"))
+  )
+  expect_true(possibly_in_proj(child))
+  expect_true(is_package(child))
+})
+
+test_that("nested project can be created if user really, really wants to", {
+  parent <- scoped_temporary_project()
+  with_mock(
+    # since user can't approve interactively, use the backdoor
+    `usethis:::allow_nested_project` = function() TRUE,
+    child <- create_project(path(parent, "fghijk"))
+  )
+  expect_true(possibly_in_proj(child))
+  expect_false(is_package(child))
 })
 
 test_that("can create package in current directory", {
-  dir <- dir_create(path(file_temp(), "mypackage"))
-  withr::local_dir(dir)
+  # doing this "by hand" vs. via withr because Windows appears to be unwilling
+  # to delete current working directory
+  newdir <- dir_create(path(file_temp(), "mypackage"))
+  oldwd <- setwd(newdir)
+  on.exit({
+    setwd(oldwd)
+    dir_delete(newdir)
+  })
   expect_error_free(create_package("."))
 })
 
 ## https://github.com/r-lib/usethis/issues/227
 test_that("create_* works w/ non-existing rel path and absolutizes it", {
   ## take care to provide a **non-absolute** path
-  path_package <- path_file(file_temp(pattern = "aaa"))
+  path_package <- path_file(file_temp(pattern = "abc"))
   withr::with_dir(
     path_temp(),
     create_package(path_package, rstudio = FALSE, open = FALSE)
   )
   expect_true(dir_exists(path_temp(path_package)))
 
-  path_project <- path_file(file_temp(pattern = "aaa"))
+  path_project <- path_file(file_temp(pattern = "abc"))
   withr::with_dir(
     path_temp(),
     create_project(path_project, rstudio = FALSE, open = FALSE)

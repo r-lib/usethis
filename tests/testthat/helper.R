@@ -16,17 +16,13 @@ if (!is.null(session_temp_proj)) {
   ))
 }
 
-## putting `pattern` in the package or project name is part of our strategy for
-## suspending the nested project check during testing
-pattern <- "aaa"
-
-scoped_temporary_package <- function(dir = file_temp(pattern = pattern),
+scoped_temporary_package <- function(dir = file_temp(pattern = "testpkg"),
                                      env = parent.frame(),
                                      rstudio = FALSE) {
   scoped_temporary_thing(dir, env, rstudio, "package")
 }
 
-scoped_temporary_project <- function(dir = file_temp(pattern = pattern),
+scoped_temporary_project <- function(dir = file_temp(pattern = "testproj"),
                                      env = parent.frame(),
                                      rstudio = FALSE) {
   scoped_temporary_thing(dir, env, rstudio, "project")

@@ -163,8 +163,8 @@ test_that("create_download_url() works", {
 
 test_that("normalize_url() prepends https:// (or not)", {
   expect_error(normalize_url(1), "is\\.character.*not TRUE")
-  expect_identical(normalize_url("http://bit.ly/aaa"), "http://bit.ly/aaa")
-  expect_identical(normalize_url("bit.ly/aaa"), "https://bit.ly/aaa")
+  expect_identical(normalize_url("http://bit.ly/abc"), "http://bit.ly/abc")
+  expect_identical(normalize_url("bit.ly/abc"), "https://bit.ly/abc")
   expect_identical(
     normalize_url("https://github.com/r-lib/rematch2/archive/master.zip"),
     "https://github.com/r-lib/rematch2/archive/master.zip"
