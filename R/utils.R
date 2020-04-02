@@ -86,3 +86,30 @@ path_first_existing <- function(...) {
 is_online <- function(host) {
   !is.null(curl::nslookup(host, error = FALSE))
 }
+
+get_data_info <- function(name, description, source) {
+  if (!dir.exists("data/")) {
+    stop("data folder doesn't exists")
+  }
+  file <- list.files("data/",
+               pattern = glue::glue("^{name}\\.rda$"),
+               full.names = TRUE)
+  if(purrr::is_empty(file)){
+    stop("Don't find this data object, must be the name of one .rda.")
+  }
+  dataset <- get(load(file))
+  if (!is.data.frame(dataset)) {
+    "Your object must be a data.frame."
+  }
+  info <- lapply(names(dataset), function(x) {
+    list(name = x, class = class(dataset[[x]]))
+  })
+  list(
+    name = name,
+    description = description,
+    rows = nrow(dataset),
+    cols = ncol(dataset),
+    items = info,
+    source = source
+  )
+}

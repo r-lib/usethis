@@ -129,3 +129,26 @@ use_data_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
   ui_todo("Finish the data preparation script in {ui_value(r_path)}")
   ui_todo("Use {ui_code('usethis::use_data()')} to add prepared data to package")
 }
+
+#' Documentation
+#'
+#' @param name Name of your data
+#' @param description Add a description
+#' @param source Add a source
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' use_data_doc("my_data", description = "Desc of my_data", source = "Here my source")
+#' }
+use_data_doc <- function(name, description = "Description", source = "Source"){
+  check_is_package("use_data_doc()")
+  path <- glue("R/{name}.R")
+  use_template(
+    template = "data-documentation.R",
+    save_as = path,
+    data = get_data_info(name, description, source)
+  )
+  ui_done("Adding the data documentation in {path}")
+}

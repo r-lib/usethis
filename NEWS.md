@@ -46,6 +46,8 @@
 
 ## Other new features
 
+* `use_data_doc()` create documentation for data.
+
 * New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
   (#784).
 
