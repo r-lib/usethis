@@ -34,7 +34,6 @@ use_github_action <- function(name,
     url <- glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}")
   } else {
     stopifnot(is_string(url))
-    stopifnot(grepl(".*[.]yaml$", url))
   }
 
   if (is.null(save_as)) {
