@@ -127,17 +127,14 @@ test_that("use_tidy_github_actions() configures the full check and pr commands",
 
 
 test_that("use_github_action() allows for custom urls", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
-  use_description_field("URL", "https://github.com/fake/fake")
-  use_readme_md()
 
   # Directly call to r-lib actions
-  use_github_action("check-full.yaml",
-                    "https://raw.githubusercontent.com/r-lib/actions/master/examples")
+  use_github_action(url = "https://raw.githubusercontent.com/r-lib/actions/master/examples/check-full.yaml")
   expect_proj_dir(".github")
   expect_proj_dir(".github/workflows")
   expect_proj_file(".github/workflows/check-full.yaml")
