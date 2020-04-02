@@ -8,11 +8,37 @@ expect_fs_file <- function(...) {
   expect_true(file_exists(path_home(...)))
 }
 
+
+test_that("edit_file() creates new directory and another and a file within", {
+  tmp <- file_temp()
+  expect_false(dir_exists(tmp))
+  capture.output(new_file <- edit_file(path(tmp, "new_dir", "new_file")))
+  expect_true(dir_exists(tmp))
+  expect_true(dir_exists(path(tmp, "new_dir")))
+  expect_true(file_exists(path(tmp, "new_dir", "new_file")))
+})
+
+test_that("edit_file() creates new file in existing directory", {
+  tmp <- file_temp()
+  dir_create(tmp)
+  capture.output(new_file <- edit_file(path(tmp, "new_file")))
+  expect_true(file_exists(path(tmp, "new_file")))
+})
+
+test_that("edit_file() copes with path to existing file", {
+  tmp <- file_temp()
+  dir_create(tmp)
+  existing <- file_create(path(tmp, "a_file"))
+  capture.output(res <- edit_file(path(tmp, "a_file")))
+  expect_identical(existing, res)
+})
+
 ## testing edit_XXX("user") only on travis and appveyor, because I don't want to
 ## risk creating user-level files de novo for an actual user, which would
 ## obligate me to some nerve-wracking clean up
 
 test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
+  skip_if_no_git_user()
   ## run these manually if you already have these files or are happy to
   ## have them or delete them
   skip_if_not_ci()
@@ -51,8 +77,8 @@ test_that("edit_r_XXX('user') ensures the file exists", {
 
   edit_r_makevars("user")
   expect_r_file(".R", "Makevars")
-  
-  
+
+
   edit_rstudio_snippets(type = "R")
   expect_r_file(".R", "snippets", "r.snippets")
   edit_rstudio_snippets(type = "HTML")
@@ -73,6 +99,7 @@ test_that("edit_r_profile() respects R_PROFILE_USER", {
 
 
 test_that("edit_git_XXX('user') ensures the file exists", {
+  skip_if_no_git_user()
   ## run these manually if you already have these files or are happy to
   ## have them or delete them
   skip_if_not_ci()
@@ -131,3 +158,4 @@ test_that("edit_git_ignore() ensures .gitignore exists in project", {
   edit_git_ignore("project")
   expect_proj_file(".gitignore")
 })
+

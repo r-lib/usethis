@@ -9,9 +9,10 @@
 #' Both functions can be called on an existing project; you will be asked
 #' before any existing files are changed.
 #'
+#' @inheritParams use_description
 #' @param path A path. If it exists, it is used. If it does not exist, it is
 #'   created, provided that the parent path exists.
-#' @inheritParams use_description
+#' @param roxygen Do you plan to use roxygen2 to document your package?
 #' @param rstudio If `TRUE`, calls [use_rstudio()] to make the new package or
 #'   project into an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects).
@@ -28,10 +29,11 @@
 #' @return Path to the newly created project or package, invisibly.
 #' @export
 create_package <- function(path,
-                           fields = NULL,
+                           fields = list(),
                            rstudio = rstudioapi::isAvailable(),
+                           roxygen = TRUE,
                            check_name = TRUE,
-                           open = interactive()) {
+                           open = rlang::is_interactive()) {
   path <- user_path_prep(path)
   check_path_is_directory(path_dir(path))
 
@@ -46,8 +48,8 @@ create_package <- function(path,
   on.exit(proj_set(old_project), add = TRUE)
 
   use_directory("R")
-  use_description(fields, check_name = check_name)
-  use_namespace()
+  use_description(fields, check_name = FALSE, roxygen = roxygen)
+  use_namespace(roxygen = roxygen)
 
   if (rstudio) {
     use_rstudio()
@@ -67,7 +69,7 @@ create_package <- function(path,
 #' @rdname create_package
 create_project <- function(path,
                            rstudio = rstudioapi::isAvailable(),
-                           open = interactive()) {
+                           open = rlang::is_interactive()) {
   path <- user_path_prep(path)
   name <- path_file(path)
   check_not_nested(path_dir(path), name)
@@ -165,7 +167,7 @@ create_from_github <- function(repo_spec,
                                destdir = NULL,
                                fork = NA,
                                rstudio = NULL,
-                               open = interactive(),
+                               open = rlang::is_interactive(),
                                protocol = git_protocol(),
                                credentials = NULL,
                                auth_token = github_token(),
@@ -258,22 +260,25 @@ create_from_github <- function(repo_spec,
   invisible(proj_get())
 }
 
+# creates a backdoor we can exploit in tests
+allow_nested_project <- function() FALSE
+
 check_not_nested <- function(path, name) {
   if (!possibly_in_proj(path)) {
     return(invisible())
   }
 
-  ## special case: allow nested project if
-  ## 1) is_testing()
-  ## 2) proposed project name matches magic string we build into test projects
-  ## https://github.com/r-lib/usethis/pull/241
-  if (is_testing() && grepl("aaa", name)) {
+  # we mock this in a few tests, to allow a nested project
+  if (allow_nested_project()) {
     return()
   }
 
   ui_line(
     "New project {ui_value(name)} is nested inside an existing project \\
-    {ui_path(path)}, which is rarely a good idea."
+    {ui_path(path)}, which is rarely a good idea.
+    If this is unexpected, the here package has a function, \\
+    {ui_code('here::dr_here()')} that reveals why {ui_path(path)} \\
+    is regarded as a project."
   )
   if (ui_nope("Do you want to create anyway?")) {
     ui_stop("Aborting project creation.")

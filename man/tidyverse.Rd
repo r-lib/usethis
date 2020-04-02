@@ -20,7 +20,7 @@ use_tidy_github_actions()
 
 create_tidy_package(path, name = "RStudio")
 
-use_tidy_ci(browse = interactive())
+use_tidy_ci(browse = rlang::is_interactive())
 
 use_tidy_description()
 

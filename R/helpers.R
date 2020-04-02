@@ -46,16 +46,17 @@ use_dependency <- function(package, type, min_version = NULL) {
   existing_dep <- deps$package == package
   existing_type <- deps$type[existing_dep]
   existing_ver <- deps$version[existing_dep]
-  is_linking_to <- (existing_type != "LinkingTo" && type == "LinkingTo") ||
-    (existing_type == "LinkingTo" && type != "LinkingTo")
+  is_linking_to <- (existing_type != "LinkingTo" & type == "LinkingTo") |
+    (existing_type == "LinkingTo" & type != "LinkingTo")
 
   # No existing dependency, so can simply add
-  if (!any(existing_dep) || is_linking_to) {
+  if (!any(existing_dep) || any(is_linking_to)) {
     ui_done("Adding {ui_value(package)} to {ui_field(type)} field in DESCRIPTION")
     desc::desc_set_dep(package, type, version = version, file = proj_get())
     return(invisible())
   }
 
+  existing_type <- setdiff(existing_type, "LinkingTo")
   delta <- sign(match(existing_type, types) - match(type, types))
   if (delta < 0) {
     # don't downgrade
@@ -94,7 +95,7 @@ version_spec <- function(x) {
   numeric_version(x)
 }
 
-view_url <- function(..., open = interactive()) {
+view_url <- function(..., open = is_interactive()) {
   url <- paste(..., sep = "/")
   if (open) {
     ui_done("Opening URL {ui_value(url)}")
@@ -103,24 +104,5 @@ view_url <- function(..., open = interactive()) {
     ui_todo("Open URL {ui_value(url)}")
   }
   invisible(url)
-}
-
-use_rd_macros <- function(package) {
-  proj <- proj_get()
-
-  if (desc::desc_has_fields("RdMacros", file = proj)) {
-    macros <- desc::desc_get_field("RdMacros", file = proj)
-    macros <- strsplit(macros, ",")[[1]]
-  } else {
-    macros <- character()
-  }
-
-  if (!package %in% macros) {
-    macros <- c(macros, package)
-    macros <- paste0("    ", macros, collapse = ",\n")
-    desc::desc_set(RdMacros = macros, file = proj, normalize = TRUE)
-  }
-
-  invisible()
 }
 

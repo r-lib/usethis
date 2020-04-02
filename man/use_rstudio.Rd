@@ -4,7 +4,10 @@
 \alias{use_rstudio}
 \title{Add RStudio Project infrastructure}
 \usage{
-use_rstudio()
+use_rstudio(line_ending = c("posix", "windows"))
+}
+\arguments{
+\item{line_ending}{Line ending}
 }
 \description{
 It is likely that you want to use \code{\link[=create_project]{create_project()}} or \code{\link[=create_package]{create_package()}}

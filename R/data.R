@@ -42,6 +42,7 @@ use_data <- function(...,
 
   objs <- get_objs_from_dots(dots(...))
 
+  use_dependency("R", "depends", "2.10")
   if (internal) {
     use_directory("R")
     paths <- path("R", "sysdata.rda")
@@ -112,7 +113,7 @@ check_files_absent <- function(paths, overwrite) {
 #' \dontrun{
 #' use_data_raw("daisy")
 #' }
-use_data_raw <- function(name = "DATASET", open = interactive()) {
+use_data_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
   stopifnot(is_string(name))
   r_path <- path("data-raw", asciify(name), ext = "R")
   use_directory("data-raw", ignore = TRUE)

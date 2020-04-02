@@ -58,7 +58,7 @@ use_github <- function(organisation = NULL,
   repo_desc <- project_data()$Title %||% ""
   repo_desc <- gsub("\n", " ", repo_desc)
 
-  if (interactive()) {
+  if (is_interactive()) {
     ui_todo("Check title and description")
     ui_code_block(
       "
@@ -320,6 +320,11 @@ have_github_token <- function(auth_token = github_token()) {
 
 check_github_token <- function(auth_token = github_token(),
                                allow_empty = FALSE) {
+
+  if (!is_online("github.com")) {
+    ui_stop("Internet connection is not available")
+  }
+
   if (allow_empty && !have_github_token(auth_token)) {
     return(invisible(auth_token))
   }

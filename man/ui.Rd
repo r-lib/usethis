@@ -10,13 +10,14 @@
 \alias{ui_code_block}
 \alias{ui_stop}
 \alias{ui_warn}
+\alias{ui_silence}
 \alias{ui_field}
 \alias{ui_value}
 \alias{ui_path}
 \alias{ui_code}
 \title{User interface}
 \usage{
-ui_line(x, .envir = parent.frame())
+ui_line(x = character(), .envir = parent.frame())
 
 ui_todo(x, .envir = parent.frame())
 
@@ -26,11 +27,13 @@ ui_oops(x, .envir = parent.frame())
 
 ui_info(x, .envir = parent.frame())
 
-ui_code_block(x, copy = interactive(), .envir = parent.frame())
+ui_code_block(x, copy = rlang::is_interactive(), .envir = parent.frame())
 
 ui_stop(x, .envir = parent.frame())
 
 ui_warn(x, .envir = parent.frame())
+
+ui_silence(code)
 
 ui_field(x)
 
@@ -54,6 +57,8 @@ environment. For expert use only.}
 \item{copy}{If \code{TRUE}, the session is interactive, and the clipr package
 is installed, will copy the code block to the clipboard.}
 
+\item{code}{Code to execute with usually UI output silenced.}
+
 \item{base}{If specified, paths will be displayed relative to this path.}
 }
 \value{
@@ -76,6 +81,13 @@ The \code{ui_} functions can be broken down into four main categories:
 
 The question functions \code{\link[=ui_yeah]{ui_yeah()}} and \code{\link[=ui_nope]{ui_nope()}} have their own \link[=ui-questions]{help page}.
 }
+\section{Silencing output}{
+
+All UI output (apart from \code{ui_yeah()}/\code{ui_nope()} prompts) can be silenced
+by setting \code{options(usethis.quiet = TRUE)}. Use \code{ui_silence()} to selected
+actions.
+}
+
 \examples{
 new_val <- "oxnard"
 ui_done("{ui_field('name')} set to {ui_value(new_val)}")

@@ -51,7 +51,7 @@ use_remote <- function(package) {
     return(invisible())
   }
 
-  package_remote <- package_remote(package)
+  package_remote <- package_remote(desc::desc(package = package))
   ui_done(
     "Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in DESCRIPTION"
   )
@@ -62,19 +62,21 @@ use_remote <- function(package) {
 
 # Helpers -----------------------------------------------------------------
 
-## TO DO: make this less hard-wired to GitHub
-package_remote <- function(package) {
-  desc <- desc::desc(package = package)
-  # @jimhester and @gaborscardi say that the Github* fields are basically
-  # legacy, e.g., to support older tools like packrat
-  # Remote* fields are the way to go now
-  github_info <- desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo"))
+package_remote <- function(desc) {
+  package <- desc$get_field("Package")
+  remote <- as.list(desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo")))
 
-  if (!identical(github_info[["RemoteType"]], "github")) {
-    ui_stop("{ui_value(package)} was not installed from GitHub.")
+  is_valid_remote <- all(purrr::map_lgl(remote, ~ is_string(.x) && !is.na(.x)))
+  if (!is_valid_remote) {
+    ui_stop("{ui_value(package)} was not installed from a supported remote.")
   }
 
-  glue::glue_data(as.list(github_info), "{RemoteUsername}/{RemoteRepo}")
+  # GitHub remotes don't get the 'RemoteType::' prefix
+  if (identical(remote$RemoteType, "github")) {
+    paste0(remote$RemoteUsername, "/", remote$RemoteRepo)
+  } else {
+    paste0(remote$RemoteType, "::", remote$RemoteUsername, "/", remote$RemoteRepo)
+  }
 }
 
 refuse_package <- function(package, verboten) {

@@ -7,7 +7,7 @@
 #'   section](https://r-pkgs.org/release.html#important-files) of [R
 #'   Packages](https://r-pkgs.org).
 #' @export
-use_news_md <- function(open = interactive()) {
+use_news_md <- function(open = rlang::is_interactive()) {
   check_uncommitted_changes()
 
   use_template(

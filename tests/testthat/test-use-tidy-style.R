@@ -2,7 +2,7 @@ context("use_tidy_style")
 
 test_that("styling the package works", {
   skip_if(getRversion() < 3.2)
-  skip_if_no_git_config()
+  skip_if_no_git_user()
   skip_if_not_installed("styler")
 
   pkg <- scoped_temporary_package()
@@ -17,7 +17,7 @@ test_that("styling the package works", {
 
 test_that("styling of non-packages works", {
   skip_if(getRversion() < 3.2)
-  skip_if_no_git_config()
+  skip_if_no_git_user()
   skip_if_not_installed("styler")
 
   proj <- scoped_temporary_project()

@@ -61,10 +61,10 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✔ Creating '/tmp/RtmpbbiMqB/mypkg/'
-#> ✔ Setting active project to '/private/tmp/RtmpbbiMqB/mypkg'
-#> ✔ Creating 'R/'
-#> ✔ Writing 'DESCRIPTION'
+#> ✓ Creating '/tmp/RtmppskQJj/mypkg/'
+#> ✓ Setting active project to '/private/tmp/RtmppskQJj/mypkg'
+#> ✓ Creating 'R/'
+#> ✓ Writing 'DESCRIPTION'
 #> Package: mypkg
 #> Title: What the Package Does (One Line, Title Case)
 #> Version: 0.0.0.9000
@@ -76,52 +76,53 @@ create_package(path)
 #> Encoding: UTF-8
 #> LazyData: true
 #> Roxygen: list(markdown = TRUE)
-#> ✔ Writing 'NAMESPACE'
-#> ✔ Setting active project to '<no active project>'
+#> RoxygenNote: 7.1.0
+#> ✓ Writing 'NAMESPACE'
+#> ✓ Setting active project to '<no active project>'
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✔ Changing working directory to '/tmp/RtmpbbiMqB/mypkg/'
-#> ✔ Setting active project to '/private/tmp/RtmpbbiMqB/mypkg'
+#> ✓ Changing working directory to '/tmp/RtmppskQJj/mypkg/'
+#> ✓ Setting active project to '/private/tmp/RtmppskQJj/mypkg'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
-#> ✔ Setting License field in DESCRIPTION to 'MIT + file LICENSE'
-#> ✔ Writing 'LICENSE.md'
-#> ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'
-#> ✔ Writing 'LICENSE'
+#> ✓ Setting License field in DESCRIPTION to 'MIT + file LICENSE'
+#> ✓ Writing 'LICENSE.md'
+#> ✓ Adding '^LICENSE\\.md$' to '.Rbuildignore'
+#> ✓ Writing 'LICENSE'
 
 use_package("MASS", "Suggests")
-#> ✔ Adding 'MASS' to Suggests field in DESCRIPTION
+#> ✓ Adding 'MASS' to Suggests field in DESCRIPTION
 #> ● Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed
 #> ● Then directly refer to functons like `MASS::fun()` (replacing `fun()`).
 
 # Set up other files -------------------------------------------------
 use_readme_md()
-#> ✔ Writing 'README.md'
+#> ✓ Writing 'README.md'
 
 use_news_md()
-#> ✔ Writing 'NEWS.md'
+#> ✓ Writing 'NEWS.md'
 
 use_test("my-test")
-#> ✔ Adding 'testthat' to Suggests field in DESCRIPTION
-#> ✔ Creating 'tests/testthat/'
-#> ✔ Writing 'tests/testthat.R'
+#> ✓ Adding 'testthat' to Suggests field in DESCRIPTION
+#> ✓ Creating 'tests/testthat/'
+#> ✓ Writing 'tests/testthat.R'
 #> ● Call `use_test()` to initialize a basic test file and open it for editing.
-#> ✔ Increasing 'testthat' version to '>= 2.1.0' in DESCRIPTION
-#> ✔ Writing 'tests/testthat/test-my-test.R'
+#> ✓ Writing 'tests/testthat/test-my-test.R'
 #> ● Edit 'tests/testthat/test-my-test.R'
 
 x <- 1
 y <- 2
 use_data(x, y)
-#> ✔ Creating 'data/'
-#> ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'
+#> ✓ Adding 'R' to Depends field in DESCRIPTION
+#> ✓ Creating 'data/'
+#> ✓ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'
 #> ● Document your data (see 'https://r-pkgs.org/data.html')
 
 # Use git ------------------------------------------------------------
 use_git()
-#> ✔ Initialising Git repo
-#> ✔ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'
+#> ✓ Initialising Git repo
+#> ✓ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'
 ```
 
 ## Code of Conduct

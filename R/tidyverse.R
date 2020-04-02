@@ -95,7 +95,7 @@ create_tidy_package <- function(path,
 #' @export
 #' @rdname tidyverse
 #' @inheritParams use_travis
-use_tidy_ci <- function(browse = interactive()) {
+use_tidy_ci <- function(browse = rlang::is_interactive()) {
   check_uses_github()
 
   new_travis <- use_template(
@@ -216,7 +216,7 @@ use_tidy_style <- function(strict = TRUE) {
       strict = strict
     )
   }
-  cat_line()
+  ui_line()
   ui_done("Styled project according to the tidyverse style guide")
   invisible(styled)
 }

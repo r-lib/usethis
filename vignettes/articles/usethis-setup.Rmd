@@ -65,6 +65,10 @@ Certain options are consulted by usethis and allow you to set personal defaults:
     Git. Either "ssh" or "https". See the help for `git_protocol()` for more.
   * `usethis.description`: named list of default DESCRIPTION fields for new
     packages made with `usethis::create_package()`.
+  * `usethis.quiet`: if `TRUE`, prevents usethis from printing messages to the
+    console.
+  * `usethis.destdir`: a default directory to use in `create_from_github()` and
+    `use_course()`.
 
 Define any of these options in your `.Rprofile`, which can be opened for editing via `usethis::edit_r_profile()`. Here is example code:
 
@@ -73,10 +77,15 @@ options(
   usethis.full_name = "Jane Doe",
   usethis.protocol  = "ssh",
   usethis.description = list(
-    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), 
-    comment = c(ORCID = "YOUR-ORCID-ID"))',
+    "Authors@R" = utils::person(
+        "Jane", "Doe",
+        email = "jane@example.com",
+        role = c("aut", "cre"),
+        comment = c(ORCID = "JANE'S-ORCID-ID")
+    ),
     Version = "0.0.0.9000"
-  )
+  ),
+  usethis.destdir = "~/the/place/where/I/keep/my/R/projects"
 )
 ```
 

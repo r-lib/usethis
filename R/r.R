@@ -17,7 +17,7 @@
 #'   [R code](https://r-pkgs.org/r.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
 #' @export
-use_r <- function(name = NULL, open = NULL) {
+use_r <- function(name = NULL, open = rlang::is_interactive()) {
   name <- name %||% get_active_r_file(path = "tests/testthat")
   name <- gsub("^test-", "", name)
   name <- slug(name, "R")
@@ -26,12 +26,17 @@ use_r <- function(name = NULL, open = NULL) {
   use_directory("R")
   edit_file(proj_path("R", name), open = open)
 
+  test_path <- proj_path("tests", "testthat", paste0("test-", name, ".R"))
+  if (!file_exists(test_path)) {
+    ui_todo("Call {ui_code('use_test()')} to create a matching test file")
+  }
+
   invisible(TRUE)
 }
 
 #' @rdname use_r
 #' @export
-use_test <- function(name = NULL, open = NULL) {
+use_test <- function(name = NULL, open = rlang::is_interactive()) {
   if (!uses_testthat()) {
     use_testthat()
   }
@@ -43,28 +48,88 @@ use_test <- function(name = NULL, open = NULL) {
 
   path <- path("tests", "testthat", name)
   if (!file_exists(path)) {
-    # As of testthat 2.1.0, a context() is no longer needed/wanted
-    if (utils::packageVersion("testthat") >= "2.1.0") {
-      use_dependency("testthat", "Suggests", "2.1.0")
-      use_template(
-        "test-example-2.1.R",
-        save_as = path,
-        open = FALSE
-      )
-    } else {
-      use_template(
-        "test-example.R",
-        save_as = path,
-        data = list(test_name = path_ext_remove(name)),
-        open = FALSE
-      )
-    }
+    use_template("test-example-2.1.R", save_as = path, open = FALSE)
   }
 
   edit_file(proj_path(path), open = open)
-
 }
 
+#' Automatically rename paired `R/` and `test/` files
+#'
+#' @description
+#' * Moves `R/{old}.R` to `R/{new}.R`
+#' * Moves `tests/testthat/test-{old}.R` to `tests/testthat/test-{new}.R`
+#' * Moves `tests/testthat/test-{old}-*.*` to `tests/testthat/test-{new}-*.*`
+#'   and updates paths in the test file.
+#' * Removes `context()` calls from the test file, which are unnecessary
+#'   (and discouraged) as of testthat v2.1.0.
+#'
+#' This is a potentially dangerous operation, so you must be using Git in
+#' order to use this function.
+#'
+#' @param old,new Old and new file names (with or without extensions).
+#' @export
+rename_files <- function(old, new) {
+  check_uses_git()
+
+  old <- path_ext_remove(old)
+  new <- path_ext_remove(new)
+
+  # Move .R file
+  r_old_path <- proj_path("R", old, ext = "R")
+  r_new_path <- proj_path("R", new, ext = "R")
+  if (file_exists(r_old_path)) {
+    ui_done("Moving {ui_path(r_old_path)} to {ui_path(r_new_path)}")
+    file_move(r_old_path, r_new_path)
+  }
+
+  if (!uses_testthat()) {
+    return()
+  }
+
+  # Move test files
+  rename_test <- function(path) {
+    file <- gsub(glue("^test-{old}"), glue("test-{new}"), path_file(path))
+    path(path_dir(path), file)
+  }
+  old_test <- dir_ls(proj_path("tests", "testthat"), glob = glue("*/test-{old}*"))
+  new_test <- rename_test(old_test)
+  if (length(old_test) > 0) {
+    ui_done("Moving {ui_path(old_test)} to {ui_path(new_test)}")
+    file_move(old_test, new_test)
+  }
+
+  # Update test file
+  test_path <- proj_path("tests", "testthat", glue("test-{new}"), ext = "R")
+  if (!file_exists(test_path)) {
+    return(invisible())
+  }
+
+  lines <- read_utf8(test_path)
+
+  # Remove old context lines
+  context <- grepl("context\\(.*\\)", lines)
+  if (any(context)) {
+    ui_done("Removing call to {ui_code('context()')}")
+    lines <- lines[!context]
+    if (lines[[1]] == "") {
+      lines <- lines[-1]
+    }
+  }
+
+  old_test <- old_test[new_test != test_path]
+  new_test <- new_test[new_test != test_path]
+
+  if (length(old_test) > 0) {
+    ui_done("Updating paths in {ui_path(test_path)}")
+
+    for (i in seq_along(old_test)) {
+      lines <- gsub(path_file(old_test[[i]]), path_file(new_test[[i]]), lines, fixed = TRUE)
+    }
+  }
+
+  write_utf8(test_path, lines)
+}
 
 # helpers -----------------------------------------------------------------
 

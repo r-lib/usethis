@@ -86,7 +86,7 @@ check_uses_github_actions <- function(base_path = proj_get()) {
 
   ui_stop(
     "
-    Cannot detect that package {ui_value(project_name(base_path))} already uses Github Actions.
+    Cannot detect that package {ui_value(project_name(base_path))} already uses GitHub Actions.
     Do you need to run {ui_code('use_github_actions()')}?
     "
   )
