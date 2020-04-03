@@ -70,7 +70,7 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   check_github_token(auth_token)
 
   gh <- function(endpoint, ...) {
-    out <- gh::gh(
+    gh::gh(
       endpoint,
       ...,
       owner = spec_owner(repo_spec),
@@ -81,11 +81,6 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
         "Accept" = "application/vnd.github.symmetra-preview+json"
       )
     )
-    if (identical(out[[1]], "")) {
-      list()
-    } else {
-      out
-    }
   }
 
   cur_labels <- gh("GET /repos/:owner/:repo/labels")
