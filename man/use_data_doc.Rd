@@ -4,10 +4,17 @@
 \alias{use_data_doc}
 \title{Documentation}
 \usage{
-use_data_doc(name, description = "Description", source = "Source")
+use_data_doc(
+  name,
+  prefix = "doc_",
+  description = "Description",
+  source = "Source"
+)
 }
 \arguments{
 \item{name}{Name of your data}
+
+\item{prefix}{Add prefix for the name of R script}
 
 \item{description}{Add a description}
 

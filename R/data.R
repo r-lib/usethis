@@ -133,6 +133,7 @@ use_data_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
 #' Documentation
 #'
 #' @param name Name of your data
+#' @param prefix Add prefix for the name of R script
 #' @param description Add a description
 #' @param source Add a source
 #'
@@ -142,9 +143,9 @@ use_data_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
 #' \dontrun{
 #' use_data_doc("my_data", description = "Desc of my_data", source = "Here my source")
 #' }
-use_data_doc <- function(name, description = "Description", source = "Source"){
+use_data_doc <- function(name, prefix = "doc_", description = "Description", source = "Source"){
   check_is_package("use_data_doc()")
-  path <- glue("R/{name}.R")
+  path <- glue("R/{prefix}{name}.R")
   use_template(
     template = "data-documentation.R",
     save_as = path,
