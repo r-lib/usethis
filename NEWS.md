@@ -172,6 +172,10 @@
   put a new folder created by `use_course()` or `create_from_github()`
   (@malcolmbarrett, #1015).
 
+## Dependency changes
+
+gh minimum version is stated to be v.1.1.0, due to changed behaviour around requests that return nothing.
+
 # usethis 1.5.1
 
 This is a patch release with various small features and bug fixes.
