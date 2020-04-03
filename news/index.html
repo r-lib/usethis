@@ -264,6 +264,11 @@
 <li><p><code>usethis.destdir</code> is a new option that is consulted when deciding where to put a new folder created by <code><a href="../reference/zip-utils.html">use_course()</a></code> or <code><a href="../reference/create_from_github.html">create_from_github()</a></code> (<a href='https://github.com/malcolmbarrett'>@malcolmbarrett</a>, <a href='https://github.com/r-lib/usethis/issues/1015'>#1015</a>).</p></li>
 </ul>
 </div>
+<div id="dependency-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
+<p>gh minimum version is stated to be v.1.1.0, due to changed behaviour around requests that return nothing.</p>
+</div>
 </div>
     <div id="usethis-151" class="section level1">
 <h1 class="page-header" data-toc-text="1.5.1">
@@ -305,9 +310,9 @@
 <li><p><code><a href="../reference/use_version.html">use_version()</a></code> can detect <code>"(development version)"</code> in a NEWS header and update it with an actual version (<a href='https://github.com/r-lib/usethis/issues/768'>#768</a>, <a href='https://github.com/DavisVaughan'>@DavisVaughan</a>).</p></li>
 </ul>
 </div>
-<div id="dependency-changes" class="section level2">
+<div id="dependency-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
+<a href="#dependency-changes-1" class="anchor"></a>Dependency changes</h2>
 <p>R 3.1 is no longer explicitly supported or tested. Our general practice is to support the current release (3.6, at time of writing), devel, and the 4 previous versions of R (3.5, 3.4, 3.3, 3.2).</p>
 <p>fs minimum version is stated to be v1.3.0.</p>
 <p>glue minimum version is stated to be v1.3.0.</p>
@@ -450,9 +455,9 @@
 <li><p><code>restart_rstudio()</code> now returns <code>FALSE</code> in RStudio if no project is open, fixing an issue that caused errors in helpers that suggest restarting RStudio (<a href='https://github.com/gadenbuie'>@gadenbuie</a>, <a href='https://github.com/r-lib/usethis/issues/571'>#571</a>).</p></li>
 </ul>
 </div>
-<div id="dependency-changes-1" class="section level2">
+<div id="dependency-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes-1" class="anchor"></a>Dependency changes</h2>
+<a href="#dependency-changes-2" class="anchor"></a>Dependency changes</h2>
 <ul>
 <li><p>withr moves from Suggests to Imports.</p></li>
 <li><p>purrr and yaml are new in Imports.</p></li>
@@ -512,9 +517,9 @@
 <li><p>The logic for setting DESCRIPTION fields in <code><a href="../reference/create_package.html">create_package()</a></code> and <code><a href="../reference/use_description.html">use_description()</a></code> got a Spring Cleaning. Fields directly specified by the user take precedence, then the named list in <code><a href="https://rdrr.io/r/base/options.html">getOption("usethis.description")</a></code> is consulted, and finally defaults built into usethis. <code><a href="../reference/use_description.html">use_description_defaults()</a></code> is a new function that reveals fields found in options and built into usethis. Options specific to one DESCRIPTION field, e.g.Â <code>devtools.desc.license</code>, are no longer supported. Instead, use a single named list for all fields, preferably stored in an option named <code>"usethis.description"</code> (however,<code>"devtools.desc"</code> is still consulted for backwards compatibility). (<a href='https://github.com/r-lib/usethis/issues/159'>#159</a>, <a href='https://github.com/r-lib/usethis/issues/233'>#233</a>, <a href='https://github.com/r-lib/usethis/issues/367'>#367</a>)</p></li>
 </ul>
 </div>
-<div id="dependency-changes-2" class="section level2">
+<div id="dependency-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependency-changes-2" class="anchor"></a>Dependency changes</h2>
+<a href="#dependency-changes-3" class="anchor"></a>Dependency changes</h2>
 <p>New Imports: fs, glue, utils</p>
 <p>No longer in Imports: backports, httr, rematch2, rmarkdown (moved to Suggests), styler (moved to Suggests)</p>
 </div>
