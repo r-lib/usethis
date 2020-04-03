@@ -366,7 +366,9 @@ releases <- function(repo_spec = github_repo_spec()) {
     owner = spec_owner(repo_spec),
     repo = spec_repo(repo_spec)
   )
-  if (identical(res[[1]], "")) return(NULL)
+  if (length(res) < 1) {
+    return(NULL)
+  }
   pluck_chr(res, "tag_name")
 }
 
