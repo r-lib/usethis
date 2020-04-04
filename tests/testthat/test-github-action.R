@@ -27,7 +27,7 @@ test_that("use_github_action() replaces yml with yaml in name", {
   expect_proj_file(".github/workflows/check-full.yaml")
 })
 
-test_that("use_github_action() replaces appends yaml in name if missing", {
+test_that("use_github_action() appends yaml in name if missing", {
   skip_if_no_git_user()
 
   scoped_temporary_package()
@@ -40,4 +40,3 @@ test_that("use_github_action() replaces appends yaml in name if missing", {
   expect_proj_dir(".github/workflows")
   expect_proj_file(".github/workflows/check-full.yaml")
 })
-
