@@ -27,7 +27,6 @@ use_github_action <- function(name,
     stopifnot(is_string(name))
 
     # Append a `.yaml` extension if needed
-    name <- gsub("[.]yml$", ".yaml", name)
     if (!grepl("[.]yaml$", name)) {
       name <- paste0(name, ".yaml")
     }
