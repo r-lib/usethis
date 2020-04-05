@@ -16,7 +16,9 @@ bzip
 CCBY
 ci
 CircleCI
+cli
 clipr
+clisymbols
 CMD
 CoC
 codecov
@@ -40,6 +42,7 @@ frontmatter
 fs
 funder
 gc
+gh
 Git's
 github
 gitignore
