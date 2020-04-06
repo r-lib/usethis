@@ -18,3 +18,4 @@
 ^_pkgdown\.yml$
 ^docs$
 ^vignettes/articles$
+^inst/templates/.*\\.html$
