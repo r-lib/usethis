@@ -1,4 +1,4 @@
-# usethis (development version)
+# usethis 1.6.0
 
 ## GitHub actions
 
