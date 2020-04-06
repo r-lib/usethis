@@ -25,12 +25,15 @@ Maintainers were notified on Mar 27.
 
 * DataPackageR
   checking tests ...
+  No response from maintainer.
 
 * devtools
   checking for code/documentation mismatches ... WARNING
+  Submission coming v. shortly
 
 * portalr
   checking tests ...
+  No response from maintainer.
 
 ### Failed to check
 
