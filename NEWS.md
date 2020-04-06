@@ -8,6 +8,9 @@
 
 * We now recommend GitHub Actions instead of Travis-CI or AppVeyor, and strongly
   recommend upgrading your packages.
+  
+* Fix `use_github_action()` URL parameter to ensure custom URLs are allowed.
+  (@coatless, #1065).
 
 ## Package creation
 
