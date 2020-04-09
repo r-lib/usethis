@@ -73,13 +73,14 @@ create_tidy_package <- function(path,
 
   use_roxygen_md()
   use_testthat()
-  use_gpl3_license(name)
+  use_mit_license(name)
   use_tidy_description()
 
   use_readme_rmd(open = FALSE)
   use_lifecycle_badge("experimental")
   use_cran_badge()
   use_cran_comments(open = FALSE)
+  use_code_of_conduct()
 
   use_tidy_github()
   ui_todo("In the new package, remember to do:")

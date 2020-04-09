@@ -29,6 +29,8 @@
   directly, without having to wrap in additional layer of quotes. If setting 
   this in your `.Rprofile`, you'll need to use `utils::person()` since the utils 
   package isn't loaded until after your profile is executed.
+  
+* `create_tidy_package()` now uses an MIT license and the code of conduct. 
 
 ## PR helpers
 
