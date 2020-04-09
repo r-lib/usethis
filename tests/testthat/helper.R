@@ -16,17 +16,13 @@ if (!is.null(session_temp_proj)) {
   ))
 }
 
-## putting `pattern` in the package or project name is part of our strategy for
-## suspending the nested project check during testing
-pattern <- "aaa"
-
-scoped_temporary_package <- function(dir = file_temp(pattern = pattern),
+scoped_temporary_package <- function(dir = file_temp(pattern = "testpkg"),
                                      env = parent.frame(),
                                      rstudio = FALSE) {
   scoped_temporary_thing(dir, env, rstudio, "package")
 }
 
-scoped_temporary_project <- function(dir = file_temp(pattern = pattern),
+scoped_temporary_project <- function(dir = file_temp(pattern = "testproj"),
                                      env = parent.frame(),
                                      rstudio = FALSE) {
   scoped_temporary_thing(dir, env, rstudio, "project")
@@ -73,23 +69,24 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
   invisible(dir)
 }
 
-test_mode <- function() {
-  before <- Sys.getenv("TESTTHAT")
-  after <- if (before == "true") "false" else "true"
-  Sys.setenv(TESTTHAT = after)
-  cat("TESTTHAT:", before, "-->", after, "\n")
+toggle_rlang_interactive <- function() {
+  before <- getOption("rlang_interactive")
+  after <- if (identical(before, FALSE)) TRUE else FALSE
+  options(rlang_interactive = after)
+  ui_line(glue::glue("rlang_interactive: {before %||% '<unset>'} --> {after}"))
   invisible()
 }
 
 skip_if_not_ci <- function() {
-  ci <- any(toupper(Sys.getenv(c("TRAVIS", "APPVEYOR"))) == "TRUE")
+  ci_providers <- c("GITHUB_ACTIONS", "TRAVIS", "APPVEYOR")
+  ci <- any(toupper(Sys.getenv(ci_providers)) == "TRUE")
   if (ci) {
     return(invisible(TRUE))
   }
-  skip("Not on Travis or Appveyor")
+  skip("Not on GitHub Actions, Travis, or Appveyor")
 }
 
-skip_if_no_git_config <- function() {
+skip_if_no_git_user <- function() {
   cfg <- git2r::config()
   user_name <- cfg$local$`user.name` %||% cfg$global$`user.name`
   user_email <- cfg$local$`user.email` %||% cfg$global$`user.email`

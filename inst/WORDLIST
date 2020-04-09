@@ -16,7 +16,9 @@ bzip
 CCBY
 ci
 CircleCI
+cli
 clipr
+clisymbols
 CMD
 CoC
 codecov
@@ -64,6 +66,7 @@ Jenkinsfile
 Jupyter
 labelled
 learnr
+LF
 LGL
 libgit
 lifecycle

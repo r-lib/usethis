@@ -33,7 +33,7 @@ create_package <- function(path,
                            rstudio = rstudioapi::isAvailable(),
                            roxygen = TRUE,
                            check_name = TRUE,
-                           open = interactive()) {
+                           open = rlang::is_interactive()) {
   path <- user_path_prep(path)
   check_path_is_directory(path_dir(path))
 
@@ -69,7 +69,7 @@ create_package <- function(path,
 #' @rdname create_package
 create_project <- function(path,
                            rstudio = rstudioapi::isAvailable(),
-                           open = interactive()) {
+                           open = rlang::is_interactive()) {
   path <- user_path_prep(path)
   name <- path_file(path)
   check_not_nested(path_dir(path), name)
@@ -167,7 +167,7 @@ create_from_github <- function(repo_spec,
                                destdir = NULL,
                                fork = NA,
                                rstudio = NULL,
-                               open = interactive(),
+                               open = rlang::is_interactive(),
                                protocol = git_protocol(),
                                credentials = NULL,
                                auth_token = github_token(),
@@ -260,22 +260,25 @@ create_from_github <- function(repo_spec,
   invisible(proj_get())
 }
 
+# creates a backdoor we can exploit in tests
+allow_nested_project <- function() FALSE
+
 check_not_nested <- function(path, name) {
   if (!possibly_in_proj(path)) {
     return(invisible())
   }
 
-  ## special case: allow nested project if
-  ## 1) is_testing()
-  ## 2) proposed project name matches magic string we build into test projects
-  ## https://github.com/r-lib/usethis/pull/241
-  if (is_testing() && grepl("aaa", name)) {
+  # we mock this in a few tests, to allow a nested project
+  if (allow_nested_project()) {
     return()
   }
 
   ui_line(
     "New project {ui_value(name)} is nested inside an existing project \\
-    {ui_path(path)}, which is rarely a good idea."
+    {ui_path(path)}, which is rarely a good idea.
+    If this is unexpected, the here package has a function, \\
+    {ui_code('here::dr_here()')} that reveals why {ui_path(path)} \\
+    is regarded as a project."
   )
   if (ui_nope("Do you want to create anyway?")) {
     ui_stop("Aborting project creation.")

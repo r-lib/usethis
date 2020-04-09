@@ -1,7 +1,7 @@
 context("GitHub Actions")
 
 test_that("uses_github_actions() reports usage of GitHub Actions", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   expect_false(uses_github_actions())
@@ -22,7 +22,7 @@ test_that("check_uses_github_actions() can throw error", {
 })
 
 test_that("use_github_actions() configures GitHub Actions", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   use_git()
@@ -52,7 +52,7 @@ test_that("use_github_actions() configures GitHub Actions", {
 })
 
 test_that("use_github_actions() configures .Rbuildignore", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   expect_false(uses_circleci())
@@ -64,7 +64,7 @@ test_that("use_github_actions() configures .Rbuildignore", {
 })
 
 test_that("use_github_action_check_full() configures full GitHub Actions", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   use_git()
@@ -97,7 +97,7 @@ test_that("use_github_action_check_full() configures full GitHub Actions", {
 })
 
 test_that("use_github_action_check_full() configures the pr commands", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   use_git()
@@ -111,7 +111,7 @@ test_that("use_github_action_check_full() configures the pr commands", {
 })
 
 test_that("use_tidy_github_actions() configures the full check and pr commands", {
-  skip_if_no_git_config()
+  skip_if_no_git_user()
 
   scoped_temporary_package()
   use_git()

@@ -11,13 +11,13 @@ test_that("github_home() has fall back", {
 })
 
 test_that("cran_home() produces canonical URL", {
-  pkg <- scoped_temporary_package(file_temp("aaa"))
-  expect_match(cran_home(), "https://cran.r-project.org/package=aaa")
+  pkg <- scoped_temporary_package(file_temp("abc"))
+  expect_match(cran_home(), "https://cran.r-project.org/package=abc")
   expect_match(cran_home("bar"), "https://cran.r-project.org/package=bar")
 })
 
 test_that("browse_XXX() goes to correct URL", {
-  skip_if(interactive())
+  skip_if(rlang::is_interactive())
   g <- function(x) paste0("https://github.com/", x)
 
   expect_equal(browse_github("gh"), g("r-lib/gh"))

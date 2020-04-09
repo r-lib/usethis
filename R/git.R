@@ -30,7 +30,7 @@ use_git <- function(message = "Initial commit") {
 }
 
 git_ask_commit <- function(message, untracked = FALSE) {
-  if (!interactive() || !uses_git()) {
+  if (!is_interactive() || !uses_git()) {
     return(invisible())
   }
 
@@ -182,7 +182,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
 git_protocol <- function() {
   protocol <- getOption(
     "usethis.protocol",
-    default = if (interactive()) NA else "ssh"
+    default = if (is_interactive()) NA else "ssh"
   )
 
   ## this is where a user-supplied protocol gets checked, because
@@ -227,8 +227,7 @@ use_git_protocol <- function(protocol) {
 }
 
 choose_protocol <- function() {
-  ## intercept with our internal interactive()
-  if (!interactive()) {
+  if (!is_interactive()) {
     return(invisible())
   }
   choices <- c(

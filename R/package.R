@@ -71,7 +71,7 @@ package_remote <- function(desc) {
     ui_stop("{ui_value(package)} was not installed from a supported remote.")
   }
 
-  # Github remotes don't get the 'RemoteType::' prefix
+  # GitHub remotes don't get the 'RemoteType::' prefix
   if (identical(remote$RemoteType, "github")) {
     paste0(remote$RemoteUsername, "/", remote$RemoteRepo)
   } else {

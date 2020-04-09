@@ -5,9 +5,9 @@
 \alias{use_readme_md}
 \title{Create README files}
 \usage{
-use_readme_rmd(open = interactive())
+use_readme_rmd(open = rlang::is_interactive())
 
-use_readme_md(open = interactive())
+use_readme_md(open = rlang::is_interactive())
 }
 \arguments{
 \item{open}{Open the newly created file for editing? Happens in RStudio, if

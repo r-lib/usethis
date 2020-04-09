@@ -9,7 +9,7 @@ create_from_github(
   destdir = NULL,
   fork = NA,
   rstudio = NULL,
-  open = interactive(),
+  open = rlang::is_interactive(),
   protocol = git_protocol(),
   credentials = NULL,
   auth_token = github_token(),

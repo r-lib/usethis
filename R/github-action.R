@@ -22,15 +22,18 @@ use_github_action <- function(name,
                               ignore = TRUE,
                               open = FALSE) {
 
-  # Append a `.yaml` extension if needed
-  stopifnot(is_string(name))
-
-  if (!grepl("[.]yaml$", name)) {
-    name <- paste0(name, ".yaml")
-  }
-
+  # Check if a custom URL is being used.
   if (is.null(url)) {
+    stopifnot(is_string(name))
+
+    # Append a `.yaml` extension if needed
+    if (!grepl("[.]yaml$", name)) {
+      name <- paste0(name, ".yaml")
+    }
+
     url <- glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}")
+  } else {
+    stopifnot(is_string(url))
   }
 
   if (is.null(save_as)) {
@@ -38,7 +41,6 @@ use_github_action <- function(name,
   }
 
   contents <- read_utf8(url)
-
 
   use_dot_github(ignore = ignore)
 

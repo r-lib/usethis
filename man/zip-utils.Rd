@@ -8,7 +8,11 @@
 \usage{
 use_course(url, destdir = getOption("usethis.destdir"))
 
-use_zip(url, destdir = getwd(), cleanup = if (interactive()) NA else FALSE)
+use_zip(
+  url,
+  destdir = getwd(),
+  cleanup = if (rlang::is_interactive()) NA else FALSE
+)
 }
 \arguments{
 \item{url}{Link to a ZIP file containing the materials. To reduce the chance
@@ -17,7 +21,7 @@ of typos in live settings, these shorter forms are accepted:\preformatted{* GitH
 * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
   The instructor must then arrange for the shortlink to point to a valid
   download URL for the target ZIP file. The helper
-  [create_download_url()] help create such URLs for GitHub, DropBox,
+  [create_download_url()] helps to create such URLs for GitHub, DropBox,
   and Google Drive.
 }}
 
@@ -48,7 +52,7 @@ highlight the download destination. Workflow:
 \itemize{
 \item User executes, e.g., \code{use_course("bit.ly/xxx-yyy-zzz")}.
 \item User is asked to notice and confirm the location of the new folder. Specify
-\code{destdir} to prevent this.
+\code{destdir} or configure the \code{"usethis.destdir"} option to prevent this.
 \item User is asked if they'd like to delete the ZIP file.
 \item If new folder contains an \code{.Rproj} file, a new instance of RStudio is
 launched. Otherwise, the folder is opened in the file manager, e.g. Finder

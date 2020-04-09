@@ -7,7 +7,7 @@
 * URL: https://github.com/ropensci/codemetar, https://ropensci.github.io/codemetar
 * BugReports: https://github.com/ropensci/codemetar/issues
 * Date/Publication: 2019-04-22 04:20:03 UTC
-* Number of recursive dependencies: 79
+* Number of recursive dependencies: 80
 
 Run `revdep_details(,"codemetar")` for more info
 

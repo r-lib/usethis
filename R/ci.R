@@ -21,7 +21,7 @@ NULL
 #'   https://travis-ci.com. Change to `"org"` for https://travis-ci.org.
 #' @export
 #' @rdname ci
-use_travis <- function(browse = interactive(), ext = c("com", "org")) {
+use_travis <- function(browse = rlang::is_interactive(), ext = c("com", "org")) {
   check_uses_github()
   ext <- arg_match(ext)
   new <- use_template(
@@ -51,7 +51,7 @@ use_travis_badge <- function(ext = c("com", "org")) {
   use_badge("Travis build status", url, img)
 }
 
-travis_activate <- function(browse = interactive(), ext = c("com", "org")) {
+travis_activate <- function(browse = is_interactive(), ext = c("com", "org")) {
   ext <- arg_match(ext)
   url <- glue("https://travis-ci.{ext}/profile/{github_owner()}")
 
@@ -85,7 +85,7 @@ check_uses_travis <- function(base_path = proj_get()) {
 #' integration service for Windows.
 #' @export
 #' @rdname ci
-use_appveyor <- function(browse = interactive()) {
+use_appveyor <- function(browse = rlang::is_interactive()) {
   check_uses_github()
 
   new <- use_template("appveyor.yml", ignore = TRUE)
@@ -99,7 +99,7 @@ use_appveyor <- function(browse = interactive()) {
   invisible(TRUE)
 }
 
-appveyor_activate <- function(browse = interactive()) {
+appveyor_activate <- function(browse = is_interactive()) {
   url <- "https://ci.appveyor.com/projects/new"
   ui_todo("Turn on AppVeyor for this repo at {url}")
   if (browse) {
@@ -179,7 +179,7 @@ check_uses_gitlab_ci <- function(base_path = proj_get()) {
 #'   `rocker/r-ver:3.5.3`.
 #' @export
 #' @rdname ci
-use_circleci <- function(browse = interactive(), image = "rocker/verse:latest") {
+use_circleci <- function(browse = rlang::is_interactive(), image = "rocker/verse:latest") {
   check_uses_github()
   use_directory(".circleci", ignore = TRUE)
   new <- use_template(
@@ -210,7 +210,7 @@ use_circleci_badge <- function() {
   use_badge("CircleCI build status", url, img)
 }
 
-circleci_activate <- function(browse = interactive()) {
+circleci_activate <- function(browse = is_interactive()) {
   url <- glue("https://circleci.com/add-projects/gh/{github_owner()}")
 
   ui_todo("Turn on CircleCI for your repo at {url}")

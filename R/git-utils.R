@@ -345,7 +345,8 @@ git_config_get <- function(name, global = FALSE) {
 git_config_set <- function(name, value, global = FALSE) {
   old <- git_config_get(name, global = global)
 
-  config <- list(git_repo(), value, global)
+  repo <- if (uses_git()) git_repo() else NULL
+  config <- list(repo, value, global)
   names(config) <- c("repo", name, "global")
   do.call(git2r::config, config)
 

@@ -6,8 +6,11 @@
   `use_github_action_check_full()`, `use_github_action_pr_commands()`,
   to set up a GitHub Actions for a package (@jimhester).
 
-* We now recommend GitHub actions instead of travis or appveyor, and strongly
-  recommended upgrading your packages.
+* We now recommend GitHub Actions instead of Travis-CI or AppVeyor, and strongly
+  recommend upgrading your packages.
+  
+* Fix `use_github_action()` URL parameter to ensure custom URLs are allowed.
+  (@coatless, #1065).
 
 ## Package creation
 
@@ -18,19 +21,19 @@
   if you want to export functions, #927). It also turns markdown processing 
   on by default (#911).
 
-* `use_rstudio()` now sets the `LineEndingConversion` to your `Posix` so that
+* `use_rstudio()` now sets the `LineEndingConversion` to `Posix` so that
   packages created using usethis always use LF line endings, regardless of 
   who contributes to them (#1002).
 
 * In the `usethis.description` option, you can now set `Authors@R = person()` 
   directly, without having to wrap in additional layer of quotes. If setting 
-  this in your `.Rprofile`, you'll need to use `utils::person` since the utils 
+  this in your `.Rprofile`, you'll need to use `utils::person()` since the utils 
   package isn't loaded until after your profile is executed.
 
 ## PR helpers
 
 * A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) 
-  demonstrates how to use the  `pr_*()` functions (@mine-cetinkaya-rundel, #802).
+  demonstrates how to use the `pr_*()` functions (@mine-cetinkaya-rundel, #802).
 
 * `pr_finish()` checks that you don't have any local changes (#805), and can 
   optionally finish any PR, not just the current (#1040).
@@ -38,7 +41,7 @@
 * `pr_pause()` and `pr_fetch()` now automatically pull to get latest changes 
   (#959, #960) and refresh RStudio's git pane (#706).
 
-* `pr_push()` now works with for a repository with no open pull requests 
+* `pr_push()` now works for a repository with no open pull requests 
   (@maurolepore, #990).
 
 * `pr_pull()` gives more information about which files have merge conflicts 
@@ -74,7 +77,7 @@
   platform default (#767). It should do a better job of preserving UTF-8 files 
   on windows (#969).
 
-* `browse_github()` now always goes to the canonical Github site: 
+* `browse_github()` now always goes to the canonical GitHub site: 
   `https://github.com/user/repo`. This is slightly worse than the current 
   behaviour but makes the function more consistent across packages, and 
   considerably simplifies the implementation.
@@ -92,7 +95,7 @@
 * `create_package()` will now create a package in a symlink to a directory 
   (#794).
 
-* `create_package()` and `use_description()` gain `check_name` argument to 
+* `create_package()` and `use_description()` gain a `check_name` argument to 
   control whether to check for package names invalid for CRAN (@noamross, #883).
 
 * `edit_file()` and `use_test()` gain an `open` parameter that allows you to
@@ -104,19 +107,23 @@
 * `git_sitrep()` now reports project-specific user name and email, if set 
   (#837), and email(s) associated with your GitHub account (@dragosmg, #724).
 
-* `ui_yeah()` and `ui_nope()` can now override the default "yes" and "no" 
-  strings and to opt-out of shuffling (@rundel, #796).
+* `ui_yeah()` and `ui_nope()` allow you to override the default "yes" and
+  "no" strings and to opt-out of shuffling (@rundel, #796).
 
 * `use_circleci()` uses correct delimiters in template (@jdblischak, #835).
 
 * `use_circleci_badge()` is now exported (@pat-s, #920).
 
-* `use_code_of_conduct()` now generates absolute link to code of conduct on 
+* `use_code_of_conduct()` now generates an absolute link to code of conduct on 
   pkgdown website or original source to avoid R CMD check issues (#772).
+  
+* `use_course()` and `use_zip()` are now equipped with some retry capability,
+  to cope with intermittent failure or the need for a longer connect timeout
+  (#988).
 
 * `use_data()` automatically bumps R dependency to 2.10 (#962).
 
-* `use_data_raw()` template quotes of dataset name correctly 
+* `use_data_raw()` template quotes the dataset name correctly 
   (#736, @mitchelloharawild).
 
 * `use_description_defaults()` now shows the default fields combined with
@@ -125,12 +132,12 @@
 * `use_dev_package()` now supports packages installed from any remote type,
    not just GitHub (@antoine-sachet, #1071).
 
-* `use_git()` will now create initial commit if needed (#852)
+* `use_git()` will now create initial commit if needed (#852).
 
 * `use_github_release()` no longer fails if you have no news bullets (#1048).
 
 * `use_github_release()` now tags the latest local commit instead of the latest 
-  remote commit on the default branch (@davidchall, #1029)
+  remote commit on the default branch (@davidchall, #1029).
 
 * `use_gpl3_license()` now completes the license by providing additional 
   information in a file named LICENSE, just like `use_mit_license()` and 
@@ -152,10 +159,10 @@
 * `use_tidy_issue_template()` uses current github format (@Maschette, #756).
 
 * `use_travis()`, `use_travis_badge()`, and `browse_travis()`, now default
-  to `ext = "com"` since travis-ci.com is now recommended over travis-ci.org 
+  to `ext = "com"` since travis-ci.com is now recommended it over travis-ci.org 
   (@riccardoporreca, #1038).
 
-* `use_release_issue()` reminds you to use it to re-generate `README.md`,
+* `use_release_issue()` reminds you to re-generate `README.md`,
   if needed (#767).
 
 * `use_r()` and `use_test()` throw a clear error if multiple names are provided 
@@ -163,6 +170,18 @@
 
 * `use_rcpp()` and `use_c()` now ensure `src/` contains at least one `.cpp` or
   `.c` placeholder file, so that the package can be built (@coatless, #720).
+  
+* `usethis.destdir` is a new option that is consulted when deciding where to
+  put a new folder created by `use_course()` or `create_from_github()`
+  (@malcolmbarrett, #1015).
+
+## Dependency changes
+
+New Imports: cli, rematch2, rlang.
+
+gh minimum version is bumped to v.1.1.0, due to changed behaviour around requests that return nothing.
+
+clisymbols is removed from Imports.
 
 # usethis 1.5.1
 

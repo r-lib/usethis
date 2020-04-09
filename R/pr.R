@@ -392,7 +392,6 @@ pr_find <- function(owner,
                     repo,
                     pr_owner = owner,
                     pr_branch = git_branch_name()) {
-  # Look at all PRs
   prs <- gh::gh("GET /repos/:owner/:repo/pulls",
     owner = owner,
     repo = repo,
@@ -400,8 +399,7 @@ pr_find <- function(owner,
     .token = check_github_token(allow_empty = TRUE)
   )
 
-  # prs has length zero if gh >= v1.1.0 and is "" for earlier versions
-  if (length(prs) < 1 || identical(prs[[1]], "")) {
+  if (length(prs) < 1) {
     return(character())
   }
 

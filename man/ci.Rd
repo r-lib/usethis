@@ -10,17 +10,17 @@
 \alias{use_circleci_badge}
 \title{Continuous integration setup and badges}
 \usage{
-use_travis(browse = interactive(), ext = c("com", "org"))
+use_travis(browse = rlang::is_interactive(), ext = c("com", "org"))
 
 use_travis_badge(ext = c("com", "org"))
 
-use_appveyor(browse = interactive())
+use_appveyor(browse = rlang::is_interactive())
 
 use_appveyor_badge()
 
 use_gitlab_ci()
 
-use_circleci(browse = interactive(), image = "rocker/verse:latest")
+use_circleci(browse = rlang::is_interactive(), image = "rocker/verse:latest")
 
 use_circleci_badge()
 }

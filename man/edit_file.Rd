@@ -4,14 +4,12 @@
 \alias{edit_file}
 \title{Open file for editing}
 \usage{
-edit_file(path, open = NULL)
+edit_file(path, open = rlang::is_interactive())
 }
 \arguments{
 \item{path}{Path to target file.}
 
-\item{open}{If, \code{NULL}, the default, will open the file when in an
-interactive environment that is not running tests. Use \code{TRUE} or
-\code{FALSE} to override the default.}
+\item{open}{Whether to open the file for interactive editing.}
 }
 \value{
 Target path, invisibly.
