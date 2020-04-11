@@ -80,7 +80,6 @@ create_tidy_package <- function(path,
   use_lifecycle_badge("experimental")
   use_cran_badge()
   use_cran_comments(open = FALSE)
-  use_code_of_conduct()
 
   use_tidy_github()
   ui_todo("In the new package, remember to do:")
