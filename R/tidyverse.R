@@ -85,7 +85,7 @@ create_tidy_package <- function(path,
   ui_todo("In the new package, remember to do:")
   ui_todo("{ui_code('use_git()')}")
   ui_todo("{ui_code('use_github()')}")
-  ui_todo("{ui_code('use_tidy_ci()')}")
+  ui_todo("{ui_code('use_tidy_github_actions()')}")
   ui_todo("{ui_code('use_pkgdown()')}")
 
   proj_activate(path)
