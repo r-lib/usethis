@@ -203,6 +203,12 @@ or a custom action given by the <code>url</code> parameter.</p>
   <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )
 
+<span class='fu'>use_github_action_check_standard</span>(
+  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check.yaml"</span>,
+  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
+
 <span class='fu'>use_github_action_check_full</span>(
   <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check.yaml"</span>,
   <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -250,6 +256,15 @@ applicable, or via <code><a href='https://rdrr.io/r/utils/file.edit.html'>utils:
 
 <p>This action installs the latest release R version on macOS and runs <code>R CMD check</code>
 via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package.</p>
+    <h2 class="hasAnchor" id="use-github-action-check-standard-"><a class="anchor" href="#use-github-action-check-standard-"></a><code>use_github_action_check_standard()</code></h2>
+
+    
+
+<p>This action runs R CMD check
+via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package on the
+three major OSs (linux, macOS and Windows) on the release version of R and
+R-devel. This action is most appropriate when you plan to eventually
+submit your package to CRAN or Bioconductor.</p>
     <h2 class="hasAnchor" id="use-github-action-check-full-"><a class="anchor" href="#use-github-action-check-full-"></a><code>use_github_action_check_full()</code></h2>
 
     
@@ -288,7 +303,7 @@ the package and commit the result to the pull request. <code>/style</code> will 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

@@ -185,13 +185,13 @@
 <h2 class="hasAnchor">
 <a href="#active-project" class="anchor"></a>Active project</h2>
 <p>Many usethis functions act on the <strong>active project</strong>, the path to which is stored in the internal environment <code>proj</code>, specifically in <code>proj$cur</code>. We do this instead of constantly passing around a base path or relying on the working directory. It is implied that such functions create or modify files inside the active project. This is mostly true of <code>use_*()</code> functions, though there are exceptions. For example, <code><a href="reference/zip-utils.html">use_course()</a></code> makes no reference to the active project.</p>
-<p>The project is activated upon first need, i.e.Â eventually some function calls <code><a href="reference/proj_utils.html">proj_get()</a></code> and, if <code>proj$cur</code> is <code>NULL</code>, we attempt to activate a project at (or above) current working directory.</p>
+<p>The project is activated upon first need, i.e. eventually some function calls <code><a href="reference/proj_utils.html">proj_get()</a></code> and, if <code>proj$cur</code> is <code>NULL</code>, we attempt to activate a project at (or above) current working directory.</p>
 <p>Direct read/write of <code>proj$cur</code> should be rare. Even internally, <code><a href="reference/proj_utils.html">proj_get()</a></code> and <code><a href="reference/proj_utils.html">proj_set()</a></code> are preferred. The stored project path should be processed with <code>proj_path_prep()</code>.</p>
 <p>Form paths to files within the project with <code><a href="reference/proj_utils.html">proj_path()</a></code>. Get paths relative to the project with <code>proj_rel_path()</code>.</p>
 <div id="activation-upon-load-or-attach-no" class="section level3">
 <h3 class="hasAnchor">
 <a href="#activation-upon-load-or-attach-no" class="anchor"></a>Activation upon load or attach? No.</h3>
-<p>Weâve contemplated project activation in <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onLoad()</a></code> or <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onAttach()</a></code>, but itâs not clear which is more appropriate. Which suggests that neither is appropriate. If we ever do this, <code>zzz.R</code> would include something like this:</p>
+<p>We’ve contemplated project activation in <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onLoad()</a></code> or <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onAttach()</a></code>, but it’s not clear which is more appropriate. Which suggests that neither is appropriate. If we ever do this, <code>zzz.R</code> would include something like this:</p>
 <div class="sourceCode" id="cb1"><html><pre class="r"><span class="no">.onLoad</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">libname</span>, <span class="no">pkgname</span>) {
   <span class="fu"><a href="https://rdrr.io/r/base/try.html">try</a></span>(<span class="fu"><a href="reference/proj_utils.html">proj_set</a></span>(<span class="st">"."</span>, <span class="kw">quiet</span> <span class="kw">=</span> <span class="fl">TRUE</span>), <span class="kw">silent</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 }</pre></html></div>
@@ -206,23 +206,23 @@
 <h2 class="hasAnchor">
 <a href="#helper-functions" class="anchor"></a>Helper functions</h2>
 <p>With some ambivalence, internally-oriented helpers like <code><a href="reference/write-this.html">write_union()</a></code> are exported. This helps developers who are extending usethis to create a package to standardize project setup within their own organization.</p>
-<p>The downside is that we arenât exactly sure yet what weâre willing to guarantee about these helpers.</p>
+<p>The downside is that we aren’t exactly sure yet what we’re willing to guarantee about these helpers.</p>
 <div id="permission-to-overwrite" class="section level3">
 <h3 class="hasAnchor">
 <a href="#permission-to-overwrite" class="anchor"></a>Permission to overwrite</h3>
-<p><code><a href="reference/write-this.html">write_over()</a></code> returns <code>FALSE</code> and does nothing if there is no need to overwrite (proposed file contents are same as existing) or if user says ânoâ and returns <code>TRUE</code> if it ovewrites. So if downstream logic depends on whether something new was written, consult the return value. <code><a href="reference/write-this.html">write_over()</a></code> is rarely called directly, but is usually called via <code><a href="reference/use_template.html">use_template()</a></code>, in which case the same handling should apply to its return value.</p>
+<p><code><a href="reference/write-this.html">write_over()</a></code> returns <code>FALSE</code> and does nothing if there is no need to overwrite (proposed file contents are same as existing) or if user says “no” and returns <code>TRUE</code> if it ovewrites. So if downstream logic depends on whether something new was written, consult the return value. <code><a href="reference/write-this.html">write_over()</a></code> is rarely called directly, but is usually called via <code><a href="reference/use_template.html">use_template()</a></code>, in which case the same handling should apply to its return value.</p>
 </div>
 <div id="helpers-and-the-active-project" class="section level3">
 <h3 class="hasAnchor">
 <a href="#helpers-and-the-active-project" class="anchor"></a>Helpers and the active project</h3>
-<p>Current mindset: helpers should <em>not</em> make direct use of the active project, i.e.Â project-based paths should be formed by the caller.</p>
+<p>Current mindset: helpers should <em>not</em> make direct use of the active project, i.e. project-based paths should be formed by the caller.</p>
 <p>Uncomfortable fact: <code><a href="reference/write-this.html">write_union()</a></code> uses the active project, if such exists, to create a humane path in its message. However, unlike <code>use_*()</code> functions, it does not call <code><a href="reference/proj_utils.html">proj_get()</a></code> to set an active project when <code>proj$cur</code> is <code>NULL</code>. We like this behaviour but the design feels muddy.</p>
 </div>
 </div>
 <div id="home-directory" class="section level2">
 <h2 class="hasAnchor">
 <a href="#home-directory" class="anchor"></a>Home directory</h2>
-<p>usethis relies on fs for file system operations. The main thing users will notice is the treatment of home directory on Windows. A Windows userâs home directory is interpreted as <code>C:\Users\username</code> (typical of Unix-oriented tools, like Git and ssh; also matches Python), as opposed to <code>C:\Users\username\Documents</code> (Râs default on Windows). In order to be consistent everywhere, all paths supplied by the user should be processed with <code>user_path_prep()</code>.</p>
+<p>usethis relies on fs for file system operations. The main thing users will notice is the treatment of home directory on Windows. A Windows user’s home directory is interpreted as <code>C:\Users\username</code> (typical of Unix-oriented tools, like Git and ssh; also matches Python), as opposed to <code>C:\Users\username\Documents</code> (R’s default on Windows). In order to be consistent everywhere, all paths supplied by the user should be processed with <code>user_path_prep()</code>.</p>
 </div>
 <div id="communicating-with-the-user" class="section level2">
 <h2 class="hasAnchor">
@@ -233,7 +233,7 @@
 <li>Exploited in usethis tests: option is set and unset in <code>setup.R</code> and <code>teardown.R</code>. Eliminates the need for ubiquitous <code>capture_output()</code> calls.</li>
 <li>Other packages can muffle a usethis call via, e.g., <code><a href="https://rdrr.io/pkg/withr/man/with_options.html">withr::local_options(list(usethis.quiet = TRUE))</a></code>.</li>
 </ul>
-<p>Implication: donât call <code>cat_line(..., quiet = FALSE)</code> lightly, because it breaks the expectation that the option can be used to silence usethis.</p>
+<p>Implication: don’t call <code>cat_line(..., quiet = FALSE)</code> lightly, because it breaks the expectation that the option can be used to silence usethis.</p>
 <p>You might also notice that usethis communicates with the user via <code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code> instead of <code><a href="https://rdrr.io/r/base/message.html">message()</a></code>. Why?</p>
 <ul>
 <li>Pragmatic explanation: default styling of <code><a href="https://rdrr.io/r/base/message.html">message()</a></code> (at least in RStudio) is red, which suggests that something is wrong. We prefer default styling to be more neutral and less alarmist.</li>
@@ -247,9 +247,9 @@
 <ul>
 <li>
 <code>master</code> is the main default branch.</li>
-<li>If youâve got only one remote, itâs called <code>origin</code>.</li>
-<li>If youâve got multiple remotes, one of them is <code>origin</code> and it is the main default remote.</li>
-<li>If youâve forked something, you have at least two remotes:
+<li>If you’ve got only one remote, it’s called <code>origin</code>.</li>
+<li>If you’ve got multiple remotes, one of them is <code>origin</code> and it is the main default remote.</li>
+<li>If you’ve forked something, you have at least two remotes:
 <ul>
 <li>
 <code>origin</code> is your copy.</li>
@@ -258,8 +258,8 @@
 </ul>
 </li>
 </ul>
-<p>We assume a user habitually uses one transport protocol, either SSH or HTTPS, i.e.Â that they donât intentionally switch between them willy-nilly.</p>
-<p>If the default summoning of Git credentials or protocol or GitHub PAT doesnât work for you, you must set them explicitly via <code><a href="reference/git_credentials.html">use_git_credentials()</a></code>, <code><a href="reference/git_protocol.html">use_git_protocol()</a></code>, or <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv("GITHUB_PAT")</a></code>. We arenât going to offer fine control of this, everywhere, by repetitively offering a ton of function arguments.</p>
+<p>We assume a user habitually uses one transport protocol, either SSH or HTTPS, i.e. that they don’t intentionally switch between them willy-nilly.</p>
+<p>If the default summoning of Git credentials or protocol or GitHub PAT doesn’t work for you, you must set them explicitly via <code><a href="reference/git_credentials.html">use_git_credentials()</a></code>, <code><a href="reference/git_protocol.html">use_git_protocol()</a></code>, or <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv("GITHUB_PAT")</a></code>. We aren’t going to offer fine control of this, everywhere, by repetitively offering a ton of function arguments.</p>
 </div>
 </div>
 
@@ -281,7 +281,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

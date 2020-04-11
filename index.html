@@ -147,19 +147,19 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>Most <code>use_*()</code> functions operate on the <em>active project</em>: literally, a directory on your computer. If youâve just used usethis to create a new package or project, that will be the active project. Otherwise, usethis verifies that current working directory is or is below a valid project directory and that becomes the active project. Use <code><a href="reference/proj_utils.html">proj_get()</a></code> or <code><a href="reference/proj_sitrep.html">proj_sitrep()</a></code> to manually query the project and <a href="https://usethis.r-lib.org/reference/proj_utils.html">read more in the docs</a>.</p>
+<p>Most <code>use_*()</code> functions operate on the <em>active project</em>: literally, a directory on your computer. If you’ve just used usethis to create a new package or project, that will be the active project. Otherwise, usethis verifies that current working directory is or is below a valid project directory and that becomes the active project. Use <code><a href="reference/proj_utils.html">proj_get()</a></code> or <code><a href="reference/proj_sitrep.html">proj_sitrep()</a></code> to manually query the project and <a href="https://usethis.r-lib.org/reference/proj_utils.html">read more in the docs</a>.</p>
 <p>A few usethis functions have no strong connections to projects and will expect you to provide a path.</p>
-<p>usethis is quite chatty, explaining what itâs doing and assigning you tasks. <code>â</code> indicates something usethis has done for you. <code>â</code> indicates that youâll need to do some work yourself.</p>
+<p>usethis is quite chatty, explaining what it’s doing and assigning you tasks. <code>✔</code> indicates something usethis has done for you. <code>●</code> indicates that you’ll need to do some work yourself.</p>
 <p>Below is a quick look at how usethis can help to set up a package. But remember, many usethis functions are also applicable to analytical projects that are not packages.</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">usethis</span>)
 
 <span class="co"># Create a new package -------------------------------------------------</span>
 <span class="no">path</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"mypkg"</span>)
 <span class="fu"><a href="reference/create_package.html">create_package</a></span>(<span class="no">path</span>)
-<span class="co">#&gt; â Creating '/tmp/RtmppskQJj/mypkg/'</span>
-<span class="co">#&gt; â Setting active project to '/private/tmp/RtmppskQJj/mypkg'</span>
-<span class="co">#&gt; â Creating 'R/'</span>
-<span class="co">#&gt; â Writing 'DESCRIPTION'</span>
+<span class="co">#&gt; ✓ Creating '/tmp/RtmppskQJj/mypkg/'</span>
+<span class="co">#&gt; ✓ Setting active project to '/private/tmp/RtmppskQJj/mypkg'</span>
+<span class="co">#&gt; ✓ Creating 'R/'</span>
+<span class="co">#&gt; ✓ Writing 'DESCRIPTION'</span>
 <span class="co">#&gt; Package: mypkg</span>
 <span class="co">#&gt; Title: What the Package Does (One Line, Title Case)</span>
 <span class="co">#&gt; Version: 0.0.0.9000</span>
@@ -172,52 +172,52 @@
 <span class="co">#&gt; LazyData: true</span>
 <span class="co">#&gt; Roxygen: list(markdown = TRUE)</span>
 <span class="co">#&gt; RoxygenNote: 7.1.0</span>
-<span class="co">#&gt; â Writing 'NAMESPACE'</span>
-<span class="co">#&gt; â Setting active project to '&lt;no active project&gt;'</span>
+<span class="co">#&gt; ✓ Writing 'NAMESPACE'</span>
+<span class="co">#&gt; ✓ Setting active project to '&lt;no active project&gt;'</span>
 <span class="co"># only needed since this session isn't interactive</span>
 <span class="fu"><a href="reference/proj_activate.html">proj_activate</a></span>(<span class="no">path</span>)
-<span class="co">#&gt; â Changing working directory to '/tmp/RtmppskQJj/mypkg/'</span>
-<span class="co">#&gt; â Setting active project to '/private/tmp/RtmppskQJj/mypkg'</span>
+<span class="co">#&gt; ✓ Changing working directory to '/tmp/RtmppskQJj/mypkg/'</span>
+<span class="co">#&gt; ✓ Setting active project to '/private/tmp/RtmppskQJj/mypkg'</span>
 
 <span class="co"># Modify the description ----------------------------------------------</span>
 <span class="fu"><a href="reference/licenses.html">use_mit_license</a></span>(<span class="st">"My Name"</span>)
-<span class="co">#&gt; â Setting License field in DESCRIPTION to 'MIT + file LICENSE'</span>
-<span class="co">#&gt; â Writing 'LICENSE.md'</span>
-<span class="co">#&gt; â Adding '^LICENSE\\.md$' to '.Rbuildignore'</span>
-<span class="co">#&gt; â Writing 'LICENSE'</span>
+<span class="co">#&gt; ✓ Setting License field in DESCRIPTION to 'MIT + file LICENSE'</span>
+<span class="co">#&gt; ✓ Writing 'LICENSE.md'</span>
+<span class="co">#&gt; ✓ Adding '^LICENSE\\.md$' to '.Rbuildignore'</span>
+<span class="co">#&gt; ✓ Writing 'LICENSE'</span>
 
 <span class="fu"><a href="reference/use_package.html">use_package</a></span>(<span class="st">"MASS"</span>, <span class="st">"Suggests"</span>)
-<span class="co">#&gt; â Adding 'MASS' to Suggests field in DESCRIPTION</span>
-<span class="co">#&gt; â Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed</span>
-<span class="co">#&gt; â Then directly refer to functons like `MASS::fun()` (replacing `fun()`).</span>
+<span class="co">#&gt; ✓ Adding 'MASS' to Suggests field in DESCRIPTION</span>
+<span class="co">#&gt; ● Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed</span>
+<span class="co">#&gt; ● Then directly refer to functons like `MASS::fun()` (replacing `fun()`).</span>
 
 <span class="co"># Set up other files -------------------------------------------------</span>
 <span class="fu"><a href="reference/use_readme_rmd.html">use_readme_md</a></span>()
-<span class="co">#&gt; â Writing 'README.md'</span>
+<span class="co">#&gt; ✓ Writing 'README.md'</span>
 
 <span class="fu"><a href="reference/use_news_md.html">use_news_md</a></span>()
-<span class="co">#&gt; â Writing 'NEWS.md'</span>
+<span class="co">#&gt; ✓ Writing 'NEWS.md'</span>
 
 <span class="fu"><a href="reference/use_r.html">use_test</a></span>(<span class="st">"my-test"</span>)
-<span class="co">#&gt; â Adding 'testthat' to Suggests field in DESCRIPTION</span>
-<span class="co">#&gt; â Creating 'tests/testthat/'</span>
-<span class="co">#&gt; â Writing 'tests/testthat.R'</span>
-<span class="co">#&gt; â Call `use_test()` to initialize a basic test file and open it for editing.</span>
-<span class="co">#&gt; â Writing 'tests/testthat/test-my-test.R'</span>
-<span class="co">#&gt; â Edit 'tests/testthat/test-my-test.R'</span>
+<span class="co">#&gt; ✓ Adding 'testthat' to Suggests field in DESCRIPTION</span>
+<span class="co">#&gt; ✓ Creating 'tests/testthat/'</span>
+<span class="co">#&gt; ✓ Writing 'tests/testthat.R'</span>
+<span class="co">#&gt; ● Call `use_test()` to initialize a basic test file and open it for editing.</span>
+<span class="co">#&gt; ✓ Writing 'tests/testthat/test-my-test.R'</span>
+<span class="co">#&gt; ● Edit 'tests/testthat/test-my-test.R'</span>
 
 <span class="no">x</span> <span class="kw">&lt;-</span> <span class="fl">1</span>
 <span class="no">y</span> <span class="kw">&lt;-</span> <span class="fl">2</span>
 <span class="fu"><a href="reference/use_data.html">use_data</a></span>(<span class="no">x</span>, <span class="no">y</span>)
-<span class="co">#&gt; â Adding 'R' to Depends field in DESCRIPTION</span>
-<span class="co">#&gt; â Creating 'data/'</span>
-<span class="co">#&gt; â Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span>
-<span class="co">#&gt; â Document your data (see 'https://r-pkgs.org/data.html')</span>
+<span class="co">#&gt; ✓ Adding 'R' to Depends field in DESCRIPTION</span>
+<span class="co">#&gt; ✓ Creating 'data/'</span>
+<span class="co">#&gt; ✓ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span>
+<span class="co">#&gt; ● Document your data (see 'https://r-pkgs.org/data.html')</span>
 
 <span class="co"># Use git ------------------------------------------------------------</span>
 <span class="fu"><a href="reference/use_git.html">use_git</a></span>()
-<span class="co">#&gt; â Initialising Git repo</span>
-<span class="co">#&gt; â Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'</span></pre></div>
+<span class="co">#&gt; ✓ Initialising Git repo</span>
+<span class="co">#&gt; ✓ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'</span></pre></div>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
@@ -283,7 +283,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
