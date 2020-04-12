@@ -65,7 +65,10 @@ jobs:
 
       - name: Install macOS system dependencies
         if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'devel'
-        run: brew install imagemagick@6
+        # the xml2 thing is a hack / experiment
+        run: |
+          brew install imagemagick@6
+          Rscript -e "remotes::install_github('r-lib/xml2')"
 
       - name: Install dependencies
         run: |
