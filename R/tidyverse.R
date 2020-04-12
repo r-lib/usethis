@@ -73,7 +73,7 @@ create_tidy_package <- function(path,
 
   use_roxygen_md()
   use_testthat()
-  use_gpl3_license(name)
+  use_mit_license(name)
   use_tidy_description()
 
   use_readme_rmd(open = FALSE)
@@ -85,9 +85,8 @@ create_tidy_package <- function(path,
   ui_todo("In the new package, remember to do:")
   ui_todo("{ui_code('use_git()')}")
   ui_todo("{ui_code('use_github()')}")
-  ui_todo("{ui_code('use_tidy_ci()')}")
+  ui_todo("{ui_code('use_tidy_github_actions()')}")
   ui_todo("{ui_code('use_pkgdown()')}")
-  ui_todo("{ui_code('use_pkgdown_travis()')}")
 
   proj_activate(path)
 }

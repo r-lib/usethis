@@ -2,11 +2,17 @@
 
 # usethis 1.6.0
 
+* `use_github_action_check_standard()` is a new intermediate workflow that
+  checks on more platforms than `_release`, but is less exhaustive than `_full`
+  (@jimhester).
+
+* `create_tidy_package()` now uses an MIT license (@topepo, #1096). 
+
 ## GitHub actions
 
 * New `use_github_actions()`, `use_github_action_check_release()`,
   `use_github_action_check_full()`, `use_github_action_pr_commands()`,
-  to set up a GitHub Actions for a package (@jimhester).
+  to set up GitHub Actions for a package (@jimhester).
 
 * We now recommend GitHub Actions instead of Travis-CI or AppVeyor, and strongly
   recommend upgrading your packages.
