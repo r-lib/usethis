@@ -67,6 +67,20 @@ use_github_action_check_release <- function(save_as = "R-CMD-check.yaml", ignore
   use_github_actions_badge("R-CMD-check")
 }
 
+#' @section `use_github_action_check_standard()`:
+#' This action runs R CMD check
+#'   via the [rcmdcheck](https://github.com/r-lib/rcmdcheck) package on the
+#'   three major OSs (linux, macOS and Windows) on the release version of R and
+#'   R-devel. This action is most appropriate when you plan to eventually
+#'   submit your package to CRAN or Bioconductor.
+#' @rdname use_github_action
+#' @export
+use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml", ignore = TRUE, open = FALSE) {
+  use_github_action("check-standard.yaml", save_as = save_as, ignore = ignore, open = open)
+
+  use_github_actions_badge("R-CMD-check")
+}
+
 #' @section `use_github_action_check_full()`:
 #' This action installs the last 5 minor R versions and runs R CMD check
 #'   via the [rcmdcheck](https://github.com/r-lib/rcmdcheck) package on the

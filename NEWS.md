@@ -1,5 +1,7 @@
 # usethis (development version)
 
+# usethis 1.6.0
+
 ## GitHub actions
 
 * New `use_github_actions()`, `use_github_action_check_release()`,
@@ -67,7 +69,7 @@
 * New `use_lifecycle()` helper to import the lifecycle badges for functions and 
   arguments in your package. Learn more at <https://lifecycle.r-lib.org/>.
 
-* `use_release_issuue()` will include additional bullets if your package
+* `use_release_issue()` will include additional bullets if your package
   includes `release_bullets()` function which returns a character
   vector (and the package has been loaded with `load_all()`) (#941).
 
