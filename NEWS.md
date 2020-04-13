@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_tidy_ci()` is now deprecated in favour of `use_tidy_github_actions()` 
+  (#1098).
+
 # usethis 1.6.0
 
 * `use_github_action_check_standard()` is a new intermediate workflow that
@@ -16,7 +19,7 @@
 
 * We now recommend GitHub Actions instead of Travis-CI or AppVeyor, and strongly
   recommend upgrading your packages.
-  
+
 * Fix `use_github_action()` URL parameter to ensure custom URLs are allowed.
   (@coatless, #1065).
 
