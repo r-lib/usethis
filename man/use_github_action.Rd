@@ -3,6 +3,7 @@
 \name{use_github_action}
 \alias{use_github_action}
 \alias{use_github_action_check_release}
+\alias{use_github_action_check_standard}
 \alias{use_github_action_check_full}
 \alias{use_github_action_pr_commands}
 \title{Use a specific GitHub action}
@@ -16,6 +17,12 @@ use_github_action(
 )
 
 use_github_action_check_release(
+  save_as = "R-CMD-check.yaml",
+  ignore = TRUE,
+  open = FALSE
+)
+
+use_github_action_check_standard(
   save_as = "R-CMD-check.yaml",
   ignore = TRUE,
   open = FALSE
@@ -57,6 +64,15 @@ or a custom action given by the \code{url} parameter.
 
 This action installs the latest release R version on macOS and runs \verb{R CMD check}
 via the \href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package.
+}
+
+\section{\code{use_github_action_check_standard()}}{
+
+This action runs R CMD check
+via the \href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package on the
+three major OSs (linux, macOS and Windows) on the release version of R and
+R-devel. This action is most appropriate when you plan to eventually
+submit your package to CRAN or Bioconductor.
 }
 
 \section{\code{use_github_action_check_full()}}{

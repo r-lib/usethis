@@ -1,10 +1,18 @@
 # usethis 1.6.0
 
+# usethis 1.6.0
+
+* `use_github_action_check_standard()` is a new intermediate workflow that
+  checks on more platforms than `_release`, but is less exhaustive than `_full`
+  (@jimhester).
+
+* `create_tidy_package()` now uses an MIT license (@topepo, #1096). 
+
 ## GitHub actions
 
 * New `use_github_actions()`, `use_github_action_check_release()`,
   `use_github_action_check_full()`, `use_github_action_pr_commands()`,
-  to set up a GitHub Actions for a package (@jimhester).
+  to set up GitHub Actions for a package (@jimhester).
 
 * We now recommend GitHub Actions instead of Travis-CI or AppVeyor, and strongly
   recommend upgrading your packages.
@@ -65,7 +73,7 @@
 * New `use_lifecycle()` helper to import the lifecycle badges for functions and 
   arguments in your package. Learn more at <https://lifecycle.r-lib.org/>.
 
-* `use_release_issuue()` will include additional bullets if your package
+* `use_release_issue()` will include additional bullets if your package
   includes `release_bullets()` function which returns a character
   vector (and the package has been loaded with `load_all()`) (#941).
 

@@ -51,8 +51,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-2-${{ hashFiles('depends.Rds') }}
+          restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-2-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
@@ -62,6 +62,13 @@ jobs:
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
+
+      - name: Install macOS system dependencies
+        if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'devel'
+        # the xml2 thing is a hack / experiment
+        run: |
+          brew install imagemagick@6
+          Rscript -e "remotes::install_github('r-lib/xml2')"
 
       - name: Install dependencies
         run: |

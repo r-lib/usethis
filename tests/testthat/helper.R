@@ -98,6 +98,18 @@ skip_if_no_git_user <- function() {
   skip("No Git user configured")
 }
 
+# CRAN's mac builder sets $HOME to a read-only ram disk, so tests can fail if
+# you even tickle something that might try to lock it's own config file during
+# the operation (e.g. git) or if you simply test for writeability
+skip_on_cran_macos <- function() {
+  sysname <- tolower(Sys.info()[["sysname"]])
+  on_cran <- !identical(Sys.getenv("NOT_CRAN"), "true")
+  if (on_cran && sysname == "darwin") {
+    skip("On CRAN and on macOS")
+  }
+  invisible(TRUE)
+}
+
 expect_usethis_error <- function(...) {
   expect_error(..., class = "usethis_error")
 }
