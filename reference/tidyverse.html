@@ -196,8 +196,6 @@ commonly used packages.</p>
 
 <span class='fu'>create_tidy_package</span>(<span class='no'>path</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"RStudio"</span>)
 
-<span class='fu'>use_tidy_ci</span>(<span class='kw'>browse</span> <span class='kw'>=</span> <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>())
-
 <span class='fu'>use_tidy_description</span>()
 
 <span class='fu'>use_tidy_eval</span>()
@@ -231,11 +229,6 @@ individuals with <code>;</code>. You can supply a global default with
 <code><a href='https://rdrr.io/r/base/options.html'>options(usethis.full_name = "My name")</a></code>.</p></td>
     </tr>
     <tr>
-      <th>browse</th>
-      <td><p>Open a browser window to enable automatic builds for the
-package.</p></td>
-    </tr>
-    <tr>
       <th>strict</th>
       <td><p>Boolean indicating whether or not a strict version of styling
 should be applied. See <code><a href='https://rdrr.io/pkg/styler/man/tidyverse_style.html'>styler::tidyverse_style()</a></code> for details.</p></td>
@@ -260,11 +253,6 @@ versions of R.</p></li>
 <li><p><code>create_tidy_package()</code>: creates a new package, immediately applies as many
 of the tidyverse conventions as possible, issues a few reminders, and
 activates the new package.</p></li>
-<li><p><code>use_tidy_ci()</code>: sets up <a href='https://travis-ci.com'>Travis CI</a> and
-<a href='https://codecov.io'>Codecov</a>, ensuring that the package is actively tested
-on the versions of R officially supported by the Tidyverse (current release,
-devel, and four previous versions). It also ignores <code>compat-</code> and <code>deprec-</code>
-files from code coverage.</p></li>
 <li><p><code>use_tidy_description()</code>: puts fields in standard order and alphabetises
 dependencies.</p></li>
 <li><p><code>use_tidy_eval()</code>: imports a standard set of helpers to facilitate
