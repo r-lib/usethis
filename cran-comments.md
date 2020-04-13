@@ -1,9 +1,9 @@
 ## Test environments
 
-* win-builder: R-devel
-* github actions (mac)     3.6, devel
-* github actions (windows) 3.6
-* github actions (linux)   3.2, 3.3, 3.4, 3.5. 3.6
+* GitHub actions (ubuntu-16.04): 3.2, 3.3, oldrel, release, devel
+* GitHub actions (windows): release
+* Github actions (OS X): release, devel
+* win-builder: devel
 
 ## R CMD check results
 

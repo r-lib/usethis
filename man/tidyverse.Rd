@@ -20,8 +20,6 @@ use_tidy_github_actions()
 
 create_tidy_package(path, name = "RStudio")
 
-use_tidy_ci(browse = rlang::is_interactive())
-
 use_tidy_description()
 
 use_tidy_eval()
@@ -48,9 +46,6 @@ created, provided that the parent path exists.}
 individuals with \verb{;}. You can supply a global default with
 \code{options(usethis.full_name = "My name")}.}
 
-\item{browse}{Open a browser window to enable automatic builds for the
-package.}
-
 \item{strict}{Boolean indicating whether or not a strict version of styling
 should be applied. See \code{\link[styler:tidyverse_style]{styler::tidyverse_style()}} for details.}
 }
@@ -76,11 +71,6 @@ versions of R.
 \item \code{create_tidy_package()}: creates a new package, immediately applies as many
 of the tidyverse conventions as possible, issues a few reminders, and
 activates the new package.
-\item \code{use_tidy_ci()}: sets up \href{https://travis-ci.com}{Travis CI} and
-\href{https://codecov.io}{Codecov}, ensuring that the package is actively tested
-on the versions of R officially supported by the Tidyverse (current release,
-devel, and four previous versions). It also ignores \verb{compat-} and \verb{deprec-}
-files from code coverage.
 \item \code{use_tidy_description()}: puts fields in standard order and alphabetises
 dependencies.
 \item \code{use_tidy_eval()}: imports a standard set of helpers to facilitate
