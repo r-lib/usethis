@@ -2,6 +2,7 @@
 
 * `use_tidy_ci()` is now deprecated in favour of `use_tidy_github_actions()` 
   (#1098).
+* New `browse_github_actions()` to open the Actions page of the respective repo on GitHub (#1102).
 
 # usethis 1.6.0
 
