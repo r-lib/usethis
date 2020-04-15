@@ -41,7 +41,8 @@ edit_file <- function(path, open = rlang::is_interactive()) {
 #' * `edit_r_makevars()` opens `.R/Makevars`
 #' * `edit_git_config()` opens `.gitconfig` or `.git/config`
 #' * `edit_git_ignore()` opens `.gitignore`
-#' * `edit_rstudio_snippets(type)` opens `.R/snippets/{type}.snippets`
+#' * `edit_rstudio_snippets(type)` opens `snippets/{type}.snippets` in the
+#'   respective settings directory (depending on the RStudio version and the OS).
 #'
 #' The `edit_r_*()` functions and `edit_rstudio_snippets()` consult R's notion
 #' of user's home directory. The `edit_git_*()` functions -- and \pkg{usethis}
@@ -103,7 +104,20 @@ edit_rstudio_snippets <- function(type = c("r", "markdown", "c_cpp", "css",
   type <- tolower(type)
   type <- match.arg(type)
 
-  path <- path_home_r(".R", "snippets", path_ext_set(type, "snippets"))
+  # define path for snippets depending on
+  # 1) RStudio Version
+  # 2) OS.type
+  # https://blog.rstudio.com/2020/02/18/rstudio-1-3-preview-configuration/
+  if (rstudioapi::versionInfo()$version < "1.3") {
+    path <- path_home_r(".R", "snippets", path_ext_set(type, "snippets"))
+  } else {
+    if (.Platform$OS.type == "windows") {
+      path <- path_home_r("AppData/Roaming/Rstudio", "snippets", path_ext_set(type, "snippets"))
+    } else {
+      path <- path_home_r(".config/rstudio", "snippets", path_ext_set(type, "snippets"))
+    }
+  }
+
   if (!file_exists(path)) {
     ui_done("New snippet file at {ui_path(path)}")
     ui_info(c(
