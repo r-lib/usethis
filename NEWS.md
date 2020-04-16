@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_pkgdown()` now `.gitignore`s the destination directory, and doesn't add
+  it to the config if it's the default.
+
 * `use_tidy_ci()` is now deprecated in favour of `use_tidy_github_actions()` 
   (#1098).
 

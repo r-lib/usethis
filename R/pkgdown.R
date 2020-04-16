@@ -24,13 +24,16 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
 
   use_build_ignore(c(config_file, destdir))
   use_build_ignore("pkgdown")
+  use_git_ignore(destdir)
 
   if (has_logo()) {
     pkgdown::build_favicons(proj_get(), overwrite = TRUE)
   }
 
   config <- proj_path(config_file)
-  write_over(config, paste("destination:", destdir))
+  if (!identical(destdir, "docs")) {
+    write_over(config, paste("destination:", destdir))
+  }
   edit_file(config)
 
   invisible(TRUE)
