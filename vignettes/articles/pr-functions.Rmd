@@ -306,6 +306,6 @@ in this PR scenario:
 - `pr_pull_upstream()` is used for getting changes that have occurred in the 
 package while we have been working on this PR, i.e. to `git pull upstream master`. This makes sure that our copy of the package is up-to-date with the source repo.
 
-- `pr_sync()` is a helpful shortcut for pulling changes from the PR `pr_pull()`), merging to `master` (`pr_pull_upstream()`) and pushing all these changes back into our PR (`pr_push()`). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the `master` branch.
+- `pr_sync()` is a helpful shortcut for pulling changes from the PR (`pr_pull()`), merging changes from the `upstream/master` branch (`pr_pull_upstream()`) and pushing all these changes back into our PR (`pr_push()`). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the `master` branch.
 
 - `pr_pause()` makes sure you're synced with the PR and then switches back to the `master` branch. This is likely something a package maintainer reviewing numerous PRs will need to use as they switch back and forth from review to working on `master` to another review.
