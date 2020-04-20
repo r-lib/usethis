@@ -78,3 +78,10 @@ test_that("use_lgpl_license() works", {
   expect_proj_file("LICENSE.md")
   expect_true(is_build_ignored("^LICENSE\\.md$"))
 })
+
+test_that("use_no_license() works", {
+  pkg <- scoped_temporary_package()
+  use_no_license(name = "No license")
+  expect_match(desc::desc_get("License", file = pkg), "file LICENSE")
+  expect_proj_file("LICENSE")
+})

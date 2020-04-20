@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* New function `use_no_license()` for proprietary packages (@antoine-sachet, #1112)
+
 * `use_tidy_ci()` is now deprecated in favour of `use_tidy_github_actions()` 
   (#1098).
 

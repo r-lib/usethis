@@ -8,6 +8,7 @@
 \alias{use_apl2_license}
 \alias{use_cc0_license}
 \alias{use_ccby_license}
+\alias{use_no_license}
 \title{License a package}
 \usage{
 use_mit_license(name = find_name())
@@ -23,6 +24,8 @@ use_apl2_license(name = find_name())
 use_cc0_license(name = find_name())
 
 use_ccby_license(name = find_name())
+
+use_no_license(name = find_name())
 }
 \arguments{
 \item{name}{Name of the copyright holder or holders. Separate multiple
@@ -54,6 +57,8 @@ See \url{https://choosealicense.com} for more details and other options.
 CRAN does not allow you to include copies of standard licenses in your
 package, so these functions save the license as \code{LICENSE.md} and add it
 to \code{.Rbuildignore}.
+If you cannot open-source your package, \code{use_no_license()} will only add
+a copyright notice, resulting in a proprietary package.
 }
 \seealso{
 The \href{https://r-pkgs.org/description.html#license}{license section} of \href{https://r-pkgs.org}{R Packages}.

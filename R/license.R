@@ -24,6 +24,8 @@
 #' CRAN does not allow you to include copies of standard licenses in your
 #' package, so these functions save the license as `LICENSE.md` and add it
 #' to `.Rbuildignore`.
+#' If you cannot open-source your package, `use_no_license()` will only add
+#' a copyright notice, resulting in a proprietary package.
 #'
 #' @name licenses
 #' @param name Name of the copyright holder or holders. Separate multiple
@@ -111,6 +113,22 @@ use_ccby_license <- function(name = find_name()) {
   use_description_field("License", "CC BY 4.0", overwrite = TRUE)
   use_license_template("ccby-4", name)
 }
+
+#' @rdname licenses
+#' @export
+use_no_license <- function(name = find_name()) {
+  force(name)
+  check_is_package("use_file_license()")
+
+  use_description_field("License", "file LICENSE", overwrite = TRUE)
+
+  use_template(
+    "year-copyright.txt",
+    save_as = "LICENSE",
+    data = license_data(name)
+  )
+}
+
 
 use_license_template <- function(license, name) {
   license_template <- glue("license-{license}.md")
