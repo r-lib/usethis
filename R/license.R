@@ -118,7 +118,7 @@ use_ccby_license <- function(name = find_name()) {
 #' @export
 use_no_license <- function(name = find_name()) {
   force(name)
-  check_is_package("use_file_license()")
+  check_is_package("use_no_license()")
 
   use_description_field("License", "file LICENSE", overwrite = TRUE)
 
