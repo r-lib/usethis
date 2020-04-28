@@ -1,7 +1,7 @@
 test_that("use_github_action() allows for custom urls", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
 
@@ -16,7 +16,7 @@ test_that("use_github_action() allows for custom urls", {
 test_that("use_github_action() appends yaml in name if missing", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
 

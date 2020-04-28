@@ -34,25 +34,25 @@ test_that("proj_set() can be forced, even if no criteria are fulfilled", {
 })
 
 test_that("is_package() detects package-hood", {
-  scoped_temporary_package()
+  create_local_package()
   expect_true(is_package())
 
-  scoped_temporary_project()
+  create_local_project()
   expect_false(is_package())
 })
 
 test_that("check_is_package() errors for non-package", {
-  scoped_temporary_project()
+  create_local_project()
   expect_usethis_error(check_is_package(), "not an R package")
 })
 
 test_that("check_is_package() can reveal who's asking", {
-  scoped_temporary_project()
+  create_local_project()
   expect_usethis_error(check_is_package("foo"), "foo")
 })
 
 test_that("proj_path() appends to the project path", {
-  scoped_temporary_project()
+  create_local_project()
   expect_equal(
     proj_path("a", "b", "c"),
     path(proj_get(), "a/b/c")
@@ -61,12 +61,12 @@ test_that("proj_path() appends to the project path", {
 })
 
 test_that("proj_rel_path() returns path part below the project", {
-  scoped_temporary_project()
+  create_local_project()
   expect_equal(proj_rel_path(proj_path("a/b/c")), "a/b/c")
 })
 
 test_that("proj_rel_path() returns path 'as is' if not in project", {
-  scoped_temporary_project()
+  create_local_project()
   expect_identical(proj_rel_path(path_temp()), path_temp())
 })
 
@@ -102,7 +102,7 @@ test_that("proj_path_prep() passes NULL through", {
 })
 
 test_that("is_in_proj() detects whether files are (or would be) in project", {
-  scoped_temporary_package()
+  create_local_package()
 
   ## file does not exist but would be in project if created
   expect_true(is_in_proj(proj_path("fiction")))
@@ -118,7 +118,7 @@ test_that("is_in_proj() detects whether files are (or would be) in project", {
 })
 
 test_that("proj_sitrep() reports current working/project state", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   x <- proj_sitrep()
   expect_s3_class(x, "sitrep")
   expect_false(is.null(x[["working_directory"]]))
