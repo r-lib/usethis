@@ -13,13 +13,13 @@ Patch release to align some path handling internals with an update coming in the
 * `use_tidy_ci()` is now deprecated in favour of `use_tidy_github_actions()` 
   (#1098).
 
-# usethis 1.6.0
-
 * `use_github_action_check_standard()` is a new intermediate workflow that
   checks on more platforms than `_release`, but is less exhaustive than `_full`
   (@jimhester).
 
 * `create_tidy_package()` now uses an MIT license (@topepo, #1096). 
+
+# usethis 1.6.0
 
 ## GitHub actions
 
