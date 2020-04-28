@@ -191,16 +191,14 @@
 <li><p><code><a href="../reference/use_github_links.html">use_github_links()</a></code> is a bit more clever about remotes (e.g. <code>origin</code> vs. <code>upstream</code>), which makes it easier to make a PR that adds GitHub links for a package you’ve forked.</p></li>
 <li><p><code><a href="../reference/use_pkgdown.html">use_pkgdown()</a></code> now <code>.gitignore</code>s the destination directory and only adds the destination directory to the config file if it departs from the default (which is <code>docs/</code>).</p></li>
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_ci()</a></code> is now deprecated in favour of <code><a href="../reference/tidyverse.html">use_tidy_github_actions()</a></code> (<a href='https://github.com/r-lib/usethis/issues/1098'>#1098</a>).</p></li>
+<li><p><code><a href="../reference/use_github_action.html">use_github_action_check_standard()</a></code> is a new intermediate workflow that checks on more platforms than <code>_release</code>, but is less exhaustive than <code>_full</code> (<a href='https://github.com/jimhester'>@jimhester</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">create_tidy_package()</a></code> now uses an MIT license (<a href='https://github.com/topepo'>@topepo</a>, <a href='https://github.com/r-lib/usethis/issues/1096'>#1096</a>).</p></li>
 </ul>
 </div>
     <div id="usethis-160" class="section level1">
 <h1 class="page-header" data-toc-text="1.6.0">
 <a href="#usethis-160" class="anchor"></a>usethis 1.6.0<small> 2020-04-09 </small>
 </h1>
-<ul>
-<li><p><code><a href="../reference/use_github_action.html">use_github_action_check_standard()</a></code> is a new intermediate workflow that checks on more platforms than <code>_release</code>, but is less exhaustive than <code>_full</code> (<a href='https://github.com/jimhester'>@jimhester</a>).</p></li>
-<li><p><code><a href="../reference/tidyverse.html">create_tidy_package()</a></code> now uses an MIT license (<a href='https://github.com/topepo'>@topepo</a>, <a href='https://github.com/r-lib/usethis/issues/1096'>#1096</a>).</p></li>
-</ul>
 <div id="github-actions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#github-actions" class="anchor"></a>GitHub actions</h2>
