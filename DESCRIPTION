@@ -41,7 +41,7 @@ Imports:
     stats,
     utils,
     whisker,
-    withr (>= 2.1.2.9000),
+    withr (>= 2.2.0),
     yaml
 Suggests: 
     covr,
@@ -58,5 +58,3 @@ Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
-Remotes:  
-    r-lib/withr#76
