@@ -10,12 +10,6 @@
 #' of the tidyverse conventions as possible, issues a few reminders, and
 #' activates the new package.
 #'
-#' * `use_tidy_ci()`: sets up [Travis CI](https://travis-ci.com) and
-#' [Codecov](https://codecov.io), ensuring that the package is actively tested
-#' on the versions of R officially supported by the Tidyverse (current release,
-#' devel, and four previous versions). It also ignores `compat-` and `deprec-`
-#' files from code coverage.
-#'
 #' * `use_tidy_description()`: puts fields in standard order and alphabetises
 #'   dependencies.
 #'
@@ -71,53 +65,32 @@ create_tidy_package <- function(path,
   old_project <- proj_set(path)
   on.exit(proj_set(old_project), add = TRUE)
 
-  use_roxygen_md()
   use_testthat()
-  use_gpl3_license(name)
+  use_mit_license(name)
   use_tidy_description()
 
   use_readme_rmd(open = FALSE)
   use_lifecycle_badge("experimental")
   use_cran_badge()
+
   use_cran_comments(open = FALSE)
+  use_tidy_release_test_env()
 
   use_tidy_github()
   ui_todo("In the new package, remember to do:")
   ui_todo("{ui_code('use_git()')}")
   ui_todo("{ui_code('use_github()')}")
-  ui_todo("{ui_code('use_tidy_ci()')}")
+  ui_todo("{ui_code('use_tidy_github_actions()')}")
   ui_todo("{ui_code('use_pkgdown()')}")
-  ui_todo("{ui_code('use_pkgdown_travis()')}")
 
   proj_activate(path)
 }
 
 #' @export
 #' @rdname tidyverse
-#' @inheritParams use_travis
-use_tidy_ci <- function(browse = rlang::is_interactive()) {
-  check_uses_github()
-
-  new_travis <- use_template(
-    "tidy-travis.yml",
-    ".travis.yml",
-    ignore = TRUE
-  )
-  use_template("codecov.yml", ignore = TRUE)
-
-  use_dependency("R", "Depends", min_version = "3.2")
-  use_dependency("covr", "Suggests")
-  use_covr_ignore(c("R/deprec-*.R", "R/compat-*.R"))
-
-  use_travis_badge()
-  use_codecov_badge()
-  use_tidy_release_test_env()
-
-  if (new_travis) {
-    travis_activate(browse)
-  }
-
-  invisible(TRUE)
+#' @usage NULL
+use_tidy_ci <- function(...) {
+  ui_warn("`use_tidy_ci()` is deprecated; please use `use_tidy_github_actions()` instead")
 }
 
 #' @export
@@ -241,10 +214,10 @@ tidy_release_test_env <- function() {
 
   c(
     "",
-    use_bullet("local", paste0(R.version$os, "-", R.version$major, ".", R.version$minor)),
-    use_bullet("travis", c("3.1", "3.2", "3.3", "oldrel", "release", "devel")),
-    use_bullet("r-hub", c("windows-x86_64-devel", "ubuntu-gcc-release", "fedora-clang-devel")),
-    use_bullet("win-builder", "windows-x86_64-devel"),
+    use_bullet("GitHub Actions (ubuntu-16.04)", c("3.2", "3.3", "oldrel", "release", "devel")),
+    use_bullet("GitHub Actions (windows)", "release"),
+    use_bullet("Github Actions (macOS)", c("release", "devel")),
+    use_bullet("win-builder", "devel"),
     ""
   )
 }

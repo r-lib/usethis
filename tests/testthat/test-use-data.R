@@ -1,12 +1,12 @@
 context("use_data")
 
 test_that("use_data() errors for a non-package project", {
-  scoped_temporary_project()
+  create_local_project()
   expect_usethis_error(use_data(letters), "not an R package")
 })
 
 test_that("use_data() stores new, non-internal data", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   letters2 <- letters
   month.abb2 <- month.abb
   use_data(letters2, month.abb2)
@@ -19,7 +19,7 @@ test_that("use_data() stores new, non-internal data", {
 })
 
 test_that("use_data() honors `overwrite` for non-internal data", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   letters2 <- letters
   use_data(letters2)
 
@@ -33,7 +33,7 @@ test_that("use_data() honors `overwrite` for non-internal data", {
 })
 
 test_that("use_data() stores new internal data", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   letters2 <- letters
   month.abb2 <- month.abb
   use_data(letters2, month.abb2, internal = TRUE)
@@ -45,7 +45,7 @@ test_that("use_data() stores new internal data", {
 })
 
 test_that("use_data() honors `overwrite` for internal data", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   letters2 <- letters
   use_data(letters2, internal = TRUE)
   rm(letters2)
@@ -63,7 +63,7 @@ test_that("use_data() honors `overwrite` for internal data", {
 })
 
 test_that("use_data() writes version 2 by default", {
-  scoped_temporary_package()
+  create_local_package()
 
   x <- letters
   use_data(x, internal = TRUE, version = 2, compress = FALSE)
@@ -74,7 +74,7 @@ test_that("use_data() writes version 2 by default", {
 })
 
 test_that("use_data_raw() does setup", {
-  scoped_temporary_package()
+  create_local_package()
   use_data_raw(open = FALSE)
   expect_proj_file(path("data-raw", "DATASET.R"))
 

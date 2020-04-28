@@ -1,7 +1,9 @@
 context("test-git-utils")
 
 test_that("git_config returns old local values", {
-  scoped_temporary_package()
+  skip_if_no_git_user()
+
+  create_local_package()
   repo <- git_init()
 
   out <- git_config(x.y = "x", .repo = repo)
@@ -12,6 +14,9 @@ test_that("git_config returns old local values", {
 })
 
 test_that("git_config returns old global values", {
+  skip_if_no_git_user()
+  skip_on_cran()
+
   out <- git_config(usethis.test1 = "val1", usethis.test2 = "val2")
   expect_equal(out, list(usethis.test1 = NULL, usethis.test2 = NULL))
 

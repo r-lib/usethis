@@ -58,6 +58,11 @@ These functions create an R project:
 project
 }
 
-Both functions can be called on an existing project; you will be asked
-before any existing files are changed.
+Both functions can be called on an existing project; you will be asked before
+any existing files are changed.
+}
+\seealso{
+\code{\link[=create_tidy_package]{create_tidy_package()}} is a convenience function that extends
+\code{create_package()} by immediately applying as many of the tidyverse
+development conventions as possible.
 }

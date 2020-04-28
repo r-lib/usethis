@@ -27,6 +27,8 @@ navbar:
   - text: News
     menu:
     - text: "Blog posts"
+    - text: "usethis 1.6.0"
+      href: https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/
     - text: "usethis 1.5.0 (and 1.4.0)"
       href: https://www.tidyverse.org/articles/2019/04/usethis-1.5.0/
     - text: "usethis 1.3.0"

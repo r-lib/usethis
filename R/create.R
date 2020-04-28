@@ -6,8 +6,8 @@
 #'   * `create_project()` creates a non-package project, i.e. a data analysis
 #'   project
 #'
-#' Both functions can be called on an existing project; you will be asked
-#' before any existing files are changed.
+#' Both functions can be called on an existing project; you will be asked before
+#' any existing files are changed.
 #'
 #' @inheritParams use_description
 #' @param path A path. If it exists, it is used. If it does not exist, it is
@@ -27,6 +27,9 @@
 #'   * Otherwise, the working directory and active project is changed.
 #'
 #' @return Path to the newly created project or package, invisibly.
+#' @seealso [create_tidy_package()] is a convenience function that extends
+#'   `create_package()` by immediately applying as many of the tidyverse
+#'   development conventions as possible.
 #' @export
 create_package <- function(path,
                            fields = list(),

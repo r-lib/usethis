@@ -1,7 +1,7 @@
 context("use_rmarkdown_template")
 
 test_that("use_rmarkdown_template() creates everything as promised, defaults", {
-  scoped_temporary_package()
+  create_local_package()
   use_rmarkdown_template()
   path <- path("inst", "rmarkdown", "templates", "template-name")
   yml <- read_utf8(proj_path(path, "template.yaml"))
@@ -15,7 +15,7 @@ test_that("use_rmarkdown_template() creates everything as promised, defaults", {
 })
 
 test_that("use_rmarkdown_template() creates everything as promised, args", {
-  scoped_temporary_package()
+  create_local_package()
   use_rmarkdown_template(
     template_name = "aaa",
     template_dir = "bbb",

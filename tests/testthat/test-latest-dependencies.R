@@ -1,5 +1,5 @@
 test_that("use_tidy_versions() specifies a version for dependencies", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_package("usethis")
   use_package("desc")
   use_package("withr", "Suggests")
@@ -12,7 +12,7 @@ test_that("use_tidy_versions() specifies a version for dependencies", {
 
 test_that("use_tidy_versions() does nothing for a base package", {
   ## if we ever depend on a recommended package, could beef up this test a bit
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_package("tools")
   use_package("stats", "Suggests")
   use_latest_dependencies()

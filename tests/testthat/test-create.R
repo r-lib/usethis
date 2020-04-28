@@ -1,11 +1,11 @@
 test_that("create_package() creates a package", {
-  dir <- scoped_temporary_package()
+  dir <- create_local_package()
   expect_true(possibly_in_proj(dir))
   expect_true(is_package(dir))
 })
 
 test_that("create_project() creates a non-package project", {
-  dir <- scoped_temporary_project()
+  dir <- create_local_project()
   expect_true(possibly_in_proj(dir))
   expect_false(is_package(dir))
 })
@@ -26,17 +26,17 @@ test_that("create functions return path to new proj, but restore active proj", {
 })
 
 test_that("nested package is disallowed, by default", {
-  dir <- scoped_temporary_package()
+  dir <- create_local_package()
   expect_usethis_error(create_package(path(dir, "abcde")), "anyway")
 })
 
 test_that("nested project is disallowed, by default", {
-  dir <- scoped_temporary_project()
+  dir <- create_local_project()
   expect_usethis_error(create_project(path(dir, "abcde")), "anyway")
 })
 
 test_that("nested package can be created if user really, really wants to", {
-  parent <- scoped_temporary_package()
+  parent <- create_local_package()
   with_mock(
     # since user can't approve interactively, use the backdoor
     `usethis:::allow_nested_project` = function() TRUE,
@@ -47,7 +47,7 @@ test_that("nested package can be created if user really, really wants to", {
 })
 
 test_that("nested project can be created if user really, really wants to", {
-  parent <- scoped_temporary_project()
+  parent <- create_local_project()
   with_mock(
     # since user can't approve interactively, use the backdoor
     `usethis:::allow_nested_project` = function() TRUE,
