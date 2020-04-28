@@ -40,6 +40,10 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
+      - name: "Enable PPA with important backports"
+        if: runner.os == 'Linux'
+        run: sudo add-apt-repository -y "ppa:cran/travis"
+
       - name: Query dependencies
         run: |
           install.packages('remotes')
