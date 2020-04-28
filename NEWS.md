@@ -1,8 +1,14 @@
 # usethis (development version)
 
+Patch release to align some path handling internals with an update coming in the fs package.
+
+* `use_github_links()` is a bit more clever about remotes (e.g. `origin`
+  vs. `upstream`), which makes it easier to make a PR that adds GitHub links for
+  a package you've forked.
+
 * `use_pkgdown()` now `.gitignore`s the destination directory and only adds the
-  destination directory to the config file if it departs from the default, 
-  which is `docs/`.
+  destination directory to the config file if it departs from the default
+  (which is `docs/`).
 
 * `use_tidy_ci()` is now deprecated in favour of `use_tidy_github_actions()` 
   (#1098).
