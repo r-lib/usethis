@@ -55,13 +55,15 @@
 <meta property="og:title" content="Use pkgdown — use_pkgdown" />
 <meta property="og:description" content="pkgdown makes it easy to turn your package into
 a beautiful website. There are two helper functions:
-use_pkgdown(): creates a pkgdown config file and adds the file and
-destination directory to .Rbuildignore.
+use_pkgdown(): creates a pkgdown config file, adds relevant files or
+directories to .Rbuildignore and .gitignore, and builds favicons if
+your package has a logo
 use_pkgdown_travis(): helps you set up pkgdown for automatic deployment
-on Travis-CI. Specifically, it:
-Adds the docs/ folder to .gitignore and .Rbuildignore.
-Builds favicons if your package contains a package logo,
-and adds the resulting pkgdown/ folder to .Rbuildignore.
+on Travis-CI. As part of a general pivot away from Travis-CI and towards
+GitHub Actions, the tidyverse team now builds pkgdown sites with a
+workflow configured via use_github_action(&quot;pkgdown&quot;).
+use_pkgdown_travis() is still here, but is no longer actively exercised
+by us. Key steps:
 Creates an empty gh-pages branch for the pkgdown site to be
 deployed to.
 Prompts you about what to do next regarding Travis-CI deployment
@@ -202,13 +204,15 @@ keys and updating your .travis.yml.
     <div class="ref-description">
     <p><a href='https://pkgdown.r-lib.org'>pkgdown</a> makes it easy to turn your package into
 a beautiful website. There are two helper functions:</p><ul>
-<li><p><code>use_pkgdown()</code>: creates a pkgdown config file and adds the file and
-destination directory to <code>.Rbuildignore</code>.</p></li>
+<li><p><code>use_pkgdown()</code>: creates a pkgdown config file, adds relevant files or
+directories to <code>.Rbuildignore</code> and <code>.gitignore</code>, and builds favicons if
+your package has a logo</p></li>
 <li><p><code>use_pkgdown_travis()</code>: helps you set up pkgdown for automatic deployment
-on Travis-CI. Specifically, it:</p><ul>
-<li><p>Adds the <code>docs/</code> folder to <code>.gitignore</code> and <code>.Rbuildignore</code>.</p></li>
-<li><p>Builds favicons if your package contains a package logo,
-and adds the resulting <code>pkgdown/</code> folder to <code>.Rbuildignore</code>.</p></li>
+on Travis-CI. As part of a general pivot away from Travis-CI and towards
+GitHub Actions, the tidyverse team now builds pkgdown sites with a
+workflow configured via <code><a href='use_github_action.html'>use_github_action("pkgdown")</a></code>.
+<code>use_pkgdown_travis()</code> is still here, but is no longer actively exercised
+by us. Key steps:</p><ul>
 <li><p>Creates an empty <code>gh-pages</code> branch for the pkgdown site to be
 deployed to.</p></li>
 <li><p>Prompts you about what to do next regarding Travis-CI deployment
