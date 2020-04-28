@@ -5,7 +5,7 @@ This is a small patch release to create forward compatibility with a soon-to-sub
 * GitHub actions (ubuntu-16.04): 3.3, 3.4, 3.5, oldrel, release
 * GitHub actions (windows): release, devel
 * Github actions (macOS): release, devel
-* win-builder: devel
+* win-builder: devel (actuall, no, that's currently unavailable)
 
 ## R CMD check results
 
