@@ -41,7 +41,7 @@ Imports:
     stats,
     utils,
     whisker,
-    withr (>= 2.2.0),
+    withr,
     yaml
 Suggests: 
     covr,
