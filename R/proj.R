@@ -142,7 +142,12 @@ local_project <- function(path = ".",
 ## usethis policy re: preparation of the path to active project
 proj_path_prep <- function(path) {
   if (is.null(path)) return(path)
-  path_real(path)
+  path <- path_abs(path)
+  if (file_exists(path)) {
+    path_real(path)
+  } else {
+    path
+  }
 }
 
 ## usethis policy re: preparation of user-provided path to a resource on user's
