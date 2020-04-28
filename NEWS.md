@@ -1,4 +1,4 @@
-# usethis (development version)
+# usethis 1.6.1
 
 Patch release to align some path handling internals with an update coming in the fs package.
 
