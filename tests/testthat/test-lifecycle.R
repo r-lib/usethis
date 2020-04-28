@@ -3,7 +3,7 @@ context("lifecycle")
 with_mock(`usethis:::is_installed` = function(pkg) TRUE, {
 
 test_that("use_lifecycle() imports badges", {
-  scoped_temporary_package()
+  create_local_package()
   use_lifecycle()
   expect_proj_file("man", "figures", "lifecycle-stable.svg")
 
@@ -12,7 +12,7 @@ test_that("use_lifecycle() imports badges", {
 })
 
 test_that("use_lifecycle() adds RdMacros field", {
-  scoped_temporary_package()
+  create_local_package()
   use_lifecycle()
 
   expect_true(desc::desc_has_fields("RdMacros"))
@@ -20,7 +20,7 @@ test_that("use_lifecycle() adds RdMacros field", {
 })
 
 test_that("use_lifecycle() respects existing RdMacros field", {
-  scoped_temporary_package()
+  create_local_package()
 
   desc::desc_set(RdMacros = "foo, bar")
   use_lifecycle()

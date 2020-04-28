@@ -11,7 +11,7 @@ test_that("github_home() has fall back", {
 })
 
 test_that("cran_home() produces canonical URL", {
-  pkg <- scoped_temporary_package(file_temp("abc"))
+  pkg <- create_local_package(file_temp("abc"))
   expect_match(cran_home(), "https://cran.r-project.org/package=abc")
   expect_match(cran_home("bar"), "https://cran.r-project.org/package=bar")
 })

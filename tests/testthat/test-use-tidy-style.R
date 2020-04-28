@@ -5,7 +5,7 @@ test_that("styling the package works", {
   skip_if_no_git_user()
   skip_if_not_installed("styler")
 
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_r("bad_style")
   path_to_bad_style <- proj_path("R/bad_style.R")
   write_utf8(path_to_bad_style, "a++2\n")
@@ -20,7 +20,7 @@ test_that("styling of non-packages works", {
   skip_if_no_git_user()
   skip_if_not_installed("styler")
 
-  proj <- scoped_temporary_project()
+  proj <- create_local_project()
   path_to_bad_style <- proj_path("R/bad_style.R")
   use_r("bad_style")
   write_utf8(path_to_bad_style, "a++22\n")

@@ -16,19 +16,19 @@ if (!is.null(session_temp_proj)) {
   ))
 }
 
-scoped_temporary_package <- function(dir = file_temp(pattern = "testpkg"),
+create_local_package <- function(dir = file_temp(pattern = "testpkg"),
                                      env = parent.frame(),
                                      rstudio = FALSE) {
-  scoped_temporary_thing(dir, env, rstudio, "package")
+  create_local_thing(dir, env, rstudio, "package")
 }
 
-scoped_temporary_project <- function(dir = file_temp(pattern = "testproj"),
+create_local_project <- function(dir = file_temp(pattern = "testproj"),
                                      env = parent.frame(),
                                      rstudio = FALSE) {
-  scoped_temporary_thing(dir, env, rstudio, "project")
+  create_local_thing(dir, env, rstudio, "project")
 }
 
-scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
+create_local_thing <- function(dir = file_temp(pattern = pattern),
                                    env = parent.frame(),
                                    rstudio = FALSE,
                                    thing = c("package", "project")) {

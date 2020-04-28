@@ -3,7 +3,7 @@ context("test-git-utils")
 test_that("git_config returns old local values", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   repo <- git_init()
 
   out <- git_config(x.y = "x", .repo = repo)

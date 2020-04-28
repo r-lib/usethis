@@ -114,47 +114,47 @@ test_that("edit_git_XXX('user') ensures the file exists", {
 })
 
 test_that("edit_r_profile() ensures .Rprofile exists in project", {
-  scoped_temporary_package()
+  create_local_package()
   edit_r_profile("project")
   expect_proj_file(".Rprofile")
 
-  scoped_temporary_project()
+  create_local_project()
   edit_r_profile("project")
   expect_proj_file(".Rprofile")
 })
 
 test_that("edit_r_environ() ensures .Renviron exists in project", {
-  scoped_temporary_package()
+  create_local_package()
   edit_r_environ("project")
   expect_proj_file(".Renviron")
 
-  scoped_temporary_project()
+  create_local_project()
   edit_r_environ("project")
   expect_proj_file(".Renviron")
 })
 
 test_that("edit_r_makevars() ensures .R/Makevars exists in package", {
-  scoped_temporary_package()
+  create_local_package()
   edit_r_makevars("project")
   expect_proj_file(".R", "Makevars")
 })
 
 test_that("edit_git_config() ensures git ignore file exists in project", {
-  scoped_temporary_package()
+  create_local_package()
   edit_git_config("project")
   expect_proj_file(".git", "config")
 
-  scoped_temporary_project()
+  create_local_project()
   edit_git_config("project")
   expect_proj_file(".git", "config")
 })
 
 test_that("edit_git_ignore() ensures .gitignore exists in project", {
-  scoped_temporary_package()
+  create_local_package()
   edit_git_ignore("project")
   expect_proj_file(".gitignore")
 
-  scoped_temporary_project()
+  create_local_project()
   edit_git_ignore("project")
   expect_proj_file(".gitignore")
 })
