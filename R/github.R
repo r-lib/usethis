@@ -163,7 +163,7 @@ use_github_links <- function(auth_token = github_token(),
 
   res <- gh::gh(
     "GET /repos/:owner/:repo",
-    owner = github_owner(),
+    owner = github_owner_upstream() %||% github_owner(),
     repo = github_repo(),
     .api_url = host,
     .token = check_github_token(auth_token, allow_empty = TRUE)
