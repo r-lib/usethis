@@ -214,7 +214,7 @@ tidy_release_test_env <- function() {
 
   c(
     "",
-    use_bullet("GitHub Actions (ubuntu-16.04)", c("3.2", "3.3", "oldrel", "release", "devel")),
+    use_bullet("GitHub Actions (ubuntu-16.04)", c("3.3", "3.4", "3.5", "oldrel", "release", "devel")),
     use_bullet("GitHub Actions (windows)", "release"),
     use_bullet("Github Actions (macOS)", c("release", "devel")),
     use_bullet("win-builder", "devel"),
