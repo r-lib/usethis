@@ -18,14 +18,16 @@ use_pkgdown_travis()
 \href{https://pkgdown.r-lib.org}{pkgdown} makes it easy to turn your package into
 a beautiful website. There are two helper functions:
 \itemize{
-\item \code{use_pkgdown()}: creates a pkgdown config file and adds the file and
-destination directory to \code{.Rbuildignore}.
+\item \code{use_pkgdown()}: creates a pkgdown config file, adds relevant files or
+directories to \code{.Rbuildignore} and \code{.gitignore}, and builds favicons if
+your package has a logo
 \item \code{use_pkgdown_travis()}: helps you set up pkgdown for automatic deployment
-on Travis-CI. Specifically, it:
+on Travis-CI. As part of a general pivot away from Travis-CI and towards
+GitHub Actions, the tidyverse team now builds pkgdown sites with a
+workflow configured via \code{use_github_action("pkgdown")}.
+\code{use_pkgdown_travis()} is still here, but is no longer actively exercised
+by us. Key steps:
 \itemize{
-\item Adds the \verb{docs/} folder to \code{.gitignore} and \code{.Rbuildignore}.
-\item Builds favicons if your package contains a package logo,
-and adds the resulting \verb{pkgdown/} folder to \code{.Rbuildignore}.
 \item Creates an empty \code{gh-pages} branch for the pkgdown site to be
 deployed to.
 \item Prompts you about what to do next regarding Travis-CI deployment

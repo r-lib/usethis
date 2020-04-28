@@ -2,16 +2,18 @@
 #'
 #' [pkgdown](https://pkgdown.r-lib.org) makes it easy to turn your package into
 #' a beautiful website. There are two helper functions:
-#'   * `use_pkgdown()`: creates a pkgdown config file and adds the file and
-#'     destination directory to `.Rbuildignore`.
+#'   * `use_pkgdown()`: creates a pkgdown config file, adds relevant files or
+#'     directories to `.Rbuildignore` and `.gitignore`, and builds favicons if
+#'     your package has a logo
 #'   * `use_pkgdown_travis()`: helps you set up pkgdown for automatic deployment
-#'     on Travis-CI. Specifically, it:
-#'       * Adds the `docs/` folder to `.gitignore` and `.Rbuildignore`.
-#'       * Builds favicons if your package contains a package logo,
-#'         and adds the resulting `pkgdown/` folder to `.Rbuildignore`.
-#'       * Creates an empty `gh-pages` branch for the pkgdown site to be
+#'     on Travis-CI. As part of a general pivot away from Travis-CI and towards
+#'     GitHub Actions, the tidyverse team now builds pkgdown sites with a
+#'     workflow configured via `use_github_action("pkgdown")`.
+#'     `use_pkgdown_travis()` is still here, but is no longer actively exercised
+#'     by us. Key steps:
+#'       - Creates an empty `gh-pages` branch for the pkgdown site to be
 #'         deployed to.
-#'       * Prompts you about what to do next regarding Travis-CI deployment
+#'       - Prompts you about what to do next regarding Travis-CI deployment
 #'         keys and updating your `.travis.yml`.
 #'
 #' @seealso <https://pkgdown.r-lib.org/articles/pkgdown.html#configuration>
@@ -24,13 +26,16 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
 
   use_build_ignore(c(config_file, destdir))
   use_build_ignore("pkgdown")
+  use_git_ignore(destdir)
 
   if (has_logo()) {
     pkgdown::build_favicons(proj_get(), overwrite = TRUE)
   }
 
   config <- proj_path(config_file)
-  write_over(config, paste("destination:", destdir))
+  if (!identical(destdir, "docs")) {
+    write_over(config, paste("destination:", destdir))
+  }
   edit_file(config)
 
   invisible(TRUE)
