@@ -1,5 +1,7 @@
 # usethis (development version)
 
+`create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
+
 # usethis 1.6.1
 
 Patch release to align some path handling internals with an update coming in the fs package.
