@@ -50,7 +50,11 @@ test_that("can set package", {
   expect_equal(d$Package, "TEST")
 })
 
-
+test_that("`roxygen = FALSE` is honoured", {
+  d <- use_description_defaults(roxygen = FALSE)
+  expect_null(d[["Roxygen"]])
+  expect_null(d[["RoxygenNote"]])
+})
 
 # use_description ---------------------------------------------------------
 
