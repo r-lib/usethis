@@ -19,6 +19,8 @@ test_that("release bullets don't change accidentally", {
 })
 
 test_that("get extra news bullets if available", {
+  create_local_package()
+
   standard <- release_checklist("1.0.0", TRUE)
 
   attach(
