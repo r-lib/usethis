@@ -202,3 +202,25 @@ test_that("local_project() activates proj til scope ends", {
   )
   expect_null(proj_get_())
 })
+
+# https://github.com/r-lib/usethis/issues/954
+test_that("proj_activate() works with relative path when RStudio is not detected", {
+  sandbox <- path_real(dir_create(file_temp("sandbox")))
+  withr::defer(dir_delete(sandbox))
+  orig_proj <- proj_get_()
+  withr::defer(proj_set(orig_proj, force = TRUE))
+  withr::local_dir(sandbox)
+
+  rel_path_proj <- path_file(file_temp(pattern = "mno"))
+  out_path <- create_project(rel_path_proj, rstudio = FALSE, open = FALSE)
+  with_mock(
+    # make sure we act as if not in RStudio
+    `rstudioapi::isAvailable` = function(...) FALSE,
+    expect_error_free(
+      result <- proj_activate(rel_path_proj)
+    )
+  )
+  expect_true(result)
+  expect_equal(path_wd(), out_path)
+  expect_equal(proj_get(), out_path)
+})
