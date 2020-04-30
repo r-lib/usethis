@@ -99,6 +99,46 @@ test_that("create_* works w/ non-existing rel path, open = FALSE case", {
   expect_equal(path_wd(), sandbox)
 })
 
+# https://github.com/r-lib/usethis/issues/1122
+test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudio", {
+  sandbox <- path_real(dir_create(file_temp("sandbox")))
+  orig_proj <- proj_get_()
+  orig_wd <- path_wd()
+  withr::defer(dir_delete(sandbox))
+  withr::defer(proj_set(orig_proj, force = TRUE))
+  withr::local_dir(sandbox)
+
+  # package
+  rel_path_pkg <- path_file(file_temp(pattern = "ghi"))
+  with_mock(
+    # make sure we act as if not in RStudio
+    `rstudioapi::isAvailable` = function(...) FALSE,
+    expect_error_free(
+      out_path <- create_package(rel_path_pkg, open = TRUE)
+    )
+  )
+  exp_path_pkg <- path(sandbox, rel_path_pkg)
+  expect_equal(out_path, exp_path_pkg)
+  expect_equal(path_wd(), out_path)
+  expect_equal(proj_get(), out_path)
+
+  setwd(sandbox)
+
+  # project
+  rel_path_proj <- path_file(file_temp(pattern = "jkl"))
+  with_mock(
+    # make sure we act as if not in RStudio
+    `rstudioapi::isAvailable` = function(...) FALSE,
+    expect_error_free(
+      out_path <- create_project(rel_path_proj, open = TRUE)
+    )
+  )
+  exp_path_proj <- path(sandbox, rel_path_proj)
+  expect_equal(out_path, exp_path_proj)
+  expect_equal(path_wd(), out_path)
+  expect_equal(proj_get(), out_path)
+})
+
 test_that("rationalize_fork() honors fork = FALSE", {
   expect_false(
     rationalize_fork(fork = FALSE, repo_info = list(), auth_token = "PAT")
