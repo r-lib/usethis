@@ -299,11 +299,12 @@ proj_activate <- function(path) {
     rstudioapi::openProject(path, newSession = TRUE)
     invisible(FALSE)
   } else {
-    if (user_path_prep(getwd()) != path) {
-      ui_done("Changing working directory to {ui_path(path, base = NA)}")
-      setwd(path)
-    }
     proj_set(path)
+    rel_path <- path_rel(proj_get(), path_wd())
+    if (rel_path != ".") {
+      ui_done("Changing working directory to {ui_path(path, base = NA)}")
+      setwd(proj_get())
+    }
     invisible(TRUE)
   }
 }
