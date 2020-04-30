@@ -96,8 +96,10 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 #' @export
 #' @rdname edit
 #' @param type Snippet type (case insensitive text).
-edit_rstudio_snippets <- function(type = c("r", "markdown", "c_cpp", "css",
-  "html", "java", "javascript", "python", "sql", "stan", "tex")) {
+edit_rstudio_snippets <- function(type = c(
+                                    "r", "markdown", "c_cpp", "css",
+                                    "html", "java", "javascript", "python", "sql", "stan", "tex"
+                                  )) {
   # RStudio snippets stored using R's definition of ~
   # https://github.com/rstudio/rstudio/blob/4febd2feba912b2a9f8e77e3454a95c23a09d0a2/src/cpp/core/system/Win32System.cpp#L411-L458
   type <- tolower(type)
@@ -114,7 +116,7 @@ edit_rstudio_snippets <- function(type = c("r", "markdown", "c_cpp", "css",
   edit_file(path)
 }
 
-scoped_path_r  <- function(scope = c("user", "project"), ..., envvar = NULL) {
+scoped_path_r <- function(scope = c("user", "project"), ..., envvar = NULL) {
   scope <- match.arg(scope)
 
   # Try environment variable in user scopes

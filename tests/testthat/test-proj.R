@@ -133,7 +133,8 @@ test_that("with_project() runs code in temp proj, restores (lack of) proj", {
   on.exit(proj_set_(old_project))
 
   temp_proj <- create_project(
-    file_temp(pattern = "TEMPPROJ"), rstudio = FALSE, open = FALSE
+    file_temp(pattern = "TEMPPROJ"),
+    rstudio = FALSE, open = FALSE
   )
 
   proj_set_(NULL)
@@ -150,10 +151,12 @@ test_that("with_project() runs code in temp proj, restores original proj", {
   on.exit(proj_set_(old_project))
 
   host <- create_project(
-    file_temp(pattern = "host"), rstudio = FALSE, open = FALSE
+    file_temp(pattern = "host"),
+    rstudio = FALSE, open = FALSE
   )
   guest <- create_project(
-    file_temp(pattern = "guest"), rstudio = FALSE, open = FALSE
+    file_temp(pattern = "guest"),
+    rstudio = FALSE, open = FALSE
   )
 
   proj_set(host)
@@ -170,7 +173,8 @@ test_that("with_project() works when temp proj == original proj", {
   on.exit(proj_set_(old_project))
 
   host <- create_project(
-    file_temp(pattern = "host"), rstudio = FALSE, open = FALSE
+    file_temp(pattern = "host"),
+    rstudio = FALSE, open = FALSE
   )
 
   proj_set(host)

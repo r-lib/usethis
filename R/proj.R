@@ -133,15 +133,20 @@ local_project <- function(path = ".",
   old_quiet <- options(usethis.quiet = quiet)
   old_proj  <- proj_set(path = path, force = force)
 
-  withr::defer({
-    proj_set(path = old_proj, force = TRUE)
-    options(old_quiet)
-  }, envir = .local_envir)
+  withr::defer(
+    {
+      proj_set(path = old_proj, force = TRUE)
+      options(old_quiet)
+    },
+    envir = .local_envir
+  )
 }
 
 ## usethis policy re: preparation of the path to active project
 proj_path_prep <- function(path) {
-  if (is.null(path)) return(path)
+  if (is.null(path)) {
+    return(path)
+  }
   path <- path_abs(path)
   if (file_exists(path)) {
     path_real(path)
@@ -264,7 +269,8 @@ project_name <- function(base_path = proj_get()) {
 project_pkgdown <- function(base_path = proj_get()) {
   path <- path_first_existing(
     base_path,
-    c("_pkgdown.yml",
+    c(
+      "_pkgdown.yml",
       "_pkgdown.yaml",
       "pkgdown/_pkgdown.yml",
       "inst/_pkgdown.yml"

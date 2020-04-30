@@ -40,7 +40,9 @@ use_readme_rmd <- function(open = rlang::is_interactive()) {
     ignore = is_package(),
     open = open
   )
-  if (!new) return(invisible(FALSE))
+  if (!new) {
+    return(invisible(FALSE))
+  }
 
   if (uses_git()) {
     use_git_hook(

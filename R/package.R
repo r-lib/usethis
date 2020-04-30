@@ -22,7 +22,6 @@
 #' use_dev_package("glue")
 #' }
 use_package <- function(package, type = "Imports", min_version = NULL) {
-
   if (type == "Imports") {
     refuse_package(package, verboten = "tidyverse")
   }
@@ -119,7 +118,9 @@ how_to_use <- function(package, type) {
 show_includes <- function(package) {
   incl <- path_package("include", package = package)
   h <- dir_ls(incl, regexp = "[.](h|hpp)$")
-  if (length(h) == 0) return()
+  if (length(h) == 0) {
+    return()
+  }
 
   ui_todo("Possible includes are:")
   ui_code_block("#include <{path_file(h)}>", copy = FALSE)

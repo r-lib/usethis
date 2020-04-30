@@ -10,7 +10,6 @@ test_that("use_github_action() allows for custom urls", {
   expect_proj_dir(".github")
   expect_proj_dir(".github/workflows")
   expect_proj_file(".github/workflows/check-full.yaml")
-
 })
 
 test_that("use_github_action() appends yaml in name if missing", {

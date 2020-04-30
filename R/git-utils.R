@@ -60,7 +60,9 @@ uses_git <- function(path = proj_get()) {
 
 git_remote_find <- function(rname = "origin") {
   remotes <- git_remotes()
-  if (length(remotes) == 0) return(NULL)
+  if (length(remotes) == 0) {
+    return(NULL)
+  }
   remotes[[rname]]
 }
 
@@ -132,8 +134,8 @@ git_branch_exists <- function(branch) {
 }
 
 git_branch_tracking <- function(branch = git_branch_name()) {
-    b <- git_branch(name = branch)
-    git2r::branch_get_upstream(b)$name
+  b <- git_branch(name = branch)
+  git2r::branch_get_upstream(b)$name
 }
 
 ## FIXME: this function is 50% "actual tracking branch" and
@@ -277,7 +279,9 @@ check_branch_not_master <- function() {
 check_branch <- function(branch) {
   ui_done("Checking that current branch is {ui_value(branch)}")
   actual <- git_branch_name()
-  if (actual == branch) return()
+  if (actual == branch) {
+    return()
+  }
   code <- glue("git checkout {branch}")
   ui_stop(
     "

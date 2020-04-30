@@ -38,7 +38,9 @@ use_code_of_conduct <- function(path = NULL) {
   ui_code_block("
     ## Code of Conduct
 
-    Please note that the {project_name()} project is released with a [Contributor Code of Conduct]({href}). By contributing to this project, you agree to abide by its terms."
+    Please note that the {project_name()} project is released with a \\
+    [Contributor Code of Conduct]({href}). By contributing to this project, \\
+    you agree to abide by its terms."
   )
 
   invisible(new)

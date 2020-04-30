@@ -1,7 +1,7 @@
 devtools::load_all()
 
 pkgname <- "klmnop"
-#use_git_protocol("ssh")
+# use_git_protocol("ssh")
 use_git_protocol("https")
 git_protocol()
 

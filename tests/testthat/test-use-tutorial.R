@@ -11,7 +11,8 @@ test_that("use_tutorial() checks its inputs", {
 test_that("use_tutorial() creates a tutorial", {
   with_mock(
     ## need to pass the check re: whether learnr is installed
-    `usethis:::is_installed` = function(pkg) TRUE, {
+    `usethis:::is_installed` = function(pkg) TRUE,
+    {
       create_local_package()
       use_tutorial(name = "aaa", title = "bbb")
       tute_file <- path("inst", "tutorials", "aaa", "aaa", ext = "Rmd")
