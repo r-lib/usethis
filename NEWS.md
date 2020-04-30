@@ -2,6 +2,8 @@
 
 `create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
 
+`create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
+
 # usethis 1.6.1
 
 Patch release to align some path handling internals with an update coming in the fs package.
