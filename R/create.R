@@ -59,8 +59,8 @@ create_package <- function(path,
   }
 
   if (open) {
-    if (proj_activate(path)) {
-      # Working directory/active project changed; so don't undo on exit
+    if (proj_activate(proj_get())) {
+      # working directory/active project already set; clear the on.exit()'s
       on.exit()
     }
   }
@@ -93,8 +93,8 @@ create_project <- function(path,
   }
 
   if (open) {
-    if (proj_activate(path)) {
-      # Working directory/active project changed; so don't undo on exit
+    if (proj_activate(proj_get())) {
+      # working directory/active project already set; clear the on.exit()'s
       on.exit()
     }
   }
