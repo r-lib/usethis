@@ -62,11 +62,12 @@ test_that("can create package in current directory (literally in '.')", {
   withr::defer(dir_delete(target_path))
   withr::local_dir(target_path)
   orig_proj <- proj_get_()
+  orig_wd <- path_wd()
 
   expect_error_free(
     out_path <- create_package(".", open = FALSE)
   )
-  expect_equal(path_wd(), out_path)
+  expect_equal(path_wd(), orig_wd)
   expect_equal(proj_get_(), orig_proj)
 })
 
