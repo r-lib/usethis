@@ -103,7 +103,6 @@ test_that("create_* works w/ non-existing rel path, open = FALSE case", {
 test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudio", {
   sandbox <- path_real(dir_create(file_temp("sandbox")))
   orig_proj <- proj_get_()
-  orig_wd <- path_wd()
   withr::defer(dir_delete(sandbox))
   withr::defer(proj_set(orig_proj, force = TRUE))
   withr::local_dir(sandbox)
