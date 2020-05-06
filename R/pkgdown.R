@@ -46,10 +46,6 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   invisible(TRUE)
 }
 
-uses_pkgdown <- function() {
-  !is.null(pkgdown_config_path())
-}
-
 pkgdown_config_path <- function(base_path = proj_get()) {
   path_first_existing(
     base_path,
@@ -62,22 +58,35 @@ pkgdown_config_path <- function(base_path = proj_get()) {
   )
 }
 
-pkgdown_config_meta <- function(base_path = proj_get()) {
-  path <- pkgdown_config_path(base_path)
-  if (is.null(path)) {
-    list()
-  } else {
-    yaml::read_yaml(path) %||% list()
-  }
+uses_pkgdown <- function(base_path = proj_get()) {
+  !is.null(pkgdown_config_path(base_path))
 }
 
-pkgdown_url <- function(base_path = proj_get()) {
+pkgdown_config_meta <- function(base_path = proj_get()) {
+  if (!uses_pkgdown(base_path)) {
+    return(list())
+  }
+  path <- pkgdown_config_path(base_path)
+  yaml::read_yaml(path) %||% list()
+}
+
+pkgdown_url <- function(base_path = proj_get(), pedantic = FALSE) {
+  if (!uses_pkgdown(base_path)) {
+    return(NULL)
+  }
+
   meta <- pkgdown_config_meta(base_path)
   url <- meta$url
   if (is.null(url)) {
+    if (pedantic) {
+      ui_warn(
+        "pkgdown config does not specify the site's {ui_field('url')}, \\
+        which is optional but recommended"
+      )
+    }
     NULL
   } else {
-    gsub("/$", "", yaml$url)
+    gsub("/$", "", url)
   }
 }
 
@@ -134,10 +143,10 @@ create_gh_pages_branch <- function() {
 
   # Create commit with empty tree
   res <- gh::gh("POST /repos/:owner/:repo/git/commits",
-                owner = github_owner(),
-                repo = github_repo(),
-                message = "first commit",
-                tree = sha_empty_tree
+    owner = github_owner(),
+    repo = github_repo(),
+    message = "first commit",
+    tree = sha_empty_tree
   )
 
   # Assign ref to above commit

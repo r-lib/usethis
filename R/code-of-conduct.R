@@ -31,7 +31,8 @@ use_code_of_conduct <- function(path = NULL) {
     ignore = is_package() && is.null(path)
   )
 
-  href <- pkgdown_url() %||% "https://contributor-covenant.org/version/2/0"
+  href <- pkgdown_url(pedantic = TRUE) %||%
+    "https://contributor-covenant.org/version/2/0"
   href <- paste0(href, "/CODE_OF_CONDUCT.html")
 
   ui_todo("Don't forget to describe the code of conduct in your README:")
