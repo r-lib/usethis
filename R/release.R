@@ -40,7 +40,7 @@ release_checklist <- function(version, on_cran) {
   cran_results <- cran_results_url()
   has_src <- dir_exists(proj_path("src"))
   has_news <- file_exists(proj_path("NEWS.md"))
-  has_pkgdown <- file_exists(proj_path("_pkgdown.yml"))
+  has_pkgdown <- uses_pkgdown()
   has_readme <- file_exists(proj_path("README.Rmd"))
   has_extra <- exists("release_bullets", parent.env(globalenv()))
 

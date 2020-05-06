@@ -10,8 +10,8 @@
 #' If your package is going to CRAN, the link to the CoC in your README must
 #' be an absolute link to a rendered website as `CODE_OF_CONDUCT.md` is not
 #' included in the package sent to CRAN. `use_code_of_conduct()` will
-#' automatically generate this link if you use pkgdown and have set the
-#' `url` field in `pkgdown.yml`; otherwise it'll link to
+#' automatically generate this link if (1) you use pkgdown and (2) have set the
+#' `url` field in `_pkgdown.yml`; otherwise it'll link to
 #' <https://contributor-covenant.org/version/2/0>.
 #'
 #' @param path Path of the directory to put `CODE_OF_CONDUCT.md` in, relative to
@@ -31,7 +31,8 @@ use_code_of_conduct <- function(path = NULL) {
     ignore = is_package() && is.null(path)
   )
 
-  href <- project_pkgdown_url() %||% "https://contributor-covenant.org/version/2/0"
+  href <- pkgdown_url(pedantic = TRUE) %||%
+    "https://contributor-covenant.org/version/2/0"
   href <- paste0(href, "/CODE_OF_CONDUCT.html")
 
   ui_todo("Don't forget to describe the code of conduct in your README:")
