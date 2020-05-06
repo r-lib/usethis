@@ -15,7 +15,7 @@
 #' edit_file("DESCRIPTION")
 #' edit_file("~/.gitconfig")
 #' }
-edit_file <- function(path, open = is_interactive()) {
+edit_file <- function(path, open = rlang::is_interactive()) {
   open <- open && is_interactive()
   path <- user_path_prep(path)
   create_directory(path_dir(path))
