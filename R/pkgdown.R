@@ -113,6 +113,28 @@ uses_pkgdown <- function() {
     file_exists(proj_path("pkgdown", "_pkgdown.yml"))
 }
 
+
+project_pkgdown <- function(base_path = proj_get()) {
+  path <- path_first_existing(
+    base_path,
+    c(
+      "_pkgdown.yml",
+      "_pkgdown.yaml",
+      "pkgdown/_pkgdown.yml",
+      "inst/_pkgdown.yml"
+    )
+  )
+  if (is.null(path)) {
+    NULL
+  } else {
+    yaml::read_yaml(path)
+  }
+}
+
+project_pkgdown_url <- function(base_path = proj_get()) {
+  project_pkgdown(base_path)$url
+}
+
 pkgdown_link <- function() {
   if (!uses_pkgdown()) {
     return(NULL)
