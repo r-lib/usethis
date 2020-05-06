@@ -41,6 +41,75 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   invisible(TRUE)
 }
 
+
+uses_pkgdown <- function() {
+  file_exists(proj_path("_pkgdown.yml")) ||
+    file_exists(proj_path("pkgdown", "_pkgdown.yml"))
+}
+
+project_pkgdown <- function(base_path = proj_get()) {
+  path <- path_first_existing(
+    base_path,
+    c(
+      "_pkgdown.yml",
+      "_pkgdown.yaml",
+      "pkgdown/_pkgdown.yml",
+      "inst/_pkgdown.yml"
+    )
+  )
+  if (is.null(path)) {
+    NULL
+  } else {
+    yaml::read_yaml(path)
+  }
+}
+
+# from pkgdown
+# read_meta <- function(path) {
+#   path <- path_first_existing(
+#     path,
+#     c("_pkgdown.yml",
+#       "_pkgdown.yaml",
+#       "pkgdown/_pkgdown.yml",
+#       "inst/_pkgdown.yml"
+#     )
+#   )
+#
+#   if (is.null(path)) {
+#     yaml <- list()
+#   } else {
+#     yaml <- yaml::yaml.load_file(path) %||% list()
+#   }
+#
+#   yaml
+# }
+
+project_pkgdown_url <- function(base_path = proj_get()) {
+  project_pkgdown(base_path)$url
+}
+
+pkgdown_link <- function() {
+  if (!uses_pkgdown()) {
+    return(NULL)
+  }
+
+  path <- proj_path("_pkgdown.yml")
+
+  yaml <- yaml::yaml.load_file(path) %||% list()
+
+  if (is.null(yaml$url)) {
+    ui_warn("
+      Package does not provide a pkgdown URL.
+      Set one in the `url:` field of `_pkgdown.yml`"
+    )
+    return(NULL)
+  }
+
+  gsub("/$", "", yaml$url)
+}
+
+# travis ----
+
 #' @export
 #' @rdname use_pkgdown
 use_pkgdown_travis <- function() {
@@ -92,10 +161,10 @@ create_gh_pages_branch <- function() {
 
   # Create commit with empty tree
   res <- gh::gh("POST /repos/:owner/:repo/git/commits",
-    owner = github_owner(),
-    repo = github_repo(),
-    message = "first commit",
-    tree = sha_empty_tree
+                owner = github_owner(),
+                repo = github_repo(),
+                message = "first commit",
+                tree = sha_empty_tree
   )
 
   # Assign ref to above commit
@@ -106,51 +175,4 @@ create_gh_pages_branch <- function() {
     ref = "refs/heads/gh-pages",
     sha = res$sha
   )
-}
-
-uses_pkgdown <- function() {
-  file_exists(proj_path("_pkgdown.yml")) ||
-    file_exists(proj_path("pkgdown", "_pkgdown.yml"))
-}
-
-
-project_pkgdown <- function(base_path = proj_get()) {
-  path <- path_first_existing(
-    base_path,
-    c(
-      "_pkgdown.yml",
-      "_pkgdown.yaml",
-      "pkgdown/_pkgdown.yml",
-      "inst/_pkgdown.yml"
-    )
-  )
-  if (is.null(path)) {
-    NULL
-  } else {
-    yaml::read_yaml(path)
-  }
-}
-
-project_pkgdown_url <- function(base_path = proj_get()) {
-  project_pkgdown(base_path)$url
-}
-
-pkgdown_link <- function() {
-  if (!uses_pkgdown()) {
-    return(NULL)
-  }
-
-  path <- proj_path("_pkgdown.yml")
-
-  yaml <- yaml::yaml.load_file(path) %||% list()
-
-  if (is.null(yaml$url)) {
-    ui_warn("
-      Package does not provide a pkgdown URL.
-      Set one in the `url:` field of `_pkgdown.yml`"
-    )
-    return(NULL)
-  }
-
-  gsub("/$", "", yaml$url)
 }
