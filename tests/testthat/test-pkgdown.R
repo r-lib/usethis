@@ -1,5 +1,3 @@
-context("use_pkgdown")
-
 test_that("use_pkgdown() requires a package", {
   create_local_project()
   expect_usethis_error(use_pkgdown(), "not an R package")
