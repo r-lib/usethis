@@ -4,7 +4,7 @@
 \alias{edit_file}
 \title{Open file for editing}
 \usage{
-edit_file(path, open = is_interactive())
+edit_file(path, open = rlang::is_interactive())
 }
 \arguments{
 \item{path}{Path to target file.}
