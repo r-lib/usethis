@@ -28,6 +28,11 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   use_build_ignore("pkgdown")
   use_git_ignore(destdir)
 
+  ui_todo(
+    "Record your site's {ui_field('url')} in the pkgdown config file \\
+    (optional, but recommended)"
+  )
+
   if (has_logo()) {
     pkgdown::build_favicons(proj_get(), overwrite = TRUE)
   }
@@ -41,14 +46,12 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   invisible(TRUE)
 }
 
-
 uses_pkgdown <- function() {
-  file_exists(proj_path("_pkgdown.yml")) ||
-    file_exists(proj_path("pkgdown", "_pkgdown.yml"))
+  !is.null(pkgdown_config_path())
 }
 
-project_pkgdown <- function(base_path = proj_get()) {
-  path <- path_first_existing(
+pkgdown_config_path <- function(base_path = proj_get()) {
+  path_first_existing(
     base_path,
     c(
       "_pkgdown.yml",
@@ -57,55 +60,25 @@ project_pkgdown <- function(base_path = proj_get()) {
       "inst/_pkgdown.yml"
     )
   )
+}
+
+pkgdown_config_meta <- function(base_path = proj_get()) {
+  path <- pkgdown_config_path(base_path)
   if (is.null(path)) {
+    list()
+  } else {
+    yaml::read_yaml(path) %||% list()
+  }
+}
+
+pkgdown_url <- function(base_path = proj_get()) {
+  meta <- pkgdown_config_meta(base_path)
+  url <- meta$url
+  if (is.null(url)) {
     NULL
   } else {
-    yaml::read_yaml(path)
+    gsub("/$", "", yaml$url)
   }
-}
-
-# from pkgdown
-# read_meta <- function(path) {
-#   path <- path_first_existing(
-#     path,
-#     c("_pkgdown.yml",
-#       "_pkgdown.yaml",
-#       "pkgdown/_pkgdown.yml",
-#       "inst/_pkgdown.yml"
-#     )
-#   )
-#
-#   if (is.null(path)) {
-#     yaml <- list()
-#   } else {
-#     yaml <- yaml::yaml.load_file(path) %||% list()
-#   }
-#
-#   yaml
-# }
-
-project_pkgdown_url <- function(base_path = proj_get()) {
-  project_pkgdown(base_path)$url
-}
-
-pkgdown_link <- function() {
-  if (!uses_pkgdown()) {
-    return(NULL)
-  }
-
-  path <- proj_path("_pkgdown.yml")
-
-  yaml <- yaml::yaml.load_file(path) %||% list()
-
-  if (is.null(yaml$url)) {
-    ui_warn("
-      Package does not provide a pkgdown URL.
-      Set one in the `url:` field of `_pkgdown.yml`"
-    )
-    return(NULL)
-  }
-
-  gsub("/$", "", yaml$url)
 }
 
 # travis ----
