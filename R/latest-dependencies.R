@@ -1,8 +1,7 @@
 #' Use "latest" versions of all dependencies
 #'
-#' Pins minimum version of dependencies to latest (as determined by "source)"
-#' Useful for tidyverse package, but should otherwise be used with extreme
-#' care.
+#' Pins minimum versions of dependencies to latest ones (as determined by `source`).
+#' Useful for the tidyverse package, but should otherwise be used with extreme care.
 #'
 #' @keywords internal
 #' @export
