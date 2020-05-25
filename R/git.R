@@ -629,7 +629,7 @@ github_remote_report <- function(info) {
 #' Vaccinate your global git ignore
 #'
 #' Adds `.DS_Store`, `.Rproj.user`, and `.Rhistory` to your global
-#' `.gitignore`. This is good practices as it ensures that you will never
+#' `.gitignore`. This is good practice as it decreases the chance that you will
 #' accidentally leak credentials to GitHub.
 #'
 #' @export
