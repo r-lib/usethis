@@ -319,10 +319,13 @@ pr_finish <- function(number = NULL) {
 
   check_branch_not_master()
   check_uncommitted_changes()
-  check_branch_pushed(use = "pr_push()")
+
+  tracking_branch <- git_branch_tracking()
+  if (!is.null(tracking_branch)) {
+    check_branch_pushed(use = "pr_push()")
+  }
 
   pr <- git_branch_name()
-  tracking_branch <- git_branch_tracking()
 
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
