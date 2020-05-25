@@ -1,21 +1,29 @@
 github_remotes <- function() {
   remotes <- git_remotes()
-  if (length(remotes) == 0) return(NULL)
+  if (length(remotes) == 0) {
+    return(NULL)
+  }
   m <- vapply(remotes, function(x) grepl("github", x), logical(1))
-  if (length(m) == 0) return(NULL)
+  if (length(m) == 0) {
+    return(NULL)
+  }
   remotes[m]
 }
 
 github_remote <- function(name) {
   remotes <- github_remotes()
-  if (length(remotes) == 0) return(NULL)
+  if (length(remotes) == 0) {
+    return(NULL)
+  }
   remotes[[name]]
 }
 
 github_remote_protocol <- function(name = "origin") {
   # https://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols
   url <- github_remote(name)
-  if (is.null(url)) return(NULL)
+  if (is.null(url)) {
+    return(NULL)
+  }
   switch(
     substr(url, 1, 5),
     `https` = "https",
@@ -30,13 +38,17 @@ github_remote_protocol <- function(name = "origin") {
 
 github_origin <- function() {
   r <- github_remote("origin")
-  if (is.null(r)) return(r)
+  if (is.null(r)) {
+    return(r)
+  }
   parse_github_remotes(r)[[1]]
 }
 
 github_upstream <- function() {
   r <- github_remote("upstream")
-  if (is.null(r)) return(r)
+  if (is.null(r)) {
+    return(r)
+  }
   parse_github_remotes(r)[[1]]
 }
 

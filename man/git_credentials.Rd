@@ -105,7 +105,6 @@ For the remainder of the session, \code{git_credentials()} will return
 \examples{
 git_credentials()
 git_credentials(protocol = "ssh")
-
 \dontrun{
 # these calls look for a GitHub PAT
 git_credentials(protocol = "https")

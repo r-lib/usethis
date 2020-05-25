@@ -14,7 +14,9 @@
 #' @keywords internal
 #'
 #' @examples
-#' \dontshow{.old_wd <- setwd(tempdir())}
+#' \dontshow{
+#' .old_wd <- setwd(tempdir())
+#' }
 #' write_union("a_file", letters[1:3])
 #' readLines("a_file")
 #' write_union("a_file", letters[1:5])
@@ -23,7 +25,6 @@
 #' write_over("another_file", letters[1:3])
 #' readLines("another_file")
 #' write_over("another_file", letters[1:3])
-#'
 #' \dontrun{
 #' ## will error if user isn't present to approve the overwrite
 #' write_over("another_file", letters[3:1])
@@ -31,7 +32,9 @@
 #'
 #' ## clean up
 #' file.remove("a_file", "another_file")
-#' \dontshow{setwd(.old_wd)}
+#' \dontshow{
+#' setwd(.old_wd)
+#' }
 NULL
 
 #' @describeIn write-this writes lines to a file, taking the union of what's

@@ -76,7 +76,8 @@ test_that("github_remote_protocol() picks up ssh and https", {
     origin = "git@github.com:OWNER/REPO.git"
   )
   with_mock(
-    `usethis:::github_remotes` = function() r, {
+    `usethis:::github_remotes` = function() r,
+    {
       expect_identical(github_remote_protocol(), "ssh")
     }
   )
@@ -84,7 +85,8 @@ test_that("github_remote_protocol() picks up ssh and https", {
     origin = "https://github.com/OWNER/REPO.git"
   )
   with_mock(
-    `usethis:::github_remotes` = function() r, {
+    `usethis:::github_remotes` = function() r,
+    {
       expect_identical(github_remote_protocol(), "https")
     }
   )
@@ -95,7 +97,8 @@ test_that("github_remote_protocol() errors for unrecognized URL", {
     origin = "file:///srv/git/project.git"
   )
   with_mock(
-    `usethis:::github_remotes` = function() r, {
+    `usethis:::github_remotes` = function() r,
+    {
       expect_usethis_error(github_remote_protocol(), "Can't classify URL")
     }
   )
@@ -104,7 +107,8 @@ test_that("github_remote_protocol() errors for unrecognized URL", {
 test_that("github_remote_protocol() returns NULL if no github origin", {
   r <- NULL
   with_mock(
-    `usethis:::github_remotes` = function() r, {
+    `usethis:::github_remotes` = function() r,
+    {
       expect_null(github_remote_protocol())
     }
   )
@@ -112,7 +116,8 @@ test_that("github_remote_protocol() returns NULL if no github origin", {
     non_standard_remote_name = "https://github.com/OWNER/REPO.git"
   )
   with_mock(
-    `usethis:::github_remotes` = function() r, {
+    `usethis:::github_remotes` = function() r,
+    {
       expect_null(github_remote_protocol())
     }
   )

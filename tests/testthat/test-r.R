@@ -1,24 +1,24 @@
 test_that("use_r() creates a .R file below R/", {
-  scoped_temporary_package()
+  create_local_package()
   use_r("foo")
   expect_proj_file("R/foo.R")
 })
 
 test_that("use_test() creates a test file", {
-  scoped_temporary_package()
+  create_local_package()
   use_test("foo", open = FALSE)
   expect_proj_file("tests", "testthat", "test-foo.R")
 })
 
 test_that("can use use_test() in a project", {
-  scoped_temporary_project()
+  create_local_project()
   expect_error(use_test("foofy"), NA)
 })
 
 # rename_files ------------------------------------------------------------
 
 test_that("renames R and test files", {
-  scoped_temporary_package()
+  create_local_package()
   git_init()
 
   use_r("foo", open = FALSE)
@@ -31,7 +31,7 @@ test_that("renames R and test files", {
 })
 
 test_that("strips context from test file", {
-  scoped_temporary_package()
+  create_local_package()
   git_init()
 
   use_testthat()
@@ -50,7 +50,7 @@ test_that("strips context from test file", {
 })
 
 test_that("rename paths in test file", {
-  scoped_temporary_package()
+  create_local_package()
   git_init()
 
   use_testthat()

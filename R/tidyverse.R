@@ -214,7 +214,7 @@ tidy_release_test_env <- function() {
 
   c(
     "",
-    use_bullet("GitHub Actions (ubuntu-16.04)", c("3.2", "3.3", "oldrel", "release", "devel")),
+    use_bullet("GitHub Actions (ubuntu-16.04)", c("3.3", "3.4", "3.5", "oldrel", "release", "devel")),
     use_bullet("GitHub Actions (windows)", "release"),
     use_bullet("Github Actions (macOS)", c("release", "devel")),
     use_bullet("win-builder", "devel"),
@@ -306,9 +306,13 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
 ## if x appears to be a timestamp, pass it through
 ## otherwise, assume it's a ref and look up its timestamp
 as_timestamp <- function(x = NULL, repo_spec = github_repo_spec()) {
-  if (is.null(x)) return(NULL)
+  if (is.null(x)) {
+    return(NULL)
+  }
   as_POSIXct <- try(as.POSIXct(x), silent = TRUE)
-  if (inherits(as_POSIXct, "POSIXct")) return(x)
+  if (inherits(as_POSIXct, "POSIXct")) {
+    return(x)
+  }
   ui_line("Resolving timestamp for ref ", ui_value(x))
   ref_df(x, repo_spec)$timestamp
 }
@@ -316,7 +320,9 @@ as_timestamp <- function(x = NULL, repo_spec = github_repo_spec()) {
 ## returns a data frame on GitHub refs, defaulting to all releases
 ref_df <- function(refs = NULL, repo_spec = github_repo_spec()) {
   refs <- refs %||% releases(repo_spec)
-  if (is.null(refs)) return(NULL)
+  if (is.null(refs)) {
+    return(NULL)
+  }
   get_thing <- function(thing) {
     gh::gh(
       "/repos/:owner/:repo/commits/:thing",

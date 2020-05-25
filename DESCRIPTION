@@ -1,6 +1,6 @@
 Package: usethis
 Title: Automate Package and Project Setup
-Version: 1.6.0.9000
+Version: 1.6.1.9000
 Authors@R: 
     c(person(given = "Hadley",
              family = "Wickham",

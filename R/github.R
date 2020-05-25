@@ -122,10 +122,13 @@ use_github <- function(organisation = NULL,
   }
 
   ui_done("Pushing {ui_value('master')} branch to GitHub and setting remote tracking branch")
-  pushed <- tryCatch({
-    git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
-    TRUE
-  }, error = function(e) FALSE)
+  pushed <- tryCatch(
+    {
+      git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
+      TRUE
+    },
+    error = function(e) FALSE
+  )
   if (pushed) {
     git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
   } else {
@@ -163,7 +166,7 @@ use_github_links <- function(auth_token = github_token(),
 
   res <- gh::gh(
     "GET /repos/:owner/:repo",
-    owner = github_owner(),
+    owner = github_owner_upstream() %||% github_owner(),
     repo = github_repo(),
     .api_url = host,
     .token = check_github_token(auth_token, allow_empty = TRUE)
@@ -285,7 +288,8 @@ check_uses_github <- function() {
 
 github_repo_exists <- function(owner, repo, host, auth_token) {
   tryCatch(
-    error = function(err) FALSE, {
+    error = function(err) FALSE,
+    {
       gh::gh(
         "/repos/:owner/:repo",
         owner = owner, repo = repo,
@@ -320,7 +324,6 @@ have_github_token <- function(auth_token = github_token()) {
 
 check_github_token <- function(auth_token = github_token(),
                                allow_empty = FALSE) {
-
   if (!is_online("github.com")) {
     ui_stop("Internet connection is not available")
   }

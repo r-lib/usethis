@@ -120,8 +120,8 @@ pr_fetch <- function(number,
   pr_string <- glue("{owner}/{repo}/#{number}")
   pr_user <- glue("@{pr$user$login}")
   ui_done(
-    'Checking out PR {ui_value(pr_string)} ({ui_field(pr_user)}): \\
-    {ui_value(pr$title)}'
+    "Checking out PR {ui_value(pr_string)} ({ui_field(pr_user)}): \\
+    {ui_value(pr$title)}"
   )
 
   their_branch <- pr$head$ref
@@ -313,7 +313,6 @@ pr_pause <- function() {
 #' @export
 #' @rdname pr_init
 pr_finish <- function(number = NULL) {
-
   if (!is.null(number)) {
     pr_fetch(number)
   }
@@ -409,4 +408,3 @@ pr_find <- function(owner,
 
   urls[refs == pr_branch & user == pr_owner]
 }
-

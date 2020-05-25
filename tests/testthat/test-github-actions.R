@@ -3,7 +3,7 @@ context("GitHub Actions")
 test_that("uses_github_actions() reports usage of GitHub Actions", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   expect_false(uses_github_actions())
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
@@ -13,7 +13,7 @@ test_that("uses_github_actions() reports usage of GitHub Actions", {
 })
 
 test_that("check_uses_github_actions() can throw error", {
-  scoped_temporary_package()
+  create_local_package()
   expect_error(
     check_uses_github_actions(),
     "Do you need to run `use_github_actions()`?",
@@ -24,7 +24,7 @@ test_that("check_uses_github_actions() can throw error", {
 test_that("use_github_actions() configures GitHub Actions", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
   use_description_field("URL", "https://github.com/fake/fake")
@@ -54,7 +54,7 @@ test_that("use_github_actions() configures GitHub Actions", {
 test_that("use_github_actions() configures .Rbuildignore", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   expect_false(uses_circleci())
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
@@ -66,7 +66,7 @@ test_that("use_github_actions() configures .Rbuildignore", {
 test_that("use_github_action_check_full() configures full GitHub Actions", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
   use_description_field("URL", "https://github.com/fake/fake")
@@ -99,7 +99,7 @@ test_that("use_github_action_check_full() configures full GitHub Actions", {
 test_that("use_github_action_check_full() configures the pr commands", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
   use_description_field("URL", "https://github.com/fake/fake")
@@ -113,7 +113,7 @@ test_that("use_github_action_check_full() configures the pr commands", {
 test_that("use_tidy_github_actions() configures the full check and pr commands", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
   use_description_field("URL", "https://github.com/fake/fake")

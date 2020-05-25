@@ -8,18 +8,18 @@ test_that("bump_version() presents all possible incremented versions", {
 })
 
 test_that("use_version() and use_dev_version() require a package", {
-  scoped_temporary_project()
+  create_local_project()
   expect_usethis_error(use_version("major"), "not an R package")
   expect_usethis_error(use_dev_version(), "not an R package")
 })
 
 test_that("use_version() errors for invalid `which`", {
-  scoped_temporary_package()
+  create_local_package()
   expect_error(use_version("1.2.3"), "should be one of")
 })
 
 test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
-  scoped_temporary_package()
+  create_local_package()
   use_description_field(
     name = "Version",
     value = "1.1.1.9000",
@@ -39,7 +39,7 @@ test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
 })
 
 test_that("use_dev_version() appends .9000 to Version, exactly once", {
-  scoped_temporary_package()
+  create_local_package()
   use_description_field(name = "Version", value = "0.0.1", overwrite = TRUE)
   use_dev_version()
   expect_identical(
@@ -54,7 +54,7 @@ test_that("use_dev_version() appends .9000 to Version, exactly once", {
 })
 
 test_that("use_version() updates (development version) directly", {
-  scoped_temporary_package()
+  create_local_package()
   use_description_field(name = "Version", value = "0.0.1", overwrite = TRUE)
   use_news_md()
 

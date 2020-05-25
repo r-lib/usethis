@@ -188,7 +188,7 @@ git_protocol <- function() {
   ## this is where a user-supplied protocol gets checked, because
   ## use_git_protocol() shoves it in the option unconditionally and calls this
   bad_protocol <- length(protocol) != 1 ||
-    ! (tolower(protocol) %in% c("ssh", "https", NA))
+    !(tolower(protocol) %in% c("ssh", "https", NA))
   if (bad_protocol) {
     options(usethis.protocol = NULL)
     ui_stop(
@@ -200,9 +200,9 @@ git_protocol <- function() {
   if (is.na(protocol)) {
     protocol <- choose_protocol()
     if (is.null(protocol)) {
-      ui_stop(
-      "{ui_code('protocol')} must be either {ui_value('ssh')} or \\
-       {ui_value('https')}'."
+      ui_stop("
+        {ui_code('protocol')} must be either {ui_value('ssh')} or \\
+        {ui_value('https')}."
       )
     }
     code <- glue("options(usethis.protocol = \"{protocol}\")")
@@ -427,7 +427,6 @@ have_git2r_credentials <- function() env_has(git2r_env, "credentials")
 #' @examples
 #' git_credentials()
 #' git_credentials(protocol = "ssh")
-#'
 #' \dontrun{
 #' # these calls look for a GitHub PAT
 #' git_credentials(protocol = "https")
@@ -545,8 +544,10 @@ git_sitrep <- function() {
   ## TODO: rework when ui_*() functions make it possible to do better
   branch <- if (is.null(branch)) "<unset>" else branch
   tracking_branch <- if (is.null(tracking_branch)) "<unset>" else tracking_branch
-  ui_inform("* ", "Local branch -> remote tracking branch: ",
-           ui_value(branch), " -> ", ui_value(tracking_branch))
+  ui_inform(
+    "* ", "Local branch -> remote tracking branch: ",
+    ui_value(branch), " -> ", ui_value(tracking_branch)
+  )
 
   # PR outlook -------------------------------------------------------------
   hd_line("GitHub pull request readiness")
@@ -628,7 +629,7 @@ github_remote_report <- function(info) {
 #' Vaccinate your global git ignore
 #'
 #' Adds `.DS_Store`, `.Rproj.user`, and `.Rhistory` to your global
-#' `.gitignore`. This is good practices as it ensures that you will never
+#' `.gitignore`. This is good practice as it decreases the chance that you will
 #' accidentally leak credentials to GitHub.
 #'
 #' @export

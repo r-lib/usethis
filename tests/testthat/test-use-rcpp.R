@@ -1,12 +1,12 @@
 context("use_rcpp")
 
 test_that("use_rcpp() requires a package", {
-  scoped_temporary_project()
+  create_local_project()
   expect_usethis_error(use_rcpp(), "not an R package")
 })
 
 test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_roxygen_md()
 
   use_rcpp()
@@ -21,8 +21,9 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
 test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
   with_mock(
     ## Required to pass the check re: whether RcppArmadillo is installed
-    `usethis:::is_installed` = function(pkg) TRUE, {
-      pkg <- scoped_temporary_package()
+    `usethis:::is_installed` = function(pkg) TRUE,
+    {
+      pkg <- create_local_package()
       use_roxygen_md()
 
       use_rcpp_armadillo()
@@ -36,8 +37,9 @@ test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
 test_that("use_rcpp_eigen() edits DESCRIPTION", {
   with_mock(
     ## Required to pass the check re: whether RcppEigen is installed
-    `usethis:::is_installed` = function(pkg) TRUE, {
-      pkg <- scoped_temporary_package()
+    `usethis:::is_installed` = function(pkg) TRUE,
+    {
+      pkg <- create_local_package()
       use_roxygen_md()
 
       use_rcpp_eigen()
@@ -47,7 +49,7 @@ test_that("use_rcpp_eigen() edits DESCRIPTION", {
 })
 
 test_that("use_src() doesn't message if not needed", {
-  scoped_temporary_package()
+  create_local_package()
   use_roxygen_md()
   use_package_doc()
   use_src()
@@ -58,7 +60,7 @@ test_that("use_src() doesn't message if not needed", {
 })
 
 test_that("use_makevars() respects pre-existing Makevars", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
 
   dir_create(proj_path("src"))
   makevars_file <- proj_path("src", "Makevars")
@@ -80,14 +82,14 @@ test_that("use_makevars() respects pre-existing Makevars", {
 })
 
 test_that("use_makevars() creates Makevars files with appropriate configuration", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
 
   makevars_settings <- list(
-    "CXX_STD"="CXX11"
+    "CXX_STD" = "CXX11"
   )
   use_makevars(makevars_settings)
 
-  makevars_content <- paste0(names(makevars_settings)," = ", makevars_settings)
+  makevars_content <- paste0(names(makevars_settings), " = ", makevars_settings)
 
   expect_identical(makevars_content, read_utf8(proj_path("src", "Makevars")))
   expect_identical(makevars_content, read_utf8(proj_path("src", "Makevars.win")))

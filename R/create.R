@@ -40,7 +40,7 @@ create_package <- function(path,
   path <- user_path_prep(path)
   check_path_is_directory(path_dir(path))
 
-  name <- path_file(path_real(path))
+  name <- path_file(path_abs(path))
   if (check_name) {
     check_package_name(name)
   }
@@ -59,8 +59,8 @@ create_package <- function(path,
   }
 
   if (open) {
-    if (proj_activate(path)) {
-      # Working directory/active project changed; so don't undo on exit
+    if (proj_activate(proj_get())) {
+      # working directory/active project already set; clear the on.exit()'s
       on.exit()
     }
   }
@@ -74,7 +74,7 @@ create_project <- function(path,
                            rstudio = rstudioapi::isAvailable(),
                            open = rlang::is_interactive()) {
   path <- user_path_prep(path)
-  name <- path_file(path)
+  name <- path_file(path_abs(path))
   check_not_nested(path_dir(path), name)
 
   create_directory(path)
@@ -93,8 +93,8 @@ create_project <- function(path,
   }
 
   if (open) {
-    if (proj_activate(path)) {
-      # Working directory/active project changed; so don't undo on exit
+    if (proj_activate(proj_get())) {
+      # working directory/active project already set; clear the on.exit()'s
       on.exit()
     }
   }
