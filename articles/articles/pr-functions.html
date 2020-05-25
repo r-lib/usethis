@@ -162,9 +162,9 @@ div.output pre.r { background-color:#FFFFFF; }
 <p>A <a href="https://help.github.com/en/articles/about-pull-requests">pull request</a> is how you propose a change to a GitHub repository. Think of it as a <em>request</em> for the maintainer to <em>pull</em> your changes into their repo.</p>
 <p>The <code>pr_*()</code> family of functions is designed to make working with GitHub pull requests as painless as possible, for both contributors and package maintainers. They are designed to support the Git and GitHub workflows recommended in <a href="http://happygitwithr.com/">Happy Git and GitHub for the useR</a>.</p>
 <p>A pull request (PR) involves two players, a contributor and a reviewer. To make it more clear who runs which code, the code chunks in this article are color coded: code executed by the contributor appears in chunks with light gray background and code executed by the reviewer appears in chunks with beige background.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"># contributor code</pre></body></html></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># contributor code</span></pre></body></html></div>
 <div class="reviewer">
-<div class="sourceCode" id="cb3"><html><body><pre class="r"># reviewer code</pre></body></html></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># reviewer code</span></pre></body></html></div>
 </div>
 </div>
 <div id="set-up-advice" class="section level2">
@@ -203,14 +203,14 @@ div.output pre.r { background-color:#FFFFFF; }
 <p>The first step is to fork the source repository, to get your own copy on GitHub, and then clone that, to get your own local copy. There are many ways to accomplish these two steps, but here we demonstrate <code><a href="../../reference/create_from_github.html">usethis::create_from_github()</a></code>:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../../reference/create_from_github.html">create_from_github</a></span>(<span class="st">"rladies/praise"</span>)</pre></body></html></div>
 <div class="output">
-<div class="sourceCode" id="cb6"><html><body><pre class="r">#&gt; ✔ Creating '/Users/mine/Desktop/praise/'
-#&gt; ✔ Forking 'rladies/praise'
-#&gt; ✔ Cloning repo from 'git@github.com:mine-cetinkaya-rundel/praise.git' into '/Users/mine/Desktop/praise'
-#&gt; ✔ Setting active project to '/Users/mine/Desktop/praise'
-#&gt; ✔ Adding 'upstream' remote: 'git@github.com:rladies/praise.git'
-#&gt; ✔ Pulling changes from GitHub source repo 'upstream/master'
-#&gt; ✔ Setting remote tracking branch for local 'master' branch to 'upstream/master'
-#&gt; ✔ Opening '/Users/mine/Desktop/praise/' in new RStudio session</pre></body></html></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co">#&gt; ✔ Creating '/Users/mine/Desktop/praise/'</span>
+<span class="co">#&gt; ✔ Forking 'rladies/praise'</span>
+<span class="co">#&gt; ✔ Cloning repo from 'git@github.com:mine-cetinkaya-rundel/praise.git' into '/Users/mine/Desktop/praise'</span>
+<span class="co">#&gt; ✔ Setting active project to '/Users/mine/Desktop/praise'</span>
+<span class="co">#&gt; ✔ Adding 'upstream' remote: 'git@github.com:rladies/praise.git'</span>
+<span class="co">#&gt; ✔ Pulling changes from GitHub source repo 'upstream/master'</span>
+<span class="co">#&gt; ✔ Setting remote tracking branch for local 'master' branch to 'upstream/master'</span>
+<span class="co">#&gt; ✔ Opening '/Users/mine/Desktop/praise/' in new RStudio session</span></pre></body></html></div>
 </div>
 <p>What this does:</p>
 <ul>
@@ -243,11 +243,11 @@ div.output pre.r { background-color:#FFFFFF; }
 <p>We start the process of contributing to the package with <code><a href="../../reference/pr_init.html">pr_init()</a></code>, which creates a branch in our repository for the pull request. It is a good idea to make your pull requests from a non-<code>master</code> branch. We’ll call this branch <code>"yeahyah"</code>.</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../../reference/pr_init.html">pr_init</a></span>(<span class="kw">branch</span> <span class="kw">=</span> <span class="st">"yeahyah"</span>)</pre></body></html></div>
 <div class="output">
-<div class="sourceCode" id="cb8"><html><body><pre class="r">#&gt; ✔ Setting active project to '/Users/mine/Desktop/praise'
-#&gt; ✔ Checking that local branch 'master' has the changes in 'upstream/master'
-#&gt; ✔ Creating local PR branch 'yeahyah'
-#&gt; ✔ Switching to branch 'yeahyah'
-#&gt; ● Use `pr_push()` to create PR</pre></body></html></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co">#&gt; ✔ Setting active project to '/Users/mine/Desktop/praise'</span>
+<span class="co">#&gt; ✔ Checking that local branch 'master' has the changes in 'upstream/master'</span>
+<span class="co">#&gt; ✔ Creating local PR branch 'yeahyah'</span>
+<span class="co">#&gt; ✔ Switching to branch 'yeahyah'</span>
+<span class="co">#&gt; ● Use `pr_push()` to create PR</span></pre></body></html></div>
 </div>
 <p>This creates a local branch called <code>yeahyah</code> and we switch to it (or “check it out”). In RStudio, you may need to hit the refresh button in your Git pane to confirm that you have indeed switched over to this branch. Now you can work locally, making changes to files and committing that to git.</p>
 <p>Let’s go ahead and make the change, which is adding the word “yeahyah” to the <code>exclamation.R</code> file in the package. Below is the diff and the commit associated with this change.</p>
@@ -265,10 +265,10 @@ div.output pre.r { background-color:#FFFFFF; }
 <p><code><a href="../../reference/pr_init.html">pr_push()</a></code> pushes the local change to your copy of praise on GitHub and puts you in position to make your pull request.</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../../reference/pr_init.html">pr_push</a></span>()</pre></body></html></div>
 <div class="output">
-<div class="sourceCode" id="cb10"><html><body><pre class="r">#&gt; ✔ Pushing local 'yeahyah' branch to 'origin:yeahyah'
-#&gt; ✔ Setting upstream tracking branch for 'yeahyah' to 'origin/yeahyah'
-#&gt; ✔ Create PR at link given below
-#&gt; ✔ Opening URL 'https://github.com/mine-cetinkaya-rundel/praise/compare/yeahyah'</pre></body></html></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="co">#&gt; ✔ Pushing local 'yeahyah' branch to 'origin:yeahyah'</span>
+<span class="co">#&gt; ✔ Setting upstream tracking branch for 'yeahyah' to 'origin/yeahyah'</span>
+<span class="co">#&gt; ✔ Create PR at link given below</span>
+<span class="co">#&gt; ✔ Opening URL 'https://github.com/mine-cetinkaya-rundel/praise/compare/yeahyah'</span></pre></body></html></div>
 </div>
 <p>This launches a browser window at the URL specified in the last message, which looks like the following.</p>
 <p><img src="img/pr-functions-pull-request.png"><!-- --></p>
@@ -276,7 +276,7 @@ div.output pre.r { background-color:#FFFFFF; }
 <p>GitHub will ping the package maintainer and they will review our pull request. We can view this pull request in the browser with <code><a href="../../reference/pr_init.html">pr_view()</a></code>. And anyone can follow along with this PR <a href="https://github.com/rladies/praise/pull/84">rladies/praise#84</a>.</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../../reference/pr_init.html">pr_view</a></span>()</pre></body></html></div>
 <div class="output">
-<div class="sourceCode" id="cb12"><html><body><pre class="r">#&gt; ✔ Opening URL 'https://github.com/rladies/praise/pull/84'</pre></body></html></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co">#&gt; ✔ Opening URL 'https://github.com/rladies/praise/pull/84'</span></pre></body></html></div>
 </div>
 </div>
 <div id="review-of-the-pull-request" class="section level2">
@@ -289,10 +289,10 @@ div.output pre.r { background-color:#FFFFFF; }
 <p>Run <code><a href="../../reference/pr_init.html">pr_push()</a></code> again to update the branch in our fork, which is automatically reflected in the PR.</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="../../reference/pr_init.html">pr_push</a></span>()</pre></body></html></div>
 <div class="output">
-<div class="sourceCode" id="cb14"><html><body><pre class="r">#&gt; ✔ Pushing local 'yeahyah' branch to 'origin:yeahyah'
-#&gt; ✔ Setting upstream tracking branch for 'yeahyah' to 'origin/yeahyah'
-#&gt; ✔ Create PR at link given below
-#&gt; ✔ Opening URL 'https://github.com/mine-cetinkaya-rundel/praise/compare/yeahyah'</pre></body></html></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="co">#&gt; ✔ Pushing local 'yeahyah' branch to 'origin:yeahyah'</span>
+<span class="co">#&gt; ✔ Setting upstream tracking branch for 'yeahyah' to 'origin/yeahyah'</span>
+<span class="co">#&gt; ✔ Create PR at link given below</span>
+<span class="co">#&gt; ✔ Opening URL 'https://github.com/mine-cetinkaya-rundel/praise/compare/yeahyah'</span></pre></body></html></div>
 </div>
 <p>Now the reviewer gets another chance to review our changes. At this point they might choose to just make the necessary changes and push their commits into our pull request to finish things up.</p>
 <p>To do so, the reviewer fetches the PR to their local machine with <code><a href="../../reference/pr_init.html">pr_fetch()</a></code>.</p>
@@ -300,11 +300,11 @@ div.output pre.r { background-color:#FFFFFF; }
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="../../reference/pr_init.html">pr_fetch</a></span>(<span class="fl">84</span>)</pre></body></html></div>
 </div>
 <div class="output">
-<div class="sourceCode" id="cb16"><html><body><pre class="r">#&gt; ✔ Setting active project to '/Users/gaborcsardi/works/praise'
-#&gt; ✔ Checking out PR 'rladies/praise/#84' (@mine-cetinkaya-rundel): 'Add "yeahyah" to exclamations'
-#&gt; ✔ Creating local branch 'mine-cetinkaya-rundel-yeahyah'
-#&gt; ✔ Setting upstream tracking branch for 'mine-cetinkaya-rundel-yeahyah' to 'mine-cetinkaya-rundel/yeahyah'
-#&gt; ✔ Switching to branch 'mine-cetinkaya-rundel-yeahyah'</pre></body></html></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="co">#&gt; ✔ Setting active project to '/Users/gaborcsardi/works/praise'</span>
+<span class="co">#&gt; ✔ Checking out PR 'rladies/praise/#84' (@mine-cetinkaya-rundel): 'Add "yeahyah" to exclamations'</span>
+<span class="co">#&gt; ✔ Creating local branch 'mine-cetinkaya-rundel-yeahyah'</span>
+<span class="co">#&gt; ✔ Setting upstream tracking branch for 'mine-cetinkaya-rundel-yeahyah' to 'mine-cetinkaya-rundel/yeahyah'</span>
+<span class="co">#&gt; ✔ Switching to branch 'mine-cetinkaya-rundel-yeahyah'</span></pre></body></html></div>
 </div>
 <p>Fetching the PR creates a local branch for them called <code>mine-cetinkaya-rundel-yeahyah</code>, which is a text string comprised of the GitHub username of the contributor and the name of the branch they had created for this PR. <code><a href="../../reference/pr_init.html">pr_fetch()</a></code> also then sets an upstream tracking branch for the local branch that got created and switches to that branch so the reviewer can make their changes on the correct branch.</p>
 <p>Once the reviewer makes the necessary changes, such as fixing the spelling (again!) and adding the missing comma, they run <code><a href="../../reference/pr_init.html">pr_push()</a></code> to push their changes into our PR.</p>
@@ -312,9 +312,9 @@ div.output pre.r { background-color:#FFFFFF; }
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="../../reference/pr_init.html">pr_push</a></span>()</pre></body></html></div>
 </div>
 <div class="output">
-<div class="sourceCode" id="cb18"><html><body><pre class="r">#&gt; ✔ Checking that local branch 'mine-cetinkaya-rundel-yeahyah' has the changes in 'mine-cetinkaya-rundel/yeahyah'
-#&gt; ✔ Pushing local 'mine-cetinkaya-rundel-yeahyah' branch to 'mine-cetinkaya-rundel:yeahyah'
-#&gt; ✔ View PR at 'https://github.com/rladies/praise/pull/84' or call `pr_view()`</pre></body></html></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="co">#&gt; ✔ Checking that local branch 'mine-cetinkaya-rundel-yeahyah' has the changes in 'mine-cetinkaya-rundel/yeahyah'</span>
+<span class="co">#&gt; ✔ Pushing local 'mine-cetinkaya-rundel-yeahyah' branch to 'mine-cetinkaya-rundel:yeahyah'</span>
+<span class="co">#&gt; ✔ View PR at 'https://github.com/rladies/praise/pull/84' or call `pr_view()`</span></pre></body></html></div>
 </div>
 </div>
 <div id="merge-and-finish" class="section level2">
@@ -325,24 +325,24 @@ div.output pre.r { background-color:#FFFFFF; }
 <div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="../../reference/pr_init.html">pr_finish</a></span>()</pre></body></html></div>
 </div>
 <div class="output">
-<div class="sourceCode" id="cb20"><html><body><pre class="r">#&gt; ✔ Switching back to 'master' branch
-#&gt; ✔ Pulling changes from GitHub source repo 'origin/master'
-#&gt; ✔ Deleting local 'mine-cetinkaya-rundel-yeahyah' branch
-#&gt; ✔ Removing remote 'mine-cetinkaya-rundel'</pre></body></html></div>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="co">#&gt; ✔ Switching back to 'master' branch</span>
+<span class="co">#&gt; ✔ Pulling changes from GitHub source repo 'origin/master'</span>
+<span class="co">#&gt; ✔ Deleting local 'mine-cetinkaya-rundel-yeahyah' branch</span>
+<span class="co">#&gt; ✔ Removing remote 'mine-cetinkaya-rundel'</span></pre></body></html></div>
 </div>
 <p>Since the reviewer has contributed some code to our pull request, we can get that code back to our computer with <code><a href="../../reference/pr_init.html">pr_pull()</a></code>. This is optional here, since the full PR has already been incorporated into <code>master</code> of the source repo. But <code><a href="../../reference/pr_init.html">pr_pull()</a></code> can be useful in PRs if there are a few rounds of alternating contributions from you and the maintainer.</p>
 <div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="../../reference/pr_init.html">pr_pull</a></span>()</pre></body></html></div>
 <div class="output">
-<div class="sourceCode" id="cb22"><html><body><pre class="r">#&gt; ✔ Pulling changes from GitHub PR</pre></body></html></div>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="co">#&gt; ✔ Pulling changes from GitHub PR</span></pre></body></html></div>
 </div>
 <p>Finally, we can also conclude the PR process on our end with <code><a href="../../reference/pr_init.html">pr_finish()</a></code>.</p>
 <div class="output">
 <div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="../../reference/pr_init.html">pr_finish</a></span>()</pre></body></html></div>
 </div>
 <div class="output">
-<div class="sourceCode" id="cb24"><html><body><pre class="r">#&gt; ✔ Switching back to 'master' branch
-#&gt; ✔ Pulling changes from GitHub source repo 'upstream/master'
-#&gt; ✔ Deleting local 'yeahyah' branch</pre></body></html></div>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="co">#&gt; ✔ Switching back to 'master' branch</span>
+<span class="co">#&gt; ✔ Pulling changes from GitHub source repo 'upstream/master'</span>
+<span class="co">#&gt; ✔ Deleting local 'yeahyah' branch</span></pre></body></html></div>
 </div>
 <p>At this point, the contributor still has a remote <code>yeahyah</code> branch on GitHub, which is not harming anyone. But it can also be deleted, e.g. in the browser.</p>
 <p>Remember you can see how this whole PR unfolded at <a href="https://github.com/rladies/praise/pull/84">rladies/praise#84</a>.</p>

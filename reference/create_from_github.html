@@ -285,16 +285,16 @@ passphrase.</p>
 <p>In the snippet below, do whatever is necessary to make the paths correct,
 e.g., replace <code>&lt;USERNAME&gt;</code> with your Windows username. Omit the <code>passphrase</code>
 part if you don't have one. Replace <code>&lt;OWNER/REPO&gt;</code> with the appropriate
-GitHub specification. You get the idea.</p><pre><span class='no'>creds</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='kw pkg'>git2r</span><span class='kw ns'>::</span><span class='fu'><a href='https://docs.ropensci.org/git2r/reference/cred_ssh_key.html'>cred_ssh_key</a></span>(
-  <span class='kw'>publickey</span>  <span class='kw'>=</span> <span class='st'>"C:/Users/&amp;lt;USERNAME&amp;gt;/.ssh/id_rsa.pub"</span>,
-  <span class='kw'>privatekey</span> <span class='kw'>=</span> <span class='st'>"C:/Users/&amp;lt;USERNAME&amp;gt;/.ssh/id_rsa"</span>,
+GitHub specification. You get the idea.</p><pre><span class='no'>creds</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>git2r</span><span class='kw ns'>::</span><span class='fu'><a href='https://docs.ropensci.org/git2r/reference/cred_ssh_key.html'>cred_ssh_key</a></span>(
+  <span class='kw'>publickey</span>  <span class='kw'>=</span> <span class='st'>"C:/Users/&lt;USERNAME&gt;/.ssh/id_rsa.pub"</span>,
+  <span class='kw'>privatekey</span> <span class='kw'>=</span> <span class='st'>"C:/Users/&lt;USERNAME&gt;/.ssh/id_rsa"</span>,
   <span class='kw'>passphrase</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>)
 )
 <span class='fu'><a href='git_protocol.html'>use_git_protocol</a></span>(<span class='st'>"ssh"</span>)
 <span class='fu'><a href='git_credentials.html'>use_git_credentials</a></span>(<span class='kw'>credentials</span> <span class='kw'>=</span> <span class='no'>creds</span>)
 
 <span class='fu'>create_from_github</span>(
-  <span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='st'>"&amp;lt;OWNER/REPO&amp;gt;"</span>,
+  <span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='st'>"&lt;OWNER/REPO&gt;"</span>,
   <span class='no'>...</span>
 )</pre>
 
