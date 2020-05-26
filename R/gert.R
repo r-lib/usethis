@@ -16,3 +16,9 @@ check_uses_git <- function(path = proj_get()) {
     "Do you need to run {ui_code('use_git()')}?"
   ))
 }
+
+# TODO: presumably this becomes git_repo() once the switchover is complete
+gert_repo <- function() {
+  check_uses_git()
+  gert::git_find(proj_get())
+}
