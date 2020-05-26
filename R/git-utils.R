@@ -52,10 +52,6 @@ git_status <- function(...) {
   git2r::status(..., repo = git_repo())
 }
 
-uses_git <- function(path = proj_get()) {
-  !is.null(git2r::discover_repository(path))
-}
-
 # Remotes ------------------------------------------------------------------
 
 git_remote_find <- function(rname = "origin") {
@@ -231,18 +227,6 @@ git_branch_delete <- function(branch) {
 }
 
 # Checks ------------------------------------------------------------------
-
-check_uses_git <- function(base_path = proj_get()) {
-  if (uses_git(base_path)) {
-    return(invisible())
-  }
-
-  ui_stop(c(
-    "Cannot detect that project is already a Git repository.",
-    "Do you need to run {ui_code('use_git()')}?"
-  ))
-}
-
 check_uncommitted_changes <- function(path = proj_get(), untracked = FALSE) {
   if (rstudioapi::hasFun("documentSaveAll")) {
     rstudioapi::documentSaveAll()
