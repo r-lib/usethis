@@ -467,8 +467,8 @@ use_git_credentials <- function(credentials) {
 git_sitrep <- function() {
   # git global ----------------------------------------------------------------
   hd_line("Git config (global)")
-  kv_line("Name", git_config_get("user.name", global = TRUE))
-  kv_line("Email", git_config_get("user.email", global = TRUE))
+  kv_line("Name", git_cfg_get("user.name", "global"))
+  kv_line("Email", git_cfg_get("user.email", "global"))
   ## TODO: forward info from the credentials package once we start using it
   ## and it reflects the credentials situation usethis will actually meet
   ## e.g., git version, HTTPS credential helpers, SSH keys, etc.
@@ -476,11 +476,14 @@ git_sitrep <- function() {
 
   # git project ---------------------------------------------------------------
   if (proj_active() && uses_git()) {
-    local <- git2r::config(git_repo())$local
-    if (any(c("user.name", "user.email") %in% names(local))) {
+    local_user <- list(
+      user.name = git_cfg_get("user.name", "local"),
+      user.email = git_cfg_get("user.email", "local")
+    )
+    if (!is.null(local_user$user.name) || !is.null(local_user$user.name)) {
       hd_line("Git config (project)")
-      kv_line("Name", git_config_get("user.name"))
-      kv_line("Email", git_config_get("user.email"))
+      kv_line("Name", git_cfg_get("user.name"))
+      kv_line("Email", git_cfg_get("user.email"))
     }
   }
 

@@ -1,5 +1,4 @@
 # Repository --------------------------------------------------------------
-
 git_repo <- function() {
   check_uses_git()
   git2r::repository(proj_get())
@@ -320,18 +319,8 @@ check_branch_pushed <- function(branch = git_branch_name(), use = "git push") {
 
 # config ------------------------------------------------------------------
 
-git_config_get <- function(name, global = FALSE) {
-  if (global) {
-    config <- git2r::config()
-    config$global[[name]]
-  } else {
-    config <- git2r::config(git_repo())
-    config$local[[name]]
-  }
-}
-
 git_config_set <- function(name, value, global = FALSE) {
-  old <- git_config_get(name, global = global)
+  old <- git_cfg_get(name)
 
   repo <- if (uses_git()) git_repo() else NULL
   config <- list(repo, value, global)

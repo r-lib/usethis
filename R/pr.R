@@ -339,7 +339,7 @@ pr_finish <- function(number = NULL) {
   }
 
   remote <- remref_remote(tracking_branch)
-  created_by <- git_config_get(glue("remote.{remote}.created-by"))
+  created_by <- git_cfg_get(glue("remote.{remote}.created-by"))
   if (is.null(created_by) || !grepl("^usethis::pr_", created_by)) {
     return(invisible())
   }
@@ -365,7 +365,7 @@ pr_create_gh <- function() {
 pr_url <- function(branch = git_branch_name()) {
   # Have we done this before? Check if we've cached pr-url in git config.
   config_url <- glue("branch.{branch}.pr-url")
-  url <- git_config_get(config_url)
+  url <- git_cfg_get(config_url)
   if (!is.null(url)) {
     return(url)
   }
