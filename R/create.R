@@ -244,7 +244,7 @@ create_from_github <- function(repo_spec,
     )
     git2r::branch_set_upstream(git2r::repository_head(r), "upstream/master")
     config_key <- glue("remote.upstream.created-by")
-    git_config_set(config_key, "usethis::create_from_github")
+    gert::git_config_set(config_key, "usethis::create_from_github", gert_repo())
   }
 
   rstudio <- rstudio %||% rstudioapi::isAvailable()

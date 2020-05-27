@@ -318,18 +318,6 @@ check_branch_pushed <- function(branch = git_branch_name(), use = "git push") {
 }
 
 # config ------------------------------------------------------------------
-
-git_config_set <- function(name, value, global = FALSE) {
-  old <- git_cfg_get(name)
-
-  repo <- if (uses_git()) git_repo() else NULL
-  config <- list(repo, value, global)
-  names(config) <- c("repo", name, "global")
-  do.call(git2r::config, config)
-
-  invisible(old)
-}
-
 git_config <- function(..., .repo = NULL) {
   values <- list(...)
 

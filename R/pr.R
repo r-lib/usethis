@@ -71,7 +71,7 @@ pr_init <- function(branch) {
     ui_done("Creating local PR branch {ui_value(branch)}")
     git_branch_create(branch)
     config_key <- glue("branch.{branch}.created-by")
-    git_config_set(config_key, "usethis::pr_init")
+    gert::git_config_set(config_key, "usethis::pr_init", gert_repo())
   }
 
   if (git_branch_name() != branch) {
@@ -157,7 +157,7 @@ pr_fetch <- function(number,
     ui_done("Adding remote {ui_value(remote)} as {ui_value(url)}")
     git2r::remote_add(git_repo(), remote, url)
     config_key <- glue("remote.{remote}.created-by")
-    git_config_set(config_key, "usethis::pr_fetch")
+    gert::git_config_set(config_key, "usethis::pr_fetch", gert_repo())
   }
 
   if (!git_branch_exists(our_branch)) {
@@ -175,11 +175,11 @@ pr_fetch <- function(number,
     git_branch_track(our_branch, remote, their_branch)
 
     config_key <- glue("branch.{our_branch}.created-by")
-    git_config_set(config_key, "usethis::pr_fetch")
+    gert::git_config_set(config_key, "usethis::pr_fetch", gert_repo())
 
     # Cache URL for PR in config for branch
     config_url <- glue("branch.{our_branch}.pr-url")
-    git_config_set(config_url, pr$html_url)
+    gert::git_config_set(config_url, pr$html_url, gert_repo())
 
     # `git push` will not work if the branch names differ, unless
     # `push.default=upstream`; there's no simple way to make it work without
@@ -383,7 +383,7 @@ pr_url <- function(branch = git_branch_name()) {
   if (length(urls) == 0) {
     NULL
   } else if (length(urls) == 1) {
-    git_config_set(config_url, urls[[1]])
+    gert::git_config_set(config_url, urls[[1]], gert_repo())
     urls[[1]]
   } else {
     ui_stop("Multiple PRs correspond to this branch. Please close before continuing")
