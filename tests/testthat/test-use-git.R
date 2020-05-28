@@ -35,8 +35,6 @@ test_that("use_git_config() can set a non-existing config field", {
 })
 
 test_that("use_git_config() facilitates round trips", {
-  skip("wait until I know if we'll do this here or in gert itself")
-  # https://github.com/r-lib/gert/issues/37
   skip_if_no_git_user()
 
   create_local_package()

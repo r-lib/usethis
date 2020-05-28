@@ -115,7 +115,7 @@ use_git_ignore <- function(ignores, directory = ".") {
 #'   <[`dynamic-dots`][rlang::dyn-dots]>.
 #'
 #' @return Invisibly, the previous values of the modified components, as a named
-#'   list. *TODO: not true currently, but that is the intent.*
+#'   list.
 #' @inheritParams edit
 #'
 #' @family git helpers
@@ -146,10 +146,12 @@ use_git_config <- function(scope = c("user", "project"), ...) {
     nm <- names(dots)[[i]]
     vl <- dots[[i]]
     if (scope == "user") {
-      orig[nm] <- gert::git_config_global_set(nm, vl) %||% list(NULL)
+      orig[nm] <- git_cfg_get(nm, "global") %||% list(NULL)
+      gert::git_config_global_set(nm, vl)
     } else {
       check_uses_git()
-      orig[nm] <- gert::git_config_set(nm, vl, gert_repo()) %||% list(NULL)
+      orig[nm] <- git_cfg_get(nm, "local") %||% list(NULL)
+      gert::git_config_set(nm, vl, gert_repo())
     }
   }
 
