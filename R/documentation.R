@@ -11,13 +11,14 @@
 #'
 #' @seealso The [documentation chapter](https://r-pkgs.org/man.html) of [R
 #'   Packages](https://r-pkgs.org)
-#'
+#' @inheritParams use_template
 #' @export
-use_package_doc <- function() {
+use_package_doc <- function(open = rlang::is_interactive()) {
   check_is_package("use_package_doc()")
   use_template(
     "packagename-package.R",
-    package_doc_path()
+    package_doc_path(),
+    open = open
   )
 }
 
