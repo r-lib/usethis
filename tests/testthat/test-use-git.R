@@ -1,6 +1,6 @@
 context("git")
 
-test_that('use_git_config(scope = "project) errors if project not using git', {
+test_that('use_git_config(scope = "project") errors if project not using git', {
   create_local_package()
   expect_usethis_error(
     use_git_config(scope = "project", user.name = "USER.NAME"),
@@ -18,10 +18,37 @@ test_that("use_git_config() can set local config", {
     user.name = "Jane",
     user.email = "jane@example.org"
   )
-  r <- git2r::repository(proj_get())
-  cfg <- git2r::config(repo = r, global = FALSE)
-  expect_identical(cfg$local$user.name, "Jane")
-  expect_identical(cfg$local$user.email, "jane@example.org")
+  r <- gert_repo()
+  expect_identical(git_cfg_get("user.name", "local"), "Jane")
+  expect_identical(git_cfg_get("user.email", "local"), "jane@example.org")
+})
+
+test_that("use_git_config() can set a non-existing config field", {
+  skip_if_no_git_user()
+
+  create_local_package()
+  use_git()
+
+  expect_null(git_cfg_get("aaa.bbb"))
+  use_git_config(scope = "project", aaa.bbb = "ccc")
+  expect_identical(git_cfg_get("aaa.bbb"), "ccc")
+})
+
+test_that("use_git_config() facilitates round trips", {
+  skip("wait until I know if we'll do this here or in gert itself")
+  # https://github.com/r-lib/gert/issues/37
+  skip_if_no_git_user()
+
+  create_local_package()
+  use_git()
+
+  orig <- use_git_config(scope = "project", aaa.bbb = "ccc")
+  expect_null(orig$aaa.bbb)
+  expect_identical(git_cfg_get("aaa.bbb"), "ccc")
+
+  new <- use_git_config(scope = "project", aaa.bbb = NULL)
+  expect_identical(new$aaa.bbb, "ccc")
+  expect_null(git_cfg_get("aaa.bbb"))
 })
 
 test_that("use_git_hook errors if project not using git", {

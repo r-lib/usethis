@@ -111,8 +111,11 @@ use_git_ignore <- function(ignores, directory = ".") {
 #' Sets Git options, for either the user or the project ("global" or "local", in
 #' Git terminology).
 #'
-#' @param ... Name-value pairs.
-#' @return Invisibly, the previous values of the modified components.
+#' @param ... Name-value pairs, processed as
+#'   <[`dynamic-dots`][rlang::dyn-dots]>.
+#'
+#' @return Invisibly, the previous values of the modified components, as a named
+#'   list. *TODO: not true currently, but that is the intent.*
 #' @inheritParams edit
 #'
 #' @family git helpers
@@ -132,12 +135,25 @@ use_git_ignore <- function(ignores, directory = ".") {
 use_git_config <- function(scope = c("user", "project"), ...) {
   scope <- match.arg(scope)
 
-  if (scope == "user") {
-    git_config(...)
-  } else {
-    check_uses_git()
-    git_config(..., .repo = git_repo())
+  dots <- list2(...)
+  stopifnot(is_dictionaryish(dots))
+
+  orig <- stats::setNames(
+    vector(mode = "list",length = length(dots)),
+    names(dots)
+  )
+  for (i in seq_along(dots)) {
+    nm <- names(dots)[[i]]
+    vl <- dots[[i]]
+    if (scope == "user") {
+      orig[nm] <- gert::git_config_global_set(nm, vl) %||% list(NULL)
+    } else {
+      check_uses_git()
+      orig[nm] <- gert::git_config_set(nm, vl, gert_repo()) %||% list(NULL)
+    }
   }
+
+  invisible(orig)
 }
 
 #' Produce or register git protocol

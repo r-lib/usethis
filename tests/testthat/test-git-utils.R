@@ -1,29 +1,5 @@
 context("test-git-utils")
 
-test_that("git_config returns old local values", {
-  skip_if_no_git_user()
-
-  create_local_package()
-  repo <- git_init()
-
-  out <- git_config(x.y = "x", .repo = repo)
-  expect_equal(out, list(x.y = NULL))
-
-  out <- git_config(x.y = "y", .repo = repo)
-  expect_equal(out, list(x.y = "x"))
-})
-
-test_that("git_config returns old global values", {
-  skip_if_no_git_user()
-  skip_on_cran()
-
-  out <- git_config(usethis.test1 = "val1", usethis.test2 = "val2")
-  expect_equal(out, list(usethis.test1 = NULL, usethis.test2 = NULL))
-
-  out <- git_config(usethis.test1 = NULL, usethis.test2 = NULL)
-  expect_equal(out, list(usethis.test1 = "val1", usethis.test2 = "val2"))
-})
-
 test_that("git_protocol() catches bad input from usethis.protocol option", {
   withr::with_options(
     list(usethis.protocol = "nope"),
