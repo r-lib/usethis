@@ -1,3 +1,10 @@
+# Repository -------------------------------------------------------------------
+# TODO: presumably this becomes git_repo() once the switchover is complete
+gert_repo <- function() {
+  check_uses_git()
+  gert::git_find(proj_get())
+}
+
 uses_git <- function(path = proj_get()) {
   repo <- tryCatch(
     gert::git_find(path),
@@ -17,11 +24,11 @@ check_uses_git <- function(path = proj_get()) {
   ))
 }
 
-# TODO: presumably this becomes git_repo() once the switchover is complete
-gert_repo <- function() {
-  check_uses_git()
-  gert::git_find(proj_get())
+git_init <- function() {
+  gert::git_init(proj_get())
 }
+
+# Config -----------------------------------------------------------------------
 
 # `where = "de_facto"` means look at the values that are "in force", i.e. where
 # local repo variables override global user-level variables, when both are

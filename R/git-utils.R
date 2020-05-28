@@ -4,10 +4,6 @@ git_repo <- function() {
   git2r::repository(proj_get())
 }
 
-git_init <- function() {
-  git2r::init(proj_get())
-}
-
 git_pull <- function(remote_branch = git_branch_tracking_FIXME(),
                      credentials = NULL) {
   repo <- git_repo()
