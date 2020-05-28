@@ -4,7 +4,11 @@
 \alias{use_package_doc}
 \title{Package-level documentation}
 \usage{
-use_package_doc()
+use_package_doc(open = rlang::is_interactive())
+}
+\arguments{
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 Adds a dummy \code{.R} file that will prompt roxygen to generate basic
