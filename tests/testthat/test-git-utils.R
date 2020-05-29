@@ -1,5 +1,18 @@
-context("test-git-utils")
+# Branch ------------------------------------------------------------------
+test_that("git_branch() works", {
+  create_local_project()
 
+  expect_usethis_error(git_branch(), "Cannot detect")
+
+  git_init()
+  expect_usethis_error(git_branch(), "unborn branch")
+
+  writeLines("blah", proj_path("blah.txt"))
+  git_commit("blah.txt", "Make one commit")
+  expect_equal(git_branch(), "master")
+})
+
+# Protocol ------------------------------------------------------------------
 test_that("git_protocol() catches bad input from usethis.protocol option", {
   withr::with_options(
     list(usethis.protocol = "nope"),
