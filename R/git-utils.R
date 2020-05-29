@@ -180,8 +180,9 @@ git_branch_tracking_FIXME <- function(branch = git_branch()) {
   }
 }
 
-git_branch_create <- function(branch, commit = NULL) {
-  git2r::branch_create(git_commit_find(commit), branch)
+git_branch_create_and_switch <- function(branch, ref = NULL) {
+  gert::git_branch_create(branch, ref = ref %||% "HEAD", repo = git_repo())
+  rstudio_git_tickle()
 }
 
 git_branch_switch <- function(branch) {

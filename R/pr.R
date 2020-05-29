@@ -68,8 +68,8 @@ pr_init <- function(branch) {
       }
     }
 
-    ui_done("Creating local PR branch {ui_value(branch)}")
-    git_branch_create(branch)
+    ui_done("Creating and switching to local branch {ui_value(branch)}")
+    git_branch_create_and_switch(branch)
     config_key <- glue("branch.{branch}.created-by")
     gert::git_config_set(config_key, "usethis::pr_init", git_repo())
   }
@@ -163,7 +163,7 @@ pr_fetch <- function(number,
   if (!git_branch_exists(our_branch)) {
     their_refname <- git_remref(remote, their_branch)
     credentials <- git_credentials(protocol, auth_token)
-    ui_done("Creating local branch {ui_value(our_branch)}")
+    ui_done("Creating and switching to local branch {ui_value(our_branch)}")
     git2r::fetch(
       git2r_repo(),
       name = remote,
@@ -171,7 +171,7 @@ pr_fetch <- function(number,
       refspec = their_branch,
       verbose = FALSE
     )
-    git_branch_create(our_branch, their_refname)
+    git_branch_create_and_switch(our_branch, their_refname)
     git_branch_track(our_branch, remote, their_branch)
 
     config_key <- glue("branch.{our_branch}.created-by")
