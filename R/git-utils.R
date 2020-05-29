@@ -216,11 +216,6 @@ git_branch_track <- function(branch, remote = "origin", remote_branch = branch) 
   git2r::branch_set_upstream(branch_obj, upstream)
 }
 
-git_branch_delete <- function(branch) {
-  branch <- git_branch(branch)
-  git2r::branch_delete(branch)
-}
-
 # Checks ------------------------------------------------------------------
 check_uncommitted_changes <- function(path = proj_get(), untracked = FALSE) {
   if (rstudioapi::hasFun("documentSaveAll")) {

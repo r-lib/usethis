@@ -313,6 +313,8 @@ pr_pause <- function() {
 #' @export
 #' @rdname pr_init
 pr_finish <- function(number = NULL) {
+  repo <- gert_repo()
+
   if (!is.null(number)) {
     pr_fetch(number)
   }
@@ -332,7 +334,7 @@ pr_finish <- function(number = NULL) {
   pr_pull_upstream()
 
   ui_done("Deleting local {ui_value(pr)} branch")
-  git_branch_delete(pr)
+  gert::git_branch_delete(pr, repo = repo)
 
   if (is.null(tracking_branch)) {
     return(invisible())
