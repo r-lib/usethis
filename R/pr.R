@@ -62,7 +62,7 @@ pr_init <- function(branch) {
   check_branch_pulled("master", "pr_pull_upstream()")
 
   if (!git_branch_exists(branch)) {
-    if (git_branch_name() != "master") {
+    if (git_branch() != "master") {
       if (ui_nope("Create local PR branch with non-master parent?")) {
         return(invisible(FALSE))
       }
@@ -74,7 +74,7 @@ pr_init <- function(branch) {
     gert::git_config_set(config_key, "usethis::pr_init", gert_repo())
   }
 
-  if (git_branch_name() != branch) {
+  if (git_branch() != branch) {
     ui_done("Switching to branch {ui_value(branch)}")
     git_branch_switch(branch)
     has_remote_branch <- !is.null(git_branch_tracking_FIXME(branch))
@@ -187,7 +187,7 @@ pr_fetch <- function(number,
     # work.
   }
 
-  if (git_branch_name() != our_branch) {
+  if (git_branch() != our_branch) {
     ui_done("Switching to branch {ui_value(our_branch)}")
     git_branch_switch(our_branch)
     pr_pull()
@@ -201,7 +201,7 @@ pr_push <- function() {
   check_branch_not_master()
   check_uncommitted_changes()
 
-  branch <- git_branch_name()
+  branch <- git_branch()
   has_remote_branch <- !is.null(git_branch_tracking_FIXME(branch))
   if (has_remote_branch) {
     check_branch_pulled(use = "pr_pull()")
@@ -327,7 +327,7 @@ pr_finish <- function(number = NULL) {
     check_branch_pushed(use = "pr_push()")
   }
 
-  pr <- git_branch_name()
+  pr <- git_branch()
 
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
@@ -358,13 +358,13 @@ pr_finish <- function(number = NULL) {
 pr_create_gh <- function() {
   owner <- github_owner()
   repo <- github_repo()
-  branch <- git_branch_name()
+  branch <- git_branch()
 
   ui_done("Create PR at link given below")
   view_url(glue("https://github.com/{owner}/{repo}/compare/{branch}"))
 }
 
-pr_url <- function(branch = git_branch_name()) {
+pr_url <- function(branch = git_branch()) {
   # Have we done this before? Check if we've cached pr-url in git config.
   config_url <- glue("branch.{branch}.pr-url")
   url <- git_cfg_get(config_url)
@@ -395,7 +395,7 @@ pr_url <- function(branch = git_branch_name()) {
 pr_find <- function(owner,
                     repo,
                     pr_owner = owner,
-                    pr_branch = git_branch_name()) {
+                    pr_branch = git_branch()) {
   prs <- gh::gh("GET /repos/:owner/:repo/pulls",
     owner = owner,
     repo = repo,

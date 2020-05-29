@@ -97,26 +97,14 @@ remref_remote <- function(remref) git_parse_remref(remref)$remote
 remref_branch <- function(remref) git_parse_remref(remref)$branch
 
 # Branch ------------------------------------------------------------------
-git_branch <- function(name = NULL) {
-  if (is.null(name)) {
-    return(git_branch_current())
-  }
-  b <- git2r::branches(git_repo())
-  b[[name]]
-}
-
-git_branch_current <- function() {
+git_branch <- function() {
   repo <- git_repo()
-
-  branch <- git2r::repository_head(repo)
-  if (!git2r::is_branch(branch)) {
+  info <- gert::git_info(repo)
+  branch <- info$shorthand
+  if (branch == "HEAD") {
     ui_stop("Detached head; can't continue")
   }
   branch
-}
-
-git_branch_name <- function() {
-  git_branch_current()$name
 }
 
 git_branch_exists <- function(branch) {
@@ -124,15 +112,16 @@ git_branch_exists <- function(branch) {
   branch %in% names(git2r::branches(repo))
 }
 
-git_branch_tracking <- function(branch = git_branch_name()) {
-  b <- git_branch(name = branch)
+git_branch_tracking <- function(branch = git_branch()) {
+  # TODO: this will be broken until I come back here and gert-ify it
+  b <- git_branch_OLD(name = branch)
   git2r::branch_get_upstream(b)$name
 }
 
 ## FIXME: this function is 50% "actual tracking branch" and
 ## 50% "what we think tracking branch should be"
 ## different uses need to be untangled, then we can give a better name
-git_branch_tracking_FIXME <- function(branch = git_branch_name()) {
+git_branch_tracking_FIXME <- function(branch = git_branch()) {
   if (identical(branch, "master") && git_is_fork()) {
     # We always pretend that the master branch of a fork tracks the
     # master branch in the source repo
@@ -151,7 +140,7 @@ git_branch_switch <- function(branch) {
   rstudio_git_tickle()
 }
 
-git_branch_compare <- function(branch = git_branch_name()) {
+git_branch_compare <- function(branch = git_branch()) {
   repo <- git_repo()
   auth_token <- check_github_token(allow_empty = TRUE)
   protocol <- github_remote_protocol()
@@ -171,7 +160,7 @@ git_branch_compare <- function(branch = git_branch_name()) {
   )
 }
 
-git_branch_push <- function(branch = git_branch_name(),
+git_branch_push <- function(branch = git_branch(),
                             remote_name = NULL,
                             remote_branch = NULL,
                             credentials = NULL,
@@ -192,7 +181,7 @@ git_branch_push <- function(branch = git_branch_name(),
   rstudio_git_tickle()
 }
 
-git_branch_remote <- function(branch = git_branch_name()) {
+git_branch_remote <- function(branch = git_branch()) {
   remote <- git_branch_tracking_FIXME(branch)
   if (is.null(remote)) {
     list(
@@ -208,7 +197,8 @@ git_branch_remote <- function(branch = git_branch_name()) {
 }
 
 git_branch_track <- function(branch, remote = "origin", remote_branch = branch) {
-  branch_obj <- git_branch(branch)
+  # TODO: this will be broken until I come back here and gert-ify it
+  branch_obj <- git_branch_OLD(branch)
   upstream <- git_remref(remote, remote_branch)
   ui_done("Setting upstream tracking branch for {ui_value(branch)} to {ui_value(upstream)}")
   git2r::branch_set_upstream(branch_obj, upstream)
@@ -236,7 +226,7 @@ git_uncommitted <- function(path = proj_get(), untracked = FALSE) {
 }
 
 check_branch_not_master <- function() {
-  if (git_branch_name() != "master") {
+  if (git_branch() != "master") {
     return()
   }
 
@@ -250,7 +240,7 @@ check_branch_not_master <- function() {
 
 check_branch <- function(branch) {
   ui_done("Checking that current branch is {ui_value(branch)}")
-  actual <- git_branch_name()
+  actual <- git_branch()
   if (actual == branch) {
     return()
   }
@@ -264,7 +254,7 @@ check_branch <- function(branch) {
   )
 }
 
-check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
+check_branch_pulled <- function(branch = git_branch(), use = "git pull") {
   remote <- git_branch_tracking_FIXME(branch)
   if (is.null(remote)) {
     ui_done("Local branch {ui_value(branch)} is not tracking a remote branch.")
@@ -287,7 +277,7 @@ check_branch_pulled <- function(branch = git_branch_name(), use = "git pull") {
   ))
 }
 
-check_branch_pushed <- function(branch = git_branch_name(), use = "git push") {
+check_branch_pushed <- function(branch = git_branch(), use = "git push") {
   local <- paste0("local/", branch)
   remote <- git_branch_tracking_FIXME(branch)
   ui_done(
