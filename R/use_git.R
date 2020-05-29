@@ -60,7 +60,7 @@ git_ask_commit <- function(message, untracked = FALSE) {
 
 git_commit <- function(paths, message) {
   ui_done("Adding files")
-  repo <- git_repo()
+  repo <- git2r_repo()
   git2r::add(repo, paths)
   ui_done("Commit with message {ui_value(message)}")
   git2r::commit(repo, message)
@@ -68,7 +68,7 @@ git_commit <- function(paths, message) {
 }
 
 git_has_commits <- function() {
-  length(git2r::commits(n = 1, repo = git_repo())) > 0
+  length(git2r::commits(n = 1, repo = git2r_repo())) > 0
 }
 
 #' Add a git hook
@@ -151,7 +151,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
     } else {
       check_uses_git()
       orig[nm] <- git_cfg_get(nm, "local") %||% list(NULL)
-      gert::git_config_set(nm, vl, gert_repo())
+      gert::git_config_set(nm, vl, git_repo())
     }
   }
 
@@ -324,7 +324,7 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
   stopifnot(is.null(url) || is_string(url))
   stopifnot(is_true(overwrite) || is_false(overwrite))
 
-  repo <- git_repo()
+  repo <- git2r_repo()
   remotes <- git_remotes()
 
   if (name %in% names(remotes) && !overwrite) {
@@ -348,7 +348,7 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
 #' @rdname use_git_remote
 #' @export
 git_remotes <- function() {
-  repo <- git_repo()
+  repo <- git2r_repo()
   rnames <- git2r::remotes(repo)
   if (length(rnames) == 0) {
     return(NULL)
@@ -559,7 +559,7 @@ git_sitrep <- function() {
     return(invisible())
   }
 
-  kv_line("Path", gert_repo())
+  kv_line("Path", git_repo())
   branch <- tryCatch(git_branch(), error = function(e) NULL)
   tracking_branch <- if (is.null(branch)) NULL else git_branch_tracking()
   ## TODO: rework when ui_*() functions make it possible to do better

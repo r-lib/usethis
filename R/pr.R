@@ -71,7 +71,7 @@ pr_init <- function(branch) {
     ui_done("Creating local PR branch {ui_value(branch)}")
     git_branch_create(branch)
     config_key <- glue("branch.{branch}.created-by")
-    gert::git_config_set(config_key, "usethis::pr_init", gert_repo())
+    gert::git_config_set(config_key, "usethis::pr_init", git_repo())
   }
 
   if (git_branch() != branch) {
@@ -143,7 +143,7 @@ pr_fetch <- function(number,
 
   protocol <- github_remote_protocol()
 
-  if (!remote %in% git2r::remotes(git_repo())) {
+  if (!remote %in% git2r::remotes(git2r_repo())) {
     url <- switch(
       protocol,
       https = pr$head$repo$clone_url,
@@ -155,9 +155,9 @@ pr_fetch <- function(number,
     }
 
     ui_done("Adding remote {ui_value(remote)} as {ui_value(url)}")
-    git2r::remote_add(git_repo(), remote, url)
+    git2r::remote_add(git2r_repo(), remote, url)
     config_key <- glue("remote.{remote}.created-by")
-    gert::git_config_set(config_key, "usethis::pr_fetch", gert_repo())
+    gert::git_config_set(config_key, "usethis::pr_fetch", git_repo())
   }
 
   if (!git_branch_exists(our_branch)) {
@@ -165,7 +165,7 @@ pr_fetch <- function(number,
     credentials <- git_credentials(protocol, auth_token)
     ui_done("Creating local branch {ui_value(our_branch)}")
     git2r::fetch(
-      git_repo(),
+      git2r_repo(),
       name = remote,
       credentials = credentials,
       refspec = their_branch,
@@ -175,11 +175,11 @@ pr_fetch <- function(number,
     git_branch_track(our_branch, remote, their_branch)
 
     config_key <- glue("branch.{our_branch}.created-by")
-    gert::git_config_set(config_key, "usethis::pr_fetch", gert_repo())
+    gert::git_config_set(config_key, "usethis::pr_fetch", git_repo())
 
     # Cache URL for PR in config for branch
     config_url <- glue("branch.{our_branch}.pr-url")
-    gert::git_config_set(config_url, pr$html_url, gert_repo())
+    gert::git_config_set(config_url, pr$html_url, git_repo())
 
     # `git push` will not work if the branch names differ, unless
     # `push.default=upstream`; there's no simple way to make it work without
@@ -313,7 +313,7 @@ pr_pause <- function() {
 #' @export
 #' @rdname pr_init
 pr_finish <- function(number = NULL) {
-  repo <- gert_repo()
+  repo <- git_repo()
 
   if (!is.null(number)) {
     pr_fetch(number)
@@ -346,12 +346,12 @@ pr_finish <- function(number = NULL) {
     return(invisible())
   }
 
-  b <- git2r::branches(git_repo(), flags = "local")
+  b <- git2r::branches(git2r_repo(), flags = "local")
   remote_specs <- purrr::map(b, ~ git2r::branch_get_upstream(.x)$name)
   remote_specs <- purrr::compact(remote_specs)
   if (sum(grepl(glue("^{remote}/"), remote_specs)) == 0) {
     ui_done("Removing remote {ui_value(remote)}")
-    git2r::remote_remove(git_repo(), remote)
+    git2r::remote_remove(git2r_repo(), remote)
   }
 }
 
@@ -385,7 +385,7 @@ pr_url <- function(branch = git_branch()) {
   if (length(urls) == 0) {
     NULL
   } else if (length(urls) == 1) {
-    gert::git_config_set(config_url, urls[[1]], gert_repo())
+    gert::git_config_set(config_url, urls[[1]], git_repo())
     urls[[1]]
   } else {
     ui_stop("Multiple PRs correspond to this branch. Please close before continuing")

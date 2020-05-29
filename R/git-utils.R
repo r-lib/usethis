@@ -1,12 +1,40 @@
 # Repository --------------------------------------------------------------
 git_repo <- function() {
   check_uses_git()
+  gert::git_find(proj_get())
+}
+
+git2r_repo <- function() {
+  check_uses_git()
   git2r::repository(proj_get())
+}
+
+uses_git <- function(path = proj_get()) {
+  repo <- tryCatch(
+    gert::git_find(path),
+    error = function(e) NULL
+  )
+  !is.null(repo)
+}
+
+check_uses_git <- function(path = proj_get()) {
+  if (uses_git(path)) {
+    return(invisible())
+  }
+
+  ui_stop(c(
+    "Cannot detect that project is already a Git repository.",
+    "Do you need to run {ui_code('use_git()')}?"
+  ))
+}
+
+git_init <- function() {
+  gert::git_init(proj_get())
 }
 
 git_pull <- function(remote_branch = git_branch_tracking_FIXME(),
                      credentials = NULL) {
-  repo <- git_repo()
+  repo <- git2r_repo()
 
   git2r::fetch(
     repo,
@@ -44,11 +72,32 @@ git_conflict_report <- function() {
 }
 
 git_status <- function(...) {
-  git2r::status(..., repo = git_repo())
+  git2r::status(..., repo = git2r_repo())
+}
+
+# Config -----------------------------------------------------------------------
+
+# `where = "de_facto"` means look at the values that are "in force", i.e. where
+# local repo variables override global user-level variables, when both are
+# defined
+#
+# `where = "local"` is strict, i.e. it only returns a value that is in the local
+# config
+git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
+  where <- match.arg(where)
+  dat <- switch(
+    where,
+    global = gert::git_config_global(),
+    gert::git_config()
+  )
+  if (where == "local") {
+    dat <- dat[dat$level == "local", ]
+  }
+  out <- dat$value[dat$name == name]
+  if (length(out) > 0) out else NULL
 }
 
 # Remotes ------------------------------------------------------------------
-
 git_remote_find <- function(rname = "origin") {
   remotes <- git_remotes()
   if (length(remotes) == 0) {
@@ -62,15 +111,13 @@ git_remote_exists <- function(rname = "origin") {
 }
 
 # GitHub ------------------------------------------------------------------
-
 git_is_fork <- function() {
   git_remote_exists("upstream")
 }
 
 # Commit ------------------------------------------------------------------
-
 git_commit_find <- function(refspec = NULL) {
-  repo <- git_repo()
+  repo <- git2r_repo()
 
   if (is.null(refspec)) {
     git2r::last_commit(repo)
@@ -86,7 +133,7 @@ git_remref <- function(remote = "origin", branch = "master") {
 
 ## remref --> remote, branch
 git_parse_remref <- function(remref) {
-  repo <- git_repo()
+  repo <- git2r_repo()
   rnames <- git2r::remotes(repo)
   rnames <- paste0("^", rnames, collapse = "|")
   regex <- glue("({rnames})/(.*)")
@@ -98,7 +145,7 @@ remref_branch <- function(remref) git_parse_remref(remref)$branch
 
 # Branch ------------------------------------------------------------------
 git_branch <- function() {
-  info <- gert::git_info(gert_repo())
+  info <- gert::git_info(git_repo())
   branch <- info$shorthand
   if (identical(branch, "HEAD")) {
     ui_stop("Detached head; can't continue")
@@ -110,7 +157,7 @@ git_branch <- function() {
 }
 
 git_branch_exists <- function(branch) {
-  repo <- git_repo()
+  repo <- git2r_repo()
   branch %in% names(git2r::branches(repo))
 }
 
@@ -138,12 +185,12 @@ git_branch_create <- function(branch, commit = NULL) {
 }
 
 git_branch_switch <- function(branch) {
-  gert::git_branch_checkout(branch, repo = gert_repo())
+  gert::git_branch_checkout(branch, repo = git_repo())
   rstudio_git_tickle()
 }
 
 git_branch_compare <- function(branch = git_branch()) {
-  repo <- git_repo()
+  repo <- git2r_repo()
   auth_token <- check_github_token(allow_empty = TRUE)
   protocol <- github_remote_protocol()
   credentials <- git_credentials(protocol, auth_token)
@@ -174,7 +221,7 @@ git_branch_push <- function(branch = git_branch(),
   remote <- paste0(remote_name, ":", remote_branch)
   ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remote)}")
   git2r::push(
-    git_repo(),
+    git2r_repo(),
     name = remote_name,
     refspec = glue("refs/heads/{branch}:refs/heads/{remote_branch}"),
     force = force,
@@ -297,4 +344,3 @@ check_branch_pushed <- function(branch = git_branch(), use = "git push") {
     "Please use {ui_code(use)} to update."
   ))
 }
-

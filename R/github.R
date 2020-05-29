@@ -50,7 +50,7 @@ use_github <- function(organisation = NULL,
   check_github_token(auth_token)
 
   credentials <- credentials %||% git_credentials(protocol, auth_token)
-  r <- git_repo()
+  r <- git2r_repo()
   owner <- organisation %||% github_user(auth_token)[["login"]]
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host, auth_token)

@@ -18,7 +18,7 @@ test_that("use_git_config() can set local config", {
     user.name = "Jane",
     user.email = "jane@example.org"
   )
-  r <- gert_repo()
+  r <- git_repo()
   expect_identical(git_cfg_get("user.name", "local"), "Jane")
   expect_identical(git_cfg_get("user.email", "local"), "jane@example.org")
 })
