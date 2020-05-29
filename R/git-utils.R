@@ -98,11 +98,13 @@ remref_branch <- function(remref) git_parse_remref(remref)$branch
 
 # Branch ------------------------------------------------------------------
 git_branch <- function() {
-  repo <- git_repo()
-  info <- gert::git_info(repo)
+  info <- gert::git_info(gert_repo())
   branch <- info$shorthand
-  if (branch == "HEAD") {
+  if (identical(branch, "HEAD")) {
     ui_stop("Detached head; can't continue")
+  }
+  if (is.na(branch)) {
+    ui_stop("On an unborn branch -- do you need to make an initial commit? can't continue")
   }
   branch
 }
