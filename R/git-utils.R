@@ -147,10 +147,8 @@ git_branch_create <- function(branch, commit = NULL) {
 }
 
 git_branch_switch <- function(branch) {
-  old <- git_branch_current()
-  git2r::checkout(git_repo(), branch)
+  gert::git_branch_checkout(branch, repo = gert_repo())
   rstudio_git_tickle()
-  invisible(old)
 }
 
 git_branch_compare <- function(branch = git_branch_name()) {
