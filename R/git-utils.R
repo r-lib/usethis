@@ -157,8 +157,8 @@ git_branch <- function() {
 }
 
 git_branch_exists <- function(branch) {
-  repo <- git2r_repo()
-  branch %in% names(git2r::branches(repo))
+  branches <- gert::git_branch_list(git_repo())
+  branch %in% branches$name
 }
 
 git_branch_tracking <- function(branch = git_branch()) {
