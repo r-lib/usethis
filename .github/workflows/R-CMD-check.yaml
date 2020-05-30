@@ -67,6 +67,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install imagemagick@6
+          brew install libgit2
 
       - name: Install dependencies
         run: |
