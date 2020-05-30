@@ -280,6 +280,8 @@ check_branch_not_master <- function() {
     return()
   }
 
+  # TODO: this wording is overly specific. Do better once `pr_status()` is
+  # implemented and we can offer an overview of existing (PR) branches.
   ui_stop(
     "
     Currently on {ui_value('master')} branch.
