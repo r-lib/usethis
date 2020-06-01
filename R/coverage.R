@@ -6,6 +6,7 @@
 #'   [Codecov](https://codecov.io) and [Coveralls](https://coveralls.io).
 #' @export
 use_coverage <- function(type = c("codecov", "coveralls")) {
+  check_uses_github()
   use_dependency("covr", "Suggests")
 
   type <- match.arg(type)
@@ -45,7 +46,6 @@ use_covr_ignore <- function(files) {
 }
 
 use_codecov_badge <- function() {
-  check_uses_github()
   url <- glue("https://codecov.io/gh/{github_repo_spec()}?branch=master")
   img <- glue(
     "https://codecov.io/gh/{github_repo_spec()}/branch/master/graph/badge.svg"
@@ -54,7 +54,6 @@ use_codecov_badge <- function() {
 }
 
 use_coveralls_badge <- function() {
-  check_uses_github()
   url <- glue("https://coveralls.io/r/{github_repo_spec()}?branch=master")
   img <- glue(
     "https://coveralls.io/repos/github/{github_repo_spec()}/badge.svg"
