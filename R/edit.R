@@ -16,20 +16,21 @@
 #' edit_file("~/.gitconfig")
 #' }
 edit_file <- function(path, open = rlang::is_interactive()) {
+  open <- open && is_interactive()
   path <- user_path_prep(path)
   create_directory(path_dir(path))
   file_create(path)
 
-  if (open) {
-    ui_todo("Modify {ui_path(path)}")
-
-    if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
-      rstudioapi::navigateToFile(path)
-    } else {
-      utils::file.edit(path)
-    }
-  } else {
+  if (!open) {
     ui_todo("Edit {ui_path(path)}")
+    return(invisible(path))
+  }
+
+  ui_todo("Modify {ui_path(path)}")
+  if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
+    rstudioapi::navigateToFile(path)
+  } else {
+    utils::file.edit(path)
   }
   invisible(path)
 }
@@ -97,8 +98,10 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 #' @export
 #' @rdname edit
 #' @param type Snippet type (case insensitive text).
-edit_rstudio_snippets <- function(type = c("r", "markdown", "c_cpp", "css",
-  "html", "java", "javascript", "python", "sql", "stan", "tex")) {
+edit_rstudio_snippets <- function(type = c(
+                                    "r", "markdown", "c_cpp", "css",
+                                    "html", "java", "javascript", "python", "sql", "stan", "tex"
+                                  )) {
   # RStudio snippets stored using R's definition of ~
   # https://github.com/rstudio/rstudio/blob/4febd2feba912b2a9f8e77e3454a95c23a09d0a2/src/cpp/core/system/Win32System.cpp#L411-L458
   type <- tolower(type)
@@ -128,7 +131,7 @@ edit_rstudio_snippets <- function(type = c("r", "markdown", "c_cpp", "css",
   edit_file(path)
 }
 
-scoped_path_r  <- function(scope = c("user", "project"), ..., envvar = NULL) {
+scoped_path_r <- function(scope = c("user", "project"), ..., envvar = NULL) {
   scope <- match.arg(scope)
 
   # Try environment variable in user scopes

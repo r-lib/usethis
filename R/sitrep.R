@@ -19,7 +19,7 @@
 #' proj_sitrep()
 proj_sitrep <- function() {
   out <- list(
-      working_directory = getwd(),
+    working_directory = getwd(),
     active_usethis_proj = if (proj_active()) proj_get(),
     active_rstudio_proj = if (rstudioapi::hasFun("getActiveProject")) {
       rstudioapi::getActiveProject()

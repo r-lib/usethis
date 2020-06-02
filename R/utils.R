@@ -76,8 +76,9 @@ isNA <- function(x) {
 path_first_existing <- function(...) {
   paths <- path(...)
   for (path in paths) {
-    if (file_exists(path))
+    if (file_exists(path)) {
       return(path)
+    }
   }
 
   NULL

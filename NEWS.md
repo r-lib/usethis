@@ -1,15 +1,31 @@
 # usethis (development version)
 
+`create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
+
+`create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
+
+# usethis 1.6.1
+
+Patch release to align some path handling internals with an update coming in the fs package.
+
+* `use_github_links()` is a bit more clever about remotes (e.g. `origin`
+  vs. `upstream`), which makes it easier to make a PR that adds GitHub links for
+  a package you've forked.
+
+* `use_pkgdown()` now `.gitignore`s the destination directory and only adds the
+  destination directory to the config file if it departs from the default
+  (which is `docs/`).
+
 * `use_tidy_ci()` is now deprecated in favour of `use_tidy_github_actions()` 
   (#1098).
-
-# usethis 1.6.0
 
 * `use_github_action_check_standard()` is a new intermediate workflow that
   checks on more platforms than `_release`, but is less exhaustive than `_full`
   (@jimhester).
 
 * `create_tidy_package()` now uses an MIT license (@topepo, #1096). 
+
+# usethis 1.6.0
 
 ## GitHub actions
 

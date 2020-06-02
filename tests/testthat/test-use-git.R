@@ -1,7 +1,7 @@
 context("git")
 
 test_that('use_git_config(scope = "project) errors if project not using git', {
-  scoped_temporary_package()
+  create_local_package()
   expect_usethis_error(
     use_git_config(scope = "project", user.name = "USER.NAME"),
     "Cannot detect that project is already a Git repository"
@@ -11,7 +11,7 @@ test_that('use_git_config(scope = "project) errors if project not using git', {
 test_that("use_git_config() can set local config", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   use_git()
   use_git_config(
     scope = "project",
@@ -25,7 +25,7 @@ test_that("use_git_config() can set local config", {
 })
 
 test_that("use_git_hook errors if project not using git", {
-  scoped_temporary_package()
+  create_local_package()
   expect_usethis_error(
     use_git_hook(
       "pre-commit",
@@ -38,7 +38,7 @@ test_that("use_git_hook errors if project not using git", {
 test_that("git remote handlers work", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   use_git()
 
   expect_null(git_remotes())

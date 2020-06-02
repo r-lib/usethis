@@ -1,4 +1,4 @@
-#devtools::load_all()
+# devtools::load_all()
 library(usethis)
 library(testthat)
 library(fs)

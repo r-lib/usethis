@@ -312,7 +312,8 @@ download_url <- function(url,
     if (i == 1) {
       curl::handle_setopt(
         handle,
-        .list = c(connecttimeout = retry_connecttimeout))
+        .list = c(connecttimeout = retry_connecttimeout)
+      )
     }
     i <- i + 1
     ui_info("Retrying download ... attempt {i}")
@@ -488,7 +489,9 @@ expand_github <- function(url) {
 
 conspicuous_place <- function() {
   destdir_opt <- getOption("usethis.destdir")
-  if (!is.null(destdir_opt)) return(path_tidy(destdir_opt))
+  if (!is.null(destdir_opt)) {
+    return(path_tidy(destdir_opt))
+  }
 
   Filter(dir_exists, c(
     path_home("Desktop"),

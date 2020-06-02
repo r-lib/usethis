@@ -3,7 +3,7 @@ context("test-git-utils")
 test_that("git_config returns old local values", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   repo <- git_init()
 
   out <- git_config(x.y = "x", .repo = repo)
@@ -26,13 +26,15 @@ test_that("git_config returns old global values", {
 
 test_that("git_protocol() catches bad input from usethis.protocol option", {
   withr::with_options(
-    list(usethis.protocol = "nope"), {
+    list(usethis.protocol = "nope"),
+    {
       expect_usethis_error(git_protocol(), "must be one of")
       expect_null(getOption("usethis.protocol"))
     }
   )
   withr::with_options(
-    list(usethis.protocol = c("ssh", "https")), {
+    list(usethis.protocol = c("ssh", "https")),
+    {
       expect_usethis_error(git_protocol(), "must be one of")
       expect_null(getOption("usethis.protocol"))
     }
@@ -75,7 +77,8 @@ test_that("git_protocol() honors, vets, and lowercases the option", {
 
 test_that("use_git_protocol() prioritizes and lowercases direct input", {
   withr::with_options(
-    list(usethis.protocol = "ssh"), {
+    list(usethis.protocol = "ssh"),
+    {
       expect_identical(use_git_protocol("HTTPS"), "https")
       expect_identical(git_protocol(), "https")
     }

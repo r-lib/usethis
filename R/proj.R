@@ -133,16 +133,26 @@ local_project <- function(path = ".",
   old_quiet <- options(usethis.quiet = quiet)
   old_proj  <- proj_set(path = path, force = force)
 
-  withr::defer({
-    proj_set(path = old_proj, force = TRUE)
-    options(old_quiet)
-  }, envir = .local_envir)
+  withr::defer(
+    {
+      proj_set(path = old_proj, force = TRUE)
+      options(old_quiet)
+    },
+    envir = .local_envir
+  )
 }
 
 ## usethis policy re: preparation of the path to active project
 proj_path_prep <- function(path) {
-  if (is.null(path)) return(path)
-  path_real(path)
+  if (is.null(path)) {
+    return(path)
+  }
+  path <- path_abs(path)
+  if (file_exists(path)) {
+    path_real(path)
+  } else {
+    path
+  }
 }
 
 ## usethis policy re: preparation of user-provided path to a resource on user's
@@ -256,26 +266,6 @@ project_name <- function(base_path = proj_get()) {
   }
 }
 
-project_pkgdown <- function(base_path = proj_get()) {
-  path <- path_first_existing(
-    base_path,
-    c("_pkgdown.yml",
-      "_pkgdown.yaml",
-      "pkgdown/_pkgdown.yml",
-      "inst/_pkgdown.yml"
-    )
-  )
-  if (is.null(path)) {
-    NULL
-  } else {
-    yaml::read_yaml(path)
-  }
-}
-
-project_pkgdown_url <- function(base_path = proj_get()) {
-  project_pkgdown(base_path)$url
-}
-
 #' Activate a project
 #'
 #' Activates a project in usethis, R session, and (if relevant) RStudio senses.
@@ -294,11 +284,12 @@ proj_activate <- function(path) {
     rstudioapi::openProject(path, newSession = TRUE)
     invisible(FALSE)
   } else {
-    if (user_path_prep(getwd()) != path) {
-      ui_done("Changing working directory to {ui_path(path, base = NA)}")
-      setwd(path)
-    }
     proj_set(path)
+    rel_path <- path_rel(proj_get(), path_wd())
+    if (rel_path != ".") {
+      ui_done("Changing working directory to {ui_path(path, base = NA)}")
+      setwd(proj_get())
+    }
     invisible(TRUE)
   }
 }

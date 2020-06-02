@@ -1,7 +1,7 @@
 test_that("git_has_commit() changes after first commit", {
   skip_if_no_git_user()
 
-  scoped_temporary_package()
+  create_local_package()
   git_init()
 
   expect_true(uses_git())
