@@ -34,7 +34,11 @@ git_ask_commit <- function(message, untracked = FALSE) {
     return(invisible())
   }
 
-  paths <- unlist(git_status(untracked = untracked), use.names = FALSE)
+  st <- gert::git_status(repo = proj_get())
+  if (!untracked) {
+    st <- st[st$status != "new", ]
+  }
+  paths <- st$file
   if (length(paths) == 0) {
     return(invisible())
   }

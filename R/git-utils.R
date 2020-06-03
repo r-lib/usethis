@@ -52,8 +52,8 @@ git_pull <- function(remote_branch = git_branch_tracking_FIXME(),
 }
 
 git_conflict_report <- function() {
-  st <- git_status(staged = FALSE, untracked = FALSE)$unstaged
-  conflicted <- unname(st[names(st) == "conflicted"])
+  st <- gert::git_status(repo = proj_get())
+  conflicted <- st$file[st$status == "conflicted"]
   if (length(conflicted) == 0) {
     return(invisible())
   }
@@ -69,10 +69,6 @@ git_conflict_report <- function() {
     "Please fix, stage, and commit to continue",
     "Or run {ui_code('git merge --abort')} in the terminal"
   ))
-}
-
-git_status <- function(...) {
-  git2r::status(..., repo = git2r_repo())
 }
 
 # Config -----------------------------------------------------------------------
