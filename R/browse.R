@@ -96,29 +96,18 @@ github_home <- function(package = NULL) {
     if (!is.null(remote)) {
       return(glue("https://github.com/{remote$owner}/{remote$repo}"))
     }
-
-    desc <- desc::desc(proj_get())
     package <- project_name()
-  } else {
-    desc <- desc::desc(package = package)
   }
-
-  urls <- c(
-    desc$get_field("BugReports", default = character()),
-    desc$get_urls()
-  )
-  gh_links <- grep("^https?://github.com/", urls, value = TRUE)
-
-  if (length(gh_links) == 0) {
+  remote <- github_remote_from_description(package)
+  if (is.null(remote)) {
     ui_warn(c(
       "Package does not provide a GitHub URL.",
       "Falling back to GitHub CRAN mirror"
     ))
-    return(glue("https://github.com/cran/{package}"))
+    glue("https://github.com/cran/{package}")
+  } else {
+    glue("https://github.com/{remote$owner}/{remote$repo}")
   }
-
-  remote <- rematch2::re_match(gh_links[[1]], github_url_rx())
-  glue("https://github.com/{remote$owner}/{remote$repo}")
 }
 
 cran_home <- function(package = NULL) {

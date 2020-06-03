@@ -94,3 +94,18 @@ parse_github_remotes <- function(x) {
   match <- stats::setNames(regmatches(as.character(x), m), names(x))
   lapply(match, function(y) list(owner = y[[2]], repo = y[[3]]))
 }
+
+github_remote_from_description <- function(package) {
+  desc <- desc::desc(package = package)
+
+  urls <- c(
+    desc$get_field("BugReports", default = character()),
+    desc$get_urls()
+  )
+  gh_links <- grep("^https?://github.com/", urls, value = TRUE)
+
+  if (length(gh_links) > 0) {
+    remote <- rematch2::re_match(gh_links[[1]], github_url_rx())
+    as.list(remote[c("owner", "repo")])
+  }
+}
