@@ -37,8 +37,8 @@ use_tidy_github_actions <- function() {
 
   use_coverage()
 
-  full_status    <- use_github_action_check_full()
-  pr_status      <- use_github_action_pr_commands()
+  full_status <- use_github_action_check_full()
+  pr_status   <- use_github_action_pr_commands()
   pkgdown_status <- use_github_action("pkgdown")
   test_coverage_status <- use_github_action("test-coverage")
 

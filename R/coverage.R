@@ -11,7 +11,7 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
   type <- match.arg(type)
   if (type == "codecov") {
     new <- use_template("codecov.yml", ignore = TRUE)
-    if (!new)  {
+    if (!new) {
       return(invisible(FALSE))
     }
   } else if (type == "coveralls") {

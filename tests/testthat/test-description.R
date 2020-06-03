@@ -50,13 +50,17 @@ test_that("can set package", {
   expect_equal(d$Package, "TEST")
 })
 
-
+test_that("`roxygen = FALSE` is honoured", {
+  d <- use_description_defaults(roxygen = FALSE)
+  expect_null(d[["Roxygen"]])
+  expect_null(d[["RoxygenNote"]])
+})
 
 # use_description ---------------------------------------------------------
 
 test_that("creation succeeds even if options are broken", {
   withr::local_options(list(usethis.description = list(
-    `Authors@R` = 'person('
+    `Authors@R` = "person("
   )))
   create_local_project()
 

@@ -133,7 +133,8 @@ test_that("with_project() runs code in temp proj, restores (lack of) proj", {
   on.exit(proj_set_(old_project))
 
   temp_proj <- create_project(
-    file_temp(pattern = "TEMPPROJ"), rstudio = FALSE, open = FALSE
+    file_temp(pattern = "TEMPPROJ"),
+    rstudio = FALSE, open = FALSE
   )
 
   proj_set_(NULL)
@@ -150,10 +151,12 @@ test_that("with_project() runs code in temp proj, restores original proj", {
   on.exit(proj_set_(old_project))
 
   host <- create_project(
-    file_temp(pattern = "host"), rstudio = FALSE, open = FALSE
+    file_temp(pattern = "host"),
+    rstudio = FALSE, open = FALSE
   )
   guest <- create_project(
-    file_temp(pattern = "guest"), rstudio = FALSE, open = FALSE
+    file_temp(pattern = "guest"),
+    rstudio = FALSE, open = FALSE
   )
 
   proj_set(host)
@@ -170,7 +173,8 @@ test_that("with_project() works when temp proj == original proj", {
   on.exit(proj_set_(old_project))
 
   host <- create_project(
-    file_temp(pattern = "host"), rstudio = FALSE, open = FALSE
+    file_temp(pattern = "host"),
+    rstudio = FALSE, open = FALSE
   )
 
   proj_set(host)
@@ -201,4 +205,26 @@ test_that("local_project() activates proj til scope ends", {
     as.character(proj_path_prep(new_proj))
   )
   expect_null(proj_get_())
+})
+
+# https://github.com/r-lib/usethis/issues/954
+test_that("proj_activate() works with relative path when RStudio is not detected", {
+  sandbox <- path_real(dir_create(file_temp("sandbox")))
+  withr::defer(dir_delete(sandbox))
+  orig_proj <- proj_get_()
+  withr::defer(proj_set(orig_proj, force = TRUE))
+  withr::local_dir(sandbox)
+
+  rel_path_proj <- path_file(file_temp(pattern = "mno"))
+  out_path <- create_project(rel_path_proj, rstudio = FALSE, open = FALSE)
+  with_mock(
+    # make sure we act as if not in RStudio
+    `rstudioapi::isAvailable` = function(...) FALSE,
+    expect_error_free(
+      result <- proj_activate(rel_path_proj)
+    )
+  )
+  expect_true(result)
+  expect_equal(path_wd(), out_path)
+  expect_equal(proj_get(), out_path)
 })

@@ -7,7 +7,8 @@ test_that("use_pipe() requires a package", {
 
 test_that("use_pipe(export = TRUE) adds promised file, Imports magrittr", {
   with_mock(
-    `usethis:::uses_roxygen` = function(base_path) TRUE, {
+    `usethis:::uses_roxygen` = function(base_path) TRUE,
+    {
       create_local_package()
       use_pipe(export = TRUE)
       expect_match(desc::desc_get("Imports", proj_get()), "magrittr")
@@ -18,7 +19,8 @@ test_that("use_pipe(export = TRUE) adds promised file, Imports magrittr", {
 
 test_that("use_pipe(export = FALSE) adds roxygen to package doc", {
   with_mock(
-    `usethis:::uses_roxygen` = function(base_path) TRUE, {
+    `usethis:::uses_roxygen` = function(base_path) TRUE,
+    {
       create_local_package()
       use_package_doc()
       use_pipe(export = FALSE)
@@ -31,7 +33,8 @@ test_that("use_pipe(export = FALSE) adds roxygen to package doc", {
 
 test_that("use_pipe(export = FALSE) gives advice if no package doc", {
   with_mock(
-    `usethis:::uses_roxygen` = function(base_path) TRUE, {
+    `usethis:::uses_roxygen` = function(base_path) TRUE,
+    {
       create_local_package()
       withr::local_options(list(usethis.quiet = FALSE))
       expect_message(

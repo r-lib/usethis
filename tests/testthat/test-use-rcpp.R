@@ -21,7 +21,8 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
 test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
   with_mock(
     ## Required to pass the check re: whether RcppArmadillo is installed
-    `usethis:::is_installed` = function(pkg) TRUE, {
+    `usethis:::is_installed` = function(pkg) TRUE,
+    {
       pkg <- create_local_package()
       use_roxygen_md()
 
@@ -36,7 +37,8 @@ test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
 test_that("use_rcpp_eigen() edits DESCRIPTION", {
   with_mock(
     ## Required to pass the check re: whether RcppEigen is installed
-    `usethis:::is_installed` = function(pkg) TRUE, {
+    `usethis:::is_installed` = function(pkg) TRUE,
+    {
       pkg <- create_local_package()
       use_roxygen_md()
 
@@ -83,11 +85,11 @@ test_that("use_makevars() creates Makevars files with appropriate configuration"
   pkg <- create_local_package()
 
   makevars_settings <- list(
-    "CXX_STD"="CXX11"
+    "CXX_STD" = "CXX11"
   )
   use_makevars(makevars_settings)
 
-  makevars_content <- paste0(names(makevars_settings)," = ", makevars_settings)
+  makevars_content <- paste0(names(makevars_settings), " = ", makevars_settings)
 
   expect_identical(makevars_content, read_utf8(proj_path("src", "Makevars")))
   expect_identical(makevars_content, read_utf8(proj_path("src", "Makevars.win")))
