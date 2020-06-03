@@ -64,10 +64,10 @@ git_ask_commit <- function(message, untracked = FALSE) {
 
 git_commit <- function(paths, message) {
   ui_done("Adding files")
-  repo <- git2r_repo()
-  git2r::add(repo, paths)
+  repo <- git_repo()
+  gert::git_add(paths, repo = repo)
   ui_done("Commit with message {ui_value(message)}")
-  git2r::commit(repo, message)
+  gert::git_commit(message, repo = repo)
   rstudio_git_tickle()
 }
 
