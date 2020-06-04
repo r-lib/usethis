@@ -1,7 +1,7 @@
-# Repository --------------------------------------------------------------
+# Repository -------------------------------------------------------------------
 git_repo <- function() {
   check_uses_git()
-  gert::git_find(proj_get())
+  proj_get()
 }
 
 git2r_repo <- function() {
@@ -111,7 +111,53 @@ git_is_fork <- function() {
   git_remote_exists("upstream")
 }
 
-# Commit ------------------------------------------------------------------
+# Commit -----------------------------------------------------------------------
+git_ask_commit <- function(message, untracked = FALSE, paths = NULL) {
+  if (!is_interactive() || !uses_git()) {
+    return(invisible())
+  }
+
+  st <- gert::git_status(repo = git_repo())
+  if (!untracked) {
+    st <- st[st$status != "new", ]
+  }
+  paths <- paths %||% st$file
+  if (length(paths) == 0) {
+    return(invisible())
+  }
+
+  paths <- sort(paths)
+
+  ui_paths <- purrr::map_chr(proj_path(paths), ui_path)
+  n <- length(ui_paths)
+  if (n > 20) {
+    ui_paths <- c(ui_paths[1:20], "...")
+  }
+
+  ui_line(c(
+    "There are {n} uncommitted files:",
+    paste0("* ", ui_paths)
+  ))
+
+  if (ui_yeah("Is it ok to commit them?")) {
+    git_commit(paths, message)
+  }
+  invisible()
+}
+
+git_commit <- function(paths, message) {
+  ui_done("Adding files")
+  repo <- git_repo()
+  gert::git_add(paths, repo = repo)
+  ui_done("Commit with message {ui_value(message)}")
+  gert::git_commit(message, repo = repo)
+  rstudio_git_tickle()
+}
+
+git_has_commits <- function() {
+  length(git2r::commits(n = 1, repo = git2r_repo())) > 0
+}
+
 git_commit_find <- function(refspec = NULL) {
   repo <- git2r_repo()
 
@@ -266,9 +312,11 @@ check_uncommitted_changes <- function(path = proj_get(), untracked = FALSE) {
 }
 
 git_uncommitted <- function(path = proj_get(), untracked = FALSE) {
-  r <- git2r::repository(path, discover = TRUE)
-  st <- vapply(git2r::status(r, untracked = untracked), length, integer(1))
-  any(st != 0)
+  st <- gert::git_status(repo = path)
+  if (!untracked) {
+    st <- st[st$status != "new", ]
+  }
+  nrow(st) > 0
 }
 
 check_branch_not_master <- function() {

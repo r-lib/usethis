@@ -29,52 +29,6 @@ use_git <- function(message = "Initial commit") {
   invisible(TRUE)
 }
 
-git_ask_commit <- function(message, untracked = FALSE) {
-  if (!is_interactive() || !uses_git()) {
-    return(invisible())
-  }
-
-  st <- gert::git_status(repo = proj_get())
-  if (!untracked) {
-    st <- st[st$status != "new", ]
-  }
-  paths <- st$file
-  if (length(paths) == 0) {
-    return(invisible())
-  }
-
-  paths <- sort(paths)
-
-  ui_paths <- purrr::map_chr(proj_path(paths), ui_path)
-  n <- length(ui_paths)
-  if (n > 20) {
-    ui_paths <- c(ui_paths[1:20], "...")
-  }
-
-  ui_line(c(
-    "There are {n} uncommitted files:",
-    paste0("* ", ui_paths)
-  ))
-
-  if (ui_yeah("Is it ok to commit them?")) {
-    git_commit(paths, message)
-  }
-  invisible()
-}
-
-git_commit <- function(paths, message) {
-  ui_done("Adding files")
-  repo <- git_repo()
-  gert::git_add(paths, repo = repo)
-  ui_done("Commit with message {ui_value(message)}")
-  gert::git_commit(message, repo = repo)
-  rstudio_git_tickle()
-}
-
-git_has_commits <- function() {
-  length(git2r::commits(n = 1, repo = git2r_repo())) > 0
-}
-
 #' Add a git hook
 #'
 #' Sets up a git hook using specified script. Creates hook directory if
