@@ -97,7 +97,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
   stopifnot(is_dictionaryish(dots))
 
   orig <- stats::setNames(
-    vector(mode = "list",length = length(dots)),
+    vector(mode = "list", length = length(dots)),
     names(dots)
   )
   for (i in seq_along(dots)) {
