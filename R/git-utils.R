@@ -32,45 +32,6 @@ git_init <- function() {
   gert::git_init(proj_get())
 }
 
-git_pull <- function(remote_branch = git_branch_tracking_FIXME(),
-                     credentials = NULL) {
-  repo <- git2r_repo()
-
-  git2r::fetch(
-    repo,
-    name = remref_remote(remote_branch),
-    refspec = remref_branch(remote_branch),
-    verbose = FALSE,
-    credentials = credentials
-  )
-  mr <- git2r::merge(repo, remote_branch)
-  if (isTRUE(mr$conflicts)) {
-    git_conflict_report()
-  }
-
-  invisible()
-}
-
-git_conflict_report <- function() {
-  st <- gert::git_status(repo = proj_get())
-  conflicted <- st$file[st$status == "conflicted"]
-  if (length(conflicted) == 0) {
-    return(invisible())
-  }
-
-  conflicted_path <- purrr::map_chr(conflicted, ui_path)
-  ui_line(c(
-    "There are {length(conflicted)} conflicted files:",
-    paste0("* ", conflicted_path)
-  ))
-  ui_silence(purrr::walk(conflicted, edit_file))
-
-  ui_stop(c(
-    "Please fix, stage, and commit to continue",
-    "Or run {ui_code('git merge --abort')} in the terminal"
-  ))
-}
-
 # Config -----------------------------------------------------------------------
 
 # `where = "de_facto"` means look at the values that are "in force", i.e. where
@@ -93,43 +54,33 @@ git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
   if (length(out) > 0) out else NULL
 }
 
-# Remotes ------------------------------------------------------------------
-git_remote_find <- function(rname = "origin") {
-  remotes <- git_remotes()
-  if (length(remotes) == 0) {
-    return(NULL)
-  }
-  remotes[[rname]]
-}
-
-git_remote_exists <- function(rname = "origin") {
-  rname %in% names(git_remotes())
-}
-
-# GitHub ------------------------------------------------------------------
-git_is_fork <- function() {
-  git_remote_exists("upstream")
-}
-
-# Commit -----------------------------------------------------------------------
-git_ask_commit <- function(message, untracked = FALSE, paths = NULL) {
-  if (!is_interactive() || !uses_git()) {
-    return(invisible())
-  }
-
+# Status------------------------------------------------------------------------
+git_status <- function(untracked) {
+  stopifnot(is.logical(untracked))
   st <- gert::git_status(repo = git_repo())
   if (!untracked) {
     st <- st[st$status != "new", ]
   }
-  paths <- paths %||% st$file
-  if (length(paths) == 0) {
+  st
+}
+
+# Commit -----------------------------------------------------------------------
+git_ask_commit <- function(message, untracked, paths = NULL) {
+  if (!is_interactive() || !uses_git()) {
+    return(invisible())
+  }
+
+  uncommitted <- git_status(untracked)$file
+  if (!is.null(paths)) {
+    uncommitted <- intersect(paths, uncommitted)
+  }
+  n <- length(paths)
+  if (n == 0) {
     return(invisible())
   }
 
   paths <- sort(paths)
-
   ui_paths <- purrr::map_chr(proj_path(paths), ui_path)
-  n <- length(ui_paths)
   if (n > 20) {
     ui_paths <- c(ui_paths[1:20], "...")
   }
@@ -146,10 +97,10 @@ git_ask_commit <- function(message, untracked = FALSE, paths = NULL) {
 }
 
 git_commit <- function(paths, message) {
-  ui_done("Adding files")
   repo <- git_repo()
+  ui_done("Adding files")
   gert::git_add(paths, repo = repo)
-  ui_done("Commit with message {ui_value(message)}")
+  ui_done("Making a commit with message {ui_value(message)}")
   gert::git_commit(message, repo = repo)
   rstudio_git_tickle()
 }
@@ -164,7 +115,58 @@ git_commit_find <- function(refspec = NULL) {
   }
 }
 
-# Remote refs -------------------------------------------------------------
+git_uncommitted <- function(untracked = FALSE) {
+  nrow(git_status(untracked)) > 0
+}
+
+check_uncommitted_changes <- function(untracked = FALSE) {
+  if (rstudioapi::hasFun("documentSaveAll")) {
+    rstudioapi::documentSaveAll()
+  }
+
+  if (uses_git() && git_uncommitted(untracked = untracked)) {
+    if (ui_yeah("There are uncommitted changes. Do you want to proceed anyway?")) {
+      return()
+    } else {
+      ui_stop("Uncommitted changes. Please commit to git before continuing.")
+    }
+  }
+}
+
+git_conflict_report <- function() {
+  st <- git_status(untracked = FALSE)
+  conflicted <- st$file[st$status == "conflicted"]
+  n <- length(conflicted)
+  if (n == 0) {
+    return(invisible())
+  }
+
+  conflicted_paths <- purrr::map_chr(conflicted, ui_path)
+  ui_line(c(
+    "There are {n} conflicted files:",
+    paste0("* ", conflicted_paths)
+  ))
+  ui_silence(purrr::walk(conflicted, edit_file))
+
+  ui_stop(c(
+    "Please fix, stage, and commit to continue",
+    "Or run {ui_code('git merge --abort')} in the terminal"
+  ))
+}
+
+# Remotes ------------------------------------------------------------------
+git_remote_find <- function(rname = "origin") {
+  remotes <- git_remotes()
+  if (length(remotes) == 0) {
+    return(NULL)
+  }
+  remotes[[rname]]
+}
+
+git_remote_exists <- function(rname = "origin") {
+  rname %in% names(git_remotes())
+}
+
 git_remref <- function(remote = "origin", branch = "master") {
   glue("{remote}/{branch}")
 }
@@ -180,6 +182,30 @@ git_parse_remref <- function(remref) {
 
 remref_remote <- function(remref) git_parse_remref(remref)$remote
 remref_branch <- function(remref) git_parse_remref(remref)$branch
+
+git_is_fork <- function() {
+  git_remote_exists("upstream")
+}
+
+# Merge and pull ---------------------------------------------------------------
+git_pull <- function(remote_branch = git_branch_tracking_FIXME(),
+                     credentials = NULL) {
+  repo <- git2r_repo()
+
+  git2r::fetch(
+    repo,
+    name = remref_remote(remote_branch),
+    refspec = remref_branch(remote_branch),
+    verbose = FALSE,
+    credentials = credentials
+  )
+  mr <- git2r::merge(repo, remote_branch)
+  if (isTRUE(mr$conflicts)) {
+    git_conflict_report()
+  }
+
+  invisible()
+}
 
 # Branch ------------------------------------------------------------------
 git_branch <- function() {
@@ -293,28 +319,6 @@ git_branch_track <- function(branch, remote = "origin", remote_branch = branch) 
 }
 
 # Checks ------------------------------------------------------------------
-check_uncommitted_changes <- function(path = proj_get(), untracked = FALSE) {
-  if (rstudioapi::hasFun("documentSaveAll")) {
-    rstudioapi::documentSaveAll()
-  }
-
-  if (uses_git(path) && git_uncommitted(path, untracked = untracked)) {
-    if (ui_yeah("There are uncommitted changes. Do you want to proceed anyway?")) {
-      return()
-    } else {
-      ui_stop("Uncommitted changes. Please commit to git before continuing.")
-    }
-  }
-}
-
-git_uncommitted <- function(path = proj_get(), untracked = FALSE) {
-  st <- gert::git_status(repo = path)
-  if (!untracked) {
-    st <- st[st$status != "new", ]
-  }
-  nrow(st) > 0
-}
-
 check_branch_not_master <- function() {
   if (git_branch() != "master") {
     return()

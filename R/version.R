@@ -51,7 +51,11 @@ use_version <- function(which = NULL) {
     use_news_heading(new_ver)
   }
 
-  git_ask_commit("Increment version number")
+  git_ask_commit(
+    "Increment version number",
+    untracked = TRUE,
+    paths = c("DESCRIPTION", "NEWS.md")
+  )
   invisible(TRUE)
 }
 

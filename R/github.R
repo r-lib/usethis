@@ -115,9 +115,12 @@ use_github <- function(organisation = NULL,
   if (is_package()) {
     ui_done("Adding GitHub links to DESCRIPTION")
     use_github_links(auth_token = auth_token, host = host)
-    if (git_uncommitted()) {
-      git2r::add(r, "DESCRIPTION")
-      git2r::commit(r, "Add GitHub links to DESCRIPTION")
+    if (git_uncommitted(untracked = FALSE)) {
+      git_ask_commit(
+        "Add GitHub links to DESCRIPTION",
+        untracked = FALSE,
+        paths = "DESCRIPTION"
+      )
     }
   }
 
