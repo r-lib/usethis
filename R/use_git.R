@@ -282,7 +282,6 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
   stopifnot(is.null(url) || is_string(url))
   stopifnot(is_true(overwrite) || is_false(overwrite))
 
-  repo <- git2r_repo()
   remotes <- git_remotes()
 
   if (name %in% names(remotes) && !overwrite) {
@@ -292,12 +291,15 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
 
   if (name %in% names(remotes)) {
     if (is.null(url)) {
-      git2r::remote_remove(repo = repo, name = name)
+      gert::git_remote_remove(name, repo = git_repo())
     } else {
-      git2r::remote_set_url(repo = repo, name = name, url = url)
+      # TODO: adopt whatever solution comes from this
+      # https://github.com/r-lib/gert/issues/49
+      gert::git_remote_remove(name, repo = git_repo())
+      gert::git_remote_add(name, url = url, repo = git_repo())
     }
   } else {
-    git2r::remote_add(repo = repo, name = name, url = url)
+    gert::git_remote_add(name, url = url, repo = git_repo())
   }
 
   invisible(git_remotes())
