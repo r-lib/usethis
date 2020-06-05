@@ -43,6 +43,8 @@ Current mindset: helpers should *not* make direct use of the active project, i.e
 
 Uncomfortable fact: `write_union()` uses the active project, if such exists, to create a humane path in its message. However, unlike `use_*()` functions, it does not call `proj_get()` to set an active project when `proj$cur` is `NULL`. We like this behaviour but the design feels muddy.
 
+I perceive that The Git/GitHub functions are currently a bit disordered with respect to this. Specifically, I feel some functions afford control over the path that should really be hard-wired to consult the active project. I plan to revisit them with an attempt to decide which functions should operate on the active project / repo implicitly vs. which functions are considered "helpers" and therefore should take the repo path via an argument. Maybe only exported helpers should take a path? I also need to think about whether to use `proj_get()` or `git_repo()`, the difference being that `git_repo()` puts `proj_get()` behind a `check_uses_git()` guard.
+
 ## Home directory
 
 usethis relies on fs for file system operations. The main thing users will notice is the treatment of home directory on Windows. A Windows user's home directory is interpreted as `C:\Users\username` (typical of Unix-oriented tools, like Git and ssh; also matches Python), as opposed to `C:\Users\username\Documents` (R's default on Windows). In order to be consistent everywhere, all paths supplied by the user should be processed with `user_path_prep()`.
@@ -73,7 +75,28 @@ We make a strong assumption that user follows these conventions for branch and r
   * If you've forked something, you have at least two remotes:
     - `origin` is your copy.
     - `upstream` is the original repo you forked.
+  * TODO: update this once I've codified the ~5 scenarios I laid out in my
+    Slack survey.
 
 We assume a user habitually uses one transport protocol, either SSH or HTTPS, i.e. that they don't intentionally switch between them willy-nilly.
 
 If the default summoning of Git credentials or protocol or GitHub PAT doesn't work for you, you must set them explicitly via `use_git_credentials()`, `use_git_protocol()`, or `Sys.setenv("GITHUB_PAT")`. We aren't going to offer fine control of this, everywhere, by repetitively offering a ton of function arguments.
+
+I suspect I should declare whether the main purpose of each Git-using function is:
+
+  * Related to Git/GitHub. In which case an early hard requirement for git repo
+    is justified.
+  * Not related to Git/Github. In which case Git checks like
+    `check_uncommitted_changes()` have to either, themselves, operate gracefully
+    if not in a git repo or be inside a conditional check for Git-repo-hood.
+
+Functions that might make a commit should use `check_uncommitted_changes()` in the initial sanity-checking block to encourage starting in a clean state, i.e. with no uncommitted or untracked files.
+
+To be determined: when do we check if active project is a git repo? And how, i.e. implicitly by calling `git_repo()` or explicitly by calling `check_uses_git()`?
+
+Commits should always be made `git_commit_ask()`. Whenever possible, specify `paths`. It should almost always be possible to know exactly which files might need to be commited.
+
+`git_uncommitted(untracked = TRUE)` and `git_ask_commit(untracked = TRUE)` if it's possible that the work we've done has **created** a new file that should be tracked. Use `untracked = FALSE` if our work should only modify and pre-existing file.
+
+Functions that do Git operations (or is it just a specific subset? definitely switching branch) should call `rstudio_git_tickle()` before exit. Maybe even via `on.exit()`?
+
