@@ -56,7 +56,7 @@ git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
 
 # Status------------------------------------------------------------------------
 git_status <- function(untracked) {
-  stopifnot(is.logical(untracked))
+  stopifnot(is_true(untracked) || is_false(untracked))
   st <- gert::git_status(repo = git_repo())
   if (!untracked) {
     st <- st[st$status != "new", ]
