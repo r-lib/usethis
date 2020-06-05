@@ -306,12 +306,11 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
 #' @rdname use_git_remote
 #' @export
 git_remotes <- function() {
-  repo <- git2r_repo()
-  rnames <- git2r::remotes(repo)
-  if (length(rnames) == 0) {
+  x <- gert::git_remote_list(git_repo())
+  if (nrow(x) == 0) {
     return(NULL)
   }
-  stats::setNames(as.list(git2r::remote_url(repo, rnames)), rnames)
+  stats::setNames(as.list(x$url), x$name)
 }
 
 git2r_env <- new.env(parent = emptyenv())
