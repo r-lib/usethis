@@ -69,6 +69,17 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
   if (!is_interactive() || !uses_git()) {
     return(invisible())
   }
+  on.exit(rstudio_git_tickle(), add = TRUE)
+
+  # this is defined here to encourage all commits to route through this function
+  git_commit <- function(paths, message) {
+    repo <- git_repo()
+    ui_done("Adding files")
+    gert::git_add(paths, repo = repo)
+    ui_done("Making a commit with message {ui_value(message)}")
+    gert::git_commit(message, repo = repo)
+    rstudio_git_tickle()
+  }
 
   uncommitted <- git_status(untracked)$file
   if (!is.null(paths)) {
@@ -94,15 +105,6 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
     git_commit(paths, message)
   }
   invisible()
-}
-
-git_commit <- function(paths, message) {
-  repo <- git_repo()
-  ui_done("Adding files")
-  gert::git_add(paths, repo = repo)
-  ui_done("Making a commit with message {ui_value(message)}")
-  gert::git_commit(message, repo = repo)
-  rstudio_git_tickle()
 }
 
 git_commit_find <- function(refspec = NULL) {

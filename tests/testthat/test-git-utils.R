@@ -8,7 +8,8 @@ test_that("git_branch() works", {
   expect_usethis_error(git_branch(), "unborn branch")
 
   writeLines("blah", proj_path("blah.txt"))
-  git_commit("blah.txt", "Make one commit")
+  gert::git_add("blah.txt", repo = git_repo())
+  gert::git_commit("Make one commit", repo = git_repo())
   expect_equal(git_branch(), "master")
 })
 
