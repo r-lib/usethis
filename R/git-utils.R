@@ -154,10 +154,6 @@ git_commit <- function(paths, message) {
   rstudio_git_tickle()
 }
 
-git_has_commits <- function() {
-  length(git2r::commits(n = 1, repo = git2r_repo())) > 0
-}
-
 git_commit_find <- function(refspec = NULL) {
   repo <- git2r_repo()
 

@@ -11,18 +11,6 @@ test_that("uses_git() works", {
   expect_error_free(check_uses_git())
 })
 
-test_that("git_has_commit() changes after first commit", {
-  skip_if_no_git_user()
-
-  create_local_package()
-  git_init()
-
-  expect_false(git_has_commits())
-
-  git_commit("DESCRIPTION", "test")
-  expect_true(git_has_commits())
-})
-
 test_that('use_git_config(scope = "project") errors if project not using git', {
   create_local_package()
   expect_usethis_error(
