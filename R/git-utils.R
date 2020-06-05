@@ -9,16 +9,16 @@ git2r_repo <- function() {
   git2r::repository(proj_get())
 }
 
-uses_git <- function(path = proj_get()) {
+uses_git <- function() {
   repo <- tryCatch(
-    gert::git_find(path),
+    gert::git_find(proj_get()),
     error = function(e) NULL
   )
   !is.null(repo)
 }
 
-check_uses_git <- function(path = proj_get()) {
-  if (uses_git(path)) {
+check_uses_git <- function() {
+  if (uses_git()) {
     return(invisible())
   }
 
@@ -45,7 +45,7 @@ git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
   dat <- switch(
     where,
     global = gert::git_config_global(),
-    gert::git_config()
+    gert::git_config(git_repo())
   )
   if (where == "local") {
     dat <- dat[dat$level == "local", ]
@@ -80,7 +80,7 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
   }
 
   paths <- sort(paths)
-  ui_paths <- purrr::map_chr(proj_path(paths), ui_path)
+  ui_paths <- purrr::map_chr(paths, ui_path)
   if (n > 20) {
     ui_paths <- c(ui_paths[1:20], "...")
   }
@@ -120,13 +120,17 @@ git_uncommitted <- function(untracked = FALSE) {
 }
 
 check_uncommitted_changes <- function(untracked = FALSE) {
+  if (!uses_git()) {
+    return(invisible())
+  }
+
   if (rstudioapi::hasFun("documentSaveAll")) {
     rstudioapi::documentSaveAll()
   }
 
-  if (uses_git() && git_uncommitted(untracked = untracked)) {
+  if (git_uncommitted(untracked = untracked)) {
     if (ui_yeah("There are uncommitted changes. Do you want to proceed anyway?")) {
-      return()
+      return(invisible())
     } else {
       ui_stop("Uncommitted changes. Please commit to git before continuing.")
     }
@@ -215,7 +219,7 @@ git_branch <- function() {
     ui_stop("Detached head; can't continue")
   }
   if (is.na(branch)) {
-    ui_stop("On an unborn branch -- do you need to make an initial commit? can't continue")
+    ui_stop("On an unborn branch -- do you need to make an initial commit?")
   }
   branch
 }
