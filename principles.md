@@ -94,7 +94,7 @@ Functions that might make a commit should use `check_uncommitted_changes()` in t
 
 To be determined: when do we check if active project is a git repo? And how, i.e. implicitly by calling `git_repo()` or explicitly by calling `check_uses_git()`?
 
-Always make commits with `git_commit_ask()`. This why `git_commit()`, which wraps `gert::git_add()` and `gert::git_commit()`, is defined *inside* `git_commit_ask()`. Whenever possible, specify `paths` for `git_commit_ask()`. It should almost always be possible to know exactly which files we might have touched or created.
+Always make commits with `git_commit_ask()`. This why `git_commit()`, which wraps `gert::git_add()` and `gert::git_commit()`, is defined *inside* `git_commit_ask()`. Whenever possible, specify `paths` for `git_commit_ask()`. It should almost always be possible to know exactly which files we might have touched or created. If you need to make a commit in a noninteractive context, like a test, use `gert::git_commit()`.
 
 Use `git_uncommitted(untracked = TRUE)` and `git_ask_commit(untracked = TRUE)` if it's possible that the work we've done has **created** a new file that should be tracked. Use `untracked = FALSE` if our work should only modify and pre-existing file.
 
