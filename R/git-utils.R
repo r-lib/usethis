@@ -160,15 +160,7 @@ git_conflict_report <- function() {
   ))
 }
 
-# Remotes ------------------------------------------------------------------
-git_remote_find <- function(rname = "origin") {
-  remotes <- git_remotes()
-  if (length(remotes) == 0) {
-    return(NULL)
-  }
-  remotes[[rname]]
-}
-
+# Remotes ----------------------------------------------------------------------
 git_remote_exists <- function(rname = "origin") {
   rname %in% names(git_remotes())
 }
