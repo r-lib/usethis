@@ -161,10 +161,6 @@ git_conflict_report <- function() {
 }
 
 # Remotes ----------------------------------------------------------------------
-git_remote_exists <- function(rname = "origin") {
-  rname %in% names(git_remotes())
-}
-
 ## remref --> remote, branch
 git_parse_remref <- function(remref) {
   repo <- git2r_repo()
@@ -178,7 +174,9 @@ remref_remote <- function(remref) git_parse_remref(remref)$remote
 remref_branch <- function(remref) git_parse_remref(remref)$branch
 
 git_is_fork <- function() {
-  git_remote_exists("upstream")
+  # TODO: this will surely change again soon, to reflect a direct test whether
+  # the relevant remote (that is also a github repo) is a fork
+  "upstream" %in% names(git_remotes())
 }
 
 # Merge and pull ---------------------------------------------------------------
