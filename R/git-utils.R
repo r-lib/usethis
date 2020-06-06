@@ -165,10 +165,6 @@ git_remote_exists <- function(rname = "origin") {
   rname %in% names(git_remotes())
 }
 
-git_remref <- function(remote = "origin", branch = "master") {
-  glue("{remote}/{branch}")
-}
-
 ## remref --> remote, branch
 git_parse_remref <- function(remref) {
   repo <- git2r_repo()
@@ -311,7 +307,7 @@ git_branch_remote <- function(branch = git_branch()) {
 git_branch_track <- function(branch, remote = "origin", remote_branch = branch) {
   # TODO: this will be broken until I come back here and gert-ify it
   branch_obj <- git_branch_OLD(branch)
-  upstream <- git_remref(remote, remote_branch)
+  upstream <- glue("{remote}/{remote_branch}")
   ui_done("Setting upstream tracking branch for {ui_value(branch)} to {ui_value(upstream)}")
   git2r::branch_set_upstream(branch_obj, upstream)
 }

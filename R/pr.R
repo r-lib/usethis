@@ -161,7 +161,7 @@ pr_fetch <- function(number,
   }
 
   if (!git_branch_exists(our_branch)) {
-    their_refname <- git_remref(remote, their_branch)
+    their_refname <- glue("{remote}/{their_branch}")
     credentials <- git_credentials(protocol, auth_token)
     ui_done("Creating and switching to local branch {ui_value(our_branch)}")
     git2r::fetch(
@@ -270,7 +270,7 @@ pr_pull_upstream <- function() {
 
   branch <- "master"
   remote <- if (git_is_fork()) "upstream" else "origin"
-  source <- git_remref(remote, branch)
+  source <- glue("{remote}/{branch}")
 
   protocol <- github_remote_protocol(remote)
   credentials <- git_credentials(protocol)
