@@ -163,10 +163,8 @@ git_conflict_report <- function() {
 # Remotes ----------------------------------------------------------------------
 ## remref --> remote, branch
 git_parse_remref <- function(remref) {
-  repo <- git2r_repo()
-  rnames <- git2r::remotes(repo)
-  rnames <- paste0("^", rnames, collapse = "|")
-  regex <- glue("({rnames})/(.*)")
+  regex <- paste0("^", names(git_remotes()), collapse = "|")
+  regex <- glue("({regex})/(.*)")
   list(remote = sub(regex, "\\1", remref), branch = sub(regex, "\\2", remref))
 }
 
