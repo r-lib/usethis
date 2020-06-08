@@ -1,5 +1,3 @@
-context("test-github-utils")
-
 test_that("parse_github_remotes() works on named list or named character", {
   urls <- list(
     https   = "https://github.com/r-lib/devtools.git",
