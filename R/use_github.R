@@ -58,30 +58,15 @@ use_github <- function(organisation = NULL,
   repo_desc <- project_data()$Title %||% ""
   repo_desc <- gsub("\n", " ", repo_desc)
 
-  if (is_interactive()) {
-    ui_todo("Check title and description")
-    ui_code_block(
-      "
-      Name:        {repo_name}
-      Description: {repo_desc}
-      ",
-      copy = FALSE
-    )
-    if (ui_nope("Are title and description ok?")) {
-      return(invisible())
-    }
-  } else {
-    ui_todo("Setting title and description")
-    ui_code_block(
-      "
-      Name:        {repo_name}
-      Description: {repo_desc}
-      ",
-      copy = FALSE
-    )
-  }
   ui_done("Creating GitHub repository")
-
+  ui_done("Setting repo name and description")
+  ui_code_block(
+    "
+    Name:        {repo_name}
+    Description: {repo_desc}
+    ",
+    copy = FALSE
+  )
   if (is.null(organisation)) {
     create <- gh::gh(
       "POST /user/repos",
