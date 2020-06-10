@@ -175,7 +175,7 @@ use_dot_github <- function(ignore = TRUE) {
 #' @rdname tidyverse
 use_tidy_style <- function(strict = TRUE) {
   check_installed("styler")
-  check_uncommitted_changes()
+  check_no_uncommitted_changes()
   if (is_package()) {
     styled <- styler::style_pkg(
       proj_get(),

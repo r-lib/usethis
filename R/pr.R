@@ -104,7 +104,7 @@ pr_init <- function(branch) {
 pr_fetch <- function(number,
                      owner = NULL) {
   check_uses_github()
-  check_uncommitted_changes()
+  check_no_uncommitted_changes()
 
   auth_token <- check_github_token(allow_empty = TRUE)
 
@@ -199,7 +199,7 @@ pr_fetch <- function(number,
 pr_push <- function() {
   check_uses_github()
   check_branch_not_master()
-  check_uncommitted_changes()
+  check_no_uncommitted_changes()
 
   branch <- git_branch()
   has_remote_branch <- !is.null(git_branch_tracking_FIXME(branch))
@@ -251,7 +251,7 @@ pr_push <- function() {
 pr_pull <- function() {
   check_uses_github()
   check_branch_not_master()
-  check_uncommitted_changes()
+  check_no_uncommitted_changes()
 
   protocol <- github_remote_protocol()
   credentials <- git_credentials(protocol)
@@ -266,7 +266,7 @@ pr_pull <- function() {
 #' @rdname pr_init
 pr_pull_upstream <- function() {
   check_uses_github()
-  check_uncommitted_changes()
+  check_no_uncommitted_changes()
 
   branch <- "master"
   remote <- if (git_is_fork()) "upstream" else "origin"
@@ -302,7 +302,7 @@ pr_view <- function() {
 #' @rdname pr_init
 pr_pause <- function() {
   check_branch_not_master()
-  check_uncommitted_changes()
+  check_no_uncommitted_changes()
   check_branch_pulled(use = "pr_pull()")
 
   ui_done("Switching back to {ui_value('master')} branch")
@@ -320,7 +320,7 @@ pr_finish <- function(number = NULL) {
   }
 
   check_branch_not_master()
-  check_uncommitted_changes()
+  check_no_uncommitted_changes()
 
   tracking_branch <- git_branch_tracking()
   if (!is.null(tracking_branch)) {

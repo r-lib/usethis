@@ -87,10 +87,10 @@ I suspect I should declare whether the main purpose of each Git-using function i
   * Related to Git/GitHub. In which case an early hard requirement for git repo
     is justified.
   * Not related to Git/Github. In which case Git checks like
-    `check_uncommitted_changes()` have to either, themselves, operate gracefully
+    `check_no_uncommitted_changes()` have to either, themselves, operate gracefully
     if not in a git repo or be inside a conditional check for Git-repo-hood.
 
-Functions that might make a commit should use `check_uncommitted_changes()` in the initial sanity-checking block to encourage starting in a clean state, i.e. with no uncommitted or untracked files.
+Functions that might make a commit should use `check_no_uncommitted_changes()` in the initial sanity-checking block to encourage starting in a clean state, i.e. with no uncommitted files or, if `untracked = TRUE` is specified, also with no untracked files.
 
 To be determined: when do we check if active project is a git repo? And how, i.e. implicitly by calling `git_repo()` or explicitly by calling `check_uses_git()`?
 

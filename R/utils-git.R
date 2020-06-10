@@ -121,7 +121,7 @@ git_uncommitted <- function(untracked = FALSE) {
   nrow(git_status(untracked)) > 0
 }
 
-check_uncommitted_changes <- function(untracked = FALSE) {
+check_no_uncommitted_changes <- function(untracked = FALSE) {
   if (!uses_git()) {
     return(invisible())
   }

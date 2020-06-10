@@ -45,7 +45,7 @@ use_github <- function(organisation = NULL,
                        host = NULL) {
   check_uses_git()
   check_branch("master")
-  check_uncommitted_changes()
+  check_no_uncommitted_changes()
   check_no_origin()
   check_github_token(auth_token)
 
