@@ -82,8 +82,10 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
   }
 
   uncommitted <- git_status(untracked)$file
-  if (!is.null(paths)) {
-    uncommitted <- intersect(paths, uncommitted)
+  if (is.null(paths)) {
+    paths <- uncommitted
+  } else {
+    paths <- intersect(paths, uncommitted)
   }
   n <- length(paths)
   if (n == 0) {
