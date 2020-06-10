@@ -1,17 +1,36 @@
 #' Connect a local repo with GitHub
 #'
-#' `use_github()` takes a local project, creates an associated repo on GitHub,
-#' adds it to your local repo as the `origin` remote, and makes an initial push
-#' to synchronize. `use_github()` requires that your project already be a Git
-#' repository, which you can accomplish with [use_git()], if needed. See the
-#' Authentication section below for other necessary setup.
+#'
+#' @description
+#' `use_github()` takes a local project and:
+#' * Checks that the initial state is good to go:
+#'   - Project is already a Git repo
+#'   - Current branch is `master`
+#'   - No uncommitted changes
+#'   - No pre-existing `origin` remote
+#' * Creates an associated repo on GitHub
+#' * Adds that GitHub repo to your local repo as the `origin` remote
+#' * Offers to commit changes, e.g. the addition of GitHub links to the
+#'   URL and BugReports fields of DESCRIPTION
+#' * Makes an initial push to GitHub
+#' * Configures `origin/master` to be the upstream branch of the local `master`
+#'   branch
+#'
+#' See the Authentication section below for general setup that is necessary for
+#' all of this to work.
 #'
 #' @section Authentication:
 #' A new GitHub repo will be created via the GitHub API, therefore you must
 #' make a [GitHub personal access token
-#' (PAT)](https://github.com/settings/tokens) available. You can either
-#' provide this directly via the `auth_token` argument or store it for retrieval
-#' with [github_token()].
+#' (PAT)](https://github.com/settings/tokens) available. Here are different ways
+#' to provide the token, in order of preference:
+#' * Configure your token as the `GITHUB_PAT` env var in `.Renviron`. Then it
+#'   can be used by many packages and functions, without any effort on your
+#'   part. If you don't have a token yet, see [browse_github_token()]. Remember
+#'   that [edit_r_environ()] can help get `.Renviron` open for editing.
+#' * Use [github_token()] to store your token for the duration of the current R
+#'   session.
+#' * Provide the token directly via the `auth_token` argument.
 #'
 #' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
