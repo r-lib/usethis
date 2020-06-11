@@ -1,7 +1,7 @@
 devtools::load_all()
 
 pkgname <- "klmnop"
-# use_git_protocol("ssh")
+#use_git_protocol("ssh")
 use_git_protocol("https")
 git_protocol()
 
@@ -17,13 +17,13 @@ use_github()
 use_git()
 
 ## set 'origin'
-git2r::remote_add(git_repo(), "origin", "fake-origin-url")
+use_git_remote("origin", "fake-origin-url")
 
 ## should fail early because 'origin' is already configured
 use_github()
 
 ## remove the 'origin' remote
-git2r::remote_remove(git_repo(), "origin")
+use_git_remote("origin", NULL, overwrite = TRUE)
 
 ## should fail, due to lack of auth_token
 withr::with_envvar(
@@ -31,15 +31,14 @@ withr::with_envvar(
   use_github()
 )
 
-## should create the GitHub repo and configure 'origin', but fail to push,
-## due to bad credentials
-use_github(credentials = "nope")
-## in the shell, in the correct wd, do as we recommend:
-## git push --set-upstream origin master
-## should succeed (perhaps entering ssh passphrase), refresh browser to verify
+## should work
+use_github()
+
+## make sure this reflects ssh vs. https, as appropriate
+git_remotes()
 
 ## remove the 'origin' remote
-git2r::remote_remove(git_repo(), "origin")
+use_git_remote("origin", NULL, overwrite = TRUE)
 
 ## should fail because GitHub repo already exists
 use_github()
@@ -54,6 +53,7 @@ gh::gh(
 
 ## should work!
 
+# 2020-06-10 Not updated for windows, since I haven't set up a VM yet
 # revisit on my Windows VM
 # if (.Platform$OS.type == "windows") {
 #   cred <- git2r::cred_ssh_key(
