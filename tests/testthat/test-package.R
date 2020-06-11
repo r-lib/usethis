@@ -7,7 +7,15 @@ test_that("use_package() won't facilitate dependency on tidyverse", {
 # use_dev_package() -----------------------------------------------------------
 
 test_that("package_remote() works for an installed package with github URL", {
-  expect_equal(package_remote("fs"), "r-lib/fs")
+  d <- desc::desc(text = c(
+    "Package: test",
+    "URL: https://github.com/OWNER/test"
+  ))
+  with_mock(
+    `desc::desc` = function(package) d,
+    ui_yeah = function(...) TRUE,
+    expect_equal(package_remote("whatever"), "OWNER/test")
+  )
 })
 
 test_that("package_remote() works for package installed from github or gitlab", {
@@ -19,13 +27,13 @@ test_that("package_remote() works for package installed from github or gitlab", 
   ))
   with_mock(
     `desc::desc` = function(package) d,
-    expect_equal(package_remote(d), "OWNER/test")
+    expect_equal(package_remote("whatever"), "OWNER/test")
   )
 
   d$set(RemoteType = "gitlab")
   with_mock(
     `desc::desc` = function(package) d,
-    expect_equal(package_remote(d), "gitlab::OWNER/test")
+    expect_equal(package_remote("whatever"), "gitlab::OWNER/test")
   )
 })
 
