@@ -30,10 +30,10 @@ or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3".}
 
-\item{credentials}{\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}:
+\item{credentials}{\Sexpr[results=rd, stage=render]{lifecycle::badge("defunct")}:
 No longer consulted now that usethis uses the gert package for Git
 operations, instead of git2r. Note that gert relies on the credentials
-package to do auth. \lifecycle{deprecated}}
+package to do auth. \lifecycle{defunct}}
 }
 \description{
 \code{use_github()} takes a local project and:
@@ -76,8 +76,7 @@ session.
 \examples{
 \dontrun{
 pkgpath <- file.path(tempdir(), "testpkg")
-create_package(pkgpath) # creates package below temp directory
-proj_set(pkgpath)
+create_package(pkgpath)
 
 ## now, working inside "testpkg", initialize git repository
 use_git()

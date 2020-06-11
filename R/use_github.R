@@ -52,8 +52,7 @@
 #' @examples
 #' \dontrun{
 #' pkgpath <- file.path(tempdir(), "testpkg")
-#' create_package(pkgpath) # creates package below temp directory
-#' proj_set(pkgpath)
+#' create_package(pkgpath)
 #'
 #' ## now, working inside "testpkg", initialize git repository
 #' use_git()
