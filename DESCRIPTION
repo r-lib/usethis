@@ -34,6 +34,7 @@ Imports:
     gh (>= 1.1.0),
     git2r (>= 0.23),
     glue (>= 1.3.0),
+    lifecycle,
     purrr,
     rematch2,
     rlang (>= 0.4.3),
@@ -54,10 +55,11 @@ Suggests:
     spelling (>= 1.2),
     styler (>= 1.2.0),
     testthat (>= 2.1.0)
+Remotes: 
+    r-lib/gert
 Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
-Remotes:  
-    r-lib/gert
+RdMacros: lifecycle
