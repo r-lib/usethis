@@ -50,10 +50,9 @@ pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
 to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
 
-\item{credentials}{\Sexpr[results=rd, stage=render]{lifecycle::badge("defunct")}:
-No longer consulted now that usethis uses the gert package for Git
-operations, instead of git2r. Note that gert relies on the credentials
-package to do auth. \lifecycle{defunct}}
+\item{credentials}{\lifecycle{defunct}: No longer consulted now that usethis
+uses the gert package for Git operations, instead of git2r. Note that gert
+relies on the credentials package for auth.}
 
 \item{auth_token}{GitHub personal access token (PAT).}
 

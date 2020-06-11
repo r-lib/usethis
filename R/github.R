@@ -1,6 +1,5 @@
 #' Connect a local repo with GitHub
 #'
-#'
 #' @description
 #' `use_github()` takes a local project and:
 #' * Checks that the initial state is good to go:
@@ -20,17 +19,32 @@
 #' all of this to work.
 #'
 #' @section Authentication:
-#' A new GitHub repo will be created via the GitHub API, therefore you must
-#' make a [GitHub personal access token
-#' (PAT)](https://github.com/settings/tokens) available. Here are different ways
-#' to provide the token, in order of preference:
+#' This function interacts with GitHub in two different ways:
+#' * via the GitHub REST API
+#' * as a conventional Git remote
+#' Therefore two types of auth happen.
+#'
+#' A new GitHub repo is created via the GitHub API, therefore you must make a
+#' [GitHub personal access token (PAT)](https://github.com/settings/tokens)
+#' available. There are two ways to provide the token, in order of preference:
 #' * Configure your token as the `GITHUB_PAT` env var in `.Renviron`. Then it
 #'   can be used by many packages and functions, without any effort on your
 #'   part. If you don't have a token yet, see [browse_github_token()]. Remember
 #'   that [edit_r_environ()] can help get `.Renviron` open for editing.
-#' * Use [github_token()] to store your token for the duration of the current R
-#'   session.
 #' * Provide the token directly via the `auth_token` argument.
+#'
+#' The final push to GitHub means that regular Git credentials (for either the
+#' SSH or HTTPS protocol) must also be available, just as `git push` on the
+#' command line would require. usethis uses the gert package for git operations
+#' (<https://docs.ropensci.org/gert>) and gert, in turn, relies on the
+#' credentials package (<https://cran.r-project.org/package=credentials>) for
+#' auth. In usethis v1.7.0, we switched from git2r to gert + credentials. This
+#' pair of packages appears to be more successful in discovering and using the
+#' same credentials as command line Git. As a result, a great deal of
+#' credential-handling assistance has been removed from usethis. If you have
+#' credential problems, focus your troubleshooting on getting the credentials
+#' package to find your credentials. If you use the HTTPS protocol, a configured
+#' `GITHUB_PAT` will satisfy both auth needs.
 #'
 #' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
@@ -42,11 +56,9 @@
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
 #'   "https://github.hostname.com/api/v3".
-#' @param credentials
-#'   \Sexpr[results=rd, stage=render]{lifecycle::badge("defunct")}:
-#'   No longer consulted now that usethis uses the gert package for Git
-#'   operations, instead of git2r. Note that gert relies on the credentials
-#'   package to do auth. \lifecycle{defunct}
+#' @param credentials \lifecycle{defunct}: No longer consulted now that usethis
+#'   uses the gert package for Git operations, instead of git2r. Note that gert
+#'   relies on the credentials package for auth.
 #'
 #' @export
 #' @examples

@@ -30,10 +30,9 @@ or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3".}
 
-\item{credentials}{\Sexpr[results=rd, stage=render]{lifecycle::badge("defunct")}:
-No longer consulted now that usethis uses the gert package for Git
-operations, instead of git2r. Note that gert relies on the credentials
-package to do auth. \lifecycle{defunct}}
+\item{credentials}{\lifecycle{defunct}: No longer consulted now that usethis
+uses the gert package for Git operations, instead of git2r. Note that gert
+relies on the credentials package for auth.}
 }
 \description{
 \code{use_github()} takes a local project and:
@@ -59,18 +58,36 @@ all of this to work.
 }
 \section{Authentication}{
 
-A new GitHub repo will be created via the GitHub API, therefore you must
-make a \href{https://github.com/settings/tokens}{GitHub personal access token (PAT)} available. Here are different ways
-to provide the token, in order of preference:
+This function interacts with GitHub in two different ways:
+\itemize{
+\item via the GitHub REST API
+\item as a conventional Git remote
+Therefore two types of auth happen.
+}
+
+A new GitHub repo is created via the GitHub API, therefore you must make a
+\href{https://github.com/settings/tokens}{GitHub personal access token (PAT)}
+available. There are two ways to provide the token, in order of preference:
 \itemize{
 \item Configure your token as the \code{GITHUB_PAT} env var in \code{.Renviron}. Then it
 can be used by many packages and functions, without any effort on your
 part. If you don't have a token yet, see \code{\link[=browse_github_token]{browse_github_token()}}. Remember
 that \code{\link[=edit_r_environ]{edit_r_environ()}} can help get \code{.Renviron} open for editing.
-\item Use \code{\link[=github_token]{github_token()}} to store your token for the duration of the current R
-session.
 \item Provide the token directly via the \code{auth_token} argument.
 }
+
+The final push to GitHub means that regular Git credentials (for either the
+SSH or HTTPS protocol) must also be available, just as \verb{git push} on the
+command line would require. usethis uses the gert package for git operations
+(\url{https://docs.ropensci.org/gert}) and gert, in turn, relies on the
+credentials package (\url{https://cran.r-project.org/package=credentials}) for
+auth. In usethis v1.7.0, we switched from git2r to gert + credentials. This
+pair of packages appears to be more successful in discovering and using the
+same credentials as command line Git. As a result, a great deal of
+credential-handling assistance has been removed from usethis. If you have
+credential problems, focus your troubleshooting on getting the credentials
+package to find your credentials. If you use the HTTPS protocol, a configured
+\code{GITHUB_PAT} will satisfy both auth needs.
 }
 
 \examples{
