@@ -8,9 +8,9 @@ use_github(
   organisation = NULL,
   private = FALSE,
   protocol = git_protocol(),
-  credentials = NULL,
   auth_token = github_token(),
-  host = NULL
+  host = NULL,
+  credentials = deprecated()
 )
 }
 \arguments{
@@ -24,15 +24,16 @@ organisation, instead of the account of the user associated with the
 to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
 
-\item{credentials}{A git2r credential object produced with
-\code{\link[git2r:cred_env]{git2r::cred_env()}}, \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}, \code{\link[git2r:cred_token]{git2r::cred_token()}}, or
-\code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}.}
-
 \item{auth_token}{GitHub personal access token (PAT).}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3".}
+
+\item{credentials}{\Sexpr[results=rd, stage=render]{lifecycle::badge("deprecated")}:
+No longer consulted now that usethis uses the gert package for Git
+operations, instead of git2r. Note that gert relies on the credentials
+package to do auth. \lifecycle{deprecated}}
 }
 \description{
 \code{use_github()} takes a local project and:

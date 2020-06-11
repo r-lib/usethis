@@ -17,3 +17,20 @@ use_depsy_badge <- function() {
   )
   .Defunct(msg = msg)
 }
+
+deprecate_warn_credentials <- function(whos_asking, details = NULL) {
+  whos_asking <- sub("[()]+$", "", whos_asking)
+  what <- glue("{whos_asking}(credentials = )")
+  deets <- glue("
+    usethis now uses the gert package for Git operations, instead of git2r, and
+    gert relies on the credentials package for auth. Therefore git2r credentials
+    are no longer accepted.
+    ")
+
+  lifecycle::deprecate_warn(
+    "1.7.0",
+    "use_github(credentials = )",
+    details = details %||% deets
+  )
+}
+

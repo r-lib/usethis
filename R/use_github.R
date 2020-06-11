@@ -42,6 +42,11 @@
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
 #'   "https://github.hostname.com/api/v3".
+#' @param credentials
+#'   \Sexpr[results=rd, stage=render]{lifecycle::badge("defunct")}:
+#'   No longer consulted now that usethis uses the gert package for Git
+#'   operations, instead of git2r. Note that gert relies on the credentials
+#'   package to do auth. \lifecycle{defunct}
 #'
 #' @export
 #' @examples
@@ -59,33 +64,29 @@
 use_github <- function(organisation = NULL,
                        private = FALSE,
                        protocol = git_protocol(),
-                       credentials = NULL,
                        auth_token = github_token(),
-                       host = NULL) {
+                       host = NULL,
+                       credentials = deprecated()) {
   check_uses_git()
   check_branch("master")
   check_no_uncommitted_changes()
   check_no_origin()
   check_github_token(auth_token)
 
-  credentials <- credentials %||% git_credentials(protocol, auth_token)
-  r <- git2r_repo()
+  if (lifecycle::is_present(credentials)) {
+    deprecate_warn_credentials("use_github")
+  }
+
   owner <- organisation %||% github_user(auth_token)[["login"]]
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host, auth_token)
 
   repo_desc <- project_data()$Title %||% ""
   repo_desc <- gsub("\n", " ", repo_desc)
+  repo_spec <- glue("{owner}/{repo_name}")
 
-  ui_done("Creating GitHub repository")
-  ui_done("Setting repo name and description")
-  ui_code_block(
-    "
-    Name:        {repo_name}
-    Description: {repo_desc}
-    ",
-    copy = FALSE
-  )
+  private_string <- if (private) "private" else ""
+  ui_done("Creating {private_string} GitHub repository {ui_value(repo_spec)}")
   if (is.null(organisation)) {
     create <- gh::gh(
       "POST /user/repos",
@@ -112,12 +113,12 @@ use_github <- function(organisation = NULL,
     https = create$clone_url,
     ssh   = create$ssh_url
   )
+  on.exit(view_url(create$html_url), add = TRUE)
 
   ui_done("Setting remote {ui_value('origin')} to {ui_value(origin_url)}")
-  git2r::remote_add(r, "origin", origin_url)
+  use_git_remote("origin", origin_url)
 
   if (is_package()) {
-    ui_done("Adding GitHub links to DESCRIPTION")
     use_github_links(auth_token = auth_token, host = host)
     if (git_uncommitted(untracked = FALSE)) {
       git_ask_commit(
@@ -128,28 +129,14 @@ use_github <- function(organisation = NULL,
     }
   }
 
-  ui_done("Pushing {ui_value('master')} branch to GitHub and setting remote tracking branch")
-  pushed <- tryCatch(
-    {
-      git2r::push(r, "origin", "refs/heads/master", credentials = credentials)
-      TRUE
-    },
-    error = function(e) FALSE
-  )
-  if (pushed) {
-    git2r::branch_set_upstream(git2r::repository_head(r), "origin/master")
-  } else {
-    ui_todo(c(
-      "Failed to push and set tracking branch.",
-      "This often indicates a problem with git2r and the credentials.",
-      "Try this in the shell, to complete the set up:",
-      "{ui_code('git push --set-upstream origin master')}"
-    ))
-  }
+  ui_done("
+    Pushing {ui_value('master')} branch to GitHub and setting \\
+    {ui_value('origin/master')} as upstream branch
+    ")
 
-  view_url(create$html_url)
+  gert::git_push(remote = "origin", repo = git_repo())
 
-  invisible(NULL)
+  invisible()
 }
 
 #' Use GitHub links in URL and BugReports
