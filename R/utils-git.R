@@ -330,7 +330,7 @@ check_branch <- function(branch) {
   ui_done("Checking that current branch is {ui_value(branch)}")
   actual <- git_branch()
   if (actual == branch) {
-    return()
+    return(invisible())
   }
   code <- glue("git checkout {branch}")
   ui_stop(
