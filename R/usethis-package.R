@@ -1,5 +1,5 @@
 #' @keywords internal
-#' @importFrom glue glue glue_collapse
+#' @importFrom glue glue glue_collapse glue_data
 #' @import fs
 #' @import rlang
 "_PACKAGE"
