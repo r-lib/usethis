@@ -4,7 +4,7 @@ github_remotes <- function() {
     return(NULL)
   }
   m <- vapply(remotes, function(x) grepl("github", x), logical(1))
-  if (length(m) == 0) {
+  if (sum(m) == 0) {
     return(NULL)
   }
   remotes[m]
