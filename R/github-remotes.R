@@ -90,16 +90,15 @@ github_remotes2 <- function(these = c("origin", "upstream"),
 #' * theirs: `origin` exists, is not a fork, and we can NOT push to it. No
 #'   `upstream`.
 #' * fork: `origin` exists and we can push to it. `origin` is a fork of the repo
-#'   configured as `upstream`, which is also the fork parent. We may or may not
-#'   be able to push to `upstream`.
-#' * fork_no_upstream: `origin` exists and we can push to it. `origin` is a fork
-#'   of the repo but the parent repo has not (yet) been configured as the
+#'   configured as `upstream`. We may or may not be able to push to `upstream`.
+#' * fork_no_upstream: `origin` exists and we can push to it. `origin` is a
+#'   fork, but that parent repo has not (yet) been configured as the
 #'   `upstream` remote.
 #'
 #' Possible GitHub remote configurations, the peculiar ones:
 #' * upstream_only: `upstream` exists but `origin` does not.
-#' * fork_origin_read_only: `origin` exists, it's a fork, but we
-#'   can't push to `origin`. `upstream` may or may not be configured.
+#' * fork_origin_read_only: `origin` exists, it's a fork, but we can't push to
+#'   `origin`. `upstream` may or may not be configured.
 #' * fork_upstream_is_not_origin_parent: `origin` exists, it's a fork of
 #'   something, `upstream` exists, but `origin` is not a fork of `upstream`.
 #' * upstream_but_origin_is_not_fork: `origin` and `upstream` both exist, but
