@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_cpp11()` function added to setup an R package to use cpp11.
+
 `create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
 
 # usethis 1.6.1
