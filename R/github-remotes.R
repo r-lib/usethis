@@ -263,6 +263,21 @@ print.github_config <- function(x, ...) {
   cat(format(x), sep = "\n")
 }
 
+#' @export
+conditionMessage.usethis_error_bad_github_config <- function(cnd) {
+  glue::glue_data(
+    cnd$cfg,
+    "Unsupported GitHub remote configuration: {desc}"
+  )
+}
+
+stop_bad_github_config <- function(cfg) {
+  abort(
+    class = c("usethis_error_bad_github_config", "usethis_error"),
+    cfg = cfg
+  )
+}
+
 ## common configurations ----
 cfg_no_github <- function(cfg) {
   utils::modifyList(
