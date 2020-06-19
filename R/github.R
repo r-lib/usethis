@@ -145,9 +145,7 @@ use_github <- function(organisation = NULL,
     {ui_value('origin/master')} as upstream branch
     ")
 
-  # stay tuned in case I need to explicitly set up tracking branch
-  # https://github.com/r-lib/gert/issues/51
-  gert::git_push(remote = "origin", repo = git_repo())
+  gert::git_push(remote = "origin", set_upstream = TRUE, repo = git_repo())
 
   invisible()
 }
