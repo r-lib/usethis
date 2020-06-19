@@ -129,7 +129,6 @@ classify_github_setup <- function(auth_token = github_token(),
   }
 
   if (cfg$origin$is_configured) {
-    cfg$origin$name <- "origin"
     cols <- intersect(names(grl), names(cfg$origin))
     origin <- grl[grl$remote == "origin", cols]
     cfg$origin <- utils::modifyList(cfg$origin, origin)
@@ -139,7 +138,6 @@ classify_github_setup <- function(auth_token = github_token(),
   }
 
   if (cfg$upstream$is_configured) {
-    cfg$upstream$name <- "upstream"
     cols <- intersect(names(grl), names(cfg$upstream))
     upstream <- grl[grl$remote == "upstream", cols]
     cfg$upstream <- utils::modifyList(cfg$upstream, upstream)
@@ -288,6 +286,22 @@ stop_bad_github_config <- function(cfg) {
   abort(
     class = c("usethis_error_bad_github_config", "usethis_error"),
     cfg = cfg
+  )
+}
+
+ui_github_config_wtf <- function(cfg) {
+  ui_yeah(
+    github_config_wtf(cfg),
+    yes = "Yes, I want to proceed. I know what I'm doing.",
+    no = "No, I want to back out and straighten out my GitHub remotes.",
+    n_yes = 1, n_no = 1, shuffle = FALSE
+  )
+}
+
+github_config_wtf <- function(cfg) {
+  c(
+    ui_oops("Unsupported GitHub remote configuration: {ui_value(cfg$type)}"),
+    ui_line(tail(format(cfg), -1))
   )
 }
 
