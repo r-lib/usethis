@@ -11,15 +11,16 @@
 #'   `ui_info()`.
 #' * conditions: `ui_stop()`, `ui_warn()`.
 #' * questions: [ui_yeah()], [ui_nope()].
-#' * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`.
+#' * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`,
+#'   `ui_unset()`.
 #'
 #' The question functions [ui_yeah()] and [ui_nope()] have their own [help
 #' page][ui-questions].
 #'
 #' @section Silencing output:
 #' All UI output (apart from `ui_yeah()`/`ui_nope()` prompts) can be silenced
-#' by setting `options(usethis.quiet = TRUE)`. Use `ui_silence()` to selected
-#' actions.
+#' by setting `options(usethis.quiet = TRUE)`. Use `ui_silence()` to silence
+#' selected actions.
 #'
 #' @param x A character vector.
 #'
@@ -276,6 +277,15 @@ ui_code <- function(x) {
   x
 }
 
+#' @rdname ui
+#' @export
+ui_unset <- function(x = "unset") {
+  stopifnot(length(x) == 1)
+  x <- glue("<{x}>")
+  x <- crayon::silver(x)
+  x
+}
+
 # Cat wrappers ---------------------------------------------------------------
 
 ui_bullet <- function(x, bullet) {
@@ -301,10 +311,6 @@ hd_line <- function(name) {
 }
 
 kv_line <- function(key, value) {
-  if (is.null(value)) {
-    value <- crayon::silver("<unset>")
-  } else {
-    value <- ui_value(value)
-  }
+  value <- if (is.null(value)) ui_unset() else ui_value(value)
   ui_inform("* ", key, ": ", value)
 }
