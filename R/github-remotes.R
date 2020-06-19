@@ -227,8 +227,7 @@ new_github_config <- function() {
   )
 }
 
-#' @export
-format.github_config <- function(x, ...) {
+format_remote <- function(remote) {
   effective_spec <- function(remote) {
     if (remote$is_configured) {
       ui_value(remote$repo_spec)
@@ -241,36 +240,47 @@ format.github_config <- function(x, ...) {
       if (remote$can_push) " (can push)" else " (can not push)"
     }
   }
-
-  origin_push <-
-  origin_lines <- c(
-    "origin = ", effective_spec(x$origin), push_clause(x$origin),
-    if (isTRUE(x$origin$is_fork)) {
-      glue(" = fork of {ui_value(x$origin$parent_repo_spec)}")
+  out <- c(
+    glue("{remote$name} = {effective_spec(remote)}"),
+    push_clause(remote),
+    if (isTRUE(remote$is_fork)) {
+      glue(" = fork of {ui_value(remote$parent_repo_spec)}")
     }
   )
-  upstream_lines <- c(
-    "upstream = ", effective_spec(x$upstream), push_clause(x$upstream)
-  )
-  c(
-    glue("GitHub remote configuration = {ui_value(x$type)}"),
-    glue("supported = {!x$unsupported}"),
-    glue_collapse(origin_lines),
-    glue_collapse(upstream_lines),
-    if (!is.na(x$desc)) glue("Notes: {x$desc}")
+  glue_collapse(out)
+}
+
+format_fields <- function(cfg) {
+  silver <- crayon::silver
+  list(
+    type = glue("type = {ui_value(cfg$type)}"),
+    unsupported = glue("unsupported = {ui_value(cfg$unsupported)}"),
+    origin = format_remote(cfg$origin),
+    upstream = format_remote(cfg$upstream),
+    desc = if (is.na(cfg$desc)) {
+      glue::glue_col("desc = {silver <no description>}")
+    } else {
+      glue("desc = {cfg$desc}")
+    }
   )
 }
 
 #' @export
+format.github_config <- function(x, ...) {
+  glue::as_glue(format_fields(x))
+}
+
+#' @export
 print.github_config <- function(x, ...) {
-  cat(format(x), sep = "\n")
+  cat(format(x, ...), sep = "\n")
+  invisible(x)
 }
 
 #' @export
 conditionMessage.usethis_error_bad_github_config <- function(cnd) {
   glue::glue_data(
     cnd$cfg,
-    "Unsupported GitHub remote configuration: {desc}"
+    "Unsupported GitHub remote configuration. {desc}"
   )
 }
 
