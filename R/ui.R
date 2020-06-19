@@ -139,7 +139,7 @@ ui_warn <- function(x, .envir = parent.frame()) {
 # Silence -----------------------------------------------------------------
 
 #' @rdname ui
-#' @param code Code to execute with usually UI output silenced.
+#' @param code Code to execute with usual UI output silenced.
 #' @export
 ui_silence <- function(code) {
   old <- options(usethis.quiet = TRUE)

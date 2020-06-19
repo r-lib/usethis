@@ -57,7 +57,7 @@ environment. For expert use only.}
 \item{copy}{If \code{TRUE}, the session is interactive, and the clipr package
 is installed, will copy the code block to the clipboard.}
 
-\item{code}{Code to execute with usually UI output silenced.}
+\item{code}{Code to execute with usual UI output silenced.}
 
 \item{base}{If specified, paths will be displayed relative to this path.}
 }
