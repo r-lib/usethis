@@ -129,6 +129,7 @@ classify_github_setup <- function(auth_token = github_token(),
   }
 
   if (cfg$origin$is_configured) {
+    cfg$origin$name <- "origin"
     cols <- intersect(names(grl), names(cfg$origin))
     origin <- grl[grl$remote == "origin", cols]
     cfg$origin <- utils::modifyList(cfg$origin, origin)
@@ -138,6 +139,7 @@ classify_github_setup <- function(auth_token = github_token(),
   }
 
   if (cfg$upstream$is_configured) {
+    cfg$upstream$name <- "upstream"
     cols <- intersect(names(grl), names(cfg$upstream))
     upstream <- grl[grl$remote == "upstream", cols]
     cfg$upstream <- utils::modifyList(cfg$upstream, upstream)
@@ -197,6 +199,7 @@ new_github_config <- function() {
       unsupported = TRUE,
       desc = "Unexpected remote configuration.",
       origin = list(
+        name = "origin",
         is_configured = FALSE,
         url = NA_character_,
         can_push = NA,
@@ -211,6 +214,7 @@ new_github_config <- function() {
         parent_repo_spec = NA_character_
       ),
       upstream = list(
+        name = "upstream",
         is_configured = FALSE,
         url = NA_character_,
         can_push = NA,
