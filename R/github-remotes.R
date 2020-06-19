@@ -83,8 +83,18 @@ github_remotes2 <- function(these = c("origin", "upstream"),
 #' We assume the project is a Git repo, so use this behind a guard like
 #' `check_uses_git()`.
 #'
+#' Some setups are *supported*, meaning usethis can do its job correctly, and
+#' others are *unsupported*, meaning usethis can't fulfill the user's request.
+#' Some *supported* setups are still considered suboptimal. Here's how I think
+#' this will work for any specific usethis function:
+#' * `stop_bad_github_config()` for unsupported setups
+#' * Use `ui_github_config_wat()` to inform the user about
+#'   suboptimal-but-supported setups and give them a chance to back out. The
+#'   setups that trigger this may vary from function to function.
+#' * Proceed quietly for setups we consider ideal.
+#'
 #' Possible GitHub remote configurations, the common cases:
-#' * no_github: No `origin`, no `upstream`.
+#' * no_github: No `origin`, no `upstream`. Unsupported.
 #' * ours: `origin` exists, is not a fork, and we can push to it. Owner of
 #'   `origin` could be current user, another user, or an org. No `upstream`.
 #' * theirs: `origin` exists, is not a fork, and we can NOT push to it. No
@@ -225,12 +235,13 @@ new_github_config <- function() {
   )
 }
 
+# formatting github remote configurations for humans ---------------------------
 format_remote <- function(remote) {
   effective_spec <- function(remote) {
     if (remote$is_configured) {
       ui_value(remote$repo_spec)
     } else {
-      crayon::silver("<not configured>")
+      ui_unset("not configured")
     }
   }
   push_clause <- function(remote) {
@@ -249,14 +260,13 @@ format_remote <- function(remote) {
 }
 
 format_fields <- function(cfg) {
-  silver <- crayon::silver
   list(
     type = glue("type = {ui_value(cfg$type)}"),
     unsupported = glue("unsupported = {ui_value(cfg$unsupported)}"),
     origin = format_remote(cfg$origin),
     upstream = format_remote(cfg$upstream),
     desc = if (is.na(cfg$desc)) {
-      glue::glue_col("desc = {silver <no description>}")
+      glue("desc = {ui_unset('no description')}")
     } else {
       glue("desc = {cfg$desc}")
     }
@@ -274,38 +284,38 @@ print.github_config <- function(x, ...) {
   invisible(x)
 }
 
-#' @export
-conditionMessage.usethis_error_bad_github_config <- function(cnd) {
-  glue::glue_data(
-    cnd$cfg,
-    "Unsupported GitHub remote configuration. {desc}"
+# refines output of format_fields() to create input better suited to
+# ui_github_config_wat() and stop_bad_github_config()
+github_config_wat <- function(cfg, context = c("menu", "abort")) {
+  context <- match.arg(context)
+  adjective <- switch(context, menu = "Unexpected", abort = "Unsupported")
+  out <- format_fields(cfg)
+  out$unsupported <- NULL
+  out$type <- glue("{adjective} GitHub remote configuration: {ui_value(cfg$type)}")
+  out$desc <- if (is.na(cfg$desc)) NULL else cfg$desc
+  out
+}
+
+# returns TRUE if user selects "no" --> exit the calling function
+# return FALSE if user select "yes" --> keep going, they've been warned
+ui_github_config_wat <- function(cfg) {
+  ui_nope(
+    github_config_wat(cfg, context = "menu"),
+    yes = "Yes, I want to proceed. I know what I'm doing.",
+    no = "No, I want to stop and straighten out my GitHub remotes first.",
+    n_yes = 1, n_no = 1, shuffle = FALSE
   )
 }
 
 stop_bad_github_config <- function(cfg) {
   abort(
+    message = unname(github_config_wat(cfg, context = "abort")),
     class = c("usethis_error_bad_github_config", "usethis_error"),
     cfg = cfg
   )
 }
 
-ui_github_config_wtf <- function(cfg) {
-  ui_yeah(
-    github_config_wtf(cfg),
-    yes = "Yes, I want to proceed. I know what I'm doing.",
-    no = "No, I want to back out and straighten out my GitHub remotes.",
-    n_yes = 1, n_no = 1, shuffle = FALSE
-  )
-}
-
-github_config_wtf <- function(cfg) {
-  c(
-    ui_oops("Unsupported GitHub remote configuration: {ui_value(cfg$type)}"),
-    ui_line(tail(format(cfg), -1))
-  )
-}
-
-## common configurations ----
+# common configurations --------------------------------------------------------
 cfg_no_github <- function(cfg) {
   utils::modifyList(
     cfg,
@@ -359,7 +369,7 @@ cfg_fork_no_upstream <- function(cfg) {
   )
 }
 
-## peculiar configurations ----
+# peculiar configurations ------------------------------------------------------
 cfg_fork_origin_read_only <- function(cfg) {
   utils::modifyList(
     cfg,
