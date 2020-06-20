@@ -131,7 +131,17 @@ use_github <- function(organisation = NULL,
   use_git_remote("origin", origin_url)
 
   if (is_package()) {
-    use_github_links(auth_token = auth_token, host = host)
+    error <- tryCatch(
+      use_github_links(auth_token = auth_token, host = host),
+      usethis_error = function(e) e
+    )
+    if (!is.null(error)) {
+      ui_oops("
+        Unable to update the links in {ui_field('URL')} and/or \\
+        {ui_field('BugReports')} in DESCRIPTION.
+        Call \\
+        {ui_code('usethis::use_github_links(overwrite = TRUE)')} to fix.")
+    }
     if (git_uncommitted(untracked = FALSE)) {
       git_ask_commit(
         "Add GitHub links to DESCRIPTION",
@@ -177,6 +187,7 @@ use_github_links <- function(auth_token = github_token(),
       ui_github_config_wat(cfg)) {
     return(invisible())
   }
+
   if (cfg$type %in% c("ours", "theirs")) {
     remote <- cfg$origin
   } else { # cfg$type %in% c("fork", "fork_no_upstream")

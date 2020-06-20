@@ -9,8 +9,6 @@ git_protocol()
 
 (pkgpath <- path_temp(pkgname))
 create_local_package(pkgpath)
-proj_set(pkgpath)
-setwd(pkgpath)
 proj_sitrep()
 
 # should fail, not a git repo yet
