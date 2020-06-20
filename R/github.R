@@ -296,12 +296,11 @@ uses_github <- function() {
 check_no_origin <- function() {
   remotes <- git_remotes()
   if ("origin" %in% names(remotes)) {
-    ui_stop(c(
-      "This repo already has an {ui_value('origin')} remote, \\
-      with value {ui_value(remotes[['origin']])}.",
-      "You can remove this setting with: \\
-      {ui_code('usethis::use_git_remote(\"origin\", url = NULL, overwrite = TRUE)')}"
-    ))
+    ui_stop("
+      This repo already has an {ui_value('origin')} remote, \\
+      with value {ui_value(remotes[['origin']])}.
+      You can remove this setting with:
+      {ui_code('usethis::use_git_remote(\"origin\", url = NULL, overwrite = TRUE)')}")
   }
   invisible()
 }
