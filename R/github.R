@@ -194,7 +194,7 @@ use_github_links <- function(auth_token = github_token(),
   use_description_field("URL", res$html_url, overwrite = overwrite)
   use_description_field(
     "BugReports",
-    as.character(glue("{res$html_url}/issues")),
+    glue("{res$html_url}/issues"),
     overwrite = overwrite
   )
 
