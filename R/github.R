@@ -154,7 +154,8 @@ use_github <- function(organisation = NULL,
 #' Use GitHub links in URL and BugReports
 #'
 #' Populates the `URL` and `BugReports` fields of a GitHub-using R package with
-#' appropriate links.
+#' appropriate links. The ability to determine the correct URLs depends on
+#' finding a fairly standard GitHub remote configuration.
 #'
 #' @inheritParams use_github
 #' @export
@@ -168,12 +169,24 @@ use_github <- function(organisation = NULL,
 use_github_links <- function(auth_token = github_token(),
                              host = "https://api.github.com",
                              overwrite = FALSE) {
-  check_uses_github()
+  cfg <- classify_github_setup(auth_token = auth_token, host = host)
+  if (cfg$unsupported) {
+    stop_bad_github_config(cfg)
+  }
+  if (cfg$type %in% c("theirs", "fork_no_upstream") &&
+      ui_github_config_wat(cfg)) {
+    return(invisible())
+  }
+  if (cfg$type %in% c("ours", "theirs")) {
+    remote <- cfg$origin
+  } else { # cfg$type %in% c("fork", "fork_no_upstream")
+    remote <- cfg$upstream
+  }
 
   res <- gh::gh(
     "GET /repos/:owner/:repo",
-    owner = github_owner_upstream() %||% github_owner(),
-    repo = github_repo(),
+    owner = remote$repo_owner,
+    repo = remote$repo_name,
     .api_url = host,
     .token = check_github_token(auth_token, allow_empty = TRUE)
   )
@@ -181,7 +194,7 @@ use_github_links <- function(auth_token = github_token(),
   use_description_field("URL", res$html_url, overwrite = overwrite)
   use_description_field(
     "BugReports",
-    paste0(res$html_url, "/issues"),
+    glue("{res$html_url}/issues"),
     overwrite = overwrite
   )
 

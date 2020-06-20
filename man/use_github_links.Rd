@@ -22,7 +22,8 @@ fields. Set to \code{TRUE} to overwrite existing links.}
 }
 \description{
 Populates the \code{URL} and \code{BugReports} fields of a GitHub-using R package with
-appropriate links.
+appropriate links. The ability to determine the correct URLs depends on
+finding a fairly standard GitHub remote configuration.
 }
 \examples{
 \dontrun{
