@@ -1,4 +1,6 @@
-devtools::load_all()
+pkgload::unload("devtools")
+devtools::load_all("~/rrr/usethis")
+attachNamespace("devtools")
 
 pkgname <- "klmnop"
 #use_git_protocol("ssh")
@@ -6,52 +8,54 @@ use_git_protocol("https")
 git_protocol()
 
 (pkgpath <- path_temp(pkgname))
-create_package(pkgpath, open = FALSE)
+create_local_package(pkgpath)
 proj_set(pkgpath)
 setwd(pkgpath)
 proj_sitrep()
 
-## should fail, not a git repo yet
+# should fail, not a git repo yet
 use_github()
 
+# say YES to the commit
 use_git()
 
-## set 'origin'
+# set 'origin'
 use_git_remote("origin", "fake-origin-url")
 
-## should fail early because 'origin' is already configured
+# should fail early because 'origin' is already configured
 use_github()
 
-## remove the 'origin' remote
+# remove the 'origin' remote
 use_git_remote("origin", NULL, overwrite = TRUE)
 
-## should fail, due to lack of auth_token
+# should fail, due to lack of auth_token
 withr::with_envvar(
   new = c("GITHUB_PAT" = NA, "GITHUB_TOKEN" = NA),
   use_github()
 )
 
-## should work
-use_github()
+# should work
+use_github(private = TRUE)
 
-## make sure this reflects ssh vs. https, as appropriate
+# make sure this reflects ssh vs. https, as appropriate
 git_remotes()
 
-## remove the 'origin' remote
+# remove the 'origin' remote
 use_git_remote("origin", NULL, overwrite = TRUE)
 
-## should fail because GitHub repo already exists
+# should fail because GitHub repo already exists
 use_github()
 
-## delete the GitHub repo
+# delete the GitHub repo
 (gh_account <- gh::gh_whoami())
+pkgname
 gh::gh(
   "DELETE /repos/:username/:pkg",
   username = gh_account$login,
   pkg = pkgname
 )
 
-## should work!
+# should work!
 
 # 2020-06-10 Not updated for windows, since I haven't set up a VM yet
 # revisit on my Windows VM
@@ -63,14 +67,16 @@ gh::gh(
 # }
 use_github()
 
-## restore initial project, presunably usethis itself
-proj_set(rstudioapi::getActiveProject())
-setwd(proj_get())
-proj_sitrep()
+# 'master' should have 'origin/master' as upstream
+info <- gert::git_info()
+expect_equal(info$upstream, "origin/master")
+
+# restore initial project, working directory, delete local repo
+withr::deferred_run()
 
 ## delete local and remote repo
-fs::dir_delete(pkgpath)
 (gh_account <- gh::gh_whoami())
+pkgname
 gh::gh(
   "DELETE /repos/:username/:pkg",
   username = gh_account$login,
