@@ -342,7 +342,9 @@ cfg_theirs <- function(cfg) {
       unsupported = FALSE,
       desc = glue("
         The only configured GitHub remote is {ui_value('origin')}, which you \\
-        cannot push to. Did you mean to create a fork?
+        cannot push to. If your goal is to make a pull request, you must \\
+        fork-and-clone. {ui_code('usethis::create_from_github()')} can do \\
+        this.
         ")
     )
   )
@@ -362,8 +364,11 @@ cfg_fork_no_upstream <- function(cfg) {
                            # because we won't be able to pull from upstream.
       desc = glue("
         {ui_value('origin')} is a fork, but its parent repo is not configured \\
-        as the {ui_value('upstream')} remote. This means you cannot pull \\
-        changes from {ui_value('upstream')}.
+        as the {ui_value('upstream')} remote.
+        You CAN make a pull request.
+        However, going forward, you can't pull changes from the main repo.
+        Use {ui_code('usethis::use_git_remote()')} to add the parent repo as \\
+        the {ui_value('upstream')} remote.
         ")
     )
   )
