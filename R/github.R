@@ -316,9 +316,8 @@ check_uses_github <- function() {
   ))
 }
 
-github_repo_exists <- function(owner, repo, host, auth_token) {
-  tryCatch(
-    error = function(err) FALSE,
+check_no_github_repo <- function(owner, repo, host, auth_token) {
+  repo_found <- tryCatch(
     {
       gh::gh(
         "/repos/:owner/:repo",
@@ -327,19 +326,16 @@ github_repo_exists <- function(owner, repo, host, auth_token) {
         .token = auth_token
       )
       TRUE
-    }
+    },
+    "http_error_404" = function(err) FALSE,
   )
-}
-
-check_no_github_repo <- function(owner, repo, host, auth_token) {
-  if (!github_repo_exists(owner, repo, host, auth_token)) {
+  if (repo_found) {
     return(invisible())
   }
-  spec <- paste(owner, repo, sep = "/")
-  where <- if (is.null(host)) "github.com" else host
+  spec <- glue("{owner}/{repo}")
+  where <- host %||% "github.com"
   ui_stop("Repo {ui_value(spec)} already exists on {ui_value(where)}.")
 }
-
 
 # github token helpers ----------------------------------------------------
 
