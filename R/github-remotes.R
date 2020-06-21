@@ -346,8 +346,7 @@ cfg_no_github <- function(cfg) {
       unsupported = TRUE,
       desc = glue("
         Neither {ui_value('origin')} nor {ui_value('upstream')} is a GitHub \\
-        repo.
-        ")
+        repo.")
     )
   )
 }
@@ -364,10 +363,10 @@ cfg_theirs <- function(cfg) {
       unsupported = FALSE,
       desc = glue("
         The only configured GitHub remote is {ui_value('origin')}, which you \\
-        cannot push to. If your goal is to make a pull request, you must \\
-        fork-and-clone. {ui_code('usethis::create_from_github()')} can do \\
-        this.
-        ")
+        cannot push to.
+        If your goal is to make a pull request, you must \\
+        fork-and-clone.
+        {ui_code('usethis::create_from_github()')} can do this.")
     )
   )
 }

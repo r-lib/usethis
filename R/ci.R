@@ -71,12 +71,10 @@ check_uses_travis <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  ui_stop(
-    "
+  ui_stop("
     Cannot detect that package {ui_value(project_name(base_path))} already uses Travis.
     Do you need to run {ui_code('use_travis()')}?
-    "
-  )
+    ")
 }
 
 #' @section `use_appveyor()`:
