@@ -112,10 +112,11 @@ stages <- c(
 )
 
 #' @rdname badges
-#' @param urlpath An optional `urlpath` component to add to the link, e.g. `"rstudio"`
-#'   to open an RStudio IDE instead of a Jupyter notebook.
-#'   See the [binder documentation](https://mybinder.readthedocs.io/en/latest/howto/user_interface.html)
-#'   for additional examples.
+#' @param urlpath An optional `urlpath` component to add to the link, e.g.
+#'   `"rstudio"` to open an RStudio IDE instead of a Jupyter notebook. See the
+#'   [binder
+#'   documentation](https://mybinder.readthedocs.io/en/latest/howto/user_interface.html)
+#'    for additional examples.
 #' @export
 use_binder_badge <- function(urlpath = NULL) {
   check_uses_github()
