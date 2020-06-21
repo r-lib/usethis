@@ -103,15 +103,22 @@ check_uses_travis <- function(base_path = proj_get()) {
 #' @export
 #' @rdname ci
 use_appveyor <- function(browse = rlang::is_interactive()) {
-  check_uses_github()
+  remote <- get_github_primary()
 
   new <- use_template("appveyor.yml", ignore = TRUE)
   if (!new) {
     return(invisible(FALSE))
   }
 
+  use_appveyor_badge(remote$repo_spec)
+  if (!remote$can_push) {
+    ui_oops("
+      You don't seem to have push access to the primary repo, \\
+      {ui_value(remote$repo_spec)}.
+      Someone with more permission will need to activate AppVeyor.
+      ")
+  }
   appveyor_activate(browse)
-  use_appveyor_badge()
 
   invisible(TRUE)
 }
@@ -129,20 +136,23 @@ appveyor_activate <- function(browse = is_interactive()) {
 #'  where AppVeyor is already configured.
 #' @export
 #' @rdname ci
-use_appveyor_badge <- function() {
-  appveyor <- appveyor_info()
-  use_badge("AppVeyor build status", appveyor$url, appveyor$img)
-}
+use_appveyor_badge <- function(repo_spec = NULL) {
+  if (is.null(repo_spec)) {
+    remote <- get_github_primary()
+    repo_spec <- remote$repo_spec
+    if (remote$is_fork) {
+      ui_info("
+      Working in a fork, so badge link is based on {ui_value('upstream')} = \\
+      {ui_value(repo_spec)}")
+    }
+  }
 
-appveyor_info <- function() {
-  check_uses_github()
   img <- glue(
     "https://ci.appveyor.com/api/projects/status/github/",
-    "{github_repo_spec()}?branch=master&svg=true"
+    "{repo_spec}?branch=master&svg=true"
   )
-  url <- glue("https://ci.appveyor.com/project/{github_repo_spec()}")
-
-  list(url = url, img = img)
+  url <- glue("https://ci.appveyor.com/project/{repo_spec}")
+  use_badge("AppVeyor build status", url, img)
 }
 
 #' @section `use_gitlab_ci()`:
