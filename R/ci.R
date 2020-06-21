@@ -194,9 +194,9 @@ check_uses_gitlab_ci <- function(base_path = proj_get()) {
 }
 
 #' @section `use_circleci()`:
-#' Adds a basic `.circleci/config.yml` to the top-level directory of a package. This is a
-#' configuration file for the [CircleCI](https://circleci.com/) continuous
-#' integration service.
+#' Adds a basic `.circleci/config.yml` to the top-level directory of a package.
+#' This is a configuration file for the [CircleCI](https://circleci.com/)
+#' continuous integration service.
 #' @param image The Docker image to use for build. Must be available on
 #'   [DockerHub](https://hub.docker.com). The
 #'   [rocker/verse](https://hub.docker.com/r/rocker/verse) image includes TeX
@@ -207,7 +207,7 @@ check_uses_gitlab_ci <- function(base_path = proj_get()) {
 #' @export
 #' @rdname ci
 use_circleci <- function(browse = rlang::is_interactive(), image = "rocker/verse:latest") {
-  check_uses_github()
+  remote <- get_github_primary()
   use_directory(".circleci", ignore = TRUE)
   new <- use_template(
     "circleci-config.yml",
@@ -219,8 +219,16 @@ use_circleci <- function(browse = rlang::is_interactive(), image = "rocker/verse
     return(invisible(FALSE))
   }
 
-  circleci_activate(browse)
-  use_circleci_badge()
+  use_circleci_badge(remote$repo_spec)
+  if (!remote$can_push) {
+    ui_oops("
+      You don't seem to have push access to the primary repo, \\
+      {ui_value(remote$repo_spec)}.
+      Someone with more permission will need to activate Circle CI.
+      ")
+  }
+  circleci_activate(remote$repo_owner, browse)
+
   invisible(TRUE)
 }
 
@@ -230,14 +238,22 @@ use_circleci <- function(browse = rlang::is_interactive(), image = "rocker/verse
 #' @export
 #' @rdname ci
 #' @export
-use_circleci_badge <- function() {
-  check_uses_github()
-  url <- glue("https://circleci.com/gh/{github_repo_spec()}")
+use_circleci_badge <- function(repo_spec = NULL) {
+  if (is.null(repo_spec)) {
+    remote <- get_github_primary()
+    repo_spec <- remote$repo_spec
+    if (remote$is_fork) {
+      ui_info("
+      Working in a fork, so badge link is based on {ui_value('upstream')} = \\
+      {ui_value(repo_spec)}")
+    }
+  }
+  url <- glue("https://circleci.com/gh/{repo_spec}")
   img <- glue("{url}.svg?style=svg")
   use_badge("CircleCI build status", url, img)
 }
 
-circleci_activate <- function(browse = is_interactive()) {
+circleci_activate <- function(owner, browse = is_interactive()) {
   url <- glue("https://circleci.com/add-projects/gh/{github_owner()}")
 
   ui_todo("Turn on CircleCI for your repo at {url}")
@@ -256,10 +272,9 @@ check_uses_circleci <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  ui_stop(
-    "
-    Cannot detect that package {ui_field(project_name(base_path))} already uses CircleCI.
+  ui_stop("
+    Cannot detect that package {ui_field(project_name(base_path))} already \\
+    uses CircleCI.
     Do you need to run {ui_code('use_circleci()')}?
-    "
-  )
+    ")
 }
