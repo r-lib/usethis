@@ -323,7 +323,7 @@ get_github_primary <- function(auth_token = github_token(),
   }
   if (cfg$type %in% c("theirs", "fork_no_upstream") &&
       ui_github_config_wat(cfg)) {
-    return(invisible())
+    ui_stop("Exiting due to unfavorable GitHub config")
   }
 
   if (cfg$type %in% c("ours", "theirs")) {
