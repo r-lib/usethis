@@ -328,8 +328,10 @@ get_github_primary <- function(auth_token = github_token(),
 
   if (cfg$type %in% c("ours", "theirs")) {
     out <- cfg$origin
+    out$is_fork <- FALSE
   } else { # cfg$type %in% c("fork", "fork_no_upstream")
     out <- cfg$upstream
+    out$is_fork <- TRUE
   }
   out$cfg_type <- cfg$type
   out

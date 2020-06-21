@@ -119,14 +119,19 @@ stages <- c(
 #'    for additional examples.
 #' @export
 use_binder_badge <- function(urlpath = NULL) {
-  check_uses_github()
+  remote <- get_github_primary()
+  if (remote$is_fork) {
+    ui_info("
+      Working in a fork, so badge link is based on {ui_value('upstream')} = \\
+      {ui_value(remote$repo_spec)}")
+  }
 
   if (is.null(urlpath)) {
     urlpath <- ""
   } else {
     urlpath <- glue("?urlpath={urlpath}")
   }
-  url <- glue("https://mybinder.org/v2/gh/{github_repo_spec()}/master{urlpath}")
+  url <- glue("https://mybinder.org/v2/gh/{remote$repo_spec}/master{urlpath}")
   img <- "https://mybinder.org/badge_logo.svg"
   use_badge("Launch binder", url, img)
 
