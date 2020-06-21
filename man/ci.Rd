@@ -16,13 +16,13 @@ use_travis_badge(ext = c("com", "org"), repo_spec = NULL)
 
 use_appveyor(browse = rlang::is_interactive())
 
-use_appveyor_badge()
+use_appveyor_badge(repo_spec = NULL)
 
 use_gitlab_ci()
 
 use_circleci(browse = rlang::is_interactive(), image = "rocker/verse:latest")
 
-use_circleci_badge()
+use_circleci_badge(repo_spec = NULL)
 }
 \arguments{
 \item{browse}{Open a browser window to enable automatic builds for the
@@ -87,9 +87,9 @@ integration service for GitLab.
 
 \section{\code{use_circleci()}}{
 
-Adds a basic \code{.circleci/config.yml} to the top-level directory of a package. This is a
-configuration file for the \href{https://circleci.com/}{CircleCI} continuous
-integration service.
+Adds a basic \code{.circleci/config.yml} to the top-level directory of a package.
+This is a configuration file for the \href{https://circleci.com/}{CircleCI}
+continuous integration service.
 }
 
 \section{\code{use_circleci_badge()}}{
