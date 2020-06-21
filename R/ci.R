@@ -22,7 +22,7 @@ NULL
 #' @export
 #' @rdname ci
 use_travis <- function(browse = rlang::is_interactive(), ext = c("com", "org")) {
-  check_uses_github()
+  remote <- get_github_primary()
   ext <- arg_match(ext)
   new <- use_template(
     "travis.yml",
@@ -32,30 +32,49 @@ use_travis <- function(browse = rlang::is_interactive(), ext = c("com", "org")) 
   if (!new) {
     return(invisible(FALSE))
   }
+  use_travis_badge(ext = ext, repo_spec = remote$repo_spec)
+  if (!remote$can_push) {
+    ui_oops("
+      You don't seem to have push access to the primary repo, \\
+      {ui_value(remote$repo_spec)}.
+      Someone with more permission will need to activate Travis.
+      ")
+  }
+  travis_activate(remote$repo_spec, browse = browse, ext = ext)
 
-  travis_activate(browse, ext = ext)
-  use_travis_badge(ext = ext)
   invisible(TRUE)
 }
 
 #' @section `use_travis_badge()`:
 #' Only adds the [Travis CI](https://travis-ci.com/) badge. Use for a project
 #'  where Travis is already configured.
+#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
+#'   Default is to infer from GitHub remotes of active project.
 #' @export
 #' @rdname ci
-use_travis_badge <- function(ext = c("com", "org")) {
-  check_uses_github()
+use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
+  if (is.null(repo_spec)) {
+    remote <- get_github_primary()
+    repo_spec <- remote$repo_spec
+    if (remote$is_fork) {
+      ui_info("
+      Working in a fork, so badge link is based on {ui_value('upstream')} = \\
+      {ui_value(repo_spec)}")
+    }
+  }
   ext <- arg_match(ext)
-  url <- glue("https://travis-ci.{ext}/{github_repo_spec()}")
+  url <- glue("https://travis-ci.{ext}/{repo_spec}")
   img <- glue("{url}.svg?branch=master")
   use_badge("Travis build status", url, img)
 }
 
-travis_activate <- function(browse = is_interactive(), ext = c("com", "org")) {
+travis_activate <- function(repo_spec,
+                            browse = is_interactive(),
+                            ext = c("com", "org")) {
   ext <- arg_match(ext)
-  url <- glue("https://travis-ci.{ext}/profile/{github_owner()}")
+  url <- glue("https://travis-ci.{ext}/profile/{repo_spec}")
 
-  ui_todo("Turn on travis for your repo at {url}")
+  ui_todo("Turn on travis for the repo at {url}")
   if (browse) {
     utils::browseURL(url)
   }

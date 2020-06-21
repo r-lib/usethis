@@ -12,7 +12,7 @@
 \usage{
 use_travis(browse = rlang::is_interactive(), ext = c("com", "org"))
 
-use_travis_badge(ext = c("com", "org"))
+use_travis_badge(ext = c("com", "org"), repo_spec = NULL)
 
 use_appveyor(browse = rlang::is_interactive())
 
@@ -30,6 +30,9 @@ package.}
 
 \item{ext}{Which travis website to use. Defaults to \code{"com"} for
 https://travis-ci.com. Change to \code{"org"} for https://travis-ci.org.}
+
+\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
+Default is to infer from GitHub remotes of active project.}
 
 \item{image}{The Docker image to use for build. Must be available on
 \href{https://hub.docker.com}{DockerHub}. The
