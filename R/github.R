@@ -27,10 +27,9 @@
 #' A new GitHub repo is created via the GitHub API, therefore you must make a
 #' [GitHub personal access token (PAT)](https://github.com/settings/tokens)
 #' available. There are two ways to provide the token, in order of preference:
-#' * Configure your token as the `GITHUB_PAT` env var in `.Renviron`. Then it
-#'   can be used by many packages and functions, without any effort on your
-#'   part. If you don't have a token yet, see [create_github_token()]. Remember
-#'   that [edit_r_environ()] can help get `.Renviron` open for editing.
+#' * Configure your token as the `GITHUB_PAT` env var. Then it can be used by
+#'   many packages and functions, without any effort on your part. If you don't
+#'   have a token yet, see [create_github_token()].
 #' * Provide the token directly via the `auth_token` argument.
 #'
 #' The final push to GitHub means that regular Git credentials (for either the
