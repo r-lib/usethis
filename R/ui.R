@@ -144,7 +144,7 @@ ui_warn <- function(x, .envir = parent.frame()) {
 #' @export
 ui_silence <- function(code) {
   old <- options(usethis.quiet = TRUE)
-  on.exit(options(old))
+  on.exit(options(old), add = TRUE)
 
   code
 }

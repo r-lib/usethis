@@ -114,7 +114,7 @@ with_project <- function(path = ".",
   on.exit({
     proj_set(path = old_proj, force = TRUE)
     options(old_quiet)
-  })
+  }, add = TRUE)
 
   force(code)
 }
