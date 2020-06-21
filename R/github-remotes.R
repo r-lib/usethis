@@ -315,6 +315,26 @@ stop_bad_github_config <- function(cfg) {
   )
 }
 
+get_github_primary <- function(auth_token = github_token(),
+                               host = NULL) {
+  cfg <- classify_github_setup(auth_token = auth_token, host = host)
+  if (cfg$unsupported) {
+    stop_bad_github_config(cfg)
+  }
+  if (cfg$type %in% c("theirs", "fork_no_upstream") &&
+      ui_github_config_wat(cfg)) {
+    return(invisible())
+  }
+
+  if (cfg$type %in% c("ours", "theirs")) {
+    out <- cfg$origin
+  } else { # cfg$type %in% c("fork", "fork_no_upstream")
+    out <- cfg$upstream
+  }
+  out$cfg_type <- cfg$type
+  out
+}
+
 # common configurations --------------------------------------------------------
 cfg_no_github <- function(cfg) {
   utils::modifyList(

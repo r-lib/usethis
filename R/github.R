@@ -179,19 +179,8 @@ use_github_links <- function(auth_token = github_token(),
                              host = NULL,
                              overwrite = FALSE) {
   check_is_package("use_github_links()")
-  cfg <- classify_github_setup(auth_token = auth_token, host = host)
-  if (cfg$unsupported) {
-    stop_bad_github_config(cfg)
-  }
-  if (cfg$type %in% c("theirs", "fork_no_upstream") &&
-      ui_github_config_wat(cfg)) {
-    return(invisible())
-  }
-
-  if (cfg$type %in% c("ours", "theirs")) {
-    remote <- cfg$origin
-  } else { # cfg$type %in% c("fork", "fork_no_upstream")
-    remote <- cfg$upstream
+  remote <- get_github_primary(auth_token = auth_token, host = host)
+  if (grepl("^fork", remote$cfg_type)) {
     ui_info("
       Working in a fork, so links are based on {ui_value('upstream')} = \\
       {ui_value(remote$repo_spec)}")
