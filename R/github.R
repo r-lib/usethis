@@ -29,7 +29,7 @@
 #' available. There are two ways to provide the token, in order of preference:
 #' * Configure your token as the `GITHUB_PAT` env var in `.Renviron`. Then it
 #'   can be used by many packages and functions, without any effort on your
-#'   part. If you don't have a token yet, see [browse_github_token()]. Remember
+#'   part. If you don't have a token yet, see [create_github_token()]. Remember
 #'   that [edit_r_environ()] can help get `.Renviron` open for editing.
 #' * Provide the token directly via the `auth_token` argument.
 #'
@@ -216,11 +216,14 @@ use_github_links <- function(auth_token = github_token(),
 #'
 #' A [personal access
 #' token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line)
-#' (PAT) is needed for git operations via the GitHub API. Two helper functions
+#' (PAT) is needed for certain tasks usethis does via the GitHub API, such as
+#' creating a repository, a fork, or a pull request. Two helper functions
 #' are provided:
-#'   * `browse_github_token()` is synonymous with `browse_github_pat()`: Both
-#'     open a browser window to the GitHub form to generate a PAT. See below for
-#'     advice on how to store this.
+#'   * `create_github_token()` opens a browser window to the GitHub form to
+#'     generate a PAT. It then offers advice on storing your PAT, which also
+#'     appears below. `create_github_token()` is synonymous with
+#'     `browse_github_token()` and `browse_github_pat()`; this function has
+#'     gone by a few names over the years!
 #'   * `github_token()` retrieves a stored PAT by consulting, in this order:
 #'     - `GITHUB_PAT` environment variable
 #'     - `GITHUB_TOKEN` environment variable
@@ -228,54 +231,74 @@ use_github_links <- function(auth_token = github_token(),
 #'
 #' @section: Get and store a PAT:
 #' Sign up for a free [GitHub.com](https://github.com/) account and sign in.
-#' Call `browse_github_token()`. Verify the scopes and click "Generate token".
+#' Call `create_github_token()`. Verify the scopes and click "Generate token".
 #' Copy the token right away! A common approach is to store in `.Renviron` as
 #' the `GITHUB_PAT` environment variable. [edit_r_environ()] opens this file for
 #' editing.
 #'
-#' @param scopes Character vector of token scopes, pre-selected in the web
-#'   form. Final choices are made in the GitHub form. Read more about GitHub
-#'   API scopes at
+#' An more secure alternative is to call [credentials::set_github_pat()] which
+#' prompts you for your PAT and stores it with the git credential manager used
+#' by your operating system. Once stored, a call to
+#' [credentials::set_github_pat()] retrieves this value and assigns it to the
+#' `GITHUB_PAT` environment variable. This would be a great thing to put in a
+#' startup file to make your PAT available in all R sessions. Remember
+#' [edit_r_profile()] is handy for editing your `.Rprofile`. The advantage of
+#' this approach is that your PAT is never stored in regular file, as plain
+#' text.
+#'
+#' @param scopes Character vector of token scopes, pre-selected in the web form.
+#'   Final choices are made in the GitHub form. Read more about GitHub API
+#'   scopes at
 #'   <https://developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps/>.
 #' @param description Short description or nickname for the token. It helps you
 #'   distinguish various tokens on GitHub.
 #' @inheritParams use_github
 #'
-#' @seealso [gh::gh_whoami()] for information on an existing token.
+#' @seealso [gh::gh_whoami()] for information on an existing token and
+#'   [credentials::set_github_pat()] for a secure way to store and retrieve your
+#'   PAT.
 #'
 #' @return `github_token()` returns a string, a GitHub PAT or `""`.
 #' @export
 #' @examples
 #' \dontrun{
-#' browse_github_token()
-#' ## COPY THE PAT!!!
-#' ## almost certainly to be followed by ...
+#' create_github_token()
+#' # COPY THE PAT!!!
+#' # almost certainly to be followed by ...
 #' edit_r_environ()
-#' ## which helps you store the PAT as an env var
+#' # which helps you store the PAT as an env var
+#' # or a call to
+#' credentials::set_github_pat()
+#' # which helps you store the PAT in the git credential store
 #' }
-browse_github_token <- function(scopes = c("repo", "gist", "user:email"),
+create_github_token <- function(scopes = c("repo", "gist", "user:email"),
                                 description = "R:GITHUB_PAT",
                                 host = "https://github.com") {
   scopes <- glue_collapse(scopes, ",")
   url <- glue(
     "{host}/settings/tokens/new?scopes={scopes}&description={description}"
   )
-  view_url(url)
+  on.exit(view_url(url), add = TRUE)
 
-  ui_todo(
-    "Call {ui_code('usethis::edit_r_environ()')} to open {ui_path('.Renviron')}."
-  )
-  ui_todo("Store your PAT (personal access token) with a line like:")
-  ui_code_block("GITHUB_PAT=xxxyyyzzz")
-  ui_todo("Make sure {ui_value('.Renviron')} ends with a newline!")
+  ui_todo("
+    Call {ui_code('usethis::edit_r_environ()')} to open {ui_path('.Renviron')}.
+    Store your PAT (personal access token) with a line like:
+    {ui_code('GITHUB_PAT=xxxyyyzzz')}
+    Make sure {ui_value('.Renviron')} ends with a newline!")
+  ui_todo("
+    For more secure storage, see {ui_code('credentials::set_github_pat()')}.")
   invisible()
 }
 
-#' @rdname browse_github_token
+#' @rdname create_github_token
 #' @export
-browse_github_pat <- browse_github_token
+browse_github_token <- create_github_token
 
-#' @rdname browse_github_token
+#' @rdname create_github_token
+#' @export
+browse_github_pat <- create_github_token
+
+#' @rdname create_github_token
 #' @export
 #' @examples
 #' # for safety's sake, just reveal first 4 characters
@@ -361,7 +384,7 @@ check_github_token <- function(auth_token = github_token(),
   local_stop <- function(msg) {
     ui_stop(c(
       msg,
-      "See {ui_code('browse_github_token()')} for help storing a token as an environment variable."
+      "See {ui_code('create_github_token()')} for help storing a token as an environment variable."
     ))
   }
 

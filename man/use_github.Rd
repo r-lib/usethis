@@ -71,7 +71,7 @@ available. There are two ways to provide the token, in order of preference:
 \itemize{
 \item Configure your token as the \code{GITHUB_PAT} env var in \code{.Renviron}. Then it
 can be used by many packages and functions, without any effort on your
-part. If you don't have a token yet, see \code{\link[=browse_github_token]{browse_github_token()}}. Remember
+part. If you don't have a token yet, see \code{\link[=create_github_token]{create_github_token()}}. Remember
 that \code{\link[=edit_r_environ]{edit_r_environ()}} can help get \code{.Renviron} open for editing.
 \item Provide the token directly via the \code{auth_token} argument.
 }

@@ -50,7 +50,7 @@ They are designed to support the git and GitHub best practices described in
 \section{Set up advice}{
 
 These functions make heavy use of git2r and the GitHub API. You'll need a
-GitHub personal access token (PAT); see \code{\link[=browse_github_token]{browse_github_token()}} for help
+GitHub personal access token (PAT); see \code{\link[=create_github_token]{create_github_token()}} for help
 with that. If git2r does not seem to be finding your git credentials, read
 \code{\link[=git_credentials]{git_credentials()}} for troubleshooting advice. The transport protocol
 (SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.

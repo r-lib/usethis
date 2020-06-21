@@ -7,7 +7,7 @@
 #'
 #' @section Set up advice:
 #' These functions make heavy use of git2r and the GitHub API. You'll need a
-#' GitHub personal access token (PAT); see [browse_github_token()] for help
+#' GitHub personal access token (PAT); see [create_github_token()] for help
 #' with that. If git2r does not seem to be finding your git credentials, read
 #' [git_credentials()] for troubleshooting advice. The transport protocol
 #' (SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.
