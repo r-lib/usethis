@@ -178,6 +178,7 @@ use_github <- function(organisation = NULL,
 use_github_links <- function(auth_token = github_token(),
                              host = "https://api.github.com",
                              overwrite = FALSE) {
+  check_is_package("use_github_links()")
   cfg <- classify_github_setup(auth_token = auth_token, host = host)
   if (cfg$unsupported) {
     stop_bad_github_config(cfg)
@@ -191,6 +192,9 @@ use_github_links <- function(auth_token = github_token(),
     remote <- cfg$origin
   } else { # cfg$type %in% c("fork", "fork_no_upstream")
     remote <- cfg$upstream
+    ui_info("
+      Working in a fork, so links are based on {ui_value('upstream')} = \\
+      {ui_value(remote$repo_spec)}")
   }
 
   res <- gh::gh(
