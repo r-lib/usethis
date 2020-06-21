@@ -176,7 +176,7 @@ use_github <- function(organisation = NULL,
 #' }
 #'
 use_github_links <- function(auth_token = github_token(),
-                             host = "https://api.github.com",
+                             host = NULL,
                              overwrite = FALSE) {
   check_is_package("use_github_links()")
   cfg <- classify_github_setup(auth_token = auth_token, host = host)
