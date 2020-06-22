@@ -31,7 +31,8 @@ use_github_action_check_standard(
 use_github_action_check_full(
   save_as = "R-CMD-check.yaml",
   ignore = TRUE,
-  open = FALSE
+  open = FALSE,
+  repo_spec = NULL
 )
 
 use_github_action_pr_commands(
@@ -54,6 +55,9 @@ for \code{use_github_action()}.}
 
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+
+\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
+Default is to infer from GitHub remotes of active project.}
 }
 \description{
 Use a specific action, either one of the example actions from

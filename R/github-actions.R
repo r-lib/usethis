@@ -16,8 +16,6 @@ NULL
 #' @rdname github_actions
 #' @export
 use_github_actions <- function() {
-  check_uses_github()
-
   use_github_action_check_release()
 }
 
@@ -34,11 +32,17 @@ use_github_actions <- function() {
 #' @rdname tidyverse
 #' @export
 use_tidy_github_actions <- function() {
-  check_uses_github()
+  remote <- get_github_primary()
+  repo_spec <- remote$repo_spec
+  if (remote$in_fork) {
+    ui_info("
+      Working in a fork, so badge links are based on the parent repo, which \\
+      is {ui_value(repo_spec)}")
+  }
 
-  use_coverage()
+  use_coverage(repo_spec = repo_spec)
 
-  full_status <- use_github_action_check_full()
+  full_status <- use_github_action_check_full(repo_spec = repo_spec)
   pr_status   <- use_github_action_pr_commands()
   pkgdown_status <- use_github_action("pkgdown")
   test_coverage_status <- use_github_action("test-coverage")
@@ -61,16 +65,27 @@ use_tidy_github_actions <- function() {
 #' @section `use_github_actions_badge()`:
 #' Only adds the [GitHub Actions](https://github.com/features/actions) badge.
 #' Use for a project where GitHub Actions is already configured.
-#' @param name The name to give to the [GitHub
+#' @param name The name of an existing [GitHub
 #'   Actions](https://github.com/features/actions) workflow.
+#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
+#'   Default is to infer from GitHub remotes of active project.
 #' @export
 #' @rdname github_actions
-use_github_actions_badge <- function(name = "R-CMD-check") {
-  check_uses_github()
+use_github_actions_badge <- function(name = "R-CMD-check",
+                                     repo_spec = NULL) {
+  if (is.null(repo_spec)) {
+    remote <- get_github_primary()
+    repo_spec <- remote$repo_spec
+    if (remote$in_fork) {
+      ui_info("
+        Working in a fork, so badge link is based on the parent repo, which \\
+        is {ui_value(repo_spec)}")
+    }
+  }
 
   name <- utils::URLencode(name)
-  img <- glue("{github_home()}/workflows/{name}/badge.svg")
-  url <- glue("{github_home()}/actions")
+  img <- glue("{repo_spec}/workflows/{name}/badge.svg")
+  url <- glue("{repo_spec}/actions")
 
   use_badge("R build status", url, img)
 }

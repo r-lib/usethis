@@ -8,7 +8,10 @@ test_that("uses_github_actions() reports usage of GitHub Actions", {
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
   use_description_field("URL", "https://github.com/fake/fake")
-  use_github_actions()
+  with_mock(
+    `usethis::use_github_actions_badge` = function(name, repo_spec) NULL,
+    use_github_actions()
+  )
   expect_true(uses_github_actions())
 })
 
@@ -30,7 +33,13 @@ test_that("use_github_actions() configures GitHub Actions", {
   use_description_field("URL", "https://github.com/fake/fake")
   use_readme_md()
 
-  use_github_actions()
+  with_mock(
+    `usethis:::get_github_primary` = function() {
+      list(repo_spec = "OWNER/REPO", in_fork = FALSE)
+    },
+    use_github_actions()
+  )
+
   expect_proj_dir(".github")
   expect_proj_dir(".github/workflows")
   expect_proj_file(".github/workflows/R-CMD-check.yaml")
@@ -59,7 +68,12 @@ test_that("use_github_actions() configures .Rbuildignore", {
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
   use_description_field("URL", "https://github.com/fake/fake")
-  use_github_actions()
+  with_mock(
+    `usethis:::get_github_primary` = function() {
+      list(repo_spec = "OWNER/REPO", in_fork = FALSE)
+    },
+    use_github_actions()
+  )
   expect_true(is_build_ignored("^\\.github$"))
 })
 
@@ -72,7 +86,7 @@ test_that("use_github_action_check_full() configures full GitHub Actions", {
   use_description_field("URL", "https://github.com/fake/fake")
   use_readme_md()
 
-  use_github_action_check_full()
+  use_github_action_check_full(repo_spec = "OWNER/REPO")
   expect_proj_dir(".github")
   expect_proj_dir(".github/workflows")
   expect_proj_file(".github/workflows/R-CMD-check.yaml")
@@ -121,7 +135,7 @@ test_that("use_tidy_github_actions() configures the full check and pr commands",
 
   with_mock(
     `usethis:::get_github_primary` = function() {
-      list(repo_spec = "OWNER/REPO", can_push = TRUE, in_fork = FALSE)
+      list(repo_spec = "OWNER/REPO", in_fork = FALSE)
     },
     use_tidy_github_actions()
   )

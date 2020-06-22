@@ -8,10 +8,13 @@
 \usage{
 use_github_actions()
 
-use_github_actions_badge(name = "R-CMD-check")
+use_github_actions_badge(name = "R-CMD-check", repo_spec = NULL)
 }
 \arguments{
-\item{name}{The name to give to the \href{https://github.com/features/actions}{GitHub Actions} workflow.}
+\item{name}{The name of an existing \href{https://github.com/features/actions}{GitHub Actions} workflow.}
+
+\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
+Default is to infer from GitHub remotes of active project.}
 }
 \description{
 Sets up continuous integration (CI) for an R package that is developed on

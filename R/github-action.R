@@ -31,7 +31,9 @@ use_github_action <- function(name,
       name <- paste0(name, ".yaml")
     }
 
-    url <- glue("https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}")
+    url <- glue(
+      "https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"
+    )
   } else {
     stopifnot(is_string(url))
   }
@@ -100,17 +102,20 @@ use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
 #' on their repositories, but is overkill for less widely used packages, which
 #' are better off using the simpler `use_github_action_check_release()`.
 #' @rdname use_github_action
+#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
+#'   Default is to infer from GitHub remotes of active project.
 #' @export
 use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
                                          ignore = TRUE,
-                                         open = FALSE) {
+                                         open = FALSE,
+                                         repo_spec = NULL) {
   use_github_action(
     "check-full.yaml",
     save_as = save_as,
     ignore = ignore,
     open = open
   )
-  use_github_actions_badge("R-CMD-check")
+  use_github_actions_badge("R-CMD-check", repo_spec = repo_spec)
 }
 
 #' @section `use_github_action_pr_commands()`:
