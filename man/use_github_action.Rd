@@ -62,36 +62,34 @@ or a custom action given by the \code{url} parameter.
 }
 \section{\code{use_github_action_check_release()}}{
 
-This action installs the latest release R version on macOS and runs \verb{R CMD check}
-via the \href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package.
+This action installs the latest release R version on macOS and runs \verb{R CMD check} via the \href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package.
 }
 
 \section{\code{use_github_action_check_standard()}}{
 
-This action runs R CMD check
-via the \href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package on the
-three major OSs (linux, macOS and Windows) on the release version of R and
-R-devel. This action is most appropriate when you plan to eventually
-submit your package to CRAN or Bioconductor.
+This action runs R CMD check via the
+\href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package on the three major
+OSs (linux, macOS and Windows) on the release version of R and R-devel. This
+action is most appropriate when you plan to eventually submit your package to
+CRAN or Bioconductor.
 }
 
 \section{\code{use_github_action_check_full()}}{
 
-This action installs the last 5 minor R versions and runs R CMD check
-via the \href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package on the
-three major OSs (linux, macOS and Windows). This action is what the
-tidyverse teams uses on their repositories, but is overkill for less
-widely used packages, which are better off using the simpler
-\code{use_github_action_check_release()}.
+This action installs the last 5 minor R versions and runs R CMD check via the
+\href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package on the three major
+OSs (linux, macOS and Windows). This action is what the tidyverse teams uses
+on their repositories, but is overkill for less widely used packages, which
+are better off using the simpler \code{use_github_action_check_release()}.
 }
 
 \section{\code{use_github_action_pr_commands()}}{
 
-This workflow enables the use of 2 R specific commands in pull request
-issue comments. \verb{/document} will use
-\href{https://roxygen2.r-lib.org/}{roxygen2} to rebuild the documentation for
-the package and commit the result to the pull request. \verb{/style} will use
-\href{https://styler.r-lib.org/}{styler} to restyle your package.
+This workflow enables the use of 2 R specific commands in pull request issue
+comments. \verb{/document} will use \href{https://roxygen2.r-lib.org/}{roxygen2} to
+rebuild the documentation for the package and commit the result to the pull
+request. \verb{/style} will use \href{https://styler.r-lib.org/}{styler} to restyle
+your package.
 }
 
 \seealso{

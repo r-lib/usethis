@@ -1,17 +1,18 @@
 #' GitHub Actions setup and badges
 #'
 #' Sets up continuous integration (CI) for an R package that is developed on
-#' GitHub using [GitHub Actions](https://github.com/features/actions). These functions
-#' - Add the necessary configuration files and place them in `.Rbuildignore`.
-#' - Provide the markdown to insert a badge into your README
+#' GitHub using [GitHub Actions](https://github.com/features/actions). These
+#' functions
+#' * Add the necessary configuration files and list them in `.Rbuildignore`.
+#' * Provide the markdown to insert a badge into your README
 #' @name github_actions
 #' @seealso [use_github_action()] for setting up a specific action.
 NULL
 
 #' @section `use_github_actions()`:
-#' Adds a basic `R-CMD-check.yaml` file to the `.github/workflows` directory of a
-#'  package. This is a configuration file for the [GitHub
-#'  Actions](https://github.com/features/actions) service.
+#' Adds a basic `R-CMD-check.yaml` file to the `.github/workflows` directory of
+#' a package. This is a configuration file for the [GitHub
+#' Actions](https://github.com/features/actions) service.
 #' @rdname github_actions
 #' @export
 use_github_actions <- function() {
@@ -26,7 +27,7 @@ use_github_actions <- function() {
 #' Actions](https://github.com/features/actions):
 #'   - Runs `R CMD check` on the current release, devel, and four previous
 #'     versions of R.
-#'   - Adds adds two commands to be used in pull requests: `/document` to run
+#'   - Adds two commands to be used in pull requests: `/document` to run
 #'     `roxygen2::roxygenise()` and update the PR, and `/style` to run
 #'     `styler::style_pkg()` and update the PR.
 #'   - Builds a pkgdown site for the package.
@@ -58,8 +59,8 @@ use_tidy_github_actions <- function() {
 }
 
 #' @section `use_github_actions_badge()`:
-#' Only adds the [GitHub Actions](https://github.com/features/actions) badge. Use for a project
-#'   where GitHub Actions is already configured.
+#' Only adds the [GitHub Actions](https://github.com/features/actions) badge.
+#' Use for a project where GitHub Actions is already configured.
 #' @param name The name to give to the [GitHub
 #'   Actions](https://github.com/features/actions) workflow.
 #' @export
@@ -84,10 +85,9 @@ check_uses_github_actions <- function(base_path = proj_get()) {
     return(invisible())
   }
 
-  ui_stop(
-    "
-    Cannot detect that package {ui_value(project_name(base_path))} already uses GitHub Actions.
+  ui_stop("
+    Cannot detect that package {ui_value(project_name(base_path))} already \\
+    uses GitHub Actions.
     Do you need to run {ui_code('use_github_actions()')}?
-    "
-  )
+    ")
 }
