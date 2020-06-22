@@ -128,9 +128,9 @@ stages <- c(
 #' @export
 use_binder_badge <- function(urlpath = NULL) {
   remote <- get_github_primary()
-  if (remote$is_fork) {
+  if (remote$in_fork) {
     ui_info("
-      Working in a fork, so badge link is based on {ui_value('upstream')} = \\
+      Working in a fork, so badge link is based on the parent repo, which is \\
       {ui_value(remote$repo_spec)}")
   }
 

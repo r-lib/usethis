@@ -56,9 +56,9 @@ use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
   if (is.null(repo_spec)) {
     remote <- get_github_primary()
     repo_spec <- remote$repo_spec
-    if (remote$is_fork) {
+    if (remote$in_fork) {
       ui_info("
-      Working in a fork, so badge link is based on {ui_value('upstream')} = \\
+      Working in a fork, so badge link is based on the parent repo, which is \\
       {ui_value(repo_spec)}")
     }
   }
@@ -140,9 +140,9 @@ use_appveyor_badge <- function(repo_spec = NULL) {
   if (is.null(repo_spec)) {
     remote <- get_github_primary()
     repo_spec <- remote$repo_spec
-    if (remote$is_fork) {
+    if (remote$in_fork) {
       ui_info("
-      Working in a fork, so badge link is based on {ui_value('upstream')} = \\
+      Working in a fork, so badge link is based on the parent repo, which is \\
       {ui_value(repo_spec)}")
     }
   }
@@ -242,9 +242,9 @@ use_circleci_badge <- function(repo_spec = NULL) {
   if (is.null(repo_spec)) {
     remote <- get_github_primary()
     repo_spec <- remote$repo_spec
-    if (remote$is_fork) {
+    if (remote$in_fork) {
       ui_info("
-      Working in a fork, so badge link is based on {ui_value('upstream')} = \\
+      Working in a fork, so badge link is based on the parent repo, which is \\
       {ui_value(repo_spec)}")
     }
   }

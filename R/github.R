@@ -180,9 +180,9 @@ use_github_links <- function(auth_token = github_token(),
                              overwrite = FALSE) {
   check_is_package("use_github_links()")
   remote <- get_github_primary(auth_token = auth_token, host = host)
-  if (remote$is_fork) {
+  if (remote$in_fork) {
     ui_info("
-      Working in a fork, so links are based on {ui_value('upstream')} = \\
+      Working in a fork, so links are based on the parent repo, which is \\
       {ui_value(remote$repo_spec)}")
   }
 
