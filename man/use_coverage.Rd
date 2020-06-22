@@ -16,5 +16,5 @@ use_covr_ignore(files)
 \item{files}{Character vector of file globs.}
 }
 \description{
-\code{use_coverage()} Adds test coverage reports to a package.
+\code{use_coverage()} adds test coverage reports to a package.
 }

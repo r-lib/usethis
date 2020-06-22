@@ -119,7 +119,13 @@ test_that("use_tidy_github_actions() configures the full check and pr commands",
   use_description_field("URL", "https://github.com/fake/fake")
   use_readme_md()
 
-  use_tidy_github_actions()
+  with_mock(
+    `usethis:::get_github_primary` = function() {
+      list(repo_spec = "OWNER/REPO", can_push = TRUE, in_fork = FALSE)
+    },
+    use_tidy_github_actions()
+  )
+
   expect_proj_file(".github/workflows/R-CMD-check.yaml")
   expect_proj_file(".github/workflows/pr-commands.yaml")
   expect_proj_file(".github/workflows/pkgdown.yaml")
