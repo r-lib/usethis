@@ -5,13 +5,16 @@
 \alias{use_covr_ignore}
 \title{Test coverage}
 \usage{
-use_coverage(type = c("codecov", "coveralls"))
+use_coverage(type = c("codecov", "coveralls"), repo_spec = NULL)
 
 use_covr_ignore(files)
 }
 \arguments{
 \item{type}{Which web service to use for test reporting. Currently supports
 \href{https://codecov.io}{Codecov} and \href{https://coveralls.io}{Coveralls}.}
+
+\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
+Default is to infer from GitHub remotes of active project.}
 
 \item{files}{Character vector of file globs.}
 }

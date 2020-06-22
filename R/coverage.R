@@ -4,9 +4,21 @@
 #'
 #' @param type Which web service to use for test reporting. Currently supports
 #'   [Codecov](https://codecov.io) and [Coveralls](https://coveralls.io).
+#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
+#'   Default is to infer from GitHub remotes of active project.
 #' @export
-use_coverage <- function(type = c("codecov", "coveralls")) {
-  remote <- get_github_primary()
+use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
+  if (is.null(repo_spec)) {
+    remote <- get_github_primary()
+    repo_spec <- remote$repo_spec
+    if (remote$in_fork) {
+      ui_info("
+        Working in a fork, so badge link is based on the parent repo, which \\
+        is {ui_value(repo_spec)}")
+    }
+  } else {
+    remote <- NULL
+  }
   use_dependency("covr", "Suggests")
 
   type <- match.arg(type)
@@ -16,7 +28,7 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
       return(invisible(FALSE))
     }
   } else if (type == "coveralls") {
-    if (!remote$can_push) {
+    if (!is.null(remote) && !remote$can_push) {
       ui_oops("
         You don't seem to have push access to the primary repo, \\
         {ui_value(remote$repo_spec)}.
@@ -26,11 +38,6 @@ use_coverage <- function(type = c("codecov", "coveralls")) {
     ui_todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
   }
 
-  if (remote$in_fork) {
-    ui_info("
-      Working in a fork, so badge link is based on the parent repo, which is \\
-      {ui_value(remote$repo_spec)}")
-  }
   switch(type,
     codecov = use_codecov_badge(remote$repo_spec),
     coveralls = use_coveralls_badge(remote$repo_spec)
