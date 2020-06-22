@@ -14,8 +14,24 @@
 #' use_release_issue("2.0.0")
 #' }
 use_release_issue <- function(version = NULL) {
-  check_uses_github()
   check_is_package("use_release_issue()")
+  remote <- get_github_primary()
+  if (remote$in_fork) {
+    ui_info("
+      Working in a fork, so release issue will be opened in \\
+      the parent repo, which is {ui_value(remote$repo_spec)}")
+  }
+  if (!remote$can_push &&
+      ui_nope(
+        "You are about to open a release issue for a repo where you don't \\
+        even have push access.
+        This is unusual.",
+        yes = "Yes, I want to open a release issue, even though I can't push.",
+        no = "No, I want to stop. I do not want to open a release issue.",
+        n_yes = 1, n_no = 1, shuffle = FALSE
+      )) {
+    return(invisible())
+  }
 
   version <- version %||% choose_version()
   if (is.null(version)) {
@@ -26,8 +42,8 @@ use_release_issue <- function(version = NULL) {
   checklist <- release_checklist(version, on_cran)
 
   issue <- gh::gh("POST /repos/:owner/:repo/issues",
-    owner = github_owner(),
-    repo = github_repo(),
+    owner = remote$repo_owner,
+    repo = remote$repo_name,
     title = glue("Release {project_name()} {version}"),
     body = paste(checklist, "\n", collapse = "")
   )
@@ -112,12 +128,12 @@ release_type <- function(version) {
 #' @export
 use_github_release <- function(host = NULL,
                                auth_token = github_token()) {
-  cran_release <- proj_path("CRAN-RELEASE")
-  if (file_exists(cran_release)) {
-    file_delete(cran_release)
+  remote <- get_github_primary(need_push = TRUE)
+  if (remote$in_fork) {
+    ui_info("
+      Working in a fork, so draft release will be created in the parent \\
+      repo, which is {ui_value(remote$repo_spec)}")
   }
-
-  check_uses_github()
   check_branch_pushed()
   check_github_token(auth_token)
 
@@ -125,14 +141,18 @@ use_github_release <- function(host = NULL,
   if (!file_exists(path)) {
     ui_stop("{ui_path('NEWS.md')} not found")
   }
-  news <- news_latest(read_utf8(path))
 
+  cran_release <- proj_path("CRAN-RELEASE")
+  if (file_exists(cran_release)) {
+    file_delete(cran_release)
+  }
+  news <- news_latest(read_utf8(path))
   package <- package_data()
 
   release <- gh::gh(
     "POST /repos/:owner/:repo/releases",
-    owner = github_owner(),
-    repo = github_repo(),
+    owner = remote$repo_owner,
+    repo = remote$repo_name,
     tag_name = paste0("v", package$Version),
     target_commitish = gert::git_info(git_repo())$commit,
     name = paste0(package$Package, " ", package$Version),
