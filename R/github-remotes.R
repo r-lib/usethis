@@ -315,7 +315,16 @@ stop_bad_github_config <- function(cfg) {
   )
 }
 
-get_github_primary <- function(auth_token = github_token(),
+# Always errors if cfg$unsupported is TRUE
+# User faces an "Are you sure?" challenge if cfg$type is
+#   "theirs" or "fork_no_upstream". If they choose to soldier on ...
+# If `need_push` is TRUE:
+#   * "ours" succeeds
+#   * "theirs" errors
+#   * "fork" succeeds if user can push to `upstream`, errors otherwise
+#   * "fork_no_upstream" errors
+get_github_primary <- function(need_push = FALSE,
+                               auth_token = github_token(),
                                host = NULL) {
   cfg <- classify_github_setup(auth_token = auth_token, host = host)
   if (cfg$unsupported) {
@@ -328,10 +337,28 @@ get_github_primary <- function(auth_token = github_token(),
 
   if (cfg$type %in% c("ours", "theirs")) {
     out <- cfg$origin
-    out$is_fork <- FALSE
-  } else { # cfg$type %in% c("fork", "fork_no_upstream")
+    out$in_fork <- FALSE
+  } else if (cfg$type == "fork") {
     out <- cfg$upstream
-    out$is_fork <- TRUE
+    out$in_fork <- TRUE
+  } else if (cfg$type == "fork_no_upstream") {
+    out <- list(
+      name = NA_character_,
+      is_configured = FALSE,
+      url = NA_character_,
+      can_push = FALSE,
+      repo_owner = cfg$origin$parent_repo_owner,
+      repo_name = cfg$origin$parent_repo_name,
+      repo_spec = cfg$origin$parent_repo_spec,
+      in_fork = TRUE
+    )
+  } else {
+    abort(glue("
+      Internal error. Unexpcted GitHub config type: {cfg$type}
+      "))
+  }
+  if (need_push && !out$can_push) {
+    ui_stop("You can't push to {ui_value(out$repo_spec)}")
   }
   out$cfg_type <- cfg$type
   out
