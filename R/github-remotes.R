@@ -393,13 +393,27 @@ cfg_theirs <- function(cfg) {
         cannot push to.
         If your goal is to make a pull request, you must \\
         fork-and-clone.
-        {ui_code('usethis::create_from_github()')} can do this.")
+        {ui_code('usethis::create_from_github()')} can do this.
+        If you want to operate on {ui_value(cfg$origin$repo_spec)}, you may \\
+        need the owner to increase your permissions.
+        ")
     )
   )
 }
 
 cfg_fork <- function(cfg) {
-  utils::modifyList(cfg, list(type = "fork", unsupported = FALSE, desc = NA))
+  utils::modifyList(
+    cfg,
+    list(
+      type = "fork",
+      unsupported = FALSE,
+      desc = glue("
+        {ui_value('origin')} is a fork of {ui_value(cfg$upstream$repo_spec)}, \\
+        which is configured as the {ui_value('upstream')} remote.
+        However, you don't have push access to \\
+        {ui_value(cfg$upstream$repo_spec)}.
+        ")
+    ))
 }
 
 cfg_fork_no_upstream <- function(cfg) {
