@@ -22,8 +22,8 @@
 #' * `good first issue` indicates a good issue for first-time contributors.
 #' * `help wanted` indicates that a maintainer wants help on an issue.
 #'
-#' @param repo_spec Optional repository specification (`owner/repo`) if you
-#'   don't want to target the current project.
+#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
+#'   Default is to infer from GitHub remotes of active project.
 #' @param labels A character vector giving labels to add.
 #' @param rename A named vector with names giving old names and values giving
 #'   new names.
@@ -56,7 +56,7 @@
 #'   descriptions = c("foofiest" = "the foofiest issue you ever saw")
 #' )
 #' }
-use_github_labels <- function(repo_spec = github_repo_spec(),
+use_github_labels <- function(repo_spec = NULL,
                               labels = character(),
                               rename = character(),
                               colours = character(),
@@ -64,8 +64,11 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
                               delete_default = FALSE,
                               auth_token = github_token(),
                               host = NULL) {
-  if (missing(repo_spec)) {
-    check_uses_github()
+  if (is.null(repo_spec)) {
+    remote <- get_github_primary(
+      need_push = TRUE, auth_token = auth_token, host = host
+    )
+    repo_spec <- remote$repo_spec
   }
   check_github_token(auth_token)
 
@@ -222,7 +225,7 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
 
 #' @export
 #' @rdname use_github_labels
-use_tidy_labels <- function(repo_spec = github_repo_spec(),
+use_tidy_labels <- function(repo_spec = NULL,
                             auth_token = github_token(),
                             host = NULL) {
   use_github_labels(
