@@ -48,7 +48,7 @@ test_that("use_circleci() configures CircleCI", {
     `usethis:::get_github_primary` = function() {
       list(repo_spec = "OWNER/REPO", can_push = TRUE, repo_owner = "OWNER")
     },
-    can_overwrite = function(path) TRUE,
+    `usethis:::can_overwrite` = function(path) TRUE,
     use_circleci(browse = FALSE, image = docker)
   )
   yml <- yaml::yaml.load_file(proj_path(".circleci", "config.yml"))
