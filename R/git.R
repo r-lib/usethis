@@ -320,76 +320,7 @@ have_git2r_credentials <- function() env_has(git2r_env, "credentials")
 
 #' Produce or register git credentials
 #'
-#' Credentials are needed for git operations like `git push` that address a
-#' remote, typically GitHub. usethis uses the git2r package. git2r tries to use
-#' the same credentials as command line git, but sometimes fails. usethis tries
-#' to increase the chance that things "just work" and, when they don't, to
-#' provide the user a way to intervene:
-#'   * `git_credentials()` returns any `credentials` that have been registered
-#'     with `use_git_credentials()` and, otherwise, implements usethis's
-#'     default strategy.
-#'   * `use_git_credentials()` allows you to register `credentials` explicitly
-#'     for use in all usethis functions in an R session. Do this only after
-#'     proven failure of the defaults.
-#'
-#' @section Default credentials:
-#'
-#'   If the default behaviour of usethis + git2r works, rejoice and leave well
-#'   enough alone. Keep reading if you need more control or understanding.
-#'
-#' @section SSH credentials:
-#'
-#' For `protocol = "ssh"`, by default, usethis passes `NULL` credentials
-#' to git2r. This will work if you have the exact configuration expected by
-#' git2r:
-#'
-#' 1. Your public and private keys are in the default locations,
-#' `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively.
-#' 1. All the relevant software agrees on the definition of `~/`, i.e.
-#' your home directory. This is harder than it sounds on Windows.
-#' 1. Your `ssh-agent` is configured to manage your SSH passphrase, if you have
-#' one. This too can be a problem on Windows. Read more about SSH setup in
-#' [Happy Git and GitHub for the useR](https://happygitwithr.com/ssh-keys.html),
-#' especially the [troubleshooting
-#' section](https://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
-#'
-#' If the `NULL` default doesn't work, you can make `credentials` explicitly
-#' with [git2r::cred_ssh_key()] and register that with
-#' `use_git_credentials()` for the rest of the session:
-#' ```
-#' my_cred <- git2r::cred_ssh_key(
-#'    publickey  = "path/to/your/id_rsa.pub",
-#'    privatekey = "path/to/your/id_rsa",
-#'    # include / omit passphrase as appropriate to your situation
-#'    passphrase = askpass::askpass()
-#' )
-#' use_git_credentials(credentials = my_cred)
-#' ```
-#' For the remainder of the session, `git_credentials()` will return
-#' `my_cred`.
-#'
-#' @section HTTPS credentials:
-#'
-#'   For `protocol = "https"`, we must send username and password. It is
-#'   possible that your OS has cached this and git2r will successfully use that.
-#'   However, usethis can offer even more chance of success in the HTTPS case.
-#'   GitHub also accepts a personal access token (PAT) via HTTPS. If
-#'   `credentials = NULL` and a PAT is available, we send it. Preference is
-#'   given to any `auth_token` that is passed explicitly. Otherwise,
-#'   [github_token()] is called. If a PAT is found, we make an HTTPS
-#'   credential with [git2r::cred_user_pass()]. The PAT is sent as the password
-#'   and dummy text is sent as the username (the PAT is what really matters in
-#'   this case). You can also register an explicit credential yourself in a
-#'   similar way:
-#' ```
-#' my_cred <- git2r::cred_user_pass(
-#'   username = "janedoe",
-#'   password = askpass::askpass()
-#' )
-#' use_git_credentials(credentials = my_cred)
-#' ```
-#'   For the remainder of the session, `git_credentials()` will return
-#'   `my_cred`.
+#' *This is not needed any more and will be removed soon.*
 #'
 #' @inheritParams git_protocol
 #' @param auth_token GitHub personal access token (PAT).
@@ -424,13 +355,6 @@ git_credentials <- function(protocol = git_protocol(),
   } else {
     NULL
   }
-}
-
-#' @rdname git_credentials
-#' @export
-use_git_credentials <- function(credentials) {
-  git2r_env$credentials <- credentials
-  invisible(git_credentials())
 }
 
 #' git/GitHub sitrep

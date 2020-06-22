@@ -2,12 +2,9 @@
 % Please edit documentation in R/git.R
 \name{git_credentials}
 \alias{git_credentials}
-\alias{use_git_credentials}
 \title{Produce or register git credentials}
 \usage{
 git_credentials(protocol = git_protocol(), auth_token = github_token())
-
-use_git_credentials(credentials)
 }
 \arguments{
 \item{protocol}{Optional. Should be "ssh" or "https", if specified. Defaults
@@ -25,83 +22,8 @@ Either \code{NULL} or a git2r credential object, invisibly, i.e.
 something to be passed to git2r as \code{credentials}.
 }
 \description{
-Credentials are needed for git operations like \verb{git push} that address a
-remote, typically GitHub. usethis uses the git2r package. git2r tries to use
-the same credentials as command line git, but sometimes fails. usethis tries
-to increase the chance that things "just work" and, when they don't, to
-provide the user a way to intervene:
-\itemize{
-\item \code{git_credentials()} returns any \code{credentials} that have been registered
-with \code{use_git_credentials()} and, otherwise, implements usethis's
-default strategy.
-\item \code{use_git_credentials()} allows you to register \code{credentials} explicitly
-for use in all usethis functions in an R session. Do this only after
-proven failure of the defaults.
+\emph{This is not needed any more and will be removed soon.}
 }
-}
-\section{Default credentials}{
-
-
-If the default behaviour of usethis + git2r works, rejoice and leave well
-enough alone. Keep reading if you need more control or understanding.
-}
-
-\section{SSH credentials}{
-
-
-For \code{protocol = "ssh"}, by default, usethis passes \code{NULL} credentials
-to git2r. This will work if you have the exact configuration expected by
-git2r:
-\enumerate{
-\item Your public and private keys are in the default locations,
-\verb{~/.ssh/id_rsa.pub} and \verb{~/.ssh/id_rsa}, respectively.
-\item All the relevant software agrees on the definition of \verb{~/}, i.e.
-your home directory. This is harder than it sounds on Windows.
-\item Your \code{ssh-agent} is configured to manage your SSH passphrase, if you have
-one. This too can be a problem on Windows. Read more about SSH setup in
-\href{https://happygitwithr.com/ssh-keys.html}{Happy Git and GitHub for the useR},
-especially the \href{https://happygitwithr.com/ssh-keys.html#ssh-troubleshooting}{troubleshooting section}.
-}
-
-If the \code{NULL} default doesn't work, you can make \code{credentials} explicitly
-with \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}} and register that with
-\code{use_git_credentials()} for the rest of the session:\preformatted{my_cred <- git2r::cred_ssh_key(
-   publickey  = "path/to/your/id_rsa.pub",
-   privatekey = "path/to/your/id_rsa",
-   # include / omit passphrase as appropriate to your situation
-   passphrase = askpass::askpass()
-)
-use_git_credentials(credentials = my_cred)
-}
-
-For the remainder of the session, \code{git_credentials()} will return
-\code{my_cred}.
-}
-
-\section{HTTPS credentials}{
-
-
-For \code{protocol = "https"}, we must send username and password. It is
-possible that your OS has cached this and git2r will successfully use that.
-However, usethis can offer even more chance of success in the HTTPS case.
-GitHub also accepts a personal access token (PAT) via HTTPS. If
-\code{credentials = NULL} and a PAT is available, we send it. Preference is
-given to any \code{auth_token} that is passed explicitly. Otherwise,
-\code{\link[=github_token]{github_token()}} is called. If a PAT is found, we make an HTTPS
-credential with \code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}. The PAT is sent as the password
-and dummy text is sent as the username (the PAT is what really matters in
-this case). You can also register an explicit credential yourself in a
-similar way:\preformatted{my_cred <- git2r::cred_user_pass(
-  username = "janedoe",
-  password = askpass::askpass()
-)
-use_git_credentials(credentials = my_cred)
-}
-
-For the remainder of the session, \code{git_credentials()} will return
-\code{my_cred}.
-}
-
 \examples{
 git_credentials()
 git_credentials(protocol = "ssh")
