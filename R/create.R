@@ -111,37 +111,20 @@ create_project <- function(path,
 #' clone"](https://help.github.com/articles/fork-a-repo/). It is also required
 #' by [use_github()], which connects existing local projects to GitHub.
 #'
-#' @seealso [use_github()] for GitHub setup advice. [git_protocol()] and
-#'   [git_credentials()] for background on `protocol` and `credentials`.
-#'   [use_course()] for one-time download of all files in a Git repo, without
-#'   any local or remote Git operations.
+#' @seealso
+#' * [use_github()] for advice on auth setup
+#' * [git_protocol()] for background on `protocol`
+#' * [use_course()] can expedite a one-time download of all files in a GitHub
+#'   repo, without the need for any local or remote Git operations
 #'
-#' @section Using SSH Keys on Windows:
-#' If you are a Windows user who connects to GitHub using SSH, as opposed to
-#' HTTPS, you may need to explicitly specify the paths to your keys and register
-#' this credential in the current R session. This helps if git2r, which usethis
-#' uses for Git operations, does not automatically find your keys or handle your
-#' passphrase.
+#' @section Authentication:
+#' This function potentially interacts with GitHub in two different ways:
+#' * via the GitHub REST API
+#' * as a conventional Git remote
+#' Therefore two types of auth may happen.
 #'
-#' In the snippet below, do whatever is necessary to make the paths correct,
-#' e.g., replace `<USERNAME>` with your Windows username. Omit the `passphrase`
-#' part if you don't have one. Replace `<OWNER/REPO>` with the appropriate
-#' GitHub specification. You get the idea.
-#'
-#' ```
-#' creds <- git2r::cred_ssh_key(
-#'   publickey  = "C:/Users/<USERNAME>/.ssh/id_rsa.pub",
-#'   privatekey = "C:/Users/<USERNAME>/.ssh/id_rsa",
-#'   passphrase = character(0)
-#' )
-#' use_git_protocol("ssh")
-#' use_git_credentials(credentials = creds)
-#'
-#' create_from_github(
-#'   repo_spec = "<OWNER/REPO>",
-#'   ...
-#' )
-#' ```
+#' TODO: Finish this section. Figure out how to share docs with the analogous
+#' section in [use_github()].
 #'
 #' @inheritParams create_package
 #' @param repo_spec GitHub repo specification in this form: `owner/repo`. The
@@ -172,9 +155,13 @@ create_from_github <- function(repo_spec,
                                rstudio = NULL,
                                open = rlang::is_interactive(),
                                protocol = git_protocol(),
-                               credentials = NULL,
                                auth_token = github_token(),
-                               host = NULL) {
+                               host = NULL,
+                               credentials = NULL) {
+  if (lifecycle::is_present(credentials)) {
+    deprecate_warn_credentials("use_github")
+  }
+
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
 
@@ -221,28 +208,21 @@ create_from_github <- function(repo_spec,
   )
 
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
-  credentials <- credentials %||% git_credentials(protocol, auth_token)
-  git2r::clone(
-    origin_url,
-    repo_path,
-    credentials = credentials,
-    progress = FALSE
-  )
+  # TODO: consider setting `verbose = FALSE`
+  gert::git_clone(origin_url, repo_path)
   old_project <- proj_set(repo_path, force = TRUE)
   on.exit(proj_set(old_project), add = TRUE)
 
   if (fork) {
-    r <- git2r::repository(proj_get())
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
-    git2r::remote_add(r, "upstream", upstream_url)
+    use_git_remote("upstream", upstream_url)
     pr_pull_upstream()
-    ui_done(
-      "
+    # TODO: figure out how to detect/honor non-`master` default branch
+    ui_done("
       Setting remote tracking branch for local {ui_value('master')} branch to \\
       {ui_value('upstream/master')}
-      "
-    )
-    git2r::branch_set_upstream(git2r::repository_head(r), "upstream/master")
+      ")
+    gert::git_branch_set_upstream("upstream/master", git_repo())
     config_key <- glue("remote.upstream.created-by")
     gert::git_config_set(config_key, "usethis::create_from_github", git_repo())
   }

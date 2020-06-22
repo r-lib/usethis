@@ -11,9 +11,9 @@ create_from_github(
   rstudio = NULL,
   open = rlang::is_interactive(),
   protocol = git_protocol(),
-  credentials = NULL,
   auth_token = github_token(),
-  host = NULL
+  host = NULL,
+  credentials = NULL
 )
 }
 \arguments{
@@ -50,15 +50,15 @@ pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
 to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
 
-\item{credentials}{\lifecycle{defunct}: No longer consulted now that usethis
-uses the gert package for Git operations, instead of git2r. Note that gert
-relies on the credentials package for auth.}
-
 \item{auth_token}{GitHub personal access token (PAT).}
 
 \item{host}{GitHub API host to use. Override with the endpoint-root for your
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3".}
+
+\item{credentials}{\lifecycle{defunct}: No longer consulted now that usethis
+uses the gert package for Git operations, instead of git2r. Note that gert
+relies on the credentials package for auth.}
 }
 \description{
 Creates a new local Git repository from a repository on GitHub. It is highly
@@ -67,30 +67,17 @@ recommended that you pre-configure or pass a GitHub personal access token
 is required in order for \code{create_from_github()} to do \href{https://help.github.com/articles/fork-a-repo/}{"fork and clone"}. It is also required
 by \code{\link[=use_github]{use_github()}}, which connects existing local projects to GitHub.
 }
-\section{Using SSH Keys on Windows}{
+\section{Authentication}{
 
-If you are a Windows user who connects to GitHub using SSH, as opposed to
-HTTPS, you may need to explicitly specify the paths to your keys and register
-this credential in the current R session. This helps if git2r, which usethis
-uses for Git operations, does not automatically find your keys or handle your
-passphrase.
-
-In the snippet below, do whatever is necessary to make the paths correct,
-e.g., replace \verb{<USERNAME>} with your Windows username. Omit the \code{passphrase}
-part if you don't have one. Replace \verb{<OWNER/REPO>} with the appropriate
-GitHub specification. You get the idea.\preformatted{creds <- git2r::cred_ssh_key(
-  publickey  = "C:/Users/<USERNAME>/.ssh/id_rsa.pub",
-  privatekey = "C:/Users/<USERNAME>/.ssh/id_rsa",
-  passphrase = character(0)
-)
-use_git_protocol("ssh")
-use_git_credentials(credentials = creds)
-
-create_from_github(
-  repo_spec = "<OWNER/REPO>",
-  ...
-)
+This function potentially interacts with GitHub in two different ways:
+\itemize{
+\item via the GitHub REST API
+\item as a conventional Git remote
+Therefore two types of auth may happen.
 }
+
+TODO: Finish this section. Figure out how to share docs with the analogous
+section in \code{\link[=use_github]{use_github()}}.
 }
 
 \examples{
@@ -99,8 +86,10 @@ create_from_github("r-lib/usethis")
 }
 }
 \seealso{
-\code{\link[=use_github]{use_github()}} for GitHub setup advice. \code{\link[=git_protocol]{git_protocol()}} and
-\code{\link[=git_credentials]{git_credentials()}} for background on \code{protocol} and \code{credentials}.
-\code{\link[=use_course]{use_course()}} for one-time download of all files in a Git repo, without
-any local or remote Git operations.
+\itemize{
+\item \code{\link[=use_github]{use_github()}} for advice on auth setup
+\item \code{\link[=git_protocol]{git_protocol()}} for background on \code{protocol}
+\item \code{\link[=use_course]{use_course()}} can expedite a one-time download of all files in a GitHub
+repo, without the need for any local or remote Git operations
+}
 }
