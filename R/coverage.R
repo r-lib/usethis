@@ -39,8 +39,8 @@ use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
   }
 
   switch(type,
-    codecov = use_codecov_badge(remote$repo_spec),
-    coveralls = use_coveralls_badge(remote$repo_spec)
+    codecov = use_codecov_badge(repo_spec),
+    coveralls = use_coveralls_badge(repo_spec)
   )
 
   if (uses_travis()) {
