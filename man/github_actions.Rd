@@ -11,10 +11,10 @@ use_github_actions()
 use_github_actions_badge(name = "R-CMD-check", repo_spec = NULL)
 }
 \arguments{
-\item{name}{The name of an existing \href{https://github.com/features/actions}{GitHub Actions} workflow.}
+\item{name}{Specifies the workflow whose status the badge will report. This
+is the \code{name} keyword that appears in the workflow \code{.yaml} file.}
 
-\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
-Default is to infer from GitHub remotes of active project.}
+\item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
 }
 \description{
 Sets up continuous integration (CI) for an R package that is developed on
@@ -27,14 +27,15 @@ functions
 }
 \section{\code{use_github_actions()}}{
 
-Adds a basic \code{R-CMD-check.yaml} file to the \code{.github/workflows} directory of
-a package. This is a configuration file for the \href{https://github.com/features/actions}{GitHub Actions} service.
+Configures a basic \verb{R CMD check} workflow on GitHub Actions by adding a
+standard \code{R-CMD-check.yaml} file to the \code{.github/workflows} directory of the
+active project.
 }
 
 \section{\code{use_github_actions_badge()}}{
 
-Only adds the \href{https://github.com/features/actions}{GitHub Actions} badge.
-Use for a project where GitHub Actions is already configured.
+Generates a GitHub Actions badge and that's all. It does not configure a
+workflow.
 }
 
 \seealso{

@@ -10,9 +10,9 @@
 NULL
 
 #' @section `use_github_actions()`:
-#' Adds a basic `R-CMD-check.yaml` file to the `.github/workflows` directory of
-#' a package. This is a configuration file for the [GitHub
-#' Actions](https://github.com/features/actions) service.
+#' Configures a basic `R CMD check` workflow on GitHub Actions by adding a
+#' standard `R-CMD-check.yaml` file to the `.github/workflows` directory of the
+#' active project.
 #' @rdname github_actions
 #' @export
 use_github_actions <- function() {
@@ -32,13 +32,7 @@ use_github_actions <- function() {
 #' @rdname tidyverse
 #' @export
 use_tidy_github_actions <- function() {
-  remote <- get_github_primary()
-  repo_spec <- remote$repo_spec
-  if (remote$in_fork) {
-    ui_info("
-      Working in a fork, so badge links are based on the parent repo, which \\
-      is {ui_value(repo_spec)}")
-  }
+  repo_spec <- get_repo_spec()
 
   use_coverage(repo_spec = repo_spec)
 
@@ -63,29 +57,18 @@ use_tidy_github_actions <- function() {
 }
 
 #' @section `use_github_actions_badge()`:
-#' Only adds the [GitHub Actions](https://github.com/features/actions) badge.
-#' Use for a project where GitHub Actions is already configured.
-#' @param name The name of an existing [GitHub
-#'   Actions](https://github.com/features/actions) workflow.
-#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
-#'   Default is to infer from GitHub remotes of active project.
+#' Generates a GitHub Actions badge and that's all. It does not configure a
+#' workflow.
+#' @param name Specifies the workflow whose status the badge will report. This
+#'   is the `name` keyword that appears in the workflow `.yaml` file.
+#' @eval param_repo_spec()
 #' @export
 #' @rdname github_actions
-use_github_actions_badge <- function(name = "R-CMD-check",
-                                     repo_spec = NULL) {
-  if (is.null(repo_spec)) {
-    remote <- get_github_primary()
-    repo_spec <- remote$repo_spec
-    if (remote$in_fork) {
-      ui_info("
-        Working in a fork, so badge link is based on the parent repo, which \\
-        is {ui_value(repo_spec)}")
-    }
-  }
-
+use_github_actions_badge <- function(name = "R-CMD-check", repo_spec = NULL) {
+  repo_spec <- repo_spec %||% get_repo_spec()
   name <- utils::URLencode(name)
-  img <- glue("{repo_spec}/workflows/{name}/badge.svg")
-  url <- glue("{repo_spec}/actions")
+  img <- glue("https://github.com/{repo_spec}/workflows/{name}/badge.svg")
+  url <- glue("https://github.com/{repo_spec}/actions")
 
   use_badge("R build status", url, img)
 }

@@ -56,6 +56,8 @@ github_remotes2 <- function(these = c("origin", "upstream"),
 
   repo_info <- purrr::map2(grl$repo_owner, grl$repo_name, get_gh_repo)
   grl$is_fork <- map_lgl(repo_info, "fork")
+  # TODO: permission won't be here if we don't have a PAT
+  # deal with that
   grl$can_push <- map_lgl(repo_info, c("permissions", "push"))
   grl$parent_repo_owner <-
     map_chr(repo_info, c("parent", "owner", "login"), .default = NA)
@@ -353,15 +355,62 @@ get_github_primary <- function(need_push = FALSE,
       in_fork = TRUE
     )
   } else {
-    abort(glue("
-      Internal error. Unexpcted GitHub config type: {cfg$type}
-      "))
+    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
   }
   if (need_push && !out$can_push) {
     ui_stop("You can't push to {ui_value(out$repo_spec)}")
   }
   out$cfg_type <- cfg$type
   out
+}
+
+# if cfg$unsupported --> error
+# ours --> return origin
+# theirs or fork_no_upstream --> opportunity to bail (to fix remote config)
+# if we keep going ...
+# theirs --> return origin
+# fork or fork_no_upstream --> interactive choice
+get_repo_spec <- function() {
+  cfg <- classify_github_setup()
+  if (cfg$unsupported) {
+    stop_bad_github_config(cfg)
+  }
+  if (cfg$type == "ours") {
+    return(cfg$origin$repo_spec)
+  }
+  if (cfg$type == "theirs") {
+    if (ui_github_config_wat(cfg)) {
+      ui_stop("Exiting due to unfavorable GitHub config")
+    } else {
+      return(cfg$origin$repo_spec)
+    }
+  }
+  if (cfg$type == "fork_no_upstream") {
+    if (ui_github_config_wat(cfg)) {
+      ui_stop("Exiting due to unfavorable GitHub config")
+    }
+  }
+  if (!(cfg$type %in% c("fork", "fork_no_upstream"))) {
+    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
+  }
+  if (!is_interactive()) {
+    ui_info("
+      Working with a fork, non-interactively. \\
+      Targetting the fork parent = {ui_value(cfg$origin$parent_repo_spec)}
+      ")
+    cfg$upstream$repo_spec
+  } else {
+    choices <- c(
+      glue("{cfg$origin$parent_repo_spec} = parent of your fork"),
+      glue("{cfg$origin$repo_spec} = your fork")
+    )
+    title <- glue("
+      Working with a fork.
+      Which repo should we target?
+      ")
+    choice <- menu(choices, graphics = FALSE, title = title)
+    return(with(cfg$origin, c(parent_repo_spec, repo_spec)[choice]))
+  }
 }
 
 # common configurations --------------------------------------------------------
@@ -394,8 +443,6 @@ cfg_theirs <- function(cfg) {
         If your goal is to make a pull request, you must \\
         fork-and-clone.
         {ui_code('usethis::create_from_github()')} can do this.
-        If you want to operate on {ui_value(cfg$origin$repo_spec)}, you may \\
-        need the owner to increase your permissions.
         ")
     )
   )
@@ -407,11 +454,10 @@ cfg_fork <- function(cfg) {
     list(
       type = "fork",
       unsupported = FALSE,
+      # TODO: say whether user can push to parent / upstream?
       desc = glue("
         {ui_value('origin')} is a fork of {ui_value(cfg$upstream$repo_spec)}, \\
         which is configured as the {ui_value('upstream')} remote.
-        However, you don't have push access to \\
-        {ui_value(cfg$upstream$repo_spec)}.
         ")
     ))
 }
