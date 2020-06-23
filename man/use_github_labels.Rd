@@ -31,8 +31,7 @@ tidy_label_colours()
 tidy_label_descriptions()
 }
 \arguments{
-\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
-Default is to infer from GitHub remotes of active project.}
+\item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
 
 \item{labels}{A character vector giving labels to add.}
 

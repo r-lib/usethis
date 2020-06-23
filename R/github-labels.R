@@ -22,8 +22,7 @@
 #' * `good first issue` indicates a good issue for first-time contributors.
 #' * `help wanted` indicates that a maintainer wants help on an issue.
 #'
-#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
-#'   Default is to infer from GitHub remotes of active project.
+#' @eval param_repo_spec()
 #' @param labels A character vector giving labels to add.
 #' @param rename A named vector with names giving old names and values giving
 #'   new names.
@@ -64,12 +63,7 @@ use_github_labels <- function(repo_spec = NULL,
                               delete_default = FALSE,
                               auth_token = github_token(),
                               host = NULL) {
-  if (is.null(repo_spec)) {
-    remote <- get_github_primary(
-      need_push = TRUE, auth_token = auth_token, host = host
-    )
-    repo_spec <- remote$repo_spec
-  }
+  repo_spec <- repo_spec %||% get_repo_spec()
   check_github_token(auth_token)
 
   gh <- function(endpoint, ...) {
