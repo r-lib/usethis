@@ -12,10 +12,6 @@ to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
 
 \item{auth_token}{GitHub personal access token (PAT).}
-
-\item{credentials}{A git2r credential object produced with
-\code{\link[git2r:cred_env]{git2r::cred_env()}}, \code{\link[git2r:cred_ssh_key]{git2r::cred_ssh_key()}}, \code{\link[git2r:cred_token]{git2r::cred_token()}}, or
-\code{\link[git2r:cred_user_pass]{git2r::cred_user_pass()}}.}
 }
 \value{
 Either \code{NULL} or a git2r credential object, invisibly, i.e.

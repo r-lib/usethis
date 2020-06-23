@@ -324,9 +324,6 @@ have_git2r_credentials <- function() env_has(git2r_env, "credentials")
 #'
 #' @inheritParams git_protocol
 #' @param auth_token GitHub personal access token (PAT).
-#' @param credentials A git2r credential object produced with
-#'   [git2r::cred_env()], [git2r::cred_ssh_key()], [git2r::cred_token()], or
-#'   [git2r::cred_user_pass()].
 #'
 #' @return Either `NULL` or a git2r credential object, invisibly, i.e.
 #'   something to be passed to git2r as `credentials`.
