@@ -1,24 +1,14 @@
 #' Test coverage
 #'
-#' `use_coverage()` adds test coverage reports to a package.
+#' Adds test coverage reporting to a package, using either
+#' [Codecov](https://codecov.io) or
+#' [Coveralls](https://coveralls.io).
 #'
-#' @param type Which web service to use for test reporting. Currently supports
-#'   [Codecov](https://codecov.io) and [Coveralls](https://coveralls.io).
-#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
-#'   Default is to infer from GitHub remotes of active project.
+#' @param type Which web service to use.
+#' @eval param_repo_spec()
 #' @export
 use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
-  if (is.null(repo_spec)) {
-    remote <- get_github_primary()
-    repo_spec <- remote$repo_spec
-    if (remote$in_fork) {
-      ui_info("
-        Working in a fork, so badge link is based on the parent repo, which \\
-        is {ui_value(repo_spec)}")
-    }
-  } else {
-    remote <- NULL
-  }
+  repo_spec <- repo_spec %||% get_repo_spec()
   use_dependency("covr", "Suggests")
 
   type <- match.arg(type)
@@ -28,17 +18,11 @@ use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
       return(invisible(FALSE))
     }
   } else if (type == "coveralls") {
-    if (!is.null(remote) && !remote$can_push) {
-      ui_oops("
-        You don't seem to have push access to the primary repo, \\
-        {ui_value(remote$repo_spec)}.
-        Someone with more permission may need to activate Coveralls.
-        ")
-    }
     ui_todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
   }
 
-  switch(type,
+  switch(
+    type,
     codecov = use_codecov_badge(repo_spec),
     coveralls = use_coveralls_badge(repo_spec)
   )
