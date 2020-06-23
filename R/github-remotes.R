@@ -370,9 +370,10 @@ get_github_primary <- function(need_push = FALSE,
 # if cfg$unsupported --> error
 # ours --> return origin
 # theirs or fork_no_upstream --> opportunity to bail (to fix remote config)
-# if we keep going ...
+#                                if we keep going ...
 # theirs --> return origin
-# fork or fork_no_upstream --> interactive choice
+# fork or fork_no_upstream --> interactive choice, with non-interactive
+#                              fall back to fork parent
 get_repo_spec <- function() {
   cfg <- classify_github_setup()
   if (cfg$unsupported) {
@@ -401,7 +402,7 @@ get_repo_spec <- function() {
       Working with a fork, non-interactively. \\
       Targetting the fork parent = {ui_value(cfg$origin$parent_repo_spec)}
       ")
-    cfg$upstream$repo_spec
+    cfg$origin$parent_repo_spec
   } else {
     choices <- c(
       glue("{cfg$origin$parent_repo_spec} = parent of your fork"),
@@ -413,6 +414,29 @@ get_repo_spec <- function() {
       ")
     choice <- utils::menu(choices, graphics = FALSE, title = title)
     return(with(cfg$origin, c(parent_repo_spec, repo_spec)[choice]))
+  }
+}
+
+# use get_primary_spec() instead of git_repo_spec() when it's clear that
+# you want the primary repo
+# if cfg$unsupported --> error
+# theirs, ours --> return origin
+# fork, fork_no_upstream --> return fork parent
+get_primary_spec <- function() {
+  cfg <- classify_github_setup()
+  if (cfg$unsupported) {
+    stop_bad_github_config(cfg)
+  }
+  if (cfg$type %in% c("ours", "theirs")) {
+    cfg$origin$repo_spec
+  } else if (cfg$type %in% c("fork", "fork_no_upstream")) {
+    out <- cfg$origin$parent_repo_spec
+    ui_info("
+      Targetting the fork parent = {ui_value(out)}
+      ")
+    out
+  } else {
+    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
   }
 }
 
