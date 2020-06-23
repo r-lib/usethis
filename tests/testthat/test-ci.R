@@ -1,14 +1,3 @@
-context("use_circleci")
-
-test_that("check_uses_circleci() can throw error", {
-  create_local_package()
-  expect_error(
-    check_uses_circleci(),
-    "Do you need to run `use_circleci()`?",
-    fixed = TRUE, class = "usethis_error"
-  )
-})
-
 test_that("use_circleci() configures CircleCI", {
   skip_if_no_git_user()
 
@@ -16,13 +5,11 @@ test_that("use_circleci() configures CircleCI", {
   use_git()
 
   with_mock(
-    `usethis:::get_github_primary` = function() {
-      list(repo_spec = "OWNER/REPO", can_push = TRUE, repo_owner = "OWNER")
-    },
+    `usethis:::get_repo_spec` = function() "OWNER/REPO",
     use_circleci(browse = FALSE)
   )
+  use_readme_md()
 
-  expect_true(uses_circleci())
   expect_true(is_build_ignored("^\\.circleci$"))
 
   expect_proj_dir(".circleci")
@@ -45,9 +32,7 @@ test_that("use_circleci() configures CircleCI", {
 
   docker <- "rocker/r-ver:3.5.3"
   with_mock(
-    `usethis:::get_github_primary` = function() {
-      list(repo_spec = "OWNER/REPO", can_push = TRUE, repo_owner = "OWNER")
-    },
+    `usethis:::get_repo_spec` = function() "OWNER/REPO",
     `usethis:::can_overwrite` = function(path) TRUE,
     use_circleci(browse = FALSE, image = docker)
   )

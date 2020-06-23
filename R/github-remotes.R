@@ -411,7 +411,7 @@ get_repo_spec <- function() {
       Working with a fork.
       Which repo should we target?
       ")
-    choice <- menu(choices, graphics = FALSE, title = title)
+    choice <- utils::menu(choices, graphics = FALSE, title = title)
     return(with(cfg$origin, c(parent_repo_spec, repo_spec)[choice]))
   }
 }
