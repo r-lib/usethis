@@ -208,6 +208,7 @@ ui_yeah <- function(x,
     qs <- sample(qs)
   }
 
+  # TODO: should this be ui_inform()?
   rlang::inform(x)
   out <- utils::menu(qs)
   out != 0L && qs[[out]] %in% yes

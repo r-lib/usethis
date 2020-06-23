@@ -13,6 +13,9 @@
 github_remotes2 <- function(these = c("origin", "upstream"),
                             auth_token = github_token(),
                             host = "https://api.github.com") {
+  # TODO: think about what happens when:
+  # * no internet access
+  # * no GITHUB_PAT
   grl <- data.frame(
     remote = NA_character_,
     url = NA_character_,
