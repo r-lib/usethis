@@ -31,8 +31,7 @@ package.}
 \item{ext}{Which travis website to use. Defaults to \code{"com"} for
 https://travis-ci.com. Change to \code{"org"} for https://travis-ci.org.}
 
-\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
-Default is to infer from GitHub remotes of active project.}
+\item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
 
 \item{image}{The Docker image to use for build. Must be available on
 \href{https://hub.docker.com}{DockerHub}. The
@@ -44,13 +43,19 @@ of R, change the tag from \code{latest} to the version you want, e.g.
 }
 \description{
 Sets up continuous integration (CI) services for an R package that is
-developed on GitHub. CI services can run \verb{R CMD check} automatically on
-various platforms, triggered by each push or pull request. These functions
+developed on GitHub or, perhaps, GitLab. CI services can run \verb{R CMD check}
+automatically on various platforms, triggered by each push or pull request.
+These functions
 \itemize{
 \item Add service-specific configuration files and add them to \code{.Rbuildignore}.
 \item Activate a service or give the user a detailed prompt.
 \item Provide the markdown to insert a badge into README.
 }
+
+Note that the tidyverse team now uses \url{GitHub Actions} for continuous
+integration, so the usethis functions supporting GitHub Actions are under the
+most active development. See \code{\link[=use_github_actions]{use_github_actions()}} or
+\code{\link[=use_tidy_github_actions]{use_tidy_github_actions()}} to learn more.
 }
 \section{\code{use_travis()}}{
 

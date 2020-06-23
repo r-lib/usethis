@@ -1,11 +1,18 @@
 #' Continuous integration setup and badges
 #'
+#' @description
 #' Sets up continuous integration (CI) services for an R package that is
-#' developed on GitHub. CI services can run `R CMD check` automatically on
-#' various platforms, triggered by each push or pull request. These functions
+#' developed on GitHub or, perhaps, GitLab. CI services can run `R CMD check`
+#' automatically on various platforms, triggered by each push or pull request.
+#' These functions
 #' * Add service-specific configuration files and add them to `.Rbuildignore`.
 #' * Activate a service or give the user a detailed prompt.
 #' * Provide the markdown to insert a badge into README.
+#'
+#' Note that the tidyverse team now uses [GitHub Actions]() for continuous
+#' integration, so the usethis functions supporting GitHub Actions are under the
+#' most active development. See [use_github_actions()] or
+#' [use_tidy_github_actions()] to learn more.
 #'
 #' @name ci
 #' @aliases NULL
@@ -21,8 +28,9 @@ NULL
 #'   https://travis-ci.com. Change to `"org"` for https://travis-ci.org.
 #' @export
 #' @rdname ci
-use_travis <- function(browse = rlang::is_interactive(), ext = c("com", "org")) {
-  remote <- get_github_primary()
+use_travis <- function(browse = rlang::is_interactive(),
+                       ext = c("com", "org")) {
+  repo_spec <- get_repo_spec()
   ext <- arg_match(ext)
   new <- use_template(
     "travis.yml",
@@ -32,15 +40,8 @@ use_travis <- function(browse = rlang::is_interactive(), ext = c("com", "org")) 
   if (!new) {
     return(invisible(FALSE))
   }
-  use_travis_badge(ext = ext, repo_spec = remote$repo_spec)
-  if (!remote$can_push) {
-    ui_oops("
-      You don't seem to have push access to the primary repo, \\
-      {ui_value(remote$repo_spec)}.
-      Someone with more permission will need to activate Travis.
-      ")
-  }
-  travis_activate(remote$repo_spec, browse = browse, ext = ext)
+  use_travis_badge(ext = ext, repo_spec = repo_spec)
+  travis_activate(repo_spec, browse = browse, ext = ext)
 
   invisible(TRUE)
 }
@@ -48,20 +49,11 @@ use_travis <- function(browse = rlang::is_interactive(), ext = c("com", "org")) 
 #' @section `use_travis_badge()`:
 #' Only adds the [Travis CI](https://travis-ci.com/) badge. Use for a project
 #'  where Travis is already configured.
-#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
-#'   Default is to infer from GitHub remotes of active project.
+#' @eval param_repo_spec()
 #' @export
 #' @rdname ci
 use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
-  if (is.null(repo_spec)) {
-    remote <- get_github_primary()
-    repo_spec <- remote$repo_spec
-    if (remote$in_fork) {
-      ui_info("
-      Working in a fork, so badge link is based on the parent repo, which is \\
-      {ui_value(repo_spec)}")
-    }
-  }
+  repo_spec <- repo_spec %||% get_repo_spec()
   ext <- arg_match(ext)
   url <- glue("https://travis-ci.{ext}/{repo_spec}")
   img <- glue("{url}.svg?branch=master")
@@ -80,18 +72,18 @@ travis_activate <- function(repo_spec,
   }
 }
 
-uses_travis <- function(base_path = proj_get()) {
-  path <- glue("{base_path}/.travis.yml")
-  file_exists(path)
+uses_travis <- function() {
+  file_exists(proj_path(".travis.yml"))
 }
 
-check_uses_travis <- function(base_path = proj_get()) {
-  if (uses_travis(base_path)) {
+check_uses_travis <- function() {
+  if (uses_travis()) {
     return(invisible())
   }
 
   ui_stop("
-    Cannot detect that package {ui_value(project_name(base_path))} already uses Travis.
+    Cannot detect that package {ui_value(project_name())} \\
+    already uses Travis.
     Do you need to run {ui_code('use_travis()')}?
     ")
 }

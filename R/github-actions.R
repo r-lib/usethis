@@ -60,6 +60,7 @@ check_uses_github_actions <- function(base_path = proj_get()) {
 }
 
 # tidyverse GHA setup ----------------------------------------------------------
+
 #' @details
 #' * `use_tidy_github_actions()`: Sets up the following workflows using [GitHub
 #' Actions](https://github.com/features/actions):
