@@ -238,9 +238,10 @@ project_data <- function(base_path = proj_get()) {
     data <- list(Project = path_file(base_path))
   }
   if (proj_active() && uses_github()) {
-    data$github_owner <- github_owner()
-    data$github_repo  <- github_repo()
-    data$github_spec  <- github_repo_spec()
+    origin <- github_remotes2("origin", github_get = FALSE)
+    data$github_owner <- origin$repo_owner
+    data$github_repo  <- origin$repo_name
+    data$github_spec  <- glue("{origin$repo_owner}/{origin$repo_name}")
   }
   data
 }
