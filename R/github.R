@@ -305,7 +305,7 @@ uses_github <- function() {
   if (!uses_git()) {
     return(FALSE)
   }
-  length(github_origin()) > 0
+  nrow(github_remotes2("origin", github_get = FALSE)) > 0
 }
 
 check_no_origin <- function() {
@@ -325,10 +325,11 @@ check_uses_github <- function() {
     return(invisible())
   }
 
-  ui_stop(c(
-    "This project does not have a GitHub remote configured as {ui_value('origin')}.",
-    "Do you need to run {ui_code('use_github()')}?"
-  ))
+  ui_stop("
+    This project does not have a GitHub remote configured as \\
+    {ui_value('origin')}.
+    Do you need to run {ui_code('use_github()')}?
+    ")
 }
 
 check_no_github_repo <- function(owner, repo, host, auth_token) {
