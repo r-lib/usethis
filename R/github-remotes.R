@@ -250,6 +250,90 @@ new_github_config <- function() {
   )
 }
 
+#' Get a repo spec
+#'
+#' Returns a repo spec for, e.g., incorporating into a URL. Examples:
+#' * Badge URLs
+#' * URLs where you can activate a CI service
+#' * URLs for URL and BugReports in DESCRIPTION
+#'
+#' Use this when you suspect the user is doing something in order to make a pull
+#' request or if it's not clear if they want to work against their fork or the
+#' fork parent. `get_repo_spec()` will challenge "theirs" and "fork_no_upstream"
+#' and ask if user wants to back out and fix the remote configuration. In the
+#' case of a fork, user gets an interactive menu to choose between `origin` and
+#' its parent repo (which may or may not be configured as `upstream`).
+#'
+#' @inheritParams use_github
+#' @keywords internal
+#' @noRd
+get_repo_spec <- function(auth_token = github_token(),
+                          host = "https://api.github.com") {
+  cfg <- classify_github_setup(auth_token = auth_token, host = host)
+  if (cfg$unsupported) {
+    stop_bad_github_config(cfg)
+  }
+  if (cfg$type == "ours") {
+    return(cfg$origin$repo_spec)
+  }
+  if (cfg$type == "theirs") {
+    if (ui_github_config_wat(cfg)) {
+      ui_stop("Exiting due to unfavorable GitHub config")
+    } else {
+      return(cfg$origin$repo_spec)
+    }
+  }
+  if (cfg$type == "fork_no_upstream") {
+    if (ui_github_config_wat(cfg)) {
+      ui_stop("Exiting due to unfavorable GitHub config")
+    }
+  }
+  if (!(cfg$type %in% c("fork", "fork_no_upstream"))) {
+    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
+  }
+  if (!is_interactive()) {
+    ui_info("
+      Working with a fork, non-interactively. \\
+      Targetting the fork parent = {ui_value(cfg$origin$parent_repo_spec)}
+      ")
+    cfg$origin$parent_repo_spec
+  } else {
+    choices <- c(
+      glue("{cfg$origin$parent_repo_spec} = parent of your fork"),
+      glue("{cfg$origin$repo_spec} = your fork")
+    )
+    title <- glue("
+      Working with a fork.
+      Which repo should we target?
+      ")
+    choice <- utils::menu(choices, graphics = FALSE, title = title)
+    return(with(cfg$origin, c(parent_repo_spec, repo_spec)[choice]))
+  }
+}
+
+#' Get the spec of the primary repo
+#'
+#' This is a simplified variant of `get_repo_spec()`. Use it when you're quite
+#' sure that you want the primary repo, with no nudges or interactive choice.
+#'
+#' @keywords internal
+#' @noRd
+get_primary_spec <- function() {
+  cfg <- classify_github_setup()
+  if (cfg$unsupported) {
+    stop_bad_github_config(cfg)
+  }
+  if (cfg$type %in% c("ours", "theirs")) {
+    cfg$origin$repo_spec
+  } else if (cfg$type %in% c("fork", "fork_no_upstream")) {
+    out <- cfg$origin$parent_repo_spec
+    ui_info("Targetting the fork parent = {ui_value(out)}")
+    out
+  } else {
+    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
+  }
+}
+
 # formatting github remote configurations for humans ---------------------------
 format_remote <- function(remote) {
   effective_spec <- function(remote) {
@@ -328,83 +412,6 @@ stop_bad_github_config <- function(cfg) {
     class = c("usethis_error_bad_github_config", "usethis_error"),
     cfg = cfg
   )
-}
-
-# use this if you suspect user wants to make a PR
-#
-# if cfg$unsupported --> error
-# ours --> return origin
-# theirs or fork_no_upstream --> opportunity to bail (to fix remote config)
-#                                if we keep going ...
-# theirs --> return origin
-# fork or fork_no_upstream --> interactive choice, with non-interactive
-#                              fall back to fork parent
-get_repo_spec <- function(auth_token = github_token(),
-                          host = "https://api.github.com") {
-  cfg <- classify_github_setup(auth_token = auth_token, host = host)
-  if (cfg$unsupported) {
-    stop_bad_github_config(cfg)
-  }
-  if (cfg$type == "ours") {
-    return(cfg$origin$repo_spec)
-  }
-  if (cfg$type == "theirs") {
-    if (ui_github_config_wat(cfg)) {
-      ui_stop("Exiting due to unfavorable GitHub config")
-    } else {
-      return(cfg$origin$repo_spec)
-    }
-  }
-  if (cfg$type == "fork_no_upstream") {
-    if (ui_github_config_wat(cfg)) {
-      ui_stop("Exiting due to unfavorable GitHub config")
-    }
-  }
-  if (!(cfg$type %in% c("fork", "fork_no_upstream"))) {
-    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
-  }
-  if (!is_interactive()) {
-    ui_info("
-      Working with a fork, non-interactively. \\
-      Targetting the fork parent = {ui_value(cfg$origin$parent_repo_spec)}
-      ")
-    cfg$origin$parent_repo_spec
-  } else {
-    choices <- c(
-      glue("{cfg$origin$parent_repo_spec} = parent of your fork"),
-      glue("{cfg$origin$repo_spec} = your fork")
-    )
-    title <- glue("
-      Working with a fork.
-      Which repo should we target?
-      ")
-    choice <- utils::menu(choices, graphics = FALSE, title = title)
-    return(with(cfg$origin, c(parent_repo_spec, repo_spec)[choice]))
-  }
-}
-
-# use get_primary_spec() instead of git_repo_spec() when it's clear that
-# you want the primary repo, you don't want to nudge or interact with user
-#
-# if cfg$unsupported --> error
-# theirs, ours --> return origin
-# fork, fork_no_upstream --> return fork parent
-get_primary_spec <- function() {
-  cfg <- classify_github_setup()
-  if (cfg$unsupported) {
-    stop_bad_github_config(cfg)
-  }
-  if (cfg$type %in% c("ours", "theirs")) {
-    cfg$origin$repo_spec
-  } else if (cfg$type %in% c("fork", "fork_no_upstream")) {
-    out <- cfg$origin$parent_repo_spec
-    ui_info("
-      Targetting the fork parent = {ui_value(out)}
-      ")
-    out
-  } else {
-    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
-  }
 }
 
 # common configurations --------------------------------------------------------
