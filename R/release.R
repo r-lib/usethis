@@ -1,13 +1,13 @@
-#' Create a release issue checklist
+#' Create a release checklist in a GitHub issue
 #'
-#' When preparing to release a package there are quite a few steps that
-#' need to be performed, and some of the steps can take multiple hours.
-#' This function creates an issue checklist so that you can keep track of
-#' where you are in the process, and feel a sense of satisfaction as you
-#' progress. It also helps watchers of your package stay informed about where
-#' you are in the process.
+#' When preparing to release a package there are quite a few steps that need to
+#' be performed, and some of the steps can take multiple hours. This function
+#' creates an issue checklist so that you can keep track of where you are in the
+#' process, and feel a sense of satisfaction as you progress. It also helps
+#' watchers of your package stay informed about where you are in the process.
 #'
-#' @param version Version number for release
+#' @param version Optional version number for release. If unspecified, you can
+#'   make an interactive choice.
 #' @export
 #' @examples
 #' \dontrun{
@@ -15,35 +15,18 @@
 #' }
 use_release_issue <- function(version = NULL) {
   check_is_package("use_release_issue()")
-  remote <- get_github_primary()
-  if (remote$in_fork) {
-    ui_info("
-      Working in a fork, so release issue will be opened in \\
-      the parent repo, which is {ui_value(remote$repo_spec)}")
-  }
-  if (!remote$can_push &&
-      ui_nope(
-        "You are about to open a release issue for a repo where you don't \\
-        even have push access.
-        This is unusual.",
-        yes = "Yes, I want to open a release issue, even though I can't push.",
-        no = "No, I want to stop. I do not want to open a release issue.",
-        n_yes = 1, n_no = 1, shuffle = FALSE
-      )) {
-    return(invisible())
-  }
-
   version <- version %||% choose_version()
   if (is.null(version)) {
     return(invisible(FALSE))
   }
 
+  repo_spec <- get_primary_spec()
   on_cran <- !is.null(cran_version())
   checklist <- release_checklist(version, on_cran)
 
   issue <- gh::gh("POST /repos/:owner/:repo/issues",
-    owner = remote$repo_owner,
-    repo = remote$repo_name,
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     title = glue("Release {project_name()} {version}"),
     body = paste(checklist, "\n", collapse = "")
   )
@@ -121,19 +104,14 @@ release_type <- function(version) {
 #'
 #' Creates a __draft__ GitHub release for the current package using the current
 #' version and `NEWS.md`. If you are comfortable that it is correct, you will
-#' need to publish the release from GitHub. It also deletes `CRAN-RELEASE`
-#' and checks that you've pushed all commits to GitHub.
+#' need to publish the release from GitHub. It also deletes `CRAN-RELEASE` and
+#' checks that you've pushed all commits to GitHub.
 #'
 #' @inheritParams use_github_links
 #' @export
 use_github_release <- function(host = NULL,
                                auth_token = github_token()) {
-  remote <- get_github_primary(need_push = TRUE)
-  if (remote$in_fork) {
-    ui_info("
-      Working in a fork, so draft release will be created in the parent \\
-      repo, which is {ui_value(remote$repo_spec)}")
-  }
+  repo_spec <- get_primary_spec()
   check_branch_pushed()
   check_github_token(auth_token)
 
@@ -151,8 +129,8 @@ use_github_release <- function(host = NULL,
 
   release <- gh::gh(
     "POST /repos/:owner/:repo/releases",
-    owner = remote$repo_owner,
-    repo = remote$repo_name,
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     tag_name = paste0("v", package$Version),
     target_commitish = gert::git_info(git_repo())$commit,
     name = paste0(package$Package, " ", package$Version),
