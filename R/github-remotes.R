@@ -252,7 +252,8 @@ new_github_config <- function() {
 
 #' Get a repo spec
 #'
-#' Returns a repo spec for, e.g., incorporating into a URL. Examples:
+#' Returns an OWNER/REPO repo spec for, e.g., incorporating into a URL.
+#' Examples:
 #' * Badge URLs
 #' * URLs where you can activate a CI service
 #' * URLs for URL and BugReports in DESCRIPTION
@@ -261,8 +262,9 @@ new_github_config <- function() {
 #' request or if it's not clear if they want to work against their fork or the
 #' fork parent. `get_repo_spec()` will challenge "theirs" and "fork_no_upstream"
 #' and ask if user wants to back out and fix the remote configuration. In the
-#' case of a fork, user gets an interactive menu to choose between `origin` and
-#' its parent repo (which may or may not be configured as `upstream`).
+#' case of "fork" and "fork_no_upstream", user gets an interactive menu to
+#' choose between `origin` and its parent repo (which may or may not be
+#' configured as `upstream`).
 #'
 #' @inheritParams use_github
 #' @keywords internal
@@ -314,7 +316,8 @@ get_repo_spec <- function(auth_token = github_token(),
 #' Get the spec of the primary repo
 #'
 #' This is a simplified variant of `get_repo_spec()`. Use it when you're quite
-#' sure that you want the primary repo, with no nudges or interactive choice.
+#' sure that you want the primary repo (so fork parent, in the case of a fork),
+#' with no nudges or interactive choice.
 #'
 #' @keywords internal
 #' @noRd
