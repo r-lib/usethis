@@ -7,13 +7,19 @@
 #' @param these Intersect the list of GitHub-associated remotes with `these`
 #'   remote names. To keep all GitHub-associated remotes, use `these = NULL` or
 #'   `these = character()`.
+#' @param github_get Whether to use the `/repos/:owner/:repo` endpoint of the
+#'   GitHub API to get more information about each remote repository, such as
+#'   whether it's a fork and whether the user can push. `NA` (the default) means
+#'   to add this info if possible. An explicit `TRUE` or `FALSE` is taken
+#'   literally. *Not fully implemented yet.*
 #' @inheritParams use_github
 #' @keywords internal
 #' @noRd
 github_remotes2 <- function(these = c("origin", "upstream"),
+                            github_get = NA,
                             auth_token = github_token(),
                             host = "https://api.github.com") {
-  # TODO: think about what happens when:
+  # TODO: Fully implement the behaviour promised for `github_get`:
   # * no internet access
   # * no GITHUB_PAT
   grl <- data.frame(
@@ -44,6 +50,10 @@ github_remotes2 <- function(these = c("origin", "upstream"),
   parsed <- parse_github_remotes(grl$url)
   grl$repo_owner <- map_chr(parsed, "owner")
   grl$repo_name <- map_chr(parsed, "repo")
+
+  if (identical(github_get, FALSE)) {
+    return(grl)
+  }
 
   get_gh_repo <- function(owner, repo) {
     if (is.na(owner) || is.na(repo)) {
