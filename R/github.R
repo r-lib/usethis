@@ -179,17 +179,12 @@ use_github_links <- function(auth_token = github_token(),
                              host = NULL,
                              overwrite = FALSE) {
   check_is_package("use_github_links()")
-  remote <- get_github_primary(auth_token = auth_token, host = host)
-  if (remote$in_fork) {
-    ui_info("
-      Working in a fork, so links are based on the parent repo, which is \\
-      {ui_value(remote$repo_spec)}")
-  }
+  repo_spec <- get_repo_spec(auth_token = auth_token, host - host)
 
   res <- gh::gh(
     "GET /repos/:owner/:repo",
-    owner = remote$repo_owner,
-    repo = remote$repo_name,
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     .api_url = host,
     .token = check_github_token(auth_token, allow_empty = TRUE)
   )

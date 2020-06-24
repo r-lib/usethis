@@ -330,53 +330,8 @@ stop_bad_github_config <- function(cfg) {
   )
 }
 
-# Always errors if cfg$unsupported is TRUE
-# User faces an "Are you sure?" challenge if cfg$type is
-#   "theirs" or "fork_no_upstream". If they choose to soldier on ...
-# If `need_push` is TRUE:
-#   * "ours" succeeds
-#   * "theirs" errors
-#   * "fork" succeeds if user can push to `upstream`, errors otherwise
-#   * "fork_no_upstream" errors
-get_github_primary <- function(need_push = FALSE,
-                               auth_token = github_token(),
-                               host = NULL) {
-  cfg <- classify_github_setup(auth_token = auth_token, host = host)
-  if (cfg$unsupported) {
-    stop_bad_github_config(cfg)
-  }
-  if (cfg$type %in% c("theirs", "fork_no_upstream") &&
-      ui_github_config_wat(cfg)) {
-    ui_stop("Exiting due to unfavorable GitHub config")
-  }
-
-  if (cfg$type %in% c("ours", "theirs")) {
-    out <- cfg$origin
-    out$in_fork <- FALSE
-  } else if (cfg$type == "fork") {
-    out <- cfg$upstream
-    out$in_fork <- TRUE
-  } else if (cfg$type == "fork_no_upstream") {
-    out <- list(
-      name = NA_character_,
-      is_configured = FALSE,
-      url = NA_character_,
-      can_push = FALSE,
-      repo_owner = cfg$origin$parent_repo_owner,
-      repo_name = cfg$origin$parent_repo_name,
-      repo_spec = cfg$origin$parent_repo_spec,
-      in_fork = TRUE
-    )
-  } else {
-    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
-  }
-  if (need_push && !out$can_push) {
-    ui_stop("You can't push to {ui_value(out$repo_spec)}")
-  }
-  out$cfg_type <- cfg$type
-  out
-}
-
+# use this if you suspect user wants to make a PR
+#
 # if cfg$unsupported --> error
 # ours --> return origin
 # theirs or fork_no_upstream --> opportunity to bail (to fix remote config)
@@ -384,8 +339,9 @@ get_github_primary <- function(need_push = FALSE,
 # theirs --> return origin
 # fork or fork_no_upstream --> interactive choice, with non-interactive
 #                              fall back to fork parent
-get_repo_spec <- function() {
-  cfg <- classify_github_setup()
+get_repo_spec <- function(auth_token = github_token(),
+                          host = "https://api.github.com") {
+  cfg <- classify_github_setup(auth_token = auth_token, host = host)
   if (cfg$unsupported) {
     stop_bad_github_config(cfg)
   }
@@ -428,7 +384,8 @@ get_repo_spec <- function() {
 }
 
 # use get_primary_spec() instead of git_repo_spec() when it's clear that
-# you want the primary repo
+# you want the primary repo, you don't want to nudge or interact with user
+#
 # if cfg$unsupported --> error
 # theirs, ours --> return origin
 # fork, fork_no_upstream --> return fork parent
