@@ -55,7 +55,7 @@
 #'   numbers, and `-`.
 pr_init <- function(branch) {
   stopifnot(is_string(branch))
-  check_uses_github()
+  check_pr_readiness()
   # TODO(@jennybc): if no internet, could offer option to proceed anyway
   # Error in git2r::fetch(repo, name = remref_remote(remref), refspec = branch,  :
   # Error in 'git2r_remote_fetch': failed to resolve address for github.com: nodename nor servname provided, or not known
@@ -103,7 +103,7 @@ pr_init <- function(branch) {
 #' }
 pr_fetch <- function(number,
                      owner = NULL) {
-  check_uses_github()
+  check_pr_readiness()
   check_no_uncommitted_changes()
 
   auth_token <- check_github_token(allow_empty = TRUE)
@@ -197,7 +197,7 @@ pr_fetch <- function(number,
 #' @export
 #' @rdname pr_init
 pr_push <- function() {
-  check_uses_github()
+  check_pr_readiness()
   check_branch_not_master()
   check_no_uncommitted_changes()
 
@@ -249,7 +249,7 @@ pr_push <- function() {
 #' @export
 #' @rdname pr_init
 pr_pull <- function() {
-  check_uses_github()
+  check_pr_readiness()
   check_branch_not_master()
   check_no_uncommitted_changes()
 
@@ -265,7 +265,7 @@ pr_pull <- function() {
 #' @export
 #' @rdname pr_init
 pr_pull_upstream <- function() {
-  check_uses_github()
+  check_pr_readiness()
   check_no_uncommitted_changes()
 
   branch <- "master"
@@ -282,6 +282,7 @@ pr_pull_upstream <- function() {
 #' @export
 #' @rdname pr_init
 pr_sync <- function() {
+  check_pr_readiness()
   pr_pull()
   pr_pull_upstream()
   pr_push()
@@ -301,6 +302,7 @@ pr_view <- function() {
 #' @export
 #' @rdname pr_init
 pr_pause <- function() {
+  check_pr_readiness()
   check_branch_not_master()
   check_no_uncommitted_changes()
   check_branch_pulled(use = "pr_pull()")
@@ -313,6 +315,7 @@ pr_pause <- function() {
 #' @export
 #' @rdname pr_init
 pr_finish <- function(number = NULL) {
+  check_pr_readiness()
   repo <- git_repo()
 
   if (!is.null(number)) {
@@ -412,4 +415,18 @@ pr_find <- function(owner,
   urls <- purrr::map_chr(prs, c("html_url"), .default = NA_character_)
 
   urls[refs == pr_branch & user == pr_owner]
+}
+
+check_pr_readiness <- function() {
+  cfg <- classify_github_setup()
+  if (cfg$unsupported) {
+    stop_bad_github_config(cfg)
+  }
+  if (cfg$type %in% c("ours", "fork")) {
+    return(invisible())
+  }
+  if (!(cfg$type %in% c("theirs", "fork_no_upstream"))) {
+    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
+  }
+  stop_unsupported_pr_config(cfg)
 }

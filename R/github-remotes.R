@@ -2,7 +2,8 @@
 #'
 #' Creates a data frame where each row represents a GitHub-associated remote.
 #' The data frame is initialized via `gert::git_remote_list()`, possibly
-#' filtered for specific remotes, then built out with data from the GitHub API.
+#' filtered for specific remotes, then (optionally) built out with data from the
+#' GitHub API.
 #'
 #' @param these Intersect the list of GitHub-associated remotes with `these`
 #'   remote names. To keep all GitHub-associated remotes, use `these = NULL` or
@@ -417,6 +418,19 @@ stop_bad_github_config <- function(cfg) {
   )
 }
 
+stop_unsupported_pr_config <- function(cfg) {
+  msg <- github_config_wat(cfg)
+  msg$type <- glue("
+    Pull request functions can't work with GitHub remote configuration: \\
+    {ui_value(cfg$type)}
+    ")
+  abort(
+    message = unname(msg),
+    class = c("usethis_error_invalid_pr_config", "usethis_error"),
+    cfg = cfg
+  )
+}
+
 # common configurations --------------------------------------------------------
 cfg_no_github <- function(cfg) {
   utils::modifyList(
@@ -475,9 +489,9 @@ cfg_fork_no_upstream <- function(cfg) {
                            # this situation, but it's dysfunctional long-term,
                            # because we won't be able to pull from upstream.
       desc = glue("
-        {ui_value('origin')} is a fork, but its parent repo is not configured \\
-        as the {ui_value('upstream')} remote.
-        You CAN make a pull request.
+        {ui_value('origin')} is a fork, but its parent is not configured \\
+        as {ui_value('upstream')}.
+        You can make a pull request.
         However, going forward, you can't pull changes from the main repo.
         Use {ui_code('usethis::use_git_remote()')} to add the parent repo as \\
         the {ui_value('upstream')} remote.
