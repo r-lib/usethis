@@ -295,7 +295,6 @@ github_token <- function() {
   if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
 }
 
-## checks for existence of 'origin' remote with 'github' in URL
 uses_github <- function() {
   if (!uses_git()) {
     return(FALSE)
@@ -338,9 +337,9 @@ check_no_github_repo <- function(owner, repo, host, auth_token) {
       )
       TRUE
     },
-    "http_error_404" = function(err) FALSE,
+    "http_error_404" = function(err) FALSE
   )
-  if (repo_found) {
+  if (!repo_found) {
     return(invisible())
   }
   spec <- glue("{owner}/{repo}")
