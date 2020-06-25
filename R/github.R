@@ -34,9 +34,9 @@
 #'
 #' The final push to GitHub means that regular Git credentials (for either the
 #' SSH or HTTPS protocol) must also be available, just as `git push` on the
-#' command line would require. usethis uses the gert package for git operations
+#' command line would require. usethis uses the gert package for Git operations
 #' (<https://docs.ropensci.org/gert>) and gert, in turn, relies on the
-#' credentials package (<https://cran.r-project.org/package=credentials>) for
+#' credentials package (<https://docs.ropensci.org/credentials/>) for
 #' auth. In usethis v1.7.0, we switched from git2r to gert + credentials. This
 #' pair of packages appears to be more successful in discovering and using the
 #' same credentials as command line Git. As a result, a great deal of

@@ -1,56 +1,95 @@
 #' Helpers for GitHub pull requests
 #'
-#' The `pr_*` family of functions is designed to make working with GitHub
-#' PRs as painless as possible for both contributors and package maintainers.
-#' They are designed to support the git and GitHub best practices described in
-#' [Happy Git and GitHub for the useR](https://happygitwithr.com).
+#' @description
+#' The `pr_*` family of functions is designed to make working with GitHub pull
+#' requests (PRs) as painless as possible for both contributors and package
+#' maintainers. They are designed to support the Git and GitHub best practices
+#' described in [Happy Git and GitHub for the useR](https://happygitwithr.com).
+#' To use the `pr_*` functions, your project must be a Git repo and have one of
+#' these GitHub remote configurations:
+#' * "ours": You can push to the GitHub remote configured as `origin`. It's not
+#'   a fork.
+#' * "fork": You can push to the GitHub remote configured as `origin`, it's a
+#'   fork, and its parent is configured as `upstream`.
 #'
-#' @section Set up advice:
-#' These functions make heavy use of git2r and the GitHub API. You'll need a
-#' GitHub personal access token (PAT); see [create_github_token()] for help
-#' with that. If git2r does not seem to be finding your git credentials, read
-#' [git_credentials()] for troubleshooting advice. The transport protocol
-#' (SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.
+#' "Ours" and "fork" are two of several GitHub remote configurations examined in
+#' [Common remote setups](https://happygitwithr.com/common-remote-setups.html)
+#' in Happy Git.
+#'
+#' @section Required setup:
+#' The `pr_*` functions interact with GitHub both as a conventional Git remote
+#' and via the REST API. Therefore, your credentials must be discoverable. Which
+#' credentials do we mean?
+#' * A GitHub personal access token (PAT) must be configured as the `GITHUB_PAT`
+#' environment variable. [create_github_token()] helps you do this. This PAT
+#' allows usethis to call the GitHub API on your behalf. If you use HTTPS
+#' remotes, the PAT is also used for, e.g., `git push`. That means the PAT is
+#' all you need to setup! Highly recommended for those new to Git and GitHub and
+#' PRs.
+#' * If you use SSH remotes, your SSH keys must also be discoverable.
+#'
+#' Usethis uses the gert package for Git operations
+#' (<https://docs.ropensci.org/gert>) and gert, in turn, relies on the
+#' credentials package (<https://docs.ropensci.org/credentials/>) for auth. If
+#' you have credential problems, focus your troubleshooting on getting the
+#' credentials package to find your credentials.
+#'
+#' If the `pr*` functions need to configure a new remote, its transport protocol
+#' (HTTPS vs SSH) is determined by the protocol used for `origin`.
 #'
 #' @section For contributors:
 #' To contribute to a package, first use `create_from_github("OWNER/REPO", fork
-#' = TRUE)` to fork the source repository, and then check out a local copy. Next
-#' use `pr_init()` to create a branch for your PR (__never__ submit a PR from
-#' the `master` branch). You'll then work locally, making changes to files and
-#' checking them into git. Once you're ready to submit, run `pr_push()` to push
-#' your local branch to GitHub, and open a webpage that lets you initiate the
-#' PR (or draft PR). To learn more about the process of making a pull request,
-#' read the [Pull Request
+#' = TRUE)` to fork the source repository, and then check out a local copy.
+#'
+#' Next use `pr_init()` to create a branch for your PR. It is best practice to
+#' never make commits to the `master` (or default) branch of a fork, because you
+#' do not own it. A pull request should always come from a feature branch. It
+#' will be much easier to pull upstream changes from the fork parent if you only
+#' allow yourself to work in feature branches. It is also much easier for a
+#' maintainer to explore and extend your PR if you create a feature branch.
+#'
+#' Work locally, in your branch, making changes to files, and committing your
+#' work. Once you're ready to create the PR, run `pr_push()` to push your local
+#' branch to GitHub, and open a webpage that lets you initiate the PR (or draft
+#' PR).
+#'
+#' To learn more about the process of making a pull request, read the [Pull
+#' Request
 #' Helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html)
 #' vignette.
 #'
-#' If you are lucky, your PR will be perfect, and the maintainer will accept
-#' it. You can then run `pr_finish()` to close and delete your PR branch.
-#' In most cases, however, the maintainer will ask you to make some changes.
-#' Make the changes, then run `pr_push()` to sync back up to GitHub.
+#' If you are lucky, your PR will be perfect, and the maintainer will accept it.
+#' You can then run `pr_finish()` to close and delete your PR branch. In most
+#' cases, however, the maintainer will ask you to make some changes. Make the
+#' changes, then run `pr_push()` to sync back up to GitHub.
 #'
-#' It's also possible that the maintainer will contribute some code to your
-#' PR: you get that code back to your computer, run `pr_pull()`. It's also
-#' possible that other changes have occurred to the package while you've been
-#' working on your PR, and you need to "merge master". Do that by running
-#' `pr_pull_upstream()`: this makes sure that your copy of the package is
-#' up-to-date with the maintainer's latest changes. Either of the pull
-#' functions may cause merge conflicts, so be prepared to resolve before
-#' continuing.
+#' It's also possible that the maintainer will contribute some code to your PR:
+#' to get that code back to your computer, run `pr_pull()`. It can also happen
+#' that other changes have occurred in the package since you first created your
+#' PR. You might need to merge the `master` (or default) branch into your PR
+#' branch. Do that by running `pr_pull_upstream()`: this makes sure that your
+#' copy of the package is up-to-date with the maintainer's latest changes. Both
+#' `pr_pull()` and `pr_pull_upstream()` can result in merge conflicts, so be
+#' prepared to resolve before continuing.
 #'
 #' @section For maintainers:
 #' To download a PR locally so that you can experiment with it, run
-#' `pr_fetch(<pr_number>)`. If you make changes, run `pr_push()` to push
-#' them back to GitHub. After you have merged the PR, run `pr_finish()`
-#' to delete the local branch.
+#' `pr_fetch(<pr_number>)`. If you make changes, run `pr_push()` to push them
+#' back to GitHub. After you have merged the PR, run `pr_finish()` to delete the
+#' local branch and remove the remote associated with the contributor's fork.
 #'
 #' @section Other helpful functions:
 #' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_pull_upstream()`, and
-#'   `pr_push()`
-#' * `pr_pause()` makes sure you're synced with the PR and then switches
-#'    back to master.
-#' * `pr_view()` opens the PR in the browser
+#' `pr_push()`.
+#' * `pr_pause()` makes sure you're synced with the PR and then switches back to
+#' master.
+#' * `pr_view()` opens the PR in the browser.
+#'
+#' @name pull-requests
+NULL
+
 #' @export
+#' @rdname pull-requests
 #' @param branch branch name. Should usually consist of lower case letters,
 #'   numbers, and `-`.
 pr_init <- function(branch) {
@@ -88,7 +127,7 @@ pr_init <- function(branch) {
 }
 
 #' @export
-#' @rdname pr_init
+#' @rdname pull-requests
 #' @param number Number of PR to fetch.
 #' @param owner Name of the owner of the repository that is the target of the
 #'   pull request. Default of `NULL` tries to identify the source repo and uses
@@ -195,7 +234,7 @@ pr_fetch <- function(number,
 }
 
 #' @export
-#' @rdname pr_init
+#' @rdname pull-requests
 pr_push <- function() {
   check_pr_readiness()
   check_branch_not_master()
@@ -247,7 +286,7 @@ pr_push <- function() {
 }
 
 #' @export
-#' @rdname pr_init
+#' @rdname pull-requests
 pr_pull <- function() {
   check_pr_readiness()
   check_branch_not_master()
@@ -263,7 +302,7 @@ pr_pull <- function() {
 }
 
 #' @export
-#' @rdname pr_init
+#' @rdname pull-requests
 pr_pull_upstream <- function() {
   check_pr_readiness()
   check_no_uncommitted_changes()
@@ -280,7 +319,7 @@ pr_pull_upstream <- function() {
 }
 
 #' @export
-#' @rdname pr_init
+#' @rdname pull-requests
 pr_sync <- function() {
   check_pr_readiness()
   pr_pull()
@@ -289,7 +328,7 @@ pr_sync <- function() {
 }
 
 #' @export
-#' @rdname pr_init
+#' @rdname pull-requests
 pr_view <- function() {
   url <- pr_url()
   if (is.null(url)) {
@@ -300,7 +339,7 @@ pr_view <- function() {
 }
 
 #' @export
-#' @rdname pr_init
+#' @rdname pull-requests
 pr_pause <- function() {
   check_pr_readiness()
   check_branch_not_master()
@@ -313,7 +352,7 @@ pr_pause <- function() {
 }
 
 #' @export
-#' @rdname pr_init
+#' @rdname pull-requests
 pr_finish <- function(number = NULL) {
   check_pr_readiness()
   repo <- git_repo()
