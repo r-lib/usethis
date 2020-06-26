@@ -217,6 +217,15 @@ git_branch_exists <- function(branch) {
   branch %in% branches$name
 }
 
+git_branch_upstream <- function(branch = git_branch()) {
+  info <- gert::git_branch_list(git_repo())
+  this <- info$local & info$name == branch
+  if (sum(this) < 1) {
+    ui_stop("There is no local branch named {ui_value(branch}")
+  }
+  sub("^refs/remotes/", "", info$upstream[this])
+}
+
 git_branch_tracking <- function(branch = git_branch()) {
   # TODO: this will be broken until I come back here and gert-ify it
   b <- git_branch_OLD(name = branch)
