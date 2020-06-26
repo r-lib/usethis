@@ -255,24 +255,20 @@ git_branch_switch <- function(branch) {
   rstudio_git_tickle()
 }
 
-git_branch_compare <- function(branch = git_branch()) {
-  repo <- git2r_repo()
-  auth_token <- check_github_token(allow_empty = TRUE)
-  protocol <- github_remote_protocol()
-  credentials <- git_credentials(protocol, auth_token)
-
-  remref <- git_branch_tracking_FIXME(branch)
-  git2r::fetch(
-    repo,
-    name = remref_remote(remref),
-    credentials = credentials,
+git_branch_compare <- function(branch = git_branch(), remref = NULL) {
+  remref <- remref %||% git_branch_upstream(branch)
+  gert::git_fetch(
+    remote = remref_remote(remref),
     refspec = branch,
+    repo = git_repo(),
     verbose = FALSE
   )
-  git2r::ahead_behind(
-    git_commit_find(branch),
-    git_commit_find(remref)
+  # TODO: replace with something from gert
+  out <- git2r::ahead_behind(
+    git2r::revparse_single(repo = git2r_repo(), revision = branch),
+    git2r::revparse_single(repo = git2r_repo(), revision = remref)
   )
+  stats::setNames(as.list(out), nm = c("local_only", "remote_only"))
 }
 
 git_branch_push <- function(branch = git_branch(),
