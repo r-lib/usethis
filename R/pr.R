@@ -93,12 +93,29 @@ NULL
 #' @param branch branch name. Should usually consist of lower case letters,
 #'   numbers, and `-`.
 pr_init <- function(branch) {
+  # TODO: I question whether pr_init() should handle the case where `branch`
+  # already exists.
+  # If this branch exists locally, maybe introduce pr_resume() for that case?
+  # If there's a remote branch by that name, maybe delegate to pr_fetch()?
+  on.exit(rstudio_git_tickle(), add = TRUE)
   stopifnot(is_string(branch))
   check_pr_readiness()
   # TODO(@jennybc): if no internet, could offer option to proceed anyway
   # Error in git2r::fetch(repo, name = remref_remote(remref), refspec = branch,  :
   # Error in 'git2r_remote_fetch': failed to resolve address for github.com: nodename nor servname provided, or not known
-  check_branch_pulled("master", "pr_pull_upstream()")
+  check_no_uncommitted_changes(untracked = TRUE)
+
+  # TODO: honour non-master default branch
+  # TODO: figure out what "pr_pull_upstream()" should actually recommend
+  # TODO: is this really how I want to determine cfg$type is "fork" vs. "ours"?
+  # TODO: maybe I need pr_pull_primary() when branch = master and then I don't
+  # need to check if in fork.
+  in_a_fork <- nrow(github_remotes2("upstream", github_get = FALSE)) > 0
+  if (in_a_fork && git_branch() == "master") {
+    check_branch_pulled(remref = "upstream/master", use = "pr_pull_upstream()")
+  } else {
+    check_branch_pulled()
+  }
 
   if (!git_branch_exists(branch)) {
     if (git_branch() != "master") {
@@ -116,9 +133,13 @@ pr_init <- function(branch) {
   if (git_branch() != branch) {
     ui_done("Switching to branch {ui_value(branch)}")
     git_branch_switch(branch)
-    has_remote_branch <- !is.null(git_branch_tracking_FIXME(branch))
-    if (has_remote_branch) {
-      pr_pull()
+    upstream <- git_branch_upstream()
+    if (!is.na(upstream)) {
+      # TODO: I am tempted to add rebase = TRUE here
+      # but, bigger picture, I'm not clear on why pr_init() accounts for a
+      # pre-existing branch and I want to reconsider that
+      # maybe there should be pr_resume() for that?
+      gert::git_pull(repo = git_repo())
     }
   }
 
