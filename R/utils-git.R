@@ -347,27 +347,30 @@ check_branch <- function(branch) {
   )
 }
 
-check_branch_pulled <- function(branch = git_branch(), use = "git pull") {
-  remote <- git_branch_tracking_FIXME(branch)
-  if (is.null(remote)) {
+# examples of remref: upstream/master, origin/foofy
+check_branch_pulled <- function(remref = NULL, use = "git pull") {
+  branch <- git_branch()
+  remref <- remref %||% git_branch_upstream(branch)
+
+  if (is.na(remref)) {
     ui_done("Local branch {ui_value(branch)} is not tracking a remote branch.")
     return(invisible())
   }
 
-  ui_done(
-    "Checking that local branch {ui_value(branch)} has the changes \\
-     in {ui_value(remote)}"
-  )
+  ui_done("
+    Checking that local branch {ui_value(branch)} has the changes \\
+    in {ui_value(remref)}")
 
-  diff <- git_branch_compare(branch)
-  if (diff[[2]] == 0) {
+  comparison <- git_branch_compare(branch, remref)
+  if (comparison$remote_only == 0) {
     return(invisible())
   }
 
-  ui_stop(c(
-    "Local branch {ui_value(branch)} is behind {ui_value(remote)}.",
-    "Please use {ui_code(use)} to update."
-  ))
+  # TODO: properly pluralize "commit(s)" when I switch to cli
+  ui_stop("
+    Local branch {ui_value(branch)} is behind {ui_value(remref)} by \\
+    {comparison$remote_only} commit(s).
+    Please use {ui_code(use)} to update.")
 }
 
 check_branch_pushed <- function(branch = git_branch(), use = "git push") {
