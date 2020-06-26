@@ -79,10 +79,12 @@
 #' local branch and remove the remote associated with the contributor's fork.
 #'
 #' @section Other helpful functions:
+#' * `pr_resume()` helps you switch to an existing branch and resume work on a
+#'   PR.
 #' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_pull_upstream()`, and
 #' `pr_push()`.
 #' * `pr_pause()` makes sure you're synced with the PR and then switches back to
-#' master.
+#'   master.
 #' * `pr_view()` opens the PR in the browser.
 #'
 #' @name pull-requests
@@ -93,57 +95,63 @@ NULL
 #' @param branch branch name. Should usually consist of lower case letters,
 #'   numbers, and `-`.
 pr_init <- function(branch) {
-  # TODO: I question whether pr_init() should handle the case where `branch`
-  # already exists.
-  # If this branch exists locally, maybe introduce pr_resume() for that case?
-  # If there's a remote branch by that name, maybe delegate to pr_fetch()?
   on.exit(rstudio_git_tickle(), add = TRUE)
   stopifnot(is_string(branch))
+
+  if (git_branch_exists(branch)) {
+    return(pr_resume(branch))
+  }
+
   check_pr_readiness()
   # TODO(@jennybc): if no internet, could offer option to proceed anyway
   # Error in git2r::fetch(repo, name = remref_remote(remref), refspec = branch,  :
   # Error in 'git2r_remote_fetch': failed to resolve address for github.com: nodename nor servname provided, or not known
+
+  if (git_branch() != "master") {
+    if (ui_nope("Create local PR branch with non-master parent?")) {
+      return(invisible(FALSE))
+    }
+  }
+
   check_no_uncommitted_changes(untracked = TRUE)
+  pr_pull_from_primary()
 
-  # TODO: honour non-master default branch
-  # TODO: figure out what "pr_pull_upstream()" should actually recommend
-  # TODO: is this really how I want to determine cfg$type is "fork" vs. "ours"?
-  # TODO: maybe I need pr_pull_primary() when branch = master and then I don't
-  # need to check if in fork.
-  in_a_fork <- nrow(github_remotes2("upstream", github_get = FALSE)) > 0
-  if (in_a_fork && git_branch() == "master") {
-    check_branch_pulled(remref = "upstream/master", use = "pr_pull_upstream()")
-  } else {
-    check_branch_pulled()
+  ui_done("Creating and switching to local branch {ui_value(branch)}")
+  git_branch_create_and_switch(branch)
+  config_key <- glue("branch.{branch}.created-by")
+  gert::git_config_set(config_key, "usethis::pr_init", git_repo())
+
+  ui_todo("Use {ui_code('pr_push()')} to create PR.")
+  invisible()
+}
+
+#' @export
+#' @rdname pull-requests
+pr_resume <- function(branch = NULL) {
+  on.exit(rstudio_git_tickle(), add = TRUE)
+  if (is.null(branch)) {
+    ui_stop("
+      Interactive PR selection not implemented yet.
+      For now, {ui_code('branch')} should be the name of a local branch.")
   }
-
+  stopifnot(is_string(branch))
   if (!git_branch_exists(branch)) {
-    if (git_branch() != "master") {
-      if (ui_nope("Create local PR branch with non-master parent?")) {
-        return(invisible(FALSE))
-      }
-    }
-
-    ui_done("Creating and switching to local branch {ui_value(branch)}")
-    git_branch_create_and_switch(branch)
-    config_key <- glue("branch.{branch}.created-by")
-    gert::git_config_set(config_key, "usethis::pr_init", git_repo())
+    ui_stop("No local branch named {ui_value('branch')} exists.")
   }
 
-  if (git_branch() != branch) {
-    ui_done("Switching to branch {ui_value(branch)}")
-    git_branch_switch(branch)
-    upstream <- git_branch_upstream()
-    if (!is.na(upstream)) {
-      # TODO: I am tempted to add rebase = TRUE here
-      # but, bigger picture, I'm not clear on why pr_init() accounts for a
-      # pre-existing branch and I want to reconsider that
-      # maybe there should be pr_resume() for that?
-      gert::git_pull(repo = git_repo())
-    }
+  check_pr_readiness()
+  check_no_uncommitted_changes(untracked = TRUE)
+  pr_pull_from_primary()
+
+  ui_done("Switching to branch {ui_value(branch)}")
+  git_branch_switch(branch)
+  upstream <- git_branch_upstream()
+  if (!is.na(upstream)) {
+    # TODO: I am tempted to add rebase = TRUE here
+    gert::git_pull(repo = git_repo())
   }
 
-  ui_todo("Use {ui_code('pr_push()')} to create PR")
+  ui_todo("Use {ui_code('pr_push()')} to create or update PR.")
   invisible()
 }
 
@@ -489,4 +497,12 @@ check_pr_readiness <- function() {
     ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
   }
   stop_unsupported_pr_config(cfg)
+}
+
+# TODO: change this to reflect whatever happens in pr_init()
+in_a_fork <- nrow(github_remotes2("upstream", github_get = FALSE)) > 0
+if (in_a_fork && git_branch() == "master") {
+  check_branch_pulled(remref = "upstream/master", use = "pr_pull_upstream()")
+} else {
+  check_branch_pulled()
 }
