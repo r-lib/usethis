@@ -136,7 +136,7 @@ check_no_uncommitted_changes <- function(untracked = FALSE) {
     if (ui_yeah("There are uncommitted changes. Do you want to proceed anyway?")) {
       return(invisible())
     } else {
-      ui_stop("Uncommitted changes. Please commit to git before continuing.")
+      ui_stop("Uncommitted changes. Please commit before continuing.")
     }
   }
 }
