@@ -260,7 +260,7 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
   remref <- remref %||% git_branch_upstream(branch)
   gert::git_fetch(
     remote = remref_remote(remref),
-    refspec = branch,
+    refspec = remref_branch(remref),
     repo = git_repo(),
     verbose = FALSE
   )
