@@ -139,14 +139,17 @@ pr_resume <- function(branch = NULL) {
   }
   stopifnot(is_string(branch))
   if (!git_branch_exists(branch)) {
-    ui_stop("No local branch named {ui_value('branch')} exists.")
+    code <- glue("pr_init(\"{branch}\")")
+    ui_stop("
+      No branch named {ui_value(branch)} exists.
+      Call {ui_code(code)} to create a new PR branch.")
   }
 
   check_pr_readiness()
   check_no_uncommitted_changes(untracked = TRUE)
   pr_pull_from_primary()
 
-  ui_done("Switching to branch {ui_value(branch)}")
+  ui_done("Switching to branch {ui_value(branch)} and pulling")
   git_branch_switch(branch)
   upstream <- git_branch_upstream()
   if (!is.na(upstream)) {
@@ -510,9 +513,10 @@ pr_pull_from_primary <- function() {
   in_a_fork <- nrow(github_remotes2("upstream", github_get = FALSE)) > 0
   # TODO: generalize to default branch
   if (in_a_fork && git_branch() == "master") {
+    ui_done("Pulling from {ui_value('upstream/master')}")
     git_pull(remref = "upstream/master")
   } else {
-    # pull from upstream tracking branch
+    ui_done("Pulling from remote tracking branch")
     git_pull()
   }
 }
