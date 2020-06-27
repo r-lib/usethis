@@ -179,20 +179,21 @@ git_is_fork <- function() {
   "upstream" %in% names(git_remotes())
 }
 
-# Merge and pull ---------------------------------------------------------------
-git_pull <- function(remote_branch = git_branch_tracking_FIXME(),
-                     credentials = NULL) {
-  repo <- git2r_repo()
-
-  git2r::fetch(
-    repo,
-    name = remref_remote(remote_branch),
-    refspec = remref_branch(remote_branch),
-    verbose = FALSE,
-    credentials = credentials
+# Pull -------------------------------------------------------------------------
+git_pull <- function(remref = NULL) {
+  repo <- git_repo()
+  branch <- git_branch()
+  remref <- remref %||% git_branch_upstream(branch)
+  stopifnot(is_string(remref))
+  gert::git_fetch(
+    remote = remref_remote(remref),
+    refspec = remref_branch(branch),
+    repo = repo,
+    verbose = FALSE
   )
-  mr <- git2r::merge(repo, remote_branch)
-  if (isTRUE(mr$conflicts)) {
+  gert::git_merge(remref, repo = repo)
+  st <- git_status(untracked = TRUE)
+  if (any(st$status == "conflicted")) {
     git_conflict_report()
   }
 
