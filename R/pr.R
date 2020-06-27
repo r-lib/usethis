@@ -331,7 +331,7 @@ pr_pull <- function() {
   credentials <- git_credentials(protocol)
 
   ui_done("Pulling changes from GitHub PR")
-  git_pull(credentials = credentials)
+  git_pull()
 
   invisible(TRUE)
 }
@@ -350,7 +350,7 @@ pr_pull_upstream <- function() {
   credentials <- git_credentials(protocol)
 
   ui_done("Pulling changes from GitHub source repo {ui_value(source)}")
-  git_pull(source, credentials = credentials)
+  git_pull(source)
 }
 
 #' @export
