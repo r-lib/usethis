@@ -99,6 +99,9 @@ pr_init <- function(branch) {
   stopifnot(is_string(branch))
 
   if (git_branch_exists(branch)) {
+    code <- glue("pr_resume(\"{branch}\")")
+    ui_info("
+      Branch {ui_value(branch)} already exists, calling {ui_code(code)}")
     return(pr_resume(branch))
   }
 
