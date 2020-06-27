@@ -502,10 +502,17 @@ check_pr_readiness <- function() {
   stop_unsupported_pr_config(cfg)
 }
 
-# TODO: change this to reflect whatever happens in pr_init()
-in_a_fork <- nrow(github_remotes2("upstream", github_get = FALSE)) > 0
-if (in_a_fork && git_branch() == "master") {
-  check_branch_pulled(remref = "upstream/master", use = "pr_pull_upstream()")
-} else {
-  check_branch_pulled()
+# use this right before creating a new PR or right after stopping work on a PR
+# (temporarily or for good)
+# usually, we'll be on `master` (or, in future, the default branch) and the goal
+# is to make sure we're up-to-date with the primary repo
+pr_pull_from_primary <- function() {
+  in_a_fork <- nrow(github_remotes2("upstream", github_get = FALSE)) > 0
+  # TODO: generalize to default branch
+  if (in_a_fork && git_branch() == "master") {
+    git_pull(remref = "upstream/master")
+  } else {
+    # pull from upstream tracking branch
+    git_pull()
+  }
 }
