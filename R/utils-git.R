@@ -184,6 +184,11 @@ git_pull <- function(remref = NULL) {
   repo <- git_repo()
   branch <- git_branch()
   remref <- remref %||% git_branch_upstream(branch)
+  if (is.na(remref)) {
+    ui_stop("
+      Can't pull when no remote ref is specified and local branch \\
+      {ui_value(branch)} has no upstream tracking branch")
+  }
   stopifnot(is_string(remref))
   gert::git_fetch(
     remote = remref_remote(remref),
