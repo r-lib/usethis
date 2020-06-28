@@ -134,8 +134,8 @@ check_no_uncommitted_changes <- function(untracked = FALSE) {
 
   if (git_uncommitted(untracked = untracked)) {
     if (ui_yeah("
-          There are uncommitted changes, which may cause merge conflicts when \\
-          we pull.
+          There are uncommitted changes, which may cause problems when \\
+          we pull or switch different branches.
           Do you want to proceed anyway?")) {
       return(invisible())
     } else {
