@@ -111,6 +111,7 @@ release_type <- function(version) {
 #' @export
 use_github_release <- function(host = NULL,
                                auth_token = github_token()) {
+  # TODO: should this be checking that we're on master / default branch?
   repo_spec <- get_primary_spec()
   check_branch_pushed()
   check_github_token(auth_token)

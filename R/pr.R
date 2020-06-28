@@ -117,7 +117,7 @@ pr_init <- function(branch) {
   }
 
   check_no_uncommitted_changes(untracked = TRUE)
-  pr_pull_from_primary()
+  pr_pull_parent_branch()
 
   ui_done("Creating and switching to local branch {ui_value(branch)}")
   git_branch_create_and_switch(branch)
@@ -147,14 +147,14 @@ pr_resume <- function(branch = NULL) {
 
   check_pr_readiness()
   check_no_uncommitted_changes(untracked = TRUE)
-  pr_pull_from_primary()
+  pr_pull_parent_branch()
 
   ui_done("Switching to branch {ui_value(branch)} and pulling")
   git_branch_switch(branch)
   upstream <- git_branch_upstream()
   if (!is.na(upstream)) {
     # TODO: I am tempted to add rebase = TRUE here
-    gert::git_pull(repo = git_repo())
+    git_pull()
   }
 
   ui_todo("Use {ui_code('pr_push()')} to create or update PR.")
@@ -276,7 +276,7 @@ pr_push <- function() {
   check_no_uncommitted_changes()
 
   branch <- git_branch()
-  has_remote_branch <- !is.null(git_branch_tracking_FIXME(branch))
+  has_remote_branch <- !is.na(git_branch_upstream(branch))
   if (has_remote_branch) {
     check_branch_pulled(use = "pr_pull()")
   }
@@ -399,8 +399,9 @@ pr_finish <- function(number = NULL) {
   check_branch_not_master()
   check_no_uncommitted_changes()
 
-  tracking_branch <- git_branch_tracking()
-  if (!is.null(tracking_branch)) {
+  tracking_branch <- git_branch_upstream(branch)
+  has_remote_branch <- !is.na(tracking_branch)
+  if (has_remote_branch) {
     check_branch_pushed(use = "pr_push()")
   }
 
@@ -413,7 +414,7 @@ pr_finish <- function(number = NULL) {
   ui_done("Deleting local {ui_value(pr)} branch")
   gert::git_branch_delete(pr, repo = repo)
 
-  if (is.null(tracking_branch)) {
+  if (!has_remote_branch) {
     return(invisible())
   }
 
@@ -451,7 +452,7 @@ pr_url <- function(branch = git_branch()) {
 
   if (git_is_fork()) {
     source <- github_owner_upstream()
-    pr_branch <- remref_branch(git_branch_tracking_FIXME(branch))
+    pr_branch <- remref_branch(git_branch_upstream(branch))
   } else {
     source <- github_owner()
     pr_branch <- branch
@@ -509,14 +510,15 @@ check_pr_readiness <- function() {
 # (temporarily or for good)
 # usually, we'll be on `master` (or, in future, the default branch) and the goal
 # is to make sure we're up-to-date with the primary repo
-pr_pull_from_primary <- function() {
+pr_pull_parent_branch <- function() {
   in_a_fork <- nrow(github_remotes2("upstream", github_get = FALSE)) > 0
   # TODO: generalize to default branch
   if (in_a_fork && git_branch() == "master") {
     ui_done("Pulling from {ui_value('upstream/master')}")
     git_pull(remref = "upstream/master")
   } else {
-    ui_done("Pulling from remote tracking branch")
+    remref <- git_branch_upstream(git_branch())
+    ui_done("Pulling from {ui_value(remref)}")
     git_pull()
   }
 }
