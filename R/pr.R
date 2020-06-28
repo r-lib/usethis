@@ -149,10 +149,11 @@ pr_resume <- function(branch = NULL) {
   check_no_uncommitted_changes(untracked = TRUE)
   pr_pull_parent_branch()
 
-  ui_done("Switching to branch {ui_value(branch)} and pulling")
+  ui_done("Switching to branch {ui_value(branch)}")
   git_branch_switch(branch)
   upstream <- git_branch_upstream()
   if (!is.na(upstream)) {
+    ui_done("Pulling from {ui_value(upstream)}")
     # TODO: I am tempted to add rebase = TRUE here
     git_pull()
   }
@@ -165,47 +166,55 @@ pr_resume <- function(branch = NULL) {
 #' @rdname pull-requests
 #' @param number Number of PR to fetch.
 #' @param owner Name of the owner of the repository that is the target of the
-#'   pull request. Default of `NULL` tries to identify the source repo and uses
-#'   the owner of the `upstream` remote, if present, or the owner of `origin`
-#'   otherwise.
+#'   pull request. If `NULL` (the default), `owner` is determined from the
+#'   GitHub remote configuration: the owner of `upstream` in the context of a
+#'   fork and the owner of `origin` otherwise.
 #'
 #' @examples
 #' \dontrun{
-#' ## scenario: current project is a local copy of fork of a repo owned by
-#' ## 'tidyverse', not you
-#' pr_fetch(123, owner = "tidyverse")
+#' pr_fetch(123)
 #' }
-pr_fetch <- function(number,
-                     owner = NULL) {
-  check_pr_readiness()
+pr_fetch <- function(number, owner = NULL) {
+  cfg <- classify_github_setup()
+  check_pr_readiness(cfg)
   check_no_uncommitted_changes()
 
+  owner <- switch(
+    cfg$type,
+    ours = cfg$origin$repo_owner,
+    fork = cfg$upstream$repo_owner
+  )
+  repo_name <- cfg$origin$repo_name
   auth_token <- check_github_token(allow_empty = TRUE)
-
-  owner <- owner %||% github_owner_upstream() %||% github_owner()
-  repo <- github_repo()
   pr <- gh::gh(
     "GET /repos/:owner/:repo/pulls/:number",
     owner = owner,
-    repo = repo,
+    repo = repo_name,
     number = number,
     .token = auth_token
   )
-  pr_string <- glue("{owner}/{repo}/#{number}")
+  pr_string <- glue("{owner}/{repo_name}/#{number}")
   pr_user <- glue("@{pr$user$login}")
-  ui_done(
-    "Checking out PR {ui_value(pr_string)} ({ui_field(pr_user)}): \\
+  ui_done("
+    Checking out PR {ui_value(pr_string)} ({ui_field(pr_user)}): \\
     {ui_value(pr$title)}"
   )
 
-  their_branch <- pr$head$ref
-  them <- pr$head$user$login
-  if (them == github_owner()) {
-    remote <- "origin"
-    our_branch <- their_branch
-  } else {
-    remote <- them
-    our_branch <- glue("{them}-{their_branch}")
+  pr_branch_theirs <- pr$head$ref
+  pr_spec <- pr$head$repo$full_name
+  pr_owner <- spec_owner(pr_spec)
+  primary_spec <- get_primary_spec()
+  primary_owner <- spec_owner(primary_spec)
+  if (pr_owner == primary_owner) { # PR is internal to primary repo
+    if (cfg$type == "ours") {
+      pr_remote <- "origin"
+    } else { # cfg$type == "fork"
+      pr_remote <- "upstream"
+    }
+    pr_branch_ours <- pr_branch_theirs
+  } else {                         # PR is external
+    pr_remote <- pr_owner
+    pr_branch_ours <- sub(":", "-", pr$head$label)
     if (!isTRUE(pr$maintainer_can_modify)) {
       ui_info("
       Note that user does NOT allow maintainer to modify this PR \\
@@ -215,44 +224,43 @@ pr_fetch <- function(number,
     }
   }
 
-  protocol <- github_remote_protocol()
-
-  if (!remote %in% git2r::remotes(git2r_repo())) {
+  if (!pr_remote %in% names(git_remotes())) {
+    protocol <- github_remote_protocol()
     url <- switch(
       protocol,
       https = pr$head$repo$clone_url,
       ssh   = pr$head$repo$ssh_url
     )
-
     if (is.null(url)) {
-      ui_stop("No remote found. Has repo been deleted?")
+      ui_stop("
+        Can't get URL for repo where PR originates.
+        Perhaps it has been deleted?")
     }
 
-    ui_done("Adding remote {ui_value(remote)} as {ui_value(url)}")
-    git2r::remote_add(git2r_repo(), remote, url)
-    config_key <- glue("remote.{remote}.created-by")
+    ui_done("Adding remote {ui_value(pr_remote)} as {ui_value(url)}")
+    gert::git_remote_add(pr_remote, url, repo = git_repo())
+    config_key <- glue("remote.{pr_remote}.created-by")
     gert::git_config_set(config_key, "usethis::pr_fetch", git_repo())
   }
 
-  if (!git_branch_exists(our_branch)) {
-    their_refname <- glue("{remote}/{their_branch}")
-    credentials <- git_credentials(protocol, auth_token)
-    ui_done("Creating and switching to local branch {ui_value(our_branch)}")
-    git2r::fetch(
-      git2r_repo(),
-      name = remote,
-      credentials = credentials,
-      refspec = their_branch,
+  if (!git_branch_exists(pr_branch_ours, local = TRUE)) {
+    their_refname <- glue("{pr_remote}/{pr_branch_theirs}")
+    ui_done("Creating and switching to local branch {ui_value(pr_branch_ours)}")
+    gert::git_fetch(
+      remote = pr_remote,
+      refspec = pr_branch_theirs,
+      repo = git_repo(),
       verbose = FALSE
     )
-    git_branch_create_and_switch(our_branch, their_refname)
-    git_branch_track(our_branch, remote, their_branch)
+    git_branch_create_and_switch(pr_branch_ours, their_refname)
+    ui_done("Setting {ui_value(their_refname)} as remote tracking branch}")
+    git_branch_set_upstream(their_refname, repo = git_repo())
 
-    config_key <- glue("branch.{our_branch}.created-by")
+    config_key <- glue("branch.{pr_branch_ours}.created-by")
     gert::git_config_set(config_key, "usethis::pr_fetch", git_repo())
 
     # Cache URL for PR in config for branch
-    config_url <- glue("branch.{our_branch}.pr-url")
+    config_url <- glue("branch.{pr_branch_ours}.pr-url")
     gert::git_config_set(config_url, pr$html_url, git_repo())
 
     # `git push` will not work if the branch names differ, unless
@@ -261,9 +269,10 @@ pr_fetch <- function(number,
     # work.
   }
 
-  if (git_branch() != our_branch) {
-    ui_done("Switching to branch {ui_value(our_branch)}")
-    git_branch_switch(our_branch)
+  if (git_branch() != pr_branch_ours) {
+    # TODO: can I detect this case much earlier and send to pr_resume()?
+    ui_done("Switching to branch {ui_value(pr_branch_ours)}")
+    git_branch_switch(pr_branch_ours)
     pr_pull()
   }
 }
@@ -282,8 +291,8 @@ pr_push <- function() {
   }
 
   remote_info <- git_branch_remote(branch)
-  protocol <- github_remote_protocol(remote_info$remote_name)
-  credentials <- git_credentials(protocol)
+  # protocol <- github_remote_protocol(remote_info$remote_name)
+  # credentials <- git_credentials(protocol)
 
   # TODO: I suspect the tryCatch (and perhaps the git_branch_compare()?) is
   # better pushed down into git_branch_push(), which could then return TRUE for
@@ -327,9 +336,6 @@ pr_pull <- function() {
   check_branch_not_master()
   check_no_uncommitted_changes()
 
-  protocol <- github_remote_protocol()
-  credentials <- git_credentials(protocol)
-
   ui_done("Pulling changes from GitHub PR")
   git_pull()
 
@@ -345,9 +351,6 @@ pr_pull_upstream <- function() {
   branch <- "master"
   remote <- if (git_is_fork()) "upstream" else "origin"
   source <- glue("{remote}/{branch}")
-
-  protocol <- github_remote_protocol(remote)
-  credentials <- git_credentials(protocol)
 
   ui_done("Pulling changes from GitHub source repo {ui_value(source)}")
   git_pull(source)
@@ -492,8 +495,8 @@ pr_find <- function(owner,
   urls[refs == pr_branch & user == pr_owner]
 }
 
-check_pr_readiness <- function() {
-  cfg <- classify_github_setup()
+check_pr_readiness <- function(cfg = NULL) {
+  cfg <- cfg %||% classify_github_setup()
   if (cfg$unsupported) {
     stop_bad_github_config(cfg)
   }

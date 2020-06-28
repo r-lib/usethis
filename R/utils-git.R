@@ -133,7 +133,10 @@ check_no_uncommitted_changes <- function(untracked = FALSE) {
   }
 
   if (git_uncommitted(untracked = untracked)) {
-    if (ui_yeah("There are uncommitted changes. Do you want to proceed anyway?")) {
+    if (ui_yeah("
+          There are uncommitted changes, which may cause merge conflicts when \\
+          we pull.
+          Do you want to proceed anyway?")) {
       return(invisible())
     } else {
       ui_stop("Uncommitted changes. Please commit before continuing.")
@@ -218,8 +221,11 @@ git_branch <- function() {
   branch
 }
 
-git_branch_exists <- function(branch) {
+git_branch_exists <- function(branch, local = NA) {
   branches <- gert::git_branch_list(git_repo())
+  if (isTRUE(local)) {
+    branches <- branches[branches$local, ]
+  }
   branch %in% branches$name
 }
 
