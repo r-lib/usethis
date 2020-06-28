@@ -138,7 +138,7 @@ pr_resume <- function(branch = NULL) {
       For now, {ui_code('branch')} should be the name of a local branch.")
   }
   stopifnot(is_string(branch))
-  if (!git_branch_exists(branch)) {
+  if (!git_branch_exists(branch, local = TRUE)) {
     code <- glue("pr_init(\"{branch}\")")
     ui_stop("
       No branch named {ui_value(branch)} exists.
@@ -179,6 +179,7 @@ pr_fetch <- function(number, owner = NULL) {
   check_pr_readiness(cfg)
   check_no_uncommitted_changes()
 
+  # GET the PR ----
   owner <- switch(
     cfg$type,
     ours = cfg$origin$repo_owner,
@@ -200,37 +201,29 @@ pr_fetch <- function(number, owner = NULL) {
     {ui_value(pr$title)}"
   )
 
+  # Figure out remote, remote branch, local branch ----
   pr_branch_theirs <- pr$head$ref
-  pr_spec <- pr$head$repo$full_name
-  pr_owner <- spec_owner(pr_spec)
-  primary_spec <- get_primary_spec()
-  primary_owner <- spec_owner(primary_spec)
-  if (pr_owner == primary_owner) { # PR is internal to primary repo
-    if (cfg$type == "ours") {
-      pr_remote <- "origin"
-    } else { # cfg$type == "fork"
-      pr_remote <- "upstream"
-    }
-    pr_branch_ours <- pr_branch_theirs
-  } else {                         # PR is external
-    pr_remote <- pr_owner
+  if (pr$head$repo$fork) { # PR is from a fork
+    pr_remote <- spec_owner(pr$head$repo$full_name)
     pr_branch_ours <- sub(":", "-", pr$head$label)
-    if (!isTRUE(pr$maintainer_can_modify)) {
-      ui_info("
+  } else {                 # PR is from a branch in the primary repo
+    pr_remote <- switch(cfg$type, ours = "origin", fork = "upstream")
+    pr_branch_ours <- pr_branch_theirs
+  }
+  if (!isTRUE(pr$maintainer_can_modify)) {
+    ui_info("
       Note that user does NOT allow maintainer to modify this PR \\
       at this time,
-      although this can be changed.
-      ")
-    }
+      although this can be changed.")
   }
+  pr_remref <- glue("{pr_remote}/{pr_branch_theirs}")
 
+  repo <- git_repo()
+
+  # Add PR remote, if necessary ----
   if (!pr_remote %in% names(git_remotes())) {
     protocol <- github_remote_protocol()
-    url <- switch(
-      protocol,
-      https = pr$head$repo$clone_url,
-      ssh   = pr$head$repo$ssh_url
-    )
+    url <- with(pr$head$repo, switch(protocol, https = clone_url, ssh = ssh_url))
     if (is.null(url)) {
       ui_stop("
         Can't get URL for repo where PR originates.
@@ -238,43 +231,35 @@ pr_fetch <- function(number, owner = NULL) {
     }
 
     ui_done("Adding remote {ui_value(pr_remote)} as {ui_value(url)}")
-    gert::git_remote_add(pr_remote, url, repo = git_repo())
+    gert::git_remote_add(pr_remote, url, repo = repo)
     config_key <- glue("remote.{pr_remote}.created-by")
-    gert::git_config_set(config_key, "usethis::pr_fetch", git_repo())
+    gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
   }
 
+  # Create local branch, if necessary, and switch to it ----
   if (!git_branch_exists(pr_branch_ours, local = TRUE)) {
-    their_refname <- glue("{pr_remote}/{pr_branch_theirs}")
     ui_done("Creating and switching to local branch {ui_value(pr_branch_ours)}")
-    gert::git_fetch(
-      remote = pr_remote,
-      refspec = pr_branch_theirs,
-      repo = git_repo(),
-      verbose = FALSE
-    )
-    git_branch_create_and_switch(pr_branch_ours, their_refname)
-    ui_done("Setting {ui_value(their_refname)} as remote tracking branch}")
-    git_branch_set_upstream(their_refname, repo = git_repo())
-
+    git_branch_create_and_switch(pr_branch_ours, pr_remref)
     config_key <- glue("branch.{pr_branch_ours}.created-by")
-    gert::git_config_set(config_key, "usethis::pr_fetch", git_repo())
-
-    # Cache URL for PR in config for branch
+    gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
     config_url <- glue("branch.{pr_branch_ours}.pr-url")
-    gert::git_config_set(config_url, pr$html_url, git_repo())
-
-    # `git push` will not work if the branch names differ, unless
-    # `push.default=upstream`; there's no simple way to make it work without
-    # drawbacks, due to the design of git. `pr_push()`, however, will always
-    # work.
+    gert::git_config_set(config_url, pr$html_url, repo = repo)
+    return(invisible())
   }
 
-  if (git_branch() != pr_branch_ours) {
-    # TODO: can I detect this case much earlier and send to pr_resume()?
-    ui_done("Switching to branch {ui_value(pr_branch_ours)}")
-    git_branch_switch(pr_branch_ours)
-    pr_pull()
+  # Local branch pre-existed; make sure tracking branch is set, switch, & pull
+  ui_done("Switching to branch {ui_value(pr_branch_ours)}")
+  git_branch_switch(pr_branch_ours)
+  config_url <- glue("branch.{pr_branch_ours}.pr-url")
+  gert::git_config_set(config_url, pr$html_url, git_repo())
+
+  pr_branch_ours_tracking <- git_branch_upstream(pr_branch_ours)
+  if (!identical(pr_branch_ours_tracking, pr_remref)) {
+    ui_done("Setting {ui_value(pr_remref)} as remote tracking branch")
+    gert::git_branch_set_upstream(pr_remref, repo = repo)
   }
+  ui_done("Pulling from {ui_value(pr_remref)}")
+  pr_pull()
 }
 
 #' @export
