@@ -420,28 +420,28 @@ pr_create_gh <- function() {
 pr_url <- function(branch = git_branch()) {
   # Have we done this before? Check if we've cached pr-url in git config.
   config_url <- glue("branch.{branch}.pr-url")
-  url <- git_cfg_get(config_url)
+  url <- git_cfg_get(config_url, where = "local")
   if (!is.null(url)) {
     return(url)
   }
 
-  if (git_is_fork()) {
-    source <- github_owner_upstream()
-    pr_branch <- remref_branch(git_branch_tracking(branch))
-  } else {
-    source <- github_owner()
-    pr_branch <- branch
+  primary_owner <- spec_owner(get_primary_spec())
+  pr_branch <- remref_branch(git_branch_tracking(branch))
+
+  if (is.na(pr_branch)) {
+    return()
   }
 
-  urls <- pr_find(source, github_repo(), github_owner(), pr_branch)
+  urls <- pr_find(primary_owner, github_repo(), github_owner(), pr_branch)
 
   if (length(urls) == 0) {
     NULL
   } else if (length(urls) == 1) {
-    gert::git_config_set(config_url, urls[[1]], git_repo())
+    gert::git_config_set(config_url, urls[[1]], repo = git_repo())
     urls[[1]]
   } else {
-    ui_stop("Multiple PRs correspond to this branch. Please close before continuing")
+    ui_stop("
+      Multiple PRs correspond to this branch. Please close before continuing")
   }
 }
 
@@ -460,9 +460,9 @@ pr_find <- function(owner,
     return(character())
   }
 
-  refs <- purrr::map_chr(prs, c("head", "ref"), .default = NA_character_)
-  user <- purrr::map_chr(prs, c("head", "user", "login"), .default = NA_character_)
-  urls <- purrr::map_chr(prs, c("html_url"), .default = NA_character_)
+  refs <- map_chr(prs, c("head", "ref"), .default = NA_character_)
+  user <- map_chr(prs, c("head", "user", "login"), .default = NA_character_)
+  urls <- map_chr(prs, c("html_url"), .default = NA_character_)
 
   urls[refs == pr_branch & user == pr_owner]
 }
