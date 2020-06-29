@@ -134,7 +134,7 @@ use_binder_badge <- function(urlpath = NULL) {
   } else {
     urlpath <- glue("?urlpath={urlpath}")
   }
-  url <- glue("https://mybinder.org/v2/gh/{remote$repo_spec}/master{urlpath}")
+  url <- glue("https://mybinder.org/v2/gh/{repo_spec}/master{urlpath}")
   img <- "https://mybinder.org/badge_logo.svg"
   use_badge("Launch binder", url, img)
 
