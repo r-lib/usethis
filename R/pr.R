@@ -153,9 +153,9 @@ pr_resume <- function(branch = NULL) {
 
   ui_done("Switching to branch {ui_value(branch)}")
   git_branch_switch(branch)
-  upstream <- git_branch_tracking()
-  if (!is.na(upstream)) {
-    ui_done("Pulling from {ui_value(upstream)}")
+  tracking_branch <- git_branch_tracking()
+  if (!is.na(tracking_branch)) {
+    ui_done("Pulling from {ui_value(tracking_branch)}")
     # TODO: I am tempted to add rebase = TRUE here
     git_pull()
   }
