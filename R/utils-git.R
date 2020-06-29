@@ -251,25 +251,6 @@ git_branch_upstream <- function(branch = git_branch()) {
   sub("^refs/remotes/", "", info$upstream[this])
 }
 
-git_branch_tracking <- function(branch = git_branch()) {
-  # TODO: this will be broken until I come back here and gert-ify it
-  b <- git_branch_OLD(name = branch)
-  git2r::branch_get_upstream(b)$name
-}
-
-## FIXME: this function is 50% "actual tracking branch" and
-## 50% "what we think tracking branch should be"
-## different uses need to be untangled, then we can give a better name
-git_branch_tracking_FIXME <- function(branch = git_branch()) {
-  if (identical(branch, "master") && git_is_fork()) {
-    # We always pretend that the master branch of a fork tracks the
-    # master branch in the source repo
-    "upstream/master"
-  } else {
-    git_branch_tracking(branch)
-  }
-}
-
 git_branch_create_and_switch <- function(branch, ref = NULL) {
   gert::git_branch_create(branch, ref = ref %||% "HEAD", repo = git_repo())
   rstudio_git_tickle()
@@ -304,12 +285,9 @@ check_branch_not_master <- function() {
 
   # TODO: this wording is overly specific. Do better once `pr_status()` is
   # implemented and we can offer an overview of existing (PR) branches.
-  ui_stop(
-    "
+  ui_stop("
     Currently on {ui_value('master')} branch.
-    Do you need to call {ui_code('pr_init()')} first?
-    "
-  )
+    Do you need to call {ui_code('pr_init()')} first?")
 }
 
 check_branch <- function(branch) {

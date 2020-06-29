@@ -441,10 +441,10 @@ git_sitrep <- function() {
 
   kv_line("Path", git_repo())
   branch <- tryCatch(git_branch(), error = function(e) NULL)
-  tracking_branch <- if (is.null(branch)) NULL else git_branch_tracking()
+  tracking_branch <- if (is.null(branch)) NULL else git_branch_upstream()
   ## TODO: rework when ui_*() functions make it possible to do better
   branch <- if (is.null(branch)) "<unset>" else branch
-  tracking_branch <- if (is.null(tracking_branch)) "<unset>" else tracking_branch
+  tracking_branch <- if (is.na(tracking_branch)) "<unset>" else tracking_branch
   ui_inform(
     "* ", "Local branch -> remote tracking branch: ",
     ui_value(branch), " -> ", ui_value(tracking_branch)
