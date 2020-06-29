@@ -109,16 +109,6 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
   invisible()
 }
 
-git_commit_find <- function(refspec = NULL) {
-  repo <- git2r_repo()
-
-  if (is.null(refspec)) {
-    git2r::last_commit(repo)
-  } else {
-    git2r::revparse_single(repo, refspec)
-  }
-}
-
 git_uncommitted <- function(untracked = FALSE) {
   nrow(git_status(untracked)) > 0
 }
