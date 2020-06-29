@@ -400,8 +400,14 @@ pr_finish <- function(number = NULL) {
 }
 
 pr_create_gh <- function() {
-  owner <- github_owner()
-  repo <- github_repo()
+  # TODO: need a lighterweight way to learn ours vs fork here
+  cfg <- classify_github_setup()
+  owner <- switch(
+    cfg$type,
+    ours = cfg$origin$repo_owner,
+    fork = cfg$upstream$repo_owner
+  )
+  repo <- cfg$origin$repo_name
   branch <- git_branch()
 
   ui_done("Create PR at link given below")
