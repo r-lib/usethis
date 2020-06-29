@@ -98,7 +98,7 @@ pr_init <- function(branch) {
   on.exit(rstudio_git_tickle(), add = TRUE)
   stopifnot(is_string(branch))
 
-  if (git_branch_exists(branch)) {
+  if (git_branch_exists(branch, local = TRUE)) {
     code <- glue("pr_resume(\"{branch}\")")
     ui_info("
       Branch {ui_value(branch)} already exists, calling {ui_code(code)}")
@@ -110,6 +110,7 @@ pr_init <- function(branch) {
   # Error in git2r::fetch(repo, name = remref_remote(remref), refspec = branch,  :
   # Error in 'git2r_remote_fetch': failed to resolve address for github.com: nodename nor servname provided, or not known
 
+  # TODO: honor default branch
   if (git_branch() != "master") {
     if (ui_nope("Create local PR branch with non-master parent?")) {
       return(invisible(FALSE))
@@ -347,7 +348,9 @@ pr_pause <- function() {
   check_branch_pulled(use = "pr_pull()")
 
   ui_done("Switching back to {ui_value('master')} branch")
+  # TODO: honor default branch
   git_branch_switch("master")
+  # use whatever we use in pr_init() instead
   pr_pull_upstream()
 }
 
@@ -375,6 +378,7 @@ pr_finish <- function(number = NULL) {
   # TODO: honor default branch
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
+  # TODO: use whatever we are using in pr_init()
   pr_pull_upstream()
 
   ui_done("Deleting local {ui_value(branch)} branch")
