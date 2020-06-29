@@ -306,14 +306,6 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
   stats::setNames(as.list(out), nm = c("local_only", "remote_only"))
 }
 
-git_branch_track <- function(branch, remote = "origin", remote_branch = branch) {
-  # TODO: this will be broken until I come back here and gert-ify it
-  branch_obj <- git_branch_OLD(branch)
-  upstream <- glue("{remote}/{remote_branch}")
-  ui_done("Setting upstream tracking branch for {ui_value(branch)} to {ui_value(upstream)}")
-  git2r::branch_set_upstream(branch_obj, upstream)
-}
-
 # Checks ------------------------------------------------------------------
 check_branch_not_master <- function() {
   if (git_branch() != "master") {
