@@ -238,6 +238,14 @@ pr_fetch <- function(number, owner = NULL) {
     gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
   }
 
+  # TODO: figure out why I need this now
+  gert::git_fetch(
+    remote = remref_remote(pr_remref),
+    refspec = remref_branch(pr_remref),
+    repo = repo,
+    verbose = FALSE
+  )
+
   # Create local branch, if necessary, and switch to it ----
   if (!git_branch_exists(pr_branch_ours, local = TRUE)) {
     ui_done("Creating and switching to local branch {ui_value(pr_branch_ours)}")
