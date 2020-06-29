@@ -312,12 +312,13 @@ pr_pull_upstream <- function() {
   check_pr_readiness()
   check_no_uncommitted_changes()
 
+  # TODO: honor default branch
   branch <- "master"
-  remote <- if (git_is_fork()) "upstream" else "origin"
-  source <- glue("{remote}/{branch}")
+  remote <- spec_owner(get_primary_spec())
+  remref <- glue("{remote}/{branch}")
 
-  ui_done("Pulling changes from GitHub source repo {ui_value(source)}")
-  git_pull(source)
+  ui_done("Pulling changes from GitHub source repo {ui_value(remref)}")
+  git_pull(remref)
 }
 
 #' @export
