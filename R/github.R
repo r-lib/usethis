@@ -51,7 +51,7 @@
 #'   `auth_token`. You must have permission to create repositories.
 #' @param private If `TRUE`, creates a private repository.
 #' @inheritParams git_protocol
-#' @inheritParams git_credentials
+#' @param auth_token GitHub personal access token (PAT).
 #' @param host GitHub API host to use. Override with the endpoint-root for your
 #'   GitHub enterprise instance, for example,
 #'   "https://github.hostname.com/api/v3".

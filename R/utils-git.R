@@ -4,11 +4,6 @@ git_repo <- function() {
   proj_get()
 }
 
-git2r_repo <- function() {
-  check_uses_git()
-  git2r::repository(proj_get())
-}
-
 uses_git <- function() {
   repo <- tryCatch(
     gert::git_find(proj_get()),
@@ -42,11 +37,11 @@ git_init <- function() {
 # config
 git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
   where <- match.arg(where)
-  dat <- switch(
-    where,
-    global = gert::git_config_global(),
-    gert::git_config(git_repo())
-  )
+  if (where == "global" || !uses_git()) {
+    dat <- gert::git_config_global()
+  } else {
+    dat <- gert::git_config(git_repo())
+  }
   if (where == "local") {
     dat <- dat[dat$level == "local", ]
   }
@@ -269,12 +264,8 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
     repo = git_repo(),
     verbose = FALSE
   )
-  # TODO: replace with something from gert
-  out <- git2r::ahead_behind(
-    git2r::revparse_single(repo = git2r_repo(), revision = branch),
-    git2r::revparse_single(repo = git2r_repo(), revision = remref)
-  )
-  stats::setNames(as.list(out), nm = c("local_only", "remote_only"))
+  out <- gert::git_ahead_behind(upstream = remref, ref = branch, repo = git_repo())
+  stats::setNames(out, nm = c("local_only", "remote_only"))
 }
 
 # Checks ------------------------------------------------------------------

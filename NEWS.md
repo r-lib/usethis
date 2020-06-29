@@ -1,5 +1,7 @@
 # usethis (development version)
 
+All Git operations are now done via the gert package, instead of git2r.
+
 `create_github_token()` is a new name for the function previously known as `browse_github_token()` and `browse_github_pat()` (which both still work).
 
 `create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).

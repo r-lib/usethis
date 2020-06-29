@@ -13,7 +13,7 @@ create_from_github(
   protocol = git_protocol(),
   auth_token = github_token(),
   host = NULL,
-  credentials = NULL
+  credentials = deprecated()
 )
 }
 \arguments{
