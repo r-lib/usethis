@@ -364,20 +364,21 @@ pr_finish <- function(number = NULL) {
   check_branch_not_master()
   check_no_uncommitted_changes()
 
+  branch <- git_branch()
+
   tracking_branch <- git_branch_upstream(branch)
   has_remote_branch <- !is.na(tracking_branch)
   if (has_remote_branch) {
     check_branch_pushed(use = "pr_push()")
   }
 
-  pr <- git_branch()
-
+  # TODO: honor default branch
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
   pr_pull_upstream()
 
-  ui_done("Deleting local {ui_value(pr)} branch")
-  gert::git_branch_delete(pr, repo = repo)
+  ui_done("Deleting local {ui_value(branch)} branch")
+  gert::git_branch_delete(branch, repo = repo)
 
   if (!has_remote_branch) {
     return(invisible())
