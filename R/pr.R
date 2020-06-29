@@ -393,12 +393,11 @@ pr_finish <- function(number = NULL) {
     return(invisible())
   }
 
-  b <- git2r::branches(git2r_repo(), flags = "local")
-  remote_specs <- purrr::map(b, ~ git2r::branch_get_upstream(.x)$name)
-  remote_specs <- purrr::compact(remote_specs)
-  if (sum(grepl(glue("^{remote}/"), remote_specs)) == 0) {
+  branches <- gert::git_branch_list(git_repo())
+  branches <- branches[branches$local & !is.na(branches$upstream), ]
+  if (sum(grepl(glue("^refs/remotes/{remote}"), branches$upstream)) == 0) {
     ui_done("Removing remote {ui_value(remote)}")
-    git2r::remote_remove(git2r_repo(), remote)
+    gert::git_remote_remove(remote, repo = repo)
   }
 }
 
