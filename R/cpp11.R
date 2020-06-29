@@ -4,7 +4,6 @@
 #'   * Creates `src/`
 #'   * Adds required packages to `DESCRIPTION`
 #'   * May create an initial placeholder `.c` or `.cpp` file
-#'   * Creates `Makevars` and `Makevars.win` files (`use_rcpp_armadillo()` only)
 #'
 #' @param name If supplied, creates and opens `src/name.{c,cpp}`.
 #'
