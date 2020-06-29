@@ -207,6 +207,7 @@ git_push <- function(remref = NULL) {
     )
   }
 
+  branch <- git_branch()
   if (is.null(remref)) {
     ui_done("Pushing local {ui_value(branch)} branch")
     return(push())
