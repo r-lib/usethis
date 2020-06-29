@@ -118,7 +118,7 @@ pr_init <- function(branch) {
   }
 
   check_no_uncommitted_changes(untracked = TRUE)
-  pr_pull_parent_branch()
+  pr_pull_primary_default()
 
   ui_done("Creating and switching to local branch {ui_value(branch)}")
   git_branch_create_and_switch(branch)
@@ -148,7 +148,7 @@ pr_resume <- function(branch = NULL) {
 
   check_pr_readiness()
   check_no_uncommitted_changes(untracked = TRUE)
-  pr_pull_parent_branch()
+  pr_pull_primary_default()
 
   ui_done("Switching to branch {ui_value(branch)}")
   git_branch_switch(branch)
@@ -378,7 +378,7 @@ pr_finish <- function(number = NULL) {
   # TODO: honor default branch
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
-  pr_pull_parent_branch()
+  pr_pull_primary_default()
 
   ui_done("Deleting local {ui_value(branch)} branch")
   gert::git_branch_delete(branch, repo = repo)
@@ -485,7 +485,8 @@ check_pr_readiness <- function(cfg = NULL) {
 # (temporarily or for good)
 # usually, we'll be on `master` (or, in future, the default branch) and the goal
 # is to make sure we're up-to-date with the primary repo
-pr_pull_parent_branch <- function() {
+# "pull the default branch from the primary repo"
+pr_pull_primary_default <- function() {
   in_a_fork <- nrow(github_remotes2("upstream", github_get = FALSE)) > 0
   # TODO: generalize to default branch
   if (in_a_fork && git_branch() == "master") {
