@@ -135,7 +135,7 @@ check_no_uncommitted_changes <- function(untracked = FALSE) {
   if (git_uncommitted(untracked = untracked)) {
     if (ui_yeah("
           There are uncommitted changes, which may cause problems when \\
-          we pull or switch different branches.
+          we push, pull, or switch branches.
           Do you want to proceed anyway?")) {
       return(invisible())
     } else {
@@ -206,6 +206,29 @@ git_pull <- function(remref = NULL) {
   }
 
   invisible()
+}
+
+# Push -------------------------------------------------------------------------
+git_push <- function(remref = NULL) {
+  on.exit(rstudio_git_tickle(), add = TRUE)
+  push <- function(remote = NULL, refspec = NULL) {
+    gert::git_push(
+      remote = remote,
+      refspec = refspec,
+      set_upstream = NULL,
+      force = FALSE,
+      verbose = FALSE,
+      repo = git_repo()
+    )
+  }
+
+  if (is.null(remref)) {
+    ui_done("Pushing local {ui_value(branch)} branch")
+    return(push())
+  }
+
+  ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remref)}")
+  push(remote = remref_remote(remref), refspec = remref_branch(remref))
 }
 
 # Branch ------------------------------------------------------------------
@@ -281,27 +304,6 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
     git2r::revparse_single(repo = git2r_repo(), revision = remref)
   )
   stats::setNames(as.list(out), nm = c("local_only", "remote_only"))
-}
-
-git_branch_push <- function(branch = git_branch(),
-                            remote_name = NULL,
-                            remote_branch = NULL,
-                            credentials = NULL,
-                            force = FALSE) {
-  remote_info   <- git_branch_remote(branch)
-  remote_name   <- remote_name %||% remote_info$remote_name
-  remote_branch <- remote_branch %||% remote_info$remote_branch
-
-  remote <- paste0(remote_name, ":", remote_branch)
-  ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remote)}")
-  git2r::push(
-    git2r_repo(),
-    name = remote_name,
-    refspec = glue("refs/heads/{branch}:refs/heads/{remote_branch}"),
-    force = force,
-    credentials = credentials
-  )
-  rstudio_git_tickle()
 }
 
 git_branch_remote <- function(branch = git_branch()) {

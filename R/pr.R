@@ -270,38 +270,15 @@ pr_push <- function() {
   check_no_uncommitted_changes()
 
   branch <- git_branch()
-  has_remote_branch <- !is.na(git_branch_upstream(branch))
-  if (has_remote_branch) {
+  remote_tracking_branch <- git_branch_upstream(branch)
+  if (!is.na(remote_tracking_branch)) {
     check_branch_pulled(use = "pr_pull()")
   }
 
-  remote_info <- git_branch_remote(branch)
-  # protocol <- github_remote_protocol(remote_info$remote_name)
-  # credentials <- git_credentials(protocol)
-
-  # TODO: I suspect the tryCatch (and perhaps the git_branch_compare()?) is
-  # better pushed down into git_branch_push(), which could then return TRUE for
-  # success and FALSE for failure
-  tryCatch(
-    git_branch_push(branch, credentials = credentials),
-    error = function(e) {
-      ui_stop(c(
-        "Push errored",
-        "Check that the PR branch is editable, then check your git2r config"
-      ))
-    }
-  )
-  if (!has_remote_branch) {
-    git_branch_track(branch)
+  if (is.na(remote_tracking_branch)) {
+    remote_tracking_branch <- NULL
   }
-
-  diff <- git_branch_compare(branch)
-  if (diff[[1]] != 0) {
-    ui_stop(c(
-      "Push failed to update remote branch",
-      "Check that the PR branch is editable, then check your git2r config"
-    ))
-  }
+  git_push(remref = remote_tracking_branch)
 
   # Prompt to create PR on first push
   url <- pr_url()
