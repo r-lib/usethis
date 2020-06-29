@@ -306,21 +306,6 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
   stats::setNames(as.list(out), nm = c("local_only", "remote_only"))
 }
 
-git_branch_remote <- function(branch = git_branch()) {
-  remote <- git_branch_tracking_FIXME(branch)
-  if (is.null(remote)) {
-    list(
-      remote_name   = "origin",
-      remote_branch = branch
-    )
-  } else {
-    list(
-      remote_name   = remref_remote(remote),
-      remote_branch = remref_branch(remote)
-    )
-  }
-}
-
 git_branch_track <- function(branch, remote = "origin", remote_branch = branch) {
   # TODO: this will be broken until I come back here and gert-ify it
   branch_obj <- git_branch_OLD(branch)
