@@ -3,6 +3,7 @@
 \name{pull-requests}
 \alias{pull-requests}
 \alias{pr_init}
+\alias{pr_resume}
 \alias{pr_fetch}
 \alias{pr_push}
 \alias{pr_pull}
@@ -14,6 +15,8 @@
 \title{Helpers for GitHub pull requests}
 \usage{
 pr_init(branch)
+
+pr_resume(branch = NULL)
 
 pr_fetch(number, owner = NULL)
 
@@ -38,9 +41,9 @@ numbers, and \code{-}.}
 \item{number}{Number of PR to fetch.}
 
 \item{owner}{Name of the owner of the repository that is the target of the
-pull request. Default of \code{NULL} tries to identify the source repo and uses
-the owner of the \code{upstream} remote, if present, or the owner of \code{origin}
-otherwise.}
+pull request. If \code{NULL} (the default), \code{owner} is determined from the
+GitHub remote configuration: the owner of \code{upstream} in the context of a
+fork and the owner of \code{origin} otherwise.}
 }
 \description{
 The \verb{pr_*} family of functions is designed to make working with GitHub pull
@@ -130,6 +133,8 @@ local branch and remove the remote associated with the contributor's fork.
 \section{Other helpful functions}{
 
 \itemize{
+\item \code{pr_resume()} helps you switch to an existing branch and resume work on a
+PR.
 \item \code{pr_sync()} is a shortcut for \code{pr_pull()}, \code{pr_pull_upstream()}, and
 \code{pr_push()}.
 \item \code{pr_pause()} makes sure you're synced with the PR and then switches back to
@@ -140,8 +145,6 @@ master.
 
 \examples{
 \dontrun{
-## scenario: current project is a local copy of fork of a repo owned by
-## 'tidyverse', not you
-pr_fetch(123, owner = "tidyverse")
+pr_fetch(123)
 }
 }
