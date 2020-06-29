@@ -9,10 +9,11 @@
 #' * Activate a service or give the user a detailed prompt.
 #' * Provide the markdown to insert a badge into README.
 #'
-#' Note that the tidyverse team now uses [GitHub Actions]() for continuous
-#' integration, so the usethis functions supporting GitHub Actions are under the
-#' most active development. See [use_github_actions()] or
-#' [use_tidy_github_actions()] to learn more.
+#' Note that the tidyverse team now uses [GitHub
+#' Actions](https://github.com/features/actions) for continuous integration, so
+#' the usethis functions supporting GitHub Actions are now the most actively
+#' maintained. See [use_github_actions()] or [use_tidy_github_actions()] to
+#' learn more.
 #'
 #' @name ci
 #' @aliases NULL

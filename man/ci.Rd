@@ -52,10 +52,10 @@ These functions
 \item Provide the markdown to insert a badge into README.
 }
 
-Note that the tidyverse team now uses \url{GitHub Actions} for continuous
-integration, so the usethis functions supporting GitHub Actions are under the
-most active development. See \code{\link[=use_github_actions]{use_github_actions()}} or
-\code{\link[=use_tidy_github_actions]{use_tidy_github_actions()}} to learn more.
+Note that the tidyverse team now uses \href{https://github.com/features/actions}{GitHub Actions} for continuous integration, so
+the usethis functions supporting GitHub Actions are now the most actively
+maintained. See \code{\link[=use_github_actions]{use_github_actions()}} or \code{\link[=use_tidy_github_actions]{use_tidy_github_actions()}} to
+learn more.
 }
 \section{\code{use_travis()}}{
 
