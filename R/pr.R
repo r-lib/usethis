@@ -250,6 +250,8 @@ pr_fetch <- function(number, owner = NULL) {
   if (!git_branch_exists(pr_branch_ours, local = TRUE)) {
     ui_done("Creating and switching to local branch {ui_value(pr_branch_ours)}")
     git_branch_create_and_switch(pr_branch_ours, pr_remref)
+    ui_done("Setting {ui_value(pr_remref)} as remote tracking branch")
+    gert::git_branch_set_upstream(pr_remref, repo = repo)
     config_key <- glue("branch.{pr_branch_ours}.created-by")
     gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
     config_url <- glue("branch.{pr_branch_ours}.pr-url")
