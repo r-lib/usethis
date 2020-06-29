@@ -42,6 +42,7 @@ Rmds
 Roxygen
 Rtools
 SHA
+TeXLive
 Tidyverse
 UI
 Ushey's
@@ -69,6 +70,7 @@ config
 cran
 dev
 devtools
+discoverable
 else's
 emacs
 env
