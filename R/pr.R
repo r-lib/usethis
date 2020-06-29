@@ -152,7 +152,7 @@ pr_resume <- function(branch = NULL) {
 
   ui_done("Switching to branch {ui_value(branch)}")
   git_branch_switch(branch)
-  upstream <- git_branch_upstream()
+  upstream <- git_branch_tracking()
   if (!is.na(upstream)) {
     ui_done("Pulling from {ui_value(upstream)}")
     # TODO: I am tempted to add rebase = TRUE here
@@ -254,7 +254,7 @@ pr_fetch <- function(number, owner = NULL) {
   config_url <- glue("branch.{pr_branch_ours}.pr-url")
   gert::git_config_set(config_url, pr$html_url, git_repo())
 
-  pr_branch_ours_tracking <- git_branch_upstream(pr_branch_ours)
+  pr_branch_ours_tracking <- git_branch_tracking(pr_branch_ours)
   if (!identical(pr_branch_ours_tracking, pr_remref)) {
     ui_done("Setting {ui_value(pr_remref)} as remote tracking branch")
     gert::git_branch_set_upstream(pr_remref, repo = repo)
@@ -271,7 +271,7 @@ pr_push <- function() {
   check_no_uncommitted_changes()
 
   branch <- git_branch()
-  remote_tracking_branch <- git_branch_upstream(branch)
+  remote_tracking_branch <- git_branch_tracking(branch)
   if (!is.na(remote_tracking_branch)) {
     check_branch_pulled(use = "pr_pull()")
   }
@@ -369,7 +369,7 @@ pr_finish <- function(number = NULL) {
 
   branch <- git_branch()
 
-  tracking_branch <- git_branch_upstream(branch)
+  tracking_branch <- git_branch_tracking(branch)
   has_remote_branch <- !is.na(tracking_branch)
   if (has_remote_branch) {
     check_branch_pushed(use = "pr_push()")
@@ -378,8 +378,7 @@ pr_finish <- function(number = NULL) {
   # TODO: honor default branch
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
-  # TODO: use whatever we are using in pr_init()
-  pr_pull_upstream()
+  pr_pull_parent_branch()
 
   ui_done("Deleting local {ui_value(branch)} branch")
   gert::git_branch_delete(branch, repo = repo)
@@ -428,7 +427,7 @@ pr_url <- function(branch = git_branch()) {
 
   if (git_is_fork()) {
     source <- github_owner_upstream()
-    pr_branch <- remref_branch(git_branch_upstream(branch))
+    pr_branch <- remref_branch(git_branch_tracking(branch))
   } else {
     source <- github_owner()
     pr_branch <- branch
@@ -493,7 +492,7 @@ pr_pull_parent_branch <- function() {
     ui_done("Pulling from {ui_value('upstream/master')}")
     git_pull(remref = "upstream/master")
   } else {
-    remref <- git_branch_upstream(git_branch())
+    remref <- git_branch_tracking(git_branch())
     ui_done("Pulling from {ui_value(remref)}")
     git_pull()
   }

@@ -176,7 +176,7 @@ git_is_fork <- function() {
 git_pull <- function(remref = NULL) {
   repo <- git_repo()
   branch <- git_branch()
-  remref <- remref %||% git_branch_upstream(branch)
+  remref <- remref %||% git_branch_tracking(branch)
   if (is.na(remref)) {
     ui_stop("
       Can't pull when no remote ref is specified and local branch \\
@@ -242,7 +242,7 @@ git_branch_exists <- function(branch, local = NA) {
   branch %in% branches$name
 }
 
-git_branch_upstream <- function(branch = git_branch()) {
+git_branch_tracking <- function(branch = git_branch()) {
   info <- gert::git_branch_list(git_repo())
   this <- info$local & info$name == branch
   if (sum(this) < 1) {
@@ -262,7 +262,7 @@ git_branch_switch <- function(branch) {
 }
 
 git_branch_compare <- function(branch = git_branch(), remref = NULL) {
-  remref <- remref %||% git_branch_upstream(branch)
+  remref <- remref %||% git_branch_tracking(branch)
   gert::git_fetch(
     remote = remref_remote(remref),
     refspec = remref_branch(remref),
@@ -312,7 +312,7 @@ check_branch_up_to_date <- function(direction = c("pull", "push"),
                                     use = NULL) {
   direction <- match.arg(direction)
   branch <- git_branch()
-  remref <- remref %||% git_branch_upstream(branch)
+  remref <- remref %||% git_branch_tracking(branch)
   use <- use %||% switch(direction, pull = "git pull", push = "git push")
 
   if (is.na(remref)) {
