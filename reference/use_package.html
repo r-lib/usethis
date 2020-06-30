@@ -188,15 +188,15 @@ so it will be automatically installed from the correct location." />
     </div>
 
     <div class="ref-description">
-    <p><code>use_package()</code> adds a CRAN package dependency to <code>DESCRIPTION</code> and offers a
-little advice about how to best use it. <code>use_dev_package()</code> adds a versioned
+    <p><code><a href='https://usethis.r-lib.org/reference/use_package.html'>use_package()</a></code> adds a CRAN package dependency to <code>DESCRIPTION</code> and offers a
+little advice about how to best use it. <code><a href='https://usethis.r-lib.org/reference/use_package.html'>use_dev_package()</a></code> adds a versioned
 dependency on an in-development GitHub package, adding the repo to <code>Remotes</code>
 so it will be automatically installed from the correct location.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_package</span>(<span class='no'>package</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"Imports"</span>, <span class='kw'>min_version</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_package.html'>use_package</a></span>(<span class='kw'>package</span>, type = <span class='st'>"Imports"</span>, min_version = <span class='kw'>NULL</span>)
 
-<span class='fu'>use_dev_package</span>(<span class='no'>package</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"Imports"</span>)</pre>
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_package.html'>use_dev_package</a></span>(<span class='kw'>package</span>, type = <span class='st'>"Imports"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -223,10 +223,10 @@ Set to <code>TRUE</code> to use the currently installed version.</p></td>
     <div class='dont-index'><p>The <a href='https://r-pkgs.org/description.html#dependencies'>dependencies section</a> of <a href='https://r-pkgs.org'>R Packages</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>use_package</span>(<span class='st'>"ggplot2"</span>)
-<span class='fu'>use_package</span>(<span class='st'>"dplyr"</span>, <span class='st'>"suggests"</span>)
-<span class='fu'>use_dev_package</span>(<span class='st'>"glue"</span>)
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_package.html'>use_package</a></span>(<span class='st'>"ggplot2"</span>)
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_package.html'>use_package</a></span>(<span class='st'>"dplyr"</span>, <span class='st'>"suggests"</span>)
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_package.html'>use_dev_package</a></span>(<span class='st'>"glue"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

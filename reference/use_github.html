@@ -189,20 +189,20 @@ Authentication section below for other necessary setup." />
     </div>
 
     <div class="ref-description">
-    <p><code>use_github()</code> takes a local project, creates an associated repo on GitHub,
+    <p><code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github()</a></code> takes a local project, creates an associated repo on GitHub,
 adds it to your local repo as the <code>origin</code> remote, and makes an initial push
-to synchronize. <code>use_github()</code> requires that your project already be a Git
-repository, which you can accomplish with <code><a href='use_git.html'>use_git()</a></code>, if needed. See the
+to synchronize. <code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github()</a></code> requires that your project already be a Git
+repository, which you can accomplish with <code><a href='https://usethis.r-lib.org/reference/use_git.html'>use_git()</a></code>, if needed. See the
 Authentication section below for other necessary setup.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_github</span>(
-  <span class='kw'>organisation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>private</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='fu'><a href='git_protocol.html'>git_protocol</a></span>(),
-  <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='browse_github_token.html'>github_token</a></span>(),
-  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github</a></span>(
+  organisation = <span class='kw'>NULL</span>,
+  private = <span class='fl'>FALSE</span>,
+  protocol = <span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol</a></span>(),
+  credentials = <span class='kw'>NULL</span>,
+  auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/browse_github_token.html'>github_token</a></span>(),
+  host = <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -249,19 +249,19 @@ GitHub enterprise instance, for example,
 <p>A new GitHub repo will be created via the GitHub API, therefore you must
 make a <a href='https://github.com/settings/tokens'>GitHub personal access token (PAT)</a> available. You can either
 provide this directly via the <code>auth_token</code> argument or store it for retrieval
-with <code><a href='browse_github_token.html'>github_token()</a></code>.</p>
+with <code><a href='https://usethis.r-lib.org/reference/browse_github_token.html'>github_token()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>pkgpath</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"testpkg"</span>)
-<span class='fu'><a href='create_package.html'>create_package</a></span>(<span class='no'>pkgpath</span>) <span class='co'># creates package below temp directory</span>
-<span class='fu'><a href='proj_utils.html'>proj_set</a></span>(<span class='no'>pkgpath</span>)
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>pkgpath</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"testpkg"</span>)
+<span class='fu'><a href='https://usethis.r-lib.org/reference/create_package.html'>create_package</a></span>(<span class='kw'>pkgpath</span>) <span class='co'># creates package below temp directory</span>
+<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>proj_set</a></span>(<span class='kw'>pkgpath</span>)
 
 <span class='co'>## now, working inside "testpkg", initialize git repository</span>
-<span class='fu'><a href='use_git.html'>use_git</a></span>()
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_git.html'>use_git</a></span>()
 
 <span class='co'>## create github repository and configure as git remote</span>
-<span class='fu'>use_github</span>()
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github</a></span>()
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

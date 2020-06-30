@@ -1,10 +1,8 @@
 pandoc: 2.7.3
 pkgdown: 1.5.1.9000
-pkgdown_sha: ee70a69b5de661b82b6dd086f4e97b2d3d7fd4ab
-articles:
-  pr-functions: articles/pr-functions.html
-  usethis-setup: articles/usethis-setup.html
-last_built: 2020-06-11T19:45Z
+pkgdown_sha: caf7cc74e008e8d0d6e53eeda93cd3cad3545bf2
+articles: []
+last_built: 2020-06-30T17:59Z
 urls:
   reference: https://usethis.r-lib.org/reference
   article: https://usethis.r-lib.org/articles

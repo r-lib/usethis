@@ -211,24 +211,24 @@ usethis supports SSH and HTTPS. The protocol affects two things:</p><ul>
 <li><p><code>protocol = "https"</code> implies <code>https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git</code></p></li>
 </ul></li>
 <li><p>The strategy for creating <code>credentials</code> when none are given. See
-<code><a href='git_credentials.html'>git_credentials()</a></code> for details.
+<code><a href='https://usethis.r-lib.org/reference/git_credentials.html'>git_credentials()</a></code> for details.
 Two helper functions are available:</p></li>
-<li><p><code>git_protocol()</code> returns the user's preferred protocol, if known, and,
+<li><p><code><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol()</a></code> returns the user's preferred protocol, if known, and,
 otherwise, asks the user (interactive session) or defaults to SSH
 (non-interactive session).</p></li>
-<li><p><code>use_git_protocol()</code> allows the user to set the git protocol, which is
+<li><p><code><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol()</a></code> allows the user to set the git protocol, which is
 stored in the <code>usethis.protocol</code> option.
 Any interactive choice re: <code>protocol</code> comes with a reminder of how to set the
 protocol at startup by setting an option in <code>.Rprofile</code>:</p></li>
-</ul><pre><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>usethis.protocol</span> <span class='kw'>=</span> <span class='st'>"ssh"</span>)
+</ul><pre><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(usethis.protocol = <span class='st'>"ssh"</span>)
 <span class='co'>## or</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>usethis.protocol</span> <span class='kw'>=</span> <span class='st'>"https"</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(usethis.protocol = <span class='st'>"https"</span>)</pre>
 
     </div>
 
-    <pre class="usage"><span class='fu'>git_protocol</span>()
+    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol</a></span>()
 
-<span class='fu'>use_git_protocol</span>(<span class='no'>protocol</span>)</pre>
+<span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol</a></span>(<span class='kw'>protocol</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -246,13 +246,13 @@ or, in non-interactive sessions, "ssh". <code>NA</code> triggers the interactive
     <p>"ssh" or "https"</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## consult the option and maybe get an interactive menu</span>
-<span class='fu'>git_protocol</span>()
+<span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol</a></span>()
 
 <span class='co'>## explicitly set the protocol</span>
-<span class='fu'>use_git_protocol</span>(<span class='st'>"ssh"</span>)
-<span class='fu'>use_git_protocol</span>(<span class='st'>"https"</span>)
+<span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol</a></span>(<span class='st'>"ssh"</span>)
+<span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol</a></span>(<span class='st'>"https"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

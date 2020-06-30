@@ -75,6 +75,7 @@ named list in an option named &quot;usethis.description&quot;. Here's an example
 code to include in .Rprofile:options(
   usethis.description = list(
     `Authors@R` = 'person(&quot;Jane&quot;, &quot;Doe&quot;, email = &quot;jane@example.com&quot;, role = c(&quot;aut&quot;, &quot;cre&quot;),
+                          comment = c(ORCID = &quot;YOUR-ORCID-ID&quot;))'om&quot;, role = c(&quot;aut&quot;, &quot;cre&quot;),
                           comment = c(ORCID = &quot;YOUR-ORCID-ID&quot;))',
     License = &quot;MIT + file LICENSE&quot;,
     Language =  &quot;es&quot;
@@ -212,7 +213,7 @@ code to include in .Rprofile:options(
     </div>
 
     <div class="ref-description">
-    <p><code>use_description()</code> creates a <code>DESCRIPTION</code> file. Although mostly associated
+    <p><code><a href='https://usethis.r-lib.org/reference/use_description.html'>use_description()</a></code> creates a <code>DESCRIPTION</code> file. Although mostly associated
 with R packages, a <code>DESCRIPTION</code> file can also be used to declare
 dependencies for a non-package projects. Within such a project,
 <code>devtools::install_deps()</code> can then be used to install all the required
@@ -220,7 +221,7 @@ packages. Note that, by default, <code>use_decription()</code> checks for a
 CRAN-compliant package name. You can turn this off with <code>check_name = FALSE</code>.</p>
 <p>usethis consults the following sources, in this order, to set <code>DESCRIPTION</code>
 fields:</p><ul>
-<li><p><code>fields</code> argument of <code><a href='create_package.html'>create_package()</a></code> or <code>use_description()</code>.</p></li>
+<li><p><code>fields</code> argument of <code><a href='https://usethis.r-lib.org/reference/create_package.html'>create_package()</a></code> or <code><a href='https://usethis.r-lib.org/reference/use_description.html'>use_description()</a></code>.</p></li>
 <li><p><code><a href='https://rdrr.io/r/base/options.html'>getOption("usethis.description")</a></code> or <code><a href='https://rdrr.io/r/base/options.html'>getOption("devtools.desc")</a></code>. The
 devtools option is consulted only for backwards compatibility and it's
 recommended to switch to an option named "usethis.description".</p></li>
@@ -228,23 +229,24 @@ recommended to switch to an option named "usethis.description".</p></li>
 </ul>
 
 <p>The fields discovered via options or the usethis package can be viewed with
-<code>use_description_defaults()</code>.</p>
+<code><a href='https://usethis.r-lib.org/reference/use_description.html'>use_description_defaults()</a></code>.</p>
 <p>If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named <code>"usethis.description"</code>. Here's an example of
 code to include in <code>.Rprofile</code>:</p><pre><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(
-  <span class='kw'>usethis.description</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    <span class='kw'>`Authors@R`</span> <span class='kw'>=</span> <span class='st'>'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
-                          comment = c(ORCID = "YOUR-ORCID-ID"))'</span>,
-    <span class='kw'>License</span> <span class='kw'>=</span> <span class='st'>"MIT + file LICENSE"</span>,
-    <span class='kw'>Language</span> <span class='kw'>=</span>  <span class='st'>"es"</span>
+  usethis.description = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    `Authors@R` = <span class='st'>'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
+                          comment = c(ORCID = "YOUR-ORCID-ID"))'</span>om", role = c("aut", "cre"),
+                          comment = c(ORCID = "YOUR-ORCID-ID"))',
+    License = <span class='st'>"MIT + file LICENSE"</span>,
+    Language =  <span class='st'>"es"</span>
   )
 )</pre>
 
     </div>
 
-    <pre class="usage"><span class='fu'>use_description</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>check_name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>roxygen</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_description.html'>use_description</a></span>(fields = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), check_name = <span class='fl'>TRUE</span>, roxygen = <span class='fl'>TRUE</span>)
 
-<span class='fu'>use_description_defaults</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>roxygen</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_description.html'>use_description_defaults</a></span>(package = <span class='kw'>NULL</span>, roxygen = <span class='fl'>TRUE</span>, fields = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -252,7 +254,7 @@ code to include in <code>.Rprofile</code>:</p><pre><span class='fu'><a href='htt
     <tr>
       <th>fields</th>
       <td><p>A named list of fields to add to <code>DESCRIPTION</code>, potentially
-overriding default values. See <code>use_description()</code> for how you can set
+overriding default values. See <code><a href='https://usethis.r-lib.org/reference/use_description.html'>use_description()</a></code> for how you can set
 personalized defaults using package options</p></td>
     </tr>
     <tr>
@@ -276,12 +278,12 @@ error if not</p></td>
 of <a href='https://r-pkgs.org'>R Packages</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>use_description</span>()
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_description.html'>use_description</a></span>()
 
-<span class='fu'>use_description</span>(<span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>Language</span> <span class='kw'>=</span> <span class='st'>"es"</span>))
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_description.html'>use_description</a></span>(fields = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(Language = <span class='st'>"es"</span>))
 
-<span class='fu'>use_description_defaults</span>()
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_description.html'>use_description_defaults</a></span>()
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

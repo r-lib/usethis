@@ -192,36 +192,36 @@ or a custom action given by the url parameter." />
 or a custom action given by the <code>url</code> parameter.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_github_action</span>(
-  <span class='no'>name</span>,
-  <span class='kw'>url</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action</a></span>(
+  <span class='kw'>name</span>,
+  url = <span class='kw'>NULL</span>,
+  save_as = <span class='kw'>NULL</span>,
+  ignore = <span class='fl'>TRUE</span>,
+  open = <span class='fl'>FALSE</span>
 )
 
-<span class='fu'>use_github_action_check_release</span>(
-  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check.yaml"</span>,
-  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_release</a></span>(
+  save_as = <span class='st'>"R-CMD-check.yaml"</span>,
+  ignore = <span class='fl'>TRUE</span>,
+  open = <span class='fl'>FALSE</span>
 )
 
-<span class='fu'>use_github_action_check_standard</span>(
-  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check.yaml"</span>,
-  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_standard</a></span>(
+  save_as = <span class='st'>"R-CMD-check.yaml"</span>,
+  ignore = <span class='fl'>TRUE</span>,
+  open = <span class='fl'>FALSE</span>
 )
 
-<span class='fu'>use_github_action_check_full</span>(
-  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"R-CMD-check.yaml"</span>,
-  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_full</a></span>(
+  save_as = <span class='st'>"R-CMD-check.yaml"</span>,
+  ignore = <span class='fl'>TRUE</span>,
+  open = <span class='fl'>FALSE</span>
 )
 
-<span class='fu'>use_github_action_pr_commands</span>(
-  <span class='kw'>save_as</span> <span class='kw'>=</span> <span class='st'>"pr-commands.yaml"</span>,
-  <span class='kw'>ignore</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>open</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_pr_commands</a></span>(
+  save_as = <span class='st'>"pr-commands.yaml"</span>,
+  ignore = <span class='fl'>TRUE</span>,
+  open = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -240,7 +240,7 @@ will be used.</p></td>
     <tr>
       <th>save_as</th>
       <td><p>Name of the actions file. Defaults to <code><a href='https://rdrr.io/r/base/basename.html'>basename(url)</a></code>
-for <code>use_github_action()</code>.</p></td>
+for <code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action()</a></code>.</p></td>
     </tr>
     <tr>
       <th>ignore</th>
@@ -253,13 +253,13 @@ applicable, or via <code><a href='https://rdrr.io/r/utils/file.edit.html'>utils:
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="use-github-action-check-release-"><a class="anchor" href="#use-github-action-check-release-"></a><code>use_github_action_check_release()</code></h2>
+    <h2 class="hasAnchor" id="use-github-action-check-release-"><a class="anchor" href="#use-github-action-check-release-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_release()</a></code></h2>
 
     
 
 <p>This action installs the latest release R version on macOS and runs <code>R CMD check</code>
 via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package.</p>
-    <h2 class="hasAnchor" id="use-github-action-check-standard-"><a class="anchor" href="#use-github-action-check-standard-"></a><code>use_github_action_check_standard()</code></h2>
+    <h2 class="hasAnchor" id="use-github-action-check-standard-"><a class="anchor" href="#use-github-action-check-standard-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_standard()</a></code></h2>
 
     
 
@@ -268,7 +268,7 @@ via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package on th
 three major OSs (linux, macOS and Windows) on the release version of R and
 R-devel. This action is most appropriate when you plan to eventually
 submit your package to CRAN or Bioconductor.</p>
-    <h2 class="hasAnchor" id="use-github-action-check-full-"><a class="anchor" href="#use-github-action-check-full-"></a><code>use_github_action_check_full()</code></h2>
+    <h2 class="hasAnchor" id="use-github-action-check-full-"><a class="anchor" href="#use-github-action-check-full-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_full()</a></code></h2>
 
     
 
@@ -277,8 +277,8 @@ via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package on th
 three major OSs (linux, macOS and Windows). This action is what the
 tidyverse teams uses on their repositories, but is overkill for less
 widely used packages, which are better off using the simpler
-<code>use_github_action_check_release()</code>.</p>
-    <h2 class="hasAnchor" id="use-github-action-pr-commands-"><a class="anchor" href="#use-github-action-pr-commands-"></a><code>use_github_action_pr_commands()</code></h2>
+<code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_release()</a></code>.</p>
+    <h2 class="hasAnchor" id="use-github-action-pr-commands-"><a class="anchor" href="#use-github-action-pr-commands-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_pr_commands()</a></code></h2>
 
     
 
@@ -289,7 +289,7 @@ the package and commit the result to the pull request. <code>/style</code> will 
 <a href='https://styler.r-lib.org/'>styler</a> to restyle your package.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='github_actions.html'>github_actions</a> for generic workflows.</p></div>
+    <div class='dont-index'><p><a href='https://usethis.r-lib.org/reference/github_actions.html'>github_actions</a> for generic workflows.</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
