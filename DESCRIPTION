@@ -49,7 +49,7 @@ Suggests:
     magick,
     pkgdown (>= 1.4.0),
     rmarkdown,
-    roxygen2,
+    roxygen2 (>= 7.1.1),
     spelling (>= 1.2),
     styler (>= 1.2.0),
     testthat (>= 2.1.0)
