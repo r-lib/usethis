@@ -49,7 +49,7 @@ Suggests:
     magick,
     pkgdown (>= 1.4.0),
     rmarkdown,
-    roxygen2 (>= 7.1.1),
+    roxygen2,
     spelling (>= 1.2),
     styler (>= 1.2.0),
     testthat (>= 2.1.0)
@@ -57,4 +57,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
