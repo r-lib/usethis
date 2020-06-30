@@ -1,5 +1,3 @@
-context("use_cpp11")
-
 test_that("use_cpp11() requires a package", {
   create_local_project()
   expect_usethis_error(use_cpp11(), "not an R package")
