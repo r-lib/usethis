@@ -5,14 +5,12 @@
 #'   * Adds required packages to `DESCRIPTION`
 #'   * May create an initial placeholder `.c` or `.cpp` file
 #'
-#' @param name If supplied, creates and opens `src/name.{c,cpp}`.
-#'
-#' @details
-#'
 #' When using compiled code, please note that there must be at least one file
 #' inside the `src/` directory prior to building the package. As a result,
 #' if an empty `src/` directory is detected, either a `.c` or `.cpp` file will
 #' be added.
+#'
+#' @param name If supplied, creates and opens `src/name.{c,cpp}`.
 #'
 #' @export
 use_cpp11 <- function(name = NULL) {
