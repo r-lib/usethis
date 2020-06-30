@@ -328,6 +328,7 @@ pr_pull_upstream <- function() {
   remref <- glue("{remote}/{branch}")
 
   ui_done("Pulling changes from GitHub source repo {ui_value(remref)}")
+  # Error in libgit2::git_remote_fetch : unsupported URL protocol
   git_pull(remref)
 }
 
@@ -362,8 +363,7 @@ pr_pause <- function() {
   ui_done("Switching back to {ui_value('master')} branch")
   # TODO: honor default branch
   git_branch_switch("master")
-  # use whatever we use in pr_init() instead
-  pr_pull_upstream()
+  pr_pull_primary_default()
 }
 
 #' @export
