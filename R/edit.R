@@ -49,7 +49,7 @@ edit_file <- function(path, open = rlang::is_interactive()) {
 #' in general -- inherit home directory behaviour from the \pkg{fs} package,
 #' which differs from R itself on Windows. The \pkg{fs} default is more
 #' conventional in terms of the location of user-level Git config files. See
-#' [fs::path_expand()] for more details.
+#' [fs::path_home()] for more details.
 #'
 #' Files created by `edit_rstudio_snippets()` will *mask*, not supplement,
 #' the built-in default snippets. If you like the built-in snippets, copy them
