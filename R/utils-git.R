@@ -214,7 +214,10 @@ git_push <- function(remref = NULL) {
   }
 
   ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remref)}")
-  push(remote = remref_remote(remref), refspec = remref_branch(remref))
+  push(
+    remote = remref_remote(remref),
+    refspec = glue("refs/heads/{branch}:refs/heads/{remref_branch(remref)}")
+  )
 }
 
 # Branch ------------------------------------------------------------------
