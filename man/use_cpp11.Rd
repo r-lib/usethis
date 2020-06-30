@@ -10,11 +10,13 @@ use_cpp11(name = NULL)
 \item{name}{If supplied, creates and opens \verb{src/name.\{c,cpp\}}.}
 }
 \description{
-Adds infrastructure commonly needed when using compiled code:
+Adds infrastructure needed to use the \href{https://cpp11.r-lib.org}{cpp11}
+package, a header-only R package that helps R package developers handle R
+objects with C++ code. compiled code:
 \itemize{
 \item Creates \verb{src/}
-\item Adds required packages to \code{DESCRIPTION}
-\item May create an initial placeholder \code{.c} or \code{.cpp} file
+\item Adds cpp11 to \code{DESCRIPTION}
+\item Creates an initial placeholder \code{.cpp} file
 }
 }
 \details{

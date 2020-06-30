@@ -1,9 +1,11 @@
 #' Use C++ via the cpp11 package
 #'
-#' Adds infrastructure commonly needed when using compiled code:
+#' Adds infrastructure needed to use the [cpp11](https://cpp11.r-lib.org)
+#' package, a header-only R package that helps R package developers handle R
+#' objects with C++ code. compiled code:
 #'   * Creates `src/`
-#'   * Adds required packages to `DESCRIPTION`
-#'   * May create an initial placeholder `.c` or `.cpp` file
+#'   * Adds cpp11 to `DESCRIPTION`
+#'   * Creates an initial placeholder `.cpp` file
 #'
 #' When using compiled code, please note that there must be at least one file
 #' inside the `src/` directory prior to building the package. As a result,
