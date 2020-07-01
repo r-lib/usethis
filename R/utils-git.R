@@ -183,7 +183,7 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
   }
   stopifnot(is_string(remref))
   if (verbose) {
-    ui_done("Pulling from {ui_value(tracking_branch)}")
+    ui_done("Pulling from {ui_value(remref)}")
   }
   gert::git_fetch(
     remote = remref_remote(remref),
