@@ -241,8 +241,7 @@ pr_fetch <- function(number) {
   pr_user <- glue("@{pr$user$login}")
   ui_done("
     Checking out PR {ui_value(pr_string)} ({ui_field(pr_user)}): \\
-    {ui_value(pr$title)}"
-  )
+    {ui_value(pr$title)}")
 
   # Figure out remote, remote branch, local branch ----
   pr_branch_theirs <- pr$head$ref
