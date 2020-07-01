@@ -304,7 +304,8 @@ pr_fetch <- function(number) {
   gert::git_config_set(config_url, pr$html_url, git_repo())
 
   pr_branch_ours_tracking <- git_branch_tracking(pr_branch_ours)
-  if (pr_branch_ours_tracking != pr_remref) {
+  if (is.na(pr_branch_ours_tracking) ||
+      pr_branch_ours_tracking != pr_remref) {
     ui_done("Setting {ui_value(pr_remref)} as remote tracking branch")
     gert::git_branch_set_upstream(pr_remref, repo = repo)
   }
