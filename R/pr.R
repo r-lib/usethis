@@ -279,7 +279,6 @@ pr_fetch <- function(number) {
     gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
   }
 
-  # TODO: figure out why I need this now
   gert::git_fetch(
     remote = remref_remote(pr_remref),
     refspec = remref_branch(pr_remref),
