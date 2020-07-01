@@ -50,6 +50,7 @@ The \verb{pr_*} family of functions is designed to make working with GitHub pull
 requests (PRs) as painless as possible for both contributors and package
 maintainers. They are designed to support the Git and GitHub best practices
 described in \href{https://happygitwithr.com}{Happy Git and GitHub for the useR}.
+
 To use the \verb{pr_*} functions, your project must be a Git repo and have one of
 these GitHub remote configurations:
 \itemize{
@@ -72,10 +73,11 @@ credentials do we mean?
 \item A GitHub personal access token (PAT) must be configured as the \code{GITHUB_PAT}
 environment variable. \code{\link[=create_github_token]{create_github_token()}} helps you do this. This PAT
 allows usethis to call the GitHub API on your behalf. If you use HTTPS
-remotes, the PAT is also used for, e.g., \verb{git push}. That means the PAT is
-all you need to setup! Highly recommended for those new to Git and GitHub and
-PRs.
-\item If you use SSH remotes, your SSH keys must also be discoverable.
+remotes, the PAT is also used for Git operations, such as \verb{git push}. That
+means the PAT is the only credential you need! This is why HTTPS + PAT is
+highly recommended for anyone new to Git and GitHub and PRs.
+\item If you use SSH remotes, your SSH keys must also be discoverable, in
+addition to your PAT.
 }
 
 Usethis uses the gert package for Git operations
@@ -84,8 +86,8 @@ credentials package (\url{https://docs.ropensci.org/credentials/}) for auth. If
 you have credential problems, focus your troubleshooting on getting the
 credentials package to find your credentials.
 
-If the \verb{pr*} functions need to configure a new remote, its transport protocol
-(HTTPS vs SSH) is determined by the protocol used for \code{origin}.
+If the \verb{pr_*} functions need to configure a new remote, its transport
+protocol (HTTPS vs SSH) is determined by the protocol used for \code{origin}.
 }
 
 \section{For contributors}{
