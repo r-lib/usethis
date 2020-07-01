@@ -251,8 +251,21 @@ git_branch_tracking <- function(branch = git_branch()) {
 }
 
 git_branch_create_and_switch <- function(branch, ref = NULL) {
-  gert::git_branch_create(branch, ref = ref %||% "HEAD", repo = git_repo())
-  rstudio_git_tickle()
+  # TODO: revisit the upstream tracking before release
+  # https://github.com/r-lib/gert/issues/71
+  repo <- git_repo()
+  if (is.null(ref)) {
+    ref <- "HEAD"
+    ref_is_remref <- FALSE
+  } else {
+    reflist <- gert::git_info()$reflist
+    ref_is_remref <- glue("refs/remotes/{ref}") %in% reflist
+  }
+  gert::git_branch_create(branch, ref = ref, repo = repo)
+  if (ref_is_remref) {
+    gert::git_branch_set_upstream(ref, repo = repo)
+  }
+  invisible()
 }
 
 git_branch_switch <- function(branch) {
