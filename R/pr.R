@@ -121,16 +121,8 @@ pr_init <- function(branch) {
     }
   }
 
-  # TODO: require no uncommitted changes to tracked files? the checkout will
-  # always fail, I believe
   check_no_uncommitted_changes(untracked = TRUE)
-
-  # GOAL: make sure current branch is as up-to-date as can be, because it serves
-  # as start-point for the new branch
-  # Pull from:
-  # * upstream/master, if we're in a fork and on master
-  # * otherwise, from remote tracking branch, if there is one
-  pr_pull_primary_default()
+  pr_pull_primary_override()
 
   ui_done("Creating and switching to local branch {ui_value(branch)}")
   git_branch_create_and_switch(branch)
@@ -159,17 +151,15 @@ pr_resume <- function(branch = NULL) {
   }
 
   check_pr_readiness()
+  # TODO: turn off the interactive choice here? if there are uncommitted
+  # changes, I think the branch switch will always fail
+  # then again, there's no harm in letting that happen, i.e. no risk of
+  # doing something partially
   check_no_uncommitted_changes(untracked = TRUE)
-  pr_pull_primary_default()
 
   ui_done("Switching to branch {ui_value(branch)}")
   git_branch_switch(branch)
-  tracking_branch <- git_branch_tracking()
-  if (!is.na(tracking_branch)) {
-    ui_done("Pulling from {ui_value(tracking_branch)}")
-    # TODO: I am tempted to add rebase = TRUE here
-    git_pull()
-  }
+  git_pull()
 
   ui_todo("Use {ui_code('pr_push()')} to create or update PR.")
   invisible()
@@ -337,8 +327,7 @@ pr_pull_upstream <- function() {
   remote <- spec_owner(get_primary_spec())
   remref <- glue("{remote}/{branch}")
 
-  ui_done("Pulling changes from GitHub source repo {ui_value(remref)}")
-  # Error in libgit2::git_remote_fetch : unsupported URL protocol
+  ui_done("Pulling in changes from the primary repo {ui_value(remref)}")
   git_pull(remref)
 }
 
@@ -373,7 +362,7 @@ pr_pause <- function() {
   ui_done("Switching back to {ui_value('master')} branch")
   # TODO: honor default branch
   git_branch_switch("master")
-  pr_pull_primary_default()
+  pr_pull_primary_override()
 }
 
 #' @export
@@ -400,7 +389,7 @@ pr_finish <- function(number = NULL) {
   # TODO: honor default branch
   ui_done("Switching back to {ui_value('master')} branch")
   git_branch_switch("master")
-  pr_pull_primary_default()
+  pr_pull_primary_override()
 
   ui_done("Deleting local {ui_value(branch)} branch")
   gert::git_branch_delete(branch, repo = repo)
@@ -502,20 +491,15 @@ check_pr_readiness <- function(cfg = NULL) {
   stop_unsupported_pr_config(cfg)
 }
 
-# use this right before creating a new PR or right after stopping work on a PR
-# (temporarily or for good)
-# usually, we'll be on `master` (or, in future, the default branch) and the goal
-# is to make sure we're up-to-date with the primary repo
-# "pull the default branch from the primary repo"
-pr_pull_primary_default <- function() {
+# Make sure to pull from upstream/master (as opposed to origin/master) if we're
+# in master branch of a fork.
+pr_pull_primary_override <- function() {
   in_a_fork <- nrow(github_remotes2("upstream", github_get = FALSE)) > 0
   # TODO: generalize to default branch
   if (in_a_fork && git_branch() == "master") {
-    ui_done("Pulling from {ui_value('upstream/master')}")
-    git_pull(remref = "upstream/master")
+    remref <- "upstream/master"
   } else {
-    remref <- git_branch_tracking(git_branch())
-    ui_done("Pulling from {ui_value(remref)}")
-    git_pull()
+    remref <- NULL
   }
+  git_pull()
 }

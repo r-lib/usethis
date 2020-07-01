@@ -169,16 +169,22 @@ git_is_fork <- function() {
 }
 
 # Pull -------------------------------------------------------------------------
-git_pull <- function(remref = NULL) {
+# Pull from remref or upstream tracking. If neither given/exists, do nothing.
+# Therefore, this does less than `git pull`.
+git_pull <- function(remref = NULL, verbose = TRUE) {
   repo <- git_repo()
   branch <- git_branch()
   remref <- remref %||% git_branch_tracking(branch)
   if (is.na(remref)) {
-    ui_stop("
-      Can't pull when no remote ref is specified and local branch \\
-      {ui_value(branch)} has no upstream tracking branch")
+    if (verbose) {
+      ui_done("No remote branch to pull from for {ui_value(branch)}")
+    }
+    return(invisible())
   }
   stopifnot(is_string(remref))
+  if (verbose) {
+    ui_done("Pulling from {ui_value(tracking_branch)}")
+  }
   gert::git_fetch(
     remote = remref_remote(remref),
     refspec = remref_branch(branch),
