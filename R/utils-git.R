@@ -117,6 +117,7 @@ check_no_uncommitted_changes <- function(untracked = FALSE) {
     rstudioapi::documentSaveAll()
   }
 
+  # TODO: present a more useful overview of the situation?
   if (git_uncommitted(untracked = untracked)) {
     if (ui_yeah("
           There are uncommitted changes, which may cause problems when \\

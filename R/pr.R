@@ -5,6 +5,7 @@
 #' requests (PRs) as painless as possible for both contributors and package
 #' maintainers. They are designed to support the Git and GitHub best practices
 #' described in [Happy Git and GitHub for the useR](https://happygitwithr.com).
+#'
 #' To use the `pr_*` functions, your project must be a Git repo and have one of
 #' these GitHub remote configurations:
 #' * "ours": You can push to the GitHub remote configured as `origin`. It's not
@@ -21,12 +22,13 @@
 #' and via the REST API. Therefore, your credentials must be discoverable. Which
 #' credentials do we mean?
 #' * A GitHub personal access token (PAT) must be configured as the `GITHUB_PAT`
-#' environment variable. [create_github_token()] helps you do this. This PAT
-#' allows usethis to call the GitHub API on your behalf. If you use HTTPS
-#' remotes, the PAT is also used for, e.g., `git push`. That means the PAT is
-#' all you need to setup! Highly recommended for those new to Git and GitHub and
-#' PRs.
-#' * If you use SSH remotes, your SSH keys must also be discoverable.
+#'   environment variable. [create_github_token()] helps you do this. This PAT
+#'   allows usethis to call the GitHub API on your behalf. If you use HTTPS
+#'   remotes, the PAT is also used for Git operations, such as `git push`. That
+#'   means the PAT is the only credential you need! This is why HTTPS + PAT is
+#'   highly recommended for anyone new to Git and GitHub and PRs.
+#' * If you use SSH remotes, your SSH keys must also be discoverable, in
+#'   addition to your PAT.
 #'
 #' Usethis uses the gert package for Git operations
 #' (<https://docs.ropensci.org/gert>) and gert, in turn, relies on the
@@ -34,8 +36,8 @@
 #' you have credential problems, focus your troubleshooting on getting the
 #' credentials package to find your credentials.
 #'
-#' If the `pr*` functions need to configure a new remote, its transport protocol
-#' (HTTPS vs SSH) is determined by the protocol used for `origin`.
+#' If the `pr_*` functions need to configure a new remote, its transport
+#' protocol (HTTPS vs SSH) is determined by the protocol used for `origin`.
 #'
 #' @section For contributors:
 #' To contribute to a package, first use `create_from_github("OWNER/REPO", fork
@@ -105,6 +107,7 @@ pr_init <- function(branch) {
     return(pr_resume(branch))
   }
 
+  # TODO: get the github config here? so I can consult below?
   check_pr_readiness()
   # TODO(@jennybc): if no internet, could offer option to proceed anyway
   # error shows git2r but we'll get similar error with gert
@@ -118,7 +121,15 @@ pr_init <- function(branch) {
     }
   }
 
+  # TODO: require no uncommitted changes to tracked files? the checkout will
+  # always fail, I believe
   check_no_uncommitted_changes(untracked = TRUE)
+
+  # GOAL: make sure current branch is as up-to-date as can be, because it serves
+  # as start-point for the new branch
+  # Pull from:
+  # * upstream/master, if we're in a fork and on master
+  # * otherwise, from remote tracking branch, if there is one
   pr_pull_primary_default()
 
   ui_done("Creating and switching to local branch {ui_value(branch)}")
