@@ -248,15 +248,15 @@ pr_fetch <- function(number) {
   if (pr$head$repo$fork) { # PR is from a fork
     pr_remote <- spec_owner(pr$head$repo$full_name)
     pr_branch_ours <- sub(":", "-", pr$head$label)
+    if (!isTRUE(pr$maintainer_can_modify)) {
+      ui_info("
+        Note that user does NOT allow maintainer to modify this PR \\
+        at this time,
+        although this can be changed.")
+    }
   } else {                 # PR is from a branch in the primary repo
     pr_remote <- switch(cfg$type, ours = "origin", fork = "upstream")
     pr_branch_ours <- pr_branch_theirs
-  }
-  if (!isTRUE(pr$maintainer_can_modify)) {
-    ui_info("
-      Note that user does NOT allow maintainer to modify this PR \\
-      at this time,
-      although this can be changed.")
   }
   pr_remref <- glue("{pr_remote}/{pr_branch_theirs}")
 
