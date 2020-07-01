@@ -17,7 +17,11 @@
 #' [Common remote setups](https://happygitwithr.com/common-remote-setups.html)
 #' in Happy Git.
 #'
-#' @section Required setup:
+
+#' The `pr_*` functions also use your Git/GitHub credentials to carry out
+#' various remote operations. See below for more.
+#'
+#' @section Git/GitHub credentials:
 #' The `pr_*` functions interact with GitHub both as a conventional Git remote
 #' and via the REST API. Therefore, your credentials must be discoverable. Which
 #' credentials do we mean?
@@ -28,13 +32,15 @@
 #'   means the PAT is the only credential you need! This is why HTTPS + PAT is
 #'   highly recommended for anyone new to Git and GitHub and PRs.
 #' * If you use SSH remotes, your SSH keys must also be discoverable, in
-#'   addition to your PAT.
+#'   addition to your PAT. The public key must be added to your GitHub account.
 #'
 #' Usethis uses the gert package for Git operations
 #' (<https://docs.ropensci.org/gert>) and gert, in turn, relies on the
 #' credentials package (<https://docs.ropensci.org/credentials/>) for auth. If
 #' you have credential problems, focus your troubleshooting on getting the
-#' credentials package to find your credentials.
+#' credentials package to find your credentials. Its introductory vignette is an
+#' excellent place to learn more:
+#' <https://cran.r-project.org/web/packages/credentials/vignettes/intro.html>.
 #'
 #' If the `pr_*` functions need to configure a new remote, its transport
 #' protocol (HTTPS vs SSH) is determined by the protocol used for `origin`.
@@ -61,18 +67,18 @@
 #' vignette.
 #'
 #' If you are lucky, your PR will be perfect, and the maintainer will accept it.
-#' You can then run `pr_finish()` to close and delete your PR branch. In most
-#' cases, however, the maintainer will ask you to make some changes. Make the
-#' changes, then run `pr_push()` to sync back up to GitHub.
+#' You can then run `pr_finish()` to delete your PR branch. In most cases,
+#' however, the maintainer will ask you to make some changes. Make the changes,
+#' then run `pr_push()` to update your PR.
 #'
 #' It's also possible that the maintainer will contribute some code to your PR:
-#' to get that code back to your computer, run `pr_pull()`. It can also happen
-#' that other changes have occurred in the package since you first created your
-#' PR. You might need to merge the `master` (or default) branch into your PR
-#' branch. Do that by running `pr_pull_upstream()`: this makes sure that your
-#' copy of the package is up-to-date with the maintainer's latest changes. Both
-#' `pr_pull()` and `pr_pull_upstream()` can result in merge conflicts, so be
-#' prepared to resolve before continuing.
+#' to get those changes back onto your computer, run `pr_pull()`. It can also
+#' happen that other changes have occurred in the package since you first
+#' created your PR. You might need to merge the `master` (or default) branch
+#' into your PR branch. Do that by running `pr_pull_upstream()`: this makes sure
+#' that your PR is compatible with the primary repo's main line of development.
+#' Both `pr_pull()` and `pr_pull_upstream()` can result in merge conflicts, so
+#' be prepared to resolve before continuing.
 #'
 #' @section For maintainers:
 #' To download a PR locally so that you can experiment with it, run
@@ -80,14 +86,52 @@
 #' back to GitHub. After you have merged the PR, run `pr_finish()` to delete the
 #' local branch and remove the remote associated with the contributor's fork.
 #'
-#' @section Other helpful functions:
-#' * `pr_resume()` helps you switch to an existing branch and resume work on a
-#'   PR.
-#' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_pull_upstream()`, and
-#' `pr_push()`.
-#' * `pr_pause()` makes sure you're synced with the PR and then switches back to
-#'   master.
-#' * `pr_view()` opens the PR in the browser.
+#' @section Overview of all the functions:
+
+#' * `pr_init()`: Does a preparatory pull from the primary repo, to get a good
+#'   start point. Creates and checks out a new branch. Nothing is pushed to
+#'   or created on GitHub. That only happens upon the first `pr_push()`.
+
+#' * `pr_resume()`: Resume work on a PR by switching to its existing branch and
+#'   pulling any updates from GitHub.
+
+#' * `pr_fetch()`: Checks out a PR on the primary repo for local exploration.
+#'   This can cause a new remote to be configured and a new local branch to be
+#'   created. The local branch is configured to track its remote counterpart.
+#'   `pr_fetch()` puts a maintainer in a position where they can push changes
+#'   into an external PR via `pr_push()`.
+
+#' * `pr_push()`: The first time it's called, a PR branch is pushed to `origin`
+#'   and you're taken to a webpage where a new PR (or draft PR) can be created.
+#'   This also sets up the local branch to track its remote counterpart.
+#'   Subsequent calls to `pr_push()` make sure the local branch has all the
+#'   remote changes and, if so, pushes local changes, thereby updating the PR.
+
+#' * `pr_pull()`: Pulls changes from the local branch's remote tracking branch.
+#'   If a maintainer has extended your PR, this is how you bring those changes
+#'   back into your local work.
+
+#' * `pr_pull_upstream()`: Pulls changes from the `master` branch of the primary
+#'   repo into the current local branch. This can be used when the local branch
+#'   is `master` or when it's a PR branch.
+
+#' * `pr_sync()` = `pr_pull() + pr_pull_upstream() + pr_push()`. In words, grab
+#'   any remote changes in the PR and merge then into your local work. Then
+#'   merge in any changes from `master` of the primary repo. Finally, push the
+#'   result of all this back into the PR.
+
+#' * `pr_pause()`: Makes sure you're up-to-date with any remote changes in the
+#'   PR. Then switches back to `master` and pulls from the primary repo.
+
+#' * `pr_view()`: Visits the PR associated with a branch in the browser. usethis
+#'   records this URL in git config of the local repo.
+
+#' * `pr_finish()`: If `number` is given, first does `pr_fetch(number)`. It's
+#'   assumed the current branch is the PR branch of interest. First, makes sure
+#'   there are no unpushed local changes. Switches back to `master` and pulls
+#'   changes from the primary repo. Deletes the PR branch. If the PR came from
+#'   an external fork, the corresponding remote is deleted, provided it's not in
+#'   use by any other local branches.
 #'
 #' @name pull-requests
 NULL
@@ -151,10 +195,10 @@ pr_resume <- function(branch = NULL) {
   }
 
   check_pr_readiness()
-  # TODO: turn off the interactive choice here? if there are uncommitted
-  # changes, I think the branch switch will always fail
-  # then again, there's no harm in letting that happen, i.e. no risk of
-  # doing something partially
+  # TODO: turn off the interactive choice here? If there are uncommitted
+  # changes, I think the branch switch will always fail.
+  # OTOH, there's no harm in letting that happen, i.e. no risk here of
+  # doing something partially.
   check_no_uncommitted_changes(untracked = TRUE)
 
   ui_done("Switching to branch {ui_value(branch)}")
@@ -183,6 +227,7 @@ pr_fetch <- function(number, owner = NULL) {
   check_no_uncommitted_changes()
 
   # GET the PR ----
+  # Note we are ignoring the `owner` argument. I think I'm about to remove it.
   owner <- switch(
     cfg$type,
     ours = cfg$origin$repo_owner,
@@ -492,7 +537,8 @@ check_pr_readiness <- function(cfg = NULL) {
 }
 
 # Make sure to pull from upstream/master (as opposed to origin/master) if we're
-# in master branch of a fork.
+# in master branch of a fork. I wish everyone set up master to track the master
+# branch in the primary repo, but this protects us against sub-optimal setup.
 pr_pull_primary_override <- function() {
   in_a_fork <- nrow(github_remotes2("upstream", github_get = FALSE)) > 0
   # TODO: generalize to default branch

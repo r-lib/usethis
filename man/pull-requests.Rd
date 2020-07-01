@@ -63,8 +63,11 @@ fork, and its parent is configured as \code{upstream}.
 "Ours" and "fork" are two of several GitHub remote configurations examined in
 \href{https://happygitwithr.com/common-remote-setups.html}{Common remote setups}
 in Happy Git.
+
+The \verb{pr_*} functions also use your Git/GitHub credentials to carry out
+various remote operations. See below for more.
 }
-\section{Required setup}{
+\section{Git/GitHub credentials}{
 
 The \verb{pr_*} functions interact with GitHub both as a conventional Git remote
 and via the REST API. Therefore, your credentials must be discoverable. Which
@@ -77,14 +80,16 @@ remotes, the PAT is also used for Git operations, such as \verb{git push}. That
 means the PAT is the only credential you need! This is why HTTPS + PAT is
 highly recommended for anyone new to Git and GitHub and PRs.
 \item If you use SSH remotes, your SSH keys must also be discoverable, in
-addition to your PAT.
+addition to your PAT. The public key must be added to your GitHub account.
 }
 
 Usethis uses the gert package for Git operations
 (\url{https://docs.ropensci.org/gert}) and gert, in turn, relies on the
 credentials package (\url{https://docs.ropensci.org/credentials/}) for auth. If
 you have credential problems, focus your troubleshooting on getting the
-credentials package to find your credentials.
+credentials package to find your credentials. Its introductory vignette is an
+excellent place to learn more:
+\url{https://cran.r-project.org/web/packages/credentials/vignettes/intro.html}.
 
 If the \verb{pr_*} functions need to configure a new remote, its transport
 protocol (HTTPS vs SSH) is determined by the protocol used for \code{origin}.
@@ -110,18 +115,18 @@ To learn more about the process of making a pull request, read the \href{https:/
 vignette.
 
 If you are lucky, your PR will be perfect, and the maintainer will accept it.
-You can then run \code{pr_finish()} to close and delete your PR branch. In most
-cases, however, the maintainer will ask you to make some changes. Make the
-changes, then run \code{pr_push()} to sync back up to GitHub.
+You can then run \code{pr_finish()} to delete your PR branch. In most cases,
+however, the maintainer will ask you to make some changes. Make the changes,
+then run \code{pr_push()} to update your PR.
 
 It's also possible that the maintainer will contribute some code to your PR:
-to get that code back to your computer, run \code{pr_pull()}. It can also happen
-that other changes have occurred in the package since you first created your
-PR. You might need to merge the \code{master} (or default) branch into your PR
-branch. Do that by running \code{pr_pull_upstream()}: this makes sure that your
-copy of the package is up-to-date with the maintainer's latest changes. Both
-\code{pr_pull()} and \code{pr_pull_upstream()} can result in merge conflicts, so be
-prepared to resolve before continuing.
+to get those changes back onto your computer, run \code{pr_pull()}. It can also
+happen that other changes have occurred in the package since you first
+created your PR. You might need to merge the \code{master} (or default) branch
+into your PR branch. Do that by running \code{pr_pull_upstream()}: this makes sure
+that your PR is compatible with the primary repo's main line of development.
+Both \code{pr_pull()} and \code{pr_pull_upstream()} can result in merge conflicts, so
+be prepared to resolve before continuing.
 }
 
 \section{For maintainers}{
@@ -132,16 +137,44 @@ back to GitHub. After you have merged the PR, run \code{pr_finish()} to delete t
 local branch and remove the remote associated with the contributor's fork.
 }
 
-\section{Other helpful functions}{
+\section{Overview of all the functions}{
 
 \itemize{
-\item \code{pr_resume()} helps you switch to an existing branch and resume work on a
-PR.
-\item \code{pr_sync()} is a shortcut for \code{pr_pull()}, \code{pr_pull_upstream()}, and
-\code{pr_push()}.
-\item \code{pr_pause()} makes sure you're synced with the PR and then switches back to
-master.
-\item \code{pr_view()} opens the PR in the browser.
+\item \code{pr_init()}: Does a preparatory pull from the primary repo, to get a good
+start point. Creates and checks out a new branch. Nothing is pushed to
+or created on GitHub. That only happens upon the first \code{pr_push()}.
+\item \code{pr_resume()}: Resume work on a PR by switching to its existing branch and
+pulling any updates from GitHub.
+\item \code{pr_fetch()}: Checks out a PR on the primary repo for local exploration.
+This can cause a new remote to be configured and a new local branch to be
+created. The local branch is configured to track its remote counterpart.
+\code{pr_fetch()} puts a maintainer in a position where they can push changes
+into an external PR via \code{pr_push()}.
+\item \code{pr_push()}: The first time it's called, a PR branch is pushed to \code{origin}
+and you're taken to a webpage where a new PR (or draft PR) can be created.
+This also sets up the local branch to track its remote counterpart.
+Subsequent calls to \code{pr_push()} make sure the local branch has all the
+remote changes and, if so, pushes local changes, thereby updating the PR.
+\item \code{pr_pull()}: Pulls changes from the local branch's remote tracking branch.
+If a maintainer has extended your PR, this is how you bring those changes
+back into your local work.
+\item \code{pr_pull_upstream()}: Pulls changes from the \code{master} branch of the primary
+repo into the current local branch. This can be used when the local branch
+is \code{master} or when it's a PR branch.
+\item \code{pr_sync()} = \code{pr_pull() + pr_pull_upstream() + pr_push()}. In words, grab
+any remote changes in the PR and merge then into your local work. Then
+merge in any changes from \code{master} of the primary repo. Finally, push the
+result of all this back into the PR.
+\item \code{pr_pause()}: Makes sure you're up-to-date with any remote changes in the
+PR. Then switches back to \code{master} and pulls from the primary repo.
+\item \code{pr_view()}: Visits the PR associated with a branch in the browser. usethis
+records this URL in git config of the local repo.
+\item \code{pr_finish()}: If \code{number} is given, first does \code{pr_fetch(number)}. It's
+assumed the current branch is the PR branch of interest. First, makes sure
+there are no unpushed local changes. Switches back to \code{master} and pulls
+changes from the primary repo. Deletes the PR branch. If the PR came from
+an external fork, the corresponding remote is deleted, provided it's not in
+use by any other local branches.
 }
 }
 
