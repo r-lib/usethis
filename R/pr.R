@@ -347,7 +347,6 @@ pr_pull <- function() {
   check_branch_not_master()
   check_no_uncommitted_changes()
 
-  ui_done("Pulling changes from GitHub PR")
   git_pull()
 
   invisible(TRUE)
