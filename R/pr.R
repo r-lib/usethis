@@ -9,15 +9,15 @@
 #' To use the `pr_*` functions, your project must be a Git repo and have one of
 #' these GitHub remote configurations:
 #' * "ours": You can push to the GitHub remote configured as `origin`. It's not
-#'   a fork.
+#'   a fork. `origin` points to the **primary repo**.
 #' * "fork": You can push to the GitHub remote configured as `origin`, it's a
-#'   fork, and its parent is configured as `upstream`.
+#'   fork, and its parent is configured as `upstream`. `origin` points to your
+#'   **personal** copy and upstream` points to the **primary repo**.
 #'
 #' "Ours" and "fork" are two of several GitHub remote configurations examined in
 #' [Common remote setups](https://happygitwithr.com/common-remote-setups.html)
 #' in Happy Git.
 #'
-
 #' The `pr_*` functions also use your Git/GitHub credentials to carry out
 #' various remote operations. See below for more.
 #'
@@ -212,22 +212,17 @@ pr_resume <- function(branch = NULL) {
 #' @export
 #' @rdname pull-requests
 #' @param number Number of PR to fetch.
-#' @param owner Name of the owner of the repository that is the target of the
-#'   pull request. If `NULL` (the default), `owner` is determined from the
-#'   GitHub remote configuration: the owner of `upstream` in the context of a
-#'   fork and the owner of `origin` otherwise.
 #'
 #' @examples
 #' \dontrun{
 #' pr_fetch(123)
 #' }
-pr_fetch <- function(number, owner = NULL) {
+pr_fetch <- function(number) {
   cfg <- classify_github_setup()
   check_pr_readiness(cfg)
   check_no_uncommitted_changes()
 
   # GET the PR ----
-  # Note we are ignoring the `owner` argument. I think I'm about to remove it.
   owner <- switch(
     cfg$type,
     ours = cfg$origin$repo_owner,

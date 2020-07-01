@@ -18,7 +18,7 @@ pr_init(branch)
 
 pr_resume(branch = NULL)
 
-pr_fetch(number, owner = NULL)
+pr_fetch(number)
 
 pr_push()
 
@@ -39,11 +39,6 @@ pr_finish(number = NULL)
 numbers, and \code{-}.}
 
 \item{number}{Number of PR to fetch.}
-
-\item{owner}{Name of the owner of the repository that is the target of the
-pull request. If \code{NULL} (the default), \code{owner} is determined from the
-GitHub remote configuration: the owner of \code{upstream} in the context of a
-fork and the owner of \code{origin} otherwise.}
 }
 \description{
 The \verb{pr_*} family of functions is designed to make working with GitHub pull
@@ -55,9 +50,10 @@ To use the \verb{pr_*} functions, your project must be a Git repo and have one o
 these GitHub remote configurations:
 \itemize{
 \item "ours": You can push to the GitHub remote configured as \code{origin}. It's not
-a fork.
+a fork. \code{origin} points to the \strong{primary repo}.
 \item "fork": You can push to the GitHub remote configured as \code{origin}, it's a
-fork, and its parent is configured as \code{upstream}.
+fork, and its parent is configured as \code{upstream}. \code{origin} points to your
+\strong{personal} copy and upstream` points to the \strong{primary repo}.
 }
 
 "Ours" and "fork" are two of several GitHub remote configurations examined in

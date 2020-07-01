@@ -1,5 +1,7 @@
 # usethis (development version)
 
+`pr_fetch()` no longer has an `owner` argument. This is now inferred from the GitHub remote configuration.
+
 All Git operations are now done via the gert package, instead of git2r.
 
 `create_github_token()` is a new name for the function previously known as `browse_github_token()` and `browse_github_pat()` (which both still work).
