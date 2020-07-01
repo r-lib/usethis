@@ -308,8 +308,7 @@ pr_fetch <- function(number) {
     ui_done("Setting {ui_value(pr_remref)} as remote tracking branch")
     gert::git_branch_set_upstream(pr_remref, repo = repo)
   }
-  ui_done("Pulling from {ui_value(pr_remref)}")
-  pr_pull()
+  git_pull()
 }
 
 #' @export
