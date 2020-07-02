@@ -75,9 +75,9 @@
 #' to get those changes back onto your computer, run `pr_pull()`. It can also
 #' happen that other changes have occurred in the package since you first
 #' created your PR. You might need to merge the `master` (or default) branch
-#' into your PR branch. Do that by running `pr_pull_upstream()`: this makes sure
+#' into your PR branch. Do that by running `pr_merge_main()`: this makes sure
 #' that your PR is compatible with the primary repo's main line of development.
-#' Both `pr_pull()` and `pr_pull_upstream()` can result in merge conflicts, so
+#' Both `pr_pull()` and `pr_merge_main()` can result in merge conflicts, so
 #' be prepared to resolve before continuing.
 #'
 #' @section For maintainers:
@@ -111,11 +111,11 @@
 #'   If a maintainer has extended your PR, this is how you bring those changes
 #'   back into your local work.
 
-#' * `pr_pull_upstream()`: Pulls changes from the `master` branch of the primary
+#' * `pr_merge_main()`: Pulls changes from the `master` branch of the primary
 #'   repo into the current local branch. This can be used when the local branch
 #'   is `master` or when it's a PR branch.
 
-#' * `pr_sync()` = `pr_pull() + pr_pull_upstream() + pr_push()`. In words, grab
+#' * `pr_sync()` = `pr_pull() + pr_merge_main() + pr_push()`. In words, grab
 #'   any remote changes in the PR and merge then into your local work. Then
 #'   merge in any changes from `master` of the primary repo. Finally, push the
 #'   result of all this back into the PR.
@@ -366,9 +366,9 @@ pr_merge_main <- function() {
   check_pr_readiness(cfg)
   check_no_uncommitted_changes()
 
+  remote <- switch(cfg$type, ours = "origin", fork = "upstream")
   # TODO: honor default branch
   branch <- "master"
-  remote <- switch(cfg$type, ours = "origin", fork = "upstream")
   remref <- glue("{remote}/{branch}")
 
   ui_done("Pulling in changes from the primary repo {ui_value(remref)}")
@@ -380,7 +380,7 @@ pr_merge_main <- function() {
 pr_sync <- function() {
   check_pr_readiness()
   pr_pull()
-  pr_pull_upstream()
+  pr_merge_main()
   pr_push()
 }
 

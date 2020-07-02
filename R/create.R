@@ -216,12 +216,11 @@ create_from_github <- function(repo_spec,
   if (fork) {
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     use_git_remote("upstream", upstream_url)
-    pr_pull_upstream()
-    # TODO: figure out how to detect/honor non-`master` default branch
+    pr_merge_main()
+    # TODO: honor default branch
     ui_done("
       Setting remote tracking branch for local {ui_value('master')} branch to \\
-      {ui_value('upstream/master')}
-      ")
+      {ui_value('upstream/master')}")
     gert::git_branch_set_upstream("upstream/master", git_repo())
     config_key <- glue("remote.upstream.created-by")
     gert::git_config_set(config_key, "usethis::create_from_github", git_repo())
