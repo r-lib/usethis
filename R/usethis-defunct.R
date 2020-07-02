@@ -18,6 +18,16 @@ use_depsy_badge <- function() {
   .Defunct(msg = msg)
 }
 
+#' @rdname usethis-defunct
+#' @export
+pr_pull_upstream <- function() {
+  lifecycle::deprecate_stop(
+    when = "1.7.0",
+    what = "pr_pull_upstream()",
+    with = "pr_merge_main()",
+  )
+}
+
 deprecate_warn_credentials <- function(whos_asking, details = NULL) {
   whos_asking <- sub("[()]+$", "", whos_asking)
   what <- glue("{whos_asking}(credentials = )")

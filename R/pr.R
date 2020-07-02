@@ -361,7 +361,7 @@ pr_pull <- function() {
 
 #' @export
 #' @rdname pull-requests
-pr_pull_upstream <- function() {
+pr_merge_main <- function() {
   check_pr_readiness()
   check_no_uncommitted_changes()
 
@@ -371,7 +371,7 @@ pr_pull_upstream <- function() {
   remref <- glue("{remote}/{branch}")
 
   ui_done("Pulling in changes from the primary repo {ui_value(remref)}")
-  git_pull(remref)
+  git_pull(remref, verbose = FALSE)
 }
 
 #' @export
