@@ -4,10 +4,7 @@
 \alias{use_cpp11}
 \title{Use C++ via the cpp11 package}
 \usage{
-use_cpp11(name = NULL)
-}
-\arguments{
-\item{name}{If supplied, creates and opens \verb{src/name.\{c,cpp\}}.}
+use_cpp11()
 }
 \description{
 Adds infrastructure needed to use the \href{https://cpp11.r-lib.org}{cpp11}
@@ -16,12 +13,6 @@ objects with C++ code. compiled code:
 \itemize{
 \item Creates \verb{src/}
 \item Adds cpp11 to \code{DESCRIPTION}
-\item Creates an initial placeholder \code{.cpp} file
+\item Creates \code{src/code.cpp}, an initial placeholder \code{.cpp} file
 }
-}
-\details{
-When using compiled code, please note that there must be at least one file
-inside the \verb{src/} directory prior to building the package. As a result,
-if an empty \verb{src/} directory is detected, either a \code{.c} or \code{.cpp} file will
-be added.
 }

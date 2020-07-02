@@ -5,17 +5,10 @@
 #' objects with C++ code. compiled code:
 #'   * Creates `src/`
 #'   * Adds cpp11 to `DESCRIPTION`
-#'   * Creates an initial placeholder `.cpp` file
-#'
-#' When using compiled code, please note that there must be at least one file
-#' inside the `src/` directory prior to building the package. As a result,
-#' if an empty `src/` directory is detected, either a `.c` or `.cpp` file will
-#' be added.
-#'
-#' @param name If supplied, creates and opens `src/name.{c,cpp}`.
+#'   * Creates `src/code.cpp`, an initial placeholder `.cpp` file
 #'
 #' @export
-use_cpp11 <- function(name = NULL) {
+use_cpp11 <- function() {
   check_is_package("use_cpp11()")
   check_uses_roxygen("use_cpp11()")
 
