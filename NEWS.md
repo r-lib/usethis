@@ -1,6 +1,8 @@
 # usethis (development version)
 
-`pr_fetch()` no longer has an `owner` argument. This is now inferred from the GitHub remote configuration.
+`pr_pull_upstream()` is renamed to `pr_merge_main()` to emphasize that it merges the **main** line of development, from the default branch of the primary repo, into the current branch. The default branch is still hard-coded as `master`, but we are laying the groundwork to respect a repository-specific default branch in a future release.
+
+`pr_fetch()` no longer has an `owner` argument. This is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.
 
 All Git operations are now done via the gert package, instead of git2r.
 
