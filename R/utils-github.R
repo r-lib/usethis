@@ -52,14 +52,6 @@ github_upstream <- function() {
   parse_github_remotes(r)[[1]]
 }
 
-github_owner <- function() {
-  github_origin()[["owner"]]
-}
-
-github_repo <- function() {
-  github_origin()[["repo"]]
-}
-
 github_repo_spec <- function(name = "origin") {
   url <- github_remote(name)
   paste0(parse_github_remotes(url)[[1]], collapse = "/")

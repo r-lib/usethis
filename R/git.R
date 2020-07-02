@@ -405,77 +405,18 @@ git_sitrep <- function() {
 
   # PR outlook -------------------------------------------------------------
   hd_line("GitHub pull request readiness")
-  if (is.null(github_remote("origin")) && is.null(github_remote("upstream"))) {
-    ui_info(
-      "
+  cfg <- classify_github_setup()
+  if (cfg$type == "no_github") {
+    ui_info("
       This repo has neither {ui_value('origin')} nor {ui_value('upstream')} \\
-      remote on GitHub.com.
-      "
-    )
+      remote on GitHub.com.")
     return(invisible())
   }
+  # TODO: do something about unsupported configs
 
-  origin   <- git_remote_scrutinize("origin", have_token)
-  upstream <- git_remote_scrutinize("upstream", have_token)
-
-  kv_line("origin", github_remote_report(origin))
-  kv_line("upstream", github_remote_report(upstream))
-}
-
-git_remote_scrutinize <- function(name, have_token = have_github_token()) {
-  out <- list(
-    exists = FALSE,
-    is_github = NA,
-    spec = NA,
-    perms = NA_character_,
-    is_fork = NA,
-    fork_spec = NA_character_
-  )
-  remotes <- git_remotes()
-  if (is.null(remotes)) {
-    return(out)
-  }
-
-  if (is.null(remotes[[name]])) {
-    return(out)
-  }
-  out$exists <- TRUE
-
-  gh_remote <- github_remote(name)
-  if (is.null(gh_remote)) {
-    out$is_github <- FALSE
-    return(out)
-  }
-  out$is_github <- TRUE
-  out$spec <- github_repo_spec(name)
-
-  gh_GET <- if (have_token) gh::gh(glue("/repos/{out$spec}")) else NULL
-  if (is.null(gh_GET)) {
-    return(out)
-  }
-  out$perms <- if (isTRUE(gh_GET$permissions$push)) "can push" else "read only"
-  out$is_fork <- isTRUE(gh_GET$fork)
-
-  if (!out$is_fork) {
-    return(out)
-  }
-  out$fork_spec <- gh_GET$parent$full_name
-
-  out
-}
-
-github_remote_report <- function(info) {
-  if (!info$exists) {
-    return("<no such remote>")
-  }
-  if (!info$is_github) {
-    return("<not a GitHub remote>")
-  }
-  out <- info[c("spec", "perms")]
-  if (isTRUE(info$is_fork)) {
-    out <- c(out, glue("forked from {info$fork_spec}"))
-  }
-  out
+  # TODO: gussy this up a bit
+  # placeholder so I can delete a lot of old helpers only used here
+  print(cfg)
 }
 
 # Vaccination -------------------------------------------------------------
