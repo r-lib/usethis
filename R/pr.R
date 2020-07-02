@@ -479,14 +479,19 @@ pr_url <- function(branch = git_branch()) {
     return(url)
   }
 
-  primary_owner <- spec_owner(get_primary_spec())
-  pr_branch <- remref_branch(git_branch_tracking(branch))
-
-  if (is.na(pr_branch)) {
+  pr_remref <- git_branch_tracking(branch)
+  if (is.na(pr_remref)) {
     return()
   }
 
-  urls <- pr_find(primary_owner, github_repo(), github_owner(), pr_branch)
+  pr_branch <- remref_branch()
+  primary_spec <- get_primary_spec()
+  urls <- pr_find(
+    owner = spec_owner(primary_spec),
+    repo = spec_repo(primary_spec),
+    pr_owner = remref_remote(pr_remref),
+    pr_branch = remref_branch(pr_remref)
+  )
 
   if (length(urls) == 0) {
     NULL
