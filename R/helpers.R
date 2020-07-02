@@ -93,7 +93,7 @@ use_dependency <- function(package, type, min_version = NULL) {
 use_system_requirement <- function(requirement) {
   stopifnot(is_string(requirement))
   existing_requirements <- desc::desc_get_field("SystemRequirements", default = character(), file = proj_get())
-  existing_requirements <- head(strsplit(existing_requirements, ", ?"), n = 1)
+  existing_requirements <- utils::head(strsplit(existing_requirements, ", ?"), n = 1)
 
   if (requirement %in% existing_requirements) {
     return(invisible())
