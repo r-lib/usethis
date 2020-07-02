@@ -56,10 +56,6 @@ github_owner <- function() {
   github_origin()[["owner"]]
 }
 
-github_owner_upstream <- function() {
-  github_upstream()[["owner"]]
-}
-
 github_repo <- function() {
   github_origin()[["repo"]]
 }
