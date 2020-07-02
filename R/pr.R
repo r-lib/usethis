@@ -319,16 +319,22 @@ pr_push <- function() {
   check_branch_not_master()
   check_no_uncommitted_changes()
 
+  repo <- git_repo()
   branch <- git_branch()
-  remote_tracking_branch <- git_branch_tracking(branch)
-  if (!is.na(remote_tracking_branch)) {
+  remref <- git_branch_tracking(branch)
+  if (is.na(remref)) {
+    ui_done("Pushing local {ui_value(branch)} branch")
+    gert::git_push(verbose = FALSE, repo = repo)
+  } else {
     check_branch_pulled(use = "pr_pull()")
+    ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remref)}")
+    gert::git_push(
+      remote = remref_remote(remref),
+      refspec = glue("refs/heads/{branch}:refs/heads/{remref_branch(remref)}"),
+      verbose = FALSE,
+      repo = repo
+    )
   }
-
-  if (is.na(remote_tracking_branch)) {
-    remote_tracking_branch <- NULL
-  }
-  git_push(remref = remote_tracking_branch)
 
   # Prompt to create PR on first push
   url <- pr_url()

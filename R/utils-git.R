@@ -200,33 +200,6 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
   invisible()
 }
 
-# Push -------------------------------------------------------------------------
-git_push <- function(remref = NULL) {
-  on.exit(rstudio_git_tickle(), add = TRUE)
-  push <- function(remote = NULL, refspec = NULL) {
-    gert::git_push(
-      remote = remote,
-      refspec = refspec,
-      set_upstream = NULL,
-      force = FALSE,
-      verbose = FALSE,
-      repo = git_repo()
-    )
-  }
-
-  branch <- git_branch()
-  if (is.null(remref)) {
-    ui_done("Pushing local {ui_value(branch)} branch")
-    return(push())
-  }
-
-  ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remref)}")
-  push(
-    remote = remref_remote(remref),
-    refspec = glue("refs/heads/{branch}:refs/heads/{remref_branch(remref)}")
-  )
-}
-
 # Branch ------------------------------------------------------------------
 git_branch <- function() {
   info <- gert::git_info(git_repo())

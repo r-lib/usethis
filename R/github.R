@@ -152,8 +152,7 @@ use_github <- function(organisation = NULL,
 
   ui_done("
     Pushing {ui_value('master')} branch to GitHub and setting \\
-    {ui_value('origin/master')} as upstream branch
-    ")
+    {ui_value('origin/master')} as upstream branch")
 
   gert::git_push(remote = "origin", set_upstream = TRUE, repo = git_repo())
 
