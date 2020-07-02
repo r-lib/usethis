@@ -362,12 +362,13 @@ pr_pull <- function() {
 #' @export
 #' @rdname pull-requests
 pr_merge_main <- function() {
-  check_pr_readiness()
+  cfg <- classify_github_setup()
+  check_pr_readiness(cfg)
   check_no_uncommitted_changes()
 
   # TODO: honor default branch
   branch <- "master"
-  remote <- spec_owner(get_primary_spec())
+  remote <- switch(cfg$type, ours = "origin", fork = "upstream")
   remref <- glue("{remote}/{branch}")
 
   ui_done("Pulling in changes from the primary repo {ui_value(remref)}")
