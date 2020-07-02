@@ -7,7 +7,7 @@
 \alias{pr_fetch}
 \alias{pr_push}
 \alias{pr_pull}
-\alias{pr_pull_upstream}
+\alias{pr_merge_main}
 \alias{pr_sync}
 \alias{pr_view}
 \alias{pr_pause}
@@ -24,7 +24,7 @@ pr_push()
 
 pr_pull()
 
-pr_pull_upstream()
+pr_merge_main()
 
 pr_sync()
 

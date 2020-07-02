@@ -3,9 +3,12 @@
 \name{usethis-defunct}
 \alias{usethis-defunct}
 \alias{use_depsy_badge}
+\alias{pr_pull_upstream}
 \title{Defunct functions in usethis}
 \usage{
 use_depsy_badge()
+
+pr_pull_upstream()
 }
 \description{
 These functions are marked as defunct and have been removed from usethis.
