@@ -26,7 +26,6 @@ Lifecycle
 LinkingTo
 Makefile
 ORCID
-OSs
 PRs
 README
 REPO
@@ -43,6 +42,7 @@ Roxygen
 Rtools
 SHA
 TeXLive
+Templated
 Tidyverse
 UI
 Ushey's
@@ -105,7 +105,6 @@ linux
 macOS
 magrittr
 magrittr's
-maintainer's
 md
 minimise
 msg
@@ -148,10 +147,12 @@ templated
 templating
 testthat
 tibble
+tidymodels
 tidyverse
 todo
 travis
 triaged
+unpushed
 useR
 usethis's
 ver
