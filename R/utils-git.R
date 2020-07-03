@@ -266,14 +266,8 @@ check_branch <- function(branch) {
   if (actual == branch) {
     return(invisible())
   }
-  code <- glue("git checkout {branch}")
-  ui_stop(
-    "
-    Must be on branch {ui_value(branch)}, not {ui_value(actual)}.
-    How to switch to the correct branch in the shell:
-    {ui_code(code)}
-    "
-  )
+  ui_stop("
+    Must be on branch {ui_value(branch)}, not {ui_value(actual)}.")
 }
 
 # examples of remref: upstream/master, origin/foofy
