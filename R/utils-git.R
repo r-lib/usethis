@@ -260,18 +260,6 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
 }
 
 # Checks ------------------------------------------------------------------
-check_branch_not_master <- function() {
-  if (git_branch() != "master") {
-    return()
-  }
-
-  # TODO: this wording is overly specific. Do better once `pr_status()` is
-  # implemented and we can offer an overview of existing (PR) branches.
-  ui_stop("
-    Currently on {ui_value('master')} branch.
-    Do you need to call {ui_code('pr_init()')} first?")
-}
-
 check_branch <- function(branch) {
   ui_done("Checking that current branch is {ui_value(branch)}")
   actual <- git_branch()

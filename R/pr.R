@@ -316,7 +316,7 @@ pr_fetch <- function(number) {
 #' @rdname pull-requests
 pr_push <- function() {
   check_pr_readiness()
-  check_branch_not_master()
+  check_pr_branch()
   check_no_uncommitted_changes()
 
   repo <- git_repo()
@@ -351,7 +351,7 @@ pr_push <- function() {
 #' @rdname pull-requests
 pr_pull <- function() {
   check_pr_readiness()
-  check_branch_not_master()
+  check_pr_branch()
   check_no_uncommitted_changes()
 
   git_pull()
@@ -399,7 +399,7 @@ pr_view <- function() {
 #' @rdname pull-requests
 pr_pause <- function() {
   check_pr_readiness()
-  check_branch_not_master()
+  check_pr_branch()
   check_no_uncommitted_changes()
   check_branch_pulled(use = "pr_pull()")
 
@@ -419,7 +419,7 @@ pr_finish <- function(number = NULL) {
     pr_fetch(number)
   }
 
-  check_branch_not_master()
+  check_pr_branch()
   check_no_uncommitted_changes()
 
   branch <- git_branch()
@@ -538,6 +538,18 @@ check_pr_readiness <- function(cfg = NULL) {
     ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
   }
   stop_unsupported_pr_config(cfg)
+}
+
+# TODO: honor default branch
+check_pr_branch <- function() {
+  if (git_branch() != "master") {
+    return()
+  }
+  ui_stop("
+    The {ui_code('pr_*()')} functions facilitate pull requests.
+    The current branch is {ui_value('master')}, but pull requests should not \\
+    come from the {ui_value('master')} branch.
+    Do you need to call {ui_code('pr_init()')}?")
 }
 
 # Make sure to pull from upstream/master (as opposed to origin/master) if we're
