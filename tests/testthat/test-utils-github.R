@@ -75,16 +75,16 @@ test_that("github_user() returns NULL for bad token", {
 })
 
 test_that("github_remote_protocol() picks up ssh and https", {
-  r <- list(origin = "git@github.com:OWNER/REPO.git")
+  r <- list(url = "git@github.com:OWNER/REPO.git")
   with_mock(
-    `usethis:::github_remotes` = function() r,
+    `usethis:::github_remotes` = function(...) r,
     {
       expect_identical(github_remote_protocol(), "ssh")
     }
   )
-  r <- list(origin = "https://github.com/OWNER/REPO.git")
+  r <- list(url = "https://github.com/OWNER/REPO.git")
   with_mock(
-    `usethis:::github_remotes` = function() r,
+    `usethis:::github_remotes` = function(...) r,
     {
       expect_identical(github_remote_protocol(), "https")
     }
@@ -92,28 +92,19 @@ test_that("github_remote_protocol() picks up ssh and https", {
 })
 
 test_that("github_remote_protocol() errors for unrecognized URL", {
-  r <- list(origin = "file:///srv/git/project.git")
+  r <- list(url = "file:///srv/git/project.git")
   with_mock(
-    `usethis:::github_remotes` = function() r,
+    `usethis:::github_remotes` = function(...) r,
     {
       expect_usethis_error(github_remote_protocol(), "Can't classify the URL")
     }
   )
 })
 
-test_that("github_remote_protocol() returns NULL if no github origin", {
-  r <- NULL
+test_that("github_remote_protocol() returns 0-row data frame if no github origin", {
+  r <- data.frame(url = character(), stringsAsFactors = FALSE)
   with_mock(
-    `usethis:::github_remotes` = function() r,
-    {
-      expect_null(github_remote_protocol())
-    }
-  )
-  r <- list(
-    non_standard_remote_name = "https://github.com/OWNER/REPO.git"
-  )
-  with_mock(
-    `usethis:::github_remotes` = function() r,
+    `usethis:::github_remotes` = function(...) r,
     {
       expect_null(github_remote_protocol())
     }

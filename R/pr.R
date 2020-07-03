@@ -544,7 +544,7 @@ check_pr_readiness <- function(cfg = NULL) {
 # in master branch of a fork. I wish everyone set up master to track the master
 # branch in the primary repo, but this protects us against sub-optimal setup.
 pr_pull_primary_override <- function() {
-  in_a_fork <- nrow(github_remotes2("upstream", github_get = FALSE)) > 0
+  in_a_fork <- nrow(github_remotes("upstream", github_get = FALSE)) > 0
   # TODO: generalize to default branch
   if (in_a_fork && git_branch() == "master") {
     remref <- "upstream/master"

@@ -16,7 +16,7 @@
 #' @inheritParams use_github
 #' @keywords internal
 #' @noRd
-github_remotes2 <- function(these = c("origin", "upstream"),
+github_remotes <- function(these = c("origin", "upstream"),
                             github_get = NA,
                             auth_token = github_token(),
                             host = "https://api.github.com") {
@@ -137,7 +137,7 @@ github_remotes2 <- function(these = c("origin", "upstream"),
 classify_github_setup <- function(auth_token = github_token(),
                                   host = "https://api.github.com") {
   cfg <- new_github_config()
-  grl <- github_remotes2(auth_token = auth_token, host = host)
+  grl <- github_remotes(auth_token = auth_token, host = host)
 
   if (nrow(grl) == 0) {
     return(cfg_no_github(cfg))
@@ -317,7 +317,7 @@ get_repo_spec <- function(auth_token = github_token(),
 # Like get_repo_spec(), but do much less. No API calls.
 # No full-fledged evaluation of the GitHub remotes. Take them at face value.
 get_repo_spec_lite <- function() {
-  grl <- github_remotes2(github_get = FALSE)
+  grl <- github_remotes(github_get = FALSE)
   if (nrow(grl) < 1) {
     return()
   }

@@ -298,7 +298,7 @@ uses_github <- function() {
   if (!uses_git()) {
     return(FALSE)
   }
-  nrow(github_remotes2("origin", github_get = FALSE)) > 0
+  nrow(github_remotes("origin", github_get = FALSE)) > 0
 }
 
 check_no_origin <- function() {

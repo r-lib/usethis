@@ -1,27 +1,7 @@
-github_remotes <- function() {
-  remotes <- git_remotes()
-  if (length(remotes) == 0) {
-    return(NULL)
-  }
-  m <- vapply(remotes, function(x) grepl("github", x), logical(1))
-  if (sum(m) == 0) {
-    return(NULL)
-  }
-  remotes[m]
-}
-
-github_remote <- function(name) {
-  remotes <- github_remotes()
-  if (length(remotes) == 0) {
-    return(NULL)
-  }
-  remotes[[name]]
-}
-
 github_remote_protocol <- function(name = "origin") {
   # https://git-scm.com/book/en/v2/Git-on-the-Server-The-Protocols
-  url <- github_remote(name)
-  if (is.null(url)) {
+  url <- github_remotes("origin", github_get = FALSE)$url
+  if (length(url) == 0) {
     return()
   }
   protocol <- parse_github_remotes(url)$protocol
@@ -83,3 +63,5 @@ github_remote_from_description <- function(desc) {
     as.list(parsed[c("repo_owner", "repo_name")])
   }
 }
+
+# turtles
