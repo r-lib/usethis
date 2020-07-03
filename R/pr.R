@@ -457,18 +457,11 @@ pr_finish <- function(number = NULL) {
 }
 
 pr_create_gh <- function() {
-  # TODO: need a lighterweight way to learn ours vs fork here
-  cfg <- classify_github_setup()
-  owner <- switch(
-    cfg$type,
-    ours = cfg$origin$repo_owner,
-    fork = cfg$upstream$repo_owner
-  )
-  repo <- cfg$origin$repo_name
+  origin <- github_remotes("origin", github_get = FALSE)
+  repo_spec <- glue("{origin$repo_owner}/{origin$repo_name}")
   branch <- git_branch()
-
   ui_done("Create PR at link given below")
-  view_url(glue("https://github.com/{owner}/{repo}/compare/{branch}"))
+  view_url(glue("https://github.com/{repo_spec}/compare/{branch}"))
 }
 
 pr_url <- function(branch = git_branch()) {
@@ -484,7 +477,8 @@ pr_url <- function(branch = git_branch()) {
     return()
   }
 
-  pr_branch <- remref_branch()
+  pr_branch <- remref_branch(pr_remref)
+  # TODO: this should be silent
   primary_spec <- get_primary_spec()
   urls <- pr_find(
     owner = spec_owner(primary_spec),
