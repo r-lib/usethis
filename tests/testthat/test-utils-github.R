@@ -4,15 +4,20 @@ test_that("parse_github_remotes() works on named list or named character", {
     browser = "https://github.com/r-lib/devtools",
     ssh     = "git@github.com:r-lib/devtools.git"
   )
-  expected <- list(owner = "r-lib", repo = "devtools")
-  expect_identical(
-    parse_github_remotes(urls),
-    list(https = expected, browser = expected, ssh = expected)
-  )
-  expect_identical(
-    parse_github_remotes(unlist(urls)),
-    list(https = expected, browser = expected, ssh = expected)
-  )
+  parsed <- parse_github_remotes(urls)
+  expect_equal(parsed$name, names(urls))
+  expect_equal(unique(parsed$repo_owner), "r-lib")
+  expect_equal(unique(parsed$repo_name), "devtools")
+  expect_equal(parsed$protocol, c("https", "https", "ssh"))
+
+  parsed2 <- parse_github_remotes(unlist(urls))
+  expect_equal(parsed, parsed2)
+})
+
+test_that("parse_github_remotes() works on edge cases", {
+  parsed <- parse_github_remotes("https://github.com/HenrikBengtsson/R.rsp")
+  expect_equal(parsed$repo_owner, "HenrikBengtsson")
+  expect_equal(parsed$repo_name, "R.rsp")
 })
 
 test_that("github_token() works", {
@@ -70,18 +75,14 @@ test_that("github_user() returns NULL for bad token", {
 })
 
 test_that("github_remote_protocol() picks up ssh and https", {
-  r <- list(
-    origin = "git@github.com:OWNER/REPO.git"
-  )
+  r <- list(origin = "git@github.com:OWNER/REPO.git")
   with_mock(
     `usethis:::github_remotes` = function() r,
     {
       expect_identical(github_remote_protocol(), "ssh")
     }
   )
-  r <- list(
-    origin = "https://github.com/OWNER/REPO.git"
-  )
+  r <- list(origin = "https://github.com/OWNER/REPO.git")
   with_mock(
     `usethis:::github_remotes` = function() r,
     {
@@ -91,13 +92,11 @@ test_that("github_remote_protocol() picks up ssh and https", {
 })
 
 test_that("github_remote_protocol() errors for unrecognized URL", {
-  r <- list(
-    origin = "file:///srv/git/project.git"
-  )
+  r <- list(origin = "file:///srv/git/project.git")
   with_mock(
     `usethis:::github_remotes` = function() r,
     {
-      expect_usethis_error(github_remote_protocol(), "Can't classify URL")
+      expect_usethis_error(github_remote_protocol(), "Can't classify the URL")
     }
   )
 })

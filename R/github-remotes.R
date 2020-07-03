@@ -49,8 +49,8 @@ github_remotes2 <- function(these = c("origin", "upstream"),
   grl$url <- x$url
 
   parsed <- parse_github_remotes(grl$url)
-  grl$repo_owner <- map_chr(parsed, "owner")
-  grl$repo_name <- map_chr(parsed, "repo")
+  grl$repo_owner <- parsed$repo_owner
+  grl$repo_name <- parsed$repo_name
 
   if (identical(github_get, FALSE)) {
     return(grl)

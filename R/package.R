@@ -80,7 +80,7 @@ package_remote <- function(package) {
     ui_stop("Cannot determine remote for {ui_value(package)}")
   }
 
-  remote <- paste0(remote$owner, "/", remote$repo)
+  remote <- paste0(remote$repo_owner, "/", remote$repo_name)
   if (ui_yeah("
     {ui_value(package)} was either installed from CRAN or local source.
     Based on DESCRIPTION, we propose the remote: {ui_value(remote)}

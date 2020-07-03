@@ -109,7 +109,7 @@ github_url <- function(package = NULL) {
       Falling back to GitHub CRAN mirror")
     glue("https://github.com/cran/{package %||% project_name()}")
   } else {
-    glue("https://github.com/{remote$owner}/{remote$repo}")
+    glue("https://github.com/{remote$repo_owner}/{remote$repo_name}")
   }
 }
 
