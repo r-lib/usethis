@@ -237,7 +237,7 @@ project_data <- function(base_path = proj_get()) {
   } else {
     data <- list(Project = path_file(base_path))
   }
-  if (proj_active() && uses_github()) {
+  if (proj_active() && origin_is_on_github()) {
     origin <- github_remotes("origin", github_get = FALSE)
     data$github_owner <- origin$repo_owner
     data$github_repo  <- origin$repo_name

@@ -32,7 +32,7 @@ use_readme_rmd <- function(open = rlang::is_interactive()) {
 
   data <- project_data()
   data$Rmd <- TRUE
-  data$uses_github <- uses_github()
+  data$on_github <- origin_is_on_github()
 
   new <- use_template(
     if (is_package()) "package-README" else "project-README",

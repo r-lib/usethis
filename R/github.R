@@ -294,7 +294,7 @@ github_token <- function() {
   if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
 }
 
-uses_github <- function() {
+origin_is_on_github <- function() {
   if (!uses_git()) {
     return(FALSE)
   }
@@ -311,18 +311,6 @@ check_no_origin <- function() {
       {ui_code('usethis::use_git_remote(\"origin\", url = NULL, overwrite = TRUE)')}")
   }
   invisible()
-}
-
-check_uses_github <- function() {
-  if (uses_github()) {
-    return(invisible())
-  }
-
-  ui_stop("
-    This project does not have a GitHub remote configured as \\
-    {ui_value('origin')}.
-    Do you need to run {ui_code('use_github()')}?
-    ")
 }
 
 check_no_github_repo <- function(owner, repo, host, auth_token) {

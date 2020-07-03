@@ -30,14 +30,14 @@ You can install the released version of {{{ Package }}} from [CRAN](https://CRAN
 install.packages("{{{ Package }}}")
 ```
 
-{{#uses_github}}
+{{#on_github}}
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("{{{ github_spec }}}")
 ```
-{{/uses_github}}
+{{/on_github}}
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
