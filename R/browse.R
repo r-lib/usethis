@@ -86,9 +86,10 @@ browse_cran <- function(package = NULL) {
   view_url(cran_home(package))
 }
 
-# gets at most one GitHub link from BugReports/URL fields;
-# always creates canonical GitHub url, even if the maintainer specified
-# something else
+# Try to get a GitHub repo spec from these places:
+# 1. Remotes associated with github.com (active project)
+# 2. BugReports/URL fields of DESCRIPTION (active project or arbitrary
+#    installed package)
 github_url <- function(package = NULL) {
   if (is.null(package)) {
     repo_spec <- get_repo_spec_lite()
