@@ -162,12 +162,6 @@ git_parse_remref <- function(remref) {
 remref_remote <- function(remref) git_parse_remref(remref)$remote
 remref_branch <- function(remref) git_parse_remref(remref)$branch
 
-git_is_fork <- function() {
-  # TODO: this will surely change again soon, to reflect a direct test whether
-  # the relevant remote (that is also a github repo) is a fork
-  "upstream" %in% names(git_remotes())
-}
-
 # Pull -------------------------------------------------------------------------
 # Pull from remref or upstream tracking. If neither given/exists, do nothing.
 # Therefore, this does less than `git pull`.
