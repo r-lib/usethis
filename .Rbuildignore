@@ -21,3 +21,4 @@
 ^inst/templates/.*\\.html$
 ^man/figures/usethis-full-logo\.png$
 ^man/figures/usethis-og-1280x640\.png$
+^internal$
