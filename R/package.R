@@ -75,7 +75,7 @@ package_remote <- function(package) {
     return(paste0(remote$RemoteUsername, "/", remote$RemoteRepo))
   }
 
-  remote <- github_remote_from_description(package)
+  remote <- github_remote_from_description(desc)
   if (is.null(remote)) {
     ui_stop("Cannot determine remote for {ui_value(package)}")
   }

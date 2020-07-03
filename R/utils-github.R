@@ -36,22 +36,6 @@ github_remote_protocol <- function(name = "origin") {
   )
 }
 
-github_origin <- function() {
-  r <- github_remote("origin")
-  if (is.null(r)) {
-    return(r)
-  }
-  parse_github_remotes(r)[[1]]
-}
-
-github_upstream <- function() {
-  r <- github_remote("upstream")
-  if (is.null(r)) {
-    return(r)
-  }
-  parse_github_remotes(r)[[1]]
-}
-
 ## repo_spec --> owner, repo
 parse_repo_spec <- function(repo_spec) {
   repo_split <- strsplit(repo_spec, "/")[[1]]
@@ -78,15 +62,25 @@ parse_github_remotes <- function(x) {
   lapply(match, function(y) list(owner = y[[2]], repo = y[[3]]))
 }
 
-github_remote_from_description <- function(package) {
-  desc <- desc::desc(package = package)
+github_url_rx <- function() {
+  paste0(
+    "^",
+    "(?:https?://github.com/)",
+    "(?<owner>[^/]+)/",
+    "(?<repo>[^/#]+)",
+    "/?",
+    "(?<fragment>.*)",
+    "$"
+  )
+}
 
+github_remote_from_description <- function(desc) {
+  stopifnot(inherits(desc, "description"))
   urls <- c(
     desc$get_field("BugReports", default = character()),
     desc$get_urls()
   )
   gh_links <- grep("^https?://github.com/", urls, value = TRUE)
-
   if (length(gh_links) > 0) {
     remote <- rematch2::re_match(gh_links[[1]], github_url_rx())
     as.list(remote[c("owner", "repo")])

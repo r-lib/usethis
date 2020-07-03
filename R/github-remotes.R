@@ -314,6 +314,31 @@ get_repo_spec <- function(auth_token = github_token(),
   }
 }
 
+# Like get_repo_spec(), but do much less. No API calls.
+# No full-fledged evaluation of the GitHub remotes. Take them at face value.
+get_repo_spec_lite <- function() {
+  grl <- github_remotes2(github_get = FALSE)
+  if (nrow(grl) < 1) {
+    return()
+  }
+  grl$repo_spec <- glue_data(grl, "{repo_owner}/{repo_name}")
+  if (!is_interactive() && nrow(grl) > 1) {
+    ui_info("
+      Both {ui_value('origin')} and {ui_value('upstream')} are GitHub remotes.
+      Using spec for {ui_value('origin')}.")
+    return(grl$repo_spec[grl$remote == "origin"])
+  }
+  if (nrow(grl) == 1) {
+    return(grl$repo_spec)
+  }
+  choice <- utils::menu(
+    choices = glue_data(grl, "{repo_spec} ({remote})"),
+    graphics = FALSE,
+    title = "Which repo should we target?"
+  )
+  grl$repo_spec[choice]
+}
+
 #' Get the spec of the primary repo
 #'
 #' This is a simplified variant of `get_repo_spec()`. Use it when you're quite
