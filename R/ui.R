@@ -287,7 +287,7 @@ ui_unset <- function(x = "unset") {
   x
 }
 
-# Cat wrappers ---------------------------------------------------------------
+# rlang::inform() wrappers -----------------------------------------------------
 
 ui_bullet <- function(x, bullet) {
   bullet <- paste0(bullet, " ")
