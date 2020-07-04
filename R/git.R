@@ -283,21 +283,17 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
   remotes <- git_remotes()
 
   if (name %in% names(remotes) && !overwrite) {
-    ui_stop("Remote {ui_value(name)} already exists. Use \\
-            {ui_code('overwrite = TRUE')} to edit it anyway.")
+    ui_stop("
+      Remote {ui_value(name)} already exists. Use \\
+      {ui_code('overwrite = TRUE')} to edit it anyway.")
   }
 
-  if (name %in% names(remotes)) {
-    if (is.null(url)) {
+  if (is.null(url)) {
+    if (name %in% names(remotes)) {
       gert::git_remote_remove(name, repo = git_repo())
-    } else {
-      # TODO: adopt whatever solution comes from this
-      # https://github.com/r-lib/gert/issues/49
-      gert::git_remote_remove(name, repo = git_repo())
-      gert::git_remote_add(name, url = url, repo = git_repo())
     }
   } else {
-    gert::git_remote_add(name, url = url, repo = git_repo())
+    gert::git_remote_set_url(name, url = url, repo = git_repo())
   }
 
   invisible(git_remotes())
