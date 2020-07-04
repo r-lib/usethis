@@ -1,5 +1,7 @@
 # usethis (development version)
 
+`pr_finish()` deletes the remote PR branch if the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150).
+
 `pr_pull_upstream()` is renamed to `pr_merge_main()` to emphasize that it merges the **main** line of development, from the default branch of the primary repo, into the current branch. The default branch is still hard-coded as `master`, but we are laying the groundwork to respect a repository-specific default branch in a future release.
 
 `pr_fetch()` no longer has an `owner` argument. This is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.
