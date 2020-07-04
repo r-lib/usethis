@@ -104,31 +104,32 @@ create_project <- function(path,
 
 #' Create a project from a GitHub repo
 #'
-#' Creates a new local Git repository from a repository on GitHub. It is highly
-#' recommended that you pre-configure or pass a GitHub personal access token
-#' (PAT), which is facilitated by [create_github_token()]. In particular, a PAT
-#' is required in order for `create_from_github()` to do ["fork and
-#' clone"](https://help.github.com/articles/fork-a-repo/). It is also required
-#' by [use_github()], which connects existing local projects to GitHub.
+#' @description
+#' Creates a new local project and Git repository from a repo on GitHub, by
+#' either cloning or
+#' [fork-and-cloning](https://help.github.com/articles/fork-a-repo/). In the
+#' fork-and-clone case, `create_from_github()` also does additional remote and
+#' branch setup, leaving you in the perfect position to make a pull request,
+#' possibly with the [pull request functions][pull-requests].
+#'
+#' It is **highly recommended** that you pre-configure a GitHub personal access
+#' token (PAT), which is facilitated by [create_github_token()]. In particular,
+#' if you can't push to the source repo, you usually want to fork-and-clone (vs.
+#' clone) and we cannot do that unless we have a PAT.
 #'
 #' @seealso
-#' * [use_github()] for advice on auth setup
-#' * [git_protocol()] for background on `protocol`
-#' * [use_course()] can expedite a one-time download of all files in a GitHub
-#'   repo, without the need for any local or remote Git operations
+#' * [use_github()] to go the opposite direction, i.e. create a GitHub repo
+#'   from your local repo
+#' * [git_protocol()] for background on `protocol` (HTTPS vs SSH)
+#' * [use_course()] to download a snapshot of all files in a GitHub repo,
+#'   without the need for any local or remote Git operations
 #'
-#' @section Authentication:
-#' This function potentially interacts with GitHub in two different ways:
-#' * via the GitHub REST API
-#' * as a conventional Git remote
-#' Therefore two types of auth may happen.
-#'
-#' TODO: Finish this section. Figure out how to share docs with the analogous
-#' section in [use_github()].
+#' @template double-auth
 #'
 #' @inheritParams create_package
 #' @param repo_spec GitHub repo specification in this form: `owner/repo`. The
-#'   `repo` part will be the name of the new local repo.
+#'   `repo` part will be the name of the new local folder, which is also
+#'   a project and Git repo.
 #' @inheritParams use_course
 #' @param fork If `TRUE`, we create and clone a fork. If `FALSE`, we clone
 #'   `repo_spec` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT)

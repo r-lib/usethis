@@ -18,32 +18,7 @@
 #' See the Authentication section below for general setup that is necessary for
 #' all of this to work.
 #'
-#' @section Authentication:
-#' This function interacts with GitHub in two different ways:
-#' * via the GitHub REST API
-#' * as a conventional Git remote
-#' Therefore two types of auth happen.
-#'
-#' A new GitHub repo is created via the GitHub API, therefore you must make a
-#' [GitHub personal access token (PAT)](https://github.com/settings/tokens)
-#' available. There are two ways to provide the token, in order of preference:
-#' * Configure your token as the `GITHUB_PAT` env var. Then it can be used by
-#'   many packages and functions, without any effort on your part. If you don't
-#'   have a token yet, see [create_github_token()].
-#' * Provide the token directly via the `auth_token` argument.
-#'
-#' The final push to GitHub means that regular Git credentials (for either the
-#' SSH or HTTPS protocol) must also be available, just as `git push` on the
-#' command line would require. usethis uses the gert package for Git operations
-#' (<https://docs.ropensci.org/gert>) and gert, in turn, relies on the
-#' credentials package (<https://docs.ropensci.org/credentials/>) for
-#' auth. In usethis v1.7.0, we switched from git2r to gert + credentials. This
-#' pair of packages appears to be more successful in discovering and using the
-#' same credentials as command line Git. As a result, a great deal of
-#' credential-handling assistance has been removed from usethis. If you have
-#' credential problems, focus your troubleshooting on getting the credentials
-#' package to find your credentials. If you use the HTTPS protocol, a configured
-#' `GITHUB_PAT` will satisfy both auth needs.
+#' @template double-auth
 #'
 #' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
@@ -163,7 +138,8 @@ use_github <- function(organisation = NULL,
 #'
 #' Populates the `URL` and `BugReports` fields of a GitHub-using R package with
 #' appropriate links. The ability to determine the correct URLs depends on
-#' finding a fairly standard GitHub remote configuration.
+#' finding a fairly standard GitHub remote configuration (`origin` only or
+#' `origin` plus `upstream`).
 #'
 #' @inheritParams use_github
 #' @export
@@ -342,7 +318,7 @@ have_github_token <- function(auth_token = github_token()) {
   !isTRUE(auth_token == "")
 }
 
-# TODO(@jennybc): this should be used / usable by git_sitrep(), which
+# TODO: this should be used / usable by git_sitrep(), which
 # currently uses one-off code for checking the token
 
 check_github_token <- function(auth_token = github_token(),

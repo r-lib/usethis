@@ -151,7 +151,6 @@ pr_init <- function(branch) {
     return(pr_resume(branch))
   }
 
-  # TODO: get the github config here? so I can consult below?
   check_pr_readiness()
   # TODO(@jennybc): if no internet, could offer option to proceed anyway
   # error shows git2r but we'll get similar error with gert
@@ -487,7 +486,8 @@ pr_url <- function(branch = git_branch()) {
   }
 
   pr_branch <- remref_branch(pr_remref)
-  # TODO: this should be silent
+  # TODO: this should be silent, but look at it when I re-examine
+  # get_primary_spec()
   primary_spec <- get_primary_spec()
   urls <- pr_find(
     owner = spec_owner(primary_spec),
@@ -560,7 +560,7 @@ check_pr_branch <- function() {
 # branch in the primary repo, but this protects us against sub-optimal setup.
 pr_pull_primary_override <- function() {
   in_a_fork <- nrow(github_remotes("upstream", github_get = FALSE)) > 0
-  # TODO: generalize to default branch
+  # TODO: honor default branch
   if (in_a_fork && git_branch() == "master") {
     remref <- "upstream/master"
   } else {
