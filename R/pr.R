@@ -442,6 +442,15 @@ pr_finish <- function(number = NULL) {
     return(invisible())
   }
 
+  if (remref_remote(tracking_branch) == "origin") {
+    ui_done("Deleting remote branch {ui_value(tracking_branch)}")
+    gert::git_push(
+      remote = "origin",
+      refspec = glue(":refs/heads/{remref_branch(tracking_branch)}"),
+      verbose = FALSE
+    )
+  }
+
   remote <- remref_remote(tracking_branch)
   created_by <- git_cfg_get(glue("remote.{remote}.created-by"))
   if (is.null(created_by) || !grepl("^usethis::pr_", created_by)) {
