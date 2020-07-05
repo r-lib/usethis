@@ -254,14 +254,6 @@ create_github_token <- function(scopes = c("repo", "gist", "user:email"),
 
 #' @rdname create_github_token
 #' @export
-browse_github_token <- create_github_token
-
-#' @rdname create_github_token
-#' @export
-browse_github_pat <- create_github_token
-
-#' @rdname create_github_token
-#' @export
 #' @examples
 #' # for safety's sake, just reveal first 4 characters
 #' substr(github_token(), 1, 4)

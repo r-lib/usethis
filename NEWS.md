@@ -36,7 +36,7 @@ There is increasing interest in making the name of a repo's default branch confi
 
 `pr_resume()` is a new function for resuming work on an existing local PR branch.
 
-`create_github_token()` is a new name for the function previously known as `browse_github_token()` and `browse_github_pat()` (which both still work).
+`create_github_token()` is a new name for the function previously known as `browse_github_token()` and `browse_github_pat()`.
 
 ## Other changes
 

@@ -7,33 +7,32 @@
 \usage{
 git_credentials(protocol = deprecated(), auth_token = deprecated())
 
-use_git_credentials(credentials)
+use_git_credentials(credentials = deprecated())
 }
 \arguments{
-\item{protocol}{Optional. Should be "ssh" or "https", if specified. Defaults
-to the option \code{usethis.protocol} and, if unset, to an interactive choice
-or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
+\item{protocol}{Deprecated.}
 
-\item{auth_token}{GitHub personal access token (PAT).}
+\item{auth_token}{Deprecated.}
 
-\item{credentials}{\lifecycle{defunct}: No longer consulted now that usethis
-uses the gert package for Git operations, instead of git2r. Note that gert
-relies on the credentials package for auth.}
+\item{credentials}{Deprecated.}
 }
 \value{
-Invisible \code{NULL}.
+These functions raise a warning and return an invisible \code{NULL}.
 }
 \description{
 \lifecycle{defunct}
-}
-\details{
+
 In usethis v1.7.0, usethis switched from git2r to gert (+ credentials) for
 all Git operations. This pair of packages (gert + credentials) is designed to
 discover and use the same credentials as command line Git. As a result, a
 great deal of credential-handling assistance has been removed from usethis,
-primarily around SSH keys. If you have credential problems, focus your
-troubleshooting on getting the credentials package to find your credentials.
+primarily around SSH keys.
+
+If you have credential problems, focus your troubleshooting on getting the
+credentials package to find your credentials. The \href{https://cran.r-project.org/web/packages/credentials/vignettes/intro.html}{introductory vignette}
+is a good place to start.
+
 If you use the HTTPS protocol, a configured \code{GITHUB_PAT} will satisfy all
 auth needs, for both Git and the GitHub API, and is therefore the easiest
-approach to get working.
+approach to get working. See \code{\link[=create_github_token]{create_github_token()}} for more.
 }
