@@ -2,24 +2,10 @@
 % Please edit documentation in R/github.R
 \name{create_github_token}
 \alias{create_github_token}
-\alias{browse_github_token}
-\alias{browse_github_pat}
 \alias{github_token}
 \title{Create and retrieve a GitHub personal access token}
 \usage{
 create_github_token(
-  scopes = c("repo", "gist", "user:email"),
-  description = "R:GITHUB_PAT",
-  host = "https://github.com"
-)
-
-browse_github_token(
-  scopes = c("repo", "gist", "user:email"),
-  description = "R:GITHUB_PAT",
-  host = "https://github.com"
-)
-
-browse_github_pat(
   scopes = c("repo", "gist", "user:email"),
   description = "R:GITHUB_PAT",
   host = "https://github.com"
@@ -46,14 +32,16 @@ GitHub enterprise instance, for example,
 \description{
 A \href{https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line}{personal access token}
 (PAT) is needed for certain tasks usethis does via the GitHub API, such as
-creating a repository, a fork, or a pull request. Two helper functions
-are provided:
+creating a repository, a fork, or a pull request. If you use HTTPS remotes,
+your PAT is also used when interacting with GitHub as a conventional Git
+remote. These functions help you get and manage your PAT:
 \itemize{
 \item \code{create_github_token()} opens a browser window to the GitHub form to
 generate a PAT. It then offers advice on storing your PAT, which also
-appears below. \code{create_github_token()} is synonymous with
-\code{browse_github_token()} and \code{browse_github_pat()}; this function has
-gone by a few names over the years!
+appears below.
+\item \code{\link[credentials:set_github_pat]{credentials::set_github_pat()}} helps you register your PAT with the Git
+credential manager used by your operating system. It can also use that PAT
+to set the \code{GITHUB_PAT} env var in an R session.
 \item \code{github_token()} retrieves a stored PAT by consulting, in this order:
 \itemize{
 \item \code{GITHUB_PAT} environment variable
@@ -61,17 +49,19 @@ gone by a few names over the years!
 \item the empty string \code{""}
 }
 }
+
+\code{create_github_token()} has previously gone by some other names:
+\code{browse_github_token()} and \code{browse_github_pat()}.
 }
-\section{}{
- Get and store a PAT:
+\details{
 Sign up for a free \href{https://github.com/}{GitHub.com} account and sign in.
 Call \code{create_github_token()}. Verify the scopes and click "Generate token".
 Copy the token right away! A common approach is to store in \code{.Renviron} as
 the \code{GITHUB_PAT} environment variable. \code{\link[=edit_r_environ]{edit_r_environ()}} opens this file for
 editing.
 
-An more secure alternative is to call \code{\link[credentials:set_github_pat]{credentials::set_github_pat()}} which
-prompts you for your PAT and stores it with the git credential manager used
+A more secure alternative is to call \code{\link[credentials:set_github_pat]{credentials::set_github_pat()}} which
+prompts you for your PAT and stores it with the Git credential manager used
 by your operating system. Once stored, a call to
 \code{\link[credentials:set_github_pat]{credentials::set_github_pat()}} retrieves this value and assigns it to the
 \code{GITHUB_PAT} environment variable. This would be a great thing to put in a
@@ -80,7 +70,6 @@ startup file to make your PAT available in all R sessions. Remember
 this approach is that your PAT is never stored in regular file, as plain
 text.
 }
-
 \examples{
 \dontrun{
 create_github_token()
