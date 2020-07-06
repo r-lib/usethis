@@ -28,7 +28,7 @@ use_git_remote("origin", NULL, overwrite = TRUE)
 
 # should fail, due to lack of auth_token
 withr::with_envvar(
-  new = c("GITHUB_PAT" = NA, "GITHUB_TOKEN" = NA),
+  new = c(GITHUB_PAT = NA, GITHUB_TOKEN = NA),
   use_github()
 )
 
@@ -63,7 +63,7 @@ gh::gh(
 #     privatekey = fs::path_home(".ssh/id_rsa")
 #   )
 # }
-use_github()
+use_github(private = TRUE)
 
 # 'master' should have 'origin/master' as upstream
 info <- gert::git_info()
