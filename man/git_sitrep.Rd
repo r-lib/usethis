@@ -12,5 +12,7 @@ diagnosing problems. \code{\link[=git_vaccinate]{git_vaccinate()}} adds some bas
 entries to the user-level git ignore file.
 }
 \examples{
+\dontrun{
 git_sitrep()
+}
 }
