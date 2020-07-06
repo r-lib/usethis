@@ -11,21 +11,13 @@ git_protocol()
 # the day I made this, i.e., it's totally arbitrary
 
 # make sure local copy does not exist; this will error if doesn't pre-exist
-dir_delete(path(conspicuous_place(), "TailRank"))
+dir_delete("~/tmp/TailRank")
 
 # check that a GitHub PAT is configured
-gh::gh_whoami()
+(gh_account <- gh::gh_whoami())
 
 # create from repo I do not have push access to
 # fork = FALSE
-
-# refine this on the windows VM!
-# if (.Platform$OS.type == "windows") {
-#   cred <- git2r::cred_ssh_key(
-#     publickey = fs::path_home(".ssh/id_rsa.pub"),
-#     privatekey = fs::path_home(".ssh/id_rsa")
-#   )
-# }
 x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = FALSE, open = FALSE)
 with_project(x, git_sitrep())
 dir_delete(x)
@@ -34,9 +26,15 @@ dir_delete(x)
 # fork = TRUE
 x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = TRUE, open = FALSE)
 # fork and clone --> should see origin and upstream remotes
+with_project(x, git_sitrep())
+gert::git_branch_list(x)
 expect_setequal(
   gert::git_remote_list(x)$name,
   c("origin", "upstream")
+)
+expect_equal(
+  with_project(x, usethis:::git_branch_tracking()),
+  "upstream/master"
 )
 dir_delete(x)
 gh::gh(
@@ -47,14 +45,14 @@ gh::gh(
 
 # create from repo I do not have push access to
 # fork = NA
-create_from_github("cran/TailRank", fork = NA, open = FALSE)
+x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = NA, open = FALSE)
 # fork and clone --> should see origin and upstream remotes
 expect_setequal(
-  gert::git_remote_list(path(conspicuous_place(), "TailRank"))$name,
+  gert::git_remote_list(x)$name,
   c("origin", "upstream")
 )
-dir_delete(path(conspicuous_place(), "TailRank"))
-(gh_account <- gh::gh_whoami())
+dir_delete(x)
+
 gh::gh(
   "DELETE /repos/:username/:pkg",
   username = gh_account$login,

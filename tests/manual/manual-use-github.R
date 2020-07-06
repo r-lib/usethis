@@ -53,16 +53,7 @@ gh::gh(
   pkg = pkgname
 )
 
-# should work!
-
-# 2020-06-10 Not updated for windows, since I haven't set up a VM yet
-# revisit on my Windows VM
-# if (.Platform$OS.type == "windows") {
-#   cred <- git2r::cred_ssh_key(
-#     publickey = fs::path_home(".ssh/id_rsa.pub"),
-#     privatekey = fs::path_home(".ssh/id_rsa")
-#   )
-# }
+# this should work!
 use_github(private = TRUE)
 
 # 'master' should have 'origin/master' as upstream
