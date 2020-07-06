@@ -26,18 +26,19 @@ gh::gh_whoami()
 #     privatekey = fs::path_home(".ssh/id_rsa")
 #   )
 # }
-create_from_github("cran/TailRank", fork = FALSE, open = FALSE)
-dir_delete(path(conspicuous_place(), "TailRank"))
+x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = FALSE, open = FALSE)
+with_project(x, git_sitrep())
+dir_delete(x)
 
 # create from repo I do not have push access to
 # fork = TRUE
-create_from_github("cran/TailRank", fork = TRUE, open = FALSE)
+x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = TRUE, open = FALSE)
 # fork and clone --> should see origin and upstream remotes
 expect_setequal(
-  gert::git_remote_list(path(conspicuous_place(), "TailRank"))$name,
+  gert::git_remote_list(x)$name,
   c("origin", "upstream")
 )
-dir_delete(path(conspicuous_place(), "TailRank"))
+dir_delete(x)
 gh::gh(
   "DELETE /repos/:username/:pkg",
   username = gh_account$login,
@@ -53,6 +54,7 @@ expect_setequal(
   c("origin", "upstream")
 )
 dir_delete(path(conspicuous_place(), "TailRank"))
+(gh_account <- gh::gh_whoami())
 gh::gh(
   "DELETE /repos/:username/:pkg",
   username = gh_account$login,
@@ -60,24 +62,24 @@ gh::gh(
 )
 
 # a repo I created just for testing, make sure local copy doesn't pre-exist
-dir_delete(path(conspicuous_place(), "ethel"))
+dir_delete("~/tmp/ethel")
 
 # create from repo I DO have push access to
 # fork = FALSE
-create_from_github("jennybc/ethel", fork = FALSE, open = FALSE)
+x <- create_from_github("jennybc/ethel", "~/tmp", fork = FALSE, open = TRUE)
 # go make a local edit and push to confirm origin remote is properly setup
-dir_delete(path(conspicuous_place(), "ethel"))
+dir_delete(x)
 
 # create from repo I do have push access to
 # fork = TRUE
-create_from_github("jennybc/ethel", fork = TRUE, open = FALSE)
-## expect error because I own it and can't fork it
+x <- create_from_github("jennybc/ethel", destdir = "~/tmp", fork = TRUE, open = FALSE)
+# expect error because I own it and can't fork it
 
 # create from repo I do have push access to
 # fork = NA
-create_from_github("jennybc/ethel", fork = NA, open = FALSE)
+x <- create_from_github("jennybc/ethel", destdir = "~/tmp", fork = NA, open = FALSE)
 # gets created, as clone but no fork
-dir_delete(path(conspicuous_place(), "ethel"))
+dir_delete(x)
 
 # store my PAT
 token <- github_token()
@@ -86,35 +88,34 @@ token <- github_token()
 Sys.unsetenv(c("GITHUB_PAT", "GITHUB_TOKEN"))
 gh::gh_whoami()
 
-dir_delete(path(conspicuous_place(), "TailRank"))
+dir_delete("~/tmp/TailRank")
 
 # create from repo I do not have push access to
 # fork = FALSE
-create_from_github("cran/TailRank", fork = FALSE, open = FALSE)
+x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = FALSE, open = FALSE)
 # created, clone, origin remote is cran/TailRank
-dat <- gert::git_remote_list(path(conspicuous_place(), "TailRank"))
+dat <- gert::git_remote_list(x)
 expect_equal(dat$name, "origin")
 expect_equal(dat$url, "git@github.com:cran/TailRank.git")
 
-dir_delete(path(conspicuous_place(), "TailRank"))
+dir_delete(x)
 
 # create from repo I do not have push access to
 # fork = TRUE
-create_from_github("cran/TailRank", fork = TRUE, open = FALSE)
+x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = TRUE, open = FALSE)
 # expect error because PAT not available
 
 # create from repo I do not have push access to
 # fork = NA
-create_from_github("cran/TailRank", fork = NA, open = FALSE)
+x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = NA, open = FALSE)
 # created as clone (no fork)
-dir_delete(path(conspicuous_place(), "TailRank"))
+dir_delete(x)
 
 # create from repo I do not have push access to
 # fork = TRUE, explicitly provide token
-create_from_github("cran/TailRank", fork = TRUE, auth_token = token, open = FALSE)
+x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = TRUE, auth_token = token, open = FALSE)
 # fork and clone
-
-dir_delete(path(conspicuous_place(), "TailRank"))
+dir_delete(x)
 
 # delete remote repo
 (gh_account <- gh::gh_whoami())

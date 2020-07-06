@@ -3,8 +3,8 @@ devtools::load_all("~/rrr/usethis")
 attachNamespace("devtools")
 
 pkgname <- "klmnop"
-#use_git_protocol("ssh")
-use_git_protocol("https")
+use_git_protocol("ssh")
+#use_git_protocol("https")
 git_protocol()
 
 (pkgpath <- path_temp(pkgname))
@@ -42,7 +42,7 @@ git_remotes()
 use_git_remote("origin", NULL, overwrite = TRUE)
 
 # should fail because GitHub repo already exists
-use_github()
+use_github(private = TRUE)
 
 # delete the GitHub repo
 (gh_account <- gh::gh_whoami())
