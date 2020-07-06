@@ -217,6 +217,7 @@ create_from_github <- function(repo_spec,
   if (fork) {
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     use_git_remote("upstream", upstream_url)
+    # TODO: if using auth_token provided as argument, that's not passed along
     pr_merge_main()
     # TODO: honor default branch
     ui_done("
