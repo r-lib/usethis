@@ -319,7 +319,9 @@ git_remotes <- function() {
 #' entries to the user-level git ignore file.
 #' @export
 #' @examples
+#' \dontrun{
 #' git_sitrep()
+#' }
 git_sitrep <- function() {
   # git global ----------------------------------------------------------------
   hd_line("Git config (global)")
