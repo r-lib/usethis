@@ -17,12 +17,15 @@
 #' @keywords internal
 #' @noRd
 github_remotes <- function(these = c("origin", "upstream"),
-                            github_get = NA,
-                            auth_token = github_token(),
-                            host = "https://api.github.com") {
+                           github_get = NA,
+                           auth_token = github_token(),
+                           host = "https://api.github.com") {
   # TODO: Fully implement the behaviour promised for `github_get`:
   # * no internet access
   # * no GITHUB_PAT
+  if (isTRUE(github_get)) {
+    check_github_token(auth_token)
+  }
   grl <- data.frame(
     remote = NA_character_,
     url = NA_character_,
@@ -137,7 +140,7 @@ github_remotes <- function(these = c("origin", "upstream"),
 classify_github_setup <- function(auth_token = github_token(),
                                   host = "https://api.github.com") {
   cfg <- new_github_config()
-  grl <- github_remotes(auth_token = auth_token, host = host)
+  grl <- github_remotes(auth_token = auth_token, host = host, github_get = TRUE)
 
   if (nrow(grl) == 0) {
     return(cfg_no_github(cfg))
