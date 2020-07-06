@@ -53,7 +53,7 @@ use_git_hook <- function(hook, script) {
   invisible()
 }
 
-#' Tell git to ignore files
+#' Tell Git to ignore files
 #'
 #' @param ignores Character vector of ignores, specified as file globs.
 #' @param directory Directory relative to active project to set ignores
@@ -67,7 +67,9 @@ use_git_ignore <- function(ignores, directory = ".") {
 #' Configure Git
 #'
 #' Sets Git options, for either the user or the project ("global" or "local", in
-#' Git terminology).
+#' Git terminology). Wraps [gert::git_config_set()] and
+#' [gert::git_config_global_set()]. To inspect Git config, see
+#' [gert::git_config()].
 #'
 #' @param ... Name-value pairs, processed as
 #'   <[`dynamic-dots`][rlang::dyn-dots]>.
@@ -116,19 +118,21 @@ use_git_config <- function(scope = c("user", "project"), ...) {
   invisible(orig)
 }
 
-#' Produce or register git protocol
+#' Produce or register Git protocol
 #'
+#' @description
 #' Git operations that address a remote use a so-called "transport protocol".
 #' usethis supports SSH and HTTPS. The protocol affects this:
 #'   * The default URL format for repos with no existing remote protocol:
-#'     - `protocol = "ssh"` implies `git@@github.com:<OWNER>/<REPO>.git`
 #'     - `protocol = "https"` implies `https://github.com/<OWNER>/<REPO>.git`
+#'     - `protocol = "ssh"` implies `git@@github.com:<OWNER>/<REPO>.git`
 #' Two helper functions are available:
 #'   * `git_protocol()` returns the user's preferred protocol, if known, and,
-#'     otherwise, asks the user (interactive session) or defaults to SSH
+#'     otherwise, asks the user (interactive session), or defaults to SSH
 #'     (non-interactive session).
-#'   * `use_git_protocol()` allows the user to set the git protocol, which is
+#'   * `use_git_protocol()` allows the user to set the Git protocol, which is
 #'     stored in the `usethis.protocol` option.
+#'
 #' Any interactive choice re: `protocol` comes with a reminder of how to set the
 #' protocol at startup by setting an option in `.Rprofile`:
 #' ```
@@ -159,15 +163,15 @@ git_protocol <- function() {
     default = if (is_interactive()) NA else "ssh"
   )
 
-  ## this is where a user-supplied protocol gets checked, because
-  ## use_git_protocol() shoves it in the option unconditionally and calls this
+  # this is where a user-supplied protocol gets checked, because
+  # use_git_protocol() shoves it in the option unconditionally and calls this
   bad_protocol <- length(protocol) != 1 ||
     !(tolower(protocol) %in% c("ssh", "https", NA))
   if (bad_protocol) {
     options(usethis.protocol = NULL)
-    ui_stop(
-      "{ui_code('protocol')} must be one of {ui_value('ssh')}, \\
-       {ui_value('https')}', or {ui_value('NA')}."
+    ui_stop("
+      {ui_code('protocol')} must be one of {ui_value('ssh')}, \\
+      {ui_value('https')}', or {ui_value('NA')}."
     )
   }
 
@@ -180,12 +184,12 @@ git_protocol <- function() {
       )
     }
     code <- glue("options(usethis.protocol = \"{protocol}\")")
-    ui_todo(c(
-      "Tip: To suppress this menu in future, put",
-      "{ui_code(code)}",
-      "in your script or in a user- or project-level startup file, {ui_value('.Rprofile')}.",
-      "Call {ui_code('usethis::edit_r_profile()')} to open it for editing."
-    ))
+    ui_todo("
+      Tip: To suppress this menu in future, put
+      {ui_code(code)}
+      in your script or in a user- or project-level startup file, \\
+      {ui_value('.Rprofile')}.
+      Call {ui_code('usethis::edit_r_profile()')} to open it for editing.")
   }
 
   protocol <- match.arg(tolower(protocol), c("ssh", "https"))
@@ -312,9 +316,9 @@ git_remotes <- function() {
   stats::setNames(as.list(x$url), x$name)
 }
 
-#' git/GitHub sitrep
+#' Git/GitHub sitrep
 #'
-#' Get a situation report on your current git/GitHub status. Useful for
+#' Get a situation report on your current Git/GitHub status. Useful for
 #' diagnosing problems. [git_vaccinate()] adds some basic R- and RStudio-related
 #' entries to the user-level git ignore file.
 #' @export
@@ -379,10 +383,7 @@ git_sitrep <- function() {
 
   # repo overview -------------------------------------------------------------
   hd_line("Repo")
-  withr::with_options(
-    list(usethis.quiet = TRUE),
-    try(proj_get(), silent = TRUE)
-  )
+  ui_silence(try(proj_get(), silent = TRUE))
   if (!proj_active()) {
     ui_info("No active usethis project.")
     return(invisible())
@@ -420,11 +421,11 @@ git_sitrep <- function() {
 
 # Vaccination -------------------------------------------------------------
 
-#' Vaccinate your global git ignore
+#' Vaccinate your global gitignore file
 #'
-#' Adds `.DS_Store`, `.Rproj.user`, and `.Rhistory` to your global
-#' `.gitignore`. This is good practice as it decreases the chance that you will
-#' accidentally leak credentials to GitHub.
+#' Adds `.DS_Store`, `.Rproj.user`, `.Rdata`, and `.Rhistory` to your global
+#' (a.k.a. user-level) `.gitignore`. This is good practice as it decreases the
+#' chance that you will accidentally leak credentials to GitHub.
 #'
 #' @export
 git_vaccinate <- function() {

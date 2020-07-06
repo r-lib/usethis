@@ -19,7 +19,9 @@ list.
 }
 \description{
 Sets Git options, for either the user or the project ("global" or "local", in
-Git terminology).
+Git terminology). Wraps \code{\link[gert:git_config]{gert::git_config_set()}} and
+\code{\link[gert:git_config]{gert::git_config_global_set()}}. To inspect Git config, see
+\code{\link[gert:git_config]{gert::git_config()}}.
 }
 \examples{
 \dontrun{
