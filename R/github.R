@@ -72,8 +72,8 @@ use_github <- function(organisation = NULL,
   repo_desc <- gsub("\n", " ", repo_desc)
   repo_spec <- glue("{owner}/{repo_name}")
 
-  private_string <- if (private) "private" else ""
-  ui_done("Creating {private_string} GitHub repository {ui_value(repo_spec)}")
+  private_string <- if (private) "private " else ""
+  ui_done("Creating {private_string}GitHub repository {ui_value(repo_spec)}")
   if (is.null(organisation)) {
     create <- gh::gh(
       "POST /user/repos",
