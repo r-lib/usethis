@@ -40,11 +40,21 @@ test_that("have_github_token() is definitive detector for 'we have no PAT'", {
   expect_true(have_github_token("PAT"))
 })
 
-test_that("check_github_token() passes good input through", {
-  expect_identical(check_github_token("", allow_empty = TRUE), "")
+test_that("check_github_token() returns NULL if no PAT", {
+  expect_null(check_github_token("", allow_empty = TRUE))
+})
+
+test_that("check_github_token() returns gh user if gets PAT", {
   with_mock(
-    `usethis:::github_user` = function(auth_token) list(login = "USER"),
-    expect_identical(check_github_token("PAT"), "PAT")
+    `gh::gh_whoami` = function(auth_token) list(login = "USER"),
+    expect_equal(check_github_token("PAT"), list(login = "USER"))
+  )
+})
+
+test_that("check_github_token() reveals non-401 error", {
+  with_mock(
+    `gh::gh_whoami` = function(auth_token) stop("gh error"),
+    expect_usethis_error(check_github_token("PAT"), "gh error")
   )
 })
 
@@ -53,25 +63,13 @@ test_that("check_github_token() errors informatively for bad input", {
   expect_usethis_error(check_github_token(NA), "single string")
   expect_usethis_error(check_github_token(NA_character_), "single string")
   expect_usethis_error(check_github_token(""), "No.*available")
+})
+
+test_that("github_login() returns user's login", {
   with_mock(
-    `usethis:::github_user` = function(auth_token) NULL,
-    expect_usethis_error(check_github_token("PAT"), "invalid")
+    `gh::gh_whoami` = function(auth_token) list(login = "USER"),
+    expect_equal(github_login("PAT"), "USER")
   )
-})
-
-test_that("github_user() returns NULL if no auth_token", {
-  skip_if_offline()
-  skip_on_cran()
-  withr::with_envvar(
-    new = c("GITHUB_PAT" = NA, "GITHUB_TOKEN" = NA),
-    expect_null(github_user())
-  )
-})
-
-test_that("github_user() returns NULL for bad token", {
-  skip_if_offline()
-  skip_on_cran()
-  expect_null(github_user("abc"))
 })
 
 test_that("github_remote_protocol() picks up ssh and https", {

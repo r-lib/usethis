@@ -57,13 +57,14 @@ use_github <- function(organisation = NULL,
   check_branch("master")
   check_no_uncommitted_changes()
   check_no_origin()
-  check_github_token(auth_token)
+  # this validates the token, so do it even if `organisation` is specified
+  login <- github_login(auth_token)
 
   if (lifecycle::is_present(credentials)) {
     deprecate_warn_credentials("use_github")
   }
 
-  owner <- organisation %||% github_user(auth_token)[["login"]]
+  owner <- organisation %||% login
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host, auth_token)
 
@@ -321,39 +322,61 @@ have_github_token <- function(auth_token = github_token()) {
 check_github_token <- function(auth_token = github_token(),
                                allow_empty = FALSE) {
   if (!is_online("github.com")) {
-    ui_stop("Internet connection is not available")
+    ui_stop("
+      Internet connection is not available, which is necessary \\
+      for GitHub API calls")
   }
 
+  # When is it OK if the token is "", i.e. we don't have a token?
+  # When we're READING info about a repo that's probably PUBLIC.
+  # A token is nice-to-have, because of rate limits and because the repo might
+  # be private.
+  # But we will often succeed even without a token.
   if (allow_empty && !have_github_token(auth_token)) {
-    return(invisible(auth_token))
+    return(invisible(NULL))
   }
 
-  local_stop <- function(msg) {
+  advice <-
+    "See {ui_code('create_github_token()')} for help storing a token as an environment variable."
+  if (!is_string(auth_token) || is.na(auth_token)) {
     ui_stop(c(
-      msg,
-      "See {ui_code('create_github_token()')} for help storing a token as an environment variable."
+      "GitHub {ui_code('auth_token')} must be a single string.",
+      advice
+    ))
+  }
+  if (!have_github_token(auth_token)) {
+    ui_stop(c(
+      "No GitHub {ui_code('auth_token')} is available.",
+      advice
     ))
   }
 
-  if (!is_string(auth_token) || is.na(auth_token)) {
-    local_stop("GitHub {ui_code('auth_token')} must be a single string.")
+  # AFAICT there is no targetted way to check validity of a PAT
+  # GET /user seems to be the simplest API call to verify a PAT
+  # that's what gh::gh_whoami() does
+  # https://developer.github.com/v3/auth/#via-oauth-tokens
+  out <- tryCatch(
+    list(user = gh::gh_whoami(auth_token), error = NULL),
+    http_error_401 = function(e) ui_oops("Token is invalid."),
+    error = function(e) list(user = NULL, error = e)
+  )
+
+  if (is.null(out$error)) {
+    # since we have this info, might as well return it invisibly
+    # used in github_login()
+    return(invisible(out$user))
   }
-  if (!have_github_token(auth_token)) {
-    local_stop("No GitHub {ui_code('auth_token')} is available.")
-  }
-  user <- github_user(auth_token)
-  if (is.null(user)) {
-    local_stop("GitHub {ui_code('auth_token')} is invalid.")
-  }
-  invisible(auth_token)
+
+  ui_stop(c(
+    "Failed to validate the GitHub {ui_code('auth_token')}",
+    out$error$message
+  ))
 }
 
-## AFAICT there is no targetted way to check validity of a PAT
-## GET /user seems to be the simplest API call to verify a PAT
-## that's what gh::gh_whoami() does
-## https://developer.github.com/v3/auth/#via-oauth-tokens
-github_user <- function(auth_token = github_token()) {
-  suppressMessages(
-    tryCatch(gh::gh_whoami(auth_token), error = function(e) NULL)
-  )
+github_login <- function(auth_token = github_token()) {
+  # killing two birds with one stone:
+  # it seems we have to use GET /user to validate the token
+  # if that succeeds, then we already have the user info and extract login
+  out <- check_github_token(auth_token)
+  out$login
 }

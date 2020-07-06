@@ -322,9 +322,6 @@ git_sitrep <- function() {
   hd_line("Git config (global)")
   kv_line("Name", git_cfg_get("user.name", "global"))
   kv_line("Email", git_cfg_get("user.email", "global"))
-  ## TODO: forward info from the credentials package once we start using it
-  ## and it reflects the credentials situation usethis will actually meet
-  ## e.g., git version, HTTPS credential helpers, SSH keys, etc.
   kv_line("Vaccinated", git_vaccinated())
 
   # git project ---------------------------------------------------------------
@@ -340,10 +337,13 @@ git_sitrep <- function() {
     }
   }
 
-  # usethis + gert -------------------------------------------------------------
+  # usethis + gert + credentials -----------------------------------------------
   hd_line("usethis + gert")
   kv_line("Default usethis protocol", getOption("usethis.protocol"))
+  kv_line("gert supports HTTPS", gert::libgit2_config()$https)
   kv_line("gert supports SSH", gert::libgit2_config()$ssh)
+  # TODO: forward more info from the credentials package when available
+  # https://github.com/r-lib/credentials/issues/6
 
   # github user ---------------------------------------------------------------
   hd_line("GitHub")
@@ -409,9 +409,7 @@ git_sitrep <- function() {
     return(invisible())
   }
   # TODO: do something about unsupported configs
-
-  # TODO: gussy this up a bit
-  # placeholder so I can delete a lot of old helpers only used here
+  # TODO: get some feedback then make this more attractive
   print(cfg)
 }
 

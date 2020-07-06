@@ -174,7 +174,7 @@ create_from_github <- function(repo_spec,
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  auth_token <- check_github_token(auth_token, allow_empty = TRUE)
+  check_github_token(auth_token, allow_empty = TRUE)
 
   gh <- function(endpoint, ...) {
     gh::gh(
@@ -272,24 +272,42 @@ check_not_nested <- function(path, name) {
 rationalize_fork <- function(fork, repo_info, auth_token) {
   have_token <- have_github_token(auth_token)
   can_push <- isTRUE(repo_info$permissions$push)
-  repo_owner <- repo_info$owner$login
-  user <- if (have_token) github_user(auth_token)[["login"]]
+
+  if (!can_push && !have_token && is.na(fork) && is_interactive()) {
+    if (ui_nope(
+      glue("
+        You can't push to {ui_value(repo_info$full_name)}.
+        If you want to make a pull request, we must fork-and-clone.
+        But that requires a GitHub personal access token, \\
+        which is not configured.
+        Call {ui_code('usethis::create_github_token()')} to do that."),
+      yes = "I want to proceed anyway. I don't plan to make a pull request.",
+      no = "No, I want to stop and configure a GitHub PAT first.",
+      n_yes = 1, n_no = 1, shuffle = FALSE
+    )) {
+      ui_stop("No GitHub personal access token is available.")
+    } else {
+      fork <- FALSE
+    }
+  }
 
   if (is.na(fork)) {
     fork <- have_token && !can_push
   }
 
-  if (fork && !have_token) {
-    ## throw the usual error for bad/missing token
-    check_github_token(auth_token)
+  if (!fork) {
+    return(FALSE)
   }
 
-  if (fork && identical(user, repo_owner)) {
-    ui_stop(
-      "Repo {ui_value(repo_info$full_name)} is owned by user \\
-      {ui_value(user)}. Can't fork."
-    )
+  # errors if token doesn't check out
+  user <- github_login(auth_token)
+  repo_owner <- repo_info$owner$login
+
+  if (identical(user, repo_owner)) {
+    ui_stop("
+      Repo {ui_value(repo_info$full_name)} is owned by user \\
+      {ui_value(user)}. Can't fork.")
   }
 
-  fork
+  TRUE
 }

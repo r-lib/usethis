@@ -32,6 +32,8 @@ There is increasing interest in making the name of a repo's default branch confi
 
 `pr_pull_upstream()` is renamed to `pr_merge_main()` to emphasize that it merges the **main** line of development into the current branch, where the main line of development is taken to mean the default branch of the primary repo. The default branch is still hard-coded as `master`, but this will become configurable in a future release (see above).
 
+`create_from_github()` alerts the user when it is going to create a read-only clone, due to lack of a GitHub personal access token, when it seems likely that the user's intent is to fork-and-clone.
+
 `pr_fetch()` no longer has an `owner` argument. This is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.
 
 `pr_resume()` is a new function for resuming work on an existing local PR branch.
