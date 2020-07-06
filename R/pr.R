@@ -228,13 +228,12 @@ pr_fetch <- function(number) {
     fork = cfg$upstream$repo_owner
   )
   repo_name <- cfg$origin$repo_name
-  auth_token <- check_github_token(allow_empty = TRUE)
   pr <- gh::gh(
     "GET /repos/:owner/:repo/pulls/:number",
     owner = owner,
     repo = repo_name,
     number = number,
-    .token = auth_token
+    .token = github_token()
   )
   pr_string <- glue("{owner}/{repo_name}/#{number}")
   pr_user <- glue("@{pr$user$login}")
@@ -515,7 +514,7 @@ pr_find <- function(owner,
     owner = owner,
     repo = repo,
     .limit = Inf,
-    .token = check_github_token(allow_empty = TRUE)
+    .token = github_token()
   )
 
   if (length(prs) < 1) {

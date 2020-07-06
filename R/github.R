@@ -155,14 +155,15 @@ use_github_links <- function(auth_token = github_token(),
                              host = NULL,
                              overwrite = FALSE) {
   check_is_package("use_github_links()")
-  repo_spec <- get_repo_spec(auth_token = auth_token, host - host)
+  check_github_token(auth_token, allow_empty = TRUE)
+  repo_spec <- get_repo_spec(auth_token = auth_token, host = host)
 
   res <- gh::gh(
     "GET /repos/:owner/:repo",
     owner = spec_owner(repo_spec),
     repo = spec_repo(repo_spec),
     .api_url = host,
-    .token = check_github_token(auth_token, allow_empty = TRUE)
+    .token = auth_token
   )
 
   use_description_field("URL", res$html_url, overwrite = overwrite)
