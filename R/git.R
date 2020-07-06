@@ -281,6 +281,7 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
   stopifnot(is_true(overwrite) || is_false(overwrite))
 
   remotes <- git_remotes()
+  repo <- git_repo()
 
   if (name %in% names(remotes) && !overwrite) {
     ui_stop("
@@ -288,12 +289,14 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
       {ui_code('overwrite = TRUE')} to edit it anyway.")
   }
 
-  if (is.null(url)) {
-    if (name %in% names(remotes)) {
-      gert::git_remote_remove(name, repo = git_repo())
+  if (name %in% names(remotes)) {
+    if (is.null(url)) {
+      gert::git_remote_remove(name, repo = repo)
+    } else {
+      gert::git_remote_set_url(name, url = url, repo = repo)
     }
-  } else {
-    gert::git_remote_set_url(name, url = url, repo = git_repo())
+  } else if (!is.null(url)) {
+    gert::git_remote_add(name, url = url, repo = repo)
   }
 
   invisible(git_remotes())
