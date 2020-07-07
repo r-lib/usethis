@@ -614,16 +614,18 @@ cfg_fork_origin_read_only <- function(cfg) {
 cfg_upstream_only <- function(cfg) {
   utils::modifyList(
     cfg,
-    type = "upstream_only",
-    unsupported = TRUE, # I'm ambivalent about this. If we can push, this could
-    # be regarded as yet another look for "ours". If we
-    # can't push, this could be regarded as variant of
-    # "theirs".
-    desc = glue("
-      The only GitHub remote is {ui_value('upstream')}.
-      usethis expects {ui_value('origin')} or both {ui_value('origin')} and \\
-      {ui_value('upstream')} to be configured.
-      ")
+    list(
+      type = "upstream_only",
+      unsupported = TRUE, # I'm ambivalent about this. If we can push, this could
+                          # be regarded as yet another look for "ours". If we
+                          # can't push, this could be regarded as variant of
+                          # "theirs".
+      desc = glue("
+        The only GitHub remote is {ui_value('upstream')}.
+        usethis expects {ui_value('origin')} or both {ui_value('origin')} and \\
+        {ui_value('upstream')} to be configured.
+        ")
+    )
   )
 }
 

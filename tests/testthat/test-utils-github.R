@@ -108,3 +108,29 @@ test_that("github_remote_protocol() returns 0-row data frame if no github origin
     }
   )
 })
+
+# GitHub remote configuration --------------------------------------------------
+# very sparse, but you have to start somewhere!
+
+test_that("upstream_only is detected", {
+  grl <- data.frame(
+    stringsAsFactors   = FALSE,
+    remote             = "upstream",
+    url                = "https://github.com/OWNER/REPO.git",
+    repo_owner         = "OWNER",
+    repo_name          = "REPO",
+    is_fork            = FALSE,
+    can_push           = TRUE,
+    parent_repo_owner  = NA,
+    parent_repo_name   = NA,
+    can_push_to_parent = NA
+  )
+  with_mock(
+    `usethis:::github_remotes` = function(...) grl,
+    cfg <- classify_github_setup()
+  )
+  expect_equal(cfg$type, "upstream_only")
+  expect_true(cfg$unsupported)
+})
+
+
