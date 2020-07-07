@@ -601,12 +601,11 @@ cfg_fork_origin_read_only <- function(cfg) {
     list(
       type = "fork_origin_read_only",
       unsupported = TRUE, # I'm ambivalent about this, I suppose we could view
-      # this as an unusual version of "theirs"? We do
-      # actually know the parent repo, so it's possible to
-      # do some local work. But then we can't push it.
+                          # this as an unusual version of "theirs"? We do
+                          # actually know the parent repo, so it's possible to
+                          # do some local work. But then we can't push it.
       desc = glue("
-        The {ui_value('origin')} remote is a fork, but you can't push to it.
-        ")
+        The {ui_value('origin')} remote is a fork, but you can't push to it.")
     )
   )
 }
@@ -623,8 +622,7 @@ cfg_upstream_only <- function(cfg) {
       desc = glue("
         The only GitHub remote is {ui_value('upstream')}.
         usethis expects {ui_value('origin')} or both {ui_value('origin')} and \\
-        {ui_value('upstream')} to be configured.
-        ")
+        {ui_value('upstream')} to be configured.")
     )
   )
 }
@@ -632,25 +630,27 @@ cfg_upstream_only <- function(cfg) {
 cfg_fork_upstream_is_not_origin_parent <- function(cfg) {
   utils::modifyList(
     cfg,
-    type = "fork_upstream_is_not_origin_parent",
-    unsupported = TRUE,
-    desc = glue("
-      The {ui_value('origin')} GitHub remote is a fork, but it's not a fork \\
-      of the repo configured as the {ui_value('upstream')} remote.
-      ")
+    list(
+      type = "fork_upstream_is_not_origin_parent",
+      unsupported = TRUE,
+      desc = glue("
+        The {ui_value('origin')} GitHub remote is a fork, but it's not a fork \\
+        of the repo configured as the {ui_value('upstream')} remote.")
+    )
   )
 }
 
 cfg_upstream_but_origin_is_not_fork <- function(cfg) {
   utils::modifyList(
     cfg,
-    type = "upstream_but_origin_is_not_fork",
-    unsupported = TRUE,
-    desc = glue("
-      Both {ui_value('origin')} and {ui_value('upstream')} are GitHub \\
-      remotes, but {ui_value('origin')} is not a fork and, in particular, is \\
-      not a fork of {ui_value('upstream')}.
-      ")
+    list(
+      type = "upstream_but_origin_is_not_fork",
+      unsupported = TRUE,
+      desc = glue("
+        Both {ui_value('origin')} and {ui_value('upstream')} are GitHub \\
+        remotes, but {ui_value('origin')} is not a fork and, in particular, \\
+        is not a fork of {ui_value('upstream')}.")
+    )
   )
 }
 

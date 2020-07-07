@@ -133,4 +133,31 @@ test_that("upstream_only is detected", {
   expect_true(cfg$unsupported)
 })
 
+test_that("fork_upstream_is_not_origin_parent is detected", {
+  # We've already encountered this in the wild. Here's how it happens:
+  # 1. r-pkgs/gh is created
+  # 2. user forks and clones: origin = USER/gh, upstream = r-pkgs/gh
+  # 3. parent repo becomes r-lib/gh, due to transfer or ownership or owner
+  #    name change
+  # Now upstream looks like it does not point to fork parent.
+  grl <- data.frame(
+    stringsAsFactors   = FALSE,
+    remote             = c("origin", "upstream"),
+    url                = c("https://github.com/jennybc/gh.git",
+                           "https://github.com/r-pkgs/gh.git"),
+    repo_owner         = c("jennybc", "r-pkgs"),
+    repo_name          = c("gh", "gh"),
+    is_fork            = c(TRUE, FALSE),
+    can_push           = c(TRUE, TRUE),
+    parent_repo_owner  = c("r-lib", NA),
+    parent_repo_name   = c("gh", NA),
+    can_push_to_parent = c(TRUE, NA)
+  )
+  with_mock(
+    `usethis:::github_remotes` = function(...) grl,
+    cfg <- classify_github_setup()
+  )
+  expect_equal(cfg$type, "fork_upstream_is_not_origin_parent")
+  expect_true(cfg$unsupported)
+})
 
