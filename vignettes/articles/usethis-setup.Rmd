@@ -167,14 +167,14 @@ Other functions, such as the `pr_*()` family, may also use your GitHub PAT for f
 
 ```{r, eval = FALSE}
 library(usethis)
-browse_github_token()
+create_github_token()
 ```
 
-`usethis::browse_github_token()` takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on "Generate new token" from <https://github.com/settings/tokens>.
+`usethis::create_github_token()` takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on "Generate new token" from <https://github.com/settings/tokens>.
 
 As the page says, you must **store this token somewhere** because you'll never be able to see it again, once you leave that page or close the windows. If you somehow goof this up, just generate a new PAT and, so you don't confuse yourself, delete the lost token.
 
-`browse_github_token()` provides advice on how to store your PAT, also repeated here. It is customary to save the PAT as an environment variable in your `.Renviron`, with the name `GITHUB_PAT`.
+`create_github_token()` provides advice on how to store your PAT, also repeated here. It is customary to save the PAT as an environment variable in your `.Renviron`, with the name `GITHUB_PAT`.
 
 ```{r, eval = FALSE}
 library(usethis)
@@ -199,13 +199,31 @@ library(usethis)
 github_token()
 ```
 
-The GitHub section of `usethis::git_sitrep()` will also reveal if a PAT is found and, if so, the associated user.
+A more secure method of storage is to store your PAT in the Git credential store used by your operating system, not in plain text in `.Renviron`. How to set that up?
+
+```{r, eval = FALSE}
+# initial, interactive call to store the PAT
+credentials::set_github_pat()
+```
+
+Your first call to `credentials::set_github_pat()` will prompt you for your PAT and will store it. Subsequent calls retrieve this value and assign it to the `GITHUB_PAT` environment variable. Therefore, you might want to put this in your `.Rprofile`:
+
+```{r}
+# suitable for your .Rprofile
+if (requireNamespace("credentials", quietly = TRUE)) {
+  credentials::set_github_pat(verbose = FALSE)
+}
+```
+
+Remember `edit_r_profile()` helps you get this file open for editing.
+
+The GitHub section of `usethis::git_sitrep()` reveals if a PAT is found and, if so, the associated user.
 
 ```{r, eval = FALSE}
 git_sitrep()
 ```
 
-Now usethis (and a few other packages) can find this PAT automatically in order to deal with GitHub on your behalf.
+Now usethis (and several other packages) can find this PAT automatically in order to deal with GitHub on your behalf.
 
 ## Prepare your system to build packages from source
 

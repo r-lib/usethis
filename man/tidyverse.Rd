@@ -58,12 +58,13 @@ commonly used packages.
 \itemize{
 \item \code{use_tidy_github_actions()}: Sets up the following workflows using \href{https://github.com/features/actions}{GitHub Actions}:
 \itemize{
-\item Runs \verb{R CMD check} on the current release, devel, and four previous
+\item Run \verb{R CMD check} on the current release, devel, and four previous
 versions of R.
-\item Adds adds two commands to be used in pull requests: \verb{/document} to run
+\item Report test coverage.
+\item Build and deploy a pkgdown site.
+\item Provide two commands to be used in pull requests: \verb{/document} to run
 \code{roxygen2::roxygenise()} and update the PR, and \verb{/style} to run
 \code{styler::style_pkg()} and update the PR.
-\item Builds a pkgdown site for the package.
 }
 }
 

@@ -17,37 +17,43 @@ if (!is.null(session_temp_proj)) {
 }
 
 create_local_package <- function(dir = file_temp(pattern = "testpkg"),
-                                     env = parent.frame(),
-                                     rstudio = FALSE) {
+                                 env = parent.frame(),
+                                 rstudio = FALSE) {
   create_local_thing(dir, env, rstudio, "package")
 }
 
 create_local_project <- function(dir = file_temp(pattern = "testproj"),
-                                     env = parent.frame(),
-                                     rstudio = FALSE) {
+                                 env = parent.frame(),
+                                 rstudio = FALSE) {
   create_local_thing(dir, env, rstudio, "project")
 }
 
 create_local_thing <- function(dir = file_temp(pattern = pattern),
-                                   env = parent.frame(),
-                                   rstudio = FALSE,
-                                   thing = c("package", "project")) {
+                               env = parent.frame(),
+                               rstudio = FALSE,
+                               thing = c("package", "project")) {
   thing <- match.arg(thing)
   if (fs::dir_exists(dir)) {
     ui_stop("Target {ui_code('dir')} {ui_path(dir)} already exists.")
   }
 
   old_project <- proj_get_()
-  withr::defer({
-    ui_silence({
-      proj_set(old_project, force = TRUE)
-    })
-    setwd(old_project)
-    fs::dir_delete(dir)
-  }, envir = env)
+  withr::defer(
+    {
+      ui_done("Restoring original project and working directory: {ui_path(old_project)}")
+      ui_silence({
+        proj_set(old_project, force = TRUE)
+      })
+      setwd(old_project)
+      ui_done("Deleting temporary project: {ui_path(dir)}")
+      fs::dir_delete(dir)
+    },
+    envir = env
+  )
 
   ui_silence({
-    switch(thing,
+    switch(
+      thing,
       package = create_package(dir, rstudio = rstudio, open = FALSE, check_name = FALSE),
       project = create_project(dir, rstudio = rstudio, open = FALSE)
     )
@@ -75,9 +81,8 @@ skip_if_not_ci <- function() {
 }
 
 skip_if_no_git_user <- function() {
-  cfg <- git2r::config()
-  user_name <- cfg$local$`user.name` %||% cfg$global$`user.name`
-  user_email <- cfg$local$`user.email` %||% cfg$global$`user.email`
+  user_name <- git_cfg_get("user.name")
+  user_email <- git_cfg_get("user.email")
   user_name_exists <- !is.null(user_name)
   user_email_exists <- !is.null(user_email)
   if (user_name_exists && user_email_exists) {

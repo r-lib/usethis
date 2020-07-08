@@ -2,12 +2,28 @@
 % Please edit documentation in R/usethis-defunct.R
 \name{usethis-defunct}
 \alias{usethis-defunct}
-\alias{use_depsy_badge}
-\title{Defunct functions in usethis}
+\alias{pr_pull_upstream}
+\alias{browse_github_token}
+\alias{browse_github_pat}
+\title{Defunct and deprecated functions in usethis}
 \usage{
-use_depsy_badge()
+pr_pull_upstream()
+
+browse_github_token(...)
+
+browse_github_pat(...)
 }
 \description{
-These functions are marked as defunct and have been removed from usethis.
+These functions have either been deprecated or removed from usethis.
 }
+\section{\code{pr_pull_upstream()}}{
+
+This function has been replaced by \code{\link[=pr_merge_main]{pr_merge_main()}}.
+}
+
+\section{\code{browse_github_token()}, \code{browse_github_pat()}}{
+
+These functions have been replaced by \code{\link[=create_github_token]{create_github_token()}}.
+}
+
 \keyword{internal}

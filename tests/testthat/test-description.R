@@ -60,7 +60,7 @@ test_that("`roxygen = FALSE` is honoured", {
 
 test_that("creation succeeds even if options are broken", {
   withr::local_options(list(usethis.description = list(
-    `Authors@R` = 'person('
+    `Authors@R` = "person("
   )))
   create_local_project()
 

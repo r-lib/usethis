@@ -109,5 +109,4 @@ test_that("write_utf8() can operate outside of a project", {
 
   expect_false(proj_active())
   expect_error_free(write_utf8(path = "foo", letters[1:3]))
-
 })

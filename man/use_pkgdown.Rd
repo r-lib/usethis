@@ -16,23 +16,23 @@ use_pkgdown_travis()
 }
 \description{
 \href{https://pkgdown.r-lib.org}{pkgdown} makes it easy to turn your package into
-a beautiful website. There are two helper functions:
+a beautiful website. A couple functions help you begin to use pkgdown:
 \itemize{
 \item \code{use_pkgdown()}: creates a pkgdown config file, adds relevant files or
 directories to \code{.Rbuildignore} and \code{.gitignore}, and builds favicons if
-your package has a logo
-\item \code{use_pkgdown_travis()}: helps you set up pkgdown for automatic deployment
-on Travis-CI. As part of a general pivot away from Travis-CI and towards
-GitHub Actions, the tidyverse team now builds pkgdown sites with a
-workflow configured via \code{use_github_action("pkgdown")}.
-\code{use_pkgdown_travis()} is still here, but is no longer actively exercised
-by us. Key steps:
-\itemize{
-\item Creates an empty \code{gh-pages} branch for the pkgdown site to be
-deployed to.
-\item Prompts you about what to do next regarding Travis-CI deployment
-keys and updating your \code{.travis.yml}.
-}
+your package has a logo.
+\item \code{use_github_action("pkgdown")} configures a GitHub Actions workflow to
+build and deploy your pkgdown site whenever you push changes to GitHub.
+Learn more about \code{\link[=use_github_action]{use_github_action()}}. This approach is actively
+maintained, because it is in use across many tidyverse, r-lib, and
+tidymodels packages.
+\item \code{use_pkgdown_travis()} helps you set up pkgdown for automatic deployment
+on Travis-CI. This is something of a legacy function, as the tidyverse
+team has shifted away from Travis-CI and towards GitHub Actions. It
+creates an empty \code{gh-pages} branch for the site and prompts about next
+steps regarding deployment keys and updating your \code{.travis.yml}. Requires
+that the current user can push to the primary repo, which must be
+configured as the \code{origin} remote.
 }
 }
 \seealso{

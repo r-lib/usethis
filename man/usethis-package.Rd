@@ -8,10 +8,10 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-Automate package and project setup tasks that are otherwise
-    performed manually. This includes setting up unit testing, test 
-    coverage, continuous integration, Git, 'GitHub', licenses, 'Rcpp', 'RStudio' 
-    projects, and more.
+Automate package and project setup tasks that are
+    otherwise performed manually. This includes setting up unit testing,
+    test coverage, continuous integration, Git, 'GitHub', licenses,
+    'Rcpp', 'RStudio' projects, and more.
 }
 \seealso{
 Useful links:
