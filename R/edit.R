@@ -174,7 +174,7 @@ edit_git_ignore <- function(scope = c("user", "project")) {
     ui_done("Setting up new global gitignore: {ui_path(file)}")
     # Describe relative to home directory
     path <- path("~", path_rel(file, path_home()))
-    git_config_set("core.excludesfile", path, global = TRUE)
+    gert::git_config_global_set("core.excludesfile", path)
     git_vaccinate()
   }
   invisible(edit_file(file))

@@ -1,33 +1,32 @@
-#' Create a release issue checklist
+#' Create a release checklist in a GitHub issue
 #'
-#' When preparing to release a package there are quite a few steps that
-#' need to be performed, and some of the steps can take multiple hours.
-#' This function creates an issue checklist so that you can keep track of
-#' where you are in the process, and feel a sense of satisfaction as you
-#' progress. It also helps watchers of your package stay informed about where
-#' you are in the process.
+#' When preparing to release a package there are quite a few steps that need to
+#' be performed, and some of the steps can take multiple hours. This function
+#' creates an issue checklist so that you can keep track of where you are in the
+#' process, and feel a sense of satisfaction as you progress. It also helps
+#' watchers of your package stay informed about where you are in the process.
 #'
-#' @param version Version number for release
+#' @param version Optional version number for release. If unspecified, you can
+#'   make an interactive choice.
 #' @export
 #' @examples
 #' \dontrun{
 #' use_release_issue("2.0.0")
 #' }
 use_release_issue <- function(version = NULL) {
-  check_uses_github()
   check_is_package("use_release_issue()")
-
   version <- version %||% choose_version()
   if (is.null(version)) {
     return(invisible(FALSE))
   }
 
+  repo_spec <- get_primary_spec()
   on_cran <- !is.null(cran_version())
   checklist <- release_checklist(version, on_cran)
 
   issue <- gh::gh("POST /repos/:owner/:repo/issues",
-    owner = github_owner(),
-    repo = github_repo(),
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     title = glue("Release {project_name()} {version}"),
     body = paste(checklist, "\n", collapse = "")
   )
@@ -105,19 +104,15 @@ release_type <- function(version) {
 #'
 #' Creates a __draft__ GitHub release for the current package using the current
 #' version and `NEWS.md`. If you are comfortable that it is correct, you will
-#' need to publish the release from GitHub. It also deletes `CRAN-RELEASE`
-#' and checks that you've pushed all commits to GitHub.
+#' need to publish the release from GitHub. It also deletes `CRAN-RELEASE` and
+#' checks that you've pushed all commits to GitHub.
 #'
 #' @inheritParams use_github_links
 #' @export
 use_github_release <- function(host = NULL,
                                auth_token = github_token()) {
-  cran_release <- proj_path("CRAN-RELEASE")
-  if (file_exists(cran_release)) {
-    file_delete(cran_release)
-  }
-
-  check_uses_github()
+  # TODO: should this be checking that we're on master / default branch?
+  repo_spec <- get_primary_spec()
   check_branch_pushed()
   check_github_token(auth_token)
 
@@ -125,16 +120,20 @@ use_github_release <- function(host = NULL,
   if (!file_exists(path)) {
     ui_stop("{ui_path('NEWS.md')} not found")
   }
-  news <- news_latest(read_utf8(path))
 
+  cran_release <- proj_path("CRAN-RELEASE")
+  if (file_exists(cran_release)) {
+    file_delete(cran_release)
+  }
+  news <- news_latest(read_utf8(path))
   package <- package_data()
 
   release <- gh::gh(
     "POST /repos/:owner/:repo/releases",
-    owner = github_owner(),
-    repo = github_repo(),
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     tag_name = paste0("v", package$Version),
-    target_commitish = git_commit_find()$sha,
+    target_commitish = gert::git_info(git_repo())$commit,
     name = paste0(package$Package, " ", package$Version),
     body = news,
     draft = TRUE,

@@ -109,8 +109,10 @@ test_that("edit_git_XXX('user') ensures the file exists", {
 
   edit_git_ignore("user")
   expect_fs_file(".gitignore")
-  cfg <- git2r::config()
-  expect_match(cfg$global$core.excludesfile, "gitignore")
+  expect_match(
+    git_cfg_get("core.excludesfile", where = "global"),
+    "gitignore"
+  )
 })
 
 test_that("edit_r_profile() ensures .Rprofile exists in project", {

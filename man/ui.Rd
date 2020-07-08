@@ -15,6 +15,7 @@
 \alias{ui_value}
 \alias{ui_path}
 \alias{ui_code}
+\alias{ui_unset}
 \title{User interface}
 \usage{
 ui_line(x = character(), .envir = parent.frame())
@@ -42,6 +43,8 @@ ui_value(x)
 ui_path(x, base = NULL)
 
 ui_code(x)
+
+ui_unset(x = "unset")
 }
 \arguments{
 \item{x}{A character vector.
@@ -57,7 +60,7 @@ environment. For expert use only.}
 \item{copy}{If \code{TRUE}, the session is interactive, and the clipr package
 is installed, will copy the code block to the clipboard.}
 
-\item{code}{Code to execute with usually UI output silenced.}
+\item{code}{Code to execute with usual UI output silenced.}
 
 \item{base}{If specified, paths will be displayed relative to this path.}
 }
@@ -76,7 +79,8 @@ The \code{ui_} functions can be broken down into four main categories:
 \code{ui_info()}.
 \item conditions: \code{ui_stop()}, \code{ui_warn()}.
 \item questions: \code{\link[=ui_yeah]{ui_yeah()}}, \code{\link[=ui_nope]{ui_nope()}}.
-\item inline styles: \code{ui_field()}, \code{ui_value()}, \code{ui_path()}, \code{ui_code()}.
+\item inline styles: \code{ui_field()}, \code{ui_value()}, \code{ui_path()}, \code{ui_code()},
+\code{ui_unset()}.
 }
 
 The question functions \code{\link[=ui_yeah]{ui_yeah()}} and \code{\link[=ui_nope]{ui_nope()}} have their own \link[=ui-questions]{help page}.
@@ -84,8 +88,8 @@ The question functions \code{\link[=ui_yeah]{ui_yeah()}} and \code{\link[=ui_nop
 \section{Silencing output}{
 
 All UI output (apart from \code{ui_yeah()}/\code{ui_nope()} prompts) can be silenced
-by setting \code{options(usethis.quiet = TRUE)}. Use \code{ui_silence()} to selected
-actions.
+by setting \code{options(usethis.quiet = TRUE)}. Use \code{ui_silence()} to silence
+selected actions.
 }
 
 \examples{
