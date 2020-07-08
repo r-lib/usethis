@@ -500,7 +500,7 @@ ui_github_config_wat <- function(cfg) {
     github_config_wat(cfg, context = "menu"),
     yes = "Yes, I want to proceed. I know what I'm doing.",
     no = "No, I want to stop and straighten out my GitHub remotes first.",
-    n_yes = 1, n_no = 1, shuffle = FALSE
+    shuffle = FALSE
   )
 }
 

@@ -143,12 +143,22 @@ git_conflict_report <- function() {
     "There are {n} conflicted files:",
     paste0("* ", conflicted_paths)
   ))
-  ui_silence(purrr::walk(conflicted, edit_file))
 
-  ui_stop(c(
-    "Please fix, stage, and commit to continue",
-    "Or run {ui_code('git merge --abort')} in the terminal"
-  ))
+  msg <- glue("
+    Are you ready to sort this out?
+    If so, we will open the conflicted files for you to edit.")
+  yes <- "Yes, I'm ready to resolve the merge conflicts."
+  no <- "No, I want to abort this merge."
+  if (ui_yeah(msg, yes = yes, no = no, shuffle = FALSE)) {
+    ui_silence(purrr::walk(conflicted, edit_file))
+    ui_stop("
+      Please fix each conflict, save, stage, and commit.
+      To back out of this merge, run {ui_code('gert::git_merge_abort()')} \\
+      (in R) or {ui_code('git merge --abort')} (in the shell).")
+  } else {
+    gert::git_merge_abort(repo = git_repo())
+    ui_stop("Abandoning the merge, since it will cause merge conflicts")
+  }
 }
 
 # Remotes ----------------------------------------------------------------------
