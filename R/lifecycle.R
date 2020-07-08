@@ -11,7 +11,7 @@
 #'   can use the `\\lifecycle{}` macro in your documentation.
 #'
 #' See the [getting started
-#' vignette](http://lifecycle.r-lib.org/articles/lifecycle.html) of the
+#' vignette](https://lifecycle.r-lib.org/articles/lifecycle.html) of the
 #' lifecycle package.
 #'
 #' @seealso [use_lifecycle_badge()] to signal the [global lifecycle
