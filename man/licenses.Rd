@@ -51,15 +51,20 @@ of improvements.
 adapt, must give appropriate credit. Appropriate for data packages.
 }
 
-See \url{https://choosealicense.com} for more details and other options.
+See \url{https://choosealicense.com} for more details and other options. CRAN
+does not allow you to include copies of standard licenses in your package, so
+these functions save the license as \code{LICENSE.md} and add it to
+\code{.Rbuildignore}.
+
+One last function is useful if you cannot release your package under an open
+source license:
+\itemize{
+\item \code{use_no_license()} populates the License field of DESCRIPTION with
+\verb{file LICENSE} and adds a placeholder \code{LICENSE} file containing only a
+copyright notice. This is appropriate for a proprietary package.
 }
-\details{
-CRAN does not allow you to include copies of standard licenses in your
-package, so these functions save the license as \code{LICENSE.md} and add it
-to \code{.Rbuildignore}.
-If you cannot open-source your package, \code{use_no_license()} will only add
-a copyright notice, resulting in a proprietary package.
 }
 \seealso{
-The \href{https://r-pkgs.org/description.html#license}{license section} of \href{https://r-pkgs.org}{R Packages}.
+The \href{https://r-pkgs.org/description.html#license}{license section}
+of \href{https://r-pkgs.org}{R Packages}.
 }

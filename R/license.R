@@ -18,22 +18,24 @@
 #' * [CCBY 4.0](https://creativecommons.org/licenses/by/4.0/): Free to share and
 #'    adapt, must give appropriate credit. Appropriate for data packages.
 #'
-#' See <https://choosealicense.com> for more details and other options.
+#' See <https://choosealicense.com> for more details and other options. CRAN
+#' does not allow you to include copies of standard licenses in your package, so
+#' these functions save the license as `LICENSE.md` and add it to
+#' `.Rbuildignore`.
 #'
-#' @details
-#' CRAN does not allow you to include copies of standard licenses in your
-#' package, so these functions save the license as `LICENSE.md` and add it
-#' to `.Rbuildignore`.
-#' If you cannot open-source your package, `use_no_license()` will only add
-#' a copyright notice, resulting in a proprietary package.
+#' One last function is useful if you cannot release your package under an open
+#' source license:
+#'
+#' * `use_no_license()` populates the License field of DESCRIPTION with
+#'   `file LICENSE` and adds a placeholder `LICENSE` file containing only a
+#'   copyright notice. This is appropriate for a proprietary package.
 #'
 #' @name licenses
 #' @param name Name of the copyright holder or holders. Separate multiple
 #'   individuals with `;`. You can supply a global default with
 #'   `options(usethis.full_name = "My name")`.
-#' @seealso The [license
-#'   section](https://r-pkgs.org/description.html#license) of [R
-#'   Packages](https://r-pkgs.org).
+#' @seealso The [license section](https://r-pkgs.org/description.html#license)
+#'   of [R Packages](https://r-pkgs.org).
 #' @aliases NULL
 NULL
 
@@ -46,7 +48,6 @@ use_mit_license <- function(name = find_name()) {
   use_description_field("License", "MIT + file LICENSE", overwrite = TRUE)
   use_license_template("mit", name)
 
-  # Fill in template
   use_template(
     "year-copyright.txt",
     save_as = "LICENSE",
