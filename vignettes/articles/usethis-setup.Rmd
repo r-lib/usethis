@@ -190,7 +190,7 @@ It is customary to make this PAT available to R sessions as the value of the `GI
 
 ### Git credential store
 
-This is a new approach made possible by the [credentials package](https://docs.ropensci.org/credentials/), which is used for credential handling by the [gert package](https://docs.ropensci.org/gert), which is how usethis does its Git work. The approach is described fully in the rOpenSci tech note [A better way to manage your Github personal access tokens](https://ropensci.org/technotes/2020/07/07/github-pat/).
+This is a new approach made possible by the [credentials package](https://docs.ropensci.org/credentials/), which is used for credential handling by the [gert package](https://docs.ropensci.org/gert), which is how usethis does its Git work. The approach is described fully in the rOpenSci tech note [A better way to manage your GitHub personal access tokens](https://ropensci.org/technotes/2020/07/07/github-pat/).
 
 `credentials::set_github_pat()` triggers a prompt where you can register your PAT with your operating system's Git credential store. That's something you do once. Or, rather, once per machine, per PAT.
 

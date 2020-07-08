@@ -22,7 +22,7 @@ These functions raise a warning and return an invisible \code{NULL}.
 \description{
 \lifecycle{defunct}
 
-In usethis v1.7.0, usethis switched from git2r to gert (+ credentials) for
+In usethis v2.0.0, usethis switched from git2r to gert (+ credentials) for
 all Git operations. This pair of packages (gert + credentials) is designed to
 discover and use the same credentials as command line Git. As a result, a
 great deal of credential-handling assistance has been removed from usethis,
