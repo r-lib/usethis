@@ -61,7 +61,6 @@ Patch release to align some path handling internals with an update coming in the
 * `use_pkgdown()` now `.gitignore`s the destination directory and only adds the
   destination directory to the config file if it departs from the default
   (which is `docs/`).
->>>>>>> 4abf7ca5e1ec85722bae8c8a346ff34c8baab979
 
 * `use_tidy_ci()` is now deprecated in favour of `use_tidy_github_actions()` 
   (#1098).
