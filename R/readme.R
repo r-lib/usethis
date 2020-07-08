@@ -1,15 +1,21 @@
 #' Create README files
 #'
+#' @description
 #' Creates skeleton README files with sections for
-#' \itemize{
-#' \item a high-level description of the package and its goals
-#' \item R code to install from GitHub, if GitHub usage detected
-#' \item a basic example
-#' }
-#' Use `Rmd` if you want a rich intermingling of code and data. Use
-#' `md` for a basic README. `README.Rmd` will be automatically
-#' added to `.Rbuildignore`. The resulting README is populated with default
-#' YAML frontmatter and R fenced code blocks (`md`) or chunks (`Rmd`).
+#' * a high-level description of the package and its goals
+#' * R code to install from GitHub, if GitHub usage detected
+#' * a basic example
+#'
+#' Use `Rmd` if you want a rich intermingling of code and output. Use `md` for a
+#' basic README. `README.Rmd` will be automatically added to `.Rbuildignore`.
+#' The resulting README is populated with default YAML frontmatter and R fenced
+#' code blocks (`md`) or chunks (`Rmd`).
+#'
+#' If you use `Rmd`, you'll still need to render it regularly, to keep
+#' `README.md` up-to-date. `devtools::build_readme()` is handy for this. You
+#' could also use GitHub Actions to re-render `README.Rmd` every time you push.
+#' An example workflow can be found in the `examples/` directory here:
+#' <https://github.com/r-lib/actions/>.
 #'
 #' @inheritParams use_template
 #' @seealso The [important files
@@ -26,12 +32,7 @@ use_readme_rmd <- function(open = rlang::is_interactive()) {
 
   data <- project_data()
   data$Rmd <- TRUE
-  if (uses_github()) {
-    data$github <- list(
-      owner = github_owner(),
-      repo = github_repo()
-    )
-  }
+  data$on_github <- origin_is_on_github()
 
   new <- use_template(
     if (is_package()) "package-README" else "project-README",

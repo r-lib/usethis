@@ -2,6 +2,8 @@ library(usethis)
 library(fs)
 library(testthat)
 
+options(usethis.destdir = NULL)
+
 cp <- function(x = "") path(usethis:::conspicuous_place(), x)
 
 ## use_course() simple usage ----

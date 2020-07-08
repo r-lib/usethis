@@ -114,7 +114,7 @@ with_project <- function(path = ".",
   on.exit({
     proj_set(path = old_proj, force = TRUE)
     options(old_quiet)
-  })
+  }, add = TRUE)
 
   force(code)
 }
@@ -237,10 +237,11 @@ project_data <- function(base_path = proj_get()) {
   } else {
     data <- list(Project = path_file(base_path))
   }
-  if (proj_active() && uses_github()) {
-    data$github_owner <- github_owner()
-    data$github_repo  <- github_repo()
-    data$github_spec  <- github_repo_spec()
+  if (proj_active() && origin_is_on_github()) {
+    origin <- github_remotes("origin", github_get = FALSE)
+    data$github_owner <- origin$repo_owner
+    data$github_repo  <- origin$repo_name
+    data$github_spec  <- glue("{origin$repo_owner}/{origin$repo_name}")
   }
   data
 }

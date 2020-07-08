@@ -2,15 +2,17 @@
 % Please edit documentation in R/git.R
 \name{git_sitrep}
 \alias{git_sitrep}
-\title{git/GitHub sitrep}
+\title{Git/GitHub sitrep}
 \usage{
 git_sitrep()
 }
 \description{
-Get a situation report on your current git/GitHub status. Useful for
+Get a situation report on your current Git/GitHub status. Useful for
 diagnosing problems. \code{\link[=git_vaccinate]{git_vaccinate()}} adds some basic R- and RStudio-related
 entries to the user-level git ignore file.
 }
 \examples{
+\dontrun{
 git_sitrep()
+}
 }

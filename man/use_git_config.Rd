@@ -10,14 +10,18 @@ use_git_config(scope = c("user", "project"), ...)
 \item{scope}{Edit globally for the current \strong{user}, or locally for the
 current \strong{project}}
 
-\item{...}{Name-value pairs.}
+\item{...}{Name-value pairs, processed as
+<\code{\link[rlang:dyn-dots]{dynamic-dots}}>.}
 }
 \value{
-Invisibly, the previous values of the modified components.
+Invisibly, the previous values of the modified components, as a named
+list.
 }
 \description{
 Sets Git options, for either the user or the project ("global" or "local", in
-Git terminology).
+Git terminology). Wraps \code{\link[gert:git_config]{gert::git_config_set()}} and
+\code{\link[gert:git_config]{gert::git_config_global_set()}}. To inspect Git config, see
+\code{\link[gert:git_config]{gert::git_config()}}.
 }
 \examples{
 \dontrun{

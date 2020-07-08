@@ -1,76 +1,71 @@
-devtools::load_all()
+pkgload::unload("devtools")
+devtools::load_all("~/rrr/usethis")
+attachNamespace("devtools")
 
 pkgname <- "klmnop"
-# use_git_protocol("ssh")
-use_git_protocol("https")
+use_git_protocol("ssh")
+#use_git_protocol("https")
 git_protocol()
 
 (pkgpath <- path_temp(pkgname))
-create_package(pkgpath, open = FALSE)
-proj_set(pkgpath)
-setwd(pkgpath)
+create_local_package(pkgpath)
 proj_sitrep()
 
-## should fail, not a git repo yet
+# should fail, not a git repo yet
 use_github()
 
+# say YES to the commit
 use_git()
 
-## set 'origin'
-git2r::remote_add(git_repo(), "origin", "fake-origin-url")
+# set 'origin'
+use_git_remote("origin", "fake-origin-url")
 
-## should fail early because 'origin' is already configured
+# should fail early because 'origin' is already configured
 use_github()
 
-## remove the 'origin' remote
-git2r::remote_remove(git_repo(), "origin")
+# remove the 'origin' remote
+use_git_remote("origin", NULL, overwrite = TRUE)
 
-## should fail, due to lack of auth_token
+# should fail, due to lack of auth_token
 withr::with_envvar(
-  new = c("GITHUB_PAT" = NA, "GITHUB_TOKEN" = NA),
+  new = c(GITHUB_PAT = NA, GITHUB_TOKEN = NA),
   use_github()
 )
 
-## should create the GitHub repo and configure 'origin', but fail to push,
-## due to bad credentials
-use_github(credentials = "nope")
-## in the shell, in the correct wd, do as we recommend:
-## git push --set-upstream origin master
-## should succeed (perhaps entering ssh passphrase), refresh browser to verify
+# should work
+use_github(private = TRUE)
 
-## remove the 'origin' remote
-git2r::remote_remove(git_repo(), "origin")
+# make sure this reflects ssh vs. https, as appropriate
+git_remotes()
 
-## should fail because GitHub repo already exists
-use_github()
+# remove the 'origin' remote
+use_git_remote("origin", NULL, overwrite = TRUE)
 
-## delete the GitHub repo
+# should fail because GitHub repo already exists
+use_github(private = TRUE)
+
+# delete the GitHub repo
 (gh_account <- gh::gh_whoami())
+pkgname
 gh::gh(
   "DELETE /repos/:username/:pkg",
   username = gh_account$login,
   pkg = pkgname
 )
 
-## should work!
+# this should work!
+use_github(private = TRUE)
 
-# revisit on my Windows VM
-# if (.Platform$OS.type == "windows") {
-#   cred <- git2r::cred_ssh_key(
-#     publickey = fs::path_home(".ssh/id_rsa.pub"),
-#     privatekey = fs::path_home(".ssh/id_rsa")
-#   )
-# }
-use_github()
+# 'master' should have 'origin/master' as upstream
+info <- gert::git_info()
+expect_equal(info$upstream, "origin/master")
 
-## restore initial project, presunably usethis itself
-proj_set(rstudioapi::getActiveProject())
-setwd(proj_get())
-proj_sitrep()
+# restore initial project, working directory, delete local repo
+withr::deferred_run()
 
 ## delete local and remote repo
-fs::dir_delete(pkgpath)
 (gh_account <- gh::gh_whoami())
+pkgname
 gh::gh(
   "DELETE /repos/:username/:pkg",
   username = gh_account$login,

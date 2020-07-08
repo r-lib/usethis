@@ -81,9 +81,8 @@ skip_if_not_ci <- function() {
 }
 
 skip_if_no_git_user <- function() {
-  cfg <- git2r::config()
-  user_name <- cfg$local$`user.name` %||% cfg$global$`user.name`
-  user_email <- cfg$local$`user.email` %||% cfg$global$`user.email`
+  user_name <- git_cfg_get("user.name")
+  user_email <- git_cfg_get("user.email")
   user_name_exists <- !is.null(user_name)
   user_email_exists <- !is.null(user_email)
   if (user_name_exists && user_email_exists) {
