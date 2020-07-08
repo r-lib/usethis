@@ -176,23 +176,23 @@ div.output pre.r { background-color:#FFFFFF; }
 <div id="set-up-advice" class="section level2">
 <h2 class="hasAnchor">
 <a href="#set-up-advice" class="anchor"></a>Set up advice</h2>
-<p>This article assumes that you have already done the Git and GitHub parts of the <a href="/articles/articles/usethis-setup">setup vignette</a>. A good way to check that you are ready to use the <code>pr_*</code> family of functions is to run <code><a href="../../reference/git_sitrep.html">git_sitrep()</a></code>, which prints info about your current Git, git2r, and GitHub setup.</p>
+<p>This article assumes that you have already done the Git and GitHub parts of the <a href="/articles/articles/usethis-setup">setup vignette</a>. A good way to check that you are ready to use the <code>pr_*</code> family of functions is to run <code><a href="../../reference/git_sitrep.html">git_sitrep()</a></code>, which prints info about your current Git, gert, and GitHub setup.</p>
 <p>Specifically, the <code>pr_*()</code> functions make use of:</p>
 <ul>
 <li>The GitHub API, which requires a personal access token (PAT).
 <ul>
 <li>
-<code><a href="../../reference/usethis-defunct.html">browse_github_token()</a></code> helps you set one up.</li>
+<code><a href="../../reference/create_github_token.html">create_github_token()</a></code> helps you set one up.</li>
 </ul>
 </li>
-<li>git2r, an R package which does git operations from R.
-<ul>
-<li>See the help for <code><a href="../../reference/git_credentials.html">git_credentials()</a></code> if git2r doesn’t seem to find your git credentials.</li>
-</ul>
-</li>
-<li>Your preferred git transport protocol: <code>"ssh"</code> or <code>"https"</code>.
+<li>Your preferred Git transport protocol: <code>"https"</code> or <code>"ssh"</code>.
 <ul>
 <li>If usethis can’t figure this out, it might ask you. You can set the <code>usethis.protocol</code> option to proactively address this.</li>
+</ul>
+</li>
+<li>gert, an R package which does Git operations from R. The gert package, in turn, relies on the credentials package to obtain your Git credentials.
+<ul>
+<li>If you use the <code>"https"</code> protocol, your GitHub PAT is the only credential you need. Which is a good reason to choose <code>"https"</code>!</li>
 </ul>
 </li>
 </ul>
@@ -233,7 +233,7 @@ div.output pre.r { background-color:#FFFFFF; }
 <code>origin</code> remote is set to your praise repo.</li>
 </ul>
 </li>
-<li>Does additional git setup:
+<li>Does additional Git setup:
 <ul>
 <li>
 <code>upstream</code> remote is set to the praise repo owned by rladies.</li>
@@ -246,7 +246,7 @@ div.output pre.r { background-color:#FFFFFF; }
 <p>Arguments you might like to know about:</p>
 <ul>
 <li>Specify <code>fork = TRUE</code> or <code>fork = FALSE</code> if you don’t want to defer to the default behaviour.</li>
-<li>Use <code>destdir</code> to put praise in a specific location on your computer.</li>
+<li>Use <code>destdir</code> to put praise in a specific location on your computer. You can set the <code>usethis.destdir</code> option if you always want usethis to put new projects in a specific directory.</li>
 </ul>
 </div>
 <div id="branch-then-make-your-change" class="section level2">
@@ -265,7 +265,7 @@ div.output pre.r { background-color:#FFFFFF; }
 <span class="co">#&gt; ● Use `pr_push()` to create PR</span>
 </pre></div>
 </div>
-<p>This creates a local branch called <code>yeahyah</code> and we switch to it (or “check it out”). In RStudio, you may need to hit the refresh button in your Git pane to confirm that you have indeed switched over to this branch. Now you can work locally, making changes to files and committing that to git.</p>
+<p>This creates a local branch called <code>yeahyah</code> and we switch to it (or “check it out”). Now you can work locally, making changes to files and committing that to Git.</p>
 <p>Let’s go ahead and make the change, which is adding the word “yeahyah” to the <code>exclamation.R</code> file in the package. Below is the diff and the commit associated with this change.</p>
 <p><img src="img/pr-functions-diff.png"><!-- --></p>
 <p>You might spot that we made two mistakes here:</p>
@@ -387,12 +387,13 @@ div.output pre.r { background-color:#FFFFFF; }
 </div>
 <div class="output">
 <div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="co">#&gt; ✔ Checking that local branch 'yeahyah' has the changes in 'origin/yeahyah'</span>
 <span class="co">#&gt; ✔ Switching back to 'master' branch</span>
-<span class="co">#&gt; ✔ Pulling changes from GitHub source repo 'upstream/master'</span>
+<span class="co">#&gt; ✔ Pulling from 'upstream/master'</span>
 <span class="co">#&gt; ✔ Deleting local 'yeahyah' branch</span>
+<span class="co">#&gt; ✔ Deleting remote branch 'origin/yeahyah'</span>
 </pre></div>
 </div>
-<p>At this point, the contributor still has a remote <code>yeahyah</code> branch on GitHub, which is not harming anyone. But it can also be deleted, e.g. in the browser.</p>
 <p>Remember you can see how this whole PR unfolded at <a href="https://github.com/rladies/praise/pull/84">rladies/praise#84</a>.</p>
 </div>
 <div id="other-helpful-functions" class="section level2">
@@ -400,8 +401,8 @@ div.output pre.r { background-color:#FFFFFF; }
 <a href="#other-helpful-functions" class="anchor"></a>Other helpful functions</h2>
 <p>There are a few other functions in the <code>pr_*()</code> family that we didn’t encounter in this PR scenario:</p>
 <ul>
-<li><p><code><a href="../../reference/usethis-defunct.html">pr_pull_upstream()</a></code> is used for getting changes that have occurred in the package while we have been working on this PR, i.e. to <code>git pull upstream master</code>. This makes sure that our copy of the package is up-to-date with the source repo.</p></li>
-<li><p><code><a href="../../reference/pull-requests.html">pr_sync()</a></code> is a helpful shortcut for pulling changes from the PR <code><a href="../../reference/pull-requests.html">pr_pull()</a></code>), merging to <code>master</code> (<code><a href="../../reference/usethis-defunct.html">pr_pull_upstream()</a></code>) and pushing all these changes back into our PR (<code><a href="../../reference/pull-requests.html">pr_push()</a></code>). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the <code>master</code> branch.</p></li>
+<li><p><code><a href="../../reference/pull-requests.html">pr_merge_main()</a></code> is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you’re working in a fork, this does <code>git pull upstream master</code>. If you’re making a PR from an internal branch, this does <code>git pull origin master</code>. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the <code>master</code> branch. This makes sure that your copy of the package is up-to-date with the source repo.</p></li>
+<li><p><code><a href="../../reference/pull-requests.html">pr_sync()</a></code> is a helpful shortcut for pulling changes from the PR (<code><a href="../../reference/pull-requests.html">pr_pull()</a></code>), merging in the main line of development (<code><a href="../../reference/pull-requests.html">pr_merge_main()</a></code>), and pushing all these changes back into our PR (<code><a href="../../reference/pull-requests.html">pr_push()</a></code>). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the <code>master</code> branch.</p></li>
 <li><p><code><a href="../../reference/pull-requests.html">pr_pause()</a></code> makes sure you’re synced with the PR and then switches back to the <code>master</code> branch. This is likely something a package maintainer reviewing numerous PRs will need to use as they switch back and forth from review to working on <code>master</code> to another review.</p></li>
 </ul>
 </div>
