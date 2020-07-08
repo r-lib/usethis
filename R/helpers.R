@@ -92,6 +92,26 @@ use_dependency <- function(package, type, min_version = NULL) {
   invisible()
 }
 
+use_system_requirement <- function(requirement) {
+  stopifnot(is_string(requirement))
+  existing_requirements <- desc::desc_get_field("SystemRequirements", default = character(), file = proj_get())
+  existing_requirements <- utils::head(strsplit(existing_requirements, ", ?"), n = 1)
+
+  if (requirement %in% existing_requirements) {
+    return(invisible())
+  }
+
+  new_requirements <- paste0(c(existing_requirements, requirement), collapse = ", ")
+
+  ui_done(
+    "Adding {ui_value(requirement)} to {ui_field('SystemRequirements')} field in DESCRIPTION"
+  )
+
+  desc::desc_set("SystemRequirements", new_requirements)
+
+  invisible()
+}
+
 version_spec <- function(x) {
   x <- gsub("(<=|<|>=|>|==)\\s*", "", x)
   numeric_version(x)

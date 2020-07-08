@@ -42,6 +42,8 @@ There is increasing interest in making the name of a repo's default branch confi
 
 ## Other changes
 
+`use_cpp11()` is a new function to set up an R package to use cpp11.
+
 `create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
 
 `create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
