@@ -80,7 +80,7 @@ test_that("use_lgpl_license() works", {
 })
 
 test_that("use_no_license() works", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_no_license(name = "No license")
   expect_match(desc::desc_get("License", file = pkg), "file LICENSE")
   expect_proj_file("LICENSE")
