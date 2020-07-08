@@ -196,7 +196,7 @@ This is a new approach made possible by the [credentials package](https://docs.r
 
 From then on, executing `credentials::set_github_pat()` will cause that existing PAT to be re-validated and, assuming that succeeds, assigned to the `GITHUB_PAT` environment variable. You might put this in your `.Rprofile` startup file (remember `edit_r_profile()` helps you get this file open for editing):
 
-```{r}
+```{r eval = FALSE}
 # suitable for your .Rprofile
 if (requireNamespace("credentials", quietly = TRUE)) {
   credentials::set_github_pat(verbose = FALSE)
