@@ -1,6 +1,6 @@
 
 test_that("use_description_field() can address an existing field", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   orig <- tools::md5sum(proj_path("DESCRIPTION"))
 
   ## specify existing value of existing field --> should be no op
@@ -31,13 +31,13 @@ test_that("use_description_field() can address an existing field", {
 })
 
 test_that("use_description_field() can add new field", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_description_field(name = "foo", value = "bar", base_path = pkg)
   expect_identical(c(foo = "bar"), desc::desc_get("foo", pkg))
 })
 
 test_that("use_description_field() ignores whitespace", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_description_field(name = "foo", value = "\n bar")
   use_description_field(name = "foo", value = "bar")
   expect_identical(c(foo = "\n bar"), desc::desc_get("foo", pkg))
@@ -74,7 +74,7 @@ test_that("valid_file_name() enforces valid file names", {
 # use_dependency ----------------------------------------------------------
 
 test_that("we message for new type and are silent for same type", {
-  scoped_temporary_package()
+  create_local_package()
   withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(
@@ -85,7 +85,7 @@ test_that("we message for new type and are silent for same type", {
 })
 
 test_that("we message for version change and are silent for same version", {
-  scoped_temporary_package()
+  create_local_package()
   withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(
@@ -106,7 +106,7 @@ test_that("we message for version change and are silent for same version", {
 
 ## https://github.com/r-lib/usethis/issues/99
 test_that("use_dependency() upgrades a dependency", {
-  scoped_temporary_package()
+  create_local_package()
   withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_dependency("usethis", "Suggests"))
@@ -119,7 +119,7 @@ test_that("use_dependency() upgrades a dependency", {
 
 ## https://github.com/r-lib/usethis/issues/99
 test_that("use_dependency() declines to downgrade a dependency", {
-  scoped_temporary_package()
+  create_local_package()
   withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_dependency("usethis", "Imports"))
@@ -131,11 +131,48 @@ test_that("use_dependency() declines to downgrade a dependency", {
 })
 
 test_that("can add LinkingTo dependency if other dependency already exists", {
-  scoped_temporary_package()
+  create_local_package()
   withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_dependency("Rcpp", "Imports"), "Adding 'Rcpp'")
   expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
   expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
   expect_message(use_dependency("Rcpp", "Import"), "Adding 'Rcpp'")
+})
+
+# use_system_requirement ------------------------------------------------
+
+test_that("we message for new requirements and are silent for existing requirements", {
+  create_local_package()
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+
+  expect_message(
+    use_system_requirement("C++11"),
+    "Adding 'C++11' to SystemRequirements field in DESCRIPTION",
+    fixed = TRUE
+  )
+
+  expect_silent(use_system_requirement("C++11"))
+})
+
+test_that("we can add multiple requirements with repeated calls", {
+  pkg <- create_local_package()
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+
+  expect_message(
+    use_system_requirement("C++11"),
+    "Adding 'C++11' to SystemRequirements field in DESCRIPTION",
+    fixed = TRUE
+  )
+
+  expect_message(
+    use_system_requirement("libxml2"),
+    "Adding 'libxml2' to SystemRequirements field in DESCRIPTION",
+    fixed = TRUE
+  )
+
+  expect_equal(
+    unname(desc::desc_get("SystemRequirements", pkg)),
+    "C++11, libxml2"
+  )
 })

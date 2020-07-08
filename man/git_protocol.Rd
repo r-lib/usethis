@@ -3,7 +3,7 @@
 \name{git_protocol}
 \alias{git_protocol}
 \alias{use_git_protocol}
-\title{Produce or register git protocol}
+\title{Produce or register Git protocol}
 \usage{
 git_protocol()
 
@@ -19,24 +19,23 @@ or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.
 }
 \description{
 Git operations that address a remote use a so-called "transport protocol".
-usethis supports SSH and HTTPS. The protocol affects two things:
+usethis supports SSH and HTTPS. The protocol affects this:
 \itemize{
 \item The default URL format for repos with no existing remote protocol:
 \itemize{
-\item \code{protocol = "ssh"} implies \verb{git@github.com:<OWNER>/<REPO>.git}
 \item \code{protocol = "https"} implies \verb{https://github.com/<OWNER>/<REPO>.git}
-}
-\item The strategy for creating \code{credentials} when none are given. See
-\code{\link[=git_credentials]{git_credentials()}} for details.
+\item \code{protocol = "ssh"} implies \verb{git@github.com:<OWNER>/<REPO>.git}
 Two helper functions are available:
+}
 \item \code{git_protocol()} returns the user's preferred protocol, if known, and,
-otherwise, asks the user (interactive session) or defaults to SSH
+otherwise, asks the user (interactive session), or defaults to SSH
 (non-interactive session).
-\item \code{use_git_protocol()} allows the user to set the git protocol, which is
+\item \code{use_git_protocol()} allows the user to set the Git protocol, which is
 stored in the \code{usethis.protocol} option.
+}
+
 Any interactive choice re: \code{protocol} comes with a reminder of how to set the
-protocol at startup by setting an option in \code{.Rprofile}:
-}\preformatted{options(usethis.protocol = "ssh")
+protocol at startup by setting an option in \code{.Rprofile}:\preformatted{options(usethis.protocol = "ssh")
 ## or
 options(usethis.protocol = "https")
 }

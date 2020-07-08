@@ -2,20 +2,20 @@
 % Please edit documentation in R/release.R
 \name{use_release_issue}
 \alias{use_release_issue}
-\title{Create a release issue checklist}
+\title{Create a release checklist in a GitHub issue}
 \usage{
 use_release_issue(version = NULL)
 }
 \arguments{
-\item{version}{Version number for release}
+\item{version}{Optional version number for release. If unspecified, you can
+make an interactive choice.}
 }
 \description{
-When preparing to release a package there are quite a few steps that
-need to be performed, and some of the steps can take multiple hours.
-This function creates an issue checklist so that you can keep track of
-where you are in the process, and feel a sense of satisfaction as you
-progress. It also helps watchers of your package stay informed about where
-you are in the process.
+When preparing to release a package there are quite a few steps that need to
+be performed, and some of the steps can take multiple hours. This function
+creates an issue checklist so that you can keep track of where you are in the
+process, and feel a sense of satisfaction as you progress. It also helps
+watchers of your package stay informed about where you are in the process.
 }
 \examples{
 \dontrun{

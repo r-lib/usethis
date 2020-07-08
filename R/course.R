@@ -312,7 +312,8 @@ download_url <- function(url,
     if (i == 1) {
       curl::handle_setopt(
         handle,
-        .list = c(connecttimeout = retry_connecttimeout))
+        .list = c(connecttimeout = retry_connecttimeout)
+      )
     }
     i <- i + 1
     ui_info("Retrying download ... attempt {i}")
@@ -445,8 +446,8 @@ modify_dropbox_url <- function(url) {
 }
 
 modify_github_url <- function(url) {
-  df <- rematch2::re_match(url, github_url_rx())
-  glue("https://github.com/{df$owner}/{df$repo}/archive/master.zip")
+  parsed <- parse_github_remotes(url)
+  glue("https://github.com/{parsed$repo_owner}/{parsed$repo_name}/archive/master.zip")
 }
 
 hopeless_url <- function(url) {
@@ -488,7 +489,9 @@ expand_github <- function(url) {
 
 conspicuous_place <- function() {
   destdir_opt <- getOption("usethis.destdir")
-  if (!is.null(destdir_opt)) return(path_tidy(destdir_opt))
+  if (!is.null(destdir_opt)) {
+    return(path_tidy(destdir_opt))
+  }
 
   Filter(dir_exists, c(
     path_home("Desktop"),

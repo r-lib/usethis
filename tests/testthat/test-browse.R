@@ -1,17 +1,15 @@
-context("browse")
-
-test_that("github_home() strips everything after USER/REPO", {
-  expect_equal(github_home("usethis"), "https://github.com/r-lib/usethis")
-  expect_equal(github_home("gh"), "https://github.com/r-lib/gh")
+test_that("github_url() strips everything after USER/REPO", {
+  expect_equal(github_url("usethis"), "https://github.com/r-lib/usethis")
+  expect_equal(github_url("gh"), "https://github.com/r-lib/gh")
 })
 
-test_that("github_home() has fall back", {
-  expect_warning(out <- github_home("utils"), "CRAN mirror")
+test_that("github_url() has fall back", {
+  expect_warning(out <- github_url("utils"), "CRAN mirror")
   expect_equal(out, "https://github.com/cran/utils")
 })
 
 test_that("cran_home() produces canonical URL", {
-  pkg <- scoped_temporary_package(file_temp("abc"))
+  pkg <- create_local_package(file_temp("abc"))
   expect_match(cran_home(), "https://cran.r-project.org/package=abc")
   expect_match(cran_home("bar"), "https://cran.r-project.org/package=bar")
 })

@@ -12,7 +12,8 @@ block_append <- function(desc, value, path, block_start, block_end,
   }
 
   if (is.null(block_lines)) {
-    ui_todo("Copy and paste the following lines into {ui_value(path)}:")
+    ui_todo("
+      Copy and paste the following lines into {ui_path(path)}:")
     ui_code_block(c(block_prefix, block_start, value, block_end, block_suffix))
     return(FALSE)
   }

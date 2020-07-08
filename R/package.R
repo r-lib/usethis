@@ -22,7 +22,6 @@
 #' use_dev_package("glue")
 #' }
 use_package <- function(package, type = "Imports", min_version = NULL) {
-
   if (type == "Imports") {
     refuse_package(package, verboten = "tidyverse")
   }
@@ -51,7 +50,7 @@ use_remote <- function(package) {
     return(invisible())
   }
 
-  package_remote <- package_remote(desc::desc(package = package))
+  package_remote <- package_remote(package)
   ui_done(
     "Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in DESCRIPTION"
   )
@@ -62,20 +61,34 @@ use_remote <- function(package) {
 
 # Helpers -----------------------------------------------------------------
 
-package_remote <- function(desc) {
-  package <- desc$get_field("Package")
+package_remote <- function(package) {
+  desc <- desc::desc(package = package)
   remote <- as.list(desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo")))
 
-  is_valid_remote <- all(purrr::map_lgl(remote, ~ is_string(.x) && !is.na(.x)))
-  if (!is_valid_remote) {
-    ui_stop("{ui_value(package)} was not installed from a supported remote.")
+  is_recognized_remote <- all(purrr::map_lgl(remote, ~ is_string(.x) && !is.na(.x)))
+
+  if (is_recognized_remote) {
+    # non-GitHub remotes get a 'RemoteType::' prefix
+    if (!identical(remote$RemoteType, "github")) {
+      remote$RemoteUsername <- paste0(remote$RemoteType, "::", remote$RemoteUsername)
+    }
+    return(paste0(remote$RemoteUsername, "/", remote$RemoteRepo))
   }
 
-  # GitHub remotes don't get the 'RemoteType::' prefix
-  if (identical(remote$RemoteType, "github")) {
-    paste0(remote$RemoteUsername, "/", remote$RemoteRepo)
+  remote <- github_remote_from_description(desc)
+  if (is.null(remote)) {
+    ui_stop("Cannot determine remote for {ui_value(package)}")
+  }
+
+  remote <- paste0(remote$repo_owner, "/", remote$repo_name)
+  if (ui_yeah("
+    {ui_value(package)} was either installed from CRAN or local source.
+    Based on DESCRIPTION, we propose the remote: {ui_value(remote)}
+    Is this OK?
+  ")) {
+    remote
   } else {
-    paste0(remote$RemoteType, "::", remote$RemoteUsername, "/", remote$RemoteRepo)
+    ui_stop("Cannot determine remote for {ui_value(package)}")
   }
 }
 
@@ -119,7 +132,9 @@ how_to_use <- function(package, type) {
 show_includes <- function(package) {
   incl <- path_package("include", package = package)
   h <- dir_ls(incl, regexp = "[.](h|hpp)$")
-  if (length(h) == 0) return()
+  if (length(h) == 0) {
+    return()
+  }
 
   ui_todo("Possible includes are:")
   ui_code_block("#include <{path_file(h)}>", copy = FALSE)

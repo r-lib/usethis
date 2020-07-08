@@ -2,6 +2,8 @@ use_description_field <- function(name,
                                   value,
                                   base_path = proj_get(),
                                   overwrite = FALSE) {
+  # account for `value`s produced via `glue::glue()`
+  value <- as.character(value)
   curr <- desc::desc_get(name, file = base_path)[[1]]
   curr <- gsub("^\\s*|\\s*$", "", curr)
 
@@ -11,7 +13,7 @@ use_description_field <- function(name,
 
   if (!is.na(curr) && !overwrite) {
     ui_stop(
-      "{ui_field(name)} has a different value in DESCRIPTION.\\
+      "{ui_field(name)} has a different value in DESCRIPTION. \\
       Use {ui_code('overwrite = TRUE')} to overwrite."
     )
   }
@@ -86,6 +88,26 @@ use_dependency <- function(package, type, min_version = NULL) {
       desc::desc_set_dep(package, type, version = version, file = proj_get())
     }
   }
+
+  invisible()
+}
+
+use_system_requirement <- function(requirement) {
+  stopifnot(is_string(requirement))
+  existing_requirements <- desc::desc_get_field("SystemRequirements", default = character(), file = proj_get())
+  existing_requirements <- utils::head(strsplit(existing_requirements, ", ?"), n = 1)
+
+  if (requirement %in% existing_requirements) {
+    return(invisible())
+  }
+
+  new_requirements <- paste0(c(existing_requirements, requirement), collapse = ", ")
+
+  ui_done(
+    "Adding {ui_value(requirement)} to {ui_field('SystemRequirements')} field in DESCRIPTION"
+  )
+
+  desc::desc_set("SystemRequirements", new_requirements)
 
   invisible()
 }

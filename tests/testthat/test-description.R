@@ -50,22 +50,26 @@ test_that("can set package", {
   expect_equal(d$Package, "TEST")
 })
 
-
+test_that("`roxygen = FALSE` is honoured", {
+  d <- use_description_defaults(roxygen = FALSE)
+  expect_null(d[["Roxygen"]])
+  expect_null(d[["RoxygenNote"]])
+})
 
 # use_description ---------------------------------------------------------
 
 test_that("creation succeeds even if options are broken", {
   withr::local_options(list(usethis.description = list(
-    `Authors@R` = 'person('
+    `Authors@R` = "person("
   )))
-  scoped_temporary_project()
+  create_local_project()
 
   expect_error(use_description(), NA)
 })
 
 test_that("default description is tidy", {
   withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
-  scoped_temporary_package()
+  create_local_package()
 
   before <- readLines(proj_path("DESCRIPTION"))
   use_tidy_description()
@@ -75,7 +79,7 @@ test_that("default description is tidy", {
 
 test_that("valid CRAN names checked", {
   withr::local_options(list(usethis.description = NULL, devtools.desc = NULL))
-  scoped_temporary_package(dir = file_temp(pattern = "invalid_pkg_name"))
+  create_local_package(dir = file_temp(pattern = "invalid_pkg_name"))
 
   expect_error(use_description(check_name = FALSE), NA)
   expect_error(

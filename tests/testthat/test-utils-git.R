@@ -1,38 +1,30 @@
-context("test-git-utils")
+# Branch ------------------------------------------------------------------
+test_that("git_branch() works", {
+  create_local_project()
 
-test_that("git_config returns old local values", {
-  skip_if_no_git_user()
+  expect_usethis_error(git_branch(), "Cannot detect")
 
-  scoped_temporary_package()
-  repo <- git_init()
+  git_init()
+  expect_usethis_error(git_branch(), "unborn branch")
 
-  out <- git_config(x.y = "x", .repo = repo)
-  expect_equal(out, list(x.y = NULL))
-
-  out <- git_config(x.y = "y", .repo = repo)
-  expect_equal(out, list(x.y = "x"))
+  writeLines("blah", proj_path("blah.txt"))
+  gert::git_add("blah.txt", repo = git_repo())
+  gert::git_commit("Make one commit", repo = git_repo())
+  expect_equal(git_branch(), "master")
 })
 
-test_that("git_config returns old global values", {
-  skip_if_no_git_user()
-  skip_on_cran()
-
-  out <- git_config(usethis.test1 = "val1", usethis.test2 = "val2")
-  expect_equal(out, list(usethis.test1 = NULL, usethis.test2 = NULL))
-
-  out <- git_config(usethis.test1 = NULL, usethis.test2 = NULL)
-  expect_equal(out, list(usethis.test1 = "val1", usethis.test2 = "val2"))
-})
-
+# Protocol ------------------------------------------------------------------
 test_that("git_protocol() catches bad input from usethis.protocol option", {
   withr::with_options(
-    list(usethis.protocol = "nope"), {
+    list(usethis.protocol = "nope"),
+    {
       expect_usethis_error(git_protocol(), "must be one of")
       expect_null(getOption("usethis.protocol"))
     }
   )
   withr::with_options(
-    list(usethis.protocol = c("ssh", "https")), {
+    list(usethis.protocol = c("ssh", "https")),
+    {
       expect_usethis_error(git_protocol(), "must be one of")
       expect_null(getOption("usethis.protocol"))
     }
@@ -75,7 +67,8 @@ test_that("git_protocol() honors, vets, and lowercases the option", {
 
 test_that("use_git_protocol() prioritizes and lowercases direct input", {
   withr::with_options(
-    list(usethis.protocol = "ssh"), {
+    list(usethis.protocol = "ssh"),
+    {
       expect_identical(use_git_protocol("HTTPS"), "https")
       expect_identical(git_protocol(), "https")
     }

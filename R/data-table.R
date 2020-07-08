@@ -16,7 +16,7 @@ use_data_table <- function() {
   check_uses_roxygen("use_data_table()")
 
   deps <- desc::desc_get_deps(".")
-  if (any(deps$type == 'Depends' & deps$package == "data.table")) {
+  if (any(deps$type == "Depends" & deps$package == "data.table")) {
     ui_warn("data.table should be in Imports or Suggests, not Depends")
     desc::desc_del_dep("data.table", "Depends", file = proj_get())
   }

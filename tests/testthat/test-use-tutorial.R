@@ -3,7 +3,7 @@ context("test-use-tutorial")
 test_that("use_tutorial() checks its inputs", {
   skip_if_not_installed("rmarkdown")
 
-  scoped_temporary_package()
+  create_local_package()
   expect_error(use_tutorial(), "no default")
   expect_error(use_tutorial(name = "tutorial-file"), "no default")
 })
@@ -11,8 +11,9 @@ test_that("use_tutorial() checks its inputs", {
 test_that("use_tutorial() creates a tutorial", {
   with_mock(
     ## need to pass the check re: whether learnr is installed
-    `usethis:::is_installed` = function(pkg) TRUE, {
-      scoped_temporary_package()
+    `usethis:::is_installed` = function(pkg) TRUE,
+    {
+      create_local_package()
       use_tutorial(name = "aaa", title = "bbb")
       tute_file <- path("inst", "tutorials", "aaa", "aaa", ext = "Rmd")
       expect_proj_file(tute_file)

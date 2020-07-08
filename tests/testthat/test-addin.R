@@ -1,7 +1,7 @@
 context("use_addin")
 
 test_that("use_addin() creates the first addins.dcf as promised", {
-  scoped_temporary_package()
+  create_local_package()
   use_addin("addin.test")
 
   addin_dcf <- read_utf8(proj_path("inst", "rstudio", "addins.dcf"))

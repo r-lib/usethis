@@ -4,11 +4,7 @@
 \alias{use_tidy_thanks}
 \title{Identify contributors via GitHub activity}
 \usage{
-use_tidy_thanks(
-  repo_spec = github_repo_spec(),
-  from = releases(repo_spec)[[1]],
-  to = NULL
-)
+use_tidy_thanks(repo_spec = NULL, from = NULL, to = NULL)
 }
 \arguments{
 \item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
@@ -25,7 +21,7 @@ A character vector of GitHub usernames, invisibly.
 \description{
 Derives a list of GitHub usernames, based on who has opened issues or pull
 requests. Used to populate the acknowledgment section of package release blog
-posts at \url{https://www.tidyverse.org/articles/}. All arguments can potentially
+posts at \url{https://www.tidyverse.org/blog/}. All arguments can potentially
 be determined from the active project, if the project follows standard
 practices around the GitHub remote and GitHub releases. Unexported helper
 functions, \code{releases()} and \code{ref_df()} can be useful interactively to get a

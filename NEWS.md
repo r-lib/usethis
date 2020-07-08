@@ -1,17 +1,78 @@
 # usethis (development version)
 
-* New function `use_no_license()` for proprietary packages (@antoine-sachet, #1112)
+## Adoption of gert and credentials
+
+Usethis now uses the gert package for Git operations (<https://docs.ropensci.org/gert>), where previously we used git2r. The main motivation for this is to provide a smoother user experience by discovering and using the same credentials as command line Git (and, therefore, the same as RStudio). Under the hood, the hero is the credentials package (<https://docs.ropensci.org/credentials/>). `use_git_credentials()` and `git_credentials()` are now deprecated, since usethis no longer needs a way for a user to provide explicit credentials. The switch to gert + credentials should eliminate most credential-finding fiascos, but if you want to learn more, see the [introductory vignette](https://cran.r-project.org/web/packages/credentials/vignettes/intro.html) for the credentials package. 
+
+Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that "just work", for both SSH and HTTPS remotes. There should be fewer "unsupported protocol" errors.
+
+## GitHub remote configuration
+
+Usethis gains a more formal framework for characterizing a GitHub remote configuration. We look at:
+
+  * Which GitHub repositories `origin` and `upstream` point to
+  * Whether you can push to them
+  * How they relate to each other, e.g. fork-parent relationship
+  
+This is an internal matter, but users will notice that usethis is more clear about which configurations are supported by various functions and which are not. The most common configurations are reviewed in a [section of Happy Git](https://happygitwithr.com/common-remote-setups.html).
+
+When working in a fork, there is sometimes a question whether to target the fork or the parent repository. For example, `use_github_links()` adds GitHub links to the URL and BugReports fields of DESCRIPTION. If someone calls `use_github_links()` when working in a fork, they probably want those links to refer to the *parent* repo, not to their fork, because the user is probably preparing a pull request. Usethis should now have better default behaviour in these situations and, in some cases, will present an interactive choice.
+
+## Default branch
+
+There is increasing interest in making the name of a repo's default branch configurable. In principle, this is already possible, but in reality many Git tools have `master` hard-wired in various places and usethis is no exception. We are laying the groundwork to respect a repository-specific default branch in a future release. It remains to be seen if some standard will emerge for where to record this info or if usethis needs to track it in a custom Git configuration field.
+
+*TODO: Summarize current level of prep or support of non-`master` default branch.*
+
+## Changes to Git/GitHub-related functions
+
+`use_git_credentials()` and `git_credentials()` are deprecated. All credential-handling has been delegated to the credentials package. 
+
+`pr_finish()` deletes the remote PR branch if the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150).
+
+`pr_pull_upstream()` is renamed to `pr_merge_main()` to emphasize that it merges the **main** line of development into the current branch, where the main line of development is taken to mean the default branch of the primary repo. The default branch is still hard-coded as `master`, but this will become configurable in a future release (see above).
+
+`create_from_github()` alerts the user when it is going to create a read-only clone, due to lack of a GitHub personal access token, when it seems likely that the user's intent is to fork-and-clone.
+
+`pr_fetch()` no longer has an `owner` argument. This is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.
+
+`pr_resume()` is a new function for resuming work on an existing local PR branch.
+
+`create_github_token()` is a new name for the function previously known as `browse_github_token()` and `browse_github_pat()`.
+
+## Other changes
+
+`use_no_license()` is a new function to explicitly indicate there is no license, i.e. for a proprietary package (@antoine-sachet, #1112).
+
+`use_cpp11()` is a new function to set up an R package to use cpp11.
+
+`create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
+
+`create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
+
+# usethis 1.6.1
+
+Patch release to align some path handling internals with an update coming in the fs package.
+
+* `use_github_links()` is a bit more clever about remotes (e.g. `origin`
+  vs. `upstream`), which makes it easier to make a PR that adds GitHub links for
+  a package you've forked.
+
+* `use_pkgdown()` now `.gitignore`s the destination directory and only adds the
+  destination directory to the config file if it departs from the default
+  (which is `docs/`).
+>>>>>>> 4abf7ca5e1ec85722bae8c8a346ff34c8baab979
 
 * `use_tidy_ci()` is now deprecated in favour of `use_tidy_github_actions()` 
   (#1098).
-
-# usethis 1.6.0
 
 * `use_github_action_check_standard()` is a new intermediate workflow that
   checks on more platforms than `_release`, but is less exhaustive than `_full`
   (@jimhester).
 
 * `create_tidy_package()` now uses an MIT license (@topepo, #1096). 
+
+# usethis 1.6.0
 
 ## GitHub actions
 
