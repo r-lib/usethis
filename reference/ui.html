@@ -61,7 +61,8 @@ block styles: ui_line(), ui_done(), ui_todo(), ui_oops(),
 ui_info().
 conditions: ui_stop(), ui_warn().
 questions: ui_yeah(), ui_nope().
-inline styles: ui_field(), ui_value(), ui_path(), ui_code().
+inline styles: ui_field(), ui_value(), ui_path(), ui_code(),
+ui_unset().
 
 
 The question functions ui_yeah() and ui_nope() have their own help page." />
@@ -107,7 +108,7 @@ The question functions ui_yeah() and ui_nope() have their own help page." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -204,7 +205,8 @@ as usethis.</p>
 <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_info()</a></code>.</p></li>
 <li><p>conditions: <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_stop()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_warn()</a></code>.</p></li>
 <li><p>questions: <code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_yeah()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_nope()</a></code>.</p></li>
-<li><p>inline styles: <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_field()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_value()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_path()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_code()</a></code>.</p></li>
+<li><p>inline styles: <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_field()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_value()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_path()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_code()</a></code>,
+<code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_unset()</a></code>.</p></li>
 </ul>
 
 <p>The question functions <code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_yeah()</a></code> and <code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_nope()</a></code> have their own <a href='https://usethis.r-lib.org/reference/ui-questions.html'>help page</a>.</p>
@@ -234,7 +236,9 @@ as usethis.</p>
 
 <span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_path</a></span>(<span class='kw'>x</span>, base = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_code</a></span>(<span class='kw'>x</span>)</pre>
+<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_code</a></span>(<span class='kw'>x</span>)
+
+<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_unset</a></span>(x = <span class='st'>"unset"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -259,7 +263,7 @@ is installed, will copy the code block to the clipboard.</p></td>
     </tr>
     <tr>
       <th>code</th>
-      <td><p>Code to execute with usually UI output silenced.</p></td>
+      <td><p>Code to execute with usual UI output silenced.</p></td>
     </tr>
     <tr>
       <th>base</th>
@@ -276,8 +280,8 @@ side-effect. The inline styles return a string.</p>
     
 
 <p>All UI output (apart from <code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_yeah()</a></code>/<code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_nope()</a></code> prompts) can be silenced
-by setting <code><a href='https://rdrr.io/r/base/options.html'>options(usethis.quiet = TRUE)</a></code>. Use <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_silence()</a></code> to selected
-actions.</p>
+by setting <code><a href='https://rdrr.io/r/base/options.html'>options(usethis.quiet = TRUE)</a></code>. Use <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_silence()</a></code> to silence
+selected actions.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other user interface functions: 

@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -226,19 +226,20 @@
 <li>
 <code><a href="../../reference/proj_sitrep.html">proj_sitrep()</a></code>: prints info about the active usethis project, working directory, and the active RStudio Project. Points out when things are peculiar and how to fix.</li>
 <li>
-<code><a href="../../reference/git_sitrep.html">git_sitrep()</a></code>: prints info about your current Git, git2r, and GitHub setup.</li>
+<code><a href="../../reference/git_sitrep.html">git_sitrep()</a></code>: prints info about your current Git, gert, and GitHub setup.</li>
 </ul>
+<p>“Sitrep” is short for “<strong>sit</strong>uation <strong>rep</strong>ort”.</p>
 </div>
 <div id="get-a-github-com-account" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-a-github-com-account" class="anchor"></a>Get a GitHub.com account</h2>
-<p>Sign up for a free account with <a href="https://github.com/">GitHub.com</a>. <a href="https://happygitwithr.com/github-acct.html">Happy Git and GitHub for the useR</a> provides more advice about picking your username and discusses ways to get private repositories.</p>
+<p>Sign up for a free account with <a href="https://github.com/">GitHub.com</a>. <a href="https://happygitwithr.com/github-acct.html">Happy Git and GitHub for the useR</a> provides more advice about picking your username.</p>
 </div>
 <div id="install-git" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install-git" class="anchor"></a>Install Git</h2>
 <p>Please see <a href="https://happygitwithr.com/install-git.html">Happy Git and GitHub for the useR</a> for instructions on how to install Git. It is beyond the scope of this article.</p>
-<p>usethis itself does not actually need the Git that you install, because it uses the <a href="https://cran.r-project.org/package=git2r">git2r</a> package which wraps <a href="https://libgit2.github.com">libgit2</a>. But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git.</p>
+<p>usethis itself does not actually need the Git that you install, because it uses the <a href="https://docs.ropensci.org/gert/">gert</a> package which wraps <a href="https://libgit2.github.com">libgit2</a>. But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git.</p>
 </div>
 <div id="configure-user-name-and-user-email" class="section level2">
 <h2 class="hasAnchor">
@@ -268,8 +269,14 @@
 <div id="optional-configure-gits-editor" class="section level3">
 <h3 class="hasAnchor">
 <a href="#optional-configure-gits-editor" class="anchor"></a>Optional: configure Git’s editor</h3>
-<p>Another Git option that many people eventually configure is the editor. This will come up if you use Git from a shell. At some point, you will fail to give Git what it wants in terms of a commit message and it will kick you into an editor. This can be distressing, if it’s not your editor of choice and you don’t even know how to save and quit. You can enforce your will by executing this in a shell (not in R!):</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">git</span> config --global core.editor emacs</span></code></pre></div>
+<p>Another Git option that many people eventually configure is the editor. This will come up if you use Git from a shell. At some point, you will fail to give Git what it wants in terms of a commit message and it will kick you into an editor. This can be distressing, if it’s not your editor of choice and you don’t even know how to save and quit. You can enforce your will by executing this in R:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://usethis.r-lib.org">usethis</a></span>)
+
+<span class="fu"><a href="../../reference/use_git_config.html">use_git_config</a></span>(core.editor = <span class="st">"nano"</span>)
+</pre></div>
+<p>To do the same thing with command line Git, execute this in a shell:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">git</span> config --global core.editor emacs</span></code></pre></div>
 <p>Substitute your preferred editor for emacs here. A popular choice is <a href="https://www.nano-editor.org/">nano</a>. The default, if you don’t configure <code>core.editor</code>, is usually vim.</p>
 </div>
 </div>
@@ -285,33 +292,62 @@
 <a href="#get-and-store-a-github-personal-access-token" class="anchor"></a>Get and store a GitHub personal access token</h2>
 <p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">usethis::use_github()</a></code> and <code><a href="../../reference/create_from_github.html">usethis::create_from_github(..., fork = TRUE)</a></code>. In both cases, usethis must create a new GitHub repository on your behalf. This is <strong>not</strong> a regular Git operation (like pulling and pushing to existing repos) and your usual method of providing credentials to GitHub does not work for this.</p>
 <p>Other functions, such as the <code>pr_*()</code> family, may also use your GitHub PAT for fetch/pull/push if you are using the HTTPS protocol.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://usethis.r-lib.org">usethis</a></span>)
-<span class="fu"><a href="../../reference/browse_github_token.html">browse_github_token</a></span>()
-</pre></div>
-<p><code><a href="../../reference/browse_github_token.html">usethis::browse_github_token()</a></code> takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on “Generate new token” from <a href="https://github.com/settings/tokens" class="uri">https://github.com/settings/tokens</a>.</p>
-<p>As the page says, you must <strong>store this token somewhere</strong> because you’ll never be able to see it again, once you leave that page or close the windows. If you somehow goof this up, just generate a new PAT and, so you don’t confuse yourself, delete the lost token.</p>
-<p><code><a href="../../reference/browse_github_token.html">browse_github_token()</a></code> provides advice on how to store your PAT, also repeated here. It is customary to save the PAT as an environment variable in your <code>.Renviron</code>, with the name <code>GITHUB_PAT</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://usethis.r-lib.org">usethis</a></span>)
+<span class="fu"><a href="../../reference/create_github_token.html">create_github_token</a></span>()
+</pre></div>
+<p><code><a href="../../reference/create_github_token.html">usethis::create_github_token()</a></code> takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on “Generate new token” from <a href="https://github.com/settings/tokens" class="uri">https://github.com/settings/tokens</a>.</p>
+<p>As the page says, you must <strong>store this token somewhere</strong> because you’ll never be able to see it again, once you leave that page or close the window. If you somehow goof this up, just generate a new PAT and, so you don’t confuse yourself, delete the lost token.</p>
+<p>In the moment, I usually copy the PAT to the clipboard for the next step. (I also store this PAT in my general password manager, for redundancy.)</p>
+<p>It is customary to make this PAT available to R sessions as the value of the <code>GITHUB_PAT</code> environment variable. <code><a href="../../reference/create_github_token.html">create_github_token()</a></code> provides advice on how to do this, also repeated here.</p>
+<div id="git-credential-store" class="section level3">
+<h3 class="hasAnchor">
+<a href="#git-credential-store" class="anchor"></a>Git credential store</h3>
+<p>This is a new approach made possible by the <a href="https://docs.ropensci.org/credentials/">credentials package</a>, which is used for credential handling by the <a href="https://docs.ropensci.org/gert">gert package</a>, which is how usethis does its Git work. The approach is described fully in the rOpenSci tech note <a href="https://ropensci.org/technotes/2020/07/07/github-pat/">A better way to manage your GitHub personal access tokens</a>.</p>
+<p><code><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">credentials::set_github_pat()</a></code> triggers a prompt where you can register your PAT with your operating system’s Git credential store. That’s something you do once. Or, rather, once per machine, per PAT.</p>
+<p>From then on, executing <code><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">credentials::set_github_pat()</a></code> will cause that existing PAT to be re-validated and, assuming that succeeds, assigned to the <code>GITHUB_PAT</code> environment variable. You might put this in your <code>.Rprofile</code> startup file (remember <code><a href="../../reference/edit.html">edit_r_profile()</a></code> helps you get this file open for editing):</p>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="co"># suitable for your .Rprofile</span>
+<span class="co">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"credentials"</span>, quietly = <span class="fl">TRUE</span>)) {
+  <span class="kw">credentials</span>::<span class="fu"><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">set_github_pat</a></span>(verbose = <span class="fl">FALSE</span>)
+}
+</pre></div>
+<p>However, note that usethis will soon execute this command for you when it needs the PAT.</p>
+</div>
+<div id="renviron" class="section level3">
+<h3 class="hasAnchor">
+<a href="#renviron" class="anchor"></a><code>.Renviron</code>
+</h3>
+<p>For years, this has been the most common way to make the PAT available. It still works, but is less secure than the approach described just above.</p>
+<p>Here we set the <code>GITHUB_PAT</code> environment variable in the <code>.Renviron</code> file which is consulted at startup. <code><a href="../../reference/edit.html">usethis::edit_r_environ()</a></code> will open <code>.Renviron</code> for editing.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://usethis.r-lib.org">usethis</a></span>)
 <span class="fu"><a href="../../reference/edit.html">edit_r_environ</a></span>()
 </pre></div>
-<p><code><a href="../../reference/edit.html">usethis::edit_r_environ()</a></code> will open <code>.Renviron</code> for editing. Add a line like this, <strong>but substitute your PAT</strong>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="va">GITHUB_PAT=</span>8c70fd8419398999c9ac5bacf3192882193cadf2</span></code></pre></div>
+<p>Add a line like this, <strong>but substitute your PAT</strong>:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="va">GITHUB_PAT=</span>8c70fd8419398999c9ac5bacf3192882193cadf2</span></code></pre></div>
 <p>Make sure this file ends in a newline! Lack of a newline can lead to silent failure to load this environment variable, which can be tricky to debug.</p>
-<p>Restart R and confirm your PAT is now available:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)
-
-<span class="co">## or, alternatively,</span>
+<p>Restart R for this to take effect.</p>
+</div>
+<div id="confirm-your-pat-is-configured" class="section level3">
+<h3 class="hasAnchor">
+<a href="#confirm-your-pat-is-configured" class="anchor"></a>Confirm your PAT is configured</h3>
+<p>Here are ways to confirm your PAT is ready to go. You can execute <code><a href="../../reference/create_github_token.html">usethis::github_token()</a></code>:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://usethis.r-lib.org">usethis</a></span>)
-<span class="fu"><a href="../../reference/browse_github_token.html">github_token</a></span>()
+<span class="fu"><a href="../../reference/create_github_token.html">github_token</a></span>()
+<span class="co">#&gt; [1] "v1.1f84f5065f0e6b40b89cdfa3b7bf9c21bdce67a9"</span>
 </pre></div>
-<p>The GitHub section of <code><a href="../../reference/git_sitrep.html">usethis::git_sitrep()</a></code> will also reveal if a PAT is found and, if so, the associated user.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
+<p>You could inspect the <code>GITHUB_PAT</code> environment variable directly:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)
+</pre></div>
+<p>The PAT situation is also part of what’s reported in <code><a href="../../reference/git_sitrep.html">git_sitrep()</a></code>:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="fu"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()
 </pre></div>
-<p>Now usethis (and a few other packages) can find this PAT automatically in order to deal with GitHub on your behalf.</p>
+<p>Now usethis (and several other packages) can find this PAT automatically in order to deal with GitHub on your behalf.</p>
+</div>
 </div>
 <div id="prepare-your-system-to-build-packages-from-source" class="section level2">
 <h2 class="hasAnchor">

@@ -57,10 +57,17 @@
 a high-level description of the package and its goals
 R code to install from GitHub, if GitHub usage detected
 a basic example
-Use Rmd if you want a rich intermingling of code and data. Use
-md for a basic README. README.Rmd will be automatically
-added to .Rbuildignore. The resulting README is populated with default
-YAML frontmatter and R fenced code blocks (md) or chunks (Rmd)." />
+
+
+Use Rmd if you want a rich intermingling of code and output. Use md for a
+basic README. README.Rmd will be automatically added to .Rbuildignore.
+The resulting README is populated with default YAML frontmatter and R fenced
+code blocks (md) or chunks (Rmd).
+If you use Rmd, you'll still need to render it regularly, to keep
+README.md up-to-date. devtools::build_readme() is handy for this. You
+could also use GitHub Actions to re-render README.Rmd every time you push.
+An example workflow can be found in the examples/ directory here:
+https://github.com/r-lib/actions/." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -103,7 +110,7 @@ YAML frontmatter and R fenced code blocks (md) or chunks (Rmd)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -196,10 +203,17 @@ YAML frontmatter and R fenced code blocks (md) or chunks (Rmd)." />
 <li><p>a high-level description of the package and its goals</p></li>
 <li><p>R code to install from GitHub, if GitHub usage detected</p></li>
 <li><p>a basic example</p></li>
-</ul><p>Use <code>Rmd</code> if you want a rich intermingling of code and data. Use
-<code>md</code> for a basic README. <code>README.Rmd</code> will be automatically
-added to <code>.Rbuildignore</code>. The resulting README is populated with default
-YAML frontmatter and R fenced code blocks (<code>md</code>) or chunks (<code>Rmd</code>).</p>
+</ul>
+
+<p>Use <code>Rmd</code> if you want a rich intermingling of code and output. Use <code>md</code> for a
+basic README. <code>README.Rmd</code> will be automatically added to <code>.Rbuildignore</code>.
+The resulting README is populated with default YAML frontmatter and R fenced
+code blocks (<code>md</code>) or chunks (<code>Rmd</code>).</p>
+<p>If you use <code>Rmd</code>, you'll still need to render it regularly, to keep
+<code>README.md</code> up-to-date. <code>devtools::build_readme()</code> is handy for this. You
+could also use GitHub Actions to re-render <code>README.Rmd</code> every time you push.
+An example workflow can be found in the <code>examples/</code> directory here:
+<a href='https://github.com/r-lib/actions/'>https://github.com/r-lib/actions/</a>.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_readme_rmd.html'>use_readme_rmd</a></span>(open = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>())

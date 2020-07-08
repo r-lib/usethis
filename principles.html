@@ -95,7 +95,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -220,7 +220,16 @@
 <div id="helpers-and-the-active-project" class="section level3">
 <h3 class="hasAnchor">
 <a href="#helpers-and-the-active-project" class="anchor"></a>Helpers and the active project</h3>
-<p>Current mindset: helpers should <em>not</em> make direct use of the active project, i.e. project-based paths should be formed by the caller.</p>
+<p>Two opposing mindsets:</p>
+<ul>
+<li>Helpers should be low-level and general and <em>not</em> make direct use of the active project, i.e. project-based paths should be formed by the caller.</li>
+<li>Everything should refer to the active project, unless there’s a specific reason not to.</li>
+</ul>
+<p>We haven’t managed to really pick a side on this. But some principles emerge when looking at different types of helpers:</p>
+<ul>
+<li>Git/GitHub helpers generally assume we’re working on the Git repo that is also the active project. These are unexported. Prefer <code>git_repo()</code> to <code>proj_get()</code>, when you have a choice, to get the benefit of the <code>check_uses_git()</code> that’s in <code>git_repo()</code>.</li>
+<li>The exported file writing helpers do not make direct reference to the active project. One benefit is that calling these helpers won’t cause an active project to be set.</li>
+</ul>
 <p>Uncomfortable fact: <code>write_union()</code> uses the active project, if such exists, to create a humane path in its message. However, unlike <code>use_*()</code> functions, it does not call <code>proj_get()</code> to set an active project when <code>proj$cur</code> is <code>NULL</code>. We like this behaviour but the design feels muddy.</p>
 </div>
 </div>
@@ -232,39 +241,23 @@
 <div id="communicating-with-the-user" class="section level2">
 <h2 class="hasAnchor">
 <a href="#communicating-with-the-user" class="anchor"></a>Communicating with the user</h2>
-<p>User-facing messages are emitted via helpers in <code>style.R</code> (see <code>ui_todo()</code> and <code>ui_done()</code>) and <em>everything</em> is eventually routed through <code>cat_line()</code>. This is all intentional and should be preserved.</p>
-<p><code>cat_line()</code> has a <code>quiet</code> argument and <code>quiet = TRUE</code> causes it to not produce output. Default value: <code>quiet = getOption("usethis.quiet", default = FALSE)</code>.</p>
+<p>User-facing messages are emitted via helpers in <code>ui.R</code> and <em>everything</em> is eventually routed through <code><a href="https://rlang.r-lib.org/reference/abort.html">rlang::inform()</a></code> via <code>ui_inform()</code>. This is all intentional and should be preserved.</p>
+<p>This is so we can control verbosity package-wide with the <code>usethis.quiet</code> option, which defaults to <code>FALSE</code>.</p>
 <ul>
 <li>Exploited in usethis tests: option is set and unset in <code>setup.R</code> and <code>teardown.R</code>. Eliminates the need for ubiquitous <code>capture_output()</code> calls.</li>
 <li>Other packages can muffle a usethis call via, e.g., <code><a href="https://rdrr.io/pkg/withr/man/with_options.html">withr::local_options(list(usethis.quiet = TRUE))</a></code>.</li>
-</ul>
-<p>Implication: don’t call <code>cat_line(..., quiet = FALSE)</code> lightly, because it breaks the expectation that the option can be used to silence usethis.</p>
-<p>You might also notice that usethis communicates with the user via <code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code> instead of <code><a href="https://rdrr.io/r/base/message.html">message()</a></code>. Why?</p>
-<ul>
-<li>Pragmatic explanation: default styling of <code><a href="https://rdrr.io/r/base/message.html">message()</a></code> (at least in RStudio) is red, which suggests that something is wrong. We prefer default styling to be more neutral and less alarmist.</li>
-<li>Principled explanation: if one diverts where various streams go, <code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code> follows printed output, whereas <code><a href="https://rdrr.io/r/base/message.html">message()</a></code> goes to standard error.</li>
+<li>Use <code>ui_silence()</code> is available for executing small bits of code silently.</li>
 </ul>
 </div>
-<div id="git" class="section level2">
+<div id="gitgithub" class="section level2">
 <h2 class="hasAnchor">
-<a href="#git" class="anchor"></a>Git</h2>
-<p>We make a strong assumption that user follows these conventions for branch and remote names:</p>
-<ul>
-<li>
-<code>master</code> is the main default branch.</li>
-<li>If you’ve got only one remote, it’s called <code>origin</code>.</li>
-<li>If you’ve got multiple remotes, one of them is <code>origin</code> and it is the main default remote.</li>
-<li>If you’ve forked something, you have at least two remotes:
-<ul>
-<li>
-<code>origin</code> is your copy.</li>
-<li>
-<code>upstream</code> is the original repo you forked.</li>
-</ul>
-</li>
-</ul>
+<a href="#gitgithub" class="anchor"></a>Git/GitHub</h2>
+<p>Don’t make <em>ad hoc</em> guesses or assumptions about the setup in individual functions. Instead, do <code>cfg &lt;- classify_github_setup()</code> to analyze the configuration. If <code>cfg$unsupported</code> is <code>TRUE</code>, bail right away with <code>stop_bad_github_config()</code>. Otherwise, use <code>cfg$type</code> to decide how to proceed. It’s fine to only support the GitHub configurations known as “ours” and “fork”.</p>
 <p>We assume a user habitually uses one transport protocol, either SSH or HTTPS, i.e. that they don’t intentionally switch between them willy-nilly.</p>
-<p>If the default summoning of Git credentials or protocol or GitHub PAT doesn’t work for you, you must set them explicitly via <code>use_git_credentials()</code>, <code>use_git_protocol()</code>, or <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv("GITHUB_PAT")</a></code>. We aren’t going to offer fine control of this, everywhere, by repetitively offering a ton of function arguments.</p>
+<p>If the default summoning of Git credentials or protocol or GitHub PAT doesn’t work for you, fix that. We aren’t going to offer fine control of this, everywhere, by repetitively offering a ton of function arguments.</p>
+<p>Functions that might make a commit should use <code>check_no_uncommitted_changes()</code> in the initial sanity-checking block to encourage starting in a clean state, i.e. with no uncommitted files or, if <code>untracked = TRUE</code> is specified, also with no untracked files.</p>
+<p>Always make commits with <code>git_commit_ask()</code>. This why <code>git_commit()</code>, which wraps <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html">gert::git_add()</a></code> and <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html">gert::git_commit()</a></code>, is defined <em>inside</em> <code>git_commit_ask()</code>. Whenever possible, specify <code>paths</code> for <code>git_commit_ask()</code>. It should almost always be possible to know exactly which files we might have touched or created. If you need to make a commit in a noninteractive context, like a test, use <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html">gert::git_commit()</a></code>.</p>
+<p>Use <code>git_uncommitted(untracked = TRUE)</code> and <code>git_ask_commit(untracked = TRUE)</code> if it’s possible that the work we’ve done has <strong>created</strong> a new file that should be tracked. Use <code>untracked = FALSE</code> if our work should only modify and pre-existing file.</p>
 </div>
 </div>
 

@@ -10,13 +10,13 @@
     <loc>https://usethis.r-lib.org/reference/browse-this.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/reference/browse_github_token.html</loc>
-  </url>
-  <url>
     <loc>https://usethis.r-lib.org/reference/ci.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/create_from_github.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/create_github_token.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/create_package.html</loc>
@@ -46,9 +46,6 @@
     <loc>https://usethis.r-lib.org/reference/licenses.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/reference/pr_init.html</loc>
-  </url>
-  <url>
     <loc>https://usethis.r-lib.org/reference/proj_activate.html</loc>
   </url>
   <url>
@@ -56,6 +53,9 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/proj_utils.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/pull-requests.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/rename_files.html</loc>
@@ -92,6 +92,9 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/use_coverage.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/use_cpp11.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/use_cran_comments.html</loc>

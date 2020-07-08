@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Quickly browse to important package webpages — browse-this • usethis</title>
+<title>Visit important project-related web pages — browse-this • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,10 +52,23 @@
 
 
 
-<meta property="og:title" content="Quickly browse to important package webpages — browse-this" />
-<meta property="og:description" content="These functions take you to various webpages associated with a package and
-return the target URL invisibly. Some URLs are formed from first principles
-and there is no guarantee there will be content at the destination." />
+<meta property="og:title" content="Visit important project-related web pages — browse-this" />
+<meta property="og:description" content="These functions take you to various web pages associated with a project
+(here, usually a package) and return the target URL invisibly. To form
+these URLs we consult:
+Git remotes configured for the active project that are associated with
+github.com
+DESCRIPTION file for the active project or the specified package
+Fixed templates:
+Travis CI: https://travis-ci.{EXT}/{OWNER}/{PACKAGE}
+Circle CI: https://circleci.com/gh/{OWNER}/{PACKAGE}
+CRAN landing page: https://cran.r-project.org/package={PACKAGE}
+GitHub mirror of a CRAN package: https://github.com/cran/{PACKAGE}
+Templated URLs aren't checked for existence, so there is no guarantee
+there will be content at the destination.
+
+
+" />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -98,7 +111,7 @@ and there is no guarantee there will be content at the destination." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -181,15 +194,28 @@ and there is no guarantee there will be content at the destination." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Quickly browse to important package webpages</h1>
+    <h1>Visit important project-related web pages</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/browse.R'><code>R/browse.R</code></a></small>
     <div class="hidden name"><code>browse-this.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>These functions take you to various webpages associated with a package and
-return the target URL invisibly. Some URLs are formed from first principles
-and there is no guarantee there will be content at the destination.</p>
+    <p>These functions take you to various web pages associated with a project
+(here, usually a package) and return the target URL invisibly. To form
+these URLs we consult:</p><ul>
+<li><p>Git remotes configured for the active project that are associated with
+github.com</p></li>
+<li><p>DESCRIPTION file for the active project or the specified <code>package</code></p></li>
+<li><p>Fixed templates:</p><ul>
+<li><p>Travis CI: <code>https://travis-ci.{EXT}/{OWNER}/{PACKAGE}</code></p></li>
+<li><p>Circle CI: <code>https://circleci.com/gh/{OWNER}/{PACKAGE}</code></p></li>
+<li><p>CRAN landing page: <code>https://cran.r-project.org/package={PACKAGE}</code></p></li>
+<li><p>GitHub mirror of a CRAN package: <code>https://github.com/cran/{PACKAGE}</code>
+Templated URLs aren't checked for existence, so there is no guarantee
+there will be content at the destination.</p></li>
+</ul></li>
+</ul>
+
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github</a></span>(package = <span class='kw'>NULL</span>)
@@ -209,12 +235,12 @@ and there is no guarantee there will be content at the destination.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>package</th>
-      <td><p>Name of package; leave as <code>NULL</code> to use current package</p></td>
+      <td><p>Name of package. If <code>NULL</code>, inferred from the active project.</p></td>
     </tr>
     <tr>
       <th>number</th>
-      <td><p>For GitHub issues and pull requests. Can be a number or
-<code>"new"</code>.</p></td>
+      <td><p>Optional, to specify an individual GitHub issue or pull
+request. Can be a number or <code>"new"</code>.</p></td>
     </tr>
     <tr>
       <th>ext</th>
@@ -226,20 +252,23 @@ and there is no guarantee there will be content at the destination.</p>
 
     
 <ul>
-<li><p><code><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github()</a></code>: Looks for a GitHub URL in the URL field of
-<code>DESCRIPTION</code>.</p></li>
+<li><p><code><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github()</a></code>: Visits a GitHub repository associated with the project.
+In the case of a fork, you might be asked to specify if you're interested
+in the parent repo or your fork.</p></li>
 <li><p><code><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github_issues()</a></code>: Visits the GitHub Issues index or one specific
 issue.</p></li>
 <li><p><code><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github_pulls()</a></code>: Visits the GitHub Pull Request index or one
 specific pull request.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_travis()</a></code>: Visits the package's page on <a href='https://travis-ci.com'>Travis CI</a>.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_circleci()</a></code>: Visits the package's page on <a href='https://circleci.com'>Circle CI</a></p></li>
+<li><p><code><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_travis()</a></code>: Visits the project's page on
+<a href='https://travis-ci.com'>Travis CI</a>.</p></li>
+<li><p><code><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_circleci()</a></code>: Visits the project's page on
+<a href='https://circleci.com'>Circle CI</a>.</p></li>
 <li><p><code><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_cran()</a></code>: Visits the package on CRAN, via the canonical URL.</p></li>
 </ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github</a></span>(<span class='st'>"gh"</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/gh'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github_issues</a></span>(<span class='st'>"backports"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/backports/issues/'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github_issues</a></span>(<span class='st'>"backports"</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/backports/issues/1'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github_pulls</a></span>(<span class='st'>"rprojroot"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/krlmlr/rprojroot/pulls/'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github_pulls</a></span>(<span class='st'>"rprojroot"</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/krlmlr/rprojroot/pull/3'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_travis</a></span>(<span class='st'>"usethis"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://travis-ci.com/r-lib/usethis'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_cran</a></span>(<span class='st'>"MASS"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://cran.r-project.org/package=MASS'</span><span></span></div></span></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github</a></span>(<span class='st'>"gh"</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/gh'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github_issues</a></span>(<span class='st'>"fs"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/fs/issues/'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github_issues</a></span>(<span class='st'>"fs"</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/fs/issues/1'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github_pulls</a></span>(<span class='st'>"curl"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/jeroen/curl/pulls/'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_github_pulls</a></span>(<span class='st'>"curl"</span>, <span class='fl'>183</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/jeroen/curl/pull/183'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_travis</a></span>(<span class='st'>"gert"</span>, ext = <span class='st'>"org"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://travis-ci.org/r-lib/gert'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/browse-this.html'>browse_cran</a></span>(<span class='st'>"MASS"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://cran.r-project.org/package=MASS'</span><span></span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

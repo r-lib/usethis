@@ -54,13 +54,18 @@
 
 <meta property="og:title" content="Continuous integration setup and badges — ci" />
 <meta property="og:description" content="Sets up continuous integration (CI) services for an R package that is
-developed on GitHub. CI services can run R CMD check automatically on
-various platforms, triggered by each push or pull request. These functions
+developed on GitHub or, perhaps, GitLab. CI services can run R CMD check
+automatically on various platforms, triggered by each push or pull request.
+These functions
 Add service-specific configuration files and add them to .Rbuildignore.
 Activate a service or give the user a detailed prompt.
 Provide the markdown to insert a badge into README.
 
-" />
+
+Note that the tidyverse team now uses GitHub Actions for continuous integration, so
+the usethis functions supporting GitHub Actions are now the most actively
+maintained. See use_github_actions() or use_tidy_github_actions() to
+learn more." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -103,7 +108,7 @@ Provide the markdown to insert a badge into README.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -193,28 +198,33 @@ Provide the markdown to insert a badge into README.
 
     <div class="ref-description">
     <p>Sets up continuous integration (CI) services for an R package that is
-developed on GitHub. CI services can run <code>R CMD check</code> automatically on
-various platforms, triggered by each push or pull request. These functions</p><ul>
+developed on GitHub or, perhaps, GitLab. CI services can run <code>R CMD check</code>
+automatically on various platforms, triggered by each push or pull request.
+These functions</p><ul>
 <li><p>Add service-specific configuration files and add them to <code>.Rbuildignore</code>.</p></li>
 <li><p>Activate a service or give the user a detailed prompt.</p></li>
 <li><p>Provide the markdown to insert a badge into README.</p></li>
 </ul>
 
+<p>Note that the tidyverse team now uses <a href='https://github.com/features/actions'>GitHub Actions</a> for continuous integration, so
+the usethis functions supporting GitHub Actions are now the most actively
+maintained. See <code><a href='https://usethis.r-lib.org/reference/github_actions.html'>use_github_actions()</a></code> or <code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_github_actions()</a></code> to
+learn more.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_travis</a></span>(browse = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(), ext = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>))
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_travis_badge</a></span>(ext = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>))
+<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_travis_badge</a></span>(ext = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>), repo_spec = <span class='kw'>NULL</span>)
 
 <span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_appveyor</a></span>(browse = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>())
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_appveyor_badge</a></span>()
+<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_appveyor_badge</a></span>(repo_spec = <span class='kw'>NULL</span>)
 
 <span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_gitlab_ci</a></span>()
 
 <span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_circleci</a></span>(browse = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(), image = <span class='st'>"rocker/verse:latest"</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_circleci_badge</a></span>()</pre>
+<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_circleci_badge</a></span>(repo_spec = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,11 +240,15 @@ package.</p></td>
 https://travis-ci.com. Change to <code>"org"</code> for https://travis-ci.org.</p></td>
     </tr>
     <tr>
+      <th>repo_spec</th>
+      <td><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></td>
+    </tr>
+    <tr>
       <th>image</th>
       <td><p>The Docker image to use for build. Must be available on
 <a href='https://hub.docker.com'>DockerHub</a>. The
-<a href='https://hub.docker.com/r/rocker/verse'>rocker/verse</a> image includes TeX
-Live, pandoc, and the tidyverse packages. For a minimal image, try
+<a href='https://hub.docker.com/r/rocker/verse'>rocker/verse</a> image includes
+TeXLive, pandoc, and the tidyverse packages. For a minimal image, try
 <a href='https://hub.docker.com/r/rocker/r-ver'>rocker/r-ver</a>. To specify a version
 of R, change the tag from <code>latest</code> to the version you want, e.g.
 <code>rocker/r-ver:3.5.3</code>.</p></td>
@@ -271,16 +285,15 @@ where AppVeyor is already configured.</p>
 
     
 
-<p>Adds a basic <code>.gitlab-ci.yml</code> to the top-level directory of a package. This is
-a configuration file for the <a href='https://docs.gitlab.com/ee/ci/'>GitLab CI/CD</a> continuous
-integration service for GitLab.</p>
+<p>Adds a basic <code>.gitlab-ci.yml</code> to the top-level directory of a package. This
+is a configuration file for the <a href='https://docs.gitlab.com/ee/ci/'>GitLab CI/CD</a> continuous integration service.</p>
     <h2 class="hasAnchor" id="use-circleci-"><a class="anchor" href="#use-circleci-"></a><code><a href='https://usethis.r-lib.org/reference/ci.html'>use_circleci()</a></code></h2>
 
     
 
-<p>Adds a basic <code>.circleci/config.yml</code> to the top-level directory of a package. This is a
-configuration file for the <a href='https://circleci.com/'>CircleCI</a> continuous
-integration service.</p>
+<p>Adds a basic <code>.circleci/config.yml</code> to the top-level directory of a package.
+This is a configuration file for the <a href='https://circleci.com/'>CircleCI</a>
+continuous integration service.</p>
     <h2 class="hasAnchor" id="use-circleci-badge-"><a class="anchor" href="#use-circleci-badge-"></a><code><a href='https://usethis.r-lib.org/reference/ci.html'>use_circleci_badge()</a></code></h2>
 
     

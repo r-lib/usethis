@@ -53,11 +53,24 @@
 
 
 <meta property="og:title" content="Connect a local repo with GitHub — use_github" />
-<meta property="og:description" content="use_github() takes a local project, creates an associated repo on GitHub,
-adds it to your local repo as the origin remote, and makes an initial push
-to synchronize. use_github() requires that your project already be a Git
-repository, which you can accomplish with use_git(), if needed. See the
-Authentication section below for other necessary setup." />
+<meta property="og:description" content="use_github() takes a local project and:
+Checks that the initial state is good to go:
+Project is already a Git repo
+Current branch is master
+No uncommitted changes
+No pre-existing origin remote
+
+Creates an associated repo on GitHub
+Adds that GitHub repo to your local repo as the origin remote
+Offers to commit changes, e.g. the addition of GitHub links to the
+URL and BugReports fields of DESCRIPTION
+Makes an initial push to GitHub
+Configures origin/master to be the upstream branch of the local master
+branch
+
+
+See the Authentication section below for general setup that is necessary for
+all of this to work." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -100,7 +113,7 @@ Authentication section below for other necessary setup." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -189,20 +202,33 @@ Authentication section below for other necessary setup." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github()</a></code> takes a local project, creates an associated repo on GitHub,
-adds it to your local repo as the <code>origin</code> remote, and makes an initial push
-to synchronize. <code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github()</a></code> requires that your project already be a Git
-repository, which you can accomplish with <code><a href='https://usethis.r-lib.org/reference/use_git.html'>use_git()</a></code>, if needed. See the
-Authentication section below for other necessary setup.</p>
+    <p><code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github()</a></code> takes a local project and:</p><ul>
+<li><p>Checks that the initial state is good to go:</p><ul>
+<li><p>Project is already a Git repo</p></li>
+<li><p>Current branch is <code>master</code></p></li>
+<li><p>No uncommitted changes</p></li>
+<li><p>No pre-existing <code>origin</code> remote</p></li>
+</ul></li>
+<li><p>Creates an associated repo on GitHub</p></li>
+<li><p>Adds that GitHub repo to your local repo as the <code>origin</code> remote</p></li>
+<li><p>Offers to commit changes, e.g. the addition of GitHub links to the
+URL and BugReports fields of DESCRIPTION</p></li>
+<li><p>Makes an initial push to GitHub</p></li>
+<li><p>Configures <code>origin/master</code> to be the upstream branch of the local <code>master</code>
+branch</p></li>
+</ul>
+
+<p>See the Authentication section below for general setup that is necessary for
+all of this to work.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github</a></span>(
   organisation = <span class='kw'>NULL</span>,
   private = <span class='fl'>FALSE</span>,
   protocol = <span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol</a></span>(),
-  credentials = <span class='kw'>NULL</span>,
-  auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/browse_github_token.html'>github_token</a></span>(),
-  host = <span class='kw'>NULL</span>
+  auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token</a></span>(),
+  host = <span class='kw'>NULL</span>,
+  credentials = <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -225,12 +251,6 @@ to the option <code>usethis.protocol</code> and, if unset, to an interactive cho
 or, in non-interactive sessions, "ssh". <code>NA</code> triggers the interactive menu.</p></td>
     </tr>
     <tr>
-      <th>credentials</th>
-      <td><p>A git2r credential object produced with
-<code><a href='https://docs.ropensci.org/git2r/reference/cred_env.html'>git2r::cred_env()</a></code>, <code><a href='https://docs.ropensci.org/git2r/reference/cred_ssh_key.html'>git2r::cred_ssh_key()</a></code>, <code><a href='https://docs.ropensci.org/git2r/reference/cred_token.html'>git2r::cred_token()</a></code>, or
-<code><a href='https://docs.ropensci.org/git2r/reference/cred_user_pass.html'>git2r::cred_user_pass()</a></code>.</p></td>
-    </tr>
-    <tr>
       <th>auth_token</th>
       <td><p>GitHub personal access token (PAT).</p></td>
     </tr>
@@ -240,22 +260,65 @@ or, in non-interactive sessions, "ssh". <code>NA</code> triggers the interactive
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3".</p></td>
     </tr>
+    <tr>
+      <th>credentials</th>
+      <td><p><img src='figures/lifecycle-defunct.svg' alt='Defunct lifecycle' />
+: No longer consulted now that usethis
+uses the gert package for Git operations, instead of git2r. Note that gert
+relies on the credentials package for auth.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="authentication"><a class="anchor" href="#authentication"></a>Authentication</h2>
 
     
 
-<p>A new GitHub repo will be created via the GitHub API, therefore you must
-make a <a href='https://github.com/settings/tokens'>GitHub personal access token (PAT)</a> available. You can either
-provide this directly via the <code>auth_token</code> argument or store it for retrieval
-with <code><a href='https://usethis.r-lib.org/reference/browse_github_token.html'>github_token()</a></code>.</p>
+<p>This function potentially interacts with GitHub in two different ways:</p><ul>
+<li><p>via the GitHub REST API</p></li>
+<li><p>as a conventional Git remote</p></li>
+</ul>
+
+<p>Therefore two types of auth happen.</p>
+<p>To create a new repo on GitHub, we <strong>must</strong> call the GitHub REST API, i.e.
+this isn't one of the standard remote Git operations. Therefore you must make
+a <a href='https://github.com/settings/tokens'>GitHub personal access token (PAT)</a>
+available. There are two ways to do this, in order of preference:</p><ul>
+<li><p>Configure your token as the <code>GITHUB_PAT</code> env var. Then it can be used by
+many packages and functions, without any effort on your part. If you don't
+have a token yet or you haven't configured it as an env var, see
+<code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token()</a></code>.</p></li>
+<li><p>Provide the token directly via the <code>auth_token</code> argument.</p></li>
+</ul>
+
+<p>When we clone or pull from GitHub or push to it, depending on the protocol
+(HTTPS vs. SSH) and the privacy of the repo, we may also need regular Git
+credentials, just like we'd need with command line Git.</p>
+<p>We highly recommend using the HTTPS protocol, unless you have a specific
+preference for SSH. If you are an "HTTPS person", your GitHub PAT (see above)
+can also be used to authorize standard Git remote operations. Once you've
+configured your PAT, your setup is complete! See <code><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol()</a></code> for how
+to tell usethis about your preference for HTTPS (or SSH) by setting an
+option.</p>
+<p>But what about SSH? usethis uses the gert package for Git operations
+and gert, in turn, relies on the credentials package for auth:</p><ul>
+<li><p><a href='https://docs.ropensci.org/gert'>https://docs.ropensci.org/gert</a></p></li>
+<li><p><a href='https://docs.ropensci.org/credentials/'>https://docs.ropensci.org/credentials/</a></p></li>
+</ul>
+
+<p>In usethis v1.7.0, we switched from git2r to gert + credentials. The main
+motivation is to provide a smoother user experience by discovering and using
+the same credentials as command line Git (and, therefore, the same as
+RStudio). The credentials package <em>should</em> automatically discover your SSH
+keys. This works so well that we have removed all credential-handling
+workarounds from usethis. If you have credential problems, focus your
+troubleshooting on getting the credentials package to find your SSH keys. Its
+<a href='https://cran.r-project.org/web/packages/credentials/vignettes/intro.html'>introductory vignette</a>
+is a good place to start.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>pkgpath</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"testpkg"</span>)
-<span class='fu'><a href='https://usethis.r-lib.org/reference/create_package.html'>create_package</a></span>(<span class='kw'>pkgpath</span>) <span class='co'># creates package below temp directory</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>proj_set</a></span>(<span class='kw'>pkgpath</span>)
+<span class='fu'><a href='https://usethis.r-lib.org/reference/create_package.html'>create_package</a></span>(<span class='kw'>pkgpath</span>)
 
 <span class='co'>## now, working inside "testpkg", initialize git repository</span>
 <span class='fu'><a href='https://usethis.r-lib.org/reference/use_git.html'>use_git</a></span>()

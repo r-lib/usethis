@@ -95,7 +95,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -186,8 +186,48 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
 </h1>
+<div id="adoption-of-gert-and-credentials" class="section level2">
+<h2 class="hasAnchor">
+<a href="#adoption-of-gert-and-credentials" class="anchor"></a>Adoption of gert and credentials</h2>
+<p>Usethis now uses the gert package for Git operations (<a href="https://docs.ropensci.org/gert" class="uri">https://docs.ropensci.org/gert</a>), where previously we used git2r. The main motivation for this is to provide a smoother user experience by discovering and using the same credentials as command line Git (and, therefore, the same as RStudio). Under the hood, the hero is the credentials package (<a href="https://docs.ropensci.org/credentials/" class="uri">https://docs.ropensci.org/credentials/</a>). <code><a href="https://usethis.r-lib.org/reference/git_credentials.html">use_git_credentials()</a></code> and <code><a href="https://usethis.r-lib.org/reference/git_credentials.html">git_credentials()</a></code> are now deprecated, since usethis no longer needs a way for a user to provide explicit credentials. The switch to gert + credentials should eliminate most credential-finding fiascos, but if you want to learn more, see the <a href="https://cran.r-project.org/web/packages/credentials/vignettes/intro.html">introductory vignette</a> for the credentials package.</p>
+<p>Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that “just work”, for both SSH and HTTPS remotes. There should be fewer “unsupported protocol” errors.</p>
+</div>
+<div id="github-remote-configuration" class="section level2">
+<h2 class="hasAnchor">
+<a href="#github-remote-configuration" class="anchor"></a>GitHub remote configuration</h2>
+<p>Usethis gains a more formal framework for characterizing a GitHub remote configuration. We look at:</p>
+<ul>
+<li>Which GitHub repositories <code>origin</code> and <code>upstream</code> point to</li>
+<li>Whether you can push to them</li>
+<li>How they relate to each other, e.g. fork-parent relationship</li>
+</ul>
+<p>This is an internal matter, but users will notice that usethis is more clear about which configurations are supported by various functions and which are not. The most common configurations are reviewed in a <a href="https://happygitwithr.com/common-remote-setups.html">section of Happy Git</a>.</p>
+<p>When working in a fork, there is sometimes a question whether to target the fork or the parent repository. For example, <code><a href="https://usethis.r-lib.org/reference/use_github_links.html">use_github_links()</a></code> adds GitHub links to the URL and BugReports fields of DESCRIPTION. If someone calls <code><a href="https://usethis.r-lib.org/reference/use_github_links.html">use_github_links()</a></code> when working in a fork, they probably want those links to refer to the <em>parent</em> repo, not to their fork, because the user is probably preparing a pull request. Usethis should now have better default behaviour in these situations and, in some cases, will present an interactive choice.</p>
+</div>
+<div id="default-branch" class="section level2">
+<h2 class="hasAnchor">
+<a href="#default-branch" class="anchor"></a>Default branch</h2>
+<p>There is increasing interest in making the name of a repo’s default branch configurable. In principle, this is already possible, but in reality many Git tools have <code>master</code> hard-wired in various places and usethis is no exception. We are laying the groundwork to respect a repository-specific default branch in a future release. It remains to be seen if some standard will emerge for where to record this info or if usethis needs to track it in a custom Git configuration field.</p>
+<p><em>TODO: Summarize current level of prep or support of non-<code>master</code> default branch.</em></p>
+</div>
+<div id="changes-to-gitgithub-related-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-to-gitgithub-related-functions" class="anchor"></a>Changes to Git/GitHub-related functions</h2>
+<p><code><a href="https://usethis.r-lib.org/reference/git_credentials.html">use_git_credentials()</a></code> and <code><a href="https://usethis.r-lib.org/reference/git_credentials.html">git_credentials()</a></code> are deprecated. All credential-handling has been delegated to the credentials package.</p>
+<p><code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_finish()</a></code> deletes the remote PR branch if the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (<a href='https://github.com/r-lib/usethis/issues/1150'>#1150</a>).</p>
+<p><code><a href="https://usethis.r-lib.org/reference/usethis-defunct.html">pr_pull_upstream()</a></code> is renamed to <code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_merge_main()</a></code> to emphasize that it merges the <strong>main</strong> line of development into the current branch, where the main line of development is taken to mean the default branch of the primary repo. The default branch is still hard-coded as <code>master</code>, but this will become configurable in a future release (see above).</p>
+<p><code><a href="https://usethis.r-lib.org/reference/create_from_github.html">create_from_github()</a></code> alerts the user when it is going to create a read-only clone, due to lack of a GitHub personal access token, when it seems likely that the user’s intent is to fork-and-clone.</p>
+<p><code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_fetch()</a></code> no longer has an <code>owner</code> argument. This is now inferred from the GitHub remote configuration: <code>upstream</code> if working in a fork and <code>origin</code> otherwise.</p>
+<p><code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_resume()</a></code> is a new function for resuming work on an existing local PR branch.</p>
+<p><code><a href="https://usethis.r-lib.org/reference/create_github_token.html">create_github_token()</a></code> is a new name for the function previously known as <code><a href="https://usethis.r-lib.org/reference/usethis-defunct.html">browse_github_token()</a></code> and <code><a href="https://usethis.r-lib.org/reference/usethis-defunct.html">browse_github_pat()</a></code>.</p>
+</div>
+<div id="other-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-changes" class="anchor"></a>Other changes</h2>
+<p><code><a href="https://usethis.r-lib.org/reference/use_cpp11.html">use_cpp11()</a></code> is a new function to set up an R package to use cpp11.</p>
 <p><code><a href="https://usethis.r-lib.org/reference/create_package.html">create_package(roxygen = FALSE)</a></code> once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (<a href='https://github.com/r-lib/usethis/issues/1120'>#1120</a>).</p>
 <p><code><a href="https://usethis.r-lib.org/reference/create_package.html">create_package()</a></code>, <code><a href="https://usethis.r-lib.org/reference/create_package.html">create_project()</a></code>, and <code><a href="https://usethis.r-lib.org/reference/proj_activate.html">proj_activate()</a></code> work better with relative paths, outside of RStudio (<a href='https://github.com/r-lib/usethis/issues/1122'>#1122</a>, <a href='https://github.com/r-lib/usethis/issues/954'>#954</a>).</p>
+</div>
 </div>
     <div id="usethis-161" class="section level1">
 <h1 class="page-header" data-toc-text="1.6.1">
@@ -229,10 +269,10 @@
 <a href="#pr-helpers" class="anchor"></a>PR helpers</h2>
 <ul>
 <li><p>A new article <a href="https://usethis.r-lib.org/articles/articles/pr-functions.html">Pull request helpers</a> demonstrates how to use the <code>pr_*()</code> functions (<a href='https://github.com/mine-cetinkaya-rundel'>@mine-cetinkaya-rundel</a>, <a href='https://github.com/r-lib/usethis/issues/802'>#802</a>).</p></li>
-<li><p><code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_finish()</a></code> checks that you don’t have any local changes (<a href='https://github.com/r-lib/usethis/issues/805'>#805</a>), and can optionally finish any PR, not just the current (<a href='https://github.com/r-lib/usethis/issues/1040'>#1040</a>).</p></li>
-<li><p><code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_pause()</a></code> and <code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_fetch()</a></code> now automatically pull to get latest changes (<a href='https://github.com/r-lib/usethis/issues/959'>#959</a>, <a href='https://github.com/r-lib/usethis/issues/960'>#960</a>) and refresh RStudio’s git pane (<a href='https://github.com/r-lib/usethis/issues/706'>#706</a>).</p></li>
-<li><p><code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_push()</a></code> now works for a repository with no open pull requests (<a href='https://github.com/maurolepore'>@maurolepore</a>, <a href='https://github.com/r-lib/usethis/issues/990'>#990</a>).</p></li>
-<li><p><code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_pull()</a></code> gives more information about which files have merge conflicts and automatically opens conflicted files for editing (<a href='https://github.com/r-lib/usethis/issues/1056'>#1056</a>).</p></li>
+<li><p><code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_finish()</a></code> checks that you don’t have any local changes (<a href='https://github.com/r-lib/usethis/issues/805'>#805</a>), and can optionally finish any PR, not just the current (<a href='https://github.com/r-lib/usethis/issues/1040'>#1040</a>).</p></li>
+<li><p><code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_pause()</a></code> and <code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_fetch()</a></code> now automatically pull to get latest changes (<a href='https://github.com/r-lib/usethis/issues/959'>#959</a>, <a href='https://github.com/r-lib/usethis/issues/960'>#960</a>) and refresh RStudio’s git pane (<a href='https://github.com/r-lib/usethis/issues/706'>#706</a>).</p></li>
+<li><p><code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_push()</a></code> now works for a repository with no open pull requests (<a href='https://github.com/maurolepore'>@maurolepore</a>, <a href='https://github.com/r-lib/usethis/issues/990'>#990</a>).</p></li>
+<li><p><code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_pull()</a></code> gives more information about which files have merge conflicts and automatically opens conflicted files for editing (<a href='https://github.com/r-lib/usethis/issues/1056'>#1056</a>).</p></li>
 </ul>
 </div>
 <div id="other-new-features" class="section level2">
@@ -316,7 +356,7 @@
 <li><p><code><a href="https://usethis.r-lib.org/reference/use_github.html">use_github()</a></code> removes newline <code>\n</code> characters from the description that can cause the initial push to fail (<a href='https://github.com/r-lib/usethis/issues/493'>#493</a>, <a href='https://github.com/muschellij2'>@muschellij2</a>).</p></li>
 <li><p><code><a href="https://usethis.r-lib.org/reference/git_sitrep.html">git_sitrep()</a></code> gives better feedback if we can’t validate the GitHub PAT (<a href='https://github.com/r-lib/usethis/issues/725'>#725</a>, <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</p></li>
 <li><p><code><a href="https://usethis.r-lib.org/reference/create_from_github.html">create_from_github()</a></code> sets remote tracking branch of <code>master</code> to <code>upstream/master</code>, when it creates (and clones) a fork (<a href='https://github.com/r-lib/usethis/issues/792'>#792</a>).</p></li>
-<li><p><code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_pause()</a></code> can switch back to master even if there is no remote tracking branch (<a href='https://github.com/r-lib/usethis/issues/715'>#715</a>, <a href='https://github.com/cderv'>@cderv</a>).</p></li>
+<li><p><code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_pause()</a></code> can switch back to master even if there is no remote tracking branch (<a href='https://github.com/r-lib/usethis/issues/715'>#715</a>, <a href='https://github.com/cderv'>@cderv</a>).</p></li>
 </ul>
 </div>
 <div id="build-tools-and-continuous-integration" class="section level2">
@@ -376,7 +416,7 @@
 <p>We’ve added <strong>experimental</strong> functions to work with GitHub pull requests. They are aimed at both a maintainer (who may make, review, and modify pull requests) and a contributor (who may make or explore pull requests).</p>
 <ul>
 <li><p><code><a href="https://usethis.r-lib.org/reference/git_sitrep.html">git_sitrep()</a></code> includes a section at the end aimed at describing “pull request readiness”. Expect that to develop and expand.</p></li>
-<li><p><code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_init()</a></code>, <code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_fetch()</a></code>, <code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_push()</a></code>, <code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_pull()</a></code>, <code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_finish()</a></code>, and <code><a href="https://usethis.r-lib.org/reference/pr_init.html">pr_view()</a></code> constitute the new family of helpers. They are designed to be smart about the significance of remotes with the standard names of <code>origin</code> and <code>upstream</code> and to facilitate both internal and external pull requests.</p></li>
+<li><p><code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_init()</a></code>, <code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_fetch()</a></code>, <code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_push()</a></code>, <code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_pull()</a></code>, <code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_finish()</a></code>, and <code><a href="https://usethis.r-lib.org/reference/pull-requests.html">pr_view()</a></code> constitute the new family of helpers. They are designed to be smart about the significance of remotes with the standard names of <code>origin</code> and <code>upstream</code> and to facilitate both internal and external pull requests.</p></li>
 </ul>
 </div>
 <div id="partial-file-management" class="section level2">
@@ -540,7 +580,7 @@
 <li><p><code><a href="https://usethis.r-lib.org/reference/zip-utils.html">use_course()</a></code> reports progress during download (<a href='https://github.com/r-lib/usethis/issues/276'>#276</a>, <a href='https://github.com/r-lib/usethis/issues/380'>#380</a>).</p></li>
 <li><p><code><a href="https://usethis.r-lib.org/reference/use_git.html">use_git()</a></code> only makes an initial commit of all files if user gives explicit consent (<a href='https://github.com/r-lib/usethis/issues/378'>#378</a>).</p></li>
 <li><p><code><a href="https://usethis.r-lib.org/reference/create_from_github.html">create_from_github()</a></code>: the <code>repo</code> argument is renamed to <code>repo_spec</code>, since it takes input of the form “OWNER/REPO” (<a href='https://github.com/r-lib/usethis/issues/376'>#376</a>).</p></li>
-<li><p><code><a href="https://usethis.r-lib.org/reference/usethis-defunct.html">use_depsy_badge()</a></code> is defunct. The Depsy project has officially concluded and is no longer being maintained (<a href='https://github.com/r-lib/usethis/issues/354'>#354</a>).</p></li>
+<li><p><code>use_depsy_badge()</code> is defunct. The Depsy project has officially concluded and is no longer being maintained (<a href='https://github.com/r-lib/usethis/issues/354'>#354</a>).</p></li>
 <li><p><code><a href="https://usethis.r-lib.org/reference/use_github.html">use_github()</a></code> fails earlier, with a more informative message, in the absence of a GitHub personal access token (PAT). Also looks for the PAT more proactively in the usual environment variables (i.e., GITHUB_PAT, GITHUB_TOKEN) (<a href='https://github.com/r-lib/usethis/issues/320'>#320</a>, <a href='https://github.com/r-lib/usethis/issues/340'>#340</a>, <a href='https://github.com/cderv'>@cderv</a>).</p></li>
 <li><p>The logic for setting DESCRIPTION fields in <code><a href="https://usethis.r-lib.org/reference/create_package.html">create_package()</a></code> and <code><a href="https://usethis.r-lib.org/reference/use_description.html">use_description()</a></code> got a Spring Cleaning. Fields directly specified by the user take precedence, then the named list in <code><a href="https://rdrr.io/r/base/options.html">getOption("usethis.description")</a></code> is consulted, and finally defaults built into usethis. <code><a href="https://usethis.r-lib.org/reference/use_description.html">use_description_defaults()</a></code> is a new function that reveals fields found in options and built into usethis. Options specific to one DESCRIPTION field, e.g. <code>devtools.desc.license</code>, are no longer supported. Instead, use a single named list for all fields, preferably stored in an option named <code>"usethis.description"</code> (however,<code>"devtools.desc"</code> is still consulted for backwards compatibility). (<a href='https://github.com/r-lib/usethis/issues/159'>#159</a>, <a href='https://github.com/r-lib/usethis/issues/233'>#233</a>, <a href='https://github.com/r-lib/usethis/issues/367'>#367</a>)</p></li>
 </ul>
@@ -571,7 +611,7 @@
 <a href="#new-functions-1" class="anchor"></a>New functions</h2>
 <ul>
 <li><p><code><a href="https://usethis.r-lib.org/reference/use_git_config.html">use_git_config()</a></code> can set user’s Git name or email, globally or locally in a project/repo (<a href='https://github.com/r-lib/usethis/issues/267'>#267</a>).</p></li>
-<li><p><code><a href="https://usethis.r-lib.org/reference/browse_github_token.html">browse_github_pat()</a></code> goes to the webpage where a GitHub user can create a personal access token (PAT) for the GitHub API. If the user configures a PAT, they can use functions like <code><a href="https://usethis.r-lib.org/reference/create_from_github.html">create_from_github()</a></code> and <code><a href="https://usethis.r-lib.org/reference/use_github.html">use_github()</a></code> to easily create and connect GitHub repos to local projects. (<a href='https://github.com/r-lib/usethis/issues/248'>#248</a>, <a href='https://github.com/r-lib/usethis/issues/257'>#257</a>, <a href='https://github.com/jeroen'>@jeroen</a>, via <a href='https://github.com/jennybc'>@jennybc</a>).</p></li>
+<li><p><code><a href="https://usethis.r-lib.org/reference/usethis-defunct.html">browse_github_pat()</a></code> goes to the webpage where a GitHub user can create a personal access token (PAT) for the GitHub API. If the user configures a PAT, they can use functions like <code><a href="https://usethis.r-lib.org/reference/create_from_github.html">create_from_github()</a></code> and <code><a href="https://usethis.r-lib.org/reference/use_github.html">use_github()</a></code> to easily create and connect GitHub repos to local projects. (<a href='https://github.com/r-lib/usethis/issues/248'>#248</a>, <a href='https://github.com/r-lib/usethis/issues/257'>#257</a>, <a href='https://github.com/jeroen'>@jeroen</a>, via <a href='https://github.com/jennybc'>@jennybc</a>).</p></li>
 <li><p><code><a href="https://usethis.r-lib.org/reference/use_version.html">use_version()</a></code> increments the version of the active package, including an interactive chooser. <code><a href="https://usethis.r-lib.org/reference/use_version.html">use_dev_version()</a></code> is now a special case wrapper around this. (<a href='https://github.com/r-lib/usethis/issues/188'>#188</a>, <a href='https://github.com/r-lib/usethis/issues/223'>#223</a>, <a href='https://github.com/EmilHvitfeldt'>@EmilHvitfeldt</a>).</p></li>
 <li><p><code><a href="https://usethis.r-lib.org/reference/tidyverse.html">use_tidy_github()</a></code> creates a standard set of files that make a GitHub repository more navigable for users and contributors: an issue template, contributing guidelines, support documentation, and a code of conduct. All are now placed in a <code>.github/</code> subdirectory (<a href='https://github.com/r-lib/usethis/issues/165'>#165</a>, <a href='https://github.com/batpigandme'>@batpigandme</a>).</p></li>
 <li><p><code>use_bioc_badge</code> creates a Bioconductor badge that links to the build report (<a href='https://github.com/r-lib/usethis/issues/271'>#271</a>, <a href='https://github.com/LiNk-NY'>@LiNk-NY</a>).</p></li>
@@ -648,7 +688,7 @@
 <a href="#new-functions-3" class="anchor"></a>New functions</h2>
 <ul>
 <li><p><code><a href="https://usethis.r-lib.org/reference/licenses.html">use_apl2_license()</a></code> if you want to use the Apache 2.0 license.</p></li>
-<li><p><code><a href="https://usethis.r-lib.org/reference/usethis-defunct.html">use_depsy_badge()</a></code> allows including a Depsy badge (<a href='https://github.com/gvegayon'>@gvegayon</a>, <a href='https://github.com/r-lib/usethis/issues/68'>#68</a>).</p></li>
+<li><p><code>use_depsy_badge()</code> allows including a Depsy badge (<a href='https://github.com/gvegayon'>@gvegayon</a>, <a href='https://github.com/r-lib/usethis/issues/68'>#68</a>).</p></li>
 <li><p><code><a href="https://usethis.r-lib.org/reference/use_package.html">use_dev_package()</a></code> works like <code><a href="https://usethis.r-lib.org/reference/use_package.html">use_package()</a></code> but also adds the repo to the <code>Remotes</code> field (<a href='https://github.com/r-lib/usethis/issues/32'>#32</a>).</p></li>
 <li><p><code><a href="https://usethis.r-lib.org/reference/use_github_labels.html">use_github_labels()</a></code> will automatically set up a standard set of labels, optionally removing the default labels (<a href='https://github.com/r-lib/usethis/issues/1'>#1</a>).</p></li>
 <li><p><code><a href="https://usethis.r-lib.org/reference/use_pipe.html">use_pipe()</a></code> creates a template to use magrittr’s <code>%&gt;%</code> in your package (<a href='https://github.com/r-lib/usethis/issues/15'>#15</a>).</p></li>

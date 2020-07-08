@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a release issue checklist — use_release_issue • usethis</title>
+<title>Create a release checklist in a GitHub issue — use_release_issue • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,13 +52,12 @@
 
 
 
-<meta property="og:title" content="Create a release issue checklist — use_release_issue" />
-<meta property="og:description" content="When preparing to release a package there are quite a few steps that
-need to be performed, and some of the steps can take multiple hours.
-This function creates an issue checklist so that you can keep track of
-where you are in the process, and feel a sense of satisfaction as you
-progress. It also helps watchers of your package stay informed about where
-you are in the process." />
+<meta property="og:title" content="Create a release checklist in a GitHub issue — use_release_issue" />
+<meta property="og:description" content="When preparing to release a package there are quite a few steps that need to
+be performed, and some of the steps can take multiple hours. This function
+creates an issue checklist so that you can keep track of where you are in the
+process, and feel a sense of satisfaction as you progress. It also helps
+watchers of your package stay informed about where you are in the process." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -101,7 +100,7 @@ you are in the process." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -184,18 +183,17 @@ you are in the process." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a release issue checklist</h1>
+    <h1>Create a release checklist in a GitHub issue</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/release.R'><code>R/release.R</code></a></small>
     <div class="hidden name"><code>use_release_issue.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>When preparing to release a package there are quite a few steps that
-need to be performed, and some of the steps can take multiple hours.
-This function creates an issue checklist so that you can keep track of
-where you are in the process, and feel a sense of satisfaction as you
-progress. It also helps watchers of your package stay informed about where
-you are in the process.</p>
+    <p>When preparing to release a package there are quite a few steps that need to
+be performed, and some of the steps can take multiple hours. This function
+creates an issue checklist so that you can keep track of where you are in the
+process, and feel a sense of satisfaction as you progress. It also helps
+watchers of your package stay informed about where you are in the process.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_release_issue.html'>use_release_issue</a></span>(version = <span class='kw'>NULL</span>)</pre>
@@ -205,7 +203,8 @@ you are in the process.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>version</th>
-      <td><p>Version number for release</p></td>
+      <td><p>Optional version number for release. If unspecified, you can
+make an interactive choice.</p></td>
     </tr>
     </table>
 

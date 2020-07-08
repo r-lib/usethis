@@ -54,7 +54,9 @@
 
 <meta property="og:title" content="Configure Git — use_git_config" />
 <meta property="og:description" content="Sets Git options, for either the user or the project (&quot;global&quot; or &quot;local&quot;, in
-Git terminology)." />
+Git terminology). Wraps gert::git_config_set() and
+gert::git_config_global_set(). To inspect Git config, see
+gert::git_config()." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -97,7 +99,7 @@ Git terminology)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -187,7 +189,9 @@ Git terminology)." />
 
     <div class="ref-description">
     <p>Sets Git options, for either the user or the project ("global" or "local", in
-Git terminology).</p>
+Git terminology). Wraps <code><a href='https://docs.ropensci.org/gert/reference/git_config.html'>gert::git_config_set()</a></code> and
+<code><a href='https://docs.ropensci.org/gert/reference/git_config.html'>gert::git_config_global_set()</a></code>. To inspect Git config, see
+<code><a href='https://docs.ropensci.org/gert/reference/git_config.html'>gert::git_config()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_config.html'>use_git_config</a></span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>), <span class='kw'>...</span>)</pre>
@@ -202,13 +206,15 @@ current <strong>project</strong></p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Name-value pairs.</p></td>
+      <td><p>Name-value pairs, processed as
+&lt;<code><a href='https://rlang.r-lib.org/reference/dyn-dots.html'>dynamic-dots</a></code>&gt;.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Invisibly, the previous values of the modified components.</p>
+    <p>Invisibly, the previous values of the modified components, as a named
+list.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other git helpers: 

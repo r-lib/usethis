@@ -54,8 +54,9 @@
 
 <meta property="og:title" content="GitHub Actions setup and badges — github_actions" />
 <meta property="og:description" content="Sets up continuous integration (CI) for an R package that is developed on
-GitHub using GitHub Actions. These functions
-Add the necessary configuration files and place them in .Rbuildignore.
+GitHub using GitHub Actions. These
+functions
+Add the necessary configuration files and list them in .Rbuildignore.
 Provide the markdown to insert a badge into your README
 
 " />
@@ -101,7 +102,7 @@ Provide the markdown to insert a badge into your README
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -191,8 +192,9 @@ Provide the markdown to insert a badge into your README
 
     <div class="ref-description">
     <p>Sets up continuous integration (CI) for an R package that is developed on
-GitHub using <a href='https://github.com/features/actions'>GitHub Actions</a>. These functions</p><ul>
-<li><p>Add the necessary configuration files and place them in <code>.Rbuildignore</code>.</p></li>
+GitHub using <a href='https://github.com/features/actions'>GitHub Actions</a>. These
+functions</p><ul>
+<li><p>Add the necessary configuration files and list them in <code>.Rbuildignore</code>.</p></li>
 <li><p>Provide the markdown to insert a badge into your README</p></li>
 </ul>
 
@@ -200,14 +202,19 @@ GitHub using <a href='https://github.com/features/actions'>GitHub Actions</a>. T
 
     <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/github_actions.html'>use_github_actions</a></span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/github_actions.html'>use_github_actions_badge</a></span>(name = <span class='st'>"R-CMD-check"</span>)</pre>
+<span class='fu'><a href='https://usethis.r-lib.org/reference/github_actions.html'>use_github_actions_badge</a></span>(name = <span class='st'>"R-CMD-check"</span>, repo_spec = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>The name to give to the <a href='https://github.com/features/actions'>GitHub Actions</a> workflow.</p></td>
+      <td><p>Specifies the workflow whose status the badge will report. This
+is the <code>name</code> keyword that appears in the workflow <code>.yaml</code> file.</p></td>
+    </tr>
+    <tr>
+      <th>repo_spec</th>
+      <td><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></td>
     </tr>
     </table>
 
@@ -215,17 +222,25 @@ GitHub using <a href='https://github.com/features/actions'>GitHub Actions</a>. T
 
     
 
-<p>Adds a basic <code>R-CMD-check.yaml</code> file to the <code>.github/workflows</code> directory of a
-package. This is a configuration file for the <a href='https://github.com/features/actions'>GitHub Actions</a> service.</p>
+<p>Configures a basic <code>R CMD check</code> workflow on GitHub Actions by adding a
+standard <code>R-CMD-check.yaml</code> file to the <code>.github/workflows</code> directory of the
+active project.</p>
     <h2 class="hasAnchor" id="use-github-actions-badge-"><a class="anchor" href="#use-github-actions-badge-"></a><code><a href='https://usethis.r-lib.org/reference/github_actions.html'>use_github_actions_badge()</a></code></h2>
 
     
 
-<p>Only adds the <a href='https://github.com/features/actions'>GitHub Actions</a> badge. Use for a project
-where GitHub Actions is already configured.</p>
+<p>Generates a GitHub Actions badge and that's all. It does not configure a
+workflow.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action()</a></code> for setting up a specific action.</p></div>
+    <div class='dont-index'>
+<ul>
+<li><p><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action()</a></code> sets up specific, individual actions, e.g. test
+coverage or pkgdown build and deploy.</p></li>
+<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_github_actions()</a></code> sets up the standard GitHub Actions used for
+tidyverse packages.</p></li>
+</ul>
+</div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

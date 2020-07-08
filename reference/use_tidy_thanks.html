@@ -55,7 +55,7 @@
 <meta property="og:title" content="Identify contributors via GitHub activity — use_tidy_thanks" />
 <meta property="og:description" content="Derives a list of GitHub usernames, based on who has opened issues or pull
 requests. Used to populate the acknowledgment section of package release blog
-posts at https://www.tidyverse.org/articles/. All arguments can potentially
+posts at https://www.tidyverse.org/blog/. All arguments can potentially
 be determined from the active project, if the project follows standard
 practices around the GitHub remote and GitHub releases. Unexported helper
 functions, releases() and ref_df() can be useful interactively to get a
@@ -103,7 +103,7 @@ releases), respectively." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -194,7 +194,7 @@ releases), respectively." />
     <div class="ref-description">
     <p>Derives a list of GitHub usernames, based on who has opened issues or pull
 requests. Used to populate the acknowledgment section of package release blog
-posts at <a href='https://www.tidyverse.org/articles/'>https://www.tidyverse.org/articles/</a>. All arguments can potentially
+posts at <a href='https://www.tidyverse.org/blog/'>https://www.tidyverse.org/blog/</a>. All arguments can potentially
 be determined from the active project, if the project follows standard
 practices around the GitHub remote and GitHub releases. Unexported helper
 functions, <code>releases()</code> and <code>ref_df()</code> can be useful interactively to get a
@@ -202,11 +202,7 @@ quick look at release tag names and a data frame about refs (defaulting to
 releases), respectively.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_tidy_thanks.html'>use_tidy_thanks</a></span>(
-  repo_spec = <span class='fu'>github_repo_spec</span>(),
-  from = <span class='fu'>releases</span>(<span class='kw'>repo_spec</span>)[[<span class='fl'>1</span>]],
-  to = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_tidy_thanks.html'>use_tidy_thanks</a></span>(repo_spec = <span class='kw'>NULL</span>, from = <span class='kw'>NULL</span>, to = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

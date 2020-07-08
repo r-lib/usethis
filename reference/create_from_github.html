@@ -53,11 +53,16 @@
 
 
 <meta property="og:title" content="Create a project from a GitHub repo — create_from_github" />
-<meta property="og:description" content="Creates a new local Git repository from a repository on GitHub. It is highly
-recommended that you pre-configure or pass a GitHub personal access token
-(PAT), which is facilitated by browse_github_token(). In particular, a PAT
-is required in order for create_from_github() to do &quot;fork and clone&quot;. It is also required
-by use_github(), which connects existing local projects to GitHub." />
+<meta property="og:description" content="Creates a new local project and Git repository from a repo on GitHub, by
+either cloning or
+fork-and-cloning. In the
+fork-and-clone case, create_from_github() also does additional remote and
+branch setup, leaving you in the perfect position to make a pull request,
+possibly with the pull request functions.
+It is highly recommended that you pre-configure a GitHub personal access
+token (PAT), which is facilitated by create_github_token(). In particular,
+if you can't push to the source repo, you usually want to fork-and-clone (vs.
+clone) and we cannot do that unless we have a PAT." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -100,7 +105,7 @@ by use_github(), which connects existing local projects to GitHub." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -189,11 +194,16 @@ by use_github(), which connects existing local projects to GitHub." />
     </div>
 
     <div class="ref-description">
-    <p>Creates a new local Git repository from a repository on GitHub. It is highly
-recommended that you pre-configure or pass a GitHub personal access token
-(PAT), which is facilitated by <code><a href='https://usethis.r-lib.org/reference/browse_github_token.html'>browse_github_token()</a></code>. In particular, a PAT
-is required in order for <code><a href='https://usethis.r-lib.org/reference/create_from_github.html'>create_from_github()</a></code> to do <a href='https://help.github.com/articles/fork-a-repo/'>"fork and clone"</a>. It is also required
-by <code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github()</a></code>, which connects existing local projects to GitHub.</p>
+    <p>Creates a new local project and Git repository from a repo on GitHub, by
+either cloning or
+<a href='https://help.github.com/articles/fork-a-repo/'>fork-and-cloning</a>. In the
+fork-and-clone case, <code><a href='https://usethis.r-lib.org/reference/create_from_github.html'>create_from_github()</a></code> also does additional remote and
+branch setup, leaving you in the perfect position to make a pull request,
+possibly with the <a href='https://usethis.r-lib.org/reference/pull-requests.html'>pull request functions</a>.</p>
+<p>It is <strong>highly recommended</strong> that you pre-configure a GitHub personal access
+token (PAT), which is facilitated by <code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token()</a></code>. In particular,
+if you can't push to the source repo, you usually want to fork-and-clone (vs.
+clone) and we cannot do that unless we have a PAT.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/create_from_github.html'>create_from_github</a></span>(
@@ -203,9 +213,9 @@ by <code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_githu
   rstudio = <span class='kw'>NULL</span>,
   open = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(),
   protocol = <span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol</a></span>(),
-  credentials = <span class='kw'>NULL</span>,
-  auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/browse_github_token.html'>github_token</a></span>(),
-  host = <span class='kw'>NULL</span>
+  auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token</a></span>(),
+  host = <span class='kw'>NULL</span>,
+  credentials = <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -214,7 +224,8 @@ by <code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_githu
     <tr>
       <th>repo_spec</th>
       <td><p>GitHub repo specification in this form: <code>owner/repo</code>. The
-<code>repo</code> part will be the name of the new local repo.</p></td>
+<code>repo</code> part will be the name of the new local folder, which is also
+a project and Git repo.</p></td>
     </tr>
     <tr>
       <th>destdir</th>
@@ -256,12 +267,6 @@ to the option <code>usethis.protocol</code> and, if unset, to an interactive cho
 or, in non-interactive sessions, "ssh". <code>NA</code> triggers the interactive menu.</p></td>
     </tr>
     <tr>
-      <th>credentials</th>
-      <td><p>A git2r credential object produced with
-<code><a href='https://docs.ropensci.org/git2r/reference/cred_env.html'>git2r::cred_env()</a></code>, <code><a href='https://docs.ropensci.org/git2r/reference/cred_ssh_key.html'>git2r::cred_ssh_key()</a></code>, <code><a href='https://docs.ropensci.org/git2r/reference/cred_token.html'>git2r::cred_token()</a></code>, or
-<code><a href='https://docs.ropensci.org/git2r/reference/cred_user_pass.html'>git2r::cred_user_pass()</a></code>.</p></td>
-    </tr>
-    <tr>
       <th>auth_token</th>
       <td><p>GitHub personal access token (PAT).</p></td>
     </tr>
@@ -271,39 +276,71 @@ or, in non-interactive sessions, "ssh". <code>NA</code> triggers the interactive
 GitHub enterprise instance, for example,
 "https://github.hostname.com/api/v3".</p></td>
     </tr>
+    <tr>
+      <th>credentials</th>
+      <td><p><img src='figures/lifecycle-defunct.svg' alt='Defunct lifecycle' />
+: No longer consulted now that usethis
+uses the gert package for Git operations, instead of git2r. Note that gert
+relies on the credentials package for auth.</p></td>
+    </tr>
     </table>
 
-    <h2 class="hasAnchor" id="using-ssh-keys-on-windows"><a class="anchor" href="#using-ssh-keys-on-windows"></a>Using SSH Keys on Windows</h2>
+    <h2 class="hasAnchor" id="authentication"><a class="anchor" href="#authentication"></a>Authentication</h2>
 
     
 
-<p>If you are a Windows user who connects to GitHub using SSH, as opposed to
-HTTPS, you may need to explicitly specify the paths to your keys and register
-this credential in the current R session. This helps if git2r, which usethis
-uses for Git operations, does not automatically find your keys or handle your
-passphrase.</p>
-<p>In the snippet below, do whatever is necessary to make the paths correct,
-e.g., replace <code>&lt;USERNAME&gt;</code> with your Windows username. Omit the <code>passphrase</code>
-part if you don't have one. Replace <code>&lt;OWNER/REPO&gt;</code> with the appropriate
-GitHub specification. You get the idea.</p><pre><span class='kw'>creds</span> <span class='op'>&lt;-</span> <span class='kw'>git2r</span>::<span class='fu'><a href='https://docs.ropensci.org/git2r/reference/cred_ssh_key.html'>cred_ssh_key</a></span>(
-  publickey  = <span class='st'>"C:/Users/&lt;USERNAME&gt;/.ssh/id_rsa.pub"</span>,
-  privatekey = <span class='st'>"C:/Users/&lt;USERNAME&gt;/.ssh/id_rsa"</span>,
-  passphrase = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>)
-)
-<span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol</a></span>(<span class='st'>"ssh"</span>)
-<span class='fu'><a href='https://usethis.r-lib.org/reference/git_credentials.html'>use_git_credentials</a></span>(credentials = <span class='kw'>creds</span>)
+<p>This function potentially interacts with GitHub in two different ways:</p><ul>
+<li><p>via the GitHub REST API</p></li>
+<li><p>as a conventional Git remote</p></li>
+</ul>
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/create_from_github.html'>create_from_github</a></span>(
-  repo_spec = <span class='st'>"&lt;OWNER/REPO&gt;"</span>,
-  <span class='kw'>...</span>
-)</pre>
+<p>Therefore two types of auth happen.</p>
+<p>To create a new repo on GitHub, we <strong>must</strong> call the GitHub REST API, i.e.
+this isn't one of the standard remote Git operations. Therefore you must make
+a <a href='https://github.com/settings/tokens'>GitHub personal access token (PAT)</a>
+available. There are two ways to do this, in order of preference:</p><ul>
+<li><p>Configure your token as the <code>GITHUB_PAT</code> env var. Then it can be used by
+many packages and functions, without any effort on your part. If you don't
+have a token yet or you haven't configured it as an env var, see
+<code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token()</a></code>.</p></li>
+<li><p>Provide the token directly via the <code>auth_token</code> argument.</p></li>
+</ul>
 
+<p>When we clone or pull from GitHub or push to it, depending on the protocol
+(HTTPS vs. SSH) and the privacy of the repo, we may also need regular Git
+credentials, just like we'd need with command line Git.</p>
+<p>We highly recommend using the HTTPS protocol, unless you have a specific
+preference for SSH. If you are an "HTTPS person", your GitHub PAT (see above)
+can also be used to authorize standard Git remote operations. Once you've
+configured your PAT, your setup is complete! See <code><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol()</a></code> for how
+to tell usethis about your preference for HTTPS (or SSH) by setting an
+option.</p>
+<p>But what about SSH? usethis uses the gert package for Git operations
+and gert, in turn, relies on the credentials package for auth:</p><ul>
+<li><p><a href='https://docs.ropensci.org/gert'>https://docs.ropensci.org/gert</a></p></li>
+<li><p><a href='https://docs.ropensci.org/credentials/'>https://docs.ropensci.org/credentials/</a></p></li>
+</ul>
+
+<p>In usethis v1.7.0, we switched from git2r to gert + credentials. The main
+motivation is to provide a smoother user experience by discovering and using
+the same credentials as command line Git (and, therefore, the same as
+RStudio). The credentials package <em>should</em> automatically discover your SSH
+keys. This works so well that we have removed all credential-handling
+workarounds from usethis. If you have credential problems, focus your
+troubleshooting on getting the credentials package to find your SSH keys. Its
+<a href='https://cran.r-project.org/web/packages/credentials/vignettes/intro.html'>introductory vignette</a>
+is a good place to start.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github()</a></code> for GitHub setup advice. <code><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol()</a></code> and
-<code><a href='https://usethis.r-lib.org/reference/git_credentials.html'>git_credentials()</a></code> for background on <code>protocol</code> and <code>credentials</code>.
-<code><a href='https://usethis.r-lib.org/reference/zip-utils.html'>use_course()</a></code> for one-time download of all files in a Git repo, without
-any local or remote Git operations.</p></div>
+    <div class='dont-index'>
+<ul>
+<li><p><code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github()</a></code> to go the opposite direction, i.e. create a GitHub repo
+from your local repo</p></li>
+<li><p><code><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol()</a></code> for background on <code>protocol</code> (HTTPS vs SSH)</p></li>
+<li><p><code><a href='https://usethis.r-lib.org/reference/zip-utils.html'>use_course()</a></code> to download a snapshot of all files in a GitHub repo,
+without the need for any local or remote Git operations</p></li>
+</ul>
+</div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {

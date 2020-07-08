@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Vaccinate your global git ignore — git_vaccinate • usethis</title>
+<title>Vaccinate your global gitignore file — git_vaccinate • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,10 +52,10 @@
 
 
 
-<meta property="og:title" content="Vaccinate your global git ignore — git_vaccinate" />
-<meta property="og:description" content="Adds .DS_Store, .Rproj.user, and .Rhistory to your global
-.gitignore. This is good practice as it decreases the chance that you will
-accidentally leak credentials to GitHub." />
+<meta property="og:title" content="Vaccinate your global gitignore file — git_vaccinate" />
+<meta property="og:description" content="Adds .DS_Store, .Rproj.user, .Rdata, and .Rhistory to your global
+(a.k.a. user-level) .gitignore. This is good practice as it decreases the
+chance that you will accidentally leak credentials to GitHub." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -98,7 +98,7 @@ accidentally leak credentials to GitHub." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -181,15 +181,15 @@ accidentally leak credentials to GitHub." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Vaccinate your global git ignore</h1>
+    <h1>Vaccinate your global gitignore file</h1>
     <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/git.R'><code>R/git.R</code></a></small>
     <div class="hidden name"><code>git_vaccinate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Adds <code>.DS_Store</code>, <code>.Rproj.user</code>, and <code>.Rhistory</code> to your global
-<code>.gitignore</code>. This is good practice as it decreases the chance that you will
-accidentally leak credentials to GitHub.</p>
+    <p>Adds <code>.DS_Store</code>, <code>.Rproj.user</code>, <code>.Rdata</code>, and <code>.Rhistory</code> to your global
+(a.k.a. user-level) <code>.gitignore</code>. This is good practice as it decreases the
+chance that you will accidentally leak credentials to GitHub.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/git_vaccinate.html'>git_vaccinate</a></span>()</pre>

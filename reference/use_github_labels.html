@@ -101,7 +101,7 @@ and tidy_label_descriptions()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -199,21 +199,17 @@ and <code><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>t
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>use_github_labels</a></span>(
-  repo_spec = <span class='fu'>github_repo_spec</span>(),
+  repo_spec = <span class='kw'>NULL</span>,
   labels = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
   rename = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
   colours = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
   descriptions = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
   delete_default = <span class='fl'>FALSE</span>,
-  auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/browse_github_token.html'>github_token</a></span>(),
+  auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token</a></span>(),
   host = <span class='kw'>NULL</span>
 )
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>use_tidy_labels</a></span>(
-  repo_spec = <span class='fu'>github_repo_spec</span>(),
-  auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/browse_github_token.html'>github_token</a></span>(),
-  host = <span class='kw'>NULL</span>
-)
+<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>use_tidy_labels</a></span>(repo_spec = <span class='kw'>NULL</span>, auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token</a></span>(), host = <span class='kw'>NULL</span>)
 
 <span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>tidy_labels</a></span>()
 
@@ -228,8 +224,7 @@ and <code><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>t
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>repo_spec</th>
-      <td><p>Optional repository specification (<code>owner/repo</code>) if you
-don't want to target the current project.</p></td>
+      <td><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></td>
     </tr>
     <tr>
       <th>labels</th>

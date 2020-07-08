@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use a specific GitHub action — use_github_action • usethis</title>
+<title>Use a specific GitHub Actions workflow — use_github_action • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,10 +52,11 @@
 
 
 
-<meta property="og:title" content="Use a specific GitHub action — use_github_action" />
-<meta property="og:description" content="Use a specific action, either one of the example actions from
+<meta property="og:title" content="Use a specific GitHub Actions workflow — use_github_action" />
+<meta property="og:description" content="Configure an individual, specific GitHub Actions workflow, either one of the
+examples from
 r-lib/actions/examples
-or a custom action given by the url parameter." />
+or a custom workflow given by the url parameter." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -98,7 +99,7 @@ or a custom action given by the url parameter." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -181,15 +182,16 @@ or a custom action given by the url parameter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use a specific GitHub action</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/github-action.R'><code>R/github-action.R</code></a></small>
+    <h1>Use a specific GitHub Actions workflow</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/github-actions.R'><code>R/github-actions.R</code></a></small>
     <div class="hidden name"><code>use_github_action.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Use a specific action, either one of the example actions from
+    <p>Configure an individual, specific <a href='https://github.com/features/actions'>GitHub Actions</a> workflow, either one of the
+examples from
 <a href='https://github.com/r-lib/actions/tree/master/examples'>r-lib/actions/examples</a>
-or a custom action given by the <code>url</code> parameter.</p>
+or a custom workflow given by the <code>url</code> parameter.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action</a></span>(
@@ -215,7 +217,8 @@ or a custom action given by the <code>url</code> parameter.</p>
 <span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_full</a></span>(
   save_as = <span class='st'>"R-CMD-check.yaml"</span>,
   ignore = <span class='fl'>TRUE</span>,
-  open = <span class='fl'>FALSE</span>
+  open = <span class='fl'>FALSE</span>,
+  repo_spec = <span class='kw'>NULL</span>
 )
 
 <span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_pr_commands</a></span>(
@@ -229,17 +232,16 @@ or a custom action given by the <code>url</code> parameter.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>Name of the GitHub action, with or without <code>.yaml</code> extension</p></td>
+      <td><p>Name of the workflow file, with or without a <code>.yaml</code> extension.</p></td>
     </tr>
     <tr>
       <th>url</th>
-      <td><p>The full URL to the GitHub Actions yaml file.
-By default, the corresponding action in https://github.com/r-lib/actions
-will be used.</p></td>
+      <td><p>The full URL to the <code>.yaml</code> file. By default, the corresponding
+workflow in https://github.com/r-lib/actions will be used.</p></td>
     </tr>
     <tr>
       <th>save_as</th>
-      <td><p>Name of the actions file. Defaults to <code><a href='https://rdrr.io/r/base/basename.html'>basename(url)</a></code>
+      <td><p>Name of the workflow file. Defaults to <code><a href='https://rdrr.io/r/base/basename.html'>basename(url)</a></code>
 for <code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action()</a></code>.</p></td>
     </tr>
     <tr>
@@ -251,45 +253,49 @@ for <code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>u
       <td><p>Open the newly created file for editing? Happens in RStudio, if
 applicable, or via <code><a href='https://rdrr.io/r/utils/file.edit.html'>utils::file.edit()</a></code> otherwise.</p></td>
     </tr>
+    <tr>
+      <th>repo_spec</th>
+      <td><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="use-github-action-check-release-"><a class="anchor" href="#use-github-action-check-release-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_release()</a></code></h2>
 
     
 
-<p>This action installs the latest release R version on macOS and runs <code>R CMD check</code>
-via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package.</p>
+<p>This workflow installs the latest release of R on macOS and runs <code>R CMD check</code> via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package.</p>
     <h2 class="hasAnchor" id="use-github-action-check-standard-"><a class="anchor" href="#use-github-action-check-standard-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_standard()</a></code></h2>
 
     
 
-<p>This action runs R CMD check
-via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package on the
-three major OSs (linux, macOS and Windows) on the release version of R and
-R-devel. This action is most appropriate when you plan to eventually
-submit your package to CRAN or Bioconductor.</p>
+<p>This workflow runs <code>R CMD check</code> via the
+<a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package on the three major
+operating systems (linux, macOS, and Windows) on the latest release of R and
+on R-devel. This workflow is appropriate for a package that is (or will
+hopefully be) on CRAN or Bioconductor.</p>
     <h2 class="hasAnchor" id="use-github-action-check-full-"><a class="anchor" href="#use-github-action-check-full-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_full()</a></code></h2>
 
     
 
-<p>This action installs the last 5 minor R versions and runs R CMD check
-via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package on the
-three major OSs (linux, macOS and Windows). This action is what the
-tidyverse teams uses on their repositories, but is overkill for less
-widely used packages, which are better off using the simpler
-<code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_release()</a></code>.</p>
+<p>This workflow runs <code>R CMD check</code> at least once on each of the three major
+operating systems (linux, macOS, and Windows) and on the current release,
+devel, and four previous versions of R. This is how the tidyverse team checks
+its packages, but it may be overkill for less widely used packages. Consider
+using the more streamlined workflows set up by <code><a href='https://usethis.r-lib.org/reference/github_actions.html'>use_github_actions()</a></code> or
+<code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_standard()</a></code>.</p>
     <h2 class="hasAnchor" id="use-github-action-pr-commands-"><a class="anchor" href="#use-github-action-pr-commands-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_pr_commands()</a></code></h2>
 
     
 
-<p>This workflow enables the use of 2 R specific commands in pull request
-issue comments. <code>/document</code> will use
-<a href='https://roxygen2.r-lib.org/'>roxygen2</a> to rebuild the documentation for
-the package and commit the result to the pull request. <code>/style</code> will use
-<a href='https://styler.r-lib.org/'>styler</a> to restyle your package.</p>
+<p>This workflow enables the use of two R-specific commands in pull request
+issue comments:</p><ul>
+<li><p><code>/document</code> to run <code><a href='https://roxygen2.r-lib.org/reference/roxygenize.html'>roxygen2::roxygenise()</a></code> and update the PR</p></li>
+<li><p><code>/style</code> to run <code><a href='https://rdrr.io/pkg/styler/man/style_pkg.html'>styler::style_pkg()</a></code> and update the PR</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='https://usethis.r-lib.org/reference/github_actions.html'>github_actions</a> for generic workflows.</p></div>
+    <div class='dont-index'><p><a href='https://usethis.r-lib.org/reference/github_actions.html'>github_actions</a> for generic workflows and badge generation.</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

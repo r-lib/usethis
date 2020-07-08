@@ -53,7 +53,9 @@
 
 
 <meta property="og:title" content="Test coverage — use_coverage" />
-<meta property="og:description" content="use_coverage() Adds test coverage reports to a package." />
+<meta property="og:description" content="Adds test coverage reporting to a package, using either
+Codecov or
+Coveralls." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -96,7 +98,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1.9001</span>
       </span>
     </div>
 
@@ -185,10 +187,12 @@
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://usethis.r-lib.org/reference/use_coverage.html'>use_coverage()</a></code> Adds test coverage reports to a package.</p>
+    <p>Adds test coverage reporting to a package, using either
+<a href='https://codecov.io'>Codecov</a> or
+<a href='https://coveralls.io'>Coveralls</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_coverage.html'>use_coverage</a></span>(type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"codecov"</span>, <span class='st'>"coveralls"</span>))
+    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_coverage.html'>use_coverage</a></span>(type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"codecov"</span>, <span class='st'>"coveralls"</span>), repo_spec = <span class='kw'>NULL</span>)
 
 <span class='fu'><a href='https://usethis.r-lib.org/reference/use_coverage.html'>use_covr_ignore</a></span>(<span class='kw'>files</span>)</pre>
 
@@ -197,8 +201,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>type</th>
-      <td><p>Which web service to use for test reporting. Currently supports
-<a href='https://codecov.io'>Codecov</a> and <a href='https://coveralls.io'>Coveralls</a>.</p></td>
+      <td><p>Which web service to use.</p></td>
+    </tr>
+    <tr>
+      <th>repo_spec</th>
+      <td><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></td>
     </tr>
     <tr>
       <th>files</th>
