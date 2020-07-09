@@ -196,12 +196,7 @@ Patch release to align some path handling internals with an update coming in the
   to cope with intermittent failure or the need for a longer connect timeout
   (#988).
 
-<<<<<<< HEAD
-* `use_tidy_version()` is now `use_latest_dependencies()` to better reflect 
-  its usage (#771).
-=======
 * `use_data()` automatically bumps R dependency to 2.10 (#962).
->>>>>>> 17627cf5457de0cf75db0f86e4446ff94306367a
 
 * `use_data_raw()` template quotes the dataset name correctly 
   (#736, @mitchelloharawild).
