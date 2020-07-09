@@ -42,6 +42,8 @@ There is increasing interest in making the name of a repo's default branch confi
 
 ## Other changes
 
+`browse_github_actions()` is a new function to open the Actions page of the respective repo on GitHub, similar to existing `browse_*()` functions (@pat-s, #1102).
+
 `use_cpp11()` is a new function to set up an R package to use cpp11.
 
 `create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
@@ -62,7 +64,6 @@ Patch release to align some path handling internals with an update coming in the
 
 * `use_tidy_ci()` is now deprecated in favour of `use_tidy_github_actions()` 
   (#1098).
-* New `browse_github_actions()` to open the Actions page of the respective repo on GitHub (@pat-s, #1102).
 
 * `use_github_action_check_standard()` is a new intermediate workflow that
   checks on more platforms than `_release`, but is less exhaustive than `_full`
