@@ -105,7 +105,7 @@ github_remotes <- function(these = c("origin", "upstream"),
     stringsAsFactors = FALSE
   )
 
-  x <- gert::git_remote_list(git_repo())
+  x <- gert::git_remote_list(repo = git_repo())
   is_github <- grepl("github", x$url)
   is_one_of_these <- if (length(these) > 0) x$name %in% these else TRUE
   x <- x[is_github & is_one_of_these, ]

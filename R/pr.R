@@ -271,7 +271,7 @@ pr_fetch <- function(number) {
     }
 
     ui_done("Adding remote {ui_value(pr_remote)} as {ui_value(url)}")
-    gert::git_remote_add(pr_remote, url, repo = repo)
+    gert::git_remote_add(url = url, name = pr_remote, repo = repo)
     config_key <- glue("remote.{pr_remote}.created-by")
     gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
   }
@@ -459,7 +459,7 @@ pr_finish <- function(number = NULL) {
   branches <- branches[branches$local & !is.na(branches$upstream), ]
   if (sum(grepl(glue("^refs/remotes/{remote}"), branches$upstream)) == 0) {
     ui_done("Removing remote {ui_value(remote)}")
-    gert::git_remote_remove(remote, repo = repo)
+    gert::git_remote_remove(name = remote, repo = repo)
   }
 }
 
