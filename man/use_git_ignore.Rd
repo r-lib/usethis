@@ -2,7 +2,7 @@
 % Please edit documentation in R/git.R
 \name{use_git_ignore}
 \alias{use_git_ignore}
-\title{Tell git to ignore files}
+\title{Tell Git to ignore files}
 \usage{
 use_git_ignore(ignores, directory = ".")
 }
@@ -12,7 +12,7 @@ use_git_ignore(ignores, directory = ".")
 \item{directory}{Directory relative to active project to set ignores}
 }
 \description{
-Tell git to ignore files
+Tell Git to ignore files
 }
 \seealso{
 Other git helpers: 

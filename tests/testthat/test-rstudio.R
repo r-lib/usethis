@@ -1,26 +1,27 @@
-context("use_rstudio")
-
 test_that("use_rstudio() creates .Rproj file, named after directory", {
-  dir <- scoped_temporary_package(rstudio = FALSE)
+  dir <- create_local_package(rstudio = FALSE)
   use_rstudio()
   rproj <- path_file(dir_ls(proj_get(), regexp = "[.]Rproj$"))
   expect_identical(path_ext_remove(rproj), path_file(dir))
+
+  # Always uses POSIX line endings
+  expect_equal(proj_line_ending(), "\n")
 })
 
 test_that("a non-RStudio project is not recognized", {
-  scoped_temporary_package(rstudio = FALSE)
+  create_local_package(rstudio = FALSE)
   expect_false(is_rstudio_project())
   expect_identical(rproj_path(), NA_character_)
 })
 
 test_that("an RStudio project is recognized", {
-  scoped_temporary_package(rstudio = TRUE)
+  create_local_package(rstudio = TRUE)
   expect_true(is_rstudio_project())
   expect_match(rproj_path(), "\\.Rproj$")
 })
 
 test_that("we error for multiple Rproj files", {
-  scoped_temporary_package(rstudio = TRUE)
+  create_local_package(rstudio = TRUE)
   file_copy(
     rproj_path(),
     proj_path("copy.Rproj")
@@ -57,17 +58,17 @@ test_that("Existing field(s) in Rproj can be modified", {
 })
 
 test_that("we can roundtrip an Rproj file", {
-  scoped_temporary_package(rstudio = TRUE)
+  create_local_package(rstudio = TRUE)
   rproj_file <- rproj_path()
-  before <- readLines(rproj_file)
+  before <- read_utf8(rproj_file)
   rproj <- modify_rproj(rproj_file, list())
   writeLines(serialize_rproj(rproj), rproj_file)
-  after <- readLines(rproj_file)
+  after <- read_utf8(rproj_file)
   expect_identical(before, after)
 })
 
 test_that("use_blank_state() modifies Rproj", {
-  scoped_temporary_package(rstudio = TRUE)
+  create_local_package(rstudio = TRUE)
   use_blank_slate("project")
   rproj <- parse_rproj(rproj_path())
   expect_equal(rproj$RestoreWorkspace, "No")

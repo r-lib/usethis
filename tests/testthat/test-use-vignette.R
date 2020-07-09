@@ -3,14 +3,14 @@ context("use-vignette")
 test_that("use_vignette() requires a package", {
   skip_if_not_installed("rmarkdown")
 
-  scoped_temporary_project()
+  create_local_project()
   expect_usethis_error(use_vignette(), "not an R package")
 })
 
 test_that("use_vignette() requires a `name`", {
   skip_if_not_installed("rmarkdown")
 
-  scoped_temporary_package()
+  create_local_package()
   expect_error(use_vignette(), "no default")
 })
 
@@ -23,10 +23,10 @@ test_that("valid_vignette_name() works", {
 test_that("use_vignette() does the promised setup", {
   skip_if_not_installed("rmarkdown")
 
-  scoped_temporary_package()
+  create_local_package()
   use_vignette("name", "title")
 
-  ignores <- readLines(proj_path(".gitignore"), warn = FALSE)
+  ignores <- read_utf8(proj_path(".gitignore"))
   expect_true("inst/doc" %in% ignores)
 
   deps <- desc::desc_get_deps(proj_get())

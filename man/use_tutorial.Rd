@@ -4,11 +4,11 @@
 \alias{use_tutorial}
 \title{Create a learnr tutorial}
 \usage{
-use_tutorial(name, title, open = interactive())
+use_tutorial(name, title, open = rlang::is_interactive())
 }
 \arguments{
 \item{name}{Base for file name to use for new \code{.Rmd} tutorial. Should consist
-only of numbers, letters, \verb{_} and \verb{-}. We recommend using lower case.}
+only of numbers, letters, \verb{_} and \code{-}. We recommend using lower case.}
 
 \item{title}{The human-facing title of the tutorial.}
 

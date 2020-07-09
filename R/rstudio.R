@@ -10,10 +10,16 @@
 #'   * Adds RStudio files to `.gitignore`
 #'   * Adds RStudio files to `.Rbuildignore`, if project is a package
 #'
+#' @param line_ending Line ending
 #' @export
-use_rstudio <- function() {
+use_rstudio <- function(line_ending = c("posix", "windows")) {
+  line_ending <- arg_match(line_ending)
+  line_ending <- c("posix" = "Posix", "windows" = "Windows")[[line_ending]]
+
   rproj_file <- paste0(project_name(), ".Rproj")
-  new <- use_template("template.Rproj", rproj_file)
+  new <- use_template("template.Rproj", rproj_file,
+    data = list(line_ending = line_ending)
+  )
 
   use_git_ignore(".Rproj.user")
   if (is_package()) {
@@ -121,7 +127,7 @@ in_rstudio_server <- function() {
 }
 
 parse_rproj <- function(file) {
-  lines <- as.list(readLines(file, encoding = "UTF-8"))
+  lines <- as.list(read_utf8(file))
   has_colon <- grepl(":", lines)
   fields <- lapply(lines[has_colon], function(x) strsplit(x, split = ": ")[[1]])
   lines[has_colon] <- vapply(fields, `[[`, "character", 2)
@@ -145,7 +151,7 @@ restart_rstudio <- function(message = NULL) {
     return(FALSE)
   }
 
-  if (!interactive()) {
+  if (!is_interactive()) {
     return(FALSE)
   }
 
@@ -162,4 +168,11 @@ restart_rstudio <- function(message = NULL) {
   }
 
   rstudioapi::openProject(proj_get())
+}
+
+rstudio_git_tickle <- function() {
+  if (rstudioapi::hasFun("executeCommand")) {
+    rstudioapi::executeCommand("vcsRefresh")
+  }
+  invisible()
 }

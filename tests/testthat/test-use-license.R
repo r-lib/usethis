@@ -29,7 +29,7 @@ test_that("find_name() picks up usethis.full_name, then devtools.name", {
 })
 
 test_that("use_mit_license() works", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_mit_license(name = "MIT License")
   expect_match(desc::desc_get("License", file = pkg), "MIT [+] file LICENSE")
   expect_proj_file("LICENSE.md")
@@ -39,7 +39,7 @@ test_that("use_mit_license() works", {
 })
 
 test_that("use_gpl3_license() works", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_gpl3_license(name = "GPL3 License")
   expect_match(desc::desc_get("License", file = pkg), "GPL-3")
   expect_proj_file("LICENSE.md")
@@ -48,7 +48,7 @@ test_that("use_gpl3_license() works", {
 })
 
 test_that("use_apl2_license() works", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_apl2_license(name = "Apache License")
   expect_match(desc::desc_get("License", file = pkg), "Apache")
   expect_proj_file("LICENSE.md")
@@ -56,7 +56,7 @@ test_that("use_apl2_license() works", {
 })
 
 test_that("use_cc0_license() works", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_cc0_license(name = "CC0 License")
   expect_match(desc::desc_get("License", file = pkg), "CC0")
   expect_proj_file("LICENSE.md")
@@ -64,7 +64,7 @@ test_that("use_cc0_license() works", {
 })
 
 test_that("use_ccby_license() works", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_ccby_license(name = "CCBY-4.0 License")
   expect_match(desc::desc_get("License", file = pkg), "CC BY 4.0")
   expect_proj_file("LICENSE.md")
@@ -72,7 +72,7 @@ test_that("use_ccby_license() works", {
 })
 
 test_that("use_lgpl_license() works", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_lgpl_license(name = "LGPL (>= 2.1)")
   expect_match(desc::desc_get("License", file = pkg), "LGPL")
   expect_proj_file("LICENSE.md")

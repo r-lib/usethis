@@ -13,8 +13,7 @@ specifications will be modified. Set to \code{TRUE} to modify all dependencies.}
 \item{source}{Use "local" or "CRAN" package versions.}
 }
 \description{
-Pins minimum version of dependencies to latest (as determined by "source)"
-Useful for tidyverse package, but should otherwise be used with extreme
-care.
+Pins minimum versions of dependencies to latest ones (as determined by \code{source}).
+Useful for the tidyverse package, but should otherwise be used with extreme care.
 }
 \keyword{internal}

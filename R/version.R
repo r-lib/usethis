@@ -32,12 +32,12 @@ NULL
 #' @rdname use_version
 #' @export
 use_version <- function(which = NULL) {
-  if (is.null(which) && !interactive()) {
+  if (is.null(which) && !is_interactive()) {
     return(invisible(FALSE))
   }
 
   check_is_package("use_version()")
-  check_uncommitted_changes()
+  check_no_uncommitted_changes()
 
   new_ver <- choose_version(which)
   if (is.null(new_ver)) {
@@ -51,7 +51,11 @@ use_version <- function(which = NULL) {
     use_news_heading(new_ver)
   }
 
-  git_ask_commit("Increment version number")
+  git_ask_commit(
+    "Increment version number",
+    untracked = TRUE,
+    paths = c("DESCRIPTION", "NEWS.md")
+  )
   invisible(TRUE)
 }
 

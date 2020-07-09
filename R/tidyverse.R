@@ -10,12 +10,6 @@
 #' of the tidyverse conventions as possible, issues a few reminders, and
 #' activates the new package.
 #'
-#' * `use_tidy_ci()`: sets up [Travis CI](https://travis-ci.org) and
-#' [Codecov](https://codecov.io), ensuring that the package is actively tested
-#' on the versions of R officially supported by the Tidyverse (current release,
-#' devel, and four previous versions). It also ignores `compat-` and `deprec-`
-#' files from code coverage.
-#'
 #' * `use_tidy_description()`: puts fields in standard order and alphabetises
 #'   dependencies.
 #'
@@ -71,53 +65,32 @@ create_tidy_package <- function(path,
   old_project <- proj_set(path)
   on.exit(proj_set(old_project), add = TRUE)
 
-  use_roxygen_md()
   use_testthat()
-  use_gpl3_license(name)
+  use_mit_license(name)
   use_tidy_description()
 
   use_readme_rmd(open = FALSE)
   use_lifecycle_badge("experimental")
   use_cran_badge()
+
   use_cran_comments(open = FALSE)
+  use_tidy_release_test_env()
 
   use_tidy_github()
   ui_todo("In the new package, remember to do:")
   ui_todo("{ui_code('use_git()')}")
   ui_todo("{ui_code('use_github()')}")
-  ui_todo("{ui_code('use_tidy_ci()')}")
+  ui_todo("{ui_code('use_tidy_github_actions()')}")
   ui_todo("{ui_code('use_pkgdown()')}")
-  ui_todo("{ui_code('use_pkgdown_travis()')}")
 
   proj_activate(path)
 }
 
 #' @export
 #' @rdname tidyverse
-#' @inheritParams use_travis
-use_tidy_ci <- function(browse = interactive()) {
-  check_uses_github()
-
-  new_travis <- use_template(
-    "tidy-travis.yml",
-    ".travis.yml",
-    ignore = TRUE
-  )
-  use_template("codecov.yml", ignore = TRUE)
-
-  use_dependency("R", "Depends", min_version = "3.2")
-  use_dependency("covr", "Suggests")
-  use_covr_ignore(c("R/deprec-*.R", "R/compat-*.R"))
-
-  use_travis_badge()
-  use_codecov_badge()
-  use_tidy_release_test_env()
-
-  if (new_travis) {
-    travis_activate(browse)
-  }
-
-  invisible(TRUE)
+#' @usage NULL
+use_tidy_ci <- function(...) {
+  ui_warn("`use_tidy_ci()` is deprecated; please use `use_tidy_github_actions()` instead")
 }
 
 #' @export
@@ -193,8 +166,8 @@ use_tidy_github <- function() {
   use_tidy_coc()
 }
 
-use_dot_github <- function() {
-  use_directory(".github", ignore = TRUE)
+use_dot_github <- function(ignore = TRUE) {
+  use_directory(".github", ignore = ignore)
   use_git_ignore("*.html", directory = ".github")
 }
 
@@ -202,7 +175,7 @@ use_dot_github <- function() {
 #' @rdname tidyverse
 use_tidy_style <- function(strict = TRUE) {
   check_installed("styler")
-  check_uncommitted_changes()
+  check_no_uncommitted_changes()
   if (is_package()) {
     styled <- styler::style_pkg(
       proj_get(),
@@ -216,7 +189,7 @@ use_tidy_style <- function(strict = TRUE) {
       strict = strict
     )
   }
-  cat_line()
+  ui_line()
   ui_done("Styled project according to the tidyverse style guide")
   invisible(styled)
 }
@@ -241,10 +214,10 @@ tidy_release_test_env <- function() {
 
   c(
     "",
-    use_bullet("local", paste0(R.version$os, "-", R.version$major, ".", R.version$minor)),
-    use_bullet("travis", c("3.1", "3.2", "3.3", "oldrel", "release", "devel")),
-    use_bullet("r-hub", c("windows-x86_64-devel", "ubuntu-gcc-release", "fedora-clang-devel")),
-    use_bullet("win-builder", "windows-x86_64-devel"),
+    use_bullet("GitHub Actions (ubuntu-16.04)", c("3.3", "3.4", "3.5", "oldrel", "release", "devel")),
+    use_bullet("GitHub Actions (windows)", "release"),
+    use_bullet("GitHub Actions (macOS)", c("release", "devel")),
+    use_bullet("win-builder", "devel"),
     ""
   )
 }
@@ -253,7 +226,7 @@ tidy_release_test_env <- function() {
 #'
 #' Derives a list of GitHub usernames, based on who has opened issues or pull
 #' requests. Used to populate the acknowledgment section of package release blog
-#' posts at <https://www.tidyverse.org/articles/>. All arguments can potentially
+#' posts at <https://www.tidyverse.org/blog/>. All arguments can potentially
 #' be determined from the active project, if the project follows standard
 #' practices around the GitHub remote and GitHub releases. Unexported helper
 #' functions, `releases()` and `ref_df()` can be useful interactively to get a
@@ -287,12 +260,18 @@ tidy_release_test_env <- function() {
 #' ## r-lib/usethis, since a specific commit, up to a specific date
 #' use_tidy_thanks("r-lib/usethis", from = "08a560d", to = "2018-05-14")
 #' }
-use_tidy_thanks <- function(repo_spec = github_repo_spec(),
-                            from = releases(repo_spec)[[1]],
+use_tidy_thanks <- function(repo_spec = NULL,
+                            from = NULL,
                             to = NULL) {
-  from_timestamp <- as_timestamp(from, repo_spec) %||% "2008-01-01"
-  to_timestamp <- as_timestamp(to, repo_spec)
-  ui_done("Looking for contributors from {as.Date(from_timestamp)} to {to_timestamp %||% 'now'}")
+  repo_spec <- repo_spec %||% get_primary_spec()
+  from <- from %||% releases(repo_spec)[[1]]
+
+  from_timestamp <- as_timestamp(repo_spec, x = from) %||% "2008-01-01"
+  to_timestamp <- as_timestamp(repo_spec, x = to)
+  ui_done("
+    Looking for contributors from {as.Date(from_timestamp)} to \\
+    {to_timestamp %||% 'now'}
+    ")
 
   res <- gh::gh(
     "/repos/:owner/:repo/issues",
@@ -325,25 +304,32 @@ use_tidy_thanks <- function(repo_spec = github_repo_spec(),
   contrib_link <- glue("[&#x0040;{contributors}](https://github.com/{contributors})")
 
   ui_done("Found {length(contributors)} contributors:")
-  ui_code_block(glue_collapse(contrib_link, sep = ", ", last = ", and "))
+  ui_code_block(glue_collapse(contrib_link, sep = ", ", last = ", and ") + glue("."))
 
   invisible(contributors)
 }
 
 ## if x appears to be a timestamp, pass it through
 ## otherwise, assume it's a ref and look up its timestamp
-as_timestamp <- function(x = NULL, repo_spec = github_repo_spec()) {
-  if (is.null(x)) return(NULL)
+as_timestamp <- function(repo_spec = get_primary_spec(), x = NULL) {
+  if (is.null(x)) {
+    return(NULL)
+  }
   as_POSIXct <- try(as.POSIXct(x), silent = TRUE)
-  if (inherits(as_POSIXct, "POSIXct")) return(x)
+  if (inherits(as_POSIXct, "POSIXct")) {
+    return(x)
+  }
   ui_line("Resolving timestamp for ref ", ui_value(x))
-  ref_df(x, repo_spec)$timestamp
+  ref_df(repo_spec, refs = x)$timestamp
 }
 
 ## returns a data frame on GitHub refs, defaulting to all releases
-ref_df <- function(refs = NULL, repo_spec = github_repo_spec()) {
+ref_df <- function(repo_spec = get_primary_spec(), refs = NULL) {
+  stopifnot(is_string(repo_spec))
   refs <- refs %||% releases(repo_spec)
-  if (is.null(refs)) return(NULL)
+  if (is.null(refs)) {
+    return(NULL)
+  }
   get_thing <- function(thing) {
     gh::gh(
       "/repos/:owner/:repo/commits/:thing",
@@ -360,13 +346,15 @@ ref_df <- function(refs = NULL, repo_spec = github_repo_spec()) {
 }
 
 ## returns character vector of release tag names
-releases <- function(repo_spec = github_repo_spec()) {
+releases <- function(repo_spec = get_primary_spec()) {
   res <- gh::gh(
     "/repos/:owner/:repo/releases",
     owner = spec_owner(repo_spec),
     repo = spec_repo(repo_spec)
   )
-  if (identical(res[[1]], "")) return(NULL)
+  if (length(res) < 1) {
+    return(NULL)
+  }
   pluck_chr(res, "tag_name")
 }
 

@@ -19,7 +19,7 @@
 #'   - Experimental
 #'   - Maturing
 #'   - Stable
-#'   - Retired
+#'   - Superseded
 #'   - Archived
 #'   - Dormant
 #'   - Questioning
@@ -45,6 +45,14 @@ NULL
 #' @export
 use_badge <- function(badge_name, href, src) {
   path <- find_readme()
+  if (is.null(path)) {
+    ui_oops("
+    Can't find a README for the current project.
+    See {ui_code('usethis::use_readme_rmd()')} for help creating this file.
+    Badge link can only be printed to screen.
+    ")
+    path <- "README"
+  }
   changed <- block_append(
     glue("{ui_field(badge_name)} badge"),
     glue("[![{badge_name}]({src})]({href})"),
@@ -105,27 +113,28 @@ stages <- c(
   experimental = "orange",
   maturing = "blue",
   stable = "brightgreen",
-  retired = "orange",
+  superseded = "blue",
   archived = "red",
   dormant = "blue",
   questioning = "blue"
 )
 
 #' @rdname badges
-#' @param urlpath An optional `urlpath` component to add to the link, e.g. `"rstudio"`
-#'   to open an RStudio IDE instead of a Jupyter notebook.
-#'   See the [binder documentation](https://mybinder.readthedocs.io/en/latest/howto/user_interface.html)
-#'   for additional examples.
+#' @param urlpath An optional `urlpath` component to add to the link, e.g.
+#'   `"rstudio"` to open an RStudio IDE instead of a Jupyter notebook. See the
+#'   [binder
+#'   documentation](https://mybinder.readthedocs.io/en/latest/howto/user_interface.html)
+#'    for additional examples.
 #' @export
 use_binder_badge <- function(urlpath = NULL) {
-  check_uses_github()
+  repo_spec <- get_repo_spec()
 
   if (is.null(urlpath)) {
     urlpath <- ""
   } else {
     urlpath <- glue("?urlpath={urlpath}")
   }
-  url <- glue("https://mybinder.org/v2/gh/{github_repo_spec()}/master{urlpath}")
+  url <- glue("https://mybinder.org/v2/gh/{repo_spec}/master{urlpath}")
   img <- "https://mybinder.org/badge_logo.svg"
   use_badge("Launch binder", url, img)
 
@@ -138,7 +147,7 @@ has_badge <- function(href) {
     return(FALSE)
   }
 
-  readme <- readLines(readme_path, encoding = "UTF-8")
+  readme <- read_utf8(readme_path)
   any(grepl(href, readme, fixed = TRUE))
 }
 

@@ -26,9 +26,9 @@ use_binder_badge(urlpath = NULL)
 
 \item{stage}{Stage of the package lifecycle}
 
-\item{urlpath}{An optional \code{urlpath} component to add to the link, e.g. \code{"rstudio"}
-to open an RStudio IDE instead of a Jupyter notebook.
-See the \href{https://mybinder.readthedocs.io/en/latest/howto/user_interface.html}{binder documentation}
+\item{urlpath}{An optional \code{urlpath} component to add to the link, e.g.
+\code{"rstudio"} to open an RStudio IDE instead of a Jupyter notebook. See the
+\href{https://mybinder.readthedocs.io/en/latest/howto/user_interface.html}{binder documentation}
 for additional examples.}
 }
 \description{
@@ -51,7 +51,7 @@ package, according to \url{https://www.tidyverse.org/lifecycle/}:
 \item Experimental
 \item Maturing
 \item Stable
-\item Retired
+\item Superseded
 \item Archived
 \item Dormant
 \item Questioning

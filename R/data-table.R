@@ -13,13 +13,15 @@
 #' @export
 use_data_table <- function() {
   check_is_package("use_data_table()")
+  check_uses_roxygen("use_data_table()")
+
   deps <- desc::desc_get_deps(".")
-  if (any(deps$type == 'Depends' & deps$package == "data.table")) {
+  if (any(deps$type == "Depends" & deps$package == "data.table")) {
     ui_warn("data.table should be in Imports or Suggests, not Depends")
     desc::desc_del_dep("data.table", "Depends", file = proj_get())
   }
   use_dependency("data.table", "Imports")
-  new <- use_template("data.table.R", "R/utils-data-table.R")
+  new <- use_template("data-table.R", "R/utils-data-table.R")
   ui_todo("Run {ui_code('devtools::document()')}")
   invisible(new)
 }

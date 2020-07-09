@@ -1,3 +1,62 @@
+## download_url ----
+
+test_that("download_url() retry logic works as advertised", {
+  faux_download <- function(n_failures) {
+    i <- 0
+    function(url, destfile, quiet, mode, handle) {
+      i <<- i + 1
+      if (i <= n_failures) simpleError(paste0("try ", i)) else "success"
+    }
+  }
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  # succeed on first try
+  out <- with_mock(
+    `usethis:::try_download` = faux_download(0),
+    download_url(url = "URL", destfile = "destfile")
+  )
+  expect_s3_class(out, "curl_handle")
+
+  # fail, then succeed
+  expect_message(
+    out <- with_mock(
+      `usethis:::try_download` = faux_download(1),
+      download_url(url = "URL", destfile = "destfile")
+    ),
+    "Retrying.*attempt 2"
+  )
+  expect_s3_class(out, "curl_handle")
+
+  # fail, fail, then succeed (default n_tries = 3, so should allow)
+  expect_message(
+    out <- with_mock(
+      `usethis:::try_download` = faux_download(2),
+      download_url(url = "URL", destfile = "destfile")
+    ),
+    "Retrying.*attempt 3"
+  )
+  expect_s3_class(out, "curl_handle")
+
+  # fail, fail, fail (exceed n_failures > n_tries = 3)
+  expect_error(
+    out <- with_mock(
+      `usethis:::try_download` = faux_download(5),
+      download_url(url = "URL", destfile = "destfile", n_tries = 3)
+    ),
+    "try 3"
+  )
+
+  # fail, fail, fail, succeed (make sure n_tries is adjustable)
+  expect_message(
+    out <- with_mock(
+      `usethis:::try_download` = faux_download(3),
+      download_url(url = "URL", destfile = "destfile", n_tries = 10)
+    ),
+    "Retrying.*attempt 4"
+  )
+  expect_s3_class(out, "curl_handle")
+})
+
 ## tidy_download ----
 
 test_that("tidy_download() errors early if destdir is not a directory", {
@@ -27,13 +86,17 @@ test_that("tidy_download() works", {
   gh_url <- "https://github.com/r-lib/rematch2/archive/master.zip"
   expected <- fs::path(tmp, "rematch2-master.zip")
 
-  out <- tidy_download(gh_url, destdir = tmp)
+  capture.output(
+    out <- tidy_download(gh_url, destdir = tmp)
+  )
   expect_true(fs::file_exists(expected))
   expect_equivalent(out, expected)
   expect_identical(attr(out, "content-type"), "application/zip")
 
   # refuse to overwrite when non-interactive
-  expect_error(tidy_download(gh_url, destdir = tmp))
+  expect_error(capture.output(
+    tidy_download(gh_url, destdir = tmp)
+  ))
 })
 
 ## tidy_unzip ----
@@ -62,10 +125,46 @@ test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
 })
 
 ## helpers ----
+test_that("create_download_url() works", {
+  expect_equal(
+    create_download_url("https://rstudio.com"),
+    "https://rstudio.com"
+  )
+  expect_equal(
+    create_download_url("https://drive.google.com/open?id=123456789xxyyyzzz"),
+    "https://drive.google.com/uc?export=download&id=123456789xxyyyzzz"
+  )
+  expect_equal(
+    create_download_url(
+      "https://drive.google.com/file/d/123456789xxxyyyzzz/view"
+    ),
+    "https://drive.google.com/uc?export=download&id=123456789xxxyyyzzz"
+  )
+  expect_equal(
+    create_download_url("https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0"),
+    "https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1"
+  )
+
+  # GitHub
+  usethis_url <- "https://github.com/r-lib/usethis/archive/master.zip"
+  expect_equal(
+    create_download_url("https://github.com/r-lib/usethis"),
+    usethis_url
+  )
+  expect_equal(
+    create_download_url("https://github.com/r-lib/usethis/issues"),
+    usethis_url
+  )
+  expect_equal(
+    create_download_url("https://github.com/r-lib/usethis#readme"),
+    usethis_url
+  )
+})
+
 test_that("normalize_url() prepends https:// (or not)", {
   expect_error(normalize_url(1), "is\\.character.*not TRUE")
-  expect_identical(normalize_url("http://bit.ly/aaa"), "http://bit.ly/aaa")
-  expect_identical(normalize_url("bit.ly/aaa"), "https://bit.ly/aaa")
+  expect_identical(normalize_url("http://bit.ly/abc"), "http://bit.ly/abc")
+  expect_identical(normalize_url("bit.ly/abc"), "https://bit.ly/abc")
   expect_identical(
     normalize_url("https://github.com/r-lib/rematch2/archive/master.zip"),
     "https://github.com/r-lib/rematch2/archive/master.zip"
@@ -97,17 +196,26 @@ test_that("github links get expanded", {
 })
 
 test_that("conspicuous_place() returns a writeable directory", {
+  skip_on_cran_macos() # even $HOME is not writeable on CRAN macOS builder
   expect_error_free(x <- conspicuous_place())
   expect_true(is_dir(x))
   expect_true(file_access(x, mode = "write"))
 })
 
-test_that("check_is_zip() errors if MIME type is not 'application/zip'", {
-  skip("work this into a use_course test")
+test_that("conspicuous_place() uses `usethis.destdir` when set", {
+  destdir_temp <- fs::path_temp("destdir_temp")
+  on.exit(fs::dir_delete(destdir_temp))
+  dir_create(destdir_temp)
+  withr::local_options(list(usethis.destdir = destdir_temp))
+  expect_error_free(x <- conspicuous_place())
+  expect_equal(destdir_temp, x)
+})
+
+test_that("use_course() errors if MIME type is not 'application/zip'", {
   skip_on_cran()
   skip_if_offline()
   expect_usethis_error(
-    download_zip("https://httpbin.org/get"),
+    use_course("https://httpbin.org/get", destdir = fs::path_temp()),
     "does not have MIME type"
   )
 })

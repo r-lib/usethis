@@ -22,8 +22,7 @@
 #' * `good first issue` indicates a good issue for first-time contributors.
 #' * `help wanted` indicates that a maintainer wants help on an issue.
 #'
-#' @param repo_spec Optional repository specification (`owner/repo`) if you
-#'   don't want to target the current project.
+#' @eval param_repo_spec()
 #' @param labels A character vector giving labels to add.
 #' @param rename A named vector with names giving old names and values giving
 #'   new names.
@@ -56,7 +55,7 @@
 #'   descriptions = c("foofiest" = "the foofiest issue you ever saw")
 #' )
 #' }
-use_github_labels <- function(repo_spec = github_repo_spec(),
+use_github_labels <- function(repo_spec = NULL,
                               labels = character(),
                               rename = character(),
                               colours = character(),
@@ -64,13 +63,11 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
                               delete_default = FALSE,
                               auth_token = github_token(),
                               host = NULL) {
-  if (missing(repo_spec)) {
-    check_uses_github()
-  }
+  repo_spec <- repo_spec %||% get_repo_spec()
   check_github_token(auth_token)
 
   gh <- function(endpoint, ...) {
-    out <- gh::gh(
+    gh::gh(
       endpoint,
       ...,
       owner = spec_owner(repo_spec),
@@ -81,11 +78,6 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
         "Accept" = "application/vnd.github.symmetra-preview+json"
       )
     )
-    if (identical(out[[1]], "")) {
-      list()
-    } else {
-      out
-    }
   }
 
   cur_labels <- gh("GET /repos/:owner/:repo/labels")
@@ -168,7 +160,7 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   cur_label_names <- label_attr("name", cur_labels)
 
   # Update colours
-  cur_label_colours <- rlang::set_names(
+  cur_label_colours <- set_names(
     label_attr("color", cur_labels), cur_label_names
   )
   if (identical(cur_label_colours[names(colours)], colours)) {
@@ -187,7 +179,7 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
   }
 
   # Update descriptions
-  cur_label_descriptions <- rlang::set_names(
+  cur_label_descriptions <- set_names(
     label_attr("description", cur_labels), cur_label_names
   )
   if (identical(cur_label_descriptions[names(descriptions)], descriptions)) {
@@ -227,7 +219,7 @@ use_github_labels <- function(repo_spec = github_repo_spec(),
 
 #' @export
 #' @rdname use_github_labels
-use_tidy_labels <- function(repo_spec = github_repo_spec(),
+use_tidy_labels <- function(repo_spec = NULL,
                             auth_token = github_token(),
                             host = NULL) {
   use_github_labels(
@@ -274,8 +266,7 @@ tidy_label_colours <- function() {
     "good first issue :heart:" = "CBBAB8",
     "help wanted :heart:" = "C5C295",
     "reprex" = "C5C295",
-    "tidy-dev-day :nerd_face:" = "CBBAB8",
-    "wip" = "E1B996"
+    "tidy-dev-day :nerd_face:" = "CBBAB8"
   )
 }
 

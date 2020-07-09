@@ -120,6 +120,10 @@ use_src_example_script <- function(name = NULL, src_type = c("cpp", "c")) {
   if (!is.null(name)) {
     name <- slug(name, src_type)
     check_file_name(name)
-    use_template(slug("code", src_type), path("src", name), open = interactive())
+    use_template(
+      slug("code", src_type),
+      path("src", name),
+      open = is_interactive()
+    )
   }
 }

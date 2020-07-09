@@ -1,8 +1,8 @@
 #' Create package data
 #'
-#' `use_data()` makes it easy to save package data in the correct format.
-#' I recommend you save scripts that generate package data in `data-raw`:
-#' use `use_data_raw()` to set it up.
+#' `use_data()` makes it easy to save package data in the correct format. I
+#' recommend you save scripts that generate package data in `data-raw`: use
+#' `use_data_raw()` to set it up. You also need to document exported datasets.
 #'
 #' @param ... Unquoted names of existing objects to save.
 #' @param internal If `FALSE`, saves each object in its own `.rda`
@@ -42,6 +42,7 @@ use_data <- function(...,
 
   objs <- get_objs_from_dots(dots(...))
 
+  use_dependency("R", "depends", "2.10")
   if (internal) {
     use_directory("R")
     paths <- path("R", "sysdata.rda")
@@ -53,6 +54,7 @@ use_data <- function(...,
   check_files_absent(proj_path(paths), overwrite = overwrite)
 
   ui_done("Saving {ui_value(unlist(objs))} to {ui_value(paths)}")
+  if (!internal) ui_todo("Document your data (see {ui_value('https://r-pkgs.org/data.html')})")
 
   envir <- parent.frame()
   mapply(
@@ -111,7 +113,7 @@ check_files_absent <- function(paths, overwrite) {
 #' \dontrun{
 #' use_data_raw("daisy")
 #' }
-use_data_raw <- function(name = "DATASET", open = interactive()) {
+use_data_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
   stopifnot(is_string(name))
   r_path <- path("data-raw", asciify(name), ext = "R")
   use_directory("data-raw", ignore = TRUE)

@@ -11,7 +11,7 @@ use_article(name, title = name)
 }
 \arguments{
 \item{name}{Base for file name to use for new vignette. Should consist only
-of numbers, letters, \verb{_} and \verb{-}. Lower case is recommended.}
+of numbers, letters, \verb{_} and \code{-}. Lower case is recommended.}
 
 \item{title}{The title of the vignette.}
 }

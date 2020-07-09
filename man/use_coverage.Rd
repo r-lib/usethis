@@ -5,17 +5,19 @@
 \alias{use_covr_ignore}
 \title{Test coverage}
 \usage{
-use_coverage(type = c("codecov", "coveralls"))
+use_coverage(type = c("codecov", "coveralls"), repo_spec = NULL)
 
 use_covr_ignore(files)
 }
 \arguments{
-\item{type}{Which web service to use for test reporting. Currently supports
-\href{https://codecov.io}{Codecov} and \href{https://coveralls.io}{Coveralls}.}
+\item{type}{Which web service to use.}
+
+\item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
 
 \item{files}{Character vector of file globs.}
 }
 \description{
-\code{use_coverage()} Adds test coverage reports to a package that is already
-using Travis CI.
+Adds test coverage reporting to a package, using either
+\href{https://codecov.io}{Codecov} or
+\href{https://coveralls.io}{Coveralls}.
 }

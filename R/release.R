@@ -1,32 +1,32 @@
-#' Create a release issue checklist
+#' Create a release checklist in a GitHub issue
 #'
-#' When preparing to release a package there are quite a few steps that
-#' need to be performed, and some of the steps can take multiple hours.
-#' This function creates an issue checklist so that you can keep track of
-#' where you are in the process, and feel a sense of satisfaction as you
-#' progress. It also helps watchers of your package stay informed about where
-#' you are in the process.
+#' When preparing to release a package there are quite a few steps that need to
+#' be performed, and some of the steps can take multiple hours. This function
+#' creates an issue checklist so that you can keep track of where you are in the
+#' process, and feel a sense of satisfaction as you progress. It also helps
+#' watchers of your package stay informed about where you are in the process.
 #'
-#' @param version Version number for release
+#' @param version Optional version number for release. If unspecified, you can
+#'   make an interactive choice.
 #' @export
 #' @examples
 #' \dontrun{
 #' use_release_issue("2.0.0")
 #' }
 use_release_issue <- function(version = NULL) {
-  check_uses_github()
   check_is_package("use_release_issue()")
-
   version <- version %||% choose_version()
   if (is.null(version)) {
     return(invisible(FALSE))
   }
 
-  checklist <- release_checklist(version)
+  repo_spec <- get_primary_spec()
+  on_cran <- !is.null(cran_version())
+  checklist <- release_checklist(version, on_cran)
 
   issue <- gh::gh("POST /repos/:owner/:repo/issues",
-    owner = github_owner(),
-    repo = github_repo(),
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     title = glue("Release {project_name()} {version}"),
     body = paste(checklist, "\n", collapse = "")
   )
@@ -34,13 +34,14 @@ use_release_issue <- function(version = NULL) {
   view_url(issue$html_url)
 }
 
-release_checklist <- function(version) {
+release_checklist <- function(version, on_cran) {
   type <- release_type(version)
-  on_cran <- !is.null(cran_version())
   cran_results <- cran_results_url()
   has_src <- dir_exists(proj_path("src"))
   has_news <- file_exists(proj_path("NEWS.md"))
-  has_pkgdown <- file_exists(proj_path("_pkgdown.yml"))
+  has_pkgdown <- uses_pkgdown()
+  has_readme <- file_exists(proj_path("README.Rmd"))
+  has_extra <- exists("release_bullets", parent.env(globalenv()))
 
   todo <- function(x, cond = TRUE) {
     x <- glue(x, .envir = parent.frame())
@@ -53,6 +54,7 @@ release_checklist <- function(version) {
     "",
     todo("Check that description is informative", !on_cran),
     todo("Check licensing of included files", !on_cran),
+    todo("`devtools::build_readme()`", has_readme),
     todo("`usethis::use_cran_comments()`", !on_cran),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
@@ -63,8 +65,9 @@ release_checklist <- function(version) {
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran),
     todo("Update `cran-comments.md`"),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
-    todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown),
+    todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown && type != "patch"),
     todo("Draft blog post", type != "patch"),
+    if (has_extra) paste0("* [ ] ", get("release_bullets", parent.env(globalenv()))()),
     "",
     "Submit to CRAN:",
     "",
@@ -75,9 +78,9 @@ release_checklist <- function(version) {
     "Wait for CRAN...",
     "",
     todo("Accepted :tada:"),
+    todo("`usethis::use_news_md()`", !has_news),
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version()`"),
-    todo("`usethis::use_news_md()`", !has_news),
     todo("Update install instructions in README", !on_cran),
     todo("Finish blog post", type != "patch"),
     todo("Tweet", type != "patch"),
@@ -101,31 +104,38 @@ release_type <- function(version) {
 #'
 #' Creates a __draft__ GitHub release for the current package using the current
 #' version and `NEWS.md`. If you are comfortable that it is correct, you will
-#' need to publish the release from GitHub. It also deletes `CRAN-RELEASE`
-#' and checks that you've pushed all commits to GitHub.
+#' need to publish the release from GitHub. It also deletes `CRAN-RELEASE` and
+#' checks that you've pushed all commits to GitHub.
 #'
 #' @inheritParams use_github_links
 #' @export
 use_github_release <- function(host = NULL,
                                auth_token = github_token()) {
+  # TODO: should this be checking that we're on master / default branch?
+  repo_spec <- get_primary_spec()
+  check_branch_pushed()
+  check_github_token(auth_token)
+
+  path <- proj_path("NEWS.md")
+  if (!file_exists(path)) {
+    ui_stop("{ui_path('NEWS.md')} not found")
+  }
+
   cran_release <- proj_path("CRAN-RELEASE")
   if (file_exists(cran_release)) {
     file_delete(cran_release)
   }
-
-  check_uses_github()
-  check_branch_pushed()
-  check_github_token(auth_token)
-
+  news <- news_latest(read_utf8(path))
   package <- package_data()
 
   release <- gh::gh(
     "POST /repos/:owner/:repo/releases",
-    owner = github_owner(),
-    repo = github_repo(),
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     tag_name = paste0("v", package$Version),
+    target_commitish = gert::git_info(git_repo())$commit,
     name = paste0(package$Package, " ", package$Version),
-    body = news_latest(),
+    body = news,
     draft = TRUE,
     .api_url = host,
     .token = auth_token
@@ -149,17 +159,11 @@ cran_results_url <- function(package = project_name()) {
   glue("https://cran.rstudio.org/web/checks/check_results_{package}.html")
 }
 
-news_latest <- function() {
-  path <- proj_path("NEWS.md")
-  if (!file_exists(path)) {
-    ui_stop("{ui_path(path)} not found")
-  }
-
-  lines <- readLines(path)
+news_latest <- function(lines) {
   headings <- which(grepl("^#\\s+", lines))
 
   if (length(headings) == 0) {
-    ui_stop("No top-level headings found in {ui_value(path)}")
+    ui_stop("No top-level headings found in {ui_value('NEWS.md')}")
   } else if (length(headings) == 1) {
     news <- lines[seq2(headings + 1, length(lines))]
   } else {
@@ -168,7 +172,11 @@ news_latest <- function() {
 
   # Remove leading and trailing empty lines
   text <- which(news != "")
+  if (length(text) == 0) {
+    return("")
+  }
+
   news <- news[text[[1]]:text[[length(text)]]]
 
-  paste(news, "\n", collapse = "")
+  paste0(news, "\n", collapse = "")
 }

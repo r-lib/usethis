@@ -5,9 +5,9 @@
 \alias{use_readme_md}
 \title{Create README files}
 \usage{
-use_readme_rmd(open = interactive())
+use_readme_rmd(open = rlang::is_interactive())
 
-use_readme_md(open = interactive())
+use_readme_md(open = rlang::is_interactive())
 }
 \arguments{
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
@@ -20,10 +20,17 @@ Creates skeleton README files with sections for
 \item R code to install from GitHub, if GitHub usage detected
 \item a basic example
 }
-Use \code{Rmd} if you want a rich intermingling of code and data. Use
-\code{md} for a basic README. \code{README.Rmd} will be automatically
-added to \code{.Rbuildignore}. The resulting README is populated with default
-YAML frontmatter and R fenced code blocks (\code{md}) or chunks (\code{Rmd}).
+
+Use \code{Rmd} if you want a rich intermingling of code and output. Use \code{md} for a
+basic README. \code{README.Rmd} will be automatically added to \code{.Rbuildignore}.
+The resulting README is populated with default YAML frontmatter and R fenced
+code blocks (\code{md}) or chunks (\code{Rmd}).
+
+If you use \code{Rmd}, you'll still need to render it regularly, to keep
+\code{README.md} up-to-date. \code{devtools::build_readme()} is handy for this. You
+could also use GitHub Actions to re-render \code{README.Rmd} every time you push.
+An example workflow can be found in the \verb{examples/} directory here:
+\url{https://github.com/r-lib/actions/}.
 }
 \examples{
 \dontrun{

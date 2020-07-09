@@ -25,22 +25,22 @@ test_that("write_union() writes a de novo file", {
   tmp <- file_temp()
   expect_false(file_exists(tmp))
   write_union(tmp, letters[1:3], quiet = TRUE)
-  expect_identical(readLines(tmp), letters[1:3])
+  expect_identical(read_utf8(tmp), letters[1:3])
 })
 
 test_that("write_union() leaves file 'as is'", {
   tmp <- file_temp()
   writeLines(letters[1:3], tmp)
-  before <- readLines(tmp)
+  before <- read_utf8(tmp)
   write_union(tmp, "b", quiet = TRUE)
-  expect_identical(before, readLines(tmp))
+  expect_identical(before, read_utf8(tmp))
 })
 
 test_that("write_union() adds lines", {
   tmp <- file_temp()
   writeLines(letters[1:3], tmp)
   write_union(tmp, letters[4:5], quiet = TRUE)
-  expect_setequal(readLines(tmp), letters[1:5])
+  expect_setequal(read_utf8(tmp), letters[1:5])
 })
 
 # https://github.com/r-lib/usethis/issues/526
@@ -49,46 +49,64 @@ test_that("write_union() doesn't remove duplicated lines in the input", {
   before <- rep(letters[1:2], 3)
   add_me <- c("z", "a", "c", "a", "b")
   writeLines(before, tmp)
-  expect_identical(before, readLines(tmp))
+  expect_identical(before, read_utf8(tmp))
   write_union(tmp, add_me, quiet = TRUE)
-  expect_identical(readLines(tmp), c(before, c("z", "c")))
+  expect_identical(read_utf8(tmp), c(before, c("z", "c")))
 })
 
 test_that("write_over() writes a de novo file", {
   tmp <- file_temp()
   expect_false(file_exists(tmp))
   write_over(tmp, letters[1:3], quiet = TRUE)
-  expect_identical(readLines(tmp), letters[1:3])
+  expect_identical(read_utf8(tmp), letters[1:3])
 })
 
 test_that("write_over() leaves file 'as is'", {
   tmp <- file_temp()
   writeLines(letters[1:3], tmp)
-  before <- readLines(tmp)
+  before <- read_utf8(tmp)
   write_over(tmp, letters[1:3], quiet = TRUE)
-  expect_identical(before, readLines(tmp))
+  expect_identical(before, read_utf8(tmp))
 })
 
 # https://github.com/r-lib/usethis/issues/514
-test_that("write_ut8 always produces a trailing newline", {
+test_that("write_utf8() always produces a trailing newline", {
   path <- file_temp()
-  write_utf8(path, "x")
-
-  if (identical(Sys.info()[["sysname"]], "Windows")) {
-    expect_equal(readChar(path, 3), "x\r\n")
-  } else {
-    expect_equal(readChar(path, 2), "x\n")
-  }
+  write_utf8(path, "x", line_ending = "\n")
+  expect_equal(readChar(path, 2), "x\n")
 })
 
-test_that("write_ut8 can append text when requested", {
+test_that("write_utf8() can append text when requested", {
   path <- file_temp()
-  write_utf8(path, "x")
-  write_utf8(path, "x", append = TRUE)
+  write_utf8(path, "x", line_ending = "\n")
+  write_utf8(path, "x", line_ending = "\n", append = TRUE)
 
-  if (identical(Sys.info()[["sysname"]], "Windows")) {
-    expect_equal(readChar(path, 6), "x\r\nx\r\n")
-  } else {
-    expect_equal(readChar(path, 4), "x\nx\n")
-  }
+  expect_equal(readChar(path, 4), "x\nx\n")
+})
+
+test_that("write_utf8() respects line ending", {
+  path <- file_temp()
+
+  write_utf8(path, "x", line_ending = "\n")
+  expect_equal(detect_line_ending(path), "\n")
+
+  write_utf8(path, "x", line_ending = "\r\n")
+  expect_equal(detect_line_ending(path), "\r\n")
+})
+
+test_that("write_utf8() can operate outside of a project", {
+  tmpdir <- file_temp()
+  dir_create(tmpdir)
+  # doing this "by hand" vs. via withr because Windows appears to be unwilling
+  # to delete current working directory
+  oldwd <- setwd(tmpdir)
+  on.exit({
+    setwd(oldwd)
+    dir_delete(tmpdir)
+  })
+
+  local_project(NULL)
+
+  expect_false(proj_active())
+  expect_error_free(write_utf8(path = "foo", letters[1:3]))
 })

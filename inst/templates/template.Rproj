@@ -9,6 +9,7 @@ Encoding: UTF-8
 
 AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
+LineEndingConversion: {{line_ending}}
 
 BuildType: Package
 PackageUseDevtools: Yes
