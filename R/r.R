@@ -38,7 +38,7 @@ use_r <- function(name = NULL, open = rlang::is_interactive()) {
 #' @export
 use_test <- function(name = NULL, open = rlang::is_interactive()) {
   if (!uses_testthat()) {
-    use_testthat()
+    use_testthat_impl()
   }
 
   name <- name %||% get_active_r_file(path = "R")

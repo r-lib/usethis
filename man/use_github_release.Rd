@@ -16,6 +16,6 @@ GitHub enterprise instance, for example,
 \description{
 Creates a \strong{draft} GitHub release for the current package using the current
 version and \code{NEWS.md}. If you are comfortable that it is correct, you will
-need to publish the release from GitHub. It also deletes \code{CRAN-RELEASE}
-and checks that you've pushed all commits to GitHub.
+need to publish the release from GitHub. It also deletes \code{CRAN-RELEASE} and
+checks that you've pushed all commits to GitHub.
 }

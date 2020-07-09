@@ -98,17 +98,19 @@ These functions gather information that help you or others troubleshoot things:
   * `proj_sitrep()`: prints info about the active usethis project, working
     directory, and the active RStudio Project. Points out when things are
     peculiar and how to fix.
-  * `git_sitrep()`: prints info about your current Git, git2r, and GitHub setup.
+  * `git_sitrep()`: prints info about your current Git, gert, and GitHub setup.
+  
+"Sitrep" is short for "**sit**uation **rep**ort".
 
 ## Get a GitHub.com account
 
-Sign up for a free account with [GitHub.com](https://github.com/). [Happy Git and GitHub for the useR](https://happygitwithr.com/github-acct.html) provides more advice about picking your username and discusses ways to get private repositories.
+Sign up for a free account with [GitHub.com](https://github.com/). [Happy Git and GitHub for the useR](https://happygitwithr.com/github-acct.html) provides more advice about picking your username.
 
 ## Install Git
 
 Please see [Happy Git and GitHub for the useR](https://happygitwithr.com/install-git.html) for instructions on how to install Git. It is beyond the scope of this article.
 
-usethis itself does not actually need the Git that you install, because it uses the [git2r](https://cran.r-project.org/package=git2r) package which wraps [libgit2](https://libgit2.github.com). But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git.
+usethis itself does not actually need the Git that you install, because it uses the [gert](https://docs.ropensci.org/gert/) package which wraps [libgit2](https://libgit2.github.com). But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git.
 
 ## Configure `user.name` and `user.email`
 
@@ -143,7 +145,15 @@ git config --global --list
 
 ### Optional: configure Git's editor
 
-Another Git option that many people eventually configure is the editor. This will come up if you use Git from a shell. At some point, you will fail to give Git what it wants in terms of a commit message and it will kick you into an editor. This can be distressing, if it’s not your editor of choice and you don’t even know how to save and quit. You can enforce your will by executing this in a shell (not in R!):
+Another Git option that many people eventually configure is the editor. This will come up if you use Git from a shell. At some point, you will fail to give Git what it wants in terms of a commit message and it will kick you into an editor. This can be distressing, if it’s not your editor of choice and you don’t even know how to save and quit. You can enforce your will by executing this in R:
+
+```{r, eval = FALSE}
+library(usethis)
+
+use_git_config(core.editor = "nano")
+```
+
+To do the same thing with command line Git, execute this in a shell:
 
 ```{sh, eval = FALSE}
 git config --global core.editor emacs
@@ -167,45 +177,77 @@ Other functions, such as the `pr_*()` family, may also use your GitHub PAT for f
 
 ```{r, eval = FALSE}
 library(usethis)
-browse_github_token()
+create_github_token()
 ```
 
-`usethis::browse_github_token()` takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on "Generate new token" from <https://github.com/settings/tokens>.
+`usethis::create_github_token()` takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on "Generate new token" from <https://github.com/settings/tokens>.
 
-As the page says, you must **store this token somewhere** because you'll never be able to see it again, once you leave that page or close the windows. If you somehow goof this up, just generate a new PAT and, so you don't confuse yourself, delete the lost token.
+As the page says, you must **store this token somewhere** because you'll never be able to see it again, once you leave that page or close the window. If you somehow goof this up, just generate a new PAT and, so you don't confuse yourself, delete the lost token.
 
-`browse_github_token()` provides advice on how to store your PAT, also repeated here. It is customary to save the PAT as an environment variable in your `.Renviron`, with the name `GITHUB_PAT`.
+In the moment, I usually copy the PAT to the clipboard for the next step. (I also store this PAT in my general password manager, for redundancy.)
+
+It is customary to make this PAT available to R sessions as the value of the `GITHUB_PAT` environment variable. `create_github_token()` provides advice on how to do this, also repeated here. 
+
+### Git credential store
+
+This is a new approach made possible by the [credentials package](https://docs.ropensci.org/credentials/), which is used for credential handling by the [gert package](https://docs.ropensci.org/gert), which is how usethis does its Git work. The approach is described fully in the rOpenSci tech note [A better way to manage your GitHub personal access tokens](https://ropensci.org/technotes/2020/07/07/github-pat/).
+
+`credentials::set_github_pat()` triggers a prompt where you can register your PAT with your operating system's Git credential store. That's something you do once. Or, rather, once per machine, per PAT.
+
+From then on, executing `credentials::set_github_pat()` will cause that existing PAT to be re-validated and, assuming that succeeds, assigned to the `GITHUB_PAT` environment variable. You might put this in your `.Rprofile` startup file (remember `edit_r_profile()` helps you get this file open for editing):
+
+```{r eval = FALSE}
+# suitable for your .Rprofile
+if (requireNamespace("credentials", quietly = TRUE)) {
+  credentials::set_github_pat(verbose = FALSE)
+}
+```
+
+However, note that usethis will soon execute this command for you when it needs the PAT.
+
+### `.Renviron`
+
+For years, this has been the most common way to make the PAT available. It still works, but is less secure than the approach described just above.
+
+Here we set the `GITHUB_PAT` environment variable in the `.Renviron` file which is consulted at startup. `usethis::edit_r_environ()` will open `.Renviron` for editing.
 
 ```{r, eval = FALSE}
 library(usethis)
 edit_r_environ()
 ```
 
-`usethis::edit_r_environ()` will open `.Renviron` for editing. Add a line like this, **but substitute your PAT**:
+Add a line like this, **but substitute your PAT**:
 
-```{sh}
+```{sh, eval = FALSE}
 GITHUB_PAT=8c70fd8419398999c9ac5bacf3192882193cadf2
 ```
 
 Make sure this file ends in a newline! Lack of a newline can lead to silent failure to load this environment variable, which can be tricky to debug.
 
-Restart R and confirm your PAT is now available:
+Restart R for this to take effect.
 
-```{r, eval = FALSE}
-Sys.getenv("GITHUB_PAT")
+### Confirm your PAT is configured
 
-## or, alternatively,
+Here are ways to confirm your PAT is ready to go. You can execute `usethis::github_token()`:
+
+```{r}
 library(usethis)
 github_token()
 ```
 
-The GitHub section of `usethis::git_sitrep()` will also reveal if a PAT is found and, if so, the associated user.
+You could inspect the `GITHUB_PAT` environment variable directly:
+
+```{r, eval = FALSE}
+Sys.getenv("GITHUB_PAT")
+```
+
+The PAT situation is also part of what's reported in `git_sitrep()`:
 
 ```{r, eval = FALSE}
 git_sitrep()
 ```
 
-Now usethis (and a few other packages) can find this PAT automatically in order to deal with GitHub on your behalf.
+Now usethis (and several other packages) can find this PAT automatically in order to deal with GitHub on your behalf.
 
 ## Prepare your system to build packages from source
 

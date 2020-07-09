@@ -1,7 +1,6 @@
 # key property of maurolepore/with-no-pr is that there are no open PRs
-
 pkgload::unload("devtools")
-devtools::load_all()
+devtools::load_all("~/rrr/usethis")
 attachNamespace("devtools")
 
 # this should not error

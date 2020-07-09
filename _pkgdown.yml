@@ -76,7 +76,7 @@ reference:
     - matches("license")
     - use_namespace
     - use_coverage
-    - matches("build_ignore|pipe|rcpp|tibble|make")
+    - matches("build_ignore|pipe|cpp|tibble|make")
     - matches("roxygen_md|news_md|package_doc|logo")
     - matches("readme")
     - matches("pkgdown|badge")
@@ -118,6 +118,7 @@ reference:
   - title: Git and GitHub
     contents:
     - create_from_github
+    - create_github_token
     - use_git_config
     - use_git
     - use_git_protocol

@@ -10,7 +10,7 @@
 \title{Manage GitHub issue labels}
 \usage{
 use_github_labels(
-  repo_spec = github_repo_spec(),
+  repo_spec = NULL,
   labels = character(),
   rename = character(),
   colours = character(),
@@ -20,11 +20,7 @@ use_github_labels(
   host = NULL
 )
 
-use_tidy_labels(
-  repo_spec = github_repo_spec(),
-  auth_token = github_token(),
-  host = NULL
-)
+use_tidy_labels(repo_spec = NULL, auth_token = github_token(), host = NULL)
 
 tidy_labels()
 
@@ -35,8 +31,7 @@ tidy_label_colours()
 tidy_label_descriptions()
 }
 \arguments{
-\item{repo_spec}{Optional repository specification (\code{owner/repo}) if you
-don't want to target the current project.}
+\item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
 
 \item{labels}{A character vector giving labels to add.}
 

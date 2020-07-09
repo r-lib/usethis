@@ -18,8 +18,8 @@ use_git_protocol("https")
 git_protocol()
 
 ## remove any pre-existing repo
-dir_delete(path(conspicuous_place(), repo_name))
-expect_false(dir_exists(path(conspicuous_place(), repo_name)))
+dir_delete(path(usethis:::conspicuous_place(), repo_name))
+expect_false(dir_exists(path(usethis:::conspicuous_place(), repo_name)))
 
 ## this should work
 x <- create_from_github(paste0(user, "/", repo_name), open = FALSE)
@@ -28,7 +28,7 @@ expect_equal(path_file(x), "crewsocks")
 expect_true(dir_exists(x))
 expect_true(file_exists(path(x, "crewsocks.Rproj")))
 expect_match(
-  git2r::remote_url(git2r::repository(x)),
+  gert::git_remote_list(repo = x)$url,
   "^https"
 )
 

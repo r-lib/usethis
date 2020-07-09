@@ -159,7 +159,7 @@ test_that("rationalize_fork() won't attempt to fork w/o auth_token", {
 
 test_that("rationalize_fork() won't attempt to fork repo owned by user", {
   with_mock(
-    `usethis:::github_user` = function(auth_token) list(login = "USER"),
+    `usethis:::github_login` = function(auth_token) "USER",
     expect_usethis_error(
       rationalize_fork(
         fork = TRUE,
