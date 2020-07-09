@@ -19,15 +19,15 @@ is case insensitive.}
 \item{min_version}{Optionally, supply a minimum version for the package.
 Set to \code{TRUE} to use the currently installed version.}
 
-\item{remote}{The default is to establish a GitHub remote. Optionally,
-you can supply a character string to specify the remote, e.g.
-\code{"gitlab::jimhester/covr"}.}
+\item{remote}{By default, an \code{OWNER/REPO} GitHub remote is inserted.
+Optionally, you can supply a character string to specify the remote, e.g.
+\code{"gitlab::jimhester/covr"}, using any syntax supported by the \href{https://remotes.r-lib.org/articles/dependencies.html#other-sources}{remotes package}.}
 }
 \description{
 \code{use_package()} adds a CRAN package dependency to \code{DESCRIPTION} and offers a
-little advice about how to best use it. \code{use_dev_package()} adds a versioned
-dependency on an in-development GitHub package, adding the repo to \code{Remotes}
-so it will be automatically installed from the correct location.
+little advice about how to best use it. \code{use_dev_package()} adds a
+dependency on an in-development package, adding the dev repo to \code{Remotes} so
+it will be automatically installed from the correct location.
 }
 \examples{
 \dontrun{
@@ -37,6 +37,5 @@ use_dev_package("glue")
 }
 }
 \seealso{
-The \href{https://r-pkgs.org/description.html#dependencies}{dependencies section} of \href{https://r-pkgs.org}{R Packages}, the \href{https://remotes.r-lib.org/articles/dependencies.html#other-sources}{remotes documentation}
-for syntax examples for the \code{remote} argument.
+The \href{https://r-pkgs.org/description.html#dependencies}{dependencies section} of \href{https://r-pkgs.org}{R Packages}.
 }

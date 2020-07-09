@@ -16,7 +16,7 @@
 #'     * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
 #'       The instructor must then arrange for the shortlink to point to a valid
 #'       download URL for the target ZIP file. The helper
-#'       [create_download_url()] help create such URLs for GitHub, DropBox,
+#'       [create_download_url()] helps to create such URLs for GitHub, DropBox,
 #'       and Google Drive.
 #' @param destdir The new folder is stored here. If `NULL`, defaults to user's
 #'   Desktop or some other conspicuous place. You can also set a default
@@ -51,7 +51,7 @@ NULL
 #'  highlight the download destination. Workflow:
 #' * User executes, e.g., `use_course("bit.ly/xxx-yyy-zzz")`.
 #' * User is asked to notice and confirm the location of the new folder. Specify
-#'   `destdir` to prevent this.
+#'   `destdir` or configure the `"usethis.destdir"` option to prevent this.
 #' * User is asked if they'd like to delete the ZIP file.
 #' * If new folder contains an `.Rproj` file, a new instance of RStudio is
 #'   launched. Otherwise, the folder is opened in the file manager, e.g. Finder
@@ -63,7 +63,7 @@ use_course <- function(url, destdir = getOption("usethis.destdir")) {
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
 
-  if (destdir_not_specified && interactive()) {
+  if (destdir_not_specified && is_interactive()) {
     ui_line(c(
       "Downloading into {ui_path(destdir)}.",
       "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}"
@@ -87,7 +87,7 @@ use_course <- function(url, destdir = getOption("usethis.destdir")) {
 #' @export
 use_zip <- function(url,
                     destdir = getwd(),
-                    cleanup = if (interactive()) NA else FALSE) {
+                    cleanup = if (rlang::is_interactive()) NA else FALSE) {
   url <- normalize_url(url)
   check_path_is_directory(destdir)
   ui_done("Downloading from {ui_value(url)}")
@@ -129,6 +129,10 @@ use_zip <- function(url,
 #' in the `Content-Disposition` header. In the absence of this header, a
 #' filename is generated from the input URL. In either case, the filename is
 #' sanitized. Returns the path to downloaded ZIP file, invisibly.
+#'
+#' `tidy_download()` is setup to retry after a download failure. In an
+#' interactive session, it asks for user's consent. All retries use a longer
+#' connect timeout.
 #'
 #' ## DropBox
 #'
@@ -185,7 +189,7 @@ use_zip <- function(url,
 #' the "id" element from the URL and include it in this URL format:
 #'
 #' ```
-#' https://docs.google.com/uc?export=download&id=123456789xxyyyzzz
+#' https://drive.google.com/uc?export=download&id=123456789xxyyyzzz
 #' ```
 #'
 #' Use `create_download_url()` to perform this transformation automatically.
@@ -236,13 +240,14 @@ use_zip <- function(url,
 NULL
 
 # 1. downloads from `url`
-# 2. determines filename from content-description header (with fallbacks)
-# 3. returned path has content-type and content-description as attributes
+# 2. calls a retry-capable helper to download the ZIP file
+# 3. determines filename from content-description header (with fallbacks)
+# 4. returned path has content-type and content-description as attributes
 tidy_download <- function(url, destdir = getwd()) {
   check_path_is_directory(destdir)
   tmp <- file_temp("tidy-download-")
-  h <- curl::new_handle(noprogress = FALSE, progressfunction = progress_fun)
-  curl::curl_download(url, tmp, quiet = FALSE, mode = "wb", handle = h)
+
+  h <- download_url(url, destfile = tmp)
   ui_line()
 
   cd <- content_disposition(h)
@@ -250,13 +255,89 @@ tidy_download <- function(url, destdir = getwd()) {
   full_path <- path(destdir, base_name)
 
   if (!can_overwrite(full_path)) {
-    ui_stop("Aborting.")
+    ui_stop("Aborting to avoid overwriting {ui_path(full_path)}")
   }
   attr(full_path, "content-type") <- content_type(h)
   attr(full_path, "content-disposition") <- cd
 
   file_move(tmp, full_path)
   invisible(full_path)
+}
+
+download_url <- function(url,
+                         destfile,
+                         handle = curl::new_handle(),
+                         n_tries = 3,
+                         retry_connecttimeout = 40L) {
+  handle_options <- list(noprogress = FALSE, progressfunction = progress_fun)
+  curl::handle_setopt(handle, .list = handle_options)
+
+  we_should_retry <- function(i, n_tries, status) {
+    if (i >= n_tries) {
+      FALSE
+    } else if (inherits(status, "error")) {
+      # TODO: find a way to detect a (connect) timeout more specifically?
+      # https://github.com/jeroen/curl/issues/154
+      # https://ec.haxx.se/usingcurl/usingcurl-timeouts
+      # "Failing to connect within the given time will cause curl to exit with a
+      # timeout exit code (28)."
+      # (however, note that all timeouts lead to this same exit code)
+      # https://ec.haxx.se/usingcurl/usingcurl-returns
+      # "28. Operation timeout. The specified time-out period was reached
+      # according to the conditions. curl offers several timeouts, and this exit
+      # code tells one of those timeout limits were reached."
+      # https://github.com/curl/curl/blob/272282a05416e42d2cc4a847a31fd457bc6cc827/lib/strerror.c#L143-L144
+      # "Timeout was reached" <-- actual message we could potentially match
+      TRUE
+    } else {
+      FALSE
+    }
+  }
+
+  status <- try_download(url, destfile, handle = handle)
+  if (inherits(status, "error") && is_interactive()) {
+    ui_oops(status$message)
+    if (ui_nope("
+      Download failed :(
+      See above for everything we know about why it failed.
+      Shall we try a couple more times, with a longer timeout?
+    ")) {
+      n_tries <- 1
+    }
+  }
+
+  i <- 1
+  # invariant: we have made i download attempts
+  while (we_should_retry(i, n_tries, status)) {
+    if (i == 1) {
+      curl::handle_setopt(
+        handle,
+        .list = c(connecttimeout = retry_connecttimeout)
+      )
+    }
+    i <- i + 1
+    ui_info("Retrying download ... attempt {i}")
+    status <- try_download(url, destfile, handle = handle)
+  }
+
+  if (inherits(status, "error")) {
+    stop(status)
+  }
+
+  invisible(handle)
+}
+
+try_download <- function(url, destfile, quiet = FALSE, mode = "wb", handle) {
+  tryCatch(
+    curl::curl_download(
+      url      = url,
+      destfile = destfile,
+      quiet    = quiet,
+      mode     = mode,
+      handle   = handle
+    ),
+    error = function(e) e
+  )
 }
 
 tidy_unzip <- function(zipfile, cleanup = FALSE) {
@@ -286,7 +367,7 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
   )
 
   if (isNA(cleanup)) {
-    cleanup <- interactive() &&
+    cleanup <- is_interactive() &&
       ui_yeah("Shall we delete the ZIP file ({ui_path(zipfile, base_path)})?")
   }
 
@@ -295,7 +376,7 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
     file_delete(zipfile)
   }
 
-  if (interactive()) {
+  if (is_interactive()) {
     rproj_path <- dir_ls(target, regexp = "[.]Rproj$")
     if (length(rproj_path) == 1 && rstudioapi::hasFun("openProject")) {
       ui_done("Opening project in RStudio")
@@ -328,7 +409,6 @@ create_download_url <- function(url) {
   stopifnot(is_string(url))
   stopifnot(grepl("^http[s]?://", url))
 
-  # TODO: we should support GitHub here too
   switch(
     classify_url(url),
     drive   = modify_drive_url(url),
@@ -366,8 +446,8 @@ modify_dropbox_url <- function(url) {
 }
 
 modify_github_url <- function(url) {
-  df <- rematch2::re_match(url, github_url_rx())
-  glue("https://github.com/{df$owner}/{df$repo}/archive/master.zip")
+  parsed <- parse_github_remotes(url)
+  glue("https://github.com/{parsed$repo_owner}/{parsed$repo_name}/archive/master.zip")
 }
 
 hopeless_url <- function(url) {
@@ -409,7 +489,9 @@ expand_github <- function(url) {
 
 conspicuous_place <- function() {
   destdir_opt <- getOption("usethis.destdir")
-  if (!is.null(destdir_opt)) return(path_tidy(destdir_opt))
+  if (!is.null(destdir_opt)) {
+    return(path_tidy(destdir_opt))
+  }
 
   Filter(dir_exists, c(
     path_home("Desktop"),

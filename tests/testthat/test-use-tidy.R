@@ -1,7 +1,7 @@
 context("tidyverse")
 
 test_that("use_tidy_description() alphabetises dependencies", {
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_package("usethis")
   use_package("desc")
   use_package("withr", "Suggests")
@@ -15,7 +15,7 @@ test_that("use_tidy_description() alphabetises dependencies", {
 test_that("use_tidy_eval() inserts the template file and Imports rlang", {
   skip_if_not_installed("roxygen2")
 
-  pkg <- scoped_temporary_package()
+  pkg <- create_local_package()
   use_tidy_eval()
   expect_match(dir_ls(proj_path("R")), "utils-tidy-eval.R")
   expect_match(desc::desc_get("Imports", pkg), "rlang")
@@ -24,8 +24,9 @@ test_that("use_tidy_eval() inserts the template file and Imports rlang", {
 test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
   with_mock(
     `usethis:::uses_travis` = function(base_path) TRUE,
-    `gh::gh_tree_remote` = function(path) list(username = "USER", repo = "REPO"), {
-      scoped_temporary_package()
+    `gh::gh_tree_remote` = function(path) list(username = "USER", repo = "REPO"),
+    {
+      create_local_package()
       use_tidy_contributing()
       use_tidy_issue_template()
       use_tidy_support()
@@ -42,8 +43,9 @@ test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
 test_that("use_tidy_github() adds and Rbuildignores files", {
   with_mock(
     `usethis:::uses_travis` = function(base_path) TRUE,
-    `gh::gh_tree_remote` = function(path) list(username = "USER", repo = "REPO"), {
-      scoped_temporary_package()
+    `gh::gh_tree_remote` = function(path) list(username = "USER", repo = "REPO"),
+    {
+      create_local_package()
       use_tidy_github()
       expect_proj_file(".github/CONTRIBUTING.md")
       expect_proj_file(".github/ISSUE_TEMPLATE/issue_template.md")

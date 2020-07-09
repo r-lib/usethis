@@ -1,30 +1,27 @@
-This is a patch release with bug fixes and small features.
+This is a small patch release to create forward compatibility with a soon-to-submitted update to the fs package, which we Import.
 
 ## Test environments
 
-* local: macOS Mojave 10.14.4 + 3.6.0
-* win-builder: devel and release
-* travis: Ubuntu 14.04.5 LTS (trusty) + 3.2, 3.3, 3.4, oldrel, release, devel
-* r-hub: windows-x86_64-devel, ubuntu-gcc-release, fedora-clang-devel
-* appveyor: Windows Server 2012 + R 3.6.0 Patched (2019-06-23 r76734)
-
-usethis v1.5.0 is currently in ERROR on Solaris due to the lack of a dependency (git2r). I'm not sure why that is, but I believe it's beyond our control to fix. git2r itself has status OK on Solaris at the moment.
+* GitHub actions (ubuntu-16.04): 3.3, 3.4, 3.5, oldrel, release
+* GitHub actions (windows): release, devel
+* Github actions (macOS): release, devel
+* win-builder: devel (actuall, no, that's currently unavailable)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-There is 1 note about a "(possibly) invalid URL" in an Rd file. The URL is https://github.com/settings/tokens. The behaviour of this URL is reasonable when it is visited by human in the browser, whether they are logged into GitHub or not, but it to be expected that it 404s in a headless state.
+0 errors | 0 warnings | 0 notes
 
 ## revdepcheck results
 
-We checked 39 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package. We see no differences and, in particular, no changes for the worse.
+We checked 64 reverse dependencies, comparing R CMD check results across CRAN
+and dev versions of this package.
 
-Automated check failed for 2 packages:
-  - portalr, R CMD check timed out
-    I re-checked manually. It seems to hang on building vignettes and testing.
-    portalr is currently in ERROR on CRAN for several platforms.
-    I assume I am seeing the same problem and that it's not related to usethis.
-  - POUMM, failed to install, due to openmp issues
+ * We saw 0 new problems
+ * We failed to check 2 packages
+ 
+Issues with CRAN packages are summarised below.
 
-See our automated revdep check results at <https://github.com/r-lib/usethis/tree/master/revdep>.
+### Failed to check
+
+* butcher (NA)
+* finbif  (NA)

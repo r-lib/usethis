@@ -14,7 +14,9 @@
 #' @keywords internal
 #'
 #' @examples
-#' \dontshow{.old_wd <- setwd(tempdir())}
+#' \dontshow{
+#' .old_wd <- setwd(tempdir())
+#' }
 #' write_union("a_file", letters[1:3])
 #' readLines("a_file")
 #' write_union("a_file", letters[1:5])
@@ -23,7 +25,6 @@
 #' write_over("another_file", letters[1:3])
 #' readLines("another_file")
 #' write_over("another_file", letters[1:3])
-#'
 #' \dontrun{
 #' ## will error if user isn't present to approve the overwrite
 #' write_over("another_file", letters[3:1])
@@ -31,7 +32,9 @@
 #'
 #' ## clean up
 #' file.remove("a_file", "another_file")
-#' \dontshow{setwd(.old_wd)}
+#' \dontshow{
+#' setwd(.old_wd)
+#' }
 NULL
 
 #' @describeIn write-this writes lines to a file, taking the union of what's
@@ -92,17 +95,25 @@ read_utf8 <- function(path, n = -1L) {
   base::readLines(path, n = n, encoding = "UTF-8", warn = FALSE)
 }
 
-write_utf8 <- function(path, lines, append = FALSE) {
+write_utf8 <- function(path, lines, append = FALSE, line_ending = NULL) {
   stopifnot(is.character(path))
   stopifnot(is.character(lines))
 
-  file_mode <- if (append) "a" else ""
-
+  file_mode <- if (append) "ab" else "wb"
   con <- file(path, open = file_mode, encoding = "utf-8")
   on.exit(close(con), add = TRUE)
 
-  lines <- paste0(lines, "\n", collapse = "")
-  cat(lines, file = con, sep = "")
+  if (is.null(line_ending)) {
+    if (possibly_in_proj(path)) {
+      line_ending <- proj_line_ending()
+    } else {
+      line_ending <- platform_line_ending()
+    }
+  }
+
+  # convert embedded newlines
+  lines <- gsub("\r?\n", line_ending, lines)
+  base::writeLines(enc2utf8(lines), con, sep = line_ending, useBytes = TRUE)
 
   invisible(TRUE)
 }

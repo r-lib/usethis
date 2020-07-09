@@ -7,8 +7,8 @@
 #'   section](https://r-pkgs.org/release.html#important-files) of [R
 #'   Packages](https://r-pkgs.org).
 #' @export
-use_news_md <- function(open = interactive()) {
-  check_uncommitted_changes()
+use_news_md <- function(open = rlang::is_interactive()) {
+  check_no_uncommitted_changes()
 
   use_template(
     "NEWS.md",
@@ -16,7 +16,7 @@ use_news_md <- function(open = interactive()) {
     open = open
   )
 
-  git_ask_commit("Add NEWS.md")
+  git_ask_commit("Add NEWS.md", untracked = TRUE, paths = "NEWS.md")
 }
 
 use_news_heading <- function(version) {

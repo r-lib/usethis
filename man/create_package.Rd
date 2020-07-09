@@ -11,10 +11,14 @@ create_package(
   rstudio = rstudioapi::isAvailable(),
   roxygen = TRUE,
   check_name = TRUE,
-  open = interactive()
+  open = rlang::is_interactive()
 )
 
-create_project(path, rstudio = rstudioapi::isAvailable(), open = interactive())
+create_project(
+  path,
+  rstudio = rstudioapi::isAvailable(),
+  open = rlang::is_interactive()
+)
 }
 \arguments{
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
@@ -54,6 +58,11 @@ These functions create an R project:
 project
 }
 
-Both functions can be called on an existing project; you will be asked
-before any existing files are changed.
+Both functions can be called on an existing project; you will be asked before
+any existing files are changed.
+}
+\seealso{
+\code{\link[=create_tidy_package]{create_tidy_package()}} is a convenience function that extends
+\code{create_package()} by immediately applying as many of the tidyverse
+development conventions as possible.
 }

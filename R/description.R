@@ -71,6 +71,7 @@ use_description <- function(fields = list(), check_name = TRUE, roxygen = TRUE) 
 #' @param package Package name
 #' @export
 use_description_defaults <- function(package = NULL, roxygen = TRUE, fields = list()) {
+  fields <- fields %||% list()
   check_is_named_list(fields)
 
   usethis <- list(
@@ -81,10 +82,18 @@ use_description_defaults <- function(package = NULL, roxygen = TRUE, fields = li
     "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "`use_mit_license()`, `use_gpl3_license()` or friends to pick a license",
     Encoding = "UTF-8",
-    LazyData = "true",
-    Roxygen = "list(markdown = TRUE)",
-    RoxygenNote = if (roxygen) utils::packageVersion("roxygen2")
+    LazyData = "true"
   )
+
+  if (roxygen) {
+    if (is_installed("roxygen2")) {
+      roxygen_note <- utils::packageVersion("roxygen2")
+    } else {
+      roxygen_note <- "7.0.0" # version doesn't really matter
+    }
+    usethis$Roxygen <- "list(markdown = TRUE)"
+    usethis$RoxygenNote <- roxygen_note
+  }
 
   options <- getOption("usethis.description") %||% getOption("devtools.desc") %||% list()
 

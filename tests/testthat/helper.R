@@ -16,54 +16,44 @@ if (!is.null(session_temp_proj)) {
   ))
 }
 
-## putting `pattern` in the package or project name is part of our strategy for
-## suspending the nested project check during testing
-pattern <- "aaa"
-
-scoped_temporary_package <- function(dir = file_temp(pattern = pattern),
-                                     env = parent.frame(),
-                                     rstudio = FALSE) {
-  scoped_temporary_thing(dir, env, rstudio, "package")
+create_local_package <- function(dir = file_temp(pattern = "testpkg"),
+                                 env = parent.frame(),
+                                 rstudio = FALSE) {
+  create_local_thing(dir, env, rstudio, "package")
 }
 
-scoped_temporary_project <- function(dir = file_temp(pattern = pattern),
-                                     env = parent.frame(),
-                                     rstudio = FALSE) {
-  scoped_temporary_thing(dir, env, rstudio, "project")
+create_local_project <- function(dir = file_temp(pattern = "testproj"),
+                                 env = parent.frame(),
+                                 rstudio = FALSE) {
+  create_local_thing(dir, env, rstudio, "project")
 }
 
-scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
-                                   env = parent.frame(),
-                                   rstudio = FALSE,
-                                   thing = c("package", "project")) {
+create_local_thing <- function(dir = file_temp(pattern = pattern),
+                               env = parent.frame(),
+                               rstudio = FALSE,
+                               thing = c("package", "project")) {
   thing <- match.arg(thing)
   if (fs::dir_exists(dir)) {
     ui_stop("Target {ui_code('dir')} {ui_path(dir)} already exists.")
   }
 
   old_project <- proj_get_()
-  ## Can't schedule a deferred project reset if calling this from the R
-  ## console, which is useful when developing tests
-  if (identical(env, globalenv())) {
-    ui_done("Switching to a temporary project!")
-    if (!is.null(old_project)) {
-      command <- paste0('proj_set(\"', old_project, '\")')
-      ui_todo(
-        "Restore current project with: {ui_code(command)}"
-      )
-    }
-  } else {
-    withr::defer({
+  withr::defer(
+    {
+      ui_done("Restoring original project and working directory: {ui_path(old_project)}")
       ui_silence({
         proj_set(old_project, force = TRUE)
       })
       setwd(old_project)
+      ui_done("Deleting temporary project: {ui_path(dir)}")
       fs::dir_delete(dir)
-    }, envir = env)
-  }
+    },
+    envir = env
+  )
 
   ui_silence({
-    switch(thing,
+    switch(
+      thing,
       package = create_package(dir, rstudio = rstudio, open = FALSE, check_name = FALSE),
       project = create_project(dir, rstudio = rstudio, open = FALSE)
     )
@@ -73,32 +63,44 @@ scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
   invisible(dir)
 }
 
-test_mode <- function() {
-  before <- Sys.getenv("TESTTHAT")
-  after <- if (before == "true") "false" else "true"
-  Sys.setenv(TESTTHAT = after)
-  cat("TESTTHAT:", before, "-->", after, "\n")
+toggle_rlang_interactive <- function() {
+  before <- getOption("rlang_interactive")
+  after <- if (identical(before, FALSE)) TRUE else FALSE
+  options(rlang_interactive = after)
+  ui_line(glue::glue("rlang_interactive: {before %||% '<unset>'} --> {after}"))
   invisible()
 }
 
 skip_if_not_ci <- function() {
-  ci <- any(toupper(Sys.getenv(c("TRAVIS", "APPVEYOR"))) == "TRUE")
+  ci_providers <- c("GITHUB_ACTIONS", "TRAVIS", "APPVEYOR")
+  ci <- any(toupper(Sys.getenv(ci_providers)) == "TRUE")
   if (ci) {
     return(invisible(TRUE))
   }
-  skip("Not on Travis or Appveyor")
+  skip("Not on GitHub Actions, Travis, or Appveyor")
 }
 
-skip_if_no_git_config <- function() {
-  cfg <- git2r::config()
-  user_name <- cfg$local$`user.name` %||% cfg$global$`user.name`
-  user_email <- cfg$local$`user.email` %||% cfg$global$`user.email`
+skip_if_no_git_user <- function() {
+  user_name <- git_cfg_get("user.name")
+  user_email <- git_cfg_get("user.email")
   user_name_exists <- !is.null(user_name)
   user_email_exists <- !is.null(user_email)
   if (user_name_exists && user_email_exists) {
     return(invisible(TRUE))
   }
   skip("No Git user configured")
+}
+
+# CRAN's mac builder sets $HOME to a read-only ram disk, so tests can fail if
+# you even tickle something that might try to lock it's own config file during
+# the operation (e.g. git) or if you simply test for writeability
+skip_on_cran_macos <- function() {
+  sysname <- tolower(Sys.info()[["sysname"]])
+  on_cran <- !identical(Sys.getenv("NOT_CRAN"), "true")
+  if (on_cran && sysname == "darwin") {
+    skip("On CRAN and on macOS")
+  }
+  invisible(TRUE)
 }
 
 expect_usethis_error <- function(...) {

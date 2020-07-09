@@ -5,9 +5,7 @@
 #' created. If the parent directory does not exist, it is also created.
 #'
 #' @param path Path to target file.
-#' @param open If, `NULL`, the default, will open the file when in an
-#'   interactive environment that is not running tests. Use `TRUE` or
-#'   `FALSE` to override the default.
+#' @param open Whether to open the file for interactive editing.
 #' @return Target path, invisibly.
 #' @export
 #' @keywords internal
@@ -17,23 +15,22 @@
 #' edit_file("DESCRIPTION")
 #' edit_file("~/.gitconfig")
 #' }
-edit_file <- function(path, open = NULL) {
+edit_file <- function(path, open = rlang::is_interactive()) {
+  open <- open && is_interactive()
   path <- user_path_prep(path)
   create_directory(path_dir(path))
   file_create(path)
 
-  open <- open %||% (interactive() && !is_testing())
-
-  if (open) {
-    ui_todo("Modify {ui_path(path)}")
-
-    if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
-      rstudioapi::navigateToFile(path)
-    } else {
-      utils::file.edit(path)
-    }
-  } else {
+  if (!open) {
     ui_todo("Edit {ui_path(path)}")
+    return(invisible(path))
+  }
+
+  ui_todo("Modify {ui_path(path)}")
+  if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
+    rstudioapi::navigateToFile(path)
+  } else {
+    utils::file.edit(path)
   }
   invisible(path)
 }
@@ -100,8 +97,10 @@ edit_r_makevars <- function(scope = c("user", "project")) {
 #' @export
 #' @rdname edit
 #' @param type Snippet type (case insensitive text).
-edit_rstudio_snippets <- function(type = c("r", "markdown", "c_cpp", "css",
-  "html", "java", "javascript", "python", "sql", "stan", "tex")) {
+edit_rstudio_snippets <- function(type = c(
+                                    "r", "markdown", "c_cpp", "css",
+                                    "html", "java", "javascript", "python", "sql", "stan", "tex"
+                                  )) {
   # RStudio snippets stored using R's definition of ~
   # https://github.com/rstudio/rstudio/blob/4febd2feba912b2a9f8e77e3454a95c23a09d0a2/src/cpp/core/system/Win32System.cpp#L411-L458
   type <- tolower(type)
@@ -118,7 +117,7 @@ edit_rstudio_snippets <- function(type = c("r", "markdown", "c_cpp", "css",
   edit_file(path)
 }
 
-scoped_path_r  <- function(scope = c("user", "project"), ..., envvar = NULL) {
+scoped_path_r <- function(scope = c("user", "project"), ..., envvar = NULL) {
   scope <- match.arg(scope)
 
   # Try environment variable in user scopes
@@ -161,7 +160,7 @@ edit_git_ignore <- function(scope = c("user", "project")) {
     ui_done("Setting up new global gitignore: {ui_path(file)}")
     # Describe relative to home directory
     path <- path("~", path_rel(file, path_home()))
-    git_config_set("core.excludesfile", path, global = TRUE)
+    gert::git_config_global_set("core.excludesfile", path)
     git_vaccinate()
   }
   invisible(edit_file(file))
