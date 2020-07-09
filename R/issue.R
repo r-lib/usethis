@@ -6,34 +6,53 @@
 #' with large numbers of issues, particularly motivated by the challenges faced
 #' by the tidyverse team.
 #'
-#' * `issue_close_community()` closes an issue because it's not a bug report or
-#'   feature request, and points the author towards RStudio community for additional
-#'   help.
+#' * `issue_close_community()` closes an issue, because it's not a bug report or
+#'   feature request, and points the author towards RStudio Community as a
+#'   better place to discuss usage (<https://community.rstudio.com>).
 #'
 #' * `issue_reprex_needed()` labels the issue with the "reprex" label and
 #'   gives the author some advice about what is needed.
 #'
 #' @section Saved replies:
 #'
-#' Compared to saved replies, these functions can:
+#' Unlike GitHub's "saved replies", these functions can:
 #' * Be shared between people
-#' * Also perform other actions like labelling, or closing.
-#' * Have additional arguments.
+#' * Perform other actions, like labelling, or closing
+#' * Have additional arguments
 #' * Include randomness (like friendly gifs)
+#'
 #' @param number Issue number
 #' @param reprex Does the issue also need a reprex?
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' issue_close_community(12)
+#'
+#' issue_reprex_needed(241, reprex = TRUE)
+#' }
 issue_close_community <- function(number, reprex = FALSE) {
   info <- issue_info(number)
+  issue <- issue_details(info)
+  ui_done("
+    Closing issue {ui_value(issue$shorthand)} \\
+    ({ui_field(issue$author)}): {ui_value(issue$title)}")
   if (info$state == "closed") {
     ui_stop("Issue {number} is already closed")
   }
 
+  reprex_insert <- glue("
+    But before you ask there, I'd suggest that you create a \\
+    [reprex](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.htm), \\
+    because that greatly increases your chances getting help.")
+
   message <- glue(
-    "Hi @{info$user$login},\n",
+    "Hi {issue$author},\n",
     "\n",
-    "This issue doesn't appear to be a bug report or a specific feature request, so it's more suitable for [RStudio community](https://community.rstudio.com). ",
-    if (reprex) "But before you ask there, I'd suggest that you create a [reprex](https://reprex.tidyverse.org/), because that will greatly increase the chances of you getting help." else "",
+    "This issue doesn't appear to be a bug report or a specific feature ",
+    "request, so it's more suitable for ",
+    "[RStudio Community](https://community.rstudio.com). ",
+    if (reprex) reprex_insert else "",
     "\n\n",
     "Thanks!"
   )
@@ -47,16 +66,22 @@ issue_close_community <- function(number, reprex = FALSE) {
 issue_reprex_needed <- function(number) {
   info <- issue_info(number)
   labels <- purrr::map_chr(info$labels, "name")
+  issue <- issue_details(info)
+  ui_done("
+    Commenting on issue {ui_value(issue$shorthand)} \\
+    ({ui_field(issue$author)}): {ui_value(issue$title)}")
 
   if ("reprex" %in% labels) {
     ui_stop("Issue {number} already has 'reprex' label")
   }
 
-  message <- glue(
-    "Can you please provide a minimal reproducible example using the [reprex](http://reprex.tidyverse.org) package? ",
-    "The goal of a reprex is to make it as easy as possible for me to recreate your problem so that I can fix it. ",
-    "If you've never made a minimal reprex before, there is lots of good advice [here](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html)."
-  )
+  message <- glue("
+    Can you please provide a minimal reproducible example using the \\
+    [reprex](http://reprex.tidyverse.org) package?
+    The goal of a reprex is to make it as easy as possible for me to \\
+    recreate your problem so that I can fix it.
+    If you've never made a minimal reprex before, there is lots of good advice \\
+    [here](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html).")
   issue_comment_add(number, message)
   issue_edit(number, labels = as.list(union(labels, "reprex")))
 }
@@ -64,31 +89,39 @@ issue_reprex_needed <- function(number) {
 # low-level operations ----------------------------------------------------
 
 issue_comment_add <- function(number, message) {
-  issue_gh("POST /repos/:owner/:repo/issues/:issue_number/comments", number,
+  issue_gh(
+    "POST /repos/:owner/:repo/issues/:issue_number/comments",
+    number = number,
     body = message
   )
 }
 
 issue_edit <- function(number, ...) {
-  issue_gh("PATCH /repos/:owner/:repo/issues/:issue_number", number, ...)
+  issue_gh(
+    "PATCH /repos/:owner/:repo/issues/:issue_number",
+    ...,
+    number = number
+  )
 }
 
 issue_info <- function(number) {
-  issue_gh("GET /repos/:owner/:repo/issues/:issue_number", number)
+  issue_gh("GET /repos/:owner/:repo/issues/:issue_number", number = number)
 }
 
 # Helpers -----------------------------------------------------------------
 
 # Assumes that the issue number is called issue number, so make sure to tweak
 # the endpoint if necessary.
-issue_gh <- function(endpoint, number, ...) {
+issue_gh <- function(endpoint, ..., number) {
+  check_github_token()
+  repo_spec <- get_primary_spec()
   out <- gh::gh(
     endpoint,
     ...,
     issue_number = number,
-    owner = github_owner(),
-    repo = github_repo(),
-    .token = check_github_token(allow_empty = TRUE)
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
+    .token = github_token()
   )
 
   if (substr(endpoint, 1, 4) == "GET ") {
@@ -96,4 +129,15 @@ issue_gh <- function(endpoint, number, ...) {
   } else {
     invisible(out)
   }
+}
+
+issue_details <- function(info) {
+  repo_dat <- parse_github_remotes(info$html_url)
+  list(
+    shorthand = glue(
+      "{repo_dat$repo_owner}/{repo_dat$repo_name}/#{info$number}"
+    ),
+    author = glue("@{info$user$login}"),
+    title = info$title
+  )
 }

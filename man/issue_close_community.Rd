@@ -15,26 +15,34 @@ issue_reprex_needed(number)
 \item{reprex}{Does the issue also need a reprex?}
 }
 \description{
-The \verb{issue_*} family of functions allows to perform common operations on
+The \verb{issue_*} family of functions allows you to perform common operations on
 GitHub issues from within R. They're designed to help you efficiently deal
-with large numbers of issues, particularly motived but the challenges faced
+with large numbers of issues, particularly motivated by the challenges faced
 by the tidyverse team.
 \itemize{
-\item \code{issue_close_community()} closes an issue because it's not a bug report or
-features, and points the author towards RStudio community for additional
-help.
+\item \code{issue_close_community()} closes an issue, because it's not a bug report or
+feature request, and points the author towards RStudio Community as a
+better place to discuss usage (\url{https://community.rstudio.com}).
 \item \code{issue_reprex_needed()} labels the issue with the "reprex" label and
 gives the author some advice about what is needed.
 }
 }
 \section{Saved replies}{
 
-Compared to saved replies, these functions can:
+
+Unlike GitHub's "saved replies", these functions can:
 \itemize{
 \item Be shared between people
-\item Also perform other actions like labelling, or closing.
-\item Have additional arguments.
+\item Perform other actions, like labelling, or closing
+\item Have additional arguments
 \item Include randomness (like friendly gifs)
 }
 }
 
+\examples{
+\dontrun{
+issue_close_community(12)
+
+issue_reprex_needed(241, reprex = TRUE)
+}
+}
