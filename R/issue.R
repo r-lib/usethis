@@ -1,13 +1,13 @@
 #' Helpers for GitHub issues
 #'
 #' @description
-#' The `issue_*` family of functions allows to perform common operations on
+#' The `issue_*` family of functions allows you to perform common operations on
 #' GitHub issues from within R. They're designed to help you efficiently deal
-#' with large numbers of issues, particularly motived but the challenges faced
+#' with large numbers of issues, particularly motivated by the challenges faced
 #' by the tidyverse team.
 #'
 #' * `issue_close_community()` closes an issue because it's not a bug report or
-#'   features, and points the author towards RStudio community for additional
+#'   feature request, and points the author towards RStudio community for additional
 #'   help.
 #'
 #' * `issue_reprex_needed()` labels the issue with the "reprex" label and
@@ -97,4 +97,3 @@ issue_gh <- function(endpoint, number, ...) {
     invisible(out)
   }
 }
-
