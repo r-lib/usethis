@@ -17,7 +17,7 @@ browse_github_issues(package = NULL, number = NULL)
 
 browse_github_pulls(package = NULL, number = NULL)
 
-browse_github_actions(package = NULL, number = NULL)
+browse_github_actions(package = NULL)
 
 browse_travis(package = NULL, ext = c("com", "org"))
 
