@@ -61,6 +61,11 @@ browse_github_pulls <- function(package = NULL, number = NULL) {
   pull <- if (is.null(number)) "pulls" else "pull"
   view_url(github_url(package), pull, number)
 }
+#' @export
+#' @rdname browse-this
+browse_github_actions <- function(package = NULL) {
+  view_url(github_home(package), "actions")
+}
 
 #' @export
 #' @rdname browse-this

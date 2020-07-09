@@ -42,6 +42,8 @@ There is increasing interest in making the name of a repo's default branch confi
 
 ## Other changes
 
+`browse_github_actions()` is a new function to open the Actions page of the respective repo on GitHub, similar to existing `browse_*()` functions (@pat-s, #1102).
+
 `use_cpp11()` is a new function to set up an R package to use cpp11.
 
 `create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
