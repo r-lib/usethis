@@ -6,6 +6,15 @@ test_that("use_package() won't facilitate dependency on tidyverse", {
 
 # use_dev_package() -----------------------------------------------------------
 
+test_that("use_dev_package() can override over default remote", {
+  create_local_package()
+
+  use_dev_package("usethis", remote = "github::r-lib/usethis")
+
+  desc <- desc::desc(proj_path("DESCRIPTION"))
+  expect_equal(desc$get_remotes(), "github::r-lib/usethis")
+})
+
 test_that("package_remote() works for an installed package with github URL", {
   d <- desc::desc(text = c(
     "Package: test",
