@@ -377,6 +377,15 @@ pr_merge_main <- function() {
 #' @rdname pull-requests
 pr_sync <- function() {
   check_pr_readiness()
+
+  branch <- git_branch()
+  tracking_branch <- git_branch_tracking(branch)
+  if (is.na(tracking_branch)) {
+    ui_stop("
+      Branch {ui_value(branch)} has no remote tracking branch to sync with.
+      Do you need to call {ui_code('pr_push()')} for the first time?")
+  }
+
   pr_pull()
   pr_merge_main()
   pr_push()
