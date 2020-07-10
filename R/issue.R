@@ -23,7 +23,6 @@
 #'
 #' @param number Issue number
 #' @param reprex Does the issue also need a reprex?
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -31,6 +30,11 @@
 #'
 #' issue_reprex_needed(241, reprex = TRUE)
 #' }
+#' @name issue-this
+NULL
+
+#' @export
+#' @rdname issue-this
 issue_close_community <- function(number, reprex = FALSE) {
   info <- issue_info(number)
   issue <- issue_details(info)
@@ -61,8 +65,8 @@ issue_close_community <- function(number, reprex = FALSE) {
   issue_edit(number, state = "closed")
 }
 
-#' @rdname issue_close_community
 #' @export
+#' @rdname issue-this
 issue_reprex_needed <- function(number) {
   info <- issue_info(number)
   labels <- purrr::map_chr(info$labels, "name")
