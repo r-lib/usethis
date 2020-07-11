@@ -64,7 +64,6 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
   if (!is_interactive() || !uses_git()) {
     return(invisible())
   }
-  on.exit(rstudio_git_tickle(), add = TRUE)
 
   # this is defined here to encourage all commits to route through this function
   git_commit <- function(paths, message) {
@@ -73,7 +72,6 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
     gert::git_add(paths, repo = repo)
     ui_done("Making a commit with message {ui_value(message)}")
     gert::git_commit(message, repo = repo)
-    rstudio_git_tickle()
   }
 
   uncommitted <- git_status(untracked)$file
@@ -236,7 +234,6 @@ git_branch_tracking <- function(branch = git_branch()) {
 
 git_branch_switch <- function(branch) {
   gert::git_branch_checkout(branch, repo = git_repo())
-  rstudio_git_tickle()
 }
 
 git_branch_compare <- function(branch = git_branch(), remref = NULL) {

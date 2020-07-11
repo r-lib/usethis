@@ -141,7 +141,6 @@ NULL
 #' @param branch branch name. Should usually consist of lower case letters,
 #'   numbers, and `-`.
 pr_init <- function(branch) {
-  on.exit(rstudio_git_tickle(), add = TRUE)
   stopifnot(is_string(branch))
 
   if (git_branch_exists(branch, local = TRUE)) {
@@ -180,7 +179,6 @@ pr_init <- function(branch) {
 #' @export
 #' @rdname pull-requests
 pr_resume <- function(branch = NULL) {
-  on.exit(rstudio_git_tickle(), add = TRUE)
   if (is.null(branch)) {
     ui_stop("
       Interactive PR selection not implemented yet.
