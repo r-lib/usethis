@@ -232,10 +232,6 @@ git_branch_tracking <- function(branch = git_branch()) {
   sub("^refs/remotes/", "", info$upstream[this])
 }
 
-git_branch_switch <- function(branch) {
-  gert::git_branch_checkout(branch, repo = git_repo())
-}
-
 git_branch_compare <- function(branch = git_branch(), remref = NULL) {
   remref <- remref %||% git_branch_tracking(branch)
   gert::git_fetch(

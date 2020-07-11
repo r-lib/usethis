@@ -200,7 +200,7 @@ pr_resume <- function(branch = NULL) {
   check_no_uncommitted_changes(untracked = TRUE)
 
   ui_done("Switching to branch {ui_value(branch)}")
-  git_branch_switch(branch)
+  gert::git_branch_checkout(branch, repo = git_repo())
   git_pull()
 
   ui_todo("Use {ui_code('pr_push()')} to create or update PR.")
@@ -296,9 +296,9 @@ pr_fetch <- function(number) {
 
   # Local branch pre-existed; make sure tracking branch is set, switch, & pull
   ui_done("Switching to branch {ui_value(pr_branch_ours)}")
-  git_branch_switch(pr_branch_ours)
+  gert::git_branch_checkout(pr_branch_ours, repo = repo)
   config_url <- glue("branch.{pr_branch_ours}.pr-url")
-  gert::git_config_set(config_url, pr$html_url, git_repo())
+  gert::git_config_set(config_url, pr$html_url, repo = repo)
 
   pr_branch_ours_tracking <- git_branch_tracking(pr_branch_ours)
   if (is.na(pr_branch_ours_tracking) ||
@@ -411,7 +411,7 @@ pr_pause <- function() {
 
   ui_done("Switching back to {ui_value('master')} branch")
   # TODO: honor default branch
-  git_branch_switch("master")
+  gert::git_branch_checkout("master", repo = git_repo())
   pr_pull_primary_override()
 }
 
@@ -438,7 +438,7 @@ pr_finish <- function(number = NULL) {
 
   # TODO: honor default branch
   ui_done("Switching back to {ui_value('master')} branch")
-  git_branch_switch("master")
+  gert::git_branch_checkout("master", repo = repo)
   pr_pull_primary_override()
 
   ui_done("Deleting local {ui_value(branch)} branch")
