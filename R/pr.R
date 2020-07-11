@@ -167,10 +167,11 @@ pr_init <- function(branch) {
   check_no_uncommitted_changes(untracked = TRUE)
   pr_pull_primary_override()
 
+  repo <- git_repo()
   ui_done("Creating and switching to local branch {ui_value(branch)}")
-  git_branch_create_and_switch(branch)
+  gert::git_branch_create(branch, repo = repo)
   config_key <- glue("branch.{branch}.created-by")
-  gert::git_config_set(config_key, "usethis::pr_init", git_repo())
+  gert::git_config_set(config_key, value = "usethis::pr_init", repo = repo)
 
   ui_todo("Use {ui_code('pr_push()')} to create PR.")
   invisible()
@@ -287,7 +288,7 @@ pr_fetch <- function(number) {
   if (!git_branch_exists(pr_branch_ours, local = TRUE)) {
     ui_done("Creating and switching to local branch {ui_value(pr_branch_ours)}")
     ui_done("Setting {ui_value(pr_remref)} as remote tracking branch")
-    git_branch_create_and_switch(pr_branch_ours, pr_remref)
+    gert::git_branch_create(pr_branch_ours, ref = pr_remref, repo = repo)
     config_key <- glue("branch.{pr_branch_ours}.created-by")
     gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
     config_url <- glue("branch.{pr_branch_ours}.pr-url")
