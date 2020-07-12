@@ -215,14 +215,6 @@ git_branch <- function() {
   branch
 }
 
-git_branch_exists <- function(branch, local = NA) {
-  branches <- gert::git_branch_list(git_repo())
-  if (isTRUE(local)) {
-    branches <- branches[branches$local, ]
-  }
-  branch %in% branches$name
-}
-
 git_branch_tracking <- function(branch = git_branch()) {
   info <- gert::git_branch_list(git_repo())
   this <- info$local & info$name == branch
