@@ -308,5 +308,5 @@ check_branch_pulled <- function(remref = NULL, use = NULL) {
 }
 
 check_branch_pushed <- function(remref = NULL, use = NULL) {
-  check_branch_up_to_date(direction = "pull", remref = remref, use = use)
+  check_branch_up_to_date(direction = "push", remref = remref, use = use)
 }
