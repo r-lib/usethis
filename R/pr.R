@@ -540,14 +540,8 @@ pr_find <- function(owner,
 
 check_pr_readiness <- function(cfg = NULL) {
   cfg <- cfg %||% github_remote_config()
-  if (cfg$unsupported) {
-    stop_bad_github_remote_config(cfg)
-  }
-  if (cfg$type %in% c("ours", "fork")) {
-    return(invisible())
-  }
-  if (!(cfg$type %in% c("theirs", "fork_upstream_is_not_origin_parent"))) {
-    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
+  if (cfg$pr_ready) {
+    return(invisible(cfg))
   }
   stop_unsupported_pr_config(cfg)
 }

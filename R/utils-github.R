@@ -196,11 +196,19 @@ github_remotes <- function(these = c("origin", "upstream"),
 #'
 #' Here's how a usethis function can use the GitHub remote configuration:
 #' * `cfg <- classify_github_config(...)`
-#' * Inspect `cfg$type` and call `stop_bad_github_remote_config()` if the function
-#'   can't work with that config.
-#' * If the config is suboptimal-but-supported, use `ui_github_remote_config_wat()` to
-#'   educate the user and give them a chance to back out.
-#' * Proceed quietly for a supported setup.
+#' * Inspect `cfg$type` and call `stop_bad_github_remote_config()` if the
+#'   function can't work with that config.
+#' * If the config is suboptimal-but-supported, use
+#'   `ui_github_remote_config_wat()` to educate the user and give them a chance
+#'   to back out.
+#' * Proceed quietly if the config is OK.
+#'
+#' Fields in an instance of `github_remote_config`:
+#' * `type`: explained below
+#' * `pr_ready`: Logical. Do the `pr_*()` functions support it?
+#' * `desc`: A description used in messages and menus.
+#' * `origin`: Information about the `origin` GitHub remote.
+#' * `upstream`: Information about the `origin` GitHub remote.
 #'
 #' Possible GitHub remote configurations, the common cases:
 #' * no_github: No `origin`, no `upstream`.
@@ -208,10 +216,10 @@ github_remotes <- function(these = c("origin", "upstream"),
 #'   `origin` could be current user, another user, or an org. No `upstream`.
 #'   - Less common variant: `upstream` exists, `origin` does not, and we can
 #'     push to `upstream`. The fork-ness of `upstream` is not consulted.
-#' * theirs: Exactly one of `origin` and `upstream` exist and we can't push to
-#'   it. We don't consider if this repo is a fork or not.
 #' * fork: `origin` exists and we can push to it. `origin` is a fork of the repo
 #'   configured as `upstream`. We may or may not be able to push to `upstream`.
+#' * theirs: Exactly one of `origin` and `upstream` exist and we can't push to
+#'   it. The fork-ness of this remote repo is not consulted.
 #'
 #' Possible GitHub remote configurations, the peculiar ones:
 #' * fork_upstream_is_not_origin_parent: `origin` exists, it's a fork, but its
@@ -222,6 +230,10 @@ github_remotes <- function(these = c("origin", "upstream"),
 #' * upstream_but_origin_is_not_fork: `origin` and `upstream` both exist, but
 #'   `origin` is not a fork of anything and, specifically, it's not a fork of
 #'   `upstream`.
+#'
+#'  Remote configuration "guesses" we apply when `github_get = FALSE`:
+#'  * maybe_ours_or_theirs: Exactly one of `origin` and `upstream` exists.
+#'  * maybe_fork: Both `origin` and `upstream` exist.
 #'
 #' @inheritParams github_remotes
 #' @keywords internal
@@ -240,7 +252,7 @@ github_remote_config <- function(github_get = NA,
     return(cfg_no_github(cfg))
   }
 
-  github_get <- grl$github_get[1] # assuming same for origin and upstream
+  github_get <- grl$github_get[1] # assuming it's same for origin and upstream
   cfg$origin$is_configured   <- "origin"   %in% grl$remote
   cfg$upstream$is_configured <- "upstream" %in% grl$remote
 
@@ -261,18 +273,16 @@ github_remote_config <- function(github_get = NA,
 
   if (!isTRUE(github_get)) {
     if (single_remote) {
-      return(cfg_ours_or_theirs(cfg))
+      return(cfg_maybe_ours_or_theirs(cfg))
     } else {
-      return(cfg_fork_maybe(cfg))
+      return(cfg_maybe_fork(cfg))
     }
   }
   # `github_get` must be `TRUE`
 
   if (!single_remote) {
-    cfg$origin$parent_is_upstream <- identical(
-      cfg$origin$parent_repo_spec,
-      cfg$upstream$repo_spec
-    )
+    cfg$origin$parent_is_upstream <-
+      identical(cfg$origin$parent_repo_spec, cfg$upstream$repo_spec)
   }
 
   # origin only
@@ -321,7 +331,7 @@ new_github_remote_config <- function() {
   structure(
     list(
       type = NA_character_,
-      unsupported = TRUE,
+      pr_ready = FALSE,
       desc = "Unexpected remote configuration.",
       origin = list(
         name = "origin",
@@ -374,7 +384,7 @@ new_github_remote_config <- function() {
 get_repo_spec <- function(auth_token = github_token(),
                           host = "https://api.github.com") {
   cfg <- github_remote_config(auth_token = auth_token, host = host)
-  if (cfg$unsupported) {
+  if (cfg$type == "no_github") {
     stop_bad_github_remote_config(cfg)
   }
   if (cfg$type == "ours") {
@@ -450,9 +460,6 @@ get_repo_spec_lite <- function() {
 #' @noRd
 get_primary_spec <- function() {
   cfg <- github_remote_config()
-  if (cfg$unsupported) {
-    stop_bad_github_remote_config(cfg)
-  }
   if (cfg$type %in% c("ours", "theirs")) {
     cfg$origin$repo_spec
   } else if (cfg$type %in% c("fork", "fork_upstream_is_not_origin_parent")) {
@@ -492,7 +499,7 @@ format_remote <- function(remote) {
 format_fields <- function(cfg) {
   list(
     type = glue("type = {ui_value(cfg$type)}"),
-    unsupported = glue("unsupported = {ui_value(cfg$unsupported)}"),
+    pr_ready = glue("Config supports a pull request = {ui_value(cfg$pr_ready)}"),
     origin = format_remote(cfg$origin),
     upstream = format_remote(cfg$upstream),
     desc = if (is.na(cfg$desc)) {
@@ -520,7 +527,7 @@ github_remote_config_wat <- function(cfg, context = c("menu", "abort")) {
   context <- match.arg(context)
   adjective <- switch(context, menu = "Unexpected", abort = "Unsupported")
   out <- format_fields(cfg)
-  out$unsupported <- NULL
+  out$pr_ready <- NULL
   out$type <- glue("{adjective} GitHub remote configuration: {ui_value(cfg$type)}")
   out$desc <- if (is.na(cfg$desc)) NULL else cfg$desc
   out
@@ -557,13 +564,13 @@ stop_unsupported_pr_config <- function(cfg) {
   )
 }
 
-# common configurations --------------------------------------------------------
+# github remote configurations -------------------------------------------------
 cfg_no_github <- function(cfg) {
   utils::modifyList(
     cfg,
     list(
       type = "no_github",
-      unsupported = TRUE,
+      pr_ready = FALSE,
       desc = glue("
         Neither {ui_value('origin')} nor {ui_value('upstream')} is a GitHub \\
         repo.")
@@ -571,7 +578,33 @@ cfg_no_github <- function(cfg) {
   )
 }
 
-cfg_ours_or_theirs <- function(cfg) {
+cfg_ours <- function(cfg) {
+  utils::modifyList(
+    cfg,
+    list(
+      type = "ours",
+      pr_ready = TRUE,
+      desc = NA)
+  )
+}
+
+cfg_theirs <- function(cfg) {
+  configured <- if (cfg$origin$is_configured) "origin" else "upstream"
+  utils::modifyList(
+    cfg,
+    list(
+      type = "theirs",
+      pr_ready = FALSE,
+      desc = glue("
+        The only configured GitHub remote is {ui_value(configured)}, which
+        you cannot push to.
+        If your goal is to make a pull request, you must fork-and-clone.
+        {ui_code('usethis::create_from_github()')} can do this.")
+    )
+  )
+}
+
+cfg_maybe_ours_or_theirs <- function(cfg) {
   if (cfg$origin$is_configured) {
     configured <- "origin"
     not_configured <- "upstream"
@@ -582,31 +615,11 @@ cfg_ours_or_theirs <- function(cfg) {
   utils::modifyList(
     cfg,
     list(
-      type = "ours_or_theirs",
-      unsupported = FALSE,
+      type = "maybe_ours_or_theirs",
+      pr_ready = NA,
       desc = glue("
         {ui_value(configured)} is a GitHub repo and {ui_value(not_configured)} \\
         is either not configured or is not a GitHub repo.")
-    )
-  )
-}
-
-cfg_ours <- function(cfg) {
-  utils::modifyList(cfg, list(type = "ours", unsupported = FALSE, desc = NA))
-}
-
-cfg_theirs <- function(cfg) {
-  configured <- if (cfg$origin$is_configured) "origin" else "upstream"
-  utils::modifyList(
-    cfg,
-    list(
-      type = "theirs",
-      unsupported = FALSE,
-      desc = glue("
-        The only configured GitHub remote is {ui_value(configured)}, which
-        you cannot push to.
-        If your goal is to make a pull request, you must fork-and-clone.
-        {ui_code('usethis::create_from_github()')} can do this.")
     )
   )
 }
@@ -616,7 +629,7 @@ cfg_fork <- function(cfg) {
     cfg,
     list(
       type = "fork",
-      unsupported = FALSE,
+      pr_ready = TRUE,
       # TODO: say whether user can push to parent / upstream?
       desc = glue("
         {ui_value('origin')} is a fork of {ui_value(cfg$upstream$repo_spec)}, \\
@@ -625,48 +638,25 @@ cfg_fork <- function(cfg) {
   )
 }
 
-cfg_fork_no_upstream <- function(cfg) {
+cfg_maybe_fork <- function(cfg) {
   utils::modifyList(
     cfg,
     list(
-      type = "fork_no_upstream",
-      unsupported = FALSE, # I'm ambivalent about this. We CAN do some things in
-      # this situation, but it's dysfunctional long-term,
-      # because we won't be able to pull from upstream.
+      type = "maybe_fork",
+      pr_ready = NA,
       desc = glue("
-        {ui_value('origin')} is a fork, but its parent is not configured \\
-        as {ui_value('upstream')}.
-        You can make a pull request.
-        However, going forward, you can't pull changes from the main repo.
-        Use {ui_code('usethis::use_git_remote()')} to add the parent repo as \\
-        the {ui_value('upstream')} remote.
-        ")
+        Both {ui_value('origin')} and {ui_value('upstream')} appear to be \\
+        GitHub repos.")
     )
   )
 }
 
-cfg_fork_maybe <- function(cfg) {
-  utils::modifyList(
-    cfg,
-    list(
-      type = "fork_maybe",
-      unsupported = NA,
-      desc = glue("
-        Both {ui_value('origin')} and {ui_value('upstream')} appear to be \\
-        GitHub repos.")
-    ))
-}
-
-# peculiar configurations ------------------------------------------------------
 cfg_fork_cannot_push_origin <- function(cfg) {
   utils::modifyList(
     cfg,
     list(
       type = "fork_cannot_push_origin",
-      unsupported = TRUE, # I'm ambivalent about this, I suppose we could view
-                          # this as an unusual version of "theirs"? We do
-                          # actually know the parent repo, so it's possible to
-                          # do some local work. But then we can't push it.
+      pr_ready = FALSE,
       desc = glue("
         The {ui_value('origin')} remote is a fork, but you can't push to it.")
     )
@@ -678,7 +668,7 @@ cfg_fork_upstream_is_not_origin_parent <- function(cfg) {
     cfg,
     list(
       type = "fork_upstream_is_not_origin_parent",
-      unsupported = FALSE,
+      pr_ready = FALSE,
       desc = glue("
         The {ui_value('origin')} GitHub remote is a fork, but its parent is \\
         not configured as the {ui_value('upstream')} remote.")
@@ -691,7 +681,7 @@ cfg_upstream_but_origin_is_not_fork <- function(cfg) {
     cfg,
     list(
       type = "upstream_but_origin_is_not_fork",
-      unsupported = TRUE,
+      pr_ready = FALSE,
       desc = glue("
         Both {ui_value('origin')} and {ui_value('upstream')} are GitHub \\
         remotes, but {ui_value('origin')} is not a fork and, in particular, \\

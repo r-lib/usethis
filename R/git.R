@@ -414,8 +414,7 @@ git_sitrep <- function() {
       remote on GitHub.com.")
     return(invisible())
   }
-  # TODO: do something about unsupported configs
-  # TODO: get some feedback then make this more attractive
+  # TODO: make this more attractive
   print(cfg)
 }
 

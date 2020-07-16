@@ -137,9 +137,9 @@ test_that("fork_upstream_is_not_origin_parent is detected", {
   )
   with_mock(
     `usethis:::github_remotes` = function(...) grl,
-    cfg <- classify_github_setup()
+    cfg <- github_remote_config()
   )
   expect_equal(cfg$type, "fork_upstream_is_not_origin_parent")
-  expect_true(cfg$unsupported)
+  expect_false(cfg$pr_ready)
 })
 
