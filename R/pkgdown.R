@@ -102,11 +102,11 @@ use_pkgdown_travis <- function() {
       Do you need to call {ui_code('use_pkgdown()')}?")
   }
 
-  cfg <- classify_github_setup()
-  if (cfg$type != "ours") {
-    stop_bad_github_config(cfg)
-  }
   check_github_token()
+  cfg <- github_remote_config()
+  if (cfg$type != "ours") {
+    stop_bad_github_remote_config(cfg)
+  }
 
   use_build_ignore("docs/")
   use_git_ignore("docs/")

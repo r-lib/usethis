@@ -407,7 +407,7 @@ git_sitrep <- function() {
 
   # PR outlook -------------------------------------------------------------
   hd_line("GitHub pull request readiness")
-  cfg <- classify_github_setup()
+  cfg <- github_remote_config()
   if (cfg$type == "no_github") {
     ui_info("
       This repo has neither {ui_value('origin')} nor {ui_value('upstream')} \\

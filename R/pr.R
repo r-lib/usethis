@@ -218,7 +218,7 @@ pr_resume <- function(branch = NULL) {
 #' pr_fetch(123)
 #' }
 pr_fetch <- function(number) {
-  cfg <- classify_github_setup()
+  cfg <- github_remote_config()
   check_pr_readiness(cfg)
   check_no_uncommitted_changes()
 
@@ -361,7 +361,7 @@ pr_pull <- function() {
 #' @export
 #' @rdname pull-requests
 pr_merge_main <- function() {
-  cfg <- classify_github_setup()
+  cfg <- github_remote_config()
   check_pr_readiness(cfg)
   check_no_uncommitted_changes()
 
@@ -539,14 +539,14 @@ pr_find <- function(owner,
 }
 
 check_pr_readiness <- function(cfg = NULL) {
-  cfg <- cfg %||% classify_github_setup()
+  cfg <- cfg %||% github_remote_config()
   if (cfg$unsupported) {
-    stop_bad_github_config(cfg)
+    stop_bad_github_remote_config(cfg)
   }
   if (cfg$type %in% c("ours", "fork")) {
     return(invisible())
   }
-  if (!(cfg$type %in% c("theirs", "fork_no_upstream"))) {
+  if (!(cfg$type %in% c("theirs", "fork_upstream_is_not_origin_parent"))) {
     ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
   }
   stop_unsupported_pr_config(cfg)

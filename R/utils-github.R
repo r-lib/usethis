@@ -199,9 +199,9 @@ github_remotes <- function(these = c("origin", "upstream"),
 #'
 #' Here's how a usethis function can use the GitHub remote configuration:
 #' * `cfg <- classify_github_config(...)`
-#' * Inspect `cfg$type` and call `stop_bad_github_config()` if the function
+#' * Inspect `cfg$type` and call `stop_bad_github_remote_config()` if the function
 #'   can't work with that config.
-#' * If the config is suboptimal-but-supported, use `ui_github_config_wat()` to
+#' * If the config is suboptimal-but-supported, use `ui_github_remote_config_wat()` to
 #'   educate the user and give them a chance to back out.
 #' * Proceed quietly for a supported setup.
 #'
@@ -229,10 +229,10 @@ github_remotes <- function(these = c("origin", "upstream"),
 #' @inheritParams github_remotes
 #' @keywords internal
 #' @noRd
-classify_github_setup <- function(github_get = NA,
-                                  auth_token = github_token(),
-                                  host = "https://api.github.com") {
-  cfg <- new_github_config()
+github_remote_config <- function(github_get = NA,
+                                 auth_token = github_token(),
+                                 host = "https://api.github.com") {
+  cfg <- new_github_remote_config()
   grl <- github_remotes(
     github_get = github_get,
     auth_token = auth_token,
@@ -320,7 +320,7 @@ classify_github_setup <- function(github_get = NA,
   }
 }
 
-new_github_config <- function() {
+new_github_remote_config <- function() {
   structure(
     list(
       type = NA_character_,
@@ -351,7 +351,7 @@ new_github_config <- function() {
         repo_spec = NA_character_
       )
     ),
-    class = "github_config"
+    class = "github_remote_config"
   )
 }
 
@@ -376,26 +376,26 @@ new_github_config <- function() {
 #' @noRd
 get_repo_spec <- function(auth_token = github_token(),
                           host = "https://api.github.com") {
-  cfg <- classify_github_setup(auth_token = auth_token, host = host)
+  cfg <- github_remote_config(auth_token = auth_token, host = host)
   if (cfg$unsupported) {
-    stop_bad_github_config(cfg)
+    stop_bad_github_remote_config(cfg)
   }
   if (cfg$type == "ours") {
     return(cfg$origin$repo_spec)
   }
   if (cfg$type == "theirs") {
-    if (ui_github_config_wat(cfg)) {
+    if (ui_github_remote_config_wat(cfg)) {
       ui_stop("Exiting due to unfavorable GitHub config")
     } else {
       return(cfg$origin$repo_spec)
     }
   }
-  if (cfg$type == "fork_no_upstream") {
-    if (ui_github_config_wat(cfg)) {
+  if (cfg$type == "fork_upstream_is_not_origin_parent") {
+    if (ui_github_remote_config_wat(cfg)) {
       ui_stop("Exiting due to unfavorable GitHub config")
     }
   }
-  if (!(cfg$type %in% c("fork", "fork_no_upstream"))) {
+  if (!(cfg$type %in% c("fork", "fork_upstream_is_not_origin_parent"))) {
     ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
   }
   if (!is_interactive()) {
@@ -452,13 +452,13 @@ get_repo_spec_lite <- function() {
 #' @keywords internal
 #' @noRd
 get_primary_spec <- function() {
-  cfg <- classify_github_setup()
+  cfg <- github_remote_config()
   if (cfg$unsupported) {
-    stop_bad_github_config(cfg)
+    stop_bad_github_remote_config(cfg)
   }
   if (cfg$type %in% c("ours", "theirs")) {
     cfg$origin$repo_spec
-  } else if (cfg$type %in% c("fork", "fork_no_upstream")) {
+  } else if (cfg$type %in% c("fork", "fork_upstream_is_not_origin_parent")) {
     out <- cfg$origin$parent_repo_spec
     ui_info("Targetting the fork parent = {ui_value(out)}")
     out
@@ -507,19 +507,19 @@ format_fields <- function(cfg) {
 }
 
 #' @export
-format.github_config <- function(x, ...) {
+format.github_remote_config <- function(x, ...) {
   glue::as_glue(format_fields(x))
 }
 
 #' @export
-print.github_config <- function(x, ...) {
+print.github_remote_config <- function(x, ...) {
   cat(format(x, ...), sep = "\n")
   invisible(x)
 }
 
 # refines output of format_fields() to create input better suited to
-# ui_github_config_wat() and stop_bad_github_config()
-github_config_wat <- function(cfg, context = c("menu", "abort")) {
+# ui_github_remote_config_wat() and stop_bad_github_remote_config()
+github_remote_config_wat <- function(cfg, context = c("menu", "abort")) {
   context <- match.arg(context)
   adjective <- switch(context, menu = "Unexpected", abort = "Unsupported")
   out <- format_fields(cfg)
@@ -531,29 +531,28 @@ github_config_wat <- function(cfg, context = c("menu", "abort")) {
 
 # returns TRUE if user selects "no" --> exit the calling function
 # return FALSE if user select "yes" --> keep going, they've been warned
-ui_github_config_wat <- function(cfg) {
+ui_github_remote_config_wat <- function(cfg) {
   ui_nope(
-    github_config_wat(cfg, context = "menu"),
+    github_remote_config_wat(cfg, context = "menu"),
     yes = "Yes, I want to proceed. I know what I'm doing.",
     no = "No, I want to stop and straighten out my GitHub remotes first.",
     shuffle = FALSE
   )
 }
 
-stop_bad_github_config <- function(cfg) {
+stop_bad_github_remote_config <- function(cfg) {
   abort(
-    message = unname(github_config_wat(cfg, context = "abort")),
-    class = c("usethis_error_bad_github_config", "usethis_error"),
+    message = unname(github_remote_config_wat(cfg, context = "abort")),
+    class = c("usethis_error_bad_github_remote_config", "usethis_error"),
     cfg = cfg
   )
 }
 
 stop_unsupported_pr_config <- function(cfg) {
-  msg <- github_config_wat(cfg)
+  msg <- github_remote_config_wat(cfg)
   msg$type <- glue("
     Pull request functions can't work with GitHub remote configuration: \\
-    {ui_value(cfg$type)}
-    ")
+    {ui_value(cfg$type)}")
   abort(
     message = unname(msg),
     class = c("usethis_error_invalid_pr_config", "usethis_error"),
