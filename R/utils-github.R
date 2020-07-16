@@ -678,7 +678,7 @@ cfg_fork_upstream_is_not_origin_parent <- function(cfg) {
     cfg,
     list(
       type = "fork_upstream_is_not_origin_parent",
-      unsupported = TRUE, # TODO: maybe this should be FALSE?
+      unsupported = FALSE,
       desc = glue("
         The {ui_value('origin')} GitHub remote is a fork, but its parent is \\
         not configured as the {ui_value('upstream')} remote.")
