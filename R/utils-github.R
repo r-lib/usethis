@@ -28,11 +28,8 @@ spec_repo <- function(repo_spec) parse_repo_spec(repo_spec)$repo
 
 # owner, repo --> repo_spec
 make_spec <- function(owner = NA, repo = NA) {
-  if (is.na(owner) || is.na(repo)) {
-    NA_character_
-  } else {
-    glue("{owner}/{repo}")
-  }
+  no_spec <- is.na(owner) | is.na(repo)
+  ifelse(no_spec, NA_character_, glue("{owner}/{repo}"))
 }
 
 # named vector or list of GitHub URLs --> data frame of URL parts
