@@ -49,17 +49,19 @@ A pull request (PR) involves two players, a contributor and a reviewer. To make 
 
 ## Set up advice
 
-This article assumes that you have already done the Git and GitHub parts of the [setup vignette](/articles/articles/usethis-setup). A good way to check that you are ready to use the `pr_*` family of functions is to run `git_sitrep()`, which prints info about your current Git, git2r, and GitHub setup.
+This article assumes that you have already done the Git and GitHub parts of the [setup vignette](/articles/articles/usethis-setup). A good way to check that you are ready to use the `pr_*` family of functions is to run `git_sitrep()`, which prints info about your current Git, gert, and GitHub setup.
 
 Specifically, the `pr_*()` functions make use of:
 
   * The GitHub API, which requires a personal access token (PAT).
-    - `browse_github_token()` helps you set one up.
-  * git2r, an R package which does git operations from R.
-    - See the help for `git_credentials()` if git2r doesn't seem to find your git credentials.
-  * Your preferred git transport protocol: `"ssh"` or `"https"`.
+    - `create_github_token()` helps you set one up.
+  * Your preferred Git transport protocol: `"https"` or `"ssh"`.
     - If usethis can't figure this out, it might ask you. You can set the
     `usethis.protocol` option to proactively address this.
+  * gert, an R package which does Git operations from R. The gert package,
+    in turn, relies on the credentials package to obtain your Git credentials.
+    - If you use the `"https"` protocol, your GitHub PAT is the only credential
+      you need. Which is a good reason to choose `"https"`!
 
 ## Attach usethis
 
@@ -95,7 +97,7 @@ What this does:
   * Clones your praise repo into a folder named "praise" on your desktop (or
     similar).
     - `origin` remote is set to your praise repo.
-  * Does additional git setup:
+  * Does additional Git setup:
     - `upstream` remote is set to the praise repo owned by rladies.
     - `master` branch is set to track `upstream/master`, so you can pull
       upstream changes in the future.
@@ -106,7 +108,9 @@ Arguments you might like to know about:
 
   * Specify `fork = TRUE` or `fork = FALSE` if you don't want to defer to the
     default behaviour.
-  * Use `destdir` to put praise in a specific location on your computer.
+  * Use `destdir` to put praise in a specific location on your computer. You can
+    set the `usethis.destdir` option if you always want usethis to put new
+    projects in a specific directory.
 
 ## Branch, then make your change
 
@@ -126,7 +130,7 @@ pr_init(branch = "yeahyah")
 ```
 </div>
 
-This creates a local branch called `yeahyah` and we switch to it (or "check it out"). In RStudio, you may need to hit the refresh button in your Git pane to confirm that you have indeed switched over to this branch. Now you can work locally, making changes to files and committing that to git. 
+This creates a local branch called `yeahyah` and we switch to it (or "check it out"). Now you can work locally, making changes to files and committing that to Git. 
 
 Let's go ahead and make the change, which is adding the word "yeahyah" to the 
 `exclamation.R` file in the package. Below is the diff and the commit associated 
@@ -288,13 +292,13 @@ pr_finish()
 </div>
 <div class = "output">
 ```{r eval=FALSE}
+#> ✔ Checking that local branch 'yeahyah' has the changes in 'origin/yeahyah'
 #> ✔ Switching back to 'master' branch
-#> ✔ Pulling changes from GitHub source repo 'upstream/master'
+#> ✔ Pulling from 'upstream/master'
 #> ✔ Deleting local 'yeahyah' branch
+#> ✔ Deleting remote branch 'origin/yeahyah'
 ```
 </div>
-
-At this point, the contributor still has a remote `yeahyah` branch on GitHub, which is not harming anyone. But it can also be deleted, e.g. in the browser.
 
 Remember you can see how this whole PR unfolded at [rladies/praise#84](https://github.com/rladies/praise/pull/84).
 
@@ -303,9 +307,8 @@ Remember you can see how this whole PR unfolded at [rladies/praise#84](https://g
 There are a few other functions in the `pr_*()` family that we didn't encounter 
 in this PR scenario:
 
-- `pr_pull_upstream()` is used for getting changes that have occurred in the 
-package while we have been working on this PR, i.e. to `git pull upstream master`. This makes sure that our copy of the package is up-to-date with the source repo.
+- `pr_merge_main()` is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you're working in a fork, this does `git pull upstream master`. If you're making a PR from an internal branch, this does `git pull origin master`. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the `master` branch. This makes sure that your copy of the package is up-to-date with the source repo.
 
-- `pr_sync()` is a helpful shortcut for pulling changes from the PR `pr_pull()`), merging to `master` (`pr_pull_upstream()`) and pushing all these changes back into our PR (`pr_push()`). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the `master` branch.
+- `pr_sync()` is a helpful shortcut for pulling changes from the PR (`pr_pull()`), merging in the main line of development (`pr_merge_main()`), and pushing all these changes back into our PR (`pr_push()`). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the `master` branch.
 
 - `pr_pause()` makes sure you're synced with the PR and then switches back to the `master` branch. This is likely something a package maintainer reviewing numerous PRs will need to use as they switch back and forth from review to working on `master` to another review.

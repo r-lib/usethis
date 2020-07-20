@@ -40,7 +40,15 @@ There is increasing interest in making the name of a repo's default branch confi
 
 `create_github_token()` is a new name for the function previously known as `browse_github_token()` and `browse_github_pat()`.
 
+`issue_close_community()` and `issue_reprex_needed()` are two new functions for maintainers who process lots of GitHub issues. They automate canned replies and actions, e.g. labelling or closing (#940).
+
 ## Other changes
+
+* `use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The existing behaviour, which adds an `OWNER/REPO` GitHub remote, remains the default (#918, @ijlyttle).
+
+`browse_github_actions()` is a new function to open the Actions page of the respective repo on GitHub, similar to existing `browse_*()` functions (@pat-s, #1102).
+
+`use_cpp11()` is a new function to set up an R package to use cpp11.
 
 `create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
 

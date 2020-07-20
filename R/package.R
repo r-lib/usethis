@@ -1,9 +1,9 @@
 #' Depend on another package
 #'
 #' `use_package()` adds a CRAN package dependency to `DESCRIPTION` and offers a
-#' little advice about how to best use it. `use_dev_package()` adds a versioned
-#' dependency on an in-development GitHub package, adding the repo to `Remotes`
-#' so it will be automatically installed from the correct location.
+#' little advice about how to best use it. `use_dev_package()` adds a
+#' dependency on an in-development package, adding the dev repo to `Remotes` so
+#' it will be automatically installed from the correct location.
 #'
 #' @param package Name of package to depend on.
 #' @param type Type of dependency: must be one of "Imports", "Depends",
@@ -11,9 +11,16 @@
 #'   is case insensitive.
 #' @param min_version Optionally, supply a minimum version for the package.
 #'   Set to `TRUE` to use the currently installed version.
+#' @param remote By default, an `OWNER/REPO` GitHub remote is inserted.
+#'   Optionally, you can supply a character string to specify the remote, e.g.
+#'   `"gitlab::jimhester/covr"`, using any syntax supported by the [remotes
+#'   package](
+#'   https://remotes.r-lib.org/articles/dependencies.html#other-sources).
+#'
 #' @seealso The [dependencies
 #'   section](https://r-pkgs.org/description.html#dependencies) of [R
 #'   Packages](https://r-pkgs.org).
+#'
 #' @export
 #' @examples
 #' \dontrun{
@@ -23,7 +30,7 @@
 #' }
 use_package <- function(package, type = "Imports", min_version = NULL) {
   if (type == "Imports") {
-    refuse_package(package, verboten = "tidyverse")
+    refuse_package(package, verboten = c("tidyverse", "tidymodels"))
   }
 
   use_dependency(package, type, min_version = min_version)
@@ -34,26 +41,26 @@ use_package <- function(package, type = "Imports", min_version = NULL) {
 
 #' @export
 #' @rdname use_package
-use_dev_package <- function(package, type = "Imports") {
-  refuse_package(package, verboten = "tidyverse")
+use_dev_package <- function(package, type = "Imports", remote = NULL) {
+  refuse_package(package, verboten = c("tidyverse", "tidymodels"))
 
   use_dependency(package, type = type, min_version = TRUE)
-  use_remote(package)
+  use_remote(package, remote)
   how_to_use(package, type)
 
   invisible()
 }
 
-use_remote <- function(package) {
+use_remote <- function(package, package_remote = NULL) {
   remotes <- desc::desc_get_remotes(proj_get())
   if (any(grepl(package, remotes))) {
     return(invisible())
   }
 
-  package_remote <- package_remote(package)
-  ui_done(
-    "Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in DESCRIPTION"
-  )
+  package_remote <- package_remote %||% package_remote(package)
+  ui_done("
+    Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in \\
+    DESCRIPTION")
   remotes <- c(remotes, package_remote)
   desc::desc_set_remotes(remotes, file = proj_get())
   invisible()
@@ -93,7 +100,7 @@ package_remote <- function(package) {
 }
 
 refuse_package <- function(package, verboten) {
-  if (identical(package, verboten)) {
+  if (package %in% verboten) {
     code <- glue("use_package(\"{package}\", type = \"depends\")")
     ui_stop(
       "{ui_value(package)} is a meta-package and it is rarely a good idea to \\

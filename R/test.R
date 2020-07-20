@@ -14,6 +14,15 @@
 #' use_test("something-management")
 #' }
 use_testthat <- function() {
+  use_testthat_impl()
+
+  ui_todo(
+    "Call {ui_code('use_test()')} to initialize a basic test file and open it \\
+    for editing."
+  )
+}
+
+use_testthat_impl <- function() {
   check_installed("testthat")
   if (utils::packageVersion("testthat") < "2.1.0") {
     ui_stop("testthat 2.1.0 or greater needed. Please install before re-trying")
@@ -28,11 +37,6 @@ use_testthat <- function() {
     "testthat.R",
     save_as = path("tests", "testthat.R"),
     data = list(name = project_name())
-  )
-
-  ui_todo(
-    "Call {ui_code('use_test()')} to initialize a basic test file and open it \\
-    for editing."
   )
 }
 

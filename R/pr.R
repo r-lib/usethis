@@ -141,10 +141,10 @@ NULL
 #' @param branch branch name. Should usually consist of lower case letters,
 #'   numbers, and `-`.
 pr_init <- function(branch) {
-  on.exit(rstudio_git_tickle(), add = TRUE)
   stopifnot(is_string(branch))
+  repo <- git_repo()
 
-  if (git_branch_exists(branch, local = TRUE)) {
+  if (gert::git_branch_exists(branch, local = TRUE, repo = repo)) {
     code <- glue("pr_resume(\"{branch}\")")
     ui_info("
       Branch {ui_value(branch)} already exists, calling {ui_code(code)}")
@@ -168,9 +168,9 @@ pr_init <- function(branch) {
   pr_pull_primary_override()
 
   ui_done("Creating and switching to local branch {ui_value(branch)}")
-  git_branch_create_and_switch(branch)
+  gert::git_branch_create(branch, repo = repo)
   config_key <- glue("branch.{branch}.created-by")
-  gert::git_config_set(config_key, "usethis::pr_init", git_repo())
+  gert::git_config_set(config_key, value = "usethis::pr_init", repo = repo)
 
   ui_todo("Use {ui_code('pr_push()')} to create PR.")
   invisible()
@@ -179,14 +179,15 @@ pr_init <- function(branch) {
 #' @export
 #' @rdname pull-requests
 pr_resume <- function(branch = NULL) {
-  on.exit(rstudio_git_tickle(), add = TRUE)
   if (is.null(branch)) {
     ui_stop("
       Interactive PR selection not implemented yet.
       For now, {ui_code('branch')} should be the name of a local branch.")
   }
   stopifnot(is_string(branch))
-  if (!git_branch_exists(branch, local = TRUE)) {
+
+  repo <- git_repo()
+  if (!gert::git_branch_exists(branch, local = TRUE, repo = repo)) {
     code <- glue("pr_init(\"{branch}\")")
     ui_stop("
       No branch named {ui_value(branch)} exists.
@@ -201,7 +202,7 @@ pr_resume <- function(branch = NULL) {
   check_no_uncommitted_changes(untracked = TRUE)
 
   ui_done("Switching to branch {ui_value(branch)}")
-  git_branch_switch(branch)
+  gert::git_branch_checkout(branch, repo = repo)
   git_pull()
 
   ui_todo("Use {ui_code('pr_push()')} to create or update PR.")
@@ -271,7 +272,7 @@ pr_fetch <- function(number) {
     }
 
     ui_done("Adding remote {ui_value(pr_remote)} as {ui_value(url)}")
-    gert::git_remote_add(pr_remote, url, repo = repo)
+    gert::git_remote_add(url = url, name = pr_remote, repo = repo)
     config_key <- glue("remote.{pr_remote}.created-by")
     gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
   }
@@ -284,10 +285,10 @@ pr_fetch <- function(number) {
   )
 
   # Create local branch, if necessary, and switch to it ----
-  if (!git_branch_exists(pr_branch_ours, local = TRUE)) {
+  if (!gert::git_branch_exists(pr_branch_ours, local = TRUE, repo = repo)) {
     ui_done("Creating and switching to local branch {ui_value(pr_branch_ours)}")
     ui_done("Setting {ui_value(pr_remref)} as remote tracking branch")
-    git_branch_create_and_switch(pr_branch_ours, pr_remref)
+    gert::git_branch_create(pr_branch_ours, ref = pr_remref, repo = repo)
     config_key <- glue("branch.{pr_branch_ours}.created-by")
     gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
     config_url <- glue("branch.{pr_branch_ours}.pr-url")
@@ -297,9 +298,9 @@ pr_fetch <- function(number) {
 
   # Local branch pre-existed; make sure tracking branch is set, switch, & pull
   ui_done("Switching to branch {ui_value(pr_branch_ours)}")
-  git_branch_switch(pr_branch_ours)
+  gert::git_branch_checkout(pr_branch_ours, repo = repo)
   config_url <- glue("branch.{pr_branch_ours}.pr-url")
-  gert::git_config_set(config_url, pr$html_url, git_repo())
+  gert::git_config_set(config_url, pr$html_url, repo = repo)
 
   pr_branch_ours_tracking <- git_branch_tracking(pr_branch_ours)
   if (is.na(pr_branch_ours_tracking) ||
@@ -377,6 +378,15 @@ pr_merge_main <- function() {
 #' @rdname pull-requests
 pr_sync <- function() {
   check_pr_readiness()
+
+  branch <- git_branch()
+  tracking_branch <- git_branch_tracking(branch)
+  if (is.na(tracking_branch)) {
+    ui_stop("
+      Branch {ui_value(branch)} has no remote tracking branch to sync with.
+      Do you need to call {ui_code('pr_push()')} for the first time?")
+  }
+
   pr_pull()
   pr_merge_main()
   pr_push()
@@ -403,7 +413,7 @@ pr_pause <- function() {
 
   ui_done("Switching back to {ui_value('master')} branch")
   # TODO: honor default branch
-  git_branch_switch("master")
+  gert::git_branch_checkout("master", repo = git_repo())
   pr_pull_primary_override()
 }
 
@@ -430,7 +440,7 @@ pr_finish <- function(number = NULL) {
 
   # TODO: honor default branch
   ui_done("Switching back to {ui_value('master')} branch")
-  git_branch_switch("master")
+  gert::git_branch_checkout("master", repo = repo)
   pr_pull_primary_override()
 
   ui_done("Deleting local {ui_value(branch)} branch")
@@ -459,7 +469,7 @@ pr_finish <- function(number = NULL) {
   branches <- branches[branches$local & !is.na(branches$upstream), ]
   if (sum(grepl(glue("^refs/remotes/{remote}"), branches$upstream)) == 0) {
     ui_done("Removing remote {ui_value(remote)}")
-    gert::git_remote_remove(remote, repo = repo)
+    gert::git_remote_remove(name = remote, repo = repo)
   }
 }
 

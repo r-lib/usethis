@@ -42,6 +42,7 @@ Rmds
 Roxygen
 Rtools
 SHA
+Sitrep
 TLS
 TeXLive
 Templated
@@ -69,6 +70,7 @@ codecov
 colour
 colours
 config
+cpp
 cran
 dev
 devtools
@@ -101,6 +103,7 @@ initialisation
 initialises
 initialising
 labelled
+labelling
 learnr
 libgit
 lifecycle
@@ -114,6 +117,7 @@ msg
 nano
 organisation
 organisations
+ort
 pandoc
 pkgbuild
 pkgdown
@@ -122,6 +126,7 @@ preconfigured
 programmatically
 purrr
 r's
+rOpenSci
 rcmdcheck
 rebase
 redirections
@@ -156,6 +161,7 @@ tidyverse
 todo
 travis
 triaged
+uation
 unpushed
 useR
 usethis's

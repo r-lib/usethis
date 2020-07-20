@@ -64,7 +64,6 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
   if (!is_interactive() || !uses_git()) {
     return(invisible())
   }
-  on.exit(rstudio_git_tickle(), add = TRUE)
 
   # this is defined here to encourage all commits to route through this function
   git_commit <- function(paths, message) {
@@ -73,7 +72,6 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
     gert::git_add(paths, repo = repo)
     ui_done("Making a commit with message {ui_value(message)}")
     gert::git_commit(message, repo = repo)
-    rstudio_git_tickle()
   }
 
   uncommitted <- git_status(untracked)$file
@@ -217,14 +215,6 @@ git_branch <- function() {
   branch
 }
 
-git_branch_exists <- function(branch, local = NA) {
-  branches <- gert::git_branch_list(git_repo())
-  if (isTRUE(local)) {
-    branches <- branches[branches$local, ]
-  }
-  branch %in% branches$name
-}
-
 git_branch_tracking <- function(branch = git_branch()) {
   info <- gert::git_branch_list(git_repo())
   this <- info$local & info$name == branch
@@ -232,29 +222,6 @@ git_branch_tracking <- function(branch = git_branch()) {
     ui_stop("There is no local branch named {ui_value(branch}")
   }
   sub("^refs/remotes/", "", info$upstream[this])
-}
-
-git_branch_create_and_switch <- function(branch, ref = NULL) {
-  # TODO: revisit the upstream tracking before release
-  # https://github.com/r-lib/gert/issues/71
-  repo <- git_repo()
-  if (is.null(ref)) {
-    ref <- "HEAD"
-    ref_is_remref <- FALSE
-  } else {
-    reflist <- gert::git_info()$reflist
-    ref_is_remref <- glue("refs/remotes/{ref}") %in% reflist
-  }
-  gert::git_branch_create(branch, ref = ref, repo = repo)
-  if (ref_is_remref) {
-    gert::git_branch_set_upstream(ref, repo = repo)
-  }
-  invisible()
-}
-
-git_branch_switch <- function(branch) {
-  gert::git_branch_checkout(branch, repo = git_repo())
-  rstudio_git_tickle()
 }
 
 git_branch_compare <- function(branch = git_branch(), remref = NULL) {
@@ -320,6 +287,7 @@ check_branch_up_to_date <- function(direction = c("pull", "push"),
     if (comparison$local_only == 0) {
       return(invisible())
     } else {
+      #TODO: consider offering to push for them?
       ui_stop("
         Local branch {ui_value(branch)} is ahead of {ui_value(remref)} by \\
         {comparison$local_only} commit(s).
@@ -333,5 +301,5 @@ check_branch_pulled <- function(remref = NULL, use = NULL) {
 }
 
 check_branch_pushed <- function(remref = NULL, use = NULL) {
-  check_branch_up_to_date(direction = "pull", remref = remref, use = use)
+  check_branch_up_to_date(direction = "push", remref = remref, use = use)
 }
