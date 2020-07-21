@@ -8,8 +8,8 @@ vignette: >
 ---
 
 <style>
-div.reviewer pre.r { background-color:#e3dece; }
-div.output pre.r { background-color:#FFFFFF; }
+div.reviewer pre { background-color:#e3dece; }
+div.output pre { background-color:#FFFFFF; }
 </style>
 
 ## Contributing to someone else's package
