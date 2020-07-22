@@ -495,12 +495,10 @@ pr_url <- function(branch = git_branch()) {
   }
 
   pr_branch <- remref_branch(pr_remref)
-  # TODO: this should be silent, but look at it when I re-examine
-  # get_primary_spec()
-  primary_spec <- get_primary_spec()
+  repo_spec <- repo_spec(ask = FALSE)
   urls <- pr_find(
-    owner = spec_owner(primary_spec),
-    repo = spec_repo(primary_spec),
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     pr_owner = remref_remote(pr_remref),
     pr_branch = remref_branch(pr_remref)
   )

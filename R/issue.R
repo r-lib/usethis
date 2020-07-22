@@ -36,6 +36,11 @@ NULL
 #' @export
 #' @rdname issue-this
 issue_close_community <- function(number, reprex = FALSE) {
+  cfg <- github_remote_config(github_get = TRUE)
+  if (cfg$type != c("ours", "fork")) {
+    stop_bad_github_remote_config(cfg)
+  }
+
   info <- issue_info(number)
   issue <- issue_details(info)
   ui_done("
@@ -68,6 +73,11 @@ issue_close_community <- function(number, reprex = FALSE) {
 #' @export
 #' @rdname issue-this
 issue_reprex_needed <- function(number) {
+  cfg <- github_remote_config(github_get = TRUE)
+  if (cfg$type != c("ours", "fork")) {
+    stop_bad_github_remote_config(cfg)
+  }
+
   info <- issue_info(number)
   labels <- purrr::map_chr(info$labels, "name")
   issue <- issue_details(info)
@@ -114,11 +124,14 @@ issue_info <- function(number) {
 
 # Helpers -----------------------------------------------------------------
 
-# Assumes that the issue number is called issue number, so make sure to tweak
-# the endpoint if necessary.
+# Assumptions:
+# * Issue number is called `issue_number`; make sure to tweak `endpoint` if
+#   necessary.
+# * Full check of GitHub remote config is done by the user-facing caller. Here
+#   we determine `repo_spec` in the most naive, local way.
+# * The remote config check will also expose a lack of PAT.
 issue_gh <- function(endpoint, ..., number) {
-  check_github_token()
-  repo_spec <- get_primary_spec()
+  repo_spec <- repo_spec()
   out <- gh::gh(
     endpoint,
     ...,

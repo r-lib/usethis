@@ -102,9 +102,8 @@ use_pkgdown_travis <- function() {
       Do you need to call {ui_code('use_pkgdown()')}?")
   }
 
-  check_github_token()
-  cfg <- github_remote_config()
-  if (cfg$type != "ours") {
+  cfg <- github_remote_config(github_get = TRUE)
+  if (cfg$type != c("ours", "fork")) {
     stop_bad_github_remote_config(cfg)
   }
 
@@ -131,19 +130,19 @@ use_pkgdown_travis <- function() {
     "
   )
 
+  repo_spec <- repo_spec(cfg)
   if (!gert::git_branch_exists("origin/gh-pages", local = FALSE, repo = git_repo())) {
-    create_gh_pages_branch()
+    create_gh_pages_branch(repo_spec)
   }
 
   ui_todo("
     Turn on GitHub pages at \\
-    <https://github.com/{get_primary_spec()}/settings> (using gh-pages as source)")
+    <https://github.com/{repo_spec}/settings> (using gh-pages as source)")
 
   invisible()
 }
 
-create_gh_pages_branch <- function() {
-  repo_spec <- get_primary_spec()
+create_gh_pages_branch <- function(repo_spec) {
   ui_done("
     Initializing empty gh-pages branch in GitHub repo {ui_value(repo_spec)}")
 
