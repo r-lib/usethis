@@ -364,111 +364,99 @@ new_github_remote_config <- function() {
 
 #' Get a repo spec
 #'
-#' Returns an OWNER/REPO repo spec for, e.g., incorporating into a URL.
+#' @description
+#' Returns a repo spec of the form OWNER/REPO for, e.g., incorporating into a URL.
 #' Examples:
 #' * Badge URLs
 #' * URLs where you can activate a CI service
-#' * URLs for URL and BugReports in DESCRIPTION
+#' * URLs for DESCRIPTION fields such as URL and BugReports
 #'
-#' Use this when you suspect the user is doing something in order to make a pull
-#' request or if it's not clear if they want to work against their fork or the
-#' fork parent. `get_repo_spec()` will challenge "theirs" and "fork_no_upstream"
-#' and ask if user wants to back out and fix the remote configuration. In the
-#' case of "fork" and "fork_no_upstream", user gets an interactive menu to
-#' choose between `origin` and its parent repo (which may or may not be
-#' configured as `upstream`).
+#' If `cfg` is not provided, `repo_spec()` calls
+#' `github_remote_config(github_get = FALSE)` and works only with locally
+#' available information about GitHub remotes. To work with full GitHub remote
+#' configuration, call `github_remote_config(github_get = TRUE)` yourself and
+#' pass the resulting `cfg` in. `repo_spec()` will challenge certain configs,
+#' e.g., "fork_upstream_is_not_origin_parent", and ask if user wants to back out
+#' and fix the remote configuration.
+#'
+#' In some configurations, if `ask = TRUE` and we're in an interactive session,
+#' user gets a choice between `origin` and (if either exists or is known) its
+#' parent repo and `upstream`.
 #'
 #' @inheritParams use_github
 #' @keywords internal
 #' @noRd
-get_repo_spec <- function(auth_token = github_token(),
-                          host = "https://api.github.com") {
-  cfg <- github_remote_config(auth_token = auth_token, host = host)
+repo_spec <- function(cfg = NULL,
+                      role = c("source", "primary"),
+                      ask = is_interactive(),
+                      auth_token = github_token(),
+                      host = "https://api.github.com") {
+  cfg <- cfg %||%
+    github_remote_config(github_get = FALSE, auth_token = auth_token, host = host)
+  stopifnot(inherits(cfg, "github_remote_config"))
+  role <- match.arg(role)
+
   if (cfg$type == "no_github") {
     stop_bad_github_remote_config(cfg)
   }
-  if (cfg$type == "ours") {
-    return(cfg$origin$repo_spec)
-  }
-  if (cfg$type == "theirs") {
+
+  weird_configs <- c(
+    "fork_upstream_is_not_origin_parent",
+    "fork_cannot_push_origin",
+    "upstream_but_origin_is_not_fork"
+  )
+  if (is_interactive() && cfg$type %in% weird_configs) {
     if (ui_github_remote_config_wat(cfg)) {
       ui_stop("Exiting due to unfavorable GitHub config")
-    } else {
+    }
+  }
+
+  # upstream only
+  if (cfg$upstream$is_configured && !cfg$origin$is_configured) {
+    return(cfg$upstream$repo_spec)
+  }
+
+  # origin only
+  if (cfg$origin$is_configured && !cfg$upstream$is_configured) {
+    if (is.na(cfg$origin$parent_repo_spec)) {
       return(cfg$origin$repo_spec)
     }
   }
-  if (cfg$type == "fork_upstream_is_not_origin_parent") {
-    if (ui_github_remote_config_wat(cfg)) {
-      ui_stop("Exiting due to unfavorable GitHub config")
-    }
-  }
-  if (!(cfg$type %in% c("fork", "fork_upstream_is_not_origin_parent"))) {
-    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
-  }
-  if (!is_interactive()) {
-    ui_info("
-      Working with a fork, non-interactively. \\
-      Targetting the fork parent = {ui_value(cfg$origin$parent_repo_spec)}
-      ")
-    cfg$origin$parent_repo_spec
-  } else {
-    choices <- c(
-      glue("{cfg$origin$parent_repo_spec} = parent of your fork"),
-      glue("{cfg$origin$repo_spec} = your fork")
-    )
-    title <- glue("
-      Working with a fork.
-      Which repo should we target?
-      ")
-    choice <- utils::menu(choices, graphics = FALSE, title = title)
-    return(with(cfg$origin, c(parent_repo_spec, repo_spec)[choice]))
-  }
-}
+  # scenarios left (X means "not NA", - means "is NA"):
+  # origin origin_parent upstream
+  #   X          X          -
+  #   X          -          X
+  #   X          X    ==    X
+  #   X          X    !=    X
 
-# Like get_repo_spec(), but do much less. No API calls.
-# No full-fledged evaluation of the GitHub remotes. Take them at face value.
-get_repo_spec_lite <- function() {
-  grl <- github_remotes(github_get = FALSE)
-  if (nrow(grl) < 1) {
-    return()
+  if (!ask || !is_interactive()) {
+    return(switch(
+      role,
+      source  = cfg$origin$parent_repo_spec %|% cfg$upstream$repo_spec,
+      primary = cfg$origin$repo_spec
+    ))
   }
-  grl$repo_spec <- glue_data(grl, "{repo_owner}/{repo_name}")
-  if (!is_interactive() && nrow(grl) > 1) {
-    ui_info("
-      Both {ui_value('origin')} and {ui_value('upstream')} are GitHub remotes.
-      Using spec for {ui_value('origin')}.")
-    return(grl$repo_spec[grl$remote == "origin"])
-  }
-  if (nrow(grl) == 1) {
-    return(grl$repo_spec)
-  }
-  choice <- utils::menu(
-    choices = glue_data(grl, "{repo_spec} ({remote})"),
-    graphics = FALSE,
-    title = "Which repo should we target?"
+
+  spec <- list(
+    origin        = cfg$origin$repo_spec,
+    origin_parent = cfg$origin$parent_repo_spec,
+    upstream      = cfg$upstream$repo_spec
   )
-  grl$repo_spec[choice]
-}
+  formatted <- c(
+    origin        = glue("{spec$origin} = {ui_value('origin')}"),
+    origin_parent = glue("{spec$origin_parent} = parent of {ui_value('origin')}"),
+    upstream      = glue("{spec$upstream} = {ui_value('upstream')}")
+  )
 
-#' Get the spec of the primary repo
-#'
-#' This is a simplified variant of `get_repo_spec()`. Use it when you're quite
-#' sure that you want the primary repo (so fork parent, in the case of a fork),
-#' with no nudges or interactive choice.
-#'
-#' @keywords internal
-#' @noRd
-get_primary_spec <- function() {
-  cfg <- github_remote_config()
-  if (cfg$type %in% c("ours", "theirs")) {
-    cfg$origin$repo_spec
-  } else if (cfg$type %in% c("fork", "fork_upstream_is_not_origin_parent")) {
-    out <- cfg$origin$parent_repo_spec
-    ui_info("Targetting the fork parent = {ui_value(out)}")
-    out
-  } else {
-    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
+  spec <- spec[!is.na(spec)]
+  if (length(spec) == 3 &&
+      identical(spec[["origin_parent"]], spec[["upstream"]])) {
+    spec <- spec[c("origin", "upstream")]
   }
+  choices <- formatted[names(spec)]
+  title <- glue("Which repo should we target?")
+  choice <- utils::menu(choices, graphics = FALSE, title = title)
+  spec[[choice]]
 }
 
 # formatting github remote configurations for humans ---------------------------
