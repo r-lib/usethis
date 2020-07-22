@@ -127,7 +127,7 @@ stages <- c(
 #'    for additional examples.
 #' @export
 use_binder_badge <- function(urlpath = NULL) {
-  repo_spec <- get_repo_spec()
+  repo_spec <- repo_spec()
 
   if (is.null(urlpath)) {
     urlpath <- ""

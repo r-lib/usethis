@@ -31,7 +31,7 @@ NULL
 #' @rdname ci
 use_travis <- function(browse = rlang::is_interactive(),
                        ext = c("com", "org")) {
-  repo_spec <- get_repo_spec()
+  repo_spec <- repo_spec()
   ext <- arg_match(ext)
   new <- use_template(
     "travis.yml",
@@ -54,7 +54,7 @@ use_travis <- function(browse = rlang::is_interactive(),
 #' @export
 #' @rdname ci
 use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
-  repo_spec <- repo_spec %||% get_repo_spec()
+  repo_spec <- repo_spec %||% repo_spec()
   ext <- arg_match(ext)
   url <- glue("https://travis-ci.{ext}/{repo_spec}")
   img <- glue("{url}.svg?branch=master")
@@ -84,7 +84,7 @@ uses_travis <- function() {
 #' @export
 #' @rdname ci
 use_appveyor <- function(browse = rlang::is_interactive()) {
-  repo_spec <- get_repo_spec()
+  repo_spec <- repo_spec()
   new <- use_template("appveyor.yml", ignore = TRUE)
   if (!new) {
     return(invisible(FALSE))
@@ -110,7 +110,7 @@ appveyor_activate <- function(browse = is_interactive()) {
 #' @export
 #' @rdname ci
 use_appveyor_badge <- function(repo_spec = NULL) {
-  repo_spec <- repo_spec %||% get_repo_spec()
+  repo_spec <- repo_spec %||% repo_spec()
   img <- glue(
     "https://ci.appveyor.com/api/projects/status/github/",
     "{repo_spec}?branch=master&svg=true"
@@ -154,7 +154,7 @@ use_gitlab_ci <- function() {
 #' @rdname ci
 use_circleci <- function(browse = rlang::is_interactive(),
                          image = "rocker/verse:latest") {
-  repo_spec <- get_repo_spec()
+  repo_spec <- repo_spec()
   use_directory(".circleci", ignore = TRUE)
   new <- use_template(
     "circleci-config.yml",
@@ -178,7 +178,7 @@ use_circleci <- function(browse = rlang::is_interactive(),
 #' @rdname ci
 #' @export
 use_circleci_badge <- function(repo_spec = NULL) {
-  repo_spec <- repo_spec %||% get_repo_spec()
+  repo_spec <- repo_spec %||% repo_spec()
   url <- glue("https://circleci.com/gh/{repo_spec}")
   img <- glue("{url}.svg?style=svg")
   use_badge("CircleCI build status", url, img)
