@@ -8,11 +8,11 @@
 #'
 #' To use the `pr_*` functions, your project must be a Git repo and have one of
 #' these GitHub remote configurations:
-#' * "ours": You can push to the GitHub remote configured as `origin`. It's not
-#'   a fork. `origin` points to the **primary repo**.
+#' * "ours": You can push to the GitHub remote configured as `origin` and it's
+#'   not a fork.
 #' * "fork": You can push to the GitHub remote configured as `origin`, it's a
 #'   fork, and its parent is configured as `upstream`. `origin` points to your
-#'   **personal** copy and upstream` points to the **primary repo**.
+#'   **personal** copy and `upstream` points to the **source repo**.
 #'
 #' "Ours" and "fork" are two of several GitHub remote configurations examined in
 #' [Common remote setups](https://happygitwithr.com/common-remote-setups.html)
@@ -253,7 +253,7 @@ pr_fetch <- function(number) {
         at this time,
         although this can be changed.")
     }
-  } else {                 # PR is from a branch in the primary repo
+  } else {                 # PR is from a branch in the source repo
     pr_remote <- switch(cfg$type, ours = "origin", fork = "upstream")
     pr_branch_ours <- pr_branch_theirs
   }

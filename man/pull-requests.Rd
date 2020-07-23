@@ -49,11 +49,11 @@ described in \href{https://happygitwithr.com}{Happy Git and GitHub for the useR}
 To use the \verb{pr_*} functions, your project must be a Git repo and have one of
 these GitHub remote configurations:
 \itemize{
-\item "ours": You can push to the GitHub remote configured as \code{origin}. It's not
-a fork. \code{origin} points to the \strong{primary repo}.
+\item "ours": You can push to the GitHub remote configured as \code{origin} and it's
+not a fork.
 \item "fork": You can push to the GitHub remote configured as \code{origin}, it's a
 fork, and its parent is configured as \code{upstream}. \code{origin} points to your
-\strong{personal} copy and upstream` points to the \strong{primary repo}.
+\strong{personal} copy and \code{upstream} points to the \strong{source repo}.
 }
 
 "Ours" and "fork" are two of several GitHub remote configurations examined in
