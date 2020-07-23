@@ -10,9 +10,7 @@ if (nzchar(Sys.getenv("CI"))) {
   Sys.setenv(GITHUB_PAT = github_PAT)
 }
 
-pre_test_options <- options(
-  usethis.quiet = TRUE,
-  ## make ui_*() output easier to test against
-  ## just say no to ANSI escape codes
-  "crayon.enabled" = FALSE
+withr::local_options(
+  list(usethis.quiet = TRUE),
+  .local_envir = testthat::teardown_env()
 )
