@@ -59,11 +59,11 @@ maintainers. They are designed to support the Git and GitHub best practices
 described in Happy Git and GitHub for the useR.
 To use the pr_* functions, your project must be a Git repo and have one of
 these GitHub remote configurations:
-&quot;ours&quot;: You can push to the GitHub remote configured as origin. It's not
-a fork. origin points to the primary repo.
+&quot;ours&quot;: You can push to the GitHub remote configured as origin and it's
+not a fork.
 &quot;fork&quot;: You can push to the GitHub remote configured as origin, it's a
 fork, and its parent is configured as upstream. origin points to your
-personal copy and upstream` points to the primary repo.
+personal copy and upstream points to the source repo.
 
 
 &quot;Ours&quot; and &quot;fork&quot; are two of several GitHub remote configurations examined in
@@ -208,11 +208,11 @@ maintainers. They are designed to support the Git and GitHub best practices
 described in <a href='https://happygitwithr.com'>Happy Git and GitHub for the useR</a>.</p>
 <p>To use the <code>pr_*</code> functions, your project must be a Git repo and have one of
 these GitHub remote configurations:</p><ul>
-<li><p>"ours": You can push to the GitHub remote configured as <code>origin</code>. It's not
-a fork. <code>origin</code> points to the <strong>primary repo</strong>.</p></li>
+<li><p>"ours": You can push to the GitHub remote configured as <code>origin</code> and it's
+not a fork.</p></li>
 <li><p>"fork": You can push to the GitHub remote configured as <code>origin</code>, it's a
 fork, and its parent is configured as <code>upstream</code>. <code>origin</code> points to your
-<strong>personal</strong> copy and upstream` points to the <strong>primary repo</strong>.</p></li>
+<strong>personal</strong> copy and <code>upstream</code> points to the <strong>source repo</strong>.</p></li>
 </ul>
 
 <p>"Ours" and "fork" are two of several GitHub remote configurations examined in
@@ -356,9 +356,10 @@ records this URL in git config of the local repo.</p></li>
 <li><p><code>pr_finish()</code>: If <code>number</code> is given, first does <code>pr_fetch(number)</code>. It's
 assumed the current branch is the PR branch of interest. First, makes sure
 there are no unpushed local changes. Switches back to <code>master</code> and pulls
-changes from the primary repo. Deletes the PR branch. If the PR came from
-an external fork, the corresponding remote is deleted, provided it's not in
-use by any other local branches.</p></li>
+changes from the primary repo. If the PR has been merged and user has
+permission, deletes the remote branch. Deletes the PR branch. If the PR
+came from an external fork, the corresponding remote is deleted, provided
+it's not in use by any other local branches.</p></li>
 </ul>
 
 
