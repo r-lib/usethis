@@ -1,5 +1,3 @@
-context("use_roxygen_md")
-
 test_that("use_roxygen_md() adds DESCRIPTION fields to naive package", {
   skip_if_not_installed("roxygen2")
   pkg <- create_local_package()

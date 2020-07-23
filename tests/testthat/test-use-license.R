@@ -1,5 +1,3 @@
-context("use_license")
-
 test_that("find_name() errors when no name seems to be intentionally set", {
   withr::with_options(
     list(usethis.full_name = NULL, devtools.name = NULL),

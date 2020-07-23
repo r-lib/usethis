@@ -1,5 +1,3 @@
-context("use-cran-comments")
-
 test_that("use_cran_comments() requires a package", {
   create_local_project()
   expect_usethis_error(use_cran_comments(), "not an R package")

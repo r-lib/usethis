@@ -1,5 +1,3 @@
-context("tidyverse")
-
 test_that("use_tidy_description() alphabetises dependencies", {
   pkg <- create_local_package()
   use_package("usethis")

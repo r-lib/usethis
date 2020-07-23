@@ -1,5 +1,3 @@
-context("use_logo")
-
 test_that("use_logo() doesn't error", {
   skip_if_not_installed("magick")
   skip_on_os("solaris")

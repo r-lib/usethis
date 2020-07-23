@@ -1,5 +1,3 @@
-context("use_data")
-
 test_that("use_data() errors for a non-package project", {
   create_local_project()
   expect_usethis_error(use_data(letters), "not an R package")

@@ -1,5 +1,3 @@
-context("test-use-tutorial")
-
 test_that("use_tutorial() checks its inputs", {
   skip_if_not_installed("rmarkdown")
 

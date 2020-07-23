@@ -1,5 +1,3 @@
-context("use_revdep")
-
 test_that("use_revdep() requires a package", {
   create_local_project()
   expect_usethis_error(use_revdep(), "not an R package")
