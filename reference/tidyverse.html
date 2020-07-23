@@ -192,27 +192,27 @@ stricter than the defaults, reflecting the need for greater rigor in
 commonly used packages.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_github_actions</a></span>()
+    <pre class="usage"><span class='fu'>use_tidy_github_actions</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/tidyverse.html'>create_tidy_package</a></span>(<span class='kw'>path</span>, name = <span class='st'>"RStudio"</span>)
+<span class='fu'>create_tidy_package</span>(<span class='kw'>path</span>, name = <span class='st'>"RStudio"</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_description</a></span>()
+<span class='fu'>use_tidy_description</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_eval</a></span>()
+<span class='fu'>use_tidy_eval</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_contributing</a></span>()
+<span class='fu'>use_tidy_contributing</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_support</a></span>()
+<span class='fu'>use_tidy_support</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_issue_template</a></span>()
+<span class='fu'>use_tidy_issue_template</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_coc</a></span>()
+<span class='fu'>use_tidy_coc</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_github</a></span>()
+<span class='fu'>use_tidy_github</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_style</a></span>(strict = <span class='fl'>TRUE</span>)
+<span class='fu'>use_tidy_style</span>(strict = <span class='fl'>TRUE</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_release_test_env</a></span>()</pre>
+<span class='fu'>use_tidy_release_test_env</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -239,7 +239,7 @@ should be applied. See <code><a href='https://rdrr.io/pkg/styler/man/tidyverse_s
 
     
 <ul>
-<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_github_actions()</a></code>: Sets up the following workflows using <a href='https://github.com/features/actions'>GitHub Actions</a>:</p><ul>
+<li><p><code>use_tidy_github_actions()</code>: Sets up the following workflows using <a href='https://github.com/features/actions'>GitHub Actions</a>:</p><ul>
 <li><p>Run <code>R CMD check</code> on the current release, devel, and four previous
 versions of R.</p></li>
 <li><p>Report test coverage.</p></li>
@@ -251,29 +251,29 @@ versions of R.</p></li>
 </ul>
 
 <ul>
-<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>create_tidy_package()</a></code>: creates a new package, immediately applies as many
+<li><p><code>create_tidy_package()</code>: creates a new package, immediately applies as many
 of the tidyverse conventions as possible, issues a few reminders, and
 activates the new package.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_description()</a></code>: puts fields in standard order and alphabetises
+<li><p><code>use_tidy_description()</code>: puts fields in standard order and alphabetises
 dependencies.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_eval()</a></code>: imports a standard set of helpers to facilitate
+<li><p><code>use_tidy_eval()</code>: imports a standard set of helpers to facilitate
 programming with the tidy eval toolkit.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_style()</a></code>: styles source code according to the <a href='https://style.tidyverse.org'>tidyverse style guide</a>. This function will overwrite files! See
+<li><p><code>use_tidy_style()</code>: styles source code according to the <a href='https://style.tidyverse.org'>tidyverse style guide</a>. This function will overwrite files! See
 below for usage advice.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_contributing()</a></code>: adds standard tidyverse contributing guidelines.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_issue_template()</a></code>: adds a standard tidyverse issue template.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_release_test_env()</a></code>: updates the test environment section in
+<li><p><code>use_tidy_contributing()</code>: adds standard tidyverse contributing guidelines.</p></li>
+<li><p><code>use_tidy_issue_template()</code>: adds a standard tidyverse issue template.</p></li>
+<li><p><code>use_tidy_release_test_env()</code>: updates the test environment section in
 <code>cran-comments.md</code>.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_support()</a></code>: adds a standard description of support resources for
+<li><p><code>use_tidy_support()</code>: adds a standard description of support resources for
 the tidyverse.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_coc()</a></code>: equivalent to <code><a href='https://usethis.r-lib.org/reference/use_code_of_conduct.html'>use_code_of_conduct()</a></code>, but puts the
+<li><p><code>use_tidy_coc()</code>: equivalent to <code><a href='use_code_of_conduct.html'>use_code_of_conduct()</a></code>, but puts the
 document in a <code>.github/</code> subdirectory.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_github()</a></code>: convenience wrapper that calls
-<code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_contributing()</a></code>, <code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_issue_template()</a></code>, <code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_support()</a></code>,
-<code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_coc()</a></code>.</p></li>
+<li><p><code>use_tidy_github()</code>: convenience wrapper that calls
+<code>use_tidy_contributing()</code>, <code>use_tidy_issue_template()</code>, <code>use_tidy_support()</code>,
+<code>use_tidy_coc()</code>.</p></li>
 </ul>
 
-    <h2 class="hasAnchor" id="use-tidy-style-"><a class="anchor" href="#use-tidy-style-"></a><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_style()</a></code></h2>
+    <h2 class="hasAnchor" id="use-tidy-style-"><a class="anchor" href="#use-tidy-style-"></a><code>use_tidy_style()</code></h2>
 
     
 

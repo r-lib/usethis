@@ -200,20 +200,20 @@ file. It then stores the active project for use for the remainder of the
 session.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>proj_get</a></span>()
+    <pre class="usage"><span class='fu'>proj_get</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>proj_set</a></span>(path = <span class='st'>"."</span>, force = <span class='fl'>FALSE</span>)
+<span class='fu'>proj_set</span>(path = <span class='st'>"."</span>, force = <span class='fl'>FALSE</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>proj_path</a></span>(<span class='kw'>...</span>, ext = <span class='st'>""</span>)
+<span class='fu'>proj_path</span>(<span class='kw'>...</span>, ext = <span class='st'>""</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>with_project</a></span>(
+<span class='fu'>with_project</span>(
   path = <span class='st'>"."</span>,
   <span class='kw'>code</span>,
   force = <span class='fl'>FALSE</span>,
   quiet = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"usethis.quiet"</span>, default = <span class='fl'>FALSE</span>)
 )
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>local_project</a></span>(
+<span class='fu'>local_project</span>(
   path = <span class='st'>"."</span>,
   force = <span class='fl'>FALSE</span>,
   quiet = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"usethis.quiet"</span>, default = <span class='fl'>FALSE</span>),
@@ -278,7 +278,7 @@ build paths within it.</p>
 attempts to set it in the first place.</p></li>
 <li><p><code>proj_set</code>: Sets the active project.</p></li>
 <li><p><code>proj_path</code>: Builds a path within the active project returned by
-<code><a href='https://usethis.r-lib.org/reference/proj_utils.html'>proj_get()</a></code>. Thin wrapper around <code><a href='http://fs.r-lib.org/reference/path.html'>fs::path()</a></code>.</p></li>
+<code>proj_get()</code>. Thin wrapper around <code><a href='http://fs.r-lib.org/reference/path.html'>fs::path()</a></code>.</p></li>
 <li><p><code>with_project</code>: Runs code with a temporary active project. It is an
 example of the <code>with_*()</code> functions in <a href='https://withr.r-lib.org'>withr</a>.</p></li>
 <li><p><code>local_project</code>: Sets an active project until the current execution
@@ -289,25 +289,25 @@ test.  It is an example of the <code>local_*()</code> functions in
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other project functions: 
-<code><a href='https://usethis.r-lib.org/reference/proj_sitrep.html'>proj_sitrep</a>()</code></p></div>
+<code><a href='proj_sitrep.html'>proj_sitrep</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## see the active project</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>proj_get</a></span>()
+<span class='fu'>proj_get</span>()
 
 <span class='co'>## manually set the active project</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>proj_set</a></span>(<span class='st'>"path/to/target/project"</span>)
+<span class='fu'>proj_set</span>(<span class='st'>"path/to/target/project"</span>)
 
 <span class='co'>## build a path within the active project (both produce same result)</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>proj_path</a></span>(<span class='st'>"R/foo.R"</span>)
-<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>proj_path</a></span>(<span class='st'>"R"</span>, <span class='st'>"foo"</span>, ext = <span class='st'>"R"</span>)
+<span class='fu'>proj_path</span>(<span class='st'>"R/foo.R"</span>)
+<span class='fu'>proj_path</span>(<span class='st'>"R"</span>, <span class='st'>"foo"</span>, ext = <span class='st'>"R"</span>)
 
 <span class='co'>## build a path within SOME OTHER project</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>with_project</a></span>(<span class='st'>"path/to/some/other/project"</span>, <span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>proj_path</a></span>(<span class='st'>"blah.R"</span>))
+<span class='fu'>with_project</span>(<span class='st'>"path/to/some/other/project"</span>, <span class='fu'>proj_path</span>(<span class='st'>"blah.R"</span>))
 
 <span class='co'>## convince yourself that with_project() temporarily changes the project</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_utils.html'>with_project</a></span>(<span class='st'>"path/to/some/other/project"</span>, <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://usethis.r-lib.org/reference/proj_sitrep.html'>proj_sitrep</a></span>()))
+<span class='fu'>with_project</span>(<span class='st'>"path/to/some/other/project"</span>, <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='proj_sitrep.html'>proj_sitrep</a></span>()))
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

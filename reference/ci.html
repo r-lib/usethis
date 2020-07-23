@@ -208,23 +208,23 @@ These functions</p><ul>
 
 <p>Note that the tidyverse team now uses <a href='https://github.com/features/actions'>GitHub Actions</a> for continuous integration, so
 the usethis functions supporting GitHub Actions are now the most actively
-maintained. See <code><a href='https://usethis.r-lib.org/reference/github_actions.html'>use_github_actions()</a></code> or <code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>use_tidy_github_actions()</a></code> to
+maintained. See <code><a href='github_actions.html'>use_github_actions()</a></code> or <code><a href='use_tidy_github_actions.html'>use_tidy_github_actions()</a></code> to
 learn more.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_travis</a></span>(browse = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(), ext = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>))
+    <pre class="usage"><span class='fu'>use_travis</span>(browse = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(), ext = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>))
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_travis_badge</a></span>(ext = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>), repo_spec = <span class='kw'>NULL</span>)
+<span class='fu'>use_travis_badge</span>(ext = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>), repo_spec = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_appveyor</a></span>(browse = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>())
+<span class='fu'>use_appveyor</span>(browse = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>())
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_appveyor_badge</a></span>(repo_spec = <span class='kw'>NULL</span>)
+<span class='fu'>use_appveyor_badge</span>(repo_spec = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_gitlab_ci</a></span>()
+<span class='fu'>use_gitlab_ci</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_circleci</a></span>(browse = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(), image = <span class='st'>"rocker/verse:latest"</span>)
+<span class='fu'>use_circleci</span>(browse = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(), image = <span class='st'>"rocker/verse:latest"</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ci.html'>use_circleci_badge</a></span>(repo_spec = <span class='kw'>NULL</span>)</pre>
+<span class='fu'>use_circleci_badge</span>(repo_spec = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -255,46 +255,46 @@ of R, change the tag from <code>latest</code> to the version you want, e.g.
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="use-travis-"><a class="anchor" href="#use-travis-"></a><code><a href='https://usethis.r-lib.org/reference/ci.html'>use_travis()</a></code></h2>
+    <h2 class="hasAnchor" id="use-travis-"><a class="anchor" href="#use-travis-"></a><code>use_travis()</code></h2>
 
     
 
 <p>Adds a basic <code>.travis.yml</code> to the top-level directory of a package. This is a
 configuration file for the <a href='https://travis-ci.com/'>Travis CI</a> continuous
 integration service.</p>
-    <h2 class="hasAnchor" id="use-travis-badge-"><a class="anchor" href="#use-travis-badge-"></a><code><a href='https://usethis.r-lib.org/reference/ci.html'>use_travis_badge()</a></code></h2>
+    <h2 class="hasAnchor" id="use-travis-badge-"><a class="anchor" href="#use-travis-badge-"></a><code>use_travis_badge()</code></h2>
 
     
 
 <p>Only adds the <a href='https://travis-ci.com/'>Travis CI</a> badge. Use for a project
 where Travis is already configured.</p>
-    <h2 class="hasAnchor" id="use-appveyor-"><a class="anchor" href="#use-appveyor-"></a><code><a href='https://usethis.r-lib.org/reference/ci.html'>use_appveyor()</a></code></h2>
+    <h2 class="hasAnchor" id="use-appveyor-"><a class="anchor" href="#use-appveyor-"></a><code>use_appveyor()</code></h2>
 
     
 
 <p>Adds a basic <code>appveyor.yml</code> to the top-level directory of a package. This is
 a configuration file for the <a href='https://www.appveyor.com'>AppVeyor</a> continuous
 integration service for Windows.</p>
-    <h2 class="hasAnchor" id="use-appveyor-badge-"><a class="anchor" href="#use-appveyor-badge-"></a><code><a href='https://usethis.r-lib.org/reference/ci.html'>use_appveyor_badge()</a></code></h2>
+    <h2 class="hasAnchor" id="use-appveyor-badge-"><a class="anchor" href="#use-appveyor-badge-"></a><code>use_appveyor_badge()</code></h2>
 
     
 
 <p>Only adds the <a href='https://www.appveyor.com'>AppVeyor</a> badge. Use for a project
 where AppVeyor is already configured.</p>
-    <h2 class="hasAnchor" id="use-gitlab-ci-"><a class="anchor" href="#use-gitlab-ci-"></a><code><a href='https://usethis.r-lib.org/reference/ci.html'>use_gitlab_ci()</a></code></h2>
+    <h2 class="hasAnchor" id="use-gitlab-ci-"><a class="anchor" href="#use-gitlab-ci-"></a><code>use_gitlab_ci()</code></h2>
 
     
 
 <p>Adds a basic <code>.gitlab-ci.yml</code> to the top-level directory of a package. This
 is a configuration file for the <a href='https://docs.gitlab.com/ee/ci/'>GitLab CI/CD</a> continuous integration service.</p>
-    <h2 class="hasAnchor" id="use-circleci-"><a class="anchor" href="#use-circleci-"></a><code><a href='https://usethis.r-lib.org/reference/ci.html'>use_circleci()</a></code></h2>
+    <h2 class="hasAnchor" id="use-circleci-"><a class="anchor" href="#use-circleci-"></a><code>use_circleci()</code></h2>
 
     
 
 <p>Adds a basic <code>.circleci/config.yml</code> to the top-level directory of a package.
 This is a configuration file for the <a href='https://circleci.com/'>CircleCI</a>
 continuous integration service.</p>
-    <h2 class="hasAnchor" id="use-circleci-badge-"><a class="anchor" href="#use-circleci-badge-"></a><code><a href='https://usethis.r-lib.org/reference/ci.html'>use_circleci_badge()</a></code></h2>
+    <h2 class="hasAnchor" id="use-circleci-badge-"><a class="anchor" href="#use-circleci-badge-"></a><code>use_circleci_badge()</code></h2>
 
     
 

@@ -193,8 +193,8 @@ any existing files are changed." />
 
     <div class="ref-description">
     <p>These functions create an R project:</p><ul>
-<li><p><code><a href='https://usethis.r-lib.org/reference/create_package.html'>create_package()</a></code> creates an R package</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/create_package.html'>create_project()</a></code> creates a non-package project, i.e. a data analysis
+<li><p><code>create_package()</code> creates an R package</p></li>
+<li><p><code>create_project()</code> creates a non-package project, i.e. a data analysis
 project</p></li>
 </ul>
 
@@ -202,7 +202,7 @@ project</p></li>
 any existing files are changed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/create_package.html'>create_package</a></span>(
+    <pre class="usage"><span class='fu'>create_package</span>(
   <span class='kw'>path</span>,
   fields = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
   rstudio = <span class='kw'>rstudioapi</span>::<span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/isAvailable.html'>isAvailable</a></span>(),
@@ -211,7 +211,7 @@ any existing files are changed.</p>
   open = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>()
 )
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/create_package.html'>create_project</a></span>(
+<span class='fu'>create_project</span>(
   <span class='kw'>path</span>,
   rstudio = <span class='kw'>rstudioapi</span>::<span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/isAvailable.html'>isAvailable</a></span>(),
   open = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>()
@@ -228,12 +228,12 @@ created, provided that the parent path exists.</p></td>
     <tr>
       <th>fields</th>
       <td><p>A named list of fields to add to <code>DESCRIPTION</code>, potentially
-overriding default values. See <code><a href='https://usethis.r-lib.org/reference/use_description.html'>use_description()</a></code> for how you can set
+overriding default values. See <code><a href='use_description.html'>use_description()</a></code> for how you can set
 personalized defaults using package options</p></td>
     </tr>
     <tr>
       <th>rstudio</th>
-      <td><p>If <code>TRUE</code>, calls <code><a href='https://usethis.r-lib.org/reference/use_rstudio.html'>use_rstudio()</a></code> to make the new package or
+      <td><p>If <code>TRUE</code>, calls <code><a href='use_rstudio.html'>use_rstudio()</a></code> to make the new package or
 project into an <a href='https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects'>RStudio Project</a>.
 If <code>FALSE</code> and a non-package project, a sentinel <code>.here</code> file is placed so
 that the directory can be recognized as a project by the
@@ -251,7 +251,7 @@ error if not</p></td>
     </tr>
     <tr>
       <th>open</th>
-      <td><p>If <code>TRUE</code>, <a href='https://usethis.r-lib.org/reference/proj_activate.html'>activates</a> the new project:</p><ul>
+      <td><p>If <code>TRUE</code>, <a href='proj_activate.html'>activates</a> the new project:</p><ul>
 <li><p>If RStudio desktop, the package is opened in a new session.</p></li>
 <li><p>If on RStudio server, the current RStudio project is activated.</p></li>
 <li><p>Otherwise, the working directory and active project is changed.</p></li>
@@ -264,8 +264,8 @@ error if not</p></td>
     <p>Path to the newly created project or package, invisibly.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://usethis.r-lib.org/reference/tidyverse.html'>create_tidy_package()</a></code> is a convenience function that extends
-<code><a href='https://usethis.r-lib.org/reference/create_package.html'>create_package()</a></code> by immediately applying as many of the tidyverse
+    <div class='dont-index'><p><code><a href='use_tidy_github_actions.html'>create_tidy_package()</a></code> is a convenience function that extends
+<code>create_package()</code> by immediately applying as many of the tidyverse
 development conventions as possible.</p></div>
 
   </div>

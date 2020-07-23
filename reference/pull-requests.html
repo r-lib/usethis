@@ -222,25 +222,25 @@ in Happy Git.</p>
 various remote operations. See below for more.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_init</a></span>(<span class='kw'>branch</span>)
+    <pre class="usage"><span class='fu'>pr_init</span>(<span class='kw'>branch</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_resume</a></span>(branch = <span class='kw'>NULL</span>)
+<span class='fu'>pr_resume</span>(branch = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_fetch</a></span>(<span class='kw'>number</span>)
+<span class='fu'>pr_fetch</span>(<span class='kw'>number</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_push</a></span>()
+<span class='fu'>pr_push</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_pull</a></span>()
+<span class='fu'>pr_pull</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_merge_main</a></span>()
+<span class='fu'>pr_merge_main</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_sync</a></span>()
+<span class='fu'>pr_sync</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_view</a></span>()
+<span class='fu'>pr_view</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_pause</a></span>()
+<span class='fu'>pr_pause</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_finish</a></span>(number = <span class='kw'>NULL</span>)</pre>
+<span class='fu'>pr_finish</span>(number = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -264,7 +264,7 @@ numbers, and <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>
 and via the REST API. Therefore, your credentials must be discoverable. Which
 credentials do we mean?</p><ul>
 <li><p>A GitHub personal access token (PAT) must be configured as the <code>GITHUB_PAT</code>
-environment variable. <code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token()</a></code> helps you do this. This PAT
+environment variable. <code><a href='create_github_token.html'>create_github_token()</a></code> helps you do this. This PAT
 allows usethis to call the GitHub API on your behalf. If you use HTTPS
 remotes, the PAT is also used for Git operations, such as <code>git push</code>. That
 means the PAT is the only credential you need! This is why HTTPS + PAT is
@@ -286,74 +286,74 @@ protocol (HTTPS vs SSH) is determined by the protocol used for <code>origin</cod
 
     
 
-<p>To contribute to a package, first use <code><a href='https://usethis.r-lib.org/reference/create_from_github.html'>create_from_github("OWNER/REPO", fork = TRUE)</a></code> to fork the source repository, and then check out a local copy.</p>
-<p>Next use <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_init()</a></code> to create a branch for your PR. It is best practice to
+<p>To contribute to a package, first use <code><a href='create_from_github.html'>create_from_github("OWNER/REPO", fork = TRUE)</a></code> to fork the source repository, and then check out a local copy.</p>
+<p>Next use <code>pr_init()</code> to create a branch for your PR. It is best practice to
 never make commits to the <code>master</code> (or default) branch of a fork, because you
 do not own it. A pull request should always come from a feature branch. It
 will be much easier to pull upstream changes from the fork parent if you only
 allow yourself to work in feature branches. It is also much easier for a
 maintainer to explore and extend your PR if you create a feature branch.</p>
 <p>Work locally, in your branch, making changes to files, and committing your
-work. Once you're ready to create the PR, run <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_push()</a></code> to push your local
+work. Once you're ready to create the PR, run <code>pr_push()</code> to push your local
 branch to GitHub, and open a webpage that lets you initiate the PR (or draft
 PR).</p>
 <p>To learn more about the process of making a pull request, read the <a href='https://usethis.r-lib.org/articles/articles/pr-functions.html'>Pull Request Helpers</a>
 vignette.</p>
 <p>If you are lucky, your PR will be perfect, and the maintainer will accept it.
-You can then run <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_finish()</a></code> to delete your PR branch. In most cases,
+You can then run <code>pr_finish()</code> to delete your PR branch. In most cases,
 however, the maintainer will ask you to make some changes. Make the changes,
-then run <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_push()</a></code> to update your PR.</p>
+then run <code>pr_push()</code> to update your PR.</p>
 <p>It's also possible that the maintainer will contribute some code to your PR:
-to get those changes back onto your computer, run <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_pull()</a></code>. It can also
+to get those changes back onto your computer, run <code>pr_pull()</code>. It can also
 happen that other changes have occurred in the package since you first
 created your PR. You might need to merge the <code>master</code> (or default) branch
-into your PR branch. Do that by running <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_merge_main()</a></code>: this makes sure
+into your PR branch. Do that by running <code>pr_merge_main()</code>: this makes sure
 that your PR is compatible with the primary repo's main line of development.
-Both <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_pull()</a></code> and <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_merge_main()</a></code> can result in merge conflicts, so
+Both <code>pr_pull()</code> and <code>pr_merge_main()</code> can result in merge conflicts, so
 be prepared to resolve before continuing.</p>
     <h2 class="hasAnchor" id="for-maintainers"><a class="anchor" href="#for-maintainers"></a>For maintainers</h2>
 
     
 
 <p>To download a PR locally so that you can experiment with it, run
-<code>pr_fetch(&lt;pr_number&gt;)</code>. If you make changes, run <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_push()</a></code> to push them
-back to GitHub. After you have merged the PR, run <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_finish()</a></code> to delete the
+<code>pr_fetch(&lt;pr_number&gt;)</code>. If you make changes, run <code>pr_push()</code> to push them
+back to GitHub. After you have merged the PR, run <code>pr_finish()</code> to delete the
 local branch and remove the remote associated with the contributor's fork.</p>
     <h2 class="hasAnchor" id="overview-of-all-the-functions"><a class="anchor" href="#overview-of-all-the-functions"></a>Overview of all the functions</h2>
 
     
 
 <ul>
-<li><p><code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_init()</a></code>: Does a preparatory pull from the primary repo, to get a good
+<li><p><code>pr_init()</code>: Does a preparatory pull from the primary repo, to get a good
 start point. Creates and checks out a new branch. Nothing is pushed to
-or created on GitHub. That only happens upon the first <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_push()</a></code>.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_resume()</a></code>: Resume work on a PR by switching to its existing branch and
+or created on GitHub. That only happens upon the first <code>pr_push()</code>.</p></li>
+<li><p><code>pr_resume()</code>: Resume work on a PR by switching to its existing branch and
 pulling any updates from GitHub.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_fetch()</a></code>: Checks out a PR on the primary repo for local exploration.
+<li><p><code>pr_fetch()</code>: Checks out a PR on the primary repo for local exploration.
 This can cause a new remote to be configured and a new local branch to be
 created. The local branch is configured to track its remote counterpart.
-<code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_fetch()</a></code> puts a maintainer in a position where they can push changes
-into an external PR via <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_push()</a></code>.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_push()</a></code>: The first time it's called, a PR branch is pushed to <code>origin</code>
+<code>pr_fetch()</code> puts a maintainer in a position where they can push changes
+into an external PR via <code>pr_push()</code>.</p></li>
+<li><p><code>pr_push()</code>: The first time it's called, a PR branch is pushed to <code>origin</code>
 and you're taken to a webpage where a new PR (or draft PR) can be created.
 This also sets up the local branch to track its remote counterpart.
-Subsequent calls to <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_push()</a></code> make sure the local branch has all the
+Subsequent calls to <code>pr_push()</code> make sure the local branch has all the
 remote changes and, if so, pushes local changes, thereby updating the PR.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_pull()</a></code>: Pulls changes from the local branch's remote tracking branch.
+<li><p><code>pr_pull()</code>: Pulls changes from the local branch's remote tracking branch.
 If a maintainer has extended your PR, this is how you bring those changes
 back into your local work.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_merge_main()</a></code>: Pulls changes from the <code>master</code> branch of the primary
+<li><p><code>pr_merge_main()</code>: Pulls changes from the <code>master</code> branch of the primary
 repo into the current local branch. This can be used when the local branch
 is <code>master</code> or when it's a PR branch.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_sync()</a></code> = <code>pr_pull() + pr_merge_main() + pr_push()</code>. In words, grab
+<li><p><code>pr_sync()</code> = <code>pr_pull() + pr_merge_main() + pr_push()</code>. In words, grab
 any remote changes in the PR and merge then into your local work. Then
 merge in any changes from <code>master</code> of the primary repo. Finally, push the
 result of all this back into the PR.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_pause()</a></code>: Makes sure you're up-to-date with any remote changes in the
+<li><p><code>pr_pause()</code>: Makes sure you're up-to-date with any remote changes in the
 PR. Then switches back to <code>master</code> and pulls from the primary repo.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_view()</a></code>: Visits the PR associated with a branch in the browser. usethis
+<li><p><code>pr_view()</code>: Visits the PR associated with a branch in the browser. usethis
 records this URL in git config of the local repo.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_finish()</a></code>: If <code>number</code> is given, first does <code><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_fetch(number)</a></code>. It's
+<li><p><code>pr_finish()</code>: If <code>number</code> is given, first does <code>pr_fetch(number)</code>. It's
 assumed the current branch is the PR branch of interest. First, makes sure
 there are no unpushed local changes. Switches back to <code>master</code> and pulls
 changes from the primary repo. Deletes the PR branch. If the PR came from
@@ -364,7 +364,7 @@ use by any other local branches.</p></li>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://usethis.r-lib.org/reference/pull-requests.html'>pr_fetch</a></span>(<span class='fl'>123</span>)
+<span class='fu'>pr_fetch</span>(<span class='fl'>123</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -196,32 +196,32 @@ edit_rstudio_snippets(type) opens .R/snippets/{type}.snippets
     <div class="ref-description">
     
 <ul>
-<li><p><code><a href='https://usethis.r-lib.org/reference/edit.html'>edit_r_profile()</a></code> opens <code>.Rprofile</code></p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/edit.html'>edit_r_environ()</a></code> opens <code>.Renviron</code></p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/edit.html'>edit_r_makevars()</a></code> opens <code>.R/Makevars</code></p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/edit.html'>edit_git_config()</a></code> opens <code>.gitconfig</code> or <code>.git/config</code></p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/edit.html'>edit_git_ignore()</a></code> opens <code>.gitignore</code></p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/edit.html'>edit_rstudio_snippets(type)</a></code> opens <code>.R/snippets/{type}.snippets</code></p></li>
+<li><p><code>edit_r_profile()</code> opens <code>.Rprofile</code></p></li>
+<li><p><code>edit_r_environ()</code> opens <code>.Renviron</code></p></li>
+<li><p><code>edit_r_makevars()</code> opens <code>.R/Makevars</code></p></li>
+<li><p><code>edit_git_config()</code> opens <code>.gitconfig</code> or <code>.git/config</code></p></li>
+<li><p><code>edit_git_ignore()</code> opens <code>.gitignore</code></p></li>
+<li><p><code>edit_rstudio_snippets(type)</code> opens <code>.R/snippets/{type}.snippets</code></p></li>
 </ul>
 
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/edit.html'>edit_r_profile</a></span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))
+    <pre class="usage"><span class='fu'>edit_r_profile</span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/edit.html'>edit_r_environ</a></span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))
+<span class='fu'>edit_r_environ</span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/edit.html'>edit_r_buildignore</a></span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))
+<span class='fu'>edit_r_buildignore</span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/edit.html'>edit_r_makevars</a></span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))
+<span class='fu'>edit_r_makevars</span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/edit.html'>edit_rstudio_snippets</a></span>(
+<span class='fu'>edit_rstudio_snippets</span>(
   type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"r"</span>, <span class='st'>"markdown"</span>, <span class='st'>"c_cpp"</span>, <span class='st'>"css"</span>, <span class='st'>"html"</span>, <span class='st'>"java"</span>, <span class='st'>"javascript"</span>, <span class='st'>"python"</span>,
     <span class='st'>"sql"</span>, <span class='st'>"stan"</span>, <span class='st'>"tex"</span>)
 )
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/edit.html'>edit_git_config</a></span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))
+<span class='fu'>edit_git_config</span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/edit.html'>edit_git_ignore</a></span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))</pre>
+<span class='fu'>edit_git_ignore</span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -242,13 +242,13 @@ current <strong>project</strong></p></td>
     <p>Path to the file, invisibly.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>edit_r_*()</code> functions and <code><a href='https://usethis.r-lib.org/reference/edit.html'>edit_rstudio_snippets()</a></code> consult R's notion
+    <p>The <code>edit_r_*()</code> functions and <code>edit_rstudio_snippets()</code> consult R's notion
 of user's home directory. The <code>edit_git_*()</code> functions -- and <span class="pkg">usethis</span>
 in general -- inherit home directory behaviour from the <span class="pkg">fs</span> package,
 which differs from R itself on Windows. The <span class="pkg">fs</span> default is more
 conventional in terms of the location of user-level Git config files. See
 <code><a href='http://fs.r-lib.org/reference/path_expand.html'>fs::path_home()</a></code> for more details.</p>
-<p>Files created by <code><a href='https://usethis.r-lib.org/reference/edit.html'>edit_rstudio_snippets()</a></code> will <em>mask</em>, not supplement,
+<p>Files created by <code>edit_rstudio_snippets()</code> will <em>mask</em>, not supplement,
 the built-in default snippets. If you like the built-in snippets, copy them
 and include with your custom snippets.</p>
 

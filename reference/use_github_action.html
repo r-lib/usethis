@@ -194,7 +194,7 @@ examples from
 or a custom workflow given by the <code>url</code> parameter.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action</a></span>(
+    <pre class="usage"><span class='fu'>use_github_action</span>(
   <span class='kw'>name</span>,
   url = <span class='kw'>NULL</span>,
   save_as = <span class='kw'>NULL</span>,
@@ -202,26 +202,26 @@ or a custom workflow given by the <code>url</code> parameter.</p>
   open = <span class='fl'>FALSE</span>
 )
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_release</a></span>(
+<span class='fu'>use_github_action_check_release</span>(
   save_as = <span class='st'>"R-CMD-check.yaml"</span>,
   ignore = <span class='fl'>TRUE</span>,
   open = <span class='fl'>FALSE</span>
 )
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_standard</a></span>(
+<span class='fu'>use_github_action_check_standard</span>(
   save_as = <span class='st'>"R-CMD-check.yaml"</span>,
   ignore = <span class='fl'>TRUE</span>,
   open = <span class='fl'>FALSE</span>
 )
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_full</a></span>(
+<span class='fu'>use_github_action_check_full</span>(
   save_as = <span class='st'>"R-CMD-check.yaml"</span>,
   ignore = <span class='fl'>TRUE</span>,
   open = <span class='fl'>FALSE</span>,
   repo_spec = <span class='kw'>NULL</span>
 )
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_pr_commands</a></span>(
+<span class='fu'>use_github_action_pr_commands</span>(
   save_as = <span class='st'>"pr-commands.yaml"</span>,
   ignore = <span class='fl'>TRUE</span>,
   open = <span class='fl'>FALSE</span>
@@ -242,7 +242,7 @@ workflow in https://github.com/r-lib/actions will be used.</p></td>
     <tr>
       <th>save_as</th>
       <td><p>Name of the workflow file. Defaults to <code><a href='https://rdrr.io/r/base/basename.html'>basename(url)</a></code>
-for <code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action()</a></code>.</p></td>
+for <code>use_github_action()</code>.</p></td>
     </tr>
     <tr>
       <th>ignore</th>
@@ -259,12 +259,12 @@ applicable, or via <code><a href='https://rdrr.io/r/utils/file.edit.html'>utils:
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="use-github-action-check-release-"><a class="anchor" href="#use-github-action-check-release-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_release()</a></code></h2>
+    <h2 class="hasAnchor" id="use-github-action-check-release-"><a class="anchor" href="#use-github-action-check-release-"></a><code>use_github_action_check_release()</code></h2>
 
     
 
 <p>This workflow installs the latest release of R on macOS and runs <code>R CMD check</code> via the <a href='https://github.com/r-lib/rcmdcheck'>rcmdcheck</a> package.</p>
-    <h2 class="hasAnchor" id="use-github-action-check-standard-"><a class="anchor" href="#use-github-action-check-standard-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_standard()</a></code></h2>
+    <h2 class="hasAnchor" id="use-github-action-check-standard-"><a class="anchor" href="#use-github-action-check-standard-"></a><code>use_github_action_check_standard()</code></h2>
 
     
 
@@ -273,7 +273,7 @@ applicable, or via <code><a href='https://rdrr.io/r/utils/file.edit.html'>utils:
 operating systems (linux, macOS, and Windows) on the latest release of R and
 on R-devel. This workflow is appropriate for a package that is (or will
 hopefully be) on CRAN or Bioconductor.</p>
-    <h2 class="hasAnchor" id="use-github-action-check-full-"><a class="anchor" href="#use-github-action-check-full-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_full()</a></code></h2>
+    <h2 class="hasAnchor" id="use-github-action-check-full-"><a class="anchor" href="#use-github-action-check-full-"></a><code>use_github_action_check_full()</code></h2>
 
     
 
@@ -281,9 +281,9 @@ hopefully be) on CRAN or Bioconductor.</p>
 operating systems (linux, macOS, and Windows) and on the current release,
 devel, and four previous versions of R. This is how the tidyverse team checks
 its packages, but it may be overkill for less widely used packages. Consider
-using the more streamlined workflows set up by <code><a href='https://usethis.r-lib.org/reference/github_actions.html'>use_github_actions()</a></code> or
-<code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_check_standard()</a></code>.</p>
-    <h2 class="hasAnchor" id="use-github-action-pr-commands-"><a class="anchor" href="#use-github-action-pr-commands-"></a><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action_pr_commands()</a></code></h2>
+using the more streamlined workflows set up by <code><a href='github_actions.html'>use_github_actions()</a></code> or
+<code>use_github_action_check_standard()</code>.</p>
+    <h2 class="hasAnchor" id="use-github-action-pr-commands-"><a class="anchor" href="#use-github-action-pr-commands-"></a><code>use_github_action_pr_commands()</code></h2>
 
     
 
@@ -295,7 +295,7 @@ issue comments:</p><ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='https://usethis.r-lib.org/reference/github_actions.html'>github_actions</a> for generic workflows and badge generation.</p></div>
+    <div class='dont-index'><p><a href='github_actions.html'>github_actions</a> for generic workflows and badge generation.</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

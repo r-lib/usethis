@@ -190,9 +190,9 @@ for internal use. File is written with UTF-8 encoding." />
 for internal use. File is written with UTF-8 encoding.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/write-this.html'>write_union</a></span>(<span class='kw'>path</span>, <span class='kw'>lines</span>, quiet = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>write_union</span>(<span class='kw'>path</span>, <span class='kw'>lines</span>, quiet = <span class='fl'>FALSE</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/write-this.html'>write_over</a></span>(<span class='kw'>path</span>, <span class='kw'>lines</span>, quiet = <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>write_over</span>(<span class='kw'>path</span>, <span class='kw'>lines</span>, quiet = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,8 +204,8 @@ parent directory must exist.</p></td>
     </tr>
     <tr>
       <th>lines</th>
-      <td><p>Character vector of lines. For <code><a href='https://usethis.r-lib.org/reference/write-this.html'>write_union()</a></code>, these are lines
-to add to the target file, if not already present. For <code><a href='https://usethis.r-lib.org/reference/write-this.html'>write_over()</a></code>,
+      <td><p>Character vector of lines. For <code>write_union()</code>, these are lines
+to add to the target file, if not already present. For <code>write_over()</code>,
 these are the exact lines desired in the target file.</p></td>
     </tr>
     <tr>
@@ -238,11 +238,11 @@ and user is available to give permission.</p></li>
     <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
 <span class='kw'>.old_wd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 <span class='co'># }</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/write-this.html'>write_union</a></span>(<span class='st'>"a_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span><span> Adding </span><span style='color: #0000BB;'>'a'</span><span>, </span><span style='color: #0000BB;'>'b'</span><span>, </span><span style='color: #0000BB;'>'c'</span><span> to </span><span style='color: #0000BB;'>'a_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"a_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/write-this.html'>write_union</a></span>(<span class='st'>"a_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>])</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> Adding </span><span style='color: #0000BB;'>'d'</span><span>, </span><span style='color: #0000BB;'>'e'</span><span> to </span><span style='color: #0000BB;'>'a_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"a_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c" "d" "e"</div><div class='input'>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/write-this.html'>write_over</a></span>(<span class='st'>"another_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> Writing </span><span style='color: #0000BB;'>'another_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"another_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/write-this.html'>write_over</a></span>(<span class='st'>"another_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])
+<span class='fu'>write_union</span>(<span class='st'>"a_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span><span> Adding </span><span style='color: #0000BB;'>'a'</span><span>, </span><span style='color: #0000BB;'>'b'</span><span>, </span><span style='color: #0000BB;'>'c'</span><span> to </span><span style='color: #0000BB;'>'a_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"a_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'><span class='fu'>write_union</span>(<span class='st'>"a_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>])</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> Adding </span><span style='color: #0000BB;'>'d'</span><span>, </span><span style='color: #0000BB;'>'e'</span><span> to </span><span style='color: #0000BB;'>'a_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"a_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c" "d" "e"</div><div class='input'>
+<span class='fu'>write_over</span>(<span class='st'>"another_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> Writing </span><span style='color: #0000BB;'>'another_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"another_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'><span class='fu'>write_over</span>(<span class='st'>"another_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## will error if user isn't present to approve the overwrite</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/write-this.html'>write_over</a></span>(<span class='st'>"another_file"</span>, <span class='kw'>letters</span>[<span class='fl'>3</span><span class='op'>:</span><span class='fl'>1</span>])
+<span class='fu'>write_over</span>(<span class='st'>"another_file"</span>, <span class='kw'>letters</span>[<span class='fl'>3</span><span class='op'>:</span><span class='fl'>1</span>])
 }
 
 <span class='co'>## clean up</span>

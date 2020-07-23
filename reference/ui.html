@@ -201,44 +201,44 @@ The question functions ui_yeah() and ui_nope() have their own help page." />
 them in your own package so that your <code>use_</code> functions work the same way
 as usethis.</p>
 <p>The <code>ui_</code> functions can be broken down into four main categories:</p><ul>
-<li><p>block styles: <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_line()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_done()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_todo()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_oops()</a></code>,
-<code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_info()</a></code>.</p></li>
-<li><p>conditions: <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_stop()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_warn()</a></code>.</p></li>
-<li><p>questions: <code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_yeah()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_nope()</a></code>.</p></li>
-<li><p>inline styles: <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_field()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_value()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_path()</a></code>, <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_code()</a></code>,
-<code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_unset()</a></code>.</p></li>
+<li><p>block styles: <code>ui_line()</code>, <code>ui_done()</code>, <code>ui_todo()</code>, <code>ui_oops()</code>,
+<code>ui_info()</code>.</p></li>
+<li><p>conditions: <code>ui_stop()</code>, <code>ui_warn()</code>.</p></li>
+<li><p>questions: <code><a href='ui-questions.html'>ui_yeah()</a></code>, <code><a href='ui-questions.html'>ui_nope()</a></code>.</p></li>
+<li><p>inline styles: <code>ui_field()</code>, <code>ui_value()</code>, <code>ui_path()</code>, <code>ui_code()</code>,
+<code>ui_unset()</code>.</p></li>
 </ul>
 
-<p>The question functions <code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_yeah()</a></code> and <code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_nope()</a></code> have their own <a href='https://usethis.r-lib.org/reference/ui-questions.html'>help page</a>.</p>
+<p>The question functions <code><a href='ui-questions.html'>ui_yeah()</a></code> and <code><a href='ui-questions.html'>ui_nope()</a></code> have their own <a href='ui-questions.html'>help page</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_line</a></span>(x = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(), .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+    <pre class="usage"><span class='fu'>ui_line</span>(x = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(), .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_todo</a></span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_todo</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_done</a></span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_done</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_oops</a></span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_oops</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_info</a></span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_info</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_code_block</a></span>(<span class='kw'>x</span>, copy = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(), .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_code_block</span>(<span class='kw'>x</span>, copy = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(), .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_stop</a></span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_stop</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_warn</a></span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_warn</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_silence</a></span>(<span class='kw'>code</span>)
+<span class='fu'>ui_silence</span>(<span class='kw'>code</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_field</a></span>(<span class='kw'>x</span>)
+<span class='fu'>ui_field</span>(<span class='kw'>x</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_value</a></span>(<span class='kw'>x</span>)
+<span class='fu'>ui_value</span>(<span class='kw'>x</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_path</a></span>(<span class='kw'>x</span>, base = <span class='kw'>NULL</span>)
+<span class='fu'>ui_path</span>(<span class='kw'>x</span>, base = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_code</a></span>(<span class='kw'>x</span>)
+<span class='fu'>ui_code</span>(<span class='kw'>x</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_unset</a></span>(x = <span class='st'>"unset"</span>)</pre>
+<span class='fu'>ui_unset</span>(x = <span class='st'>"unset"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -279,18 +279,18 @@ side-effect. The inline styles return a string.</p>
 
     
 
-<p>All UI output (apart from <code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_yeah()</a></code>/<code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui_nope()</a></code> prompts) can be silenced
-by setting <code><a href='https://rdrr.io/r/base/options.html'>options(usethis.quiet = TRUE)</a></code>. Use <code><a href='https://usethis.r-lib.org/reference/ui.html'>ui_silence()</a></code> to silence
+<p>All UI output (apart from <code><a href='ui-questions.html'>ui_yeah()</a></code>/<code><a href='ui-questions.html'>ui_nope()</a></code> prompts) can be silenced
+by setting <code><a href='https://rdrr.io/r/base/options.html'>options(usethis.quiet = TRUE)</a></code>. Use <code>ui_silence()</code> to silence
 selected actions.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other user interface functions: 
-<code><a href='https://usethis.r-lib.org/reference/ui-questions.html'>ui-questions</a></code></p></div>
+<code><a href='ui-questions.html'>ui-questions</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>new_val</span> <span class='op'>&lt;-</span> <span class='st'>"oxnard"</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_done</a></span>(<span class='st'>"{ui_field('name')} set to {ui_value(new_val)}"</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #00BB00;'>name</span><span> set to </span><span style='color: #0000BB;'>'oxnard'</span><span></span></div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_todo</a></span>(<span class='st'>"Redocument with {ui_code('devtools::document()')}"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Redocument with </span><span style='color: #555555;'>`devtools::document()`</span><span></span></div><div class='input'>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/ui.html'>ui_code_block</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+<span class='fu'>ui_done</span>(<span class='st'>"{ui_field('name')} set to {ui_value(new_val)}"</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #00BB00;'>name</span><span> set to </span><span style='color: #0000BB;'>'oxnard'</span><span></span></div><div class='input'><span class='fu'>ui_todo</span>(<span class='st'>"Redocument with {ui_code('devtools::document()')}"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Redocument with </span><span style='color: #555555;'>`devtools::document()`</span><span></span></div><div class='input'>
+<span class='fu'>ui_code_block</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
   <span class='st'>"Line 1"</span>,
   <span class='st'>"Line 2"</span>,
   <span class='st'>"Line 3"</span>

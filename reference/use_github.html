@@ -202,7 +202,7 @@ all of this to work." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github()</a></code> takes a local project and:</p><ul>
+    <p><code>use_github()</code> takes a local project and:</p><ul>
 <li><p>Checks that the initial state is good to go:</p><ul>
 <li><p>Project is already a Git repo</p></li>
 <li><p>Current branch is <code>master</code></p></li>
@@ -222,11 +222,11 @@ branch</p></li>
 all of this to work.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github</a></span>(
+    <pre class="usage"><span class='fu'>use_github</span>(
   organisation = <span class='kw'>NULL</span>,
   private = <span class='fl'>FALSE</span>,
-  protocol = <span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol</a></span>(),
-  auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token</a></span>(),
+  protocol = <span class='fu'><a href='git_protocol.html'>git_protocol</a></span>(),
+  auth_token = <span class='fu'><a href='create_github_token.html'>github_token</a></span>(),
   host = <span class='kw'>NULL</span>,
   credentials = <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span>()
 )</pre>
@@ -286,7 +286,7 @@ available. There are two ways to do this, in order of preference:</p><ul>
 <li><p>Configure your token as the <code>GITHUB_PAT</code> env var. Then it can be used by
 many packages and functions, without any effort on your part. If you don't
 have a token yet or you haven't configured it as an env var, see
-<code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token()</a></code>.</p></li>
+<code><a href='create_github_token.html'>create_github_token()</a></code>.</p></li>
 <li><p>Provide the token directly via the <code>auth_token</code> argument.</p></li>
 </ul>
 
@@ -296,7 +296,7 @@ credentials, just like we'd need with command line Git.</p>
 <p>We highly recommend using the HTTPS protocol, unless you have a specific
 preference for SSH. If you are an "HTTPS person", your GitHub PAT (see above)
 can also be used to authorize standard Git remote operations. Once you've
-configured your PAT, your setup is complete! See <code><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol()</a></code> for how
+configured your PAT, your setup is complete! See <code><a href='git_protocol.html'>use_git_protocol()</a></code> for how
 to tell usethis about your preference for HTTPS (or SSH) by setting an
 option.</p>
 <p>But what about SSH? usethis uses the gert package for Git operations
@@ -318,13 +318,13 @@ is a good place to start.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>pkgpath</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"testpkg"</span>)
-<span class='fu'><a href='https://usethis.r-lib.org/reference/create_package.html'>create_package</a></span>(<span class='kw'>pkgpath</span>)
+<span class='fu'><a href='create_package.html'>create_package</a></span>(<span class='kw'>pkgpath</span>)
 
 <span class='co'>## now, working inside "testpkg", initialize git repository</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_git.html'>use_git</a></span>()
+<span class='fu'><a href='use_git.html'>use_git</a></span>()
 
 <span class='co'>## create github repository and configure as git remote</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github</a></span>()
+<span class='fu'>use_github</span>()
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

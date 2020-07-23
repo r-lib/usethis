@@ -197,23 +197,23 @@ clone) and we cannot do that unless we have a PAT." />
     <p>Creates a new local project and Git repository from a repo on GitHub, by
 either cloning or
 <a href='https://help.github.com/articles/fork-a-repo/'>fork-and-cloning</a>. In the
-fork-and-clone case, <code><a href='https://usethis.r-lib.org/reference/create_from_github.html'>create_from_github()</a></code> also does additional remote and
+fork-and-clone case, <code>create_from_github()</code> also does additional remote and
 branch setup, leaving you in the perfect position to make a pull request,
-possibly with the <a href='https://usethis.r-lib.org/reference/pull-requests.html'>pull request functions</a>.</p>
+possibly with the <a href='pull-requests.html'>pull request functions</a>.</p>
 <p>It is <strong>highly recommended</strong> that you pre-configure a GitHub personal access
-token (PAT), which is facilitated by <code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token()</a></code>. In particular,
+token (PAT), which is facilitated by <code><a href='create_github_token.html'>create_github_token()</a></code>. In particular,
 if you can't push to the source repo, you usually want to fork-and-clone (vs.
 clone) and we cannot do that unless we have a PAT.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/create_from_github.html'>create_from_github</a></span>(
+    <pre class="usage"><span class='fu'>create_from_github</span>(
   <span class='kw'>repo_spec</span>,
   destdir = <span class='kw'>NULL</span>,
   fork = <span class='fl'>NA</span>,
   rstudio = <span class='kw'>NULL</span>,
   open = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(),
-  protocol = <span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol</a></span>(),
-  auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token</a></span>(),
+  protocol = <span class='fu'><a href='git_protocol.html'>git_protocol</a></span>(),
+  auth_token = <span class='fu'><a href='create_github_token.html'>github_token</a></span>(),
   host = <span class='kw'>NULL</span>,
   credentials = <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span>()
 )</pre>
@@ -233,7 +233,7 @@ a project and Git repo.</p></td>
 Desktop or some other conspicuous place. You can also set a default
 location using the option <code>usethis.destdir</code>, e.g.
 <code><a href='https://rdrr.io/r/base/options.html'>options(usethis.destdir = "a/good/dir")</a></code>, perhaps saved to your
-<code>.Rprofile</code> with <code><a href='https://usethis.r-lib.org/reference/edit.html'>edit_r_profile()</a></code></p></td>
+<code>.Rprofile</code> with <code><a href='edit.html'>edit_r_profile()</a></code></p></td>
     </tr>
     <tr>
       <th>fork</th>
@@ -254,7 +254,7 @@ pre-existing <code>.Rproj</code> file. Defaults to <code>FALSE</code> otherwise.
     </tr>
     <tr>
       <th>open</th>
-      <td><p>If <code>TRUE</code>, <a href='https://usethis.r-lib.org/reference/proj_activate.html'>activates</a> the new project:</p><ul>
+      <td><p>If <code>TRUE</code>, <a href='proj_activate.html'>activates</a> the new project:</p><ul>
 <li><p>If RStudio desktop, the package is opened in a new session.</p></li>
 <li><p>If on RStudio server, the current RStudio project is activated.</p></li>
 <li><p>Otherwise, the working directory and active project is changed.</p></li>
@@ -302,7 +302,7 @@ available. There are two ways to do this, in order of preference:</p><ul>
 <li><p>Configure your token as the <code>GITHUB_PAT</code> env var. Then it can be used by
 many packages and functions, without any effort on your part. If you don't
 have a token yet or you haven't configured it as an env var, see
-<code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token()</a></code>.</p></li>
+<code><a href='create_github_token.html'>create_github_token()</a></code>.</p></li>
 <li><p>Provide the token directly via the <code>auth_token</code> argument.</p></li>
 </ul>
 
@@ -312,7 +312,7 @@ credentials, just like we'd need with command line Git.</p>
 <p>We highly recommend using the HTTPS protocol, unless you have a specific
 preference for SSH. If you are an "HTTPS person", your GitHub PAT (see above)
 can also be used to authorize standard Git remote operations. Once you've
-configured your PAT, your setup is complete! See <code><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol()</a></code> for how
+configured your PAT, your setup is complete! See <code><a href='git_protocol.html'>use_git_protocol()</a></code> for how
 to tell usethis about your preference for HTTPS (or SSH) by setting an
 option.</p>
 <p>But what about SSH? usethis uses the gert package for Git operations
@@ -334,17 +334,17 @@ is a good place to start.</p>
 
     <div class='dont-index'>
 <ul>
-<li><p><code><a href='https://usethis.r-lib.org/reference/use_github.html'>use_github()</a></code> to go the opposite direction, i.e. create a GitHub repo
+<li><p><code><a href='use_github.html'>use_github()</a></code> to go the opposite direction, i.e. create a GitHub repo
 from your local repo</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol()</a></code> for background on <code>protocol</code> (HTTPS vs SSH)</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/zip-utils.html'>use_course()</a></code> to download a snapshot of all files in a GitHub repo,
+<li><p><code><a href='git_protocol.html'>git_protocol()</a></code> for background on <code>protocol</code> (HTTPS vs SSH)</p></li>
+<li><p><code><a href='zip-utils.html'>use_course()</a></code> to download a snapshot of all files in a GitHub repo,
 without the need for any local or remote Git operations</p></li>
 </ul>
 </div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://usethis.r-lib.org/reference/create_from_github.html'>create_from_github</a></span>(<span class='st'>"r-lib/usethis"</span>)
+<span class='fu'>create_from_github</span>(<span class='st'>"r-lib/usethis"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

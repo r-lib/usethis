@@ -190,34 +190,34 @@ and tidy_label_descriptions()." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>use_github_labels()</a></code> can create new labels, update colours and descriptions,
+    <p><code>use_github_labels()</code> can create new labels, update colours and descriptions,
 and optionally delete GitHub's default labels (if <code>delete_default = TRUE</code>).
 It will never delete labels that have associated issues.</p>
-<p><code><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>use_tidy_labels()</a></code> calls <code><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>use_github_labels()</a></code> with tidyverse conventions
-powered by <code><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>tidy_labels()</a></code>, <code><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>tidy_labels_rename()</a></code>, <code><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>tidy_label_colours()</a></code>
-and <code><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>tidy_label_descriptions()</a></code>.</p>
+<p><code>use_tidy_labels()</code> calls <code>use_github_labels()</code> with tidyverse conventions
+powered by <code>tidy_labels()</code>, <code>tidy_labels_rename()</code>, <code>tidy_label_colours()</code>
+and <code>tidy_label_descriptions()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>use_github_labels</a></span>(
+    <pre class="usage"><span class='fu'>use_github_labels</span>(
   repo_spec = <span class='kw'>NULL</span>,
   labels = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
   rename = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
   colours = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
   descriptions = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
   delete_default = <span class='fl'>FALSE</span>,
-  auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token</a></span>(),
+  auth_token = <span class='fu'><a href='create_github_token.html'>github_token</a></span>(),
   host = <span class='kw'>NULL</span>
 )
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>use_tidy_labels</a></span>(repo_spec = <span class='kw'>NULL</span>, auth_token = <span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token</a></span>(), host = <span class='kw'>NULL</span>)
+<span class='fu'>use_tidy_labels</span>(repo_spec = <span class='kw'>NULL</span>, auth_token = <span class='fu'><a href='create_github_token.html'>github_token</a></span>(), host = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>tidy_labels</a></span>()
+<span class='fu'>tidy_labels</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>tidy_labels_rename</a></span>()
+<span class='fu'>tidy_labels_rename</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>tidy_label_colours</a></span>()
+<span class='fu'>tidy_label_colours</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>tidy_label_descriptions</a></span>()</pre>
+<span class='fu'>tidy_label_descriptions</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -281,17 +281,17 @@ example, and that a reply has been sent requesting one from the user.</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># typical use in, e.g., a new tidyverse project</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>use_github_labels</a></span>(delete_default = <span class='fl'>TRUE</span>)
+<span class='fu'>use_github_labels</span>(delete_default = <span class='fl'>TRUE</span>)
 
 <span class='co'># create labels without changing colours/descriptions</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>use_github_labels</a></span>(
+<span class='fu'>use_github_labels</span>(
   labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"foofy"</span>, <span class='st'>"foofier"</span>, <span class='st'>"foofiest"</span>),
   colours = <span class='kw'>NULL</span>,
   descriptions = <span class='kw'>NULL</span>
 )
 
 <span class='co'># change descriptions without changing names/colours</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_github_labels.html'>use_github_labels</a></span>(
+<span class='fu'>use_github_labels</span>(
   labels = <span class='kw'>NULL</span>,
   colours = <span class='kw'>NULL</span>,
   descriptions = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"foofiest"</span> = <span class='st'>"the foofiest issue you ever saw"</span>)

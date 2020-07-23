@@ -209,30 +209,30 @@ browse_github_token() and browse_github_pat()." />
 creating a repository, a fork, or a pull request. If you use HTTPS remotes,
 your PAT is also used when interacting with GitHub as a conventional Git
 remote. These functions help you get and manage your PAT:</p><ul>
-<li><p><code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token()</a></code> opens a browser window to the GitHub form to
+<li><p><code>create_github_token()</code> opens a browser window to the GitHub form to
 generate a PAT. It then offers advice on storing your PAT, which also
 appears below.</p></li>
 <li><p><code><a href='https://docs.ropensci.org/credentials/reference/set_github_pat.html'>credentials::set_github_pat()</a></code> helps you register your PAT with the Git
 credential manager used by your operating system. It can also use that PAT
 to set the <code>GITHUB_PAT</code> env var in an R session.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token()</a></code> retrieves a stored PAT by consulting, in this order:</p><ul>
+<li><p><code>github_token()</code> retrieves a stored PAT by consulting, in this order:</p><ul>
 <li><p><code>GITHUB_PAT</code> environment variable</p></li>
 <li><p><code>GITHUB_TOKEN</code> environment variable</p></li>
 <li><p>the empty string <code>""</code></p></li>
 </ul></li>
 </ul>
 
-<p><code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token()</a></code> has previously gone by some other names:
-<code><a href='https://usethis.r-lib.org/reference/usethis-defunct.html'>browse_github_token()</a></code> and <code><a href='https://usethis.r-lib.org/reference/usethis-defunct.html'>browse_github_pat()</a></code>.</p>
+<p><code>create_github_token()</code> has previously gone by some other names:
+<code><a href='usethis-defunct.html'>browse_github_token()</a></code> and <code><a href='usethis-defunct.html'>browse_github_pat()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token</a></span>(
+    <pre class="usage"><span class='fu'>create_github_token</span>(
   scopes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"repo"</span>, <span class='st'>"gist"</span>, <span class='st'>"user:email"</span>),
   description = <span class='st'>"R:GITHUB_PAT"</span>,
   host = <span class='st'>"https://github.com"</span>
 )
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token</a></span>()</pre>
+<span class='fu'>github_token</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -259,13 +259,13 @@ GitHub enterprise instance, for example,
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token()</a></code> returns a string, a GitHub PAT or <code>""</code>.</p>
+    <p><code>github_token()</code> returns a string, a GitHub PAT or <code>""</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Sign up for a free <a href='https://github.com/'>GitHub.com</a> account and sign in.
-Call <code><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token()</a></code>. Verify the scopes and click "Generate token".
+Call <code>create_github_token()</code>. Verify the scopes and click "Generate token".
 Copy the token right away! A common approach is to store in <code>.Renviron</code> as
-the <code>GITHUB_PAT</code> environment variable. <code><a href='https://usethis.r-lib.org/reference/edit.html'>edit_r_environ()</a></code> opens this file for
+the <code>GITHUB_PAT</code> environment variable. <code><a href='edit.html'>edit_r_environ()</a></code> opens this file for
 editing.</p>
 <p>A more secure alternative is to call <code><a href='https://docs.ropensci.org/credentials/reference/set_github_pat.html'>credentials::set_github_pat()</a></code> which
 prompts you for your PAT and stores it with the Git credential manager used
@@ -273,7 +273,7 @@ by your operating system. Once stored, a call to
 <code><a href='https://docs.ropensci.org/credentials/reference/set_github_pat.html'>credentials::set_github_pat()</a></code> retrieves this value and assigns it to the
 <code>GITHUB_PAT</code> environment variable. This would be a great thing to put in a
 startup file to make your PAT available in all R sessions. Remember
-<code><a href='https://usethis.r-lib.org/reference/edit.html'>edit_r_profile()</a></code> is handy for editing your <code>.Rprofile</code>. The advantage of
+<code><a href='edit.html'>edit_r_profile()</a></code> is handy for editing your <code>.Rprofile</code>. The advantage of
 this approach is that your PAT is never stored in regular file, as plain
 text.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -284,17 +284,17 @@ PAT.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>create_github_token</a></span>()
+<span class='fu'>create_github_token</span>()
 <span class='co'># COPY THE PAT!!!</span>
 <span class='co'># almost certainly to be followed by ...</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/edit.html'>edit_r_environ</a></span>()
+<span class='fu'><a href='edit.html'>edit_r_environ</a></span>()
 <span class='co'># which helps you store the PAT as an env var</span>
 <span class='co'># or a call to</span>
 <span class='kw'>credentials</span>::<span class='fu'><a href='https://docs.ropensci.org/credentials/reference/set_github_pat.html'>set_github_pat</a></span>()
 <span class='co'># which helps you store the PAT in the git credential store</span>
 }
 <span class='co'># for safety's sake, just reveal first 4 characters</span>
-<span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'><a href='https://usethis.r-lib.org/reference/create_github_token.html'>github_token</a></span>(), <span class='fl'>1</span>, <span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] "v1.7"</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span>(<span class='fu'>github_token</span>(), <span class='fl'>1</span>, <span class='fl'>4</span>)</div><div class='output co'>#&gt; [1] "v1.e"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

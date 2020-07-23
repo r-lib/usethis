@@ -191,18 +191,18 @@ use_version()." />
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://usethis.r-lib.org/reference/use_version.html'>use_version()</a></code> increments the "Version" field in <code>DESCRIPTION</code>,
+    <p><code>use_version()</code> increments the "Version" field in <code>DESCRIPTION</code>,
 adds a new heading to <code>NEWS.md</code> (if it exists), and commits those changes
 (if package uses Git).</p>
-<p><code><a href='https://usethis.r-lib.org/reference/use_version.html'>use_dev_version()</a></code> increments to a development version, e.g.
+<p><code>use_dev_version()</code> increments to a development version, e.g.
 from 1.0.0 to 1.0.0.9000. If the existing version is already a development
 version with four components, it does nothing. Thin wrapper around
-<code><a href='https://usethis.r-lib.org/reference/use_version.html'>use_version()</a></code>.</p>
+<code>use_version()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_version.html'>use_version</a></span>(which = <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>use_version</span>(which = <span class='kw'>NULL</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_version.html'>use_dev_version</a></span>()</pre>
+<span class='fu'>use_dev_version</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -221,11 +221,11 @@ version with four components, it does nothing. Thin wrapper around
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## for interactive selection, do this:</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_version.html'>use_version</a></span>()
+<span class='fu'>use_version</span>()
 
 <span class='co'>## request a specific type of increment</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_version.html'>use_version</a></span>(<span class='st'>"minor"</span>)
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_version.html'>use_dev_version</a></span>()
+<span class='fu'>use_version</span>(<span class='st'>"minor"</span>)
+<span class='fu'>use_dev_version</span>()
 }
 </div></pre>
   </div>

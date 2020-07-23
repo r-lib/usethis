@@ -191,16 +191,16 @@ git remote -v.
 
     <div class="ref-description">
     <p>Two helpers are available:</p><ul>
-<li><p><code><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>use_git_remote()</a></code> sets the remote associated with <code>name</code> to <code>url</code>.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>git_remotes()</a></code> reports the configured remotes, similar to
+<li><p><code>use_git_remote()</code> sets the remote associated with <code>name</code> to <code>url</code>.</p></li>
+<li><p><code>git_remotes()</code> reports the configured remotes, similar to
 <code>git remote -v</code>.</p></li>
 </ul>
 
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>use_git_remote</a></span>(name = <span class='st'>"origin"</span>, <span class='kw'>url</span>, overwrite = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>use_git_remote</span>(name = <span class='st'>"origin"</span>, <span class='kw'>url</span>, overwrite = <span class='fl'>FALSE</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>git_remotes</a></span>()</pre>
+<span class='fu'>git_remotes</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -227,16 +227,16 @@ modified.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># see current remotes</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>git_remotes</a></span>()
+<span class='fu'>git_remotes</span>()
 
 <span class='co'># add new remote named 'foo', a la `git remote add &lt;name&gt; &lt;url&gt;`</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>use_git_remote</a></span>(name = <span class='st'>"foo"</span>, url = <span class='st'>"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>)
+<span class='fu'>use_git_remote</span>(name = <span class='st'>"foo"</span>, url = <span class='st'>"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>)
 
 <span class='co'># remove existing 'foo' remote, a la `git remote remove &lt;name&gt;`</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>use_git_remote</a></span>(name = <span class='st'>"foo"</span>, url = <span class='kw'>NULL</span>, overwrite = <span class='fl'>TRUE</span>)
+<span class='fu'>use_git_remote</span>(name = <span class='st'>"foo"</span>, url = <span class='kw'>NULL</span>, overwrite = <span class='fl'>TRUE</span>)
 
 <span class='co'># change URL of remote 'foo', a la `git remote set-url &lt;name&gt; &lt;newurl&gt;`</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>use_git_remote</a></span>(
+<span class='fu'>use_git_remote</span>(
   name = <span class='st'>"foo"</span>,
   url = <span class='st'>"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>,
   overwrite = <span class='fl'>TRUE</span>
@@ -246,15 +246,15 @@ modified.</p></td>
 <span class='co'># have fork-and-cloned (in order to make a pull request).</span>
 
 <span class='co'># Store origin = main repo's URL, e.g., "git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>
-<span class='kw'>upstream_url</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>git_remotes</a></span>()[[<span class='st'>"origin"</span>]]
+<span class='kw'>upstream_url</span> <span class='op'>&lt;-</span> <span class='fu'>git_remotes</span>()[[<span class='st'>"origin"</span>]]
 
 <span class='co'># IN THE BROWSER: fork the main GitHub repo and get your fork's remote URL</span>
 <span class='kw'>my_url</span> <span class='op'>&lt;-</span> <span class='st'>"git@github.com:&lt;ME&gt;/&lt;REPO&gt;.git"</span>
 
 <span class='co'># Rotate the remotes</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>use_git_remote</a></span>(name = <span class='st'>"origin"</span>, url = <span class='kw'>my_url</span>)
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>use_git_remote</a></span>(name = <span class='st'>"upstream"</span>, url = <span class='kw'>upstream_url</span>)
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>git_remotes</a></span>()
+<span class='fu'>use_git_remote</span>(name = <span class='st'>"origin"</span>, url = <span class='kw'>my_url</span>)
+<span class='fu'>use_git_remote</span>(name = <span class='st'>"upstream"</span>, url = <span class='kw'>upstream_url</span>)
+<span class='fu'>git_remotes</span>()
 
 <span class='co'># Scenario: Add upstream remote to a repo that you fork-and-cloned, so you</span>
 <span class='co'># can pull upstream changes.</span>
@@ -263,7 +263,7 @@ modified.</p></td>
 
 <span class='co'># Get URL of main GitHub repo, probably in the browser</span>
 <span class='kw'>upstream_url</span> <span class='op'>&lt;-</span> <span class='st'>"git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_git_remote.html'>use_git_remote</a></span>(name = <span class='st'>"upstream"</span>, url = <span class='kw'>upstream_url</span>)
+<span class='fu'>use_git_remote</span>(name = <span class='st'>"upstream"</span>, url = <span class='kw'>upstream_url</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

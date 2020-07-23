@@ -205,15 +205,15 @@ configured as the origin remote.
     <div class="ref-description">
     <p><a href='https://pkgdown.r-lib.org'>pkgdown</a> makes it easy to turn your package into
 a beautiful website. A couple functions help you begin to use pkgdown:</p><ul>
-<li><p><code><a href='https://usethis.r-lib.org/reference/use_pkgdown.html'>use_pkgdown()</a></code>: creates a pkgdown config file, adds relevant files or
+<li><p><code>use_pkgdown()</code>: creates a pkgdown config file, adds relevant files or
 directories to <code>.Rbuildignore</code> and <code>.gitignore</code>, and builds favicons if
 your package has a logo.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action("pkgdown")</a></code> configures a GitHub Actions workflow to
+<li><p><code><a href='use_github_action.html'>use_github_action("pkgdown")</a></code> configures a GitHub Actions workflow to
 build and deploy your pkgdown site whenever you push changes to GitHub.
-Learn more about <code><a href='https://usethis.r-lib.org/reference/use_github_action.html'>use_github_action()</a></code>. This approach is actively
+Learn more about <code><a href='use_github_action.html'>use_github_action()</a></code>. This approach is actively
 maintained, because it is in use across many tidyverse, r-lib, and
 tidymodels packages.</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/use_pkgdown.html'>use_pkgdown_travis()</a></code> helps you set up pkgdown for automatic deployment
+<li><p><code>use_pkgdown_travis()</code> helps you set up pkgdown for automatic deployment
 on Travis-CI. This is something of a legacy function, as the tidyverse
 team has shifted away from Travis-CI and towards GitHub Actions. It
 creates an empty <code>gh-pages</code> branch for the site and prompts about next
@@ -224,9 +224,9 @@ configured as the <code>origin</code> remote.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_pkgdown.html'>use_pkgdown</a></span>(config_file = <span class='st'>"_pkgdown.yml"</span>, destdir = <span class='st'>"docs"</span>)
+    <pre class="usage"><span class='fu'>use_pkgdown</span>(config_file = <span class='st'>"_pkgdown.yml"</span>, destdir = <span class='st'>"docs"</span>)
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_pkgdown.html'>use_pkgdown_travis</a></span>()</pre>
+<span class='fu'>use_pkgdown_travis</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

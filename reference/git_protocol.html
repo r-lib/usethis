@@ -210,10 +210,10 @@ usethis supports SSH and HTTPS. The protocol affects this:</p><ul>
 <li><p><code>protocol = "ssh"</code> implies <code>git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git</code>
 Two helper functions are available:</p></li>
 </ul></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol()</a></code> returns the user's preferred protocol, if known, and,
+<li><p><code>git_protocol()</code> returns the user's preferred protocol, if known, and,
 otherwise, asks the user (interactive session), or defaults to SSH
 (non-interactive session).</p></li>
-<li><p><code><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol()</a></code> allows the user to set the Git protocol, which is
+<li><p><code>use_git_protocol()</code> allows the user to set the Git protocol, which is
 stored in the <code>usethis.protocol</code> option.</p></li>
 </ul>
 
@@ -224,9 +224,9 @@ protocol at startup by setting an option in <code>.Rprofile</code>:</p><pre><spa
 
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol</a></span>()
+    <pre class="usage"><span class='fu'>git_protocol</span>()
 
-<span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol</a></span>(<span class='kw'>protocol</span>)</pre>
+<span class='fu'>use_git_protocol</span>(<span class='kw'>protocol</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -246,11 +246,11 @@ or, in non-interactive sessions, "ssh". <code>NA</code> triggers the interactive
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## consult the option and maybe get an interactive menu</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>git_protocol</a></span>()
+<span class='fu'>git_protocol</span>()
 
 <span class='co'>## explicitly set the protocol</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol</a></span>(<span class='st'>"ssh"</span>)
-<span class='fu'><a href='https://usethis.r-lib.org/reference/git_protocol.html'>use_git_protocol</a></span>(<span class='st'>"https"</span>)
+<span class='fu'>use_git_protocol</span>(<span class='st'>"ssh"</span>)
+<span class='fu'>use_git_protocol</span>(<span class='st'>"https"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -186,11 +186,11 @@ use_zip(). Only create_download_url() is exported." />
     </div>
 
     <div class="ref-description">
-    <p>Details on the internal and helper functions that power <code><a href='https://usethis.r-lib.org/reference/zip-utils.html'>use_course()</a></code> and
-<code><a href='https://usethis.r-lib.org/reference/zip-utils.html'>use_zip()</a></code>. Only <code><a href='https://usethis.r-lib.org/reference/use_course_details.html'>create_download_url()</a></code> is exported.</p>
+    <p>Details on the internal and helper functions that power <code><a href='zip-utils.html'>use_course()</a></code> and
+<code><a href='zip-utils.html'>use_zip()</a></code>. Only <code>create_download_url()</code> is exported.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://usethis.r-lib.org/reference/use_course_details.html'>create_download_url</a></span>(<span class='kw'>url</span>)</pre>
+    <pre class="usage"><span class='fu'>create_download_url</span>(<span class='kw'>url</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,7 +203,7 @@ browser.</p></td>
     <tr>
       <th>destdir</th>
       <td><p>Path to existing local directory where the ZIP file will be
-stored. Defaults to current working directory, but note that <code><a href='https://usethis.r-lib.org/reference/zip-utils.html'>use_course()</a></code>
+stored. Defaults to current working directory, but note that <code><a href='zip-utils.html'>use_course()</a></code>
 has different default behavior.</p></td>
     </tr>
     <tr>
@@ -249,7 +249,7 @@ connect timeout.</p><h3>DropBox</h3>
 <p>Replace the <code>dl=0</code> at the end with <code>dl=1</code> to create a download link:</p><pre>https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
 </pre>
 
-<p>You can use <code><a href='https://usethis.r-lib.org/reference/use_course_details.html'>create_download_url()</a></code> to do this conversion.</p>
+<p>You can use <code>create_download_url()</code> to do this conversion.</p>
 <p>This download link (or a shortlink that points to it) is suitable as input
 for <code>tidy_download()</code>. After one or more redirections, this link will
 eventually lead to a download URL. For more details, see
@@ -269,7 +269,7 @@ eventually lead to a download URL. Here's an alternative link that also leads
 to ZIP download, albeit with a different filenaming scheme:</p><pre>https://api.github.com/repos/r-lib/usethis/zipball/master
 </pre>
 
-<p>You can use <code><a href='https://usethis.r-lib.org/reference/use_course_details.html'>create_download_url()</a></code> to create the "Download ZIP" URL from
+<p>You can use <code>create_download_url()</code> to create the "Download ZIP" URL from
 a typical GitHub browser URL.</p>
 
 <h3>Google Drive</h3>
@@ -286,7 +286,7 @@ processed in a web browser first. Such a sharing link looks like:</p><pre>https:
 the "id" element from the URL and include it in this URL format:</p><pre>https://drive.google.com/uc?export=download&amp;id=123456789xxyyyzzz
 </pre>
 
-<p>Use <code><a href='https://usethis.r-lib.org/reference/use_course_details.html'>create_download_url()</a></code> to perform this transformation automatically.</p>
+<p>Use <code>create_download_url()</code> to perform this transformation automatically.</p>
 
     <h2 class="hasAnchor" id="tidy-unzip-"><a class="anchor" href="#tidy-unzip-"></a>tidy_unzip()</h2>
 
@@ -325,11 +325,11 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
 <span class='fu'>tidy_unzip</span>(<span class='st'>"rematch2-master.zip"</span>)
 }
 <span class='co'># GitHub</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_course_details.html'>create_download_url</a></span>(<span class='st'>"https://github.com/r-lib/usethis"</span>)</div><div class='output co'>#&gt; https://github.com/r-lib/usethis/archive/master.zip</div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/use_course_details.html'>create_download_url</a></span>(<span class='st'>"https://github.com/r-lib/usethis/issues"</span>)</div><div class='output co'>#&gt; https://github.com/r-lib/usethis/archive/master.zip</div><div class='input'>
+<span class='fu'>create_download_url</span>(<span class='st'>"https://github.com/r-lib/usethis"</span>)</div><div class='output co'>#&gt; https://github.com/r-lib/usethis/archive/master.zip</div><div class='input'><span class='fu'>create_download_url</span>(<span class='st'>"https://github.com/r-lib/usethis/issues"</span>)</div><div class='output co'>#&gt; https://github.com/r-lib/usethis/archive/master.zip</div><div class='input'>
 <span class='co'># DropBox</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_course_details.html'>create_download_url</a></span>(<span class='st'>"https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0"</span>)</div><div class='output co'>#&gt; [1] "https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1"</div><div class='input'>
+<span class='fu'>create_download_url</span>(<span class='st'>"https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0"</span>)</div><div class='output co'>#&gt; [1] "https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1"</div><div class='input'>
 <span class='co'># Google Drive</span>
-<span class='fu'><a href='https://usethis.r-lib.org/reference/use_course_details.html'>create_download_url</a></span>(<span class='st'>"https://drive.google.com/open?id=123456789xxyyyzzz"</span>)</div><div class='output co'>#&gt; https://drive.google.com/uc?export=download&amp;id=123456789xxyyyzzz</div><div class='input'><span class='fu'><a href='https://usethis.r-lib.org/reference/use_course_details.html'>create_download_url</a></span>(<span class='st'>"https://drive.google.com/open?id=123456789xxyyyzzz/view"</span>)</div><div class='output co'>#&gt; https://drive.google.com/uc?export=download&amp;id=123456789xxyyyzzz</div></pre>
+<span class='fu'>create_download_url</span>(<span class='st'>"https://drive.google.com/open?id=123456789xxyyyzzz"</span>)</div><div class='output co'>#&gt; https://drive.google.com/uc?export=download&amp;id=123456789xxyyyzzz</div><div class='input'><span class='fu'>create_download_url</span>(<span class='st'>"https://drive.google.com/open?id=123456789xxyyyzzz/view"</span>)</div><div class='output co'>#&gt; https://drive.google.com/uc?export=download&amp;id=123456789xxyyyzzz</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
