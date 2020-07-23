@@ -129,9 +129,10 @@
 #' * `pr_finish()`: If `number` is given, first does `pr_fetch(number)`. It's
 #'   assumed the current branch is the PR branch of interest. First, makes sure
 #'   there are no unpushed local changes. Switches back to `master` and pulls
-#'   changes from the primary repo. Deletes the PR branch. If the PR came from
-#'   an external fork, the corresponding remote is deleted, provided it's not in
-#'   use by any other local branches.
+#'   changes from the primary repo. If the PR has been merged and user has
+#'   permission, deletes the remote branch. Deletes the PR branch. If the PR
+#'   came from an external fork, the corresponding remote is deleted, provided
+#'   it's not in use by any other local branches.
 #'
 #' @name pull-requests
 NULL
@@ -420,7 +421,8 @@ pr_pause <- function() {
 #' @export
 #' @rdname pull-requests
 pr_finish <- function(number = NULL) {
-  check_pr_readiness()
+  cfg <- github_remote_config()
+  check_pr_readiness(cfg)
   repo <- git_repo()
 
   if (!is.null(number)) {
@@ -443,23 +445,54 @@ pr_finish <- function(number = NULL) {
   gert::git_branch_checkout("master", repo = repo)
   pr_pull_source_override()
 
-  ui_done("Deleting local {ui_value(branch)} branch")
-  gert::git_branch_delete(branch, repo = repo)
-
   if (!has_remote_branch) {
+    ui_done("Deleting local {ui_value(branch)} branch")
+    gert::git_branch_delete(branch, repo = repo)
     return(invisible())
   }
 
-  if (remref_remote(tracking_branch) == "origin") {
-    ui_done("Deleting remote branch {ui_value(tracking_branch)}")
-    gert::git_push(
-      remote = "origin",
-      refspec = glue(":refs/heads/{remref_branch(tracking_branch)}"),
-      verbose = FALSE
-    )
+  remote <- remref_remote(tracking_branch)
+  # delete remote branch, if have permission and PR is merged
+  if (remote == "origin") {
+    if (is.null(number)) {
+      number <- sub("^.+pull/", "", pr_url(branch))
+    }
+    if (length(number)) {
+      owner <- switch(
+        cfg$type,
+        ours = cfg$origin$repo_owner,
+        fork = cfg$upstream$repo_owner
+      )
+      repo_name <- cfg$origin$repo_name
+      pr <- gh::gh(
+        "GET /repos/:owner/:repo/pulls/:number",
+        owner = owner,
+        repo = repo_name,
+        number = number,
+        .token = github_token()
+      )
+      pr_string <- glue("{owner}/{repo_name}/#{number}")
+      if (pr$merged) {
+        ui_done("
+          PR {ui_value(pr_string)} has been merged, \\
+          deleting remote branch {ui_value(tracking_branch)}")
+        gert::git_push(
+          remote = "origin",
+          refspec = glue(":refs/heads/{remref_branch(tracking_branch)}"),
+          verbose = FALSE
+        )
+      } else {
+        ui_done("
+          PR {ui_value(pr_string)} is unmerged, \\
+          remote branch {ui_value(tracking_branch)} remains")
+      }
+    }
   }
 
-  remote <- remref_remote(tracking_branch)
+  ui_done("Deleting local {ui_value(branch)} branch")
+  gert::git_branch_delete(branch, repo = repo)
+
+  # delete remote, if we added it AND no remaining tracking branches
   created_by <- git_cfg_get(glue("remote.{remote}.created-by"))
   if (is.null(created_by) || !grepl("^usethis::pr_", created_by)) {
     return(invisible())

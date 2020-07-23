@@ -168,9 +168,10 @@ records this URL in git config of the local repo.
 \item \code{pr_finish()}: If \code{number} is given, first does \code{pr_fetch(number)}. It's
 assumed the current branch is the PR branch of interest. First, makes sure
 there are no unpushed local changes. Switches back to \code{master} and pulls
-changes from the primary repo. Deletes the PR branch. If the PR came from
-an external fork, the corresponding remote is deleted, provided it's not in
-use by any other local branches.
+changes from the primary repo. If the PR has been merged and user has
+permission, deletes the remote branch. Deletes the PR branch. If the PR
+came from an external fork, the corresponding remote is deleted, provided
+it's not in use by any other local branches.
 }
 }
 
