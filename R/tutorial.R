@@ -33,9 +33,6 @@ use_tutorial <- function(name, title, open = rlang::is_interactive()) {
   use_git_ignore("*.html", directory = dir_path)
   use_dependency("learnr", "Suggests")
 
-  html_path <- path(dir_path, asciify(name), ext = ".html")
-  use_build_ignore(html_path)
-
   path <- path(dir_path, asciify(name), ext = "Rmd")
 
   data <- project_data()
