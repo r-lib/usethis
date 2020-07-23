@@ -165,7 +165,7 @@ pr_init <- function(branch) {
   }
 
   check_no_uncommitted_changes(untracked = TRUE)
-  pr_pull_primary_override()
+  pr_pull_source_override()
 
   ui_done("Creating and switching to local branch {ui_value(branch)}")
   gert::git_branch_create(branch, repo = repo)
@@ -414,7 +414,7 @@ pr_pause <- function() {
   ui_done("Switching back to {ui_value('master')} branch")
   # TODO: honor default branch
   gert::git_branch_checkout("master", repo = git_repo())
-  pr_pull_primary_override()
+  pr_pull_source_override()
 }
 
 #' @export
@@ -441,7 +441,7 @@ pr_finish <- function(number = NULL) {
   # TODO: honor default branch
   ui_done("Switching back to {ui_value('master')} branch")
   gert::git_branch_checkout("master", repo = repo)
-  pr_pull_primary_override()
+  pr_pull_source_override()
 
   ui_done("Deleting local {ui_value(branch)} branch")
   gert::git_branch_delete(branch, repo = repo)
@@ -559,13 +559,13 @@ check_pr_branch <- function() {
 # Make sure to pull from upstream/master (as opposed to origin/master) if we're
 # in master branch of a fork. I wish everyone set up master to track the master
 # branch in the primary repo, but this protects us against sub-optimal setup.
-pr_pull_primary_override <- function() {
-  in_a_fork <- nrow(github_remotes("upstream", github_get = FALSE)) > 0
+pr_pull_source_override <- function() {
+  cfg <- github_remote_config(github_get = FALSE)
   # TODO: honor default branch
-  if (in_a_fork && git_branch() == "master") {
+  if (cfg$type == "maybe_fork" && git_branch() == "master") {
     remref <- "upstream/master"
   } else {
     remref <- NULL
   }
-  git_pull()
+  git_pull(remref = remref)
 }
