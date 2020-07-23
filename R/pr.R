@@ -223,24 +223,10 @@ pr_fetch <- function(number) {
   check_pr_readiness(cfg)
   check_no_uncommitted_changes()
 
-  # GET the PR ----
-  owner <- switch(
-    cfg$type,
-    ours = cfg$origin$repo_owner,
-    fork = cfg$upstream$repo_owner
-  )
-  repo_name <- cfg$origin$repo_name
-  pr <- gh::gh(
-    "GET /repos/:owner/:repo/pulls/:number",
-    owner = owner,
-    repo = repo_name,
-    number = number,
-    .token = github_token()
-  )
-  pr_string <- glue("{owner}/{repo_name}/#{number}")
+  pr <- pr_get(number = number, cfg = cfg)
   pr_user <- glue("@{pr$user$login}")
   ui_done("
-    Checking out PR {ui_value(pr_string)} ({ui_field(pr_user)}): \\
+    Checking out PR {ui_value(pr$pr_string)} ({ui_field(pr_user)}): \\
     {ui_value(pr$title)}")
 
   # Figure out remote, remote branch, local branch ----
@@ -458,23 +444,10 @@ pr_finish <- function(number = NULL) {
       number <- sub("^.+pull/", "", pr_url(branch))
     }
     if (length(number)) {
-      owner <- switch(
-        cfg$type,
-        ours = cfg$origin$repo_owner,
-        fork = cfg$upstream$repo_owner
-      )
-      repo_name <- cfg$origin$repo_name
-      pr <- gh::gh(
-        "GET /repos/:owner/:repo/pulls/:number",
-        owner = owner,
-        repo = repo_name,
-        number = number,
-        .token = github_token()
-      )
-      pr_string <- glue("{owner}/{repo_name}/#{number}")
+      pr <- pr_get(number = number, cfg = cfg)
       if (pr$merged) {
         ui_done("
-          PR {ui_value(pr_string)} has been merged, \\
+          PR {ui_value(pr$pr_string)} has been merged, \\
           deleting remote branch {ui_value(tracking_branch)}")
         gert::git_push(
           remote = "origin",
@@ -483,7 +456,7 @@ pr_finish <- function(number = NULL) {
         )
       } else {
         ui_done("
-          PR {ui_value(pr_string)} is unmerged, \\
+          PR {ui_value(pr$pr_string)} is unmerged, \\
           remote branch {ui_value(tracking_branch)} remains")
       }
     }
@@ -567,6 +540,30 @@ pr_find <- function(owner,
   urls <- map_chr(prs, c("html_url"), .default = NA_character_)
 
   urls[refs == pr_branch & user == pr_owner]
+}
+
+pr_get <- function(number, cfg = NULL) {
+  cfg <- cfg %||% github_remote_config(github_get = FALSE)
+  owner <- switch(
+    cfg$type,
+    maybe_ours_or_theirs =,
+    ours = cfg$origin$repo_owner,
+    maybe_fork =,
+    fork = cfg$upstream$repo_owner
+  )
+  repo_name <- cfg$origin$repo_name
+  out <- gh::gh(
+    "GET /repos/:owner/:repo/pulls/:number",
+    owner = owner,
+    repo = repo_name,
+    number = number,
+    .token = github_token()
+  )
+  out$pr_string <- glue_data(
+    parse_github_remotes(out$html_url),
+    "{repo_owner}/{repo_name}/#{number}"
+  )
+  out
 }
 
 check_pr_readiness <- function(cfg = NULL) {
