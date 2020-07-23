@@ -55,7 +55,9 @@ Suggests:
     styler (>= 1.2.0),
     testthat (>= 2.1.0)
 Remotes: 
-    r-lib/gert
+    r-lib/gert,
+    tidyverse/glue, # issue with compare method
+    r-lib/testthat
 Encoding: UTF-8
 Language: en-US
 LazyData: true
