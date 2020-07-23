@@ -1,5 +1,3 @@
-context("use_tidy_style")
-
 test_that("styling the package works", {
   skip_if(getRversion() < 3.2)
   skip_if_no_git_user()

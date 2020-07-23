@@ -1,5 +1,3 @@
-context("use_rcpp")
-
 test_that("use_rcpp() requires a package", {
   create_local_project()
   expect_usethis_error(use_rcpp(), "not an R package")

@@ -1,5 +1,3 @@
-context("use_badge")
-
 test_that("use_[cran|bioc]_badge() don't error", {
   create_local_package()
   expect_error_free(use_cran_badge())

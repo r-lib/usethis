@@ -1,5 +1,3 @@
-context("projects")
-
 test_that("proj_set() errors on non-existent path", {
   expect_usethis_error(
     proj_set("abcedefgihklmnopqrstuv"),

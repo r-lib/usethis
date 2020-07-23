@@ -1,5 +1,3 @@
-context("use_testthat")
-
 test_that("use_testhat() sets up infrastructure", {
   pkg <- create_local_package()
   use_testthat()

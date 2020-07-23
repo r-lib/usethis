@@ -1,5 +1,3 @@
-context("utils")
-
 test_that("check_is_named_list() works", {
   l <- list(a = "a", b = 2, c = letters)
   expect_identical(l, check_is_named_list(l))

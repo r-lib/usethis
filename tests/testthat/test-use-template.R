@@ -1,5 +1,3 @@
-context("use_template")
-
 test_that("can leave existing file unchanged, without an error", {
   create_local_package()
   desc_lines_before <- read_utf8(proj_path("DESCRIPTION"))
