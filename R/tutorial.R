@@ -42,7 +42,7 @@ use_tutorial <- function(name, title, open = rlang::is_interactive()) {
     "tutorial-template.Rmd",
     save_as = path,
     data = data,
-    ignore = TRUE,
+    ignore = FALSE,
     open = open
   )
 
