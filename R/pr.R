@@ -153,10 +153,6 @@ pr_init <- function(branch) {
   }
 
   check_pr_readiness()
-  # TODO(@jennybc): if no internet, could offer option to proceed anyway
-  # error shows git2r but we'll get similar error with gert
-  # Error in git2r::fetch(repo, name = remref_remote(remref), refspec = branch,  :
-  # Error in 'git2r_remote_fetch': failed to resolve address for github.com: nodename nor servname provided, or not known
 
   # TODO: honor default branch
   if (git_branch() != "master") {
