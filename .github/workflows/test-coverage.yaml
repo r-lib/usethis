@@ -2,6 +2,10 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'R/*'
+      - 'tests/**'
+      - codecov.yml
   pull_request:
     branches:
       - master
