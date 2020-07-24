@@ -122,30 +122,31 @@ use_git_config <- function(scope = c("user", "project"), ...) {
 #'
 #' @description
 #' Git operations that address a remote use a so-called "transport protocol".
-#' usethis supports SSH and HTTPS. The protocol affects this:
+#' usethis supports HTTPS and SSH. The protocol affects this:
 #'   * The default URL format for repos with no existing remote protocol:
 #'     - `protocol = "https"` implies `https://github.com/<OWNER>/<REPO>.git`
 #'     - `protocol = "ssh"` implies `git@@github.com:<OWNER>/<REPO>.git`
 #' Two helper functions are available:
 #'   * `git_protocol()` returns the user's preferred protocol, if known, and,
-#'     otherwise, asks the user (interactive session), or defaults to SSH
+#'     otherwise, asks the user (interactive session), or defaults to `"https"`.
 #'     (non-interactive session).
-#'   * `use_git_protocol()` allows the user to set the Git protocol, which is
-#'     stored in the `usethis.protocol` option.
+#'   * `use_git_protocol()` allows the user to set the Git protocol for the
+#'     current R session. This is stored in the `"usethis.protocol"` option.
 #'
 #' Any interactive choice re: `protocol` comes with a reminder of how to set the
 #' protocol at startup by setting an option in `.Rprofile`:
 #' ```
-#' options(usethis.protocol = "ssh")
-#' ## or
 #' options(usethis.protocol = "https")
+#' # or
+#' options(usethis.protocol = "ssh")
 #' ```
 #'
-#' @param protocol Optional. Should be "ssh" or "https", if specified. Defaults
+#' @param protocol Optional. Should be "https" or "ssh", if specified. Defaults
 #'   to the option `usethis.protocol` and, if unset, to an interactive choice
-#'   or, in non-interactive sessions, "ssh". `NA` triggers the interactive menu.
+#'   or, in non-interactive sessions, `"https"`. `NA` triggers the interactive
+#'   menu.
 #'
-#' @return "ssh" or "https"
+#' @return "https" or "ssh"
 #' @export
 #'
 #' @examples
@@ -160,18 +161,18 @@ use_git_config <- function(scope = c("user", "project"), ...) {
 git_protocol <- function() {
   protocol <- getOption(
     "usethis.protocol",
-    default = if (is_interactive()) NA else "ssh"
+    default = if (is_interactive()) NA else "https"
   )
 
   # this is where a user-supplied protocol gets checked, because
   # use_git_protocol() shoves it in the option unconditionally and calls this
   bad_protocol <- length(protocol) != 1 ||
-    !(tolower(protocol) %in% c("ssh", "https", NA))
+    !(tolower(protocol) %in% c("https", "ssh", NA))
   if (bad_protocol) {
     options(usethis.protocol = NULL)
     ui_stop("
-      {ui_code('protocol')} must be one of {ui_value('ssh')}, \\
-      {ui_value('https')}', or {ui_value('NA')}."
+      {ui_code('protocol')} must be one of {ui_value('https')}, \\
+      {ui_value('ssh')}', or {ui_value('NA')}."
     )
   }
 
@@ -179,8 +180,8 @@ git_protocol <- function() {
     protocol <- choose_protocol()
     if (is.null(protocol)) {
       ui_stop("
-        {ui_code('protocol')} must be either {ui_value('ssh')} or \\
-        {ui_value('https')}."
+        {ui_code('protocol')} must be either {ui_value('https')} or \\
+        {ui_value('ssh')}."
       )
     }
     code <- glue("options(usethis.protocol = \"{protocol}\")")
@@ -192,7 +193,7 @@ git_protocol <- function() {
       Call {ui_code('usethis::edit_r_profile()')} to open it for editing.")
   }
 
-  protocol <- match.arg(tolower(protocol), c("ssh", "https"))
+  protocol <- match.arg(tolower(protocol), c("https", "ssh"))
   options("usethis.protocol" = protocol)
   getOption("usethis.protocol")
 }
@@ -209,12 +210,12 @@ choose_protocol <- function() {
     return(invisible())
   }
   choices <- c(
-    ssh   = "ssh   <-- presumes that you have set up ssh keys",
-    https = "https <-- choose this if you don't have ssh keys (or don't know if you do)"
+    https = "https <-- choose this if you don't have SSH keys (or don't know if you do)",
+    ssh   = "ssh   <-- presumes that you have set up SSH keys"
   )
   choice <- utils::menu(
     choices = choices,
-    title = "Which git protocol to use? (enter 0 to exit)"
+    title = "Which Git protocol to use? (enter 0 to exit)"
   )
   if (choice == 0) {
     invisible()

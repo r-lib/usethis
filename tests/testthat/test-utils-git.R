@@ -35,10 +35,10 @@ test_that("use_git_protocol() errors for bad input", {
   expect_usethis_error(use_git_protocol("nope"), "must be one of")
 })
 
-test_that("git_protocol() defaults to 'ssh' in a non-interactive session", {
+test_that("git_protocol() defaults to 'https' in a non-interactive session", {
   withr::with_options(
     list(usethis.protocol = NULL),
-    expect_identical(git_protocol(), "ssh")
+    expect_identical(git_protocol(), "https")
   )
 })
 

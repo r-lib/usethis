@@ -10,16 +10,17 @@ git_protocol()
 use_git_protocol(protocol)
 }
 \arguments{
-\item{protocol}{Optional. Should be "ssh" or "https", if specified. Defaults
+\item{protocol}{Optional. Should be "https" or "ssh", if specified. Defaults
 to the option \code{usethis.protocol} and, if unset, to an interactive choice
-or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
+or, in non-interactive sessions, \code{"https"}. \code{NA} triggers the interactive
+menu.}
 }
 \value{
-"ssh" or "https"
+"https" or "ssh"
 }
 \description{
 Git operations that address a remote use a so-called "transport protocol".
-usethis supports SSH and HTTPS. The protocol affects this:
+usethis supports HTTPS and SSH. The protocol affects this:
 \itemize{
 \item The default URL format for repos with no existing remote protocol:
 \itemize{
@@ -28,16 +29,16 @@ usethis supports SSH and HTTPS. The protocol affects this:
 Two helper functions are available:
 }
 \item \code{git_protocol()} returns the user's preferred protocol, if known, and,
-otherwise, asks the user (interactive session), or defaults to SSH
+otherwise, asks the user (interactive session), or defaults to \code{"https"}.
 (non-interactive session).
-\item \code{use_git_protocol()} allows the user to set the Git protocol, which is
-stored in the \code{usethis.protocol} option.
+\item \code{use_git_protocol()} allows the user to set the Git protocol for the
+current R session. This is stored in the \code{"usethis.protocol"} option.
 }
 
 Any interactive choice re: \code{protocol} comes with a reminder of how to set the
-protocol at startup by setting an option in \code{.Rprofile}:\preformatted{options(usethis.protocol = "ssh")
-## or
-options(usethis.protocol = "https")
+protocol at startup by setting an option in \code{.Rprofile}:\preformatted{options(usethis.protocol = "https")
+# or
+options(usethis.protocol = "ssh")
 }
 }
 \examples{

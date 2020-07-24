@@ -20,9 +20,10 @@ organisation, instead of the account of the user associated with the
 
 \item{private}{If \code{TRUE}, creates a private repository.}
 
-\item{protocol}{Optional. Should be "ssh" or "https", if specified. Defaults
+\item{protocol}{Optional. Should be "https" or "ssh", if specified. Defaults
 to the option \code{usethis.protocol} and, if unset, to an interactive choice
-or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
+or, in non-interactive sessions, \code{"https"}. \code{NA} triggers the interactive
+menu.}
 
 \item{auth_token}{GitHub personal access token (PAT).}
 

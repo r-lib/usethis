@@ -47,9 +47,10 @@ pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
 \item Otherwise, the working directory and active project is changed.
 }}
 
-\item{protocol}{Optional. Should be "ssh" or "https", if specified. Defaults
+\item{protocol}{Optional. Should be "https" or "ssh", if specified. Defaults
 to the option \code{usethis.protocol} and, if unset, to an interactive choice
-or, in non-interactive sessions, "ssh". \code{NA} triggers the interactive menu.}
+or, in non-interactive sessions, \code{"https"}. \code{NA} triggers the interactive
+menu.}
 
 \item{auth_token}{GitHub personal access token (PAT).}
 
