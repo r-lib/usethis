@@ -226,8 +226,8 @@
 <h2 class="hasAnchor">
 <a href="#other-changes" class="anchor"></a>Other changes</h2>
 <ul>
-<li>
-<code><a href="../reference/use_package.html">use_dev_package()</a></code> gains a <code>remote</code> parameter to allow you to specify the remote. The existing behaviour, which adds an <code>OWNER/REPO</code> GitHub remote, remains the default (<a href='https://github.com/r-lib/usethis/issues/918'>#918</a>, <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</li>
+<li><p>GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to alternative platforms (e.g. Travis-CI or AppVeyor) are soft-deprecated to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (<a href='https://github.com/r-lib/usethis/issues/1169'>#1169</a>).</p></li>
+<li><p><code><a href="../reference/use_package.html">use_dev_package()</a></code> gains a <code>remote</code> parameter to allow you to specify the remote. The existing behaviour, which adds an <code>OWNER/REPO</code> GitHub remote, remains the default (<a href='https://github.com/r-lib/usethis/issues/918'>#918</a>, <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</p></li>
 </ul>
 <p><code><a href="../reference/browse-this.html">browse_github_actions()</a></code> is a new function to open the Actions page of the respective repo on GitHub, similar to existing <code>browse_*()</code> functions (<a href='https://github.com/pat-s'>@pat-s</a>, <a href='https://github.com/r-lib/usethis/issues/1102'>#1102</a>).</p>
 <p><code><a href="../reference/use_cpp11.html">use_cpp11()</a></code> is a new function to set up an R package to use cpp11.</p>

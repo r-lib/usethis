@@ -241,14 +241,16 @@ for additional examples.</p></td>
 <li><p><code>use_cran_badge()</code>: badge indicates what version of your package is
 available on CRAN, powered by <a href='https://www.r-pkg.org'>https://www.r-pkg.org</a></p></li>
 <li><p><code>use_lifecycle_badge()</code>: badge declares the developmental stage of a
-package, according to <a href='https://www.tidyverse.org/lifecycle/'>https://www.tidyverse.org/lifecycle/</a>:</p><ul>
+package (or argument or function) according to
+<a href='https://lifecycle.r-lib.org/articles/lifecycle.html'>https://lifecycle.r-lib.org/articles/lifecycle.html</a>:</p><ul>
 <li><p>Experimental</p></li>
 <li><p>Maturing</p></li>
 <li><p>Stable</p></li>
-<li><p>Superseded</p></li>
-<li><p>Archived</p></li>
-<li><p>Dormant</p></li>
 <li><p>Questioning</p></li>
+<li><p>Superseded</p></li>
+<li><p>Soft-deprecated (function or argument)</p></li>
+<li><p>Deprecated (function or argument)</p></li>
+<li><p>Defunct (function or argument)</p></li>
 </ul></li>
 <li><p><code>use_binder_badge()</code>: badge indicates that your repository can be launched
 in an executable environment on <a href='https://mybinder.org/'>https://mybinder.org/</a></p></li>
@@ -256,7 +258,8 @@ in an executable environment on <a href='https://mybinder.org/'>https://mybinder
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>The <a href='ci.html'>functions that set up continuous integration services</a> also create badges.</p></div>
+    <div class='dont-index'><p>Functions that configure continuous integration, such as
+<code><a href='github_actions.html'>use_github_actions()</a></code>, also create badges.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {

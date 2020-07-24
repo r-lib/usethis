@@ -53,19 +53,19 @@
 
 
 <meta property="og:title" content="Continuous integration setup and badges — ci" />
-<meta property="og:description" content="Sets up continuous integration (CI) services for an R package that is
-developed on GitHub or, perhaps, GitLab. CI services can run R CMD check
-automatically on various platforms, triggered by each push or pull request.
-These functions
+<meta property="og:description" content="
+These functions are now soft-deprecated since the tidyverse team has started
+using GitHub Actions (GHA) for
+continuous integration (CI). See use_github_actions() for help configuring
+GHA. GHA functionality in usethis is actively maintained and exercised, which
+is no longer true for Travis-CI, AppVeyor, etc.
+Sets up third-party continuous integration (CI) services for an R package
+that is developed on GitHub or, perhaps, GitLab. These functions
 Add service-specific configuration files and add them to .Rbuildignore.
 Activate a service or give the user a detailed prompt.
 Provide the markdown to insert a badge into README.
 
-
-Note that the tidyverse team now uses GitHub Actions for continuous integration, so
-the usethis functions supporting GitHub Actions are now the most actively
-maintained. See use_github_actions() or use_tidy_github_actions() to
-learn more." />
+" />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -197,19 +197,19 @@ learn more." />
     </div>
 
     <div class="ref-description">
-    <p>Sets up continuous integration (CI) services for an R package that is
-developed on GitHub or, perhaps, GitLab. CI services can run <code>R CMD check</code>
-automatically on various platforms, triggered by each push or pull request.
-These functions</p><ul>
+    <p><img src='figures/lifecycle-soft-deprecated.svg' alt='Soft-deprecated lifecycle' /></p>
+<p>These functions are now soft-deprecated since the tidyverse team has started
+using <a href='https://github.com/features/actions'>GitHub Actions (GHA)</a> for
+continuous integration (CI). See <code><a href='github_actions.html'>use_github_actions()</a></code> for help configuring
+GHA. GHA functionality in usethis is actively maintained and exercised, which
+is no longer true for Travis-CI, AppVeyor, etc.</p>
+<p>Sets up third-party continuous integration (CI) services for an R package
+that is developed on GitHub or, perhaps, GitLab. These functions</p><ul>
 <li><p>Add service-specific configuration files and add them to <code>.Rbuildignore</code>.</p></li>
 <li><p>Activate a service or give the user a detailed prompt.</p></li>
 <li><p>Provide the markdown to insert a badge into README.</p></li>
 </ul>
 
-<p>Note that the tidyverse team now uses <a href='https://github.com/features/actions'>GitHub Actions</a> for continuous integration, so
-the usethis functions supporting GitHub Actions are now the most actively
-maintained. See <code><a href='github_actions.html'>use_github_actions()</a></code> or <code><a href='use_tidy_github_actions.html'>use_tidy_github_actions()</a></code> to
-learn more.</p>
     </div>
 
     <pre class="usage"><span class='fu'>use_travis</span>(browse = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(), ext = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>))
