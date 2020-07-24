@@ -15,14 +15,17 @@
 #' * `use_cran_badge()`: badge indicates what version of your package is
 #' available on CRAN, powered by <https://www.r-pkg.org>
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
-#' package, according to <https://www.tidyverse.org/lifecycle/>:
+#' package (or argument or function) according to
+#' <https://lifecycle.r-lib.org/articles/lifecycle.html>:
 #'   - Experimental
 #'   - Maturing
 #'   - Stable
-#'   - Superseded
-#'   - Archived
-#'   - Dormant
 #'   - Questioning
+#'   - Superseded
+#'   - Soft-deprecated (function or argument)
+#'   - Deprecated (function or argument)
+#'   - Defunct (function or argument)
+#'
 #' * `use_binder_badge()`: badge indicates that your repository can be launched
 #' in an executable environment on <https://mybinder.org/>
 #'
@@ -30,8 +33,8 @@
 #' @param href,src Badge link and image src
 #' @param stage Stage of the package lifecycle
 #'
-#' @seealso The [functions that set up continuous integration
-#'   services][use_travis] also create badges.
+#' @seealso Functions that configure continuous integration, such as
+#'   [use_github_actions()], also create badges.
 #'
 #' @name badges
 #' @examples

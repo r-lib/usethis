@@ -45,7 +45,7 @@ use_github_action_pr_commands(
 \item{name}{Name of the workflow file, with or without a \code{.yaml} extension.}
 
 \item{url}{The full URL to the \code{.yaml} file. By default, the corresponding
-workflow in https://github.com/r-lib/actions will be used.}
+workflow in \url{https://github.com/r-lib/actions} will be used.}
 
 \item{save_as}{Name of the workflow file. Defaults to \code{basename(url)}
 for \code{use_github_action()}.}

@@ -2,11 +2,18 @@
 
 #' GitHub Actions setup and badges
 #'
+#' @description
 #' Sets up continuous integration (CI) for an R package that is developed on
-#' GitHub using [GitHub Actions](https://github.com/features/actions). These
-#' functions
-#' * Add the necessary configuration files and list them in `.Rbuildignore`.
-#' * Provide the markdown to insert a badge into your README
+#' GitHub using [GitHub Actions](https://github.com/features/actions). CI can be
+#' used to trigger various operations for each push or pull request, such as:
+#' * Run `R CMD check` on various operating systems and R versions
+#' * Build and deploy a pkgdown site
+#' * Determine test coverage
+#'
+#' This family of functions
+#' * Adds the necessary configuration files and lists them in `.Rbuildignore`.
+#' * Provides the markdown to insert a badge into your README.
+#'
 #' @name github_actions
 #' @seealso
 #' * [use_github_action()] sets up specific, individual actions, e.g. test
@@ -110,7 +117,7 @@ use_tidy_github_actions <- function() {
 #' @inheritParams use_template
 #' @param name Name of the workflow file, with or without a `.yaml` extension.
 #' @param url The full URL to the `.yaml` file. By default, the corresponding
-#'   workflow in https://github.com/r-lib/actions will be used.
+#'   workflow in <https://github.com/r-lib/actions> will be used.
 #' @param save_as Name of the workflow file. Defaults to `basename(url)`
 #'   for `use_github_action()`.
 #'
