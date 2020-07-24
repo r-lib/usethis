@@ -44,7 +44,7 @@ There is increasing interest in making the name of a repo's default branch confi
 
 ## Other changes
 
-* GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to alternative platforms (e.g. Travis-CI or AppVeyor) are soft-deprecated to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (#1169).
+* GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (#1169).
 
 * `use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The existing behaviour, which adds an `OWNER/REPO` GitHub remote, remains the default (#918, @ijlyttle).
 

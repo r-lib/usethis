@@ -44,11 +44,11 @@ of R, change the tag from \code{latest} to the version you want, e.g.
 \description{
 \lifecycle{soft-deprecated}
 
-These functions are now soft-deprecated since the tidyverse team has started
-using \href{https://github.com/features/actions}{GitHub Actions (GHA)} for
+Some of these functions are now soft-deprecated since the tidyverse team has
+started using \href{https://github.com/features/actions}{GitHub Actions (GHA)} for
 continuous integration (CI). See \code{\link[=use_github_actions]{use_github_actions()}} for help configuring
 GHA. GHA functionality in usethis is actively maintained and exercised, which
-is no longer true for Travis-CI, AppVeyor, etc.
+is no longer true for Travis-CI or AppVeyor.
 
 Sets up third-party continuous integration (CI) services for an R package
 that is developed on GitHub or, perhaps, GitLab. These functions

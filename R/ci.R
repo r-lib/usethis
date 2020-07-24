@@ -4,11 +4,11 @@
 #'
 #' \lifecycle{soft-deprecated}
 #'
-#' These functions are now soft-deprecated since the tidyverse team has started
-#' using [GitHub Actions (GHA)](https://github.com/features/actions) for
+#' Some of these functions are now soft-deprecated since the tidyverse team has
+#' started using [GitHub Actions (GHA)](https://github.com/features/actions) for
 #' continuous integration (CI). See [use_github_actions()] for help configuring
 #' GHA. GHA functionality in usethis is actively maintained and exercised, which
-#' is no longer true for Travis-CI, AppVeyor, etc.
+#' is no longer true for Travis-CI or AppVeyor.
 #'
 #' Sets up third-party continuous integration (CI) services for an R package
 #' that is developed on GitHub or, perhaps, GitLab. These functions
@@ -60,11 +60,6 @@ use_travis <- function(browse = rlang::is_interactive(),
 #' @export
 #' @rdname ci
 use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
-  lifecycle::deprecate_soft(
-    when = "2.0.0",
-    what = "usethis::use_travis_badge()",
-    with = "use_github_actions()"
-  )
   repo_spec <- repo_spec %||% repo_spec()
   ext <- arg_match(ext)
   url <- glue("https://travis-ci.{ext}/{repo_spec}")
@@ -126,11 +121,6 @@ appveyor_activate <- function(browse = is_interactive()) {
 #' @export
 #' @rdname ci
 use_appveyor_badge <- function(repo_spec = NULL) {
-  lifecycle::deprecate_soft(
-    when = "2.0.0",
-    what = "usethis::use_appveyor_badge()",
-    with = "use_github_actions()"
-  )
   repo_spec <- repo_spec %||% repo_spec()
   img <- glue(
     "https://ci.appveyor.com/api/projects/status/github/",
@@ -147,11 +137,6 @@ use_appveyor_badge <- function(repo_spec = NULL) {
 #' @export
 #' @rdname ci
 use_gitlab_ci <- function() {
-  lifecycle::deprecate_soft(
-    when = "2.0.0",
-    what = "usethis::use_gitlab_ci()",
-    with = "use_github_actions()"
-  )
   check_uses_git()
   new <- use_template(
     "gitlab-ci.yml",
@@ -180,11 +165,6 @@ use_gitlab_ci <- function() {
 #' @rdname ci
 use_circleci <- function(browse = rlang::is_interactive(),
                          image = "rocker/verse:latest") {
-  lifecycle::deprecate_soft(
-    when = "2.0.0",
-    what = "usethis::use_circleci()",
-    with = "use_github_actions()"
-  )
   repo_spec <- repo_spec()
   use_directory(".circleci", ignore = TRUE)
   new <- use_template(
@@ -209,11 +189,6 @@ use_circleci <- function(browse = rlang::is_interactive(),
 #' @rdname ci
 #' @export
 use_circleci_badge <- function(repo_spec = NULL) {
-  lifecycle::deprecate_soft(
-    when = "2.0.0",
-    what = "usethis::use_circleci_badge()",
-    with = "use_github_actions()"
-  )
   repo_spec <- repo_spec %||% repo_spec()
   url <- glue("https://circleci.com/gh/{repo_spec}")
   img <- glue("{url}.svg?style=svg")
