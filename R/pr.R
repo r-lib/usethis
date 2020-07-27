@@ -154,14 +154,20 @@ pr_init <- function(branch) {
 
   check_pr_readiness()
 
+  base_branch <- git_branch()
   # TODO: honor default branch
-  if (git_branch() != "master") {
+  if (base_branch != "master") {
     if (ui_nope("Create local PR branch with non-master parent?")) {
       return(invisible(FALSE))
     }
   }
 
-  check_no_uncommitted_changes(untracked = TRUE)
+  if (!is.na(git_branch_tracking(base_branch))) {
+    comparison <- git_branch_compare(base_branch)
+    if (comparison$remote_only > 0) {
+      check_no_uncommitted_changes(untracked = TRUE)
+    }
+  }
   pr_pull_source_override()
 
   ui_done("Creating and switching to local branch {ui_value(branch)}")
