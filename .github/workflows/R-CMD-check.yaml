@@ -64,6 +64,7 @@ jobs:
           do
             eval sudo $cmd
           done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "16.04"), sep = "\n")')
+          sudo apt-get install -y libgit2-dev
 
       - name: Install macOS system dependencies
         if: runner.os == 'macOS'
