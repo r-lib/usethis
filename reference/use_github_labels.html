@@ -199,17 +199,17 @@ and <code>tidy_label_descriptions()</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>use_github_labels</span>(
-  repo_spec = <span class='kw'>NULL</span>,
-  labels = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  rename = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  colours = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  descriptions = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  delete_default = <span class='fl'>FALSE</span>,
-  auth_token = <span class='fu'><a href='create_github_token.html'>github_token</a></span>(),
-  host = <span class='kw'>NULL</span>
+  <span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>rename</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>descriptions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
+  <span class='kw'>delete_default</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='create_github_token.html'>github_token</a></span>(),
+  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )
 
-<span class='fu'>use_tidy_labels</span>(repo_spec = <span class='kw'>NULL</span>, auth_token = <span class='fu'><a href='create_github_token.html'>github_token</a></span>(), host = <span class='kw'>NULL</span>)
+<span class='fu'>use_tidy_labels</span>(<span class='kw'>repo_spec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='create_github_token.html'>github_token</a></span>(), <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>tidy_labels</span>()
 
@@ -279,22 +279,22 @@ example, and that a reply has been sent requesting one from the user.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># typical use in, e.g., a new tidyverse project</span>
-<span class='fu'>use_github_labels</span>(delete_default = <span class='fl'>TRUE</span>)
+<span class='fu'>use_github_labels</span>(<span class='kw'>delete_default</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># create labels without changing colours/descriptions</span>
 <span class='fu'>use_github_labels</span>(
-  labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"foofy"</span>, <span class='st'>"foofier"</span>, <span class='st'>"foofiest"</span>),
-  colours = <span class='kw'>NULL</span>,
-  descriptions = <span class='kw'>NULL</span>
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"foofy"</span>, <span class='st'>"foofier"</span>, <span class='st'>"foofiest"</span>),
+  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>descriptions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )
 
 <span class='co'># change descriptions without changing names/colours</span>
 <span class='fu'>use_github_labels</span>(
-  labels = <span class='kw'>NULL</span>,
-  colours = <span class='kw'>NULL</span>,
-  descriptions = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"foofiest"</span> = <span class='st'>"the foofiest issue you ever saw"</span>)
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>descriptions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"foofiest"</span> <span class='kw'>=</span> <span class='st'>"the foofiest issue you ever saw"</span>)
 )
 }</div></pre>
   </div>
@@ -312,7 +312,7 @@ example, and that a reply has been sent requesting one from the user.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

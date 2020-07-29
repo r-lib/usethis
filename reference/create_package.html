@@ -203,18 +203,18 @@ any existing files are changed.</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_package</span>(
-  <span class='kw'>path</span>,
-  fields = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  rstudio = <span class='kw'>rstudioapi</span>::<span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/isAvailable.html'>isAvailable</a></span>(),
-  roxygen = <span class='fl'>TRUE</span>,
-  check_name = <span class='fl'>TRUE</span>,
-  open = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>()
+  <span class='no'>path</span>,
+  <span class='kw'>fields</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw pkg'>rstudioapi</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/isAvailable.html'>isAvailable</a></span>(),
+  <span class='kw'>roxygen</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>check_name</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>open</span> <span class='kw'>=</span> <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>()
 )
 
 <span class='fu'>create_project</span>(
-  <span class='kw'>path</span>,
-  rstudio = <span class='kw'>rstudioapi</span>::<span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/isAvailable.html'>isAvailable</a></span>(),
-  open = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>()
+  <span class='no'>path</span>,
+  <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw pkg'>rstudioapi</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/isAvailable.html'>isAvailable</a></span>(),
+  <span class='kw'>open</span> <span class='kw'>=</span> <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -264,7 +264,7 @@ error if not</p></td>
     <p>Path to the newly created project or package, invisibly.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='use_tidy_github_actions.html'>create_tidy_package()</a></code> is a convenience function that extends
+    <div class='dont-index'><p><code><a href='tidyverse.html'>create_tidy_package()</a></code> is a convenience function that extends
 <code>create_package()</code> by immediately applying as many of the tidyverse
 development conventions as possible.</p></div>
 
@@ -283,7 +283,7 @@ development conventions as possible.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

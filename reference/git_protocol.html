@@ -218,15 +218,15 @@ current R session. This is stored in the <code>"usethis.protocol"</code> option.
 </ul>
 
 <p>Any interactive choice re: <code>protocol</code> comes with a reminder of how to set the
-protocol at startup by setting an option in <code>.Rprofile</code>:</p><pre><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(usethis.protocol = <span class='st'>"https"</span>)
+protocol at startup by setting an option in <code>.Rprofile</code>:</p><pre><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>usethis.protocol</span> <span class='kw'>=</span> <span class='st'>"https"</span>)
 <span class='co'># or</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(usethis.protocol = <span class='st'>"ssh"</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span>(<span class='kw'>usethis.protocol</span> <span class='kw'>=</span> <span class='st'>"ssh"</span>)</pre>
 
     </div>
 
     <pre class="usage"><span class='fu'>git_protocol</span>()
 
-<span class='fu'>use_git_protocol</span>(<span class='kw'>protocol</span>)</pre>
+<span class='fu'>use_git_protocol</span>(<span class='no'>protocol</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,7 +245,7 @@ menu.</p></td>
     <p>"https" or "ssh"</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## consult the option and maybe get an interactive menu</span>
 <span class='fu'>git_protocol</span>()
 
@@ -268,7 +268,7 @@ menu.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

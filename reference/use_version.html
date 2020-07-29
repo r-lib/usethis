@@ -200,7 +200,7 @@ version with four components, it does nothing. Thin wrapper around
 <code>use_version()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_version</span>(which = <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>use_version</span>(<span class='kw'>which</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>use_dev_version</span>()</pre>
 
@@ -219,15 +219,14 @@ version with four components, it does nothing. Thin wrapper around
     <div class='dont-index'><p>The <a href='https://r-pkgs.org/description.html#version'>version section</a> of <a href='https://r-pkgs.org'>R Packages</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## for interactive selection, do this:</span>
 <span class='fu'>use_version</span>()
 
 <span class='co'>## request a specific type of increment</span>
 <span class='fu'>use_version</span>(<span class='st'>"minor"</span>)
 <span class='fu'>use_dev_version</span>()
-}
-</div></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -243,7 +242,7 @@ version with four components, it does nothing. Thin wrapper around
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

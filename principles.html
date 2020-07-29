@@ -195,11 +195,9 @@
 <h3 class="hasAnchor">
 <a href="#activation-upon-load-or-attach-no" class="anchor"></a>Activation upon load or attach? No.</h3>
 <p>We’ve contemplated project activation in <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onLoad()</a></code> or <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onAttach()</a></code>, but it’s not clear which is more appropriate. Which suggests that neither is appropriate. If we ever do this, <code>zzz.R</code> would include something like this:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw">.onLoad</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">libname</span>, <span class="kw">pkgname</span>) {
-  <span class="fu"><a href="https://rdrr.io/r/base/try.html">try</a></span>(<span class="fu"><a href="reference/proj_utils.html">proj_set</a></span>(<span class="st">"."</span>, quiet = <span class="fl">TRUE</span>), silent = <span class="fl">TRUE</span>)
-}
-</pre></div>
+<div class="sourceCode" id="cb1"><html><pre class="r"><span class="no">.onLoad</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">libname</span>, <span class="no">pkgname</span>) {
+  <span class="fu"><a href="https://rdrr.io/r/base/try.html">try</a></span>(<span class="fu"><a href="reference/proj_utils.html">proj_set</a></span>(<span class="st">"."</span>, <span class="kw">quiet</span> <span class="kw">=</span> <span class="fl">TRUE</span>), <span class="kw">silent</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+}</pre></html></div>
 <p>Why not <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onAttach()</a></code>?</p>
 <ul>
 <li>A package that imported usethis would also need to set project on attach.</li>
@@ -279,7 +277,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

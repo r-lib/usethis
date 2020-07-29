@@ -194,7 +194,7 @@ Git terminology). Wraps <code><a href='https://docs.ropensci.org/gert/reference/
 <code><a href='https://docs.ropensci.org/gert/reference/git_config.html'>gert::git_config()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_git_config</span>(scope = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>), <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>use_git_config</span>(<span class='kw'>scope</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"user"</span>, <span class='st'>"project"</span>), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -223,15 +223,15 @@ list.</p>
 <code><a href='use_git.html'>use_git</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># set the user's global user.name and user.email</span>
-<span class='fu'>use_git_config</span>(user.name = <span class='st'>"Jane"</span>, user.email = <span class='st'>"jane@example.org"</span>)
+<span class='fu'>use_git_config</span>(<span class='kw'>user.name</span> <span class='kw'>=</span> <span class='st'>"Jane"</span>, <span class='kw'>user.email</span> <span class='kw'>=</span> <span class='st'>"jane@example.org"</span>)
 
 <span class='co'># set the user.name and user.email locally, i.e. for current repo/project</span>
 <span class='fu'>use_git_config</span>(
-  scope = <span class='st'>"project"</span>,
-  user.name = <span class='st'>"Jane"</span>,
-  user.email = <span class='st'>"jane@example.org"</span>
+  <span class='kw'>scope</span> <span class='kw'>=</span> <span class='st'>"project"</span>,
+  <span class='kw'>user.name</span> <span class='kw'>=</span> <span class='st'>"Jane"</span>,
+  <span class='kw'>user.email</span> <span class='kw'>=</span> <span class='st'>"jane@example.org"</span>
 )
 }</div></pre>
   </div>
@@ -249,7 +249,7 @@ list.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

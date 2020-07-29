@@ -218,19 +218,19 @@ there will be content at the destination.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>browse_github</span>(package = <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>browse_github</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>browse_github_issues</span>(package = <span class='kw'>NULL</span>, number = <span class='kw'>NULL</span>)
+<span class='fu'>browse_github_issues</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>browse_github_pulls</span>(package = <span class='kw'>NULL</span>, number = <span class='kw'>NULL</span>)
+<span class='fu'>browse_github_pulls</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>browse_github_actions</span>(package = <span class='kw'>NULL</span>)
+<span class='fu'>browse_github_actions</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>browse_travis</span>(package = <span class='kw'>NULL</span>, ext = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>))
+<span class='fu'>browse_travis</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ext</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"com"</span>, <span class='st'>"org"</span>))
 
-<span class='fu'>browse_circleci</span>(package = <span class='kw'>NULL</span>)
+<span class='fu'>browse_circleci</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>browse_cran</span>(package = <span class='kw'>NULL</span>)</pre>
+<span class='fu'>browse_cran</span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -270,7 +270,7 @@ specific pull request.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>browse_github</span>(<span class='st'>"gh"</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/gh'</span><span></span></div><div class='input'><span class='fu'>browse_github_issues</span>(<span class='st'>"fs"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/fs/issues/'</span><span></span></div><div class='input'><span class='fu'>browse_github_issues</span>(<span class='st'>"fs"</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/fs/issues/1'</span><span></span></div><div class='input'><span class='fu'>browse_github_pulls</span>(<span class='st'>"curl"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/jeroen/curl/pulls/'</span><span></span></div><div class='input'><span class='fu'>browse_github_pulls</span>(<span class='st'>"curl"</span>, <span class='fl'>183</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/jeroen/curl/pull/183'</span><span></span></div><div class='input'><span class='fu'>browse_travis</span>(<span class='st'>"gert"</span>, ext = <span class='st'>"org"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://travis-ci.org/r-lib/gert'</span><span></span></div><div class='input'><span class='fu'>browse_cran</span>(<span class='st'>"MASS"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://cran.r-project.org/package=MASS'</span><span></span></div></span></pre>
+    <pre class="examples"><div class='input'><span class='fu'>browse_github</span>(<span class='st'>"gh"</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/gh'</span><span></span></div><div class='input'><span class='fu'>browse_github_issues</span>(<span class='st'>"fs"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/fs/issues/'</span><span></span></div><div class='input'><span class='fu'>browse_github_issues</span>(<span class='st'>"fs"</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/fs/issues/1'</span><span></span></div><div class='input'><span class='fu'>browse_github_pulls</span>(<span class='st'>"curl"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/jeroen/curl/pulls/'</span><span></span></div><div class='input'><span class='fu'>browse_github_pulls</span>(<span class='st'>"curl"</span>, <span class='fl'>183</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/jeroen/curl/pull/183'</span><span></span></div><div class='input'><span class='fu'>browse_travis</span>(<span class='st'>"gert"</span>, <span class='kw'>ext</span> <span class='kw'>=</span> <span class='st'>"org"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://travis-ci.org/r-lib/gert'</span><span></span></div><div class='input'><span class='fu'>browse_cran</span>(<span class='st'>"MASS"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://cran.r-project.org/package=MASS'</span><span></span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -286,7 +286,7 @@ specific pull request.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

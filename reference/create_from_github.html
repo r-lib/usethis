@@ -207,15 +207,15 @@ clone) and we cannot do that unless we have a PAT.</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_from_github</span>(
-  <span class='kw'>repo_spec</span>,
-  destdir = <span class='kw'>NULL</span>,
-  fork = <span class='fl'>NA</span>,
-  rstudio = <span class='kw'>NULL</span>,
-  open = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(),
-  protocol = <span class='fu'><a href='git_protocol.html'>git_protocol</a></span>(),
-  auth_token = <span class='fu'><a href='create_github_token.html'>github_token</a></span>(),
-  host = <span class='kw'>NULL</span>,
-  credentials = <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span>()
+  <span class='no'>repo_spec</span>,
+  <span class='kw'>destdir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fork</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>rstudio</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>open</span> <span class='kw'>=</span> <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(),
+  <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='fu'><a href='git_protocol.html'>git_protocol</a></span>(),
+  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='create_github_token.html'>github_token</a></span>(),
+  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -344,7 +344,7 @@ without the need for any local or remote Git operations</p></li>
 </div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>create_from_github</span>(<span class='st'>"r-lib/usethis"</span>)
 }</div></pre>
   </div>
@@ -362,7 +362,7 @@ without the need for any local or remote Git operations</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

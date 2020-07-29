@@ -190,9 +190,9 @@ for internal use. File is written with UTF-8 encoding." />
 for internal use. File is written with UTF-8 encoding.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>write_union</span>(<span class='kw'>path</span>, <span class='kw'>lines</span>, quiet = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>write_union</span>(<span class='no'>path</span>, <span class='no'>lines</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>write_over</span>(<span class='kw'>path</span>, <span class='kw'>lines</span>, quiet = <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>write_over</span>(<span class='no'>path</span>, <span class='no'>lines</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -236,18 +236,18 @@ and user is available to give permission.</p></li>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \dontshow{</span>
-<span class='kw'>.old_wd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='no'>.old_wd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 <span class='co'># }</span>
-<span class='fu'>write_union</span>(<span class='st'>"a_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span><span> Adding </span><span style='color: #0000BB;'>'a'</span><span>, </span><span style='color: #0000BB;'>'b'</span><span>, </span><span style='color: #0000BB;'>'c'</span><span> to </span><span style='color: #0000BB;'>'a_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"a_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'><span class='fu'>write_union</span>(<span class='st'>"a_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>])</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> Adding </span><span style='color: #0000BB;'>'d'</span><span>, </span><span style='color: #0000BB;'>'e'</span><span> to </span><span style='color: #0000BB;'>'a_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"a_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c" "d" "e"</div><div class='input'>
-<span class='fu'>write_over</span>(<span class='st'>"another_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> Writing </span><span style='color: #0000BB;'>'another_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"another_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'><span class='fu'>write_over</span>(<span class='st'>"another_file"</span>, <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>])
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>write_union</span>(<span class='st'>"a_file"</span>, <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>])</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span><span> Adding </span><span style='color: #0000BB;'>'a'</span><span>, </span><span style='color: #0000BB;'>'b'</span><span>, </span><span style='color: #0000BB;'>'c'</span><span> to </span><span style='color: #0000BB;'>'a_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"a_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'><span class='fu'>write_union</span>(<span class='st'>"a_file"</span>, <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>5</span>])</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> Adding </span><span style='color: #0000BB;'>'d'</span><span>, </span><span style='color: #0000BB;'>'e'</span><span> to </span><span style='color: #0000BB;'>'a_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"a_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c" "d" "e"</div><div class='input'>
+<span class='fu'>write_over</span>(<span class='st'>"another_file"</span>, <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>])</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BB00;'>✔</span><span> Writing </span><span style='color: #0000BB;'>'another_file'</span><span></span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='st'>"another_file"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c"</div><div class='input'><span class='fu'>write_over</span>(<span class='st'>"another_file"</span>, <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>])
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## will error if user isn't present to approve the overwrite</span>
-<span class='fu'>write_over</span>(<span class='st'>"another_file"</span>, <span class='kw'>letters</span>[<span class='fl'>3</span><span class='op'>:</span><span class='fl'>1</span>])
+<span class='fu'>write_over</span>(<span class='st'>"another_file"</span>, <span class='no'>letters</span>[<span class='fl'>3</span>:<span class='fl'>1</span>])
 }
 
 <span class='co'>## clean up</span>
 <span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span>(<span class='st'>"a_file"</span>, <span class='st'>"another_file"</span>)</div><div class='output co'>#&gt; [1] TRUE TRUE</div><div class='input'><span class='co'># \dontshow{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span>(<span class='kw'>.old_wd</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span>(<span class='no'>.old_wd</span>)
 <span class='co'># }</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -264,7 +264,7 @@ and user is available to give permission.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

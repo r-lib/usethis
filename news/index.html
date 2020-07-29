@@ -243,9 +243,9 @@
 <ul>
 <li><p><code><a href="../reference/use_github_links.html">use_github_links()</a></code> is a bit more clever about remotes (e.g. <code>origin</code> vs. <code>upstream</code>), which makes it easier to make a PR that adds GitHub links for a package you’ve forked.</p></li>
 <li><p><code><a href="../reference/use_pkgdown.html">use_pkgdown()</a></code> now <code>.gitignore</code>s the destination directory and only adds the destination directory to the config file if it departs from the default (which is <code>docs/</code>).</p></li>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_ci()</a></code> is now deprecated in favour of <code><a href="../reference/use_tidy_github_actions.html">use_tidy_github_actions()</a></code> (<a href='https://github.com/r-lib/usethis/issues/1098'>#1098</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_ci()</a></code> is now deprecated in favour of <code><a href="../reference/tidyverse.html">use_tidy_github_actions()</a></code> (<a href='https://github.com/r-lib/usethis/issues/1098'>#1098</a>).</p></li>
 <li><p><code><a href="../reference/use_github_action.html">use_github_action_check_standard()</a></code> is a new intermediate workflow that checks on more platforms than <code>_release</code>, but is less exhaustive than <code>_full</code> (<a href='https://github.com/jimhester'>@jimhester</a>).</p></li>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">create_tidy_package()</a></code> now uses an MIT license (<a href='https://github.com/topepo'>@topepo</a>, <a href='https://github.com/r-lib/usethis/issues/1096'>#1096</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">create_tidy_package()</a></code> now uses an MIT license (<a href='https://github.com/topepo'>@topepo</a>, <a href='https://github.com/r-lib/usethis/issues/1096'>#1096</a>).</p></li>
 </ul>
 </div>
     <div id="usethis-160" class="section level1">
@@ -326,7 +326,7 @@
 <li><p><code>use_markdown_template()</code> no longer uses an unexported function in its default arguments (<a href='https://github.com/fmichonneau'>@fmichonneau</a>, <a href='https://github.com/r-lib/usethis/issues/761'>#761</a>).</p></li>
 <li><p><code><a href="../reference/use_testthat.html">use_testthat()</a></code> and <code><a href="../reference/use_r.html">use_test()</a></code> now work in projects, not just packages (<a href='https://github.com/r-lib/usethis/issues/1017'>#1017</a>).</p></li>
 <li><p><code><a href="../reference/use_r.html">use_test()</a></code> works on Windows when called without arguments (<a href='https://github.com/r-lib/usethis/issues/901'>#901</a>).</p></li>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_issue_template()</a></code> uses current github format (<a href='https://github.com/Maschette'>@Maschette</a>, <a href='https://github.com/r-lib/usethis/issues/756'>#756</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_issue_template()</a></code> uses current github format (<a href='https://github.com/Maschette'>@Maschette</a>, <a href='https://github.com/r-lib/usethis/issues/756'>#756</a>).</p></li>
 <li><p><code><a href="../reference/ci.html">use_travis()</a></code>, <code><a href="../reference/ci.html">use_travis_badge()</a></code>, and <code><a href="../reference/browse-this.html">browse_travis()</a></code>, now default to <code>ext = "com"</code> since travis-ci.com is now recommended it over travis-ci.org (<a href='https://github.com/riccardoporreca'>@riccardoporreca</a>, <a href='https://github.com/r-lib/usethis/issues/1038'>#1038</a>).</p></li>
 <li><p><code><a href="../reference/use_release_issue.html">use_release_issue()</a></code> reminds you to re-generate <code>README.md</code>, if needed (<a href='https://github.com/r-lib/usethis/issues/767'>#767</a>).</p></li>
 <li><p><code><a href="../reference/use_r.html">use_r()</a></code> and <code><a href="../reference/use_r.html">use_test()</a></code> throw a clear error if multiple names are provided (<a href='https://github.com/strboul'>@strboul</a>, <a href='https://github.com/r-lib/usethis/issues/862'>#862</a>).</p></li>
@@ -351,7 +351,7 @@
 <h2 class="hasAnchor">
 <a href="#using-the-pipe--or-the-tidy-eval-toolkit-in-your-package" class="anchor"></a>Using the pipe <code>%&gt;%</code> or the tidy eval toolkit in your package</h2>
 <ul>
-<li><p>The templates used by <code><a href="../reference/use_pipe.html">use_pipe()</a></code> and <code><a href="../reference/use_tidy_github_actions.html">use_tidy_eval()</a></code> use a more robust form of cross-reference links, linking to files rather than topics. This should silence some warnings seen on Windows at install time (<a href='https://github.com/r-lib/usethis/issues/730'>#730</a>, <a href='https://github.com/r-lib/usethis/issues/731'>#731</a> <a href='https://github.com/jmgirard'>@jmgirard</a>).</p></li>
+<li><p>The templates used by <code><a href="../reference/use_pipe.html">use_pipe()</a></code> and <code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> use a more robust form of cross-reference links, linking to files rather than topics. This should silence some warnings seen on Windows at install time (<a href='https://github.com/r-lib/usethis/issues/730'>#730</a>, <a href='https://github.com/r-lib/usethis/issues/731'>#731</a> <a href='https://github.com/jmgirard'>@jmgirard</a>).</p></li>
 <li><p><code><a href="../reference/use_pipe.html">use_pipe()</a></code> gains a logical <code>export</code> argument, so it can do the setup necessary to use the pipe operator when it is re-exported (<code>export = TRUE</code>, which is the default and preserves the previous behaviour) and when it is not (<code>export = FALSE</code>) (<a href='https://github.com/r-lib/usethis/issues/783'>#783</a>).</p></li>
 </ul>
 </div>
@@ -369,7 +369,7 @@
 <h2 class="hasAnchor">
 <a href="#build-tools-and-continuous-integration" class="anchor"></a>Build tools and continuous integration</h2>
 <ul>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_ci()</a></code> is updated for R 3.6, meaning that R 3.2 is the oldest version of R supported through proactive testing.</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_ci()</a></code> is updated for R 3.6, meaning that R 3.2 is the oldest version of R supported through proactive testing.</p></li>
 <li><p><code><a href="../reference/use_make.html">use_make()</a></code> and <code><a href="../reference/use_jenkins.html">use_jenkins()</a></code> add a Makefile and Jenkinsfile, respectively (<a href='https://github.com/r-lib/usethis/issues/501'>#501</a>, <a href='https://github.com/ryapric'>@ryapric</a>).</p></li>
 <li><p><code><a href="../reference/ci.html">use_circleci()</a></code> creates a <code>.circleci/config.yaml</code> config file for CircleCI (<a href='https://github.com/r-lib/usethis/issues/703'>#703</a>, <a href='https://github.com/jdblischak'>@jdblischak</a>).</p></li>
 </ul>
@@ -437,11 +437,9 @@
 </li>
 <li>
 <p><code><a href="../reference/use_tibble.html">use_tibble()</a></code> and <code><a href="../reference/use_rcpp.html">use_rcpp()</a></code> automatically add roxygen tags to to <code>{package}-package.R</code> if it contains a specially formatted namespace block (<a href='https://github.com/r-lib/usethis/issues/517'>#517</a>):</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co">## usethis namespace: start</span>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="co">## usethis namespace: start</span>
 <span class="co">## usethis namespace: end</span>
-<span class="kw">NULL</span>
-</pre></div>
+<span class="kw">NULL</span></pre></div>
 <p>Unfortunately this means that <code><a href="../reference/use_rcpp.html">use_rcpp()</a></code> no longer supports non-roxygen2 workflows, but I suspect the set of people who use usethis and Rcpp but not roxygen2 is very small.</p>
 </li>
 </ul>
@@ -471,11 +469,11 @@
 <ul>
 <li><p>Call <code><a href="../reference/use_github_labels.html">use_tidy_labels()</a></code> to update GitHub labels. Colours are less saturated, docs is now documentation, we use some emoji, and performance is no longer automatically added to all repos (<a href='https://github.com/r-lib/usethis/issues/519'>#519</a>). Repo specific issues should be given colour <code>#eeeeee</code> and have an emoji.</p></li>
 <li><p>Call <code><a href="../reference/use_logo.html">use_logo()</a></code> to update the package logo to the latest specifications: <code>man/figure/logo.png</code> should be 240 x 278, and README should contain <code>&lt;img src="man/figures/logo.png" align="right" height="139" /&gt;</code>. This gives a nicer display on retina displays. The logo is also linked to the pkgdown site if available (<a href='https://github.com/r-lib/usethis/issues/536'>#536</a>).</p></li>
-<li><p>When creating a new package, use <code><a href="../reference/use_tidy_github_actions.html">create_tidy_package()</a></code> to start with a package following the tidyverse standards (<a href='https://github.com/r-lib/usethis/issues/461'>#461</a>).</p></li>
+<li><p>When creating a new package, use <code><a href="../reference/tidyverse.html">create_tidy_package()</a></code> to start with a package following the tidyverse standards (<a href='https://github.com/r-lib/usethis/issues/461'>#461</a>).</p></li>
 <li><p><code>NEWS.md</code> for the development version should use “(development version)” rather than the specific version (<a href='https://github.com/r-lib/usethis/issues/440'>#440</a>).</p></li>
 <li><p>pkgdown sites should now be built by travis and deployed automatically to GitHub pages. <code><a href="../reference/use_pkgdown.html">use_pkgdown_travis()</a></code> will help you set that up.</p></li>
 <li><p>When starting the release process, call <code><a href="../reference/use_release_issue.html">use_release_issue()</a></code> to create a release checklist issue (<a href='https://github.com/r-lib/usethis/issues/338'>#338</a>).</p></li>
-<li><p>Prior to CRAN submission call <code><a href="../reference/use_tidy_github_actions.html">use_tidy_release_test_env()</a></code> to update the test environment section in <code>cran-comments()</code> (<a href='https://github.com/r-lib/usethis/issues/496'>#496</a>).</p></li>
+<li><p>Prior to CRAN submission call <code><a href="../reference/tidyverse.html">use_tidy_release_test_env()</a></code> to update the test environment section in <code>cran-comments()</code> (<a href='https://github.com/r-lib/usethis/issues/496'>#496</a>).</p></li>
 <li><p>After acceptance, try <code><a href="../reference/use_github_release.html">use_github_release()</a></code> to automatically create a release. It’s created as a draft so you have a chance to look over before publishing.</p></li>
 <li><p><code><a href="../reference/use_vignette.html">use_vignette()</a></code> includes the a standard initialisation chunk with <code>knitr::opts_chunk$set(comment = "#&gt;", collapse = TRUE)</code> which should be used for all Rmds.</p></li>
 </ul>
@@ -514,12 +512,12 @@
 <li><p><code>use_description_field()</code> is no longer sensitive to whitespace, which allows <code><a href="../reference/use_vignette.html">use_vignette()</a></code> to work even if the <code>VignetteBuilder</code> field is spread over multiple lines (<a href='https://github.com/r-lib/usethis/issues/439'>#439</a>).</p></li>
 <li><p><code><a href="../reference/use_logo.html">use_logo()</a></code> can override existing logo if user gives permission (<a href='https://github.com/r-lib/usethis/issues/454'>#454</a>). It also produces retina appropriate logos by default, and matches the aspect ratio to the <a href="http://hexb.in/sticker.html" class="uri">http://hexb.in/sticker.html</a> specification (<a href='https://github.com/r-lib/usethis/issues/499'>#499</a>).</p></li>
 <li><p><code><a href="../reference/use_news_md.html">use_news_md()</a></code> will optionally commit.</p></li>
-<li><p><code><a href="../reference/use_package.html">use_package()</a></code> gains a <code>min_version</code> argument to specify a minimum version requirement (<a href='https://github.com/r-lib/usethis/issues/498'>#498</a>). Set to <code>TRUE</code> to use the currently installed version (<a href='https://github.com/r-lib/usethis/issues/386'>#386</a>). This is used by <code><a href="../reference/use_tidy_github_actions.html">use_tidy_eval()</a></code> in order to require version 0.1.2 or greater of rlang (<a href='https://github.com/r-lib/usethis/issues/484'>#484</a>).</p></li>
+<li><p><code><a href="../reference/use_package.html">use_package()</a></code> gains a <code>min_version</code> argument to specify a minimum version requirement (<a href='https://github.com/r-lib/usethis/issues/498'>#498</a>). Set to <code>TRUE</code> to use the currently installed version (<a href='https://github.com/r-lib/usethis/issues/386'>#386</a>). This is used by <code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> in order to require version 0.1.2 or greater of rlang (<a href='https://github.com/r-lib/usethis/issues/484'>#484</a>).</p></li>
 <li><p><code><a href="../reference/use_pkgdown.html">use_pkgdown()</a></code> is now configurable with site options (<a href='https://github.com/jayhesselberth'>@jayhesselberth</a>, <a href='https://github.com/r-lib/usethis/issues/467'>#467</a>), and no longer creates the <code>docs/</code> directory (<a href='https://github.com/r-lib/usethis/issues/495'>#495</a>).</p></li>
 <li><p><code><a href="../reference/use_r.html">use_test()</a></code> no longer forces the filename to be lowercase (<a href='https://github.com/r-lib/usethis/issues/613'>#613</a>, <a href='https://github.com/stufield'>@stufield</a>).</p></li>
 <li><p><code><a href="../reference/use_r.html">use_test()</a></code> will not include a <code>context()</code> in the generated file if used with testthat 2.1.0 and above (the future release of testthat) (<a href='https://github.com/r-lib/usethis/issues/325'>#325</a>).</p></li>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_description()</a></code> sets the <code>Encoding</code> field in <code>DESCRIPTION</code> (<a href='https://github.com/r-lib/usethis/issues/502'>#502</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>).</p></li>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_eval()</a></code> re-exports <code>:=</code> (<a href='https://github.com/r-lib/usethis/issues/595'>#595</a>, <a href='https://github.com/jonthegeek'>@jonthegeek</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_description()</a></code> sets the <code>Encoding</code> field in <code>DESCRIPTION</code> (<a href='https://github.com/r-lib/usethis/issues/502'>#502</a>, <a href='https://github.com/krlmlr'>@krlmlr</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> re-exports <code>:=</code> (<a href='https://github.com/r-lib/usethis/issues/595'>#595</a>, <a href='https://github.com/jonthegeek'>@jonthegeek</a>).</p></li>
 <li><p><code>use_tidy_versions()</code> has source argument so that you can choose to use local or CRAN versions (<a href='https://github.com/r-lib/usethis/issues/309'>#309</a>).</p></li>
 <li><p><code><a href="../reference/ci.html">use_travis()</a></code> gains an <code>ext</code> argument, defaulting to <code>"org"</code>. Use <code>ext = "com"</code> for <code>https://travis-ci.com</code> (<a href='https://github.com/cderv'>@cderv</a>, <a href='https://github.com/r-lib/usethis/issues/500'>#500</a>).</p></li>
 <li><p><code><a href="../reference/use_version.html">use_version()</a></code> asks before committing.</p></li>
@@ -549,7 +547,7 @@
 <ul>
 <li>Paths are “tidy”, meaning <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code> is the path separator and there are never multiple or trailing <code><a href="https://rdrr.io/r/base/Arithmetic.html">/</a></code>.</li>
 <li>Paths are UTF-8 encoded.</li>
-<li>A Windows user’s home directory is interpreted as <code>C:\Users\username</code> (typical of Unix-oriented tools, like Git and ssh; also matches Python), as opposed to <code>C:\Users\username\Documents</code> (R’s default on Windows). Read more in <a href="https://fs.r-lib.org/reference/path_expand.html"><code>fs::path_expand()</code></a>.</li>
+<li>A Windows user’s home directory is interpreted as <code>C:\Users\username</code> (typical of Unix-oriented tools, like Git and ssh; also matches Python), as opposed to <code>C:\Users\username\Documents</code> (R’s default on Windows). Read more in <a href="https://fs.r-lib.org/reference/path_expand.html"><code><a href="http://fs.r-lib.org/reference/path_expand.html">fs::path_expand()</a></code></a>.</li>
 </ul>
 </div>
 <div id="extending-or-wrapping-usethis" class="section level2">
@@ -619,7 +617,7 @@
 <li><p><code><a href="../reference/use_git_config.html">use_git_config()</a></code> can set user’s Git name or email, globally or locally in a project/repo (<a href='https://github.com/r-lib/usethis/issues/267'>#267</a>).</p></li>
 <li><p><code><a href="../reference/usethis-defunct.html">browse_github_pat()</a></code> goes to the webpage where a GitHub user can create a personal access token (PAT) for the GitHub API. If the user configures a PAT, they can use functions like <code><a href="../reference/create_from_github.html">create_from_github()</a></code> and <code><a href="../reference/use_github.html">use_github()</a></code> to easily create and connect GitHub repos to local projects. (<a href='https://github.com/r-lib/usethis/issues/248'>#248</a>, <a href='https://github.com/r-lib/usethis/issues/257'>#257</a>, <a href='https://github.com/jeroen'>@jeroen</a>, via <a href='https://github.com/jennybc'>@jennybc</a>).</p></li>
 <li><p><code><a href="../reference/use_version.html">use_version()</a></code> increments the version of the active package, including an interactive chooser. <code><a href="../reference/use_version.html">use_dev_version()</a></code> is now a special case wrapper around this. (<a href='https://github.com/r-lib/usethis/issues/188'>#188</a>, <a href='https://github.com/r-lib/usethis/issues/223'>#223</a>, <a href='https://github.com/EmilHvitfeldt'>@EmilHvitfeldt</a>).</p></li>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_github()</a></code> creates a standard set of files that make a GitHub repository more navigable for users and contributors: an issue template, contributing guidelines, support documentation, and a code of conduct. All are now placed in a <code>.github/</code> subdirectory (<a href='https://github.com/r-lib/usethis/issues/165'>#165</a>, <a href='https://github.com/batpigandme'>@batpigandme</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_github()</a></code> creates a standard set of files that make a GitHub repository more navigable for users and contributors: an issue template, contributing guidelines, support documentation, and a code of conduct. All are now placed in a <code>.github/</code> subdirectory (<a href='https://github.com/r-lib/usethis/issues/165'>#165</a>, <a href='https://github.com/batpigandme'>@batpigandme</a>).</p></li>
 <li><p><code>use_bioc_badge</code> creates a Bioconductor badge that links to the build report (<a href='https://github.com/r-lib/usethis/issues/271'>#271</a>, <a href='https://github.com/LiNk-NY'>@LiNk-NY</a>).</p></li>
 <li><p><code><a href="../reference/badges.html">use_binder_badge()</a></code> creates a badge indicating the repository can be launched in an executable environment via <a href="https://mybinder.org/">Binder</a> (<a href='https://github.com/r-lib/usethis/issues/242'>#242</a>, <a href='https://github.com/uribo'>@uribo</a>).</p></li>
 </ul>
@@ -635,8 +633,8 @@
 <ul>
 <li><p><code><a href="../reference/zip-utils.html">use_course()</a></code> downloads a folder’s worth of materials from a ZIP file, with deliberate choices around the default folder name and location. Developed for use at the start of a workshop. Helps participants obtain materials from, e.g., a DropBox folder or GitHub repo (<a href='https://github.com/r-lib/usethis/issues/196'>#196</a>).</p></li>
 <li><p><code><a href="../reference/use_blank_slate.html">use_blank_slate()</a></code> provides a way to opt in to an RStudio workflow where the user’s workspace is neither saved nor reloaded between R sessions. Automated for <code>scope = "project"</code>. Provides UI instructions for <code>scope = "user"</code>, for now (<a href='https://github.com/r-lib/usethis/issues/139'>#139</a>).</p></li>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_style()</a></code> styles an entire project according to <a href="https://style.tidyverse.org" class="uri">https://style.tidyverse.org</a> (<a href='https://github.com/r-lib/usethis/issues/72'>#72</a>, <a href='https://github.com/r-lib/usethis/issues/197'>#197</a> <a href='https://github.com/lorenzwalthert'>@lorenzwalthert</a>).</p></li>
-<li><p>GitHub conventions common to tidyverse packages are enacted by <code><a href="../reference/use_tidy_github_actions.html">use_tidy_contributing()</a></code>, <code><a href="../reference/use_tidy_github_actions.html">use_tidy_issue_template()</a></code>, and <code><a href="../reference/use_tidy_github_actions.html">use_tidy_support()</a></code> (<a href='https://github.com/batpigandme'>@batpigandme</a>, <a href='https://github.com/r-lib/usethis/issues/143'>#143</a>, <a href='https://github.com/r-lib/usethis/issues/166'>#166</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_style()</a></code> styles an entire project according to <a href="https://style.tidyverse.org" class="uri">https://style.tidyverse.org</a> (<a href='https://github.com/r-lib/usethis/issues/72'>#72</a>, <a href='https://github.com/r-lib/usethis/issues/197'>#197</a> <a href='https://github.com/lorenzwalthert'>@lorenzwalthert</a>).</p></li>
+<li><p>GitHub conventions common to tidyverse packages are enacted by <code><a href="../reference/tidyverse.html">use_tidy_contributing()</a></code>, <code><a href="../reference/tidyverse.html">use_tidy_issue_template()</a></code>, and <code><a href="../reference/tidyverse.html">use_tidy_support()</a></code> (<a href='https://github.com/batpigandme'>@batpigandme</a>, <a href='https://github.com/r-lib/usethis/issues/143'>#143</a>, <a href='https://github.com/r-lib/usethis/issues/166'>#166</a>).</p></li>
 </ul>
 <p>Other changes</p>
 <ul>
@@ -672,7 +670,7 @@
 <ul>
 <li><p><code><a href="../reference/use_version.html">use_dev_version()</a></code> now correctly updates the <code>Version</code> field in a package description file. (<a href='https://github.com/tjmahr'>@tjmahr</a>, <a href='https://github.com/r-lib/usethis/issues/104'>#104</a>)</p></li>
 <li><p><code><a href="../reference/use_revdep.html">use_revdep()</a></code> now also git-ignores the SQLite database (<a href='https://github.com/r-lib/usethis/issues/107'>#107</a>).</p></li>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_eval()</a></code> has been tweaked to reflect current guidance (<a href='https://github.com/r-lib/usethis/issues/106'>#106</a>)</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> has been tweaked to reflect current guidance (<a href='https://github.com/r-lib/usethis/issues/106'>#106</a>)</p></li>
 </ul>
 </div>
 </div>
@@ -698,9 +696,9 @@
 <li><p><code><a href="../reference/use_package.html">use_dev_package()</a></code> works like <code><a href="../reference/use_package.html">use_package()</a></code> but also adds the repo to the <code>Remotes</code> field (<a href='https://github.com/r-lib/usethis/issues/32'>#32</a>).</p></li>
 <li><p><code><a href="../reference/use_github_labels.html">use_github_labels()</a></code> will automatically set up a standard set of labels, optionally removing the default labels (<a href='https://github.com/r-lib/usethis/issues/1'>#1</a>).</p></li>
 <li><p><code><a href="../reference/use_pipe.html">use_pipe()</a></code> creates a template to use magrittr’s <code>%&gt;%</code> in your package (<a href='https://github.com/r-lib/usethis/issues/15'>#15</a>).</p></li>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_ci()</a></code> which sets up travis and codecov using the tidyverse conventions (<a href='https://github.com/r-lib/usethis/issues/14'>#14</a>)</p></li>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_description()</a></code> puts description fields in a standard order and alphabetises dependencies.</p></li>
-<li><p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_eval()</a></code> imports and re-exports the recommend set of tidy eval helpers if your package uses tidy eval (<a href='https://github.com/r-lib/usethis/issues/46'>#46</a>).</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_ci()</a></code> which sets up travis and codecov using the tidyverse conventions (<a href='https://github.com/r-lib/usethis/issues/14'>#14</a>)</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_description()</a></code> puts description fields in a standard order and alphabetises dependencies.</p></li>
+<li><p><code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> imports and re-exports the recommend set of tidy eval helpers if your package uses tidy eval (<a href='https://github.com/r-lib/usethis/issues/46'>#46</a>).</p></li>
 <li><p><code><a href="../reference/rprofile-helper.html">use_usethis()</a></code> opens your <code>.Rprofile</code> and gives you the code to copy and paste in.</p></li>
 </ul>
 </div>
@@ -785,7 +783,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

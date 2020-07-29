@@ -157,11 +157,9 @@
 <a href="#use-usethis-or-devtools-in-interactive-work" class="anchor"></a>Use usethis or devtools in interactive work</h2>
 <p>The usethis package was carved out of the <a href="https://devtools.r-lib.org">devtools package</a> as part of its “conscious uncoupling” in <a href="https://www.tidyverse.org/articles/2018/10/devtools-2-0-0/">the v2.0.0 release</a>. But note that devtools makes all of usethis’s functions available and they should feel like they are part of devtools itself. In addition, devtools offers some functions of its own and exposes selected functionality from a few other packages. You might enjoy making devtools (and therefore usethis) available in all your interactive R work.</p>
 <p>Call <code><a href="../../reference/rprofile-helper.html">usethis::use_devtools()</a></code> for prompts to do this:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">devtools</span>) <span class="co">## or library(usethis)</span>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">devtools</span>) <span class="co">## or library(usethis)</span>
 
-<span class="fu"><a href="../../reference/rprofile-helper.html">use_devtools</a></span>()
-</pre></div>
+<span class="fu"><a href="../../reference/rprofile-helper.html">use_devtools</a></span>()</pre></body></html></div>
 <p>This will:</p>
 <ul>
 <li>Open your <code>.Rprofile</code> startup file for editing.</li>
@@ -169,11 +167,9 @@
 <li>Prompt you to paste, save, close, restart R. Done!</li>
 </ul>
 <p>The suggested snippet looks like this:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/interactive.html">interactive</a></span>()) {
-  <span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="kw">devtools</span>))
-}
-</pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/interactive.html">interactive</a></span>()) {
+  <span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">devtools</span>))
+}</pre></body></html></div>
 <p>More resources on <code>.Rprofile</code>:</p>
 <ul>
 <li>The official <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html">Startup documentation</a>
@@ -200,22 +196,20 @@
 <code>usethis.destdir</code>: a default directory to use in <code><a href="../../reference/create_from_github.html">create_from_github()</a></code> and <code><a href="../../reference/zip-utils.html">use_course()</a></code>.</li>
 </ul>
 <p>Define any of these options in your <code>.Rprofile</code>, which can be opened for editing via <code><a href="../../reference/edit.html">usethis::edit_r_profile()</a></code>. Here is example code:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(
-  usethis.full_name = <span class="st">"Jane Doe"</span>,
-  usethis.protocol  = <span class="st">"ssh"</span>,
-  usethis.description = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="st">"Authors@R"</span> = <span class="kw">utils</span>::<span class="fu"><a href="https://rdrr.io/r/utils/person.html">person</a></span>(
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(
+  <span class="kw">usethis.full_name</span> <span class="kw">=</span> <span class="st">"Jane Doe"</span>,
+  <span class="kw">usethis.protocol</span>  <span class="kw">=</span> <span class="st">"ssh"</span>,
+  <span class="kw">usethis.description</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+    <span class="st">"Authors@R"</span> <span class="kw">=</span> <span class="kw pkg">utils</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/r/utils/person.html">person</a></span>(
         <span class="st">"Jane"</span>, <span class="st">"Doe"</span>,
-        email = <span class="st">"jane@example.com"</span>,
-        role = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"aut"</span>, <span class="st">"cre"</span>),
-        comment = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(ORCID = <span class="st">"JANE'S-ORCID-ID"</span>)
+        <span class="kw">email</span> <span class="kw">=</span> <span class="st">"jane@example.com"</span>,
+        <span class="kw">role</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"aut"</span>, <span class="st">"cre"</span>),
+        <span class="kw">comment</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">ORCID</span> <span class="kw">=</span> <span class="st">"JANE'S-ORCID-ID"</span>)
     ),
-    Version = <span class="st">"0.0.0.9000"</span>
+    <span class="kw">Version</span> <span class="kw">=</span> <span class="st">"0.0.0.9000"</span>
   ),
-  usethis.destdir = <span class="st">"~/the/place/where/I/keep/my/R/projects"</span>
-)
-</pre></div>
+  <span class="kw">usethis.destdir</span> <span class="kw">=</span> <span class="st">"~/the/place/where/I/keep/my/R/projects"</span>
+)</pre></body></html></div>
 <p>Save similar code in your <code>.Rprofile</code> and restart R for it to take effect.</p>
 </div>
 <div id="the-sitrep-functions" class="section level2">
@@ -246,14 +240,12 @@
 <a href="#configure-user-name-and-user-email" class="anchor"></a>Configure <code>user.name</code> and <code>user.email</code>
 </h2>
 <p>Once Git is installed, introduce yourself to Git.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://usethis.r-lib.org">usethis</a></span>) <span class="co">## or library(devtools)</span>
-<span class="fu"><a href="../../reference/use_git_config.html">use_git_config</a></span>(user.name = <span class="st">"Jane Doe"</span>, user.email = <span class="st">"jane@example.com"</span>)
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">usethis</span>) <span class="co">## or library(devtools)</span>
+<span class="fu"><a href="../../reference/use_git_config.html">use_git_config</a></span>(<span class="kw">user.name</span> <span class="kw">=</span> <span class="st">"Jane Doe"</span>, <span class="kw">user.email</span> <span class="kw">=</span> <span class="st">"jane@example.com"</span>)
 
 <span class="co">## check by running a git situation-report: </span>
 <span class="co">##   - your user.name and user.email should appear under "User"</span>
-<span class="fu"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()
-</pre></div>
+<span class="fu"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()</pre></body></html></div>
 <p><code><a href="../../reference/use_git_config.html">usethis::use_git_config()</a></code> helps you configure your <code>user.name</code> and <code>user.email</code>. Substitute <strong>your name</strong> and <strong>your email address</strong>.</p>
 <p>What user name should you give to Git? This does not have to be your GitHub username, although it can be. Another good option is your actual first name and last name. Your commits will be labelled with this name, so this should be informative to potential collaborators.</p>
 <p>What email should you give to Git? This must be the email associated with your GitHub account.</p>
@@ -270,11 +262,9 @@
 <h3 class="hasAnchor">
 <a href="#optional-configure-gits-editor" class="anchor"></a>Optional: configure Git’s editor</h3>
 <p>Another Git option that many people eventually configure is the editor. This will come up if you use Git from a shell. At some point, you will fail to give Git what it wants in terms of a commit message and it will kick you into an editor. This can be distressing, if it’s not your editor of choice and you don’t even know how to save and quit. You can enforce your will by executing this in R:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://usethis.r-lib.org">usethis</a></span>)
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">usethis</span>)
 
-<span class="fu"><a href="../../reference/use_git_config.html">use_git_config</a></span>(core.editor = <span class="st">"nano"</span>)
-</pre></div>
+<span class="fu"><a href="../../reference/use_git_config.html">use_git_config</a></span>(<span class="kw">core.editor</span> <span class="kw">=</span> <span class="st">"nano"</span>)</pre></body></html></div>
 <p>To do the same thing with command line Git, execute this in a shell:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">git</span> config --global core.editor emacs</span></code></pre></div>
 <p>Substitute your preferred editor for emacs here. A popular choice is <a href="https://www.nano-editor.org/">nano</a>. The default, if you don’t configure <code>core.editor</code>, is usually vim.</p>
@@ -292,10 +282,8 @@
 <a href="#get-and-store-a-github-personal-access-token" class="anchor"></a>Get and store a GitHub personal access token</h2>
 <p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">usethis::use_github()</a></code> and <code><a href="../../reference/create_from_github.html">usethis::create_from_github(..., fork = TRUE)</a></code>. In both cases, usethis must create a new GitHub repository on your behalf. This is <strong>not</strong> a regular Git operation (like pulling and pushing to existing repos) and your usual method of providing credentials to GitHub does not work for this.</p>
 <p>Other functions, such as the <code>pr_*()</code> family, may also use your GitHub PAT for fetch/pull/push if you are using the HTTPS protocol.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://usethis.r-lib.org">usethis</a></span>)
-<span class="fu"><a href="../../reference/create_github_token.html">create_github_token</a></span>()
-</pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">usethis</span>)
+<span class="fu"><a href="../../reference/create_github_token.html">create_github_token</a></span>()</pre></body></html></div>
 <p><code><a href="../../reference/create_github_token.html">usethis::create_github_token()</a></code> takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on “Generate new token” from <a href="https://github.com/settings/tokens" class="uri">https://github.com/settings/tokens</a>.</p>
 <p>As the page says, you must <strong>store this token somewhere</strong> because you’ll never be able to see it again, once you leave that page or close the window. If you somehow goof this up, just generate a new PAT and, so you don’t confuse yourself, delete the lost token.</p>
 <p>In the moment, I usually copy the PAT to the clipboard for the next step. (I also store this PAT in my general password manager, for redundancy.)</p>
@@ -306,12 +294,10 @@
 <p>This is a new approach made possible by the <a href="https://docs.ropensci.org/credentials/">credentials package</a>, which is used for credential handling by the <a href="https://docs.ropensci.org/gert">gert package</a>, which is how usethis does its Git work. The approach is described fully in the rOpenSci tech note <a href="https://ropensci.org/technotes/2020/07/07/github-pat/">A better way to manage your GitHub personal access tokens</a>.</p>
 <p><code><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">credentials::set_github_pat()</a></code> triggers a prompt where you can register your PAT with your operating system’s Git credential store. That’s something you do once. Or, rather, once per machine, per PAT.</p>
 <p>From then on, executing <code><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">credentials::set_github_pat()</a></code> will cause that existing PAT to be re-validated and, assuming that succeeds, assigned to the <code>GITHUB_PAT</code> environment variable. You might put this in your <code>.Rprofile</code> startup file (remember <code><a href="../../reference/edit.html">edit_r_profile()</a></code> helps you get this file open for editing):</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="co"># suitable for your .Rprofile</span>
-<span class="co">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"credentials"</span>, quietly = <span class="fl">TRUE</span>)) {
-  <span class="kw">credentials</span>::<span class="fu"><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">set_github_pat</a></span>(verbose = <span class="fl">FALSE</span>)
-}
-</pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># suitable for your .Rprofile</span>
+<span class="kw">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"credentials"</span>, <span class="kw">quietly</span> <span class="kw">=</span> <span class="fl">TRUE</span>)) {
+  <span class="kw pkg">credentials</span><span class="kw ns">::</span><span class="fu"><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">set_github_pat</a></span>(<span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+}</pre></body></html></div>
 <p>However, note that usethis will soon execute this command for you when it needs the PAT.</p>
 </div>
 <div id="renviron" class="section level3">
@@ -320,10 +306,8 @@
 </h3>
 <p>For years, this has been the most common way to make the PAT available. It still works, but is less secure than the approach described just above.</p>
 <p>Here we set the <code>GITHUB_PAT</code> environment variable in the <code>.Renviron</code> file which is consulted at startup. <code><a href="../../reference/edit.html">usethis::edit_r_environ()</a></code> will open <code>.Renviron</code> for editing.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://usethis.r-lib.org">usethis</a></span>)
-<span class="fu"><a href="../../reference/edit.html">edit_r_environ</a></span>()
-</pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">usethis</span>)
+<span class="fu"><a href="../../reference/edit.html">edit_r_environ</a></span>()</pre></body></html></div>
 <p>Add a line like this, <strong>but substitute your PAT</strong>:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="va">GITHUB_PAT=</span>8c70fd8419398999c9ac5bacf3192882193cadf2</span></code></pre></div>
 <p>Make sure this file ends in a newline! Lack of a newline can lead to silent failure to load this environment variable, which can be tricky to debug.</p>
@@ -333,19 +317,13 @@
 <h3 class="hasAnchor">
 <a href="#confirm-your-pat-is-configured" class="anchor"></a>Confirm your PAT is configured</h3>
 <p>Here are ways to confirm your PAT is ready to go. You can execute <code><a href="../../reference/create_github_token.html">usethis::github_token()</a></code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://usethis.r-lib.org">usethis</a></span>)
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">usethis</span>)
 <span class="fu"><a href="../../reference/create_github_token.html">github_token</a></span>()
-<span class="co">#&gt; [1] "v1.66bf931e7c23ca8afcb01aa1bf7bd929455f457e"</span>
-</pre></div>
+<span class="co">#&gt; [1] "v1.d12eb674cefa39d7dd3ccad046ad3d43695c96a8"</span></pre></body></html></div>
 <p>You could inspect the <code>GITHUB_PAT</code> environment variable directly:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)
-</pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"GITHUB_PAT"</span>)</pre></body></html></div>
 <p>The PAT situation is also part of what’s reported in <code><a href="../../reference/git_sitrep.html">git_sitrep()</a></code>:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="fu"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()
-</pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="../../reference/git_sitrep.html">git_sitrep</a></span>()</pre></body></html></div>
 <p>Now usethis (and several other packages) can find this PAT automatically in order to deal with GitHub on your behalf.</p>
 </div>
 </div>
@@ -383,7 +361,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
