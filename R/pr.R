@@ -570,7 +570,7 @@ pr_get <- function(number, cfg = NULL) {
 
 check_pr_readiness <- function(cfg = NULL) {
   cfg <- cfg %||% github_remote_config()
-  if (cfg$pr_ready) {
+  if (isTRUE(cfg$pr_ready)) {
     return(invisible(cfg))
   }
   stop_unsupported_pr_config(cfg)
