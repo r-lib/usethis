@@ -40,7 +40,7 @@ test_that("use_mit_license() works", {
 
 test_that("use_gpl3_license() works", {
   pkg <- create_local_package()
-  use_gpl3_license(name = "GPL3 License")
+  use_gpl3_license()
   expect_match(desc::desc_get("License", file = pkg), "GPL-3")
   expect_proj_file("LICENSE.md")
   expect_true(is_build_ignored("^LICENSE\\.md$"))
