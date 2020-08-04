@@ -55,7 +55,6 @@ use_mit_license <- function(name = find_name()) {
 #' @rdname licenses
 #' @export
 use_gpl3_license <- function() {
-  force(name)
   check_is_package("use_gpl3_license()")
 
   use_description_field("License", "GPL-3", overwrite = TRUE)
