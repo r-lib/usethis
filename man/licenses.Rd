@@ -12,7 +12,7 @@
 \usage{
 use_mit_license(name = find_name())
 
-use_gpl3_license(name = find_name())
+use_gpl3_license()
 
 use_agpl3_license(name = find_name())
 
