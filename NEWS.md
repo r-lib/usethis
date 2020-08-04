@@ -44,6 +44,8 @@ There is increasing interest in making the name of a repo's default branch confi
 
 ## Other changes
 
+* `use_gpl3_license()` now uses the original (unmodified) GPL-3 license text available at [https://www.gnu.org/licenses](https://www.gnu.org/licenses), so it does not fill out the templates provided in the license's section "How to Apply These Terms to Your New Programs" anymore.
+
 * GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (#1169).
 
 * `use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The existing behaviour, which adds an `OWNER/REPO` GitHub remote, remains the default (#918, @ijlyttle).
