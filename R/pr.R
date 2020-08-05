@@ -388,7 +388,7 @@ pr_view <- function() {
   if (is.null(url)) {
     pr_create_gh()
   } else {
-    view_url(pr_url())
+    view_url(url)
   }
 }
 
