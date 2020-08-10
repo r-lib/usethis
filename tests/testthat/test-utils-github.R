@@ -112,27 +112,6 @@ test_that("github_remote_protocol() returns 0-row data frame if no github origin
 # GitHub remote configuration --------------------------------------------------
 # very sparse, but you have to start somewhere!
 
-test_that("upstream_only is detected", {
-  grl <- data.frame(
-    stringsAsFactors   = FALSE,
-    remote             = "upstream",
-    url                = "https://github.com/OWNER/REPO.git",
-    repo_owner         = "OWNER",
-    repo_name          = "REPO",
-    is_fork            = FALSE,
-    can_push           = TRUE,
-    parent_repo_owner  = NA,
-    parent_repo_name   = NA,
-    can_push_to_parent = NA
-  )
-  with_mock(
-    `usethis:::github_remotes` = function(...) grl,
-    cfg <- classify_github_setup()
-  )
-  expect_equal(cfg$type, "upstream_only")
-  expect_true(cfg$unsupported)
-})
-
 test_that("fork_upstream_is_not_origin_parent is detected", {
   # We've already encountered this in the wild. Here's how it happens:
   # 1. r-pkgs/gh is created
@@ -147,17 +126,20 @@ test_that("fork_upstream_is_not_origin_parent is detected", {
                            "https://github.com/r-pkgs/gh.git"),
     repo_owner         = c("jennybc", "r-pkgs"),
     repo_name          = c("gh", "gh"),
+    repo_spec          = c("jennybc/gh", "r-pkgs/gh"),
+    github_get         = c(TRUE, TRUE),
     is_fork            = c(TRUE, FALSE),
     can_push           = c(TRUE, TRUE),
     parent_repo_owner  = c("r-lib", NA),
     parent_repo_name   = c("gh", NA),
+    parent_repo_spec   = c("r-lib/gh", NA),
     can_push_to_parent = c(TRUE, NA)
   )
   with_mock(
     `usethis:::github_remotes` = function(...) grl,
-    cfg <- classify_github_setup()
+    cfg <- github_remote_config()
   )
   expect_equal(cfg$type, "fork_upstream_is_not_origin_parent")
-  expect_true(cfg$unsupported)
+  expect_false(cfg$pr_ready)
 })
 

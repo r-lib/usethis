@@ -62,7 +62,7 @@ Certain options are consulted by usethis and allow you to set personal defaults:
 
   * `usethis.full_name`: consulted for making, e.g., supplemental license files.
   * `usethis.protocol`: specifies your preferred transport protocol for
-    Git. Either "ssh" or "https". See the help for `git_protocol()` for more.
+    Git. Either "https" or "ssh". See the help for `git_protocol()` for more.
   * `usethis.description`: named list of default DESCRIPTION fields for new
     packages made with `usethis::create_package()`.
   * `usethis.quiet`: if `TRUE`, prevents usethis from printing messages to the

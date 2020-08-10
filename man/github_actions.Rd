@@ -18,11 +18,18 @@ is the \code{name} keyword that appears in the workflow \code{.yaml} file.}
 }
 \description{
 Sets up continuous integration (CI) for an R package that is developed on
-GitHub using \href{https://github.com/features/actions}{GitHub Actions}. These
-functions
+GitHub using \href{https://github.com/features/actions}{GitHub Actions}. CI can be
+used to trigger various operations for each push or pull request, such as:
 \itemize{
-\item Add the necessary configuration files and list them in \code{.Rbuildignore}.
-\item Provide the markdown to insert a badge into your README
+\item Run \verb{R CMD check} on various operating systems and R versions
+\item Build and deploy a pkgdown site
+\item Determine test coverage
+}
+
+This family of functions
+\itemize{
+\item Adds the necessary configuration files and lists them in \code{.Rbuildignore}.
+\item Provides the markdown to insert a badge into your README.
 }
 }
 \section{\code{use_github_actions()}}{

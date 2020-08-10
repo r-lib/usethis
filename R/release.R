@@ -15,16 +15,19 @@
 #' }
 use_release_issue <- function(version = NULL) {
   check_is_package("use_release_issue()")
+  cfg <- github_remote_config(github_get = TRUE)
+  repo_spec <- repo_spec(cfg)
+
   version <- version %||% choose_version()
   if (is.null(version)) {
     return(invisible(FALSE))
   }
 
-  repo_spec <- get_primary_spec()
   on_cran <- !is.null(cran_version())
   checklist <- release_checklist(version, on_cran)
 
-  issue <- gh::gh("POST /repos/:owner/:repo/issues",
+  issue <- gh::gh(
+    "POST /repos/:owner/:repo/issues",
     owner = spec_owner(repo_spec),
     repo = spec_repo(repo_spec),
     title = glue("Release {project_name()} {version}"),
@@ -112,9 +115,9 @@ release_type <- function(version) {
 use_github_release <- function(host = NULL,
                                auth_token = github_token()) {
   # TODO: should this be checking that we're on master / default branch?
-  repo_spec <- get_primary_spec()
+  cfg <- github_remote_config(github_get = TRUE, host = host, auth_token = auth_token)
+  repo_spec <- repo_spec(cfg)
   check_branch_pushed()
-  check_github_token(auth_token)
 
   path <- proj_path("NEWS.md")
   if (!file_exists(path)) {

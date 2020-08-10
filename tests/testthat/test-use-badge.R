@@ -17,7 +17,7 @@ test_that("use_binder_badge() needs a github repository", {
   skip_if_no_git_user()
   create_local_project()
   use_git()
-  expect_error(use_binder_badge(), class = "usethis_error_bad_github_config")
+  expect_error(use_binder_badge(), class = "usethis_error_bad_github_remote_config")
 })
 
 test_that("use_badge() does nothing if badge seems to pre-exist", {

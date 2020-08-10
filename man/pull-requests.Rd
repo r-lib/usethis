@@ -49,11 +49,11 @@ described in \href{https://happygitwithr.com}{Happy Git and GitHub for the useR}
 To use the \verb{pr_*} functions, your project must be a Git repo and have one of
 these GitHub remote configurations:
 \itemize{
-\item "ours": You can push to the GitHub remote configured as \code{origin}. It's not
-a fork. \code{origin} points to the \strong{primary repo}.
+\item "ours": You can push to the GitHub remote configured as \code{origin} and it's
+not a fork.
 \item "fork": You can push to the GitHub remote configured as \code{origin}, it's a
 fork, and its parent is configured as \code{upstream}. \code{origin} points to your
-\strong{personal} copy and upstream` points to the \strong{primary repo}.
+\strong{personal} copy and \code{upstream} points to the \strong{source repo}.
 }
 
 "Ours" and "fork" are two of several GitHub remote configurations examined in
@@ -168,9 +168,10 @@ records this URL in git config of the local repo.
 \item \code{pr_finish()}: If \code{number} is given, first does \code{pr_fetch(number)}. It's
 assumed the current branch is the PR branch of interest. First, makes sure
 there are no unpushed local changes. Switches back to \code{master} and pulls
-changes from the primary repo. Deletes the PR branch. If the PR came from
-an external fork, the corresponding remote is deleted, provided it's not in
-use by any other local branches.
+changes from the primary repo. If the PR has been merged and user has
+permission, deletes the remote branch. Deletes the PR branch. If the PR
+came from an external fork, the corresponding remote is deleted, provided
+it's not in use by any other local branches.
 }
 }
 

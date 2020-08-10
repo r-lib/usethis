@@ -42,20 +42,21 @@ of R, change the tag from \code{latest} to the version you want, e.g.
 \verb{rocker/r-ver:3.5.3}.}
 }
 \description{
-Sets up continuous integration (CI) services for an R package that is
-developed on GitHub or, perhaps, GitLab. CI services can run \verb{R CMD check}
-automatically on various platforms, triggered by each push or pull request.
-These functions
+\lifecycle{soft-deprecated}
+
+Some of these functions are now soft-deprecated since the tidyverse team has
+started using \href{https://github.com/features/actions}{GitHub Actions (GHA)} for
+continuous integration (CI). See \code{\link[=use_github_actions]{use_github_actions()}} for help configuring
+GHA. GHA functionality in usethis is actively maintained and exercised, which
+is no longer true for Travis-CI or AppVeyor.
+
+Sets up third-party continuous integration (CI) services for an R package
+that is developed on GitHub or, perhaps, GitLab. These functions
 \itemize{
 \item Add service-specific configuration files and add them to \code{.Rbuildignore}.
 \item Activate a service or give the user a detailed prompt.
 \item Provide the markdown to insert a badge into README.
 }
-
-Note that the tidyverse team now uses \href{https://github.com/features/actions}{GitHub Actions} for continuous integration, so
-the usethis functions supporting GitHub Actions are now the most actively
-maintained. See \code{\link[=use_github_actions]{use_github_actions()}} or \code{\link[=use_tidy_github_actions]{use_tidy_github_actions()}} to
-learn more.
 }
 \section{\code{use_travis()}}{
 

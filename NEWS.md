@@ -28,9 +28,9 @@ There is increasing interest in making the name of a repo's default branch confi
 
 `use_git_credentials()` and `git_credentials()` are deprecated. All credential-handling has been delegated to the credentials package. 
 
-`pr_finish()` deletes the remote PR branch if the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150).
+`pr_finish()` deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150).
 
-`pr_pull_upstream()` is renamed to `pr_merge_main()` to emphasize that it merges the **main** line of development into the current branch, where the main line of development is taken to mean the default branch of the primary repo. The default branch is still hard-coded as `master`, but this will become configurable in a future release (see above).
+`pr_pull_upstream()` is renamed to `pr_merge_main()` to emphasize that it merges the **main** line of development into the current branch, where the main line of development is taken to mean the default branch of the source repo (which could be either `upstream` or `origin`, depending on the situation). The default branch is still hard-coded as `master`, but this will become configurable in a future release (see above).
 
 `create_from_github()` alerts the user when it is going to create a read-only clone, due to lack of a GitHub personal access token, when it seems likely that the user's intent is to fork-and-clone.
 
@@ -43,6 +43,8 @@ There is increasing interest in making the name of a repo's default branch confi
 `issue_close_community()` and `issue_reprex_needed()` are two new functions for maintainers who process lots of GitHub issues. They automate canned replies and actions, e.g. labelling or closing (#940).
 
 ## Other changes
+
+* GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (#1169).
 
 * `use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The existing behaviour, which adds an `OWNER/REPO` GitHub remote, remains the default (#918, @ijlyttle).
 

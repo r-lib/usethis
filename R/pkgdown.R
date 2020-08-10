@@ -10,13 +10,13 @@
 #'     Learn more about [use_github_action()]. This approach is actively
 #'     maintained, because it is in use across many tidyverse, r-lib, and
 #'     tidymodels packages.
-#'   * `use_pkgdown_travis()` helps you set up pkgdown for automatic deployment
-#'     on Travis-CI. This is something of a legacy function, as the tidyverse
-#'     team has shifted away from Travis-CI and towards GitHub Actions. It
-#'     creates an empty `gh-pages` branch for the site and prompts about next
-#'     steps regarding deployment keys and updating your `.travis.yml`. Requires
-#'     that the current user can push to the primary repo, which must be
-#'     configured as the `origin` remote.
+#'   * `use_pkgdown_travis()` \lifecycle{soft-deprecated} helps you set up
+#'     pkgdown for automatic deployment on Travis-CI. This is soft-deprecated,
+#'     as the tidyverse team has shifted away from Travis-CI and towards GitHub
+#'     Actions. `use_pkgdown_travis()` creates an empty `gh-pages` branch for
+#'     the site and prompts about next steps regarding deployment keys and
+#'     updating your `.travis.yml`. Requires that the current user can push to
+#'     the primary repo, which must be configured as the `origin` remote.
 #'
 #' @seealso <https://pkgdown.r-lib.org/articles/pkgdown.html#configuration>
 #' @param config_file Path to the pkgdown yaml config file
@@ -95,6 +95,11 @@ pkgdown_url <- function(base_path = proj_get(), pedantic = FALSE) {
 #' @export
 #' @rdname use_pkgdown
 use_pkgdown_travis <- function() {
+  lifecycle::deprecate_soft(
+    when = "2.0.0",
+    what = "usethis::use_pkgdown_travis()",
+    with = "use_github_action(\"pkgdown\")"
+  )
   check_installed("pkgdown")
   if (!uses_pkgdown()) {
     ui_stop("
@@ -102,11 +107,10 @@ use_pkgdown_travis <- function() {
       Do you need to call {ui_code('use_pkgdown()')}?")
   }
 
-  cfg <- classify_github_setup()
-  if (cfg$type != "ours") {
-    stop_bad_github_config(cfg)
+  cfg <- github_remote_config(github_get = TRUE)
+  if (cfg$type != c("ours", "fork")) {
+    stop_bad_github_remote_config(cfg)
   }
-  check_github_token()
 
   use_build_ignore("docs/")
   use_git_ignore("docs/")
@@ -131,19 +135,19 @@ use_pkgdown_travis <- function() {
     "
   )
 
+  repo_spec <- repo_spec(cfg)
   if (!gert::git_branch_exists("origin/gh-pages", local = FALSE, repo = git_repo())) {
-    create_gh_pages_branch()
+    create_gh_pages_branch(repo_spec)
   }
 
   ui_todo("
     Turn on GitHub pages at \\
-    <https://github.com/{get_primary_spec()}/settings> (using gh-pages as source)")
+    <https://github.com/{repo_spec}/settings> (using gh-pages as source)")
 
   invisible()
 }
 
-create_gh_pages_branch <- function() {
-  repo_spec <- get_primary_spec()
+create_gh_pages_branch <- function(repo_spec) {
   ui_done("
     Initializing empty gh-pages branch in GitHub repo {ui_value(repo_spec)}")
 

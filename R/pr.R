@@ -8,11 +8,11 @@
 #'
 #' To use the `pr_*` functions, your project must be a Git repo and have one of
 #' these GitHub remote configurations:
-#' * "ours": You can push to the GitHub remote configured as `origin`. It's not
-#'   a fork. `origin` points to the **primary repo**.
+#' * "ours": You can push to the GitHub remote configured as `origin` and it's
+#'   not a fork.
 #' * "fork": You can push to the GitHub remote configured as `origin`, it's a
 #'   fork, and its parent is configured as `upstream`. `origin` points to your
-#'   **personal** copy and upstream` points to the **primary repo**.
+#'   **personal** copy and `upstream` points to the **source repo**.
 #'
 #' "Ours" and "fork" are two of several GitHub remote configurations examined in
 #' [Common remote setups](https://happygitwithr.com/common-remote-setups.html)
@@ -129,9 +129,10 @@
 #' * `pr_finish()`: If `number` is given, first does `pr_fetch(number)`. It's
 #'   assumed the current branch is the PR branch of interest. First, makes sure
 #'   there are no unpushed local changes. Switches back to `master` and pulls
-#'   changes from the primary repo. Deletes the PR branch. If the PR came from
-#'   an external fork, the corresponding remote is deleted, provided it's not in
-#'   use by any other local branches.
+#'   changes from the primary repo. If the PR has been merged and user has
+#'   permission, deletes the remote branch. Deletes the PR branch. If the PR
+#'   came from an external fork, the corresponding remote is deleted, provided
+#'   it's not in use by any other local branches.
 #'
 #' @name pull-requests
 NULL
@@ -152,20 +153,22 @@ pr_init <- function(branch) {
   }
 
   check_pr_readiness()
-  # TODO(@jennybc): if no internet, could offer option to proceed anyway
-  # error shows git2r but we'll get similar error with gert
-  # Error in git2r::fetch(repo, name = remref_remote(remref), refspec = branch,  :
-  # Error in 'git2r_remote_fetch': failed to resolve address for github.com: nodename nor servname provided, or not known
 
+  base_branch <- git_branch()
   # TODO: honor default branch
-  if (git_branch() != "master") {
+  if (base_branch != "master") {
     if (ui_nope("Create local PR branch with non-master parent?")) {
       return(invisible(FALSE))
     }
   }
 
-  check_no_uncommitted_changes(untracked = TRUE)
-  pr_pull_primary_override()
+  if (!is.na(git_branch_tracking(base_branch))) {
+    comparison <- git_branch_compare(base_branch)
+    if (comparison$remote_only > 0) {
+      check_no_uncommitted_changes(untracked = TRUE)
+    }
+  }
+  pr_pull_source_override()
 
   ui_done("Creating and switching to local branch {ui_value(branch)}")
   gert::git_branch_create(branch, repo = repo)
@@ -218,28 +221,14 @@ pr_resume <- function(branch = NULL) {
 #' pr_fetch(123)
 #' }
 pr_fetch <- function(number) {
-  cfg <- classify_github_setup()
+  cfg <- github_remote_config()
   check_pr_readiness(cfg)
   check_no_uncommitted_changes()
 
-  # GET the PR ----
-  owner <- switch(
-    cfg$type,
-    ours = cfg$origin$repo_owner,
-    fork = cfg$upstream$repo_owner
-  )
-  repo_name <- cfg$origin$repo_name
-  pr <- gh::gh(
-    "GET /repos/:owner/:repo/pulls/:number",
-    owner = owner,
-    repo = repo_name,
-    number = number,
-    .token = github_token()
-  )
-  pr_string <- glue("{owner}/{repo_name}/#{number}")
+  pr <- pr_get(number = number, cfg = cfg)
   pr_user <- glue("@{pr$user$login}")
   ui_done("
-    Checking out PR {ui_value(pr_string)} ({ui_field(pr_user)}): \\
+    Checking out PR {ui_value(pr$pr_string)} ({ui_field(pr_user)}): \\
     {ui_value(pr$title)}")
 
   # Figure out remote, remote branch, local branch ----
@@ -253,7 +242,7 @@ pr_fetch <- function(number) {
         at this time,
         although this can be changed.")
     }
-  } else {                 # PR is from a branch in the primary repo
+  } else {                 # PR is from a branch in the source repo
     pr_remote <- switch(cfg$type, ours = "origin", fork = "upstream")
     pr_branch_ours <- pr_branch_theirs
   }
@@ -361,7 +350,7 @@ pr_pull <- function() {
 #' @export
 #' @rdname pull-requests
 pr_merge_main <- function() {
-  cfg <- classify_github_setup()
+  cfg <- github_remote_config()
   check_pr_readiness(cfg)
   check_no_uncommitted_changes()
 
@@ -399,7 +388,7 @@ pr_view <- function() {
   if (is.null(url)) {
     pr_create_gh()
   } else {
-    view_url(pr_url())
+    view_url(url)
   }
 }
 
@@ -414,13 +403,14 @@ pr_pause <- function() {
   ui_done("Switching back to {ui_value('master')} branch")
   # TODO: honor default branch
   gert::git_branch_checkout("master", repo = git_repo())
-  pr_pull_primary_override()
+  pr_pull_source_override()
 }
 
 #' @export
 #' @rdname pull-requests
 pr_finish <- function(number = NULL) {
-  check_pr_readiness()
+  cfg <- github_remote_config()
+  check_pr_readiness(cfg)
   repo <- git_repo()
 
   if (!is.null(number)) {
@@ -441,25 +431,43 @@ pr_finish <- function(number = NULL) {
   # TODO: honor default branch
   ui_done("Switching back to {ui_value('master')} branch")
   gert::git_branch_checkout("master", repo = repo)
-  pr_pull_primary_override()
+  pr_pull_source_override()
+
+  if (!has_remote_branch) {
+    ui_done("Deleting local {ui_value(branch)} branch")
+    gert::git_branch_delete(branch, repo = repo)
+    return(invisible())
+  }
+
+  remote <- remref_remote(tracking_branch)
+  # delete remote branch, if have permission and PR is merged
+  if (remote == "origin") {
+    if (is.null(number)) {
+      number <- sub("^.+pull/", "", pr_url(branch))
+    }
+    if (length(number)) {
+      pr <- pr_get(number = number, cfg = cfg)
+      if (pr$merged) {
+        ui_done("
+          PR {ui_value(pr$pr_string)} has been merged, \\
+          deleting remote branch {ui_value(tracking_branch)}")
+        gert::git_push(
+          remote = "origin",
+          refspec = glue(":refs/heads/{remref_branch(tracking_branch)}"),
+          verbose = FALSE
+        )
+      } else {
+        ui_done("
+          PR {ui_value(pr$pr_string)} is unmerged, \\
+          remote branch {ui_value(tracking_branch)} remains")
+      }
+    }
+  }
 
   ui_done("Deleting local {ui_value(branch)} branch")
   gert::git_branch_delete(branch, repo = repo)
 
-  if (!has_remote_branch) {
-    return(invisible())
-  }
-
-  if (remref_remote(tracking_branch) == "origin") {
-    ui_done("Deleting remote branch {ui_value(tracking_branch)}")
-    gert::git_push(
-      remote = "origin",
-      refspec = glue(":refs/heads/{remref_branch(tracking_branch)}"),
-      verbose = FALSE
-    )
-  }
-
-  remote <- remref_remote(tracking_branch)
+  # delete remote, if we added it AND no remaining tracking branches
   created_by <- git_cfg_get(glue("remote.{remote}.created-by"))
   if (is.null(created_by) || !grepl("^usethis::pr_", created_by)) {
     return(invisible())
@@ -495,12 +503,10 @@ pr_url <- function(branch = git_branch()) {
   }
 
   pr_branch <- remref_branch(pr_remref)
-  # TODO: this should be silent, but look at it when I re-examine
-  # get_primary_spec()
-  primary_spec <- get_primary_spec()
+  repo_spec <- repo_spec(ask = FALSE)
   urls <- pr_find(
-    owner = spec_owner(primary_spec),
-    repo = spec_repo(primary_spec),
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     pr_owner = remref_remote(pr_remref),
     pr_branch = remref_branch(pr_remref)
   )
@@ -538,16 +544,34 @@ pr_find <- function(owner,
   urls[refs == pr_branch & user == pr_owner]
 }
 
+pr_get <- function(number, cfg = NULL) {
+  cfg <- cfg %||% github_remote_config(github_get = FALSE)
+  owner <- switch(
+    cfg$type,
+    maybe_ours_or_theirs =,
+    ours = cfg$origin$repo_owner,
+    maybe_fork =,
+    fork = cfg$upstream$repo_owner
+  )
+  repo_name <- cfg$origin$repo_name
+  out <- gh::gh(
+    "GET /repos/:owner/:repo/pulls/:number",
+    owner = owner,
+    repo = repo_name,
+    number = number,
+    .token = github_token()
+  )
+  out$pr_string <- glue_data(
+    parse_github_remotes(out$html_url),
+    "{repo_owner}/{repo_name}/#{number}"
+  )
+  out
+}
+
 check_pr_readiness <- function(cfg = NULL) {
-  cfg <- cfg %||% classify_github_setup()
-  if (cfg$unsupported) {
-    stop_bad_github_config(cfg)
-  }
-  if (cfg$type %in% c("ours", "fork")) {
-    return(invisible())
-  }
-  if (!(cfg$type %in% c("theirs", "fork_no_upstream"))) {
-    ui_stop("Internal error. Unexpected GitHub config type: {cfg$type}")
+  cfg <- cfg %||% github_remote_config()
+  if (isTRUE(cfg$pr_ready)) {
+    return(invisible(cfg))
   }
   stop_unsupported_pr_config(cfg)
 }
@@ -567,13 +591,13 @@ check_pr_branch <- function() {
 # Make sure to pull from upstream/master (as opposed to origin/master) if we're
 # in master branch of a fork. I wish everyone set up master to track the master
 # branch in the primary repo, but this protects us against sub-optimal setup.
-pr_pull_primary_override <- function() {
-  in_a_fork <- nrow(github_remotes("upstream", github_get = FALSE)) > 0
+pr_pull_source_override <- function() {
+  cfg <- github_remote_config(github_get = FALSE)
   # TODO: honor default branch
-  if (in_a_fork && git_branch() == "master") {
+  if (cfg$type == "maybe_fork" && git_branch() == "master") {
     remref <- "upstream/master"
   } else {
     remref <- NULL
   }
-  git_pull()
+  git_pull(remref = remref)
 }

@@ -97,7 +97,7 @@ browse_cran <- function(package = NULL) {
 #    installed package)
 github_url <- function(package = NULL) {
   if (is.null(package)) {
-    repo_spec <- get_repo_spec_lite()
+    repo_spec <- repo_spec()
     if (!is.null(repo_spec)) {
       return(glue("https://github.com/{repo_spec}"))
     }
