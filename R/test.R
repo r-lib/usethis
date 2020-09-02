@@ -55,7 +55,7 @@ check_edition <- function(edition = NULL) {
     }
     if (edition > testthat_version) {
       vers <- packageVersion("testthat")
-      ui_stop("`edition` ({edition}) not available in installed testthat ({vers}")
+      ui_stop("`edition` ({edition}) not available in installed testthat ({vers})")
     }
     as.integer(edition)
   }
