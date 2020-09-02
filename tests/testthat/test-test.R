@@ -4,6 +4,5 @@ test_that("check_edition() validates inputs", {
   expect_equal(check_edition(1.5), 1)
 
   expect_equal(check_edition(), packageVersion("testthat")[[1, 1]])
-  expect_equal(2 * 2, 4)
 })
 
