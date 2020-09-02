@@ -233,6 +233,10 @@
 <p><code><a href="../reference/use_cpp11.html">use_cpp11()</a></code> is a new function to set up an R package to use cpp11.</p>
 <p><code><a href="../reference/create_package.html">create_package(roxygen = FALSE)</a></code> once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (<a href='https://github.com/r-lib/usethis/issues/1120'>#1120</a>).</p>
 <p><code><a href="../reference/create_package.html">create_package()</a></code>, <code><a href="../reference/create_package.html">create_project()</a></code>, and <code><a href="../reference/proj_activate.html">proj_activate()</a></code> work better with relative paths, outside of RStudio (<a href='https://github.com/r-lib/usethis/issues/1122'>#1122</a>, <a href='https://github.com/r-lib/usethis/issues/954'>#954</a>).</p>
+<ul>
+<li>
+<code><a href="../reference/use_testthat.html">use_testthat()</a></code> gains an edition argument to support upcoming testthat 3.0.0 (<a href='https://github.com/r-lib/usethis/issues/1185'>#1185</a>)</li>
+</ul>
 </div>
 </div>
     <div id="usethis-161" class="section level1">
@@ -563,7 +567,7 @@
 </ul>
 </li>
 <li><p><code><a href="../reference/use_template.html">use_template()</a></code> no longer errors when a user chooses not to overwrite an existing file and simply exits with confirmation that the file is unchanged (<a href='https://github.com/r-lib/usethis/issues/348'>#348</a>, <a href='https://github.com/r-lib/usethis/issues/350'>#350</a>, <a href='https://github.com/boshek'>@boshek</a>).</p></li>
-<li><p><code><a href="https://rdrr.io/r/base/options.html">getOption("usethis.quiet", default = FALSE)</a></code> is consulted when printing user-facing messages. Set this option to <code>TRUE</code> to suppress output, e.g., to use usethis functions quietly in another package. For example, use <code><a href="https://rdrr.io/pkg/withr/man/with_options.html">withr::local_options(list(usethis.quiet = TRUE))</a></code> in the calling function (<a href='https://github.com/r-lib/usethis/issues/416'>#416</a>, <a href='https://github.com/r-lib/usethis/issues/424'>#424</a>).</p></li>
+<li><p><code><a href="https://rdrr.io/r/base/options.html">getOption("usethis.quiet", default = FALSE)</a></code> is consulted when printing user-facing messages. Set this option to <code>TRUE</code> to suppress output, e.g., to use usethis functions quietly in another package. For example, use <code><a href="https://withr.r-lib.org/reference/with_options.html">withr::local_options(list(usethis.quiet = TRUE))</a></code> in the calling function (<a href='https://github.com/r-lib/usethis/issues/416'>#416</a>, <a href='https://github.com/r-lib/usethis/issues/424'>#424</a>).</p></li>
 </ul>
 </div>
 <div id="new-functions" class="section level2">
