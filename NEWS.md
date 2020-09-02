@@ -56,6 +56,9 @@ There is increasing interest in making the name of a repo's default branch confi
 
 `create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
 
+* `use_testthat()` gains an edition argument to support upcoming testthat 3.0.0 
+  (#1185)
+
 # usethis 1.6.1
 
 Patch release to align some path handling internals with an update coming in the fs package.

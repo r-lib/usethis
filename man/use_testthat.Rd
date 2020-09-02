@@ -4,7 +4,11 @@
 \alias{use_testthat}
 \title{Sets up overall testing infrastructure}
 \usage{
-use_testthat()
+use_testthat(edition = NULL)
+}
+\arguments{
+\item{edition}{testthat edition to use. Defaults to the latest edition,
+i.e. the major version number of the currently installed testthat.}
 }
 \description{
 Creates \verb{tests/testthat/}, \code{tests/testthat.R}, and adds the testthat package
