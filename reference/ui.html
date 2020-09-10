@@ -212,33 +212,33 @@ as usethis.</p>
 <p>The question functions <code><a href='ui-questions.html'>ui_yeah()</a></code> and <code><a href='ui-questions.html'>ui_nope()</a></code> have their own <a href='ui-questions.html'>help page</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ui_line</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(), <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+    <pre class="usage"><span class='fu'>ui_line</span>(x = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(), .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_todo</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_todo</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_done</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_done</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_oops</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_oops</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_info</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_info</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_code_block</span>(<span class='no'>x</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(), <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_code_block</span>(<span class='kw'>x</span>, copy = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>(), .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_stop</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_stop</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_warn</span>(<span class='no'>x</span>, <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>ui_warn</span>(<span class='kw'>x</span>, .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
 
-<span class='fu'>ui_silence</span>(<span class='no'>code</span>)
+<span class='fu'>ui_silence</span>(<span class='kw'>code</span>)
 
-<span class='fu'>ui_field</span>(<span class='no'>x</span>)
+<span class='fu'>ui_field</span>(<span class='kw'>x</span>)
 
-<span class='fu'>ui_value</span>(<span class='no'>x</span>)
+<span class='fu'>ui_value</span>(<span class='kw'>x</span>)
 
-<span class='fu'>ui_path</span>(<span class='no'>x</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>ui_path</span>(<span class='kw'>x</span>, base = <span class='kw'>NULL</span>)
 
-<span class='fu'>ui_code</span>(<span class='no'>x</span>)
+<span class='fu'>ui_code</span>(<span class='kw'>x</span>)
 
-<span class='fu'>ui_unset</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"unset"</span>)</pre>
+<span class='fu'>ui_unset</span>(x = <span class='st'>"unset"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -288,13 +288,16 @@ selected actions.</p>
 <code><a href='ui-questions.html'>ui-questions</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>new_val</span> <span class='kw'>&lt;-</span> <span class='st'>"oxnard"</span>
-<span class='fu'>ui_done</span>(<span class='st'>"{ui_field('name')} set to {ui_value(new_val)}"</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #00BB00;'>name</span><span> set to </span><span style='color: #0000BB;'>'oxnard'</span><span></span></div><div class='input'><span class='fu'>ui_todo</span>(<span class='st'>"Redocument with {ui_code('devtools::document()')}"</span>)</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Redocument with </span><span style='color: #555555;'>`devtools::document()`</span><span></span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='kw'>new_val</span> <span class='op'>&lt;-</span> <span class='st'>"oxnard"</span>
+<span class='fu'>ui_done</span>(<span class='st'>"{ui_field('name')} set to {ui_value(new_val)}"</span>)
+</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span><span> </span><span style='color: #00BB00;'>name</span><span> set to </span><span style='color: #0000BB;'>'oxnard'</span><span></span></div><div class='input'><span class='fu'>ui_todo</span>(<span class='st'>"Redocument with {ui_code('devtools::document()')}"</span>)
+</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Redocument with </span><span style='color: #555555;'>`devtools::document()`</span><span></span></div><div class='input'>
 <span class='fu'>ui_code_block</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
   <span class='st'>"Line 1"</span>,
   <span class='st'>"Line 2"</span>,
   <span class='st'>"Line 3"</span>
-))</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #555555;'>  Line 1</span>
+))
+</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #555555;'>  Line 1</span>
 #&gt; <span class='message'>  Line 2</span>
 #&gt; <span class='message'>  Line 3</span><span></span></div></span></pre>
   </div>
@@ -312,7 +315,7 @@ selected actions.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

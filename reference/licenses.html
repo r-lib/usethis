@@ -55,19 +55,30 @@
 <meta property="og:title" content="License a package — licenses" />
 <meta property="og:description" content="Adds the necessary infrastructure to declare your package as licensed
 with one of these popular open source licenses:
-CC0: dedicated
-to public domain. Appropriate for data packages.
+Permissive:
 MIT: simple and permissive.
-Apache 2.0:
+Apache 2.0: MIT +
 provides patent protection.
+
+
+Copyleft:
+GPL v2: requires sharing
+of improvements.
 GPL v3: requires sharing
 of improvements.
 AGPL v3: requires sharing
 of improvements.
+LGPL v2.1: requires sharing
+of improvements.
 LGPL v3: requires sharing
 of improvements.
-CCBY 4.0: Free to share and
-adapt, must give appropriate credit. Appropriate for data packages.
+
+
+Creative commons licenses appropriate for data packages:
+CC0: dedicated
+to public domain.
+CC-BY: Free to share and
+adapt, must give appropriate credit.
 
 
 See https://choosealicense.com for more details and other options." />
@@ -203,58 +214,81 @@ See https://choosealicense.com for more details and other options." />
 
     <div class="ref-description">
     <p>Adds the necessary infrastructure to declare your package as licensed
-with one of these popular open source licenses:</p><ul>
-<li><p><a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>: dedicated
-to public domain. Appropriate for data packages.</p></li>
+with one of these popular open source licenses:</p>
+<p>Permissive:</p><ul>
 <li><p><a href='https://choosealicense.com/licenses/mit/'>MIT</a>: simple and permissive.</p></li>
-<li><p><a href='https://choosealicense.com/licenses/apache-2.0/'>Apache 2.0</a>:
+<li><p><a href='https://choosealicense.com/licenses/apache-2.0/'>Apache 2.0</a>: MIT +
 provides patent protection.</p></li>
+</ul>
+
+<p>Copyleft:</p><ul>
+<li><p><a href='https://choosealicense.com/licenses/gpl-2.0/'>GPL v2</a>: requires sharing
+of improvements.</p></li>
 <li><p><a href='https://choosealicense.com/licenses/gpl-3.0/'>GPL v3</a>: requires sharing
 of improvements.</p></li>
 <li><p><a href='https://choosealicense.com/licenses/agpl-3.0/'>AGPL v3</a>: requires sharing
 of improvements.</p></li>
+<li><p><a href='https://choosealicense.com/licenses/lgpl-2.1/'>LGPL v2.1</a>: requires sharing
+of improvements.</p></li>
 <li><p><a href='https://choosealicense.com/licenses/lgpl-3.0/'>LGPL v3</a>: requires sharing
 of improvements.</p></li>
-<li><p><a href='https://creativecommons.org/licenses/by/4.0/'>CCBY 4.0</a>: Free to share and
-adapt, must give appropriate credit. Appropriate for data packages.</p></li>
+</ul>
+
+<p>Creative commons licenses appropriate for data packages:</p><ul>
+<li><p><a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>: dedicated
+to public domain.</p></li>
+<li><p><a href='https://creativecommons.org/licenses/by/4.0/'>CC-BY</a>: Free to share and
+adapt, must give appropriate credit.</p></li>
 </ul>
 
 <p>See <a href='https://choosealicense.com'>https://choosealicense.com</a> for more details and other options.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_mit_license</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>find_name</span>())
+    <pre class="usage"><span class='fu'>use_mit_license</span>(copyright_holder = <span class='kw'>NULL</span>)
 
-<span class='fu'>use_gpl3_license</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>find_name</span>())
+<span class='fu'>use_gpl_license</span>(version = <span class='fl'>3</span>, include_future = <span class='fl'>TRUE</span>)
 
-<span class='fu'>use_agpl3_license</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>find_name</span>())
+<span class='fu'>use_agpl_license</span>(version = <span class='fl'>3</span>, include_future = <span class='fl'>TRUE</span>)
 
-<span class='fu'>use_lgpl_license</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>find_name</span>())
+<span class='fu'>use_lgpl_license</span>(version = <span class='fl'>3</span>, include_future = <span class='fl'>TRUE</span>)
 
-<span class='fu'>use_apl2_license</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>find_name</span>())
+<span class='fu'>use_apl_license</span>(version = <span class='fl'>2</span>, include_future = <span class='fl'>TRUE</span>)
 
-<span class='fu'>use_cc0_license</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>find_name</span>())
+<span class='fu'>use_cc0_license</span>()
 
-<span class='fu'>use_ccby_license</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>find_name</span>())</pre>
+<span class='fu'>use_ccby_license</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>name</th>
-      <td><p>Name of the copyright holder or holders. Separate multiple
-individuals with <code>;</code>. You can supply a global default with
-<code><a href='https://rdrr.io/r/base/options.html'>options(usethis.full_name = "My name")</a></code>.</p></td>
+      <th>copyright_holder</th>
+      <td><p>Name of the copyright holder or holders. This
+defaults to "package name authors"; you should only change this if you
+use a CLA to assign copyright to a single entity.</p></td>
+    </tr>
+    <tr>
+      <th>version</th>
+      <td><p>License version. This defaults to latest version all licenses.</p></td>
+    </tr>
+    <tr>
+      <th>include_future</th>
+      <td><p>If <code>TRUE</code>, will license your package under the current
+and any potential future versions of the license. This is generally
+considered to be good practice because it means your package will
+automatically include "bug" fixes in licenses.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>CRAN does not allow you to include copies of standard licenses in your
+    <p>CRAN does not permit you to include copies of standard licenses in your
 package, so these functions save the license as <code>LICENSE.md</code> and add it
 to <code>.Rbuildignore</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>The <a href='https://r-pkgs.org/description.html#license'>license section</a> of <a href='https://r-pkgs.org'>R Packages</a>.</p></div>
+    <div class='dont-index'><p>For more details, refer to the the
+<a href='https://r-pkgs.org/license.html'>license chapter</a> in <em>R Packages</em>.</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -271,7 +305,7 @@ to <code>.Rbuildignore</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

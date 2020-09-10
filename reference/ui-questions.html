@@ -193,23 +193,23 @@ page.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ui_yeah</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>yes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Yes"</span>, <span class='st'>"Definitely"</span>, <span class='st'>"For sure"</span>, <span class='st'>"Yup"</span>, <span class='st'>"Yeah"</span>, <span class='st'>"I agree"</span>, <span class='st'>"Absolutely"</span>),
-  <span class='kw'>no</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"No way"</span>, <span class='st'>"Not now"</span>, <span class='st'>"Negative"</span>, <span class='st'>"No"</span>, <span class='st'>"Nope"</span>, <span class='st'>"Absolutely not"</span>),
-  <span class='kw'>n_yes</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>n_no</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>()
+  <span class='kw'>x</span>,
+  yes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Yes"</span>, <span class='st'>"Definitely"</span>, <span class='st'>"For sure"</span>, <span class='st'>"Yup"</span>, <span class='st'>"Yeah"</span>, <span class='st'>"I agree"</span>, <span class='st'>"Absolutely"</span>),
+  no = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"No way"</span>, <span class='st'>"Not now"</span>, <span class='st'>"Negative"</span>, <span class='st'>"No"</span>, <span class='st'>"Nope"</span>, <span class='st'>"Absolutely not"</span>),
+  n_yes = <span class='fl'>1</span>,
+  n_no = <span class='fl'>2</span>,
+  shuffle = <span class='fl'>TRUE</span>,
+  .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>()
 )
 
 <span class='fu'>ui_nope</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>yes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Yes"</span>, <span class='st'>"Definitely"</span>, <span class='st'>"For sure"</span>, <span class='st'>"Yup"</span>, <span class='st'>"Yeah"</span>, <span class='st'>"I agree"</span>, <span class='st'>"Absolutely"</span>),
-  <span class='kw'>no</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"No way"</span>, <span class='st'>"Not now"</span>, <span class='st'>"Negative"</span>, <span class='st'>"No"</span>, <span class='st'>"Nope"</span>, <span class='st'>"Absolutely not"</span>),
-  <span class='kw'>n_yes</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>n_no</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>()
+  <span class='kw'>x</span>,
+  yes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Yes"</span>, <span class='st'>"Definitely"</span>, <span class='st'>"For sure"</span>, <span class='st'>"Yup"</span>, <span class='st'>"Yeah"</span>, <span class='st'>"I agree"</span>, <span class='st'>"Absolutely"</span>),
+  no = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"No way"</span>, <span class='st'>"Not now"</span>, <span class='st'>"Negative"</span>, <span class='st'>"No"</span>, <span class='st'>"Nope"</span>, <span class='st'>"Absolutely not"</span>),
+  n_yes = <span class='fl'>1</span>,
+  n_no = <span class='fl'>2</span>,
+  shuffle = <span class='fl'>TRUE</span>,
+  .envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -265,11 +265,12 @@ of <code>ui_yeah()</code>.</p>
 <code><a href='ui.html'>ui</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>ui_yeah</span>(<span class='st'>"Do you like R?"</span>)
-<span class='fu'>ui_nope</span>(<span class='st'>"Have you tried turning it off and on again?"</span>, <span class='kw'>n_yes</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n_no</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='fu'>ui_yeah</span>(<span class='st'>"Are you sure its plugged in?"</span>, <span class='kw'>yes</span> <span class='kw'>=</span> <span class='st'>"Yes"</span>, <span class='kw'>no</span> <span class='kw'>=</span> <span class='st'>"No"</span>, <span class='kw'>shuffle</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-}</div></pre>
+<span class='fu'>ui_nope</span>(<span class='st'>"Have you tried turning it off and on again?"</span>, n_yes = <span class='fl'>1</span>, n_no = <span class='fl'>1</span>)
+<span class='fu'>ui_yeah</span>(<span class='st'>"Are you sure its plugged in?"</span>, yes = <span class='st'>"Yes"</span>, no = <span class='st'>"No"</span>, shuffle = <span class='fl'>FALSE</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -285,7 +286,7 @@ of <code>ui_yeah()</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

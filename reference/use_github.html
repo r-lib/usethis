@@ -223,12 +223,12 @@ all of this to work.</p>
     </div>
 
     <pre class="usage"><span class='fu'>use_github</span>(
-  <span class='kw'>organisation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>private</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='fu'><a href='git_protocol.html'>git_protocol</a></span>(),
-  <span class='kw'>auth_token</span> <span class='kw'>=</span> <span class='fu'><a href='create_github_token.html'>github_token</a></span>(),
-  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>credentials</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span>()
+  organisation = <span class='kw'>NULL</span>,
+  private = <span class='fl'>FALSE</span>,
+  protocol = <span class='fu'><a href='git_protocol.html'>git_protocol</a></span>(),
+  auth_token = <span class='fu'><a href='create_github_token.html'>github_token</a></span>(),
+  host = <span class='kw'>NULL</span>,
+  credentials = <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -317,16 +317,17 @@ troubleshooting on getting the credentials package to find your SSH keys. Its
 is a good place to start.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>pkgpath</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"testpkg"</span>)
-<span class='fu'><a href='create_package.html'>create_package</a></span>(<span class='no'>pkgpath</span>)
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>pkgpath</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"testpkg"</span>)
+<span class='fu'><a href='create_package.html'>create_package</a></span>(<span class='kw'>pkgpath</span>)
 
 <span class='co'>## now, working inside "testpkg", initialize git repository</span>
 <span class='fu'><a href='use_git.html'>use_git</a></span>()
 
 <span class='co'>## create github repository and configure as git remote</span>
 <span class='fu'>use_github</span>()
-}</div></pre>
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -342,7 +343,7 @@ is a good place to start.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

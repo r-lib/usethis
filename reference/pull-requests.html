@@ -222,11 +222,11 @@ in Happy Git.</p>
 various remote operations. See below for more.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pr_init</span>(<span class='no'>branch</span>)
+    <pre class="usage"><span class='fu'>pr_init</span>(<span class='kw'>branch</span>)
 
-<span class='fu'>pr_resume</span>(<span class='kw'>branch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>pr_resume</span>(branch = <span class='kw'>NULL</span>)
 
-<span class='fu'>pr_fetch</span>(<span class='no'>number</span>)
+<span class='fu'>pr_fetch</span>(<span class='kw'>number</span>)
 
 <span class='fu'>pr_push</span>()
 
@@ -240,7 +240,7 @@ various remote operations. See below for more.</p>
 
 <span class='fu'>pr_pause</span>()
 
-<span class='fu'>pr_finish</span>(<span class='kw'>number</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>pr_finish</span>(number = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -248,7 +248,7 @@ various remote operations. See below for more.</p>
     <tr>
       <th>branch</th>
       <td><p>branch name. Should usually consist of lower case letters,
-numbers, and <code>-</code>.</p></td>
+numbers, and <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>.</p></td>
     </tr>
     <tr>
       <th>number</th>
@@ -364,9 +364,10 @@ it's not in use by any other local branches.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>pr_fetch</span>(<span class='fl'>123</span>)
-}</div></pre>
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -382,7 +383,7 @@ it's not in use by any other local branches.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

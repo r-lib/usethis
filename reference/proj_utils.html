@@ -202,22 +202,22 @@ session.</p>
 
     <pre class="usage"><span class='fu'>proj_get</span>()
 
-<span class='fu'>proj_set</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>proj_set</span>(path = <span class='st'>"."</span>, force = <span class='fl'>FALSE</span>)
 
-<span class='fu'>proj_path</span>(<span class='no'>...</span>, <span class='kw'>ext</span> <span class='kw'>=</span> <span class='st'>""</span>)
+<span class='fu'>proj_path</span>(<span class='kw'>...</span>, ext = <span class='st'>""</span>)
 
 <span class='fu'>with_project</span>(
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>,
-  <span class='no'>code</span>,
-  <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"usethis.quiet"</span>, <span class='kw'>default</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+  path = <span class='st'>"."</span>,
+  <span class='kw'>code</span>,
+  force = <span class='fl'>FALSE</span>,
+  quiet = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"usethis.quiet"</span>, default = <span class='fl'>FALSE</span>)
 )
 
 <span class='fu'>local_project</span>(
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>,
-  <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"usethis.quiet"</span>, <span class='kw'>default</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>),
-  <span class='kw'>.local_envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>()
+  path = <span class='st'>"."</span>,
+  force = <span class='fl'>FALSE</span>,
+  quiet = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"usethis.quiet"</span>, default = <span class='fl'>FALSE</span>),
+  .local_envir = <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -292,7 +292,7 @@ test.  It is an example of the <code>local_*()</code> functions in
 <code><a href='proj_sitrep.html'>proj_sitrep</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## see the active project</span>
 <span class='fu'>proj_get</span>()
 
@@ -301,14 +301,15 @@ test.  It is an example of the <code>local_*()</code> functions in
 
 <span class='co'>## build a path within the active project (both produce same result)</span>
 <span class='fu'>proj_path</span>(<span class='st'>"R/foo.R"</span>)
-<span class='fu'>proj_path</span>(<span class='st'>"R"</span>, <span class='st'>"foo"</span>, <span class='kw'>ext</span> <span class='kw'>=</span> <span class='st'>"R"</span>)
+<span class='fu'>proj_path</span>(<span class='st'>"R"</span>, <span class='st'>"foo"</span>, ext = <span class='st'>"R"</span>)
 
 <span class='co'>## build a path within SOME OTHER project</span>
 <span class='fu'>with_project</span>(<span class='st'>"path/to/some/other/project"</span>, <span class='fu'>proj_path</span>(<span class='st'>"blah.R"</span>))
 
 <span class='co'>## convince yourself that with_project() temporarily changes the project</span>
 <span class='fu'>with_project</span>(<span class='st'>"path/to/some/other/project"</span>, <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='proj_sitrep.html'>proj_sitrep</a></span>()))
-}</div></pre>
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -324,7 +325,7 @@ test.  It is an example of the <code>local_*()</code> functions in
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
