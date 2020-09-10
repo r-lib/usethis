@@ -2,23 +2,26 @@
 % Please edit documentation in R/license.R
 \name{licenses}
 \alias{use_mit_license}
-\alias{use_gpl3_license}
-\alias{use_agpl3_license}
+\alias{use_gpl_license}
+\alias{use_agpl_license}
 \alias{use_lgpl_license}
-\alias{use_apl2_license}
+\alias{use_apl_license}
 \alias{use_cc0_license}
 \alias{use_ccby_license}
+\alias{use_gpl3_license}
+\alias{use_agpl3_license}
+\alias{use_apl2_license}
 \title{License a package}
 \usage{
 use_mit_license(copyright_holder = NULL)
 
-use_gpl3_license()
+use_gpl_license(version = 2, include_future = TRUE)
 
-use_agpl3_license()
+use_agpl_license(version = 3, include_future = TRUE)
 
-use_lgpl_license()
+use_lgpl_license(version = 3, include_future = TRUE)
 
-use_apl2_license()
+use_apl_license(version = 2, include_future = TRUE)
 
 use_cc0_license()
 
@@ -28,24 +31,47 @@ use_ccby_license()
 \item{copyright_holder}{Name of the copyright holder or holders. This
 defaults to "{package name} authors"; you should only change this if you
 use a CLA to assign copyright to a single entity.}
+
+\item{version}{License version. This defaults to version 2 for the GPL
+(for compatibility with R itself), but the latest version for all other
+licenses.}
+
+\item{include_future}{If \code{TRUE}, will license your package under the current
+and any potential future versions of the license. This is generally
+considered to be good practice because it means your package will
+automatically include "bug" fixes in licenses.}
 }
 \description{
 Adds the necessary infrastructure to declare your package as licensed
 with one of these popular open source licenses:
+
+Permissive:
 \itemize{
-\item \href{https://creativecommons.org/publicdomain/zero/1.0/}{CC0}: dedicated
-to public domain. Appropriate for data packages.
 \item \href{https://choosealicense.com/licenses/mit/}{MIT}: simple and permissive.
-\item \href{https://choosealicense.com/licenses/apache-2.0/}{Apache 2.0}:
+\item \href{https://choosealicense.com/licenses/apache-2.0/}{Apache 2.0}: MIT +
 provides patent protection.
+}
+
+Copyleft:
+\itemize{
+\item \href{https://choosealicense.com/licenses/gpl-2.0/}{GPL v2}: requires sharing
+of improvements.
 \item \href{https://choosealicense.com/licenses/gpl-3.0/}{GPL v3}: requires sharing
 of improvements.
 \item \href{https://choosealicense.com/licenses/agpl-3.0/}{AGPL v3}: requires sharing
 of improvements.
+\item \href{https://choosealicense.com/licenses/lgpl-2.1/}{LGPL v2.1}: requires sharing
+of improvements.
 \item \href{https://choosealicense.com/licenses/lgpl-3.0/}{LGPL v3}: requires sharing
 of improvements.
-\item \href{https://creativecommons.org/licenses/by/4.0/}{CCBY 4.0}: Free to share and
-adapt, must give appropriate credit. Appropriate for data packages.
+}
+
+Creative commons licenses appropriate for data packages:
+\itemize{
+\item \href{https://creativecommons.org/publicdomain/zero/1.0/}{CC0}: dedicated
+to public domain.
+\item \href{https://creativecommons.org/licenses/by/4.0/}{CC-BY}: Free to share and
+adapt, must give appropriate credit.
 }
 
 See \url{https://choosealicense.com} for more details and other options.

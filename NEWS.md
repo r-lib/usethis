@@ -54,6 +54,18 @@ There is increasing interest in making the name of a repo's default branch confi
   are the contributors to the package; unless you are using a CLA there is no
   one copyright holder of a package (#1207).
   
+* New `use_gpl_license()` and  `use_agpl_license()` make it easier to pick 
+  specific versions of the three GPL license, and to choose whether or not you 
+  include future versions of the license. `use_gpl_license()` defaults to 
+  version 2 (and above) so that your code is compatible with R itself;
+  `use_agpl_license()` defaults to version 3 (and above).
+
+* `use_lgpl_license()` now uses version 3 (and above).
+  
+* `use_gpl3_license()`, `use_agpl3_license()` and `use_apl2_license()` have
+  been deprecated in favour of the new `version` argument to 
+  `use_gpl_license()`, `use_agpl_license()` and `use_apl_license()`.
+  
 * The `name` argument to `use_mit_license()` has been changed to 
   `copyright_holder` to make the purpose more clear. The `name` argument has
   been removed from all other license functions because it is not needed;
