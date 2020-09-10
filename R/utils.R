@@ -87,3 +87,5 @@ path_first_existing <- function(...) {
 is_online <- function(host) {
   !is.null(curl::nslookup(host, error = FALSE))
 }
+
+year <- function() format(Sys.Date(), "%Y")

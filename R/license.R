@@ -29,6 +29,10 @@
 #'
 #' See <https://choosealicense.com> for more details and other options.
 #'
+#' Alternatively, for code that you don't want to share with others,
+#' `use_proprietary_license()` makes it clear that all rights are reserved,
+#' and the code is not open source.
+#'
 #' @details
 #' CRAN does not permit you to include copies of standard licenses in your
 #' package, so these functions save the license as `LICENSE.md` and add it
@@ -129,6 +133,19 @@ use_ccby_license <- function() {
   use_license_template("ccby-4")
 }
 
+#' @rdname licenses
+#' @export
+use_proprietary_license <- function(copyright_holder) {
+  data <- list(
+    year = year(),
+    copyright_holder = copyright_holder
+  )
+
+  if (is_package()) {
+    use_description_field("License", "file LICENSE", overwrite = TRUE)
+  }
+  use_template("license-proprietary.txt", save_as = "LICENSE", data = data)
+}
 
 # Fallbacks ---------------------------------------------------------------
 

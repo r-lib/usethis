@@ -11,6 +11,15 @@ test_that("use_mit_license() works", {
   expect_false(is_build_ignored("^LICENSE$"))
 })
 
+test_that("use_proprietary_license() works", {
+  create_local_package()
+  use_proprietary_license("foo")
+
+  expect_equal(desc::desc_get("License", proj_get())[[1]], "file LICENSE")
+  expect_proj_file("LICENSE")
+  # TODO add snapshot test
+})
+
 test_that("other licenses work without error", {
   create_local_package()
 
