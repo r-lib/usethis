@@ -42,6 +42,35 @@ There is increasing interest in making the name of a repo's default branch confi
 
 `issue_close_community()` and `issue_reprex_needed()` are two new functions for maintainers who process lots of GitHub issues. They automate canned replies and actions, e.g. labelling or closing (#940).
 
+## Licensing improvements
+
+* All `use_*_license()` functions now work for projects, not just packages.
+
+* `use_apl_license()` and `use_gpl3_license()` no longer modify the license
+   text (#1198).
+   
+* `use_mit_license()` now sets the default copyright holder to 
+  "{package} authors". This makes it more clear that the copyright holders
+  are the contributors to the package; unless you are using a CLA there is no
+  one copyright holder of a package (#1207).
+  
+* New `use_gpl_license()` and  `use_agpl_license()` make it easier to pick 
+  specific versions of the GPL and AGPL licenses, and to choose whether or not 
+  you include future versions of the license. Both default to version 3 
+  (and above).
+
+* `use_lgpl_license()` now uses version 3 (and above), and gains new
+  `version` and `include_future` argument to control which version is used.
+  
+* `use_gpl3_license()`, `use_agpl3_license()` and `use_apl2_license()` have
+  been deprecated in favour of the new `version` argument to 
+  `use_gpl_license()`, `use_agpl_license()` and `use_apl_license()`.
+  
+* The `name` argument to `use_mit_license()` has been changed to 
+  `copyright_holder` to make the purpose more clear. The `name` argument has
+  been removed from all other license functions because it is not needed;
+  no other license makes an assertion about who the copyright holder is.
+
 ## Other changes
 
 * GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (#1169).
