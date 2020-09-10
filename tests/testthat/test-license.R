@@ -31,6 +31,7 @@ test_that("other licenses work without error", {
 
 test_that("check license gives useful errors", {
   expect_error(check_license_version(1, 2), "must be 2")
+  expect_error(check_license_version(1, 2:4), "must be 2, 3, or 4")
 })
 
 test_that("generate correct abbreviations", {
