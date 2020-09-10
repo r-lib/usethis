@@ -21,133 +21,95 @@
 #' See <https://choosealicense.com> for more details and other options.
 #'
 #' @details
-#' CRAN does not allow you to include copies of standard licenses in your
+#' CRAN does not permit you to include copies of standard licenses in your
 #' package, so these functions save the license as `LICENSE.md` and add it
 #' to `.Rbuildignore`.
 #'
 #' @name licenses
-#' @param name Name of the copyright holder or holders. Separate multiple
-#'   individuals with `;`. You can supply a global default with
-#'   `options(usethis.full_name = "My name")`.
-#' @seealso The [license
-#'   section](https://r-pkgs.org/description.html#license) of [R
-#'   Packages](https://r-pkgs.org).
+#' @param copyright_holder Name of the copyright holder or holders. This
+#'   defaults to "{package name} authors"; you should only change this if you
+#'   use a CLA to assign copyright to a single entity.
+#' @seealso For more details, refer to the the
+#'   [license chapter](https://r-pkgs.org/license.html) in _R Packages_.
 #' @aliases NULL
 NULL
 
 #' @rdname licenses
 #' @export
-use_mit_license <- function(name = find_name()) {
-  force(name)
-  check_is_package("use_mit_license()")
-
-  use_description_field("License", "MIT + file LICENSE", overwrite = TRUE)
-  use_license_template("mit", name)
-
-  # Fill in template
-  use_template(
-    "year-copyright.txt",
-    save_as = "LICENSE",
-    data = license_data(name)
+use_mit_license <- function(copyright_holder = NULL) {
+  data <- list(
+    year = format(Sys.Date(), "%Y"),
+    copyright_holder = copyright_holder %||% glue("{project_name()} authors")
   )
+
+  if (is_package()) {
+    use_description_field("License", "MIT + file LICENSE", overwrite = TRUE)
+    use_template("year-copyright.txt", save_as = "LICENSE", data = data)
+  }
+
+  use_license_template("mit", data)
 }
 
 #' @rdname licenses
 #' @export
-use_gpl3_license <- function(name = find_name()) {
-  force(name)
-  check_is_package("use_gpl3_license()")
-
-  use_description_field("License", "GPL-3", overwrite = TRUE)
-  use_license_template("GPL-3", name)
+use_gpl3_license <- function() {
+  if (is_package()) {
+    use_description_field("License", "GPL-3", overwrite = TRUE)
+  }
+  use_license_template("GPL-3")
 }
 
 #' @rdname licenses
 #' @export
-use_agpl3_license <- function(name = find_name()) {
-  force(name)
-  check_is_package("use_agpl3_license()")
-
-  use_description_field("License", "AGPL-3", overwrite = TRUE)
-  use_license_template("AGPL-3", name)
+use_agpl3_license <- function() {
+  if (is_package()) {
+    use_description_field("License", "AGPL-3", overwrite = TRUE)
+  }
+  use_license_template("AGPL-3")
 }
 
 #' @rdname licenses
 #' @export
-use_lgpl_license <- function(name = find_name()) {
-  force(name)
-  check_is_package("use_lgpl_license()")
-
-  use_description_field("License", "LGPL (>= 2.1)", overwrite = TRUE)
-  use_license_template("LGPL-2.1", name)
+use_lgpl_license <- function() {
+  if (is_package()) {
+    use_description_field("License", "LGPL (>= 2.1)", overwrite = TRUE)
+  }
+  use_license_template("LGPL-2.1")
 }
 
 #' @rdname licenses
 #' @export
-use_apl2_license <- function(name = find_name()) {
-  force(name)
-  check_is_package("use_apl2_license()")
-
-  use_description_field("License", "Apache License (>= 2.0)", overwrite = TRUE)
-  use_license_template("apache-2.0", name)
+use_apl2_license <- function() {
+  if (is_package()) {
+    use_description_field("License", "Apache License (>= 2.0)", overwrite = TRUE)
+  }
+  use_license_template("apache-2.0")
 }
 
 #' @rdname licenses
 #' @export
-use_cc0_license <- function(name = find_name()) {
-  force(name)
-  check_is_package("use_cc0_license()")
-
-  use_description_field("License", "CC0", overwrite = TRUE)
-  use_license_template("cc0", name)
+use_cc0_license <- function() {
+  if (is_package()) {
+    use_description_field("License", "CC0", overwrite = TRUE)
+  }
+  use_license_template("cc0")
 }
 
 #' @rdname licenses
 #' @export
-use_ccby_license <- function(name = find_name()) {
-  force(name)
-  check_is_package("use_ccby_license()")
-
-  use_description_field("License", "CC BY 4.0", overwrite = TRUE)
-  use_license_template("ccby-4", name)
+use_ccby_license <- function() {
+  if (is_package()) {
+    use_description_field("License", "CC BY 4.0", overwrite = TRUE)
+  }
+  use_license_template("ccby-4")
 }
 
-use_license_template <- function(license, name) {
+use_license_template <- function(license, data = list()) {
   license_template <- glue("license-{license}.md")
 
-  use_template(
-    license_template,
+  use_template(license_template,
     save_as = "LICENSE.md",
-    data = license_data(name),
+    data = data,
     ignore = TRUE
-  )
-}
-
-license_data <- function(name, base_path = proj_get()) {
-  list(
-    year = format(Sys.Date(), "%Y"),
-    name = name,
-    project = project_name(base_path)
-  )
-}
-
-
-find_name <- function() {
-  name <- getOption("usethis.full_name")
-  if (!is.null(name)) {
-    return(name)
-  }
-
-  name <- getOption("devtools.name")
-  if (!is.null(name) && name != "Your name goes here") {
-    return(name)
-  }
-
-  ui_stop(
-    "
-    {ui_code('name')} argument is missing.
-    Set it globally with {ui_code('options(usethis.full_name = \"My name\")')}\\
-    probably in your {ui_path('.Rprofile')}.
-    "
   )
 }

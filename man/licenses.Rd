@@ -10,24 +10,24 @@
 \alias{use_ccby_license}
 \title{License a package}
 \usage{
-use_mit_license(name = find_name())
+use_mit_license(copyright_holder = NULL)
 
-use_gpl3_license(name = find_name())
+use_gpl3_license()
 
-use_agpl3_license(name = find_name())
+use_agpl3_license()
 
-use_lgpl_license(name = find_name())
+use_lgpl_license()
 
-use_apl2_license(name = find_name())
+use_apl2_license()
 
-use_cc0_license(name = find_name())
+use_cc0_license()
 
-use_ccby_license(name = find_name())
+use_ccby_license()
 }
 \arguments{
-\item{name}{Name of the copyright holder or holders. Separate multiple
-individuals with \verb{;}. You can supply a global default with
-\code{options(usethis.full_name = "My name")}.}
+\item{copyright_holder}{Name of the copyright holder or holders. This
+defaults to "{package name} authors"; you should only change this if you
+use a CLA to assign copyright to a single entity.}
 }
 \description{
 Adds the necessary infrastructure to declare your package as licensed
@@ -51,10 +51,11 @@ adapt, must give appropriate credit. Appropriate for data packages.
 See \url{https://choosealicense.com} for more details and other options.
 }
 \details{
-CRAN does not allow you to include copies of standard licenses in your
+CRAN does not permit you to include copies of standard licenses in your
 package, so these functions save the license as \code{LICENSE.md} and add it
 to \code{.Rbuildignore}.
 }
 \seealso{
-The \href{https://r-pkgs.org/description.html#license}{license section} of \href{https://r-pkgs.org}{R Packages}.
+For more details, refer to the the
+\href{https://r-pkgs.org/license.html}{license chapter} in \emph{R Packages}.
 }
