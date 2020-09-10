@@ -55,12 +55,12 @@ There is increasing interest in making the name of a repo's default branch confi
   one copyright holder of a package (#1207).
   
 * New `use_gpl_license()` and  `use_agpl_license()` make it easier to pick 
-  specific versions of the three GPL license, and to choose whether or not you 
-  include future versions of the license. `use_gpl_license()` defaults to 
-  version 2 (and above) so that your code is compatible with R itself;
-  `use_agpl_license()` defaults to version 3 (and above).
+  specific versions of the GPL and AGPL licenses, and to choose whether or not 
+  you include future versions of the license. Both default to version 3 
+  (and above).
 
-* `use_lgpl_license()` now uses version 3 (and above).
+* `use_lgpl_license()` now uses version 3 (and above), and gains new
+  `version` and `include_future` argument to control which version is used.
   
 * `use_gpl3_license()`, `use_agpl3_license()` and `use_apl2_license()` have
   been deprecated in favour of the new `version` argument to 

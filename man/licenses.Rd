@@ -15,7 +15,7 @@
 \usage{
 use_mit_license(copyright_holder = NULL)
 
-use_gpl_license(version = 2, include_future = TRUE)
+use_gpl_license(version = 3, include_future = TRUE)
 
 use_agpl_license(version = 3, include_future = TRUE)
 
@@ -32,9 +32,7 @@ use_ccby_license()
 defaults to "{package name} authors"; you should only change this if you
 use a CLA to assign copyright to a single entity.}
 
-\item{version}{License version. This defaults to version 2 for the GPL
-(for compatibility with R itself), but the latest version for all other
-licenses.}
+\item{version}{License version. This defaults to latest version all licenses.}
 
 \item{include_future}{If \code{TRUE}, will license your package under the current
 and any potential future versions of the license. This is generally

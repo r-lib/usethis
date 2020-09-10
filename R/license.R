@@ -38,9 +38,7 @@
 #' @param copyright_holder Name of the copyright holder or holders. This
 #'   defaults to "{package name} authors"; you should only change this if you
 #'   use a CLA to assign copyright to a single entity.
-#' @param version License version. This defaults to version 2 for the GPL
-#'   (for compatibility with R itself), but the latest version for all other
-#'   licenses.
+#' @param version License version. This defaults to latest version all licenses.
 #' @param include_future If `TRUE`, will license your package under the current
 #'   and any potential future versions of the license. This is generally
 #'   considered to be good practice because it means your package will
@@ -68,7 +66,7 @@ use_mit_license <- function(copyright_holder = NULL) {
 
 #' @rdname licenses
 #' @export
-use_gpl_license <- function(version = 2, include_future = TRUE) {
+use_gpl_license <- function(version = 3, include_future = TRUE) {
   version <- check_license_version(version, 2:3)
 
   if (is_package()) {
