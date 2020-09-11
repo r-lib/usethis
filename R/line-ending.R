@@ -1,6 +1,6 @@
-proj_line_ending <- function() {
+proj_line_ending <- function(base_path = proj_get()) {
   # First look in .Rproj file
-  proj_path <- proj_path(paste0(project_name(), ".Rproj"))
+  proj_path <- proj_path(paste0(project_name(base_path), ".Rproj"))
   if (file_exists(proj_path)) {
     config <- read_utf8(proj_path)
 
