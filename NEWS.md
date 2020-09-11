@@ -1,5 +1,13 @@
 # usethis (development version)
 
+
+`write_utf8()` now works even if `path` is a project's path which is 
+not the "current" project's path. (@CorradoLanera, #1125)
+
+`proj_line_ending()` now has an argument `base_path` (default set
+to `proj_get()`) make it able to work with different path from the 
+default. (@CorradoLanera, #1125)
+
 `create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
 
 `create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
