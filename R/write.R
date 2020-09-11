@@ -105,7 +105,7 @@ write_utf8 <- function(path, lines, append = FALSE, line_ending = NULL) {
 
   if (is.null(line_ending)) {
     if (possibly_in_proj(path)) {
-      line_ending <- proj_line_ending()
+      line_ending <- proj_line_ending(path)
     } else {
       line_ending <- platform_line_ending()
     }
