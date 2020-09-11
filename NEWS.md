@@ -1,5 +1,13 @@
 # usethis (development version)
 
+
+`write_utf8()` now works even if `path` is a project's path which is 
+not the "current" project's path. (@CorradoLanera, #1125)
+
+`proj_line_ending()` now has an argument `base_path` (default set
+to `proj_get()`) make it able to work with different path from the 
+default. (@CorradoLanera, #1125)
+
 ## Adoption of gert and credentials
 
 Usethis now uses the gert package for Git operations (<https://docs.ropensci.org/gert>), where previously we used git2r. The main motivation for this is to provide a smoother user experience by discovering and using the same credentials as command line Git (and, therefore, the same as RStudio). Under the hood, the hero is the credentials package (<https://docs.ropensci.org/credentials/>). `use_git_credentials()` and `git_credentials()` are now deprecated, since usethis no longer needs a way for a user to provide explicit credentials. The switch to gert + credentials should eliminate most credential-finding fiascos, but if you want to learn more, see the [introductory vignette](https://cran.r-project.org/web/packages/credentials/vignettes/intro.html) for the credentials package. 
