@@ -8,6 +8,7 @@
 \alias{use_apl_license}
 \alias{use_cc0_license}
 \alias{use_ccby_license}
+\alias{use_proprietary_license}
 \alias{use_gpl3_license}
 \alias{use_agpl3_license}
 \alias{use_apl2_license}
@@ -26,6 +27,8 @@ use_apl_license(version = 2, include_future = TRUE)
 use_cc0_license()
 
 use_ccby_license()
+
+use_proprietary_license(copyright_holder)
 }
 \arguments{
 \item{copyright_holder}{Name of the copyright holder or holders. This
@@ -73,6 +76,10 @@ adapt, must give appropriate credit.
 }
 
 See \url{https://choosealicense.com} for more details and other options.
+
+Alternatively, for code that you don't want to share with others,
+\code{use_proprietary_license()} makes it clear that all rights are reserved,
+and the code is not open source.
 }
 \details{
 CRAN does not permit you to include copies of standard licenses in your

@@ -59,6 +59,11 @@ There is increasing interest in making the name of a repo's default branch confi
   you include future versions of the license. Both default to version 3 
   (and above).
 
+* New `use_proprietary_license()` allows your package to pass R CMD check while
+  making it clear that your code is not open source (#1163). Thanks to
+  @atheriel for the blog post suggesting the wording:
+  https://unconj.ca/blog/copyright-in-closed-source-r-packages-the-right-way.html
+
 * `use_lgpl_license()` now uses version 3 (and above), and gains new
   `version` and `include_future` argument to control which version is used.
   
