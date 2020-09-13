@@ -1,6 +1,11 @@
+# Experiment inlining r-lib/git-creds.
+# This will likely NOT end up in usethis, long-term.
+
 # ------------------------------------------------------------------------
 # Public API
 # ------------------------------------------------------------------------
+
+gitcreds <- local({
 
 gitcreds_get <- function(url = "https://github.com", use_cache = TRUE,
                          set_cache = TRUE) {
@@ -558,3 +563,9 @@ squote <- function(x) {
 read_file <- function(path, ...) {
   readChar(path, nchars = file.info(path)$size, ...)
 }
+
+as.list(current_env())
+
+})
+
+# foo <- gitcreds$FUNCTION
