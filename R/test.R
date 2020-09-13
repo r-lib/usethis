@@ -46,7 +46,7 @@ use_testthat_impl <- function(edition = NULL) {
 }
 
 check_edition <- function(edition = NULL) {
-  testthat_version <- packageVersion("testthat")[[1, 1]]
+  testthat_version <- utils::packageVersion("testthat")[[1, 1]]
   if (is.null(edition)) {
     testthat_version
   } else {
@@ -54,7 +54,7 @@ check_edition <- function(edition = NULL) {
       ui_stop("`edition` must be a single number")
     }
     if (edition > testthat_version) {
-      vers <- packageVersion("testthat")
+      vers <- utils::packageVersion("testthat")
       ui_stop("`edition` ({edition}) not available in installed testthat ({vers})")
     }
     as.integer(edition)
