@@ -569,4 +569,7 @@ as.list(current_env())
 
 })
 
+#' @export
+gitcreds_set <- gitcreds$gitcreds_set
+
 # foo <- gitcreds$FUNCTION

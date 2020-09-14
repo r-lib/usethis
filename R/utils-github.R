@@ -547,7 +547,7 @@ stop_unsupported_pr_config <- function(cfg) {
     {ui_value(cfg$type)}
     In future, we will introduce better handling RIGHT HERE for 'you are \\
     offline' and 'we can't get your PAT'.
-    Try calling BLAH to set up your PAT.")
+    Call gitcreds_set() to set up your PAT, in the meantime.")
   abort(
     message = unname(msg),
     class = c("usethis_error_invalid_pr_config", "usethis_error"),
