@@ -544,7 +544,10 @@ stop_unsupported_pr_config <- function(cfg) {
   msg <- github_remote_config_wat(cfg)
   msg$type <- glue("
     Pull request functions can't work with GitHub remote configuration: \\
-    {ui_value(cfg$type)}")
+    {ui_value(cfg$type)}
+    In future, we will introduce better handling RIGHT HERE for 'you are \\
+    offline' and 'we can't get your PAT'.
+    Try calling BLAH to set up your PAT.")
   abort(
     message = unname(msg),
     class = c("usethis_error_invalid_pr_config", "usethis_error"),
@@ -634,7 +637,8 @@ cfg_maybe_fork <- function(cfg) {
       pr_ready = NA,
       desc = glue("
         Both {ui_value('origin')} and {ui_value('upstream')} appear to be \\
-        GitHub repos.")
+        GitHub repos, but we can't determine your permissions or how they \\
+        relate to each other.")
     )
   )
 }

@@ -266,7 +266,31 @@ create_github_token <- function(scopes = c("repo", "gist", "user:email"),
 #' substr(github_token(), 1, 4)
 github_token <- function() {
   token <- Sys.getenv("GITHUB_PAT", "")
-  if (token == "") Sys.getenv("GITHUB_TOKEN", "") else token
+  if (token == "") {
+    token <- Sys.getenv("GITHUB_TOKEN", "")
+  }
+  if (token != "") {
+    return(token)
+  }
+
+  errmsgs <- c(
+    no_git = paste0(
+      "No git installation found. You need to install git and set up ",
+      "your GitHub Personal Access token using `gitcreds::gitcreds_set()`.")
+    # no_creds = paste0(
+    #   "No git credentials found. Please set up your GitHub Personal Access ",
+    #   "token using `gitcreds::gitcreds_set()`.")
+  )
+
+  token <- tryCatch(
+    {
+      cat("calling gitcreds$gitcreds_get()\n")
+      gitcreds$gitcreds_get()
+    },
+    gitcreds_nogit_error = function(e) stop(errmsgs["no_git"]),
+    gitcreds_no_credentials = function(e) NULL
+  )
+  token$password %||% ""
 }
 
 origin_is_on_github <- function() {
