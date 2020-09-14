@@ -46,6 +46,7 @@ Imports:
     yaml
 Suggests: 
     covr,
+    cpp11,
     knitr,
     magick,
     pkgdown (>= 1.4.0),
