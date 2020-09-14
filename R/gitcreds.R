@@ -211,11 +211,12 @@ gitcreds_get_cache <- function(ev) {
 }
 
 gitcreds_set_cache <- function(ev, creds) {
-  esc <- function(x) gsub(":", "\\:", x, fixed = TRUE)
-  keys <- esc(names(creds))
-  vals <- esc(unlist(creds, use.names = FALSE))
-  value <- paste0(keys, ":", vals, collapse = ":")
-  do.call("set_env", list(structure(value, names = ev)))
+  #esc <- function(x) gsub(":", "\\:", x, fixed = TRUE)
+  #keys <- esc(names(creds))
+  #vals <- esc(unlist(creds, use.names = FALSE))
+  #value <- paste0(keys, ":", vals, collapse = ":")
+  #do.call("set_env", list(structure(value, names = ev)))
+  do.call("set_env", list(structure(creds$password, names = ev)))
   invisible(NULL)
 }
 
