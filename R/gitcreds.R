@@ -34,7 +34,7 @@ gitcreds_get <- function(url = "https://github.com", use_cache = TRUE,
 }
 
 gitcreds_set <- function(url = "https://github.com") {
-  if (!interactive()) {
+  if (!is_interactive()) {
     throw(new_error(
       "gitcreds_not_interactive_error",
       message = "`gitcreds_set()` only works in interactive sessions"
@@ -95,7 +95,7 @@ gitcreds_set_new <- function(url) {
 }
 
 gitcreds_delete <- function(url = "https://github.com") {
-  if (!interactive()) {
+  if (!is_interactive()) {
     throw(new_error(
       "gitcreds_not_interactive_error",
       message = "`gitcreds_delete()` only works in interactive sessions"
@@ -533,27 +533,27 @@ no_active_sink <- function() {
   sink.number("output") == 0 && sink.number("message") == 2
 }
 
-is_interactive <- function() {
-  opt <- getOption("rlib_interactive")
-  opt2 <- getOption("rlang_interactive")
-  if (isTRUE(opt)) {
-    TRUE
-  } else if (identical(opt, FALSE)) {
-    FALSE
-  } else if (isTRUE(opt2)) {
-    TRUE
-  } else if (identical(opt2, FALSE)) {
-    FALSE
-  } else if (tolower(getOption("knitr.in.progress", "false")) == "true") {
-    FALSE
-  } else if (tolower(getOption("rstudio.notebook.executing", "false")) == "true") {
-    FALSE
-  } else if (identical(Sys.getenv("TESTTHAT"), "true")) {
-    FALSE
-  } else {
-    interactive()
-  }
-}
+# is_interactive <- function() {
+#   opt <- getOption("rlib_interactive")
+#   opt2 <- getOption("rlang_interactive")
+#   if (isTRUE(opt)) {
+#     TRUE
+#   } else if (identical(opt, FALSE)) {
+#     FALSE
+#   } else if (isTRUE(opt2)) {
+#     TRUE
+#   } else if (identical(opt2, FALSE)) {
+#     FALSE
+#   } else if (tolower(getOption("knitr.in.progress", "false")) == "true") {
+#     FALSE
+#   } else if (tolower(getOption("rstudio.notebook.executing", "false")) == "true") {
+#     FALSE
+#   } else if (identical(Sys.getenv("TESTTHAT"), "true")) {
+#     FALSE
+#   } else {
+#     interactive()
+#   }
+# }
 
 squote <- function(x) {
   old <- options(useFancyQuotes = FALSE)
