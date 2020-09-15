@@ -46,7 +46,6 @@ Imports:
     yaml
 Suggests: 
     covr,
-    cpp11,
     knitr,
     magick,
     pkgdown (>= 1.4.0),
@@ -56,8 +55,7 @@ Suggests:
     styler (>= 1.2.0),
     testthat (>= 2.1.0)
 Remotes: 
-    r-lib/gert,
-    r-lib/cpp11
+    r-lib/gert
 Encoding: UTF-8
 Language: en-US
 LazyData: true
