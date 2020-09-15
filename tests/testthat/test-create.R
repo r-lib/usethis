@@ -11,16 +11,17 @@ test_that("create_project() creates a non-package project", {
 })
 
 test_that("create functions return path to new proj, but restore active proj", {
-  path <- file_temp()
-  cur_proj <- proj_get()
+  cur_proj <- proj_get_()
 
+  path <- file_temp()
   new_path <- create_package(path)
-  expect_equal(proj_get(), cur_proj)
+  expect_equal(proj_get_(), cur_proj)
   expect_equal(proj_path_prep(path), new_path)
   dir_delete(path)
 
+  path <- file_temp()
   new_path <- create_project(path)
-  expect_equal(proj_get(), cur_proj)
+  expect_equal(proj_get_(), cur_proj)
   expect_equal(proj_path_prep(path), new_path)
   dir_delete(path)
 })
