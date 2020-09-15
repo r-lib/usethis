@@ -17,34 +17,37 @@ if (!is.null(session_temp_proj)) {
 }
 
 create_local_package <- function(dir = file_temp(pattern = "testpkg"),
-                                     env = parent.frame(),
-                                     rstudio = FALSE) {
+                                 env = parent.frame(),
+                                 rstudio = FALSE) {
   create_local_thing(dir, env, rstudio, "package")
 }
 
 create_local_project <- function(dir = file_temp(pattern = "testproj"),
-                                     env = parent.frame(),
-                                     rstudio = FALSE) {
+                                 env = parent.frame(),
+                                 rstudio = FALSE) {
   create_local_thing(dir, env, rstudio, "project")
 }
 
 create_local_thing <- function(dir = file_temp(pattern = pattern),
-                                   env = parent.frame(),
-                                   rstudio = FALSE,
-                                   thing = c("package", "project")) {
+                               env = parent.frame(),
+                               rstudio = FALSE,
+                               thing = c("package", "project")) {
   thing <- match.arg(thing)
   if (fs::dir_exists(dir)) {
     ui_stop("Target {ui_code('dir')} {ui_path(dir)} already exists.")
   }
 
   old_project <- proj_get_()
-  withr::defer({
-    ui_silence({
-      proj_set(old_project, force = TRUE)
-    })
-    setwd(old_project)
-    fs::dir_delete(dir)
-  }, envir = env)
+  withr::defer(
+    {
+      ui_silence({
+        proj_set(old_project, force = TRUE)
+      })
+      setwd(old_project)
+      fs::dir_delete(dir)
+    },
+    envir = env
+  )
 
   ui_silence({
     switch(thing,
