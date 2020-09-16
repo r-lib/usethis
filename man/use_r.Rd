@@ -21,7 +21,7 @@ corresponding R file.}
 \description{
 This pair of functions makes it easy to create paired R and test files,
 using the convention that the tests for \code{R/foofy.R} should live
-in \code{tests/testhat/test-foofy.R}. You can use them to create new files
+in \code{tests/testthat/test-foofy.R}. You can use them to create new files
 from scratch by supplying \code{name}, or if you use RStudio, you can call
 to create (or navigate to) the paired file based on the currently open
 script.
