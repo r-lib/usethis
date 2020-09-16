@@ -16,7 +16,7 @@ Adds a \code{CODE_OF_CONDUCT.md} file to the active project and lists in
 \code{.Rbuildignore}, in the case of a package. The goal of a code of conduct is
 to foster an environment of inclusiveness, and to explicitly discourage
 inappropriate behaviour. The template comes from
-\url{https://contributor-covenant.org}, version 2:
+\url{https://www.contributor-covenant.org}, version 2:
 \url{https://contributor-covenant.org/version/2/0}.
 }
 \details{

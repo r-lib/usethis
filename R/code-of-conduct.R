@@ -4,7 +4,7 @@
 #' `.Rbuildignore`, in the case of a package. The goal of a code of conduct is
 #' to foster an environment of inclusiveness, and to explicitly discourage
 #' inappropriate behaviour. The template comes from
-#' <https://contributor-covenant.org>, version 2:
+#' <https://www.contributor-covenant.org>, version 2:
 #' <https://contributor-covenant.org/version/2/0>.
 #'
 #' If your package is going to CRAN, the link to the CoC in your README must
