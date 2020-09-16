@@ -1,14 +1,19 @@
 test_that("parse_github_remotes() works on named list or named character", {
   urls <- list(
     https   = "https://github.com/r-lib/devtools.git",
+    ghe     = "https://github.acme.com/r-lib/devtools.git",
     browser = "https://github.com/r-lib/devtools",
     ssh     = "git@github.com:r-lib/devtools.git"
   )
   parsed <- parse_github_remotes(urls)
   expect_equal(parsed$name, names(urls))
   expect_equal(unique(parsed$repo_owner), "r-lib")
+  expect_equal(
+    parsed$host,
+    c("github.com", "github.acme.com", "github.com", "github.com")
+  )
   expect_equal(unique(parsed$repo_name), "devtools")
-  expect_equal(parsed$protocol, c("https", "https", "ssh"))
+  expect_equal(parsed$protocol, c("https", "https", "https", "ssh"))
 
   parsed2 <- parse_github_remotes(unlist(urls))
   expect_equal(parsed, parsed2)

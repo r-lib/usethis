@@ -33,17 +33,28 @@ make_spec <- function(owner = NA, repo = NA) {
 }
 
 # named vector or list of GitHub URLs --> data frame of URL parts
+# https://stackoverflow.com/questions/2514859/regular-expression-for-git-repository
+# https://git-scm.com/docs/git-clone#_git_urls
+# https://stackoverflow.com/questions/27745/getting-parts-of-a-url-regex
 parse_github_remotes <- function(x) {
-  # https://github.com/r-lib/usethis             --> https, rlib, usethis
-  # https://github.com/r-lib/usethis.git         --> https, rlib, usethis
-  # https://github.com/r-lib/usethis#readme      --> https, rlib, usethis
-  # https://github.com/r-lib/usethis/issues/1169 --> https, rlib, usethis
-  # git@github.com:r-lib/usethis.git             --> ssh,   rlib, usethis
+  # https://github.com/r-lib/usethis
+  #                                    --> https, github.com,      rlib, usethis
+  # https://github.com/r-lib/usethis.git
+  #                                    --> https, github.com,      rlib, usethis
+  # https://github.com/r-lib/usethis#readme
+  #                                    --> https, github.com,      rlib, usethis
+  # https://github.com/r-lib/usethis/issues/1169
+  #                                    --> https, github.com,      rlib, usethis
+  # https://github.acme.com/r-lib/devtools.git
+  #                                    --> https, github.acme.com, rlib, usethis
+  # git@github.com:r-lib/usethis.git
+  #                                    --> ssh,   github.com,      rlib, usethis
   re <- paste0(
     "^",
-    "(?<prefix>[htpsgit]+)",
+    "(?<prefix>git|ssh|http[s]?)",
     "[:/@]+",
-    "github.com[:/]",
+    "(?<host>[^/:]+)",
+    "[/:]",
     "(?<repo_owner>[^/]+)",
     "/",
     "(?<repo_name>[^/#]+)",
@@ -54,7 +65,7 @@ parse_github_remotes <- function(x) {
   dat$protocol <- ifelse(dat$prefix == "https", "https", "ssh")
   dat$name <- if (rlang::is_named(x)) names(x) else NA_character_
   dat$repo_name <- sub("[.]git$", "", dat$repo_name)
-  dat[c("name", "repo_owner", "repo_name", "protocol")]
+  dat[c("name", "host", "repo_owner", "repo_name", "protocol")]
 }
 
 github_remote_from_description <- function(desc) {
