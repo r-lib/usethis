@@ -678,7 +678,7 @@ templating functions using this framework (@ijlyttle #120).
   project lifecycle (#48).
 
 * `use_pkgdown()` creates the basics needed for a 
-  [pkgdown](https://github.com/hadley/pkgdown) website (#88).
+  [pkgdown](https://github.com/r-lib/pkgdown) website (#88).
 
 * `use_r("foo")` creates and edit `R/foo.R` file. If you have a test file open,
   `use_r()` will open the corresponding `.R` file (#105).

@@ -198,7 +198,7 @@ use_circleci <- function(browse = rlang::is_interactive(), image = "rocker/verse
 }
 
 #' @section `use_circleci_badge()`:
-#' Only adds the [Circle CI](https://www.circleci.com) badge. Use for a project
+#' Only adds the [Circle CI](https://circleci.com/) badge. Use for a project
 #'  where Circle CI is already configured.
 #' @export
 #' @rdname ci

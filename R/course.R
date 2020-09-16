@@ -137,7 +137,7 @@ use_zip <- function(url,
 #' ## DropBox
 #'
 #' To make a folder available for ZIP download, create a shared link for it:
-#' * <https://www.dropbox.com/help/files-folders/view-only-access>
+#' * <https://help.dropbox.com/files-folders/share/view-only-access>
 #'
 #' A shared link will have this form:
 #' ```
@@ -152,8 +152,8 @@ use_zip <- function(url,
 #' This download link (or a shortlink that points to it) is suitable as input
 #' for `tidy_download()`. After one or more redirections, this link will
 #' eventually lead to a download URL. For more details, see
-#' <https://www.dropbox.com/help/desktop-web/force-download> and
-#' <https://www.dropbox.com/en/help/desktop-web/download-entire-folders>.
+#' <https://help.dropbox.com/files-folders/share/force-download> and
+#' <https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders>.
 #'
 #' ## GitHub
 #'
