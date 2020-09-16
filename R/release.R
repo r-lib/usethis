@@ -31,7 +31,7 @@ use_release_issue <- function(version = NULL) {
     owner = spec_owner(repo_spec),
     repo = spec_repo(repo_spec),
     title = glue("Release {project_name()} {version}"),
-    body = paste(checklist, "\n", collapse = "")
+    body = paste0(checklist, "\n", collapse = "")
   )
 
   view_url(issue$html_url)
