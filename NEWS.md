@@ -1,5 +1,7 @@
 # usethis 1.6.2
 
+Patch release to refactor usage of withr in the tests for forward compatibility with an upcoming withr release. All changes are within the usethis tests.
+
 # usethis 1.6.1
 
 Patch release to align some path handling internals with an update coming in the fs package.
