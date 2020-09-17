@@ -26,7 +26,7 @@ Key steps that accelerate your R development workflow (details on *how* to do al
   
 ## Use usethis or devtools in interactive work
 
-The usethis package was carved out of the [devtools package](https://devtools.r-lib.org) as part of its "conscious uncoupling" in [the v2.0.0 release](https://www.tidyverse.org/articles/2018/10/devtools-2-0-0/). But note that devtools makes all of usethis's functions available and they should feel like they are part of devtools itself. In addition, devtools offers some functions of its own and exposes selected functionality from a few other packages. You might enjoy making devtools (and therefore usethis) available in all your interactive R work.
+The usethis package was carved out of the [devtools package](https://devtools.r-lib.org) as part of its "conscious uncoupling" in [the v2.0.0 release](https://www.tidyverse.org/blog/2018/10/devtools-2-0-0/). But note that devtools makes all of usethis's functions available and they should feel like they are part of devtools itself. In addition, devtools offers some functions of its own and exposes selected functionality from a few other packages. You might enjoy making devtools (and therefore usethis) available in all your interactive R work.
 
 Call `usethis::use_devtools()` for prompts to do this:
 

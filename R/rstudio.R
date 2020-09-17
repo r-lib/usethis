@@ -37,7 +37,7 @@ use_rstudio <- function(line_ending = c("posix", "windows")) {
 #' Starting with a blank slate provides timely feedback that encourages the
 #' development of scripts that are complete and self-contained. More detail can
 #' be found in the blog post [Project-oriented
-#' workflow](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/).
+#' workflow](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/).
 #'
 #' Only `use_blank_slate("project")` is automated so far, since RStudio
 #' currently only supports modification of user-level or global options via the

@@ -4,15 +4,15 @@
 #' `.Rbuildignore`, in the case of a package. The goal of a code of conduct is
 #' to foster an environment of inclusiveness, and to explicitly discourage
 #' inappropriate behaviour. The template comes from
-#' <https://contributor-covenant.org>, version 2:
-#' <https://contributor-covenant.org/version/2/0>.
+#' <https://www.contributor-covenant.org>, version 2:
+#' <https://www.contributor-covenant.org/version/2/0/code_of_conduct/>.
 #'
 #' If your package is going to CRAN, the link to the CoC in your README must
 #' be an absolute link to a rendered website as `CODE_OF_CONDUCT.md` is not
 #' included in the package sent to CRAN. `use_code_of_conduct()` will
 #' automatically generate this link if you use pkgdown and have set the
 #' `url` field in `pkgdown.yml`; otherwise it'll link to
-#' <https://contributor-covenant.org/version/2/0>.
+#' <https://www.contributor-covenant.org/version/2/0/code_of_conduct/>.
 #'
 #' @param path Path of the directory to put `CODE_OF_CONDUCT.md` in, relative to
 #'   the active project. Passed along to [use_directory()]. Default is to locate

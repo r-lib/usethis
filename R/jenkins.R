@@ -6,7 +6,7 @@
 #' already exist at the project root.
 #'
 #' @seealso The [documentation on Jenkins
-#'   Pipelines](https://jenkins.io/doc/book/pipeline/jenkinsfile).
+#'   Pipelines](https://www.jenkins.io/doc/book/pipeline/jenkinsfile/).
 #' @seealso [use_make()]
 #' @export
 use_jenkins <- function() {
