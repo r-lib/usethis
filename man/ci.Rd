@@ -99,7 +99,7 @@ continuous integration service.
 
 \section{\code{use_circleci_badge()}}{
 
-Only adds the \href{https://www.circleci.com}{Circle CI} badge. Use for a project
+Only adds the \href{https://circleci.com/}{Circle CI} badge. Use for a project
 where Circle CI is already configured.
 }
 

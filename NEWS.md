@@ -93,6 +93,10 @@ There is increasing interest in making the name of a repo's default branch confi
 * `use_testthat()` gains an edition argument to support upcoming testthat 3.0.0 
   (#1185)
 
+# usethis 1.6.3
+
+Patch release to refactor usage of withr in the tests for forward compatibility with an upcoming withr release. All changes are within the usethis tests.
+
 # usethis 1.6.1
 
 Patch release to align some path handling internals with an update coming in the fs package.
@@ -769,7 +773,7 @@ templating functions using this framework (@ijlyttle #120).
   project lifecycle (#48).
 
 * `use_pkgdown()` creates the basics needed for a 
-  [pkgdown](https://github.com/hadley/pkgdown) website (#88).
+  [pkgdown](https://github.com/r-lib/pkgdown) website (#88).
 
 * `use_r("foo")` creates and edit `R/foo.R` file. If you have a test file open,
   `use_r()` will open the corresponding `.R` file (#105).

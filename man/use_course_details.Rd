@@ -50,7 +50,7 @@ connect timeout.
 
 To make a folder available for ZIP download, create a shared link for it:
 \itemize{
-\item \url{https://www.dropbox.com/help/files-folders/view-only-access}
+\item \url{https://help.dropbox.com/files-folders/share/view-only-access}
 }
 
 A shared link will have this form:\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
@@ -64,8 +64,8 @@ You can use \code{create_download_url()} to do this conversion.
 This download link (or a shortlink that points to it) is suitable as input
 for \code{tidy_download()}. After one or more redirections, this link will
 eventually lead to a download URL. For more details, see
-\url{https://www.dropbox.com/help/desktop-web/force-download} and
-\url{https://www.dropbox.com/en/help/desktop-web/download-entire-folders}.
+\url{https://help.dropbox.com/files-folders/share/force-download} and
+\url{https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders}.
 }
 
 \subsection{GitHub}{
