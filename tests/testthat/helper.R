@@ -40,7 +40,13 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
   old_project <- proj_get_() # this could be `NULL`, i.e. no active project
   old_wd <- getwd()          # not necessarily same as `old_project`
 
-  withr::defer(fs::dir_delete(dir), envir = env)
+  withr::defer(
+    {
+      ui_done("Deleting temporary project: {ui_path(dir)}")
+      fs::dir_delete(dir)
+    },
+    envir = env
+  )
   ui_silence(
     switch(
       thing,
@@ -49,11 +55,17 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
     )
   )
 
-  withr::defer(setwd(old_wd), envir = env)
-  setwd(dir)
-
-  withr::defer(ui_silence(proj_set(old_project, force = TRUE)), envir = env)
+  withr::defer(proj_set(old_project, force = TRUE), envir = env)
   proj_set(dir)
+
+  withr::defer(
+    {
+      ui_done("Restoring original working directory: {ui_path(old_wd)}")
+      setwd(old_project)
+    },
+    envir = env
+  )
+  setwd(dir)
 
   invisible(dir)
 }
