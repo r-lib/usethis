@@ -24,6 +24,6 @@ If your package is going to CRAN, the link to the CoC in your README must
 be an absolute link to a rendered website as \code{CODE_OF_CONDUCT.md} is not
 included in the package sent to CRAN. \code{use_code_of_conduct()} will
 automatically generate this link if (1) you use pkgdown and (2) have set the
-\code{url} field in \verb{_pkgdown.yml}; otherwise it'll link to
-\url{https://www.contributor-covenant.org/version/2/0/code_of_conduct/}.
+\code{url} field in \verb{_pkgdown.yml}; otherwise it will link to a copy of the CoC
+on \url{https://www.contributor-covenant.org}.
 }
