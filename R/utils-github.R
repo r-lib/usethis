@@ -33,6 +33,8 @@ make_spec <- function(owner = NA, repo = NA) {
 }
 
 # named vector or list of GitHub URLs --> data frame of URL parts
+# more general than the name suggests
+# definitely designed for GitHub URLs but not overtly GitHub-specific
 # https://stackoverflow.com/questions/2514859/regular-expression-for-git-repository
 # https://git-scm.com/docs/git-clone#_git_urls
 # https://stackoverflow.com/questions/27745/getting-parts-of-a-url-regex
