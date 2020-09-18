@@ -71,6 +71,8 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
 }
 
 toggle_rlang_interactive <- function() {
+  # TODO: consider setting options(rlang_backtrace_on_error = "reminder") when
+  # in non-interactive mode, to suppress full backtraces
   before <- getOption("rlang_interactive")
   after <- if (identical(before, FALSE)) TRUE else FALSE
   options(rlang_interactive = after)
