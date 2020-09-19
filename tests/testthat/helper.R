@@ -61,7 +61,7 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
   withr::defer(
     {
       ui_done("Restoring original working directory: {ui_path(old_wd)}")
-      setwd(old_project)
+      setwd(old_wd)
     },
     envir = env
   )
