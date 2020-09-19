@@ -44,7 +44,6 @@ test_that("parse_github_remotes() works for length zero input", {
   )
 })
 
-test_that("github_remote_list() works", {
 test_that("github_token() works", {
   withr::with_envvar(
     new = c("GITHUB_PAT" = "yes", "GITHUB_TOKEN" = "no"),
