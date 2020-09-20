@@ -439,19 +439,14 @@ target_repo <- function(cfg = NULL,
   stopifnot(inherits(cfg, "github_remote_config"))
   role <- match.arg(role)
 
-  if (cfg$type == "no_github") {
-    stop_bad_github_remote_config(cfg)
-  }
-
-  weird_configs <- c(
+  bad_configs <- c(
+    "no_github",
     "fork_upstream_is_not_origin_parent",
     "fork_cannot_push_origin",
     "upstream_but_origin_is_not_fork"
   )
-  if (is_interactive() && cfg$type %in% weird_configs) {
-    if (ui_github_remote_config_wat(cfg)) {
-      ui_stop("Exiting due to unfavorable GitHub config")
-    }
+  if (cfg$type %in% bad_configs) {
+    stop_bad_github_remote_config(cfg)
   }
 
   # upstream only
@@ -461,47 +456,24 @@ target_repo <- function(cfg = NULL,
 
   # origin only
   if (cfg$origin$is_configured && !cfg$upstream$is_configured) {
-    if (is.na(cfg$origin$parent_repo_spec)) {
-      return(cfg$origin)
-    }
+    return(cfg$origin)
   }
-  # scenarios left (X means "not NA", - means "is NA"):
-  # origin origin_parent upstream
-  #   X          X          -
-  #   X          -          X
-  #   X          X    ==    X
-  #   X          X    !=    X
 
   if (!ask || !is_interactive()) {
     return(switch(
       role,
-      # TODO: how / whether to get this behaviour
-      #source  = cfg$origin$parent_repo_spec %|% cfg$upstream$repo_spec,
       source  = cfg$upstream,
       primary = cfg$origin
     ))
   }
 
-  spec <- list(
-    origin        = cfg$origin$repo_spec,
-    #origin_parent = cfg$origin$parent_repo_spec,
-    upstream      = cfg$upstream$repo_spec
+  choices <- c(
+    origin   = glue("{cfg$origin$repo_spec} = {ui_value('origin')}"),
+    upstream = glue("{cfg$upstream$repo_spec} = {ui_value('upstream')}")
   )
-  formatted <- c(
-    origin        = glue("{spec$origin} = {ui_value('origin')}"),
-    #origin_parent = glue("{spec$origin_parent} = parent of {ui_value('origin')}"),
-    upstream      = glue("{spec$upstream} = {ui_value('upstream')}")
-  )
-
-  spec <- spec[!is.na(spec)]
-  if (length(spec) == 3 &&
-      identical(spec[["origin_parent"]], spec[["upstream"]])) {
-    spec <- spec[c("origin", "upstream")]
-  }
-  choices <- formatted[names(spec)]
   title <- glue("Which repo should we target?")
   choice <- utils::menu(choices, graphics = FALSE, title = title)
-  cfg[[names(spec)[choice]]]
+  cfg[[names(choices)[choice]]]
 }
 
 repo_spec_orig <- function(cfg = NULL,
