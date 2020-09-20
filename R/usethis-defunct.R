@@ -41,6 +41,10 @@ browse_github_pat <- function(...) {
 }
 
 # git2r ------------------------------------------------------------------------
+git2r_explanation <- glue("
+  usethis now uses the gert package for Git operations, instead of git2r, and
+  gert relies on the credentials package for auth. Therefore git2r credentials
+  are no longer accepted.")
 
 deprecate_warn_credentials <- function(whos_asking, details = NULL) {
   whos_asking <- sub("[()]+$", "", whos_asking)
@@ -48,15 +52,10 @@ deprecate_warn_credentials <- function(whos_asking, details = NULL) {
 
   lifecycle::deprecate_warn(
     "2.0.0",
-    "use_github(credentials = )",
+    what,
     details = details %||% git2r_explanation
   )
 }
-
-git2r_explanation <- glue("
-  usethis now uses the gert package for Git operations, instead of git2r, and
-  gert relies on the credentials package for auth. Therefore git2r credentials
-  are no longer accepted.")
 
 #' Produce or register credentials for git2r
 #'
@@ -106,4 +105,39 @@ use_git_credentials <- function(credentials = deprecated()) {
     details = git2r_explanation
   )
   invisible()
+}
+
+# host and auth_token ----------------------------------------------------------
+deprecate_warn_host <- function(whos_asking, details = NULL) {
+  whos_asking <- sub("[()]+$", "", whos_asking)
+  what <- glue("{whos_asking}(host = )")
+
+  host_explanation <- glue("
+    usethis now determines the {ui_code('host')} from the current project's \\
+    Git remotes.
+    The {ui_code('host')} argument is ignored and will eventually be removed.")
+
+  lifecycle::deprecate_warn(
+    "2.0.0",
+    what,
+    details = details %||% host_explanation
+  )
+}
+
+deprecate_warn_auth_token <- function(whos_asking, details = NULL) {
+  whos_asking <- sub("[()]+$", "", whos_asking)
+  what <- glue("{whos_asking}(auth_token = )")
+
+  auth_token_explanation <- glue("
+    usethis now delegates token lookup to the gitcreds package, which \\
+    retrieves credentials based on a URL.
+    usethis forms this URL based on the current project's Git remotes.
+    The {ui_code('auth_token')} argument is ignored and will eventually be \\
+    removed.")
+
+  lifecycle::deprecate_warn(
+    "2.0.0",
+    what,
+    details = details %||% auth_token_explanation
+  )
 }

@@ -63,7 +63,7 @@ use_github_labels <- function(repo_spec = NULL,
                               delete_default = FALSE,
                               auth_token = github_token(),
                               host = NULL) {
-  repo_spec <- repo_spec %||% repo_spec()
+  repo_spec <- repo_spec %||% repo_spec_orig()
   check_github_token(auth_token)
 
   gh <- function(endpoint, ...) {

@@ -131,7 +131,7 @@ issue_info <- function(number) {
 #   we determine `repo_spec` in the most naive, local way.
 # * The remote config check will also expose a lack of PAT.
 issue_gh <- function(endpoint, ..., number) {
-  repo_spec <- repo_spec()
+  repo_spec <- repo_spec_orig()
   out <- gh::gh(
     endpoint,
     ...,

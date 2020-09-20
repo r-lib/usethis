@@ -135,7 +135,7 @@ use_pkgdown_travis <- function() {
     "
   )
 
-  repo_spec <- repo_spec(cfg)
+  repo_spec <- repo_spec_orig(cfg)
   if (!gert::git_branch_exists("origin/gh-pages", local = FALSE, repo = git_repo())) {
     create_gh_pages_branch(repo_spec)
   }

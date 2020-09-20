@@ -156,7 +156,7 @@ use_github_links <- function(auth_token = github_token(),
                              overwrite = FALSE) {
   check_is_package("use_github_links()")
   check_github_token(auth_token, allow_empty = TRUE)
-  repo_spec <- repo_spec(auth_token = auth_token, host = host)
+  repo_spec <- repo_spec_orig(auth_token = auth_token, host = host)
 
   res <- gh::gh(
     "GET /repos/:owner/:repo",
@@ -273,7 +273,7 @@ origin_is_on_github <- function() {
   if (!uses_git()) {
     return(FALSE)
   }
-  nrow(github_remotes("origin", github_get = FALSE)) > 0
+  nrow(github_remote_list("origin")) > 0
 }
 
 check_no_origin <- function() {

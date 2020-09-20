@@ -252,7 +252,7 @@ pr_fetch <- function(number) {
 
   # Add PR remote, if necessary ----
   if (!pr_remote %in% names(git_remotes())) {
-    protocol <- github_remote_protocol()
+    protocol <- github_remote_list("origin")$protocol
     url <- with(pr$head$repo, switch(protocol, https = clone_url, ssh = ssh_url))
     if (is.null(url)) {
       ui_stop("
@@ -482,11 +482,10 @@ pr_finish <- function(number = NULL) {
 }
 
 pr_create_gh <- function() {
-  origin <- github_remotes("origin", github_get = FALSE)
-  repo_spec <- origin$repo_spec
+  origin <-  github_remote_list("origin")
   branch <- git_branch()
   ui_done("Create PR at link given below")
-  view_url(glue("https://github.com/{repo_spec}/compare/{branch}"))
+  view_url(glue("https://github.com/{origin$repo_spec}/compare/{branch}"))
 }
 
 pr_url <- function(branch = git_branch()) {
@@ -502,8 +501,8 @@ pr_url <- function(branch = git_branch()) {
     return()
   }
 
-  repo_spec <- repo_spec(ask = FALSE)
-  pr_remote <- github_remotes(remref_remote(pr_remref), github_get = FALSE)
+  repo_spec <- repo_spec_orig(ask = FALSE)
+  pr_remote <- github_remote_list(remref_remote(pr_remref))
   urls <- pr_find(
     owner = spec_owner(repo_spec),
     repo = spec_repo(repo_spec),

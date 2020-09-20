@@ -262,7 +262,7 @@ tidy_release_test_env <- function() {
 use_tidy_thanks <- function(repo_spec = NULL,
                             from = NULL,
                             to = NULL) {
-  repo_spec <- repo_spec %||% repo_spec()
+  repo_spec <- repo_spec %||% repo_spec_orig()
   from <- from %||% releases(repo_spec)[[1]]
 
   from_timestamp <- as_timestamp(repo_spec, x = from) %||% "2008-01-01"
@@ -310,7 +310,7 @@ use_tidy_thanks <- function(repo_spec = NULL,
 
 ## if x appears to be a timestamp, pass it through
 ## otherwise, assume it's a ref and look up its timestamp
-as_timestamp <- function(repo_spec = repo_spec(), x = NULL) {
+as_timestamp <- function(repo_spec = repo_spec_orig(), x = NULL) {
   if (is.null(x)) {
     return(NULL)
   }
@@ -323,7 +323,7 @@ as_timestamp <- function(repo_spec = repo_spec(), x = NULL) {
 }
 
 ## returns a data frame on GitHub refs, defaulting to all releases
-ref_df <- function(repo_spec = repo_spec(), refs = NULL) {
+ref_df <- function(repo_spec = repo_spec_orig(), refs = NULL) {
   stopifnot(is_string(repo_spec))
   refs <- refs %||% releases(repo_spec)
   if (is.null(refs)) {
@@ -345,7 +345,7 @@ ref_df <- function(repo_spec = repo_spec(), refs = NULL) {
 }
 
 ## returns character vector of release tag names
-releases <- function(repo_spec = repo_spec()) {
+releases <- function(repo_spec = repo_spec_orig()) {
   res <- gh::gh(
     "/repos/:owner/:repo/releases",
     owner = spec_owner(repo_spec),
