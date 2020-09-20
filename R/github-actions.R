@@ -42,11 +42,11 @@ use_github_actions <- function() {
 #' @rdname github_actions
 use_github_actions_badge <- function(name = "R-CMD-check", repo_spec = NULL) {
   repo_spec <- repo_spec %||% repo_spec()
-  name <- utils::URLencode(name)
-  img <- glue("https://github.com/{repo_spec}/workflows/{name}/badge.svg")
+  enc_name <- utils::URLencode(name)
+  img <- glue("https://github.com/{repo_spec}/workflows/{enc_name}/badge.svg")
   url <- glue("https://github.com/{repo_spec}/actions")
 
-  use_badge("R build status", url, img)
+  use_badge(name, url, img)
 }
 
 uses_github_actions <- function(base_path = proj_get()) {
