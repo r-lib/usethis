@@ -45,7 +45,7 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
 
   pkg <- project_name()
   if (retina) {
-    height <- height / 2
+    height <- round(height / 2)
   }
 
   ui_todo("Add logo to your README with the following html:")
