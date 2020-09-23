@@ -2,7 +2,7 @@ context("test-roxygen")
 
 test_that("use_package_doc() compatible with roxygen_ns_append()", {
   create_local_package()
-  withr::local_options(list(usethis.quiet = FALSE))
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_package_doc())
   expect_message(roxygen_ns_append("test"), "Adding 'test'")
