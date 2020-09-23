@@ -11,8 +11,5 @@ if (nzchar(Sys.getenv("CI"))) {
 }
 
 pre_test_options <- options(
-  usethis.quiet = TRUE,
-  ## make ui_*() output easier to test against
-  ## just say no to ANSI escape codes
-  "crayon.enabled" = FALSE
+  usethis.quiet = TRUE
 )

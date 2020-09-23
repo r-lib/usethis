@@ -14,6 +14,7 @@ test_that("uses_github_actions() reports usage of GitHub Actions", {
 
 test_that("check_uses_github_actions() can throw error", {
   create_local_package()
+  withr::local_options(list(crayon.enabled = FALSE))
   expect_error(
     check_uses_github_actions(),
     "Do you need to run `use_github_actions()`?",
