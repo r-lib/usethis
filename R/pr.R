@@ -599,5 +599,6 @@ pr_pull_source_override <- function() {
   } else {
     remref <- NULL
   }
+  # TODO: put verbose = FALSE here before release
   git_pull(remref = remref)
 }
