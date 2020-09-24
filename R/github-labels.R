@@ -22,19 +22,20 @@
 #' * `good first issue` indicates a good issue for first-time contributors.
 #' * `help wanted` indicates that a maintainer wants help on an issue.
 #'
-#' @eval param_repo_spec()
+#' @param repo_spec,host,auth_token \lifecycle{defunct}: These arguments are
+#'   now deprecated and will be removed in the future. Any input provided via
+#'   these arguments is not used. The target repo, host, and auth token are all
+#'   now determined from the current project's Git remotes.
 #' @param labels A character vector giving labels to add.
 #' @param rename A named vector with names giving old names and values giving
 #'   new names.
 #' @param colours,descriptions Named character vectors giving hexadecimal
 #'   colours (like `e02a2a`) and longer descriptions. The names should match
-#'   label names, and anything unmatched will be left unchanged. If you
-#'   create a new label, and don't supply colours, it will be given a random
-#'   colour.
-#' @param delete_default If `TRUE`, removes GitHub default labels that do
-#'   not appear in the `labels` vector and that do not have associated issues.
+#'   label names, and anything unmatched will be left unchanged. If you create a
+#'   new label, and don't supply colours, it will be given a random colour.
+#' @param delete_default If `TRUE`, removes GitHub default labels that do not
+#'   appear in the `labels` vector and that do not have associated issues.
 #'
-#' @inheritParams use_github_links
 #' @export
 #' @examples
 #' \dontrun{
@@ -55,28 +56,38 @@
 #'   descriptions = c("foofiest" = "the foofiest issue you ever saw")
 #' )
 #' }
-use_github_labels <- function(repo_spec = NULL,
+use_github_labels <- function(repo_spec = deprecated(),
                               labels = character(),
                               rename = character(),
                               colours = character(),
                               descriptions = character(),
                               delete_default = FALSE,
-                              auth_token = github_token(),
-                              host = NULL) {
-  repo_spec <- repo_spec %||% repo_spec_orig()
-  check_github_token(auth_token)
+                              host = deprecated(),
+                              auth_token = deprecated()) {
+  if (lifecycle::is_present(repo_spec)) {
+    deprecate_warn_repo_spec("use_github_labels")
+  }
+  if (lifecycle::is_present(host)) {
+    deprecate_warn_host("use_github_labels")
+  }
+  if (lifecycle::is_present(auth_token)) {
+    deprecate_warn_auth_token("use_github_labels")
+  }
+
+  cfg <- github_remote_config(github_get = TRUE)
+  tr <- target_repo(cfg)
+  if (!tr$can_push) {
+    ui_stop("
+      You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
+      is required to modify labels.")
+  }
 
   gh <- function(endpoint, ...) {
     gh::gh(
       endpoint,
       ...,
-      owner = spec_owner(repo_spec),
-      repo = spec_repo(repo_spec),
-      .token = auth_token,
-      .api_url = host,
-      .send_headers = c(
-        "Accept" = "application/vnd.github.symmetra-preview+json"
-      )
+      owner = tr$repo_owner, repo = tr$repo_name,
+      .token = tr$token, .api_url = tr$api_url
     )
   }
 
@@ -219,18 +230,25 @@ use_github_labels <- function(repo_spec = NULL,
 
 #' @export
 #' @rdname use_github_labels
-use_tidy_labels <- function(repo_spec = NULL,
-                            auth_token = github_token(),
-                            host = NULL) {
+use_tidy_labels <- function(repo_spec = deprecated(),
+                            host = deprecated(),
+                            auth_token = deprecated()) {
+  if (lifecycle::is_present(repo_spec)) {
+    deprecate_warn_repo_spec("use_tidy_labels")
+  }
+  if (lifecycle::is_present(host)) {
+    deprecate_warn_host("use_tidy_labels")
+  }
+  if (lifecycle::is_present(auth_token)) {
+    deprecate_warn_auth_token("use_tidy_labels")
+  }
+
   use_github_labels(
-    repo_spec = repo_spec,
     labels = tidy_labels(),
     rename = tidy_labels_rename(),
     colours = tidy_label_colours(),
     descriptions = tidy_label_descriptions(),
-    delete_default = TRUE,
-    auth_token = auth_token,
-    host = host
+    delete_default = TRUE
   )
 }
 

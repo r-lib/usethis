@@ -107,7 +107,7 @@ use_git_credentials <- function(credentials = deprecated()) {
   invisible()
 }
 
-# host and auth_token ----------------------------------------------------------
+# repo_spec, host, auth_token --------------------------------------------------
 deprecate_warn_host <- function(whos_asking, details = NULL) {
   whos_asking <- sub("[()]+$", "", whos_asking)
   what <- glue("{whos_asking}(host = )")
@@ -139,5 +139,22 @@ deprecate_warn_auth_token <- function(whos_asking, details = NULL) {
     "2.0.0",
     what,
     details = details %||% auth_token_explanation
+  )
+}
+
+deprecate_warn_repo_spec <- function(whos_asking, details = NULL) {
+  whos_asking <- sub("[()]+$", "", whos_asking)
+  what <- glue("{whos_asking}(repo_spec = )")
+
+  repo_spec_explanation <- glue("
+    usethis now consults the current project's Git remotes to determine the \\
+    target repo.
+    The {ui_code('repo_spec')} argument is ignored and will eventually be \\
+    removed.")
+
+  lifecycle::deprecate_warn(
+    "2.0.0",
+    what,
+    details = details %||% repo_spec_explanation
   )
 }
