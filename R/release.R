@@ -16,9 +16,16 @@
 use_release_issue <- function(version = NULL) {
   check_is_package("use_release_issue()")
   cfg <- github_remote_config(github_get = TRUE)
-  # get the target repo right here
-  # if user can't push to target, challenge whether this is a good idea
-  repo_spec <- repo_spec_orig(cfg)
+  tr <- target_repo(cfg)
+  check_have_github_info(tr)
+  if (!tr$can_push) {
+    ui_line("
+      It is very unusual to open a release issue on a repo you can't push to:
+        {ui_value(tr$repo_spec)}")
+    if (ui_nope("Do you really want to do this?")) {
+      ui_stop("Aborting.")
+    }
+  }
 
   version <- version %||% choose_version()
   if (is.null(version)) {
@@ -30,13 +37,11 @@ use_release_issue <- function(version = NULL) {
 
   issue <- gh::gh(
     "POST /repos/:owner/:repo/issues",
-    # becomes target_repo$repo_owner
-    owner = spec_owner(repo_spec),
-    # becomes target_repo$repo_name
-    repo = spec_repo(repo_spec),
+    owner = tr$repo_owner,
+    repo = tr$repo_name,
     title = glue("Release {project_name()} {version}"),
-    body = paste0(checklist, "\n", collapse = "")
-    # host = target_repo$api_url
+    body = paste0(checklist, "\n", collapse = ""),
+    .api_url = tr$api_url, .token = tr$token
   )
 
   view_url(issue$html_url)
@@ -128,11 +133,13 @@ use_github_release <- function(host = deprecated(),
     deprecate_warn_auth_token("use_github_release")
   }
 
-  browser()
   cfg <- github_remote_config(github_get = TRUE)
-  # get the target repo right here
-  # if user can't push to target, get out
-  repo_spec <- repo_spec_orig(cfg)
+  tr <- target_repo(cfg)
+  if (!tr$can_push) {
+    ui_stop("
+      You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
+      is required to draft a release.")
+  }
 
   # TODO: if not on master / default branch, should we ask user if they really
   # want to do this?
@@ -150,23 +157,15 @@ use_github_release <- function(host = deprecated(),
   news <- news_latest(read_utf8(path))
   package <- package_data()
 
-  # pre-fetch the token here
-  # if it's "", give advice on how to setup PAT, get out
-
   release <- gh::gh(
     "POST /repos/:owner/:repo/releases",
-    # becomes target_repo$repo_owner
-    owner = spec_owner(repo_spec),
-    # becomes target_repo$repo_name
-    repo = spec_repo(repo_spec),
+    owner = tr$repo_owner, repo = tr$repo_name,
     tag_name = paste0("v", package$Version),
     target_commitish = gert::git_info(git_repo())$commit,
     name = paste0(package$Package, " ", package$Version),
     body = news,
     draft = TRUE,
-    # becomes target_repo$api_url
-    .api_url = host
-    # send the auth token we just got
+    .api_url = tr$api_url, .token = tr$token
   )
 
   view_url(release$html_url)
