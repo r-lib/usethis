@@ -202,20 +202,20 @@ project</p></li>
 any existing files are changed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_package</span>(
-  <span class='kw'>path</span>,
-  fields = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  rstudio = <span class='kw'>rstudioapi</span>::<span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/isAvailable.html'>isAvailable</a></span>(),
-  roxygen = <span class='fl'>TRUE</span>,
-  check_name = <span class='fl'>TRUE</span>,
-  open = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>()
-)
+    <pre class="usage"><span class='fu'>create_package</span><span class='op'>(</span>
+  <span class='va'>path</span>,
+  fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  rstudio <span class='op'>=</span> <span class='fu'>rstudioapi</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/isAvailable.html'>isAvailable</a></span><span class='op'>(</span><span class='op'>)</span>,
+  roxygen <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  check_name <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  open <span class='op'>=</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>create_project</span>(
-  <span class='kw'>path</span>,
-  rstudio = <span class='kw'>rstudioapi</span>::<span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/isAvailable.html'>isAvailable</a></span>(),
-  open = <span class='kw'>rlang</span>::<span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span>()
-)</pre>
+<span class='fu'>create_project</span><span class='op'>(</span>
+  <span class='va'>path</span>,
+  rstudio <span class='op'>=</span> <span class='fu'>rstudioapi</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rstudioapi/man/isAvailable.html'>isAvailable</a></span><span class='op'>(</span><span class='op'>)</span>,
+  open <span class='op'>=</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

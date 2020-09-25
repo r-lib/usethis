@@ -190,7 +190,7 @@ use_zip(). Only create_download_url() is exported." />
 <code><a href='zip-utils.html'>use_zip()</a></code>. Only <code>create_download_url()</code> is exported.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_download_url</span>(<span class='kw'>url</span>)</pre>
+    <pre class="usage"><span class='fu'>create_download_url</span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -216,15 +216,15 @@ has different default behavior.</p></td>
 
     
 <pre><span class='co'>## function signature</span>
-<span class='fu'>tidy_download</span>(<span class='kw'>url</span>, destdir = <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>())
+<span class='fu'>tidy_download</span><span class='op'>(</span><span class='va'>url</span>, destdir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># as called inside use_course()</span>
-<span class='fu'>tidy_download</span>(
-  <span class='kw'>url</span>, <span class='co'>## after post-processing with normalize_url()</span>
+<span class='fu'>tidy_download</span><span class='op'>(</span>
+  <span class='va'>url</span>, <span class='co'>## after post-processing with normalize_url()</span>
   <span class='co'># conspicuous_place() = `getOption('usethis.destdir')` or desktop or home</span>
   <span class='co'># directory or working directory</span>
-  destdir = <span class='kw'>destdir</span> <span class='op'>%||%</span> <span class='fu'>conspicuous_place</span>()
-)
+  destdir <span class='op'>=</span> <span class='va'>destdir</span> <span class='op'>%||%</span> <span class='fu'>conspicuous_place</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
 </pre>
 
 <p>Special-purpose function to download a ZIP file and automatically determine
@@ -317,24 +317,24 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
 <code>.Rproj.user</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>tidy_download</span>(<span class='st'>"https://github.com/r-lib/rematch2/archive/master.zip"</span>)
-}
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>tidy_download</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/rematch2/archive/master.zip"</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>tidy_download</span>(<span class='st'>"https://github.com/r-lib/rematch2/archive/master.zip"</span>)
-<span class='fu'>tidy_unzip</span>(<span class='st'>"rematch2-master.zip"</span>)
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>tidy_download</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/rematch2/archive/master.zip"</span><span class='op'>)</span>
+<span class='fu'>tidy_unzip</span><span class='op'>(</span><span class='st'>"rematch2-master.zip"</span><span class='op'>)</span>
+<span class='op'>}</span>
 <span class='co'># GitHub</span>
-<span class='fu'>create_download_url</span>(<span class='st'>"https://github.com/r-lib/usethis"</span>)
-</div><div class='output co'>#&gt; https://github.com/r-lib/usethis/archive/master.zip</div><div class='input'><span class='fu'>create_download_url</span>(<span class='st'>"https://github.com/r-lib/usethis/issues"</span>)
+<span class='fu'>create_download_url</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/usethis"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; https://github.com/r-lib/usethis/archive/master.zip</div><div class='input'><span class='fu'>create_download_url</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/usethis/issues"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; https://github.com/r-lib/usethis/archive/master.zip</div><div class='input'>
 <span class='co'># DropBox</span>
-<span class='fu'>create_download_url</span>(<span class='st'>"https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0"</span>)
+<span class='fu'>create_download_url</span><span class='op'>(</span><span class='st'>"https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1"</div><div class='input'>
 <span class='co'># Google Drive</span>
-<span class='fu'>create_download_url</span>(<span class='st'>"https://drive.google.com/open?id=123456789xxyyyzzz"</span>)
-</div><div class='output co'>#&gt; https://drive.google.com/uc?export=download&amp;id=123456789xxyyyzzz</div><div class='input'><span class='fu'>create_download_url</span>(<span class='st'>"https://drive.google.com/open?id=123456789xxyyyzzz/view"</span>)
+<span class='fu'>create_download_url</span><span class='op'>(</span><span class='st'>"https://drive.google.com/open?id=123456789xxyyyzzz"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; https://drive.google.com/uc?export=download&amp;id=123456789xxyyyzzz</div><div class='input'><span class='fu'>create_download_url</span><span class='op'>(</span><span class='st'>"https://drive.google.com/open?id=123456789xxyyyzzz/view"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; https://drive.google.com/uc?export=download&amp;id=123456789xxyyyzzz</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

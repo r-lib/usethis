@@ -202,7 +202,7 @@ quick look at release tag names and a data frame about refs (defaulting to
 releases), respectively.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_tidy_thanks</span>(repo_spec = <span class='kw'>NULL</span>, from = <span class='kw'>NULL</span>, to = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>use_tidy_thanks</span><span class='op'>(</span>repo_spec <span class='op'>=</span> <span class='cn'>NULL</span>, from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -226,22 +226,22 @@ means there is no bound on that end of the interval.</p></td>
     <p>A character vector of GitHub usernames, invisibly.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'>## active project, interval = since the last release</span>
-<span class='fu'>use_tidy_thanks</span>()
+<span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'>## active project, interval = since a specific datetime</span>
-<span class='fu'>use_tidy_thanks</span>(from = <span class='st'>"2018-02-24T00:13:45Z"</span>)
+<span class='fu'>use_tidy_thanks</span><span class='op'>(</span>from <span class='op'>=</span> <span class='st'>"2018-02-24T00:13:45Z"</span><span class='op'>)</span>
 
 <span class='co'>## r-lib/usethis, inteval = since a certain date</span>
-<span class='fu'>use_tidy_thanks</span>(<span class='st'>"r-lib/usethis"</span>, from = <span class='st'>"2018-05-01"</span>)
+<span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span>, from <span class='op'>=</span> <span class='st'>"2018-05-01"</span><span class='op'>)</span>
 
 <span class='co'>## r-lib/usethis, up to a specific release</span>
-<span class='fu'>use_tidy_thanks</span>(<span class='st'>"r-lib/usethis"</span>, from = <span class='kw'>NULL</span>, to = <span class='st'>"v1.3.0"</span>)
+<span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span>, from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='st'>"v1.3.0"</span><span class='op'>)</span>
 
 <span class='co'>## r-lib/usethis, since a specific commit, up to a specific date</span>
-<span class='fu'>use_tidy_thanks</span>(<span class='st'>"r-lib/usethis"</span>, from = <span class='st'>"08a560d"</span>, to = <span class='st'>"2018-05-14"</span>)
-}
+<span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span>, from <span class='op'>=</span> <span class='st'>"08a560d"</span>, to <span class='op'>=</span> <span class='st'>"2018-05-14"</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

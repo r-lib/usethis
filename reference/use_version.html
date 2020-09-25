@@ -200,9 +200,9 @@ version with four components, it does nothing. Thin wrapper around
 <code>use_version()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_version</span>(which = <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>use_version</span><span class='op'>(</span>which <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>use_dev_version</span>()</pre>
+<span class='fu'>use_dev_version</span><span class='op'>(</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -219,14 +219,14 @@ version with four components, it does nothing. Thin wrapper around
     <div class='dont-index'><p>The <a href='https://r-pkgs.org/description.html#version'>version section</a> of <a href='https://r-pkgs.org'>R Packages</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'>## for interactive selection, do this:</span>
-<span class='fu'>use_version</span>()
+<span class='fu'>use_version</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'>## request a specific type of increment</span>
-<span class='fu'>use_version</span>(<span class='st'>"minor"</span>)
-<span class='fu'>use_dev_version</span>()
-}
+<span class='fu'>use_version</span><span class='op'>(</span><span class='st'>"minor"</span><span class='op'>)</span>
+<span class='fu'>use_dev_version</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 </div></pre>
   </div>
