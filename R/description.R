@@ -95,10 +95,21 @@ use_description_defaults <- function(package = NULL, roxygen = TRUE, fields = li
     usethis$RoxygenNote <- roxygen_note
   }
 
-  options <- getOption("usethis.description") %||% getOption("devtools.desc") %||% list()
+  options <- getOption("usethis.description") %||%
+    getOption("devtools.desc") %||% list()
 
-  defaults <- utils::modifyList(usethis, options)
-  defaults <- utils::modifyList(defaults, fields)
+  # A `person` object in Authors@R is not patched in by modifyList()
+  modify_this <- function(orig, patch) {
+    out <- utils::modifyList(orig, patch)
+    if (inherits(patch$`Authors@R`, "person")) {
+    #if (has_name(patch, "Authors@R")) {
+      out$`Authors@R` <- patch$`Authors@R`
+    }
+    out
+  }
+
+  defaults <- modify_this(usethis, options)
+  defaults <- modify_this(defaults, fields)
 
   # Ensure each element is a single string
   if (inherits(defaults$`Authors@R`, "person")) {
