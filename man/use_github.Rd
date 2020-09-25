@@ -8,15 +8,17 @@ use_github(
   organisation = NULL,
   private = FALSE,
   protocol = git_protocol(),
-  auth_token = github_token(),
-  host = NULL,
+  host = "https://github.com",
+  auth_token = deprecated(),
   credentials = deprecated()
 )
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this
-organisation, instead of the account of the user associated with the
-\code{auth_token}. You must have permission to create repositories.}
+organisation, instead of the login associated with the GitHub token
+discovered for this \code{host}. The user's role and the token's scopes must be
+such that you have permission to create repositories in this
+\code{organisation}.}
 
 \item{private}{If \code{TRUE}, creates a private repository.}
 
@@ -25,15 +27,15 @@ to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, \code{"https"}. \code{NA} triggers the interactive
 menu.}
 
-\item{auth_token}{GitHub personal access token (PAT).}
+\item{host}{GitHub API host to use. Example for a GitHub Enterprise instance:
+"https://github.acme.com". It is also acceptable to provide the API root
+URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".}
 
-\item{host}{GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
-
-\item{credentials}{\lifecycle{defunct}: No longer consulted now that usethis
-uses the gert package for Git operations, instead of git2r. Note that gert
-relies on the credentials package for auth.}
+\item{auth_token, credentials}{\lifecycle{defunct}: No longer consulted now
+that usethis uses the gert package for Git operations, instead of git2r;
+gert relies on the credentials package for auth. The API requests are now
+authorized with the token associated with the \code{host}, as retrieved by
+\code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_get()}}.}
 }
 \description{
 \code{use_github()} takes a local project and:

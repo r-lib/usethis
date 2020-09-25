@@ -52,15 +52,21 @@ to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, \code{"https"}. \code{NA} triggers the interactive
 menu.}
 
-\item{auth_token}{GitHub personal access token (PAT).}
+\item{auth_token}{\lifecycle{defunct}: No longer consulted now
+that usethis uses the gert package for Git operations, instead of git2r;
+gert relies on the credentials package for auth. The API requests are now
+authorized with the token associated with the \code{host}, as retrieved by
+\code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_get()}}.}
 
-\item{host}{GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
+\item{host}{GitHub API host to use. Example for a GitHub Enterprise instance:
+"https://github.acme.com". It is also acceptable to provide the API root
+URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".}
 
-\item{credentials}{\lifecycle{defunct}: No longer consulted now that usethis
-uses the gert package for Git operations, instead of git2r. Note that gert
-relies on the credentials package for auth.}
+\item{credentials}{\lifecycle{defunct}: No longer consulted now
+that usethis uses the gert package for Git operations, instead of git2r;
+gert relies on the credentials package for auth. The API requests are now
+authorized with the token associated with the \code{host}, as retrieved by
+\code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_get()}}.}
 }
 \description{
 Creates a new local project and Git repository from a repo on GitHub, by

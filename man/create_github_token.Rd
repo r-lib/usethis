@@ -22,9 +22,9 @@ scopes at
 \item{description}{Short description or nickname for the token. It helps you
 distinguish various tokens on GitHub.}
 
-\item{host}{GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
+\item{host}{GitHub API host to use. Example for a GitHub Enterprise instance:
+"https://github.acme.com". It is also acceptable to provide the API root
+URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".}
 }
 \value{
 \code{github_token()} returns a string, a GitHub PAT or \code{""}.

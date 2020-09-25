@@ -20,19 +20,21 @@
 #'
 #' @template double-auth
 #'
-#' @inheritParams use_git
 #' @param organisation If supplied, the repo will be created under this
-#'   organisation, instead of the account of the user associated with the
-#'   `auth_token`. You must have permission to create repositories.
+#'   organisation, instead of the login associated with the GitHub token
+#'   discovered for this `host`. The user's role and the token's scopes must be
+#'   such that you have permission to create repositories in this
+#'   `organisation`.
 #' @param private If `TRUE`, creates a private repository.
 #' @inheritParams git_protocol
-#' @param auth_token GitHub personal access token (PAT).
-#' @param host GitHub API host to use. Override with the endpoint-root for your
-#'   GitHub enterprise instance, for example,
-#'   "https://github.hostname.com/api/v3".
-#' @param credentials \lifecycle{defunct}: No longer consulted now that usethis
-#'   uses the gert package for Git operations, instead of git2r. Note that gert
-#'   relies on the credentials package for auth.
+#' @param host GitHub API host to use. Example for a GitHub Enterprise instance:
+#'   "https://github.acme.com". It is also acceptable to provide the API root
+#'   URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".
+#' @param auth_token,credentials \lifecycle{defunct}: No longer consulted now
+#'   that usethis uses the gert package for Git operations, instead of git2r;
+#'   gert relies on the credentials package for auth. The API requests are now
+#'   authorized with the token associated with the `host`, as retrieved by
+#'   [gitcreds::gitcreds_get()].
 #'
 #' @export
 #' @examples
@@ -49,24 +51,46 @@
 use_github <- function(organisation = NULL,
                        private = FALSE,
                        protocol = git_protocol(),
-                       auth_token = github_token(),
-                       host = NULL,
+                       host = "https://github.com",
+                       auth_token = deprecated(),
                        credentials = deprecated()) {
   check_uses_git()
   # TODO: honor default_branch
   check_branch("master")
   check_no_uncommitted_changes()
   check_no_origin()
-  # this validates the token, so do it even if `organisation` is specified
-  login <- github_login(auth_token)
 
+  if (lifecycle::is_present(auth_token)) {
+    deprecate_warn_auth_token("use_github")
+  }
   if (lifecycle::is_present(credentials)) {
     deprecate_warn_credentials("use_github")
   }
 
+  host_url <- gh:::get_hosturl(host)
+  api_url <- gh:::get_apiurl(host)
+  auth_token <- gitcreds_token(host_url)
+  if (auth_token == "") {
+    get_code <- glue("gitcreds::gitcreds_get(\"{host_url}\")")
+    set_code <- glue("gitcreds::gitcreds_set(\"{host_url}\")")
+    ui_stop("
+      Unable to discover a token for {ui_value(host_url)}
+        Call {ui_code(get_code)} to experience this first-hand
+        Call {ui_code(set_code)} to store a token")
+  }
+  who <- tryCatch(
+    gh::gh_whoami(.token = auth_token, .api_url = api_url),
+    http_error_401 = function(e) ui_stop("Token is invalid."),
+    error = function(e) {
+      ui_oops("
+        Can't get login associated with this token. Is the network reachable?")
+    }
+  )
+  login <- who$login
+
   owner <- organisation %||% login
   repo_name <- project_name()
-  check_no_github_repo(owner, repo_name, host, auth_token)
+  check_no_github_repo(owner, repo_name, api_url, auth_token)
 
   repo_desc <- project_data()$Title %||% ""
   repo_desc <- gsub("\n", " ", repo_desc)
@@ -80,8 +104,7 @@ use_github <- function(organisation = NULL,
       name = repo_name,
       description = repo_desc,
       private = private,
-      .api_url = host,
-      .token = auth_token
+      .api_url = api_url, .token = auth_token
     )
   } else {
     create <- gh::gh(
@@ -90,8 +113,7 @@ use_github <- function(organisation = NULL,
       name = repo_name,
       description = repo_desc,
       private = private,
-      .api_url = host,
-      .token = auth_token
+      .api_url = api_url, .token = auth_token
     )
   }
 
@@ -100,7 +122,7 @@ use_github <- function(organisation = NULL,
     https = create$clone_url,
     ssh   = create$ssh_url
   )
-  on.exit(view_url(create$html_url), add = TRUE)
+  withr::defer(view_url(create$html_url))
 
   ui_done("Setting remote {ui_value('origin')} to {ui_value(origin_url)}")
   use_git_remote("origin", origin_url)
@@ -126,10 +148,12 @@ use_github <- function(organisation = NULL,
     }
   }
 
+  # TODO: honor default_branch
   ui_done("
     Pushing {ui_value('master')} branch to GitHub and setting \\
     {ui_value('origin/master')} as upstream branch")
 
+  # TODO: set verbose = FALSE here before release
   gert::git_push(remote = "origin", set_upstream = TRUE, repo = git_repo())
 
   invisible()
@@ -137,33 +161,49 @@ use_github <- function(organisation = NULL,
 
 #' Use GitHub links in URL and BugReports
 #'
+#' @description
 #' Populates the `URL` and `BugReports` fields of a GitHub-using R package with
-#' appropriate links. The ability to determine the correct URLs depends on
-#' finding a fairly standard GitHub remote configuration (`origin` only or
-#' `origin` plus `upstream`).
+#' appropriate links. The GitHub repo to link to is determined from the current
+#' project's GitHub remotes:
+#' * If we are not working with a fork, this function expects `origin` to be a
+#'   GitHub remote and the links target that repo.
+#' * If we are working in a fork, this function expects to find two GitHub
+#'   remotes: `origin` (the fork) and `upstream` (the fork's parent) remote. In
+#'   an interactive session, the user can confirm which repo to use for the
+#'   links. In a noninteractive session, links are formed using `upstream`.
 #'
-#' @inheritParams use_github
-#' @export
+#' @param host,auth_token \lifecycle{defunct}: No longer consulted now that
+#'   usethis consults the current project's GitHub remotes to get the `host` and
+#'   then uses the gitcreds package to obtain a matching token.
 #' @param overwrite By default, `use_github_links()` will not overwrite existing
 #'   fields. Set to `TRUE` to overwrite existing links.
+#' @export
 #' @examples
 #' \dontrun{
 #' use_github_links()
 #' }
 #'
-use_github_links <- function(auth_token = github_token(),
-                             host = NULL,
+use_github_links <- function(auth_token = deprecated(),
+                             host = deprecated(),
                              overwrite = FALSE) {
+  if (lifecycle::is_present(auth_token)) {
+    deprecate_warn_auth_token("use_github_links")
+  }
+  if (lifecycle::is_present(host)) {
+    deprecate_warn_host("use_github_links")
+  }
+
   check_is_package("use_github_links()")
-  check_github_token(auth_token, allow_empty = TRUE)
-  repo_spec <- repo_spec_orig(auth_token = auth_token, host = host)
+  cfg <- github_remote_config(github_get = TRUE)
+  if (!cfg$type %in% c("ours", "fork")) {
+    stop_bad_github_remote_config(cfg)
+  }
+  tr <- target_repo(cfg)
 
   res <- gh::gh(
     "GET /repos/:owner/:repo",
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec),
-    .api_url = host,
-    .token = auth_token
+    owner = tr$repo_owner, repo = tr$repo_name,
+    .api_url = tr$api_url, .token = tr$token
   )
 
   use_description_field("URL", res$html_url, overwrite = overwrite)
@@ -288,14 +328,13 @@ check_no_origin <- function() {
   invisible()
 }
 
-check_no_github_repo <- function(owner, repo, host, auth_token) {
+check_no_github_repo <- function(owner, repo, .api_url, .token) {
   repo_found <- tryCatch(
     {
       gh::gh(
         "/repos/:owner/:repo",
         owner = owner, repo = repo,
-        .api_url = host,
-        .token = auth_token
+        .api_url = .api_url, .token = .token
       )
       TRUE
     },
@@ -305,8 +344,8 @@ check_no_github_repo <- function(owner, repo, host, auth_token) {
     return(invisible())
   }
   spec <- glue("{owner}/{repo}")
-  where <- host %||% "github.com"
-  ui_stop("Repo {ui_value(spec)} already exists on {ui_value(where)}.")
+  host_url <- gh:::get_hosturl(.api_url)
+  ui_stop("Repo {ui_value(spec)} already exists on {ui_value(host_url)}.")
 }
 
 # github token helpers ----------------------------------------------------
