@@ -79,11 +79,8 @@ x <- create_from_github("jennybc/ethel", destdir = "~/tmp", fork = NA, open = FA
 # gets created, as clone but no fork
 dir_delete(x)
 
-# store my PAT
-token <- github_token()
-
-# make my PAT unavailable via env vars
-Sys.unsetenv(c("GITHUB_PAT", "GITHUB_TOKEN"))
+# explore "no token" situations
+gitcreds::gitcreds_delete()
 gh::gh_whoami()
 
 dir_delete("~/tmp/TailRank")
@@ -107,12 +104,6 @@ x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = TRUE, open = 
 # fork = NA
 x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = NA, open = FALSE)
 # created as clone (no fork)
-dir_delete(x)
-
-# create from repo I do not have push access to
-# fork = TRUE, explicitly provide token
-x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = TRUE, auth_token = token, open = FALSE)
-# fork and clone
 dir_delete(x)
 
 # delete remote repo

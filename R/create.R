@@ -109,8 +109,9 @@ create_project <- function(path,
 #' either cloning or
 #' [fork-and-cloning](https://help.github.com/articles/fork-a-repo/). In the
 #' fork-and-clone case, `create_from_github()` also does additional remote and
-#' branch setup, leaving you in the perfect position to make a pull request,
-#' possibly with the [pull request functions][pull-requests].
+#' branch setup, leaving you in the perfect position to make a pull request with
+#' [pr_init()], one of several [functions that work pull
+#' requests][pull-requests].
 #'
 #' It is **highly recommended** that you pre-configure a GitHub personal access
 #' token (PAT), which is facilitated by [create_github_token()]. In particular,
@@ -132,17 +133,19 @@ create_project <- function(path,
 #'   a project and Git repo.
 #' @inheritParams use_course
 #' @param fork If `TRUE`, we create and clone a fork. If `FALSE`, we clone
-#'   `repo_spec` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT)
-#'   is provided or preconfigured. Otherwise, defaults to `FALSE` if you can
+#'   `repo_spec` itself. Will be set to `FALSE` if we cannot obtain a personal
+#'   access token. Otherwise, defaults to `FALSE` if you can
 #'   push to `repo_spec` and `TRUE` if you cannot. In the case of a fork, the
-#'   original target repo is added to the local repo as the `upstream` remote,
+#'   original source repo is added to the local repo as the `upstream` remote,
 #'   using the preferred `protocol`. The `master` branch is set to track
 #'   `upstream/master` and is immediately pulled, which matters in the case of a
 #'   pre-existing, out-of-date fork.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'    Defaults to `TRUE` if in an RStudio session and project has no
-#'   pre-existing `.Rproj` file. Defaults to `FALSE` otherwise.
+#'   pre-existing `.Rproj` file. Defaults to `FALSE` otherwise (but note that
+#'   the cloned repo may already be an RStudio Project, i.e. may already have a
+#'   `.Rproj` file).
 #' @inheritParams use_github
 #'
 #' @export
@@ -156,11 +159,14 @@ create_from_github <- function(repo_spec,
                                rstudio = NULL,
                                open = rlang::is_interactive(),
                                protocol = git_protocol(),
-                               auth_token = github_token(),
-                               host = NULL,
+                               host = "https://github.com",
+                               auth_token = deprecated(),
                                credentials = deprecated()) {
+  if (lifecycle::is_present(auth_token)) {
+    deprecate_warn_auth_token("create_from_github")
+  }
   if (lifecycle::is_present(credentials)) {
-    deprecate_warn_credentials("use_github")
+    deprecate_warn_credentials("create_from_github")
   }
 
   destdir <- user_path_prep(destdir %||% conspicuous_place())
@@ -174,14 +180,26 @@ create_from_github <- function(repo_spec,
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  check_github_token(auth_token, allow_empty = TRUE)
+  host_url <- gh:::get_hosturl(host)
+  api_url <- gh:::get_apiurl(host)
+  auth_token <- gitcreds_token(host_url)
+  if (auth_token == "") {
+    # TODO: this should be softer -- should be an "are you sure?"
+    # or maybe this is the wrong time to do this
+    get_code <- glue("gitcreds::gitcreds_get(\"{host_url}\")")
+    set_code <- glue("gitcreds::gitcreds_set(\"{host_url}\")")
+    ui_stop("
+      Unable to discover a token for {ui_value(host_url)}
+        Call {ui_code(get_code)} to experience this first-hand
+        Call {ui_code(set_code)} to store a token")
+  }
 
   gh <- function(endpoint, ...) {
     gh::gh(
       endpoint,
       ...,
       .token = auth_token,
-      .api_url = host
+      .api_url = api_url
     )
   }
 
@@ -211,13 +229,11 @@ create_from_github <- function(repo_spec,
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
   # TODO: consider setting `verbose = FALSE`
   gert::git_clone(origin_url, repo_path)
-  old_project <- proj_set(repo_path, force = TRUE)
-  on.exit(proj_set(old_project), add = TRUE)
+  local_project(repo_path, force = TRUE)
 
   if (fork) {
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     use_git_remote("upstream", upstream_url)
-    # TODO: if using auth_token provided as argument, that's not passed along
     pr_merge_main()
     # TODO: honor default branch
     ui_done("
@@ -237,7 +253,7 @@ create_from_github <- function(repo_spec,
   if (open) {
     if (proj_activate(repo_path)) {
       # Working directory/active project changed; so don't undo on exit
-      on.exit()
+      withr::deferred_clear()
     }
   }
 
@@ -272,6 +288,9 @@ check_not_nested <- function(path, name) {
 
 rationalize_fork <- function(fork, repo_info, auth_token) {
   have_token <- have_github_token(auth_token)
+  # TODO: this is too naive
+  # if we don't have a token, the permissions info simply isn't here
+  # so we don't even know what the user's capabilities are
   can_push <- isTRUE(repo_info$permissions$push)
 
   if (!can_push && !have_token && is.na(fork) && is_interactive()) {
