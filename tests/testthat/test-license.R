@@ -24,7 +24,7 @@ test_that("other licenses work without error", {
   create_local_package()
 
   expect_error(use_agpl_license(3), NA)
-  expect_error(use_apl_license(2), NA)
+  expect_error(use_apache_license(2), NA)
   expect_error(use_cc0_license(), NA)
   expect_error(use_ccby_license(), NA)
   expect_error(use_gpl_license(2), NA)

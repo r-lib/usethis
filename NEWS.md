@@ -80,8 +80,8 @@ There is increasing interest in making the name of a repo's default branch confi
 
 * All `use_*_license()` functions now work for projects, not just packages.
 
-* `use_apl_license()` and `use_gpl3_license()` no longer modify the license
-   text (#1198).
+* `use_apl2_license()` (not `use_apache_license()`) and 
+  `use_gpl3_license()` no longer modify the license text (#1198).
    
 * `use_mit_license()` now sets the default copyright holder to 
   "{package} authors". This makes it more clear that the copyright holders
@@ -103,7 +103,7 @@ There is increasing interest in making the name of a repo's default branch confi
   
 * `use_gpl3_license()`, `use_agpl3_license()` and `use_apl2_license()` have
   been deprecated in favour of the new `version` argument to 
-  `use_gpl_license()`, `use_agpl_license()` and `use_apl_license()`.
+  `use_gpl_license()`, `use_agpl_license()` and `use_apache_license()`.
   
 * The `name` argument to `use_mit_license()` has been changed to 
   `copyright_holder` to make the purpose more clear. The `name` argument has

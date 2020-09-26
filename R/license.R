@@ -105,7 +105,7 @@ use_lgpl_license <- function(version = 3, include_future = TRUE) {
 
 #' @rdname licenses
 #' @export
-use_apl_license <- function(version = 2, include_future = TRUE) {
+use_apache_license <- function(version = 2, include_future = TRUE) {
   version <- check_license_version(version, 2)
 
   if (is_package()) {
@@ -167,7 +167,7 @@ use_agpl3_license <- function() {
 #' @export
 #' @usage NULL
 use_apl2_license <- function() {
-  use_apl_license(2)
+  use_apache_license(2)
 }
 
 # Helpers -----------------------------------------------------------------

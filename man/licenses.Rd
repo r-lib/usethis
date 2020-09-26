@@ -5,7 +5,7 @@
 \alias{use_gpl_license}
 \alias{use_agpl_license}
 \alias{use_lgpl_license}
-\alias{use_apl_license}
+\alias{use_apache_license}
 \alias{use_cc0_license}
 \alias{use_ccby_license}
 \alias{use_proprietary_license}
@@ -22,7 +22,7 @@ use_agpl_license(version = 3, include_future = TRUE)
 
 use_lgpl_license(version = 3, include_future = TRUE)
 
-use_apl_license(version = 2, include_future = TRUE)
+use_apache_license(version = 2, include_future = TRUE)
 
 use_cc0_license()
 
