@@ -481,6 +481,12 @@ target_repo <- function(cfg = NULL,
   cfg[[names(choices)[choice]]]
 }
 
+target_repo_spec <- function(role = c("source", "primary"),
+                             ask = is_interactive()) {
+  tr <- target_repo(role = match.arg(role), ask = ask)
+  tr$repo_spec
+}
+
 # `x` is probably the return value of `target_repo()`
 check_have_github_info <- function(x) {
   if (x$have_github_info) {
@@ -492,78 +498,6 @@ check_have_github_info <- function(x) {
       Unable to discover a token for {ui_value(x$host_url)}
         Call {ui_code(get_code)} to experience this first-hand
         Call {ui_code(set_code)} to store a token")
-}
-
-repo_spec_orig <- function(cfg = NULL,
-                           role = c("source", "primary"),
-                           ask = is_interactive(),
-                           auth_token = github_token(),
-                           host = "https://api.github.com") {
-  cfg <- cfg %||% github_remote_config(github_get = FALSE)
-  stopifnot(inherits(cfg, "github_remote_config"))
-  role <- match.arg(role)
-
-  if (cfg$type == "no_github") {
-    stop_bad_github_remote_config(cfg)
-  }
-
-  weird_configs <- c(
-    "fork_upstream_is_not_origin_parent",
-    "fork_cannot_push_origin",
-    "upstream_but_origin_is_not_fork"
-  )
-  if (is_interactive() && cfg$type %in% weird_configs) {
-    if (ui_github_remote_config_wat(cfg)) {
-      ui_stop("Exiting due to unfavorable GitHub config")
-    }
-  }
-
-  # upstream only
-  if (cfg$upstream$is_configured && !cfg$origin$is_configured) {
-    return(cfg$upstream$repo_spec)
-  }
-
-  # origin only
-  if (cfg$origin$is_configured && !cfg$upstream$is_configured) {
-    if (is.na(cfg$origin$parent_repo_spec)) {
-      return(cfg$origin$repo_spec)
-    }
-  }
-  # scenarios left (X means "not NA", - means "is NA"):
-  # origin origin_parent upstream
-  #   X          X          -
-  #   X          -          X
-  #   X          X    ==    X
-  #   X          X    !=    X
-
-  if (!ask || !is_interactive()) {
-    return(switch(
-      role,
-      source  = cfg$origin$parent_repo_spec %|% cfg$upstream$repo_spec,
-      primary = cfg$origin$repo_spec
-    ))
-  }
-
-  spec <- list(
-    origin        = cfg$origin$repo_spec,
-    origin_parent = cfg$origin$parent_repo_spec,
-    upstream      = cfg$upstream$repo_spec
-  )
-  formatted <- c(
-    origin        = glue("{spec$origin} = {ui_value('origin')}"),
-    origin_parent = glue("{spec$origin_parent} = parent of {ui_value('origin')}"),
-    upstream      = glue("{spec$upstream} = {ui_value('upstream')}")
-  )
-
-  spec <- spec[!is.na(spec)]
-  if (length(spec) == 3 &&
-      identical(spec[["origin_parent"]], spec[["upstream"]])) {
-    spec <- spec[c("origin", "upstream")]
-  }
-  choices <- formatted[names(spec)]
-  title <- glue("Which repo should we target?")
-  choice <- utils::menu(choices, graphics = FALSE, title = title)
-  spec[[choice]]
 }
 
 # formatting github remote configurations for humans ---------------------------

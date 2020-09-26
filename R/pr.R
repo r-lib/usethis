@@ -501,7 +501,7 @@ pr_url <- function(branch = git_branch()) {
     return()
   }
 
-  repo_spec <- repo_spec_orig(ask = FALSE)
+  repo_spec <- target_repo_spec(ask = FALSE)
   pr_remote <- github_remote_list(remref_remote(pr_remref))
   urls <- pr_find(
     owner = spec_owner(repo_spec),

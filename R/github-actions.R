@@ -41,7 +41,7 @@ use_github_actions <- function() {
 #' @export
 #' @rdname github_actions
 use_github_actions_badge <- function(name = "R-CMD-check", repo_spec = NULL) {
-  repo_spec <- repo_spec %||% repo_spec_orig()
+  repo_spec <- repo_spec %||% target_repo_spec()
   enc_name <- utils::URLencode(name)
   img <- glue("https://github.com/{repo_spec}/workflows/{enc_name}/badge.svg")
   url <- glue("https://github.com/{repo_spec}/actions")
@@ -81,7 +81,7 @@ check_uses_github_actions <- function(base_path = proj_get()) {
 #' @rdname tidyverse
 #' @export
 use_tidy_github_actions <- function() {
-  repo_spec <- repo_spec_orig()
+  repo_spec <- target_repo_spec()
 
   use_coverage(repo_spec = repo_spec)
 

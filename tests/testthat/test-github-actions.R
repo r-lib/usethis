@@ -31,7 +31,7 @@ test_that("use_github_actions() configures GitHub Actions", {
   use_readme_md()
 
   with_mock(
-    `usethis:::repo_spec_orig` = function() "OWNER/REPO",
+    `usethis:::target_repo_spec` = function() "OWNER/REPO",
     use_github_actions()
   )
 
@@ -112,7 +112,7 @@ test_that("use_tidy_github_actions() configures the full check and pr commands",
   use_readme_md()
 
   with_mock(
-    `usethis:::repo_spec_orig` = function() "OWNER/REPO",
+    `usethis:::target_repo_spec` = function() "OWNER/REPO",
     use_tidy_github_actions()
   )
 

@@ -8,7 +8,7 @@
 #' @eval param_repo_spec()
 #' @export
 use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
-  repo_spec <- repo_spec %||% repo_spec_orig()
+  repo_spec <- repo_spec %||% target_repo_spec()
   use_dependency("covr", "Suggests")
 
   type <- match.arg(type)
