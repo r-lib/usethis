@@ -11,8 +11,8 @@ create_from_github(
   rstudio = NULL,
   open = rlang::is_interactive(),
   protocol = git_protocol(),
-  auth_token = github_token(),
-  host = NULL,
+  host = "https://github.com",
+  auth_token = deprecated(),
   credentials = deprecated()
 )
 }
@@ -28,17 +28,21 @@ location using the option \code{usethis.destdir}, e.g.
 \code{.Rprofile} with \code{\link[=edit_r_profile]{edit_r_profile()}}}
 
 \item{fork}{If \code{TRUE}, we create and clone a fork. If \code{FALSE}, we clone
-\code{repo_spec} itself. Will be set to \code{FALSE} if no \code{auth_token} (a.k.a. PAT)
-is provided or preconfigured. Otherwise, defaults to \code{FALSE} if you can
-push to \code{repo_spec} and \code{TRUE} if you cannot. In the case of a fork, the
-original target repo is added to the local repo as the \code{upstream} remote,
-using the preferred \code{protocol}. The \code{master} branch is set to track
-\code{upstream/master} and is immediately pulled, which matters in the case of a
-pre-existing, out-of-date fork.}
+\code{repo_spec} itself. If \code{NA} (the default), we check your permissions on the
+target repo. If you can push, we clone \code{repo_spec} (so, \code{fork = FALSE}).
+If you can't push, we do fork-and-clone and other setup:
+\itemize{
+\item The source repo is configured as the \code{upstream} remote, using the
+indicated \code{protocol}.
+\item The \code{master} branch is set to track \code{upstream/master}. It is also
+immediately, to cover the case of a pre-existing, out-of-date fork.
+}}
 
 \item{rstudio}{Initiate an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}?
 Defaults to \code{TRUE} if in an RStudio session and project has no
-pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
+pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise (but note that
+the cloned repo may already be an RStudio Project, i.e. may already have a
+\code{.Rproj} file).}
 
 \item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
 \itemize{
@@ -52,15 +56,15 @@ to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, \code{"https"}. \code{NA} triggers the interactive
 menu.}
 
+\item{host}{GitHub API host to use. Example for a GitHub Enterprise instance:
+"https://github.acme.com". It is also acceptable to provide the API root
+URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".}
+
 \item{auth_token}{\lifecycle{defunct}: No longer consulted now
 that usethis uses the gert package for Git operations, instead of git2r;
 gert relies on the credentials package for auth. The API requests are now
 authorized with the token associated with the \code{host}, as retrieved by
 \code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_get()}}.}
-
-\item{host}{GitHub API host to use. Example for a GitHub Enterprise instance:
-"https://github.acme.com". It is also acceptable to provide the API root
-URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".}
 
 \item{credentials}{\lifecycle{defunct}: No longer consulted now
 that usethis uses the gert package for Git operations, instead of git2r;
@@ -73,13 +77,16 @@ Creates a new local project and Git repository from a repo on GitHub, by
 either cloning or
 \href{https://help.github.com/articles/fork-a-repo/}{fork-and-cloning}. In the
 fork-and-clone case, \code{create_from_github()} also does additional remote and
-branch setup, leaving you in the perfect position to make a pull request,
-possibly with the \link[=pull-requests]{pull request functions}.
+branch setup, leaving you in the perfect position to make a pull request with
+\code{\link[=pr_init]{pr_init()}}, one of several \link[=pull-requests]{functions that work pull requests}.
 
-It is \strong{highly recommended} that you pre-configure a GitHub personal access
-token (PAT), which is facilitated by \code{\link[=create_github_token]{create_github_token()}}. In particular,
-if you can't push to the source repo, you usually want to fork-and-clone (vs.
-clone) and we cannot do that unless we have a PAT.
+\code{create_from_github()} works best when we can find a GitHub personal access
+token in the Git credential store (just like many other usethis functions).
+\itemize{
+\item If you do not have a token, \code{\link[=create_github_token]{create_github_token()}} provides assistance.
+\item Once you have a token, \code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_get()}} helps you store it for
+future re-discovery and re-use.
+}
 }
 \section{Authentication}{
 

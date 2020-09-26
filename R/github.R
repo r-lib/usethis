@@ -413,10 +413,7 @@ check_github_token <- function(auth_token = github_token(),
   ))
 }
 
-github_login <- function(auth_token = github_token()) {
-  # killing two birds with one stone:
-  # it seems we have to use GET /user to validate the token
-  # if that succeeds, then we already have the user info and extract login
-  out <- check_github_token(auth_token)
+github_login <- function(auth_token) {
+  out <- gh::gh_whoami(auth_token)
   out$login
 }
