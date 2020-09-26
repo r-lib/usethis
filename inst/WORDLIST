@@ -91,11 +91,11 @@ funder
 gc
 gert
 gh
+gitcreds
 github
 gitignore
 gzip
 hexb
-hostname
 href
 http
 https
@@ -118,6 +118,7 @@ mergeable
 minimise
 msg
 nano
+noninteractive
 organisation
 organisations
 ort
@@ -125,7 +126,6 @@ pandoc
 pkgbuild
 pkgdown
 pre
-preconfigured
 programmatically
 purrr
 r's
