@@ -1,3 +1,8 @@
+github_login <- function(auth_token) {
+  out <- gh::gh_whoami(auth_token)
+  out$login
+}
+
 # repo_spec --> owner, repo
 parse_repo_spec <- function(repo_spec) {
   repo_split <- strsplit(repo_spec, "/")[[1]]

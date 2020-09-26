@@ -357,7 +357,8 @@ git_sitrep <- function() {
 
   # github user ---------------------------------------------------------------
   hd_line("GitHub")
-  have_token <- have_github_token()
+  auth_token <- gitcreds_token()
+  have_token <- auth_token != ""
   if (have_token) {
     kv_line("Personal access token", "<found in env var>")
     tryCatch(
