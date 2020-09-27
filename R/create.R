@@ -224,7 +224,7 @@ create_from_github <- function(repo_spec,
   # fork is either TRUE or FALSE
 
   if (fork) {
-    user <- github_login(auth_token)
+    user <- github_login(auth_token, api_url)
     if (identical(user, repo_info$owner$login)) {
       ui_stop("
         Repo {ui_value(repo_info$full_name)} is owned by user \\

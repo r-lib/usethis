@@ -129,7 +129,7 @@ use_github <- function(organisation = NULL,
 
   if (is_package()) {
     error <- tryCatch(
-      use_github_links(auth_token = auth_token, host = host),
+      use_github_links(),
       usethis_error = function(e) e
     )
     if (!is.null(error)) {

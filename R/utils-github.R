@@ -1,5 +1,5 @@
-github_login <- function(auth_token) {
-  out <- gh::gh_whoami(auth_token)
+github_login <- function(auth_token, host = "https://github.com") {
+  out <- gh::gh_whoami(.token = auth_token, .api_url = host)
   out$login
 }
 

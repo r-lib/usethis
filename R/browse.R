@@ -92,7 +92,7 @@ browse_cran <- function(package = NULL) {
 }
 
 # Try to get a GitHub repo spec from these places:
-# 1. Remotes associated with github.com (active project)
+# 1. Remotes associated with GitHub (active project)
 # 2. BugReports/URL fields of DESCRIPTION (active project or arbitrary
 #    installed package)
 github_url <- function(package = NULL) {
