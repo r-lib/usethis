@@ -127,7 +127,7 @@ test_that("github_token() works", {
 
 test_that("github_login() returns user's login", {
   with_mock(
-    `gh::gh_whoami` = function(auth_token) list(login = "USER"),
+    `gh::gh_whoami` = function(...) list(login = "USER"),
     expect_equal(github_login("PAT"), "USER")
   )
 })
