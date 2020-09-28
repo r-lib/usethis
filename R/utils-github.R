@@ -268,7 +268,7 @@ github_remotes <- function(these = c("origin", "upstream"), x = NULL) {
 #' @noRd
 new_github_remote_config <- function() {
   ptype <- github_remotes(
-    x = data.frame(name = character(), url = character())
+    x = data.frame(name = character(), url = character(), stringsAsFactors = FALSE)
   )
   # 0-row df --> a well-named list of properly typed NAs
   ptype <- purrr::map(ptype, ~ c(NA, .x))

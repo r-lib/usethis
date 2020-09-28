@@ -67,7 +67,7 @@ test_that("github_remote_list() works", {
 })
 
 test_that("github_remotes(), github_remote_list() accept explicit 0-row input", {
-  x <- data.frame(name = character(), url = character())
+  x <- data.frame(name = character(), url = character(), stringsAsFactors = FALSE)
   grl <- github_remote_list(x = x)
   expect_equal(nrow(grl), 0)
   expect_true(all(map_lgl(grl, is.character)))
