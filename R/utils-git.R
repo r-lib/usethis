@@ -191,7 +191,7 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
     remote = remref_remote(remref),
     refspec = remref_branch(branch),
     repo = repo,
-    verbose = FALSE
+    verbose = verbose
   )
   gert::git_merge(remref, repo = repo)
   st <- git_status(untracked = TRUE)

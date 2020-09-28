@@ -69,6 +69,10 @@ indent <- function(x, first = "  ", indent = first) {
   paste0(first, x)
 }
 
+isFALSE = function(x) {
+  identical(x, FALSE)
+}
+
 isNA <- function(x) {
   length(x) == 1 && is.na(x)
 }
