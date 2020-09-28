@@ -88,10 +88,7 @@ github_remote_from_description <- function(desc) {
 #' @noRd
 gitcreds_token <- function(url = "https://github.com") {
   credential <- tryCatch(
-    {
-      cat("calling gitcreds$gitcreds_get()\n")
-      gitcreds::gitcreds_get(url)
-    },
+    gitcreds::gitcreds_get(url),
     gitcreds_nogit_error = function(e) stop("no_git"),
     gitcreds_no_credentials = function(e) NULL
   )
