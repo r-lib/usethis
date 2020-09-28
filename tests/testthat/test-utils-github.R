@@ -110,21 +110,6 @@ test_that("github_remotes() works", {
   expect_true(is.na(grl$is_fork))
 })
 
-test_that("github_token() works", {
-  withr::with_envvar(
-    new = c("GITHUB_PAT" = "yes", "GITHUB_TOKEN" = "no"),
-    expect_identical(github_token(), "yes")
-  )
-  withr::with_envvar(
-    new = c("GITHUB_PAT" = NA, "GITHUB_TOKEN" = "yes"),
-    expect_identical(github_token(), "yes")
-  )
-  withr::with_envvar(
-    new = c("GITHUB_PAT" = NA, "GITHUB_TOKEN" = NA),
-    expect_identical(github_token(), "")
-  )
-})
-
 test_that("github_login() returns user's login", {
   with_mock(
     `gh::gh_whoami` = function(...) list(login = "USER"),

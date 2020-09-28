@@ -529,7 +529,8 @@ pr_find <- function(owner,
     owner = owner,
     repo = repo,
     .limit = Inf,
-    .token = github_token()
+    # TODO: replace this with something we do, that honors host
+    .token = gh::gh_token()
   )
 
   if (length(prs) < 1) {
@@ -558,7 +559,8 @@ pr_get <- function(number, cfg = NULL) {
     owner = owner,
     repo = repo_name,
     number = number,
-    .token = github_token()
+    # TODO: replace this with something we do, that honors host
+    .token = gh::gh_token()
   )
   out$pr_string <- glue_data(
     parse_github_remotes(out$html_url),

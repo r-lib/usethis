@@ -40,6 +40,20 @@ browse_github_pat <- function(...) {
   )
 }
 
+#' @rdname usethis-defunct
+#' @export
+github_token <- function() {
+  details <- glue("
+    Use {ui_code('gitcreds::gitcreds_get()')}, \\
+    {ui_code('gitcreds::gitcreds_set()')}, and \\
+    {ui_code('gh::gh_token()')} to manage GitHub personal access tokens.")
+  lifecycle::deprecate_stop(
+    "2.0.0",
+    what = "github_token()",
+    details = details
+  )
+}
+
 # git2r ------------------------------------------------------------------------
 git2r_explanation <- glue("
   usethis now uses the gert package for Git operations, instead of git2r, and

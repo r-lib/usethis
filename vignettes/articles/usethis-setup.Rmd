@@ -228,18 +228,10 @@ Restart R for this to take effect.
 
 ### Confirm your PAT is configured
 
-Here are ways to confirm your PAT is ready to go. You can execute `usethis::github_token()`:
+These functions should reveal a configured PAT:
 
-```{r}
-library(usethis)
-github_token()
-```
-
-You could inspect the `GITHUB_PAT` environment variable directly:
-
-```{r, eval = FALSE}
-Sys.getenv("GITHUB_PAT")
-```
+  * `gh::gh_token()`
+  * `gitcreds::gitcreds_get()`
 
 The PAT situation is also part of what's reported in `git_sitrep()`:
 
