@@ -1,11 +1,5 @@
 # usethis (development version)
 
-## Adoption of gert and credentials
-
-Usethis now uses the gert package for Git operations (<https://docs.ropensci.org/gert>), where previously we used git2r. The main motivation for this is to provide a smoother user experience by discovering and using the same credentials as command line Git (and, therefore, the same as RStudio). Under the hood, the hero is the credentials package (<https://docs.ropensci.org/credentials/>). `use_git_credentials()` and `git_credentials()` are now deprecated, since usethis no longer needs a way for a user to provide explicit credentials. The switch to gert + credentials should eliminate most credential-finding fiascos, but if you want to learn more, see the [introductory vignette](https://cran.r-project.org/web/packages/credentials/vignettes/intro.html) for the credentials package. 
-
-Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that "just work", for both SSH and HTTPS remotes. There should be fewer "unsupported protocol" errors.
-
 ## GitHub remote configuration
 
 Usethis gains a more formal framework for characterizing a GitHub remote configuration. We look at:
@@ -16,7 +10,49 @@ Usethis gains a more formal framework for characterizing a GitHub remote configu
   
 This is an internal matter, but users will notice that usethis is more clear about which configurations are supported by various functions and which are not. The most common configurations are reviewed in a [section of Happy Git](https://happygitwithr.com/common-remote-setups.html).
 
-When working in a fork, there is sometimes a question whether to target the fork or the parent repository. For example, `use_github_links()` adds GitHub links to the URL and BugReports fields of DESCRIPTION. If someone calls `use_github_links()` when working in a fork, they probably want those links to refer to the *parent* repo, not to their fork, because the user is probably preparing a pull request. Usethis should now have better default behaviour in these situations and, in some cases, will present an interactive choice.
+When working in a fork, there is sometimes a question whether to target the fork or the parent repository. For example, `use_github_links()` adds GitHub links to the URL and BugReports fields of DESCRIPTION. If someone calls `use_github_links()` when working in a fork, they probably want those links to refer to the *parent* or *source* repo, not to their fork, because the user is probably preparing a pull request. Usethis should now have better default behaviour in these situations and, in some cases, will present an interactive choice.
+
+## Adoption of gert and getting usethis out of the Git credential business
+
+Usethis has various functions that help with Git-related tasks, which break down into two categories:
+
+1. Git tasks, such as clone, push, and pull. These are things you could do with
+   command line Git.
+1. GitHub tasks, such as fork, release, and open an issue / pull request. These
+   are things you could do in the browser or with the GitHub API.
+   
+We've switched from git2r to the gert package for Git operations (<https://docs.ropensci.org/gert>). We continue to use the gh package for GitHub API work (<https://gh.r-lib.org>).
+
+The big news in this area is that these lower-level dependencies are getting better at finding Git credentials, finding the same credentials as command line Git (and, therefore, the same as RStudio), and finding the same credentials as each other. This allows usethis to shed some of the workarounds we have needed in the past, to serve as a remedial "credential valet".
+
+Under the hood, both gert and gh are now consulting your local Git credential store, when they need credentials. At the time of writing, they are using two different even-lower-level packages to do this:
+
+* gert uses the credentials package (<https://docs.ropensci.org/credentials/>)
+* gh uses the gitcreds package (<https://r-lib.github.io/gitcreds/>)
+
+Even now, gert and gh should discover the same credentials, at least for github.com. Moving forward, we are hopeful that these two packages will merge into one.
+
+The main user-facing changes in usethis are:
+
+* usethis should be able to work with any GitHub deployment. While github.com is the default, GitHub Enterprise deployments should be fully supported.
+* The target `host` is determined from the current project's configured GitHub remotes, whenever possible.
+* The associated `auth_token` is determined from the target `host`, whenever possible.
+
+As a result, several functions are deprecated and several other functions have some deprecated arguments.
+
+* Deprecated functions:
+  - `use_git_credentials()`
+  - `git_credentials()`
+  - `github_token()`
+* Functions with (deprecated arguments):
+  - `create_from_github()` (`auth_token`)
+  - `use_github()` (`auth_token`)
+  - `use_github_links()` (`host`, `auth_token`)
+  - `use_github_labels()` (`repo_spec`, `host`, `auth_token`)
+  - `use_tidy_labels()` (`repo_spec`, `host`, `auth_token`)  
+  - `use_github_release()` (`host`, `auth_token`)
+
+The switch to gert + credentials should eliminate most credential-finding fiascos, but if you want to learn more, see the [introductory vignette](https://cran.r-project.org/web/packages/credentials/vignettes/intro.html) for the credentials package. Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that "just work", for both SSH and HTTPS remotes. There should be fewer "unsupported protocol" errors.
 
 ## Default branch
 
@@ -24,9 +60,7 @@ There is increasing interest in making the name of a repo's default branch confi
 
 *TODO: Summarize current level of prep or support of non-`master` default branch.*
 
-## Changes to Git/GitHub-related functions
-
-`use_git_credentials()` and `git_credentials()` are deprecated. All credential-handling has been delegated to the credentials package. 
+## Changes to behaviour of Git/GitHub-related functions
 
 `pr_finish()` deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150).
 
