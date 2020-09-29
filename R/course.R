@@ -447,6 +447,7 @@ modify_dropbox_url <- function(url) {
 
 modify_github_url <- function(url) {
   parsed <- parse_github_remotes(url)
+  # TODO: honor default branch, if feasible
   glue("https://github.com/{parsed$repo_owner}/{parsed$repo_name}/archive/master.zip")
 }
 
@@ -484,6 +485,7 @@ is_shortlink <- function(url) {
 expand_github <- function(url) {
   # mostly to handle errors in the spec
   repo_spec <- parse_repo_spec(url)
+  # TODO: honor default branch
   glue::glue_data(repo_spec, "github.com/{owner}/{repo}/archive/master.zip")
 }
 

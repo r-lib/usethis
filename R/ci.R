@@ -63,6 +63,7 @@ use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
   repo_spec <- repo_spec %||% target_repo_spec()
   ext <- arg_match(ext)
   url <- glue("https://travis-ci.{ext}/{repo_spec}")
+  # TODO: honor default branch
   img <- glue("{url}.svg?branch=master")
   use_badge("Travis build status", url, img)
 }
@@ -122,6 +123,7 @@ appveyor_activate <- function(browse = is_interactive()) {
 #' @rdname ci
 use_appveyor_badge <- function(repo_spec = NULL) {
   repo_spec <- repo_spec %||% target_repo_spec()
+  # TODO: honor default branch
   img <- glue(
     "https://ci.appveyor.com/api/projects/status/github/",
     "{repo_spec}?branch=master&svg=true"

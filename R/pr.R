@@ -411,8 +411,8 @@ pr_pause <- function() {
   check_no_uncommitted_changes()
   check_branch_pulled(use = "pr_pull()")
 
-  ui_done("Switching back to {ui_value('master')} branch")
   # TODO: honor default branch
+  ui_done("Switching back to {ui_value('master')} branch")
   gert::git_branch_checkout("master", repo = git_repo())
   pr_pull_source_override()
 }
