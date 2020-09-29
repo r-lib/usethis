@@ -357,12 +357,13 @@ git_sitrep <- function() {
 
   # github user ---------------------------------------------------------------
   hd_line("GitHub")
-  have_token <- have_github_token()
+  auth_token <- gitcreds_token()
+  have_token <- auth_token != ""
   if (have_token) {
-    kv_line("Personal access token", "<found in env var>")
+    kv_line("Personal access token", "<discovered>")
     tryCatch(
       {
-        who <- gh::gh_whoami(github_token())
+        who <- gh::gh_whoami(auth_token)
         kv_line("User", who$login)
         kv_line("Name", who$name)
       },
@@ -371,7 +372,7 @@ git_sitrep <- function() {
     )
     tryCatch(
       {
-        emails <- unlist(gh::gh("/user/emails", .token = github_token()))
+        emails <- unlist(gh::gh("/user/emails", .token = auth_token))
         emails <- emails[names(emails) == "email"]
         kv_line("Email(s)", emails)
       },
@@ -408,6 +409,7 @@ git_sitrep <- function() {
 
   # PR outlook -------------------------------------------------------------
   hd_line("GitHub pull request readiness")
+  # TODO: need to surface host more here
   cfg <- github_remote_config()
   if (cfg$type == "no_github") {
     ui_info("

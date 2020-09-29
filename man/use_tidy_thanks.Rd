@@ -7,13 +7,16 @@
 use_tidy_thanks(repo_spec = NULL, from = NULL, to = NULL)
 }
 \arguments{
-\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}.
-Default is to infer from Git remotes of active project.}
+\item{repo_spec}{Optional GitHub repo specification in this form:
+\code{owner/repo}. By default, this is inferred from the Git remotes of the
+active project. The host is always assumed to be github.com.}
 
 \item{from, to}{GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
-ISO 8601 format, specifying the start or end of the interval of interest.
-Examples: "08a560d", "v1.3.0", "2018-02-24T00:13:45Z", "2018-05-01". \code{NULL}
-means there is no bound on that end of the interval.}
+ISO 8601 format, specifying the start or end of the interval of interest,
+in the sense of \verb{[from, to]}. Examples: "08a560d", "v1.3.0",
+"2018-02-24T00:13:45Z", "2018-05-01". When \verb{from = NULL, to = NULL}, we set
+\code{from} to the timestamp of the most recent (GitHub) release. Otherwise,
+\code{NULL} means "no bound".}
 }
 \value{
 A character vector of GitHub usernames, invisibly.
@@ -21,12 +24,11 @@ A character vector of GitHub usernames, invisibly.
 \description{
 Derives a list of GitHub usernames, based on who has opened issues or pull
 requests. Used to populate the acknowledgment section of package release blog
-posts at \url{https://www.tidyverse.org/blog/}. All arguments can potentially
-be determined from the active project, if the project follows standard
-practices around the GitHub remote and GitHub releases. Unexported helper
-functions, \code{releases()} and \code{ref_df()} can be useful interactively to get a
-quick look at release tag names and a data frame about refs (defaulting to
-releases), respectively.
+posts at \url{https://www.tidyverse.org/blog/}. If no arguments are given, we
+retrieve all contributors to the active project since it's last (GitHub)
+release. Unexported helper functions, \code{releases()} and \code{ref_df()} can be
+useful interactively to get a quick look at release tag names and a data
+frame about refs (defaulting to releases), respectively.
 }
 \examples{
 \dontrun{
@@ -34,13 +36,13 @@ releases), respectively.
 use_tidy_thanks()
 
 ## active project, interval = since a specific datetime
-use_tidy_thanks(from = "2018-02-24T00:13:45Z")
+use_tidy_thanks(from = "2020-07-24T00:13:45Z")
 
-## r-lib/usethis, inteval = since a certain date
-use_tidy_thanks("r-lib/usethis", from = "2018-05-01")
+## r-lib/usethis, interval = since a certain date
+use_tidy_thanks("r-lib/usethis", from = "2020-08-01")
 
 ## r-lib/usethis, up to a specific release
-use_tidy_thanks("r-lib/usethis", from = NULL, to = "v1.3.0")
+use_tidy_thanks("r-lib/usethis", from = NULL, to = "v1.1.0")
 
 ## r-lib/usethis, since a specific commit, up to a specific date
 use_tidy_thanks("r-lib/usethis", from = "08a560d", to = "2018-05-14")

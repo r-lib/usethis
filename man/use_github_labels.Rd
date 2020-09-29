@@ -10,17 +10,21 @@
 \title{Manage GitHub issue labels}
 \usage{
 use_github_labels(
-  repo_spec = NULL,
+  repo_spec = deprecated(),
   labels = character(),
   rename = character(),
   colours = character(),
   descriptions = character(),
   delete_default = FALSE,
-  auth_token = github_token(),
-  host = NULL
+  host = deprecated(),
+  auth_token = deprecated()
 )
 
-use_tidy_labels(repo_spec = NULL, auth_token = github_token(), host = NULL)
+use_tidy_labels(
+  repo_spec = deprecated(),
+  host = deprecated(),
+  auth_token = deprecated()
+)
 
 tidy_labels()
 
@@ -31,7 +35,10 @@ tidy_label_colours()
 tidy_label_descriptions()
 }
 \arguments{
-\item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
+\item{repo_spec, host, auth_token}{\lifecycle{defunct}: These arguments are
+now deprecated and will be removed in the future. Any input provided via
+these arguments is not used. The target repo, host, and auth token are all
+now determined from the current project's Git remotes.}
 
 \item{labels}{A character vector giving labels to add.}
 
@@ -40,18 +47,11 @@ new names.}
 
 \item{colours, descriptions}{Named character vectors giving hexadecimal
 colours (like \code{e02a2a}) and longer descriptions. The names should match
-label names, and anything unmatched will be left unchanged. If you
-create a new label, and don't supply colours, it will be given a random
-colour.}
+label names, and anything unmatched will be left unchanged. If you create a
+new label, and don't supply colours, it will be given a random colour.}
 
-\item{delete_default}{If \code{TRUE}, removes GitHub default labels that do
-not appear in the \code{labels} vector and that do not have associated issues.}
-
-\item{auth_token}{GitHub personal access token (PAT).}
-
-\item{host}{GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
+\item{delete_default}{If \code{TRUE}, removes GitHub default labels that do not
+appear in the \code{labels} vector and that do not have associated issues.}
 }
 \description{
 \code{use_github_labels()} can create new labels, update colours and descriptions,

@@ -5,7 +5,7 @@ test_that("use_circleci() configures CircleCI", {
   use_git()
 
   with_mock(
-    `usethis:::repo_spec` = function() "OWNER/REPO",
+    `usethis:::target_repo_spec` = function() "OWNER/REPO",
     use_circleci(browse = FALSE)
   )
   use_readme_md()
@@ -32,7 +32,7 @@ test_that("use_circleci() configures CircleCI", {
 
   docker <- "rocker/r-ver:3.5.3"
   with_mock(
-    `usethis:::repo_spec` = function() "OWNER/REPO",
+    `usethis:::target_repo_spec` = function() "OWNER/REPO",
     `usethis:::can_overwrite` = function(path) TRUE,
     use_circleci(browse = FALSE, image = docker)
   )

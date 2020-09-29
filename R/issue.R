@@ -37,11 +37,25 @@ NULL
 #' @rdname issue-this
 issue_close_community <- function(number, reprex = FALSE) {
   cfg <- github_remote_config(github_get = TRUE)
-  if (cfg$type != c("ours", "fork")) {
+  if (!cfg$type %in% c("ours", "fork")) {
     stop_bad_github_remote_config(cfg)
   }
 
-  info <- issue_info(number)
+  tr <- target_repo(cfg)
+  if (!tr$can_push) {
+    # https://docs.github.com/en/github/setting-up-and-managing-organizations-and-teams/repository-permission-levels-for-an-organization#repository-access-for-each-permission-level
+    # I have not found a way to detect triage permission via API.
+    # It seems you just have to try?
+    ui_line("
+      You don't seem to have push access for {ui_value(tr$repo_spec)}.
+      Unless you have triage permissions, you won't be allowed to close an \\
+      issue.")
+    if (ui_nope("Do you want to try anyway?")) {
+      ui_stop("Aborting.")
+    }
+  }
+
+  info <- issue_info(number, tr)
   issue <- issue_details(info)
   ui_done("
     Closing issue {ui_value(issue$shorthand)} \\
@@ -66,28 +80,42 @@ issue_close_community <- function(number, reprex = FALSE) {
     "Thanks!"
   )
 
-  issue_comment_add(number, message)
-  issue_edit(number, state = "closed")
+  issue_comment_add(number, message = message, tr = tr)
+  issue_edit(number, state = "closed", tr = tr)
 }
 
 #' @export
 #' @rdname issue-this
 issue_reprex_needed <- function(number) {
   cfg <- github_remote_config(github_get = TRUE)
-  if (cfg$type != c("ours", "fork")) {
+  if (!cfg$type %in% c("ours", "fork")) {
     stop_bad_github_remote_config(cfg)
   }
 
-  info <- issue_info(number)
+  tr <- target_repo(cfg)
+  if (!tr$can_push) {
+    # https://docs.github.com/en/github/setting-up-and-managing-organizations-and-teams/repository-permission-levels-for-an-organization#repository-access-for-each-permission-level
+    # I can't find anyway to detect triage permission via API.
+    # It seems you just have to try?
+    ui_line("
+      You don't seem to have push access for {ui_value(tr$repo_spec)}.
+      Unless you have triage permissions, you won't be allowed to label an \\
+      issue.")
+    if (ui_nope("Do you want to try anyway?")) {
+      ui_stop("Aborting.")
+    }
+  }
+
+  info <- issue_info(number, tr)
   labels <- purrr::map_chr(info$labels, "name")
   issue <- issue_details(info)
-  ui_done("
-    Commenting on issue {ui_value(issue$shorthand)} \\
-    ({ui_field(issue$author)}): {ui_value(issue$title)}")
-
   if ("reprex" %in% labels) {
     ui_stop("Issue {number} already has 'reprex' label")
   }
+
+  ui_done("
+    Labelling and commenting on issue {ui_value(issue$shorthand)} \\
+    ({ui_field(issue$author)}): {ui_value(issue$title)}")
 
   message <- glue("
     Can you please provide a minimal reproducible example using the \\
@@ -96,30 +124,36 @@ issue_reprex_needed <- function(number) {
     recreate your problem so that I can fix it.
     If you've never made a minimal reprex before, there is lots of good advice \\
     [here](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html).")
-  issue_comment_add(number, message)
-  issue_edit(number, labels = as.list(union(labels, "reprex")))
+  issue_comment_add(number, message = message, tr = tr)
+  issue_edit(number, labels = as.list(union(labels, "reprex")), tr = tr)
 }
 
 # low-level operations ----------------------------------------------------
 
-issue_comment_add <- function(number, message) {
+issue_comment_add <- function(number, message, tr = NULL) {
   issue_gh(
     "POST /repos/:owner/:repo/issues/:issue_number/comments",
     number = number,
-    body = message
+    body = message,
+    tr = tr
   )
 }
 
-issue_edit <- function(number, ...) {
+issue_edit <- function(number, ..., tr = NULL) {
   issue_gh(
     "PATCH /repos/:owner/:repo/issues/:issue_number",
     ...,
-    number = number
+    number = number,
+    tr = tr
   )
 }
 
-issue_info <- function(number) {
-  issue_gh("GET /repos/:owner/:repo/issues/:issue_number", number = number)
+issue_info <- function(number, tr = NULL) {
+  issue_gh(
+    "GET /repos/:owner/:repo/issues/:issue_number",
+    number = number,
+    tr = tr
+  )
 }
 
 # Helpers -----------------------------------------------------------------
@@ -127,18 +161,18 @@ issue_info <- function(number) {
 # Assumptions:
 # * Issue number is called `issue_number`; make sure to tweak `endpoint` if
 #   necessary.
-# * Full check of GitHub remote config is done by the user-facing caller. Here
-#   we determine `repo_spec` in the most naive, local way.
-# * The remote config check will also expose a lack of PAT.
-issue_gh <- function(endpoint, ..., number) {
-  repo_spec <- repo_spec()
+# * The user-facing caller should pass information about the target repo,
+#   because that is required to vet the GitHub remote config anyway.
+#   The fallback to target_repo() is purely for development convenience.
+issue_gh <- function(endpoint, ..., number, tr = NULL) {
+  tr <- tr %||% target_repo()
+  tkn <- if (is.na(tr$token)) NULL else tr$token
   out <- gh::gh(
     endpoint,
     ...,
     issue_number = number,
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec),
-    .token = github_token()
+    owner = tr$repo_owner, repo = tr$repo_name,
+    .api_url = tr$api_url, .token = tkn
   )
 
   if (substr(endpoint, 1, 4) == "GET ") {

@@ -152,7 +152,23 @@ pr_init <- function(branch) {
     return(pr_resume(branch))
   }
 
-  check_pr_readiness()
+  cfg <- github_remote_config()
+  good_configs <- c("ours", "theirs", "fork")
+  maybe_good_configs <- c("maybe_ours_or_theirs", "maybe_fork")
+  if (!cfg$type %in% c(good_configs, maybe_good_configs)) {
+    stop_unsupported_pr_config(cfg)
+  }
+
+  if (cfg$type %in% maybe_good_configs) {
+    ui_line('
+      Unable to confirm the GitHub remote configuration is "pull request ready"
+      This probably means you need to configure a personal access token
+      {ui_code("create_github_token()")} can help with that
+      (Or maybe we\'re just offline?)')
+    if (ui_github_remote_config_wat(cfg)) {
+      ui_stop("Aborting")
+    }
+  }
 
   base_branch <- git_branch()
   # TODO: honor default branch
@@ -197,11 +213,6 @@ pr_resume <- function(branch = NULL) {
       Call {ui_code(code)} to create a new PR branch.")
   }
 
-  check_pr_readiness()
-  # TODO: turn off the interactive choice here? If there are uncommitted
-  # changes, I think the branch switch will always fail.
-  # OTOH, there's no harm in letting that happen, i.e. no risk here of
-  # doing something partially.
   check_no_uncommitted_changes(untracked = TRUE)
 
   ui_done("Switching to branch {ui_value(branch)}")
@@ -236,7 +247,7 @@ pr_fetch <- function(number) {
   if (pr$head$repo$fork) { # PR is from a fork
     pr_remote <- spec_owner(pr$head$repo$full_name)
     pr_branch_ours <- sub(":", "-", pr$head$label)
-    if (!isTRUE(pr$maintainer_can_modify)) {
+    if (isFALSE(pr$maintainer_can_modify)) {
       ui_info("
         Note that user does NOT allow maintainer to modify this PR \\
         at this time,
@@ -252,7 +263,7 @@ pr_fetch <- function(number) {
 
   # Add PR remote, if necessary ----
   if (!pr_remote %in% names(git_remotes())) {
-    protocol <- github_remote_protocol()
+    protocol <- cfg$origin$protocol
     url <- with(pr$head$repo, switch(protocol, https = clone_url, ssh = ssh_url))
     if (is.null(url)) {
       ui_stop("
@@ -297,7 +308,7 @@ pr_fetch <- function(number) {
     ui_done("Setting {ui_value(pr_remref)} as remote tracking branch")
     gert::git_branch_set_upstream(pr_remref, repo = repo)
   }
-  git_pull()
+  git_pull(verbose = FALSE)
 }
 
 #' @export
@@ -482,11 +493,10 @@ pr_finish <- function(number = NULL) {
 }
 
 pr_create_gh <- function() {
-  origin <- github_remotes("origin", github_get = FALSE)
-  repo_spec <- origin$repo_spec
+  origin <-  github_remote_list("origin")
   branch <- git_branch()
   ui_done("Create PR at link given below")
-  view_url(glue("https://github.com/{repo_spec}/compare/{branch}"))
+  view_url(glue("https://github.com/{origin$repo_spec}/compare/{branch}"))
 }
 
 pr_url <- function(branch = git_branch()) {
@@ -502,11 +512,8 @@ pr_url <- function(branch = git_branch()) {
     return()
   }
 
-  repo_spec <- repo_spec(ask = FALSE)
-  pr_remote <- github_remotes(remref_remote(pr_remref), github_get = FALSE)
+  pr_remote <- github_remote_list(remref_remote(pr_remref))
   urls <- pr_find(
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec),
     pr_owner = pr_remote$repo_owner,
     pr_branch = remref_branch(pr_remref)
   )
@@ -522,15 +529,13 @@ pr_url <- function(branch = git_branch()) {
   }
 }
 
-pr_find <- function(owner,
-                    repo,
-                    pr_owner = owner,
-                    pr_branch = git_branch()) {
-  prs <- gh::gh("GET /repos/:owner/:repo/pulls",
-    owner = owner,
-    repo = repo,
+pr_find <- function(pr_owner, pr_branch = git_branch()) {
+  tr <- target_repo(ask = FALSE)
+  prs <- gh::gh(
+    "GET /repos/:owner/:repo/pulls",
+    owner = tr$repo_owner, repo = tr$repo_name,
     .limit = Inf,
-    .token = github_token()
+    .api_url = tr$api_url
   )
 
   if (length(prs) < 1) {
@@ -545,21 +550,12 @@ pr_find <- function(owner,
 }
 
 pr_get <- function(number, cfg = NULL) {
-  cfg <- cfg %||% github_remote_config(github_get = FALSE)
-  owner <- switch(
-    cfg$type,
-    maybe_ours_or_theirs =,
-    ours = cfg$origin$repo_owner,
-    maybe_fork =,
-    fork = cfg$upstream$repo_owner
-  )
-  repo_name <- cfg$origin$repo_name
+  tr <- target_repo(cfg = cfg, ask = FALSE)
   out <- gh::gh(
     "GET /repos/:owner/:repo/pulls/:number",
-    owner = owner,
-    repo = repo_name,
+    owner = tr$repo_owner, repo = tr$repo_name,
     number = number,
-    .token = github_token()
+    .token = tr$token, .api_url = tr$api_url
   )
   out$pr_string <- glue_data(
     parse_github_remotes(out$html_url),
@@ -592,12 +588,12 @@ check_pr_branch <- function() {
 # in master branch of a fork. I wish everyone set up master to track the master
 # branch in the primary repo, but this protects us against sub-optimal setup.
 pr_pull_source_override <- function() {
-  cfg <- github_remote_config(github_get = FALSE)
+  tr <- target_repo(ask = FALSE)
   # TODO: honor default branch
-  if (cfg$type == "maybe_fork" && git_branch() == "master") {
+  if (tr$remote == "upstream" && git_branch() == "master") {
     remref <- "upstream/master"
   } else {
     remref <- NULL
   }
-  git_pull(remref = remref)
+  git_pull(remref = remref, verbose = FALSE)
 }

@@ -98,7 +98,7 @@ use_pkgdown_travis <- function() {
   lifecycle::deprecate_soft(
     when = "2.0.0",
     what = "usethis::use_pkgdown_travis()",
-    with = "use_github_action(\"pkgdown\")"
+    details = 'We recommend `use_github_action("pkgdown")` for new pkgdown setups.'
   )
   check_installed("pkgdown")
   if (!uses_pkgdown()) {
@@ -108,7 +108,7 @@ use_pkgdown_travis <- function() {
   }
 
   cfg <- github_remote_config(github_get = TRUE)
-  if (cfg$type != c("ours", "fork")) {
+  if (!cfg$type %in% c("ours", "fork")) {
     stop_bad_github_remote_config(cfg)
   }
 
@@ -135,38 +135,44 @@ use_pkgdown_travis <- function() {
     "
   )
 
-  repo_spec <- repo_spec(cfg)
+  tr <- target_repo(cfg)
   if (!gert::git_branch_exists("origin/gh-pages", local = FALSE, repo = git_repo())) {
-    create_gh_pages_branch(repo_spec)
+    create_gh_pages_branch(tr)
   }
 
   ui_todo("
     Turn on GitHub pages at \\
-    <https://github.com/{repo_spec}/settings> (using gh-pages as source)")
+    <https://github.com/{tr$repo_spec}/settings> (using gh-pages as source)")
 
   invisible()
 }
 
-create_gh_pages_branch <- function(repo_spec) {
+create_gh_pages_branch <- function(tr) {
   ui_done("
-    Initializing empty gh-pages branch in GitHub repo {ui_value(repo_spec)}")
+    Initializing empty gh-pages branch in GitHub repo {ui_value(tr$repo_spec)}")
 
   # git hash-object -t tree /dev/null.
   sha_empty_tree <- "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
 
+  gh <- function(endpoint, ...) {
+    gh::gh(
+      endpoint,
+      ...,
+      owner = tr$repo_owner, repo = tr$repo_name,
+      .token = tr$token, .api_url = tr$api_url
+    )
+  }
+
   # Create commit with empty tree
-  res <- gh::gh("POST /repos/:owner/:repo/git/commits",
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec),
+  res <- gh(
+    "POST /repos/:owner/:repo/git/commits",
     message = "first commit",
     tree = sha_empty_tree
   )
 
   # Assign ref to above commit
-  gh::gh(
+  gh(
     "POST /repos/:owner/:repo/git/refs",
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec),
     ref = "refs/heads/gh-pages",
     sha = res$sha
   )

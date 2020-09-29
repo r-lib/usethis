@@ -16,7 +16,16 @@
 use_release_issue <- function(version = NULL) {
   check_is_package("use_release_issue()")
   cfg <- github_remote_config(github_get = TRUE)
-  repo_spec <- repo_spec(cfg)
+  tr <- target_repo(cfg)
+  check_have_github_info(tr)
+  if (!tr$can_push) {
+    ui_line("
+      It is very unusual to open a release issue on a repo you can't push to:
+        {ui_value(tr$repo_spec)}")
+    if (ui_nope("Do you really want to do this?")) {
+      ui_stop("Aborting.")
+    }
+  }
 
   version <- version %||% choose_version()
   if (is.null(version)) {
@@ -28,10 +37,11 @@ use_release_issue <- function(version = NULL) {
 
   issue <- gh::gh(
     "POST /repos/:owner/:repo/issues",
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec),
+    owner = tr$repo_owner,
+    repo = tr$repo_name,
     title = glue("Release {project_name()} {version}"),
-    body = paste0(checklist, "\n", collapse = "")
+    body = paste0(checklist, "\n", collapse = ""),
+    .api_url = tr$api_url, .token = tr$token
   )
 
   view_url(issue$html_url)
@@ -110,13 +120,29 @@ release_type <- function(version) {
 #' need to publish the release from GitHub. It also deletes `CRAN-RELEASE` and
 #' checks that you've pushed all commits to GitHub.
 #'
-#' @inheritParams use_github_links
+#' @param host,auth_token \lifecycle{defunct}: No longer consulted now that
+#'   usethis uses the gitcreds package to lookup a token based on a URL
+#'   determined from the current project's GitHub remotes.
 #' @export
-use_github_release <- function(host = NULL,
-                               auth_token = github_token()) {
-  # TODO: should this be checking that we're on master / default branch?
-  cfg <- github_remote_config(github_get = TRUE, host = host, auth_token = auth_token)
-  repo_spec <- repo_spec(cfg)
+use_github_release <- function(host = deprecated(),
+                               auth_token = deprecated()) {
+  if (lifecycle::is_present(host)) {
+    deprecate_warn_host("use_github_release")
+  }
+  if (lifecycle::is_present(auth_token)) {
+    deprecate_warn_auth_token("use_github_release")
+  }
+
+  cfg <- github_remote_config(github_get = TRUE)
+  tr <- target_repo(cfg)
+  if (!tr$can_push) {
+    ui_stop("
+      You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
+      is required to draft a release.")
+  }
+
+  # TODO: if not on master / default branch, should we ask user if they really
+  # want to do this?
   check_branch_pushed()
 
   path <- proj_path("NEWS.md")
@@ -133,15 +159,13 @@ use_github_release <- function(host = NULL,
 
   release <- gh::gh(
     "POST /repos/:owner/:repo/releases",
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec),
+    owner = tr$repo_owner, repo = tr$repo_name,
     tag_name = paste0("v", package$Version),
     target_commitish = gert::git_info(git_repo())$commit,
     name = paste0(package$Package, " ", package$Version),
     body = news,
     draft = TRUE,
-    .api_url = host,
-    .token = auth_token
+    .api_url = tr$api_url, .token = tr$token
   )
 
   view_url(release$html_url)

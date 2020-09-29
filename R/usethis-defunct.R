@@ -40,7 +40,25 @@ browse_github_pat <- function(...) {
   )
 }
 
+#' @rdname usethis-defunct
+#' @export
+github_token <- function() {
+  details <- glue("
+    Use {ui_code('gitcreds::gitcreds_get()')}, \\
+    {ui_code('gitcreds::gitcreds_set()')}, and \\
+    {ui_code('gh::gh_token()')} to manage GitHub personal access tokens.")
+  lifecycle::deprecate_stop(
+    "2.0.0",
+    what = "github_token()",
+    details = details
+  )
+}
+
 # git2r ------------------------------------------------------------------------
+git2r_explanation <- glue("
+  usethis now uses the gert package for Git operations, instead of git2r, and
+  gert relies on the credentials package for auth. Therefore git2r credentials
+  are no longer accepted.")
 
 deprecate_warn_credentials <- function(whos_asking, details = NULL) {
   whos_asking <- sub("[()]+$", "", whos_asking)
@@ -48,15 +66,10 @@ deprecate_warn_credentials <- function(whos_asking, details = NULL) {
 
   lifecycle::deprecate_warn(
     "2.0.0",
-    "use_github(credentials = )",
+    what,
     details = details %||% git2r_explanation
   )
 }
-
-git2r_explanation <- glue("
-  usethis now uses the gert package for Git operations, instead of git2r, and
-  gert relies on the credentials package for auth. Therefore git2r credentials
-  are no longer accepted.")
 
 #' Produce or register credentials for git2r
 #'
@@ -106,4 +119,56 @@ use_git_credentials <- function(credentials = deprecated()) {
     details = git2r_explanation
   )
   invisible()
+}
+
+# repo_spec, host, auth_token --------------------------------------------------
+deprecate_warn_host <- function(whos_asking, details = NULL) {
+  whos_asking <- sub("[()]+$", "", whos_asking)
+  what <- glue("{whos_asking}(host = )")
+
+  host_explanation <- glue("
+    usethis now determines the {ui_code('host')} from the current project's \\
+    Git remotes.
+    The {ui_code('host')} argument is ignored and will eventually be removed.")
+
+  lifecycle::deprecate_warn(
+    "2.0.0",
+    what,
+    details = details %||% host_explanation
+  )
+}
+
+deprecate_warn_auth_token <- function(whos_asking, details = NULL) {
+  whos_asking <- sub("[()]+$", "", whos_asking)
+  what <- glue("{whos_asking}(auth_token = )")
+
+  auth_token_explanation <- glue("
+    usethis now delegates token lookup to the gitcreds package, which \\
+    retrieves credentials based on a URL.
+    usethis forms this URL based on the current project's Git remotes.
+    The {ui_code('auth_token')} argument is ignored and will eventually be \\
+    removed.")
+
+  lifecycle::deprecate_warn(
+    "2.0.0",
+    what,
+    details = details %||% auth_token_explanation
+  )
+}
+
+deprecate_warn_repo_spec <- function(whos_asking, details = NULL) {
+  whos_asking <- sub("[()]+$", "", whos_asking)
+  what <- glue("{whos_asking}(repo_spec = )")
+
+  repo_spec_explanation <- glue("
+    usethis now consults the current project's Git remotes to determine the \\
+    target repo.
+    The {ui_code('repo_spec')} argument is ignored and will eventually be \\
+    removed.")
+
+  lifecycle::deprecate_warn(
+    "2.0.0",
+    what,
+    details = details %||% repo_spec_explanation
+  )
 }
