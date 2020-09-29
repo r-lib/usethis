@@ -171,7 +171,7 @@ If you want to use RStudio to work with Git (and therefore GitHub, see previous 
 
 ## Get and store a GitHub personal access token
 
-A GitHub personal access token (PAT) is required if you want to use `usethis::use_github()`, `usethis::create_from_github(..., fork = TRUE)`, and many other usethis functions that need to create something on Github, such as a repo, an issue, or a pull request. Unlike pulling and pushing, these are **not** regular Git operations and your usual GitHub credentials do not necessarily work for this (although they *can*, if you play your cards right; see below).
+A GitHub personal access token (PAT) is required if you want to use `usethis::use_github()`, `usethis::create_from_github(..., fork = TRUE)`, and many other usethis functions that need to create something on GitHub, such as a repo, an issue, or a pull request. Unlike pulling and pushing, these are **not** regular Git operations and your usual GitHub credentials do not necessarily work for this (although they *can*, if you play your cards right; see below).
 
 A PAT is separate from your GitHub password, in the username / password sense (but in some cases you *can* use a PAT as a password; see below). You must create a PAT explicitly.
 
