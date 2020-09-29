@@ -4,7 +4,7 @@
 #' `use_github()` takes a local project and:
 #' * Checks that the initial state is good to go:
 #'   - Project is already a Git repo
-#'   - Current branch is `master`
+#'   - Current branch is the default branch, e.g. `master` or `main`
 #'   - No uncommitted changes
 #'   - No pre-existing `origin` remote
 #' * Creates an associated repo on GitHub
@@ -12,8 +12,8 @@
 #' * Offers to commit changes, e.g. the addition of GitHub links to the
 #'   URL and BugReports fields of DESCRIPTION
 #' * Makes an initial push to GitHub
-#' * Configures `origin/master` to be the upstream branch of the local `master`
-#'   branch
+#' * Configures `origin/DEFAULT` to be the upstream branch of the local
+#'   `DEFAULT` branch, e.g. `master` or `main`
 #'
 #' See the Authentication section below for general setup that is necessary for
 #' all of this to work.

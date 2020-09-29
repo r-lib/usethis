@@ -139,8 +139,9 @@ create_project <- function(path,
 #'   If you can't push, we do fork-and-clone and other setup:
 #'   * The source repo is configured as the `upstream` remote, using the
 #'     indicated `protocol`.
-#'   * The `master` branch is set to track `upstream/master`. It is also
-#'     immediately, to cover the case of a pre-existing, out-of-date fork.
+#'   * The local `DEFAULT` branch is set to track `upstream/DEFAULT`, where
+#'     `DEFAULT` is typically `master` or `main`. It is also immediately
+#'     pulled, to cover the case of a pre-existing, out-of-date fork.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'   Defaults to `TRUE` if in an RStudio session and project has no

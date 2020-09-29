@@ -34,8 +34,9 @@ If you can't push, we do fork-and-clone and other setup:
 \itemize{
 \item The source repo is configured as the \code{upstream} remote, using the
 indicated \code{protocol}.
-\item The \code{master} branch is set to track \code{upstream/master}. It is also
-immediately, to cover the case of a pre-existing, out-of-date fork.
+\item The local \code{DEFAULT} branch is set to track \code{upstream/DEFAULT}, where
+\code{DEFAULT} is typically \code{master} or \code{main}. It is also immediately
+pulled, to cover the case of a pre-existing, out-of-date fork.
 }}
 
 \item{rstudio}{Initiate an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}?
