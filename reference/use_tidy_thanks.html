@@ -55,12 +55,11 @@
 <meta property="og:title" content="Identify contributors via GitHub activity — use_tidy_thanks" />
 <meta property="og:description" content="Derives a list of GitHub usernames, based on who has opened issues or pull
 requests. Used to populate the acknowledgment section of package release blog
-posts at https://www.tidyverse.org/blog/. All arguments can potentially
-be determined from the active project, if the project follows standard
-practices around the GitHub remote and GitHub releases. Unexported helper
-functions, releases() and ref_df() can be useful interactively to get a
-quick look at release tag names and a data frame about refs (defaulting to
-releases), respectively." />
+posts at https://www.tidyverse.org/blog/. If no arguments are given, we
+retrieve all contributors to the active project since it's last (GitHub)
+release. Unexported helper functions, releases() and ref_df() can be
+useful interactively to get a quick look at release tag names and a data
+frame about refs (defaulting to releases), respectively." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -194,12 +193,11 @@ releases), respectively." />
     <div class="ref-description">
     <p>Derives a list of GitHub usernames, based on who has opened issues or pull
 requests. Used to populate the acknowledgment section of package release blog
-posts at <a href='https://www.tidyverse.org/blog/'>https://www.tidyverse.org/blog/</a>. All arguments can potentially
-be determined from the active project, if the project follows standard
-practices around the GitHub remote and GitHub releases. Unexported helper
-functions, <code>releases()</code> and <code>ref_df()</code> can be useful interactively to get a
-quick look at release tag names and a data frame about refs (defaulting to
-releases), respectively.</p>
+posts at <a href='https://www.tidyverse.org/blog/'>https://www.tidyverse.org/blog/</a>. If no arguments are given, we
+retrieve all contributors to the active project since it's last (GitHub)
+release. Unexported helper functions, <code>releases()</code> and <code>ref_df()</code> can be
+useful interactively to get a quick look at release tag names and a data
+frame about refs (defaulting to releases), respectively.</p>
     </div>
 
     <pre class="usage"><span class='fu'>use_tidy_thanks</span><span class='op'>(</span>repo_spec <span class='op'>=</span> <span class='cn'>NULL</span>, from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
@@ -209,15 +207,18 @@ releases), respectively.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>repo_spec</th>
-      <td><p>GitHub repo specification in this form: <code>owner/repo</code>.
-Default is to infer from Git remotes of active project.</p></td>
+      <td><p>Optional GitHub repo specification in this form:
+<code>owner/repo</code>. By default, this is inferred from the Git remotes of the
+active project. The host is always assumed to be github.com.</p></td>
     </tr>
     <tr>
       <th>from, to</th>
       <td><p>GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
-ISO 8601 format, specifying the start or end of the interval of interest.
-Examples: "08a560d", "v1.3.0", "2018-02-24T00:13:45Z", "2018-05-01". <code>NULL</code>
-means there is no bound on that end of the interval.</p></td>
+ISO 8601 format, specifying the start or end of the interval of interest,
+in the sense of <code>[from, to]</code>. Examples: "08a560d", "v1.3.0",
+"2018-02-24T00:13:45Z", "2018-05-01". When <code>from = NULL, to = NULL</code>, we set
+<code>from</code> to the timestamp of the most recent (GitHub) release. Otherwise,
+<code>NULL</code> means "no bound".</p></td>
     </tr>
     </table>
 
@@ -231,13 +232,13 @@ means there is no bound on that end of the interval.</p></td>
 <span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'>## active project, interval = since a specific datetime</span>
-<span class='fu'>use_tidy_thanks</span><span class='op'>(</span>from <span class='op'>=</span> <span class='st'>"2018-02-24T00:13:45Z"</span><span class='op'>)</span>
+<span class='fu'>use_tidy_thanks</span><span class='op'>(</span>from <span class='op'>=</span> <span class='st'>"2020-07-24T00:13:45Z"</span><span class='op'>)</span>
 
-<span class='co'>## r-lib/usethis, inteval = since a certain date</span>
-<span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span>, from <span class='op'>=</span> <span class='st'>"2018-05-01"</span><span class='op'>)</span>
+<span class='co'>## r-lib/usethis, interval = since a certain date</span>
+<span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span>, from <span class='op'>=</span> <span class='st'>"2020-08-01"</span><span class='op'>)</span>
 
 <span class='co'>## r-lib/usethis, up to a specific release</span>
-<span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span>, from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='st'>"v1.3.0"</span><span class='op'>)</span>
+<span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span>, from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='st'>"v1.1.0"</span><span class='op'>)</span>
 
 <span class='co'>## r-lib/usethis, since a specific commit, up to a specific date</span>
 <span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span>, from <span class='op'>=</span> <span class='st'>"08a560d"</span>, to <span class='op'>=</span> <span class='st'>"2018-05-14"</span><span class='op'>)</span>

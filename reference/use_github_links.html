@@ -54,9 +54,16 @@
 
 <meta property="og:title" content="Use GitHub links in URL and BugReports — use_github_links" />
 <meta property="og:description" content="Populates the URL and BugReports fields of a GitHub-using R package with
-appropriate links. The ability to determine the correct URLs depends on
-finding a fairly standard GitHub remote configuration (origin only or
-origin plus upstream)." />
+appropriate links. The GitHub repo to link to is determined from the current
+project's GitHub remotes:
+If we are not working with a fork, this function expects origin to be a
+GitHub remote and the links target that repo.
+If we are working in a fork, this function expects to find two GitHub
+remotes: origin (the fork) and upstream (the fork's parent) remote. In
+an interactive session, the user can confirm which repo to use for the
+links. In a noninteractive session, links are formed using upstream.
+
+" />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -189,25 +196,33 @@ origin plus upstream)." />
 
     <div class="ref-description">
     <p>Populates the <code>URL</code> and <code>BugReports</code> fields of a GitHub-using R package with
-appropriate links. The ability to determine the correct URLs depends on
-finding a fairly standard GitHub remote configuration (<code>origin</code> only or
-<code>origin</code> plus <code>upstream</code>).</p>
+appropriate links. The GitHub repo to link to is determined from the current
+project's GitHub remotes:</p><ul>
+<li><p>If we are not working with a fork, this function expects <code>origin</code> to be a
+GitHub remote and the links target that repo.</p></li>
+<li><p>If we are working in a fork, this function expects to find two GitHub
+remotes: <code>origin</code> (the fork) and <code>upstream</code> (the fork's parent) remote. In
+an interactive session, the user can confirm which repo to use for the
+links. In a noninteractive session, links are formed using <code>upstream</code>.</p></li>
+</ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>use_github_links</span><span class='op'>(</span>auth_token <span class='op'>=</span> <span class='fu'><a href='create_github_token.html'>github_token</a></span><span class='op'>(</span><span class='op'>)</span>, host <span class='op'>=</span> <span class='cn'>NULL</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>use_github_links</span><span class='op'>(</span>
+  auth_token <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>,
+  host <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>,
+  overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>auth_token</th>
-      <td><p>GitHub personal access token (PAT).</p></td>
-    </tr>
-    <tr>
-      <th>host</th>
-      <td><p>GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".</p></td>
+      <th>host, auth_token</th>
+      <td><p><img src='figures/lifecycle-defunct.svg' alt='Defunct lifecycle' />
+: No longer consulted now that
+usethis consults the current project's GitHub remotes to get the <code>host</code> and
+then uses the gitcreds package to obtain a matching token.</p></td>
     </tr>
     <tr>
       <th>overwrite</th>

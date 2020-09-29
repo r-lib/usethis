@@ -285,55 +285,72 @@
 <div id="get-and-store-a-github-personal-access-token" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-and-store-a-github-personal-access-token" class="anchor"></a>Get and store a GitHub personal access token</h2>
-<p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">usethis::use_github()</a></code> and <code><a href="../../reference/create_from_github.html">usethis::create_from_github(..., fork = TRUE)</a></code>. In both cases, usethis must create a new GitHub repository on your behalf. This is <strong>not</strong> a regular Git operation (like pulling and pushing to existing repos) and your usual method of providing credentials to GitHub does not work for this.</p>
-<p>Other functions, such as the <code>pr_*()</code> family, may also use your GitHub PAT for fetch/pull/push if you are using the HTTPS protocol.</p>
+<p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">usethis::use_github()</a></code>, <code><a href="../../reference/create_from_github.html">usethis::create_from_github(..., fork = TRUE)</a></code>, and many other usethis functions that need to create something on GitHub, such as a repo, an issue, or a pull request. Unlike pulling and pushing, these are <strong>not</strong> regular Git operations and your usual GitHub credentials do not necessarily work for this (although they <em>can</em>, if you play your cards right; see below).</p>
+<p>A PAT is separate from your GitHub password, in the username / password sense (but in some cases you <em>can</em> use a PAT as a password; see below). You must create a PAT explicitly.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span>
 <span class="fu"><a href="../../reference/create_github_token.html">create_github_token</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <p><code><a href="../../reference/create_github_token.html">usethis::create_github_token()</a></code> takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on “Generate new token” from <a href="https://github.com/settings/tokens" class="uri">https://github.com/settings/tokens</a>.</p>
 <p>As the page says, you must <strong>store this token somewhere</strong> because you’ll never be able to see it again, once you leave that page or close the window. If you somehow goof this up, just generate a new PAT and, so you don’t confuse yourself, delete the lost token.</p>
-<p>In the moment, I usually copy the PAT to the clipboard for the next step. (I also store this PAT in my general password manager, for redundancy.)</p>
-<p>It is customary to make this PAT available to R sessions as the value of the <code>GITHUB_PAT</code> environment variable. <code><a href="../../reference/create_github_token.html">create_github_token()</a></code> provides advice on how to do this, also repeated here.</p>
+<p>In the moment, I usually copy the PAT to the clipboard for the next step. (I also store this PAT in my general password manager, for redundancy.) But the most useful place to store this PAT is in your Git credential store.</p>
 <div id="git-credential-store" class="section level3">
 <h3 class="hasAnchor">
 <a href="#git-credential-store" class="anchor"></a>Git credential store</h3>
-<p>This is a new approach made possible by the <a href="https://docs.ropensci.org/credentials/">credentials package</a>, which is used for credential handling by the <a href="https://docs.ropensci.org/gert">gert package</a>, which is how usethis does its Git work. The approach is described fully in the rOpenSci tech note <a href="https://ropensci.org/technotes/2020/07/07/github-pat/">A better way to manage your GitHub personal access tokens</a>.</p>
-<p><code><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">credentials::set_github_pat()</a></code> triggers a prompt where you can register your PAT with your operating system’s Git credential store. That’s something you do once. Or, rather, once per machine, per PAT.</p>
-<p>From then on, executing <code><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">credentials::set_github_pat()</a></code> will cause that existing PAT to be re-validated and, assuming that succeeds, assigned to the <code>GITHUB_PAT</code> environment variable. You might put this in your <code>.Rprofile</code> startup file (remember <code><a href="../../reference/edit.html">edit_r_profile()</a></code> helps you get this file open for editing):</p>
+<div id="gert-and-credentials" class="section level4">
+<h4 class="hasAnchor">
+<a href="#gert-and-credentials" class="anchor"></a>gert and credentials</h4>
+<p>The <a href="https://docs.ropensci.org/credentials/">credentials package</a> is the first R package to interact with the Git credential store from R. It is used for credential handling by the <a href="https://docs.ropensci.org/gert">gert package</a>, which is how usethis does its Git work, and this is a big motivation for using gert. The rOpenSci tech note <a href="https://ropensci.org/technotes/2020/07/07/github-pat/">A better way to manage your GitHub personal access tokens</a> lays out the basic approach.</p>
+<p><code><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">credentials::set_github_pat()</a></code> triggers a prompt where you can provide a PAT for github.com. The credentials package then validates it and registers it with your operating system’s Git credential store. This is something you do once. Or, rather, once per machine, per PAT. From that point on, credentials and, therefore, gert and, therefore, usethis should be able to automatically retrieve and use this PAT.</p>
+<p>If you use the HTTPS protocol for Git work (as opposed to SSH), this PAT is the only credential you need to configure. It is sufficient for Git work done by usethis/gert/credentials and for GitHub API work done by usethis/gh/gitcreds (see next section).</p>
+<p><em>At the time of writing, <code><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">credentials::set_github_pat()</a></code> is hard-wired to work with github.com, although this is likely to change.</em></p>
+</div>
+<div id="gh-and-gitcreds" class="section level4">
+<h4 class="hasAnchor">
+<a href="#gh-and-gitcreds" class="anchor"></a>gh and gitcreds</h4>
+<p>One goal of usethis v2.0.0 is to provide support for GitHub Enterprise, i.e. instances of GitHub that are <em>not</em> github.com. Many companies and universities use GitHub Enterprise to have their own internal GitHub. Therefore, all PAT handling in usethis has been generalized to work with any GitHub host, defaulting to github.com.</p>
+<p>usethis accomplishes all of its GitHub API work through the <a href="https://gh.r-lib.org">gh package</a> and gh + usethis rely on the <a href="https://r-lib.github.io/gitcreds/">gitcreds package</a> to lookup the PAT for any given GitHub host.</p>
+<p>Why another package?!? gitcreds is inspired by the <a href="https://docs.ropensci.org/credentials/">credentials package</a>, but offers better support for GitHub deployments that aren’t github.com and for programmatic use from R. (These two packages (credentials and gitcreds) are likely to merge back into one at some point.)</p>
+<p>Here’s how to check if you’ve already stored a token that usethis/gh/gitcreds can find:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="co"># suitable for your .Rprofile</span>
-<span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"credentials"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">credentials</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">set_github_pat</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="op">}</span></pre></div>
-<p>However, note that usethis will soon execute this command for you when it needs the PAT.</p>
+<span class="fu">gitcreds</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html">gitcreds_get</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># default is https://github.com</span>
+
+<span class="co"># or for another GitHub deployment</span>
+<span class="fu">gitcreds</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html">gitcreds_get</a></span><span class="op">(</span><span class="st">"https://github.acme.com"</span><span class="op">)</span></pre></div>
+<p>A github.com PAT stored by <code><a href="https://docs.ropensci.org/credentials/reference/set_github_pat.html">credentials::set_github_pat()</a></code> should be re-discovered. But if you’re using GitHub Enterprise, you almost certainly won’t have a PAT stored yet.</p>
+<p>If you find that you need to store you PAT, do this:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="fu">gitcreds</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html">gitcreds_set</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># default is https://github.com</span>
+
+<span class="co"># or for another GitHub deployment</span>
+<span class="fu">gitcreds</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html">gitcreds_set</a></span><span class="op">(</span><span class="st">"https://github.acme.com"</span><span class="op">)</span></pre></div>
+<p>Once stored properly, both credentials/gert and gitcreds/gh should be using the same PAT. Furthermore, both packages cache the PAT in an environment variable for the duration of the R session, which further facilitates PAT reuse over multiple calls, from multiple packages.</p>
+</div>
 </div>
 <div id="renviron" class="section level3">
 <h3 class="hasAnchor">
 <a href="#renviron" class="anchor"></a><code>.Renviron</code>
 </h3>
-<p>For years, this has been the most common way to make the PAT available. It still works, but is less secure than the approach described just above.</p>
-<p>Here we set the <code>GITHUB_PAT</code> environment variable in the <code>.Renviron</code> file which is consulted at startup. <code><a href="../../reference/edit.html">usethis::edit_r_environ()</a></code> will open <code>.Renviron</code> for editing.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
+<p>In the past, the most common way to make a github.com PAT available in R was to define it as an environment variable in the <code>.Renviron</code> startup file. This still works (since credentials/gert and gitcreds/gh check first for an environment variable), but it is less secure than the approaches described above. It is safer to keep your PAT in the Git credential store and to avoid storing it in plain text, in a regular file.</p>
+<p>If you still want to use the less secure <code>.Renviron</code> method, <code><a href="../../reference/edit.html">usethis::edit_r_environ()</a></code> opens that file for editing.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span>
+
 <span class="fu"><a href="../../reference/edit.html">edit_r_environ</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <p>Add a line like this, <strong>but substitute your PAT</strong>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="va">GITHUB_PAT=</span>8c70fd8419398999c9ac5bacf3192882193cadf2</span></code></pre></div>
-<p>Make sure this file ends in a newline! Lack of a newline can lead to silent failure to load this environment variable, which can be tricky to debug.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a><span class="va">GITHUB_PAT=</span>8c70fd8419398999c9ac5bacf3192882193cadf2</span></code></pre></div>
+<p>Make sure this file ends in a newline! Lack of a newline can lead to silent failure to load startup files, which can be tricky to debug.</p>
 <p>Restart R for this to take effect.</p>
 </div>
 <div id="confirm-your-pat-is-configured" class="section level3">
 <h3 class="hasAnchor">
 <a href="#confirm-your-pat-is-configured" class="anchor"></a>Confirm your PAT is configured</h3>
-<p>Here are ways to confirm your PAT is ready to go. You can execute <code><a href="../../reference/create_github_token.html">usethis::github_token()</a></code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span>
-<span class="fu"><a href="../../reference/create_github_token.html">github_token</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] "v1.9cfd91ef443e1a528789bfc90d41832f151587d7"</span></pre></div>
-<p>You could inspect the <code>GITHUB_PAT</code> environment variable directly:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"GITHUB_PAT"</span><span class="op">)</span></pre></div>
+<p>These functions should reveal a configured PAT:</p>
+<ul>
+<li><code><a href="https://rdrr.io/pkg/gh/man/gh_token.html">gh::gh_token()</a></code></li>
+<li><code><a href="https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html">gitcreds::gitcreds_get()</a></code></li>
+</ul>
 <p>The PAT situation is also part of what’s reported in <code><a href="../../reference/git_sitrep.html">git_sitrep()</a></code>:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
+<div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="fu"><a href="../../reference/git_sitrep.html">git_sitrep</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <p>Now usethis (and several other packages) can find this PAT automatically in order to deal with GitHub on your behalf.</p>
 </div>

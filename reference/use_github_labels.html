@@ -199,17 +199,21 @@ and <code>tidy_label_descriptions()</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>use_github_labels</span><span class='op'>(</span>
-  repo_spec <span class='op'>=</span> <span class='cn'>NULL</span>,
+  repo_spec <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>,
   labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
   rename <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
   colours <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
   descriptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
   delete_default <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  auth_token <span class='op'>=</span> <span class='fu'><a href='create_github_token.html'>github_token</a></span><span class='op'>(</span><span class='op'>)</span>,
-  host <span class='op'>=</span> <span class='cn'>NULL</span>
+  host <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>,
+  auth_token <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span>
 
-<span class='fu'>use_tidy_labels</span><span class='op'>(</span>repo_spec <span class='op'>=</span> <span class='cn'>NULL</span>, auth_token <span class='op'>=</span> <span class='fu'><a href='create_github_token.html'>github_token</a></span><span class='op'>(</span><span class='op'>)</span>, host <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>use_tidy_labels</span><span class='op'>(</span>
+  repo_spec <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>,
+  host <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>,
+  auth_token <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
 
 <span class='fu'>tidy_labels</span><span class='op'>(</span><span class='op'>)</span>
 
@@ -223,8 +227,12 @@ and <code>tidy_label_descriptions()</code>.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>repo_spec</th>
-      <td><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></td>
+      <th>repo_spec, host, auth_token</th>
+      <td><p><img src='figures/lifecycle-defunct.svg' alt='Defunct lifecycle' />
+: These arguments are
+now deprecated and will be removed in the future. Any input provided via
+these arguments is not used. The target repo, host, and auth token are all
+now determined from the current project's Git remotes.</p></td>
     </tr>
     <tr>
       <th>labels</th>
@@ -239,24 +247,13 @@ new names.</p></td>
       <th>colours, descriptions</th>
       <td><p>Named character vectors giving hexadecimal
 colours (like <code>e02a2a</code>) and longer descriptions. The names should match
-label names, and anything unmatched will be left unchanged. If you
-create a new label, and don't supply colours, it will be given a random
-colour.</p></td>
+label names, and anything unmatched will be left unchanged. If you create a
+new label, and don't supply colours, it will be given a random colour.</p></td>
     </tr>
     <tr>
       <th>delete_default</th>
-      <td><p>If <code>TRUE</code>, removes GitHub default labels that do
-not appear in the <code>labels</code> vector and that do not have associated issues.</p></td>
-    </tr>
-    <tr>
-      <th>auth_token</th>
-      <td><p>GitHub personal access token (PAT).</p></td>
-    </tr>
-    <tr>
-      <th>host</th>
-      <td><p>GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".</p></td>
+      <td><p>If <code>TRUE</code>, removes GitHub default labels that do not
+appear in the <code>labels</code> vector and that do not have associated issues.</p></td>
     </tr>
     </table>
 

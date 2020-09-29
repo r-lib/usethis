@@ -226,8 +226,8 @@ all of this to work.</p>
   organisation <span class='op'>=</span> <span class='cn'>NULL</span>,
   private <span class='op'>=</span> <span class='cn'>FALSE</span>,
   protocol <span class='op'>=</span> <span class='fu'><a href='git_protocol.html'>git_protocol</a></span><span class='op'>(</span><span class='op'>)</span>,
-  auth_token <span class='op'>=</span> <span class='fu'><a href='create_github_token.html'>github_token</a></span><span class='op'>(</span><span class='op'>)</span>,
-  host <span class='op'>=</span> <span class='cn'>NULL</span>,
+  host <span class='op'>=</span> <span class='st'>"https://github.com"</span>,
+  auth_token <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>,
   credentials <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
@@ -237,8 +237,10 @@ all of this to work.</p>
     <tr>
       <th>organisation</th>
       <td><p>If supplied, the repo will be created under this
-organisation, instead of the account of the user associated with the
-<code>auth_token</code>. You must have permission to create repositories.</p></td>
+organisation, instead of the login associated with the GitHub token
+discovered for this <code>host</code>. The user's role and the token's scopes must be
+such that you have permission to create repositories in this
+<code>organisation</code>.</p></td>
     </tr>
     <tr>
       <th>private</th>
@@ -252,21 +254,19 @@ or, in non-interactive sessions, <code>"https"</code>. <code>NA</code> triggers 
 menu.</p></td>
     </tr>
     <tr>
-      <th>auth_token</th>
-      <td><p>GitHub personal access token (PAT).</p></td>
-    </tr>
-    <tr>
       <th>host</th>
-      <td><p>GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".</p></td>
+      <td><p>GitHub API host to use. Example for a GitHub Enterprise instance:
+"https://github.acme.com". It is also acceptable to provide the API root
+URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".</p></td>
     </tr>
     <tr>
-      <th>credentials</th>
+      <th>auth_token, credentials</th>
       <td><p><img src='figures/lifecycle-defunct.svg' alt='Defunct lifecycle' />
-: No longer consulted now that usethis
-uses the gert package for Git operations, instead of git2r. Note that gert
-relies on the credentials package for auth.</p></td>
+: No longer consulted now
+that usethis uses the gert package for Git operations, instead of git2r;
+gert relies on the credentials package for auth. The API requests are now
+authorized with the token associated with the <code>host</code>, as retrieved by
+<code><a href='https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html'>gitcreds::gitcreds_get()</a></code>.</p></td>
     </tr>
     </table>
 
