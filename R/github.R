@@ -55,8 +55,7 @@ use_github <- function(organisation = NULL,
                        auth_token = deprecated(),
                        credentials = deprecated()) {
   check_uses_git()
-  # TODO: honor default_branch
-  check_branch("master")
+  check_default_branch()
   check_no_uncommitted_changes()
   check_no_origin()
 
@@ -148,13 +147,30 @@ use_github <- function(organisation = NULL,
     }
   }
 
-  # TODO: honor default_branch
+  default_branch <- git_branch_default()
+  remref <- glue("origin/{default_branch}")
   ui_done("
-    Pushing {ui_value('master')} branch to GitHub and setting \\
-    {ui_value('origin/master')} as upstream branch")
+    Pushing {ui_value(default_branch)} branch to GitHub and setting \\
+    {ui_value(remref)} as upstream branch")
+  gert::git_push(
+    remote = "origin",
+    set_upstream = TRUE,
+    repo = git_repo(),
+    verbose = FALSE
+  )
 
-  # TODO: set verbose = FALSE here before release
-  gert::git_push(remote = "origin", set_upstream = TRUE, repo = git_repo())
+  gbl <- gert::git_branch_list(repo = git_repo())
+  gbl <- gbl[gbl$local, ]
+  if (nrow(gbl) > 1) {
+    ui_done("
+      Setting {ui_value(default_branch)} as default branch on GitHub")
+    gh::gh(
+      "PATCH /repos/{owner}/{repo}",
+      owner = owner, repo = repo_name,
+      default_branch = default_branch,
+      .api_url = api_url, .token = auth_token
+    )
+  }
 
   invisible()
 }
