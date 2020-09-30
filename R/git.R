@@ -224,6 +224,21 @@ choose_protocol <- function() {
   }
 }
 
+#' Determine default Git branch
+#'
+#' Figure out what the default or base branch of the current Git repo is.
+#'
+#' @return A branch name
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' git_branch_default()
+#' }
+git_branch_default <- function() {
+  "master"
+}
+
 #' Configure and report Git remotes
 #'
 #' Two helpers are available:
