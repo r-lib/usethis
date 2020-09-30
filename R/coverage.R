@@ -47,15 +47,15 @@ use_covr_ignore <- function(files) {
 }
 
 use_codecov_badge <- function(repo_spec) {
-  # TODO: honor default branch
-  url <- glue("https://codecov.io/gh/{repo_spec}?branch=master")
-  img <- glue("https://codecov.io/gh/{repo_spec}/branch/master/graph/badge.svg")
+  default_branch <- git_branch_default()
+  url <- glue("https://codecov.io/gh/{repo_spec}?branch={default_branch}")
+  img <- glue("https://codecov.io/gh/{repo_spec}/branch/{default_branch}/graph/badge.svg")
   use_badge("Codecov test coverage", url, img)
 }
 
 use_coveralls_badge <- function(repo_spec) {
-  # TODO: honor default branch
-  url <- glue("https://coveralls.io/r/{repo_spec}?branch=master")
+  default_branch <- git_branch_default()
+  url <- glue("https://coveralls.io/r/{repo_spec}?branch={default_branch}")
   img <- glue("https://coveralls.io/repos/github/{repo_spec}/badge.svg")
   use_badge("Coveralls test coverage", url, img)
 }
