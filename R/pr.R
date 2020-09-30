@@ -170,13 +170,9 @@ pr_init <- function(branch) {
     }
   }
 
-  base_branch <- git_branch()
-  # TODO: honor default branch
-  if (base_branch != "master") {
-    if (ui_nope("Create local PR branch with non-master parent?")) {
-      return(invisible(FALSE))
-    }
-  }
+  challenge_non_default_branch(
+    "Are you sure you want to create a PR branch based on a non-default branch?"
+  )
 
   if (!is.na(git_branch_tracking(base_branch))) {
     comparison <- git_branch_compare(base_branch)

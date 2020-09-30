@@ -141,8 +141,9 @@ use_github_release <- function(host = deprecated(),
       is required to draft a release.")
   }
 
-  # TODO: if not on master / default branch, should we ask user if they really
-  # want to do this?
+  challenge_non_default_branch(
+    "Are you sure you want to create a release on a non-default branch?"
+  )
   check_branch_pushed()
 
   path <- proj_path("NEWS.md")

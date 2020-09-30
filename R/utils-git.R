@@ -247,6 +247,21 @@ check_branch <- function(branch) {
     Must be on branch {ui_value(branch)}, not {ui_value(actual)}.")
 }
 
+challenge_non_default_branch <- function(details = "Are you sure you want to proceed?") {
+  base_branch <- git_branch()
+  default_branch <- git_branch_default()
+  if (nzchar(details)) {
+    details <- paste0("\n", details)
+  }
+  if (base_branch != default_branch) {
+    if (ui_nope("
+      Current branch ({ui_value(base_branch)}) is not repo's default \\
+      branch ({ui_value(default_branch)}){details}")) {
+      ui_stop("Aborting")
+    }
+  }
+}
+
 # examples of remref: upstream/master, origin/foofy
 check_branch_up_to_date <- function(direction = c("pull", "push"),
                                     remref = NULL,
