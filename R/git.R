@@ -252,7 +252,7 @@ git_branch_default <- function() {
   branch_candidates <- purrr::discard(gb[usual_suspects_branchname], is.na)
 
   if (length(branch_candidates) == 1) {
-    return(branch_candidates)
+    return(branch_candidates[[1]])
   }
   # either 0 or >=2 of the usual suspects are present
 
