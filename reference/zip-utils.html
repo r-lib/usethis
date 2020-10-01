@@ -210,8 +210,8 @@ actually be able to find them. The underlying helpers are documented in
     <tr>
       <th>url</th>
       <td><p>Link to a ZIP file containing the materials. To reduce the chance
-of typos in live settings, these shorter forms are accepted:</p><pre>* GitHub repo spec: "OWNER/REPO". Auto-expands to
-  `https://github.com/r-lib/OWNER/REPO/master.zip`.
+of typos in live settings, these shorter forms are accepted:</p><pre>* GitHub repo spec: "OWNER/REPO". Equivalent to
+  `https://github.com/r-lib/OWNER/REPO/DEFAULT_BRANCH.zip`.
 * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
   The instructor must then arrange for the shortlink to point to a valid
   download URL for the target ZIP file. The helper
@@ -265,10 +265,11 @@ default, and allows <code>cleanup</code> behaviour to be specified.</p></li>
 <span class='co'># download the source of rematch2 package from CRAN</span>
 <span class='fu'>use_course</span><span class='op'>(</span><span class='st'>"https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zip"</span><span class='op'>)</span>
 
-<span class='co'># download the source of rematch2 package from GitHub, 3 ways</span>
+<span class='co'># download the source of rematch2 package from GitHub, 4 ways</span>
 <span class='fu'>use_course</span><span class='op'>(</span><span class='st'>"r-lib/rematch2"</span><span class='op'>)</span>
-<span class='fu'>use_course</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/rematch2/archive/master.zip"</span><span class='op'>)</span>
+<span class='fu'>use_course</span><span class='op'>(</span><span class='st'>"https://api.github.com/repos/r-lib/rematch2/zipball/HEAD"</span><span class='op'>)</span>
 <span class='fu'>use_course</span><span class='op'>(</span><span class='st'>"https://api.github.com/repos/r-lib/rematch2/zipball/master"</span><span class='op'>)</span>
+<span class='fu'>use_course</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/rematch2/archive/master.zip"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

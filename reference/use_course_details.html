@@ -266,8 +266,12 @@ button. Capture this URL, which will have this form:</p><pre>https://github.com/
 
 <p>This download link (or a shortlink that points to it) is suitable as input
 for <code>tidy_download()</code>. After one or more redirections, this link will
-eventually lead to a download URL. Here's an alternative link that also leads
-to ZIP download, albeit with a different filenaming scheme:</p><pre>https://api.github.com/repos/r-lib/usethis/zipball/master
+eventually lead to a download URL. Here are other links that also lead to
+ZIP download, albeit with a different filenaming scheme (REF could be a
+branch name, a tag, or a SHA):</p><pre>https://github.com/github.com/r-lib/usethis/zipball/HEAD
+https://api.github.com/repos/r-lib/rematch2/zipball/REF
+https://api.github.com/repos/r-lib/rematch2/zipball/HEAD
+https://api.github.com/repos/r-lib/usethis/zipball/REF
 </pre>
 
 <p>You can use <code>create_download_url()</code> to create the "Download ZIP" URL from
@@ -327,8 +331,8 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
 <span class='op'>}</span>
 <span class='co'># GitHub</span>
 <span class='fu'>create_download_url</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/usethis"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; https://github.com/r-lib/usethis/archive/master.zip</div><div class='input'><span class='fu'>create_download_url</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/usethis/issues"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; https://github.com/r-lib/usethis/archive/master.zip</div><div class='input'>
+</div><div class='output co'>#&gt; https://github.com/r-lib/usethis/zipball/HEAD</div><div class='input'><span class='fu'>create_download_url</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/usethis/issues"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; https://github.com/r-lib/usethis/zipball/HEAD</div><div class='input'>
 <span class='co'># DropBox</span>
 <span class='fu'>create_download_url</span><span class='op'>(</span><span class='st'>"https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1"</div><div class='input'>

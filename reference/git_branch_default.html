@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>README badges — badges • usethis</title>
+<title>Determine default Git branch — git_branch_default • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,13 +52,8 @@
 
 
 
-<meta property="og:title" content="README badges — badges" />
-<meta property="og:description" content="These helpers produce the markdown text you need in your README to include
-badges that report information, such as the CRAN version or test coverage,
-and link out to relevant external resources. To add badges automatically
-ensure your badge block starts with a line containing only
-&amp;lt;!-- badges: start --&amp;gt; and ends with a line containing only
-&amp;lt;!-- badges: end --&amp;gt;." />
+<meta property="og:title" content="Determine default Git branch — git_branch_default" />
+<meta property="og:description" content="Figure out the default branch of the current Git repo." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -184,91 +179,25 @@ ensure your badge block starts with a line containing only
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>README badges</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/badge.R'><code>R/badge.R</code></a></small>
-    <div class="hidden name"><code>badges.Rd</code></div>
+    <h1>Determine default Git branch</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/git.R'><code>R/git.R</code></a></small>
+    <div class="hidden name"><code>git_branch_default.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>These helpers produce the markdown text you need in your README to include
-badges that report information, such as the CRAN version or test coverage,
-and link out to relevant external resources. To add badges automatically
-ensure your badge block starts with a line containing only
-<code>&lt;!-- badges: start --&gt;</code> and ends with a line containing only
-<code>&lt;!-- badges: end --&gt;</code>.</p>
+    <p>Figure out the default branch of the current Git repo.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_badge</span><span class='op'>(</span><span class='va'>badge_name</span>, <span class='va'>href</span>, <span class='va'>src</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>git_branch_default</span><span class='op'>(</span><span class='op'>)</span></pre>
 
-<span class='fu'>use_cran_badge</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>use_bioc_badge</span><span class='op'>(</span><span class='op'>)</span>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-<span class='fu'>use_lifecycle_badge</span><span class='op'>(</span><span class='va'>stage</span><span class='op'>)</span>
-
-<span class='fu'>use_binder_badge</span><span class='op'>(</span>ref <span class='op'>=</span> <span class='fu'><a href='git_branch_default.html'>git_branch_default</a></span><span class='op'>(</span><span class='op'>)</span>, urlpath <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>badge_name</th>
-      <td><p>Badge name. Used in error message and alt text</p></td>
-    </tr>
-    <tr>
-      <th>href, src</th>
-      <td><p>Badge link and image src</p></td>
-    </tr>
-    <tr>
-      <th>stage</th>
-      <td><p>Stage of the package lifecycle</p></td>
-    </tr>
-    <tr>
-      <th>ref</th>
-      <td><p>A Git branch, tag, or SHA</p></td>
-    </tr>
-    <tr>
-      <th>urlpath</th>
-      <td><p>An optional <code>urlpath</code> component to add to the link, e.g.
-<code>"rstudio"</code> to open an RStudio IDE instead of a Jupyter notebook. See the
-<a href='https://mybinder.readthedocs.io/en/latest/howto/user_interface.html'>binder documentation</a>
-for additional examples.</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-<ul>
-<li><p><code>use_badge()</code>: a general helper used in all badge functions</p></li>
-<li><p><code>use_bioc_badge()</code>: badge indicates <a href='https://bioconductor.org/developers/'>BioConductor build status</a></p></li>
-<li><p><code>use_cran_badge()</code>: badge indicates what version of your package is
-available on CRAN, powered by <a href='https://www.r-pkg.org'>https://www.r-pkg.org</a></p></li>
-<li><p><code>use_lifecycle_badge()</code>: badge declares the developmental stage of a
-package (or argument or function) according to
-<a href='https://lifecycle.r-lib.org/articles/lifecycle.html'>https://lifecycle.r-lib.org/articles/lifecycle.html</a>:</p><ul>
-<li><p>Experimental</p></li>
-<li><p>Maturing</p></li>
-<li><p>Stable</p></li>
-<li><p>Questioning</p></li>
-<li><p>Superseded</p></li>
-<li><p>Soft-deprecated (function or argument)</p></li>
-<li><p>Deprecated (function or argument)</p></li>
-<li><p>Defunct (function or argument)</p></li>
-</ul></li>
-<li><p><code>use_binder_badge()</code>: badge indicates that your repository can be launched
-in an executable environment on <a href='https://mybinder.org/'>https://mybinder.org/</a></p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Functions that configure continuous integration, such as
-<code><a href='github_actions.html'>use_github_actions()</a></code>, also create badges.</p></div>
+    <p>A branch name</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>use_cran_badge</span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>use_lifecycle_badge</span><span class='op'>(</span><span class='st'>"stable"</span><span class='op'>)</span>
+<span class='fu'>git_branch_default</span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
