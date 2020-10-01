@@ -60,6 +60,8 @@ There is increasing interest in making the name of a repo's default branch confi
 
 `git_branch_default()` is a newly exported function that is also what's used internally.
 
+`use_course()`, `use_zip()`, and `create_download_url()` all have some support for forming the URL to download a `.zip` archive of a repo, based on a repo specification (e.g. `OWNER/REPO`) or a browser URL. These helpers now form a URL that targets `HEAD` of the repo, i.e. the default branch.
+
 ## Changes to behaviour of Git/GitHub-related functions
 
 `pr_finish()` deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150).
