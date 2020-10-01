@@ -10,7 +10,7 @@ git_branch_default()
 A branch name
 }
 \description{
-Figure out what the default or base branch of the current Git repo is.
+Figure out the default branch of the current Git repo.
 }
 \examples{
 \dontrun{

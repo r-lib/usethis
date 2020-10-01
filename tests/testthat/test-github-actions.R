@@ -108,13 +108,11 @@ test_that("use_tidy_github_actions() configures the full check and pr commands",
 
   create_local_package()
   use_git()
+  gert::git_add(".gitignore", repo = git_repo())
+  gert::git_commit("a commit, so we are not on an unborn branch", repo = git_repo())
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
   use_readme_md()
-
-  with_mock(
-    `usethis:::target_repo_spec` = function() "OWNER/REPO",
-    use_tidy_github_actions()
-  )
+  use_tidy_github_actions()
 
   expect_proj_file(".github/workflows/R-CMD-check.yaml")
   expect_proj_file(".github/workflows/pr-commands.yaml")
