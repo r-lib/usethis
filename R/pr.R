@@ -174,8 +174,9 @@ pr_init <- function(branch) {
     "Are you sure you want to create a PR branch based on a non-default branch?"
   )
 
-  if (!is.na(git_branch_tracking(base_branch))) {
-    comparison <- git_branch_compare(base_branch)
+  current_branch <- git_branch()
+  if (!is.na(git_branch_tracking(current_branch))) {
+    comparison <- git_branch_compare(current_branch)
     if (comparison$remote_only > 0) {
       check_no_uncommitted_changes(untracked = TRUE)
     }
@@ -362,11 +363,11 @@ pr_merge_main <- function() {
   check_no_uncommitted_changes()
 
   remote <- switch(cfg$type, ours = "origin", fork = "upstream")
-  # TODO: honor default branch
-  branch <- "master"
-  remref <- glue("{remote}/{branch}")
+  remref <- glue("{remote}/{git_branch_default()}")
 
-  ui_done("Pulling in changes from the primary repo {ui_value(remref)}")
+  ui_done("
+    Pulling in changes from default branch of the source repo \\
+    {ui_value(remref)}")
   git_pull(remref, verbose = FALSE)
 }
 
@@ -407,9 +408,9 @@ pr_pause <- function() {
   check_no_uncommitted_changes()
   check_branch_pulled(use = "pr_pull()")
 
-  # TODO: honor default branch
-  ui_done("Switching back to {ui_value('master')} branch")
-  gert::git_branch_checkout("master", repo = git_repo())
+  default_branch <- git_branch_default()
+  ui_done("Switching back to default branch ({ui_value(default_branch)})")
+  gert::git_branch_checkout(default_branch, repo = git_repo())
   pr_pull_source_override()
 }
 
@@ -435,9 +436,9 @@ pr_finish <- function(number = NULL) {
     check_branch_pushed(use = "pr_push()")
   }
 
-  # TODO: honor default branch
-  ui_done("Switching back to {ui_value('master')} branch")
-  gert::git_branch_checkout("master", repo = repo)
+  default_branch <- git_branch_default()
+  ui_done("Switching back to default branch ({ui_value(default_branch)})")
+  gert::git_branch_checkout(default_branch, repo = repo)
   pr_pull_source_override()
 
   if (!has_remote_branch) {
@@ -568,16 +569,17 @@ check_pr_readiness <- function(cfg = NULL) {
   stop_unsupported_pr_config(cfg)
 }
 
-# TODO: honor default branch
 check_pr_branch <- function() {
-  if (git_branch() != "master") {
-    return()
+  default_branch <- git_branch_default()
+  if (git_branch() != default_branch) {
+    return(invisible())
   }
   ui_stop("
     The {ui_code('pr_*()')} functions facilitate pull requests.
-    The current branch is {ui_value('master')}, but pull requests should not \\
-    come from the {ui_value('master')} branch.
-    Do you need to call {ui_code('pr_init()')}?")
+    The current branch ({ui_value(default_branch)}) is this repo's default \\
+    branch, but pull requests should NOT come from the default branch.
+    Do you need to call {ui_code('pr_init()')} (new PR)?
+    Or {ui_code('pr_resume()')} or {ui_code('pr_fetch()')} (existing PR)?")
 }
 
 # Make sure to pull from upstream/master (as opposed to origin/master) if we're
@@ -585,9 +587,9 @@ check_pr_branch <- function() {
 # branch in the primary repo, but this protects us against sub-optimal setup.
 pr_pull_source_override <- function() {
   tr <- target_repo(ask = FALSE)
-  # TODO: honor default branch
-  if (tr$remote == "upstream" && git_branch() == "master") {
-    remref <- "upstream/master"
+  default_branch <- git_branch_default()
+  if (tr$remote == "upstream" && git_branch() == default_branch) {
+    remref <- glue("upstream/{default_branch}")
   } else {
     remref <- NULL
   }
