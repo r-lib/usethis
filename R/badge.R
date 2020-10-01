@@ -123,13 +123,14 @@ stages <- c(
 )
 
 #' @rdname badges
+#' @param ref A Git branch, tag, or SHA
 #' @param urlpath An optional `urlpath` component to add to the link, e.g.
 #'   `"rstudio"` to open an RStudio IDE instead of a Jupyter notebook. See the
 #'   [binder
 #'   documentation](https://mybinder.readthedocs.io/en/latest/howto/user_interface.html)
 #'    for additional examples.
 #' @export
-use_binder_badge <- function(urlpath = NULL) {
+use_binder_badge <- function(ref = git_branch_default(), urlpath = NULL) {
   repo_spec <- target_repo_spec()
 
   if (is.null(urlpath)) {
@@ -137,7 +138,7 @@ use_binder_badge <- function(urlpath = NULL) {
   } else {
     urlpath <- glue("?urlpath={urlpath}")
   }
-  url <- glue("https://mybinder.org/v2/gh/{repo_spec}/master{urlpath}")
+  url <- glue("https://mybinder.org/v2/gh/{repo_spec}/{ref}{urlpath}")
   img <- "https://mybinder.org/badge_logo.svg"
   use_badge("Launch binder", url, img)
 

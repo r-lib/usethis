@@ -56,17 +56,19 @@ The switch to gert + credentials should eliminate most credential-finding fiasco
 
 ## Default branch
 
-There is increasing interest in making the name of a repo's default branch configurable. In principle, this is already possible, but in reality many Git tools have `master` hard-wired in various places and usethis is no exception. We are laying the groundwork to respect a repository-specific default branch in a future release. It remains to be seen if some standard will emerge for where to record this info or if usethis needs to track it in a custom Git configuration field.
+There is increasing interest in making the name of a repo's default branch configurable. Specifically, `main` is emerging as a popular alternative to `master`. Usethis now discovers the current repo's default branch and uses that everywhere that, previously, we had hard-wired `master`.
 
-*TODO: Summarize current level of prep or support of non-`master` default branch.*
+`git_branch_default()` is a newly exported function that is also what's used internally.
+
+`use_course()`, `use_zip()`, and `create_download_url()` all have some support for forming the URL to download a `.zip` archive of a repo, based on a repo specification (e.g. `OWNER/REPO`) or a browser URL. These helpers now form a URL that targets `HEAD` of the repo, i.e. the default branch.
 
 ## Changes to behaviour of Git/GitHub-related functions
 
 `pr_finish()` deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150).
 
-`pr_pull_upstream()` is renamed to `pr_merge_main()` to emphasize that it merges the **main** line of development into the current branch, where the main line of development is taken to mean the default branch of the source repo (which could be either `upstream` or `origin`, depending on the situation). The default branch is still hard-coded as `master`, but this will become configurable in a future release (see above).
+`pr_pull_upstream()` is renamed to `pr_merge_main()` to emphasize that it merges the **main** line of development into the current branch, where the main line of development is taken to mean the default branch, as reported by `git_branch_default()`, of the source repo, which could be either `upstream` or `origin`, depending on the situation.
 
-`create_from_github()` alerts the user when it is going to create a read-only clone, due to lack of a GitHub personal access token, when it seems likely that the user's intent is to fork-and-clone.
+`create_from_github()` will only create a read-only clone, due to lack of a GitHub personal access token, if explicitly directed to do so via `fork = FALSE`.
 
 `pr_fetch()` no longer has an `owner` argument. This is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.
 

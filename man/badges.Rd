@@ -17,7 +17,7 @@ use_bioc_badge()
 
 use_lifecycle_badge(stage)
 
-use_binder_badge(urlpath = NULL)
+use_binder_badge(ref = git_branch_default(), urlpath = NULL)
 }
 \arguments{
 \item{badge_name}{Badge name. Used in error message and alt text}
@@ -25,6 +25,8 @@ use_binder_badge(urlpath = NULL)
 \item{href, src}{Badge link and image src}
 
 \item{stage}{Stage of the package lifecycle}
+
+\item{ref}{A Git branch, tag, or SHA}
 
 \item{urlpath}{An optional \code{urlpath} component to add to the link, e.g.
 \code{"rstudio"} to open an RStudio IDE instead of a Jupyter notebook. See the

@@ -76,8 +76,12 @@ button. Capture this URL, which will have this form:\preformatted{https://github
 
 This download link (or a shortlink that points to it) is suitable as input
 for \code{tidy_download()}. After one or more redirections, this link will
-eventually lead to a download URL. Here's an alternative link that also leads
-to ZIP download, albeit with a different filenaming scheme:\preformatted{https://api.github.com/repos/r-lib/usethis/zipball/master
+eventually lead to a download URL. Here are other links that also lead to
+ZIP download, albeit with a different filenaming scheme (REF could be a
+branch name, a tag, or a SHA):\preformatted{https://github.com/github.com/r-lib/usethis/zipball/HEAD
+https://api.github.com/repos/r-lib/rematch2/zipball/REF
+https://api.github.com/repos/r-lib/rematch2/zipball/HEAD
+https://api.github.com/repos/r-lib/usethis/zipball/REF
 }
 
 You can use \code{create_download_url()} to create the "Download ZIP" URL from

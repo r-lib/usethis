@@ -96,11 +96,12 @@ protocol (HTTPS vs SSH) is determined by the protocol used for \code{origin}.
 To contribute to a package, first use \code{create_from_github("OWNER/REPO", fork = TRUE)} to fork the source repository, and then check out a local copy.
 
 Next use \code{pr_init()} to create a branch for your PR. It is best practice to
-never make commits to the \code{master} (or default) branch of a fork, because you
-do not own it. A pull request should always come from a feature branch. It
-will be much easier to pull upstream changes from the fork parent if you only
-allow yourself to work in feature branches. It is also much easier for a
-maintainer to explore and extend your PR if you create a feature branch.
+never make commits to the default branch branch of a fork (usually named
+\code{main} or \code{master}), because you do not own it. A pull request should always
+come from a feature branch. It will be much easier to pull upstream changes
+from the fork parent if you only allow yourself to work in feature branches.
+It is also much easier for a maintainer to explore and extend your PR if you
+create a feature branch.
 
 Work locally, in your branch, making changes to files, and committing your
 work. Once you're ready to create the PR, run \code{pr_push()} to push your local
@@ -118,11 +119,12 @@ then run \code{pr_push()} to update your PR.
 It's also possible that the maintainer will contribute some code to your PR:
 to get those changes back onto your computer, run \code{pr_pull()}. It can also
 happen that other changes have occurred in the package since you first
-created your PR. You might need to merge the \code{master} (or default) branch
-into your PR branch. Do that by running \code{pr_merge_main()}: this makes sure
-that your PR is compatible with the primary repo's main line of development.
-Both \code{pr_pull()} and \code{pr_merge_main()} can result in merge conflicts, so
-be prepared to resolve before continuing.
+created your PR. You might need to merge the default branch (usually named
+\code{main} or \code{master}) into your PR branch. Do that by running
+\code{pr_merge_main()}: this makes sure that your PR is compatible with the
+primary repo's main line of development. Both \code{pr_pull()} and
+\code{pr_merge_main()} can result in merge conflicts, so be prepared to resolve
+before continuing.
 }
 
 \section{For maintainers}{
@@ -154,24 +156,25 @@ remote changes and, if so, pushes local changes, thereby updating the PR.
 \item \code{pr_pull()}: Pulls changes from the local branch's remote tracking branch.
 If a maintainer has extended your PR, this is how you bring those changes
 back into your local work.
-\item \code{pr_merge_main()}: Pulls changes from the \code{master} branch of the primary
+\item \code{pr_merge_main()}: Pulls changes from the default branch of the primary
 repo into the current local branch. This can be used when the local branch
-is \code{master} or when it's a PR branch.
-\item \code{pr_sync()} = \code{pr_pull() + pr_merge_main() + pr_push()}. In words, grab
-any remote changes in the PR and merge then into your local work. Then
-merge in any changes from \code{master} of the primary repo. Finally, push the
+is the default branch or when it's a PR branch.
+\item \code{pr_sync()} = \code{pr_pull() + pr_merge_main() + pr_push()}. In words, grab any
+remote changes in the PR and merge then into your local work. Then merge in
+any changes from the default branch of the primary repo. Finally, push the
 result of all this back into the PR.
 \item \code{pr_pause()}: Makes sure you're up-to-date with any remote changes in the
-PR. Then switches back to \code{master} and pulls from the primary repo.
+PR. Then switches back to the default branch (usually named \code{main} or
+\code{master}) and pulls from the source repo.
 \item \code{pr_view()}: Visits the PR associated with a branch in the browser. usethis
 records this URL in git config of the local repo.
 \item \code{pr_finish()}: If \code{number} is given, first does \code{pr_fetch(number)}. It's
 assumed the current branch is the PR branch of interest. First, makes sure
-there are no unpushed local changes. Switches back to \code{master} and pulls
-changes from the primary repo. If the PR has been merged and user has
-permission, deletes the remote branch. Deletes the PR branch. If the PR
-came from an external fork, the corresponding remote is deleted, provided
-it's not in use by any other local branches.
+there are no unpushed local changes. Switches back to the default branch
+and pulls changes from the source repo. If the PR has been merged and user
+has permission, deletes the remote branch. Deletes the PR branch. If the
+PR came from an external fork, the corresponding remote is deleted,
+provided it's not in use by any other local branches.
 }
 }
 

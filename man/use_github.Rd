@@ -43,7 +43,7 @@ authorized with the token associated with the \code{host}, as retrieved by
 \item Checks that the initial state is good to go:
 \itemize{
 \item Project is already a Git repo
-\item Current branch is \code{master}
+\item Current branch is the default branch, e.g. \code{master} or \code{main}
 \item No uncommitted changes
 \item No pre-existing \code{origin} remote
 }
@@ -52,8 +52,8 @@ authorized with the token associated with the \code{host}, as retrieved by
 \item Offers to commit changes, e.g. the addition of GitHub links to the
 URL and BugReports fields of DESCRIPTION
 \item Makes an initial push to GitHub
-\item Configures \code{origin/master} to be the upstream branch of the local \code{master}
-branch
+\item Configures \code{origin/DEFAULT} to be the upstream branch of the local
+\code{DEFAULT} branch, e.g. \code{master} or \code{main}
 }
 
 See the Authentication section below for general setup that is necessary for

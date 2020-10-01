@@ -139,8 +139,9 @@ create_project <- function(path,
 #'   If you can't push, we do fork-and-clone and other setup:
 #'   * The source repo is configured as the `upstream` remote, using the
 #'     indicated `protocol`.
-#'   * The `master` branch is set to track `upstream/master`. It is also
-#'     immediately, to cover the case of a pre-existing, out-of-date fork.
+#'   * The local `DEFAULT` branch is set to track `upstream/DEFAULT`, where
+#'     `DEFAULT` is typically `master` or `main`. It is also immediately
+#'     pulled, to cover the case of a pre-existing, out-of-date fork.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'   Defaults to `TRUE` if in an RStudio session and project has no
@@ -232,6 +233,13 @@ create_from_github <- function(repo_spec,
     }
   }
 
+  destdir <- user_path_prep(destdir %||% conspicuous_place())
+  check_path_is_directory(destdir)
+  check_not_nested(destdir, repo_name)
+  repo_path <- path(destdir, repo_name)
+  create_directory(repo_path)
+  check_directory_is_empty(repo_path)
+
   if (fork) {
     ## https://developer.github.com/v3/repos/forks/#create-a-fork
     ui_done("Forking {ui_value(repo_info$full_name)}")
@@ -252,26 +260,22 @@ create_from_github <- function(repo_spec,
     ssh = repo_info$ssh_url
   )
 
-  destdir <- user_path_prep(destdir %||% conspicuous_place())
-  check_path_is_directory(destdir)
-  check_not_nested(destdir, repo_name)
-  repo_path <- path(destdir, repo_name)
-  create_directory(repo_path)
-  check_directory_is_empty(repo_path)
-
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
   gert::git_clone(origin_url, repo_path, verbose = FALSE)
   local_project(repo_path, force = TRUE) # schedule restoration of project
+
+  default_branch <- repo_info$default_branch
+  ui_info("Default branch is {ui_value(default_branch)}")
 
   if (fork) {
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     use_git_remote("upstream", upstream_url)
     pr_merge_main()
-    # TODO: honor default branch
+    upstream_remref <- glue("upstream/{default_branch}")
     ui_done("
-      Setting remote tracking branch for local {ui_value('master')} branch to \\
-      {ui_value('upstream/master')}")
-    gert::git_branch_set_upstream("upstream/master", git_repo())
+      Setting remote tracking branch for local {ui_value(default_branch)} \\
+      branch to {ui_value(upstream_remref)}")
+    gert::git_branch_set_upstream(upstream_remref, git_repo())
     config_key <- glue("remote.upstream.created-by")
     gert::git_config_set(config_key, "usethis::create_from_github", git_repo())
   }

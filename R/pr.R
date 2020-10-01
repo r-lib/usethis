@@ -50,11 +50,12 @@
 #' = TRUE)` to fork the source repository, and then check out a local copy.
 #'
 #' Next use `pr_init()` to create a branch for your PR. It is best practice to
-#' never make commits to the `master` (or default) branch of a fork, because you
-#' do not own it. A pull request should always come from a feature branch. It
-#' will be much easier to pull upstream changes from the fork parent if you only
-#' allow yourself to work in feature branches. It is also much easier for a
-#' maintainer to explore and extend your PR if you create a feature branch.
+#' never make commits to the default branch branch of a fork (usually named
+#' `main` or `master`), because you do not own it. A pull request should always
+#' come from a feature branch. It will be much easier to pull upstream changes
+#' from the fork parent if you only allow yourself to work in feature branches.
+#' It is also much easier for a maintainer to explore and extend your PR if you
+#' create a feature branch.
 #'
 #' Work locally, in your branch, making changes to files, and committing your
 #' work. Once you're ready to create the PR, run `pr_push()` to push your local
@@ -74,11 +75,12 @@
 #' It's also possible that the maintainer will contribute some code to your PR:
 #' to get those changes back onto your computer, run `pr_pull()`. It can also
 #' happen that other changes have occurred in the package since you first
-#' created your PR. You might need to merge the `master` (or default) branch
-#' into your PR branch. Do that by running `pr_merge_main()`: this makes sure
-#' that your PR is compatible with the primary repo's main line of development.
-#' Both `pr_pull()` and `pr_merge_main()` can result in merge conflicts, so
-#' be prepared to resolve before continuing.
+#' created your PR. You might need to merge the default branch (usually named
+#' `main` or `master`) into your PR branch. Do that by running
+#' `pr_merge_main()`: this makes sure that your PR is compatible with the
+#' primary repo's main line of development. Both `pr_pull()` and
+#' `pr_merge_main()` can result in merge conflicts, so be prepared to resolve
+#' before continuing.
 #'
 #' @section For maintainers:
 #' To download a PR locally so that you can experiment with it, run
@@ -111,28 +113,29 @@
 #'   If a maintainer has extended your PR, this is how you bring those changes
 #'   back into your local work.
 
-#' * `pr_merge_main()`: Pulls changes from the `master` branch of the primary
+#' * `pr_merge_main()`: Pulls changes from the default branch of the primary
 #'   repo into the current local branch. This can be used when the local branch
-#'   is `master` or when it's a PR branch.
+#'   is the default branch or when it's a PR branch.
 
-#' * `pr_sync()` = `pr_pull() + pr_merge_main() + pr_push()`. In words, grab
-#'   any remote changes in the PR and merge then into your local work. Then
-#'   merge in any changes from `master` of the primary repo. Finally, push the
-#'   result of all this back into the PR.
+#' * `pr_sync()` = `pr_pull() + pr_merge_main() + pr_push()`. In words, grab any
+#' remote changes in the PR and merge then into your local work. Then merge in
+#' any changes from the default branch of the primary repo. Finally, push the
+#' result of all this back into the PR.
 
 #' * `pr_pause()`: Makes sure you're up-to-date with any remote changes in the
-#'   PR. Then switches back to `master` and pulls from the primary repo.
+#' PR. Then switches back to the default branch (usually named `main` or
+#' `master`) and pulls from the source repo.
 
 #' * `pr_view()`: Visits the PR associated with a branch in the browser. usethis
 #'   records this URL in git config of the local repo.
 
 #' * `pr_finish()`: If `number` is given, first does `pr_fetch(number)`. It's
 #'   assumed the current branch is the PR branch of interest. First, makes sure
-#'   there are no unpushed local changes. Switches back to `master` and pulls
-#'   changes from the primary repo. If the PR has been merged and user has
-#'   permission, deletes the remote branch. Deletes the PR branch. If the PR
-#'   came from an external fork, the corresponding remote is deleted, provided
-#'   it's not in use by any other local branches.
+#'   there are no unpushed local changes. Switches back to the default branch
+#'   and pulls changes from the source repo. If the PR has been merged and user
+#'   has permission, deletes the remote branch. Deletes the PR branch. If the
+#'   PR came from an external fork, the corresponding remote is deleted,
+#'   provided it's not in use by any other local branches.
 #'
 #' @name pull-requests
 NULL
@@ -170,16 +173,13 @@ pr_init <- function(branch) {
     }
   }
 
-  base_branch <- git_branch()
-  # TODO: honor default branch
-  if (base_branch != "master") {
-    if (ui_nope("Create local PR branch with non-master parent?")) {
-      return(invisible(FALSE))
-    }
-  }
+  challenge_non_default_branch(
+    "Are you sure you want to create a PR branch based on a non-default branch?"
+  )
 
-  if (!is.na(git_branch_tracking(base_branch))) {
-    comparison <- git_branch_compare(base_branch)
+  current_branch <- git_branch()
+  if (!is.na(git_branch_tracking(current_branch))) {
+    comparison <- git_branch_compare(current_branch)
     if (comparison$remote_only > 0) {
       check_no_uncommitted_changes(untracked = TRUE)
     }
@@ -366,11 +366,11 @@ pr_merge_main <- function() {
   check_no_uncommitted_changes()
 
   remote <- switch(cfg$type, ours = "origin", fork = "upstream")
-  # TODO: honor default branch
-  branch <- "master"
-  remref <- glue("{remote}/{branch}")
+  remref <- glue("{remote}/{git_branch_default()}")
 
-  ui_done("Pulling in changes from the primary repo {ui_value(remref)}")
+  ui_done("
+    Pulling in changes from default branch of the source repo \\
+    {ui_value(remref)}")
   git_pull(remref, verbose = FALSE)
 }
 
@@ -411,9 +411,9 @@ pr_pause <- function() {
   check_no_uncommitted_changes()
   check_branch_pulled(use = "pr_pull()")
 
-  ui_done("Switching back to {ui_value('master')} branch")
-  # TODO: honor default branch
-  gert::git_branch_checkout("master", repo = git_repo())
+  default_branch <- git_branch_default()
+  ui_done("Switching back to default branch ({ui_value(default_branch)})")
+  gert::git_branch_checkout(default_branch, repo = git_repo())
   pr_pull_source_override()
 }
 
@@ -439,9 +439,9 @@ pr_finish <- function(number = NULL) {
     check_branch_pushed(use = "pr_push()")
   }
 
-  # TODO: honor default branch
-  ui_done("Switching back to {ui_value('master')} branch")
-  gert::git_branch_checkout("master", repo = repo)
+  default_branch <- git_branch_default()
+  ui_done("Switching back to default branch ({ui_value(default_branch)})")
+  gert::git_branch_checkout(default_branch, repo = repo)
   pr_pull_source_override()
 
   if (!has_remote_branch) {
@@ -572,26 +572,28 @@ check_pr_readiness <- function(cfg = NULL) {
   stop_unsupported_pr_config(cfg)
 }
 
-# TODO: honor default branch
 check_pr_branch <- function() {
-  if (git_branch() != "master") {
-    return()
+  default_branch <- git_branch_default()
+  if (git_branch() != default_branch) {
+    return(invisible())
   }
   ui_stop("
     The {ui_code('pr_*()')} functions facilitate pull requests.
-    The current branch is {ui_value('master')}, but pull requests should not \\
-    come from the {ui_value('master')} branch.
-    Do you need to call {ui_code('pr_init()')}?")
+    The current branch ({ui_value(default_branch)}) is this repo's default \\
+    branch, but pull requests should NOT come from the default branch.
+    Do you need to call {ui_code('pr_init()')} (new PR)?
+    Or {ui_code('pr_resume()')} or {ui_code('pr_fetch()')} (existing PR)?")
 }
 
-# Make sure to pull from upstream/master (as opposed to origin/master) if we're
-# in master branch of a fork. I wish everyone set up master to track the master
-# branch in the primary repo, but this protects us against sub-optimal setup.
+# Make sure to pull from upstream/DEFAULT (as opposed to origin/DEFAULT) if
+# we're in DEFAULT branch of a fork. I wish everyone set up DEFAULT to track the
+# DEFAULT branch in the source repo, but this protects us against sub-optimal
+# setup.
 pr_pull_source_override <- function() {
   tr <- target_repo(ask = FALSE)
-  # TODO: honor default branch
-  if (tr$remote == "upstream" && git_branch() == "master") {
-    remref <- "upstream/master"
+  default_branch <- git_branch_default()
+  if (tr$remote == "upstream" && git_branch() == default_branch) {
+    remref <- glue("upstream/{default_branch}")
   } else {
     remref <- NULL
   }

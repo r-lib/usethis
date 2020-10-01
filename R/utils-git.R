@@ -237,14 +237,31 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
 }
 
 # Checks ------------------------------------------------------------------
-check_branch <- function(branch) {
-  ui_done("Checking that current branch is {ui_value(branch)}")
+check_default_branch <- function() {
+  default_branch <- git_branch_default()
+  ui_done("
+    Checking that current branch is default branch ({ui_value(default_branch)})")
   actual <- git_branch()
-  if (actual == branch) {
+  if (actual == default_branch) {
     return(invisible())
   }
   ui_stop("
-    Must be on branch {ui_value(branch)}, not {ui_value(actual)}.")
+    Must be on branch {ui_value(default_branch)}, not {ui_value(actual)}.")
+}
+
+challenge_non_default_branch <- function(details = "Are you sure you want to proceed?") {
+  actual <- git_branch()
+  default_branch <- git_branch_default()
+  if (nzchar(details)) {
+    details <- paste0("\n", details)
+  }
+  if (actual != default_branch) {
+    if (ui_nope("
+      Current branch ({ui_value(actual)}) is not repo's default \\
+      branch ({ui_value(default_branch)}){details}")) {
+      ui_stop("Aborting")
+    }
+  }
 }
 
 # examples of remref: upstream/master, origin/foofy
