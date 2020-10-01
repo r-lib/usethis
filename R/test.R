@@ -5,6 +5,9 @@
 #'
 #' @param edition testthat edition to use. Defaults to the latest edition,
 #'   i.e. the major version number of the currently installed testthat.
+#' @param parallel Should tests be run in parallel? Only supported in testthat
+#'   3.0.0; see <https://testthat.r-lib.org/articles/parallel.html> for
+#'   details and caveats.
 #' @seealso [use_test()] to create individual test files
 #' @export
 #' @examples
@@ -15,8 +18,8 @@
 #'
 #' use_test("something-management")
 #' }
-use_testthat <- function(edition = NULL) {
-  use_testthat_impl(edition)
+use_testthat <- function(edition = NULL, parallel = FALSE) {
+  use_testthat_impl(edition, parallel = parallel)
 
   ui_todo(
     "Call {ui_code('use_test()')} to initialize a basic test file and open it \\
@@ -24,7 +27,7 @@ use_testthat <- function(edition = NULL) {
   )
 }
 
-use_testthat_impl <- function(edition = NULL) {
+use_testthat_impl <- function(edition = NULL, parallel = FALSE) {
   check_installed("testthat")
   if (utils::packageVersion("testthat") < "2.1.0") {
     ui_stop("testthat 2.1.0 or greater needed. Please install before re-trying")
@@ -34,7 +37,17 @@ use_testthat_impl <- function(edition = NULL) {
     use_dependency("testthat", "Suggests")
 
     edition <- check_edition(edition)
-    use_description_field("Config/testthat/edition", edition)
+    use_description_field("Config/testthat/edition", edition, overwrite = TRUE)
+
+    if (parallel) {
+      use_description_field("Config/testthat/parallel", "true", overwrite = TRUE)
+    } else {
+      desc::desc_del("Config/testthat/parallel", file = proj_get())
+    }
+  } else {
+    if (!is.null(edition)) {
+      ui_stop("Can't declare testthat edition outside of a package")
+    }
   }
 
   use_directory(path("tests", "testthat"))
@@ -46,14 +59,20 @@ use_testthat_impl <- function(edition = NULL) {
 }
 
 check_edition <- function(edition = NULL) {
-  testthat_version <- utils::packageVersion("testthat")[[1, 1]]
+  version <- utils::packageVersion("testthat")[[1, c(1, 2)]]
+  if (version[[2]] == "99") {
+    version <- version[[1]] + 1L
+  } else {
+    version <- version[[1]]
+  }
+
   if (is.null(edition)) {
-    testthat_version
+    version
   } else {
     if (!is.numeric(edition) || length(edition) != 1) {
       ui_stop("`edition` must be a single number")
     }
-    if (edition > testthat_version) {
+    if (edition > version) {
       vers <- utils::packageVersion("testthat")
       ui_stop("`edition` ({edition}) not available in installed testthat ({vers})")
     }
