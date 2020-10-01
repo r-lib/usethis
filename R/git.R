@@ -247,6 +247,7 @@ git_branch_default <- function() {
   }
 
   # Check the most common names used for the default branch
+  gb <- set_names(gb)
   usual_suspects_branchname <- c("main", "master", "default")
   branch_candidates <- purrr::discard(gb[usual_suspects_branchname], is.na)
 
