@@ -16,8 +16,8 @@ use_zip(
 }
 \arguments{
 \item{url}{Link to a ZIP file containing the materials. To reduce the chance
-of typos in live settings, these shorter forms are accepted:\preformatted{* GitHub repo spec: "OWNER/REPO". Auto-expands to
-  `https://github.com/r-lib/OWNER/REPO/master.zip`.
+of typos in live settings, these shorter forms are accepted:\preformatted{* GitHub repo spec: "OWNER/REPO". Equivalent to
+  `https://github.com/r-lib/OWNER/REPO/DEFAULT_BRANCH.zip`.
 * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
   The instructor must then arrange for the shortlink to point to a valid
   download URL for the target ZIP file. The helper
@@ -72,9 +72,10 @@ use_course("http://bit.ly/usethis-shortlink-example")
 # download the source of rematch2 package from CRAN
 use_course("https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zip")
 
-# download the source of rematch2 package from GitHub, 3 ways
+# download the source of rematch2 package from GitHub, 4 ways
 use_course("r-lib/rematch2")
-use_course("https://github.com/r-lib/rematch2/archive/master.zip")
+use_course("https://api.github.com/repos/r-lib/rematch2/zipball/HEAD")
 use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
+use_course("https://github.com/r-lib/rematch2/archive/master.zip")
 }
 }

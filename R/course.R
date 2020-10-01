@@ -11,8 +11,8 @@
 #' @param url Link to a ZIP file containing the materials. To reduce the chance
 #'   of typos in live settings, these shorter forms are accepted:
 #'
-#'     * GitHub repo spec: "OWNER/REPO". Auto-expands to
-#'       `https://github.com/r-lib/OWNER/REPO/master.zip`.
+#'     * GitHub repo spec: "OWNER/REPO". Equivalent to
+#'       `https://github.com/r-lib/OWNER/REPO/DEFAULT_BRANCH.zip`.
 #'     * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
 #'       The instructor must then arrange for the shortlink to point to a valid
 #'       download URL for the target ZIP file. The helper
@@ -38,10 +38,11 @@
 #' # download the source of rematch2 package from CRAN
 #' use_course("https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zip")
 #'
-#' # download the source of rematch2 package from GitHub, 3 ways
+#' # download the source of rematch2 package from GitHub, 4 ways
 #' use_course("r-lib/rematch2")
-#' use_course("https://github.com/r-lib/rematch2/archive/master.zip")
+#' use_course("https://api.github.com/repos/r-lib/rematch2/zipball/HEAD")
 #' use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
+#' use_course("https://github.com/r-lib/rematch2/archive/master.zip")
 #' }
 NULL
 
@@ -164,10 +165,14 @@ use_zip <- function(url,
 #' ```
 #' This download link (or a shortlink that points to it) is suitable as input
 #' for `tidy_download()`. After one or more redirections, this link will
-#' eventually lead to a download URL. Here's an alternative link that also leads
-#' to ZIP download, albeit with a different filenaming scheme:
+#' eventually lead to a download URL. Here are other links that also lead to
+#' ZIP download, albeit with a different filenaming scheme (REF could be a
+#' branch name, a tag, or a SHA):
 #' ```
-#' https://api.github.com/repos/r-lib/usethis/zipball/master
+#' https://github.com/github.com/r-lib/usethis/zipball/HEAD
+#' https://api.github.com/repos/r-lib/rematch2/zipball/REF
+#' https://api.github.com/repos/r-lib/rematch2/zipball/HEAD
+#' https://api.github.com/repos/r-lib/usethis/zipball/REF
 #' ```
 #'
 #' You can use `create_download_url()` to create the "Download ZIP" URL from
@@ -446,9 +451,14 @@ modify_dropbox_url <- function(url) {
 }
 
 modify_github_url <- function(url) {
+  # TO CONSIDER: one could use the API for this, which might be more proper and
+  # would work if auth is needed
+  # https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#download-a-repository-archive-zip
+  # https://api.github.com/repos/OWNER/REPO/zipball/
+  # but then, in big workshop settings, we might see rate limit problems or
+  # get blocked because of too many token-free requests from same IP
   parsed <- parse_github_remotes(url)
-  # TODO: honor default branch, if feasible
-  glue("https://github.com/{parsed$repo_owner}/{parsed$repo_name}/archive/master.zip")
+  glue_data(parsed, "{protocol}://{host}/{repo_owner}/{repo_name}/zipball/HEAD")
 }
 
 hopeless_url <- function(url) {
@@ -485,8 +495,7 @@ is_shortlink <- function(url) {
 expand_github <- function(url) {
   # mostly to handle errors in the spec
   repo_spec <- parse_repo_spec(url)
-  # TODO: honor default branch
-  glue::glue_data(repo_spec, "github.com/{owner}/{repo}/archive/master.zip")
+  glue_data(repo_spec, "github.com/{owner}/{repo}/zipball/HEAD")
 }
 
 conspicuous_place <- function() {
