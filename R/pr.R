@@ -406,12 +406,18 @@ pr_view <- function() {
 #' @export
 #' @rdname pull-requests
 pr_pause <- function() {
+  default_branch <- git_branch_default()
+  if (git_branch() == default_branch) {
+    ui_info("
+      Already on this repo's default branch ({ui_value(default_branch)})
+      Nothing to do")
+    return(invisible())
+  }
   check_pr_readiness()
   check_pr_branch()
   check_no_uncommitted_changes()
   check_branch_pulled(use = "pr_pull()")
 
-  default_branch <- git_branch_default()
   ui_done("Switching back to default branch ({ui_value(default_branch)})")
   gert::git_branch_checkout(default_branch, repo = git_repo())
   pr_pull_source_override()
