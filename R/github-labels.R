@@ -92,7 +92,7 @@ use_github_labels <- function(repo_spec = deprecated(),
   }
 
   cur_labels <- gh("GET /repos/:owner/:repo/labels")
-  label_attr <- function(x, l, mapper = purrr::map_chr) {
+  label_attr <- function(x, l, mapper = map_chr) {
     mapper(l, x, .default = NA)
   }
 
@@ -110,18 +110,18 @@ use_github_labels <- function(repo_spec = deprecated(),
     # Fails if "new_label_name" already exists
     # https://github.com/r-lib/usethis/issues/551
     # Must first PATCH issues, then sort out labels
-    issues <- purrr::map(
+    issues <- map(
       to_rename,
       ~ gh("GET /repos/:owner/:repo/issues", labels = .x)
     )
     issues <- purrr::flatten(issues)
-    number <- purrr::map_int(issues, "number")
-    old_labels <- purrr::map(issues, "labels")
+    number <- map_lgl(issues, "number")
+    old_labels <- map(issues, "labels")
     df <- data.frame(
       number = rep.int(number, lengths(old_labels))
     )
     df$labels <- purrr::flatten(old_labels)
-    df$labels <- purrr::map_chr(df$labels, "name")
+    df$labels <- map_chr(df$labels, "name")
 
     # enact relabelling
     m <- match(df$labels, names(rename))
@@ -210,7 +210,7 @@ use_github_labels <- function(repo_spec = deprecated(),
 
   # Delete unused default labels
   if (delete_default) {
-    default <- purrr::map_lgl(cur_labels, "default")
+    default <- map_lgl(cur_labels, "default")
     to_remove <- setdiff(cur_label_names[default], labels)
 
     if (length(to_remove) > 0) {

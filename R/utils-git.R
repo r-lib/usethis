@@ -86,7 +86,7 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
   }
 
   paths <- sort(paths)
-  ui_paths <- purrr::map_chr(paths, ui_path)
+  ui_paths <- map_chr(paths, ui_path)
   if (n > 20) {
     ui_paths <- c(ui_paths[1:20], "...")
   }
@@ -136,7 +136,7 @@ git_conflict_report <- function() {
     return(invisible())
   }
 
-  conflicted_paths <- purrr::map_chr(conflicted, ui_path)
+  conflicted_paths <- map_chr(conflicted, ui_path)
   ui_line(c(
     "There are {n} conflicted files:",
     paste0("* ", conflicted_paths)

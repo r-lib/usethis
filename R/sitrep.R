@@ -28,7 +28,7 @@ proj_sitrep <- function() {
     ## home_usethis = fs::path_home(),
     ## home_r = normalizePath("~")
   )
-  out <- ifelse(purrr::map_lgl(out, is.null), out, as.character(path_tidy(out)))
+  out <- ifelse(map_lgl(out, is.null), out, as.character(path_tidy(out)))
   structure(out, class = "sitrep")
 }
 

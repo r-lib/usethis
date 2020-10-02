@@ -107,7 +107,7 @@ issue_reprex_needed <- function(number) {
   }
 
   info <- issue_info(number, tr)
-  labels <- purrr::map_chr(info$labels, "name")
+  labels <- map_chr(info$labels, "name")
   issue <- issue_details(info)
   if ("reprex" %in% labels) {
     ui_stop("Issue {number} already has 'reprex' label")

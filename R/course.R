@@ -489,7 +489,7 @@ normalize_url <- function(url) {
 
 is_shortlink <- function(url) {
   shortlink_hosts <- c("rstd\\.io", "bit\\.ly")
-  any(purrr::map_lgl(shortlink_hosts, grepl, x = url))
+  any(map_lgl(shortlink_hosts, grepl, x = url))
 }
 
 expand_github <- function(url) {

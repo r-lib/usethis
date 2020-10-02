@@ -132,7 +132,7 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
   parsed$remote <- parsed$name
   parsed$host_url <- as.character(glue("https://{parsed$host}"))
   # TODO: get rid of this `:::` use of gh
-  parsed$api_url <- purrr::map_chr(parsed$host_url, gh:::get_apiurl)
+  parsed$api_url <- map_chr(parsed$host_url, gh:::get_apiurl)
   parsed$repo_spec <- make_spec(parsed$repo_owner, parsed$repo_name)
 
   parsed[c(
@@ -161,7 +161,7 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
 #' @noRd
 github_remotes <- function(these = c("origin", "upstream"), x = NULL) {
   grl <- github_remote_list(these = these, x = x)
-  grl$token <- purrr::map_chr(grl$host_url, gitcreds_token)
+  grl$token <- map_chr(grl$host_url, gitcreds_token)
 
   get_gh_repo <- function(repo_owner, repo_name,
                           token = "", api_url = "https://api.github.com") {
@@ -271,7 +271,7 @@ new_github_remote_config <- function() {
     x = data.frame(name = character(), url = character(), stringsAsFactors = FALSE)
   )
   # 0-row df --> a well-named list of properly typed NAs
-  ptype <- purrr::map(ptype, ~ c(NA, .x))
+  ptype <- map(ptype, ~ c(NA, .x))
   structure(
     list(
       type = NA_character_,

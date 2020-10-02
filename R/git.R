@@ -265,7 +265,7 @@ git_branch_default <- function() {
     remote_names <- set_names(names(gr))
 
     # check symbolic ref, e.g. refs/remotes/origin/HEAD (a local operation)
-    remote_heads <- purrr::map(
+    remote_heads <- map(
       remote_names,
       ~ gert::git_remote_info(.x, repo = repo)$head
     )
@@ -280,7 +280,7 @@ git_branch_default <- function() {
       basename(dat$symref[dat$ref == "HEAD"])
     }
     f <- purrr::possibly(f, otherwise = NULL)
-    remote_heads <- purrr::compact(purrr::map(remote_names, f))
+    remote_heads <- purrr::compact(map(remote_names, f))
     if (length(remote_heads)) {
       return(remote_heads[[1]])
     }
