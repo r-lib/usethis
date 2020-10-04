@@ -233,7 +233,7 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
     verbose = FALSE
   )
   out <- gert::git_ahead_behind(upstream = remref, ref = branch, repo = git_repo())
-  stats::setNames(out, nm = c("local_only", "remote_only"))
+  list(local_only = out$ahead, remote_only = out$behind)
 }
 
 # Checks ------------------------------------------------------------------
