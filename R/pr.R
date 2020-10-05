@@ -237,72 +237,66 @@ pr_fetch <- function(number) {
   check_no_uncommitted_changes()
 
   pr <- pr_get(number = number, cfg = cfg)
-  pr_user <- glue("@{pr$user$login}")
+
+  if (is.na(pr$pr_repo_owner)) {
+    ui_stop("The repo where PR {number} originates seems to have been deleted")
+  }
+
+  pr_user <- glue("@{pr$pr_user}")
   ui_done("
     Checking out PR {ui_value(pr$pr_string)} ({ui_field(pr_user)}): \\
-    {ui_value(pr$title)}")
+    {ui_value(pr$pr_title)}")
 
-  # Figure out remote, remote branch, local branch ----
-  pr_branch_theirs <- pr$head$ref
-  if (pr$head$repo$fork) { # PR is from a fork
-    pr_remote <- spec_owner(pr$head$repo$full_name)
-    pr_branch_ours <- sub(":", "-", pr$head$label)
-    if (isFALSE(pr$maintainer_can_modify)) {
-      ui_info("
-        Note that user does NOT allow maintainer to modify this PR \\
-        at this time,
-        although this can be changed.")
-    }
-  } else {                 # PR is from a branch in the source repo
-    pr_remote <- switch(cfg$type, ours = "origin", fork = "upstream")
-    pr_branch_ours <- pr_branch_theirs
+  if (pr$pr_from_fork && isFALSE(pr$maintainer_can_modify)) {
+    ui_info("
+      Note that user does NOT allow maintainer to modify this PR at this \\
+      time, although this can be changed.")
   }
-  pr_remref <- glue("{pr_remote}/{pr_branch_theirs}")
 
   repo <- git_repo()
 
-  # Add PR remote, if necessary ----
-  if (!pr_remote %in% names(git_remotes())) {
+  remote <- github_remote_list(pr$pr_remote)
+  if (nrow(remote) == 0) {
     protocol <- cfg$origin$protocol
-    url <- with(pr$head$repo, switch(protocol, https = clone_url, ssh = ssh_url))
-    if (is.null(url)) {
-      ui_stop("
-        Can't get URL for repo where PR originates.
-        Perhaps it has been deleted?")
-    }
-
-    ui_done("Adding remote {ui_value(pr_remote)} as {ui_value(url)}")
-    gert::git_remote_add(url = url, name = pr_remote, repo = repo)
-    config_key <- glue("remote.{pr_remote}.created-by")
+    url <- switch(protocol, https = pr$pr_https_url, ssh = pr$pr_ssh_url)
+    ui_done("Adding remote {ui_value(pr$pr_remote)} as {ui_value(url)}")
+    gert::git_remote_add(url = url, name = pr$pr_remote, repo = repo)
+    config_key <- glue("remote.{pr$pr_remote}.created-by")
     gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
   }
-
+  pr_remref <- glue_data(pr, "{pr_remote}/{pr_ref}")
   gert::git_fetch(
-    remote = remref_remote(pr_remref),
-    refspec = remref_branch(pr_remref),
+    remote = pr$pr_remote,
+    refspec = pr$pr_ref,
     repo = repo,
     verbose = FALSE
   )
 
+  if (is.na(pr$pr_local_branch)) {
+    pr$pr_local_branch <-
+      if (pr$pr_from_fork) sub(":", "-", pr$pr_label) else pr$pr_ref
+  }
+
   # Create local branch, if necessary, and switch to it ----
-  if (!gert::git_branch_exists(pr_branch_ours, local = TRUE, repo = repo)) {
-    ui_done("Creating and switching to local branch {ui_value(pr_branch_ours)}")
+  if (!gert::git_branch_exists(pr$pr_local_branch, local = TRUE, repo = repo)) {
+    ui_done("
+      Creating and switching to local branch {ui_value(pr$pr_local_branch)}")
     ui_done("Setting {ui_value(pr_remref)} as remote tracking branch")
-    gert::git_branch_create(pr_branch_ours, ref = pr_remref, repo = repo)
-    config_key <- glue("branch.{pr_branch_ours}.created-by")
+    gert::git_branch_create(pr$pr_local_branch, ref = pr_remref, repo = repo)
+    config_key <- glue("branch.{pr$pr_local_branch}.created-by")
     gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
-    config_url <- glue("branch.{pr_branch_ours}.pr-url")
-    gert::git_config_set(config_url, pr$html_url, repo = repo)
+    config_url <- glue("branch.{pr$pr_local_branch}.pr-url")
+    gert::git_config_set(config_url, pr$pr_html_url, repo = repo)
     return(invisible())
   }
 
   # Local branch pre-existed; make sure tracking branch is set, switch, & pull
-  ui_done("Switching to branch {ui_value(pr_branch_ours)}")
-  gert::git_branch_checkout(pr_branch_ours, repo = repo)
-  config_url <- glue("branch.{pr_branch_ours}.pr-url")
-  gert::git_config_set(config_url, pr$html_url, repo = repo)
+  ui_done("Switching to branch {ui_value(pr$pr_local_branch)}")
+  gert::git_branch_checkout(pr$pr_local_branch, repo = repo)
+  config_url <- glue("branch.{pr$pr_local_branch}.pr-url")
+  gert::git_config_set(config_url, pr$pr_html_url, repo = repo)
 
-  pr_branch_ours_tracking <- git_branch_tracking(pr_branch_ours)
+  pr_branch_ours_tracking <- git_branch_tracking(pr$pr_local_branch)
   if (is.na(pr_branch_ours_tracking) ||
       pr_branch_ours_tracking != pr_remref) {
     ui_done("Setting {ui_value(pr_remref)} as remote tracking branch")
@@ -513,29 +507,66 @@ pr_url <- function(branch = git_branch()) {
     return(url)
   }
 
-  pr_remref <- git_branch_tracking(branch)
-  if (is.na(pr_remref)) {
-    return()
-  }
-
-  pr_remote <- github_remote_list(remref_remote(pr_remref))
-  urls <- pr_find(
-    pr_owner = pr_remote$repo_owner,
-    pr_branch = remref_branch(pr_remref)
-  )
-
-  if (length(urls) == 0) {
+  pr_dat <- pr_list()
+  m <- match(branch, pr_dat$pr_local_branch)
+  if (is.na(m)) {
     NULL
-  } else if (length(urls) == 1) {
-    gert::git_config_set(config_url, urls[[1]], repo = git_repo())
-    urls[[1]]
   } else {
-    ui_stop("
-      Multiple PRs correspond to this branch. Please close before continuing")
+    url <- pr_dat$pr_html_url[[m]]
+    gert::git_config_set(config_url, url, repo = git_repo())
+    url
   }
 }
 
-pr_find <- function(pr_owner, pr_branch = git_branch()) {
+pr_data_tidy <- function(pr) {
+  out <- list(
+    pr_number     = pluck_int(pr, "number"),
+    pr_title      = pluck_chr(pr, "title"),
+    pr_user       = pluck_chr(pr, "user", "login"),
+    pr_created_at = pluck_chr(pr, "created_at"),
+    pr_updated_at = pluck_chr(pr, "updated_at"),
+    pr_label      = pluck_chr(pr, "head", "label"),
+    # the 'repo' element of 'head' is NULL when fork has been deleted
+    pr_repo_owner = pluck_chr(pr, "head", "repo", "owner", "login"),
+    pr_ref        = pluck_chr(pr, "head", "ref"),
+    pr_repo_spec  = pluck_chr(pr, "head", "repo", "full_name"),
+    pr_from_fork  = pluck_lgl(pr, "head", "repo", "fork"),
+    # 'maintainer_can_modify' is only present when we GET one specific PR
+    pr_maintainer_can_modify = pluck_lgl(pr, "maintainer_can_modify"),
+    pr_https_url  = pluck_chr(pr, "head", "repo", "clone_url"),
+    pr_ssh_url    = pluck_chr(pr, "head", "repo", "ssh_url"),
+    pr_html_url   = pluck_chr(pr, "html_url"),
+    pr_string     = glue("
+      {pluck_chr(pr, 'base', 'repo', 'full_name')}/#{pluck_int(pr, 'number')}")
+  )
+
+  grl <- github_remote_list(these = NULL)
+  m <- match(out$pr_repo_spec, grl$repo_spec)
+  out$pr_remote <- if (is.na(m)) out$pr_repo_owner else grl$remote[m]
+
+  pr_remref <- glue("{out$pr_remote}/{out$pr_ref}")
+  gbl <- gert::git_branch_list(repo = git_repo())
+  gbl <- gbl[gbl$local & !is.na(gbl$upstream), c("name", "upstream")]
+  gbl$upstream <- sub("^refs/remotes/", "", gbl$upstream)
+  m <- match(pr_remref, gbl$upstream)
+  out$pr_local_branch <- if (is.na(m)) NA else gbl$name[m]
+
+  # If the fork has been deleted, these are all NA
+  # - Because pr$head$repo is NULL:
+  #   pr_repo_owner, pr_repo_spec, pr_from_fork, pr_https_url, pr_ssh_url
+  # - Because derived from those above:
+  #   pr_remote, pr_remref pr_local_branch
+  # I suppose one could already have a local branch, if you fetched the PR
+  # beforethe fork got deleted.
+  # But an initial pr_fetch() won't work if the fork has been deleted.
+  # I'm willing to accept that the pr_*() functions don't necessarily address
+  # the "deleted fork" scenario. It's relatively rare.
+  # example: https://github.com/r-lib/httr/pull/634
+
+  out
+}
+
+pr_list <- function() {
   tr <- target_repo(ask = FALSE)
   prs <- gh::gh(
     "GET /repos/:owner/:repo/pulls",
@@ -543,31 +574,20 @@ pr_find <- function(pr_owner, pr_branch = git_branch()) {
     .limit = Inf,
     .api_url = tr$api_url
   )
-
-  if (length(prs) < 1) {
-    return(character())
-  }
-
-  refs <- map_chr(prs, c("head", "ref"), .default = NA_character_)
-  user <- map_chr(prs, c("head", "user", "login"), .default = NA_character_)
-  urls <- map_chr(prs, c("html_url"), .default = NA_character_)
-
-  urls[refs == pr_branch & user == pr_owner]
+  out <- map(prs, pr_data_tidy)
+  out <- map(out, ~ as.data.frame(.x, stringsAsFactors = FALSE))
+  do.call(rbind, out)
 }
 
 pr_get <- function(number, cfg = NULL) {
   tr <- target_repo(cfg = cfg, ask = FALSE)
-  out <- gh::gh(
+  raw <- gh::gh(
     "GET /repos/:owner/:repo/pulls/:number",
     owner = tr$repo_owner, repo = tr$repo_name,
     number = number,
     .token = tr$token, .api_url = tr$api_url
   )
-  out$pr_string <- glue_data(
-    parse_github_remotes(out$html_url),
-    "{repo_owner}/{repo_name}/#{number}"
-  )
-  out
+  pr_data_tidy(raw)
 }
 
 check_pr_readiness <- function(cfg = NULL) {
