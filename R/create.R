@@ -275,7 +275,7 @@ create_from_github <- function(repo_spec,
     ui_done("
       Setting remote tracking branch for local {ui_value(default_branch)} \\
       branch to {ui_value(upstream_remref)}")
-    gert::git_branch_set_upstream(upstream_remref, git_repo())
+    gert::git_branch_set_upstream(upstream_remref, repo = git_repo())
     config_key <- glue("remote.upstream.created-by")
     gert::git_config_set(config_key, "usethis::create_from_github", git_repo())
   }
