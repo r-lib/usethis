@@ -458,7 +458,7 @@ pr_finish <- function(number = NULL) {
     }
     if (length(number)) {
       pr <- pr_get(number = number, cfg = cfg)
-      if (pr$merged) {
+      if (!is.na(pr$pr_merged_at)) {
         ui_done("
           PR {ui_value(pr$pr_string)} has been merged, \\
           deleting remote branch {ui_value(tracking_branch)}")
@@ -525,6 +525,7 @@ pr_data_tidy <- function(pr) {
     pr_user       = pluck_chr(pr, "user", "login"),
     pr_created_at = pluck_chr(pr, "created_at"),
     pr_updated_at = pluck_chr(pr, "updated_at"),
+    pr_merged_at  = pluck_chr(pr, "merged_at"),
     pr_label      = pluck_chr(pr, "head", "label"),
     # the 'repo' element of 'head' is NULL when fork has been deleted
     pr_repo_owner = pluck_chr(pr, "head", "repo", "owner", "login"),
