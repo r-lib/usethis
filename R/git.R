@@ -383,9 +383,9 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
 
   if (name %in% names(remotes)) {
     if (is.null(url)) {
-      gert::git_remote_remove(name = name, repo = repo)
+      gert::git_remote_remove(remote = name, repo = repo)
     } else {
-      gert::git_remote_set_url(url = url, name = name, repo = repo)
+      gert::git_remote_set_url(url = url, remote = name, repo = repo)
     }
   } else if (!is.null(url)) {
     gert::git_remote_add(url = url, name = name, repo = repo)

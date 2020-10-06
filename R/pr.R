@@ -488,7 +488,7 @@ pr_finish <- function(number = NULL) {
   branches <- branches[branches$local & !is.na(branches$upstream), ]
   if (sum(grepl(glue("^refs/remotes/{remote}"), branches$upstream)) == 0) {
     ui_done("Removing remote {ui_value(remote)}")
-    gert::git_remote_remove(name = remote, repo = repo)
+    gert::git_remote_remove(remote = remote, repo = repo)
   }
 }
 
