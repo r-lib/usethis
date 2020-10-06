@@ -1,6 +1,3 @@
-## attempt to activate a project, which is nice during development
-tryCatch(proj_set("."), error = function(e) NULL)
-
 ## If session temp directory appears to be, or be within, a project, there
 ## will be large scale, spurious test failures.
 ## The IDE sometimes leaves .Rproj files behind in session temp directory or
