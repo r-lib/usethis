@@ -330,11 +330,12 @@ pr_push <- function() {
   }
 
   # Prompt to create PR on first push
-  url <- pr_url()
-  if (is.null(url)) {
+  pr <- pr_find(branch)
+  if (is.null(pr)) {
     pr_create_gh()
   } else {
-    ui_done("View PR at {ui_value(url)} or call {ui_code('pr_view()')}")
+    ui_done("
+      View PR at {ui_value(pr$pr_html_url)} or call {ui_code('pr_view()')}")
   }
 
   invisible()
@@ -499,22 +500,31 @@ pr_create_gh <- function() {
   view_url(glue("https://github.com/{origin$repo_spec}/compare/{branch}"))
 }
 
-pr_url <- function(branch = git_branch()) {
+pr_find <- function(branch = git_branch()) {
   # Have we done this before? Check if we've cached pr-url in git config.
   config_url <- glue("branch.{branch}.pr-url")
   url <- git_cfg_get(config_url, where = "local")
   if (!is.null(url)) {
-    return(url)
+    return(pr_get(sub("^.+pull/", "", url)))
   }
 
   pr_dat <- pr_list()
   m <- match(branch, pr_dat$pr_local_branch)
-  if (is.na(m)) {
-    NULL
-  } else {
+  if (!is.na(m)) {
     url <- pr_dat$pr_html_url[[m]]
     gert::git_config_set(config_url, url, repo = git_repo())
-    url
+    return(as.list(pr_dat[m, ]))
+  }
+
+  NULL
+}
+
+pr_url <- function(branch = git_branch()) {
+  pr <- pr_find(branch)
+  if (is.null(pr)) {
+    NULL
+  } else {
+    pr$pr_html_url
   }
 }
 
