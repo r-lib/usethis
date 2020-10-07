@@ -18,7 +18,7 @@ pr_init(branch)
 
 pr_resume(branch = NULL)
 
-pr_fetch(number)
+pr_fetch(number = NULL)
 
 pr_push()
 

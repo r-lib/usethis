@@ -235,12 +235,34 @@ pr_resume <- function(branch = NULL) {
 #' \dontrun{
 #' pr_fetch(123)
 #' }
-pr_fetch <- function(number) {
+pr_fetch <- function(number = NULL) {
   cfg <- github_remote_config()
   check_pr_readiness(cfg)
   check_no_uncommitted_changes()
 
-  pr <- pr_get(number = number, cfg = cfg)
+  if (is.null(number)) {
+    ui_info("No PR specified ... looking up open PRs")
+    pr_dat <- pr_list(cfg)
+    pr_display <- pr_dat[c("pr_user", "pr_string", "pr_title")]
+    pr_display$pr_user <- map(pr_display$pr_user, ~ glue("@{.x}"))
+    pr_pretty <- purrr::pmap(
+      pr_display,
+      function(pr_string, pr_user, pr_title) {
+        glue("
+          {ui_value(pr_string)} ({ui_field(pr_user)}): {ui_value(pr_title)}")
+      }
+    )
+    choice <- utils::menu(
+      title = "Which PR do you want to checkout? (0 to exit)",
+      choices = pr_pretty
+    )
+    if (choice == 0) {
+      ui_stop("No PR selected, aborting")
+    }
+    pr <- pr_dat[choice, ]
+  } else {
+    pr <- pr_get(number = number, cfg = cfg)
+  }
 
   if (is.na(pr$pr_repo_owner)) {
     ui_stop("The repo where PR {number} originates seems to have been deleted")
