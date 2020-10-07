@@ -390,12 +390,16 @@ pr_sync <- function() {
 #' @export
 #' @rdname pull-requests
 pr_view <- function() {
+  check_pr_branch()
+  # TODO: should this have signature of `number = NULL`
+  # default is to target PR associated with current branch
   url <- pr_url()
   if (is.null(url)) {
-    pr_create_gh()
-  } else {
-    view_url(url)
+    ui_stop("
+      Branch {ui_value(git_branch())} does not appear to be connected to a PR
+      Do you need to call {ui_code('pr_push()')} for the first time?")
   }
+  view_url(url)
 }
 
 #' @export
