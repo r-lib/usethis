@@ -304,7 +304,8 @@ pr_fetch <- function(number) {
 #' @export
 #' @rdname pull-requests
 pr_push <- function() {
-  check_pr_readiness()
+  cfg <- github_remote_config()
+  check_pr_readiness(cfg)
   check_pr_branch()
   check_no_uncommitted_changes()
 
@@ -326,7 +327,7 @@ pr_push <- function() {
   }
 
   # Prompt to create PR on first push
-  pr <- pr_find(branch)
+  pr <- pr_find(branch, cfg = cfg)
   if (is.null(pr)) {
     pr_create_gh()
   } else {
@@ -500,7 +501,7 @@ pr_create_gh <- function() {
   view_url(glue("https://github.com/{origin$repo_spec}/compare/{branch}"))
 }
 
-pr_find <- function(branch = git_branch()) {
+pr_find <- function(branch = git_branch(), cfg = NULL) {
   # Have we done this before? Check if we've cached pr-url in git config.
   config_url <- glue("branch.{branch}.pr-url")
   url <- git_cfg_get(config_url, where = "local")
@@ -508,7 +509,7 @@ pr_find <- function(branch = git_branch()) {
     return(pr_get(sub("^.+pull/", "", url)))
   }
 
-  pr_dat <- pr_list()
+  pr_dat <- pr_list(cfg = cfg)
   m <- match(branch, pr_dat$pr_local_branch)
   if (!is.na(m)) {
     url <- pr_dat$pr_html_url[[m]]
@@ -519,8 +520,8 @@ pr_find <- function(branch = git_branch()) {
   NULL
 }
 
-pr_url <- function(branch = git_branch()) {
-  pr <- pr_find(branch)
+pr_url <- function(branch = git_branch(), cfg = NULL) {
+  pr <- pr_find(branch, cfg = cfg)
   if (is.null(pr)) {
     NULL
   } else {
@@ -577,8 +578,8 @@ pr_data_tidy <- function(pr) {
   out
 }
 
-pr_list <- function() {
-  tr <- target_repo(ask = FALSE)
+pr_list <- function(cfg = NULL) {
+  tr <- target_repo(cfg = cfg, ask = FALSE)
   prs <- gh::gh(
     "GET /repos/:owner/:repo/pulls",
     owner = tr$repo_owner, repo = tr$repo_name,
