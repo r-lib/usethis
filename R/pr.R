@@ -464,7 +464,7 @@ pr_finish <- function(number = NULL) {
   # delete remote branch, if have permission and PR is merged
   if (remote == "origin") {
     if (is.null(number)) {
-      number <- sub("^.+pull/", "", pr_url(branch))
+      number <- sub("^.+pull/", "", pr_url(branch, cfg = cfg))
     }
     if (length(number)) {
       pr <- pr_get(number = number, cfg = cfg)
