@@ -263,30 +263,27 @@ numbers, and <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>
 <p>The <code>pr_*</code> functions interact with GitHub both as a conventional Git remote
 and via the REST API. Therefore, your credentials must be discoverable. Which
 credentials do we mean?</p><ul>
-<li><p>A GitHub personal access token (PAT) must be configured as the <code>GITHUB_PAT</code>
-environment variable. <code><a href='create_github_token.html'>create_github_token()</a></code> helps you do this. This PAT
-allows usethis to call the GitHub API on your behalf. If you use HTTPS
-remotes, the PAT is also used for Git operations, such as <code>git push</code>. That
-means the PAT is the only credential you need! This is why HTTPS + PAT is
-highly recommended for anyone new to Git and GitHub and PRs.</p></li>
+<li><p>A GitHub personal access token (PAT) must be discoverable by the gh
+package, which is used for GitHub operations via the REST API. See
+<code><a href='create_github_token.html'>create_github_token()</a></code> for more about getting and configuring a PAT.</p></li>
+<li><p>If you use the HTTPS protocol for Git remotes, your PAT is also used for
+Git operations, such as <code>git push</code>. Usethis uses the gert package for this,
+so the PAT must be discoverable by gert. Generally gert and gh will
+discover and use the same PAT. This ability to "kill two birds with one
+stone" is why HTTPS + PAT is our recommended auth strategy for those new
+to Git and GitHub and PRs.</p></li>
 <li><p>If you use SSH remotes, your SSH keys must also be discoverable, in
 addition to your PAT. The public key must be added to your GitHub account.</p></li>
 </ul>
 
-<p>Usethis uses the gert package for Git operations
-(<a href='https://docs.ropensci.org/gert'>https://docs.ropensci.org/gert</a>) and gert, in turn, relies on the
-credentials package (<a href='https://docs.ropensci.org/credentials/'>https://docs.ropensci.org/credentials/</a>) for auth. If
-you have credential problems, focus your troubleshooting on getting the
-credentials package to find your credentials. Its introductory vignette is an
-excellent place to learn more:
-<a href='https://cran.r-project.org/web/packages/credentials/vignettes/intro.html'>https://cran.r-project.org/web/packages/credentials/vignettes/intro.html</a>.</p>
 <p>If the <code>pr_*</code> functions need to configure a new remote, its transport
 protocol (HTTPS vs SSH) is determined by the protocol used for <code>origin</code>.</p>
     <h2 class="hasAnchor" id="for-contributors"><a class="anchor" href="#for-contributors"></a>For contributors</h2>
 
     
 
-<p>To contribute to a package, first use <code><a href='create_from_github.html'>create_from_github("OWNER/REPO", fork = TRUE)</a></code> to fork the source repository, and then check out a local copy.</p>
+<p>To contribute to a package, first use <code><a href='create_from_github.html'>create_from_github("OWNER/REPO")</a></code> to
+fork the source repository, and then check out a local copy.</p>
 <p>Next use <code>pr_init()</code> to create a branch for your PR. It is best practice to
 never make commits to the default branch branch of a fork (usually named
 <code>main</code> or <code>master</code>), because you do not own it. A pull request should always
@@ -326,27 +323,28 @@ local branch and remove the remote associated with the contributor's fork.</p>
     
 
 <ul>
-<li><p><code>pr_init()</code>: Does a preparatory pull from the primary repo, to get a good
-start point. Creates and checks out a new branch. Nothing is pushed to
-or created on GitHub. That only happens upon the first <code>pr_push()</code>.</p></li>
+<li><p><code>pr_init()</code>: Does a preparatory pull of the default branch from the source
+repo, to get a good start point. Creates and checks out a new branch. Nothing
+is pushed to or created on GitHub (that does not happen until the first time
+you call <code>pr_push()</code>).</p></li>
 <li><p><code>pr_resume()</code>: Resume work on a PR by switching to its existing branch and
 pulling any updates from GitHub.</p></li>
 <li><p><code>pr_fetch()</code>: Checks out a PR on the primary repo for local exploration.
 This can cause a new remote to be configured and a new local branch to be
 created. The local branch is configured to track its remote counterpart.
-<code>pr_fetch()</code> puts a maintainer in a position where they can push changes
-into an external PR via <code>pr_push()</code>.</p></li>
+<code>pr_fetch()</code> puts a maintainer in a position where they can push changes into
+an external PR via <code>pr_push()</code>.</p></li>
 <li><p><code>pr_push()</code>: The first time it's called, a PR branch is pushed to <code>origin</code>
 and you're taken to a webpage where a new PR (or draft PR) can be created.
 This also sets up the local branch to track its remote counterpart.
-Subsequent calls to <code>pr_push()</code> make sure the local branch has all the
-remote changes and, if so, pushes local changes, thereby updating the PR.</p></li>
+Subsequent calls to <code>pr_push()</code> make sure the local branch has all the remote
+changes and, if so, pushes local changes, thereby updating the PR.</p></li>
 <li><p><code>pr_pull()</code>: Pulls changes from the local branch's remote tracking branch.
 If a maintainer has extended your PR, this is how you bring those changes
 back into your local work.</p></li>
-<li><p><code>pr_merge_main()</code>: Pulls changes from the default branch of the primary
-repo into the current local branch. This can be used when the local branch
-is the default branch or when it's a PR branch.</p></li>
+<li><p><code>pr_merge_main()</code>: Pulls changes from the default branch of the source repo
+into the current local branch. This can be used when the local branch is the
+default branch or when it's a PR branch.</p></li>
 <li><p><code>pr_sync()</code> = <code>pr_pull() + pr_merge_main() + pr_push()</code>. In words, grab any
 remote changes in the PR and merge then into your local work. Then merge in
 any changes from the default branch of the primary repo. Finally, push the
@@ -354,15 +352,15 @@ result of all this back into the PR.</p></li>
 <li><p><code>pr_pause()</code>: Makes sure you're up-to-date with any remote changes in the
 PR. Then switches back to the default branch (usually named <code>main</code> or
 <code>master</code>) and pulls from the source repo.</p></li>
-<li><p><code>pr_view()</code>: Visits the PR associated with a branch in the browser. usethis
-records this URL in git config of the local repo.</p></li>
+<li><p><code>pr_view()</code>: Visits the PR associated with the current branch in the
+browser.</p></li>
 <li><p><code>pr_finish()</code>: If <code>number</code> is given, first does <code>pr_fetch(number)</code>. It's
 assumed the current branch is the PR branch of interest. First, makes sure
-there are no unpushed local changes. Switches back to the default branch
-and pulls changes from the source repo. If the PR has been merged and user
-has permission, deletes the remote branch. Deletes the PR branch. If the
-PR came from an external fork, the corresponding remote is deleted,
-provided it's not in use by any other local branches.</p></li>
+there are no unpushed local changes. Switches back to the default branch and
+pulls changes from the source repo. If the PR has been merged and user has
+permission, deletes the remote branch. Deletes the PR branch. If the PR came
+from an external fork, the corresponding remote is deleted, provided it's not
+in use by any other local branches.</p></li>
 </ul>
 
 
