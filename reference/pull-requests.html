@@ -236,7 +236,7 @@ various remote operations. See below for more.</p>
 
 <span class='fu'>pr_sync</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>pr_view</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>pr_view</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='fu'>pr_pause</span><span class='op'>(</span><span class='op'>)</span>
 
@@ -353,7 +353,9 @@ result of all this back into the PR.</p></li>
 PR. Then switches back to the default branch (usually named <code>main</code> or
 <code>master</code>) and pulls from the source repo.</p></li>
 <li><p><code>pr_view()</code>: Visits the PR associated with the current branch in the
-browser.</p></li>
+browser (default) or the specific PR identified by <code>number</code>.
+(FYI <code><a href='browse-this.html'>browse_github_pulls()</a></code> is a handy way to visit the list of all PRs for
+the current project.)</p></li>
 <li><p><code>pr_finish()</code>: If <code>number</code> is given, first does <code>pr_fetch(number)</code>. It's
 assumed the current branch is the PR branch of interest. First, makes sure
 there are no unpushed local changes. Switches back to the default branch and
