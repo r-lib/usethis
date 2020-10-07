@@ -197,9 +197,14 @@ pr_init <- function(branch) {
 #' @rdname pull-requests
 pr_resume <- function(branch = NULL) {
   if (is.null(branch)) {
-    ui_stop("
-      Interactive PR selection not implemented yet.
-      For now, {ui_code('branch')} should be the name of a local branch.")
+    ui_info("
+      No branch specified ... looking up local branches and associated PRs")
+    dat <- branches_with_no_upstream_or_github_upstream()
+    choice <- utils::menu(
+      title = glue("Which branch do you want to checkout? (0 to exit)"),
+      choices = glue("{format(dat$name, justify = 'right')} --> {dat$pr_pretty}")
+    )
+    branch <- dat$name[choice]
   }
   stopifnot(is_string(branch))
 
@@ -644,4 +649,39 @@ pr_pull_source_override <- function() {
     remref <- NULL
   }
   git_pull(remref = remref, verbose = FALSE)
+}
+
+branches_with_no_upstream_or_github_upstream <- function(cfg = NULL) {
+  repo <- git_repo()
+  gb_dat <- gert::git_branch_list(repo = repo)
+  gb_dat <- gb_dat[
+    gb_dat$local & gb_dat$name != git_branch_default(),
+    c("name", "upstream")
+  ]
+  gb_dat$remref   <- sub("^refs/remotes/", "", gb_dat$upstream)
+  gb_dat$upstream <- NULL
+  gb_dat$remote   <- remref_remote(gb_dat$remref)
+  gb_dat$ref      <- remref_branch(gb_dat$remref)
+
+  ghr <- github_remote_list(these = NULL)[["remote"]]
+  gb_dat <- gb_dat[is.na(gb_dat$remref) | (gb_dat$remote %in% ghr), ]
+  gb_dat$timestamp <- map_chr(
+    gb_dat$name, ~ format(gert::git_log(.x, max = 1, repo = repo)$time)
+  )
+
+  pr_dat <- pr_list(cfg = cfg)
+  dat <- merge(
+    x    = gb_dat, y    = pr_dat,
+    by.x = "name", by.y = "pr_local_branch",
+    all.x = TRUE
+  )
+
+  dat <- dat[order(dat$pr_number, dat$pr_updated_at, dat$timestamp, decreasing = TRUE), ]
+  dat$pr_pretty <- ifelse(
+    is.na(dat$pr_string),
+    "<no PR>",
+    glue("{dat$pr_string} (@{dat$pr_user}): {dat$pr_title}")
+  )
+
+  dat
 }
