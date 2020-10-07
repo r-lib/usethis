@@ -28,7 +28,7 @@ pr_merge_main()
 
 pr_sync()
 
-pr_view()
+pr_view(number = NULL)
 
 pr_pause()
 
@@ -164,7 +164,9 @@ result of all this back into the PR.
 PR. Then switches back to the default branch (usually named \code{main} or
 \code{master}) and pulls from the source repo.
 \item \code{pr_view()}: Visits the PR associated with the current branch in the
-browser.
+browser (default) or the specific PR identified by \code{number}.
+(FYI \code{\link[=browse_github_pulls]{browse_github_pulls()}} is a handy way to visit the list of all PRs for
+the current project.)
 \item \code{pr_finish()}: If \code{number} is given, first does \code{pr_fetch(number)}. It's
 assumed the current branch is the PR branch of interest. First, makes sure
 there are no unpushed local changes. Switches back to the default branch and

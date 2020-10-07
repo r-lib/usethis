@@ -123,7 +123,9 @@
 #' `master`) and pulls from the source repo.
 
 #' * `pr_view()`: Visits the PR associated with the current branch in the
-#' browser.
+#' browser (default) or the specific PR identified by `number`.
+#' (FYI [browse_github_pulls()] is a handy way to visit the list of all PRs for
+#' the current project.)
 
 #' * `pr_finish()`: If `number` is given, first does `pr_fetch(number)`. It's
 #' assumed the current branch is the PR branch of interest. First, makes sure
@@ -386,15 +388,21 @@ pr_sync <- function() {
 
 #' @export
 #' @rdname pull-requests
-pr_view <- function() {
-  check_pr_branch()
-  # TODO: should this have signature of `number = NULL`
-  # default is to target PR associated with current branch
-  url <- pr_url()
-  if (is.null(url)) {
-    ui_stop("
-      Branch {ui_value(git_branch())} does not appear to be connected to a PR
-      Do you need to call {ui_code('pr_push()')} for the first time?")
+pr_view <- function(number = NULL) {
+  cfg <- github_remote_config()
+
+  if(is.null(number)) {
+    check_pr_branch()
+    url <- pr_url(cfg = cfg)
+    if (is.null(url)) {
+      ui_stop("
+        Current branch ({ui_value(git_branch())}) does not appear to be \\
+        connected to a PR
+        Do you need to call {ui_code('pr_push()')} for the first time?")
+    }
+  } else {
+    pr <- pr_get(number = number, cfg = cfg)
+    url <- pr$pr_html_url
   }
   view_url(url)
 }
