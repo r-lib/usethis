@@ -69,23 +69,18 @@ The \verb{pr_*} functions interact with GitHub both as a conventional Git remote
 and via the REST API. Therefore, your credentials must be discoverable. Which
 credentials do we mean?
 \itemize{
-\item A GitHub personal access token (PAT) must be configured as the \code{GITHUB_PAT}
-environment variable. \code{\link[=create_github_token]{create_github_token()}} helps you do this. This PAT
-allows usethis to call the GitHub API on your behalf. If you use HTTPS
-remotes, the PAT is also used for Git operations, such as \verb{git push}. That
-means the PAT is the only credential you need! This is why HTTPS + PAT is
-highly recommended for anyone new to Git and GitHub and PRs.
+\item A GitHub personal access token (PAT) must be discoverable by the gh
+package, which is used for GitHub operations via the REST API. See
+\code{\link[=create_github_token]{create_github_token()}} for more about getting and configuring a PAT.
+\item If you use the HTTPS protocol for Git remotes, your PAT is also used for
+Git operations, such as \verb{git push}. Usethis uses the gert package for this,
+so the PAT must be discoverable by gert. Generally gert and gh will
+discover and use the same PAT. This ability to "kill two birds with one
+stone" is why HTTPS + PAT is our recommended auth strategy for those new
+to Git and GitHub and PRs.
 \item If you use SSH remotes, your SSH keys must also be discoverable, in
 addition to your PAT. The public key must be added to your GitHub account.
 }
-
-Usethis uses the gert package for Git operations
-(\url{https://docs.ropensci.org/gert}) and gert, in turn, relies on the
-credentials package (\url{https://docs.ropensci.org/credentials/}) for auth. If
-you have credential problems, focus your troubleshooting on getting the
-credentials package to find your credentials. Its introductory vignette is an
-excellent place to learn more:
-\url{https://cran.r-project.org/web/packages/credentials/vignettes/intro.html}.
 
 If the \verb{pr_*} functions need to configure a new remote, its transport
 protocol (HTTPS vs SSH) is determined by the protocol used for \code{origin}.
@@ -93,7 +88,8 @@ protocol (HTTPS vs SSH) is determined by the protocol used for \code{origin}.
 
 \section{For contributors}{
 
-To contribute to a package, first use \code{create_from_github("OWNER/REPO", fork = TRUE)} to fork the source repository, and then check out a local copy.
+To contribute to a package, first use \code{create_from_github("OWNER/REPO")} to
+fork the source repository, and then check out a local copy.
 
 Next use \code{pr_init()} to create a branch for your PR. It is best practice to
 never make commits to the default branch branch of a fork (usually named
@@ -138,27 +134,28 @@ local branch and remove the remote associated with the contributor's fork.
 \section{Overview of all the functions}{
 
 \itemize{
-\item \code{pr_init()}: Does a preparatory pull from the primary repo, to get a good
-start point. Creates and checks out a new branch. Nothing is pushed to
-or created on GitHub. That only happens upon the first \code{pr_push()}.
+\item \code{pr_init()}: Does a preparatory pull of the default branch from the source
+repo, to get a good start point. Creates and checks out a new branch. Nothing
+is pushed to or created on GitHub (that does not happen until the first time
+you call \code{pr_push()}).
 \item \code{pr_resume()}: Resume work on a PR by switching to its existing branch and
 pulling any updates from GitHub.
 \item \code{pr_fetch()}: Checks out a PR on the primary repo for local exploration.
 This can cause a new remote to be configured and a new local branch to be
 created. The local branch is configured to track its remote counterpart.
-\code{pr_fetch()} puts a maintainer in a position where they can push changes
-into an external PR via \code{pr_push()}.
+\code{pr_fetch()} puts a maintainer in a position where they can push changes into
+an external PR via \code{pr_push()}.
 \item \code{pr_push()}: The first time it's called, a PR branch is pushed to \code{origin}
 and you're taken to a webpage where a new PR (or draft PR) can be created.
 This also sets up the local branch to track its remote counterpart.
-Subsequent calls to \code{pr_push()} make sure the local branch has all the
-remote changes and, if so, pushes local changes, thereby updating the PR.
+Subsequent calls to \code{pr_push()} make sure the local branch has all the remote
+changes and, if so, pushes local changes, thereby updating the PR.
 \item \code{pr_pull()}: Pulls changes from the local branch's remote tracking branch.
 If a maintainer has extended your PR, this is how you bring those changes
 back into your local work.
-\item \code{pr_merge_main()}: Pulls changes from the default branch of the primary
-repo into the current local branch. This can be used when the local branch
-is the default branch or when it's a PR branch.
+\item \code{pr_merge_main()}: Pulls changes from the default branch of the source repo
+into the current local branch. This can be used when the local branch is the
+default branch or when it's a PR branch.
 \item \code{pr_sync()} = \code{pr_pull() + pr_merge_main() + pr_push()}. In words, grab any
 remote changes in the PR and merge then into your local work. Then merge in
 any changes from the default branch of the primary repo. Finally, push the
@@ -166,15 +163,15 @@ result of all this back into the PR.
 \item \code{pr_pause()}: Makes sure you're up-to-date with any remote changes in the
 PR. Then switches back to the default branch (usually named \code{main} or
 \code{master}) and pulls from the source repo.
-\item \code{pr_view()}: Visits the PR associated with a branch in the browser. usethis
-records this URL in git config of the local repo.
+\item \code{pr_view()}: Visits the PR associated with the current branch in the
+browser.
 \item \code{pr_finish()}: If \code{number} is given, first does \code{pr_fetch(number)}. It's
 assumed the current branch is the PR branch of interest. First, makes sure
-there are no unpushed local changes. Switches back to the default branch
-and pulls changes from the source repo. If the PR has been merged and user
-has permission, deletes the remote branch. Deletes the PR branch. If the
-PR came from an external fork, the corresponding remote is deleted,
-provided it's not in use by any other local branches.
+there are no unpushed local changes. Switches back to the default branch and
+pulls changes from the source repo. If the PR has been merged and user has
+permission, deletes the remote branch. Deletes the PR branch. If the PR came
+from an external fork, the corresponding remote is deleted, provided it's not
+in use by any other local branches.
 }
 }
 
