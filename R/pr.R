@@ -90,10 +90,10 @@
 #' is pushed to or created on GitHub (that does not happen until the first time
 #' you call `pr_push()`).
 
-#' * `pr_resume()`: Resume work on a PR by switching to its existing branch and
-#' pulling any updates from GitHub.
+#' * `pr_resume()`: Resume work on a PR by switching to an existing local branch
+#' and pulling any changes from its upstream tracking branch, if it has one.
 
-#' * `pr_fetch()`: Checks out a PR on the primary repo for local exploration.
+#' * `pr_fetch()`: Checks out a PR on the source repo for local exploration.
 #' This can cause a new remote to be configured and a new local branch to be
 #' created. The local branch is configured to track its remote counterpart.
 #' `pr_fetch()` puts a maintainer in a position where they can push changes into
@@ -140,8 +140,9 @@ NULL
 
 #' @export
 #' @rdname pull-requests
-#' @param branch branch name. Should usually consist of lower case letters,
-#'   numbers, and `-`.
+#' @param branch Name of a new or existing local branch. If creating a new
+#'   branch, note this should usually consist of lower case letters, numbers,
+#'   and `-`.
 pr_init <- function(branch) {
   stopifnot(is_string(branch))
   repo <- git_repo()

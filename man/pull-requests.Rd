@@ -35,8 +35,9 @@ pr_pause()
 pr_finish(number = NULL)
 }
 \arguments{
-\item{branch}{branch name. Should usually consist of lower case letters,
-numbers, and \code{-}.}
+\item{branch}{Name of a new or existing local branch. If creating a new
+branch, note this should usually consist of lower case letters, numbers,
+and \code{-}.}
 
 \item{number}{Number of PR to fetch.}
 }
@@ -138,9 +139,9 @@ local branch and remove the remote associated with the contributor's fork.
 repo, to get a good start point. Creates and checks out a new branch. Nothing
 is pushed to or created on GitHub (that does not happen until the first time
 you call \code{pr_push()}).
-\item \code{pr_resume()}: Resume work on a PR by switching to its existing branch and
-pulling any updates from GitHub.
-\item \code{pr_fetch()}: Checks out a PR on the primary repo for local exploration.
+\item \code{pr_resume()}: Resume work on a PR by switching to an existing local branch
+and pulling any changes from its upstream tracking branch, if it has one.
+\item \code{pr_fetch()}: Checks out a PR on the source repo for local exploration.
 This can cause a new remote to be configured and a new local branch to be
 created. The local branch is configured to track its remote counterpart.
 \code{pr_fetch()} puts a maintainer in a position where they can push changes into
