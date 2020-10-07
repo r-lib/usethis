@@ -226,7 +226,7 @@ various remote operations. See below for more.</p>
 
 <span class='fu'>pr_resume</span><span class='op'>(</span>branch <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>pr_fetch</span><span class='op'>(</span><span class='va'>number</span><span class='op'>)</span>
+<span class='fu'>pr_fetch</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='fu'>pr_push</span><span class='op'>(</span><span class='op'>)</span>
 
@@ -247,8 +247,9 @@ various remote operations. See below for more.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>branch</th>
-      <td><p>branch name. Should usually consist of lower case letters,
-numbers, and <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>.</p></td>
+      <td><p>Name of a new or existing local branch. If creating a new
+branch, note this should usually consist of lower case letters, numbers,
+and <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>.</p></td>
     </tr>
     <tr>
       <th>number</th>
@@ -327,9 +328,9 @@ local branch and remove the remote associated with the contributor's fork.</p>
 repo, to get a good start point. Creates and checks out a new branch. Nothing
 is pushed to or created on GitHub (that does not happen until the first time
 you call <code>pr_push()</code>).</p></li>
-<li><p><code>pr_resume()</code>: Resume work on a PR by switching to its existing branch and
-pulling any updates from GitHub.</p></li>
-<li><p><code>pr_fetch()</code>: Checks out a PR on the primary repo for local exploration.
+<li><p><code>pr_resume()</code>: Resume work on a PR by switching to an existing local branch
+and pulling any changes from its upstream tracking branch, if it has one.</p></li>
+<li><p><code>pr_fetch()</code>: Checks out a PR on the source repo for local exploration.
 This can cause a new remote to be configured and a new local branch to be
 created. The local branch is configured to track its remote counterpart.
 <code>pr_fetch()</code> puts a maintainer in a position where they can push changes into
