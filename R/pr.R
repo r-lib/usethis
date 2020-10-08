@@ -200,12 +200,10 @@ pr_resume <- function(branch = NULL) {
   if (is.null(branch)) {
     ui_info("
       No branch specified ... looking up local branches and associated PRs")
-    dat <- branches_with_no_upstream_or_github_upstream()
-    choice <- utils::menu(
-      title = glue("Which branch do you want to checkout? (0 to exit)"),
-      choices = glue("{format(dat$name, justify = 'right')} --> {dat$pr_pretty}")
-    )
-    branch <- dat$name[choice]
+    branch <- choose_branch()
+    if (length(branch) == 0) {
+      ui_stop("Aborting")
+    }
   }
   stopifnot(is_string(branch))
 
@@ -698,13 +696,44 @@ branches_with_no_upstream_or_github_upstream <- function(cfg = NULL) {
     by.x = "name", by.y = "pr_local_branch",
     all.x = TRUE
   )
-
   dat <- dat[order(dat$pr_number, dat$pr_updated_at, dat$timestamp, decreasing = TRUE), ]
-  dat$pr_pretty <- ifelse(
-    is.na(dat$pr_string),
-    "<no PR>",
-    glue("{dat$pr_string} (@{dat$pr_user}): {dat$pr_title}")
-  )
 
   dat
+}
+
+choose_branch <- function() {
+  if (!is_interactive()) {
+    return(character())
+  }
+  dat <- branches_with_no_upstream_or_github_upstream()
+  fine_print <- ""
+  if (nrow(dat) > 9) {
+    branches_not_shown <- utils::tail(dat$name, -9)
+    n <- length(branches_not_shown)
+    dat <- dat[1:9, ]
+    pre <- glue("{n} branch{if (n > 1) 'es'} not listed: ")
+    listing <- glue::glue_collapse(
+      branches_not_shown, sep = ", ", width = getOption("width") - nchar(pre))
+    fine_print <- glue("{pre}{listing}")
+  }
+  dat$pretty_user <- map(dat$pr_user, ~ glue("@{.x}"))
+  dat$pretty_name <- format(dat$name, justify = "right")
+  dat_pretty <- purrr::pmap(
+    dat[c("pretty_name", "pr_number", "pretty_user", "pr_title")],
+    function(pretty_name, pr_number, pretty_user, pr_title) {
+      if (is.na(pr_number)) {
+        glue("{pretty_name}")
+      } else {
+        glue("{pretty_name} --> #{pr_number} ({ui_value(pretty_user)}): {pr_title}")
+      }
+    }
+  )
+  ui_line()
+  choice <- utils::menu(
+    title = glue("
+      Which branch do you want to checkout? (0 to exit)
+      {fine_print}"),
+    choices = dat_pretty
+  )
+  branch <- dat$name[choice]
 }
