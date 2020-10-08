@@ -202,7 +202,7 @@ pr_resume <- function(branch = NULL) {
       No branch specified ... looking up local branches and associated PRs")
     branch <- choose_branch()
     if (length(branch) == 0) {
-      ui_stop("Aborting")
+      ui_stop("No branch selected, aborting")
     }
   }
   stopifnot(is_string(branch))
@@ -240,24 +240,14 @@ pr_fetch <- function(number = NULL) {
 
   if (is.null(number)) {
     ui_info("No PR specified ... looking up open PRs")
-    pr_dat <- pr_list(cfg)
-    pr_display <- pr_dat[c("pr_user", "pr_string", "pr_title")]
-    pr_display$pr_user <- map(pr_display$pr_user, ~ glue("@{.x}"))
-    pr_pretty <- purrr::pmap(
-      pr_display,
-      function(pr_string, pr_user, pr_title) {
-        glue("
-          {ui_value(pr_string)} ({ui_field(pr_user)}): {ui_value(pr_title)}")
-      }
-    )
-    choice <- utils::menu(
-      title = "Which PR do you want to checkout? (0 to exit)",
-      choices = pr_pretty
-    )
-    if (choice == 0) {
+    pr <- choose_pr(cfg = cfg)
+    if (is.null(pr)) {
+      ui_oops("No open PRs found for {ui_value(target_repo(cfg)$repo_spec)}")
+      return(invisible())
+    }
+    if (min(lengths(pr)) == 0) {
       ui_stop("No PR selected, aborting")
     }
-    pr <- pr_dat[choice, ]
   } else {
     pr <- pr_get(number = number, cfg = cfg)
   }
@@ -706,7 +696,7 @@ choose_branch <- function() {
     return(character())
   }
   dat <- branches_with_no_upstream_or_github_upstream()
-  fine_print <- ""
+  prompt <- "Which branch do you want to checkout? (0 to exit)"
   if (nrow(dat) > 9) {
     branches_not_shown <- utils::tail(dat$name, -9)
     n <- length(branches_not_shown)
@@ -714,7 +704,9 @@ choose_branch <- function() {
     pre <- glue("{n} branch{if (n > 1) 'es'} not listed: ")
     listing <- glue::glue_collapse(
       branches_not_shown, sep = ", ", width = getOption("width") - nchar(pre))
-    fine_print <- glue("{pre}{listing}")
+    prompt <- glue("
+      {prompt}
+      {pre}{listing}")
   }
   dat$pretty_user <- map(dat$pr_user, ~ glue("@{.x}"))
   dat$pretty_name <- format(dat$name, justify = "right")
@@ -728,12 +720,35 @@ choose_branch <- function() {
       }
     }
   )
-  ui_line()
-  choice <- utils::menu(
-    title = glue("
-      Which branch do you want to checkout? (0 to exit)
-      {fine_print}"),
-    choices = dat_pretty
-  )
+  choice <- utils::menu(title = prompt, choices = dat_pretty)
   branch <- dat$name[choice]
+}
+
+choose_pr <- function(cfg = NULL) {
+  if (!is_interactive()) {
+    return(list(pr_number = list()))
+  }
+  dat <- pr_list(cfg)
+  if (is.null(dat)) {
+    return()
+  }
+  prompt <- "Which PR do you want to checkout? (0 to exit)"
+  if (nrow(dat) > 9) {
+    n <- nrow(dat) - 9
+    dat <- dat[1:9, ]
+    prompt <- glue("
+      {prompt}
+      {n} more {if (n > 1) 'PRs are' else 'PR is'} open; \\
+      call {ui_code('browse_github_pulls()')} to browse all PRs")
+  }
+  pr_pretty <- purrr::pmap(
+    dat[c("pr_string", "pr_user", "pr_title")],
+    function(pr_string, pr_user, pr_title) {
+      at_user <- glue("@{pr_user}")
+      glue("
+        {ui_value(pr_string)} ({ui_field(at_user)}): {ui_value(pr_title)}")
+    }
+  )
+  choice <- utils::menu(title = prompt, choices = pr_pretty)
+  as.list(dat[choice, ])
 }
