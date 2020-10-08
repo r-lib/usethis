@@ -684,7 +684,7 @@ branches_with_no_upstream_or_github_upstream <- function(cfg = NULL) {
   gb_dat <- gert::git_branch_list(repo = repo)
   gb_dat <- gb_dat[
     gb_dat$local & gb_dat$name != git_branch_default(),
-    c("name", "upstream")
+    c("name", "upstream", "updated")
   ]
   gb_dat$remref   <- sub("^refs/remotes/", "", gb_dat$upstream)
   gb_dat$upstream <- NULL
@@ -693,9 +693,6 @@ branches_with_no_upstream_or_github_upstream <- function(cfg = NULL) {
 
   ghr <- github_remote_list(these = NULL)[["remote"]]
   gb_dat <- gb_dat[is.na(gb_dat$remref) | (gb_dat$remote %in% ghr), ]
-  gb_dat$timestamp <- map_chr(
-    gb_dat$name, ~ format(gert::git_log(.x, max = 1, repo = repo)$time)
-  )
 
   pr_dat <- pr_list(cfg = cfg)
   dat <- merge(
@@ -703,7 +700,7 @@ branches_with_no_upstream_or_github_upstream <- function(cfg = NULL) {
     by.x = "name", by.y = "pr_local_branch",
     all.x = TRUE
   )
-  dat <- dat[order(dat$pr_number, dat$pr_updated_at, dat$timestamp, decreasing = TRUE), ]
+  dat <- dat[order(dat$pr_number, dat$pr_updated_at, dat$updated, decreasing = TRUE), ]
 
   dat
 }
