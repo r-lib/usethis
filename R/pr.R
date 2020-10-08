@@ -201,6 +201,10 @@ pr_resume <- function(branch = NULL) {
     ui_info("
       No branch specified ... looking up local branches and associated PRs")
     branch <- choose_branch()
+    if (is.null(branch)) {
+      ui_oops("Repo doesn't seem to have any non-default branches")
+      return(invisible())
+    }
     if (length(branch) == 0) {
       ui_stop("No branch selected, aborting")
     }
@@ -705,6 +709,9 @@ choose_branch <- function() {
     return(character())
   }
   dat <- branches_with_no_upstream_or_github_upstream()
+  if (nrow(dat) == 0) {
+    return()
+  }
   prompt <- "Which branch do you want to checkout? (0 to exit)"
   if (nrow(dat) > 9) {
     branches_not_shown <- utils::tail(dat$name, -9)
