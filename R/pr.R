@@ -210,7 +210,8 @@ pr_resume <- function(branch = NULL) {
       return(invisible())
     }
     if (length(branch) == 0) {
-      ui_stop("No branch selected, aborting")
+      ui_oops("No branch selected, exiting")
+      return(invisible())
     }
   }
   stopifnot(is_string(branch))
@@ -254,7 +255,8 @@ pr_fetch <- function(number = NULL) {
       return(invisible())
     }
     if (min(lengths(pr)) == 0) {
-      ui_stop("No PR selected, aborting")
+      ui_oops("No PR selected, exiting")
+      return(invisible())
     }
   } else {
     pr <- pr_get(number = number, cfg = cfg)
