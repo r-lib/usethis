@@ -91,13 +91,17 @@
 #' you call `pr_push()`).
 
 #' * `pr_resume()`: Resume work on a PR by switching to an existing local branch
-#' and pulling any changes from its upstream tracking branch, if it has one.
+#' and pulling any changes from its upstream tracking branch, if it has one. If
+#' called with no arguments, up to 9 local branches are offered for interactive
+#' selection, with a preference for branches connected to PRs and for branches
+#' with recent activity.
 
-#' * `pr_fetch()`: Checks out a PR on the source repo for local exploration.
-#' This can cause a new remote to be configured and a new local branch to be
-#' created. The local branch is configured to track its remote counterpart.
-#' `pr_fetch()` puts a maintainer in a position where they can push changes into
-#' an external PR via `pr_push()`.
+#' * `pr_fetch()`: Checks out a PR on the source repo for local exploration. If
+#' called with no arguments, up to 9 open PRs are offered for interactive
+#' selection. This can cause a new remote to be configured and a new local
+#' branch to be created. The local branch is configured to track its remote
+#' counterpart. `pr_fetch()` puts a maintainer in a position where they can push
+#' changes into an external PR via `pr_push()`.
 
 #' * `pr_push()`: The first time it's called, a PR branch is pushed to `origin`
 #' and you're taken to a webpage where a new PR (or draft PR) can be created.

@@ -140,12 +140,16 @@ repo, to get a good start point. Creates and checks out a new branch. Nothing
 is pushed to or created on GitHub (that does not happen until the first time
 you call \code{pr_push()}).
 \item \code{pr_resume()}: Resume work on a PR by switching to an existing local branch
-and pulling any changes from its upstream tracking branch, if it has one.
-\item \code{pr_fetch()}: Checks out a PR on the source repo for local exploration.
-This can cause a new remote to be configured and a new local branch to be
-created. The local branch is configured to track its remote counterpart.
-\code{pr_fetch()} puts a maintainer in a position where they can push changes into
-an external PR via \code{pr_push()}.
+and pulling any changes from its upstream tracking branch, if it has one. If
+called with no arguments, up to 9 local branches are offered for interactive
+selection, with a preference for branches connected to PRs and for branches
+with recent activity.
+\item \code{pr_fetch()}: Checks out a PR on the source repo for local exploration. If
+called with no arguments, up to 9 open PRs are offered for interactive
+selection. This can cause a new remote to be configured and a new local
+branch to be created. The local branch is configured to track its remote
+counterpart. \code{pr_fetch()} puts a maintainer in a position where they can push
+changes into an external PR via \code{pr_push()}.
 \item \code{pr_push()}: The first time it's called, a PR branch is pushed to \code{origin}
 and you're taken to a webpage where a new PR (or draft PR) can be created.
 This also sets up the local branch to track its remote counterpart.

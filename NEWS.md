@@ -10,7 +10,7 @@ Usethis gains a more formal framework for characterizing a GitHub remote configu
   
 This is an internal matter, but users will notice that usethis is more clear about which configurations are supported by various functions and which are not. The most common configurations are reviewed in a [section of Happy Git](https://happygitwithr.com/common-remote-setups.html).
 
-When working in a fork, there is sometimes a question whether to target the fork or the parent repository. For example, `use_github_links()` adds GitHub links to the URL and BugReports fields of DESCRIPTION. If someone calls `use_github_links()` when working in a fork, they probably want those links to refer to the *parent* or *source* repo, not to their fork, because the user is probably preparing a pull request. Usethis should now have better default behaviour in these situations and, in some cases, will present an interactive choice.
+When working in a fork, there is sometimes a question whether to target the fork or its parent repository. For example, `use_github_links()` adds GitHub links to the URL and BugReports fields of DESCRIPTION. If someone calls `use_github_links()` when working in a fork, they probably want those links to refer to the *parent* or *source* repo, not to their fork, because the user is probably preparing a pull request. Usethis should now have better default behaviour in these situations and, in some cases, will present an interactive choice.
 
 ## Adoption of gert and getting usethis out of the Git credential business
 
@@ -64,15 +64,15 @@ There is increasing interest in making the name of a repo's default branch confi
 
 ## Changes to behaviour of Git/GitHub-related functions
 
+`pr_resume()` is a new function for resuming work on an existing local PR branch. It can be called argument-less, to select a branch interactively.
+
+`pr_fetch()` can also be called with no arguments, to select a PR interactively. `pr_fetch()` loses its `owner` argument. The `owner` is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.
+
 `pr_finish()` deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150).
 
 `pr_pull_upstream()` is renamed to `pr_merge_main()` to emphasize that it merges the **main** line of development into the current branch, where the main line of development is taken to mean the default branch, as reported by `git_branch_default()`, of the source repo, which could be either `upstream` or `origin`, depending on the situation.
 
 `create_from_github()` will only create a read-only clone, due to lack of a GitHub personal access token, if explicitly directed to do so via `fork = FALSE`.
-
-`pr_fetch()` no longer has an `owner` argument. This is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.
-
-`pr_resume()` is a new function for resuming work on an existing local PR branch.
 
 `create_github_token()` is a new name for the function previously known as `browse_github_token()` and `browse_github_pat()`.
 
