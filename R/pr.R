@@ -610,9 +610,18 @@ pr_list <- function(cfg = NULL) {
     .limit = Inf,
     .api_url = tr$api_url
   )
+  no_prs <- length(prs) == 0
+  if (no_prs) {
+    prs <- list(list())
+  }
   out <- map(prs, pr_data_tidy)
   out <- map(out, ~ as.data.frame(.x, stringsAsFactors = FALSE))
-  do.call(rbind, out)
+  out <- do.call(rbind, out)
+  if (no_prs) {
+    out[0, ]
+  } else {
+    out
+  }
 }
 
 pr_get <- function(number, cfg = NULL) {
@@ -729,7 +738,7 @@ choose_pr <- function(cfg = NULL) {
     return(list(pr_number = list()))
   }
   dat <- pr_list(cfg)
-  if (is.null(dat)) {
+  if (nrow(dat) == 0) {
     return()
   }
   prompt <- "Which PR do you want to checkout? (0 to exit)"
