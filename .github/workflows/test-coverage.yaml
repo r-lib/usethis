@@ -1,14 +1,14 @@
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'R/*'
       - 'tests/**'
       - codecov.yml
   pull_request:
     branches:
-      - master
+      - main
 
 name: test-coverage
 
