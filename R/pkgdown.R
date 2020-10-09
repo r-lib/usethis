@@ -35,7 +35,7 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
     (optional, but recommended)")
 
   if (has_logo()) {
-    pkgdown::build_favicons(proj_get(), overwrite = TRUE)
+    pkgdown_build_favicons(proj_get(), overwrite = TRUE)
   }
 
   config <- proj_path(config_file)
@@ -118,7 +118,7 @@ use_pkgdown_travis <- function() {
   # Can't currently detect if git known files in that directory
 
   if (has_logo()) {
-    pkgdown::build_favicons(proj_get(), overwrite = TRUE)
+    pkgdown_build_favicons(proj_get(), overwrite = TRUE)
     use_build_ignore("pkgdown")
   }
 
@@ -145,6 +145,12 @@ use_pkgdown_travis <- function() {
     <https://github.com/{tr$repo_spec}/settings> (using gh-pages as source)")
 
   invisible()
+}
+
+# usethis itself should not depend on pkgdown
+# all usage of this wrapper is guarded by `check_installed("pkgdown")`
+pkgdown_build_favicons <- function(...) {
+  pkgdown::build_favicons(...)
 }
 
 create_gh_pages_branch <- function(tr) {
