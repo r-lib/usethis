@@ -150,7 +150,7 @@ use_pkgdown_travis <- function() {
 # usethis itself should not depend on pkgdown
 # all usage of this wrapper is guarded by `check_installed("pkgdown")`
 pkgdown_build_favicons <- function(...) {
-  pkgdown::build_favicons(...)
+  get("build_favicons", asNamespace("pkgdown"), mode = "function")(...)
 }
 
 create_gh_pages_branch <- function(tr) {
