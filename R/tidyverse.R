@@ -281,7 +281,8 @@ use_tidy_thanks <- function(repo_spec = NULL,
 
   res <- gh::gh(
     "/repos/:owner/:repo/issues",
-    owner = spec_owner(repo_spec), repo = spec_repo(repo_spec),
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     since = from_timestamp,
     state = "all",
     filter = "all",
@@ -293,7 +294,7 @@ use_tidy_thanks <- function(repo_spec = NULL,
   }
 
   creation_time <- function(x) {
-    as.POSIXct(pluck_chr(x, "created_at"))
+    as.POSIXct(map_chr(x, "created_at"))
   }
 
   res <- res[creation_time(res) >= as.POSIXct(from_timestamp)]
@@ -306,7 +307,7 @@ use_tidy_thanks <- function(repo_spec = NULL,
     return(invisible())
   }
 
-  contributors <- sort(unique(pluck_chr(res, c("user", "login"))))
+  contributors <- sort(unique(map_chr(res, c("user", "login"))))
   contrib_link <- glue("[&#x0040;{contributors}](https://github.com/{contributors})")
 
   ui_done("Found {length(contributors)} contributors:")
@@ -345,8 +346,8 @@ ref_df <- function(repo_spec, refs = NULL) {
   res <- lapply(refs, get_thing)
   data.frame(
     ref = refs,
-    sha = substr(pluck_chr(res, "sha"), 1, 7),
-    timestamp = pluck_chr(res, c("commit", "committer", "date")),
+    sha = substr(map_chr(res, "sha"), 1, 7),
+    timestamp = map_chr(res, c("commit", "committer", "date")),
     stringsAsFactors = FALSE
   )
 }
@@ -362,7 +363,7 @@ releases <- function(repo_spec) {
   if (length(res) < 1) {
     return(NULL)
   }
-  pluck_chr(res, "tag_name")
+  map_chr(res, "tag_name")
 }
 
 ## approaches based on available.packages() and/or installed.packages() present
