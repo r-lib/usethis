@@ -10,9 +10,7 @@ use_testthat(edition = NULL, parallel = FALSE)
 \item{edition}{testthat edition to use. Defaults to the latest edition,
 i.e. the major version number of the currently installed testthat.}
 
-\item{parallel}{Should tests be run in parallel? Only supported in testthat
-3.0.0; see \url{https://testthat.r-lib.org/articles/parallel.html} for
-details and caveats.}
+\item{parallel}{Should tests be run in parallel? Only supported in testthat= 3.0.0; see https://testthat.r-lib.org/articles/parallel.html fordetails and caveats.}
 }
 \description{
 Creates \verb{tests/testthat/}, \code{tests/testthat.R}, and adds the testthat package

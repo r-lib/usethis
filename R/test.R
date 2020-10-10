@@ -6,7 +6,7 @@
 #' @param edition testthat edition to use. Defaults to the latest edition,
 #'   i.e. the major version number of the currently installed testthat.
 #' @param parallel Should tests be run in parallel? Only supported in testthat
-#'   3.0.0; see <https://testthat.r-lib.org/articles/parallel.html> for
+#'   >= 3.0.0; see <https://testthat.r-lib.org/articles/parallel.html> for
 #'   details and caveats.
 #' @seealso [use_test()] to create individual test files
 #' @export
