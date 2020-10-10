@@ -121,49 +121,65 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
   )]
 }
 
-#' Gather LOCAL and REMOTE data on GitHub-associated remotes
+#' Gather LOCAL and (maybe) REMOTE data on GitHub-associated remotes
 #'
 #' Creates a data frame where each row represents a GitHub-associated remote,
 #' starting with the output of `github_remote_list()` (local data). This
-#' function's job is to (try to) add information we can only retrieve from the
-#' GitHub API. Key jobs:
-#' * Attempt to get a token from gitcreds based on the host URL.
-#' * We explicitly get a token, for now at least, even though we could just let
-#'   gh handle token discovery. This is so we can better understand why the
-#'   GitHub API call may not have succeeded. This is useful for development and
-#'   probably also for user-facing advice.
-#' * Use gh, with our token and API URL, for GET /repos/:owner/:repo.
-#' * Massage the resulting data into our data frame.
+#' function's job is to (maybe) add information we can only get from the GitHub
+#' API. If `github_get = FALSE`, we don't even attempt to call the API.
+#' Otherwise, we try and will succeed if gh discovers a suitable token. The
+#' resulting data, even if the API data is absent, is massaged into a data
+#' frame.
 #'
 #' @inheritParams github_remote_list
+#' @param github_get Whether to attempt to get repo info from the GitHub API. We
+#'   try for `NA` (the default) and `TRUE`. If we aren't successful, we proceed
+#'   anyway for `NA` but error for `TRUE`. When `FALSE`, no attempt is made to
+#'   call the API.
 #' @keywords internal
 #' @noRd
-github_remotes <- function(these = c("origin", "upstream"), x = NULL) {
+github_remotes <- function(these = c("origin", "upstream"),
+                           github_get = NA,
+                           x = NULL) {
   grl <- github_remote_list(these = these, x = x)
-  # TODO: do I even need to proactively obtain and pass the token any more?
-  # even if I need it downstream, can extract from the gh::gh() return value
-  # sub("^token ", "", attr(x, ".send_headers")[["Authorization"]])
-  grl$token <- map_chr(grl$host_url, gh::gh_token)
-
   get_gh_repo <- function(repo_owner, repo_name,
-                          token = "", api_url = "https://api.github.com") {
-    purrr::possibly(gh::gh, otherwise = list())(
+                          api_url = "https://api.github.com") {
+    if (isFALSE(github_get)) {
+      f <- function(...) list()
+    } else {
+      f <- purrr::possibly(gh::gh, otherwise = list())
+    }
+    f(
       "GET /repos/:owner/:repo",
-      owner = repo_owner, repo = repo_name,
-      .token = token, .api_url = api_url
+      owner = repo_owner, repo = repo_name, .api_url = api_url
     )
   }
-
   repo_info <- purrr::pmap(
-    grl[c("repo_owner", "repo_name", "token", "api_url")],
+    grl[c("repo_owner", "repo_name", "api_url")],
     get_gh_repo
   )
-  grl$have_github_info <- map_lgl(repo_info, ~ length(.x) > 0)
+  # NOTE: these can be two separate matters:
+  # 1. Did we call the GitHub API? Means we know `is_fork` and the parent repo.
+  # 2. If so, did we call it with auth? Means we know if we can push.
+  grl$github_got <- map_lgl(repo_info, ~ length(.x) > 0)
+  if (isTRUE(github_get) && any(!grl$github_got)) {
+    oops <- which(!grl$github_got)
+    oops_remotes <- grl$remote[oops]
+    oops_hosts <- unique(grl$host[oops])
+    # TODO: update when there's a place to send people for troubleshooting
+    ui_stop("
+      Unable to get GitHub info for these remotes: {ui_value(oops_remotes)}
+      Are we offline?
+      Otherwise, you probably need to configure a personal access token (PAT) \\
+      for {ui_value(oops_hosts)}
+      See {ui_code('?create_github_token')} for advice")
+  }
 
   grl$is_fork <- map_lgl(repo_info, "fork", .default = NA)
   # `permissions` is an example of data that is not present if the request
   # did not include a PAT
   grl$can_push <- map_lgl(repo_info, c("permissions", "push"), .default = NA)
+  grl$perm_known <- !is.na(grl$can_push)
   grl$parent_repo_owner <-
     map_chr(repo_info, c("parent", "owner", "login"), .default = NA)
   grl$parent_repo_name <-
@@ -172,7 +188,7 @@ github_remotes <- function(these = c("origin", "upstream"), x = NULL) {
 
   parent_info <- purrr::pmap(
     set_names(
-      grl[c("parent_repo_owner", "parent_repo_name", "token", "api_url")],
+      grl[c("parent_repo_owner", "parent_repo_name", "api_url")],
       ~ sub("parent_", "", .x)
     ),
     get_gh_repo
