@@ -54,9 +54,6 @@ is_installed <- function(pkg) {
   requireNamespace(pkg, quietly = TRUE)
 }
 
-## mimimalist, type-specific purrr::pluck()'s
-pluck_chr <- function(l, what) vapply(l, `[[`, character(1), what)
-
 interactive <- function() {
   ui_stop(
     "Internal error: use rlang's {ui_code('is_interactive()')} \\
