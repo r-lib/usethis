@@ -282,14 +282,9 @@ new_github_remote_config <- function() {
   )
 }
 
-github_remote_config <- function(github_get = TRUE) {
+github_remote_config <- function(github_get = NA) {
   cfg <- new_github_remote_config()
-  if (github_get) {
-    grl <- github_remotes()
-  } else {
-    grl <- github_remote_list()
-    grl$have_github_info <- FALSE
-  }
+  grl <- github_remotes(github_get = github_get)
 
   if (nrow(grl) == 0) {
     return(cfg_no_github(cfg))
@@ -300,26 +295,23 @@ github_remote_config <- function(github_get = TRUE) {
 
   single_remote <- xor(cfg$origin$is_configured, cfg$upstream$is_configured)
 
-  # check that hosts match
-  # remember: anyDuplicated() returns an index, NOT logical
-  if (!single_remote && anyDuplicated(grl$host) < 1) {
-    # example: github.com and github.acme.com
-    ui_stop("
-      Unsupported GitHub remote configuration: mismatched hosts
-          origin = {grl$host[grl$remote == 'origin']}
-        upstream = {grl$host[grl$remote == 'upstream']}")
+  if (!single_remote) {
+    if (length(unique(grl$host)) != 1) {
+      ui_stop("
+        Internal error: Multiple GitHub hosts
+        {ui_value(grl$host)}")
+    }
+    if (length(unique(grl$github_got)) != 1) {
+      ui_stop("
+        Internal error: Got GitHub API info for some remotes, but not all")
+    }
+    if (length(unique(grl$perm_known)) != 1) {
+      ui_stop("
+        Internal error: Know GitHub permissions for some remotes, but not all")
+    }
   }
-
-  # check we've got GitHub info for all remotes or for none
-  if (!single_remote && anyDuplicated(grl$have_github_info) < 1) {
-    tmp_o <- grl[grl$remote == "origin", c("url", "have_github_info")]
-    tmp_u <- grl[grl$remote == "upstream", c("url", "have_github_info")]
-    ui_stop("
-      Unsupported GitHub remote configuration: incomplete GitHub information
-        origin ({tmp_o$url}), GitHub info: {tmp_o$have_github_info}
-        upstream ({tmp_u$url}), GitHub info: {tmp_u$have_github_info}")
-  }
-  have_github_info <- any(grl$have_github_info)
+  github_got <- any(grl$github_got)
+  perm_known <- any(grl$perm_known)
 
   if (cfg$origin$is_configured) {
     cfg$origin <-
@@ -331,19 +323,20 @@ github_remote_config <- function(github_get = TRUE) {
       utils::modifyList(cfg$upstream, grl[grl$remote == "upstream",])
   }
 
-  if (!have_github_info) {
+  if (github_got && !single_remote) {
+    cfg$origin$parent_is_upstream <-
+      identical(cfg$origin$parent_repo_spec, cfg$upstream$repo_spec)
+  }
+
+  if (!github_got || !perm_known) {
     if (single_remote) {
       return(cfg_maybe_ours_or_theirs(cfg))
     } else {
       return(cfg_maybe_fork(cfg))
     }
   }
-  # `have_github_info` must be TRUE
-
-  if (!single_remote) {
-    cfg$origin$parent_is_upstream <-
-      identical(cfg$origin$parent_repo_spec, cfg$upstream$repo_spec)
-  }
+  # `github_got` must be TRUE
+  # `perm_known` must be TRUE
 
   # origin only
   if (single_remote && cfg$origin$is_configured) {
