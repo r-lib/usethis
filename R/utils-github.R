@@ -74,27 +74,6 @@ github_remote_from_description <- function(desc) {
   }
 }
 
-#' Attempt to get a PAT from gitcreds
-#'
-#' Asks gitcreds for a PAT corresponding to a URL. If there is no such PAT,
-#' returns `""`. All other errors are thrown. But maybe we should also not error
-#' for "no git"? Main difference from `gitcreds::gitcreds_get()` is that we
-#' catch "no creds". Main difference between `gitcreds::gitcreds_get()` and `git
-#' credential fill` is lack of forced user interactivity, i.e. it's possible to
-#' simply not get a PAT, without throwing an error.
-#'
-#' @param url URL that gitcreds ultimately passes to `git credential fill`
-#' @keywords internal
-#' @noRd
-gitcreds_token <- function(url = "https://github.com") {
-  credential <- tryCatch(
-    gitcreds::gitcreds_get(url),
-    gitcreds_nogit_error = function(e) stop("no_git"),
-    gitcreds_no_credentials = function(e) NULL
-  )
-  credential$password %||% ""
-}
-
 #' Gather LOCAL data on GitHub-associated remotes
 #'
 #' Creates a data frame where each row represents a GitHub-associated remote.
@@ -161,7 +140,10 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
 #' @noRd
 github_remotes <- function(these = c("origin", "upstream"), x = NULL) {
   grl <- github_remote_list(these = these, x = x)
-  grl$token <- map_chr(grl$host_url, gitcreds_token)
+  # TODO: do I even need to proactively obtain and pass the token any more?
+  # even if I need it downstream, can extract from the gh::gh() return value
+  # sub("^token ", "", attr(x, ".send_headers")[["Authorization"]])
+  grl$token <- map_chr(grl$host_url, gh::gh_token)
 
   get_gh_repo <- function(repo_owner, repo_name,
                           token = "", api_url = "https://api.github.com") {

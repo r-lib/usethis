@@ -68,7 +68,11 @@ use_github <- function(organisation = NULL,
 
   host_url <- gh:::get_hosturl(host)
   api_url <- gh:::get_apiurl(host)
-  auth_token <- gitcreds_token(host_url)
+  # TODO: do I even need to proactively get the token here? what if I just go
+  # straight to a tryCatch'd gh::gh_whoami()? if it fails due to invalid token
+  # refer people to a yet-to-be written humane function in gh (or one I put in
+  # usethis)
+  auth_token <- gh::gh_token(host_url)
   if (auth_token == "") {
     get_code <- glue("gitcreds::gitcreds_get(\"{host_url}\")")
     set_code <- glue("gitcreds::gitcreds_set(\"{host_url}\")")

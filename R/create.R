@@ -173,8 +173,9 @@ create_from_github <- function(repo_spec,
 
   host_url <- gh:::get_hosturl(host)
   api_url <- gh:::get_apiurl(host)
-  auth_token <- gitcreds_token(host_url)
+  auth_token <- gh::gh_token(host_url)
 
+  # TODO: revisit if usethis or gh gains a better "sitrep" helper for PATs
   if (auth_token == "" && is.na(fork)) {
     create_code <- "usethis::create_github_token()"
     set_code <- glue("gitcreds::gitcreds_set(\"{host_url}\")")

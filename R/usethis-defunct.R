@@ -143,9 +143,9 @@ deprecate_warn_auth_token <- function(whos_asking, details = NULL) {
   what <- glue("{whos_asking}(auth_token = )")
 
   auth_token_explanation <- glue("
-    usethis now delegates token lookup to the gitcreds package, which \\
-    retrieves credentials based on a URL.
-    usethis forms this URL based on the current project's Git remotes.
+    usethis now delegates token lookup to the gh package, which retrieves \\
+    credentials based on the targetted host URL.
+    This URL is determined by the current project's Git remotes.
     The {ui_code('auth_token')} argument is ignored and will eventually be \\
     removed.")
 
