@@ -177,6 +177,7 @@ create_from_github <- function(repo_spec,
 
   # TODO: revisit if usethis or gh gains a better "sitrep" helper for PATs
   if (auth_token == "" && is.na(fork)) {
+    # TODO: revisit when there's better troubleshooting advice
     create_code <- "usethis::create_github_token()"
     set_code <- glue("gitcreds::gitcreds_set(\"{host_url}\")")
     ui_stop("
@@ -194,6 +195,7 @@ create_from_github <- function(repo_spec,
   }
 
   if (auth_token == "" && isTRUE(fork)) {
+    # TODO: revisit when there's better troubleshooting advice
     create_code <- "usethis::create_github_token()"
     set_code <- glue("gitcreds::gitcreds_set(\"{host_url}\")")
     ui_stop("
@@ -226,7 +228,8 @@ create_from_github <- function(repo_spec,
   # fork is either TRUE or FALSE
 
   if (fork) {
-    user <- github_login(auth_token, api_url)
+    out <- gh::gh_whoami(.token = auth_token, .api_url = api_url)
+    user <- out$login
     if (identical(user, repo_info$owner$login)) {
       ui_stop("
         Repo {ui_value(repo_info$full_name)} is owned by user \\

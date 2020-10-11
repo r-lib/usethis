@@ -110,13 +110,6 @@ test_that("github_remotes() works", {
   expect_true(is.na(grl$is_fork))
 })
 
-test_that("github_login() returns user's login", {
-  with_mock(
-    `gh::gh_whoami` = function(...) list(login = "USER"),
-    expect_equal(github_login("PAT"), "USER")
-  )
-})
-
 # GitHub remote configuration --------------------------------------------------
 # very sparse, but you have to start somewhere!
 
