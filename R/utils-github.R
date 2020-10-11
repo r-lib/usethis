@@ -220,21 +220,25 @@ github_remotes <- function(these = c("origin", "upstream"),
 #' Other functions, like the `pr_*()` functions, are more demanding and we'll
 #' always determine the config with `github_get = TRUE`.
 #'
-#' Here's how a usethis function can use the GitHub remote configuration:
-#' * `cfg <- classify_github_config(...)`
-#' * Inspect `cfg$type` and call `stop_bad_github_remote_config()` if the
-#'   function can't work with that config.
+#' Most usethis functions should call the higher-level functions `target_repo()`
+#' or `target_repo_spec()`.
+#'
+#' Only functions that really need full access to the GitHub remote config
+#' should call this directly. Ways to work with a config:
+#' * `cfg <- github_remote_config(github_get = )`
+#' * `check_for_bad_config(cfg)` errors for obviously bad configs (by default)
+#'   or you can specify the configs considered to be bad
+#' * Emit a custom message then call `stop_bad_github_remote_config()` directly
 #' * If the config is suboptimal-but-supported, use
 #'   `ui_github_remote_config_wat()` to educate the user and give them a chance
 #'   to back out.
-#' * Proceed quietly if the config is OK.
 #'
 #' Fields in an instance of `github_remote_config`:
 #' * `type`: explained below
 #' * `pr_ready`: Logical. Do the `pr_*()` functions support it?
 #' * `desc`: A description used in messages and menus.
 #' * `origin`: Information about the `origin` GitHub remote.
-#' * `upstream`: Information about the `origin` GitHub remote.
+#' * `upstream`: Information about the `upstream` GitHub remote.
 #'
 #' Possible GitHub remote configurations, the common cases:
 #' * no_github: No `origin`, no `upstream`.
@@ -257,7 +261,9 @@ github_remotes <- function(these = c("origin", "upstream"),
 #'   `origin` is not a fork of anything and, specifically, it's not a fork of
 #'   `upstream`.
 #'
-#'  Remote configuration "guesses" we apply when `github_get = FALSE`:
+#'  Remote configuration "guesses" we apply when `github_get = FALSE` or when
+#'  we make unauthorized requests (no PAT found) and therefore have no info on
+#'  permissions
 #'  * maybe_ours_or_theirs: Exactly one of `origin` and `upstream` exists.
 #'  * maybe_fork: Both `origin` and `upstream` exist.
 #'
@@ -383,46 +389,45 @@ github_remote_config <- function(github_get = NA) {
 #' Select a target (GitHub) repo
 #'
 #' @description
-#' Returns information about a GitHub repository. Used when we need to designate
-#' which repo we will, e.g., open an issue on or activate a CI service for.
-#' This information might be used in a GitHub API request or to form URLs.
+
+#' Returns information about ONE GitHub repository. Used when we need to
+#' designate which repo we will, e.g., open an issue on or activate a CI service
+#' for. This information might be used in a GitHub API request or to form URLs.
 #'
+
 #' Examples:
 #' * Badge URLs
 #' * URLs where you can activate a CI service
 #' * URLs for DESCRIPTION fields such as URL and BugReports
+
+#' `target_repo()` passes `github_get` along to `github_remote_config()`. If
+#' `github_get = TRUE`, `target_repo()` will error for configs other than
+#' `"ours"` or `"fork"`. `target_repo()` always errors for bad configs. If
+#' `github_get = NA` or `FALSE`, the "maybe" configs are tolerated.
 #'
-#' If `cfg` is not provided, `target_repo()` calls
-#' `github_remote_config(github_get = FALSE)` and works only with locally
-#' available information about GitHub remotes. To work with full GitHub remote
-#' configuration, call `github_remote_config(github_get = TRUE)` yourself and
-#' pass the resulting `cfg` in. `target_repo()` will challenge certain configs,
-#' e.g., "fork_upstream_is_not_origin_parent", and ask if user wants to back out
-#' and fix the remote configuration.
-#'
-#' In some configurations, if `ask = TRUE` and we're in an interactive session,
-#' user gets a choice between `origin` and (if either exists or is known) its
-#' parent repo and `upstream`.
-#'
-#' We use "source" to mean the principal repo where a project's development
-#' happens. We use "primary" to mean the principal repo this particular user
-#' interacts with or has the greatest power over. They can be the same or
-#' different. Examples:
+
+#' @inheritParams github_remotes
+
+#' @param cfg An optional GitHub remote configuration. Used to get the target
+#'   repo when the function had some need for the full config.
+#' @param role We use "source" to mean the principal repo where a project's
+#'   development happens. We use "primary" to mean the principal repo this
+#'   particular user interacts with or has the greatest power over. They can be
+#'   the same or different. Examples:
 #' * For a personal project you own, "source" and "primary" are the same.
 #'   Presumably the `origin` remote.
 #' * For a collaboratively developed project, an outside contributor must create
 #'   a fork in order to make a PR. For such a person, their fork is "primary"
 #'   (presumably `origin`) and the original repo that they forked is "source"
 #'   (presumably `upstream`).
-#'
 #' This is *almost* consistent with terminology used by the GitHub API. A fork
 #' has a "source repo" and a "parent repo", which are usually the same. They
 #' only differ when working with a fork of a repo that is itself a fork. In this
 #' rare case, the parent is the immediate fork parent and the source is the
 #' ur-parent, i.e. the root of this particular tree. The source repo is not a
 #' fork.
-#'
-#' @inheritParams use_github
+#' @param ask In some configurations, if `ask = TRUE` and we're in an
+#'   interactive session, user gets a choice between `origin` and `upstream`.
 #' @keywords internal
 #' @noRd
 target_repo <- function(cfg = NULL,
@@ -674,7 +679,10 @@ cfg_maybe_fork <- function(cfg) {
       pr_ready = NA,
       desc = glue("
         Both {ui_value('origin')} and {ui_value('upstream')} appear to be \\
-        GitHub repos.")
+        GitHub repos. However, we can't confirm their relationship to each \\
+        other (e.g., fork and fork parent) or your permissions (e.g. push \\
+        access). We may be offline or you may need to configure a GitHub \\
+        personal access token.")
     )
   )
 }
