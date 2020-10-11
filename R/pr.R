@@ -158,8 +158,10 @@ pr_init <- function(branch) {
     return(pr_resume(branch))
   }
 
-  cfg <- github_remote_config()
-  good_configs <- c("ours", "theirs", "fork")
+  # don't absolutely require PAT success, because we could be offline
+  # or in another salvageable situation, e.g. need to configure PAT
+  cfg <- github_remote_config(github_get = NA)
+  good_configs <- c("ours", "fork")
   maybe_good_configs <- c("maybe_ours_or_theirs", "maybe_fork")
   if (!cfg$type %in% c(good_configs, maybe_good_configs)) {
     stop_unsupported_pr_config(cfg)
@@ -243,15 +245,14 @@ pr_resume <- function(branch = NULL) {
 #' pr_fetch(123)
 #' }
 pr_fetch <- function(number = NULL) {
-  cfg <- github_remote_config()
-  check_pr_readiness(cfg)
+  tr <- target_repo(github_get = TRUE)
   check_no_uncommitted_changes()
 
   if (is.null(number)) {
     ui_info("No PR specified ... looking up open PRs")
-    pr <- choose_pr(cfg = cfg)
+    pr <- choose_pr(tr = tr)
     if (is.null(pr)) {
-      ui_oops("No open PRs found for {ui_value(target_repo(cfg)$repo_spec)}")
+      ui_oops("No open PRs found for {ui_value(tr$repo_spec)}")
       return(invisible())
     }
     if (min(lengths(pr)) == 0) {
@@ -259,7 +260,7 @@ pr_fetch <- function(number = NULL) {
       return(invisible())
     }
   } else {
-    pr <- pr_get(number = number, cfg = cfg)
+    pr <- pr_get(number = number, tr = tr)
   }
 
   if (is.na(pr$pr_repo_owner)) {
@@ -281,8 +282,7 @@ pr_fetch <- function(number = NULL) {
 
   remote <- github_remote_list(pr$pr_remote)
   if (nrow(remote) == 0) {
-    protocol <- cfg$origin$protocol
-    url <- switch(protocol, https = pr$pr_https_url, ssh = pr$pr_ssh_url)
+    url <- switch(tr$protocol, https = pr$pr_https_url, ssh = pr$pr_ssh_url)
     ui_done("Adding remote {ui_value(pr$pr_remote)} as {ui_value(url)}")
     gert::git_remote_add(url = url, name = pr$pr_remote, repo = repo)
     config_key <- glue("remote.{pr$pr_remote}.created-by")
@@ -355,7 +355,7 @@ pr_push <- function() {
   }
 
   # Prompt to create PR on first push
-  pr <- pr_find(branch, cfg = cfg)
+  pr <- pr_find(branch, tr = tr)
   if (is.null(pr)) {
     pr_create_gh()
   } else {
@@ -535,7 +535,7 @@ pr_create_gh <- function() {
   view_url(glue("https://github.com/{origin$repo_spec}/compare/{branch}"))
 }
 
-pr_find <- function(branch = git_branch(), cfg = NULL) {
+pr_find <- function(branch = git_branch(), tr = NULL) {
   # Have we done this before? Check if we've cached pr-url in git config.
   config_url <- glue("branch.{branch}.pr-url")
   url <- git_cfg_get(config_url, where = "local")
@@ -543,7 +543,7 @@ pr_find <- function(branch = git_branch(), cfg = NULL) {
     return(pr_get(sub("^.+pull/", "", url)))
   }
 
-  pr_dat <- pr_list(cfg = cfg)
+  pr_dat <- pr_list(tr = tr)
   m <- match(branch, pr_dat$pr_local_branch)
   if (!is.na(m)) {
     url <- pr_dat$pr_html_url[[m]]
@@ -554,8 +554,8 @@ pr_find <- function(branch = git_branch(), cfg = NULL) {
   NULL
 }
 
-pr_url <- function(branch = git_branch(), cfg = NULL) {
-  pr <- pr_find(branch, cfg = cfg)
+pr_url <- function(branch = git_branch(), tr = NULL) {
+  pr <- pr_find(branch, tr = tr)
   if (is.null(pr)) {
     NULL
   } else {
@@ -612,13 +612,12 @@ pr_data_tidy <- function(pr) {
   out
 }
 
-pr_list <- function(cfg = NULL) {
-  tr <- target_repo(cfg = cfg, ask = FALSE)
+pr_list <- function(tr = NULL, github_get = NA) {
+  tr <- tr %||% target_repo(github_get = github_get, ask = FALSE)
   prs <- gh::gh(
     "GET /repos/:owner/:repo/pulls",
     owner = tr$repo_owner, repo = tr$repo_name,
-    .limit = Inf,
-    .api_url = tr$api_url
+    .limit = Inf, .api_url = tr$api_url
   )
   no_prs <- length(prs) == 0
   if (no_prs) {
@@ -634,13 +633,12 @@ pr_list <- function(cfg = NULL) {
   }
 }
 
-pr_get <- function(number, cfg = NULL) {
-  tr <- target_repo(cfg = cfg, ask = FALSE)
+pr_get <- function(number, tr = NULL, github_get = NA) {
+  tr <- tr %||% target_repo(github_get = github_get, ask = FALSE)
   raw <- gh::gh(
     "GET /repos/:owner/:repo/pulls/:number",
     owner = tr$repo_owner, repo = tr$repo_name,
-    number = number,
-    .token = tr$token, .api_url = tr$api_url
+    number = number, .api_url = tr$api_url
   )
   pr_data_tidy(raw)
 }
@@ -743,11 +741,12 @@ choose_branch <- function() {
   branch <- dat$name[choice]
 }
 
-choose_pr <- function(cfg = NULL) {
+choose_pr <- function(tr = NULL) {
   if (!is_interactive()) {
     return(list(pr_number = list()))
   }
-  dat <- pr_list(cfg)
+  tr <- tr %||% target_repo()
+  dat <- pr_list(tr)
   if (nrow(dat) == 0) {
     return()
   }
