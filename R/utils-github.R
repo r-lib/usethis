@@ -426,19 +426,17 @@ github_remote_config <- function(github_get = NA) {
 #' @keywords internal
 #' @noRd
 target_repo <- function(cfg = NULL,
+                        github_get = NA,
                         role = c("source", "primary"),
                         ask = is_interactive()) {
-  cfg <- cfg %||% github_remote_config(github_get = FALSE)
+  cfg <- cfg %||% github_remote_config(github_get = github_get)
   stopifnot(inherits(cfg, "github_remote_config"))
   role <- match.arg(role)
 
-  bad_configs <- c(
-    "no_github",
-    "fork_upstream_is_not_origin_parent",
-    "fork_cannot_push_origin",
-    "upstream_but_origin_is_not_fork"
-  )
-  if (cfg$type %in% bad_configs) {
+  check_for_bad_config(cfg)
+
+  if (isTRUE(github_get) && (!cfg$type %in% c("ours", "fork"))) {
+    # TODO: this doesn't offer any helpful advice, such as configuring a PAT
     stop_bad_github_remote_config(cfg)
   }
 
@@ -579,6 +577,19 @@ stop_unsupported_pr_config <- function(cfg) {
     class = c("usethis_error_invalid_pr_config", "usethis_error"),
     cfg = cfg
   )
+}
+
+check_for_bad_config <- function(cfg,
+                                 bad_configs = c(
+                                   "no_github",
+                                   "fork_upstream_is_not_origin_parent",
+                                   "fork_cannot_push_origin",
+                                   "upstream_but_origin_is_not_fork"
+                                 )) {
+  if (cfg$type %in% bad_configs) {
+    stop_bad_github_remote_config(cfg)
+  }
+  invisible()
 }
 
 # github remote configurations -------------------------------------------------
