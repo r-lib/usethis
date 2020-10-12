@@ -107,10 +107,7 @@ use_pkgdown_travis <- function() {
       Do you need to call {ui_code('use_pkgdown()')}?")
   }
 
-  cfg <- github_remote_config(github_get = TRUE)
-  if (!cfg$type %in% c("ours", "fork")) {
-    stop_bad_github_remote_config(cfg)
-  }
+  tr <- target_repo(github_get = TRUE)
 
   use_build_ignore("docs/")
   use_git_ignore("docs/")
@@ -135,7 +132,6 @@ use_pkgdown_travis <- function() {
     "
   )
 
-  tr <- target_repo(cfg)
   if (!gert::git_branch_exists("origin/gh-pages", local = FALSE, repo = git_repo())) {
     create_gh_pages_branch(tr)
   }
@@ -165,7 +161,7 @@ create_gh_pages_branch <- function(tr) {
       endpoint,
       ...,
       owner = tr$repo_owner, repo = tr$repo_name,
-      .token = tr$token, .api_url = tr$api_url
+      .api_url = tr$api_url
     )
   }
 

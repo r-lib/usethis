@@ -214,16 +214,12 @@ use_github_links <- function(auth_token = deprecated(),
   }
 
   check_is_package("use_github_links()")
-  cfg <- github_remote_config(github_get = TRUE)
-  if (!cfg$type %in% c("ours", "fork")) {
-    stop_bad_github_remote_config(cfg)
-  }
-  tr <- target_repo(cfg)
+  tr <- target_repo(github_get = TRUE)
 
   res <- gh::gh(
     "GET /repos/:owner/:repo",
     owner = tr$repo_owner, repo = tr$repo_name,
-    .api_url = tr$api_url, .token = tr$token
+    .api_url = tr$api_url
   )
 
   use_description_field("URL", res$html_url, overwrite = overwrite)

@@ -8,8 +8,8 @@ use_github_release(host = deprecated(), auth_token = deprecated())
 }
 \arguments{
 \item{host, auth_token}{\lifecycle{defunct}: No longer consulted now that
-usethis uses the gitcreds package to lookup a token based on a URL
-determined from the current project's GitHub remotes.}
+usethis allows the gh package to lookup a token based on a URL determined
+from the current project's GitHub remotes.}
 }
 \description{
 Creates a \strong{draft} GitHub release for the current package using the current

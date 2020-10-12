@@ -478,19 +478,6 @@ target_repo_spec <- function(role = c("source", "primary"),
   tr$repo_spec
 }
 
-# `x` is probably the return value of `target_repo()`
-check_have_github_info <- function(x) {
-  if (x$have_github_info) {
-    return(invisible())
-  }
-  get_code <- glue("gitcreds::gitcreds_get(\"{x$host_url}\")")
-  set_code <- glue("gitcreds::gitcreds_set(\"{x$host_url}\")")
-  ui_stop("
-      Unable to discover a token for {ui_value(x$host_url)}
-        Call {ui_code(get_code)} to experience this first-hand
-        Call {ui_code(set_code)} to store a token")
-}
-
 # formatting github remote configurations for humans ---------------------------
 format_remote <- function(remote) {
   effective_spec <- function(remote) {
