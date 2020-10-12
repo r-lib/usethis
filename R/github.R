@@ -131,27 +131,17 @@ use_github <- function(organisation = NULL,
   use_git_remote("origin", origin_url)
 
   if (is_package()) {
-    error <- tryCatch(
+    # we tryCatch(), because we can't afford any failure here to result in not
+    # making the first push and configuring default branch
+    # such an incomplete setup is hard to diagnose / repair post hoc
+    tryCatch(
       use_github_links(),
-      usethis_error = function(e) e
+      error = function(e) NULL
     )
-    if (!is.null(error)) {
-      ui_oops("
-        Unable to update the links in {ui_field('URL')} and/or \\
-        {ui_field('BugReports')} in DESCRIPTION.
-        Call \\
-        {ui_code('usethis::use_github_links(overwrite = TRUE)')} to fix.")
-    }
-    if (git_uncommitted(untracked = FALSE)) {
-      git_ask_commit(
-        "Add GitHub links to DESCRIPTION",
-        untracked = FALSE,
-        paths = "DESCRIPTION"
-      )
-    }
   }
 
   default_branch <- git_branch_default()
+  repo <- git_repo()
   remref <- glue("origin/{default_branch}")
   ui_done("
     Pushing {ui_value(default_branch)} branch to GitHub and setting \\
@@ -159,11 +149,11 @@ use_github <- function(organisation = NULL,
   gert::git_push(
     remote = "origin",
     set_upstream = TRUE,
-    repo = git_repo(),
+    repo = repo,
     verbose = FALSE
   )
 
-  gbl <- gert::git_branch_list(repo = git_repo())
+  gbl <- gert::git_branch_list(repo = repo)
   gbl <- gbl[gbl$local, ]
   if (nrow(gbl) > 1) {
     ui_done("
@@ -227,6 +217,12 @@ use_github_links <- function(auth_token = deprecated(),
     "BugReports",
     glue("{res$html_url}/issues"),
     overwrite = overwrite
+  )
+
+  git_ask_commit(
+    "Add GitHub links to DESCRIPTION",
+    untracked = TRUE,
+    paths = "DESCRIPTION"
   )
 
   invisible()
