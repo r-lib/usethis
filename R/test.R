@@ -3,10 +3,10 @@
 #' Creates `tests/testthat/`, `tests/testthat.R`, and adds the testthat package
 #' to the Suggests field. Learn more in <https://r-pkgs.org/tests.html>
 #'
-#' @param edition testthat edition to use. Defaults to the latest edition,
-#'   i.e. the major version number of the currently installed testthat.
-#' @param parallel Should tests be run in parallel? Only supported in testthat
-#'   >= 3.0.0; see <https://testthat.r-lib.org/articles/parallel.html> for
+#' @param edition testthat edition to use. Defaults to the latest edition, i.e.
+#'   the major version number of the currently installed testthat.
+#' @param parallel Should tests be run in parallel? This feature appeared in
+#'   testthat 3.0.0; see <https://testthat.r-lib.org/articles/parallel.html> for
 #'   details and caveats.
 #' @seealso [use_test()] to create individual test files
 #' @export
