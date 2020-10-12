@@ -1,8 +1,6 @@
-pkgload::unload("devtools")
 devtools::load_all("~/rrr/usethis")
-attachNamespace("devtools")
 
-pkgname <- "grump-llama"
+pkgname <- "grumpy-llama"
 (pkgpath <- path_temp(pkgname))
 create_local_package(pkgpath)
 proj_sitrep()
