@@ -191,8 +191,9 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
     remote = remref_remote(remref),
     refspec = remref_branch(branch),
     repo = repo,
-    verbose = verbose
+    verbose = FALSE
   )
+  # TODO: silence this when possible
   gert::git_merge(remref, repo = repo)
   st <- git_status(untracked = TRUE)
   if (any(st$status == "conflicted")) {
