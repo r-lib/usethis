@@ -400,6 +400,11 @@ github_remote_config <- function(github_get = NA) {
 #' `"ours"` or `"fork"`. `target_repo()` always errors for bad configs. If
 #' `github_get = NA` or `FALSE`, the "maybe" configs are tolerated.
 #'
+#' `target_repo_spec()` is a less capable function for when you just need an
+#' `OWNER/REPO` spec. Currently, it does not set or offer control over
+#' `github_get`, although I've considered explicitly setting `github_get =
+#' FALSE` or adding this argument, defaulting to `FALSE`.
+#'
 
 #' @inheritParams github_remotes
 
