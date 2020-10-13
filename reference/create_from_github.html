@@ -61,11 +61,7 @@ branch setup, leaving you in the perfect position to make a pull request with
 pr_init(), one of several functions that work pull requests.
 create_from_github() works best when we can find a GitHub personal access
 token in the Git credential store (just like many other usethis functions).
-If you do not have a token, create_github_token() provides assistance.
-Once you have a token, gitcreds::gitcreds_get() helps you store it for
-future re-discovery and re-use.
-
-" />
+See create_github_token() for more advice." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -204,12 +200,8 @@ fork-and-clone case, <code>create_from_github()</code> also does additional remo
 branch setup, leaving you in the perfect position to make a pull request with
 <code><a href='pull-requests.html'>pr_init()</a></code>, one of several <a href='pull-requests.html'>functions that work pull requests</a>.</p>
 <p><code>create_from_github()</code> works best when we can find a GitHub personal access
-token in the Git credential store (just like many other usethis functions).</p><ul>
-<li><p>If you do not have a token, <code><a href='create_github_token.html'>create_github_token()</a></code> provides assistance.</p></li>
-<li><p>Once you have a token, <code><a href='https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html'>gitcreds::gitcreds_get()</a></code> helps you store it for
-future re-discovery and re-use.</p></li>
-</ul>
-
+token in the Git credential store (just like many other usethis functions).
+See <code><a href='create_github_token.html'>create_github_token()</a></code> for more advice.</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_from_github</span><span class='op'>(</span>
@@ -290,7 +282,7 @@ URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".</p></td>
 that usethis uses the gert package for Git operations, instead of git2r;
 gert relies on the credentials package for auth. The API requests are now
 authorized with the token associated with the <code>host</code>, as retrieved by
-<code><a href='https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html'>gitcreds::gitcreds_get()</a></code>.</p></td>
+<code><a href='https://gh.r-lib.org/reference/gh_token.html'>gh::gh_token()</a></code>.</p></td>
     </tr>
     <tr>
       <th>credentials</th>
@@ -299,7 +291,7 @@ authorized with the token associated with the <code>host</code>, as retrieved by
 that usethis uses the gert package for Git operations, instead of git2r;
 gert relies on the credentials package for auth. The API requests are now
 authorized with the token associated with the <code>host</code>, as retrieved by
-<code><a href='https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html'>gitcreds::gitcreds_get()</a></code>.</p></td>
+<code><a href='https://gh.r-lib.org/reference/gh_token.html'>gh::gh_token()</a></code>.</p></td>
     </tr>
     </table>
 

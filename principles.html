@@ -251,9 +251,29 @@
 <div id="gitgithub" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gitgithub" class="anchor"></a>Git/GitHub</h2>
-<p>Don’t make <em>ad hoc</em> guesses or assumptions about the setup in individual functions. Instead, do <code>cfg &lt;- classify_github_setup()</code> to analyze the configuration. If <code>cfg$unsupported</code> is <code>TRUE</code>, bail right away with <code>stop_bad_github_config()</code>. Otherwise, use <code>cfg$type</code> to decide how to proceed. It’s fine to only support the GitHub configurations known as “ours” and “fork”.</p>
-<p>We assume a user habitually uses one transport protocol, either SSH or HTTPS, i.e. that they don’t intentionally switch between them willy-nilly.</p>
-<p>If the default summoning of Git credentials or protocol or GitHub PAT doesn’t work for you, fix that. We aren’t going to offer fine control of this, everywhere, by repetitively offering a ton of function arguments.</p>
+<p>Which GitHub remote configs the <code>pr_*()</code> functions accept, plus how and why they do it:</p>
+<ul>
+<li>
+<code><a href="reference/pull-requests.html">pr_init()</a></code> calls <code>github_remote_config(github_get = NA)</code> and challenges configs other than “ours” and “fork”. I want it to work with the “maybe” configs, because sometimes you’re offline or don’t have your PAT in the credential store. These come up for me during development.</li>
+<li>
+<code><a href="reference/pull-requests.html">pr_resume()</a></code> only checks config (indirectly) if it calls <code>choose_branch()</code> I want to be able to use this function offline or in the absence of a PAT, since its main job is to switch branches. It seems inappropriate to do a hard check of the GitHub remote config.</li>
+<li>
+<code><a href="reference/pull-requests.html">pr_pause()</a></code> calls <code>target_repo(github_get = FALSE, ask = FALSE)</code> and will therefore accept “maybe” configs. Similar reasoning to <code><a href="reference/pull-requests.html">pr_resume()</a></code>: it seems like it should work, .e.g., offline, since it’s mostly about switching branches. Eventually calls <code>pr_pull_source_override()</code>.</li>
+<li>
+<code><a href="reference/pull-requests.html">pr_sync()</a></code> does not direct config check, because it calls several functions that do that. I’m seriously considering removing this function.</li>
+<li>
+<code><a href="reference/pull-requests.html">pr_view()</a></code> gets target repo with <code>github_get = NA</code>, so it works for “maybe” configs. Seems low stakes enough to not be too picky.</li>
+<li>
+<code><a href="reference/pull-requests.html">pr_fetch()</a></code>, <code><a href="reference/pull-requests.html">pr_pull()</a></code>, <code><a href="reference/pull-requests.html">pr_merge_main()</a></code>, <code><a href="reference/pull-requests.html">pr_finish()</a></code>, all require “ours” or “fork”, via an early call to <code>target_repo(github_get = TRUE)</code> or <code>check_ours_or_fork()</code>. They could probably work for other configs, e.g., “theirs”, but it’s not worth the added complexity.</li>
+<li>
+<code><a href="reference/pull-requests.html">pr_push()</a></code> requires “ours” or “fork” and, in fact, gets the actual config, because it’s potentially used to select the remote to push to (<code>origin</code> or <code>upstream</code>) if user can push to both.</li>
+</ul>
+<p>When you need to create a new Git URL and have to decide between HTTPS or SSH:</p>
+<ul>
+<li>Consult existing remotes for the repo, probably <code>origin</code>, if possible</li>
+<li>Call <code><a href="reference/git_protocol.html">git_protocol()</a></code>, which will do something sensible</li>
+</ul>
+<p>If the default summoning of Git credentials or GitHub PAT doesn’t work for the user, help them diagnose that. But we are NOT in the credential management business and we aren’t going to offer fine control of this at, say, the level of individual functions.</p>
 <p>Functions that might make a commit should use <code>check_no_uncommitted_changes()</code> in the initial sanity-checking block to encourage starting in a clean state, i.e. with no uncommitted files or, if <code>untracked = TRUE</code> is specified, also with no untracked files.</p>
 <p>Always make commits with <code>git_commit_ask()</code>. This why <code>git_commit()</code>, which wraps <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html">gert::git_add()</a></code> and <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html">gert::git_commit()</a></code>, is defined <em>inside</em> <code>git_commit_ask()</code>. Whenever possible, specify <code>paths</code> for <code>git_commit_ask()</code>. It should almost always be possible to know exactly which files we might have touched or created. If you need to make a commit in a noninteractive context, like a test, use <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html">gert::git_commit()</a></code>.</p>
 <p>Use <code>git_uncommitted(untracked = TRUE)</code> and <code>git_ask_commit(untracked = TRUE)</code> if it’s possible that the work we’ve done has <strong>created</strong> a new file that should be tracked. Use <code>untracked = FALSE</code> if our work should only modify and pre-existing file.</p>
