@@ -396,7 +396,7 @@ pr_push <- function() {
   tr <- target_repo(cfg, ask = FALSE)
   pr <- pr_find(branch, tr = tr)
   if (is.null(pr)) {
-    pr_create_gh()
+    pr_create()
   } else {
     ui_done("
       View PR at {ui_value(pr$pr_html_url)} or call {ui_code('pr_view()')}")
@@ -592,11 +592,11 @@ pr_pull_source_override <- function(tr = NULL) {
   }
 }
 
-pr_create_gh <- function() {
+pr_create <- function() {
   origin <-  github_remote_list("origin")
   branch <- git_branch()
   ui_done("Create PR at link given below")
-  view_url(glue("https://github.com/{origin$repo_spec}/compare/{branch}"))
+  view_url(glue("{origin$host_url}/{origin$repo_spec}/compare/{branch}"))
 }
 
 pr_find <- function(branch = git_branch(), tr = NULL) {
