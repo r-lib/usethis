@@ -43,6 +43,7 @@ browse_github_pat <- function(...) {
 #' @rdname usethis-defunct
 #' @export
 github_token <- function() {
+  # TODO: revisit when I have a better recommendation
   details <- glue("
     Use {ui_code('gitcreds::gitcreds_get()')}, \\
     {ui_code('gitcreds::gitcreds_set()')}, and \\

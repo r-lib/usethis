@@ -115,9 +115,7 @@ create_project <- function(path,
 #'
 #' `create_from_github()` works best when we can find a GitHub personal access
 #' token in the Git credential store (just like many other usethis functions).
-#' * If you do not have a token, [create_github_token()] provides assistance.
-#' * Once you have a token, [gitcreds::gitcreds_get()] helps you store it for
-#'   future re-discovery and re-use.
+#' See [create_github_token()] for more advice.
 #'
 #' @seealso
 #' * [use_github()] to go the opposite direction, i.e. create a GitHub repo

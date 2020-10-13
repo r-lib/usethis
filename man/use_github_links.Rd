@@ -13,7 +13,7 @@ use_github_links(
 \arguments{
 \item{host, auth_token}{\lifecycle{defunct}: No longer consulted now that
 usethis consults the current project's GitHub remotes to get the \code{host} and
-then uses the gitcreds package to obtain a matching token.}
+then relies on gh to discover an appropriate token.}
 
 \item{overwrite}{By default, \code{use_github_links()} will not overwrite existing
 fields. Set to \code{TRUE} to overwrite existing links.}

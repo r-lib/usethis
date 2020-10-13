@@ -34,7 +34,7 @@
 #'   that usethis uses the gert package for Git operations, instead of git2r;
 #'   gert relies on the credentials package for auth. The API requests are now
 #'   authorized with the token associated with the `host`, as retrieved by
-#'   [gitcreds::gitcreds_get()].
+#'   [gh::gh_token()].
 #'
 #' @export
 #' @examples
@@ -74,6 +74,8 @@ use_github <- function(organisation = NULL,
   # usethis)
   auth_token <- gh::gh_token(host_url)
   if (auth_token == "") {
+    # TODO: revisit when I have better advice (if I continue to proactively get
+    # a token)
     get_code <- glue("gitcreds::gitcreds_get(\"{host_url}\")")
     set_code <- glue("gitcreds::gitcreds_set(\"{host_url}\")")
     ui_stop("
@@ -184,7 +186,7 @@ use_github <- function(organisation = NULL,
 #'
 #' @param host,auth_token \lifecycle{defunct}: No longer consulted now that
 #'   usethis consults the current project's GitHub remotes to get the `host` and
-#'   then uses the gitcreds package to obtain a matching token.
+#'   then relies on gh to discover an appropriate token.
 #' @param overwrite By default, `use_github_links()` will not overwrite existing
 #'   fields. Set to `TRUE` to overwrite existing links.
 #' @export
@@ -239,10 +241,10 @@ use_github_links <- function(auth_token = deprecated(),
 #' * `create_github_token()` opens a browser window to the GitHub form to
 #'   generate a PAT, with suggested scopes pre-selected. It then offers advice
 #'   on storing your PAT, which also appears below.
-#' * [gitcreds::gitcreds_set()] helps you register your PAT with the Git
+#' * `gitcreds::gitcreds_set()` helps you register your PAT with the Git
 #'   credential manager used by your operating system. Later, other packages,
 #'   such as usethis, gert, and gh can automatically retrieve that PAT, via
-#'   [gitcreds::gitcreds_get()], and use it to work with GitHub on your behalf.
+#'   `gitcreds::gitcreds_get()`, and use it to work with GitHub on your behalf.
 #'
 #' Usually, the first time the PAT is retrieved in an R session, it is cached
 #' in an environment variable, for easier reuse for the duration of that R
@@ -271,7 +273,7 @@ use_github_links <- function(auth_token = deprecated(),
 #' @inheritParams use_github
 #'
 #' @seealso [gh::gh_whoami()] for information on an existing token and
-#'   [gitcreds::gitcreds_set()] and [gitcreds::gitcreds_get()] for a secure way
+#'   `gitcreds::gitcreds_set()` and `gitcreds::gitcreds_get()` for a secure way
 #'   to store and retrieve your PAT.
 #'
 #' @return Nothing
@@ -289,6 +291,7 @@ create_github_token <- function(scopes = c("repo", "gist", "user:email"),
   )
   withr::defer(view_url(url))
 
+  # TODO: revisit when I have better advice
   ui_todo("
     Call {ui_code('gitcreds::gitcreds_set()')} to register this token in the \\
     local Git credential store.

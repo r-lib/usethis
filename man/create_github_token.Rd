@@ -37,10 +37,10 @@ remote. These functions help you get and manage your PAT:
 \item \code{create_github_token()} opens a browser window to the GitHub form to
 generate a PAT, with suggested scopes pre-selected. It then offers advice
 on storing your PAT, which also appears below.
-\item \code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_set()}} helps you register your PAT with the Git
+\item \code{gitcreds::gitcreds_set()} helps you register your PAT with the Git
 credential manager used by your operating system. Later, other packages,
 such as usethis, gert, and gh can automatically retrieve that PAT, via
-\code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_get()}}, and use it to work with GitHub on your behalf.
+\code{gitcreds::gitcreds_get()}, and use it to work with GitHub on your behalf.
 }
 
 Usually, the first time the PAT is retrieved in an R session, it is cached
@@ -67,6 +67,6 @@ create_github_token()
 }
 \seealso{
 \code{\link[gh:gh_whoami]{gh::gh_whoami()}} for information on an existing token and
-\code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_set()}} and \code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_get()}} for a secure way
+\code{gitcreds::gitcreds_set()} and \code{gitcreds::gitcreds_get()} for a secure way
 to store and retrieve your PAT.
 }

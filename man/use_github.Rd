@@ -35,7 +35,7 @@ URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".}
 that usethis uses the gert package for Git operations, instead of git2r;
 gert relies on the credentials package for auth. The API requests are now
 authorized with the token associated with the \code{host}, as retrieved by
-\code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_get()}}.}
+\code{\link[gh:gh_token]{gh::gh_token()}}.}
 }
 \description{
 \code{use_github()} takes a local project and:
