@@ -265,10 +265,7 @@ tidy_release_test_env <- function() {
 use_tidy_thanks <- function(repo_spec = NULL,
                             from = NULL,
                             to = NULL) {
-  if (is.null(repo_spec)) {
-    tr <- target_repo()
-    repo_spec <- tr$repo_spec
-  }
+  repo_spec <- repo_spec %||% target_repo_spec()
   if (is.null(to)) {
     from <- from %||% releases(repo_spec)[[1]]
   }
