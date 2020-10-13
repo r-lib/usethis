@@ -74,9 +74,8 @@ use_github_labels <- function(repo_spec = deprecated(),
     deprecate_warn_auth_token("use_github_labels")
   }
 
-  cfg <- github_remote_config(github_get = TRUE)
-  tr <- target_repo(cfg)
-  if (!tr$can_push) {
+  tr <- target_repo(github_get = TRUE)
+  if (!isTRUE(tr$can_push)) {
     ui_stop("
       You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
       is required to modify labels.")
@@ -87,7 +86,7 @@ use_github_labels <- function(repo_spec = deprecated(),
       endpoint,
       ...,
       owner = tr$repo_owner, repo = tr$repo_name,
-      .token = tr$token, .api_url = tr$api_url
+      .api_url = tr$api_url
     )
   }
 

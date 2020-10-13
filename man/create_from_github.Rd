@@ -65,13 +65,13 @@ URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".}
 that usethis uses the gert package for Git operations, instead of git2r;
 gert relies on the credentials package for auth. The API requests are now
 authorized with the token associated with the \code{host}, as retrieved by
-\code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_get()}}.}
+\code{\link[gh:gh_token]{gh::gh_token()}}.}
 
 \item{credentials}{\lifecycle{defunct}: No longer consulted now
 that usethis uses the gert package for Git operations, instead of git2r;
 gert relies on the credentials package for auth. The API requests are now
 authorized with the token associated with the \code{host}, as retrieved by
-\code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_get()}}.}
+\code{\link[gh:gh_token]{gh::gh_token()}}.}
 }
 \description{
 Creates a new local project and Git repository from a repo on GitHub, by
@@ -83,11 +83,7 @@ branch setup, leaving you in the perfect position to make a pull request with
 
 \code{create_from_github()} works best when we can find a GitHub personal access
 token in the Git credential store (just like many other usethis functions).
-\itemize{
-\item If you do not have a token, \code{\link[=create_github_token]{create_github_token()}} provides assistance.
-\item Once you have a token, \code{\link[gitcreds:gitcreds_get]{gitcreds::gitcreds_get()}} helps you store it for
-future re-discovery and re-use.
-}
+See \code{\link[=create_github_token]{create_github_token()}} for more advice.
 }
 \section{Authentication}{
 

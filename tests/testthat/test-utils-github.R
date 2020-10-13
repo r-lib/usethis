@@ -110,13 +110,6 @@ test_that("github_remotes() works", {
   expect_true(is.na(grl$is_fork))
 })
 
-test_that("github_login() returns user's login", {
-  with_mock(
-    `gh::gh_whoami` = function(...) list(login = "USER"),
-    expect_equal(github_login("PAT"), "USER")
-  )
-})
-
 # GitHub remote configuration --------------------------------------------------
 # very sparse, but you have to start somewhere!
 
@@ -131,17 +124,16 @@ test_that("fork_upstream_is_not_origin_parent is detected", {
   use_git()
   use_git_remote("origin", "https://github.com/jennybc/gh.git")
   use_git_remote("upstream", "https://github.com/r-pkgs/gh.git")
-  grl <- github_remote_list()
-  grl$can_push <- TRUE
-  grl$is_fork <- c(TRUE, FALSE)
-  grl$have_github_info <- TRUE
-  grl$parent_repo_owner  = c("r-lib", NA)
+  gr <- github_remotes(github_get = FALSE)
+  gr$github_got <- TRUE
+  gr$is_fork <- c(TRUE, FALSE)
+  gr$can_push <- TRUE
+  gr$perm_known <- TRUE
+  gr$parent_repo_owner  = c("r-lib", NA)
   with_mock(
-    `usethis:::github_remote_list` = function(...) grl,
-    `usethis:::github_remotes` = function(...) grl,
+    `usethis:::github_remotes` = function(...) gr,
     cfg <- github_remote_config()
   )
   expect_equal(cfg$type, "fork_upstream_is_not_origin_parent")
-  expect_false(cfg$pr_ready)
 })
 

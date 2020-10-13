@@ -115,9 +115,7 @@ create_project <- function(path,
 #'
 #' `create_from_github()` works best when we can find a GitHub personal access
 #' token in the Git credential store (just like many other usethis functions).
-#' * If you do not have a token, [create_github_token()] provides assistance.
-#' * Once you have a token, [gitcreds::gitcreds_get()] helps you store it for
-#'   future re-discovery and re-use.
+#' See [create_github_token()] for more advice.
 #'
 #' @seealso
 #' * [use_github()] to go the opposite direction, i.e. create a GitHub repo
@@ -173,9 +171,11 @@ create_from_github <- function(repo_spec,
 
   host_url <- gh:::get_hosturl(host)
   api_url <- gh:::get_apiurl(host)
-  auth_token <- gitcreds_token(host_url)
+  auth_token <- gh::gh_token(host_url)
 
+  # TODO: revisit if usethis or gh gains a better "sitrep" helper for PATs
   if (auth_token == "" && is.na(fork)) {
+    # TODO: revisit when there's better troubleshooting advice
     create_code <- "usethis::create_github_token()"
     set_code <- glue("gitcreds::gitcreds_set(\"{host_url}\")")
     ui_stop("
@@ -193,6 +193,7 @@ create_from_github <- function(repo_spec,
   }
 
   if (auth_token == "" && isTRUE(fork)) {
+    # TODO: revisit when there's better troubleshooting advice
     create_code <- "usethis::create_github_token()"
     set_code <- glue("gitcreds::gitcreds_set(\"{host_url}\")")
     ui_stop("
@@ -225,7 +226,8 @@ create_from_github <- function(repo_spec,
   # fork is either TRUE or FALSE
 
   if (fork) {
-    user <- github_login(auth_token, api_url)
+    out <- gh::gh_whoami(.token = auth_token, .api_url = api_url)
+    user <- out$login
     if (identical(user, repo_info$owner$login)) {
       ui_stop("
         Repo {ui_value(repo_info$full_name)} is owned by user \\

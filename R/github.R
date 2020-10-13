@@ -34,7 +34,7 @@
 #'   that usethis uses the gert package for Git operations, instead of git2r;
 #'   gert relies on the credentials package for auth. The API requests are now
 #'   authorized with the token associated with the `host`, as retrieved by
-#'   [gitcreds::gitcreds_get()].
+#'   [gh::gh_token()].
 #'
 #' @export
 #' @examples
@@ -68,8 +68,14 @@ use_github <- function(organisation = NULL,
 
   host_url <- gh:::get_hosturl(host)
   api_url <- gh:::get_apiurl(host)
-  auth_token <- gitcreds_token(host_url)
+  # TODO: do I even need to proactively get the token here? what if I just go
+  # straight to a tryCatch'd gh::gh_whoami()? if it fails due to invalid token
+  # refer people to a yet-to-be written humane function in gh (or one I put in
+  # usethis)
+  auth_token <- gh::gh_token(host_url)
   if (auth_token == "") {
+    # TODO: revisit when I have better advice (if I continue to proactively get
+    # a token)
     get_code <- glue("gitcreds::gitcreds_get(\"{host_url}\")")
     set_code <- glue("gitcreds::gitcreds_set(\"{host_url}\")")
     ui_stop("
@@ -127,27 +133,17 @@ use_github <- function(organisation = NULL,
   use_git_remote("origin", origin_url)
 
   if (is_package()) {
-    error <- tryCatch(
+    # we tryCatch(), because we can't afford any failure here to result in not
+    # making the first push and configuring default branch
+    # such an incomplete setup is hard to diagnose / repair post hoc
+    tryCatch(
       use_github_links(),
-      usethis_error = function(e) e
+      error = function(e) NULL
     )
-    if (!is.null(error)) {
-      ui_oops("
-        Unable to update the links in {ui_field('URL')} and/or \\
-        {ui_field('BugReports')} in DESCRIPTION.
-        Call \\
-        {ui_code('usethis::use_github_links(overwrite = TRUE)')} to fix.")
-    }
-    if (git_uncommitted(untracked = FALSE)) {
-      git_ask_commit(
-        "Add GitHub links to DESCRIPTION",
-        untracked = FALSE,
-        paths = "DESCRIPTION"
-      )
-    }
   }
 
   default_branch <- git_branch_default()
+  repo <- git_repo()
   remref <- glue("origin/{default_branch}")
   ui_done("
     Pushing {ui_value(default_branch)} branch to GitHub and setting \\
@@ -155,11 +151,11 @@ use_github <- function(organisation = NULL,
   gert::git_push(
     remote = "origin",
     set_upstream = TRUE,
-    repo = git_repo(),
+    repo = repo,
     verbose = FALSE
   )
 
-  gbl <- gert::git_branch_list(repo = git_repo())
+  gbl <- gert::git_branch_list(repo = repo)
   gbl <- gbl[gbl$local, ]
   if (nrow(gbl) > 1) {
     ui_done("
@@ -190,7 +186,7 @@ use_github <- function(organisation = NULL,
 #'
 #' @param host,auth_token \lifecycle{defunct}: No longer consulted now that
 #'   usethis consults the current project's GitHub remotes to get the `host` and
-#'   then uses the gitcreds package to obtain a matching token.
+#'   then relies on gh to discover an appropriate token.
 #' @param overwrite By default, `use_github_links()` will not overwrite existing
 #'   fields. Set to `TRUE` to overwrite existing links.
 #' @export
@@ -210,16 +206,12 @@ use_github_links <- function(auth_token = deprecated(),
   }
 
   check_is_package("use_github_links()")
-  cfg <- github_remote_config(github_get = TRUE)
-  if (!cfg$type %in% c("ours", "fork")) {
-    stop_bad_github_remote_config(cfg)
-  }
-  tr <- target_repo(cfg)
+  tr <- target_repo(github_get = TRUE)
 
   res <- gh::gh(
     "GET /repos/:owner/:repo",
     owner = tr$repo_owner, repo = tr$repo_name,
-    .api_url = tr$api_url, .token = tr$token
+    .api_url = tr$api_url
   )
 
   use_description_field("URL", res$html_url, overwrite = overwrite)
@@ -227,6 +219,12 @@ use_github_links <- function(auth_token = deprecated(),
     "BugReports",
     glue("{res$html_url}/issues"),
     overwrite = overwrite
+  )
+
+  git_ask_commit(
+    "Add GitHub links to DESCRIPTION",
+    untracked = TRUE,
+    paths = "DESCRIPTION"
   )
 
   invisible()
@@ -243,10 +241,10 @@ use_github_links <- function(auth_token = deprecated(),
 #' * `create_github_token()` opens a browser window to the GitHub form to
 #'   generate a PAT, with suggested scopes pre-selected. It then offers advice
 #'   on storing your PAT, which also appears below.
-#' * [gitcreds::gitcreds_set()] helps you register your PAT with the Git
+#' * `gitcreds::gitcreds_set()` helps you register your PAT with the Git
 #'   credential manager used by your operating system. Later, other packages,
 #'   such as usethis, gert, and gh can automatically retrieve that PAT, via
-#'   [gitcreds::gitcreds_get()], and use it to work with GitHub on your behalf.
+#'   `gitcreds::gitcreds_get()`, and use it to work with GitHub on your behalf.
 #'
 #' Usually, the first time the PAT is retrieved in an R session, it is cached
 #' in an environment variable, for easier reuse for the duration of that R
@@ -275,7 +273,7 @@ use_github_links <- function(auth_token = deprecated(),
 #' @inheritParams use_github
 #'
 #' @seealso [gh::gh_whoami()] for information on an existing token and
-#'   [gitcreds::gitcreds_set()] and [gitcreds::gitcreds_get()] for a secure way
+#'   `gitcreds::gitcreds_set()` and `gitcreds::gitcreds_get()` for a secure way
 #'   to store and retrieve your PAT.
 #'
 #' @return Nothing
@@ -293,6 +291,7 @@ create_github_token <- function(scopes = c("repo", "gist", "user:email"),
   )
   withr::defer(view_url(url))
 
+  # TODO: revisit when I have better advice
   ui_todo("
     Call {ui_code('gitcreds::gitcreds_set()')} to register this token in the \\
     local Git credential store.

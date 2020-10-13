@@ -1,8 +1,3 @@
-github_login <- function(auth_token, host = "https://github.com") {
-  out <- gh::gh_whoami(.token = auth_token, .api_url = host)
-  out$login
-}
-
 # repo_spec --> owner, repo
 parse_repo_spec <- function(repo_spec) {
   repo_split <- strsplit(repo_spec, "/")[[1]]
@@ -74,27 +69,6 @@ github_remote_from_description <- function(desc) {
   }
 }
 
-#' Attempt to get a PAT from gitcreds
-#'
-#' Asks gitcreds for a PAT corresponding to a URL. If there is no such PAT,
-#' returns `""`. All other errors are thrown. But maybe we should also not error
-#' for "no git"? Main difference from `gitcreds::gitcreds_get()` is that we
-#' catch "no creds". Main difference between `gitcreds::gitcreds_get()` and `git
-#' credential fill` is lack of forced user interactivity, i.e. it's possible to
-#' simply not get a PAT, without throwing an error.
-#'
-#' @param url URL that gitcreds ultimately passes to `git credential fill`
-#' @keywords internal
-#' @noRd
-gitcreds_token <- function(url = "https://github.com") {
-  credential <- tryCatch(
-    gitcreds::gitcreds_get(url),
-    gitcreds_nogit_error = function(e) stop("no_git"),
-    gitcreds_no_credentials = function(e) NULL
-  )
-  credential$password %||% ""
-}
-
 #' Gather LOCAL data on GitHub-associated remotes
 #'
 #' Creates a data frame where each row represents a GitHub-associated remote.
@@ -142,46 +116,65 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
   )]
 }
 
-#' Gather LOCAL and REMOTE data on GitHub-associated remotes
+#' Gather LOCAL and (maybe) REMOTE data on GitHub-associated remotes
 #'
 #' Creates a data frame where each row represents a GitHub-associated remote,
 #' starting with the output of `github_remote_list()` (local data). This
-#' function's job is to (try to) add information we can only retrieve from the
-#' GitHub API. Key jobs:
-#' * Attempt to get a token from gitcreds based on the host URL.
-#' * We explicitly get a token, for now at least, even though we could just let
-#'   gh handle token discovery. This is so we can better understand why the
-#'   GitHub API call may not have succeeded. This is useful for development and
-#'   probably also for user-facing advice.
-#' * Use gh, with our token and API URL, for GET /repos/:owner/:repo.
-#' * Massage the resulting data into our data frame.
+#' function's job is to (maybe) add information we can only get from the GitHub
+#' API. If `github_get = FALSE`, we don't even attempt to call the API.
+#' Otherwise, we try and will succeed if gh discovers a suitable token. The
+#' resulting data, even if the API data is absent, is massaged into a data
+#' frame.
 #'
 #' @inheritParams github_remote_list
+#' @param github_get Whether to attempt to get repo info from the GitHub API. We
+#'   try for `NA` (the default) and `TRUE`. If we aren't successful, we proceed
+#'   anyway for `NA` but error for `TRUE`. When `FALSE`, no attempt is made to
+#'   call the API.
 #' @keywords internal
 #' @noRd
-github_remotes <- function(these = c("origin", "upstream"), x = NULL) {
+github_remotes <- function(these = c("origin", "upstream"),
+                           github_get = NA,
+                           x = NULL) {
   grl <- github_remote_list(these = these, x = x)
-  grl$token <- map_chr(grl$host_url, gitcreds_token)
-
   get_gh_repo <- function(repo_owner, repo_name,
-                          token = "", api_url = "https://api.github.com") {
-    purrr::possibly(gh::gh, otherwise = list())(
+                          api_url = "https://api.github.com") {
+    if (isFALSE(github_get)) {
+      f <- function(...) list()
+    } else {
+      f <- purrr::possibly(gh::gh, otherwise = list())
+    }
+    f(
       "GET /repos/:owner/:repo",
-      owner = repo_owner, repo = repo_name,
-      .token = token, .api_url = api_url
+      owner = repo_owner, repo = repo_name, .api_url = api_url
     )
   }
-
   repo_info <- purrr::pmap(
-    grl[c("repo_owner", "repo_name", "token", "api_url")],
+    grl[c("repo_owner", "repo_name", "api_url")],
     get_gh_repo
   )
-  grl$have_github_info <- map_lgl(repo_info, ~ length(.x) > 0)
+  # NOTE: these can be two separate matters:
+  # 1. Did we call the GitHub API? Means we know `is_fork` and the parent repo.
+  # 2. If so, did we call it with auth? Means we know if we can push.
+  grl$github_got <- map_lgl(repo_info, ~ length(.x) > 0)
+  if (isTRUE(github_get) && any(!grl$github_got)) {
+    oops <- which(!grl$github_got)
+    oops_remotes <- grl$remote[oops]
+    oops_hosts <- unique(grl$host[oops])
+    # TODO: update when there's a place to send people for troubleshooting
+    ui_stop("
+      Unable to get GitHub info for these remotes: {ui_value(oops_remotes)}
+      Are we offline?
+      Otherwise, you probably need to configure a personal access token (PAT) \\
+      for {ui_value(oops_hosts)}
+      See {ui_code('?create_github_token')} for advice")
+  }
 
   grl$is_fork <- map_lgl(repo_info, "fork", .default = NA)
   # `permissions` is an example of data that is not present if the request
   # did not include a PAT
   grl$can_push <- map_lgl(repo_info, c("permissions", "push"), .default = NA)
+  grl$perm_known <- !is.na(grl$can_push)
   grl$parent_repo_owner <-
     map_chr(repo_info, c("parent", "owner", "login"), .default = NA)
   grl$parent_repo_name <-
@@ -190,7 +183,7 @@ github_remotes <- function(these = c("origin", "upstream"), x = NULL) {
 
   parent_info <- purrr::pmap(
     set_names(
-      grl[c("parent_repo_owner", "parent_repo_name", "token", "api_url")],
+      grl[c("parent_repo_owner", "parent_repo_name", "api_url")],
       ~ sub("parent_", "", .x)
     ),
     get_gh_repo
@@ -222,21 +215,25 @@ github_remotes <- function(these = c("origin", "upstream"), x = NULL) {
 #' Other functions, like the `pr_*()` functions, are more demanding and we'll
 #' always determine the config with `github_get = TRUE`.
 #'
-#' Here's how a usethis function can use the GitHub remote configuration:
-#' * `cfg <- classify_github_config(...)`
-#' * Inspect `cfg$type` and call `stop_bad_github_remote_config()` if the
-#'   function can't work with that config.
+#' Most usethis functions should call the higher-level functions `target_repo()`
+#' or `target_repo_spec()`.
+#'
+#' Only functions that really need full access to the GitHub remote config
+#' should call this directly. Ways to work with a config:
+#' * `cfg <- github_remote_config(github_get = )`
+#' * `check_for_bad_config(cfg)` errors for obviously bad configs (by default)
+#'   or you can specify the configs considered to be bad
+#' * Emit a custom message then call `stop_bad_github_remote_config()` directly
 #' * If the config is suboptimal-but-supported, use
 #'   `ui_github_remote_config_wat()` to educate the user and give them a chance
 #'   to back out.
-#' * Proceed quietly if the config is OK.
 #'
 #' Fields in an instance of `github_remote_config`:
 #' * `type`: explained below
 #' * `pr_ready`: Logical. Do the `pr_*()` functions support it?
 #' * `desc`: A description used in messages and menus.
 #' * `origin`: Information about the `origin` GitHub remote.
-#' * `upstream`: Information about the `origin` GitHub remote.
+#' * `upstream`: Information about the `upstream` GitHub remote.
 #'
 #' Possible GitHub remote configurations, the common cases:
 #' * no_github: No `origin`, no `upstream`.
@@ -259,7 +256,9 @@ github_remotes <- function(these = c("origin", "upstream"), x = NULL) {
 #'   `origin` is not a fork of anything and, specifically, it's not a fork of
 #'   `upstream`.
 #'
-#'  Remote configuration "guesses" we apply when `github_get = FALSE`:
+#'  Remote configuration "guesses" we apply when `github_get = FALSE` or when
+#'  we make unauthorized requests (no PAT found) and therefore have no info on
+#'  permissions
 #'  * maybe_ours_or_theirs: Exactly one of `origin` and `upstream` exists.
 #'  * maybe_fork: Both `origin` and `upstream` exist.
 #'
@@ -284,14 +283,9 @@ new_github_remote_config <- function() {
   )
 }
 
-github_remote_config <- function(github_get = TRUE) {
+github_remote_config <- function(github_get = NA) {
   cfg <- new_github_remote_config()
-  if (github_get) {
-    grl <- github_remotes()
-  } else {
-    grl <- github_remote_list()
-    grl$have_github_info <- FALSE
-  }
+  grl <- github_remotes(github_get = github_get)
 
   if (nrow(grl) == 0) {
     return(cfg_no_github(cfg))
@@ -302,26 +296,23 @@ github_remote_config <- function(github_get = TRUE) {
 
   single_remote <- xor(cfg$origin$is_configured, cfg$upstream$is_configured)
 
-  # check that hosts match
-  # remember: anyDuplicated() returns an index, NOT logical
-  if (!single_remote && anyDuplicated(grl$host) < 1) {
-    # example: github.com and github.acme.com
-    ui_stop("
-      Unsupported GitHub remote configuration: mismatched hosts
-          origin = {grl$host[grl$remote == 'origin']}
-        upstream = {grl$host[grl$remote == 'upstream']}")
+  if (!single_remote) {
+    if (length(unique(grl$host)) != 1) {
+      ui_stop("
+        Internal error: Multiple GitHub hosts
+        {ui_value(grl$host)}")
+    }
+    if (length(unique(grl$github_got)) != 1) {
+      ui_stop("
+        Internal error: Got GitHub API info for some remotes, but not all")
+    }
+    if (length(unique(grl$perm_known)) != 1) {
+      ui_stop("
+        Internal error: Know GitHub permissions for some remotes, but not all")
+    }
   }
-
-  # check we've got GitHub info for all remotes or for none
-  if (!single_remote && anyDuplicated(grl$have_github_info) < 1) {
-    tmp_o <- grl[grl$remote == "origin", c("url", "have_github_info")]
-    tmp_u <- grl[grl$remote == "upstream", c("url", "have_github_info")]
-    ui_stop("
-      Unsupported GitHub remote configuration: incomplete GitHub information
-        origin ({tmp_o$url}), GitHub info: {tmp_o$have_github_info}
-        upstream ({tmp_u$url}), GitHub info: {tmp_u$have_github_info}")
-  }
-  have_github_info <- any(grl$have_github_info)
+  github_got <- any(grl$github_got)
+  perm_known <- any(grl$perm_known)
 
   if (cfg$origin$is_configured) {
     cfg$origin <-
@@ -333,19 +324,20 @@ github_remote_config <- function(github_get = TRUE) {
       utils::modifyList(cfg$upstream, grl[grl$remote == "upstream",])
   }
 
-  if (!have_github_info) {
+  if (github_got && !single_remote) {
+    cfg$origin$parent_is_upstream <-
+      identical(cfg$origin$parent_repo_spec, cfg$upstream$repo_spec)
+  }
+
+  if (!github_got || !perm_known) {
     if (single_remote) {
       return(cfg_maybe_ours_or_theirs(cfg))
     } else {
       return(cfg_maybe_fork(cfg))
     }
   }
-  # `have_github_info` must be TRUE
-
-  if (!single_remote) {
-    cfg$origin$parent_is_upstream <-
-      identical(cfg$origin$parent_repo_spec, cfg$upstream$repo_spec)
-  }
+  # `github_got` must be TRUE
+  # `perm_known` must be TRUE
 
   # origin only
   if (single_remote && cfg$origin$is_configured) {
@@ -392,62 +384,64 @@ github_remote_config <- function(github_get = TRUE) {
 #' Select a target (GitHub) repo
 #'
 #' @description
-#' Returns information about a GitHub repository. Used when we need to designate
-#' which repo we will, e.g., open an issue on or activate a CI service for.
-#' This information might be used in a GitHub API request or to form URLs.
+
+#' Returns information about ONE GitHub repository. Used when we need to
+#' designate which repo we will, e.g., open an issue on or activate a CI service
+#' for. This information might be used in a GitHub API request or to form URLs.
 #'
+
 #' Examples:
 #' * Badge URLs
 #' * URLs where you can activate a CI service
 #' * URLs for DESCRIPTION fields such as URL and BugReports
+
+#' `target_repo()` passes `github_get` along to `github_remote_config()`. If
+#' `github_get = TRUE`, `target_repo()` will error for configs other than
+#' `"ours"` or `"fork"`. `target_repo()` always errors for bad configs. If
+#' `github_get = NA` or `FALSE`, the "maybe" configs are tolerated.
 #'
-#' If `cfg` is not provided, `target_repo()` calls
-#' `github_remote_config(github_get = FALSE)` and works only with locally
-#' available information about GitHub remotes. To work with full GitHub remote
-#' configuration, call `github_remote_config(github_get = TRUE)` yourself and
-#' pass the resulting `cfg` in. `target_repo()` will challenge certain configs,
-#' e.g., "fork_upstream_is_not_origin_parent", and ask if user wants to back out
-#' and fix the remote configuration.
+#' `target_repo_spec()` is a less capable function for when you just need an
+#' `OWNER/REPO` spec. Currently, it does not set or offer control over
+#' `github_get`, although I've considered explicitly setting `github_get =
+#' FALSE` or adding this argument, defaulting to `FALSE`.
 #'
-#' In some configurations, if `ask = TRUE` and we're in an interactive session,
-#' user gets a choice between `origin` and (if either exists or is known) its
-#' parent repo and `upstream`.
-#'
-#' We use "source" to mean the principal repo where a project's development
-#' happens. We use "primary" to mean the principal repo this particular user
-#' interacts with or has the greatest power over. They can be the same or
-#' different. Examples:
+
+#' @inheritParams github_remotes
+
+#' @param cfg An optional GitHub remote configuration. Used to get the target
+#'   repo when the function had some need for the full config.
+#' @param role We use "source" to mean the principal repo where a project's
+#'   development happens. We use "primary" to mean the principal repo this
+#'   particular user interacts with or has the greatest power over. They can be
+#'   the same or different. Examples:
 #' * For a personal project you own, "source" and "primary" are the same.
 #'   Presumably the `origin` remote.
 #' * For a collaboratively developed project, an outside contributor must create
 #'   a fork in order to make a PR. For such a person, their fork is "primary"
 #'   (presumably `origin`) and the original repo that they forked is "source"
 #'   (presumably `upstream`).
-#'
 #' This is *almost* consistent with terminology used by the GitHub API. A fork
 #' has a "source repo" and a "parent repo", which are usually the same. They
 #' only differ when working with a fork of a repo that is itself a fork. In this
 #' rare case, the parent is the immediate fork parent and the source is the
 #' ur-parent, i.e. the root of this particular tree. The source repo is not a
 #' fork.
-#'
-#' @inheritParams use_github
+#' @param ask In some configurations, if `ask = TRUE` and we're in an
+#'   interactive session, user gets a choice between `origin` and `upstream`.
 #' @keywords internal
 #' @noRd
 target_repo <- function(cfg = NULL,
+                        github_get = NA,
                         role = c("source", "primary"),
                         ask = is_interactive()) {
-  cfg <- cfg %||% github_remote_config(github_get = FALSE)
+  cfg <- cfg %||% github_remote_config(github_get = github_get)
   stopifnot(inherits(cfg, "github_remote_config"))
   role <- match.arg(role)
 
-  bad_configs <- c(
-    "no_github",
-    "fork_upstream_is_not_origin_parent",
-    "fork_cannot_push_origin",
-    "upstream_but_origin_is_not_fork"
-  )
-  if (cfg$type %in% bad_configs) {
+  check_for_bad_config(cfg)
+
+  if (isTRUE(github_get) && (!cfg$type %in% c("ours", "fork"))) {
+    # TODO: this doesn't offer any helpful advice, such as configuring a PAT
     stop_bad_github_remote_config(cfg)
   }
 
@@ -482,19 +476,6 @@ target_repo_spec <- function(role = c("source", "primary"),
                              ask = is_interactive()) {
   tr <- target_repo(role = match.arg(role), ask = ask)
   tr$repo_spec
-}
-
-# `x` is probably the return value of `target_repo()`
-check_have_github_info <- function(x) {
-  if (x$have_github_info) {
-    return(invisible())
-  }
-  get_code <- glue("gitcreds::gitcreds_get(\"{x$host_url}\")")
-  set_code <- glue("gitcreds::gitcreds_set(\"{x$host_url}\")")
-  ui_stop("
-      Unable to discover a token for {ui_value(x$host_url)}
-        Call {ui_code(get_code)} to experience this first-hand
-        Call {ui_code(set_code)} to store a token")
 }
 
 # formatting github remote configurations for humans ---------------------------
@@ -590,6 +571,19 @@ stop_unsupported_pr_config <- function(cfg) {
   )
 }
 
+check_for_bad_config <- function(cfg,
+                                 bad_configs = c(
+                                   "no_github",
+                                   "fork_upstream_is_not_origin_parent",
+                                   "fork_cannot_push_origin",
+                                   "upstream_but_origin_is_not_fork"
+                                 )) {
+  if (cfg$type %in% bad_configs) {
+    stop_bad_github_remote_config(cfg)
+  }
+  invisible()
+}
+
 # github remote configurations -------------------------------------------------
 cfg_no_github <- function(cfg) {
   utils::modifyList(
@@ -672,7 +666,10 @@ cfg_maybe_fork <- function(cfg) {
       pr_ready = NA,
       desc = glue("
         Both {ui_value('origin')} and {ui_value('upstream')} appear to be \\
-        GitHub repos.")
+        GitHub repos. However, we can't confirm their relationship to each \\
+        other (e.g., fork and fork parent) or your permissions (e.g. push \\
+        access). We may be offline or you may need to configure a GitHub \\
+        personal access token.")
     )
   )
 }

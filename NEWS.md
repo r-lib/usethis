@@ -35,8 +35,8 @@ Even now, gert and gh should discover the same credentials, at least for github.
 The main user-facing changes in usethis are:
 
 * usethis should be able to work with any GitHub deployment. While github.com is the default, GitHub Enterprise deployments should be fully supported.
-* The target `host` is determined from the current project's configured GitHub remotes, whenever possible.
-* The associated `auth_token` is determined from the target `host`, whenever possible.
+* The target GitHub host is determined from the current project's configured GitHub remotes, whenever possible.
+* gert and gh should be able to discover the right token for each host.
 
 As a result, several functions are deprecated and several other functions have some deprecated arguments.
 
@@ -67,6 +67,8 @@ There is increasing interest in making the name of a repo's default branch confi
 `pr_resume()` is a new function for resuming work on an existing local PR branch. It can be called argument-less, to select a branch interactively.
 
 `pr_fetch()` can also be called with no arguments, to select a PR interactively. `pr_fetch()` loses its `owner` argument. The `owner` is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.
+
+`pr_view()` can now be called with no arguments. If the current branch is associated with an open PR, we target that it and, otherwise, we offer an interactive selection.
 
 `pr_finish()` deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150).
 
