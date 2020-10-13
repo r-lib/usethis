@@ -451,17 +451,37 @@ pr_sync <- function() {
 #' @rdname pull-requests
 pr_view <- function(number = NULL) {
   tr <- target_repo(github_get = NA)
+  url <- NULL
   if(is.null(number)) {
-    check_pr_branch()
-    url <- pr_url(tr = tr)
-    if (is.null(url)) {
-      ui_stop("
-        Current branch ({ui_value(git_branch())}) does not appear to be \\
-        connected to a PR
-        Do you need to call {ui_code('pr_push()')} for the first time?")
+    branch <- git_branch()
+    default_branch <- git_branch_default()
+    if (branch != default_branch) {
+      url <- pr_url(tr = tr)
+      if (is.null(url)) {
+        ui_info("
+          Current branch ({ui_value(branch)}) does not appear to be \\
+          connected to a PR")
+      } else {
+        number <- sub("^.+pull/", "", url)
+        ui_info("
+          Current branch ({ui_value(branch)}) is connected to PR #{number}")
+      }
     }
   } else {
     pr <- pr_get(number = number, tr = tr)
+    url <- pr$pr_html_url
+  }
+  if (is.null(url)) {
+    ui_info("No PR specified ... looking up open PRs")
+    pr <- choose_pr(tr = tr)
+    if (is.null(pr)) {
+      ui_oops("No open PRs found for {ui_value(tr$repo_spec)}")
+      return(invisible())
+    }
+    if (min(lengths(pr)) == 0) {
+      ui_oops("No PR selected, exiting")
+      return(invisible())
+    }
     url <- pr$pr_html_url
   }
   view_url(url)
