@@ -1,8 +1,6 @@
 devtools::load_all("~/rrr/usethis")
 
-pkgname <- "qrstuv"
-#use_git_protocol("ssh")
-#use_git_protocol("https")
+pkgname <- "lazy-marmot"
 git_protocol()
 
 (pkgpath <- path_temp(pkgname))
