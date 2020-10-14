@@ -105,8 +105,7 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
 
   parsed$remote <- parsed$name
   parsed$host_url <- as.character(glue("https://{parsed$host}"))
-  # TODO: get rid of this `:::` use of gh
-  parsed$api_url <- map_chr(parsed$host_url, gh:::get_apiurl)
+  parsed$api_url <- map_chr(parsed$host_url, get_apiurl)
   parsed$repo_spec <- make_spec(parsed$repo_owner, parsed$repo_name)
 
   parsed[c(
