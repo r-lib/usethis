@@ -27,9 +27,14 @@
 #'   `organisation`.
 #' @param private If `TRUE`, creates a private repository.
 #' @inheritParams git_protocol
-#' @param host GitHub API host to use. Example for a GitHub Enterprise instance:
-#'   "https://github.acme.com". It is also acceptable to provide the API root
-#'   URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".
+#' @param host GitHub host to target, passed to the `.api_url` argument of
+#'   [gh::gh()]. If unspecified, gh defaults to "https://api.github.com",
+#'   although gh's default can be customised by setting the GITHUB_API_URL
+#'   environment variable.
+#'
+#'   For a hypothetical GitHub Enterprise instance, either
+#'   "https://github.acme.com/api/v3" or "https://github.acme.com" is
+#'   acceptable.
 #' @param auth_token,credentials \lifecycle{defunct}: No longer consulted now
 #'   that usethis uses the gert package for Git operations, instead of git2r;
 #'   gert relies on the credentials package for auth. The API requests are now
@@ -51,7 +56,7 @@
 use_github <- function(organisation = NULL,
                        private = FALSE,
                        protocol = git_protocol(),
-                       host = "https://github.com",
+                       host = NULL,
                        auth_token = deprecated(),
                        credentials = deprecated()) {
   check_uses_git()

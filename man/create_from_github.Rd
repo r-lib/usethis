@@ -11,7 +11,7 @@ create_from_github(
   rstudio = NULL,
   open = rlang::is_interactive(),
   protocol = git_protocol(),
-  host = "https://github.com",
+  host = NULL,
   auth_token = deprecated(),
   credentials = deprecated()
 )
@@ -57,9 +57,14 @@ to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, \code{"https"}. \code{NA} triggers the interactive
 menu.}
 
-\item{host}{GitHub API host to use. Example for a GitHub Enterprise instance:
-"https://github.acme.com". It is also acceptable to provide the API root
-URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".}
+\item{host}{GitHub host to target, passed to the \code{.api_url} argument of
+\code{\link[gh:gh]{gh::gh()}}. If unspecified, gh defaults to "https://api.github.com",
+although gh's default can be customised by setting the GITHUB_API_URL
+environment variable.
+
+For a hypothetical GitHub Enterprise instance, either
+"https://github.acme.com/api/v3" or "https://github.acme.com" is
+acceptable.}
 
 \item{auth_token}{\lifecycle{defunct}: No longer consulted now
 that usethis uses the gert package for Git operations, instead of git2r;
@@ -83,7 +88,7 @@ branch setup, leaving you in the perfect position to make a pull request with
 
 \code{create_from_github()} works best when we can find a GitHub personal access
 token in the Git credential store (just like many other usethis functions).
-See \code{\link[=create_github_token]{create_github_token()}} for more advice.
+See \code{\link[=gh_token_help]{gh_token_help()}} for more advice.
 }
 \section{Authentication}{
 
