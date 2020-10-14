@@ -40,7 +40,7 @@ git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
   if (where == "global" || !uses_git()) {
     dat <- gert::git_config_global()
   } else {
-    dat <- gert::git_config(git_repo())
+    dat <- gert::git_config(repo = git_repo())
   }
   if (where == "local") {
     dat <- dat[dat$level == "local", ]
@@ -205,7 +205,7 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
 
 # Branch ------------------------------------------------------------------
 git_branch <- function() {
-  info <- gert::git_info(git_repo())
+  info <- gert::git_info(repo = git_repo())
   branch <- info$shorthand
   if (identical(branch, "HEAD")) {
     ui_stop("Detached head; can't continue")
@@ -217,7 +217,7 @@ git_branch <- function() {
 }
 
 git_branch_tracking <- function(branch = git_branch()) {
-  info <- gert::git_branch_list(git_repo())
+  info <- gert::git_branch_list(repo = git_repo())
   this <- info$local & info$name == branch
   if (sum(this) < 1) {
     ui_stop("There is no local branch named {ui_value(branch}")

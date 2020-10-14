@@ -111,7 +111,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
     } else {
       check_uses_git()
       orig[nm] <- git_cfg_get(nm, "local") %||% list(NULL)
-      gert::git_config_set(nm, vl, git_repo())
+      gert::git_config_set(nm, vl, repo = git_repo())
     }
   }
 

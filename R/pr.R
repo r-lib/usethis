@@ -577,7 +577,7 @@ pr_finish <- function(number = NULL) {
     return(invisible())
   }
 
-  branches <- gert::git_branch_list(git_repo())
+  branches <- gert::git_branch_list(repo = git_repo())
   branches <- branches[branches$local & !is.na(branches$upstream), ]
   if (sum(grepl(glue("^refs/remotes/{remote}"), branches$upstream)) == 0) {
     ui_done("Removing remote {ui_value(remote)}")

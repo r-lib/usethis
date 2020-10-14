@@ -159,7 +159,7 @@ use_github_release <- function(host = deprecated(),
     "POST /repos/:owner/:repo/releases",
     owner = tr$repo_owner, repo = tr$repo_name,
     tag_name = paste0("v", package$Version),
-    target_commitish = gert::git_info(git_repo())$commit,
+    target_commitish = gert::git_info(repo = git_repo())$commit,
     name = paste0(package$Package, " ", package$Version),
     body = news, draft = TRUE,
     .api_url = tr$api_url
