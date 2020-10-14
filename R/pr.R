@@ -545,10 +545,11 @@ pr_finish <- function(number = NULL) {
   # delete remote branch, if have permission and PR is merged
   if (remote == "origin") {
     if (is.null(number)) {
-      number <- sub("^.+pull/", "", pr_url(branch, tr = tr))
-    }
-    if (length(number)) {
+      pr <- pr_find(branch, tr = tr, state = "all")
+    } else {
       pr <- pr_get(number = number, tr = tr)
+    }
+    if (!is.null(pr)) {
       if (!is.na(pr$pr_merged_at)) {
         ui_done("
           PR {ui_value(pr$pr_string)} has been merged, \\
@@ -556,7 +557,8 @@ pr_finish <- function(number = NULL) {
         gert::git_push(
           remote = "origin",
           refspec = glue(":refs/heads/{remref_branch(tracking_branch)}"),
-          verbose = FALSE
+          verbose = FALSE,
+          repo = repo
         )
       } else {
         ui_done("
@@ -619,7 +621,9 @@ pr_create <- function() {
   view_url(glue("{origin$host_url}/{origin$repo_spec}/compare/{branch}"))
 }
 
-pr_find <- function(branch = git_branch(), tr = NULL) {
+pr_find <- function(branch = git_branch(),
+                    tr = NULL,
+                    state = c("open", "closed", "all")) {
   # Have we done this before? Check if we've cached pr-url in git config.
   config_url <- glue("branch.{branch}.pr-url")
   url <- git_cfg_get(config_url, where = "local")
@@ -627,7 +631,8 @@ pr_find <- function(branch = git_branch(), tr = NULL) {
     return(pr_get(number = sub("^.+pull/", "", url), tr = tr))
   }
 
-  pr_dat <- pr_list(tr = tr)
+  state <- match.arg(state)
+  pr_dat <- pr_list(tr = tr, state = state)
   m <- match(branch, pr_dat$pr_local_branch)
   if (!is.na(m)) {
     url <- pr_dat$pr_html_url[[m]]
@@ -638,8 +643,11 @@ pr_find <- function(branch = git_branch(), tr = NULL) {
   NULL
 }
 
-pr_url <- function(branch = git_branch(), tr = NULL) {
-  pr <- pr_find(branch, tr = tr)
+pr_url <- function(branch = git_branch(),
+                   tr = NULL,
+                   state = c("open", "closed", "all")) {
+  state <- match.arg(state)
+  pr <- pr_find(branch, tr = tr, state = state)
   if (is.null(pr)) {
     NULL
   } else {
@@ -696,12 +704,15 @@ pr_data_tidy <- function(pr) {
   out
 }
 
-pr_list <- function(tr = NULL, github_get = NA) {
+pr_list <- function(tr = NULL,
+                    github_get = NA,
+                    state = c("open", "closed", "all")) {
   tr <- tr %||% target_repo(github_get = github_get, ask = FALSE)
+  state <- match.arg(state)
   safely_gh <- purrr::safely(gh::gh, otherwise = NULL)
   out <- safely_gh(
     "GET /repos/:owner/:repo/pulls",
-    owner = tr$repo_owner, repo = tr$repo_name,
+    owner = tr$repo_owner, repo = tr$repo_name, state = state,
     .limit = Inf, .api_url = tr$api_url
   )
   if (!is.null(out$error)) {
