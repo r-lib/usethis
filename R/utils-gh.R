@@ -40,3 +40,7 @@ is_github_dot_com <- function(url) {
   url <- normalize_host(url)
   grepl("^https?://github.com", url)
 }
+
+default_api_url <- function() {
+  Sys.getenv('GITHUB_API_URL', unset = "https://api.github.com")
+}
