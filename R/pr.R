@@ -161,20 +161,16 @@ pr_init <- function(branch) {
   # don't absolutely require PAT success, because we could be offline
   # or in another salvageable situation, e.g. need to configure PAT
   cfg <- github_remote_config(github_get = NA)
-  good_configs <- c("ours", "fork")
-  maybe_good_configs <- c("maybe_ours_or_theirs", "maybe_fork")
-  if (!cfg$type %in% c(good_configs, maybe_good_configs)) {
-    stop_unsupported_pr_config(cfg)
-  }
+  check_for_bad_config(cfg)
   tr <- target_repo(cfg, ask = FALSE)
 
+  maybe_good_configs <- c("maybe_ours_or_theirs", "maybe_fork")
   if (cfg$type %in% maybe_good_configs) {
-    # TODO: revisit when I have somewhere better to send people
     ui_line('
       Unable to confirm the GitHub remote configuration is "pull request ready"
       You probably need to configure a personal access token for \\
       {ui_value(tr$host)}
-      See {ui_code("?create_github_token")} for help
+      See {ui_code("gh_token_help()")} for help
       (Or maybe we\'re just offline?)')
     if (ui_github_remote_config_wat(cfg)) {
       ui_stop("Aborting")
@@ -743,14 +739,6 @@ pr_get <- function(number, tr = NULL, github_get = NA) {
     number = number, .api_url = tr$api_url
   )
   pr_data_tidy(raw)
-}
-
-check_ours_or_fork <- function(cfg = NULL) {
-  cfg <- cfg %||% github_remote_config(github_get = TRUE)
-  if (cfg$type %in% c("ours", "fork")) {
-    return(invisible(cfg))
-  }
-  stop_unsupported_pr_config(cfg)
 }
 
 check_pr_branch <- function() {

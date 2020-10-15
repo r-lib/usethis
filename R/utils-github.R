@@ -439,9 +439,8 @@ target_repo <- function(cfg = NULL,
 
   check_for_bad_config(cfg)
 
-  if (isTRUE(github_get) && (!cfg$type %in% c("ours", "fork"))) {
-    # TODO: this doesn't offer any helpful advice, such as configuring a PAT
-    stop_bad_github_remote_config(cfg)
+  if (isTRUE(github_get)) {
+    check_ours_or_fork(cfg)
   }
 
   # upstream only
@@ -558,11 +557,14 @@ stop_bad_github_remote_config <- function(cfg) {
   )
 }
 
-stop_unsupported_pr_config <- function(cfg) {
+stop_maybe_github_remote_config <- function(cfg) {
   msg <- github_remote_config_wat(cfg)
   msg$type <- glue("
     Pull request functions can't work with GitHub remote configuration: \\
-    {ui_value(cfg$type)}")
+    {ui_value(cfg$type)}
+    The most likely problem is that we aren't discovering your GitHub \\
+    personal access token
+    Call {ui_code('gh_token_help()')} for help")
   abort(
     message = unname(msg),
     class = c("usethis_error_invalid_pr_config", "usethis_error"),
@@ -581,6 +583,29 @@ check_for_bad_config <- function(cfg,
     stop_bad_github_remote_config(cfg)
   }
   invisible()
+}
+
+check_for_maybe_config <- function(cfg,
+                                   maybe_configs = c(
+                                     "maybe_ours_or_theirs",
+                                     "maybe_fork"
+                                   )) {
+  if (cfg$type %in% maybe_configs) {
+    stop_maybe_github_remote_config(cfg)
+  }
+  invisible()
+}
+
+check_ours_or_fork <- function(cfg = NULL) {
+  cfg <- cfg %||% github_remote_config(github_get = TRUE)
+  stopifnot(inherits(cfg, "github_remote_config"))
+  if (cfg$type %in% c("ours", "fork")) {
+    return(invisible(cfg))
+  }
+  check_for_bad_config()
+  check_for_maybe_config()
+  ui_stop("
+    Internal error: Unexpected GitHub remote configuration: {ui_value(cfg$type)}")
 }
 
 # github remote configurations -------------------------------------------------
