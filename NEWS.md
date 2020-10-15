@@ -18,7 +18,7 @@ Usethis has various functions that help with Git-related tasks, which break down
 
 1. Git tasks, such as clone, push, and pull. These are things you could do with
    command line Git.
-1. GitHub tasks, such as fork, release, and open an issue / pull request. These
+1. GitHub tasks, such as fork, release, and open an issue or pull request. These
    are things you could do in the browser or with the GitHub API.
    
 We've switched from git2r to the gert package for Git operations (<https://docs.ropensci.org/gert>). We continue to use the gh package for GitHub API work (<https://gh.r-lib.org>).
@@ -45,8 +45,8 @@ As a result, several functions are deprecated and several other functions have s
   - `git_credentials()`
   - `github_token()`
 * Functions with (deprecated arguments):
-  - `create_from_github()` (`auth_token`)
-  - `use_github()` (`auth_token`)
+  - `create_from_github()` (`auth_token`, `credentials`)
+  - `use_github()` (`auth_token`, `credentials`)
   - `use_github_links()` (`host`, `auth_token`)
   - `use_github_labels()` (`repo_spec`, `host`, `auth_token`)
   - `use_tidy_labels()` (`repo_spec`, `host`, `auth_token`)  
@@ -68,7 +68,7 @@ There is increasing interest in making the name of a repo's default branch confi
 
 `pr_fetch()` can also be called with no arguments, to select a PR interactively. `pr_fetch()` loses its `owner` argument. The `owner` is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.
 
-`pr_view()` can now be called with no arguments. If the current branch is associated with an open PR, we target that it and, otherwise, we offer an interactive selection.
+`pr_view()` can now be called with no arguments. If the current branch is associated with an open PR, we target that and, otherwise, we offer an interactive selection.
 
 `pr_finish()` deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150).
 
@@ -120,13 +120,13 @@ There is increasing interest in making the name of a repo's default branch confi
 
 * `use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The existing behaviour, which adds an `OWNER/REPO` GitHub remote, remains the default (#918, @ijlyttle).
 
-`browse_github_actions()` is a new function to open the Actions page of the respective repo on GitHub, similar to existing `browse_*()` functions (@pat-s, #1102).
+* `browse_github_actions()` is a new function to open the Actions page of the respective repo on GitHub, similar to existing `browse_*()` functions (@pat-s, #1102).
 
-`use_cpp11()` is a new function to set up an R package to use cpp11.
+* `use_cpp11()` is a new function to set up an R package to use cpp11.
 
-`create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
+* `create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
 
-`create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
+* `create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
 
 * `use_testthat()` gains an edition argument to support upcoming testthat 3.0.0 
   (#1185)
