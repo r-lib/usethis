@@ -58,17 +58,19 @@ use_github <- function(organisation = NULL,
                        host = NULL,
                        auth_token = deprecated(),
                        credentials = deprecated()) {
-  check_uses_git()
-  check_default_branch()
-  check_no_uncommitted_changes()
-  check_no_origin()
-
   if (lifecycle::is_present(auth_token)) {
     deprecate_warn_auth_token("use_github")
   }
   if (lifecycle::is_present(credentials)) {
     deprecate_warn_credentials("use_github")
   }
+
+  check_uses_git()
+  check_default_branch()
+  challenge_uncommitted_changes(msg = "
+    There are uncommitted changes and we're about to create and push to a new \\
+    GitHub repo")
+  check_no_origin()
 
   whoami <- suppressMessages(gh::gh_whoami(.api_url = host))
   if (is.null(whoami)) {

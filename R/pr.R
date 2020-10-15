@@ -200,7 +200,7 @@ pr_init <- function(branch) {
     if (!is.na(remref)) {
       comparison <- git_branch_compare(current_branch, remref)
       if (comparison$remote_only > 0) {
-        check_no_uncommitted_changes(untracked = TRUE)
+        challenge_uncommitted_changes(untracked = TRUE)
       }
       ui_info("Pulling changes from {ui_value(remref)}")
       git_pull(remref = remref, verbose = FALSE)
@@ -245,7 +245,7 @@ pr_resume <- function(branch = NULL) {
       Call {ui_code(code)} to create a new PR branch")
   }
 
-  check_no_uncommitted_changes(untracked = TRUE)
+  challenge_uncommitted_changes(untracked = TRUE)
 
   ui_done("Switching to branch {ui_value(branch)}")
   gert::git_branch_checkout(branch, repo = repo)
@@ -265,7 +265,7 @@ pr_resume <- function(branch = NULL) {
 #' }
 pr_fetch <- function(number = NULL) {
   tr <- target_repo(github_get = TRUE)
-  check_no_uncommitted_changes()
+  challenge_uncommitted_changes()
 
   if (is.null(number)) {
     ui_info("No PR specified ... looking up open PRs")
@@ -354,7 +354,7 @@ pr_push <- function() {
   cfg <- github_remote_config(github_get = TRUE)
   check_ours_or_fork(cfg)
   check_pr_branch()
-  check_no_uncommitted_changes()
+  challenge_uncommitted_changes()
 
   repo <- git_repo()
   branch <- git_branch()
@@ -406,7 +406,7 @@ pr_push <- function() {
 pr_pull <- function() {
   check_ours_or_fork()
   check_pr_branch()
-  check_no_uncommitted_changes()
+  challenge_uncommitted_changes()
 
   git_pull()
 
@@ -417,7 +417,7 @@ pr_pull <- function() {
 #' @rdname pull-requests
 pr_merge_main <- function() {
   tr <- target_repo(github_get = TRUE, ask = FALSE)
-  check_no_uncommitted_changes()
+  challenge_uncommitted_changes()
   remref <- glue("{tr$remote}/{git_branch_default()}")
   ui_done("
     Pulling in changes from default branch of the source repo \\
@@ -496,7 +496,7 @@ pr_pause <- function() {
       Nothing to do")
     return(invisible())
   }
-  check_no_uncommitted_changes()
+  challenge_uncommitted_changes()
   # TODO: what happens here if offline?
   check_branch_pulled(use = "pr_pull()")
 
@@ -516,7 +516,7 @@ pr_finish <- function(number = NULL) {
   }
 
   check_pr_branch()
-  check_no_uncommitted_changes()
+  challenge_uncommitted_changes()
 
   branch <- git_branch()
 

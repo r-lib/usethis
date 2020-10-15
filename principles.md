@@ -105,7 +105,7 @@ When you need to create a new Git URL and have to decide between HTTPS or SSH:
 
 If the default summoning of Git credentials or GitHub PAT doesn't work for the user, help them diagnose that. But we are NOT in the credential management business and we aren't going to offer fine control of this at, say, the level of individual functions.
 
-Functions that might make a commit should use `check_no_uncommitted_changes()` in the initial sanity-checking block to encourage starting in a clean state, i.e. with no uncommitted files or, if `untracked = TRUE` is specified, also with no untracked files.
+Functions that might make a commit should use `challenge_uncommitted_changes()` in the initial sanity-checking block to encourage starting in a clean state, i.e. with no uncommitted files or, if `untracked = TRUE` is specified, also with no untracked files. We allow people to proceed at their own risk.
 
 Always make commits with `git_commit_ask()`. This why `git_commit()`, which wraps `gert::git_add()` and `gert::git_commit()`, is defined *inside* `git_commit_ask()`. Whenever possible, specify `paths` for `git_commit_ask()`. It should almost always be possible to know exactly which files we might have touched or created. If you need to make a commit in a noninteractive context, like a test, use `gert::git_commit()`.
 

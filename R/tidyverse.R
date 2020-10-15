@@ -174,7 +174,9 @@ use_dot_github <- function(ignore = TRUE) {
 #' @rdname tidyverse
 use_tidy_style <- function(strict = TRUE) {
   check_installed("styler")
-  check_no_uncommitted_changes()
+  challenge_uncommitted_changes(msg = "
+    There are uncommitted changes and it is highly recommended to get into a \\
+    clean Git state before restyling your project's code")
   if (is_package()) {
     styled <- styler::style_pkg(
       proj_get(),

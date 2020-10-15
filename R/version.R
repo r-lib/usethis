@@ -37,7 +37,9 @@ use_version <- function(which = NULL) {
   }
 
   check_is_package("use_version()")
-  check_no_uncommitted_changes()
+  challenge_uncommitted_changes(
+    msg = "There are uncommitted changes and you're about to bump version"
+  )
 
   new_ver <- choose_version(which)
   if (is.null(new_ver)) {

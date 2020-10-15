@@ -111,7 +111,7 @@ git_uncommitted <- function(untracked = FALSE) {
   nrow(git_status(untracked)) > 0
 }
 
-check_no_uncommitted_changes <- function(untracked = FALSE) {
+challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
   if (!uses_git()) {
     return(invisible())
   }
@@ -120,12 +120,12 @@ check_no_uncommitted_changes <- function(untracked = FALSE) {
     rstudioapi::documentSaveAll()
   }
 
-  # TODO: present a more useful overview of the situation?
+  default_msg <- "
+    There are uncommitted changes, which may cause problems when \\
+    we push, pull, or switch branches"
+  msg <- glue(msg %||% default_msg)
   if (git_uncommitted(untracked = untracked)) {
-    if (ui_yeah("
-          There are uncommitted changes, which may cause problems when \\
-          we push, pull, or switch branches.
-          Do you want to proceed anyway?")) {
+    if (ui_yeah("{msg}\nDo you want to proceed anyway?")) {
       return(invisible())
     } else {
       ui_stop("Uncommitted changes. Please commit before continuing.")
