@@ -54,9 +54,8 @@ authorized with the token associated with the \code{host}, as retrieved by
 }
 \item Creates an associated repo on GitHub
 \item Adds that GitHub repo to your local repo as the \code{origin} remote
-\item Offers to commit changes, e.g. the addition of GitHub links to the
-URL and BugReports fields of DESCRIPTION
 \item Makes an initial push to GitHub
+\item Calls \code{\link[=use_github_links]{use_github_links()}}, if the project is an R package
 \item Configures \code{origin/DEFAULT} to be the upstream branch of the local
 \code{DEFAULT} branch, e.g. \code{master} or \code{main}
 }

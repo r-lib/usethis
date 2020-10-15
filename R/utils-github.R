@@ -115,6 +115,13 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
   )]
 }
 
+origin_is_on_github <- function() {
+  if (!uses_git()) {
+    return(FALSE)
+  }
+  nrow(github_remote_list("origin")) > 0
+}
+
 #' Gather LOCAL and (maybe) REMOTE data on GitHub-associated remotes
 #'
 #' Creates a data frame where each row represents a GitHub-associated remote,

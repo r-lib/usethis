@@ -1,10 +1,8 @@
-pkgload::unload("devtools")
 devtools::load_all("~/rrr/usethis")
-attachNamespace("devtools")
 
-pkgname <- "klmnop"
+pkgname <- "taciturn-tern"
 #use_git_protocol("ssh")
-use_git_protocol("https")
+#use_git_protocol("https")
 git_protocol()
 
 (pkgpath <- path_temp(pkgname))
@@ -26,14 +24,6 @@ use_github(private = TRUE)
 # remove the 'origin' remote
 use_git_remote("origin", NULL, overwrite = TRUE)
 
-# Should fail due to lack of token for this host
-# This only works with a PR branch of gitcreds as of 2020-09-24.
-# If this stops working, update with whatever approach we adopt for "no creds".
-withr::with_envvar(
-  new = c(GITHUB_PAT_GITHUB_COM = ""),
-  use_github(private = TRUE)
-)
-
 # should work
 use_github(private = TRUE)
 
@@ -47,11 +37,10 @@ use_git_remote("origin", NULL, overwrite = TRUE)
 use_github(private = TRUE)
 
 # delete the GitHub repo
-(gh_account <- gh::gh_whoami())
-pkgname
+whoami <- gh::gh_whoami()
 gh::gh(
-  "DELETE /repos/:username/:pkg",
-  username = gh_account$login,
+  "DELETE /repos/{username}/{pkg}",
+  username = whoami$login,
   pkg = pkgname
 )
 
@@ -63,9 +52,7 @@ info <- gert::git_info()
 expect_equal(info$upstream, "origin/master")
 
 # URL and BugReports should be populated
-(gh_account <- gh::gh_whoami())
-pkgname
-URL <- paste0("https://github.com/", gh_account$login, "/", pkgname)
+URL <- paste0("https://github.com/", whoami$login, "/", pkgname)
 BugReports <- paste0(URL, "/", "issues")
 expect_match(desc::desc_get_urls(), URL)
 expect_match(desc::desc_get_field("BugReports"), BugReports)
@@ -75,7 +62,7 @@ desc::desc_del(c("BugReports", "URL"))
 expect_true(all(!desc::desc_has_fields(c("BugReports", "URL"))))
 
 # restore the GitHub links
-# why am I not seeing the warning?
+# should see a warning that `host` is deprecated and ignored
 use_github_links(host = "blah")
 expect_match(desc::desc_get_urls(), URL)
 expect_match(desc::desc_get_field("BugReports"), BugReports)
@@ -87,16 +74,27 @@ use_github_links(overwrite = TRUE)
 expect_match(desc::desc_get_urls(), URL)
 expect_match(desc::desc_get_field("BugReports"), BugReports)
 
+
+gh::gh(
+  "DELETE /repos/{username}/{pkg}",
+  username = whoami$login,
+  pkg = pkgname
+)
+usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)
+
+# only do this if you're willing to restore your PAT
+gitcreds::gitcreds_delete()
+# should error, because no PAT
+use_github(private = TRUE)
+# don't forget to restore your PAT
+gitcreds::gitcreds_set()
+
 # restore initial project, working directory, delete local repo
 withr::deferred_run()
 
 ## delete local and remote repo
-(gh_account <- gh::gh_whoami())
-pkgname
 gh::gh(
   "DELETE /repos/:username/:pkg",
-  username = gh_account$login,
+  username = whoami$login,
   pkg = pkgname
 )
-## alternative: delete from the browser
-## view_url(file.path(gh_account$html_url, pkgname, "settings"))

@@ -9,9 +9,8 @@
 #'   - No pre-existing `origin` remote
 #' * Creates an associated repo on GitHub
 #' * Adds that GitHub repo to your local repo as the `origin` remote
-#' * Offers to commit changes, e.g. the addition of GitHub links to the
-#'   URL and BugReports fields of DESCRIPTION
 #' * Makes an initial push to GitHub
+#' * Calls [use_github_links()], if the project is an R package
 #' * Configures `origin/DEFAULT` to be the upstream branch of the local
 #'   `DEFAULT` branch, e.g. `master` or `main`
 #'
@@ -71,36 +70,22 @@ use_github <- function(organisation = NULL,
     deprecate_warn_credentials("use_github")
   }
 
-  host_url <- gh:::get_hosturl(host)
-  api_url <- gh:::get_apiurl(host)
-  # TODO: do I even need to proactively get the token here? what if I just go
-  # straight to a tryCatch'd gh::gh_whoami()? if it fails due to invalid token
-  # refer people to a yet-to-be written humane function in gh (or one I put in
-  # usethis)
-  auth_token <- gh::gh_token(host_url)
-  if (auth_token == "") {
-    # TODO: revisit when I have better advice (if I continue to proactively get
-    # a token)
-    get_code <- glue("gitcreds::gitcreds_get(\"{host_url}\")")
-    set_code <- glue("gitcreds::gitcreds_set(\"{host_url}\")")
+  whoami <- suppressMessages(gh::gh_whoami(.api_url = host))
+  if (is.null(whoami)) {
     ui_stop("
-      Unable to discover a token for {ui_value(host_url)}
-        Call {ui_code(get_code)} to experience this first-hand
-        Call {ui_code(set_code)} to store a token")
-  }
-  who <- tryCatch(
-    gh::gh_whoami(.token = auth_token, .api_url = api_url),
-    http_error_401 = function(e) ui_stop("Token is invalid."),
-    error = function(e) {
-      ui_oops("
-        Can't get login associated with this token. Is the network reachable?")
-    }
-  )
-  login <- who$login
+      Unable to discover a GitHub personal access token
+      A token is required in order to create and push to a new repo
 
-  owner <- organisation %||% login
+      Call {ui_code('gh_token_help()')} for help configuring a token")
+  }
+  empirical_host <- parse_github_remotes(glue("{whoami$html_url}/REPO"))$host
+  if (empirical_host != "github.com") {
+    ui_info("Targeting the GitHub host {ui_value(empirical_host)}")
+  }
+
+  owner <- organisation %||%  whoami$login
   repo_name <- project_name()
-  check_no_github_repo(owner, repo_name, api_url, auth_token)
+  check_no_github_repo(owner, repo_name, host)
 
   repo_desc <- project_data()$Title %||% ""
   repo_desc <- gsub("\n", " ", repo_desc)
@@ -114,7 +99,7 @@ use_github <- function(organisation = NULL,
       name = repo_name,
       description = repo_desc,
       private = private,
-      .api_url = api_url, .token = auth_token
+      .api_url = host
     )
   } else {
     create <- gh::gh(
@@ -123,7 +108,7 @@ use_github <- function(organisation = NULL,
       name = repo_name,
       description = repo_desc,
       private = private,
-      .api_url = api_url, .token = auth_token
+      .api_url = host
     )
   }
 
@@ -160,8 +145,7 @@ use_github <- function(organisation = NULL,
     verbose = FALSE
   )
 
-  gbl <- gert::git_branch_list(repo = repo)
-  gbl <- gbl[gbl$local, ]
+  gbl <- gert::git_branch_list(local = TRUE, repo = repo)
   if (nrow(gbl) > 1) {
     ui_done("
       Setting {ui_value(default_branch)} as default branch on GitHub")
@@ -169,7 +153,7 @@ use_github <- function(organisation = NULL,
       "PATCH /repos/{owner}/{repo}",
       owner = owner, repo = repo_name,
       default_branch = default_branch,
-      .api_url = api_url, .token = auth_token
+      .api_url = host
     )
   }
 
@@ -235,13 +219,6 @@ use_github_links <- function(auth_token = deprecated(),
   invisible()
 }
 
-origin_is_on_github <- function() {
-  if (!uses_git()) {
-    return(FALSE)
-  }
-  nrow(github_remote_list("origin")) > 0
-}
-
 check_no_origin <- function() {
   remotes <- git_remotes()
   if ("origin" %in% names(remotes)) {
@@ -254,13 +231,13 @@ check_no_origin <- function() {
   invisible()
 }
 
-check_no_github_repo <- function(owner, repo, .api_url, .token) {
+check_no_github_repo <- function(owner, repo, host) {
   repo_found <- tryCatch(
     {
-      gh::gh(
+      repo_info <- gh::gh(
         "/repos/:owner/:repo",
         owner = owner, repo = repo,
-        .api_url = .api_url, .token = .token
+        .api_url = host
       )
       TRUE
     },
@@ -270,6 +247,6 @@ check_no_github_repo <- function(owner, repo, .api_url, .token) {
     return(invisible())
   }
   spec <- glue("{owner}/{repo}")
-  host_url <- gh:::get_hosturl(.api_url)
-  ui_stop("Repo {ui_value(spec)} already exists on {ui_value(host_url)}.")
+  empirical_host <- parse_github_remotes(repo_info$html_url)$host
+  ui_stop("Repo {ui_value(spec)} already exists on {ui_value(empirical_host)}")
 }
