@@ -1,11 +1,13 @@
-pkgload::unload("devtools")
 devtools::load_all("~/rrr/usethis")
-attachNamespace("devtools")
 library(fs)
 
 # maybe set a protocol
 #use_git_protocol("ssh")
 git_protocol()
+
+# check that a GitHub PAT is configured
+(gh_account <- gh::gh_whoami())
+(me <- gh_account$login)
 
 # this repo was chosen because it was first one listed for the cran gh user
 # the day I made this, i.e., it's totally arbitrary
@@ -13,8 +15,12 @@ git_protocol()
 # make sure local copy does not exist; this will error if doesn't pre-exist
 dir_delete("~/tmp/TailRank")
 
-# check that a GitHub PAT is configured
-(gh_account <- gh::gh_whoami())
+# make sure user doesn't have pre-existing fork; this will 404 if not
+gh::gh(
+  "DELETE /repos/:username/:pkg",
+  username = me,
+  pkg = "TailRank"
+)
 
 # create from repo I do not have push access to
 # fork = FALSE
@@ -26,9 +32,9 @@ dir_delete(x)
 # fork = TRUE
 x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = TRUE, open = FALSE)
 # fork and clone --> should see origin and upstream remotes
-gert::git_branch_list(x)
+gert::git_branch_list(x, repo = x)
 expect_setequal(
-  gert::git_remote_list(x)$name,
+  gert::git_remote_list(repo = x)$name,
   c("origin", "upstream")
 )
 expect_equal(
@@ -38,7 +44,7 @@ expect_equal(
 dir_delete(x)
 gh::gh(
   "DELETE /repos/:username/:pkg",
-  username = gh_account$login,
+  username = me,
   pkg = "TailRank"
 )
 
@@ -47,14 +53,14 @@ gh::gh(
 x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = NA, open = FALSE)
 # fork and clone --> should see origin and upstream remotes
 expect_setequal(
-  gert::git_remote_list(x)$name,
+  gert::git_remote_list(repo = x)$name,
   c("origin", "upstream")
 )
 dir_delete(x)
 
 gh::gh(
   "DELETE /repos/:username/:pkg",
-  username = gh_account$login,
+  username = me,
   pkg = "TailRank"
 )
 
@@ -90,7 +96,7 @@ dir_delete("~/tmp/TailRank")
 # fork = FALSE
 x <- create_from_github("cran/TailRank", destdir = "~/tmp", fork = FALSE, open = FALSE)
 # created, clone, origin remote is cran/TailRank
-dat <- gert::git_remote_list(x)
+dat <- gert::git_remote_list(repo = x)
 expect_equal(dat$name, "origin")
 #expect_equal(dat$url, "git@github.com:cran/TailRank.git")
 expect_equal(dat$url, "https://github.com/cran/TailRank.git")

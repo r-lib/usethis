@@ -19,12 +19,12 @@ gh::gh(
   "POST /user/repos",
   name = repo_name,
   description = "usethis manual test repo",
-  auto_init = TRUE, # look into this for use_github()
+  auto_init = TRUE, # note this means default branch will be `main`
   private = TRUE
 )
 
 ## this should work
-x <- create_from_github(paste0(user, "/", repo_name), open = FALSE)
+x <- create_from_github(paste0(me, "/", repo_name), open = FALSE)
 
 expect_equal(path_file(x), "crewsocks")
 expect_true(dir_exists(x))

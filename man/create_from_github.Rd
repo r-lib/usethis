@@ -27,17 +27,19 @@ location using the option \code{usethis.destdir}, e.g.
 \code{options(usethis.destdir = "a/good/dir")}, perhaps saved to your
 \code{.Rprofile} with \code{\link[=edit_r_profile]{edit_r_profile()}}}
 
-\item{fork}{If \code{TRUE}, we create and clone a fork. If \code{FALSE}, we clone
-\code{repo_spec} itself. If \code{NA} (the default), we check your permissions on the
-target repo. If you can push, we clone \code{repo_spec} (so, \code{fork = FALSE}).
-If you can't push, we do fork-and-clone and other setup:
+\item{fork}{If \code{FALSE}, we clone \code{repo_spec}. If \code{TRUE}, we fork
+\code{repo_spec}, clone that fork, and do additional set up favorable for
+future pull requests:
 \itemize{
-\item The source repo is configured as the \code{upstream} remote, using the
-indicated \code{protocol}.
+\item The source repo, \code{repo_spec}, is configured as the \code{upstream} remote,
+using the indicated \code{protocol}.
 \item The local \code{DEFAULT} branch is set to track \code{upstream/DEFAULT}, where
-\code{DEFAULT} is typically \code{master} or \code{main}. It is also immediately
-pulled, to cover the case of a pre-existing, out-of-date fork.
-}}
+\code{DEFAULT} is typically \code{master} or \code{main}. It is also immediately pulled,
+to cover the case of a pre-existing, out-of-date fork.
+}
+
+If \code{fork = NA} (the default), we check your permissions on \code{repo_spec}. If
+you can push, we set \code{fork = FALSE}, If you cannot, we set \code{fork = TRUE}.}
 
 \item{rstudio}{Initiate an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}?
 Defaults to \code{TRUE} if in an RStudio session and project has no
