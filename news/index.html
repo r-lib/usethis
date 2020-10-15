@@ -204,7 +204,7 @@
 <p>Usethis has various functions that help with Git-related tasks, which break down into two categories:</p>
 <ol>
 <li>Git tasks, such as clone, push, and pull. These are things you could do with command line Git.</li>
-<li>GitHub tasks, such as fork, release, and open an issue / pull request. These are things you could do in the browser or with the GitHub API.</li>
+<li>GitHub tasks, such as fork, release, and open an issue or pull request. These are things you could do in the browser or with the GitHub API.</li>
 </ol>
 <p>We’ve switched from git2r to the gert package for Git operations (<a href="https://docs.ropensci.org/gert" class="uri">https://docs.ropensci.org/gert</a>). We continue to use the gh package for GitHub API work (<a href="https://gh.r-lib.org" class="uri">https://gh.r-lib.org</a>).</p>
 <p>The big news in this area is that these lower-level dependencies are getting better at finding Git credentials, finding the same credentials as command line Git (and, therefore, the same as RStudio), and finding the same credentials as each other. This allows usethis to shed some of the workarounds we have needed in the past, to serve as a remedial “credential valet”.</p>
@@ -232,9 +232,9 @@
 <li>Functions with (deprecated arguments):
 <ul>
 <li>
-<code><a href="../reference/create_from_github.html">create_from_github()</a></code> (<code>auth_token</code>)</li>
+<code><a href="../reference/create_from_github.html">create_from_github()</a></code> (<code>auth_token</code>, <code>credentials</code>)</li>
 <li>
-<code><a href="../reference/use_github.html">use_github()</a></code> (<code>auth_token</code>)</li>
+<code><a href="../reference/use_github.html">use_github()</a></code> (<code>auth_token</code>, <code>credentials</code>)</li>
 <li>
 <code><a href="../reference/use_github_links.html">use_github_links()</a></code> (<code>host</code>, <code>auth_token</code>)</li>
 <li>
@@ -261,7 +261,7 @@
 <a href="#changes-to-behaviour-of-gitgithub-related-functions" class="anchor"></a>Changes to behaviour of Git/GitHub-related functions</h2>
 <p><code><a href="../reference/pull-requests.html">pr_resume()</a></code> is a new function for resuming work on an existing local PR branch. It can be called argument-less, to select a branch interactively.</p>
 <p><code><a href="../reference/pull-requests.html">pr_fetch()</a></code> can also be called with no arguments, to select a PR interactively. <code><a href="../reference/pull-requests.html">pr_fetch()</a></code> loses its <code>owner</code> argument. The <code>owner</code> is now inferred from the GitHub remote configuration: <code>upstream</code> if working in a fork and <code>origin</code> otherwise.</p>
-<p><code><a href="../reference/pull-requests.html">pr_view()</a></code> can now be called with no arguments. If the current branch is associated with an open PR, we target that it and, otherwise, we offer an interactive selection.</p>
+<p><code><a href="../reference/pull-requests.html">pr_view()</a></code> can now be called with no arguments. If the current branch is associated with an open PR, we target that and, otherwise, we offer an interactive selection.</p>
 <p><code><a href="../reference/pull-requests.html">pr_finish()</a></code> deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (<a href='https://github.com/r-lib/usethis/issues/1150'>#1150</a>).</p>
 <p><code><a href="../reference/usethis-defunct.html">pr_pull_upstream()</a></code> is renamed to <code><a href="../reference/pull-requests.html">pr_merge_main()</a></code> to emphasize that it merges the <strong>main</strong> line of development into the current branch, where the main line of development is taken to mean the default branch, as reported by <code><a href="../reference/git_branch_default.html">git_branch_default()</a></code>, of the source repo, which could be either <code>upstream</code> or <code>origin</code>, depending on the situation.</p>
 <p><code><a href="../reference/create_from_github.html">create_from_github()</a></code> will only create a read-only clone, due to lack of a GitHub personal access token, if explicitly directed to do so via <code>fork = FALSE</code>.</p>
@@ -288,14 +288,11 @@
 <ul>
 <li><p>GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (<a href='https://github.com/r-lib/usethis/issues/1169'>#1169</a>).</p></li>
 <li><p><code><a href="../reference/use_package.html">use_dev_package()</a></code> gains a <code>remote</code> parameter to allow you to specify the remote. The existing behaviour, which adds an <code>OWNER/REPO</code> GitHub remote, remains the default (<a href='https://github.com/r-lib/usethis/issues/918'>#918</a>, <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</p></li>
-</ul>
-<p><code><a href="../reference/browse-this.html">browse_github_actions()</a></code> is a new function to open the Actions page of the respective repo on GitHub, similar to existing <code>browse_*()</code> functions (<a href='https://github.com/pat-s'>@pat-s</a>, <a href='https://github.com/r-lib/usethis/issues/1102'>#1102</a>).</p>
-<p><code><a href="../reference/use_cpp11.html">use_cpp11()</a></code> is a new function to set up an R package to use cpp11.</p>
-<p><code><a href="../reference/create_package.html">create_package(roxygen = FALSE)</a></code> once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (<a href='https://github.com/r-lib/usethis/issues/1120'>#1120</a>).</p>
-<p><code><a href="../reference/create_package.html">create_package()</a></code>, <code><a href="../reference/create_package.html">create_project()</a></code>, and <code><a href="../reference/proj_activate.html">proj_activate()</a></code> work better with relative paths, outside of RStudio (<a href='https://github.com/r-lib/usethis/issues/1122'>#1122</a>, <a href='https://github.com/r-lib/usethis/issues/954'>#954</a>).</p>
-<ul>
-<li>
-<code><a href="../reference/use_testthat.html">use_testthat()</a></code> gains an edition argument to support upcoming testthat 3.0.0 (<a href='https://github.com/r-lib/usethis/issues/1185'>#1185</a>)</li>
+<li><p><code><a href="../reference/browse-this.html">browse_github_actions()</a></code> is a new function to open the Actions page of the respective repo on GitHub, similar to existing <code>browse_*()</code> functions (<a href='https://github.com/pat-s'>@pat-s</a>, <a href='https://github.com/r-lib/usethis/issues/1102'>#1102</a>).</p></li>
+<li><p><code><a href="../reference/use_cpp11.html">use_cpp11()</a></code> is a new function to set up an R package to use cpp11.</p></li>
+<li><p><code><a href="../reference/create_package.html">create_package(roxygen = FALSE)</a></code> once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (<a href='https://github.com/r-lib/usethis/issues/1120'>#1120</a>).</p></li>
+<li><p><code><a href="../reference/create_package.html">create_package()</a></code>, <code><a href="../reference/create_package.html">create_project()</a></code>, and <code><a href="../reference/proj_activate.html">proj_activate()</a></code> work better with relative paths, outside of RStudio (<a href='https://github.com/r-lib/usethis/issues/1122'>#1122</a>, <a href='https://github.com/r-lib/usethis/issues/954'>#954</a>).</p></li>
+<li><p><code><a href="../reference/use_testthat.html">use_testthat()</a></code> gains an edition argument to support upcoming testthat 3.0.0 (<a href='https://github.com/r-lib/usethis/issues/1185'>#1185</a>)</p></li>
 </ul>
 </div>
 </div>
