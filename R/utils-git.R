@@ -87,16 +87,21 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
 
   paths <- sort(paths)
   ui_paths <- map_chr(paths, ui_path)
-  if (n > 20) {
-    ui_paths <- c(ui_paths[1:20], "...")
+  if (n > 10) {
+    ui_paths <- c(ui_paths[1:10], "...")
   }
 
+  if (n == 1) {
+    file_hint <- "There is 1 uncommitted file:"
+  } else {
+    file_hint <- "There are {n} uncommitted files:"
+  }
   ui_line(c(
-    "There are {n} uncommitted files:",
+    file_hint,
     paste0("* ", ui_paths)
   ))
 
-  if (ui_yeah("Is it ok to commit them?")) {
+  if (ui_yeah("Is it ok to commit {if (n == 1) 'it' else 'them'}?")) {
     git_commit(paths, message)
   }
   invisible()
