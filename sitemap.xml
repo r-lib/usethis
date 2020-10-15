@@ -16,9 +16,6 @@
     <loc>https://usethis.r-lib.org/reference/create_from_github.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/reference/create_github_token.html</loc>
-  </url>
-  <url>
     <loc>https://usethis.r-lib.org/reference/create_package.html</loc>
   </url>
   <url>
@@ -41,6 +38,9 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/git_vaccinate.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/github-token.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/github_actions.html</loc>

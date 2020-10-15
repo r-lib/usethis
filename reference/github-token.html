@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Defunct and deprecated functions in usethis — usethis-defunct • usethis</title>
+<title>Get help with GitHub personal access tokens — github-token • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,28 @@
 
 
 
-<meta property="og:title" content="Defunct and deprecated functions in usethis — usethis-defunct" />
-<meta property="og:description" content="These functions have either been deprecated or removed from usethis." />
+<meta property="og:title" content="Get help with GitHub personal access tokens — github-token" />
+<meta property="og:description" content="A personal access token
+(PAT) is needed for certain tasks usethis does via the GitHub API, such as
+creating a repository, a fork, or a pull request. If you use HTTPS remotes,
+your PAT is also used when interacting with GitHub as a conventional Git
+remote. These functions help you get and manage your PAT:
+gh_token_help() guides you through token troubleshooting and setup
+create_github_token() opens a browser window to the GitHub form to
+generate a PAT, with suggested scopes pre-selected. It then offers advice
+on storing your PAT, which also appears below.
+gitcreds::gitcreds_set() helps you register your PAT with the Git
+credential manager used by your operating system. Later, other packages,
+such as usethis, gert, and gh can automatically retrieve that PAT, via
+gitcreds::gitcreds_get(), and use it to work with GitHub on your behalf.
+
+
+Usually, the first time the PAT is retrieved in an R session, it is cached
+in an environment variable, for easier reuse for the duration of that R
+session. After initial acquisition and storage, all of this should happen
+automatically in the background.
+create_github_token() has previously gone by some other names:
+browse_github_token() and browse_github_pat()." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -179,35 +199,97 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Defunct and deprecated functions in usethis</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/usethis-defunct.R'><code>R/usethis-defunct.R</code></a></small>
-    <div class="hidden name"><code>usethis-defunct.Rd</code></div>
+    <h1>Get help with GitHub personal access tokens</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/github_token.R'><code>R/github_token.R</code></a></small>
+    <div class="hidden name"><code>github-token.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>These functions have either been deprecated or removed from usethis.</p>
+    <p>A <a href='https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line'>personal access token</a>
+(PAT) is needed for certain tasks usethis does via the GitHub API, such as
+creating a repository, a fork, or a pull request. If you use HTTPS remotes,
+your PAT is also used when interacting with GitHub as a conventional Git
+remote. These functions help you get and manage your PAT:</p><ul>
+<li><p><code>gh_token_help()</code> guides you through token troubleshooting and setup</p></li>
+<li><p><code>create_github_token()</code> opens a browser window to the GitHub form to
+generate a PAT, with suggested scopes pre-selected. It then offers advice
+on storing your PAT, which also appears below.</p></li>
+<li><p><code><a href='https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html'>gitcreds::gitcreds_set()</a></code> helps you register your PAT with the Git
+credential manager used by your operating system. Later, other packages,
+such as usethis, gert, and gh can automatically retrieve that PAT, via
+<code><a href='https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html'>gitcreds::gitcreds_get()</a></code>, and use it to work with GitHub on your behalf.</p></li>
+</ul>
+
+<p>Usually, the first time the PAT is retrieved in an R session, it is cached
+in an environment variable, for easier reuse for the duration of that R
+session. After initial acquisition and storage, all of this should happen
+automatically in the background.</p>
+<p><code>create_github_token()</code> has previously gone by some other names:
+<code><a href='usethis-defunct.html'>browse_github_token()</a></code> and <code><a href='usethis-defunct.html'>browse_github_pat()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pr_pull_upstream</span><span class='op'>(</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>create_github_token</span><span class='op'>(</span>
+  scopes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"repo"</span>, <span class='st'>"gist"</span>, <span class='st'>"user:email"</span><span class='op'>)</span>,
+  description <span class='op'>=</span> <span class='st'>"R:GITHUB_PAT"</span>,
+  host <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
-<span class='fu'>browse_github_token</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+<span class='fu'>gh_token_help</span><span class='op'>(</span>host <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
-<span class='fu'>browse_github_pat</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>scopes</th>
+      <td><p>Character vector of token scopes, pre-selected in the web form.
+Final choices are made in the GitHub form. Read more about GitHub API
+scopes at
+<a href='https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/'>https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/</a>.</p></td>
+    </tr>
+    <tr>
+      <th>description</th>
+      <td><p>Short description or nickname for the token. You might
+(eventually) have multiple tokens on your GitHub account and a label can
+help you keep track of what each token is for.</p></td>
+    </tr>
+    <tr>
+      <th>host</th>
+      <td><p>GitHub host to target, passed to the <code>.api_url</code> argument of
+<code><a href='https://gh.r-lib.org/reference/gh.html'>gh::gh()</a></code>. If unspecified, gh defaults to "https://api.github.com",
+although gh's default can be customised by setting the GITHUB_API_URL
+environment variable.</p>
+<p>For a hypothetical GitHub Enterprise instance, either
+"https://github.acme.com/api/v3" or "https://github.acme.com" is
+acceptable.</p></td>
+    </tr>
+    </table>
 
-<span class='fu'>github_token</span><span class='op'>(</span><span class='op'>)</span></pre>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>Nothing</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <h2 class="hasAnchor" id="pr-pull-upstream-"><a class="anchor" href="#pr-pull-upstream-"></a><code>pr_pull_upstream()</code></h2>
+    <p>Sign up for a free <a href='https://github.com/'>GitHub.com</a> account and sign in.
+Call <code>create_github_token()</code>. Verify the scopes and click "Generate token".
+If you use a password management app, such as 1Password or LastPass, it is
+highly recommended to add this PAT to your entry for GitHub. Storing your
+PAT in the Git credential store is a semi-persistent convenience, sort of
+like a browser cache, but it's quite possible you will need to re-provide it
+at some point.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    
+    <div class='dont-index'><p><code><a href='https://gh.r-lib.org/reference/gh_whoami.html'>gh::gh_whoami()</a></code> for information on an existing token and
+<code><a href='https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html'>gitcreds::gitcreds_set()</a></code> and <code><a href='https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html'>gitcreds::gitcreds_get()</a></code> for a secure way
+to store and retrieve your PAT.</p></div>
 
-<p>This function has been replaced by <code><a href='pull-requests.html'>pr_merge_main()</a></code>.</p>
-    <h2 class="hasAnchor" id="browse-github-token-browse-github-pat-"><a class="anchor" href="#browse-github-token-browse-github-pat-"></a><code>browse_github_token()</code>, <code>browse_github_pat()</code></h2>
-
-    
-
-<p>These functions have been replaced by <code><a href='github-token.html'>create_github_token()</a></code>.</p>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>create_github_token</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>gh_token_help</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -289,8 +289,8 @@
 <p>A PAT is separate from your GitHub password, in the username / password sense (but in some cases you <em>can</em> use a PAT as a password; see below). You must create a PAT explicitly.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span>
-<span class="fu"><a href="../../reference/create_github_token.html">create_github_token</a></span><span class="op">(</span><span class="op">)</span></pre></div>
-<p><code><a href="../../reference/create_github_token.html">usethis::create_github_token()</a></code> takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on “Generate new token” from <a href="https://github.com/settings/tokens" class="uri">https://github.com/settings/tokens</a>.</p>
+<span class="fu"><a href="../../reference/github-token.html">create_github_token</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<p><code><a href="../../reference/github-token.html">usethis::create_github_token()</a></code> takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on “Generate new token” from <a href="https://github.com/settings/tokens" class="uri">https://github.com/settings/tokens</a>.</p>
 <p>As the page says, you must <strong>store this token somewhere</strong> because you’ll never be able to see it again, once you leave that page or close the window. If you somehow goof this up, just generate a new PAT and, so you don’t confuse yourself, delete the lost token.</p>
 <p>In the moment, I usually copy the PAT to the clipboard for the next step. (I also store this PAT in my general password manager, for redundancy.) But the most useful place to store this PAT is in your Git credential store.</p>
 <div id="git-credential-store" class="section level3">

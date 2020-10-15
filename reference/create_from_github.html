@@ -61,7 +61,7 @@ branch setup, leaving you in the perfect position to make a pull request with
 pr_init(), one of several functions that work pull requests.
 create_from_github() works best when we can find a GitHub personal access
 token in the Git credential store (just like many other usethis functions).
-See create_github_token() for more advice." />
+See gh_token_help() for more advice." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -201,7 +201,7 @@ branch setup, leaving you in the perfect position to make a pull request with
 <code><a href='pull-requests.html'>pr_init()</a></code>, one of several <a href='pull-requests.html'>functions that work pull requests</a>.</p>
 <p><code>create_from_github()</code> works best when we can find a GitHub personal access
 token in the Git credential store (just like many other usethis functions).
-See <code><a href='create_github_token.html'>create_github_token()</a></code> for more advice.</p>
+See <code><a href='github-token.html'>gh_token_help()</a></code> for more advice.</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_from_github</span><span class='op'>(</span>
@@ -211,7 +211,7 @@ See <code><a href='create_github_token.html'>create_github_token()</a></code> fo
   rstudio <span class='op'>=</span> <span class='cn'>NULL</span>,
   open <span class='op'>=</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span>,
   protocol <span class='op'>=</span> <span class='fu'><a href='git_protocol.html'>git_protocol</a></span><span class='op'>(</span><span class='op'>)</span>,
-  host <span class='op'>=</span> <span class='st'>"https://github.com"</span>,
+  host <span class='op'>=</span> <span class='cn'>NULL</span>,
   auth_token <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>,
   credentials <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
@@ -235,16 +235,18 @@ location using the option <code>usethis.destdir</code>, e.g.
     </tr>
     <tr>
       <th>fork</th>
-      <td><p>If <code>TRUE</code>, we create and clone a fork. If <code>FALSE</code>, we clone
-<code>repo_spec</code> itself. If <code>NA</code> (the default), we check your permissions on the
-target repo. If you can push, we clone <code>repo_spec</code> (so, <code>fork = FALSE</code>).
-If you can't push, we do fork-and-clone and other setup:</p><ul>
-<li><p>The source repo is configured as the <code>upstream</code> remote, using the
-indicated <code>protocol</code>.</p></li>
+      <td><p>If <code>FALSE</code>, we clone <code>repo_spec</code>. If <code>TRUE</code>, we fork
+<code>repo_spec</code>, clone that fork, and do additional set up favorable for
+future pull requests:</p><ul>
+<li><p>The source repo, <code>repo_spec</code>, is configured as the <code>upstream</code> remote,
+using the indicated <code>protocol</code>.</p></li>
 <li><p>The local <code>DEFAULT</code> branch is set to track <code>upstream/DEFAULT</code>, where
-<code>DEFAULT</code> is typically <code>master</code> or <code>main</code>. It is also immediately
-pulled, to cover the case of a pre-existing, out-of-date fork.</p></li>
-</ul></td>
+<code>DEFAULT</code> is typically <code>master</code> or <code>main</code>. It is also immediately pulled,
+to cover the case of a pre-existing, out-of-date fork.</p></li>
+</ul>
+
+<p>If <code>fork = NA</code> (the default), we check your permissions on <code>repo_spec</code>. If
+you can push, we set <code>fork = FALSE</code>, If you cannot, we set <code>fork = TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>rstudio</th>
@@ -271,9 +273,13 @@ menu.</p></td>
     </tr>
     <tr>
       <th>host</th>
-      <td><p>GitHub API host to use. Example for a GitHub Enterprise instance:
-"https://github.acme.com". It is also acceptable to provide the API root
-URL, e.g. "https://api.github.com" or "https://github.acme.com/api/v3".</p></td>
+      <td><p>GitHub host to target, passed to the <code>.api_url</code> argument of
+<code><a href='https://gh.r-lib.org/reference/gh.html'>gh::gh()</a></code>. If unspecified, gh defaults to "https://api.github.com",
+although gh's default can be customised by setting the GITHUB_API_URL
+environment variable.</p>
+<p>For a hypothetical GitHub Enterprise instance, either
+"https://github.acme.com/api/v3" or "https://github.acme.com" is
+acceptable.</p></td>
     </tr>
     <tr>
       <th>auth_token</th>
@@ -312,7 +318,7 @@ available. There are two ways to do this, in order of preference:</p><ul>
 <li><p>Configure your token as the <code>GITHUB_PAT</code> env var. Then it can be used by
 many packages and functions, without any effort on your part. If you don't
 have a token yet or you haven't configured it as an env var, see
-<code><a href='create_github_token.html'>create_github_token()</a></code>.</p></li>
+<code><a href='github-token.html'>create_github_token()</a></code>.</p></li>
 <li><p>Provide the token directly via the <code>auth_token</code> argument.</p></li>
 </ul>
 
