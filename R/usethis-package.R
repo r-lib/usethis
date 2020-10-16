@@ -1,6 +1,6 @@
 #' @keywords internal
 #' @importFrom glue glue glue_collapse glue_data
-#' @importFrom purrr map_chr map_lgl
+#' @importFrom purrr map map_chr map_lgl map_int
 #' @import fs
 #' @import rlang
 "_PACKAGE"

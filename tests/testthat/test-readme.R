@@ -1,5 +1,3 @@
-context("use_readme")
-
 test_that("use_readme_md() creates README.md", {
   create_local_package()
   use_readme_md()

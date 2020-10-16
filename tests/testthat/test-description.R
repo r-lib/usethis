@@ -18,6 +18,21 @@ test_that("usethis options > usethis defaults", {
   expect_equal(d$Version, "0.0.0.9000")
 })
 
+test_that("usethis options > usethis defaults, even for Authors@R", {
+  withr::local_options(list(
+    usethis.description = list(
+      "Authors@R" = utils::person("Jane", "Doe")
+    )
+  ))
+  d <- use_description_defaults()
+  expect_equal(
+    d$`Authors@R`,
+    "person(given = \"Jane\",\n       family = \"Doe\")"
+  )
+  expect_match(d$`Authors@R`, '^person[(]given = "Jane"')
+  expect_match(d$`Authors@R`, '"Doe"[)]$')
+})
+
 test_that("devtools options can be picked up", {
   withr::local_options(list(
     usethis.description = NULL,
@@ -41,8 +56,12 @@ test_that("user's fields > options > defaults", {
 })
 
 test_that("automatically converts person object to text", {
-  d <- use_description_defaults("pkg", fields = list(`Authors@R` = person("H", "W")))
-  expect_equal(d$`Authors@R`, "person(given = \"H\",\n       family = \"W\")")
+  d <- use_description_defaults(
+    "pkg",
+    fields = list(`Authors@R` = person("H", "W"))
+  )
+  expect_match(d$`Authors@R`, '^person[(]given = "H"')
+  expect_match(d$`Authors@R`, '"W"[)]$')
 })
 
 test_that("can set package", {

@@ -1,14 +1,27 @@
-test_that("parse_github_remotes() works on named list or named character", {
+test_that("parse_github_remotes() works, on named list or named character", {
   urls <- list(
-    https   = "https://github.com/r-lib/devtools.git",
-    browser = "https://github.com/r-lib/devtools",
-    ssh     = "git@github.com:r-lib/devtools.git"
+    https      = "https://github.com/OWNER/REPO.git",
+    ghe        = "https://github.acme.com/OWNER/REPO.git",
+    browser    = "https://github.com/OWNER/REPO",
+    ssh        = "git@github.com:OWNER/REPO.git",
+    gitlab1    = "https://gitlab.com/OWNER/REPO.git",
+    gitlab2    = "git@gitlab.com:OWNER/REPO.git",
+    bitbucket1 = "https://bitbucket.org/OWNER/REPO.git",
+    bitbucket2 = "git@bitbucket.org:OWNER/REPO.git"
   )
   parsed <- parse_github_remotes(urls)
   expect_equal(parsed$name, names(urls))
-  expect_equal(unique(parsed$repo_owner), "r-lib")
-  expect_equal(unique(parsed$repo_name), "devtools")
-  expect_equal(parsed$protocol, c("https", "https", "ssh"))
+  expect_equal(unique(parsed$repo_owner), "OWNER")
+  expect_equal(
+    parsed$host,
+    c("github.com", "github.acme.com", "github.com", "github.com",
+      "gitlab.com", "gitlab.com", "bitbucket.org", "bitbucket.org")
+  )
+  expect_equal(unique(parsed$repo_name), "REPO")
+  expect_equal(
+    parsed$protocol,
+    c("https", "https", "https", "ssh", "https", "ssh", "https", "ssh")
+  )
 
   parsed2 <- parse_github_remotes(unlist(urls))
   expect_equal(parsed, parsed2)
@@ -20,93 +33,81 @@ test_that("parse_github_remotes() works on edge cases", {
   expect_equal(parsed$repo_name, "R.rsp")
 })
 
-test_that("github_token() works", {
-  withr::with_envvar(
-    new = c("GITHUB_PAT" = "yes", "GITHUB_TOKEN" = "no"),
-    expect_identical(github_token(), "yes")
+test_that("parse_github_remotes() works for length zero input", {
+  expect_error_free(
+    parsed <- parse_github_remotes(character())
   )
-  withr::with_envvar(
-    new = c("GITHUB_PAT" = NA, "GITHUB_TOKEN" = "yes"),
-    expect_identical(github_token(), "yes")
-  )
-  withr::with_envvar(
-    new = c("GITHUB_PAT" = NA, "GITHUB_TOKEN" = NA),
-    expect_identical(github_token(), "")
+  expect_equal(nrow(parsed), 0)
+  expect_setequal(
+    names(parsed),
+    c("name", "url", "host", "repo_owner", "repo_name", "protocol")
   )
 })
 
-test_that("have_github_token() is definitive detector for 'we have no PAT'", {
-  expect_false(have_github_token(""))
-  expect_true(have_github_token("PAT"))
+test_that("github_remote_list() works", {
+  create_local_project()
+  use_git()
+  use_git_remote("origin", "https://github.com/OWNER/REPO.git")
+  use_git_remote("upstream", "https://github.com/THEM/REPO.git")
+  use_git_remote("foofy", "https://github.com/OTHERS/REPO.git")
+  use_git_remote("gitlab", "https://gitlab.com/OTHERS/REPO.git")
+  use_git_remote("bitbucket", "git@bitbucket.org:OWNER/REPO.git")
+
+  grl <- github_remote_list()
+  expect_setequal(grl$remote, c("origin", "upstream"))
+  expect_setequal(grl$repo_spec, c("OWNER/REPO", "THEM/REPO"))
+
+  grl <- github_remote_list(c("upstream", "foofy"))
+  expect_setequal(grl$remote, c("upstream", "foofy"))
+  nms <- names(grl)
+
+  grl <- github_remote_list(c("gitlab", "bitbucket"))
+  expect_equal(nrow(grl), 0)
+  expect_named(grl, nms)
 })
 
-test_that("check_github_token() returns NULL if no PAT", {
-  expect_null(check_github_token("", allow_empty = TRUE))
+test_that("github_remotes(), github_remote_list() accept explicit 0-row input", {
+  x <- data.frame(name = character(), url = character(), stringsAsFactors = FALSE)
+  grl <- github_remote_list(x = x)
+  expect_equal(nrow(grl), 0)
+  expect_true(all(map_lgl(grl, is.character)))
+
+  gr <- github_remotes(x = x)
+  expect_equal(nrow(grl), 0)
 })
 
-test_that("check_github_token() returns gh user if gets PAT", {
-  with_mock(
-    `gh::gh_whoami` = function(auth_token) list(login = "USER"),
-    expect_equal(check_github_token("PAT"), list(login = "USER"))
+test_that("github_remotes() works", {
+  skip_on_cran()
+  skip_if_offline("github.com")
+  skip_if_no_git_user()
+
+  create_local_project()
+  use_git()
+
+  # no git remotes = 0-row edge case
+  expect_error_free(
+    grl <- github_remotes()
   )
-})
 
-test_that("check_github_token() reveals non-401 error", {
-  with_mock(
-    `gh::gh_whoami` = function(auth_token) stop("gh error"),
-    expect_usethis_error(check_github_token("PAT"), "gh error")
+  # a public remote = no token necessary to get github info
+  use_git_remote("origin", "https://github.com/r-lib/usethis.git")
+  expect_error_free(
+    grl <- github_remotes()
   )
-})
+  expect_false(grl$is_fork)
+  expect_true(is.na(grl$parent_repo_owner))
 
-test_that("check_github_token() errors informatively for bad input", {
-  expect_usethis_error(check_github_token(c("PAT1", "PAT2")), "single string")
-  expect_usethis_error(check_github_token(NA), "single string")
-  expect_usethis_error(check_github_token(NA_character_), "single string")
-  expect_usethis_error(check_github_token(""), "No.*available")
-})
+  # no git remote by this name = 0-row edge case
+  expect_error_free(
+    grl <- github_remotes("foofy")
+  )
 
-test_that("github_login() returns user's login", {
-  with_mock(
-    `gh::gh_whoami` = function(auth_token) list(login = "USER"),
-    expect_equal(github_login("PAT"), "USER")
+  # gh::gh() call should fail, so we should get no info from github
+  use_git_remote("origin", "https://github.com/r-lib/DOESNOTEXIST.git", overwrite = TRUE)
+  expect_error_free(
+    grl <- github_remotes()
   )
-})
-
-test_that("github_remote_protocol() picks up ssh and https", {
-  r <- list(url = "git@github.com:OWNER/REPO.git")
-  with_mock(
-    `usethis:::github_remotes` = function(...) r,
-    {
-      expect_identical(github_remote_protocol(), "ssh")
-    }
-  )
-  r <- list(url = "https://github.com/OWNER/REPO.git")
-  with_mock(
-    `usethis:::github_remotes` = function(...) r,
-    {
-      expect_identical(github_remote_protocol(), "https")
-    }
-  )
-})
-
-test_that("github_remote_protocol() errors for unrecognized URL", {
-  r <- list(url = "file:///srv/git/project.git")
-  with_mock(
-    `usethis:::github_remotes` = function(...) r,
-    {
-      expect_usethis_error(github_remote_protocol(), "Can't classify the URL")
-    }
-  )
-})
-
-test_that("github_remote_protocol() returns 0-row data frame if no github origin", {
-  r <- data.frame(url = character(), stringsAsFactors = FALSE)
-  with_mock(
-    `usethis:::github_remotes` = function(...) r,
-    {
-      expect_null(github_remote_protocol())
-    }
-  )
+  expect_true(is.na(grl$is_fork))
 })
 
 # GitHub remote configuration --------------------------------------------------
@@ -119,27 +120,20 @@ test_that("fork_upstream_is_not_origin_parent is detected", {
   # 3. parent repo becomes r-lib/gh, due to transfer or ownership or owner
   #    name change
   # Now upstream looks like it does not point to fork parent.
-  grl <- data.frame(
-    stringsAsFactors   = FALSE,
-    remote             = c("origin", "upstream"),
-    url                = c("https://github.com/jennybc/gh.git",
-                           "https://github.com/r-pkgs/gh.git"),
-    repo_owner         = c("jennybc", "r-pkgs"),
-    repo_name          = c("gh", "gh"),
-    repo_spec          = c("jennybc/gh", "r-pkgs/gh"),
-    github_get         = c(TRUE, TRUE),
-    is_fork            = c(TRUE, FALSE),
-    can_push           = c(TRUE, TRUE),
-    parent_repo_owner  = c("r-lib", NA),
-    parent_repo_name   = c("gh", NA),
-    parent_repo_spec   = c("r-lib/gh", NA),
-    can_push_to_parent = c(TRUE, NA)
-  )
+  create_local_project()
+  use_git()
+  use_git_remote("origin", "https://github.com/jennybc/gh.git")
+  use_git_remote("upstream", "https://github.com/r-pkgs/gh.git")
+  gr <- github_remotes(github_get = FALSE)
+  gr$github_got <- TRUE
+  gr$is_fork <- c(TRUE, FALSE)
+  gr$can_push <- TRUE
+  gr$perm_known <- TRUE
+  gr$parent_repo_owner  = c("r-lib", NA)
   with_mock(
-    `usethis:::github_remotes` = function(...) grl,
+    `usethis:::github_remotes` = function(...) gr,
     cfg <- github_remote_config()
   )
   expect_equal(cfg$type, "fork_upstream_is_not_origin_parent")
-  expect_false(cfg$pr_ready)
 })
 

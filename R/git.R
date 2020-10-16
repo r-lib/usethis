@@ -111,7 +111,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
     } else {
       check_uses_git()
       orig[nm] <- git_cfg_get(nm, "local") %||% list(NULL)
-      gert::git_config_set(nm, vl, git_repo())
+      gert::git_config_set(nm, vl, repo = git_repo())
     }
   }
 
@@ -224,6 +224,93 @@ choose_protocol <- function() {
   }
 }
 
+#' Determine default Git branch
+#'
+#' Figure out the default branch of the current Git repo.
+#'
+#' @return A branch name
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' git_branch_default()
+#' }
+git_branch_default <- function() {
+  check_uses_git()
+  repo <- git_repo()
+
+  gbdf <- gert::git_branch_list(repo = repo)
+  gb <- gbdf$name[gbdf$local]
+
+  if (length(gb) == 1) {
+    return(gb)
+  }
+
+  # Check the most common names used for the default branch
+  gb <- set_names(gb)
+  usual_suspects_branchname <- c("main", "master", "default")
+  branch_candidates <- purrr::discard(gb[usual_suspects_branchname], is.na)
+
+  if (length(branch_candidates) == 1) {
+    return(branch_candidates[[1]])
+  }
+  # either 0 or >=2 of the usual suspects are present
+
+  # Can we learn what HEAD points to on a relevant Git remote?
+  gr <- git_remotes()
+  usual_suspects_remote <- c("upstream", "origin")
+  gr <- purrr::compact(gr[usual_suspects_remote])
+
+  if (length(gr)) {
+    remote_names <- set_names(names(gr))
+
+    # check symbolic ref, e.g. refs/remotes/origin/HEAD (a local operation)
+    remote_heads <- map(
+      remote_names,
+      ~ gert::git_remote_info(.x, repo = repo)$head
+    )
+    remote_heads <- purrr::compact(remote_heads)
+    if (length(remote_heads)) {
+      return(basename(remote_heads[[1]]))
+    }
+
+    # ask the remote (a remote operation)
+    f <- function(x) {
+      dat <- gert::git_remote_ls(remote = x, verbose = FALSE, repo = repo)
+      basename(dat$symref[dat$ref == "HEAD"])
+    }
+    f <- purrr::possibly(f, otherwise = NULL)
+    remote_heads <- purrr::compact(map(remote_names, f))
+    if (length(remote_heads)) {
+      return(remote_heads[[1]])
+    }
+  }
+  # no luck consulting usual suspects re: Git remotes
+  # go back to locally configured branches
+
+  # Is init.defaultBranch configured?
+  # https://github.blog/2020-07-27-highlights-from-git-2-28/#introducing-init-defaultbranch
+  init_default_branch <- git_cfg_get("init.defaultBranch")
+  if ((!is.null(init_default_branch)) && (init_default_branch %in% gb)) {
+    return(init_default_branch)
+  }
+
+  # take first existing branch from usual suspects
+  if (length(branch_candidates)) {
+    return(branch_candidates[[1]])
+  }
+
+  # take first existing branch
+  if (length(gb)) {
+    return(gb[[1]])
+  }
+
+  # I think this means we are on an unborn branch
+  ui_stop("
+    Can't determine the default branch for this repo
+    Do you need to make your first commit?")
+}
+
 #' Configure and report Git remotes
 #'
 #' Two helpers are available:
@@ -296,9 +383,9 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
 
   if (name %in% names(remotes)) {
     if (is.null(url)) {
-      gert::git_remote_remove(name = name, repo = repo)
+      gert::git_remote_remove(remote = name, repo = repo)
     } else {
-      gert::git_remote_set_url(url = url, name = name, repo = repo)
+      gert::git_remote_set_url(url = url, remote = name, repo = repo)
     }
   } else if (!is.null(url)) {
     gert::git_remote_add(url = url, name = name, repo = repo)
@@ -357,12 +444,13 @@ git_sitrep <- function() {
 
   # github user ---------------------------------------------------------------
   hd_line("GitHub")
-  have_token <- have_github_token()
+  auth_token <- gh::gh_token()
+  have_token <- auth_token != ""
   if (have_token) {
-    kv_line("Personal access token", "<found in env var>")
+    kv_line("Personal access token", "<discovered>")
     tryCatch(
       {
-        who <- gh::gh_whoami(github_token())
+        who <- gh::gh_whoami(auth_token)
         kv_line("User", who$login)
         kv_line("Name", who$name)
       },
@@ -371,7 +459,7 @@ git_sitrep <- function() {
     )
     tryCatch(
       {
-        emails <- unlist(gh::gh("/user/emails", .token = github_token()))
+        emails <- unlist(gh::gh("/user/emails", .token = auth_token))
         emails <- emails[names(emails) == "email"]
         kv_line("Email(s)", emails)
       },
@@ -408,6 +496,7 @@ git_sitrep <- function() {
 
   # PR outlook -------------------------------------------------------------
   hd_line("GitHub pull request readiness")
+  # TODO: need to surface host more here
   cfg <- github_remote_config()
   if (cfg$type == "no_github") {
     ui_info("

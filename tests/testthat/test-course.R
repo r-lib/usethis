@@ -146,7 +146,7 @@ test_that("create_download_url() works", {
   )
 
   # GitHub
-  usethis_url <- "https://github.com/r-lib/usethis/archive/master.zip"
+  usethis_url <- "https://github.com/r-lib/usethis/zipball/HEAD"
   expect_equal(
     create_download_url("https://github.com/r-lib/usethis"),
     usethis_url
@@ -191,7 +191,7 @@ test_that("shortlinks pass through", {
 test_that("github links get expanded", {
   expect_equal(
     normalize_url("OWNER/REPO"),
-    "https://github.com/OWNER/REPO/archive/master.zip"
+    "https://github.com/OWNER/REPO/zipball/HEAD"
   )
 })
 

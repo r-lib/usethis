@@ -1,5 +1,3 @@
-context("use_version.R")
-
 test_that("bump_version() presents all possible incremented versions", {
   expect_identical(
     bump_version("1.1.1.9000"),

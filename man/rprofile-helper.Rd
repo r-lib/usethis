@@ -27,6 +27,6 @@ paste in.
 \item \code{use_usethis()}: makes usethis available in interactive sessions.
 \item \code{use_reprex()}: makes reprex available in interactive sessions.
 \item \code{use_conflicted()}:  makes conflicted available in interactive sessions.
-\item \code{use_partial_warning()}: warns on partial matches.
+\item \code{use_partial_warnings()}: warns on partial matches.
 }
 }

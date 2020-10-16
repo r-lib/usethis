@@ -1,5 +1,3 @@
-context("use_jenkins")
-
 test_that("use_jenkins() creates a Makefile AND a Jenkinsfile at project root", {
   pkg <- create_local_package()
   use_jenkins()

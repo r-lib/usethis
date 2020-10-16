@@ -1,5 +1,3 @@
-context("edit")
-
 expect_r_file <- function(...) {
   expect_true(file_exists(path_home_r(...)))
 }

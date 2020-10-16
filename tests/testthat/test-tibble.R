@@ -1,5 +1,3 @@
-context("use_tibble")
-
 test_that("use_tibble() requires a package", {
   create_local_project()
   expect_usethis_error(use_tibble(), "not an R package")

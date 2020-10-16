@@ -8,15 +8,17 @@ use_github(
   organisation = NULL,
   private = FALSE,
   protocol = git_protocol(),
-  auth_token = github_token(),
   host = NULL,
+  auth_token = deprecated(),
   credentials = deprecated()
 )
 }
 \arguments{
 \item{organisation}{If supplied, the repo will be created under this
-organisation, instead of the account of the user associated with the
-\code{auth_token}. You must have permission to create repositories.}
+organisation, instead of the login associated with the GitHub token
+discovered for this \code{host}. The user's role and the token's scopes must be
+such that you have permission to create repositories in this
+\code{organisation}.}
 
 \item{private}{If \code{TRUE}, creates a private repository.}
 
@@ -25,15 +27,20 @@ to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, \code{"https"}. \code{NA} triggers the interactive
 menu.}
 
-\item{auth_token}{GitHub personal access token (PAT).}
+\item{host}{GitHub host to target, passed to the \code{.api_url} argument of
+\code{\link[gh:gh]{gh::gh()}}. If unspecified, gh defaults to "https://api.github.com",
+although gh's default can be customised by setting the GITHUB_API_URL
+environment variable.
 
-\item{host}{GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
+For a hypothetical GitHub Enterprise instance, either
+"https://github.acme.com/api/v3" or "https://github.acme.com" is
+acceptable.}
 
-\item{credentials}{\lifecycle{defunct}: No longer consulted now that usethis
-uses the gert package for Git operations, instead of git2r. Note that gert
-relies on the credentials package for auth.}
+\item{auth_token, credentials}{\lifecycle{defunct}: No longer consulted now
+that usethis uses the gert package for Git operations, instead of git2r;
+gert relies on the credentials package for auth. The API requests are now
+authorized with the token associated with the \code{host}, as retrieved by
+\code{\link[gh:gh_token]{gh::gh_token()}}.}
 }
 \description{
 \code{use_github()} takes a local project and:
@@ -41,17 +48,16 @@ relies on the credentials package for auth.}
 \item Checks that the initial state is good to go:
 \itemize{
 \item Project is already a Git repo
-\item Current branch is \code{master}
+\item Current branch is the default branch, e.g. \code{master} or \code{main}
 \item No uncommitted changes
 \item No pre-existing \code{origin} remote
 }
 \item Creates an associated repo on GitHub
 \item Adds that GitHub repo to your local repo as the \code{origin} remote
-\item Offers to commit changes, e.g. the addition of GitHub links to the
-URL and BugReports fields of DESCRIPTION
 \item Makes an initial push to GitHub
-\item Configures \code{origin/master} to be the upstream branch of the local \code{master}
-branch
+\item Calls \code{\link[=use_github_links]{use_github_links()}}, if the project is an R package
+\item Configures \code{origin/DEFAULT} to be the upstream branch of the local
+\code{DEFAULT} branch, e.g. \code{master} or \code{main}
 }
 
 See the Authentication section below for general setup that is necessary for

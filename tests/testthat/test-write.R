@@ -1,5 +1,3 @@
-context("write helpers")
-
 test_that("write_union() does not activate a project", {
   tmpdir <- file_temp(pattern = "write-tests")
   on.exit(dir_delete(tmpdir))

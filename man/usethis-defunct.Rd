@@ -5,6 +5,7 @@
 \alias{pr_pull_upstream}
 \alias{browse_github_token}
 \alias{browse_github_pat}
+\alias{github_token}
 \title{Defunct and deprecated functions in usethis}
 \usage{
 pr_pull_upstream()
@@ -12,6 +13,8 @@ pr_pull_upstream()
 browse_github_token(...)
 
 browse_github_pat(...)
+
+github_token()
 }
 \description{
 These functions have either been deprecated or removed from usethis.

@@ -11,8 +11,8 @@ create_from_github(
   rstudio = NULL,
   open = rlang::is_interactive(),
   protocol = git_protocol(),
-  auth_token = github_token(),
   host = NULL,
+  auth_token = deprecated(),
   credentials = deprecated()
 )
 }
@@ -27,18 +27,25 @@ location using the option \code{usethis.destdir}, e.g.
 \code{options(usethis.destdir = "a/good/dir")}, perhaps saved to your
 \code{.Rprofile} with \code{\link[=edit_r_profile]{edit_r_profile()}}}
 
-\item{fork}{If \code{TRUE}, we create and clone a fork. If \code{FALSE}, we clone
-\code{repo_spec} itself. Will be set to \code{FALSE} if no \code{auth_token} (a.k.a. PAT)
-is provided or preconfigured. Otherwise, defaults to \code{FALSE} if you can
-push to \code{repo_spec} and \code{TRUE} if you cannot. In the case of a fork, the
-original target repo is added to the local repo as the \code{upstream} remote,
-using the preferred \code{protocol}. The \code{master} branch is set to track
-\code{upstream/master} and is immediately pulled, which matters in the case of a
-pre-existing, out-of-date fork.}
+\item{fork}{If \code{FALSE}, we clone \code{repo_spec}. If \code{TRUE}, we fork
+\code{repo_spec}, clone that fork, and do additional set up favorable for
+future pull requests:
+\itemize{
+\item The source repo, \code{repo_spec}, is configured as the \code{upstream} remote,
+using the indicated \code{protocol}.
+\item The local \code{DEFAULT} branch is set to track \code{upstream/DEFAULT}, where
+\code{DEFAULT} is typically \code{master} or \code{main}. It is also immediately pulled,
+to cover the case of a pre-existing, out-of-date fork.
+}
+
+If \code{fork = NA} (the default), we check your permissions on \code{repo_spec}. If
+you can push, we set \code{fork = FALSE}, If you cannot, we set \code{fork = TRUE}.}
 
 \item{rstudio}{Initiate an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}?
 Defaults to \code{TRUE} if in an RStudio session and project has no
-pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise.}
+pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise (but note that
+the cloned repo may already be an RStudio Project, i.e. may already have a
+\code{.Rproj} file).}
 
 \item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
 \itemize{
@@ -52,28 +59,38 @@ to the option \code{usethis.protocol} and, if unset, to an interactive choice
 or, in non-interactive sessions, \code{"https"}. \code{NA} triggers the interactive
 menu.}
 
-\item{auth_token}{GitHub personal access token (PAT).}
+\item{host}{GitHub host to target, passed to the \code{.api_url} argument of
+\code{\link[gh:gh]{gh::gh()}}. If unspecified, gh defaults to "https://api.github.com",
+although gh's default can be customised by setting the GITHUB_API_URL
+environment variable.
 
-\item{host}{GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
+For a hypothetical GitHub Enterprise instance, either
+"https://github.acme.com/api/v3" or "https://github.acme.com" is
+acceptable.}
 
-\item{credentials}{\lifecycle{defunct}: No longer consulted now that usethis
-uses the gert package for Git operations, instead of git2r. Note that gert
-relies on the credentials package for auth.}
+\item{auth_token}{\lifecycle{defunct}: No longer consulted now
+that usethis uses the gert package for Git operations, instead of git2r;
+gert relies on the credentials package for auth. The API requests are now
+authorized with the token associated with the \code{host}, as retrieved by
+\code{\link[gh:gh_token]{gh::gh_token()}}.}
+
+\item{credentials}{\lifecycle{defunct}: No longer consulted now
+that usethis uses the gert package for Git operations, instead of git2r;
+gert relies on the credentials package for auth. The API requests are now
+authorized with the token associated with the \code{host}, as retrieved by
+\code{\link[gh:gh_token]{gh::gh_token()}}.}
 }
 \description{
 Creates a new local project and Git repository from a repo on GitHub, by
 either cloning or
 \href{https://help.github.com/articles/fork-a-repo/}{fork-and-cloning}. In the
 fork-and-clone case, \code{create_from_github()} also does additional remote and
-branch setup, leaving you in the perfect position to make a pull request,
-possibly with the \link[=pull-requests]{pull request functions}.
+branch setup, leaving you in the perfect position to make a pull request with
+\code{\link[=pr_init]{pr_init()}}, one of several \link[=pull-requests]{functions that work pull requests}.
 
-It is \strong{highly recommended} that you pre-configure a GitHub personal access
-token (PAT), which is facilitated by \code{\link[=create_github_token]{create_github_token()}}. In particular,
-if you can't push to the source repo, you usually want to fork-and-clone (vs.
-clone) and we cannot do that unless we have a PAT.
+\code{create_from_github()} works best when we can find a GitHub personal access
+token in the Git credential store (just like many other usethis functions).
+See \code{\link[=gh_token_help]{gh_token_help()}} for more advice.
 }
 \section{Authentication}{
 

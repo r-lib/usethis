@@ -4,6 +4,7 @@ AppVeyor
 BioConductor
 BugReports
 CCBY
+CLA
 CMD
 CircleCI
 CoC
@@ -24,6 +25,7 @@ Jenkinsfile
 Jupyter
 LF
 LGL
+LastPass
 Lifecycle
 LinkingTo
 Makefile
@@ -73,6 +75,7 @@ colours
 config
 cpp
 cran
+customised
 dev
 devtools
 discoverable
@@ -90,11 +93,12 @@ funder
 gc
 gert
 gh
+gh's
+gitcreds
 github
 gitignore
 gzip
 hexb
-hostname
 href
 http
 https
@@ -103,6 +107,7 @@ ing
 initialisation
 initialises
 initialising
+io
 labelled
 labelling
 learnr
@@ -117,6 +122,7 @@ mergeable
 minimise
 msg
 nano
+noninteractive
 organisation
 organisations
 ort
@@ -124,7 +130,6 @@ pandoc
 pkgbuild
 pkgdown
 pre
-preconfigured
 programmatically
 purrr
 r's

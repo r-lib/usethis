@@ -1,2 +1,2 @@
 YEAR: {{{year}}}
-COPYRIGHT HOLDER: {{{name}}}
+COPYRIGHT HOLDER: {{{copyright_holder}}}

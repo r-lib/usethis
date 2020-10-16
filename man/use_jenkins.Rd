@@ -13,7 +13,7 @@ calling this function will also run \code{use_make()} if a Makefile does not
 already exist at the project root.
 }
 \seealso{
-The \href{https://jenkins.io/doc/book/pipeline/jenkinsfile}{documentation on Jenkins Pipelines}.
+The \href{https://www.jenkins.io/doc/book/pipeline/jenkinsfile/}{documentation on Jenkins Pipelines}.
 
 \code{\link[=use_make]{use_make()}}
 }

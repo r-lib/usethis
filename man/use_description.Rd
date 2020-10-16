@@ -25,7 +25,7 @@ error if not}
 \code{use_description()} creates a \code{DESCRIPTION} file. Although mostly associated
 with R packages, a \code{DESCRIPTION} file can also be used to declare
 dependencies for a non-package projects. Within such a project,
-\code{\link[devtools:install_deps]{devtools::install_deps()}} can then be used to install all the required
+\code{devtools::install_deps()} can then be used to install all the required
 packages. Note that, by default, \code{use_decription()} checks for a
 CRAN-compliant package name. You can turn this off with \code{check_name = FALSE}.
 

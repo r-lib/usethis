@@ -59,14 +59,13 @@ NULL
 #' @rdname tidyverse
 #' @inheritParams create_package
 #' @inheritParams licenses
-create_tidy_package <- function(path,
-                                name = "RStudio") {
+create_tidy_package <- function(path, copyright_holder = NULL) {
   path <- create_package(path, rstudio = TRUE, open = FALSE)
   old_project <- proj_set(path)
   on.exit(proj_set(old_project), add = TRUE)
 
   use_testthat()
-  use_mit_license(name)
+  use_mit_license(copyright_holder)
   use_tidy_description()
 
   use_readme_rmd(open = FALSE)
@@ -175,7 +174,9 @@ use_dot_github <- function(ignore = TRUE) {
 #' @rdname tidyverse
 use_tidy_style <- function(strict = TRUE) {
   check_installed("styler")
-  check_no_uncommitted_changes()
+  challenge_uncommitted_changes(msg = "
+    There are uncommitted changes and it is highly recommended to get into a \\
+    clean Git state before restyling your project's code")
   if (is_package()) {
     styled <- styler::style_pkg(
       proj_get(),
@@ -226,19 +227,22 @@ tidy_release_test_env <- function() {
 #'
 #' Derives a list of GitHub usernames, based on who has opened issues or pull
 #' requests. Used to populate the acknowledgment section of package release blog
-#' posts at <https://www.tidyverse.org/blog/>. All arguments can potentially
-#' be determined from the active project, if the project follows standard
-#' practices around the GitHub remote and GitHub releases. Unexported helper
-#' functions, `releases()` and `ref_df()` can be useful interactively to get a
-#' quick look at release tag names and a data frame about refs (defaulting to
-#' releases), respectively.
+#' posts at <https://www.tidyverse.org/blog/>. If no arguments are given, we
+#' retrieve all contributors to the active project since it's last (GitHub)
+#' release. Unexported helper functions, `releases()` and `ref_df()` can be
+#' useful interactively to get a quick look at release tag names and a data
+#' frame about refs (defaulting to releases), respectively.
 #'
-#' @param repo_spec GitHub repo specification in this form: `owner/repo`.
-#'   Default is to infer from Git remotes of active project.
+
+#' @param repo_spec Optional GitHub repo specification in this form:
+#'   `owner/repo`. By default, this is inferred from the Git remotes of the
+#'   active project. The host is always assumed to be github.com.
 #' @param from,to GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
-#'   ISO 8601 format, specifying the start or end of the interval of interest.
-#'   Examples: "08a560d", "v1.3.0", "2018-02-24T00:13:45Z", "2018-05-01". `NULL`
-#'   means there is no bound on that end of the interval.
+#'   ISO 8601 format, specifying the start or end of the interval of interest,
+#'   in the sense of `[from, to]`. Examples: "08a560d", "v1.3.0",
+#'   "2018-02-24T00:13:45Z", "2018-05-01". When `from = NULL, to = NULL`, we set
+#'   `from` to the timestamp of the most recent (GitHub) release. Otherwise,
+#'   `NULL` means "no bound".
 #'
 #' @return A character vector of GitHub usernames, invisibly.
 #' @export
@@ -249,13 +253,13 @@ tidy_release_test_env <- function() {
 #' use_tidy_thanks()
 #'
 #' ## active project, interval = since a specific datetime
-#' use_tidy_thanks(from = "2018-02-24T00:13:45Z")
+#' use_tidy_thanks(from = "2020-07-24T00:13:45Z")
 #'
-#' ## r-lib/usethis, inteval = since a certain date
-#' use_tidy_thanks("r-lib/usethis", from = "2018-05-01")
+#' ## r-lib/usethis, interval = since a certain date
+#' use_tidy_thanks("r-lib/usethis", from = "2020-08-01")
 #'
 #' ## r-lib/usethis, up to a specific release
-#' use_tidy_thanks("r-lib/usethis", from = NULL, to = "v1.3.0")
+#' use_tidy_thanks("r-lib/usethis", from = NULL, to = "v1.1.0")
 #'
 #' ## r-lib/usethis, since a specific commit, up to a specific date
 #' use_tidy_thanks("r-lib/usethis", from = "08a560d", to = "2018-05-14")
@@ -263,19 +267,21 @@ tidy_release_test_env <- function() {
 use_tidy_thanks <- function(repo_spec = NULL,
                             from = NULL,
                             to = NULL) {
-  repo_spec <- repo_spec %||% repo_spec()
-  from <- from %||% releases(repo_spec)[[1]]
+  repo_spec <- repo_spec %||% target_repo_spec()
+  if (is.null(to)) {
+    from <- from %||% releases(repo_spec)[[1]]
+  }
 
   from_timestamp <- as_timestamp(repo_spec, x = from) %||% "2008-01-01"
   to_timestamp <- as_timestamp(repo_spec, x = to)
   ui_done("
     Looking for contributors from {as.Date(from_timestamp)} to \\
-    {to_timestamp %||% 'now'}
-    ")
+    {to_timestamp %||% 'now'}")
 
   res <- gh::gh(
     "/repos/:owner/:repo/issues",
-    owner = spec_owner(repo_spec), repo = spec_repo(repo_spec),
+    owner = spec_owner(repo_spec),
+    repo = spec_repo(repo_spec),
     since = from_timestamp,
     state = "all",
     filter = "all",
@@ -287,7 +293,7 @@ use_tidy_thanks <- function(repo_spec = NULL,
   }
 
   creation_time <- function(x) {
-    as.POSIXct(pluck_chr(x, "created_at"))
+    as.POSIXct(map_chr(x, "created_at"))
   }
 
   res <- res[creation_time(res) >= as.POSIXct(from_timestamp)]
@@ -300,7 +306,7 @@ use_tidy_thanks <- function(repo_spec = NULL,
     return(invisible())
   }
 
-  contributors <- sort(unique(pluck_chr(res, c("user", "login"))))
+  contributors <- sort(unique(map_chr(res, c("user", "login"))))
   contrib_link <- glue("[&#x0040;{contributors}](https://github.com/{contributors})")
 
   ui_done("Found {length(contributors)} contributors:")
@@ -311,7 +317,7 @@ use_tidy_thanks <- function(repo_spec = NULL,
 
 ## if x appears to be a timestamp, pass it through
 ## otherwise, assume it's a ref and look up its timestamp
-as_timestamp <- function(repo_spec = repo_spec(), x = NULL) {
+as_timestamp <- function(repo_spec, x = NULL) {
   if (is.null(x)) {
     return(NULL)
   }
@@ -319,12 +325,12 @@ as_timestamp <- function(repo_spec = repo_spec(), x = NULL) {
   if (inherits(as_POSIXct, "POSIXct")) {
     return(x)
   }
-  ui_line("Resolving timestamp for ref ", ui_value(x))
+  ui_done("Resolving timestamp for ref {ui_value(x)}")
   ref_df(repo_spec, refs = x)$timestamp
 }
 
 ## returns a data frame on GitHub refs, defaulting to all releases
-ref_df <- function(repo_spec = repo_spec(), refs = NULL) {
+ref_df <- function(repo_spec, refs = NULL) {
   stopifnot(is_string(repo_spec))
   refs <- refs %||% releases(repo_spec)
   if (is.null(refs)) {
@@ -339,14 +345,15 @@ ref_df <- function(repo_spec = repo_spec(), refs = NULL) {
   res <- lapply(refs, get_thing)
   data.frame(
     ref = refs,
-    sha = substr(pluck_chr(res, "sha"), 1, 7),
-    timestamp = pluck_chr(res, c("commit", "committer", "date")),
+    sha = substr(map_chr(res, "sha"), 1, 7),
+    timestamp = map_chr(res, c("commit", "committer", "date")),
     stringsAsFactors = FALSE
   )
 }
 
 ## returns character vector of release tag names
-releases <- function(repo_spec = repo_spec()) {
+releases <- function(repo_spec) {
+  stopifnot(is_string(repo_spec))
   res <- gh::gh(
     "/repos/:owner/:repo/releases",
     owner = spec_owner(repo_spec),
@@ -355,7 +362,7 @@ releases <- function(repo_spec = repo_spec()) {
   if (length(res) < 1) {
     return(NULL)
   }
-  pluck_chr(res, "tag_name")
+  map_chr(res, "tag_name")
 }
 
 ## approaches based on available.packages() and/or installed.packages() present

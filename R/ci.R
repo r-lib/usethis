@@ -37,7 +37,7 @@ use_travis <- function(browse = rlang::is_interactive(),
     what = "usethis::use_travis()",
     with = "use_github_actions()"
   )
-  repo_spec <- repo_spec()
+  repo_spec <- target_repo_spec()
   ext <- arg_match(ext)
   new <- use_template(
     "travis.yml",
@@ -60,10 +60,10 @@ use_travis <- function(browse = rlang::is_interactive(),
 #' @export
 #' @rdname ci
 use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
-  repo_spec <- repo_spec %||% repo_spec()
+  repo_spec <- repo_spec %||% target_repo_spec()
   ext <- arg_match(ext)
   url <- glue("https://travis-ci.{ext}/{repo_spec}")
-  img <- glue("{url}.svg?branch=master")
+  img <- glue("{url}.svg?branch={git_branch_default()}")
   use_badge("Travis build status", url, img)
 }
 
@@ -95,7 +95,7 @@ use_appveyor <- function(browse = rlang::is_interactive()) {
     what = "usethis::use_appveyor()",
     with = "use_github_actions()"
   )
-  repo_spec <- repo_spec()
+  repo_spec <- target_repo_spec()
   new <- use_template("appveyor.yml", ignore = TRUE)
   if (!new) {
     return(invisible(FALSE))
@@ -121,10 +121,10 @@ appveyor_activate <- function(browse = is_interactive()) {
 #' @export
 #' @rdname ci
 use_appveyor_badge <- function(repo_spec = NULL) {
-  repo_spec <- repo_spec %||% repo_spec()
+  repo_spec <- repo_spec %||% target_repo_spec()
   img <- glue(
     "https://ci.appveyor.com/api/projects/status/github/",
-    "{repo_spec}?branch=master&svg=true"
+    "{repo_spec}?branch={git_branch_default()}&svg=true"
   )
   url <- glue("https://ci.appveyor.com/project/{repo_spec}")
   use_badge("AppVeyor build status", url, img)
@@ -165,7 +165,7 @@ use_gitlab_ci <- function() {
 #' @rdname ci
 use_circleci <- function(browse = rlang::is_interactive(),
                          image = "rocker/verse:latest") {
-  repo_spec <- repo_spec()
+  repo_spec <- target_repo_spec()
   use_directory(".circleci", ignore = TRUE)
   new <- use_template(
     "circleci-config.yml",
@@ -184,12 +184,12 @@ use_circleci <- function(browse = rlang::is_interactive(),
 }
 
 #' @section `use_circleci_badge()`:
-#' Only adds the [Circle CI](https://www.circleci.com) badge. Use for a project
+#' Only adds the [Circle CI](https://circleci.com/) badge. Use for a project
 #'  where Circle CI is already configured.
 #' @rdname ci
 #' @export
 use_circleci_badge <- function(repo_spec = NULL) {
-  repo_spec <- repo_spec %||% repo_spec()
+  repo_spec <- repo_spec %||% target_repo_spec()
   url <- glue("https://circleci.com/gh/{repo_spec}")
   img <- glue("{url}.svg?style=svg")
   use_badge("CircleCI build status", url, img)

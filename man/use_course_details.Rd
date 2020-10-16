@@ -50,7 +50,7 @@ connect timeout.
 
 To make a folder available for ZIP download, create a shared link for it:
 \itemize{
-\item \url{https://www.dropbox.com/help/files-folders/view-only-access}
+\item \url{https://help.dropbox.com/files-folders/share/view-only-access}
 }
 
 A shared link will have this form:\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
@@ -64,8 +64,8 @@ You can use \code{create_download_url()} to do this conversion.
 This download link (or a shortlink that points to it) is suitable as input
 for \code{tidy_download()}. After one or more redirections, this link will
 eventually lead to a download URL. For more details, see
-\url{https://www.dropbox.com/help/desktop-web/force-download} and
-\url{https://www.dropbox.com/en/help/desktop-web/download-entire-folders}.
+\url{https://help.dropbox.com/files-folders/share/force-download} and
+\url{https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders}.
 }
 
 \subsection{GitHub}{
@@ -76,8 +76,12 @@ button. Capture this URL, which will have this form:\preformatted{https://github
 
 This download link (or a shortlink that points to it) is suitable as input
 for \code{tidy_download()}. After one or more redirections, this link will
-eventually lead to a download URL. Here's an alternative link that also leads
-to ZIP download, albeit with a different filenaming scheme:\preformatted{https://api.github.com/repos/r-lib/usethis/zipball/master
+eventually lead to a download URL. Here are other links that also lead to
+ZIP download, albeit with a different filenaming scheme (REF could be a
+branch name, a tag, or a SHA):\preformatted{https://github.com/github.com/r-lib/usethis/zipball/HEAD
+https://api.github.com/repos/r-lib/rematch2/zipball/REF
+https://api.github.com/repos/r-lib/rematch2/zipball/HEAD
+https://api.github.com/repos/r-lib/usethis/zipball/REF
 }
 
 You can use \code{create_download_url()} to create the "Download ZIP" URL from

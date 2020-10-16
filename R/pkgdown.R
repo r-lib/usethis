@@ -35,7 +35,7 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
     (optional, but recommended)")
 
   if (has_logo()) {
-    pkgdown::build_favicons(proj_get(), overwrite = TRUE)
+    pkgdown_build_favicons(proj_get(), overwrite = TRUE)
   }
 
   config <- proj_path(config_file)
@@ -98,7 +98,7 @@ use_pkgdown_travis <- function() {
   lifecycle::deprecate_soft(
     when = "2.0.0",
     what = "usethis::use_pkgdown_travis()",
-    with = "use_github_action(\"pkgdown\")"
+    details = 'We recommend `use_github_action("pkgdown")` for new pkgdown setups.'
   )
   check_installed("pkgdown")
   if (!uses_pkgdown()) {
@@ -107,10 +107,7 @@ use_pkgdown_travis <- function() {
       Do you need to call {ui_code('use_pkgdown()')}?")
   }
 
-  cfg <- github_remote_config(github_get = TRUE)
-  if (cfg$type != c("ours", "fork")) {
-    stop_bad_github_remote_config(cfg)
-  }
+  tr <- target_repo(github_get = TRUE)
 
   use_build_ignore("docs/")
   use_git_ignore("docs/")
@@ -118,7 +115,7 @@ use_pkgdown_travis <- function() {
   # Can't currently detect if git known files in that directory
 
   if (has_logo()) {
-    pkgdown::build_favicons(proj_get(), overwrite = TRUE)
+    pkgdown_build_favicons(proj_get(), overwrite = TRUE)
     use_build_ignore("pkgdown")
   }
 
@@ -135,38 +132,49 @@ use_pkgdown_travis <- function() {
     "
   )
 
-  repo_spec <- repo_spec(cfg)
   if (!gert::git_branch_exists("origin/gh-pages", local = FALSE, repo = git_repo())) {
-    create_gh_pages_branch(repo_spec)
+    create_gh_pages_branch(tr)
   }
 
   ui_todo("
     Turn on GitHub pages at \\
-    <https://github.com/{repo_spec}/settings> (using gh-pages as source)")
+    <https://github.com/{tr$repo_spec}/settings> (using gh-pages as source)")
 
   invisible()
 }
 
-create_gh_pages_branch <- function(repo_spec) {
+# usethis itself should not depend on pkgdown
+# all usage of this wrapper is guarded by `check_installed("pkgdown")`
+pkgdown_build_favicons <- function(...) {
+  get("build_favicons", asNamespace("pkgdown"), mode = "function")(...)
+}
+
+create_gh_pages_branch <- function(tr) {
   ui_done("
-    Initializing empty gh-pages branch in GitHub repo {ui_value(repo_spec)}")
+    Initializing empty gh-pages branch in GitHub repo {ui_value(tr$repo_spec)}")
 
   # git hash-object -t tree /dev/null.
   sha_empty_tree <- "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
 
+  gh <- function(endpoint, ...) {
+    gh::gh(
+      endpoint,
+      ...,
+      owner = tr$repo_owner, repo = tr$repo_name,
+      .api_url = tr$api_url
+    )
+  }
+
   # Create commit with empty tree
-  res <- gh::gh("POST /repos/:owner/:repo/git/commits",
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec),
+  res <- gh(
+    "POST /repos/:owner/:repo/git/commits",
     message = "first commit",
     tree = sha_empty_tree
   )
 
   # Assign ref to above commit
-  gh::gh(
+  gh(
     "POST /repos/:owner/:repo/git/refs",
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec),
     ref = "refs/heads/gh-pages",
     sha = res$sha
   )

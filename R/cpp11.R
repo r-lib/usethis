@@ -11,7 +11,6 @@
 use_cpp11 <- function() {
   check_is_package("use_cpp11()")
   check_uses_roxygen("use_cpp11()")
-
   use_src()
 
   use_dependency("cpp11", "LinkingTo")
@@ -23,5 +22,21 @@ use_cpp11 <- function() {
     open = is_interactive()
   )
 
+  check_cpp_register_deps()
+
   invisible()
+}
+
+get_cpp_register_deps <- function() {
+  res <- desc::desc(package = "cpp11")$get_field("Config/Needs/cpp11/cpp_register")
+  strsplit(res, "[[:space:]]*,[[:space:]]*")[[1]]
+}
+
+check_cpp_register_deps <- function() {
+  cpp_register_deps <- get_cpp_register_deps()
+  installed <- map_lgl(cpp_register_deps, is_installed)
+
+  if (!all(installed)) {
+    ui_todo("Now install {ui_value(cpp_register_deps[!installed])} to use cpp11.")
+  }
 }

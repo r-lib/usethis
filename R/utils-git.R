@@ -40,7 +40,7 @@ git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
   if (where == "global" || !uses_git()) {
     dat <- gert::git_config_global()
   } else {
-    dat <- gert::git_config(git_repo())
+    dat <- gert::git_config(repo = git_repo())
   }
   if (where == "local") {
     dat <- dat[dat$level == "local", ]
@@ -86,17 +86,22 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
   }
 
   paths <- sort(paths)
-  ui_paths <- purrr::map_chr(paths, ui_path)
-  if (n > 20) {
-    ui_paths <- c(ui_paths[1:20], "...")
+  ui_paths <- map_chr(paths, ui_path)
+  if (n > 10) {
+    ui_paths <- c(ui_paths[1:10], "...")
   }
 
+  if (n == 1) {
+    file_hint <- "There is 1 uncommitted file:"
+  } else {
+    file_hint <- "There are {n} uncommitted files:"
+  }
   ui_line(c(
-    "There are {n} uncommitted files:",
+    file_hint,
     paste0("* ", ui_paths)
   ))
 
-  if (ui_yeah("Is it ok to commit them?")) {
+  if (ui_yeah("Is it ok to commit {if (n == 1) 'it' else 'them'}?")) {
     git_commit(paths, message)
   }
   invisible()
@@ -106,7 +111,7 @@ git_uncommitted <- function(untracked = FALSE) {
   nrow(git_status(untracked)) > 0
 }
 
-check_no_uncommitted_changes <- function(untracked = FALSE) {
+challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
   if (!uses_git()) {
     return(invisible())
   }
@@ -115,12 +120,12 @@ check_no_uncommitted_changes <- function(untracked = FALSE) {
     rstudioapi::documentSaveAll()
   }
 
-  # TODO: present a more useful overview of the situation?
+  default_msg <- "
+    There are uncommitted changes, which may cause problems when \\
+    we push, pull, or switch branches"
+  msg <- glue(msg %||% default_msg)
   if (git_uncommitted(untracked = untracked)) {
-    if (ui_yeah("
-          There are uncommitted changes, which may cause problems when \\
-          we push, pull, or switch branches.
-          Do you want to proceed anyway?")) {
+    if (ui_yeah("{msg}\nDo you want to proceed anyway?")) {
       return(invisible())
     } else {
       ui_stop("Uncommitted changes. Please commit before continuing.")
@@ -136,7 +141,7 @@ git_conflict_report <- function() {
     return(invisible())
   }
 
-  conflicted_paths <- purrr::map_chr(conflicted, ui_path)
+  conflicted_paths <- map_chr(conflicted, ui_path)
   ui_line(c(
     "There are {n} conflicted files:",
     paste0("* ", conflicted_paths)
@@ -193,6 +198,7 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
     repo = repo,
     verbose = FALSE
   )
+  # TODO: silence this when possible
   gert::git_merge(remref, repo = repo)
   st <- git_status(untracked = TRUE)
   if (any(st$status == "conflicted")) {
@@ -204,7 +210,7 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
 
 # Branch ------------------------------------------------------------------
 git_branch <- function() {
-  info <- gert::git_info(git_repo())
+  info <- gert::git_info(repo = git_repo())
   branch <- info$shorthand
   if (identical(branch, "HEAD")) {
     ui_stop("Detached head; can't continue")
@@ -216,7 +222,7 @@ git_branch <- function() {
 }
 
 git_branch_tracking <- function(branch = git_branch()) {
-  info <- gert::git_branch_list(git_repo())
+  info <- gert::git_branch_list(repo = git_repo())
   this <- info$local & info$name == branch
   if (sum(this) < 1) {
     ui_stop("There is no local branch named {ui_value(branch}")
@@ -233,18 +239,35 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
     verbose = FALSE
   )
   out <- gert::git_ahead_behind(upstream = remref, ref = branch, repo = git_repo())
-  stats::setNames(out, nm = c("local_only", "remote_only"))
+  list(local_only = out$ahead, remote_only = out$behind)
 }
 
 # Checks ------------------------------------------------------------------
-check_branch <- function(branch) {
-  ui_done("Checking that current branch is {ui_value(branch)}")
+check_default_branch <- function() {
+  default_branch <- git_branch_default()
+  ui_done("
+    Checking that current branch is default branch ({ui_value(default_branch)})")
   actual <- git_branch()
-  if (actual == branch) {
+  if (actual == default_branch) {
     return(invisible())
   }
   ui_stop("
-    Must be on branch {ui_value(branch)}, not {ui_value(actual)}.")
+    Must be on branch {ui_value(default_branch)}, not {ui_value(actual)}.")
+}
+
+challenge_non_default_branch <- function(details = "Are you sure you want to proceed?") {
+  actual <- git_branch()
+  default_branch <- git_branch_default()
+  if (nzchar(details)) {
+    details <- paste0("\n", details)
+  }
+  if (actual != default_branch) {
+    if (ui_nope("
+      Current branch ({ui_value(actual)}) is not repo's default \\
+      branch ({ui_value(default_branch)}){details}")) {
+      ui_stop("Aborting")
+    }
+  }
 }
 
 # examples of remref: upstream/master, origin/foofy

@@ -18,7 +18,7 @@
 \usage{
 use_tidy_github_actions()
 
-create_tidy_package(path, name = "RStudio")
+create_tidy_package(path, copyright_holder = NULL)
 
 use_tidy_description()
 
@@ -42,9 +42,9 @@ use_tidy_release_test_env()
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
 created, provided that the parent path exists.}
 
-\item{name}{Name of the copyright holder or holders. Separate multiple
-individuals with \verb{;}. You can supply a global default with
-\code{options(usethis.full_name = "My name")}.}
+\item{copyright_holder}{Name of the copyright holder or holders. This
+defaults to "{package name} authors"; you should only change this if you
+use a CLA to assign copyright to a single entity.}
 
 \item{strict}{Boolean indicating whether or not a strict version of styling
 should be applied. See \code{\link[styler:tidyverse_style]{styler::tidyverse_style()}} for details.}

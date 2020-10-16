@@ -109,13 +109,13 @@ create_project <- function(path,
 #' either cloning or
 #' [fork-and-cloning](https://help.github.com/articles/fork-a-repo/). In the
 #' fork-and-clone case, `create_from_github()` also does additional remote and
-#' branch setup, leaving you in the perfect position to make a pull request,
-#' possibly with the [pull request functions][pull-requests].
+#' branch setup, leaving you in the perfect position to make a pull request with
+#' [pr_init()], one of several [functions that work pull
+#' requests][pull-requests].
 #'
-#' It is **highly recommended** that you pre-configure a GitHub personal access
-#' token (PAT), which is facilitated by [create_github_token()]. In particular,
-#' if you can't push to the source repo, you usually want to fork-and-clone (vs.
-#' clone) and we cannot do that unless we have a PAT.
+#' `create_from_github()` works best when we can find a GitHub personal access
+#' token in the Git credential store (just like many other usethis functions).
+#' See [gh_token_help()] for more advice.
 #'
 #' @seealso
 #' * [use_github()] to go the opposite direction, i.e. create a GitHub repo
@@ -131,18 +131,23 @@ create_project <- function(path,
 #'   `repo` part will be the name of the new local folder, which is also
 #'   a project and Git repo.
 #' @inheritParams use_course
-#' @param fork If `TRUE`, we create and clone a fork. If `FALSE`, we clone
-#'   `repo_spec` itself. Will be set to `FALSE` if no `auth_token` (a.k.a. PAT)
-#'   is provided or preconfigured. Otherwise, defaults to `FALSE` if you can
-#'   push to `repo_spec` and `TRUE` if you cannot. In the case of a fork, the
-#'   original target repo is added to the local repo as the `upstream` remote,
-#'   using the preferred `protocol`. The `master` branch is set to track
-#'   `upstream/master` and is immediately pulled, which matters in the case of a
-#'   pre-existing, out-of-date fork.
+#' @param fork If `FALSE`, we clone `repo_spec`. If `TRUE`, we fork
+#'   `repo_spec`, clone that fork, and do additional set up favorable for
+#'   future pull requests:
+#'   * The source repo, `repo_spec`, is configured as the `upstream` remote,
+#'   using the indicated `protocol`.
+#'   * The local `DEFAULT` branch is set to track `upstream/DEFAULT`, where
+#'   `DEFAULT` is typically `master` or `main`. It is also immediately pulled,
+#'   to cover the case of a pre-existing, out-of-date fork.
+#'
+#'   If `fork = NA` (the default), we check your permissions on `repo_spec`. If
+#'   you can push, we set `fork = FALSE`, If you cannot, we set `fork = TRUE`.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
-#'    Defaults to `TRUE` if in an RStudio session and project has no
-#'   pre-existing `.Rproj` file. Defaults to `FALSE` otherwise.
+#'   Defaults to `TRUE` if in an RStudio session and project has no
+#'   pre-existing `.Rproj` file. Defaults to `FALSE` otherwise (but note that
+#'   the cloned repo may already be an RStudio Project, i.e. may already have a
+#'   `.Rproj` file).
 #' @inheritParams use_github
 #'
 #' @export
@@ -156,38 +161,85 @@ create_from_github <- function(repo_spec,
                                rstudio = NULL,
                                open = rlang::is_interactive(),
                                protocol = git_protocol(),
-                               auth_token = github_token(),
                                host = NULL,
+                               auth_token = deprecated(),
                                credentials = deprecated()) {
+  if (lifecycle::is_present(auth_token)) {
+    deprecate_warn_auth_token("create_from_github")
+  }
   if (lifecycle::is_present(credentials)) {
-    deprecate_warn_credentials("use_github")
+    deprecate_warn_credentials("create_from_github")
+  }
+
+  whoami <- suppressMessages(gh::gh_whoami(.api_url = host))
+  no_auth <- is.null(whoami)
+  user <- if (no_auth) NULL else whoami$login
+  if (is.null(host)) {
+    code_hint <- "gh_token_help()"
+  } else {
+    code_hint <- glue('gh_token_help("{host}")')
+  }
+
+  if (no_auth && is.na(fork)) {
+    ui_stop("
+      Unable to discover a GitHub personal access token
+      Therefore, can't determine your permissions on {ui_value(repo_spec)}
+      Therefore, can't decide if `fork` should be `TRUE` or `FALSE`
+
+      You have two choices:
+      1. Make your token available (if in doubt, DO THIS):
+         - Call {ui_code(code_hint)} for directions
+      2. Call {ui_code('create_from_github()')} again, but with \\
+      {ui_code('fork = FALSE')}
+         - Only do this if you are absolutely sure you don't want to fork
+         - Note you will NOT be in a position to make a pull request")
+  }
+
+  if (no_auth && isTRUE(fork)) {
+    ui_stop("
+      Unable to discover a GitHub personal access token
+      A token is required in order to fork {ui_value(repo_spec)}
+
+      Call {ui_code(code_hint)} for help configuring a token")
+  }
+  # one of these is true:
+  # - gh is discovering a token for `host`
+  # - gh is NOT discovering a token, but `fork = FALSE`, so that's OK
+
+  source_owner <- spec_owner(repo_spec)
+  repo_name <- spec_repo(repo_spec)
+
+  repo_info <- gh::gh(
+    "GET /repos/:owner/:repo",
+    owner = source_owner, repo = repo_name,
+    .api_url = host
+  )
+  # 2020-10-14 GitHub has had some bugs lately around default branch
+  # today, the POST payload, if I create a fork, mis-reports the default branch
+  # it reports 'main', even though actual default branch is 'master'
+  # therefore, we're consulting the source repo for this info
+  default_branch <- repo_info$default_branch
+
+  if (is.na(fork)) {
+    fork <- !isTRUE(repo_info$permissions$push)
+    fork_status <- glue("fork = {fork}")
+    ui_done("Setting {ui_code(fork_status)}")
+  }
+  # fork is either TRUE or FALSE
+
+  if (fork && identical(user, repo_info$owner$login)) {
+    ui_stop("
+      Can't fork, because the authenticated user {ui_value(user)} \\
+      already owns the source repo {ui_value(repo_info$full_name)}")
   }
 
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
-
-  owner <- spec_owner(repo_spec)
-  repo <- spec_repo(repo_spec)
-  check_not_nested(destdir, repo)
-
-  repo_path <- path(destdir, repo)
+  check_not_nested(destdir, repo_name)
+  repo_path <- path(destdir, repo_name)
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
 
-  check_github_token(auth_token, allow_empty = TRUE)
-
-  gh <- function(endpoint, ...) {
-    gh::gh(
-      endpoint,
-      ...,
-      .token = auth_token,
-      .api_url = host
-    )
-  }
-
-  repo_info <- gh("GET /repos/:owner/:repo", owner = owner, repo = repo)
-
-  fork <- rationalize_fork(fork, repo_info, auth_token)
   if (fork) {
     ## https://developer.github.com/v3/repos/forks/#create-a-fork
     ui_done("Forking {ui_value(repo_info$full_name)}")
@@ -196,9 +248,10 @@ create_from_github <- function(repo_spec,
       https = repo_info$clone_url,
       ssh = repo_info$ssh_url
     )
-    repo_info <- gh(
+    repo_info <- gh::gh(
       "POST /repos/:owner/:repo/forks",
-      owner = owner, repo = repo
+      owner = source_owner, repo = repo_name,
+      .api_url = host
     )
   }
 
@@ -209,23 +262,25 @@ create_from_github <- function(repo_spec,
   )
 
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
-  # TODO: consider setting `verbose = FALSE`
-  gert::git_clone(origin_url, repo_path)
-  old_project <- proj_set(repo_path, force = TRUE)
-  on.exit(proj_set(old_project), add = TRUE)
+  gert::git_clone(origin_url, repo_path, verbose = FALSE)
+  local_project(repo_path, force = TRUE) # schedule restoration of project
+
+  # 2020-10-14 due to a GitHub bug, we are consulting the source repo for this
+  # previously (and more naturally) we consulted the fork itself
+  # default_branch <- repo_info$default_branch
+  ui_info("Default branch is {ui_value(default_branch)}")
 
   if (fork) {
     ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
     use_git_remote("upstream", upstream_url)
-    # TODO: if using auth_token provided as argument, that's not passed along
     pr_merge_main()
-    # TODO: honor default branch
+    upstream_remref <- glue("upstream/{default_branch}")
     ui_done("
-      Setting remote tracking branch for local {ui_value('master')} branch to \\
-      {ui_value('upstream/master')}")
-    gert::git_branch_set_upstream("upstream/master", git_repo())
+      Setting remote tracking branch for local {ui_value(default_branch)} \\
+      branch to {ui_value(upstream_remref)}")
+    gert::git_branch_set_upstream(upstream_remref, repo = git_repo())
     config_key <- glue("remote.upstream.created-by")
-    gert::git_config_set(config_key, "usethis::create_from_github", git_repo())
+    gert::git_config_set(config_key, "usethis::create_from_github", repo = git_repo())
   }
 
   rstudio <- rstudio %||% rstudioapi::isAvailable()
@@ -237,7 +292,7 @@ create_from_github <- function(repo_spec,
   if (open) {
     if (proj_activate(repo_path)) {
       # Working directory/active project changed; so don't undo on exit
-      on.exit()
+      withr::deferred_clear()
     }
   }
 
@@ -268,47 +323,4 @@ check_not_nested <- function(path, name) {
     ui_stop("Aborting project creation.")
   }
   invisible()
-}
-
-rationalize_fork <- function(fork, repo_info, auth_token) {
-  have_token <- have_github_token(auth_token)
-  can_push <- isTRUE(repo_info$permissions$push)
-
-  if (!can_push && !have_token && is.na(fork) && is_interactive()) {
-    if (ui_nope(
-      glue("
-        You can't push to {ui_value(repo_info$full_name)}.
-        If you want to make a pull request, we must fork-and-clone.
-        But that requires a GitHub personal access token, \\
-        which is not configured.
-        Call {ui_code('usethis::create_github_token()')} to do that."),
-      yes = "I want to proceed anyway. I don't plan to make a pull request.",
-      no = "No, I want to stop and configure a GitHub PAT first.",
-      n_yes = 1, n_no = 1, shuffle = FALSE
-    )) {
-      ui_stop("No GitHub personal access token is available.")
-    } else {
-      fork <- FALSE
-    }
-  }
-
-  if (is.na(fork)) {
-    fork <- have_token && !can_push
-  }
-
-  if (!fork) {
-    return(FALSE)
-  }
-
-  # errors if token doesn't check out
-  user <- github_login(auth_token)
-  repo_owner <- repo_info$owner$login
-
-  if (identical(user, repo_owner)) {
-    ui_stop("
-      Repo {ui_value(repo_info$full_name)} is owned by user \\
-      {ui_value(user)}. Can't fork.")
-  }
-
-  TRUE
 }

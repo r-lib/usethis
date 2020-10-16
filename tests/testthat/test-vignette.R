@@ -1,5 +1,3 @@
-context("use-vignette")
-
 test_that("use_vignette() requires a package", {
   skip_if_not_installed("rmarkdown")
 

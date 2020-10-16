@@ -23,6 +23,7 @@ test_that("ui_silence() suppresses output", {
 })
 
 test_that("trailing slash behaviour of ui_path()", {
+  withr::local_options(list(crayon.enabled = FALSE))
   # target doesn't exist so no empirical evidence that it's a directory
   expect_match(ui_path("abc"), "abc'$")
 
@@ -32,7 +33,7 @@ test_that("trailing slash behaviour of ui_path()", {
 
   # path is known to be a directory
   tmpdir <- fs::file_temp(pattern = "ui_path")
-  on.exit(fs::dir_delete(tmpdir))
+  on.exit(fs::dir_delete(tmpdir), add = TRUE)
   fs::dir_create(tmpdir)
 
   expect_match(ui_path(tmpdir), "/'$")

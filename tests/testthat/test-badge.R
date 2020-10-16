@@ -1,5 +1,3 @@
-context("use_badge")
-
 test_that("use_[cran|bioc]_badge() don't error", {
   create_local_package()
   expect_error_free(use_cran_badge())
@@ -29,7 +27,7 @@ test_that("use_badge() does nothing if badge seems to pre-exist", {
 
 test_that("default readme has placeholders / can add to empty badge block", {
   create_local_package()
-  withr::local_options(list(usethis.quiet = FALSE))
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_readme_md())
   expect_message(use_cran_badge(), "Adding CRAN status badge")

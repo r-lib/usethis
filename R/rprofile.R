@@ -8,7 +8,7 @@
 #' * `use_usethis()`: makes usethis available in interactive sessions.
 #' * `use_reprex()`: makes reprex available in interactive sessions.
 #' * `use_conflicted()`:  makes conflicted available in interactive sessions.
-#' * `use_partial_warning()`: warns on partial matches.
+#' * `use_partial_warnings()`: warns on partial matches.
 #'
 #' @name rprofile-helper
 NULL

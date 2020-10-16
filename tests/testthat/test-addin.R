@@ -1,5 +1,3 @@
-context("use_addin")
-
 test_that("use_addin() creates the first addins.dcf as promised", {
   create_local_package()
   use_addin("addin.test")

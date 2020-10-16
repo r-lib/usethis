@@ -1,6 +1,3 @@
-## attempt to activate a project, which is nice during development
-tryCatch(proj_set("."), error = function(e) NULL)
-
 ## If session temp directory appears to be, or be within, a project, there
 ## will be large scale, spurious test failures.
 ## The IDE sometimes leaves .Rproj files behind in session temp directory or
@@ -37,33 +34,42 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
     ui_stop("Target {ui_code('dir')} {ui_path(dir)} already exists.")
   }
 
-  old_project <- proj_get_()
+  old_project <- proj_get_() # this could be `NULL`, i.e. no active project
+  old_wd <- getwd()          # not necessarily same as `old_project`
+
   withr::defer(
     {
-      ui_done("Restoring original project and working directory: {ui_path(old_project)}")
-      ui_silence({
-        proj_set(old_project, force = TRUE)
-      })
-      setwd(old_project)
       ui_done("Deleting temporary project: {ui_path(dir)}")
       fs::dir_delete(dir)
     },
     envir = env
   )
-
-  ui_silence({
+  ui_silence(
     switch(
       thing,
       package = create_package(dir, rstudio = rstudio, open = FALSE, check_name = FALSE),
       project = create_project(dir, rstudio = rstudio, open = FALSE)
     )
-    proj_set(dir)
-  })
+  )
+
+  withr::defer(proj_set(old_project, force = TRUE), envir = env)
+  proj_set(dir)
+
+  withr::defer(
+    {
+      ui_done("Restoring original working directory: {ui_path(old_wd)}")
+      setwd(old_wd)
+    },
+    envir = env
+  )
   setwd(dir)
+
   invisible(dir)
 }
 
 toggle_rlang_interactive <- function() {
+  # TODO: consider setting options(rlang_backtrace_on_error = "reminder") when
+  # in non-interactive mode, to suppress full backtraces
   before <- getOption("rlang_interactive")
   after <- if (identical(before, FALSE)) TRUE else FALSE
   options(rlang_interactive = after)
