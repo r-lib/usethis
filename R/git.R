@@ -442,32 +442,62 @@ git_sitrep <- function() {
   # TODO: forward more info from the credentials package when available
   # https://github.com/r-lib/credentials/issues/6
 
-  # github user ---------------------------------------------------------------
+  # github ---- ----------------------------------------------------------------
   hd_line("GitHub")
-  auth_token <- gh::gh_token()
+  default_gh_host <- get_hosturl(default_api_url())
+  kv_line("Default GitHub host", default_gh_host)
+  auth_token <- gh::gh_token(api_url = default_gh_host)
   have_token <- auth_token != ""
   if (have_token) {
     kv_line("Personal access token", "<discovered>")
     tryCatch(
       {
-        who <- gh::gh_whoami(auth_token)
+        who <- gh::gh_whoami(.token = auth_token, .api_url = default_gh_host)
         kv_line("User", who$login)
         kv_line("Name", who$name)
+        scopes <- who$scopes
+        kv_line("Scopes", who$scopes)
+        # previous defaults for create_github_token(): repo, gist, user:email
+        # more recently: repo, user, gist
+        # and gist scope is a very weak recommendation
+        # hence the checks aren't exactly for our defaults
+        scopes <- strsplit(scopes, ", ")[[1]]
+        if (!any(grepl("^repo$", scopes)) ||
+            !any(grepl("user(:email)?", scopes))) {
+          ui_oops("
+            Token may be underscoped: {ui_value('repo')} and \\
+            {ui_value('user')} are highly recommended scopes")
+        }
       },
       http_error_401 = function(e) ui_oops("Token is invalid."),
       error = function(e) ui_oops("Can't validate token. Is the network reachable?")
     )
     tryCatch(
       {
-        emails <- unlist(gh::gh("/user/emails", .token = auth_token))
-        emails <- emails[names(emails) == "email"]
-        kv_line("Email(s)", emails)
+        emails <- gh::gh(
+          "/user/emails",
+          .token = auth_token,
+          .api_url = default_gh_host
+        )
+        addresses <- map_chr(
+          emails,
+          ~ if (.x$primary) glue_data(.x, "{email} (primary)") else .x[["email"]]
+        )
+        kv_line("Email(s)", addresses)
+        global_email <- git_cfg_get("user.email", "global")
+        if (!is.null(global_email) && !grepl(global_email, addresses)) {
+          ui_oops(
+            "User's local Git email doesn't appear to be registered with GitHub"
+          )
+        }
       },
       http_error_404 = function(e) kv_line("Email(s)", "<unknown>"),
-      error = function(e) ui_oops("Can't validate token. Is the network reachable?")
+      error = function(e) ui_oops("Can't retrieve user's GitHub email addresses")
     )
   } else {
     kv_line("Personal access token", NULL)
+    ui_oops("
+      Call {ui_code('gh_token_help()')} for help configuring a token")
   }
 
   # repo overview -------------------------------------------------------------
