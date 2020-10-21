@@ -438,14 +438,6 @@ git_sitrep <- function() {
     }
   }
 
-  # usethis + gert + credentials -----------------------------------------------
-  hd_line("usethis + gert")
-  kv_line("Default usethis protocol", getOption("usethis.protocol"))
-  kv_line("gert supports HTTPS", gert::libgit2_config()$https)
-  kv_line("gert supports SSH", gert::libgit2_config()$ssh)
-  # TODO: forward more info from the credentials package when available
-  # https://github.com/r-lib/credentials/issues/6
-
   # github ---- ----------------------------------------------------------------
   hd_line("GitHub")
   default_gh_host <- get_hosturl(default_api_url())
