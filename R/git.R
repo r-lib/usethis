@@ -424,6 +424,8 @@ git_sitrep <- function() {
   if (!vaccinated) {
     ui_info("See {ui_code('?git_vaccinate')} to learn more about this")
   }
+  # TODO: Revisit when I harden the HTTPS default
+  kv_line("Default usethis protocol", getOption("usethis.protocol"))
 
   # git project ---------------------------------------------------------------
   if (proj_active() && uses_git()) {
