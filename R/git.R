@@ -419,7 +419,11 @@ git_sitrep <- function() {
   hd_line("Git config (global)")
   kv_line("Name", git_cfg_get("user.name", "global"))
   kv_line("Email", git_cfg_get("user.email", "global"))
-  kv_line("Vaccinated", git_vaccinated())
+  vaccinated <- git_vaccinated()
+  kv_line("Vaccinated", vaccinated)
+  if (!vaccinated) {
+    ui_info("See {ui_code('?git_vaccinate')} to learn more about this")
+  }
 
   # git project ---------------------------------------------------------------
   if (proj_active() && uses_git()) {
@@ -542,9 +546,9 @@ git_sitrep <- function() {
 
 #' Vaccinate your global gitignore file
 #'
-#' Adds `.DS_Store`, `.Rproj.user`, `.Rdata`, and `.Rhistory` to your global
-#' (a.k.a. user-level) `.gitignore`. This is good practice as it decreases the
-#' chance that you will accidentally leak credentials to GitHub.
+#' Adds `.DS_Store`, `.Rproj.user`, `.Rdata`, `.Rhistory`, and `.httr-oauth` to
+#' your global (a.k.a. user-level) `.gitignore`. This is good practice as it
+#' decreases the chance that you will accidentally leak credentials to GitHub.
 #'
 #' @export
 git_vaccinate <- function() {
@@ -566,5 +570,6 @@ git_global_ignore <- c(
   ".Rproj.user",
   ".Rhistory",
   ".Rdata",
+  ".httr-oauth",
   ".DS_Store"
 )
