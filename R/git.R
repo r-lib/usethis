@@ -435,12 +435,12 @@ git_sitrep <- function() {
     )
     if (!is.null(local_user$user.name) || !is.null(local_user$user.name)) {
       hd_line("Git config (project)")
-      kv_line("Name", git_cfg_get("user.name"))
-      kv_line("Email", git_cfg_get("user.email"))
+      kv_line("Name", local_user$user.name)
+      kv_line("Email", local_user$user.email)
     }
   }
 
-  # github ---- ----------------------------------------------------------------
+  # github ---------------------------------------------------------------------
   hd_line("GitHub")
   default_gh_host <- get_hosturl(default_api_url())
   kv_line("Default GitHub host", default_gh_host)
