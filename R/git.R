@@ -415,7 +415,7 @@ git_remotes <- function() {
 #' git_sitrep()
 #' }
 git_sitrep <- function() {
-  # git global ----------------------------------------------------------------
+  # git (global / user) --------------------------------------------------------
   hd_line("Git config (global)")
   kv_line("Name", git_cfg_get("user.name", "global"))
   kv_line("Email", git_cfg_get("user.email", "global"))
@@ -427,20 +427,7 @@ git_sitrep <- function() {
   # TODO: Revisit when I harden the HTTPS default
   kv_line("Default usethis protocol", getOption("usethis.protocol"))
 
-  # git project ---------------------------------------------------------------
-  if (proj_active() && uses_git()) {
-    local_user <- list(
-      user.name = git_cfg_get("user.name", "local"),
-      user.email = git_cfg_get("user.email", "local")
-    )
-    if (!is.null(local_user$user.name) || !is.null(local_user$user.name)) {
-      hd_line("Git config (project)")
-      kv_line("Name", local_user$user.name)
-      kv_line("Email", local_user$user.email)
-    }
-  }
-
-  # github ---------------------------------------------------------------------
+  # github (global / user) -----------------------------------------------------
   hd_line("GitHub")
   default_gh_host <- get_hosturl(default_api_url())
   kv_line("Default GitHub host", default_gh_host)
@@ -451,24 +438,27 @@ git_sitrep <- function() {
     tryCatch(
       {
         who <- gh::gh_whoami(.token = auth_token, .api_url = default_gh_host)
-        kv_line("User", who$login)
-        kv_line("Name", who$name)
+        kv_line("GitHub user", who$login)
         scopes <- who$scopes
-        kv_line("Scopes", who$scopes)
+        kv_line("Token scopes", who$scopes)
+        # why these checks?
         # previous defaults for create_github_token(): repo, gist, user:email
         # more recently: repo, user, gist
-        # and gist scope is a very weak recommendation
-        # hence the checks aren't exactly for our defaults
+        # (gist scope is a very weak recommendation)
         scopes <- strsplit(scopes, ", ")[[1]]
         if (!any(grepl("^repo$", scopes)) ||
-            !any(grepl("user(:email)?", scopes))) {
+            !any(grepl("^user(:email)?$", scopes))) {
           ui_oops("
-            Token may be underscoped: {ui_value('repo')} and \\
-            {ui_value('user')} are highly recommended scopes")
+            Token may be mis-scoped? {ui_value('repo')} and \\
+            {ui_value('user')} are highly recommended scopes
+            If you are troubleshooting, consider this")
         }
       },
       http_error_401 = function(e) ui_oops("Token is invalid."),
-      error = function(e) ui_oops("Can't validate token. Is the network reachable?")
+      error = function(e) {
+        ui_oops("
+          Can't get user profile for this token. Is the network reachable?")
+      }
     )
     tryCatch(
       {
@@ -496,6 +486,19 @@ git_sitrep <- function() {
     kv_line("Personal access token", NULL)
     ui_oops("
       Call {ui_code('gh_token_help()')} for help configuring a token")
+  }
+
+  # git project ---------------------------------------------------------------
+  if (proj_active() && uses_git()) {
+    local_user <- list(
+      user.name = git_cfg_get("user.name", "local"),
+      user.email = git_cfg_get("user.email", "local")
+    )
+    if (!is.null(local_user$user.name) || !is.null(local_user$user.name)) {
+      hd_line("Git config (project)")
+      kv_line("Name", local_user$user.name)
+      kv_line("Email", local_user$user.email)
+    }
   }
 
   # repo overview -------------------------------------------------------------
