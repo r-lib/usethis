@@ -481,8 +481,11 @@ git_sitrep <- function() {
           )
         }
       },
-      http_error_404 = function(e) kv_line("Email(s)", "<unknown>"),
-      error = function(e) ui_oops("Can't retrieve user's GitHub email addresses")
+      error = function(e) {
+        ui_oops("
+          Can't retrieve registered email addresses
+          If you are troubleshooting, check GitHub host, token, and token scopes")
+      }
     )
   } else {
     kv_line("Personal access token", NULL)
@@ -490,7 +493,20 @@ git_sitrep <- function() {
       Call {ui_code('gh_token_help()')} for help configuring a token")
   }
 
-  # git project ---------------------------------------------------------------
+  # git and github for active project ------------------------------------------
+  hd_line("Git repo associated with the current project")
+  ui_silence(try(proj_get(), silent = TRUE))
+  if (!proj_active()) {
+    ui_info("No active usethis project")
+    return(invisible())
+  }
+  kv_line("Active usethis project", proj_get())
+  if (!uses_git()) {
+    ui_info("Active project is not a Git repo")
+    return(invisible())
+  }
+
+  # local git config -----------------------------------------------------------
   if (proj_active() && uses_git()) {
     local_user <- list(
       user.name = git_cfg_get("user.name", "local"),
@@ -503,32 +519,19 @@ git_sitrep <- function() {
     }
   }
 
-  # repo overview -------------------------------------------------------------
-  hd_line("Repo")
-  ui_silence(try(proj_get(), silent = TRUE))
-  if (!proj_active()) {
-    ui_info("No active usethis project.")
-    return(invisible())
-  }
-
-  if (!uses_git()) {
-    ui_info("Active project is not a Git repo.")
-    return(invisible())
-  }
-
-  kv_line("Path", git_repo())
+  # current branch -------------------------------------------------------------
   branch <- tryCatch(git_branch(), error = function(e) NULL)
   tracking_branch <- if (is.null(branch)) NA_character_ else git_branch_tracking()
-  ## TODO: rework when ui_*() functions make it possible to do better
+  # TODO: can't really do what I want with existing ui_*() functions
+  # e.g., vertical alignment would make this nicer
   branch <- if (is.null(branch)) "<unset>" else branch
   tracking_branch <- if (is.na(tracking_branch)) "<unset>" else tracking_branch
-  ui_inform(
-    "* ", "Local branch -> remote tracking branch: ",
-    ui_value(branch), " -> ", ui_value(tracking_branch)
-  )
+  ui_inform(glue("
+    * Local branch -> remote tracking branch:
+      {ui_value(branch)} -> {ui_value(tracking_branch)}"))
 
   # PR outlook -------------------------------------------------------------
-  hd_line("GitHub pull request readiness")
+  hd_line("GitHub remote configuration")
   # TODO: need to surface host more here
   cfg <- github_remote_config()
   if (cfg$type == "no_github") {
