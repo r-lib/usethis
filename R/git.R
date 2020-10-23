@@ -441,20 +441,22 @@ git_sitrep <- function() {
         kv_line("GitHub user", who$login)
         scopes <- who$scopes
         kv_line("Token scopes", who$scopes)
+        # https://docs.github.com/en/free-pro-team@latest/developers/apps/scopes-for-oauth-apps
         # why these checks?
         # previous defaults for create_github_token(): repo, gist, user:email
         # more recently: repo, user, gist
         # (gist scope is a very weak recommendation)
         scopes <- strsplit(scopes, ", ")[[1]]
-        if (!any(grepl("^repo$", scopes)) ||
+        if (length(scopes) == 0 ||
+            !any(grepl("^repo$", scopes)) ||
             !any(grepl("^user(:email)?$", scopes))) {
           ui_oops("
-            Token may be mis-scoped? {ui_value('repo')} and \\
+            Token may be mis-scoped: {ui_value('repo')} and \\
             {ui_value('user')} are highly recommended scopes
             If you are troubleshooting, consider this")
         }
       },
-      http_error_401 = function(e) ui_oops("Token is invalid."),
+      http_error_401 = function(e) ui_oops("Token is invalid"),
       error = function(e) {
         ui_oops("
           Can't get user profile for this token. Is the network reachable?")
