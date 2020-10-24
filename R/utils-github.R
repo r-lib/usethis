@@ -1,4 +1,4 @@
-# repo_spec --> owner, repo
+# OWNER/REPO --> OWNER, REPO
 parse_repo_spec <- function(repo_spec) {
   repo_split <- strsplit(repo_spec, "/")[[1]]
   if (length(repo_split) != 2) {
@@ -10,7 +10,7 @@ parse_repo_spec <- function(repo_spec) {
 spec_owner <- function(repo_spec) parse_repo_spec(repo_spec)$owner
 spec_repo <- function(repo_spec) parse_repo_spec(repo_spec)$repo
 
-# owner, repo --> repo_spec
+# OWNER, REPO --> OWNER/REPO
 make_spec <- function(owner = NA, repo = NA) {
   no_spec <- is.na(owner) | is.na(repo)
   as.character(ifelse(no_spec, NA, glue("{owner}/{repo}")))
@@ -167,13 +167,12 @@ github_remotes <- function(these = c("origin", "upstream"),
     oops <- which(!grl$github_got)
     oops_remotes <- grl$remote[oops]
     oops_hosts <- unique(grl$host[oops])
-    # TODO: update when there's a place to send people for troubleshooting
     ui_stop("
       Unable to get GitHub info for these remotes: {ui_value(oops_remotes)}
-      Are we offline?
+      Are we offline? Is GitHub down?
       Otherwise, you probably need to configure a personal access token (PAT) \\
       for {ui_value(oops_hosts)}
-      See {ui_code('?create_github_token')} for advice")
+      See {ui_code('?gh_token_help')} for advice")
   }
 
   grl$is_fork <- map_lgl(repo_info, "fork", .default = NA)
@@ -280,6 +279,7 @@ new_github_remote_config <- function() {
   structure(
     list(
       type = NA_character_,
+      host_url = NA_character_,
       pr_ready = FALSE,
       desc = "Unexpected remote configuration.",
       origin   = c(name = "origin",   is_configured = FALSE, ptype),
@@ -317,6 +317,7 @@ github_remote_config <- function(github_get = NA) {
         Internal error: Know GitHub permissions for some remotes, but not all")
     }
   }
+  cfg$host_url <- unique(grl$host_url)
   github_got <- any(grl$github_got)
   perm_known <- any(grl$perm_known)
 
@@ -511,6 +512,7 @@ format_remote <- function(remote) {
 format_fields <- function(cfg) {
   list(
     type = glue("type = {ui_value(cfg$type)}"),
+    host_url = glue("host = {ui_value(cfg$host_url)}"),
     pr_ready = glue("Config supports a pull request = {ui_value(cfg$pr_ready)}"),
     origin = format_remote(cfg$origin),
     upstream = format_remote(cfg$upstream),

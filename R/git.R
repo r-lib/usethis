@@ -415,6 +415,8 @@ git_remotes <- function() {
 #' git_sitrep()
 #' }
 git_sitrep <- function() {
+  ui_silence(try(proj_get(), silent = TRUE))
+
   # git (global / user) --------------------------------------------------------
   hd_line("Git config (global)")
   kv_line("Name", git_cfg_get("user.name", "global"))
@@ -431,71 +433,11 @@ git_sitrep <- function() {
   hd_line("GitHub")
   default_gh_host <- get_hosturl(default_api_url())
   kv_line("Default GitHub host", default_gh_host)
-  auth_token <- gh::gh_token(api_url = default_gh_host)
-  have_token <- auth_token != ""
-  if (have_token) {
-    kv_line("Personal access token", "<discovered>")
-    tryCatch(
-      {
-        who <- gh::gh_whoami(.token = auth_token, .api_url = default_gh_host)
-        kv_line("GitHub user", who$login)
-        scopes <- who$scopes
-        kv_line("Token scopes", who$scopes)
-        # https://docs.github.com/en/free-pro-team@latest/developers/apps/scopes-for-oauth-apps
-        # why these checks?
-        # previous defaults for create_github_token(): repo, gist, user:email
-        # more recently: repo, user, gist
-        # (gist scope is a very weak recommendation)
-        scopes <- strsplit(scopes, ", ")[[1]]
-        if (length(scopes) == 0 ||
-            !any(grepl("^repo$", scopes)) ||
-            !any(grepl("^user(:email)?$", scopes))) {
-          ui_oops("
-            Token may be mis-scoped: {ui_value('repo')} and \\
-            {ui_value('user')} are highly recommended scopes
-            If you are troubleshooting, consider this")
-        }
-      },
-      http_error_401 = function(e) ui_oops("Token is invalid"),
-      error = function(e) {
-        ui_oops("
-          Can't get user profile for this token. Is the network reachable?")
-      }
-    )
-    tryCatch(
-      {
-        emails <- gh::gh(
-          "/user/emails",
-          .token = auth_token,
-          .api_url = default_gh_host
-        )
-        addresses <- map_chr(
-          emails,
-          ~ if (.x$primary) glue_data(.x, "{email} (primary)") else .x[["email"]]
-        )
-        kv_line("Email(s)", addresses)
-        global_email <- git_cfg_get("user.email", "global")
-        if (!is.null(global_email) && !grepl(global_email, addresses)) {
-          ui_oops(
-            "User's local Git email doesn't appear to be registered with GitHub"
-          )
-        }
-      },
-      error = function(e) {
-        ui_oops("
-          Can't retrieve registered email addresses
-          If you are troubleshooting, check GitHub host, token, and token scopes")
-      }
-    )
-  } else {
-    kv_line("Personal access token", NULL)
-    ui_oops("
-      Call {ui_code('gh_token_help()')} for help configuring a token")
-  }
+  pat_found <- pat_sitrep(host = default_gh_host)
 
   # git and github for active project ------------------------------------------
-  hd_line("Git repo associated with the current project")
-  ui_silence(try(proj_get(), silent = TRUE))
+  hd_line("Git repo for current project")
+
   if (!proj_active()) {
     ui_info("No active usethis project")
     return(invisible())
@@ -513,35 +455,104 @@ git_sitrep <- function() {
       user.email = git_cfg_get("user.email", "local")
     )
     if (!is.null(local_user$user.name) || !is.null(local_user$user.name)) {
-      hd_line("Git config (project)")
+      ui_info("This repo has a locally configured user")
       kv_line("Name", local_user$user.name)
       kv_line("Email", local_user$user.email)
     }
   }
 
+  # default branch -------------------------------------------------------------
+  kv_line("Default branch", git_branch_default())
+
   # current branch -------------------------------------------------------------
   branch <- tryCatch(git_branch(), error = function(e) NULL)
   tracking_branch <- if (is.null(branch)) NA_character_ else git_branch_tracking()
-  # TODO: can't really do what I want with existing ui_*() functions
-  # e.g., vertical alignment would make this nicer
+  # TODO: can't really express with kv_line() helper
   branch <- if (is.null(branch)) "<unset>" else branch
   tracking_branch <- if (is.na(tracking_branch)) "<unset>" else tracking_branch
-  ui_inform(glue("
-    * Local branch -> remote tracking branch:
-      {ui_value(branch)} -> {ui_value(tracking_branch)}"))
+  # vertical alignment would make this nicer, but probably not worth it
+  ui_bullet(glue("
+    Current local branch -> remote tracking branch:
+    {ui_value(branch)} -> {ui_value(tracking_branch)}"), cli::symbol$star)
 
-  # PR outlook -------------------------------------------------------------
-  hd_line("GitHub remote configuration")
-  # TODO: need to surface host more here
+  # GitHub remote config -------------------------------------------------------
   cfg <- github_remote_config()
+  repo_host <- cfg$host_url
+  if (repo_host != default_gh_host) {
+    kv_line("Non-default GitHub host", repo_host)
+    pat_found <- pat_sitrep(host = repo_host)
+  }
+
+  hd_line("GitHub remote configuration")
   if (cfg$type == "no_github") {
     ui_info("
       This repo has neither {ui_value('origin')} nor {ui_value('upstream')} \\
-      remote on GitHub.com.")
+      remote on GitHub")
     return(invisible())
   }
-  # TODO: make this more attractive
   print(cfg)
+}
+
+pat_sitrep <- function(host = "https://github.com") {
+  pat <- gh::gh_token(api_url = host)
+  have_pat <- pat != ""
+  if (!have_pat) {
+    kv_line("Personal access token for {ui_value(host)}", NULL)
+    ui_oops("
+      Call {ui_code('gh_token_help()')} for help configuring a token")
+    return(FALSE)
+  }
+
+  kv_line("Personal access token for {ui_value(host)}", "<discovered>")
+  tryCatch(
+    {
+      who <- gh::gh_whoami(.token = pat, .api_url = host)
+      kv_line("GitHub user", who$login)
+      scopes <- who$scopes
+      kv_line("Token scopes", who$scopes)
+      # https://docs.github.com/en/free-pro-team@latest/developers/apps/scopes-for-oauth-apps
+      # why these checks?
+      # previous defaults for create_github_token(): repo, gist, user:email
+      # more recently: repo, user, gist
+      # (gist scope is a very weak recommendation)
+      scopes <- strsplit(scopes, ", ")[[1]]
+      if (length(scopes) == 0 ||
+          !any(grepl("^repo$", scopes)) ||
+          !any(grepl("^user(:email)?$", scopes))) {
+        ui_oops("
+            Token may be mis-scoped: {ui_value('repo')} and \\
+            {ui_value('user')} are highly recommended scopes
+            If you are troubleshooting, consider this")
+      }
+    },
+    http_error_401 = function(e) ui_oops("Token is invalid"),
+    error = function(e) {
+      ui_oops("
+        Can't get user profile for this token. Is the network reachable?")
+    }
+  )
+  tryCatch(
+    {
+      emails <- gh::gh("/user/emails", .token = pat, .api_url = host)
+      addresses <- map_chr(
+        emails,
+        ~ if (.x$primary) glue_data(.x, "{email} (primary)") else .x[["email"]]
+      )
+      kv_line("Email(s)", addresses)
+      de_facto_email <- git_cfg_get("user.email", "de_facto")
+      if (!any(grepl(de_facto_email, addresses))) {
+        ui_oops("
+          User's Git email ({ui_value(de_facto_email)}) doesn't appear to be \\
+          registered with GitHub")
+      }
+    },
+    error = function(e) {
+      ui_oops("
+        Can't retrieve registered email address(es)
+        If you are troubleshooting, check GitHub host, token, and token scopes")
+    }
+  )
+  TRUE
 }
 
 # Vaccination -------------------------------------------------------------
