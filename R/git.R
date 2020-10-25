@@ -478,19 +478,14 @@ git_sitrep <- function() {
   # GitHub remote config -------------------------------------------------------
   cfg <- github_remote_config()
   repo_host <- cfg$host_url
-  if (repo_host != default_gh_host) {
+  if (!is.na(repo_host) && repo_host != default_gh_host) {
     kv_line("Non-default GitHub host", repo_host)
     pat_found <- pat_sitrep(host = repo_host)
   }
 
   hd_line("GitHub remote configuration")
-  if (cfg$type == "no_github") {
-    ui_info("
-      This repo has neither {ui_value('origin')} nor {ui_value('upstream')} \\
-      remote on GitHub")
-    return(invisible())
-  }
-  print(cfg)
+  purrr::walk(format(cfg), ~ ui_bullet(.x, cli::symbol$star))
+  invisible()
 }
 
 pat_sitrep <- function(host = "https://github.com") {

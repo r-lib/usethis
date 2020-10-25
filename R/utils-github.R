@@ -511,15 +511,15 @@ format_remote <- function(remote) {
 
 format_fields <- function(cfg) {
   list(
-    type = glue("type = {ui_value(cfg$type)}"),
-    host_url = glue("host = {ui_value(cfg$host_url)}"),
+    type = glue("Type = {ui_value(cfg$type)}"),
+    host_url = glue("Host = {ui_value(cfg$host_url)}"),
     pr_ready = glue("Config supports a pull request = {ui_value(cfg$pr_ready)}"),
     origin = format_remote(cfg$origin),
     upstream = format_remote(cfg$upstream),
     desc = if (is.na(cfg$desc)) {
-      glue("desc = {ui_unset('no description')}")
+      glue("Desc = {ui_unset('no description')}")
     } else {
-      glue("desc = {cfg$desc}")
+      glue("Desc = {cfg$desc}")
     }
   )
 }
@@ -618,6 +618,15 @@ check_ours_or_fork <- function(cfg = NULL) {
 }
 
 # github remote configurations -------------------------------------------------
+# use for configs
+read_more <- glue("
+  Read more about the GitHub remote configurations that usethis supports at:
+  {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
+
+read_more_maybe <- glue("
+  Read more about what this GitHub remote configurations means at:
+  {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
+
 cfg_no_github <- function(cfg) {
   utils::modifyList(
     cfg,
@@ -626,7 +635,9 @@ cfg_no_github <- function(cfg) {
       pr_ready = FALSE,
       desc = glue("
         Neither {ui_value('origin')} nor {ui_value('upstream')} is a GitHub \\
-        repo.")
+        repo.
+
+        {read_more}")
     )
   )
 }
@@ -637,7 +648,11 @@ cfg_ours <- function(cfg) {
     list(
       type = "ours",
       pr_ready = TRUE,
-      desc = NA)
+      desc = glue("
+        {ui_value('origin')} is both the source and primary repo.
+
+        {read_more}")
+    )
   )
 }
 
@@ -652,7 +667,9 @@ cfg_theirs <- function(cfg) {
         The only configured GitHub remote is {ui_value(configured)}, which
         you cannot push to.
         If your goal is to make a pull request, you must fork-and-clone.
-        {ui_code('usethis::create_from_github()')} can do this.")
+        {ui_code('usethis::create_from_github()')} can do this.
+
+        {read_more}")
     )
   )
 }
@@ -672,7 +689,12 @@ cfg_maybe_ours_or_theirs <- function(cfg) {
       pr_ready = NA,
       desc = glue("
         {ui_value(configured)} is a GitHub repo and {ui_value(not_configured)} \\
-        is either not configured or is not a GitHub repo.")
+        is either not configured or is not a GitHub repo.
+
+        We may be offline or you may need to configure a GitHub personal access
+        token. {ui_code('gh_token_help()')} can help with that.
+
+        {read_more_maybe}")
     )
   )
 }
@@ -683,10 +705,11 @@ cfg_fork <- function(cfg) {
     list(
       type = "fork",
       pr_ready = TRUE,
-      # TODO: say whether user can push to parent / upstream?
       desc = glue("
         {ui_value('origin')} is a fork of {ui_value(cfg$upstream$repo_spec)}, \\
-        which is configured as the {ui_value('upstream')} remote.")
+        which is configured as the {ui_value('upstream')} remote.
+
+        {read_more}")
     )
   )
 }
@@ -701,8 +724,12 @@ cfg_maybe_fork <- function(cfg) {
         Both {ui_value('origin')} and {ui_value('upstream')} appear to be \\
         GitHub repos. However, we can't confirm their relationship to each \\
         other (e.g., fork and fork parent) or your permissions (e.g. push \\
-        access). We may be offline or you may need to configure a GitHub \\
-        personal access token.")
+        access).
+
+        We may be offline or you may need to configure a GitHub personal access
+        token. {ui_code('gh_token_help()')} can help with that.
+
+        {read_more_maybe}")
     )
   )
 }
@@ -714,7 +741,9 @@ cfg_fork_cannot_push_origin <- function(cfg) {
       type = "fork_cannot_push_origin",
       pr_ready = FALSE,
       desc = glue("
-        The {ui_value('origin')} remote is a fork, but you can't push to it.")
+        The {ui_value('origin')} remote is a fork, but you can't push to it.
+
+        {read_more}")
     )
   )
 }
@@ -727,7 +756,9 @@ cfg_fork_upstream_is_not_origin_parent <- function(cfg) {
       pr_ready = FALSE,
       desc = glue("
         The {ui_value('origin')} GitHub remote is a fork, but its parent is \\
-        not configured as the {ui_value('upstream')} remote.")
+        not configured as the {ui_value('upstream')} remote.
+
+        {read_more}")
     )
   )
 }
@@ -741,7 +772,9 @@ cfg_upstream_but_origin_is_not_fork <- function(cfg) {
       desc = glue("
         Both {ui_value('origin')} and {ui_value('upstream')} are GitHub \\
         remotes, but {ui_value('origin')} is not a fork and, in particular, \\
-        is not a fork of {ui_value('upstream')}.")
+        is not a fork of {ui_value('upstream')}.
+
+        {read_more}")
     )
   )
 }
