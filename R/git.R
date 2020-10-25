@@ -415,106 +415,148 @@ git_remotes <- function() {
 #' git_sitrep()
 #' }
 git_sitrep <- function() {
-  # git global ----------------------------------------------------------------
+  ui_silence(try(proj_get(), silent = TRUE))
+
+  # git (global / user) --------------------------------------------------------
   hd_line("Git config (global)")
   kv_line("Name", git_cfg_get("user.name", "global"))
   kv_line("Email", git_cfg_get("user.email", "global"))
-  kv_line("Vaccinated", git_vaccinated())
+  vaccinated <- git_vaccinated()
+  kv_line("Vaccinated", vaccinated)
+  if (!vaccinated) {
+    ui_info("See {ui_code('?git_vaccinate')} to learn more about this")
+  }
+  # TODO: Revisit when I harden the HTTPS default
+  kv_line("Default usethis protocol", getOption("usethis.protocol"))
 
-  # git project ---------------------------------------------------------------
+  # github (global / user) -----------------------------------------------------
+  hd_line("GitHub")
+  default_gh_host <- get_hosturl(default_api_url())
+  kv_line("Default GitHub host", default_gh_host)
+  pat_found <- pat_sitrep(host = default_gh_host)
+
+  # git and github for active project ------------------------------------------
+  hd_line("Git repo for current project")
+
+  if (!proj_active()) {
+    ui_info("No active usethis project")
+    return(invisible())
+  }
+  kv_line("Active usethis project", proj_get())
+  if (!uses_git()) {
+    ui_info("Active project is not a Git repo")
+    return(invisible())
+  }
+
+  # local git config -----------------------------------------------------------
   if (proj_active() && uses_git()) {
     local_user <- list(
       user.name = git_cfg_get("user.name", "local"),
       user.email = git_cfg_get("user.email", "local")
     )
     if (!is.null(local_user$user.name) || !is.null(local_user$user.name)) {
-      hd_line("Git config (project)")
-      kv_line("Name", git_cfg_get("user.name"))
-      kv_line("Email", git_cfg_get("user.email"))
+      ui_info("This repo has a locally configured user")
+      kv_line("Name", local_user$user.name)
+      kv_line("Email", local_user$user.email)
     }
   }
 
-  # usethis + gert + credentials -----------------------------------------------
-  hd_line("usethis + gert")
-  kv_line("Default usethis protocol", getOption("usethis.protocol"))
-  kv_line("gert supports HTTPS", gert::libgit2_config()$https)
-  kv_line("gert supports SSH", gert::libgit2_config()$ssh)
-  # TODO: forward more info from the credentials package when available
-  # https://github.com/r-lib/credentials/issues/6
+  # default branch -------------------------------------------------------------
+  kv_line("Default branch", git_branch_default())
 
-  # github user ---------------------------------------------------------------
-  hd_line("GitHub")
-  auth_token <- gh::gh_token()
-  have_token <- auth_token != ""
-  if (have_token) {
-    kv_line("Personal access token", "<discovered>")
-    tryCatch(
-      {
-        who <- gh::gh_whoami(auth_token)
-        kv_line("User", who$login)
-        kv_line("Name", who$name)
-      },
-      http_error_401 = function(e) ui_oops("Token is invalid."),
-      error = function(e) ui_oops("Can't validate token. Is the network reachable?")
-    )
-    tryCatch(
-      {
-        emails <- unlist(gh::gh("/user/emails", .token = auth_token))
-        emails <- emails[names(emails) == "email"]
-        kv_line("Email(s)", emails)
-      },
-      http_error_404 = function(e) kv_line("Email(s)", "<unknown>"),
-      error = function(e) ui_oops("Can't validate token. Is the network reachable?")
-    )
-  } else {
-    kv_line("Personal access token", NULL)
-  }
-
-  # repo overview -------------------------------------------------------------
-  hd_line("Repo")
-  ui_silence(try(proj_get(), silent = TRUE))
-  if (!proj_active()) {
-    ui_info("No active usethis project.")
-    return(invisible())
-  }
-
-  if (!uses_git()) {
-    ui_info("Active project is not a Git repo.")
-    return(invisible())
-  }
-
-  kv_line("Path", git_repo())
+  # current branch -------------------------------------------------------------
   branch <- tryCatch(git_branch(), error = function(e) NULL)
   tracking_branch <- if (is.null(branch)) NA_character_ else git_branch_tracking()
-  ## TODO: rework when ui_*() functions make it possible to do better
+  # TODO: can't really express with kv_line() helper
   branch <- if (is.null(branch)) "<unset>" else branch
   tracking_branch <- if (is.na(tracking_branch)) "<unset>" else tracking_branch
-  ui_inform(
-    "* ", "Local branch -> remote tracking branch: ",
-    ui_value(branch), " -> ", ui_value(tracking_branch)
-  )
+  # vertical alignment would make this nicer, but probably not worth it
+  ui_bullet(glue("
+    Current local branch -> remote tracking branch:
+    {ui_value(branch)} -> {ui_value(tracking_branch)}"), cli::symbol$star)
 
-  # PR outlook -------------------------------------------------------------
-  hd_line("GitHub pull request readiness")
-  # TODO: need to surface host more here
+  # GitHub remote config -------------------------------------------------------
   cfg <- github_remote_config()
-  if (cfg$type == "no_github") {
-    ui_info("
-      This repo has neither {ui_value('origin')} nor {ui_value('upstream')} \\
-      remote on GitHub.com.")
-    return(invisible())
+  repo_host <- cfg$host_url
+  if (!is.na(repo_host) && repo_host != default_gh_host) {
+    kv_line("Non-default GitHub host", repo_host)
+    pat_found <- pat_sitrep(host = repo_host)
   }
-  # TODO: make this more attractive
-  print(cfg)
+
+  hd_line("GitHub remote configuration")
+  purrr::walk(format(cfg), ~ ui_bullet(.x, cli::symbol$star))
+  invisible()
+}
+
+pat_sitrep <- function(host = "https://github.com") {
+  pat <- gh::gh_token(api_url = host)
+  have_pat <- pat != ""
+  if (!have_pat) {
+    kv_line("Personal access token for {ui_value(host)}", NULL)
+    ui_oops("
+      Call {ui_code('gh_token_help()')} for help configuring a token")
+    return(FALSE)
+  }
+
+  kv_line("Personal access token for {ui_value(host)}", "<discovered>")
+  tryCatch(
+    {
+      who <- gh::gh_whoami(.token = pat, .api_url = host)
+      kv_line("GitHub user", who$login)
+      scopes <- who$scopes
+      kv_line("Token scopes", who$scopes)
+      # https://docs.github.com/en/free-pro-team@latest/developers/apps/scopes-for-oauth-apps
+      # why these checks?
+      # previous defaults for create_github_token(): repo, gist, user:email
+      # more recently: repo, user, gist
+      # (gist scope is a very weak recommendation)
+      scopes <- strsplit(scopes, ", ")[[1]]
+      if (length(scopes) == 0 ||
+          !any(grepl("^repo$", scopes)) ||
+          !any(grepl("^user(:email)?$", scopes))) {
+        ui_oops("
+            Token may be mis-scoped: {ui_value('repo')} and \\
+            {ui_value('user')} are highly recommended scopes
+            If you are troubleshooting, consider this")
+      }
+    },
+    http_error_401 = function(e) ui_oops("Token is invalid"),
+    error = function(e) {
+      ui_oops("
+        Can't get user profile for this token. Is the network reachable?")
+    }
+  )
+  tryCatch(
+    {
+      emails <- gh::gh("/user/emails", .token = pat, .api_url = host)
+      addresses <- map_chr(
+        emails,
+        ~ if (.x$primary) glue_data(.x, "{email} (primary)") else .x[["email"]]
+      )
+      kv_line("Email(s)", addresses)
+      de_facto_email <- git_cfg_get("user.email", "de_facto")
+      if (!any(grepl(de_facto_email, addresses))) {
+        ui_oops("
+          User's Git email ({ui_value(de_facto_email)}) doesn't appear to be \\
+          registered with GitHub")
+      }
+    },
+    error = function(e) {
+      ui_oops("
+        Can't retrieve registered email address(es)
+        If you are troubleshooting, check GitHub host, token, and token scopes")
+    }
+  )
+  TRUE
 }
 
 # Vaccination -------------------------------------------------------------
 
 #' Vaccinate your global gitignore file
 #'
-#' Adds `.DS_Store`, `.Rproj.user`, `.Rdata`, and `.Rhistory` to your global
-#' (a.k.a. user-level) `.gitignore`. This is good practice as it decreases the
-#' chance that you will accidentally leak credentials to GitHub.
+#' Adds `.DS_Store`, `.Rproj.user`, `.Rdata`, `.Rhistory`, and `.httr-oauth` to
+#' your global (a.k.a. user-level) `.gitignore`. This is good practice as it
+#' decreases the chance that you will accidentally leak credentials to GitHub.
 #'
 #' @export
 git_vaccinate <- function() {
@@ -536,5 +578,6 @@ git_global_ignore <- c(
   ".Rproj.user",
   ".Rhistory",
   ".Rdata",
+  ".httr-oauth",
   ".DS_Store"
 )

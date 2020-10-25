@@ -7,7 +7,7 @@
 \title{Get help with GitHub personal access tokens}
 \usage{
 create_github_token(
-  scopes = c("repo", "gist", "user:email"),
+  scopes = c("repo", "user", "gist"),
   description = "R:GITHUB_PAT",
   host = NULL
 )

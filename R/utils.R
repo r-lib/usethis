@@ -61,11 +61,6 @@ interactive <- function() {
   )
 }
 
-indent <- function(x, first = "  ", indent = first) {
-  x <- gsub("\n", paste0("\n", indent), x)
-  paste0(first, x)
-}
-
 isFALSE = function(x) {
   identical(x, FALSE)
 }
