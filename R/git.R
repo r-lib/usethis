@@ -473,7 +473,7 @@ git_sitrep <- function() {
   # vertical alignment would make this nicer, but probably not worth it
   ui_bullet(glue("
     Current local branch -> remote tracking branch:
-    {ui_value(branch)} -> {ui_value(tracking_branch)}"), cli::symbol$star)
+    {ui_value(branch)} -> {ui_value(tracking_branch)}"))
 
   # GitHub remote config -------------------------------------------------------
   cfg <- github_remote_config()
@@ -484,7 +484,7 @@ git_sitrep <- function() {
   }
 
   hd_line("GitHub remote configuration")
-  purrr::walk(format(cfg), ~ ui_bullet(.x, cli::symbol$star))
+  purrr::walk(format(cfg), ui_bullet)
   invisible()
 }
 

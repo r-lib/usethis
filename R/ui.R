@@ -319,5 +319,5 @@ hd_line <- function(name) {
 kv_line <- function(key, value, .envir = parent.frame()) {
   value <- if (is.null(value)) ui_unset() else ui_value(value)
   key <- glue(key, .envir = .envir)
-  ui_inform(glue("{cli::symbol$star} {key}: {value}"))
+  ui_inform(glue("{cli::symbol$bullet} {key}: {value}"))
 }
