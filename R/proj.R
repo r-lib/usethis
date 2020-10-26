@@ -116,10 +116,10 @@ with_project <- function(path = ".",
   force(code)
 }
 
-#' @describeIn proj_utils Sets an active project and working directory until the
-#'   current execution environment goes out of scope, e.g. the end of the
-#'   current function or test.  It is an example of the `local_*()` functions in
-#'   [withr](https://withr.r-lib.org).
+#' @describeIn proj_utils Sets an active project and, optionally, working
+#'   directory until the current execution environment goes out of scope, e.g.
+#'   the end of the current function or test.  It is an example of the
+#'   `local_*()` functions in [withr](https://withr.r-lib.org).
 #' @param .local_envir The environment to use for scoping. Defaults to current
 #'   execution environment.
 #' @export

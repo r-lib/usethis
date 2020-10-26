@@ -89,10 +89,10 @@ attempts to set it in the first place.
 optionally, working directory. It is an example of the \verb{with_*()} functions
 in \href{https://withr.r-lib.org}{withr}.
 
-\item \code{local_project}: Sets an active project and working directory until the
-current execution environment goes out of scope, e.g. the end of the
-current function or test.  It is an example of the \verb{local_*()} functions in
-\href{https://withr.r-lib.org}{withr}.
+\item \code{local_project}: Sets an active project and, optionally, working
+directory until the current execution environment goes out of scope, e.g.
+the end of the current function or test.  It is an example of the
+\verb{local_*()} functions in \href{https://withr.r-lib.org}{withr}.
 }}
 
 \examples{
