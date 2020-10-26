@@ -128,7 +128,7 @@ test_that("proj_sitrep() reports current working/project state", {
 
 test_that("with_project() runs code in temp proj, restores (lack of) proj", {
   old_project <- proj_get_()
-  on.exit(proj_set_(old_project))
+  withr::defer(proj_set_(old_project))
 
   temp_proj <- create_project(
     file_temp(pattern = "TEMPPROJ"),
