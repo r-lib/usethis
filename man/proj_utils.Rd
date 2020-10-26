@@ -19,12 +19,14 @@ with_project(
   path = ".",
   code,
   force = FALSE,
+  setwd = TRUE,
   quiet = getOption("usethis.quiet", default = FALSE)
 )
 
 local_project(
   path = ".",
   force = FALSE,
+  setwd = TRUE,
   quiet = getOption("usethis.quiet", default = FALSE),
   .local_envir = parent.frame()
 )
@@ -44,10 +46,13 @@ namely that only length 1 arguments are recycled.}
 
 \item{ext}{An optional extension to append to the generated path.}
 
-\item{code}{Code to run with temporary active project.}
+\item{code}{Code to run with temporary active project}
+
+\item{setwd}{Whether to also temporarily set the working directory to the
+active project, if it is not \code{NULL}}
 
 \item{quiet}{Whether to suppress user-facing messages, while operating in the
-temporary active project.}
+temporary active project}
 
 \item{.local_envir}{The environment to use for scoping. Defaults to current
 execution environment.}
@@ -80,13 +85,14 @@ attempts to set it in the first place.
 \item \code{proj_path}: Builds a path within the active project returned by
 \code{proj_get()}. Thin wrapper around \code{\link[fs:path]{fs::path()}}.
 
-\item \code{with_project}: Runs code with a temporary active project. It is an
-example of the \verb{with_*()} functions in \href{https://withr.r-lib.org}{withr}.
+\item \code{with_project}: Runs code with a temporary active project and,
+optionally, working directory. It is an example of the \verb{with_*()} functions
+in \href{https://withr.r-lib.org}{withr}.
 
-\item \code{local_project}: Sets an active project until the current execution
-environment goes out of scope, e.g. the end of the current function or
-test.  It is an example of the \verb{local_*()} functions in
-\href{https://withr.r-lib.org}{withr}.
+\item \code{local_project}: Sets an active project and, optionally, working
+directory until the current execution environment goes out of scope, e.g.
+the end of the current function or test.  It is an example of the
+\verb{local_*()} functions in \href{https://withr.r-lib.org}{withr}.
 }}
 
 \examples{
