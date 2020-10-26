@@ -82,6 +82,38 @@ create_github_token <- function(scopes = c("repo", "user", "gist"),
 #' gh_token_help()
 #' }
 gh_token_help <- function(host = NULL) {
-  ui_info("more coming soon! for now, here's the token gh discovers:")
-  gh::gh_token(api_url = host)
+  host_url <- get_hosturl(host %||% default_api_url())
+  kv_line("GitHub host", host_url)
+
+  bare_host <- sub("^https?://(.*)$", "\\1", host_url)
+  online <- is_online(bare_host)
+  kv_line("Host online", online)
+
+  if (!online) {
+    ui_oops("
+      It is difficult to solve personal access token problems while offline
+      Try again when {ui_value(host_url)} can be reached")
+    return(invisible())
+  }
+
+  pat <- gh::gh_token(api_url = host_url)
+  have_pat <- pat != ""
+  if (have_pat) {
+    kv_line("Personal access token for {ui_value(host_url)}", "<discovered>")
+    host_hint <- if (is_github_dot_com(host_url)) "" else glue(".api_url = {host_url}")
+    code_hint <- glue("gh::gh_whoami({host_hint})")
+    ui_info("
+      Call {ui_code(code_hint)} to see info about your token, e.g. the associated user")
+    code_hint <- glue("gitcreds::gitcreds_set({host_hint})")
+    ui_info("To see or update the token, call {ui_code(code_hint)}")
+    ui_done("If those results are OK, you are good go to!")
+    return(invisible())
+  }
+  ui_oops("No personal access token found for {ui_value(host_url)}")
+
+  ui_todo("
+    To create a personal access token, call {ui_code('create_github_token()')}")
+  ui_todo("
+    To store a token for current and future use, call \\
+    {ui_code('gitcreds::gitcreds_set()')}")
 }
