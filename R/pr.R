@@ -537,9 +537,10 @@ pr_finish <- function(number = NULL) {
     return(invisible())
   }
 
-  remote <- remref_remote(tracking_branch)
   # delete remote branch, if have permission and PR is merged
-  if (remote == "origin") {
+  remote <- remref_remote(tracking_branch)
+  remote_dat <- github_remotes(remote)
+  if (isTRUE(remote_dat$can_push)) {
     if (is.null(number)) {
       pr <- pr_find(branch, tr = tr, state = "all")
     } else {
@@ -627,16 +628,30 @@ pr_find <- function(branch = git_branch(),
     return(pr_get(number = sub("^.+pull/", "", url), tr = tr))
   }
 
-  state <- match.arg(state)
-  pr_dat <- pr_list(tr = tr, state = state)
-  m <- match(branch, pr_dat$pr_local_branch)
-  if (!is.na(m)) {
-    url <- pr_dat$pr_html_url[[m]]
-    gert::git_config_set(config_url, url, repo = git_repo())
-    return(as.list(pr_dat[m, ]))
+  tracking_branch <- git_branch_tracking(branch)
+  if (is.na(tracking_branch)) {
+    return(NULL)
   }
 
-  NULL
+  state <- match.arg(state)
+  remote <- remref_remote(tracking_branch)
+  remote_dat <- github_remotes(remote)
+  pr_dat <- pr_list(
+    tr = tr,
+    state = state,
+    head = glue("{remote_dat$repo_owner}:{remref_branch(tracking_branch)}")
+  )
+  if (nrow(pr_dat) == 0) {
+    return(NULL)
+  }
+  if (nrow(pr_dat) > 1) {
+    ui_stop("
+      Branch {ui_value(branch)} is associated with multiple PRs: \\
+      {ui_value(paste0('#', pr_dat$pr_number))}")
+  }
+  url <- pr_dat$pr_html_url
+  gert::git_config_set(config_url, url, repo = git_repo())
+  as.list(pr_dat)
 }
 
 pr_url <- function(branch = git_branch(),
@@ -702,13 +717,14 @@ pr_data_tidy <- function(pr) {
 
 pr_list <- function(tr = NULL,
                     github_get = NA,
-                    state = c("open", "closed", "all")) {
+                    state = c("open", "closed", "all"),
+                    head = NULL) {
   tr <- tr %||% target_repo(github_get = github_get, ask = FALSE)
   state <- match.arg(state)
   safely_gh <- purrr::safely(gh::gh, otherwise = NULL)
   out <- safely_gh(
     "GET /repos/:owner/:repo/pulls",
-    owner = tr$repo_owner, repo = tr$repo_name, state = state,
+    owner = tr$repo_owner, repo = tr$repo_name, state = state, head = head,
     .limit = Inf, .api_url = tr$api_url
   )
   if (!is.null(out$error)) {
