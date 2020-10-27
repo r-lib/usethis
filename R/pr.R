@@ -618,6 +618,8 @@ pr_create <- function() {
   view_url(glue("{origin$host_url}/{origin$repo_spec}/compare/{branch}"))
 }
 
+# retrieves 1 PR, if we can establish a tracking relationship between
+# `branch` and a PR branch
 pr_find <- function(branch = git_branch(),
                     tr = NULL,
                     state = c("open", "closed", "all")) {
@@ -649,8 +651,7 @@ pr_find <- function(branch = git_branch(),
       Branch {ui_value(branch)} is associated with multiple PRs: \\
       {ui_value(paste0('#', pr_dat$pr_number))}")
   }
-  url <- pr_dat$pr_html_url
-  gert::git_config_set(config_url, url, repo = git_repo())
+  gert::git_config_set(config_url, pr_dat$pr_html_url, repo = git_repo())
   as.list(pr_dat)
 }
 
@@ -747,6 +748,7 @@ pr_list <- function(tr = NULL,
   }
 }
 
+# retrieves specific PR by number
 pr_get <- function(number, tr = NULL, github_get = NA) {
   tr <- tr %||% target_repo(github_get = github_get, ask = FALSE)
   raw <- gh::gh(
