@@ -612,10 +612,12 @@ pr_pull_source_override <- function(tr = NULL) {
 }
 
 pr_create <- function() {
-  origin <-  github_remote_list("origin")
   branch <- git_branch()
+  tracking_branch <- git_branch_tracking(branch)
+  remote <- remref_remote(tracking_branch)
+  remote_dat <- github_remotes(remote, github_get = FALSE)
   ui_done("Create PR at link given below")
-  view_url(glue("{origin$host_url}/{origin$repo_spec}/compare/{branch}"))
+  view_url(glue_data(remote_dat, "{host_url}/{repo_spec}/compare/{branch}"))
 }
 
 # retrieves 1 PR, if we can establish a tracking relationship between
