@@ -552,7 +552,7 @@ pr_finish <- function(number = NULL) {
           PR {ui_value(pr$pr_string)} has been merged, \\
           deleting remote branch {ui_value(tracking_branch)}")
         gert::git_push(
-          remote = "origin",
+          remote = remote,
           refspec = glue(":refs/heads/{remref_branch(tracking_branch)}"),
           verbose = FALSE,
           repo = repo
