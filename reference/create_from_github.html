@@ -368,6 +368,12 @@ without the need for any local or remote Git operations</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'>create_from_github</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span><span class='op'>)</span>
+
+<span class='co'># repo_spec can be a URL</span>
+<span class='fu'>create_from_github</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/usethis"</span><span class='op'>)</span>
+
+<span class='co'># a URL repo_spec also specifies the host (e.g. GitHub Enterprise instance)</span>
+<span class='fu'>create_from_github</span><span class='op'>(</span><span class='st'>"https://github.acme.com/OWNER/repo"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
