@@ -225,7 +225,7 @@ See <code><a href='github-token.html'>gh_token_help()</a></code> for more advice
 <li><p>Plain <code>OWNER/REPO</code> spec</p></li>
 <li><p>Browser URL, such as <code>"https://github.com/OWNER/REPO"</code></p></li>
 <li><p>HTTPS Git URL, such as <code>"https://github.com/OWNER/REPO.git"</code></p></li>
-<li><p>SSH Git URL, such as <code>"git@github.com:r-lib/usethis.git"</code></p></li>
+<li><p>SSH Git URL, such as <code>"git@github.com:OWNER/REPO.git"</code></p></li>
 </ul>
 
 <p>In the case of a browser, HTTPS, or SSH URL, the <code>host</code> is extracted from
@@ -373,7 +373,7 @@ without the need for any local or remote Git operations</p></li>
 <span class='fu'>create_from_github</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/usethis"</span><span class='op'>)</span>
 
 <span class='co'># a URL repo_spec also specifies the host (e.g. GitHub Enterprise instance)</span>
-<span class='fu'>create_from_github</span><span class='op'>(</span><span class='st'>"https://github.acme.com/OWNER/repo"</span><span class='op'>)</span>
+<span class='fu'>create_from_github</span><span class='op'>(</span><span class='st'>"https://github.acme.com/OWNER/REPO"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
