@@ -105,7 +105,6 @@ deprecate_warn_credentials <- function(whos_asking, details = NULL) {
 #'
 #' \lifecycle{defunct}
 #'
-
 #' In usethis v2.0.0, usethis switched from git2r to gert (+ credentials) for
 #' all Git operations. This pair of packages (gert + credentials) is designed to
 #' discover and use the same credentials as command line Git. As a result, a
@@ -117,9 +116,10 @@ deprecate_warn_credentials <- function(whos_asking, details = NULL) {
 #' vignette](https://cran.r-project.org/web/packages/credentials/vignettes/intro.html)
 #' is a good place to start.
 #'
-#' If you use the HTTPS protocol, a configured `GITHUB_PAT` will satisfy all
-#' auth needs, for both Git and the GitHub API, and is therefore the easiest
-#' approach to get working. See [create_github_token()] for more.
+#' If you use the HTTPS protocol (which we recommend), a GitHub personal access
+#' token will satisfy all auth needs, for both Git and the GitHub API, and is
+#' therefore the easiest approach to get working. See [gh_token_help()] for
+#' more.
 #'
 #' @param protocol Deprecated.
 #' @param auth_token Deprecated.

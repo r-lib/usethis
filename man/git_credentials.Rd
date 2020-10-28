@@ -32,7 +32,8 @@ If you have credential problems, focus your troubleshooting on getting the
 credentials package to find your credentials. The \href{https://cran.r-project.org/web/packages/credentials/vignettes/intro.html}{introductory vignette}
 is a good place to start.
 
-If you use the HTTPS protocol, a configured \code{GITHUB_PAT} will satisfy all
-auth needs, for both Git and the GitHub API, and is therefore the easiest
-approach to get working. See \code{\link[=create_github_token]{create_github_token()}} for more.
+If you use the HTTPS protocol (which we recommend), a GitHub personal access
+token will satisfy all auth needs, for both Git and the GitHub API, and is
+therefore the easiest approach to get working. See \code{\link[=gh_token_help]{gh_token_help()}} for
+more.
 }
