@@ -154,6 +154,12 @@ is a good place to start.
 \examples{
 \dontrun{
 create_from_github("r-lib/usethis")
+
+# repo_spec can be a URL
+create_from_github("https://github.com/r-lib/usethis")
+
+# a URL repo_spec also specifies the host (e.g. GitHub Enterprise instance)
+create_from_github("https://github.acme.com/OWNER/repo")
 }
 }
 \seealso{
