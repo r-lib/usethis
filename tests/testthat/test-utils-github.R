@@ -44,6 +44,45 @@ test_that("parse_github_remotes() works for length zero input", {
   )
 })
 
+test_that("parse_repo_url() passes a naked repo spec through", {
+  out <- parse_repo_url("OWNER/REPO")
+  expect_equal(
+    out,
+    list(repo_spec = "OWNER/REPO", host = NULL)
+  )
+})
+
+test_that("parse_repo_url() handles GitHub remote URLs", {
+  urls <- list(
+    https      = "https://github.com/OWNER/REPO.git",
+    ghe        = "https://github.acme.com/OWNER/REPO.git",
+    browser    = "https://github.com/OWNER/REPO",
+    ssh        = "git@github.com:OWNER/REPO.git"
+  )
+  out <- map(urls, parse_repo_url)
+  expect_match(map_chr(out, "repo_spec"), "OWNER/REPO", fixed = TRUE)
+  out_host <- map_chr(out, "host")
+  expect_match(
+    out_host[c("https", "browser", "ssh")],
+    "https://github.com",
+    fixed = TRUE
+  )
+  expect_equal(out_host[["ghe"]], "https://github.acme.com")
+})
+
+test_that("parse_repo_url() errors for non-GitHub remote URLs", {
+  urls <- list(
+    gitlab1    = "https://gitlab.com/OWNER/REPO.git",
+    gitlab2    = "git@gitlab.com:OWNER/REPO.git",
+    bitbucket1 = "https://bitbucket.org/OWNER/REPO.git",
+    bitbucket2 = "git@bitbucket.org:OWNER/REPO.git"
+  )
+  safely_parse_repo_url <- purrr::safely(parse_repo_url)
+  out <- map(urls, safely_parse_repo_url)
+  out_result <- map(out, "result")
+  expect_true(all(map_lgl(out_result, is.null)))
+})
+
 test_that("github_remote_list() works", {
   create_local_project()
   use_git()

@@ -22,6 +22,19 @@ make_spec <- function(owner = NA, repo = NA) {
 # https://stackoverflow.com/questions/2514859/regular-expression-for-git-repository
 # https://git-scm.com/docs/git-clone#_git_urls
 # https://stackoverflow.com/questions/27745/getting-parts-of-a-url-regex
+github_remote_regex <- paste0(
+  "^",
+  "(?<prefix>git|ssh|http[s]?)",
+  "[:/@]+",
+  "(?<host>[^/:]+)",
+  "[/:]",
+  "(?<repo_owner>[^/]+)",
+  "/",
+  "(?<repo_name>[^/#]+)",
+  "(?<fragment>.*)",
+  "$"
+)
+
 parse_github_remotes <- function(x) {
   # https://github.com/r-lib/usethis
   #                                    --> https, github.com,      rlib, usethis
@@ -35,25 +48,31 @@ parse_github_remotes <- function(x) {
   #                                    --> https, github.acme.com, rlib, usethis
   # git@github.com:r-lib/usethis.git
   #                                    --> ssh,   github.com,      rlib, usethis
-  re <- paste0(
-    "^",
-    "(?<prefix>git|ssh|http[s]?)",
-    "[:/@]+",
-    "(?<host>[^/:]+)",
-    "[/:]",
-    "(?<repo_owner>[^/]+)",
-    "/",
-    "(?<repo_name>[^/#]+)",
-    "(?<fragment>.*)",
-    "$"
-  )
-  dat <- rematch2::re_match(x, re)
+  dat <- rematch2::re_match(x, github_remote_regex)
   dat$url <- dat$.text
   # as.character() necessary for edge case of length-0 input
   dat$protocol <- as.character(ifelse(dat$prefix == "https", "https", "ssh"))
   dat$name <- if (rlang::is_named(x)) names(x) else NA_character_
   dat$repo_name <- sub("[.]git$", "", dat$repo_name)
   dat[c("name", "url", "host", "repo_owner", "repo_name", "protocol")]
+}
+
+parse_repo_url <- function(x) {
+  stopifnot(is_string(x))
+  dat <- rematch2::re_match(x, github_remote_regex)
+  if (is.na(dat$.match)) {
+    list(repo_spec = x, host = NULL)
+  } else {
+    dat <- parse_github_remotes(x)
+    # TODO: generalize here for GHE hosts that don't include 'github'
+    if (!grepl("github", dat$host)) {
+      ui_stop("URL doesn't seem to be associated with GitHub: {ui_value(x)}")
+    }
+    list(
+      repo_spec = make_spec(owner = dat$repo_owner, repo = dat$repo_name),
+      host = glue("https://{dat$host}")
+    )
+  }
 }
 
 github_remote_from_description <- function(desc) {
