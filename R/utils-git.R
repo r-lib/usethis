@@ -310,7 +310,7 @@ check_branch_up_to_date <- function(direction = c("pull", "push"),
     if (comparison$local_only == 0) {
       return(invisible())
     } else {
-      #TODO: consider offering to push for them?
+      # TODO: consider offering to push for them?
       ui_stop("
         Local branch {ui_value(branch)} is ahead of {ui_value(remref)} by \\
         {comparison$local_only} commit(s).

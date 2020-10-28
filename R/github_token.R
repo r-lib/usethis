@@ -65,12 +65,11 @@ create_github_token <- function(scopes = c("repo", "user", "gist"),
   )
   withr::defer(view_url(url))
 
-  # TODO: revisit when I have better advice
   ui_todo("
     Call {ui_code('gitcreds::gitcreds_set()')} to register this token in the \\
-    local Git credential store.
+    local Git credential store
     It is also a great idea to store this token in any password-management \\
-    software that you use.")
+    software that you use")
   invisible()
 }
 
