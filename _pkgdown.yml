@@ -42,7 +42,7 @@ navbar:
 reference:
   - title: Create
     desc: >
-      Create a project de novo or from an existing source, either local or remote
+      Create a project *de novo* or from an existing source, either local or remote
     contents:
     - create_package
     - create_from_github
