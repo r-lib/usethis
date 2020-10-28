@@ -117,11 +117,6 @@
 #' into the current local branch. This can be used when the local branch is the
 #' default branch or when it's a PR branch.
 
-#' * `pr_sync()` = `pr_pull() + pr_merge_main() + pr_push()`. In words, grab any
-#' remote changes in the PR and merge then into your local work. Then merge in
-#' any changes from the default branch of the primary repo. Finally, push the
-#' result of all this back into the PR.
-
 #' * `pr_pause()`: Makes sure you're up-to-date with any remote changes in the
 #' PR. Then switches back to the default branch (usually named `main` or
 #' `master`) and pulls from the source repo.
@@ -423,24 +418,6 @@ pr_merge_main <- function() {
     Pulling in changes from default branch of the source repo \\
     {ui_value(remref)}")
   git_pull(remref, verbose = FALSE)
-}
-
-#' @export
-#' @rdname pull-requests
-pr_sync <- function() {
-  check_pr_branch()
-  # no check re: cfg, because functions below do that (several times, in fact)
-  branch <- git_branch()
-  tracking_branch <- git_branch_tracking(branch)
-  if (is.na(tracking_branch)) {
-    ui_stop("
-      Branch {ui_value(branch)} has no remote tracking branch to sync with.
-      Do you need to call {ui_code('pr_push()')} for the first time?")
-  }
-
-  pr_pull()
-  pr_merge_main()
-  pr_push()
 }
 
 #' @export

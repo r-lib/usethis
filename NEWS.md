@@ -82,6 +82,8 @@ There is increasing interest in making the name of a repo's default branch confi
 
 `issue_close_community()` and `issue_reprex_needed()` are two new functions for maintainers who process lots of GitHub issues. They automate canned replies and actions, e.g. labelling or closing (#940).
 
+`pr_sync()` is defunct and can be replicated by calling `pr_pull()`, `pr_merge_main()`, then `pr_push()`.
+
 ## Licensing improvements
 
 * All `use_*_license()` functions now work for projects, not just packages.

@@ -3,12 +3,15 @@
 \name{usethis-defunct}
 \alias{usethis-defunct}
 \alias{pr_pull_upstream}
+\alias{pr_sync}
 \alias{browse_github_token}
 \alias{browse_github_pat}
 \alias{github_token}
 \title{Defunct and deprecated functions in usethis}
 \usage{
 pr_pull_upstream()
+
+pr_sync()
 
 browse_github_token(...)
 
@@ -22,6 +25,19 @@ These functions have either been deprecated or removed from usethis.
 \section{\code{pr_pull_upstream()}}{
 
 This function has been replaced by \code{\link[=pr_merge_main]{pr_merge_main()}}.
+}
+
+\section{\code{pr_sync()}}{
+
+Bundling these operations together did not seem justified, in terms of how
+rarely this comes up and, when it does, how likely merge conflicts are.
+Users of \code{pr_sync()} should implement these steps "by hand":
+\itemize{
+\item (Check you are on a PR branch)
+\item \code{pr_pull()}
+\item \code{pr_merge_main()}, deal with any merge conflicts, if any
+\item \code{pr_push()}
+}
 }
 
 \section{\code{browse_github_token()}, \code{browse_github_pat()}}{

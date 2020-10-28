@@ -86,8 +86,6 @@ Which GitHub remote configs the `pr_*()` functions accept, plus how and why they
     therefore accept "maybe" configs. Similar reasoning to `pr_resume()`: it
     seems like it should work, .e.g., offline, since it's mostly about switching
     branches. Eventually calls `pr_pull_source_override()`.
-  * `pr_sync()` does not direct config check, because it calls several functions
-    that do that. I'm seriously considering removing this function.
   * `pr_view()` gets target repo with `github_get = NA`, so it works for "maybe"
     configs. Seems low stakes enough to not be too picky.
   * `pr_fetch()`, `pr_pull()`, `pr_merge_main()`, `pr_finish()`, all require

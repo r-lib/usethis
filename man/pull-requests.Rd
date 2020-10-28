@@ -8,7 +8,6 @@
 \alias{pr_push}
 \alias{pr_pull}
 \alias{pr_merge_main}
-\alias{pr_sync}
 \alias{pr_view}
 \alias{pr_pause}
 \alias{pr_finish}
@@ -25,8 +24,6 @@ pr_push()
 pr_pull()
 
 pr_merge_main()
-
-pr_sync()
 
 pr_view(number = NULL)
 
@@ -161,10 +158,6 @@ back into your local work.
 \item \code{pr_merge_main()}: Pulls changes from the default branch of the source repo
 into the current local branch. This can be used when the local branch is the
 default branch or when it's a PR branch.
-\item \code{pr_sync()} = \code{pr_pull() + pr_merge_main() + pr_push()}. In words, grab any
-remote changes in the PR and merge then into your local work. Then merge in
-any changes from the default branch of the primary repo. Finally, push the
-result of all this back into the PR.
 \item \code{pr_pause()}: Makes sure you're up-to-date with any remote changes in the
 PR. Then switches back to the default branch (usually named \code{main} or
 \code{master}) and pulls from the source repo.

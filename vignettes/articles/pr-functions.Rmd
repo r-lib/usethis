@@ -309,6 +309,10 @@ in this PR scenario:
 
 - `pr_merge_main()` is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you're working in a fork, this does `git pull upstream master`. If you're making a PR from an internal branch, this does `git pull origin master`. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the `master` branch. This makes sure that your copy of the package is up-to-date with the source repo.
 
+<!--
 - `pr_sync()` is a helpful shortcut for pulling changes from the PR (`pr_pull()`), merging in the main line of development (`pr_merge_main()`), and pushing all these changes back into our PR (`pr_push()`). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the `master` branch.
+-->
 
 - `pr_pause()` makes sure you're synced with the PR and then switches back to the `master` branch. This is likely something a package maintainer reviewing numerous PRs will need to use as they switch back and forth from review to working on `master` to another review.
+
+- `pr_resume()`

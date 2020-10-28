@@ -18,6 +18,29 @@ pr_pull_upstream <- function() {
   )
 }
 
+#' @section `pr_sync()`:
+#' Bundling these operations together did not seem justified, in terms of how
+#' rarely this comes up and, when it does, how likely merge conflicts are.
+#' Users of `pr_sync()` should implement these steps "by hand":
+#' * (Check you are on a PR branch)
+#' * `pr_pull()`
+#' * `pr_merge_main()`, deal with any merge conflicts, if any
+#' * `pr_push()`
+#' @export
+#' @rdname usethis-defunct
+pr_sync <- function() {
+  details <- glue("
+    Sync a PR with:
+      * {ui_code('pr_pull()')}
+      * {ui_code('pr_merge_main()')}
+      * {ui_code('pr_pull()')}")
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "pr_sync()",
+    details = details
+  )
+}
+
 #' @section `browse_github_token()`, `browse_github_pat()`:
 #' These functions have been replaced by [create_github_token()].
 #' @rdname usethis-defunct
