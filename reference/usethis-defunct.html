@@ -190,6 +190,8 @@
 
     <pre class="usage"><span class='fu'>pr_pull_upstream</span><span class='op'>(</span><span class='op'>)</span>
 
+<span class='fu'>pr_sync</span><span class='op'>(</span><span class='op'>)</span>
+
 <span class='fu'>browse_github_token</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>browse_github_pat</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
@@ -202,6 +204,19 @@
     
 
 <p>This function has been replaced by <code><a href='pull-requests.html'>pr_merge_main()</a></code>.</p>
+    <h2 class="hasAnchor" id="pr-sync-"><a class="anchor" href="#pr-sync-"></a><code>pr_sync()</code></h2>
+
+    
+
+<p>Bundling these operations together did not seem justified, in terms of how
+rarely this comes up and, when it does, how likely merge conflicts are.
+Users of <code>pr_sync()</code> should implement these steps "by hand":</p><ul>
+<li><p>(Check you are on a PR branch)</p></li>
+<li><p><code><a href='pull-requests.html'>pr_pull()</a></code></p></li>
+<li><p><code><a href='pull-requests.html'>pr_merge_main()</a></code>, deal with any merge conflicts, if any</p></li>
+<li><p><code><a href='pull-requests.html'>pr_push()</a></code></p></li>
+</ul>
+
     <h2 class="hasAnchor" id="browse-github-token-browse-github-pat-"><a class="anchor" href="#browse-github-token-browse-github-pat-"></a><code>browse_github_token()</code>, <code>browse_github_pat()</code></h2>
 
     

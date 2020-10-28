@@ -234,8 +234,6 @@ various remote operations. See below for more.</p>
 
 <span class='fu'>pr_merge_main</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>pr_sync</span><span class='op'>(</span><span class='op'>)</span>
-
 <span class='fu'>pr_view</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='fu'>pr_pause</span><span class='op'>(</span><span class='op'>)</span>
@@ -350,10 +348,6 @@ back into your local work.</p></li>
 <li><p><code>pr_merge_main()</code>: Pulls changes from the default branch of the source repo
 into the current local branch. This can be used when the local branch is the
 default branch or when it's a PR branch.</p></li>
-<li><p><code>pr_sync()</code> = <code>pr_pull() + pr_merge_main() + pr_push()</code>. In words, grab any
-remote changes in the PR and merge then into your local work. Then merge in
-any changes from the default branch of the primary repo. Finally, push the
-result of all this back into the PR.</p></li>
 <li><p><code>pr_pause()</code>: Makes sure you're up-to-date with any remote changes in the
 PR. Then switches back to the default branch (usually named <code>main</code> or
 <code>master</code>) and pulls from the source repo.</p></li>

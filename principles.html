@@ -260,8 +260,6 @@
 <li>
 <code><a href="reference/pull-requests.html">pr_pause()</a></code> calls <code>target_repo(github_get = FALSE, ask = FALSE)</code> and will therefore accept “maybe” configs. Similar reasoning to <code><a href="reference/pull-requests.html">pr_resume()</a></code>: it seems like it should work, .e.g., offline, since it’s mostly about switching branches. Eventually calls <code>pr_pull_source_override()</code>.</li>
 <li>
-<code><a href="reference/pull-requests.html">pr_sync()</a></code> does not direct config check, because it calls several functions that do that. I’m seriously considering removing this function.</li>
-<li>
 <code><a href="reference/pull-requests.html">pr_view()</a></code> gets target repo with <code>github_get = NA</code>, so it works for “maybe” configs. Seems low stakes enough to not be too picky.</li>
 <li>
 <code><a href="reference/pull-requests.html">pr_fetch()</a></code>, <code><a href="reference/pull-requests.html">pr_pull()</a></code>, <code><a href="reference/pull-requests.html">pr_merge_main()</a></code>, <code><a href="reference/pull-requests.html">pr_finish()</a></code>, all require “ours” or “fork”, via an early call to <code>target_repo(github_get = TRUE)</code> or <code>check_ours_or_fork()</code>. They could probably work for other configs, e.g., “theirs”, but it’s not worth the added complexity.</li>

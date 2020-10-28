@@ -378,9 +378,14 @@ div.output pre { background-color:#FFFFFF; }
 <a href="#other-helpful-functions" class="anchor"></a>Other helpful functions</h2>
 <p>There are a few other functions in the <code>pr_*()</code> family that we didn’t encounter in this PR scenario:</p>
 <ul>
-<li><p><code><a href="../../reference/pull-requests.html">pr_merge_main()</a></code> is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you’re working in a fork, this does <code>git pull upstream master</code>. If you’re making a PR from an internal branch, this does <code>git pull origin master</code>. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the <code>master</code> branch. This makes sure that your copy of the package is up-to-date with the source repo.</p></li>
-<li><p><code><a href="../../reference/pull-requests.html">pr_sync()</a></code> is a helpful shortcut for pulling changes from the PR (<code><a href="../../reference/pull-requests.html">pr_pull()</a></code>), merging in the main line of development (<code><a href="../../reference/pull-requests.html">pr_merge_main()</a></code>), and pushing all these changes back into our PR (<code><a href="../../reference/pull-requests.html">pr_push()</a></code>). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the <code>master</code> branch.</p></li>
+<li>
+<code><a href="../../reference/pull-requests.html">pr_merge_main()</a></code> is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you’re working in a fork, this does <code>git pull upstream master</code>. If you’re making a PR from an internal branch, this does <code>git pull origin master</code>. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the <code>master</code> branch. This makes sure that your copy of the package is up-to-date with the source repo.</li>
+</ul>
+<!--
+- `pr_sync()` is a helpful shortcut for pulling changes from the PR (`pr_pull()`), merging in the main line of development (`pr_merge_main()`), and pushing all these changes back into our PR (`pr_push()`). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the `master` branch.
+--><ul>
 <li><p><code><a href="../../reference/pull-requests.html">pr_pause()</a></code> makes sure you’re synced with the PR and then switches back to the <code>master</code> branch. This is likely something a package maintainer reviewing numerous PRs will need to use as they switch back and forth from review to working on <code>master</code> to another review.</p></li>
+<li><p><code><a href="../../reference/pull-requests.html">pr_resume()</a></code></p></li>
 </ul>
 </div>
   </div>
