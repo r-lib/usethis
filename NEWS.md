@@ -64,6 +64,8 @@ There is increasing interest in making the name of a repo's default branch confi
 
 ## Changes to behaviour of Git/GitHub-related functions
 
+The default Git protocol is now "https" and we no longer provide an interactive choice, by default, in interactive sessions. As always, a user can express a preference for "ssh" in individual function calls, for an R session via `use_git_protocol()`, and for all R sessions via the `usethis.protocol` option (#1262).
+
 `pr_resume()` is a new function for resuming work on an existing local PR branch. It can be called argument-less, to select a branch interactively.
 
 `pr_fetch()` can also be called with no arguments, to select a PR interactively. `pr_fetch()` loses its `owner` argument. The `owner` is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.

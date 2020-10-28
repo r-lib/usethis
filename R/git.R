@@ -118,82 +118,52 @@ use_git_config <- function(scope = c("user", "project"), ...) {
   invisible(orig)
 }
 
-#' Produce or register Git protocol
+#' See or set the default Git protocol
 #'
 #' @description
 #' Git operations that address a remote use a so-called "transport protocol".
-#' usethis supports HTTPS and SSH. The protocol affects this:
-#'   * The default URL format for repos with no existing remote protocol:
-#'     - `protocol = "https"` implies `https://github.com/<OWNER>/<REPO>.git`
-#'     - `protocol = "ssh"` implies `git@@github.com:<OWNER>/<REPO>.git`
+#' usethis supports HTTPS and SSH. The protocol dictates the Git URL format used
+#' when usethis needs to configure the first GitHub remote for a repo:
+#' * `protocol = "https"` implies `https://github.com/<OWNER>/<REPO>.git`
+#' * `protocol = "ssh"` implies `git@@github.com:<OWNER>/<REPO>.git`
+#'
 #' Two helper functions are available:
-#'   * `git_protocol()` returns the user's preferred protocol, if known, and,
-#'     otherwise, asks the user (interactive session), or defaults to `"https"`.
-#'     (non-interactive session).
-#'   * `use_git_protocol()` allows the user to set the Git protocol for the
-#'     current R session. This is stored in the `"usethis.protocol"` option.
+#'   * `git_protocol()` reveals the protocol "in force". As of usethis v2.0.0,
+#'     this defaults to "https". You can change this for the duration of the
+#'     R session with `use_git_protocol()`. Change the default for all R
+#'     sessions with code like this in your `.Rprofile` (easily editable via
+#'     [edit_r_profile()]):
+#'     ```
+#'     options(usethis.protocol = "ssh")
+#'     ```
+#'   * `use_git_protocol()` sets the Git protocol for the current R session
 #'
-#' Any interactive choice re: `protocol` comes with a reminder of how to set the
-#' protocol at startup by setting an option in `.Rprofile`:
-#' ```
-#' options(usethis.protocol = "https")
-#' # or
-#' options(usethis.protocol = "ssh")
-#' ```
+#' This protocol only affects the Git URL for newly configured remotes. All
+#' existing Git remote URLs are always respected, whether HTTPS or SSH.
 #'
-#' @param protocol Optional. Should be "https" or "ssh", if specified. Defaults
-#'   to the option `usethis.protocol` and, if unset, to an interactive choice
-#'   or, in non-interactive sessions, `"https"`. `NA` triggers the interactive
-#'   menu.
+#' @param protocol One of "https" or "ssh"
 #'
-#' @return "https" or "ssh"
+#' @return The protocol, either "https" or "ssh"
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' ## consult the option and maybe get an interactive menu
 #' git_protocol()
 #'
-#' ## explicitly set the protocol
 #' use_git_protocol("ssh")
+#' git_protocol()
+#'
 #' use_git_protocol("https")
+#' git_protocol()
 #' }
 git_protocol <- function() {
-  protocol <- getOption(
-    "usethis.protocol",
-    default = if (is_interactive()) NA else "https"
-  )
-
-  # this is where a user-supplied protocol gets checked, because
-  # use_git_protocol() shoves it in the option unconditionally and calls this
-  bad_protocol <- length(protocol) != 1 ||
-    !(tolower(protocol) %in% c("https", "ssh", NA))
-  if (bad_protocol) {
-    options(usethis.protocol = NULL)
-    ui_stop("
-      {ui_code('protocol')} must be one of {ui_value('https')}, \\
-      {ui_value('ssh')}', or {ui_value('NA')}."
-    )
+  protocol <- tolower(getOption("usethis.protocol", "unset"))
+  if (identical(protocol, "unset")) {
+    ui_info("Defaulting to {'https'} Git protocol")
+    protocol <- "https"
+  } else {
+    check_protocol(protocol)
   }
-
-  if (is.na(protocol)) {
-    protocol <- choose_protocol()
-    if (is.null(protocol)) {
-      ui_stop("
-        {ui_code('protocol')} must be either {ui_value('https')} or \\
-        {ui_value('ssh')}."
-      )
-    }
-    code <- glue("options(usethis.protocol = \"{protocol}\")")
-    ui_todo("
-      Tip: To suppress this menu in future, put
-      {ui_code(code)}
-      in your script or in a user- or project-level startup file, \\
-      {ui_value('.Rprofile')}.
-      Call {ui_code('usethis::edit_r_profile()')} to open it for editing.")
-  }
-
-  protocol <- match.arg(tolower(protocol), c("https", "ssh"))
   options("usethis.protocol" = protocol)
   getOption("usethis.protocol")
 }
@@ -202,26 +172,18 @@ git_protocol <- function() {
 #' @export
 use_git_protocol <- function(protocol) {
   options("usethis.protocol" = protocol)
-  git_protocol()
+  invisible(git_protocol())
 }
 
-choose_protocol <- function() {
-  if (!is_interactive()) {
-    return(invisible())
+check_protocol <- function(protocol) {
+  if (!is_string(protocol) ||
+      !(tolower(protocol) %in% c("https", "ssh"))) {
+    options(usethis.protocol = NULL)
+    ui_stop("
+      {ui_code('protocol')} must be either {ui_value('https')} or \\
+      {ui_value('ssh')}")
   }
-  choices <- c(
-    https = "https <-- choose this if you don't have SSH keys (or don't know if you do)",
-    ssh   = "ssh   <-- presumes that you have set up SSH keys"
-  )
-  choice <- utils::menu(
-    choices = choices,
-    title = "Which Git protocol to use? (enter 0 to exit)"
-  )
-  if (choice == 0) {
-    invisible()
-  } else {
-    names(choices)[choice]
-  }
+  invisible()
 }
 
 #' Determine default Git branch
@@ -424,10 +386,9 @@ git_sitrep <- function() {
   vaccinated <- git_vaccinated()
   kv_line("Vaccinated", vaccinated)
   if (!vaccinated) {
-    ui_info("See {ui_code('?git_vaccinate')} to learn more about this")
+    ui_info("See {ui_code('?git_vaccinate')} to learn more")
   }
-  # TODO: Revisit when I harden the HTTPS default
-  kv_line("Default usethis protocol", getOption("usethis.protocol"))
+  kv_line("Default Git protocol", git_protocol())
 
   # github (global / user) -----------------------------------------------------
   hd_line("GitHub")

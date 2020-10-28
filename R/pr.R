@@ -27,7 +27,7 @@
 #' credentials do we mean?
 #' * A GitHub personal access token (PAT) must be discoverable by the gh
 #'   package, which is used for GitHub operations via the REST API. See
-#'   [create_github_token()] for more about getting and configuring a PAT.
+#'   [gh_token_help()] for more about getting and configuring a PAT.
 #' * If you use the HTTPS protocol for Git remotes, your PAT is also used for
 #'   Git operations, such as `git push`. Usethis uses the gert package for this,
 #'   so the PAT must be discoverable by gert. Generally gert and gh will
@@ -38,7 +38,8 @@
 #'   addition to your PAT. The public key must be added to your GitHub account.
 #'
 #' If the `pr_*` functions need to configure a new remote, its transport
-#' protocol (HTTPS vs SSH) is determined by the protocol used for `origin`.
+#' protocol (HTTPS vs SSH) is determined by the protocol used for the
+#' source repo (`upstream`, when working in a fork, and `origin` otherwise).
 #'
 #' @section For contributors:
 #' To contribute to a package, first use `create_from_github("OWNER/REPO")` to

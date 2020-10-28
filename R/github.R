@@ -65,6 +65,7 @@ use_github <- function(organisation = NULL,
     deprecate_warn_credentials("use_github")
   }
 
+  check_protocol(protocol)
   check_uses_git()
   check_default_branch()
   challenge_uncommitted_changes(msg = "

@@ -22,10 +22,7 @@ such that you have permission to create repositories in this
 
 \item{private}{If \code{TRUE}, creates a private repository.}
 
-\item{protocol}{Optional. Should be "https" or "ssh", if specified. Defaults
-to the option \code{usethis.protocol} and, if unset, to an interactive choice
-or, in non-interactive sessions, \code{"https"}. \code{NA} triggers the interactive
-menu.}
+\item{protocol}{One of "https" or "ssh"}
 
 \item{host}{GitHub host to target, passed to the \code{.api_url} argument of
 \code{\link[gh:gh]{gh::gh()}}. If unspecified, gh defaults to "https://api.github.com",

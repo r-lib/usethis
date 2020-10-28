@@ -3,51 +3,49 @@
 \name{git_protocol}
 \alias{git_protocol}
 \alias{use_git_protocol}
-\title{Produce or register Git protocol}
+\title{See or set the default Git protocol}
 \usage{
 git_protocol()
 
 use_git_protocol(protocol)
 }
 \arguments{
-\item{protocol}{Optional. Should be "https" or "ssh", if specified. Defaults
-to the option \code{usethis.protocol} and, if unset, to an interactive choice
-or, in non-interactive sessions, \code{"https"}. \code{NA} triggers the interactive
-menu.}
+\item{protocol}{One of "https" or "ssh"}
 }
 \value{
-"https" or "ssh"
+The protocol, either "https" or "ssh"
 }
 \description{
 Git operations that address a remote use a so-called "transport protocol".
-usethis supports HTTPS and SSH. The protocol affects this:
-\itemize{
-\item The default URL format for repos with no existing remote protocol:
+usethis supports HTTPS and SSH. The protocol dictates the Git URL format used
+when usethis needs to configure the first GitHub remote for a repo:
 \itemize{
 \item \code{protocol = "https"} implies \verb{https://github.com/<OWNER>/<REPO>.git}
 \item \code{protocol = "ssh"} implies \verb{git@github.com:<OWNER>/<REPO>.git}
-Two helper functions are available:
-}
-\item \code{git_protocol()} returns the user's preferred protocol, if known, and,
-otherwise, asks the user (interactive session), or defaults to \code{"https"}.
-(non-interactive session).
-\item \code{use_git_protocol()} allows the user to set the Git protocol for the
-current R session. This is stored in the \code{"usethis.protocol"} option.
 }
 
-Any interactive choice re: \code{protocol} comes with a reminder of how to set the
-protocol at startup by setting an option in \code{.Rprofile}:\preformatted{options(usethis.protocol = "https")
-# or
-options(usethis.protocol = "ssh")
+Two helper functions are available:
+\itemize{
+\item \code{git_protocol()} reveals the protocol "in force". As of usethis v2.0.0,
+this defaults to "https". You can change this for the duration of the
+R session with \code{use_git_protocol()}. Change the default for all R
+sessions with code like this in your \code{.Rprofile} (easily editable via
+\code{\link[=edit_r_profile]{edit_r_profile()}}):\preformatted{options(usethis.protocol = "ssh")
 }
+\item \code{use_git_protocol()} sets the Git protocol for the current R session
+}
+
+This protocol only affects the Git URL for newly configured remotes. All
+existing Git remote URLs are always respected, whether HTTPS or SSH.
 }
 \examples{
 \dontrun{
-## consult the option and maybe get an interactive menu
 git_protocol()
 
-## explicitly set the protocol
 use_git_protocol("ssh")
+git_protocol()
+
 use_git_protocol("https")
+git_protocol()
 }
 }

@@ -182,6 +182,7 @@ create_from_github <- function(repo_spec,
   if (lifecycle::is_present(credentials)) {
     deprecate_warn_credentials("create_from_github")
   }
+  check_protocol(protocol)
 
   parsed_repo_spec <- parse_repo_url(repo_spec)
   if (!is.null(parsed_repo_spec$host)) {
