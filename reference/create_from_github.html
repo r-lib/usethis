@@ -221,9 +221,16 @@ See <code><a href='github-token.html'>gh_token_help()</a></code> for more advice
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>repo_spec</th>
-      <td><p>GitHub repo specification in this form: <code>owner/repo</code>. The
-<code>repo</code> part will be the name of the new local folder, which is also
-a project and Git repo.</p></td>
+      <td><p>A string identifying the GitHub repo in one of these forms:</p><ul>
+<li><p>Plain <code>OWNER/REPO</code> spec</p></li>
+<li><p>Browser URL, such as <code>"https://github.com/OWNER/REPO"</code></p></li>
+<li><p>HTTPS Git URL, such as <code>"https://github.com/OWNER/REPO.git"</code></p></li>
+<li><p>SSH Git URL, such as <code>"git@github.com:r-lib/usethis.git"</code></p></li>
+</ul>
+
+<p>In the case of a browser, HTTPS, or SSH URL, the <code>host</code> is extracted from
+the URL. The <code>REPO</code> part will be the name of the new local folder, which is
+also a project and Git repo.</p></td>
     </tr>
     <tr>
       <th>destdir</th>

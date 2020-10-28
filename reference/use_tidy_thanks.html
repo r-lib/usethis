@@ -207,9 +207,10 @@ frame about refs (defaulting to releases), respectively.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>repo_spec</th>
-      <td><p>Optional GitHub repo specification in this form:
-<code>owner/repo</code>. By default, this is inferred from the Git remotes of the
-active project. The host is always assumed to be github.com.</p></td>
+      <td><p>Optional GitHub repo specification in any form accepted for
+the <code>repo_spec</code> argument of <code><a href='create_from_github.html'>create_from_github()</a></code> (plain spec or a browser
+or Git URL). A URL specification is the only way to target a GitHub host
+other than <code>"github.com"</code>, which is the default.</p></td>
     </tr>
     <tr>
       <th>from, to</th>
@@ -228,20 +229,23 @@ in the sense of <code>[from, to]</code>. Examples: "08a560d", "v1.3.0",
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>## active project, interval = since the last release</span>
+<span class='co'># active project, interval = since the last release</span>
 <span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='co'>## active project, interval = since a specific datetime</span>
+<span class='co'># active project, interval = since a specific datetime</span>
 <span class='fu'>use_tidy_thanks</span><span class='op'>(</span>from <span class='op'>=</span> <span class='st'>"2020-07-24T00:13:45Z"</span><span class='op'>)</span>
 
-<span class='co'>## r-lib/usethis, interval = since a certain date</span>
+<span class='co'># r-lib/usethis, interval = since a certain date</span>
 <span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span>, from <span class='op'>=</span> <span class='st'>"2020-08-01"</span><span class='op'>)</span>
 
-<span class='co'>## r-lib/usethis, up to a specific release</span>
+<span class='co'># r-lib/usethis, up to a specific release</span>
 <span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span>, from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='st'>"v1.1.0"</span><span class='op'>)</span>
 
-<span class='co'>## r-lib/usethis, since a specific commit, up to a specific date</span>
+<span class='co'># r-lib/usethis, since a specific commit, up to a specific date</span>
 <span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"r-lib/usethis"</span>, from <span class='op'>=</span> <span class='st'>"08a560d"</span>, to <span class='op'>=</span> <span class='st'>"2018-05-14"</span><span class='op'>)</span>
+
+<span class='co'># r-lib/usethis, but with copy/paste of a browser URL</span>
+<span class='fu'>use_tidy_thanks</span><span class='op'>(</span><span class='st'>"https://github.com/r-lib/usethis"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
