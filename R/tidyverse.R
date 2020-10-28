@@ -228,7 +228,7 @@ tidy_release_test_env <- function() {
 #' Derives a list of GitHub usernames, based on who has opened issues or pull
 #' requests. Used to populate the acknowledgment section of package release blog
 #' posts at <https://www.tidyverse.org/blog/>. If no arguments are given, we
-#' retrieve all contributors to the active project since it's last (GitHub)
+#' retrieve all contributors to the active project since its last (GitHub)
 #' release. Unexported helper functions, `releases()` and `ref_df()` can be
 #' useful interactively to get a quick look at release tag names and a data
 #' frame about refs (defaulting to releases), respectively.

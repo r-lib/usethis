@@ -131,7 +131,7 @@ create_project <- function(path,
 #'   * Plain `OWNER/REPO` spec
 #'   * Browser URL, such as `"https://github.com/OWNER/REPO"`
 #'   * HTTPS Git URL, such as `"https://github.com/OWNER/REPO.git"`
-#'   * SSH Git URL, such as `"git@github.com:r-lib/usethis.git"`
+#'   * SSH Git URL, such as `"git@github.com:OWNER/REPO.git"`
 #'
 #'   In the case of a browser, HTTPS, or SSH URL, the `host` is extracted from
 #'   the URL. The `REPO` part will be the name of the new local folder, which is
@@ -165,7 +165,7 @@ create_project <- function(path,
 #' create_from_github("https://github.com/r-lib/usethis")
 #'
 #' # a URL repo_spec also specifies the host (e.g. GitHub Enterprise instance)
-#' create_from_github("https://github.acme.com/OWNER/repo")
+#' create_from_github("https://github.acme.com/OWNER/REPO")
 #' }
 create_from_github <- function(repo_spec,
                                destdir = NULL,

@@ -3,7 +3,7 @@
 \name{use_vignette}
 \alias{use_vignette}
 \alias{use_article}
-\title{Create a vignette or article.}
+\title{Create a vignette or article}
 \usage{
 use_vignette(name, title = name)
 

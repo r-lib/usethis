@@ -40,14 +40,17 @@ browse_github_pat <- function(...) {
   )
 }
 
+
+#' @section `github_token()`:
+#' All implicit and explicit token discovery routes through [gh::gh_token()]
+#' now.
 #' @rdname usethis-defunct
 #' @export
 github_token <- function() {
-  # TODO: revisit when I have a better recommendation
   details <- glue("
-    Use {ui_code('gitcreds::gitcreds_get()')}, \\
-    {ui_code('gitcreds::gitcreds_set()')}, and \\
-    {ui_code('gh::gh_token()')} to manage GitHub personal access tokens.")
+    Call {ui_code('gh::gh_token()')} to retrieve a GitHub personal access token
+    Call {ui_code('gh_token_help()')} if you need help getting or configuring \\
+    your token")
   lifecycle::deprecate_stop(
     "2.0.0",
     what = "github_token()",

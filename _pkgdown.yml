@@ -103,9 +103,9 @@ reference:
       Conventions used in the tidyverse and r-lib organisations
     contents:
     - matches("tidy")
-  - title: "Configuration"
+  - title: Configuration
     desc: >
-      Configure the behaviour of R, RStudio, or Git, globally as a user or
+      Configure the behaviour of R or RStudio, globally as a user or
       for a specific project
     contents:
     - use_blank_slate
@@ -113,28 +113,29 @@ reference:
     - use_usethis
     - use_reprex
     - use_conflicted
-    - use_git_config
     - matches("edit_r")
   - title: Git and GitHub
     contents:
     - create_from_github
-    - create_github_token
-    - use_git_config
     - use_git
+    - use_github
+    - git_sitrep
+    - create_github_token
+    - gh_token_help
+    - git_vaccinate
+    - use_git_config
+    - use_git_ignore
     - use_git_protocol
     - use_git_remote
-    - use_github
     - use_github_links
-    - use_git_ignore
     - use_git_hook
     - use_github_labels
     - use_code_of_conduct
     - use_readme_rmd
+    - git_branch_default
     - matches("browse")
     - matches("edit_git_")
-    - use_git_credentials
-    - git_sitrep
-    - git_vaccinate
+    - matches("issue")
   - title: Pull requests
     contents:
     - starts_with("pr_")
@@ -155,3 +156,14 @@ reference:
     - use_directory
     - use_rmarkdown_template
     - use_rstudio
+  - title: Defunct and deprecated functions
+    desc: >
+      <a href="https://lifecycle.r-lib.org/articles/lifecycle.html">
+      <img src='figures/lifecycle-defunct.svg' alt='Defunct lifecycle'/>
+      </a>
+      <a href="https://lifecycle.r-lib.org/articles/lifecycle.html">
+      <img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle'/>
+      </a>
+    contents:
+    - git_credentials
+    - usethis-defunct

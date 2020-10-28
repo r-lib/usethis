@@ -22,7 +22,7 @@ create_from_github(
 \item Plain \code{OWNER/REPO} spec
 \item Browser URL, such as \code{"https://github.com/OWNER/REPO"}
 \item HTTPS Git URL, such as \code{"https://github.com/OWNER/REPO.git"}
-\item SSH Git URL, such as \code{"git@github.com:r-lib/usethis.git"}
+\item SSH Git URL, such as \code{"git@github.com:OWNER/REPO.git"}
 }
 
 In the case of a browser, HTTPS, or SSH URL, the \code{host} is extracted from
@@ -159,7 +159,7 @@ create_from_github("r-lib/usethis")
 create_from_github("https://github.com/r-lib/usethis")
 
 # a URL repo_spec also specifies the host (e.g. GitHub Enterprise instance)
-create_from_github("https://github.acme.com/OWNER/repo")
+create_from_github("https://github.acme.com/OWNER/REPO")
 }
 }
 \seealso{

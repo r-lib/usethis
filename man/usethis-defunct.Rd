@@ -29,4 +29,10 @@ This function has been replaced by \code{\link[=pr_merge_main]{pr_merge_main()}}
 These functions have been replaced by \code{\link[=create_github_token]{create_github_token()}}.
 }
 
+\section{\code{github_token()}}{
+
+All implicit and explicit token discovery routes through \code{\link[gh:gh_token]{gh::gh_token()}}
+now.
+}
+
 \keyword{internal}

@@ -1,4 +1,4 @@
-#' Create a vignette or article.
+#' Create a vignette or article
 #'
 #' Creates a new vignette or article in `vignettes/`. Articles are a special
 #' type of vignette that appear on pkgdown websites, but are not included
