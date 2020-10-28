@@ -162,35 +162,35 @@
 <span class="co"># Create a new package -------------------------------------------------</span>
 <span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mypkg"</span><span class="op">)</span>
 <span class="fu"><a href="reference/create_package.html">create_package</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
-<span class="co">#&gt; ✓ Creating '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpCtQAkY/mypkg/'</span>
-<span class="co">#&gt; ✓ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpCtQAkY/mypkg'</span>
+<span class="co">#&gt; ✓ Creating '/var/folders/pv/l2mbh7j90y5_vslh_1wyqxj00000gn/T/RtmpTorgGG/mypkg/'</span>
+<span class="co">#&gt; ✓ Setting active project to '/private/var/folders/pv/l2mbh7j90y5_vslh_1wyqxj00000gn/T/RtmpTorgGG/mypkg'</span>
 <span class="co">#&gt; ✓ Creating 'R/'</span>
 <span class="co">#&gt; ✓ Writing 'DESCRIPTION'</span>
 <span class="co">#&gt; Package: mypkg</span>
 <span class="co">#&gt; Title: What the Package Does (One Line, Title Case)</span>
 <span class="co">#&gt; Version: 0.0.0.9000</span>
 <span class="co">#&gt; Authors@R (parsed):</span>
-<span class="co">#&gt;     * First Last &lt;first.last@example.com&gt; [aut, cre] (&lt;https://orcid.org/YOUR-ORCID-ID&gt;)</span>
+<span class="co">#&gt;     * First Last &lt;first.last@example.com&gt; [aut, cre] (YOUR-ORCID-ID)</span>
 <span class="co">#&gt; Description: What the package does (one paragraph).</span>
 <span class="co">#&gt; License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a</span>
 <span class="co">#&gt;     license</span>
 <span class="co">#&gt; Encoding: UTF-8</span>
 <span class="co">#&gt; LazyData: true</span>
 <span class="co">#&gt; Roxygen: list(markdown = TRUE)</span>
-<span class="co">#&gt; RoxygenNote: 7.1.0</span>
+<span class="co">#&gt; RoxygenNote: 7.1.1</span>
 <span class="co">#&gt; ✓ Writing 'NAMESPACE'</span>
 <span class="co">#&gt; ✓ Setting active project to '&lt;no active project&gt;'</span>
 <span class="co"># only needed since this session isn't interactive</span>
 <span class="fu"><a href="reference/proj_activate.html">proj_activate</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
-<span class="co">#&gt; ✓ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpCtQAkY/mypkg'</span>
-<span class="co">#&gt; ✓ Changing working directory to '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpCtQAkY/mypkg/'</span>
+<span class="co">#&gt; ✓ Setting active project to '/private/var/folders/pv/l2mbh7j90y5_vslh_1wyqxj00000gn/T/RtmpTorgGG/mypkg'</span>
+<span class="co">#&gt; ✓ Changing working directory to '/var/folders/pv/l2mbh7j90y5_vslh_1wyqxj00000gn/T/RtmpTorgGG/mypkg/'</span>
 
 <span class="co"># Modify the description ----------------------------------------------</span>
 <span class="fu"><a href="reference/licenses.html">use_mit_license</a></span><span class="op">(</span><span class="st">"My Name"</span><span class="op">)</span>
 <span class="co">#&gt; ✓ Setting License field in DESCRIPTION to 'MIT + file LICENSE'</span>
+<span class="co">#&gt; ✓ Writing 'LICENSE'</span>
 <span class="co">#&gt; ✓ Writing 'LICENSE.md'</span>
 <span class="co">#&gt; ✓ Adding '^LICENSE\\.md$' to '.Rbuildignore'</span>
-<span class="co">#&gt; ✓ Writing 'LICENSE'</span>
 
 <span class="fu"><a href="reference/use_package.html">use_package</a></span><span class="op">(</span><span class="st">"MASS"</span>, <span class="st">"Suggests"</span><span class="op">)</span>
 <span class="co">#&gt; ✓ Adding 'MASS' to Suggests field in DESCRIPTION</span>
@@ -206,9 +206,9 @@
 
 <span class="fu"><a href="reference/use_r.html">use_test</a></span><span class="op">(</span><span class="st">"my-test"</span><span class="op">)</span>
 <span class="co">#&gt; ✓ Adding 'testthat' to Suggests field in DESCRIPTION</span>
+<span class="co">#&gt; ✓ Setting Config/testthat/edition field in DESCRIPTION to '3'</span>
 <span class="co">#&gt; ✓ Creating 'tests/testthat/'</span>
 <span class="co">#&gt; ✓ Writing 'tests/testthat.R'</span>
-<span class="co">#&gt; ● Call `use_test()` to initialize a basic test file and open it for editing.</span>
 <span class="co">#&gt; ✓ Writing 'tests/testthat/test-my-test.R'</span>
 <span class="co">#&gt; ● Edit 'tests/testthat/test-my-test.R'</span>
 
@@ -274,7 +274,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/r-lib/usethis/actions"><img src="https://github.com/r-lib/usethis/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/r-lib/usethis/actions"><img src="https://github.com/r-lib/usethis/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://codecov.io/gh/r-lib/usethis?branch=master"><img src="https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://CRAN.R-project.org/package=usethis"><img src="https://www.r-pkg.org/badges/version/usethis" alt="CRAN status"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
