@@ -233,10 +233,10 @@ tidy_release_test_env <- function() {
 #' useful interactively to get a quick look at release tag names and a data
 #' frame about refs (defaulting to releases), respectively.
 #'
-
-#' @param repo_spec Optional GitHub repo specification in this form:
-#'   `owner/repo`. By default, this is inferred from the Git remotes of the
-#'   active project. The host is always assumed to be github.com.
+#' @param repo_spec Optional GitHub repo specification in any form accepted for
+#'   the `repo_spec` argument of [create_from_github()] (plain spec or a browser
+#'   or Git URL). A URL specification is the only way to target a GitHub host
+#'   other than `"github.com"`, which is the default.
 #' @param from,to GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
 #'   ISO 8601 format, specifying the start or end of the interval of interest,
 #'   in the sense of `[from, to]`. Examples: "08a560d", "v1.3.0",
@@ -249,25 +249,34 @@ tidy_release_test_env <- function() {
 #'
 #' @examples
 #' \dontrun{
-#' ## active project, interval = since the last release
+#' # active project, interval = since the last release
 #' use_tidy_thanks()
 #'
-#' ## active project, interval = since a specific datetime
+#' # active project, interval = since a specific datetime
 #' use_tidy_thanks(from = "2020-07-24T00:13:45Z")
 #'
-#' ## r-lib/usethis, interval = since a certain date
+#' # r-lib/usethis, interval = since a certain date
 #' use_tidy_thanks("r-lib/usethis", from = "2020-08-01")
 #'
-#' ## r-lib/usethis, up to a specific release
+#' # r-lib/usethis, up to a specific release
 #' use_tidy_thanks("r-lib/usethis", from = NULL, to = "v1.1.0")
 #'
-#' ## r-lib/usethis, since a specific commit, up to a specific date
+#' # r-lib/usethis, since a specific commit, up to a specific date
 #' use_tidy_thanks("r-lib/usethis", from = "08a560d", to = "2018-05-14")
+#'
+#' # r-lib/usethis, but with copy/paste of a browser URL
+#' use_tidy_thanks("https://github.com/r-lib/usethis")
 #' }
 use_tidy_thanks <- function(repo_spec = NULL,
                             from = NULL,
                             to = NULL) {
   repo_spec <- repo_spec %||% target_repo_spec()
+  parsed_repo_spec <- parse_repo_url(repo_spec)
+  repo_spec <- parsed_repo_spec$repo_spec
+  if (!is.null(parsed_repo_spec$host)) {
+    withr::local_envvar(c(GITHUB_API_URL = parsed_repo_spec$host))
+  }
+
   if (is.null(to)) {
     from <- from %||% releases(repo_spec)[[1]]
   }
@@ -287,8 +296,8 @@ use_tidy_thanks <- function(repo_spec = NULL,
     filter = "all",
     .limit = Inf
   )
-  if (identical(res[[1]], "")) {
-    ui_line("No matching issues/PRs found.")
+  if (length(res) < 1) {
+    ui_oops("No matching issues/PRs found")
     return(invisible())
   }
 

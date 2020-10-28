@@ -76,6 +76,8 @@ There is increasing interest in making the name of a repo's default branch confi
 
 `create_from_github()` will only create a read-only clone, due to lack of a GitHub personal access token, if explicitly directed to do so via `fork = FALSE`.
 
+`create_from_github()` and `use_tidy_thanks()` accept browser and Git URLs as the `repo_spec` argument, to be friendlier to copy/paste. When a URL is passed, the `host` is also extracted from it.
+
 `create_github_token()` is a new name for the function previously known as `browse_github_token()` and `browse_github_pat()`.
 
 `issue_close_community()` and `issue_reprex_needed()` are two new functions for maintainers who process lots of GitHub issues. They automate canned replies and actions, e.g. labelling or closing (#940).

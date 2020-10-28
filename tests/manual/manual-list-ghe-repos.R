@@ -14,3 +14,9 @@ dat %>%
   print(n = Inf)
 
 create_from_github("github-administration/migration", destdir = "~/tmp")
+
+create_from_github(
+  "https://github.ubc.ca/github-administration/migration",
+  destdir = "~/tmp",
+  fork = FALSE
+)

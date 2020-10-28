@@ -17,9 +17,17 @@ create_from_github(
 )
 }
 \arguments{
-\item{repo_spec}{GitHub repo specification in this form: \code{owner/repo}. The
-\code{repo} part will be the name of the new local folder, which is also
-a project and Git repo.}
+\item{repo_spec}{A string identifying the GitHub repo in one of these forms:
+\itemize{
+\item Plain \code{OWNER/REPO} spec
+\item Browser URL, such as \code{"https://github.com/OWNER/REPO"}
+\item HTTPS Git URL, such as \code{"https://github.com/OWNER/REPO.git"}
+\item SSH Git URL, such as \code{"git@github.com:r-lib/usethis.git"}
+}
+
+In the case of a browser, HTTPS, or SSH URL, the \code{host} is extracted from
+the URL. The \code{REPO} part will be the name of the new local folder, which is
+also a project and Git repo.}
 
 \item{destdir}{The new folder is stored here. If \code{NULL}, defaults to user's
 Desktop or some other conspicuous place. You can also set a default

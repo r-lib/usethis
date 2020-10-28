@@ -127,9 +127,15 @@ create_project <- function(path,
 #' @template double-auth
 #'
 #' @inheritParams create_package
-#' @param repo_spec GitHub repo specification in this form: `owner/repo`. The
-#'   `repo` part will be the name of the new local folder, which is also
-#'   a project and Git repo.
+#' @param repo_spec A string identifying the GitHub repo in one of these forms:
+#'   * Plain `OWNER/REPO` spec
+#'   * Browser URL, such as `"https://github.com/OWNER/REPO"`
+#'   * HTTPS Git URL, such as `"https://github.com/OWNER/REPO.git"`
+#'   * SSH Git URL, such as `"git@github.com:r-lib/usethis.git"`
+#'
+#'   In the case of a browser, HTTPS, or SSH URL, the `host` is extracted from
+#'   the URL. The `REPO` part will be the name of the new local folder, which is
+#'   also a project and Git repo.
 #' @inheritParams use_course
 #' @param fork If `FALSE`, we clone `repo_spec`. If `TRUE`, we fork
 #'   `repo_spec`, clone that fork, and do additional set up favorable for
@@ -169,6 +175,12 @@ create_from_github <- function(repo_spec,
   }
   if (lifecycle::is_present(credentials)) {
     deprecate_warn_credentials("create_from_github")
+  }
+
+  parsed_repo_spec <- parse_repo_url(repo_spec)
+  if (!is.null(parsed_repo_spec$host)) {
+    repo_spec <- parsed_repo_spec$repo_spec
+    host <- parsed_repo_spec$host
   }
 
   whoami <- suppressMessages(gh::gh_whoami(.api_url = host))
