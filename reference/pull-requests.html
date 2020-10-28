@@ -264,7 +264,7 @@ and via the REST API. Therefore, your credentials must be discoverable. Which
 credentials do we mean?</p><ul>
 <li><p>A GitHub personal access token (PAT) must be discoverable by the gh
 package, which is used for GitHub operations via the REST API. See
-<code><a href='github-token.html'>create_github_token()</a></code> for more about getting and configuring a PAT.</p></li>
+<code><a href='github-token.html'>gh_token_help()</a></code> for more about getting and configuring a PAT.</p></li>
 <li><p>If you use the HTTPS protocol for Git remotes, your PAT is also used for
 Git operations, such as <code>git push</code>. Usethis uses the gert package for this,
 so the PAT must be discoverable by gert. Generally gert and gh will
@@ -276,7 +276,8 @@ addition to your PAT. The public key must be added to your GitHub account.</p></
 </ul>
 
 <p>If the <code>pr_*</code> functions need to configure a new remote, its transport
-protocol (HTTPS vs SSH) is determined by the protocol used for <code>origin</code>.</p>
+protocol (HTTPS vs SSH) is determined by the protocol used for the
+source repo (<code>upstream</code>, when working in a fork, and <code>origin</code> otherwise).</p>
     <h2 class="hasAnchor" id="for-contributors"><a class="anchor" href="#for-contributors"></a>For contributors</h2>
 
     

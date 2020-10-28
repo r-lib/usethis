@@ -259,6 +259,7 @@
 <div id="changes-to-behaviour-of-gitgithub-related-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-to-behaviour-of-gitgithub-related-functions" class="anchor"></a>Changes to behaviour of Git/GitHub-related functions</h2>
+<p>The default Git protocol is now “https” and we no longer provide an interactive choice, by default, in interactive sessions. As always, a user can express a preference for “ssh” in individual function calls, for an R session via <code><a href="../reference/git_protocol.html">use_git_protocol()</a></code>, and for all R sessions via the <code>usethis.protocol</code> option (<a href='https://github.com/r-lib/usethis/issues/1262'>#1262</a>).</p>
 <p><code><a href="../reference/pull-requests.html">pr_resume()</a></code> is a new function for resuming work on an existing local PR branch. It can be called argument-less, to select a branch interactively.</p>
 <p><code><a href="../reference/pull-requests.html">pr_fetch()</a></code> can also be called with no arguments, to select a PR interactively. <code><a href="../reference/pull-requests.html">pr_fetch()</a></code> loses its <code>owner</code> argument. The <code>owner</code> is now inferred from the GitHub remote configuration: <code>upstream</code> if working in a fork and <code>origin</code> otherwise.</p>
 <p><code><a href="../reference/pull-requests.html">pr_view()</a></code> can now be called with no arguments. If the current branch is associated with an open PR, we target that and, otherwise, we offer an interactive selection.</p>
