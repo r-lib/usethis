@@ -7,13 +7,8 @@
 use_lifecycle()
 }
 \description{
-Call this to import the lifecycle badges and Rd macro into your
-package.
-\itemize{
-\item The SVG badges are imported in \code{man/figures}.
-\item The \code{RdMacros} field of the DESCRIPTION file is updated so you
-can use the \verb{\\\\lifecycle\{\}} macro in your documentation.
-}
+Call this to copy the lifecycle badges into your package (\code{man/figures})
+and remind you of the syntax to use.
 
 See the \href{https://lifecycle.r-lib.org/articles/lifecycle.html}{getting started vignette} of the
 lifecycle package.

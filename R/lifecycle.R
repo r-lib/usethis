@@ -2,13 +2,8 @@
 #'
 #' @description
 #'
-#' Call this to import the lifecycle badges and Rd macro into your
-#' package.
-#'
-#' * The SVG badges are imported in `man/figures`.
-#'
-#' * The `RdMacros` field of the DESCRIPTION file is updated so you
-#'   can use the `\\lifecycle{}` macro in your documentation.
+#' Call this to copy the lifecycle badges into your package (`man/figures`)
+#' and remind you of the syntax to use.
 #'
 #' See the [getting started
 #' vignette](https://lifecycle.r-lib.org/articles/lifecycle.html) of the
@@ -22,7 +17,6 @@ use_lifecycle <- function() {
   check_is_package("use_lifecycle()")
 
   use_dependency("lifecycle", "imports")
-  use_rd_macros("lifecycle")
   # silence R CMD check NOTE
   roxygen_ns_append("@importFrom lifecycle deprecate_soft")
 
@@ -37,15 +31,15 @@ use_lifecycle <- function() {
 
   ui_todo(c(
     "Add badges in documentation topics by inserting one of:",
-    "- \\lifecycle{{experimental}}",
-    "- \\lifecycle{{maturing}}",
-    "- \\lifecycle{{stable}}",
-    "- \\lifecycle{{superseded}}",
-    "- \\lifecycle{{questioning}}",
-    "- \\lifecycle{{soft-deprecated}}",
-    "- \\lifecycle{{deprecated}}",
-    "- \\lifecycle{{defunct}}",
-    "- \\lifecycle{{archived}}"
+    "- `r lifecycle::badge('experimental') `",
+    "- `r lifecycle::badge('maturing') `",
+    "- `r lifecycle::badge('stable') `",
+    "- `r lifecycle::badge('superseded') `",
+    "- `r lifecycle::badge('questioning') `",
+    "- `r lifecycle::badge('soft-deprecated') `",
+    "- `r lifecycle::badge('deprecated') `",
+    "- `r lifecycle::badge('defunct') `",
+    "- `r lifecycle::badge('archived') `",
   ))
 
   invisible(TRUE)
