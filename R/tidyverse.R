@@ -215,9 +215,16 @@ tidy_release_test_env <- function() {
 
   c(
     "",
-    use_bullet("GitHub Actions (ubuntu-16.04)", c("3.3", "3.4", "3.5", "oldrel", "release", "devel")),
-    use_bullet("GitHub Actions (windows)", "release"),
-    use_bullet("GitHub Actions (macOS)", c("release", "devel")),
+    # intent is to stay in sync with this:
+    # https://github.com/r-lib/actions/blob/master/examples/check-full.yaml
+    use_bullet(
+      "GitHub Actions (ubuntu-16.04)",
+      c("devel", "release", "oldrel", "3.5", "3.4", "3.3")
+    ),
+    use_bullet("GitHub Actions (windows)", c("release", "oldrel")),
+    use_bullet("GitHub Actions (macOS)", "release"),
+    # other checks recommended in use_release_issue()
+    # currently, we aren't listing the extra checks for pkgs w/ compiled code
     use_bullet("win-builder", "devel"),
     ""
   )
