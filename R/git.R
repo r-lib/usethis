@@ -17,7 +17,7 @@ use_git <- function(message = "Initial commit") {
     git_init()
   }
 
-  use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
+  use_git_ignore(git_ignore_lines)
   if (git_uncommitted(untracked = TRUE)) {
     git_ask_commit(message, untracked = TRUE)
   }
@@ -522,7 +522,7 @@ pat_sitrep <- function(host = "https://github.com") {
 #' @export
 git_vaccinate <- function() {
   path <- git_ignore_path("user")
-  write_union(path, git_global_ignore)
+  write_union(path, git_ignore_lines)
 }
 
 git_vaccinated <- function() {
@@ -532,10 +532,10 @@ git_vaccinated <- function() {
   }
 
   lines <- read_utf8(path)
-  all(git_global_ignore %in% lines)
+  all(git_ignore_lines %in% lines)
 }
 
-git_global_ignore <- c(
+git_ignore_lines <- c(
   ".Rproj.user",
   ".Rhistory",
   ".Rdata",
