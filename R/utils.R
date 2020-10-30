@@ -61,6 +61,12 @@ interactive <- function() {
   )
 }
 
+on.exit <- function(...) {
+  ui_stop("
+    Internal error: use withr's {ui_code('defer()')} and friends, \\
+    instead of {ui_code('base::on.exit()')}")
+}
+
 isFALSE = function(x) {
   identical(x, FALSE)
 }

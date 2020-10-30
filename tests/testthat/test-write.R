@@ -1,14 +1,12 @@
 test_that("write_union() does not activate a project", {
-  tmpdir <- file_temp(pattern = "write-tests")
-  on.exit(dir_delete(tmpdir))
-  dir_create(tmpdir)
-  file_create(path(tmpdir, ".here"))
+  dir <- withr::local_tempdir(pattern = "write-union-test")
+  file_create(path(dir, ".here"))
 
-  expect_true(possibly_in_proj(tmpdir))
-  expect_false(is_in_proj(tmpdir))
+  expect_true(possibly_in_proj(dir))
+  expect_false(is_in_proj(dir))
   ## don't use `quiet = TRUE` because prevents what I want to test
-  write_union(path(tmpdir, "abc"), lines = letters[1:3])
-  expect_false(is_in_proj(tmpdir))
+  write_union(path(dir, "abc"), lines = letters[1:3])
+  expect_false(is_in_proj(dir))
 })
 
 test_that("same_contents() detects if contents are / are not same", {
@@ -93,16 +91,8 @@ test_that("write_utf8() respects line ending", {
 })
 
 test_that("write_utf8() can operate outside of a project", {
-  tmpdir <- file_temp()
-  dir_create(tmpdir)
-  # doing this "by hand" vs. via withr because Windows appears to be unwilling
-  # to delete current working directory
-  oldwd <- setwd(tmpdir)
-  on.exit({
-    setwd(oldwd)
-    dir_delete(tmpdir)
-  })
-
+  dir <- withr::local_tempdir(pattern = "write-utf8-test")
+  withr::local_dir(dir)
   local_project(NULL)
 
   expect_false(proj_active())

@@ -6,9 +6,7 @@ test_that("proj_set() errors on non-existent path", {
 })
 
 test_that("proj_set() errors if no criteria are fulfilled", {
-  tmpdir <- file_temp(pattern = "i-am-not-a-project")
-  on.exit(dir_delete(tmpdir))
-  dir_create(tmpdir)
+  tmpdir <- withr::local_tempdir(pattern = "i-am-not-a-project")
   expect_usethis_error(
     proj_set(tmpdir),
     "does not appear to be inside a project or package"
@@ -16,19 +14,11 @@ test_that("proj_set() errors if no criteria are fulfilled", {
 })
 
 test_that("proj_set() can be forced, even if no criteria are fulfilled", {
-  tmpdir <- file_temp(pattern = "i-am-not-a-project")
+  tmpdir <- withr::local_tempdir(pattern = "i-am-not-a-project")
 
-  on.exit(dir_delete(tmpdir))
-  dir_create(tmpdir)
   expect_error_free(old <- proj_set(tmpdir, force = TRUE))
-  on.exit(proj_set(old), add = TRUE)
+  withr::defer(proj_set(old))
   expect_identical(proj_get(), proj_path_prep(tmpdir))
-
-  proj_set_(tempdir())
-  expect_usethis_error(
-    proj_set(proj_get()),
-    "does not appear to be inside a project or package"
-  )
 })
 
 test_that("is_package() detects package-hood", {
@@ -69,30 +59,27 @@ test_that("proj_rel_path() returns path 'as is' if not in project", {
 })
 
 test_that("proj_set() enforces proj path preparation policy", {
-  ## specifically: check that proj_get() returns realized path
-  t <- dir_create(file_temp())
+  # specifically: check that proj_get() returns realized path
+  t <- withr::local_tempdir("proj-set-path-prep")
 
-  ## a/b/d and a/b2/d identify same directory
+  # a/b/d and a/b2/d identify same directory
   a <- path_real(dir_create(path(t, "a")))
   b <- dir_create(path(a, "b"))
   b2 <- link_create(b, path(a, "b2"))
   d <- dir_create(path(b, "d"))
 
-  ## input path includes symbolic link
+  # input path includes symbolic link
   path_with_symlinks <- path(b2, "d")
   expect_equal(path_rel(path_with_symlinks, a), "b2/d")
 
-  ## force = TRUE
-  old <- proj_set(path_with_symlinks, force = TRUE)
-  on.exit(proj_set(old))
+  # force = TRUE
+  local_project(path_with_symlinks, force = TRUE)
   expect_equal(path_rel(proj_get(), a), "b/d")
 
-  ## force = FALSE
+  # force = FALSE
   file_create(path(b, "d", ".here"))
   proj_set(path_with_symlinks, force = FALSE)
   expect_equal(path_rel(proj_get(), a), "b/d")
-
-  dir_delete(t)
 })
 
 test_that("proj_path_prep() passes NULL through", {
@@ -146,7 +133,7 @@ test_that("with_project() runs code in temp proj, restores (lack of) proj", {
 
 test_that("with_project() runs code in temp proj, restores original proj", {
   old_project <- proj_get_()
-  on.exit(proj_set_(old_project))
+  withr::defer(proj_set_(old_project))
 
   host <- create_project(
     file_temp(pattern = "host"),
@@ -168,7 +155,7 @@ test_that("with_project() runs code in temp proj, restores original proj", {
 
 test_that("with_project() works when temp proj == original proj", {
   old_project <- proj_get_()
-  on.exit(proj_set_(old_project))
+  withr::defer(proj_set_(old_project))
 
   host <- create_project(
     file_temp(pattern = "host"),
@@ -186,7 +173,7 @@ test_that("with_project() works when temp proj == original proj", {
 
 test_that("local_project() activates proj til scope ends", {
   old_project <- proj_get_()
-  on.exit(proj_set_(old_project))
+  withr::defer(proj_set_(old_project))
 
   new_proj <- file_temp(pattern = "localprojtest")
   create_project(new_proj, rstudio = FALSE, open = FALSE)

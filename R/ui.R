@@ -143,10 +143,7 @@ ui_warn <- function(x, .envir = parent.frame()) {
 #' @param code Code to execute with usual UI output silenced.
 #' @export
 ui_silence <- function(code) {
-  old <- options(usethis.quiet = TRUE)
-  on.exit(options(old), add = TRUE)
-
-  code
+  withr::with_options(list(usethis.quiet = TRUE), code)
 }
 
 # Questions ---------------------------------------------------------------

@@ -61,27 +61,19 @@ test_that("download_url() retry logic works as advertised", {
 
 test_that("tidy_download() errors early if destdir is not a directory", {
   tmp <- fs::path_temp("I_am_just_a_file")
-  on.exit(fs::file_delete(tmp))
+  withr::defer(fs::file_delete(tmp))
 
-  expect_error(
-    tidy_download("URL", destdir = tmp), "does not exist",
-    class = "usethis_error"
-  )
+  expect_usethis_error(tidy_download("URL", destdir = tmp), "does not exist")
 
   fs::file_create(tmp)
-  expect_error(
-    tidy_download("URL", destdir = tmp), "not a directory",
-    class = "usethis_error"
-  )
+  expect_usethis_error(tidy_download("URL", destdir = tmp), "not a directory")
 })
 
 test_that("tidy_download() works", {
   skip_on_cran()
   skip_if_offline()
 
-  tmp <- fs::file_temp("tidy-download-test-")
-  fs::dir_create(tmp)
-  on.exit(fs::dir_delete(tmp))
+  tmp <- withr::local_tempdir(pattern = "tidy-download-test-")
 
   gh_url <- "https://github.com/r-lib/rematch2/archive/master.zip"
   expected <- fs::path(tmp, "rematch2-master.zip")
@@ -203,12 +195,10 @@ test_that("conspicuous_place() returns a writeable directory", {
 })
 
 test_that("conspicuous_place() uses `usethis.destdir` when set", {
-  destdir_temp <- fs::path_temp("destdir_temp")
-  on.exit(fs::dir_delete(destdir_temp))
-  dir_create(destdir_temp)
-  withr::local_options(list(usethis.destdir = destdir_temp))
+  destdir <- withr::local_tempdir(pattern = "destdir_temp")
+  withr::local_options(list(usethis.destdir = destdir))
   expect_error_free(x <- conspicuous_place())
-  expect_equal(destdir_temp, x)
+  expect_equal(path_tidy(destdir), x)
 })
 
 test_that("use_course() errors if MIME type is not 'application/zip'", {
