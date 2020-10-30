@@ -12,9 +12,10 @@ For example, `use_course()` makes no reference to the active project.
 
 The project is activated upon first need, i.e. eventually some function calls `proj_get()` and, if `proj$cur` is `NULL`, we attempt to activate a project at (or above) current working directory.
 
-Direct read/write of `proj$cur` should be rare.
-Even internally, `proj_get()` and `proj_set()` are preferred.
-The stored project path should be processed with `proj_path_prep()`.
+Direct read/write of `proj$cur` should never happen, even internally.
+Instead, use `proj_get()` and `proj_set()`.
+If that is not possible (i.e. you don't want to trigger project activation), use `proj_get_()` and `proj_set_()`.
+If one must use `proj_set_()` directly, remember the stored project path should be processed with `proj_path_prep()`.
 
 Form paths to files within the project with `proj_path()`.
 Get paths relative to the project with `proj_rel_path()`.
