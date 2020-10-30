@@ -2,27 +2,27 @@
 #'
 #' @description
 #'
-#' Call this to import the lifecycle badges and Rd macro into your
-#' package.
-#'
-#' * The SVG badges are imported in `man/figures`.
-#'
-#' * The `RdMacros` field of the DESCRIPTION file is updated so you
-#'   can use the `\\lifecycle{}` macro in your documentation.
+#' Call this to copy the lifecycle badges into your package (`man/figures`) and
+#' remind you of the syntax to use them in the documentation of individual
+#' functions or arguments.
 #'
 #' See the [getting started
 #' vignette](https://lifecycle.r-lib.org/articles/lifecycle.html) of the
 #' lifecycle package.
 #'
 #' @seealso [use_lifecycle_badge()] to signal the [global lifecycle
-#'   stage](https://www.tidyverse.org/lifecycle/) of your package.
+#'   stage](https://www.tidyverse.org/lifecycle/) of your package as a whole.
 #'
 #' @export
 use_lifecycle <- function() {
   check_is_package("use_lifecycle()")
+  check_uses_roxygen("use_lifecycle()")
+  if (!uses_roxygen_md()) {
+    ui_stop("
+      Turn on roxygen2 markdown support {ui_code('use_roxygen_md()')}")
+  }
 
   use_dependency("lifecycle", "imports")
-  use_rd_macros("lifecycle")
   # silence R CMD check NOTE
   roxygen_ns_append("@importFrom lifecycle deprecate_soft")
 
@@ -37,35 +37,16 @@ use_lifecycle <- function() {
 
   ui_todo(c(
     "Add badges in documentation topics by inserting one of:",
-    "- \\lifecycle{{experimental}}",
-    "- \\lifecycle{{maturing}}",
-    "- \\lifecycle{{stable}}",
-    "- \\lifecycle{{superseded}}",
-    "- \\lifecycle{{questioning}}",
-    "- \\lifecycle{{soft-deprecated}}",
-    "- \\lifecycle{{deprecated}}",
-    "- \\lifecycle{{defunct}}",
-    "- \\lifecycle{{archived}}"
+    "- `r lifecycle::badge('experimental')`",
+    "- `r lifecycle::badge('maturing')`",
+    "- `r lifecycle::badge('stable')`",
+    "- `r lifecycle::badge('superseded')`",
+    "- `r lifecycle::badge('questioning')`",
+    "- `r lifecycle::badge('soft-deprecated')`",
+    "- `r lifecycle::badge('deprecated')`",
+    "- `r lifecycle::badge('defunct')`",
+    "- `r lifecycle::badge('archived')`"
   ))
 
   invisible(TRUE)
-}
-
-use_rd_macros <- function(package) {
-  proj <- proj_get()
-
-  if (desc::desc_has_fields("RdMacros", file = proj)) {
-    macros <- desc::desc_get_field("RdMacros", file = proj)
-    macros <- strsplit(macros, ",")[[1]]
-    macros <- gsub("^\\s+|\\s+$", "", macros)
-  } else {
-    macros <- character()
-  }
-
-  if (!package %in% macros) {
-    macros <- c(macros, package)
-    desc::desc_set(RdMacros = paste0(macros, collapse = ", "), file = proj)
-  }
-
-  invisible()
 }
