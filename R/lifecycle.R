@@ -16,6 +16,11 @@
 #' @export
 use_lifecycle <- function() {
   check_is_package("use_lifecycle()")
+  check_uses_roxygen("use_lifecycle()")
+  if (!uses_roxygen_md()) {
+    ui_stop("
+      Turn on roxygen2 markdown support {ui_code('use_roxygen_md()')}")
+  }
 
   use_dependency("lifecycle", "imports")
   # silence R CMD check NOTE
