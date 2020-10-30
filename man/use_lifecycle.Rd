@@ -7,12 +7,13 @@
 use_lifecycle()
 }
 \description{
-Call this to copy the lifecycle badges into your package (\code{man/figures})
-and remind you of the syntax to use.
+Call this to copy the lifecycle badges into your package (\code{man/figures}) and
+remind you of the syntax to use them in the documentation of individual
+functions or arguments.
 
 See the \href{https://lifecycle.r-lib.org/articles/lifecycle.html}{getting started vignette} of the
 lifecycle package.
 }
 \seealso{
-\code{\link[=use_lifecycle_badge]{use_lifecycle_badge()}} to signal the \href{https://www.tidyverse.org/lifecycle/}{global lifecycle stage} of your package.
+\code{\link[=use_lifecycle_badge]{use_lifecycle_badge()}} to signal the \href{https://www.tidyverse.org/lifecycle/}{global lifecycle stage} of your package as a whole.
 }

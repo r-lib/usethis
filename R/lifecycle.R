@@ -2,15 +2,16 @@
 #'
 #' @description
 #'
-#' Call this to copy the lifecycle badges into your package (`man/figures`)
-#' and remind you of the syntax to use.
+#' Call this to copy the lifecycle badges into your package (`man/figures`) and
+#' remind you of the syntax to use them in the documentation of individual
+#' functions or arguments.
 #'
 #' See the [getting started
 #' vignette](https://lifecycle.r-lib.org/articles/lifecycle.html) of the
 #' lifecycle package.
 #'
 #' @seealso [use_lifecycle_badge()] to signal the [global lifecycle
-#'   stage](https://www.tidyverse.org/lifecycle/) of your package.
+#'   stage](https://www.tidyverse.org/lifecycle/) of your package as a whole.
 #'
 #' @export
 use_lifecycle <- function() {
