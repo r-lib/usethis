@@ -32,9 +32,7 @@ test_that("trailing slash behaviour of ui_path()", {
   expect_match(ui_path("abc//"), "abc/'$")
 
   # path is known to be a directory
-  tmpdir <- fs::file_temp(pattern = "ui_path")
-  on.exit(fs::dir_delete(tmpdir), add = TRUE)
-  fs::dir_create(tmpdir)
+  tmpdir <- withr::local_tempdir(pattern = "ui_path")
 
   expect_match(ui_path(tmpdir), "/'$")
   expect_match(ui_path(paste0(tmpdir, "/")), "[^/]/'$")

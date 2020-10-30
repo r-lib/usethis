@@ -61,8 +61,7 @@ NULL
 #' @inheritParams licenses
 create_tidy_package <- function(path, copyright_holder = NULL) {
   path <- create_package(path, rstudio = TRUE, open = FALSE)
-  old_project <- proj_set(path)
-  on.exit(proj_set(old_project), add = TRUE)
+  local_project(path)
 
   use_testthat()
   use_mit_license(copyright_holder)

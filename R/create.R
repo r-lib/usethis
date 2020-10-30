@@ -47,8 +47,7 @@ create_package <- function(path,
   check_not_nested(path_dir(path), name)
 
   create_directory(path)
-  old_project <- proj_set(path, force = TRUE)
-  on.exit(proj_set(old_project), add = TRUE)
+  local_project(path, force = TRUE)
 
   use_directory("R")
   use_description(fields, check_name = FALSE, roxygen = roxygen)
@@ -60,8 +59,9 @@ create_package <- function(path,
 
   if (open) {
     if (proj_activate(proj_get())) {
-      # working directory/active project already set; clear the on.exit()'s
-      on.exit()
+      # working directory/active project already set; clear the scheduled
+      # restoration of the original project
+      withr::deferred_clear()
     }
   }
 
@@ -78,8 +78,7 @@ create_project <- function(path,
   check_not_nested(path_dir(path), name)
 
   create_directory(path)
-  old_project <- proj_set(path, force = TRUE)
-  on.exit(proj_set(old_project), add = TRUE)
+  local_project(path, force = TRUE)
 
   use_directory("R")
 
@@ -94,8 +93,9 @@ create_project <- function(path,
 
   if (open) {
     if (proj_activate(proj_get())) {
-      # working directory/active project already set; clear the on.exit()'s
-      on.exit()
+      # working directory/active project already set; clear the scheduled
+      # restoration of the original project
+      withr::deferred_clear()
     }
   }
 

@@ -38,7 +38,7 @@ Patch release
 > cat(release_checklist("0.0.1", on_cran = TRUE), sep = "\n")
 Prepare for release:
 
-* [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_usethis.html)
+* [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_releasebullets.html)
 * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
 * [ ] `devtools::check_win_devel()`
 * [ ] `rhub::check_for_cran()`
@@ -66,7 +66,7 @@ Major release
 > cat(release_checklist("1.0.0", on_cran = TRUE), sep = "\n")
 Prepare for release:
 
-* [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_usethis.html)
+* [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_releasebullets.html)
 * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
 * [ ] `devtools::check_win_devel()`
 * [ ] `rhub::check_for_cran()`

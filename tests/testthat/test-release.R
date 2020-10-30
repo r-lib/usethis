@@ -3,8 +3,12 @@
 
 test_that("release bullets don't change accidentally", {
   # Avoid finding any files in real usethis project
-  old <- proj_set(dir_create(path_temp("usethis")), force = TRUE)
-  on.exit(proj_set(old))
+  # Take care to only change active project, but not working directory
+  # Temporary project name must be stable
+  tmpproj <- dir_create(path_temp("releasebullets"))
+  withr::defer(dir_delete(tmpproj))
+  file_create(path(tmpproj, ".here"))
+  local_project(tmpproj, setwd = FALSE)
 
   verify_output(test_path("test-release-usethis.txt"), {
     "# First release"
@@ -28,7 +32,7 @@ test_that("get extra news bullets if available", {
     name = "extra",
     warn.conflicts = FALSE
   )
-  on.exit(detach("extra"))
+  withr::defer(detach("extra"))
 
   new <- setdiff(release_checklist("1.0.0", TRUE), standard)
   expect_equal(new, "* [ ] Extra bullets")
