@@ -220,15 +220,13 @@
 <a href="#helpers-and-the-active-project" class="anchor"></a>Helpers and the active project</h3>
 <p>Two opposing mindsets:</p>
 <ul>
-<li>Helpers should be low-level and general and <em>not</em> make direct use of the active project, i.e. project-based paths should be formed by the caller.</li>
+<li>Helpers should be low-level and general and <em>not</em> make direct use of the active project, nor change the active project (or activate on in the first place). I.e. project-based paths should be formed by the caller.</li>
 <li>Everything should refer to the active project, unless there’s a specific reason not to.</li>
 </ul>
-<p>We haven’t managed to really pick a side on this. But some principles emerge when looking at different types of helpers:</p>
-<ul>
-<li>Git/GitHub helpers generally assume we’re working on the Git repo that is also the active project. These are unexported. Prefer <code>git_repo()</code> to <code><a href="reference/proj_utils.html">proj_get()</a></code>, when you have a choice, to get the benefit of the <code>check_uses_git()</code> that’s in <code>git_repo()</code>.</li>
-<li>The exported file writing helpers do not make direct reference to the active project. One benefit is that calling these helpers won’t cause an active project to be set.</li>
-</ul>
-<p>Uncomfortable fact: <code><a href="reference/write-this.html">write_union()</a></code> uses the active project, if such exists, to create a humane path in its message. However, unlike <code>use_*()</code> functions, it does not call <code><a href="reference/proj_utils.html">proj_get()</a></code> to set an active project when <code>proj$cur</code> is <code>NULL</code>. We like this behaviour but the design feels muddy.</p>
+<p>Ideally, the exported file writing helpers would not make direct reference to the active project. But we are violating this somewhat.</p>
+<p><code>write_utf8()</code> potentially consults the project <code>path</code> lives in re: line ending. So its implementation takes care to respect that, but also to not change the active project.</p>
+<p>Likewise, <code><a href="reference/write-this.html">write_union()</a></code> uses the active project, if such exists, to create a humane path in its message. It also actively avoids activating or changing the project.</p>
+<p>Git/GitHub helpers generally assume we’re working on the Git repo that is also the active project. These are unexported. Prefer <code>git_repo()</code> to <code><a href="reference/proj_utils.html">proj_get()</a></code>, when you have a choice, to get the benefit of the <code>check_uses_git()</code> that’s in <code>git_repo()</code>.</p>
 </div>
 </div>
 <div id="home-directory" class="section level2">
