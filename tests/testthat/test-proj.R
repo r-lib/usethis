@@ -102,6 +102,15 @@ test_that("is_in_proj() detects whether files are (or would be) in project", {
   expect_false(is_in_proj(path_temp()))
 })
 
+test_that("is_in_proj() does not activate a project", {
+  pkg <- create_local_package()
+  path <- proj_path("DESCRIPTION")
+  expect_true(is_in_proj(path))
+  local_project(NULL)
+  expect_false(is_in_proj(path))
+  expect_false(proj_active())
+})
+
 test_that("proj_sitrep() reports current working/project state", {
   pkg <- create_local_package()
   x <- proj_sitrep()
