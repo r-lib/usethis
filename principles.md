@@ -54,18 +54,21 @@ So if downstream logic depends on whether something new was written, consult the
 
 Two opposing mindsets:
 
--   Helpers should be low-level and general and *not* make direct use of the active project, i.e. project-based paths should be formed by the caller.
+-   Helpers should be low-level and general and *not* make direct use of the active project, nor change the active project (or activate on in the first place). I.e. project-based paths should be formed by the caller.
 -   Everything should refer to the active project, unless there's a specific reason not to.
 
-We haven't managed to really pick a side on this.
-But some principles emerge when looking at different types of helpers:
+Ideally, the exported file writing helpers would not make direct reference to the active project.
+But we are violating this somewhat.
 
--   Git/GitHub helpers generally assume we're working on the Git repo that is also the active project. These are unexported. Prefer `git_repo()` to `proj_get()`, when you have a choice, to get the benefit of the `check_uses_git()` that's in `git_repo()`.
--   The exported file writing helpers do not make direct reference to the active project. One benefit is that calling these helpers won't cause an active project to be set.
+`write_utf8()` potentially consults the project `path` lives in re: line ending.
+So its implementation takes care to respect that, but also to not change the active project.
 
-Uncomfortable fact: `write_union()` uses the active project, if such exists, to create a humane path in its message.
-However, unlike `use_*()` functions, it does not call `proj_get()` to set an active project when `proj$cur` is `NULL`.
-We like this behaviour but the design feels muddy.
+Likewise, `write_union()` uses the active project, if such exists, to create a humane path in its message.
+It also actively avoids activating or changing the project.
+
+Git/GitHub helpers generally assume we're working on the Git repo that is also the active project.
+These are unexported.
+Prefer `git_repo()` to `proj_get()`, when you have a choice, to get the benefit of the `check_uses_git()` that's in `git_repo()`.
 
 ## Home directory
 

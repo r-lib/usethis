@@ -104,12 +104,11 @@ write_utf8 <- function(path, lines, append = FALSE, line_ending = NULL) {
   withr::defer(close(con))
 
   if (is.null(line_ending)) {
-    if (possibly_in_proj(path)) {
-      line_ending <- with_project(
-        proj_find(path),
-        proj_line_ending(),
-        quiet = TRUE
-      )
+    if (is_in_proj(path)) {              # path is in active project
+      line_ending <- proj_line_ending()
+    } else if (possibly_in_proj(path)) { # path is some other project
+      line_ending <-
+        with_project(proj_find(path), proj_line_ending(), quiet = TRUE)
     } else {
       line_ending <- platform_line_ending()
     }
