@@ -62,9 +62,9 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
     },
     envir = env
   )
-  setwd(dir)
+  setwd(proj_get())
 
-  invisible(dir)
+  invisible(proj_get())
 }
 
 toggle_rlang_interactive <- function() {
