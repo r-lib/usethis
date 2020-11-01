@@ -394,7 +394,6 @@ git_sitrep <- function() {
   hd_line("GitHub")
   default_gh_host <- get_hosturl(default_api_url())
   kv_line("Default GitHub host", default_gh_host)
-  pat_found <- pat_sitrep(host = default_gh_host)
 
   # git and github for active project ------------------------------------------
   hd_line("Git repo for current project")
@@ -441,7 +440,6 @@ git_sitrep <- function() {
   repo_host <- cfg$host_url
   if (!is.na(repo_host) && repo_host != default_gh_host) {
     kv_line("Non-default GitHub host", repo_host)
-    pat_found <- pat_sitrep(host = repo_host)
   }
 
   hd_line("GitHub remote configuration")

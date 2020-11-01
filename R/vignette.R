@@ -38,7 +38,7 @@ use_vignette <- function(name, title = name) {
 use_article <- function(name, title = name) {
   check_is_package("use_article()")
 
-  path <- use_vignette_template("article.Rmd", name, title)
+  use_vignette_template("article.Rmd", name, title)
   use_build_ignore("vignettes/articles")
 
   invisible()

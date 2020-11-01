@@ -29,4 +29,3 @@ use_addin <- function(addin = "new_addin", open = rlang::is_interactive()) {
 
   invisible(TRUE)
 }
-

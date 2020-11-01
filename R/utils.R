@@ -67,7 +67,7 @@ on.exit <- function(...) {
     instead of {ui_code('base::on.exit()')}")
 }
 
-isFALSE = function(x) {
+isFALSE <- function(x) {
   identical(x, FALSE)
 }
 

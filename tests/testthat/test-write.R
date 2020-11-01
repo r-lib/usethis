@@ -180,4 +180,3 @@ test_that("write_over() leaves file 'as is'", {
   write_over(tmp, letters[1:3], quiet = TRUE)
   expect_identical(before, read_utf8(tmp))
 })
-

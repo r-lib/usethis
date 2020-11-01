@@ -363,8 +363,8 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
     target <- path_ext_remove(zipfile)
     utils::unzip(zipfile, files = filenames, exdir = target)
   } else {
-    target <- path(path_dir(zipfile), td)
-    utils::unzip(zipfile, files = filenames, exdir = path_dir(zipfile))
+    target <- path(base_path, td)
+    utils::unzip(zipfile, files = filenames, exdir = base_path)
   }
   ui_done(
     "Unpacking ZIP file into {ui_path(target, base_path)} \\
