@@ -122,6 +122,8 @@ The default Git protocol is now "https" and we no longer provide an interactive 
 
 ## Other changes
 
+* The legacy `"devtools.desc"` option is no longer consulted when populating a new DESCRIPTION file. You must use the `"usethis.description"` now (#1069).
+
 * GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (#1169).
 
 * `use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The existing behaviour, which adds an `OWNER/REPO` GitHub remote, remains the default (#918, @ijlyttle).
@@ -134,7 +136,7 @@ The default Git protocol is now "https" and we no longer provide an interactive 
 
 * `create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
 
-* `use_testthat()` gains an edition argument to support upcoming testthat 3.0.0 
+* `use_testthat()` gains an edition argument to support testthat v3.0.0 
   (#1185)
 
 # usethis 1.6.3

@@ -33,17 +33,6 @@ test_that("usethis options > usethis defaults, even for Authors@R", {
   expect_match(d$`Authors@R`, '"Doe"[)]$')
 })
 
-test_that("devtools options can be picked up", {
-  withr::local_options(list(
-    usethis.description = NULL,
-    devtools.desc = list(License = "TEST")
-  ))
-
-  d <- use_description_defaults()
-  expect_equal(d$License, "TEST")
-  expect_equal(d$Version, "0.0.0.9000")
-})
-
 test_that("user's fields > options > defaults", {
   withr::local_options(list(
     usethis.description = list(License = "TEST1", Title = "TEST1")
