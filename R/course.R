@@ -257,6 +257,8 @@ tidy_download <- function(url, destdir = getwd()) {
 
   cd <- content_disposition(h)
   base_name <- make_filename(cd, fallback = path_file(url))
+  # SPIKE-IN to make sure lintr is working
+  basename(url)
   full_path <- path(destdir, base_name)
 
   if (!can_overwrite(full_path)) {
