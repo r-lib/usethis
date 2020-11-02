@@ -522,7 +522,7 @@ keep_lgl <- function(file,
 }
 
 top_directory <- function(filenames) {
-  in_top <- dirname(filenames) == "."
+  in_top <- path_dir(filenames) == "."
   unique_top <- unique(filenames[in_top])
   is_directory <- grepl("/$", unique_top)
   if (length(unique_top) > 1 || !is_directory) {

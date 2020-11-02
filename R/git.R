@@ -233,13 +233,13 @@ git_branch_default <- function() {
     )
     remote_heads <- purrr::compact(remote_heads)
     if (length(remote_heads)) {
-      return(basename(remote_heads[[1]]))
+      return(path_file(remote_heads[[1]]))
     }
 
     # ask the remote (a remote operation)
     f <- function(x) {
       dat <- gert::git_remote_ls(remote = x, verbose = FALSE, repo = repo)
-      basename(dat$symref[dat$ref == "HEAD"])
+      path_file(dat$symref[dat$ref == "HEAD"])
     }
     f <- purrr::possibly(f, otherwise = NULL)
     remote_heads <- purrr::compact(map(remote_names, f))

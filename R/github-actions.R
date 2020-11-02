@@ -118,7 +118,7 @@ use_tidy_github_actions <- function() {
 #' @param name Name of the workflow file, with or without a `.yaml` extension.
 #' @param url The full URL to the `.yaml` file. By default, the corresponding
 #'   workflow in <https://github.com/r-lib/actions> will be used.
-#' @param save_as Name of the workflow file. Defaults to `basename(url)`
+#' @param save_as Name of the workflow file. Defaults to `fs::path_file(url)`
 #'   for `use_github_action()`.
 #'
 #' @seealso [github_actions] for generic workflows and badge generation.
@@ -148,7 +148,7 @@ use_github_action <- function(name,
   }
 
   if (is.null(save_as)) {
-    save_as <- basename(url)
+    save_as <- path_file(url)
   }
 
   contents <- read_utf8(url)
@@ -156,7 +156,7 @@ use_github_action <- function(name,
   use_dot_github(ignore = ignore)
 
   save_as <- path(".github", "workflows", save_as)
-  create_directory(dirname(proj_path(save_as)))
+  create_directory(path_dir(proj_path(save_as)))
 
   new <- write_over(proj_path(save_as), contents)
 
