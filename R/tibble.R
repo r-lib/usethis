@@ -1,6 +1,10 @@
 #' Prepare to return a tibble
 #'
-#' @description Does minimum setup such that a tibble returned by your package
+#' @description
+#'
+#' `r lifecycle::badge("questioning")`
+#'
+#' Does minimum setup such that a tibble returned by your package
 #' is handled using the tibble method for generics like `print()` or \code{[}.
 #' Presumably you care about this if you've chosen to store and expose an
 #' object with class `tbl_df`. Specifically:

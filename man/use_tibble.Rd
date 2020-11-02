@@ -7,6 +7,8 @@
 use_tibble()
 }
 \description{
+\ifelse{html}{\out{<a href='https://www.tidyverse.org/lifecycle/#questioning'><img src='figures/lifecycle-questioning.svg' alt='Questioning lifecycle'></a>}}{\strong{Questioning}}
+
 Does minimum setup such that a tibble returned by your package
 is handled using the tibble method for generics like \code{print()} or \code{[}.
 Presumably you care about this if you've chosen to store and expose an

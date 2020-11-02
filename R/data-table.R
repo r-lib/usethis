@@ -1,15 +1,20 @@
 #' Prepare for importing data.table
 #'
-#' @description `use_data_table` facilitates importing `data.table` by
-#' handling up-front some common set-up tasks for using it in your package.
+#' @description
+#'
+#' `r lifecycle::badge("questioning")`
+#'
+#' `use_data_table` facilitates importing the data.table package by handling
+#' up-front some common set-up tasks for using it in your package.
 #'
 #' This function does two main things:
 #'
-#' 1. Import the entire `data.table` namespace (with `@import`).
+#' 1. Import the entire data.table namespace (with `@import`).
 #'
-#' 2. Block the usage of `data.table` as a dependency (`DESCRIPTION`
-#' field `Depends`); `data.table` should be used as an _import_ or _suggested_
-#' package only. See this [discussion](https://github.com/Rdatatable/data.table/issues/3076).
+#' 2. Block the usage of data.table as a dependency (`DESCRIPTION` field
+#' `Depends`); `data.table` should be used as an _imported_ or _suggested_
+#' package only. See this
+#' [discussion](https://github.com/Rdatatable/data.table/issues/3076).
 #' @export
 use_data_table <- function() {
   check_is_package("use_data_table()")
