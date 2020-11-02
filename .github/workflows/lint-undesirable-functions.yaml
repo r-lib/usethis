@@ -74,7 +74,7 @@ jobs:
             "basename",
             "dirname"
           )
-          fs_msg <- "Avoid base file system functions; use fs instead"
+          fs_msg <- "use the fs package"
           my_undesirable_functions <-
             rep_len(fs_msg, length(base_file_system_functions))
           names(my_undesirable_functions) <- base_file_system_functions
