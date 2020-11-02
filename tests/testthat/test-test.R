@@ -9,4 +9,3 @@ test_that("check_edition() validates inputs", {
     expect_equal(check_edition(), 2)
   }
 })
-

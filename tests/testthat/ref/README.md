@@ -3,19 +3,19 @@ ZIP file structures
 
 ``` r
 devtools::load_all("~/rrr/usethis")
-#> Loading usethis
-#> unloadNamespace("usethis") not successful, probably because another loaded package depends on it. Forcing unload. If you encounter problems, please restart R.
-#> Warning: package 'testthat' was built under R version 3.4.3
+#> ℹ Loading usethis
+#> x unloadNamespace("usethis") failed because another loaded package needs it
+#> ℹ Forcing unload. If you encounter problems, please restart R.
+library(fs)
 ```
 
-Different styles of ZIP file
-----------------------------
+## Different styles of ZIP file
 
 Examples based on foo folder found here.
 
 ``` bash
 tree foo
-#> foo
+#> [01;34mfoo[00m
 #> └── file.txt
 #> 
 #> 0 directories, 1 file
@@ -23,7 +23,9 @@ tree foo
 
 ### Not Loose Parts, a.k.a. GitHub style
 
-This is the structure of ZIP files yielded by GitHub via links of the forms <https://github.com/r-lib/usethis/archive/master.zip> and <http://github.com/r-lib/usethis/zipball/master/>.
+This is the structure of ZIP files yielded by GitHub via links of the
+forms <https://github.com/r-lib/usethis/archive/master.zip> and
+<http://github.com/r-lib/usethis/zipball/master/>.
 
 ``` bash
 zip -r foo-not-loose.zip foo/
@@ -35,7 +37,7 @@ Notice that everything is packaged below one top-level directory.
 foo_not_loose_files <- unzip("foo-not-loose.zip", list = TRUE)
 with(
   foo_not_loose_files,
-  data.frame(Name = Name, dirname = dirname(Name), basename = basename(Name))
+  data.frame(Name = Name, dirname = path_dir(Name), basename = path_file(Name))
 )
 #>           Name dirname basename
 #> 1         foo/       .      foo
@@ -44,7 +46,7 @@ with(
 
 ### Loose Parts, the Regular Way
 
-This is the structure of many ZIP files I've seen, just in general.
+This is the structure of many ZIP files I’ve seen, just in general.
 
 ``` bash
 cd foo
@@ -52,13 +54,14 @@ zip ../foo-loose-regular.zip *
 cd ..
 ```
 
-All the files are packaged in the ZIP archive as "loose parts", i.e. there is no explicit top-level directory.
+All the files are packaged in the ZIP archive as “loose parts”,
+i.e. there is no explicit top-level directory.
 
 ``` r
 foo_loose_regular_files <- unzip("foo-loose-regular.zip", list = TRUE)
 with(
   foo_loose_regular_files,
-  data.frame(Name = Name, dirname = dirname(Name), basename = basename(Name))
+  data.frame(Name = Name, dirname = path_dir(Name), basename = path_file(Name))
 )
 #>       Name dirname basename
 #> 1 file.txt       . file.txt
@@ -66,11 +69,16 @@ with(
 
 ### Loose Parts, the DropBox Way
 
-This is the structure of ZIP files yielded by DropBox via links of this form <https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1>. I can't figure out how to even do this with zip locally, so I had to create an example on DropBox and download it. Jim Hester reports it is possible with `archive::archive_write_files()`.
+This is the structure of ZIP files yielded by DropBox via links of this
+form <https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1>. I can’t
+figure out how to even do this with zip locally, so I had to create an
+example on DropBox and download it. Jim Hester reports it is possible
+with `archive::archive_write_files()`.
 
 <https://www.dropbox.com/sh/5qfvssimxf2ja58/AABz3zrpf-iPYgvQCgyjCVdKa?dl=1>
 
-It's basically like the "loose parts" above, except it includes a spurious top-level directory `"/"`.
+It’s basically like the “loose parts” above, except it includes a
+spurious top-level directory `"/"`.
 
 ``` r
 # curl::curl_download(
@@ -80,35 +88,37 @@ It's basically like the "loose parts" above, except it includes a spurious top-l
 foo_loose_dropbox_files <- unzip("foo-loose-dropbox.zip", list = TRUE)
 with(
   foo_loose_dropbox_files,
-  data.frame(Name = Name, dirname = dirname(Name), basename = basename(Name))
+  data.frame(Name = Name, dirname = path_dir(Name), basename = path_file(Name))
 )
 #>       Name dirname basename
 #> 1        /       /         
 #> 2 file.txt       . file.txt
 ```
 
-Also note that, when unzipping with `unzip` in the shell, you get this result:
+Also note that, when unzipping with `unzip` in the shell, you get this
+result:
 
     Archive:  foo-loose-dropbox.zip
     warning:  stripped absolute path spec from /
     mapname:  conversion of  failed
       inflating: file.txt
 
-So this is a pretty odd ZIP packing strategy. But we need to plan for it.
+So this is a pretty odd ZIP packing strategy. But we need to plan for
+it.
 
-Subdirs only at top-level
--------------------------
+## Subdirs only at top-level
 
-Let's make sure we detect loose parts (or not) when the top-level has only directories, not files.
+Let’s make sure we detect loose parts (or not) when the top-level has
+only directories, not files.
 
 Example based on the yo directory here:
 
 ``` bash
 tree yo
-#> yo
-#> ├── subdir1
+#> [01;34myo[00m
+#> ├── [01;34msubdir1[00m
 #> │   └── file1.txt
-#> └── subdir2
+#> └── [01;34msubdir2[00m
 #>     └── file2.txt
 #> 
 #> 2 directories, 2 files

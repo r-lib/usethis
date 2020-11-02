@@ -1,0 +1,86 @@
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+name: lint-undesirable-functions
+
+jobs:
+  lint:
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        run: |
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_github("jennybc/lintr@functions-not-objects")
+        shell: Rscript {0}
+
+      - name: Lint
+        run: |
+          base_file_system_functions <- c(
+            "Sys.chmod",
+            "Sys.readlink",
+            "Sys.setFileTime",
+            "Sys.umask",
+            "dir",
+            "dir.create",
+            "dir.exists",
+            "file.access",
+            "file.append",
+            "file.copy",
+            "file.create",
+            "file.exists",
+            "file.info",
+            "file.link",
+            "file.mode",
+            "file.mtime",
+            "file.path",
+            "file.remove",
+            "file.rename",
+            "file.size",
+            "file.symlink",
+            "list.files",
+            "list.dirs",
+            "normalizePath",
+            "path.expand",
+            "tempdir",
+            "tempfile",
+            "unlink",
+            "basename",
+            "dirname"
+          )
+          fs_msg <- "use the fs package"
+          my_undesirable_functions <-
+            rep_len(fs_msg, length(base_file_system_functions))
+          names(my_undesirable_functions) <- base_file_system_functions
+          my_undesirable_function_linter <-
+            lintr::undesirable_function_linter(fun = my_undesirable_functions)
+          out <- lintr::lint_package(linters = my_undesirable_function_linter)
+          print(out)
+          if (length(out)) stop("lints found")
+        shell: Rscript {0}

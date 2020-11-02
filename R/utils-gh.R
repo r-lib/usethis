@@ -42,5 +42,5 @@ is_github_dot_com <- function(url) {
 }
 
 default_api_url <- function() {
-  Sys.getenv('GITHUB_API_URL', unset = "https://api.github.com")
+  Sys.getenv("GITHUB_API_URL", unset = "https://api.github.com")
 }

@@ -68,4 +68,3 @@ test_that("rename paths in test file", {
 test_that("check_file_name() requires single vector", {
   expect_usethis_error(check_file_name(c("a", "b")), "single string")
 })
-

@@ -158,4 +158,3 @@ test_that("edit_git_ignore() ensures .gitignore exists in project", {
   edit_git_ignore("project")
   expect_proj_file(".gitignore")
 })
-

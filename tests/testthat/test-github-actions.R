@@ -150,4 +150,3 @@ test_that("use_github_action() appends yaml in name if missing", {
   expect_proj_dir(".github/workflows")
   expect_proj_file(".github/workflows/check-full.yaml")
 })
-

@@ -426,7 +426,7 @@ pr_merge_main <- function() {
 pr_view <- function(number = NULL) {
   tr <- target_repo(github_get = NA)
   url <- NULL
-  if(is.null(number)) {
+  if (is.null(number)) {
     branch <- git_branch()
     default_branch <- git_branch_default()
     if (branch != default_branch) {
@@ -811,7 +811,7 @@ choose_branch <- function() {
     }
   )
   choice <- utils::menu(title = prompt, choices = dat_pretty)
-  branch <- dat$name[choice]
+  dat$name[choice]
 }
 
 choose_pr <- function(tr = NULL) {
