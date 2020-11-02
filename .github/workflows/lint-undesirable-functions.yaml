@@ -79,9 +79,8 @@ jobs:
             rep_len(fs_msg, length(base_file_system_functions))
           names(my_undesirable_functions) <- base_file_system_functions
           my_undesirable_function_linter <-
-          lintr::undesirable_function_linter(fun = my_undesirable_functions)
+            lintr::undesirable_function_linter(fun = my_undesirable_functions)
           out <- lintr::lint_package(linters = my_undesirable_function_linter)
-          #lintr:::github_actions_log_lints(out)
           print(out)
-          #if (length(out)) stop("lints found")
+          if (length(out)) stop("lints found")
         shell: Rscript {0}
