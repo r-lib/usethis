@@ -82,5 +82,7 @@ jobs:
           lintr::undesirable_function_linter(fun = my_undesirable_functions)
           out <- lintr::lint_package(linters = my_undesirable_function_linter)
           print(out)
+          lintr::in_github_actions()
+          lintr::github_actions_log_lints(out)
           if (length(out)) stop("lints found")
         shell: Rscript {0}
