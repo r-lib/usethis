@@ -8,7 +8,7 @@ on:
       - main
       - master
 
-name: lint-fs-enforcer
+name: lint-undesirable-functions
 
 jobs:
   lint:
@@ -37,9 +37,13 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("lintr")
+          remotes::install_github("jennybc/lintr@functions-not-objects")
         shell: Rscript {0}
 
       - name: Lint
-        run: lintr::lint_package()
+        run: |
+          source(system.file("undesirable_function_linting.R", package = "usethis"))
+          out <- lintr::lint_package(linters = my_undesirable_function_linter)
+          print(out)
+          if (length(out)) stop("lints found")
         shell: Rscript {0}
