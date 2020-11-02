@@ -289,13 +289,14 @@
 <h2 class="hasAnchor">
 <a href="#other-changes" class="anchor"></a>Other changes</h2>
 <ul>
+<li><p>The legacy <code>"devtools.desc"</code> option is no longer consulted when populating a new DESCRIPTION file. You must use the <code>"usethis.description"</code> now (<a href='https://github.com/r-lib/usethis/issues/1069'>#1069</a>).</p></li>
 <li><p>GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (<a href='https://github.com/r-lib/usethis/issues/1169'>#1169</a>).</p></li>
 <li><p><code><a href="../reference/use_package.html">use_dev_package()</a></code> gains a <code>remote</code> parameter to allow you to specify the remote. The existing behaviour, which adds an <code>OWNER/REPO</code> GitHub remote, remains the default (<a href='https://github.com/r-lib/usethis/issues/918'>#918</a>, <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</p></li>
 <li><p><code><a href="../reference/browse-this.html">browse_github_actions()</a></code> is a new function to open the Actions page of the respective repo on GitHub, similar to existing <code>browse_*()</code> functions (<a href='https://github.com/pat-s'>@pat-s</a>, <a href='https://github.com/r-lib/usethis/issues/1102'>#1102</a>).</p></li>
 <li><p><code><a href="../reference/use_cpp11.html">use_cpp11()</a></code> is a new function to set up an R package to use cpp11.</p></li>
 <li><p><code><a href="../reference/create_package.html">create_package(roxygen = FALSE)</a></code> once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (<a href='https://github.com/r-lib/usethis/issues/1120'>#1120</a>).</p></li>
 <li><p><code><a href="../reference/create_package.html">create_package()</a></code>, <code><a href="../reference/create_package.html">create_project()</a></code>, and <code><a href="../reference/proj_activate.html">proj_activate()</a></code> work better with relative paths, outside of RStudio (<a href='https://github.com/r-lib/usethis/issues/1122'>#1122</a>, <a href='https://github.com/r-lib/usethis/issues/954'>#954</a>).</p></li>
-<li><p><code><a href="../reference/use_testthat.html">use_testthat()</a></code> gains an edition argument to support upcoming testthat 3.0.0 (<a href='https://github.com/r-lib/usethis/issues/1185'>#1185</a>)</p></li>
+<li><p><code><a href="../reference/use_testthat.html">use_testthat()</a></code> gains an edition argument to support testthat v3.0.0 (<a href='https://github.com/r-lib/usethis/issues/1185'>#1185</a>)</p></li>
 </ul>
 </div>
 </div>
