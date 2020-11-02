@@ -10,16 +10,17 @@
 #' object with class `tbl_df`. Specifically:
 #'   * Check that the active package uses roxygen2
 #'   * Add the tibble package to "Imports" in `DESCRIPTION`
-#'   * Reveal the roxygen directive necessary to import at least one function
-#'     from tibble.
-#'   * Offer support re: where to put this directive. Preferred location is
-#'     in the roxygen snippet produced by [use_package_doc()].
+#'   * Prepare the roxygen directive necessary to import at least one function
+#'     from tibble:
+#'     - If possible, the directive is inserted into existing package-level
+#'       documentation, i.e. the roxygen snippet created by  [use_package_doc()]
+#'     - Otherwise, we issue advice on where the user should add the directive
 #'
-#' @description This is necessary when your package returns a stored data object
-#'   that has class `tbl_df`, but the package code does not make direct use of
-#'   functions from the tibble package. If you do nothing, the tibble namespace
-#'   is not necessarily loaded and your tibble may therefore be printed and
-#'   subsetted like a base `data.frame`.
+#' This is necessary when your package returns a stored data object that has
+#' class `tbl_df`, but the package code does not make direct use of functions
+#' from the tibble package. If you do nothing, the tibble namespace is not
+#' necessarily loaded and your tibble may therefore be printed and subsetted
+#' like a base `data.frame`.
 #'
 #' @export
 #' @examples
