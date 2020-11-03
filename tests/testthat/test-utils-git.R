@@ -1,5 +1,6 @@
 # Branch ------------------------------------------------------------------
 test_that("git_branch() works", {
+  skip_if_no_git_user()
   create_local_project()
 
   expect_usethis_error(git_branch(), "Cannot detect")
