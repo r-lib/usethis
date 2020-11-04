@@ -17,7 +17,7 @@
 #' @details
 #' * `browse_github()`: Visits a GitHub repository associated with the project.
 #'   In the case of a fork, you might be asked to specify if you're interested
-#'   in the parent repo or your fork.
+#'   in the source repo or your fork.
 #' * `browse_github_issues()`: Visits the GitHub Issues index or one specific
 #'   issue.
 #' * `browse_github_pulls()`: Visits the GitHub Pull Request index or one
