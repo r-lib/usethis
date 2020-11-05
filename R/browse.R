@@ -28,7 +28,8 @@
 #'   [Circle CI](https://circleci.com).
 #' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.
 #'
-#' @param package Name of package. If `NULL`, inferred from the active project.
+#' @param package Name of package. If `NULL`, the active project is targetted,
+#'   regardless of whether it's an R package or not.
 #' @param number Optional, to specify an individual GitHub issue or pull
 #'   request. Can be a number or `"new"`.
 #'
@@ -96,30 +97,75 @@ browse_cran <- function(package = NULL) {
 # 2. BugReports/URL fields of DESCRIPTION (active project or arbitrary
 #    installed package)
 github_url <- function(package = NULL) {
+  stopifnot(is.null(package) || is_string(package))
+  if (is.null(package) && !possibly_in_proj()) {
+    ui_stop("
+      We do not appear to be inside a valid project or package
+      No way to discover URLs")
+  }
   if (is.null(package)) {
-    repo_spec <- target_repo_spec()
-    if (!is.null(repo_spec)) {
-      return(glue("https://github.com/{repo_spec}"))
+    url <- github_url_from_git_remotes()
+    if (!is.null(url)) {
+      return(url)
     }
   }
+  urls <- desc_urls(package)
+  urls <- urls[urls$is_github, ]
+  if (nrow(urls) > 0) {
+    parsed <- parse_github_remotes(urls$url[[1]])
+    return(glue_data(parsed, "https://{host}/{repo_owner}/{repo_name}"))
+  }
   if (is.null(package)) {
-    desc <- desc::desc(file = proj_get())
-  } else {
-    desc <- desc::desc(package = package)
+    ui_stop("
+      Project {ui_value(project_name())} has no GitHub remotes configured and \\
+      has no GitHub URLs in DESCRIPTION")
   }
-  remote <- github_remote_from_description(desc)
-  if (is.null(remote)) {
-    ui_warn("
-      Can't discover a GitHub URL.
-      Falling back to GitHub CRAN mirror")
-    glue("https://github.com/cran/{package %||% project_name()}")
-  } else {
-    glue("https://github.com/{remote$repo_owner}/{remote$repo_name}")
-  }
+  ui_warn("
+    Package {ui_value(package)} has no GitHub URLs in DESCRIPTION
+    Trying the GitHub CRAN mirror")
+  glue("https://github.com/cran/{package}")
 }
 
 cran_home <- function(package = NULL) {
   package <- package %||% project_name()
-
   glue("https://cran.r-project.org/package={package}")
+}
+
+desc_urls <- function(package = NULL) {
+  maybe_desc <- purrr::possibly(desc::desc, otherwise = NULL)
+  if (is.null(package)) {
+    desc <- maybe_desc(file = proj_get())
+    if (is.null(desc)) {
+      ui_stop("
+        Project {ui_value(project_name())} has no DESCRIPTION file and \\
+        has no GitHub remotes configured
+        No way to discover URLs")
+    }
+  } else {
+    desc <- maybe_desc(package = package)
+    if (is.null(desc)) {
+      cran_desc_url <-
+        glue("https://cran.rstudio.com/web/packages/{package}/DESCRIPTION")
+      desc <- maybe_desc(text = readLines(cran_desc_url))
+      if (is.null(desc)) {
+        ui_stop("
+          Can't find DESCRIPTION for package {ui_value(package)} locally \\
+          or on CRAN
+          No way to discover URLs")
+      }
+    }
+  }
+  url <- desc$get_urls()
+  bug_reports <- desc$get_field("BugReports", default = character())
+  dat <- data.frame(
+    desc_field = c(
+      rep_len("URL", length.out = length(url)),
+      rep_len("BugReports", length.out = length(bug_reports))
+    ),
+    url = c(url, bug_reports),
+    stringsAsFactors = FALSE
+  )
+  dat <- cbind(dat, rematch2::re_match(dat$url, github_remote_regex))
+  dat$is_github <- !is.na(dat$.match) & grepl("github", dat$host)
+  dat[c("url", "desc_field", "is_github")]
 }

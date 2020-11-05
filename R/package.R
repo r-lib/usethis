@@ -82,17 +82,17 @@ package_remote <- function(package) {
     return(paste0(remote$RemoteUsername, "/", remote$RemoteRepo))
   }
 
-  remote <- github_remote_from_description(desc)
-  if (is.null(remote)) {
+  urls <- desc_urls(package)
+  urls <- urls[urls$is_github, ]
+  if (nrow(urls) < 1) {
     ui_stop("Cannot determine remote for {ui_value(package)}")
   }
-
-  remote <- paste0(remote$repo_owner, "/", remote$repo_name)
+  parsed <- parse_github_remotes(urls$url[[1]])
+  remote <- paste0(parsed$repo_owner, "/", parsed$repo_name)
   if (ui_yeah("
     {ui_value(package)} was either installed from CRAN or local source.
     Based on DESCRIPTION, we propose the remote: {ui_value(remote)}
-    Is this OK?
-  ")) {
+    Is this OK?")) {
     remote
   } else {
     ui_stop("Cannot determine remote for {ui_value(package)}")

@@ -75,17 +75,13 @@ parse_repo_url <- function(x) {
   }
 }
 
-github_remote_from_description <- function(desc) {
-  stopifnot(inherits(desc, "description"))
-  urls <- c(
-    desc$get_field("BugReports", default = character()),
-    desc$get_urls()
-  )
-  gh_links <- grep("^https?://github.com/", urls, value = TRUE)
-  if (length(gh_links) > 0) {
-    parsed <- parse_github_remotes(gh_links[[1]])
-    as.list(parsed[c("repo_owner", "repo_name")])
+github_url_from_git_remotes <- function() {
+  tr <- tryCatch(target_repo(github_get = NA), error = function(e) NULL)
+  if (is.null(tr)) {
+    return()
   }
+  parsed <- parse_github_remotes(tr$url)
+  glue_data(parsed, "https://{host}/{repo_owner}/{repo_name}")
 }
 
 #' Gather LOCAL data on GitHub-associated remotes
