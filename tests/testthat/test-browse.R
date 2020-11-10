@@ -62,7 +62,10 @@ test_that("desc_urls() returns empty data frame if no URLs", {
   use_description()
   expect_equal(
     desc_urls(),
-    data.frame(url = character(), desc_field = character(), is_github = logical())
+    data.frame(
+      url = character(), desc_field = character(), is_github = logical(),
+      stringsAsFactors = FALSE
+    )
   )
 })
 
