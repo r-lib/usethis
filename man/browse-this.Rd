@@ -32,7 +32,7 @@ browse_circleci(package = NULL)
 browse_cran(package = NULL)
 }
 \arguments{
-\item{package}{Name of package. If \code{NULL}, the active project is targetted,
+\item{package}{Name of package. If \code{NULL}, the active project is targeted,
 regardless of whether it's an R package or not.}
 
 \item{number}{Optional, to specify an individual GitHub issue or pull

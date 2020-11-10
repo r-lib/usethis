@@ -49,7 +49,7 @@ reference:
     - use_course
   - title: Active project
     desc: >
-      Query or set the project targetted by usethis functions that don't take a path
+      Query or set the project targeted by usethis functions that don't take a path
     contents:
     - starts_with("proj_", internal = TRUE)
   - title: Package development

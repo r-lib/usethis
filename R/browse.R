@@ -35,7 +35,7 @@
 #'   [Circle CI](https://circleci.com).
 #' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.
 #'
-#' @param package Name of package. If `NULL`, the active project is targetted,
+#' @param package Name of package. If `NULL`, the active project is targeted,
 #'   regardless of whether it's an R package or not.
 #' @param number Optional, to specify an individual GitHub issue or pull
 #'   request. Can be a number or `"new"`.
