@@ -269,6 +269,10 @@
 <p><code><a href="../reference/create_from_github.html">create_from_github()</a></code> and <code><a href="../reference/use_tidy_thanks.html">use_tidy_thanks()</a></code> accept browser and Git URLs as the <code>repo_spec</code> argument, to be friendlier to copy/paste. When a URL is passed, the <code>host</code> is also extracted from it.</p>
 <p><code><a href="../reference/github-token.html">create_github_token()</a></code> is a new name for the function previously known as <code><a href="../reference/usethis-defunct.html">browse_github_token()</a></code> and <code><a href="../reference/usethis-defunct.html">browse_github_pat()</a></code>.</p>
 <p><code><a href="../reference/issue-this.html">issue_close_community()</a></code> and <code><a href="../reference/issue-this.html">issue_reprex_needed()</a></code> are two new functions for maintainers who process lots of GitHub issues. They automate canned replies and actions, e.g. labelling or closing (<a href='https://github.com/r-lib/usethis/issues/940'>#940</a>).</p>
+<ul>
+<li><p>GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (<a href='https://github.com/r-lib/usethis/issues/1169'>#1169</a>).</p></li>
+<li><p><code><a href="../reference/browse-this.html">browse_github_actions()</a></code> is a new function to open the Actions page of the respective repo on GitHub, similar to existing <code>browse_*()</code> functions (<a href='https://github.com/pat-s'>@pat-s</a>, <a href='https://github.com/r-lib/usethis/issues/1102'>#1102</a>).</p></li>
+</ul>
 <p><code><a href="../reference/usethis-defunct.html">pr_sync()</a></code> is defunct and can be replicated by calling <code><a href="../reference/pull-requests.html">pr_pull()</a></code>, <code><a href="../reference/pull-requests.html">pr_merge_main()</a></code>, then <code><a href="../reference/pull-requests.html">pr_push()</a></code>.</p>
 </div>
 <div id="licensing-improvements" class="section level2">
@@ -289,10 +293,9 @@
 <h2 class="hasAnchor">
 <a href="#other-changes" class="anchor"></a>Other changes</h2>
 <ul>
+<li><p><code><a href="../reference/browse-this.html">browse_package()</a></code> and <code><a href="../reference/browse-this.html">browse_project()</a></code> are new functions that let the user choose from a list of URLs derived from local Git remotes and DESCRIPTION (local or possibly on CRAN) (<a href='https://github.com/r-lib/usethis/issues/1113'>#1113</a>).</p></li>
 <li><p>The legacy <code>"devtools.desc"</code> option is no longer consulted when populating a new DESCRIPTION file. You must use the <code>"usethis.description"</code> now (<a href='https://github.com/r-lib/usethis/issues/1069'>#1069</a>).</p></li>
-<li><p>GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (<a href='https://github.com/r-lib/usethis/issues/1169'>#1169</a>).</p></li>
 <li><p><code><a href="../reference/use_package.html">use_dev_package()</a></code> gains a <code>remote</code> parameter to allow you to specify the remote. The existing behaviour, which adds an <code>OWNER/REPO</code> GitHub remote, remains the default (<a href='https://github.com/r-lib/usethis/issues/918'>#918</a>, <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</p></li>
-<li><p><code><a href="../reference/browse-this.html">browse_github_actions()</a></code> is a new function to open the Actions page of the respective repo on GitHub, similar to existing <code>browse_*()</code> functions (<a href='https://github.com/pat-s'>@pat-s</a>, <a href='https://github.com/r-lib/usethis/issues/1102'>#1102</a>).</p></li>
 <li><p><code><a href="../reference/use_cpp11.html">use_cpp11()</a></code> is a new function to set up an R package to use cpp11.</p></li>
 <li><p><code><a href="../reference/create_package.html">create_package(roxygen = FALSE)</a></code> once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (<a href='https://github.com/r-lib/usethis/issues/1120'>#1120</a>).</p></li>
 <li><p><code><a href="../reference/create_package.html">create_package()</a></code>, <code><a href="../reference/create_package.html">create_project()</a></code>, and <code><a href="../reference/proj_activate.html">proj_activate()</a></code> work better with relative paths, outside of RStudio (<a href='https://github.com/r-lib/usethis/issues/1122'>#1122</a>, <a href='https://github.com/r-lib/usethis/issues/954'>#954</a>).</p></li>
@@ -508,10 +511,11 @@
 </li>
 <li>
 <p><code><a href="../reference/use_tibble.html">use_tibble()</a></code> and <code><a href="../reference/use_rcpp.html">use_rcpp()</a></code> automatically add roxygen tags to to <code>{package}-package.R</code> if it contains a specially formatted namespace block (<a href='https://github.com/r-lib/usethis/issues/517'>#517</a>):</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="co">## usethis namespace: start</span>
 <span class="co">## usethis namespace: end</span>
-<span class="cn">NULL</span></pre></div>
+<span class="cn">NULL</span></code></pre></div>
 <p>Unfortunately this means that <code><a href="../reference/use_rcpp.html">use_rcpp()</a></code> no longer supports non-roxygen2 workflows, but I suspect the set of people who use usethis and Rcpp but not roxygen2 is very small.</p>
 </li>
 </ul>

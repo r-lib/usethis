@@ -54,11 +54,13 @@
 
 <meta property="og:title" content="Visit important project-related web pages — browse-this" />
 <meta property="og:description" content="These functions take you to various web pages associated with a project
-(here, usually a package) and return the target URL invisibly. To form
+(often, an R package) and return the target URL(s) invisibly. To form
 these URLs we consult:
-Git remotes configured for the active project that are associated with
-github.com
-DESCRIPTION file for the active project or the specified package
+Git remotes configured for the active project that appear to be hosted on
+a GitHub deployment
+DESCRIPTION file for the active project or the specified package. The
+DESCRIPTION file is sought first in the local package library and then
+on CRAN.
 Fixed templates:
 Travis CI: https://travis-ci.{EXT}/{OWNER}/{PACKAGE}
 Circle CI: https://circleci.com/gh/{OWNER}/{PACKAGE}
@@ -201,11 +203,13 @@ there will be content at the destination.
 
     <div class="ref-description">
     <p>These functions take you to various web pages associated with a project
-(here, usually a package) and return the target URL invisibly. To form
+(often, an R package) and return the target URL(s) invisibly. To form
 these URLs we consult:</p><ul>
-<li><p>Git remotes configured for the active project that are associated with
-github.com</p></li>
-<li><p>DESCRIPTION file for the active project or the specified <code>package</code></p></li>
+<li><p>Git remotes configured for the active project that appear to be hosted on
+a GitHub deployment</p></li>
+<li><p>DESCRIPTION file for the active project or the specified <code>package</code>. The
+DESCRIPTION file is sought first in the local package library and then
+on CRAN.</p></li>
 <li><p>Fixed templates:</p><ul>
 <li><p>Travis CI: <code>https://travis-ci.{EXT}/{OWNER}/{PACKAGE}</code></p></li>
 <li><p>Circle CI: <code>https://circleci.com/gh/{OWNER}/{PACKAGE}</code></p></li>
@@ -218,7 +222,11 @@ there will be content at the destination.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>browse_github</span><span class='op'>(</span>package <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>browse_package</span><span class='op'>(</span>package <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>browse_project</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>browse_github</span><span class='op'>(</span>package <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='fu'>browse_github_issues</span><span class='op'>(</span>package <span class='op'>=</span> <span class='cn'>NULL</span>, number <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
@@ -237,7 +245,8 @@ there will be content at the destination.</p></li>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>package</th>
-      <td><p>Name of package. If <code>NULL</code>, inferred from the active project.</p></td>
+      <td><p>Name of package. If <code>NULL</code>, the active project is targeted,
+regardless of whether it's an R package or not.</p></td>
     </tr>
     <tr>
       <th>number</th>
@@ -254,9 +263,14 @@ request. Can be a number or <code>"new"</code>.</p></td>
 
     
 <ul>
+<li><p><code>browse_package()</code>: Assembles a list of URLs and lets user choose one to
+visit in a web browser. In a non-interactive session, returns all
+discovered URLs.</p></li>
+<li><p><code>browse_project()</code>: Thin wrapper around <code>browse_package()</code> that always
+targets the active usethis project.</p></li>
 <li><p><code>browse_github()</code>: Visits a GitHub repository associated with the project.
 In the case of a fork, you might be asked to specify if you're interested
-in the parent repo or your fork.</p></li>
+in the source repo or your fork.</p></li>
 <li><p><code>browse_github_issues()</code>: Visits the GitHub Issues index or one specific
 issue.</p></li>
 <li><p><code>browse_github_pulls()</code>: Visits the GitHub Pull Request index or one
@@ -270,7 +284,11 @@ specific pull request.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>browse_github</span><span class='op'>(</span><span class='st'>"gh"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='co'># works on the active project</span>
+<span class='co'># browse_project()</span>
+
+<span class='fu'>browse_package</span><span class='op'>(</span><span class='st'>"httr"</span><span class='op'>)</span>
+<span class='fu'>browse_github</span><span class='op'>(</span><span class='st'>"gh"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/gh'</span><span></span></div><div class='input'><span class='fu'>browse_github_issues</span><span class='op'>(</span><span class='st'>"fs"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/fs/issues/'</span><span></span></div><div class='input'><span class='fu'>browse_github_issues</span><span class='op'>(</span><span class='st'>"fs"</span>, <span class='fl'>1</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> Open URL </span><span style='color: #0000BB;'>'https://github.com/r-lib/fs/issues/1'</span><span></span></div><div class='input'><span class='fu'>browse_github_pulls</span><span class='op'>(</span><span class='st'>"curl"</span><span class='op'>)</span>
