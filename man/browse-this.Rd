@@ -2,6 +2,8 @@
 % Please edit documentation in R/browse.R
 \name{browse-this}
 \alias{browse-this}
+\alias{browse_package}
+\alias{browse_project}
 \alias{browse_github}
 \alias{browse_github_issues}
 \alias{browse_github_pulls}
@@ -11,6 +13,10 @@
 \alias{browse_cran}
 \title{Visit important project-related web pages}
 \usage{
+browse_package(package = NULL)
+
+browse_project()
+
 browse_github(package = NULL)
 
 browse_github_issues(package = NULL, number = NULL)
@@ -36,12 +42,14 @@ request. Can be a number or \code{"new"}.}
 }
 \description{
 These functions take you to various web pages associated with a project
-(here, usually a package) and return the target URL invisibly. To form
+(often, an R package) and return the target URL(s) invisibly. To form
 these URLs we consult:
 \itemize{
-\item Git remotes configured for the active project that are associated with
-github.com
-\item DESCRIPTION file for the active project or the specified \code{package}
+\item Git remotes configured for the active project that appear to be hosted on
+a GitHub deployment
+\item DESCRIPTION file for the active project or the specified \code{package}. The
+DESCRIPTION file is sought first in the local package library and then
+on CRAN.
 \item Fixed templates:
 \itemize{
 \item Travis CI: \verb{https://travis-ci.\{EXT\}/\{OWNER\}/\{PACKAGE\}}
@@ -55,6 +63,11 @@ there will be content at the destination.
 }
 \details{
 \itemize{
+\item \code{browse_package()}: Assembles a list of URLs and lets user choose one to
+visit in a web browser. In a non-interactive session, returns all
+discovered URLs.
+\item \code{browse_project()}: Thin wrapper around \code{browse_package()} that always
+targets the active usethis project.
 \item \code{browse_github()}: Visits a GitHub repository associated with the project.
 In the case of a fork, you might be asked to specify if you're interested
 in the source repo or your fork.
@@ -70,6 +83,10 @@ specific pull request.
 }
 }
 \examples{
+# works on the active project
+# browse_project()
+
+browse_package("httr")
 browse_github("gh")
 browse_github_issues("fs")
 browse_github_issues("fs", 1)

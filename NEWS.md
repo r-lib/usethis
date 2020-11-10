@@ -84,6 +84,10 @@ The default Git protocol is now "https" and we no longer provide an interactive 
 
 `issue_close_community()` and `issue_reprex_needed()` are two new functions for maintainers who process lots of GitHub issues. They automate canned replies and actions, e.g. labelling or closing (#940).
 
+* GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (#1169).
+
+* `browse_github_actions()` is a new function to open the Actions page of the respective repo on GitHub, similar to existing `browse_*()` functions (@pat-s, #1102).
+
 `pr_sync()` is defunct and can be replicated by calling `pr_pull()`, `pr_merge_main()`, then `pr_push()`.
 
 ## Licensing improvements
@@ -122,13 +126,11 @@ The default Git protocol is now "https" and we no longer provide an interactive 
 
 ## Other changes
 
+* `browse_package()` and `browse_project()` are new functions that let the user choose from a list of URLs derived from local Git remotes and DESCRIPTION (local or possibly on CRAN) (#1113).
+
 * The legacy `"devtools.desc"` option is no longer consulted when populating a new DESCRIPTION file. You must use the `"usethis.description"` now (#1069).
 
-* GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (#1169).
-
 * `use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The existing behaviour, which adds an `OWNER/REPO` GitHub remote, remains the default (#918, @ijlyttle).
-
-* `browse_github_actions()` is a new function to open the Actions page of the respective repo on GitHub, similar to existing `browse_*()` functions (@pat-s, #1102).
 
 * `use_cpp11()` is a new function to set up an R package to use cpp11.
 
