@@ -31,7 +31,7 @@ Imports:
     desc,
     fs (>= 1.3.0),
     gert (>= 1.0.2),
-    gh (>= 1.1.0.9001),
+    gh (>= 1.1.0.9002),
     glue (>= 1.3.0),
     lifecycle,
     purrr,
@@ -57,7 +57,7 @@ RdMacros:
     lifecycle
 Remotes: 
     r-lib/gert,
-    r-lib/gh
+    r-lib/gh#139
 Encoding: UTF-8
 Language: en-US
 LazyData: true

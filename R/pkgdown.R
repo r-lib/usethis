@@ -136,6 +136,7 @@ use_pkgdown_travis <- function() {
     create_gh_pages_branch(tr)
   }
 
+  # TODO: actually do this
   ui_todo("
     Turn on GitHub pages at \\
     <https://github.com/{tr$repo_spec}/settings> (using gh-pages as source)")
@@ -147,35 +148,4 @@ use_pkgdown_travis <- function() {
 # all usage of this wrapper is guarded by `check_installed("pkgdown")`
 pkgdown_build_favicons <- function(...) {
   get("build_favicons", asNamespace("pkgdown"), mode = "function")(...)
-}
-
-create_gh_pages_branch <- function(tr) {
-  ui_done("
-    Initializing empty gh-pages branch in GitHub repo {ui_value(tr$repo_spec)}")
-
-  # git hash-object -t tree /dev/null.
-  sha_empty_tree <- "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
-
-  gh <- function(endpoint, ...) {
-    gh::gh(
-      endpoint,
-      ...,
-      owner = tr$repo_owner, repo = tr$repo_name,
-      .api_url = tr$api_url
-    )
-  }
-
-  # Create commit with empty tree
-  res <- gh(
-    "POST /repos/:owner/:repo/git/commits",
-    message = "first commit",
-    tree = sha_empty_tree
-  )
-
-  # Assign ref to above commit
-  gh(
-    "POST /repos/:owner/:repo/git/refs",
-    ref = "refs/heads/gh-pages",
-    sha = res$sha
-  )
 }
