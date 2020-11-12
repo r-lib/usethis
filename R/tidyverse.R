@@ -279,6 +279,7 @@ use_tidy_thanks <- function(repo_spec = NULL,
   repo_spec <- repo_spec %||% target_repo_spec()
   parsed_repo_spec <- parse_repo_url(repo_spec)
   repo_spec <- parsed_repo_spec$repo_spec
+  # this is the most practical way to propagate `host` to downstream helpers
   if (!is.null(parsed_repo_spec$host)) {
     withr::local_envvar(c(GITHUB_API_URL = parsed_repo_spec$host))
   }
@@ -295,8 +296,7 @@ use_tidy_thanks <- function(repo_spec = NULL,
 
   res <- gh::gh(
     "/repos/{owner}/{repo}/issues",
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec),
+    owner = spec_owner(repo_spec), repo = spec_repo(repo_spec),
     since = from_timestamp,
     state = "all",
     filter = "all",
@@ -354,7 +354,8 @@ ref_df <- function(repo_spec, refs = NULL) {
   get_thing <- function(thing) {
     gh::gh(
       "/repos/{owner}/{repo}/commits/{thing}",
-      owner = spec_owner(repo_spec), repo = spec_repo(repo_spec), thing = thing
+      owner = spec_owner(repo_spec), repo = spec_repo(repo_spec),
+      thing = thing
     )
   }
   res <- lapply(refs, get_thing)
@@ -371,8 +372,7 @@ releases <- function(repo_spec) {
   stopifnot(is_string(repo_spec))
   res <- gh::gh(
     "/repos/{owner}/{repo}/releases",
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec)
+    owner = spec_owner(repo_spec), repo = spec_repo(repo_spec)
   )
   if (length(res) < 1) {
     return(NULL)
