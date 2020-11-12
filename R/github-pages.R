@@ -88,7 +88,7 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
     site$source$branch != branch ||
     site$source$path != path ||
     (is.null(cname) && !is.null(site$cname)) ||
-    (is_string(cname) && !identical(cname, site$cname))
+    (is_string(cname) && cname != site$cname)
 
   if (need_update) {
     args <- list(
@@ -108,6 +108,9 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
   }
 
   ui_done("GitHub Pages is publishing from:")
+  if (!is.null(site$cname)) {
+    kv_line("Custom domain", site$cname)
+  }
   kv_line("URL", site$html_url)
   kv_line("Branch", site$source$branch)
   kv_line("Path", site$source$path)
