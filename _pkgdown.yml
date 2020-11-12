@@ -118,7 +118,7 @@ reference:
     contents:
     - create_from_github
     - use_git
-    - use_github
+    - starts_with("use_github")
     - git_sitrep
     - create_github_token
     - gh_token_help
@@ -127,9 +127,7 @@ reference:
     - use_git_ignore
     - use_git_protocol
     - use_git_remote
-    - use_github_links
     - use_git_hook
-    - use_github_labels
     - use_code_of_conduct
     - use_readme_rmd
     - git_branch_default
