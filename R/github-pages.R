@@ -106,6 +106,7 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
     if (is_string(cname) && (is.null(site$cname) || cname != site$cname)) {
       args$cname <- cname
     }
+    Sys.sleep(2)
     exec(gh, !!!args)
     Sys.sleep(2)
     site <- safe_gh("GET /repos/{owner}/{repo}/pages")[["result"]]
