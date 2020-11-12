@@ -56,7 +56,6 @@ Suggests:
 RdMacros: 
     lifecycle
 Remotes: 
-    r-lib/gert,
     r-lib/gh#139
 Encoding: UTF-8
 Language: en-US

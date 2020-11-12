@@ -552,8 +552,8 @@ pr_finish <- function(number = NULL) {
     return(invisible())
   }
 
-  branches <- gert::git_branch_list(repo = git_repo())
-  branches <- branches[branches$local & !is.na(branches$upstream), ]
+  branches <- gert::git_branch_list(local = TRUE, repo = git_repo())
+  branches <- branches[!is.na(branches$upstream), ]
   if (sum(grepl(glue("^refs/remotes/{remote}"), branches$upstream)) == 0) {
     ui_done("Removing remote {ui_value(remote)}")
     gert::git_remote_remove(remote = remote, repo = repo)
@@ -675,8 +675,8 @@ pr_data_tidy <- function(pr) {
   out$pr_remote <- if (is.na(m)) out$pr_repo_owner else grl$remote[m]
 
   pr_remref <- glue("{out$pr_remote}/{out$pr_ref}")
-  gbl <- gert::git_branch_list(repo = git_repo())
-  gbl <- gbl[gbl$local & !is.na(gbl$upstream), c("name", "upstream")]
+  gbl <- gert::git_branch_list(local = TRUE, repo = git_repo())
+  gbl <- gbl[!is.na(gbl$upstream), c("name", "upstream")]
   gbl$upstream <- sub("^refs/remotes/", "", gbl$upstream)
   m <- match(pr_remref, gbl$upstream)
   out$pr_local_branch <- if (is.na(m)) NA else gbl$name[m]
@@ -754,9 +754,9 @@ check_pr_branch <- function() {
 
 branches_with_no_upstream_or_github_upstream <- function(tr = NULL) {
   repo <- git_repo()
-  gb_dat <- gert::git_branch_list(repo = repo)
+  gb_dat <- gert::git_branch_list(local = TRUE, repo = repo)
   gb_dat <- gb_dat[
-    gb_dat$local & gb_dat$name != git_branch_default(),
+    gb_dat$name != git_branch_default(),
     c("name", "upstream", "updated")
   ]
   gb_dat$remref   <- sub("^refs/remotes/", "", gb_dat$upstream)

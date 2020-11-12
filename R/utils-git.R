@@ -222,12 +222,12 @@ git_branch <- function() {
 }
 
 git_branch_tracking <- function(branch = git_branch()) {
-  info <- gert::git_branch_list(repo = git_repo())
-  this <- info$local & info$name == branch
-  if (sum(this) < 1) {
-    ui_stop("There is no local branch named {ui_value(branch}")
+  repo <- git_repo()
+  if (!gert::git_branch_exists(branch, local = TRUE, repo = repo)) {
+    ui_stop("There is no local branch named {ui_value(branch)}")
   }
-  sub("^refs/remotes/", "", info$upstream[this])
+  gbl <- gert::git_branch_list(local = TRUE, repo = repo)
+  sub("^refs/remotes/", "", gbl$upstream[gbl$name == branch])
 }
 
 git_branch_compare <- function(branch = git_branch(), remref = NULL) {

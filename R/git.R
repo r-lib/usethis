@@ -201,9 +201,7 @@ git_branch_default <- function() {
   check_uses_git()
   repo <- git_repo()
 
-  gbdf <- gert::git_branch_list(repo = repo)
-  gb <- gbdf$name[gbdf$local]
-
+  gb <- gert::git_branch_list(local = TRUE, repo = repo)[["name"]]
   if (length(gb) == 1) {
     return(gb)
   }
