@@ -392,6 +392,7 @@ git_sitrep <- function() {
   hd_line("GitHub")
   default_gh_host <- get_hosturl(default_api_url())
   kv_line("Default GitHub host", default_gh_host)
+  pat_sitrep(default_gh_host)
 
   # git and github for active project ------------------------------------------
   hd_line("Git repo for current project")
@@ -438,6 +439,7 @@ git_sitrep <- function() {
   repo_host <- cfg$host_url
   if (!is.na(repo_host) && repo_host != default_gh_host) {
     kv_line("Non-default GitHub host", repo_host)
+    pat_sitrep(repo_host)
   }
 
   hd_line("GitHub remote configuration")
@@ -465,15 +467,18 @@ pat_sitrep <- function(host = "https://github.com") {
       # https://docs.github.com/en/free-pro-team@latest/developers/apps/scopes-for-oauth-apps
       # why these checks?
       # previous defaults for create_github_token(): repo, gist, user:email
-      # more recently: repo, user, gist
+      # more recently: repo, user, gist, workflow
       # (gist scope is a very weak recommendation)
       scopes <- strsplit(scopes, ", ")[[1]]
       if (length(scopes) == 0 ||
           !any(grepl("^repo$", scopes)) ||
+          !any(grepl("^workflow$", scopes)) ||
           !any(grepl("^user(:email)?$", scopes))) {
         ui_oops("
             Token may be mis-scoped: {ui_value('repo')} and \\
             {ui_value('user')} are highly recommended scopes
+            The {ui_value('workflow')} scope is needed to manage GitHub \\
+            Actions workflow files
             If you are troubleshooting, consider this")
       }
     },

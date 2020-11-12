@@ -55,7 +55,7 @@ NULL
 #' \dontrun{
 #' create_github_token()
 #' }
-create_github_token <- function(scopes = c("repo", "user", "gist"),
+create_github_token <- function(scopes = c("repo", "user", "gist", "workflow"),
                                 description = "R:GITHUB_PAT",
                                 host = NULL) {
   scopes <- glue_collapse(scopes, ",")
