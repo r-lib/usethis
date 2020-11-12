@@ -55,8 +55,9 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
 #'   - [use_pkgdown()] does basic local setup
 #'   - [use_github_pages()] prepares to publish the pkgdown site from the
 #'     `github-pages` branch
-#'   - [use_github_action("pkgdown")] configures a GitHub Action to
-#'     automatically build the pkgdown site and deploy it via GitHub Pages
+#'   - [`use_github_action("pkgdown")`][use_github_action()] configures a
+#'     GitHub Action to automatically build the pkgdown site and deploy it via
+#'     GitHub Pages
 #'   - The pkgdown website URL (if specified or inferred) is added to the
 #'     pkgdown configuration file and to the URL field of DESCRIPTION
 #'

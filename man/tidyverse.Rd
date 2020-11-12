@@ -81,8 +81,9 @@ tidyverse team:
 \item \code{\link[=use_pkgdown]{use_pkgdown()}} does basic local setup
 \item \code{\link[=use_github_pages]{use_github_pages()}} prepares to publish the pkgdown site from the
 \code{github-pages} branch
-\item \link{use_github_action("pkgdown")} configures a GitHub Action to
-automatically build the pkgdown site and deploy it via GitHub Pages
+\item \code{\link[=use_github_action]{use_github_action("pkgdown")}} configures a
+GitHub Action to automatically build the pkgdown site and deploy it via
+GitHub Pages
 \item The pkgdown website URL (if specified or inferred) is added to the
 pkgdown configuration file and to the URL field of DESCRIPTION
 }
