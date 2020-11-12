@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Report working directory and usethis/RStudio project — proj_sitrep • usethis</title>
+<title>Configure a GitHub Pages site — use_github_pages • usethis</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,17 +52,18 @@
 
 
 
-<meta property="og:title" content="Report working directory and usethis/RStudio project — proj_sitrep" />
-<meta property="og:description" content="proj_sitrep() reports
-current working directory
-the active usethis project
-the active RStudio Project
+<meta property="og:title" content="Configure a GitHub Pages site — use_github_pages" />
+<meta property="og:description" content="Activates or reconfigures a GitHub Pages site for a project hosted on GitHub.
+This function anticipates two specific usage modes:
+Publish from the root directory of a gh-pages branch, which is assumed to
+be only (or at least primarily) a remote branch. Typically the gh-pages
+branch is managed by an automatic &quot;build and deploy&quot; job, such as the one
+configured by use_github_action(&quot;pkgdown&quot;).
+Publish from the &quot;/docs&quot; directory of a &quot;regular&quot; branch, probably the
+repo's default branch. The user is assumed to have a plan for how they will
+manage the content below &quot;/docs&quot;.
 
-
-Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and proj_sitrep() provides suggested commands for getting
-back to this happy state." />
+" />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -188,44 +189,75 @@ back to this happy state." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Report working directory and usethis/RStudio project</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/sitrep.R'><code>R/sitrep.R</code></a></small>
-    <div class="hidden name"><code>proj_sitrep.Rd</code></div>
+    <h1>Configure a GitHub Pages site</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/github-pages.R'><code>R/github-pages.R</code></a></small>
+    <div class="hidden name"><code>use_github_pages.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>proj_sitrep()</code> reports</p><ul>
-<li><p>current working directory</p></li>
-<li><p>the active usethis project</p></li>
-<li><p>the active RStudio Project</p></li>
+    <p>Activates or reconfigures a GitHub Pages site for a project hosted on GitHub.
+This function anticipates two specific usage modes:</p><ul>
+<li><p>Publish from the root directory of a <code>gh-pages</code> branch, which is assumed to
+be only (or at least primarily) a remote branch. Typically the <code>gh-pages</code>
+branch is managed by an automatic "build and deploy" job, such as the one
+configured by <code><a href='use_github_action.html'>use_github_action("pkgdown")</a></code>.</p></li>
+<li><p>Publish from the <code>"/docs"</code> directory of a "regular" branch, probably the
+repo's default branch. The user is assumed to have a plan for how they will
+manage the content below <code>"/docs"</code>.</p></li>
 </ul>
 
-<p>Call this function if things seem weird and you're not sure
-what's wrong or how to fix it. Usually, all three of these should coincide
-(or be unset) and <code>proj_sitrep()</code> provides suggested commands for getting
-back to this happy state.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>proj_sitrep</span><span class='op'>(</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>use_github_pages</span><span class='op'>(</span>branch <span class='op'>=</span> <span class='st'>"gh-pages"</span>, path <span class='op'>=</span> <span class='st'>"/"</span>, cname <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>branch, path</th>
+      <td><p>Branch and path for the site source. The default of
+<code>branch = "gh-pages"</code> and <code>path = "/"</code> reflects strong GitHub support for
+this configuration: when a <code>gh-pages</code> branch is first created, it is
+<em>automatically</em> published to Pages, using the source found in <code>"/"</code>. If a
+<code>gh-pages</code> branch does not yet exist on the host, <code>use_github_pages()</code>
+creates an empty, orphan remote branch.</p>
+<p>The most common alternative is to use the repo's default branch, coupled
+with <code>path = "/docs"</code>. It is the user's responsibility to ensure that this
+<code>branch</code> pre-exists on the host.</p>
+<p>Note that GitHub does not support an arbitrary <code>path</code> and, at the time of
+writing, only <code>"/"</code> or <code>"/docs"</code> are accepted.</p></td>
+    </tr>
+    <tr>
+      <th>cname</th>
+      <td><p>Optional, custom domain name. The <code>NA</code> default means "don't set
+or change this", whereas a value of <code>NULL</code> removes any previously
+configured custom domain.</p>
+<p>Note that this <em>can</em> add or modify a CNAME file in your repository. If you
+are using Pages to host a pkgdown site, it is better to specify its URL in
+the pkgdown config file and let pkgdown manage CNAME.</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A named list, with S3 class <code>sitrep</code> (for printing purposes),
-reporting current working directory, active usethis project, and active
-RStudio Project</p>
+    <p>Site metadata returned by the GitHub API, invisibly</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other project functions: 
-<code><a href='proj_utils.html'>proj_utils</a></code></p></div>
+    <div class='dont-index'>
+<ul>
+<li><p><code><a href='use_tidy_github_actions.html'>use_tidy_pkgdown()</a></code> combines <code>use_github_pages()</code> with other functions to
+fully configure a pkgdown site</p></li>
+<li><p><a href='https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages'>https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages</a></p></li>
+<li><p><a href='https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#pages'>https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#pages</a></p></li>
+</ul>
+</div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_sitrep</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>●   working_directory: <span style='color: #0000BB;'>'/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpf7crZe/filebc61e5e6d4c/reference'</span><span></span></div><div class='output co'>#&gt; <span class='message'>● active_usethis_proj: </span><span style='color: #555555;'>&lt;unset&gt;</span><span></span></div><div class='output co'>#&gt; <span class='message'>● active_rstudio_proj: </span><span style='color: #555555;'>&lt;unset&gt;</span><span></span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #BB0000;'>●</span><span> There is currently no active usethis project.</span>
-#&gt; <span class='message'>  usethis attempts to activate a project upon first need.</span>
-#&gt; <span class='message'>  Call </span><span style='color: #555555;'>`proj_get()`</span><span> to initiate project discovery.</span>
-#&gt; <span class='message'>  Call </span><span style='color: #555555;'>`proj_set("path/to/project")`</span><span> or </span><span style='color: #555555;'>`proj_activate("path/to/project")`</span><span> to provide</span>
-#&gt; <span class='message'>  an explicit path.</span></div></span></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>use_github_pages</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>use_github_pages</span><span class='op'>(</span>branch <span class='op'>=</span> <span class='fu'><a href='git_branch_default.html'>git_branch_default</a></span><span class='op'>(</span><span class='op'>)</span>, path <span class='op'>=</span> <span class='st'>"/docs"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

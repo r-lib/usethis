@@ -182,7 +182,7 @@ commonly used packages." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Helpers for tidyverse development</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/github-actions.R'><code>R/github-actions.R</code></a>, <a href='https://github.com/r-lib/usethis/blob/master/R/tidyverse.R'><code>R/tidyverse.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/r-lib/usethis/blob/master/R/github-actions.R'><code>R/github-actions.R</code></a>, <a href='https://github.com/r-lib/usethis/blob/master/R/pkgdown.R'><code>R/pkgdown.R</code></a>, <a href='https://github.com/r-lib/usethis/blob/master/R/tidyverse.R'><code>R/tidyverse.R</code></a></small>
     <div class="hidden name"><code>tidyverse.Rd</code></div>
     </div>
 
@@ -193,6 +193,8 @@ commonly used packages.</p>
     </div>
 
     <pre class="usage"><span class='fu'>use_tidy_github_actions</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>use_tidy_pkgdown</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='fu'>create_tidy_package</span><span class='op'>(</span><span class='va'>path</span>, copyright_holder <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
@@ -247,6 +249,20 @@ versions of R.</p></li>
 <li><p>Provide two commands to be used in pull requests: <code>/document</code> to run
 <code><a href='https://roxygen2.r-lib.org/reference/roxygenize.html'>roxygen2::roxygenise()</a></code> and update the PR, and <code>/style</code> to run
 <code><a href='https://rdrr.io/pkg/styler/man/style_pkg.html'>styler::style_pkg()</a></code> and update the PR.</p></li>
+</ul></li>
+</ul>
+
+<ul>
+<li><p><code>use_tidy_pkgdown()</code>: Implements the pkgdown setup used for most tidyverse
+and r-lib packages:</p><ul>
+<li><p><code><a href='use_pkgdown.html'>use_pkgdown()</a></code> does basic local setup</p></li>
+<li><p><code><a href='use_github_pages.html'>use_github_pages()</a></code> prepares to publish the pkgdown site from the
+<code>github-pages</code> branch</p></li>
+<li><p><code><a href='use_github_action.html'>use_github_action("pkgdown")</a></code> configures a
+GitHub Action to automatically build the pkgdown site and deploy it via
+GitHub Pages</p></li>
+<li><p>The pkgdown site's URL is added to the pkgdown configuration file,
+to the URL field of DESCRIPTION, and to the GitHub repo.</p></li>
 </ul></li>
 </ul>
 
