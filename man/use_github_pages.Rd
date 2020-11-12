@@ -30,7 +30,7 @@ are using Pages to host a pkgdown site, it is better to specify its URL in
 the pkgdown config file and let pkgdown manage CNAME.}
 }
 \value{
-Nothing
+Site metadata returned by the GitHub API, invisibly
 }
 \description{
 Activates or reconfigures a GitHub Pages site for a project hosted on GitHub.

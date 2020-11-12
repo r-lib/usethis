@@ -40,7 +40,7 @@
 #' * <https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages>
 #' * <https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#pages>
 
-#' @return Nothing
+#' @return Site metadata returned by the GitHub API, invisibly
 #' @export
 #'
 #' @examples
@@ -119,7 +119,7 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
   kv_line("Branch", site$source$branch)
   kv_line("Path", site$source$path)
 
-  invisible()
+  invisible(site)
 }
 
 # returns FALSE if it does NOT create the branch (because it already exists)
