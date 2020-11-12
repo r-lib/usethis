@@ -24,7 +24,6 @@
 #'
 #'   Note that GitHub does not support an arbitrary `path` and, at the time of
 #'   writing, only `"/"` or `"/docs"` are accepted.
-
 #' @param cname Optional, custom domain name. The `NA` default means "don't set
 #'   or change this", whereas a value of `NULL` removes any previously
 #'   configured custom domain.

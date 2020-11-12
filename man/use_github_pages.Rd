@@ -44,6 +44,7 @@ manage the content below \code{"/docs"}.
 \examples{
 \dontrun{
 use_github_pages()
+use_github_pages(branch = git_branch_default(), path = "/docs")
 }
 }
 \seealso{
