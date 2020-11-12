@@ -88,7 +88,7 @@ use_tidy_pkgdown <- function(cname = NULL) {
   config_lines <- config_lines[!grepl("^url:", config_lines)]
   write_over(config, c(
     paste("url:", pkgdown_url),
-    if (nzchar(config_lines[1])) "",
+    if (nzchar(config_lines[[1]])) "",
     config_lines
   ))
 

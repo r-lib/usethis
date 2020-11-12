@@ -93,7 +93,7 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
   if (need_update) {
     args <- list(
       endpoint = "PUT /repos/{owner}/{repo}/pages",
-      source= list(branch = branch, path = path)
+      source = list(branch = branch, path = path)
     )
     if (is.null(cname) && !is.null(site$cname)) {
       # this goes out as a JSON `null`, which is necessary to clear cname
