@@ -37,7 +37,7 @@ be only (or at least primarily) a remote branch.
 \itemize{
 \item Typically the \code{gh-pages} branch is managed by an automatic "build and
 deploy" job, such as the one configured by
-\code{use_github_action("pkgdown")}.
+\code{\link[=use_github_action]{use_github_action("pkgdown")}}.
 }
 \item Publish from the \code{"/docs"} directory of a "regular" branch, probably the
 repo's default branch.

@@ -6,7 +6,7 @@
 #'   be only (or at least primarily) a remote branch.
 #'   - Typically the `gh-pages` branch is managed by an automatic "build and
 #'     deploy" job, such as the one configured by
-#'     `use_github_action("pkgdown")`.
+#'     [`use_github_action("pkgdown")`][use_github_action()].
 #' * Publish from the `"/docs"` directory of a "regular" branch, probably the
 #'   repo's default branch.
 #'   - The user is assumed to have a plan for how they will manage the content
