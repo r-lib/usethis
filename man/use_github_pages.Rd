@@ -23,7 +23,11 @@ writing, only \code{"/"} or \code{"/docs"} are accepted.}
 
 \item{cname}{Optional, custom domain name. The \code{NA} default means "don't set
 or change this", whereas a value of \code{NULL} removes any previously
-configured custom domain.}
+configured custom domain.
+
+Note that this \emph{can} add or modify a CNAME file in your repository. If you
+are using Pages to host a pkgdown site, it is better to specify its URL in
+the pkgdown config file and let pkgdown manage CNAME.}
 }
 \value{
 Nothing

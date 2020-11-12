@@ -8,7 +8,7 @@
 #'   configured by [`use_github_action("pkgdown")`][use_github_action()].
 #' * Publish from the `"/docs"` directory of a "regular" branch, probably the
 #'   repo's default branch. The user is assumed to have a plan for how they will
-#'    manage the content below `"/docs"`.
+#'   manage the content below `"/docs"`.
 #'
 
 #' @param branch,path Branch and path for the site source. The default of
@@ -24,9 +24,14 @@
 #'
 #'   Note that GitHub does not support an arbitrary `path` and, at the time of
 #'   writing, only `"/"` or `"/docs"` are accepted.
+
 #' @param cname Optional, custom domain name. The `NA` default means "don't set
 #'   or change this", whereas a value of `NULL` removes any previously
 #'   configured custom domain.
+#'
+#'   Note that this *can* add or modify a CNAME file in your repository. If you
+#'   are using Pages to host a pkgdown site, it is better to specify its URL in
+#'   the pkgdown config file and let pkgdown manage CNAME.
 #'
 
 #' @seealso
