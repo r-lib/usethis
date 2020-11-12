@@ -81,7 +81,6 @@ devtools
 discoverable
 else's
 emacs
-env
 eval
 favicons
 favour
@@ -136,6 +135,7 @@ r's
 rOpenSci
 rcmdcheck
 rebase
+reconfigures
 redirections
 repo
 repo's
