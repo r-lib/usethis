@@ -3,28 +3,27 @@
 #' Activates or reconfigures a GitHub Pages site for a project hosted on GitHub.
 #' This function anticipates two specific usage modes:
 #' * Publish from the root directory of a `gh-pages` branch, which is assumed to
-#'   be only (or at least primarily) a remote branch.
-#'   - Typically the `gh-pages` branch is managed by an automatic "build and
-#'     deploy" job, such as the one configured by
-#'     [`use_github_action("pkgdown")`][use_github_action()].
+#'   be only (or at least primarily) a remote branch. Typically the `gh-pages`
+#'   branch is managed by an automatic "build and deploy" job, such as the one
+#'   configured by [`use_github_action("pkgdown")`][use_github_action()].
 #' * Publish from the `"/docs"` directory of a "regular" branch, probably the
-#'   repo's default branch.
-#'   - The user is assumed to have a plan for how they will manage the content
-#'     below `"/docs"`.
+#'   repo's default branch. The user is assumed to have a plan for how they will
+#'    manage the content below `"/docs"`.
 #'
 
-#' @param branch Branch for the site source. Default is `gh-pages`, coupled with
-#'   `path = "/"`. These are the usethis defaults, but more importantly, they
-#'   are GitHub's defaults, i.e. when a `gh-pages` branch is first created, it
-#'   is *automatically* published to Pages, using the source found in `"/"`. If
-#'   a `gh-pages` branch does not yet exist on the host, `use_github_pages()`
+#' @param branch,path Branch and path for the site source. The default of
+#'   `branch = "gh-pages"` and `path = "/"` reflects strong GitHub support for
+#'   this configuration: when a `gh-pages` branch is first created, it is
+#'   *automatically* published to Pages, using the source found in `"/"`. If a
+#'   `gh-pages` branch does not yet exist on the host, `use_github_pages()`
 #'   creates an empty, orphan remote branch.
 #'
-#'   The most common alternative is the repo's default branch, coupled with
-#'   `path = "/docs"`. It is the user's responsibility to ensure that this
+#'   The most common alternative is to use the repo's default branch, coupled
+#'   with `path = "/docs"`. It is the user's responsibility to ensure that this
 #'   `branch` pre-exists on the host.
-#' @param path Path to the site source. Note that GitHub only supports `"/"` or
-#'   `"/docs".`
+#'
+#'   Note that GitHub does not support an arbitrary `path` and, at the time of
+#'   writing, only `"/"` or `"/docs"` are accepted.
 
 #' @param cname Optional, custom domain name. The `NA` default means "don't set
 #'   or change this", whereas a value of `NULL` removes any previously
@@ -32,6 +31,8 @@
 #'
 
 #' @seealso
+#' * [use_tidy_pkgdown()] combines `use_github_pages()` with other functions to
+#' fully configure a pkgdown site
 #' * <https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages>
 #' * <https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#pages>
 
@@ -45,7 +46,6 @@
 use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
   stopifnot(is_string(branch), is_string(path))
   stopifnot(is.na(cname) || is.null(cname) || is_string(cname))
-  path <- match.arg(path, choices = c("/", "/docs"))
   tr <- target_repo(github_get = TRUE)
   if (!isTRUE(tr$can_push)) {
     ui_stop("
