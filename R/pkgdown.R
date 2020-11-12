@@ -218,14 +218,7 @@ use_pkgdown_travis <- function() {
     "
   )
 
-  if (!gert::git_branch_exists("origin/gh-pages", local = FALSE, repo = git_repo())) {
-    create_gh_pages_branch(tr)
-  }
-
-  # TODO: actually do this
-  ui_todo("
-    Turn on GitHub pages at \\
-    <https://github.com/{tr$repo_spec}/settings> (using gh-pages as source)")
+  use_github_pages()
 
   invisible()
 }
