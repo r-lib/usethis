@@ -30,7 +30,7 @@ Imports:
     curl (>= 2.7),
     desc,
     fs (>= 1.3.0),
-    gert (>= 1.0.1),
+    gert (>= 1.0.2),
     gh (>= 1.1.0.9001),
     glue (>= 1.3.0),
     lifecycle,
@@ -56,6 +56,7 @@ Suggests:
 RdMacros: 
     lifecycle
 Remotes: 
+    r-lib/gert,
     r-lib/gh
 Encoding: UTF-8
 Language: en-US
