@@ -42,6 +42,7 @@
 #' @examples
 #' \dontrun{
 #' use_github_pages()
+#' use_github_pages(branch = git_branch_default(), path = "/docs")
 #' }
 use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
   stopifnot(is_string(branch), is_string(path))
@@ -76,7 +77,6 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
 
   if (is.null(site)) {
     ui_done("Activating GitHub Pages for {ui_value(tr$repo_spec)}")
-    # TODO: make sure this does actually return the site
     site <- gh(
       "POST /repos/{owner}/{repo}/pages",
       source = list(branch = branch, path = path),
@@ -88,7 +88,7 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
     site$source$branch != branch ||
     site$source$path != path ||
     (is.null(cname) && !is.null(site$cname)) ||
-    (is_string(cname) && cname != site$cname)
+    (is_string(cname) && (is.null(site$cname) || cname != site$cname))
 
   if (need_update) {
     args <- list(
@@ -99,7 +99,7 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
       # this goes out as a JSON `null`, which is necessary to clear cname
       args$cname <- NA
     }
-    if (is_string(cname) && !identical(cname, site$cname)) {
+    if (is_string(cname) && (is.null(site$cname) || cname != site$cname)) {
       args$cname <- cname
     }
     exec(gh, !!!args)
