@@ -19,7 +19,7 @@
 \usage{
 use_tidy_github_actions()
 
-use_tidy_pkgdown(cname = NULL)
+use_tidy_pkgdown()
 
 create_tidy_package(path, copyright_holder = NULL)
 
@@ -42,9 +42,6 @@ use_tidy_style(strict = TRUE)
 use_tidy_release_test_env()
 }
 \arguments{
-\item{cname}{Optional, custom domain name. If the target repo belongs to the
-tidyverse or r-lib GitHub organizations, this is formed automatically.}
-
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
 created, provided that the parent path exists.}
 
@@ -75,8 +72,8 @@ versions of R.
 }
 
 \itemize{
-\item \code{use_tidy_pkgdown()}: Implements the pkgdown setup favored by the
-tidyverse team:
+\item \code{use_tidy_pkgdown()}: Implements the pkgdown setup used for most tidyverse
+and r-lib packages:
 \itemize{
 \item \code{\link[=use_pkgdown]{use_pkgdown()}} does basic local setup
 \item \code{\link[=use_github_pages]{use_github_pages()}} prepares to publish the pkgdown site from the
@@ -84,8 +81,8 @@ tidyverse team:
 \item \code{\link[=use_github_action]{use_github_action("pkgdown")}} configures a
 GitHub Action to automatically build the pkgdown site and deploy it via
 GitHub Pages
-\item The pkgdown website URL (if specified or inferred) is added to the
-pkgdown configuration file and to the URL field of DESCRIPTION
+\item The pkgdown site's URL is added to the pkgdown configuration file,
+to the URL field of DESCRIPTION, and to the GitHub repo.
 }
 }
 
