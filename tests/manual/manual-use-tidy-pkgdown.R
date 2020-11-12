@@ -26,5 +26,5 @@ gh::gh(
   "DELETE /repos/{username}/{pkg}",
   username = me, pkg = repo_name
 )
-dir_delete(path_home("tmp", repo_name))
+withr::deferred_run()
 expect_false(dir_exists(path_home("tmp", repo_name)))

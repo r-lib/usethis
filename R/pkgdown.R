@@ -83,12 +83,13 @@ use_tidy_pkgdown <- function(cname = NULL) {
 
   config <- pkgdown_config_path()
   ui_done("
-    Recording pkgdown URL ({ui_value(pkgdown_url)}) in {ui_path(config)}")
+    Recording {ui_value(pkgdown_url)} as site's {ui_field('url')} in \\
+    {ui_path(config)}")
   config_lines <- read_utf8(config)
   config_lines <- config_lines[!grepl("^url:", config_lines)]
   write_over(config, c(
     paste("url:", pkgdown_url),
-    if (nzchar(config_lines[[1]])) "",
+    if (length(config_lines) && nzchar(config_lines[[1]])) "",
     config_lines
   ))
 
