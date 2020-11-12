@@ -47,6 +47,92 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   invisible(TRUE)
 }
 
+# tidyverse pkgdown setup ------------------------------------------------------
+
+#' @details
+#' * `use_tidy_pkgdown()`: Implements the pkgdown setup favored by the
+#'   tidyverse team:
+#'   - [use_pkgdown()] does basic local setup
+#'   - [use_github_pages()] prepares to publish the pkgdown site from the
+#'     `github-pages` branch
+#'   - [use_github_action("pkgdown")] configures a GitHub Action to
+#'     automatically build the pkgdown site and deploy it via GitHub Pages
+#'   - The pkgdown website URL (if specified or inferred) is added to the
+#'     pkgdown configuration file and to the URL field of DESCRIPTION
+#'
+#' @param cname Optional, custom domain name. If the target repo belongs to the
+#'   tidyverse or r-lib GitHub organizations, this is formed automatically.
+#'
+#' @rdname tidyverse
+#' @export
+use_tidy_pkgdown <- function(cname = NULL) {
+  tr <- target_repo(github_get = TRUE)
+  cname <- cname %||% default_cname(tr) %||% NA
+  stopifnot(is.na(cname) || is_string(cname))
+  cname <- sub("^https?://(.*)$", "\\1", cname)
+
+  use_pkgdown()
+  use_github_pages(cname = cname)
+  use_github_action("pkgdown")
+
+  if (is.na(cname)) {
+    return(invisible())
+  }
+  pkgdown_url <- paste0("https://", cname)
+
+  config <- pkgdown_config_path()
+  ui_done("
+    Recording pkgdown URL ({ui_value(pkgdown_url)}) in {ui_path(config)}")
+  config_lines <- read_utf8(config)
+  config_lines <- config_lines[!grepl("^url:", config_lines)]
+  write_over(config, c(
+    paste("url:", pkgdown_url),
+    if (nzchar(config_lines[1])) "",
+    config_lines
+  ))
+
+  urls <- desc::desc_get_urls()
+  if (!pkgdown_url %in% urls) {
+    ui_done("Adding pkgdown site to {ui_field('URL')} field in DESCRIPTION")
+    ui_silence(
+      use_description_field(
+        "URL",
+        glue_collapse(c(pkgdown_url, urls), ", "),
+        overwrite = TRUE
+      )
+    )
+  }
+
+  gh <- function(endpoint, ...) {
+    gh::gh(
+      endpoint,
+      ...,
+      owner = tr$repo_owner, repo = tr$repo_name, .api_url = tr$api_url
+    )
+  }
+  homepage <- gh("GET /repos/{owner}/{repo}")[["homepage"]]
+  if (is.null(homepage) || homepage != pkgdown_url) {
+    ui_done("Setting homepage of {ui_value(tr$repo_spec)} to pkgdown site")
+    gh::gh(
+      "PATCH /repos/{owner}/{repo}",
+      homepage = pkgdown_url,
+      owner = tr$repo_owner, repo = tr$repo_name, .api_url = tr$api_url
+    )
+  }
+
+  invisible()
+
+}
+
+# helpers ----------------------------------------------------------------------
+default_cname <- function(tr) {
+  if (!tr$repo_owner %in% c("tidyverse", "r-lib")) {
+    return()
+  }
+
+  glue("{tr$repo_name}.{tr$repo_owner}.org")
+}
+
 pkgdown_config_path <- function(base_path = proj_get()) {
   path_first_existing(
     base_path,

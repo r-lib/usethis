@@ -90,6 +90,8 @@ The default Git protocol is now "https" and we no longer provide an interactive 
 
 * `use_github_pages()` is a new function to activate or reconfigure the GitHub Pages site associated with a repository (#224).
 
+* `use_tidy_pkgdown()` implements the complete pkgdown configuration used by the tidyverse team (#224).
+
 `pr_sync()` is defunct and can be replicated by calling `pr_pull()`, `pr_merge_main()`, then `pr_push()`.
 
 ## Licensing improvements
