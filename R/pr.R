@@ -702,11 +702,11 @@ pr_list <- function(tr = NULL,
                     head = NULL) {
   tr <- tr %||% target_repo(github_get = github_get, ask = FALSE)
   state <- match.arg(state)
-  safely_gh <- purrr::safely(gh::gh, otherwise = NULL)
+  gh <- gh_tr(tr)
+  safely_gh <- purrr::safely(gh, otherwise = NULL)
   out <- safely_gh(
     "GET /repos/{owner}/{repo}/pulls",
-    owner = tr$repo_owner, repo = tr$repo_name, state = state, head = head,
-    .limit = Inf, .api_url = tr$api_url
+    state = state, head = head, .limit = Inf
   )
   if (!is.null(out$error)) {
     ui_oops("Unable to retrieve PRs for {ui_value(tr$repo_spec)}")
@@ -731,11 +731,8 @@ pr_list <- function(tr = NULL,
 # retrieves specific PR by number
 pr_get <- function(number, tr = NULL, github_get = NA) {
   tr <- tr %||% target_repo(github_get = github_get, ask = FALSE)
-  raw <- gh::gh(
-    "GET /repos/{owner}/{repo}/pulls/{number}",
-    owner = tr$repo_owner, repo = tr$repo_name,
-    number = number, .api_url = tr$api_url
-  )
+  gh <- gh_tr(tr)
+  raw <- gh("GET /repos/{owner}/{repo}/pulls/{number}", number = number)
   pr_data_tidy(raw)
 }
 

@@ -156,14 +156,8 @@ issue_info <- function(number, tr = NULL) {
 #   The fallback to target_repo() is purely for development convenience.
 issue_gh <- function(endpoint, ..., number, tr = NULL) {
   tr <- tr %||% target_repo(github_get = NA)
-  out <- gh::gh(
-    endpoint,
-    ...,
-    issue_number = number,
-    owner = tr$repo_owner, repo = tr$repo_name,
-    .api_url = tr$api_url
-  )
-
+  gh <- gh_tr(tr)
+  out <- gh(endpoint, ..., issue_number = number)
   if (substr(endpoint, 1, 4) == "GET ") {
     out
   } else {

@@ -33,13 +33,11 @@ use_release_issue <- function(version = NULL) {
   on_cran <- !is.null(cran_version())
   checklist <- release_checklist(version, on_cran)
 
-  issue <- gh::gh(
+  gh <- gh_tr(tr)
+  issue <- gh(
     "POST /repos/{owner}/{repo}/issues",
-    owner = tr$repo_owner,
-    repo = tr$repo_name,
     title = glue("Release {project_name()} {version}"),
-    body = paste0(checklist, "\n", collapse = ""),
-    .api_url = tr$api_url
+    body = paste0(checklist, "\n", collapse = "")
   )
 
   view_url(issue$html_url)
@@ -155,14 +153,13 @@ use_github_release <- function(host = deprecated(),
   news <- news_latest(read_utf8(path))
   package <- package_data()
 
-  release <- gh::gh(
+  gh <- gh_tr(tr)
+  release <- gh(
     "POST /repos/{owner}/{repo}/releases",
-    owner = tr$repo_owner, repo = tr$repo_name,
     tag_name = paste0("v", package$Version),
     target_commitish = gert::git_info(repo = git_repo())$commit,
     name = paste0(package$Package, " ", package$Version),
-    body = news, draft = TRUE,
-    .api_url = tr$api_url
+    body = news, draft = TRUE
   )
 
   view_url(release$html_url)

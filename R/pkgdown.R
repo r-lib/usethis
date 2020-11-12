@@ -106,13 +106,7 @@ use_pkgdown_url <- function(url, tr = NULL) {
     )
   }
 
-  gh <- function(endpoint, ...) {
-    gh::gh(
-      endpoint,
-      ...,
-      owner = tr$repo_owner, repo = tr$repo_name, .api_url = tr$api_url
-    )
-  }
+  gh <- gh_tr(tr)
   homepage <- gh("GET /repos/{owner}/{repo}")[["homepage"]]
   if (is.null(homepage) || homepage != url) {
     ui_done("Setting {ui_value(url)} as homepage of GitHub repo \\

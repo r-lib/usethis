@@ -227,12 +227,9 @@ create_from_github <- function(repo_spec,
 
   source_owner <- spec_owner(repo_spec)
   repo_name <- spec_repo(repo_spec)
+  gh <- gh_tr(list(owner = source_owner, repo = repo_name, .api_url = host))
 
-  repo_info <- gh::gh(
-    "GET /repos/{owner}/{repo}",
-    owner = source_owner, repo = repo_name,
-    .api_url = host
-  )
+  repo_info <- gh("GET /repos/{owner}/{repo}")
   # 2020-10-14 GitHub has had some bugs lately around default branch
   # today, the POST payload, if I create a fork, mis-reports the default branch
   # it reports 'main', even though actual default branch is 'master'
@@ -267,11 +264,7 @@ create_from_github <- function(repo_spec,
       https = repo_info$clone_url,
       ssh = repo_info$ssh_url
     )
-    repo_info <- gh::gh(
-      "POST /repos/{owner}/{repo}/forks",
-      owner = source_owner, repo = repo_name,
-      .api_url = host
-    )
+    repo_info <- gh("POST /repos/{owner}/{repo}/forks")
   }
 
   origin_url <- switch(

@@ -200,11 +200,8 @@ use_github_links <- function(auth_token = deprecated(),
   check_is_package("use_github_links()")
   tr <- target_repo(github_get = TRUE)
 
-  res <- gh::gh(
-    "GET /repos/{owner}/{repo}",
-    owner = tr$repo_owner, repo = tr$repo_name,
-    .api_url = tr$api_url
-  )
+  gh <- gh_tr(tr)
+  res <- gh("GET /repos/{owner}/{repo}")
 
   use_description_field("URL", res$html_url, overwrite = overwrite)
   use_description_field(

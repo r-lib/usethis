@@ -80,15 +80,7 @@ use_github_labels <- function(repo_spec = deprecated(),
       You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
       is required to modify labels.")
   }
-
-  gh <- function(endpoint, ...) {
-    gh::gh(
-      endpoint,
-      ...,
-      owner = tr$repo_owner, repo = tr$repo_name,
-      .api_url = tr$api_url
-    )
-  }
+  gh <- gh_tr(tr)
 
   cur_labels <- gh("GET /repos/{owner}/{repo}/labels")
   label_attr <- function(x, l, mapper = map_chr) {

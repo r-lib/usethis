@@ -57,14 +57,7 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
       You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
       is required to turn on GitHub Pages.")
   }
-
-  gh <- function(endpoint, ...) {
-    gh::gh(
-      endpoint,
-      ...,
-      owner = tr$repo_owner, repo = tr$repo_name, .api_url = tr$api_url
-    )
-  }
+  gh <- gh_tr(tr)
   safe_gh <- purrr::safely(gh)
 
   if (branch == "gh-pages") {
@@ -126,13 +119,7 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
 # returns FALSE if it does NOT create the branch (because it already exists)
 # returns TRUE if it does create the branch
 create_gh_pages_branch <- function(tr, branch = "gh-pages") {
-  gh <- function(endpoint, ...) {
-    gh::gh(
-      endpoint,
-      ...,
-      owner = tr$repo_owner, repo = tr$repo_name, .api_url = tr$api_url
-    )
-  }
+  gh <- gh_tr(tr)
   safe_gh <- purrr::safely(gh)
 
   branch_GET <- safe_gh(
