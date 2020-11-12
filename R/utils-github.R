@@ -166,7 +166,7 @@ github_remotes <- function(these = c("origin", "upstream"),
       f <- purrr::possibly(gh::gh, otherwise = list())
     }
     f(
-      "GET /repos/:owner/:repo",
+      "GET /repos/{owner}/{repo}",
       owner = repo_owner, repo = repo_name, .api_url = api_url
     )
   }

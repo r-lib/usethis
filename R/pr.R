@@ -704,7 +704,7 @@ pr_list <- function(tr = NULL,
   state <- match.arg(state)
   safely_gh <- purrr::safely(gh::gh, otherwise = NULL)
   out <- safely_gh(
-    "GET /repos/:owner/:repo/pulls",
+    "GET /repos/{owner}/{repo}/pulls",
     owner = tr$repo_owner, repo = tr$repo_name, state = state, head = head,
     .limit = Inf, .api_url = tr$api_url
   )
@@ -732,7 +732,7 @@ pr_list <- function(tr = NULL,
 pr_get <- function(number, tr = NULL, github_get = NA) {
   tr <- tr %||% target_repo(github_get = github_get, ask = FALSE)
   raw <- gh::gh(
-    "GET /repos/:owner/:repo/pulls/:number",
+    "GET /repos/{owner}/{repo}/pulls/{number}",
     owner = tr$repo_owner, repo = tr$repo_name,
     number = number, .api_url = tr$api_url
   )

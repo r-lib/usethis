@@ -294,7 +294,7 @@ use_tidy_thanks <- function(repo_spec = NULL,
     {to_timestamp %||% 'now'}")
 
   res <- gh::gh(
-    "/repos/:owner/:repo/issues",
+    "/repos/{owner}/{repo}/issues",
     owner = spec_owner(repo_spec),
     repo = spec_repo(repo_spec),
     since = from_timestamp,
@@ -353,7 +353,7 @@ ref_df <- function(repo_spec, refs = NULL) {
   }
   get_thing <- function(thing) {
     gh::gh(
-      "/repos/:owner/:repo/commits/:thing",
+      "/repos/{owner}/{repo}/commits/{thing}",
       owner = spec_owner(repo_spec), repo = spec_repo(repo_spec), thing = thing
     )
   }
@@ -370,7 +370,7 @@ ref_df <- function(repo_spec, refs = NULL) {
 releases <- function(repo_spec) {
   stopifnot(is_string(repo_spec))
   res <- gh::gh(
-    "/repos/:owner/:repo/releases",
+    "/repos/{owner}/{repo}/releases",
     owner = spec_owner(repo_spec),
     repo = spec_repo(repo_spec)
   )

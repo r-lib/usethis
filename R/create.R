@@ -229,7 +229,7 @@ create_from_github <- function(repo_spec,
   repo_name <- spec_repo(repo_spec)
 
   repo_info <- gh::gh(
-    "GET /repos/:owner/:repo",
+    "GET /repos/{owner}/{repo}",
     owner = source_owner, repo = repo_name,
     .api_url = host
   )
@@ -268,7 +268,7 @@ create_from_github <- function(repo_spec,
       ssh = repo_info$ssh_url
     )
     repo_info <- gh::gh(
-      "POST /repos/:owner/:repo/forks",
+      "POST /repos/{owner}/{repo}/forks",
       owner = source_owner, repo = repo_name,
       .api_url = host
     )

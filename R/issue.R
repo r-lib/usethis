@@ -122,7 +122,7 @@ issue_reprex_needed <- function(number) {
 
 issue_comment_add <- function(number, message, tr = NULL) {
   issue_gh(
-    "POST /repos/:owner/:repo/issues/:issue_number/comments",
+    "POST /repos/{owner}/{repo}/issues/{issue_number}/comments",
     number = number,
     body = message,
     tr = tr
@@ -131,7 +131,7 @@ issue_comment_add <- function(number, message, tr = NULL) {
 
 issue_edit <- function(number, ..., tr = NULL) {
   issue_gh(
-    "PATCH /repos/:owner/:repo/issues/:issue_number",
+    "PATCH /repos/{owner}/{repo}/issues/{issue_number}",
     ...,
     number = number,
     tr = tr
@@ -140,7 +140,7 @@ issue_edit <- function(number, ..., tr = NULL) {
 
 issue_info <- function(number, tr = NULL) {
   issue_gh(
-    "GET /repos/:owner/:repo/issues/:issue_number",
+    "GET /repos/{owner}/{repo}/issues/{issue_number}",
     number = number,
     tr = tr
   )

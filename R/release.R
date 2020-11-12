@@ -34,7 +34,7 @@ use_release_issue <- function(version = NULL) {
   checklist <- release_checklist(version, on_cran)
 
   issue <- gh::gh(
-    "POST /repos/:owner/:repo/issues",
+    "POST /repos/{owner}/{repo}/issues",
     owner = tr$repo_owner,
     repo = tr$repo_name,
     title = glue("Release {project_name()} {version}"),
@@ -156,7 +156,7 @@ use_github_release <- function(host = deprecated(),
   package <- package_data()
 
   release <- gh::gh(
-    "POST /repos/:owner/:repo/releases",
+    "POST /repos/{owner}/{repo}/releases",
     owner = tr$repo_owner, repo = tr$repo_name,
     tag_name = paste0("v", package$Version),
     target_commitish = gert::git_info(repo = git_repo())$commit,
