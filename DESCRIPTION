@@ -55,7 +55,7 @@ Suggests:
 RdMacros: 
     lifecycle
 Remotes: 
-    r-lib/gh#139
+    r-lib/gh
 Encoding: UTF-8
 Language: en-US
 LazyData: true
