@@ -1,6 +1,7 @@
 # Functions that are in a grey area between usethis and gh
 
 gh_tr <- function(tr) {
+  force(tr)
   function(endpoint, ...) {
     gh::gh(
       endpoint,
