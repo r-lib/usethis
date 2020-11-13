@@ -255,7 +255,7 @@ desc_urls <- function(package = NULL, include_cran = FALSE) {
     url = c(url, bug_reports, cran),
     stringsAsFactors = FALSE
   )
-  dat <- cbind(dat, rematch2::re_match(dat$url, github_remote_regex))
+  dat <- cbind(dat, re_match(dat$url, github_remote_regex))
   # TODO: could have a more sophisticated understanding of GitHub deployments
   dat$is_github <- !is.na(dat$.match) & grepl("github", dat$host)
   dat[c("url", "desc_field", "is_github")]

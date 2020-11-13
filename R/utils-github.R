@@ -48,18 +48,22 @@ parse_github_remotes <- function(x) {
   #                                    --> https, github.acme.com, rlib, usethis
   # git@github.com:r-lib/usethis.git
   #                                    --> ssh,   github.com,      rlib, usethis
-  dat <- rematch2::re_match(x, github_remote_regex)
+  dat <- re_match(x, github_remote_regex)
   dat$url <- dat$.text
   # as.character() necessary for edge case of length-0 input
   dat$protocol <- as.character(ifelse(dat$prefix == "https", "https", "ssh"))
-  dat$name <- if (rlang::is_named(x)) names(x) else NA_character_
+  dat$name <- if (rlang::is_named(x)) {
+    names(x)
+  } else {
+    rep_len(NA_character_, length.out = nrow(dat))
+  }
   dat$repo_name <- sub("[.]git$", "", dat$repo_name)
   dat[c("name", "url", "host", "repo_owner", "repo_name", "protocol")]
 }
 
 parse_repo_url <- function(x) {
   stopifnot(is_string(x))
-  dat <- rematch2::re_match(x, github_remote_regex)
+  dat <- re_match(x, github_remote_regex)
   if (is.na(dat$.match)) {
     list(repo_spec = x, host = NULL)
   } else {
