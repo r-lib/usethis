@@ -144,6 +144,12 @@ The default Git protocol is now "https" and we no longer provide an interactive 
 
 * `use_testthat()` gains an edition argument to support testthat v3.0.0 
   (#1185)
+  
+## Dependency changes
+
+New Imports: gert, lifecycle
+
+No longer in Imports: git2r, rematch2
 
 # usethis 1.6.3
 
