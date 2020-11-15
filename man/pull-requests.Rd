@@ -41,8 +41,7 @@ and \code{-}.}
 \description{
 The \verb{pr_*} family of functions is designed to make working with GitHub pull
 requests (PRs) as painless as possible for both contributors and package
-maintainers. They are designed to support the Git and GitHub best practices
-described in \href{https://happygitwithr.com}{Happy Git and GitHub for the useR}.
+maintainers.
 
 To use the \verb{pr_*} functions, your project must be a Git repo and have one of
 these GitHub remote configurations:
@@ -56,7 +55,11 @@ fork, and its parent is configured as \code{upstream}. \code{origin} points to y
 
 "Ours" and "fork" are two of several GitHub remote configurations examined in
 \href{https://happygitwithr.com/common-remote-setups.html}{Common remote setups}
-in Happy Git.
+in Happy Git and GitHub for the useR.
+
+The \href{https://usethis.r-lib.org/articles/articles/pr-functions.html}{Pull Request Helpers}
+article walks through the process of making a pull request with the \verb{pr_*}
+functions.
 
 The \verb{pr_*} functions also use your Git/GitHub credentials to carry out
 various remote operations. See below for more.
@@ -144,9 +147,10 @@ called with no arguments, up to 9 open PRs are offered for interactive
 selection. This can cause a new remote to be configured and a new local
 branch to be created. The local branch is configured to track its remote
 counterpart. The transport protocol (HTTPS vs SSH) for any new remote is
-inherited from the source repo. \code{pr_fetch()} puts a maintainer in a position
-where they can push changes into an internal or external PR via \code{pr_push()}.
-\item \code{pr_push()}: The first time it's called, a PR branch is pushed to \code{origin}
+inherited from the remote representing the source repo. \code{pr_fetch()} puts a
+maintainer in a position where they can push changes into an internal or
+external PR via \code{pr_push()}.
+\item \code{pr_push()}: The first time it's called, a PR branch is pushed to GitHub
 and you're taken to a webpage where a new PR (or draft PR) can be created.
 This also sets up the local branch to track its remote counterpart.
 Subsequent calls to \code{pr_push()} make sure the local branch has all the remote

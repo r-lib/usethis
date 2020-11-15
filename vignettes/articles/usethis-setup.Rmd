@@ -62,7 +62,8 @@ Certain options are consulted by usethis and allow you to set personal defaults:
 
   * `usethis.full_name`: consulted for making, e.g., supplemental license files.
   * `usethis.protocol`: specifies your preferred transport protocol for
-    Git. Either "https" or "ssh". See the help for `git_protocol()` for more.
+    Git. Either "https" (the usethis default) or "ssh". See the help for
+    `git_protocol()` for more.
   * `usethis.description`: named list of default DESCRIPTION fields for new
     packages made with `usethis::create_package()`.
   * `usethis.quiet`: if `TRUE`, prevents usethis from printing messages to the
@@ -110,7 +111,7 @@ Sign up for a free account with [GitHub.com](https://github.com/). [Happy Git an
 
 Please see [Happy Git and GitHub for the useR](https://happygitwithr.com/install-git.html) for instructions on how to install Git. It is beyond the scope of this article.
 
-usethis itself does not actually need the Git that you install, because it uses the [gert](https://docs.ropensci.org/gert/) package which wraps [libgit2](https://libgit2.github.com). But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git.
+usethis itself does not actually need the Git that you install, because it uses the [gert](https://docs.ropensci.org/gert/) package which wraps [libgit2](https://libgit2.github.com). But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git. Gert's credential management also works best when official Git tooling is available.
 
 ## Configure `user.name` and `user.email`
 
@@ -120,8 +121,8 @@ Once Git is installed, introduce yourself to Git.
 library(usethis) ## or library(devtools)
 use_git_config(user.name = "Jane Doe", user.email = "jane@example.com")
 
-## check by running a git situation-report: 
-##   - your user.name and user.email should appear under "User"
+# check by running a git situation-report: 
+#   - your user.name and user.email should appear in global Git config 
 git_sitrep()
 ```
 
@@ -275,11 +276,14 @@ A full description of setting up an R development environment is beyond the scop
 
 Update R and all of your packages. And expect to keep doing so frequently.
 
-**Mac OS**: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is *much smaller* than full Xcode. In a shell, enter `xcode-select --install`. For installing almost anything else, consider using [Homebrew](https://brew.sh).
+If you work in RStudio, it will often assist you with setting up a dev environment upon first need.
+
+Call `devtools::has_devel()` to get an initial sense of whether R package build tools are installed and available.
+
+`pkgbuild::check_build_tools()` is another function to report on your system and, in an interactive RStudio session, should trigger an automatic installation of build tools.
+
+It is also possible to install build tools yourself.
+
+**macOS**: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is *much smaller* than full Xcode. In a shell, enter `xcode-select --install`. For installing almost anything else, consider using [Homebrew](https://brew.sh).
 
 **Windows**: Install Rtools. This is not an R package! It is "a collection of resources for building packages for R under Microsoft Windows, or for building R itself". Go to <https://cran.r-project.org/bin/windows/Rtools/> and install as instructed.
-
-There are functions that verify whether R package build tools are installed and available. The home and name of this function is in flux, as it is affected by the restructing of the devtools universe (written early 2018).
-
-  * `pkgbuild::check_build_tools()` is the most current function. It can be installed via `install.packages("pkgbuild")`.
-  * `devtools::has_devel()` was a function in devtools, at least up to v1.13.5, so you might still see references to that. All functionality related to package building now lives in pkgbuild. But once you have installed pkgbuild, you should just use the function `pkgbuild::check_build_tools()` instead.
