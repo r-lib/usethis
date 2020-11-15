@@ -36,7 +36,7 @@ pr_finish(number = NULL)
 branch, note this should usually consist of lower case letters, numbers,
 and \code{-}.}
 
-\item{number}{Number of PR to fetch.}
+\item{number}{Number of PR.}
 }
 \description{
 The \verb{pr_*} family of functions is designed to make working with GitHub pull
@@ -79,10 +79,6 @@ to Git and GitHub and PRs.
 \item If you use SSH remotes, your SSH keys must also be discoverable, in
 addition to your PAT. The public key must be added to your GitHub account.
 }
-
-If the \verb{pr_*} functions need to configure a new remote, its transport
-protocol (HTTPS vs SSH) is determined by the protocol used for the
-source repo (\code{upstream}, when working in a fork, and \code{origin} otherwise).
 }
 
 \section{For contributors}{
@@ -125,6 +121,7 @@ before continuing.
 \section{For maintainers}{
 
 To download a PR locally so that you can experiment with it, run
+\code{pr_fetch()} and select the PR or, if you already know its number, call
 \verb{pr_fetch(<pr_number>)}. If you make changes, run \code{pr_push()} to push them
 back to GitHub. After you have merged the PR, run \code{pr_finish()} to delete the
 local branch and remove the remote associated with the contributor's fork.
@@ -146,8 +143,9 @@ with recent activity.
 called with no arguments, up to 9 open PRs are offered for interactive
 selection. This can cause a new remote to be configured and a new local
 branch to be created. The local branch is configured to track its remote
-counterpart. \code{pr_fetch()} puts a maintainer in a position where they can push
-changes into an external PR via \code{pr_push()}.
+counterpart. The transport protocol (HTTPS vs SSH) for any new remote is
+inherited from the source repo. \code{pr_fetch()} puts a maintainer in a position
+where they can push changes into an internal or external PR via \code{pr_push()}.
 \item \code{pr_push()}: The first time it's called, a PR branch is pushed to \code{origin}
 and you're taken to a webpage where a new PR (or draft PR) can be created.
 This also sets up the local branch to track its remote counterpart.
