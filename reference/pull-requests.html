@@ -55,8 +55,7 @@
 <meta property="og:title" content="Helpers for GitHub pull requests — pull-requests" />
 <meta property="og:description" content="The pr_* family of functions is designed to make working with GitHub pull
 requests (PRs) as painless as possible for both contributors and package
-maintainers. They are designed to support the Git and GitHub best practices
-described in Happy Git and GitHub for the useR.
+maintainers.
 To use the pr_* functions, your project must be a Git repo and have one of
 these GitHub remote configurations:
 &quot;ours&quot;: You can push to the GitHub remote configured as origin and it's
@@ -68,7 +67,10 @@ personal copy and upstream points to the source repo.
 
 &quot;Ours&quot; and &quot;fork&quot; are two of several GitHub remote configurations examined in
 Common remote setups
-in Happy Git.
+in Happy Git and GitHub for the useR.
+The Pull Request Helpers
+article walks through the process of making a pull request with the pr_*
+functions.
 The pr_* functions also use your Git/GitHub credentials to carry out
 various remote operations. See below for more." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
@@ -139,6 +141,9 @@ various remote operations. See below for more." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/articles/git-credentials.html">Managing Git(Hub) Credentials</a>
+    </li>
+    <li>
       <a href="../articles/articles/pr-functions.html">Pull request helpers</a>
     </li>
   </ul>
@@ -204,8 +209,7 @@ various remote operations. See below for more." />
     <div class="ref-description">
     <p>The <code>pr_*</code> family of functions is designed to make working with GitHub pull
 requests (PRs) as painless as possible for both contributors and package
-maintainers. They are designed to support the Git and GitHub best practices
-described in <a href='https://happygitwithr.com'>Happy Git and GitHub for the useR</a>.</p>
+maintainers.</p>
 <p>To use the <code>pr_*</code> functions, your project must be a Git repo and have one of
 these GitHub remote configurations:</p><ul>
 <li><p>"ours": You can push to the GitHub remote configured as <code>origin</code> and it's
@@ -217,7 +221,10 @@ fork, and its parent is configured as <code>upstream</code>. <code>origin</code>
 
 <p>"Ours" and "fork" are two of several GitHub remote configurations examined in
 <a href='https://happygitwithr.com/common-remote-setups.html'>Common remote setups</a>
-in Happy Git.</p>
+in Happy Git and GitHub for the useR.</p>
+<p>The <a href='https://usethis.r-lib.org/articles/articles/pr-functions.html'>Pull Request Helpers</a>
+article walks through the process of making a pull request with the <code>pr_*</code>
+functions.</p>
 <p>The <code>pr_*</code> functions also use your Git/GitHub credentials to carry out
 various remote operations. See below for more.</p>
     </div>
@@ -251,7 +258,7 @@ and <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>.</p></td
     </tr>
     <tr>
       <th>number</th>
-      <td><p>Number of PR to fetch.</p></td>
+      <td><p>Number of PR.</p></td>
     </tr>
     </table>
 
@@ -275,9 +282,8 @@ to Git and GitHub and PRs.</p></li>
 addition to your PAT. The public key must be added to your GitHub account.</p></li>
 </ul>
 
-<p>If the <code>pr_*</code> functions need to configure a new remote, its transport
-protocol (HTTPS vs SSH) is determined by the protocol used for the
-source repo (<code>upstream</code>, when working in a fork, and <code>origin</code> otherwise).</p>
+<p>Git/GitHub credential management is covered in a dedicated article:
+<a href='https://usethis.r-lib.org/articles/articles/git-credentials.html'>Managing Git(Hub) Credentials</a></p>
     <h2 class="hasAnchor" id="for-contributors"><a class="anchor" href="#for-contributors"></a>For contributors</h2>
 
     
@@ -315,6 +321,7 @@ before continuing.</p>
     
 
 <p>To download a PR locally so that you can experiment with it, run
+<code>pr_fetch()</code> and select the PR or, if you already know its number, call
 <code>pr_fetch(&lt;pr_number&gt;)</code>. If you make changes, run <code>pr_push()</code> to push them
 back to GitHub. After you have merged the PR, run <code>pr_finish()</code> to delete the
 local branch and remove the remote associated with the contributor's fork.</p>
@@ -336,9 +343,11 @@ with recent activity.</p></li>
 called with no arguments, up to 9 open PRs are offered for interactive
 selection. This can cause a new remote to be configured and a new local
 branch to be created. The local branch is configured to track its remote
-counterpart. <code>pr_fetch()</code> puts a maintainer in a position where they can push
-changes into an external PR via <code>pr_push()</code>.</p></li>
-<li><p><code>pr_push()</code>: The first time it's called, a PR branch is pushed to <code>origin</code>
+counterpart. The transport protocol (HTTPS vs SSH) for any new remote is
+inherited from the remote representing the source repo. <code>pr_fetch()</code> puts a
+maintainer in a position where they can push changes into an internal or
+external PR via <code>pr_push()</code>.</p></li>
+<li><p><code>pr_push()</code>: The first time it's called, a PR branch is pushed to GitHub
 and you're taken to a webpage where a new PR (or draft PR) can be created.
 This also sets up the local branch to track its remote counterpart.
 Subsequent calls to <code>pr_push()</code> make sure the local branch has all the remote

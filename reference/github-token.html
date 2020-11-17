@@ -60,20 +60,20 @@ your PAT is also used when interacting with GitHub as a conventional Git
 remote. These functions help you get and manage your PAT:
 gh_token_help() guides you through token troubleshooting and setup
 create_github_token() opens a browser window to the GitHub form to
-generate a PAT, with suggested scopes pre-selected. It then offers advice
-on storing your PAT, which also appears below.
+generate a PAT, with suggested scopes pre-selected. It also offers advice
+on storing your PAT.
 gitcreds::gitcreds_set() helps you register your PAT with the Git
 credential manager used by your operating system. Later, other packages,
-such as usethis, gert, and gh can automatically retrieve that PAT, via
-gitcreds::gitcreds_get(), and use it to work with GitHub on your behalf.
+such as usethis, gert, and gh can automatically retrieve that PAT and use
+it to work with GitHub on your behalf.
 
 
 Usually, the first time the PAT is retrieved in an R session, it is cached
 in an environment variable, for easier reuse for the duration of that R
 session. After initial acquisition and storage, all of this should happen
 automatically in the background.
-create_github_token() has previously gone by some other names:
-browse_github_token() and browse_github_pat()." />
+Git/GitHub credential management is covered in a dedicated article:
+Managing Git(Hub) Credentials" />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -141,6 +141,9 @@ browse_github_token() and browse_github_pat()." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/articles/git-credentials.html">Managing Git(Hub) Credentials</a>
+    </li>
     <li>
       <a href="../articles/articles/pr-functions.html">Pull request helpers</a>
     </li>
@@ -212,20 +215,20 @@ your PAT is also used when interacting with GitHub as a conventional Git
 remote. These functions help you get and manage your PAT:</p><ul>
 <li><p><code>gh_token_help()</code> guides you through token troubleshooting and setup</p></li>
 <li><p><code>create_github_token()</code> opens a browser window to the GitHub form to
-generate a PAT, with suggested scopes pre-selected. It then offers advice
-on storing your PAT, which also appears below.</p></li>
+generate a PAT, with suggested scopes pre-selected. It also offers advice
+on storing your PAT.</p></li>
 <li><p><code><a href='https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html'>gitcreds::gitcreds_set()</a></code> helps you register your PAT with the Git
 credential manager used by your operating system. Later, other packages,
-such as usethis, gert, and gh can automatically retrieve that PAT, via
-<code><a href='https://rdrr.io/pkg/gitcreds/man/gitcreds_get.html'>gitcreds::gitcreds_get()</a></code>, and use it to work with GitHub on your behalf.</p></li>
+such as usethis, gert, and gh can automatically retrieve that PAT and use
+it to work with GitHub on your behalf.</p></li>
 </ul>
 
 <p>Usually, the first time the PAT is retrieved in an R session, it is cached
 in an environment variable, for easier reuse for the duration of that R
 session. After initial acquisition and storage, all of this should happen
 automatically in the background.</p>
-<p><code>create_github_token()</code> has previously gone by some other names:
-<code><a href='usethis-defunct.html'>browse_github_token()</a></code> and <code><a href='usethis-defunct.html'>browse_github_pat()</a></code>.</p>
+<p>Git/GitHub credential management is covered in a dedicated article:
+<a href='https://usethis.r-lib.org/articles/articles/git-credentials.html'>Managing Git(Hub) Credentials</a></p>
     </div>
 
     <pre class="usage"><span class='fu'>create_github_token</span><span class='op'>(</span>
@@ -269,13 +272,8 @@ acceptable.</p></td>
     <p>Nothing</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Sign up for a free <a href='https://github.com/'>GitHub.com</a> account and sign in.
-Call <code>create_github_token()</code>. Verify the scopes and click "Generate token".
-If you use a password management app, such as 1Password or LastPass, it is
-highly recommended to add this PAT to your entry for GitHub. Storing your
-PAT in the Git credential store is a semi-persistent convenience, sort of
-like a browser cache, but it's quite possible you will need to re-provide it
-at some point.</p>
+    <p><code>create_github_token()</code> has previously gone by some other names:
+<code><a href='usethis-defunct.html'>browse_github_token()</a></code> and <code><a href='usethis-defunct.html'>browse_github_pat()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://gh.r-lib.org/reference/gh_whoami.html'>gh::gh_whoami()</a></code> for information on an existing token and
