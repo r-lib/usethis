@@ -117,7 +117,7 @@ Arguments you might like to know about:
 
 ## Branch, then make your change
 
-We start the process of contributing to the package with `pr_init()`, which creates a branch in our repository for the pull request. It is a good idea to make your pull requests from a non-`master` branch. We'll call this branch `"formidable"`.
+We start the process of contributing to the package with `pr_init()`, which creates a branch in our repository for the pull request. It is a good idea to make your pull requests from a feature branch, not from the repo's default branch, which is `master` here (another common choice is `main`). We'll call this branch `"formidable"`.
 
 ```{r pr_init, eval=FALSE}
 pr_init(branch = "formidable")
