@@ -289,22 +289,6 @@ Finally, we can also conclude the PR process on our end with `pr_finish()`.
 pr_finish()
 ```
 </div>
-
-This will again prompt the following:
-
-This will first prompt the following:
-
-<div class = "output">
-```{r eval=FALSE}
-#> Which repo should we target? 
-
-#> 1: mine-cetinkaya-rundel/praise = 'origin'
-#> 2: rladies/praise = 'upstream'
-```
-</div>
-
-If you choose 1, it will finish up the PR and delete your local `formidable` branch.
-
 <div class = "output">
 ```{r eval=FALSE}
 #> ✓ Checking that remote branch 'origin/formidable' has the changes in 'formidable'
