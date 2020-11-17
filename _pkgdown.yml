@@ -22,6 +22,8 @@ navbar:
     href: reference/index.html
   - text: Articles
     menu:
+    - text: Managing Git(Hub) Credentials
+      href: articles/articles/git-credentials.html
     - text: Pull request helpers
       href: articles/articles/pr-functions.html
   - text: News

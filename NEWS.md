@@ -32,6 +32,9 @@ Under the hood, both gert and gh are now consulting your local Git credential st
 
 Even now, gert and gh should discover the same credentials, at least for github.com. Moving forward, we are hopeful that these two packages will merge into one.
 
+Git/GitHub credential management is covered in a new article:  
+[Managing Git(Hub) Credentials](https://usethis.r-lib.org/articles/articles/git-credentials.html)
+
 The main user-facing changes in usethis are:
 
 * usethis should be able to work with any GitHub deployment. While github.com is the default, GitHub Enterprise deployments should be fully supported.
