@@ -600,7 +600,7 @@ progress_fun <- function(down, up) {
 make_filename <- function(cd,
                           fallback = path_file(file_temp())) {
   ## TO DO(jennybc): the element named 'filename*' is preferred but I'm not
-  ## sure how to parse it yet, so targetting 'filename' for now
+  ## sure how to parse it yet, so targeting 'filename' for now
   ## https://tools.ietf.org/html/rfc6266
   cd <- cd[["filename"]]
   if (is.null(cd) || is.na(cd)) {

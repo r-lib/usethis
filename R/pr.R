@@ -41,6 +41,9 @@
 #' * If you use SSH remotes, your SSH keys must also be discoverable, in
 #'   addition to your PAT. The public key must be added to your GitHub account.
 #'
+#' Git/GitHub credential management is covered in a dedicated article:
+#' [Managing Git(Hub) Credentials](https://usethis.r-lib.org/articles/articles/git-credentials.html)
+#'
 #' @section For contributors:
 #' To contribute to a package, first use `create_from_github("OWNER/REPO")` to
 #' fork the source repository, and then check out a local copy.

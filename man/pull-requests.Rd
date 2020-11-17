@@ -82,6 +82,9 @@ to Git and GitHub and PRs.
 \item If you use SSH remotes, your SSH keys must also be discoverable, in
 addition to your PAT. The public key must be added to your GitHub account.
 }
+
+Git/GitHub credential management is covered in a dedicated article:
+\href{https://usethis.r-lib.org/articles/articles/git-credentials.html}{Managing Git(Hub) Credentials}
 }
 
 \section{For contributors}{

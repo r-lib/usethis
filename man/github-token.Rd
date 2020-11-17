@@ -45,12 +45,12 @@ remote. These functions help you get and manage your PAT:
 \itemize{
 \item \code{gh_token_help()} guides you through token troubleshooting and setup
 \item \code{create_github_token()} opens a browser window to the GitHub form to
-generate a PAT, with suggested scopes pre-selected. It then offers advice
-on storing your PAT, which also appears below.
+generate a PAT, with suggested scopes pre-selected. It also offers advice
+on storing your PAT.
 \item \code{gitcreds::gitcreds_set()} helps you register your PAT with the Git
 credential manager used by your operating system. Later, other packages,
-such as usethis, gert, and gh can automatically retrieve that PAT, via
-\code{gitcreds::gitcreds_get()}, and use it to work with GitHub on your behalf.
+such as usethis, gert, and gh can automatically retrieve that PAT and use
+it to work with GitHub on your behalf.
 }
 
 Usually, the first time the PAT is retrieved in an R session, it is cached
@@ -58,17 +58,12 @@ in an environment variable, for easier reuse for the duration of that R
 session. After initial acquisition and storage, all of this should happen
 automatically in the background.
 
-\code{create_github_token()} has previously gone by some other names:
-\code{browse_github_token()} and \code{browse_github_pat()}.
+Git/GitHub credential management is covered in a dedicated article:
+\href{https://usethis.r-lib.org/articles/articles/git-credentials.html}{Managing Git(Hub) Credentials}
 }
 \details{
-Sign up for a free \href{https://github.com/}{GitHub.com} account and sign in.
-Call \code{create_github_token()}. Verify the scopes and click "Generate token".
-If you use a password management app, such as 1Password or LastPass, it is
-highly recommended to add this PAT to your entry for GitHub. Storing your
-PAT in the Git credential store is a semi-persistent convenience, sort of
-like a browser cache, but it's quite possible you will need to re-provide it
-at some point.
+\code{create_github_token()} has previously gone by some other names:
+\code{browse_github_token()} and \code{browse_github_pat()}.
 }
 \examples{
 \dontrun{
