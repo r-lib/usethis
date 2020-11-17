@@ -17,7 +17,7 @@ pr_init(branch)
 
 pr_resume(branch = NULL)
 
-pr_fetch(number = NULL)
+pr_fetch(number = NULL, target = c("source", "primary"))
 
 pr_push()
 
@@ -25,11 +25,11 @@ pr_pull()
 
 pr_merge_main()
 
-pr_view(number = NULL)
+pr_view(number = NULL, target = c("source", "primary"))
 
 pr_pause()
 
-pr_finish(number = NULL)
+pr_finish(number = NULL, target = c("source", "primary"))
 }
 \arguments{
 \item{branch}{Name of a new or existing local branch. If creating a new
@@ -37,6 +37,11 @@ branch, note this should usually consist of lower case letters, numbers,
 and \code{-}.}
 
 \item{number}{Number of PR.}
+
+\item{target}{Which repo to target? This is only a question in the case of a
+fork. In a fork, there is some slim chance that you want to consider pull
+requests against your fork (the primary repo, i.e. \code{origin}) instead of
+those against the source repo (i.e. \code{upstream}, which is the default).}
 }
 \description{
 The \verb{pr_*} family of functions is designed to make working with GitHub pull

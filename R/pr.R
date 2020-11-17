@@ -260,13 +260,17 @@ pr_resume <- function(branch = NULL) {
 #' @export
 #' @rdname pull-requests
 #' @param number Number of PR.
+#' @param target Which repo to target? This is only a question in the case of a
+#'   fork. In a fork, there is some slim chance that you want to consider pull
+#'   requests against your fork (the primary repo, i.e. `origin`) instead of
+#'   those against the source repo (i.e. `upstream`, which is the default).
 #'
 #' @examples
 #' \dontrun{
 #' pr_fetch(123)
 #' }
-pr_fetch <- function(number = NULL) {
-  tr <- target_repo(github_get = TRUE)
+pr_fetch <- function(number = NULL, target = c("source", "primary")) {
+  tr <- target_repo(github_get = NA, role = target, ask = FALSE)
   challenge_uncommitted_changes()
 
   if (is.null(number)) {
@@ -429,8 +433,8 @@ pr_merge_main <- function() {
 
 #' @export
 #' @rdname pull-requests
-pr_view <- function(number = NULL) {
-  tr <- target_repo(github_get = NA)
+pr_view <- function(number = NULL, target = c("source", "primary")) {
+  tr <- target_repo(github_get = NA, role = target, ask = FALSE)
   url <- NULL
   if (is.null(number)) {
     branch <- git_branch()
@@ -491,8 +495,8 @@ pr_pause <- function() {
 
 #' @export
 #' @rdname pull-requests
-pr_finish <- function(number = NULL) {
-  tr <- target_repo(github_get = TRUE)
+pr_finish <- function(number = NULL, target = c("source", "primary")) {
+  tr <- target_repo(github_get = NA, role = target, ask = FALSE)
   repo <- git_repo()
 
   if (!is.null(number)) {
