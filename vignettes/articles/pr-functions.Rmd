@@ -179,20 +179,6 @@ GitHub will ping the package maintainer and they will review our pull request. W
 ```{r pr_view, eval=FALSE}
 pr_view(90)
 ```
-
-This will first prompt the following:
-
-<div class = "output">
-```{r eval=FALSE}
-#> Which repo should we target? 
-
-#> 1: mine-cetinkaya-rundel/praise = 'origin'
-#> 2: rladies/praise = 'upstream'
-```
-</div>
-
-If you choose 2, it will output the following and open the PR in your browser.
-
 <div class = "output">
 ```{r eval=FALSE}
 #> ✔ Opening URL 'https://github.com/rladies/praise/pull/90'
