@@ -1,3 +1,18 @@
+# gert -------------------------------------------------------------------------
+
+gert_shush <- function(expr, regexp) {
+  stopifnot(is.character(regexp))
+  withCallingHandlers(
+    gertMessage = function(cnd) {
+      m <- map_lgl(regexp, ~ grepl(.x, cnd_message(cnd), perl = TRUE))
+      if (any(m)) {
+        cnd_muffle(cnd)
+      }
+    },
+    expr
+  )
+}
+
 # Repository -------------------------------------------------------------------
 git_repo <- function() {
   check_uses_git()
@@ -198,8 +213,16 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
     repo = repo,
     verbose = FALSE
   )
-  # TODO: silence this when possible
-  gert::git_merge(remref, repo = repo)
+  # this is pretty brittle, because I've hard-wired these messages
+  # https://github.com/r-lib/gert/blob/master/R/merge.R
+  # but at time of writing, git_merge() offers no verbosity control
+  gert_shush(
+    regexp = c(
+      "Already up to date, nothing to merge",
+      "Performing fast-forward merge, no commit needed"
+    ),
+    gert::git_merge(remref, repo = repo)
+  )
   st <- git_status(untracked = TRUE)
   if (any(st$status == "conflicted")) {
     git_conflict_report()
