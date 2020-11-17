@@ -304,12 +304,8 @@ Remember you can see how this whole PR unfolded at [rladies/praise#90](https://g
 
 There are a few other functions in the `pr_*()` family that we didn't encounter in this PR scenario:
 
-- `pr_merge_main()` is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you're working in a fork, this does `git pull upstream master`. If you're making a PR from an internal branch, this does `git pull origin master`. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the default branch (usually named `main` or `master`). This makes sure that your copy of the package is up-to-date with the source repo.
+- `pr_merge_main()` is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you're working in a fork, this does `git pull upstream master`. If you're making a PR from an internal branch, this does `git pull origin master`. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the default branch (usually named `main` or `master`) and, indeed, `pr_pause()` includes this. This makes sure that your copy of the package is up-to-date with the source repo.
 
-<!--
-- `pr_sync()` is a helpful shortcut for pulling changes from the PR (`pr_pull()`), merging in the main line of development (`pr_merge_main()`), and pushing all these changes back into our PR (`pr_push()`). This series of actions might come in handy when working on an extensive PR that takes some time to develop while concurrently others are working on the project and making changes to the `master` branch.
--->
+- `pr_pause()` makes sure you're synced with the PR, switches back to the default branch, and calls `pr_merge_main()` to keep you up-to-date with the source repo. This is likely something a package maintainer reviewing numerous PRs will need to use, as they switch back and forth between reviewing/extending PRs and the main line of development on the default branch.
 
-- `pr_pause()` makes sure you're synced with the PR and then switches back to the `master` branch. This is likely something a package maintainer reviewing numerous PRs will need to use as they switch back and forth from review to working on `master` to another review.
-
-- `pr_resume()`
+- `pr_resume()` helps you resume work on a PR after you've spent some time with another branch checked out. If you give it no arguments, it will present an interactive choice of local branches and indicates which, if any, are associated with a PR.
