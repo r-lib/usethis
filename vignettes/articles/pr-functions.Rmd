@@ -166,6 +166,8 @@ pr_push()
 This launches a browser window at the URL specified in the last message, which 
 looks like the following.
 
+<!-- in local preview, I Jenny am seeing a very wide image here -->
+
 ```{r, echo = FALSE}
 knitr::include_graphics("img/pr-functions-pull-request.png", dpi = 300)
 ```
