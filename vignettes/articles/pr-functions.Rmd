@@ -133,7 +133,7 @@ pr_init(branch = "formidable")
 
 This creates a local branch called `formidable` and we switch to it (or "check it out"). Now you can work locally, making changes to files and committing them to Git.
 
-Let's go ahead and make the change, which is adding the word "formidable" to the `adjective.R` file in the package. Below is the diff and the commit associated with this change.
+Let's go ahead and make the change, which is adding the word "formidable" to the `R/adjective.R` file in the package. Below is the diff and the commit associated with this change.
 
 ```{r, echo = FALSE}
 knitr::include_graphics("img/pr-functions-diff.png", dpi = 300)
