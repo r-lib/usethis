@@ -48,7 +48,7 @@ A pull request (PR) involves two players, a contributor and a reviewer. To make 
 
 ## Set up advice
 
-This article assumes that you have already done the Git and GitHub parts of the [setup vignette](/articles/articles/usethis-setup). A good way to check that you are ready to use the `pr_*` family of functions is to run `git_sitrep()`, which prints info about your current Git, gert, and GitHub setup.
+This article assumes that you have already done the Git and GitHub parts of the [setup vignette](/articles/articles/usethis-setup) and that you have configured a GitHub personal access token, as described in [Managing Git(Hub) Credentials](/articles/articles/git-credentials.html). A good way to check that you are ready to use the `pr_*` family of functions is to run `git_sitrep()`, which prints info about your current Git, gert, and GitHub setup.
 
 Specifically, the `pr_*()` functions make use of:
 
