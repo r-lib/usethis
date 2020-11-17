@@ -233,7 +233,7 @@ various remote operations. See below for more.</p>
 
 <span class='fu'>pr_resume</span><span class='op'>(</span>branch <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>pr_fetch</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>pr_fetch</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span>, target <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"source"</span>, <span class='st'>"primary"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='fu'>pr_push</span><span class='op'>(</span><span class='op'>)</span>
 
@@ -241,11 +241,11 @@ various remote operations. See below for more.</p>
 
 <span class='fu'>pr_merge_main</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>pr_view</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>pr_view</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span>, target <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"source"</span>, <span class='st'>"primary"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='fu'>pr_pause</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>pr_finish</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+<span class='fu'>pr_finish</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span>, target <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"source"</span>, <span class='st'>"primary"</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -259,6 +259,13 @@ and <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>.</p></td
     <tr>
       <th>number</th>
       <td><p>Number of PR.</p></td>
+    </tr>
+    <tr>
+      <th>target</th>
+      <td><p>Which repo to target? This is only a question in the case of a
+fork. In a fork, there is some slim chance that you want to consider pull
+requests against your fork (the primary repo, i.e. <code>origin</code>) instead of
+those against the source repo (i.e. <code>upstream</code>, which is the default).</p></td>
     </tr>
     </table>
 
