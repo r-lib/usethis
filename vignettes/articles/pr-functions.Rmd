@@ -88,7 +88,6 @@ create_from_github("rladies/praise")
 #> ℹ Default branch is 'master'
 #> ✓ Adding 'upstream' remote: 'https://github.com/rladies/praise.git'
 #> ✓ Pulling in changes from default branch of the source repo 'upstream/master'
-#> Already up to date, nothing to merge
 #> ✓ Setting remote tracking branch for local 'master' branch to 'upstream/master'
 #> ✓ Opening '/Users/mine/Desktop/praise/' in new RStudio session
 #> ✓ Setting active project to '<no active project>'
@@ -127,7 +126,6 @@ pr_init(branch = "formidable")
 ```{r eval=FALSE}
 #> ✓ Setting active project to '/Users/mine/Desktop/praise'
 #> ℹ Pulling changes from 'upstream/master'
-#> Already up to date, nothing to merge
 #> ✓ Creating and switching to local branch 'formidable'
 #> ● Use `pr_push()` to create PR.
 ```
@@ -324,7 +322,6 @@ If you choose 1, it will finish up the PR and delete your local `formidable` bra
 #> ✓ Checking that remote branch 'origin/formidable' has the changes in 'formidable'
 #> ✓ Switching back to default branch ('master')
 #> ℹ Pulling changes from 'origin/master'
-#> Already up to date, nothing to merge
 #> ✓ Deleting local 'formidable' branch
 ```
 </div>
