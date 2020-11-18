@@ -43,6 +43,7 @@ edit_file <- function(path, open = rlang::is_interactive()) {
 #' * `edit_git_config()` opens `.gitconfig` or `.git/config`
 #' * `edit_git_ignore()` opens `.gitignore`
 #' * `edit_rstudio_snippets()` opens RStudio's snippet config for the given type.
+#' * `edit_rstudio_prefs()` opens RStudio's preference file.
 #'
 #' The `edit_r_*()` functions consult R's notion of user's home directory.
 #' The `edit_git_*()` functions (and \pkg{usethis} in general) inherit home
@@ -128,6 +129,16 @@ edit_rstudio_snippets <- function(type = c(
     ))
   }
   edit_file(path)
+}
+
+#' @export
+#' @rdname edit
+edit_rstudio_prefs <- function() {
+  path <- rstudio_config_path("rstudio-prefs.json")
+
+  edit_file(path)
+  ui_todo("Restart RStudio for changes to take effect")
+  invisible(path)
 }
 
 scoped_path_r <- function(scope = c("user", "project"), ..., envvar = NULL) {

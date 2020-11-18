@@ -137,6 +137,8 @@ usethis is now fully cognizant of the [changes to RStudio preferences](https://b
 
 * `edit_rstudio_snippets()` looks in the new location, and if you have snippets in the old location, will automatically copy them to the new location (#1204)
 
+* New `edit_rstudio_prefs()` opens RStudio preferences file for editing (#1148).
+
 ## Other changes
 
 * `browse_package()` and `browse_project()` are new functions that let the user choose from a list of URLs derived from local Git remotes and DESCRIPTION (local or possibly on CRAN) (#1113).

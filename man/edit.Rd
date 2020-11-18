@@ -48,6 +48,7 @@ Path to the file, invisibly.
 \item \code{edit_git_config()} opens \code{.gitconfig} or \code{.git/config}
 \item \code{edit_git_ignore()} opens \code{.gitignore}
 \item \code{edit_rstudio_snippets()} opens RStudio's snippet config for the given type.
+\item \code{edit_rstudio_prefs()} opens RStudio's preference file.
 }
 }
 \details{
