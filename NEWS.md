@@ -147,6 +147,8 @@ The default Git protocol is now "https" and we no longer provide an interactive 
 
 * `use_testthat()` gains an edition argument to support testthat v3.0.0 
   (#1185)
+
+* usethis has been re-licensed as MIT (#1252, #1253).  
   
 ## Dependency changes
 
