@@ -8,7 +8,7 @@ PKGVERS = `sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION`
 
 all: check
 
-build:
+build: install_deps
 	R CMD build .
 
 check: build
@@ -19,7 +19,7 @@ install_deps:
 	-e 'if (!requireNamespace("remotes")) install.packages("remotes")' \
 	-e 'remotes::install_deps(dependencies = TRUE)'
 
-install: install_deps build
+install: build
 	R CMD INSTALL $(PKGNAME)_$(PKGVERS).tar.gz
 
 clean:
