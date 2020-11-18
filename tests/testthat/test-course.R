@@ -82,7 +82,7 @@ test_that("tidy_download() works", {
     out <- tidy_download(gh_url, destdir = tmp)
   )
   expect_true(fs::file_exists(expected))
-  expect_equivalent(out, expected)
+  expect_identical(out, expected, ignore_attr = TRUE)
   expect_identical(attr(out, "content-type"), "application/zip")
 
   # refuse to overwrite when non-interactive
