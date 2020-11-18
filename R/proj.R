@@ -163,7 +163,7 @@ user_path_prep <- function(path) {
 
 proj_rel_path <- function(path) {
   if (is_in_proj(path)) {
-    path_rel(path, start = proj_get())
+    as.character(path_rel(path, start = proj_get()))
   } else {
     path
   }

@@ -92,7 +92,7 @@ test_that("edit_r_profile() respects R_PROFILE_USER", {
   withr::local_envvar(list(R_PROFILE_USER = path1))
 
   path2 <- edit_r_profile("user")
-  expect_equal(path1, as.character(path2))
+  expect_equal(path1, path2)
 })
 
 
