@@ -67,10 +67,22 @@ test_that("we can roundtrip an Rproj file", {
   expect_identical(before, after)
 })
 
-test_that("use_blank_state() modifies Rproj", {
+test_that("use_blank_state('project') modifies Rproj", {
   create_local_package(rstudio = TRUE)
   use_blank_slate("project")
   rproj <- parse_rproj(rproj_path())
   expect_equal(rproj$RestoreWorkspace, "No")
   expect_equal(rproj$SaveWorkspace, "No")
+})
+
+test_that("use_blank_state('session') modifies RStudio prefs", {
+  path <- withr::local_tempdir()
+  withr::local_envvar(c("XDG_CONFIG_HOME" = path))
+
+  use_blank_slate()
+
+  expect_equal(rstudio_prefs_read(), list(
+    save_workspace = "never",
+    load_workspace = FALSE
+  ))
 })
