@@ -75,12 +75,15 @@ test_that("edit_r_XXX('user') ensures the file exists", {
 
   edit_r_makevars("user")
   expect_r_file(".R", "Makevars")
+})
 
+test_that("can edit snippets", {
+  path <- withr::local_tempdir()
+  withr::local_envvar(c("XDG_CONFIG_HOME" = path))
 
-  edit_rstudio_snippets(type = "R")
-  expect_r_file(".R", "snippets", "r.snippets")
-  edit_rstudio_snippets(type = "HTML")
-  expect_r_file(".R", "snippets", "html.snippets")
+  path <- edit_rstudio_snippets(type = "R")
+  expect_true(file_exists(path))
+
   expect_error(
     edit_rstudio_snippets("not-existing-type"),
     regexp = "should be one of"
