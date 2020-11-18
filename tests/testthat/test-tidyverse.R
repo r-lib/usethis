@@ -20,9 +20,8 @@ test_that("use_tidy_eval() inserts the template file and Imports rlang", {
 })
 
 test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
-  with_mock(
-    `usethis:::uses_travis` = function(base_path) TRUE,
-    `gh::gh_tree_remote` = function(path) list(username = "USER", repo = "REPO"),
+  mockr::with_mock(
+    uses_travis = function(base_path) TRUE,
     {
       create_local_package()
       use_tidy_contributing()
@@ -39,9 +38,8 @@ test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
 })
 
 test_that("use_tidy_github() adds and Rbuildignores files", {
-  with_mock(
-    `usethis:::uses_travis` = function(base_path) TRUE,
-    `gh::gh_tree_remote` = function(path) list(username = "USER", repo = "REPO"),
+  mockr::with_mock(
+    uses_travis = function(base_path) TRUE,
     {
       create_local_package()
       use_tidy_github()
