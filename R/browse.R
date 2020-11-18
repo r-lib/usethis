@@ -220,28 +220,32 @@ cran_home <- function(package = NULL) {
 # returns 0-row data frame, if DESCRIPTION holds no URLs
 # returns data frame, if successful
 # include_cran whether to include CRAN landing page, if we consult it
-desc_urls <- function(package = NULL, include_cran = FALSE) {
+desc_urls <- function(package = NULL, include_cran = FALSE, desc = NULL) {
   maybe_desc <- purrr::possibly(desc::desc, otherwise = NULL)
   desc_from_cran <- FALSE
-  if (is.null(package)) {
-    desc <- maybe_desc(file = proj_get())
-    if (is.null(desc)) {
-      return()
-    }
-  } else {
-    desc <- maybe_desc(package = package)
-    if (is.null(desc)) {
-      cran_desc_url <-
-        glue("https://cran.rstudio.com/web/packages/{package}/DESCRIPTION")
-      suppressWarnings(
-        desc <- maybe_desc(text = readLines(cran_desc_url))
-      )
+
+  if (is.null(desc)) {
+    if (is.null(package)) {
+      desc <- maybe_desc(file = proj_get())
       if (is.null(desc)) {
         return()
       }
-      desc_from_cran <- TRUE
+    } else {
+      desc <- maybe_desc(package = package)
+      if (is.null(desc)) {
+        cran_desc_url <-
+          glue("https://cran.rstudio.com/web/packages/{package}/DESCRIPTION")
+        suppressWarnings(
+          desc <- maybe_desc(text = readLines(cran_desc_url))
+        )
+        if (is.null(desc)) {
+          return()
+        }
+        desc_from_cran <- TRUE
+      }
     }
   }
+
   url <- desc$get_urls()
   bug_reports <- desc$get_field("BugReports", default = character())
   cran <-
