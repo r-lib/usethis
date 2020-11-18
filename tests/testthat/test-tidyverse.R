@@ -20,36 +20,26 @@ test_that("use_tidy_eval() inserts the template file and Imports rlang", {
 })
 
 test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
-  mockr::with_mock(
-    uses_travis = function(base_path) TRUE,
-    {
-      create_local_package()
-      use_tidy_contributing()
-      use_tidy_issue_template()
-      use_tidy_support()
-      use_tidy_coc()
-      expect_proj_file(".github/CONTRIBUTING.md")
-      expect_proj_file(".github/ISSUE_TEMPLATE/issue_template.md")
-      expect_proj_file(".github/SUPPORT.md")
-      expect_proj_file(".github/CODE_OF_CONDUCT.md")
-      expect_true(is_build_ignored("^\\.github$"))
-    }
-  )
+  create_local_package()
+  use_tidy_contributing()
+  use_tidy_issue_template()
+  use_tidy_support()
+  use_tidy_coc()
+  expect_proj_file(".github/CONTRIBUTING.md")
+  expect_proj_file(".github/ISSUE_TEMPLATE/issue_template.md")
+  expect_proj_file(".github/SUPPORT.md")
+  expect_proj_file(".github/CODE_OF_CONDUCT.md")
+  expect_true(is_build_ignored("^\\.github$"))
 })
 
 test_that("use_tidy_github() adds and Rbuildignores files", {
-  mockr::with_mock(
-    uses_travis = function(base_path) TRUE,
-    {
-      create_local_package()
-      use_tidy_github()
-      expect_proj_file(".github/CONTRIBUTING.md")
-      expect_proj_file(".github/ISSUE_TEMPLATE/issue_template.md")
-      expect_proj_file(".github/SUPPORT.md")
-      expect_proj_file(".github/CODE_OF_CONDUCT.md")
-      expect_true(is_build_ignored("^\\.github$"))
-    }
-  )
+  create_local_package()
+  use_tidy_github()
+  expect_proj_file(".github/CONTRIBUTING.md")
+  expect_proj_file(".github/ISSUE_TEMPLATE/issue_template.md")
+  expect_proj_file(".github/SUPPORT.md")
+  expect_proj_file(".github/CODE_OF_CONDUCT.md")
+  expect_true(is_build_ignored("^\\.github$"))
 })
 
 test_that("styling the package works", {
