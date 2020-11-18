@@ -48,7 +48,7 @@ print.sitrep <- function(x, ...) {
     rstudio_proj_is_active &&
     x[["active_rstudio_proj"]] != x[["active_usethis_proj"]]
 
-  if (rstudioapi::isAvailable() && !rstudio_proj_is_active) {
+  if (rstudio_available() && !rstudio_proj_is_active) {
     ui_todo(
       "
       You are working in RStudio, but are not in an RStudio Project.

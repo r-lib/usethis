@@ -109,9 +109,9 @@ test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudi
 
   # package
   rel_path_pkg <- path_file(file_temp(pattern = "ghi"))
-  with_mock(
+  mockr::with_mock(
     # make sure we act as if not in RStudio
-    `rstudioapi::isAvailable` = function(...) FALSE,
+    rstudio_available = function(...) FALSE,
     expect_error_free(
       out_path <- create_package(rel_path_pkg, open = TRUE)
     )
@@ -125,9 +125,9 @@ test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudi
 
   # project
   rel_path_proj <- path_file(file_temp(pattern = "jkl"))
-  with_mock(
+  mockr::with_mock(
     # make sure we act as if not in RStudio
-    `rstudioapi::isAvailable` = function(...) FALSE,
+    rstudio_available = function(...) FALSE,
     expect_error_free(
       out_path <- create_project(rel_path_proj, open = TRUE)
     )

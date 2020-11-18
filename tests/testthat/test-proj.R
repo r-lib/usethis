@@ -211,9 +211,9 @@ test_that("proj_activate() works with relative path when RStudio is not detected
 
   rel_path_proj <- path_file(file_temp(pattern = "mno"))
   out_path <- create_project(rel_path_proj, rstudio = FALSE, open = FALSE)
-  with_mock(
+  mockr::with_mock(
     # make sure we act as if not in RStudio
-    `rstudioapi::isAvailable` = function(...) FALSE,
+    rstudio_available = function(...) FALSE,
     expect_error_free(
       result <- proj_activate(rel_path_proj)
     )
