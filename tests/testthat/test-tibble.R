@@ -4,8 +4,8 @@ test_that("use_tibble() requires a package", {
 })
 
 test_that("use_tibble() Imports tibble", {
-  with_mock(
-    `usethis:::uses_roxygen` = function(base_path) TRUE,
+  mockr::with_mock(
+    uses_roxygen = function(base_path) TRUE,
     {
       create_local_package()
       withr::local_options(list(usethis.quiet = FALSE))

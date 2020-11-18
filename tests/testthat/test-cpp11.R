@@ -7,10 +7,10 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
   pkg <- create_local_package()
   use_roxygen_md()
 
-  with_mock(
+  mockr::with_mock(
     # Required to pass the check re: whether cpp11 is installed
-    `usethis:::is_installed` = function(pkg) TRUE,
-    `usethis:::check_cpp_register_deps` = function() invisible(),
+    is_installed = function(pkg) TRUE,
+    check_cpp_register_deps = function() invisible(),
     use_cpp11()
   )
 
@@ -24,17 +24,17 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
 test_that("check_cpp_register_deps is silent if all installed, emits todo if not", {
   withr::local_options(list(usethis.quiet = FALSE))
 
-  with_mock(
-    `usethis:::get_cpp_register_deps` = function() c("brio", "decor", "vctrs"),
-    `usethis:::is_installed` = function(pkg) TRUE,
+  mockr::with_mock(
+    get_cpp_register_deps = function() c("brio", "decor", "vctrs"),
+    is_installed = function(pkg) TRUE,
     expect_silent(
       check_cpp_register_deps()
     )
   )
 
-  with_mock(
-    `usethis:::get_cpp_register_deps` = function() c("brio", "decor", "vctrs"),
-    `usethis:::is_installed` = function(pkg) pkg == "brio",
+  mockr::with_mock(
+    get_cpp_register_deps = function() c("brio", "decor", "vctrs"),
+    is_installed = function(pkg) pkg == "brio",
     expect_message(
       check_cpp_register_deps(),
       "Now install"

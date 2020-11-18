@@ -6,8 +6,8 @@ test_that("uses_github_actions() reports usage of GitHub Actions", {
   expect_false(uses_github_actions())
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/fake/fake")
-  with_mock(
-    `usethis::use_github_actions_badge` = function(name, repo_spec) NULL,
+  mockr::with_mock(
+    use_github_actions_badge = function(name, repo_spec) NULL,
     use_github_actions()
   )
   expect_true(uses_github_actions())

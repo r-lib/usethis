@@ -4,8 +4,8 @@ test_that("use_circleci() configures CircleCI", {
   create_local_package()
   use_git()
 
-  with_mock(
-    `usethis:::target_repo_spec` = function() "OWNER/REPO",
+  mockr::with_mock(
+    target_repo_spec = function() "OWNER/REPO",
     use_circleci(browse = FALSE)
   )
   use_readme_md()
@@ -31,9 +31,9 @@ test_that("use_circleci() configures CircleCI", {
   )
 
   docker <- "rocker/r-ver:3.5.3"
-  with_mock(
-    `usethis:::target_repo_spec` = function() "OWNER/REPO",
-    `usethis:::can_overwrite` = function(path) TRUE,
+  mockr::with_mock(
+    target_repo_spec = function() "OWNER/REPO",
+    can_overwrite = function(path) TRUE,
     use_circleci(browse = FALSE, image = docker)
   )
   yml <- yaml::yaml.load_file(proj_path(".circleci", "config.yml"))

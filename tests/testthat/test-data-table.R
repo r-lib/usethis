@@ -4,9 +4,9 @@ test_that("use_data_table() requires a package", {
 })
 
 test_that("use_data_table() Imports data.table", {
-  with_mock(
-    `usethis:::uses_roxygen` = function(base_path) TRUE,
-    `usethis:::is_installed` = function(pkg) TRUE,
+  mockr::with_mock(
+    uses_roxygen = function(base_path) TRUE,
+    is_installed = function(pkg) TRUE,
     {
       create_local_package()
       use_data_table()
