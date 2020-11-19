@@ -162,7 +162,7 @@ usethis is now fully cognizant of the [changes to RStudio preferences](https://b
   
 ## Dependency changes
 
-New Imports: gert, lifecycle
+New Imports: gert, jsonlite (was already an indirect dependency), lifecycle, rappdirs
 
 No longer in Imports: git2r, rematch2
 
