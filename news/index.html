@@ -295,6 +295,16 @@
 <li><p>The <code>name</code> argument to <code><a href="../reference/licenses.html">use_mit_license()</a></code> has been changed to <code>copyright_holder</code> to make the purpose more clear. The <code>name</code> argument has been removed from all other license functions because it is not needed; no other license makes an assertion about who the copyright holder is.</p></li>
 </ul>
 </div>
+<div id="rstudio-preferences" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rstudio-preferences" class="anchor"></a>RStudio preferences</h2>
+<p>usethis is now fully cognizant of the <a href="https://blog.rstudio.com/2020/02/18/rstudio-1-3-preview-configuration/">changes to RStudio preferences</a> in RStudio 1.3:</p>
+<ul>
+<li><p><code><a href="../reference/edit.html">edit_rstudio_snippets()</a></code> looks in the new location, and if you have snippets in the old location, will automatically copy them to the new location (<a href='https://github.com/r-lib/usethis/issues/1204'>#1204</a>)</p></li>
+<li><p>New <code><a href="../reference/edit.html">edit_rstudio_prefs()</a></code> opens RStudio preferences file for editing (<a href='https://github.com/r-lib/usethis/issues/1148'>#1148</a>).</p></li>
+<li><p><code><a href="../reference/use_blank_slate.html">use_blank_slate()</a></code> can now configure your global, i.e. user-level, RStudio preference, in addition to project-level (<a href='https://github.com/r-lib/usethis/issues/1018'>#1018</a>).</p></li>
+</ul>
+</div>
 <div id="other-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-changes" class="anchor"></a>Other changes</h2>
@@ -312,7 +322,7 @@
 <div id="dependency-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dependency-changes" class="anchor"></a>Dependency changes</h2>
-<p>New Imports: gert, lifecycle</p>
+<p>New Imports: gert, jsonlite (was already an indirect dependency), lifecycle, rappdirs</p>
 <p>No longer in Imports: git2r, rematch2</p>
 </div>
 </div>
