@@ -139,7 +139,7 @@ usethis is now fully cognizant of the [changes to RStudio preferences](https://b
 
 * New `edit_rstudio_prefs()` opens RStudio preferences file for editing (#1148).
 
-* `use_blank_slate()` now configures RStudio for you (#1018).
+* `use_blank_slate()` can now configure your global, i.e. user-level, RStudio preference, in addition to project-level (#1018).
 
 ## Other changes
 
