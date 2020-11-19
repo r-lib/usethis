@@ -177,9 +177,10 @@ rstudio_prefs_read <- function() {
     list()
   }
 }
+
 rstudio_prefs_write <- function(json) {
   path <- rstudio_config_path("rstudio-prefs.json")
-  dir_create(path_dir(path))
+  create_directory(path_dir(path))
   jsonlite::write_json(json, path, auto_unbox = TRUE, pretty = TRUE)
 }
 

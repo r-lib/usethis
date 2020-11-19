@@ -115,7 +115,7 @@ edit_rstudio_snippets <- function(type = c(
 
   # Mimic RStudio behaviour: copy to new location if you edit
   if (new_rstudio && file_exists(old_path) && !file_exists(new_path)) {
-    dir_create(path_dir(new_path))
+    create_directory(path_dir(new_path))
     file_copy(old_path, new_path)
     ui_done("Copying snippets file to {ui_path(new_path)}")
   }
