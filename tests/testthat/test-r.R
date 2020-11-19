@@ -17,7 +17,7 @@ test_that("can use use_test() in a project", {
 
 # rename_files ------------------------------------------------------------
 
-test_that("renames R and test files", {
+test_that("renames R and test and snapshot files", {
   create_local_package()
   git_init()
 
@@ -28,6 +28,11 @@ test_that("renames R and test files", {
   use_test("foo", open = FALSE)
   rename_files("foo", "bar")
   expect_proj_file("tests/testthat/test-bar.R")
+
+  dir_create(proj_path("tests", "testthat", "_snaps"))
+  write_utf8(proj_path("tests", "testthat", "_snaps", "foo.md"), "abc")
+  rename_files("foo", "bar")
+  expect_proj_file("tests/testthat/_snaps/bar.md")
 })
 
 test_that("strips context from test file", {
@@ -65,6 +70,6 @@ test_that("rename paths in test file", {
 
 # helpers -----------------------------------------------------------------
 
-test_that("check_file_name() requires single vector", {
+test_that("check_file_name() requires single string", {
   expect_usethis_error(check_file_name(c("a", "b")), "single string")
 })
