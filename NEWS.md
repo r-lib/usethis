@@ -131,6 +131,16 @@ The default Git protocol is now "https" and we no longer provide an interactive 
   been removed from all other license functions because it is not needed;
   no other license makes an assertion about who the copyright holder is.
 
+## RStudio preferences
+
+usethis is now fully cognizant of the [changes to RStudio preferences](https://blog.rstudio.com/2020/02/18/rstudio-1-3-preview-configuration/) in RStudio 1.3:
+
+* `edit_rstudio_snippets()` looks in the new location, and if you have snippets in the old location, will automatically copy them to the new location (#1204)
+
+* New `edit_rstudio_prefs()` opens RStudio preferences file for editing (#1148).
+
+* `use_blank_slate()` can now configure your global, i.e. user-level, RStudio preference, in addition to project-level (#1018).
+
 ## Other changes
 
 * `browse_package()` and `browse_project()` are new functions that let the user choose from a list of URLs derived from local Git remotes and DESCRIPTION (local or possibly on CRAN) (#1113).
@@ -152,7 +162,7 @@ The default Git protocol is now "https" and we no longer provide an interactive 
   
 ## Dependency changes
 
-New Imports: gert, lifecycle
+New Imports: gert, jsonlite (was already an indirect dependency), lifecycle, rappdirs
 
 No longer in Imports: git2r, rematch2
 
