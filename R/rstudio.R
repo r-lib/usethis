@@ -51,7 +51,7 @@ use_blank_slate <- function(scope = c("user", "project")) {
       load_workspace = FALSE
     ))
     return(invisible())
-  } # nocov end
+  }
 
   if (!is_rstudio_project()) {
     ui_stop("{ui_value(project_name())} is not an RStudio Project.")
