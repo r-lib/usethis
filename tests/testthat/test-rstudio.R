@@ -8,6 +8,13 @@ test_that("use_rstudio() creates .Rproj file, named after directory", {
   expect_equal(proj_line_ending(), "\n")
 })
 
+test_that("use_rstudio() omits package-related config for a project", {
+  create_local_project(rstudio = FALSE)
+  use_rstudio()
+  out <- readLines(rproj_path())
+  expect_true(is.na(match("BuildType: Package", out)))
+})
+
 test_that("a non-RStudio project is not recognized", {
   create_local_package(rstudio = FALSE)
   expect_false(is_rstudio_project())

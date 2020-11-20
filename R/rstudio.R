@@ -17,13 +17,16 @@ use_rstudio <- function(line_ending = c("posix", "windows")) {
   line_ending <- c("posix" = "Posix", "windows" = "Windows")[[line_ending]]
 
   rproj_file <- paste0(project_name(), ".Rproj")
-  new <- use_template("template.Rproj", rproj_file,
-    data = list(line_ending = line_ending)
+  new <- use_template(
+    "template.Rproj",
+    save_as = rproj_file,
+    data = list(line_ending = line_ending, is_pkg = is_package()),
+    ignore = is_package()
   )
 
   use_git_ignore(".Rproj.user")
   if (is_package()) {
-    use_build_ignore(c(rproj_file, ".Rproj.user"))
+    use_build_ignore(".Rproj.user")
   }
 
   invisible(new)
