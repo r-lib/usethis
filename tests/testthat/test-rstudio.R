@@ -30,7 +30,7 @@ test_that("we error for multiple Rproj files", {
 })
 
 test_that("Rproj is parsed (actually, only colon-containing lines)", {
-  tmp <- file_temp()
+  tmp <- withr::local_tempfile()
   writeLines(c("a: a", "", "b: b", "I have no colon"), tmp)
   expect_identical(
     parse_rproj(tmp),
@@ -39,7 +39,7 @@ test_that("Rproj is parsed (actually, only colon-containing lines)", {
 })
 
 test_that("Existing field(s) in Rproj can be modified", {
-  tmp <- file_temp()
+  tmp <- withr::local_tempfile()
   writeLines(
     c(
       "Version: 1.0",
