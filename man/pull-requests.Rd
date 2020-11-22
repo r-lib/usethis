@@ -176,13 +176,16 @@ PR. Then switches back to the default branch (usually named \code{main} or
 browser (default) or the specific PR identified by \code{number}.
 (FYI \code{\link[=browse_github_pulls]{browse_github_pulls()}} is a handy way to visit the list of all PRs for
 the current project.)
-\item \code{pr_finish()}: If \code{number} is given, first does \code{pr_fetch(number)}. It's
-assumed the current branch is the PR branch of interest. First, makes sure
-there are no unpushed local changes. Switches back to the default branch and
-pulls changes from the source repo. If the PR has been merged and user has
-permission, deletes the remote branch. Deletes the PR branch. If the PR came
-from an external fork, the corresponding remote is deleted, provided it's not
-in use by any other local branches.
+\item \code{pr_finish()}: Does post-PR clean up, but does NOT actually merge or close
+a PR (maintainer should do this in the browser). If \code{number} is not given,
+infers the PR from the upstream tracking branch of the current branch. If
+\code{number} is given, it does not matter whether the PR exists locally. If PR
+exists locally, alerts the user to uncommitted or unpushed changes, then
+switches back to the default branch, pulls changes from source repo, and
+deletes local PR branch. If the PR came from an external fork, any associated
+Git remote is deleted, provided it's not in use by any other local branches.
+If the PR has been merged and user has permission, deletes the remote branch
+(this is the only remote operation that \code{pr_finish()} potentially does).
 }
 }
 

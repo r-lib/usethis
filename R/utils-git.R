@@ -137,7 +137,7 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
 
   default_msg <- "
     There are uncommitted changes, which may cause problems when \\
-    we push, pull, or switch branches"
+    we push, pull, switch, or compare branches"
   msg <- glue(msg %||% default_msg)
   if (git_uncommitted(untracked = untracked)) {
     if (ui_yeah("{msg}\nDo you want to proceed anyway?")) {

@@ -25,13 +25,14 @@ gert::git_add("README.md")
 gert::git_commit("Add README")
 
 pr_view()
-# errors, because current branch no yet associated with a PR
+# doesn't work, because current branch no yet associated with a PR
 
 pr_pause()
 
 pr_resume()
 # offers to switch to the single existing branch
 
+# remember to actually create the PR in the browser
 pr_push()
 
 pr_view()
@@ -42,10 +43,12 @@ pr_fetch()
 
 pr_pause()
 
-pr_fetch()
-# presents my one existing PR (the branch I'm on), which I can select
+pr_resume()
 
-pr_pause()
+# agree to the commit (or not, depending on what you want to test)
+use_news_md(open = FALSE)
+
+pr_finish()
 
 # restore initial project, working directory, delete local repo
 withr::deferred_run()
