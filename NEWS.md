@@ -1,18 +1,8 @@
 # usethis (development version)
 
-## GitHub remote configuration
+This version is anticipated to be released as usethis v2.0.0.
 
-Usethis gains a more formal framework for characterizing a GitHub remote configuration. We look at:
-
-  * Which GitHub repositories `origin` and `upstream` point to
-  * Whether you can push to them
-  * How they relate to each other, e.g. fork-parent relationship
-  
-This is an internal matter, but users will notice that usethis is more clear about which configurations are supported by various functions and which are not. The most common configurations are reviewed in a [section of Happy Git](https://happygitwithr.com/common-remote-setups.html).
-
-When working in a fork, there is sometimes a question whether to target the fork or its parent repository. For example, `use_github_links()` adds GitHub links to the URL and BugReports fields of DESCRIPTION. If someone calls `use_github_links()` when working in a fork, they probably want those links to refer to the *parent* or *source* repo, not to their fork, because the user is probably preparing a pull request. Usethis should now have better default behaviour in these situations and, in some cases, will present an interactive choice.
-
-## Adoption of gert and getting usethis out of the Git credential business
+## Adoption of gert and changes to Git/GitHub credential handling
 
 Usethis has various functions that help with Git-related tasks, which break down into two categories:
 
@@ -30,7 +20,7 @@ Under the hood, both gert and gh are now consulting your local Git credential st
 * gert uses the credentials package (<https://docs.ropensci.org/credentials/>)
 * gh uses the gitcreds package (<https://r-lib.github.io/gitcreds/>)
 
-Even now, gert and gh should discover the same credentials, at least for github.com. Moving forward, we are hopeful that these two packages will merge into one.
+Even now, gert and gh should discover the same credentials, at least for github.com. In the future, these two packages may merge into one.
 
 Git/GitHub credential management is covered in a new article:  
 [Managing Git(Hub) Credentials](https://usethis.r-lib.org/articles/articles/git-credentials.html)
@@ -57,6 +47,18 @@ As a result, several functions are deprecated and several other functions have s
 
 The switch to gert + credentials should eliminate most credential-finding fiascos, but if you want to learn more, see the [introductory vignette](https://cran.r-project.org/web/packages/credentials/vignettes/intro.html) for the credentials package. Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that "just work", for both SSH and HTTPS remotes. There should be fewer "unsupported protocol" errors.
 
+## GitHub remote configuration
+
+Usethis gains a more formal framework for characterizing a GitHub remote configuration. We look at:
+
+  * Which GitHub repositories `origin` and `upstream` point to
+  * Whether you can push to them
+  * How they relate to each other, e.g. fork-parent relationship
+  
+This is an internal matter, but users will notice that usethis is more clear about which configurations are supported by various functions and which are not. The most common configurations are reviewed in a [section of Happy Git](https://happygitwithr.com/common-remote-setups.html).
+
+When working in a fork, there is sometimes a question whether to target the fork or its parent repository. For example, `use_github_links()` adds GitHub links to the URL and BugReports fields of DESCRIPTION. If someone calls `use_github_links()` when working in a fork, they probably want those links to refer to the *parent* or *source* repo, not to their fork, because the user is probably preparing a pull request. Usethis should now have better default behaviour in these situations and, in some cases, will present an interactive choice.
+
 ## Default branch
 
 There is increasing interest in making the name of a repo's default branch configurable. Specifically, `main` is emerging as a popular alternative to `master`. Usethis now discovers the current repo's default branch and uses that everywhere that, previously, we had hard-wired `master`.
@@ -65,13 +67,14 @@ There is increasing interest in making the name of a repo's default branch confi
 
 `use_course()`, `use_zip()`, and `create_download_url()` all have some support for forming the URL to download a `.zip` archive of a repo, based on a repo specification (e.g. `OWNER/REPO`) or a browser URL. These helpers now form a URL that targets `HEAD` of the repo, i.e. the default branch.
 
-## Changes to behaviour of Git/GitHub-related functions
+## Changes to Git/GitHub functionality
 
 The default Git protocol is now "https" and we no longer provide an interactive choice, by default, in interactive sessions. As always, a user can express a preference for "ssh" in individual function calls, for an R session via `use_git_protocol()`, and for all R sessions via the `usethis.protocol` option (#1262).
 
 `pr_resume()` is a new function for resuming work on an existing local PR branch. It can be called argument-less, to select a branch interactively.
 
-`pr_fetch()` can also be called with no arguments, to select a PR interactively. `pr_fetch()` loses its `owner` argument. The `owner` is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.
+`pr_fetch()` can also be called with no arguments, to select a PR interactively.
+The `owner` argument is replaced by `target`, with a choice of the source (default) or primary repo.
 
 `pr_forget()` is a new function for abandoning a PR you initiated locally or fetched from GitHub. It only does local clean up and, for example, doesn't delete a remote branch or close a PR (#1263).
 
