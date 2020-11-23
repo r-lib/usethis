@@ -189,21 +189,10 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
 </h1>
-<div id="github-remote-configuration" class="section level2">
+<p>This version is anticipated to be released as usethis v2.0.0.</p>
+<div id="adoption-of-gert-and-changes-to-gitgithub-credential-handling" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github-remote-configuration" class="anchor"></a>GitHub remote configuration</h2>
-<p>Usethis gains a more formal framework for characterizing a GitHub remote configuration. We look at:</p>
-<ul>
-<li>Which GitHub repositories <code>origin</code> and <code>upstream</code> point to</li>
-<li>Whether you can push to them</li>
-<li>How they relate to each other, e.g. fork-parent relationship</li>
-</ul>
-<p>This is an internal matter, but users will notice that usethis is more clear about which configurations are supported by various functions and which are not. The most common configurations are reviewed in a <a href="https://happygitwithr.com/common-remote-setups.html">section of Happy Git</a>.</p>
-<p>When working in a fork, there is sometimes a question whether to target the fork or its parent repository. For example, <code><a href="../reference/use_github_links.html">use_github_links()</a></code> adds GitHub links to the URL and BugReports fields of DESCRIPTION. If someone calls <code><a href="../reference/use_github_links.html">use_github_links()</a></code> when working in a fork, they probably want those links to refer to the <em>parent</em> or <em>source</em> repo, not to their fork, because the user is probably preparing a pull request. Usethis should now have better default behaviour in these situations and, in some cases, will present an interactive choice.</p>
-</div>
-<div id="adoption-of-gert-and-getting-usethis-out-of-the-git-credential-business" class="section level2">
-<h2 class="hasAnchor">
-<a href="#adoption-of-gert-and-getting-usethis-out-of-the-git-credential-business" class="anchor"></a>Adoption of gert and getting usethis out of the Git credential business</h2>
+<a href="#adoption-of-gert-and-changes-to-gitgithub-credential-handling" class="anchor"></a>Adoption of gert and changes to Git/GitHub credential handling</h2>
 <p>Usethis has various functions that help with Git-related tasks, which break down into two categories:</p>
 <ol>
 <li>Git tasks, such as clone, push, and pull. These are things you could do with command line Git.</li>
@@ -216,7 +205,7 @@
 <li>gert uses the credentials package (<a href="https://docs.ropensci.org/credentials/" class="uri">https://docs.ropensci.org/credentials/</a>)</li>
 <li>gh uses the gitcreds package (<a href="https://r-lib.github.io/gitcreds/" class="uri">https://r-lib.github.io/gitcreds/</a>)</li>
 </ul>
-<p>Even now, gert and gh should discover the same credentials, at least for github.com. Moving forward, we are hopeful that these two packages will merge into one.</p>
+<p>Even now, gert and gh should discover the same credentials, at least for github.com. In the future, these two packages may merge into one.</p>
 <p>Git/GitHub credential management is covered in a new article:<br><a href="https://usethis.r-lib.org/articles/articles/git-credentials.html">Managing Git(Hub) Credentials</a></p>
 <p>The main user-facing changes in usethis are:</p>
 <ul>
@@ -253,6 +242,18 @@
 </ul>
 <p>The switch to gert + credentials should eliminate most credential-finding fiascos, but if you want to learn more, see the <a href="https://cran.r-project.org/web/packages/credentials/vignettes/intro.html">introductory vignette</a> for the credentials package. Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that “just work”, for both SSH and HTTPS remotes. There should be fewer “unsupported protocol” errors.</p>
 </div>
+<div id="github-remote-configuration" class="section level2">
+<h2 class="hasAnchor">
+<a href="#github-remote-configuration" class="anchor"></a>GitHub remote configuration</h2>
+<p>Usethis gains a more formal framework for characterizing a GitHub remote configuration. We look at:</p>
+<ul>
+<li>Which GitHub repositories <code>origin</code> and <code>upstream</code> point to</li>
+<li>Whether you can push to them</li>
+<li>How they relate to each other, e.g. fork-parent relationship</li>
+</ul>
+<p>This is an internal matter, but users will notice that usethis is more clear about which configurations are supported by various functions and which are not. The most common configurations are reviewed in a <a href="https://happygitwithr.com/common-remote-setups.html">section of Happy Git</a>.</p>
+<p>When working in a fork, there is sometimes a question whether to target the fork or its parent repository. For example, <code><a href="../reference/use_github_links.html">use_github_links()</a></code> adds GitHub links to the URL and BugReports fields of DESCRIPTION. If someone calls <code><a href="../reference/use_github_links.html">use_github_links()</a></code> when working in a fork, they probably want those links to refer to the <em>parent</em> or <em>source</em> repo, not to their fork, because the user is probably preparing a pull request. Usethis should now have better default behaviour in these situations and, in some cases, will present an interactive choice.</p>
+</div>
 <div id="default-branch" class="section level2">
 <h2 class="hasAnchor">
 <a href="#default-branch" class="anchor"></a>Default branch</h2>
@@ -260,12 +261,12 @@
 <p><code><a href="../reference/git_branch_default.html">git_branch_default()</a></code> is a newly exported function that is also what’s used internally.</p>
 <p><code><a href="../reference/zip-utils.html">use_course()</a></code>, <code><a href="../reference/zip-utils.html">use_zip()</a></code>, and <code><a href="../reference/use_course_details.html">create_download_url()</a></code> all have some support for forming the URL to download a <code>.zip</code> archive of a repo, based on a repo specification (e.g. <code>OWNER/REPO</code>) or a browser URL. These helpers now form a URL that targets <code>HEAD</code> of the repo, i.e. the default branch.</p>
 </div>
-<div id="changes-to-behaviour-of-gitgithub-related-functions" class="section level2">
+<div id="changes-to-gitgithub-functionality" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-behaviour-of-gitgithub-related-functions" class="anchor"></a>Changes to behaviour of Git/GitHub-related functions</h2>
+<a href="#changes-to-gitgithub-functionality" class="anchor"></a>Changes to Git/GitHub functionality</h2>
 <p>The default Git protocol is now “https” and we no longer provide an interactive choice, by default, in interactive sessions. As always, a user can express a preference for “ssh” in individual function calls, for an R session via <code><a href="../reference/git_protocol.html">use_git_protocol()</a></code>, and for all R sessions via the <code>usethis.protocol</code> option (<a href='https://github.com/r-lib/usethis/issues/1262'>#1262</a>).</p>
 <p><code><a href="../reference/pull-requests.html">pr_resume()</a></code> is a new function for resuming work on an existing local PR branch. It can be called argument-less, to select a branch interactively.</p>
-<p><code><a href="../reference/pull-requests.html">pr_fetch()</a></code> can also be called with no arguments, to select a PR interactively. <code><a href="../reference/pull-requests.html">pr_fetch()</a></code> loses its <code>owner</code> argument. The <code>owner</code> is now inferred from the GitHub remote configuration: <code>upstream</code> if working in a fork and <code>origin</code> otherwise.</p>
+<p><code><a href="../reference/pull-requests.html">pr_fetch()</a></code> can also be called with no arguments, to select a PR interactively. The <code>owner</code> argument is replaced by <code>target</code>, with a choice of the source (default) or primary repo.</p>
 <p><code><a href="../reference/pull-requests.html">pr_forget()</a></code> is a new function for abandoning a PR you initiated locally or fetched from GitHub. It only does local clean up and, for example, doesn’t delete a remote branch or close a PR (<a href='https://github.com/r-lib/usethis/issues/1263'>#1263</a>).</p>
 <p><code><a href="../reference/pull-requests.html">pr_view()</a></code> can now be called with no arguments. If the current branch is associated with an open PR, we target that and, otherwise, we offer an interactive selection.</p>
 <p><code><a href="../reference/pull-requests.html">pr_finish()</a></code> deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (<a href='https://github.com/r-lib/usethis/issues/1150'>#1150</a>). It no longer errors if the PR branch has already been deleted (<a href='https://github.com/r-lib/usethis/issues/1196'>#1196</a>).</p>
