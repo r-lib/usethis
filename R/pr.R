@@ -525,8 +525,9 @@ pr_clean <- function(number = NULL,
                      target = c("source", "primary"),
                      mode = c("finish", "forget")) {
   mode <- match.arg(mode)
-  tr <- target_repo(github_get = NA, role = target, ask = FALSE)
   repo <- git_repo()
+  tr <- target_repo(github_get = NA, role = target, ask = FALSE)
+
   if (is.null(number)) {
     check_pr_branch()
     pr <- pr_find(git_branch(), tr = tr, state = "all")
