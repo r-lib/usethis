@@ -133,6 +133,16 @@
 #' (FYI [browse_github_pulls()] is a handy way to visit the list of all PRs for
 #' the current project.)
 
+#' * `pr_forget()`: Does local clean up when the current branch is an actual or
+#' notional PR that you want to abandon. Maybe you initiated it yourself, via
+#' `pr_init()`, or you used `pr_fetch()` to explore a PR from GitHub. Only does
+#' *local* operations: does not update or delete any remote branches, nor does
+#' it close any PRs. Alerts the user to any uncommitted or unpushed work that is
+#' at risk of being lost. If user chooses to proceed, switches back to the
+#' default branch, pulls changes from source repo, and deletes local PR branch.
+#' Any associated Git remote is deleted, if the "forgotten" PR was the only
+#' branch using it.
+
 #' * `pr_finish()`: Does post-PR clean up, but does NOT actually merge or close
 #' a PR (maintainer should do this in the browser). If `number` is not given,
 #' infers the PR from the upstream tracking branch of the current branch. If
@@ -499,44 +509,77 @@ pr_pause <- function() {
 #' @export
 #' @rdname pull-requests
 pr_finish <- function(number = NULL, target = c("source", "primary")) {
+  pr_clean(number = number, target = target, mode = "finish")
+}
+
+#' @export
+#' @rdname pull-requests
+pr_forget <- function() pr_clean(mode = "forget")
+
+# unexported helpers ----
+
+# Removes local evidence of PRs that you're done with or wish you'd never
+# started or fetched
+# Only possible remote action is to delete the remote branch for a merged PR
+pr_clean <- function(number = NULL,
+                     target = c("source", "primary"),
+                     mode = c("finish", "forget")) {
+  mode <- match.arg(mode)
   tr <- target_repo(github_get = NA, role = target, ask = FALSE)
   repo <- git_repo()
   if (is.null(number)) {
     check_pr_branch()
     pr <- pr_find(git_branch(), tr = tr, state = "all")
-    if (is.null(pr)) {
-      return(pr_forget())
-    }
   } else {
     pr <- pr_get(number = number, tr = tr)
   }
 
-  if (!is.na(pr$pr_local_branch)) {
-    if (pr$pr_local_branch == git_branch()) {
+  pr_local_branch <- if (is.null(pr)) git_branch() else pr$pr_local_branch
+
+  if (!is.na(pr_local_branch)) {
+    if (pr_local_branch == git_branch()) {
       challenge_uncommitted_changes()
     }
-    cmp <- git_branch_compare(branch = pr$pr_local_branch)
-    if (cmp$local_only > 0 && ui_nope("
-      Local branch {ui_value(pr$pr_local_branch)} has 1 or more commits that \\
-      have not been pushed to \\
-      {ui_value(git_branch_tracking(pr$pr_local_branch))}.
-      If we delete {ui_value(pr$pr_local_branch)}, this work may be hard for \\
-      you to recover.
-      Proceed anyway?")) {
-      ui_stop("Aborting.")
+    tracking_branch <- git_branch_tracking(pr_local_branch)
+    if (is.na(tracking_branch)) {
+      if (ui_nope("
+        Local branch {ui_value(pr_local_branch)} has no associated remote \\
+        branch.
+        If we delete {ui_value(pr_local_branch)}, any work that exists only \\
+        on this branch work may be hard for you to recover.
+        Proceed anyway?")) {
+        ui_stop("Aborting.")
+      }
+    } else {
+      cmp <- git_branch_compare(
+        branch = pr_local_branch,
+        remref = tracking_branch
+      )
+      if (cmp$local_only > 0 && ui_nope("
+          Local branch {ui_value(pr_local_branch)} has 1 or more commits \\
+          that have not been pushed to {ui_value(tracking_branch)}.
+          If we delete {ui_value(pr_local_branch)}, this work may be hard \\
+          for you to recover.
+          Proceed anyway?")) {
+        ui_stop("Aborting.")
+      }
     }
   }
 
   default_branch <- git_branch_default()
   if (git_branch() != default_branch) {
     ui_done("Switching back to default branch ({ui_value(default_branch)})")
-    gert::git_branch_checkout(default_branch, repo = repo)
+    gert::git_branch_checkout(default_branch, force = TRUE, repo = repo)
     pr_pull_source_override(tr = tr)
   }
 
-  if (!is.na(pr$pr_local_branch)) {
-    ui_done("Deleting local {ui_value(pr$pr_local_branch)} branch")
-    gert::git_branch_delete(pr$pr_local_branch, repo = repo)
+  if (!is.na(pr_local_branch)) {
+    ui_done("Deleting local {ui_value(pr_local_branch)} branch")
+    gert::git_branch_delete(pr_local_branch, repo = repo)
+  }
+
+  if (is.null(pr)) {
+    return(invisible())
   }
 
   pr_branch_delete(pr)
@@ -555,12 +598,6 @@ pr_finish <- function(number = NULL, target = c("source", "primary")) {
   }
   invisible()
 }
-
-pr_forget <- function() {
-  "not implemented yet"
-}
-
-# unexported helpers ----
 
 # Make sure to pull from upstream/DEFAULT (as opposed to origin/DEFAULT) if
 # we're in DEFAULT branch of a fork. I wish everyone set up DEFAULT to track the

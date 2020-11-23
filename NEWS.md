@@ -73,9 +73,11 @@ The default Git protocol is now "https" and we no longer provide an interactive 
 
 `pr_fetch()` can also be called with no arguments, to select a PR interactively. `pr_fetch()` loses its `owner` argument. The `owner` is now inferred from the GitHub remote configuration: `upstream` if working in a fork and `origin` otherwise.
 
+`pr_forget()` is a new function for abandoning a PR you initiated locally or fetched from GitHub. It only does local clean up and, for example, doesn't delete a remote branch or close a PR (#1263).
+
 `pr_view()` can now be called with no arguments. If the current branch is associated with an open PR, we target that and, otherwise, we offer an interactive selection.
 
-`pr_finish()` deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150).
+`pr_finish()` deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150). It no longer errors if the PR branch has already been deleted (#1196).
 
 `pr_pull_upstream()` is renamed to `pr_merge_main()` to emphasize that it merges the **main** line of development into the current branch, where the main line of development is taken to mean the default branch, as reported by `git_branch_default()`, of the source repo, which could be either `upstream` or `origin`, depending on the situation.
 
