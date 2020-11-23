@@ -245,7 +245,9 @@ various remote operations. See below for more.</p>
 
 <span class='fu'>pr_pause</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>pr_finish</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span>, target <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"source"</span>, <span class='st'>"primary"</span><span class='op'>)</span><span class='op'>)</span></pre>
+<span class='fu'>pr_finish</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span>, target <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"source"</span>, <span class='st'>"primary"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='fu'>pr_forget</span><span class='op'>(</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -372,6 +374,15 @@ PR. Then switches back to the default branch (usually named <code>main</code> or
 browser (default) or the specific PR identified by <code>number</code>.
 (FYI <code><a href='browse-this.html'>browse_github_pulls()</a></code> is a handy way to visit the list of all PRs for
 the current project.)</p></li>
+<li><p><code>pr_forget()</code>: Does local clean up when the current branch is an actual or
+notional PR that you want to abandon. Maybe you initiated it yourself, via
+<code>pr_init()</code>, or you used <code>pr_fetch()</code> to explore a PR from GitHub. Only does
+<em>local</em> operations: does not update or delete any remote branches, nor does
+it close any PRs. Alerts the user to any uncommitted or unpushed work that is
+at risk of being lost. If user chooses to proceed, switches back to the
+default branch, pulls changes from source repo, and deletes local PR branch.
+Any associated Git remote is deleted, if the "forgotten" PR was the only
+branch using it.</p></li>
 <li><p><code>pr_finish()</code>: Does post-PR clean up, but does NOT actually merge or close
 a PR (maintainer should do this in the browser). If <code>number</code> is not given,
 infers the PR from the upstream tracking branch of the current branch. If
