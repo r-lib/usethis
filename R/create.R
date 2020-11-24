@@ -302,7 +302,7 @@ create_from_github <- function(repo_spec,
   }
 
   if (open) {
-    if (proj_activate(repo_path)) {
+    if (proj_activate(proj_get())) {
       # Working directory/active project changed; so don't undo on exit
       withr::deferred_clear()
     }
