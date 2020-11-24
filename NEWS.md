@@ -92,78 +92,62 @@ The `owner` argument is replaced by `target`, with a choice of the source (defau
 
 `issue_close_community()` and `issue_reprex_needed()` are two new functions for maintainers who process lots of GitHub issues. They automate canned replies and actions, e.g. labelling or closing (#940).
 
-* GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (#1169).
+GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (#1169).
 
-* `browse_github_actions()` is a new function to open the Actions page of the respective repo on GitHub, similar to existing `browse_*()` functions (@pat-s, #1102).
+`browse_github_actions()` is a new function to open the Actions page of the respective repo on GitHub, similar to existing `browse_*()` functions (@pat-s, #1102).
 
-* `use_github_pages()` is a new function to activate or reconfigure the GitHub Pages site associated with a repository (#224).
+`use_github_pages()` is a new function to activate or reconfigure the GitHub Pages site associated with a repository (#224).
 
-* `use_tidy_pkgdown()` implements the complete pkgdown configuration used by the tidyverse team (#224).
+`use_tidy_pkgdown()` implements the complete pkgdown configuration used by the tidyverse team (#224).
 
 `pr_sync()` is defunct and can be replicated by calling `pr_pull()`, `pr_merge_main()`, then `pr_push()`.
 
 ## Licensing improvements
 
-* All `use_*_license()` functions now work for projects, not just packages.
+All `use_*_license()` functions now work for projects, not just packages.
 
-* `use_apl2_license()` (not `use_apache_license()`) and 
-  `use_gpl3_license()` no longer modify the license text (#1198).
+`use_apl2_license()` (not `use_apache_license()`) and `use_gpl3_license()` no longer modify the license text (#1198).
    
-* `use_mit_license()` now sets the default copyright holder to 
-  "{package} authors". This makes it more clear that the copyright holders
-  are the contributors to the package; unless you are using a CLA there is no
-  one copyright holder of a package (#1207).
+`use_mit_license()` now sets the default copyright holder to "{package} authors". This makes it more clear that the copyright holders are the contributors to the package; unless you are using a CLA there is no one copyright holder of a package (#1207).
   
-* New `use_gpl_license()` and  `use_agpl_license()` make it easier to pick 
-  specific versions of the GPL and AGPL licenses, and to choose whether or not 
-  you include future versions of the license. Both default to version 3 
-  (and above).
+New `use_gpl_license()` and  `use_agpl_license()` make it easier to pick specific versions of the GPL and AGPL licenses, and to choose whether or not you include future versions of the license. Both default to version 3 (and above).
 
-* New `use_proprietary_license()` allows your package to pass R CMD check while
-  making it clear that your code is not open source (#1163). Thanks to
-  @atheriel for the blog post suggesting the wording:
-  https://unconj.ca/blog/copyright-in-closed-source-r-packages-the-right-way.html
+New `use_proprietary_license()` allows your package to pass R CMD check while making it clear that your code is not open source (#1163). Thanks to @atheriel for the blog post suggesting the wording: https://unconj.ca/blog/copyright-in-closed-source-r-packages-the-right-way.html
 
-* `use_lgpl_license()` now uses version 3 (and above), and gains new
-  `version` and `include_future` argument to control which version is used.
+`use_lgpl_license()` now uses version 3 (and above), and gains new `version` and `include_future` argument to control which version is used.
   
-* `use_gpl3_license()`, `use_agpl3_license()` and `use_apl2_license()` have
-  been deprecated in favour of the new `version` argument to 
-  `use_gpl_license()`, `use_agpl_license()` and `use_apache_license()`.
+`use_gpl3_license()`, `use_agpl3_license()` and `use_apl2_license()` have been deprecated in favour of the new `version` argument to `use_gpl_license()`, `use_agpl_license()` and `use_apache_license()`.
   
-* The `name` argument to `use_mit_license()` has been changed to 
-  `copyright_holder` to make the purpose more clear. The `name` argument has
-  been removed from all other license functions because it is not needed;
-  no other license makes an assertion about who the copyright holder is.
+The `name` argument to `use_mit_license()` has been changed to `copyright_holder` to make the purpose more clear. The `name` argument has been removed from all other license functions because it is not needed; no other license makes an assertion about who the copyright holder is.
 
 ## RStudio preferences
 
 usethis is now fully cognizant of the [changes to RStudio preferences](https://blog.rstudio.com/2020/02/18/rstudio-1-3-preview-configuration/) in RStudio 1.3:
 
-* `edit_rstudio_snippets()` looks in the new location, and if you have snippets in the old location, will automatically copy them to the new location (#1204)
+`edit_rstudio_snippets()` looks in the new location, and if you have snippets in the old location, will automatically copy them to the new location (#1204)
 
-* New `edit_rstudio_prefs()` opens RStudio preferences file for editing (#1148).
+New `edit_rstudio_prefs()` opens RStudio preferences file for editing (#1148).
 
-* `use_blank_slate()` can now configure your global, i.e. user-level, RStudio preference, in addition to project-level (#1018).
+`use_blank_slate()` can now configure your global, i.e. user-level, RStudio preference, in addition to project-level (#1018).
 
 ## Other changes
 
-* `browse_package()` and `browse_project()` are new functions that let the user choose from a list of URLs derived from local Git remotes and DESCRIPTION (local or possibly on CRAN) (#1113).
+`browse_package()` and `browse_project()` are new functions that let the user choose from a list of URLs derived from local Git remotes and DESCRIPTION (local or possibly on CRAN) (#1113).
 
-* The legacy `"devtools.desc"` option is no longer consulted when populating a new DESCRIPTION file. You must use the `"usethis.description"` now (#1069).
+The legacy `"devtools.desc"` option is no longer consulted when populating a new DESCRIPTION file. You must use the `"usethis.description"` now (#1069).
 
-* `use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The existing behaviour, which adds an `OWNER/REPO` GitHub remote, remains the default (#918, @ijlyttle).
+`use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The existing behaviour, which adds an `OWNER/REPO` GitHub remote, remains the default (#918, @ijlyttle).
 
-* `use_cpp11()` is a new function to set up an R package to use cpp11.
+`use_cpp11()` is a new function to set up an R package to use cpp11.
 
-* `create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
+`create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
 
-* `create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
+`create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
 
-* `use_testthat()` gains an edition argument to support testthat v3.0.0 
+`use_testthat()` gains an edition argument to support testthat v3.0.0 
   (#1185)
 
-* usethis has been re-licensed as MIT (#1252, #1253).  
+usethis has been re-licensed as MIT (#1252, #1253).  
   
 ## Dependency changes
 
