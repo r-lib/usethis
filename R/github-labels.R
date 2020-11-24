@@ -106,7 +106,7 @@ use_github_labels <- function(repo_spec = deprecated(),
       ~ gh("GET /repos/{owner}/{repo}/issues", labels = .x)
     )
     issues <- purrr::flatten(issues)
-    number <- map_lgl(issues, "number")
+    number <- map_int(issues, "number")
     old_labels <- map(issues, "labels")
     df <- data.frame(
       number = rep.int(number, lengths(old_labels))
