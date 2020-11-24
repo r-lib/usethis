@@ -799,8 +799,9 @@ choose_branch <- function() {
     n <- length(branches_not_shown)
     dat <- dat[1:9, ]
     pre <- glue("{n} branch{if (n > 1) 'es'} not listed: ")
-    listing <- glue::glue_collapse(
-      branches_not_shown, sep = ", ", width = getOption("width") - nchar(pre))
+    listing <- glue_collapse(
+      branches_not_shown, sep = ", ", width = getOption("width") - nchar(pre)
+    )
     prompt <- glue("
       {prompt}
       {pre}{listing}")

@@ -144,7 +144,7 @@ browse_github_actions <- function(package = NULL) {
 browse_travis <- function(package = NULL, ext = c("com", "org")) {
   gh <- github_url(package)
   ext <- arg_match(ext)
-  travis_url <- glue::glue("travis-ci.{ext}")
+  travis_url <- glue("travis-ci.{ext}")
   view_url(sub("github.com", travis_url, gh))
 }
 
