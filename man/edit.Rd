@@ -7,6 +7,7 @@
 \alias{edit_r_buildignore}
 \alias{edit_r_makevars}
 \alias{edit_rstudio_snippets}
+\alias{edit_rstudio_prefs}
 \alias{edit_git_config}
 \alias{edit_git_ignore}
 \title{Open configuration files}
@@ -23,6 +24,8 @@ edit_rstudio_snippets(
   type = c("r", "markdown", "c_cpp", "css", "html", "java", "javascript", "python",
     "sql", "stan", "tex")
 )
+
+edit_rstudio_prefs()
 
 edit_git_config(scope = c("user", "project"))
 
@@ -44,16 +47,17 @@ Path to the file, invisibly.
 \item \code{edit_r_makevars()} opens \code{.R/Makevars}
 \item \code{edit_git_config()} opens \code{.gitconfig} or \code{.git/config}
 \item \code{edit_git_ignore()} opens \code{.gitignore}
-\item \code{edit_rstudio_snippets(type)} opens \verb{.R/snippets/\{type\}.snippets}
+\item \code{edit_rstudio_snippets()} opens RStudio's snippet config for the given type.
+\item \code{edit_rstudio_prefs()} opens RStudio's preference file.
 }
 }
 \details{
-The \verb{edit_r_*()} functions and \code{edit_rstudio_snippets()} consult R's notion
-of user's home directory. The \verb{edit_git_*()} functions -- and \pkg{usethis}
-in general -- inherit home directory behaviour from the \pkg{fs} package,
-which differs from R itself on Windows. The \pkg{fs} default is more
-conventional in terms of the location of user-level Git config files. See
-\code{\link[fs:path_expand]{fs::path_home()}} for more details.
+The \verb{edit_r_*()} functions consult R's notion of user's home directory.
+The \verb{edit_git_*()} functions (and \pkg{usethis} in general) inherit home
+directory behaviour from the \pkg{fs} package, which differs from R itself
+on Windows. The \pkg{fs} default is more conventional in terms of the
+location of user-level Git config files. See \code{\link[fs:path_expand]{fs::path_home()}} for more
+details.
 
 Files created by \code{edit_rstudio_snippets()} will \emph{mask}, not supplement,
 the built-in default snippets. If you like the built-in snippets, copy them

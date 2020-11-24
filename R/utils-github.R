@@ -630,8 +630,8 @@ check_ours_or_fork <- function(cfg = NULL) {
   if (cfg$type %in% c("ours", "fork")) {
     return(invisible(cfg))
   }
-  check_for_bad_config()
-  check_for_maybe_config()
+  check_for_bad_config(cfg)
+  check_for_maybe_config(cfg)
   ui_stop("
     Internal error: Unexpected GitHub remote configuration: {ui_value(cfg$type)}")
 }

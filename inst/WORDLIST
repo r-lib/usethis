@@ -94,6 +94,7 @@ favicons
 favour
 fiascos
 filenaming
+formidabel
 frontmatter
 fs
 funder
@@ -115,6 +116,7 @@ initialisation
 initialises
 initialising
 io
+jsonlite
 labelled
 labelling
 learnr
@@ -140,6 +142,7 @@ programmatically
 purrr
 r's
 rOpenSci
+rappdirs
 rcmdcheck
 rebase
 reconfigures
@@ -182,7 +185,4 @@ usethis's
 ver
 withr
 xz
-yah
 yaml
-yeahyah
-yeahyeah
