@@ -17,33 +17,30 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
 })
 
 test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
-  with_mock(
-    ## Required to pass the check re: whether RcppArmadillo is installed
-    `usethis:::is_installed` = function(pkg) TRUE,
-    {
-      pkg <- create_local_package()
-      use_roxygen_md()
+  create_local_package()
+  use_roxygen_md()
 
-      use_rcpp_armadillo()
-      expect_match(desc::desc_get("LinkingTo", pkg), "RcppArmadillo")
-      expect_proj_file("src", "Makevars")
-      expect_proj_file("src", "Makevars.win")
-    }
+  local_interactive(FALSE)
+  with_mock(
+    # Required to pass the check re: whether RcppArmadillo is installed
+    is_installed = function(pkg) TRUE,
+    use_rcpp_armadillo()
   )
+  expect_match(desc::desc_get("LinkingTo"), "RcppArmadillo")
+  expect_proj_file("src", "Makevars")
+  expect_proj_file("src", "Makevars.win")
 })
 
 test_that("use_rcpp_eigen() edits DESCRIPTION", {
-  with_mock(
-    ## Required to pass the check re: whether RcppEigen is installed
-    `usethis:::is_installed` = function(pkg) TRUE,
-    {
-      pkg <- create_local_package()
-      use_roxygen_md()
+  create_local_package()
+  use_roxygen_md()
 
-      use_rcpp_eigen()
-      expect_match(desc::desc_get("LinkingTo", pkg), "RcppEigen")
-    }
+  with_mock(
+    # Required to pass the check re: whether RcppEigen is installed
+    is_installed = function(pkg) TRUE,
+    use_rcpp_eigen()
   )
+  expect_match(desc::desc_get("LinkingTo"), "RcppEigen")
 })
 
 test_that("use_src() doesn't message if not needed", {

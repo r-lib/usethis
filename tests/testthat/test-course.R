@@ -11,48 +11,36 @@ test_that("download_url() retry logic works as advertised", {
   withr::local_options(list(usethis.quiet = FALSE))
 
   # succeed on first try
-  out <- with_mock(
-    `usethis:::try_download` = faux_download(0),
-    download_url(url = "URL", destfile = "destfile")
+  with_mock(
+    try_download = faux_download(0),
+    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, then succeed
-  expect_message(
-    out <- with_mock(
-      `usethis:::try_download` = faux_download(1),
-      download_url(url = "URL", destfile = "destfile")
-    ),
-    "Retrying.*attempt 2"
+  with_mock(
+    try_download = faux_download(1),
+    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, fail, then succeed (default n_tries = 3, so should allow)
-  expect_message(
-    out <- with_mock(
-      `usethis:::try_download` = faux_download(2),
-      download_url(url = "URL", destfile = "destfile")
-    ),
-    "Retrying.*attempt 3"
+  with_mock(
+    try_download = faux_download(2),
+    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, fail, fail (exceed n_failures > n_tries = 3)
-  expect_error(
-    out <- with_mock(
-      `usethis:::try_download` = faux_download(5),
-      download_url(url = "URL", destfile = "destfile", n_tries = 3)
-    ),
-    "try 3"
-  )
+  with_mock(
+    try_download = faux_download(5),
+    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile", n_tries = 3)
+  ))
 
   # fail, fail, fail, succeed (make sure n_tries is adjustable)
-  expect_message(
-    out <- with_mock(
-      `usethis:::try_download` = faux_download(3),
-      download_url(url = "URL", destfile = "destfile", n_tries = 10)
-    ),
-    "Retrying.*attempt 4"
+  with_mock(
+    try_download = faux_download(3),
+    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile", n_tries = 10))
   )
   expect_s3_class(out, "curl_handle")
 })
@@ -82,7 +70,7 @@ test_that("tidy_download() works", {
     out <- tidy_download(gh_url, destdir = tmp)
   )
   expect_true(fs::file_exists(expected))
-  expect_equivalent(out, expected)
+  expect_identical(out, expected, ignore_attr = TRUE)
   expect_identical(attr(out, "content-type"), "application/zip")
 
   # refuse to overwrite when non-interactive
@@ -202,10 +190,12 @@ test_that("conspicuous_place() uses `usethis.destdir` when set", {
 })
 
 test_that("use_course() errors if MIME type is not 'application/zip'", {
+  path <- withr::local_tempdir()
+
   skip_on_cran()
   skip_if_offline()
   expect_usethis_error(
-    use_course("https://httpbin.org/get", destdir = fs::path_temp()),
+    use_course("https://httpbin.org/get", destdir = path),
     "does not have MIME type"
   )
 })

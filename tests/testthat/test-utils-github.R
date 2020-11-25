@@ -159,6 +159,7 @@ test_that("fork_upstream_is_not_origin_parent is detected", {
   # 3. parent repo becomes r-lib/gh, due to transfer or ownership or owner
   #    name change
   # Now upstream looks like it does not point to fork parent.
+  local_interactive(FALSE)
   create_local_project()
   use_git()
   use_git_remote("origin", "https://github.com/jennybc/gh.git")
@@ -170,7 +171,7 @@ test_that("fork_upstream_is_not_origin_parent is detected", {
   gr$perm_known <- TRUE
   gr$parent_repo_owner <- c("r-lib", NA)
   with_mock(
-    `usethis:::github_remotes` = function(...) gr,
+    github_remotes = function(...) gr,
     cfg <- github_remote_config()
   )
   expect_equal(cfg$type, "fork_upstream_is_not_origin_parent")

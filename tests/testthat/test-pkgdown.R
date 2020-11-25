@@ -5,8 +5,9 @@ test_that("use_pkgdown() requires a package", {
 
 test_that("use_pkgdown() creates and ignores the promised file/dir", {
   create_local_package()
+  local_interactive(FALSE)
   with_mock(
-    `usethis:::is_installed` = function(pkg) TRUE,
+    is_installed = function(pkg) TRUE,
     use_pkgdown()
   )
   expect_true(uses_pkgdown())
@@ -25,8 +26,9 @@ test_that("pkgdown helpers behave in the absence of pkgdown", {
 
 test_that("pkgdown_config_meta() returns a list", {
   create_local_package()
+  local_interactive(FALSE)
   with_mock(
-    `usethis:::is_installed` = function(pkg) TRUE,
+    is_installed = function(pkg) TRUE,
     use_pkgdown()
   )
   expect_equal(pkgdown_config_meta(), list())
@@ -39,8 +41,9 @@ test_that("pkgdown_config_meta() returns a list", {
 
 test_that("pkgdown_url() returns correct data, warns if pedantic", {
   create_local_package()
+  local_interactive(FALSE)
   with_mock(
-    `usethis:::is_installed` = function(pkg) TRUE,
+    is_installed = function(pkg) TRUE,
     use_pkgdown()
   )
 

@@ -144,7 +144,7 @@ browse_github_actions <- function(package = NULL) {
 browse_travis <- function(package = NULL, ext = c("com", "org")) {
   gh <- github_url(package)
   ext <- arg_match(ext)
-  travis_url <- glue::glue("travis-ci.{ext}")
+  travis_url <- glue("travis-ci.{ext}")
   view_url(sub("github.com", travis_url, gh))
 }
 
@@ -197,7 +197,7 @@ github_url <- function(package = NULL) {
 
   if (nrow(desc_urls_dat) > 0) {
     parsed <- parse_github_remotes(desc_urls_dat$url[[1]])
-    return(glue_data(parsed, "https://{host}/{repo_owner}/{repo_name}"))
+    return(glue_data_chr(parsed, "https://{host}/{repo_owner}/{repo_name}"))
   }
 
   if (is.null(package)) {
@@ -208,40 +208,44 @@ github_url <- function(package = NULL) {
   ui_warn("
     Package {ui_value(package)} has no GitHub URLs in DESCRIPTION
     Trying the GitHub CRAN mirror")
-  glue("https://github.com/cran/{package}")
+  glue_chr("https://github.com/cran/{package}")
 }
 
 cran_home <- function(package = NULL) {
   package <- package %||% project_name()
-  glue("https://cran.r-project.org/package={package}")
+  glue_chr("https://cran.r-project.org/package={package}")
 }
 
 # returns NULL, if no DESCRIPTION found
 # returns 0-row data frame, if DESCRIPTION holds no URLs
 # returns data frame, if successful
 # include_cran whether to include CRAN landing page, if we consult it
-desc_urls <- function(package = NULL, include_cran = FALSE) {
+desc_urls <- function(package = NULL, include_cran = FALSE, desc = NULL) {
   maybe_desc <- purrr::possibly(desc::desc, otherwise = NULL)
   desc_from_cran <- FALSE
-  if (is.null(package)) {
-    desc <- maybe_desc(file = proj_get())
-    if (is.null(desc)) {
-      return()
-    }
-  } else {
-    desc <- maybe_desc(package = package)
-    if (is.null(desc)) {
-      cran_desc_url <-
-        glue("https://cran.rstudio.com/web/packages/{package}/DESCRIPTION")
-      suppressWarnings(
-        desc <- maybe_desc(text = readLines(cran_desc_url))
-      )
+
+  if (is.null(desc)) {
+    if (is.null(package)) {
+      desc <- maybe_desc(file = proj_get())
       if (is.null(desc)) {
         return()
       }
-      desc_from_cran <- TRUE
+    } else {
+      desc <- maybe_desc(package = package)
+      if (is.null(desc)) {
+        cran_desc_url <-
+          glue("https://cran.rstudio.com/web/packages/{package}/DESCRIPTION")
+        suppressWarnings(
+          desc <- maybe_desc(text = readLines(cran_desc_url))
+        )
+        if (is.null(desc)) {
+          return()
+        }
+        desc_from_cran <- TRUE
+      }
     }
   }
+
   url <- desc$get_urls()
   bug_reports <- desc$get_field("BugReports", default = character())
   cran <-

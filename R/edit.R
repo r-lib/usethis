@@ -27,7 +27,7 @@ edit_file <- function(path, open = rlang::is_interactive()) {
   }
 
   ui_todo("Modify {ui_path(path)}")
-  if (rstudioapi::isAvailable() && rstudioapi::hasFun("navigateToFile")) {
+  if (rstudio_available() && rstudioapi::hasFun("navigateToFile")) {
     rstudioapi::navigateToFile(path)
   } else {
     utils::file.edit(path)

@@ -36,7 +36,7 @@ slug <- function(x, ext) {
   x_base <- path_ext_remove(x)
   x_ext <- path_ext(x)
   ext <- if (identical(tolower(x_ext), tolower(ext))) x_ext else ext
-  path_ext_set(x_base, ext)
+  as.character(path_ext_set(x_base, ext))
 }
 
 compact <- function(x) {

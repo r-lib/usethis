@@ -39,7 +39,7 @@ test_that("nested package can be created if user really, really wants to", {
   parent <- create_local_package()
   with_mock(
     # since user can't approve interactively, use the backdoor
-    `usethis:::allow_nested_project` = function() TRUE,
+    allow_nested_project = function() TRUE,
     child <- create_package(path(parent, "fghijk"))
   )
   expect_true(possibly_in_proj(child))
@@ -50,7 +50,7 @@ test_that("nested project can be created if user really, really wants to", {
   parent <- create_local_project()
   with_mock(
     # since user can't approve interactively, use the backdoor
-    `usethis:::allow_nested_project` = function() TRUE,
+    allow_nested_project = function() TRUE,
     child <- create_project(path(parent, "fghijk"))
   )
   expect_true(possibly_in_proj(child))
@@ -111,7 +111,7 @@ test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudi
   rel_path_pkg <- path_file(file_temp(pattern = "ghi"))
   with_mock(
     # make sure we act as if not in RStudio
-    `rstudioapi::isAvailable` = function(...) FALSE,
+    rstudio_available = function(...) FALSE,
     expect_error_free(
       out_path <- create_package(rel_path_pkg, open = TRUE)
     )
@@ -127,7 +127,7 @@ test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudi
   rel_path_proj <- path_file(file_temp(pattern = "jkl"))
   with_mock(
     # make sure we act as if not in RStudio
-    `rstudioapi::isAvailable` = function(...) FALSE,
+    rstudio_available = function(...) FALSE,
     expect_error_free(
       out_path <- create_project(rel_path_proj, open = TRUE)
     )

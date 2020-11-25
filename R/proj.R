@@ -163,7 +163,7 @@ user_path_prep <- function(path) {
 
 proj_rel_path <- function(path) {
   if (is_in_proj(path)) {
-    path_rel(path, start = proj_get())
+    as.character(path_rel(path, start = proj_get()))
   } else {
     path
   }
@@ -278,7 +278,7 @@ proj_activate <- function(path) {
   check_path_is_directory(path)
   path <- user_path_prep(path)
 
-  if (rstudioapi::isAvailable()) {
+  if (rstudio_available()) {
     ui_done("Opening {ui_path(path, base = NA)} in new RStudio session")
     rstudioapi::openProject(path, newSession = TRUE)
     invisible(FALSE)

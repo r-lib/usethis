@@ -57,7 +57,11 @@ use_remote <- function(package, package_remote = NULL) {
     return(invisible())
   }
 
-  package_remote <- package_remote %||% package_remote(package)
+  if (is.null(package_remote)) {
+    desc <- desc::desc(package = package)
+    package_remote <- package_remote(desc)
+  }
+
   ui_done("
     Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in \\
     DESCRIPTION")
@@ -68,8 +72,7 @@ use_remote <- function(package, package_remote = NULL) {
 
 # Helpers -----------------------------------------------------------------
 
-package_remote <- function(package) {
-  desc <- desc::desc(package = package)
+package_remote <- function(desc) {
   remote <- as.list(desc$get(c("RemoteType", "RemoteUsername", "RemoteRepo")))
 
   is_recognized_remote <- all(map_lgl(remote, ~ is_string(.x) && !is.na(.x)))
@@ -82,7 +85,8 @@ package_remote <- function(package) {
     return(paste0(remote$RemoteUsername, "/", remote$RemoteRepo))
   }
 
-  urls <- desc_urls(package)
+  package <- desc$get_field("Package")
+  urls <- desc_urls(package, desc = desc)
   urls <- urls[urls$is_github, ]
   if (nrow(urls) < 1) {
     ui_stop("Cannot determine remote for {ui_value(package)}")

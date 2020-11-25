@@ -164,7 +164,7 @@ valid_file_name <- function(x) {
 }
 
 get_active_r_file <- function(path = "R") {
-  if (!rstudioapi::isAvailable()) {
+  if (!rstudio_available()) {
     ui_stop("Argument {ui_code('name')} must be specified.")
   }
   active_file <- rstudioapi::getSourceEditorContext()$path

@@ -49,11 +49,12 @@ Suggests:
     covr,
     knitr,
     magick,
+    mockr,
     rmarkdown,
     roxygen2,
     spelling (>= 1.2),
     styler (>= 1.2.0),
-    testthat (>= 2.1.0)
+    testthat (>= 3.0.0)
 RdMacros: 
     lifecycle
 Remotes: 
@@ -63,3 +64,4 @@ Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Config/testthat/edition: 3

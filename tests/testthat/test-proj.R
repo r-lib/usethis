@@ -70,16 +70,16 @@ test_that("proj_set() enforces proj path preparation policy", {
 
   # input path includes symbolic link
   path_with_symlinks <- path(b2, "d")
-  expect_equal(path_rel(path_with_symlinks, a), "b2/d")
+  expect_equal(path_rel(path_with_symlinks, a), path("b2/d"))
 
   # force = TRUE
   local_project(path_with_symlinks, force = TRUE)
-  expect_equal(path_rel(proj_get(), a), "b/d")
+  expect_equal(path_rel(proj_get(), a), path("b/d"))
 
   # force = FALSE
   file_create(path(b, "d", ".here"))
   proj_set(path_with_symlinks, force = FALSE)
-  expect_equal(path_rel(proj_get(), a), "b/d")
+  expect_equal(path_rel(proj_get(), a), path("b/d"))
 })
 
 test_that("proj_path_prep() passes NULL through", {
@@ -213,7 +213,7 @@ test_that("proj_activate() works with relative path when RStudio is not detected
   out_path <- create_project(rel_path_proj, rstudio = FALSE, open = FALSE)
   with_mock(
     # make sure we act as if not in RStudio
-    `rstudioapi::isAvailable` = function(...) FALSE,
+    rstudio_available = function(...) FALSE,
     expect_error_free(
       result <- proj_activate(rel_path_proj)
     )

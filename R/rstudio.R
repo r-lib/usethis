@@ -89,7 +89,7 @@ rproj_path <- function(base_path = proj_get()) {
 
 # Is base_path open in RStudio?
 in_rstudio <- function(base_path = proj_get()) {
-  if (!rstudioapi::isAvailable()) {
+  if (!rstudio_available()) {
     return(FALSE)
   }
 
@@ -106,8 +106,13 @@ in_rstudio <- function(base_path = proj_get()) {
   path_real(proj) == path_real(base_path)
 }
 
+# So we can override the default with a mock
+rstudio_available <- function() {
+  rstudioapi::isAvailable()
+}
+
 in_rstudio_server <- function() {
-  if (!rstudioapi::isAvailable()) {
+  if (!rstudio_available()) {
     return(FALSE)
   }
   identical(rstudioapi::versionInfo()$mode, "server")

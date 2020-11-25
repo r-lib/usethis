@@ -295,7 +295,7 @@ create_from_github <- function(repo_spec,
     gert::git_config_set(config_key, "usethis::create_from_github", repo = git_repo())
   }
 
-  rstudio <- rstudio %||% rstudioapi::isAvailable()
+  rstudio <- rstudio %||% rstudio_available()
   rstudio <- rstudio && !is_rstudio_project(proj_get())
   if (rstudio) {
     use_rstudio()
