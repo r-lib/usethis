@@ -443,7 +443,7 @@ modify_drive_url <- function(url) {
     return(hopeless_url(url))
   }
   id <- gsub("/d/|/folders/|id=", "", regmatches(url, id_loc))
-  as.character(glue("https://drive.google.com/uc?export=download&id={id}"))
+  glue_chr("https://drive.google.com/uc?export=download&id={id}")
 }
 
 modify_dropbox_url <- function(url) {
@@ -458,7 +458,7 @@ modify_github_url <- function(url) {
   # but then, in big workshop settings, we might see rate limit problems or
   # get blocked because of too many token-free requests from same IP
   parsed <- parse_github_remotes(url)
-  as.character(glue_data(parsed, "{protocol}://{host}/{repo_owner}/{repo_name}/zipball/HEAD"))
+  glue_data_chr(parsed, "{protocol}://{host}/{repo_owner}/{repo_name}/zipball/HEAD")
 }
 
 hopeless_url <- function(url) {
@@ -495,7 +495,7 @@ is_shortlink <- function(url) {
 expand_github <- function(url) {
   # mostly to handle errors in the spec
   repo_spec <- parse_repo_spec(url)
-  as.character(glue_data(repo_spec, "github.com/{owner}/{repo}/zipball/HEAD"))
+  glue_data_chr(repo_spec, "github.com/{owner}/{repo}/zipball/HEAD")
 }
 
 conspicuous_place <- function() {

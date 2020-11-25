@@ -197,7 +197,7 @@ github_url <- function(package = NULL) {
 
   if (nrow(desc_urls_dat) > 0) {
     parsed <- parse_github_remotes(desc_urls_dat$url[[1]])
-    return(as.character(glue_data(parsed, "https://{host}/{repo_owner}/{repo_name}")))
+    return(glue_data_chr(parsed, "https://{host}/{repo_owner}/{repo_name}"))
   }
 
   if (is.null(package)) {
@@ -208,12 +208,12 @@ github_url <- function(package = NULL) {
   ui_warn("
     Package {ui_value(package)} has no GitHub URLs in DESCRIPTION
     Trying the GitHub CRAN mirror")
-  as.character(glue("https://github.com/cran/{package}"))
+  glue_chr("https://github.com/cran/{package}")
 }
 
 cran_home <- function(package = NULL) {
   package <- package %||% project_name()
-  as.character(glue("https://cran.r-project.org/package={package}"))
+  glue_chr("https://cran.r-project.org/package={package}")
 }
 
 # returns NULL, if no DESCRIPTION found

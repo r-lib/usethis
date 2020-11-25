@@ -195,14 +195,14 @@ check_license_version <- function(version, possible) {
 
 license_abbr <- function(name, version, include_future) {
   if (include_future) {
-    as.character(glue("{name} (>= {version})"))
+    glue_chr("{name} (>= {version})")
   } else {
     if (name %in% c("GPL", "LGPL", "AGPL")) {
       # Standard abbreviations listed at
       # https://cran.rstudio.com/doc/manuals/r-devel/R-exts.html#Licensing
-      as.character(glue("{name}-{version}"))
+      glue_chr("{name}-{version}")
     } else {
-      as.character(glue("{name} (== {version})"))
+      glue_chr("{name} (== {version})")
     }
   }
 }

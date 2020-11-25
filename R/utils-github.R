@@ -85,7 +85,7 @@ github_url_from_git_remotes <- function() {
     return()
   }
   parsed <- parse_github_remotes(tr$url)
-  as.character(glue_data(parsed, "https://{host}/{repo_owner}/{repo_name}"))
+  glue_data_chr(parsed, "https://{host}/{repo_owner}/{repo_name}")
 }
 
 #' Gather LOCAL data on GitHub-associated remotes
@@ -123,7 +123,7 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
   parsed <- parsed[is_github, ]
 
   parsed$remote <- parsed$name
-  parsed$host_url <- as.character(glue("https://{parsed$host}"))
+  parsed$host_url <- glue_chr("https://{parsed$host}")
   parsed$api_url <- map_chr(parsed$host_url, get_apiurl)
   parsed$repo_spec <- make_spec(parsed$repo_owner, parsed$repo_name)
 
