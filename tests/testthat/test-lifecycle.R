@@ -1,6 +1,6 @@
 test_that("use_lifecycle() imports badges", {
   create_local_package()
-  mockr::with_mock(
+  with_mock(
     is_installed = function(pkg) TRUE,
     use_lifecycle()
   )

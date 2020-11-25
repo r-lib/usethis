@@ -10,7 +10,7 @@ test_that("use_tutorial() creates a tutorial", {
   skip_if_not_installed("rmarkdown")
 
   create_local_package()
-  mockr::with_mock(
+  with_mock(
     # pass the check re: whether learnr is installed
     is_installed = function(pkg) TRUE,
     use_tutorial(name = "aaa", title = "bbb")

@@ -11,34 +11,34 @@ test_that("download_url() retry logic works as advertised", {
   withr::local_options(list(usethis.quiet = FALSE))
 
   # succeed on first try
-  mockr::with_mock(
+  with_mock(
     try_download = faux_download(0),
     expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, then succeed
-  mockr::with_mock(
+  with_mock(
     try_download = faux_download(1),
     expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, fail, then succeed (default n_tries = 3, so should allow)
-  mockr::with_mock(
+  with_mock(
     try_download = faux_download(2),
     expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, fail, fail (exceed n_failures > n_tries = 3)
-  mockr::with_mock(
+  with_mock(
     try_download = faux_download(5),
     expect_snapshot(out <- download_url(url = "URL", destfile = "destfile", n_tries = 3)
   ))
 
   # fail, fail, fail, succeed (make sure n_tries is adjustable)
-  mockr::with_mock(
+  with_mock(
     try_download = faux_download(3),
     expect_snapshot(out <- download_url(url = "URL", destfile = "destfile", n_tries = 10))
   )

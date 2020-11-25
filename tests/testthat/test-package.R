@@ -21,7 +21,7 @@ test_that("package_remote() works for an installed package with github URL", {
     "Package: test",
     "URL: https://github.com/OWNER/test"
   ))
-  mockr::with_mock(
+  with_mock(
     ui_yeah = function(...) TRUE,
     expect_equal(package_remote(d), "OWNER/test")
   )
