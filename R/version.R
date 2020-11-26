@@ -111,7 +111,7 @@ bump_ <- function(x, ver) {
 use_c_version <- function(ver) {
   version_path <- proj_path("src", "version.c")
 
-  if (!file.exists(version_path)) {
+  if (!file_exists(version_path)) {
     return()
   }
 
