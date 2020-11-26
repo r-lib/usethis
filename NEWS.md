@@ -142,7 +142,7 @@ The legacy `"devtools.desc"` option is no longer consulted when populating a new
 
 `create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
 
-`create_package()`, `create_project()`, and `proj_activate()` work better with relative paths, outside of RStudio (#1122, #954).
+`create_package()`, `create_project()`, `create_from_github()`, and `proj_activate()` work better with relative paths, inside and outside of RStudio (#1122, #954).
 
 `use_testthat()` gains an edition argument to support testthat v3.0.0 
   (#1185)
