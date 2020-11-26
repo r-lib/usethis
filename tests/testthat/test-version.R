@@ -78,17 +78,14 @@ test_that("use_version() updates version.c", {
   use_description_field(name = "Version", value = "1.0.0", overwrite = TRUE)
 
   name <- project_name()
-  src_path <- path(proj_path(), "src")
+  src_path <- proj_path("src")
   ver_path <- path(src_path, "version.c")
-
   dir_create(src_path)
-  file_create(ver_path)
 
-  write_utf8(ver_path, glue("
-foo;
-const char {name}_version = \"1.0.0\";
-bar;
-"))
+  write_utf8(ver_path, glue('
+    foo;
+    const char {name}_version = "1.0.0";
+    bar;'))
 
   use_dev_version()
 

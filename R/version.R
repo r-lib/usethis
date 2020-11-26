@@ -2,7 +2,8 @@
 #'
 #' @description `use_version()` increments the "Version" field in `DESCRIPTION`,
 #'   adds a new heading to `NEWS.md` (if it exists), and commits those changes
-#'   (if package uses Git).
+#'   (if package uses Git). It makes the same update to a line like `PKG_version
+#'   = "x.y.z";` in `src/version.c` (if it exists).
 #'
 #' @description `use_dev_version()` increments to a development version, e.g.
 #'   from 1.0.0 to 1.0.0.9000. If the existing version is already a development
@@ -114,6 +115,10 @@ use_c_version <- function(ver) {
   if (!file_exists(version_path)) {
     return()
   }
+
+  hint <- glue("{project_name()}_version")
+  ui_done("
+    Setting {ui_field(hint)} to {ui_value(ver)} in {ui_path(version_path)}")
 
   lines <- read_utf8(version_path)
 
