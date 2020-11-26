@@ -2,7 +2,8 @@
 #'
 #' @description `use_version()` increments the "Version" field in `DESCRIPTION`,
 #'   adds a new heading to `NEWS.md` (if it exists), and commits those changes
-#'   (if package uses Git).
+#'   (if package uses Git). It makes the same update to a line like `PKG_version
+#'   = "x.y.z";` in `src/version.c` (if it exists).
 #'
 #' @description `use_dev_version()` increments to a development version, e.g.
 #'   from 1.0.0 to 1.0.0.9000. If the existing version is already a development
@@ -53,10 +54,12 @@ use_version <- function(which = NULL) {
     use_news_heading(new_ver)
   }
 
+  use_c_version(new_ver)
+
   git_ask_commit(
     "Increment version number",
     untracked = TRUE,
-    paths = c("DESCRIPTION", "NEWS.md")
+    paths = c("DESCRIPTION", "NEWS.md", path("src", "version.c"))
   )
   invisible(TRUE)
 }
@@ -104,4 +107,23 @@ bump_version <- function(ver) {
 bump_ <- function(x, ver) {
   d <- desc::desc(text = paste0("Version: ", ver))
   suppressMessages(d$bump_version(x)$get("Version")[[1]])
+}
+
+use_c_version <- function(ver) {
+  version_path <- proj_path("src", "version.c")
+
+  if (!file_exists(version_path)) {
+    return()
+  }
+
+  hint <- glue("{project_name()}_version")
+  ui_done("
+    Setting {ui_field(hint)} to {ui_value(ver)} in {ui_path(version_path)}")
+
+  lines <- read_utf8(version_path)
+
+  re <- glue("(^.*{project_name()}_version = \")([0-9.]+)(\";$)")
+  lines <- gsub(re, glue("\\1{ver}\\3"), lines)
+
+  write_utf8(version_path, lines)
 }

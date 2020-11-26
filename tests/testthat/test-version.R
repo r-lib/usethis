@@ -72,3 +72,23 @@ test_that("use_version() updates (development version) directly", {
     "0[.]0[.]1"
   )
 })
+
+test_that("use_version() updates version.c", {
+  create_local_package()
+  use_description_field(name = "Version", value = "1.0.0", overwrite = TRUE)
+
+  name <- project_name()
+  src_path <- proj_path("src")
+  ver_path <- path(src_path, "version.c")
+  dir_create(src_path)
+
+  write_utf8(ver_path, glue('
+    foo;
+    const char {name}_version = "1.0.0";
+    bar;'))
+
+  use_dev_version()
+
+  lines <- read_utf8(ver_path)
+  expect_true(grepl("1.0.0.9000", lines, fixed = TRUE)[[2]])
+})

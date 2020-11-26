@@ -147,6 +147,8 @@ The legacy `"devtools.desc"` option is no longer consulted when populating a new
 `use_testthat()` gains an edition argument to support testthat v3.0.0 
   (#1185)
 
+`use_version()` now updates `src/version.c` if it exists and contains a line matching `PKG_version = "x.y.z";`.
+
 usethis has been re-licensed as MIT (#1252, #1253).  
   
 ## Dependency changes
