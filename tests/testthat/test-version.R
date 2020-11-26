@@ -30,10 +30,10 @@ test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
     as.character(desc::desc_get_version(proj_get())),
     "2.0.0"
   )
-  expect_match(
-    read_utf8(proj_path("NEWS.md"), n = 1),
-    "2.0.0"
-  )
+
+  news <- read_utf8(proj_path("NEWS.md"), n = 2)
+  expect_equal(news[[1]], "")
+  expect_match(news[[2]], "2.0.0")
 })
 
 test_that("use_dev_version() appends .9000 to Version, exactly once", {
@@ -62,13 +62,8 @@ test_that("use_version() updates (development version) directly", {
   # directly overwrite development header
   use_version("patch")
 
-  expect_match(
-    read_utf8(proj_path("NEWS.md"), n = 1),
-    "0[.]0[.]2"
-  )
-
-  expect_match(
-    read_utf8(proj_path("NEWS.md"), n = 3)[3],
-    "0[.]0[.]1"
-  )
+  news <- read_utf8(proj_path("NEWS.md"), n = 10)
+  news <- Filter(nzchar, news)
+  expect_match(news[[1]], "0[.]0[.]2")
+  expect_match(news[[3]], "0[.]0[.]1")
 })

@@ -39,5 +39,5 @@ use_news_heading <- function(version) {
   }
 
   ui_done("Adding new heading to NEWS.md")
-  write_utf8(news_path, c(title, "", news))
+  write_utf8(news_path, c("", title, "", news))
 }
