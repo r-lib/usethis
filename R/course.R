@@ -12,7 +12,7 @@
 #'   of typos in live settings, these shorter forms are accepted:
 #'
 #'     * GitHub repo spec: "OWNER/REPO". Equivalent to
-#'       `https://github.com/r-lib/OWNER/REPO/DEFAULT_BRANCH.zip`.
+#'       `https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip`.
 #'     * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
 #'       The instructor must then arrange for the shortlink to point to a valid
 #'       download URL for the target ZIP file. The helper
