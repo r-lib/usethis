@@ -63,8 +63,10 @@ create_github_token <- function(scopes = c("repo", "user", "gist", "workflow"),
   )
   withr::defer(view_url(url))
 
+  host_hint <- if (is_github_dot_com(host)) "" else glue("\"{host}\"")
+  code_hint <- glue("gitcreds::gitcreds_set({host_hint})")
   ui_todo("
-    Call {ui_code('gitcreds::gitcreds_set()')} to register this token in the \\
+    Call {ui_code(code_hint)} to register this token in the \\
     local Git credential store
     It is also a great idea to store this token in any password-management \\
     software that you use")
