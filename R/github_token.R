@@ -97,11 +97,12 @@ gh_token_help <- function(host = NULL) {
   have_pat <- pat != ""
   if (have_pat) {
     kv_line("Personal access token for {ui_value(host_url)}", "<discovered>")
-    host_hint <- if (is_github_dot_com(host_url)) "" else glue(".api_url = {host_url}")
-    code_hint <- glue("gh::gh_whoami({host_hint})")
+    host_hint_whoami <- if (is_github_dot_com(host_url)) "" else glue(".api_url = \"{host_url}\"")
+    host_hint_gitcreds <- if (is_github_dot_com(host_url)) "" else glue("url = \"{host_url}\"")
+    code_hint <- glue("gh::gh_whoami({host_hint_whoami})")
     ui_info("
       Call {ui_code(code_hint)} to see info about your token, e.g. the associated user")
-    code_hint <- glue("gitcreds::gitcreds_set({host_hint})")
+    code_hint <- glue("gitcreds::gitcreds_set({host_hint_gitcreds})")
     ui_info("To see or update the token, call {ui_code(code_hint)}")
     ui_done("If those results are OK, you are good go to!")
     ui_info("
