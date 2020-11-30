@@ -101,7 +101,7 @@ gh_token_help <- function(host = NULL) {
     ui_code_hint <- get_ui_code_hint("gh::gh_whoami", host_url, ".api_url")
     ui_info("
       Call {ui_code_hint} to see info about your token, e.g. the associated user")
-    ui_code_hint <- get_ui_code_hint("gitcreds::gitcreds_set", host_url, "url")
+    ui_code_hint <- get_ui_code_hint("gitcreds::gitcreds_set", host_url)
     ui_info("To see or update the token, call {ui_code_hint}")
     ui_done("If those results are OK, you are good go to!")
     ui_info("
@@ -113,7 +113,7 @@ gh_token_help <- function(host = NULL) {
 
   ui_code_hint <- get_ui_code_hint("create_github_token", host_url, "host")
   ui_todo("To create a personal access token, call {ui_code_hint}")
-  ui_code_hint <- get_ui_code_hint("gitcreds::gitcreds_set", host_url, "url")
+  ui_code_hint <- get_ui_code_hint("gitcreds::gitcreds_set", host_url)
   ui_todo("To store a token for current and future use, call {ui_code_hint}")
   ui_info("
     Read more in the {ui_value('Managing Git(Hub) Credentials')} article:
