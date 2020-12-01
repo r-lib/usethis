@@ -1,3 +1,8 @@
+foo <- function() {
+  dir <- "a/path"
+  NULL
+}
+
 # gert -------------------------------------------------------------------------
 
 gert_shush <- function(expr, regexp) {
