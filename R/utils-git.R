@@ -1,4 +1,5 @@
 foo <- function() {
+  file.path("a", "b")
   dir <- "a/path"
   NULL
 }
