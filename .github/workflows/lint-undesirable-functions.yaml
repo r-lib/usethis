@@ -43,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_github("jennybc/lintr@jennybc-usethis")
+          remotes::install_github("jimhester/lintr")
         shell: Rscript {0}
 
       - name: Lint
