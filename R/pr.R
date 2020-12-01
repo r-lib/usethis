@@ -439,8 +439,7 @@ pr_merge_main <- function() {
   challenge_uncommitted_changes()
   remref <- glue("{tr$remote}/{git_branch_default()}")
   ui_done("
-    Pulling in changes from default branch of the source repo \\
-    {ui_value(remref)}")
+    Pulling changes from {ui_value(remref)} (default branch of source repo)")
   git_pull(remref, verbose = FALSE)
 }
 
