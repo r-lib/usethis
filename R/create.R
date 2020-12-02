@@ -193,11 +193,7 @@ create_from_github <- function(repo_spec,
   whoami <- suppressMessages(gh::gh_whoami(.api_url = host))
   no_auth <- is.null(whoami)
   user <- if (no_auth) NULL else whoami$login
-  if (is.null(host)) {
-    code_hint <- "gh_token_help()"
-  } else {
-    code_hint <- glue('gh_token_help("{host}")')
-  }
+  hint <- code_hint_with_host("gh_token_help", host)
 
   if (no_auth && is.na(fork)) {
     ui_stop("
@@ -207,7 +203,7 @@ create_from_github <- function(repo_spec,
 
       You have two choices:
       1. Make your token available (if in doubt, DO THIS):
-         - Call {ui_code(code_hint)} for directions
+         - Call {ui_code(hint)} for directions
       2. Call {ui_code('create_from_github()')} again, but with \\
       {ui_code('fork = FALSE')}
          - Only do this if you are absolutely sure you don't want to fork
@@ -219,7 +215,7 @@ create_from_github <- function(repo_spec,
       Unable to discover a GitHub personal access token
       A token is required in order to fork {ui_value(repo_spec)}
 
-      Call {ui_code(code_hint)} for help configuring a token")
+      Call {ui_code(hint)} for help configuring a token")
   }
   # one of these is true:
   # - gh is discovering a token for `host`
