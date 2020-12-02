@@ -63,10 +63,9 @@ create_github_token <- function(scopes = c("repo", "user", "gist", "workflow"),
   )
   withr::defer(view_url(url))
 
-  host_hint <- if (is_github_dot_com(host)) "" else glue("\"{host}\"")
-  code_hint <- glue("gitcreds::gitcreds_set({host_hint})")
+  hint <- code_hint_with_host("gitcreds::gitcreds_set", host)
   ui_todo("
-    Call {ui_code(code_hint)} to register this token in the \\
+    Call {ui_code(hint)} to register this token in the \\
     local Git credential store
     It is also a great idea to store this token in any password-management \\
     software that you use")
@@ -99,13 +98,11 @@ gh_token_help <- function(host = NULL) {
   have_pat <- pat != ""
   if (have_pat) {
     kv_line("Personal access token for {ui_value(host_url)}", "<discovered>")
-    host_hint <- if (is_github_dot_com(host_url)) "" else glue(".api_url = \"{host_url}\"")
-    code_hint <- glue("gh::gh_whoami({host_hint})")
+    hint <- code_hint_with_host("gh::gh_whoami", host_url, ".api_url")
     ui_info("
-      Call {ui_code(code_hint)} to see info about your token, e.g. the associated user")
-    host_hint <- if (is_github_dot_com(host_url)) "" else glue("url = \"{host_url}\"")
-    code_hint <- glue("gitcreds::gitcreds_set({host_hint})")
-    ui_info("To see or update the token, call {ui_code(code_hint)}")
+      Call {ui_code(hint)} to see info about your token, e.g. the associated user")
+    hint <- code_hint_with_host("gitcreds::gitcreds_set", host_url)
+    ui_info("To see or update the token, call {ui_code(hint)}")
     ui_done("If those results are OK, you are good go to!")
     ui_info("
       Read more in the {ui_value('Managing Git(Hub) Credentials')} article:
@@ -114,12 +111,26 @@ gh_token_help <- function(host = NULL) {
   }
   ui_oops("No personal access token found for {ui_value(host_url)}")
 
-  ui_todo("
-    To create a personal access token, call {ui_code('create_github_token()')}")
-  ui_todo("
-    To store a token for current and future use, call \\
-    {ui_code('gitcreds::gitcreds_set()')}")
+  hint <- code_hint_with_host("create_github_token", host_url, "host")
+  ui_todo("To create a personal access token, call {ui_code(hint)}")
+  hint <- code_hint_with_host("gitcreds::gitcreds_set", host_url)
+  ui_todo("To store a token for current and future use, call {ui_code(hint)}")
   ui_info("
     Read more in the {ui_value('Managing Git(Hub) Credentials')} article:
     https://usethis.r-lib.org/articles/articles/git-credentials.html")
+}
+
+code_hint_with_host <- function(function_name, host = NULL, arg_name = NULL) {
+  arg_hint <- function(host, arg_name) {
+    if (is.null(host) || is_github_dot_com(host)) {
+      return("")
+    }
+    if (is_null(arg_name)) {
+      glue('"{host}"')
+    } else {
+      glue('{arg_name} = "{host}"')
+    }
+  }
+
+  glue_chr("{function_name}({arg_hint(host, arg_name)})")
 }
