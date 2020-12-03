@@ -209,7 +209,7 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
   }
   gert::git_fetch(
     remote = remref_remote(remref),
-    refspec = remref_branch(branch),
+    refspec = remref_branch(remref),
     repo = repo,
     verbose = FALSE
   )
