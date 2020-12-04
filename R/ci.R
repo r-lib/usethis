@@ -2,7 +2,7 @@
 #'
 #' @description
 #'
-#' \lifecycle{soft-deprecated}
+#' `r lifecycle::badge("soft-deprecated")`
 #'
 #' Some of these functions are now soft-deprecated since the tidyverse team has
 #' started using [GitHub Actions (GHA)](https://github.com/features/actions) for

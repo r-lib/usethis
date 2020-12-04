@@ -35,10 +35,10 @@ tidy_label_colours()
 tidy_label_descriptions()
 }
 \arguments{
-\item{repo_spec, host, auth_token}{\lifecycle{defunct}: These arguments are
-now deprecated and will be removed in the future. Any input provided via
-these arguments is not used. The target repo, host, and auth token are all
-now determined from the current project's Git remotes.}
+\item{repo_spec, host, auth_token}{\ifelse{html}{\figure{lifecycle-defunct.svg}{options: alt='Defunct lifecycle'}}{\strong{Defunct}}: These
+arguments are now deprecated and will be removed in the future. Any input
+provided via these arguments is not used. The target repo, host, and auth
+token are all now determined from the current project's Git remotes.}
 
 \item{labels}{A character vector giving labels to add.}
 

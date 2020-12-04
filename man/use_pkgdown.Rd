@@ -26,13 +26,14 @@ build and deploy your pkgdown site whenever you push changes to GitHub.
 Learn more about \code{\link[=use_github_action]{use_github_action()}}. This approach is actively
 maintained, because it is in use across many tidyverse, r-lib, and
 tidymodels packages.
-\item \code{use_pkgdown_travis()} \lifecycle{soft-deprecated} helps you set up
-pkgdown for automatic deployment on Travis-CI. This is soft-deprecated,
-as the tidyverse team has shifted away from Travis-CI and towards GitHub
-Actions. \code{use_pkgdown_travis()} creates an empty \code{gh-pages} branch for
-the site and prompts about next steps regarding deployment keys and
-updating your \code{.travis.yml}. Requires that the current user can push to
-the primary repo, which must be configured as the \code{origin} remote.
+\item \code{use_pkgdown_travis()} \ifelse{html}{\figure{lifecycle-soft-deprecated.svg}{options: alt='Soft-deprecated lifecycle'}}{\strong{Soft-deprecated}} helps you
+set up pkgdown for automatic deployment on Travis-CI. This is
+soft-deprecated, as the tidyverse team has shifted away from Travis-CI
+and towards GitHub Actions. \code{use_pkgdown_travis()} creates an empty
+\code{gh-pages} branch for the site and prompts about next steps regarding
+deployment keys and updating your \code{.travis.yml}. Requires that the
+current user can push to the primary repo, which must be configured as
+the \code{origin} remote.
 }
 }
 \seealso{

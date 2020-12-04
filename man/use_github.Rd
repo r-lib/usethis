@@ -33,11 +33,11 @@ For a hypothetical GitHub Enterprise instance, either
 "https://github.acme.com/api/v3" or "https://github.acme.com" is
 acceptable.}
 
-\item{auth_token, credentials}{\lifecycle{defunct}: No longer consulted now
-that usethis uses the gert package for Git operations, instead of git2r;
-gert relies on the credentials package for auth. The API requests are now
-authorized with the token associated with the \code{host}, as retrieved by
-\code{\link[gh:gh_token]{gh::gh_token()}}.}
+\item{auth_token, credentials}{\ifelse{html}{\figure{lifecycle-defunct.svg}{options: alt='Defunct lifecycle'}}{\strong{Defunct}}: No longer
+consulted now that usethis uses the gert package for Git operations,
+instead of git2r; gert relies on the credentials package for auth. The API
+requests are now authorized with the token associated with the \code{host}, as
+retrieved by \code{\link[gh:gh_token]{gh::gh_token()}}.}
 }
 \description{
 \code{use_github()} takes a local project and:

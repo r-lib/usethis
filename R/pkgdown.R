@@ -10,13 +10,14 @@
 #'     Learn more about [use_github_action()]. This approach is actively
 #'     maintained, because it is in use across many tidyverse, r-lib, and
 #'     tidymodels packages.
-#'   * `use_pkgdown_travis()` \lifecycle{soft-deprecated} helps you set up
-#'     pkgdown for automatic deployment on Travis-CI. This is soft-deprecated,
-#'     as the tidyverse team has shifted away from Travis-CI and towards GitHub
-#'     Actions. `use_pkgdown_travis()` creates an empty `gh-pages` branch for
-#'     the site and prompts about next steps regarding deployment keys and
-#'     updating your `.travis.yml`. Requires that the current user can push to
-#'     the primary repo, which must be configured as the `origin` remote.
+#'   * `use_pkgdown_travis()` `r lifecycle::badge("soft-deprecated")` helps you
+#'     set up pkgdown for automatic deployment on Travis-CI. This is
+#'     soft-deprecated, as the tidyverse team has shifted away from Travis-CI
+#'     and towards GitHub Actions. `use_pkgdown_travis()` creates an empty
+#'     `gh-pages` branch for the site and prompts about next steps regarding
+#'     deployment keys and updating your `.travis.yml`. Requires that the
+#'     current user can push to the primary repo, which must be configured as
+#'     the `origin` remote.
 #'
 #' @seealso <https://pkgdown.r-lib.org/articles/pkgdown.html#configuration>
 #' @param config_file Path to the pkgdown yaml config file

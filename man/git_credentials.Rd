@@ -20,7 +20,7 @@ use_git_credentials(credentials = deprecated())
 These functions raise a warning and return an invisible \code{NULL}.
 }
 \description{
-\lifecycle{defunct}
+\ifelse{html}{\figure{lifecycle-defunct.svg}{options: alt='Defunct lifecycle'}}{\strong{Defunct}}
 
 In usethis v2.0.0, usethis switched from git2r to gert (+ credentials) for
 all Git operations. This pair of packages (gert + credentials) is designed to
