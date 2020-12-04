@@ -36,7 +36,7 @@ use_lifecycle <- function() {
     "- `r lifecycle::badge('experimental')`",
     "- `r lifecycle::badge('superseded')`",
     "- `r lifecycle::badge('questioning')`",
-    "- `r lifecycle::badge('deprecated')`",
+    "- `r lifecycle::badge('deprecated')`"
   ))
 
   ui_todo(c(
