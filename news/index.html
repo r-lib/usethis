@@ -424,6 +424,7 @@
 <li><p><code><a href="../reference/use_r.html">use_r()</a></code> and <code><a href="../reference/use_r.html">use_test()</a></code> throw a clear error if multiple names are provided (<a href='https://github.com/strboul'>@strboul</a>, <a href='https://github.com/r-lib/usethis/issues/862'>#862</a>).</p></li>
 <li><p><code><a href="../reference/use_rcpp.html">use_rcpp()</a></code> and <code><a href="../reference/use_rcpp.html">use_c()</a></code> now ensure <code>src/</code> contains at least one <code>.cpp</code> or <code>.c</code> placeholder file, so that the package can be built (<a href='https://github.com/coatless'>@coatless</a>, <a href='https://github.com/r-lib/usethis/issues/720'>#720</a>).</p></li>
 <li><p><code>usethis.destdir</code> is a new option that is consulted when deciding where to put a new folder created by <code><a href="../reference/zip-utils.html">use_course()</a></code> or <code><a href="../reference/create_from_github.html">create_from_github()</a></code> (<a href='https://github.com/malcolmbarrett'>@malcolmbarrett</a>, <a href='https://github.com/r-lib/usethis/issues/1015'>#1015</a>).</p></li>
+<li><p><code><a href="../reference/use_lifecycle.html">use_lifecycle()</a></code> no longer adds the lifecycle package to the DESCRIPTION file. With the new roxygen markdown syntax for including badges, lifecycle has become a build-time dependency.</p></li>
 </ul>
 </div>
 <div id="dependency-changes-1" class="section level2">
