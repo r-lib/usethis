@@ -38,7 +38,6 @@ use_lifecycle <- function() {
     "- `r lifecycle::badge('stable')`",
     "- `r lifecycle::badge('superseded')`",
     "- `r lifecycle::badge('questioning')`",
-    "- `r lifecycle::badge('soft-deprecated')`",
     "- `r lifecycle::badge('deprecated')`",
     "- `r lifecycle::badge('defunct')`",
     "- `r lifecycle::badge('archived')`"
