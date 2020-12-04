@@ -2,7 +2,7 @@
 #'
 #' @description
 #'
-#' This helper imports the lifecycle badges in the `man/figures`
+#' This helper copies the lifecycle badges in to the `man/figures`
 #' folder of your package. It also reminds you of the syntax to use
 #' them in the documentation of individual functions or arguments.
 #'
@@ -46,7 +46,7 @@ use_lifecycle <- function() {
 
   ui_todo(c(
     "If you want to use functions like `lifecycle::deprecate_soft()` in your package:",
-    "- `usethis::use_depency(\"lifecycle\", \"import\")`"
+    "- `usethis::use_package(\"lifecycle\")`"
   ))
 
   invisible(TRUE)
