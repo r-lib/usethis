@@ -2,9 +2,9 @@
 #'
 #' @description
 #'
-#' Call this to copy the lifecycle badges into your package (`man/figures`) and
-#' remind you of the syntax to use them in the documentation of individual
-#' functions or arguments.
+#' This helper imports the lifecycle badges in the `man/figures`
+#' folder of your package. It also reminds you of the syntax to use
+#' them in the documentation of individual functions or arguments.
 #'
 #' See the [getting started
 #' vignette](https://lifecycle.r-lib.org/articles/lifecycle.html) of the
@@ -21,10 +21,6 @@ use_lifecycle <- function() {
     ui_stop("
       Turn on roxygen2 markdown support {ui_code('use_roxygen_md()')}")
   }
-
-  use_dependency("lifecycle", "imports")
-  # silence R CMD check NOTE
-  roxygen_ns_append("@importFrom lifecycle deprecate_soft")
 
   dest_dir <- proj_path("man", "figures")
   create_directory(dest_dir)
@@ -46,6 +42,11 @@ use_lifecycle <- function() {
     "- `r lifecycle::badge('deprecated')`",
     "- `r lifecycle::badge('defunct')`",
     "- `r lifecycle::badge('archived')`"
+  ))
+
+  ui_todo(c(
+    "If you want to use functions like `lifecycle::deprecate_soft()` in your package:",
+    "- `usethis::use_depency(\"lifecycle\", \"import\")`"
   ))
 
   invisible(TRUE)
