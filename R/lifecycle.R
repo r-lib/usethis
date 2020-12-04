@@ -34,13 +34,9 @@ use_lifecycle <- function() {
   ui_todo(c(
     "Add badges in documentation topics by inserting one of:",
     "- `r lifecycle::badge('experimental')`",
-    "- `r lifecycle::badge('maturing')`",
-    "- `r lifecycle::badge('stable')`",
     "- `r lifecycle::badge('superseded')`",
     "- `r lifecycle::badge('questioning')`",
-    "- `r lifecycle::badge('deprecated')`",
-    "- `r lifecycle::badge('defunct')`",
-    "- `r lifecycle::badge('archived')`"
+    "- `r lifecycle::badge('deprecated')`"
   ))
 
   ui_todo(c(
