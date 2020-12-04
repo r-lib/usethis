@@ -359,6 +359,10 @@ Patch release to align some path handling internals with an update coming in the
   put a new folder created by `use_course()` or `create_from_github()`
   (@malcolmbarrett, #1015).
 
+* `use_lifecycle()` no longer adds the lifecycle package to the DESCRIPTION
+  file. With the new roxygen markdown syntax for including badges, lifecycle has
+  become a build-time dependency.
+
 ## Dependency changes
 
 New Imports: cli, rematch2, rlang.
