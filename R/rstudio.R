@@ -170,10 +170,13 @@ rstudio_git_tickle <- function() {
 }
 
 rstudio_config_path <- function(...) {
-  # RStudio only uses windows/unix conventions, not mac
-  os <- if (.Platform$OS.type == "windows") "win" else "unix"
-  base <- rappdirs::user_config_dir("RStudio", os = os)
-
+  if (.Platform$OS.type == "windows") {
+    # https://github.com/r-lib/usethis/issues/1293
+    base <- rappdirs::user_config_dir("RStudio", appauthor = NULL)
+  } else {
+    # RStudio only uses windows/unix conventions, not mac
+    base <- rappdirs::user_config_dir("RStudio", os = "unix")
+  }
   path(base, ...)
 }
 
