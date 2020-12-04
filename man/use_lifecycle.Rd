@@ -7,7 +7,7 @@
 use_lifecycle()
 }
 \description{
-This helper imports the lifecycle badges in the \code{man/figures}
+This helper copies the lifecycle badges in to the \code{man/figures}
 folder of your package. It also reminds you of the syntax to use
 them in the documentation of individual functions or arguments.
 
