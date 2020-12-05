@@ -198,12 +198,12 @@
 <li>Git tasks, such as clone, push, and pull. These are things you could do with command line Git.</li>
 <li>GitHub tasks, such as fork, release, and open an issue or pull request. These are things you could do in the browser or with the GitHub API.</li>
 </ol>
-<p>We’ve switched from git2r to the gert package for Git operations (<a href="https://docs.ropensci.org/gert" class="uri">https://docs.ropensci.org/gert</a>). We continue to use the gh package for GitHub API work (<a href="https://gh.r-lib.org" class="uri">https://gh.r-lib.org</a>).</p>
+<p>We’ve switched from git2r to the gert package for Git operations (<a href="https://docs.ropensci.org/gert/" class="uri">https://docs.ropensci.org/gert/</a>). We continue to use the gh package for GitHub API work (<a href="https://gh.r-lib.org" class="uri">https://gh.r-lib.org</a>).</p>
 <p>The big news in this area is that these lower-level dependencies are getting better at finding Git credentials, finding the same credentials as command line Git (and, therefore, the same as RStudio), and finding the same credentials as each other. This allows usethis to shed some of the workarounds we have needed in the past, to serve as a remedial “credential valet”.</p>
 <p>Under the hood, both gert and gh are now consulting your local Git credential store, when they need credentials. At the time of writing, they are using two different even-lower-level packages to do this:</p>
 <ul>
 <li>gert uses the credentials package (<a href="https://docs.ropensci.org/credentials/" class="uri">https://docs.ropensci.org/credentials/</a>)</li>
-<li>gh uses the gitcreds package (<a href="https://r-lib.github.io/gitcreds/" class="uri">https://r-lib.github.io/gitcreds/</a>)</li>
+<li>gh uses the gitcreds package (<a href="https://gitcreds.r-lib.org/" class="uri">https://gitcreds.r-lib.org/</a>)</li>
 </ul>
 <p>Even now, gert and gh should discover the same credentials, at least for github.com. In the future, these two packages may merge into one.</p>
 <p>Git/GitHub credential management is covered in a new article:<br><a href="https://usethis.r-lib.org/articles/articles/git-credentials.html">Managing Git(Hub) Credentials</a></p>
@@ -240,7 +240,7 @@
 </ul>
 </li>
 </ul>
-<p>The switch to gert + credentials should eliminate most credential-finding fiascos, but if you want to learn more, see the <a href="https://cran.r-project.org/web/packages/credentials/vignettes/intro.html">introductory vignette</a> for the credentials package. Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that “just work”, for both SSH and HTTPS remotes. There should be fewer “unsupported protocol” errors.</p>
+<p>The switch to gert + credentials should eliminate most credential-finding fiascos, but if you want to learn more, see the <a href="https://docs.ropensci.org/credentials/articles/intro.html">introductory vignette</a> for the credentials package. Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that “just work”, for both SSH and HTTPS remotes. There should be fewer “unsupported protocol” errors.</p>
 </div>
 <div id="github-remote-configuration" class="section level2">
 <h2 class="hasAnchor">
