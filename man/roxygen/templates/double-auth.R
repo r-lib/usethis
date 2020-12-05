@@ -24,7 +24,7 @@
 
 #' But what if you prefer the SSH protocol? usethis uses the gert package for
 #' Git operations and gert, in turn, relies on the credentials package for auth:
-#' * <https://docs.ropensci.org/gert>
+#' * <https://docs.ropensci.org/gert/>
 #' * <https://docs.ropensci.org/credentials/>
 #'
 
@@ -36,5 +36,5 @@
 #' workarounds from usethis. If you have credential problems, focus your
 #' troubleshooting on getting the credentials package to find your SSH keys. Its
 #' [introductory
-#' vignette](https://cran.r-project.org/web/packages/credentials/vignettes/intro.html)
+#' vignette](https://docs.ropensci.org/credentials/articles/intro.html)
 #' is a good place to start.

@@ -87,7 +87,7 @@ you've configured your PAT, your setup is complete!
 But what if you prefer the SSH protocol? usethis uses the gert package for
 Git operations and gert, in turn, relies on the credentials package for auth:
 \itemize{
-\item \url{https://docs.ropensci.org/gert}
+\item \url{https://docs.ropensci.org/gert/}
 \item \url{https://docs.ropensci.org/credentials/}
 }
 
@@ -98,7 +98,7 @@ RStudio). The credentials package \emph{should} automatically discover your SSH
 keys. This works so well that we have removed all credential-handling
 workarounds from usethis. If you have credential problems, focus your
 troubleshooting on getting the credentials package to find your SSH keys. Its
-\href{https://cran.r-project.org/web/packages/credentials/vignettes/intro.html}{introductory vignette}
+\href{https://docs.ropensci.org/credentials/articles/intro.html}{introductory vignette}
 is a good place to start.
 }
 
