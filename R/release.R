@@ -72,6 +72,7 @@ release_checklist <- function(version, on_cran) {
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
     todo("`rhub::check_with_sanitizers()`", has_src),
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran),
+    todo("`urlchecker::url_check()`"),
     todo("Update `cran-comments.md`"),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown && type != "patch"),
