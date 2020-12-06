@@ -3,13 +3,12 @@
 <details>
 
 * Version: 0.1.2
+* GitHub: https://github.com/tidymodels/butcher
 * Source code: https://github.com/cran/butcher
-* URL: https://tidymodels.github.io/butcher, https://github.com/tidymodels/butcher
-* BugReports: https://github.com/tidymodels/butcher/issues
 * Date/Publication: 2020-01-23 22:40:02 UTC
-* Number of recursive dependencies: 180
+* Number of recursive dependencies: 186
 
-Run `revdep_details(,"butcher")` for more info
+Run `cloud_details(, "butcher")` for more info
 
 </details>
 
@@ -79,14 +78,13 @@ Status: 1 ERROR
 
 <details>
 
-* Version: 0.3.0
+* Version: 0.3.1
+* GitHub: https://github.com/luomus/finbif
 * Source code: https://github.com/cran/finbif
-* URL: https://github.com/luomus/finbif, https://luomus.github.io/finbif
-* BugReports: https://github.com/luomus/finbif/issues
-* Date/Publication: 2020-04-23 11:20:02 UTC
-* Number of recursive dependencies: 123
+* Date/Publication: 2020-11-24 08:40:02 UTC
+* Number of recursive dependencies: 117
 
-Run `revdep_details(,"finbif")` for more info
+Run `cloud_details(, "finbif")` for more info
 
 </details>
 
@@ -152,5 +150,75 @@ Error: loading failed
 Execution halted
 ERROR: loading failed
 * removing ‘/tmp/workdir/finbif/old/finbif.Rcheck/finbif’
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
+
+
+
+
 
 ```
