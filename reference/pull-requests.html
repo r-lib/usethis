@@ -271,13 +271,19 @@ those against the source repo (i.e. <code>upstream</code>, which is the default)
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="git-github-credentials"><a class="anchor" href="#git-github-credentials"></a>Git/GitHub credentials</h2>
+    <h2 class="hasAnchor" id="git-github-authentication"><a class="anchor" href="#git-github-authentication"></a>Git/GitHub Authentication</h2>
 
     
 
-<p>The <code>pr_*</code> functions interact with GitHub both as a conventional Git remote
-and via the REST API. Therefore, your credentials must be discoverable. Which
-credentials do we mean?</p><ul>
+<p>Many usethis functions, including those documented here, potentially interact
+with GitHub in two different ways:</p><ul>
+<li><p>Via the GitHub REST API. Examples: create a repo, a fork, or a pull
+request.</p></li>
+<li><p>As a conventional Git remote. Examples: clone, fetch, or push.</p></li>
+</ul>
+
+<p>Therefore two types of auth can happen and your credentials must be
+discoverable. Which credentials do we mean?</p><ul>
 <li><p>A GitHub personal access token (PAT) must be discoverable by the gh
 package, which is used for GitHub operations via the REST API. See
 <code><a href='github-token.html'>gh_token_help()</a></code> for more about getting and configuring a PAT.</p></li>
