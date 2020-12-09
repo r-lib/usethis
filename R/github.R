@@ -14,8 +14,8 @@
 #' * Configures `origin/DEFAULT` to be the upstream branch of the local
 #'   `DEFAULT` branch, e.g. `master` or `main`
 #'
-#' See the Authentication section below for general setup that is necessary for
-#' all of this to work.
+#' See below for the authentication setup that is necessary for all of this to
+#' work.
 #'
 #' @template double-auth
 #'

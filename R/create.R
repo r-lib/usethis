@@ -113,9 +113,10 @@ create_project <- function(path,
 #' [pr_init()], one of several [functions that work pull
 #' requests][pull-requests].
 #'
-#' `create_from_github()` works best when we can find a GitHub personal access
-#' token in the Git credential store (just like many other usethis functions).
-#' See [gh_token_help()] for more advice.
+#' `create_from_github()` works best when your GitHub credentials are
+#' discoverable. See below for more about authentication.
+#'
+#' @template double-auth
 #'
 #' @seealso
 #' * [use_github()] to go the opposite direction, i.e. create a GitHub repo
@@ -123,8 +124,6 @@ create_project <- function(path,
 #' * [git_protocol()] for background on `protocol` (HTTPS vs SSH)
 #' * [use_course()] to download a snapshot of all files in a GitHub repo,
 #'   without the need for any local or remote Git operations
-#'
-#' @template double-auth
 #'
 #' @inheritParams create_package
 #' @param repo_spec A string identifying the GitHub repo in one of these forms:

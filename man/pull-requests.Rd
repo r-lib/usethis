@@ -72,11 +72,18 @@ functions.
 The \verb{pr_*} functions also use your Git/GitHub credentials to carry out
 various remote operations. See below for more.
 }
-\section{Git/GitHub credentials}{
+\section{Git/GitHub Authentication}{
 
-The \verb{pr_*} functions interact with GitHub both as a conventional Git remote
-and via the REST API. Therefore, your credentials must be discoverable. Which
-credentials do we mean?
+Many usethis functions, including those documented here, potentially interact
+with GitHub in two different ways:
+\itemize{
+\item Via the GitHub REST API. Examples: create a repo, a fork, or a pull
+request.
+\item As a conventional Git remote. Examples: clone, fetch, or push.
+}
+
+Therefore two types of auth can happen and your credentials must be
+discoverable. Which credentials do we mean?
 \itemize{
 \item A GitHub personal access token (PAT) must be discoverable by the gh
 package, which is used for GitHub operations via the REST API. See
