@@ -1,4 +1,4 @@
-# usethis (development version)
+# usethis 2.0.0
 
 This version is anticipated to be released as usethis v2.0.0.
 
