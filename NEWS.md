@@ -1,6 +1,6 @@
-# usethis 2.0.0
+# usethis (development version)
 
-This version is anticipated to be released as usethis v2.0.0.
+# usethis 2.0.0
 
 ## Adoption of gert and changes to Git/GitHub credential handling
 
