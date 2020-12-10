@@ -27,9 +27,8 @@ Git/GitHub credential management is covered in a new article:
 
 The main user-facing changes in usethis are:
 
-* usethis should be able to work with any GitHub deployment. While github.com is the default, GitHub Enterprise deployments should be fully supported.
-* The target GitHub host is determined from the current project's configured GitHub remotes, whenever possible.
-* gert and gh should be able to discover the right token for each host.
+* usethis should discover and use the same credentials as command line Git.
+* usethis should be able to work with any GitHub deployment. While github.com is the default, GitHub Enterprise deployments are fully supported. The target GitHub host is determined from the current project's configured GitHub remotes, whenever possible.
 
 As a result, several functions are deprecated and several other functions have some deprecated arguments.
 
@@ -45,7 +44,7 @@ As a result, several functions are deprecated and several other functions have s
   - `use_tidy_labels()` (`repo_spec`, `host`, `auth_token`)  
   - `use_github_release()` (`host`, `auth_token`)
 
-The switch to gert + credentials should eliminate most credential-finding fiascos, but if you want to learn more, see the [introductory vignette](https://docs.ropensci.org/credentials/articles/intro.html) for the credentials package. Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that "just work", for both SSH and HTTPS remotes. There should be fewer "unsupported protocol" errors.
+The switch to gert + credentials should eliminate most credential-finding fiascos. Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that "just work", for both SSH and HTTPS remotes. There should be fewer "unsupported protocol" errors.
 
 ## GitHub remote configuration
 
