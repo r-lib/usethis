@@ -110,7 +110,7 @@ skip_on_cran_macos <- function() {
 }
 
 with_mock <- function(..., .parent = parent.frame()) {
-  mockr::with_mock(..., .parent = .parent, .env = "usethis")
+  mockr::with_mock(..., .parent = .parent)
 }
 
 expect_usethis_error <- function(...) {
