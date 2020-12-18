@@ -117,10 +117,14 @@ use_tidy_eval <- function() {
 #' @rdname tidyverse
 use_tidy_contributing <- function() {
   use_dot_github()
+  data <- list(
+    Package = project_name(),
+    github_spec = target_repo_spec(ask = FALSE)
+  )
   use_template(
     "tidy-contributing.md",
     path(".github", "CONTRIBUTING.md"),
-    data = project_data()
+    data = data
   )
 }
 
@@ -128,10 +132,14 @@ use_tidy_contributing <- function() {
 #' @rdname tidyverse
 use_tidy_support <- function() {
   use_dot_github()
+  data <- list(
+    Package = project_name(),
+    github_spec = target_repo_spec(ask = FALSE)
+  )
   use_template(
     "tidy-support.md",
     path(".github", "SUPPORT.md"),
-    data = project_data()
+    data = data
   )
 }
 
