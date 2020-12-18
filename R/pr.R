@@ -200,7 +200,7 @@ pr_init <- function(branch) {
       if (comparison$remote_only > 0) {
         challenge_uncommitted_changes(untracked = TRUE)
       }
-      ui_info("Pulling changes from {ui_value(remref)}")
+      ui_done("Pulling changes from {ui_value(remref)}")
       git_pull(remref = remref, verbose = FALSE)
     }
   } else {
@@ -396,7 +396,7 @@ pr_push <- function() {
   if (is.null(pr)) {
     pr_create()
   } else {
-    ui_done("
+    ui_todo("
       View PR at {ui_value(pr$pr_html_url)} or call {ui_code('pr_view()')}")
   }
 
@@ -600,7 +600,7 @@ pr_pull_source_override <- function(tr = NULL) {
   # the fork (origin) instead of the source (upstream)
   remref <- glue("{tr$remote}/{default_branch}")
   if (is_online(tr$host)) {
-    ui_info("Pulling changes from {ui_value(remref)}")
+    ui_done("Pulling changes from {ui_value(remref)}")
     git_pull(remref = remref, verbose = FALSE)
   } else {
     ui_info("
@@ -614,7 +614,7 @@ pr_create <- function() {
   tracking_branch <- git_branch_tracking(branch)
   remote <- remref_remote(tracking_branch)
   remote_dat <- github_remotes(remote, github_get = FALSE)
-  ui_done("Create PR at link given below")
+  ui_todo("Create PR at link given below")
   view_url(glue_data(remote_dat, "{host_url}/{repo_spec}/compare/{branch}"))
 }
 
@@ -888,14 +888,14 @@ pr_branch_delete <- function(pr) {
   pr_remref <- glue_data(pr, "{pr_remote}/{pr_ref}")
 
   if (is.null(pr_ref)) {
-    ui_done("
+    ui_info("
       PR {ui_value(pr$pr_string)} originated from branch \\
       {ui_value(pr_remref)}, which no longer exists")
     return(invisible(FALSE))
   }
 
   if (is.na(pr$pr_merged_at)) {
-    ui_done("
+    ui_info("
       PR {ui_value(pr$pr_string)} is unmerged, \\
       we will not delete the remote branch {ui_value(pr_remref)}")
     return(invisible(FALSE))
