@@ -259,9 +259,9 @@ project_name <- function(base_path = proj_get()) {
   }
 
   if (is_package(base_path)) {
-    project_data(base_path)$Package
+    package_data(base_path)$Package
   } else {
-    project_data(base_path)$Project
+    path_file(base_path)
   }
 }
 
