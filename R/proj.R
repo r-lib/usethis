@@ -210,6 +210,14 @@ check_is_package <- function(whos_asking = NULL) {
   ui_stop(message)
 }
 
+check_is_project <- function() {
+  if (!possibly_in_proj()) {
+    ui_stop("
+      We do not appear to be inside a valid project or package
+      Read more in the help for {ui_code(\"proj_get()\")}")
+  }
+}
+
 proj_active <- function() !is.null(proj_get_())
 
 is_in_proj <- function(path) {
