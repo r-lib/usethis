@@ -76,8 +76,8 @@ use_readme_md <- function(open = rlang::is_interactive()) {
   )
   use_template(
     if (is_pkg) "package-README" else "project-README",
-      "README.md",
-      data = data,
-      open = open
+    "README.md",
+    data = data,
+    open = open
   )
 }
