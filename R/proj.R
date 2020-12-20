@@ -231,27 +231,6 @@ is_in_proj <- function(path) {
   )
 }
 
-project_data <- function(base_path = proj_get()) {
-  if (!possibly_in_proj(base_path)) {
-    ui_stop(c(
-      "{ui_path(base_path)} doesn't meet the usethis criteria for a project.",
-      "Read more in the help for {ui_code(\"proj_get()\")}."
-    ))
-  }
-  if (is_package(base_path)) {
-    data <- package_data(base_path)
-  } else {
-    data <- list(Project = path_file(base_path))
-  }
-  if (proj_active() && origin_is_on_github()) {
-    origin <- github_remote_list("origin")
-    data$github_owner <- origin$repo_owner
-    data$github_repo  <- origin$repo_name
-    data$github_spec  <- glue("{origin$repo_owner}/{origin$repo_name}")
-  }
-  data
-}
-
 package_data <- function(base_path = proj_get()) {
   desc <- desc::description$new(base_path)
   as.list(desc$get(desc$fields()))
