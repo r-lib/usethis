@@ -34,8 +34,11 @@ test_that("download_url() retry logic works as advertised", {
   # fail, fail, fail (exceed n_failures > n_tries = 3)
   with_mock(
     try_download = faux_download(5),
-    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile", n_tries = 3)
-  ))
+    expect_snapshot(
+      out <- download_url(url = "URL", destfile = "destfile", n_tries = 3),
+      error = TRUE
+    )
+  )
 
   # fail, fail, fail, succeed (make sure n_tries is adjustable)
   with_mock(
