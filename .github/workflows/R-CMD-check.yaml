@@ -99,8 +99,7 @@ jobs:
         env:
           _R_CHECK_CRAN_INCOMING_: false
           _R_CHECK_FORCE_SUGGESTS_: ${{ matrix.config.r != '3.3' }}
-        run: |
-          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
       - name: Show testthat output
@@ -114,3 +113,7 @@ jobs:
         with:
           name: ${{ matrix.config.os }}-r${{ matrix.config.r }}-results
           path: check
+
+      - name: Fix path for Windows caching
+        if: runner.os == 'Windows'
+        run: echo "C:/Program Files/Git/usr/bin" >> $GITHUB_PATH
