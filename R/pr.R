@@ -808,7 +808,7 @@ choose_branch <- function() {
     branches_not_shown <- utils::tail(dat$name, -9)
     n <- length(branches_not_shown)
     dat <- dat[1:9, ]
-    pre <- glue("{n} branch{if (n > 1) 'es'} not listed: ")
+    pre <- glue("{n} branch{if (n > 1) 'es' else ''} not listed: ")
     listing <- glue_collapse(
       branches_not_shown, sep = ", ", width = getOption("width") - nchar(pre)
     )
