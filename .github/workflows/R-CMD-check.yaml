@@ -116,4 +116,5 @@ jobs:
 
       - name: Fix path for Windows caching
         if: runner.os == 'Windows'
+        shell: bash
         run: echo "C:/Program Files/Git/usr/bin" >> $GITHUB_PATH
