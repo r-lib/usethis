@@ -2,6 +2,8 @@
 
 `use_readme_rmd()`, `use_readme_md()`, `use_tidy_contributing()`, and `use_tidy_support()` use updated logic for determining the `OWNER/REPO` spec of the target repo (#1312).
 
+Added `edit_template()` for opening and creating files in `inst/templates` (for use with `use_template()`) (@malcolmbarrett, #1319)
+
 # usethis 2.0.0
 
 ## Adoption of gert and changes to Git/GitHub credential handling
