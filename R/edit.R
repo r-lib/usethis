@@ -3,6 +3,8 @@
 #' Opens a file for editing in RStudio, if that is the active environment, or
 #' via [utils::file.edit()] otherwise. If the file does not exist, it is
 #' created. If the parent directory does not exist, it is also created.
+#' `edit_template()` specifically opens templates in `inst/templates` for use
+#' with [use_template()].
 #'
 #' @param path Path to target file.
 #' @param open Whether to open the file for interactive editing.
@@ -33,6 +35,14 @@ edit_file <- function(path, open = rlang::is_interactive()) {
     utils::file.edit(path)
   }
   invisible(path)
+}
+
+#' @param template The target template file.
+#' @export
+#' @rdname edit_file
+edit_template <- function(template, open = rlang::is_interactive()) {
+  path <- proj_path("inst", "templates", template)
+  edit_file(path, open)
 }
 
 #' Open configuration files
