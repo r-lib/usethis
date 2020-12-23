@@ -2,14 +2,19 @@
 % Please edit documentation in R/edit.R
 \name{edit_file}
 \alias{edit_file}
+\alias{edit_template}
 \title{Open file for editing}
 \usage{
 edit_file(path, open = rlang::is_interactive())
+
+edit_template(template, open = rlang::is_interactive())
 }
 \arguments{
 \item{path}{Path to target file.}
 
 \item{open}{Whether to open the file for interactive editing.}
+
+\item{template}{The target template file.}
 }
 \value{
 Target path, invisibly.
@@ -18,6 +23,8 @@ Target path, invisibly.
 Opens a file for editing in RStudio, if that is the active environment, or
 via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise. If the file does not exist, it is
 created. If the parent directory does not exist, it is also created.
+\code{edit_template()} specifically opens templates in \code{inst/templates} for use
+with \code{\link[=use_template]{use_template()}}.
 }
 \examples{
 \dontrun{
