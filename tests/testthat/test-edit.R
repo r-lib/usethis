@@ -31,6 +31,19 @@ test_that("edit_file() copes with path to existing file", {
   expect_identical(existing, res)
 })
 
+test_that("edit_template() creates templates in `inst/templates`", {
+  create_local_package()
+  capture.output(new_file <- edit_template("new_template"))
+  expect_true(file_exists(path("inst", "templates", "new_template")))
+})
+
+test_that("edit_template() creates templates in existing `inst/templates`", {
+  create_local_package()
+  use_directory(path("inst", "templates"))
+  capture.output(new_file <- edit_template("new_template"))
+  expect_true(file_exists(path("inst", "templates", "new_template")))
+})
+
 ## testing edit_XXX("user") only on travis and appveyor, because I don't want to
 ## risk creating user-level files de novo for an actual user, which would
 ## obligate me to some nerve-wracking clean up
