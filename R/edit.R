@@ -41,6 +41,7 @@ edit_file <- function(path, open = rlang::is_interactive()) {
 #' @export
 #' @rdname edit_file
 edit_template <- function(template, open = rlang::is_interactive()) {
+  check_is_package("edit_template()")
   path <- proj_path("inst", "templates", template)
   edit_file(path, open)
 }
