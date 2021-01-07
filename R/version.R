@@ -77,7 +77,10 @@ use_dev_version <- function() {
 
 choose_version <- function(which = NULL) {
   ver <- desc::desc_get_version(proj_get())
-  versions <- bump_version(ver)
+  versions <- c(
+    bump_version(ver),
+    "current" = as.character(ver)
+  )
 
   if (is.null(which)) {
     choice <- utils::menu(
@@ -85,7 +88,8 @@ choose_version <- function(which = NULL) {
         "{format(names(versions), justify = 'right')} --> {versions}"
       ),
       title = glue(
-        "Current version is {ver}.\n", "Which part to increment? (0 to exit)"
+        "Current version is {ver}.\n",
+        "What should the release version be? (0 to exit)"
       )
     )
     if (choice == 0) {
@@ -95,7 +99,7 @@ choose_version <- function(which = NULL) {
     }
   }
 
-  which <- match.arg(which, c("major", "minor", "patch", "dev"))
+  which <- match.arg(which, c("major", "minor", "patch", "dev", "current"))
   versions[which]
 }
 
