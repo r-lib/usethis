@@ -24,6 +24,11 @@ test_that("release bullets don't change accidentally", {
   expect_snapshot(
     cat(release_checklist("1.0.0", on_cran = TRUE), sep = "\n")
   )
+
+  # Release same as current version
+  expect_snapshot(
+    cat(release_checklist(as.character(desc::desc_get_version()), on_cran = TRUE), sep = "\n")
+  )
 })
 
 test_that("get extra news bullets if available", {
