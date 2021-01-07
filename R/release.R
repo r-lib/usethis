@@ -43,8 +43,13 @@ use_release_issue <- function(version = NULL) {
   view_url(issue$html_url)
 }
 
-release_checklist <- function(version, on_cran) {
-  type <- release_type(version)
+release_checklist <- function(release_version, on_cran) {
+  type <- release_type(release_version)
+  current_version <- desc::desc_get_version(proj_get())
+  is_same_version <- identical(
+    unname(release_version),
+    as.character(current_version)
+  )
   cran_results <- cran_results_url()
   has_src <- dir_exists(proj_path("src"))
   has_news <- file_exists(proj_path("NEWS.md"))
@@ -81,7 +86,7 @@ release_checklist <- function(version, on_cran) {
     "",
     "Submit to CRAN:",
     "",
-    todo("`usethis::use_version('{type}')`"),
+    todo("`usethis::use_version('{type}')`", !is_same_version),
     todo("`devtools::submit_cran()`"),
     todo("Approve email"),
     "",
