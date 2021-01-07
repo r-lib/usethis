@@ -9,6 +9,7 @@ test_that("release bullets don't change accidentally", {
   withr::defer(dir_delete(tmpproj))
   file_create(path(tmpproj, ".here"))
   local_project(tmpproj, setwd = FALSE)
+  use_description()
 
   # First release
   expect_snapshot(
@@ -26,8 +27,9 @@ test_that("release bullets don't change accidentally", {
   )
 
   # Release same as current version
+  use_description_field("Version", "0.1.0", overwrite = TRUE)
   expect_snapshot(
-    cat(release_checklist(as.character(desc::desc_get_version()), on_cran = TRUE), sep = "\n")
+    cat(release_checklist("0.1.0", on_cran = TRUE), sep = "\n")
   )
 })
 
