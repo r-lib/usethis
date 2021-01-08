@@ -78,8 +78,8 @@ use_dev_version <- function() {
 choose_version <- function(which = NULL, use_current = FALSE) {
   ver <- desc::desc_get_version(proj_get())
   versions <- c(
-    bump_version(ver),
-    "current" = if (use_current) as.character(ver)
+    "current" = if (use_current) as.character(ver),
+    bump_version(ver)
   )
 
   if (is.null(which)) {
