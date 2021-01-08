@@ -75,11 +75,11 @@ use_dev_version <- function() {
   use_version(which = "dev")
 }
 
-choose_version <- function(which = NULL) {
+choose_version <- function(which = NULL, use_current = FALSE) {
   ver <- desc::desc_get_version(proj_get())
   versions <- c(
     bump_version(ver),
-    "current" = as.character(ver)
+    "current" = if (use_current) as.character(ver)
   )
 
   if (is.null(which)) {
@@ -99,7 +99,10 @@ choose_version <- function(which = NULL) {
     }
   }
 
-  which <- match.arg(which, c("major", "minor", "patch", "dev", "current"))
+  which <- match.arg(
+    which,
+    c("major", "minor", "patch", "dev", if (use_current) "current")
+  )
   versions[which]
 }
 

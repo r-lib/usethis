@@ -25,7 +25,7 @@ use_release_issue <- function(version = NULL) {
     }
   }
 
-  version <- version %||% choose_version()
+  version <- version %||% choose_version(use_current = TRUE)
   if (is.null(version)) {
     return(invisible(FALSE))
   }
