@@ -79,7 +79,7 @@ create_from_github("rladies/praise")
 ```
 <div class = "output">
 ```{r eval=FALSE}
-#> ℹ Defaulting to https Git protocol
+#> ℹ Defaulting to 'https' Git protocol
 #> ✓ Setting `fork = TRUE`
 #> ✓ Creating '/Users/mine/Desktop/praise/'
 #> ✓ Forking 'rladies/praise'
