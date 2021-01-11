@@ -86,7 +86,7 @@ This is so we can control verbosity package-wide with the `usethis.quiet` option
 
 -   Exploited in usethis tests: option is set and unset in `setup.R` and `teardown.R`. Eliminates the need for ubiquitous `capture_output()` calls.
 -   Other packages can muffle a usethis call via, e.g., `withr::local_options(list(usethis.quiet = TRUE))`.
--   Use `ui_silence()` is available for executing small bits of code silently.
+-   Use `ui_silence()` for executing small bits of code silently.
 
 ## Git/GitHub
 
