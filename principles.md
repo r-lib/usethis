@@ -93,7 +93,7 @@ This is so we can control verbosity package-wide with the `usethis.quiet` option
 Which GitHub remote configs the `pr_*()` functions accept, plus how and why they do it:
 
 -   `pr_init()` calls `github_remote_config(github_get = NA)` and challenges configs other than "ours" and "fork". I want it to work with the "maybe" configs, because sometimes you're offline or don't have your PAT in the credential store. These come up for me during development.
--   `pr_resume()` only checks config (indirectly) if it calls `choose_branch()` I want to be able to use this function offline or in the absence of a PAT, since its main job is to switch branches. It seems inappropriate to do a hard check of the GitHub remote config.
+-   `pr_resume()` only checks config (indirectly) if it calls `choose_branch()`. I want to be able to use this function offline or in the absence of a PAT, since its main job is to switch branches. It seems inappropriate to do a hard check of the GitHub remote config.
 -   `pr_pause()` calls `target_repo(github_get = FALSE, ask = FALSE)` and will therefore accept "maybe" configs. Similar reasoning to `pr_resume()`: it seems like it should work, .e.g., offline, since it's mostly about switching branches. Eventually calls `pr_pull_source_override()`.
 -   `pr_view()` gets target repo with `github_get = NA`, so it works for "maybe" configs. Seems low stakes enough to not be too picky.
 -   `pr_fetch()`, `pr_pull()`, `pr_merge_main()`, `pr_finish()`, all require "ours" or "fork", via an early call to `target_repo(github_get = TRUE)` or `check_ours_or_fork()`. They could probably work for other configs, e.g., "theirs", but it's not worth the added complexity.
