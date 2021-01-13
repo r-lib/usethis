@@ -3,11 +3,17 @@
     Code
       cat(release_checklist("0.1.0", on_cran = FALSE), sep = "\n")
     Output
+      First release:
+      
+      * [ ] `usethis::use_cran_comments()`
+      * [ ] Proof read `Title:` and `Description:`
+      * [ ] Check that all exported functions have `@returns` and `@examples`
+      * [ ] Check that `Authors@R:` includes a copyright holder (role 'cph')
+      * [ ] Check [licensing of included files](https://r-pkgs.org/license.html#code-you-bundle)
+      * [ ] Review <https://github.com/DavisVaughan/extrachecks>
+      
       Prepare for release:
       
-      * [ ] Check that description is informative
-      * [ ] Check licensing of included files
-      * [ ] `usethis::use_cran_comments()`
       * [ ] [`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`

@@ -59,12 +59,23 @@ release_checklist <- function(version, on_cran) {
     }
   }
   c(
+    if (!on_cran) c(
+      "First release:",
+      "",
+
+      todo("`usethis::use_cran_comments()`"),
+      todo("Proof read `Title:` and `Description:`"),
+      todo("Check that all exported functions have `@returns` and `@examples`"),
+      todo("Check that `Authors@R:` includes a copyright holder (role 'cph')"),
+      todo("Check [licensing of included files](https://r-pkgs.org/license.html#code-you-bundle)"),
+      todo("Review <https://github.com/DavisVaughan/extrachecks>"),
+      ""
+    ),
+
     "Prepare for release:",
     "",
-    todo("Check that description is informative", !on_cran),
-    todo("Check licensing of included files", !on_cran),
+
     todo("`devtools::build_readme()`", has_readme),
-    todo("`usethis::use_cran_comments()`", !on_cran),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo("[`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)"),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
