@@ -46,13 +46,13 @@
       Prepare for release:
       
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_releasebullets.html)
+      * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] [`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
       * [ ] `rhub::check_for_cran()`
       * [ ] `revdepcheck::revdep_check(num_workers = 4)`
       * [ ] Update `cran-comments.md`
-      * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       
       Submit to CRAN:
       
@@ -75,13 +75,13 @@
       Prepare for release:
       
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_releasebullets.html)
+      * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] [`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
       * [ ] `rhub::check_for_cran()`
       * [ ] `revdepcheck::revdep_check(num_workers = 4)`
       * [ ] Update `cran-comments.md`
-      * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] Draft blog post
       
       Submit to CRAN:

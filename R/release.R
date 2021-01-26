@@ -75,8 +75,11 @@ release_checklist <- function(version, on_cran) {
     "Prepare for release:",
     "",
 
-    todo("`devtools::build_readme()`", has_readme),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
+
+    todo("`devtools::build_readme()`", has_readme),
+    todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
+
     todo("[`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)"),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
     todo("`devtools::check_win_devel()`"),
@@ -84,8 +87,8 @@ release_checklist <- function(version, on_cran) {
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
     todo("`rhub::check_with_sanitizers()`", has_src),
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran),
+
     todo("Update `cran-comments.md`"),
-    todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown && type != "patch"),
     todo("Draft blog post", type != "patch"),
     if (has_extra) paste0("* [ ] ", get("release_bullets", parent.env(globalenv()))()),
