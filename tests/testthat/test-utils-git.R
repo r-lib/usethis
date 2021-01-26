@@ -11,7 +11,11 @@ test_that("git_branch() works", {
   writeLines("blah", proj_path("blah.txt"))
   gert::git_add("blah.txt", repo = git_repo())
   gert::git_commit("Make one commit", repo = git_repo())
-  expect_equal(git_branch(), "master")
+  # branch name can depend on user's config, e.g. could be 'master' or 'main'
+  expect_error_free(
+    b <- git_branch()
+  )
+  expect_true(nzchar(b))
 })
 
 # Protocol ------------------------------------------------------------------
