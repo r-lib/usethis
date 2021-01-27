@@ -77,8 +77,8 @@ release_checklist <- function(version, on_cran) {
 
     todo("Check [current CRAN check results]({cran_results})", on_cran),
 
-    todo("`devtools::build_readme()`", has_readme),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
+    todo("`devtools::build_readme()`", has_readme),
 
     todo("[`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)"),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
