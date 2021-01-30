@@ -137,3 +137,14 @@ test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudi
   expect_equal(path_wd(), out_path)
   expect_equal(proj_get(), out_path)
 })
+
+test_that("we discourage project creation in home directory", {
+  local_interactive(FALSE)
+  expect_usethis_error(create_package(path_home()), "create anyway")
+  expect_usethis_error(create_project(path_home()), "create anyway")
+
+  if (is_windows()) {
+    expect_usethis_error(create_package(path_home_r()), "create anyway")
+    expect_usethis_error(create_project(path_home_r()), "create anyway")
+  }
+})
