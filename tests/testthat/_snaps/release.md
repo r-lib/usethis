@@ -18,7 +18,6 @@
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
       * [ ] `rhub::check_for_cran()`
-      * [ ] Update `cran-comments.md`
       * [ ] Draft blog post
       
       Submit to CRAN:
