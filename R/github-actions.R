@@ -87,8 +87,8 @@ use_tidy_github_actions <- function() {
 
   full_status <- use_github_action_check_full(repo_spec = repo_spec)
   pr_status   <- use_github_action_pr_commands()
-  pkgdown_status <- use_github_action("pkgdown")
-  test_coverage_status <- use_github_action("test-coverage")
+  pkgdown_status <- use_github_action("pkgdown-pak", save_as = "pkgdown.yaml")
+  test_coverage_status <- use_github_action("test-coverage-pak", save_as = "test-coverage.yaml")
 
   old_configs <- proj_path(c(".travis.yml", "appveyor.yml"))
   has_appveyor_travis <- file_exists(old_configs)
@@ -222,7 +222,7 @@ use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
   # this must have `repo_spec` as an argument because it is called as part of
   # use_tidy_github_actions()
   use_github_action(
-    "check-full.yaml",
+    "check-pak.yaml",
     save_as = save_as,
     ignore = ignore,
     open = open
