@@ -17,13 +17,16 @@ use_rstudio <- function(line_ending = c("posix", "windows")) {
   line_ending <- c("posix" = "Posix", "windows" = "Windows")[[line_ending]]
 
   rproj_file <- paste0(project_name(), ".Rproj")
-  new <- use_template("template.Rproj", rproj_file,
-    data = list(line_ending = line_ending)
+  new <- use_template(
+    "template.Rproj",
+    save_as = rproj_file,
+    data = list(line_ending = line_ending, is_pkg = is_package()),
+    ignore = is_package()
   )
 
   use_git_ignore(".Rproj.user")
   if (is_package()) {
-    use_build_ignore(c(rproj_file, ".Rproj.user"))
+    use_build_ignore(".Rproj.user")
   }
 
   invisible(new)
@@ -39,35 +42,19 @@ use_rstudio <- function(line_ending = c("posix", "windows")) {
 #' be found in the blog post [Project-oriented
 #' workflow](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/).
 #'
-#' Only `use_blank_slate("project")` is automated so far, since RStudio
-#' currently only supports modification of user-level or global options via the
-#' user interface.
-#'
 #' @inheritParams edit
 #'
 #' @export
 use_blank_slate <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
 
-  if (scope == "user") { # nocov start
-    ui_todo(
-      "To start ALL RStudio sessions with a blank slate, \\
-      you must set this interactively, for now."
-    )
-    ui_todo(
-      "In {ui_field('Global Options > General')}, \\
-      do NOT check {ui_field('Restore .RData into workspace at startup')}."
-    )
-    ui_todo(
-      "In {ui_field('Global Options > General')}, \\
-      set {ui_field('Save workspace to .RData on exit')} to {ui_value('Never')}."
-    )
-    ui_todo(
-      "Call {ui_code('use_blank_slate(\"project\")')} to opt in to the \\
-      blank slate workflow for a specific project."
-    )
+  if (scope == "user") {
+    use_rstudio_config(list(
+      save_workspace = "never",
+      load_workspace = FALSE
+    ))
     return(invisible())
-  } # nocov end
+  }
 
   if (!is_rstudio_project()) {
     ui_stop("{ui_value(project_name())} is not an RStudio Project.")
@@ -102,7 +89,7 @@ rproj_path <- function(base_path = proj_get()) {
 
 # Is base_path open in RStudio?
 in_rstudio <- function(base_path = proj_get()) {
-  if (!rstudioapi::isAvailable()) {
+  if (!rstudio_available()) {
     return(FALSE)
   }
 
@@ -119,8 +106,13 @@ in_rstudio <- function(base_path = proj_get()) {
   path_real(proj) == path_real(base_path)
 }
 
+# So we can override the default with a mock
+rstudio_available <- function() {
+  rstudioapi::isAvailable()
+}
+
 in_rstudio_server <- function() {
-  if (!rstudioapi::isAvailable()) {
+  if (!rstudio_available()) {
     return(FALSE)
   }
   identical(rstudioapi::versionInfo()$mode, "server")
@@ -175,4 +167,48 @@ rstudio_git_tickle <- function() {
     rstudioapi::executeCommand("vcsRefresh")
   }
   invisible()
+}
+
+rstudio_config_path <- function(...) {
+  if (is_windows()) {
+    # https://github.com/r-lib/usethis/issues/1293
+    base <- rappdirs::user_config_dir("RStudio", appauthor = NULL)
+  } else {
+    # RStudio only uses windows/unix conventions, not mac
+    base <- rappdirs::user_config_dir("RStudio", os = "unix")
+  }
+  path(base, ...)
+}
+
+rstudio_prefs_read <- function() {
+  path <- rstudio_config_path("rstudio-prefs.json")
+  if (file_exists(path)) {
+    jsonlite::read_json(path)
+  } else {
+    list()
+  }
+}
+
+rstudio_prefs_write <- function(json) {
+  path <- rstudio_config_path("rstudio-prefs.json")
+  create_directory(path_dir(path))
+  jsonlite::write_json(json, path, auto_unbox = TRUE, pretty = TRUE)
+}
+
+use_rstudio_config <- function(values) {
+  stopifnot(is.list(values), is_named(values))
+  json <- rstudio_prefs_read()
+
+  for (name in names(values)) {
+    val <- values[[name]]
+
+    if (identical(json[[name]], val)) {
+      next
+    }
+
+    ui_done("Setting RStudio preference {ui_field(name)} to {ui_value(val)}")
+    json[[name]] <- val
+  }
+
+  rstudio_prefs_write(json)
 }

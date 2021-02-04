@@ -22,11 +22,15 @@ navbar:
     href: reference/index.html
   - text: Articles
     menu:
+    - text: Managing Git(Hub) Credentials
+      href: articles/articles/git-credentials.html
     - text: Pull request helpers
       href: articles/articles/pr-functions.html
   - text: News
     menu:
     - text: "Blog posts"
+    - text: "usethis 2.0.0"
+      href: https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/
     - text: "usethis 1.6.0"
       href: https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/
     - text: "usethis 1.5.0 (and 1.4.0)"
@@ -49,7 +53,7 @@ reference:
     - use_course
   - title: Active project
     desc: >
-      Query or set the project targetted by usethis functions that don't take a path
+      Query or set the project targeted by usethis functions that don't take a path
     contents:
     - starts_with("proj_", internal = TRUE)
   - title: Package development
@@ -118,7 +122,7 @@ reference:
     contents:
     - create_from_github
     - use_git
-    - use_github
+    - starts_with("use_github")
     - git_sitrep
     - create_github_token
     - gh_token_help
@@ -127,9 +131,7 @@ reference:
     - use_git_ignore
     - use_git_protocol
     - use_git_remote
-    - use_github_links
     - use_git_hook
-    - use_github_labels
     - use_code_of_conduct
     - use_readme_rmd
     - git_branch_default

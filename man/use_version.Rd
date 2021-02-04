@@ -16,7 +16,7 @@ use_dev_version()
 \description{
 \code{use_version()} increments the "Version" field in \code{DESCRIPTION},
 adds a new heading to \code{NEWS.md} (if it exists), and commits those changes
-(if package uses Git).
+(if package uses Git). It makes the same update to a line like \code{PKG_version = "x.y.z";} in \code{src/version.c} (if it exists).
 
 \code{use_dev_version()} increments to a development version, e.g.
 from 1.0.0 to 1.0.0.9000. If the existing version is already a development

@@ -20,38 +20,39 @@ test_that("use_tidy_eval() inserts the template file and Imports rlang", {
 })
 
 test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
+  local_interactive(FALSE)
+  create_local_package()
+  use_git()
+
   with_mock(
-    `usethis:::uses_travis` = function(base_path) TRUE,
-    `gh::gh_tree_remote` = function(path) list(username = "USER", repo = "REPO"),
-    {
-      create_local_package()
+    target_repo_spec = function(...) "OWNER/REPO", {
       use_tidy_contributing()
-      use_tidy_issue_template()
       use_tidy_support()
-      use_tidy_coc()
-      expect_proj_file(".github/CONTRIBUTING.md")
-      expect_proj_file(".github/ISSUE_TEMPLATE/issue_template.md")
-      expect_proj_file(".github/SUPPORT.md")
-      expect_proj_file(".github/CODE_OF_CONDUCT.md")
-      expect_true(is_build_ignored("^\\.github$"))
     }
   )
+  use_tidy_issue_template()
+  use_tidy_coc()
+  expect_proj_file(".github/CONTRIBUTING.md")
+  expect_proj_file(".github/ISSUE_TEMPLATE/issue_template.md")
+  expect_proj_file(".github/SUPPORT.md")
+  expect_proj_file(".github/CODE_OF_CONDUCT.md")
+  expect_true(is_build_ignored("^\\.github$"))
 })
 
 test_that("use_tidy_github() adds and Rbuildignores files", {
+  local_interactive(FALSE)
+  create_local_package()
+  use_git()
+
   with_mock(
-    `usethis:::uses_travis` = function(base_path) TRUE,
-    `gh::gh_tree_remote` = function(path) list(username = "USER", repo = "REPO"),
-    {
-      create_local_package()
-      use_tidy_github()
-      expect_proj_file(".github/CONTRIBUTING.md")
-      expect_proj_file(".github/ISSUE_TEMPLATE/issue_template.md")
-      expect_proj_file(".github/SUPPORT.md")
-      expect_proj_file(".github/CODE_OF_CONDUCT.md")
-      expect_true(is_build_ignored("^\\.github$"))
-    }
+    target_repo_spec = function(...) "OWNER/REPO",
+    use_tidy_github()
   )
+  expect_proj_file(".github/CONTRIBUTING.md")
+  expect_proj_file(".github/ISSUE_TEMPLATE/issue_template.md")
+  expect_proj_file(".github/SUPPORT.md")
+  expect_proj_file(".github/CODE_OF_CONDUCT.md")
+  expect_true(is_build_ignored("^\\.github$"))
 })
 
 test_that("styling the package works", {

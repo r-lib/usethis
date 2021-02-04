@@ -62,7 +62,8 @@ Certain options are consulted by usethis and allow you to set personal defaults:
 
   * `usethis.full_name`: consulted for making, e.g., supplemental license files.
   * `usethis.protocol`: specifies your preferred transport protocol for
-    Git. Either "https" or "ssh". See the help for `git_protocol()` for more.
+    Git. Either "https" (the usethis default) or "ssh". See the help for
+    `git_protocol()` for more.
   * `usethis.description`: named list of default DESCRIPTION fields for new
     packages made with `usethis::create_package()`.
   * `usethis.quiet`: if `TRUE`, prevents usethis from printing messages to the
@@ -110,7 +111,7 @@ Sign up for a free account with [GitHub.com](https://github.com/). [Happy Git an
 
 Please see [Happy Git and GitHub for the useR](https://happygitwithr.com/install-git.html) for instructions on how to install Git. It is beyond the scope of this article.
 
-usethis itself does not actually need the Git that you install, because it uses the [gert](https://docs.ropensci.org/gert/) package which wraps [libgit2](https://libgit2.github.com). But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git.
+usethis itself does not actually need the Git that you install, because it uses the [gert](https://docs.ropensci.org/gert/) package which wraps [libgit2](https://libgit2.github.com). But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git. Gert's credential management also works best when official Git tooling is available.
 
 ## Configure `user.name` and `user.email`
 
@@ -120,8 +121,8 @@ Once Git is installed, introduce yourself to Git.
 library(usethis) ## or library(devtools)
 use_git_config(user.name = "Jane Doe", user.email = "jane@example.com")
 
-## check by running a git situation-report: 
-##   - your user.name and user.email should appear under "User"
+# check by running a git situation-report: 
+#   - your user.name and user.email should appear in global Git config 
 git_sitrep()
 ```
 
@@ -165,105 +166,17 @@ Substitute your preferred editor for emacs here. A popular choice is [nano](http
 
 As stated above, usethis doesn't actually use the Git you install and has no absolute requirement that you use GitHub or use RStudio. But use of usethis is highly correlated with the desire to do all of these things, in a pleasant way.
 
-If you plan to use GitHub, you need to make sure your local Git can pull from and push to GitHub.com. That is beyond the scope of this article, but see the [Connect to GitHub](https://happygitwithr.com/push-pull-github.html) section in Happy Git. You probably don't want to enter your username and password all the time, so either [cache credentials for HTTPS](https://happygitwithr.com/credential-caching.html) or [set up SSH keys](https://happygitwithr.com/ssh-keys.html). Then set the `usethis.protocol` option to match, i.e. to either "https" or "ssh". This setup makes functions like `usethis::use_github()` much easier to use.
+If you plan to use GitHub, you need to make sure your local Git can pull from and push to GitHub.com. That is beyond the scope of this article, but see the [Connect to GitHub](https://happygitwithr.com/push-pull-github.html) section in Happy Git. You probably don't want to enter your username and password all the time, so either [cache credentials for HTTPS](https://happygitwithr.com/credential-caching.html) or [set up SSH keys](https://happygitwithr.com/ssh-keys.html). If you are an SSH person, set the `usethis.protocol` option to "ssh" (as of v2.0.0, "https" is the usethis default).
 
 If you want to use RStudio to work with Git (and therefore GitHub, see previous paragraph), you need to make sure RStudio can find your Git executable. This usually "just works". The [Connect RStudio to Git and GitHub](https://happygitwithr.com/rstudio-git-github.html) section of Happy Git helps you confirm that all is well. If all is not well, there are also [troubleshooting tips](https://happygitwithr.com/rstudio-see-git.html).
 
 ## Get and store a GitHub personal access token
 
-A GitHub personal access token (PAT) is required if you want to use `usethis::use_github()`, `usethis::create_from_github(..., fork = TRUE)`, and many other usethis functions that need to create something on GitHub, such as a repo, an issue, or a pull request. Unlike pulling and pushing, these are **not** regular Git operations and your usual GitHub credentials do not necessarily work for this (although they *can*, if you play your cards right; see below).
+A GitHub personal access token (PAT) is required if you want to use `use_github()`, `create_from_github(..., fork = TRUE)`, and many other usethis functions that create something on GitHub, such as a repo, an issue, or a pull request. Unlike pulling and pushing, these are **not** regular Git operations and your usual GitHub credentials do not necessarily work for this (although they *can*, if you play your cards right; see the linked article).
 
-A PAT is separate from your GitHub password, in the username / password sense (but in some cases you *can* use a PAT as a password; see below). You must create a PAT explicitly.
+Git/GitHub credential management is detailed in a separate article:
 
-```{r, eval = FALSE}
-library(usethis)
-create_github_token()
-```
-
-`usethis::create_github_token()` takes you to a pre-filled form to request a PAT. You can get to the same page in the browser by clicking on "Generate new token" from <https://github.com/settings/tokens>.
-
-As the page says, you must **store this token somewhere** because you'll never be able to see it again, once you leave that page or close the window. If you somehow goof this up, just generate a new PAT and, so you don't confuse yourself, delete the lost token.
-
-In the moment, I usually copy the PAT to the clipboard for the next step. (I also store this PAT in my general password manager, for redundancy.) But the most useful place to store this PAT is in your Git credential store.
-
-### Git credential store
-
-#### gert and credentials
-
-The [credentials package](https://docs.ropensci.org/credentials/) is the first R package to interact with the Git credential store from R. It is used for credential handling by the [gert package](https://docs.ropensci.org/gert), which is how usethis does its Git work, and this is a big motivation for using gert. The rOpenSci tech note [A better way to manage your GitHub personal access tokens](https://ropensci.org/technotes/2020/07/07/github-pat/) lays out the basic approach.
-
-`credentials::set_github_pat()` triggers a prompt where you can provide a PAT for github.com. The credentials package then validates it and registers it with your operating system's Git credential store. This is something you do once. Or, rather, once per machine, per PAT. From that point on, credentials and, therefore, gert and, therefore, usethis should be able to automatically retrieve and use this PAT.
-
-If you use the HTTPS protocol for Git work (as opposed to SSH), this PAT is the only credential you need to configure. It is sufficient for Git work done by usethis/gert/credentials and for GitHub API work done by usethis/gh/gitcreds (see next section).
-
-*At the time of writing, `credentials::set_github_pat()` is hard-wired to work with github.com, although this is likely to change.*
-
-#### gh and gitcreds
-
-One goal of usethis v2.0.0 is to provide support for GitHub Enterprise, i.e. instances of GitHub that are *not* github.com. Many companies and universities use GitHub Enterprise to have their own internal GitHub. Therefore, all PAT handling in usethis has been generalized to work with any GitHub host, defaulting to github.com.
-
-usethis accomplishes all of its GitHub API work through the [gh package](https://gh.r-lib.org) and gh + usethis rely on the [gitcreds package](https://r-lib.github.io/gitcreds/) to lookup the PAT for any given GitHub host.
-
-Why another package?!? gitcreds is inspired by the [credentials package](https://docs.ropensci.org/credentials/), but offers better support for GitHub deployments that aren't github.com and for programmatic use from R. (These two packages (credentials and gitcreds) are likely to merge back into one at some point.)
-
-Here's how to check if you've already stored a token that usethis/gh/gitcreds can find:
-
-```{r eval = FALSE}
-gitcreds::gitcreds_get() # default is https://github.com
-
-# or for another GitHub deployment
-gitcreds::gitcreds_get("https://github.acme.com")
-```
-
-A github.com PAT stored by `credentials::set_github_pat()` should be re-discovered. But if you're using GitHub Enterprise, you almost certainly won't have a PAT stored yet.
-
-If you find that you need to store you PAT, do this:
-
-```{r eval = FALSE}
-gitcreds::gitcreds_set() # default is https://github.com
-
-# or for another GitHub deployment
-gitcreds::gitcreds_set("https://github.acme.com")
-```
-
-Once stored properly, both credentials/gert and gitcreds/gh should be using the same PAT. Furthermore, both packages cache the PAT in an environment variable for the duration of the R session, which further facilitates PAT reuse over multiple calls, from multiple packages.
-
-### `.Renviron`
-
-In the past, the most common way to make a github.com PAT available in R was to define it as an environment variable in the `.Renviron` startup file. This still works (since credentials/gert and gitcreds/gh check first for an environment variable), but it is less secure than the approaches described above. It is safer to keep your PAT in the Git credential store and to avoid storing it in plain text, in a regular file.
-
-If you still want to use the less secure `.Renviron` method, `usethis::edit_r_environ()` opens that file for editing.
-
-```{r, eval = FALSE}
-library(usethis)
-
-edit_r_environ()
-```
-
-Add a line like this, **but substitute your PAT**:
-
-```{sh, eval = FALSE}
-GITHUB_PAT=8c70fd8419398999c9ac5bacf3192882193cadf2
-```
-
-Make sure this file ends in a newline! Lack of a newline can lead to silent failure to load startup files, which can be tricky to debug.
-
-Restart R for this to take effect.
-
-### Confirm your PAT is configured
-
-These functions should reveal a configured PAT:
-
-  * `gh::gh_token()`
-  * `gitcreds::gitcreds_get()`
-
-The PAT situation is also part of what's reported in `git_sitrep()`:
-
-```{r, eval = FALSE}
-git_sitrep()
-```
-
-Now usethis (and several other packages) can find this PAT automatically in order to deal with GitHub on your behalf.
+[Managing Git(Hub) Credentials](https://usethis.r-lib.org/articles/articles/git-credentials.html)
 
 ## Prepare your system to build packages from source
 
@@ -275,11 +188,14 @@ A full description of setting up an R development environment is beyond the scop
 
 Update R and all of your packages. And expect to keep doing so frequently.
 
-**Mac OS**: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is *much smaller* than full Xcode. In a shell, enter `xcode-select --install`. For installing almost anything else, consider using [Homebrew](https://brew.sh).
+If you work in RStudio, it will often assist you with setting up a dev environment upon first need.
+
+Call `devtools::has_devel()` to get an initial sense of whether R package build tools are installed and available.
+
+`pkgbuild::check_build_tools()` is another function to report on your system and, in an interactive RStudio session, should trigger an automatic installation of build tools.
+
+It is also possible to install build tools yourself.
+
+**macOS**: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is *much smaller* than full Xcode. In a shell, enter `xcode-select --install`. For installing almost anything else, consider using [Homebrew](https://brew.sh).
 
 **Windows**: Install Rtools. This is not an R package! It is "a collection of resources for building packages for R under Microsoft Windows, or for building R itself". Go to <https://cran.r-project.org/bin/windows/Rtools/> and install as instructed.
-
-There are functions that verify whether R package build tools are installed and available. The home and name of this function is in flux, as it is affected by the restructing of the devtools universe (written early 2018).
-
-  * `pkgbuild::check_build_tools()` is the most current function. It can be installed via `install.packages("pkgbuild")`.
-  * `devtools::has_devel()` was a function in devtools, at least up to v1.13.5, so you might still see references to that. All functionality related to package building now lives in pkgbuild. But once you have installed pkgbuild, you should just use the function `pkgbuild::check_build_tools()` instead.

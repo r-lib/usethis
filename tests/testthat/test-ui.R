@@ -2,17 +2,19 @@ test_that("basic UI actions behave as expected", {
   # suppress test silencing
   withr::local_options(list(usethis.quiet = FALSE))
 
-  verify_output(test_path("test-ui-samples.txt"), {
+  expect_snapshot({
     ui_line("line")
     ui_todo("to do")
     ui_done("done")
     ui_oops("oops")
     ui_info("info")
     ui_code_block(c("x <- 1", "y <- 2"))
-
-    ui_stop("an error")
     ui_warn("a warning")
   })
+})
+
+test_that("ui_stop() works", {
+  expect_usethis_error(ui_stop("an error"), "an error")
 })
 
 test_that("ui_silence() suppresses output", {
@@ -32,9 +34,7 @@ test_that("trailing slash behaviour of ui_path()", {
   expect_match(ui_path("abc//"), "abc/'$")
 
   # path is known to be a directory
-  tmpdir <- fs::file_temp(pattern = "ui_path")
-  on.exit(fs::dir_delete(tmpdir), add = TRUE)
-  fs::dir_create(tmpdir)
+  tmpdir <- withr::local_tempdir(pattern = "ui_path")
 
   expect_match(ui_path(tmpdir), "/'$")
   expect_match(ui_path(paste0(tmpdir, "/")), "[^/]/'$")

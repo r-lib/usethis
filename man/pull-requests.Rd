@@ -11,13 +11,14 @@
 \alias{pr_view}
 \alias{pr_pause}
 \alias{pr_finish}
+\alias{pr_forget}
 \title{Helpers for GitHub pull requests}
 \usage{
 pr_init(branch)
 
 pr_resume(branch = NULL)
 
-pr_fetch(number = NULL)
+pr_fetch(number = NULL, target = c("source", "primary"))
 
 pr_push()
 
@@ -25,24 +26,30 @@ pr_pull()
 
 pr_merge_main()
 
-pr_view(number = NULL)
+pr_view(number = NULL, target = c("source", "primary"))
 
 pr_pause()
 
-pr_finish(number = NULL)
+pr_finish(number = NULL, target = c("source", "primary"))
+
+pr_forget()
 }
 \arguments{
 \item{branch}{Name of a new or existing local branch. If creating a new
 branch, note this should usually consist of lower case letters, numbers,
 and \code{-}.}
 
-\item{number}{Number of PR to fetch.}
+\item{number}{Number of PR.}
+
+\item{target}{Which repo to target? This is only a question in the case of a
+fork. In a fork, there is some slim chance that you want to consider pull
+requests against your fork (the primary repo, i.e. \code{origin}) instead of
+those against the source repo (i.e. \code{upstream}, which is the default).}
 }
 \description{
 The \verb{pr_*} family of functions is designed to make working with GitHub pull
 requests (PRs) as painless as possible for both contributors and package
-maintainers. They are designed to support the Git and GitHub best practices
-described in \href{https://happygitwithr.com}{Happy Git and GitHub for the useR}.
+maintainers.
 
 To use the \verb{pr_*} functions, your project must be a Git repo and have one of
 these GitHub remote configurations:
@@ -56,16 +63,27 @@ fork, and its parent is configured as \code{upstream}. \code{origin} points to y
 
 "Ours" and "fork" are two of several GitHub remote configurations examined in
 \href{https://happygitwithr.com/common-remote-setups.html}{Common remote setups}
-in Happy Git.
+in Happy Git and GitHub for the useR.
+
+The \href{https://usethis.r-lib.org/articles/articles/pr-functions.html}{Pull Request Helpers}
+article walks through the process of making a pull request with the \verb{pr_*}
+functions.
 
 The \verb{pr_*} functions also use your Git/GitHub credentials to carry out
 various remote operations. See below for more.
 }
-\section{Git/GitHub credentials}{
+\section{Git/GitHub Authentication}{
 
-The \verb{pr_*} functions interact with GitHub both as a conventional Git remote
-and via the REST API. Therefore, your credentials must be discoverable. Which
-credentials do we mean?
+Many usethis functions, including those documented here, potentially interact
+with GitHub in two different ways:
+\itemize{
+\item Via the GitHub REST API. Examples: create a repo, a fork, or a pull
+request.
+\item As a conventional Git remote. Examples: clone, fetch, or push.
+}
+
+Therefore two types of auth can happen and your credentials must be
+discoverable. Which credentials do we mean?
 \itemize{
 \item A GitHub personal access token (PAT) must be discoverable by the gh
 package, which is used for GitHub operations via the REST API. See
@@ -80,9 +98,8 @@ to Git and GitHub and PRs.
 addition to your PAT. The public key must be added to your GitHub account.
 }
 
-If the \verb{pr_*} functions need to configure a new remote, its transport
-protocol (HTTPS vs SSH) is determined by the protocol used for the
-source repo (\code{upstream}, when working in a fork, and \code{origin} otherwise).
+Git/GitHub credential management is covered in a dedicated article:
+\href{https://usethis.r-lib.org/articles/articles/git-credentials.html}{Managing Git(Hub) Credentials}
 }
 
 \section{For contributors}{
@@ -125,6 +142,7 @@ before continuing.
 \section{For maintainers}{
 
 To download a PR locally so that you can experiment with it, run
+\code{pr_fetch()} and select the PR or, if you already know its number, call
 \verb{pr_fetch(<pr_number>)}. If you make changes, run \code{pr_push()} to push them
 back to GitHub. After you have merged the PR, run \code{pr_finish()} to delete the
 local branch and remove the remote associated with the contributor's fork.
@@ -146,9 +164,11 @@ with recent activity.
 called with no arguments, up to 9 open PRs are offered for interactive
 selection. This can cause a new remote to be configured and a new local
 branch to be created. The local branch is configured to track its remote
-counterpart. \code{pr_fetch()} puts a maintainer in a position where they can push
-changes into an external PR via \code{pr_push()}.
-\item \code{pr_push()}: The first time it's called, a PR branch is pushed to \code{origin}
+counterpart. The transport protocol (HTTPS vs SSH) for any new remote is
+inherited from the remote representing the source repo. \code{pr_fetch()} puts a
+maintainer in a position where they can push changes into an internal or
+external PR via \code{pr_push()}.
+\item \code{pr_push()}: The first time it's called, a PR branch is pushed to GitHub
 and you're taken to a webpage where a new PR (or draft PR) can be created.
 This also sets up the local branch to track its remote counterpart.
 Subsequent calls to \code{pr_push()} make sure the local branch has all the remote
@@ -166,13 +186,25 @@ PR. Then switches back to the default branch (usually named \code{main} or
 browser (default) or the specific PR identified by \code{number}.
 (FYI \code{\link[=browse_github_pulls]{browse_github_pulls()}} is a handy way to visit the list of all PRs for
 the current project.)
-\item \code{pr_finish()}: If \code{number} is given, first does \code{pr_fetch(number)}. It's
-assumed the current branch is the PR branch of interest. First, makes sure
-there are no unpushed local changes. Switches back to the default branch and
-pulls changes from the source repo. If the PR has been merged and user has
-permission, deletes the remote branch. Deletes the PR branch. If the PR came
-from an external fork, the corresponding remote is deleted, provided it's not
-in use by any other local branches.
+\item \code{pr_forget()}: Does local clean up when the current branch is an actual or
+notional PR that you want to abandon. Maybe you initiated it yourself, via
+\code{pr_init()}, or you used \code{pr_fetch()} to explore a PR from GitHub. Only does
+\emph{local} operations: does not update or delete any remote branches, nor does
+it close any PRs. Alerts the user to any uncommitted or unpushed work that is
+at risk of being lost. If user chooses to proceed, switches back to the
+default branch, pulls changes from source repo, and deletes local PR branch.
+Any associated Git remote is deleted, if the "forgotten" PR was the only
+branch using it.
+\item \code{pr_finish()}: Does post-PR clean up, but does NOT actually merge or close
+a PR (maintainer should do this in the browser). If \code{number} is not given,
+infers the PR from the upstream tracking branch of the current branch. If
+\code{number} is given, it does not matter whether the PR exists locally. If PR
+exists locally, alerts the user to uncommitted or unpushed changes, then
+switches back to the default branch, pulls changes from source repo, and
+deletes local PR branch. If the PR came from an external fork, any associated
+Git remote is deleted, provided it's not in use by any other local branches.
+If the PR has been merged and user has permission, deletes the remote branch
+(this is the only remote operation that \code{pr_finish()} potentially does).
 }
 }
 

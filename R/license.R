@@ -187,7 +187,7 @@ check_license_version <- function(version, possible) {
 
   if (!version %in% possible) {
     possible <- glue_collapse(possible, sep = ", ", last = ", or ")
-    abort(glue("`version` must be {possible}"))
+    ui_stop("`version` must be {possible}")
   }
 
   version
@@ -195,14 +195,14 @@ check_license_version <- function(version, possible) {
 
 license_abbr <- function(name, version, include_future) {
   if (include_future) {
-    glue("{name} (>= {version})")
+    glue_chr("{name} (>= {version})")
   } else {
     if (name %in% c("GPL", "LGPL", "AGPL")) {
       # Standard abbreviations listed at
       # https://cran.rstudio.com/doc/manuals/r-devel/R-exts.html#Licensing
-      glue("{name}-{version}")
+      glue_chr("{name}-{version}")
     } else {
-      glue("{name} (== {version})")
+      glue_chr("{name} (== {version})")
     }
   }
 }

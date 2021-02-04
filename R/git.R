@@ -17,7 +17,7 @@ use_git <- function(message = "Initial commit") {
     git_init()
   }
 
-  use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
+  use_git_ignore(git_ignore_lines)
   if (git_uncommitted(untracked = TRUE)) {
     git_ask_commit(message, untracked = TRUE)
   }
@@ -159,7 +159,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
 git_protocol <- function() {
   protocol <- tolower(getOption("usethis.protocol", "unset"))
   if (identical(protocol, "unset")) {
-    ui_info("Defaulting to {'https'} Git protocol")
+    ui_info("Defaulting to {ui_value('https')} Git protocol")
     protocol <- "https"
   } else {
     check_protocol(protocol)
@@ -201,9 +201,7 @@ git_branch_default <- function() {
   check_uses_git()
   repo <- git_repo()
 
-  gbdf <- gert::git_branch_list(repo = repo)
-  gb <- gbdf$name[gbdf$local]
-
+  gb <- gert::git_branch_list(local = TRUE, repo = repo)[["name"]]
   if (length(gb) == 1) {
     return(gb)
   }
@@ -233,13 +231,13 @@ git_branch_default <- function() {
     )
     remote_heads <- purrr::compact(remote_heads)
     if (length(remote_heads)) {
-      return(basename(remote_heads[[1]]))
+      return(path_file(remote_heads[[1]]))
     }
 
     # ask the remote (a remote operation)
     f <- function(x) {
       dat <- gert::git_remote_ls(remote = x, verbose = FALSE, repo = repo)
-      basename(dat$symref[dat$ref == "HEAD"])
+      path_file(dat$symref[dat$ref == "HEAD"])
     }
     f <- purrr::possibly(f, otherwise = NULL)
     remote_heads <- purrr::compact(map(remote_names, f))
@@ -394,7 +392,7 @@ git_sitrep <- function() {
   hd_line("GitHub")
   default_gh_host <- get_hosturl(default_api_url())
   kv_line("Default GitHub host", default_gh_host)
-  pat_found <- pat_sitrep(host = default_gh_host)
+  pat_sitrep(default_gh_host)
 
   # git and github for active project ------------------------------------------
   hd_line("Git repo for current project")
@@ -441,7 +439,7 @@ git_sitrep <- function() {
   repo_host <- cfg$host_url
   if (!is.na(repo_host) && repo_host != default_gh_host) {
     kv_line("Non-default GitHub host", repo_host)
-    pat_found <- pat_sitrep(host = repo_host)
+    pat_sitrep(repo_host)
   }
 
   hd_line("GitHub remote configuration")
@@ -469,15 +467,18 @@ pat_sitrep <- function(host = "https://github.com") {
       # https://docs.github.com/en/free-pro-team@latest/developers/apps/scopes-for-oauth-apps
       # why these checks?
       # previous defaults for create_github_token(): repo, gist, user:email
-      # more recently: repo, user, gist
+      # more recently: repo, user, gist, workflow
       # (gist scope is a very weak recommendation)
       scopes <- strsplit(scopes, ", ")[[1]]
       if (length(scopes) == 0 ||
           !any(grepl("^repo$", scopes)) ||
+          !any(grepl("^workflow$", scopes)) ||
           !any(grepl("^user(:email)?$", scopes))) {
         ui_oops("
             Token may be mis-scoped: {ui_value('repo')} and \\
             {ui_value('user')} are highly recommended scopes
+            The {ui_value('workflow')} scope is needed to manage GitHub \\
+            Actions workflow files
             If you are troubleshooting, consider this")
       }
     },
@@ -522,7 +523,7 @@ pat_sitrep <- function(host = "https://github.com") {
 #' @export
 git_vaccinate <- function() {
   path <- git_ignore_path("user")
-  write_union(path, git_global_ignore)
+  write_union(path, git_ignore_lines)
 }
 
 git_vaccinated <- function() {
@@ -532,10 +533,10 @@ git_vaccinated <- function() {
   }
 
   lines <- read_utf8(path)
-  all(git_global_ignore %in% lines)
+  all(git_ignore_lines %in% lines)
 }
 
-git_global_ignore <- c(
+git_ignore_lines <- c(
   ".Rproj.user",
   ".Rhistory",
   ".Rdata",

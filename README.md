@@ -121,7 +121,7 @@ use_data(x, y)
 # Use git ------------------------------------------------------------
 use_git()
 #> ✓ Initialising Git repo
-#> ✓ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'
+#> ✓ Adding '.Rproj.user', '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store' to '.gitignore'
 ```
 
 ## Code of Conduct

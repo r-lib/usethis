@@ -47,7 +47,7 @@ use_github_action_pr_commands(
 \item{url}{The full URL to the \code{.yaml} file. By default, the corresponding
 workflow in \url{https://github.com/r-lib/actions} will be used.}
 
-\item{save_as}{Name of the workflow file. Defaults to \code{basename(url)}
+\item{save_as}{Name of the workflow file. Defaults to \code{fs::path_file(url)}
 for \code{use_github_action()}.}
 
 \item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}

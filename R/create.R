@@ -44,11 +44,11 @@ create_package <- function(path,
   if (check_name) {
     check_package_name(name)
   }
-  check_not_nested(path_dir(path), name)
+  challenge_nested_project(path_dir(path), name)
+  challenge_home_directory(path)
 
   create_directory(path)
-  old_project <- proj_set(path, force = TRUE)
-  on.exit(proj_set(old_project), add = TRUE)
+  local_project(path, force = TRUE)
 
   use_directory("R")
   use_description(fields, check_name = FALSE, roxygen = roxygen)
@@ -60,8 +60,9 @@ create_package <- function(path,
 
   if (open) {
     if (proj_activate(proj_get())) {
-      # working directory/active project already set; clear the on.exit()'s
-      on.exit()
+      # working directory/active project already set; clear the scheduled
+      # restoration of the original project
+      withr::deferred_clear()
     }
   }
 
@@ -75,11 +76,11 @@ create_project <- function(path,
                            open = rlang::is_interactive()) {
   path <- user_path_prep(path)
   name <- path_file(path_abs(path))
-  check_not_nested(path_dir(path), name)
+  challenge_nested_project(path_dir(path), name)
+  challenge_home_directory(path)
 
   create_directory(path)
-  old_project <- proj_set(path, force = TRUE)
-  on.exit(proj_set(old_project), add = TRUE)
+  local_project(path, force = TRUE)
 
   use_directory("R")
 
@@ -94,8 +95,9 @@ create_project <- function(path,
 
   if (open) {
     if (proj_activate(proj_get())) {
-      # working directory/active project already set; clear the on.exit()'s
-      on.exit()
+      # working directory/active project already set; clear the scheduled
+      # restoration of the original project
+      withr::deferred_clear()
     }
   }
 
@@ -113,9 +115,10 @@ create_project <- function(path,
 #' [pr_init()], one of several [functions that work pull
 #' requests][pull-requests].
 #'
-#' `create_from_github()` works best when we can find a GitHub personal access
-#' token in the Git credential store (just like many other usethis functions).
-#' See [gh_token_help()] for more advice.
+#' `create_from_github()` works best when your GitHub credentials are
+#' discoverable. See below for more about authentication.
+#'
+#' @template double-auth
 #'
 #' @seealso
 #' * [use_github()] to go the opposite direction, i.e. create a GitHub repo
@@ -123,8 +126,6 @@ create_project <- function(path,
 #' * [git_protocol()] for background on `protocol` (HTTPS vs SSH)
 #' * [use_course()] to download a snapshot of all files in a GitHub repo,
 #'   without the need for any local or remote Git operations
-#'
-#' @template double-auth
 #'
 #' @inheritParams create_package
 #' @param repo_spec A string identifying the GitHub repo in one of these forms:
@@ -193,11 +194,7 @@ create_from_github <- function(repo_spec,
   whoami <- suppressMessages(gh::gh_whoami(.api_url = host))
   no_auth <- is.null(whoami)
   user <- if (no_auth) NULL else whoami$login
-  if (is.null(host)) {
-    code_hint <- "gh_token_help()"
-  } else {
-    code_hint <- glue('gh_token_help("{host}")')
-  }
+  hint <- code_hint_with_host("gh_token_help", host)
 
   if (no_auth && is.na(fork)) {
     ui_stop("
@@ -207,7 +204,7 @@ create_from_github <- function(repo_spec,
 
       You have two choices:
       1. Make your token available (if in doubt, DO THIS):
-         - Call {ui_code(code_hint)} for directions
+         - Call {ui_code(hint)} for directions
       2. Call {ui_code('create_from_github()')} again, but with \\
       {ui_code('fork = FALSE')}
          - Only do this if you are absolutely sure you don't want to fork
@@ -219,7 +216,7 @@ create_from_github <- function(repo_spec,
       Unable to discover a GitHub personal access token
       A token is required in order to fork {ui_value(repo_spec)}
 
-      Call {ui_code(code_hint)} for help configuring a token")
+      Call {ui_code(hint)} for help configuring a token")
   }
   # one of these is true:
   # - gh is discovering a token for `host`
@@ -227,12 +224,9 @@ create_from_github <- function(repo_spec,
 
   source_owner <- spec_owner(repo_spec)
   repo_name <- spec_repo(repo_spec)
+  gh <- gh_tr(list(repo_owner = source_owner, repo_name = repo_name, .api_url = host))
 
-  repo_info <- gh::gh(
-    "GET /repos/:owner/:repo",
-    owner = source_owner, repo = repo_name,
-    .api_url = host
-  )
+  repo_info <- gh("GET /repos/{owner}/{repo}")
   # 2020-10-14 GitHub has had some bugs lately around default branch
   # today, the POST payload, if I create a fork, mis-reports the default branch
   # it reports 'main', even though actual default branch is 'master'
@@ -254,7 +248,7 @@ create_from_github <- function(repo_spec,
 
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
-  check_not_nested(destdir, repo_name)
+  challenge_nested_project(destdir, repo_name)
   repo_path <- path(destdir, repo_name)
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
@@ -267,11 +261,7 @@ create_from_github <- function(repo_spec,
       https = repo_info$clone_url,
       ssh = repo_info$ssh_url
     )
-    repo_info <- gh::gh(
-      "POST /repos/:owner/:repo/forks",
-      owner = source_owner, repo = repo_name,
-      .api_url = host
-    )
+    repo_info <- gh("POST /repos/{owner}/{repo}/forks")
   }
 
   origin_url <- switch(
@@ -302,14 +292,14 @@ create_from_github <- function(repo_spec,
     gert::git_config_set(config_key, "usethis::create_from_github", repo = git_repo())
   }
 
-  rstudio <- rstudio %||% rstudioapi::isAvailable()
+  rstudio <- rstudio %||% rstudio_available()
   rstudio <- rstudio && !is_rstudio_project(proj_get())
   if (rstudio) {
     use_rstudio()
   }
 
   if (open) {
-    if (proj_activate(repo_path)) {
+    if (proj_activate(proj_get())) {
       # Working directory/active project changed; so don't undo on exit
       withr::deferred_clear()
     }
@@ -321,7 +311,7 @@ create_from_github <- function(repo_spec,
 # creates a backdoor we can exploit in tests
 allow_nested_project <- function() FALSE
 
-check_not_nested <- function(path, name) {
+challenge_nested_project <- function(path, name) {
   if (!possibly_in_proj(path)) {
     return(invisible())
   }
@@ -340,6 +330,27 @@ check_not_nested <- function(path, name) {
   )
   if (ui_nope("Do you want to create anyway?")) {
     ui_stop("Aborting project creation.")
+  }
+  invisible()
+}
+
+challenge_home_directory <- function(path) {
+  homes <- unique(c(path_home(), path_home_r()))
+  if (!path %in% homes) {
+    return(invisible())
+  }
+
+  qualification <- if (is_windows()) {
+    glue("a special directory, i.e. some applications regard it as ")
+  } else {
+    ""
+  }
+  ui_line("
+    {ui_path(path)} is {qualification}your home directory.
+    It is generally a bad idea to create a new project here.
+    You should probably create your new project in a subdirectory.")
+  if (ui_nope("Do you want to create anyway?")) {
+    ui_stop("Good move! Cancelling project creation.")
   }
   invisible()
 }

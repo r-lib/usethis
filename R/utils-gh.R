@@ -1,5 +1,16 @@
 # Functions that are in a grey area between usethis and gh
 
+gh_tr <- function(tr) {
+  force(tr)
+  function(endpoint, ...) {
+    gh::gh(
+      endpoint,
+      ...,
+      owner = tr$repo_owner, repo = tr$repo_name, .api_url = tr$api_url
+    )
+  }
+}
+
 # Functions inlined from gh ----
 get_baseurl <- function(url) {               # https://github.uni.edu/api/v3/
   if (!any(grepl("^https?://", url))) {
@@ -42,5 +53,5 @@ is_github_dot_com <- function(url) {
 }
 
 default_api_url <- function() {
-  Sys.getenv('GITHUB_API_URL', unset = "https://api.github.com")
+  Sys.getenv("GITHUB_API_URL", unset = "https://api.github.com")
 }

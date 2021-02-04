@@ -6,6 +6,7 @@ BugReports
 CCBY
 CLA
 CMD
+CNAME
 CircleCI
 CoC
 Codecov
@@ -15,6 +16,7 @@ DockerHub
 DropBox
 GHA
 Gert
+Gert's
 Git's
 GitLab
 Gitignores
@@ -23,6 +25,7 @@ Homebrew
 Initialise
 Jenkinsfile
 Jupyter
+Keychain
 LF
 LGL
 LastPass
@@ -30,6 +33,8 @@ Lifecycle
 LinkingTo
 Makefile
 ORCID
+PAT's
+PATs
 PRs
 README
 REPO
@@ -52,6 +57,7 @@ Templated
 Tidyverse
 UI
 Ushey's
+VM
 Xcode
 YAML
 addin
@@ -62,6 +68,7 @@ applypatch
 artefacts
 aspirationally
 auth
+authenticator
 backports
 behaviour
 bzip
@@ -73,6 +80,7 @@ codecov
 colour
 colours
 config
+convergently
 cpp
 cran
 customised
@@ -81,12 +89,12 @@ devtools
 discoverable
 else's
 emacs
-env
 eval
 favicons
 favour
 fiascos
 filenaming
+formidabel
 frontmatter
 fs
 funder
@@ -108,6 +116,7 @@ initialisation
 initialises
 initialising
 io
+jsonlite
 labelled
 labelling
 learnr
@@ -127,22 +136,22 @@ organisation
 organisations
 ort
 pandoc
-pkgbuild
 pkgdown
 pre
 programmatically
 purrr
 r's
 rOpenSci
+rappdirs
 rcmdcheck
 rebase
+reconfigures
 redirections
 repo
 repo's
 repos
 reprex
 reproducibility
-restructing
 revdep
 revdepcheck
 revdepchecks
@@ -176,7 +185,4 @@ usethis's
 ver
 withr
 xz
-yah
 yaml
-yeahyah
-yeahyeah

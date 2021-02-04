@@ -1,14 +1,14 @@
 test_that("use_circleci() configures CircleCI", {
   skip_if_no_git_user()
 
+  local_interactive(FALSE)
   create_local_package()
   use_git()
 
   with_mock(
-    `usethis:::target_repo_spec` = function() "OWNER/REPO",
+    target_repo_spec = function(...) "OWNER/REPO",
     use_circleci(browse = FALSE)
   )
-  use_readme_md()
 
   expect_true(is_build_ignored("^\\.circleci$"))
 
@@ -30,10 +30,10 @@ test_that("use_circleci() configures CircleCI", {
     "r-pkg-cache-{{ arch }}-{{ .Branch }}"
   )
 
+  dir_delete(proj_path(".circleci"))
   docker <- "rocker/r-ver:3.5.3"
   with_mock(
-    `usethis:::target_repo_spec` = function() "OWNER/REPO",
-    `usethis:::can_overwrite` = function(path) TRUE,
+    target_repo_spec = function(...) "OWNER/REPO",
     use_circleci(browse = FALSE, image = docker)
   )
   yml <- yaml::yaml.load_file(proj_path(".circleci", "config.yml"))

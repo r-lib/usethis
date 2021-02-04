@@ -29,7 +29,7 @@ great deal of credential-handling assistance has been removed from usethis,
 primarily around SSH keys.
 
 If you have credential problems, focus your troubleshooting on getting the
-credentials package to find your credentials. The \href{https://cran.r-project.org/web/packages/credentials/vignettes/intro.html}{introductory vignette}
+credentials package to find your credentials. The \href{https://docs.ropensci.org/credentials/articles/intro.html}{introductory vignette}
 is a good place to start.
 
 If you use the HTTPS protocol (which we recommend), a GitHub personal access

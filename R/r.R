@@ -84,19 +84,32 @@ rename_files <- function(old, new) {
   }
 
   if (!uses_testthat()) {
-    return()
+    return(invisible())
   }
 
-  # Move test files
+  # Move test files and snapshots
   rename_test <- function(path) {
     file <- gsub(glue("^test-{old}"), glue("test-{new}"), path_file(path))
+    file <- gsub(glue("^{old}.md"), glue("{new}.md"), file)
     path(path_dir(path), file)
   }
-  old_test <- dir_ls(proj_path("tests", "testthat"), glob = glue("*/test-{old}*"))
+  old_test <- dir_ls(
+    proj_path("tests", "testthat"),
+    glob = glue("*/test-{old}*")
+  )
   new_test <- rename_test(old_test)
   if (length(old_test) > 0) {
     ui_done("Moving {ui_path(old_test)} to {ui_path(new_test)}")
     file_move(old_test, new_test)
+  }
+  snaps_dir <- proj_path("tests", "testthat", "_snaps")
+  if (dir_exists(snaps_dir)) {
+    old_snaps <- dir_ls(snaps_dir, glob = glue("*/{old}.md"))
+    if (length(old_snaps) > 0) {
+      new_snaps <- rename_test(old_snaps)
+      ui_done("Moving {ui_path(old_snaps)} to {ui_path(new_snaps)}")
+      file_move(old_snaps, new_snaps)
+    }
   }
 
   # Update test file
@@ -151,7 +164,7 @@ valid_file_name <- function(x) {
 }
 
 get_active_r_file <- function(path = "R") {
-  if (!rstudioapi::isAvailable()) {
+  if (!rstudio_available()) {
     ui_stop("Argument {ui_code('name')} must be specified.")
   }
   active_file <- rstudioapi::getSourceEditorContext()$path

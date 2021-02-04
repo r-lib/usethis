@@ -3,13 +3,12 @@
 <details>
 
 * Version: 0.1.2
+* GitHub: https://github.com/tidymodels/butcher
 * Source code: https://github.com/cran/butcher
-* URL: https://tidymodels.github.io/butcher, https://github.com/tidymodels/butcher
-* BugReports: https://github.com/tidymodels/butcher/issues
 * Date/Publication: 2020-01-23 22:40:02 UTC
-* Number of recursive dependencies: 180
+* Number of recursive dependencies: 186
 
-Run `revdep_details(,"butcher")` for more info
+Run `cloud_details(, "butcher")` for more info
 
 </details>
 
@@ -18,26 +17,74 @@ Run `revdep_details(,"butcher")` for more info
 ### Devel
 
 ```
-* using log directory ‘/tmp/workdir/butcher/new/butcher.Rcheck’
-* using R version 3.6.3 (2020-02-29)
+* using log directory '/tmp/workdir/butcher/new/butcher.Rcheck'
+* using R version 4.0.3 (2020-10-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using options ‘--no-manual --no-build-vignettes’
-* checking for file ‘butcher/DESCRIPTION’ ... OK
-* this is package ‘butcher’ version ‘0.1.2’
+* using session charset: ASCII
+* using options '--no-manual --no-build-vignettes'
+* checking for file 'butcher/DESCRIPTION' ... OK
+* this is package 'butcher' version '0.1.2'
 * package encoding: UTF-8
 * checking package namespace information ... OK
-* checking package dependencies ... ERROR
-Package suggested but not available: ‘NMF’
+* checking package dependencies ... NOTE
+Package suggested but not available for checking: 'NMF'
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package 'butcher' can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking 'build' directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... WARNING
+Warning in Sys.setlocale("LC_CTYPE", "en_US.UTF-8") :
+  OS reports request to set locale to "en_US.UTF-8" cannot be honored
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... NOTE
+Namespace in Imports field not imported from: 'modeldata'
+  All declared Imports should be used.
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... OK
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking installed files from 'inst/doc' ... OK
+* checking files in 'vignettes' ... OK
+* checking examples ... WARNING
+checking a package with encoding  'UTF-8'  in an ASCII locale
 
-The suggested packages are required for a complete check.
-Checking can be attempted without them by setting the environment
-variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
+* checking for unstated dependencies in 'tests' ... OK
+* checking tests ... OK
+  Running 'testthat.R'
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in 'inst/doc' ... OK
+* checking running R code from vignettes ... NONE
+  'adding-models-to-butcher.Rmd' using 'UTF-8'... OK
+  'available-axe-methods.Rmd' using 'UTF-8'... OK
+  'butcher.Rmd' using 'UTF-8'... OK
+* checking re-building of vignette outputs ... SKIPPED
 * DONE
-Status: 1 ERROR
+Status: 2 WARNINGs, 2 NOTEs
 
 
 
@@ -48,109 +95,78 @@ Status: 1 ERROR
 ### CRAN
 
 ```
-* using log directory ‘/tmp/workdir/butcher/old/butcher.Rcheck’
-* using R version 3.6.3 (2020-02-29)
+* using log directory '/tmp/workdir/butcher/old/butcher.Rcheck'
+* using R version 4.0.3 (2020-10-10)
 * using platform: x86_64-pc-linux-gnu (64-bit)
-* using session charset: UTF-8
-* using options ‘--no-manual --no-build-vignettes’
-* checking for file ‘butcher/DESCRIPTION’ ... OK
-* this is package ‘butcher’ version ‘0.1.2’
+* using session charset: ASCII
+* using options '--no-manual --no-build-vignettes'
+* checking for file 'butcher/DESCRIPTION' ... OK
+* this is package 'butcher' version '0.1.2'
 * package encoding: UTF-8
 * checking package namespace information ... OK
-* checking package dependencies ... ERROR
-Package suggested but not available: ‘NMF’
+* checking package dependencies ... NOTE
+Package suggested but not available for checking: 'NMF'
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package 'butcher' can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking 'build' directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... WARNING
+Warning in Sys.setlocale("LC_CTYPE", "en_US.UTF-8") :
+  OS reports request to set locale to "en_US.UTF-8" cannot be honored
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking dependencies in R code ... NOTE
+Namespace in Imports field not imported from: 'modeldata'
+  All declared Imports should be used.
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... OK
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking installed files from 'inst/doc' ... OK
+* checking files in 'vignettes' ... OK
+* checking examples ... WARNING
+checking a package with encoding  'UTF-8'  in an ASCII locale
 
-The suggested packages are required for a complete check.
-Checking can be attempted without them by setting the environment
-variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
-
-See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-manual.
+* checking for unstated dependencies in 'tests' ... OK
+* checking tests ... OK
+  Running 'testthat.R'
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in 'inst/doc' ... OK
+* checking running R code from vignettes ... NONE
+  'adding-models-to-butcher.Rmd' using 'UTF-8'... OK
+  'available-axe-methods.Rmd' using 'UTF-8'... OK
+  'butcher.Rmd' using 'UTF-8'... OK
+* checking re-building of vignette outputs ... SKIPPED
 * DONE
-Status: 1 ERROR
+Status: 2 WARNINGs, 2 NOTEs
 
 
 
 
 
-
-```
-# finbif
-
-<details>
-
-* Version: 0.3.0
-* Source code: https://github.com/cran/finbif
-* URL: https://github.com/luomus/finbif, https://luomus.github.io/finbif
-* BugReports: https://github.com/luomus/finbif/issues
-* Date/Publication: 2020-04-23 11:20:02 UTC
-* Number of recursive dependencies: 123
-
-Run `revdep_details(,"finbif")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘finbif’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/tmp/workdir/finbif/new/finbif.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘finbif’ ...
-** package ‘finbif’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-** help
-*** installing help indices
-*** copying figures
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-Error: package or namespace load failed for ‘finbif’:
- .onLoad failed in loadNamespace() for 'finbif', details:
-  call: supported_langs[[l]]
-  error: subscript out of bounds
-Error: loading failed
-Execution halted
-ERROR: loading failed
-* removing ‘/tmp/workdir/finbif/new/finbif.Rcheck/finbif’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘finbif’ ...
-** package ‘finbif’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-** help
-*** installing help indices
-*** copying figures
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-Error: package or namespace load failed for ‘finbif’:
- .onLoad failed in loadNamespace() for 'finbif', details:
-  call: supported_langs[[l]]
-  error: subscript out of bounds
-Error: loading failed
-Execution halted
-ERROR: loading failed
-* removing ‘/tmp/workdir/finbif/old/finbif.Rcheck/finbif’
 
 ```

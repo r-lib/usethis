@@ -163,7 +163,7 @@ user_path_prep <- function(path) {
 
 proj_rel_path <- function(path) {
   if (is_in_proj(path)) {
-    path_rel(path, start = proj_get())
+    as.character(path_rel(path, start = proj_get()))
   } else {
     path
   }
@@ -210,6 +210,14 @@ check_is_package <- function(whos_asking = NULL) {
   ui_stop(message)
 }
 
+check_is_project <- function() {
+  if (!possibly_in_proj()) {
+    ui_stop("
+      We do not appear to be inside a valid project or package
+      Read more in the help for {ui_code(\"proj_get()\")}")
+  }
+}
+
 proj_active <- function() !is.null(proj_get_())
 
 is_in_proj <- function(path) {
@@ -221,27 +229,6 @@ is_in_proj <- function(path) {
     ## use path_abs() in case path does not exist yet
     path_common(c(proj_get(), path_expand(path_abs(path))))
   )
-}
-
-project_data <- function(base_path = proj_get()) {
-  if (!possibly_in_proj(base_path)) {
-    ui_stop(c(
-      "{ui_path(base_path)} doesn't meet the usethis criteria for a project.",
-      "Read more in the help for {ui_code(\"proj_get()\")}."
-    ))
-  }
-  if (is_package(base_path)) {
-    data <- package_data(base_path)
-  } else {
-    data <- list(Project = path_file(base_path))
-  }
-  if (proj_active() && origin_is_on_github()) {
-    origin <- github_remote_list("origin")
-    data$github_owner <- origin$repo_owner
-    data$github_repo  <- origin$repo_name
-    data$github_spec  <- glue("{origin$repo_owner}/{origin$repo_name}")
-  }
-  data
 }
 
 package_data <- function(base_path = proj_get()) {
@@ -259,9 +246,9 @@ project_name <- function(base_path = proj_get()) {
   }
 
   if (is_package(base_path)) {
-    project_data(base_path)$Package
+    package_data(base_path)$Package
   } else {
-    project_data(base_path)$Project
+    path_file(base_path)
   }
 }
 
@@ -278,7 +265,7 @@ proj_activate <- function(path) {
   check_path_is_directory(path)
   path <- user_path_prep(path)
 
-  if (rstudioapi::isAvailable()) {
+  if (rstudio_available()) {
     ui_done("Opening {ui_path(path, base = NA)} in new RStudio session")
     rstudioapi::openProject(path, newSession = TRUE)
     invisible(FALSE)

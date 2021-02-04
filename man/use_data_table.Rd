@@ -7,14 +7,17 @@
 use_data_table()
 }
 \description{
-\code{use_data_table} facilitates importing \code{data.table} by
-handling up-front some common set-up tasks for using it in your package.
+\ifelse{html}{\out{<a href='https://www.tidyverse.org/lifecycle/#questioning'><img src='figures/lifecycle-questioning.svg' alt='Questioning lifecycle'></a>}}{\strong{Questioning}}
+
+\code{use_data_table} facilitates importing the data.table package by handling
+up-front some common set-up tasks for using it in your package.
 
 This function does two main things:
 \enumerate{
-\item Import the entire \code{data.table} namespace (with \verb{@import}).
-\item Block the usage of \code{data.table} as a dependency (\code{DESCRIPTION}
-field \code{Depends}); \code{data.table} should be used as an \emph{import} or \emph{suggested}
-package only. See this \href{https://github.com/Rdatatable/data.table/issues/3076}{discussion}.
+\item Import the entire data.table namespace (with \verb{@import}).
+\item Block the usage of data.table as a dependency (\code{DESCRIPTION} field
+\code{Depends}); \code{data.table} should be used as an \emph{imported} or \emph{suggested}
+package only. See this
+\href{https://github.com/Rdatatable/data.table/issues/3076}{discussion}.
 }
 }

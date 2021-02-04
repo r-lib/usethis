@@ -33,7 +33,7 @@ pr_sync <- function() {
     Sync a PR with:
       * {ui_code('pr_pull()')}
       * {ui_code('pr_merge_main()')}
-      * {ui_code('pr_pull()')}")
+      * {ui_code('pr_push()')}")
   lifecycle::deprecate_stop(
     when = "2.0.0",
     what = "pr_sync()",
@@ -113,7 +113,7 @@ deprecate_warn_credentials <- function(whos_asking, details = NULL) {
 #'
 #' If you have credential problems, focus your troubleshooting on getting the
 #' credentials package to find your credentials. The [introductory
-#' vignette](https://cran.r-project.org/web/packages/credentials/vignettes/intro.html)
+#' vignette](https://docs.ropensci.org/credentials/articles/intro.html)
 #' is a good place to start.
 #'
 #' If you use the HTTPS protocol (which we recommend), a GitHub personal access
@@ -171,7 +171,7 @@ deprecate_warn_auth_token <- function(whos_asking, details = NULL) {
 
   auth_token_explanation <- glue("
     usethis now delegates token lookup to the gh package, which retrieves \\
-    credentials based on the targetted host URL.
+    credentials based on the targeted host URL.
     This URL is determined by the current project's Git remotes.
     The {ui_code('auth_token')} argument is ignored and will eventually be \\
     removed.")

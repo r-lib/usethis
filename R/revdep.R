@@ -15,8 +15,9 @@ use_revdep <- function() {
   use_git_ignore(
     directory = "revdep",
     c(
-      "checks", "library", "checks.noindex",
-      "library.noindex", "data.sqlite", "*.html"
+      "checks", "library",
+      "checks.noindex", "library.noindex", "cloud.noindex",
+      "data.sqlite", "*.html"
     )
   )
 

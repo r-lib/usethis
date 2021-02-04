@@ -47,6 +47,96 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   invisible(TRUE)
 }
 
+# tidyverse pkgdown setup ------------------------------------------------------
+
+#' @details
+#' * `use_tidy_pkgdown()`: Implements the pkgdown setup used for most tidyverse
+#'   and r-lib packages:
+#'   - [use_pkgdown()] does basic local setup
+#'   - [use_github_pages()] prepares to publish the pkgdown site from the
+#'     `github-pages` branch
+#'   - [`use_github_action("pkgdown")`][use_github_action()] configures a
+#'     GitHub Action to automatically build the pkgdown site and deploy it via
+#'     GitHub Pages
+#'   - The pkgdown site's URL is added to the pkgdown configuration file,
+#'     to the URL field of DESCRIPTION, and to the GitHub repo.
+#'
+#' @rdname tidyverse
+#' @export
+use_tidy_pkgdown <- function() {
+  tr <- target_repo(github_get = TRUE)
+
+  use_pkgdown()
+  site <- use_github_pages()
+  use_github_action("pkgdown")
+
+  site_url <- sub("/$", "", site$html_url)
+  site_url <- tidyverse_url(url = site_url, tr = tr)
+  use_pkgdown_url(url = site_url, tr = tr)
+}
+
+# helpers ----------------------------------------------------------------------
+use_pkgdown_url <- function(url, tr = NULL) {
+  tr <- tr %||% target_repo(github_get = TRUE)
+
+  config <- pkgdown_config_path()
+  config_lines <- read_utf8(config)
+  url_line <- paste0("url: ", url)
+  if (!any(grepl(url_line, config_lines))) {
+    ui_done("
+      Recording {ui_value(url)} as site's {ui_field('url')} in \\
+      {ui_path(config)}")
+    config_lines <- config_lines[!grepl("^url:", config_lines)]
+    write_utf8(config, c(
+      url_line,
+      if (length(config_lines) && nzchar(config_lines[[1]])) "",
+      config_lines
+    ))
+  }
+
+  urls <- desc::desc_get_urls()
+  if (!url %in% urls) {
+    ui_done("Adding {ui_value(url)} to {ui_field('URL')} field in DESCRIPTION")
+    ui_silence(
+      use_description_field(
+        "URL",
+        glue_collapse(c(url, urls), ", "),
+        overwrite = TRUE
+      )
+    )
+  }
+
+  gh <- gh_tr(tr)
+  homepage <- gh("GET /repos/{owner}/{repo}")[["homepage"]]
+  if (is.null(homepage) || homepage != url) {
+    ui_done("Setting {ui_value(url)} as homepage of GitHub repo \\
+      {ui_value(tr$repo_spec)}")
+    gh("PATCH /repos/{owner}/{repo}", homepage = url)
+  }
+
+  invisible()
+}
+
+tidyverse_url <- function(url, tr = NULL) {
+  tr <- tr %||% target_repo(github_get = TRUE)
+  if (!is_interactive() || !tr$repo_owner %in% c("tidyverse", "r-lib")) {
+    return(url)
+  }
+  custom_url <- glue("https://{tr$repo_name}.{tr$repo_owner}.org")
+  if (url == custom_url) {
+    return(url)
+  }
+  if (ui_yeah("
+    {ui_value(tr$repo_name)} is owned by the {ui_value(tr$repo_owner)} GitHub \\
+    organization
+    Shall we configure {ui_value(custom_url)} as the (eventual) \\
+    pkgdown URL?")) {
+    custom_url
+  } else {
+    url
+  }
+}
+
 pkgdown_config_path <- function(base_path = proj_get()) {
   path_first_existing(
     base_path,
@@ -132,13 +222,7 @@ use_pkgdown_travis <- function() {
     "
   )
 
-  if (!gert::git_branch_exists("origin/gh-pages", local = FALSE, repo = git_repo())) {
-    create_gh_pages_branch(tr)
-  }
-
-  ui_todo("
-    Turn on GitHub pages at \\
-    <https://github.com/{tr$repo_spec}/settings> (using gh-pages as source)")
+  use_github_pages()
 
   invisible()
 }
@@ -147,35 +231,4 @@ use_pkgdown_travis <- function() {
 # all usage of this wrapper is guarded by `check_installed("pkgdown")`
 pkgdown_build_favicons <- function(...) {
   get("build_favicons", asNamespace("pkgdown"), mode = "function")(...)
-}
-
-create_gh_pages_branch <- function(tr) {
-  ui_done("
-    Initializing empty gh-pages branch in GitHub repo {ui_value(tr$repo_spec)}")
-
-  # git hash-object -t tree /dev/null.
-  sha_empty_tree <- "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
-
-  gh <- function(endpoint, ...) {
-    gh::gh(
-      endpoint,
-      ...,
-      owner = tr$repo_owner, repo = tr$repo_name,
-      .api_url = tr$api_url
-    )
-  }
-
-  # Create commit with empty tree
-  res <- gh(
-    "POST /repos/:owner/:repo/git/commits",
-    message = "first commit",
-    tree = sha_empty_tree
-  )
-
-  # Assign ref to above commit
-  gh(
-    "POST /repos/:owner/:repo/git/refs",
-    ref = "refs/heads/gh-pages",
-    sha = res$sha
-  )
 }

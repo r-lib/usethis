@@ -1,22 +1,128 @@
-test_that("write_union() does not activate a project", {
-  tmpdir <- file_temp(pattern = "write-tests")
-  on.exit(dir_delete(tmpdir))
-  dir_create(tmpdir)
-  file_create(path(tmpdir, ".here"))
+# test that write_utf8() does not alter active project and
+# does not consult active project for line ending
+test_that("write_utf8(): no active project, write path outside project", {
+  local_project(NULL)
+  expect_false(proj_active())
+  dir <- withr::local_tempdir(pattern = "write-utf8-nonproject")
+  expect_false(possibly_in_proj(dir))
 
-  expect_true(possibly_in_proj(tmpdir))
-  expect_false(is_in_proj(tmpdir))
-  ## don't use `quiet = TRUE` because prevents what I want to test
-  write_union(path(tmpdir, "abc"), lines = letters[1:3])
-  expect_false(is_in_proj(tmpdir))
+  write_utf8(path(dir, "letters_LF"), letters[1:2], line_ending = "\n")
+  expect_equal(
+    readBin(path(dir, "letters_LF"), what = "raw", n = 3),
+    charToRaw("a\nb")
+  )
+  write_utf8(path(dir, "letters_CRLF"), letters[1:2], line_ending = "\r\n")
+  expect_equal(
+    readBin(path(dir, "letters_CRLF"), what = "raw", n = 3),
+    charToRaw("a\r\n")
+  )
+
+  expect_false(proj_active())
 })
 
-test_that("same_contents() detects if contents are / are not same", {
-  tmp <- file_temp()
-  x <- letters[1:3]
-  writeLines(x, con = tmp, sep = "\n")
-  expect_true(same_contents(tmp, x))
-  expect_false(same_contents(tmp, letters[4:6]))
+test_that("write_utf8(): no active project, write to path inside a project", {
+  local_project(NULL)
+  expect_false(proj_active())
+  dir <- withr::local_tempdir(pattern = "write-utf8-in-a-project")
+  file_create(path(dir, ".here"))
+  expect_true(possibly_in_proj(dir))
+
+  with_project(dir, use_rstudio(line_ending = "posix"))
+  write_utf8(path(dir, "letters"), letters[1:2])
+  expect_equal(
+    readBin(path(dir, "letters"), what = "raw", n = 3),
+    charToRaw("a\nb")
+  )
+  file_delete(path(dir, paste0(path_file(dir), ".Rproj")))
+
+  with_project(dir, use_rstudio(line_ending = "windows"))
+  write_utf8(path(dir, "letters"), letters[1:2])
+  expect_equal(
+    readBin(path(dir, "letters"), what = "raw", n = 3),
+    charToRaw("a\r\n")
+  )
+
+  expect_false(proj_active())
+})
+
+test_that("write_utf8(): in an active project, write path outside project", {
+  proj <- create_local_project(rstudio = TRUE)
+  expect_true(proj_active())
+  dir <- withr::local_tempdir(pattern = "write-utf8-nonproject")
+  expect_false(possibly_in_proj(dir))
+
+  write_utf8(path(dir, "letters_LF"), letters[1:2], line_ending = "\n")
+  expect_equal(
+    readBin(path(dir, "letters_LF"), what = "raw", n = 3),
+    charToRaw("a\nb")
+  )
+  write_utf8(path(dir, "letters_CRLF"), letters[1:2], line_ending = "\r\n")
+  expect_equal(
+    readBin(path(dir, "letters_CRLF"), what = "raw", n = 3),
+    charToRaw("a\r\n")
+  )
+
+  expect_equal(proj_get(), proj)
+})
+
+test_that("write_utf8(): in an active project, write path in other project", {
+  proj <- create_local_project(rstudio = TRUE)
+  expect_true(proj_active())
+  dir <- withr::local_tempdir(pattern = "write-utf8-in-a-project")
+  file_create(path(dir, ".here"))
+  expect_true(possibly_in_proj(dir))
+
+  with_project(dir, use_rstudio(line_ending = "posix"))
+  write_utf8(path(dir, "letters"), letters[1:2])
+  expect_equal(
+    readBin(path(dir, "letters"), what = "raw", n = 3),
+    charToRaw("a\nb")
+  )
+  file_delete(path(dir, paste0(path_file(dir), ".Rproj")))
+
+  with_project(dir, use_rstudio(line_ending = "windows"))
+  write_utf8(path(dir, "letters"), letters[1:2])
+  expect_equal(
+    readBin(path(dir, "letters"), what = "raw", n = 3),
+    charToRaw("a\r\n")
+  )
+
+  expect_equal(proj_get(), proj)
+})
+
+test_that("write_utf8() can append text when requested", {
+  path <- file_temp()
+  write_utf8(path, "x", line_ending = "\n")
+  write_utf8(path, "x", line_ending = "\n", append = TRUE)
+
+  expect_equal(readChar(path, 4), "x\nx\n")
+})
+
+test_that("write_utf8() respects line ending", {
+  path <- file_temp()
+
+  write_utf8(path, "x", line_ending = "\n")
+  expect_equal(detect_line_ending(path), "\n")
+
+  write_utf8(path, "x", line_ending = "\r\n")
+  expect_equal(detect_line_ending(path), "\r\n")
+})
+
+# TODO: explore more edge cases re: active project on both sides
+test_that("write_utf8() can operate outside of a project", {
+  dir <- withr::local_tempdir(pattern = "write-utf8-test")
+  withr::local_dir(dir)
+  local_project(NULL)
+
+  expect_false(proj_active())
+  expect_error_free(write_utf8(path = "foo", letters[1:3]))
+})
+
+# https://github.com/r-lib/usethis/issues/514
+test_that("write_utf8() always produces a trailing newline", {
+  path <- file_temp()
+  write_utf8(path, "x", line_ending = "\n")
+  expect_equal(readChar(path, 2), "x\n")
 })
 
 test_that("write_union() writes a de novo file", {
@@ -52,6 +158,14 @@ test_that("write_union() doesn't remove duplicated lines in the input", {
   expect_identical(read_utf8(tmp), c(before, c("z", "c")))
 })
 
+test_that("same_contents() detects if contents are / are not same", {
+  tmp <- file_temp()
+  x <- letters[1:3]
+  writeLines(x, con = tmp, sep = "\n")
+  expect_true(same_contents(tmp, x))
+  expect_false(same_contents(tmp, letters[4:6]))
+})
+
 test_that("write_over() writes a de novo file", {
   tmp <- file_temp()
   expect_false(file_exists(tmp))
@@ -65,46 +179,4 @@ test_that("write_over() leaves file 'as is'", {
   before <- read_utf8(tmp)
   write_over(tmp, letters[1:3], quiet = TRUE)
   expect_identical(before, read_utf8(tmp))
-})
-
-# https://github.com/r-lib/usethis/issues/514
-test_that("write_utf8() always produces a trailing newline", {
-  path <- file_temp()
-  write_utf8(path, "x", line_ending = "\n")
-  expect_equal(readChar(path, 2), "x\n")
-})
-
-test_that("write_utf8() can append text when requested", {
-  path <- file_temp()
-  write_utf8(path, "x", line_ending = "\n")
-  write_utf8(path, "x", line_ending = "\n", append = TRUE)
-
-  expect_equal(readChar(path, 4), "x\nx\n")
-})
-
-test_that("write_utf8() respects line ending", {
-  path <- file_temp()
-
-  write_utf8(path, "x", line_ending = "\n")
-  expect_equal(detect_line_ending(path), "\n")
-
-  write_utf8(path, "x", line_ending = "\r\n")
-  expect_equal(detect_line_ending(path), "\r\n")
-})
-
-test_that("write_utf8() can operate outside of a project", {
-  tmpdir <- file_temp()
-  dir_create(tmpdir)
-  # doing this "by hand" vs. via withr because Windows appears to be unwilling
-  # to delete current working directory
-  oldwd <- setwd(tmpdir)
-  on.exit({
-    setwd(oldwd)
-    dir_delete(tmpdir)
-  })
-
-  local_project(NULL)
-
-  expect_false(proj_active())
-  expect_error_free(write_utf8(path = "foo", letters[1:3]))
 })

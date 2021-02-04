@@ -61,8 +61,7 @@ NULL
 #' @inheritParams licenses
 create_tidy_package <- function(path, copyright_holder = NULL) {
   path <- create_package(path, rstudio = TRUE, open = FALSE)
-  old_project <- proj_set(path)
-  on.exit(proj_set(old_project), add = TRUE)
+  local_project(path)
 
   use_testthat()
   use_mit_license(copyright_holder)
@@ -118,10 +117,14 @@ use_tidy_eval <- function() {
 #' @rdname tidyverse
 use_tidy_contributing <- function() {
   use_dot_github()
+  data <- list(
+    Package = project_name(),
+    github_spec = target_repo_spec(ask = FALSE)
+  )
   use_template(
     "tidy-contributing.md",
     path(".github", "CONTRIBUTING.md"),
-    data = project_data()
+    data = data
   )
 }
 
@@ -129,10 +132,14 @@ use_tidy_contributing <- function() {
 #' @rdname tidyverse
 use_tidy_support <- function() {
   use_dot_github()
+  data <- list(
+    Package = project_name(),
+    github_spec = target_repo_spec(ask = FALSE)
+  )
   use_template(
     "tidy-support.md",
     path(".github", "SUPPORT.md"),
-    data = project_data()
+    data = data
   )
 }
 
@@ -215,9 +222,16 @@ tidy_release_test_env <- function() {
 
   c(
     "",
-    use_bullet("GitHub Actions (ubuntu-16.04)", c("3.3", "3.4", "3.5", "oldrel", "release", "devel")),
-    use_bullet("GitHub Actions (windows)", "release"),
-    use_bullet("GitHub Actions (macOS)", c("release", "devel")),
+    # intent is to stay in sync with this:
+    # https://github.com/r-lib/actions/blob/master/examples/check-full.yaml
+    use_bullet(
+      "GitHub Actions (ubuntu-16.04)",
+      c("devel", "release", "oldrel", "3.5", "3.4", "3.3")
+    ),
+    use_bullet("GitHub Actions (windows)", c("release", "oldrel")),
+    use_bullet("GitHub Actions (macOS)", "release"),
+    # other checks recommended in use_release_issue()
+    # currently, we aren't listing the extra checks for pkgs w/ compiled code
     use_bullet("win-builder", "devel"),
     ""
   )
@@ -273,6 +287,7 @@ use_tidy_thanks <- function(repo_spec = NULL,
   repo_spec <- repo_spec %||% target_repo_spec()
   parsed_repo_spec <- parse_repo_url(repo_spec)
   repo_spec <- parsed_repo_spec$repo_spec
+  # this is the most practical way to propagate `host` to downstream helpers
   if (!is.null(parsed_repo_spec$host)) {
     withr::local_envvar(c(GITHUB_API_URL = parsed_repo_spec$host))
   }
@@ -288,9 +303,8 @@ use_tidy_thanks <- function(repo_spec = NULL,
     {to_timestamp %||% 'now'}")
 
   res <- gh::gh(
-    "/repos/:owner/:repo/issues",
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec),
+    "/repos/{owner}/{repo}/issues",
+    owner = spec_owner(repo_spec), repo = spec_repo(repo_spec),
     since = from_timestamp,
     state = "all",
     filter = "all",
@@ -347,8 +361,9 @@ ref_df <- function(repo_spec, refs = NULL) {
   }
   get_thing <- function(thing) {
     gh::gh(
-      "/repos/:owner/:repo/commits/:thing",
-      owner = spec_owner(repo_spec), repo = spec_repo(repo_spec), thing = thing
+      "/repos/{owner}/{repo}/commits/{thing}",
+      owner = spec_owner(repo_spec), repo = spec_repo(repo_spec),
+      thing = thing
     )
   }
   res <- lapply(refs, get_thing)
@@ -364,9 +379,8 @@ ref_df <- function(repo_spec, refs = NULL) {
 releases <- function(repo_spec) {
   stopifnot(is_string(repo_spec))
   res <- gh::gh(
-    "/repos/:owner/:repo/releases",
-    owner = spec_owner(repo_spec),
-    repo = spec_repo(repo_spec)
+    "/repos/{owner}/{repo}/releases",
+    owner = spec_owner(repo_spec), repo = spec_repo(repo_spec)
   )
   if (length(res) < 1) {
     return(NULL)

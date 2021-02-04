@@ -11,48 +11,39 @@ test_that("download_url() retry logic works as advertised", {
   withr::local_options(list(usethis.quiet = FALSE))
 
   # succeed on first try
-  out <- with_mock(
-    `usethis:::try_download` = faux_download(0),
-    download_url(url = "URL", destfile = "destfile")
+  with_mock(
+    try_download = faux_download(0),
+    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, then succeed
-  expect_message(
-    out <- with_mock(
-      `usethis:::try_download` = faux_download(1),
-      download_url(url = "URL", destfile = "destfile")
-    ),
-    "Retrying.*attempt 2"
+  with_mock(
+    try_download = faux_download(1),
+    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, fail, then succeed (default n_tries = 3, so should allow)
-  expect_message(
-    out <- with_mock(
-      `usethis:::try_download` = faux_download(2),
-      download_url(url = "URL", destfile = "destfile")
-    ),
-    "Retrying.*attempt 3"
+  with_mock(
+    try_download = faux_download(2),
+    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, fail, fail (exceed n_failures > n_tries = 3)
-  expect_error(
-    out <- with_mock(
-      `usethis:::try_download` = faux_download(5),
-      download_url(url = "URL", destfile = "destfile", n_tries = 3)
-    ),
-    "try 3"
+  with_mock(
+    try_download = faux_download(5),
+    expect_snapshot(
+      out <- download_url(url = "URL", destfile = "destfile", n_tries = 3),
+      error = TRUE
+    )
   )
 
   # fail, fail, fail, succeed (make sure n_tries is adjustable)
-  expect_message(
-    out <- with_mock(
-      `usethis:::try_download` = faux_download(3),
-      download_url(url = "URL", destfile = "destfile", n_tries = 10)
-    ),
-    "Retrying.*attempt 4"
+  with_mock(
+    try_download = faux_download(3),
+    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile", n_tries = 10))
   )
   expect_s3_class(out, "curl_handle")
 })
@@ -61,27 +52,19 @@ test_that("download_url() retry logic works as advertised", {
 
 test_that("tidy_download() errors early if destdir is not a directory", {
   tmp <- fs::path_temp("I_am_just_a_file")
-  on.exit(fs::file_delete(tmp))
+  withr::defer(fs::file_delete(tmp))
 
-  expect_error(
-    tidy_download("URL", destdir = tmp), "does not exist",
-    class = "usethis_error"
-  )
+  expect_usethis_error(tidy_download("URL", destdir = tmp), "does not exist")
 
   fs::file_create(tmp)
-  expect_error(
-    tidy_download("URL", destdir = tmp), "not a directory",
-    class = "usethis_error"
-  )
+  expect_usethis_error(tidy_download("URL", destdir = tmp), "not a directory")
 })
 
 test_that("tidy_download() works", {
   skip_on_cran()
   skip_if_offline()
 
-  tmp <- fs::file_temp("tidy-download-test-")
-  fs::dir_create(tmp)
-  on.exit(fs::dir_delete(tmp))
+  tmp <- withr::local_tempdir(pattern = "tidy-download-test-")
 
   gh_url <- "https://github.com/r-lib/rematch2/archive/master.zip"
   expected <- fs::path(tmp, "rematch2-master.zip")
@@ -90,7 +73,7 @@ test_that("tidy_download() works", {
     out <- tidy_download(gh_url, destdir = tmp)
   )
   expect_true(fs::file_exists(expected))
-  expect_equivalent(out, expected)
+  expect_identical(out, expected, ignore_attr = TRUE)
   expect_identical(attr(out, "content-type"), "application/zip")
 
   # refuse to overwrite when non-interactive
@@ -203,19 +186,19 @@ test_that("conspicuous_place() returns a writeable directory", {
 })
 
 test_that("conspicuous_place() uses `usethis.destdir` when set", {
-  destdir_temp <- fs::path_temp("destdir_temp")
-  on.exit(fs::dir_delete(destdir_temp))
-  dir_create(destdir_temp)
-  withr::local_options(list(usethis.destdir = destdir_temp))
+  destdir <- withr::local_tempdir(pattern = "destdir_temp")
+  withr::local_options(list(usethis.destdir = destdir))
   expect_error_free(x <- conspicuous_place())
-  expect_equal(destdir_temp, x)
+  expect_equal(path_tidy(destdir), x)
 })
 
 test_that("use_course() errors if MIME type is not 'application/zip'", {
+  path <- withr::local_tempdir()
+
   skip_on_cran()
   skip_if_offline()
   expect_usethis_error(
-    use_course("https://httpbin.org/get", destdir = fs::path_temp()),
+    use_course("https://httpbin.org/get", destdir = path),
     "does not have MIME type"
   )
 })

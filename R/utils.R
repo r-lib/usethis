@@ -36,7 +36,7 @@ slug <- function(x, ext) {
   x_base <- path_ext_remove(x)
   x_ext <- path_ext(x)
   ext <- if (identical(tolower(x_ext), tolower(ext))) x_ext else ext
-  path_ext_set(x_base, ext)
+  as.character(path_ext_set(x_base, ext))
 }
 
 compact <- function(x) {
@@ -61,7 +61,13 @@ interactive <- function() {
   )
 }
 
-isFALSE = function(x) {
+on.exit <- function(...) {
+  ui_stop("
+    Internal error: use withr's {ui_code('defer()')} and friends, \\
+    instead of {ui_code('base::on.exit()')}")
+}
+
+isFALSE <- function(x) {
   identical(x, FALSE)
 }
 
@@ -96,4 +102,8 @@ pluck_chr <- function(.x, ...) {
 
 pluck_int <- function(.x, ...) {
   as_integer(purrr::pluck(.x, ..., .default = NA))
+}
+
+is_windows <- function() {
+  .Platform$OS.type == "windows"
 }

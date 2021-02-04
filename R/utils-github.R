@@ -48,18 +48,22 @@ parse_github_remotes <- function(x) {
   #                                    --> https, github.acme.com, rlib, usethis
   # git@github.com:r-lib/usethis.git
   #                                    --> ssh,   github.com,      rlib, usethis
-  dat <- rematch2::re_match(x, github_remote_regex)
+  dat <- re_match(x, github_remote_regex)
   dat$url <- dat$.text
   # as.character() necessary for edge case of length-0 input
   dat$protocol <- as.character(ifelse(dat$prefix == "https", "https", "ssh"))
-  dat$name <- if (rlang::is_named(x)) names(x) else NA_character_
+  dat$name <- if (rlang::is_named(x)) {
+    names(x)
+  } else {
+    rep_len(NA_character_, length.out = nrow(dat))
+  }
   dat$repo_name <- sub("[.]git$", "", dat$repo_name)
   dat[c("name", "url", "host", "repo_owner", "repo_name", "protocol")]
 }
 
 parse_repo_url <- function(x) {
   stopifnot(is_string(x))
-  dat <- rematch2::re_match(x, github_remote_regex)
+  dat <- re_match(x, github_remote_regex)
   if (is.na(dat$.match)) {
     list(repo_spec = x, host = NULL)
   } else {
@@ -75,17 +79,13 @@ parse_repo_url <- function(x) {
   }
 }
 
-github_remote_from_description <- function(desc) {
-  stopifnot(inherits(desc, "description"))
-  urls <- c(
-    desc$get_field("BugReports", default = character()),
-    desc$get_urls()
-  )
-  gh_links <- grep("^https?://github.com/", urls, value = TRUE)
-  if (length(gh_links) > 0) {
-    parsed <- parse_github_remotes(gh_links[[1]])
-    as.list(parsed[c("repo_owner", "repo_name")])
+github_url_from_git_remotes <- function() {
+  tr <- tryCatch(target_repo(github_get = NA), error = function(e) NULL)
+  if (is.null(tr)) {
+    return()
   }
+  parsed <- parse_github_remotes(tr$url)
+  glue_data_chr(parsed, "https://{host}/{repo_owner}/{repo_name}")
 }
 
 #' Gather LOCAL data on GitHub-associated remotes
@@ -123,7 +123,7 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
   parsed <- parsed[is_github, ]
 
   parsed$remote <- parsed$name
-  parsed$host_url <- as.character(glue("https://{parsed$host}"))
+  parsed$host_url <- glue_chr("https://{parsed$host}")
   parsed$api_url <- map_chr(parsed$host_url, get_apiurl)
   parsed$repo_spec <- make_spec(parsed$repo_owner, parsed$repo_name)
 
@@ -132,13 +132,6 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
     "url", "host_url", "api_url", "host", "protocol",
     "repo_owner", "repo_name", "repo_spec"
   )]
-}
-
-origin_is_on_github <- function() {
-  if (!uses_git()) {
-    return(FALSE)
-  }
-  nrow(github_remote_list("origin")) > 0
 }
 
 #' Gather LOCAL and (maybe) REMOTE data on GitHub-associated remotes
@@ -170,7 +163,7 @@ github_remotes <- function(these = c("origin", "upstream"),
       f <- purrr::possibly(gh::gh, otherwise = list())
     }
     f(
-      "GET /repos/:owner/:repo",
+      "GET /repos/{owner}/{repo}",
       owner = repo_owner, repo = repo_name, .api_url = api_url
     )
   }
@@ -630,8 +623,8 @@ check_ours_or_fork <- function(cfg = NULL) {
   if (cfg$type %in% c("ours", "fork")) {
     return(invisible(cfg))
   }
-  check_for_bad_config()
-  check_for_maybe_config()
+  check_for_bad_config(cfg)
+  check_for_maybe_config(cfg)
   ui_stop("
     Internal error: Unexpected GitHub remote configuration: {ui_value(cfg$type)}")
 }

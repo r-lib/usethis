@@ -14,8 +14,8 @@
 #' * Configures `origin/DEFAULT` to be the upstream branch of the local
 #'   `DEFAULT` branch, e.g. `master` or `main`
 #'
-#' See the Authentication section below for general setup that is necessary for
-#' all of this to work.
+#' See below for the authentication setup that is necessary for all of this to
+#' work.
 #'
 #' @template double-auth
 #'
@@ -90,7 +90,7 @@ use_github <- function(organisation = NULL,
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host)
 
-  repo_desc <- project_data()$Title %||% ""
+  repo_desc <- if (is_package()) package_data()$Title %||% "" else ""
   repo_desc <- gsub("\n", " ", repo_desc)
   repo_spec <- glue("{owner}/{repo_name}")
 
@@ -106,7 +106,7 @@ use_github <- function(organisation = NULL,
     )
   } else {
     create <- gh::gh(
-      "POST /orgs/:org/repos",
+      "POST /orgs/{org}/repos",
       org = organisation,
       name = repo_name,
       description = repo_desc,
@@ -200,11 +200,8 @@ use_github_links <- function(auth_token = deprecated(),
   check_is_package("use_github_links()")
   tr <- target_repo(github_get = TRUE)
 
-  res <- gh::gh(
-    "GET /repos/:owner/:repo",
-    owner = tr$repo_owner, repo = tr$repo_name,
-    .api_url = tr$api_url
-  )
+  gh <- gh_tr(tr)
+  res <- gh("GET /repos/{owner}/{repo}")
 
   use_description_field("URL", res$html_url, overwrite = overwrite)
   use_description_field(
@@ -238,7 +235,7 @@ check_no_github_repo <- function(owner, repo, host) {
   repo_found <- tryCatch(
     {
       repo_info <- gh::gh(
-        "/repos/:owner/:repo",
+        "/repos/{owner}/{repo}",
         owner = owner, repo = repo,
         .api_url = host
       )

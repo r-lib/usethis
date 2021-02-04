@@ -34,14 +34,10 @@ use_tutorial <- function(name, title, open = rlang::is_interactive()) {
   use_dependency("learnr", "Suggests")
 
   path <- path(dir_path, asciify(name), ext = "Rmd")
-
-  data <- project_data()
-  data$tutorial_title <- title
-
   new <- use_template(
     "tutorial-template.Rmd",
     save_as = path,
-    data = data,
+    data = list(tutorial_title = title),
     ignore = FALSE,
     open = open
   )

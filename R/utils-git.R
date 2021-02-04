@@ -1,3 +1,18 @@
+# gert -------------------------------------------------------------------------
+
+gert_shush <- function(expr, regexp) {
+  stopifnot(is.character(regexp))
+  withCallingHandlers(
+    gertMessage = function(cnd) {
+      m <- map_lgl(regexp, ~ grepl(.x, cnd_message(cnd), perl = TRUE))
+      if (any(m)) {
+        cnd_muffle(cnd)
+      }
+    },
+    expr
+  )
+}
+
 # Repository -------------------------------------------------------------------
 git_repo <- function() {
   check_uses_git()
@@ -121,8 +136,8 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
   }
 
   default_msg <- "
-    There are uncommitted changes, which may cause problems when \\
-    we push, pull, or switch branches"
+    There are uncommitted changes, which may cause problems or be lost when \\
+    we push, pull, switch, or compare branches"
   msg <- glue(msg %||% default_msg)
   if (git_uncommitted(untracked = untracked)) {
     if (ui_yeah("{msg}\nDo you want to proceed anyway?")) {
@@ -194,12 +209,20 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
   }
   gert::git_fetch(
     remote = remref_remote(remref),
-    refspec = remref_branch(branch),
+    refspec = remref_branch(remref),
     repo = repo,
     verbose = FALSE
   )
-  # TODO: silence this when possible
-  gert::git_merge(remref, repo = repo)
+  # this is pretty brittle, because I've hard-wired these messages
+  # https://github.com/r-lib/gert/blob/master/R/merge.R
+  # but at time of writing, git_merge() offers no verbosity control
+  gert_shush(
+    regexp = c(
+      "Already up to date, nothing to merge",
+      "Performing fast-forward merge, no commit needed"
+    ),
+    gert::git_merge(remref, repo = repo)
+  )
   st <- git_status(untracked = TRUE)
   if (any(st$status == "conflicted")) {
     git_conflict_report()
@@ -222,12 +245,12 @@ git_branch <- function() {
 }
 
 git_branch_tracking <- function(branch = git_branch()) {
-  info <- gert::git_branch_list(repo = git_repo())
-  this <- info$local & info$name == branch
-  if (sum(this) < 1) {
-    ui_stop("There is no local branch named {ui_value(branch}")
+  repo <- git_repo()
+  if (!gert::git_branch_exists(branch, local = TRUE, repo = repo)) {
+    ui_stop("There is no local branch named {ui_value(branch)}")
   }
-  sub("^refs/remotes/", "", info$upstream[this])
+  gbl <- gert::git_branch_list(local = TRUE, repo = repo)
+  sub("^refs/remotes/", "", gbl$upstream[gbl$name == branch])
 }
 
 git_branch_compare <- function(branch = git_branch(), remref = NULL) {

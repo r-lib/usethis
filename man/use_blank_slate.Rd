@@ -18,8 +18,3 @@ Starting with a blank slate provides timely feedback that encourages the
 development of scripts that are complete and self-contained. More detail can
 be found in the blog post \href{https://www.tidyverse.org/blog/2017/12/workflow-vs-script/}{Project-oriented workflow}.
 }
-\details{
-Only \code{use_blank_slate("project")} is automated so far, since RStudio
-currently only supports modification of user-level or global options via the
-user interface.
-}

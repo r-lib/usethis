@@ -22,35 +22,26 @@ test_that("package_remote() works for an installed package with github URL", {
     "URL: https://github.com/OWNER/test"
   ))
   with_mock(
-    `desc::desc` = function(package) d,
     ui_yeah = function(...) TRUE,
-    expect_equal(package_remote("whatever"), "OWNER/test")
+    expect_equal(package_remote(d), "OWNER/test")
   )
 })
 
 test_that("package_remote() works for package installed from github or gitlab", {
   d <- desc::desc(text = c(
     "Package: test",
-    "RemoteType: github",
     "RemoteUsername: OWNER",
     "RemoteRepo: test"
   ))
-  with_mock(
-    `desc::desc` = function(package) d,
-    expect_equal(package_remote("whatever"), "OWNER/test")
-  )
+
+  d$set(RemoteType = "github")
+  expect_equal(package_remote(d), "OWNER/test")
 
   d$set(RemoteType = "gitlab")
-  with_mock(
-    `desc::desc` = function(package) d,
-    expect_equal(package_remote("whatever"), "gitlab::OWNER/test")
-  )
+  expect_equal(package_remote(d), "gitlab::OWNER/test")
 })
 
 test_that("package_remote() errors if no remote and no github URL", {
   d <- desc::desc(text = c("Package: test"))
-  with_mock(
-    `desc::desc` = function(package) d,
-    expect_usethis_error(package_remote("nope"), "Cannot determine remote")
-  )
+  expect_usethis_error(package_remote(d), "Cannot determine remote")
 })

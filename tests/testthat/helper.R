@@ -62,9 +62,9 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
     },
     envir = env
   )
-  setwd(dir)
+  setwd(proj_get())
 
-  invisible(dir)
+  invisible(proj_get())
 }
 
 toggle_rlang_interactive <- function() {
@@ -98,7 +98,7 @@ skip_if_no_git_user <- function() {
 }
 
 # CRAN's mac builder sets $HOME to a read-only ram disk, so tests can fail if
-# you even tickle something that might try to lock it's own config file during
+# you even tickle something that might try to lock its own config file during
 # the operation (e.g. git) or if you simply test for writeability
 skip_on_cran_macos <- function() {
   sysname <- tolower(Sys.info()[["sysname"]])
@@ -107,6 +107,10 @@ skip_on_cran_macos <- function() {
     skip("On CRAN and on macOS")
   }
   invisible(TRUE)
+}
+
+with_mock <- function(..., .parent = parent.frame()) {
+  mockr::with_mock(..., .parent = .parent, .env = "usethis")
 }
 
 expect_usethis_error <- function(...) {
