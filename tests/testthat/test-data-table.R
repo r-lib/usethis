@@ -6,7 +6,7 @@ test_that("use_data_table() requires a package", {
 test_that("use_data_table() Imports data.table", {
   create_local_package()
   with_mock(
-    is_installed = function(pkg) TRUE,
+    check_installed = function(pkg) TRUE,
     use_data_table()
   )
   expect_match(desc::desc_get("Imports"), "data.table")

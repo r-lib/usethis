@@ -23,7 +23,7 @@ test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
   local_interactive(FALSE)
   with_mock(
     # Required to pass the check re: whether RcppArmadillo is installed
-    is_installed = function(pkg) TRUE,
+    check_installed = function(pkg) TRUE,
     use_rcpp_armadillo()
   )
   expect_match(desc::desc_get("LinkingTo"), "RcppArmadillo")
@@ -37,7 +37,7 @@ test_that("use_rcpp_eigen() edits DESCRIPTION", {
 
   with_mock(
     # Required to pass the check re: whether RcppEigen is installed
-    is_installed = function(pkg) TRUE,
+    check_installed = function(pkg) TRUE,
     use_rcpp_eigen()
   )
   expect_match(desc::desc_get("LinkingTo"), "RcppEigen")

@@ -44,6 +44,14 @@ compact <- function(x) {
   x[!is_empty]
 }
 
+# Needed for mocking
+is_installed <- function(pkg) {
+  rlang::is_installed(pkg)
+}
+check_installed <- function(pkg) {
+  rlang::check_installed(pkg)
+}
+
 interactive <- function() {
   ui_stop(
     "Internal error: use rlang's {ui_code('is_interactive()')} \\

@@ -7,7 +7,7 @@ test_that("use_pkgdown() creates and ignores the promised file/dir", {
   create_local_package()
   local_interactive(FALSE)
   with_mock(
-    is_installed = function(pkg) TRUE,
+    check_installed = function(pkg) TRUE,
     use_pkgdown()
   )
   expect_true(uses_pkgdown())
@@ -28,7 +28,7 @@ test_that("pkgdown_config_meta() returns a list", {
   create_local_package()
   local_interactive(FALSE)
   with_mock(
-    is_installed = function(pkg) TRUE,
+    check_installed = function(pkg) TRUE,
     use_pkgdown()
   )
   expect_equal(pkgdown_config_meta(), list())
@@ -43,7 +43,7 @@ test_that("pkgdown_url() returns correct data, warns if pedantic", {
   create_local_package()
   local_interactive(FALSE)
   with_mock(
-    is_installed = function(pkg) TRUE,
+    check_installed = function(pkg) TRUE,
     use_pkgdown()
   )
 
