@@ -9,7 +9,7 @@
 #'   your package has a logo.
 #'
 #' * `use_pkgdown_github_pages()`: implements the GitHub setup needed to
-#'   automatically publishes you package to GitHub pages:
+#'   automatically publish your pkgdown site to GitHub pages:
 #'
 #'   - [use_github_pages()] prepares to publish the pkgdown site from the
 #'     `github-pages` branch
