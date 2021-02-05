@@ -1,22 +1,26 @@
 #' Use pkgdown
 #'
+#' @description
 #' [pkgdown](https://pkgdown.r-lib.org) makes it easy to turn your package into
-#' a beautiful website. A couple functions help you begin to use pkgdown:
-#'   * `use_pkgdown()`: creates a pkgdown config file, adds relevant files or
-#'     directories to `.Rbuildignore` and `.gitignore`, and builds favicons if
-#'     your package has a logo.
-#'   * `use_github_action("pkgdown")` configures a GitHub Actions workflow to
-#'     build and deploy your pkgdown site whenever you push changes to GitHub.
-#'     Learn more about [use_github_action()]. This approach is actively
-#'     maintained, because it is in use across many tidyverse, r-lib, and
-#'     tidymodels packages.
-#'   * `use_pkgdown_travis()` \lifecycle{soft-deprecated} helps you set up
-#'     pkgdown for automatic deployment on Travis-CI. This is soft-deprecated,
-#'     as the tidyverse team has shifted away from Travis-CI and towards GitHub
-#'     Actions. `use_pkgdown_travis()` creates an empty `gh-pages` branch for
-#'     the site and prompts about next steps regarding deployment keys and
-#'     updating your `.travis.yml`. Requires that the current user can push to
-#'     the primary repo, which must be configured as the `origin` remote.
+#' a beautiful website. usethis provides two functions help you use pkgdown:
+#'
+#' * `use_pkgdown()`: creates a pkgdown config file, adds relevant files or
+#'   directories to `.Rbuildignore` and `.gitignore`, and builds favicons if
+#'   your package has a logo.
+#'
+#' * `use_pkgdown_github_pages()`: implements the GitHub setup needed to
+#'   automatically publishes you package to GitHub pages:
+#'
+#'   - [use_github_pages()] prepares to publish the pkgdown site from the
+#'     `github-pages` branch
+#'   - [`use_github_action("pkgdown")`][use_github_action()] configures a
+#'     GitHub Action to automatically build the pkgdown site and deploy it via
+#'     GitHub Pages
+#'   - The pkgdown site's URL is added to the pkgdown configuration file,
+#'     to the URL field of DESCRIPTION, and to the GitHub repo.
+#'
+#' `use_pkgdown_travis()` is deprecated; we no longer recommend that you use
+#' Travis-CI.
 #'
 #' @seealso <https://pkgdown.r-lib.org/articles/pkgdown.html#configuration>
 #' @param config_file Path to the pkgdown yaml config file
@@ -49,21 +53,9 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
 
 # tidyverse pkgdown setup ------------------------------------------------------
 
-#' @details
-#' * `use_tidy_pkgdown()`: Implements the pkgdown setup used for most tidyverse
-#'   and r-lib packages:
-#'   - [use_pkgdown()] does basic local setup
-#'   - [use_github_pages()] prepares to publish the pkgdown site from the
-#'     `github-pages` branch
-#'   - [`use_github_action("pkgdown")`][use_github_action()] configures a
-#'     GitHub Action to automatically build the pkgdown site and deploy it via
-#'     GitHub Pages
-#'   - The pkgdown site's URL is added to the pkgdown configuration file,
-#'     to the URL field of DESCRIPTION, and to the GitHub repo.
-#'
-#' @rdname tidyverse
+#' @rdname use_pkgdown
 #' @export
-use_tidy_pkgdown <- function() {
+use_pkgdown_github_pages <- function() {
   tr <- target_repo(github_get = TRUE)
 
   use_pkgdown()
