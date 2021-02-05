@@ -1,7 +1,7 @@
 #' Use lifecycle badges
 #'
 #' @description
-#' This helper add lifecycle as a dependency, copies the lifecycle badges into
+#' This helper adds lifecycle as a dependency, copies the lifecycle badges into
 #' the `man/figures` folder, and reminds you how to use the badge syntax.
 #'
 #' Learn more at <https://lifecycle.r-lib.org/articles/communicate.html>
