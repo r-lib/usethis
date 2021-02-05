@@ -12,7 +12,7 @@ test_that("use_tutorial() creates a tutorial", {
   create_local_package()
   with_mock(
     # pass the check re: whether learnr is installed
-    is_installed = function(pkg) TRUE,
+    check_installed = function(pkg) TRUE,
     use_tutorial(name = "aaa", title = "bbb")
   )
   tute_file <- path("inst", "tutorials", "aaa", "aaa", ext = "Rmd")

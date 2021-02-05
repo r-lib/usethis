@@ -10,7 +10,7 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
   local_interactive(FALSE)
   with_mock(
     # Required to pass the check re: whether cpp11 is installed
-    is_installed = function(pkg) TRUE,
+    check_installed = function(pkg) TRUE,
     check_cpp_register_deps = function() invisible(),
     use_cpp11()
   )
