@@ -44,16 +44,6 @@ compact <- function(x) {
   x[!is_empty]
 }
 
-check_installed <- function(pkg) {
-  if (!is_installed(pkg)) {
-    ui_stop("Package {ui_value(pkg)} required. Please install before re-trying.")
-  }
-}
-
-is_installed <- function(pkg) {
-  requireNamespace(pkg, quietly = TRUE)
-}
-
 interactive <- function() {
   ui_stop(
     "Internal error: use rlang's {ui_code('is_interactive()')} \\
