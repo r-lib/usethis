@@ -24,7 +24,7 @@ use_roxygen_md <- function() {
 
     check_installed("roxygen2md")
     ui_todo(
-      "Run {ui_code('roxygen2md::roxygen2md()')} to convert existing Rd markdown to RMarkdown"
+      "Run {ui_code('roxygen2md::roxygen2md()')} to convert existing Rd commands to RMarkdown"
     )
     ui_todo("Run {ui_code('devtools::document()')} when you're done.")
   }
