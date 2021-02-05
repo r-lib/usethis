@@ -103,3 +103,7 @@ pluck_chr <- function(.x, ...) {
 pluck_int <- function(.x, ...) {
   as_integer(purrr::pluck(.x, ..., .default = NA))
 }
+
+is_windows <- function() {
+  .Platform$OS.type == "windows"
+}

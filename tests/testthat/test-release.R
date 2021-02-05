@@ -10,16 +10,20 @@ test_that("release bullets don't change accidentally", {
   file_create(path(tmpproj, ".here"))
   local_project(tmpproj, setwd = FALSE)
 
-  verify_output(test_path("test-release-usethis.txt"), {
-    "# First release"
+  # First release
+  expect_snapshot(
     cat(release_checklist("0.1.0", on_cran = FALSE), sep = "\n")
+  )
 
-    "# Patch release"
+  # Patch release
+  expect_snapshot(
     cat(release_checklist("0.0.1", on_cran = TRUE), sep = "\n")
+  )
 
-    "# Major release"
+  # Major release
+  expect_snapshot(
     cat(release_checklist("1.0.0", on_cran = TRUE), sep = "\n")
-  })
+  )
 })
 
 test_that("get extra news bullets if available", {

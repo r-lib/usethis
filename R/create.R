@@ -44,7 +44,8 @@ create_package <- function(path,
   if (check_name) {
     check_package_name(name)
   }
-  check_not_nested(path_dir(path), name)
+  challenge_nested_project(path_dir(path), name)
+  challenge_home_directory(path)
 
   create_directory(path)
   local_project(path, force = TRUE)
@@ -75,7 +76,8 @@ create_project <- function(path,
                            open = rlang::is_interactive()) {
   path <- user_path_prep(path)
   name <- path_file(path_abs(path))
-  check_not_nested(path_dir(path), name)
+  challenge_nested_project(path_dir(path), name)
+  challenge_home_directory(path)
 
   create_directory(path)
   local_project(path, force = TRUE)
@@ -113,9 +115,10 @@ create_project <- function(path,
 #' [pr_init()], one of several [functions that work pull
 #' requests][pull-requests].
 #'
-#' `create_from_github()` works best when we can find a GitHub personal access
-#' token in the Git credential store (just like many other usethis functions).
-#' See [gh_token_help()] for more advice.
+#' `create_from_github()` works best when your GitHub credentials are
+#' discoverable. See below for more about authentication.
+#'
+#' @template double-auth
 #'
 #' @seealso
 #' * [use_github()] to go the opposite direction, i.e. create a GitHub repo
@@ -123,8 +126,6 @@ create_project <- function(path,
 #' * [git_protocol()] for background on `protocol` (HTTPS vs SSH)
 #' * [use_course()] to download a snapshot of all files in a GitHub repo,
 #'   without the need for any local or remote Git operations
-#'
-#' @template double-auth
 #'
 #' @inheritParams create_package
 #' @param repo_spec A string identifying the GitHub repo in one of these forms:
@@ -247,7 +248,7 @@ create_from_github <- function(repo_spec,
 
   destdir <- user_path_prep(destdir %||% conspicuous_place())
   check_path_is_directory(destdir)
-  check_not_nested(destdir, repo_name)
+  challenge_nested_project(destdir, repo_name)
   repo_path <- path(destdir, repo_name)
   create_directory(repo_path)
   check_directory_is_empty(repo_path)
@@ -310,7 +311,7 @@ create_from_github <- function(repo_spec,
 # creates a backdoor we can exploit in tests
 allow_nested_project <- function() FALSE
 
-check_not_nested <- function(path, name) {
+challenge_nested_project <- function(path, name) {
   if (!possibly_in_proj(path)) {
     return(invisible())
   }
@@ -329,6 +330,27 @@ check_not_nested <- function(path, name) {
   )
   if (ui_nope("Do you want to create anyway?")) {
     ui_stop("Aborting project creation.")
+  }
+  invisible()
+}
+
+challenge_home_directory <- function(path) {
+  homes <- unique(c(path_home(), path_home_r()))
+  if (!path %in% homes) {
+    return(invisible())
+  }
+
+  qualification <- if (is_windows()) {
+    glue("a special directory, i.e. some applications regard it as ")
+  } else {
+    ""
+  }
+  ui_line("
+    {ui_path(path)} is {qualification}your home directory.
+    It is generally a bad idea to create a new project here.
+    You should probably create your new project in a subdirectory.")
+  if (ui_nope("Do you want to create anyway?")) {
+    ui_stop("Good move! Cancelling project creation.")
   }
   invisible()
 }

@@ -60,7 +60,7 @@ NULL
 browse_package <- function(package = NULL) {
   stopifnot(is.null(package) || is_string(package))
   if (is.null(package)) {
-    check_for_project()
+    check_is_project()
   }
 
   urls <- character()
@@ -170,7 +170,7 @@ github_url <- function(package = NULL) {
   stopifnot(is.null(package) || is_string(package))
 
   if (is.null(package)) {
-    check_for_project()
+    check_is_project()
     url <- github_url_from_git_remotes()
     if (!is.null(url)) {
       return(url)
@@ -263,12 +263,4 @@ desc_urls <- function(package = NULL, include_cran = FALSE, desc = NULL) {
   # TODO: could have a more sophisticated understanding of GitHub deployments
   dat$is_github <- !is.na(dat$.match) & grepl("github", dat$host)
   dat[c("url", "desc_field", "is_github")]
-}
-
-check_for_project <- function() {
-  if (!possibly_in_proj()) {
-    ui_stop("
-      We do not appear to be inside a valid project or package
-      No way to discover URLs")
-  }
 }

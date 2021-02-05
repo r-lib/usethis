@@ -113,7 +113,7 @@ deprecate_warn_credentials <- function(whos_asking, details = NULL) {
 #'
 #' If you have credential problems, focus your troubleshooting on getting the
 #' credentials package to find your credentials. The [introductory
-#' vignette](https://cran.r-project.org/web/packages/credentials/vignettes/intro.html)
+#' vignette](https://docs.ropensci.org/credentials/articles/intro.html)
 #' is a good place to start.
 #'
 #' If you use the HTTPS protocol (which we recommend), a GitHub personal access

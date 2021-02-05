@@ -1,6 +1,8 @@
 # usethis (development version)
 
-This version is anticipated to be released as usethis v2.0.0.
+`use_readme_rmd()`, `use_readme_md()`, `use_tidy_contributing()`, and `use_tidy_support()` use updated logic for determining the `OWNER/REPO` spec of the target repo (#1312).
+
+# usethis 2.0.0
 
 ## Adoption of gert and changes to Git/GitHub credential handling
 
@@ -11,14 +13,14 @@ Usethis has various functions that help with Git-related tasks, which break down
 1. GitHub tasks, such as fork, release, and open an issue or pull request. These
    are things you could do in the browser or with the GitHub API.
    
-We've switched from git2r to the gert package for Git operations (<https://docs.ropensci.org/gert>). We continue to use the gh package for GitHub API work (<https://gh.r-lib.org>).
+We've switched from git2r to the gert package for Git operations (<https://docs.ropensci.org/gert/>). We continue to use the gh package for GitHub API work (<https://gh.r-lib.org>).
 
 The big news in this area is that these lower-level dependencies are getting better at finding Git credentials, finding the same credentials as command line Git (and, therefore, the same as RStudio), and finding the same credentials as each other. This allows usethis to shed some of the workarounds we have needed in the past, to serve as a remedial "credential valet".
 
 Under the hood, both gert and gh are now consulting your local Git credential store, when they need credentials. At the time of writing, they are using two different even-lower-level packages to do this:
 
 * gert uses the credentials package (<https://docs.ropensci.org/credentials/>)
-* gh uses the gitcreds package (<https://r-lib.github.io/gitcreds/>)
+* gh uses the gitcreds package (<https://gitcreds.r-lib.org/>)
 
 Even now, gert and gh should discover the same credentials, at least for github.com. In the future, these two packages may merge into one.
 
@@ -27,9 +29,8 @@ Git/GitHub credential management is covered in a new article:
 
 The main user-facing changes in usethis are:
 
-* usethis should be able to work with any GitHub deployment. While github.com is the default, GitHub Enterprise deployments should be fully supported.
-* The target GitHub host is determined from the current project's configured GitHub remotes, whenever possible.
-* gert and gh should be able to discover the right token for each host.
+* usethis should discover and use the same credentials as command line Git.
+* usethis should be able to work with any GitHub deployment. While github.com is the default, GitHub Enterprise deployments are fully supported. The target GitHub host is determined from the current project's configured GitHub remotes, whenever possible.
 
 As a result, several functions are deprecated and several other functions have some deprecated arguments.
 
@@ -45,7 +46,7 @@ As a result, several functions are deprecated and several other functions have s
   - `use_tidy_labels()` (`repo_spec`, `host`, `auth_token`)  
   - `use_github_release()` (`host`, `auth_token`)
 
-The switch to gert + credentials should eliminate most credential-finding fiascos, but if you want to learn more, see the [introductory vignette](https://cran.r-project.org/web/packages/credentials/vignettes/intro.html) for the credentials package. Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that "just work", for both SSH and HTTPS remotes. There should be fewer "unsupported protocol" errors.
+The switch to gert + credentials should eliminate most credential-finding fiascos. Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that "just work", for both SSH and HTTPS remotes. There should be fewer "unsupported protocol" errors.
 
 ## GitHub remote configuration
 
@@ -358,6 +359,10 @@ Patch release to align some path handling internals with an update coming in the
 * `usethis.destdir` is a new option that is consulted when deciding where to
   put a new folder created by `use_course()` or `create_from_github()`
   (@malcolmbarrett, #1015).
+
+* `use_lifecycle()` no longer adds the lifecycle package to the DESCRIPTION
+  file. With the new roxygen markdown syntax for including badges, lifecycle has
+  become a build-time dependency.
 
 ## Dependency changes
 

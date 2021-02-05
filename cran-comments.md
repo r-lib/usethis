@@ -1,11 +1,10 @@
-This is a small patch release to create forward compatibility with a soon-to-submitted update to the fs package, which we Import.
-
 ## Test environments
-
-* GitHub actions (ubuntu-16.04): 3.3, 3.4, 3.5, oldrel, release
+* GitHub actions (ubuntu-18.04): 3.3, 3.4, 3.5, oldrel, release
 * GitHub actions (windows): release, devel
 * Github actions (macOS): release, devel
-* win-builder: devel (actuall, no, that's currently unavailable)
+* GitHub actions (ubuntu-20.04): release
+* GitHub actions (ubuntu-16.04): release
+* win-builder: devel
 
 ## R CMD check results
 
@@ -13,15 +12,8 @@ This is a small patch release to create forward compatibility with a soon-to-sub
 
 ## revdepcheck results
 
-We checked 64 reverse dependencies, comparing R CMD check results across CRAN
-and dev versions of this package.
+We checked 87 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 0 new problems
- * We failed to check 2 packages
- 
-Issues with CRAN packages are summarised below.
 
-### Failed to check
 
-* butcher (NA)
-* finbif  (NA)

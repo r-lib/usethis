@@ -1,8 +1,7 @@
 #' Test coverage
 #'
-#' Adds test coverage reporting to a package, using either
-#' [Codecov](https://codecov.io) or
-#' [Coveralls](https://coveralls.io).
+#' Adds test coverage reporting to a package, using either Codecov
+#' (`https://codecov.io`) or Coveralls (`https://coveralls.io`).
 #'
 #' @param type Which web service to use.
 #' @eval param_repo_spec()

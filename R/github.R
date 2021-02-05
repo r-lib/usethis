@@ -14,8 +14,8 @@
 #' * Configures `origin/DEFAULT` to be the upstream branch of the local
 #'   `DEFAULT` branch, e.g. `master` or `main`
 #'
-#' See the Authentication section below for general setup that is necessary for
-#' all of this to work.
+#' See below for the authentication setup that is necessary for all of this to
+#' work.
 #'
 #' @template double-auth
 #'
@@ -90,7 +90,7 @@ use_github <- function(organisation = NULL,
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host)
 
-  repo_desc <- project_data()$Title %||% ""
+  repo_desc <- if (is_package()) package_data()$Title %||% "" else ""
   repo_desc <- gsub("\n", " ", repo_desc)
   repo_spec <- glue("{owner}/{repo_name}")
 

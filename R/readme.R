@@ -28,17 +28,24 @@
 #' use_readme_md()
 #' }
 use_readme_rmd <- function(open = rlang::is_interactive()) {
+  check_is_project()
   check_installed("rmarkdown")
 
-  data <- project_data()
-  data$Rmd <- TRUE
-  data$on_github <- origin_is_on_github()
+  is_pkg <- is_package()
+  repo_spec <- tryCatch(target_repo_spec(ask = FALSE), error = function(e) NULL)
+  nm <- if (is_pkg) "Package" else "Project"
+  data <- list2(
+    !!nm := project_name(),
+    Rmd = TRUE,
+    on_github = !is.null(repo_spec),
+    github_spec = repo_spec
+  )
 
   new <- use_template(
-    if (is_package()) "package-README" else "project-README",
+    if (is_pkg) "package-README" else "project-README",
     "README.Rmd",
     data = data,
-    ignore = is_package(),
+    ignore = is_pkg,
     open = open
   )
   if (!new) {
@@ -58,10 +65,19 @@ use_readme_rmd <- function(open = rlang::is_interactive()) {
 #' @export
 #' @rdname use_readme_rmd
 use_readme_md <- function(open = rlang::is_interactive()) {
+  check_is_project()
+  is_pkg <- is_package()
+  nm <- if (is_pkg) "Package" else "Project"
+  data <- list2(
+    !!nm := project_name(),
+    Rmd = FALSE,
+    on_github = NULL,
+    github_spec = NULL
+  )
   use_template(
-    if (is_package()) "package-README" else "project-README",
+    if (is_pkg) "package-README" else "project-README",
     "README.md",
-    data = project_data(),
+    data = data,
     open = open
   )
 }

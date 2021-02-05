@@ -59,21 +59,36 @@ release_checklist <- function(version, on_cran) {
     }
   }
   c(
+    if (!on_cran) c(
+      "First release:",
+      "",
+
+      todo("`usethis::use_cran_comments()`"),
+      todo("Proof read `Title:` and `Description:`"),
+      todo("Check that all exported functions have `@returns` and `@examples`"),
+      todo("Check that `Authors@R:` includes a copyright holder (role 'cph')"),
+      todo("Check [licensing of included files](https://r-pkgs.org/license.html#code-you-bundle)"),
+      todo("Review <https://github.com/DavisVaughan/extrachecks>"),
+      ""
+    ),
+
     "Prepare for release:",
     "",
-    todo("Check that description is informative", !on_cran),
-    todo("Check licensing of included files", !on_cran),
-    todo("`devtools::build_readme()`", has_readme),
-    todo("`usethis::use_cran_comments()`", !on_cran),
+
     todo("Check [current CRAN check results]({cran_results})", on_cran),
+
+    todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
+    todo("`devtools::build_readme()`", has_readme),
+
+    todo("[`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)"),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
     todo("`devtools::check_win_devel()`"),
     todo("`rhub::check_for_cran()`"),
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
     todo("`rhub::check_with_sanitizers()`", has_src),
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran),
-    todo("Update `cran-comments.md`"),
-    todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
+
+    if (on_cran) todo("Update `cran-comments.md`"),
     todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown && type != "patch"),
     todo("Draft blog post", type != "patch"),
     if (has_extra) paste0("* [ ] ", get("release_bullets", parent.env(globalenv()))()),

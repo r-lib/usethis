@@ -17,7 +17,6 @@ use_covr_ignore(files)
 \item{files}{Character vector of file globs.}
 }
 \description{
-Adds test coverage reporting to a package, using either
-\href{https://codecov.io}{Codecov} or
-\href{https://coveralls.io}{Coveralls}.
+Adds test coverage reporting to a package, using either Codecov
+(\verb{https://codecov.io}) or Coveralls (\verb{https://coveralls.io}).
 }

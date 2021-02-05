@@ -25,24 +25,7 @@
 #' The `pr_*` functions also use your Git/GitHub credentials to carry out
 #' various remote operations. See below for more.
 #'
-#' @section Git/GitHub credentials:
-#' The `pr_*` functions interact with GitHub both as a conventional Git remote
-#' and via the REST API. Therefore, your credentials must be discoverable. Which
-#' credentials do we mean?
-#' * A GitHub personal access token (PAT) must be discoverable by the gh
-#'   package, which is used for GitHub operations via the REST API. See
-#'   [gh_token_help()] for more about getting and configuring a PAT.
-#' * If you use the HTTPS protocol for Git remotes, your PAT is also used for
-#'   Git operations, such as `git push`. Usethis uses the gert package for this,
-#'   so the PAT must be discoverable by gert. Generally gert and gh will
-#'   discover and use the same PAT. This ability to "kill two birds with one
-#'   stone" is why HTTPS + PAT is our recommended auth strategy for those new
-#'   to Git and GitHub and PRs.
-#' * If you use SSH remotes, your SSH keys must also be discoverable, in
-#'   addition to your PAT. The public key must be added to your GitHub account.
-#'
-#' Git/GitHub credential management is covered in a dedicated article:
-#' [Managing Git(Hub) Credentials](https://usethis.r-lib.org/articles/articles/git-credentials.html)
+#' @template double-auth
 #'
 #' @section For contributors:
 #' To contribute to a package, first use `create_from_github("OWNER/REPO")` to
@@ -217,7 +200,7 @@ pr_init <- function(branch) {
       if (comparison$remote_only > 0) {
         challenge_uncommitted_changes(untracked = TRUE)
       }
-      ui_info("Pulling changes from {ui_value(remref)}")
+      ui_done("Pulling changes from {ui_value(remref)}")
       git_pull(remref = remref, verbose = FALSE)
     }
   } else {
@@ -413,7 +396,7 @@ pr_push <- function() {
   if (is.null(pr)) {
     pr_create()
   } else {
-    ui_done("
+    ui_todo("
       View PR at {ui_value(pr$pr_html_url)} or call {ui_code('pr_view()')}")
   }
 
@@ -617,7 +600,7 @@ pr_pull_source_override <- function(tr = NULL) {
   # the fork (origin) instead of the source (upstream)
   remref <- glue("{tr$remote}/{default_branch}")
   if (is_online(tr$host)) {
-    ui_info("Pulling changes from {ui_value(remref)}")
+    ui_done("Pulling changes from {ui_value(remref)}")
     git_pull(remref = remref, verbose = FALSE)
   } else {
     ui_info("
@@ -631,7 +614,7 @@ pr_create <- function() {
   tracking_branch <- git_branch_tracking(branch)
   remote <- remref_remote(tracking_branch)
   remote_dat <- github_remotes(remote, github_get = FALSE)
-  ui_done("Create PR at link given below")
+  ui_todo("Create PR at link given below")
   view_url(glue_data(remote_dat, "{host_url}/{repo_spec}/compare/{branch}"))
 }
 
@@ -825,7 +808,7 @@ choose_branch <- function() {
     branches_not_shown <- utils::tail(dat$name, -9)
     n <- length(branches_not_shown)
     dat <- dat[1:9, ]
-    pre <- glue("{n} branch{if (n > 1) 'es'} not listed: ")
+    pre <- glue("{n} branch{if (n > 1) 'es' else ''} not listed: ")
     listing <- glue_collapse(
       branches_not_shown, sep = ", ", width = getOption("width") - nchar(pre)
     )
@@ -905,14 +888,14 @@ pr_branch_delete <- function(pr) {
   pr_remref <- glue_data(pr, "{pr_remote}/{pr_ref}")
 
   if (is.null(pr_ref)) {
-    ui_done("
+    ui_info("
       PR {ui_value(pr$pr_string)} originated from branch \\
       {ui_value(pr_remref)}, which no longer exists")
     return(invisible(FALSE))
   }
 
   if (is.na(pr$pr_merged_at)) {
-    ui_done("
+    ui_info("
       PR {ui_value(pr$pr_string)} is unmerged, \\
       we will not delete the remote branch {ui_value(pr_remref)}")
     return(invisible(FALSE))
