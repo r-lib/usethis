@@ -7,10 +7,10 @@
 use_lifecycle()
 }
 \description{
-This helper add lifecycle as a dependency, copies the lifecycle badges into
+This helper adds lifecycle as a dependency, copies the lifecycle badges into
 the \code{man/figures} folder, and reminds you how to use the badge syntax.
 
-Learn more at \url{http://lifecycle.r-lib.org/}
+Learn more at \url{https://lifecycle.r-lib.org/articles/communicate.html}
 }
 \seealso{
 \code{\link[=use_lifecycle_badge]{use_lifecycle_badge()}} to signal the \href{https://www.tidyverse.org/lifecycle/}{global lifecycle stage} of your package as a whole.
