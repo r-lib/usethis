@@ -35,7 +35,7 @@
 #'
 
 #' @seealso
-#' * [use_tidy_pkgdown()] combines `use_github_pages()` with other functions to
+#' * [use_pkgdown_github_pages()] combines `use_github_pages()` with other functions to
 #' fully configure a pkgdown site
 #' * <https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages>
 #' * <https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#pages>
@@ -46,7 +46,7 @@
 #' @examples
 #' \dontrun{
 #' use_github_pages()
-#' use_github_pages(branch = git_branch_default(), path = "/docs")
+#' use_github_pages(branch = git_branch_default(), path = "/docs")p
 #' }
 use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
   stopifnot(is_string(branch), is_string(path))
