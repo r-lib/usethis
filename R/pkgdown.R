@@ -10,7 +10,7 @@
 #'     Learn more about [use_github_action()]. This approach is actively
 #'     maintained, because it is in use across many tidyverse, r-lib, and
 #'     tidymodels packages.
-#'   * `use_pkgdown_travis()` `r lifecycle::badge("soft-deprecated")` helps you
+#'   * `use_pkgdown_travis()` `r lifecycle::badge("deprecated")` helps you
 #'     set up pkgdown for automatic deployment on Travis-CI. This is
 #'     soft-deprecated, as the tidyverse team has shifted away from Travis-CI
 #'     and towards GitHub Actions. `use_pkgdown_travis()` creates an empty

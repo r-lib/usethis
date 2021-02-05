@@ -34,7 +34,7 @@
 #'   For a hypothetical GitHub Enterprise instance, either
 #'   "https://github.acme.com/api/v3" or "https://github.acme.com" is
 #'   acceptable.
-#' @param auth_token,credentials `r lifecycle::badge("defunct")`: No longer
+#' @param auth_token,credentials `r lifecycle::badge("deprecated")`: No longer
 #'   consulted now that usethis uses the gert package for Git operations,
 #'   instead of git2r; gert relies on the credentials package for auth. The API
 #'   requests are now authorized with the token associated with the `host`, as
@@ -176,7 +176,7 @@ use_github <- function(organisation = NULL,
 #'   an interactive session, the user can confirm which repo to use for the
 #'   links. In a noninteractive session, links are formed using `upstream`.
 #'
-#' @param host,auth_token `r lifecycle::badge("defunct")`: No longer consulted
+#' @param host,auth_token `r lifecycle::badge("deprecated")`: No longer consulted
 #'   now that usethis consults the current project's GitHub remotes to get the
 #'   `host` and then relies on gh to discover an appropriate token.
 #' @param overwrite By default, `use_github_links()` will not overwrite existing

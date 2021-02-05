@@ -103,7 +103,7 @@ deprecate_warn_credentials <- function(whos_asking, details = NULL) {
 #'
 #' @description
 #'
-#' `r lifecycle::badge("defunct")`
+#' `r lifecycle::badge("deprecated")`
 #'
 #' In usethis v2.0.0, usethis switched from git2r to gert (+ credentials) for
 #' all Git operations. This pair of packages (gert + credentials) is designed to

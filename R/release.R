@@ -131,7 +131,7 @@ release_type <- function(version) {
 #' need to publish the release from GitHub. It also deletes `CRAN-RELEASE` and
 #' checks that you've pushed all commits to GitHub.
 #'
-#' @param host,auth_token `r lifecycle::badge("defunct")`: No longer consulted
+#' @param host,auth_token `r lifecycle::badge("deprecated")`: No longer consulted
 #'   now that usethis allows the gh package to lookup a token based on a URL
 #'   determined from the current project's GitHub remotes.
 #' @export
