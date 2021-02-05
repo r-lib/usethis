@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_lifecycle()` has been updated for changes in our lifecycle workflow 
+  (#1323).
+
 `use_readme_rmd()`, `use_readme_md()`, `use_tidy_contributing()`, and `use_tidy_support()` use updated logic for determining the `OWNER/REPO` spec of the target repo (#1312).
 
 # usethis 2.0.0
