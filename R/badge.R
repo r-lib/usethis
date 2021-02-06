@@ -15,24 +15,15 @@
 #' * `use_cran_badge()`: badge indicates what version of your package is
 #' available on CRAN, powered by <https://www.r-pkg.org>
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
-#' package (or argument or function) according to
-#' <https://lifecycle.r-lib.org/articles/lifecycle.html>:
-#'   - Experimental
-#'   - Maturing
-#'   - Stable
-#'   - Questioning
-#'   - Superseded
-#'   - Soft-deprecated (function or argument)
-#'   - Deprecated (function or argument)
-#'   - Defunct (function or argument)
+#' package according to <https://lifecycle.r-lib.org/articles/stages.html>.
 #'
 #' * `use_binder_badge()`: badge indicates that your repository can be launched
 #' in an executable environment on <https://mybinder.org/>
 #'
 #' @param badge_name Badge name. Used in error message and alt text
 #' @param href,src Badge link and image src
-#' @param stage Stage of the package lifecycle
-#'
+#' @param stage Stage of the package lifecycle. One of "experimental",
+#'   "stable", "superseded", or "deprecated".
 #' @seealso Functions that configure continuous integration, such as
 #'   [use_github_actions()], also create badges.
 #'
@@ -102,11 +93,12 @@ use_lifecycle_badge <- function(stage) {
   check_is_package("use_lifecycle_badge()")
   pkg <- project_name()
 
-  stage <- match.arg(tolower(stage), names(stages))
+  stage <- tolower(stage)
+  stage <- arg_match0(stage, names(stages))
   colour <- stages[[stage]]
 
   src <- glue("https://img.shields.io/badge/lifecycle-{stage}-{colour}.svg")
-  href <- glue("https://www.tidyverse.org/lifecycle/#{stage}")
+  href <- glue("https://lifecycle.r-lib.org/articles/stages.html#{stage}")
   use_badge(paste0("Lifecycle: ", stage), href, src)
 
   invisible(TRUE)
@@ -114,12 +106,9 @@ use_lifecycle_badge <- function(stage) {
 
 stages <- c(
   experimental = "orange",
-  maturing = "blue",
   stable = "brightgreen",
   superseded = "blue",
-  archived = "red",
-  dormant = "blue",
-  questioning = "blue"
+  deprecated = "orange"
 )
 
 #' @rdname badges

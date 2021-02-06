@@ -7,12 +7,10 @@
 use_lifecycle()
 }
 \description{
-This helper copies the lifecycle badges in to the \code{man/figures}
-folder of your package. It also reminds you of the syntax to use
-them in the documentation of individual functions or arguments.
+This helper adds lifecycle as a dependency, copies the lifecycle badges into
+the \code{man/figures} folder, and reminds you how to use the badge syntax.
 
-See the \href{https://lifecycle.r-lib.org/articles/lifecycle.html}{getting started vignette} of the
-lifecycle package.
+Learn more at \url{https://lifecycle.r-lib.org/articles/communicate.html}
 }
 \seealso{
 \code{\link[=use_lifecycle_badge]{use_lifecycle_badge()}} to signal the \href{https://www.tidyverse.org/lifecycle/}{global lifecycle stage} of your package as a whole.
