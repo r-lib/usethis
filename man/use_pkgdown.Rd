@@ -2,10 +2,13 @@
 % Please edit documentation in R/pkgdown.R
 \name{use_pkgdown}
 \alias{use_pkgdown}
+\alias{use_pkgdown_github_pages}
 \alias{use_pkgdown_travis}
 \title{Use pkgdown}
 \usage{
 use_pkgdown(config_file = "_pkgdown.yml", destdir = "docs")
+
+use_pkgdown_github_pages()
 
 use_pkgdown_travis()
 }
@@ -16,25 +19,26 @@ use_pkgdown_travis()
 }
 \description{
 \href{https://pkgdown.r-lib.org}{pkgdown} makes it easy to turn your package into
-a beautiful website. A couple functions help you begin to use pkgdown:
+a beautiful website. usethis provides two functions help you use pkgdown:
 \itemize{
 \item \code{use_pkgdown()}: creates a pkgdown config file, adds relevant files or
 directories to \code{.Rbuildignore} and \code{.gitignore}, and builds favicons if
 your package has a logo.
-\item \code{use_github_action("pkgdown")} configures a GitHub Actions workflow to
-build and deploy your pkgdown site whenever you push changes to GitHub.
-Learn more about \code{\link[=use_github_action]{use_github_action()}}. This approach is actively
-maintained, because it is in use across many tidyverse, r-lib, and
-tidymodels packages.
-\item \code{use_pkgdown_travis()} \ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}} helps you
-set up pkgdown for automatic deployment on Travis-CI. This is
-soft-deprecated, as the tidyverse team has shifted away from Travis-CI
-and towards GitHub Actions. \code{use_pkgdown_travis()} creates an empty
-\code{gh-pages} branch for the site and prompts about next steps regarding
-deployment keys and updating your \code{.travis.yml}. Requires that the
-current user can push to the primary repo, which must be configured as
-the \code{origin} remote.
+\item \code{use_pkgdown_github_pages()}: implements the GitHub setup needed to
+automatically publish your pkgdown site to GitHub pages:
+\itemize{
+\item \code{\link[=use_github_pages]{use_github_pages()}} prepares to publish the pkgdown site from the
+\code{github-pages} branch
+\item \code{\link[=use_github_action]{use_github_action("pkgdown")}} configures a
+GitHub Action to automatically build the pkgdown site and deploy it via
+GitHub Pages
+\item The pkgdown site's URL is added to the pkgdown configuration file,
+to the URL field of DESCRIPTION, and to the GitHub repo.
 }
+}
+
+\code{use_pkgdown_travis()} is deprecated; we no longer recommend that you use
+Travis-CI.
 }
 \seealso{
 \url{https://pkgdown.r-lib.org/articles/pkgdown.html#configuration}
