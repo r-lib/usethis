@@ -25,7 +25,7 @@ a beautiful website. usethis provides two functions help you use pkgdown:
 directories to \code{.Rbuildignore} and \code{.gitignore}, and builds favicons if
 your package has a logo.
 \item \code{use_pkgdown_github_pages()}: implements the GitHub setup needed to
-automatically publishes you package to GitHub pages:
+automatically publish your pkgdown site to GitHub pages:
 \itemize{
 \item \code{\link[=use_github_pages]{use_github_pages()}} prepares to publish the pkgdown site from the
 \code{github-pages} branch
