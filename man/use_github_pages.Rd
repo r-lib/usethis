@@ -53,7 +53,7 @@ use_github_pages(branch = git_branch_default(), path = "/docs")
 }
 \seealso{
 \itemize{
-\item \code{\link[=use_tidy_pkgdown]{use_tidy_pkgdown()}} combines \code{use_github_pages()} with other functions to
+\item \code{\link[=use_pkgdown_github_pages]{use_pkgdown_github_pages()}} combines \code{use_github_pages()} with other functions to
 fully configure a pkgdown site
 \item \url{https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages}
 \item \url{https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#pages}

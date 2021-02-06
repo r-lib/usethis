@@ -35,7 +35,7 @@
 #'
 
 #' @seealso
-#' * [use_tidy_pkgdown()] combines `use_github_pages()` with other functions to
+#' * [use_pkgdown_github_pages()] combines `use_github_pages()` with other functions to
 #' fully configure a pkgdown site
 #' * <https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages>
 #' * <https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#pages>
