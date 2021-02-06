@@ -193,7 +193,8 @@
 <a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
 </h1>
 <ul>
-<li>All functions that require a package now ask you if you’d like to install it.</li>
+<li><p><code>use_tidy_pkgdown()</code> has been renamed to <code><a href="../reference/use_pkgdown.html">use_pkgdown_github_pages()</a></code> since the function is useful for anyone who wants to automatically publish to GitHub pages, not just the tidyverse team (<a href='https://github.com/r-lib/usethis/issues/1308'>#1308</a>).</p></li>
+<li><p>All functions that require a package now ask you if you’d like to install it.</p></li>
 </ul>
 <p><code><a href="../reference/use_readme_rmd.html">use_readme_rmd()</a></code>, <code><a href="../reference/use_readme_rmd.html">use_readme_md()</a></code>, <code><a href="../reference/use_tidy_github_actions.html">use_tidy_contributing()</a></code>, and <code><a href="../reference/use_tidy_github_actions.html">use_tidy_support()</a></code> use updated logic for determining the <code>OWNER/REPO</code> spec of the target repo (<a href='https://github.com/r-lib/usethis/issues/1312'>#1312</a>).</p>
 </div>
@@ -288,7 +289,7 @@
 <p>GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (<a href='https://github.com/r-lib/usethis/issues/1169'>#1169</a>).</p>
 <p><code><a href="../reference/browse-this.html">browse_github_actions()</a></code> is a new function to open the Actions page of the respective repo on GitHub, similar to existing <code>browse_*()</code> functions (<a href='https://github.com/pat-s'>@pat-s</a>, <a href='https://github.com/r-lib/usethis/issues/1102'>#1102</a>).</p>
 <p><code><a href="../reference/use_github_pages.html">use_github_pages()</a></code> is a new function to activate or reconfigure the GitHub Pages site associated with a repository (<a href='https://github.com/r-lib/usethis/issues/224'>#224</a>).</p>
-<p><code><a href="../reference/use_tidy_github_actions.html">use_tidy_pkgdown()</a></code> implements the complete pkgdown configuration used by the tidyverse team (<a href='https://github.com/r-lib/usethis/issues/224'>#224</a>).</p>
+<p><code>use_tidy_pkgdown()</code> implements the complete pkgdown configuration used by the tidyverse team (<a href='https://github.com/r-lib/usethis/issues/224'>#224</a>).</p>
 <p><code><a href="../reference/usethis-defunct.html">pr_sync()</a></code> is defunct and can be replicated by calling <code><a href="../reference/pull-requests.html">pr_pull()</a></code>, <code><a href="../reference/pull-requests.html">pr_merge_main()</a></code>, then <code><a href="../reference/pull-requests.html">pr_push()</a></code>.</p>
 </div>
 <div id="licensing-improvements" class="section level2">

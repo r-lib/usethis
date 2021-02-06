@@ -54,25 +54,24 @@
 
 <meta property="og:title" content="Use pkgdown — use_pkgdown" />
 <meta property="og:description" content="pkgdown makes it easy to turn your package into
-a beautiful website. A couple functions help you begin to use pkgdown:
+a beautiful website. usethis provides two functions help you use pkgdown:
 use_pkgdown(): creates a pkgdown config file, adds relevant files or
 directories to .Rbuildignore and .gitignore, and builds favicons if
 your package has a logo.
-use_github_action(&quot;pkgdown&quot;) configures a GitHub Actions workflow to
-build and deploy your pkgdown site whenever you push changes to GitHub.
-Learn more about use_github_action(). This approach is actively
-maintained, because it is in use across many tidyverse, r-lib, and
-tidymodels packages.
-use_pkgdown_travis() 
- helps you set up
-pkgdown for automatic deployment on Travis-CI. This is soft-deprecated,
-as the tidyverse team has shifted away from Travis-CI and towards GitHub
-Actions. use_pkgdown_travis() creates an empty gh-pages branch for
-the site and prompts about next steps regarding deployment keys and
-updating your .travis.yml. Requires that the current user can push to
-the primary repo, which must be configured as the origin remote.
+use_pkgdown_github_pages(): implements the GitHub setup needed to
+automatically publishes you package to GitHub pages:
+use_github_pages() prepares to publish the pkgdown site from the
+github-pages branch
+use_github_action(&quot;pkgdown&quot;) configures a
+GitHub Action to automatically build the pkgdown site and deploy it via
+GitHub Pages
+The pkgdown site's URL is added to the pkgdown configuration file,
+to the URL field of DESCRIPTION, and to the GitHub repo.
 
-" />
+
+
+use_pkgdown_travis() is deprecated; we no longer recommend that you use
+Travis-CI." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -211,28 +210,29 @@ the primary repo, which must be configured as the origin remote.
 
     <div class="ref-description">
     <p><a href='https://pkgdown.r-lib.org'>pkgdown</a> makes it easy to turn your package into
-a beautiful website. A couple functions help you begin to use pkgdown:</p><ul>
+a beautiful website. usethis provides two functions help you use pkgdown:</p><ul>
 <li><p><code>use_pkgdown()</code>: creates a pkgdown config file, adds relevant files or
 directories to <code>.Rbuildignore</code> and <code>.gitignore</code>, and builds favicons if
 your package has a logo.</p></li>
-<li><p><code><a href='use_github_action.html'>use_github_action("pkgdown")</a></code> configures a GitHub Actions workflow to
-build and deploy your pkgdown site whenever you push changes to GitHub.
-Learn more about <code><a href='use_github_action.html'>use_github_action()</a></code>. This approach is actively
-maintained, because it is in use across many tidyverse, r-lib, and
-tidymodels packages.</p></li>
-<li><p><code>use_pkgdown_travis()</code> <img src='figures/lifecycle-soft-deprecated.svg' alt='Soft-deprecated lifecycle' />
- helps you set up
-pkgdown for automatic deployment on Travis-CI. This is soft-deprecated,
-as the tidyverse team has shifted away from Travis-CI and towards GitHub
-Actions. <code>use_pkgdown_travis()</code> creates an empty <code>gh-pages</code> branch for
-the site and prompts about next steps regarding deployment keys and
-updating your <code>.travis.yml</code>. Requires that the current user can push to
-the primary repo, which must be configured as the <code>origin</code> remote.</p></li>
+<li><p><code>use_pkgdown_github_pages()</code>: implements the GitHub setup needed to
+automatically publishes you package to GitHub pages:</p><ul>
+<li><p><code><a href='use_github_pages.html'>use_github_pages()</a></code> prepares to publish the pkgdown site from the
+<code>github-pages</code> branch</p></li>
+<li><p><code><a href='use_github_action.html'>use_github_action("pkgdown")</a></code> configures a
+GitHub Action to automatically build the pkgdown site and deploy it via
+GitHub Pages</p></li>
+<li><p>The pkgdown site's URL is added to the pkgdown configuration file,
+to the URL field of DESCRIPTION, and to the GitHub repo.</p></li>
+</ul></li>
 </ul>
 
+<p><code>use_pkgdown_travis()</code> is deprecated; we no longer recommend that you use
+Travis-CI.</p>
     </div>
 
     <pre class="usage"><span class='fu'>use_pkgdown</span><span class='op'>(</span>config_file <span class='op'>=</span> <span class='st'>"_pkgdown.yml"</span>, destdir <span class='op'>=</span> <span class='st'>"docs"</span><span class='op'>)</span>
+
+<span class='fu'>use_pkgdown_github_pages</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='fu'>use_pkgdown_travis</span><span class='op'>(</span><span class='op'>)</span></pre>
 
