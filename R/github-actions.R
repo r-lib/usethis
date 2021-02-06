@@ -143,8 +143,10 @@ use_github_action <- function(name,
     url <- glue(
       "https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"
     )
+    readme <- "https://github.com/r-lib/actions/blob/master/examples/README.md"
   } else {
     stopifnot(is_string(url))
+    readme <- NULL
   }
 
   if (is.null(save_as)) {
@@ -162,6 +164,9 @@ use_github_action <- function(name,
 
   if (open && new) {
     edit_file(proj_path(save_as))
+  }
+  if (!is.null(readme)) {
+    ui_todo("Learn more at <{readme}>")
   }
 
   invisible(new)

@@ -22,10 +22,10 @@
 #' * `good first issue` indicates a good issue for first-time contributors.
 #' * `help wanted` indicates that a maintainer wants help on an issue.
 #'
-#' @param repo_spec,host,auth_token \lifecycle{defunct}: These arguments are
-#'   now deprecated and will be removed in the future. Any input provided via
-#'   these arguments is not used. The target repo, host, and auth token are all
-#'   now determined from the current project's Git remotes.
+#' @param repo_spec,host,auth_token `r lifecycle::badge("deprecated")`: These
+#'   arguments are now deprecated and will be removed in the future. Any input
+#'   provided via these arguments is not used. The target repo, host, and auth
+#'   token are all now determined from the current project's Git remotes.
 #' @param labels A character vector giving labels to add.
 #' @param rename A named vector with names giving old names and values giving
 #'   new names.

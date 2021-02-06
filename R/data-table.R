@@ -2,8 +2,6 @@
 #'
 #' @description
 #'
-#' `r lifecycle::badge("questioning")`
-#'
 #' `use_data_table` facilitates importing the data.table package by handling
 #' up-front some common set-up tasks for using it in your package.
 #'
