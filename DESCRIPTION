@@ -55,8 +55,6 @@ Suggests:
     spelling (>= 1.2),
     styler (>= 1.2.0),
     testthat (>= 3.0.0)
-RdMacros: 
-    lifecycle
 Encoding: UTF-8
 Language: en-US
 LazyData: true
