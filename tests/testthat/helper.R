@@ -34,35 +34,23 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
     ui_stop("Target {ui_code('dir')} {ui_path(dir)} already exists.")
   }
 
+  withr::local_options(usethis.quiet = TRUE)
+
   old_project <- proj_get_() # this could be `NULL`, i.e. no active project
   old_wd <- getwd()          # not necessarily same as `old_project`
 
-  withr::defer(
-    {
-      ui_done("Deleting temporary project: {ui_path(dir)}")
-      fs::dir_delete(dir)
-    },
-    envir = env
+  switch(
+    thing,
+    package = create_package(dir, rstudio = rstudio, open = FALSE, check_name = FALSE),
+    project = create_project(dir, rstudio = rstudio, open = FALSE)
   )
-  ui_silence(
-    switch(
-      thing,
-      package = create_package(dir, rstudio = rstudio, open = FALSE, check_name = FALSE),
-      project = create_project(dir, rstudio = rstudio, open = FALSE)
-    )
-  )
+  withr::defer(fs::dir_delete(dir), envir = env)
 
-  withr::defer(proj_set(old_project, force = TRUE), envir = env)
   proj_set(dir)
+  withr::defer(ui_silence(proj_set(old_project, force = TRUE)), envir = env)
 
-  withr::defer(
-    {
-      ui_done("Restoring original working directory: {ui_path(old_wd)}")
-      setwd(old_wd)
-    },
-    envir = env
-  )
   setwd(proj_get())
+  withr::defer(setwd(old_wd), envir = env)
 
   invisible(proj_get())
 }
