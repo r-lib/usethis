@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_article()` now creates the file in the `vignettes/articles/` (#548).
+
 * `use_lifecycle()` has been updated for changes in our lifecycle workflow 
   (#1323).
 

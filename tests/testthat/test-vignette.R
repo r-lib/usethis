@@ -37,3 +37,10 @@ test_that("use_vignette() does the promised setup", {
     c(VignetteBuilder = "knitr")
   )
 })
+
+test_that("use_article goes in article subdirectory", {
+  create_local_package()
+
+  use_article("test")
+  expect_true(file_exists(proj_path("vignettes/articles/test.Rmd")))
+})
