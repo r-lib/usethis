@@ -22,6 +22,8 @@ test_that("use_vignette() does the promised setup", {
   create_local_package()
   use_vignette("name", "title")
 
+  expect_true(file_exists(proj_path("vignettes/name.Rmd")))
+
   ignores <- read_utf8(proj_path(".gitignore"))
   expect_true("inst/doc" %in% ignores)
 
