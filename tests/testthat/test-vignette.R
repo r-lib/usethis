@@ -3,9 +3,13 @@ test_that("use_vignette() requires a package", {
   expect_usethis_error(use_vignette(), "not an R package")
 })
 
-test_that("use_vignette() requires a `name`", {
+test_that("use_vignette() gives useful errors", {
   create_local_package()
-  expect_error(use_vignette(), "no default")
+
+  expect_snapshot(error = TRUE, {
+    use_vignette()
+    use_vignette("bad name")
+  })
 })
 
 test_that("valid_vignette_name() works", {
