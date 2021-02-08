@@ -34,7 +34,7 @@ test_that("edit_file() copes with path to existing file", {
 test_that("edit_template() can create a new template", {
   create_local_package()
 
-  expect_output(edit_template("new_template"))
+  edit_template("new_template")
   expect_proj_file("inst/templates/new_template")
 })
 
