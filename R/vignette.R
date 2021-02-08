@@ -38,21 +38,29 @@ use_vignette <- function(name, title = name) {
 use_article <- function(name, title = name) {
   check_is_package("use_article()")
 
-  use_vignette_template("article.Rmd", name, title)
+  use_vignette_template("article.Rmd", name, title, subdir = "articles")
   use_build_ignore("vignettes/articles")
 
   invisible()
 }
 
-use_vignette_template <- function(template, name, title) {
+use_vignette_template <- function(template, name, title, subdir = NULL) {
   stopifnot(is_string(name))
   stopifnot(is_string(title))
 
   use_directory("vignettes")
+  if (!is.null(subdir)) {
+    use_directory(path("vignettes", subdir))
+  }
   use_git_ignore(c("*.html", "*.R"), directory = "vignettes")
   use_dependency("rmarkdown", "Suggests")
 
-  path <- path("vignettes", asciify(name), ext = "Rmd")
+  if (!is.null(subdir)) {
+    path <- path("vignettes", subdir, asciify(name), ext = "Rmd")
+  } else {
+    path <- path("vignettes", asciify(name), ext = "Rmd")
+  }
+
 
   data <- list(
     Package = project_name(),
