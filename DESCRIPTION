@@ -37,7 +37,7 @@ Imports:
     lifecycle,
     purrr,
     rappdirs,
-    rlang (>= 0.4.3),
+    rlang (>= 0.4.10),
     rprojroot (>= 1.2),
     rstudioapi,
     stats,
@@ -55,8 +55,6 @@ Suggests:
     spelling (>= 1.2),
     styler (>= 1.2.0),
     testthat (>= 3.0.0)
-RdMacros: 
-    lifecycle
 Encoding: UTF-8
 Language: en-US
 LazyData: true

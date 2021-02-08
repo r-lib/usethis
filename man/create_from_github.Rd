@@ -73,17 +73,17 @@ For a hypothetical GitHub Enterprise instance, either
 "https://github.acme.com/api/v3" or "https://github.acme.com" is
 acceptable.}
 
-\item{auth_token}{\lifecycle{defunct}: No longer consulted now
-that usethis uses the gert package for Git operations, instead of git2r;
-gert relies on the credentials package for auth. The API requests are now
-authorized with the token associated with the \code{host}, as retrieved by
-\code{\link[gh:gh_token]{gh::gh_token()}}.}
+\item{auth_token}{\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}: No longer
+consulted now that usethis uses the gert package for Git operations,
+instead of git2r; gert relies on the credentials package for auth. The API
+requests are now authorized with the token associated with the \code{host}, as
+retrieved by \code{\link[gh:gh_token]{gh::gh_token()}}.}
 
-\item{credentials}{\lifecycle{defunct}: No longer consulted now
-that usethis uses the gert package for Git operations, instead of git2r;
-gert relies on the credentials package for auth. The API requests are now
-authorized with the token associated with the \code{host}, as retrieved by
-\code{\link[gh:gh_token]{gh::gh_token()}}.}
+\item{credentials}{\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}: No longer
+consulted now that usethis uses the gert package for Git operations,
+instead of git2r; gert relies on the credentials package for auth. The API
+requests are now authorized with the token associated with the \code{host}, as
+retrieved by \code{\link[gh:gh_token]{gh::gh_token()}}.}
 }
 \description{
 Creates a new local project and Git repository from a repo on GitHub, by

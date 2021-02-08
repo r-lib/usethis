@@ -159,7 +159,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
 git_protocol <- function() {
   protocol <- tolower(getOption("usethis.protocol", "unset"))
   if (identical(protocol, "unset")) {
-    ui_info("Defaulting to {'https'} Git protocol")
+    ui_info("Defaulting to {ui_value('https')} Git protocol")
     protocol <- "https"
   } else {
     check_protocol(protocol)

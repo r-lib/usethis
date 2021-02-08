@@ -88,8 +88,7 @@ test_that("use_blank_state() modifies user-level RStudio prefs", {
 
   use_blank_slate()
 
-  expect_equal(rstudio_prefs_read(), list(
-    save_workspace = "never",
-    load_workspace = FALSE
-  ))
+  prefs <- rstudio_prefs_read()
+  expect_equal(prefs[["save_workspace"]], "never")
+  expect_false(prefs[["load_workspace"]])
 })

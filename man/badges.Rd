@@ -24,7 +24,8 @@ use_binder_badge(ref = git_branch_default(), urlpath = NULL)
 
 \item{href, src}{Badge link and image src}
 
-\item{stage}{Stage of the package lifecycle}
+\item{stage}{Stage of the package lifecycle. One of "experimental",
+"stable", "superseded", or "deprecated".}
 
 \item{ref}{A Git branch, tag, or SHA}
 
@@ -48,18 +49,7 @@ ensure your badge block starts with a line containing only
 \item \code{use_cran_badge()}: badge indicates what version of your package is
 available on CRAN, powered by \url{https://www.r-pkg.org}
 \item \code{use_lifecycle_badge()}: badge declares the developmental stage of a
-package (or argument or function) according to
-\url{https://lifecycle.r-lib.org/articles/lifecycle.html}:
-\itemize{
-\item Experimental
-\item Maturing
-\item Stable
-\item Questioning
-\item Superseded
-\item Soft-deprecated (function or argument)
-\item Deprecated (function or argument)
-\item Defunct (function or argument)
-}
+package according to \url{https://lifecycle.r-lib.org/articles/stages.html}.
 \item \code{use_binder_badge()}: badge indicates that your repository can be launched
 in an executable environment on \url{https://mybinder.org/}
 }

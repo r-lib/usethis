@@ -6,8 +6,12 @@ test_that("use_[cran|bioc]_badge() don't error", {
 
 test_that("use_lifecycle_badge() handles bad and good input", {
   create_local_package()
-  expect_error(use_lifecycle_badge(), "argument \"stage\" is missing")
-  expect_error(use_lifecycle_badge("eperimental"), "'arg' should be one of ")
+
+  expect_snapshot(error = TRUE, {
+    use_lifecycle_badge()
+    use_lifecycle_badge("eperimental")
+  })
+
   expect_error_free(use_lifecycle_badge("stable"))
 })
 

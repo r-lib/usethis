@@ -20,7 +20,7 @@ proj_line_ending <- function() {
   # Then try any .R file
   r_path <- proj_path("R")
   if (dir_exists(r_path)) {
-    r_files <- dir_ls(r_path, pattern = "\\.[rR]$")
+    r_files <- dir_ls(r_path, regexp = "[.][rR]$")
     if (length(r_files) > 0) {
       return(detect_line_ending(r_files[[1]]))
     }

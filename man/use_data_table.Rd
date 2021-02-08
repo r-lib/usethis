@@ -7,8 +7,6 @@
 use_data_table()
 }
 \description{
-\ifelse{html}{\out{<a href='https://www.tidyverse.org/lifecycle/#questioning'><img src='figures/lifecycle-questioning.svg' alt='Questioning lifecycle'></a>}}{\strong{Questioning}}
-
 \code{use_data_table} facilitates importing the data.table package by handling
 up-front some common set-up tasks for using it in your package.
 

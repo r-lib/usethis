@@ -11,7 +11,7 @@ coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](ht
 [![CRAN
 status](https://www.r-pkg.org/badges/version/usethis)](https://CRAN.R-project.org/package=usethis)
 [![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 usethis is a workflow package: it automates repetitive tasks that arise

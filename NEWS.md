@@ -1,6 +1,19 @@
 # usethis (development version)
 
-`use_readme_rmd()`, `use_readme_md()`, `use_tidy_contributing()`, and `use_tidy_support()` use updated logic for determining the `OWNER/REPO` spec of the target repo (#1312).
+* All functions that require a package now ask you if you'd like to install it.
+
+* `use_article()` now creates the file in the `vignettes/articles/` (#548).
+
+* `use_lifecycle()` has been updated for changes in our lifecycle workflow 
+  (#1323).
+
+* `use_tidy_pkgdown()` has been renamed to `use_pkgdown_github_pages()` since
+  the function is useful for anyone who wants to automatically publish to GitHub
+  pages, not just the tidyverse team (#1308).
+
+* `use_readme_rmd()`, `use_readme_md()`, `use_tidy_contributing()`, and 
+  `use_tidy_support()` use updated logic for determining the `OWNER/REPO` spec 
+  of the target repo (#1312).
 
 Added `edit_template()` for opening and creating files in `inst/templates` (for use with `use_template()`) (@malcolmbarrett, #1319)
 

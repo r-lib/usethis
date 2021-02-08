@@ -170,7 +170,7 @@ rstudio_git_tickle <- function() {
 }
 
 rstudio_config_path <- function(...) {
-  if (.Platform$OS.type == "windows") {
+  if (is_windows()) {
     # https://github.com/r-lib/usethis/issues/1293
     base <- rappdirs::user_config_dir("RStudio", appauthor = NULL)
   } else {

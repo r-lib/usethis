@@ -44,14 +44,12 @@ compact <- function(x) {
   x[!is_empty]
 }
 
-check_installed <- function(pkg) {
-  if (!is_installed(pkg)) {
-    ui_stop("Package {ui_value(pkg)} required. Please install before re-trying.")
-  }
-}
-
+# Needed for mocking
 is_installed <- function(pkg) {
-  requireNamespace(pkg, quietly = TRUE)
+  rlang::is_installed(pkg)
+}
+check_installed <- function(pkg) {
+  rlang::check_installed(pkg)
 }
 
 interactive <- function() {
@@ -102,4 +100,8 @@ pluck_chr <- function(.x, ...) {
 
 pluck_int <- function(.x, ...) {
   as_integer(purrr::pluck(.x, ..., .default = NA))
+}
+
+is_windows <- function() {
+  .Platform$OS.type == "windows"
 }
