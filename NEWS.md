@@ -11,6 +11,8 @@
 
 * `use_readme_rmd()`, `use_readme_md()`, `use_tidy_contributing()`, and `use_tidy_support()` use updated logic for determining the `OWNER/REPO` spec of the target repo (#1312).
 
+* `use_stopwords()` adds the ability to add the `stopwords::stopwords()` function to your package, especially useful for packages focused on text or natural language processing.
+
 # usethis 2.0.0
 
 ## Adoption of gert and changes to Git/GitHub credential handling
