@@ -1,3 +1,5 @@
+# use_vignette ------------------------------------------------------------
+
 test_that("use_vignette() requires a package", {
   create_local_project()
 
@@ -11,12 +13,6 @@ test_that("use_vignette() gives useful errors", {
     use_vignette()
     use_vignette("bad name")
   })
-})
-
-test_that("valid_vignette_name() works", {
-  expect_true(valid_vignette_name("perfectly-valid-name"))
-  expect_false(valid_vignette_name("01-test"))
-  expect_false(valid_vignette_name("test.1"))
 })
 
 test_that("use_vignette() does the promised setup", {
@@ -39,9 +35,19 @@ test_that("use_vignette() does the promised setup", {
   )
 })
 
+# use_article -------------------------------------------------------------
+
 test_that("use_article goes in article subdirectory", {
   create_local_package()
 
   use_article("test")
   expect_proj_file("vignettes/articles/test.Rmd")
+})
+
+# helpers -----------------------------------------------------------------
+
+test_that("valid_vignette_name() works", {
+  expect_true(valid_vignette_name("perfectly-valid-name"))
+  expect_false(valid_vignette_name("01-test"))
+  expect_false(valid_vignette_name("test.1"))
 })
