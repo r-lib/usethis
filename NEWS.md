@@ -11,6 +11,10 @@
   the function is useful for anyone who wants to automatically publish to GitHub
   pages, not just the tidyverse team (#1308).
 
+* `use_release_issue()` includes a bunch of minor improvements. Most 
+  importantly, for initial CRAN release we now includes a number of common
+  things that CRAN checks for that aren't in `R CMD check`.
+
 * `use_readme_rmd()`, `use_readme_md()`, `use_tidy_contributing()`, and 
   `use_tidy_support()` use updated logic for determining the `OWNER/REPO` spec 
   of the target repo (#1312).
