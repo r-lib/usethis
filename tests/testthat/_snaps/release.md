@@ -29,8 +29,8 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_github_release()`
+      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_dev_version()`
       * [ ] Update install instructions in README
       * [ ] Finish blog post
@@ -62,8 +62,8 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_github_release()`
+      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_dev_version()`
 
 ---
@@ -92,8 +92,8 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_github_release()`
+      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_dev_version()`
       * [ ] Finish blog post
       * [ ] Tweet

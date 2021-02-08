@@ -102,8 +102,8 @@ release_checklist <- function(version, on_cran) {
     "Wait for CRAN...",
     "",
     todo("Accepted :tada:"),
-    todo("`usethis::use_news_md()`", !has_news),
     todo("`usethis::use_github_release()`"),
+    todo("`usethis::use_news_md()`", !has_news),
     todo("`usethis::use_dev_version()`"),
     todo("Update install instructions in README", !on_cran),
     todo("Finish blog post", type != "patch"),
@@ -156,16 +156,18 @@ use_github_release <- function(host = deprecated(),
   )
   check_branch_pushed()
 
-  path <- proj_path("NEWS.md")
-  if (!file_exists(path)) {
-    ui_stop("{ui_path('NEWS.md')} not found")
-  }
-
   cran_release <- proj_path("CRAN-RELEASE")
   if (file_exists(cran_release)) {
     file_delete(cran_release)
   }
-  news <- news_latest(read_utf8(path))
+
+  path <- proj_path("NEWS.md")
+  if (file_exists(path)) {
+    news <- news_latest(read_utf8(path))
+  } else {
+    news <- "Initial release"
+  }
+
   package <- package_data()
 
   gh <- gh_tr(tr)
