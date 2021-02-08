@@ -7,7 +7,7 @@
 \usage{
 edit_file(path, open = rlang::is_interactive())
 
-edit_template(template, open = rlang::is_interactive())
+edit_template(template = NULL, open = rlang::is_interactive())
 }
 \arguments{
 \item{path}{Path to target file.}

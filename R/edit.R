@@ -40,10 +40,41 @@ edit_file <- function(path, open = rlang::is_interactive()) {
 #' @param template The target template file.
 #' @export
 #' @rdname edit_file
-edit_template <- function(template, open = rlang::is_interactive()) {
+edit_template <- function(template = NULL, open = rlang::is_interactive()) {
   check_is_package("edit_template()")
+
+  if (is.null(template)) {
+    ui_info("No template specified... checking {ui_path('inst/templates')}")
+    template <- choose_template()
+  }
+
+  if (purrr::is_empty(template)) {
+    return(invisible())
+  }
+
   path <- proj_path("inst", "templates", template)
   edit_file(path, open)
+}
+
+choose_template <- function() {
+  if (!is_interactive()) {
+    return(character())
+  }
+  templates <- path_file(dir_ls("inst/templates", type = "file"))
+  if (purrr::is_empty(templates)) {
+    return(character())
+  }
+
+  choice <- utils::menu(
+    choices = templates,
+    title = "Which template do you want to edit? (0 to exit)"
+  )
+
+  if (choice == 0) {
+    return(invisible())
+  }
+
+  templates[choice]
 }
 
 #' Open configuration files
