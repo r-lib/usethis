@@ -1,5 +1,6 @@
 test_that("use_vignette() requires a package", {
   create_local_project()
+
   expect_usethis_error(use_vignette(), "not an R package")
 })
 
@@ -20,8 +21,8 @@ test_that("valid_vignette_name() works", {
 
 test_that("use_vignette() does the promised setup", {
   create_local_package()
-  use_vignette("name", "title")
 
+  use_vignette("name", "title")
   expect_proj_file("vignettes/name.Rmd")
 
   ignores <- read_utf8(proj_path(".gitignore"))
