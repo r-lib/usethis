@@ -42,7 +42,7 @@ use_version <- function(which = NULL) {
     msg = "There are uncommitted changes and you're about to bump version"
   )
 
-  new_ver <- choose_version(which)
+  new_ver <- choose_version("What should the new version be?", which)
   if (is.null(new_ver)) {
     return(invisible(FALSE))
   }
@@ -75,24 +75,18 @@ use_dev_version <- function() {
   use_version(which = "dev")
 }
 
-choose_version <- function(which = NULL, release = FALSE) {
+choose_version <- function(message, which = NULL) {
   ver <- desc::desc_get_version(proj_get())
   versions <- bump_version(ver)
 
   if (is.null(which)) {
-    msg <- if (release) {
-      "What should the release version be?"
-    } else {
-      "Which part to increment?"
-    }
-
     choice <- utils::menu(
       choices = glue(
         "{format(names(versions), justify = 'right')} --> {versions}"
       ),
       title = glue(
         "Current version is {ver}.\n",
-        "{msg} (0 to exit)"
+        "{message} (0 to exit)"
       )
     )
     if (choice == 0) {
