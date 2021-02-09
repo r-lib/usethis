@@ -31,6 +31,13 @@ test_that("edit_file() copes with path to existing file", {
   expect_identical(existing, res)
 })
 
+test_that("edit_template() can create a new template", {
+  create_local_package()
+
+  edit_template("new_template")
+  expect_proj_file("inst/templates/new_template")
+})
+
 ## testing edit_XXX("user") only on travis and appveyor, because I don't want to
 ## risk creating user-level files de novo for an actual user, which would
 ## obligate me to some nerve-wracking clean up

@@ -2,6 +2,9 @@
 
 * All functions that require a package now ask you if you'd like to install it.
 
+* Added `edit_template()` for opening and creating files in `inst/templates` 
+  (for use with `use_template()`) (@malcolmbarrett, #1319).
+
 * `use_article()` now creates the file in the `vignettes/articles/` (#548).
 
 * `use_lifecycle()` has been updated for changes in our lifecycle workflow 
