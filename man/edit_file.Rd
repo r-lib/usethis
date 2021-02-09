@@ -14,7 +14,8 @@ edit_template(template = NULL, open = rlang::is_interactive())
 
 \item{open}{Whether to open the file for interactive editing.}
 
-\item{template}{The target template file.}
+\item{template}{The target template file. If not specified, existing template
+files are offered for interactive selection.}
 }
 \value{
 Target path, invisibly.

@@ -37,7 +37,8 @@ edit_file <- function(path, open = rlang::is_interactive()) {
   invisible(path)
 }
 
-#' @param template The target template file.
+#' @param template The target template file. If not specified, existing template
+#'  files are offered for interactive selection.
 #' @export
 #' @rdname edit_file
 edit_template <- function(template = NULL, open = rlang::is_interactive()) {
