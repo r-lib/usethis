@@ -48,7 +48,7 @@ edit_template <- function(template = NULL, open = rlang::is_interactive()) {
     template <- choose_template()
   }
 
-  if (purrr::is_empty(template)) {
+  if (is_empty(template)) {
     return(invisible())
   }
 
@@ -60,8 +60,8 @@ choose_template <- function() {
   if (!is_interactive()) {
     return(character())
   }
-  templates <- path_file(dir_ls("inst/templates", type = "file"))
-  if (purrr::is_empty(templates)) {
+  templates <- path_file(dir_ls(proj_path("inst", "templates"), type = "file"))
+  if (is_empty(templates)) {
     return(character())
   }
 
@@ -69,10 +69,6 @@ choose_template <- function() {
     choices = templates,
     title = "Which template do you want to edit? (0 to exit)"
   )
-
-  if (choice == 0) {
-    return(invisible())
-  }
 
   templates[choice]
 }
