@@ -15,7 +15,7 @@
   pages, not just the tidyverse team (#1308).
 
 * `use_release_issue()` includes a bunch of minor improvements. Most 
-  importantly, for initial CRAN release we now includes a number of common
+  importantly, for initial CRAN release we now include a number of common
   things that CRAN checks for that aren't in `R CMD check`.
 
 * `use_readme_rmd()`, `use_readme_md()`, `use_tidy_contributing()`, and 
