@@ -55,7 +55,9 @@
 <meta property="og:title" content="Open file for editing — edit_file" />
 <meta property="og:description" content="Opens a file for editing in RStudio, if that is the active environment, or
 via utils::file.edit() otherwise. If the file does not exist, it is
-created. If the parent directory does not exist, it is also created." />
+created. If the parent directory does not exist, it is also created.
+edit_template() specifically opens templates in inst/templates for use
+with use_template()." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -195,10 +197,14 @@ created. If the parent directory does not exist, it is also created." />
     <div class="ref-description">
     <p>Opens a file for editing in RStudio, if that is the active environment, or
 via <code><a href='https://rdrr.io/r/utils/file.edit.html'>utils::file.edit()</a></code> otherwise. If the file does not exist, it is
-created. If the parent directory does not exist, it is also created.</p>
+created. If the parent directory does not exist, it is also created.
+<code>edit_template()</code> specifically opens templates in <code>inst/templates</code> for use
+with <code><a href='use_template.html'>use_template()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>edit_file</span><span class='op'>(</span><span class='va'>path</span>, open <span class='op'>=</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>edit_file</span><span class='op'>(</span><span class='va'>path</span>, open <span class='op'>=</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='fu'>edit_template</span><span class='op'>(</span>template <span class='op'>=</span> <span class='cn'>NULL</span>, open <span class='op'>=</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -210,6 +216,11 @@ created. If the parent directory does not exist, it is also created.</p>
     <tr>
       <th>open</th>
       <td><p>Whether to open the file for interactive editing.</p></td>
+    </tr>
+    <tr>
+      <th>template</th>
+      <td><p>The target template file. If not specified, existing template
+files are offered for interactive selection.</p></td>
     </tr>
     </table>
 
