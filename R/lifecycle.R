@@ -6,8 +6,9 @@
 #'
 #' Learn more at <https://lifecycle.r-lib.org/articles/communicate.html>
 #'
-#' @seealso [use_lifecycle_badge()] to signal the [global lifecycle
-#'   stage](https://www.tidyverse.org/lifecycle/) of your package as a whole.
+#' @seealso [use_lifecycle_badge()] to signal the [lifecycle
+#'   stage](https://lifecycle.r-lib.org/articles/stages.html) of your package
+#'   as whole
 #' @export
 use_lifecycle <- function() {
   check_is_package("use_lifecycle()")
