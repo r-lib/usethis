@@ -12,7 +12,7 @@ coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](ht
 [![CRAN
 status](https://www.r-pkg.org/badges/version/usethis)](https://CRAN.R-project.org/package=usethis)
 [![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 usethis is a workflow package: it automates repetitive tasks that arise
@@ -61,35 +61,35 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✓ Creating '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpCtQAkY/mypkg/'
-#> ✓ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpCtQAkY/mypkg'
+#> ✓ Creating '/var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/RtmpIzSAAe/mypkg/'
+#> ✓ Setting active project to '/private/var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/RtmpIzSAAe/mypkg'
 #> ✓ Creating 'R/'
 #> ✓ Writing 'DESCRIPTION'
 #> Package: mypkg
 #> Title: What the Package Does (One Line, Title Case)
 #> Version: 0.0.0.9000
 #> Authors@R (parsed):
-#>     * First Last <first.last@example.com> [aut, cre] (<https://orcid.org/YOUR-ORCID-ID>)
+#>     * First Last <first.last@example.com> [aut, cre] (YOUR-ORCID-ID)
 #> Description: What the package does (one paragraph).
 #> License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
 #>     license
 #> Encoding: UTF-8
 #> LazyData: true
 #> Roxygen: list(markdown = TRUE)
-#> RoxygenNote: 7.1.0
+#> RoxygenNote: 7.1.1
 #> ✓ Writing 'NAMESPACE'
 #> ✓ Setting active project to '<no active project>'
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✓ Setting active project to '/private/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpCtQAkY/mypkg'
-#> ✓ Changing working directory to '/var/folders/yx/3p5dt4jj1019st0x90vhm9rr0000gn/T/RtmpCtQAkY/mypkg/'
+#> ✓ Setting active project to '/private/var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/RtmpIzSAAe/mypkg'
+#> ✓ Changing working directory to '/var/folders/s3/3cc1k9p13mjgrqj490hdxl6w0000gn/T/RtmpIzSAAe/mypkg/'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
 #> ✓ Setting License field in DESCRIPTION to 'MIT + file LICENSE'
+#> ✓ Writing 'LICENSE'
 #> ✓ Writing 'LICENSE.md'
 #> ✓ Adding '^LICENSE\\.md$' to '.Rbuildignore'
-#> ✓ Writing 'LICENSE'
 
 use_package("MASS", "Suggests")
 #> ✓ Adding 'MASS' to Suggests field in DESCRIPTION
@@ -105,9 +105,9 @@ use_news_md()
 
 use_test("my-test")
 #> ✓ Adding 'testthat' to Suggests field in DESCRIPTION
+#> ✓ Setting Config/testthat/edition field in DESCRIPTION to '3'
 #> ✓ Creating 'tests/testthat/'
 #> ✓ Writing 'tests/testthat.R'
-#> ● Call `use_test()` to initialize a basic test file and open it for editing.
 #> ✓ Writing 'tests/testthat/test-my-test.R'
 #> ● Edit 'tests/testthat/test-my-test.R'
 
@@ -122,7 +122,7 @@ use_data(x, y)
 # Use git ------------------------------------------------------------
 use_git()
 #> ✓ Initialising Git repo
-#> ✓ Adding '.Rhistory', '.RData', '.Rproj.user' to '.gitignore'
+#> ✓ Adding '.Rproj.user', '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store' to '.gitignore'
 ```
 
 ## Code of Conduct
