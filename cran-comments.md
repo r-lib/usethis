@@ -1,9 +1,8 @@
 ## Test environments
-* GitHub actions (ubuntu-18.04): 3.3, 3.4, 3.5, oldrel, release
-* GitHub actions (windows): release, devel
-* Github actions (macOS): release, devel
-* GitHub actions (ubuntu-20.04): release
-* GitHub actions (ubuntu-16.04): release
+
+* GitHub Actions (ubuntu-16.04): devel, release, oldrel, 3.5, 3.4, 3.3
+* GitHub Actions (windows): release, oldrel
+* GitHub Actions (macOS): release
 * win-builder: devel
 
 ## R CMD check results
