@@ -249,3 +249,8 @@ git_ignore_path <- function(scope = c("user", "project")) {
 
   path
 }
+
+# just checking that the GHA linting for fs still works
+foo <- function() {
+  dir.exists("abcdef")
+}
