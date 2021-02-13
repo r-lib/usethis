@@ -63,6 +63,7 @@ render_template <- function(template, data = list(), package = "usethis") {
 }
 
 find_template <- function(template_name, package = "usethis") {
+  check_installed(package)
   path <- tryCatch(
     path_package(package = package, "templates", template_name),
     error = function(e) ""
