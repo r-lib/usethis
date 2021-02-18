@@ -98,7 +98,7 @@ use_lifecycle_badge <- function(stage) {
   colour <- stages[[stage]]
 
   src <- glue("https://img.shields.io/badge/lifecycle-{stage}-{colour}.svg")
-  href <- glue("https://lifecycle.r-lib.org/articles/stages.html#{stage}")
+  href <- "https://lifecycle.r-lib.org/articles/stages.html"
   use_badge(paste0("Lifecycle: ", stage), href, src)
 
   invisible(TRUE)
