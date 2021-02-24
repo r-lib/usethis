@@ -11,7 +11,7 @@ use_github_links(
 )
 }
 \arguments{
-\item{host, auth_token}{\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}: No longer consulted
+\item{host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer consulted
 now that usethis consults the current project's GitHub remotes to get the
 \code{host} and then relies on gh to discover an appropriate token.}
 

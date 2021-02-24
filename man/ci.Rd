@@ -42,7 +42,7 @@ of R, change the tag from \code{latest} to the version you want, e.g.
 \verb{rocker/r-ver:3.5.3}.}
 }
 \description{
-\ifelse{html}{\figure{lifecycle-deprecated.svg}{options: alt='Deprecated lifecycle'}}{\strong{Deprecated}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 Some of these functions are now soft-deprecated since the tidyverse team has
 started using \href{https://github.com/features/actions}{GitHub Actions (GHA)} for
