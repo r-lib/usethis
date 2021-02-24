@@ -13,32 +13,37 @@ use_github_action(
   url = NULL,
   save_as = NULL,
   ignore = TRUE,
-  open = FALSE
+  open = FALSE,
+  overwrite = FALSE
 )
 
 use_github_action_check_release(
   save_as = "R-CMD-check.yaml",
   ignore = TRUE,
-  open = FALSE
+  open = FALSE,
+  overwrite = FALSE
 )
 
 use_github_action_check_standard(
   save_as = "R-CMD-check.yaml",
   ignore = TRUE,
-  open = FALSE
+  open = FALSE,
+  overwrite = FALSE
 )
 
 use_github_action_check_full(
   save_as = "R-CMD-check.yaml",
   ignore = TRUE,
   open = FALSE,
-  repo_spec = NULL
+  repo_spec = NULL,
+  overwrite = FALSE
 )
 
 use_github_action_pr_commands(
   save_as = "pr-commands.yaml",
   ignore = TRUE,
-  open = FALSE
+  open = FALSE,
+  overwrite = FALSE
 )
 }
 \arguments{
@@ -54,6 +59,8 @@ for \code{use_github_action()}.}
 
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+
+\item{overwrite}{Unconditionally an existing file.}
 
 \item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
 }

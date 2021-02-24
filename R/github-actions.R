@@ -85,10 +85,10 @@ use_tidy_github_actions <- function() {
 
   use_coverage(repo_spec = repo_spec)
 
-  full_status <- use_github_action_check_full(repo_spec = repo_spec)
-  pr_status   <- use_github_action_pr_commands()
-  pkgdown_status <- use_github_action("pkgdown-pak", save_as = "pkgdown.yaml")
-  test_coverage_status <- use_github_action("test-coverage-pak", save_as = "test-coverage.yaml")
+  full_status <- use_github_action_check_full(repo_spec = repo_spec, overwrite = TRUE)
+  pr_status   <- use_github_action_pr_commands(overwrite = TRUE)
+  pkgdown_status <- use_github_action("pkgdown-pak", save_as = "pkgdown.yaml", overwrite = TRUE)
+  test_coverage_status <- use_github_action("test-coverage-pak", save_as = "test-coverage.yaml", overwrite = TRUE)
 
   old_configs <- proj_path(c(".travis.yml", "appveyor.yml"))
   has_appveyor_travis <- file_exists(old_configs)
@@ -115,6 +115,7 @@ use_tidy_github_actions <- function() {
 #' or a custom workflow given by the `url` parameter.
 #'
 #' @inheritParams use_template
+#' @inheritParams write_over
 #' @param name Name of the workflow file, with or without a `.yaml` extension.
 #' @param url The full URL to the `.yaml` file. By default, the corresponding
 #'   workflow in <https://github.com/r-lib/actions> will be used.
@@ -124,12 +125,12 @@ use_tidy_github_actions <- function() {
 #' @seealso [github_actions] for generic workflows and badge generation.
 #'
 #' @export
-#' @inheritParams use_template
 use_github_action <- function(name,
                               url = NULL,
                               save_as = NULL,
                               ignore = TRUE,
-                              open = FALSE) {
+                              open = FALSE,
+                              overwrite = FALSE) {
 
   # Check if a custom URL is being used.
   if (is.null(url)) {
@@ -160,12 +161,12 @@ use_github_action <- function(name,
   save_as <- path(".github", "workflows", save_as)
   create_directory(path_dir(proj_path(save_as)))
 
-  new <- write_over(proj_path(save_as), contents)
+  new <- write_over(proj_path(save_as), contents, overwrite = overwrite)
 
   if (open && new) {
     edit_file(proj_path(save_as))
   }
-  if (!is.null(readme)) {
+  if (!is.null(readme) && !overwrite) {
     ui_todo("Learn more at <{readme}>")
   }
 
@@ -179,12 +180,14 @@ use_github_action <- function(name,
 #' @export
 use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
                                             ignore = TRUE,
-                                            open = FALSE) {
+                                            open = FALSE,
+                                            overwrite = FALSE) {
   use_github_action(
     "check-release.yaml",
     save_as = save_as,
     ignore = ignore,
-    open = open
+    open = open,
+    overwrite = overwrite
   )
   use_github_actions_badge("R-CMD-check")
 }
@@ -199,12 +202,14 @@ use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
 #' @export
 use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
                                              ignore = TRUE,
-                                             open = FALSE) {
+                                             open = FALSE,
+                                             overwrite = FALSE) {
   use_github_action(
     "check-standard.yaml",
     save_as = save_as,
     ignore = ignore,
-    open = open
+    open = open,
+    overwrite = overwrite
   )
   use_github_actions_badge("R-CMD-check")
 }
@@ -223,14 +228,16 @@ use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
 use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
                                          ignore = TRUE,
                                          open = FALSE,
-                                         repo_spec = NULL) {
+                                         repo_spec = NULL,
+                                         overwrite = FALSE) {
   # this must have `repo_spec` as an argument because it is called as part of
   # use_tidy_github_actions()
   use_github_action(
     "check-pak.yaml",
     save_as = save_as,
     ignore = ignore,
-    open = open
+    open = open,
+    overwrite = overwrite,
   )
   use_github_actions_badge("R-CMD-check", repo_spec = repo_spec)
 }
@@ -244,11 +251,13 @@ use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
 #' @export
 use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
                                           ignore = TRUE,
-                                          open = FALSE) {
+                                          open = FALSE,
+                                          overwrite = FALSE) {
   use_github_action(
     "pr-commands.yaml",
     save_as = save_as,
     ignore = ignore,
-    open = open
+    open = open,
+    overwrite = overwrite
   )
 }

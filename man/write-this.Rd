@@ -8,7 +8,7 @@
 \usage{
 write_union(path, lines, quiet = FALSE)
 
-write_over(path, lines, quiet = FALSE)
+write_over(path, lines, quiet = FALSE, overwrite = FALSE)
 }
 \arguments{
 \item{path}{Path to target file. It is created if it does not exist, but the
@@ -19,6 +19,8 @@ to add to the target file, if not already present. For \code{write_over()},
 these are the exact lines desired in the target file.}
 
 \item{quiet}{Logical. Whether to message about what is happening.}
+
+\item{overwrite}{Unconditionally an existing file.}
 
 \item{contents}{Character vector of lines.}
 }

@@ -69,8 +69,9 @@ write_union <- function(path, lines, quiet = FALSE) {
 #'   necessary or overwriting existing, if proposed contents are not identical
 #'   and user is available to give permission.
 #' @param contents Character vector of lines.
+#' @param overwrite Unconditionally an existing file.
 #' @export
-write_over <- function(path, lines, quiet = FALSE) {
+write_over <- function(path, lines, quiet = FALSE, overwrite = FALSE) {
   stopifnot(is.character(lines), length(lines) > 0)
   path <- user_path_prep(path)
 
@@ -78,7 +79,7 @@ write_over <- function(path, lines, quiet = FALSE) {
     return(invisible(FALSE))
   }
 
-  if (can_overwrite(path)) {
+  if (overwrite || can_overwrite(path)) {
     if (!quiet) {
       ui_done("Writing {ui_path(path)}")
     }

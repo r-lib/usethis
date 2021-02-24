@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_tidy_github_actions()` now assumes you know what you're doing, and
+  overwrites all files without asking (#1367).
+
 # usethis 2.0.1
 
 * All functions that require a package now ask you if you'd like to install it.
