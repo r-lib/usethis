@@ -159,7 +159,7 @@ use_tidy_issue_template <- function() {
 #' @rdname tidyverse
 use_tidy_coc <- function() {
   use_dot_github()
-  use_code_of_conduct(path = ".github")
+  use_code_of_conduct("conduct@rstudio.com", path = ".github")
 }
 
 #' @export

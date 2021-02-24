@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_code_of_conduct()` now requires a `contact` argument to supply contact
+  details for reporting CoC violations (#1269).
+
 # usethis 2.0.1
 
 * All functions that require a package now ask you if you'd like to install it.
