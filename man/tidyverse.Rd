@@ -13,7 +13,6 @@
 \alias{use_tidy_coc}
 \alias{use_tidy_github}
 \alias{use_tidy_style}
-\alias{use_tidy_release_test_env}
 \title{Helpers for tidyverse development}
 \usage{
 use_tidy_github_actions()
@@ -35,8 +34,6 @@ use_tidy_coc()
 use_tidy_github()
 
 use_tidy_style(strict = TRUE)
-
-use_tidy_release_test_env()
 }
 \arguments{
 \item{path}{A path. If it exists, it is used. If it does not exist, it is
