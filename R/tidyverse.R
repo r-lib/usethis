@@ -98,7 +98,7 @@ use_tidy_description <- function() {
   tidy_desc(desc)
   desc$write()
 
-  ui_todo("Run {ui_code('devtools::document()')} update package docs")
+  ui_todo("Run {ui_code('devtools::document()')} to update package docs")
   invisible(TRUE)
 }
 
