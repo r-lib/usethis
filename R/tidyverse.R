@@ -97,6 +97,8 @@ use_tidy_description <- function() {
   desc <- desc::description$new(file = proj_get())
   tidy_desc(desc)
   desc$write()
+
+  ui_todo("Run {ui_code('devtools::document()')} update package docs")
   invisible(TRUE)
 }
 
