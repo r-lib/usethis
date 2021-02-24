@@ -16,7 +16,6 @@
       out <- download_url(url = "URL", destfile = "destfile")
     Message <message>
       i Retrying download ... attempt 2
-    Message <message>
       i Retrying download ... attempt 3
 
 ---
@@ -25,7 +24,6 @@
       out <- download_url(url = "URL", destfile = "destfile", n_tries = 3)
     Message <message>
       i Retrying download ... attempt 2
-    Message <message>
       i Retrying download ... attempt 3
     Error <simpleError>
       try 3
@@ -36,8 +34,6 @@
       out <- download_url(url = "URL", destfile = "destfile", n_tries = 10)
     Message <message>
       i Retrying download ... attempt 2
-    Message <message>
       i Retrying download ... attempt 3
-    Message <message>
       i Retrying download ... attempt 4
 
