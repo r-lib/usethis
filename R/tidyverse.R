@@ -72,7 +72,6 @@ create_tidy_package <- function(path, copyright_holder = NULL) {
   use_cran_badge()
 
   use_cran_comments(open = FALSE)
-  use_tidy_release_test_env()
 
   use_tidy_github()
   ui_todo("In the new package, remember to do:")
@@ -200,41 +199,6 @@ use_tidy_style <- function(strict = TRUE) {
   ui_line()
   ui_done("Styled project according to the tidyverse style guide")
   invisible(styled)
-}
-
-#' @export
-#' @rdname tidyverse
-use_tidy_release_test_env <- function() {
-  block_replace(
-    "release environment",
-    tidy_release_test_env(),
-    path = proj_path("cran-comments.md"),
-    block_start = "## Test environments",
-    block_end = "## R CMD check results"
-  )
-}
-
-tidy_release_test_env <- function() {
-  use_bullet <- function(name, versions) {
-    versions <- paste(versions, collapse = ", ")
-    glue("* {name}: {versions}")
-  }
-
-  c(
-    "",
-    # intent is to stay in sync with this:
-    # https://github.com/r-lib/actions/blob/master/examples/check-full.yaml
-    use_bullet(
-      "GitHub Actions (ubuntu-16.04)",
-      c("devel", "release", "oldrel", "3.5", "3.4", "3.3")
-    ),
-    use_bullet("GitHub Actions (windows)", c("release", "oldrel")),
-    use_bullet("GitHub Actions (macOS)", "release"),
-    # other checks recommended in use_release_issue()
-    # currently, we aren't listing the extra checks for pkgs w/ compiled code
-    use_bullet("win-builder", "devel"),
-    ""
-  )
 }
 
 #' Identify contributors via GitHub activity
