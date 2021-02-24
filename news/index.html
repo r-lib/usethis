@@ -192,6 +192,10 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#usethis-development-version" class="anchor"></a>usethis (development version)<small> Unreleased </small>
 </h1>
+<ul>
+<li><p>We no longer suggest including your test environments in <code>cran-comments.md</code>, since there’s no evidence that CRAN finds it useful, and it’s annoying to keep up to date (<a href='https://github.com/r-lib/usethis/issues/1365'>#1365</a>).</p></li>
+<li><p><code>use_tidy_release_test_env()</code> has been deleted since we no longer recommend including test environment in CRAN comments (<a href='https://github.com/r-lib/usethis/issues/1365'>#1365</a>).</p></li>
+</ul>
 </div>
     <div id="usethis-201" class="section level1">
 <h1 class="page-header" data-toc-text="2.0.1">
@@ -588,7 +592,7 @@
 <li><p><code>NEWS.md</code> for the development version should use “(development version)” rather than the specific version (<a href='https://github.com/r-lib/usethis/issues/440'>#440</a>).</p></li>
 <li><p>pkgdown sites should now be built by travis and deployed automatically to GitHub pages. <code><a href="../reference/use_pkgdown.html">use_pkgdown_travis()</a></code> will help you set that up.</p></li>
 <li><p>When starting the release process, call <code><a href="../reference/use_release_issue.html">use_release_issue()</a></code> to create a release checklist issue (<a href='https://github.com/r-lib/usethis/issues/338'>#338</a>).</p></li>
-<li><p>Prior to CRAN submission call <code><a href="../reference/use_tidy_github_actions.html">use_tidy_release_test_env()</a></code> to update the test environment section in <code>cran-comments()</code> (<a href='https://github.com/r-lib/usethis/issues/496'>#496</a>).</p></li>
+<li><p>Prior to CRAN submission call <code>use_tidy_release_test_env()</code> to update the test environment section in <code>cran-comments()</code> (<a href='https://github.com/r-lib/usethis/issues/496'>#496</a>).</p></li>
 <li><p>After acceptance, try <code><a href="../reference/use_github_release.html">use_github_release()</a></code> to automatically create a release. It’s created as a draft so you have a chance to look over before publishing.</p></li>
 <li><p><code><a href="../reference/use_vignette.html">use_vignette()</a></code> includes the a standard initialisation chunk with <code>knitr::opts_chunk$set(comment = "#&gt;", collapse = TRUE)</code> which should be used for all Rmds.</p></li>
 </ul>
