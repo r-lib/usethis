@@ -14,12 +14,18 @@
 #' `url` field in `_pkgdown.yml`; otherwise it will link to a copy of the CoC
 #' on <https://www.contributor-covenant.org>.
 #'
+#' @param contact Contact details for making a code of conduct report.
+#'   Usually an email address.
 #' @param path Path of the directory to put `CODE_OF_CONDUCT.md` in, relative to
 #'   the active project. Passed along to [use_directory()]. Default is to locate
 #'   at top-level, but `.github/` is also common.
 #'
 #' @export
-use_code_of_conduct <- function(path = NULL) {
+use_code_of_conduct <- function(contact, path = NULL) {
+  if (missing(contact)) {
+    abort("`use_code_of_conduct()` requires contact details in first argument")
+  }
+
   if (!is.null(path)) {
     use_directory(path, ignore = is_package())
   }
@@ -28,6 +34,7 @@ use_code_of_conduct <- function(path = NULL) {
   new <- use_template(
     "CODE_OF_CONDUCT.md",
     save_as = save_as,
+    data = list(contact = contact),
     ignore = is_package() && is.null(path)
   )
 

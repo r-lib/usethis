@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_code_of_conduct()` now requires a `contact` argument to supply contact
+  details for reporting CoC violations (#1269).
+
 * We no longer suggest including your test environments in `cran-comments.md`,
   since there's no evidence that CRAN finds it useful, and it's annoying to
   keep up to date (#1365). 

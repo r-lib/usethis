@@ -4,9 +4,12 @@
 \alias{use_code_of_conduct}
 \title{Add a code of conduct}
 \usage{
-use_code_of_conduct(path = NULL)
+use_code_of_conduct(contact, path = NULL)
 }
 \arguments{
+\item{contact}{Contact details for making a code of conduct report.
+Usually an email address.}
+
 \item{path}{Path of the directory to put \code{CODE_OF_CONDUCT.md} in, relative to
 the active project. Passed along to \code{\link[=use_directory]{use_directory()}}. Default is to locate
 at top-level, but \verb{.github/} is also common.}
