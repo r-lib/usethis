@@ -23,7 +23,7 @@
 #' @export
 use_code_of_conduct <- function(contact, path = NULL) {
   if (missing(contact)) {
-    abort("`use_code_conduct()` requires contact details in first argument")
+    abort("`use_code_of_conduct()` requires contact details in first argument")
   }
 
   if (!is.null(path)) {
