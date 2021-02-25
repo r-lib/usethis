@@ -513,6 +513,10 @@ pr_clean <- function(number = NULL,
   if (is.null(number)) {
     check_pr_branch()
     pr <- pr_find(git_branch(), tr = tr, state = "all")
+    # if the remote branch has already been deleted (probably post-merge), we
+    # can't always reverse engineer what the corresponding local branch was, but
+    # we already know it -- it's how we found the PR in the first place!
+    pr$pr_local_branch <- pr$pr_local_branch %|% git_branch()
   } else {
     pr <- pr_get(number = number, tr = tr)
   }
@@ -699,7 +703,7 @@ pr_data_tidy <- function(pr) {
   gbl <- gbl[!is.na(gbl$upstream), c("name", "upstream")]
   gbl$upstream <- sub("^refs/remotes/", "", gbl$upstream)
   m <- match(pr_remref, gbl$upstream)
-  out$pr_local_branch <- if (is.na(m)) NA else gbl$name[m]
+  out$pr_local_branch <- if (is.na(m)) NA_character_ else gbl$name[m]
 
   # If the fork has been deleted, these are all NA
   # - Because pr$head$repo is NULL:
