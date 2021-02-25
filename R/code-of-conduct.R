@@ -24,8 +24,8 @@
 use_code_of_conduct <- function(contact, path = NULL) {
   if (missing(contact)) {
       ui_stop("
-      {ui_code('use_code_of_conduct()')} requires contact details in \\
-      first argument")
+        {ui_code('use_code_of_conduct()')} requires contact details in \\
+        first argument")
   }
 
   if (!is.null(path)) {
