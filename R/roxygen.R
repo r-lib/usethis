@@ -70,6 +70,10 @@ roxygen_remind <- function() {
   TRUE
 }
 
+roxygen_update_ns <- function() {
+  roxygen2::roxygenise(proj_get(), "namespace")
+  TRUE
+}
 
 # Checkers ----------------------------------------------------------------
 
