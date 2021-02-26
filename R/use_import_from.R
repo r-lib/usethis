@@ -25,7 +25,7 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   check_uses_roxygen("use_import_from()")
 
   if (!check_has_package_doc()) {
-    return(FALSE)
+    return(invisible(FALSE))
   }
 
   use_dependency(package, "Imports")
