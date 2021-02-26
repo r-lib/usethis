@@ -71,7 +71,8 @@ roxygen_remind <- function() {
 }
 
 roxygen_update_ns <- function() {
-  roxygen2::roxygenise(proj_get(), "namespace")
+  ui_done("Writing {ui_path('NAMESPACE')}")
+  capture.output(suppressMessages(roxygen2::roxygenise(proj_get(), "namespace")))
   TRUE
 }
 
