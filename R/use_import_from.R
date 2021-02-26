@@ -1,10 +1,11 @@
 #' Import a function from another package
 #'
-#' `use_import_from()` adds the Roxygen tag `@importFrom` to the package-level
-#' documentation (possibly created with [`use_package_doc()`]). Importing a
-#' function from another package allows you to refer to it without a namespace
-#' (e.g. `fun()` instead of `package::fun()`). Use such imports judiciously, as
-#' they make it hard to tell where a function comes from.
+#' `use_import_from()` imports a function from another package by adding the
+#' Roxygen tag `@importFrom` to the package-level documentation (possibly
+#' created with [`use_package_doc()`]). Importing a function from another
+#' package allows you to refer to it without a namespace (e.g. `fun()` instead
+#' of `package::fun()`). Use such imports judiciously, as they make it hard to
+#' tell where a function comes from.
 #'
 #' @param package Name of package to import `fun` from
 #' @param fun Name of function to import
@@ -23,9 +24,8 @@
 use_import_from <- function(package, fun, load = is_interactive()) {
   check_is_package("use_import_from()")
   check_uses_roxygen("use_import_from()")
-  no_pkg_doc <- check_has_package_doc()
 
-  if (no_pkg_doc) {
+  if (!check_has_package_doc()) {
     return(FALSE)
   }
 
@@ -61,6 +61,7 @@ check_has_package_doc <- function() {
   if (add_pkg_doc) {
     use_package_doc()
   } else {
+    ui_todo("Run {ui_code('use_package_doc()')}")
     return(invisible(FALSE))
   }
 

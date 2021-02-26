@@ -18,11 +18,12 @@ Invisibly, \code{TRUE} if the package document has changed, \code{FALSE} if
 not.
 }
 \description{
-\code{use_import_from()} adds the Roxygen tag \verb{@importFrom} to the package-level
-documentation (possibly created with \code{\link[=use_package_doc]{use_package_doc()}}). Importing a
-function from another package allows you to refer to it without a namespace
-(e.g. \code{fun()} instead of \code{package::fun()}). Use such imports judiciously, as
-they make it hard to tell where a function comes from.
+\code{use_import_from()} imports a function from another package by adding the
+Roxygen tag \verb{@importFrom} to the package-level documentation (possibly
+created with \code{\link[=use_package_doc]{use_package_doc()}}). Importing a function from another
+package allows you to refer to it without a namespace (e.g. \code{fun()} instead
+of \code{package::fun()}). Use such imports judiciously, as they make it hard to
+tell where a function comes from.
 }
 \examples{
 
