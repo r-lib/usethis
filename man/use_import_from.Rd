@@ -19,10 +19,11 @@ not.
 }
 \description{
 \code{use_import_from()} imports a function from another package by adding the
-roxygen2 \verb{@importFrom} tag to the package-level documentation (which can
-be created with \code{\link[=use_package_doc]{use_package_doc()}}). Importing a function from another
+roxygen2 \verb{@importFrom} tag to the package-level documentation (which can be
+created with \code{\link[=use_package_doc]{use_package_doc()}}). Importing a function from another
 package allows you to refer to it without a namespace (e.g., \code{fun()} instead
-of \code{package::fun()}).
+of \code{package::fun()}). \code{use_import_from()} will also re-load the current
+package so that \code{fun} is loaded, as well.
 }
 \examples{
 
