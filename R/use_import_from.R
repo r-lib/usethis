@@ -29,7 +29,10 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   }
 
   use_dependency(package, "Imports")
-  changed <- roxygen_ns_append(import_from(package, fun)) &&
+
+  fun <- gsub("\\(.*\\)", "", fun)
+  fun <- glue_collapse(fun, sep = " ")
+  changed <- roxygen_ns_append(glue("@importFrom {package} {fun}")) &&
     roxygen_update()
 
   if (changed && load) {
@@ -38,12 +41,6 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   }
 
   invisible(changed)
-}
-
-import_from <- function(package, fun) {
-  fun <- gsub("\\(.*\\)", "", fun)
-  fun <- glue_collapse(fun, sep = " ")
-  glue("@importFrom {package} {fun}")
 }
 
 check_has_package_doc <- function() {
