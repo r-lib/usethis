@@ -364,6 +364,42 @@ git_remotes <- function() {
   stats::setNames(as.list(x$url), x$name)
 }
 
+# unexported function to improve my personal quality of life
+git_clean <- function() {
+  if (!is_interactive() || !uses_git()) {
+    return(invisible())
+  }
+
+  st <- gert::git_status(staged = FALSE, repo = git_repo())
+  paths <- st[st$status == "new", ][["file"]]
+  n <- length(paths)
+  if (n == 0) {
+    ui_info("Found no untracked files")
+    return(invisible())
+  }
+
+  paths <- sort(paths)
+  ui_paths <- map_chr(paths, ui_path)
+  if (n > 10) {
+    ui_paths <- c(ui_paths[1:10], "...")
+  }
+
+  file_hint <- "There are {n} untracked file(s):"
+  ui_line(c(
+    file_hint,
+    paste0("* ", ui_paths)
+  ))
+
+  if (ui_yeah("
+
+    Do you want to remove {if (n == 1) 'it' else 'them'}?",
+    yes = "yes", no = "no", shuffle = FALSE)) {
+    file_delete(paths)
+    ui_done("{n} file(s) deleted")
+  }
+  invisible()
+}
+
 #' Git/GitHub sitrep
 #'
 #' Get a situation report on your current Git/GitHub status. Useful for
