@@ -1,10 +1,11 @@
 #' Import a function from another package
 #'
 #' `use_import_from()` imports a function from another package by adding the
-#' roxygen2 `@importFrom` tag to the package-level documentation (which can
-#' be created with [`use_package_doc()`]). Importing a function from another
+#' roxygen2 `@importFrom` tag to the package-level documentation (which can be
+#' created with [`use_package_doc()`]). Importing a function from another
 #' package allows you to refer to it without a namespace (e.g., `fun()` instead
-#' of `package::fun()`).
+#' of `package::fun()`). `use_import_from()` will also re-load the current
+#' package so that `fun` is loaded, as well.
 #'
 #' @param package Package name
 #' @param fun A vector of function names
@@ -35,10 +36,7 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   changed <- roxygen_ns_append(glue("@importFrom {package} {fun}")) &&
     roxygen_update_ns()
 
-  if (changed && load) {
-    check_installed("pkgload")
-    pkgload::load_all()
-  }
+  if (load) pkgload::load_all()
 
   invisible(changed)
 }
