@@ -4,10 +4,10 @@
 #' roxygen2 `@importFrom` tag to the package-level documentation (which can
 #' be created with [`use_package_doc()`]). Importing a function from another
 #' package allows you to refer to it without a namespace (e.g., `fun()` instead
-#' of `package::fun()`). 
+#' of `package::fun()`).
 #'
 #' @param package Package name
-#' @param fun Function name
+#' @param fun A vector of function names
 #' @param load Logical. Re-load with [`pkgload::load_all()`]?
 #'
 #' @return Invisibly, `TRUE` if the package document has changed, `FALSE` if

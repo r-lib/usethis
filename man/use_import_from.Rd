@@ -7,9 +7,9 @@
 use_import_from(package, fun, load = is_interactive())
 }
 \arguments{
-\item{package}{Name of package to import \code{fun} from}
+\item{package}{Package name}
 
-\item{fun}{Name of function to import}
+\item{fun}{A vector of function names}
 
 \item{load}{Logical. Re-load with \code{\link[pkgload:load_all]{pkgload::load_all()}}?}
 }
@@ -19,11 +19,10 @@ not.
 }
 \description{
 \code{use_import_from()} imports a function from another package by adding the
-Roxygen tag \verb{@importFrom} to the package-level documentation (possibly
-created with \code{\link[=use_package_doc]{use_package_doc()}}). Importing a function from another
+roxygen2 \verb{@importFrom} tag to the package-level documentation (which can
+be created with \code{\link[=use_package_doc]{use_package_doc()}}). Importing a function from another
 package allows you to refer to it without a namespace (e.g., \code{fun()} instead
-of \code{package::fun()}). Use such imports judiciously, as they make it hard to
-tell where a function comes from.
+of \code{package::fun()}).
 }
 \examples{
 
