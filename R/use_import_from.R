@@ -1,11 +1,10 @@
 #' Import a function from another package
 #'
 #' `use_import_from()` imports a function from another package by adding the
-#' Roxygen tag `@importFrom` to the package-level documentation (possibly
-#' created with [`use_package_doc()`]). Importing a function from another
+#' roxygen2 `@importFrom` tag to the package-level documentation (which can
+#' be created with [`use_package_doc()`]). Importing a function from another
 #' package allows you to refer to it without a namespace (e.g., `fun()` instead
-#' of `package::fun()`). Use such imports judiciously, as they make it hard to
-#' tell where a function comes from.
+#' of `package::fun()`). 
 #'
 #' @param package Name of package to import `fun` from
 #' @param fun Name of function to import
