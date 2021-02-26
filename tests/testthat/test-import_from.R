@@ -17,3 +17,11 @@ test_that("use_import_from() adds @importFrom to package doc", {
   package_doc <- read_utf8(proj_path(package_doc_path()))
   expect_match(package_doc, "#' @importFrom tibble tibble", all = FALSE)
 })
+
+test_that("use_import_from() adds a vector of functions", {
+  create_local_package()
+  use_package_doc()
+  use_import_from("tibble", c("tibble", "enframe", "deframe"))
+  package_doc <- read_utf8(proj_path(package_doc_path()))
+  expect_match(package_doc, "#' @importFrom tibble tibble enframe deframe", all = FALSE)
+})

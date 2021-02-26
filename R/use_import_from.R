@@ -43,6 +43,7 @@ use_import_from <- function(package, fun, load = is_interactive()) {
 
 import_from <- function(package, fun) {
   fun <- gsub("\\(.*\\)", "", fun)
+  fun <- glue_collapse(fun, sep = " ")
   glue("@importFrom {package} {fun}")
 }
 
