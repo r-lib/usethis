@@ -65,7 +65,7 @@ roxygen_ns_append <- function(tag) {
   )
 }
 
-roxygen_update <- function() {
+roxygen_remind <- function() {
   ui_todo("Run {ui_code('devtools::document()')} to update {ui_path('NAMESPACE')}")
   TRUE
 }

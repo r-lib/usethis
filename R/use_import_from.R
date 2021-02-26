@@ -33,7 +33,7 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   fun <- gsub("\\(.*\\)", "", fun)
   fun <- glue_collapse(fun, sep = " ")
   changed <- roxygen_ns_append(glue("@importFrom {package} {fun}")) &&
-    roxygen_update()
+    roxygen_remind()
 
   if (changed && load) {
     check_installed("pkgload")

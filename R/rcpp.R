@@ -24,7 +24,7 @@ use_rcpp <- function(name = NULL) {
 
   use_dependency("Rcpp", "LinkingTo")
   use_dependency("Rcpp", "Imports")
-  roxygen_ns_append("@importFrom Rcpp sourceCpp") && roxygen_update()
+  roxygen_ns_append("@importFrom Rcpp sourceCpp") && roxygen_remind()
 
   use_src_example_script(name, "cpp")
 
@@ -55,7 +55,7 @@ use_rcpp_eigen <- function(name = NULL) {
 
   use_dependency("RcppEigen", "LinkingTo")
 
-  roxygen_ns_append("@import RcppEigen") && roxygen_update()
+  roxygen_ns_append("@import RcppEigen") && roxygen_remind()
 
   invisible()
 }
@@ -77,7 +77,7 @@ use_src <- function() {
   use_directory("src")
   use_git_ignore(c("*.o", "*.so", "*.dll"), "src")
   roxygen_ns_append(glue("@useDynLib {project_name()}, .registration = TRUE")) &&
-    roxygen_update()
+    roxygen_remind()
 
   invisible()
 }
