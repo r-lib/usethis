@@ -6,8 +6,8 @@
 #' package allows you to refer to it without a namespace (e.g., `fun()` instead
 #' of `package::fun()`). 
 #'
-#' @param package Name of package to import `fun` from
-#' @param fun Name of function to import
+#' @param package Package name
+#' @param fun Function name
 #' @param load Logical. Re-load with [`pkgload::load_all()`]?
 #'
 #' @return Invisibly, `TRUE` if the package document has changed, `FALSE` if
