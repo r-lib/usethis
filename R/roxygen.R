@@ -72,7 +72,9 @@ roxygen_remind <- function() {
 
 roxygen_update_ns <- function() {
   ui_done("Writing {ui_path('NAMESPACE')}")
-  capture.output(suppressMessages(roxygen2::roxygenise(proj_get(), "namespace")))
+  utils::capture.output(
+    suppressMessages(roxygen2::roxygenise(proj_get(), "namespace"))
+  )
   TRUE
 }
 
