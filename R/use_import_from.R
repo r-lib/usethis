@@ -31,14 +31,20 @@ use_import_from <- function(package, fun, load = is_interactive()) {
 
   use_dependency(package, "Imports")
 
-  fun <- gsub("\\(.*\\)", "", fun)
-  fun <- glue_collapse(fun, sep = " ")
-  changed <- roxygen_ns_append(glue("@importFrom {package} {fun}")) &&
+  if (!exists(fun, asNamespace(package))) {
+    name <- paste0(package, "::", fun, "()")
+    ui_stop("Can't find {ui_code(name)}")
+  }
+
+  changed <- roxygen_ns_append(glue("@importFrom {package} {fun}"))
+
+  if (changed) {
     roxygen_update_ns()
 
-  if (changed && load) {
-    ui_done("Loading {project_name()}")
-    pkgload::load_all(quiet = TRUE)
+    if (load) {
+      ui_done("Loading {project_name()}")
+      pkgload::load_all(quiet = TRUE)
+    }
   }
 
   invisible(changed)
