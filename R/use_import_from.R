@@ -53,10 +53,10 @@ check_has_package_doc <- function() {
     return(invisible(FALSE))
   }
 
-  add_pkg_doc <- ui_yeah("{ui_code('use_import_from()')} requires \\
-                         package-level documentation. Would you like to add \\
-                         it now?")
-  if (add_pkg_doc) {
+  if (ui_yeah("
+    {ui_code('use_import_from()')} requires \\
+    package-level documentation. Would you like to add \\
+    it now?")) {
     use_package_doc()
   } else {
     ui_todo("Run {ui_code('use_package_doc()')}")
