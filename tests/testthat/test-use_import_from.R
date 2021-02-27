@@ -10,6 +10,12 @@ test_that("use_import_from() imports the related package", {
   expect_match(desc::desc_get("Imports", proj_get()), "tibble")
 })
 
+test_that("use_import_from() errors if function not found", {
+  create_local_package()
+  use_package_doc()
+  expect_snapshot(use_import_from("tibble", "pool_noodle"), error = TRUE)
+})
+
 test_that("use_import_from() adds @importFrom to package doc", {
   create_local_package()
   use_package_doc()

@@ -28,14 +28,9 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   if (!check_has_package_doc()) {
     return(invisible(FALSE))
   }
+  purrr::walk2(package, fun, check_fun_exists)
 
   use_dependency(package, "Imports")
-
-  if (!exists(fun, asNamespace(package))) {
-    name <- paste0(package, "::", fun, "()")
-    ui_stop("Can't find {ui_code(name)}")
-  }
-
   changed <- roxygen_ns_append(glue("@importFrom {package} {fun}"))
 
   if (changed) {
@@ -48,6 +43,14 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   }
 
   invisible(changed)
+}
+
+check_fun_exists <- function(package, fun) {
+  if (exists(fun, envir = asNamespace(package))) {
+    return()
+  }
+  name <- paste0(package, "::", fun, "()")
+  ui_stop("Can't find {ui_code(name)}")
 }
 
 check_has_package_doc <- function() {

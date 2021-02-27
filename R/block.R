@@ -2,7 +2,7 @@ block_append <- function(desc, value, path, block_start, block_end,
                          block_prefix = NULL, block_suffix = NULL) {
   if (!is.null(path) && file_exists(path)) {
     lines <- read_utf8(path)
-    if (value %in% lines) {
+    if (all(value %in% lines)) {
       return(FALSE)
     }
 
