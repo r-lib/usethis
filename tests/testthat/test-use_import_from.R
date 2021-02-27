@@ -24,6 +24,15 @@ test_that("use_import_from() adds @importFrom to package doc", {
   expect_match(package_doc, "#' @importFrom tibble tibble", all = FALSE)
 })
 
+test_that("use_import_from() errors if more than one package", {
+  create_local_package()
+  use_package_doc()
+  expect_snapshot(
+    use_import_from(c("tibble", "rlang"), c("tibble", "abort")),
+    error = TRUE
+  )
+})
+
 test_that("use_import_from() adds a vector of functions", {
   create_local_package()
   use_package_doc()
