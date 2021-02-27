@@ -14,21 +14,21 @@ use_import_from(package, fun, load = is_interactive())
 \item{load}{Logical. Re-load with \code{\link[pkgload:load_all]{pkgload::load_all()}}?}
 }
 \value{
-Invisibly, \code{TRUE} if the package document has changed, \code{FALSE} if
-not.
+Invisibly, \code{TRUE} if the package document has changed, \code{FALSE} if not.
 }
 \description{
 \code{use_import_from()} imports a function from another package by adding the
 roxygen2 \verb{@importFrom} tag to the package-level documentation (which can be
 created with \code{\link[=use_package_doc]{use_package_doc()}}). Importing a function from another
 package allows you to refer to it without a namespace (e.g., \code{fun()} instead
-of \code{package::fun()}). \code{use_import_from()} will also re-load the current
-package so that \code{fun} is loaded, as well.
+of \code{package::fun()}).
+
+\code{use_import_from()} also re-documents the NAMESPACE, and re-load the current
+package. This ensures that \code{fun} is immediately available in your development
+session.
 }
 \examples{
-
 \dontrun{
 use_import_from("usethis", "ui_todo")
 }
-
 }
