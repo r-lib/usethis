@@ -38,5 +38,7 @@ test_that("use_import_from() adds a vector of functions", {
   use_package_doc()
   use_import_from("tibble", c("tibble", "enframe", "deframe"))
   package_doc <- read_utf8(proj_path(package_doc_path()))
-  expect_match(package_doc, "#' @importFrom tibble tibble enframe deframe", all = FALSE)
+  expect_match(package_doc, "#' @importFrom tibble tibble", all = FALSE)
+  expect_match(package_doc, "#' @importFrom tibble enframe", all = FALSE)
+  expect_match(package_doc, "#' @importFrom tibble deframe", all = FALSE)
 })
