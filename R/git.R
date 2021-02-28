@@ -384,7 +384,11 @@ git_clean <- function() {
     ui_paths <- c(ui_paths[1:10], "...")
   }
 
-  file_hint <- "There are {n} untracked file(s):"
+  if (n == 1) {
+    file_hint <- "There is 1 untracked file:"
+  } else {
+    file_hint <- "There are {n} untracked files:"
+  }
   ui_line(c(
     file_hint,
     paste0("* ", ui_paths)
