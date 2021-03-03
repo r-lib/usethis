@@ -23,7 +23,7 @@
 #' }
 use_import_from <- function(package, fun, load = is_interactive()) {
   if (!is_string(package)) {
-    ui_stop("`package` must be a single string")
+    ui_stop("{ui_code('package')} must be a single string")
   }
   check_is_package("use_import_from()")
   check_uses_roxygen("use_import_from()")
