@@ -61,7 +61,8 @@ roxygen_ns_append <- function(tag) {
     path = proj_path(package_doc_path()),
     block_start = "## usethis namespace: start",
     block_end = "## usethis namespace: end",
-    block_suffix = "NULL"
+    block_suffix = "NULL",
+    sort = TRUE
   )
 }
 
