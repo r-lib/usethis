@@ -1,5 +1,6 @@
 test_that("block_append() only writes unique lines", {
-  path <- tempfile()
+
+  path <- withr::local_tempfile()
   writeLines(block_create(), path)
 
   block_append("---", c("x", "y"), path)
@@ -8,7 +9,7 @@ test_that("block_append() only writes unique lines", {
 })
 
 test_that("block_append() can sort, if requested", {
-  path <- tempfile()
+  path <- withr::local_tempfile()
   writeLines(block_create(), path)
 
   block_append("---", c("z", "y"), path)
