@@ -25,12 +25,12 @@ use_pipe <- function(export = TRUE) {
   use_dependency("magrittr", "Imports")
 
   if (export) {
-    use_template("pipe.R", "R/utils-pipe.R") && roxygen_update()
+    use_template("pipe.R", "R/utils-pipe.R") && roxygen_remind()
     return(invisible(TRUE))
   }
 
   if (has_package_doc()) {
-    roxygen_ns_append("@importFrom magrittr %>%") && roxygen_update()
+    roxygen_ns_append("@importFrom magrittr %>%") && roxygen_remind()
     return(invisible(TRUE))
   }
 

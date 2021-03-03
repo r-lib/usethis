@@ -9,6 +9,9 @@
   
 * `use_tidy_release_test_env()` has been deleted since we no longer recommend
   including test environment in CRAN comments (#1365).
+  
+* Added `use_import_from()` to put `@importFrom pkg fun` into a package in a 
+  consistent way (@malcolmbarrett, #1377)
 
 # usethis 2.0.1
 

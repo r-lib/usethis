@@ -61,15 +61,30 @@ roxygen_ns_append <- function(tag) {
     path = proj_path(package_doc_path()),
     block_start = "## usethis namespace: start",
     block_end = "## usethis namespace: end",
-    block_suffix = "NULL"
+    block_suffix = "NULL",
+    sort = TRUE
+  )
+}
+roxygen_ns_show <- function(tag) {
+  block_show(
+    path = proj_path(package_doc_path()),
+    block_start = "## usethis namespace: start",
+    block_end = "## usethis namespace: end"
   )
 }
 
-roxygen_update <- function() {
+roxygen_remind <- function() {
   ui_todo("Run {ui_code('devtools::document()')} to update {ui_path('NAMESPACE')}")
   TRUE
 }
 
+roxygen_update_ns <- function() {
+  ui_done("Writing {ui_path('NAMESPACE')}")
+  utils::capture.output(
+    suppressMessages(roxygen2::roxygenise(proj_get(), "namespace"))
+  )
+  TRUE
+}
 
 # Checkers ----------------------------------------------------------------
 

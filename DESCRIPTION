@@ -50,6 +50,7 @@ Suggests:
     knitr,
     magick,
     mockr,
+    pkgload,
     rmarkdown,
     roxygen2,
     spelling (>= 1.2),

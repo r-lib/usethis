@@ -1,8 +1,12 @@
-block_append <- function(desc, value, path, block_start, block_end,
-                         block_prefix = NULL, block_suffix = NULL) {
+block_append <- function(desc, value, path,
+                         block_start = "# <<<",
+                         block_end = "# >>>",
+                         block_prefix = NULL,
+                         block_suffix = NULL,
+                         sort = FALSE) {
   if (!is.null(path) && file_exists(path)) {
     lines <- read_utf8(path)
-    if (value %in% lines) {
+    if (all(value %in% lines)) {
       return(FALSE)
     }
 
@@ -24,10 +28,14 @@ block_append <- function(desc, value, path, block_start, block_end,
   end <- block_lines[[2]]
   block <- lines[seq2(start, end)]
 
+  new_lines <- union(block, value)
+  if (sort) {
+    new_lines <- sort(new_lines)
+  }
+
   lines <- c(
     lines[seq2(1, start - 1L)],
-    block,
-    value,
+    new_lines,
     lines[seq2(end + 1L, length(lines))]
   )
   write_utf8(path, lines)
@@ -35,7 +43,9 @@ block_append <- function(desc, value, path, block_start, block_end,
   TRUE
 }
 
-block_replace <- function(desc, value, path, block_start, block_end) {
+block_replace <- function(desc, value, path,
+                          block_start = "# <<<",
+                          block_end = "# >>>") {
   if (!is.null(path) && file_exists(path)) {
     lines <- read_utf8(path)
     block_lines <- block_find(lines, block_start, block_end)
@@ -68,13 +78,13 @@ block_replace <- function(desc, value, path, block_start, block_end) {
 }
 
 
-block_show <- function(path, block_start, block_end) {
+block_show <- function(path, block_start = "# <<<", block_end = "# >>>") {
   lines <- read_utf8(path)
   block <- block_find(lines, block_start, block_end)
   lines[seq2(block[[1]], block[[2]])]
 }
 
-block_find <- function(lines, block_start, block_end) {
+block_find <- function(lines, block_start = "# <<<", block_end = "# >>>") {
   # No file
   if (is.null(lines)) {
     return(NULL)
@@ -96,4 +106,8 @@ block_find <- function(lines, block_start, block_end) {
   }
 
   c(start + 1L, end - 1L)
+}
+
+block_create <- function(lines = character(), block_start = "# <<<", block_end = "# >>>") {
+  c(block_start, unique(lines), block_end)
 }
