@@ -22,7 +22,9 @@
 #' use_import_from("usethis", "ui_todo")
 #' }
 use_import_from <- function(package, fun, load = is_interactive()) {
-  stopifnot(isTRUE(length(package) == 1))
+  if (!is_string(package)) {
+    ui_stop("`package` must be a single string")
+  }
   check_is_package("use_import_from()")
   check_uses_roxygen("use_import_from()")
 

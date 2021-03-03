@@ -1,44 +1,28 @@
-test_that("use_import_from() requires a package", {
-  create_local_project()
-  expect_usethis_error(use_import_from(), "not an R package")
-})
-
-test_that("use_import_from() imports the related package", {
+test_that("use_import_from() imports the related package & adds line to package doc", {
   create_local_package()
   use_package_doc()
   use_import_from("tibble", "tibble")
-  expect_match(desc::desc_get("Imports", proj_get()), "tibble")
+
+  expect_equal(trimws(desc::desc_get("Imports", proj_get()))[[1]], "tibble")
+  expect_equal(roxygen_ns_show(), "#' @importFrom tibble tibble")
 })
 
-test_that("use_import_from() errors if function not found", {
-  create_local_package()
-  use_package_doc()
-  expect_snapshot(use_import_from("tibble", "pool_noodle"), error = TRUE)
-})
-
-test_that("use_import_from() adds @importFrom to package doc", {
-  create_local_package()
-  use_package_doc()
-  use_import_from("tibble", "tibble")
-  package_doc <- read_utf8(proj_path(package_doc_path()))
-  expect_match(package_doc, "#' @importFrom tibble tibble", all = FALSE)
-})
-
-test_that("use_import_from() errors if more than one package", {
-  create_local_package()
-  use_package_doc()
-  expect_snapshot(
-    use_import_from(c("tibble", "rlang"), c("tibble", "abort")),
-    error = TRUE
-  )
-})
-
-test_that("use_import_from() adds a vector of functions", {
+test_that("use_import_from() adds one line for each function", {
   create_local_package()
   use_package_doc()
   use_import_from("tibble", c("tibble", "enframe", "deframe"))
-  package_doc <- read_utf8(proj_path(package_doc_path()))
-  expect_match(package_doc, "#' @importFrom tibble tibble", all = FALSE)
-  expect_match(package_doc, "#' @importFrom tibble enframe", all = FALSE)
-  expect_match(package_doc, "#' @importFrom tibble deframe", all = FALSE)
+
+  expect_snapshot(roxygen_ns_show())
+})
+
+test_that("use_import_from() generates helpful errors", {
+  create_local_package()
+  use_package_doc()
+
+  expect_snapshot(error = TRUE, {
+    use_import_from(1)
+    use_import_from(c("tibble", "rlang"))
+
+    use_import_from("tibble", "pool_noodle")
+  })
 })

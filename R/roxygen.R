@@ -65,6 +65,13 @@ roxygen_ns_append <- function(tag) {
     sort = TRUE
   )
 }
+roxygen_ns_show <- function(tag) {
+  block_show(
+    path = proj_path(package_doc_path()),
+    block_start = "## usethis namespace: start",
+    block_end = "## usethis namespace: end"
+  )
+}
 
 roxygen_remind <- function() {
   ui_todo("Run {ui_code('devtools::document()')} to update {ui_path('NAMESPACE')}")
