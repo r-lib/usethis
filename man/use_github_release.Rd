@@ -14,6 +14,10 @@ determined from the current project's GitHub remotes.}
 \description{
 Creates a \strong{draft} GitHub release for the current package using the current
 version and \code{NEWS.md}. If you are comfortable that it is correct, you will
-need to publish the release from GitHub. It also deletes \code{CRAN-RELEASE} and
-checks that you've pushed all commits to GitHub.
+need to publish the release from GitHub.
+
+When \code{CRAN-RELEASE} is present (as produced by \code{devtools::release()} or
+\code{devtools::submit_cran}), the target commit is extracted from there and,
+after the draft release is successfully created, \code{CRAN-RELEASE} is deleted.
+Otherwise, the release tag is set to current \code{HEAD}.
 }
