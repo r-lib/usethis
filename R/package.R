@@ -33,8 +33,8 @@ use_package <- function(package, type = "Imports", min_version = NULL) {
     refuse_package(package, verboten = c("tidyverse", "tidymodels"))
   }
 
-  use_dependency(package, type, min_version = min_version)
-  how_to_use(package, type)
+  changed <- use_dependency(package, type, min_version = min_version)
+  if (changed) how_to_use(package, type)
 
   invisible()
 }
@@ -44,9 +44,9 @@ use_package <- function(package, type = "Imports", min_version = NULL) {
 use_dev_package <- function(package, type = "Imports", remote = NULL) {
   refuse_package(package, verboten = c("tidyverse", "tidymodels"))
 
-  use_dependency(package, type = type, min_version = TRUE)
+  changed <- use_dependency(package, type = type, min_version = TRUE)
   use_remote(package, remote)
-  how_to_use(package, type)
+  if (changed) how_to_use(package, type)
 
   invisible()
 }
