@@ -113,6 +113,8 @@ test_that("browse_XXX() goes to correct URL", {
   expect_equal(browse_travis("usethis", ext = "org"), "https://travis-ci.org/r-lib/usethis")
 
   expect_equal(browse_cran("usethis"), "https://cran.r-project.org/package=usethis")
+
+  expect_equal(browse_rseek("usethis"), "https://rseek.org/?q=usethis")
 })
 
 test_that("browse_package() errors if no project", {

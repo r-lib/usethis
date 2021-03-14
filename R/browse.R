@@ -264,3 +264,17 @@ desc_urls <- function(package = NULL, include_cran = FALSE, desc = NULL) {
   dat$is_github <- !is.na(dat$.match) & grepl("github", dat$host)
   dat[c("url", "desc_field", "is_github")]
 }
+
+#' Search the web with rseek
+#'
+#' This function takes you to a search page on rseek.org and returns the target
+#' URL invisibly.
+#'
+#' @param term Search term
+#'
+#' @examples
+#' browse_rseek("How to use usethis")
+
+browse_rseek <- function(term) {
+  view_url(paste0("https://rseek.org/?q=", term))
+}
