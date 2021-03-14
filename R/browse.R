@@ -272,6 +272,7 @@ desc_urls <- function(package = NULL, include_cran = FALSE, desc = NULL) {
 #'
 #' @param term Search term
 #'
+#' @export
 #' @examples
 #' browse_rseek("How to use usethis")
 
