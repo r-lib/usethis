@@ -7,15 +7,13 @@
 use_data_table()
 }
 \description{
-\code{use_data_table} facilitates importing the data.table package by handling
-up-front some common set-up tasks for using it in your package.
-
-This function does two main things:
-\enumerate{
-\item Import the entire data.table namespace (with \verb{@import}).
-\item Block the usage of data.table as a dependency (\code{DESCRIPTION} field
-\code{Depends}); \code{data.table} should be used as an \emph{imported} or \emph{suggested}
-package only. See this
+\code{use_data_table()} imports the \code{data.table()} function from the data.table
+package, as well as several important symbols: \verb{:=}, \code{.SD}, \code{.BY}, \code{.N},
+\code{.I}, \code{.GRP}, \code{.NGRP}, \code{.EACHI}. This is a minimal setup to get \code{data.table}s
+working with your package. See the \href{https://rdatatable.gitlab.io/data.table/articles/datatable-importing.html}{importing data.table}
+vignette for other strategies. In addition to importing these function,
+\code{use_data_table()} also blocks the usage of data.table as a dependency
+(\code{DESCRIPTION} field \code{Depends}); \code{data.table} should be used as an \emph{imported}
+or \emph{suggested} package only. See this
 \href{https://github.com/Rdatatable/data.table/issues/3076}{discussion}.
-}
 }
