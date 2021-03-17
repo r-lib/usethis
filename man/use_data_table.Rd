@@ -12,8 +12,8 @@ package, as well as several important symbols: \verb{:=}, \code{.SD}, \code{.BY}
 \code{.I}, \code{.GRP}, \code{.NGRP}, \code{.EACHI}. This is a minimal setup to get \code{data.table}s
 working with your package. See the \href{https://rdatatable.gitlab.io/data.table/articles/datatable-importing.html}{importing data.table}
 vignette for other strategies. In addition to importing these function,
-\code{use_data_table()} also blocks the usage of data.table as a dependency
-(\code{DESCRIPTION} field \code{Depends}); \code{data.table} should be used as an \emph{imported}
-or \emph{suggested} package only. See this
+\code{use_data_table()} also blocks the usage of data.table in the \code{Depends} field
+of the \code{DESCRIPTION} file; \code{data.table} should be used as an \emph{imported} or
+\emph{suggested} package only. See this
 \href{https://github.com/Rdatatable/data.table/issues/3076}{discussion}.
 }

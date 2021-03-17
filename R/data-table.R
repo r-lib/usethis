@@ -8,9 +8,9 @@
 #' working with your package. See the [importing
 #' data.table](https://rdatatable.gitlab.io/data.table/articles/datatable-importing.html)
 #' vignette for other strategies. In addition to importing these function,
-#' `use_data_table()` also blocks the usage of data.table as a dependency
-#' (`DESCRIPTION` field `Depends`); `data.table` should be used as an _imported_
-#' or _suggested_ package only. See this
+#' `use_data_table()` also blocks the usage of data.table in the `Depends` field
+#' of the `DESCRIPTION` file; `data.table` should be used as an _imported_ or
+#' _suggested_ package only. See this
 #' [discussion](https://github.com/Rdatatable/data.table/issues/3076).
 #' @export
 use_data_table <- function() {
