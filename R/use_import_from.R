@@ -29,6 +29,8 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   check_uses_roxygen("use_import_from()")
 
   if (!check_has_package_doc()) {
+    ui_oops("A package document is required.")
+    ui_todo("Run {ui_code('use_package_doc()')} to create one.")
     return(invisible(FALSE))
   }
   purrr::walk2(package, fun, check_fun_exists)
