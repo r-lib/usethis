@@ -51,6 +51,7 @@ use_import_from <- function(package, fun, load = is_interactive()) {
 }
 
 check_fun_exists <- function(package, fun) {
+  check_installed(package)
   if (exists(fun, envir = asNamespace(package))) {
     return()
   }
