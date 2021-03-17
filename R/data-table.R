@@ -23,8 +23,9 @@ use_data_table <- function() {
     ui_warn("data.table should be in Imports or Suggests, not Depends")
     desc::desc_del_dep("data.table", "Depends", file = proj_get())
   }
-  use_dependency("data.table", "Imports")
-  new <- use_template("data-table.R", "R/utils-data-table.R")
-  ui_todo("Run {ui_code('devtools::document()')}")
-  invisible(new)
+
+  use_import_from(
+    "data.table",
+    c("data.table", ":=", ".SD", ".BY", ".N", ".I", ".GRP", ".NGRP", ".EACHI")
+  )
 }

@@ -5,11 +5,20 @@ test_that("use_data_table() requires a package", {
 
 test_that("use_data_table() Imports data.table", {
   create_local_package()
+  use_package_doc()
   with_mock(
     check_installed = function(pkg) TRUE,
     use_data_table()
   )
   expect_match(desc::desc_get("Imports"), "data.table")
-  datatable_doc <- read_utf8(proj_path("R", "utils-data-table.R"))
-  expect_match(datatable_doc, "#' @import data.table", all = FALSE)
+  package_doc <- read_utf8(proj_path(package_doc_path()))
+
+  purrr::walk(
+    c("data.table", ":=", ".SD", ".BY", ".N", ".I", ".GRP", ".NGRP", ".EACHI"),
+    ~ expect_match(
+      package_doc,
+      glue("#' @importFrom data.table {.x}"),
+      all = FALSE
+    )
+  )
 })
