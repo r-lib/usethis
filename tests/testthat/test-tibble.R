@@ -6,7 +6,7 @@ test_that("use_tibble() requires a package", {
 test_that("use_tibble() Imports tibble", {
   create_local_package(path_temp("mypackage"))
   withr::local_options(list(usethis.quiet = FALSE))
-  use_package_doc()
+  ui_silence(use_package_doc())
   expect_snapshot(use_tibble())
   expect_match(desc::desc_get("Imports", proj_get()), "tibble")
 })
