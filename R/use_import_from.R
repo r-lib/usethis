@@ -27,6 +27,7 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   }
   check_is_package("use_import_from()")
   check_uses_roxygen("use_import_from()")
+  check_installed(package)
 
   if (!check_has_package_doc()) {
     return(invisible(FALSE))
@@ -49,7 +50,6 @@ use_import_from <- function(package, fun, load = is_interactive()) {
 }
 
 check_fun_exists <- function(package, fun) {
-  check_installed(package)
   if (exists(fun, envir = asNamespace(package))) {
     return()
   }
