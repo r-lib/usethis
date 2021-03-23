@@ -3,7 +3,7 @@ test_that("use_addin() creates the first addins.dcf as promised", {
   use_addin("addin.test")
 
   addin_dcf <- read_utf8(proj_path("inst", "rstudio", "addins.dcf"))
-  expected_file <- system.file("templates", "addins.dcf", package = "usethis")
+  expected_file <- path_package("usethis", "templates", "addins.dcf")
   addin_dcf_expected <- read_utf8(expected_file)
   addin_dcf_expected[3] <- "Binding: addin.test"
   addin_dcf_expected[5] <- ""
