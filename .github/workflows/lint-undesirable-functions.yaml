@@ -75,6 +75,7 @@ jobs:
             "normalizePath",
             "path.expand",
             "system.file",
+            "tempdir",
             "tempfile",
             "unlink",
             "basename",
