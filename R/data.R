@@ -50,6 +50,11 @@ use_data <- function(...,
   } else {
     use_directory("data")
     paths <- path("data", objs, ext = "rda")
+    if (!desc::desc_has_fields("LazyData")) {
+      ui_done("Setting {ui_field('LazyData')} to \\
+              {ui_value('true')} in {ui_path('DESCRIPTION')}")
+      desc::desc_set("LazyData", "true")
+    }
   }
   check_files_absent(proj_path(paths), overwrite = overwrite)
 
