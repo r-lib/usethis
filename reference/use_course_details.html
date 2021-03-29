@@ -60,6 +60,8 @@ use_zip(). Only create_download_url() is exported." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -81,9 +83,18 @@ use_zip(). Only create_download_url() is exported." />
 </script>
 
 
+<!-- dependencies from examples -->
+
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -243,7 +254,7 @@ filename is generated from the input URL. In either case, the filename is
 sanitized. Returns the path to downloaded ZIP file, invisibly.</p>
 <p><code>tidy_download()</code> is setup to retry after a download failure. In an
 interactive session, it asks for user's consent. All retries use a longer
-connect timeout.</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>DropBox</h3>
+connect timeout.</p><h3 class='hasAnchor' id='dropbox'><a class='anchor' href='#dropbox'></a>DropBox</h3>
 
 
 <p>To make a folder available for ZIP download, create a shared link for it:</p><ul>
@@ -263,7 +274,7 @@ eventually lead to a download URL. For more details, see
 <a href='https://help.dropbox.com/files-folders/share/force-download'>https://help.dropbox.com/files-folders/share/force-download</a> and
 <a href='https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders'>https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders</a>.</p>
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>GitHub</h3>
+<h3 class='hasAnchor' id='github'><a class='anchor' href='#github'></a>GitHub</h3>
 
 
 <p>Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
@@ -283,7 +294,7 @@ https://api.github.com/repos/r-lib/usethis/zipball/REF
 <p>You can use <code>create_download_url()</code> to create the "Download ZIP" URL from
 a typical GitHub browser URL.</p>
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Google Drive</h3>
+<h3 class='hasAnchor' id='google-drive'><a class='anchor' href='#google-drive'></a>Google Drive</h3>
 
 
 <p>To our knowledge, it is not possible to download a Google Drive folder as a
@@ -357,11 +368,11 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://jennybryan.org" class="external-link">Jennifer Bryan</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -386,6 +397,8 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
 </script>
 
 
+
+  
 
   </body>
 </html>

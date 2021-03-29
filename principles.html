@@ -58,6 +58,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -79,9 +81,16 @@
 </script>
 
 
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -200,11 +209,12 @@
 <div id="activation-upon-load-or-attach-no" class="section level3">
 <h3 class="hasAnchor">
 <a href="#activation-upon-load-or-attach-no" class="anchor"></a>Activation upon load or attach? No.</h3>
-<p>We’ve contemplated project activation in <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onLoad()</a></code> or <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onAttach()</a></code>, but it’s not clear which is more appropriate. Which suggests that neither is appropriate. If we ever do this, <code>zzz.R</code> would include something like this:</p>
-<pre class="{.r}"><code>.onLoad &lt;- function(libname, pkgname) {
-  try(proj_set(".", quiet = TRUE), silent = TRUE)
-}</code></pre>
-<p>Why not <code><a href="https://rdrr.io/r/base/ns-hooks.html">.onAttach()</a></code>?</p>
+<p>We’ve contemplated project activation in <code><a href="https://rdrr.io/r/base/ns-hooks.html" class="external-link">.onLoad()</a></code> or <code><a href="https://rdrr.io/r/base/ns-hooks.html" class="external-link">.onAttach()</a></code>, but it’s not clear which is more appropriate. Which suggests that neither is appropriate. If we ever do this, <code>zzz.R</code> would include something like this:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">.onLoad</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">libname</span>, <span class="va">pkgname</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="reference/proj_utils.html">proj_set</a></span><span class="op">(</span><span class="st">"."</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<p>Why not <code><a href="https://rdrr.io/r/base/ns-hooks.html" class="external-link">.onAttach()</a></code>?</p>
 <ul>
 <li>A package that imported usethis would also need to set project on attach.</li>
 <li>Currently user can open R, attach (or load) usethis, and then change working directory to their target project. As long as they are in the project the first time <code><a href="reference/proj_utils.html">proj_get()</a></code> is called, the correct project will be made active. This is not our preferred workflow, but it is common.</li>
@@ -243,11 +253,11 @@
 <div id="communicating-with-the-user" class="section level2">
 <h2 class="hasAnchor">
 <a href="#communicating-with-the-user" class="anchor"></a>Communicating with the user</h2>
-<p>User-facing messages are emitted via helpers in <code>ui.R</code> and <em>everything</em> is eventually routed through <code><a href="https://rlang.r-lib.org/reference/abort.html">rlang::inform()</a></code> via <code>ui_inform()</code>. This is all intentional and should be preserved.</p>
+<p>User-facing messages are emitted via helpers in <code>ui.R</code> and <em>everything</em> is eventually routed through <code><a href="https://rlang.r-lib.org/reference/abort.html" class="external-link">rlang::inform()</a></code> via <code>ui_inform()</code>. This is all intentional and should be preserved.</p>
 <p>This is so we can control verbosity package-wide with the <code>usethis.quiet</code> option, which defaults to <code>FALSE</code>.</p>
 <ul>
 <li>Exploited in usethis tests: option is set and unset in <code>setup.R</code> and <code>teardown.R</code>. Eliminates the need for ubiquitous <code>capture_output()</code> calls.</li>
-<li>Other packages can muffle a usethis call via, e.g., <code><a href="https://withr.r-lib.org/reference/with_options.html">withr::local_options(list(usethis.quiet = TRUE))</a></code>.</li>
+<li>Other packages can muffle a usethis call via, e.g., <code><a href="https://withr.r-lib.org/reference/with_options.html" class="external-link">withr::local_options(list(usethis.quiet = TRUE))</a></code>.</li>
 <li>Use <code><a href="reference/ui.html">ui_silence()</a></code> for executing small bits of code silently.</li>
 </ul>
 </div>
@@ -276,7 +286,7 @@
 </ul>
 <p>If the default summoning of Git credentials or GitHub PAT doesn’t work for the user, help them diagnose that. But we are NOT in the credential management business and we aren’t going to offer fine control of this at, say, the level of individual functions.</p>
 <p>Functions that might make a commit should use <code>challenge_uncommitted_changes()</code> in the initial sanity-checking block to encourage starting in a clean state, i.e. with no uncommitted files or, if <code>untracked = TRUE</code> is specified, also with no untracked files. We allow people to proceed at their own risk.</p>
-<p>Always make commits with <code>git_commit_ask()</code>. This why <code>git_commit()</code>, which wraps <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html">gert::git_add()</a></code> and <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html">gert::git_commit()</a></code>, is defined <em>inside</em> <code>git_commit_ask()</code>. Whenever possible, specify <code>paths</code> for <code>git_commit_ask()</code>. It should almost always be possible to know exactly which files we might have touched or created. If you need to make a commit in a noninteractive context, like a test, use <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html">gert::git_commit()</a></code>.</p>
+<p>Always make commits with <code>git_commit_ask()</code>. This why <code>git_commit()</code>, which wraps <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html" class="external-link">gert::git_add()</a></code> and <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html" class="external-link">gert::git_commit()</a></code>, is defined <em>inside</em> <code>git_commit_ask()</code>. Whenever possible, specify <code>paths</code> for <code>git_commit_ask()</code>. It should almost always be possible to know exactly which files we might have touched or created. If you need to make a commit in a noninteractive context, like a test, use <code><a href="https://docs.ropensci.org/gert/reference/git_commit.html" class="external-link">gert::git_commit()</a></code>.</p>
 <p>Use <code>git_uncommitted(untracked = TRUE)</code> and <code>git_ask_commit(untracked = TRUE)</code> if it’s possible that the work we’ve done has <strong>created</strong> a new file that should be tracked. Use <code>untracked = FALSE</code> if our work should only modify and pre-existing file.</p>
 </div>
 </div>
@@ -295,11 +305,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, <a href='https://jennybryan.org'>Jennifer Bryan</a>, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p><p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://jennybryan.org" class="external-link">Jennifer Bryan</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -324,6 +334,8 @@
 </script>
 
 
+
+  
 
   </body>
 </html>
