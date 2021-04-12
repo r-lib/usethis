@@ -213,6 +213,7 @@ or a custom workflow given by the <code>url</code> parameter.</p>
   <span class='va'>name</span>,
   url <span class='op'>=</span> <span class='cn'>NULL</span>,
   save_as <span class='op'>=</span> <span class='cn'>NULL</span>,
+  readme <span class='op'>=</span> <span class='cn'>NULL</span>,
   ignore <span class='op'>=</span> <span class='cn'>TRUE</span>,
   open <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span>
@@ -258,6 +259,11 @@ workflow in <a href='https://github.com/r-lib/actions'>https://github.com/r-lib/
       <th>save_as</th>
       <td><p>Name of the workflow file. Defaults to <code><a href='http://fs.r-lib.org/reference/path_file.html'>fs::path_file(url)</a></code>
 for <code>use_github_action()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>readme</th>
+      <td><p>The full URL to a <code>README</code> file that provides more details
+about the action. Ignored when <code>url</code> is <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>ignore</th>
