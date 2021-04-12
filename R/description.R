@@ -153,18 +153,6 @@ valid_package_name <- function(x) {
 }
 
 tidy_desc <- function(desc) {
-  # Alphabetise dependencies
-  deps <- desc$get_deps()
-  deps <- deps[order(deps$type, deps$package), , drop = FALSE]
-  desc$del_deps()
-  desc$set_deps(deps)
-
-  # Alphabetise remotes
-  remotes <- desc$get_remotes()
-  if (length(remotes) > 0) {
-    desc$set_remotes(sort(remotes))
-  }
-
   desc$set("Encoding" = "UTF-8")
 
   # Normalize all fields (includes reordering)
