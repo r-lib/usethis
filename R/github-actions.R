@@ -139,9 +139,7 @@ use_github_action <- function(name,
     stopifnot(is_string(name))
 
     # Append a `.yaml` extension if needed
-    if (!grepl("[.]yaml$", name)) {
-      name <- paste0(name, ".yaml")
-    }
+    name <- path_ext_set(name, "yaml")
 
     url <- glue(
       "https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"
