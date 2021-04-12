@@ -12,6 +12,7 @@ use_github_action(
   name,
   url = NULL,
   save_as = NULL,
+  readme = NULL,
   ignore = TRUE,
   open = FALSE
 )
@@ -49,6 +50,9 @@ workflow in \url{https://github.com/r-lib/actions} will be used.}
 
 \item{save_as}{Name of the workflow file. Defaults to \code{fs::path_file(url)}
 for \code{use_github_action()}.}
+
+\item{readme}{The full URL to a \code{README} file that provides more details
+about the action. Ignored when \code{url} is \code{NULL}.}
 
 \item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
 

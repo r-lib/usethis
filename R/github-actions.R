@@ -120,6 +120,8 @@ use_tidy_github_actions <- function() {
 #'   workflow in <https://github.com/r-lib/actions> will be used.
 #' @param save_as Name of the workflow file. Defaults to `fs::path_file(url)`
 #'   for `use_github_action()`.
+#' @param readme The full URL to a `README` file that provides more details
+#'   about the action. Ignored when `url` is `NULL`.
 #'
 #' @seealso [github_actions] for generic workflows and badge generation.
 #'
@@ -128,6 +130,7 @@ use_tidy_github_actions <- function() {
 use_github_action <- function(name,
                               url = NULL,
                               save_as = NULL,
+                              readme = NULL,
                               ignore = TRUE,
                               open = FALSE) {
 
@@ -146,7 +149,6 @@ use_github_action <- function(name,
     readme <- "https://github.com/r-lib/actions/blob/master/examples/README.md"
   } else {
     stopifnot(is_string(url))
-    readme <- NULL
   }
 
   if (is.null(save_as)) {
