@@ -89,8 +89,7 @@ use_description_defaults <- function(package = NULL,
     Description = "What the package does (one paragraph).",
     "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "`use_mit_license()`, `use_gpl3_license()` or friends to pick a license",
-    Encoding = "UTF-8",
-    LazyData = "true"
+    Encoding = "UTF-8"
   )
 
   if (roxygen) {
