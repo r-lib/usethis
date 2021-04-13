@@ -60,8 +60,8 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✓ Creating '/tmp/RtmpBtK0Bx/mypkg/'
-#> ✓ Setting active project to '/private/tmp/RtmpBtK0Bx/mypkg'
+#> ✓ Creating '/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg/'
+#> ✓ Setting active project to '/private/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg'
 #> ✓ Creating 'R/'
 #> ✓ Writing 'DESCRIPTION'
 #> Package: mypkg
@@ -73,15 +73,14 @@ create_package(path)
 #> License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
 #>     license
 #> Encoding: UTF-8
-#> LazyData: true
 #> Roxygen: list(markdown = TRUE)
 #> RoxygenNote: 7.1.1
 #> ✓ Writing 'NAMESPACE'
 #> ✓ Setting active project to '<no active project>'
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✓ Setting active project to '/private/tmp/RtmpBtK0Bx/mypkg'
-#> ✓ Changing working directory to '/tmp/RtmpBtK0Bx/mypkg/'
+#> ✓ Setting active project to '/private/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg'
+#> ✓ Changing working directory to '/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg/'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -115,6 +114,7 @@ y <- 2
 use_data(x, y)
 #> ✓ Adding 'R' to Depends field in DESCRIPTION
 #> ✓ Creating 'data/'
+#> ✓ Setting LazyData to 'true' in 'DESCRIPTION'
 #> ✓ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'
 #> ● Document your data (see 'https://r-pkgs.org/data.html')
 
