@@ -170,8 +170,8 @@
 <span class="co"># Create a new package -------------------------------------------------</span>
 <span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mypkg"</span><span class="op">)</span>
 <span class="fu"><a href="reference/create_package.html">create_package</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
-<span class="co">#&gt; ✓ Creating '/tmp/RtmpBtK0Bx/mypkg/'</span>
-<span class="co">#&gt; ✓ Setting active project to '/private/tmp/RtmpBtK0Bx/mypkg'</span>
+<span class="co">#&gt; ✓ Creating '/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg/'</span>
+<span class="co">#&gt; ✓ Setting active project to '/private/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg'</span>
 <span class="co">#&gt; ✓ Creating 'R/'</span>
 <span class="co">#&gt; ✓ Writing 'DESCRIPTION'</span>
 <span class="co">#&gt; Package: mypkg</span>
@@ -183,15 +183,14 @@
 <span class="co">#&gt; License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a</span>
 <span class="co">#&gt;     license</span>
 <span class="co">#&gt; Encoding: UTF-8</span>
-<span class="co">#&gt; LazyData: true</span>
 <span class="co">#&gt; Roxygen: list(markdown = TRUE)</span>
 <span class="co">#&gt; RoxygenNote: 7.1.1</span>
 <span class="co">#&gt; ✓ Writing 'NAMESPACE'</span>
 <span class="co">#&gt; ✓ Setting active project to '&lt;no active project&gt;'</span>
 <span class="co"># only needed since this session isn't interactive</span>
 <span class="fu"><a href="reference/proj_activate.html">proj_activate</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
-<span class="co">#&gt; ✓ Setting active project to '/private/tmp/RtmpBtK0Bx/mypkg'</span>
-<span class="co">#&gt; ✓ Changing working directory to '/tmp/RtmpBtK0Bx/mypkg/'</span>
+<span class="co">#&gt; ✓ Setting active project to '/private/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg'</span>
+<span class="co">#&gt; ✓ Changing working directory to '/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg/'</span>
 
 <span class="co"># Modify the description ----------------------------------------------</span>
 <span class="fu"><a href="reference/licenses.html">use_mit_license</a></span><span class="op">(</span><span class="st">"My Name"</span><span class="op">)</span>
@@ -225,6 +224,7 @@
 <span class="fu"><a href="reference/use_data.html">use_data</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span>
 <span class="co">#&gt; ✓ Adding 'R' to Depends field in DESCRIPTION</span>
 <span class="co">#&gt; ✓ Creating 'data/'</span>
+<span class="co">#&gt; ✓ Setting LazyData to 'true' in 'DESCRIPTION'</span>
 <span class="co">#&gt; ✓ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span>
 <span class="co">#&gt; ● Document your data (see 'https://r-pkgs.org/data.html')</span>
 
