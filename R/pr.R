@@ -516,7 +516,9 @@ pr_clean <- function(number = NULL,
     # if the remote branch has already been deleted (probably post-merge), we
     # can't always reverse engineer what the corresponding local branch was, but
     # we already know it -- it's how we found the PR in the first place!
-    pr$pr_local_branch <- pr$pr_local_branch %|% git_branch()
+    if (!is.null(pr)) {
+      pr$pr_local_branch <- pr$pr_local_branch %|% git_branch()
+    }
   } else {
     pr <- pr_get(number = number, tr = tr)
   }
