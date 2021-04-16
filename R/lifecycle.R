@@ -1,14 +1,18 @@
 #' Use lifecycle badges
 #'
 #' @description
-#' This helper adds lifecycle as a dependency, copies the lifecycle badges into
-#' the `man/figures` folder, and reminds you how to use the badge syntax.
+#' This helper:
+#'
+#' * Adds lifecycle as a dependency.
+#' * Imports [lifecycle::deprecated()] for use in function arguments.
+#' * Copies the lifecycle badges into `man/figures`.
+#' * Reminds you how to use the badge syntax.
 #'
 #' Learn more at <https://lifecycle.r-lib.org/articles/communicate.html>
 #'
-#' @seealso [use_lifecycle_badge()] to signal the [lifecycle
-#'   stage](https://lifecycle.r-lib.org/articles/stages.html) of your package
-#'   as whole
+#' @seealso [use_lifecycle_badge()] to signal the
+#'  [lifecycle stage](https://lifecycle.r-lib.org/articles/stages.html) of
+#'  your package as whole
 #' @export
 use_lifecycle <- function() {
   check_is_package("use_lifecycle()")
@@ -19,6 +23,7 @@ use_lifecycle <- function() {
   }
 
   use_package("lifecycle")
+  use_import_from("lifecycle", "deprecated")
 
   dest_dir <- proj_path("man", "figures")
   create_directory(dest_dir)
