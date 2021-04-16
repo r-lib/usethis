@@ -12,9 +12,8 @@ test_that("use_data_table() Imports data.table", {
     check_functions_exist = function(...) TRUE,
     use_data_table()
   )
-  expect_match(desc::desc_get("Imports"), "data.table")
-  package_doc <- read_utf8(proj_path(package_doc_path()))
 
+  expect_match(desc::desc_get("Imports"), "data.table")
   expect_snapshot(roxygen_ns_show())
 })
 
@@ -31,8 +30,7 @@ test_that("use_data_table() blocks use of Depends", {
       "data.table should be in Imports or Suggests, not Depends"
     )
   )
-  expect_match(desc::desc_get("Imports"), "data.table")
-  package_doc <- read_utf8(proj_path(package_doc_path()))
 
+  expect_match(desc::desc_get("Imports"), "data.table")
   expect_snapshot(roxygen_ns_show())
 })
