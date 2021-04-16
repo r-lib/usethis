@@ -29,8 +29,7 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   check_uses_roxygen("use_import_from()")
   check_installed(package)
   check_has_package_doc("use_import_from()")
-
-  purrr::walk2(package, fun, check_fun_exists)
+  check_functions_exist(package, fun)
 
   use_dependency(package, "Imports")
   changed <- roxygen_ns_append(glue("@importFrom {package} {fun}"))
@@ -40,6 +39,10 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   }
 
   invisible(changed)
+}
+
+check_functions_exist <- function(package, fun) {
+  purrr::walk2(package, fun, check_fun_exists)
 }
 
 check_fun_exists <- function(package, fun) {
