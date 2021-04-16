@@ -107,6 +107,10 @@ use_tidy_description <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_dependencies <- function() {
+  if (!check_has_package_doc()) {
+    return(ui_stop("Requires package docs"))
+  }
+
   use_dependency("rlang", "Imports")
   use_dependency("ellipsis", "Imports")
   use_dependency("lifecycle", "Imports")
@@ -126,8 +130,9 @@ use_tidy_dependencies <- function() {
 
   # If needed, copy in lightweight purrr compatibility layer
   if (!desc::desc(proj_get())$has_dep("purrr")) {
+    use_directory("R")
     url <- "https://raw.githubusercontent.com/r-lib/rlang/master/R/compat-purrr.R"
-    path <- path_temp()
+    path <- file_temp()
     utils::download.file(url, path, quiet = TRUE)
     write_over("R/compat-purrr.R", read_utf8(path))
   }
