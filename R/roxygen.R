@@ -65,7 +65,8 @@ roxygen_ns_append <- function(tag) {
     sort = TRUE
   )
 }
-roxygen_ns_show <- function(tag) {
+
+roxygen_ns_show <- function() {
   block_show(
     path = proj_path(package_doc_path()),
     block_start = "## usethis namespace: start",
