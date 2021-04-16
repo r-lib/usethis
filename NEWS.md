@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_lifecycle()` now imports `lifecycle::deprecated()` (#1419).
+
 * `use_code_of_conduct()` now requires a `contact` argument to supply contact
   details for reporting CoC violations (#1269).
 
