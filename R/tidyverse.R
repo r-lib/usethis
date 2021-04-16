@@ -128,7 +128,7 @@ use_tidy_dependencies <- function() {
   if (!desc::desc(proj_get())$has_dep("purrr")) {
     url <- "https://raw.githubusercontent.com/r-lib/rlang/master/R/compat-purrr.R"
     path <- tempfile()
-    download.file(url, path, quiet = TRUE)
+    utils::download.file(url, path, quiet = TRUE)
     write_over("R/compat-purrr.R", readLines(path))
   }
 
