@@ -48,7 +48,9 @@ use_dev_package <- function(package, type = "Imports", remote = NULL) {
 
   changed <- use_dependency(package, type = type, min_version = TRUE)
   use_remote(package, remote)
-  if (changed) how_to_use(package, type)
+  if (changed) {
+    how_to_use(package, type)
+  }
 
   invisible()
 }
