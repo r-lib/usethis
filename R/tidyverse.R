@@ -107,9 +107,7 @@ use_tidy_description <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_dependencies <- function() {
-  if (!check_has_package_doc()) {
-    return(ui_stop("Requires package docs"))
-  }
+  check_has_package_doc("use_tidy_dependencies()")
 
   use_dependency("rlang", "Imports")
   use_dependency("ellipsis", "Imports")
