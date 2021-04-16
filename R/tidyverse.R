@@ -11,7 +11,7 @@
 #' activates the new package.
 #'
 #' * `use_tidy_dependencies()`: sets up standard dependencies used by all
-#'   tidyverse packages (except packages that are designed to dependency free).
+#'   tidyverse packages (except packages that are designed to be dependency free).
 #'
 #' * `use_tidy_description()`: puts fields in standard order and alphabetises
 #'   dependencies.
