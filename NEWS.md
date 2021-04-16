@@ -12,6 +12,10 @@
   
 * Added `use_import_from()` to put `@importFrom pkg fun` into a package in a 
   consistent way (@malcolmbarrett, #1377)
+  
+* Functions that provide code to load packages in your `.Rprofile` now use
+  `rlang::check_installed()` to make sure the package is installed locally
+  (@malcolmbarrett, #1398)
 
 # usethis 2.0.1
 
