@@ -22,6 +22,9 @@
 * Functions that provide code to load packages in your `.Rprofile` now use
   `rlang::check_installed()` to make sure the package is installed locally
   (@malcolmbarrett, #1398)
+ 
+* `use_package()` no longer guides the user on how to use a dependency when no 
+  change was made (@malcolmbarrett, #1384)
 
 # usethis 2.0.1
 
