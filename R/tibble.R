@@ -31,9 +31,10 @@ use_tibble <- function() {
   check_is_package("use_tibble()")
   check_uses_roxygen("use_tibble()")
 
-  use_dependency("tibble", "Imports")
-  roxygen_ns_append("@importFrom tibble tibble") && roxygen_remind()
+  created <- use_import_from("tibble", "tibble")
 
   ui_todo("Document a returned tibble like so:")
   ui_code_block("#' @return a [tibble][tibble::tibble-package]", copy = FALSE)
+
+  invisible(created)
 }
