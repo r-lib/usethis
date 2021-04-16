@@ -118,15 +118,20 @@ use_tidy_dependencies <- function() {
   use_dependency("glue", "Imports")
   use_dependency("withr", "Imports")
 
+
+  # standard imports
+  imports <- any(
+    roxygen_ns_append("@import rlang"),
+    roxygen_ns_append("@importFrom glue glue"),
+    roxygen_ns_append("@importFrom lifecycle deprecated")
+  )
+  if (imports) {
+    roxygen_update_ns()
+  }
+
   # add badges; we don't need the details
   ui_silence(use_lifecycle())
 
-  # standard imports
-  imports <- roxygen_ns_append("@import rlang") ||
-    roxygen_ns_append("@importFrom glue glue")
-  if (imports) {
-    roxygen_update_ns(TRUE)
-  }
 
   # If needed, copy in lightweight purrr compatibility layer
   if (!desc::desc(proj_get())$has_dep("purrr")) {
