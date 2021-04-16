@@ -60,7 +60,7 @@ git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
   if (where == "local") {
     dat <- dat[dat$level == "local", ]
   }
-  out <- dat$value[dat$name == name]
+  out <- dat$value[tolower(dat$name) == tolower(name)]
   if (length(out) > 0) out else NULL
 }
 
