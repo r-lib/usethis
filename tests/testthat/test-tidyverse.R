@@ -1,13 +1,23 @@
-test_that("use_tidy_description() alphabetises dependencies", {
+test_that("use_tidy_description() alphabetises dependencies and remotes", {
   pkg <- create_local_package()
   use_package("usethis")
   use_package("desc")
   use_package("withr", "Suggests")
   use_package("gh", "Suggests")
+  desc::desc_set_remotes(c("r-lib/styler", "jimhester/lintr"))
   use_tidy_description()
   desc <- read_utf8(proj_path("DESCRIPTION"))
   expect_gt(grep("usethis", desc), grep("desc", desc))
   expect_gt(grep("withr", desc), grep("gh", desc))
+  expect_gt(grep("r\\-lib\\/styler", desc), grep("jimhester\\/lintr", desc))
+})
+
+test_that("use_tidy_dependencies() isn't overly informative", {
+  create_local_package(fs::path_temp("tidydeps"))
+  use_package_doc()
+  withr::local_options(usethis.quiet = FALSE)
+
+  expect_snapshot(use_tidy_dependencies())
 })
 
 test_that("use_tidy_eval() inserts the template file and Imports rlang", {

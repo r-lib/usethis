@@ -27,11 +27,14 @@ test_that("use_git_config() can set local config", {
   use_git_config(
     scope = "project",
     user.name = "Jane",
-    user.email = "jane@example.org"
+    user.email = "jane@example.org",
+    init.defaultBranch = "main"
   )
   r <- git_repo()
   expect_identical(git_cfg_get("user.name", "local"), "Jane")
   expect_identical(git_cfg_get("user.email", "local"), "jane@example.org")
+  expect_identical(git_cfg_get("init.defaultBranch", "local"), "main")
+  expect_identical(git_cfg_get("init.defaultbranch", "local"), "main")
 })
 
 test_that("use_git_config() can set a non-existing config field", {
