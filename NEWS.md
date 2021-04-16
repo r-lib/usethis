@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* usethis will now overwrite files without prompting if you are using git
+  because you can undo if it's a problematic change (#1376).
+
 * `use_code_of_conduct()` now requires a `contact` argument to supply contact
   details for reporting CoC violations (#1269).
 

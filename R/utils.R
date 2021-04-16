@@ -3,6 +3,10 @@ can_overwrite <- function(path) {
     return(TRUE)
   }
 
+  if (uses_git()) {
+    return(TRUE)
+  }
+
   if (is_interactive()) {
     ui_yeah("Overwrite pre-existing file {ui_path(path)}?")
   } else {
