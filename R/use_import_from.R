@@ -37,12 +37,7 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   changed <- roxygen_ns_append(glue("@importFrom {package} {fun}"))
 
   if (changed) {
-    roxygen_update_ns()
-
-    if (load) {
-      ui_done("Loading {project_name()}")
-      pkgload::load_all(quiet = TRUE)
-    }
+    roxygen_update_ns(load)
   }
 
   invisible(changed)
