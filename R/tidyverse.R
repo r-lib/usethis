@@ -127,9 +127,9 @@ use_tidy_dependencies <- function() {
   # If needed, copy in lightweight purrr compatibility layer
   if (!desc::desc(proj_get())$has_dep("purrr")) {
     url <- "https://raw.githubusercontent.com/r-lib/rlang/master/R/compat-purrr.R"
-    path <- tempfile()
+    path <- path_temp()
     utils::download.file(url, path, quiet = TRUE)
-    write_over("R/compat-purrr.R", readLines(path))
+    write_over("R/compat-purrr.R", read_utf8(path))
   }
 
   invisible()
