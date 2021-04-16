@@ -34,7 +34,9 @@ use_package <- function(package, type = "Imports", min_version = NULL) {
   }
 
   changed <- use_dependency(package, type, min_version = min_version)
-  if (changed) how_to_use(package, type)
+  if (changed) {
+    how_to_use(package, type)
+  }
 
   invisible()
 }
