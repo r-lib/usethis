@@ -7,12 +7,18 @@
 use_lifecycle()
 }
 \description{
-This helper adds lifecycle as a dependency, copies the lifecycle badges into
-the \code{man/figures} folder, and reminds you how to use the badge syntax.
+This helper:
+\itemize{
+\item Adds lifecycle as a dependency.
+\item Imports \code{\link[lifecycle:deprecated]{lifecycle::deprecated()}} for use in function arguments.
+\item Copies the lifecycle badges into \code{man/figures}.
+\item Reminds you how to use the badge syntax.
+}
 
 Learn more at \url{https://lifecycle.r-lib.org/articles/communicate.html}
 }
 \seealso{
-\code{\link[=use_lifecycle_badge]{use_lifecycle_badge()}} to signal the \href{https://lifecycle.r-lib.org/articles/stages.html}{lifecycle stage} of your package
-as whole
+\code{\link[=use_lifecycle_badge]{use_lifecycle_badge()}} to signal the
+\href{https://lifecycle.r-lib.org/articles/stages.html}{lifecycle stage} of
+your package as whole
 }
