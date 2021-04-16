@@ -12,6 +12,9 @@
   
 * Added `use_import_from()` to put `@importFrom pkg fun` into a package in a 
   consistent way (@malcolmbarrett, #1377)
+  
+* `use_package()` no longer guides the user on how to use a dependency when no 
+  change was made (@malcolmbarrett, #1384)
 
 # usethis 2.0.1
 
