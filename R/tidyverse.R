@@ -10,6 +10,9 @@
 #' of the tidyverse conventions as possible, issues a few reminders, and
 #' activates the new package.
 #'
+#' * `use_tidy_dependencies()`: sets up standard dependencies used by all
+#'   tidyverse packages (except packages that are designed to be dependency free).
+#'
 #' * `use_tidy_description()`: puts fields in standard order and alphabetises
 #'   dependencies.
 #'
@@ -99,6 +102,45 @@ use_tidy_description <- function() {
 
   ui_todo("Run {ui_code('devtools::document()')} to update package docs")
   invisible(TRUE)
+}
+
+#' @export
+#' @rdname tidyverse
+use_tidy_dependencies <- function() {
+  check_has_package_doc("use_tidy_dependencies()")
+
+  use_dependency("rlang", "Imports")
+  use_dependency("ellipsis", "Imports")
+  use_dependency("lifecycle", "Imports")
+  use_dependency("cli", "Imports")
+  use_dependency("glue", "Imports")
+  use_dependency("withr", "Imports")
+
+
+  # standard imports
+  imports <- any(
+    roxygen_ns_append("@import rlang"),
+    roxygen_ns_append("@importFrom glue glue"),
+    roxygen_ns_append("@importFrom lifecycle deprecated")
+  )
+  if (imports) {
+    roxygen_update_ns()
+  }
+
+  # add badges; we don't need the details
+  ui_silence(use_lifecycle())
+
+
+  # If needed, copy in lightweight purrr compatibility layer
+  if (!desc::desc(proj_get())$has_dep("purrr")) {
+    use_directory("R")
+    url <- "https://raw.githubusercontent.com/r-lib/rlang/master/R/compat-purrr.R"
+    path <- file_temp()
+    utils::download.file(url, path, quiet = TRUE)
+    write_over("R/compat-purrr.R", read_utf8(path))
+  }
+
+  invisible()
 }
 
 #' @export

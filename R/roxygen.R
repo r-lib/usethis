@@ -78,11 +78,17 @@ roxygen_remind <- function() {
   TRUE
 }
 
-roxygen_update_ns <- function() {
+roxygen_update_ns <- function(load = is_interactive()) {
   ui_done("Writing {ui_path('NAMESPACE')}")
   utils::capture.output(
     suppressMessages(roxygen2::roxygenise(proj_get(), "namespace"))
   )
+
+  if (load) {
+    ui_done("Loading {project_name()}")
+    pkgload::load_all(quiet = TRUE)
+  }
+
   TRUE
 }
 

@@ -6,6 +6,7 @@
 \alias{create_tidy_package}
 \alias{use_tidy_ci}
 \alias{use_tidy_description}
+\alias{use_tidy_dependencies}
 \alias{use_tidy_eval}
 \alias{use_tidy_contributing}
 \alias{use_tidy_support}
@@ -20,6 +21,8 @@ use_tidy_github_actions()
 create_tidy_package(path, copyright_holder = NULL)
 
 use_tidy_description()
+
+use_tidy_dependencies()
 
 use_tidy_eval()
 
@@ -69,6 +72,8 @@ versions of R.
 \item \code{create_tidy_package()}: creates a new package, immediately applies as many
 of the tidyverse conventions as possible, issues a few reminders, and
 activates the new package.
+\item \code{use_tidy_dependencies()}: sets up standard dependencies used by all
+tidyverse packages (except packages that are designed to dependency free).
 \item \code{use_tidy_description()}: puts fields in standard order and alphabetises
 dependencies.
 \item \code{use_tidy_eval()}: imports a standard set of helpers to facilitate

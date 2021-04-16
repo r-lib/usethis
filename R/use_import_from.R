@@ -27,22 +27,15 @@ use_import_from <- function(package, fun, load = is_interactive()) {
   }
   check_is_package("use_import_from()")
   check_uses_roxygen("use_import_from()")
+  check_has_package_doc("use_import_from()")
 
-  if (!check_has_package_doc()) {
-    return(invisible(FALSE))
-  }
   purrr::walk2(package, fun, check_fun_exists)
 
   use_dependency(package, "Imports")
   changed <- roxygen_ns_append(glue("@importFrom {package} {fun}"))
 
   if (changed) {
-    roxygen_update_ns()
-
-    if (load) {
-      ui_done("Loading {project_name()}")
-      pkgload::load_all(quiet = TRUE)
-    }
+    roxygen_update_ns(load)
   }
 
   invisible(changed)
@@ -56,23 +49,22 @@ check_fun_exists <- function(package, fun) {
   ui_stop("Can't find {ui_code(name)}")
 }
 
-check_has_package_doc <- function() {
+check_has_package_doc <- function(whos_asking) {
   if (has_package_doc()) {
     return(invisible(TRUE))
   }
 
-  if (!is_interactive()) {
-    return(invisible(FALSE))
-  }
-
-  if (ui_yeah("
-    {ui_code('use_import_from()')} requires \\
-    package-level documentation. Would you like to add \\
-    it now?")) {
+  msg <- c(
+    "{ui_code(whos_asking)} requires package-level documentation.",
+    "Would you like to add it now?"
+  )
+  if (is_interactive() && ui_yeah(msg)) {
     use_package_doc()
   } else {
-    ui_todo("Run {ui_code('use_package_doc()')}")
-    return(invisible(FALSE))
+    ui_stop(c(
+      "{ui_code(whos_asking)} requires package docs",
+      "You can add it by running {ui_code('use_package_doc()')}"
+    ))
   }
 
   invisible(TRUE)
