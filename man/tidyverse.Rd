@@ -73,7 +73,7 @@ versions of R.
 of the tidyverse conventions as possible, issues a few reminders, and
 activates the new package.
 \item \code{use_tidy_dependencies()}: sets up standard dependencies used by all
-tidyverse packages (except packages that are designed to dependency free).
+tidyverse packages (except packages that are designed to be dependency free).
 \item \code{use_tidy_description()}: puts fields in standard order and alphabetises
 dependencies.
 \item \code{use_tidy_eval()}: imports a standard set of helpers to facilitate
