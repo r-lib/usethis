@@ -62,6 +62,7 @@ reference:
     contents:
     - use_data
     - use_package
+    - use_import_from
     - use_r
     - use_rmarkdown_template
     - use_spell_check
