@@ -15,14 +15,7 @@ test_that("use_data_table() Imports data.table", {
   expect_match(desc::desc_get("Imports"), "data.table")
   package_doc <- read_utf8(proj_path(package_doc_path()))
 
-  purrr::walk(
-    c("data.table", ":=", ".SD", ".BY", ".N", ".I", ".GRP", ".NGRP", ".EACHI"),
-    ~ expect_match(
-      package_doc,
-      glue("#' @importFrom data.table {.x}"),
-      all = FALSE
-    )
-  )
+  expect_snapshot(roxygen_ns_show())
 })
 
 test_that("use_data_table() blocks use of Depends", {
@@ -39,12 +32,5 @@ test_that("use_data_table() blocks use of Depends", {
   expect_match(desc::desc_get("Imports"), "data.table")
   package_doc <- read_utf8(proj_path(package_doc_path()))
 
-  purrr::walk(
-    c("data.table", ":=", ".SD", ".BY", ".N", ".I", ".GRP", ".NGRP", ".EACHI"),
-    ~ expect_match(
-      package_doc,
-      glue("#' @importFrom data.table {.x}"),
-      all = FALSE
-    )
-  )
+  expect_snapshot(roxygen_ns_show())
 })
