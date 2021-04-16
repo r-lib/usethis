@@ -38,6 +38,7 @@ use_devtools <- function() {
 }
 
 use_rprofile_package <- function(package) {
+  check_installed(package)
   ui_todo(
     "Include this code in {ui_value('.Rprofile')} to make \\
     {ui_field(package)} available in all interactive sessions."
