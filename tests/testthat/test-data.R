@@ -7,7 +7,9 @@ test_that("use_data() stores new, non-internal data", {
   pkg <- create_local_package()
   letters2 <- letters
   month.abb2 <- month.abb
+  expect_false(desc::desc_has_fields("LazyData"))
   use_data(letters2, month.abb2)
+  expect_true(desc::desc_has_fields("LazyData"))
   rm(letters2, month.abb2)
 
   load(proj_path("data", "letters2.rda"))

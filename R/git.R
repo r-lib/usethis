@@ -401,6 +401,7 @@ git_clean <- function() {
     file_delete(paths)
     ui_done("{n} file(s) deleted")
   }
+  rstudio_git_tickle()
   invisible()
 }
 

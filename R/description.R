@@ -89,8 +89,7 @@ use_description_defaults <- function(package = NULL,
     Description = "What the package does (one paragraph).",
     "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "`use_mit_license()`, `use_gpl3_license()` or friends to pick a license",
-    Encoding = "UTF-8",
-    LazyData = "true"
+    Encoding = "UTF-8"
   )
 
   if (roxygen) {
@@ -153,18 +152,6 @@ valid_package_name <- function(x) {
 }
 
 tidy_desc <- function(desc) {
-  # Alphabetise dependencies
-  deps <- desc$get_deps()
-  deps <- deps[order(deps$type, deps$package), , drop = FALSE]
-  desc$del_deps()
-  desc$set_deps(deps)
-
-  # Alphabetise remotes
-  remotes <- desc$get_remotes()
-  if (length(remotes) > 0) {
-    desc$set_remotes(sort(remotes))
-  }
-
   desc$set("Encoding" = "UTF-8")
 
   # Normalize all fields (includes reordering)
