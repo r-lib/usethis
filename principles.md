@@ -58,13 +58,15 @@ Two opposing mindsets:
 -   Everything should refer to the active project, unless there's a specific reason not to.
 
 Ideally, the exported file writing helpers would not make direct reference to the active project.
-But we are violating this somewhat.
+However, we violate this, with due care, when it benefits us:
 
-`write_utf8()` potentially consults the project `path` lives in re: line ending.
-So its implementation takes care to respect that, but also to not change the active project.
+-   `write_utf8()` potentially consults the project in which `path` lives in re: line ending.
+    So its implementation takes care to respect that, but also to not change the active project.
 
-Likewise, `write_union()` uses the active project, if such exists, to create a humane path in its message.
-It also actively avoids activating or changing the project.
+-   `write_over()` (`can_overwrite()`, really) does same, except in that case we're determining whether `path` is within a Git repo.
+
+-   `write_union()` uses the active project, if such exists, to create a humane path in its message.
+    It also actively avoids activating or changing the project.
 
 Git/GitHub helpers generally assume we're working on the Git repo that is also the active project.
 These are unexported.
