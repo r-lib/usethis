@@ -12,6 +12,11 @@ Authors@R:
              role = c("aut", "cre"),
              email = "jenny@rstudio.com",
              comment = c(ORCID = "0000-0002-6983-2759")),
+      person(given = "Malcolm",
+             family = "Barrett",
+             role = "aut",
+             email = "malcolmbarrett@gmail.com",
+             comment = c(ORCID = "0000-0003-0299-5825")),
       person(given = "RStudio",
              role = c("cph", "fnd")))
 Description: Automate package and project setup tasks that are
@@ -28,6 +33,7 @@ Imports:
     clipr (>= 0.3.0),
     crayon,
     curl (>= 2.7),
+    ellipsis,
     desc (>= 1.3.0),
     fs (>= 1.3.0),
     gert (>= 1.0.2),

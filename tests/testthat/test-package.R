@@ -4,6 +4,16 @@ test_that("use_package() won't facilitate dependency on tidyverse/tidymodels", {
   expect_usethis_error(use_package("tidymodels"), "rarely a good idea")
 })
 
+test_that("use_package() guides new packages but not pre-existing ones", {
+  create_local_package()
+  withr::local_options(usethis.quiet = FALSE)
+  expect_snapshot({
+    use_package("withr")
+    use_package("withr")
+    use_package("withr", "Suggests")
+  })
+})
+
 
 # use_dev_package() -----------------------------------------------------------
 

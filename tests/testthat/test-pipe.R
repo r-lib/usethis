@@ -19,9 +19,3 @@ test_that("use_pipe(export = FALSE) adds roxygen to package doc", {
   expect_match(package_doc, "#' @importFrom magrittr %>%", all = FALSE)
 })
 
-test_that("use_pipe(export = FALSE) gives advice if no package doc", {
-  create_local_package()
-  withr::local_options(list(usethis.quiet = FALSE))
-  expect_snapshot(use_pipe(export = FALSE))
-  expect_match(desc::desc_get("Imports", proj_get()), "magrittr")
-})
