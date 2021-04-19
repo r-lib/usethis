@@ -3,7 +3,7 @@ can_overwrite <- function(path) {
     return(TRUE)
   }
 
-  if (getOption("usethis.auto_write", FALSE) && uses_git()) {
+  if (getOption("usethis.overwrite", FALSE) && uses_git()) {
     return(TRUE)
   }
 
