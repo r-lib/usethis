@@ -204,6 +204,8 @@
 <code>usethis.quiet</code>: if <code>TRUE</code>, prevents usethis from printing messages to the console.</li>
 <li>
 <code>usethis.destdir</code>: a default directory to use in <code><a href="../../reference/create_from_github.html">create_from_github()</a></code> and <code><a href="../../reference/zip-utils.html">use_course()</a></code>.</li>
+<li>
+<code>usethis.overwrite</code>: if <code>TRUE</code>, usethis overwrites an existing file without asking for user confirmation if the file is inside a Git repo. The rationale is that the normal Git workflow makes it easy to see and selectively accept/discard any proposed changes.</li>
 </ul>
 <p>Define any of these options in your <code>.Rprofile</code>, which can be opened for editing via <code><a href="../../reference/edit.html">usethis::edit_r_profile()</a></code>. Here is example code:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -219,7 +221,8 @@
     <span class="op">)</span>,
     Version <span class="op">=</span> <span class="st">"0.0.0.9000"</span>
   <span class="op">)</span>,
-  usethis.destdir <span class="op">=</span> <span class="st">"~/the/place/where/I/keep/my/R/projects"</span>
+  usethis.destdir <span class="op">=</span> <span class="st">"~/the/place/where/I/keep/my/R/projects"</span>,
+  usethis.overwrite <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
 <p>Save similar code in your <code>.Rprofile</code> and restart R for it to take effect.</p>
 </div>

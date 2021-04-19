@@ -239,9 +239,12 @@
 <li>Helpers should be low-level and general and <em>not</em> make direct use of the active project, nor change the active project (or activate on in the first place). I.e. project-based paths should be formed by the caller.</li>
 <li>Everything should refer to the active project, unless there’s a specific reason not to.</li>
 </ul>
-<p>Ideally, the exported file writing helpers would not make direct reference to the active project. But we are violating this somewhat.</p>
-<p><code>write_utf8()</code> potentially consults the project <code>path</code> lives in re: line ending. So its implementation takes care to respect that, but also to not change the active project.</p>
-<p>Likewise, <code><a href="reference/write-this.html">write_union()</a></code> uses the active project, if such exists, to create a humane path in its message. It also actively avoids activating or changing the project.</p>
+<p>Ideally, the exported file writing helpers would not make direct reference to the active project. However, we violate this, with due care, when it benefits us:</p>
+<ul>
+<li><p><code>write_utf8()</code> potentially consults the project in which <code>path</code> lives in re: line ending. So its implementation takes care to respect that, but also to not change the active project.</p></li>
+<li><p><code><a href="reference/write-this.html">write_over()</a></code> (<code>can_overwrite()</code>, really) does same, except in that case we’re determining whether <code>path</code> is within a Git repo.</p></li>
+<li><p><code><a href="reference/write-this.html">write_union()</a></code> uses the active project, if such exists, to create a humane path in its message. It also actively avoids activating or changing the project.</p></li>
+</ul>
 <p>Git/GitHub helpers generally assume we’re working on the Git repo that is also the active project. These are unexported. Prefer <code>git_repo()</code> to <code><a href="reference/proj_utils.html">proj_get()</a></code>, when you have a choice, to get the benefit of the <code>check_uses_git()</code> that’s in <code>git_repo()</code>.</p>
 </div>
 </div>
