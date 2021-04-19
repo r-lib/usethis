@@ -3,8 +3,16 @@ can_overwrite <- function(path) {
     return(TRUE)
   }
 
-  if (getOption("usethis.overwrite", FALSE) && uses_git()) {
-    return(TRUE)
+  if (getOption("usethis.overwrite", FALSE)) {
+    # don't activate a project
+    # don't assume `path` is in the active project
+    if (is_in_proj(path) && uses_git()) {      # path is in active project
+      return(TRUE)
+    }
+    if (possibly_in_proj(path) &&              # path is some other project
+        with_project(proj_find(path), uses_git(), quiet = TRUE)) {
+      return(TRUE)
+    }
   }
 
   if (is_interactive()) {

@@ -173,10 +173,71 @@ test_that("write_over() writes a de novo file", {
   expect_identical(read_utf8(tmp), letters[1:3])
 })
 
-test_that("write_over() leaves file 'as is'", {
-  tmp <- file_temp()
+test_that("write_over() leaves file 'as is' (outside of a project)", {
+  local_interactive(FALSE)
+  tmp <- withr::local_file(file_temp())
+
   writeLines(letters[1:3], tmp)
+
   before <- read_utf8(tmp)
-  write_over(tmp, letters[1:3], quiet = TRUE)
-  expect_identical(before, read_utf8(tmp))
+  write_over(tmp, letters[4:6], quiet = TRUE)
+  expect_identical(read_utf8(tmp), before)
+
+  # usethis.overwrite shouldn't matter for a file outside of a project
+  withr::with_options(
+    list(usethis.overwrite = TRUE),
+    {
+      write_over(tmp, letters[4:6], quiet = TRUE)
+      expect_identical(read_utf8(tmp), before)
+    }
+  )
+})
+
+test_that("write_over() works in active project", {
+  local_interactive(FALSE)
+  create_local_project()
+
+  tmp <- proj_path("foo.txt")
+  writeLines(letters[1:3], tmp)
+
+  before <- read_utf8(tmp)
+  write_over(tmp, letters[4:6], quiet = TRUE)
+  expect_identical(read_utf8(tmp), before)
+
+  use_git()
+  withr::with_options(
+    list(usethis.overwrite = TRUE),
+    {
+      write_over(tmp, letters[4:6], quiet = TRUE)
+      expect_identical(read_utf8(tmp), letters[4:6])
+    }
+  )
+})
+
+test_that("write_over() works for a file in a project that is not active", {
+  local_interactive(FALSE)
+  owd <- getwd()
+  proj <- create_local_project()
+  use_git()
+
+  tmp <- proj_path("foo.txt")
+  writeLines(letters[1:3], tmp)
+
+  withr::local_dir(owd)
+  local_project(NULL)
+  expect_false(proj_active())
+
+  tmp <- path(proj, "foo.txt")
+  before <- read_utf8(tmp)
+  write_over(tmp, letters[4:6], quiet = TRUE)
+  expect_identical(read_utf8(tmp), before)
+
+  withr::with_options(
+    list(usethis.overwrite = TRUE),
+    {
+      write_over(tmp, letters[4:6], quiet = TRUE)
+      expect_identical(read_utf8(tmp), letters[4:6])
+    }
+  )
+  expect_false(proj_active())
 })
