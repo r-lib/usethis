@@ -88,7 +88,7 @@ test_that("edit_r_buildignore() only works with packages", {
 
   use_description()
   edit_r_buildignore()
-  expect_r_file(".Rbuildignore")
+  expect_proj_file(".Rbuildignore")
 })
 
 test_that("can edit snippets", {
