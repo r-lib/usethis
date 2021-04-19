@@ -16,7 +16,7 @@ edit_r_profile(scope = c("user", "project"))
 
 edit_r_environ(scope = c("user", "project"))
 
-edit_r_buildignore(scope = c("user", "project"))
+edit_r_buildignore()
 
 edit_r_makevars(scope = c("user", "project"))
 

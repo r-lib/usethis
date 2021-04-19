@@ -77,7 +77,7 @@ test_that("edit_r_XXX('user') ensures the file exists", {
   edit_r_profile("user")
   expect_r_file(".Rprofile")
 
-  edit_r_buildignore("user")
+  edit_r_buildignore()
   expect_r_file(".Rbuildignore")
 
   edit_r_makevars("user")

@@ -122,9 +122,9 @@ edit_r_environ <- function(scope = c("user", "project")) {
 
 #' @export
 #' @rdname edit
-edit_r_buildignore <- function(scope = c("user", "project")) {
-  path <- scoped_path_r(scope, ".Rbuildignore")
-  edit_file(path)
+edit_r_buildignore <- function() {
+  check_is_package("edit_r_buildignore()")
+  edit_file(proj_path(".Rbuildignore"))
 }
 
 #' @export
