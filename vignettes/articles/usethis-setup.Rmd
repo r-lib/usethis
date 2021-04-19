@@ -72,7 +72,7 @@ Certain options are consulted by usethis and allow you to set personal defaults:
     `use_course()`.
   * `usethis.overwrite`: if `TRUE`, usethis overwrites an existing file without
     asking for user confirmation if the file is inside a Git repo. The rationale
-    is that normal Git workflow makes it easy to see and selectively 
+    is that the normal Git workflow makes it easy to see and selectively 
     accept/discard any proposed changes.
 
 Define any of these options in your `.Rprofile`, which can be opened for editing via `usethis::edit_r_profile()`. Here is example code:
