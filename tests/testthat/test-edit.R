@@ -77,11 +77,18 @@ test_that("edit_r_XXX('user') ensures the file exists", {
   edit_r_profile("user")
   expect_r_file(".Rprofile")
 
-  edit_r_buildignore("user")
-  expect_r_file(".Rbuildignore")
-
   edit_r_makevars("user")
   expect_r_file(".R", "Makevars")
+})
+
+test_that("edit_r_buildignore() only works with packages", {
+  create_local_project()
+
+  expect_usethis_error(edit_r_buildignore(), "not an R package")
+
+  use_description()
+  edit_r_buildignore()
+  expect_proj_file(".Rbuildignore")
 })
 
 test_that("can edit snippets", {
