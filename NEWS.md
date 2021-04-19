@@ -1,8 +1,6 @@
 # usethis (development version)
 
-* usethis will now overwrite files without prompting if you set
-  `option(usethis.overwrite = TRUE)` and are using git (#1376).
-
+* usethis now overwrites files without asking for user confirmation if the project uses Git and you've set `option(usethis.overwrite = TRUE)` (#1376).
 * `use_lifecycle()` now imports `lifecycle::deprecated()` (#1419).
 
 * `use_code_of_conduct()` now requires a `contact` argument to supply contact
