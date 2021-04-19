@@ -70,8 +70,10 @@ Certain options are consulted by usethis and allow you to set personal defaults:
     console.
   * `usethis.destdir`: a default directory to use in `create_from_github()` and
     `use_course()`.
-  * `usethis.overwrite`: if `TRUE` and you're using Git in the current project,
-    usethis overwrites existing files without asking. You will see and can selectively accept/discard any proposed changes as part of the normal Git workflow.
+  * `usethis.overwrite`: if `TRUE`, usethis overwrites an existing file without
+    asking for user confirmation if the file is inside a Git repo. The rationale
+    is that normal Git workflow makes it easy to see and selectively 
+    accept/discard any proposed changes.
 
 Define any of these options in your `.Rprofile`, which can be opened for editing via `usethis::edit_r_profile()`. Here is example code:
 
@@ -88,7 +90,8 @@ options(
     ),
     Version = "0.0.0.9000"
   ),
-  usethis.destdir = "~/the/place/where/I/keep/my/R/projects"
+  usethis.destdir = "~/the/place/where/I/keep/my/R/projects",
+  usethis.overwrite = TRUE
 )
 ```
 
