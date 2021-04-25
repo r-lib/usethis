@@ -1,4 +1,5 @@
 test_that("use_import_from() imports the related package & adds line to package doc", {
+  skip_if_not_installed("roxygen2")
   create_local_package()
   use_package_doc()
   use_import_from("tibble", "tibble")
@@ -8,6 +9,7 @@ test_that("use_import_from() imports the related package & adds line to package 
 })
 
 test_that("use_import_from() adds one line for each function", {
+  skip_if_not_installed("roxygen2")
   create_local_package()
   use_package_doc()
   use_import_from("tibble", c("tibble", "enframe", "deframe"))

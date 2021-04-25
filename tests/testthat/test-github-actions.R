@@ -108,6 +108,7 @@ test_that("use_github_action_check_full() configures the pr commands", {
 test_that("use_tidy_github_actions() configures the full check and pr commands", {
   skip_if_no_git_user()
   skip_if_offline()
+  skip_if_not_installed("covr")
 
   create_local_package()
   use_git()

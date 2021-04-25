@@ -13,6 +13,7 @@ test_that("use_tidy_description() alphabetises dependencies and remotes", {
 })
 
 test_that("use_tidy_dependencies() isn't overly informative", {
+  skip_if_not_installed("roxygen2")
   create_local_package(fs::path_temp("tidydeps"))
   use_package_doc()
   withr::local_options(usethis.quiet = FALSE)

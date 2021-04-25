@@ -16,6 +16,7 @@ test_that("use_vignette() gives useful errors", {
 })
 
 test_that("use_vignette() does the promised setup", {
+  skip_if_not_installed("rmarkdown")
   create_local_package()
 
   use_vignette("name", "title")
@@ -38,6 +39,7 @@ test_that("use_vignette() does the promised setup", {
 # use_article -------------------------------------------------------------
 
 test_that("use_article goes in article subdirectory", {
+  skip_if_not_installed("rmarkdown")
   create_local_package()
 
   use_article("test")

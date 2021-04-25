@@ -11,6 +11,7 @@ test_that("use_pipe(export = TRUE) adds promised file, Imports magrittr", {
 })
 
 test_that("use_pipe(export = FALSE) adds roxygen to package doc", {
+  skip_if_not_installed("roxygen2")
   create_local_package()
   use_package_doc()
   use_pipe(export = FALSE)

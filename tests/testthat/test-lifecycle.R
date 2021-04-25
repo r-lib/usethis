@@ -1,4 +1,5 @@
 test_that("use_lifecycle() imports badges", {
+  skip_if_not_installed("roxygen2")
   create_local_package(fs::path_temp("test_lifecycle"))
   use_package_doc()
   withr::local_options(usethis.quiet = FALSE)
