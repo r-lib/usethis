@@ -159,6 +159,7 @@ test_that("fork_upstream_is_not_origin_parent is detected", {
   # 3. parent repo becomes r-lib/gh, due to transfer or ownership or owner
   #    name change
   # Now upstream looks like it does not point to fork parent.
+  skip_if_not_installed("mockr")
   local_interactive(FALSE)
   create_local_project()
   use_git()

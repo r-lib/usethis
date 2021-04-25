@@ -4,6 +4,7 @@ test_that("use_tibble() requires a package", {
 })
 
 test_that("use_tibble() Imports tibble", {
+  skip_if_not_installed("mockr")
   create_local_package(path_temp("mypackage"))
   withr::local_options(list(usethis.quiet = FALSE))
   ui_silence(use_package_doc())

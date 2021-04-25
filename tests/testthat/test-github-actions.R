@@ -1,6 +1,7 @@
 test_that("uses_github_actions() reports usage of GitHub Actions", {
   skip_if_no_git_user()
   skip_if_offline()
+  skip_if_not_installed("mockr")
 
   create_local_package()
   expect_false(uses_github_actions())

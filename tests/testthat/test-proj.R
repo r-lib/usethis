@@ -203,6 +203,7 @@ test_that("local_project() activates proj til scope ends", {
 
 # https://github.com/r-lib/usethis/issues/954
 test_that("proj_activate() works with relative path when RStudio is not detected", {
+  skip_if_not_installed("mockr")
   sandbox <- path_real(dir_create(file_temp("sandbox")))
   withr::defer(dir_delete(sandbox))
   orig_proj <- proj_get_()

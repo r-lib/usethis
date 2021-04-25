@@ -4,6 +4,7 @@ test_that("use_cpp11() requires a package", {
 })
 
 test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
+  skip_if_not_installed("mockr")
   create_local_package()
   use_roxygen_md()
 
@@ -23,6 +24,7 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
 })
 
 test_that("check_cpp_register_deps is silent if all installed, emits todo if not", {
+  skip_if_not_installed("mockr")
   withr::local_options(list(usethis.quiet = FALSE))
 
   with_mock(

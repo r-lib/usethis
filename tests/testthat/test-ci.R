@@ -1,5 +1,6 @@
 test_that("use_circleci() configures CircleCI", {
   skip_if_no_git_user()
+  skip_if_not_installed("mockr")
 
   local_interactive(FALSE)
   create_local_package()

@@ -36,6 +36,7 @@ test_that("nested project is disallowed, by default", {
 })
 
 test_that("nested package can be created if user really, really wants to", {
+  skip_if_not_installed("mockr")
   parent <- create_local_package()
   with_mock(
     # since user can't approve interactively, use the backdoor
@@ -47,6 +48,7 @@ test_that("nested package can be created if user really, really wants to", {
 })
 
 test_that("nested project can be created if user really, really wants to", {
+  skip_if_not_installed("mockr")
   parent <- create_local_project()
   with_mock(
     # since user can't approve interactively, use the backdoor
@@ -101,6 +103,7 @@ test_that("create_* works w/ non-existing rel path, open = FALSE case", {
 
 # https://github.com/r-lib/usethis/issues/1122
 test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudio", {
+  skip_if_not_installed("mockr")
   sandbox <- path_real(dir_create(file_temp("sandbox")))
   orig_proj <- proj_get_()
   withr::defer(dir_delete(sandbox))

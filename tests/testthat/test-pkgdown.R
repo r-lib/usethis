@@ -4,6 +4,7 @@ test_that("use_pkgdown() requires a package", {
 })
 
 test_that("use_pkgdown() creates and ignores the promised file/dir", {
+  skip_if_not_installed("mockr")
   create_local_package()
   local_interactive(FALSE)
   with_mock(
@@ -25,6 +26,7 @@ test_that("pkgdown helpers behave in the absence of pkgdown", {
 })
 
 test_that("pkgdown_config_meta() returns a list", {
+  skip_if_not_installed("mockr")
   create_local_package()
   local_interactive(FALSE)
   with_mock(
@@ -40,6 +42,7 @@ test_that("pkgdown_config_meta() returns a list", {
 })
 
 test_that("pkgdown_url() returns correct data, warns if pedantic", {
+  skip_if_not_installed("mockr")
   create_local_package()
   local_interactive(FALSE)
   with_mock(

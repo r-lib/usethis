@@ -8,6 +8,7 @@ test_that("use_tutorial() checks its inputs", {
 
 test_that("use_tutorial() creates a tutorial", {
   skip_if_not_installed("rmarkdown")
+  skip_if_not_installed("mockr")
 
   create_local_package()
   with_mock(

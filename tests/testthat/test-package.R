@@ -27,6 +27,7 @@ test_that("use_dev_package() can override over default remote", {
 })
 
 test_that("package_remote() works for an installed package with github URL", {
+  skip_if_not_installed("mockr")
   d <- desc::desc(text = c(
     "Package: test",
     "URL: https://github.com/OWNER/test"

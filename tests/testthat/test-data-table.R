@@ -4,6 +4,7 @@ test_that("use_data_table() requires a package", {
 })
 
 test_that("use_data_table() Imports data.table", {
+  skip_if_not_installed("mockr")
   create_local_package()
   use_package_doc()
   with_mock(
@@ -18,6 +19,7 @@ test_that("use_data_table() Imports data.table", {
 })
 
 test_that("use_data_table() blocks use of Depends", {
+  skip_if_not_installed("mockr")
   create_local_package()
   use_package_doc()
   desc::desc_set_dep("data.table", "Depends")

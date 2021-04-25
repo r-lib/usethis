@@ -1,6 +1,7 @@
 ## download_url ----
 
 test_that("download_url() retry logic works as advertised", {
+  skip_if_not_installed("mockr")
   faux_download <- function(n_failures) {
     i <- 0
     function(url, destfile, quiet, mode, handle) {
