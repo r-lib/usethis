@@ -1,4 +1,6 @@
-library(testthat)
-library(usethis)
+if (require(testthat)) {
+  library(usethis)
 
-test_check("usethis")
+  test_check("usethis")
+} else
+  warning("'usethis' requires 'testthat' for tests")
