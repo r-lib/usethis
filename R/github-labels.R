@@ -272,6 +272,7 @@ tidy_label_colours <- function() {
     "bug" = "E0B3A2",
     "documentation" = "CBBAB8",
     "feature" = "B4C3AE",
+    "upkeep" = "C2ACC0",
     "good first issue :heart:" = "CBBAB8",
     "help wanted :heart:" = "C5C295",
     "reprex" = "C5C295",
@@ -285,6 +286,7 @@ tidy_label_descriptions <- function() {
   c(
     "bug" = "an unexpected problem or unintended behavior",
     "feature" = "a feature request or enhancement",
+    "upkeep" = "maintenance, infrastructure, and similar",
     "reprex" = "needs a minimal reproducible example",
     "wip" = "work in progress",
     "documentation" = "",
