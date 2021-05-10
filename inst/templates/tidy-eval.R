@@ -12,10 +12,9 @@
 #' R](https://adv-r.hadley.nz) may also be useful for a deeper dive.
 #'
 #' * The tidy eval operators `{{`, `!!`, and `!!!` are syntactic
-#'   constructs which are specially interpreted by tidy eval
-#'   functions. They do not need to be reexported to be used. `!!`
-#'   and `!!!` are more advanced operators which you should not have
-#'   to use in simple cases. You will mostly need `{{`.
+#'   constructs which are specially interpreted by tidy eval functions
+#'   You will mostly need `{{` as `!!` and `!!!` are more advanced
+#'   operators which you should not have to use in simple cases.
 #'
 #'   The curly-curly operator `{{` allows you to tunnel data-variables
 #'   passed from function arguments inside other tidy eval functions.
@@ -31,11 +30,11 @@
 #'   ```
 #'
 #' * [enquo()] and [enquos()] delay the execution of one or several
-#'   function arguments. The former returns a single quoted
-#'   expression, the latter returns a list of quoted expressions. Once
-#'   defused, the expression will not evaluate without a nudge. They
-#'   must be injected back in evaluation context with `!!` (for single
-#'   expressions) and `!!!` (for lists of expressions).
+#'   function arguments. The former returns a single expression, the
+#'   latter returns a list of expressions. Once defused, expressions
+#'   will no longer evaluate on their own. They must be injected back
+#'   in evaluation context with `!!` (for single expressions) and
+#'   `!!!` (for lists of expressions).
 #'
 #'   ```
 #'   my_function <- function(data, var, ...) {
@@ -50,10 +49,10 @@
 #'   }
 #'   ```
 #'
-#'   In this simple case, the code is completely equivalent to the
-#'   usage of `{{` and `...` above. Defusing with `enquo()` or
-#'   `enquos()` is only needed in more complex cases, for instance if
-#'   you need to inspect or modify the expressions in some way.
+#'   In this simple case, the code is equivalent to the usage of `{{`
+#'   and `...` above. Defusing with `enquo()` or `enquos()` is only
+#'   needed in more complex cases, for instance if you need to inspect
+#'   or modify the expressions in some way.
 #'
 #' * The `.data` pronoun is an object that represents the current
 #'   slice of data. If you have a variable name in a string, use the
@@ -93,11 +92,11 @@
 #'   }
 #'   ```
 #'
-#'   Expressions defused with `enquo()` (or tunnelled with `{{`) are
-#'   not necessarily simple column names, they can be arbitrarily
-#'   complex. `as_label()` handles those cases gracefully. If your
-#'   code assumes a simple column name, use `as_name()` instead. It
-#'   will cause an error if the input is not a name.
+#'   Expressions defused with `enquo()` (or tunnelled with `{{`) need
+#'   not be simple column names, they can be arbitrarily complex.
+#'   `as_label()` handles those cases gracefully. If your code assumes
+#'   a simple column name, use `as_name()` instead. This is safer
+#'   because it throws an error if the input is not a name as expected.
 #'
 #' @md
 #' @name tidyeval
