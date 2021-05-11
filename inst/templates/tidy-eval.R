@@ -12,8 +12,8 @@
 #' R](https://adv-r.hadley.nz) may also be useful for a deeper dive.
 #'
 #' * The tidy eval operators `{{`, `!!`, and `!!!` are syntactic
-#'   constructs which are specially interpreted by tidy eval functions
-#'   You will mostly need `{{` as `!!` and `!!!` are more advanced
+#'   constructs which are specially interpreted by tidy eval functions.
+#'   You will mostly need `{{`, as `!!` and `!!!` are more advanced
 #'   operators which you should not have to use in simple cases.
 #'
 #'   The curly-curly operator `{{` allows you to tunnel data-variables
@@ -33,8 +33,8 @@
 #'   function arguments. The former returns a single expression, the
 #'   latter returns a list of expressions. Once defused, expressions
 #'   will no longer evaluate on their own. They must be injected back
-#'   in evaluation context with `!!` (for single expressions) and
-#'   `!!!` (for lists of expressions).
+#'   into an evaluation context with `!!` (for a single expression) and
+#'   `!!!` (for a list of expressions).
 #'
 #'   ```
 #'   my_function <- function(data, var, ...) {
@@ -79,7 +79,7 @@
 #'
 #' * Many tidy eval functions like `dplyr::mutate()` or
 #'   `dplyr::summarise()` give an automatic name to unnamed inputs. If
-#'   you need to create the same sort of autonamic names by yourself,
+#'   you need to create the same sort of automatic names by yourself,
 #'   use `as_label()`. For instance, the glue-tunnelling syntax above
 #'   can be reproduced manually with:
 #'
