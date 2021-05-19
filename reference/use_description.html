@@ -112,8 +112,6 @@ supported." />
 </script>
 
 
-<!-- dependencies from examples -->
-
 
   
 
@@ -241,7 +239,7 @@ CRAN-compliant package name. You can turn this off with <code>check_name = FALSE
 <p>usethis consults the following sources, in this order, to set <code>DESCRIPTION</code>
 fields:</p><ul>
 <li><p><code>fields</code> argument of <code><a href='create_package.html'>create_package()</a></code> or <code>use_description()</code></p></li>
-<li><p><code><a href='https://rdrr.io/r/base/options.html'>getOption("usethis.description")</a></code></p></li>
+<li><p><code>getOption("usethis.description")</code></p></li>
 <li><p>Defaults built into usethis</p></li>
 </ul>
 
@@ -249,7 +247,7 @@ fields:</p><ul>
 <code>use_description_defaults()</code>.</p>
 <p>If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named <code>"usethis.description"</code>. Here's an example of
-code to include in <code>.Rprofile</code>, which can be opened via <code><a href='edit.html'>edit_r_profile()</a></code>:</p><pre><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>
+code to include in <code>.Rprofile</code>, which can be opened via <code><a href='edit.html'>edit_r_profile()</a></code>:</p><pre class='sourceCode r'><code><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>
   usethis.description <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
     `Authors@R` <span class='op'>=</span> <span class='st'>'person("Jane", "Doe", email = "jane@example.com",
                           role = c("aut", "cre"),
@@ -258,16 +256,16 @@ code to include in <code>.Rprofile</code>, which can be opened via <code><a href
     Language <span class='op'>=</span>  <span class='st'>"es"</span>
   <span class='op'>)</span>
 <span class='op'>)</span>
-</pre>
+</code></pre>
 
-<p>Prior to usethis v2.0.0, <code><a href='https://rdrr.io/r/base/options.html'>getOption("devtools.desc")</a></code> was consulted for
+<p>Prior to usethis v2.0.0, <code>getOption("devtools.desc")</code> was consulted for
 backwards compatibility, but now only the <code>"usethis.description"</code> option is
 supported.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>use_description</span><span class='op'>(</span>fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, check_name <span class='op'>=</span> <span class='cn'>TRUE</span>, roxygen <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>use_description</span><span class='op'>(</span>fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, check_name <span class='op'>=</span> <span class='cn'>TRUE</span>, roxygen <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>use_description_defaults</span><span class='op'>(</span>package <span class='op'>=</span> <span class='cn'>NULL</span>, roxygen <span class='op'>=</span> <span class='cn'>TRUE</span>, fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+<span class='fu'>use_description_defaults</span><span class='op'>(</span>package <span class='op'>=</span> <span class='cn'>NULL</span>, roxygen <span class='op'>=</span> <span class='cn'>TRUE</span>, fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -299,14 +297,14 @@ error if not</p></td>
 of <a href='https://r-pkgs.org'>R Packages</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>use_description</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='fu'>use_description</span><span class='op'>(</span>fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>Language <span class='op'>=</span> <span class='st'>"es"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'>use_description_defaults</span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>use_description</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>use_description</span><span class='op'>(</span>fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>Language <span class='op'>=</span> <span class='st'>"es"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>use_description_defaults</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

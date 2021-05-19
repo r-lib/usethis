@@ -92,8 +92,6 @@ Adds new .Rmd to .Rbuildignore.
 </script>
 
 
-<!-- dependencies from examples -->
-
 
   
 
@@ -225,7 +223,7 @@ for editing.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>use_tutorial</span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>title</span>, open <span class='op'>=</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>use_tutorial</span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>title</span>, open <span class='op'>=</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -233,7 +231,7 @@ for editing.</p></li>
     <tr>
       <th>name</th>
       <td><p>Base for file name to use for new <code>.Rmd</code> tutorial. Should consist
-only of numbers, letters, <code>_</code> and <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>. We recommend using lower case.</p></td>
+only of numbers, letters, <code>_</code> and <code>-</code>. We recommend using lower case.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -251,10 +249,10 @@ applicable, or via <code><a href='https://rdrr.io/r/utils/file.edit.html'>utils:
     <div class='dont-index'><p>The <a href='https://rstudio.github.io/learnr/index.html'>learnr package documentation</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>use_tutorial</span><span class='op'>(</span><span class='st'>"learn-to-do-stuff"</span>, <span class='st'>"Learn to do stuff"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>use_tutorial</span><span class='op'>(</span><span class='st'>"learn-to-do-stuff"</span>, <span class='st'>"Learn to do stuff"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -162,7 +162,7 @@
 </ul>
 <div id="use-usethis-or-devtools-in-interactive-work" class="section level2">
 <h2 class="hasAnchor">
-<a href="#use-usethis-or-devtools-in-interactive-work" class="anchor"></a>Use usethis or devtools in interactive work</h2>
+<a href="#use-usethis-or-devtools-in-interactive-work" class="anchor" aria-hidden="true"></a>Use usethis or devtools in interactive work</h2>
 <p>The usethis package was carved out of the <a href="https://devtools.r-lib.org" class="external-link">devtools package</a> as part of its “conscious uncoupling” in <a href="https://www.tidyverse.org/blog/2018/10/devtools-2-0-0/" class="external-link">the v2.0.0 release</a>. But note that devtools makes all of usethis’s functions available and they should feel like they are part of devtools itself. In addition, devtools offers some functions of its own and exposes selected functionality from a few other packages. You might enjoy making devtools (and therefore usethis) available in all your interactive R work.</p>
 <p>Call <code><a href="../../reference/rprofile-helper.html">usethis::use_devtools()</a></code> for prompts to do this:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -191,7 +191,7 @@
 </div>
 <div id="store-default-values-for-description-fields-and-other-preferences" class="section level2">
 <h2 class="hasAnchor">
-<a href="#store-default-values-for-description-fields-and-other-preferences" class="anchor"></a>Store default values for DESCRIPTION fields and other preferences</h2>
+<a href="#store-default-values-for-description-fields-and-other-preferences" class="anchor" aria-hidden="true"></a>Store default values for DESCRIPTION fields and other preferences</h2>
 <p>Certain options are consulted by usethis and allow you to set personal defaults:</p>
 <ul>
 <li>
@@ -228,7 +228,7 @@
 </div>
 <div id="the-sitrep-functions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#the-sitrep-functions" class="anchor"></a>The “sitrep” functions</h2>
+<a href="#the-sitrep-functions" class="anchor" aria-hidden="true"></a>The “sitrep” functions</h2>
 <p>These functions gather information that help you or others troubleshoot things:</p>
 <ul>
 <li>
@@ -240,18 +240,18 @@
 </div>
 <div id="get-a-github-com-account" class="section level2">
 <h2 class="hasAnchor">
-<a href="#get-a-github-com-account" class="anchor"></a>Get a GitHub.com account</h2>
+<a href="#get-a-github-com-account" class="anchor" aria-hidden="true"></a>Get a GitHub.com account</h2>
 <p>Sign up for a free account with <a href="https://github.com/" class="external-link">GitHub.com</a>. <a href="https://happygitwithr.com/github-acct.html" class="external-link">Happy Git and GitHub for the useR</a> provides more advice about picking your username.</p>
 </div>
 <div id="install-git" class="section level2">
 <h2 class="hasAnchor">
-<a href="#install-git" class="anchor"></a>Install Git</h2>
+<a href="#install-git" class="anchor" aria-hidden="true"></a>Install Git</h2>
 <p>Please see <a href="https://happygitwithr.com/install-git.html" class="external-link">Happy Git and GitHub for the useR</a> for instructions on how to install Git. It is beyond the scope of this article.</p>
 <p>usethis itself does not actually need the Git that you install, because it uses the <a href="https://docs.ropensci.org/gert/" class="external-link">gert</a> package which wraps <a href="https://libgit2.github.com" class="external-link">libgit2</a>. But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git. Gert’s credential management also works best when official Git tooling is available.</p>
 </div>
 <div id="configure-user-name-and-user-email" class="section level2">
 <h2 class="hasAnchor">
-<a href="#configure-user-name-and-user-email" class="anchor"></a>Configure <code>user.name</code> and <code>user.email</code>
+<a href="#configure-user-name-and-user-email" class="anchor" aria-hidden="true"></a>Configure <code>user.name</code> and <code>user.email</code>
 </h2>
 <p>Once Git is installed, introduce yourself to Git.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -267,7 +267,7 @@
 <p><code><a href="../../reference/git_sitrep.html">usethis::git_sitrep()</a></code> generates a git situation-report. It can help you confirm things will work as expected; it can also help you diagnose problems.</p>
 <div id="equivalent-git-commands" class="section level3">
 <h3 class="hasAnchor">
-<a href="#equivalent-git-commands" class="anchor"></a>Equivalent Git commands</h3>
+<a href="#equivalent-git-commands" class="anchor" aria-hidden="true"></a>Equivalent Git commands</h3>
 <p>The code chunk above is doing the equivalent of this:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">git</span> config --global user.name <span class="st">'Jane Doe'</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="fu">git</span> config --global user.email <span class="st">'jane@example.com'</span></span>
@@ -275,7 +275,7 @@
 </div>
 <div id="optional-configure-gits-editor" class="section level3">
 <h3 class="hasAnchor">
-<a href="#optional-configure-gits-editor" class="anchor"></a>Optional: configure Git’s editor</h3>
+<a href="#optional-configure-gits-editor" class="anchor" aria-hidden="true"></a>Optional: configure Git’s editor</h3>
 <p>Another Git option that many people eventually configure is the editor. This will come up if you use Git from a shell. At some point, you will fail to give Git what it wants in terms of a commit message and it will kick you into an editor. This can be distressing, if it’s not your editor of choice and you don’t even know how to save and quit. You can enforce your will by executing this in R:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span>
@@ -288,28 +288,28 @@
 </div>
 <div id="connections-git-github-rstudio" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connections-git-github-rstudio" class="anchor"></a>Connections: Git, GitHub, RStudio</h2>
+<a href="#connections-git-github-rstudio" class="anchor" aria-hidden="true"></a>Connections: Git, GitHub, RStudio</h2>
 <p>As stated above, usethis doesn’t actually use the Git you install and has no absolute requirement that you use GitHub or use RStudio. But use of usethis is highly correlated with the desire to do all of these things, in a pleasant way.</p>
 <p>If you plan to use GitHub, you need to make sure your local Git can pull from and push to GitHub.com. That is beyond the scope of this article, but see the <a href="https://happygitwithr.com/push-pull-github.html" class="external-link">Connect to GitHub</a> section in Happy Git. You probably don’t want to enter your username and password all the time, so either <a href="https://happygitwithr.com/credential-caching.html" class="external-link">cache credentials for HTTPS</a> or <a href="https://happygitwithr.com/ssh-keys.html" class="external-link">set up SSH keys</a>. If you are an SSH person, set the <code>usethis.protocol</code> option to “ssh” (as of v2.0.0, “https” is the usethis default).</p>
 <p>If you want to use RStudio to work with Git (and therefore GitHub, see previous paragraph), you need to make sure RStudio can find your Git executable. This usually “just works”. The <a href="https://happygitwithr.com/rstudio-git-github.html" class="external-link">Connect RStudio to Git and GitHub</a> section of Happy Git helps you confirm that all is well. If all is not well, there are also <a href="https://happygitwithr.com/rstudio-see-git.html" class="external-link">troubleshooting tips</a>.</p>
 </div>
 <div id="get-and-store-a-github-personal-access-token" class="section level2">
 <h2 class="hasAnchor">
-<a href="#get-and-store-a-github-personal-access-token" class="anchor"></a>Get and store a GitHub personal access token</h2>
-<p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">use_github()</a></code>, <code><a href="../../reference/create_from_github.html">create_from_github(..., fork = TRUE)</a></code>, and many other usethis functions that create something on GitHub, such as a repo, an issue, or a pull request. Unlike pulling and pushing, these are <strong>not</strong> regular Git operations and your usual GitHub credentials do not necessarily work for this (although they <em>can</em>, if you play your cards right; see the linked article).</p>
+<a href="#get-and-store-a-github-personal-access-token" class="anchor" aria-hidden="true"></a>Get and store a GitHub personal access token</h2>
+<p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">use_github()</a></code>, <code>create_from_github(..., fork = TRUE)</code>, and many other usethis functions that create something on GitHub, such as a repo, an issue, or a pull request. Unlike pulling and pushing, these are <strong>not</strong> regular Git operations and your usual GitHub credentials do not necessarily work for this (although they <em>can</em>, if you play your cards right; see the linked article).</p>
 <p>Git/GitHub credential management is detailed in a separate article:</p>
 <p><a href="https://usethis.r-lib.org/articles/articles/git-credentials.html">Managing Git(Hub) Credentials</a></p>
 </div>
 <div id="prepare-your-system-to-build-packages-from-source" class="section level2">
 <h2 class="hasAnchor">
-<a href="#prepare-your-system-to-build-packages-from-source" class="anchor"></a>Prepare your system to build packages from source</h2>
+<a href="#prepare-your-system-to-build-packages-from-source" class="anchor" aria-hidden="true"></a>Prepare your system to build packages from source</h2>
 <p>As you participate more in R development, you will inevitably want to run development versions of other people’s packages, i.e. not the version available from CRAN. A typical way to do this is to install a package from GitHub with <code>devtools::install_github("OWNER/REPO")</code>.</p>
 <p>But, unlike using <code><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages()</a></code> and CRAN, you will be downloading and installing a <em>source</em> package, not a <em>binary</em> package. This means your system needs to be set up for building R packages. And, before long, you will need to build an R package with compiled code in it.</p>
 <p>A full description of setting up an R development environment is beyond the scope of this article, but we give some pointers and diagnostics to get you started.</p>
 <p>Update R and all of your packages. And expect to keep doing so frequently.</p>
 <p>If you work in RStudio, it will often assist you with setting up a dev environment upon first need.</p>
 <p>Call <code>devtools::has_devel()</code> to get an initial sense of whether R package build tools are installed and available.</p>
-<p><code><a href="https://rdrr.io/pkg/pkgbuild/man/has_build_tools.html" class="external-link">pkgbuild::check_build_tools()</a></code> is another function to report on your system and, in an interactive RStudio session, should trigger an automatic installation of build tools.</p>
+<p><code>pkgbuild::check_build_tools()</code> is another function to report on your system and, in an interactive RStudio session, should trigger an automatic installation of build tools.</p>
 <p>It is also possible to install build tools yourself.</p>
 <p><strong>macOS</strong>: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is <em>much smaller</em> than full Xcode. In a shell, enter <code>xcode-select --install</code>. For installing almost anything else, consider using <a href="https://brew.sh" class="external-link">Homebrew</a>.</p>
 <p><strong>Windows</strong>: Install Rtools. This is not an R package! It is “a collection of resources for building packages for R under Microsoft Windows, or for building R itself”. Go to <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link uri">https://cran.r-project.org/bin/windows/Rtools/</a> and install as instructed.</p>

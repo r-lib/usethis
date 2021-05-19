@@ -101,8 +101,6 @@ various remote operations. See below for more." />
 </script>
 
 
-<!-- dependencies from examples -->
-
 
   
 
@@ -243,7 +241,7 @@ functions.</p>
 various remote operations. See below for more.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pr_init</span><span class='op'>(</span><span class='va'>branch</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pr_init</span><span class='op'>(</span><span class='va'>branch</span><span class='op'>)</span>
 
 <span class='fu'>pr_resume</span><span class='op'>(</span>branch <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
@@ -261,7 +259,7 @@ various remote operations. See below for more.</p>
 
 <span class='fu'>pr_finish</span><span class='op'>(</span>number <span class='op'>=</span> <span class='cn'>NULL</span>, target <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"source"</span>, <span class='st'>"primary"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>pr_forget</span><span class='op'>(</span><span class='op'>)</span></pre>
+<span class='fu'>pr_forget</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -270,7 +268,7 @@ various remote operations. See below for more.</p>
       <th>branch</th>
       <td><p>Name of a new or existing local branch. If creating a new
 branch, note this should usually consist of lower case letters, numbers,
-and <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>.</p></td>
+and <code>-</code>.</p></td>
     </tr>
     <tr>
       <th>number</th>
@@ -317,7 +315,7 @@ addition to your PAT. The public key must be added to your GitHub account.</p></
 
     
 
-<p>To contribute to a package, first use <code><a href='create_from_github.html'>create_from_github("OWNER/REPO")</a></code> to
+<p>To contribute to a package, first use <code>create_from_github("OWNER/REPO")</code> to
 fork the source repository, and then check out a local copy.</p>
 <p>Next use <code>pr_init()</code> to create a branch for your PR. It is best practice to
 never make commits to the default branch branch of a fork (usually named
@@ -417,10 +415,10 @@ If the PR has been merged and user has permission, deletes the remote branch
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>pr_fetch</span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>pr_fetch</span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

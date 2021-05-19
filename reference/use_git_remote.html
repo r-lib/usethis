@@ -87,8 +87,6 @@ git remote -v.
 </script>
 
 
-<!-- dependencies from examples -->
-
 
   
 
@@ -215,9 +213,9 @@ git remote -v.
 
     </div>
 
-    <pre class="usage"><span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"origin"</span>, <span class='va'>url</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"origin"</span>, <span class='va'>url</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>git_remotes</span><span class='op'>(</span><span class='op'>)</span></pre>
+<span class='fu'>git_remotes</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -242,47 +240,47 @@ modified.</p></td>
     <p>Named list of Git remotes.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># see current remotes</span>
-<span class='fu'>git_remotes</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># add new remote named 'foo', a la `git remote add &lt;name&gt; &lt;url&gt;`</span>
-<span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"foo"</span>, url <span class='op'>=</span> <span class='st'>"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span><span class='op'>)</span>
-
-<span class='co'># remove existing 'foo' remote, a la `git remote remove &lt;name&gt;`</span>
-<span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"foo"</span>, url <span class='op'>=</span> <span class='cn'>NULL</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># change URL of remote 'foo', a la `git remote set-url &lt;name&gt; &lt;newurl&gt;`</span>
-<span class='fu'>use_git_remote</span><span class='op'>(</span>
-  name <span class='op'>=</span> <span class='st'>"foo"</span>,
-  url <span class='op'>=</span> <span class='st'>"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>,
-  overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-
-<span class='co'># Scenario: Fix remotes when you cloned someone's repo, but you should</span>
-<span class='co'># have fork-and-cloned (in order to make a pull request).</span>
-
-<span class='co'># Store origin = main repo's URL, e.g., "git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>
-<span class='va'>upstream_url</span> <span class='op'>&lt;-</span> <span class='fu'>git_remotes</span><span class='op'>(</span><span class='op'>)</span><span class='op'>[[</span><span class='st'>"origin"</span><span class='op'>]</span><span class='op'>]</span>
-
-<span class='co'># IN THE BROWSER: fork the main GitHub repo and get your fork's remote URL</span>
-<span class='va'>my_url</span> <span class='op'>&lt;-</span> <span class='st'>"git@github.com:&lt;ME&gt;/&lt;REPO&gt;.git"</span>
-
-<span class='co'># Rotate the remotes</span>
-<span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"origin"</span>, url <span class='op'>=</span> <span class='va'>my_url</span><span class='op'>)</span>
-<span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"upstream"</span>, url <span class='op'>=</span> <span class='va'>upstream_url</span><span class='op'>)</span>
-<span class='fu'>git_remotes</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># Scenario: Add upstream remote to a repo that you fork-and-cloned, so you</span>
-<span class='co'># can pull upstream changes.</span>
-<span class='co'># Note: If you fork-and-clone via `usethis::create_from_github()`, this is</span>
-<span class='co'># done automatically!</span>
-
-<span class='co'># Get URL of main GitHub repo, probably in the browser</span>
-<span class='va'>upstream_url</span> <span class='op'>&lt;-</span> <span class='st'>"git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>
-<span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"upstream"</span>, url <span class='op'>=</span> <span class='va'>upstream_url</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># see current remotes</span></span>
+<span class='r-in'><span class='fu'>git_remotes</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># add new remote named 'foo', a la `git remote add &lt;name&gt; &lt;url&gt;`</span></span>
+<span class='r-in'><span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"foo"</span>, url <span class='op'>=</span> <span class='st'>"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># remove existing 'foo' remote, a la `git remote remove &lt;name&gt;`</span></span>
+<span class='r-in'><span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"foo"</span>, url <span class='op'>=</span> <span class='cn'>NULL</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># change URL of remote 'foo', a la `git remote set-url &lt;name&gt; &lt;newurl&gt;`</span></span>
+<span class='r-in'><span class='fu'>use_git_remote</span><span class='op'>(</span></span>
+<span class='r-in'>  name <span class='op'>=</span> <span class='st'>"foo"</span>,</span>
+<span class='r-in'>  url <span class='op'>=</span> <span class='st'>"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>,</span>
+<span class='r-in'>  overwrite <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Scenario: Fix remotes when you cloned someone's repo, but you should</span></span>
+<span class='r-in'><span class='co'># have fork-and-cloned (in order to make a pull request).</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Store origin = main repo's URL, e.g., "git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span></span>
+<span class='r-in'><span class='va'>upstream_url</span> <span class='op'>&lt;-</span> <span class='fu'>git_remotes</span><span class='op'>(</span><span class='op'>)</span><span class='op'>[[</span><span class='st'>"origin"</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># IN THE BROWSER: fork the main GitHub repo and get your fork's remote URL</span></span>
+<span class='r-in'><span class='va'>my_url</span> <span class='op'>&lt;-</span> <span class='st'>"git@github.com:&lt;ME&gt;/&lt;REPO&gt;.git"</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Rotate the remotes</span></span>
+<span class='r-in'><span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"origin"</span>, url <span class='op'>=</span> <span class='va'>my_url</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"upstream"</span>, url <span class='op'>=</span> <span class='va'>upstream_url</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>git_remotes</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Scenario: Add upstream remote to a repo that you fork-and-cloned, so you</span></span>
+<span class='r-in'><span class='co'># can pull upstream changes.</span></span>
+<span class='r-in'><span class='co'># Note: If you fork-and-clone via `usethis::create_from_github()`, this is</span></span>
+<span class='r-in'><span class='co'># done automatically!</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Get URL of main GitHub repo, probably in the browser</span></span>
+<span class='r-in'><span class='va'>upstream_url</span> <span class='op'>&lt;-</span> <span class='st'>"git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span></span>
+<span class='r-in'><span class='fu'>use_git_remote</span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"upstream"</span>, url <span class='op'>=</span> <span class='va'>upstream_url</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

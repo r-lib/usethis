@@ -1,7 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://usethis.r-lib.org/404.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/CONTRIBUTING.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/SUPPORT.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/articles/articles/git-credentials.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/articles/articles/pr-functions.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/articles/articles/usethis-setup.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/authors.html</loc>
+  </url>
+  <url>
     <loc>https://usethis.r-lib.org/index.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/news/index.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/principles.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/badges.html</loc>
@@ -44,6 +83,9 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/github_actions.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/index.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/issue-this.html</loc>
@@ -245,14 +287,5 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/zip-utils.html</loc>
-  </url>
-  <url>
-    <loc>https://usethis.r-lib.org/articles/articles/git-credentials.html</loc>
-  </url>
-  <url>
-    <loc>https://usethis.r-lib.org/articles/articles/pr-functions.html</loc>
-  </url>
-  <url>
-    <loc>https://usethis.r-lib.org/articles/articles/usethis-setup.html</loc>
   </url>
 </urlset>
