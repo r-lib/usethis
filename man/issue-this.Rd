@@ -42,8 +42,8 @@ Unlike GitHub's "saved replies", these functions can:
 
 \examples{
 \dontrun{
-issue_close_community(12)
+issue_close_community(12, reprex = TRUE)
 
-issue_reprex_needed(241, reprex = TRUE)
+issue_reprex_needed(241)
 }
 }
