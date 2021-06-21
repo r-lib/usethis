@@ -83,7 +83,6 @@ for internal use. File is written with UTF-8 encoding." />
 </script>
 
 
-
   
 
   
@@ -114,7 +113,7 @@ for internal use. File is written with UTF-8 encoding." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -254,16 +253,16 @@ and user is available to give permission.</p></li>
 <span class='r-in'><span class='va'>.old_wd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'><span class='co'># }</span></span>
 <span class='r-in'><span class='fu'>write_union</span><span class='op'>(</span><span class='st'>"a_file"</span>, <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span><span> Adding </span><span style='color: #0000BB;'>'a'</span><span>, </span><span style='color: #0000BB;'>'b'</span><span>, </span><span style='color: #0000BB;'>'c'</span><span> to </span><span style='color: #0000BB;'>'a_file'</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> Adding <span style='color: #0000BB;'>'a'</span>, <span style='color: #0000BB;'>'b'</span>, <span style='color: #0000BB;'>'c'</span> to <span style='color: #0000BB;'>'a_file'</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='st'>"a_file"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "a" "b" "c"</span>
 <span class='r-in'><span class='fu'>write_union</span><span class='op'>(</span><span class='st'>"a_file"</span>, <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span><span> Adding </span><span style='color: #0000BB;'>'d'</span><span>, </span><span style='color: #0000BB;'>'e'</span><span> to </span><span style='color: #0000BB;'>'a_file'</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> Adding <span style='color: #0000BB;'>'d'</span>, <span style='color: #0000BB;'>'e'</span> to <span style='color: #0000BB;'>'a_file'</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='st'>"a_file"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "a" "b" "c" "d" "e"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='fu'>write_over</span><span class='op'>(</span><span class='st'>"another_file"</span>, <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span><span> Writing </span><span style='color: #0000BB;'>'another_file'</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> Writing <span style='color: #0000BB;'>'another_file'</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='st'>"another_file"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "a" "b" "c"</span>
 <span class='r-in'><span class='fu'>write_over</span><span class='op'>(</span><span class='st'>"another_file"</span>, <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span></span>
