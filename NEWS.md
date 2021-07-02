@@ -4,7 +4,7 @@
   an existing file without asking for user confirmation if the file is inside
   a Git repo. The normal Git workflow makes it easy to see and selectively
   accept/discard any proposed changes. This behaviour is strictly opt-in
-  (#1376).
+  (#1424).
   
 * `use_lifecycle()` now imports `lifecycle::deprecated()` (#1419).
 
