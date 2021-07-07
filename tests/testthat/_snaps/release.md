@@ -6,8 +6,8 @@
       First release:
       
       * [ ] `usethis::use_cran_comments()`
-      * [ ] Proof read `Title:` and `Description:`
-      * [ ] Check that all exported functions have `@returns` and `@examples`
+      * [ ] Proofread `Title:` and `Description:`
+      * [ ] Check that all exported functions have `@return` and `@examples`
       * [ ] Check that `Authors@R:` includes a copyright holder (role 'cph')
       * [ ] Check [licensing of included files](https://r-pkgs.org/license.html#code-you-bundle)
       * [ ] Review <https://github.com/DavisVaughan/extrachecks>
