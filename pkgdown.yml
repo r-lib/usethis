@@ -1,11 +1,11 @@
 pandoc: 2.7.3
 pkgdown: 1.6.1.9001
-pkgdown_sha: 51268b0d9cb0588d7a6404a2b8ef4ee19c435e89
+pkgdown_sha: ce9781a15c7ea07df9fb17a11295ba4abec0b54b
 articles:
-  articles/git-credentials: git-credentials.html
-  articles/pr-functions: pr-functions.html
-  articles/usethis-setup: usethis-setup.html
-last_built: 2021-07-03T20:00Z
+  git-credentials: articles/git-credentials.html
+  pr-functions: articles/pr-functions.html
+  usethis-setup: articles/usethis-setup.html
+last_built: 2021-07-07T23:45Z
 urls:
   reference: https://usethis.r-lib.org/reference
   article: https://usethis.r-lib.org/articles
