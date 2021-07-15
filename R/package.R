@@ -30,7 +30,7 @@
 #' }
 use_package <- function(package, type = "Imports", min_version = NULL) {
   if (type == "Imports") {
-    refuse_package(package, verboten = c("tidyverse", "tidymodels"))
+    refuse_package(package, verboten = c("tidyverse", "tidymodels", "easystats"))
   }
 
   changed <- use_dependency(package, type, min_version = min_version)
