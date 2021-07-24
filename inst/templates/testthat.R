@@ -1,4 +1,6 @@
-library(testthat)
-library({{{ name }}})
-
-test_check("{{{ name }}}")
+if (require(testthat)) {
+  library({{{ name }}})
+  test_check("{{{ name }}}")
+} else {
+  message("testthat not available.")
+}
