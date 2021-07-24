@@ -2,7 +2,7 @@
 #'
 #' @description
 #' [pkgdown](https://pkgdown.r-lib.org) makes it easy to turn your package into
-#' a beautiful website. usethis provides two functions help you use pkgdown:
+#' a beautiful website. usethis provides two functions to help you use pkgdown:
 #'
 #' * `use_pkgdown()`: creates a pkgdown config file, adds relevant files or
 #'   directories to `.Rbuildignore` and `.gitignore`, and builds favicons if
