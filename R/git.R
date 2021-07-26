@@ -568,8 +568,8 @@ git_vaccinate <- function() {
 }
 
 git_vaccinated <- function() {
-  path <- git_ignore_path("user")
-  if (!file_exists(path)) {
+  path <- path_expand(git_excludesfile_global_get())
+  if (is_null(path) || !file_exists(path)) {
     return(FALSE)
   }
 

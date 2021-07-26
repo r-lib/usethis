@@ -31,6 +31,8 @@
  
 * `use_package()` no longer guides the user on how to use a dependency when no 
   change was made (@malcolmbarrett, #1384)
+
+* `git_vaccinate()` and `git_vaccinated()` incorporate the value of git `core.excludesfile` (#1461, @ijlyttle).
   
 * The minimum version of gh has been bumped to help more people upgrade to the gh version that supports current GitHub PAT formats (#1454 @ijlyttle).
 

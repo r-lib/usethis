@@ -221,9 +221,6 @@ edit_git_ignore <- function(scope = c("user", "project")) {
   file <- git_ignore_path(scope)
   if (scope == "user" && !file_exists(file)) {
     ui_done("Setting up new global gitignore: {ui_path(file)}")
-    # Describe relative to home directory
-    path <- path("~", path_rel(file, path_home()))
-    gert::git_config_global_set("core.excludesfile", path)
     git_vaccinate()
   }
   invisible(edit_file(file))
@@ -235,17 +232,51 @@ git_ignore_path <- function(scope = c("user", "project")) {
     return(proj_path(".gitignore"))
   }
 
-  # .gitignore is most common, but .gitignore_global appears in prominent
-  # places --> so we allow the latter, but prefer the former
-  path <- path_home(".gitignore")
-  if (file_exists(path)) {
-    return(path)
+  path <- git_excludesfile_global_get()
+  if (is_null(path)) {
+    path <- git_excludesfile_global_set()
   }
 
-  alt_path <- path_home(".gitignore_global")
-  if (file_exists(alt_path)) {
-    return(alt_path)
+  path_expand(path)
+}
+
+# i.e. `git config --global core.excludesfile`, NULL if not set
+git_excludesfile_global_get <- function() {
+
+  tbl_config <- gert::git_config_global()
+  path <- tbl_config$value[tbl_config$name == "core.excludesfile"]
+
+  # if not set, return NULL
+  if (identical(length(path), 0L)) {
+    return(NULL)
   }
 
   path
 }
+
+# i.e. `git config --global --set core.excludesfile`
+git_excludesfile_global_set <- function() {
+
+  file_default <- function() {
+    # .gitignore is most common, but .gitignore_global appears in prominent
+    # places --> so we allow the latter, but prefer the former
+    path <- path_home(".gitignore")
+    if (file_exists(path)) {
+      return(path)
+    }
+
+    alt_path <- path_home(".gitignore_global")
+    if (file_exists(alt_path)) {
+      return(alt_path)
+    }
+
+    path
+  }
+
+  path <- path("~", path_rel(file_default(), path_home()))
+  gert::git_config_global_set("core.excludesfile", path)
+  ui_done("Setting git global core.excludesfile: {ui_value(path)}")
+
+  path
+}
+
