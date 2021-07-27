@@ -35,7 +35,7 @@ And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("{{{ github_spec }}}")
+remotes::install_github("{{{ github_spec }}}")
 ```
 {{/on_github}}
 ## Example
