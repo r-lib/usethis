@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `use_github_pages()` and `use_pkgdown_github_pages()` use a new method for
+  creating an empty, orphan `gh-pages` branch. This is necessary due to new
+  GitHub behaviour, where it has become essentially impossible to refer to the
+  empty tree (#1472).
+
 * `"usethis.overwrite"` is a new option. When set to `TRUE`, usethis overwrites
   an existing file without asking for user confirmation if the file is inside
   a Git repo. The normal Git workflow makes it easy to see and selectively
