@@ -156,7 +156,9 @@ create_gh_pages_branch <- function(tr, branch = "gh-pages") {
     ref = glue("refs/heads/{branch}"),
     sha = commit$sha
   )
-  gh(
+  # this should succeed, but if somehow it does not, it's not worth failing and
+  # leaving pkgdown + GitHub Pages setup half-done --> why I use safe_gh()
+  safe_gh(
     "DELETE /repos/{owner}/{repo}/contents/_temp_file_ok_to_delete",
     message = "Remove temp file",
     sha = purrr::pluck(tree, "tree", 1, "sha"),
