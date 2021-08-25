@@ -135,21 +135,32 @@ create_gh_pages_branch <- function(tr, branch = "gh-pages") {
     Initializing empty, orphan {ui_value(branch)} branch in GitHub repo \\
     {ui_value(tr$repo_spec)}")
 
-  # git hash-object -t tree /dev/null
-  sha_empty_tree <- "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
-
-  # Create commit with empty tree
-  res <- gh(
-    "POST /repos/{owner}/{repo}/git/commits",
-    message = "first commit",
-    tree = sha_empty_tree
+  # GitHub no longer allows you to directly create an empty tree
+  # hence this roundabout method of getting an orphan branch with no files
+  tree <- gh(
+    "POST /repos/{owner}/{repo}/git/trees",
+    tree = list(list(
+      path = "_temp_file_ok_to_delete",
+      mode = "100644",
+      type = "blob",
+      content = ""
+    ))
   )
-
-  # Assign ref to above commit
-  gh(
+  commit <- gh(
+    "POST /repos/{owner}/{repo}/git/commits",
+    message = "Init orphan branch",
+    tree = tree$sha
+  )
+  ref <- gh(
     "POST /repos/{owner}/{repo}/git/refs",
-    ref = "refs/heads/gh-pages",
-    sha = res$sha
+    ref = glue("refs/heads/{branch}"),
+    sha = commit$sha
+  )
+  gh(
+    "DELETE /repos/{owner}/{repo}/contents/_temp_file_ok_to_delete",
+    message = "Remove temp file",
+    sha = purrr::pluck(tree, "tree", 1, "sha"),
+    branch = branch
   )
 
   TRUE
