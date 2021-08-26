@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_github_action_*()` functions have been updated in response to the
+  pak-based workflows becoming the standard workflows in `r-lib/actions`.
+
 * `use_github_pages()` and `use_pkgdown_github_pages()` use a new method for
   creating an empty, orphan `gh-pages` branch. This is necessary due to new
   GitHub behaviour, where it has become essentially impossible to refer to the
