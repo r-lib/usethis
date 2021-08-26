@@ -22,10 +22,16 @@ make_spec <- function(owner = NA, repo = NA) {
 # https://stackoverflow.com/questions/2514859/regular-expression-for-git-repository
 # https://git-scm.com/docs/git-clone#_git_urls
 # https://stackoverflow.com/questions/27745/getting-parts-of-a-url-regex
+#
+# apparently gert/libgit2 sometimes decides to rewrite SSH URLs
+# from: git@github.com:aronatkins/packrat.git
+# to:   ssh://git@github.com/rstudio/packrat.git
+# so we have to support this SSH URL format
+# https://github.com/r-lib/usethis/issues/1473
 github_remote_regex <- paste0(
   "^",
-  "(?<prefix>git|ssh|http[s]?)",
-  "[:/@]+",
+  "(?<protocol>\\w+://)?",
+  "(?<user>.+@)?",
   "(?<host>[^/:]+)",
   "[/:]",
   "(?<repo_owner>[^/]+)",
@@ -48,16 +54,23 @@ parse_github_remotes <- function(x) {
   #                                    --> https, github.acme.com, rlib, usethis
   # git@github.com:r-lib/usethis.git
   #                                    --> ssh,   github.com,      rlib, usethis
+  # ssh://git@github.com/rstudio/packrat.git
+  #                                    --> ssh,   github.com,      rlib, usethis
   dat <- re_match(x, github_remote_regex)
+
+  dat$protocol <- sub("://$", "", dat$protocol)
+  dat$user <- sub("@$", "", dat$user)
+  dat$repo_name <- sub("[.]git$", "", dat$repo_name)
   dat$url <- dat$.text
+
   # as.character() necessary for edge case of length-0 input
-  dat$protocol <- as.character(ifelse(dat$prefix == "https", "https", "ssh"))
+  dat$protocol <- as.character(ifelse(dat$protocol == "https", "https", "ssh"))
   dat$name <- if (rlang::is_named(x)) {
     names(x)
   } else {
     rep_len(NA_character_, length.out = nrow(dat))
   }
-  dat$repo_name <- sub("[.]git$", "", dat$repo_name)
+
   dat[c("name", "url", "host", "repo_owner", "repo_name", "protocol")]
 }
 
