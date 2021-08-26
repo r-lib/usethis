@@ -22,12 +22,6 @@ make_spec <- function(owner = NA, repo = NA) {
 # https://stackoverflow.com/questions/2514859/regular-expression-for-git-repository
 # https://git-scm.com/docs/git-clone#_git_urls
 # https://stackoverflow.com/questions/27745/getting-parts-of-a-url-regex
-#
-# apparently gert/libgit2 sometimes decides to rewrite SSH URLs
-# from: git@github.com:aronatkins/packrat.git
-# to:   ssh://git@github.com/rstudio/packrat.git
-# so we have to support this SSH URL format
-# https://github.com/r-lib/usethis/issues/1473
 github_remote_regex <- paste0(
   "^",
   "(?<protocol>\\w+://)?",
