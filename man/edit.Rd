@@ -46,7 +46,8 @@ Path to the file, invisibly.
 \item \code{edit_r_environ()} opens \code{.Renviron}
 \item \code{edit_r_makevars()} opens \code{.R/Makevars}
 \item \code{edit_git_config()} opens \code{.gitconfig} or \code{.git/config}
-\item \code{edit_git_ignore()} opens \code{.gitignore}
+\item \code{edit_git_ignore()} opens global (user-level) gitignore file and ensures
+its path is declared in your global Git config.
 \item \code{edit_rstudio_snippets()} opens RStudio's snippet config for the given type.
 \item \code{edit_rstudio_prefs()} opens RStudio's preference file.
 }

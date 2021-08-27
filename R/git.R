@@ -422,6 +422,7 @@ git_sitrep <- function() {
   hd_line("Git config (global)")
   kv_line("Name", git_cfg_get("user.name", "global"))
   kv_line("Email", git_cfg_get("user.email", "global"))
+  kv_line("Global (user-level) gitignore file", git_ignore_path("user"))
   vaccinated <- git_vaccinated()
   kv_line("Vaccinated", vaccinated)
   if (!vaccinated) {
@@ -560,19 +561,24 @@ pat_sitrep <- function(host = "https://github.com") {
 #' Adds `.DS_Store`, `.Rproj.user`, `.Rdata`, `.Rhistory`, and `.httr-oauth` to
 #' your global (a.k.a. user-level) `.gitignore`. This is good practice as it
 #' decreases the chance that you will accidentally leak credentials to GitHub.
+#' `git_vaccinate()` also tries to detect and fix the situation where you have a
+#' global gitignore file, but it's missing from your global Git config.
 #'
 #' @export
 git_vaccinate <- function() {
-  path <- git_ignore_path("user")
+  ensure_core_excludesFile()
+  path <- git_ignore_path(scope = "user")
+  if (!file_exists(path)) {
+    ui_done("Creating the global (user-level) gitignore: {ui_path(path)}")
+  }
   write_union(path, git_ignore_lines)
 }
 
 git_vaccinated <- function() {
   path <- git_ignore_path("user")
-  if (!file_exists(path)) {
+  if (is.null(path) || !file_exists(path)) {
     return(FALSE)
   }
-
   lines <- read_utf8(path)
   all(git_ignore_lines %in% lines)
 }

@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `git_vaccinate()`, `edit_git_ignore()`, and `git_sitrep()` are more careful to
+  consult, reveal, and set the `core.excludesFile` in user's Git configuration
+  (#1461).
+
 * `use_github_action_*()` functions have been updated in response to the
   pak-based workflows becoming the standard workflows in `r-lib/actions`.
 
