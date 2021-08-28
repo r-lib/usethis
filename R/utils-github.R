@@ -198,6 +198,7 @@ github_remotes <- function(these = c("origin", "upstream"),
   # `permissions` is an example of data that is not present if the request
   # did not include a PAT
   grl$can_push <- map_lgl(repo_info, c("permissions", "push"), .default = NA)
+  grl$can_admin <- map_lgl(repo_info, c("permissions", "admin"), .default = NA)
   grl$perm_known <- !is.na(grl$can_push)
   grl$parent_repo_owner <-
     map_chr(repo_info, c("parent", "owner", "login"), .default = NA)
