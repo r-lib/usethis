@@ -64,6 +64,33 @@ git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
   if (length(out) > 0) out else NULL
 }
 
+# ensures that core.excludesFile is configured
+# if configured, leave well enough alone
+# if not, check for existence of one of the Usual Suspects; if found, configure
+# otherwise, configure as path_home(".gitignore")
+ensure_core_excludesFile <- function() {
+  path <- git_ignore_path(scope = "user")
+
+  if (!is.null(path)) {
+    return(invisible())
+  }
+
+  # .gitignore is most common, but .gitignore_global appears in prominent
+  # places --> so we allow the latter, but prefer the former
+  path <-
+    path_first_existing(path_home(c(".gitignore", ".gitignore_global"))) %||%
+    path_home(".gitignore")
+
+  if (!is_windows()) {
+    # express path relative to user's home directory, except on Windows
+    path <- path("~", path_rel(path, path_home()))
+  }
+  ui_done("Configuring {ui_field('core.excludesFile')}: {ui_path(path)}")
+  gert::git_config_global_set("core.excludesFile", path)
+  invisible()
+}
+
+
 # Status------------------------------------------------------------------------
 git_status <- function(untracked) {
   stopifnot(is_true(untracked) || is_false(untracked))

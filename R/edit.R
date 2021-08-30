@@ -80,7 +80,8 @@ choose_template <- function() {
 #' * `edit_r_environ()` opens `.Renviron`
 #' * `edit_r_makevars()` opens `.R/Makevars`
 #' * `edit_git_config()` opens `.gitconfig` or `.git/config`
-#' * `edit_git_ignore()` opens `.gitignore`
+#' * `edit_git_ignore()` opens global (user-level) gitignore file and ensures
+#'   its path is declared in your global Git config.
 #' * `edit_rstudio_snippets()` opens RStudio's snippet config for the given type.
 #' * `edit_rstudio_prefs()` opens RStudio's preference file.
 #'
@@ -218,34 +219,23 @@ edit_git_config <- function(scope = c("user", "project")) {
 #' @rdname edit
 edit_git_ignore <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
+  if (scope == "user") {
+    ensure_core_excludesFile()
+  }
   file <- git_ignore_path(scope)
+
   if (scope == "user" && !file_exists(file)) {
-    ui_done("Setting up new global gitignore: {ui_path(file)}")
-    # Describe relative to home directory
-    path <- path("~", path_rel(file, path_home()))
-    gert::git_config_global_set("core.excludesfile", path)
     git_vaccinate()
   }
+
   invisible(edit_file(file))
 }
 
 git_ignore_path <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
-  if (scope == "project") {
-    return(proj_path(".gitignore"))
-  }
-
-  # .gitignore is most common, but .gitignore_global appears in prominent
-  # places --> so we allow the latter, but prefer the former
-  path <- path_home(".gitignore")
-  if (file_exists(path)) {
-    return(path)
-  }
-
-  alt_path <- path_home(".gitignore_global")
-  if (file_exists(alt_path)) {
-    return(alt_path)
-  }
-
-  path
+  switch(
+    scope,
+    user = git_cfg_get("core.excludesFile", where = "global"),
+    project = proj_path(".gitignore")
+  )
 }
