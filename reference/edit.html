@@ -59,7 +59,8 @@ edit_r_profile() opens .Rprofile
 edit_r_environ() opens .Renviron
 edit_r_makevars() opens .R/Makevars
 edit_git_config() opens .gitconfig or .git/config
-edit_git_ignore() opens .gitignore
+edit_git_ignore() opens global (user-level) gitignore file and ensures
+its path is declared in your global Git config.
 edit_rstudio_snippets() opens RStudio's snippet config for the given type.
 edit_rstudio_prefs() opens RStudio's preference file.
 
@@ -215,7 +216,8 @@ edit_rstudio_prefs() opens RStudio's preference file.
 <li><p><code>edit_r_environ()</code> opens <code>.Renviron</code></p></li>
 <li><p><code>edit_r_makevars()</code> opens <code>.R/Makevars</code></p></li>
 <li><p><code>edit_git_config()</code> opens <code>.gitconfig</code> or <code>.git/config</code></p></li>
-<li><p><code>edit_git_ignore()</code> opens <code>.gitignore</code></p></li>
+<li><p><code>edit_git_ignore()</code> opens global (user-level) gitignore file and ensures
+its path is declared in your global Git config.</p></li>
 <li><p><code>edit_rstudio_snippets()</code> opens RStudio's snippet config for the given type.</p></li>
 <li><p><code>edit_rstudio_prefs()</code> opens RStudio's preference file.</p></li>
 </ul>
