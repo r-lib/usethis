@@ -112,17 +112,17 @@ git_branch_default <- function() {
 #' Historically this was usually `master`, but `main` is an increasingly popular
 #' choice and this branch renaming requires some local and remote work.
 #'
-#' `use_git_branch_default()` facilitates several proactive steps around the
+#' `use_git_default_branch()` facilitates several proactive steps around the
 #' default branch:
 
-#' * `use_git_branch_default(scope = "user", new_name = "main")` configures
+#' * `use_git_default_branch(scope = "user", new_name = "main")` configures
 #'   `init.defaultBranch` at the global (a.k.a user) level. This only affects
 #'   new local Git repos you create in the future.
-#' * `use_git_branch_default(scope = "project")` discovers the default branch
+#' * `use_git_default_branch(scope = "project")` discovers the default branch
 #'   from the remote source repo for the current Git repo / project. If that
 #'   appears to have changed, e.g. from `master` to `main`, we do the necessary
 #'   branch renaming in your local repo and, if relevant, in your fork.
-#' * `use_git_branch_default(scope = "project", old_name = "master", new_name = "main")`
+#' * `use_git_default_branch(scope = "project", old_name = "master", new_name = "main")`
 #'   moves the local `master` branch to `main`, updates the remote source repo,
 #'   and, if relevant, also updates your fork. This only works for a repo that
 #'   you administer.
@@ -140,24 +140,24 @@ git_branch_default <- function() {
 #'
 #' @examples
 #' \dontrun{
-#' use_git_branch_default(scope = "user", new_name = "main")
+#' use_git_default_branch(scope = "user", new_name = "main")
 #'
-#' use_git_branch_default(scope = "project")
+#' use_git_default_branch(scope = "project")
 #'
-#' use_git_branch_default(scope = "project", old_name = "master", new_name = "main")
+#' use_git_default_branch(scope = "project", old_name = "master", new_name = "main")
 #' }
-use_git_branch_default <- function(scope = c("project", "user"),
+use_git_default_branch <- function(scope = c("project", "user"),
                                    old_name = NULL,
                                    new_name = NULL) {
   scope <- arg_match(scope)
   switch(
     scope,
-    project = use_git_branch_default_project(old_name, new_name),
-    user    = use_git_branch_default_user(new_name)
+    project = use_git_default_branch_project(old_name, new_name),
+    user    = use_git_default_branch_user(new_name)
   )
 }
 
-use_git_branch_default_user <- function(new_name = NULL) {
+use_git_default_branch_user <- function(new_name = NULL) {
   new_name <- new_name %||% "main"
   if (!is_string(new_name)) {
     ui_stop("{ui_code('new_name')} must be a single string.")
@@ -166,7 +166,7 @@ use_git_branch_default_user <- function(new_name = NULL) {
   gert::git_config_global_set("init.defaultBranch", new_name)
 }
 
-use_git_branch_default_project <- function(old_name = NULL, new_name = NULL) {
+use_git_default_branch_project <- function(old_name = NULL, new_name = NULL) {
   if (is.null(new_name)) {
     rediscover_default_branch(old_name)
   } else {
