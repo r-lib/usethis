@@ -378,7 +378,7 @@ git_sitrep <- function() {
   }
 
   # default branch -------------------------------------------------------------
-  kv_line("Default branch", git_branch_default())
+  kv_line("Default branch", git_default_branch())
 
   # current branch -------------------------------------------------------------
   branch <- tryCatch(git_branch(), error = function(e) NULL)

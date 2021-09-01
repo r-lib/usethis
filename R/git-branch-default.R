@@ -21,7 +21,7 @@
 #' If you want to discover and adapt to a branch move, such as a switch from
 #' `master` to `main`, see [use_git_default_branch()] instead. That function
 #' also helps you make such a switch in a project you control.
-#' `git_branch_default()` is a passive function that takes things at face value,
+#' `git_default_branch()` is a passive function that takes things at face value,
 #' whereas [use_git_default_branch()] makes an active effort to discover or
 #' enact or change.
 #'
@@ -30,9 +30,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' git_branch_default()
+#' git_default_branch()
 #' }
-git_branch_default <- function() {
+git_default_branch <- function() {
   check_uses_git()
   repo <- git_repo()
 
@@ -70,7 +70,7 @@ git_branch_default <- function() {
     }
 
     # ask the remote (a remote operation)
-    remote_heads <- map(remote_names, git_branch_default_remote)
+    remote_heads <- map(remote_names, git_default_branch_remote)
     remote_heads <- purrr::compact(remote_heads)
     if (length(remote_heads)) {
       return(path_file(remote_heads[[1]]))
@@ -101,6 +101,16 @@ git_branch_default <- function() {
   ui_stop("
     Can't determine the default branch for this repo
     Do you need to make your first commit?")
+}
+
+#' @section `git_branch_default()`:
+#' Please call [git_default_branch()] instead. In hindsight, that is a better
+#' name for this function.
+#' @export
+#' @rdname usethis-defunct
+git_branch_default <- function() {
+  lifecycle::deprecate_soft("2.1.0", "git_branch_default()", "git_default_branch()")
+  git_default_branch()
 }
 
 #' Change (or discover a change in) the default Git branch
@@ -193,7 +203,7 @@ rename_default_branch <- function(old_name = NULL, new_name = NULL) {
   ui_info("We're going to rename the default branch.")
 }
 
-git_branch_default_remote <- function(remote = "origin") {
+git_default_branch_remote <- function(remote = "origin") {
   url <- git_remotes()[[remote]]
   if (length(url) == 0) {
     ui_stop("No remote named {ui_value(remote)} is configured.")

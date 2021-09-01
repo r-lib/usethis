@@ -187,7 +187,7 @@ pr_init <- function(branch) {
     #    consider that the pull may be affected by uncommitted changes or a
     #    merge
     current_branch <- git_branch()
-    default_branch <- git_branch_default()
+    default_branch <- git_default_branch()
     if (current_branch == default_branch) {
       # override for mis-configured forks, that have default branch tracking
       # the fork (origin) instead of the source (upstream)
@@ -420,7 +420,7 @@ pr_pull <- function() {
 pr_merge_main <- function() {
   tr <- target_repo(github_get = TRUE, ask = FALSE)
   challenge_uncommitted_changes()
-  remref <- glue("{tr$remote}/{git_branch_default()}")
+  remref <- glue("{tr$remote}/{git_default_branch()}")
   ui_done("
     Pulling changes from {ui_value(remref)} (default branch of source repo)")
   git_pull(remref, verbose = FALSE)
@@ -433,7 +433,7 @@ pr_view <- function(number = NULL, target = c("source", "primary")) {
   url <- NULL
   if (is.null(number)) {
     branch <- git_branch()
-    default_branch <- git_branch_default()
+    default_branch <- git_default_branch()
     if (branch != default_branch) {
       url <- pr_url(tr = tr)
       if (is.null(url)) {
@@ -472,7 +472,7 @@ pr_pause <- function() {
   # intentionally naive selection of target repo
   tr <- target_repo(github_get = FALSE, ask = FALSE)
 
-  default_branch <- git_branch_default()
+  default_branch <- git_default_branch()
   if (git_branch() == default_branch) {
     ui_info("
       Already on this repo's default branch ({ui_value(default_branch)})
@@ -555,7 +555,7 @@ pr_clean <- function(number = NULL,
     }
   }
 
-  default_branch <- git_branch_default()
+  default_branch <- git_default_branch()
   if (git_branch() != default_branch) {
     ui_done("Switching back to default branch ({ui_value(default_branch)})")
     gert::git_branch_checkout(default_branch, force = TRUE, repo = repo)
@@ -596,7 +596,7 @@ pr_pull_source_override <- function(tr = NULL) {
   # naive selection of target repo; calling function should analyse the config
   tr <- tr %||% target_repo(github_get = FALSE, ask = FALSE)
   current_branch <- git_branch()
-  default_branch <- git_branch_default()
+  default_branch <- git_default_branch()
   if (current_branch != default_branch) {
     ui_stop("
       Internal error: pr_pull_source_override() should only be used when on \\
@@ -763,7 +763,7 @@ pr_get <- function(number, tr = NULL, github_get = NA) {
 }
 
 check_pr_branch <- function() {
-  default_branch <- git_branch_default()
+  default_branch <- git_default_branch()
   if (git_branch() != default_branch) {
     return(invisible())
   }
@@ -779,7 +779,7 @@ branches_with_no_upstream_or_github_upstream <- function(tr = NULL) {
   repo <- git_repo()
   gb_dat <- gert::git_branch_list(local = TRUE, repo = repo)
   gb_dat <- gb_dat[
-    gb_dat$name != git_branch_default(),
+    gb_dat$name != git_default_branch(),
     c("name", "upstream", "updated")
   ]
   gb_dat$remref   <- sub("^refs/remotes/", "", gb_dat$upstream)
