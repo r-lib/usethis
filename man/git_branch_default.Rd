@@ -2,7 +2,7 @@
 % Please edit documentation in R/git-branch-default.R
 \name{git_branch_default}
 \alias{git_branch_default}
-\title{Determine default Git branch}
+\title{Infer default Git branch}
 \usage{
 git_branch_default()
 }
@@ -10,7 +10,26 @@ git_branch_default()
 A branch name
 }
 \description{
-Figure out the default branch of the current Git repo.
+Figure out the default branch of the current Git repo, preferably from local
+information, but possibly from the \code{HEAD} ref of the \code{upstream} or \code{origin}
+remote. Since "default branch" is not a well-defined Git concept, certain
+assumptions are baked into this function:
+\itemize{
+\item The local Git repo accurately reflects the branch conventions of the
+overall project, either by definition (because you control the project) or
+because you're keeping up-to-date with the source repository.
+\item Typical default branch names are \code{main}, \code{master}, and \code{default}, which we
+look for in that order.
+\item The remote names \code{origin} and \code{upstream} are used in the conventional
+manner.
+}
+
+If you want to discover and adapt to a branch move, such as a switch from
+\code{master} to \code{main}, see \code{\link[=use_git_default_branch]{use_git_default_branch()}} instead. That function
+also helps you make such a switch in a project you control.
+\code{git_branch_default()} is a passive function that takes things at face value,
+whereas \code{\link[=use_git_default_branch]{use_git_default_branch()}} makes an active effort to discover or
+enact or change.
 }
 \examples{
 \dontrun{
