@@ -1,6 +1,29 @@
 #' Determine default Git branch
 #'
-#' Figure out the default branch of the current Git repo.
+#' @description
+
+#' Figure out the default branch of the current Git repo, preferably from local
+#' information, but possibly from the `HEAD` ref of the `upstream` or `origin`
+#' remote. Since "default branch" is not a well-defined Git concept, certain
+#' assumptions are baked into this function:
+
+#' * The local Git repo accurately reflects the branch conventions of the
+#' overall project, either by definition (because you control the project) or
+#' because you're keeping up-to-date with the source repository.
+
+#' * Typical default branch names are `main`, `master`, and `default`, which we
+#' look for in that order.
+
+#' * The remote names `origin` and `upstream` are used in the conventional
+#' manner.
+
+#'
+#' If you want to discover and adapt to a branch move, such as a switch from
+#' `master` to `main`, see [use_git_default_branch()] instead. That function
+#' also helps you make such a switch in a project you control.
+#' `git_branch_default()` is a passive function that takes things at face value,
+#' whereas [use_git_default_branch()] makes an active effort to discover or
+#' enact or change.
 #'
 #' @return A branch name
 #' @export
@@ -18,7 +41,7 @@ git_branch_default <- function() {
     return(gb)
   }
 
-  # Check the most common names used for the default branch
+  # Check the usual suspects re: default branch
   gb <- set_names(gb)
   usual_suspects_branchname <- c("main", "master", "default")
   branch_candidates <- purrr::discard(gb[usual_suspects_branchname], is.na)
@@ -47,15 +70,12 @@ git_branch_default <- function() {
     }
 
     # ask the remote (a remote operation)
-    f <- function(x) {
-      dat <- gert::git_remote_ls(remote = x, verbose = FALSE, repo = repo)
-      path_file(dat$symref[dat$ref == "HEAD"])
-    }
-    f <- purrr::possibly(f, otherwise = NULL)
-    remote_heads <- purrr::compact(map(remote_names, f))
+    remote_heads <- map(remote_names, git_branch_default_remote)
+    remote_heads <- purrr::compact(remote_heads)
     if (length(remote_heads)) {
-      return(remote_heads[[1]])
+      return(path_file(remote_heads[[1]]))
     }
+
   }
   # no luck consulting usual suspects re: Git remotes
   # go back to locally configured branches
@@ -81,4 +101,35 @@ git_branch_default <- function() {
   ui_stop("
     Can't determine the default branch for this repo
     Do you need to make your first commit?")
+}
+
+git_branch_default_remote <- function(remote = "origin") {
+  url <- git_remotes()[[remote]]
+  if (length(url) == 0) {
+    ui_stop("No remote named {ui_value(remote)} is configured.")
+  }
+
+  # TODO: generalize here for GHE hosts that don't include 'github'
+  parsed <- parse_github_remotes(url)
+  if (grepl("github", parsed$host)) {
+    return(github_remotes(remote, github_get = TRUE)$default_branch)
+  }
+
+  repo <- git_repo()
+  res <- tryCatch(
+    {
+      gert::git_fetch(
+        remote = remote,
+        prune = TRUE,
+        repo = repo,
+        verbose = FALSE
+      )
+      gert::git_remote_ls(remote = remote, verbose = FALSE, repo = repo)
+    },
+    error = function(e) NA_character_
+  )
+  if (is.data.frame(res)) {
+    res <- path_file(res$symref[res$ref == "HEAD"])
+  }
+  res
 }
