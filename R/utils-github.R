@@ -188,12 +188,13 @@ github_remotes <- function(these = c("origin", "upstream"),
     oops_hosts <- unique(grl$host[oops])
     ui_stop("
       Unable to get GitHub info for these remotes: {ui_value(oops_remotes)}
-      Are we offline? Is GitHub down?
+      Are we offline? Is GitHub down? Has the repo been deleted?
       Otherwise, you probably need to configure a personal access token (PAT) \\
       for {ui_value(oops_hosts)}
       See {ui_code('?gh_token_help')} for advice")
   }
 
+  grl$default_branch <- map_chr(repo_info, "default_branch", .default = NA)
   grl$is_fork <- map_lgl(repo_info, "fork", .default = NA)
   # `permissions` is an example of data that is not present if the request
   # did not include a PAT
