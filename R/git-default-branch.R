@@ -169,9 +169,7 @@ use_git_default_branch <- function(scope = c("project", "user"),
 
 use_git_default_branch_user <- function(new_name = NULL) {
   new_name <- new_name %||% "main"
-  if (!is_string(new_name)) {
-    ui_stop("{ui_code('new_name')} must be a single string.")
-  }
+  check_string(new_name)
   ui_done("Configuring {ui_field('init.defaultBranch')} as {ui_value(new_name)}.")
   gert::git_config_global_set("init.defaultBranch", new_name)
 }
@@ -185,20 +183,14 @@ use_git_default_branch_project <- function(old_name = NULL, new_name = NULL) {
 }
 
 rediscover_default_branch <- function(old_name = NULL) {
-  if (!is.null(old_name) && !is_string(old_name)) {
-    ui_stop("{ui_code('old_name')} must be a single string.")
-  }
+  maybe_string(old_name)
 
   ui_info("We're going to rediscover default branch from source repo.")
 }
 
 rename_default_branch <- function(old_name = NULL, new_name = NULL) {
-  if (!is.null(old_name) && !is_string(old_name)) {
-    ui_stop("{ui_code('old_name')} must be a single string.")
-  }
-  if (!is.null(new_name) && !is_string(new_name)) {
-    ui_stop("{ui_code('new_name')} must be a single string.")
-  }
+  maybe_string(old_name)
+  check_string(new_name)
 
   ui_info("We're going to rename the default branch.")
 }
