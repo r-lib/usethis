@@ -469,7 +469,7 @@ target_repo <- function(cfg = NULL,
   check_for_bad_config(cfg)
 
   if (isTRUE(github_get)) {
-    check_ours_or_fork(cfg)
+    check_for_config(cfg)
   }
 
   # upstream only
@@ -626,10 +626,10 @@ check_for_maybe_config <- function(cfg,
   invisible()
 }
 
-check_ours_or_fork <- function(cfg = NULL) {
+check_for_config <- function(cfg = NULL, ok_configs = c("ours", "fork")) {
   cfg <- cfg %||% github_remote_config(github_get = TRUE)
   stopifnot(inherits(cfg, "github_remote_config"))
-  if (cfg$type %in% c("ours", "fork")) {
+  if (cfg$type %in% ok_configs) {
     return(invisible(cfg))
   }
   check_for_bad_config(cfg)

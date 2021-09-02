@@ -354,7 +354,7 @@ pr_fetch <- function(number = NULL, target = c("source", "primary")) {
 #' @rdname pull-requests
 pr_push <- function() {
   cfg <- github_remote_config(github_get = TRUE)
-  check_ours_or_fork(cfg)
+  check_for_config(cfg)
   check_pr_branch()
   challenge_uncommitted_changes()
 
@@ -406,7 +406,7 @@ pr_push <- function() {
 #' @export
 #' @rdname pull-requests
 pr_pull <- function() {
-  check_ours_or_fork()
+  check_for_config()
   check_pr_branch()
   challenge_uncommitted_changes()
 
