@@ -33,7 +33,6 @@
 #' git_default_branch()
 #' }
 git_default_branch <- function() {
-  check_uses_git()
   repo <- git_repo()
 
   gb <- gert::git_branch_list(local = TRUE, repo = repo)[["name"]]
@@ -183,9 +182,91 @@ use_git_default_branch_project <- function(old_name = NULL, new_name = NULL) {
 }
 
 rediscover_default_branch <- function(old_name = NULL) {
+  ui_done("Rediscovering the default branch from source repo.")
   maybe_string(old_name)
 
-  ui_info("We're going to rediscover default branch from source repo.")
+  # GitHub's official TODOs re: manually updating local environments
+  # after a source repo renames the default branch:
+
+  # git branch -m OLD-BRANCH-NAME NEW-BRANCH-NAME
+  # git fetch origin
+  # git branch -u origin/NEW-BRANCH-NAME NEW-BRANCH-NAME
+  # git remote set-head origin -a
+
+  # Note: they are assuming the relevant repo is known as origin, but it could
+  # just as easily be, e.g., upstream.
+
+  repo <- git_repo()
+  if (!is.null(old_name) &&
+      !gert::git_branch_exists(old_name, local = TRUE, repo = repo)) {
+    ui_stop("Can't find existing local branch named {ui_value(old_name)}")
+  }
+
+  cfg <- github_remote_config(github_get = TRUE)
+  check_for_config(cfg, ok_configs = c("ours", "fork", "theirs"))
+  ui_info("GitHub remote configuration type: {ui_value(cfg$type)}")
+  ui_info("
+    Read more about GitHub remote configurations at:
+    {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
+
+  tr <- target_repo(cfg, role = "source", ask = FALSE)
+  db <- tr$default_branch
+  ui_info("
+    Source repo is {ui_value(tr$repo_spec)}, whose default branch is \\
+    {ui_value(db)}.")
+  # goal, in Git-speak: git remote set-head <remote> -a
+  # goal, for humans: learn and record the default branch (i.e. the target of
+  # the symbolic-ref refs/remotes/<remote>/HEAD) for the named remote
+  # https://git-scm.com/docs/git-remote#Documentation/git-remote.txt-emset-headem
+  # for very stale repos, a fetch is a necessary pre-requisite
+  # I provide `refspec = db` to avoid fetching all refs, which can be VERY slow
+  # for a repo like ggplot2 (several minutes, with no progress reporting)
+  # however this means I can't do `prune = TRUE` to prune, e.g. origin/master
+  gert::git_fetch(remote = tr$name, refspec = db, verbose = FALSE, repo = repo)
+  gert::git_remote_ls(remote = tr$name, verbose = FALSE, repo = repo)
+
+  old_name <- old_name %||% guess_local_default_branch()
+
+  if (old_name == db) {
+    ui_info("Local branch named {ui_value(db)} already exists.")
+  } else {
+    # goal, in Git-speak: git branch -m <old_name> <db>
+    ui_done("Moving local {ui_value(old_name)} branch to {ui_value(db)}.")
+    gert::git_branch_move(branch = old_name, new_branch = db, repo = repo)
+    rstudio_git_tickle()
+  }
+
+  # goal, in Git-speak: git branch -u <remote>/<db> <db>
+  source_remref <- glue("{tr$name}/{db}")
+  ui_done("
+    Setting remote tracking branch for local {ui_value(db)} \\
+    branch to {ui_value(source_remref)}.")
+  gert::git_branch_set_upstream(
+    branch = db,
+    upstream = source_remref,
+    repo = repo
+  )
+
+  # for "ours" and "theirs", the source repo is the only remote on our radar and
+  # we're done ingesting the default branch from the source repo
+  # but for "fork", we also need to update
+  #   the fork = the user's primary repo = the remote known as origin
+  if (cfg$type == "fork" && old_name != db) {
+    gh <- gh_tr(cfg$origin)
+    ui_done("
+      Renaming {ui_value(old_name)} branch to {ui_value(db)} in your \\
+      fork {ui_value(cfg$origin$repo_spec)}.")
+    gh(
+      "POST /repos/{owner}/{repo}/branches/{from}/rename",
+      from = old_name,
+      new_name = db
+    )
+    # giving refspec has same pros and cons as noted above for source repo
+    gert::git_fetch(remote = "origin", refspec = db, verbose = FALSE, repo = repo)
+    gert::git_remote_ls(remote = "origin", verbose = FALSE, repo = repo)
+  }
+
+  invisible(db)
 }
 
 rename_default_branch <- function(old_name = NULL, new_name = NULL) {
@@ -198,7 +279,7 @@ rename_default_branch <- function(old_name = NULL, new_name = NULL) {
 git_default_branch_remote <- function(remote = "origin") {
   url <- git_remotes()[[remote]]
   if (length(url) == 0) {
-    ui_stop("No remote named {ui_value(remote)} is configured.")
+    ui_stop("There is no remote named {ui_value(remote)}.")
   }
 
   # TODO: generalize here for GHE hosts that don't include 'github'
@@ -210,12 +291,7 @@ git_default_branch_remote <- function(remote = "origin") {
   repo <- git_repo()
   res <- tryCatch(
     {
-      gert::git_fetch(
-        remote = remote,
-        prune = TRUE,
-        repo = repo,
-        verbose = FALSE
-      )
+      gert::git_fetch(remote = remote, repo = repo, verbose = FALSE)
       gert::git_remote_ls(remote = remote, verbose = FALSE, repo = repo)
     },
     error = function(e) NA_character_
@@ -224,4 +300,44 @@ git_default_branch_remote <- function(remote = "origin") {
     res <- path_file(res$symref[res$ref == "HEAD"])
   }
   res
+}
+
+guess_local_default_branch <- function(ask = is_interactive()) {
+  repo <- git_repo()
+
+  gb <- gert::git_branch_list(local = TRUE, repo = repo)[["name"]]
+  if (length(gb) == 0) {
+    ui_stop("
+      Can't find any local branches.
+      Do you need to make your first commit?")
+  }
+
+  if ("main" %in% gb && !"master" %in% gb) {
+    propose <- "main"
+  } else if ("master" %in% gb && !"main" %in% gb) {
+    propose <- "master"
+  } else if (length(gb) == 1) {
+    propose <- gb
+  } else {
+    ui_stop("
+      Not clear which existing local branch plays the role of the default.
+      You'll need to specify {ui_code('old_name')} explicitly.")
+  }
+
+  if (!ask || !is_interactive()) {
+    ui_done("
+      Local branch {ui_value(propose)} appears to play the role of \\
+      the default branch.")
+    return(propose)
+  }
+
+  if (ui_yeah("
+    The local branch {ui_value(propose)} appears to play the role of \\
+    the default branch.
+    Do you confirm?",
+    yes = "yes", no = "no", shuffle = FALSE)) {
+    propose
+  } else {
+    ui_stop("Cancelling. Local default branch is not clear.")
+  }
 }
