@@ -138,8 +138,8 @@ git_branch_default <- function() {
 #'
 
 #' @inheritParams edit
-#' @param old_name Old name of the default branch. If unspecified, this can
-#'   often be inferred.
+#' @param old_name Name of the **local** branch that is currently functioning as
+#'   the default branch. If unspecified, this can often be inferred.
 #' @param new_name New name of the default branch. The presence of this argument
 #'   determines whether we are actively changing the project's default branch or
 #'   discovering whether such a change has been made in the project.
