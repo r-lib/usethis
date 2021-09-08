@@ -36,7 +36,7 @@ Imports:
     ellipsis,
     desc (>= 1.3.0),
     fs (>= 1.3.0),
-    gert (>= 1.0.2),
+    gert (>= 1.3.2.9000),
     gh (>= 1.2.1),
     glue (>= 1.3.0),
     jsonlite,
@@ -68,3 +68,5 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1.9001
 Config/testthat/edition: 3
+Remotes:  
+    r-lib/gert
