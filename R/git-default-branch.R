@@ -212,7 +212,7 @@ rediscover_default_branch <- function(old_name = NULL) {
   tr <- target_repo(cfg, role = "source", ask = FALSE)
   db <- tr$default_branch
   ui_info("
-    Source repo is {ui_value(tr$repo_spec)}, whose default branch is \\
+    Source repo is {ui_value(tr$repo_spec)} and its current default branch is \\
     {ui_value(db)}.")
   # goal, in Git-speak: git remote set-head <remote> -a
   # goal, for humans: learn and record the default branch (i.e. the target of
@@ -270,10 +270,71 @@ rediscover_default_branch <- function(old_name = NULL) {
 }
 
 rename_default_branch <- function(old_name = NULL, new_name = NULL) {
+  ui_done('
+    Renaming (a.k.a. "moving") the default branch for {ui_value(project_name())}.')
+  repo <- git_repo()
   maybe_string(old_name)
   check_string(new_name)
 
-  ui_info("We're going to rename the default branch.")
+  # if (!is.null(old_name) &&
+  #     !gert::git_branch_exists(old_name, local = TRUE, repo = repo)) {
+  #   ui_stop("Can't find existing local branch named {ui_value(old_name)}")
+  # }
+
+  cfg <- github_remote_config(github_get = TRUE)
+  check_for_config(cfg, ok_configs = c("ours", "fork", "no_github"))
+  ui_info("GitHub remote configuration type: {ui_value(cfg$type)}")
+  ui_info("
+    Read more about GitHub remote configurations at:
+    {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
+
+  # TODO: handle no_github case and exit
+  # cfg is now either fork or ours
+
+  tr <- target_repo(cfg, role = "source", ask = FALSE)
+  old_source_db <- tr$default_branch
+  ui_info("
+    Source repo is {ui_value(tr$repo_spec)} and its current default branch is \\
+    {ui_value(old_source_db)}.")
+
+  if (!isTRUE(tr$can_admin)) {
+    ui_stop("
+      You don't seem to have {ui_field('admin')} permissions for \\
+      {ui_value(tr$repo_spec)}, which is required to rename the default \\
+      branch.")
+  }
+
+  old_name <- old_name %||% guess_local_default_branch()
+
+  if (old_name != old_source_db) {
+    ui_oops("
+      It's weird that the current default branch for your local repo and \\
+      the source repo are different:
+      {ui_value(old_name)} (local) != {ui_value(old_source_db)} (source)")
+    if (ui_nope(
+      "Are you sure you want to proceed?",
+      yes = "yes", no = "no", shuffle = FALSE)) {
+      ui_stop("Cancelling.")
+    }
+  }
+
+  if (new_name == old_source_db) {
+    ui_info("
+      Source repo {ui_value(tr$repo_spec)} already has \\
+      {ui_value(old_source_db)} as its default branch.")
+  } else {
+    gh <- gh_tr(tr)
+    ui_done("
+      Renaming {ui_value(old_source_db)} branch to {ui_value(new_name)} in \\
+      the source repo {ui_value(tr$repo_spec)}.")
+    gh(
+      "POST /repos/{owner}/{repo}/branches/{from}/rename",
+      from = old_source_db,
+      new_name = new_name
+    )
+  }
+
+  rediscover_default_branch(old_name = old_name)
 }
 
 git_default_branch_remote <- function(remote = "origin") {
