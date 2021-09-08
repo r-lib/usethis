@@ -181,7 +181,9 @@ use_git_default_branch_project <- function(old_name = NULL, new_name = NULL) {
   }
 }
 
-rediscover_default_branch <- function(old_name = NULL) {
+# `verbose = FALSE` exists only so we can call this at the end of
+# rename_default_branch() and suppress some of the redundant messages
+rediscover_default_branch <- function(old_name = NULL, verbose = TRUE) {
   ui_done("Rediscovering the default branch from source repo.")
   maybe_string(old_name)
 
@@ -204,10 +206,12 @@ rediscover_default_branch <- function(old_name = NULL) {
 
   cfg <- github_remote_config(github_get = TRUE)
   check_for_config(cfg, ok_configs = c("ours", "fork", "theirs"))
-  ui_info("GitHub remote configuration type: {ui_value(cfg$type)}")
-  ui_info("
-    Read more about GitHub remote configurations at:
-    {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
+  if (verbose) {
+    ui_info("GitHub remote configuration type: {ui_value(cfg$type)}")
+    ui_info("
+      Read more about GitHub remote configurations at:
+      {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
+  }
 
   tr <- target_repo(cfg, role = "source", ask = FALSE)
   db <- tr$default_branch
@@ -334,7 +338,7 @@ rename_default_branch <- function(old_name = NULL, new_name = NULL) {
     )
   }
 
-  rediscover_default_branch(old_name = old_name)
+  rediscover_default_branch(old_name = old_name, verbose = FALSE)
 }
 
 git_default_branch_remote <- function(remote = "origin") {
