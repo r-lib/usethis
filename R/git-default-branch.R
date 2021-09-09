@@ -1,7 +1,36 @@
-#' Infer default Git branch
+#' Get or set the default Git branch
 #'
 #' @description
 
+#' The `git_default_branch*()` functions put some structure around the somewhat
+#' fuzzy (but definitely real) concept of the default branch. In particular,
+#' they support new conventions around the Git default branch name, globally or
+#' in a specific project / Git repository.
+#'
+#' @section Background on the default branch:
+#'
+
+#' Technically, Git itself has no official concept of **default branch**. But in
+#' reality, practically all Git repos have an **effective default branch**. If
+#' there's only one branch, this is it! It is the branch that most bug fixes and
+#' features get merged in to. It is the branch you see when you first visit a
+#' repo on a site such as GitHub. On a Git remote, it is the branch that `HEAD`
+#' points to.
+#'
+#' Historically, `master` has been the most common name for the default branch,
+#' but `main` is an increasingly popular choice.
+#'
+
+#' @section `git_default_branch_configure()`:
+
+#' This configures `init.defaultBranch` at the global (a.k.a user) level. This
+#' only affects new local Git repos you create in the future.
+#'
+
+#' @section `git_default_branch`:
+
+#' TODO: UPDATE THIS ONCE I OVERHAUL THE FUNCTION ITSELF.
+#'
 #' Figure out the default branch of the current Git repo, preferably from local
 #' information, but possibly from the `HEAD` ref of the `upstream` or `origin`
 #' remote. Since "default branch" is not a well-defined Git concept, certain
@@ -16,18 +45,41 @@
 
 #' * The remote names `origin` and `upstream` are used in the conventional
 #' manner.
+#'
 
+#' @section `git_default_branch_rediscover()`:
+
+#' This consults an external authority -- specifically, the remote **source**
+#' repo -- to learn the default branch of the current project / repo. If that
+#' appears to have changed, e.g. from `master` to `main`, we do the
+#' corresponding branch renaming in your local repo and, if relevant, in your
+#' fork.
 #'
-#' If you want to discover and adapt to a branch move, such as a switch from
-#' `master` to `main`, see [use_git_default_branch()] instead. That function
-#' also helps you make such a switch in a project you control.
-#' `git_default_branch()` is a passive function that takes things at face value,
-#' whereas [use_git_default_branch()] makes an active effort to discover or
-#' enact or change.
+#' See <https://happygitwithr.com/common-remote-setups.html> for more about
+#' GitHub remote configurations and, e.g., what we mean by the source repo.
+
+#' @section `git_default_branch_rename()`:
+
+#' Note: this only works for a repo that you morally own. In terms of GitHub,
+#' you must own the **source** repo personally or, if organization-owned, you
+#' must have `admin` permission on the **source** repo.
 #'
-#' @return A branch name
+#' This renames the default branch in the source repo and then calls
+#' `git_default_branch_rediscover()`, to make any necessary changes in the local
+#' repo and, if relevant, in your personal fork.
+#'
+#' See <https://happygitwithr.com/common-remote-setups.html> for more about
+#' GitHub remote configurations and, e.g., what we mean by the source repo.
+#'
+#' (Of course, this function does what you expect for a local repo with no
+#' GitHub remotes, but that is not the primary use case.)
+
+#' @return Name of the default branch.
+#' @name git-default-branch
+NULL
+
 #' @export
-#'
+#' @rdname git-default-branch
 #' @examples
 #' \dontrun{
 #' git_default_branch()
@@ -102,87 +154,56 @@ git_default_branch <- function() {
     Do you need to make your first commit?")
 }
 
-#' @section `git_branch_default()`:
-#' Please call [git_default_branch()] instead. In hindsight, that is a better
-#' name for this function.
 #' @export
-#' @rdname usethis-defunct
-git_branch_default <- function() {
-  lifecycle::deprecate_soft("2.1.0", "git_branch_default()", "git_default_branch()")
-  git_default_branch()
-}
-
-#' Change (or discover a change in) the default Git branch
-#'
-#' @description
-
-#' While Git itself has no official concept of "default branch", in reality,
-#' practically all Git repos and users have an **effective default branch**.
-#' Historically this was usually `master`, but `main` is an increasingly popular
-#' choice and this branch renaming requires some local and remote work.
-#'
-#' `use_git_default_branch()` facilitates several proactive steps around the
-#' default branch:
-
-#' * `use_git_default_branch(scope = "user", new_name = "main")` configures
-#'   `init.defaultBranch` at the global (a.k.a user) level. This only affects
-#'   new local Git repos you create in the future.
-#' * `use_git_default_branch(scope = "project")` discovers the default branch
-#'   from the remote source repo for the current Git repo / project. If that
-#'   appears to have changed, e.g. from `master` to `main`, we do the necessary
-#'   branch renaming in your local repo and, if relevant, in your fork.
-#' * `use_git_default_branch(scope = "project", old_name = "master", new_name = "main")`
-#'   moves the local `master` branch to `main`, updates the remote source repo,
-#'   and, if relevant, also updates your fork. This only works for a repo that
-#'   you administer.
-#'
-
-#' @inheritParams edit
-#' @param old_name Name of the **local** branch that is currently functioning as
-#'   the default branch. If unspecified, this can often be inferred.
-#' @param new_name New name of the default branch. The presence of this argument
-#'   determines whether we are actively changing the project's default branch or
-#'   discovering whether such a change has been made in the project.
-#'
-#' @return The new default branch name.
-#' @export
-#'
+#' @rdname git-default-branch
+#' @param name Default name for the initial branch in new Git repositories.
 #' @examples
 #' \dontrun{
-#' use_git_default_branch(scope = "user", new_name = "main")
-#'
-#' use_git_default_branch(scope = "project")
-#'
-#' use_git_default_branch(scope = "project", old_name = "master", new_name = "main")
+#' git_default_branch_configure()
 #' }
-use_git_default_branch <- function(scope = c("project", "user"),
-                                   old_name = NULL,
-                                   new_name = NULL) {
-  scope <- arg_match(scope)
-  switch(
-    scope,
-    project = use_git_default_branch_project(old_name, new_name),
-    user    = use_git_default_branch_user(new_name)
-  )
+git_default_branch_configure <- function(name = "main") {
+  check_string(name)
+  ui_done("Configuring {ui_field('init.defaultBranch')} as {ui_value(name)}.")
+  ui_info("Remember: this only affects repos you create in the future.")
+  gert::git_config_global_set("init.defaultBranch", name)
+  invisible(name)
 }
 
-use_git_default_branch_user <- function(new_name = NULL) {
-  new_name <- new_name %||% "main"
-  check_string(new_name)
-  ui_done("Configuring {ui_field('init.defaultBranch')} as {ui_value(new_name)}.")
-  gert::git_config_global_set("init.defaultBranch", new_name)
+#' @export
+#' @rdname git-default-branch
+#' @param current_local_name Name of the local branch that is currently
+#'   functioning as the default branch. If unspecified, this can often be
+#'   inferred.
+#' @examples
+#' \dontrun{
+#' git_default_branch_rediscover()
+#'
+#' # you can always explicitly specify the local branch that's been playing the
+#' # role of the default
+#' git_default_branch_rediscover("unconventional_branch_name")
+#' }
+git_default_branch_rediscover <- function(current_local_name = NULL) {
+  rediscover_default_branch(old_name = current_local_name, verbose = TRUE)
 }
 
-use_git_default_branch_project <- function(old_name = NULL, new_name = NULL) {
-  if (is.null(new_name)) {
-    rediscover_default_branch(old_name)
-  } else {
-    rename_default_branch(old_name, new_name)
-  }
+#' @export
+#' @rdname git-default-branch
+#' @param from Name of the branch that is currently functioning as the default
+#'   branch.
+#' @param to New name for the default branch.
+#' @examples
+#' \dontrun{
+#' git_default_branch_rename()
+#'
+#' # you can always explicitly specify the branch names
+#' git_default_branch_rename(from = "this", to = "that")
+#' }
+git_default_branch_rename <- function(from = "master", to = "main") {
+  rename_default_branch(old_name = from, new_name = to)
 }
 
 # `verbose = FALSE` exists only so we can call this at the end of
-# rename_default_branch() and suppress some of the redundant messages
+# git_default_branch_rename() and suppress some of the redundant messages
 rediscover_default_branch <- function(old_name = NULL, verbose = TRUE) {
   ui_done("Rediscovering the default branch from source repo.")
   maybe_string(old_name)
@@ -280,6 +301,7 @@ rename_default_branch <- function(old_name = NULL, new_name = NULL) {
   maybe_string(old_name)
   check_string(new_name)
 
+  # TODO: I believe this is still needed (or something related)
   # if (!is.null(old_name) &&
   #     !gert::git_branch_exists(old_name, local = TRUE, repo = repo)) {
   #   ui_stop("Can't find existing local branch named {ui_value(old_name)}")
