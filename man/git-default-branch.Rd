@@ -2,13 +2,13 @@
 % Please edit documentation in R/git-default-branch.R
 \name{git-default-branch}
 \alias{git-default-branch}
-\alias{git_default_branch}
+\alias{git_default_branch_legacy}
 \alias{git_default_branch_configure}
 \alias{git_default_branch_rediscover}
 \alias{git_default_branch_rename}
 \title{Get or set the default Git branch}
 \usage{
-git_default_branch()
+git_default_branch_legacy()
 
 git_default_branch_configure(name = "main")
 
@@ -29,7 +29,7 @@ branch.}
 \item{to}{New name for the default branch.}
 }
 \value{
-Name of the default branch
+Name of the default branch.
 }
 \description{
 The \verb{git_default_branch*()} functions put some structure around the somewhat
@@ -40,9 +40,9 @@ in a specific project / Git repository.
 \section{Background on the default branch}{
 
 
-Technically, Git itself has no official concept of \strong{default branch}. But in
-reality, practically all Git repos have an \strong{effective default branch}. If
-there's only one branch, this is it! It is the branch that most bug fixes and
+Technically, Git has no official concept of the default branch. But in
+reality, almost all Git repos have an \emph{effective default branch}. If there's
+only one branch, this is it! It is the branch that most bug fixes and
 features get merged in to. It is the branch you see when you first visit a
 repo on a site such as GitHub. On a Git remote, it is the branch that \code{HEAD}
 points to.
@@ -54,7 +54,9 @@ but \code{main} is an increasingly popular choice.
 \section{\code{git_default_branch_configure()}}{
 
 This configures \code{init.defaultBranch} at the global (a.k.a user) level. This
-only affects new local Git repos you create in the future.
+determines the name of the branch that gets created when you make the first
+commit in a new Git repo. \code{init.defaultBranch} only affects the local Git
+repos you create in the future.
 }
 
 \section{\code{git_default_branch}}{
@@ -78,36 +80,38 @@ manner.
 
 \section{\code{git_default_branch_rediscover()}}{
 
-This consults an external authority -- specifically, the remote \strong{source}
-repo -- to learn the default branch of the current project / repo. If that
-appears to have changed, e.g. from \code{master} to \code{main}, we do the
+This consults an external authority -- specifically, the remote \strong{source
+repo} -- to learn the default branch of the current project / repo. If that
+appears to have changed, such as from \code{master} to \code{main}, we do the
 corresponding branch renaming in your local repo and, if relevant, in your
 fork.
 
 See \url{https://happygitwithr.com/common-remote-setups.html} for more about
-GitHub remote configurations and, e.g., what we mean by the source repo.
+GitHub remote configurations and, e.g., what we mean by the source repo. This
+function works for the configurations \code{"ours"}, \code{"fork"}, and \code{"theirs"}.
 }
 
 \section{\code{git_default_branch_rename()}}{
 
-Note: this only works for a repo that you morally own. In terms of GitHub,
-you must own the \strong{source} repo personally or, if organization-owned, you
-must have \code{admin} permission on the \strong{source} repo.
+Note: this only works for a repo that you effectively own. In terms of
+GitHub, you must own the \strong{source repo} personally or, if
+organization-owned, you must have \code{admin} permission on the \strong{source repo}.
 
-This renames the default branch in the source repo and then calls
+This renames the default branch in the \strong{source repo} and then calls
 \code{git_default_branch_rediscover()}, to make any necessary changes in the local
 repo and, if relevant, in your personal fork.
 
 See \url{https://happygitwithr.com/common-remote-setups.html} for more about
-GitHub remote configurations and, e.g., what we mean by the source repo.
+GitHub remote configurations and, e.g., what we mean by the source repo. This
+function works for the configurations \code{"ours"}, \code{"fork"}, and \code{"no_github"}.
 
-(Of course, this function does what you expect for a local repo with no
-GitHub remotes, but that is not the primary use case.)
+Regarding \code{"no_github"}: Of course, this function does what you expect for a
+local repo with no GitHub remotes, but that is not the primary use case.
 }
 
 \examples{
 \dontrun{
-git_default_branch()
+git_default_branch_legacy()
 }
 \dontrun{
 git_default_branch_configure()

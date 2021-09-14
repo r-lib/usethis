@@ -10,9 +10,9 @@
 #' @section Background on the default branch:
 #'
 
-#' Technically, Git itself has no official concept of **default branch**. But in
-#' reality, practically all Git repos have an **effective default branch**. If
-#' there's only one branch, this is it! It is the branch that most bug fixes and
+#' Technically, Git has no official concept of the default branch. But in
+#' reality, almost all Git repos have an *effective default branch*. If there's
+#' only one branch, this is it! It is the branch that most bug fixes and
 #' features get merged in to. It is the branch you see when you first visit a
 #' repo on a site such as GitHub. On a Git remote, it is the branch that `HEAD`
 #' points to.
@@ -24,7 +24,9 @@
 #' @section `git_default_branch_configure()`:
 
 #' This configures `init.defaultBranch` at the global (a.k.a user) level. This
-#' only affects new local Git repos you create in the future.
+#' determines the name of the branch that gets created when you make the first
+#' commit in a new Git repo. `init.defaultBranch` only affects the local Git
+#' repos you create in the future.
 #'
 
 #' @section `git_default_branch`:
@@ -49,30 +51,32 @@
 
 #' @section `git_default_branch_rediscover()`:
 
-#' This consults an external authority -- specifically, the remote **source**
-#' repo -- to learn the default branch of the current project / repo. If that
-#' appears to have changed, e.g. from `master` to `main`, we do the
+#' This consults an external authority -- specifically, the remote **source
+#' repo** -- to learn the default branch of the current project / repo. If that
+#' appears to have changed, such as from `master` to `main`, we do the
 #' corresponding branch renaming in your local repo and, if relevant, in your
 #' fork.
 #'
 #' See <https://happygitwithr.com/common-remote-setups.html> for more about
-#' GitHub remote configurations and, e.g., what we mean by the source repo.
+#' GitHub remote configurations and, e.g., what we mean by the source repo. This
+#' function works for the configurations `"ours"`, `"fork"`, and `"theirs"`.
 
 #' @section `git_default_branch_rename()`:
 
-#' Note: this only works for a repo that you morally own. In terms of GitHub,
-#' you must own the **source** repo personally or, if organization-owned, you
-#' must have `admin` permission on the **source** repo.
+#' Note: this only works for a repo that you effectively own. In terms of
+#' GitHub, you must own the **source repo** personally or, if
+#' organization-owned, you must have `admin` permission on the **source repo**.
 #'
-#' This renames the default branch in the source repo and then calls
+#' This renames the default branch in the **source repo** and then calls
 #' `git_default_branch_rediscover()`, to make any necessary changes in the local
 #' repo and, if relevant, in your personal fork.
 #'
 #' See <https://happygitwithr.com/common-remote-setups.html> for more about
-#' GitHub remote configurations and, e.g., what we mean by the source repo.
+#' GitHub remote configurations and, e.g., what we mean by the source repo. This
+#' function works for the configurations `"ours"`, `"fork"`, and `"no_github"`.
 #'
-#' (Of course, this function does what you expect for a local repo with no
-#' GitHub remotes, but that is not the primary use case.)
+#' Regarding `"no_github"`: Of course, this function does what you expect for a
+#' local repo with no GitHub remotes, but that is not the primary use case.
 
 #' @return Name of the default branch.
 #' @name git-default-branch
