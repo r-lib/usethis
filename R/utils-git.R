@@ -294,7 +294,7 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
 
 # Checks ------------------------------------------------------------------
 check_default_branch <- function() {
-  default_branch <- git_default_branch()
+  default_branch <- git_default_branch_legacy()
   ui_done("
     Checking that current branch is default branch ({ui_value(default_branch)})")
   actual <- git_branch()
@@ -307,7 +307,7 @@ check_default_branch <- function() {
 
 challenge_non_default_branch <- function(details = "Are you sure you want to proceed?") {
   actual <- git_branch()
-  default_branch <- git_default_branch()
+  default_branch <- git_default_branch_legacy()
   if (nzchar(details)) {
     details <- paste0("\n", details)
   }

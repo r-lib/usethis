@@ -86,9 +86,9 @@ NULL
 #' @rdname git-default-branch
 #' @examples
 #' \dontrun{
-#' git_default_branch()
+#' git_default_branch_legacy()
 #' }
-git_default_branch <- function() {
+git_default_branch_legacy <- function() {
   repo <- git_repo()
 
   gb <- gert::git_branch_list(local = TRUE, repo = repo)[["name"]]

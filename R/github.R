@@ -135,7 +135,7 @@ use_github <- function(organisation = NULL,
     )
   }
 
-  default_branch <- git_default_branch()
+  default_branch <- git_default_branch_legacy()
   repo <- git_repo()
   remref <- glue("origin/{default_branch}")
   ui_done("

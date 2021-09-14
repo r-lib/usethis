@@ -46,14 +46,14 @@ use_covr_ignore <- function(files) {
 }
 
 use_codecov_badge <- function(repo_spec) {
-  default_branch <- git_default_branch()
+  default_branch <- git_default_branch_legacy()
   url <- glue("https://codecov.io/gh/{repo_spec}?branch={default_branch}")
   img <- glue("https://codecov.io/gh/{repo_spec}/branch/{default_branch}/graph/badge.svg")
   use_badge("Codecov test coverage", url, img)
 }
 
 use_coveralls_badge <- function(repo_spec) {
-  default_branch <- git_default_branch()
+  default_branch <- git_default_branch_legacy()
   url <- glue("https://coveralls.io/r/{repo_spec}?branch={default_branch}")
   img <- glue("https://coveralls.io/repos/github/{repo_spec}/badge.svg")
   use_badge("Coveralls test coverage", url, img)
