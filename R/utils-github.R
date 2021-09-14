@@ -331,7 +331,8 @@ github_remote_config <- function(github_get = NA) {
     }
     if (length(unique(grl$github_got)) != 1) {
       ui_stop("
-        Internal error: Got GitHub API info for some remotes, but not all")
+        Internal error: Got GitHub API info for some remotes, but not all
+        Do all the remotes still exist? Do you still have access?")
     }
     if (length(unique(grl$perm_known)) != 1) {
       ui_stop("
