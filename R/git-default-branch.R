@@ -86,8 +86,56 @@ NULL
 #' @rdname git-default-branch
 #' @examples
 #' \dontrun{
-#' git_default_branch_legacy()
+#' git_default_branch()
 #' }
+git_default_branch <- function() {
+  repo <- git_repo()
+
+  possibly_git_default_branch_remote <- purrr::possibly(
+    git_default_branch_remote,
+    otherwise = NULL
+  )
+  db_source <- possibly_git_default_branch_remote("upstream") %||%
+    possibly_git_default_branch_remote("origin") %||%
+    character()
+
+  db_local_with_source <- tryCatch(
+    guess_local_default_branch(db_source),
+    error = function(e) NA_character_
+  )
+
+  if (is.na(db_local_with_source)) {
+    if (length(db_source)) {
+      ui_stop("
+        The source repo's default branch is {ui_value(db_source)}.
+        But the local repo has no branch named {ui_value(db_source)}.
+        Call {ui_code('git_default_branch_rediscover()')}, using the \\
+        {ui_code('current_local_name')} argument, to resolve this.")
+    } else {
+      ui_stop("Can't determine the default branch.")
+    }
+  }
+  # we learned a default branch from the local repo
+
+  if (length(db_source) < 1) {
+    return(db_local_with_source)
+  }
+  # we learned a default branch from the source repo
+
+  if (db_source == db_local_with_source) {
+    return(db_source)
+  }
+  # we learned a default branch from both local and source repos,
+  # BUT they don't match
+
+  ui_stop("
+    Local repo suggests the default branch is {ui_value(db_local_with_source)}.
+    However, the source repo's default branch is {ui_value(db_source)}.
+    Call {ui_code('git_default_branch_rediscover()')} to resolve this.")
+}
+
+#' @export
+#' @rdname git-default-branch
 git_default_branch_legacy <- function() {
   repo <- git_repo()
 
@@ -203,8 +251,74 @@ git_default_branch_rediscover <- function(current_local_name = NULL) {
 #' # you can always explicitly specify the branch names
 #' git_default_branch_rename(from = "this", to = "that")
 #' }
-git_default_branch_rename <- function(from = "master", to = "main") {
-  rename_default_branch(old_name = from, new_name = to)
+git_default_branch_rename <- function(from = NULL, to = "main") {
+  #rename_default_branch(old_name = from, new_name = to)
+  ui_done('
+    Renaming (a.k.a. "moving") the default branch for {ui_value(project_name())}.')
+  repo <- git_repo()
+  maybe_string(from)
+  check_string(to)
+
+  if (!is.null(from) &&
+      !gert::git_branch_exists(from, local = TRUE, repo = repo)) {
+    ui_stop("Can't find existing branch named {ui_value(from)}.")
+  }
+
+  cfg <- github_remote_config(github_get = TRUE)
+  check_for_config(cfg, ok_configs = c("ours", "fork", "no_github"))
+  ui_info("GitHub remote configuration type: {ui_value(cfg$type)}")
+  ui_info("
+    Read more about GitHub remote configurations at:
+    {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
+
+  # TODO: handle no_github case and exit
+  # cfg is now either fork or ours
+
+  tr <- target_repo(cfg, role = "source", ask = FALSE)
+  old_source_db <- tr$default_branch
+  ui_info("
+    Source repo is {ui_value(tr$repo_spec)} and its current default branch is \\
+    {ui_value(old_source_db)}.")
+
+  if (!isTRUE(tr$can_admin)) {
+    ui_stop("
+      You don't seem to have {ui_field('admin')} permissions for \\
+      {ui_value(tr$repo_spec)}, which is required to rename the default \\
+      branch.")
+  }
+
+  old_local_db <- from %||%
+    guess_local_default_branch(old_source_db, verbose = TRUE)
+
+  if (old_local_db != old_source_db) {
+    ui_oops("
+      It's weird that the current default branch for your local repo and \\
+      the source repo are different:
+      {ui_value(old_local_db)} (local) != {ui_value(old_source_db)} (source)")
+    if (ui_nope(
+      "Are you sure you want to proceed?",
+      yes = "yes", no = "no", shuffle = FALSE)) {
+      ui_stop("Cancelling.")
+    }
+  }
+
+  if (to == old_source_db) {
+    ui_info("
+      Source repo {ui_value(tr$repo_spec)} already has \\
+      {ui_value(old_source_db)} as its default branch.")
+  } else {
+    gh <- gh_tr(tr)
+    ui_done("
+      Renaming {ui_value(old_source_db)} branch to {ui_value(to)} in \\
+      the source repo {ui_value(tr$repo_spec)}.")
+    gh(
+      "POST /repos/{owner}/{repo}/branches/{from}/rename",
+      from = old_source_db,
+      new_name = to
+    )
+  }
+
+  rediscover_default_branch(old_name = old_local_db, verbose = FALSE)
 }
 
 # `verbose = FALSE` exists only so we can call this at the end of
@@ -255,7 +369,7 @@ rediscover_default_branch <- function(old_name = NULL, verbose = TRUE) {
   gert::git_fetch(remote = tr$name, refspec = db, verbose = FALSE, repo = repo)
   gert::git_remote_ls(remote = tr$name, verbose = FALSE, repo = repo)
 
-  old_name <- old_name %||% guess_local_default_branch()
+  old_name <- old_name %||% guess_local_default_branch(db, verbose = TRUE)
 
   if (old_name == db) {
     ui_info("Local branch named {ui_value(db)} already exists.")
@@ -299,80 +413,17 @@ rediscover_default_branch <- function(old_name = NULL, verbose = TRUE) {
   invisible(db)
 }
 
-rename_default_branch <- function(old_name = NULL, new_name = NULL) {
-  ui_done('
-    Renaming (a.k.a. "moving") the default branch for {ui_value(project_name())}.')
-  repo <- git_repo()
-  maybe_string(old_name)
-  check_string(new_name)
-
-  # TODO: I believe this is still needed (or something related)
-  # if (!is.null(old_name) &&
-  #     !gert::git_branch_exists(old_name, local = TRUE, repo = repo)) {
-  #   ui_stop("Can't find existing local branch named {ui_value(old_name)}")
-  # }
-
-  cfg <- github_remote_config(github_get = TRUE)
-  check_for_config(cfg, ok_configs = c("ours", "fork", "no_github"))
-  ui_info("GitHub remote configuration type: {ui_value(cfg$type)}")
-  ui_info("
-    Read more about GitHub remote configurations at:
-    {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
-
-  # TODO: handle no_github case and exit
-  # cfg is now either fork or ours
-
-  tr <- target_repo(cfg, role = "source", ask = FALSE)
-  old_source_db <- tr$default_branch
-  ui_info("
-    Source repo is {ui_value(tr$repo_spec)} and its current default branch is \\
-    {ui_value(old_source_db)}.")
-
-  if (!isTRUE(tr$can_admin)) {
-    ui_stop("
-      You don't seem to have {ui_field('admin')} permissions for \\
-      {ui_value(tr$repo_spec)}, which is required to rename the default \\
-      branch.")
-  }
-
-  old_name <- old_name %||% guess_local_default_branch()
-
-  if (old_name != old_source_db) {
-    ui_oops("
-      It's weird that the current default branch for your local repo and \\
-      the source repo are different:
-      {ui_value(old_name)} (local) != {ui_value(old_source_db)} (source)")
-    if (ui_nope(
-      "Are you sure you want to proceed?",
-      yes = "yes", no = "no", shuffle = FALSE)) {
-      ui_stop("Cancelling.")
-    }
-  }
-
-  if (new_name == old_source_db) {
-    ui_info("
-      Source repo {ui_value(tr$repo_spec)} already has \\
-      {ui_value(old_source_db)} as its default branch.")
-  } else {
-    gh <- gh_tr(tr)
-    ui_done("
-      Renaming {ui_value(old_source_db)} branch to {ui_value(new_name)} in \\
-      the source repo {ui_value(tr$repo_spec)}.")
-    gh(
-      "POST /repos/{owner}/{repo}/branches/{from}/rename",
-      from = old_source_db,
-      new_name = new_name
-    )
-  }
-
-  rediscover_default_branch(old_name = old_name, verbose = FALSE)
-}
-
 git_default_branch_remote <- function(remote = "origin") {
   url <- git_remotes()[[remote]]
   if (length(url) == 0) {
     ui_stop("There is no remote named {ui_value(remote)}.")
   }
+
+  # if 'remote' is configured, but does not exist (or we don't have access),
+  # both the github and the non-github branch below will return NA
+  # I'm beginning to wonder if I should error for the "404 not found" case, but
+  # that's a more general concern and I won't solve it in this default branch
+  # work
 
   # TODO: generalize here for GHE hosts that don't include 'github'
   parsed <- parse_github_remotes(url)
@@ -394,7 +445,20 @@ git_default_branch_remote <- function(remote = "origin") {
   res
 }
 
-guess_local_default_branch <- function(ask = is_interactive()) {
+default_branch_candidates <- function() {
+  init_default_branch <- git_cfg_get("init.defaultBranch", where = "global")
+  c(
+    "main",
+    "master",
+    init_default_branch
+  )
+}
+
+# `prefer` is available if you want to inject external information, such as
+# the default branch of a remote, e.g. the result of
+# git_default_branch_remote("upstream") and/or
+# git_default_branch_remote("origin")
+guess_local_default_branch <- function(prefer = character(), verbose = FALSE) {
   repo <- git_repo()
 
   gb <- gert::git_branch_list(local = TRUE, repo = repo)[["name"]]
@@ -404,32 +468,75 @@ guess_local_default_branch <- function(ask = is_interactive()) {
       Do you need to make your first commit?")
   }
 
-  if ("main" %in% gb && !"master" %in% gb) {
-    propose <- "main"
-  } else if ("master" %in% gb && !"main" %in% gb) {
-    propose <- "master"
-  } else if (length(gb) == 1) {
+  candidates <- c(prefer, default_branch_candidates())
+  first_matched <- function(x, table) table[min(match(x, table), na.rm = TRUE)]
+
+  if (length(gb) == 1) {
     propose <- gb
+  } else if (any(gb %in% candidates)) {
+    propose <- first_matched(gb, candidates)
   } else {
+    # I'm starting to suspect this should be classed, so I can catch it and
+    # distinguish from the ui_stop() above, where there are no local branches.
     ui_stop("
-      Not clear which existing local branch plays the role of the default.
-      You'll need to specify {ui_code('old_name')} explicitly.")
+      Not clear which existing local branch plays the role of the default.")
   }
 
-  if (!ask || !is_interactive()) {
+  # TODO: do I really want to emit a message here?
+  # dilemma: sometimes I call this directly and want the message
+  # but I'm also calling it in git_default_branch() and it's leading to too
+  # much message
+  if (verbose) {
     ui_done("
       Local branch {ui_value(propose)} appears to play the role of \\
       the default branch.")
-    return(propose)
   }
 
-  if (ui_yeah("
-    The local branch {ui_value(propose)} appears to play the role of \\
-    the default branch.
-    Do you confirm?",
-    yes = "yes", no = "no", shuffle = FALSE)) {
-    propose
-  } else {
-    ui_stop("Cancelling. Local default branch is not clear.")
+  propose
+}
+
+# TODO: this needs more work
+check_default_branch <- function() {
+  default_branch <- tryCatch(
+    error = function(e) NA_character_,
+    git_default_branch()
+  )
+  if (!is.na(default_branch)) {
+    return(invisible(default_branch))
+  }
+
+  ui_stop("
+    THIS FUNCTION needs to determine the default branch of this repo, but it \\
+    can't.
+    Call {ui_code('git_default_branch()')} to get more diagnostic information.")
+}
+
+challenge_non_default_branch <- function(details = "Are you sure you want to proceed?") {
+  actual <- git_branch()
+  ui_done("Determining this repo's default branch.")
+  default_branch <- git_default_branch()
+  if (nzchar(details)) {
+    details <- paste0("\n", details)
+  }
+  if (actual != default_branch) {
+    if (ui_nope("
+      Current branch ({ui_value(actual)}) is not repo's default \\
+      branch ({ui_value(default_branch)}){details}")) {
+      ui_stop("Aborting")
+    }
   }
 }
+
+# Bring some of this back, e.g. the messaging.
+# check_pr_branch <- function() {
+#   default_branch <- git_default_branch_legacy()
+#   if (git_branch() != default_branch) {
+#     return(invisible())
+#   }
+#   ui_stop("
+#     The {ui_code('pr_*()')} functions facilitate pull requests.
+#     The current branch ({ui_value(default_branch)}) is this repo's default \\
+#     branch, but pull requests should NOT come from the default branch.
+#     Do you need to call {ui_code('pr_init()')} (new PR)?
+#     Or {ui_code('pr_resume()')} or {ui_code('pr_fetch()')} (existing PR)?")
+# }

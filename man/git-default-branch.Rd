@@ -2,19 +2,22 @@
 % Please edit documentation in R/git-default-branch.R
 \name{git-default-branch}
 \alias{git-default-branch}
+\alias{git_default_branch}
 \alias{git_default_branch_legacy}
 \alias{git_default_branch_configure}
 \alias{git_default_branch_rediscover}
 \alias{git_default_branch_rename}
 \title{Get or set the default Git branch}
 \usage{
+git_default_branch()
+
 git_default_branch_legacy()
 
 git_default_branch_configure(name = "main")
 
 git_default_branch_rediscover(current_local_name = NULL)
 
-git_default_branch_rename(from = "master", to = "main")
+git_default_branch_rename(from = NULL, to = "main")
 }
 \arguments{
 \item{name}{Default name for the initial branch in new Git repositories.}
@@ -111,7 +114,7 @@ local repo with no GitHub remotes, but that is not the primary use case.
 
 \examples{
 \dontrun{
-git_default_branch_legacy()
+git_default_branch()
 }
 \dontrun{
 git_default_branch_configure()
