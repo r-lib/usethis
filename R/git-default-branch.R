@@ -446,7 +446,10 @@ git_default_branch_remote <- function(remote = "origin") {
 }
 
 default_branch_candidates <- function() {
-  init_default_branch <- git_cfg_get("init.defaultBranch", where = "global")
+  # we use `where = "de_facto"` so that one can configure init.defaultBranch
+  # *locally* (which is unusual, but possible) in a repo that uses an
+  # unconventional default branch name
+  init_default_branch <- git_cfg_get("init.defaultBranch", where = "de_facto")
   c(
     "main",
     "master",
@@ -482,10 +485,6 @@ guess_local_default_branch <- function(prefer = character(), verbose = FALSE) {
       Not clear which existing local branch plays the role of the default.")
   }
 
-  # TODO: do I really want to emit a message here?
-  # dilemma: sometimes I call this directly and want the message
-  # but I'm also calling it in git_default_branch() and it's leading to too
-  # much message
   if (verbose) {
     ui_done("
       Local branch {ui_value(propose)} appears to play the role of \\
@@ -495,8 +494,7 @@ guess_local_default_branch <- function(prefer = character(), verbose = FALSE) {
   propose
 }
 
-# TODO: this needs more work
-check_default_branch <- function() {
+check_default_branch <- function(whos_asking = NULL) {
   default_branch <- tryCatch(
     error = function(e) NA_character_,
     git_default_branch()
@@ -504,39 +502,37 @@ check_default_branch <- function() {
   if (!is.na(default_branch)) {
     return(invisible(default_branch))
   }
+  # TODO: it feels like I should just reveal more detail, w/o forcing the user
+  # to call git_default_branch() themselves? or catch & rethrow that error?
+  # I think I'm really asking whether we really need both
+  # git_default_branch() and check_default_branch()
 
-  ui_stop("
-    THIS FUNCTION needs to determine the default branch of this repo, but it \\
-    can't.
-    Call {ui_code('git_default_branch()')} to get more diagnostic information.")
+  hint <- "Call {ui_code('git_default_branch()')} to get more diagnostic information."
+  if (is.null(whos_asking)) {
+    message <- c("Can't determine the default branch of this repo.", hint)
+  } else {
+    message <- c(
+      "{ui_code(whos_asking)} needs to know the default branch of this repo, \\
+       but it can't be determined.",
+      hint
+    )
+  }
+
+  ui_stop(message)
 }
 
-challenge_non_default_branch <- function(details = "Are you sure you want to proceed?") {
+challenge_non_default_branch <- function(details = "Are you sure you want to proceed?",
+                                         default_branch = NULL) {
   actual <- git_branch()
-  ui_done("Determining this repo's default branch.")
-  default_branch <- git_default_branch()
+  default_branch <- default_branch %||% git_default_branch()
   if (nzchar(details)) {
     details <- paste0("\n", details)
   }
   if (actual != default_branch) {
     if (ui_nope("
       Current branch ({ui_value(actual)}) is not repo's default \\
-      branch ({ui_value(default_branch)}){details}")) {
-      ui_stop("Aborting")
+      branch ({ui_value(default_branch)}).{details}")) {
+      ui_stop("Cancelling.")
     }
   }
 }
-
-# Bring some of this back, e.g. the messaging.
-# check_pr_branch <- function() {
-#   default_branch <- git_default_branch_legacy()
-#   if (git_branch() != default_branch) {
-#     return(invisible())
-#   }
-#   ui_stop("
-#     The {ui_code('pr_*()')} functions facilitate pull requests.
-#     The current branch ({ui_value(default_branch)}) is this repo's default \\
-#     branch, but pull requests should NOT come from the default branch.
-#     Do you need to call {ui_code('pr_init()')} (new PR)?
-#     Or {ui_code('pr_resume()')} or {ui_code('pr_fetch()')} (existing PR)?")
-# }
