@@ -388,7 +388,11 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
     {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
 
   if (cfg$type == "no_github") {
-    # TODO: handle no_github case and exit
+    from <- from %||% guess_local_default_branch(verbose = TRUE)
+    ui_done("Moving local {ui_value(from)} branch to {ui_value(to)}.")
+    gert::git_branch_move(branch = from, new_branch = to, repo = repo)
+    rstudio_git_tickle()
+    return(invisible(to))
   }
   # cfg is now either fork or ours
 
