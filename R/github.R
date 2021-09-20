@@ -67,8 +67,13 @@ use_github <- function(organisation = NULL,
 
   check_protocol(protocol)
   check_uses_git()
-  default_branch <- check_default_branch()
-  check_current_branch(is = default_branch)
+  default_branch <- git_default_branch()
+  check_current_branch(
+    is = default_branch,
+    # glue-ing happens inside check_current_branch(), where `gb` gives the
+    # current branch
+    "Must be on the default branch ({ui_value(is)}), not {ui_value(gb)}."
+  )
   challenge_uncommitted_changes(msg = "
     There are uncommitted changes and we're about to create and push to a new \\
     GitHub repo")

@@ -294,8 +294,8 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
 
 # Checks ------------------------------------------------------------------
 
-# TODO: this needs a way to further customize the error messages
-check_current_branch <- function(is = NULL, is_not = NULL) {
+check_current_branch <- function(is = NULL, is_not = NULL,
+                                 message = NULL) {
   gb <- git_branch()
 
   if (!is.null(is)) {
@@ -303,7 +303,9 @@ check_current_branch <- function(is = NULL, is_not = NULL) {
     if (gb == is) {
       return(invisible())
     } else {
-      ui_stop("Must be on branch {ui_value(is)}, not {ui_value(gb)}.")
+      msg <- message %||%
+        "Must be on branch {ui_value(is)}, not {ui_value(gb)}."
+      ui_stop(msg)
     }
   }
 
@@ -312,7 +314,9 @@ check_current_branch <- function(is = NULL, is_not = NULL) {
     if (gb != is_not) {
       return(invisible())
     } else {
-      ui_stop("Can't be on branch {ui_value(gb)}.")
+      msg <- message %||%
+        "Can't be on branch {ui_value(gb)}."
+      ui_stop(msg)
     }
   }
 

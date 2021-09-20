@@ -15,14 +15,14 @@ git_default_branch_legacy()
 
 git_default_branch_configure(name = "main")
 
-git_default_branch_rediscover(current_local_name = NULL)
+git_default_branch_rediscover(current_local_default = NULL)
 
 git_default_branch_rename(from = NULL, to = "main")
 }
 \arguments{
 \item{name}{Default name for the initial branch in new Git repositories.}
 
-\item{current_local_name}{Name of the local branch that is currently
+\item{current_local_default}{Name of the local branch that is currently
 functioning as the default branch. If unspecified, this can often be
 inferred.}
 
@@ -57,37 +57,40 @@ but \code{main} is an increasingly popular choice.
 \section{\code{git_default_branch_configure()}}{
 
 This configures \code{init.defaultBranch} at the global (a.k.a user) level. This
-determines the name of the branch that gets created when you make the first
-commit in a new Git repo. \code{init.defaultBranch} only affects the local Git
-repos you create in the future.
+setting determines the name of the branch that gets created when you make the
+first commit in a new Git repo. \code{init.defaultBranch} only affects the local
+Git repos you create in the future.
 }
 
 \section{\code{git_default_branch}}{
 
-TODO: UPDATE THIS ONCE I OVERHAUL THE FUNCTION ITSELF.
+This determines the default branch of the current Git repo, integrating
+information from the local repo and, if applicable, the \code{upstream} or \code{origin}
+remote. If there is a mismatch, \code{git_default_branch()} throws an error with
+advice on how to repair the situation.
 
-Figure out the default branch of the current Git repo, preferably from local
-information, but possibly from the \code{HEAD} ref of the \code{upstream} or \code{origin}
-remote. Since "default branch" is not a well-defined Git concept, certain
-assumptions are baked into this function:
+For a remote repo, the default branch is the branch that \code{HEAD} points to.
+
+For the local repo, if there is only one branch, that is the default.
+Otherwise we try to identify the relevant local branch by looking for
+specific branch names, in this order:
 \itemize{
-\item The local Git repo accurately reflects the branch conventions of the
-overall project, either by definition (because you control the project) or
-because you're keeping up-to-date with the source repository.
-\item Typical default branch names are \code{main}, \code{master}, and \code{default}, which we
-look for in that order.
-\item The remote names \code{origin} and \code{upstream} are used in the conventional
-manner.
+\item whatever the default branch of \code{upstream} or \code{origin} is, if applicable
+\item \code{main}
+\item \code{master}
+\item the value of the Git option \code{init.defaultBranch}, with the usual deal where
+a local value, if present, takes precedence over a global (a.k.a.
+user-level) value
 }
 }
 
 \section{\code{git_default_branch_rediscover()}}{
 
 This consults an external authority -- specifically, the remote \strong{source
-repo} -- to learn the default branch of the current project / repo. If that
-appears to have changed, such as from \code{master} to \code{main}, we do the
-corresponding branch renaming in your local repo and, if relevant, in your
-fork.
+repo} on GitHub -- to learn the default branch of the current project /
+repo. If that doesn't match the apparent local default branch (for example,
+the project switched from \code{master} to \code{main}), we do the corresponding branch
+renaming in your local repo and, if relevant, in your fork.
 
 See \url{https://happygitwithr.com/common-remote-setups.html} for more about
 GitHub remote configurations and, e.g., what we mean by the source repo. This
@@ -100,9 +103,9 @@ Note: this only works for a repo that you effectively own. In terms of
 GitHub, you must own the \strong{source repo} personally or, if
 organization-owned, you must have \code{admin} permission on the \strong{source repo}.
 
-This renames the default branch in the \strong{source repo} and then calls
-\code{git_default_branch_rediscover()}, to make any necessary changes in the local
-repo and, if relevant, in your personal fork.
+This renames the default branch in the \strong{source repo} on GitHub and then
+calls \code{git_default_branch_rediscover()}, to make any necessary changes in the
+local repo and, if relevant, in your personal fork.
 
 See \url{https://happygitwithr.com/common-remote-setups.html} for more about
 GitHub remote configurations and, e.g., what we mean by the source repo. This
@@ -124,12 +127,12 @@ git_default_branch_rediscover()
 
 # you can always explicitly specify the local branch that's been playing the
 # role of the default
-git_default_branch_rediscover("unconventional_branch_name")
+git_default_branch_rediscover("unconventional_default_branch_name")
 }
 \dontrun{
 git_default_branch_rename()
 
-# you can always explicitly specify the branch names
+# you can always explicitly specify one or both branch names
 git_default_branch_rename(from = "this", to = "that")
 }
 }

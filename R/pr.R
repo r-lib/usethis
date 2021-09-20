@@ -22,14 +22,21 @@
 #' article walks through the process of making a pull request with the `pr_*`
 #' functions.
 #'
+
 #' The `pr_*` functions also use your Git/GitHub credentials to carry out
-#' various remote operations. See below for more.
+#' various remote operations; see below for more about auth. The `pr_*`
+#' functions also proactively check for agreement re: the default branch in your
+#' local repo and the source repo. See [git_default_branch()] for more.
 #'
+
 #' @template double-auth
 #'
+
 #' @section For contributors:
-#' To contribute to a package, first use `create_from_github("OWNER/REPO")` to
-#' fork the source repository, and then check out a local copy.
+
+#' To contribute to a package, first use `create_from_github("OWNER/REPO")`.
+#' This forks the source repository and checks out a local copy.
+
 #'
 #' Next use `pr_init()` to create a branch for your PR. It is best practice to
 #' never make commits to the default branch branch of a fork (usually named
@@ -108,8 +115,7 @@
 #' default branch or when it's a PR branch.
 
 #' * `pr_pause()`: Makes sure you're up-to-date with any remote changes in the
-#' PR. Then switches back to the default branch (usually named `main` or
-#' `master`) and pulls from the source repo.
+#' PR. Then switches back to the default branch and pulls from the source repo.
 
 #' * `pr_view()`: Visits the PR associated with the current branch in the
 #' browser (default) or the specific PR identified by `number`.
@@ -227,9 +233,7 @@ pr_resume <- function(branch = NULL) {
   if (is.null(branch)) {
     ui_info("
       No branch specified ... looking up local branches and associated PRs.")
-    # TODO: it's not truly mission critical that we exclude the default branch
-    # from this choice; if I create something softer, use it here
-    default_branch <- check_default_branch("pr_resume()")
+    default_branch <- git_default_branch()
     branch <- choose_branch(exclude = default_branch)
     if (is.null(branch)) {
       ui_oops("Repo doesn't seem to have any non-default branches.")
@@ -361,15 +365,8 @@ pr_push <- function() {
   repo <- git_repo()
   cfg <- github_remote_config(github_get = TRUE)
   check_for_config(cfg)
-  default_branch <- check_default_branch()
-  check_current_branch(is_not = default_branch)
-  #   ui_stop("
-  #     The {ui_code('pr_*()')} functions facilitate pull requests.
-  #     The current branch ({ui_value(default_branch)}) is this repo's default \\
-  #     branch, but pull requests should NOT come from the default branch.
-  #     Do you need to call {ui_code('pr_init()')} (new PR)?
-  #     Or {ui_code('pr_resume()')} or {ui_code('pr_fetch()')} (existing PR)?")
-  # }
+  default_branch <- git_default_branch()
+  check_pr_branch(default_branch)
   challenge_uncommitted_changes()
 
   branch <- git_branch()
@@ -425,8 +422,8 @@ pr_pull <- function() {
   # to help solve https://github.com/r-lib/usethis/issues/1449
   # we're doing most of the necessary API calls anyway, with all these checks
   check_for_config()
-  default_branch <- check_default_branch()
-  check_current_branch(is_not = default_branch)
+  default_branch <- git_default_branch()
+  check_pr_branch(default_branch)
   challenge_uncommitted_changes()
 
   git_pull()
@@ -528,10 +525,10 @@ pr_clean <- function(number = NULL,
   mode <- match.arg(mode)
   repo <- git_repo()
   tr <- target_repo(github_get = NA, role = target, ask = FALSE)
-  default_branch <- check_default_branch()
+  default_branch <- git_default_branch()
 
   if (is.null(number)) {
-    check_current_branch(is_not = default_branch)
+    check_pr_branch(default_branch)
     pr <- pr_find(git_branch(), tr = tr, state = "all")
     # if the remote branch has already been deleted (probably post-merge), we
     # can't always reverse engineer what the corresponding local branch was, but
@@ -927,4 +924,18 @@ pr_branch_delete <- function(pr) {
     ref = glue("heads/{pr$pr_ref}")
   )
   invisible(TRUE)
+}
+
+check_pr_branch <- function(default_branch = git_default_branch()) {
+  # the glue-ing happens inside check_current_branch(), where `gb` gives the
+  # current git branch
+  check_current_branch(
+    is_not = default_branch,
+    message = "
+      The {ui_code('pr_*()')} functions facilitate pull requests.
+      The current branch ({ui_value(gb)}) is this repo's default \\
+      branch, but pull requests should NOT come from the default branch.
+      Do you need to call {ui_code('pr_init()')} (new PR)?
+      Or {ui_code('pr_resume()')} or {ui_code('pr_fetch()')} (existing PR)?"
+  )
 }
