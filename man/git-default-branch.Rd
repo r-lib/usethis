@@ -3,15 +3,12 @@
 \name{git-default-branch}
 \alias{git-default-branch}
 \alias{git_default_branch}
-\alias{git_default_branch_legacy}
 \alias{git_default_branch_configure}
 \alias{git_default_branch_rediscover}
 \alias{git_default_branch_rename}
 \title{Get or set the default Git branch}
 \usage{
 git_default_branch()
-
-git_default_branch_legacy()
 
 git_default_branch_configure(name = "main")
 

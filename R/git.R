@@ -344,6 +344,8 @@ git_sitrep <- function() {
     ui_info("See {ui_code('?git_vaccinate')} to learn more")
   }
   kv_line("Default Git protocol", git_protocol())
+  init_default_branch <- git_cfg_get("init.defaultBranch", where = "global")
+  kv_line("Default initial branch name", init_default_branch)
 
   # github (global / user) -----------------------------------------------------
   hd_line("GitHub")
@@ -378,7 +380,7 @@ git_sitrep <- function() {
   }
 
   # default branch -------------------------------------------------------------
-  kv_line("Default branch", git_default_branch_legacy())
+  default_branch_sitrep()
 
   # current branch -------------------------------------------------------------
   branch <- tryCatch(git_branch(), error = function(e) NULL)
@@ -467,6 +469,35 @@ pat_sitrep <- function(host = "https://github.com") {
     }
   )
   TRUE
+}
+
+# TODO: when I really overhaul the UI, determine if I can just re-use the
+# git_default_branch() error messages in the sitrep
+# the main point is converting an error to an "oops" type of message
+default_branch_sitrep <- function() {
+  tryCatch(
+    kv_line("Default branch", git_default_branch()),
+    error_default_branch = function(e) {
+      if (has_name(e, "db_local")) {
+        # FYI existence of db_local implies existence of db_source
+        ui_oops("
+          Default branch mismatch between local repo and remote!
+          {ui_value(e$db_source$name)} remote default branch: \\
+          {ui_value(e$db_source$default_branch)}
+          Local default branch: {ui_value(e$db_local)}
+          Call {ui_code('git_default_branch_rediscover()')} to resolve this.")
+      } else if (has_name(e, "db_source")) {
+        ui_oops("
+          Default branch mismatch between local repo and remote!
+          {ui_value(e$db_source$name)} remote default branch: \\
+          {ui_value(e$db_source$default_branch)}
+          Local repo has no branch by that name nor any other obvious candidates.
+          Call {ui_code('git_default_branch_rediscover()')} to resolve this.")
+      } else {
+        ui_oops("Default branch cannot be determined.")
+      }
+    }
+  )
 }
 
 # Vaccination -------------------------------------------------------------

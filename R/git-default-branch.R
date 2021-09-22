@@ -99,6 +99,10 @@ git_default_branch <- function() {
   # here. But I'm not sure it's worth adding complexity to allow passing this
   # data in.
 
+  # TODO: this critique feels somewhat mis-placed, i.e. it brings up a general
+  # concern about a repo's config (or the user's permissions and creds)
+  # related to whether github_remotes() should be as silent as it is about
+  # 404s
   critique_remote <- function(remote) {
     if (remote$is_configured && is.na(remote$default_branch)) {
       ui_oops("
@@ -132,16 +136,26 @@ git_default_branch <- function() {
     error = function(e) NA_character_
   )
 
+  # these error sub-classes and error data are for the benefit of git_sitrep()
+
   if (is.na(db_local_with_source) ) {
     if (length(db_source)) {
-      ui_stop("
-        The default branch of the {ui_value(db_source$name)} remote is \\
-        {ui_value(db_source$default_branch)}.
-        But the local repo has no branch named \\
-        {ui_value(db_source$default_branch)}.
-        Call {ui_code('git_default_branch_rediscover()')} to resolve this.")
+      usethis_abort(c(
+        "Default branch mismatch between local repo and remote.",
+        "The default branch of the {.val {db_source$name}} remote is
+        {.val {db_source$default_branch}}.",
+        "But the local repo has no branch named
+        {.val {db_source$default_branch}}.",
+        "Call {.code git_default_branch_rediscover()} to resolve this."
+        ),
+        class = "error_default_branch",
+        db_source = db_source
+      )
     } else {
-      ui_stop("Can't determine the local repo's default branch.")
+      usethis_abort(
+        "Can't determine the local repo's default branch.",
+        class = "error_default_branch"
+      )
     }
   }
   # we learned a default branch from the local repo
@@ -154,13 +168,17 @@ git_default_branch <- function() {
   # we learned a default branch from the source repo and it doesn't match
   # the local default branch
 
-  ui_stop("
-    The default branch of the {ui_value(db_source$name)} remote is \\
-    {ui_value(db_source$default_branch)}.
-    But the default branch of the local repo appears to be \\
-    {ui_value(db_local_with_source)}.
-    Call {ui_code('git_default_branch_rediscover()')} to resolve this.")
-
+  usethis_abort(c(
+    "Default branch mismatch between local repo and remote.",
+    "The default branch of the {.val {db_source$name}} remote is
+     {.val {db_source$default_branch}}.",
+    "But the default branch of the local repo appears to be
+     {.val {db_local_with_source}}.",
+    "Call {.code git_default_branch_rediscover()} to resolve this."
+    ),
+    class = "error_default_branch",
+    db_source = db_source, db_local = db_local_with_source
+  )
 }
 
 # returns a whole data structure, because the caller needs the surrounding
@@ -250,78 +268,6 @@ guess_local_default_branch <- function(prefer = NULL, verbose = FALSE) {
   }
 
   propose
-}
-
-#' @export
-#' @rdname git-default-branch
-git_default_branch_legacy <- function() {
-  repo <- git_repo()
-
-  gb <- gert::git_branch_list(local = TRUE, repo = repo)[["name"]]
-  if (length(gb) == 1) {
-    return(gb)
-  }
-
-  # Check the usual suspects re: default branch
-  gb <- set_names(gb)
-  usual_suspects_branchname <- c("main", "master", "default")
-  branch_candidates <- purrr::discard(gb[usual_suspects_branchname], is.na)
-
-  if (length(branch_candidates) == 1) {
-    return(branch_candidates[[1]])
-  }
-  # either 0 or >=2 of the usual suspects are present
-
-  # Can we learn what HEAD points to on a relevant Git remote?
-  gr <- git_remotes()
-  usual_suspects_remote <- c("upstream", "origin")
-  gr <- purrr::compact(gr[usual_suspects_remote])
-
-  if (length(gr)) {
-    remote_names <- set_names(names(gr))
-
-    # check symbolic ref, e.g. refs/remotes/origin/HEAD (a local operation)
-    remote_heads <- map(
-      remote_names,
-      ~ gert::git_remote_info(.x, repo = repo)$head
-    )
-    remote_heads <- purrr::compact(remote_heads)
-    if (length(remote_heads)) {
-      return(path_file(remote_heads[[1]]))
-    }
-
-    # ask the remote (a remote operation)
-    remote_heads <- map(remote_names, git_default_branch_remote)
-    remote_heads <- purrr::compact(remote_heads)
-    if (length(remote_heads)) {
-      return(path_file(remote_heads[[1]]))
-    }
-
-  }
-  # no luck consulting usual suspects re: Git remotes
-  # go back to locally configured branches
-
-  # Is init.defaultBranch configured?
-  # https://github.blog/2020-07-27-highlights-from-git-2-28/#introducing-init-defaultbranch
-  init_default_branch <- git_cfg_get("init.defaultBranch")
-  if ((!is.null(init_default_branch)) && (init_default_branch %in% gb)) {
-    return(init_default_branch)
-  }
-
-  # take first existing branch from usual suspects
-  if (length(branch_candidates)) {
-    return(branch_candidates[[1]])
-  }
-
-  # take first existing branch
-  if (length(gb)) {
-    return(gb[[1]])
-  }
-
-  # I think this means we are on an unborn branch
-  ui_stop("
-    Can't determine the default branch for this repo
-    Do you need to make your first commit?")
 }
 
 #' @export
