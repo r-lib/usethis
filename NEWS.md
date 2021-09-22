@@ -4,7 +4,8 @@
 
 usethis has a more sophisticated understanding of the default branch and gains several functions to support default branch renaming.
 
-* `git_branch_default()` has been renamed to `git_default_branch()`, to place      it logically in the new family of functions. The old name still works, but
+* `git_branch_default()` has been renamed to `git_default_branch()`, to place
+  it logically in the new family of functions. The old name still works, but
   that won't be true forever.
 * `git_default_branch()` is much more diligent about figuring out the default
   branch. Instead of only consulting the local repo, now we integrate local info
