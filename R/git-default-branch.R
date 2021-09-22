@@ -31,10 +31,11 @@
 
 #' @section `git_default_branch`:
 
-#' This determines the default branch of the current Git repo, integrating
-#' information from the local repo and, if applicable, the `upstream` or `origin`
-#' remote. If there is a mismatch, `git_default_branch()` throws an error with
-#' advice on how to repair the situation.
+#' This figures out the default branch of the current Git repo, integrating
+#' information from the local repo and, if applicable, the `upstream` or
+#' `origin` remote. If there is a local vs. remote mismatch,
+#' `git_default_branch()` throws an error with advice on how to repair the
+#' situation.
 #'
 #' For a remote repo, the default branch is the branch that `HEAD` points to.
 #'
@@ -107,8 +108,8 @@ git_default_branch <- function() {
         - The remote repo no longer exists, suggesting the local remote should
           be deleted.
         - We are offline or that specific Git server is down.
-        - You don't have the necessary permission or we aren't sending valid
-          credentials, such as a personal access token.")
+        - You don't have the necessary permission or something is wrong with
+          your credentials.")
     }
   }
 
@@ -334,8 +335,7 @@ git_default_branch_configure <- function(name = "main") {
   check_string(name)
   ui_done("Configuring {ui_field('init.defaultBranch')} as {ui_value(name)}.")
   ui_info("Remember: this only affects repos you create in the future.")
-  # TODO: should I call use_git_config()?
-  gert::git_config_global_set("init.defaultBranch", name)
+  use_git_config(scope = "user", `init.defaultBranch` = name)
   invisible(name)
 }
 

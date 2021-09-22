@@ -64,10 +64,11 @@ Git repos you create in the future.
 
 \section{\code{git_default_branch}}{
 
-This determines the default branch of the current Git repo, integrating
-information from the local repo and, if applicable, the \code{upstream} or \code{origin}
-remote. If there is a mismatch, \code{git_default_branch()} throws an error with
-advice on how to repair the situation.
+This figures out the default branch of the current Git repo, integrating
+information from the local repo and, if applicable, the \code{upstream} or
+\code{origin} remote. If there is a local vs. remote mismatch,
+\code{git_default_branch()} throws an error with advice on how to repair the
+situation.
 
 For a remote repo, the default branch is the branch that \code{HEAD} points to.
 
