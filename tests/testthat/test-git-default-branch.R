@@ -101,3 +101,48 @@ test_that("git_default_branch() errors for local vs remote mismatch", {
      expect_error(git_default_branch(), class = "error_default_branch")
    )
 })
+
+test_that("git_default_branch_rename() surfaces files that smell fishy", {
+  skip_on_cran()
+  skip_if_no_git_user()
+  local_interactive(FALSE)
+
+  # for snapshot purposes, I don't want a random project name
+  create_local_project(path(tempdir(), "abcde"))
+  use_git()
+  repo <- git_repo()
+
+  gert::git_add(".gitignore", repo = repo)
+  gert::git_commit("a commit, so we are not on an unborn branch", repo = repo)
+
+  # make sure we start with default branch = 'master'
+  git_default_branch_rename(from = git_branch(), to = "master")
+  expect_equal(git_default_branch(), "master")
+
+  badge_lines <- c(
+    "<!-- badges: start -->",
+    "[![Codecov test coverage](https://codecov.io/gh/OWNER/REPO/branch/master/graph/badge.svg)](https://codecov.io/gh/OWNER/REPO?branch=master)",
+    "<!-- badges: end -->"
+  )
+  cli::cat_line(badge_lines, file = proj_path("README.md"))
+
+  gha_lines <- c(
+    "on:",
+    "  push:",
+    "    branches:",
+    "      - master"
+  )
+  create_directory(".github/workflows")
+  cli::cat_line(gha_lines, file = path(".github", "workflows", "blah.yml"))
+
+  create_directory("whatever/foo")
+  cli::cat_line(
+    "edit: https://github.com/OWNER/REPO/edit/master/%s",
+    file = path("whatever", "foo", "_bookdown.yaml")
+  )
+
+  withr::local_options(usethis.quiet = FALSE)
+  expect_snapshot(
+    git_default_branch_rename()
+  )
+})

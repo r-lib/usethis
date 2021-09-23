@@ -335,9 +335,14 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
 
   if (cfg$type == "no_github") {
     from <- from %||% guess_local_default_branch(verbose = TRUE)
-    ui_done("Moving local {ui_value(from)} branch to {ui_value(to)}.")
-    gert::git_branch_move(branch = from, new_branch = to, repo = repo)
-    rstudio_git_tickle()
+    if (from == to) {
+      ui_info("Local repo already has {ui_value(from)} as its default branch.")
+    } else {
+      ui_done("Moving local {ui_value(from)} branch to {ui_value(to)}.")
+      gert::git_branch_move(branch = from, new_branch = to, repo = repo)
+      rstudio_git_tickle()
+      report_fishy_files(old_name = from, new_name = to)
+    }
     return(invisible(to))
   }
   # cfg is now either fork or ours
@@ -387,6 +392,7 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
     )
   }
 
+  report_fishy_files(old_name = old_local_db, new_name = to)
   rediscover_default_branch(old_name = old_local_db, verbose = FALSE)
 }
 
@@ -497,4 +503,109 @@ challenge_non_default_branch <- function(details = "Are you sure you want to pro
       return(invisible())
     }
   }
+}
+
+report_fishy_files <- function(old_name = "master", new_name = "main") {
+  ui_todo("
+    Be sure to update files that refer to the default branch by name.
+    Consider searching within your project for {ui_value(old_name)}.
+    We might call out some obvious candidates below.")
+  fishy_github_actions(new_name = new_name)
+  fishy_badges(old_name = old_name)
+  fishy_bookdown_config(old_name = old_name)
+}
+
+# good test cases: downlit, purrr, pkgbuild, zealot, glue, bench,
+# textshaping, scales
+fishy_github_actions <- function(new_name = "main") {
+  if (!uses_github_actions()) {
+    return(invisible(character()))
+  }
+  workflow_dir <- proj_path(".github", "workflows")
+  workflows <- dir_ls(workflow_dir, regexp = "[.]ya?ml$")
+
+  f <- function(pth, new_name) {
+    x <- yaml::read_yaml(pth)
+    x_unlisted <- unlist(x)
+    locs <- grep("branches", re_match(names(x_unlisted), "[^//.]+$")$.match)
+    branches <- x_unlisted[locs]
+    length(branches) == 0 || new_name %in% branches
+  }
+
+  includes_branch_name <- map_lgl(workflows, f, new_name = new_name)
+  paths <- proj_rel_path(workflows[!includes_branch_name])
+
+  if (length(paths) == 0) {
+    return(invisible(character()))
+  }
+
+  paths <- sort(paths)
+  ui_paths <- map_chr(paths, ui_path)
+
+  ui_oops(c(
+    "These GitHub Action files don't mention the new default branch {ui_value(new_name)}:",
+    paste0("- ", ui_paths)
+  ))
+
+  invisible(paths)
+}
+
+fishy_badges <- function(old_name = "master") {
+  path <- find_readme()
+  if (is.null(path)) {
+    return(invisible(character()))
+  }
+
+  readme_lines <- read_utf8(path)
+  badge_lines_range <- block_find(
+    readme_lines,
+    block_start = badge_start,
+    block_end = badge_end
+  )
+  badge_lines <- readme_lines[badge_lines_range[1]:badge_lines_range[2]]
+
+  if (!any(grepl(old_name, badge_lines))) {
+    return(invisible(character()))
+  }
+
+  ui_path <- ui_path(proj_rel_path(path))
+  ui_oops(c(
+    "Some badges may refer to the old default branch {ui_value(old_name)}:",
+    paste0("- ", ui_path)
+  ))
+
+  invisible(path)
+}
+
+fishy_bookdown_config <- function(old_name = "master") {
+  # https://github.com/dncamp/shift/blob/a12a3fb0cd30ae864525f7a9f1f907a05f15f9a3/_bookdown.yml
+  # https://github.com/Jattan08/Wonderland/blob/b9e7ddc694871d1d13a2a02abe2d3b4a944c4653/_bookdown.yml
+  # edit: https://github.com/dncamp/shift/edit/master/%s
+  # view: https://github.com/dncamp/shift/blob/master/%s
+  # history: https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/commits/master/%s
+  bookdown_config <- dir_ls(
+    proj_get(),
+    regexp = "_bookdown[.]ya?ml$",
+    recurse = TRUE
+  )
+  if (length(bookdown_config) == 0) {
+    return(invisible(character()))
+  }
+  # I am (very weakly) worried about more than 1 match, hence the [[1]]
+  bookdown_config <- purrr::discard(bookdown_config, ~ grepl("revdep", .x))[[1]]
+
+  bookdown_config_lines <- read_utf8(bookdown_config)
+  linky_lines <- grep("^(edit|view|history)", bookdown_config_lines, value = TRUE)
+
+  if (!any(grepl(old_name, linky_lines))) {
+    return(invisible(character()))
+  }
+
+  ui_path <- ui_path(proj_rel_path(bookdown_config))
+  ui_oops(c(
+    "The bookdown configuration file may refer to the old default branch {ui_value(old_name)}:",
+    paste0("- ", ui_path)
+  ))
+
+  invisible(path)
 }
