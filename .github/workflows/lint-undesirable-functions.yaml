@@ -58,9 +58,13 @@ jobs:
             "dirname"
           )
           fs_msg <- "use the fs package"
-          my_undesirable_functions <-
-            rep_len(fs_msg, length(base_file_system_functions))
-          names(my_undesirable_functions) <- base_file_system_functions
+          my_undesirable_file_system_functions <- rep_len(fs_msg, length(base_file_system_functions))
+          names(my_undesirable_file_system_functions) <- base_file_system_functions
+          my_undesirable_functions <- c(
+            my_undesirable_file_system_functions,
+            "use is_interactive() (from rlang, which is imported)" = "interactive",
+            "use the withr package, e.g., withr::defer()" = "on.exit"
+          )
           my_undesirable_function_linter <- lintr::undesirable_function_linter(
             fun = my_undesirable_functions,
             symbol_is_undesirable = FALSE

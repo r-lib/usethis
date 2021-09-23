@@ -64,19 +64,6 @@ check_installed <- function(pkg) {
   rlang::check_installed(pkg)
 }
 
-interactive <- function() {
-  ui_stop(
-    "Internal error: use rlang's {ui_code('is_interactive()')} \\
-     instead of {ui_code('base::interactive()')}"
-  )
-}
-
-on.exit <- function(...) {
-  ui_stop("
-    Internal error: use withr's {ui_code('defer()')} and friends, \\
-    instead of {ui_code('base::on.exit()')}")
-}
-
 isFALSE <- function(x) {
   identical(x, FALSE)
 }
