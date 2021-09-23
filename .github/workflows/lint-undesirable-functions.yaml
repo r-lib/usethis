@@ -62,8 +62,8 @@ jobs:
           names(my_undesirable_file_system_functions) <- base_file_system_functions
           my_undesirable_functions <- c(
             my_undesirable_file_system_functions,
-            "use is_interactive() (from rlang, which is imported)" = "interactive",
-            "use the withr package, e.g., withr::defer()" = "on.exit"
+            "interactive" = "use is_interactive() (from rlang, which is imported)",
+            "on.exit"     = "use the withr package, e.g., withr::defer()"
           )
           my_undesirable_function_linter <- lintr::undesirable_function_linter(
             fun = my_undesirable_functions,
