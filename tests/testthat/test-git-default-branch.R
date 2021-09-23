@@ -108,7 +108,7 @@ test_that("git_default_branch_rename() surfaces files that smell fishy", {
   local_interactive(FALSE)
 
   # for snapshot purposes, I don't want a random project name
-  create_local_project(path(tempdir(), "abcde"))
+  create_local_project(path(path_temp(), "abcde"))
   use_git()
   repo <- git_repo()
 
