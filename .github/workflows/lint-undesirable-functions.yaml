@@ -20,7 +20,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          extra-packages: jimhester/lintr@1de6f85
+          extra-packages: jimhester/lintr
 
       - name: Lint
         run: |
