@@ -117,3 +117,18 @@ pluck_int <- function(.x, ...) {
 is_windows <- function() {
   .Platform$OS.type == "windows"
 }
+
+check_string <- function(x, nm = deparse(substitute(x))) {
+  if (!is_string(x)) {
+    ui_stop("{ui_code(nm)} must be a string.")
+  }
+  x
+}
+
+maybe_string <- function(x, nm = deparse(substitute(x))) {
+  if (is.null(x)) {
+    x
+  } else {
+    check_string(x, nm = nm)
+  }
+}

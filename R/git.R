@@ -186,91 +186,6 @@ check_protocol <- function(protocol) {
   invisible()
 }
 
-#' Determine default Git branch
-#'
-#' Figure out the default branch of the current Git repo.
-#'
-#' @return A branch name
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' git_branch_default()
-#' }
-git_branch_default <- function() {
-  check_uses_git()
-  repo <- git_repo()
-
-  gb <- gert::git_branch_list(local = TRUE, repo = repo)[["name"]]
-  if (length(gb) == 1) {
-    return(gb)
-  }
-
-  # Check the most common names used for the default branch
-  gb <- set_names(gb)
-  usual_suspects_branchname <- c("main", "master", "default")
-  branch_candidates <- purrr::discard(gb[usual_suspects_branchname], is.na)
-
-  if (length(branch_candidates) == 1) {
-    return(branch_candidates[[1]])
-  }
-  # either 0 or >=2 of the usual suspects are present
-
-  # Can we learn what HEAD points to on a relevant Git remote?
-  gr <- git_remotes()
-  usual_suspects_remote <- c("upstream", "origin")
-  gr <- purrr::compact(gr[usual_suspects_remote])
-
-  if (length(gr)) {
-    remote_names <- set_names(names(gr))
-
-    # check symbolic ref, e.g. refs/remotes/origin/HEAD (a local operation)
-    remote_heads <- map(
-      remote_names,
-      ~ gert::git_remote_info(.x, repo = repo)$head
-    )
-    remote_heads <- purrr::compact(remote_heads)
-    if (length(remote_heads)) {
-      return(path_file(remote_heads[[1]]))
-    }
-
-    # ask the remote (a remote operation)
-    f <- function(x) {
-      dat <- gert::git_remote_ls(remote = x, verbose = FALSE, repo = repo)
-      path_file(dat$symref[dat$ref == "HEAD"])
-    }
-    f <- purrr::possibly(f, otherwise = NULL)
-    remote_heads <- purrr::compact(map(remote_names, f))
-    if (length(remote_heads)) {
-      return(remote_heads[[1]])
-    }
-  }
-  # no luck consulting usual suspects re: Git remotes
-  # go back to locally configured branches
-
-  # Is init.defaultBranch configured?
-  # https://github.blog/2020-07-27-highlights-from-git-2-28/#introducing-init-defaultbranch
-  init_default_branch <- git_cfg_get("init.defaultBranch")
-  if ((!is.null(init_default_branch)) && (init_default_branch %in% gb)) {
-    return(init_default_branch)
-  }
-
-  # take first existing branch from usual suspects
-  if (length(branch_candidates)) {
-    return(branch_candidates[[1]])
-  }
-
-  # take first existing branch
-  if (length(gb)) {
-    return(gb[[1]])
-  }
-
-  # I think this means we are on an unborn branch
-  ui_stop("
-    Can't determine the default branch for this repo
-    Do you need to make your first commit?")
-}
-
 #' Configure and report Git remotes
 #'
 #' Two helpers are available:
@@ -429,6 +344,8 @@ git_sitrep <- function() {
     ui_info("See {ui_code('?git_vaccinate')} to learn more")
   }
   kv_line("Default Git protocol", git_protocol())
+  init_default_branch <- git_cfg_get("init.defaultBranch", where = "global")
+  kv_line("Default initial branch name", init_default_branch)
 
   # github (global / user) -----------------------------------------------------
   hd_line("GitHub")
@@ -463,7 +380,7 @@ git_sitrep <- function() {
   }
 
   # default branch -------------------------------------------------------------
-  kv_line("Default branch", git_branch_default())
+  default_branch_sitrep()
 
   # current branch -------------------------------------------------------------
   branch <- tryCatch(git_branch(), error = function(e) NULL)
@@ -552,6 +469,35 @@ pat_sitrep <- function(host = "https://github.com") {
     }
   )
   TRUE
+}
+
+# TODO: when I really overhaul the UI, determine if I can just re-use the
+# git_default_branch() error messages in the sitrep
+# the main point is converting an error to an "oops" type of message
+default_branch_sitrep <- function() {
+  tryCatch(
+    kv_line("Default branch", git_default_branch()),
+    error_default_branch = function(e) {
+      if (has_name(e, "db_local")) {
+        # FYI existence of db_local implies existence of db_source
+        ui_oops("
+          Default branch mismatch between local repo and remote!
+          {ui_value(e$db_source$name)} remote default branch: \\
+          {ui_value(e$db_source$default_branch)}
+          Local default branch: {ui_value(e$db_local)}
+          Call {ui_code('git_default_branch_rediscover()')} to resolve this.")
+      } else if (has_name(e, "db_source")) {
+        ui_oops("
+          Default branch mismatch between local repo and remote!
+          {ui_value(e$db_source$name)} remote default branch: \\
+          {ui_value(e$db_source$default_branch)}
+          Local repo has no branch by that name nor any other obvious candidates.
+          Call {ui_code('git_default_branch_rediscover()')} to resolve this.")
+      } else {
+        ui_oops("Default branch cannot be determined.")
+      }
+    }
+  )
 }
 
 # Vaccination -------------------------------------------------------------

@@ -70,7 +70,9 @@ article walks through the process of making a pull request with the \verb{pr_*}
 functions.
 
 The \verb{pr_*} functions also use your Git/GitHub credentials to carry out
-various remote operations. See below for more.
+various remote operations; see below for more about auth. The \verb{pr_*}
+functions also proactively check for agreement re: the default branch in your
+local repo and the source repo. See \code{\link[=git_default_branch]{git_default_branch()}} for more.
 }
 \section{Git/GitHub Authentication}{
 
@@ -104,8 +106,8 @@ Git/GitHub credential management is covered in a dedicated article:
 
 \section{For contributors}{
 
-To contribute to a package, first use \code{create_from_github("OWNER/REPO")} to
-fork the source repository, and then check out a local copy.
+To contribute to a package, first use \code{create_from_github("OWNER/REPO")}.
+This forks the source repository and checks out a local copy.
 
 Next use \code{pr_init()} to create a branch for your PR. It is best practice to
 never make commits to the default branch branch of a fork (usually named
@@ -180,8 +182,7 @@ back into your local work.
 into the current local branch. This can be used when the local branch is the
 default branch or when it's a PR branch.
 \item \code{pr_pause()}: Makes sure you're up-to-date with any remote changes in the
-PR. Then switches back to the default branch (usually named \code{main} or
-\code{master}) and pulls from the source repo.
+PR. Then switches back to the default branch and pulls from the source repo.
 \item \code{pr_view()}: Visits the PR associated with the current branch in the
 browser (default) or the specific PR identified by \code{number}.
 (FYI \code{\link[=browse_github_pulls]{browse_github_pulls()}} is a handy way to visit the list of all PRs for

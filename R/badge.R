@@ -119,7 +119,7 @@ stages <- c(
 #'   documentation](https://mybinder.readthedocs.io/en/latest/howto/user_interface.html)
 #'    for additional examples.
 #' @export
-use_binder_badge <- function(ref = git_branch_default(), urlpath = NULL) {
+use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
   repo_spec <- target_repo_spec()
 
   if (is.null(urlpath)) {

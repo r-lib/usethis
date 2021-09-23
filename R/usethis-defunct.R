@@ -81,6 +81,16 @@ github_token <- function() {
   )
 }
 
+#' @section `git_branch_default()`:
+#' Please call [git_default_branch()] instead. In hindsight, that is a better
+#' name for this function.
+#' @export
+#' @rdname usethis-defunct
+git_branch_default <- function() {
+  lifecycle::deprecate_soft("2.1.0", "git_branch_default()", "git_default_branch()")
+  git_default_branch()
+}
+
 # git2r ------------------------------------------------------------------------
 git2r_explanation <- glue("
   usethis now uses the gert package for Git operations, instead of git2r, and

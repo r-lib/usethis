@@ -293,31 +293,34 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
 }
 
 # Checks ------------------------------------------------------------------
-check_default_branch <- function() {
-  default_branch <- git_branch_default()
-  ui_done("
-    Checking that current branch is default branch ({ui_value(default_branch)})")
-  actual <- git_branch()
-  if (actual == default_branch) {
-    return(invisible())
-  }
-  ui_stop("
-    Must be on branch {ui_value(default_branch)}, not {ui_value(actual)}.")
-}
 
-challenge_non_default_branch <- function(details = "Are you sure you want to proceed?") {
-  actual <- git_branch()
-  default_branch <- git_branch_default()
-  if (nzchar(details)) {
-    details <- paste0("\n", details)
-  }
-  if (actual != default_branch) {
-    if (ui_nope("
-      Current branch ({ui_value(actual)}) is not repo's default \\
-      branch ({ui_value(default_branch)}){details}")) {
-      ui_stop("Aborting")
+check_current_branch <- function(is = NULL, is_not = NULL,
+                                 message = NULL) {
+  gb <- git_branch()
+
+  if (!is.null(is)) {
+    check_string(is)
+    if (gb == is) {
+      return(invisible())
+    } else {
+      msg <- message %||%
+        "Must be on branch {ui_value(is)}, not {ui_value(gb)}."
+      ui_stop(msg)
     }
   }
+
+  if (!is.null(is_not)) {
+    check_string(is_not)
+    if (gb != is_not) {
+      return(invisible())
+    } else {
+      msg <- message %||%
+        "Can't be on branch {ui_value(gb)}."
+      ui_stop(msg)
+    }
+  }
+
+  invisible()
 }
 
 # examples of remref: upstream/master, origin/foofy

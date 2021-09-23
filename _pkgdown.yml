@@ -135,7 +135,7 @@ reference:
     - use_git_hook
     - use_code_of_conduct
     - use_readme_rmd
-    - git_branch_default
+    - starts_with("git_default_branch")
     - matches("browse")
     - matches("edit_git_")
     - matches("issue")

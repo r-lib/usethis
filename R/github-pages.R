@@ -46,7 +46,7 @@
 #' @examples
 #' \dontrun{
 #' use_github_pages()
-#' use_github_pages(branch = git_branch_default(), path = "/docs")
+#' use_github_pages(branch = git_default_branch(), path = "/docs")
 #' }
 use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
   stopifnot(is_string(branch), is_string(path))

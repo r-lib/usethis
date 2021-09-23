@@ -34,7 +34,7 @@ use_github_pages(branch = "nope")
 use_github_pages()
 
 # change branch and path
-use_github_pages(branch = git_branch_default(), path = "/docs")
+use_github_pages(branch = git_default_branch(), path = "/docs")
 
 # go back to default branch and path
 use_github_pages()

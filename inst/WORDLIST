@@ -135,6 +135,7 @@ noninteractive
 organisation
 organisations
 ort
+pak
 pandoc
 pkgdown
 pre
@@ -147,6 +148,7 @@ rcmdcheck
 rebase
 reconfigures
 redirections
+renviron
 repo
 repo's
 repos
@@ -172,7 +174,6 @@ templated
 templating
 testthat
 tibble
-tidymodels
 tidyverse
 todo
 travis
