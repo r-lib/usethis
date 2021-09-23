@@ -1,6 +1,6 @@
 foo <- function() {
-  on.exit(1 + 1)
-  2 + 2
   path.expand("~/")
+  2 + 2
+  on.exit(1 + 1)
   3 + 3
 }
