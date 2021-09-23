@@ -277,7 +277,7 @@
 <li>
 <code><a href="reference/pull-requests.html">pr_view()</a></code> gets target repo with <code>github_get = NA</code>, so it works for “maybe” configs. Seems low stakes enough to not be too picky.</li>
 <li>
-<code><a href="reference/pull-requests.html">pr_fetch()</a></code>, <code><a href="reference/pull-requests.html">pr_pull()</a></code>, <code><a href="reference/pull-requests.html">pr_merge_main()</a></code>, <code><a href="reference/pull-requests.html">pr_finish()</a></code>, all require “ours” or “fork”, via an early call to <code>target_repo(github_get = TRUE)</code> or <code>check_ours_or_fork()</code>. They could probably work for other configs, e.g., “theirs”, but it’s not worth the added complexity.</li>
+<code><a href="reference/pull-requests.html">pr_fetch()</a></code>, <code><a href="reference/pull-requests.html">pr_pull()</a></code>, <code><a href="reference/pull-requests.html">pr_merge_main()</a></code>, <code><a href="reference/pull-requests.html">pr_finish()</a></code>, all require “ours” or “fork”, via an early call to <code>target_repo(github_get = TRUE)</code> or <code>check_for_config()</code>. They could probably work for other configs, e.g., “theirs”, but it’s not worth the added complexity.</li>
 <li>
 <code><a href="reference/pull-requests.html">pr_push()</a></code> requires “ours” or “fork” and, in fact, gets the actual config, because it’s potentially used to select the remote to push to (<code>origin</code> or <code>upstream</code>) if user can push to both.</li>
 </ul>

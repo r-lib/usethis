@@ -72,7 +72,9 @@ The Pull Request Helpers
 article walks through the process of making a pull request with the pr_*
 functions.
 The pr_* functions also use your Git/GitHub credentials to carry out
-various remote operations. See below for more." />
+various remote operations; see below for more about auth. The pr_*
+functions also proactively check for agreement re: the default branch in your
+local repo and the source repo. See git_default_branch() for more." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -237,7 +239,9 @@ in Happy Git and GitHub for the useR.</p>
 article walks through the process of making a pull request with the <code>pr_*</code>
 functions.</p>
 <p>The <code>pr_*</code> functions also use your Git/GitHub credentials to carry out
-various remote operations. See below for more.</p>
+various remote operations; see below for more about auth. The <code>pr_*</code>
+functions also proactively check for agreement re: the default branch in your
+local repo and the source repo. See <code><a href='git-default-branch.html'>git_default_branch()</a></code> for more.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pr_init</span><span class='op'>(</span><span class='va'>branch</span><span class='op'>)</span>
@@ -314,8 +318,8 @@ addition to your PAT. The public key must be added to your GitHub account.</p></
 
     
 
-<p>To contribute to a package, first use <code>create_from_github("OWNER/REPO")</code> to
-fork the source repository, and then check out a local copy.</p>
+<p>To contribute to a package, first use <code>create_from_github("OWNER/REPO")</code>.
+This forks the source repository and checks out a local copy.</p>
 <p>Next use <code>pr_init()</code> to create a branch for your PR. It is best practice to
 never make commits to the default branch branch of a fork (usually named
 <code>main</code> or <code>master</code>), because you do not own it. A pull request should always
@@ -385,8 +389,7 @@ back into your local work.</p></li>
 into the current local branch. This can be used when the local branch is the
 default branch or when it's a PR branch.</p></li>
 <li><p><code>pr_pause()</code>: Makes sure you're up-to-date with any remote changes in the
-PR. Then switches back to the default branch (usually named <code>main</code> or
-<code>master</code>) and pulls from the source repo.</p></li>
+PR. Then switches back to the default branch and pulls from the source repo.</p></li>
 <li><p><code>pr_view()</code>: Visits the PR associated with the current branch in the
 browser (default) or the specific PR identified by <code>number</code>.
 (FYI <code><a href='browse-this.html'>browse_github_pulls()</a></code> is a handy way to visit the list of all PRs for

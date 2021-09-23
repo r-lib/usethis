@@ -210,7 +210,9 @@
 
 <span class='fu'>browse_github_pat</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>github_token</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
+<span class='fu'>github_token</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>git_branch_default</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
 
 
     <h2 class="hasAnchor" id="pr-pull-upstream-"><a class="anchor" href="#pr-pull-upstream-"></a><code>pr_pull_upstream()</code></h2>
@@ -242,6 +244,12 @@ Users of <code>pr_sync()</code> should implement these steps "by hand":</p><ul>
 
 <p>All implicit and explicit token discovery routes through <code><a href='https://gh.r-lib.org/reference/gh_token.html'>gh::gh_token()</a></code>
 now.</p>
+    <h2 class="hasAnchor" id="git-branch-default-"><a class="anchor" href="#git-branch-default-"></a><code>git_branch_default()</code></h2>
+
+    
+
+<p>Please call <code><a href='git-default-branch.html'>git_default_branch()</a></code> instead. In hindsight, that is a better
+name for this function.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

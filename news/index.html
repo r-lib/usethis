@@ -199,6 +199,28 @@
     <div id="usethis-development-version" class="section level1">
 <h1 class="page-header" data-toc-text="development version">
 <a href="#usethis-development-version" class="anchor" aria-hidden="true"></a>usethis (development version)<small> Unreleased </small></h1>
+<div id="git-default-branch-support" class="section level2">
+<h2 class="hasAnchor">
+<a href="#git-default-branch-support" class="anchor" aria-hidden="true"></a>Git default branch support</h2>
+<p>usethis has a more sophisticated understanding of the default branch and gains several functions to support default branch renaming.</p>
+<ul><li>
+<code><a href="../reference/usethis-defunct.html">git_branch_default()</a></code> has been renamed to <code><a href="../reference/git-default-branch.html">git_default_branch()</a></code>, to place it logically in the new family of functions. The old name still works, but that won’t be true forever.</li>
+<li>
+<code><a href="../reference/git-default-branch.html">git_default_branch()</a></code> is much more diligent about figuring out the default branch. Instead of only consulting the local repo, now we integrate local info with the default branch reported by the <code>upstream</code> or <code>origin</code> remote, if applicable.
+<ul><li>This is intended to surface the case where a project has renamed its default branch and the local repo needs sync up with that.</li>
+</ul></li>
+<li>
+<code><a href="../reference/git-default-branch.html">git_default_branch_rediscover()</a></code> is a new function that helps contributors update their local repo (and personal fork, if applicable) when a project/repo renames its default branch.</li>
+<li>
+<code><a href="../reference/git-default-branch.html">git_default_branch_rename()</a></code> is a new function that helps a repo owner rename the default branch (both on GitHub and locally).</li>
+<li>
+<code><a href="../reference/git-default-branch.html">git_default_branch_configure()</a></code> is a new function to set the new Git configuration option <code>init.defaultBranch</code>, which controls the name of the initial branch of new local repos.</li>
+<li>
+<code><a href="../reference/git_sitrep.html">git_sitrep()</a></code> exposes <code>init.defaultBranch</code> and surfaces the more sophisticated analysis of <code><a href="../reference/git-default-branch.html">git_default_branch()</a></code>.</li>
+</ul></div>
+<div id="other" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other" class="anchor" aria-hidden="true"></a>Other</h2>
 <ul><li><p><code><a href="../reference/git_vaccinate.html">git_vaccinate()</a></code>, <code><a href="../reference/edit.html">edit_git_ignore()</a></code>, and <code><a href="../reference/git_sitrep.html">git_sitrep()</a></code> are more careful to consult, reveal, and set the <code>core.excludesFile</code> in user’s Git configuration (<a href='https://github.com/r-lib/usethis/issues/1461'>#1461</a>).</p></li>
 <li><p><code>use_github_action_*()</code> functions have been updated in response to the pak-based workflows becoming the standard workflows in <code>r-lib/actions</code>.</p></li>
 <li><p><code><a href="../reference/use_github_pages.html">use_github_pages()</a></code> and <code><a href="../reference/use_pkgdown.html">use_pkgdown_github_pages()</a></code> use a new method for creating an empty, orphan <code>gh-pages</code> branch. This is necessary due to new GitHub behaviour, where it has become essentially impossible to refer to the empty tree (<a href='https://github.com/r-lib/usethis/issues/1472'>#1472</a>).</p></li>
@@ -213,6 +235,7 @@
 <li><p><code><a href="../reference/use_package.html">use_package()</a></code> no longer guides the user on how to use a dependency when no change was made (<a href='https://github.com/malcolmbarrett'>@malcolmbarrett</a>, <a href='https://github.com/r-lib/usethis/issues/1384'>#1384</a>)</p></li>
 <li><p>The minimum version of gh has been bumped to help more people upgrade to the gh version that supports current GitHub PAT formats (<a href='https://github.com/r-lib/usethis/issues/1454'>#1454</a> <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</p></li>
 </ul></div>
+</div>
     <div id="usethis-201" class="section level1">
 <h1 class="page-header" data-toc-text="2.0.1">
 <a href="#usethis-201" class="anchor" aria-hidden="true"></a>usethis 2.0.1<small> 2021-02-10 </small></h1>
@@ -279,7 +302,7 @@
 <h2 class="hasAnchor">
 <a href="#default-branch" class="anchor" aria-hidden="true"></a>Default branch</h2>
 <p>There is increasing interest in making the name of a repo’s default branch configurable. Specifically, <code>main</code> is emerging as a popular alternative to <code>master</code>. Usethis now discovers the current repo’s default branch and uses that everywhere that, previously, we had hard-wired <code>master</code>.</p>
-<p><code><a href="../reference/git_branch_default.html">git_branch_default()</a></code> is a newly exported function that is also what’s used internally.</p>
+<p><code><a href="../reference/usethis-defunct.html">git_branch_default()</a></code> is a newly exported function that is also what’s used internally.</p>
 <p><code><a href="../reference/zip-utils.html">use_course()</a></code>, <code><a href="../reference/zip-utils.html">use_zip()</a></code>, and <code><a href="../reference/use_course_details.html">create_download_url()</a></code> all have some support for forming the URL to download a <code>.zip</code> archive of a repo, based on a repo specification (e.g. <code>OWNER/REPO</code>) or a browser URL. These helpers now form a URL that targets <code>HEAD</code> of the repo, i.e. the default branch.</p>
 </div>
 <div id="changes-to-gitgithub-functionality" class="section level2">
@@ -291,7 +314,7 @@
 <p><code><a href="../reference/pull-requests.html">pr_forget()</a></code> is a new function for abandoning a PR you initiated locally or fetched from GitHub. It only does local clean up and, for example, doesn’t delete a remote branch or close a PR (<a href='https://github.com/r-lib/usethis/issues/1263'>#1263</a>).</p>
 <p><code><a href="../reference/pull-requests.html">pr_view()</a></code> can now be called with no arguments. If the current branch is associated with an open PR, we target that and, otherwise, we offer an interactive selection.</p>
 <p><code><a href="../reference/pull-requests.html">pr_finish()</a></code> deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (<a href='https://github.com/r-lib/usethis/issues/1150'>#1150</a>). It no longer errors if the PR branch has already been deleted (<a href='https://github.com/r-lib/usethis/issues/1196'>#1196</a>).</p>
-<p><code><a href="../reference/usethis-defunct.html">pr_pull_upstream()</a></code> is renamed to <code><a href="../reference/pull-requests.html">pr_merge_main()</a></code> to emphasize that it merges the <strong>main</strong> line of development into the current branch, where the main line of development is taken to mean the default branch, as reported by <code><a href="../reference/git_branch_default.html">git_branch_default()</a></code>, of the source repo, which could be either <code>upstream</code> or <code>origin</code>, depending on the situation.</p>
+<p><code><a href="../reference/usethis-defunct.html">pr_pull_upstream()</a></code> is renamed to <code><a href="../reference/pull-requests.html">pr_merge_main()</a></code> to emphasize that it merges the <strong>main</strong> line of development into the current branch, where the main line of development is taken to mean the default branch, as reported by <code><a href="../reference/usethis-defunct.html">git_branch_default()</a></code>, of the source repo, which could be either <code>upstream</code> or <code>origin</code>, depending on the situation.</p>
 <p><code><a href="../reference/create_from_github.html">create_from_github()</a></code> will only create a read-only clone, due to lack of a GitHub personal access token, if explicitly directed to do so via <code>fork = FALSE</code>.</p>
 <p><code><a href="../reference/create_from_github.html">create_from_github()</a></code> and <code><a href="../reference/use_tidy_thanks.html">use_tidy_thanks()</a></code> accept browser and Git URLs as the <code>repo_spec</code> argument, to be friendlier to copy/paste. When a URL is passed, the <code>host</code> is also extracted from it.</p>
 <p><code><a href="../reference/github-token.html">create_github_token()</a></code> is a new name for the function previously known as <code><a href="../reference/usethis-defunct.html">browse_github_token()</a></code> and <code><a href="../reference/usethis-defunct.html">browse_github_pat()</a></code>.</p>
@@ -466,9 +489,9 @@
 <li><p><code><a href="../reference/use_make.html">use_make()</a></code> and <code><a href="../reference/use_jenkins.html">use_jenkins()</a></code> add a Makefile and Jenkinsfile, respectively (<a href='https://github.com/r-lib/usethis/issues/501'>#501</a>, <a href='https://github.com/ryapric'>@ryapric</a>).</p></li>
 <li><p><code><a href="../reference/ci.html">use_circleci()</a></code> creates a <code>.circleci/config.yaml</code> config file for CircleCI (<a href='https://github.com/r-lib/usethis/issues/703'>#703</a>, <a href='https://github.com/jdblischak'>@jdblischak</a>).</p></li>
 </ul></div>
-<div id="other" class="section level2">
+<div id="other-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other" class="anchor" aria-hidden="true"></a>Other</h2>
+<a href="#other-1" class="anchor" aria-hidden="true"></a>Other</h2>
 <ul><li><p><code><a href="../reference/zip-utils.html">use_zip()</a></code> is a new variant of <code><a href="../reference/zip-utils.html">use_course()</a></code> that downloads and unpacks a ZIP file, with less pedantic behaviour re: the destination directory. Both functions now also work for ZIP files with MIME type <code>"application/x-zip-compressed"</code> (<a href='https://github.com/r-lib/usethis/issues/573'>#573</a>).</p></li>
 <li><p><code><a href="../reference/use_version.html">use_version()</a></code> can detect <code>"(development version)"</code> in a NEWS header and update it with an actual version (<a href='https://github.com/r-lib/usethis/issues/768'>#768</a>, <a href='https://github.com/DavisVaughan'>@DavisVaughan</a>).</p></li>
 </ul></div>
