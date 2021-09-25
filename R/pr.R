@@ -866,7 +866,7 @@ choose_pr <- function(tr = NULL) {
       {n} more {if (n > 1) 'PRs are' else 'PR is'} open; \\
       call {ui_code('browse_github_pulls()')} to browse all PRs")
   }
-  pr_pretty <- purrr::pmap(
+  pr_pretty <- purrr::pmap_chr(
     dat[c("pr_string", "pr_user", "pr_title")],
     function(pr_string, pr_user, pr_title) {
       at_user <- glue("@{pr_user}")
@@ -874,7 +874,10 @@ choose_pr <- function(tr = NULL) {
         {ui_value(pr_string)} ({ui_field(at_user)}): {ui_value(pr_title)}")
     }
   )
-  choice <- utils::menu(title = prompt, choices = pr_pretty)
+  choice <- utils::menu(
+    title = prompt,
+    choices = cli::ansi_strtrim(pr_pretty)
+  )
   as.list(dat[choice, ])
 }
 
