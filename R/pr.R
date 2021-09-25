@@ -436,7 +436,7 @@ pr_pull <- function() {
 pr_merge_main <- function() {
   tr <- target_repo(github_get = TRUE, ask = FALSE)
   challenge_uncommitted_changes()
-  remref <- glue("{tr$remote}/tr$default_branch}")
+  remref <- glue("{tr$remote}/{tr$default_branch}")
   ui_done("Pulling changes from {ui_value(remref)}.")
   git_pull(remref, verbose = FALSE)
 }
