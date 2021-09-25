@@ -602,7 +602,7 @@ pr_clean <- function(number = NULL,
   branches <- gert::git_branch_list(local = TRUE, repo = repo)
   branches <- branches[!is.na(branches$upstream), ]
   if (sum(grepl(glue("^refs/remotes/{pr$pr_remote}"), branches$upstream)) == 0) {
-   ui_done("Removing remote {ui_value(pr$pr_remote)}")
+    ui_done("Removing remote {ui_value(pr$pr_remote)}")
     gert::git_remote_remove(remote = pr$pr_remote, repo = repo)
     # TODO: consider deleting this remote's section in config
   }
