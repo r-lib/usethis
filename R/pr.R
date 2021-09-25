@@ -450,7 +450,7 @@ pr_view <- function(number = NULL, target = c("source", "primary")) {
     branch <- git_branch()
     default_branch <- git_default_branch()
     if (branch != default_branch) {
-      url <- pr_url(tr = tr)
+      url <- pr_url(branch = branch, tr = tr)
       if (is.null(url)) {
         ui_info("
           Current branch ({ui_value(branch)}) does not appear to be \\
