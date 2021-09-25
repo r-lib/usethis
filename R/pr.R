@@ -700,6 +700,7 @@ pr_data_tidy <- function(pr) {
   out <- list(
     pr_number     = pluck_int(pr, "number"),
     pr_title      = pluck_chr(pr, "title"),
+    pr_state      = pluck_chr(pr, "state"),
     pr_user       = pluck_chr(pr, "user", "login"),
     pr_created_at = pluck_chr(pr, "created_at"),
     pr_updated_at = pluck_chr(pr, "updated_at"),
