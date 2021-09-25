@@ -758,11 +758,11 @@ pr_list <- function(tr = NULL,
     "GET /repos/{owner}/{repo}/pulls",
     state = state, head = head, .limit = Inf
   )
-  if (!is.null(out$error)) {
+  if (is.null(out$error)) {
+    prs <- out$result
+  } else {
     ui_oops("Unable to retrieve PRs for {ui_value(tr$repo_spec)}.")
     prs <- NULL
-  } else {
-    prs <- out$result
   }
   no_prs <- length(prs) == 0
   if (no_prs) {
