@@ -418,15 +418,17 @@ pr_push <- function() {
 #' @export
 #' @rdname pull-requests
 pr_pull <- function() {
-  # TODO: try to determine the associated PR and make sure pr-url is configured
-  # to help solve https://github.com/r-lib/usethis/issues/1449
-  # we're doing most of the necessary API calls anyway, with all these checks
-  check_for_config()
+  cfg <- github_remote_config(github_get = TRUE)
+  check_for_config(cfg)
   default_branch <- git_default_branch()
   check_pr_branch(default_branch)
   challenge_uncommitted_changes()
 
   git_pull()
+
+  # note associated PR in git config, if applicable
+  tr <- target_repo(cfg, ask = FALSE)
+  pr_find(tr = tr)
 
   invisible(TRUE)
 }
