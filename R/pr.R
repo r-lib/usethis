@@ -406,8 +406,6 @@ pr_push <- function() {
   if (is.null(pr)) {
     pr_create()
   } else {
-    # TODO: make sure pr-url is configured, to help solve
-    # https://github.com/r-lib/usethis/issues/1449
     ui_todo("
       View PR at {ui_value(pr$pr_html_url)} or call {ui_code('pr_view()')}.")
   }
@@ -801,10 +799,14 @@ branches_with_no_upstream_or_github_upstream <- function(tr = NULL) {
   repo <- git_repo()
   gb_dat <- gert::git_branch_list(local = TRUE, repo = repo)
   gb_dat <- gb_dat[, c("name", "upstream", "updated")]
-  gb_dat$remref   <- sub("^refs/remotes/", "", gb_dat$upstream)
-  gb_dat$upstream <- NULL
-  gb_dat$remote   <- remref_remote(gb_dat$remref)
-  gb_dat$ref      <- remref_branch(gb_dat$remref)
+  gb_dat$remref     <- sub("^refs/remotes/", "", gb_dat$upstream)
+  gb_dat$upstream   <- NULL
+  gb_dat$remote     <- remref_remote(gb_dat$remref)
+  gb_dat$ref        <- remref_branch(gb_dat$remref)
+  gb_dat$cfg_pr_url <- map_chr(
+    glue("branch.{gb_dat$name}.pr-url"),
+    ~ git_cfg_get(.x, where = "local") %||% NA_character_
+  )
 
   ghr <- github_remote_list(these = NULL)[["remote"]]
   gb_dat <- gb_dat[is.na(gb_dat$remref) | (gb_dat$remote %in% ghr), ]
@@ -816,6 +818,13 @@ branches_with_no_upstream_or_github_upstream <- function(tr = NULL) {
     all.x = TRUE
   )
   dat <- dat[order(dat$pr_number, dat$pr_updated_at, dat$updated, decreasing = TRUE), ]
+
+  missing_cfg <- is.na(dat$cfg_pr_url) & !is.na(dat$pr_html_url)
+  purrr::walk2(
+    glue("branch.{dat$name[missing_cfg]}.pr-url"),
+    dat$pr_html_url[missing_cfg],
+    ~ gert::git_config_set(.x, .y, repo = repo)
+  )
 
   dat
 }
