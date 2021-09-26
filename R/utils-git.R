@@ -226,13 +226,13 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
   remref <- remref %||% git_branch_tracking(branch)
   if (is.na(remref)) {
     if (verbose) {
-      ui_done("No remote branch to pull from for {ui_value(branch)}")
+      ui_done("No remote branch to pull from for {ui_value(branch)}.")
     }
     return(invisible())
   }
   stopifnot(is_string(remref))
   if (verbose) {
-    ui_done("Pulling from {ui_value(remref)}")
+    ui_done("Pulling from {ui_value(remref)}.")
   }
   gert::git_fetch(
     remote = remref_remote(remref),
