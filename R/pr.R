@@ -595,7 +595,7 @@ pr_clean <- function(number = NULL,
 
   # delete remote, if we (usethis) added it AND no remaining tracking branches
   created_by <- git_cfg_get(glue("remote.{pr$pr_remote}.created-by"))
-  if (is.null(created_by) || !grepl("^usethis::pr_", created_by)) {
+  if (is.null(created_by) || !grepl("^usethis::", created_by)) {
     return(invisible())
   }
 
@@ -650,8 +650,9 @@ pr_create <- function() {
   view_url(glue_data(remote_dat, "{host_url}/{repo_spec}/compare/{branch}"))
 }
 
-# retrieves 1 PR, if we can establish a tracking relationship between
-# `branch` and a PR branch
+# retrieves 1 PR, if:
+# * we can establish a tracking relationship between `branch` and a PR branch
+# * we can get the user to choose 1
 pr_find <- function(branch = git_branch(),
                     tr = NULL,
                     state = c("open", "closed", "all")) {
@@ -670,19 +671,23 @@ pr_find <- function(branch = git_branch(),
   state <- match.arg(state)
   remote <- remref_remote(tracking_branch)
   remote_dat <- github_remotes(remote)
-  pr_dat <- pr_list(
-    tr = tr,
-    state = state,
-    head = glue("{remote_dat$repo_owner}:{remref_branch(tracking_branch)}")
-  )
+
+  pr_head <- glue("{remote_dat$repo_owner}:{remref_branch(tracking_branch)}")
+  pr_dat <- pr_list(tr = tr, state = state, head = pr_head)
   if (nrow(pr_dat) == 0) {
     return(NULL)
   }
   if (nrow(pr_dat) > 1) {
-    ui_stop("
-      Branch {ui_value(branch)} is associated with multiple PRs: \\
-      {ui_value(paste0('#', pr_dat$pr_number))}")
+    spec <- sub(":", "/", pr_head)
+    ui_info("Multiple PRs are associated with {ui_value(spec)}.")
+    pr_dat <- choose_pr(pr_dat = pr_dat)
+    if (min(lengths(pr_dat)) == 0) {
+      ui_stop("
+        One of these PRs must be specified explicitly or interactively: \\
+        {ui_value(paste0('#', pr_dat$pr_number))}")
+    }
   }
+
   gert::git_config_set(config_url, pr_dat$pr_html_url, repo = git_repo())
   as.list(pr_dat)
 }
@@ -777,7 +782,8 @@ pr_list <- function(tr = NULL,
   if (no_prs) {
     out[0, ]
   } else {
-    out
+    pr_is_open <- out$pr_state == "open"
+    rbind(out[pr_is_open, ], out[!pr_is_open, ])
   }
 }
 
@@ -850,38 +856,48 @@ choose_branch <- function(exclude = character()) {
   dat$name[choice]
 }
 
-choose_pr <- function(tr = NULL) {
+choose_pr <- function(tr = NULL, pr_dat = NULL) {
   if (!is_interactive()) {
     return(list(pr_number = list()))
   }
-  tr <- tr %||% target_repo()
-  dat <- pr_list(tr)
-  if (nrow(dat) == 0) {
+  if (is.null(pr_dat)) {
+    tr <- tr %||% target_repo()
+    pr_dat <- pr_list(tr)
+  }
+  if (nrow(pr_dat) == 0) {
     return()
   }
-  # wording needs to make sense for pr_fetch() and pr_view()
+
+  # wording needs to make sense for several PR-choosing tasks, e.g. fetch, view,
+  # finish, forget
   prompt <- "Which PR are you interested in? (0 to exit)"
-  if (nrow(dat) > 9) {
-    n <- nrow(dat) - 9
-    dat <- dat[1:9, ]
+  if (nrow(pr_dat) > 9) {
+    n <- nrow(pr_dat) - 9
+    pr_dat <- pr_dat[1:9, ]
     prompt <- glue("
       {prompt}
-      {n} more {if (n > 1) 'PRs are' else 'PR is'} open; \\
-      call {ui_code('browse_github_pulls()')} to browse all PRs")
+      Not shown: {n} more {if (n > 1) 'PRs' else 'PR'}; \\
+      call {ui_code('browse_github_pulls()')} to browse all PRs.")
   }
+
+  some_closed <- any(pr_dat$pr_state == "closed")
   pr_pretty <- purrr::pmap_chr(
-    dat[c("pr_string", "pr_user", "pr_title")],
-    function(pr_string, pr_user, pr_title) {
+    pr_dat[c("pr_number", "pr_user", "pr_state", "pr_title")],
+    function(pr_number, pr_user, pr_state, pr_title) {
+      hash_number <- glue("#{pr_number}")
       at_user <- glue("@{pr_user}")
-      glue("
-        {ui_value(pr_string)} ({ui_field(at_user)}): {ui_value(pr_title)}")
+      if (some_closed) {
+        glue("{hash_number} ({ui_field(at_user)}, {pr_state}): {ui_value(pr_title)}")
+      } else {
+        glue("{hash_number} ({ui_field(at_user)}): {ui_value(pr_title)}")
+      }
     }
   )
   choice <- utils::menu(
     title = prompt,
     choices = cli::ansi_strtrim(pr_pretty)
   )
-  as.list(dat[choice, ])
+  as.list(pr_dat[choice, ])
 }
 
 # deletes the remote branch associated with a PR
