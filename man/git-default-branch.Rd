@@ -64,12 +64,12 @@ Git repos you create in the future.
 This figures out the default branch of the current Git repo, integrating
 information from the local repo and, if applicable, the \code{upstream} or
 \code{origin} remote. If there is a local vs. remote mismatch,
-\code{git_default_branch()} throws an error with advice on how to repair the
-situation.
+\code{git_default_branch()} throws an error with advice to call
+\code{git_default_branch_rediscover()} to repair the situation.
 
 For a remote repo, the default branch is the branch that \code{HEAD} points to.
 
-For the local repo, if there is only one branch, that is the default.
+For the local repo, if there is only one branch, that must be the default!
 Otherwise we try to identify the relevant local branch by looking for
 specific branch names, in this order:
 \itemize{

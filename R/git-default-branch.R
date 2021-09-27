@@ -34,12 +34,14 @@
 #' This figures out the default branch of the current Git repo, integrating
 #' information from the local repo and, if applicable, the `upstream` or
 #' `origin` remote. If there is a local vs. remote mismatch,
-#' `git_default_branch()` throws an error with advice on how to repair the
-#' situation.
+#' `git_default_branch()` throws an error with advice to call
+#' `git_default_branch_rediscover()` to repair the situation.
 #'
+
 #' For a remote repo, the default branch is the branch that `HEAD` points to.
 #'
-#' For the local repo, if there is only one branch, that is the default.
+
+#' For the local repo, if there is only one branch, that must be the default!
 #' Otherwise we try to identify the relevant local branch by looking for
 #' specific branch names, in this order:
 #' * whatever the default branch of `upstream` or `origin` is, if applicable
@@ -262,7 +264,7 @@ guess_local_default_branch <- function(prefer = NULL, verbose = FALSE) {
   }
 
   if (verbose) {
-    ui_done("
+    ui_info("
       Local branch {ui_value(db)} appears to play the role of \\
       the default branch.")
   }
@@ -299,7 +301,7 @@ git_default_branch_configure <- function(name = "main") {
 #' git_default_branch_rediscover("unconventional_default_branch_name")
 #' }
 git_default_branch_rediscover <- function(current_local_default = NULL) {
-  rediscover_default_branch(old_name = current_local_default, verbose = TRUE)
+  rediscover_default_branch(old_name = current_local_default)
 }
 
 #' @export
@@ -315,8 +317,6 @@ git_default_branch_rediscover <- function(current_local_default = NULL) {
 #' git_default_branch_rename(from = "this", to = "that")
 #' }
 git_default_branch_rename <- function(from = NULL, to = "main") {
-  ui_done('
-    Renaming (a.k.a. "moving") the default branch for {ui_value(project_name())}.')
   repo <- git_repo()
   maybe_string(from)
   check_string(to)
@@ -328,10 +328,6 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
 
   cfg <- github_remote_config(github_get = TRUE)
   check_for_config(cfg, ok_configs = c("ours", "fork", "no_github"))
-  ui_info("GitHub remote configuration type: {ui_value(cfg$type)}")
-  ui_info("
-    Read more about GitHub remote configurations at:
-    {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
 
   if (cfg$type == "no_github") {
     from <- from %||% guess_local_default_branch(verbose = TRUE)
@@ -349,19 +345,16 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
 
   tr <- target_repo(cfg, role = "source", ask = FALSE)
   old_source_db <- tr$default_branch
-  ui_info("
-    Source repo is {ui_value(tr$repo_spec)} and its current default branch is \\
-    {ui_value(old_source_db)}.")
 
   if (!isTRUE(tr$can_admin)) {
     ui_stop("
-      You don't seem to have {ui_field('admin')} permissions for \\
-      {ui_value(tr$repo_spec)}, which is required to rename the default \\
+      You don't seem to have {ui_field('admin')} permissions for the source \\
+      repo {ui_value(tr$repo_spec)}, which is required to rename the default \\
       branch.")
   }
 
   old_local_db <- from %||%
-    guess_local_default_branch(old_source_db, verbose = TRUE)
+    guess_local_default_branch(old_source_db, verbose = FALSE)
 
   if (old_local_db != old_source_db) {
     ui_oops("
@@ -371,20 +364,14 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
     if (ui_nope(
       "Are you sure you want to proceed?",
       yes = "yes", no = "no", shuffle = FALSE)) {
-      ui_oops("Cancelling.")
-      return(invisible())
+        ui_oops("Cancelling.")
+        return(invisible())
     }
   }
 
-  if (to == old_source_db) {
-    ui_info("
-      Source repo {ui_value(tr$repo_spec)} already has \\
-      {ui_value(old_source_db)} as its default branch.")
-  } else {
+  source_update <- old_source_db != to
+  if (source_update) {
     gh <- gh_tr(tr)
-    ui_done("
-      Renaming {ui_value(old_source_db)} branch to {ui_value(to)} in \\
-      the source repo {ui_value(tr$repo_spec)}.")
     gh(
       "POST /repos/{owner}/{repo}/branches/{from}/rename",
       from = old_source_db,
@@ -392,14 +379,22 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
     )
   }
 
+  if (source_update) {
+    ui_done("
+      Default branch of the source repo {ui_value(tr$repo_spec)} has moved: \\
+      {ui_value(old_source_db)} --> {ui_value(to)}")
+  } else {
+    ui_done("
+      Default branch of source repo {ui_value(tr$repo_spec)} is \\
+      {ui_value(to)}. Nothing to be done.")
+  }
+
   report_fishy_files(old_name = old_local_db, new_name = to)
-  rediscover_default_branch(old_name = old_local_db, verbose = FALSE)
+
+  rediscover_default_branch(old_name = old_local_db, report_on_source = FALSE)
 }
 
-# `verbose = FALSE` exists only so we can call this at the end of
-# git_default_branch_rename() and suppress some of the redundant messages
-rediscover_default_branch <- function(old_name = NULL, verbose = TRUE) {
-  ui_done("Rediscovering the default branch from source repo.")
+rediscover_default_branch <- function(old_name = NULL, report_on_source = TRUE) {
   maybe_string(old_name)
 
   # GitHub's official TODOs re: manually updating local environments
@@ -416,23 +411,15 @@ rediscover_default_branch <- function(old_name = NULL, verbose = TRUE) {
   repo <- git_repo()
   if (!is.null(old_name) &&
       !gert::git_branch_exists(old_name, local = TRUE, repo = repo)) {
-    ui_stop("Can't find existing local branch named {ui_value(old_name)}")
+    ui_stop("Can't find existing local branch named {ui_value(old_name)}.")
   }
 
   cfg <- github_remote_config(github_get = TRUE)
   check_for_config(cfg, ok_configs = c("ours", "fork", "theirs"))
-  if (verbose) {
-    ui_info("GitHub remote configuration type: {ui_value(cfg$type)}")
-    ui_info("
-      Read more about GitHub remote configurations at:
-      {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
-  }
 
   tr <- target_repo(cfg, role = "source", ask = FALSE)
   db <- tr$default_branch
-  ui_info("
-    Source repo is {ui_value(tr$repo_spec)} and its current default branch is \\
-    {ui_value(db)}.")
+
   # goal, in Git-speak: git remote set-head <remote> -a
   # goal, for humans: learn and record the default branch (i.e. the target of
   # the symbolic-ref refs/remotes/<remote>/HEAD) for the named remote
@@ -444,25 +431,19 @@ rediscover_default_branch <- function(old_name = NULL, verbose = TRUE) {
   gert::git_fetch(remote = tr$name, refspec = db, verbose = FALSE, repo = repo)
   gert::git_remote_ls(remote = tr$name, verbose = FALSE, repo = repo)
 
-  old_name <- old_name %||% guess_local_default_branch(db, verbose = TRUE)
+  old_name <- old_name %||% guess_local_default_branch(db, verbose = FALSE)
 
-  if (old_name == db) {
-    ui_info("Local branch named {ui_value(db)} already exists.")
-  } else {
+  local_update <- old_name != db
+  if (local_update) {
     # goal, in Git-speak: git branch -m <old_name> <db>
-    ui_done("Moving local {ui_value(old_name)} branch to {ui_value(db)}.")
     gert::git_branch_move(branch = old_name, new_branch = db, repo = repo)
     rstudio_git_tickle()
   }
 
   # goal, in Git-speak: git branch -u <remote>/<db> <db>
-  source_remref <- glue("{tr$name}/{db}")
-  ui_done("
-    Setting remote tracking branch for local {ui_value(db)} \\
-    branch to {ui_value(source_remref)}.")
   gert::git_branch_set_upstream(
     branch = db,
-    upstream = source_remref,
+    upstream = glue("{tr$name}/{db}"),
     repo = repo
   )
 
@@ -470,19 +451,45 @@ rediscover_default_branch <- function(old_name = NULL, verbose = TRUE) {
   # we're done ingesting the default branch from the source repo
   # but for "fork", we also need to update
   #   the fork = the user's primary repo = the remote known as origin
-  if (cfg$type == "fork" && old_name != db) {
-    gh <- gh_tr(cfg$origin)
+  if (cfg$type == "fork") {
+    old_name_fork <- cfg$origin$default_branch
+    fork_update <- old_name_fork != db
+    if (fork_update) {
+      gh <- gh_tr(cfg$origin)
+      gh(
+        "POST /repos/{owner}/{repo}/branches/{from}/rename",
+        from = old_name_fork,
+        new_name = db
+      )
+      # giving refspec has same pros and cons as noted above for source repo
+      gert::git_fetch(remote = "origin", refspec = db, verbose = FALSE, repo = repo)
+      gert::git_remote_ls(remote = "origin", verbose = FALSE, repo = repo)
+    }
+  }
+
+  if (report_on_source) {
+    ui_info("
+      Default branch of the source repo {ui_value(tr$repo_spec)}: {ui_value(db)}")
+  }
+
+  if (local_update) {
     ui_done("
-      Renaming {ui_value(old_name)} branch to {ui_value(db)} in your \\
-      fork {ui_value(cfg$origin$repo_spec)}.")
-    gh(
-      "POST /repos/{owner}/{repo}/branches/{from}/rename",
-      from = old_name,
-      new_name = db
-    )
-    # giving refspec has same pros and cons as noted above for source repo
-    gert::git_fetch(remote = "origin", refspec = db, verbose = FALSE, repo = repo)
-    gert::git_remote_ls(remote = "origin", verbose = FALSE, repo = repo)
+      Default branch of local repo has moved: \\
+      {ui_value(old_name)} --> {ui_value(db)}")
+  } else {
+    ui_done("
+      Default branch of local repo is {ui_value(db)}. Nothing to be done.")
+  }
+
+  if (cfg$type == "fork") {
+    if (fork_update) {
+      ui_done("
+        Default branch of your fork has moved: \\
+        {ui_value(old_name_fork)} --> {ui_value(db)}")
+    } else {
+      ui_done("
+        Default branch of your fork is {ui_value(db)}. Nothing to be done.")
+    }
   }
 
   invisible(db)
@@ -508,8 +515,7 @@ challenge_non_default_branch <- function(details = "Are you sure you want to pro
 report_fishy_files <- function(old_name = "master", new_name = "main") {
   ui_todo("
     Be sure to update files that refer to the default branch by name.
-    Consider searching within your project for {ui_value(old_name)}.
-    We might call out some obvious candidates below.")
+    Consider searching within your project for {ui_value(old_name)}.")
   fishy_github_actions(new_name = new_name)
   fishy_badges(old_name = old_name)
   fishy_bookdown_config(old_name = old_name)
