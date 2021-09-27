@@ -251,9 +251,9 @@ guess_local_default_branch <- function(prefer = NULL, verbose = FALSE) {
   first_matched <- function(x, table) table[min(match(x, table), na.rm = TRUE)]
 
   if (length(gb) == 1) {
-    propose <- gb
+    db <- gb
   } else if (any(gb %in% candidates)) {
-    propose <- first_matched(gb, candidates)
+    db <- first_matched(gb, candidates)
   } else {
     # TODO: perhaps this should be classed, so I can catch it and distinguish
     # from the ui_stop() above, where there are no local branches.
@@ -263,11 +263,11 @@ guess_local_default_branch <- function(prefer = NULL, verbose = FALSE) {
 
   if (verbose) {
     ui_done("
-      Local branch {ui_value(propose)} appears to play the role of \\
+      Local branch {ui_value(db)} appears to play the role of \\
       the default branch.")
   }
 
-  propose
+  db
 }
 
 #' @export
