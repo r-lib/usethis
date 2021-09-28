@@ -128,7 +128,7 @@ local_project <- function(path = ".",
                           setwd = TRUE,
                           quiet = getOption("usethis.quiet", default = FALSE),
                           .local_envir = parent.frame()) {
-  withr::local_options(usethis.quiet = quiet)
+  withr::local_options(usethis.quiet = quiet, .local_envir = .local_envir)
 
   old_project <- proj_get_() # this could be `NULL`, i.e. no active project
   withr::defer(proj_set(path = old_project, force = TRUE), envir = .local_envir)

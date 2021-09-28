@@ -222,3 +222,14 @@ test_that("proj_activate() works with relative path when RStudio is not detected
   expect_equal(path_wd(), out_path)
   expect_equal(proj_get(), out_path)
 })
+
+# https://github.com/r-lib/usethis/issues/1498
+test_that("local_project()'s `quiet` argument works", {
+  temp_proj <- create_project(
+    file_temp(pattern = "TEMPPROJ"),
+    rstudio = FALSE, open = FALSE
+  )
+  withr::defer(dir_delete(temp_proj))
+  local_project(path = temp_proj, quiet = TRUE, force = TRUE, setwd = FALSE)
+  expect_true(getOption("usethis.quiet"))
+})
