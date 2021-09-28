@@ -271,10 +271,10 @@ Git repos you create in the future.</p>
 <p>This figures out the default branch of the current Git repo, integrating
 information from the local repo and, if applicable, the <code>upstream</code> or
 <code>origin</code> remote. If there is a local vs. remote mismatch,
-<code>git_default_branch()</code> throws an error with advice on how to repair the
-situation.</p>
+<code>git_default_branch()</code> throws an error with advice to call
+<code>git_default_branch_rediscover()</code> to repair the situation.</p>
 <p>For a remote repo, the default branch is the branch that <code>HEAD</code> points to.</p>
-<p>For the local repo, if there is only one branch, that is the default.
+<p>For the local repo, if there is only one branch, that must be the default!
 Otherwise we try to identify the relevant local branch by looking for
 specific branch names, in this order:</p><ul>
 <li><p>whatever the default branch of <code>upstream</code> or <code>origin</code> is, if applicable</p></li>
