@@ -155,10 +155,10 @@ ui_silence <- function(code) {
 #' page.
 #'
 #' @inheritParams ui
-#' @param yes A character vector of "yes" strings, which are randomly sampled to
-#'   populate the menu.
+#' @param yes A character vector of "yes" strings, which are randomly sampled
+#'   from `ui_yes_options` to populate the menu.
 #' @param no A character vector of "no" strings, which are randomly sampled to
-#'   populate the menu.
+#'   from `ui_yes_options` to populate the menu.
 #' @param n_yes An integer. The number of "yes" strings to include.
 #' @param n_no An integer. The number of "no" strings to include.
 #' @param shuffle A logical. Should the order of the menu options be randomly
@@ -177,13 +177,17 @@ ui_silence <- function(code) {
 #' ui_nope("Have you tried turning it off and on again?", n_yes = 1, n_no = 1)
 #' ui_yeah("Are you sure its plugged in?", yes = "Yes", no = "No", shuffle = FALSE)
 #' }
+#'
+#' # print yes and no options
+#' ui_yes_options
+#' ui_no_options
 NULL
 
 #' @rdname ui-questions
 #' @export
 ui_yeah <- function(x,
-                    yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
-                    no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+                    yes = ui_yes_options,
+                    no = ui_no_options,
                     n_yes = 1, n_no = 2, shuffle = TRUE,
                     .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
@@ -214,8 +218,8 @@ ui_yeah <- function(x,
 #' @rdname ui-questions
 #' @export
 ui_nope <- function(x,
-                    yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
-                    no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+                    yes = ui_yes_options,
+                    no = ui_no_options,
                     n_yes = 1, n_no = 2, shuffle = TRUE,
                     .envir = parent.frame()) {
   # TODO(jennybc): is this correct in the case of no selection / cancelling?
@@ -226,6 +230,14 @@ ui_nope <- function(x,
     .envir = .envir
   )
 }
+
+#' @rdname ui-questions
+#' @export
+ui_yes_options <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
+
+#' @rdname ui-questions
+#' @export
+ui_no_options <- c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not")
 
 # Inline styles -----------------------------------------------------------
 
