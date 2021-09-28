@@ -21,7 +21,8 @@ use_release_issue <- function(version = NULL) {
       It is very unusual to open a release issue on a repo you can't push to:
         {ui_value(tr$repo_spec)}")
     if (ui_nope("Do you really want to do this?")) {
-      ui_stop("Aborting.")
+      ui_oops("Cancelling.")
+      return(invisible())
     }
   }
 
@@ -103,8 +104,8 @@ release_checklist <- function(version, on_cran) {
     "",
     todo("Accepted :tada:"),
     todo("`usethis::use_github_release()`"),
-    todo("`usethis::use_news_md()`", !has_news),
     todo("`usethis::use_dev_version()`"),
+    todo("`usethis::use_news_md()`", !has_news),
     todo("Update install instructions in README", !on_cran),
     todo("Finish blog post", type != "patch"),
     todo("Tweet", type != "patch"),
