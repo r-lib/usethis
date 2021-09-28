@@ -583,8 +583,6 @@ pr_clean <- function(number = NULL,
   if (!is.na(pr_local_branch)) {
     ui_done("Deleting local {ui_value(pr_local_branch)} branch.")
     gert::git_branch_delete(pr_local_branch, repo = repo)
-    # TODO: consider deleting this branch's section in config, or at least any
-    # settings we've added
   }
 
   if (is.null(pr)) {
@@ -604,7 +602,6 @@ pr_clean <- function(number = NULL,
   if (sum(grepl(glue("^refs/remotes/{pr$pr_remote}"), branches$upstream)) == 0) {
     ui_done("Removing remote {ui_value(pr$pr_remote)}")
     gert::git_remote_remove(remote = pr$pr_remote, repo = repo)
-    # TODO: consider deleting this remote's section in config
   }
   invisible()
 }
