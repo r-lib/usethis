@@ -31,6 +31,8 @@
  
 * `use_package()` no longer guides the user on how to use a dependency when no 
   change was made (@malcolmbarrett, #1384)
+  
+* `use_tidy_eval()` has been updated to reflect current recommendations for using (and therefore exposing) tidy eval in other packages (@lionel-, #1445).
 
 # usethis 2.0.1
 
