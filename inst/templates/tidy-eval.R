@@ -1,3 +1,4 @@
+# nolint start
 {{=<< >>=}}
 
 #' Tidy eval helpers
@@ -109,3 +110,4 @@
 NULL
 
 <<={{ }}=>>
+# nolint end
