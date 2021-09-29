@@ -14,7 +14,7 @@
       
       Prepare for release:
       
-      * [ ] [`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)
+      * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
       * [ ] `rhub::check_for_cran()`
@@ -46,7 +46,7 @@
       
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_releasebullets.html)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
-      * [ ] [`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)
+      * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
       * [ ] `rhub::check_for_cran()`
@@ -75,7 +75,7 @@
       
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_releasebullets.html)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
-      * [ ] [`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)
+      * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
       * [ ] `rhub::check_for_cran()`
