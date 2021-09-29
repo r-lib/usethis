@@ -296,7 +296,9 @@ pr_fetch <- function(number = NULL, target = c("source", "primary")) {
   }
 
   if (is.na(pr$pr_repo_owner)) {
-    ui_stop("The repo where PR {number} originates seems to have been deleted.")
+    ui_stop("
+    The repo or branch where PR #{pr$pr_number} originates seems to have been \\
+    deleted.")
   }
 
   pr_user <- glue("@{pr$pr_user}")
