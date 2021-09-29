@@ -1,6 +1,4 @@
-# nolint start
 {{=<< >>=}}
-
 #' Tidy eval helpers
 #'
 #' @description
@@ -108,6 +106,4 @@
 #' @aliases enquo enquos .data := as_name as_label
 #' @export enquo enquos .data := as_name as_label
 NULL
-
 <<={{ }}=>>
-# nolint end
