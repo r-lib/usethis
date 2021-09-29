@@ -64,19 +64,6 @@ check_installed <- function(pkg) {
   rlang::check_installed(pkg)
 }
 
-interactive <- function() {
-  ui_stop(
-    "Internal error: use rlang's {ui_code('is_interactive()')} \\
-     instead of {ui_code('base::interactive()')}"
-  )
-}
-
-on.exit <- function(...) {
-  ui_stop("
-    Internal error: use withr's {ui_code('defer()')} and friends, \\
-    instead of {ui_code('base::on.exit()')}")
-}
-
 isFALSE <- function(x) {
   identical(x, FALSE)
 }
@@ -116,4 +103,19 @@ pluck_int <- function(.x, ...) {
 
 is_windows <- function() {
   .Platform$OS.type == "windows"
+}
+
+check_string <- function(x, nm = deparse(substitute(x))) {
+  if (!is_string(x)) {
+    ui_stop("{ui_code(nm)} must be a string.")
+  }
+  x
+}
+
+maybe_string <- function(x, nm = deparse(substitute(x))) {
+  if (is.null(x)) {
+    x
+  } else {
+    check_string(x, nm = nm)
+  }
 }

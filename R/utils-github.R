@@ -24,8 +24,8 @@ make_spec <- function(owner = NA, repo = NA) {
 # https://stackoverflow.com/questions/27745/getting-parts-of-a-url-regex
 github_remote_regex <- paste0(
   "^",
-  "(?<prefix>git|ssh|http[s]?)",
-  "[:/@]+",
+  "(?<protocol>\\w+://)?",
+  "(?<user>.+@)?",
   "(?<host>[^/:]+)",
   "[/:]",
   "(?<repo_owner>[^/]+)",
@@ -48,16 +48,23 @@ parse_github_remotes <- function(x) {
   #                                    --> https, github.acme.com, rlib, usethis
   # git@github.com:r-lib/usethis.git
   #                                    --> ssh,   github.com,      rlib, usethis
+  # ssh://git@github.com/rstudio/packrat.git
+  #                                    --> ssh,   github.com,      rlib, usethis
   dat <- re_match(x, github_remote_regex)
+
+  dat$protocol <- sub("://$", "", dat$protocol)
+  dat$user <- sub("@$", "", dat$user)
+  dat$repo_name <- sub("[.]git$", "", dat$repo_name)
   dat$url <- dat$.text
+
   # as.character() necessary for edge case of length-0 input
-  dat$protocol <- as.character(ifelse(dat$prefix == "https", "https", "ssh"))
+  dat$protocol <- as.character(ifelse(dat$protocol == "https", "https", "ssh"))
   dat$name <- if (rlang::is_named(x)) {
     names(x)
   } else {
     rep_len(NA_character_, length.out = nrow(dat))
   }
-  dat$repo_name <- sub("[.]git$", "", dat$repo_name)
+
   dat[c("name", "url", "host", "repo_owner", "repo_name", "protocol")]
 }
 
@@ -181,16 +188,18 @@ github_remotes <- function(these = c("origin", "upstream"),
     oops_hosts <- unique(grl$host[oops])
     ui_stop("
       Unable to get GitHub info for these remotes: {ui_value(oops_remotes)}
-      Are we offline? Is GitHub down?
+      Are we offline? Is GitHub down? Has the repo been deleted?
       Otherwise, you probably need to configure a personal access token (PAT) \\
       for {ui_value(oops_hosts)}
       See {ui_code('?gh_token_help')} for advice")
   }
 
+  grl$default_branch <- map_chr(repo_info, "default_branch", .default = NA)
   grl$is_fork <- map_lgl(repo_info, "fork", .default = NA)
   # `permissions` is an example of data that is not present if the request
   # did not include a PAT
   grl$can_push <- map_lgl(repo_info, c("permissions", "push"), .default = NA)
+  grl$can_admin <- map_lgl(repo_info, c("permissions", "admin"), .default = NA)
   grl$perm_known <- !is.na(grl$can_push)
   grl$parent_repo_owner <-
     map_chr(repo_info, c("parent", "owner", "login"), .default = NA)
@@ -322,7 +331,8 @@ github_remote_config <- function(github_get = NA) {
     }
     if (length(unique(grl$github_got)) != 1) {
       ui_stop("
-        Internal error: Got GitHub API info for some remotes, but not all")
+        Internal error: Got GitHub API info for some remotes, but not all
+        Do all the remotes still exist? Do you still have access?")
     }
     if (length(unique(grl$perm_known)) != 1) {
       ui_stop("
@@ -460,7 +470,7 @@ target_repo <- function(cfg = NULL,
   check_for_bad_config(cfg)
 
   if (isTRUE(github_get)) {
-    check_ours_or_fork(cfg)
+    check_for_config(cfg)
   }
 
   # upstream only
@@ -617,10 +627,10 @@ check_for_maybe_config <- function(cfg,
   invisible()
 }
 
-check_ours_or_fork <- function(cfg = NULL) {
+check_for_config <- function(cfg = NULL, ok_configs = c("ours", "fork")) {
   cfg <- cfg %||% github_remote_config(github_get = TRUE)
   stopifnot(inherits(cfg, "github_remote_config"))
-  if (cfg$type %in% c("ours", "fork")) {
+  if (cfg$type %in% ok_configs) {
     return(invisible(cfg))
   }
   check_for_bad_config(cfg)

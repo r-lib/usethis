@@ -64,6 +64,33 @@ git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
   if (length(out) > 0) out else NULL
 }
 
+# ensures that core.excludesFile is configured
+# if configured, leave well enough alone
+# if not, check for existence of one of the Usual Suspects; if found, configure
+# otherwise, configure as path_home(".gitignore")
+ensure_core_excludesFile <- function() {
+  path <- git_ignore_path(scope = "user")
+
+  if (!is.null(path)) {
+    return(invisible())
+  }
+
+  # .gitignore is most common, but .gitignore_global appears in prominent
+  # places --> so we allow the latter, but prefer the former
+  path <-
+    path_first_existing(path_home(c(".gitignore", ".gitignore_global"))) %||%
+    path_home(".gitignore")
+
+  if (!is_windows()) {
+    # express path relative to user's home directory, except on Windows
+    path <- path("~", path_rel(path, path_home()))
+  }
+  ui_done("Configuring {ui_field('core.excludesFile')}: {ui_path(path)}")
+  gert::git_config_global_set("core.excludesFile", path)
+  invisible()
+}
+
+
 # Status------------------------------------------------------------------------
 git_status <- function(untracked) {
   stopifnot(is_true(untracked) || is_false(untracked))
@@ -199,13 +226,13 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
   remref <- remref %||% git_branch_tracking(branch)
   if (is.na(remref)) {
     if (verbose) {
-      ui_done("No remote branch to pull from for {ui_value(branch)}")
+      ui_done("No remote branch to pull from for {ui_value(branch)}.")
     }
     return(invisible())
   }
   stopifnot(is_string(remref))
   if (verbose) {
-    ui_done("Pulling from {ui_value(remref)}")
+    ui_done("Pulling from {ui_value(remref)}.")
   }
   gert::git_fetch(
     remote = remref_remote(remref),
@@ -266,31 +293,34 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
 }
 
 # Checks ------------------------------------------------------------------
-check_default_branch <- function() {
-  default_branch <- git_branch_default()
-  ui_done("
-    Checking that current branch is default branch ({ui_value(default_branch)})")
-  actual <- git_branch()
-  if (actual == default_branch) {
-    return(invisible())
-  }
-  ui_stop("
-    Must be on branch {ui_value(default_branch)}, not {ui_value(actual)}.")
-}
 
-challenge_non_default_branch <- function(details = "Are you sure you want to proceed?") {
-  actual <- git_branch()
-  default_branch <- git_branch_default()
-  if (nzchar(details)) {
-    details <- paste0("\n", details)
-  }
-  if (actual != default_branch) {
-    if (ui_nope("
-      Current branch ({ui_value(actual)}) is not repo's default \\
-      branch ({ui_value(default_branch)}){details}")) {
-      ui_stop("Aborting")
+check_current_branch <- function(is = NULL, is_not = NULL,
+                                 message = NULL) {
+  gb <- git_branch()
+
+  if (!is.null(is)) {
+    check_string(is)
+    if (gb == is) {
+      return(invisible())
+    } else {
+      msg <- message %||%
+        "Must be on branch {ui_value(is)}, not {ui_value(gb)}."
+      ui_stop(msg)
     }
   }
+
+  if (!is.null(is_not)) {
+    check_string(is_not)
+    if (gb != is_not) {
+      return(invisible())
+    } else {
+      msg <- message %||%
+        "Can't be on branch {ui_value(gb)}."
+      ui_stop(msg)
+    }
+  }
+
+  invisible()
 }
 
 # examples of remref: upstream/master, origin/foofy

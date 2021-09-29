@@ -175,7 +175,7 @@ rstudio_config_path <- function(...) {
     base <- rappdirs::user_config_dir("RStudio", appauthor = NULL)
   } else {
     # RStudio only uses windows/unix conventions, not mac
-    base <- rappdirs::user_config_dir("RStudio", os = "unix")
+    base <- rappdirs::user_config_dir("rstudio", os = "unix")
   }
   path(base, ...)
 }

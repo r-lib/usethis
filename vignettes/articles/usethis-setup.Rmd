@@ -44,10 +44,12 @@ This will:
 
 The suggested snippet looks like this:
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, echo = 2:4}
+# nolint start
 if (interactive()) {
   suppressMessages(require(devtools))
 }
+# nolint end
 ```
 
 More resources on `.Rprofile`:

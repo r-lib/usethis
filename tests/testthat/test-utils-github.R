@@ -3,7 +3,8 @@ test_that("parse_github_remotes() works, on named list or named character", {
     https      = "https://github.com/OWNER/REPO.git",
     ghe        = "https://github.acme.com/OWNER/REPO.git",
     browser    = "https://github.com/OWNER/REPO",
-    ssh        = "git@github.com:OWNER/REPO.git",
+    ssh1       = "git@github.com:OWNER/REPO.git",
+    ssh2       = "ssh://git@github.com/OWNER/REPO.git",
     gitlab1    = "https://gitlab.com/OWNER/REPO.git",
     gitlab2    = "git@gitlab.com:OWNER/REPO.git",
     bitbucket1 = "https://bitbucket.org/OWNER/REPO.git",
@@ -14,13 +15,13 @@ test_that("parse_github_remotes() works, on named list or named character", {
   expect_equal(unique(parsed$repo_owner), "OWNER")
   expect_equal(
     parsed$host,
-    c("github.com", "github.acme.com", "github.com", "github.com",
+    c("github.com", "github.acme.com", "github.com", "github.com", "github.com",
       "gitlab.com", "gitlab.com", "bitbucket.org", "bitbucket.org")
   )
   expect_equal(unique(parsed$repo_name), "REPO")
   expect_equal(
     parsed$protocol,
-    c("https", "https", "https", "ssh", "https", "ssh", "https", "ssh")
+    c("https", "https", "https", "ssh", "ssh", "https", "ssh", "https", "ssh")
   )
 
   parsed2 <- parse_github_remotes(unlist(urls))

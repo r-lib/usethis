@@ -21,7 +21,8 @@ use_release_issue <- function(version = NULL) {
       It is very unusual to open a release issue on a repo you can't push to:
         {ui_value(tr$repo_spec)}")
     if (ui_nope("Do you really want to do this?")) {
-      ui_stop("Aborting.")
+      ui_oops("Cancelling.")
+      return(invisible())
     }
   }
 
@@ -64,8 +65,8 @@ release_checklist <- function(version, on_cran) {
       "",
 
       todo("`usethis::use_cran_comments()`"),
-      todo("Proof read `Title:` and `Description:`"),
-      todo("Check that all exported functions have `@returns` and `@examples`"),
+      todo("Proofread `Title:` and `Description:`"),
+      todo("Check that all exported functions have `@return` and `@examples`"),
       todo("Check that `Authors@R:` includes a copyright holder (role 'cph')"),
       todo("Check [licensing of included files](https://r-pkgs.org/license.html#code-you-bundle)"),
       todo("Review <https://github.com/DavisVaughan/extrachecks>"),
@@ -80,7 +81,7 @@ release_checklist <- function(version, on_cran) {
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("`devtools::build_readme()`", has_readme),
 
-    todo("[`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)"),
+    todo("`urlchecker::url_check()`"),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
     todo("`devtools::check_win_devel()`"),
     todo("`rhub::check_for_cran()`"),
@@ -103,8 +104,8 @@ release_checklist <- function(version, on_cran) {
     "",
     todo("Accepted :tada:"),
     todo("`usethis::use_github_release()`"),
-    todo("`usethis::use_news_md()`", !has_news),
     todo("`usethis::use_dev_version()`"),
+    todo("`usethis::use_news_md()`", !has_news),
     todo("Update install instructions in README", !on_cran),
     todo("Finish blog post", type != "patch"),
     todo("Tweet", type != "patch"),

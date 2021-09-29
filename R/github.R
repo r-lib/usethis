@@ -67,7 +67,13 @@ use_github <- function(organisation = NULL,
 
   check_protocol(protocol)
   check_uses_git()
-  check_default_branch()
+  default_branch <- git_default_branch()
+  check_current_branch(
+    is = default_branch,
+    # glue-ing happens inside check_current_branch(), where `gb` gives the
+    # current branch
+    "Must be on the default branch ({ui_value(is)}), not {ui_value(gb)}."
+  )
   challenge_uncommitted_changes(msg = "
     There are uncommitted changes and we're about to create and push to a new \\
     GitHub repo")
@@ -86,7 +92,7 @@ use_github <- function(organisation = NULL,
     ui_info("Targeting the GitHub host {ui_value(empirical_host)}")
   }
 
-  owner <- organisation %||%  whoami$login
+  owner <- organisation %||% whoami$login
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host)
 
@@ -135,7 +141,6 @@ use_github <- function(organisation = NULL,
     )
   }
 
-  default_branch <- git_branch_default()
   repo <- git_repo()
   remref <- glue("origin/{default_branch}")
   ui_done("

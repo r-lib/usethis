@@ -229,8 +229,14 @@ test_that("write_over() works for a file in a project that is not active", {
 
   tmp <- path(proj, "foo.txt")
   before <- read_utf8(tmp)
-  write_over(tmp, letters[4:6], quiet = TRUE)
-  expect_identical(read_utf8(tmp), before)
+
+  withr::with_options(
+    list(usethis.overwrite = FALSE),
+    {
+      write_over(tmp, letters[4:6], quiet = TRUE)
+      expect_identical(read_utf8(tmp), before)
+    }
+  )
 
   withr::with_options(
     list(usethis.overwrite = TRUE),

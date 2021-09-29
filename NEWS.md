@@ -1,10 +1,48 @@
 # usethis (development version)
 
+## Git default branch support
+
+usethis has a more sophisticated understanding of the default branch and gains several functions to support default branch renaming.
+
+* `git_branch_default()` has been renamed to `git_default_branch()`, to place
+  it logically in the new family of functions. The old name still works, but
+  that won't be true forever.
+* `git_default_branch()` is much more diligent about figuring out the default
+  branch. Instead of only consulting the local repo, now we integrate local info
+  with the default branch reported by the `upstream` or `origin` remote, if
+  applicable.
+  - This is intended to surface the case where a project has renamed its default
+    branch and the local repo needs sync up with that.
+* `git_default_branch_rediscover()` is a new function that helps contributors
+  update their local repo (and personal fork, if applicable) when a project/repo
+  renames its default branch.
+* `git_default_branch_rename()` is a new function that helps a repo owner
+  rename the default branch (both on GitHub and locally).
+* `git_default_branch_configure()` is a new function to set the new Git
+  configuration option `init.defaultBranch`, which controls the name of the
+  initial branch of new local repos.
+* `git_sitrep()` exposes `init.defaultBranch` and surfaces the more
+  sophisticated analysis of `git_default_branch()`.
+
+## Other
+
+* `git_vaccinate()`, `edit_git_ignore()`, and `git_sitrep()` are more careful to
+  consult, reveal, and set the `core.excludesFile` in user's Git configuration
+  (#1461).
+
+* `use_github_action_*()` functions have been updated in response to the
+  pak-based workflows becoming the standard workflows in `r-lib/actions`.
+
+* `use_github_pages()` and `use_pkgdown_github_pages()` use a new method for
+  creating an empty, orphan `gh-pages` branch. This is necessary due to new
+  GitHub behaviour, where it has become essentially impossible to refer to the
+  empty tree (#1472).
+
 * `"usethis.overwrite"` is a new option. When set to `TRUE`, usethis overwrites
   an existing file without asking for user confirmation if the file is inside
   a Git repo. The normal Git workflow makes it easy to see and selectively
   accept/discard any proposed changes. This behaviour is strictly opt-in
-  (#1376).
+  (#1424).
   
 * `use_lifecycle()` now imports `lifecycle::deprecated()` (#1419).
 
@@ -32,6 +70,10 @@
 * `use_package()` no longer guides the user on how to use a dependency when no 
   change was made (@malcolmbarrett, #1384)
   
+* The minimum version of gh has been bumped to help more people upgrade to the gh version that supports current GitHub PAT formats (#1454 @ijlyttle).
+
+* `edit_rstudio_prefs()` and `edit_rstudio_snippets()` should work now on case-sensitive OSes, due to a path fix re: the location of RStudio's config files (#1420 @charliejhadley).
+
 * `use_tidy_eval()` has been updated to reflect current recommendations for using (and therefore exposing) tidy eval in other packages (@lionel-, #1445).
 
 # usethis 2.0.1

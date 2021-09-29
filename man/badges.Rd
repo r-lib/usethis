@@ -17,7 +17,7 @@ use_bioc_badge()
 
 use_lifecycle_badge(stage)
 
-use_binder_badge(ref = git_branch_default(), urlpath = NULL)
+use_binder_badge(ref = git_default_branch(), urlpath = NULL)
 }
 \arguments{
 \item{badge_name}{Badge name. Used in error message and alt text}

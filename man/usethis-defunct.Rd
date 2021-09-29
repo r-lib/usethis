@@ -7,6 +7,7 @@
 \alias{browse_github_token}
 \alias{browse_github_pat}
 \alias{github_token}
+\alias{git_branch_default}
 \title{Defunct and deprecated functions in usethis}
 \usage{
 pr_pull_upstream()
@@ -18,6 +19,8 @@ browse_github_token(...)
 browse_github_pat(...)
 
 github_token()
+
+git_branch_default()
 }
 \description{
 These functions have either been deprecated or removed from usethis.
@@ -49,6 +52,12 @@ These functions have been replaced by \code{\link[=create_github_token]{create_g
 
 All implicit and explicit token discovery routes through \code{\link[gh:gh_token]{gh::gh_token()}}
 now.
+}
+
+\section{\code{git_branch_default()}}{
+
+Please call \code{\link[=git_default_branch]{git_default_branch()}} instead. In hindsight, that is a better
+name for this function.
 }
 
 \keyword{internal}

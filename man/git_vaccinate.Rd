@@ -10,4 +10,6 @@ git_vaccinate()
 Adds \code{.DS_Store}, \code{.Rproj.user}, \code{.Rdata}, \code{.Rhistory}, and \code{.httr-oauth} to
 your global (a.k.a. user-level) \code{.gitignore}. This is good practice as it
 decreases the chance that you will accidentally leak credentials to GitHub.
+\code{git_vaccinate()} also tries to detect and fix the situation where you have a
+global gitignore file, but it's missing from your global Git config.
 }

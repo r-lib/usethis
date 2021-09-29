@@ -6,15 +6,15 @@
       First release:
       
       * [ ] `usethis::use_cran_comments()`
-      * [ ] Proof read `Title:` and `Description:`
-      * [ ] Check that all exported functions have `@returns` and `@examples`
+      * [ ] Proofread `Title:` and `Description:`
+      * [ ] Check that all exported functions have `@return` and `@examples`
       * [ ] Check that `Authors@R:` includes a copyright holder (role 'cph')
       * [ ] Check [licensing of included files](https://r-pkgs.org/license.html#code-you-bundle)
       * [ ] Review <https://github.com/DavisVaughan/extrachecks>
       
       Prepare for release:
       
-      * [ ] [`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)
+      * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
       * [ ] `rhub::check_for_cran()`
@@ -30,8 +30,8 @@
       
       * [ ] Accepted :tada:
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_news_md()`
       * [ ] Update install instructions in README
       * [ ] Finish blog post
       * [ ] Tweet
@@ -46,7 +46,7 @@
       
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_releasebullets.html)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
-      * [ ] [`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)
+      * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
       * [ ] `rhub::check_for_cran()`
@@ -63,8 +63,8 @@
       
       * [ ] Accepted :tada:
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_news_md()`
 
 ---
 
@@ -75,7 +75,7 @@
       
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_releasebullets.html)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
-      * [ ] [`urlchecker::url_check()`](https://github.com/r-lib/urlchecker)
+      * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
       * [ ] `rhub::check_for_cran()`
@@ -93,8 +93,8 @@
       
       * [ ] Accepted :tada:
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_news_md()`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
