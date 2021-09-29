@@ -110,7 +110,6 @@ use_tidy_dependencies <- function() {
   check_has_package_doc("use_tidy_dependencies()")
 
   use_dependency("rlang", "Imports")
-  use_dependency("ellipsis", "Imports")
   use_dependency("lifecycle", "Imports")
   use_dependency("cli", "Imports")
   use_dependency("glue", "Imports")
