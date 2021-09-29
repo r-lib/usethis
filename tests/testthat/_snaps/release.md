@@ -30,8 +30,8 @@
       
       * [ ] Accepted :tada:
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_news_md()`
       * [ ] Update install instructions in README
       * [ ] Finish blog post
       * [ ] Tweet
@@ -63,8 +63,8 @@
       
       * [ ] Accepted :tada:
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_news_md()`
 
 ---
 
@@ -93,8 +93,8 @@
       
       * [ ] Accepted :tada:
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_news_md()`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
