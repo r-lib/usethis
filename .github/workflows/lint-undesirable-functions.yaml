@@ -69,7 +69,10 @@ jobs:
             fun = my_undesirable_functions,
             symbol_is_undesirable = FALSE
           )
-          out <- lintr::lint_package(linters = my_undesirable_function_linter)
+          out <- lintr::lint_package(
+            linters = my_undesirable_function_linter,
+            exclusions = "inst/templates/tidy-eval.R"
+          )
           print(out)
           if (length(out)) stop("lints found")
         shell: Rscript {0}

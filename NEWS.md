@@ -74,6 +74,8 @@ usethis has a more sophisticated understanding of the default branch and gains s
 
 * `edit_rstudio_prefs()` and `edit_rstudio_snippets()` should work now on case-sensitive OSes, due to a path fix re: the location of RStudio's config files (#1420 @charliejhadley).
 
+* `use_tidy_eval()` has been updated to reflect current recommendations for using (and therefore exposing) tidy eval in other packages (@lionel-, #1445).
+
 # usethis 2.0.1
 
 * All functions that require a package now ask you if you'd like to install it.

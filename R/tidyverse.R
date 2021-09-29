@@ -148,7 +148,7 @@ use_tidy_eval <- function() {
   check_is_package("use_tidy_eval()")
 
   use_dependency("roxygen2", "Suggests")
-  use_dependency("rlang", "Imports", min_version = "0.1.2")
+  use_dependency("rlang", "Imports", min_version = "0.4.11")
   new <- use_template("tidy-eval.R", "R/utils-tidy-eval.R")
 
   ui_todo("Run {ui_code('devtools::document()')}")
