@@ -31,7 +31,7 @@ test_that("pkgdown_config_meta() returns a list", {
     check_installed = function(pkg) TRUE,
     use_pkgdown()
   )
-  expect_equal(pkgdown_config_meta(), list())
+  expect_equal(pkgdown_config_meta(), list(url = NULL))
   writeLines(c("home:", "  strip_header: true"), pkgdown_config_path())
   expect_equal(
     pkgdown_config_meta(),

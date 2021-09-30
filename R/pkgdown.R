@@ -4,9 +4,8 @@
 #' [pkgdown](https://pkgdown.r-lib.org) makes it easy to turn your package into
 #' a beautiful website. usethis provides two functions to help you use pkgdown:
 #'
-#' * `use_pkgdown()`: creates a pkgdown config file, adds relevant files or
-#'   directories to `.Rbuildignore` and `.gitignore`, and builds favicons if
-#'   your package has a logo.
+#' * `use_pkgdown()`: creates a pkgdown config file and adds relevant files or
+#'   directories to `.Rbuildignore` and `.gitignore`.
 #'
 #' * `use_pkgdown_github_pages()`: implements the GitHub setup needed to
 #'   automatically publish your pkgdown site to GitHub pages:
@@ -31,25 +30,31 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   check_is_package("use_pkgdown()")
   check_installed("pkgdown")
 
-  use_build_ignore(c(config_file, destdir))
-  use_build_ignore("pkgdown")
+  use_build_ignore(c(config_file, destdir, "pkgdown"))
   use_git_ignore(destdir)
 
-  ui_todo("
-    Record your site's {ui_field('url')} in the pkgdown config file \\
-    (optional, but recommended)")
-
-  if (has_logo()) {
-    pkgdown_build_favicons(proj_get(), overwrite = TRUE)
-  }
-
-  config <- proj_path(config_file)
-  if (!identical(destdir, "docs")) {
-    write_over(config, paste("destination:", destdir))
-  }
-  edit_file(config)
+  config <- pkgdown_config(destdir)
+  config_path <- proj_path(config_file)
+  write_over(config_path, yaml::as.yaml(config))
+  edit_file(config_path)
 
   invisible(TRUE)
+}
+
+pkgdown_config <- function(destdir) {
+  config <- list(
+    url = NULL
+  )
+
+  if (packageVersion("pkgdown") >= "1.9000") {
+    config$template <- list(bootstrap = 4L)
+  }
+
+  if (!identical(destdir, "docs")) {
+    config$destination <- destdir
+  }
+
+  config
 }
 
 # tidyverse pkgdown setup ------------------------------------------------------
