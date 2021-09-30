@@ -43,7 +43,7 @@ creating a repository, a fork, or a pull request. If you use HTTPS remotes,
 your PAT is also used when interacting with GitHub as a conventional Git
 remote. These functions help you get and manage your PAT:
 \itemize{
-\item \code{gh_token_help()} guides you through token troubleshooting and setup
+\item \code{gh_token_help()} guides you through token troubleshooting and setup.
 \item \code{create_github_token()} opens a browser window to the GitHub form to
 generate a PAT, with suggested scopes pre-selected. It also offers advice
 on storing your PAT.
@@ -53,13 +53,14 @@ such as usethis, gert, and gh can automatically retrieve that PAT and use
 it to work with GitHub on your behalf.
 }
 
-Usually, the first time the PAT is retrieved in an R session, it is cached
-in an environment variable, for easier reuse for the duration of that R
-session. After initial acquisition and storage, all of this should happen
-automatically in the background.
+Usually, the first time the PAT is retrieved in an R session, it is cached in
+an environment variable, for easier reuse for the duration of that R session.
+After initial acquisition and storage, all of this should happen
+automatically in the background. GitHub is encouraging the use of PATs that
+expire after, e.g., 30 days, so prepare yourself to re-generate and re-store
+your PAT periodically.
 
-Git/GitHub credential management is covered in a dedicated article:
-\href{https://usethis.r-lib.org/articles/articles/git-credentials.html}{Managing Git(Hub) Credentials}
+Git/GitHub credential management is covered in a dedicated article: \href{https://usethis.r-lib.org/articles/articles/git-credentials.html}{Managing Git(Hub) Credentials}
 }
 \details{
 \code{create_github_token()} has previously gone by some other names:

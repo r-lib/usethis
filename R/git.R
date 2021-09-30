@@ -398,77 +398,12 @@ git_sitrep <- function() {
   repo_host <- cfg$host_url
   if (!is.na(repo_host) && repo_host != default_gh_host) {
     kv_line("Non-default GitHub host", repo_host)
-    pat_sitrep(repo_host)
+    pat_sitrep(repo_host, scold_for_renviron = FALSE)
   }
 
   hd_line("GitHub remote configuration")
   purrr::walk(format(cfg), ui_bullet)
   invisible()
-}
-
-pat_sitrep <- function(host = "https://github.com") {
-  pat <- gh::gh_token(api_url = host)
-  have_pat <- pat != ""
-  if (!have_pat) {
-    kv_line("Personal access token for {ui_value(host)}", NULL)
-    ui_oops("
-      Call {ui_code('gh_token_help()')} for help configuring a token")
-    return(FALSE)
-  }
-
-  kv_line("Personal access token for {ui_value(host)}", "<discovered>")
-  tryCatch(
-    {
-      who <- gh::gh_whoami(.token = pat, .api_url = host)
-      kv_line("GitHub user", who$login)
-      scopes <- who$scopes
-      kv_line("Token scopes", who$scopes)
-      # https://docs.github.com/en/free-pro-team@latest/developers/apps/scopes-for-oauth-apps
-      # why these checks?
-      # previous defaults for create_github_token(): repo, gist, user:email
-      # more recently: repo, user, gist, workflow
-      # (gist scope is a very weak recommendation)
-      scopes <- strsplit(scopes, ", ")[[1]]
-      if (length(scopes) == 0 ||
-          !any(grepl("^repo$", scopes)) ||
-          !any(grepl("^workflow$", scopes)) ||
-          !any(grepl("^user(:email)?$", scopes))) {
-        ui_oops("
-            Token may be mis-scoped: {ui_value('repo')} and \\
-            {ui_value('user')} are highly recommended scopes
-            The {ui_value('workflow')} scope is needed to manage GitHub \\
-            Actions workflow files
-            If you are troubleshooting, consider this")
-      }
-    },
-    http_error_401 = function(e) ui_oops("Token is invalid"),
-    error = function(e) {
-      ui_oops("
-        Can't get user profile for this token. Is the network reachable?")
-    }
-  )
-  tryCatch(
-    {
-      emails <- gh::gh("/user/emails", .token = pat, .api_url = host)
-      addresses <- map_chr(
-        emails,
-        ~ if (.x$primary) glue_data(.x, "{email} (primary)") else .x[["email"]]
-      )
-      kv_line("Email(s)", addresses)
-      de_facto_email <- git_cfg_get("user.email", "de_facto")
-      if (!any(grepl(de_facto_email, addresses))) {
-        ui_oops("
-          User's Git email ({ui_value(de_facto_email)}) doesn't appear to be \\
-          registered with GitHub")
-      }
-    },
-    error = function(e) {
-      ui_oops("
-        Can't retrieve registered email address(es)
-        If you are troubleshooting, check GitHub host, token, and token scopes")
-    }
-  )
-  TRUE
 }
 
 # TODO: when I really overhaul the UI, determine if I can just re-use the
