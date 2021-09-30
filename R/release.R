@@ -1,10 +1,14 @@
 #' Create a release checklist in a GitHub issue
 #'
+#' @description
 #' When preparing to release a package there are quite a few steps that need to
 #' be performed, and some of the steps can take multiple hours. This function
 #' creates an issue checklist so that you can keep track of where you are in the
 #' process, and feel a sense of satisfaction as you progress. It also helps
 #' watchers of your package stay informed about where you are in the process.
+#'
+#' You can include your own custom bullets by providing a (unexported) a
+#' `release_bullets()` function that returns a character vector.
 #'
 #' @param version Optional version number for release. If unspecified, you can
 #'   make an interactive choice.

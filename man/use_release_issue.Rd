@@ -16,6 +16,9 @@ be performed, and some of the steps can take multiple hours. This function
 creates an issue checklist so that you can keep track of where you are in the
 process, and feel a sense of satisfaction as you progress. It also helps
 watchers of your package stay informed about where you are in the process.
+
+You can include your own custom bullets by providing a (unexported) a
+\code{release_bullets()} function that returns a character vector.
 }
 \examples{
 \dontrun{
