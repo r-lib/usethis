@@ -58,8 +58,8 @@ usethis has a more sophisticated understanding of the default branch and gains s
   
 * `use_lifecycle()` now imports `lifecycle::deprecated()` (#1419).
 
-* `use_pkgdown()` automatically uses bs4 if you have the devel version
-   of pkgdown installed.
+* `use_pkgdown()` automatically uses bs4 if you have devel pkgdown (which 
+  will become 2.0.0) installed.
 
 * `use_code_of_conduct()` now requires a `contact` argument to supply contact
   details for reporting CoC violations (#1269).
