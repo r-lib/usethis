@@ -53,11 +53,21 @@
 
 
 <meta property="og:title" content="Create a release checklist in a GitHub issue — use_release_issue" />
-<meta property="og:description" content="When preparing to release a package there are quite a few steps that need to
-be performed, and some of the steps can take multiple hours. This function
-creates an issue checklist so that you can keep track of where you are in the
-process, and feel a sense of satisfaction as you progress. It also helps
-watchers of your package stay informed about where you are in the process." />
+<meta property="og:description" content="When preparing to release a package to CRAN there are quite a few steps that
+need to be performed, and some of the steps can take multiple hours. This
+function creates a checklist in a GitHub issue to:
+Help you keep track of where you are in the process
+Feel a sense of satisfaction as you progress towards final submission
+Help watchers of your package stay informed.
+
+
+The checklist contains a generic set of steps that we've found to be helpful,
+based on the type of release (&quot;patch&quot;, &quot;minor&quot;, or &quot;major&quot;). You're
+encouraged to edit the issue to customize this list to meet your needs.
+If you want to consistently add extra bullets for every release, you can
+include your own custom bullets by providing a (unexported) a
+release_bullets() function that returns a character vector.
+(For historical reasons, release_questions() is also supported)." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -203,11 +213,21 @@ watchers of your package stay informed about where you are in the process." />
     </div>
 
     <div class="ref-description">
-    <p>When preparing to release a package there are quite a few steps that need to
-be performed, and some of the steps can take multiple hours. This function
-creates an issue checklist so that you can keep track of where you are in the
-process, and feel a sense of satisfaction as you progress. It also helps
-watchers of your package stay informed about where you are in the process.</p>
+    <p>When preparing to release a package to CRAN there are quite a few steps that
+need to be performed, and some of the steps can take multiple hours. This
+function creates a checklist in a GitHub issue to:</p><ul>
+<li><p>Help you keep track of where you are in the process</p></li>
+<li><p>Feel a sense of satisfaction as you progress towards final submission</p></li>
+<li><p>Help watchers of your package stay informed.</p></li>
+</ul>
+
+<p>The checklist contains a generic set of steps that we've found to be helpful,
+based on the type of release ("patch", "minor", or "major"). You're
+encouraged to edit the issue to customize this list to meet your needs.
+If you want to consistently add extra bullets for every release, you can
+include your own custom bullets by providing a (unexported) a
+<code>release_bullets()</code> function that returns a character vector.
+(For historical reasons, <code>release_questions()</code> is also supported).</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>use_release_issue</span><span class='op'>(</span>version <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
