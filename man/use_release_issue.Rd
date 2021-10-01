@@ -11,14 +11,22 @@ use_release_issue(version = NULL)
 make an interactive choice.}
 }
 \description{
-When preparing to release a package there are quite a few steps that need to
-be performed, and some of the steps can take multiple hours. This function
-creates an issue checklist so that you can keep track of where you are in the
-process, and feel a sense of satisfaction as you progress. It also helps
-watchers of your package stay informed about where you are in the process.
+When preparing to release a package to CRAN there are quite a few steps that
+need to be performed, and some of the steps can take multiple hours. This
+function creates a checklist in a GitHub issue to:
+\itemize{
+\item Help you keep track of where you are in the process
+\item Feel a sense of satisfaction as you progress towards final submission
+\item Help watchers of your package stay informed.
+}
 
-You can include your own custom bullets by providing a (unexported) a
+The checklist contains a generic set of steps that we've found to be helpful,
+based on the type of release ("patch", "minor", or "major"). You're
+encouraged to edit the issue to customize this list to meet your needs.
+If you want to consistently add extra bullets for every release, you can
+include your own custom bullets by providing a (unexported) a
 \code{release_bullets()} function that returns a character vector.
+(For historical reasons, \code{release_questions()} is also supported).
 }
 \examples{
 \dontrun{
