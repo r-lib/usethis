@@ -56,7 +56,6 @@ Suggests:
     knitr,
     magick,
     mockr,
-    pkgdown,
     pkgload,
     rmarkdown,
     roxygen2,
