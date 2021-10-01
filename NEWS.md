@@ -34,6 +34,9 @@ usethis has a more sophisticated understanding of the default branch and gains s
 * `use_release_issue()` also takes bullets from `release_questions()`, 
   for compatibility with `devtools::release()`.
 
+* `use_pkgdown()` automatically uses bootstrap4 if you have devel pkgdown (which 
+  will become 2.0.0) installed.
+
 * `git_vaccinate()`, `edit_git_ignore()`, and `git_sitrep()` are more careful to
   consult, reveal, and set the `core.excludesFile` in user's Git configuration
   (#1461).
@@ -57,9 +60,6 @@ usethis has a more sophisticated understanding of the default branch and gains s
   (#1424).
   
 * `use_lifecycle()` now imports `lifecycle::deprecated()` (#1419).
-
-* `use_pkgdown()` automatically uses bs4 if you have devel pkgdown (which 
-  will become 2.0.0) installed.
 
 * `use_code_of_conduct()` now requires a `contact` argument to supply contact
   details for reporting CoC violations (#1269).
