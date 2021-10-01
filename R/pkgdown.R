@@ -220,15 +220,10 @@ use_pkgdown_travis <- function() {
 
   tr <- target_repo(github_get = TRUE)
 
-  use_build_ignore("docs/")
+  use_build_ignore(c("docs/", "pkgdown"))
   use_git_ignore("docs/")
   # TODO: suggest git rm -r --cache docs/
   # Can't currently detect if git known files in that directory
-
-  if (has_logo()) {
-    pkgdown_build_favicons(proj_get(), overwrite = TRUE)
-    use_build_ignore("pkgdown")
-  }
 
   ui_todo("
     Set up deploy keys by running {ui_code('travis::use_travis_deploy()')}")
@@ -246,10 +241,4 @@ use_pkgdown_travis <- function() {
   use_github_pages()
 
   invisible()
-}
-
-# usethis itself should not depend on pkgdown
-# all usage of this wrapper is guarded by `check_installed("pkgdown")`
-pkgdown_build_favicons <- function(...) {
-  get("build_favicons", asNamespace("pkgdown"), mode = "function")(...)
 }

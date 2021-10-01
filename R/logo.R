@@ -56,8 +56,3 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
     ui_code_block("# {pkg} <a href={ui_value(pd_link)}><img src={ui_path(logo_path)} align=\"right\" height=\"{height}\" /></a>")
   }
 }
-
-has_logo <- function() {
-  file_exists(proj_path("man", "figures", "logo.png")) ||
-    file_exists(proj_path("man", "figures", "logo.svg"))
-}
