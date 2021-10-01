@@ -27,19 +27,14 @@ test_that("release bullets don't change accidentally", {
 })
 
 test_that("get extra news bullets if available", {
-  create_local_package()
+  env <- env(release_bullets = function() "Extra bullets")
+  expect_equal(release_extra(env), "* [ ] Extra bullets")
 
-  standard <- release_checklist("1.0.0", TRUE)
+  env <- env(release_questions = function() "Extra bullets")
+  expect_equal(release_extra(env), "* [ ] Extra bullets")
 
-  attach(
-    list(release_bullets = function() "Extra bullets"),
-    name = "extra",
-    warn.conflicts = FALSE
-  )
-  withr::defer(detach("extra"))
-
-  new <- setdiff(release_checklist("1.0.0", TRUE), standard)
-  expect_equal(new, "* [ ] Extra bullets")
+  env <- env()
+  expect_equal(release_extra(env), character())
 })
 
 # news --------------------------------------------------------------------

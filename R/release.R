@@ -1,10 +1,21 @@
 #' Create a release checklist in a GitHub issue
 #'
-#' When preparing to release a package there are quite a few steps that need to
-#' be performed, and some of the steps can take multiple hours. This function
-#' creates an issue checklist so that you can keep track of where you are in the
-#' process, and feel a sense of satisfaction as you progress. It also helps
-#' watchers of your package stay informed about where you are in the process.
+#' @description
+#' When preparing to release a package to CRAN there are quite a few steps that
+#' need to be performed, and some of the steps can take multiple hours. This
+#' function creates a checklist in a GitHub issue to:
+#'
+#' * Help you keep track of where you are in the process
+#' * Feel a sense of satisfaction as you progress towards final submission
+#' * Help watchers of your package stay informed.
+#'
+#' The checklist contains a generic set of steps that we've found to be helpful,
+#' based on the type of release ("patch", "minor", or "major"). You're
+#' encouraged to edit the issue to customize this list to meet your needs.
+#' If you want to consistently add extra bullets for every release, you can
+#' include your own custom bullets by providing a (unexported) a
+#' `release_bullets()` function that returns a character vector.
+#' (For historical reasons, `release_questions()` is also supported).
 #'
 #' @param version Optional version number for release. If unspecified, you can
 #'   make an interactive choice.
@@ -51,7 +62,6 @@ release_checklist <- function(version, on_cran) {
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- uses_pkgdown()
   has_readme <- file_exists(proj_path("README.Rmd"))
-  has_extra <- exists("release_bullets", parent.env(globalenv()))
 
   todo <- function(x, cond = TRUE) {
     x <- glue(x, .envir = parent.frame())
@@ -92,7 +102,7 @@ release_checklist <- function(version, on_cran) {
     if (on_cran) todo("Update `cran-comments.md`"),
     todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown && type != "patch"),
     todo("Draft blog post", type != "patch"),
-    if (has_extra) paste0("* [ ] ", get("release_bullets", parent.env(globalenv()))()),
+    release_extra(),
     "",
     "Submit to CRAN:",
     "",
@@ -111,6 +121,17 @@ release_checklist <- function(version, on_cran) {
     todo("Tweet", type != "patch"),
     todo("Add link to blog post in pkgdown news menu", type != "patch")
   )
+}
+
+release_extra <- function(env = parent.env(globalenv())) {
+  if (env_has(env, "release_bullets")) {
+    paste0("* [ ] ", env$release_bullets())
+  } else if (env_has(env, "release_questions")) {
+    # For backwards compatibility with devtools
+    paste0("* [ ] ", env$release_questions())
+  } else {
+    character()
+  }
 }
 
 release_type <- function(version) {
