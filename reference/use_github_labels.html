@@ -56,9 +56,9 @@
 <meta property="og:description" content="use_github_labels() can create new labels, update colours and descriptions,
 and optionally delete GitHub's default labels (if delete_default = TRUE).
 It will never delete labels that have associated issues.
-use_tidy_labels() calls use_github_labels() with tidyverse conventions
-powered by tidy_labels(), tidy_labels_rename(), tidy_label_colours()
-and tidy_label_descriptions()." />
+use_tidy_github_labels() calls use_github_labels() with tidyverse
+conventions powered by tidy_labels(), tidy_labels_rename(),
+tidy_label_colours() and tidy_label_descriptions()." />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -207,9 +207,9 @@ and tidy_label_descriptions()." />
     <p><code>use_github_labels()</code> can create new labels, update colours and descriptions,
 and optionally delete GitHub's default labels (if <code>delete_default = TRUE</code>).
 It will never delete labels that have associated issues.</p>
-<p><code>use_tidy_labels()</code> calls <code>use_github_labels()</code> with tidyverse conventions
-powered by <code>tidy_labels()</code>, <code>tidy_labels_rename()</code>, <code>tidy_label_colours()</code>
-and <code>tidy_label_descriptions()</code>.</p>
+<p><code>use_tidy_github_labels()</code> calls <code>use_github_labels()</code> with tidyverse
+conventions powered by <code>tidy_labels()</code>, <code>tidy_labels_rename()</code>,
+<code>tidy_label_colours()</code> and <code>tidy_label_descriptions()</code>.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>use_github_labels</span><span class='op'>(</span>
@@ -223,11 +223,7 @@ and <code>tidy_label_descriptions()</code>.</p>
   auth_token <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span>
 
-<span class='fu'>use_tidy_labels</span><span class='op'>(</span>
-  repo_spec <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>,
-  host <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>,
-  auth_token <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Deprecated.html'>deprecated</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span>
+<span class='fu'>use_tidy_github_labels</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='fu'>tidy_labels</span><span class='op'>(</span><span class='op'>)</span>
 

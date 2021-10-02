@@ -237,6 +237,7 @@
 <li><p>The minimum version of gh has been bumped to help more people upgrade to the gh version that supports current GitHub PAT formats (<a href='https://github.com/r-lib/usethis/issues/1454'>#1454</a> <a href='https://github.com/ijlyttle'>@ijlyttle</a>).</p></li>
 <li><p><code><a href="../reference/edit.html">edit_rstudio_prefs()</a></code> and <code><a href="../reference/edit.html">edit_rstudio_snippets()</a></code> should work now on case-sensitive OSes, due to a path fix re: the location of RStudioâs config files (<a href='https://github.com/r-lib/usethis/issues/1420'>#1420</a> <a href='https://github.com/charliejhadley'>@charliejhadley</a>).</p></li>
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> has been updated to reflect current recommendations for using (and therefore exposing) tidy eval in other packages (<a href='https://github.com/lionel-'>@lionel-</a>, <a href='https://github.com/r-lib/usethis/issues/1445'>#1445</a>).</p></li>
+<li><p><code><a href="../reference/usethis-defunct.html">use_tidy_labels()</a></code> has been renamed to <code><a href="../reference/use_github_labels.html">use_tidy_github_labels()</a></code> (<a href='https://github.com/r-lib/usethis/issues/1430'>#1430</a>).</p></li>
 </ul></div>
 </div>
     <div id="usethis-201" class="section level1">
@@ -285,7 +286,7 @@
 <li>
 <code><a href="../reference/use_github_labels.html">use_github_labels()</a></code> (<code>repo_spec</code>, <code>host</code>, <code>auth_token</code>)</li>
 <li>
-<code><a href="../reference/use_github_labels.html">use_tidy_labels()</a></code> (<code>repo_spec</code>, <code>host</code>, <code>auth_token</code>)<br></li>
+<code><a href="../reference/usethis-defunct.html">use_tidy_labels()</a></code> (<code>repo_spec</code>, <code>host</code>, <code>auth_token</code>)<br></li>
 <li>
 <code><a href="../reference/use_github_release.html">use_github_release()</a></code> (<code>host</code>, <code>auth_token</code>)</li>
 </ul></li>
@@ -379,7 +380,7 @@
 <p>Patch release to align some path handling internals with an update coming in the fs package.</p>
 <ul><li><p><code><a href="../reference/use_github_links.html">use_github_links()</a></code> is a bit more clever about remotes (e.g.Â <code>origin</code> vs.Â <code>upstream</code>), which makes it easier to make a PR that adds GitHub links for a package youâve forked.</p></li>
 <li><p><code><a href="../reference/use_pkgdown.html">use_pkgdown()</a></code> now <code>.gitignore</code>s the destination directory and only adds the destination directory to the config file if it departs from the default (which is <code>docs/</code>).</p></li>
-<li><p><code><a href="../reference/tidyverse.html">use_tidy_ci()</a></code> is now deprecated in favour of <code><a href="../reference/tidyverse.html">use_tidy_github_actions()</a></code> (<a href='https://github.com/r-lib/usethis/issues/1098'>#1098</a>).</p></li>
+<li><p><code><a href="../reference/usethis-defunct.html">use_tidy_ci()</a></code> is now deprecated in favour of <code><a href="../reference/tidyverse.html">use_tidy_github_actions()</a></code> (<a href='https://github.com/r-lib/usethis/issues/1098'>#1098</a>).</p></li>
 <li><p><code><a href="../reference/use_github_action.html">use_github_action_check_standard()</a></code> is a new intermediate workflow that checks on more platforms than <code>_release</code>, but is less exhaustive than <code>_full</code> (<a href='https://github.com/jimhester'>@jimhester</a>).</p></li>
 <li><p><code><a href="../reference/tidyverse.html">create_tidy_package()</a></code> now uses an MIT license (<a href='https://github.com/topepo'>@topepo</a>, <a href='https://github.com/r-lib/usethis/issues/1096'>#1096</a>).</p></li>
 </ul></div>
@@ -488,7 +489,7 @@
 <div id="build-tools-and-continuous-integration" class="section level2">
 <h2 class="hasAnchor">
 <a href="#build-tools-and-continuous-integration" class="anchor" aria-hidden="true"></a>Build tools and continuous integration</h2>
-<ul><li><p><code><a href="../reference/tidyverse.html">use_tidy_ci()</a></code> is updated for R 3.6, meaning that R 3.2 is the oldest version of R supported through proactive testing.</p></li>
+<ul><li><p><code><a href="../reference/usethis-defunct.html">use_tidy_ci()</a></code> is updated for R 3.6, meaning that R 3.2 is the oldest version of R supported through proactive testing.</p></li>
 <li><p><code><a href="../reference/use_make.html">use_make()</a></code> and <code><a href="../reference/use_jenkins.html">use_jenkins()</a></code> add a Makefile and Jenkinsfile, respectively (<a href='https://github.com/r-lib/usethis/issues/501'>#501</a>, <a href='https://github.com/ryapric'>@ryapric</a>).</p></li>
 <li><p><code><a href="../reference/ci.html">use_circleci()</a></code> creates a <code>.circleci/config.yaml</code> config file for CircleCI (<a href='https://github.com/r-lib/usethis/issues/703'>#703</a>, <a href='https://github.com/jdblischak'>@jdblischak</a>).</p></li>
 </ul></div>
@@ -571,7 +572,7 @@
 <h2 class="hasAnchor">
 <a href="#tidyverse-standards" class="anchor" aria-hidden="true"></a>Tidyverse standards</h2>
 <p>These standards are (aspirationally) used by all tidyverse packages; you are welcome to use them if you find them helpful.</p>
-<ul><li><p>Call <code><a href="../reference/use_github_labels.html">use_tidy_labels()</a></code> to update GitHub labels. Colours are less saturated, docs is now documentation, we use some emoji, and performance is no longer automatically added to all repos (<a href='https://github.com/r-lib/usethis/issues/519'>#519</a>). Repo specific issues should be given colour <code>#eeeeee</code> and have an emoji.</p></li>
+<ul><li><p>Call <code><a href="../reference/usethis-defunct.html">use_tidy_labels()</a></code> to update GitHub labels. Colours are less saturated, docs is now documentation, we use some emoji, and performance is no longer automatically added to all repos (<a href='https://github.com/r-lib/usethis/issues/519'>#519</a>). Repo specific issues should be given colour <code>#eeeeee</code> and have an emoji.</p></li>
 <li><p>Call <code><a href="../reference/use_logo.html">use_logo()</a></code> to update the package logo to the latest specifications: <code>man/figure/logo.png</code> should be 240 x 278, and README should contain <code>&lt;img src="man/figures/logo.png" align="right" height="139" /&gt;</code>. This gives a nicer display on retina displays. The logo is also linked to the pkgdown site if available (<a href='https://github.com/r-lib/usethis/issues/536'>#536</a>).</p></li>
 <li><p>When creating a new package, use <code><a href="../reference/tidyverse.html">create_tidy_package()</a></code> to start with a package following the tidyverse standards (<a href='https://github.com/r-lib/usethis/issues/461'>#461</a>).</p></li>
 <li><p><code>NEWS.md</code> for the development version should use â(development version)â rather than the specific version (<a href='https://github.com/r-lib/usethis/issues/440'>#440</a>).</p></li>
@@ -763,7 +764,7 @@
 <li><p><code><a href="../reference/use_package.html">use_dev_package()</a></code> works like <code><a href="../reference/use_package.html">use_package()</a></code> but also adds the repo to the <code>Remotes</code> field (<a href='https://github.com/r-lib/usethis/issues/32'>#32</a>).</p></li>
 <li><p><code><a href="../reference/use_github_labels.html">use_github_labels()</a></code> will automatically set up a standard set of labels, optionally removing the default labels (<a href='https://github.com/r-lib/usethis/issues/1'>#1</a>).</p></li>
 <li><p><code><a href="../reference/use_pipe.html">use_pipe()</a></code> creates a template to use magrittrâs <code>%&gt;%</code> in your package (<a href='https://github.com/r-lib/usethis/issues/15'>#15</a>).</p></li>
-<li><p><code><a href="../reference/tidyverse.html">use_tidy_ci()</a></code> which sets up travis and codecov using the tidyverse conventions (<a href='https://github.com/r-lib/usethis/issues/14'>#14</a>)</p></li>
+<li><p><code><a href="../reference/usethis-defunct.html">use_tidy_ci()</a></code> which sets up travis and codecov using the tidyverse conventions (<a href='https://github.com/r-lib/usethis/issues/14'>#14</a>)</p></li>
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_description()</a></code> puts description fields in a standard order and alphabetises dependencies.</p></li>
 <li><p><code><a href="../reference/tidyverse.html">use_tidy_eval()</a></code> imports and re-exports the recommend set of tidy eval helpers if your package uses tidy eval (<a href='https://github.com/r-lib/usethis/issues/46'>#46</a>).</p></li>
 <li><p><code><a href="../reference/rprofile-helper.html">use_usethis()</a></code> opens your <code>.Rprofile</code> and gives you the code to copy and paste in.</p></li>
