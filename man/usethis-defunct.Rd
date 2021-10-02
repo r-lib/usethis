@@ -9,6 +9,7 @@
 \alias{github_token}
 \alias{git_branch_default}
 \alias{use_tidy_labels}
+\alias{use_tidy_ci}
 \title{Defunct and deprecated functions in usethis}
 \usage{
 pr_pull_upstream()
@@ -24,6 +25,8 @@ github_token()
 git_branch_default()
 
 use_tidy_labels()
+
+use_tidy_ci(...)
 }
 \description{
 These functions have either been deprecated or removed from usethis.

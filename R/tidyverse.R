@@ -90,12 +90,6 @@ create_tidy_package <- function(path, copyright_holder = NULL) {
   proj_activate(path)
 }
 
-#' @export
-#' @rdname tidyverse
-#' @usage NULL
-use_tidy_ci <- function(...) {
-  ui_warn("`use_tidy_ci()` is deprecated; please use `use_tidy_github_actions()` instead")
-}
 
 #' @export
 #' @rdname tidyverse

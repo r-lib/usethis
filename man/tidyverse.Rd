@@ -4,7 +4,6 @@
 \alias{use_tidy_github_actions}
 \alias{tidyverse}
 \alias{create_tidy_package}
-\alias{use_tidy_ci}
 \alias{use_tidy_description}
 \alias{use_tidy_dependencies}
 \alias{use_tidy_eval}
