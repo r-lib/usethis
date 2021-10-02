@@ -25,6 +25,10 @@
 #'   such that you have permission to create repositories in this
 #'   `organisation`.
 #' @param private If `TRUE`, creates a private repository.
+#' @param visibility Only relevant for organisation-owned repos associated with
+#'   certain GitHub Enterprise products. The special "internal" `visibility`
+#'   grants read permission to all organisation members, i.e. it's intermediate
+#'   between "private" and "public" (within GHE).
 #' @inheritParams git_protocol
 #' @param host GitHub host to target, passed to the `.api_url` argument of
 #'   [gh::gh()]. If unspecified, gh defaults to "https://api.github.com",
@@ -54,6 +58,7 @@
 #' }
 use_github <- function(organisation = NULL,
                        private = FALSE,
+                       visibility = c("public", "private", "internal"),
                        protocol = git_protocol(),
                        host = NULL,
                        auth_token = deprecated(),
@@ -65,6 +70,8 @@ use_github <- function(organisation = NULL,
     deprecate_warn_credentials("use_github")
   }
 
+  visibility_specified <- !missing(visibility)
+  visibility <- match.arg(visibility)
   check_protocol(protocol)
   check_uses_git()
   default_branch <- git_default_branch()
@@ -78,6 +85,30 @@ use_github <- function(organisation = NULL,
     There are uncommitted changes and we're about to create and push to a new \\
     GitHub repo")
   check_no_origin()
+
+  if (is.null(organisation)) {
+    if (visibility == "internal") {
+      ui_stop("
+        The {ui_field('internal')} visibility setting is only available \\
+        in the context of an organisation associated with certain \\
+        GitHub Enterprise products.")
+    }
+    if (visibility_specified &&
+        ((private && visibility == "public") ||
+         (!private && visibility == "private"))) {
+      ui_stop("
+        The {ui_code('visibility')} argument should only be used for \\
+        organisation-owned repo and it should never contradict \\
+        {ui_code('private')}.")
+    }
+    visibility <- if (private) "private" else "public"
+  }
+  # if `organisation = NULL`, we can trust `private` (and `visibility`)
+
+  if (!is.null(organisation) && !visibility_specified) {
+    visibility <- if (private) "private" else "public"
+  }
+  # if `organisation = "ORG"`, we can trust `visibility`
 
   whoami <- suppressMessages(gh::gh_whoami(.api_url = host))
   if (is.null(whoami)) {
@@ -100,8 +131,8 @@ use_github <- function(organisation = NULL,
   repo_desc <- gsub("\n", " ", repo_desc)
   repo_spec <- glue("{owner}/{repo_name}")
 
-  private_string <- if (private) "private " else ""
-  ui_done("Creating {private_string}GitHub repository {ui_value(repo_spec)}")
+  visibility_string <- if (visibility == "public") "" else glue("{visibility} ")
+  ui_done("Creating {visibility_string}GitHub repository {ui_value(repo_spec)}")
   if (is.null(organisation)) {
     create <- gh::gh(
       "POST /user/repos",
@@ -116,7 +147,7 @@ use_github <- function(organisation = NULL,
       org = organisation,
       name = repo_name,
       description = repo_desc,
-      private = private,
+      visibility = visibility,
       .api_url = host
     )
   }
