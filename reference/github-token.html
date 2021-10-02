@@ -58,7 +58,7 @@
 creating a repository, a fork, or a pull request. If you use HTTPS remotes,
 your PAT is also used when interacting with GitHub as a conventional Git
 remote. These functions help you get and manage your PAT:
-gh_token_help() guides you through token troubleshooting and setup
+gh_token_help() guides you through token troubleshooting and setup.
 create_github_token() opens a browser window to the GitHub form to
 generate a PAT, with suggested scopes pre-selected. It also offers advice
 on storing your PAT.
@@ -68,12 +68,13 @@ such as usethis, gert, and gh can automatically retrieve that PAT and use
 it to work with GitHub on your behalf.
 
 
-Usually, the first time the PAT is retrieved in an R session, it is cached
-in an environment variable, for easier reuse for the duration of that R
-session. After initial acquisition and storage, all of this should happen
-automatically in the background.
-Git/GitHub credential management is covered in a dedicated article:
-Managing Git(Hub) Credentials" />
+Usually, the first time the PAT is retrieved in an R session, it is cached in
+an environment variable, for easier reuse for the duration of that R session.
+After initial acquisition and storage, all of this should happen
+automatically in the background. GitHub is encouraging the use of PATs that
+expire after, e.g., 30 days, so prepare yourself to re-generate and re-store
+your PAT periodically.
+Git/GitHub credential management is covered in a dedicated article: Managing Git(Hub) Credentials" />
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png" />
 
 
@@ -224,7 +225,7 @@ Managing Git(Hub) Credentials" />
 creating a repository, a fork, or a pull request. If you use HTTPS remotes,
 your PAT is also used when interacting with GitHub as a conventional Git
 remote. These functions help you get and manage your PAT:</p><ul>
-<li><p><code>gh_token_help()</code> guides you through token troubleshooting and setup</p></li>
+<li><p><code>gh_token_help()</code> guides you through token troubleshooting and setup.</p></li>
 <li><p><code>create_github_token()</code> opens a browser window to the GitHub form to
 generate a PAT, with suggested scopes pre-selected. It also offers advice
 on storing your PAT.</p></li>
@@ -234,12 +235,13 @@ such as usethis, gert, and gh can automatically retrieve that PAT and use
 it to work with GitHub on your behalf.</p></li>
 </ul>
 
-<p>Usually, the first time the PAT is retrieved in an R session, it is cached
-in an environment variable, for easier reuse for the duration of that R
-session. After initial acquisition and storage, all of this should happen
-automatically in the background.</p>
-<p>Git/GitHub credential management is covered in a dedicated article:
-<a href='https://usethis.r-lib.org/articles/articles/git-credentials.html'>Managing Git(Hub) Credentials</a></p>
+<p>Usually, the first time the PAT is retrieved in an R session, it is cached in
+an environment variable, for easier reuse for the duration of that R session.
+After initial acquisition and storage, all of this should happen
+automatically in the background. GitHub is encouraging the use of PATs that
+expire after, e.g., 30 days, so prepare yourself to re-generate and re-store
+your PAT periodically.</p>
+<p>Git/GitHub credential management is covered in a dedicated article: <a href='https://usethis.r-lib.org/articles/articles/git-credentials.html'>Managing Git(Hub) Credentials</a></p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>create_github_token</span><span class='op'>(</span>
@@ -314,7 +316,7 @@ to store and retrieve your PAT.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>
