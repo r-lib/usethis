@@ -79,6 +79,8 @@ usethis has a more sophisticated understanding of the default branch and gains s
 
 * `use_tidy_eval()` has been updated to reflect current recommendations for using (and therefore exposing) tidy eval in other packages (@lionel-, #1445).
 
+* `use_tidy_labels()` has been renamed to `use_tidy_github_labels()` (#1430).
+
 # usethis 2.0.1
 
 * All functions that require a package now ask you if you'd like to install it.

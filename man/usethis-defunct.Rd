@@ -8,6 +8,7 @@
 \alias{browse_github_pat}
 \alias{github_token}
 \alias{git_branch_default}
+\alias{use_tidy_labels}
 \title{Defunct and deprecated functions in usethis}
 \usage{
 pr_pull_upstream()
@@ -21,6 +22,8 @@ browse_github_pat(...)
 github_token()
 
 git_branch_default()
+
+use_tidy_labels()
 }
 \description{
 These functions have either been deprecated or removed from usethis.
@@ -58,6 +61,12 @@ now.
 
 Please call \code{\link[=git_default_branch]{git_default_branch()}} instead. In hindsight, that is a better
 name for this function.
+}
+
+\section{\code{use_tidy_labels()}}{
+
+Please call \code{\link[=use_tidy_github_labels]{use_tidy_github_labels()}} instead. In hindsight, that is a
+better name for this function.
 }
 
 \keyword{internal}

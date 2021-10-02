@@ -91,6 +91,16 @@ git_branch_default <- function() {
   git_default_branch()
 }
 
+#' @section `use_tidy_labels()`:
+#' Please call [use_tidy_github_labels()] instead. In hindsight, that is a
+#' better name for this function.
+#' @export
+#' @rdname usethis-defunct
+use_tidy_labels <- function() {
+  lifecycle::deprecate_warn("2.1.0", "use_tidy_labels()", "use_tidy_github_labels()")
+  git_default_branch()
+}
+
 # git2r ------------------------------------------------------------------------
 git2r_explanation <- glue("
   usethis now uses the gert package for Git operations, instead of git2r, and

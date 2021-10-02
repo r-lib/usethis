@@ -2,7 +2,7 @@
 % Please edit documentation in R/github-labels.R
 \name{use_github_labels}
 \alias{use_github_labels}
-\alias{use_tidy_labels}
+\alias{use_tidy_github_labels}
 \alias{tidy_labels}
 \alias{tidy_labels_rename}
 \alias{tidy_label_colours}
@@ -20,11 +20,7 @@ use_github_labels(
   auth_token = deprecated()
 )
 
-use_tidy_labels(
-  repo_spec = deprecated(),
-  host = deprecated(),
-  auth_token = deprecated()
-)
+use_tidy_github_labels()
 
 tidy_labels()
 
@@ -58,9 +54,9 @@ appear in the \code{labels} vector and that do not have associated issues.}
 and optionally delete GitHub's default labels (if \code{delete_default = TRUE}).
 It will never delete labels that have associated issues.
 
-\code{use_tidy_labels()} calls \code{use_github_labels()} with tidyverse conventions
-powered by \code{tidy_labels()}, \code{tidy_labels_rename()}, \code{tidy_label_colours()}
-and \code{tidy_label_descriptions()}.
+\code{use_tidy_github_labels()} calls \code{use_github_labels()} with tidyverse
+conventions powered by \code{tidy_labels()}, \code{tidy_labels_rename()},
+\code{tidy_label_colours()} and \code{tidy_label_descriptions()}.
 }
 \section{Label usage}{
 

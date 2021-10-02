@@ -91,6 +91,8 @@ document in a \verb{.github/} subdirectory.
 \item \code{use_tidy_github()}: convenience wrapper that calls
 \code{use_tidy_contributing()}, \code{use_tidy_issue_template()}, \code{use_tidy_support()},
 \code{use_tidy_coc()}.
+\item \code{\link[=use_tidy_github_labels]{use_tidy_github_labels()}} calls \code{use_github_labels()} to implement
+tidyverse conventions around GitHub issue label names and colours.
 }
 }
 \section{\code{use_tidy_style()}}{

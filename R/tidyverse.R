@@ -40,6 +40,9 @@
 #' `use_tidy_contributing()`, `use_tidy_issue_template()`, `use_tidy_support()`,
 #' `use_tidy_coc()`.
 #'
+#' * [use_tidy_github_labels()] calls `use_github_labels()` to implement
+#'   tidyverse conventions around GitHub issue label names and colours.
+#'
 #' @section `use_tidy_style()`:
 #' Uses the [styler package](https://styler.r-lib.org) package to style all code
 #' in a package, project, or directory, according to the [tidyverse style
@@ -81,7 +84,8 @@ create_tidy_package <- function(path, copyright_holder = NULL) {
   ui_todo("{ui_code('use_git()')}")
   ui_todo("{ui_code('use_github()')}")
   ui_todo("{ui_code('use_tidy_github_actions()')}")
-  ui_todo("{ui_code('use_pkgdown()')}")
+  ui_todo("{ui_code('use_tidy_github_labels()')}")
+  ui_todo("{ui_code('use_pkgdown_github_pages()')}")
 
   proj_activate(path)
 }
