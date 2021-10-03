@@ -28,7 +28,8 @@
 #' @param visibility Only relevant for organisation-owned repos associated with
 #'   certain GitHub Enterprise products. The special "internal" `visibility`
 #'   grants read permission to all organisation members, i.e. it's intermediate
-#'   between "private" and "public" (within GHE).
+#'   between "private" and "public", within GHE. When specified, `visibility`
+#'   takes precedence over `private = TRUE/FALSE`.
 #' @inheritParams git_protocol
 #' @param host GitHub host to target, passed to the `.api_url` argument of
 #'   [gh::gh()]. If unspecified, gh defaults to "https://api.github.com",
@@ -87,28 +88,18 @@ use_github <- function(organisation = NULL,
   check_no_origin()
 
   if (is.null(organisation)) {
-    if (visibility == "internal") {
+    if (visibility_specified) {
       ui_stop("
-        The {ui_field('internal')} visibility setting is only available \\
-        in the context of an organisation associated with certain \\
+        The {ui_code('visibility')} setting is only relevant for
+        organisation-owned repos, within the context of certain \\
         GitHub Enterprise products.")
-    }
-    if (visibility_specified &&
-        ((private && visibility == "public") ||
-         (!private && visibility == "private"))) {
-      ui_stop("
-        The {ui_code('visibility')} argument should only be used for \\
-        organisation-owned repo and it should never contradict \\
-        {ui_code('private')}.")
     }
     visibility <- if (private) "private" else "public"
   }
-  # if `organisation = NULL`, we can trust `private` (and `visibility`)
 
   if (!is.null(organisation) && !visibility_specified) {
     visibility <- if (private) "private" else "public"
   }
-  # if `organisation = "ORG"`, we can trust `visibility`
 
   whoami <- suppressMessages(gh::gh_whoami(.api_url = host))
   if (is.null(whoami)) {
@@ -148,6 +139,9 @@ use_github <- function(organisation = NULL,
       name = repo_name,
       description = repo_desc,
       visibility = visibility,
+      # this is necessary to set `visibility` in GHE 2.22 (but not in 3.2)
+      # hopefully it's harmless when not needed
+      .send_headers = c(Accept = "application/vnd.github.nebula-preview+json"),
       .api_url = host
     )
   }
