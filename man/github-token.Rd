@@ -8,7 +8,7 @@
 \usage{
 create_github_token(
   scopes = c("repo", "user", "gist", "workflow"),
-  description = "R:GITHUB_PAT",
+  description = "DESCRIBE THE TOKEN'S USE CASE",
   host = NULL
 )
 

@@ -57,7 +57,7 @@ NULL
 #' create_github_token()
 #' }
 create_github_token <- function(scopes = c("repo", "user", "gist", "workflow"),
-                                description = "R:GITHUB_PAT",
+                                description = "DESCRIBE THE TOKEN'S USE CASE",
                                 host = NULL) {
   scopes <- glue_collapse(scopes, ",")
   host <- get_hosturl(host %||% default_api_url())
