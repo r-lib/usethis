@@ -24,20 +24,15 @@ The goal of {{{ Package }}} is to ...
 
 ## Installation
 
-You can install the released version of {{{ Package }}} from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("{{{ Package }}}")
-```
-
 {{#on_github}}
-And the development version from [GitHub](https://github.com/) with:
+You can install the the development version of {{{ Package }}} from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("{{{ github_spec }}}")
 ```
 {{/on_github}}
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
