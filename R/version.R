@@ -57,7 +57,7 @@ use_version <- function(which = NULL) {
   use_c_version(new_ver)
 
   git_ask_commit(
-    "Increment version number",
+    glue("Increment version number to {new_ver}"),
     untracked = TRUE,
     paths = c("DESCRIPTION", "NEWS.md", path("src", "version.c"))
   )
