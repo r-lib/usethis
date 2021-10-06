@@ -123,6 +123,7 @@ use_tidy_github_actions <- function() {
 #'   about the action. Ignored when `url` is `NULL`.
 #'
 #' @seealso [github_actions] for generic workflows and badge generation.
+#'   [use_github_file()] for more about `url` format and parsing.
 #'
 #' @export
 #' @inheritParams use_template

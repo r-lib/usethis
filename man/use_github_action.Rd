@@ -103,4 +103,5 @@ issue comments:
 
 \seealso{
 \link{github_actions} for generic workflows and badge generation.
+\code{\link[=use_github_file]{use_github_file()}} for more about \code{url} format and parsing.
 }
