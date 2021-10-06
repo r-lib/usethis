@@ -24,8 +24,7 @@ GitHub file URL. Acceptable forms:
 }
 
 In the case of a URL, the \code{path}, \code{ref}, and \code{host} are extracted from it, in
-addition to the \code{repo_spec}. The URL form is not supported for GitHub
-Enterprise; for GHE, use the individual arguments.}
+addition to the \code{repo_spec}.}
 
 \item{path}{Path of file to copy, relative to the GitHub repo it lives in.}
 

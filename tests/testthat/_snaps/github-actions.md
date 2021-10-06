@@ -8,6 +8,6 @@
       v Adding '^\\.github$' to '.Rbuildignore'
       v Adding '*.html' to '.github/.gitignore'
       v Creating '.github/workflows/'
-      v Writing '.github/workflows/check-full.yaml'
+      v Saving 'r-lib/actions/examples/check-full.yaml@master' to '.github/workflows/check-full.yaml'
       * Learn more at <https://github.com/r-lib/actions/blob/master/examples/README.md>
 

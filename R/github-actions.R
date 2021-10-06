@@ -16,7 +16,7 @@
 #'
 #' @name github_actions
 #' @seealso
-#' * [use_github_action()] sets up specific, individual actions, e.g. test
+#' * [use_github_action()] sets up a specific, individual action, e.g. test
 #'   coverage or pkgdown build and deploy.
 #' * [use_tidy_github_actions()] sets up the standard GitHub Actions used for
 #'   tidyverse packages.
@@ -62,8 +62,7 @@ check_uses_github_actions <- function(base_path = proj_get()) {
   ui_stop("
     Cannot detect that package {ui_value(project_name(base_path))} already \\
     uses GitHub Actions.
-    Do you need to run {ui_code('use_github_actions()')}?
-    ")
+    Do you need to run {ui_code('use_github_actions()')}?")
 }
 
 # tidyverse GHA setup ----------------------------------------------------------
@@ -136,35 +135,31 @@ use_github_action <- function(name,
 
   # Check if a custom URL is being used.
   if (is.null(url)) {
-    stopifnot(is_string(name))
+    check_string(name)
 
     # Append a `.yaml` extension if needed
     name <- path_ext_set(name, "yaml")
 
+    # TODO: ask Jim about the ref here
     url <- glue(
       "https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"
     )
     readme <- "https://github.com/r-lib/actions/blob/master/examples/README.md"
   } else {
-    stopifnot(is_string(url))
+    check_string(url)
   }
+
+  use_dot_github(ignore = ignore)
 
   if (is.null(save_as)) {
     save_as <- path_file(url)
   }
-
-  contents <- read_utf8(url)
-
-  use_dot_github(ignore = ignore)
-
   save_as <- path(".github", "workflows", save_as)
   create_directory(path_dir(proj_path(save_as)))
 
-  new <- write_over(proj_path(save_as), contents)
+  # `ignore = FALSE` because we took care of this at directory level, above
+  new <- use_github_file(url, save_as = save_as, ignore = FALSE, open = open)
 
-  if (open && new) {
-    edit_file(proj_path(save_as))
-  }
   if (!is.null(readme)) {
     ui_todo("Learn more at <{readme}>")
   }

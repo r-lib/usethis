@@ -81,7 +81,7 @@ use_github_file <- function(repo_spec,
   )
 
   tf_contents <- read_utf8(tf)
-  new <- write_over(proj_path(save_as), tf_contents)
+  new <- write_over(proj_path(save_as), tf_contents, quiet = TRUE)
 
   if (ignore) {
     use_build_ignore(save_as)

@@ -47,7 +47,7 @@ workflow.
 
 \seealso{
 \itemize{
-\item \code{\link[=use_github_action]{use_github_action()}} sets up specific, individual actions, e.g. test
+\item \code{\link[=use_github_action]{use_github_action()}} sets up a specific, individual action, e.g. test
 coverage or pkgdown build and deploy.
 \item \code{\link[=use_tidy_github_actions]{use_tidy_github_actions()}} sets up the standard GitHub Actions used for
 tidyverse packages.
