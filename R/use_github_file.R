@@ -119,7 +119,7 @@ parse_file_url <- function(x) {
   out$parsed <- TRUE
 
   dat$fragment <- sub("^/(blob/)?", "", dat$fragment)
-  dat_fragment <- re_match(dat$fragment, "^(?<ref>.+?)/(?<path>.+)$")
+  dat_fragment <- re_match(dat$fragment, "^(?<ref>[^/]+)/(?<path>.+)$")
 
   out$repo_spec <- make_spec(owner = dat$repo_owner, repo = dat$repo_name)
   out$path <- dat_fragment$path
