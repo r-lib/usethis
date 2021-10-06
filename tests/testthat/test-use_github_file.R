@@ -44,6 +44,9 @@ test_that("parse_file_url() gives up when it should", {
 test_that("parse_file_url() errors when it should", {
   expect_error(parse_file_url("https://github.com/OWNER/REPO"))
   expect_error(parse_file_url("https://github.com/OWNER/REPO.git"))
+  expect_error(parse_file_url("https://github.com/OWNER/REPO/commit/abcdefg"))
+  expect_error(parse_file_url("https://github.com/OWNER/REPO/releases/tag/vx.y.z"))
+  expect_error(parse_file_url("https://github.com/OWNER/REPO/tree/BRANCH"))
 
   expect_error(parse_file_url("https://gitlab.com/OWNER/REPO/path/to/file"))
 })
