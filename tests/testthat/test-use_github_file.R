@@ -1,26 +1,38 @@
 test_that("parse_file_url() works when it should", {
-  expect_equal(
-    parse_file_url("https://github.com/OWNER/REPO/blob/REF/path/to/some/file"),
-    list(
-      parsed = TRUE, repo_spec = "OWNER/REPO", path = "path/to/some/file",
-      ref = "REF", host = "https://github.com"
-    )
+  expected <- list(
+    parsed = TRUE,
+    repo_spec = "OWNER/REPO",
+    path = "path/to/some/file",
+    ref = "REF",
+    host = "https://github.com"
   )
   expect_equal(
     parse_file_url("https://github.com/OWNER/REPO/blob/REF/path/to/some/file"),
-    parse_file_url("https://raw.githubusercontent.com/OWNER/REPO/REF/path/to/some/file")
+    expected
+  )
+  expect_equal(
+    parse_file_url("https://raw.githubusercontent.com/OWNER/REPO/REF/path/to/some/file"),
+    expected
   )
 
+  expected$path <- "file"
   expect_equal(
     parse_file_url("https://github.com/OWNER/REPO/blob/REF/file"),
-    list(
-      parsed = TRUE, repo_spec = "OWNER/REPO", path = "file",
-      ref = "REF", host = "https://github.com"
-    )
+    expected
   )
   expect_equal(
     parse_file_url("https://github.com/OWNER/REPO/blob/REF/file"),
     parse_file_url("https://raw.githubusercontent.com/OWNER/REPO/REF/file")
+  )
+
+  expected$host <- "https://github.acme.com"
+  expect_equal(
+    parse_file_url("https://github.acme.com/OWNER/REPO/blob/REF/file"),
+    expected
+  )
+  expect_equal(
+    parse_file_url("https://raw.github.acme.com/OWNER/REPO/REF/file"),
+    expected
   )
 })
 

@@ -13,8 +13,7 @@
 #'   * A raw URL, such as `"https://raw.githubusercontent.com/OWNER/REPO/REF/path/to/some/file"`
 #'
 #' In the case of a URL, the `path`, `ref`, and `host` are extracted from it, in
-#' addition to the `repo_spec`. The URL form is not supported for GitHub
-#' Enterprise; for GHE, use the individual arguments.
+#' addition to the `repo_spec`.
 #' @param path Path of file to copy, relative to the GitHub repo it lives in.
 #' @param save_as Path of file to create, relative to root of active project.
 #'   Defaults to the last part of `path`, in the sense of `basename(path)` or
@@ -97,6 +96,8 @@ use_github_file <- function(repo_spec,
 
 # https://github.com/OWNER/REPO/blob/REF/path/to/some/file
 # https://raw.githubusercontent.com/OWNER/REPO/REF/path/to/some/file
+# https://github.acme.com/OWNER/REPO/blob/REF/path/to/some/file
+# https://raw.github.acme.com/OWNER/REPO/REF/path/to/some/file
 parse_file_url <- function(x) {
   out <- list(
     parsed = FALSE,
@@ -111,17 +112,20 @@ parse_file_url <- function(x) {
     return(out)
   }
 
-  # TODO: maybe I can just accomodate GHE?
-  #https://github.ubc.ca/OWNER/REPO/blob/REF/file
-  #https://raw.github.ubc.ca/OWNER/REPO/REF/file
-  # raw URLs generally have a token but I assume a user would strip that
+  # TODO: generalize here for GHE hosts that don't include 'github'
+  if (!grepl("github", dat$host)) {
+    ui_stop("URL doesn't seem to be associated with GitHub.")
+  }
 
-  if (!dat$host %in% c("raw.githubusercontent.com", "github.com") ||
+  if (!grepl("^(raw[.])?github", dat$host) ||
       !nzchar(dat$fragment) ||
-      (dat$host == "github.com" && !grepl("^/blob/", dat$fragment))) {
+      (grepl("^github", dat$host) && !grepl("^/blob/", dat$fragment))) {
     ui_stop("Can't parse the URL provided via {ui_code('repo_spec')}.")
   }
   out$parsed <- TRUE
+
+  dat$host <- sub("^raw[.]", "", dat$host)
+  dat$host <- sub("^githubusercontent", "github", dat$host)
 
   dat$fragment <- sub("^/(blob/)?", "", dat$fragment)
   dat_fragment <- re_match(dat$fragment, "^(?<ref>[^/]+)/(?<path>.+)$")
@@ -129,7 +133,7 @@ parse_file_url <- function(x) {
   out$repo_spec <- make_spec(owner = dat$repo_owner, repo = dat$repo_name)
   out$path <- dat_fragment$path
   out$ref <- dat_fragment$ref
-  out$host <- "https://github.com"
+  out$host <- as.character(glue("https://{dat$host}"))
 
   out
 }
