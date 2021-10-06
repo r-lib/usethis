@@ -95,10 +95,6 @@ use_github_file <- function(repo_spec,
   invisible(new)
 }
 
-# relevant peers re: host argument and parsing repo_spec
-# create_from_github(repo_spec, ..., host = NULL)
-# use_github(..., host = NULL)
-
 # https://github.com/OWNER/REPO/blob/REF/path/to/some/file
 # https://raw.githubusercontent.com/OWNER/REPO/REF/path/to/some/file
 parse_file_url <- function(x) {
