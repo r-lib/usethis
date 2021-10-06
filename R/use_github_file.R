@@ -111,6 +111,11 @@ parse_file_url <- function(x) {
     return(out)
   }
 
+  # TODO: maybe I can just accomodate GHE?
+  #https://github.ubc.ca/OWNER/REPO/blob/REF/file
+  #https://raw.github.ubc.ca/OWNER/REPO/REF/file
+  # raw URLs generally have a token but I assume a user would strip that
+
   if (!dat$host %in% c("raw.githubusercontent.com", "github.com") ||
       !nzchar(dat$fragment) ||
       (dat$host == "github.com" && !grepl("^/blob/", dat$fragment))) {
