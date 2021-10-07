@@ -141,7 +141,7 @@ use_github <- function(organisation = NULL,
       visibility = visibility,
       # this is necessary to set `visibility` in GHE 2.22 (but not in 3.2)
       # hopefully it's harmless when not needed
-      .send_headers = c(Accept = "application/vnd.github.nebula-preview+json"),
+      .accept = "application/vnd.github.nebula-preview+json",
       .api_url = host
     )
   }
