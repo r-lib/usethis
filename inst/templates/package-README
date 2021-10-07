@@ -25,7 +25,7 @@ The goal of {{{ Package }}} is to ...
 ## Installation
 
 {{#on_github}}
-You can install the the development version of {{{ Package }}} from [GitHub](https://github.com/) with:
+You can install the development version of {{{ Package }}} from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -33,7 +33,7 @@ devtools::install_github("{{{ github_spec }}}")
 ```
 {{/on_github}}
 {{^on_github}}
-You can install the the development version of {{{ Package }}} like so:
+You can install the development version of {{{ Package }}} like so:
 
 ``` r
 # FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
