@@ -67,6 +67,10 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
   invisible(proj_get())
 }
 
+scrub_testpkg <- function(message) {
+  gsub("testpkg[a-zA-Z0-9]+", "{TESTPKG}", message, perl = TRUE)
+}
+
 toggle_rlang_interactive <- function() {
   # TODO: consider setting options(rlang_backtrace_on_error = "reminder") when
   # in non-interactive mode, to suppress full backtraces
