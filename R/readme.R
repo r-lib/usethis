@@ -52,6 +52,12 @@ use_readme_rmd <- function(open = rlang::is_interactive()) {
     return(invisible(FALSE))
   }
 
+  if (is_pkg && !data$on_github) {
+    ui_todo(
+      "Update the {ui_path('README.Rmd')} to include installation instructions"
+    )
+  }
+
   if (uses_git()) {
     use_git_hook(
       "pre-commit",
