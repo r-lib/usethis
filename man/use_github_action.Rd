@@ -64,7 +64,7 @@ applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 \description{
 Configure an individual, specific \href{https://github.com/features/actions}{GitHub Actions} workflow, either one of the
 examples from
-\href{https://github.com/r-lib/actions/tree/master/examples}{r-lib/actions/examples}
+\href{https://github.com/r-lib/actions/tree/v1/examples}{r-lib/actions/examples}
 or a custom workflow given by the \code{url} parameter.
 }
 \section{\code{use_github_action_check_release()}}{
@@ -103,4 +103,5 @@ issue comments:
 
 \seealso{
 \link{github_actions} for generic workflows and badge generation.
+\code{\link[=use_github_file]{use_github_file()}} for more about \code{url} format and parsing.
 }

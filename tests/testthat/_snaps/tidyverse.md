@@ -12,5 +12,5 @@
       v Adding '@importFrom glue glue' to 'R/tidydeps-package.R'
       v Adding '@importFrom lifecycle deprecated' to 'R/tidydeps-package.R'
       v Writing 'NAMESPACE'
-      v Writing 'R/compat-purrr.R'
+      v Saving 'r-lib/rlang/R/compat-purrr.R' to 'R/compat-purrr.R'
 
