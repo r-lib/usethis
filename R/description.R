@@ -64,12 +64,15 @@ use_description <- function(fields = list(),
   }
 
   desc <- build_description(name, roxygen = roxygen, fields = fields)
-  lines <- desc$str(by_field = TRUE, normalize = FALSE, mode = "file")
 
-  write_over(proj_path("DESCRIPTION"), lines)
-  # TODO: why am I not using a ui_*() function here?
+  tf <- withr::local_tempfile(pattern = glue("use_description-{name}-"))
+  desc$write(file = tf)
+  tf_contents <- read_utf8(tf)
+  write_over(proj_path("DESCRIPTION"), tf_contents)
+
+  # explicit check of "usethis.quiet" since I'm not doing the printing
   if (!getOption("usethis.quiet", default = FALSE)) {
-    print(desc)
+    desc$print()
   }
 }
 
