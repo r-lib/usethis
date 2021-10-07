@@ -75,6 +75,7 @@ release_checklist <- function(version, on_cran) {
       "",
 
       todo("`usethis::use_cran_comments()`"),
+      todo("Update (aspirational) install instructions in README"),
       todo("Proofread `Title:` and `Description:`"),
       todo("Check that all exported functions have `@return` and `@examples`"),
       todo("Check that `Authors@R:` includes a copyright holder (role 'cph')"),
@@ -116,7 +117,6 @@ release_checklist <- function(version, on_cran) {
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version()`"),
     todo("`usethis::use_news_md()`", !has_news),
-    todo("Update install instructions in README", !on_cran),
     todo("Finish blog post", type != "patch"),
     todo("Tweet", type != "patch"),
     todo("Add link to blog post in pkgdown news menu", type != "patch")
