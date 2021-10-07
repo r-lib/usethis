@@ -32,6 +32,13 @@ You can install the the development version of {{{ Package }}} from [GitHub](htt
 devtools::install_github("{{{ github_spec }}}")
 ```
 {{/on_github}}
+{{^on_github}}
+You can install the the development version of {{{ Package }}} like so:
+
+``` r
+# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+```
+{{/on_github}}
 
 ## Example
 
