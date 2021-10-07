@@ -81,6 +81,8 @@ usethis has a more sophisticated understanding of the default branch and gains s
 
 * `use_tidy_labels()` has been renamed to `use_tidy_github_labels()` (#1430).
 
+* `use_readme_rmd()` no longer includes CRAN install instructions in the `README.Rmd` template; instead, we only include GitHub-based install instructions or otherwise ask the user to update instructions (#1507)
+
 # usethis 2.0.1
 
 * All functions that require a package now ask you if you'd like to install it.
