@@ -265,7 +265,7 @@ proj_activate <- function(path) {
   check_path_is_directory(path)
   path <- user_path_prep(path)
 
-  if (rstudio_available()) {
+  if (rstudio_available() && rstudioapi::hasFun("openProject")) {
     ui_done("Opening {ui_path(path, base = NA)} in new RStudio session")
     rstudioapi::openProject(path, newSession = TRUE)
     invisible(FALSE)
