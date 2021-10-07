@@ -29,7 +29,7 @@
 #' @examples
 #' \dontrun{
 #' use_github_file(
-#'   "https://github.com/r-lib/actions/blob/master/examples/check-standard.yaml"
+#'   "https://github.com/r-lib/actions/blob/HEAD/examples/check-standard.yaml"
 #' )
 #'
 #' use_github_file(

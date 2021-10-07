@@ -110,7 +110,7 @@ use_tidy_github_actions <- function() {
 #' Configure an individual, specific [GitHub
 #' Actions](https://github.com/features/actions) workflow, either one of the
 #' examples from
-#' [r-lib/actions/examples](https://github.com/r-lib/actions/tree/master/examples)
+#' [r-lib/actions/examples](https://github.com/r-lib/actions/tree/HEAD/examples)
 #' or a custom workflow given by the `url` parameter.
 #'
 #' @inheritParams use_template
@@ -141,11 +141,10 @@ use_github_action <- function(name,
     # Append a `.yaml` extension if needed
     name <- path_ext_set(name, "yaml")
 
-    # TODO: ask Jim about the ref here
     url <- glue(
-      "https://raw.githubusercontent.com/r-lib/actions/master/examples/{name}"
+      "https://raw.githubusercontent.com/r-lib/actions/HEAD/examples/{name}"
     )
-    readme <- "https://github.com/r-lib/actions/blob/master/examples/README.md"
+    readme <- "https://github.com/r-lib/actions/blob/HEAD/examples/README.md"
   } else {
     check_string(url)
   }
