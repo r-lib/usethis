@@ -852,7 +852,7 @@ choose_branch <- function(exclude = character()) {
   }
   dat$pretty_user <- map(dat$pr_user, ~ glue("@{.x}"))
   dat$pretty_name <- format(dat$name, justify = "right")
-  dat_pretty <- purrr::pmap(
+  dat_pretty <- purrr::pmap_chr(
     dat[c("pretty_name", "pr_number", "pretty_user", "pr_title")],
     function(pretty_name, pr_number, pretty_user, pr_title) {
       if (is.na(pr_number)) {
@@ -862,7 +862,7 @@ choose_branch <- function(exclude = character()) {
       }
     }
   )
-  choice <- utils::menu(title = prompt, choices = dat_pretty)
+  choice <- utils::menu(title = prompt, choices = cli::ansi_strtrim(dat_pretty))
   dat$name[choice]
 }
 
