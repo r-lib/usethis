@@ -26,14 +26,16 @@ GitHub file URL. Acceptable forms:
 In the case of a URL, the \code{path}, \code{ref}, and \code{host} are extracted from it, in
 addition to the \code{repo_spec}.}
 
-\item{path}{Path of file to copy, relative to the GitHub repo it lives in.}
+\item{path}{Path of file to copy, relative to the GitHub repo it lives in.
+This is extracted from \code{repo_spec} when user provides a URL.}
 
 \item{save_as}{Path of file to create, relative to root of active project.
 Defaults to the last part of \code{path}, in the sense of \code{basename(path)} or
 \code{fs::path_file(path)}.}
 
 \item{ref}{The name of a branch, tag, or commit. By default, the file at
-\code{path} will by copied from its current state in the repo's default branch.}
+\code{path} will by copied from its current state in the repo's default branch.
+This is extracted from \code{repo_spec} when user provides a URL.}
 
 \item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
 
@@ -61,7 +63,7 @@ or commit) and which follows symlinks.
 \examples{
 \dontrun{
 use_github_file(
-  "https://github.com/r-lib/actions/blob/master/examples/check-standard.yaml"
+  "https://github.com/r-lib/actions/blob/HEAD/examples/check-standard.yaml"
 )
 
 use_github_file(

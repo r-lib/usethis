@@ -15,11 +15,13 @@
 #' In the case of a URL, the `path`, `ref`, and `host` are extracted from it, in
 #' addition to the `repo_spec`.
 #' @param path Path of file to copy, relative to the GitHub repo it lives in.
+#'   This is extracted from `repo_spec` when user provides a URL.
 #' @param save_as Path of file to create, relative to root of active project.
 #'   Defaults to the last part of `path`, in the sense of `basename(path)` or
 #'   `fs::path_file(path)`.
 #' @param ref The name of a branch, tag, or commit. By default, the file at
 #'   `path` will by copied from its current state in the repo's default branch.
+#'   This is extracted from `repo_spec` when user provides a URL.
 #' @inheritParams use_template
 #' @inheritParams use_github
 #'
