@@ -6,6 +6,7 @@
       First release:
       
       * [ ] `usethis::use_cran_comments()`
+      * [ ] Update (aspirational) install instructions in README
       * [ ] Proofread `Title:` and `Description:`
       * [ ] Check that all exported functions have `@return` and `@examples`
       * [ ] Check that `Authors@R:` includes a copyright holder (role 'cph')
@@ -32,7 +33,6 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
       * [ ] `usethis::use_news_md()`
-      * [ ] Update install instructions in README
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu

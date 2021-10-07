@@ -52,6 +52,11 @@ use_readme_rmd <- function(open = rlang::is_interactive()) {
     return(invisible(FALSE))
   }
 
+  if (is_pkg && !data$on_github) {
+    ui_todo("
+      Update {ui_path('README.Rmd')} to include installation instructions.")
+  }
+
   if (uses_git()) {
     use_git_hook(
       "pre-commit",
@@ -67,17 +72,26 @@ use_readme_rmd <- function(open = rlang::is_interactive()) {
 use_readme_md <- function(open = rlang::is_interactive()) {
   check_is_project()
   is_pkg <- is_package()
+  repo_spec <- tryCatch(target_repo_spec(ask = FALSE), error = function(e) NULL)
   nm <- if (is_pkg) "Package" else "Project"
   data <- list2(
     !!nm := project_name(),
     Rmd = FALSE,
-    on_github = NULL,
-    github_spec = NULL
+    on_github = !is.null(repo_spec),
+    github_spec = repo_spec
   )
-  use_template(
+
+  new <- use_template(
     if (is_pkg) "package-README" else "project-README",
     "README.md",
     data = data,
     open = open
   )
+
+  if (is_pkg && !data$on_github) {
+    ui_todo("
+      Update {ui_path('README.md')} to include installation instructions.")
+  }
+
+  invisible(new)
 }
