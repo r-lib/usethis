@@ -133,8 +133,8 @@ test_that("use_github_action() allows for custom urls", {
   withr::local_options(usethis.quiet = FALSE)
   expect_snapshot(
     use_github_action(
-      url = "https://raw.githubusercontent.com/r-lib/actions/master/examples/check-full.yaml",
-      readme = "https://github.com/r-lib/actions/blob/master/examples/README.md"
+      url = "https://raw.githubusercontent.com/r-lib/actions/v1/examples/check-full.yaml",
+      readme = "https://github.com/r-lib/actions/blob/v1/examples/README.md"
     )
   )
   expect_proj_dir(".github")
