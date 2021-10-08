@@ -40,6 +40,10 @@ usethis has a more sophisticated understanding of the default branch and gains s
 
 * `use_github_action_*()` functions have been updated in response to the
   pak-based workflows becoming the standard workflows in `r-lib/actions`.
+  
+* `use_github_action_check_full()` has been removed since it's overkill for the
+  majority of R packages, which are better off with `use_github_actions()` or
+  `use_github_action_check_standard()` (#1490).
 
 * `use_github_pages()` and `use_pkgdown_github_pages()` use a new method for
   creating an empty, orphan `gh-pages` branch. This is necessary due to new

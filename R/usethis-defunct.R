@@ -107,6 +107,25 @@ use_tidy_ci <- function(...) {
   lifecycle::deprecate_stop("2.1.0", "use_tidy_ci()", "use_tidy_github_actions()")
 }
 
+#' @export
+#' @rdname usethis-defunct
+use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
+                                         ignore = TRUE,
+                                         open = FALSE,
+                                         repo_spec = NULL) {
+  details <- glue("
+    It is overkill for the vast majority of R packages.
+    The \"check-full\" workflow is among those configured by \\
+    {ui_code('use_tidy_github_actions()')}.
+    If you really want it, request it by name with \\
+    {ui_code('use_github_action()')}.")
+  lifecycle::deprecate_stop(
+    "2.1.0",
+    "use_github_action_check_full()",
+    details = details
+  )
+}
+
 # git2r ------------------------------------------------------------------------
 git2r_explanation <- glue("
   usethis now uses the gert package for Git operations, instead of git2r, and

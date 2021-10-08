@@ -4,17 +4,68 @@
 \alias{github_actions}
 \alias{use_github_actions}
 \alias{use_github_actions_badge}
-\title{GitHub Actions setup and badges}
+\alias{use_github_action}
+\alias{use_github_action_check_release}
+\alias{use_github_action_check_standard}
+\alias{use_github_action_pr_commands}
+\title{GitHub Actions setup}
 \usage{
 use_github_actions()
 
 use_github_actions_badge(name = "R-CMD-check", repo_spec = NULL)
+
+use_github_action(
+  name,
+  url = NULL,
+  save_as = NULL,
+  readme = NULL,
+  ignore = TRUE,
+  open = FALSE
+)
+
+use_github_action_check_release(
+  save_as = "R-CMD-check.yaml",
+  ignore = TRUE,
+  open = FALSE
+)
+
+use_github_action_check_standard(
+  save_as = "R-CMD-check.yaml",
+  ignore = TRUE,
+  open = FALSE
+)
+
+use_github_action_pr_commands(
+  save_as = "pr-commands.yaml",
+  ignore = TRUE,
+  open = FALSE
+)
 }
 \arguments{
-\item{name}{Specifies the workflow whose status the badge will report. This
-is the \code{name} keyword that appears in the workflow \code{.yaml} file.}
+\item{name}{For \code{use_github_action()}: Name of one of the example workflows
+from \url{https://github.com/r-lib/actions/tree/v1/examples}, with or without a
+\code{.yaml} extension, e.g. "pkgdown" or "test-coverage.yaml".
+
+For \code{use_github_actions_badge()}: Specifies the workflow whose status the
+badge will report. Usually, this is the \code{name} keyword that appears in the
+workflow \code{.yaml} file.}
 
 \item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
+
+\item{url}{The full URL to a \code{.yaml} file on GitHub.}
+
+\item{save_as}{Name of the local workflow file. Defaults to \code{name} or
+\code{fs::path_file(url)} for \code{use_github_action()}. Do not specify any other
+part of the path; the parent directory will always be \code{.github/workflows},
+within the active project.}
+
+\item{readme}{The full URL to a \code{README} file that provides more details
+about the workflow. Ignored when \code{url} is \code{NULL}.}
+
+\item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
+
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 Sets up continuous integration (CI) for an R package that is developed on
@@ -28,28 +79,75 @@ used to trigger various operations for each push or pull request, such as:
 
 This family of functions
 \itemize{
-\item Adds the necessary configuration files and lists them in \code{.Rbuildignore}.
-\item Provides the markdown to insert a badge into your README.
+\item Adds the necessary configuration files and lists them in \code{.Rbuildignore}
+\item Provides the markdown to insert a badge into your README
 }
 }
 \section{\code{use_github_actions()}}{
 
 Configures a basic \verb{R CMD check} workflow on GitHub Actions by adding a
 standard \code{R-CMD-check.yaml} file to the \code{.github/workflows} directory of the
-active project.
+active project. This is actually just an alias for
+\code{use_github_action_check_release()}.
 }
 
 \section{\code{use_github_actions_badge()}}{
 
 Generates a GitHub Actions badge and that's all. It does not configure a
-workflow.
+workflow. This exists mostly for internal use in the other functions
+documented here.
 }
 
+\section{\code{use_github_action()}}{
+
+Configures an individual, specific \href{https://github.com/features/actions}{GitHub Actions} workflow, either one of the
+examples from
+\href{https://github.com/r-lib/actions/tree/v1/examples}{r-lib/actions/examples}
+or a custom workflow given by the \code{url} parameter.
+
+Used internally to power all the other GitHub Actions functions, but it can
+also be called directly by the user.
+}
+
+\section{\code{use_github_action_check_release()}}{
+
+This entry-level, bare-minimum workflow installs the latest release of R (on
+a current distribution of Linux) and runs \verb{R CMD check} via the
+\href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package.
+}
+
+\section{\code{use_github_action_check_standard()}}{
+
+This workflow runs \verb{R CMD check} via the
+\href{https://github.com/r-lib/rcmdcheck}{rcmdcheck} package on the three major
+operating systems (Linux, macOS, and Windows) on the latest release of R and
+on R-devel. This workflow is appropriate for a package that is (or aspires to
+be) on CRAN or Bioconductor.
+}
+
+\section{\code{use_github_action_pr_commands()}}{
+
+This workflow enables the use of two R-specific commands in pull request
+issue comments:
+\itemize{
+\item \verb{/document} to run \code{roxygen2::roxygenise()} and update the PR
+\item \verb{/style} to run \code{styler::style_pkg()} and update the PR
+}
+}
+
+\examples{
+\dontrun{
+use_github_actions()
+
+use_github_action_check_standard()
+
+use_github_action("pkgdown")
+}
+}
 \seealso{
 \itemize{
-\item \code{\link[=use_github_action]{use_github_action()}} sets up a specific, individual action, e.g. test
-coverage or pkgdown build and deploy.
-\item \code{\link[=use_tidy_github_actions]{use_tidy_github_actions()}} sets up the standard GitHub Actions used for
+\item \code{\link[=use_github_file]{use_github_file()}} for more about \code{url} format and parsing.
+\item \code{\link[=use_tidy_github_actions]{use_tidy_github_actions()}} for the standard GitHub Actions used for
 tidyverse packages.
 }
 }

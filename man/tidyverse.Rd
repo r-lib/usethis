@@ -58,7 +58,9 @@ commonly used packages.
 \item \code{use_tidy_github_actions()}: Sets up the following workflows using \href{https://github.com/features/actions}{GitHub Actions}:
 \itemize{
 \item Run \verb{R CMD check} on the current release, devel, and four previous
-versions of R.
+versions of R. The build matrix also ensures \verb{R CMD check} is run at
+least once on each of the three major operating systems (Linux, macOS,
+and Windows).
 \item Report test coverage.
 \item Build and deploy a pkgdown site.
 \item Provide two commands to be used in pull requests: \verb{/document} to run
@@ -66,6 +68,10 @@ versions of R.
 \code{styler::style_pkg()} and update the PR.
 }
 }
+
+This is how the tidyverse team checks its packages, but it is overkill for
+less widely used packages. Consider using the more streamlined workflows set
+up by \code{\link[=use_github_actions]{use_github_actions()}} or \code{\link[=use_github_action_check_standard]{use_github_action_check_standard()}}.
 
 \itemize{
 \item \code{create_tidy_package()}: creates a new package, immediately applies as many
