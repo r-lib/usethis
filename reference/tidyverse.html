@@ -103,7 +103,7 @@ commonly used packages."><meta property="og:image" content="https://usethis.r-li
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Helpers for tidyverse development</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/github-actions.R"><code>R/github-actions.R</code></a>, <a href="https://github.com/r-lib/usethis/blob/master/R/tidyverse.R"><code>R/tidyverse.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/github-actions.R"><code>R/github-actions.R</code></a>, <a href="https://github.com/r-lib/usethis/blob/master/R/pkgdown.R"><code>R/pkgdown.R</code></a>, <a href="https://github.com/r-lib/usethis/blob/master/R/tidyverse.R"><code>R/tidyverse.R</code></a></small>
     <div class="hidden name"><code>tidyverse.Rd</code></div>
     </div>
 
@@ -114,6 +114,8 @@ commonly used packages.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_tidy_github_actions</span><span class="op">(</span><span class="op">)</span>
+
+<span class="fu">use_tidy_pkgdown_github_pages</span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu">create_tidy_package</span><span class="op">(</span><span class="va">path</span>, copyright_holder <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
@@ -157,12 +159,18 @@ and Windows).</p></li>
 <li><p>Build and deploy a pkgdown site.</p></li>
 <li><p>Provide two commands to be used in pull requests: <code>/document</code> to run
 <code><a href="https://roxygen2.r-lib.org/reference/roxygenize.html">roxygen2::roxygenise()</a></code> and update the PR, and <code>/style</code> to run
-<code><a href="https://styler.r-lib.org/reference/style_pkg.html">styler::style_pkg()</a></code> and update the PR.</p></li>
+<code><a href="https://styler.r-lib.org/reference/style_pkg.html">styler::style_pkg()</a></code> and update the PR.</p>
+<p>This is how the tidyverse team checks its packages, but it is overkill
+for less widely used packages. Consider using the more streamlined
+workflows set up by <code><a href="github_actions.html">use_github_actions()</a></code> or
+<code><a href="github_actions.html">use_github_action_check_standard()</a></code>.</p></li>
 </ul></li>
-</ul><p>This is how the tidyverse team checks its packages, but it is overkill for
-less widely used packages. Consider using the more streamlined workflows set
-up by <code><a href="github_actions.html">use_github_actions()</a></code> or <code><a href="github_actions.html">use_github_action_check_standard()</a></code>.</p>
-<ul><li><p><code>create_tidy_package()</code>: creates a new package, immediately applies as many
+</ul><ul><li><p><code>use_tidy_pkgdown_github_pages()</code> is basically
+<code><a href="use_pkgdown.html">use_pkgdown_github_pages()</a></code>, so does full pkgdown set up. Note that there
+is special handling for packages owned by certain GitHub organizations, in
+terms of anticipating the (eventual) site URL and the use of a pkgdown
+template.</p></li>
+</ul><ul><li><p><code>create_tidy_package()</code>: creates a new package, immediately applies as many
 of the tidyverse conventions as possible, issues a few reminders, and
 activates the new package.</p></li>
 <li><p><code>use_tidy_dependencies()</code>: sets up standard dependencies used by all
