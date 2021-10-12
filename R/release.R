@@ -63,17 +63,10 @@ release_checklist <- function(version, on_cran) {
   has_pkgdown <- uses_pkgdown()
   has_readme <- file_exists(proj_path("README.Rmd"))
 
-  todo <- function(x, cond = TRUE) {
-    x <- glue(x, .envir = parent.frame())
-    if (cond) {
-      paste0("* [ ] ", x)
-    }
-  }
   c(
     if (!on_cran) c(
       "First release:",
       "",
-
       todo("`usethis::use_cran_comments()`"),
       todo("Update (aspirational) install instructions in README"),
       todo("Proofread `Title:` and `Description:`"),
@@ -83,15 +76,11 @@ release_checklist <- function(version, on_cran) {
       todo("Review <https://github.com/DavisVaughan/extrachecks>"),
       ""
     ),
-
     "Prepare for release:",
     "",
-
     todo("Check [current CRAN check results]({cran_results})", on_cran),
-
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("`devtools::build_readme()`", has_readme),
-
     todo("`urlchecker::url_check()`"),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
     todo("`devtools::check_win_devel()`"),
@@ -99,8 +88,7 @@ release_checklist <- function(version, on_cran) {
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
     todo("`rhub::check_with_sanitizers()`", has_src),
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran),
-
-    if (on_cran) todo("Update `cran-comments.md`"),
+    todo("Update `cran-comments.md`", on_cran),
     todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown && type != "patch"),
     todo("Draft blog post", type != "patch"),
     release_extra(),
@@ -342,4 +330,11 @@ news_latest <- function(lines) {
   news <- news[text[[1]]:text[[length(text)]]]
 
   paste0(news, "\n", collapse = "")
+}
+
+todo <- function(x, cond = TRUE) {
+  x <- glue(x, .envir = parent.frame())
+  if (cond) {
+    paste0("* [ ] ", x)
+  }
 }
