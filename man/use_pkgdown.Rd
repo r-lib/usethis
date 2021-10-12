@@ -27,6 +27,7 @@ your package has a logo.
 \item \code{use_pkgdown_github_pages()}: implements the GitHub setup needed to
 automatically publish your pkgdown site to GitHub pages:
 \itemize{
+\item (first, it calls \code{use_pkgdown()})
 \item \code{\link[=use_github_pages]{use_github_pages()}} prepares to publish the pkgdown site from the
 \code{github-pages} branch
 \item \code{\link[=use_github_action]{use_github_action("pkgdown")}} configures a

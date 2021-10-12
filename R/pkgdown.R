@@ -11,6 +11,7 @@
 #' * `use_pkgdown_github_pages()`: implements the GitHub setup needed to
 #'   automatically publish your pkgdown site to GitHub pages:
 #'
+#'   - (first, it calls `use_pkgdown()`)
 #'   - [use_github_pages()] prepares to publish the pkgdown site from the
 #'     `github-pages` branch
 #'   - [`use_github_action("pkgdown")`][use_github_action()] configures a
@@ -65,6 +66,28 @@ use_pkgdown_github_pages <- function() {
   site_url <- sub("/$", "", site$html_url)
   site_url <- tidyverse_url(url = site_url, tr = tr)
   use_pkgdown_url(url = site_url, tr = tr)
+
+  if (tr$repo_owner %in% c("tidyverse", "tidymodels")) {
+    ui_done("
+      Adding {ui_value('tidyverse/tidytemplate')} to \\
+      {ui_field('Config/Needs/website')}")
+    use_description_list("Config/Needs/website", "tidyverse/tidytemplate")
+  }
+}
+
+#' @details
+#' * `use_tidy_pkgdown_github_pages()` is basically
+#'   [use_pkgdown_github_pages()], so does full pkgdown set up. Note that there
+#'   is special handling for packages owned by certain GitHub organizations, in
+#'   terms of anticipating the (eventual) site URL and the use of a pkgdown
+#'   template.
+#' @export
+#' @rdname tidyverse
+use_tidy_pkgdown_github_pages <- function() {
+  # the code that's conditional on the owning org is already in this function
+  # this "tidy" version exists because it feels right and is a good place to
+  # put docs
+  use_pkgdown_github_pages()
 }
 
 # helpers ----------------------------------------------------------------------
@@ -111,7 +134,8 @@ use_pkgdown_url <- function(url, tr = NULL) {
 
 tidyverse_url <- function(url, tr = NULL) {
   tr <- tr %||% target_repo(github_get = TRUE)
-  if (!is_interactive() || !tr$repo_owner %in% c("tidyverse", "r-lib")) {
+  if (!is_interactive() ||
+      !tr$repo_owner %in% c("tidyverse", "r-lib", "tidymodels")) {
     return(url)
   }
   custom_url <- glue("https://{tr$repo_name}.{tr$repo_owner}.org")

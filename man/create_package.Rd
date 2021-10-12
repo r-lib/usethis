@@ -26,7 +26,7 @@ created, provided that the parent path exists.}
 
 \item{fields}{A named list of fields to add to \code{DESCRIPTION}, potentially
 overriding default values. See \code{\link[=use_description]{use_description()}} for how you can set
-personalized defaults using package options}
+personalized defaults using package options.}
 
 \item{rstudio}{If \code{TRUE}, calls \code{\link[=use_rstudio]{use_rstudio()}} to make the new package or
 project into an \href{https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}.
@@ -38,7 +38,7 @@ that the directory can be recognized as a project by the
 \item{roxygen}{Do you plan to use roxygen2 to document your package?}
 
 \item{check_name}{Whether to check if the name is valid for CRAN and throw an
-error if not}
+error if not.}
 
 \item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
 \itemize{

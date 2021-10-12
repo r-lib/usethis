@@ -34,7 +34,7 @@ Imports:
     crayon,
     curl (>= 2.7),
     ellipsis,
-    desc (>= 1.3.0),
+    desc (>= 1.4.0),
     fs (>= 1.3.0),
     gert (>= 1.4.1),
     gh (>= 1.2.1),

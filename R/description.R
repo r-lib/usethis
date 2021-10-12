@@ -2,13 +2,15 @@
 #'
 #' @description
 #'
+
 #' `use_description()` creates a `DESCRIPTION` file. Although mostly associated
 #' with R packages, a `DESCRIPTION` file can also be used to declare
-#' dependencies for a non-package projects. Within such a project,
+#' dependencies for a non-package project. Within such a project,
 #' `devtools::install_deps()` can then be used to install all the required
 #' packages. Note that, by default, `use_decription()` checks for a
 #' CRAN-compliant package name. You can turn this off with `check_name = FALSE`.
 #'
+
 #' usethis consults the following sources, in this order, to set `DESCRIPTION`
 #' fields:
 #' * `fields` argument of [create_package()] or [use_description()]
@@ -40,9 +42,9 @@
 #'
 #' @param fields A named list of fields to add to `DESCRIPTION`, potentially
 #'   overriding default values. See [use_description()] for how you can set
-#'   personalized defaults using package options
+#'   personalized defaults using package options.
 #' @param check_name Whether to check if the name is valid for CRAN and throw an
-#'   error if not
+#'   error if not.
 #' @param roxygen If `TRUE`, sets `RoxygenNote` to current roxygen2 version
 #' @seealso The [description chapter](https://r-pkgs.org/description.html)
 #'   of [R Packages](https://r-pkgs.org)
@@ -160,4 +162,64 @@ tidy_desc <- function(desc) {
   # Normalize all fields (includes reordering)
   # Wrap in a try() so it always succeeds, even if user options are malformed
   try(desc$normalize(), silent = TRUE)
+}
+
+# 2021-10-10, while adding use_description_list(), I moved this helper here
+#
+# this helper feels out-of-sync with current usethis practices around active
+# project and how overwrite is handled
+#
+# I won't change use_description_field() now, but use_description_list() is
+# implemented differently, more in keeping with our current style
+use_description_field <- function(name,
+                                  value,
+                                  base_path = proj_get(),
+                                  overwrite = FALSE) {
+  # account for `value`s produced via `glue::glue()`
+  value <- as.character(value)
+  curr <- desc::desc_get(name, file = base_path)[[1]]
+  curr <- gsub("^\\s*|\\s*$", "", curr)
+
+  if (identical(curr, value)) {
+    return(invisible())
+  }
+
+  if (!is.na(curr) && !overwrite) {
+    ui_stop(
+      "{ui_field(name)} has a different value in DESCRIPTION. \\
+      Use {ui_code('overwrite = TRUE')} to overwrite."
+    )
+  }
+
+  ui_done("Setting {ui_field(name)} field in DESCRIPTION to {ui_value(value)}")
+  desc::desc_set(name, value, file = base_path)
+  invisible()
+}
+
+use_description_list <- function(key,
+                                 values,
+                                 append = TRUE,
+                                 desc = NULL) {
+  desc_provided <- !is.null(desc)
+  desc <- desc %||% desc::desc(file = proj_get())
+  check_string(key)
+  stopifnot(is.character(values))
+
+  if (append) {
+    values <- unique(c(desc$get_list(key, default = ""), values))
+  }
+  # formatting needs some improvements
+  # https://github.com/r-lib/desc/issues/117
+  desc$set_list(key, values, sep = ",\n")
+
+  if (desc_provided) {
+    return(invisible())
+  }
+
+  tf <- withr::local_tempfile(
+    pattern = glue("use_description_list-{project_name()}-{path_sanitize(key, '-')}")
+  )
+  desc$write(file = tf)
+  tf_contents <- read_utf8(tf)
+  write_over(proj_path("DESCRIPTION"), tf_contents)
 }

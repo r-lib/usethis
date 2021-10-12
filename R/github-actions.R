@@ -213,9 +213,10 @@ use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
 #'     `roxygen2::roxygenise()` and update the PR, and `/style` to run
 #'     `styler::style_pkg()` and update the PR.
 #'
-#' This is how the tidyverse team checks its packages, but it is overkill for
-#' less widely used packages. Consider using the more streamlined workflows set
-#' up by [use_github_actions()] or [use_github_action_check_standard()].
+#'     This is how the tidyverse team checks its packages, but it is overkill
+#'     for less widely used packages. Consider using the more streamlined
+#'     workflows set up by [use_github_actions()] or
+#'     [use_github_action_check_standard()].
 #' @export
 #' @rdname tidyverse
 use_tidy_github_actions <- function() {
