@@ -57,8 +57,6 @@ pkgdown_config <- function(destdir) {
   config
 }
 
-# tidyverse pkgdown setup ------------------------------------------------------
-
 #' @rdname use_pkgdown
 #' @export
 use_pkgdown_github_pages <- function() {
@@ -79,6 +77,8 @@ use_pkgdown_github_pages <- function() {
     use_description_list("Config/Needs/website", "tidyverse/tidytemplate")
   }
 }
+
+# tidyverse pkgdown setup ------------------------------------------------------
 
 #' @details
 #' * `use_tidy_pkgdown_github_pages()` is basically
