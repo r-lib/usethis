@@ -245,7 +245,7 @@ get_release_data <- function() {
       re_match(grep(marker, lines, value = TRUE), pattern)$.match
     }
     date <- str_extract("submitted.*on", "[0-9]{4}-[0-9]{2}-[0-9]{2}")
-    sha7 <- str_extract("commit", "[[:xdigit:]]{7}")
+    sha7 <- str_extract("commit", "[[:xdigit:]]{7,40}")
     out <- list(
       Version = package$Version,
       Date = Sys.Date(),
