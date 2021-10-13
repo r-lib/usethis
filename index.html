@@ -171,8 +171,8 @@
 <span class="co"># Create a new package -------------------------------------------------</span>
 <span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mypkg"</span><span class="op">)</span>
 <span class="fu"><a href="reference/create_package.html">create_package</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
-<span class="co">#&gt; ✓ Creating '/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg/'</span>
-<span class="co">#&gt; ✓ Setting active project to '/private/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg'</span>
+<span class="co">#&gt; ✓ Creating '/tmp/RtmpxY5vMB/mypkg/'</span>
+<span class="co">#&gt; ✓ Setting active project to '/private/tmp/RtmpxY5vMB/mypkg'</span>
 <span class="co">#&gt; ✓ Creating 'R/'</span>
 <span class="co">#&gt; ✓ Writing 'DESCRIPTION'</span>
 <span class="co">#&gt; Package: mypkg</span>
@@ -185,13 +185,13 @@
 <span class="co">#&gt;     license</span>
 <span class="co">#&gt; Encoding: UTF-8</span>
 <span class="co">#&gt; Roxygen: list(markdown = TRUE)</span>
-<span class="co">#&gt; RoxygenNote: 7.1.1</span>
+<span class="co">#&gt; RoxygenNote: 7.1.2</span>
 <span class="co">#&gt; ✓ Writing 'NAMESPACE'</span>
 <span class="co">#&gt; ✓ Setting active project to '&lt;no active project&gt;'</span>
 <span class="co"># only needed since this session isn't interactive</span>
 <span class="fu"><a href="reference/proj_activate.html">proj_activate</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
-<span class="co">#&gt; ✓ Setting active project to '/private/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg'</span>
-<span class="co">#&gt; ✓ Changing working directory to '/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg/'</span>
+<span class="co">#&gt; ✓ Setting active project to '/private/tmp/RtmpxY5vMB/mypkg'</span>
+<span class="co">#&gt; ✓ Changing working directory to '/tmp/RtmpxY5vMB/mypkg/'</span>
 
 <span class="co"># Modify the description ----------------------------------------------</span>
 <span class="fu"><a href="reference/licenses.html">use_mit_license</a></span><span class="op">(</span><span class="st">"My Name"</span><span class="op">)</span>
@@ -202,12 +202,13 @@
 
 <span class="fu"><a href="reference/use_package.html">use_package</a></span><span class="op">(</span><span class="st">"MASS"</span>, <span class="st">"Suggests"</span><span class="op">)</span>
 <span class="co">#&gt; ✓ Adding 'MASS' to Suggests field in DESCRIPTION</span>
-<span class="co">#&gt; ● Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed</span>
-<span class="co">#&gt; ● Then directly refer to functons like `MASS::fun()` (replacing `fun()`).</span>
+<span class="co">#&gt; • Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed</span>
+<span class="co">#&gt; • Then directly refer to functons like `MASS::fun()` (replacing `fun()`).</span>
 
 <span class="co"># Set up other files -------------------------------------------------</span>
 <span class="fu"><a href="reference/use_readme_rmd.html">use_readme_md</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; ✓ Writing 'README.md'</span>
+<span class="co">#&gt; • Update 'README.md' to include installation instructions.</span>
 
 <span class="fu"><a href="reference/use_news_md.html">use_news_md</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; ✓ Writing 'NEWS.md'</span>
@@ -218,7 +219,7 @@
 <span class="co">#&gt; ✓ Creating 'tests/testthat/'</span>
 <span class="co">#&gt; ✓ Writing 'tests/testthat.R'</span>
 <span class="co">#&gt; ✓ Writing 'tests/testthat/test-my-test.R'</span>
-<span class="co">#&gt; ● Edit 'tests/testthat/test-my-test.R'</span>
+<span class="co">#&gt; • Edit 'tests/testthat/test-my-test.R'</span>
 
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span>
 <span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2</span>
@@ -227,7 +228,7 @@
 <span class="co">#&gt; ✓ Creating 'data/'</span>
 <span class="co">#&gt; ✓ Setting LazyData to 'true' in 'DESCRIPTION'</span>
 <span class="co">#&gt; ✓ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span>
-<span class="co">#&gt; ● Document your data (see 'https://r-pkgs.org/data.html')</span>
+<span class="co">#&gt; • Document your data (see 'https://r-pkgs.org/data.html')</span>
 
 <span class="co"># Use git ------------------------------------------------------------</span>
 <span class="fu"><a href="reference/use_git.html">use_git</a></span><span class="op">(</span><span class="op">)</span>
