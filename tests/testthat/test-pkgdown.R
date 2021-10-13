@@ -8,6 +8,7 @@ test_that("use_pkgdown() creates and ignores the promised file/dir", {
   local_interactive(FALSE)
   with_mock(
     check_installed = function(pkg) TRUE,
+    pkgdown_version = function() "1.9000",
     use_pkgdown()
   )
   expect_true(uses_pkgdown())
@@ -29,9 +30,11 @@ test_that("pkgdown_config_meta() returns a list", {
   local_interactive(FALSE)
   with_mock(
     check_installed = function(pkg) TRUE,
+    pkgdown_version = function() "1.9000",
     use_pkgdown()
   )
-  expect_equal(pkgdown_config_meta(), list())
+  expect_type(pkgdown_config_meta(), "list")
+
   writeLines(c("home:", "  strip_header: true"), pkgdown_config_path())
   expect_equal(
     pkgdown_config_meta(),
@@ -44,6 +47,7 @@ test_that("pkgdown_url() returns correct data, warns if pedantic", {
   local_interactive(FALSE)
   with_mock(
     check_installed = function(pkg) TRUE,
+    pkgdown_version = function() "1.9000",
     use_pkgdown()
   )
 

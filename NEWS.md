@@ -34,6 +34,9 @@ usethis has a more sophisticated understanding of the default branch and gains s
 * `use_release_issue()` also takes bullets from `release_questions()`, 
   for compatibility with `devtools::release()`.
 
+* `use_pkgdown()` automatically uses bootstrap4 if the pkgdown version supports
+  it (anticipated for pkgdown 2.0.0).
+
 * `git_vaccinate()`, `edit_git_ignore()`, and `git_sitrep()` are more careful to
   consult, reveal, and set the `core.excludesFile` in user's Git configuration
   (#1461).

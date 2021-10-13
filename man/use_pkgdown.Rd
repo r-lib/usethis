@@ -21,9 +21,8 @@ use_pkgdown_travis()
 \href{https://pkgdown.r-lib.org}{pkgdown} makes it easy to turn your package into
 a beautiful website. usethis provides two functions to help you use pkgdown:
 \itemize{
-\item \code{use_pkgdown()}: creates a pkgdown config file, adds relevant files or
-directories to \code{.Rbuildignore} and \code{.gitignore}, and builds favicons if
-your package has a logo.
+\item \code{use_pkgdown()}: creates a pkgdown config file and adds relevant files or
+directories to \code{.Rbuildignore} and \code{.gitignore}.
 \item \code{use_pkgdown_github_pages()}: implements the GitHub setup needed to
 automatically publish your pkgdown site to GitHub pages:
 \itemize{
