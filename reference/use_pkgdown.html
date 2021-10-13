@@ -13,6 +13,9 @@ GitHub Action to automatically build the pkgdown site and deploy it via
 GitHub Pages
 The pkgdown site's URL is added to the pkgdown configuration file,
 to the URL field of DESCRIPTION, and to the GitHub repo.
+Packages owned by certain GitHub organizations (tidyverse, r-lib, and
+tidymodels) get some special treatment, in terms of anticipating the
+(eventual) site URL and the use of a pkgdown template.
 
 
 
@@ -136,6 +139,9 @@ GitHub Action to automatically build the pkgdown site and deploy it via
 GitHub Pages</p></li>
 <li><p>The pkgdown site's URL is added to the pkgdown configuration file,
 to the URL field of DESCRIPTION, and to the GitHub repo.</p></li>
+<li><p>Packages owned by certain GitHub organizations (tidyverse, r-lib, and
+tidymodels) get some special treatment, in terms of anticipating the
+(eventual) site URL and the use of a pkgdown template.</p></li>
 </ul></li>
 </ul><p><code>use_pkgdown_travis()</code> is deprecated; we no longer recommend that you use
 Travis-CI.</p>
