@@ -7,17 +7,18 @@
 use_github_release(host = deprecated(), auth_token = deprecated())
 }
 \arguments{
-\item{host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer consulted
-now that usethis allows the gh package to lookup a token based on a URL
-determined from the current project's GitHub remotes.}
+\item{host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
+consulted now that usethis allows the gh package to lookup a token based on
+a URL determined from the current project's GitHub remotes.}
 }
 \description{
-Creates a \strong{draft} GitHub release for the current package using the current
-version and \code{NEWS.md}. If you are comfortable that it is correct, you will
+Creates a \strong{draft} GitHub release for the current package using its current
+state and \code{NEWS.md}. Once you are comfortable that it is correct, you will
 need to publish the release from GitHub.
 
-When \code{CRAN-RELEASE} is present (as produced by \code{devtools::release()} or
-\code{devtools::submit_cran}), the target commit is extracted from there and,
-after the draft release is successfully created, \code{CRAN-RELEASE} is deleted.
-Otherwise, the release tag is set to current \code{HEAD}.
+When a \code{CRAN-RELEASE} file is found (as produced by \code{devtools::release()} or
+\code{devtools::submit_cran}), the target commit (and, going forward, package
+version) are extracted from it and, after the draft release is successfully
+created, \code{CRAN-RELEASE} is deleted. Otherwise, the release tag is set to the
+SHA for current \code{HEAD} and the current package version is used.
 }
