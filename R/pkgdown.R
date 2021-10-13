@@ -46,7 +46,7 @@ pkgdown_config <- function(destdir) {
     url = NULL
   )
 
-  if (utils::packageVersion("pkgdown") >= "1.9000") {
+  if (pkgdown_version() >= "1.9000") {
     config$template <- list(bootstrap = 4L)
   }
 
@@ -55,6 +55,11 @@ pkgdown_config <- function(destdir) {
   }
 
   config
+}
+
+# wrapping because I need to be able to mock this in tests
+pkgdown_version <- function() {
+  utils::packageVersion("pkgdown")
 }
 
 #' @rdname use_pkgdown
