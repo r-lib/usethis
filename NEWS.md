@@ -27,7 +27,7 @@ usethis has a more sophisticated understanding of the default branch and gains s
 ## Other
 
 * `use_github_file()` is a new function related to `use_template()`, which grabs
-  the contents of an arbitrary file on GitHub, with support for targetting a
+  the contents of an arbitrary file on GitHub, with support for targeting a
   specific branch, tag, or commit and for following symlinks (#1407). It is now
   used by `use_github_action()` and friends.
 
