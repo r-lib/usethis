@@ -34,6 +34,9 @@ GitHub Action to automatically build the pkgdown site and deploy it via
 GitHub Pages
 \item The pkgdown site's URL is added to the pkgdown configuration file,
 to the URL field of DESCRIPTION, and to the GitHub repo.
+\item Packages owned by certain GitHub organizations (tidyverse, r-lib, and
+tidymodels) get some special treatment, in terms of anticipating the
+(eventual) site URL and the use of a pkgdown template.
 }
 }
 

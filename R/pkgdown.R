@@ -18,6 +18,9 @@
 #'     GitHub Pages
 #'   - The pkgdown site's URL is added to the pkgdown configuration file,
 #'     to the URL field of DESCRIPTION, and to the GitHub repo.
+#'   - Packages owned by certain GitHub organizations (tidyverse, r-lib, and
+#'     tidymodels) get some special treatment, in terms of anticipating the
+#'     (eventual) site URL and the use of a pkgdown template.
 #'
 #' `use_pkgdown_travis()` is deprecated; we no longer recommend that you use
 #' Travis-CI.
@@ -81,23 +84,6 @@ use_pkgdown_github_pages <- function() {
       {ui_field('Config/Needs/website')}")
     use_description_list("Config/Needs/website", "tidyverse/tidytemplate")
   }
-}
-
-# tidyverse pkgdown setup ------------------------------------------------------
-
-#' @details
-#' * `use_tidy_pkgdown_github_pages()` is basically
-#'   [use_pkgdown_github_pages()], so does full pkgdown set up. Note that there
-#'   is special handling for packages owned by certain GitHub organizations, in
-#'   terms of anticipating the (eventual) site URL and the use of a pkgdown
-#'   template.
-#' @export
-#' @rdname tidyverse
-use_tidy_pkgdown_github_pages <- function() {
-  # the code that's conditional on the owning org is already in this function
-  # this "tidy" version exists because it feels right and is a good place to
-  # put docs
-  use_pkgdown_github_pages()
 }
 
 # helpers ----------------------------------------------------------------------
