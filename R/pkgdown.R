@@ -111,17 +111,10 @@ use_pkgdown_url <- function(url, tr = NULL) {
   }
   write_utf8(config_path, yaml::as.yaml(config))
 
-  urls <- desc::desc_get_urls()
-  if (!url %in% urls) {
-    ui_done("Adding {ui_value(url)} to {ui_field('URL')} field in DESCRIPTION")
-    ui_silence(
-      use_description_field(
-        "URL",
-        glue_collapse(c(url, urls), ", "),
-        overwrite = TRUE
-      )
-    )
-  }
+  ui_done("Adding {ui_value(url)} to {ui_field('URL')} field in DESCRIPTION")
+  desc <- desc::desc(file = proj_get())
+  desc$add_urls(url)
+  desc$write()
 
   gh <- gh_tr(tr)
   homepage <- gh("GET /repos/{owner}/{repo}")[["homepage"]]
