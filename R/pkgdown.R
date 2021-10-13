@@ -99,20 +99,17 @@ use_tidy_pkgdown_github_pages <- function() {
 use_pkgdown_url <- function(url, tr = NULL) {
   tr <- tr %||% target_repo(github_get = TRUE)
 
-  config <- pkgdown_config_path()
-  config_lines <- read_utf8(config)
-  url_line <- paste0("url: ", url)
-  if (!any(grepl(url_line, config_lines))) {
-    ui_done("
-      Recording {ui_value(url)} as site's {ui_field('url')} in \\
-      {ui_path(config)}")
-    config_lines <- config_lines[!grepl("^url:", config_lines)]
-    write_utf8(config, c(
-      url_line,
-      if (length(config_lines) && nzchar(config_lines[[1]])) "",
-      config_lines
-    ))
+  config_path <- pkgdown_config_path()
+  ui_done("
+    Recording {ui_value(url)} as site's {ui_field('url')} in \\
+    {ui_path(config_path)}")
+  config <- pkgdown_config_meta()
+  if (has_name(config, "url")) {
+    config$url <- url
+  } else {
+    config <- c(url = url, config)
   }
+  write_utf8(config_path, yaml::as.yaml(config))
 
   urls <- desc::desc_get_urls()
   if (!url %in% urls) {
