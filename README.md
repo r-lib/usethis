@@ -60,8 +60,8 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✓ Creating '/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg/'
-#> ✓ Setting active project to '/private/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg'
+#> ✓ Creating '/tmp/RtmpxY5vMB/mypkg/'
+#> ✓ Setting active project to '/private/tmp/RtmpxY5vMB/mypkg'
 #> ✓ Creating 'R/'
 #> ✓ Writing 'DESCRIPTION'
 #> Package: mypkg
@@ -74,13 +74,13 @@ create_package(path)
 #>     license
 #> Encoding: UTF-8
 #> Roxygen: list(markdown = TRUE)
-#> RoxygenNote: 7.1.1
+#> RoxygenNote: 7.1.2
 #> ✓ Writing 'NAMESPACE'
 #> ✓ Setting active project to '<no active project>'
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✓ Setting active project to '/private/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg'
-#> ✓ Changing working directory to '/var/folders/03/9x7925g54mncswxx06wpkxl00000gn/T/RtmpxLZ8U3/mypkg/'
+#> ✓ Setting active project to '/private/tmp/RtmpxY5vMB/mypkg'
+#> ✓ Changing working directory to '/tmp/RtmpxY5vMB/mypkg/'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -91,12 +91,13 @@ use_mit_license("My Name")
 
 use_package("MASS", "Suggests")
 #> ✓ Adding 'MASS' to Suggests field in DESCRIPTION
-#> ● Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed
-#> ● Then directly refer to functons like `MASS::fun()` (replacing `fun()`).
+#> • Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed
+#> • Then directly refer to functons like `MASS::fun()` (replacing `fun()`).
 
 # Set up other files -------------------------------------------------
 use_readme_md()
 #> ✓ Writing 'README.md'
+#> • Update 'README.md' to include installation instructions.
 
 use_news_md()
 #> ✓ Writing 'NEWS.md'
@@ -107,7 +108,7 @@ use_test("my-test")
 #> ✓ Creating 'tests/testthat/'
 #> ✓ Writing 'tests/testthat.R'
 #> ✓ Writing 'tests/testthat/test-my-test.R'
-#> ● Edit 'tests/testthat/test-my-test.R'
+#> • Edit 'tests/testthat/test-my-test.R'
 
 x <- 1
 y <- 2
@@ -116,7 +117,7 @@ use_data(x, y)
 #> ✓ Creating 'data/'
 #> ✓ Setting LazyData to 'true' in 'DESCRIPTION'
 #> ✓ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'
-#> ● Document your data (see 'https://r-pkgs.org/data.html')
+#> • Document your data (see 'https://r-pkgs.org/data.html')
 
 # Use git ------------------------------------------------------------
 use_git()
