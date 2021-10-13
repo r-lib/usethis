@@ -1,3 +1,4 @@
+AGG
 AGPL
 Addin
 AppVeyor
@@ -15,6 +16,7 @@ Depsy
 DockerHub
 DropBox
 GHA
+GHE
 Gert
 Gert's
 Git's
@@ -33,7 +35,6 @@ Lifecycle
 LinkingTo
 Makefile
 ORCID
-PAT's
 PATs
 PRs
 README
@@ -57,7 +58,6 @@ Templated
 Tidyverse
 UI
 Ushey's
-VM
 Xcode
 YAML
 addin
@@ -89,6 +89,7 @@ devtools
 discoverable
 else's
 emacs
+env
 eval
 favicons
 favour
@@ -111,6 +112,7 @@ href
 http
 https
 httr
+impermanance
 ing
 initialisation
 initialises
@@ -122,8 +124,9 @@ labelling
 learnr
 libgit
 lifecycle
-linux
 macOS
+macOS's
+macbook
 magrittr
 magrittr's
 md
@@ -143,12 +146,12 @@ programmatically
 purrr
 r's
 rOpenSci
+ragg
 rappdirs
 rcmdcheck
 rebase
 reconfigures
 redirections
-renviron
 repo
 repo's
 repos
@@ -170,6 +173,7 @@ sitrep
 src
 styler
 symlink
+symlinks
 templated
 templating
 testthat
@@ -184,6 +188,8 @@ unpushed
 useR
 usethis's
 ver
+vm
 withr
+xyz
 xz
 yaml
