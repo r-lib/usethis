@@ -126,16 +126,16 @@ has different default behavior.</p></td>
     </tr></table><h2 class="hasAnchor" id="tidy-download-"><a class="anchor" href="#tidy-download-"></a>tidy_download()</h2>
 
     
-<pre class="sourceCode r"><code><span class="co">## function signature</span>
-<span class="fu">tidy_download</span><span class="op">(</span><span class="va">url</span>, destdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<pre><code>## function signature
+tidy_download(url, destdir = getwd())
 
-<span class="co"># as called inside use_course()</span>
-<span class="fu">tidy_download</span><span class="op">(</span>
-  <span class="va">url</span>, <span class="co">## after post-processing with normalize_url()</span>
-  <span class="co"># conspicuous_place() = `getOption('usethis.destdir')` or desktop or home</span>
-  <span class="co"># directory or working directory</span>
-  destdir <span class="op">=</span> <span class="va">destdir</span> <span class="op">%||%</span> <span class="fu">conspicuous_place</span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span>
+# as called inside use_course()
+tidy_download(
+  url, ## after post-processing with normalize_url()
+  # conspicuous_place() = `getOption('usethis.destdir')` or desktop or home
+  # directory or working directory
+  destdir = destdir %||% conspicuous_place()
+)
 </code></pre>
 
 <p>Special-purpose function to download a ZIP file and automatically determine

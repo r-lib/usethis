@@ -150,15 +150,15 @@ fields:</p><ul><li><p><code>fields</code> argument of <code><a href="create_pack
 <code>use_description_defaults()</code>.</p>
 <p>If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named <code>"usethis.description"</code>. Here's an example of
-code to include in <code>.Rprofile</code>, which can be opened via <code><a href="edit.html">edit_r_profile()</a></code>:</p><pre class="sourceCode r"><code><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>
-  usethis.description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-    `Authors@R` <span class="op">=</span> <span class="st">'person("Jane", "Doe", email = "jane@example.com",
+code to include in <code>.Rprofile</code>, which can be opened via <code><a href="edit.html">edit_r_profile()</a></code>:</p><pre><code>options(
+  usethis.description = list(
+    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com",
                           role = c("aut", "cre"),
-                          comment = c(ORCID = "YOUR-ORCID-ID"))'</span>,
-    License <span class="op">=</span> <span class="st">"MIT + file LICENSE"</span>,
-    Language <span class="op">=</span>  <span class="st">"es"</span>
-  <span class="op">)</span>
-<span class="op">)</span>
+                          comment = c(ORCID = "YOUR-ORCID-ID"))',
+    License = "MIT + file LICENSE",
+    Language =  "es"
+  )
+)
 </code></pre>
 
 <p>Prior to usethis v2.0.0, <code>getOption("devtools.desc")</code> was consulted for

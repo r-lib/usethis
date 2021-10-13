@@ -132,7 +132,7 @@ when usethis needs to configure the first GitHub remote for a repo:</p><ul><li><
 this defaults to "https". You can change this for the duration of the
 R session with <code>use_git_protocol()</code>. Change the default for all R
 sessions with code like this in your <code>.Rprofile</code> (easily editable via
-<code><a href="edit.html">edit_r_profile()</a></code>):</p><pre class="sourceCode r"><code><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>usethis.protocol <span class="op">=</span> <span class="st">"ssh"</span><span class="op">)</span>
+<code><a href="edit.html">edit_r_profile()</a></code>):</p><pre><code>options(usethis.protocol = "ssh")
 </code></pre></li>
 <li><p><code>use_git_protocol()</code> sets the Git protocol for the current R session</p></li>
 </ul><p>This protocol only affects the Git URL for newly configured remotes. All
