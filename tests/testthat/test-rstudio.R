@@ -97,7 +97,10 @@ test_that("use_ragg() modifies user-level RStudio prefs", {
   path <- withr::local_tempdir()
   withr::local_envvar(c("XDG_CONFIG_HOME" = path))
 
-  use_ragg()
+  with_mock(
+    check_installed = function(pkg) TRUE,
+    use_ragg()
+  )
 
   prefs <- rstudio_prefs_read()
   expect_equal(prefs[["graphics_backend"]], "ragg")
