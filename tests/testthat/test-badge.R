@@ -28,12 +28,3 @@ test_that("use_badge() does nothing if badge seems to pre-exist", {
   writeLines(href, proj_path("README.md"))
   expect_false(use_badge("foo", href, "SRC"))
 })
-
-test_that("default readme has placeholders / can add to empty badge block", {
-  create_local_package()
-  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
-
-  expect_message(use_readme_md())
-  expect_message(use_cran_badge(), "Adding CRAN status badge")
-  expect_silent(use_cran_badge())
-})
