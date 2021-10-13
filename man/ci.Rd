@@ -29,7 +29,7 @@ use_circleci_badge(repo_spec = NULL)
 package.}
 
 \item{ext}{Which travis website to use. Defaults to \code{"com"} for
-https://travis-ci.com. Change to \code{"org"} for https://travis-ci.org.}
+https://www.travis-ci.com/. Change to \code{"org"} for https://travis-ci.org.}
 
 \item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
 
@@ -61,14 +61,14 @@ that is developed on GitHub or, perhaps, GitLab. These functions
 \section{\code{use_travis()}}{
 
 Adds a basic \code{.travis.yml} to the top-level directory of a package. This is a
-configuration file for the \href{https://travis-ci.com/}{Travis CI} continuous
+configuration file for the \href{https://www.travis-ci.com/}{Travis CI} continuous
 integration service.
 }
 
 \section{\code{use_travis_badge()}}{
 
-Only adds the \href{https://travis-ci.com/}{Travis CI} badge. Use for a project
-where Travis is already configured.
+Only adds the Travis CI badge. Use for a project where Travis is already
+configured.
 }
 
 \section{\code{use_appveyor()}}{

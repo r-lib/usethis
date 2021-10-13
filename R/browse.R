@@ -30,7 +30,7 @@
 #' * `browse_github_pulls()`: Visits the GitHub Pull Request index or one
 #'   specific pull request.
 #' * `browse_travis()`: Visits the project's page on
-#'   [Travis CI](https://travis-ci.com).
+#'   [Travis CI](https://www.travis-ci.com/).
 #' * `browse_circleci()`: Visits the project's page on
 #'   [Circle CI](https://circleci.com).
 #' * `browse_cran()`: Visits the package on CRAN, via the canonical URL.

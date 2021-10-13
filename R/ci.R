@@ -22,12 +22,12 @@ NULL
 
 #' @section `use_travis()`:
 #' Adds a basic `.travis.yml` to the top-level directory of a package. This is a
-#' configuration file for the [Travis CI](https://travis-ci.com/) continuous
+#' configuration file for the [Travis CI](https://www.travis-ci.com/) continuous
 #' integration service.
 #' @param browse Open a browser window to enable automatic builds for the
 #'   package.
 #' @param ext Which travis website to use. Defaults to `"com"` for
-#'   https://travis-ci.com. Change to `"org"` for https://travis-ci.org.
+#'   https://www.travis-ci.com/. Change to `"org"` for https://travis-ci.org.
 #' @export
 #' @rdname ci
 use_travis <- function(browse = rlang::is_interactive(),
@@ -54,8 +54,8 @@ use_travis <- function(browse = rlang::is_interactive(),
 }
 
 #' @section `use_travis_badge()`:
-#' Only adds the [Travis CI](https://travis-ci.com/) badge. Use for a project
-#'  where Travis is already configured.
+#' Only adds the Travis CI badge. Use for a project where Travis is already
+#' configured.
 #' @eval param_repo_spec()
 #' @export
 #' @rdname ci
