@@ -12,13 +12,17 @@ consulted now that usethis allows the gh package to lookup a token based on
 a URL determined from the current project's GitHub remotes.}
 }
 \description{
-Creates a \strong{draft} GitHub release for the current package using its current
-state and \code{NEWS.md}. Once you are comfortable that it is correct, you will
-need to publish the release from GitHub.
+Creates a \strong{draft} GitHub release for the current package. Once you are
+satisfied that it is correct, you will need to publish the release from
+GitHub. The key pieces of info are which commit / SHA to tag, the associated
+package version, and the relevant NEWS entries.
 
-When a \code{CRAN-RELEASE} file is found (as produced by \code{devtools::release()} or
-\code{devtools::submit_cran}), the target commit (and, going forward, package
-version) are extracted from it and, after the draft release is successfully
-created, \code{CRAN-RELEASE} is deleted. Otherwise, the release tag is set to the
-SHA for current \code{HEAD} and the current package version is used.
+If you use \code{devtools::release()} or \code{devtools::submit_cran()} to submit to
+CRAN, information about the submitted state is captured in a CRAN-SUBMISSION
+or CRAN-RELEASE file. \code{use_github_release()} uses this info to populate the
+draft GitHub release and, after success, deletes the CRAN-SUBMISSION or
+CRAN-RELEASE file.
+
+In the absence of such a file, we must fall back to assuming the current
+state (SHA of \code{HEAD}, package version, NEWS) is the submitted state.
 }

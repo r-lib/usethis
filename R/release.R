@@ -149,16 +149,19 @@ release_type <- function(version) {
 #' Draft a GitHub release
 #'
 #' @description
-#' Creates a __draft__ GitHub release for the current package using its current
-#' state and `NEWS.md`. Once you are comfortable that it is correct, you will
-#' need to publish the release from GitHub.
+#' Creates a __draft__ GitHub release for the current package. Once you are
+#' satisfied that it is correct, you will need to publish the release from
+#' GitHub. The key pieces of info are which commit / SHA to tag, the associated
+#' package version, and the relevant NEWS entries.
 #'
-
-#' When a `CRAN-RELEASE` file is found (as produced by `devtools::release()` or
-#' `devtools::submit_cran`), the target commit (and, going forward, package
-#' version) are extracted from it and, after the draft release is successfully
-#' created, `CRAN-RELEASE` is deleted. Otherwise, the release tag is set to the
-#' SHA for current `HEAD` and the current package version is used.
+#' If you use `devtools::release()` or `devtools::submit_cran()` to submit to
+#' CRAN, information about the submitted state is captured in a CRAN-SUBMISSION
+#' or CRAN-RELEASE file. `use_github_release()` uses this info to populate the
+#' draft GitHub release and, after success, deletes the CRAN-SUBMISSION or
+#' CRAN-RELEASE file.
+#'
+#' In the absence of such a file, we must fall back to assuming the current
+#' state (SHA of `HEAD`, package version, NEWS) is the submitted state.
 #'
 #' @param host,auth_token `r lifecycle::badge("deprecated")`: No longer
 #'   consulted now that usethis allows the gh package to lookup a token based on
@@ -166,6 +169,7 @@ release_type <- function(version) {
 #' @export
 use_github_release <- function(host = deprecated(),
                                auth_token = deprecated()) {
+  check_is_package("use_github_release()")
   if (lifecycle::is_present(host)) {
     deprecate_warn_host("use_github_release")
   }
@@ -179,29 +183,17 @@ use_github_release <- function(host = deprecated(),
       You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
       is required to draft a release.")
   }
-  gh <- gh_tr(tr)
 
-  package <- package_data()
-  dat <- get_release_data()
-  if (nchar(dat$SHA) != 40) {
-    # the release endpoint requires the full sha
-    sha <-
-      gh("/repos/{owner}/{repo}/commits/{commit_sha}", commit_sha = dat$SHA)$sha
-  }
+  dat <- get_release_data(tr)
+  news <- get_release_news(SHA = dat$SHA, tr = tr)
 
-  release_name <- glue("{package$Package} {dat$Version}")
+  release_name <- glue("{dat$Package} {dat$Version}")
   tag_name <- glue("v{dat$Version}")
   kv_line("Release name", release_name)
   kv_line("Tag name", tag_name)
   kv_line("SHA", dat$SHA)
 
-  path <- proj_path("NEWS.md")
-  if (file_exists(path)) {
-    news <- news_latest(read_utf8(path))
-  } else {
-    news <- "Initial release"
-  }
-
+  gh <- gh_tr(tr)
   release <- gh(
     "POST /repos/{owner}/{repo}/releases",
     name = release_name, tag_name = tag_name,
@@ -214,50 +206,106 @@ use_github_release <- function(host = deprecated(),
   }
 
   view_url(release$html_url)
+  ui_todo("Publish the release via \"Edit draft\" > \"Publish release\"")
 }
 
-get_release_data <- function() {
-  cran_release <- proj_path("CRAN-RELEASE")
+get_release_data <- function(tr = target_repo(github_get = TRUE)) {
   package <- package_data()
+  cran_submission <-
+    path_first_existing(proj_path(c("CRAN-SUBMISSION", "CRAN-RELEASE")))
 
-  if (!file_exists(cran_release)) {
-    ui_done("Tagging current HEAD commit for the release")
+  if (is.null(cran_submission)) {
+    ui_done("Using current HEAD commit for the release")
     challenge_non_default_branch()
     check_branch_pushed()
     return(list(
+      Package = package$Package,
       Version = package$Version,
       SHA = gert::git_info(repo = git_repo())$commit
     ))
   }
 
-  lines <- read_utf8(cran_release)
-  if (grepl("^Version", lines[1])) {
+  if (path_file(cran_submission) == "CRAN-SUBMISSION") {
     # new style ----
     # Version: 2.4.2
     # Date: 2021-10-13 20:40:36 UTC
     # SHA: fbe18b5a22be8ebbb61fa7436e826ba8d7f485a9
-    out <- as.list(read.dcf(cran_release)[1, ])
-  } else {
+    out <- as.list(read.dcf(cran_submission)[1, ])
+  }
+
+  if (path_file(cran_submission) == "CRAN-RELEASE") {
+    gh <- gh_tr(tr)
     # old style ----
     # This package was submitted to CRAN on 2021-10-13.
     # Once it is accepted, delete this file and tag the release (commit e10658f5).
+    lines <- read_utf8(cran_submission)
     str_extract <- function(marker, pattern) {
       re_match(grep(marker, lines, value = TRUE), pattern)$.match
     }
     date <- str_extract("submitted.*on", "[0-9]{4}-[0-9]{2}-[0-9]{2}")
-    sha7 <- str_extract("commit", "[[:xdigit:]]{7,40}")
+    sha <- str_extract("commit", "[[:xdigit:]]{7,40}")
+    if (nchar(sha) != 40) {
+      # the release endpoint requires the full sha
+      sha <-
+        gh("/repos/{owner}/{repo}/commits/{commit_sha}", commit_sha = sha)$sha
+    }
+
+    HEAD <- gert::git_info(repo = git_repo())$commit
+    if (HEAD == sha) {
+      version <- package$Version
+    } else {
+      tf <- glue("{package_data()$Package}-DESCRIPTION-{substr(sha, 1, 7)}-")
+      tf <- withr::local_tempfile(pattern = tf)
+      gh(
+        "/repos/{owner}/{repo}/contents/{path}",
+        path = "DESCRIPTION", ref = sha,
+        .destfile = tf,
+        .accept = "application/vnd.github.v3.raw"
+      )
+      version <- desc::desc(file = tf)$get_version()
+    }
+
     out <- list(
-      Version = package$Version,
+      Version = version,
       Date = Sys.Date(),
-      SHA = sha7
+      SHA = sha
     )
   }
-  out$file <- cran_release
 
+  out$Package <- package$Package
+  out$file <- cran_submission
   ui_done("
     {ui_path(out$file)} file found, from a submission on {as.Date(out$Date)}")
 
   out
+}
+
+get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
+                             tr = target_repo(github_get = TRUE)) {
+  package <- package_data()
+  HEAD <- gert::git_info(repo = git_repo())$commit
+
+  if (HEAD == SHA) {
+    news_path <- proj_path("NEWS.md")
+  } else {
+    news_path <- glue("{package_data()$Package}-NEWS-{substr(SHA, 1, 7)}-")
+    news_path <- withr::local_tempfile(pattern = news_path)
+    gh <- purrr::possibly(gh_tr(tr), otherwise = NULL)
+    gh(
+      "/repos/{owner}/{repo}/contents/{path}",
+      path = "NEWS.md", ref = SHA,
+      .destfile = news_path,
+      .accept = "application/vnd.github.v3.raw"
+    )
+  }
+
+  if (file_exists(news_path)) {
+    news <- news_latest(read_utf8(news_path))
+  } else {
+    news <- "Initial release"
+  }
+
+  news
 }
 
 cran_version <- function(package = project_name(),
