@@ -32,12 +32,12 @@ use_roxygen_md <- function() {
   invisible()
 }
 
-uses_roxygen_md <- function(base_path = proj_get()) {
-  if (!desc::desc_has_fields("Roxygen", base_path)) {
+uses_roxygen_md <- function() {
+  if (!desc::desc_has_fields("Roxygen", file = proj_get())) {
     return(FALSE)
   }
 
-  roxygen <- desc::desc_get("Roxygen", base_path)[[1]]
+  roxygen <- desc::desc_get("Roxygen", file = proj_get())[[1]]
   value <- tryCatch(
     {
       eval(parse(text = roxygen))
@@ -50,8 +50,8 @@ uses_roxygen_md <- function(base_path = proj_get()) {
   isTRUE(value$markdown)
 }
 
-uses_roxygen <- function(base_path = proj_get()) {
-  desc::desc_has_fields("RoxygenNote", base_path)
+uses_roxygen <- function() {
+  desc::desc_has_fields("RoxygenNote", file = proj_get())
 }
 
 roxygen_ns_append <- function(tag) {

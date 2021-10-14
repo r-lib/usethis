@@ -171,13 +171,10 @@ tidy_desc <- function(desc) {
 #
 # I won't change use_description_field() now, but use_description_list() is
 # implemented differently, more in keeping with our current style
-use_description_field <- function(name,
-                                  value,
-                                  base_path = proj_get(),
-                                  overwrite = FALSE) {
+use_description_field <- function(name, value, overwrite = FALSE) {
   # account for `value`s produced via `glue::glue()`
   value <- as.character(value)
-  curr <- desc::desc_get(name, file = base_path)[[1]]
+  curr <- desc::desc_get(name, file = proj_get())[[1]]
   curr <- gsub("^\\s*|\\s*$", "", curr)
 
   if (identical(curr, value)) {
@@ -192,7 +189,7 @@ use_description_field <- function(name,
   }
 
   ui_done("Setting {ui_field(name)} field in DESCRIPTION to {ui_value(value)}")
-  desc::desc_set(name, value, file = base_path)
+  desc::desc_set(name, value, file = proj_get())
   invisible()
 }
 

@@ -12,8 +12,3 @@ use_make <- function() {
   )
   use_build_ignore("Makefile")
 }
-
-uses_make <- function(base_path = proj_get()) {
-  makefile_path <- proj_path("Makefile")
-  file_exists(makefile_path)
-}

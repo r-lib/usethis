@@ -81,11 +81,7 @@ check_edition <- function(edition = NULL) {
 }
 
 
-uses_testthat <- function(base_path = proj_get()) {
-  paths <- c(
-    path(base_path, "inst", "tests"),
-    path(base_path, "tests", "testthat")
-  )
-
+uses_testthat <- function() {
+  paths <- proj_path(c(path("inst", "tests"), path("tests", "testthat")))
   any(dir_exists(paths))
 }

@@ -139,10 +139,9 @@ tidyverse_url <- function(url, tr = NULL) {
   }
 }
 
-pkgdown_config_path <- function(base_path = proj_get()) {
+pkgdown_config_path <- function() {
   path_first_existing(
-    path(
-      base_path,
+    proj_path(
       c(
         "_pkgdown.yml",
         "_pkgdown.yaml",
@@ -153,24 +152,24 @@ pkgdown_config_path <- function(base_path = proj_get()) {
   )
 }
 
-uses_pkgdown <- function(base_path = proj_get()) {
-  !is.null(pkgdown_config_path(base_path))
+uses_pkgdown <- function() {
+  !is.null(pkgdown_config_path())
 }
 
-pkgdown_config_meta <- function(base_path = proj_get()) {
-  if (!uses_pkgdown(base_path)) {
+pkgdown_config_meta <- function() {
+  if (!uses_pkgdown()) {
     return(list())
   }
-  path <- pkgdown_config_path(base_path)
+  path <- pkgdown_config_path()
   yaml::read_yaml(path) %||% list()
 }
 
-pkgdown_url <- function(base_path = proj_get(), pedantic = FALSE) {
-  if (!uses_pkgdown(base_path)) {
+pkgdown_url <- function(pedantic = FALSE) {
+  if (!uses_pkgdown()) {
     return(NULL)
   }
 
-  meta <- pkgdown_config_meta(base_path)
+  meta <- pkgdown_config_meta()
   url <- meta$url
   if (is.null(url)) {
     if (pedantic) {

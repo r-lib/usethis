@@ -76,18 +76,18 @@ use_github_actions_badge <- function(name = "R-CMD-check", repo_spec = NULL) {
   use_badge(name, url, img)
 }
 
-uses_github_actions <- function(base_path = proj_get()) {
-  path <- glue("{base_path}/.github/workflows")
+uses_github_actions <- function() {
+  path <- proj_path(".github", "workflows")
   file_exists(path)
 }
 
-check_uses_github_actions <- function(base_path = proj_get()) {
-  if (uses_github_actions(base_path)) {
+check_uses_github_actions <- function() {
+  if (uses_github_actions()) {
     return(invisible())
   }
 
   ui_stop("
-    Cannot detect that package {ui_value(project_name(base_path))} already \\
+    Cannot detect that package {ui_value(project_name())} already \\
     uses GitHub Actions.
     Do you need to run {ui_code('use_github_actions()')}?")
 }
