@@ -31,6 +31,12 @@ usethis has a more sophisticated understanding of the default branch and gains s
   arbitrary file on GitHub that the user has permission to read. It supports
   targeting a specific branch, tag, or commit and can follow a symlink (#1407).
   `use_github_file()` now powers `use_github_action()` and friends.
+  
+* `use_github_release()` is much more diligent about using any information left
+  behind by `devtools::submit_cran()` or `devtools::release()`. Specifically,
+  this applies to determining which SHA is to be tagged in the release. And this
+  SHA, in turn, determines the consulted versions of DESCRIPTION (for package
+  version) and NEWS.md (for release notes) (#1380).
 
 * `use_release_issue()` also takes bullets from `release_questions()`, 
   for compatibility with `devtools::release()`.
