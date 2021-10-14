@@ -141,12 +141,14 @@ tidyverse_url <- function(url, tr = NULL) {
 
 pkgdown_config_path <- function(base_path = proj_get()) {
   path_first_existing(
-    base_path,
-    c(
-      "_pkgdown.yml",
-      "_pkgdown.yaml",
-      "pkgdown/_pkgdown.yml",
-      "inst/_pkgdown.yml"
+    path(
+      base_path,
+      c(
+        "_pkgdown.yml",
+        "_pkgdown.yaml",
+        "pkgdown/_pkgdown.yml",
+        "inst/_pkgdown.yml"
+      )
     )
   )
 }

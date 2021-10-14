@@ -72,9 +72,10 @@ isNA <- function(x) {
   length(x) == 1 && is.na(x)
 }
 
-path_first_existing <- function(...) {
-  paths <- path(...)
-  for (path in paths) {
+path_first_existing <- function(paths) {
+  # manual loop with explicit use of `[[` to retain "fs" class
+  for (i in seq_along(paths)) {
+    path <- paths[[i]]
     if (file_exists(path)) {
       return(path)
     }
