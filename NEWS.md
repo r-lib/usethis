@@ -54,7 +54,7 @@ usethis has a more sophisticated understanding of the default branch and gains s
   upgrade to the gh version that supports current GitHub PAT formats
   (@ijlyttle, #1454).
   
-* `use_github()` can create repositories with `"internal"` visiblity, a feature
+* `use_github()` can create repositories with `"internal"` visibility, a feature
   that exists within GitHub Enterprise products (#1505).
   
 * `git_sitrep()` and `gh_token_help()` try even harder to help people get on the
@@ -100,7 +100,6 @@ usethis has a more sophisticated understanding of the default branch and gains s
 * `use_tidy_dependencies()` is a new function that sets up standard dependencies
   used by all tidyverse packages, except those that are designed to be
   dependency free (#1423).
-
 
 ## User-level configuration
 
