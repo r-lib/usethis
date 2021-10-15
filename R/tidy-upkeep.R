@@ -40,8 +40,8 @@ upkeep_checklist <- function(year = NULL) {
       todo("`usethis::use_pkgdown_github_pages()` + `usethis::use_github_links()`"),
       todo("`usethis::use_tidy_labels()`"),
       todo("`urlchecker::url_check()`"),
-      todo("`usethis::use_tidy_style(`)"),
-      todo("`use_tidy_description()"),
+      todo("`usethis::use_tidy_style()`"),
+      todo("`usethis::use_tidy_description()`"),
       ""
     )
   }
@@ -49,9 +49,9 @@ upkeep_checklist <- function(year = NULL) {
     bullets <- c(bullets,
       "2020",
       "",
-      todo("use_package_doc()"),
-      todo("`use_testthat(3)` and upgrade to 3e"),
-      todo("Check that all `test/` files have corresponding `R/` file"),
+      todo("`usethis::use_package_doc()`"),
+      todo("`usethis::use_testthat(3)` and upgrade to 3e"),
+      todo("Check that all `test/` files have corresponding `R/` file. Remember `usethis::rename_files()` exists."),
       ""
     )
   }
@@ -59,11 +59,11 @@ upkeep_checklist <- function(year = NULL) {
     bullets <- c(bullets,
       "2021",
       "",
-      todo("`use_tidy_description()", year > 2000),
-      todo("`use_tidy_dependencies()`"),
-      todo("`use_tidy_github_actions()` and update artisanal actions to use `setup-r-dependencies`"),
+      todo("`usethis::use_tidy_description()`", year > 2000),
+      todo("`usethis::use_tidy_dependencies()`"),
+      todo("`usethis::use_tidy_github_actions()` and update artisanal actions to use `setup-r-dependencies`"),
       todo("Remove check environments section from `cran-comments.md`"),
-      todo("Bump required R version in DESCRIPTION to 3.3"),
+      todo("Bump required R version in DESCRIPTION to 3.4"),
       todo("Use lifecycle instead of artisanal deprecation messages"),
       ""
     )
