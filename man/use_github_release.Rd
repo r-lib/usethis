@@ -7,13 +7,22 @@
 use_github_release(host = deprecated(), auth_token = deprecated())
 }
 \arguments{
-\item{host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer consulted
-now that usethis allows the gh package to lookup a token based on a URL
-determined from the current project's GitHub remotes.}
+\item{host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
+consulted now that usethis allows the gh package to lookup a token based on
+a URL determined from the current project's GitHub remotes.}
 }
 \description{
-Creates a \strong{draft} GitHub release for the current package using the current
-version and \code{NEWS.md}. If you are comfortable that it is correct, you will
-need to publish the release from GitHub. It also deletes \code{CRAN-RELEASE} and
-checks that you've pushed all commits to GitHub.
+Creates a \strong{draft} GitHub release for the current package. Once you are
+satisfied that it is correct, you will need to publish the release from
+GitHub. The key pieces of info are which commit / SHA to tag, the associated
+package version, and the relevant NEWS entries.
+
+If you use \code{devtools::release()} or \code{devtools::submit_cran()} to submit to
+CRAN, information about the submitted state is captured in a CRAN-SUBMISSION
+or CRAN-RELEASE file. \code{use_github_release()} uses this info to populate the
+draft GitHub release and, after success, deletes the CRAN-SUBMISSION or
+CRAN-RELEASE file.
+
+In the absence of such a file, we must fall back to assuming the current
+state (SHA of \code{HEAD}, package version, NEWS) is the submitted state.
 }
