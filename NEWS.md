@@ -104,6 +104,11 @@ usethis has a more sophisticated understanding of the default branch and gains s
 * `use_tidy_dependencies()` is a new function that sets up standard dependencies
   used by all tidyverse packages, except those that are designed to be
   dependency free (#1423).
+  
+* `use_tidy_upkeep_issue()` is a new function similar to `use_release_issue()`
+  that creates a checklist-style issue to prompt various updates. It is aimed
+  primarily at the maintainers of tidyverse, r-lib, and tidymodels packages
+  (#1416).
 
 ## User-level configuration
 
