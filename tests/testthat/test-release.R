@@ -100,16 +100,18 @@ test_that("get_release_data() works for old-style CRAN-RELEASE", {
   use_git()
   gert::git_add(".gitignore")
   gert::git_commit("we need at least one commit")
+  HEAD <- gert::git_info(repo = git_repo())$commit
 
   write_utf8(
     proj_path("CRAN-RELEASE"),
-    c("This package was submitted to CRAN on 2021-10-13.",
-      "Once it is accepted, delete this file and tag the release (commit e10658f5).")
+    glue("
+      This package was submitted to CRAN on YYYY-MM-DD.
+      Once it is accepted, delete this file and tag the release (commit {HEAD}).")
   )
 
-  res <- get_release_data()
+  res <- get_release_data(tr = list(repo_spec = "OWNER/REPO"))
   expect_equal(res$Version, "0.0.0.9000")
-  expect_equal(res$SHA, "e10658f5")
+  expect_equal(res$SHA, HEAD)
   expect_equal(path_file(res$file), "CRAN-RELEASE")
 })
 
@@ -121,17 +123,18 @@ test_that("get_release_data() works for new-style CRAN-RELEASE", {
   use_git()
   gert::git_add(".gitignore")
   gert::git_commit("we need at least one commit")
+  HEAD <- gert::git_info(repo = git_repo())$commit
 
   write_utf8(
-    proj_path("CRAN-RELEASE"),
-    c("Version: 2.4.2.9000",
-      "Date: 2021-10-13 20:40:36 UTC",
-      "SHA: fbe18b5a22be8ebbb61fa7436e826ba8d7f485a9"
-    )
+    proj_path("CRAN-SUBMISSION"),
+    glue("
+      Version: 1.2.3
+      Date: 2021-10-14 23:57:41 UTC
+      SHA: {HEAD}")
   )
 
-  res <- get_release_data()
-  expect_equal(res$Version, "2.4.2.9000")
-  expect_equal(res$SHA, "fbe18b5a22be8ebbb61fa7436e826ba8d7f485a9")
-  expect_equal(path_file(res$file), "CRAN-RELEASE")
+  res <- get_release_data(tr = list(repo_spec = "OWNER/REPO"))
+  expect_equal(res$Version, "1.2.3")
+  expect_equal(res$SHA, HEAD)
+  expect_equal(path_file(res$file), "CRAN-SUBMISSION")
 })
