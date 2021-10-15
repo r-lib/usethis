@@ -43,6 +43,9 @@
 #' * [use_tidy_github_labels()] calls `use_github_labels()` to implement
 #'   tidyverse conventions around GitHub issue label names and colours.
 #'
+#' * `use_tidy_upkeep_issue()` creates an issue containing a checklist of
+#'   actions to bring your package up to current tidyverse standards.
+#'
 #' @section `use_tidy_style()`:
 #' Uses the [styler package](https://styler.r-lib.org) package to style all code
 #' in a package, project, or directory, according to the [tidyverse style
