@@ -26,13 +26,9 @@ use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
     coveralls = use_coveralls_badge(repo_spec)
   )
 
-  if (uses_travis()) {
-    ui_todo("Add to {ui_path('.travis.yml')}:")
-    ui_code_block("
-      after_success:
-        - Rscript -e 'covr::{type}()'
-      ")
-  }
+  ui_todo("
+    Call {ui_code('use_github_action(\"test-coverage\")')} to continuously \\
+    monitor test coverage.")
 
   invisible(TRUE)
 }
