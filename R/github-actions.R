@@ -231,8 +231,8 @@ use_tidy_github_actions <- function() {
   use_github_actions_badge("R-CMD-check", repo_spec = repo_spec)
 
   pr_status <- use_github_action_pr_commands()
-  pkgdown_status <- use_github_action("pkgdown", save_as = "pkgdown.yaml")
-  test_coverage_status <- use_github_action("test-coverage", save_as = "test-coverage.yaml")
+  pkgdown_status <- use_github_action("pkgdown")
+  test_coverage_status <- use_github_action("test-coverage")
 
   old_configs <- proj_path(c(".travis.yml", "appveyor.yml"))
   has_appveyor_travis <- file_exists(old_configs)
