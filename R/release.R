@@ -62,7 +62,7 @@ release_checklist <- function(version, on_cran) {
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- uses_pkgdown()
   has_readme <- file_exists(proj_path("README.Rmd"))
-  is_rstudio <- is_rstudio()
+  is_rstudio_pkg <- is_rstudio_pkg()
 
   c(
     if (!on_cran) c(
@@ -88,12 +88,12 @@ release_checklist <- function(version, on_cran) {
     todo("`rhub::check_for_cran()`"),
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
     todo("`rhub::check_with_sanitizers()`", has_src),
-    todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran && !is_rstudio),
-    todo("`revdepcheck::cloud_check()`", on_cran && is_rstudio),
+    todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran && !is_rstudio_pkg),
+    todo("`revdepcheck::cloud_check()`", on_cran && is_rstudio_pkg),
     todo("Update `cran-comments.md`", on_cran),
     todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown && type != "patch"),
     todo("Draft blog post", type != "patch"),
-    todo("Ping Tracy Teal on slack", type != "patch" && is_rstudio),
+    todo("Ping Tracy Teal on Slack", type != "patch" && is_rstudio_pkg),
     release_extra(),
     "",
     "Submit to CRAN:",
@@ -333,4 +333,15 @@ news_latest <- function(lines) {
   news <- news[text[[1]]:text[[length(text)]]]
 
   paste0(news, "\n", collapse = "")
+}
+
+is_rstudio <- function() {
+  if (!file_exists(proj_path("DESCRIPTION"))) {
+    return(FALSE)
+  }
+
+  desc <- desc::desc(proj_path())
+  funders <- unclass(desc$get_author("fnd"))
+
+  purrr::some(funders, ~ .x$given == "RStudio")
 }
