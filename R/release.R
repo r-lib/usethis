@@ -336,20 +336,27 @@ news_latest <- function(lines) {
 }
 
 is_rstudio_pkg <- function() {
+  is_rstudio_funded() || is_in_rstudio_org()
+}
+
+is_rstudio_funded <- function() {
   if (!is_package()) {
     return(FALSE)
   }
   desc <- desc::desc(file = proj_get())
-
   funders <- unclass(desc$get_author("fnd"))
-  rstudio_funds <- purrr::some(funders, ~ .x$given == "RStudio")
+  purrr::some(funders, ~ .x$given == "RStudio")
+}
 
+is_in_rstudio_org <- function() {
+  if (!is_package()) {
+    return(FALSE)
+  }
+  desc <- desc::desc(file = proj_get())
   urls <- desc$get_urls()
   dat <- parse_github_remotes(urls)
   dat <- dat[dat$host == "github.com", ]
-  rstudio_org <- length(intersect(dat$repo_owner, rstudio_orgs())) > 0
-
-  rstudio_funds || rstudio_org
+  purrr::some(dat$repo_owner, ~ .x %in% rstudio_orgs())
 }
 
 rstudio_orgs <- function() {
