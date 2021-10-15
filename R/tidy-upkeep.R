@@ -37,11 +37,15 @@ upkeep_checklist <- function(year = NULL) {
       "",
       todo("`usethis::use_readme_rmd()`"),
       todo("`usethis::use_roxygen_md()`"),
-      todo("`usethis::use_pkgdown_github_pages()` + `usethis::use_github_links()`"),
+      todo("
+        `usethis::use_github_links()`
+        It is advantageous if the link to your GitHub repo comes first, \\
+        before any other URLs, e.g. pkgdown site."),
+      todo("`usethis::use_pkgdown_github_pages()`"),
       todo("`usethis::use_tidy_labels()`"),
-      todo("`urlchecker::url_check()`"),
       todo("`usethis::use_tidy_style()`"),
       todo("`usethis::use_tidy_description()`"),
+      todo("`urlchecker::url_check()`"),
       ""
     )
   }
@@ -49,9 +53,16 @@ upkeep_checklist <- function(year = NULL) {
     bullets <- c(bullets,
       "2020",
       "",
-      todo("`usethis::use_package_doc()`"),
-      todo("`usethis::use_testthat(3)` and upgrade to 3e"),
-      todo("Check that all `test/` files have corresponding `R/` file. Remember `usethis::rename_files()` exists."),
+      todo("
+        `usethis::use_package_doc()`
+        Consider letting usethis manage your `@importFrom` directives here.
+        `usethis::use_import_from()` is handy for this."),
+      todo("
+        `usethis::use_testthat(3)` and upgrade to 3e, \\
+        [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)"),
+      todo("
+        Align the names of `R/` files and `test/` files for workflow happiness.
+        `usethis::rename_files()` can be helpful."),
       ""
     )
   }
@@ -61,10 +72,14 @@ upkeep_checklist <- function(year = NULL) {
       "",
       todo("`usethis::use_tidy_description()`", year > 2000),
       todo("`usethis::use_tidy_dependencies()`"),
-      todo("`usethis::use_tidy_github_actions()` and update artisanal actions to use `setup-r-dependencies`"),
+      todo("
+        `usethis::use_tidy_github_actions()` and update artisanal actions to \\
+        use `setup-r-dependencies`"),
       todo("Remove check environments section from `cran-comments.md`"),
       todo("Bump required R version in DESCRIPTION to {tidy_minimum_r_version()}"),
-      todo("Use lifecycle instead of artisanal deprecation messages"),
+      todo("
+        Use lifecycle instead of artisanal deprecation messages, as described \\
+        in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)"),
       ""
     )
   }
