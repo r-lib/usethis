@@ -113,7 +113,8 @@ use_zip(). Only create_download_url() is exported."><meta property="og:image" co
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">create_download_url</span><span class="op">(</span><span class="va">url</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <div id="arguments">
+    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>url</th>
       <td><p>a GitHub, DropBox, or Google Drive URL, as copied from a web
 browser.</p></td>
@@ -123,8 +124,10 @@ stored. Defaults to current working directory, but note that <code><a href="zip-
 has different default behavior.</p></td>
     </tr><tr><th>zipfile</th>
       <td><p>Path to local ZIP file.</p></td>
-    </tr></table><h2 class="hasAnchor" id="tidy-download-"><a class="anchor" href="#tidy-download-"></a>tidy_download()</h2>
+    </tr></table></div>
 
+    <div id="tidy-download-">
+    <h2>tidy_download()<a class="anchor" aria-label="anchor" href="#tidy-download-"></a></h2>
     
 <pre><code>## function signature
 tidy_download(url, destdir = getwd())
@@ -148,7 +151,22 @@ filename is generated from the input URL. In either case, the filename is
 sanitized. Returns the path to downloaded ZIP file, invisibly.</p>
 <p><code>tidy_download()</code> is setup to retry after a download failure. In an
 interactive session, it asks for user's consent. All retries use a longer
-connect timeout.</p><h3 class="hasAnchor" id="dropbox"><a class="anchor" aria-hidden="true" href="#dropbox"></a>DropBox</h3>
+connect timeout.</p><div id="dropbox">
+<h3>
+
+<a class="anchor" aria-label="anchor" href="#dropbox"></a></h3><p>To make a folder available for ZIP download, create a shared link for it:</p><ul><li><p><a href="https://help.dropbox.com/files-folders/share/view-only-access">https://help.dropbox.com/files-folders/share/view-only-access</a></p></li>
+</ul><p>A shared link will have this form:</p><pre><code>https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
+</code></pre>
+
+<p>Replace the <code>dl=0</code> at the end with <code>dl=1</code> to create a download link:</p><pre><code>https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
+</code></pre>
+
+<p>You can use <code>create_download_url()</code> to do this conversion.</p>
+<p>This download link (or a shortlink that points to it) is suitable as input
+for <code>tidy_download()</code>. After one or more redirections, this link will
+eventually lead to a download URL. For more details, see
+<a href="https://help.dropbox.com/files-folders/share/force-download">https://help.dropbox.com/files-folders/share/force-download</a> and
+<a href="https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders">https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders</a>.</p>
 
 
 <p>To make a folder available for ZIP download, create a shared link for it:</p><ul><li><p><a href="https://help.dropbox.com/files-folders/share/view-only-access">https://help.dropbox.com/files-folders/share/view-only-access</a></p></li>
@@ -164,8 +182,27 @@ for <code>tidy_download()</code>. After one or more redirections, this link will
 eventually lead to a download URL. For more details, see
 <a href="https://help.dropbox.com/files-folders/share/force-download">https://help.dropbox.com/files-folders/share/force-download</a> and
 <a href="https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders">https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders</a>.</p>
+</div>
 
-<h3 class="hasAnchor" id="github"><a class="anchor" aria-hidden="true" href="#github"></a>GitHub</h3>
+<div id="github">
+<h3>
+
+<a class="anchor" aria-label="anchor" href="#github"></a></h3><p>Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
+button. Capture this URL, which will have this form:</p><pre><code>https://github.com/r-lib/usethis/archive/master.zip
+</code></pre>
+
+<p>This download link (or a shortlink that points to it) is suitable as input
+for <code>tidy_download()</code>. After one or more redirections, this link will
+eventually lead to a download URL. Here are other links that also lead to
+ZIP download, albeit with a different filenaming scheme (REF could be a
+branch name, a tag, or a SHA):</p><pre><code>https://github.com/github.com/r-lib/usethis/zipball/HEAD
+https://api.github.com/repos/r-lib/rematch2/zipball/REF
+https://api.github.com/repos/r-lib/rematch2/zipball/HEAD
+https://api.github.com/repos/r-lib/usethis/zipball/REF
+</code></pre>
+
+<p>You can use <code>create_download_url()</code> to create the "Download ZIP" URL from
+a typical GitHub browser URL.</p>
 
 
 <p>Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
@@ -184,8 +221,23 @@ https://api.github.com/repos/r-lib/usethis/zipball/REF
 
 <p>You can use <code>create_download_url()</code> to create the "Download ZIP" URL from
 a typical GitHub browser URL.</p>
+</div>
 
-<h3 class="hasAnchor" id="google-drive"><a class="anchor" aria-hidden="true" href="#google-drive"></a>Google Drive</h3>
+<div id="google-drive">
+<h3>
+
+<a class="anchor" aria-label="anchor" href="#google-drive"></a></h3><p>To our knowledge, it is not possible to download a Google Drive folder as a
+ZIP archive. It is however possible to share a ZIP file stored on Google
+Drive. To get its URL, click on "Get the shareable link" (within the "Share"
+menu). This URL doesn't allow for direct download, as it's designed to be
+processed in a web browser first. Such a sharing link looks like:</p><pre><code>https://drive.google.com/open?id=123456789xxyyyzzz
+</code></pre>
+
+<p>To be able to get the URL suitable for direct download, you need to extract
+the "id" element from the URL and include it in this URL format:</p><pre><code>https://drive.google.com/uc?export=download&amp;id=123456789xxyyyzzz
+</code></pre>
+
+<p>Use <code>create_download_url()</code> to perform this transformation automatically.</p>
 
 
 <p>To our knowledge, it is not possible to download a Google Drive folder as a
@@ -200,9 +252,11 @@ the "id" element from the URL and include it in this URL format:</p><pre><code>h
 </code></pre>
 
 <p>Use <code>create_download_url()</code> to perform this transformation automatically.</p>
+</div>
 
-    <h2 class="hasAnchor" id="tidy-unzip-"><a class="anchor" href="#tidy-unzip-"></a>tidy_unzip()</h2>
-
+    </div>
+    <div id="tidy-unzip-">
+    <h2>tidy_unzip()<a class="anchor" aria-label="anchor" href="#tidy-unzip-"></a></h2>
     
 
 
@@ -224,8 +278,10 @@ a spurious directory <code>"/"</code>, which we ignore during unzip. Also, if th
 directory is a Git repo and/or RStudio Project, we unzip-ignore various
 hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those below <code>.git/</code> and
 <code>.Rproj.user</code>.</p>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div id="examples">
+    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">tidy_download</span><span class="op">(</span><span class="st">"https://github.com/r-lib/rematch2/archive/master.zip"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
@@ -250,6 +306,7 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
 <span class="r-in"><span class="fu">create_download_url</span><span class="op">(</span><span class="st">"https://drive.google.com/open?id=123456789xxyyyzzz/view"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://drive.google.com/uc?export=download&amp;id=123456789xxyyyzzz"</span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

@@ -121,7 +121,8 @@ inappropriate behaviour. The template comes from
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_code_of_conduct</span><span class="op">(</span><span class="va">contact</span>, path <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <div id="arguments">
+    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>contact</th>
       <td><p>Contact details for making a code of conduct report.
 Usually an email address.</p></td>
@@ -129,14 +130,17 @@ Usually an email address.</p></td>
       <td><p>Path of the directory to put <code>CODE_OF_CONDUCT.md</code> in, relative to
 the active project. Passed along to <code><a href="use_directory.html">use_directory()</a></code>. Default is to locate
 at top-level, but <code>.github/</code> is also common.</p></td>
-    </tr></table><h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    </tr></table></div>
 
+    <div id="details">
+    <h2>Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>If your package is going to CRAN, the link to the CoC in your README must
 be an absolute link to a rendered website as <code>CODE_OF_CONDUCT.md</code> is not
 included in the package sent to CRAN. <code>use_code_of_conduct()</code> will
 automatically generate this link if (1) you use pkgdown and (2) have set the
 <code>url</code> field in <code>_pkgdown.yml</code>; otherwise it will link to a copy of the CoC
 on <a href="https://www.contributor-covenant.org">https://www.contributor-covenant.org</a>.</p>
+    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

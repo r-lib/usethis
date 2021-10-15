@@ -119,7 +119,8 @@ it will be automatically installed from the correct location.</p>
 
 <span class="fu">use_dev_package</span><span class="op">(</span><span class="va">package</span>, type <span class="op">=</span> <span class="st">"Imports"</span>, remote <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <div id="arguments">
+    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>package</th>
       <td><p>Name of package to depend on.</p></td>
     </tr><tr><th>type</th>
@@ -133,17 +134,22 @@ Set to <code>TRUE</code> to use the currently installed version.</p></td>
       <td><p>By default, an <code>OWNER/REPO</code> GitHub remote is inserted.
 Optionally, you can supply a character string to specify the remote, e.g.
 <code>"gitlab::jimhester/covr"</code>, using any syntax supported by the <a href="https://remotes.r-lib.org/articles/dependencies.html#other-sources">remotes package</a>.</p></td>
-    </tr></table><h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    </tr></table></div>
 
+    <div id="see-also">
+    <h2>See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>The <a href="https://r-pkgs.org/description.html#dependencies">dependencies section</a> of <a href="https://r-pkgs.org">R Packages</a>.</p></div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div id="examples">
+    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">use_package</span><span class="op">(</span><span class="st">"ggplot2"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">use_package</span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"suggests"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">use_dev_package</span><span class="op">(</span><span class="st">"glue"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

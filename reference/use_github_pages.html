@@ -128,7 +128,8 @@ manage the content below <code>"/docs"</code>.</p></li>
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_github_pages</span><span class="op">(</span>branch <span class="op">=</span> <span class="st">"gh-pages"</span>, path <span class="op">=</span> <span class="st">"/"</span>, cname <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <div id="arguments">
+    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>branch, path</th>
       <td><p>Branch and path for the site source. The default of
 <code>branch = "gh-pages"</code> and <code>path = "/"</code> reflects strong GitHub support for
@@ -148,24 +149,30 @@ configured custom domain.</p>
 <p>Note that this <em>can</em> add or modify a CNAME file in your repository. If you
 are using Pages to host a pkgdown site, it is better to specify its URL in
 the pkgdown config file and let pkgdown manage CNAME.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    </tr></table></div>
 
+    <div id="value">
+    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Site metadata returned by the GitHub API, invisibly</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
+    </div>
+    <div id="see-also">
+    <h2>See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">
 <ul><li><p><code><a href="use_pkgdown.html">use_pkgdown_github_pages()</a></code> combines <code>use_github_pages()</code> with other functions to
 fully configure a pkgdown site</p></li>
 <li><p><a href="https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages">https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages</a></p></li>
 <li><p><a href="https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#pages">https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#pages</a></p></li>
 </ul></div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div id="examples">
+    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">use_github_pages</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">use_github_pages</span><span class="op">(</span>branch <span class="op">=</span> <span class="fu"><a href="git-default-branch.html">git_default_branch</a></span><span class="op">(</span><span class="op">)</span>, path <span class="op">=</span> <span class="st">"/docs"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

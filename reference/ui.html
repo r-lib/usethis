@@ -158,7 +158,8 @@ as usethis.</p>
 
 <span class="fu">ui_unset</span><span class="op">(</span>x <span class="op">=</span> <span class="st">"unset"</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <div id="arguments">
+    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>x</th>
       <td><p>A character vector.</p>
 <p>For block styles, conditions, and questions, each element of the
@@ -175,23 +176,29 @@ is installed, will copy the code block to the clipboard.</p></td>
       <td><p>Code to execute with usual UI output silenced.</p></td>
     </tr><tr><th>base</th>
       <td><p>If specified, paths will be displayed relative to this path.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    </tr></table></div>
 
+    <div id="value">
+    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>The block styles, conditions, and questions are called for their
 side-effect. The inline styles return a string.</p>
-    <h2 class="hasAnchor" id="silencing-output"><a class="anchor" href="#silencing-output"></a>Silencing output</h2>
-
+    </div>
+    <div id="silencing-output">
+    <h2>Silencing output<a class="anchor" aria-label="anchor" href="#silencing-output"></a></h2>
     
 
 <p>All UI output (apart from <code><a href="ui-questions.html">ui_yeah()</a></code>/<code><a href="ui-questions.html">ui_nope()</a></code> prompts) can be silenced
 by setting <code>options(usethis.quiet = TRUE)</code>. Use <code>ui_silence()</code> to silence
 selected actions.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
+    </div>
+    <div id="see-also">
+    <h2>See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other user interface functions: 
 <code><a href="ui-questions.html">ui-questions</a></code></p></div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div id="examples">
+    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">new_val</span> <span class="op">&lt;-</span> <span class="st">"oxnard"</span></span>
 <span class="r-in"><span class="fu">ui_done</span><span class="op">(</span><span class="st">"{ui_field('name')} set to {ui_value(new_val)}"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #00BB00;">name</span> set to <span style="color: #0000BB;">'oxnard'</span></span>
@@ -207,6 +214,7 @@ selected actions.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">  Line 2</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">  Line 3</span></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

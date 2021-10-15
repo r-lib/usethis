@@ -133,13 +133,14 @@
 <span class="op">)</span></code></pre></div>
 
 
-    <h2 class="hasAnchor" id="pr-pull-upstream-"><a class="anchor" href="#pr-pull-upstream-"></a><code>pr_pull_upstream()</code></h2>
-
+    <div id="pr-pull-upstream-">
+    <h2><code>pr_pull_upstream()</code><a class="anchor" aria-label="anchor" href="#pr-pull-upstream-"></a></h2>
     
 
 <p>This function has been replaced by <code><a href="pull-requests.html">pr_merge_main()</a></code>.</p>
-    <h2 class="hasAnchor" id="pr-sync-"><a class="anchor" href="#pr-sync-"></a><code>pr_sync()</code></h2>
-
+    </div>
+    <div id="pr-sync-">
+    <h2><code>pr_sync()</code><a class="anchor" aria-label="anchor" href="#pr-sync-"></a></h2>
     
 
 <p>Bundling these operations together did not seem justified, in terms of how
@@ -148,29 +149,34 @@ Users of <code>pr_sync()</code> should implement these steps "by hand":</p><ul><
 <li><p><code><a href="pull-requests.html">pr_pull()</a></code></p></li>
 <li><p><code><a href="pull-requests.html">pr_merge_main()</a></code>, deal with any merge conflicts, if any</p></li>
 <li><p><code><a href="pull-requests.html">pr_push()</a></code></p></li>
-</ul><h2 class="hasAnchor" id="browse-github-token-browse-github-pat-"><a class="anchor" href="#browse-github-token-browse-github-pat-"></a><code>browse_github_token()</code>, <code>browse_github_pat()</code></h2>
-
+</ul></div>
+    <div id="browse-github-token-browse-github-pat-">
+    <h2><code>browse_github_token()</code>, <code>browse_github_pat()</code><a class="anchor" aria-label="anchor" href="#browse-github-token-browse-github-pat-"></a></h2>
     
 
 <p>These functions have been replaced by <code><a href="github-token.html">create_github_token()</a></code>.</p>
-    <h2 class="hasAnchor" id="github-token-"><a class="anchor" href="#github-token-"></a><code>github_token()</code></h2>
-
+    </div>
+    <div id="github-token-">
+    <h2><code>github_token()</code><a class="anchor" aria-label="anchor" href="#github-token-"></a></h2>
     
 
 <p>All implicit and explicit token discovery routes through <code><a href="https://gh.r-lib.org/reference/gh_token.html">gh::gh_token()</a></code>
 now.</p>
-    <h2 class="hasAnchor" id="git-branch-default-"><a class="anchor" href="#git-branch-default-"></a><code>git_branch_default()</code></h2>
-
+    </div>
+    <div id="git-branch-default-">
+    <h2><code>git_branch_default()</code><a class="anchor" aria-label="anchor" href="#git-branch-default-"></a></h2>
     
 
 <p>Please call <code><a href="git-default-branch.html">git_default_branch()</a></code> instead. In hindsight, that is a better
 name for this function.</p>
-    <h2 class="hasAnchor" id="use-tidy-labels-"><a class="anchor" href="#use-tidy-labels-"></a><code>use_tidy_labels()</code></h2>
-
+    </div>
+    <div id="use-tidy-labels-">
+    <h2><code>use_tidy_labels()</code><a class="anchor" aria-label="anchor" href="#use-tidy-labels-"></a></h2>
     
 
 <p>Please call <code><a href="use_github_labels.html">use_tidy_github_labels()</a></code> instead. In hindsight, that is a
 better name for this function.</p>
+    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -125,7 +125,8 @@ actually be able to find them. The underlying helpers are documented in
   cleanup <span class="op">=</span> <span class="kw">if</span> <span class="op">(</span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="cn">NA</span> <span class="kw">else</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <div id="arguments">
+    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>url</th>
       <td><p>Link to a ZIP file containing the materials. To reduce the chance
 of typos in live settings, these shorter forms are accepted:</p><pre><code>* GitHub repo spec: "OWNER/REPO". Equivalent to
@@ -146,11 +147,14 @@ location using the option <code>usethis.destdir</code>, e.g.
       <td><p>Whether to delete the original ZIP file after unpacking its
 contents. In an interactive setting, <code>NA</code> leads to a menu where user can
 approve the deletion (or decline).</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    </tr></table></div>
 
+    <div id="value">
+    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Path to the new directory holding the unpacked ZIP file, invisibly.</p>
-    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
-
+    </div>
+    <div id="functions">
+    <h2>Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
     
 <ul><li><p><code>use_course</code>: Designed with live workshops in mind. Includes intentional friction to
 highlight the download destination. Workflow:</p><ul><li><p>User executes, e.g., <code>use_course("bit.ly/xxx-yyy-zzz")</code>.</p></li>
@@ -163,7 +167,10 @@ or File Explorer.</p></li>
 </ul></li>
 <li><p><code>use_zip</code>: More useful in day-to-day work. Downloads in current working directory, by
 default, and allows <code>cleanup</code> behaviour to be specified.</p></li>
-</ul><h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+</ul></div>
+
+    <div id="examples">
+    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="co"># download the source of usethis from GitHub, behind a bit.ly shortlink</span></span>
 <span class="r-in"><span class="fu">use_course</span><span class="op">(</span><span class="st">"bit.ly/usethis-shortlink-example"</span><span class="op">)</span></span>
@@ -179,6 +186,7 @@ default, and allows <code>cleanup</code> behaviour to be specified.</p></li>
 <span class="r-in"><span class="fu">use_course</span><span class="op">(</span><span class="st">"https://github.com/r-lib/rematch2/archive/master.zip"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

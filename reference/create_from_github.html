@@ -135,7 +135,8 @@ discoverable. See below for more about authentication.</p>
   credentials <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Deprecated.html">deprecated</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <div id="arguments">
+    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>repo_spec</th>
       <td><p>A string identifying the GitHub repo in one of these forms:</p><ul><li><p>Plain <code>OWNER/REPO</code> spec</p></li>
 <li><p>Browser URL, such as <code>"https://github.com/OWNER/REPO"</code></p></li>
@@ -193,8 +194,10 @@ consulted now that usethis uses the gert package for Git operations,
 instead of git2r; gert relies on the credentials package for auth. The API
 requests are now authorized with the token associated with the <code>host</code>, as
 retrieved by <code><a href="https://gh.r-lib.org/reference/gh_token.html">gh::gh_token()</a></code>.</p></td>
-    </tr></table><h2 class="hasAnchor" id="git-github-authentication"><a class="anchor" href="#git-github-authentication"></a>Git/GitHub Authentication</h2>
+    </tr></table></div>
 
+    <div id="git-github-authentication">
+    <h2>Git/GitHub Authentication<a class="anchor" aria-label="anchor" href="#git-github-authentication"></a></h2>
     
 
 <p>Many usethis functions, including those documented here, potentially interact
@@ -215,8 +218,9 @@ to Git and GitHub and PRs.</p></li>
 addition to your PAT. The public key must be added to your GitHub account.</p></li>
 </ul><p>Git/GitHub credential management is covered in a dedicated article:
 <a href="https://usethis.r-lib.org/articles/articles/git-credentials.html">Managing Git(Hub) Credentials</a></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
+    </div>
+    <div id="see-also">
+    <h2>See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index">
 <ul><li><p><code><a href="use_github.html">use_github()</a></code> to go the opposite direction, i.e. create a GitHub repo
 from your local repo</p></li>
@@ -224,8 +228,10 @@ from your local repo</p></li>
 <li><p><code><a href="zip-utils.html">use_course()</a></code> to download a snapshot of all files in a GitHub repo,
 without the need for any local or remote Git operations</p></li>
 </ul></div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div id="examples">
+    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">create_from_github</span><span class="op">(</span><span class="st">"r-lib/usethis"</span><span class="op">)</span></span>
 <span class="r-in"></span>
@@ -236,6 +242,7 @@ without the need for any local or remote Git operations</p></li>
 <span class="r-in"><span class="fu">create_from_github</span><span class="op">(</span><span class="st">"https://github.acme.com/OWNER/REPO"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

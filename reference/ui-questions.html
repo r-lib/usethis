@@ -133,7 +133,8 @@ page.</p>
   .envir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html">parent.frame</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <div id="arguments">
+    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>x</th>
       <td><p>A character vector.</p>
 <p>For block styles, conditions, and questions, each element of the
@@ -156,24 +157,30 @@ shuffled?</p></td>
     </tr><tr><th>.envir</th>
       <td><p>Used to ensure that <code><a href="https://glue.tidyverse.org/reference/glue.html">glue::glue()</a></code> gets the correct
 environment. For expert use only.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    </tr></table></div>
 
+    <div id="value">
+    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A logical. <code>ui_yeah()</code> returns <code>TRUE</code> when the user selects a "yes"
 option and <code>FALSE</code> otherwise, i.e. when user selects a "no" option or
 refuses to make a selection (cancels). <code>ui_nope()</code> is the logical opposite
 of <code>ui_yeah()</code>.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
+    </div>
+    <div id="see-also">
+    <h2>See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other user interface functions: 
 <code><a href="ui.html">ui</a></code></p></div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div id="examples">
+    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">ui_yeah</span><span class="op">(</span><span class="st">"Do you like R?"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">ui_nope</span><span class="op">(</span><span class="st">"Have you tried turning it off and on again?"</span>, n_yes <span class="op">=</span> <span class="fl">1</span>, n_no <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">ui_yeah</span><span class="op">(</span><span class="st">"Are you sure its plugged in?"</span>, yes <span class="op">=</span> <span class="st">"Yes"</span>, no <span class="op">=</span> <span class="st">"No"</span>, shuffle <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

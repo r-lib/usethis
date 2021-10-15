@@ -117,25 +117,31 @@ Git terminology). Wraps <code><a href="https://docs.ropensci.org/gert/reference/
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_git_config</span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"user"</span>, <span class="st">"project"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <div id="arguments">
+    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>scope</th>
       <td><p>Edit globally for the current <strong>user</strong>, or locally for the
 current <strong>project</strong></p></td>
     </tr><tr><th>...</th>
       <td><p>Name-value pairs, processed as
 &lt;<code><a href="https://rlang.r-lib.org/reference/dyn-dots.html">dynamic-dots</a></code>&gt;.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    </tr></table></div>
 
+    <div id="value">
+    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Invisibly, the previous values of the modified components, as a named
 list.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
+    </div>
+    <div id="see-also">
+    <h2>See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other git helpers: 
 <code><a href="use_git_hook.html">use_git_hook</a>()</code>,
 <code><a href="use_git_ignore.html">use_git_ignore</a>()</code>,
 <code><a href="use_git.html">use_git</a>()</code></p></div>
+    </div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div id="examples">
+    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="co"># set the user's global user.name and user.email</span></span>
 <span class="r-in"><span class="fu">use_git_config</span><span class="op">(</span>user.name <span class="op">=</span> <span class="st">"Jane"</span>, user.email <span class="op">=</span> <span class="st">"jane@example.org"</span><span class="op">)</span></span>
@@ -148,6 +154,7 @@ list.</p>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

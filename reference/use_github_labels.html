@@ -140,7 +140,8 @@ conventions powered by <code>tidy_labels()</code>, <code>tidy_labels_rename()</c
 
 <span class="fu">tidy_label_descriptions</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <div id="arguments">
+    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>repo_spec, host, auth_token</th>
       <td><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: These
 arguments are now deprecated and will be removed in the future. Any input
@@ -159,8 +160,10 @@ new label, and don't supply colours, it will be given a random colour.</p></td>
     </tr><tr><th>delete_default</th>
       <td><p>If <code>TRUE</code>, removes GitHub default labels that do not
 appear in the <code>labels</code> vector and that do not have associated issues.</p></td>
-    </tr></table><h2 class="hasAnchor" id="label-usage"><a class="anchor" href="#label-usage"></a>Label usage</h2>
+    </tr></table></div>
 
+    <div id="label-usage">
+    <h2>Label usage<a class="anchor" aria-label="anchor" href="#label-usage"></a></h2>
     
 
 <p>Labels are used as part of the issue-triage process, designed to minimise the
@@ -173,7 +176,10 @@ example, and that a reply has been sent requesting one from the user.</p></li>
 <li><p><code>wip</code> indicates that someone is working on it or has promised to.</p></li>
 <li><p><code>good first issue</code> indicates a good issue for first-time contributors.</p></li>
 <li><p><code>help wanted</code> indicates that a maintainer wants help on an issue.</p></li>
-</ul><h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+</ul></div>
+
+    <div id="examples">
+    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="co"># typical use in, e.g., a new tidyverse project</span></span>
 <span class="r-in"><span class="fu">use_github_labels</span><span class="op">(</span>delete_default <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -193,6 +199,7 @@ example, and that a reply has been sent requesting one from the user.</p></li>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

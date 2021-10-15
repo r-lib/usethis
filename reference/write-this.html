@@ -115,7 +115,8 @@ for internal use. File is written with UTF-8 encoding.</p>
 
 <span class="fu">write_over</span><span class="op">(</span><span class="va">path</span>, <span class="va">lines</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <div id="arguments">
+    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>path</th>
       <td><p>Path to target file. It is created if it does not exist, but the
 parent directory must exist.</p></td>
@@ -127,11 +128,14 @@ these are the exact lines desired in the target file.</p></td>
       <td><p>Logical. Whether to message about what is happening.</p></td>
     </tr><tr><th>contents</th>
       <td><p>Character vector of lines.</p></td>
-    </tr></table><h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    </tr></table></div>
 
+    <div id="value">
+    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Logical indicating whether a write occurred, invisibly.</p>
-    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
-
+    </div>
+    <div id="functions">
+    <h2>Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
     
 <ul><li><p><code>write_union</code>: writes lines to a file, taking the union of what's
 already there, if anything, and some new lines. Note, there is no explicit
@@ -140,7 +144,10 @@ promise about the line order. Designed to modify simple config files like
 <li><p><code>write_over</code>: writes a file with specific lines, creating it if
 necessary or overwriting existing, if proposed contents are not identical
 and user is available to give permission.</p></li>
-</ul><h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+</ul></div>
+
+    <div id="examples">
+    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontshow{</span></span>
 <span class="r-in"><span class="va">.old_wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># }</span></span>
@@ -170,6 +177,7 @@ and user is available to give permission.</p></li>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="va">.old_wd</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
