@@ -8,7 +8,7 @@ use_tidy_upkeep_issue <- function(year = NULL) {
   tr <- target_repo(github_get = TRUE)
   if (!isTRUE(tr$can_push)) {
     ui_line("
-      It is very unusual to open a upkeep issue on a repo you can't push to:
+      It is very unusual to open an upkeep issue on a repo you can't push to:
         {ui_value(tr$repo_spec)}")
     if (ui_nope("Do you really want to do this?")) {
       ui_oops("Cancelling.")
