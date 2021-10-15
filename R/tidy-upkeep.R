@@ -21,7 +21,7 @@ use_tidy_upkeep_issue <- function(year = NULL) {
   gh <- gh_tr(tr)
   issue <- gh(
     "POST /repos/{owner}/{repo}/issues",
-    title = glue("Release {project_name()} {version}"),
+    title = glue("Upkeep for {project_name()}"),
     body = paste0(checklist, "\n", collapse = "")
   )
   view_url(issue$html_url)
