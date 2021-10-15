@@ -335,13 +335,27 @@ news_latest <- function(lines) {
   paste0(news, "\n", collapse = "")
 }
 
-is_rstudio <- function() {
-  if (!file_exists(proj_path("DESCRIPTION"))) {
+is_rstudio_pkg <- function() {
+  if (!is_package()) {
     return(FALSE)
   }
+  desc <- desc::desc(file = proj_get())
 
-  desc <- desc::desc(proj_path())
   funders <- unclass(desc$get_author("fnd"))
+  rstudio_funds <- purrr::some(funders, ~ .x$given == "RStudio")
 
-  purrr::some(funders, ~ .x$given == "RStudio")
+  urls <- desc$get_urls()
+  dat <- parse_github_remotes(urls)
+  dat <- dat[dat$host == "github.com", ]
+  rstudio_org <- length(intersect(dat$repo_owner, rstudio_orgs())) > 0
+
+  rstudio_funds || rstudio_org
+}
+
+rstudio_orgs <- function() {
+  c(
+    "tidyverse",
+    "r-lib",
+    "tidymodels"
+  )
 }
