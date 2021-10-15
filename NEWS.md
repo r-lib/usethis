@@ -54,8 +54,6 @@ usethis has a more sophisticated understanding of the default branch and gains s
   GitHub behaviour, where it has become essentially impossible to refer to the
   empty tree (#1472).
 
-* `use_tidy_labels()` has been renamed to `use_tidy_github_labels()` (#1430).
-
 * The minimum version of gh has been bumped to help / force more people to
   upgrade to the gh version that supports current GitHub PAT formats
   (@ijlyttle, #1454).
@@ -74,7 +72,7 @@ usethis has a more sophisticated understanding of the default branch and gains s
 
 ## Package development
 
-* `use_pkgdown()` automatically uses bootstrap4 if the pkgdown version supports
+* `use_pkgdown()` automatically uses Bootstrap 5 if the pkgdown version supports
   it (anticipated for pkgdown 2.0.0).
 
 * `use_lifecycle()` now imports `lifecycle::deprecated()` (#1419).
