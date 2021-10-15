@@ -50,7 +50,7 @@ pkgdown_config <- function(destdir) {
   )
 
   if (pkgdown_version() >= "1.9000") {
-    config$template <- list(bootstrap = 4L)
+    config$template <- list(bootstrap = 5L)
   }
 
   if (!identical(destdir, "docs")) {
