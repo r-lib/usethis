@@ -2,27 +2,24 @@
 # release bullets ---------------------------------------------------------
 
 test_that("release bullets don't change accidentally", {
-  # Avoid finding any files in real usethis project
-  # Take care to only change active project, but not working directory
-  # Temporary project name must be stable
-  tmpproj <- dir_create(path_temp("releasebullets"))
-  withr::defer(dir_delete(tmpproj))
-  file_create(path(tmpproj, ".here"))
-  local_project(tmpproj, setwd = FALSE)
+  create_local_package()
 
   # First release
   expect_snapshot(
-    cat(release_checklist("0.1.0", on_cran = FALSE), sep = "\n")
+    writeLines(release_checklist("0.1.0", on_cran = FALSE)),
+    transform = scrub_testpkg
   )
 
   # Patch release
   expect_snapshot(
-    cat(release_checklist("0.0.1", on_cran = TRUE), sep = "\n")
+    writeLines(release_checklist("0.0.1", on_cran = TRUE)),
+    transform = scrub_testpkg
   )
 
   # Major release
   expect_snapshot(
-    cat(release_checklist("1.0.0", on_cran = TRUE), sep = "\n")
+    writeLines(release_checklist("1.0.0", on_cran = TRUE)),
+    transform = scrub_testpkg
   )
 })
 
@@ -35,6 +32,26 @@ test_that("get extra news bullets if available", {
 
   env <- env()
   expect_equal(release_extra(env), character())
+})
+
+test_that("RStudio-ness detection works", {
+  create_local_package()
+
+  expect_false(is_rstudio_funded())
+  expect_false(is_in_rstudio_org())
+
+  desc <- desc::desc(file = proj_get())
+  desc$add_author(given = "RStudio", role = "fnd")
+  desc$add_urls("https://github.com/tidyverse/WHATEVER")
+  desc$write()
+
+  expect_true(is_rstudio_funded())
+  expect_true(is_in_rstudio_org())
+
+  expect_snapshot(
+    writeLines(release_checklist("1.0.0", on_cran = TRUE)),
+    transform = scrub_testpkg
+  )
 })
 
 # news --------------------------------------------------------------------

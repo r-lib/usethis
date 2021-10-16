@@ -1,7 +1,7 @@
 # upkeep bullets don't change accidentally
 
     Code
-      cat(upkeep_checklist(), sep = "\n")
+      writeLines(upkeep_checklist())
     Output
       Pre-history
       
