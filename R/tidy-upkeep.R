@@ -39,10 +39,7 @@ upkeep_checklist <- function(year = NULL) {
       "",
       todo("`usethis::use_readme_rmd()`"),
       todo("`usethis::use_roxygen_md()`"),
-      todo("
-        `usethis::use_github_links()`
-        It is advantageous if the link to your GitHub repo comes first, \\
-        before any other URLs, e.g. pkgdown site."),
+      todo("`usethis::use_github_links()`"),
       todo("`usethis::use_pkgdown_github_pages()`"),
       todo("`usethis::use_tidy_labels()`"),
       todo("`usethis::use_tidy_style()`"),

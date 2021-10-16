@@ -8,7 +8,6 @@
       * [ ] `usethis::use_readme_rmd()`
       * [ ] `usethis::use_roxygen_md()`
       * [ ] `usethis::use_github_links()`
-      It is advantageous if the link to your GitHub repo comes first, before any other URLs, e.g. pkgdown site.
       * [ ] `usethis::use_pkgdown_github_pages()`
       * [ ] `usethis::use_tidy_labels()`
       * [ ] `usethis::use_tidy_style()`
