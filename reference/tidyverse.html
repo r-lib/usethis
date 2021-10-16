@@ -103,7 +103,7 @@ commonly used packages."><meta property="og:image" content="https://usethis.r-li
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Helpers for tidyverse development</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/github-actions.R"><code>R/github-actions.R</code></a>, <a href="https://github.com/r-lib/usethis/blob/master/R/tidyverse.R"><code>R/tidyverse.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/github-actions.R"><code>R/github-actions.R</code></a>, <a href="https://github.com/r-lib/usethis/blob/master/R/tidy-upkeep.R"><code>R/tidy-upkeep.R</code></a>, <a href="https://github.com/r-lib/usethis/blob/master/R/tidyverse.R"><code>R/tidyverse.R</code></a></small>
     <div class="hidden name"><code>tidyverse.Rd</code></div>
     </div>
 
@@ -114,6 +114,8 @@ commonly used packages.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_tidy_github_actions</span><span class="op">(</span><span class="op">)</span>
+
+<span class="fu">use_tidy_upkeep_issue</span><span class="op">(</span>year <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
 <span class="fu">create_tidy_package</span><span class="op">(</span><span class="va">path</span>, copyright_holder <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
@@ -137,7 +139,10 @@ commonly used packages.</p>
 
     <div id="arguments">
     <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>path</th>
+    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>year</th>
+      <td><p>Approximate year when you last touched this package. If <code>NULL</code>,
+the default, will give you a full set of actions to perform.</p></td>
+    </tr><tr><th>path</th>
       <td><p>A path. If it exists, it is used. If it does not exist, it is
 created, provided that the parent path exists.</p></td>
     </tr><tr><th>copyright_holder</th>
@@ -190,6 +195,8 @@ document in a <code>.github/</code> subdirectory.</p></li>
 <code>use_tidy_coc()</code>.</p></li>
 <li><p><code><a href="use_github_labels.html">use_tidy_github_labels()</a></code> calls <code><a href="use_github_labels.html">use_github_labels()</a></code> to implement
 tidyverse conventions around GitHub issue label names and colours.</p></li>
+<li><p><code>use_tidy_upkeep_issue()</code> creates an issue containing a checklist of
+actions to bring your package up to current tidyverse standards.</p></li>
 </ul></div>
     <div id="use-tidy-style-">
     <h2><code>use_tidy_style()</code><a class="anchor" aria-label="anchor" href="#use-tidy-style-"></a></h2>
