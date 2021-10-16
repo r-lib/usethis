@@ -366,3 +366,10 @@ rstudio_orgs <- function() {
     "tidymodels"
   )
 }
+
+todo <- function(x, cond = TRUE) {
+  x <- glue(x, .envir = parent.frame())
+  if (cond) {
+    paste0("* [ ] ", x)
+  }
+}
