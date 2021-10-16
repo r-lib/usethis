@@ -2,11 +2,11 @@
 
 <details>
 
-* Version: 0.1.2
+* Version: 0.1.5
 * GitHub: https://github.com/tidymodels/butcher
 * Source code: https://github.com/cran/butcher
-* Date/Publication: 2020-01-23 22:40:02 UTC
-* Number of recursive dependencies: 190
+* Date/Publication: 2021-06-28 07:30:02 UTC
+* Number of recursive dependencies: 189
 
 Run `cloud_details(, "butcher")` for more info
 
@@ -23,7 +23,7 @@ Run `cloud_details(, "butcher")` for more info
 * using session charset: UTF-8
 * using options ‘--no-manual --no-build-vignettes’
 * checking for file ‘butcher/DESCRIPTION’ ... OK
-* this is package ‘butcher’ version ‘0.1.2’
+* this is package ‘butcher’ version ‘0.1.5’
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... NOTE
@@ -37,7 +37,7 @@ Run `cloud_details(, "butcher")` for more info
   ‘butcher.Rmd’ using ‘UTF-8’... OK
 * checking re-building of vignette outputs ... SKIPPED
 * DONE
-Status: 2 NOTEs
+Status: 1 NOTE
 
 
 
@@ -53,7 +53,7 @@ Status: 2 NOTEs
 * using session charset: UTF-8
 * using options ‘--no-manual --no-build-vignettes’
 * checking for file ‘butcher/DESCRIPTION’ ... OK
-* this is package ‘butcher’ version ‘0.1.2’
+* this is package ‘butcher’ version ‘0.1.5’
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... NOTE
@@ -67,7 +67,42 @@ Status: 2 NOTEs
   ‘butcher.Rmd’ using ‘UTF-8’... OK
 * checking re-building of vignette outputs ... SKIPPED
 * DONE
-Status: 2 NOTEs
+Status: 1 NOTE
+
+
+
+
+
+```
+# NA
+
+<details>
+
+* Version: NA
+* GitHub: NA
+* Source code: https://github.com/cran/NA
+* Number of recursive dependencies: 0
+
+Run `cloud_details(, "NA")` for more info
+
+</details>
+
+## Error before installation
+
+### Devel
+
+```
+
+
+
+
+
+
+```
+### CRAN
+
+```
+
 
 
 
