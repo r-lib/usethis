@@ -568,6 +568,9 @@ fishy_badges <- function(old_name = "master") {
     block_start = badge_start,
     block_end = badge_end
   )
+  if (length(badge_lines_range) != 2) {
+    return(invisible(character()))
+  }
   badge_lines <- readme_lines[badge_lines_range[1]:badge_lines_range[2]]
 
   if (!any(grepl(old_name, badge_lines))) {
