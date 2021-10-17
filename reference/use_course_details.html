@@ -24,7 +24,7 @@ use_zip(). Only create_download_url() is exported."><meta property="og:image" co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
       </span>
     </div>
 
@@ -152,21 +152,7 @@ sanitized. Returns the path to downloaded ZIP file, invisibly.</p>
 <p><code>tidy_download()</code> is setup to retry after a download failure. In an
 interactive session, it asks for user's consent. All retries use a longer
 connect timeout.</p><div id="dropbox">
-<h3>
-
-<a class="anchor" aria-label="anchor" href="#dropbox"></a></h3><p>To make a folder available for ZIP download, create a shared link for it:</p><ul><li><p><a href="https://help.dropbox.com/files-folders/share/view-only-access">https://help.dropbox.com/files-folders/share/view-only-access</a></p></li>
-</ul><p>A shared link will have this form:</p><pre><code>https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
-</code></pre>
-
-<p>Replace the <code>dl=0</code> at the end with <code>dl=1</code> to create a download link:</p><pre><code>https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
-</code></pre>
-
-<p>You can use <code>create_download_url()</code> to do this conversion.</p>
-<p>This download link (or a shortlink that points to it) is suitable as input
-for <code>tidy_download()</code>. After one or more redirections, this link will
-eventually lead to a download URL. For more details, see
-<a href="https://help.dropbox.com/files-folders/share/force-download">https://help.dropbox.com/files-folders/share/force-download</a> and
-<a href="https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders">https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders</a>.</p>
+<h3>DropBox<a class="anchor" aria-label="anchor" href="#dropbox"></a></h3>
 
 
 <p>To make a folder available for ZIP download, create a shared link for it:</p><ul><li><p><a href="https://help.dropbox.com/files-folders/share/view-only-access">https://help.dropbox.com/files-folders/share/view-only-access</a></p></li>
@@ -185,24 +171,7 @@ eventually lead to a download URL. For more details, see
 </div>
 
 <div id="github">
-<h3>
-
-<a class="anchor" aria-label="anchor" href="#github"></a></h3><p>Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
-button. Capture this URL, which will have this form:</p><pre><code>https://github.com/r-lib/usethis/archive/master.zip
-</code></pre>
-
-<p>This download link (or a shortlink that points to it) is suitable as input
-for <code>tidy_download()</code>. After one or more redirections, this link will
-eventually lead to a download URL. Here are other links that also lead to
-ZIP download, albeit with a different filenaming scheme (REF could be a
-branch name, a tag, or a SHA):</p><pre><code>https://github.com/github.com/r-lib/usethis/zipball/HEAD
-https://api.github.com/repos/r-lib/rematch2/zipball/REF
-https://api.github.com/repos/r-lib/rematch2/zipball/HEAD
-https://api.github.com/repos/r-lib/usethis/zipball/REF
-</code></pre>
-
-<p>You can use <code>create_download_url()</code> to create the "Download ZIP" URL from
-a typical GitHub browser URL.</p>
+<h3>GitHub<a class="anchor" aria-label="anchor" href="#github"></a></h3>
 
 
 <p>Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
@@ -224,20 +193,7 @@ a typical GitHub browser URL.</p>
 </div>
 
 <div id="google-drive">
-<h3>
-
-<a class="anchor" aria-label="anchor" href="#google-drive"></a></h3><p>To our knowledge, it is not possible to download a Google Drive folder as a
-ZIP archive. It is however possible to share a ZIP file stored on Google
-Drive. To get its URL, click on "Get the shareable link" (within the "Share"
-menu). This URL doesn't allow for direct download, as it's designed to be
-processed in a web browser first. Such a sharing link looks like:</p><pre><code>https://drive.google.com/open?id=123456789xxyyyzzz
-</code></pre>
-
-<p>To be able to get the URL suitable for direct download, you need to extract
-the "id" element from the URL and include it in this URL format:</p><pre><code>https://drive.google.com/uc?export=download&amp;id=123456789xxyyyzzz
-</code></pre>
-
-<p>Use <code>create_download_url()</code> to perform this transformation automatically.</p>
+<h3>Google Drive<a class="anchor" aria-label="anchor" href="#google-drive"></a></h3>
 
 
 <p>To our knowledge, it is not possible to download a Google Drive folder as a
