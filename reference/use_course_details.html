@@ -114,7 +114,7 @@ use_zip(). Only create_download_url() is exported."><meta property="og:image" co
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">create_download_url</span><span class="op">(</span><span class="va">url</span><span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>url</th>
       <td><p>a GitHub, DropBox, or Google Drive URL, as copied from a web
 browser.</p></td>
@@ -127,7 +127,7 @@ has different default behavior.</p></td>
     </tr></table></div>
 
     <div id="tidy-download-">
-    <h2>tidy_download()<a class="anchor" aria-label="anchor" href="#tidy-download-"></a></h2>
+    <h2>tidy_download()</h2>
     
 <pre><code>## function signature
 tidy_download(url, destdir = getwd())
@@ -152,7 +152,7 @@ sanitized. Returns the path to downloaded ZIP file, invisibly.</p>
 <p><code>tidy_download()</code> is setup to retry after a download failure. In an
 interactive session, it asks for user's consent. All retries use a longer
 connect timeout.</p><div id="dropbox">
-<h3>DropBox<a class="anchor" aria-label="anchor" href="#dropbox"></a></h3>
+<h3>DropBox</h3>
 
 
 <p>To make a folder available for ZIP download, create a shared link for it:</p><ul><li><p><a href="https://help.dropbox.com/files-folders/share/view-only-access">https://help.dropbox.com/files-folders/share/view-only-access</a></p></li>
@@ -171,7 +171,7 @@ eventually lead to a download URL. For more details, see
 </div>
 
 <div id="github">
-<h3>GitHub<a class="anchor" aria-label="anchor" href="#github"></a></h3>
+<h3>GitHub</h3>
 
 
 <p>Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
@@ -193,7 +193,7 @@ a typical GitHub browser URL.</p>
 </div>
 
 <div id="google-drive">
-<h3>Google Drive<a class="anchor" aria-label="anchor" href="#google-drive"></a></h3>
+<h3>Google Drive</h3>
 
 
 <p>To our knowledge, it is not possible to download a Google Drive folder as a
@@ -212,7 +212,7 @@ the "id" element from the URL and include it in this URL format:</p><pre><code>h
 
     </div>
     <div id="tidy-unzip-">
-    <h2>tidy_unzip()<a class="anchor" aria-label="anchor" href="#tidy-unzip-"></a></h2>
+    <h2>tidy_unzip()</h2>
     
 
 
@@ -237,7 +237,7 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
     </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">tidy_download</span><span class="op">(</span><span class="st">"https://github.com/r-lib/rematch2/archive/master.zip"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>

@@ -159,7 +159,7 @@ used to trigger various operations for each push or pull request, such as:</p><u
 <span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>name</th>
       <td><p>For <code>use_github_action()</code>: Name of one of the example workflows
 from <a href="https://github.com/r-lib/actions/tree/v1/examples">https://github.com/r-lib/actions/tree/v1/examples</a>, with or without a
@@ -187,7 +187,7 @@ applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html">utils:
     </tr></table></div>
 
     <div id="use-github-actions-">
-    <h2><code>use_github_actions()</code><a class="anchor" aria-label="anchor" href="#use-github-actions-"></a></h2>
+    <h2><code>use_github_actions()</code></h2>
     
 
 <p>Configures a basic <code>R CMD check</code> workflow on GitHub Actions by adding a
@@ -196,7 +196,7 @@ active project. This is actually just an alias for
 <code>use_github_action_check_release()</code>.</p>
     </div>
     <div id="use-github-actions-badge-">
-    <h2><code>use_github_actions_badge()</code><a class="anchor" aria-label="anchor" href="#use-github-actions-badge-"></a></h2>
+    <h2><code>use_github_actions_badge()</code></h2>
     
 
 <p>Generates a GitHub Actions badge and that's all. It does not configure a
@@ -204,7 +204,7 @@ workflow. This exists mostly for internal use in the other functions
 documented here.</p>
     </div>
     <div id="use-github-action-">
-    <h2><code>use_github_action()</code><a class="anchor" aria-label="anchor" href="#use-github-action-"></a></h2>
+    <h2><code>use_github_action()</code></h2>
     
 
 <p>Configures an individual, specific <a href="https://github.com/features/actions">GitHub Actions</a> workflow, either one of the
@@ -215,7 +215,7 @@ or a custom workflow given by the <code>url</code> parameter.</p>
 also be called directly by the user.</p>
     </div>
     <div id="use-github-action-check-release-">
-    <h2><code>use_github_action_check_release()</code><a class="anchor" aria-label="anchor" href="#use-github-action-check-release-"></a></h2>
+    <h2><code>use_github_action_check_release()</code></h2>
     
 
 <p>This entry-level, bare-minimum workflow installs the latest release of R (on
@@ -223,7 +223,7 @@ a current distribution of Linux) and runs <code>R CMD check</code> via the
 <a href="https://github.com/r-lib/rcmdcheck">rcmdcheck</a> package.</p>
     </div>
     <div id="use-github-action-check-standard-">
-    <h2><code>use_github_action_check_standard()</code><a class="anchor" aria-label="anchor" href="#use-github-action-check-standard-"></a></h2>
+    <h2><code>use_github_action_check_standard()</code></h2>
     
 
 <p>This workflow runs <code>R CMD check</code> via the
@@ -233,7 +233,7 @@ on R-devel. This workflow is appropriate for a package that is (or aspires to
 be) on CRAN or Bioconductor.</p>
     </div>
     <div id="use-github-action-pr-commands-">
-    <h2><code>use_github_action_pr_commands()</code><a class="anchor" aria-label="anchor" href="#use-github-action-pr-commands-"></a></h2>
+    <h2><code>use_github_action_pr_commands()</code></h2>
     
 
 <p>This workflow enables the use of two R-specific commands in pull request
@@ -241,7 +241,7 @@ issue comments:</p><ul><li><p><code>/document</code> to run <code><a href="https
 <li><p><code>/style</code> to run <code><a href="https://styler.r-lib.org/reference/style_pkg.html">styler::style_pkg()</a></code> and update the PR</p></li>
 </ul></div>
     <div id="see-also">
-    <h2>See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <h2>See also</h2>
     <div class="dont-index">
 <ul><li><p><code><a href="use_github_file.html">use_github_file()</a></code> for more about <code>url</code> format and parsing.</p></li>
 <li><p><code><a href="tidyverse.html">use_tidy_github_actions()</a></code> for the standard GitHub Actions used for
@@ -250,7 +250,7 @@ tidyverse packages.</p></li>
     </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">use_github_actions</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"></span>

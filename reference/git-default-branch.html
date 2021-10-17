@@ -124,7 +124,7 @@ in a specific project / Git repository.</p>
 <span class="fu">git_default_branch_rename</span><span class="op">(</span>from <span class="op">=</span> <span class="cn">NULL</span>, to <span class="op">=</span> <span class="st">"main"</span><span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>name</th>
       <td><p>Default name for the initial branch in new Git repositories.</p></td>
     </tr><tr><th>current_local_default</th>
@@ -139,11 +139,11 @@ branch.</p></td>
     </tr></table></div>
 
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p>Name of the default branch.</p>
     </div>
     <div id="background-on-the-default-branch">
-    <h2>Background on the default branch<a class="anchor" aria-label="anchor" href="#background-on-the-default-branch"></a></h2>
+    <h2>Background on the default branch</h2>
     
 
 
@@ -157,7 +157,7 @@ points to.</p>
 but <code>main</code> is an increasingly popular choice.</p>
     </div>
     <div id="git-default-branch-configure-">
-    <h2><code>git_default_branch_configure()</code><a class="anchor" aria-label="anchor" href="#git-default-branch-configure-"></a></h2>
+    <h2><code>git_default_branch_configure()</code></h2>
     
 
 <p>This configures <code>init.defaultBranch</code> at the global (a.k.a user) level. This
@@ -166,7 +166,7 @@ first commit in a new Git repo. <code>init.defaultBranch</code> only affects the
 Git repos you create in the future.</p>
     </div>
     <div id="git-default-branch">
-    <h2><code>git_default_branch</code><a class="anchor" aria-label="anchor" href="#git-default-branch"></a></h2>
+    <h2><code>git_default_branch</code></h2>
     
 
 <p>This figures out the default branch of the current Git repo, integrating
@@ -185,7 +185,7 @@ a local value, if present, takes precedence over a global (a.k.a.
 user-level) value</p></li>
 </ul></div>
     <div id="git-default-branch-rediscover-">
-    <h2><code>git_default_branch_rediscover()</code><a class="anchor" aria-label="anchor" href="#git-default-branch-rediscover-"></a></h2>
+    <h2><code>git_default_branch_rediscover()</code></h2>
     
 
 <p>This consults an external authority -- specifically, the remote <strong>source
@@ -198,7 +198,7 @@ GitHub remote configurations and, e.g., what we mean by the source repo. This
 function works for the configurations <code>"ours"</code>, <code>"fork"</code>, and <code>"theirs"</code>.</p>
     </div>
     <div id="git-default-branch-rename-">
-    <h2><code>git_default_branch_rename()</code><a class="anchor" aria-label="anchor" href="#git-default-branch-rename-"></a></h2>
+    <h2><code>git_default_branch_rename()</code></h2>
     
 
 <p>Note: this only works for a repo that you effectively own. In terms of
@@ -215,7 +215,7 @@ local repo with no GitHub remotes, but that is not the primary use case.</p>
     </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">git_default_branch</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
