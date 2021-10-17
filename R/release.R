@@ -363,7 +363,8 @@ rstudio_orgs <- function() {
   c(
     "tidyverse",
     "r-lib",
-    "tidymodels"
+    "tidymodels",
+    "rstudio"
   )
 }
 
