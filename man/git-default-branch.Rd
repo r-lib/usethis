@@ -59,7 +59,7 @@ first commit in a new Git repo. \code{init.defaultBranch} only affects the local
 Git repos you create in the future.
 }
 
-\section{\code{git_default_branch}}{
+\section{\code{git_default_branch()}}{
 
 This figures out the default branch of the current Git repo, integrating
 information from the local repo and, if applicable, the \code{upstream} or

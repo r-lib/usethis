@@ -29,7 +29,7 @@
 #' Git repos you create in the future.
 #'
 
-#' @section `git_default_branch`:
+#' @section `git_default_branch()`:
 
 #' This figures out the default branch of the current Git repo, integrating
 #' information from the local repo and, if applicable, the `upstream` or
