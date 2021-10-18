@@ -1,4 +1,4 @@
-# usethis (development version)
+# usethis 2.1.1
 
 `git_default_branch_rename()` no longer errors on repos where README exists, but has no badge block.
 
