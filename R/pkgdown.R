@@ -74,7 +74,7 @@ use_pkgdown_github_pages <- function() {
   site <- use_github_pages()
   use_github_action("pkgdown")
 
-  site_url <- tidyverse_url(url = site_url, tr = tr)
+  site_url <- tidyverse_url(url = site$html_url, tr = tr)
   use_pkgdown_url(url = site_url, tr = tr)
 
   if (tr$repo_owner %in% c("tidyverse", "tidymodels", "r-lib")) {
