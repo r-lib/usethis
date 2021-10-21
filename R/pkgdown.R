@@ -74,7 +74,6 @@ use_pkgdown_github_pages <- function() {
   site <- use_github_pages()
   use_github_action("pkgdown")
 
-  site_url <- sub("/$", "", site$html_url)
   site_url <- tidyverse_url(url = site_url, tr = tr)
   use_pkgdown_url(url = site_url, tr = tr)
 
@@ -124,6 +123,8 @@ tidyverse_url <- function(url, tr = NULL) {
       !tr$repo_owner %in% c("tidyverse", "r-lib", "tidymodels")) {
     return(url)
   }
+
+  url <- sub("/$", "", url)
   custom_url <- glue("https://{tr$repo_name}.{tr$repo_owner}.org")
   if (url == custom_url) {
     return(url)
