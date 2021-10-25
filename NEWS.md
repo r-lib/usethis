@@ -1,5 +1,7 @@
 # usethis (development version)
 
+Modified a test to ensure that intermittent GitHub rate limiting does not lead to ungraceful failure on CRAN. 
+
 # usethis 2.1.2
 
 `git_default_branch_rename()` no longer errors on repos where README exists, but has no badge block.
