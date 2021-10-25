@@ -522,10 +522,10 @@ challenge_non_default_branch <- function(details = "Are you sure you want to pro
     if (ui_nope("
       Current branch ({ui_value(actual)}) is not repo's default \\
       branch ({ui_value(default_branch)}).{details}")) {
-      ui_oops("Cancelling.")
-      return(invisible())
+      ui_stop("Cancelling. Not on desired branch.")
     }
   }
+  invisible()
 }
 
 report_fishy_files <- function(old_name = "master", new_name = "main") {
