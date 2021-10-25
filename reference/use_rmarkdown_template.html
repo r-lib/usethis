@@ -29,7 +29,7 @@ template.yml with basic information filled in.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -67,19 +67,19 @@ template.yml with basic information filled in.
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -87,7 +87,7 @@ template.yml with basic information filled in.
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -107,7 +107,7 @@ template.yml with basic information filled in.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Add an RMarkdown Template</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/rmarkdown.R"><code>R/rmarkdown.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/rmarkdown.R" class="external-link"><code>R/rmarkdown.R</code></a></small>
     <div class="hidden name"><code>use_rmarkdown_template.Rd</code></div>
     </div>
 
@@ -125,21 +125,20 @@ RStudio. It creates:</p><ul><li><p><code>inst/rmarkdown/templates/{{template_dir
   template_create_dir <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>template_name</th>
-      <td><p>The name as printed in the template menu.</p></td>
-    </tr><tr><th>template_dir</th>
-      <td><p>Name of the directory the template will live in within
-<code>inst/rmarkdown/templates</code>. If none is provided by the user, it will be
-created from <code>template_name</code>.</p></td>
-    </tr><tr><th>template_description</th>
-      <td><p>Sets the value of <code>description</code> in
-<code>template.yml</code>.</p></td>
-    </tr><tr><th>template_create_dir</th>
-      <td><p>Sets the value of <code>create_dir</code> in <code>template.yml</code>.</p></td>
-    </tr></table></div>
+    
 
+<dl><dt>template_name</dt><dd><p>The name as printed in the template menu.</p></dd>
+</dl><dl><dt>template_dir</dt><dd><p>Name of the directory the template will live in within
+<code>inst/rmarkdown/templates</code>. If none is provided by the user, it will be
+created from <code>template_name</code>.</p></dd>
+</dl><dl><dt>template_description</dt><dd><p>Sets the value of <code>description</code> in
+<code>template.yml</code>.</p></dd>
+</dl><dl><dt>template_create_dir</dt><dd><p>Sets the value of <code>create_dir</code> in <code>template.yml</code>.</p></dd>
+</dl></div>
+    </div>
 
     <div id="examples">
     <h2>Examples</h2>

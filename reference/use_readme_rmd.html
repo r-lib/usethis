@@ -37,7 +37,7 @@ https://github.com/r-lib/actions/."><meta property="og:image" content="https://u
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -75,19 +75,19 @@ https://github.com/r-lib/actions/."><meta property="og:image" content="https://u
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -95,7 +95,7 @@ https://github.com/r-lib/actions/."><meta property="og:image" content="https://u
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -115,7 +115,7 @@ https://github.com/r-lib/actions/."><meta property="og:image" content="https://u
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create README files</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/readme.R"><code>R/readme.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/readme.R" class="external-link"><code>R/readme.R</code></a></small>
     <div class="hidden name"><code>use_readme_rmd.Rd</code></div>
     </div>
 
@@ -131,23 +131,25 @@ code blocks (<code>md</code>) or chunks (<code>Rmd</code>).</p>
 <code>README.md</code> up-to-date. <code>devtools::build_readme()</code> is handy for this. You
 could also use GitHub Actions to re-render <code>README.Rmd</code> every time you push.
 An example workflow can be found in the <code>examples/</code> directory here:
-<a href="https://github.com/r-lib/actions/">https://github.com/r-lib/actions/</a>.</p>
+<a href="https://github.com/r-lib/actions/" class="external-link">https://github.com/r-lib/actions/</a>.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_readme_rmd</span><span class="op">(</span>open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_readme_rmd</span><span class="op">(</span>open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">use_readme_md</span><span class="op">(</span>open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu">use_readme_md</span><span class="op">(</span>open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>open</th>
-      <td><p>Open the newly created file for editing? Happens in RStudio, if
-applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html">utils::file.edit()</a></code> otherwise.</p></td>
-    </tr></table></div>
+    
 
+<dl><dt>open</dt><dd><p>Open the newly created file for editing? Happens in RStudio, if
+applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">utils::file.edit()</a></code> otherwise.</p></dd>
+</dl></div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p>The <a href="https://r-pkgs.org/release.html#important-files">important files section</a> of <a href="https://r-pkgs.org">R Packages</a>.</p></div>
+    <div class="dont-index"><p>The <a href="https://r-pkgs.org/release.html#important-files" class="external-link">important files section</a> of <a href="https://r-pkgs.org" class="external-link">R Packages</a>.</p></div>
+    </div>
     </div>
 
     <div id="examples">

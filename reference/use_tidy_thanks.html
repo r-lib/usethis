@@ -29,7 +29,7 @@ frame about refs (defaulting to releases), respectively."><meta property="og:ima
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -67,19 +67,19 @@ frame about refs (defaulting to releases), respectively."><meta property="og:ima
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -87,7 +87,7 @@ frame about refs (defaulting to releases), respectively."><meta property="og:ima
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -107,14 +107,14 @@ frame about refs (defaulting to releases), respectively."><meta property="og:ima
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Identify contributors via GitHub activity</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/tidyverse.R"><code>R/tidyverse.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/tidyverse.R" class="external-link"><code>R/tidyverse.R</code></a></small>
     <div class="hidden name"><code>use_tidy_thanks.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Derives a list of GitHub usernames, based on who has opened issues or pull
 requests. Used to populate the acknowledgment section of package release blog
-posts at <a href="https://www.tidyverse.org/blog/">https://www.tidyverse.org/blog/</a>. If no arguments are given, we
+posts at <a href="https://www.tidyverse.org/blog/" class="external-link">https://www.tidyverse.org/blog/</a>. If no arguments are given, we
 retrieve all contributors to the active project since its last (GitHub)
 release. Unexported helper functions, <code>releases()</code> and <code>ref_df()</code> can be
 useful interactively to get a quick look at release tag names and a data
@@ -123,25 +123,26 @@ frame about refs (defaulting to releases), respectively.</p>
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_tidy_thanks</span><span class="op">(</span>repo_spec <span class="op">=</span> <span class="cn">NULL</span>, from <span class="op">=</span> <span class="cn">NULL</span>, to <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>repo_spec</th>
-      <td><p>Optional GitHub repo specification in any form accepted for
+    
+
+<dl><dt>repo_spec</dt><dd><p>Optional GitHub repo specification in any form accepted for
 the <code>repo_spec</code> argument of <code><a href="create_from_github.html">create_from_github()</a></code> (plain spec or a browser
 or Git URL). A URL specification is the only way to target a GitHub host
-other than <code>"github.com"</code>, which is the default.</p></td>
-    </tr><tr><th>from, to</th>
-      <td><p>GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
+other than <code>"github.com"</code>, which is the default.</p></dd>
+</dl><dl><dt>from, to</dt><dd><p>GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
 ISO 8601 format, specifying the start or end of the interval of interest,
 in the sense of <code>[from, to]</code>. Examples: "08a560d", "v1.3.0",
 "2018-02-24T00:13:45Z", "2018-05-01". When <code>from = NULL, to = NULL</code>, we set
 <code>from</code> to the timestamp of the most recent (GitHub) release. Otherwise,
-<code>NULL</code> means "no bound".</p></td>
-    </tr></table></div>
-
+<code>NULL</code> means "no bound".</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A character vector of GitHub usernames, invisibly.</p>
+    </div>
     </div>
 
     <div id="examples">

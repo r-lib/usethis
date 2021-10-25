@@ -24,7 +24,7 @@ for internal use. File is written with UTF-8 encoding."><meta property="og:image
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -62,19 +62,19 @@ for internal use. File is written with UTF-8 encoding."><meta property="og:image
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -82,7 +82,7 @@ for internal use. File is written with UTF-8 encoding."><meta property="og:image
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -102,7 +102,7 @@ for internal use. File is written with UTF-8 encoding."><meta property="og:image
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Write into or over a file</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/write.R"><code>R/write.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/write.R" class="external-link"><code>R/write.R</code></a></small>
     <div class="hidden name"><code>write-this.Rd</code></div>
     </div>
 
@@ -115,21 +115,19 @@ for internal use. File is written with UTF-8 encoding.</p>
 
 <span class="fu">write_over</span><span class="op">(</span><span class="va">path</span>, <span class="va">lines</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>path</th>
-      <td><p>Path to target file. It is created if it does not exist, but the
-parent directory must exist.</p></td>
-    </tr><tr><th>lines</th>
-      <td><p>Character vector of lines. For <code>write_union()</code>, these are lines
-to add to the target file, if not already present. For <code>write_over()</code>,
-these are the exact lines desired in the target file.</p></td>
-    </tr><tr><th>quiet</th>
-      <td><p>Logical. Whether to message about what is happening.</p></td>
-    </tr><tr><th>contents</th>
-      <td><p>Character vector of lines.</p></td>
-    </tr></table></div>
+    
 
+<dl><dt>path</dt><dd><p>Path to target file. It is created if it does not exist, but the
+parent directory must exist.</p></dd>
+</dl><dl><dt>lines</dt><dd><p>Character vector of lines. For <code>write_union()</code>, these are lines
+to add to the target file, if not already present. For <code>write_over()</code>,
+these are the exact lines desired in the target file.</p></dd>
+</dl><dl><dt>quiet</dt><dd><p>Logical. Whether to message about what is happening.</p></dd>
+</dl><dl><dt>contents</dt><dd><p>Character vector of lines.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>Logical indicating whether a write occurred, invisibly.</p>
@@ -145,24 +143,25 @@ promise about the line order. Designed to modify simple config files like
 necessary or overwriting existing, if proposed contents are not identical
 and user is available to give permission.</p></li>
 </ul></div>
+    </div>
 
     <div id="examples">
     <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontshow{</span></span>
-<span class="r-in"><span class="va">.old_wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">.old_wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># }</span></span>
 <span class="r-in"><span class="fu">write_union</span><span class="op">(</span><span class="st">"a_file"</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Adding <span style="color: #0000BB;">'a'</span>, <span style="color: #0000BB;">'b'</span>, <span style="color: #0000BB;">'c'</span> to <span style="color: #0000BB;">'a_file'</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="st">"a_file"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="st">"a_file"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a" "b" "c"</span>
 <span class="r-in"><span class="fu">write_union</span><span class="op">(</span><span class="st">"a_file"</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Adding <span style="color: #0000BB;">'d'</span>, <span style="color: #0000BB;">'e'</span> to <span style="color: #0000BB;">'a_file'</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="st">"a_file"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="st">"a_file"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a" "b" "c" "d" "e"</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">write_over</span><span class="op">(</span><span class="st">"another_file"</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Writing <span style="color: #0000BB;">'another_file'</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="st">"another_file"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="st">"another_file"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a" "b" "c"</span>
 <span class="r-in"><span class="fu">write_over</span><span class="op">(</span><span class="st">"another_file"</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
@@ -171,10 +170,10 @@ and user is available to give permission.</p></li>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## clean up</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.remove</a></span><span class="op">(</span><span class="st">"a_file"</span>, <span class="st">"another_file"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="st">"a_file"</span>, <span class="st">"another_file"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE</span>
 <span class="r-in"><span class="co"># \dontshow{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="va">.old_wd</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">.old_wd</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>
     </div>

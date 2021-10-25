@@ -25,7 +25,7 @@ inspection."><meta property="og:image" content="https://usethis.r-lib.org/logo.p
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -63,19 +63,19 @@ inspection."><meta property="og:image" content="https://usethis.r-lib.org/logo.p
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -83,7 +83,7 @@ inspection."><meta property="og:image" content="https://usethis.r-lib.org/logo.p
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -103,7 +103,7 @@ inspection."><meta property="og:image" content="https://usethis.r-lib.org/logo.p
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Use a usethis-style template</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/template.R"><code>R/template.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/template.R" class="external-link"><code>R/template.R</code></a></small>
     <div class="hidden name"><code>use_template.Rd</code></div>
     </div>
 
@@ -116,31 +116,27 @@ inspection.</p>
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_template</span><span class="op">(</span>
   <span class="va">template</span>,
   save_as <span class="op">=</span> <span class="va">template</span>,
-  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,
+  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
   ignore <span class="op">=</span> <span class="cn">FALSE</span>,
   open <span class="op">=</span> <span class="cn">FALSE</span>,
   package <span class="op">=</span> <span class="st">"usethis"</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>template</th>
-      <td><p>Path to template file relative to <code>templates/</code> directory
-within <code>package</code>; see details.</p></td>
-    </tr><tr><th>save_as</th>
-      <td><p>Path of file to create, relative to root of active project.
-Defaults to <code>template</code></p></td>
-    </tr><tr><th>data</th>
-      <td><p>A list of data passed to the template.</p></td>
-    </tr><tr><th>ignore</th>
-      <td><p>Should the newly created file be added to <code>.Rbuildignore</code>?</p></td>
-    </tr><tr><th>open</th>
-      <td><p>Open the newly created file for editing? Happens in RStudio, if
-applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html">utils::file.edit()</a></code> otherwise.</p></td>
-    </tr><tr><th>package</th>
-      <td><p>Name of the package where the template is found.</p></td>
-    </tr></table></div>
+    
 
+<dl><dt>template</dt><dd><p>Path to template file relative to <code>templates/</code> directory
+within <code>package</code>; see details.</p></dd>
+</dl><dl><dt>save_as</dt><dd><p>Path of file to create, relative to root of active project.
+Defaults to <code>template</code></p></dd>
+</dl><dl><dt>data</dt><dd><p>A list of data passed to the template.</p></dd>
+</dl><dl><dt>ignore</dt><dd><p>Should the newly created file be added to <code>.Rbuildignore</code>?</p></dd>
+</dl><dl><dt>open</dt><dd><p>Open the newly created file for editing? Happens in RStudio, if
+applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">utils::file.edit()</a></code> otherwise.</p></dd>
+</dl><dl><dt>package</dt><dd><p>Name of the package where the template is found.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A logical vector indicating if file was modified.</p>
@@ -151,13 +147,14 @@ applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html">utils:
 packages. The <code>template</code> argument is used along with the <code>package</code> argument
 to derive the path to your template file; it will be expected at
 <code>fs::path_package(package = package, "templates", template)</code>. We use
-<code><a href="http://fs.r-lib.org/reference/path_package.html">fs::path_package()</a></code> instead of <code><a href="https://rdrr.io/r/base/system.file.html">base::system.file()</a></code> so that path
+<code><a href="http://fs.r-lib.org/reference/path_package.html" class="external-link">fs::path_package()</a></code> instead of <code><a href="https://rdrr.io/r/base/system.file.html" class="external-link">base::system.file()</a></code> so that path
 construction works even in a development workflow, e.g., works with
-<code>devtools::load_all()</code> or <code><a href="https://rdrr.io/pkg/pkgload/man/load_all.html">pkgload::load_all()</a></code>. <em>Note this describes the
-behaviour of <code><a href="http://fs.r-lib.org/reference/path_package.html">fs::path_package()</a></code> in fs v1.2.7.9001 and higher.</em></p>
+<code>devtools::load_all()</code> or <code><a href="https://rdrr.io/pkg/pkgload/man/load_all.html" class="external-link">pkgload::load_all()</a></code>. <em>Note this describes the
+behaviour of <code><a href="http://fs.r-lib.org/reference/path_package.html" class="external-link">fs::path_package()</a></code> in fs v1.2.7.9001 and higher.</em></p>
 <p>To interpolate your data into the template, supply a list using
 the <code>data</code> argument. Internally, this function uses
-<code><a href="https://rdrr.io/pkg/whisker/man/whisker.render.html">whisker::whisker.render()</a></code> to combine your template file with your data.</p>
+<code><a href="https://rdrr.io/pkg/whisker/man/whisker.render.html" class="external-link">whisker::whisker.render()</a></code> to combine your template file with your data.</p>
+    </div>
     </div>
 
     <div id="examples">
@@ -166,7 +163,7 @@ the <code>data</code> argument. Internally, this function uses
 <span class="r-in">  <span class="co"># Note: running this will write `NEWS.md` to your working directory</span></span>
 <span class="r-in">  <span class="fu">use_template</span><span class="op">(</span></span>
 <span class="r-in">    template <span class="op">=</span> <span class="st">"NEWS.md"</span>,</span>
-<span class="r-in">    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Package <span class="op">=</span> <span class="st">"acme"</span>, Version <span class="op">=</span> <span class="st">"1.2.3"</span><span class="op">)</span>,</span>
+<span class="r-in">    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Package <span class="op">=</span> <span class="st">"acme"</span>, Version <span class="op">=</span> <span class="st">"1.2.3"</span><span class="op">)</span>,</span>
 <span class="r-in">    package <span class="op">=</span> <span class="st">"usethis"</span></span>
 <span class="r-in">  <span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>

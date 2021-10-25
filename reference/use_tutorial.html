@@ -33,7 +33,7 @@ Adds new .Rmd to .Rbuildignore.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -71,19 +71,19 @@ Adds new .Rmd to .Rbuildignore.
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -91,7 +91,7 @@ Adds new .Rmd to .Rbuildignore.
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -111,13 +111,13 @@ Adds new .Rmd to .Rbuildignore.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a learnr tutorial</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/tutorial.R"><code>R/tutorial.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/tutorial.R" class="external-link"><code>R/tutorial.R</code></a></small>
     <div class="hidden name"><code>use_tutorial.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Creates a new tutorial below <code>inst/tutorials/</code>. Tutorials are interactive R
-Markdown documents built with the <a href="https://rstudio.github.io/learnr/index.html"><code>learnr</code> package</a>. <code>use_tutorial()</code> does
+Markdown documents built with the <a href="https://rstudio.github.io/learnr/index.html" class="external-link"><code>learnr</code> package</a>. <code>use_tutorial()</code> does
 this setup:</p><ul><li><p>Adds learnr to Suggests in <code>DESCRIPTION</code>.</p></li>
 <li><p>Gitignores <code>inst/tutorials/*.html</code> so you don't accidentally track
 rendered tutorials.</p></li>
@@ -126,23 +126,23 @@ for editing.</p></li>
 <li><p>Adds new <code>.Rmd</code> to <code>.Rbuildignore</code>.</p></li>
 </ul></div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_tutorial</span><span class="op">(</span><span class="va">name</span>, <span class="va">title</span>, open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_tutorial</span><span class="op">(</span><span class="va">name</span>, <span class="va">title</span>, open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>name</th>
-      <td><p>Base for file name to use for new <code>.Rmd</code> tutorial. Should consist
-only of numbers, letters, <code>_</code> and <code>-</code>. We recommend using lower case.</p></td>
-    </tr><tr><th>title</th>
-      <td><p>The human-facing title of the tutorial.</p></td>
-    </tr><tr><th>open</th>
-      <td><p>Open the newly created file for editing? Happens in RStudio, if
-applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html">utils::file.edit()</a></code> otherwise.</p></td>
-    </tr></table></div>
+    
 
+<dl><dt>name</dt><dd><p>Base for file name to use for new <code>.Rmd</code> tutorial. Should consist
+only of numbers, letters, <code>_</code> and <code>-</code>. We recommend using lower case.</p></dd>
+</dl><dl><dt>title</dt><dd><p>The human-facing title of the tutorial.</p></dd>
+</dl><dl><dt>open</dt><dd><p>Open the newly created file for editing? Happens in RStudio, if
+applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">utils::file.edit()</a></code> otherwise.</p></dd>
+</dl></div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p>The <a href="https://rstudio.github.io/learnr/index.html">learnr package documentation</a>.</p></div>
+    <div class="dont-index"><p>The <a href="https://rstudio.github.io/learnr/index.html" class="external-link">learnr package documentation</a>.</p></div>
+    </div>
     </div>
 
     <div id="examples">

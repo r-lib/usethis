@@ -39,7 +39,7 @@ work."><meta property="og:image" content="https://usethis.r-lib.org/logo.png"><!
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -77,19 +77,19 @@ work."><meta property="og:image" content="https://usethis.r-lib.org/logo.png"><!
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -97,7 +97,7 @@ work."><meta property="og:image" content="https://usethis.r-lib.org/logo.png"><!
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -117,7 +117,7 @@ work."><meta property="og:image" content="https://usethis.r-lib.org/logo.png"><!
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Connect a local repo with GitHub</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/github.R"><code>R/github.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/github.R" class="external-link"><code>R/github.R</code></a></small>
     <div class="hidden name"><code>use_github.Rd</code></div>
     </div>
 
@@ -140,47 +140,42 @@ work.</p>
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_github</span><span class="op">(</span>
   organisation <span class="op">=</span> <span class="cn">NULL</span>,
   private <span class="op">=</span> <span class="cn">FALSE</span>,
-  visibility <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"public"</span>, <span class="st">"private"</span>, <span class="st">"internal"</span><span class="op">)</span>,
+  visibility <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"public"</span>, <span class="st">"private"</span>, <span class="st">"internal"</span><span class="op">)</span>,
   protocol <span class="op">=</span> <span class="fu"><a href="git_protocol.html">git_protocol</a></span><span class="op">(</span><span class="op">)</span>,
   host <span class="op">=</span> <span class="cn">NULL</span>,
-  auth_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Deprecated.html">deprecated</a></span><span class="op">(</span><span class="op">)</span>,
-  credentials <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Deprecated.html">deprecated</a></span><span class="op">(</span><span class="op">)</span>
+  auth_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>,
+  credentials <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>organisation</th>
-      <td><p>If supplied, the repo will be created under this
+    
+
+<dl><dt>organisation</dt><dd><p>If supplied, the repo will be created under this
 organisation, instead of the login associated with the GitHub token
 discovered for this <code>host</code>. The user's role and the token's scopes must be
 such that you have permission to create repositories in this
-<code>organisation</code>.</p></td>
-    </tr><tr><th>private</th>
-      <td><p>If <code>TRUE</code>, creates a private repository.</p></td>
-    </tr><tr><th>visibility</th>
-      <td><p>Only relevant for organisation-owned repos associated with
+<code>organisation</code>.</p></dd>
+</dl><dl><dt>private</dt><dd><p>If <code>TRUE</code>, creates a private repository.</p></dd>
+</dl><dl><dt>visibility</dt><dd><p>Only relevant for organisation-owned repos associated with
 certain GitHub Enterprise products. The special "internal" <code>visibility</code>
 grants read permission to all organisation members, i.e. it's intermediate
 between "private" and "public", within GHE. When specified, <code>visibility</code>
-takes precedence over <code>private = TRUE/FALSE</code>.</p></td>
-    </tr><tr><th>protocol</th>
-      <td><p>One of "https" or "ssh"</p></td>
-    </tr><tr><th>host</th>
-      <td><p>GitHub host to target, passed to the <code>.api_url</code> argument of
-<code><a href="https://gh.r-lib.org/reference/gh.html">gh::gh()</a></code>. If unspecified, gh defaults to "https://api.github.com",
+takes precedence over <code>private = TRUE/FALSE</code>.</p></dd>
+</dl><dl><dt>protocol</dt><dd><p>One of "https" or "ssh"</p></dd>
+</dl><dl><dt>host</dt><dd><p>GitHub host to target, passed to the <code>.api_url</code> argument of
+<code><a href="https://gh.r-lib.org/reference/gh.html" class="external-link">gh::gh()</a></code>. If unspecified, gh defaults to "https://api.github.com",
 although gh's default can be customised by setting the GITHUB_API_URL
-environment variable.</p>
-<p>For a hypothetical GitHub Enterprise instance, either
+environment variable.For a hypothetical GitHub Enterprise instance, either
 "https://github.acme.com/api/v3" or "https://github.acme.com" is
-acceptable.</p></td>
-    </tr><tr><th>auth_token, credentials</th>
-      <td><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
+acceptable.</p></dd>
+</dl><dl><dt>auth_token, credentials</dt><dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
 consulted now that usethis uses the gert package for Git operations,
 instead of git2r; gert relies on the credentials package for auth. The API
 requests are now authorized with the token associated with the <code>host</code>, as
-retrieved by <code><a href="https://gh.r-lib.org/reference/gh_token.html">gh::gh_token()</a></code>.</p></td>
-    </tr></table></div>
-
+retrieved by <code><a href="https://gh.r-lib.org/reference/gh_token.html" class="external-link">gh::gh_token()</a></code>.</p></dd>
+</dl></div>
     <div id="git-github-authentication">
     <h2>Git/GitHub Authentication</h2>
     
@@ -204,11 +199,12 @@ addition to your PAT. The public key must be added to your GitHub account.</p></
 </ul><p>Git/GitHub credential management is covered in a dedicated article:
 <a href="https://usethis.r-lib.org/articles/articles/git-credentials.html">Managing Git(Hub) Credentials</a></p>
     </div>
+    </div>
 
     <div id="examples">
     <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">pkgpath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"testpkg"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">pkgpath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"testpkg"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="create_package.html">create_package</a></span><span class="op">(</span><span class="va">pkgpath</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## now, working inside "testpkg", initialize git repository</span></span>

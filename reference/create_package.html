@@ -30,7 +30,7 @@ any existing files are changed."><meta property="og:image" content="https://uset
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -68,19 +68,19 @@ any existing files are changed."><meta property="og:image" content="https://uset
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -88,7 +88,7 @@ any existing files are changed."><meta property="og:image" content="https://uset
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -108,7 +108,7 @@ any existing files are changed."><meta property="og:image" content="https://uset
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a package or project</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/create.R"><code>R/create.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/create.R" class="external-link"><code>R/create.R</code></a></small>
     <div class="hidden name"><code>create_package.Rd</code></div>
     </div>
 
@@ -122,47 +122,44 @@ any existing files are changed.</p>
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">create_package</span><span class="op">(</span>
   <span class="va">path</span>,
-  fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,
-  rstudio <span class="op">=</span> <span class="fu">rstudioapi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rstudioapi/man/isAvailable.html">isAvailable</a></span><span class="op">(</span><span class="op">)</span>,
+  fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
+  rstudio <span class="op">=</span> <span class="fu">rstudioapi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rstudioapi/man/isAvailable.html" class="external-link">isAvailable</a></span><span class="op">(</span><span class="op">)</span>,
   roxygen <span class="op">=</span> <span class="cn">TRUE</span>,
   check_name <span class="op">=</span> <span class="cn">TRUE</span>,
-  open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html">is_interactive</a></span><span class="op">(</span><span class="op">)</span>
+  open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span>
 
 <span class="fu">create_project</span><span class="op">(</span>
   <span class="va">path</span>,
-  rstudio <span class="op">=</span> <span class="fu">rstudioapi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rstudioapi/man/isAvailable.html">isAvailable</a></span><span class="op">(</span><span class="op">)</span>,
-  open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html">is_interactive</a></span><span class="op">(</span><span class="op">)</span>
+  rstudio <span class="op">=</span> <span class="fu">rstudioapi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rstudioapi/man/isAvailable.html" class="external-link">isAvailable</a></span><span class="op">(</span><span class="op">)</span>,
+  open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>path</th>
-      <td><p>A path. If it exists, it is used. If it does not exist, it is
-created, provided that the parent path exists.</p></td>
-    </tr><tr><th>fields</th>
-      <td><p>A named list of fields to add to <code>DESCRIPTION</code>, potentially
+    
+
+<dl><dt>path</dt><dd><p>A path. If it exists, it is used. If it does not exist, it is
+created, provided that the parent path exists.</p></dd>
+</dl><dl><dt>fields</dt><dd><p>A named list of fields to add to <code>DESCRIPTION</code>, potentially
 overriding default values. See <code><a href="use_description.html">use_description()</a></code> for how you can set
-personalized defaults using package options.</p></td>
-    </tr><tr><th>rstudio</th>
-      <td><p>If <code>TRUE</code>, calls <code><a href="use_rstudio.html">use_rstudio()</a></code> to make the new package or
-project into an <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects">RStudio Project</a>.
+personalized defaults using package options.</p></dd>
+</dl><dl><dt>rstudio</dt><dd><p>If <code>TRUE</code>, calls <code><a href="use_rstudio.html">use_rstudio()</a></code> to make the new package or
+project into an <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects" class="external-link">RStudio Project</a>.
 If <code>FALSE</code> and a non-package project, a sentinel <code>.here</code> file is placed so
 that the directory can be recognized as a project by the
-<a href="https://here.r-lib.org">here</a> or
-<a href="https://rprojroot.r-lib.org">rprojroot</a> packages.</p></td>
-    </tr><tr><th>roxygen</th>
-      <td><p>Do you plan to use roxygen2 to document your package?</p></td>
-    </tr><tr><th>check_name</th>
-      <td><p>Whether to check if the name is valid for CRAN and throw an
-error if not.</p></td>
-    </tr><tr><th>open</th>
-      <td><p>If <code>TRUE</code>, <a href="proj_activate.html">activates</a> the new project:</p><ul><li><p>If RStudio desktop, the package is opened in a new session.</p></li>
+<a href="https://here.r-lib.org" class="external-link">here</a> or
+<a href="https://rprojroot.r-lib.org" class="external-link">rprojroot</a> packages.</p></dd>
+</dl><dl><dt>roxygen</dt><dd><p>Do you plan to use roxygen2 to document your package?</p></dd>
+</dl><dl><dt>check_name</dt><dd><p>Whether to check if the name is valid for CRAN and throw an
+error if not.</p></dd>
+</dl><dl><dt>open</dt><dd><p>If <code>TRUE</code>, <a href="proj_activate.html">activates</a> the new project:
+</p><ul><li><p>If RStudio desktop, the package is opened in a new session.</p></li>
 <li><p>If on RStudio server, the current RStudio project is activated.</p></li>
 <li><p>Otherwise, the working directory and active project is changed.</p></li>
-</ul></td>
-    </tr></table></div>
-
+</ul></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>Path to the newly created project or package, invisibly.</p>
@@ -172,6 +169,7 @@ error if not.</p></td>
     <div class="dont-index"><p><code><a href="tidyverse.html">create_tidy_package()</a></code> is a convenience function that extends
 <code>create_package()</code> by immediately applying as many of the tidyverse
 development conventions as possible.</p></div>
+    </div>
     </div>
 
   </div>

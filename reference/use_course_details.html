@@ -24,7 +24,7 @@ use_zip(). Only create_download_url() is exported."><meta property="og:image" co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -62,19 +62,19 @@ use_zip(). Only create_download_url() is exported."><meta property="og:image" co
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -82,7 +82,7 @@ use_zip(). Only create_download_url() is exported."><meta property="og:image" co
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -102,7 +102,7 @@ use_zip(). Only create_download_url() is exported."><meta property="og:image" co
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Helpers to download and unpack a ZIP file</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/course.R"><code>R/course.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/course.R" class="external-link"><code>R/course.R</code></a></small>
     <div class="hidden name"><code>use_course_details.Rd</code></div>
     </div>
 
@@ -113,33 +113,31 @@ use_zip(). Only create_download_url() is exported."><meta property="og:image" co
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">create_download_url</span><span class="op">(</span><span class="va">url</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>url</th>
-      <td><p>a GitHub, DropBox, or Google Drive URL, as copied from a web
-browser.</p></td>
-    </tr><tr><th>destdir</th>
-      <td><p>Path to existing local directory where the ZIP file will be
-stored. Defaults to current working directory, but note that <code><a href="zip-utils.html">use_course()</a></code>
-has different default behavior.</p></td>
-    </tr><tr><th>zipfile</th>
-      <td><p>Path to local ZIP file.</p></td>
-    </tr></table></div>
+    
 
+<dl><dt>url</dt><dd><p>a GitHub, DropBox, or Google Drive URL, as copied from a web
+browser.</p></dd>
+</dl><dl><dt>destdir</dt><dd><p>Path to existing local directory where the ZIP file will be
+stored. Defaults to current working directory, but note that <code><a href="zip-utils.html">use_course()</a></code>
+has different default behavior.</p></dd>
+</dl><dl><dt>zipfile</dt><dd><p>Path to local ZIP file.</p></dd>
+</dl></div>
     <div id="tidy-download-">
     <h2>tidy_download()</h2>
     
-<pre><code>## function signature
-tidy_download(url, destdir = getwd())
+<pre><code><span class="co">## function signature</span>
+<span class="fu">tidy_download</span><span class="op">(</span><span class="va">url</span>, destdir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
-# as called inside use_course()
-tidy_download(
-  url, ## after post-processing with normalize_url()
-  # conspicuous_place() = `getOption('usethis.destdir')` or desktop or home
-  # directory or working directory
-  destdir = destdir %||% conspicuous_place()
-)
-</code></pre>
+<span class="co"># as called inside use_course()</span>
+<span class="fu">tidy_download</span><span class="op">(</span>
+  <span class="va">url</span>, <span class="co">## after post-processing with normalize_url()</span>
+  <span class="co"># conspicuous_place() = `getOption('usethis.destdir')` or desktop or home</span>
+  <span class="co"># directory or working directory</span>
+  destdir <span class="op">=</span> <span class="va">destdir</span> <span class="op">%||%</span> <span class="fu">conspicuous_place</span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span></code></pre>
 
 <p>Special-purpose function to download a ZIP file and automatically determine
 the file name, which often determines the folder name after unpacking.
@@ -155,7 +153,7 @@ connect timeout.</p><div class="section">
 <h3 id="dropbox">DropBox<a class="anchor" aria-label="anchor" href="#dropbox"></a></h3>
 
 
-<p>To make a folder available for ZIP download, create a shared link for it:</p><ul><li><p><a href="https://help.dropbox.com/files-folders/share/view-only-access">https://help.dropbox.com/files-folders/share/view-only-access</a></p></li>
+<p>To make a folder available for ZIP download, create a shared link for it:</p><ul><li><p><a href="https://help.dropbox.com/files-folders/share/view-only-access" class="external-link">https://help.dropbox.com/files-folders/share/view-only-access</a></p></li>
 </ul><p>A shared link will have this form:</p><pre><code>https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
 </code></pre>
 
@@ -166,8 +164,8 @@ connect timeout.</p><div class="section">
 <p>This download link (or a shortlink that points to it) is suitable as input
 for <code>tidy_download()</code>. After one or more redirections, this link will
 eventually lead to a download URL. For more details, see
-<a href="https://help.dropbox.com/files-folders/share/force-download">https://help.dropbox.com/files-folders/share/force-download</a> and
-<a href="https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders">https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders</a>.</p>
+<a href="https://help.dropbox.com/files-folders/share/force-download" class="external-link">https://help.dropbox.com/files-folders/share/force-download</a> and
+<a href="https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders" class="external-link">https://help.dropbox.com/installs-integrations/sync-uploads/download-entire-folders</a>.</p>
 </div>
 
 <div class="section">
@@ -234,6 +232,7 @@ a spurious directory <code>"/"</code>, which we ignore during unzip. Also, if th
 directory is a Git repo and/or RStudio Project, we unzip-ignore various
 hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those below <code>.git/</code> and
 <code>.Rproj.user</code>.</p>
+    </div>
     </div>
 
     <div id="examples">

@@ -28,7 +28,7 @@ ensure your badge block starts with a line containing only
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -66,19 +66,19 @@ ensure your badge block starts with a line containing only
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -86,7 +86,7 @@ ensure your badge block starts with a line containing only
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -106,7 +106,7 @@ ensure your badge block starts with a line containing only
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>README badges</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/badge.R"><code>R/badge.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/badge.R" class="external-link"><code>R/badge.R</code></a></small>
     <div class="hidden name"><code>badges.Rd</code></div>
     </div>
 
@@ -129,40 +129,38 @@ ensure your badge block starts with a line containing only
 
 <span class="fu">use_binder_badge</span><span class="op">(</span>ref <span class="op">=</span> <span class="fu"><a href="git-default-branch.html">git_default_branch</a></span><span class="op">(</span><span class="op">)</span>, urlpath <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>badge_name</th>
-      <td><p>Badge name. Used in error message and alt text</p></td>
-    </tr><tr><th>href, src</th>
-      <td><p>Badge link and image src</p></td>
-    </tr><tr><th>stage</th>
-      <td><p>Stage of the package lifecycle. One of "experimental",
-"stable", "superseded", or "deprecated".</p></td>
-    </tr><tr><th>ref</th>
-      <td><p>A Git branch, tag, or SHA</p></td>
-    </tr><tr><th>urlpath</th>
-      <td><p>An optional <code>urlpath</code> component to add to the link, e.g.
-<code>"rstudio"</code> to open an RStudio IDE instead of a Jupyter notebook. See the
-<a href="https://mybinder.readthedocs.io/en/latest/howto/user_interface.html">binder documentation</a>
-for additional examples.</p></td>
-    </tr></table></div>
+    
 
+<dl><dt>badge_name</dt><dd><p>Badge name. Used in error message and alt text</p></dd>
+</dl><dl><dt>href, src</dt><dd><p>Badge link and image src</p></dd>
+</dl><dl><dt>stage</dt><dd><p>Stage of the package lifecycle. One of "experimental",
+"stable", "superseded", or "deprecated".</p></dd>
+</dl><dl><dt>ref</dt><dd><p>A Git branch, tag, or SHA</p></dd>
+</dl><dl><dt>urlpath</dt><dd><p>An optional <code>urlpath</code> component to add to the link, e.g.
+<code>"rstudio"</code> to open an RStudio IDE instead of a Jupyter notebook. See the
+<a href="https://mybinder.readthedocs.io/en/latest/howto/user_interface.html" class="external-link">binder documentation</a>
+for additional examples.</p></dd>
+</dl></div>
     <div id="details">
     <h2>Details</h2>
     
 <ul><li><p><code>use_badge()</code>: a general helper used in all badge functions</p></li>
-<li><p><code>use_bioc_badge()</code>: badge indicates <a href="https://bioconductor.org/developers/">BioConductor build status</a></p></li>
+<li><p><code>use_bioc_badge()</code>: badge indicates <a href="https://bioconductor.org/developers/" class="external-link">BioConductor build status</a></p></li>
 <li><p><code>use_cran_badge()</code>: badge indicates what version of your package is
-available on CRAN, powered by <a href="https://www.r-pkg.org">https://www.r-pkg.org</a></p></li>
+available on CRAN, powered by <a href="https://www.r-pkg.org" class="external-link">https://www.r-pkg.org</a></p></li>
 <li><p><code>use_lifecycle_badge()</code>: badge declares the developmental stage of a
-package according to <a href="https://lifecycle.r-lib.org/articles/stages.html">https://lifecycle.r-lib.org/articles/stages.html</a>.</p></li>
+package according to <a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link">https://lifecycle.r-lib.org/articles/stages.html</a>.</p></li>
 <li><p><code>use_binder_badge()</code>: badge indicates that your repository can be launched
-in an executable environment on <a href="https://mybinder.org/">https://mybinder.org/</a></p></li>
+in an executable environment on <a href="https://mybinder.org/" class="external-link">https://mybinder.org/</a></p></li>
 </ul></div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Functions that configure continuous integration, such as
 <code><a href="github_actions.html">use_github_actions()</a></code>, also create badges.</p></div>
+    </div>
     </div>
 
     <div id="examples">

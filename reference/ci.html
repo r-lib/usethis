@@ -35,7 +35,7 @@ Provide the markdown to insert a badge into README.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -73,19 +73,19 @@ Provide the markdown to insert a badge into README.
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -93,7 +93,7 @@ Provide the markdown to insert a badge into README.
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -113,14 +113,14 @@ Provide the markdown to insert a badge into README.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Continuous integration setup and badges</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/ci.R"><code>R/ci.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/ci.R" class="external-link"><code>R/ci.R</code></a></small>
     <div class="hidden name"><code>ci.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a></p>
+    <p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a></p>
 <p>Some of these functions are now soft-deprecated since the tidyverse team has
-started using <a href="https://github.com/features/actions">GitHub Actions (GHA)</a> for
+started using <a href="https://github.com/features/actions" class="external-link">GitHub Actions (GHA)</a> for
 continuous integration (CI). See <code><a href="github_actions.html">use_github_actions()</a></code> for help configuring
 GHA. GHA functionality in usethis is actively maintained and exercised, which
 is no longer true for Travis-CI or AppVeyor.</p>
@@ -130,46 +130,44 @@ that is developed on GitHub or, perhaps, GitLab. These functions</p><ul><li><p>A
 <li><p>Provide the markdown to insert a badge into README.</p></li>
 </ul></div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_travis</span><span class="op">(</span>browse <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html">is_interactive</a></span><span class="op">(</span><span class="op">)</span>, ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"com"</span>, <span class="st">"org"</span><span class="op">)</span><span class="op">)</span>
+    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_travis</span><span class="op">(</span>browse <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span>, ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"com"</span>, <span class="st">"org"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">use_travis_badge</span><span class="op">(</span>ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"com"</span>, <span class="st">"org"</span><span class="op">)</span>, repo_spec <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="fu">use_travis_badge</span><span class="op">(</span>ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"com"</span>, <span class="st">"org"</span><span class="op">)</span>, repo_spec <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
-<span class="fu">use_appveyor</span><span class="op">(</span>browse <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">use_appveyor</span><span class="op">(</span>browse <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">use_appveyor_badge</span><span class="op">(</span>repo_spec <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
 <span class="fu">use_gitlab_ci</span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu">use_circleci</span><span class="op">(</span>browse <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html">is_interactive</a></span><span class="op">(</span><span class="op">)</span>, image <span class="op">=</span> <span class="st">"rocker/verse:latest"</span><span class="op">)</span>
+<span class="fu">use_circleci</span><span class="op">(</span>browse <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span>, image <span class="op">=</span> <span class="st">"rocker/verse:latest"</span><span class="op">)</span>
 
 <span class="fu">use_circleci_badge</span><span class="op">(</span>repo_spec <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>browse</th>
-      <td><p>Open a browser window to enable automatic builds for the
-package.</p></td>
-    </tr><tr><th>ext</th>
-      <td><p>Which travis website to use. Defaults to <code>"com"</code> for
-https://www.travis-ci.com/. Change to <code>"org"</code> for https://travis-ci.org.</p></td>
-    </tr><tr><th>repo_spec</th>
-      <td><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></td>
-    </tr><tr><th>image</th>
-      <td><p>The Docker image to use for build. Must be available on
-<a href="https://hub.docker.com">DockerHub</a>. The
-<a href="https://hub.docker.com/r/rocker/verse">rocker/verse</a> image includes
-TeXLive, pandoc, and the tidyverse packages. For a minimal image, try
-<a href="https://hub.docker.com/r/rocker/r-ver">rocker/r-ver</a>. To specify a version
-of R, change the tag from <code>latest</code> to the version you want, e.g.
-<code>rocker/r-ver:3.5.3</code>.</p></td>
-    </tr></table></div>
+    
 
+<dl><dt>browse</dt><dd><p>Open a browser window to enable automatic builds for the
+package.</p></dd>
+</dl><dl><dt>ext</dt><dd><p>Which travis website to use. Defaults to <code>"com"</code> for
+https://www.travis-ci.com/. Change to <code>"org"</code> for https://travis-ci.org.</p></dd>
+</dl><dl><dt>repo_spec</dt><dd><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></dd>
+</dl><dl><dt>image</dt><dd><p>The Docker image to use for build. Must be available on
+<a href="https://hub.docker.com" class="external-link">DockerHub</a>. The
+<a href="https://hub.docker.com/r/rocker/verse" class="external-link">rocker/verse</a> image includes
+TeXLive, pandoc, and the tidyverse packages. For a minimal image, try
+<a href="https://hub.docker.com/r/rocker/r-ver" class="external-link">rocker/r-ver</a>. To specify a version
+of R, change the tag from <code>latest</code> to the version you want, e.g.
+<code>rocker/r-ver:3.5.3</code>.</p></dd>
+</dl></div>
     <div id="use-travis-">
     <h2><code>use_travis()</code></h2>
     
 
 <p>Adds a basic <code>.travis.yml</code> to the top-level directory of a package. This is a
-configuration file for the <a href="https://www.travis-ci.com/">Travis CI</a> continuous
+configuration file for the <a href="https://www.travis-ci.com/" class="external-link">Travis CI</a> continuous
 integration service.</p>
     </div>
     <div id="use-travis-badge-">
@@ -184,14 +182,14 @@ configured.</p>
     
 
 <p>Adds a basic <code>appveyor.yml</code> to the top-level directory of a package. This is
-a configuration file for the <a href="https://www.appveyor.com">AppVeyor</a> continuous
+a configuration file for the <a href="https://www.appveyor.com" class="external-link">AppVeyor</a> continuous
 integration service for Windows.</p>
     </div>
     <div id="use-appveyor-badge-">
     <h2><code>use_appveyor_badge()</code></h2>
     
 
-<p>Only adds the <a href="https://www.appveyor.com">AppVeyor</a> badge. Use for a project
+<p>Only adds the <a href="https://www.appveyor.com" class="external-link">AppVeyor</a> badge. Use for a project
 where AppVeyor is already configured.</p>
     </div>
     <div id="use-gitlab-ci-">
@@ -199,22 +197,23 @@ where AppVeyor is already configured.</p>
     
 
 <p>Adds a basic <code>.gitlab-ci.yml</code> to the top-level directory of a package. This
-is a configuration file for the <a href="https://docs.gitlab.com/ee/ci/">GitLab CI/CD</a> continuous integration service.</p>
+is a configuration file for the <a href="https://docs.gitlab.com/ee/ci/" class="external-link">GitLab CI/CD</a> continuous integration service.</p>
     </div>
     <div id="use-circleci-">
     <h2><code>use_circleci()</code></h2>
     
 
 <p>Adds a basic <code>.circleci/config.yml</code> to the top-level directory of a package.
-This is a configuration file for the <a href="https://circleci.com/">CircleCI</a>
+This is a configuration file for the <a href="https://circleci.com/" class="external-link">CircleCI</a>
 continuous integration service.</p>
     </div>
     <div id="use-circleci-badge-">
     <h2><code>use_circleci_badge()</code></h2>
     
 
-<p>Only adds the <a href="https://circleci.com/">Circle CI</a> badge. Use for a project
+<p>Only adds the <a href="https://circleci.com/" class="external-link">Circle CI</a> badge. Use for a project
 where Circle CI is already configured.</p>
+    </div>
     </div>
 
   </div>

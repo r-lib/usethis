@@ -40,7 +40,7 @@ there will be content at the destination.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -78,19 +78,19 @@ there will be content at the destination.
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -98,7 +98,7 @@ there will be content at the destination.
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -118,7 +118,7 @@ there will be content at the destination.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Visit important project-related web pages</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/browse.R"><code>R/browse.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/browse.R" class="external-link"><code>R/browse.R</code></a></small>
     <div class="hidden name"><code>browse-this.Rd</code></div>
     </div>
 
@@ -151,24 +151,23 @@ there will be content at the destination.</p></li>
 
 <span class="fu">browse_github_actions</span><span class="op">(</span>package <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
-<span class="fu">browse_travis</span><span class="op">(</span>package <span class="op">=</span> <span class="cn">NULL</span>, ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"com"</span>, <span class="st">"org"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">browse_travis</span><span class="op">(</span>package <span class="op">=</span> <span class="cn">NULL</span>, ext <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"com"</span>, <span class="st">"org"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">browse_circleci</span><span class="op">(</span>package <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
 <span class="fu">browse_cran</span><span class="op">(</span>package <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>package</th>
-      <td><p>Name of package. If <code>NULL</code>, the active project is targeted,
-regardless of whether it's an R package or not.</p></td>
-    </tr><tr><th>number</th>
-      <td><p>Optional, to specify an individual GitHub issue or pull
-request. Can be a number or <code>"new"</code>.</p></td>
-    </tr><tr><th>ext</th>
-      <td><p>Version of travis to use.</p></td>
-    </tr></table></div>
+    
 
+<dl><dt>package</dt><dd><p>Name of package. If <code>NULL</code>, the active project is targeted,
+regardless of whether it's an R package or not.</p></dd>
+</dl><dl><dt>number</dt><dd><p>Optional, to specify an individual GitHub issue or pull
+request. Can be a number or <code>"new"</code>.</p></dd>
+</dl><dl><dt>ext</dt><dd><p>Version of travis to use.</p></dd>
+</dl></div>
     <div id="details">
     <h2>Details</h2>
     
@@ -185,11 +184,12 @@ issue.</p></li>
 <li><p><code>browse_github_pulls()</code>: Visits the GitHub Pull Request index or one
 specific pull request.</p></li>
 <li><p><code>browse_travis()</code>: Visits the project's page on
-<a href="https://www.travis-ci.com/">Travis CI</a>.</p></li>
+<a href="https://www.travis-ci.com/" class="external-link">Travis CI</a>.</p></li>
 <li><p><code>browse_circleci()</code>: Visits the project's page on
-<a href="https://circleci.com">Circle CI</a>.</p></li>
+<a href="https://circleci.com" class="external-link">Circle CI</a>.</p></li>
 <li><p><code>browse_cran()</code>: Visits the package on CRAN, via the canonical URL.</p></li>
 </ul></div>
+    </div>
 
     <div id="examples">
     <h2>Examples</h2>

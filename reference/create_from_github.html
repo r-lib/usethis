@@ -30,7 +30,7 @@ discoverable. See below for more about authentication."><meta property="og:image
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -68,19 +68,19 @@ discoverable. See below for more about authentication."><meta property="og:image
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -88,7 +88,7 @@ discoverable. See below for more about authentication."><meta property="og:image
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -108,14 +108,14 @@ discoverable. See below for more about authentication."><meta property="og:image
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a project from a GitHub repo</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/create.R"><code>R/create.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/create.R" class="external-link"><code>R/create.R</code></a></small>
     <div class="hidden name"><code>create_from_github.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Creates a new local project and Git repository from a repo on GitHub, by
 either cloning or
-<a href="https://help.github.com/articles/fork-a-repo/">fork-and-cloning</a>. In the
+<a href="https://help.github.com/articles/fork-a-repo/" class="external-link">fork-and-cloning</a>. In the
 fork-and-clone case, <code>create_from_github()</code> also does additional remote and
 branch setup, leaving you in the perfect position to make a pull request with
 <code><a href="pull-requests.html">pr_init()</a></code>, one of several <a href="pull-requests.html">functions that work pull requests</a>.</p>
@@ -128,74 +128,69 @@ discoverable. See below for more about authentication.</p>
   destdir <span class="op">=</span> <span class="cn">NULL</span>,
   fork <span class="op">=</span> <span class="cn">NA</span>,
   rstudio <span class="op">=</span> <span class="cn">NULL</span>,
-  open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html">is_interactive</a></span><span class="op">(</span><span class="op">)</span>,
+  open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span>,
   protocol <span class="op">=</span> <span class="fu"><a href="git_protocol.html">git_protocol</a></span><span class="op">(</span><span class="op">)</span>,
   host <span class="op">=</span> <span class="cn">NULL</span>,
-  auth_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Deprecated.html">deprecated</a></span><span class="op">(</span><span class="op">)</span>,
-  credentials <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Deprecated.html">deprecated</a></span><span class="op">(</span><span class="op">)</span>
+  auth_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>,
+  credentials <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>repo_spec</th>
-      <td><p>A string identifying the GitHub repo in one of these forms:</p><ul><li><p>Plain <code>OWNER/REPO</code> spec</p></li>
+    
+
+<dl><dt>repo_spec</dt><dd><p>A string identifying the GitHub repo in one of these forms:
+</p><ul><li><p>Plain <code>OWNER/REPO</code> spec</p></li>
 <li><p>Browser URL, such as <code>"https://github.com/OWNER/REPO"</code></p></li>
 <li><p>HTTPS Git URL, such as <code>"https://github.com/OWNER/REPO.git"</code></p></li>
 <li><p>SSH Git URL, such as <code>"git@github.com:OWNER/REPO.git"</code></p></li>
-</ul><p>In the case of a browser, HTTPS, or SSH URL, the <code>host</code> is extracted from
+</ul>In the case of a browser, HTTPS, or SSH URL, the <code>host</code> is extracted from
 the URL. The <code>REPO</code> part will be the name of the new local folder, which is
-also a project and Git repo.</p></td>
-    </tr><tr><th>destdir</th>
-      <td><p>The new folder is stored here. If <code>NULL</code>, defaults to user's
+also a project and Git repo.</dd>
+</dl><dl><dt>destdir</dt><dd><p>The new folder is stored here. If <code>NULL</code>, defaults to user's
 Desktop or some other conspicuous place. You can also set a default
 location using the option <code>usethis.destdir</code>, e.g.
 <code>options(usethis.destdir = "a/good/dir")</code>, perhaps saved to your
-<code>.Rprofile</code> with <code><a href="edit.html">edit_r_profile()</a></code></p></td>
-    </tr><tr><th>fork</th>
-      <td><p>If <code>FALSE</code>, we clone <code>repo_spec</code>. If <code>TRUE</code>, we fork
+<code>.Rprofile</code> with <code><a href="edit.html">edit_r_profile()</a></code></p></dd>
+</dl><dl><dt>fork</dt><dd><p>If <code>FALSE</code>, we clone <code>repo_spec</code>. If <code>TRUE</code>, we fork
 <code>repo_spec</code>, clone that fork, and do additional set up favorable for
-future pull requests:</p><ul><li><p>The source repo, <code>repo_spec</code>, is configured as the <code>upstream</code> remote,
+future pull requests:
+</p><ul><li><p>The source repo, <code>repo_spec</code>, is configured as the <code>upstream</code> remote,
 using the indicated <code>protocol</code>.</p></li>
 <li><p>The local <code>DEFAULT</code> branch is set to track <code>upstream/DEFAULT</code>, where
 <code>DEFAULT</code> is typically <code>master</code> or <code>main</code>. It is also immediately pulled,
 to cover the case of a pre-existing, out-of-date fork.</p></li>
-</ul><p>If <code>fork = NA</code> (the default), we check your permissions on <code>repo_spec</code>. If
-you can push, we set <code>fork = FALSE</code>, If you cannot, we set <code>fork = TRUE</code>.</p></td>
-    </tr><tr><th>rstudio</th>
-      <td><p>Initiate an <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects">RStudio Project</a>?
+</ul>If <code>fork = NA</code> (the default), we check your permissions on <code>repo_spec</code>. If
+you can push, we set <code>fork = FALSE</code>, If you cannot, we set <code>fork = TRUE</code>.</dd>
+</dl><dl><dt>rstudio</dt><dd><p>Initiate an <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects" class="external-link">RStudio Project</a>?
 Defaults to <code>TRUE</code> if in an RStudio session and project has no
 pre-existing <code>.Rproj</code> file. Defaults to <code>FALSE</code> otherwise (but note that
 the cloned repo may already be an RStudio Project, i.e. may already have a
-<code>.Rproj</code> file).</p></td>
-    </tr><tr><th>open</th>
-      <td><p>If <code>TRUE</code>, <a href="proj_activate.html">activates</a> the new project:</p><ul><li><p>If RStudio desktop, the package is opened in a new session.</p></li>
+<code>.Rproj</code> file).</p></dd>
+</dl><dl><dt>open</dt><dd><p>If <code>TRUE</code>, <a href="proj_activate.html">activates</a> the new project:
+</p><ul><li><p>If RStudio desktop, the package is opened in a new session.</p></li>
 <li><p>If on RStudio server, the current RStudio project is activated.</p></li>
 <li><p>Otherwise, the working directory and active project is changed.</p></li>
-</ul></td>
-    </tr><tr><th>protocol</th>
-      <td><p>One of "https" or "ssh"</p></td>
-    </tr><tr><th>host</th>
-      <td><p>GitHub host to target, passed to the <code>.api_url</code> argument of
-<code><a href="https://gh.r-lib.org/reference/gh.html">gh::gh()</a></code>. If unspecified, gh defaults to "https://api.github.com",
+</ul></dd>
+</dl><dl><dt>protocol</dt><dd><p>One of "https" or "ssh"</p></dd>
+</dl><dl><dt>host</dt><dd><p>GitHub host to target, passed to the <code>.api_url</code> argument of
+<code><a href="https://gh.r-lib.org/reference/gh.html" class="external-link">gh::gh()</a></code>. If unspecified, gh defaults to "https://api.github.com",
 although gh's default can be customised by setting the GITHUB_API_URL
-environment variable.</p>
-<p>For a hypothetical GitHub Enterprise instance, either
+environment variable.For a hypothetical GitHub Enterprise instance, either
 "https://github.acme.com/api/v3" or "https://github.acme.com" is
-acceptable.</p></td>
-    </tr><tr><th>auth_token</th>
-      <td><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
+acceptable.</p></dd>
+</dl><dl><dt>auth_token</dt><dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
 consulted now that usethis uses the gert package for Git operations,
 instead of git2r; gert relies on the credentials package for auth. The API
 requests are now authorized with the token associated with the <code>host</code>, as
-retrieved by <code><a href="https://gh.r-lib.org/reference/gh_token.html">gh::gh_token()</a></code>.</p></td>
-    </tr><tr><th>credentials</th>
-      <td><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
+retrieved by <code><a href="https://gh.r-lib.org/reference/gh_token.html" class="external-link">gh::gh_token()</a></code>.</p></dd>
+</dl><dl><dt>credentials</dt><dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
 consulted now that usethis uses the gert package for Git operations,
 instead of git2r; gert relies on the credentials package for auth. The API
 requests are now authorized with the token associated with the <code>host</code>, as
-retrieved by <code><a href="https://gh.r-lib.org/reference/gh_token.html">gh::gh_token()</a></code>.</p></td>
-    </tr></table></div>
-
+retrieved by <code><a href="https://gh.r-lib.org/reference/gh_token.html" class="external-link">gh::gh_token()</a></code>.</p></dd>
+</dl></div>
     <div id="git-github-authentication">
     <h2>Git/GitHub Authentication</h2>
     
@@ -228,6 +223,7 @@ from your local repo</p></li>
 <li><p><code><a href="zip-utils.html">use_course()</a></code> to download a snapshot of all files in a GitHub repo,
 without the need for any local or remote Git operations</p></li>
 </ul></div>
+    </div>
     </div>
 
     <div id="examples">

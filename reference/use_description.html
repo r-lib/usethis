@@ -53,7 +53,7 @@ supported."><meta property="og:image" content="https://usethis.r-lib.org/logo.pn
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -91,19 +91,19 @@ supported."><meta property="og:image" content="https://usethis.r-lib.org/logo.pn
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -111,7 +111,7 @@ supported."><meta property="og:image" content="https://usethis.r-lib.org/logo.pn
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -131,7 +131,7 @@ supported."><meta property="og:image" content="https://usethis.r-lib.org/logo.pn
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create or modify a DESCRIPTION file</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/description.R"><code>R/description.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/description.R" class="external-link"><code>R/description.R</code></a></small>
     <div class="hidden name"><code>use_description.Rd</code></div>
     </div>
 
@@ -166,29 +166,28 @@ backwards compatibility, but now only the <code>"usethis.description"</code> opt
 supported.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_description</span><span class="op">(</span>fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>, check_name <span class="op">=</span> <span class="cn">TRUE</span>, roxygen <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">use_description</span><span class="op">(</span>fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, check_name <span class="op">=</span> <span class="cn">TRUE</span>, roxygen <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="fu">use_description_defaults</span><span class="op">(</span>package <span class="op">=</span> <span class="cn">NULL</span>, roxygen <span class="op">=</span> <span class="cn">TRUE</span>, fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu">use_description_defaults</span><span class="op">(</span>package <span class="op">=</span> <span class="cn">NULL</span>, roxygen <span class="op">=</span> <span class="cn">TRUE</span>, fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>fields</th>
-      <td><p>A named list of fields to add to <code>DESCRIPTION</code>, potentially
-overriding default values. See <code>use_description()</code> for how you can set
-personalized defaults using package options.</p></td>
-    </tr><tr><th>check_name</th>
-      <td><p>Whether to check if the name is valid for CRAN and throw an
-error if not.</p></td>
-    </tr><tr><th>roxygen</th>
-      <td><p>If <code>TRUE</code>, sets <code>RoxygenNote</code> to current roxygen2 version</p></td>
-    </tr><tr><th>package</th>
-      <td><p>Package name</p></td>
-    </tr></table></div>
+    
 
+<dl><dt>fields</dt><dd><p>A named list of fields to add to <code>DESCRIPTION</code>, potentially
+overriding default values. See <code>use_description()</code> for how you can set
+personalized defaults using package options.</p></dd>
+</dl><dl><dt>check_name</dt><dd><p>Whether to check if the name is valid for CRAN and throw an
+error if not.</p></dd>
+</dl><dl><dt>roxygen</dt><dd><p>If <code>TRUE</code>, sets <code>RoxygenNote</code> to current roxygen2 version</p></dd>
+</dl><dl><dt>package</dt><dd><p>Package name</p></dd>
+</dl></div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p>The <a href="https://r-pkgs.org/description.html">description chapter</a>
-of <a href="https://r-pkgs.org">R Packages</a></p></div>
+    <div class="dont-index"><p>The <a href="https://r-pkgs.org/description.html" class="external-link">description chapter</a>
+of <a href="https://r-pkgs.org" class="external-link">R Packages</a></p></div>
+    </div>
     </div>
 
     <div id="examples">
@@ -196,7 +195,7 @@ of <a href="https://r-pkgs.org">R Packages</a></p></div>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">use_description</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="fu">use_description</span><span class="op">(</span>fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Language <span class="op">=</span> <span class="st">"es"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">use_description</span><span class="op">(</span>fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Language <span class="op">=</span> <span class="st">"es"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">use_description_defaults</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>

@@ -26,7 +26,7 @@ or commit) and which follows symlinks."><meta property="og:image" content="https
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -64,19 +64,19 @@ or commit) and which follows symlinks."><meta property="og:image" content="https
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -84,7 +84,7 @@ or commit) and which follows symlinks."><meta property="og:image" content="https
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -104,7 +104,7 @@ or commit) and which follows symlinks."><meta property="og:image" content="https
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Copy a file from any GitHub repo into the current project</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/use_github_file.R"><code>R/use_github_file.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/use_github_file.R" class="external-link"><code>R/use_github_file.R</code></a></small>
     <div class="hidden name"><code>use_github_file.Rd</code></div>
     </div>
 
@@ -125,44 +125,40 @@ or commit) and which follows symlinks.</p>
   host <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>repo_spec</th>
-      <td><p>A string identifying the GitHub repo or, alternatively, a
-GitHub file URL. Acceptable forms:</p><ul><li><p>Plain <code>OWNER/REPO</code> spec</p></li>
+    
+
+<dl><dt>repo_spec</dt><dd><p>A string identifying the GitHub repo or, alternatively, a
+GitHub file URL. Acceptable forms:
+</p><ul><li><p>Plain <code>OWNER/REPO</code> spec</p></li>
 <li><p>A blob URL, such as <code>"https://github.com/OWNER/REPO/blob/REF/path/to/some/file"</code></p></li>
 <li><p>A raw URL, such as <code>"https://raw.githubusercontent.com/OWNER/REPO/REF/path/to/some/file"</code></p></li>
-</ul><p>In the case of a URL, the <code>path</code>, <code>ref</code>, and <code>host</code> are extracted from it, in
-addition to the <code>repo_spec</code>.</p></td>
-    </tr><tr><th>path</th>
-      <td><p>Path of file to copy, relative to the GitHub repo it lives in.
-This is extracted from <code>repo_spec</code> when user provides a URL.</p></td>
-    </tr><tr><th>save_as</th>
-      <td><p>Path of file to create, relative to root of active project.
+</ul>In the case of a URL, the <code>path</code>, <code>ref</code>, and <code>host</code> are extracted from it, in
+addition to the <code>repo_spec</code>.</dd>
+</dl><dl><dt>path</dt><dd><p>Path of file to copy, relative to the GitHub repo it lives in.
+This is extracted from <code>repo_spec</code> when user provides a URL.</p></dd>
+</dl><dl><dt>save_as</dt><dd><p>Path of file to create, relative to root of active project.
 Defaults to the last part of <code>path</code>, in the sense of <code>basename(path)</code> or
-<code>fs::path_file(path)</code>.</p></td>
-    </tr><tr><th>ref</th>
-      <td><p>The name of a branch, tag, or commit. By default, the file at
+<code>fs::path_file(path)</code>.</p></dd>
+</dl><dl><dt>ref</dt><dd><p>The name of a branch, tag, or commit. By default, the file at
 <code>path</code> will by copied from its current state in the repo's default branch.
-This is extracted from <code>repo_spec</code> when user provides a URL.</p></td>
-    </tr><tr><th>ignore</th>
-      <td><p>Should the newly created file be added to <code>.Rbuildignore</code>?</p></td>
-    </tr><tr><th>open</th>
-      <td><p>Open the newly created file for editing? Happens in RStudio, if
-applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html">utils::file.edit()</a></code> otherwise.</p></td>
-    </tr><tr><th>host</th>
-      <td><p>GitHub host to target, passed to the <code>.api_url</code> argument of
-<code><a href="https://gh.r-lib.org/reference/gh.html">gh::gh()</a></code>. If unspecified, gh defaults to "https://api.github.com",
+This is extracted from <code>repo_spec</code> when user provides a URL.</p></dd>
+</dl><dl><dt>ignore</dt><dd><p>Should the newly created file be added to <code>.Rbuildignore</code>?</p></dd>
+</dl><dl><dt>open</dt><dd><p>Open the newly created file for editing? Happens in RStudio, if
+applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">utils::file.edit()</a></code> otherwise.</p></dd>
+</dl><dl><dt>host</dt><dd><p>GitHub host to target, passed to the <code>.api_url</code> argument of
+<code><a href="https://gh.r-lib.org/reference/gh.html" class="external-link">gh::gh()</a></code>. If unspecified, gh defaults to "https://api.github.com",
 although gh's default can be customised by setting the GITHUB_API_URL
-environment variable.</p>
-<p>For a hypothetical GitHub Enterprise instance, either
+environment variable.For a hypothetical GitHub Enterprise instance, either
 "https://github.acme.com/api/v3" or "https://github.acme.com" is
-acceptable.</p></td>
-    </tr></table></div>
-
+acceptable.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A logical indicator of whether a file was written, invisibly.</p>
+    </div>
     </div>
 
     <div id="examples">

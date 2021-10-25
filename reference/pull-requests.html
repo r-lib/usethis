@@ -44,7 +44,7 @@ local repo and the source repo. See git_default_branch() for more."><meta proper
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.2</span>
       </span>
     </div>
 
@@ -82,19 +82,19 @@ local repo and the source repo. See git_default_branch() for more."><meta proper
   </a>
   <ul class="dropdown-menu" role="menu"><li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
     <li>
@@ -102,7 +102,7 @@ local repo and the source repo. See git_default_branch() for more."><meta proper
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-lib/usethis/">
+  <a href="https://github.com/r-lib/usethis/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -122,7 +122,7 @@ local repo and the source repo. See git_default_branch() for more."><meta proper
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Helpers for GitHub pull requests</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/pr.R"><code>R/pr.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/pr.R" class="external-link"><code>R/pr.R</code></a></small>
     <div class="hidden name"><code>pull-requests.Rd</code></div>
     </div>
 
@@ -137,7 +137,7 @@ not a fork.</p></li>
 fork, and its parent is configured as <code>upstream</code>. <code>origin</code> points to your
 <strong>personal</strong> copy and <code>upstream</code> points to the <strong>source repo</strong>.</p></li>
 </ul><p>"Ours" and "fork" are two of several GitHub remote configurations examined in
-<a href="https://happygitwithr.com/common-remote-setups.html">Common remote setups</a>
+<a href="https://happygitwithr.com/common-remote-setups.html" class="external-link">Common remote setups</a>
 in Happy Git and GitHub for the useR.</p>
 <p>The <a href="https://usethis.r-lib.org/articles/articles/pr-functions.html">Pull Request Helpers</a>
 article walks through the process of making a pull request with the <code>pr_*</code>
@@ -152,7 +152,7 @@ local repo and the source repo. See <code><a href="git-default-branch.html">git_
 
 <span class="fu">pr_resume</span><span class="op">(</span>branch <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
-<span class="fu">pr_fetch</span><span class="op">(</span>number <span class="op">=</span> <span class="cn">NULL</span>, target <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"source"</span>, <span class="st">"primary"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">pr_fetch</span><span class="op">(</span>number <span class="op">=</span> <span class="cn">NULL</span>, target <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"source"</span>, <span class="st">"primary"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">pr_push</span><span class="op">(</span><span class="op">)</span>
 
@@ -160,29 +160,28 @@ local repo and the source repo. See <code><a href="git-default-branch.html">git_
 
 <span class="fu">pr_merge_main</span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu">pr_view</span><span class="op">(</span>number <span class="op">=</span> <span class="cn">NULL</span>, target <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"source"</span>, <span class="st">"primary"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">pr_view</span><span class="op">(</span>number <span class="op">=</span> <span class="cn">NULL</span>, target <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"source"</span>, <span class="st">"primary"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">pr_pause</span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu">pr_finish</span><span class="op">(</span>number <span class="op">=</span> <span class="cn">NULL</span>, target <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"source"</span>, <span class="st">"primary"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">pr_finish</span><span class="op">(</span>number <span class="op">=</span> <span class="cn">NULL</span>, target <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"source"</span>, <span class="st">"primary"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">pr_forget</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>branch</th>
-      <td><p>Name of a new or existing local branch. If creating a new
+    
+
+<dl><dt>branch</dt><dd><p>Name of a new or existing local branch. If creating a new
 branch, note this should usually consist of lower case letters, numbers,
-and <code>-</code>.</p></td>
-    </tr><tr><th>number</th>
-      <td><p>Number of PR.</p></td>
-    </tr><tr><th>target</th>
-      <td><p>Which repo to target? This is only a question in the case of a
+and <code>-</code>.</p></dd>
+</dl><dl><dt>number</dt><dd><p>Number of PR.</p></dd>
+</dl><dl><dt>target</dt><dd><p>Which repo to target? This is only a question in the case of a
 fork. In a fork, there is some slim chance that you want to consider pull
 requests against your fork (the primary repo, i.e. <code>origin</code>) instead of
-those against the source repo (i.e. <code>upstream</code>, which is the default).</p></td>
-    </tr></table></div>
-
+those against the source repo (i.e. <code>upstream</code>, which is the default).</p></dd>
+</dl></div>
     <div id="git-github-authentication">
     <h2>Git/GitHub Authentication</h2>
     
@@ -307,6 +306,7 @@ Git remote is deleted, provided it's not in use by any other local branches.
 If the PR has been merged and user has permission, deletes the remote branch
 (this is the only remote operation that <code>pr_finish()</code> potentially does).</p></li>
 </ul></div>
+    </div>
 
     <div id="examples">
     <h2>Examples</h2>
