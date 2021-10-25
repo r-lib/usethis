@@ -1,14 +1,6 @@
 ## Special note
 
-This is a rapid patch release of v2.1.1, right after the release of v2.1.0.
-
-I discovered and fixed a bug and would love to release this version without waiting a week.
-
-I know this should be very rare and certainly do not plan to make a habit of this.
-
-Thanks in advance for your consideration.
-
-Also, in case it comes up, the reverse dependency tidytuesdayR regularly fails due to it hitting a GitHub API rate limit in its tests. This is an expected false positive (we've seen it more than once now) and has nothing to do with usethis.
+In case it comes up, the reverse dependency tidytuesdayR regularly fails when CRAN checks usethis, due to tidytuesdayR hitting a GitHub API rate limit in its tests. This is an expected false positive (we've seen it more than once now) and has nothing to do with usethis.
 
 ## R CMD check results
 
