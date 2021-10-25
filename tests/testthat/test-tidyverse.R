@@ -14,6 +14,7 @@ test_that("use_tidy_description() alphabetises dependencies and remotes", {
 
 test_that("use_tidy_dependencies() isn't overly informative", {
   skip_if_offline()
+  skip_on_cran()
 
   create_local_package(fs::path_temp("tidydeps"))
   use_package_doc()
