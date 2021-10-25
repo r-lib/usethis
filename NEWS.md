@@ -1,4 +1,4 @@
-# usethis (development version)
+# usethis 2.1.3
 
 Modified a test to ensure that intermittent GitHub rate limiting does not lead to ungraceful failure on CRAN. 
 
