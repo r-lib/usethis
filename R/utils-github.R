@@ -582,7 +582,7 @@ ui_github_remote_config_wat <- function(cfg) {
 
 stop_bad_github_remote_config <- function(cfg) {
   abort(
-    message = unname(github_remote_config_wat(cfg, context = "abort")),
+    message = unname(unlist(github_remote_config_wat(cfg, context = "abort"))),
     class = c("usethis_error_bad_github_remote_config", "usethis_error"),
     cfg = cfg
   )
