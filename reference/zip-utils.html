@@ -105,7 +105,7 @@ use_course_details."><meta property="og:image" content="https://usethis.r-lib.or
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Download and unpack a ZIP file</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/course.R" class="external-link"><code>R/course.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/course.R" class="external-link"><code>R/course.R</code></a></small>
     <div class="hidden name"><code>zip-utils.Rd</code></div>
     </div>
 
@@ -128,9 +128,8 @@ actually be able to find them. The underlying helpers are documented in
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>url</dt><dd><p>Link to a ZIP file containing the materials. To reduce the chance
+    <dl><dt>url</dt>
+<dd><p>Link to a ZIP file containing the materials. To reduce the chance
 of typos in live settings, these shorter forms are accepted:</p><pre><code>* GitHub repo spec: "OWNER/REPO". Equivalent to
   `https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip`.
 * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
@@ -139,12 +138,14 @@ of typos in live settings, these shorter forms are accepted:</p><pre><code>* Git
   [create_download_url()] helps to create such URLs for GitHub, DropBox,
   and Google Drive.
 </code></pre></dd>
-</dl><dl><dt>destdir</dt><dd><p>The new folder is stored here. If <code>NULL</code>, defaults to user's
+<dt>destdir</dt>
+<dd><p>The new folder is stored here. If <code>NULL</code>, defaults to user's
 Desktop or some other conspicuous place. You can also set a default
 location using the option <code>usethis.destdir</code>, e.g.
 <code>options(usethis.destdir = "a/good/dir")</code>, perhaps saved to your
 <code>.Rprofile</code> with <code><a href="edit.html">edit_r_profile()</a></code></p></dd>
-</dl><dl><dt>cleanup</dt><dd><p>Whether to delete the original ZIP file after unpacking its
+<dt>cleanup</dt>
+<dd><p>Whether to delete the original ZIP file after unpacking its
 contents. In an interactive setting, <code>NA</code> leads to a menu where user can
 approve the deletion (or decline).</p></dd>
 </dl></div>

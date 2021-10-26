@@ -107,7 +107,7 @@ session."><meta property="og:image" content="https://usethis.r-lib.org/logo.png"
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Utility functions for the active project</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/proj.R" class="external-link"><code>R/proj.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/proj.R" class="external-link"><code>R/proj.R</code></a></small>
     <div class="hidden name"><code>proj_utils.Rd</code></div>
     </div>
 
@@ -146,24 +146,30 @@ session.</p>
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>path</dt><dd><p>Path to set. This <code>path</code> should exist or be <code>NULL</code>.</p></dd>
-</dl><dl><dt>force</dt><dd><p>If <code>TRUE</code>, use this path without checking the usual criteria for
+    <dl><dt>path</dt>
+<dd><p>Path to set. This <code>path</code> should exist or be <code>NULL</code>.</p></dd>
+<dt>force</dt>
+<dd><p>If <code>TRUE</code>, use this path without checking the usual criteria for
 a project. Use sparingly! The main application is to solve a temporary
 chicken-egg problem: you need to set the active project in order to add
 project-signalling infrastructure, such as initialising a Git repo or
 adding a <code>DESCRIPTION</code> file.</p></dd>
-</dl><dl><dt>...</dt><dd><p>character vectors, if any values are NA, the result will also be
+<dt>...</dt>
+<dd><p>character vectors, if any values are NA, the result will also be
 NA. The paths follow the recycling rules used in the tibble package,
 namely that only length 1 arguments are recycled.</p></dd>
-</dl><dl><dt>ext</dt><dd><p>An optional extension to append to the generated path.</p></dd>
-</dl><dl><dt>code</dt><dd><p>Code to run with temporary active project</p></dd>
-</dl><dl><dt>setwd</dt><dd><p>Whether to also temporarily set the working directory to the
+<dt>ext</dt>
+<dd><p>An optional extension to append to the generated path.</p></dd>
+<dt>code</dt>
+<dd><p>Code to run with temporary active project</p></dd>
+<dt>setwd</dt>
+<dd><p>Whether to also temporarily set the working directory to the
 active project, if it is not <code>NULL</code></p></dd>
-</dl><dl><dt>quiet</dt><dd><p>Whether to suppress user-facing messages, while operating in the
+<dt>quiet</dt>
+<dd><p>Whether to suppress user-facing messages, while operating in the
 temporary active project</p></dd>
-</dl><dl><dt>.local_envir</dt><dd><p>The environment to use for scoping. Defaults to current
+<dt>.local_envir</dt>
+<dd><p>The environment to use for scoping. Defaults to current
 execution environment.</p></dd>
 </dl></div>
     <div id="details">

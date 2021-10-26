@@ -113,7 +113,7 @@ Provides the markdown to insert a badge into your README
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>GitHub Actions setup</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/github-actions.R" class="external-link"><code>R/github-actions.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/github-actions.R" class="external-link"><code>R/github-actions.R</code></a></small>
     <div class="hidden name"><code>github_actions.Rd</code></div>
     </div>
 
@@ -161,23 +161,29 @@ used to trigger various operations for each push or pull request, such as:</p><u
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>name</dt><dd><p>For <code>use_github_action()</code>: Name of one of the example workflows
+    <dl><dt>name</dt>
+<dd><p>For <code>use_github_action()</code>: Name of one of the example workflows
 from <a href="https://github.com/r-lib/actions/tree/v1/examples" class="external-link">https://github.com/r-lib/actions/tree/v1/examples</a>, with or without a
-<code>.yaml</code> extension, e.g. "pkgdown" or "test-coverage.yaml".For <code>use_github_actions_badge()</code>: Specifies the workflow whose status the
+<code>.yaml</code> extension, e.g. "pkgdown" or "test-coverage.yaml".</p>
+<p>For <code>use_github_actions_badge()</code>: Specifies the workflow whose status the
 badge will report. Usually, this is the <code>name</code> keyword that appears in the
 workflow <code>.yaml</code> file.</p></dd>
-</dl><dl><dt>repo_spec</dt><dd><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></dd>
-</dl><dl><dt>url</dt><dd><p>The full URL to a <code>.yaml</code> file on GitHub.</p></dd>
-</dl><dl><dt>save_as</dt><dd><p>Name of the local workflow file. Defaults to <code>name</code> or
+<dt>repo_spec</dt>
+<dd><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></dd>
+<dt>url</dt>
+<dd><p>The full URL to a <code>.yaml</code> file on GitHub.</p></dd>
+<dt>save_as</dt>
+<dd><p>Name of the local workflow file. Defaults to <code>name</code> or
 <code>fs::path_file(url)</code> for <code>use_github_action()</code>. Do not specify any other
 part of the path; the parent directory will always be <code>.github/workflows</code>,
 within the active project.</p></dd>
-</dl><dl><dt>readme</dt><dd><p>The full URL to a <code>README</code> file that provides more details
+<dt>readme</dt>
+<dd><p>The full URL to a <code>README</code> file that provides more details
 about the workflow. Ignored when <code>url</code> is <code>NULL</code>.</p></dd>
-</dl><dl><dt>ignore</dt><dd><p>Should the newly created file be added to <code>.Rbuildignore</code>?</p></dd>
-</dl><dl><dt>open</dt><dd><p>Open the newly created file for editing? Happens in RStudio, if
+<dt>ignore</dt>
+<dd><p>Should the newly created file be added to <code>.Rbuildignore</code>?</p></dd>
+<dt>open</dt>
+<dd><p>Open the newly created file for editing? Happens in RStudio, if
 applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">utils::file.edit()</a></code> otherwise.</p></dd>
 </dl></div>
     <div id="use-github-actions-">

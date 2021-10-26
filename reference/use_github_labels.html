@@ -106,7 +106,7 @@ tidy_label_colours() and tidy_label_descriptions()."><meta property="og:image" c
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Manage GitHub issue labels</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/github-labels.R" class="external-link"><code>R/github-labels.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/github-labels.R" class="external-link"><code>R/github-labels.R</code></a></small>
     <div class="hidden name"><code>use_github_labels.Rd</code></div>
     </div>
 
@@ -143,20 +143,23 @@ conventions powered by <code>tidy_labels()</code>, <code>tidy_labels_rename()</c
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>repo_spec, host, auth_token</dt><dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: These
+    <dl><dt>repo_spec, host, auth_token</dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: These
 arguments are now deprecated and will be removed in the future. Any input
 provided via these arguments is not used. The target repo, host, and auth
 token are all now determined from the current project's Git remotes.</p></dd>
-</dl><dl><dt>labels</dt><dd><p>A character vector giving labels to add.</p></dd>
-</dl><dl><dt>rename</dt><dd><p>A named vector with names giving old names and values giving
+<dt>labels</dt>
+<dd><p>A character vector giving labels to add.</p></dd>
+<dt>rename</dt>
+<dd><p>A named vector with names giving old names and values giving
 new names.</p></dd>
-</dl><dl><dt>colours, descriptions</dt><dd><p>Named character vectors giving hexadecimal
+<dt>colours, descriptions</dt>
+<dd><p>Named character vectors giving hexadecimal
 colours (like <code>e02a2a</code>) and longer descriptions. The names should match
 label names, and anything unmatched will be left unchanged. If you create a
 new label, and don't supply colours, it will be given a random colour.</p></dd>
-</dl><dl><dt>delete_default</dt><dd><p>If <code>TRUE</code>, removes GitHub default labels that do not
+<dt>delete_default</dt>
+<dd><p>If <code>TRUE</code>, removes GitHub default labels that do not
 appear in the <code>labels</code> vector and that do not have associated issues.</p></dd>
 </dl></div>
     <div id="label-usage">

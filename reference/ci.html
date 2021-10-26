@@ -113,7 +113,7 @@ Provide the markdown to insert a badge into README.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Continuous integration setup and badges</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/ci.R" class="external-link"><code>R/ci.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/ci.R" class="external-link"><code>R/ci.R</code></a></small>
     <div class="hidden name"><code>ci.Rd</code></div>
     </div>
 
@@ -147,14 +147,16 @@ that is developed on GitHub or, perhaps, GitLab. These functions</p><ul><li><p>A
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>browse</dt><dd><p>Open a browser window to enable automatic builds for the
+    <dl><dt>browse</dt>
+<dd><p>Open a browser window to enable automatic builds for the
 package.</p></dd>
-</dl><dl><dt>ext</dt><dd><p>Which travis website to use. Defaults to <code>"com"</code> for
+<dt>ext</dt>
+<dd><p>Which travis website to use. Defaults to <code>"com"</code> for
 https://www.travis-ci.com/. Change to <code>"org"</code> for https://travis-ci.org.</p></dd>
-</dl><dl><dt>repo_spec</dt><dd><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></dd>
-</dl><dl><dt>image</dt><dd><p>The Docker image to use for build. Must be available on
+<dt>repo_spec</dt>
+<dd><p>Optional GitHub repo specification in this form: <code>owner/repo</code>. This can usually be inferred from the GitHub remotes of active project.</p></dd>
+<dt>image</dt>
+<dd><p>The Docker image to use for build. Must be available on
 <a href="https://hub.docker.com" class="external-link">DockerHub</a>. The
 <a href="https://hub.docker.com/r/rocker/verse" class="external-link">rocker/verse</a> image includes
 TeXLive, pandoc, and the tidyverse packages. For a minimal image, try

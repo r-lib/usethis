@@ -103,7 +103,7 @@ inspection."><meta property="og:image" content="https://usethis.r-lib.org/logo.p
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Use a usethis-style template</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/template.R" class="external-link"><code>R/template.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/template.R" class="external-link"><code>R/template.R</code></a></small>
     <div class="hidden name"><code>use_template.Rd</code></div>
     </div>
 
@@ -125,17 +125,21 @@ inspection.</p>
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>template</dt><dd><p>Path to template file relative to <code>templates/</code> directory
+    <dl><dt>template</dt>
+<dd><p>Path to template file relative to <code>templates/</code> directory
 within <code>package</code>; see details.</p></dd>
-</dl><dl><dt>save_as</dt><dd><p>Path of file to create, relative to root of active project.
+<dt>save_as</dt>
+<dd><p>Path of file to create, relative to root of active project.
 Defaults to <code>template</code></p></dd>
-</dl><dl><dt>data</dt><dd><p>A list of data passed to the template.</p></dd>
-</dl><dl><dt>ignore</dt><dd><p>Should the newly created file be added to <code>.Rbuildignore</code>?</p></dd>
-</dl><dl><dt>open</dt><dd><p>Open the newly created file for editing? Happens in RStudio, if
+<dt>data</dt>
+<dd><p>A list of data passed to the template.</p></dd>
+<dt>ignore</dt>
+<dd><p>Should the newly created file be added to <code>.Rbuildignore</code>?</p></dd>
+<dt>open</dt>
+<dd><p>Open the newly created file for editing? Happens in RStudio, if
 applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">utils::file.edit()</a></code> otherwise.</p></dd>
-</dl><dl><dt>package</dt><dd><p>Name of the package where the template is found.</p></dd>
+<dt>package</dt>
+<dd><p>Name of the package where the template is found.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>

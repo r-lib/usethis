@@ -103,7 +103,7 @@ use_data_raw() to set it up. You also need to document exported datasets."><meta
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create package data</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/data.R" class="external-link"><code>R/data.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/data.R" class="external-link"><code>R/data.R</code></a></small>
     <div class="hidden name"><code>use_data.Rd</code></div>
     </div>
 
@@ -126,25 +126,31 @@ recommend you save scripts that generate package data in <code>data-raw</code>: 
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>...</dt><dd><p>Unquoted names of existing objects to save.</p></dd>
-</dl><dl><dt>internal</dt><dd><p>If <code>FALSE</code>, saves each object in its own <code>.rda</code>
+    <dl><dt>...</dt>
+<dd><p>Unquoted names of existing objects to save.</p></dd>
+<dt>internal</dt>
+<dd><p>If <code>FALSE</code>, saves each object in its own <code>.rda</code>
 file in the <code>data/</code> directory. These data files bypass the usual
 export mechanism and are available whenever the package is loaded
-(or via <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code> if <code>LazyData</code> is not true).If <code>TRUE</code>, stores all objects in a single <code>R/sysdata.rda</code> file.
+(or via <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code> if <code>LazyData</code> is not true).</p>
+<p>If <code>TRUE</code>, stores all objects in a single <code>R/sysdata.rda</code> file.
 Objects in this file follow the usual export rules. Note that this means
 they will be exported if you are using the common <code>exportPattern()</code>
 rule which exports all objects except for those that start with <code>.</code>.</p></dd>
-</dl><dl><dt>overwrite</dt><dd><p>By default, <code>use_data()</code> will not overwrite existing
+<dt>overwrite</dt>
+<dd><p>By default, <code>use_data()</code> will not overwrite existing
 files. If you really want to do so, set this to <code>TRUE</code>.</p></dd>
-</dl><dl><dt>compress</dt><dd><p>Choose the type of compression used by <code><a href="https://rdrr.io/r/base/save.html" class="external-link">save()</a></code>.
+<dt>compress</dt>
+<dd><p>Choose the type of compression used by <code><a href="https://rdrr.io/r/base/save.html" class="external-link">save()</a></code>.
 Should be one of "gzip", "bzip2", or "xz".</p></dd>
-</dl><dl><dt>version</dt><dd><p>The serialization format version to use. The default, 2, was
+<dt>version</dt>
+<dd><p>The serialization format version to use. The default, 2, was
 the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
 R 3.6.0 and can only be read by R versions 3.5.0 and higher.</p></dd>
-</dl><dl><dt>name</dt><dd><p>Name of the dataset to be prepared for inclusion in the package.</p></dd>
-</dl><dl><dt>open</dt><dd><p>Open the newly created file for editing? Happens in RStudio, if
+<dt>name</dt>
+<dd><p>Name of the dataset to be prepared for inclusion in the package.</p></dd>
+<dt>open</dt>
+<dd><p>Open the newly created file for editing? Happens in RStudio, if
 applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">utils::file.edit()</a></code> otherwise.</p></dd>
 </dl></div>
     <div id="see-also">

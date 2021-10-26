@@ -117,7 +117,7 @@ work."><meta property="og:image" content="https://usethis.r-lib.org/logo.png"><!
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Connect a local repo with GitHub</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/github.R" class="external-link"><code>R/github.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/github.R" class="external-link"><code>R/github.R</code></a></small>
     <div class="hidden name"><code>use_github.Rd</code></div>
     </div>
 
@@ -150,27 +150,32 @@ work.</p>
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>organisation</dt><dd><p>If supplied, the repo will be created under this
+    <dl><dt>organisation</dt>
+<dd><p>If supplied, the repo will be created under this
 organisation, instead of the login associated with the GitHub token
 discovered for this <code>host</code>. The user's role and the token's scopes must be
 such that you have permission to create repositories in this
 <code>organisation</code>.</p></dd>
-</dl><dl><dt>private</dt><dd><p>If <code>TRUE</code>, creates a private repository.</p></dd>
-</dl><dl><dt>visibility</dt><dd><p>Only relevant for organisation-owned repos associated with
+<dt>private</dt>
+<dd><p>If <code>TRUE</code>, creates a private repository.</p></dd>
+<dt>visibility</dt>
+<dd><p>Only relevant for organisation-owned repos associated with
 certain GitHub Enterprise products. The special "internal" <code>visibility</code>
 grants read permission to all organisation members, i.e. it's intermediate
 between "private" and "public", within GHE. When specified, <code>visibility</code>
 takes precedence over <code>private = TRUE/FALSE</code>.</p></dd>
-</dl><dl><dt>protocol</dt><dd><p>One of "https" or "ssh"</p></dd>
-</dl><dl><dt>host</dt><dd><p>GitHub host to target, passed to the <code>.api_url</code> argument of
+<dt>protocol</dt>
+<dd><p>One of "https" or "ssh"</p></dd>
+<dt>host</dt>
+<dd><p>GitHub host to target, passed to the <code>.api_url</code> argument of
 <code><a href="https://gh.r-lib.org/reference/gh.html" class="external-link">gh::gh()</a></code>. If unspecified, gh defaults to "https://api.github.com",
 although gh's default can be customised by setting the GITHUB_API_URL
-environment variable.For a hypothetical GitHub Enterprise instance, either
+environment variable.</p>
+<p>For a hypothetical GitHub Enterprise instance, either
 "https://github.acme.com/api/v3" or "https://github.acme.com" is
 acceptable.</p></dd>
-</dl><dl><dt>auth_token, credentials</dt><dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
+<dt>auth_token, credentials</dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
 consulted now that usethis uses the gert package for Git operations,
 instead of git2r; gert relies on the credentials package for auth. The API
 requests are now authorized with the token associated with the <code>host</code>, as

@@ -122,7 +122,7 @@ Git/GitHub credential management is covered in a dedicated article: Managing Git
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get help with GitHub personal access tokens</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/github_token.R" class="external-link"><code>R/github_token.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/github_token.R" class="external-link"><code>R/github_token.R</code></a></small>
     <div class="hidden name"><code>github-token.Rd</code></div>
     </div>
 
@@ -159,19 +159,21 @@ your PAT periodically.</p>
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>scopes</dt><dd><p>Character vector of token scopes, pre-selected in the web form.
+    <dl><dt>scopes</dt>
+<dd><p>Character vector of token scopes, pre-selected in the web form.
 Final choices are made in the GitHub form. Read more about GitHub API
 scopes at
 <a href="https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/" class="external-link">https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/</a>.</p></dd>
-</dl><dl><dt>description</dt><dd><p>Short description or nickname for the token. You might
+<dt>description</dt>
+<dd><p>Short description or nickname for the token. You might
 (eventually) have multiple tokens on your GitHub account and a label can
 help you keep track of what each token is for.</p></dd>
-</dl><dl><dt>host</dt><dd><p>GitHub host to target, passed to the <code>.api_url</code> argument of
+<dt>host</dt>
+<dd><p>GitHub host to target, passed to the <code>.api_url</code> argument of
 <code><a href="https://gh.r-lib.org/reference/gh.html" class="external-link">gh::gh()</a></code>. If unspecified, gh defaults to "https://api.github.com",
 although gh's default can be customised by setting the GITHUB_API_URL
-environment variable.For a hypothetical GitHub Enterprise instance, either
+environment variable.</p>
+<p>For a hypothetical GitHub Enterprise instance, either
 "https://github.acme.com/api/v3" or "https://github.acme.com" is
 acceptable.</p></dd>
 </dl></div>

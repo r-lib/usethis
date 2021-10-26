@@ -104,7 +104,7 @@ it will be automatically installed from the correct location."><meta property="o
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Depend on another package</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/package.R" class="external-link"><code>R/package.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/package.R" class="external-link"><code>R/package.R</code></a></small>
     <div class="hidden name"><code>use_package.Rd</code></div>
     </div>
 
@@ -122,15 +122,17 @@ it will be automatically installed from the correct location.</p>
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>package</dt><dd><p>Name of package to depend on.</p></dd>
-</dl><dl><dt>type</dt><dd><p>Type of dependency: must be one of "Imports", "Depends",
+    <dl><dt>package</dt>
+<dd><p>Name of package to depend on.</p></dd>
+<dt>type</dt>
+<dd><p>Type of dependency: must be one of "Imports", "Depends",
 "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation). Matching
 is case insensitive.</p></dd>
-</dl><dl><dt>min_version</dt><dd><p>Optionally, supply a minimum version for the package.
+<dt>min_version</dt>
+<dd><p>Optionally, supply a minimum version for the package.
 Set to <code>TRUE</code> to use the currently installed version.</p></dd>
-</dl><dl><dt>remote</dt><dd><p>By default, an <code>OWNER/REPO</code> GitHub remote is inserted.
+<dt>remote</dt>
+<dd><p>By default, an <code>OWNER/REPO</code> GitHub remote is inserted.
 Optionally, you can supply a character string to specify the remote, e.g.
 <code>"gitlab::jimhester/covr"</code>, using any syntax supported by the <a href="https://remotes.r-lib.org/articles/dependencies.html#other-sources" class="external-link">remotes package</a>.</p></dd>
 </dl></div>

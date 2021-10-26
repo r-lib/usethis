@@ -107,7 +107,7 @@ frame about refs (defaulting to releases), respectively."><meta property="og:ima
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Identify contributors via GitHub activity</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/tidyverse.R" class="external-link"><code>R/tidyverse.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/tidyverse.R" class="external-link"><code>R/tidyverse.R</code></a></small>
     <div class="hidden name"><code>use_tidy_thanks.Rd</code></div>
     </div>
 
@@ -126,13 +126,13 @@ frame about refs (defaulting to releases), respectively.</p>
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>repo_spec</dt><dd><p>Optional GitHub repo specification in any form accepted for
+    <dl><dt>repo_spec</dt>
+<dd><p>Optional GitHub repo specification in any form accepted for
 the <code>repo_spec</code> argument of <code><a href="create_from_github.html">create_from_github()</a></code> (plain spec or a browser
 or Git URL). A URL specification is the only way to target a GitHub host
 other than <code>"github.com"</code>, which is the default.</p></dd>
-</dl><dl><dt>from, to</dt><dd><p>GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
+<dt>from, to</dt>
+<dd><p>GitHub ref (i.e., a SHA, tag, or release) or a timestamp in
 ISO 8601 format, specifying the start or end of the interval of interest,
 in the sense of <code>[from, to]</code>. Examples: "08a560d", "v1.3.0",
 "2018-02-24T00:13:45Z", "2018-05-01". When <code>from = NULL, to = NULL</code>, we set

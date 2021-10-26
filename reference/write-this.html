@@ -102,7 +102,7 @@ for internal use. File is written with UTF-8 encoding."><meta property="og:image
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Write into or over a file</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/write.R" class="external-link"><code>R/write.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/write.R" class="external-link"><code>R/write.R</code></a></small>
     <div class="hidden name"><code>write-this.Rd</code></div>
     </div>
 
@@ -118,15 +118,17 @@ for internal use. File is written with UTF-8 encoding.</p>
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>path</dt><dd><p>Path to target file. It is created if it does not exist, but the
+    <dl><dt>path</dt>
+<dd><p>Path to target file. It is created if it does not exist, but the
 parent directory must exist.</p></dd>
-</dl><dl><dt>lines</dt><dd><p>Character vector of lines. For <code>write_union()</code>, these are lines
+<dt>lines</dt>
+<dd><p>Character vector of lines. For <code>write_union()</code>, these are lines
 to add to the target file, if not already present. For <code>write_over()</code>,
 these are the exact lines desired in the target file.</p></dd>
-</dl><dl><dt>quiet</dt><dd><p>Logical. Whether to message about what is happening.</p></dd>
-</dl><dl><dt>contents</dt><dd><p>Character vector of lines.</p></dd>
+<dt>quiet</dt>
+<dd><p>Logical. Whether to message about what is happening.</p></dd>
+<dt>contents</dt>
+<dd><p>Character vector of lines.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>

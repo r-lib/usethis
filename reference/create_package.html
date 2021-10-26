@@ -108,7 +108,7 @@ any existing files are changed."><meta property="og:image" content="https://uset
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a package or project</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/create.R" class="external-link"><code>R/create.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/create.R" class="external-link"><code>R/create.R</code></a></small>
     <div class="hidden name"><code>create_package.Rd</code></div>
     </div>
 
@@ -138,24 +138,27 @@ any existing files are changed.</p>
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>path</dt><dd><p>A path. If it exists, it is used. If it does not exist, it is
+    <dl><dt>path</dt>
+<dd><p>A path. If it exists, it is used. If it does not exist, it is
 created, provided that the parent path exists.</p></dd>
-</dl><dl><dt>fields</dt><dd><p>A named list of fields to add to <code>DESCRIPTION</code>, potentially
+<dt>fields</dt>
+<dd><p>A named list of fields to add to <code>DESCRIPTION</code>, potentially
 overriding default values. See <code><a href="use_description.html">use_description()</a></code> for how you can set
 personalized defaults using package options.</p></dd>
-</dl><dl><dt>rstudio</dt><dd><p>If <code>TRUE</code>, calls <code><a href="use_rstudio.html">use_rstudio()</a></code> to make the new package or
+<dt>rstudio</dt>
+<dd><p>If <code>TRUE</code>, calls <code><a href="use_rstudio.html">use_rstudio()</a></code> to make the new package or
 project into an <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects" class="external-link">RStudio Project</a>.
 If <code>FALSE</code> and a non-package project, a sentinel <code>.here</code> file is placed so
 that the directory can be recognized as a project by the
 <a href="https://here.r-lib.org" class="external-link">here</a> or
 <a href="https://rprojroot.r-lib.org" class="external-link">rprojroot</a> packages.</p></dd>
-</dl><dl><dt>roxygen</dt><dd><p>Do you plan to use roxygen2 to document your package?</p></dd>
-</dl><dl><dt>check_name</dt><dd><p>Whether to check if the name is valid for CRAN and throw an
+<dt>roxygen</dt>
+<dd><p>Do you plan to use roxygen2 to document your package?</p></dd>
+<dt>check_name</dt>
+<dd><p>Whether to check if the name is valid for CRAN and throw an
 error if not.</p></dd>
-</dl><dl><dt>open</dt><dd><p>If <code>TRUE</code>, <a href="proj_activate.html">activates</a> the new project:
-</p><ul><li><p>If RStudio desktop, the package is opened in a new session.</p></li>
+<dt>open</dt>
+<dd><p>If <code>TRUE</code>, <a href="proj_activate.html">activates</a> the new project:</p><ul><li><p>If RStudio desktop, the package is opened in a new session.</p></li>
 <li><p>If on RStudio server, the current RStudio project is activated.</p></li>
 <li><p>Otherwise, the working directory and active project is changed.</p></li>
 </ul></dd>

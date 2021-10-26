@@ -108,7 +108,7 @@ discoverable. See below for more about authentication."><meta property="og:image
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a project from a GitHub repo</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/create.R" class="external-link"><code>R/create.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/create.R" class="external-link"><code>R/create.R</code></a></small>
     <div class="hidden name"><code>create_from_github.Rd</code></div>
     </div>
 
@@ -138,54 +138,59 @@ discoverable. See below for more about authentication.</p>
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>repo_spec</dt><dd><p>A string identifying the GitHub repo in one of these forms:
-</p><ul><li><p>Plain <code>OWNER/REPO</code> spec</p></li>
+    <dl><dt>repo_spec</dt>
+<dd><p>A string identifying the GitHub repo in one of these forms:</p><ul><li><p>Plain <code>OWNER/REPO</code> spec</p></li>
 <li><p>Browser URL, such as <code>"https://github.com/OWNER/REPO"</code></p></li>
 <li><p>HTTPS Git URL, such as <code>"https://github.com/OWNER/REPO.git"</code></p></li>
 <li><p>SSH Git URL, such as <code>"git@github.com:OWNER/REPO.git"</code></p></li>
-</ul>In the case of a browser, HTTPS, or SSH URL, the <code>host</code> is extracted from
+</ul><p>In the case of a browser, HTTPS, or SSH URL, the <code>host</code> is extracted from
 the URL. The <code>REPO</code> part will be the name of the new local folder, which is
-also a project and Git repo.</dd>
-</dl><dl><dt>destdir</dt><dd><p>The new folder is stored here. If <code>NULL</code>, defaults to user's
+also a project and Git repo.</p></dd>
+<dt>destdir</dt>
+<dd><p>The new folder is stored here. If <code>NULL</code>, defaults to user's
 Desktop or some other conspicuous place. You can also set a default
 location using the option <code>usethis.destdir</code>, e.g.
 <code>options(usethis.destdir = "a/good/dir")</code>, perhaps saved to your
 <code>.Rprofile</code> with <code><a href="edit.html">edit_r_profile()</a></code></p></dd>
-</dl><dl><dt>fork</dt><dd><p>If <code>FALSE</code>, we clone <code>repo_spec</code>. If <code>TRUE</code>, we fork
+<dt>fork</dt>
+<dd><p>If <code>FALSE</code>, we clone <code>repo_spec</code>. If <code>TRUE</code>, we fork
 <code>repo_spec</code>, clone that fork, and do additional set up favorable for
-future pull requests:
-</p><ul><li><p>The source repo, <code>repo_spec</code>, is configured as the <code>upstream</code> remote,
+future pull requests:</p><ul><li><p>The source repo, <code>repo_spec</code>, is configured as the <code>upstream</code> remote,
 using the indicated <code>protocol</code>.</p></li>
 <li><p>The local <code>DEFAULT</code> branch is set to track <code>upstream/DEFAULT</code>, where
 <code>DEFAULT</code> is typically <code>master</code> or <code>main</code>. It is also immediately pulled,
 to cover the case of a pre-existing, out-of-date fork.</p></li>
-</ul>If <code>fork = NA</code> (the default), we check your permissions on <code>repo_spec</code>. If
-you can push, we set <code>fork = FALSE</code>, If you cannot, we set <code>fork = TRUE</code>.</dd>
-</dl><dl><dt>rstudio</dt><dd><p>Initiate an <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects" class="external-link">RStudio Project</a>?
+</ul><p>If <code>fork = NA</code> (the default), we check your permissions on <code>repo_spec</code>. If
+you can push, we set <code>fork = FALSE</code>, If you cannot, we set <code>fork = TRUE</code>.</p></dd>
+<dt>rstudio</dt>
+<dd><p>Initiate an <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects" class="external-link">RStudio Project</a>?
 Defaults to <code>TRUE</code> if in an RStudio session and project has no
 pre-existing <code>.Rproj</code> file. Defaults to <code>FALSE</code> otherwise (but note that
 the cloned repo may already be an RStudio Project, i.e. may already have a
 <code>.Rproj</code> file).</p></dd>
-</dl><dl><dt>open</dt><dd><p>If <code>TRUE</code>, <a href="proj_activate.html">activates</a> the new project:
-</p><ul><li><p>If RStudio desktop, the package is opened in a new session.</p></li>
+<dt>open</dt>
+<dd><p>If <code>TRUE</code>, <a href="proj_activate.html">activates</a> the new project:</p><ul><li><p>If RStudio desktop, the package is opened in a new session.</p></li>
 <li><p>If on RStudio server, the current RStudio project is activated.</p></li>
 <li><p>Otherwise, the working directory and active project is changed.</p></li>
 </ul></dd>
-</dl><dl><dt>protocol</dt><dd><p>One of "https" or "ssh"</p></dd>
-</dl><dl><dt>host</dt><dd><p>GitHub host to target, passed to the <code>.api_url</code> argument of
+<dt>protocol</dt>
+<dd><p>One of "https" or "ssh"</p></dd>
+<dt>host</dt>
+<dd><p>GitHub host to target, passed to the <code>.api_url</code> argument of
 <code><a href="https://gh.r-lib.org/reference/gh.html" class="external-link">gh::gh()</a></code>. If unspecified, gh defaults to "https://api.github.com",
 although gh's default can be customised by setting the GITHUB_API_URL
-environment variable.For a hypothetical GitHub Enterprise instance, either
+environment variable.</p>
+<p>For a hypothetical GitHub Enterprise instance, either
 "https://github.acme.com/api/v3" or "https://github.acme.com" is
 acceptable.</p></dd>
-</dl><dl><dt>auth_token</dt><dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
+<dt>auth_token</dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
 consulted now that usethis uses the gert package for Git operations,
 instead of git2r; gert relies on the credentials package for auth. The API
 requests are now authorized with the token associated with the <code>host</code>, as
 retrieved by <code><a href="https://gh.r-lib.org/reference/gh_token.html" class="external-link">gh::gh_token()</a></code>.</p></dd>
-</dl><dl><dt>credentials</dt><dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
+<dt>credentials</dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: No longer
 consulted now that usethis uses the gert package for Git operations,
 instead of git2r; gert relies on the credentials package for auth. The API
 requests are now authorized with the token associated with the <code>host</code>, as

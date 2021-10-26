@@ -111,7 +111,7 @@ manage the content below &quot;/docs&quot;.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Configure a GitHub Pages site</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/R/github-pages.R" class="external-link"><code>R/github-pages.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/R/github-pages.R" class="external-link"><code>R/github-pages.R</code></a></small>
     <div class="hidden name"><code>use_github_pages.Rd</code></div>
     </div>
 
@@ -131,20 +131,23 @@ manage the content below <code>"/docs"</code>.</p></li>
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>branch, path</dt><dd><p>Branch and path for the site source. The default of
+    <dl><dt>branch, path</dt>
+<dd><p>Branch and path for the site source. The default of
 <code>branch = "gh-pages"</code> and <code>path = "/"</code> reflects strong GitHub support for
 this configuration: when a <code>gh-pages</code> branch is first created, it is
 <em>automatically</em> published to Pages, using the source found in <code>"/"</code>. If a
 <code>gh-pages</code> branch does not yet exist on the host, <code>use_github_pages()</code>
-creates an empty, orphan remote branch.The most common alternative is to use the repo's default branch, coupled
+creates an empty, orphan remote branch.</p>
+<p>The most common alternative is to use the repo's default branch, coupled
 with <code>path = "/docs"</code>. It is the user's responsibility to ensure that this
-<code>branch</code> pre-exists on the host.Note that GitHub does not support an arbitrary <code>path</code> and, at the time of
+<code>branch</code> pre-exists on the host.</p>
+<p>Note that GitHub does not support an arbitrary <code>path</code> and, at the time of
 writing, only <code>"/"</code> or <code>"/docs"</code> are accepted.</p></dd>
-</dl><dl><dt>cname</dt><dd><p>Optional, custom domain name. The <code>NA</code> default means "don't set
+<dt>cname</dt>
+<dd><p>Optional, custom domain name. The <code>NA</code> default means "don't set
 or change this", whereas a value of <code>NULL</code> removes any previously
-configured custom domain.Note that this <em>can</em> add or modify a CNAME file in your repository. If you
+configured custom domain.</p>
+<p>Note that this <em>can</em> add or modify a CNAME file in your repository. If you
 are using Pages to host a pkgdown site, it is better to specify its URL in
 the pkgdown config file and let pkgdown manage CNAME.</p></dd>
 </dl></div>
