@@ -1,5 +1,7 @@
 # usethis (development version)
 
+The error thrown when reporting an unsupported GitHub configuration has been fixed for forward compatibility with a future version of rlang, i.e. what is anticipated to be rlang v1.0.0.
+
 # usethis 2.1.3
 
 Modified a test to ensure that intermittent GitHub rate limiting does not lead to ungraceful failure on CRAN. 
