@@ -61,8 +61,9 @@ Suggests:
     spelling (>= 1.2),
     styler (>= 1.2.0),
     testthat (>= 3.1.0)
+Config/needs/website: tidyverse/template
+Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
-Config/testthat/edition: 3
