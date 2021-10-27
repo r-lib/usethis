@@ -82,6 +82,8 @@ choose_template <- function() {
 #' * `edit_git_config()` opens `.gitconfig` or `.git/config`
 #' * `edit_git_ignore()` opens global (user-level) gitignore file and ensures
 #'   its path is declared in your global Git config.
+#' * `edit_pkgdown_config` opens the pkgdown YAML configuration file for the
+#'   current Project.
 #' * `edit_rstudio_snippets()` opens RStudio's snippet config for the given type.
 #' * `edit_rstudio_prefs()` opens RStudio's preference file.
 #'
@@ -238,4 +240,16 @@ git_ignore_path <- function(scope = c("user", "project")) {
     user = git_cfg_get("core.excludesFile", where = "global"),
     project = proj_path(".gitignore")
   )
+}
+
+# pkgdown ---------------------------------------------------------------
+#' @export
+#' @rdname edit
+edit_pkgdown_config <- function() {
+  path <- pkgdown_config_path()
+  if (is.null(path)) {
+    ui_oops("No pkgdown config file found in current Project.")
+  } else {
+    invisible(edit_file(path))
+  }
 }

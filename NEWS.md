@@ -1,5 +1,7 @@
 # usethis (development version)
 
+`edit_pkgdown_config()` is a new function that opens the pkgdown YAML configuration file for the current Project, if such a file exists.
+
 The error thrown when reporting an unsupported GitHub configuration has been fixed for forward compatibility with a future version of rlang, i.e. what is anticipated to be rlang v1.0.0.
 
 # usethis 2.1.3

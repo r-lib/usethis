@@ -10,6 +10,7 @@
 \alias{edit_rstudio_prefs}
 \alias{edit_git_config}
 \alias{edit_git_ignore}
+\alias{edit_pkgdown_config}
 \title{Open configuration files}
 \usage{
 edit_r_profile(scope = c("user", "project"))
@@ -30,6 +31,8 @@ edit_rstudio_prefs()
 edit_git_config(scope = c("user", "project"))
 
 edit_git_ignore(scope = c("user", "project"))
+
+edit_pkgdown_config()
 }
 \arguments{
 \item{scope}{Edit globally for the current \strong{user}, or locally for the
@@ -48,6 +51,8 @@ Path to the file, invisibly.
 \item \code{edit_git_config()} opens \code{.gitconfig} or \code{.git/config}
 \item \code{edit_git_ignore()} opens global (user-level) gitignore file and ensures
 its path is declared in your global Git config.
+\item \code{edit_pkgdown_config} opens the pkgdown YAML configuration file for the
+current Project.
 \item \code{edit_rstudio_snippets()} opens RStudio's snippet config for the given type.
 \item \code{edit_rstudio_prefs()} opens RStudio's preference file.
 }

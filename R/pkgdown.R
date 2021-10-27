@@ -146,7 +146,9 @@ pkgdown_config_path <- function() {
         "_pkgdown.yml",
         "_pkgdown.yaml",
         "pkgdown/_pkgdown.yml",
-        "inst/_pkgdown.yml"
+        "pkgdown/_pkgdown.yaml",
+        "inst/_pkgdown.yml",
+        "inst/_pkgdown.yaml"
       )
     )
   )
