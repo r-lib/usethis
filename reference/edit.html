@@ -7,6 +7,8 @@ edit_r_makevars() opens .R/Makevars
 edit_git_config() opens .gitconfig or .git/config
 edit_git_ignore() opens global (user-level) gitignore file and ensures
 its path is declared in your global Git config.
+edit_pkgdown_config opens the pkgdown YAML configuration file for the
+current Project.
 edit_rstudio_snippets() opens RStudio's snippet config for the given type.
 edit_rstudio_prefs() opens RStudio's preference file.
 
@@ -124,6 +126,8 @@ edit_rstudio_prefs() opens RStudio's preference file.
 <li><p><code>edit_git_config()</code> opens <code>.gitconfig</code> or <code>.git/config</code></p></li>
 <li><p><code>edit_git_ignore()</code> opens global (user-level) gitignore file and ensures
 its path is declared in your global Git config.</p></li>
+<li><p><code>edit_pkgdown_config</code> opens the pkgdown YAML configuration file for the
+current Project.</p></li>
 <li><p><code>edit_rstudio_snippets()</code> opens RStudio's snippet config for the given type.</p></li>
 <li><p><code>edit_rstudio_prefs()</code> opens RStudio's preference file.</p></li>
 </ul></div>
@@ -145,7 +149,9 @@ its path is declared in your global Git config.</p></li>
 
 <span class="fu">edit_git_config</span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"user"</span>, <span class="st">"project"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">edit_git_ignore</span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"user"</span>, <span class="st">"project"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu">edit_git_ignore</span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"user"</span>, <span class="st">"project"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu">edit_pkgdown_config</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 
     <div id="ref-sections">
     <div id="arguments">
