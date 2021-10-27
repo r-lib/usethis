@@ -12,16 +12,17 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../../tidyverse.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../../bootstrap-toc.css">
 <script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><!-- docsearch --><script src="../../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
-<link href="../../docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="usethis setup">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
+<script src="../../pkgdown.js"></script><link href="../../tidyverse-2.css" rel="stylesheet">
+<!--optional theme--><link href="../../.css" rel="stylesheet">
+<meta property="og:title" content="usethis setup">
 <meta property="og:description" content="usethis">
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png">
+<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -34,8 +35,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -46,14 +45,17 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.3.9000</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a class="navbar-brand" href="../../index.html">usethis</a>
+        <div class="info hidden-xs hidden-sm">
+          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.3.9000</span>
+        </div>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="../../index.html">
     <span class="fa fa-home fa-lg"></span>
@@ -90,43 +92,34 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
-    </li>
-<li>
+    <li>
       <a href="../../news/index.html">Change log</a>
     </li>
   </ul>
 </li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/r-lib/usethis/" class="external-link">
+        <li>
+  <a href="https://github.com/r-lib/usethis/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
-<form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
-        <div class="form-group">
-          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
-      </form>
-      
-    </div>
 <!--/.nav-collapse -->
   </div>
 <!--/.container -->
@@ -141,7 +134,7 @@
       <h1 data-toc-skip>usethis setup</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/vignettes/articles/usethis-setup.Rmd" class="external-link"><code>vignettes/articles/usethis-setup.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/vignettes/articles/usethis-setup.Rmd"><code>vignettes/articles/usethis-setup.Rmd</code></a></small>
       <div class="hidden name"><code>usethis-setup.Rmd</code></div>
 
     </div>
@@ -161,13 +154,13 @@
 <li>Get a personal access token from GitHub.com and make it available in R sessions.</li>
 <li>Prepare your system to build R packages from source.</li>
 </ul>
-<div class="section level2">
-<h2 id="use-usethis-or-devtools-in-interactive-work">Use usethis or devtools in interactive work<a class="anchor" aria-label="anchor" href="#use-usethis-or-devtools-in-interactive-work"></a>
-</h2>
-<p>The usethis package was carved out of the <a href="https://devtools.r-lib.org" class="external-link">devtools package</a> as part of its “conscious uncoupling” in <a href="https://www.tidyverse.org/blog/2018/10/devtools-2-0-0/" class="external-link">the v2.0.0 release</a>. But note that devtools makes all of usethis’s functions available and they should feel like they are part of devtools itself. In addition, devtools offers some functions of its own and exposes selected functionality from a few other packages. You might enjoy making devtools (and therefore usethis) available in all your interactive R work.</p>
+<div id="use-usethis-or-devtools-in-interactive-work" class="section level2">
+<h2 class="hasAnchor">
+<a href="#use-usethis-or-devtools-in-interactive-work" class="anchor"></a>Use usethis or devtools in interactive work</h2>
+<p>The usethis package was carved out of the <a href="https://devtools.r-lib.org">devtools package</a> as part of its “conscious uncoupling” in <a href="https://www.tidyverse.org/blog/2018/10/devtools-2-0-0/">the v2.0.0 release</a>. But note that devtools makes all of usethis’s functions available and they should feel like they are part of devtools itself. In addition, devtools offers some functions of its own and exposes selected functionality from a few other packages. You might enjoy making devtools (and therefore usethis) available in all your interactive R work.</p>
 <p>Call <code><a href="../../reference/rprofile-helper.html">usethis::use_devtools()</a></code> for prompts to do this:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span> <span class="co">## or library(usethis)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span> <span class="co">## or library(usethis)</span>
 
 <span class="fu"><a href="../../reference/rprofile-helper.html">use_devtools</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>This will:</p>
@@ -178,21 +171,21 @@
 </ul>
 <p>The suggested snippet looks like this:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <p>More resources on <code>.Rprofile</code>:</p>
 <ul>
-<li>The official <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html" class="external-link">Startup documentation</a>
+<li>The official <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html">Startup documentation</a>
 </li>
-<li>The <a href="https://whattheyforgot.org/r-startup.html" class="external-link">Startup chapter</a> of the What They Forgot to Teach You About R workshop materials</li>
-<li>Kevin Ushey’s blog post <a href="http://kevinushey.github.io/blog/2015/02/02/rprofile-essentials/" class="external-link">RProfile Essentials</a>
+<li>The <a href="https://whattheyforgot.org/r-startup.html">Startup chapter</a> of the What They Forgot to Teach You About R workshop materials</li>
+<li>Kevin Ushey’s blog post <a href="http://kevinushey.github.io/blog/2015/02/02/rprofile-essentials/">RProfile Essentials</a>
 </li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="store-default-values-for-description-fields-and-other-preferences">Store default values for DESCRIPTION fields and other preferences<a class="anchor" aria-label="anchor" href="#store-default-values-for-description-fields-and-other-preferences"></a>
-</h2>
+<div id="store-default-values-for-description-fields-and-other-preferences" class="section level2">
+<h2 class="hasAnchor">
+<a href="#store-default-values-for-description-fields-and-other-preferences" class="anchor"></a>Store default values for DESCRIPTION fields and other preferences</h2>
 <p>Certain options are consulted by usethis and allow you to set personal defaults:</p>
 <ul>
 <li>
@@ -210,15 +203,15 @@
 </ul>
 <p>Define any of these options in your <code>.Rprofile</code>, which can be opened for editing via <code><a href="../../reference/edit.html">usethis::edit_r_profile()</a></code>. Here is example code:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>
   usethis.full_name <span class="op">=</span> <span class="st">"Jane Doe"</span>,
   usethis.protocol  <span class="op">=</span> <span class="st">"ssh"</span>,
-  usethis.description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-    <span class="st">"Authors@R"</span> <span class="op">=</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span>
+  usethis.description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="st">"Authors@R"</span> <span class="op">=</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/person.html">person</a></span><span class="op">(</span>
         <span class="st">"Jane"</span>, <span class="st">"Doe"</span>,
         email <span class="op">=</span> <span class="st">"jane@example.com"</span>,
-        role <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"aut"</span>, <span class="st">"cre"</span><span class="op">)</span>,
-        comment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"JANE'S-ORCID-ID"</span><span class="op">)</span>
+        role <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"aut"</span>, <span class="st">"cre"</span><span class="op">)</span>,
+        comment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"JANE'S-ORCID-ID"</span><span class="op">)</span>
     <span class="op">)</span>,
     Version <span class="op">=</span> <span class="st">"0.0.0.9000"</span>
   <span class="op">)</span>,
@@ -227,9 +220,9 @@
 <span class="op">)</span></code></pre></div>
 <p>Save similar code in your <code>.Rprofile</code> and restart R for it to take effect.</p>
 </div>
-<div class="section level2">
-<h2 id="the-sitrep-functions">The “sitrep” functions<a class="anchor" aria-label="anchor" href="#the-sitrep-functions"></a>
-</h2>
+<div id="the-sitrep-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#the-sitrep-functions" class="anchor"></a>The “sitrep” functions</h2>
 <p>These functions gather information that help you or others troubleshoot things:</p>
 <ul>
 <li>
@@ -239,23 +232,24 @@
 </ul>
 <p>“Sitrep” is short for “<strong>sit</strong>uation <strong>rep</strong>ort”.</p>
 </div>
-<div class="section level2">
-<h2 id="get-a-github-com-account">Get a GitHub.com account<a class="anchor" aria-label="anchor" href="#get-a-github-com-account"></a>
-</h2>
-<p>Sign up for a free account with <a href="https://github.com/" class="external-link">GitHub.com</a>. <a href="https://happygitwithr.com/github-acct.html" class="external-link">Happy Git and GitHub for the useR</a> provides more advice about picking your username.</p>
+<div id="get-a-github-com-account" class="section level2">
+<h2 class="hasAnchor">
+<a href="#get-a-github-com-account" class="anchor"></a>Get a GitHub.com account</h2>
+<p>Sign up for a free account with <a href="https://github.com/">GitHub.com</a>. <a href="https://happygitwithr.com/github-acct.html">Happy Git and GitHub for the useR</a> provides more advice about picking your username.</p>
 </div>
-<div class="section level2">
-<h2 id="install-git">Install Git<a class="anchor" aria-label="anchor" href="#install-git"></a>
-</h2>
-<p>Please see <a href="https://happygitwithr.com/install-git.html" class="external-link">Happy Git and GitHub for the useR</a> for instructions on how to install Git. It is beyond the scope of this article.</p>
-<p>usethis itself does not actually need the Git that you install, because it uses the <a href="https://docs.ropensci.org/gert/" class="external-link">gert</a> package which wraps <a href="https://libgit2.github.com" class="external-link">libgit2</a>. But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git. Gert’s credential management also works best when official Git tooling is available.</p>
+<div id="install-git" class="section level2">
+<h2 class="hasAnchor">
+<a href="#install-git" class="anchor"></a>Install Git</h2>
+<p>Please see <a href="https://happygitwithr.com/install-git.html">Happy Git and GitHub for the useR</a> for instructions on how to install Git. It is beyond the scope of this article.</p>
+<p>usethis itself does not actually need the Git that you install, because it uses the <a href="https://docs.ropensci.org/gert/">gert</a> package which wraps <a href="https://libgit2.github.com">libgit2</a>. But, chances are, you want to do normal Git things, like diff and commit and push, from RStudio or in the shell and for that you must install Git. Gert’s credential management also works best when official Git tooling is available.</p>
 </div>
-<div class="section level2">
-<h2 id="configure-user-name-and-user-email">Configure <code>user.name</code> and <code>user.email</code><a class="anchor" aria-label="anchor" href="#configure-user-name-and-user-email"></a>
+<div id="configure-user-name-and-user-email" class="section level2">
+<h2 class="hasAnchor">
+<a href="#configure-user-name-and-user-email" class="anchor"></a>Configure <code>user.name</code> and <code>user.email</code>
 </h2>
 <p>Once Git is installed, introduce yourself to Git.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span> <span class="co">## or library(devtools)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span> <span class="co">## or library(devtools)</span>
 <span class="fu"><a href="../../reference/use_git_config.html">use_git_config</a></span><span class="op">(</span>user.name <span class="op">=</span> <span class="st">"Jane Doe"</span>, user.email <span class="op">=</span> <span class="st">"jane@example.com"</span><span class="op">)</span>
 
 <span class="co"># check by running a git situation-report: </span>
@@ -265,54 +259,54 @@
 <p>What user name should you give to Git? This does not have to be your GitHub username, although it can be. Another good option is your actual first name and last name. Your commits will be labelled with this name, so this should be informative to potential collaborators.</p>
 <p>What email should you give to Git? This must be the email associated with your GitHub account.</p>
 <p><code><a href="../../reference/git_sitrep.html">usethis::git_sitrep()</a></code> generates a git situation-report. It can help you confirm things will work as expected; it can also help you diagnose problems.</p>
-<div class="section level3">
-<h3 id="equivalent-git-commands">Equivalent Git commands<a class="anchor" aria-label="anchor" href="#equivalent-git-commands"></a>
-</h3>
+<div id="equivalent-git-commands" class="section level3">
+<h3 class="hasAnchor">
+<a href="#equivalent-git-commands" class="anchor"></a>Equivalent Git commands</h3>
 <p>The code chunk above is doing the equivalent of this:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">git</span> config --global user.name <span class="st">'Jane Doe'</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="fu">git</span> config --global user.email <span class="st">'jane@example.com'</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="fu">git</span> config --global --list</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="optional-configure-gits-editor">Optional: configure Git’s editor<a class="anchor" aria-label="anchor" href="#optional-configure-gits-editor"></a>
-</h3>
+<div id="optional-configure-gits-editor" class="section level3">
+<h3 class="hasAnchor">
+<a href="#optional-configure-gits-editor" class="anchor"></a>Optional: configure Git’s editor</h3>
 <p>Another Git option that many people eventually configure is the editor. This will come up if you use Git from a shell. At some point, you will fail to give Git what it wants in terms of a commit message and it will kick you into an editor. This can be distressing, if it’s not your editor of choice and you don’t even know how to save and quit. You can enforce your will by executing this in R:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span>
 
 <span class="fu"><a href="../../reference/use_git_config.html">use_git_config</a></span><span class="op">(</span>core.editor <span class="op">=</span> <span class="st">"nano"</span><span class="op">)</span></code></pre></div>
 <p>To do the same thing with command line Git, execute this in a shell:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">git</span> config --global core.editor emacs</span></code></pre></div>
-<p>Substitute your preferred editor for emacs here. A popular choice is <a href="https://www.nano-editor.org/" class="external-link">nano</a>. The default, if you don’t configure <code>core.editor</code>, is usually vim.</p>
+<p>Substitute your preferred editor for emacs here. A popular choice is <a href="https://www.nano-editor.org/">nano</a>. The default, if you don’t configure <code>core.editor</code>, is usually vim.</p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="connections-git-github-rstudio">Connections: Git, GitHub, RStudio<a class="anchor" aria-label="anchor" href="#connections-git-github-rstudio"></a>
-</h2>
+<div id="connections-git-github-rstudio" class="section level2">
+<h2 class="hasAnchor">
+<a href="#connections-git-github-rstudio" class="anchor"></a>Connections: Git, GitHub, RStudio</h2>
 <p>As stated above, usethis doesn’t actually use the Git you install and has no absolute requirement that you use GitHub or use RStudio. But use of usethis is highly correlated with the desire to do all of these things, in a pleasant way.</p>
-<p>If you plan to use GitHub, you need to make sure your local Git can pull from and push to GitHub.com. That is beyond the scope of this article, but see the <a href="https://happygitwithr.com/push-pull-github.html" class="external-link">Connect to GitHub</a> section in Happy Git. You probably don’t want to enter your username and password all the time, so either <a href="https://happygitwithr.com/credential-caching.html" class="external-link">cache credentials for HTTPS</a> or <a href="https://happygitwithr.com/ssh-keys.html" class="external-link">set up SSH keys</a>. If you are an SSH person, set the <code>usethis.protocol</code> option to “ssh” (as of v2.0.0, “https” is the usethis default).</p>
-<p>If you want to use RStudio to work with Git (and therefore GitHub, see previous paragraph), you need to make sure RStudio can find your Git executable. This usually “just works”. The <a href="https://happygitwithr.com/rstudio-git-github.html" class="external-link">Connect RStudio to Git and GitHub</a> section of Happy Git helps you confirm that all is well. If all is not well, there are also <a href="https://happygitwithr.com/rstudio-see-git.html" class="external-link">troubleshooting tips</a>.</p>
+<p>If you plan to use GitHub, you need to make sure your local Git can pull from and push to GitHub.com. That is beyond the scope of this article, but see the <a href="https://happygitwithr.com/push-pull-github.html">Connect to GitHub</a> section in Happy Git. You probably don’t want to enter your username and password all the time, so either <a href="https://happygitwithr.com/credential-caching.html">cache credentials for HTTPS</a> or <a href="https://happygitwithr.com/ssh-keys.html">set up SSH keys</a>. If you are an SSH person, set the <code>usethis.protocol</code> option to “ssh” (as of v2.0.0, “https” is the usethis default).</p>
+<p>If you want to use RStudio to work with Git (and therefore GitHub, see previous paragraph), you need to make sure RStudio can find your Git executable. This usually “just works”. The <a href="https://happygitwithr.com/rstudio-git-github.html">Connect RStudio to Git and GitHub</a> section of Happy Git helps you confirm that all is well. If all is not well, there are also <a href="https://happygitwithr.com/rstudio-see-git.html">troubleshooting tips</a>.</p>
 </div>
-<div class="section level2">
-<h2 id="get-and-store-a-github-personal-access-token">Get and store a GitHub personal access token<a class="anchor" aria-label="anchor" href="#get-and-store-a-github-personal-access-token"></a>
-</h2>
-<p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">use_github()</a></code>, <code>create_from_github(..., fork = TRUE)</code>, and many other usethis functions that create something on GitHub, such as a repo, an issue, or a pull request. Unlike pulling and pushing, these are <strong>not</strong> regular Git operations and your usual GitHub credentials do not necessarily work for this (although they <em>can</em>, if you play your cards right; see the linked article).</p>
+<div id="get-and-store-a-github-personal-access-token" class="section level2">
+<h2 class="hasAnchor">
+<a href="#get-and-store-a-github-personal-access-token" class="anchor"></a>Get and store a GitHub personal access token</h2>
+<p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">use_github()</a></code>, <code><a href="../../reference/create_from_github.html">create_from_github(..., fork = TRUE)</a></code>, and many other usethis functions that create something on GitHub, such as a repo, an issue, or a pull request. Unlike pulling and pushing, these are <strong>not</strong> regular Git operations and your usual GitHub credentials do not necessarily work for this (although they <em>can</em>, if you play your cards right; see the linked article).</p>
 <p>Git/GitHub credential management is detailed in a separate article:</p>
 <p><a href="https://usethis.r-lib.org/articles/articles/git-credentials.html">Managing Git(Hub) Credentials</a></p>
 </div>
-<div class="section level2">
-<h2 id="prepare-your-system-to-build-packages-from-source">Prepare your system to build packages from source<a class="anchor" aria-label="anchor" href="#prepare-your-system-to-build-packages-from-source"></a>
-</h2>
+<div id="prepare-your-system-to-build-packages-from-source" class="section level2">
+<h2 class="hasAnchor">
+<a href="#prepare-your-system-to-build-packages-from-source" class="anchor"></a>Prepare your system to build packages from source</h2>
 <p>As you participate more in R development, you will inevitably want to run development versions of other people’s packages, i.e. not the version available from CRAN. A typical way to do this is to install a package from GitHub with <code>devtools::install_github("OWNER/REPO")</code>.</p>
-<p>But, unlike using <code><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages()</a></code> and CRAN, you will be downloading and installing a <em>source</em> package, not a <em>binary</em> package. This means your system needs to be set up for building R packages. And, before long, you will need to build an R package with compiled code in it.</p>
+<p>But, unlike using <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> and CRAN, you will be downloading and installing a <em>source</em> package, not a <em>binary</em> package. This means your system needs to be set up for building R packages. And, before long, you will need to build an R package with compiled code in it.</p>
 <p>A full description of setting up an R development environment is beyond the scope of this article, but we give some pointers and diagnostics to get you started.</p>
 <p>Update R and all of your packages. And expect to keep doing so frequently.</p>
 <p>If you work in RStudio, it will often assist you with setting up a dev environment upon first need.</p>
 <p>Call <code>devtools::has_devel()</code> to get an initial sense of whether R package build tools are installed and available.</p>
-<p><code><a href="https://rdrr.io/pkg/pkgbuild/man/has_build_tools.html" class="external-link">pkgbuild::check_build_tools()</a></code> is another function to report on your system and, in an interactive RStudio session, should trigger an automatic installation of build tools.</p>
+<p><code>pkgbuild::check_build_tools()</code> is another function to report on your system and, in an interactive RStudio session, should trigger an automatic installation of build tools.</p>
 <p>It is also possible to install build tools yourself.</p>
-<p><strong>macOS</strong>: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is <em>much smaller</em> than full Xcode. In a shell, enter <code>xcode-select --install</code>. For installing almost anything else, consider using <a href="https://brew.sh" class="external-link">Homebrew</a>.</p>
-<p><strong>Windows</strong>: Install Rtools. This is not an R package! It is “a collection of resources for building packages for R under Microsoft Windows, or for building R itself”. Go to <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link uri">https://cran.r-project.org/bin/windows/Rtools/</a> and install as instructed.</p>
+<p><strong>macOS</strong>: A convenient way to get the tools needed for compilation is to install Xcode Command Line Tools. Note that this is <em>much smaller</em> than full Xcode. In a shell, enter <code>xcode-select --install</code>. For installing almost anything else, consider using <a href="https://brew.sh">Homebrew</a>.</p>
+<p><strong>Windows</strong>: Install Rtools. This is not an R package! It is “a collection of resources for building packages for R under Microsoft Windows, or for building R itself”. Go to <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a> and install as instructed.</p>
 </div>
   </div>
 
@@ -326,34 +320,22 @@
 
 
 
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://jennybryan.org" class="external-link">Jennifer Bryan</a>, Malcolm Barrett, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+      <footer><div class="tidyverse">
+  <p>usethis is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<div class="author">
+  <p>
+    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://jennybryan.org">Jennifer Bryan</a>, Malcolm Barrett, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
+  </p>
 </div>
 
       </footer>
 </div>
 
   
-<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
-  docsearch({
-    
-    
-    apiKey: 'f67d4c46004acc8326e8d95f296a680e',
-    indexName: 'usethis',
-    inputSelector: 'input#search-input.form-control',
-    transformData: function(hits) {
-      return hits.map(function (hit) {
-        hit.url = updateHitURL(hit);
-        return hit;
-      });
-    }
-  });
-</script>
-</body>
+
+
+  </body>
 </html>

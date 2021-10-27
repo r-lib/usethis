@@ -12,16 +12,17 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../../tidyverse.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../../bootstrap-toc.css">
 <script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><!-- docsearch --><script src="../../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
-<link href="../../docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="Pull request helpers">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
+<script src="../../pkgdown.js"></script><link href="../../tidyverse-2.css" rel="stylesheet">
+<!--optional theme--><link href="../../.css" rel="stylesheet">
+<meta property="og:title" content="Pull request helpers">
 <meta property="og:description" content="usethis">
 <meta property="og:image" content="https://usethis.r-lib.org/logo.png">
+<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -34,8 +35,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -46,14 +45,17 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../../index.html">usethis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.3.9000</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a class="navbar-brand" href="../../index.html">usethis</a>
+        <div class="info hidden-xs hidden-sm">
+          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.3.9000</span>
+        </div>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="../../index.html">
     <span class="fa fa-home fa-lg"></span>
@@ -90,43 +92,34 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Blog posts</li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/" class="external-link">usethis 2.0.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/">usethis 2.0.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">usethis 1.6.0</a>
+      <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/">usethis 1.6.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/" class="external-link">usethis 1.5.0 (and 1.4.0)</a>
+      <a href="https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/">usethis 1.5.0 (and 1.4.0)</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/" class="external-link">usethis 1.3.0</a>
+      <a href="https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/">usethis 1.3.0</a>
     </li>
     <li>
-      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/" class="external-link">usethis 1.0.0 (and 1.1.0)</a>
+      <a href="https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/">usethis 1.0.0 (and 1.1.0)</a>
     </li>
     <li class="divider">
-    </li>
-<li>
+    <li>
       <a href="../../news/index.html">Change log</a>
     </li>
   </ul>
 </li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/r-lib/usethis/" class="external-link">
+        <li>
+  <a href="https://github.com/r-lib/usethis/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
-<form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
-        <div class="form-group">
-          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
-      </form>
-      
-    </div>
 <!--/.nav-collapse -->
   </div>
 <!--/.container -->
@@ -141,7 +134,7 @@
       <h1 data-toc-skip>Pull request helpers</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/vignettes/articles/pr-functions.Rmd" class="external-link"><code>vignettes/articles/pr-functions.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-lib/usethis/blob/master/vignettes/articles/pr-functions.Rmd"><code>vignettes/articles/pr-functions.Rmd</code></a></small>
       <div class="hidden name"><code>pr-functions.Rmd</code></div>
 
     </div>
@@ -152,25 +145,25 @@
 div.reviewer pre { background-color:#e3dece; }
 div.output pre { background-color:#FFFFFF; }
 </style>
-<div class="section level2">
-<h2 id="contributing-to-someone-elses-package">Contributing to someone else’s package<a class="anchor" aria-label="anchor" href="#contributing-to-someone-elses-package"></a>
-</h2>
+<div id="contributing-to-someone-elses-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contributing-to-someone-elses-package" class="anchor"></a>Contributing to someone else’s package</h2>
 <p>So, you want to contribute to an R package? That’s fantastic!</p>
-<p>Here we walk through the process of making a so-called <strong>pull request</strong> to the <a href="https://github.com/rladies/praise" class="external-link">praise</a> package. This package is designed to help package developers “build friendly R packages that praise their users if they have done something good, or they just need it to feel better.” You can use praise to construct encouraging feedback by sampling from its collection of positive adjectives, adverbs, verbs, smileys, and exclamations:</p>
+<p>Here we walk through the process of making a so-called <strong>pull request</strong> to the <a href="https://github.com/rladies/praise">praise</a> package. This package is designed to help package developers “build friendly R packages that praise their users if they have done something good, or they just need it to feel better.” You can use praise to construct encouraging feedback by sampling from its collection of positive adjectives, adverbs, verbs, smileys, and exclamations:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gaborcsardi/praise" class="external-link">praise</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gaborcsardi/praise">praise</a></span><span class="op">)</span>
 
 <span class="va">template</span> <span class="op">&lt;-</span> <span class="st">"${EXCLAMATION} - your pull request is ${adjective}!"</span>
 
-<span class="fu"><a href="https://rdrr.io/pkg/praise/man/praise.html" class="external-link">praise</a></span><span class="op">(</span><span class="va">template</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/praise/man/praise.html">praise</a></span><span class="op">(</span><span class="va">template</span><span class="op">)</span>
 <span class="co">#&gt; [1] "YEE-HAW - your pull request is groovy!"</span></code></pre></div>
 <p>We are going to propose a new adjective: “formidable”.</p>
 </div>
-<div class="section level2">
-<h2 id="whats-a-pull-request">What’s a pull request?<a class="anchor" aria-label="anchor" href="#whats-a-pull-request"></a>
-</h2>
-<p>A <a href="https://help.github.com/en/articles/about-pull-requests" class="external-link">pull request</a> is how you propose a change to a GitHub repository. Think of it as a <em>request</em> for the maintainer to <em>pull</em> your changes into their repo.</p>
-<p>The <code>pr_*()</code> family of functions is designed to make working with GitHub pull requests as painless as possible, for both contributors and package maintainers. They are designed to support the Git and GitHub workflows recommended in <a href="http://happygitwithr.com/" class="external-link">Happy Git and GitHub for the useR</a>.</p>
+<div id="whats-a-pull-request" class="section level2">
+<h2 class="hasAnchor">
+<a href="#whats-a-pull-request" class="anchor"></a>What’s a pull request?</h2>
+<p>A <a href="https://help.github.com/en/articles/about-pull-requests">pull request</a> is how you propose a change to a GitHub repository. Think of it as a <em>request</em> for the maintainer to <em>pull</em> your changes into their repo.</p>
+<p>The <code>pr_*()</code> family of functions is designed to make working with GitHub pull requests as painless as possible, for both contributors and package maintainers. They are designed to support the Git and GitHub workflows recommended in <a href="http://happygitwithr.com/">Happy Git and GitHub for the useR</a>.</p>
 <p>A pull request (PR) involves two players, a contributor and a reviewer. To make it more clear who runs which code, the code chunks in this article are color coded: code executed by the contributor appears in chunks with light gray background and code executed by the reviewer appears in chunks with beige background.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># contributor code</span></code></pre></div>
@@ -179,9 +172,9 @@ div.output pre { background-color:#FFFFFF; }
 <code class="sourceCode R"><span class="co"># reviewer code</span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="set-up-advice">Set up advice<a class="anchor" aria-label="anchor" href="#set-up-advice"></a>
-</h2>
+<div id="set-up-advice" class="section level2">
+<h2 class="hasAnchor">
+<a href="#set-up-advice" class="anchor"></a>Set up advice</h2>
 <p>This article assumes that you have already done the Git and GitHub parts of the <a href="/articles/articles/usethis-setup">setup vignette</a> and that you have configured a GitHub personal access token, as described in <a href="/articles/articles/git-credentials.html">Managing Git(Hub) Credentials</a>. A good way to check that you are ready to use the <code>pr_*</code> family of functions is to run <code><a href="../../reference/git_sitrep.html">git_sitrep()</a></code>, which prints info about your current Git, gert, and GitHub setup.</p>
 <p>Specifically, the <code>pr_*()</code> functions make use of:</p>
 <ul>
@@ -203,16 +196,16 @@ div.output pre { background-color:#FFFFFF; }
 </li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="attach-usethis">Attach usethis<a class="anchor" aria-label="anchor" href="#attach-usethis"></a>
-</h2>
+<div id="attach-usethis" class="section level2">
+<h2 class="hasAnchor">
+<a href="#attach-usethis" class="anchor"></a>Attach usethis</h2>
 <p>All the code below assumes you’ve attached usethis in your R session:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="fork-and-clone">Fork and clone<a class="anchor" aria-label="anchor" href="#fork-and-clone"></a>
-</h2>
+<div id="fork-and-clone" class="section level2">
+<h2 class="hasAnchor">
+<a href="#fork-and-clone" class="anchor"></a>Fork and clone</h2>
 <p>The first step is to fork the source repository, to get your own copy on GitHub, and then clone that, to get your own local copy. There are many ways to accomplish these two steps, but here we demonstrate <code><a href="../../reference/create_from_github.html">usethis::create_from_github()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/create_from_github.html">create_from_github</a></span><span class="op">(</span><span class="st">"rladies/praise"</span><span class="op">)</span></code></pre></div>
@@ -256,9 +249,9 @@ div.output pre { background-color:#FFFFFF; }
 <li>Use <code>destdir</code> to put praise in a specific location on your computer. You can set the <code>usethis.destdir</code> option if you always want usethis to put new projects in a specific directory.</li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="branch-then-make-your-change">Branch, then make your change<a class="anchor" aria-label="anchor" href="#branch-then-make-your-change"></a>
-</h2>
+<div id="branch-then-make-your-change" class="section level2">
+<h2 class="hasAnchor">
+<a href="#branch-then-make-your-change" class="anchor"></a>Branch, then make your change</h2>
 <p>We start the process of contributing to the package with <code><a href="../../reference/pull-requests.html">pr_init()</a></code>, which creates a branch in our repository for the pull request. It is a good idea to make your pull requests from a feature branch, not from the repo’s default branch, which is <code>master</code> here (another common choice is <code>main</code>). We’ll call this branch <code>"formidable"</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/pull-requests.html">pr_init</a></span><span class="op">(</span>branch <span class="op">=</span> <span class="st">"formidable"</span><span class="op">)</span></code></pre></div>
@@ -279,9 +272,9 @@ div.output pre { background-color:#FFFFFF; }
 </ol>
 <p>Let’s assume we didn’t actually catch these mistakes, and didn’t build and check the package, which would have revealed the missing comma. We all make mistakes.</p>
 </div>
-<div class="section level2">
-<h2 id="submit-pull-request">Submit pull request<a class="anchor" aria-label="anchor" href="#submit-pull-request"></a>
-</h2>
+<div id="submit-pull-request" class="section level2">
+<h2 class="hasAnchor">
+<a href="#submit-pull-request" class="anchor"></a>Submit pull request</h2>
 <p><code><a href="../../reference/pull-requests.html">pr_push()</a></code> pushes the local change to your copy of praise on GitHub and puts you in position to make your pull request.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/pull-requests.html">pr_push</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -295,8 +288,8 @@ div.output pre { background-color:#FFFFFF; }
 <p>This launches a browser window at the URL specified in the last message, which looks like the following.</p>
 <!-- in local preview, I Jenny am seeing a very wide image here -->
 <p><img src="img/pr-functions-pull-request.png"><!-- --></p>
-<p>Click “Create pull request” to make the PR. After clicking you will be able to choose between <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests" class="external-link">draft PR</a> and actual PR (If opening a draft PR, <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request" class="external-link">mark it as ready for review</a> once you’re done, e.g. after a few more commits and one new call to <code><a href="../../reference/pull-requests.html">pr_push()</a></code>).</p>
-<p>GitHub will ping the package maintainer and they will review our pull request. We can view this pull request in the browser with <code><a href="../../reference/pull-requests.html">pr_view()</a></code>. And anyone can follow along with this PR <a href="https://github.com/rladies/praise/pull/90" class="external-link">rladies/praise#90</a>.</p>
+<p>Click “Create pull request” to make the PR. After clicking you will be able to choose between <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests">draft PR</a> and actual PR (If opening a draft PR, <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request">mark it as ready for review</a> once you’re done, e.g. after a few more commits and one new call to <code><a href="../../reference/pull-requests.html">pr_push()</a></code>).</p>
+<p>GitHub will ping the package maintainer and they will review our pull request. We can view this pull request in the browser with <code><a href="../../reference/pull-requests.html">pr_view()</a></code>. And anyone can follow along with this PR <a href="https://github.com/rladies/praise/pull/90">rladies/praise#90</a>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/pull-requests.html">pr_view</a></span><span class="op">(</span><span class="fl">90</span><span class="op">)</span></code></pre></div>
 <div class="output">
@@ -304,9 +297,9 @@ div.output pre { background-color:#FFFFFF; }
 <code class="sourceCode R"><span class="co">#&gt; ✔ Opening URL 'https://github.com/rladies/praise/pull/90'</span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="review-of-the-pull-request">Review of the pull request<a class="anchor" aria-label="anchor" href="#review-of-the-pull-request"></a>
-</h2>
+<div id="review-of-the-pull-request" class="section level2">
+<h2 class="hasAnchor">
+<a href="#review-of-the-pull-request" class="anchor"></a>Review of the pull request</h2>
 <p>If we’re lucky, and our pull request is perfect, the maintainer will accept it, a.k.a. merge it. However, in this case, the PR still needs some work. So the package maintainer leaves us comments requesting changes.</p>
 <p><img src="img/pr-functions-comments.png"><!-- --></p>
 <p>Being somewhat new to all this, we try to address one of these comments (fix spelling) and neglect the other (forget to add the comma). We make another change and commit it.</p>
@@ -350,9 +343,9 @@ div.output pre { background-color:#FFFFFF; }
 <span class="co">#&gt; ✔ View PR at 'https://github.com/rladies/praise/pull/90' or call `pr_view()`</span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="merge-and-finish">Merge and finish<a class="anchor" aria-label="anchor" href="#merge-and-finish"></a>
-</h2>
+<div id="merge-and-finish" class="section level2">
+<h2 class="hasAnchor">
+<a href="#merge-and-finish" class="anchor"></a>Merge and finish</h2>
 <p>Finally, the reviewer merges our pull request on GitHub. Locally, they can run <code><a href="../../reference/pull-requests.html">pr_finish()</a></code> to switch back to the default branch (usually named <code>main</code> or <code>master</code>), pull, delete the local branch created during the process of interacting with our PR, and remove the associated remote.</p>
 <div class="reviewer">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -386,11 +379,11 @@ div.output pre { background-color:#FFFFFF; }
 <span class="co">#&gt; ℹ Pulling changes from 'origin/master'</span>
 <span class="co">#&gt; ✓ Deleting local 'formidable' branch</span></code></pre></div>
 </div>
-<p>Remember you can see how this whole PR unfolded at <a href="https://github.com/rladies/praise/pull/90" class="external-link">rladies/praise#90</a>.</p>
+<p>Remember you can see how this whole PR unfolded at <a href="https://github.com/rladies/praise/pull/90">rladies/praise#90</a>.</p>
 </div>
-<div class="section level2">
-<h2 id="other-helpful-functions">Other helpful functions<a class="anchor" aria-label="anchor" href="#other-helpful-functions"></a>
-</h2>
+<div id="other-helpful-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-helpful-functions" class="anchor"></a>Other helpful functions</h2>
 <p>There are a few other functions in the <code>pr_*()</code> family that we didn’t encounter in this PR scenario:</p>
 <ul>
 <li><p><code><a href="../../reference/pull-requests.html">pr_merge_main()</a></code> is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you’re working in a fork, this does <code>git pull upstream master</code>. If you’re making a PR from an internal branch, this does <code>git pull origin master</code>. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the default branch (usually named <code>main</code> or <code>master</code>) and, indeed, <code><a href="../../reference/pull-requests.html">pr_pause()</a></code> includes this. This makes sure that your copy of the package is up-to-date with the source repo.</p></li>
@@ -410,34 +403,22 @@ div.output pre { background-color:#FFFFFF; }
 
 
 
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by <a href="http://hadley.nz" class="external-link">Hadley Wickham</a>, <a href="https://jennybryan.org" class="external-link">Jennifer Bryan</a>, Malcolm Barrett, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+      <footer><div class="tidyverse">
+  <p>usethis is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<div class="author">
+  <p>
+    Developed by <a href="http://hadley.nz">Hadley Wickham</a>, <a href="https://jennybryan.org">Jennifer Bryan</a>, Malcolm Barrett, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.
+    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
+  </p>
 </div>
 
       </footer>
 </div>
 
   
-<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
-  docsearch({
-    
-    
-    apiKey: 'f67d4c46004acc8326e8d95f296a680e',
-    indexName: 'usethis',
-    inputSelector: 'input#search-input.form-control',
-    transformData: function(hits) {
-      return hits.map(function (hit) {
-        hit.url = updateHitURL(hit);
-        return hit;
-      });
-    }
-  });
-</script>
-</body>
+
+
+  </body>
 </html>
