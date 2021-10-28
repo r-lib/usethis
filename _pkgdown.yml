@@ -26,6 +26,8 @@ navbar:
   - text: News
     menu:
     - text: "Blog posts"
+    - text: "Renaming the default branch (usethis >= 2.1.2)"
+      href: https://www.tidyverse.org/blog/2021/10/renaming-default-branch/
     - text: "usethis 2.0.0"
       href: https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/
     - text: "usethis 1.6.0"
