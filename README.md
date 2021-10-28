@@ -7,7 +7,7 @@
 
 [![R-CMD-check](https://github.com/r-lib/usethis/workflows/R-CMD-check/badge.svg)](https://github.com/r-lib/usethis/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/r-lib/usethis/branch/master/graph/badge.svg)](https://app.codecov.io/gh/r-lib/usethis?branch=master)
+coverage](https://codecov.io/gh/r-lib/usethis/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-lib/usethis?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/usethis)](https://CRAN.R-project.org/package=usethis)
 [![Lifecycle:

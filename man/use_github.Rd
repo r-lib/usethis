@@ -52,7 +52,7 @@ retrieved by \code{\link[gh:gh_token]{gh::gh_token()}}.}
 \item Checks that the initial state is good to go:
 \itemize{
 \item Project is already a Git repo
-\item Current branch is the default branch, e.g. \code{master} or \code{main}
+\item Current branch is the default branch, e.g. \code{main} or \code{master}
 \item No uncommitted changes
 \item No pre-existing \code{origin} remote
 }
@@ -61,7 +61,7 @@ retrieved by \code{\link[gh:gh_token]{gh::gh_token()}}.}
 \item Makes an initial push to GitHub
 \item Calls \code{\link[=use_github_links]{use_github_links()}}, if the project is an R package
 \item Configures \code{origin/DEFAULT} to be the upstream branch of the local
-\code{DEFAULT} branch, e.g. \code{master} or \code{main}
+\code{DEFAULT} branch, e.g. \code{main} or \code{master}
 }
 
 See below for the authentication setup that is necessary for all of this to

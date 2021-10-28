@@ -144,7 +144,7 @@ create_project <- function(path,
 #'   * The source repo, `repo_spec`, is configured as the `upstream` remote,
 #'   using the indicated `protocol`.
 #'   * The local `DEFAULT` branch is set to track `upstream/DEFAULT`, where
-#'   `DEFAULT` is typically `master` or `main`. It is also immediately pulled,
+#'   `DEFAULT` is typically `main` or `master`. It is also immediately pulled,
 #'   to cover the case of a pre-existing, out-of-date fork.
 #'
 #'   If `fork = NA` (the default), we check your permissions on `repo_spec`. If

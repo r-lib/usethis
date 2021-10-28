@@ -241,7 +241,7 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
     verbose = FALSE
   )
   # this is pretty brittle, because I've hard-wired these messages
-  # https://github.com/r-lib/gert/blob/master/R/merge.R
+  # https://github.com/r-lib/gert/blob/main/R/merge.R
   # but at time of writing, git_merge() offers no verbosity control
   gert_shush(
     regexp = c(
@@ -323,7 +323,7 @@ check_current_branch <- function(is = NULL, is_not = NULL,
   invisible()
 }
 
-# examples of remref: upstream/master, origin/foofy
+# examples of remref: upstream/main, origin/foofy
 check_branch_up_to_date <- function(direction = c("pull", "push"),
                                     remref = NULL,
                                     use = NULL) {

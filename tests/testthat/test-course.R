@@ -66,8 +66,8 @@ test_that("tidy_download() works", {
 
   tmp <- withr::local_tempdir(pattern = "tidy-download-test-")
 
-  gh_url <- "https://github.com/r-lib/rematch2/archive/master.zip"
-  expected <- fs::path(tmp, "rematch2-master.zip")
+  gh_url <- "https://github.com/r-lib/rematch2/archive/main.zip"
+  expected <- fs::path(tmp, "rematch2-main.zip")
 
   capture.output(
     out <- tidy_download(gh_url, destdir = tmp)
@@ -149,8 +149,8 @@ test_that("normalize_url() prepends https:// (or not)", {
   expect_identical(normalize_url("http://bit.ly/abc"), "http://bit.ly/abc")
   expect_identical(normalize_url("bit.ly/abc"), "https://bit.ly/abc")
   expect_identical(
-    normalize_url("https://github.com/r-lib/rematch2/archive/master.zip"),
-    "https://github.com/r-lib/rematch2/archive/master.zip"
+    normalize_url("https://github.com/r-lib/rematch2/archive/main.zip"),
+    "https://github.com/r-lib/rematch2/archive/main.zip"
   )
   expect_identical(
     normalize_url("https://rstd.io/usethis-src"),
@@ -216,8 +216,8 @@ test_that("parse_content_disposition() parses Content-Description", {
   )
   ## typical GitHub
   expect_identical(
-    parse_content_disposition("attachment; filename=foo-master.zip"),
-    c("filename" = "foo-master.zip")
+    parse_content_disposition("attachment; filename=foo-main.zip"),
+    c("filename" = "foo-main.zip")
   )
 })
 
@@ -241,8 +241,8 @@ test_that("make_filename() gets name from `content-disposition` header", {
   )
   ## GitHub
   expect_identical(
-    make_filename(c("filename" = "buzzy-master.zip")),
-    "buzzy-master.zip"
+    make_filename(c("filename" = "buzzy-main.zip")),
+    "buzzy-main.zip"
   )
 })
 

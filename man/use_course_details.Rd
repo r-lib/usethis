@@ -71,7 +71,7 @@ eventually lead to a download URL. For more details, see
 \subsection{GitHub}{
 
 Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
-button. Capture this URL, which will have this form:\preformatted{https://github.com/r-lib/usethis/archive/master.zip
+button. Capture this URL, which will have this form:\preformatted{https://github.com/r-lib/usethis/archive/main.zip
 }
 
 This download link (or a shortlink that points to it) is suitable as input
@@ -136,12 +136,12 @@ hidden files, such as \code{.RData}, \code{.Rhistory}, and those below \verb{.gi
 
 \examples{
 \dontrun{
-tidy_download("https://github.com/r-lib/rematch2/archive/master.zip")
+tidy_download("https://github.com/r-lib/rematch2/archive/main.zip")
 }
 
 \dontrun{
-tidy_download("https://github.com/r-lib/rematch2/archive/master.zip")
-tidy_unzip("rematch2-master.zip")
+tidy_download("https://github.com/r-lib/rematch2/archive/main.zip")
+tidy_unzip("rematch2-main.zip")
 }
 # GitHub
 create_download_url("https://github.com/r-lib/usethis")

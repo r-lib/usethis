@@ -42,7 +42,7 @@ future pull requests:
 \item The source repo, \code{repo_spec}, is configured as the \code{upstream} remote,
 using the indicated \code{protocol}.
 \item The local \code{DEFAULT} branch is set to track \code{upstream/DEFAULT}, where
-\code{DEFAULT} is typically \code{master} or \code{main}. It is also immediately pulled,
+\code{DEFAULT} is typically \code{main} or \code{master}. It is also immediately pulled,
 to cover the case of a pre-existing, out-of-date fork.
 }
 

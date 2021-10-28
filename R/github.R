@@ -4,7 +4,7 @@
 #' `use_github()` takes a local project and:
 #' * Checks that the initial state is good to go:
 #'   - Project is already a Git repo
-#'   - Current branch is the default branch, e.g. `master` or `main`
+#'   - Current branch is the default branch, e.g. `main` or `master`
 #'   - No uncommitted changes
 #'   - No pre-existing `origin` remote
 #' * Creates an associated repo on GitHub
@@ -12,7 +12,7 @@
 #' * Makes an initial push to GitHub
 #' * Calls [use_github_links()], if the project is an R package
 #' * Configures `origin/DEFAULT` to be the upstream branch of the local
-#'   `DEFAULT` branch, e.g. `master` or `main`
+#'   `DEFAULT` branch, e.g. `main` or `master`
 #'
 #' See below for the authentication setup that is necessary for all of this to
 #' work.

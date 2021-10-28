@@ -41,8 +41,8 @@
 #' # download the source of rematch2 package from GitHub, 4 ways
 #' use_course("r-lib/rematch2")
 #' use_course("https://api.github.com/repos/r-lib/rematch2/zipball/HEAD")
-#' use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
-#' use_course("https://github.com/r-lib/rematch2/archive/master.zip")
+#' use_course("https://api.github.com/repos/r-lib/rematch2/zipball/main")
+#' use_course("https://github.com/r-lib/rematch2/archive/main.zip")
 #' }
 NULL
 
@@ -161,7 +161,7 @@ use_zip <- function(url,
 #' Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
 #' button. Capture this URL, which will have this form:
 #' ```
-#' https://github.com/r-lib/usethis/archive/master.zip
+#' https://github.com/r-lib/usethis/archive/main.zip
 #' ```
 #' This download link (or a shortlink that points to it) is suitable as input
 #' for `tidy_download()`. After one or more redirections, this link will
@@ -207,7 +207,7 @@ use_zip <- function(url,
 #'
 #' @examples
 #' \dontrun{
-#' tidy_download("https://github.com/r-lib/rematch2/archive/master.zip")
+#' tidy_download("https://github.com/r-lib/rematch2/archive/main.zip")
 #' }
 #'
 #' @section tidy_unzip():
@@ -239,8 +239,8 @@ use_zip <- function(url,
 #'
 #' @examples
 #' \dontrun{
-#' tidy_download("https://github.com/r-lib/rematch2/archive/master.zip")
-#' tidy_unzip("rematch2-master.zip")
+#' tidy_download("https://github.com/r-lib/rematch2/archive/main.zip")
+#' tidy_unzip("rematch2-main.zip")
 #' }
 NULL
 
@@ -563,7 +563,7 @@ check_is_zip <- function(ct) {
 ## https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition
 ## https://tools.ietf.org/html/rfc6266
 ## DropBox eg: "attachment; filename=\"foo.zip\"; filename*=UTF-8''foo.zip\"
-##  GitHub eg: "attachment; filename=foo-master.zip"
+##  GitHub eg: "attachment; filename=foo-main.zip"
 # https://stackoverflow.com/questions/30193569/get-content-disposition-parameters
 # http://test.greenbytes.de/tech/tc2231/
 parse_content_disposition <- function(cd) {

@@ -75,7 +75,7 @@ use_course("https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zi
 # download the source of rematch2 package from GitHub, 4 ways
 use_course("r-lib/rematch2")
 use_course("https://api.github.com/repos/r-lib/rematch2/zipball/HEAD")
-use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
-use_course("https://github.com/r-lib/rematch2/archive/master.zip")
+use_course("https://api.github.com/repos/r-lib/rematch2/zipball/main")
+use_course("https://github.com/r-lib/rematch2/archive/main.zip")
 }
 }
