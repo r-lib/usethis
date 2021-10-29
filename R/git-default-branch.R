@@ -532,9 +532,13 @@ report_fishy_files <- function(old_name = "master", new_name = "main") {
   ui_todo("
     Be sure to update files that refer to the default branch by name.
     Consider searching within your project for {ui_value(old_name)}.")
-  fishy_github_actions(new_name = new_name)
-  fishy_badges(old_name = old_name)
-  fishy_bookdown_config(old_name = old_name)
+  # I don't want failure of a fishy file check to EVER cause
+  # git_default_branch_rename() to fail and prevent the call to
+  # git_default_branch_rediscover()
+  # using a simple try() wrapper because these hints are just "nice to have"
+  try(fishy_github_actions(new_name = new_name), silent = TRUE)
+  try(fishy_badges(old_name = old_name), silent = TRUE)
+  try(fishy_bookdown_config(old_name = old_name), silent = TRUE)
 }
 
 # good test cases: downlit, purrr, pkgbuild, zealot, glue, bench,
