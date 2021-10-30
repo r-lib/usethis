@@ -163,7 +163,7 @@
 <p>The usethis package was carved out of the <a href="https://devtools.r-lib.org">devtools package</a> as part of its “conscious uncoupling” in <a href="https://www.tidyverse.org/blog/2018/10/devtools-2-0-0/">the v2.0.0 release</a>. But note that devtools makes all of usethis’s functions available and they should feel like they are part of devtools itself. In addition, devtools offers some functions of its own and exposes selected functionality from a few other packages. You might enjoy making devtools (and therefore usethis) available in all your interactive R work.</p>
 <p>Call <code><a href="../../reference/rprofile-helper.html">usethis::use_devtools()</a></code> for prompts to do this:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span> <span class="co">## or library(usethis)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span> <span class="co">## or library(usethis)</span>
 
 <span class="fu"><a href="../../reference/rprofile-helper.html">use_devtools</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>This will:</p>
@@ -175,7 +175,7 @@
 <p>The suggested snippet looks like this:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <p>More resources on <code>.Rprofile</code>:</p>
 <ul>
@@ -293,7 +293,7 @@
 <div id="get-and-store-a-github-personal-access-token" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-and-store-a-github-personal-access-token" class="anchor"></a>Get and store a GitHub personal access token</h2>
-<p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">use_github()</a></code>, <code><a href="../../reference/create_from_github.html">create_from_github(..., fork = TRUE)</a></code>, and many other usethis functions that create something on GitHub, such as a repo, an issue, or a pull request. Unlike pulling and pushing, these are <strong>not</strong> regular Git operations and your usual GitHub credentials do not necessarily work for this (although they <em>can</em>, if you play your cards right; see the linked article).</p>
+<p>A GitHub personal access token (PAT) is required if you want to use <code><a href="../../reference/use_github.html">use_github()</a></code>, <code>create_from_github(..., fork = TRUE)</code>, and many other usethis functions that create something on GitHub, such as a repo, an issue, or a pull request. Unlike pulling and pushing, these are <strong>not</strong> regular Git operations and your usual GitHub credentials do not necessarily work for this (although they <em>can</em>, if you play your cards right; see the linked article).</p>
 <p>Git/GitHub credential management is detailed in a separate article:</p>
 <p><a href="https://usethis.r-lib.org/articles/articles/git-credentials.html">Managing Git(Hub) Credentials</a></p>
 </div>

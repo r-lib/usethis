@@ -257,7 +257,7 @@ local repo and the source repo. See <code><a href='git-default-branch.html'>git_
       <th>branch</th>
       <td><p>Name of a new or existing local branch. If creating a new
 branch, note this should usually consist of lower case letters, numbers,
-and <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>.</p></td>
+and <code>-</code>.</p></td>
     </tr>
     <tr>
       <th>number</th>
@@ -304,7 +304,7 @@ addition to your PAT. The public key must be added to your GitHub account.</p></
 
     
 
-<p>To contribute to a package, first use <code><a href='create_from_github.html'>create_from_github("OWNER/REPO")</a></code>.
+<p>To contribute to a package, first use <code>create_from_github("OWNER/REPO")</code>.
 This forks the source repository and checks out a local copy.</p>
 <p>Next use <code>pr_init()</code> to create a branch for your PR. It is best practice to
 never make commits to the default branch branch of a fork (usually named
@@ -403,10 +403,10 @@ If the PR has been merged and user has permission, deletes the remote branch
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>pr_fetch</span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>pr_fetch</span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

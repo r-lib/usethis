@@ -300,24 +300,24 @@ the end of the current function or test.  It is an example of the
 <code><a href='proj_sitrep.html'>proj_sitrep</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>## see the active project</span>
-<span class='fu'>proj_get</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'>## manually set the active project</span>
-<span class='fu'>proj_set</span><span class='op'>(</span><span class='st'>"path/to/target/project"</span><span class='op'>)</span>
-
-<span class='co'>## build a path within the active project (both produce same result)</span>
-<span class='fu'>proj_path</span><span class='op'>(</span><span class='st'>"R/foo.R"</span><span class='op'>)</span>
-<span class='fu'>proj_path</span><span class='op'>(</span><span class='st'>"R"</span>, <span class='st'>"foo"</span>, ext <span class='op'>=</span> <span class='st'>"R"</span><span class='op'>)</span>
-
-<span class='co'>## build a path within SOME OTHER project</span>
-<span class='fu'>with_project</span><span class='op'>(</span><span class='st'>"path/to/some/other/project"</span>, <span class='fu'>proj_path</span><span class='op'>(</span><span class='st'>"blah.R"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>## convince yourself that with_project() temporarily changes the project</span>
-<span class='fu'>with_project</span><span class='op'>(</span><span class='st'>"path/to/some/other/project"</span>, <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='proj_sitrep.html'>proj_sitrep</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'>## see the active project</span></span>
+<span class='r-in'><span class='fu'>proj_get</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## manually set the active project</span></span>
+<span class='r-in'><span class='fu'>proj_set</span><span class='op'>(</span><span class='st'>"path/to/target/project"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## build a path within the active project (both produce same result)</span></span>
+<span class='r-in'><span class='fu'>proj_path</span><span class='op'>(</span><span class='st'>"R/foo.R"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>proj_path</span><span class='op'>(</span><span class='st'>"R"</span>, <span class='st'>"foo"</span>, ext <span class='op'>=</span> <span class='st'>"R"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## build a path within SOME OTHER project</span></span>
+<span class='r-in'><span class='fu'>with_project</span><span class='op'>(</span><span class='st'>"path/to/some/other/project"</span>, <span class='fu'>proj_path</span><span class='op'>(</span><span class='st'>"blah.R"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## convince yourself that with_project() temporarily changes the project</span></span>
+<span class='r-in'><span class='fu'>with_project</span><span class='op'>(</span><span class='st'>"path/to/some/other/project"</span>, <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='proj_sitrep.html'>proj_sitrep</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

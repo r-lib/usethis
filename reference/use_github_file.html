@@ -227,8 +227,8 @@ This is extracted from <code>repo_spec</code> when user provides a URL.</p></td>
     <tr>
       <th>save_as</th>
       <td><p>Path of file to create, relative to root of active project.
-Defaults to the last part of <code>path</code>, in the sense of <code><a href='https://rdrr.io/r/base/basename.html'>basename(path)</a></code> or
-<code><a href='http://fs.r-lib.org/reference/path_file.html'>fs::path_file(path)</a></code>.</p></td>
+Defaults to the last part of <code>path</code>, in the sense of <code>basename(path)</code> or
+<code>fs::path_file(path)</code>.</p></td>
     </tr>
     <tr>
       <th>ref</th>
@@ -262,19 +262,19 @@ acceptable.</p></td>
     <p>A logical indicator of whether a file was written, invisibly.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>use_github_file</span><span class='op'>(</span>
-  <span class='st'>"https://github.com/r-lib/actions/blob/v1/examples/check-standard.yaml"</span>
-<span class='op'>)</span>
-
-<span class='fu'>use_github_file</span><span class='op'>(</span>
-  <span class='st'>"r-lib/actions"</span>,
-  path <span class='op'>=</span> <span class='st'>"examples/check-standard.yaml"</span>,
-  ref <span class='op'>=</span> <span class='st'>"v1"</span>,
-  save_as <span class='op'>=</span> <span class='st'>".github/workflows/R-CMD-check.yaml"</span>
-<span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>use_github_file</span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='st'>"https://github.com/r-lib/actions/blob/v1/examples/check-standard.yaml"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>use_github_file</span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='st'>"r-lib/actions"</span>,</span>
+<span class='r-in'>  path <span class='op'>=</span> <span class='st'>"examples/check-standard.yaml"</span>,</span>
+<span class='r-in'>  ref <span class='op'>=</span> <span class='st'>"v1"</span>,</span>
+<span class='r-in'>  save_as <span class='op'>=</span> <span class='st'>".github/workflows/R-CMD-check.yaml"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

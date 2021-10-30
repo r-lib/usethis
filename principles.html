@@ -244,7 +244,7 @@
 <p>This is so we can control verbosity package-wide with the <code>usethis.quiet</code> option, which defaults to <code>FALSE</code>.</p>
 <ul>
 <li>Exploited in usethis tests: option is set and unset in <code>setup.R</code> and <code>teardown.R</code>. Eliminates the need for ubiquitous <code>capture_output()</code> calls.</li>
-<li>Other packages can muffle a usethis call via, e.g., <code><a href="https://withr.r-lib.org/reference/with_options.html">withr::local_options(list(usethis.quiet = TRUE))</a></code>.</li>
+<li>Other packages can muffle a usethis call via, e.g., <code>withr::local_options(list(usethis.quiet = TRUE))</code>.</li>
 <li>Use <code><a href="reference/ui.html">ui_silence()</a></code> for executing small bits of code silently.</li>
 </ul>
 </div>

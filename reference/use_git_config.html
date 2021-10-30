@@ -223,18 +223,18 @@ list.</p>
 <code><a href='use_git.html'>use_git</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># set the user's global user.name and user.email</span>
-<span class='fu'>use_git_config</span><span class='op'>(</span>user.name <span class='op'>=</span> <span class='st'>"Jane"</span>, user.email <span class='op'>=</span> <span class='st'>"jane@example.org"</span><span class='op'>)</span>
-
-<span class='co'># set the user.name and user.email locally, i.e. for current repo/project</span>
-<span class='fu'>use_git_config</span><span class='op'>(</span>
-  scope <span class='op'>=</span> <span class='st'>"project"</span>,
-  user.name <span class='op'>=</span> <span class='st'>"Jane"</span>,
-  user.email <span class='op'>=</span> <span class='st'>"jane@example.org"</span>
-<span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># set the user's global user.name and user.email</span></span>
+<span class='r-in'><span class='fu'>use_git_config</span><span class='op'>(</span>user.name <span class='op'>=</span> <span class='st'>"Jane"</span>, user.email <span class='op'>=</span> <span class='st'>"jane@example.org"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># set the user.name and user.email locally, i.e. for current repo/project</span></span>
+<span class='r-in'><span class='fu'>use_git_config</span><span class='op'>(</span></span>
+<span class='r-in'>  scope <span class='op'>=</span> <span class='st'>"project"</span>,</span>
+<span class='r-in'>  user.name <span class='op'>=</span> <span class='st'>"Jane"</span>,</span>
+<span class='r-in'>  user.email <span class='op'>=</span> <span class='st'>"jane@example.org"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
