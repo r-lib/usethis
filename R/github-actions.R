@@ -122,6 +122,7 @@ use_github_action <- function(name,
     check_string(url)
     maybe_string(readme)
   }
+  withr::defer(rstudio_git_tickle())
 
   use_dot_github(ignore = ignore)
 
