@@ -173,16 +173,16 @@ pkgdown_url <- function(pedantic = FALSE) {
 
   meta <- pkgdown_config_meta()
   url <- meta$url
-  if (is.null(url)) {
-    if (pedantic) {
-      ui_warn("
-        pkgdown config does not specify the site's {ui_field('url')}, \\
-        which is optional but recommended")
-    }
-    NULL
-  } else {
-    gsub("/$", "", url)
+  if (!is.null(url)) {
+    return(url)
   }
+
+  if (pedantic) {
+    ui_warn("
+      pkgdown config does not specify the site's {ui_field('url')}, \\
+      which is optional but recommended")
+  }
+    NULL
 }
 
 # travis ----
