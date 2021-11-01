@@ -1,5 +1,7 @@
 # usethis (development version)
 
+pkgdown-related functions no longer automatically strip a trailing slash from the pkgdown site URL, in order to play more nicely with CRAN's URL checks (#1526).
+
 `edit_pkgdown_config()` is a new function that opens the pkgdown YAML configuration file for the current Project, if such a file exists.
 
 The error thrown when reporting an unsupported GitHub configuration has been fixed for forward compatibility with a future version of rlang, i.e. what is anticipated to be rlang v1.0.0.
