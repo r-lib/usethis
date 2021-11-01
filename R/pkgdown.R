@@ -74,8 +74,7 @@ use_pkgdown_github_pages <- function() {
   site <- use_github_pages()
   use_github_action("pkgdown")
 
-  site_url <- sub("/$", "", site$html_url)
-  site_url <- tidyverse_url(url = site_url, tr = tr)
+  site_url <- tidyverse_url(url = site$html_url, tr = tr)
   use_pkgdown_url(url = site_url, tr = tr)
 
   if (tr$repo_owner %in% c("tidyverse", "tidymodels", "r-lib")) {
@@ -124,13 +123,14 @@ tidyverse_url <- function(url, tr = NULL) {
       !tr$repo_owner %in% c("tidyverse", "r-lib", "tidymodels")) {
     return(url)
   }
+
   custom_url <- glue("https://{tr$repo_name}.{tr$repo_owner}.org")
-  if (url == custom_url) {
+  if (grepl(glue("{custom_url}/?"), url)) {
     return(url)
   }
   if (ui_yeah("
     {ui_value(tr$repo_name)} is owned by the {ui_value(tr$repo_owner)} GitHub \\
-    organization
+    organization.
     Shall we configure {ui_value(custom_url)} as the (eventual) \\
     pkgdown URL?")) {
     custom_url
@@ -173,16 +173,16 @@ pkgdown_url <- function(pedantic = FALSE) {
 
   meta <- pkgdown_config_meta()
   url <- meta$url
-  if (is.null(url)) {
-    if (pedantic) {
-      ui_warn("
-        pkgdown config does not specify the site's {ui_field('url')}, \\
-        which is optional but recommended")
-    }
-    NULL
-  } else {
-    gsub("/$", "", url)
+  if (!is.null(url)) {
+    return(url)
   }
+
+  if (pedantic) {
+    ui_warn("
+      pkgdown config does not specify the site's {ui_field('url')}, \\
+      which is optional but recommended")
+  }
+    NULL
 }
 
 # travis ----
