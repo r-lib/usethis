@@ -124,14 +124,13 @@ tidyverse_url <- function(url, tr = NULL) {
     return(url)
   }
 
-  url <- sub("/$", "", url)
   custom_url <- glue("https://{tr$repo_name}.{tr$repo_owner}.org")
-  if (url == custom_url) {
+  if (grepl(glue("{custom_url}/?"), url)) {
     return(url)
   }
   if (ui_yeah("
     {ui_value(tr$repo_name)} is owned by the {ui_value(tr$repo_owner)} GitHub \\
-    organization
+    organization.
     Shall we configure {ui_value(custom_url)} as the (eventual) \\
     pkgdown URL?")) {
     custom_url
