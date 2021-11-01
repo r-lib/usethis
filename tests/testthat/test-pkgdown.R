@@ -70,3 +70,9 @@ test_that("pkgdown_url() returns correct data, warns if pedantic", {
   writeLines("url: https://malcolmbarrett.github.io/tidysmd/", pkgdown_config_path())
   expect_equal(pkgdown_url(), "https://malcolmbarrett.github.io/tidysmd/")
 })
+
+test_that("tidyverse_url() leaves trailing slash alone, almost always", {
+  url <- "https://malcolmbarrett.github.io/tidysmd/"
+  out <- tidyverse_url(url, tr = list(repo_name = "REPO", repo_owner = "OWNER"))
+  expect_equal(out, url)
+})
