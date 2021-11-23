@@ -87,7 +87,7 @@ roxygen_update_ns <- function(load = is_interactive()) {
 
   if (load) {
     ui_done("Loading {project_name()}")
-    pkgload::load_all(quiet = TRUE)
+    pkgload::load_all(path = proj_get(), quiet = TRUE)
   }
 
   TRUE
