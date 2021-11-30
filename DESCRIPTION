@@ -57,7 +57,7 @@ Suggests:
     mockr,
     pkgload,
     rmarkdown,
-    roxygen2,
+    roxygen2 (>= 7.1.2),
     spelling (>= 1.2),
     styler (>= 1.2.0),
     testthat (>= 3.1.0)
