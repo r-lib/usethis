@@ -1,46 +1,38 @@
 url: https://usethis.r-lib.org
 
-authors:
-   Jennifer Bryan:
-     href: https://jennybryan.org
+development:
+  mode: auto
 
 template:
   bootstrap: 5
   package: tidytemplate
+  includes:
+    in_header: |
+      <script defer data-domain="usethis.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
 
 navbar:
-  type: default
-  left:
-  - icon: fa-home fa-lg
-    href: index.html
-  - text: Setup
-    href: articles/articles/usethis-setup.html
-  - text: Reference
-    href: reference/index.html
-  - text: Articles
-    menu:
-    - text: Managing Git(Hub) Credentials
-      href: articles/articles/git-credentials.html
-    - text: Pull request helpers
-      href: articles/articles/pr-functions.html
-  - text: News
-    menu:
-    - text: "Blog posts"
-    - text: "Renaming the default branch (usethis >= 2.1.2)"
-      href: https://www.tidyverse.org/blog/2021/10/renaming-default-branch/
-    - text: "usethis 2.0.0"
-      href: https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/
-    - text: "usethis 1.6.0"
-      href: https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/
-    - text: "usethis 1.5.0 (and 1.4.0)"
-      href: https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/
-    - text: "usethis 1.3.0"
-      href: https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/
-    - text: "usethis 1.0.0 (and 1.1.0)"
-      href: https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/
-    - text: "------------------"
-    - text: "Change log"
-      href: news/index.html
+  structure:
+    left: [setup, reference, articles, news]
+    right: [search, github]
+  components:
+    setup:
+      text: Setup
+      href: articles/usethis-setup.html
+
+news:
+  releases:
+  - text: "Renaming the default branch (usethis >= 2.1.2)"
+    href: https://www.tidyverse.org/blog/2021/10/renaming-default-branch/
+  - text: "usethis 2.0.0"
+    href: https://www.tidyverse.org/blog/2020/12/usethis-2-0-0/
+  - text: "usethis 1.6.0"
+    href: https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/
+  - text: "usethis 1.5.0 (and 1.4.0)"
+    href: https://www.tidyverse.org/blog/2019/04/usethis-1.5.0/
+  - text: "usethis 1.3.0"
+    href: https://www.tidyverse.org/blog/2018/02/usethis-1-3-0/
+  - text: "usethis 1.0.0 (and 1.1.0)"
+    href: https://www.tidyverse.org/blog/2017/11/usethis-1.0.0/
 
 reference:
   - title: Create
