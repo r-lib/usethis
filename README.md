@@ -60,8 +60,8 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✓ Creating '/tmp/RtmpxY5vMB/mypkg/'
-#> ✓ Setting active project to '/private/tmp/RtmpxY5vMB/mypkg'
+#> ✓ Creating '/tmp/Rtmp86lEpD/mypkg/'
+#> ✓ Setting active project to '/private/tmp/Rtmp86lEpD/mypkg'
 #> ✓ Creating 'R/'
 #> ✓ Writing 'DESCRIPTION'
 #> Package: mypkg
@@ -79,8 +79,8 @@ create_package(path)
 #> ✓ Setting active project to '<no active project>'
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✓ Setting active project to '/private/tmp/RtmpxY5vMB/mypkg'
-#> ✓ Changing working directory to '/tmp/RtmpxY5vMB/mypkg/'
+#> ✓ Setting active project to '/private/tmp/Rtmp86lEpD/mypkg'
+#> ✓ Changing working directory to '/tmp/Rtmp86lEpD/mypkg/'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -89,10 +89,10 @@ use_mit_license("My Name")
 #> ✓ Writing 'LICENSE.md'
 #> ✓ Adding '^LICENSE\\.md$' to '.Rbuildignore'
 
-use_package("MASS", "Suggests")
-#> ✓ Adding 'MASS' to Suggests field in DESCRIPTION
-#> • Use `requireNamespace("MASS", quietly = TRUE)` to test if package is installed
-#> • Then directly refer to functons like `MASS::fun()` (replacing `fun()`).
+use_package("ggplot2", "Suggests")
+#> ✓ Adding 'ggplot2' to Suggests field in DESCRIPTION
+#> • Use `requireNamespace("ggplot2", quietly = TRUE)` to test if package is installed
+#> • Then directly refer to functions with `ggplot2::fun()`
 
 # Set up other files -------------------------------------------------
 use_readme_md()
