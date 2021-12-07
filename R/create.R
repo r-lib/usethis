@@ -109,7 +109,7 @@ create_project <- function(path,
 #' @description
 #' Creates a new local project and Git repository from a repo on GitHub, by
 #' either cloning or
-#' [fork-and-cloning](https://help.github.com/articles/fork-a-repo/). In the
+#' [fork-and-cloning](https://docs.github.com/articles/fork-a-repo). In the
 #' fork-and-clone case, `create_from_github()` also does additional remote and
 #' branch setup, leaving you in the perfect position to make a pull request with
 #' [pr_init()], one of several [functions that work pull

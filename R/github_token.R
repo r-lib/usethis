@@ -3,7 +3,7 @@
 #' @description
 
 #' A [personal access
-#' token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line)
+#' token](https://docs.github.com/articles/creating-a-personal-access-token-for-the-command-line)
 #' (PAT) is needed for certain tasks usethis does via the GitHub API, such as
 #' creating a repository, a fork, or a pull request. If you use HTTPS remotes,
 #' your PAT is also used when interacting with GitHub as a conventional Git
