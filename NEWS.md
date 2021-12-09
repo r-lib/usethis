@@ -1,12 +1,12 @@
 # usethis 2.1.5
 
-# usethis 2.1.4
-
 pkgdown-related functions no longer automatically strip a trailing slash from the pkgdown site URL, in order to play more nicely with CRAN's URL checks (#1526).
 
 `edit_pkgdown_config()` is a new function that opens the pkgdown YAML configuration file for the current Project, if such a file exists.
 
 The error thrown when reporting an unsupported GitHub configuration has been fixed for forward compatibility with a future version of rlang, i.e. what is anticipated to be rlang v1.0.0.
+
+Version 2.1.4 was never released. Version was advanced from 2.1.4 to 2.1.5 strictly for CRAN (re-)submission purposes.
 
 # usethis 2.1.3
 
@@ -18,7 +18,6 @@ Modified a test to ensure that intermittent GitHub rate limiting does not lead t
 
 `git_default_branch_rediscover()` prunes the defunct remote ref to the old default branch, e.g. `origin/master`.
 
-Version 2.1.1 was never released. Version was advanced from 2.1.1 to 2.1.2 strictly for CRAN (re-)submission purposes.
 
 # usethis 2.1.0
 
