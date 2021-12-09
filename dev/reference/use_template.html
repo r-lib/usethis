@@ -117,10 +117,10 @@ applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html" class=
 packages. The <code>template</code> argument is used along with the <code>package</code> argument
 to derive the path to your template file; it will be expected at
 <code>fs::path_package(package = package, "templates", template)</code>. We use
-<code><a href="http://fs.r-lib.org/reference/path_package.html" class="external-link">fs::path_package()</a></code> instead of <code><a href="https://rdrr.io/r/base/system.file.html" class="external-link">base::system.file()</a></code> so that path
+<code><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">fs::path_package()</a></code> instead of <code><a href="https://rdrr.io/r/base/system.file.html" class="external-link">base::system.file()</a></code> so that path
 construction works even in a development workflow, e.g., works with
 <code>devtools::load_all()</code> or <code><a href="https://rdrr.io/pkg/pkgload/man/load_all.html" class="external-link">pkgload::load_all()</a></code>. <em>Note this describes the
-behaviour of <code><a href="http://fs.r-lib.org/reference/path_package.html" class="external-link">fs::path_package()</a></code> in fs v1.2.7.9001 and higher.</em></p>
+behaviour of <code><a href="https://fs.r-lib.org/reference/path_package.html" class="external-link">fs::path_package()</a></code> in fs v1.2.7.9001 and higher.</em></p>
 <p>To interpolate your data into the template, supply a list using
 the <code>data</code> argument. Internally, this function uses
 <code><a href="https://rdrr.io/pkg/whisker/man/whisker.render.html" class="external-link">whisker::whisker.render()</a></code> to combine your template file with your data.</p>
