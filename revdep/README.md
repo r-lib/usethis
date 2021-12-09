@@ -1,12 +1,8 @@
 # Revdeps
 
-## Failed to check (5)
+## Failed to check (1)
 
-|package              |version |error |warning |note |
-|:--------------------|:-------|:-----|:-------|:----|
-|NA                   |?       |      |        |     |
-|CongreveLamsdell2016 |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|NA                   |?       |      |        |     |
-|ensembleTax          |?       |      |        |     |
+|package |version |error |warning |note |
+|:-------|:-------|:-----|:-------|:----|
+|NA      |?       |      |        |     |
 
