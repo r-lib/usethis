@@ -12,7 +12,7 @@ use_zip(). Only create_download_url() is exported."><meta property="og:image" co
     
     <a class="navbar-brand me-2" href="../index.html">usethis</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -139,7 +139,7 @@ eventually lead to a download URL. For more details, see
 
 
 <p>Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
-button. Capture this URL, which will have this form:</p><div class="sourceCode"><pre><code>https://github.com/r-lib/usethis/archive/master.zip
+button. Capture this URL, which will have this form:</p><div class="sourceCode"><pre><code>https://github.com/r-lib/usethis/archive/main.zip
 </code></pre></div>
 
 <p>This download link (or a shortlink that points to it) is suitable as input
@@ -203,12 +203,12 @@ hidden files, such as <code>.RData</code>, <code>.Rhistory</code>, and those bel
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">tidy_download</span><span class="op">(</span><span class="st">"https://github.com/r-lib/rematch2/archive/master.zip"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">tidy_download</span><span class="op">(</span><span class="st">"https://github.com/r-lib/rematch2/archive/main.zip"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">tidy_download</span><span class="op">(</span><span class="st">"https://github.com/r-lib/rematch2/archive/master.zip"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">tidy_unzip</span><span class="op">(</span><span class="st">"rematch2-master.zip"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">tidy_download</span><span class="op">(</span><span class="st">"https://github.com/r-lib/rematch2/archive/main.zip"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">tidy_unzip</span><span class="op">(</span><span class="st">"rematch2-main.zip"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"><span class="co"># GitHub</span></span>
 <span class="r-in"><span class="fu">create_download_url</span><span class="op">(</span><span class="st">"https://github.com/r-lib/usethis"</span><span class="op">)</span></span>

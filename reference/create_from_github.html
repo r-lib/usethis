@@ -24,7 +24,7 @@ discoverable. See below for more about authentication."><meta property="og:image
     
     <a class="navbar-brand me-2" href="../index.html">usethis</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,7 @@ discoverable. See below for more about authentication."><meta property="og:image
     <div class="ref-description section level2">
     <p>Creates a new local project and Git repository from a repo on GitHub, by
 either cloning or
-<a href="https://help.github.com/articles/fork-a-repo/" class="external-link">fork-and-cloning</a>. In the
+<a href="https://docs.github.com/articles/fork-a-repo" class="external-link">fork-and-cloning</a>. In the
 fork-and-clone case, <code>create_from_github()</code> also does additional remote and
 branch setup, leaving you in the perfect position to make a pull request with
 <code><a href="pull-requests.html">pr_init()</a></code>, one of several <a href="pull-requests.html">functions that work pull requests</a>.</p>
@@ -129,7 +129,7 @@ location using the option <code>usethis.destdir</code>, e.g.
 future pull requests:</p><ul><li><p>The source repo, <code>repo_spec</code>, is configured as the <code>upstream</code> remote,
 using the indicated <code>protocol</code>.</p></li>
 <li><p>The local <code>DEFAULT</code> branch is set to track <code>upstream/DEFAULT</code>, where
-<code>DEFAULT</code> is typically <code>master</code> or <code>main</code>. It is also immediately pulled,
+<code>DEFAULT</code> is typically <code>main</code> or <code>master</code>. It is also immediately pulled,
 to cover the case of a pre-existing, out-of-date fork.</p></li>
 </ul><p>If <code>fork = NA</code> (the default), we check your permissions on <code>repo_spec</code>. If
 you can push, we set <code>fork = FALSE</code>, If you cannot, we set <code>fork = TRUE</code>.</p></dd>
