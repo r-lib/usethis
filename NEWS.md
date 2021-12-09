@@ -1,3 +1,5 @@
+# usethis (development version)
+
 # usethis 2.1.5
 
 pkgdown-related functions no longer automatically strip a trailing slash from the pkgdown site URL, in order to play more nicely with CRAN's URL checks (#1526).
