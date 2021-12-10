@@ -20,6 +20,7 @@ Modified a test to ensure that intermittent GitHub rate limiting does not lead t
 
 `git_default_branch_rediscover()` prunes the defunct remote ref to the old default branch, e.g. `origin/master`.
 
+Version 2.1.1 was never released. Version was advanced from 2.1.1 to 2.1.2 strictly for CRAN (re-)submission purposes.
 
 # usethis 2.1.0
 
