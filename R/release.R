@@ -176,13 +176,15 @@ use_github_release <- function(host = deprecated(),
   }
 
   dat <- get_release_data(tr)
-  news <- get_release_news(SHA = dat$SHA, tr = tr)
-
   release_name <- glue("{dat$Package} {dat$Version}")
   tag_name <- glue("v{dat$Version}")
   kv_line("Release name", release_name)
   kv_line("Tag name", tag_name)
   kv_line("SHA", dat$SHA)
+
+  check_github_has_SHA(SHA = dat$SHA, tr = tr)
+
+  news <- get_release_news(SHA = dat$SHA, tr = tr)
 
   gh <- gh_tr(tr)
   release <- gh(
@@ -269,6 +271,24 @@ get_release_data <- function(tr = target_repo(github_get = TRUE)) {
     {ui_path(out$file)} file found, from a submission on {as.Date(out$Date)}")
 
   out
+}
+
+check_github_has_SHA <- function(SHA = gert::git_info(repo = git_repo())$commit,
+                                 tr = target_repo(github_get = TRUE)) {
+  safe_gh <- purrr::safely(gh_tr(tr))
+  SHA_GET <- safe_gh(
+    "/repos/{owner}/{repo}/git/commits/{commit_sha}",
+    commit_sha = SHA
+  )
+  if (is.null(SHA_GET$error)) {
+    return()
+  }
+  if (inherits(SHA_GET$error, "http_error_404")) {
+    ui_stop("
+      Can't find SHA {ui_value(substr(SHA, 1, 7))} in {ui_value(tr$repo_spec)}.
+      Do you need to push?")
+  }
+  ui_stop("Internal error: Unexpected error when checking for SHA on GitHub")
 }
 
 get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
