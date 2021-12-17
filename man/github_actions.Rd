@@ -12,7 +12,7 @@
 \usage{
 use_github_actions()
 
-use_github_actions_badge(name = "R-CMD-check", repo_spec = NULL)
+use_github_actions_badge(name = "R-CMD-check.yaml", repo_spec = NULL)
 
 use_github_action(
   name,
@@ -43,12 +43,13 @@ use_github_action_pr_commands(
 }
 \arguments{
 \item{name}{For \code{use_github_action()}: Name of one of the example workflows
-from \url{https://github.com/r-lib/actions/tree/v1/examples}, with or without a
-\code{.yaml} extension, e.g. "pkgdown" or "test-coverage.yaml".
+from \url{https://github.com/r-lib/actions/tree/v1/examples}. Examples:
+"pkgdown", "check-standard.yaml".
 
-For \code{use_github_actions_badge()}: Specifies the workflow whose status the
-badge will report. Usually, this is the \code{name} keyword that appears in the
-workflow \code{.yaml} file.}
+For \code{use_github_actions_badge()}: Name of the workflow's YAML configuration
+file. Examples: "R-CMD-check", "R-CMD-check.yaml".
+
+If \code{name} has no extension, we assume it's \code{.yaml}.}
 
 \item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
 

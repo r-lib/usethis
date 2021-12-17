@@ -1,5 +1,7 @@
 # usethis (development version)
 
+`use_github_actions_badge()` now uses the same URLs as GitHub does via the "Create status badge" helper in the browser (#1525). This changes the signicance of the `name` argument; now it really must be the name of the workflow configuration file.
+
 # usethis 2.1.5
 
 pkgdown-related functions no longer automatically strip a trailing slash from the pkgdown site URL, in order to play more nicely with CRAN's URL checks (#1526).

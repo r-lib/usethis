@@ -56,7 +56,7 @@ use_badge <- function(badge_name, href, src) {
   )
 
   if (changed && path_ext(path) == "Rmd") {
-    ui_todo("Re-knit {ui_path(path)}")
+    ui_todo("Re-knit {ui_path(path)} with {ui_code('devtools::build_readme()')}")
   }
   invisible(changed)
 }

@@ -19,13 +19,15 @@
 #' * Provides the markdown to insert a badge into your README
 #'
 #' @name github_actions
+
 #' @param name For `use_github_action()`: Name of one of the example workflows
-#'   from <https://github.com/r-lib/actions/tree/v1/examples>, with or without a
-#'   `.yaml` extension, e.g. "pkgdown" or "test-coverage.yaml".
+#'   from <https://github.com/r-lib/actions/tree/v1/examples>. Examples:
+#'   "pkgdown", "check-standard.yaml".
 #'
-#'   For `use_github_actions_badge()`: Specifies the workflow whose status the
-#'   badge will report. Usually, this is the `name` keyword that appears in the
-#'   workflow `.yaml` file.
+#'   For `use_github_actions_badge()`: Name of the workflow's YAML configuration
+#'   file. Examples: "R-CMD-check", "R-CMD-check.yaml".
+#'
+#'   If `name` has no extension, we assume it's `.yaml`.
 #' @eval param_repo_spec()
 #' @param url The full URL to a `.yaml` file on GitHub.
 #' @param save_as Name of the local workflow file. Defaults to `name` or
@@ -36,10 +38,12 @@
 #'   about the workflow. Ignored when `url` is `NULL`.
 #' @inheritParams use_template
 #'
+
 #' @seealso
 #' * [use_github_file()] for more about `url` format and parsing.
 #' * [use_tidy_github_actions()] for the standard GitHub Actions used for
 #'   tidyverse packages.
+
 #' @examples
 #' \dontrun{
 #' use_github_actions()
@@ -67,13 +71,17 @@ use_github_actions <- function() {
 #' documented here.
 #' @export
 #' @rdname github_actions
-use_github_actions_badge <- function(name = "R-CMD-check", repo_spec = NULL) {
+use_github_actions_badge <- function(name = "R-CMD-check.yaml",
+                                     repo_spec = NULL) {
+  if (path_ext(name) == "") {
+    name <- path_ext_set(name, "yaml")
+  }
   repo_spec <- repo_spec %||% target_repo_spec()
   enc_name <- utils::URLencode(name)
-  img <- glue("https://github.com/{repo_spec}/workflows/{enc_name}/badge.svg")
-  url <- glue("https://github.com/{repo_spec}/actions")
+  img <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}/badge.svg")
+  url <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}")
 
-  use_badge(name, url, img)
+  use_badge(path_ext_remove(name), url, img)
 }
 
 uses_github_actions <- function() {
@@ -113,7 +121,9 @@ use_github_action <- function(name,
                               open = FALSE) {
   if (is.null(url)) {
     check_string(name)
-    name <- path_ext_set(name, "yaml")
+    if (path_ext(name) == "") {
+      name <- path_ext_set(name, "yaml")
+    }
     url <- glue(
       "https://raw.githubusercontent.com/r-lib/actions/v1/examples/{name}"
     )
@@ -158,7 +168,7 @@ use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
     ignore = ignore,
     open = open
   )
-  use_github_actions_badge("R-CMD-check")
+  use_github_actions_badge(save_as)
 }
 
 #' @section `use_github_action_check_standard()`:
@@ -178,7 +188,7 @@ use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
     ignore = ignore,
     open = open
   )
-  use_github_actions_badge("R-CMD-check")
+  use_github_actions_badge(save_as)
 }
 
 #' @section `use_github_action_pr_commands()`:
@@ -229,7 +239,7 @@ use_tidy_github_actions <- function() {
   # it who are better served by something less over-the-top
   # now we inline it here
   full_status <- use_github_action("check-full.yaml", save_as = "R-CMD-check.yaml")
-  use_github_actions_badge("R-CMD-check", repo_spec = repo_spec)
+  use_github_actions_badge("R-CMD-check.yaml", repo_spec = repo_spec)
 
   pr_status <- use_github_action_pr_commands()
   pkgdown_status <- use_github_action("pkgdown")
