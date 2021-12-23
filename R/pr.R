@@ -591,7 +591,9 @@ pr_clean <- function(number = NULL,
     return(invisible())
   }
 
-  pr_branch_delete(pr)
+  if (mode == "finish") {
+    pr_branch_delete(pr)
+  }
 
   # delete remote, if we (usethis) added it AND no remaining tracking branches
   created_by <- git_cfg_get(glue("remote.{pr$pr_remote}.created-by"))
