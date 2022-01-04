@@ -63,13 +63,13 @@ or commit) and which follows symlinks.
 \examples{
 \dontrun{
 use_github_file(
-  "https://github.com/r-lib/actions/blob/v1/examples/check-standard.yaml"
+  "https://github.com/r-lib/actions/blob/v2/examples/check-standard.yaml"
 )
 
 use_github_file(
   "r-lib/actions",
   path = "examples/check-standard.yaml",
-  ref = "v1",
+  ref = "v2",
   save_as = ".github/workflows/R-CMD-check.yaml"
 )
 }
