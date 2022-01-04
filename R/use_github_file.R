@@ -20,7 +20,7 @@
 #'   Defaults to the last part of `path`, in the sense of `basename(path)` or
 #'   `fs::path_file(path)`.
 #' @param ref The name of a branch, tag, or commit. By default, the file at
-#'   `path` will by copied from its current state in the repo's default branch.
+#'   `path` will be copied from its current state in the repo's default branch.
 #'   This is extracted from `repo_spec` when user provides a URL.
 #' @inheritParams use_template
 #' @inheritParams use_github
@@ -31,13 +31,13 @@
 #' @examples
 #' \dontrun{
 #' use_github_file(
-#'   "https://github.com/r-lib/actions/blob/v1/examples/check-standard.yaml"
+#'   "https://github.com/r-lib/actions/blob/v2/examples/check-standard.yaml"
 #' )
 #'
 #' use_github_file(
 #'   "r-lib/actions",
 #'   path = "examples/check-standard.yaml",
-#'   ref = "v1",
+#'   ref = "v2",
 #'   save_as = ".github/workflows/R-CMD-check.yaml"
 #' )
 #' }

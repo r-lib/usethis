@@ -21,7 +21,7 @@
 #' @name github_actions
 
 #' @param name For `use_github_action()`: Name of one of the example workflows
-#'   from <https://github.com/r-lib/actions/tree/v1/examples>. Examples:
+#'   from <https://github.com/r-lib/actions/tree/v2/examples>. Examples:
 #'   "pkgdown", "check-standard.yaml".
 #'
 #'   For `use_github_actions_badge()`: Name of the workflow's YAML configuration
@@ -106,7 +106,7 @@ check_uses_github_actions <- function() {
 #' Configures an individual, specific [GitHub
 #' Actions](https://github.com/features/actions) workflow, either one of the
 #' examples from
-#' [r-lib/actions/examples](https://github.com/r-lib/actions/tree/v1/examples)
+#' [r-lib/actions/examples](https://github.com/r-lib/actions/tree/v2/examples)
 #' or a custom workflow given by the `url` parameter.
 #'
 #' Used internally to power all the other GitHub Actions functions, but it can
@@ -125,9 +125,9 @@ use_github_action <- function(name,
       name <- path_ext_set(name, "yaml")
     }
     url <- glue(
-      "https://raw.githubusercontent.com/r-lib/actions/v1/examples/{name}"
+      "https://raw.githubusercontent.com/r-lib/actions/v2/examples/{name}"
     )
-    readme <- "https://github.com/r-lib/actions/blob/v1/examples/README.md"
+    readme <- "https://github.com/r-lib/actions/blob/v2/examples/README.md"
   } else {
     check_string(url)
     maybe_string(readme)

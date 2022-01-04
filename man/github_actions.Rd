@@ -43,7 +43,7 @@ use_github_action_pr_commands(
 }
 \arguments{
 \item{name}{For \code{use_github_action()}: Name of one of the example workflows
-from \url{https://github.com/r-lib/actions/tree/v1/examples}. Examples:
+from \url{https://github.com/r-lib/actions/tree/v2/examples}. Examples:
 "pkgdown", "check-standard.yaml".
 
 For \code{use_github_actions_badge()}: Name of the workflow's YAML configuration
@@ -103,7 +103,7 @@ documented here.
 
 Configures an individual, specific \href{https://github.com/features/actions}{GitHub Actions} workflow, either one of the
 examples from
-\href{https://github.com/r-lib/actions/tree/v1/examples}{r-lib/actions/examples}
+\href{https://github.com/r-lib/actions/tree/v2/examples}{r-lib/actions/examples}
 or a custom workflow given by the \code{url} parameter.
 
 Used internally to power all the other GitHub Actions functions, but it can
