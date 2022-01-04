@@ -112,7 +112,7 @@ Defaults to the last part of <code>path</code>, in the sense of <code>basename(p
 <code>fs::path_file(path)</code>.</p></dd>
 <dt>ref</dt>
 <dd><p>The name of a branch, tag, or commit. By default, the file at
-<code>path</code> will by copied from its current state in the repo's default branch.
+<code>path</code> will be copied from its current state in the repo's default branch.
 This is extracted from <code>repo_spec</code> when user provides a URL.</p></dd>
 <dt>ignore</dt>
 <dd><p>Should the newly created file be added to <code>.Rbuildignore</code>?</p></dd>
@@ -137,13 +137,13 @@ acceptable.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">use_github_file</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"https://github.com/r-lib/actions/blob/v1/examples/check-standard.yaml"</span></span>
+<span class="r-in">  <span class="st">"https://github.com/r-lib/actions/blob/v2/examples/check-standard.yaml"</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">use_github_file</span><span class="op">(</span></span>
 <span class="r-in">  <span class="st">"r-lib/actions"</span>,</span>
 <span class="r-in">  path <span class="op">=</span> <span class="st">"examples/check-standard.yaml"</span>,</span>
-<span class="r-in">  ref <span class="op">=</span> <span class="st">"v1"</span>,</span>
+<span class="r-in">  ref <span class="op">=</span> <span class="st">"v2"</span>,</span>
 <span class="r-in">  save_as <span class="op">=</span> <span class="st">".github/workflows/R-CMD-check.yaml"</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
