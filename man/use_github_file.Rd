@@ -34,7 +34,7 @@ Defaults to the last part of \code{path}, in the sense of \code{basename(path)} 
 \code{fs::path_file(path)}.}
 
 \item{ref}{The name of a branch, tag, or commit. By default, the file at
-\code{path} will by copied from its current state in the repo's default branch.
+\code{path} will be copied from its current state in the repo's default branch.
 This is extracted from \code{repo_spec} when user provides a URL.}
 
 \item{ignore}{Should the newly created file be added to \code{.Rbuildignore}?}
