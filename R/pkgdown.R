@@ -12,7 +12,7 @@
 #'
 #'   - (first, it calls `use_pkgdown()`)
 #'   - [use_github_pages()] prepares to publish the pkgdown site from the
-#'     `github-pages` branch
+#'     `gh-pages` branch
 #'   - [`use_github_action("pkgdown")`][use_github_action()] configures a
 #'     GitHub Action to automatically build the pkgdown site and deploy it via
 #'     GitHub Pages
