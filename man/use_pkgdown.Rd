@@ -28,7 +28,7 @@ automatically publish your pkgdown site to GitHub pages:
 \itemize{
 \item (first, it calls \code{use_pkgdown()})
 \item \code{\link[=use_github_pages]{use_github_pages()}} prepares to publish the pkgdown site from the
-\code{github-pages} branch
+\code{gh-pages} branch
 \item \code{\link[=use_github_action]{use_github_action("pkgdown")}} configures a
 GitHub Action to automatically build the pkgdown site and deploy it via
 GitHub Pages
