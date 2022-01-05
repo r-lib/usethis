@@ -456,7 +456,8 @@ git_vaccinate <- function() {
 }
 
 git_vaccinated <- function() {
-  path <- git_ignore_path("user")
+  gi_path <- git_ignore_path("user")
+  path <- user_path_prep(gi_path)
   if (is.null(path) || !file_exists(path)) {
     return(FALSE)
   }
