@@ -115,7 +115,7 @@
       * [ ] `revdepcheck::cloud_check()`
       * [ ] Update `cran-comments.md`
       * [ ] Draft blog post
-      * [ ] Ping Tracy Teal on Slack
+      * [ ] Slack link to draft blog in #open-source-comms
       
       Submit to CRAN:
       
