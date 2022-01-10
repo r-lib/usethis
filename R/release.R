@@ -93,7 +93,7 @@ release_checklist <- function(version, on_cran) {
     todo("Update `cran-comments.md`", on_cran),
     todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown && type != "patch"),
     todo("Draft blog post", type != "patch"),
-    todo("Ping Tracy Teal on Slack", type != "patch" && is_rstudio_pkg),
+    todo("Slack link to draft blog in #open-source-comms", type != "patch" && is_rstudio_pkg),
     release_extra(),
     "",
     "Submit to CRAN:",
