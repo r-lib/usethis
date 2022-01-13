@@ -84,22 +84,6 @@ use_github_actions_badge <- function(name = "R-CMD-check.yaml",
   use_badge(path_ext_remove(name), url, img)
 }
 
-uses_github_actions <- function() {
-  path <- proj_path(".github", "workflows")
-  file_exists(path)
-}
-
-check_uses_github_actions <- function() {
-  if (uses_github_actions()) {
-    return(invisible())
-  }
-
-  ui_stop("
-    Cannot detect that package {ui_value(project_name())} already \\
-    uses GitHub Actions.
-    Do you need to run {ui_code('use_github_actions()')}?")
-}
-
 # individual actions -----------------------------------------------------------
 
 #' @section `use_github_action()`:
@@ -258,4 +242,22 @@ use_tidy_github_actions <- function() {
   }
 
   invisible(full_status && pr_status && pkgdown_status && test_coverage_status)
+}
+
+# GHA helpers ------------------------------------------------------------------
+
+uses_github_actions <- function() {
+  path <- proj_path(".github", "workflows")
+  file_exists(path)
+}
+
+check_uses_github_actions <- function() {
+  if (uses_github_actions()) {
+    return(invisible())
+  }
+
+  ui_stop("
+    Cannot detect that package {ui_value(project_name())} already \\
+    uses GitHub Actions.
+    Do you need to run {ui_code('use_github_actions()')}?")
 }
