@@ -44,7 +44,7 @@ use_tidy_style(strict = TRUE)
 \arguments{
 \item{ref}{Desired Git reference, usually the name of a tag (\code{"v2"}) or
 branch (\code{"main"}). Other possibilities include a commit SHA (\code{"d1c516d"})
-or \code{HEAD} (meaning "tip of remote's default branch"). If not specified,
+or \code{"HEAD"} (meaning "tip of remote's default branch"). If not specified,
 defaults to the latest published release of \code{r-lib/actions}
 (\url{https://github.com/r-lib/actions/releases}).}
 

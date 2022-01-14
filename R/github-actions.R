@@ -30,7 +30,7 @@
 #'   If `name` has no extension, we assume it's `.yaml`.
 #' @param ref Desired Git reference, usually the name of a tag (`"v2"`) or
 #'   branch (`"main"`). Other possibilities include a commit SHA (`"d1c516d"`)
-#'   or `HEAD` (meaning "tip of remote's default branch"). If not specified,
+#'   or `"HEAD"` (meaning "tip of remote's default branch"). If not specified,
 #'   defaults to the latest published release of `r-lib/actions`
 #'   (<https://github.com/r-lib/actions/releases>).
 #' @eval param_repo_spec()
