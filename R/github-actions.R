@@ -28,6 +28,11 @@
 #'   file. Examples: "R-CMD-check", "R-CMD-check.yaml".
 #'
 #'   If `name` has no extension, we assume it's `.yaml`.
+#' @param ref Desired Git reference, usually the name of a tag (`"v2"`) or
+#'   branch (`"main"`). Other possibilities include a commit SHA (`"d1c516d"`)
+#'   or `HEAD` (meaning "tip of remote's default branch"). If not specified,
+#'   defaults to the latest published release of `r-lib/actions`
+#'   (<https://github.com/r-lib/actions/releases>).
 #' @eval param_repo_spec()
 #' @param url The full URL to a `.yaml` file on GitHub.
 #' @param save_as Name of the local workflow file. Defaults to `name` or
@@ -98,6 +103,7 @@ use_github_actions_badge <- function(name = "R-CMD-check.yaml",
 #' @export
 #' @rdname github_actions
 use_github_action <- function(name,
+                              ref = NULL,
                               url = NULL,
                               save_as = NULL,
                               readme = NULL,
@@ -105,13 +111,17 @@ use_github_action <- function(name,
                               open = FALSE) {
   if (is.null(url)) {
     check_string(name)
+    maybe_string(ref)
+
     if (path_ext(name) == "") {
       name <- path_ext_set(name, "yaml")
     }
+
+    ref <- ref %||% latest_release()
     url <- glue(
-      "https://raw.githubusercontent.com/r-lib/actions/v2/examples/{name}"
+      "https://raw.githubusercontent.com/r-lib/actions/{ref}/examples/{name}"
     )
-    readme <- "https://github.com/r-lib/actions/blob/v2/examples/README.md"
+    readme <- "https://github.com/r-lib/actions/blob/{ref}/examples/README.md"
   } else {
     check_string(url)
     maybe_string(readme)
@@ -144,10 +154,12 @@ use_github_action <- function(name,
 #' @export
 #' @rdname github_actions
 use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
+                                            ref = NULL,
                                             ignore = TRUE,
                                             open = FALSE) {
   use_github_action(
     "check-release.yaml",
+    ref = ref,
     save_as = save_as,
     ignore = ignore,
     open = open
@@ -164,10 +176,12 @@ use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
 #' @export
 #' @rdname github_actions
 use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
+                                             ref = NULL,
                                              ignore = TRUE,
                                              open = FALSE) {
   use_github_action(
     "check-standard.yaml",
+    ref = ref,
     save_as = save_as,
     ignore = ignore,
     open = open
@@ -183,10 +197,12 @@ use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
 #' @export
 #' @rdname github_actions
 use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
+                                          ref = NULL,
                                           ignore = TRUE,
                                           open = FALSE) {
   use_github_action(
     "pr-commands.yaml",
+    ref = ref,
     save_as = save_as,
     ignore = ignore,
     open = open
@@ -214,7 +230,8 @@ use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
 #'     [use_github_action_check_standard()].
 #' @export
 #' @rdname tidyverse
-use_tidy_github_actions <- function() {
+#' @inheritParams github_actions
+use_tidy_github_actions <- function(ref = NULL) {
   repo_spec <- target_repo_spec()
 
   use_coverage(repo_spec = repo_spec)
@@ -222,12 +239,16 @@ use_tidy_github_actions <- function() {
   # we killed use_github_action_check_full() because too many people were using
   # it who are better served by something less over-the-top
   # now we inline it here
-  full_status <- use_github_action("check-full.yaml", save_as = "R-CMD-check.yaml")
+  full_status <- use_github_action(
+    "check-full.yaml",
+    ref = ref,
+    save_as = "R-CMD-check.yaml"
+  )
   use_github_actions_badge("R-CMD-check.yaml", repo_spec = repo_spec)
 
-  pr_status <- use_github_action_pr_commands()
-  pkgdown_status <- use_github_action("pkgdown")
-  test_coverage_status <- use_github_action("test-coverage")
+  pr_status <- use_github_action_pr_commands(ref = ref)
+  pkgdown_status <- use_github_action("pkgdown", ref = ref)
+  test_coverage_status <- use_github_action("test-coverage", ref = ref)
 
   old_configs <- proj_path(c(".travis.yml", "appveyor.yml"))
   has_appveyor_travis <- file_exists(old_configs)

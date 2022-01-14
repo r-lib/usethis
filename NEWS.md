@@ -1,6 +1,6 @@
 # usethis (development version)
 
-`use_github_action()` and friends now draw on the `v2` tag in <https://github.com/r-lib/actions>. This is a temporary situation and we anticipate making the ref configurable (#1541) before the next usethis release.
+`use_github_action()` and friends gain a `ref` argument, which defaults to the tag of the latest release in <https://github.com/r-lib/actions> (#1541).
 
 `use_github_actions_badge()` now uses the same URLs as GitHub does via the "Create status badge" helper in the browser (#1525). This changes the significance of the `name` argument; now it really must be the name of the workflow configuration file.
 
