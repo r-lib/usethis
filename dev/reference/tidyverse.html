@@ -80,7 +80,7 @@ commonly used packages.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">use_tidy_github_actions</span><span class="op">(</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">use_tidy_github_actions</span><span class="op">(</span>ref <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
 <span class="fu">use_tidy_upkeep_issue</span><span class="op">(</span>year <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
@@ -107,7 +107,13 @@ commonly used packages.</p>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>year</dt>
+    <dl><dt>ref</dt>
+<dd><p>Desired Git reference, usually the name of a tag (<code>"v2"</code>) or
+branch (<code>"main"</code>). Other possibilities include a commit SHA (<code>"d1c516d"</code>)
+or <code>"HEAD"</code> (meaning "tip of remote's default branch"). If not specified,
+defaults to the latest published release of <code>r-lib/actions</code>
+(<a href="https://github.com/r-lib/actions/releases" class="external-link">https://github.com/r-lib/actions/releases</a>).</p></dd>
+<dt>year</dt>
 <dd><p>Approximate year when you last touched this package. If <code>NULL</code>,
 the default, will give you a full set of actions to perform.</p></dd>
 <dt>path</dt>

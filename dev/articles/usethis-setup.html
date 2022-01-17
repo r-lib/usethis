@@ -92,7 +92,8 @@
     
   </div>
 </nav><div class="container template-article" id="container">
-<script src="usethis-setup_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>usethis setup</h1>
             
@@ -224,9 +225,9 @@
 <h3 id="equivalent-git-commands">Equivalent Git commands<a class="anchor" aria-label="anchor" href="#equivalent-git-commands"></a>
 </h3>
 <p>The code chunk above is doing the equivalent of this:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">git</span> config --global user.name <span class="st">'Jane Doe'</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">git</span> config --global user.email <span class="st">'jane@example.com'</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">git</span> config --global --list</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">'Jane Doe'</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">'jane@example.com'</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> <span class="at">--list</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="optional-configure-gits-editor">Optional: configure Git’s editor<a class="anchor" aria-label="anchor" href="#optional-configure-gits-editor"></a>
@@ -237,7 +238,7 @@
 
 <span class="fu"><a href="../reference/use_git_config.html">use_git_config</a></span><span class="op">(</span>core.editor <span class="op">=</span> <span class="st">"nano"</span><span class="op">)</span></code></pre></div>
 <p>To do the same thing with command line Git, execute this in a shell:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">git</span> config --global core.editor emacs</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> core.editor emacs</span></code></pre></div>
 <p>Substitute your preferred editor for emacs here. A popular choice is <a href="https://www.nano-editor.org/" class="external-link">nano</a>. The default, if you don’t configure <code>core.editor</code>, is usually vim.</p>
 </div>
 </div>
