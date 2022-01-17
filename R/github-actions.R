@@ -285,18 +285,28 @@ check_uses_github_actions <- function() {
 
 latest_release <- function(repo_spec = "https://github.com/r-lib/actions") {
   parsed <- parse_repo_url(repo_spec)
-  tr <- list(
-    repo_owner = spec_owner(parsed$repo_spec),
-    repo_name = spec_repo(parsed$repo_spec),
-    api_url = parsed$api_url %||% "https://api.github.com"
-  )
-  gh <- gh_tr(tr)
   # https://docs.github.com/en/rest/reference/releases#list-releases
-  raw_releases <- gh("/repos/{owner}/{repo}/releases", .limit = Inf)
-  releases <- purrr::discard(
+  raw_releases <- gh::gh(
+    "/repos/{owner}/{repo}/releases",
+    owner       = spec_owner(parsed$repo_spec),
+    repo        = spec_repo(parsed$repo_spec),
+    .api_url    = parsed$api_url %||% "https://api.github.com",
+    .limit = Inf
+  )
+  tag_names <- purrr::discard(
     map_chr(raw_releases, "tag_name"),
     map_lgl(raw_releases, "prerelease")
   )
-  # expected tag_names look like v1, v2, etc.
-  releases[which.max(as.integer(gsub("[^0-9]", "", releases)))]
+  pick_tag(tag_names)
+}
+
+# 1) filter to releases in the latest major version series
+# 2) return the max, according to R's numeric_version logic
+pick_tag <- function(nm) {
+  dat <- data.frame(nm = nm, stringsAsFactors = FALSE)
+  dat$version <- numeric_version(sub("^[^0-9]*", "", dat$nm))
+  dat$major <- map_int(seq_len(nrow(dat)), ~ as.integer(dat$version[.x, 1]))
+  dat <- dat[dat$major == max(dat$major), ]
+  dat <- dat[dat$version == max(dat$version), ]
+  dat$nm[1]
 }
