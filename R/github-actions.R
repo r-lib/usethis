@@ -305,8 +305,6 @@ latest_release <- function(repo_spec = "https://github.com/r-lib/actions") {
 pick_tag <- function(nm) {
   dat <- data.frame(nm = nm, stringsAsFactors = FALSE)
   dat$version <- numeric_version(sub("^[^0-9]*", "", dat$nm))
-  dat$major <- map_int(seq_len(nrow(dat)), ~ as.integer(dat$version[.x, 1]))
-  dat <- dat[dat$major == max(dat$major), ]
   dat <- dat[dat$version == max(dat$version), ]
   dat$nm[1]
 }
