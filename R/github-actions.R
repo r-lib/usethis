@@ -290,7 +290,7 @@ latest_release <- function(repo_spec = "https://github.com/r-lib/actions") {
     "/repos/{owner}/{repo}/releases",
     owner       = spec_owner(parsed$repo_spec),
     repo        = spec_repo(parsed$repo_spec),
-    .api_url    = parsed$api_url %||% "https://api.github.com",
+    .api_url    = parsed$host,
     .limit = Inf
   )
   tag_names <- purrr::discard(
