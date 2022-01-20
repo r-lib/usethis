@@ -36,6 +36,7 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
       * [ ] `usethis::use_news_md()`
+      * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
@@ -71,6 +72,7 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
       * [ ] `usethis::use_news_md()`
+      * [ ] `git push`
 
 ---
 
@@ -104,6 +106,7 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
       * [ ] `usethis::use_news_md()`
+      * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
@@ -141,6 +144,7 @@
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
       * [ ] `usethis::use_news_md()`
+      * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
