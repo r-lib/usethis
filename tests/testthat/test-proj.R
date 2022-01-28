@@ -48,6 +48,14 @@ test_that("proj_path() appends to the project path", {
   expect_identical(proj_path("a", "b", "c"), proj_path("a/b/c"))
 })
 
+test_that("proj_path() respects absolute paths", {
+  create_local_project()
+  expect_equal(
+    proj_path(c("/a", "b", "/c")),
+    path(c("/a", path(proj_get(), "b"), "/c"))
+  )
+})
+
 test_that("proj_rel_path() returns path part below the project", {
   create_local_project()
   expect_equal(proj_rel_path(proj_path("a/b/c")), "a/b/c")
