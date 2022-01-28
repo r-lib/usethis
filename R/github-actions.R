@@ -121,7 +121,9 @@ use_github_action <- function(name,
     url <- glue(
       "https://raw.githubusercontent.com/r-lib/actions/{ref}/examples/{name}"
     )
-    readme <- "https://github.com/r-lib/actions/blob/{ref}/examples/README.md"
+    readme <- glue(
+      "https://github.com/r-lib/actions/blob/{ref}/examples/README.md"
+    )
   } else {
     check_string(url)
     maybe_string(readme)
