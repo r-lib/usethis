@@ -2,7 +2,7 @@
 
     Code
       use_tibble()
-    Message <message>
+    Message <rlang_message>
       v Adding 'tibble' to Imports field in DESCRIPTION
       v Adding '@importFrom tibble tibble' to 'R/mypackage-package.R'
       * Document a returned tibble like so:

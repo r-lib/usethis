@@ -7,14 +7,14 @@
 
     Code
       out <- download_url(url = "URL", destfile = "destfile")
-    Message <message>
+    Message <rlang_message>
       i Retrying download ... attempt 2
 
 ---
 
     Code
       out <- download_url(url = "URL", destfile = "destfile")
-    Message <message>
+    Message <rlang_message>
       i Retrying download ... attempt 2
       i Retrying download ... attempt 3
 
@@ -22,7 +22,7 @@
 
     Code
       out <- download_url(url = "URL", destfile = "destfile", n_tries = 3)
-    Message <message>
+    Message <rlang_message>
       i Retrying download ... attempt 2
       i Retrying download ... attempt 3
     Error <simpleError>
@@ -32,7 +32,7 @@
 
     Code
       out <- download_url(url = "URL", destfile = "destfile", n_tries = 10)
-    Message <message>
+    Message <rlang_message>
       i Retrying download ... attempt 2
       i Retrying download ... attempt 3
       i Retrying download ... attempt 4

@@ -2,27 +2,27 @@
 
     Code
       ui_line("line")
-    Message <message>
+    Message <rlang_message>
       line
     Code
       ui_todo("to do")
-    Message <message>
+    Message <rlang_message>
       * to do
     Code
       ui_done("done")
-    Message <message>
+    Message <rlang_message>
       v done
     Code
       ui_oops("oops")
-    Message <message>
+    Message <rlang_message>
       x oops
     Code
       ui_info("info")
-    Message <message>
+    Message <rlang_message>
       i info
     Code
       ui_code_block(c("x <- 1", "y <- 2"))
-    Message <message>
+    Message <rlang_message>
         x <- 1
         y <- 2
     Code
