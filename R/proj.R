@@ -95,7 +95,13 @@ proj_set <- function(path = ".", force = FALSE) {
 #' @inheritParams fs::path
 #' @export
 proj_path <- function(..., ext = "") {
-  path_norm(path(proj_get(), ..., ext = ext))
+  paths <- path(..., ext = ext)
+  paths <- purrr::map_chr(
+    paths,
+    ~ if (is_absolute_path(.x)) .x else path(proj_get(), .x)
+  )
+
+  path_norm(paths)
 }
 
 #' @describeIn proj_utils Runs code with a temporary active project and,
