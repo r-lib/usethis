@@ -2,12 +2,12 @@
 
     Code
       use_package("withr")
-    Message <message>
+    Message <rlang_message>
       v Adding 'withr' to Imports field in DESCRIPTION
       * Refer to functions with `withr::fun()`
     Code
       use_package("withr")
-    Message <message>
+    Message <rlang_message>
       * Refer to functions with `withr::fun()`
     Code
       use_package("withr", "Suggests")

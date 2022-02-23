@@ -2,7 +2,7 @@
 
     Code
       use_lifecycle()
-    Message <message>
+    Message <rlang_message>
       v Adding 'lifecycle' to Imports field in DESCRIPTION
       * Refer to functions with `lifecycle::fun()`
       v Adding '@importFrom lifecycle deprecated' to 'R/test_lifecycle-package.R'

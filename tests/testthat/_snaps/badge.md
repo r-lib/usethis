@@ -7,6 +7,6 @@
     Code
       use_lifecycle_badge("eperimental")
     Error <rlang_error>
-      `stage` must be one of "experimental", "stable", "superseded", or "deprecated".
-      Did you mean "experimental"?
+      `stage` must be one of "experimental", "stable", "superseded", or "deprecated", not "eperimental".
+      i Did you mean "experimental"?
 
