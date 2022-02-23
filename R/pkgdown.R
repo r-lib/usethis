@@ -105,6 +105,10 @@ use_pkgdown_url <- function(url, tr = NULL) {
   desc <- desc::desc(file = proj_get())
   desc$add_urls(url)
   desc$write()
+  if (has_package_doc()) {
+    ui_todo("
+      Run {ui_code('devtools::document()')} to update package-level documentation.")
+  }
 
   gh <- gh_tr(tr)
   homepage <- gh("GET /repos/{owner}/{repo}")[["homepage"]]
