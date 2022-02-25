@@ -1,5 +1,7 @@
 # usethis (development version)
 
+`use_rscloud_badge()` is a new function that creates a README badge indicating the repository can be launched in an [RStudio Cloud](https://rstudio.cloud) project (#1584, @gvelasq).
+
 `use_github_action()` and friends gain a `ref` argument, which defaults to the tag of the latest release in <https://github.com/r-lib/actions> (#1541).
 
 `use_github_actions_badge()` now uses the same URLs as GitHub does via the "Create status badge" helper in the browser (#1525). This changes the significance of the `name` argument; now it really must be the name of the workflow configuration file.

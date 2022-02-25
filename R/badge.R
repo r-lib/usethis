@@ -16,9 +16,10 @@
 #' available on CRAN, powered by <https://www.r-pkg.org>
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
 #' package according to <https://lifecycle.r-lib.org/articles/stages.html>.
-#'
 #' * `use_binder_badge()`: badge indicates that your repository can be launched
 #' in an executable environment on <https://mybinder.org/>
+#' * `use_rscloud_badge()`: badge indicates that your repository can be launched
+#' in an [RStudio Cloud](https://rstudio.cloud) project
 #'
 #' @param badge_name Badge name. Used in error message and alt text
 #' @param href,src Badge link and image src
@@ -130,6 +131,22 @@ use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
   url <- glue("https://mybinder.org/v2/gh/{repo_spec}/{ref}{urlpath}")
   img <- "https://mybinder.org/badge_logo.svg"
   use_badge("Launch binder", url, img)
+
+  invisible(TRUE)
+}
+
+#' @rdname badges
+#' @param cloudurl A link to an existing [RStudio Cloud](https://rstudio.cloud) project
+#' @export
+use_rscloud_badge <- function(cloudurl) {
+  if (grepl("rstudio.cloud/project", cloudurl)) {
+    img <- "https://img.shields.io/badge/launch-cloud-75aadb?style=flat&logo=rstudio"
+    use_badge("Launch RStudio Cloud", cloudurl, img)
+  } else {
+    ui_stop("
+    {ui_code('usethis::use_rscloud_badge()')} requires a link to an existing RStudio Cloud project of the form 'https://rstudio.cloud/project/<id>'.
+    ")
+  }
 
   invisible(TRUE)
 }

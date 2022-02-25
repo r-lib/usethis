@@ -22,6 +22,14 @@ test_that("use_binder_badge() needs a github repository", {
   expect_error(use_binder_badge(), class = "usethis_error_bad_github_remote_config")
 })
 
+test_that("use_rscloud_badge() handles bad and good input", {
+  create_local_project()
+  expect_error(use_rscloud_badge())
+  expect_error(use_rscloud_badge(123))
+  expect_error(use_rscloud_badge("http://rstudio.cloud/123"))
+  expect_error_free(use_rscloud_badge("https://rstudio.cloud/project/123"))
+})
+
 test_that("use_badge() does nothing if badge seems to pre-exist", {
   create_local_package()
   href <- "https://cran.r-project.org/package=foo"
