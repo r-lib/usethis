@@ -32,3 +32,11 @@
       * [ ] Use lifecycle instead of artisanal deprecation messages, as described in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)
       
 
+      2022
+      
+      * [ ] `usethis::use_tidy_coc()`
+      * [ ] rlang 1.0.0 errors, switch to cli
+      * [ ] Handle and close any still-open master to main issues
+      * [ ] Update README badges
+      * [ ] Update pkgdown sites with new theme http://tidytemplate.tidyverse.org/ + plausible and deploys so that live site uses new template even without release.
+      * [ ] Ensure `dev:auto` in pkgdown
