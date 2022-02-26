@@ -20,7 +20,7 @@ use_lifecycle_badge(stage)
 
 use_binder_badge(ref = git_default_branch(), urlpath = NULL)
 
-use_rscloud_badge(cloudurl)
+use_rscloud_badge(url)
 }
 \arguments{
 \item{badge_name}{Badge name. Used in error message and alt text}
@@ -37,7 +37,7 @@ use_rscloud_badge(cloudurl)
 \href{https://mybinder.readthedocs.io/en/latest/howto/user_interface.html}{binder documentation}
 for additional examples.}
 
-\item{cloudurl}{A link to an existing \href{https://rstudio.cloud}{RStudio Cloud}
+\item{url}{A link to an existing \href{https://rstudio.cloud}{RStudio Cloud}
 project. See the \href{https://rstudio.cloud/learn/guide#project-settings-access}{RStudio Cloud documentation}
 for details on how to set project access and obtain a project link.}
 }

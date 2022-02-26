@@ -136,15 +136,15 @@ use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
 }
 
 #' @rdname badges
-#' @param cloudurl A link to an existing [RStudio Cloud](https://rstudio.cloud)
+#' @param url A link to an existing [RStudio Cloud](https://rstudio.cloud)
 #'   project. See the [RStudio Cloud
 #'   documentation](https://rstudio.cloud/learn/guide#project-settings-access)
 #'   for details on how to set project access and obtain a project link.
 #' @export
-use_rscloud_badge <- function(cloudurl) {
-  if (grepl("rstudio.cloud/project", cloudurl)) {
+use_rscloud_badge <- function(url) {
+  if (grepl("rstudio.cloud/project", url)) {
     img <- "https://img.shields.io/badge/launch-cloud-75aadb?style=flat&logo=rstudio"
-    use_badge("Launch RStudio Cloud", cloudurl, img)
+    use_badge("Launch RStudio Cloud", url, img)
   } else {
     ui_stop("
     {ui_code('usethis::use_rscloud_badge()')} requires a link to an existing RStudio Cloud project of the form 'https://rstudio.cloud/project/<id>'.
