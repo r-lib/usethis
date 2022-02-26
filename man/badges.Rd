@@ -37,7 +37,9 @@ use_rscloud_badge(cloudurl)
 \href{https://mybinder.readthedocs.io/en/latest/howto/user_interface.html}{binder documentation}
 for additional examples.}
 
-\item{cloudurl}{A link to an existing \href{https://rstudio.cloud}{RStudio Cloud} project}
+\item{cloudurl}{A link to an existing \href{https://rstudio.cloud}{RStudio Cloud}
+project. See the \href{https://rstudio.cloud/learn/guide#project-settings-access}{RStudio Cloud documentation}
+for details on how to set project access and obtain a project link.}
 }
 \description{
 These helpers produce the markdown text you need in your README to include
