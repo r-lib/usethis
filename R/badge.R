@@ -147,8 +147,9 @@ use_rscloud_badge <- function(url) {
     use_badge("Launch RStudio Cloud", url, img)
   } else {
     ui_stop("
-    {ui_code('usethis::use_rscloud_badge()')} requires a link to an existing RStudio Cloud project of the form 'https://rstudio.cloud/project/<id>'.
-    ")
+      {ui_code('usethis::use_rscloud_badge()')} requires a link to an \\
+      existing RStudio Cloud project of the form \\
+      'https://rstudio.cloud/project/<project-id>'.")
   }
 
   invisible(TRUE)
