@@ -85,6 +85,20 @@ upkeep_checklist <- function(year = NULL) {
       ""
     )
   }
+if (year <= 2022) {
+    bullets <- c(bullets,
+     "2022",
+     "",
+     todo("`usethis::use_tidy_coc()`"),
+     todo("Update errors to rlang 1.0.0"),
+     todo("Update pkgdown site using instructions at [http://tidytemplate.tidyverse.org/](http://tidytemplate.tidyverse.org/)"),
+     todo("Ensure `dev:auto` in pkgdown"),
+     todo("Reploy released site using [r-lib/pkgdown#2051](https://github.com/r-lib/pkgdown/pull/2051)"),
+     todo("Handle and close any still-open master to main issues"),
+     todo("Update README badges"),
+     ""
+    )
+  }
 
   bullets
 }
