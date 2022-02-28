@@ -31,12 +31,14 @@
       * [ ] Bump required R version in DESCRIPTION to 3.4
       * [ ] Use lifecycle instead of artisanal deprecation messages, as described in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)
       
-
       2022
       
       * [ ] `usethis::use_tidy_coc()`
-      * [ ] rlang 1.0.0 errors, switch to cli
-      * [ ] Handle and close any still-open master to main issues
+      * [ ] Update errors to rlang 1.0.0
+      * [ ] Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>
+      * [ ] Re-publish released site using [r-lib/pkgdown#2051](https://github.com/r-lib/pkgdown/pull/2051)
+      * [ ] Ensure pkgdown `development` is `mode: auto` in pkgdown config
+      * [ ] Handle and close any still-open `master` --> `main` issues
       * [ ] Update README badges
-      * [ ] Update pkgdown sites with new theme http://tidytemplate.tidyverse.org/ + plausible and deploys so that live site uses new template even without release.
-      * [ ] Ensure `dev:auto` in pkgdown
+      
+
