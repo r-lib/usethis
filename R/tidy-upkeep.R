@@ -41,7 +41,7 @@ upkeep_checklist <- function(year = NULL) {
       todo("`usethis::use_roxygen_md()`"),
       todo("`usethis::use_github_links()`"),
       todo("`usethis::use_pkgdown_github_pages()`"),
-      todo("`usethis::use_tidy_labels()`"),
+      todo("`usethis::use_tidy_github_labels()`"),
       todo("`usethis::use_tidy_style()`"),
       todo("`usethis::use_tidy_description()`"),
       todo("`urlchecker::url_check()`"),

@@ -9,7 +9,7 @@
       * [ ] `usethis::use_roxygen_md()`
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
-      * [ ] `usethis::use_tidy_labels()`
+      * [ ] `usethis::use_tidy_github_labels()`
       * [ ] `usethis::use_tidy_style()`
       * [ ] `usethis::use_tidy_description()`
       * [ ] `urlchecker::url_check()`
