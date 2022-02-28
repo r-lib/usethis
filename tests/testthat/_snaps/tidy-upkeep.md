@@ -39,6 +39,6 @@
       * [ ] Re-publish released site using [r-lib/pkgdown#2051](https://github.com/r-lib/pkgdown/pull/2051)
       * [ ] Ensure pkgdown `development` is `mode: auto` in pkgdown config
       * [ ] Handle and close any still-open `master` --> `main` issues
-      * [ ] Update README badges
+      * [ ] Update README badges, instructions in [r-lib/usethis#1594](https://github.com/r-lib/usethis/issues/1594)
       
 
