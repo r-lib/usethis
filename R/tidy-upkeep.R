@@ -95,7 +95,7 @@ if (year <= 2022) {
      todo("Re-publish released site using [r-lib/pkgdown#2051](https://github.com/r-lib/pkgdown/pull/2051)"),
      todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
      todo("Handle and close any still-open `master` --> `main` issues"),
-     todo("Update README badges"),
+     todo("Update README badges, instructions in #1594"),
      ""
     )
   }
