@@ -119,7 +119,14 @@ release_checklist <- function(version, on_cran) {
   )
 }
 
-release_extra <- function(env = parent.env(globalenv())) {
+release_extra <- function(env = NULL) {
+  if (is.null(env)) {
+    env <- tryCatch(
+      pkg_env(project_name()),
+      error = function(e) emptyenv()
+    )
+  }
+
   if (env_has(env, "release_bullets")) {
     paste0("* [ ] ", env$release_bullets())
   } else if (env_has(env, "release_questions")) {
