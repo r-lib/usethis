@@ -119,7 +119,7 @@ release_checklist <- function(version, on_cran) {
   )
 }
 
-release_extra <- function(env= NULL) {
+release_extra <- function(env = NULL) {
   if (is.null(env)) {
     env <- tryCatch(
       pkg_env(project_name()),
