@@ -45,7 +45,7 @@ use_code_of_conduct <- function(contact, path = NULL) {
   href <- sub("/$", "", href)
   href <- paste0(href, "/CODE_OF_CONDUCT.html")
 
-  ui_todo("Don't forget to describe the code of conduct in your README:")
+  ui_todo("You may also want to describe the code of conduct in your README:")
   ui_code_block("
     ## Code of Conduct
 
