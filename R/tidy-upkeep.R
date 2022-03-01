@@ -24,6 +24,7 @@ use_tidy_upkeep_issue <- function(year = NULL) {
     title = glue("Upkeep for {project_name()}"),
     body = paste0(checklist, "\n", collapse = "")
   )
+  Sys.sleep(1)
   view_url(issue$html_url)
 }
 

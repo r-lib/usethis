@@ -52,6 +52,7 @@ use_release_issue <- function(version = NULL) {
     body = paste0(checklist, "\n", collapse = "")
   )
 
+  Sys.sleep(1)
   view_url(issue$html_url)
 }
 
@@ -202,6 +203,7 @@ use_github_release <- function(host = deprecated(),
     file_delete(dat$file)
   }
 
+  Sys.sleep(1)
   view_url(release$html_url)
   ui_todo("Publish the release via \"Edit draft\" > \"Publish release\"")
 }
