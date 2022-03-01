@@ -52,6 +52,7 @@ use_release_issue <- function(version = NULL) {
     body = paste0(checklist, "\n", collapse = "")
   )
 
+  Sys.sleep(1)
   view_url(issue$html_url)
 }
 
@@ -118,7 +119,14 @@ release_checklist <- function(version, on_cran) {
   )
 }
 
-release_extra <- function(env = parent.env(globalenv())) {
+release_extra <- function(env = NULL) {
+  if (is.null(env)) {
+    env <- tryCatch(
+      pkg_env(project_name()),
+      error = function(e) emptyenv()
+    )
+  }
+
   if (env_has(env, "release_bullets")) {
     paste0("* [ ] ", env$release_bullets())
   } else if (env_has(env, "release_questions")) {
@@ -202,6 +210,7 @@ use_github_release <- function(host = deprecated(),
     file_delete(dat$file)
   }
 
+  Sys.sleep(1)
   view_url(release$html_url)
   ui_todo("Publish the release via \"Edit draft\" > \"Publish release\"")
 }

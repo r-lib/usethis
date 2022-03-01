@@ -24,6 +24,7 @@ use_tidy_upkeep_issue <- function(year = NULL) {
     title = glue("Upkeep for {project_name()}"),
     body = paste0(checklist, "\n", collapse = "")
   )
+  Sys.sleep(1)
   view_url(issue$html_url)
 }
 
@@ -41,7 +42,7 @@ upkeep_checklist <- function(year = NULL) {
       todo("`usethis::use_roxygen_md()`"),
       todo("`usethis::use_github_links()`"),
       todo("`usethis::use_pkgdown_github_pages()`"),
-      todo("`usethis::use_tidy_labels()`"),
+      todo("`usethis::use_tidy_github_labels()`"),
       todo("`usethis::use_tidy_style()`"),
       todo("`usethis::use_tidy_description()`"),
       todo("`urlchecker::url_check()`"),
@@ -83,6 +84,25 @@ upkeep_checklist <- function(year = NULL) {
         Add RStudio to DESCRIPTION as funder, if appropriate",
         !is_rstudio_funded && is_in_rstudio_org),
       ""
+    )
+  }
+if (year <= 2022) {
+    bullets <- c(bullets,
+     "2022",
+     "",
+     todo("`usethis::use_tidy_coc()`"),
+     todo("
+       Update errors to rlang 1.0.0. Helpful guides:
+       <https://rlang.r-lib.org/reference/topic-error-call.html>
+       <https://rlang.r-lib.org/reference/topic-error-chaining.html>
+       <https://rlang.r-lib.org/reference/topic-condition-formatting.html>"),
+     todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
+     todo("Re-publish released site using [r-lib/pkgdown#2051](https://github.com/r-lib/pkgdown/pull/2051)"),
+     todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
+     todo("Handle and close any still-open `master` --> `main` issues"),
+     todo("Update README badges, instructions in [r-lib/usethis#1594](https://github.com/r-lib/usethis/issues/1594)"),
+
+     ""
     )
   }
 

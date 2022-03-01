@@ -4,8 +4,8 @@
 #' `.Rbuildignore`, in the case of a package. The goal of a code of conduct is
 #' to foster an environment of inclusiveness, and to explicitly discourage
 #' inappropriate behaviour. The template comes from
-#' <https://www.contributor-covenant.org>, version 2:
-#' <https://www.contributor-covenant.org/version/2/0/code_of_conduct/>.
+#' <https://www.contributor-covenant.org>, version 2.1:
+#' <https://www.contributor-covenant.org/version/2/1/code_of_conduct/>.
 #'
 #' If your package is going to CRAN, the link to the CoC in your README must
 #' be an absolute link to a rendered website as `CODE_OF_CONDUCT.md` is not
@@ -41,11 +41,11 @@ use_code_of_conduct <- function(contact, path = NULL) {
   )
 
   href <- pkgdown_url(pedantic = TRUE) %||%
-    "https://contributor-covenant.org/version/2/0"
+    "https://contributor-covenant.org/version/2/1"
   href <- sub("/$", "", href)
   href <- paste0(href, "/CODE_OF_CONDUCT.html")
 
-  ui_todo("Don't forget to describe the code of conduct in your README:")
+  ui_todo("You may also want to describe the code of conduct in your README:")
   ui_code_block("
     ## Code of Conduct
 

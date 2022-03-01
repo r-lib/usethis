@@ -9,7 +9,7 @@
       * [ ] `usethis::use_roxygen_md()`
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
-      * [ ] `usethis::use_tidy_labels()`
+      * [ ] `usethis::use_tidy_github_labels()`
       * [ ] `usethis::use_tidy_style()`
       * [ ] `usethis::use_tidy_description()`
       * [ ] `urlchecker::url_check()`
@@ -30,5 +30,18 @@
       * [ ] Remove check environments section from `cran-comments.md`
       * [ ] Bump required R version in DESCRIPTION to 3.4
       * [ ] Use lifecycle instead of artisanal deprecation messages, as described in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)
+      
+      2022
+      
+      * [ ] `usethis::use_tidy_coc()`
+      * [ ] Update errors to rlang 1.0.0. Helpful guides:
+      <https://rlang.r-lib.org/reference/topic-error-call.html>
+      <https://rlang.r-lib.org/reference/topic-error-chaining.html>
+      <https://rlang.r-lib.org/reference/topic-condition-formatting.html>
+      * [ ] Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>
+      * [ ] Re-publish released site using [r-lib/pkgdown#2051](https://github.com/r-lib/pkgdown/pull/2051)
+      * [ ] Ensure pkgdown `development` is `mode: auto` in pkgdown config
+      * [ ] Handle and close any still-open `master` --> `main` issues
+      * [ ] Update README badges, instructions in [r-lib/usethis#1594](https://github.com/r-lib/usethis/issues/1594)
       
 
