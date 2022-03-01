@@ -91,7 +91,11 @@ if (year <= 2022) {
      "2022",
      "",
      todo("`usethis::use_tidy_coc()`"),
-     todo("Update errors to rlang 1.0.0"),
+     todo("
+       Update errors to rlang 1.0.0. Helpful guides:
+       <https://rlang.r-lib.org/reference/topic-error-call.html>
+       <https://rlang.r-lib.org/reference/topic-error-chaining.html>
+       <https://rlang.r-lib.org/reference/topic-condition-formatting.html>"),
      todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
      todo("Re-publish released site using [r-lib/pkgdown#2051](https://github.com/r-lib/pkgdown/pull/2051)"),
      todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
