@@ -378,7 +378,7 @@ is_rstudio_funded <- function() {
   }
   desc <- desc::desc(file = proj_get())
   funders <- unclass(desc$get_author("fnd"))
-  purrr::some(funders, ~ .x$given == "RStudio")
+  purrr::some(funders, ~ identical(.x$given, "RStudio"))
 }
 
 is_in_rstudio_org <- function() {
