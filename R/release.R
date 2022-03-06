@@ -369,16 +369,58 @@ news_latest <- function(lines) {
 }
 
 is_rstudio_pkg <- function() {
-  is_rstudio_funded() || is_in_rstudio_org()
+  is_rstudio_cph_or_fnd() || is_in_rstudio_org()
 }
 
-is_rstudio_funded <- function() {
+is_rstudio_cph_or_fnd <- function() {
   if (!is_package()) {
     return(FALSE)
   }
+  roles <- get_rstudio_roles()
+  "cph" %in% roles || "fnd" %in% roles
+}
+
+is_rstudio_person_canonical <- function() {
+  if (!is_package()) {
+    return(FALSE)
+  }
+  roles <- get_rstudio_roles()
+  length(roles) > 0 &&
+    "fnd" %in% roles &&
+    "cph" %in% roles &&
+    attr(roles, "appears_in", exact = TRUE) == "given" &&
+    attr(roles, "appears_as", exact = TRUE) == "RStudio"
+}
+
+get_rstudio_roles <- function() {
+  if (!is_package()) {
+    return()
+  }
+
   desc <- desc::desc(file = proj_get())
-  funders <- unclass(desc$get_author("fnd"))
-  purrr::some(funders, ~ identical(.x$given, "RStudio"))
+  fnd <- unclass(desc$get_author("fnd"))
+  cph <- unclass(desc$get_author("cph"))
+
+  detect_rstudio <- function(x) {
+    any(grepl("rstudio", tolower(x[c("given", "family")])))
+  }
+  fnd <- purrr::keep(fnd, detect_rstudio)
+  cph <- purrr::keep(cph, detect_rstudio)
+
+  if (length(fnd) < 1 && length(cph) < 1) {
+    return(character())
+  }
+
+  person <- c(fnd, cph)[[1]]
+  out <- person$role
+  if (!is.null(person$given) && nzchar(person$given)) {
+    attr(out, "appears_as") <- person$given
+    attr(out, "appears_in") <- "given"
+  } else {
+    attr(out, "appears_as") <- person$family
+    attr(out, "appears_in") <- "family"
+  }
+  out
 }
 
 is_in_rstudio_org <- function() {

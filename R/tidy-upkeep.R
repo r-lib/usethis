@@ -28,10 +28,12 @@ use_tidy_upkeep_issue <- function(year = NULL) {
   view_url(issue$html_url)
 }
 
-upkeep_checklist <- function(year = NULL) {
+upkeep_checklist <- function(year = NULL,
+                             rstudio_pkg = is_rstudio_pkg(),
+                             rstudio_person_ok = is_rstudio_person_canonical()) {
   year <- year %||% 2000
-  is_rstudio_funded <- is_rstudio_funded()
-  is_in_rstudio_org <- is_in_rstudio_org()
+
+
   bullets <- c()
 
   if (year <= 2000) {
@@ -80,9 +82,11 @@ upkeep_checklist <- function(year = NULL) {
       todo("
         Use lifecycle instead of artisanal deprecation messages, as described \\
         in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)"),
-      todo("
-        Add RStudio to DESCRIPTION as funder, if appropriate",
-        !is_rstudio_funded && is_in_rstudio_org),
+      todo('
+        Make sure RStudio appears in `Authors@R` of DESCRIPTION like so, if appropriate:
+        `person("RStudio", role = c("cph", "fnd"))`',
+        rstudio_pkg && !rstudio_person_ok),
+
       ""
     )
   }
