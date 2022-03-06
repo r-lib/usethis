@@ -37,16 +37,16 @@ test_that("get extra news bullets if available", {
 test_that("RStudio-ness detection works", {
   create_local_package()
 
-  expect_false(is_rstudio_funded())
-  expect_false(is_in_rstudio_org())
+  expect_false(is_rstudio_pkg())
 
   desc <- desc::desc(file = proj_get())
-  desc$add_author(given = "RStudio", role = "fnd")
+  desc$add_author(given = "RstuDio, PbC", role = "fnd")
   desc$add_urls("https://github.com/tidyverse/WHATEVER")
   desc$write()
 
-  expect_true(is_rstudio_funded())
+  expect_true(is_rstudio_pkg())
   expect_true(is_in_rstudio_org())
+  expect_false(is_rstudio_person_canonical())
 
   expect_snapshot(
     writeLines(release_checklist("1.0.0", on_cran = TRUE)),

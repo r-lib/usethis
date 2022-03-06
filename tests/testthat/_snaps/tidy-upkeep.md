@@ -1,7 +1,7 @@
 # upkeep bullets don't change accidentally
 
     Code
-      writeLines(upkeep_checklist())
+      writeLines(upkeep_checklist(rstudio_pkg = TRUE, rstudio_person_ok = FALSE))
     Output
       Pre-history
       
@@ -30,6 +30,8 @@
       * [ ] Remove check environments section from `cran-comments.md`
       * [ ] Bump required R version in DESCRIPTION to 3.4
       * [ ] Use lifecycle instead of artisanal deprecation messages, as described in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)
+      * [ ] Make sure RStudio appears in `Authors@R` of DESCRIPTION like so, if appropriate:
+      `person("RStudio", role = c("cph", "fnd"))`
       
       2022
       
