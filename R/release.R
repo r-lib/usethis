@@ -93,7 +93,6 @@ release_checklist <- function(version, on_cran) {
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran && !is_rstudio_pkg),
     todo("`revdepcheck::cloud_check()`", on_cran && is_rstudio_pkg),
     todo("Update `cran-comments.md`", on_cran),
-    todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown && type != "patch"),
     todo("`git push`"),
     todo("Draft blog post", type != "patch"),
     todo("Slack link to draft blog in #open-source-comms", type != "patch" && is_rstudio_pkg),
