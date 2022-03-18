@@ -3,16 +3,18 @@
     {
       "name": "Mac",
       "includePath": [
-        "${workspaceFolder}/**",
+        "${workspaceFolder}/**",{{{ linking_to_includes }}}
         "/Library/Frameworks/R.framework/Resources/include",
-        "/Library/Frameworks/R.framework/Versions/Current/Resources/library/cpp11/include"
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include",
+        "/usr/local/include"
       ],
       "macFrameworkPath": [
         "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
       ],
       "compilerPath": "/usr/bin/clang",
       "cStandard": "c99",
-      "cppStandard": "c++11"
+      "cppStandard": "c++11",
+      "intelliSenseMode": "macos-clang-x64"
     }
   ],
   "version": 4
