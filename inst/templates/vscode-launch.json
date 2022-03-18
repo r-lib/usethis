@@ -9,7 +9,7 @@
       "args": [
         "--vanilla",
         "-e",
-        "source('tools/debug.R')"
+        "source('debug/debug.R')"
       ],
       "env": {
         "R_HOME" : "/Library/Frameworks/R.framework/Resources"
