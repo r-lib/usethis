@@ -15,5 +15,5 @@ use_RdTemplate <- function(templateName){
   }
   pth <- paste0("man-roxygen/", templateName, ".R")
   file.create(pth)
-  file.edit(pth)
+  utils::file.edit(pth)
 }
