@@ -30,7 +30,10 @@ If you use \code{Rmd}, you'll still need to render it regularly, to keep
 \code{README.md} up-to-date. \code{devtools::build_readme()} is handy for this. You
 could also use GitHub Actions to re-render \code{README.Rmd} every time you push.
 An example workflow can be found in the \verb{examples/} directory here:
-\url{https://github.com/r-lib/actions/}.
+\url{https://github.com/r-lib/actions/}. If git is used for the project, then
+a pre-commit hook is added that prevents \code{README.md} from being outdated due
+to changes in \code{README.Rmd}. (Modify \code{.git/hooks/pre-commit} to remove this
+check.)
 }
 \examples{
 \dontrun{

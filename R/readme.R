@@ -15,7 +15,10 @@
 #' `README.md` up-to-date. `devtools::build_readme()` is handy for this. You
 #' could also use GitHub Actions to re-render `README.Rmd` every time you push.
 #' An example workflow can be found in the `examples/` directory here:
-#' <https://github.com/r-lib/actions/>.
+#' <https://github.com/r-lib/actions/>. If git is used for the project, then
+#' a pre-commit hook is added that prevents `README.md` from being outdated due
+#' to changes in `README.Rmd`. (Modify `.git/hooks/pre-commit` to remove this
+#' check.)
 #'
 #' @inheritParams use_template
 #' @seealso The [important files
