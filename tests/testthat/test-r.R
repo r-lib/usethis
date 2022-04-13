@@ -1,11 +1,13 @@
 test_that("use_r() creates a .R file below R/", {
   create_local_package()
+  expect_error(use_r(""), "Name must not be an empty string")
   use_r("foo")
   expect_proj_file("R/foo.R")
 })
 
 test_that("use_test() creates a test file", {
   create_local_package()
+  expect_error(use_test("", open = FALSE), "Name must not be an empty string")
   use_test("foo", open = FALSE)
   expect_proj_file("tests", "testthat", "test-foo.R")
 })
