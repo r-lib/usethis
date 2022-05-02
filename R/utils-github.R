@@ -597,7 +597,7 @@ stop_maybe_github_remote_config <- function(cfg) {
     personal access token
     Call {ui_code('gh_token_help()')} for help")
   abort(
-    message = unname(msg),
+    message = unname(unlist(msg)),
     class = c("usethis_error_invalid_pr_config", "usethis_error"),
     cfg = cfg
   )

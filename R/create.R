@@ -224,7 +224,7 @@ create_from_github <- function(repo_spec,
 
   source_owner <- spec_owner(repo_spec)
   repo_name <- spec_repo(repo_spec)
-  gh <- gh_tr(list(repo_owner = source_owner, repo_name = repo_name, .api_url = host))
+  gh <- gh_tr(list(repo_owner = source_owner, repo_name = repo_name, api_url = host))
 
   repo_info <- gh("GET /repos/{owner}/{repo}")
   # 2020-10-14 GitHub has had some bugs lately around default branch

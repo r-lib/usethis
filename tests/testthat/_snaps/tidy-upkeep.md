@@ -1,7 +1,7 @@
 # upkeep bullets don't change accidentally
 
     Code
-      writeLines(upkeep_checklist())
+      writeLines(upkeep_checklist(rstudio_pkg = TRUE, rstudio_person_ok = FALSE))
     Output
       Pre-history
       
@@ -30,18 +30,20 @@
       * [ ] Remove check environments section from `cran-comments.md`
       * [ ] Bump required R version in DESCRIPTION to 3.4
       * [ ] Use lifecycle instead of artisanal deprecation messages, as described in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)
+      * [ ] Make sure RStudio appears in `Authors@R` of DESCRIPTION like so, if appropriate:
+      `person("RStudio", role = c("cph", "fnd"))`
       
       2022
       
       * [ ] `usethis::use_tidy_coc()`
+      * [ ] Handle and close any still-open `master` --> `main` issues
+      * [ ] Update README badges, instructions in [r-lib/usethis#1594](https://github.com/r-lib/usethis/issues/1594)
       * [ ] Update errors to rlang 1.0.0. Helpful guides:
       <https://rlang.r-lib.org/reference/topic-error-call.html>
       <https://rlang.r-lib.org/reference/topic-error-chaining.html>
       <https://rlang.r-lib.org/reference/topic-condition-formatting.html>
       * [ ] Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>
-      * [ ] Re-publish released site using [r-lib/pkgdown#2051](https://github.com/r-lib/pkgdown/pull/2051)
       * [ ] Ensure pkgdown `development` is `mode: auto` in pkgdown config
-      * [ ] Handle and close any still-open `master` --> `main` issues
-      * [ ] Update README badges, instructions in [r-lib/usethis#1594](https://github.com/r-lib/usethis/issues/1594)
+      * [ ] Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)
       
 

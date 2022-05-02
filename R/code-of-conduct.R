@@ -28,17 +28,7 @@ use_code_of_conduct <- function(contact, path = NULL) {
         first argument")
   }
 
-  if (!is.null(path)) {
-    use_directory(path, ignore = is_package())
-  }
-  save_as <- path_join(c(path, "CODE_OF_CONDUCT.md"))
-
-  new <- use_template(
-    "CODE_OF_CONDUCT.md",
-    save_as = save_as,
-    data = list(contact = contact),
-    ignore = is_package() && is.null(path)
-  )
+  new <- use_coc(contact = contact, path = path)
 
   href <- pkgdown_url(pedantic = TRUE) %||%
     "https://contributor-covenant.org/version/2/1"
@@ -55,4 +45,18 @@ use_code_of_conduct <- function(contact, path = NULL) {
   )
 
   invisible(new)
+}
+
+use_coc <- function(contact, path = NULL) {
+  if (!is.null(path)) {
+    use_directory(path, ignore = is_package())
+  }
+  save_as <- path_join(c(path, "CODE_OF_CONDUCT.md"))
+
+  use_template(
+    "CODE_OF_CONDUCT.md",
+    save_as = save_as,
+    data = list(contact = contact),
+    ignore = is_package() && is.null(path)
+  )
 }
