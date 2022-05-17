@@ -97,9 +97,10 @@ usethis has a more sophisticated understanding of the default branch and gains s
 
 ## Package development
 
-* `use_readme_[r]?md()` no longer includes CRAN installation instructions in the
-  initial template; instead, we only include GitHub-based install instructions
-  or otherwise prompt the user to update instructions (#1507).
+* `use_readme_rmd()` and `use_readme_md()` no longer include CRAN installation
+  instructions in the initial template; instead, we only include GitHub-based
+  install instructions or otherwise prompt the user to update instructions
+  (#1507).
 
 * `use_import_from()` is a new function that puts `@importFrom pkg fun`
   directives into a package in a consistent location (@malcolmbarrett, #1377).
