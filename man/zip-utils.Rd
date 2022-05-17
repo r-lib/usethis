@@ -16,14 +16,16 @@ use_zip(
 }
 \arguments{
 \item{url}{Link to a ZIP file containing the materials. To reduce the chance
-of typos in live settings, these shorter forms are accepted:\preformatted{* GitHub repo spec: "OWNER/REPO". Equivalent to
+of typos in live settings, these shorter forms are accepted:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{* GitHub repo spec: "OWNER/REPO". Equivalent to
   `https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip`.
 * bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
   The instructor must then arrange for the shortlink to point to a valid
   download URL for the target ZIP file. The helper
   [create_download_url()] helps to create such URLs for GitHub, DropBox,
   and Google Drive.
-}}
+}\if{html}{\out{</div>}}}
 
 \item{destdir}{The new folder is stored here. If \code{NULL}, defaults to user's
 Desktop or some other conspicuous place. You can also set a default
