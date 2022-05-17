@@ -1,2 +1,1 @@
-pre_test_options <- options(usethis.quiet = TRUE)
-withr::defer(options(pre_test_options), teardown_env())
+withr::local_options(usethis.quiet = TRUE, .local_envir = teardown_env())
