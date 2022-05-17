@@ -3,7 +3,7 @@
     Code
       use_github_action(url = "https://raw.githubusercontent.com/r-lib/actions/v2/examples/check-full.yaml",
         readme = "https://github.com/r-lib/actions/blob/v2/examples/README.md")
-    Message <rlang_message>
+    Message
       v Creating '.github/'
       v Adding '^\\.github$' to '.Rbuildignore'
       v Adding '*.html' to '.github/.gitignore'
@@ -22,7 +22,8 @@
 
     Code
       check_uses_github_actions()
-    Error <usethis_error>
-      Cannot detect that package '{TESTPKG}' already uses GitHub Actions.
+    Condition
+      Error:
+      ! Cannot detect that package '{TESTPKG}' already uses GitHub Actions.
       Do you need to run `use_github_actions()`?
 
