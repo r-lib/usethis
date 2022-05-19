@@ -1,5 +1,7 @@
 # usethis (development version)
 
+`use_data()` gains an `ascii` argument, which is passed along to `save()` (@JosiahParry, #1625).
+
 `use_code_of_conduct()` has been updated to version 2.1 of the Contributor Covenant (@batpigandme, #1591).
 
 `use_github_action()` and friends gain a `ref` argument, which defaults to the tag of the latest release in <https://github.com/r-lib/actions> (#1541).
