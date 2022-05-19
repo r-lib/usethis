@@ -85,7 +85,8 @@ recommend you save scripts that generate package data in <code>data-raw</code>: 
   internal <span class="op">=</span> <span class="cn">FALSE</span>,
   overwrite <span class="op">=</span> <span class="cn">FALSE</span>,
   compress <span class="op">=</span> <span class="st">"bzip2"</span>,
-  version <span class="op">=</span> <span class="fl">2</span>
+  version <span class="op">=</span> <span class="fl">2</span>,
+  ascii <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span>
 
 <span class="fu">use_data_raw</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DATASET"</span>, open <span class="op">=</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -114,6 +115,12 @@ Should be one of "gzip", "bzip2", or "xz".</p></dd>
 <dd><p>The serialization format version to use. The default, 2, was
 the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
 R 3.6.0 and can only be read by R versions 3.5.0 and higher.</p></dd>
+<dt>ascii</dt>
+<dd><p>if <code>TRUE</code>, an ASCII representation of the data is
+    written.  The default value of <code>ascii</code> is <code>FALSE</code> which
+    leads to a binary file being written.  If <code>NA</code> and
+    <code>version &gt;= 2</code>, a different ASCII representation is used which
+    writes double/complex numbers as binary fractions.</p></dd>
 <dt>name</dt>
 <dd><p>Name of the dataset to be prepared for inclusion in the package.</p></dd>
 <dt>open</dt>
