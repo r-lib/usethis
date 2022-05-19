@@ -3,8 +3,8 @@
     Code
       use_vignette()
     Condition
-      Error in `is.factor()`:
-      ! argument "name" is missing, with no default
+      Error in `use_vignette()`:
+      ! `name` is absent but must be supplied.
     Code
       use_vignette("bad name")
     Condition
