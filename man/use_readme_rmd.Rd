@@ -14,9 +14,9 @@ use_readme_md(open = rlang::is_interactive())
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
-Creates skeleton README files with sections for
+Creates skeleton README files with possible stubs for
 \itemize{
-\item a high-level description of the package and its goals
+\item a high-level description of the project/package and its goals
 \item R code to install from GitHub, if GitHub usage detected
 \item a basic example
 }
@@ -31,6 +31,13 @@ If you use \code{Rmd}, you'll still need to render it regularly, to keep
 could also use GitHub Actions to re-render \code{README.Rmd} every time you push.
 An example workflow can be found in the \verb{examples/} directory here:
 \url{https://github.com/r-lib/actions/}.
+
+If the current project is a Git repo, then \code{use_readme_rmd()} automatically
+configures a pre-commit hook that helps keep \code{README.Rmd} and \code{README.md},
+synchronized. The hook creates friction if you try to commit when
+\code{README.Rmd} has been edited more recently than \code{README.md}. If this hook
+causes more problems than it solves for you, it is implemented in
+\code{.git/hooks/pre-commit}, which you can modify or even delete.
 }
 \examples{
 \dontrun{

@@ -21,6 +21,7 @@
 #' @param version The serialization format version to use. The default, 2, was
 #'   the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
 #'   R 3.6.0 and can only be read by R versions 3.5.0 and higher.
+#' @inheritParams base::save
 #'
 #' @seealso The [data chapter](https://r-pkgs.org/data.html) of [R
 #'   Packages](https://r-pkgs.org).
@@ -37,7 +38,8 @@ use_data <- function(...,
                      internal = FALSE,
                      overwrite = FALSE,
                      compress = "bzip2",
-                     version = 2) {
+                     version = 2,
+                     ascii = FALSE) {
   check_is_package("use_data()")
 
   objs <- get_objs_from_dots(dots(...))
@@ -66,7 +68,7 @@ use_data <- function(...,
     save,
     list = objs,
     file = proj_path(paths),
-    MoreArgs = list(envir = envir, compress = compress, version = version)
+    MoreArgs = list(envir = envir, compress = compress, version = version, ascii = ascii)
   )
 
   invisible()

@@ -2,6 +2,8 @@
 
 `use_rscloud_badge()` is a new function that creates a README badge indicating the repository can be launched in an [RStudio Cloud](https://rstudio.cloud) project (@gvelasq, #1584).
 
+`use_data()` gains an `ascii` argument, which is passed along to `save()` (@JosiahParry, #1625).
+
 `use_code_of_conduct()` has been updated to version 2.1 of the Contributor Covenant (@batpigandme, #1591).
 
 `use_github_action()` and friends gain a `ref` argument, which defaults to the tag of the latest release in <https://github.com/r-lib/actions> (#1541).
@@ -99,9 +101,10 @@ usethis has a more sophisticated understanding of the default branch and gains s
 
 ## Package development
 
-* `use_readme_[r]?md()` no longer includes CRAN installation instructions in the
-  initial template; instead, we only include GitHub-based install instructions
-  or otherwise prompt the user to update instructions (#1507).
+* `use_readme_rmd()` and `use_readme_md()` no longer include CRAN installation
+  instructions in the initial template; instead, we only include GitHub-based
+  install instructions or otherwise prompt the user to update instructions
+  (#1507).
 
 * `use_import_from()` is a new function that puts `@importFrom pkg fun`
   directives into a package in a consistent location (@malcolmbarrett, #1377).

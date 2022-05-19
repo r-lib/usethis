@@ -2,8 +2,9 @@
 
     Code
       stop_bad_github_remote_config(cfg)
-    Error <usethis_error_bad_github_remote_config>
-      Unsupported GitHub remote configuration: 'fork_upstream_is_not_origin_parent'
+    Condition
+      Error in `stop_bad_github_remote_config()`:
+      ! Unsupported GitHub remote configuration: 'fork_upstream_is_not_origin_parent'
       * Host = 'https://github.com'
       * origin = 'jennybc/gh' (can push) = fork of NA
       * upstream = 'r-pkgs/gh' (can push)
