@@ -73,6 +73,18 @@ test_that("use_data() writes version 2 by default", {
   )
 })
 
+test_that("use_data() can enforce `ascii = TRUE`", {
+  create_local_package()
+
+  x <- "h\u00EF"
+
+  use_data(x)
+  expect_false(tools::checkRdaFiles("data/x.rda")[["ASCII"]])
+
+  use_data(x, ascii = TRUE, overwrite = TRUE)
+  expect_true(tools::checkRdaFiles("data/x.rda")[["ASCII"]])
+})
+
 test_that("use_data_raw() does setup", {
   create_local_package()
   use_data_raw(open = FALSE)
