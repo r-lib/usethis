@@ -21,7 +21,7 @@
 #' @param version The serialization format version to use. The default, 2, was
 #'   the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
 #'   R 3.6.0 and can only be read by R versions 3.5.0 and higher.
-#' @param ascii Default `FALSE`. If `TRUE`, all objects will be written as an ASCII representation.
+#' @inheritParams base::save
 #'
 #' @seealso The [data chapter](https://r-pkgs.org/data.html) of [R
 #'   Packages](https://r-pkgs.org).

@@ -39,7 +39,11 @@ Should be one of "gzip", "bzip2", or "xz".}
 the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
 R 3.6.0 and can only be read by R versions 3.5.0 and higher.}
 
-\item{ascii}{Default \code{FALSE}. If \code{TRUE}, all objects will be written as an ASCII representation.}
+\item{ascii}{if \code{TRUE}, an ASCII representation of the data is
+    written.  The default value of \code{ascii} is \code{FALSE} which
+    leads to a binary file being written.  If \code{NA} and
+    \code{version >= 2}, a different ASCII representation is used which
+    writes double/complex numbers as binary fractions.}
 
 \item{name}{Name of the dataset to be prepared for inclusion in the package.}
 
