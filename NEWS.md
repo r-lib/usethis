@@ -1,5 +1,7 @@
 # usethis (development version)
 
+`use_rscloud_badge()` is a new function that creates a README badge indicating the repository can be launched in an [RStudio Cloud](https://rstudio.cloud) project (@gvelasq, #1584).
+
 `use_data()` gains an `ascii` argument, which is passed along to `save()` (@JosiahParry, #1625).
 
 `use_code_of_conduct()` has been updated to version 2.1 of the Contributor Covenant (@batpigandme, #1591).
