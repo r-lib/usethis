@@ -99,12 +99,25 @@ script.</p>
     <dl><dt>name</dt>
 <dd><p>Either a name without extension, or <code>NULL</code> to create the
 paired file based on currently open file in the script editor. If
-the R file is open, <code>use_test()</code> will create/open the corresponding
+the <code>R/</code> file is open, <code>use_test()</code> will create/open the corresponding
 test file; if the test file is open, <code>use_r()</code> will create/open the
-corresponding R file.</p></dd>
+corresponding <code>R/</code> file.</p></dd>
 <dt>open</dt>
 <dd><p>Whether to open the file for interactive editing.</p></dd>
 </dl></div>
+    <div class="section level2">
+    <h2 id="renaming-files-in-an-existing-package">Renaming files in an existing package<a class="anchor" aria-label="anchor" href="#renaming-files-in-an-existing-package"></a></h2>
+    
+
+
+<p>Here are some tips on aligning file names across <code>R/</code> and <code>tests/testthat/</code>
+in an existing package that did not necessarily follow this convention
+before.</p>
+<p>This script generates a data frame of <code>R/</code> and test files that can help you
+identify missed opportunities for pairing:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p>The <code><a href="rename_files.html">rename_files()</a></code> function can also be helpful.</p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>The <a href="https://r-pkgs.org/tests.html" class="external-link">testing</a> and
