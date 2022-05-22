@@ -1,5 +1,7 @@
 # usethis (development version)
 
+`use_roxygen_md()` gains an `overwrite` argument (#1599).
+
 `use_rscloud_badge()` is a new function that creates a README badge indicating the repository can be launched in an [RStudio Cloud](https://rstudio.cloud) project (@gvelasq, #1584).
 
 `use_data()` gains an `ascii` argument, which is passed along to `save()` (@JosiahParry, #1625).
