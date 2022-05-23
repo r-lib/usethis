@@ -46,7 +46,6 @@ Imports:
     rprojroot (>= 1.2),
     rstudioapi,
     stats,
-    tools,
     utils,
     whisker,
     withr (>= 2.3.0),
