@@ -21,7 +21,8 @@
       `usethis::use_import_from()` is handy for this.
       * [ ] `usethis::use_testthat(3)` and upgrade to 3e, [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)
       * [ ] Align the names of `R/` files and `test/` files for workflow happiness.
-      `usethis::rename_files()` can be helpful.
+      The docs for `usethis::use_r()` include a helpful script.
+      `usethis::rename_files()` may be be useful.
       
       2021
       
