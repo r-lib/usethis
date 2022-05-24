@@ -69,7 +69,7 @@ pkgdown_version <- function() {
 #' @export
 use_pkgdown_github_pages <- function() {
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
-  # TODO: feels like there should be a can_push challenge here
+  check_can_push(tr = tr, "to turn on GitHub Pages")
 
   use_pkgdown()
   site <- use_github_pages()

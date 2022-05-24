@@ -645,6 +645,16 @@ check_for_config <- function(cfg = NULL,
     Internal error: Unexpected GitHub remote configuration: {ui_value(cfg$type)}")
 }
 
+check_can_push <- function(tr = target_repo(github_get = TRUE),
+                           objective = "for this operation") {
+  if (isTRUE(tr$can_push)) {
+    return(invisible())
+  }
+  ui_stop("
+    You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
+    is required {objective}.")
+}
+
 # github remote configurations -------------------------------------------------
 all_configs <- function() {
   c(

@@ -52,11 +52,8 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
   stopifnot(is_string(branch), is_string(path))
   stopifnot(is.na(cname) || is.null(cname) || is_string(cname))
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
-  if (!isTRUE(tr$can_push)) {
-    ui_stop("
-      You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
-      is required to turn on GitHub Pages.")
-  }
+  check_can_push(tr = tr, "to turn on GitHub Pages")
+
   gh <- gh_tr(tr)
   safe_gh <- purrr::safely(gh)
 

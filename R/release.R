@@ -180,11 +180,7 @@ use_github_release <- function(host = deprecated(),
   }
 
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
-  if (!isTRUE(tr$can_push)) {
-    ui_stop("
-      You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
-      is required to draft a release.")
-  }
+  check_can_push(tr = tr, "to draft a release")
 
   dat <- get_release_data(tr)
   release_name <- glue("{dat$Package} {dat$Version}")
