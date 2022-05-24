@@ -68,7 +68,8 @@ pkgdown_version <- function() {
 #' @rdname use_pkgdown
 #' @export
 use_pkgdown_github_pages <- function() {
-  tr <- target_repo(github_get = TRUE)
+  tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
+  # TODO: feels like there should be a can_push challenge here
 
   use_pkgdown()
   site <- use_github_pages()

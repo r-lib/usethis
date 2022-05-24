@@ -51,7 +51,7 @@
 use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
   stopifnot(is_string(branch), is_string(path))
   stopifnot(is.na(cname) || is.null(cname) || is_string(cname))
-  tr <- target_repo(github_get = TRUE)
+  tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   if (!isTRUE(tr$can_push)) {
     ui_stop("
       You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\

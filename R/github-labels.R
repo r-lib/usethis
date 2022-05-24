@@ -74,7 +74,7 @@ use_github_labels <- function(repo_spec = deprecated(),
     deprecate_warn_auth_token("use_github_labels")
   }
 
-  tr <- target_repo(github_get = TRUE)
+  tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   if (!isTRUE(tr$can_push)) {
     ui_stop("
       You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\

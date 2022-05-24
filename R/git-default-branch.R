@@ -418,7 +418,7 @@ rediscover_default_branch <- function(old_name = NULL, report_on_source = TRUE) 
   }
 
   cfg <- github_remote_config(github_get = TRUE)
-  check_for_config(cfg, ok_configs = c("ours", "fork", "theirs"))
+  check_for_config(cfg)
 
   tr <- target_repo(cfg, role = "source", ask = FALSE)
   db <- tr$default_branch

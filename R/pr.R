@@ -366,7 +366,7 @@ pr_fetch <- function(number = NULL, target = c("source", "primary")) {
 pr_push <- function() {
   repo <- git_repo()
   cfg <- github_remote_config(github_get = TRUE)
-  check_for_config(cfg)
+  check_for_config(cfg, ok_configs = c("ours", "fork"))
   default_branch <- git_default_branch()
   check_pr_branch(default_branch)
   challenge_uncommitted_changes()

@@ -462,7 +462,8 @@ github_remote_config <- function(github_get = NA) {
 target_repo <- function(cfg = NULL,
                         github_get = NA,
                         role = c("source", "primary"),
-                        ask = is_interactive()) {
+                        ask = is_interactive(),
+                        ok_configs = c("ours", "fork", "theirs")) {
   cfg <- cfg %||% github_remote_config(github_get = github_get)
   stopifnot(inherits(cfg, "github_remote_config"))
   role <- match.arg(role)
@@ -470,7 +471,7 @@ target_repo <- function(cfg = NULL,
   check_for_bad_config(cfg)
 
   if (isTRUE(github_get)) {
-    check_for_config(cfg)
+    check_for_config(cfg, ok_configs = ok_configs)
   }
 
   # upstream only
@@ -624,14 +625,22 @@ check_for_maybe_config <- function(cfg) {
   invisible()
 }
 
-check_for_config <- function(cfg = NULL, ok_configs = c("ours", "fork")) {
+check_for_config <- function(cfg = NULL,
+                             ok_configs = c("ours", "fork", "theirs")) {
   cfg <- cfg %||% github_remote_config(github_get = TRUE)
   stopifnot(inherits(cfg, "github_remote_config"))
+
   if (cfg$type %in% ok_configs) {
     return(invisible(cfg))
   }
-  check_for_bad_config(cfg)
+
   check_for_maybe_config(cfg)
+
+  bad_configs <- grep("^maybe_", all_configs(), invert = TRUE, value = TRUE)
+  bad_configs <- setdiff(bad_configs, ok_configs)
+
+  check_for_bad_config(cfg, bad_configs = bad_configs)
+
   ui_stop("
     Internal error: Unexpected GitHub remote configuration: {ui_value(cfg$type)}")
 }

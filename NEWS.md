@@ -1,5 +1,7 @@
 # usethis (development version)
 
+GitHub-related functions error more clearly when the requested operation can't be carried out in the "theirs" remote configuration (#1588).
+
 `use_roxygen_md()` gains an `overwrite` argument (#1599).
 
 `use_rscloud_badge()` is a new function that creates a README badge indicating the repository can be launched in an [RStudio Cloud](https://rstudio.cloud) project (@gvelasq, #1584).
