@@ -92,7 +92,7 @@ use_description_defaults <- function(package = NULL,
     Version = "0.0.0.9000",
     Title = "What the Package Does (One Line, Title Case)",
     Description = "What the package does (one paragraph).",
-    "Authors@R" = 'person("First", "Last", , "first.last@example.com", c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
+    "Authors@R" = 'person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "`use_mit_license()`, `use_gpl3_license()` or friends to pick a license",
     Encoding = "UTF-8"
   )
