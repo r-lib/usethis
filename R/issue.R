@@ -46,7 +46,8 @@ issue_close_community <- function(number, reprex = FALSE) {
       Unless you have triage permissions, you won't be allowed to close an \\
       issue.")
     if (ui_nope("Do you want to try anyway?")) {
-      ui_stop("Aborting.")
+      ui_oops("Cancelling.")
+      return(invisible())
     }
   }
 
@@ -92,7 +93,8 @@ issue_reprex_needed <- function(number) {
       Unless you have triage permissions, you won't be allowed to label an \\
       issue.")
     if (ui_nope("Do you want to try anyway?")) {
-      ui_stop("Aborting.")
+      ui_oops("Cancelling.")
+      return(invisible())
     }
   }
 

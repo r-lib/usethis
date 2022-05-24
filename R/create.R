@@ -329,7 +329,7 @@ challenge_nested_project <- function(path, name) {
     is regarded as a project."
   )
   if (ui_nope("Do you want to create anyway?")) {
-    ui_stop("Aborting project creation.")
+    ui_stop("Cancelling project creation.")
   }
   invisible()
 }
