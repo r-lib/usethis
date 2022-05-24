@@ -1,3 +1,14 @@
+# we understand the list of all possible configs
+
+    Code
+      all_configs()
+    Output
+      [1] "no_github"                          "ours"                              
+      [3] "theirs"                             "maybe_ours_or_theirs"              
+      [5] "fork"                               "maybe_fork"                        
+      [7] "fork_cannot_push_origin"            "fork_upstream_is_not_origin_parent"
+      [9] "upstream_but_origin_is_not_fork"   
+
 # fork_upstream_is_not_origin_parent is detected
 
     Code

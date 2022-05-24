@@ -616,11 +616,8 @@ check_for_bad_config <- function(cfg,
   invisible()
 }
 
-check_for_maybe_config <- function(cfg,
-                                   maybe_configs = c(
-                                     "maybe_ours_or_theirs",
-                                     "maybe_fork"
-                                   )) {
+check_for_maybe_config <- function(cfg) {
+  maybe_configs <- grep("^maybe_", all_configs(), value = TRUE)
   if (cfg$type %in% maybe_configs) {
     stop_maybe_github_remote_config(cfg)
   }
@@ -640,7 +637,20 @@ check_for_config <- function(cfg = NULL, ok_configs = c("ours", "fork")) {
 }
 
 # github remote configurations -------------------------------------------------
-# use for configs
+all_configs <- function() {
+  c(
+    "no_github",
+    "ours",
+    "theirs",
+    "maybe_ours_or_theirs",
+    "fork",
+    "maybe_fork",
+    "fork_cannot_push_origin",
+    "fork_upstream_is_not_origin_parent",
+    "upstream_but_origin_is_not_fork"
+  )
+}
+
 read_more <- function() {
   glue("
     Read more about the GitHub remote configurations that usethis supports at:
