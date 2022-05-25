@@ -2,7 +2,7 @@
 
 ## Failed to check (1)
 
-|package |version |error |warning |note |
-|:-------|:-------|:-----|:-------|:----|
-|NA      |?       |      |        |     |
+|package     |version |error |warning |note |
+|:-----------|:-------|:-----|:-------|:----|
+|animalcules |?       |      |        |     |
 
