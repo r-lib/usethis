@@ -35,10 +35,10 @@
 #'
 
 #' @seealso
-#' * [use_pkgdown_github_pages()] combines `use_github_pages()` with other functions to
-#' fully configure a pkgdown site
-#' * <https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages>
-#' * <https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#pages>
+#' * [use_pkgdown_github_pages()] combines `use_github_pages()` with other
+#' functions to fully configure a pkgdown site
+#' * <https://docs.github.com/en/pages>
+#' * <https://docs.github.com/en/rest/pages>
 
 #' @return Site metadata returned by the GitHub API, invisibly
 #' @export
