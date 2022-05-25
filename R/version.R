@@ -1,20 +1,34 @@
 #' Increment package version
 #'
-#' @description `use_version()` increments the "Version" field in `DESCRIPTION`,
-#'   adds a new heading to `NEWS.md` (if it exists), and commits those changes
-#'   (if package uses Git). It makes the same update to a line like `PKG_version
-#'   = "x.y.z";` in `src/version.c` (if it exists).
+#' @description
 #'
-#' @description `use_dev_version()` increments to a development version, e.g.
-#'   from 1.0.0 to 1.0.0.9000. If the existing version is already a development
-#'   version with four components, it does nothing. Thin wrapper around
-#'   `use_version()`.
+
+#' usethis supports semantic versioning, which is described in more detail in
+#' the [version
+#' section](https://r-pkgs.org/description.html#description-version) of [R
+#' Packages](https://r-pkgs.org). A version number breaks down like so:
 #'
+#'     <major>.<minor>.<patch>       (released version)
+#'     <major>.<minor>.<patch>.<dev> (dev version)
+#'
+
+#' `use_version()` increments the "Version" field in `DESCRIPTION`, adds a new
+#' heading to `NEWS.md` (if it exists), and commits those changes (if package
+#' uses Git). It makes the same update to a line like `PKG_version = "x.y.z";`
+#' in `src/version.c` (if it exists).
+#'
+
+#' `use_dev_version()` increments to a development version, e.g. from 1.0.0 to
+#' 1.0.0.9000. If the existing version is already a development version with
+#' four components, it does nothing. Thin wrapper around `use_version()`.
+#'
+
 #' @param which A string specifying which level to increment, one of: "major",
 #'   "minor", "patch", "dev". If `NULL`, user can choose interactively.
+
 #'
 #' @seealso The [version
-#'   section](https://r-pkgs.org/description.html#version) of [R
+#'   section](https://r-pkgs.org/description.html#description-version) of [R
 #'   Packages](https://r-pkgs.org).
 #'
 #' @examples
