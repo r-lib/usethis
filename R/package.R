@@ -133,15 +133,28 @@ how_to_use <- function(package, type) {
       "Are you sure you want {ui_field('Depends')}? \\
       {ui_field('Imports')} is almost always the better choice."
     ),
-    suggests = {
-      code <- glue("requireNamespace(\"{package}\", quietly = TRUE)")
-      ui_todo("Use {ui_code(code)} to test if package is installed")
-      code <- glue("{package}::fun()")
-      ui_todo("Then directly refer to functions with {ui_code(code)}")
-    },
+    suggests = suggests_usage_hint(package),
     enhances = "",
     linkingto = show_includes(package)
   )
+}
+
+suggests_usage_hint <- function(package) {
+  imports_rlang <- desc::desc_has_dep("rlang", type = "Imports", proj_get())
+  if (imports_rlang) {
+    code1 <- glue('rlang::is_installed("{package}")')
+    code2 <- glue('rlang::check_installed("{package}")')
+    ui_todo("
+      In your package code, use {ui_code(code1)} or {ui_code(code2)} to test \\
+      if {package} is installed")
+    code <- glue("{package}::fun()")
+    ui_todo("Then directly refer to functions with {ui_code(code)}")
+  } else {
+    code <- glue("requireNamespace(\"{package}\", quietly = TRUE)")
+    ui_todo("Use {ui_code(code)} to test if package is installed")
+    code <- glue("{package}::fun()")
+    ui_todo("Then directly refer to functions with {ui_code(code)}")
+  }
 }
 
 show_includes <- function(package) {

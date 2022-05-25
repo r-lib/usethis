@@ -14,6 +14,14 @@ test_that("use_package() guides new packages but not pre-existing ones", {
   })
 })
 
+test_that("use_package(type = 'Suggests') guidance w/o and w/ rlang", {
+  create_local_package()
+  withr::local_options(usethis.quiet = FALSE)
+
+  expect_snapshot(use_package("withr", "Suggests"))
+  ui_silence(use_package("rlang"))
+  expect_snapshot(use_package("purrr", "Suggests"))
+})
 
 # use_dev_package() -----------------------------------------------------------
 
