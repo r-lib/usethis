@@ -82,6 +82,10 @@ release_checklist <- function(version, on_cran) {
     "",
     todo("`git pull`"),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
+    todo("
+      Check if any deprecation processes should be advanced, as described in \\
+      [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
+      type != "patch"),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("`devtools::build_readme()`", has_readme),
     todo("`urlchecker::url_check()`"),
