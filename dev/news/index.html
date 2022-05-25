@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">usethis</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.1.5.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.1.6.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,16 +67,17 @@
       <small>Source: <a href="https://github.com/r-lib/usethis/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2"><h2 class="pkg-version" data-toc-text="development version" id="usethis-development-version">usethis (development version)<a class="anchor" aria-label="anchor" href="#usethis-development-version"></a></h2></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="usethis-development-version">usethis (development version)<a class="anchor" aria-label="anchor" href="#usethis-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.1.6" id="usethis-216">usethis 2.1.6<a class="anchor" aria-label="anchor" href="#usethis-216"></a></h2><p class="text-muted">CRAN release: 2022-05-25</p>
 <div class="section level4">
-<h4 id="github-related-development-version">GitHub-related<a class="anchor" aria-label="anchor" href="#github-related-development-version"></a></h4>
+<h4 id="github-related-2-1-6">GitHub-related<a class="anchor" aria-label="anchor" href="#github-related-2-1-6"></a></h4>
 <p><code><a href="../reference/github_actions.html">use_github_action()</a></code> and friends gain a <code>ref</code> argument, which defaults to the tag of the latest release in <a href="https://github.com/r-lib/actions" class="external-link uri">https://github.com/r-lib/actions</a> (<a href="https://github.com/r-lib/usethis/issues/1541" class="external-link">#1541</a>).</p>
 <p><code><a href="../reference/github_actions.html">use_github_actions_badge()</a></code> now uses the same URLs as GitHub does via the “Create status badge” helper in the browser (<a href="https://github.com/r-lib/usethis/issues/1525" class="external-link">#1525</a>). This changes the significance of the <code>name</code> argument; now it really must be the name of the workflow configuration file.</p>
 <p>All functions error more clearly when the requested operation is not supported for the “theirs” remote configuration (<a href="https://github.com/r-lib/usethis/issues/1588" class="external-link">#1588</a>).</p>
 </div>
 <div class="section level4">
-<h4 id="other-changes-development-version">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-development-version"></a></h4>
+<h4 id="other-changes-2-1-6">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-2-1-6"></a></h4>
 <p><code><a href="../reference/use_roxygen_md.html">use_roxygen_md()</a></code> gains an <code>overwrite</code> argument (<a href="https://github.com/r-lib/usethis/issues/1599" class="external-link">#1599</a>).</p>
 <p><code><a href="../reference/badges.html">use_rscloud_badge()</a></code> is a new function that creates a README badge indicating the repository can be launched in an <a href="https://rstudio.cloud" class="external-link">RStudio Cloud</a> project (<a href="https://github.com/gvelasq" class="external-link">@gvelasq</a>, <a href="https://github.com/r-lib/usethis/issues/1584" class="external-link">#1584</a>).</p>
 <p><code><a href="../reference/use_data.html">use_data()</a></code> gains an <code>ascii</code> argument, which is passed along to <code><a href="https://rdrr.io/r/base/save.html" class="external-link">save()</a></code> (<a href="https://github.com/JosiahParry" class="external-link">@JosiahParry</a>, <a href="https://github.com/r-lib/usethis/issues/1625" class="external-link">#1625</a>).</p>
