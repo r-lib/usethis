@@ -80,12 +80,12 @@ requests are now authorized with the token associated with the \code{host}, as
 retrieved by \code{\link[gh:gh_token]{gh::gh_token()}}.}
 }
 \description{
-Creates a new local project and Git repository from a repo on GitHub, by
-either cloning or
-\href{https://docs.github.com/articles/fork-a-repo}{fork-and-cloning}. In the
-fork-and-clone case, \code{create_from_github()} also does additional remote and
-branch setup, leaving you in the perfect position to make a pull request with
-\code{\link[=pr_init]{pr_init()}}, one of several \link[=pull-requests]{functions that work pull requests}.
+Creates a new local project and Git repository from a repo on
+GitHub, by either cloning or
+\href{https://docs.github.com/en/get-started/quickstart/fork-a-repo}{fork-and-cloning}.
+In the fork-and-clone case, \code{create_from_github()} also does additional
+remote and branch setup, leaving you in the perfect position to make a pull
+request with \code{\link[=pr_init]{pr_init()}}, one of several \link[=pull-requests]{functions that work pull requests}.
 
 \code{create_from_github()} works best when your GitHub credentials are
 discoverable. See below for more about authentication.
