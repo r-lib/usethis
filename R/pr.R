@@ -206,7 +206,7 @@ pr_init <- function(branch) {
     if (!is.na(remref)) {
       comparison <- git_branch_compare(current_branch, remref)
       if (comparison$remote_only > 0) {
-        challenge_uncommitted_changes(untracked = TRUE)
+        challenge_uncommitted_changes()
       }
       ui_done("Pulling changes from {ui_value(remref)}.")
       git_pull(remref = remref, verbose = FALSE)
@@ -253,7 +253,7 @@ pr_resume <- function(branch = NULL) {
       Call {ui_code(code)} to create a new PR branch.")
   }
 
-  challenge_uncommitted_changes(untracked = TRUE)
+  challenge_uncommitted_changes()
 
   ui_done("Switching to branch {ui_value(branch)}.")
   gert::git_branch_checkout(branch, repo = repo)
