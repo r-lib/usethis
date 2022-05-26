@@ -8,9 +8,10 @@
 #' section](https://r-pkgs.org/description.html#description-version) of [R
 #' Packages](https://r-pkgs.org). A version number breaks down like so:
 #'
-#'     <major>.<minor>.<patch>       (released version)
-#'     <major>.<minor>.<patch>.<dev> (dev version)
-#'
+#' ```
+#' <major>.<minor>.<patch>       (released version)
+#' <major>.<minor>.<patch>.<dev> (dev version)
+#' ```
 
 #' `use_version()` increments the "Version" field in `DESCRIPTION`, adds a new
 #' heading to `NEWS.md` (if it exists), and commits those changes (if package
