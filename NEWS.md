@@ -1,6 +1,6 @@
 # usethis (development version)
 
-* `create_package()` now returns the correct package path when creating a package nested in another project.
+* `create_package()` now returns the correct package path and infers the correct package name when creating a package nested in another project.
 
 # usethis 2.1.6
 

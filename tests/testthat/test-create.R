@@ -48,6 +48,7 @@ test_that("nested package can be created if user really, really wants to", {
   expect_equal(child, child_path)
   expect_true(possibly_in_proj(child))
   expect_true(is_package(child))
+  expect_equal(project_name(child), "fghijk")
 })
 
 test_that("nested project can be created if user really, really wants to", {

@@ -233,12 +233,13 @@ package_data <- function(base_path = proj_get()) {
 }
 
 project_name <- function(base_path = proj_get()) {
-  ## escape hatch necessary to solve this chicken-egg problem:
+  ## Escape hatch necessary to solve this chicken-egg problem:
   ## create_package() calls use_description(), which calls project_name()
   ## to learn package name from the path, in order to make DESCRIPTION
   ## and DESCRIPTION is how we recognize a package as a usethis project
-  if (!possibly_in_proj(base_path)) {
-    return(path_file(base_path))
+  escape_hatch <- getOption("usethis:::local_package_name")
+  if (is_string(escape_hatch)) {
+    return(escape_hatch)
   }
 
   if (is_package(base_path)) {
