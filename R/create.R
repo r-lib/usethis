@@ -312,23 +312,26 @@ create_from_github <- function(repo_spec,
 }
 
 # creates a backdoor we can exploit in tests
-allow_nested_project <- function() {
+allow_nested_project <- function(call = caller_env()) {
   opt <- getOption("usethis.allow_nested_package", FALSE)
 
   if (!is_bool(opt)) {
-    cli::cli_abort("{.code usethis.allow_nested_package} must be a boolean value.")
+    cli::cli_abort(
+      "{.code usethis.allow_nested_package} must be a boolean value.",
+      call = call
+    )
   }
 
   opt
 }
 
-challenge_nested_project <- function(path, name) {
+challenge_nested_project <- function(path, name, call = caller_env()) {
   if (!possibly_in_proj(path)) {
     return(invisible())
   }
 
   # we mock this in a few tests, to allow a nested project
-  if (allow_nested_project()) {
+  if (allow_nested_project(call = call)) {
     return()
   }
 
