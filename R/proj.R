@@ -69,10 +69,6 @@ proj_get <- function() {
 #'   adding a `DESCRIPTION` file.
 #' @export
 proj_set <- function(path = ".", force = FALSE) {
-  if (dir_exists(path %||% "") && is_in_proj(path)) {
-    return(invisible(proj_get_()))
-  }
-
   path <- proj_path_prep(path)
   if (is.null(path) || force) {
     proj_string <- if (is.null(path)) "<no active project>" else path

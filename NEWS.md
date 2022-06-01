@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `create_package()` now returns the correct package path when creating a package nested in another project.
+
 # usethis 2.1.6
 
 ### GitHub-related
