@@ -312,7 +312,15 @@ create_from_github <- function(repo_spec,
 }
 
 # creates a backdoor we can exploit in tests
-allow_nested_project <- function() FALSE
+allow_nested_project <- function() {
+  opt <- getOption("usethis.allow_nested_package", FALSE)
+
+  if (!is_bool(opt)) {
+    cli::cli_abort("{.code usethis.allow_nested_package} must be a boolean value.")
+  }
+
+  opt
+}
 
 challenge_nested_project <- function(path, name) {
   if (!possibly_in_proj(path)) {

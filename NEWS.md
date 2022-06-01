@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* New informal `usethis.allow_nested_package` option. This is mostly meant for developers who create packages inside other packages, e.g. in the `testthat` folder.
+
 * `create_package()` now returns the correct package path and infers the correct package name when creating a package nested in another project.
 
 # usethis 2.1.6

@@ -39,9 +39,8 @@ test_that("nested package can be created if user really, really wants to", {
   parent <- create_local_package()
   child_path <- path(parent, "fghijk")
 
-  with_mock(
-    # since user can't approve interactively, use the backdoor
-    allow_nested_project = function() TRUE,
+  # Since user can't approve interactively, use the backdoor
+  with_allow_nested_package(
     child <- create_package(child_path)
   )
 
@@ -53,9 +52,8 @@ test_that("nested package can be created if user really, really wants to", {
 
 test_that("nested project can be created if user really, really wants to", {
   parent <- create_local_project()
-  with_mock(
-    # since user can't approve interactively, use the backdoor
-    allow_nested_project = function() TRUE,
+  # Since user can't approve interactively, use the backdoor
+  with_allow_nested_package(
     child <- create_project(path(parent, "fghijk"))
   )
   expect_true(possibly_in_proj(child))
