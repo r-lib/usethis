@@ -28,8 +28,8 @@
 #' use_package("dplyr", "suggests")
 #' use_dev_package("glue")
 #'
-#' # Depend on R version 4.1.0
-#' use_package("R", type = "Depends", min_version = "4.1.0")
+#' # Depend on R version 4.1
+#' use_package("R", type = "Depends", min_version = "4.1")
 #' }
 use_package <- function(package, type = "Imports", min_version = NULL) {
   if (type == "Imports") {
