@@ -19,6 +19,7 @@
 use_rcpp <- function(name = NULL) {
   check_is_package("use_rcpp()")
   check_uses_roxygen("use_rcpp()")
+  check_not_empty_file_name(name)
 
   use_src()
 
@@ -65,6 +66,7 @@ use_rcpp_eigen <- function(name = NULL) {
 use_c <- function(name = NULL) {
   check_is_package("use_c()")
   check_uses_roxygen("use_c()")
+  check_not_empty_file_name(name)
 
   use_src()
 

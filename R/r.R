@@ -52,6 +52,7 @@ use_r <- function(name = NULL, open = rlang::is_interactive()) {
   name <- name %||% get_active_r_file(path = "tests/testthat")
   name <- gsub("^test-", "", name)
   name <- slug(name, "R")
+  check_not_empty_file_name(name)
   check_file_name(name)
 
   use_directory("R")
@@ -72,6 +73,7 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
     use_testthat_impl()
   }
 
+  check_not_empty_file_name(name)
   name <- name %||% get_active_r_file(path = "R")
   name <- paste0("test-", name)
   name <- slug(name, "R")
@@ -181,9 +183,7 @@ check_file_name <- function(name) {
   if (!is_string(name)) {
     ui_stop("Name must be a single string")
   }
-  if (path_file(name) %in% c(".R", "test-.R", ".cpp", ".c")) {
-    ui_stop("Name must not be an empty string")
-  }
+
   if (!valid_file_name(path_ext_remove(name))) {
     ui_stop(c(
       "{ui_value(name)} is not a valid file name. It should:",
@@ -191,6 +191,14 @@ check_file_name <- function(name) {
     ))
   }
   name
+}
+
+check_not_empty_file_name <- function(name = NULL) {
+  if (!is.null(name) && path_file(name) == "") {
+    ui_stop("Name must not be an empty string")
+  }
+
+  invisible(TRUE)
 }
 
 valid_file_name <- function(x) {
