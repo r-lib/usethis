@@ -30,8 +30,10 @@ Two helper functions are available:
 this defaults to "https". You can change this for the duration of the
 R session with \code{use_git_protocol()}. Change the default for all R
 sessions with code like this in your \code{.Rprofile} (easily editable via
-\code{\link[=edit_r_profile]{edit_r_profile()}}):\preformatted{options(usethis.protocol = "ssh")
-}
+\code{\link[=edit_r_profile]{edit_r_profile()}}):
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{options(usethis.protocol = "ssh")
+}\if{html}{\out{</div>}}
 \item \code{use_git_protocol()} sets the Git protocol for the current R session
 }
 

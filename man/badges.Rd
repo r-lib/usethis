@@ -7,6 +7,7 @@
 \alias{use_bioc_badge}
 \alias{use_lifecycle_badge}
 \alias{use_binder_badge}
+\alias{use_rscloud_badge}
 \title{README badges}
 \usage{
 use_badge(badge_name, href, src)
@@ -18,6 +19,8 @@ use_bioc_badge()
 use_lifecycle_badge(stage)
 
 use_binder_badge(ref = git_default_branch(), urlpath = NULL)
+
+use_rscloud_badge(url)
 }
 \arguments{
 \item{badge_name}{Badge name. Used in error message and alt text}
@@ -33,6 +36,10 @@ use_binder_badge(ref = git_default_branch(), urlpath = NULL)
 \code{"rstudio"} to open an RStudio IDE instead of a Jupyter notebook. See the
 \href{https://mybinder.readthedocs.io/en/latest/howto/user_interface.html}{binder documentation}
 for additional examples.}
+
+\item{url}{A link to an existing \href{https://rstudio.cloud}{RStudio Cloud}
+project. See the \href{https://rstudio.cloud/learn/guide#project-settings-access}{RStudio Cloud documentation}
+for details on how to set project access and obtain a project link.}
 }
 \description{
 These helpers produce the markdown text you need in your README to include
@@ -52,6 +59,8 @@ available on CRAN, powered by \url{https://www.r-pkg.org}
 package according to \url{https://lifecycle.r-lib.org/articles/stages.html}.
 \item \code{use_binder_badge()}: badge indicates that your repository can be launched
 in an executable environment on \url{https://mybinder.org/}
+\item \code{use_rscloud_badge()}: badge indicates that your repository can be launched
+in an \href{https://rstudio.cloud}{RStudio Cloud} project
 }
 }
 \examples{

@@ -1,12 +1,16 @@
 #' Use roxygen2 with markdown
 #'
 #' If you are already using roxygen2, but not with markdown, you'll need to use
-#' [roxygen2md](https://roxygen2md.r-lib.org) to convert existing Rd
-#' expressions to markdown. The conversion is not perfect, so make sure
-#' to check the results.
+#' [roxygen2md](https://roxygen2md.r-lib.org) to convert existing Rd expressions
+#' to markdown. The conversion is not perfect, so make sure to check the
+#' results.
+#'
+#' @param overwrite Whether to overwrite an existing `Roxygen` field in
+#'   `DESCRIPTION` with `"list(markdown = TRUE)"`.
+#'
 #'
 #' @export
-use_roxygen_md <- function() {
+use_roxygen_md <- function(overwrite = FALSE) {
   check_installed("roxygen2")
 
   if (!uses_roxygen()) {
@@ -15,39 +19,53 @@ use_roxygen_md <- function() {
     use_description_field("Roxygen", "list(markdown = TRUE)")
     use_description_field("RoxygenNote", roxy_ver)
     ui_todo("Run {ui_code('devtools::document()')}")
-  } else if (!uses_roxygen_md()) {
-    use_description_field("Roxygen", "list(markdown = TRUE)")
+    return(invisible())
+  }
 
-    if (!uses_git()) {
-      ui_todo("Use git to ensure that you don't lose any data")
-    }
+  already_setup <- uses_roxygen_md()
+
+  if (isTRUE(already_setup)) {
+    return(invisible())
+  }
+
+  if (isFALSE(already_setup) || isTRUE(overwrite)) {
+    use_description_field("Roxygen", "list(markdown = TRUE)", overwrite = TRUE)
 
     check_installed("roxygen2md")
-    ui_todo(
-      "Run {ui_code('roxygen2md::roxygen2md()')} to convert existing Rd commands to RMarkdown"
-    )
-    ui_todo("Run {ui_code('devtools::document()')} when you're done.")
+    ui_todo("
+      Run {ui_code('roxygen2md::roxygen2md()')} to convert existing Rd \\
+      comments to markdown")
+    if (!uses_git()) {
+      ui_todo("
+        Consider using Git for greater visibility into and control over the \\
+        conversion process")
+    }
+    ui_todo("Run {ui_code('devtools::document()')} when you're done")
+
+    return(invisible())
   }
+
+  ui_stop("
+    {ui_path('DESCRIPTION')} already has a {ui_field('Roxygen')} field
+    Delete it and try agan or call {ui_code('use_roxygen_md(overwrite = TRUE)')}")
 
   invisible()
 }
 
+# FALSE: no Roxygen field
+# TRUE: plain old "list(markdown = TRUE)"
+# NA: everything else
 uses_roxygen_md <- function() {
   if (!desc::desc_has_fields("Roxygen", file = proj_get())) {
     return(FALSE)
   }
 
   roxygen <- desc::desc_get("Roxygen", file = proj_get())[[1]]
-  value <- tryCatch(
-    {
-      eval(parse(text = roxygen))
-    },
-    error = function(e) {
-      NULL
-    }
-  )
-
-  isTRUE(value$markdown)
+  if (identical(roxygen, "list(markdown = TRUE)")) {
+    TRUE
+  } else {
+    NA
+  }
 }
 
 uses_roxygen <- function() {

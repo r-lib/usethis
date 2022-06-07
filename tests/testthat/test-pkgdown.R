@@ -9,7 +9,9 @@ test_that("use_pkgdown() creates and ignores the promised file/dir", {
   with_mock(
     check_installed = function(pkg) TRUE,
     pkgdown_version = function() "1.9000",
-    use_pkgdown()
+    {
+      use_pkgdown()
+    }
   )
   expect_true(uses_pkgdown())
   expect_true(is_build_ignored("^_pkgdown\\.yml$"))
@@ -31,7 +33,9 @@ test_that("pkgdown_config_meta() returns a list", {
   with_mock(
     check_installed = function(pkg) TRUE,
     pkgdown_version = function() "1.9000",
-    use_pkgdown()
+    {
+      use_pkgdown()
+    }
   )
   expect_type(pkgdown_config_meta(), "list")
 
@@ -48,7 +52,9 @@ test_that("pkgdown_url() returns correct data, warns if pedantic", {
   with_mock(
     check_installed = function(pkg) TRUE,
     pkgdown_version = function() "1.9000",
-    use_pkgdown()
+    {
+      use_pkgdown()
+    }
   )
 
   # empty config

@@ -22,7 +22,9 @@ Details on the internal and helper functions that power \code{\link[=use_course]
 \code{\link[=use_zip]{use_zip()}}. Only \code{create_download_url()} is exported.
 }
 \section{tidy_download()}{
-\preformatted{## function signature
+
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## function signature
 tidy_download(url, destdir = getwd())
 
 # as called inside use_course()
@@ -32,7 +34,7 @@ tidy_download(
   # directory or working directory
   destdir = destdir \%||\% conspicuous_place()
 )
-}
+}\if{html}{\out{</div>}}
 
 Special-purpose function to download a ZIP file and automatically determine
 the file name, which often determines the folder name after unpacking.
@@ -53,11 +55,15 @@ To make a folder available for ZIP download, create a shared link for it:
 \item \url{https://help.dropbox.com/files-folders/share/view-only-access}
 }
 
-A shared link will have this form:\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
-}
+A shared link will have this form:
 
-Replace the \code{dl=0} at the end with \code{dl=1} to create a download link:\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=0
+}\if{html}{\out{</div>}}
+
+Replace the \code{dl=0} at the end with \code{dl=1} to create a download link:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{https://www.dropbox.com/sh/12345abcde/6789wxyz?dl=1
+}\if{html}{\out{</div>}}
 
 You can use \code{create_download_url()} to do this conversion.
 
@@ -71,18 +77,22 @@ eventually lead to a download URL. For more details, see
 \subsection{GitHub}{
 
 Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
-button. Capture this URL, which will have this form:\preformatted{https://github.com/r-lib/usethis/archive/main.zip
-}
+button. Capture this URL, which will have this form:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{https://github.com/r-lib/usethis/archive/main.zip
+}\if{html}{\out{</div>}}
 
 This download link (or a shortlink that points to it) is suitable as input
 for \code{tidy_download()}. After one or more redirections, this link will
 eventually lead to a download URL. Here are other links that also lead to
 ZIP download, albeit with a different filenaming scheme (REF could be a
-branch name, a tag, or a SHA):\preformatted{https://github.com/github.com/r-lib/usethis/zipball/HEAD
+branch name, a tag, or a SHA):
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{https://github.com/github.com/r-lib/usethis/zipball/HEAD
 https://api.github.com/repos/r-lib/rematch2/zipball/REF
 https://api.github.com/repos/r-lib/rematch2/zipball/HEAD
 https://api.github.com/repos/r-lib/usethis/zipball/REF
-}
+}\if{html}{\out{</div>}}
 
 You can use \code{create_download_url()} to create the "Download ZIP" URL from
 a typical GitHub browser URL.
@@ -94,12 +104,16 @@ To our knowledge, it is not possible to download a Google Drive folder as a
 ZIP archive. It is however possible to share a ZIP file stored on Google
 Drive. To get its URL, click on "Get the shareable link" (within the "Share"
 menu). This URL doesn't allow for direct download, as it's designed to be
-processed in a web browser first. Such a sharing link looks like:\preformatted{https://drive.google.com/open?id=123456789xxyyyzzz
-}
+processed in a web browser first. Such a sharing link looks like:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{https://drive.google.com/open?id=123456789xxyyyzzz
+}\if{html}{\out{</div>}}
 
 To be able to get the URL suitable for direct download, you need to extract
-the "id" element from the URL and include it in this URL format:\preformatted{https://drive.google.com/uc?export=download&id=123456789xxyyyzzz
-}
+the "id" element from the URL and include it in this URL format:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{https://drive.google.com/uc?export=download&id=123456789xxyyyzzz
+}\if{html}{\out{</div>}}
 
 Use \code{create_download_url()} to perform this transformation automatically.
 }

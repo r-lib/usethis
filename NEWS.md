@@ -1,10 +1,24 @@
 # usethis (development version)
 
-`use_code_of_conduct()` has been updated to version 2.1 of the Contributor Covenant (@batpigandme, #1591).
+# usethis 2.1.6
+
+### GitHub-related
 
 `use_github_action()` and friends gain a `ref` argument, which defaults to the tag of the latest release in <https://github.com/r-lib/actions> (#1541).
 
 `use_github_actions_badge()` now uses the same URLs as GitHub does via the "Create status badge" helper in the browser (#1525). This changes the significance of the `name` argument; now it really must be the name of the workflow configuration file.
+
+All functions error more clearly when the requested operation is not supported for the "theirs" remote configuration (#1588).
+
+### Other changes
+
+`use_roxygen_md()` gains an `overwrite` argument (#1599).
+
+`use_rscloud_badge()` is a new function that creates a README badge indicating the repository can be launched in an [RStudio Cloud](https://rstudio.cloud) project (@gvelasq, #1584).
+
+`use_data()` gains an `ascii` argument, which is passed along to `save()` (@JosiahParry, #1625).
+
+`use_code_of_conduct()` has been updated to version 2.1 of the Contributor Covenant (@batpigandme, #1591).
 
 # usethis 2.1.5
 
@@ -97,9 +111,10 @@ usethis has a more sophisticated understanding of the default branch and gains s
 
 ## Package development
 
-* `use_readme_[r]?md()` no longer includes CRAN installation instructions in the
-  initial template; instead, we only include GitHub-based install instructions
-  or otherwise prompt the user to update instructions (#1507).
+* `use_readme_rmd()` and `use_readme_md()` no longer include CRAN installation
+  instructions in the initial template; instead, we only include GitHub-based
+  install instructions or otherwise prompt the user to update instructions
+  (#1507).
 
 * `use_import_from()` is a new function that puts `@importFrom pkg fun`
   directives into a package in a consistent location (@malcolmbarrett, #1377).

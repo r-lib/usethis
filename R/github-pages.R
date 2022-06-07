@@ -35,10 +35,10 @@
 #'
 
 #' @seealso
-#' * [use_pkgdown_github_pages()] combines `use_github_pages()` with other functions to
-#' fully configure a pkgdown site
-#' * <https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages>
-#' * <https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#pages>
+#' * [use_pkgdown_github_pages()] combines `use_github_pages()` with other
+#' functions to fully configure a pkgdown site
+#' * <https://docs.github.com/en/pages>
+#' * <https://docs.github.com/en/rest/pages>
 
 #' @return Site metadata returned by the GitHub API, invisibly
 #' @export
@@ -51,12 +51,9 @@
 use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
   stopifnot(is_string(branch), is_string(path))
   stopifnot(is.na(cname) || is.null(cname) || is_string(cname))
-  tr <- target_repo(github_get = TRUE)
-  if (!isTRUE(tr$can_push)) {
-    ui_stop("
-      You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
-      is required to turn on GitHub Pages.")
-  }
+  tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
+  check_can_push(tr = tr, "to turn on GitHub Pages")
+
   gh <- gh_tr(tr)
   safe_gh <- purrr::safely(gh)
 

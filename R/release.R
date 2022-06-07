@@ -82,6 +82,10 @@ release_checklist <- function(version, on_cran) {
     "",
     todo("`git pull`"),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
+    todo("
+      Check if any deprecation processes should be advanced, as described in \\
+      [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
+      type != "patch"),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("`devtools::build_readme()`", has_readme),
     todo("`urlchecker::url_check()`"),
@@ -179,12 +183,8 @@ use_github_release <- function(host = deprecated(),
     deprecate_warn_auth_token("use_github_release")
   }
 
-  tr <- target_repo(github_get = TRUE)
-  if (!isTRUE(tr$can_push)) {
-    ui_stop("
-      You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
-      is required to draft a release.")
-  }
+  tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
+  check_can_push(tr = tr, "to draft a release")
 
   dat <- get_release_data(tr)
   release_name <- glue("{dat$Package} {dat$Version}")

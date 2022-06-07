@@ -2,11 +2,13 @@
 
     Code
       use_lifecycle_badge()
-    Error <simpleError>
-      argument "stage" is missing, with no default
+    Condition
+      Error in `tolower()`:
+      ! argument "stage" is missing, with no default
     Code
       use_lifecycle_badge("eperimental")
-    Error <rlang_error>
-      `stage` must be one of "experimental", "stable", "superseded", or "deprecated", not "eperimental".
+    Condition
+      Error in `use_lifecycle_badge()`:
+      ! `stage` must be one of "experimental", "stable", "superseded", or "deprecated", not "eperimental".
       i Did you mean "experimental"?
 

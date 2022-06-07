@@ -12,7 +12,9 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
     # Required to pass the check re: whether cpp11 is installed
     check_installed = function(pkg) TRUE,
     check_cpp_register_deps = function() invisible(),
-    use_cpp11()
+    {
+      use_cpp11()
+    }
   )
 
   expect_match(desc::desc_get("LinkingTo"), "cpp11")
@@ -28,17 +30,21 @@ test_that("check_cpp_register_deps is silent if all installed, emits todo if not
   with_mock(
     get_cpp_register_deps = function() c("brio", "decor", "vctrs"),
     is_installed = function(pkg) TRUE,
-    expect_silent(
-      check_cpp_register_deps()
-    )
+    {
+      expect_silent(
+        check_cpp_register_deps()
+      )
+    }
   )
 
   with_mock(
     get_cpp_register_deps = function() c("brio", "decor", "vctrs"),
     is_installed = function(pkg) pkg == "brio",
-    expect_message(
-      check_cpp_register_deps(),
-      "Now install"
-    )
+    {
+      expect_message(
+        check_cpp_register_deps(),
+        "Now install"
+      )
+    }
   )
 })

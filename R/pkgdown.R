@@ -26,8 +26,9 @@
 #' Travis-CI.
 #'
 #' @seealso <https://pkgdown.r-lib.org/articles/pkgdown.html#configuration>
-#' @param config_file Path to the pkgdown yaml config file
-#' @param destdir Target directory for pkgdown docs
+#' @param config_file Path to the pkgdown yaml config file, relative to the
+#'  project.
+#' @param destdir Target directory for pkgdown docs.
 #' @export
 use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   check_is_package("use_pkgdown()")
@@ -68,7 +69,8 @@ pkgdown_version <- function() {
 #' @rdname use_pkgdown
 #' @export
 use_pkgdown_github_pages <- function() {
-  tr <- target_repo(github_get = TRUE)
+  tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
+  check_can_push(tr = tr, "to turn on GitHub Pages")
 
   use_pkgdown()
   site <- use_github_pages()

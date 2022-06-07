@@ -42,7 +42,9 @@ The fields discovered via options or the usethis package can be viewed with
 
 If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named \code{"usethis.description"}. Here's an example of
-code to include in \code{.Rprofile}, which can be opened via \code{\link[=edit_r_profile]{edit_r_profile()}}:\preformatted{options(
+code to include in \code{.Rprofile}, which can be opened via \code{\link[=edit_r_profile]{edit_r_profile()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{options(
   usethis.description = list(
     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com",
                           role = c("aut", "cre"),
@@ -51,7 +53,7 @@ code to include in \code{.Rprofile}, which can be opened via \code{\link[=edit_r
     Language =  "es"
   )
 )
-}
+}\if{html}{\out{</div>}}
 
 Prior to usethis v2.0.0, \code{getOption("devtools.desc")} was consulted for
 backwards compatibility, but now only the \code{"usethis.description"} option is

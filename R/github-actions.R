@@ -139,8 +139,14 @@ use_github_action <- function(name,
   save_as <- path(".github", "workflows", save_as)
   create_directory(path_dir(proj_path(save_as)))
 
-  # `ignore = FALSE` because we took care of this at directory level, above
-  new <- use_github_file(url, save_as = save_as, ignore = FALSE, open = open)
+  if (grepl("^http", url)) {
+    # `ignore = FALSE` because we took care of this at directory level, above
+    new <- use_github_file(url, save_as = save_as, ignore = FALSE, open = open)
+  } else {
+    # local file case, https://github.com/r-lib/usethis/issues/1548
+    contents <- read_utf8(url)
+    new <- write_over(proj_path(save_as), contents)
+  }
 
   if (!is.null(readme)) {
     ui_todo("Learn more at <{readme}>.")

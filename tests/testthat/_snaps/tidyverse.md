@@ -2,7 +2,7 @@
 
     Code
       use_tidy_dependencies()
-    Message <rlang_message>
+    Message
       v Adding 'rlang' to Imports field in DESCRIPTION
       v Adding 'lifecycle' to Imports field in DESCRIPTION
       v Adding 'cli' to Imports field in DESCRIPTION

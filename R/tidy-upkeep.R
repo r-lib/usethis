@@ -64,7 +64,8 @@ upkeep_checklist <- function(year = NULL,
         [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)"),
       todo("
         Align the names of `R/` files and `test/` files for workflow happiness.
-        `usethis::rename_files()` can be helpful."),
+        The docs for `usethis::use_r()` include a helpful script.
+        `usethis::rename_files()` may be be useful."),
       ""
     )
   }

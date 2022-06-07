@@ -73,25 +73,19 @@ For a hypothetical GitHub Enterprise instance, either
 "https://github.acme.com/api/v3" or "https://github.acme.com" is
 acceptable.}
 
-\item{auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
-consulted now that usethis uses the gert package for Git operations,
-instead of git2r; gert relies on the credentials package for auth. The API
-requests are now authorized with the token associated with the \code{host}, as
-retrieved by \code{\link[gh:gh_token]{gh::gh_token()}}.}
-
-\item{credentials}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
+\item{auth_token, credentials}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
 consulted now that usethis uses the gert package for Git operations,
 instead of git2r; gert relies on the credentials package for auth. The API
 requests are now authorized with the token associated with the \code{host}, as
 retrieved by \code{\link[gh:gh_token]{gh::gh_token()}}.}
 }
 \description{
-Creates a new local project and Git repository from a repo on GitHub, by
-either cloning or
-\href{https://docs.github.com/articles/fork-a-repo}{fork-and-cloning}. In the
-fork-and-clone case, \code{create_from_github()} also does additional remote and
-branch setup, leaving you in the perfect position to make a pull request with
-\code{\link[=pr_init]{pr_init()}}, one of several \link[=pull-requests]{functions that work pull requests}.
+Creates a new local project and Git repository from a repo on
+GitHub, by either cloning or
+\href{https://docs.github.com/en/get-started/quickstart/fork-a-repo}{fork-and-cloning}.
+In the fork-and-clone case, \code{create_from_github()} also does additional
+remote and branch setup, leaving you in the perfect position to make a pull
+request with \code{\link[=pr_init]{pr_init()}}, one of several \link[=pull-requests]{functions that work pull requests}.
 
 \code{create_from_github()} works best when your GitHub credentials are
 discoverable. See below for more about authentication.
