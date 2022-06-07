@@ -26,8 +26,9 @@
 #' Travis-CI.
 #'
 #' @seealso <https://pkgdown.r-lib.org/articles/pkgdown.html#configuration>
-#' @param config_file Path to the pkgdown yaml config file
-#' @param destdir Target directory for pkgdown docs
+#' @param config_file Path to the pkgdown yaml config file, relative to the
+#'  project.
+#' @param destdir Target directory for pkgdown docs.
 #' @export
 use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   check_is_package("use_pkgdown()")
