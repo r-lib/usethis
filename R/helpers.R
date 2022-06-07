@@ -6,6 +6,10 @@ use_dependency <- function(package, type, min_version = NULL) {
     check_installed(package)
   }
 
+  if (package == "R" && type != "Depends") {
+    ui_stop("Specify R version requirements in Depends instead of {type}")
+  }
+
   if (isTRUE(min_version) && package == "R") {
     min_version <- glue("{R.Version()$major}.{R.Version()$minor}")
   } else if (isTRUE(min_version)) {
