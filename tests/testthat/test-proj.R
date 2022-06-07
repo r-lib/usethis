@@ -48,11 +48,11 @@ test_that("proj_path() appends to the project path", {
   expect_identical(proj_path("a", "b", "c"), proj_path("a/b/c"))
 })
 
-test_that("proj_path() respects absolute paths", {
+test_that("proj_path() errors with absolute paths", {
   create_local_project()
-  expect_equal(
+  expect_error(
     proj_path(c("/a", "b", "/c")),
-    path(c("/a", path(proj_get(), "b"), "/c"))
+    "Paths must be relative to the active project"
   )
 })
 

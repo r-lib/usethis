@@ -96,12 +96,11 @@ proj_set <- function(path = ".", force = FALSE) {
 #' @export
 proj_path <- function(..., ext = "") {
   paths <- path(..., ext = ext)
-  paths <- purrr::map_chr(
-    paths,
-    ~ if (is_absolute_path(.x)) .x else path(proj_get(), .x)
-  )
+  if (any(is_absolute_path(paths))) {
+    ui_stop("Paths must be relative to the active project")
+  }
 
-  path_norm(paths)
+  path_norm(path(proj_get(), paths))
 }
 
 #' @describeIn proj_utils Runs code with a temporary active project and,
