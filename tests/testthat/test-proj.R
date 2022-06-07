@@ -50,10 +50,7 @@ test_that("proj_path() appends to the project path", {
 
 test_that("proj_path() errors with absolute paths", {
   create_local_project()
-  expect_error(
-    proj_path(c("/a", "b", "/c")),
-    "Paths must be relative to the active project"
-  )
+  expect_snapshot(proj_path(c("/a", "b", "/c")), error = TRUE)
 })
 
 test_that("proj_rel_path() returns path part below the project", {
