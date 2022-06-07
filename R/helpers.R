@@ -74,7 +74,10 @@ use_dependency <- function(package, type, min_version = NULL) {
   invisible(TRUE)
 }
 
-r_version <- function() glue("{R.Version()$major}.{R.Version()$minor}")
+r_version <- function() {
+  minor <- strsplit(R.Version()$minor, "\\.")[[1]][1]
+  glue("{R.Version()$major}.{minor}")
+}
 
 use_system_requirement <- function(requirement) {
   stopifnot(is_string(requirement))
