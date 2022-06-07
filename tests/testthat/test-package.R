@@ -31,7 +31,7 @@ test_that("use_package() handles R versions with aplomb", {
   expect_snapshot(use_package("R", type = "Depends", min_version = "3.6"))
   expect_equal(subset(desc::desc_get_deps(), package == "R")$version, ">= 3.6")
   with_mock(
-    r_version = function() glue("4.1"),
+    r_version = function() "4.1",
     {
       expect_snapshot(use_package("R", type = "Depends", min_version = TRUE))
     }
