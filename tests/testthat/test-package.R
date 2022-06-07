@@ -41,7 +41,9 @@ test_that("package_remote() works for an installed package with github URL", {
   ))
   with_mock(
     ui_yeah = function(...) TRUE,
-    expect_equal(package_remote(d), "OWNER/test")
+    {
+      expect_equal(package_remote(d), "OWNER/test")
+    }
   )
 })
 

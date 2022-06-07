@@ -214,9 +214,11 @@ test_that("proj_activate() works with relative path when RStudio is not detected
   with_mock(
     # make sure we act as if not in RStudio
     rstudio_available = function(...) FALSE,
-    expect_error_free(
-      result <- proj_activate(rel_path_proj)
-    )
+    {
+      expect_error_free(
+        result <- proj_activate(rel_path_proj)
+      )
+    }
   )
   expect_true(result)
   expect_equal(path_wd(), out_path)

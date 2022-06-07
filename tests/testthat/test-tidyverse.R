@@ -59,7 +59,9 @@ test_that("use_tidy_github() adds and Rbuildignores files", {
 
   with_mock(
     target_repo_spec = function(...) "OWNER/REPO",
-    use_tidy_github()
+    {
+      use_tidy_github()
+    }
   )
   expect_proj_file(".github/CONTRIBUTING.md")
   expect_proj_file(".github/ISSUE_TEMPLATE/issue_template.md")

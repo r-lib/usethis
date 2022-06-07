@@ -10,7 +10,9 @@ test_that("use_data_table() Imports data.table", {
     check_installed = function(pkg) TRUE,
     roxygen_update_ns = function(...) NULL,
     check_functions_exist = function(...) TRUE,
-    use_data_table()
+    {
+      use_data_table()
+    }
   )
 
   expect_match(desc::desc_get("Imports"), "data.table")
@@ -25,10 +27,12 @@ test_that("use_data_table() blocks use of Depends", {
     check_installed = function(pkg) TRUE,
     roxygen_update_ns = function(...) NULL,
     check_functions_exist = function(...) TRUE,
-    expect_warning(
-      use_data_table(),
-      "data.table should be in Imports or Suggests, not Depends"
-    )
+    {
+      expect_warning(
+        use_data_table(),
+        "data.table should be in Imports or Suggests, not Depends"
+      )
+    }
   )
 
   expect_match(desc::desc_get("Imports"), "data.table")

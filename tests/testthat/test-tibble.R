@@ -12,7 +12,9 @@ test_that("use_tibble() Imports tibble", {
     check_installed = function(pkg) TRUE,
     roxygen_update_ns = function(...) NULL,
     check_functions_exist = function(...) TRUE,
-    expect_snapshot(use_tibble())
+    {
+      expect_snapshot(use_tibble())
+    }
   )
 
   expect_match(desc::desc_get("Imports", proj_get()), "tibble")

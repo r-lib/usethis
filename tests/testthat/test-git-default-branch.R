@@ -39,7 +39,9 @@ test_that("git_default_branch() consults the default branch candidates, in order
         default_branch = as.character(glue("default-branch-of-{remote}"))
       )
     },
-    expect_equal(git_default_branch(), "default-branch-of-upstream")
+    {
+      expect_equal(git_default_branch(), "default-branch-of-upstream")
+    }
   )
 })
 
@@ -84,7 +86,9 @@ test_that("git_default_branch() errors for local vs remote mismatch", {
         default_branch = as.character(glue("default-branch-of-{remote}"))
       )
     },
-    expect_error(git_default_branch(), class = "error_default_branch")
+    {
+      expect_error(git_default_branch(), class = "error_default_branch")
+    }
   )
 
    gert::git_branch_create("blarg", checkout = TRUE, repo = repo)
@@ -98,7 +102,9 @@ test_that("git_default_branch() errors for local vs remote mismatch", {
          default_branch = as.character(glue("default-branch-of-{remote}"))
        )
      },
-     expect_error(git_default_branch(), class = "error_default_branch")
+     {
+       expect_error(git_default_branch(), class = "error_default_branch")
+     }
    )
 })
 

@@ -102,14 +102,18 @@ test_that("use_description_list() can initiate, add to, or replace", {
 
   with_mock(
     can_overwrite = function(path) TRUE,
-    use_description_list("Config/Needs/foofy", "alfa")
+    {
+      use_description_list("Config/Needs/foofy", "alfa")
+    }
   )
   desc <- desc::desc()
   expect_equal(desc$get_field("Config/Needs/foofy"), "alfa")
 
   with_mock(
     can_overwrite = function(path) TRUE,
-    use_description_list("Config/Needs/foofy", "bravo")
+    {
+      use_description_list("Config/Needs/foofy", "bravo")
+    }
   )
   desc <- desc::desc()
   expect_equal(desc$get_list("Config/Needs/foofy"), c("alfa", "bravo"))
@@ -120,7 +124,9 @@ test_that("use_description_list() can initiate, add to, or replace", {
 
   with_mock(
     can_overwrite = function(path) TRUE,
-    use_description_list("Config/Needs/foofy", "charlie", append = FALSE)
+    {
+      use_description_list("Config/Needs/foofy", "charlie", append = FALSE)
+    }
   )
   desc <- desc::desc()
   expect_equal(desc$get_list("Config/Needs/foofy"), "charlie")

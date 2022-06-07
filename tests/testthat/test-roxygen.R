@@ -30,7 +30,9 @@ test_that("use_roxygen_md() behaves for pre-existing Roxygen field", {
   with_mock(
     # in case roxygen2md is not installed
     check_installed = function(pkg) TRUE,
-    expect_error_free(use_roxygen_md(overwrite = TRUE))
+    {
+      expect_error_free(use_roxygen_md(overwrite = TRUE))
+    }
   )
   expect_true(uses_roxygen_md())
 })
