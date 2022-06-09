@@ -183,7 +183,6 @@ check_file_name <- function(name) {
   if (!is_string(name)) {
     ui_stop("Name must be a single string")
   }
-
   if (!valid_file_name(path_ext_remove(name))) {
     ui_stop(c(
       "{ui_value(name)} is not a valid file name. It should:",
