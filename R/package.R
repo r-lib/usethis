@@ -27,6 +27,9 @@
 #' use_package("ggplot2")
 #' use_package("dplyr", "suggests")
 #' use_dev_package("glue")
+#'
+#' # Depend on R version 4.1
+#' use_package("R", type = "Depends", min_version = "4.1")
 #' }
 use_package <- function(package, type = "Imports", min_version = NULL) {
   if (type == "Imports") {
@@ -126,6 +129,9 @@ refuse_package <- function(package, verboten) {
 how_to_use <- function(package, type) {
   types <- tolower(c("Imports", "Depends", "Suggests", "Enhances", "LinkingTo"))
   type <- match.arg(tolower(type), types)
+  if (package == "R" && type == "depends") {
+    return("")
+  }
 
   switch(type,
     imports = ui_todo("Refer to functions with {ui_code(paste0(package, '::fun()'))}"),
