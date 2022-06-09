@@ -49,10 +49,10 @@
 #'   [R Packages](https://r-pkgs.org).
 #' @export
 use_r <- function(name = NULL, open = rlang::is_interactive()) {
+  check_not_empty_file_name(name)
   name <- name %||% get_active_r_file(path = "tests/testthat")
   name <- gsub("^test-", "", name)
   name <- slug(name, "R")
-  check_not_empty_file_name(name)
   check_file_name(name)
 
   use_directory("R")
