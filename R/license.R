@@ -180,6 +180,12 @@ use_license_template <- function(license, data = list()) {
     data = data,
     ignore = TRUE
   )
+
+  use_template(gsub("\\.md", "", license_template),
+    save_as = "LICENSE",
+    data = data,
+    ignore = FALSE
+  )
 }
 
 check_license_version <- function(version, possible) {
