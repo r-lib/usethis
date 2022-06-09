@@ -1,11 +1,13 @@
 test_that("use_r() creates a .R file below R/", {
   create_local_package()
+  expect_snapshot(use_r(""), error = TRUE)
   use_r("foo")
   expect_proj_file("R/foo.R")
 })
 
 test_that("use_test() creates a test file", {
   create_local_package()
+  expect_snapshot(use_test("", open = FALSE), error = TRUE)
   use_test("foo", open = FALSE)
   expect_proj_file("tests", "testthat", "test-foo.R")
 })

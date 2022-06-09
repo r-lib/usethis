@@ -49,6 +49,7 @@
 #'   [R Packages](https://r-pkgs.org).
 #' @export
 use_r <- function(name = NULL, open = rlang::is_interactive()) {
+  check_not_empty_file_name(name)
   name <- name %||% get_active_r_file(path = "tests/testthat")
   name <- gsub("^test-", "", name)
   name <- slug(name, "R")
@@ -72,6 +73,7 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
     use_testthat_impl()
   }
 
+  check_not_empty_file_name(name)
   name <- name %||% get_active_r_file(path = "R")
   name <- paste0("test-", name)
   name <- slug(name, "R")
@@ -188,6 +190,14 @@ check_file_name <- function(name) {
     ))
   }
   name
+}
+
+check_not_empty_file_name <- function(name = NULL) {
+  if (!is.null(name) && path_file(name) == "") {
+    ui_stop("Name must not be an empty string")
+  }
+
+  invisible(TRUE)
 }
 
 valid_file_name <- function(x) {
