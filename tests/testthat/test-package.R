@@ -14,6 +14,23 @@ test_that("use_package() guides new packages but not pre-existing ones", {
   })
 })
 
+test_that("use_package() handles R versions with aplomb", {
+  create_local_package()
+  withr::local_options(usethis.quiet = FALSE)
+  expect_snapshot(use_package("R"), error = TRUE)
+  expect_snapshot(use_package("R", type = "Depends"), error = TRUE)
+  expect_snapshot(use_package("R", type = "Depends", min_version = "3.6"))
+  expect_equal(subset(desc::desc_get_deps(), package == "R")$version, ">= 3.6")
+  with_mock(
+    r_version = function() "4.1",
+    {
+      expect_snapshot(use_package("R", type = "Depends", min_version = TRUE))
+    }
+  )
+
+  expect_equal(subset(desc::desc_get_deps(), package == "R")$version, ">= 4.1")
+})
+
 test_that("use_package(type = 'Suggests') guidance w/o and w/ rlang", {
   create_local_package()
   withr::local_options(usethis.quiet = FALSE)
