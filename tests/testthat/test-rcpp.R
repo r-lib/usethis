@@ -8,7 +8,7 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
   use_roxygen_md()
 
   use_rcpp()
-  expect_error(use_rcpp(""), "Name must not be an empty string")
+  expect_snapshot(use_rcpp(""), error = TRUE)
   expect_match(desc::desc_get("LinkingTo", pkg), "Rcpp")
   expect_match(desc::desc_get("Imports", pkg), "Rcpp")
   expect_proj_dir("src")
