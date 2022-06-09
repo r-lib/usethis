@@ -316,6 +316,8 @@ New `use_proprietary_license()` allows your package to pass R CMD check while ma
   
 The `name` argument to `use_mit_license()` has been changed to `copyright_holder` to make the purpose more clear. The `name` argument has been removed from all other license functions because it is not needed; no other license makes an assertion about who the copyright holder is.
 
+Now `use_*_license()` writes LICENSE.md and LICENSE files, in order to provide the correct license information on GitHub repositories and in R packages. The plain file is not added to .Rbuildignore. (@pachadotdev, #1646)
+
 ## RStudio preferences
 
 usethis is now fully cognizant of the [changes to RStudio preferences](https://www.rstudio.com/blog/rstudio-1-3-preview-configuration/) in RStudio 1.3:
@@ -434,7 +436,7 @@ Patch release to align some path handling internals with an update coming in the
 
 * New `ui_silence()` makes it easier to selectively silence some UI output.
 
-* New `use_agpl3_license()` (@pachamaltese, #870).
+* New `use_agpl3_license()` (@pachadotdev, #870).
 
 * New `use_data_table()` to set up a package for Import-ing `data.table` 
   (@michaelchirico, #897).
