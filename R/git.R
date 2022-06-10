@@ -456,12 +456,12 @@ git_vaccinate <- function() {
 }
 
 git_vaccinated <- function() {
-  gi_path <- git_ignore_path("user")
-  path <- user_path_prep(gi_path)
+  path <- git_ignore_path("user")
   if (is.null(path) || !file_exists(path)) {
     return(FALSE)
   }
-  lines <- read_utf8(path)
+  # on Windows, if ~/ is present, take care to expand it the fs way
+  lines <- read_utf8(user_path_prep(path))
   all(git_ignore_lines %in% lines)
 }
 
