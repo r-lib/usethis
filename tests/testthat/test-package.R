@@ -14,6 +14,31 @@ test_that("use_package() guides new packages but not pre-existing ones", {
   })
 })
 
+test_that("use_package() handles R versions with aplomb", {
+  create_local_package()
+  withr::local_options(usethis.quiet = FALSE)
+  expect_snapshot(use_package("R"), error = TRUE)
+  expect_snapshot(use_package("R", type = "Depends"), error = TRUE)
+  expect_snapshot(use_package("R", type = "Depends", min_version = "3.6"))
+  expect_equal(subset(desc::desc_get_deps(), package == "R")$version, ">= 3.6")
+  with_mock(
+    r_version = function() "4.1",
+    {
+      expect_snapshot(use_package("R", type = "Depends", min_version = TRUE))
+    }
+  )
+
+  expect_equal(subset(desc::desc_get_deps(), package == "R")$version, ">= 4.1")
+})
+
+test_that("use_package(type = 'Suggests') guidance w/o and w/ rlang", {
+  create_local_package()
+  withr::local_options(usethis.quiet = FALSE)
+
+  expect_snapshot(use_package("withr", "Suggests"))
+  ui_silence(use_package("rlang"))
+  expect_snapshot(use_package("purrr", "Suggests"))
+})
 
 # use_dev_package() -----------------------------------------------------------
 
@@ -33,7 +58,9 @@ test_that("package_remote() works for an installed package with github URL", {
   ))
   with_mock(
     ui_yeah = function(...) TRUE,
-    expect_equal(package_remote(d), "OWNER/test")
+    {
+      expect_equal(package_remote(d), "OWNER/test")
+    }
   )
 })
 

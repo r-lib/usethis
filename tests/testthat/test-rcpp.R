@@ -8,6 +8,7 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
   use_roxygen_md()
 
   use_rcpp()
+  expect_snapshot(use_rcpp(""), error = TRUE)
   expect_match(desc::desc_get("LinkingTo", pkg), "Rcpp")
   expect_match(desc::desc_get("Imports", pkg), "Rcpp")
   expect_proj_dir("src")
@@ -24,7 +25,9 @@ test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
   with_mock(
     # Required to pass the check re: whether RcppArmadillo is installed
     check_installed = function(pkg) TRUE,
-    use_rcpp_armadillo()
+    {
+      use_rcpp_armadillo()
+    }
   )
   expect_match(desc::desc_get("LinkingTo"), "RcppArmadillo")
   expect_proj_file("src", "Makevars")
@@ -38,7 +41,9 @@ test_that("use_rcpp_eigen() edits DESCRIPTION", {
   with_mock(
     # Required to pass the check re: whether RcppEigen is installed
     check_installed = function(pkg) TRUE,
-    use_rcpp_eigen()
+    {
+      use_rcpp_eigen()
+    }
   )
   expect_match(desc::desc_get("LinkingTo"), "RcppEigen")
 })

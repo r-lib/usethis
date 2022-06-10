@@ -7,17 +7,49 @@
 #' to create (or navigate to) the paired file based on the currently open
 #' script.
 #'
+#' @section Renaming files in an existing package:
+#'
+#' Here are some tips on aligning file names across `R/` and `tests/testthat/`
+#' in an existing package that did not necessarily follow this convention
+#' before.
+#'
+#' This script generates a data frame of `R/` and test files that can help you
+#' identify missed opportunities for pairing:
+#'
+#' ```
+#' library(fs)
+#' library(tidyverse)
+#'
+#' bind_rows(
+#'   tibble(
+#'     type = "R",
+#'     path = dir_ls("R/", regexp = "\\.[Rr]$"),
+#'     name = as.character(path_ext_remove(path_file(path))),
+#'   ),
+#'   tibble(
+#'     type = "test",
+#'     path = dir_ls("tests/testthat/", regexp = "/test[^/]+\\.[Rr]$"),
+#'     name = as.character(path_ext_remove(str_remove(path_file(path), "^test[-_]"))),
+#'   )
+#' ) %>%
+#'   pivot_wider(names_from = type, values_from = path) %>%
+#'   print(n = Inf)
+#' ```
+#'
+#' The [rename_files()] function can also be helpful.
+#'
 #' @param name Either a name without extension, or `NULL` to create the
 #'   paired file based on currently open file in the script editor. If
-#'   the R file is open, `use_test()` will create/open the corresponding
+#'   the `R/` file is open, `use_test()` will create/open the corresponding
 #'   test file; if the test file is open, `use_r()` will create/open the
-#'   corresponding R file.
+#'   corresponding `R/` file.
 #' @inheritParams edit_file
 #' @seealso The [testing](https://r-pkgs.org/tests.html) and
 #'   [R code](https://r-pkgs.org/r.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
 #' @export
 use_r <- function(name = NULL, open = rlang::is_interactive()) {
+  check_not_empty_file_name(name)
   name <- name %||% get_active_r_file(path = "tests/testthat")
   name <- gsub("^test-", "", name)
   name <- slug(name, "R")
@@ -41,6 +73,7 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
     use_testthat_impl()
   }
 
+  check_not_empty_file_name(name)
   name <- name %||% get_active_r_file(path = "R")
   name <- paste0("test-", name)
   name <- slug(name, "R")
@@ -157,6 +190,14 @@ check_file_name <- function(name) {
     ))
   }
   name
+}
+
+check_not_empty_file_name <- function(name = NULL) {
+  if (!is.null(name) && path_file(name) == "") {
+    ui_stop("Name must not be an empty string")
+  }
+
+  invisible(TRUE)
 }
 
 valid_file_name <- function(x) {

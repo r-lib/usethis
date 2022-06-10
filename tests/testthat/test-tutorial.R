@@ -13,7 +13,9 @@ test_that("use_tutorial() creates a tutorial", {
   with_mock(
     # pass the check re: whether learnr is installed
     check_installed = function(pkg) TRUE,
-    use_tutorial(name = "aaa", title = "bbb")
+    {
+      use_tutorial(name = "aaa", title = "bbb")
+    }
   )
   tute_file <- path("inst", "tutorials", "aaa", "aaa", ext = "Rmd")
   expect_proj_file(tute_file)

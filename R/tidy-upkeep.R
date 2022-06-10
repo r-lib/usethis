@@ -24,13 +24,16 @@ use_tidy_upkeep_issue <- function(year = NULL) {
     title = glue("Upkeep for {project_name()}"),
     body = paste0(checklist, "\n", collapse = "")
   )
+  Sys.sleep(1)
   view_url(issue$html_url)
 }
 
-upkeep_checklist <- function(year = NULL) {
+upkeep_checklist <- function(year = NULL,
+                             rstudio_pkg = is_rstudio_pkg(),
+                             rstudio_person_ok = is_rstudio_person_canonical()) {
   year <- year %||% 2000
-  is_rstudio_funded <- is_rstudio_funded()
-  is_in_rstudio_org <- is_in_rstudio_org()
+
+
   bullets <- c()
 
   if (year <= 2000) {
@@ -41,7 +44,7 @@ upkeep_checklist <- function(year = NULL) {
       todo("`usethis::use_roxygen_md()`"),
       todo("`usethis::use_github_links()`"),
       todo("`usethis::use_pkgdown_github_pages()`"),
-      todo("`usethis::use_tidy_labels()`"),
+      todo("`usethis::use_tidy_github_labels()`"),
       todo("`usethis::use_tidy_style()`"),
       todo("`usethis::use_tidy_description()`"),
       todo("`urlchecker::url_check()`"),
@@ -61,7 +64,8 @@ upkeep_checklist <- function(year = NULL) {
         [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)"),
       todo("
         Align the names of `R/` files and `test/` files for workflow happiness.
-        `usethis::rename_files()` can be helpful."),
+        The docs for `usethis::use_r()` include a helpful script.
+        `usethis::rename_files()` may be be useful."),
       ""
     )
   }
@@ -79,10 +83,30 @@ upkeep_checklist <- function(year = NULL) {
       todo("
         Use lifecycle instead of artisanal deprecation messages, as described \\
         in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)"),
-      todo("
-        Add RStudio to DESCRIPTION as funder, if appropriate",
-        !is_rstudio_funded && is_in_rstudio_org),
+      todo('
+        Make sure RStudio appears in `Authors@R` of DESCRIPTION like so, if appropriate:
+        `person("RStudio", role = c("cph", "fnd"))`',
+        rstudio_pkg && !rstudio_person_ok),
+
       ""
+    )
+  }
+if (year <= 2022) {
+    bullets <- c(bullets,
+     "2022",
+     "",
+     todo("`usethis::use_tidy_coc()`"),
+     todo("Handle and close any still-open `master` --> `main` issues"),
+     todo("Update README badges, instructions in [r-lib/usethis#1594](https://github.com/r-lib/usethis/issues/1594)"),
+     todo("
+       Update errors to rlang 1.0.0. Helpful guides:
+       <https://rlang.r-lib.org/reference/topic-error-call.html>
+       <https://rlang.r-lib.org/reference/topic-error-chaining.html>
+       <https://rlang.r-lib.org/reference/topic-condition-formatting.html>"),
+     todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
+     todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
+     todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
+     ""
     )
   }
 

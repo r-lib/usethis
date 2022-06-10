@@ -52,6 +52,7 @@ use_release_issue <- function(version = NULL) {
     body = paste0(checklist, "\n", collapse = "")
   )
 
+  Sys.sleep(1)
   view_url(issue$html_url)
 }
 
@@ -79,7 +80,12 @@ release_checklist <- function(version, on_cran) {
     ),
     "Prepare for release:",
     "",
+    todo("`git pull`"),
     todo("Check [current CRAN check results]({cran_results})", on_cran),
+    todo("
+      Check if any deprecation processes should be advanced, as described in \\
+      [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
+      type != "patch"),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("`devtools::build_readme()`", has_readme),
     todo("`urlchecker::url_check()`"),
@@ -91,9 +97,9 @@ release_checklist <- function(version, on_cran) {
     todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran && !is_rstudio_pkg),
     todo("`revdepcheck::cloud_check()`", on_cran && is_rstudio_pkg),
     todo("Update `cran-comments.md`", on_cran),
-    todo("Review pkgdown reference index for, e.g., missing topics", has_pkgdown && type != "patch"),
+    todo("`git push`"),
     todo("Draft blog post", type != "patch"),
-    todo("Ping Tracy Teal on Slack", type != "patch" && is_rstudio_pkg),
+    todo("Slack link to draft blog in #open-source-comms", type != "patch" && is_rstudio_pkg),
     release_extra(),
     "",
     "Submit to CRAN:",
@@ -105,16 +111,25 @@ release_checklist <- function(version, on_cran) {
     "Wait for CRAN...",
     "",
     todo("Accepted :tada:"),
+    todo("`git push`"),
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version()`"),
     todo("`usethis::use_news_md()`", !has_news),
+    todo("`git push`"),
     todo("Finish blog post", type != "patch"),
     todo("Tweet", type != "patch"),
     todo("Add link to blog post in pkgdown news menu", type != "patch")
   )
 }
 
-release_extra <- function(env = parent.env(globalenv())) {
+release_extra <- function(env = NULL) {
+  if (is.null(env)) {
+    env <- tryCatch(
+      pkg_env(project_name()),
+      error = function(e) emptyenv()
+    )
+  }
+
   if (env_has(env, "release_bullets")) {
     paste0("* [ ] ", env$release_bullets())
   } else if (env_has(env, "release_questions")) {
@@ -168,12 +183,8 @@ use_github_release <- function(host = deprecated(),
     deprecate_warn_auth_token("use_github_release")
   }
 
-  tr <- target_repo(github_get = TRUE)
-  if (!isTRUE(tr$can_push)) {
-    ui_stop("
-      You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
-      is required to draft a release.")
-  }
+  tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
+  check_can_push(tr = tr, "to draft a release")
 
   dat <- get_release_data(tr)
   release_name <- glue("{dat$Package} {dat$Version}")
@@ -198,6 +209,7 @@ use_github_release <- function(host = deprecated(),
     file_delete(dat$file)
   }
 
+  Sys.sleep(1)
   view_url(release$html_url)
   ui_todo("Publish the release via \"Edit draft\" > \"Publish release\"")
 }
@@ -356,16 +368,58 @@ news_latest <- function(lines) {
 }
 
 is_rstudio_pkg <- function() {
-  is_rstudio_funded() || is_in_rstudio_org()
+  is_rstudio_cph_or_fnd() || is_in_rstudio_org()
 }
 
-is_rstudio_funded <- function() {
+is_rstudio_cph_or_fnd <- function() {
   if (!is_package()) {
     return(FALSE)
   }
+  roles <- get_rstudio_roles()
+  "cph" %in% roles || "fnd" %in% roles
+}
+
+is_rstudio_person_canonical <- function() {
+  if (!is_package()) {
+    return(FALSE)
+  }
+  roles <- get_rstudio_roles()
+  length(roles) > 0 &&
+    "fnd" %in% roles &&
+    "cph" %in% roles &&
+    attr(roles, "appears_in", exact = TRUE) == "given" &&
+    attr(roles, "appears_as", exact = TRUE) == "RStudio"
+}
+
+get_rstudio_roles <- function() {
+  if (!is_package()) {
+    return()
+  }
+
   desc <- desc::desc(file = proj_get())
-  funders <- unclass(desc$get_author("fnd"))
-  purrr::some(funders, ~ .x$given == "RStudio")
+  fnd <- unclass(desc$get_author("fnd"))
+  cph <- unclass(desc$get_author("cph"))
+
+  detect_rstudio <- function(x) {
+    any(grepl("rstudio", tolower(x[c("given", "family")])))
+  }
+  fnd <- purrr::keep(fnd, detect_rstudio)
+  cph <- purrr::keep(cph, detect_rstudio)
+
+  if (length(fnd) < 1 && length(cph) < 1) {
+    return(character())
+  }
+
+  person <- c(fnd, cph)[[1]]
+  out <- person$role
+  if (!is.null(person$given) && nzchar(person$given)) {
+    attr(out, "appears_as") <- person$given
+    attr(out, "appears_in") <- "given"
+  } else {
+    attr(out, "appears_as") <- person$family
+    attr(out, "appears_in") <- "family"
+  }
+  out
 }
 
 is_in_rstudio_org <- function() {

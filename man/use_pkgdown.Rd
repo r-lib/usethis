@@ -13,9 +13,10 @@ use_pkgdown_github_pages()
 use_pkgdown_travis()
 }
 \arguments{
-\item{config_file}{Path to the pkgdown yaml config file}
+\item{config_file}{Path to the pkgdown yaml config file, relative to the
+project.}
 
-\item{destdir}{Target directory for pkgdown docs}
+\item{destdir}{Target directory for pkgdown docs.}
 }
 \description{
 \href{https://pkgdown.r-lib.org}{pkgdown} makes it easy to turn your package into

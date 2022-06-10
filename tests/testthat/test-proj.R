@@ -48,6 +48,11 @@ test_that("proj_path() appends to the project path", {
   expect_identical(proj_path("a", "b", "c"), proj_path("a/b/c"))
 })
 
+test_that("proj_path() errors with absolute paths", {
+  create_local_project()
+  expect_snapshot(proj_path(c("/a", "b", "/c")), error = TRUE)
+})
+
 test_that("proj_rel_path() returns path part below the project", {
   create_local_project()
   expect_equal(proj_rel_path(proj_path("a/b/c")), "a/b/c")
@@ -214,9 +219,11 @@ test_that("proj_activate() works with relative path when RStudio is not detected
   with_mock(
     # make sure we act as if not in RStudio
     rstudio_available = function(...) FALSE,
-    expect_error_free(
-      result <- proj_activate(rel_path_proj)
-    )
+    {
+      expect_error_free(
+        result <- proj_activate(rel_path_proj)
+      )
+    }
   )
   expect_true(result)
   expect_equal(path_wd(), out_path)

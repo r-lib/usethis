@@ -13,37 +13,47 @@ test_that("download_url() retry logic works as advertised", {
   # succeed on first try
   with_mock(
     try_download = faux_download(0),
-    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
+    {
+      expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
+    }
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, then succeed
   with_mock(
     try_download = faux_download(1),
-    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
+    {
+      expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
+    }
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, fail, then succeed (default n_tries = 3, so should allow)
   with_mock(
     try_download = faux_download(2),
-    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
+    {
+      expect_snapshot(out <- download_url(url = "URL", destfile = "destfile"))
+    }
   )
   expect_s3_class(out, "curl_handle")
 
   # fail, fail, fail (exceed n_failures > n_tries = 3)
   with_mock(
     try_download = faux_download(5),
-    expect_snapshot(
-      out <- download_url(url = "URL", destfile = "destfile", n_tries = 3),
-      error = TRUE
-    )
+    {
+      expect_snapshot(
+        out <- download_url(url = "URL", destfile = "destfile", n_tries = 3),
+        error = TRUE
+      )
+    }
   )
 
   # fail, fail, fail, succeed (make sure n_tries is adjustable)
   with_mock(
     try_download = faux_download(3),
-    expect_snapshot(out <- download_url(url = "URL", destfile = "destfile", n_tries = 10))
+    {
+      expect_snapshot(out <- download_url(url = "URL", destfile = "destfile", n_tries = 10))
+    }
   )
   expect_s3_class(out, "curl_handle")
 })

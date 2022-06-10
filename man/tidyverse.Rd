@@ -17,7 +17,7 @@
 \alias{use_tidy_style}
 \title{Helpers for tidyverse development}
 \usage{
-use_tidy_github_actions()
+use_tidy_github_actions(ref = NULL)
 
 use_tidy_upkeep_issue(year = NULL)
 
@@ -42,6 +42,12 @@ use_tidy_github()
 use_tidy_style(strict = TRUE)
 }
 \arguments{
+\item{ref}{Desired Git reference, usually the name of a tag (\code{"v2"}) or
+branch (\code{"main"}). Other possibilities include a commit SHA (\code{"d1c516d"})
+or \code{"HEAD"} (meaning "tip of remote's default branch"). If not specified,
+defaults to the latest published release of \code{r-lib/actions}
+(\url{https://github.com/r-lib/actions/releases}).}
+
 \item{year}{Approximate year when you last touched this package. If \code{NULL},
 the default, will give you a full set of actions to perform.}
 

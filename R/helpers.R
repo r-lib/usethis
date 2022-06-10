@@ -6,10 +6,18 @@ use_dependency <- function(package, type, min_version = NULL) {
     check_installed(package)
   }
 
-  if (isTRUE(min_version)) {
+  if (package == "R" && tolower(type) != "depends") {
+    ui_stop("Set {ui_code('type = \"Depends\"')} when specifying an R version")
+  } else if (package == "R" && is.null(min_version)) {
+    ui_stop("Specify {ui_code('min_version')} when {ui_code('package = \"R\"')}")
+  }
+
+  if (isTRUE(min_version) && package == "R") {
+    min_version <- r_version()
+  } else if (isTRUE(min_version)) {
     min_version <- utils::packageVersion(package)
   }
-  version <- if (is.null(min_version)) "*" else paste0(">= ", min_version)
+  version <- if (is.null(min_version)) "*" else glue(">= {min_version}")
 
   types <- c("Depends", "Imports", "Suggests", "Enhances", "LinkingTo")
   names(types) <- tolower(types)
@@ -64,6 +72,11 @@ use_dependency <- function(package, type, min_version = NULL) {
   }
 
   invisible(TRUE)
+}
+
+r_version <- function() {
+  version <- getRversion()
+  glue("{version$major}.{version$minor}")
 }
 
 use_system_requirement <- function(requirement) {

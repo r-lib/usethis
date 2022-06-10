@@ -34,6 +34,9 @@ it will be automatically installed from the correct location.
 use_package("ggplot2")
 use_package("dplyr", "suggests")
 use_dev_package("glue")
+
+# Depend on R version 4.1
+use_package("R", type = "Depends", min_version = "4.1")
 }
 }
 \seealso{

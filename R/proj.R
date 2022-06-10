@@ -95,7 +95,12 @@ proj_set <- function(path = ".", force = FALSE) {
 #' @inheritParams fs::path
 #' @export
 proj_path <- function(..., ext = "") {
-  path_norm(path(proj_get(), ..., ext = ext))
+  paths <- path(..., ext = ext)
+  if (any(is_absolute_path(paths))) {
+    ui_stop("Paths must be relative to the active project")
+  }
+
+  path_norm(path(proj_get(), paths))
 }
 
 #' @describeIn proj_utils Runs code with a temporary active project and,

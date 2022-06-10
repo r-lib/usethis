@@ -201,8 +201,14 @@ use_tidy_issue_template <- function() {
 #' @export
 #' @rdname tidyverse
 use_tidy_coc <- function() {
+  old_top_level_coc <- proj_path(c("CODE_OF_CONDUCT.md", "CONDUCT.md"))
+  old <- file_exists(old_top_level_coc)
+  if (any(old)) {
+    file_delete(old_top_level_coc[old])
+  }
+
   use_dot_github()
-  use_code_of_conduct("codeofconduct@rstudio.com", path = ".github")
+  use_coc(contact = "codeofconduct@rstudio.com", path = ".github")
 }
 
 #' @export

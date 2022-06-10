@@ -2,7 +2,7 @@
 
     Code
       git_default_branch_rename()
-    Message <message>
+    Message
       i Local branch 'master' appears to play the role of the default branch.
       v Moving local 'master' branch to 'main'.
       * Be sure to update files that refer to the default branch by name.

@@ -74,12 +74,9 @@ use_github_labels <- function(repo_spec = deprecated(),
     deprecate_warn_auth_token("use_github_labels")
   }
 
-  tr <- target_repo(github_get = TRUE)
-  if (!isTRUE(tr$can_push)) {
-    ui_stop("
-      You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
-      is required to modify labels.")
-  }
+  tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
+  check_can_push(tr = tr, "to modify labels")
+
   gh <- gh_tr(tr)
 
   cur_labels <- gh("GET /repos/{owner}/{repo}/labels")

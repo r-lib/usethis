@@ -12,8 +12,8 @@ test_that("use_github_action() allows for custom urls", {
   withr::local_options(usethis.quiet = FALSE)
   expect_snapshot(
     use_github_action(
-      url = "https://raw.githubusercontent.com/r-lib/actions/v1/examples/check-full.yaml",
-      readme = "https://github.com/r-lib/actions/blob/v1/examples/README.md"
+      url = "https://raw.githubusercontent.com/r-lib/actions/v2/examples/check-full.yaml",
+      readme = "https://github.com/r-lib/actions/blob/v2/examples/README.md"
     )
   )
   expect_proj_dir(".github")
@@ -38,6 +38,22 @@ test_that("use_github_action() appends yaml in name if missing", {
   expect_proj_file(".github/workflows/check-full.yaml")
 })
 
+test_that("use_github_action() accepts a ref", {
+  skip_on_cran()
+  skip_if_no_git_user()
+  skip_if_offline()
+  local_interactive(FALSE)
+
+  create_local_package()
+  use_git()
+  use_git_remote(name = "origin", url = "https://github.com/OWNER/REPO")
+
+  use_github_action("check-full", ref = "v1")
+  expect_snapshot(
+    read_utf8(proj_path(".github/workflows/check-full.yaml"), n = 1)
+  )
+})
+
 test_that("uses_github_actions() reports usage of GitHub Actions", {
   skip_on_cran()
   skip_if_no_git_user()
@@ -50,7 +66,9 @@ test_that("uses_github_actions() reports usage of GitHub Actions", {
   use_git_remote(name = "origin", url = "https://github.com/OWNER/REPO")
   with_mock(
     use_github_actions_badge = function(name, repo_spec) NULL,
-    use_github_actions()
+    {
+      use_github_actions()
+    }
   )
   expect_true(uses_github_actions())
 })

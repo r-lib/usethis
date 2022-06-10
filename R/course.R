@@ -70,7 +70,8 @@ use_course <- function(url, destdir = getOption("usethis.destdir")) {
       "Prefer a different location? Cancel, try again, and specify {ui_code('destdir')}"
     ))
     if (ui_nope("OK to proceed?")) {
-      ui_stop("Aborting.")
+      ui_oops("Cancelling download.")
+      return(invisible())
     }
   }
 
@@ -260,7 +261,7 @@ tidy_download <- function(url, destdir = getwd()) {
   full_path <- path(destdir, base_name)
 
   if (!can_overwrite(full_path)) {
-    ui_stop("Aborting to avoid overwriting {ui_path(full_path)}")
+    ui_stop("Cancelling download, to avoid overwriting {ui_path(full_path)}")
   }
   attr(full_path, "content-type") <- content_type(h)
   attr(full_path, "content-disposition") <- cd

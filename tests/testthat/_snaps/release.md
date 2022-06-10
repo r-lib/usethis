@@ -15,10 +15,13 @@
       
       Prepare for release:
       
+      * [ ] `git pull`
+      * [ ] Check if any deprecation processes should be advanced, as described in [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
       * [ ] `rhub::check_for_cran()`
+      * [ ] `git push`
       * [ ] Draft blog post
       
       Submit to CRAN:
@@ -30,9 +33,11 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
+      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
       * [ ] `usethis::use_news_md()`
+      * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
@@ -44,6 +49,7 @@
     Output
       Prepare for release:
       
+      * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `urlchecker::url_check()`
@@ -52,6 +58,7 @@
       * [ ] `rhub::check_for_cran()`
       * [ ] `revdepcheck::revdep_check(num_workers = 4)`
       * [ ] Update `cran-comments.md`
+      * [ ] `git push`
       
       Submit to CRAN:
       
@@ -62,9 +69,11 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
+      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
       * [ ] `usethis::use_news_md()`
+      * [ ] `git push`
 
 ---
 
@@ -73,7 +82,9 @@
     Output
       Prepare for release:
       
+      * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
+      * [ ] Check if any deprecation processes should be advanced, as described in [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
@@ -81,6 +92,7 @@
       * [ ] `rhub::check_for_cran()`
       * [ ] `revdepcheck::revdep_check(num_workers = 4)`
       * [ ] Update `cran-comments.md`
+      * [ ] `git push`
       * [ ] Draft blog post
       
       Submit to CRAN:
@@ -92,9 +104,11 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
+      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
       * [ ] `usethis::use_news_md()`
+      * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
@@ -106,7 +120,9 @@
     Output
       Prepare for release:
       
+      * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
+      * [ ] Check if any deprecation processes should be advanced, as described in [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
@@ -114,8 +130,9 @@
       * [ ] `rhub::check_for_cran()`
       * [ ] `revdepcheck::cloud_check()`
       * [ ] Update `cran-comments.md`
+      * [ ] `git push`
       * [ ] Draft blog post
-      * [ ] Ping Tracy Teal on Slack
+      * [ ] Slack link to draft blog in #open-source-comms
       
       Submit to CRAN:
       
@@ -126,9 +143,11 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
+      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
       * [ ] `usethis::use_news_md()`
+      * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu

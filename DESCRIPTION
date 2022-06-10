@@ -1,6 +1,6 @@
 Package: usethis
 Title: Automate Package and Project Setup
-Version: 2.1.5.9000
+Version: 2.1.6.9000
 Authors@R: 
     c(person(given = "Hadley",
              family = "Wickham",
@@ -42,7 +42,7 @@ Imports:
     lifecycle (>= 1.0.0),
     purrr,
     rappdirs,
-    rlang (>= 0.4.10),
+    rlang (>= 1.0.0),
     rprojroot (>= 1.2),
     rstudioapi,
     stats,
@@ -68,4 +68,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0

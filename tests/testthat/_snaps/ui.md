@@ -2,31 +2,32 @@
 
     Code
       ui_line("line")
-    Message <message>
+    Message
       line
     Code
       ui_todo("to do")
-    Message <message>
+    Message
       * to do
     Code
       ui_done("done")
-    Message <message>
+    Message
       v done
     Code
       ui_oops("oops")
-    Message <message>
+    Message
       x oops
     Code
       ui_info("info")
-    Message <message>
+    Message
       i info
     Code
       ui_code_block(c("x <- 1", "y <- 2"))
-    Message <message>
+    Message
         x <- 1
         y <- 2
     Code
       ui_warn("a warning")
-    Warning <simpleWarning>
+    Condition
+      Warning:
       a warning
 

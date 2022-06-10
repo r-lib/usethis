@@ -16,6 +16,7 @@ use_github_actions_badge(name = "R-CMD-check.yaml", repo_spec = NULL)
 
 use_github_action(
   name,
+  ref = NULL,
   url = NULL,
   save_as = NULL,
   readme = NULL,
@@ -25,18 +26,21 @@ use_github_action(
 
 use_github_action_check_release(
   save_as = "R-CMD-check.yaml",
+  ref = NULL,
   ignore = TRUE,
   open = FALSE
 )
 
 use_github_action_check_standard(
   save_as = "R-CMD-check.yaml",
+  ref = NULL,
   ignore = TRUE,
   open = FALSE
 )
 
 use_github_action_pr_commands(
   save_as = "pr-commands.yaml",
+  ref = NULL,
   ignore = TRUE,
   open = FALSE
 )
@@ -52,6 +56,12 @@ file. Examples: "R-CMD-check", "R-CMD-check.yaml".
 If \code{name} has no extension, we assume it's \code{.yaml}.}
 
 \item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
+
+\item{ref}{Desired Git reference, usually the name of a tag (\code{"v2"}) or
+branch (\code{"main"}). Other possibilities include a commit SHA (\code{"d1c516d"})
+or \code{"HEAD"} (meaning "tip of remote's default branch"). If not specified,
+defaults to the latest published release of \code{r-lib/actions}
+(\url{https://github.com/r-lib/actions/releases}).}
 
 \item{url}{The full URL to a \code{.yaml} file on GitHub.}
 

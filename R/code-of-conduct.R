@@ -4,8 +4,8 @@
 #' `.Rbuildignore`, in the case of a package. The goal of a code of conduct is
 #' to foster an environment of inclusiveness, and to explicitly discourage
 #' inappropriate behaviour. The template comes from
-#' <https://www.contributor-covenant.org>, version 2:
-#' <https://www.contributor-covenant.org/version/2/0/code_of_conduct/>.
+#' <https://www.contributor-covenant.org>, version 2.1:
+#' <https://www.contributor-covenant.org/version/2/1/code_of_conduct/>.
 #'
 #' If your package is going to CRAN, the link to the CoC in your README must
 #' be an absolute link to a rendered website as `CODE_OF_CONDUCT.md` is not
@@ -28,24 +28,14 @@ use_code_of_conduct <- function(contact, path = NULL) {
         first argument")
   }
 
-  if (!is.null(path)) {
-    use_directory(path, ignore = is_package())
-  }
-  save_as <- path_join(c(path, "CODE_OF_CONDUCT.md"))
-
-  new <- use_template(
-    "CODE_OF_CONDUCT.md",
-    save_as = save_as,
-    data = list(contact = contact),
-    ignore = is_package() && is.null(path)
-  )
+  new <- use_coc(contact = contact, path = path)
 
   href <- pkgdown_url(pedantic = TRUE) %||%
-    "https://contributor-covenant.org/version/2/0"
+    "https://contributor-covenant.org/version/2/1"
   href <- sub("/$", "", href)
   href <- paste0(href, "/CODE_OF_CONDUCT.html")
 
-  ui_todo("Don't forget to describe the code of conduct in your README:")
+  ui_todo("You may also want to describe the code of conduct in your README:")
   ui_code_block("
     ## Code of Conduct
 
@@ -55,4 +45,18 @@ use_code_of_conduct <- function(contact, path = NULL) {
   )
 
   invisible(new)
+}
+
+use_coc <- function(contact, path = NULL) {
+  if (!is.null(path)) {
+    use_directory(path, ignore = is_package())
+  }
+  save_as <- path_join(c(path, "CODE_OF_CONDUCT.md"))
+
+  use_template(
+    "CODE_OF_CONDUCT.md",
+    save_as = save_as,
+    data = list(contact = contact),
+    ignore = is_package() && is.null(path)
+  )
 }

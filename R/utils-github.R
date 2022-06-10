@@ -462,7 +462,8 @@ github_remote_config <- function(github_get = NA) {
 target_repo <- function(cfg = NULL,
                         github_get = NA,
                         role = c("source", "primary"),
-                        ask = is_interactive()) {
+                        ask = is_interactive(),
+                        ok_configs = c("ours", "fork", "theirs")) {
   cfg <- cfg %||% github_remote_config(github_get = github_get)
   stopifnot(inherits(cfg, "github_remote_config"))
   role <- match.arg(role)
@@ -470,7 +471,7 @@ target_repo <- function(cfg = NULL,
   check_for_bad_config(cfg)
 
   if (isTRUE(github_get)) {
-    check_for_config(cfg)
+    check_for_config(cfg, ok_configs = ok_configs)
   }
 
   # upstream only
@@ -597,7 +598,7 @@ stop_maybe_github_remote_config <- function(cfg) {
     personal access token
     Call {ui_code('gh_token_help()')} for help")
   abort(
-    message = unname(msg),
+    message = unname(unlist(msg)),
     class = c("usethis_error_invalid_pr_config", "usethis_error"),
     cfg = cfg
   )
@@ -616,31 +617,59 @@ check_for_bad_config <- function(cfg,
   invisible()
 }
 
-check_for_maybe_config <- function(cfg,
-                                   maybe_configs = c(
-                                     "maybe_ours_or_theirs",
-                                     "maybe_fork"
-                                   )) {
+check_for_maybe_config <- function(cfg) {
+  maybe_configs <- grep("^maybe_", all_configs(), value = TRUE)
   if (cfg$type %in% maybe_configs) {
     stop_maybe_github_remote_config(cfg)
   }
   invisible()
 }
 
-check_for_config <- function(cfg = NULL, ok_configs = c("ours", "fork")) {
+check_for_config <- function(cfg = NULL,
+                             ok_configs = c("ours", "fork", "theirs")) {
   cfg <- cfg %||% github_remote_config(github_get = TRUE)
   stopifnot(inherits(cfg, "github_remote_config"))
+
   if (cfg$type %in% ok_configs) {
     return(invisible(cfg))
   }
-  check_for_bad_config(cfg)
+
   check_for_maybe_config(cfg)
+
+  bad_configs <- grep("^maybe_", all_configs(), invert = TRUE, value = TRUE)
+  bad_configs <- setdiff(bad_configs, ok_configs)
+
+  check_for_bad_config(cfg, bad_configs = bad_configs)
+
   ui_stop("
     Internal error: Unexpected GitHub remote configuration: {ui_value(cfg$type)}")
 }
 
+check_can_push <- function(tr = target_repo(github_get = TRUE),
+                           objective = "for this operation") {
+  if (isTRUE(tr$can_push)) {
+    return(invisible())
+  }
+  ui_stop("
+    You don't seem to have push access for {ui_value(tr$repo_spec)}, which \\
+    is required {objective}.")
+}
+
 # github remote configurations -------------------------------------------------
-# use for configs
+all_configs <- function() {
+  c(
+    "no_github",
+    "ours",
+    "theirs",
+    "maybe_ours_or_theirs",
+    "fork",
+    "maybe_fork",
+    "fork_cannot_push_origin",
+    "fork_upstream_is_not_origin_parent",
+    "upstream_but_origin_is_not_fork"
+  )
+}
+
 read_more <- function() {
   glue("
     Read more about the GitHub remote configurations that usethis supports at:

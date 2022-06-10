@@ -1,13 +1,13 @@
-# NA
+# animalcules
 
 <details>
 
 * Version: NA
 * GitHub: NA
-* Source code: https://github.com/cran/NA
-* Number of recursive dependencies: 0
+* Source code: https://github.com/cran/animalcules
+* Number of recursive dependencies: 214
 
-Run `cloud_details(, "NA")` for more info
+Run `cloud_details(, "animalcules")` for more info
 
 </details>
 
