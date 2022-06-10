@@ -51,7 +51,7 @@ create_package <- function(path,
   local_project(path, force = TRUE)
 
   use_directory("R")
-  use_description(fields, check_name = FALSE, roxygen = roxygen)
+  use_description_impl_(name, fields, roxygen)
   use_namespace(roxygen = roxygen)
 
   if (rstudio) {

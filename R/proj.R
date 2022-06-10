@@ -69,7 +69,7 @@ proj_get <- function() {
 #'   adding a `DESCRIPTION` file.
 #' @export
 proj_set <- function(path = ".", force = FALSE) {
-  if (dir_exists(path %||% "") && is_in_proj(path)) {
+  if (!force && dir_exists(path %||% "") && is_in_proj(path)) {
     return(invisible(proj_get_()))
   }
 
