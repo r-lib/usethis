@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* Although nested projects are discouraged, they can be useful in development contexts. `create_package()` now sets the correct package name and returns the correct package path for a package nested inside a project (#1647). 
+
 # usethis 2.1.6
 
 ### GitHub-related
