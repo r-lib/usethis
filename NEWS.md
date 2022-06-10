@@ -1,5 +1,7 @@
 # usethis (development version)
 
+`git_vaccinated()` now treats a path configured as `core.excludesFile` like other user-supplied paths; in particular, any use of the `~/` home directory shortcut is expanded via [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html) (@dpprdan, #1560).
+
 # usethis 2.1.6
 
 ### GitHub-related
