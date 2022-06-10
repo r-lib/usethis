@@ -81,11 +81,10 @@ ensure_core_excludesFile <- function() {
     path_first_existing(path_home(c(".gitignore", ".gitignore_global"))) %||%
     path_home(".gitignore")
 
-  # express path relative to user's home directory, except on Windows
   if (!is_windows()) {
+    # express path relative to user's home directory, except on Windows
     path <- path("~", path_rel(path, path_home()))
   }
-
   ui_done("Configuring {ui_field('core.excludesFile')}: {ui_path(path)}")
   gert::git_config_global_set("core.excludesFile", path)
   invisible()
