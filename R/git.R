@@ -460,7 +460,8 @@ git_vaccinated <- function() {
   if (is.null(path) || !file_exists(path)) {
     return(FALSE)
   }
-  lines <- read_utf8(path)
+  # on Windows, if ~/ is present, take care to expand it the fs way
+  lines <- read_utf8(user_path_prep(path))
   all(git_ignore_lines %in% lines)
 }
 
