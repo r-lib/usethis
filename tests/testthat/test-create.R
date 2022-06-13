@@ -38,13 +38,11 @@ test_that("nested project is disallowed, by default", {
 test_that("nested package can be created if user really, really wants to", {
   parent <- create_local_package()
   child_path <- path(parent, "fghijk")
-  with_mock(
-    # since user can't approve interactively, use the backdoor
-    allow_nested_project = function() TRUE,
-    {
-      child_result <- create_package(child_path)
-    }
-  )
+
+  # since user can't approve interactively, use the backdoor
+  withr::local_options("usethis.allow_nested_package" = TRUE)
+
+  child_result <- create_package(child_path)
 
   expect_equal(child_path, child_result)
   expect_true(possibly_in_proj(child_path))
@@ -55,13 +53,12 @@ test_that("nested package can be created if user really, really wants to", {
 test_that("nested project can be created if user really, really wants to", {
   parent <- create_local_project()
   child_path <- path(parent, "fghijk")
-  with_mock(
-    # since user can't approve interactively, use the backdoor
-    allow_nested_project = function() TRUE,
-    {
-      child_result <- create_project(child_path)
-    }
-  )
+
+  # since user can't approve interactively, use the backdoor
+  withr::local_options("usethis.allow_nested_package" = TRUE)
+
+  child_result <- create_project(child_path)
+
   expect_equal(child_path, child_result)
   expect_true(possibly_in_proj(child_path))
   expect_equal(project_name(child_path), "fghijk")
