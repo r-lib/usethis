@@ -1,5 +1,7 @@
 # usethis (development version)
 
+Although nested projects are discouraged, they can be useful in development contexts. `create_package()` now sets the correct package name and returns the correct package path for a package nested inside a project (#1647). 
+
 `git_vaccinated()` now treats a path configured as `core.excludesFile` like other user-supplied paths; in particular, any use of the `~/` home directory shortcut is expanded via [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html) (@dpprdan, #1560).
 
 # usethis 2.1.6

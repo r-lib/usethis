@@ -65,6 +65,10 @@ use_description <- function(fields = list(),
     check_package_name(name)
   }
 
+  use_description_impl_(name = name, fields = fields, roxygen = roxygen)
+}
+
+use_description_impl_ <- function(name, fields = list(), roxygen = TRUE) {
   desc <- build_description(name, roxygen = roxygen, fields = fields)
 
   tf <- withr::local_tempfile(pattern = glue("use_description-{name}-"))

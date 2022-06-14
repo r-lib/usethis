@@ -51,7 +51,7 @@ create_package <- function(path,
   local_project(path, force = TRUE)
 
   use_directory("R")
-  use_description(fields, check_name = FALSE, roxygen = roxygen)
+  use_description_impl_(name, fields, roxygen)
   use_namespace(roxygen = roxygen)
 
   if (rstudio) {
@@ -307,17 +307,15 @@ create_from_github <- function(repo_spec,
   invisible(proj_get())
 }
 
-# creates a backdoor we can exploit in tests
-allow_nested_project <- function() FALSE
-
 challenge_nested_project <- function(path, name) {
   if (!possibly_in_proj(path)) {
     return(invisible())
   }
 
-  # we mock this in a few tests, to allow a nested project
-  if (allow_nested_project()) {
-    return()
+  # creates an undocumented backdoor we can exploit when the interactive
+  # approval is impractical, e.g. in tests
+  if (isTRUE(getOption("usethis.allow_nested_package", FALSE))) {
+    return(invisible())
   }
 
   ui_line(
