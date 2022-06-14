@@ -118,6 +118,8 @@ with <code>path = "/docs"</code>. It is the user's responsibility to ensure that
 <code>branch</code> pre-exists on the host.</p>
 <p>Note that GitHub does not support an arbitrary <code>path</code> and, at the time of
 writing, only <code>"/"</code> or <code>"/docs"</code> are accepted.</p></dd>
+
+
 <dt>cname</dt>
 <dd><p>Optional, custom domain name. The <code>NA</code> default means "don't set
 or change this", whereas a value of <code>NULL</code> removes any previously
@@ -125,10 +127,13 @@ configured custom domain.</p>
 <p>Note that this <em>can</em> add or modify a CNAME file in your repository. If you
 are using Pages to host a pkgdown site, it is better to specify its URL in
 the pkgdown config file and let pkgdown manage CNAME.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Site metadata returned by the GitHub API, invisibly</p>
+    
+
+<p>Site metadata returned by the GitHub API, invisibly</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -159,7 +164,7 @@ functions to fully configure a pkgdown site</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

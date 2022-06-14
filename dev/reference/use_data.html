@@ -96,6 +96,8 @@ recommend you save scripts that generate package data in <code>data-raw</code>: 
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>...</dt>
 <dd><p>Unquoted names of existing objects to save.</p></dd>
+
+
 <dt>internal</dt>
 <dd><p>If <code>FALSE</code>, saves each object in its own <code>.rda</code>
 file in the <code>data/</code> directory. These data files bypass the usual
@@ -105,27 +107,40 @@ export mechanism and are available whenever the package is loaded
 Objects in this file follow the usual export rules. Note that this means
 they will be exported if you are using the common <code>exportPattern()</code>
 rule which exports all objects except for those that start with <code>.</code>.</p></dd>
+
+
 <dt>overwrite</dt>
 <dd><p>By default, <code>use_data()</code> will not overwrite existing
 files. If you really want to do so, set this to <code>TRUE</code>.</p></dd>
+
+
 <dt>compress</dt>
 <dd><p>Choose the type of compression used by <code><a href="https://rdrr.io/r/base/save.html" class="external-link">save()</a></code>.
 Should be one of "gzip", "bzip2", or "xz".</p></dd>
+
+
 <dt>version</dt>
 <dd><p>The serialization format version to use. The default, 2, was
 the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
 R 3.6.0 and can only be read by R versions 3.5.0 and higher.</p></dd>
+
+
 <dt>ascii</dt>
 <dd><p>if <code>TRUE</code>, an ASCII representation of the data is
     written.  The default value of <code>ascii</code> is <code>FALSE</code> which
     leads to a binary file being written.  If <code>NA</code> and
     <code>version &gt;= 2</code>, a different ASCII representation is used which
     writes double/complex numbers as binary fractions.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>Name of the dataset to be prepared for inclusion in the package.</p></dd>
+
+
 <dt>open</dt>
 <dd><p>Open the newly created file for editing? Happens in RStudio, if
 applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">utils::file.edit()</a></code> otherwise.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -157,7 +172,7 @@ applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html" class=
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>
