@@ -40,7 +40,7 @@ test_that("nested package can be created if user really, really wants to", {
   child_path <- path(parent, "fghijk")
 
   # since user can't approve interactively, use the backdoor
-  withr::local_options("usethis.allow_nested_package" = TRUE)
+  withr::local_options("usethis.allow_nested_project" = TRUE)
 
   child_result <- create_package(child_path)
 
@@ -55,7 +55,7 @@ test_that("nested project can be created if user really, really wants to", {
   child_path <- path(parent, "fghijk")
 
   # since user can't approve interactively, use the backdoor
-  withr::local_options("usethis.allow_nested_package" = TRUE)
+  withr::local_options("usethis.allow_nested_project" = TRUE)
 
   child_result <- create_project(child_path)
 

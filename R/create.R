@@ -314,7 +314,7 @@ challenge_nested_project <- function(path, name) {
 
   # creates an undocumented backdoor we can exploit when the interactive
   # approval is impractical, e.g. in tests
-  if (isTRUE(getOption("usethis.allow_nested_package", FALSE))) {
+  if (isTRUE(getOption("usethis.allow_nested_project", FALSE))) {
     return(invisible())
   }
 
