@@ -5,10 +5,11 @@
 #'
 #' @keywords internal
 #' @export
-#' @param overwrite By default (`FALSE`), only dependencies without version
-#'   specifications will be modified. Set to `TRUE` to modify all dependencies.
+#' @param overwrite By default (`TRUE`), all dependencies will be modified.
+#'   Set to `FALSE` to only modify dependencies without version
+#'   specifications.
 #' @param source Use "local" or "CRAN" package versions.
-use_latest_dependencies <- function(overwrite = FALSE, source = c("local", "CRAN")) {
+use_latest_dependencies <- function(overwrite = TRUE, source = c("CRAN"," local")) {
   deps <- desc::desc_get_deps(proj_get())
   deps <- update_versions(deps, overwrite = overwrite, source = source)
   desc::desc_set_deps(deps, file = proj_get())
