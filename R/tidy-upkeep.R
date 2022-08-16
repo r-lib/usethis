@@ -106,6 +106,7 @@ if (year <= 2022) {
      todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
      todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
      todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
+     todo("Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`"),
      ""
     )
   }
