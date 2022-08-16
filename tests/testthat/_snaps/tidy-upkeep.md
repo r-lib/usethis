@@ -46,5 +46,6 @@
       * [ ] Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>
       * [ ] Ensure pkgdown `development` is `mode: auto` in pkgdown config
       * [ ] Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)
+      * [ ] Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`
       
 
