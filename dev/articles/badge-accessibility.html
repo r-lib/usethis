@@ -14,9 +14,9 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.1/font.css" rel="stylesheet">
-<link href="../deps/_Source%20Code%20Pro-0.4.1/font.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.2/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.2/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Exploring badge accessibility">
@@ -108,7 +108,7 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span></span></code></pre></div>
 <p>Various functions in usethis insert a badge into a package’s README file. A badge consists of an image with information about the package, which is usually hyperlinked to a location with further details. Here is a typical badge:</p>
 <!-- badges: start -->
 <p><a href="https://shields.io/" class="external-link"><img src="https://img.shields.io/badge/badge%20label-badge%20message-yellowgreen" alt="badge_example"></a> <!-- badges: end --></p>
@@ -146,205 +146,205 @@
 <!-- badges: start --><p><a href="https://shields.io/" class="external-link"><img src="https://img.shields.io/badge/my__label-my__message-orange" alt="my_alt_text"></a> <!-- badges: end --></p>
 <p>Now we inspect the badge SVG. I apologize in advance for the amount of data displayed here, but it seems good to show one badge in full gory detail. Later, we will display badge information very selectively.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span>
-
-<span class="va">inspect_badge</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">badge</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">badge</span> <span class="op"><a href="https://purrr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-    <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://purrr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-    <span class="fu"><a href="http://xml2.r-lib.org/reference/as_list.html" class="external-link">as_list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://purrr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-    <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"svg"</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/badge/my__label-my__message-orange"</span><span class="op">)</span>
-<span class="co">#&gt; $title</span>
-<span class="co">#&gt; $title[[1]]</span>
-<span class="co">#&gt; [1] "my_label: my_message"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $linearGradient</span>
-<span class="co">#&gt; $linearGradient$stop</span>
-<span class="co">#&gt; list()</span>
-<span class="co">#&gt; attr(,"offset")</span>
-<span class="co">#&gt; [1] "0"</span>
-<span class="co">#&gt; attr(,"stop-color")</span>
-<span class="co">#&gt; [1] "#bbb"</span>
-<span class="co">#&gt; attr(,"stop-opacity")</span>
-<span class="co">#&gt; [1] ".1"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $linearGradient$stop</span>
-<span class="co">#&gt; list()</span>
-<span class="co">#&gt; attr(,"offset")</span>
-<span class="co">#&gt; [1] "1"</span>
-<span class="co">#&gt; attr(,"stop-opacity")</span>
-<span class="co">#&gt; [1] ".1"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"id")</span>
-<span class="co">#&gt; [1] "s"</span>
-<span class="co">#&gt; attr(,"x2")</span>
-<span class="co">#&gt; [1] "0"</span>
-<span class="co">#&gt; attr(,"y2")</span>
-<span class="co">#&gt; [1] "100%"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $clipPath</span>
-<span class="co">#&gt; $clipPath$rect</span>
-<span class="co">#&gt; list()</span>
-<span class="co">#&gt; attr(,"width")</span>
-<span class="co">#&gt; [1] "144"</span>
-<span class="co">#&gt; attr(,"height")</span>
-<span class="co">#&gt; [1] "20"</span>
-<span class="co">#&gt; attr(,"rx")</span>
-<span class="co">#&gt; [1] "3"</span>
-<span class="co">#&gt; attr(,"fill")</span>
-<span class="co">#&gt; [1] "#fff"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"id")</span>
-<span class="co">#&gt; [1] "r"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $g</span>
-<span class="co">#&gt; $g$rect</span>
-<span class="co">#&gt; list()</span>
-<span class="co">#&gt; attr(,"width")</span>
-<span class="co">#&gt; [1] "61"</span>
-<span class="co">#&gt; attr(,"height")</span>
-<span class="co">#&gt; [1] "20"</span>
-<span class="co">#&gt; attr(,"fill")</span>
-<span class="co">#&gt; [1] "#555"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $g$rect</span>
-<span class="co">#&gt; list()</span>
-<span class="co">#&gt; attr(,"x")</span>
-<span class="co">#&gt; [1] "61"</span>
-<span class="co">#&gt; attr(,"width")</span>
-<span class="co">#&gt; [1] "83"</span>
-<span class="co">#&gt; attr(,"height")</span>
-<span class="co">#&gt; [1] "20"</span>
-<span class="co">#&gt; attr(,"fill")</span>
-<span class="co">#&gt; [1] "#fe7d37"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $g$rect</span>
-<span class="co">#&gt; list()</span>
-<span class="co">#&gt; attr(,"width")</span>
-<span class="co">#&gt; [1] "144"</span>
-<span class="co">#&gt; attr(,"height")</span>
-<span class="co">#&gt; [1] "20"</span>
-<span class="co">#&gt; attr(,"fill")</span>
-<span class="co">#&gt; [1] "url(#s)"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"clip-path")</span>
-<span class="co">#&gt; [1] "url(#r)"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $g</span>
-<span class="co">#&gt; $g$text</span>
-<span class="co">#&gt; $g$text[[1]]</span>
-<span class="co">#&gt; [1] "my_label"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"aria-hidden")</span>
-<span class="co">#&gt; [1] "true"</span>
-<span class="co">#&gt; attr(,"x")</span>
-<span class="co">#&gt; [1] "315"</span>
-<span class="co">#&gt; attr(,"y")</span>
-<span class="co">#&gt; [1] "150"</span>
-<span class="co">#&gt; attr(,"fill")</span>
-<span class="co">#&gt; [1] "#010101"</span>
-<span class="co">#&gt; attr(,"fill-opacity")</span>
-<span class="co">#&gt; [1] ".3"</span>
-<span class="co">#&gt; attr(,"transform")</span>
-<span class="co">#&gt; [1] "scale(.1)"</span>
-<span class="co">#&gt; attr(,"textLength")</span>
-<span class="co">#&gt; [1] "510"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $g$text</span>
-<span class="co">#&gt; $g$text[[1]]</span>
-<span class="co">#&gt; [1] "my_label"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"x")</span>
-<span class="co">#&gt; [1] "315"</span>
-<span class="co">#&gt; attr(,"y")</span>
-<span class="co">#&gt; [1] "140"</span>
-<span class="co">#&gt; attr(,"transform")</span>
-<span class="co">#&gt; [1] "scale(.1)"</span>
-<span class="co">#&gt; attr(,"fill")</span>
-<span class="co">#&gt; [1] "#fff"</span>
-<span class="co">#&gt; attr(,"textLength")</span>
-<span class="co">#&gt; [1] "510"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $g$text</span>
-<span class="co">#&gt; $g$text[[1]]</span>
-<span class="co">#&gt; [1] "my_message"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"aria-hidden")</span>
-<span class="co">#&gt; [1] "true"</span>
-<span class="co">#&gt; attr(,"x")</span>
-<span class="co">#&gt; [1] "1015"</span>
-<span class="co">#&gt; attr(,"y")</span>
-<span class="co">#&gt; [1] "150"</span>
-<span class="co">#&gt; attr(,"fill")</span>
-<span class="co">#&gt; [1] "#010101"</span>
-<span class="co">#&gt; attr(,"fill-opacity")</span>
-<span class="co">#&gt; [1] ".3"</span>
-<span class="co">#&gt; attr(,"transform")</span>
-<span class="co">#&gt; [1] "scale(.1)"</span>
-<span class="co">#&gt; attr(,"textLength")</span>
-<span class="co">#&gt; [1] "730"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $g$text</span>
-<span class="co">#&gt; $g$text[[1]]</span>
-<span class="co">#&gt; [1] "my_message"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"x")</span>
-<span class="co">#&gt; [1] "1015"</span>
-<span class="co">#&gt; attr(,"y")</span>
-<span class="co">#&gt; [1] "140"</span>
-<span class="co">#&gt; attr(,"transform")</span>
-<span class="co">#&gt; [1] "scale(.1)"</span>
-<span class="co">#&gt; attr(,"fill")</span>
-<span class="co">#&gt; [1] "#fff"</span>
-<span class="co">#&gt; attr(,"textLength")</span>
-<span class="co">#&gt; [1] "730"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"fill")</span>
-<span class="co">#&gt; [1] "#fff"</span>
-<span class="co">#&gt; attr(,"text-anchor")</span>
-<span class="co">#&gt; [1] "middle"</span>
-<span class="co">#&gt; attr(,"font-family")</span>
-<span class="co">#&gt; [1] "Verdana,Geneva,DejaVu Sans,sans-serif"</span>
-<span class="co">#&gt; attr(,"text-rendering")</span>
-<span class="co">#&gt; [1] "geometricPrecision"</span>
-<span class="co">#&gt; attr(,"font-size")</span>
-<span class="co">#&gt; [1] "110"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"width")</span>
-<span class="co">#&gt; [1] "144"</span>
-<span class="co">#&gt; attr(,"height")</span>
-<span class="co">#&gt; [1] "20"</span>
-<span class="co">#&gt; attr(,"role")</span>
-<span class="co">#&gt; [1] "img"</span>
-<span class="co">#&gt; attr(,"aria-label")</span>
-<span class="co">#&gt; [1] "my_label: my_message"</span>
-<span class="co">#&gt; attr(,"xmlns")</span>
-<span class="co">#&gt; [1] "http://www.w3.org/2000/svg"</span>
-<span class="co">#&gt; attr(,"xmlns:xlink")</span>
-<span class="co">#&gt; [1] "http://www.w3.org/1999/xlink"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">inspect_badge</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">badge</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">badge</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="http://xml2.r-lib.org/reference/as_list.html" class="external-link">as_list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"svg"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/badge/my__label-my__message-orange"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; $title[[1]]</span></span>
+<span><span class="co">#&gt; [1] "my_label: my_message"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $linearGradient</span></span>
+<span><span class="co">#&gt; $linearGradient$stop</span></span>
+<span><span class="co">#&gt; list()</span></span>
+<span><span class="co">#&gt; attr(,"offset")</span></span>
+<span><span class="co">#&gt; [1] "0"</span></span>
+<span><span class="co">#&gt; attr(,"stop-color")</span></span>
+<span><span class="co">#&gt; [1] "#bbb"</span></span>
+<span><span class="co">#&gt; attr(,"stop-opacity")</span></span>
+<span><span class="co">#&gt; [1] ".1"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $linearGradient$stop</span></span>
+<span><span class="co">#&gt; list()</span></span>
+<span><span class="co">#&gt; attr(,"offset")</span></span>
+<span><span class="co">#&gt; [1] "1"</span></span>
+<span><span class="co">#&gt; attr(,"stop-opacity")</span></span>
+<span><span class="co">#&gt; [1] ".1"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"id")</span></span>
+<span><span class="co">#&gt; [1] "s"</span></span>
+<span><span class="co">#&gt; attr(,"x2")</span></span>
+<span><span class="co">#&gt; [1] "0"</span></span>
+<span><span class="co">#&gt; attr(,"y2")</span></span>
+<span><span class="co">#&gt; [1] "100%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $clipPath</span></span>
+<span><span class="co">#&gt; $clipPath$rect</span></span>
+<span><span class="co">#&gt; list()</span></span>
+<span><span class="co">#&gt; attr(,"width")</span></span>
+<span><span class="co">#&gt; [1] "144"</span></span>
+<span><span class="co">#&gt; attr(,"height")</span></span>
+<span><span class="co">#&gt; [1] "20"</span></span>
+<span><span class="co">#&gt; attr(,"rx")</span></span>
+<span><span class="co">#&gt; [1] "3"</span></span>
+<span><span class="co">#&gt; attr(,"fill")</span></span>
+<span><span class="co">#&gt; [1] "#fff"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"id")</span></span>
+<span><span class="co">#&gt; [1] "r"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $g</span></span>
+<span><span class="co">#&gt; $g$rect</span></span>
+<span><span class="co">#&gt; list()</span></span>
+<span><span class="co">#&gt; attr(,"width")</span></span>
+<span><span class="co">#&gt; [1] "61"</span></span>
+<span><span class="co">#&gt; attr(,"height")</span></span>
+<span><span class="co">#&gt; [1] "20"</span></span>
+<span><span class="co">#&gt; attr(,"fill")</span></span>
+<span><span class="co">#&gt; [1] "#555"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $g$rect</span></span>
+<span><span class="co">#&gt; list()</span></span>
+<span><span class="co">#&gt; attr(,"x")</span></span>
+<span><span class="co">#&gt; [1] "61"</span></span>
+<span><span class="co">#&gt; attr(,"width")</span></span>
+<span><span class="co">#&gt; [1] "83"</span></span>
+<span><span class="co">#&gt; attr(,"height")</span></span>
+<span><span class="co">#&gt; [1] "20"</span></span>
+<span><span class="co">#&gt; attr(,"fill")</span></span>
+<span><span class="co">#&gt; [1] "#fe7d37"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $g$rect</span></span>
+<span><span class="co">#&gt; list()</span></span>
+<span><span class="co">#&gt; attr(,"width")</span></span>
+<span><span class="co">#&gt; [1] "144"</span></span>
+<span><span class="co">#&gt; attr(,"height")</span></span>
+<span><span class="co">#&gt; [1] "20"</span></span>
+<span><span class="co">#&gt; attr(,"fill")</span></span>
+<span><span class="co">#&gt; [1] "url(#s)"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"clip-path")</span></span>
+<span><span class="co">#&gt; [1] "url(#r)"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $g</span></span>
+<span><span class="co">#&gt; $g$text</span></span>
+<span><span class="co">#&gt; $g$text[[1]]</span></span>
+<span><span class="co">#&gt; [1] "my_label"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"aria-hidden")</span></span>
+<span><span class="co">#&gt; [1] "true"</span></span>
+<span><span class="co">#&gt; attr(,"x")</span></span>
+<span><span class="co">#&gt; [1] "315"</span></span>
+<span><span class="co">#&gt; attr(,"y")</span></span>
+<span><span class="co">#&gt; [1] "150"</span></span>
+<span><span class="co">#&gt; attr(,"fill")</span></span>
+<span><span class="co">#&gt; [1] "#010101"</span></span>
+<span><span class="co">#&gt; attr(,"fill-opacity")</span></span>
+<span><span class="co">#&gt; [1] ".3"</span></span>
+<span><span class="co">#&gt; attr(,"transform")</span></span>
+<span><span class="co">#&gt; [1] "scale(.1)"</span></span>
+<span><span class="co">#&gt; attr(,"textLength")</span></span>
+<span><span class="co">#&gt; [1] "510"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $g$text</span></span>
+<span><span class="co">#&gt; $g$text[[1]]</span></span>
+<span><span class="co">#&gt; [1] "my_label"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"x")</span></span>
+<span><span class="co">#&gt; [1] "315"</span></span>
+<span><span class="co">#&gt; attr(,"y")</span></span>
+<span><span class="co">#&gt; [1] "140"</span></span>
+<span><span class="co">#&gt; attr(,"transform")</span></span>
+<span><span class="co">#&gt; [1] "scale(.1)"</span></span>
+<span><span class="co">#&gt; attr(,"fill")</span></span>
+<span><span class="co">#&gt; [1] "#fff"</span></span>
+<span><span class="co">#&gt; attr(,"textLength")</span></span>
+<span><span class="co">#&gt; [1] "510"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $g$text</span></span>
+<span><span class="co">#&gt; $g$text[[1]]</span></span>
+<span><span class="co">#&gt; [1] "my_message"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"aria-hidden")</span></span>
+<span><span class="co">#&gt; [1] "true"</span></span>
+<span><span class="co">#&gt; attr(,"x")</span></span>
+<span><span class="co">#&gt; [1] "1015"</span></span>
+<span><span class="co">#&gt; attr(,"y")</span></span>
+<span><span class="co">#&gt; [1] "150"</span></span>
+<span><span class="co">#&gt; attr(,"fill")</span></span>
+<span><span class="co">#&gt; [1] "#010101"</span></span>
+<span><span class="co">#&gt; attr(,"fill-opacity")</span></span>
+<span><span class="co">#&gt; [1] ".3"</span></span>
+<span><span class="co">#&gt; attr(,"transform")</span></span>
+<span><span class="co">#&gt; [1] "scale(.1)"</span></span>
+<span><span class="co">#&gt; attr(,"textLength")</span></span>
+<span><span class="co">#&gt; [1] "730"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $g$text</span></span>
+<span><span class="co">#&gt; $g$text[[1]]</span></span>
+<span><span class="co">#&gt; [1] "my_message"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"x")</span></span>
+<span><span class="co">#&gt; [1] "1015"</span></span>
+<span><span class="co">#&gt; attr(,"y")</span></span>
+<span><span class="co">#&gt; [1] "140"</span></span>
+<span><span class="co">#&gt; attr(,"transform")</span></span>
+<span><span class="co">#&gt; [1] "scale(.1)"</span></span>
+<span><span class="co">#&gt; attr(,"fill")</span></span>
+<span><span class="co">#&gt; [1] "#fff"</span></span>
+<span><span class="co">#&gt; attr(,"textLength")</span></span>
+<span><span class="co">#&gt; [1] "730"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"fill")</span></span>
+<span><span class="co">#&gt; [1] "#fff"</span></span>
+<span><span class="co">#&gt; attr(,"text-anchor")</span></span>
+<span><span class="co">#&gt; [1] "middle"</span></span>
+<span><span class="co">#&gt; attr(,"font-family")</span></span>
+<span><span class="co">#&gt; [1] "Verdana,Geneva,DejaVu Sans,sans-serif"</span></span>
+<span><span class="co">#&gt; attr(,"text-rendering")</span></span>
+<span><span class="co">#&gt; [1] "geometricPrecision"</span></span>
+<span><span class="co">#&gt; attr(,"font-size")</span></span>
+<span><span class="co">#&gt; [1] "110"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"width")</span></span>
+<span><span class="co">#&gt; [1] "144"</span></span>
+<span><span class="co">#&gt; attr(,"height")</span></span>
+<span><span class="co">#&gt; [1] "20"</span></span>
+<span><span class="co">#&gt; attr(,"role")</span></span>
+<span><span class="co">#&gt; [1] "img"</span></span>
+<span><span class="co">#&gt; attr(,"aria-label")</span></span>
+<span><span class="co">#&gt; [1] "my_label: my_message"</span></span>
+<span><span class="co">#&gt; attr(,"xmlns")</span></span>
+<span><span class="co">#&gt; [1] "http://www.w3.org/2000/svg"</span></span>
+<span><span class="co">#&gt; attr(,"xmlns:xlink")</span></span>
+<span><span class="co">#&gt; [1] "http://www.w3.org/1999/xlink"</span></span></code></pre></div>
 <p>It is my understanding that the two main pieces of metadata are the <code>title</code> and the <code>aria-label</code> attribute. Here I reveal just those two items from the badge:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">inspect_badge</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">badge</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">badge</span> <span class="op"><a href="https://purrr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-    <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://purrr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-    <span class="fu"><a href="http://xml2.r-lib.org/reference/as_list.html" class="external-link">as_list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://purrr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-    <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"svg"</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-    title <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"title"</span>, <span class="fl">1</span><span class="op">)</span>,
-    `aria-label` <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://purrr.tidyverse.org/reference/attr_getter.html" class="external-link">attr_getter</a></span><span class="op">(</span><span class="st">"aria-label"</span><span class="op">)</span><span class="op">)</span>
-  <span class="op">)</span>
-<span class="op">}</span>
-
-<span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/badge/my__label-my__message-orange"</span><span class="op">)</span>
-<span class="co">#&gt; $title</span>
-<span class="co">#&gt; [1] "my_label: my_message"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`aria-label`</span>
-<span class="co">#&gt; [1] "my_label: my_message"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">inspect_badge</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">badge</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">badge</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="http://xml2.r-lib.org/reference/as_list.html" class="external-link">as_list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"svg"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"title"</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    `aria-label` <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://purrr.tidyverse.org/reference/attr_getter.html" class="external-link">attr_getter</a></span><span class="op">(</span><span class="st">"aria-label"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/badge/my__label-my__message-orange"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; [1] "my_label: my_message"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`aria-label`</span></span>
+<span><span class="co">#&gt; [1] "my_label: my_message"</span></span></code></pre></div>
 <p>This badge carries the same information in the <code>title</code> and in <code>aria-label</code>, which is “my_label: my_message”. I would be interested to learn more about why the same information is included twice and if that is a good or bad thing for the screen reader experience.</p>
 <div class="section level3">
 <h3 id="shields-io-badges-are-accessible-today">shields.io badges are accessible today<a class="anchor" aria-label="anchor" href="#shields-io-badges-are-accessible-today"></a>
@@ -357,12 +357,12 @@
 <p>Again, I am indicating fields I control with <code>my_alt_text</code> and <code>my_label</code>, so it’s easier to get feedback on what usethis should do.</p>
 <p>Here is the <code>title</code> and <code>aria-label</code> of the badge above:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/github/workflow/status/r-lib/usethis/R-CMD-check?label=my_label-R-CMD-check"</span><span class="op">)</span>
-<span class="co">#&gt; $title</span>
-<span class="co">#&gt; [1] "my_label-R-CMD-check: passing"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`aria-label`</span>
-<span class="co">#&gt; [1] "my_label-R-CMD-check: passing"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/github/workflow/status/r-lib/usethis/R-CMD-check?label=my_label-R-CMD-check"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; [1] "my_label-R-CMD-check: passing"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`aria-label`</span></span>
+<span><span class="co">#&gt; [1] "my_label-R-CMD-check: passing"</span></span></code></pre></div>
 <p>Now we will take inventory of the main badges inserted by usethis and where things stand re: accessibility.</p>
 </div>
 </div>
@@ -376,12 +376,12 @@
 <p><a href="https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <!-- badges: end --></p>
 <p>Here is the <code>title</code> and <code>aria-label</code> of the badge above:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg"</span><span class="op">)</span>
-<span class="co">#&gt; $title</span>
-<span class="co">#&gt; [1] "R-CMD-check - passing"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`aria-label`</span>
-<span class="co">#&gt; NULL</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; [1] "R-CMD-check - passing"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`aria-label`</span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 <p>At the time of writing (late December 2021), the badge does not include such information.</p>
 <p>I have requested this in GitHub’s Actions and Packages Feedback forum and the response from GitHub is encouraging. Hopefully the native badge will gain improved accessibility early in 2022.</p>
 <p><a href="https://github.com/github/feedback/discussions/8974" class="external-link uri">https://github.com/github/feedback/discussions/8974</a></p>
@@ -395,12 +395,12 @@
 <p><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a> <!-- badges: end --></p>
 <p>Here is the <code>title</code> and <code>aria-label</code> of the badge above:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/badge/lifecycle-stable-brightgreen.svg"</span><span class="op">)</span>
-<span class="co">#&gt; $title</span>
-<span class="co">#&gt; [1] "lifecycle: stable"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`aria-label`</span>
-<span class="co">#&gt; [1] "lifecycle: stable"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/badge/lifecycle-stable-brightgreen.svg"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; [1] "lifecycle: stable"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`aria-label`</span></span>
+<span><span class="co">#&gt; [1] "lifecycle: stable"</span></span></code></pre></div>
 <p>It’s possible that usethis should be using a badge “owned” by the lifecycle package. I think we don’t do so now, because declaring the lifecycle stage of a whole package does not necessarily imply the need to take a formal dependency on the lifecycle package, which is usually what causes badges to be copied into the <code>man/figures/</code> directory.</p>
 <p>Also, the badges shipped by the lifecycle package are <em>not</em> currently accessible, which is another reason not to use them. But I have opened an issue about this (<a href="https://github.com/r-lib/lifecycle/issues/117" class="external-link uri">https://github.com/r-lib/lifecycle/issues/117</a>). This should be a relatively easy fix, since these are static badges. Once done, package maintainers would need to update the SVGs that are stored in <code>man/figures/</code>.</p>
 </div>
@@ -413,12 +413,12 @@
 <p><a href="https://CRAN.R-project.org/package=usethis" class="external-link"><img src="https://www.r-pkg.org/badges/version/usethis" alt="CRAN status"></a> <!-- badges: end --></p>
 <p>Here is the <code>title</code> and <code>aria-label</code> of the badge above:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://www.r-pkg.org/badges/version/usethis"</span><span class="op">)</span>
-<span class="co">#&gt; $title</span>
-<span class="co">#&gt; NULL</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`aria-label`</span>
-<span class="co">#&gt; [1] "CRAN 2.1.6"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://www.r-pkg.org/badges/version/usethis"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`aria-label`</span></span>
+<span><span class="co">#&gt; [1] "CRAN 2.1.6"</span></span></code></pre></div>
 <p>At the time of writing (late December 2021), <code>aria-label</code> is present, but <code>title</code> is not. I would be interested to know if this is a good situation for those using a screen reader.</p>
 </div>
 <div class="section level2">
@@ -430,38 +430,38 @@
 <p><a href="https://app.codecov.io/gh/r-lib/usethis?branch=main" class="external-link"><img src="https://codecov.io/gh/r-lib/usethis/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://coveralls.io/github/trinker/sentimentr?branch=master" class="external-link"><img src="https://coveralls.io/repos/github/trinker/sentimentr/badge.svg?branch=master" alt="Coveralls test coverage"></a> <!-- badges: end --></p>
 <p>Here are the <code>title</code> and <code>aria-label</code> of those badges::</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://codecov.io/gh/r-lib/usethis/branch/main/graph/badge.svg"</span><span class="op">)</span>
-<span class="co">#&gt; $title</span>
-<span class="co">#&gt; NULL</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`aria-label`</span>
-<span class="co">#&gt; NULL</span>
-
-<span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://coveralls.io/repos/github/trinker/sentimentr/badge.svg?branch=master"</span><span class="op">)</span>
-<span class="co">#&gt; $title</span>
-<span class="co">#&gt; NULL</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`aria-label`</span>
-<span class="co">#&gt; NULL</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://codecov.io/gh/r-lib/usethis/branch/main/graph/badge.svg"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`aria-label`</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span></span>
+<span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://coveralls.io/repos/github/trinker/sentimentr/badge.svg?branch=master"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`aria-label`</span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 <p>At the time of writing (late December 2021), neither badge offers a <code>title</code> or <code>aria-label</code>.</p>
 <p>Here are badges from shields.io for Codecov and Coveralls:</p>
 <!-- badges: start -->
 <p><a href="https://app.codecov.io/gh/r-lib/usethis?branch=main" class="external-link"><img src="https://img.shields.io/codecov/c/github/r-lib/usethis?label=test%20coverage&amp;logo=codecov" alt="Codecov test coverage"></a> <a href="https://img.shields.io/coveralls/github/trinker/sentimentr?logo=coveralls" class="external-link"><img src="https://coveralls.io/repos/github/trinker/sentimentr/badge.svg?branch=master" alt="Coveralls test coverage"></a> <!-- badges: end --></p>
 <p>Here are the <code>title</code> and <code>aria-label</code> of the shields.io badges::</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/codecov/c/github/r-lib/usethis?label=test%20coverage&amp;logo=codecov"</span><span class="op">)</span>
-<span class="co">#&gt; $title</span>
-<span class="co">#&gt; [1] "test coverage: 46%"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`aria-label`</span>
-<span class="co">#&gt; [1] "test coverage: 46%"</span>
-
-<span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/coveralls/github/trinker/sentimentr?logo=coveralls"</span><span class="op">)</span>
-<span class="co">#&gt; $title</span>
-<span class="co">#&gt; [1] "coverage: 19%"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`aria-label`</span>
-<span class="co">#&gt; [1] "coverage: 19%"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/codecov/c/github/r-lib/usethis?label=test%20coverage&amp;logo=codecov"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; [1] "test coverage: 46%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`aria-label`</span></span>
+<span><span class="co">#&gt; [1] "test coverage: 46%"</span></span>
+<span></span>
+<span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/coveralls/github/trinker/sentimentr?logo=coveralls"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; [1] "coverage: 19%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`aria-label`</span></span>
+<span><span class="co">#&gt; [1] "coverage: 19%"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="bioconductor">Bioconductor<a class="anchor" aria-label="anchor" href="#bioconductor"></a>
@@ -472,12 +472,12 @@
 <p><a href="https://bioconductor.org/checkResults/release/bioc-LATEST/biocthis" class="external-link"><img src="http://www.bioconductor.org/shields/build/release/bioc/biocthis.svg" alt="BioC status"></a> <!-- badges: end --></p>
 <p>Here is the <code>title</code> and <code>aria-label</code> of that badge:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"http://www.bioconductor.org/shields/build/release/bioc/biocthis.svg"</span><span class="op">)</span>
-<span class="co">#&gt; $title</span>
-<span class="co">#&gt; NULL</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $`aria-label`</span>
-<span class="co">#&gt; NULL</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"http://www.bioconductor.org/shields/build/release/bioc/biocthis.svg"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $title</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $`aria-label`</span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 <p>At the time of writing (late December 2021), the badge does not have a <code>title</code> or <code>aria-label</code>.</p>
 <p>It’s not immediately clear how to resolve this, but I suspect that Bioconductor would be receptive to a request to create more accessible badges.</p>
 </div>
@@ -496,7 +496,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
   </div></footer>

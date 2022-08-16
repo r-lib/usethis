@@ -4,7 +4,7 @@ use_git_remote() sets the remote associated with name to url.
 git_remotes() reports the configured remotes, similar to
 git remote -v.
 
-"><title>Configure and report Git remotes — use_git_remote • usethis</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.1/font.css" rel="stylesheet"><link href="../deps/_Source%20Code%20Pro-0.4.1/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Configure and report Git remotes — use_git_remote"><meta property="og:description" content="Two helpers are available:
+"><title>Configure and report Git remotes — use_git_remote • usethis</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.2/font.css" rel="stylesheet"><link href="../deps/Source_Code_Pro-0.4.2/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Configure and report Git remotes — use_git_remote"><meta property="og:description" content="Two helpers are available:
 use_git_remote() sets the remote associated with name to url.
 git_remotes() reports the configured remotes, similar to
 git remote -v.
@@ -86,9 +86,9 @@ git remote -v.
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"origin"</span>, <span class="va">url</span>, overwrite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">git_remotes</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"origin"</span>, <span class="va">url</span>, overwrite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">git_remotes</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -115,46 +115,46 @@ modified.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># see current remotes</span></span>
-<span class="r-in"><span class="fu">git_remotes</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add new remote named 'foo', a la `git remote add &lt;name&gt; &lt;url&gt;`</span></span>
-<span class="r-in"><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"foo"</span>, url <span class="op">=</span> <span class="st">"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># remove existing 'foo' remote, a la `git remote remove &lt;name&gt;`</span></span>
-<span class="r-in"><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"foo"</span>, url <span class="op">=</span> <span class="cn">NULL</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># change URL of remote 'foo', a la `git remote set-url &lt;name&gt; &lt;newurl&gt;`</span></span>
-<span class="r-in"><span class="fu">use_git_remote</span><span class="op">(</span></span>
-<span class="r-in">  name <span class="op">=</span> <span class="st">"foo"</span>,</span>
-<span class="r-in">  url <span class="op">=</span> <span class="st">"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>,</span>
-<span class="r-in">  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Scenario: Fix remotes when you cloned someone's repo, but you should</span></span>
-<span class="r-in"><span class="co"># have fork-and-cloned (in order to make a pull request).</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Store origin = main repo's URL, e.g., "git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span></span>
-<span class="r-in"><span class="va">upstream_url</span> <span class="op">&lt;-</span> <span class="fu">git_remotes</span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="st">"origin"</span><span class="op">]</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># IN THE BROWSER: fork the main GitHub repo and get your fork's remote URL</span></span>
-<span class="r-in"><span class="va">my_url</span> <span class="op">&lt;-</span> <span class="st">"git@github.com:&lt;ME&gt;/&lt;REPO&gt;.git"</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Rotate the remotes</span></span>
-<span class="r-in"><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"origin"</span>, url <span class="op">=</span> <span class="va">my_url</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"upstream"</span>, url <span class="op">=</span> <span class="va">upstream_url</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">git_remotes</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Scenario: Add upstream remote to a repo that you fork-and-cloned, so you</span></span>
-<span class="r-in"><span class="co"># can pull upstream changes.</span></span>
-<span class="r-in"><span class="co"># Note: If you fork-and-clone via `usethis::create_from_github()`, this is</span></span>
-<span class="r-in"><span class="co"># done automatically!</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Get URL of main GitHub repo, probably in the browser</span></span>
-<span class="r-in"><span class="va">upstream_url</span> <span class="op">&lt;-</span> <span class="st">"git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span></span>
-<span class="r-in"><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"upstream"</span>, url <span class="op">=</span> <span class="va">upstream_url</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># see current remotes</span></span></span>
+<span class="r-in"><span><span class="fu">git_remotes</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># add new remote named 'foo', a la `git remote add &lt;name&gt; &lt;url&gt;`</span></span></span>
+<span class="r-in"><span><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"foo"</span>, url <span class="op">=</span> <span class="st">"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># remove existing 'foo' remote, a la `git remote remove &lt;name&gt;`</span></span></span>
+<span class="r-in"><span><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"foo"</span>, url <span class="op">=</span> <span class="cn">NULL</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># change URL of remote 'foo', a la `git remote set-url &lt;name&gt; &lt;newurl&gt;`</span></span></span>
+<span class="r-in"><span><span class="fu">use_git_remote</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  name <span class="op">=</span> <span class="st">"foo"</span>,</span></span>
+<span class="r-in"><span>  url <span class="op">=</span> <span class="st">"https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git"</span>,</span></span>
+<span class="r-in"><span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Scenario: Fix remotes when you cloned someone's repo, but you should</span></span></span>
+<span class="r-in"><span><span class="co"># have fork-and-cloned (in order to make a pull request).</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Store origin = main repo's URL, e.g., "git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span></span></span>
+<span class="r-in"><span><span class="va">upstream_url</span> <span class="op">&lt;-</span> <span class="fu">git_remotes</span><span class="op">(</span><span class="op">)</span><span class="op">[[</span><span class="st">"origin"</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># IN THE BROWSER: fork the main GitHub repo and get your fork's remote URL</span></span></span>
+<span class="r-in"><span><span class="va">my_url</span> <span class="op">&lt;-</span> <span class="st">"git@github.com:&lt;ME&gt;/&lt;REPO&gt;.git"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Rotate the remotes</span></span></span>
+<span class="r-in"><span><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"origin"</span>, url <span class="op">=</span> <span class="va">my_url</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"upstream"</span>, url <span class="op">=</span> <span class="va">upstream_url</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">git_remotes</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Scenario: Add upstream remote to a repo that you fork-and-cloned, so you</span></span></span>
+<span class="r-in"><span><span class="co"># can pull upstream changes.</span></span></span>
+<span class="r-in"><span><span class="co"># Note: If you fork-and-clone via `usethis::create_from_github()`, this is</span></span></span>
+<span class="r-in"><span><span class="co"># done automatically!</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get URL of main GitHub repo, probably in the browser</span></span></span>
+<span class="r-in"><span><span class="va">upstream_url</span> <span class="op">&lt;-</span> <span class="st">"git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git"</span></span></span>
+<span class="r-in"><span><span class="fu">use_git_remote</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"upstream"</span>, url <span class="op">=</span> <span class="va">upstream_url</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -168,7 +168,7 @@ modified.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
   </div></footer></body></html>
