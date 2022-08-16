@@ -69,6 +69,7 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="usethis-development-version">usethis (development version)<a class="anchor" aria-label="anchor" href="#usethis-development-version"></a></h2>
+<p>The SVG badges placed by <code><a href="../reference/use_lifecycle.html">use_lifecycle()</a></code> have improved accessibility features, i.e. they advertise the lifecycle stage via the <code>aria-label</code> attribute (<a href="https://github.com/r-lib/usethis/issues/1554" class="external-link">#1554</a>, <a href="https://github.com/r-lib/lifecycle/issues/117" class="external-link uri">https://github.com/r-lib/lifecycle/issues/117</a>).</p>
 <p>Although nested projects are discouraged, they can be useful in development contexts. <code><a href="../reference/create_package.html">create_package()</a></code> now sets the correct package name and returns the correct package path for a package nested inside a project (<a href="https://github.com/r-lib/usethis/issues/1647" class="external-link">#1647</a>).</p>
 <p><code>git_vaccinated()</code> now treats a path configured as <code>core.excludesFile</code> like other user-supplied paths; in particular, any use of the <code>~/</code> home directory shortcut is expanded via <a href="https://fs.r-lib.org/reference/path_expand.html" class="external-link"><code>fs::path_expand()</code></a> (<a href="https://github.com/dpprdan" class="external-link">@dpprdan</a>, <a href="https://github.com/r-lib/usethis/issues/1560" class="external-link">#1560</a>).</p>
 </div>
