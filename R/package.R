@@ -18,7 +18,7 @@
 #'   https://remotes.r-lib.org/articles/dependencies.html#other-sources).
 #'
 #' @seealso The [dependencies
-#'   section](https://r-pkgs.org/description.html#dependencies) of [R
+#'   section](https://r-pkgs.org/dependencies.html) of [R
 #'   Packages](https://r-pkgs.org).
 #'
 #' @export
