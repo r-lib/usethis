@@ -18,7 +18,7 @@ use_latest_dependencies <- function(overwrite = TRUE, source = c("CRAN"," local"
   invisible(TRUE)
 }
 
-update_versions <- function(deps, overwrite = FALSE, source = c("local", "CRAN")) {
+update_versions <- function(deps, overwrite = TRUE, source = c("CRAN"," local")) {
   baserec <- base_and_recommended()
   to_change <- !deps$package %in% c("R", baserec)
   if (!overwrite) {
