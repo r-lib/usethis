@@ -11,6 +11,7 @@
 #' @param source Use "local" or "CRAN" package versions.
 use_latest_dependencies <- function(overwrite = TRUE, source = c("CRAN"," local")) {
   deps <- desc::desc_get_deps(proj_get())
+  source <- arg_match(source)
   deps <- update_versions(deps, overwrite = overwrite, source = source)
   desc::desc_set_deps(deps, file = proj_get())
 
