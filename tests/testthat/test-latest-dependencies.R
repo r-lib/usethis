@@ -1,4 +1,7 @@
 test_that("use_tidy_versions() specifies a version for dependencies", {
+  skip_on_cran()
+  withr::local_options(list(repos = c(CRAN = "https://cloud.r-project.org")))
+
   pkg <- create_local_package()
   use_package("usethis")
   use_package("desc")
