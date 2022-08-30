@@ -11,7 +11,7 @@ use_latest_dependencies(overwrite = TRUE, source = c("CRAN", " local"))
 Set to \code{FALSE} to only modify dependencies without version
 specifications.}
 
-\item{source}{Use "local" or "CRAN" package versions.}
+\item{source}{Use "CRAN" or "local" package versions.}
 }
 \description{
 Pins minimum versions of dependencies to latest ones (as determined by \code{source}).
