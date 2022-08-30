@@ -31,16 +31,16 @@ for internal use. File is written with UTF-8 encoding.
 }
 \section{Functions}{
 \itemize{
-\item \code{write_union}: writes lines to a file, taking the union of what's
+\item \code{write_union()}: writes lines to a file, taking the union of what's
 already there, if anything, and some new lines. Note, there is no explicit
 promise about the line order. Designed to modify simple config files like
 \code{.Rbuildignore} and \code{.gitignore}.
 
-\item \code{write_over}: writes a file with specific lines, creating it if
+\item \code{write_over()}: writes a file with specific lines, creating it if
 necessary or overwriting existing, if proposed contents are not identical
 and user is available to give permission.
-}}
 
+}}
 \examples{
 \dontshow{
 .old_wd <- setwd(tempdir())

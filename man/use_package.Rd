@@ -40,5 +40,5 @@ use_package("R", type = "Depends", min_version = "4.1")
 }
 }
 \seealso{
-The \href{https://r-pkgs.org/description.html#dependencies}{dependencies section} of \href{https://r-pkgs.org}{R Packages}.
+The \href{https://r-pkgs.org/dependencies.html}{dependencies section} of \href{https://r-pkgs.org}{R Packages}.
 }

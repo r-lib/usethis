@@ -49,7 +49,7 @@ actually be able to find them. The underlying helpers are documented in
 }
 \section{Functions}{
 \itemize{
-\item \code{use_course}: Designed with live workshops in mind. Includes intentional friction to
+\item \code{use_course()}: Designed with live workshops in mind. Includes intentional friction to
 highlight the download destination. Workflow:
 \itemize{
 \item User executes, e.g., \code{use_course("bit.ly/xxx-yyy-zzz")}.
@@ -61,10 +61,10 @@ launched. Otherwise, the folder is opened in the file manager, e.g. Finder
 or File Explorer.
 }
 
-\item \code{use_zip}: More useful in day-to-day work. Downloads in current working directory, by
+\item \code{use_zip()}: More useful in day-to-day work. Downloads in current working directory, by
 default, and allows \code{cleanup} behaviour to be specified.
-}}
 
+}}
 \examples{
 \dontrun{
 # download the source of usethis from GitHub, behind a bit.ly shortlink
