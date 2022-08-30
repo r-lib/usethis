@@ -171,15 +171,15 @@ build paths within it.</p>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
     
-<ul><li><p><code>proj_get</code>: Retrieves the active project and, if necessary,
+<ul><li><p><code>proj_get()</code>: Retrieves the active project and, if necessary,
 attempts to set it in the first place.</p></li>
-<li><p><code>proj_set</code>: Sets the active project.</p></li>
-<li><p><code>proj_path</code>: Builds a path within the active project returned by
+<li><p><code>proj_set()</code>: Sets the active project.</p></li>
+<li><p><code>proj_path()</code>: Builds a path within the active project returned by
 <code>proj_get()</code>. Thin wrapper around <code><a href="https://fs.r-lib.org/reference/path.html" class="external-link">fs::path()</a></code>.</p></li>
-<li><p><code>with_project</code>: Runs code with a temporary active project and,
+<li><p><code>with_project()</code>: Runs code with a temporary active project and,
 optionally, working directory. It is an example of the <code>with_*()</code> functions
 in <a href="https://withr.r-lib.org" class="external-link">withr</a>.</p></li>
-<li><p><code>local_project</code>: Sets an active project and, optionally, working
+<li><p><code>local_project()</code>: Sets an active project and, optionally, working
 directory until the current execution environment goes out of scope, e.g.
 the end of the current function or test.  It is an example of the
 <code>local_*()</code> functions in <a href="https://withr.r-lib.org" class="external-link">withr</a>.</p></li>

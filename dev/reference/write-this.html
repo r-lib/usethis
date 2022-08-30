@@ -112,11 +112,11 @@ these are the exact lines desired in the target file.</p></dd>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
     
-<ul><li><p><code>write_union</code>: writes lines to a file, taking the union of what's
+<ul><li><p><code>write_union()</code>: writes lines to a file, taking the union of what's
 already there, if anything, and some new lines. Note, there is no explicit
 promise about the line order. Designed to modify simple config files like
 <code>.Rbuildignore</code> and <code>.gitignore</code>.</p></li>
-<li><p><code>write_over</code>: writes a file with specific lines, creating it if
+<li><p><code>write_over()</code>: writes a file with specific lines, creating it if
 necessary or overwriting existing, if proposed contents are not identical
 and user is available to give permission.</p></li>
 </ul></div>
