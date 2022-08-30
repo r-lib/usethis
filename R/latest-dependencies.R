@@ -9,7 +9,7 @@
 #'   Set to `FALSE` to only modify dependencies without version
 #'   specifications.
 #' @param source Use "CRAN" or "local" package versions.
-use_latest_dependencies <- function(overwrite = TRUE, source = c("CRAN"," local")) {
+use_latest_dependencies <- function(overwrite = TRUE, source = c("CRAN", "local")) {
   deps <- desc::desc_get_deps(proj_get())
   source <- arg_match(source)
   deps <- update_versions(deps, overwrite = overwrite, source = source)
@@ -18,7 +18,7 @@ use_latest_dependencies <- function(overwrite = TRUE, source = c("CRAN"," local"
   invisible(TRUE)
 }
 
-update_versions <- function(deps, overwrite = TRUE, source = c("CRAN"," local")) {
+update_versions <- function(deps, overwrite = TRUE, source = c("CRAN", "local")) {
   baserec <- base_and_recommended()
   to_change <- !deps$package %in% c("R", baserec)
   if (!overwrite) {
