@@ -4,7 +4,7 @@
 \alias{use_latest_dependencies}
 \title{Use "latest" versions of all dependencies}
 \usage{
-use_latest_dependencies(overwrite = TRUE, source = c("CRAN", " local"))
+use_latest_dependencies(overwrite = TRUE, source = c("CRAN", "local"))
 }
 \arguments{
 \item{overwrite}{By default (\code{TRUE}), all dependencies will be modified.
