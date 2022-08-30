@@ -4,13 +4,14 @@
 \alias{use_latest_dependencies}
 \title{Use "latest" versions of all dependencies}
 \usage{
-use_latest_dependencies(overwrite = FALSE, source = c("local", "CRAN"))
+use_latest_dependencies(overwrite = TRUE, source = c("CRAN", "local"))
 }
 \arguments{
-\item{overwrite}{By default (\code{FALSE}), only dependencies without version
-specifications will be modified. Set to \code{TRUE} to modify all dependencies.}
+\item{overwrite}{By default (\code{TRUE}), all dependencies will be modified.
+Set to \code{FALSE} to only modify dependencies without version
+specifications.}
 
-\item{source}{Use "local" or "CRAN" package versions.}
+\item{source}{Use "CRAN" or "local" package versions.}
 }
 \description{
 Pins minimum versions of dependencies to latest ones (as determined by \code{source}).
