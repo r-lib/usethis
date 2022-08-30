@@ -226,11 +226,7 @@ create_from_github <- function(repo_spec,
   gh <- gh_tr(list(repo_owner = source_owner, repo_name = repo_name, api_url = host))
 
   repo_info <- gh("GET /repos/{owner}/{repo}")
-  # 2020-10-14 GitHub has had some bugs lately around default branch
-  # today, the POST payload, if I create a fork, mis-reports the default branch
-  # it reports 'main', even though actual default branch is 'master'
-  # therefore, we're consulting the source repo for this info
-  default_branch <- repo_info$default_branch
+  # repo_info describes the source repo
 
   if (is.na(fork)) {
     fork <- !isTRUE(repo_info$permissions$push)
@@ -262,6 +258,7 @@ create_from_github <- function(repo_spec,
     )
     repo_info <- gh("POST /repos/{owner}/{repo}/forks")
   }
+  # repo_info now describes the primary repo, i.e. what we are about to clone
 
   origin_url <- switch(
     protocol,
@@ -273,9 +270,7 @@ create_from_github <- function(repo_spec,
   gert::git_clone(origin_url, repo_path, verbose = FALSE)
   local_project(repo_path, force = TRUE) # schedule restoration of project
 
-  # 2020-10-14 due to a GitHub bug, we are consulting the source repo for this
-  # previously (and more naturally) we consulted the fork itself
-  # default_branch <- repo_info$default_branch
+  default_branch <- repo_info$default_branch
   ui_info("Default branch is {ui_value(default_branch)}")
 
   if (fork) {
