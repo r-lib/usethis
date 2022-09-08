@@ -6,7 +6,7 @@ articles:
   git-credentials: git-credentials.html
   pr-functions: pr-functions.html
   usethis-setup: usethis-setup.html
-last_built: 2022-08-30T14:21Z
+last_built: 2022-09-08T01:45Z
 urls:
   reference: https://usethis.r-lib.org/reference
   article: https://usethis.r-lib.org/articles
