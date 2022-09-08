@@ -8,7 +8,7 @@ template:
   package: tidytemplate
   includes:
     in_header: |
-      <script defer data-domain="usethis.tidyverse.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
+      <script defer data-domain="usethis.r-lib.org,all.tidyverse.org" src="https://plausible.io/js/plausible.js"></script>
 
 navbar:
   structure:
