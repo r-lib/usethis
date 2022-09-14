@@ -82,7 +82,6 @@ Define any of these options in your `.Rprofile`, which can be opened for editing
 ```{r, eval = FALSE}
 options(
   usethis.full_name = "Jane Doe",
-  usethis.protocol  = "ssh",
   usethis.description = list(
     "Authors@R" = utils::person(
         "Jane", "Doe",
