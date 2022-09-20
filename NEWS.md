@@ -1,5 +1,7 @@
 # usethis (development version)
 
+`use_rstudio()` gains a `reformat` argument which allows you to opt-out of the default reformatting. `create_from_github()` uses this option in order to preserve the defaults of whoever created the project (#1679).
+
 The SVG badges placed by `use_lifecycle()` have improved accessibility features, i.e. they advertise the lifecycle stage via the `aria-label` attribute (#1554, https://github.com/r-lib/lifecycle/issues/117).
 
 Although nested projects are discouraged, they can be useful in development contexts. `create_package()` now sets the correct package name and returns the correct package path for a package nested inside a project (#1647). 

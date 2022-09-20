@@ -8,6 +8,15 @@ test_that("use_rstudio() creates .Rproj file, named after directory", {
   expect_equal(proj_line_ending(), "\n")
 })
 
+test_that("use_rstudio() can opt-out of reformatting", {
+  create_local_project(rstudio = FALSE)
+  use_rstudio(reformat = FALSE)
+  out <- readLines(rproj_path())
+  expect_true(is.na(match("AutoAppendNewline", out)))
+  expect_true(is.na(match("StripTrailingWhitespace", out)))
+  expect_true(is.na(match("LineEndingConversion", out)))
+})
+
 test_that("use_rstudio() omits package-related config for a project", {
   create_local_project(rstudio = FALSE)
   use_rstudio()
