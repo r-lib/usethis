@@ -1,54 +1,85 @@
 # usethis (development version)
 
-`use_rstudio()` gains a `reformat` argument which omits `.Rproj` settings that enforce file formatting conventions, e.g. around whitespace. `create_from_github()` uses this option when it introduces an `.Rproj` to a project that lacks one, making it easier to follow the project's existing conventions (#1679).
+* `use_rstudio()` gains a `reformat` argument which omits `.Rproj` settings 
+  that enforce file formatting conventions, e.g. around whitespace.   
+  `create_from_github()` uses this option when it introduces an `.Rproj` to a 
+  project that lacks one, making it easier to follow the project's existing 
+  conventions (#1679).
 
-The SVG badges placed by `use_lifecycle()` have improved accessibility features, i.e. they advertise the lifecycle stage via the `aria-label` attribute (#1554, https://github.com/r-lib/lifecycle/issues/117).
+* The SVG badges placed by `use_lifecycle()` have improved accessibility 
+  features, i.e. they advertise the lifecycle stage via the `aria-label` 
+  attribute (#1554, https://github.com/r-lib/lifecycle/issues/117).
 
-Although nested projects are discouraged, they can be useful in development contexts. `create_package()` now sets the correct package name and returns the correct package path for a package nested inside a project (#1647). 
+* Although nested projects are discouraged, they can be useful in development 
+  contexts. `create_package()` now sets the correct package name and returns 
+  the correct package path for a package nested inside a project (#1647). 
 
-`git_vaccinated()` now treats a path configured as `core.excludesFile` like other user-supplied paths; in particular, any use of the `~/` home directory shortcut is expanded via [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html) (@dpprdan, #1560).
+* `git_vaccinated()` now treats a path configured as `core.excludesFile` like 
+  other user-supplied paths; in particular, any use of the `~/` home directory 
+  shortcut is expanded via 
+  [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html) 
+  (@dpprdan, #1560).
 
 # usethis 2.1.6
 
 ### GitHub-related
 
-`use_github_action()` and friends gain a `ref` argument, which defaults to the tag of the latest release in <https://github.com/r-lib/actions> (#1541).
+* `use_github_action()` and friends gain a `ref` argument, which defaults to 
+  the tag of the latest release in <https://github.com/r-lib/actions> (#1541).
 
-`use_github_actions_badge()` now uses the same URLs as GitHub does via the "Create status badge" helper in the browser (#1525). This changes the significance of the `name` argument; now it really must be the name of the workflow configuration file.
+* `use_github_actions_badge()` now uses the same URLs as GitHub does via the 
+  "Create status badge" helper in the browser (#1525). This changes the 
+  significance of the `name` argument; now it really must be the name of the 
+  workflow configuration file.
 
-All functions error more clearly when the requested operation is not supported for the "theirs" remote configuration (#1588).
+* All functions error more clearly when the requested operation is not 
+  supported for the "theirs" remote configuration (#1588).
 
 ### Other changes
 
-`use_roxygen_md()` gains an `overwrite` argument (#1599).
+* `use_roxygen_md()` gains an `overwrite` argument (#1599).
 
-`use_rscloud_badge()` is a new function that creates a README badge indicating the repository can be launched in an [RStudio Cloud](https://rstudio.cloud) project (@gvelasq, #1584).
+* `use_rscloud_badge()` is a new function that creates a README badge 
+  indicating the repository can be launched in an 
+  [RStudio Cloud](https://rstudio.cloud) project (@gvelasq, #1584).
 
-`use_data()` gains an `ascii` argument, which is passed along to `save()` (@JosiahParry, #1625).
+* `use_data()` gains an `ascii` argument, which is passed along to `save()`
+  (@JosiahParry, #1625).
 
-`use_code_of_conduct()` has been updated to version 2.1 of the Contributor Covenant (@batpigandme, #1591).
+* `use_code_of_conduct()` has been updated to version 2.1 of the Contributor 
+  Covenant (@batpigandme, #1591).
 
 # usethis 2.1.5
 
-pkgdown-related functions no longer automatically strip a trailing slash from the pkgdown site URL, in order to play more nicely with CRAN's URL checks (#1526).
+* pkgdown-related functions no longer automatically strip a trailing slash from 
+  the pkgdown site URL, in order to play more nicely with CRAN's URL checks 
+  (#1526).
 
-`edit_pkgdown_config()` is a new function that opens the pkgdown YAML configuration file for the current Project, if such a file exists.
+* `edit_pkgdown_config()` is a new function that opens the pkgdown YAML 
+  configuration file for the current Project, if such a file exists.
 
-The error thrown when reporting an unsupported GitHub configuration has been fixed for forward compatibility with a future version of rlang, i.e. what is anticipated to be rlang v1.0.0.
+* The error thrown when reporting an unsupported GitHub configuration has been 
+  fixed for forward compatibility with a future version of rlang, i.e. what is
+  anticipated to be rlang v1.0.0.
 
-Version 2.1.4 was never released. Version was advanced from 2.1.4 to 2.1.5 strictly for CRAN (re-)submission purposes.
+* Version 2.1.4 was never released. Version was advanced from 2.1.4 to 2.1.5 
+  strictly for CRAN (re-)submission purposes.
 
 # usethis 2.1.3
 
-Modified a test to ensure that intermittent GitHub rate limiting does not lead to ungraceful failure on CRAN. 
+* Modified a test to ensure that intermittent GitHub rate limiting does not 
+  lead to ungraceful failure on CRAN. 
 
 # usethis 2.1.2
 
-`git_default_branch_rename()` no longer errors on repos where README exists, but has no badge block.
+* `git_default_branch_rename()` no longer errors on repos where README exists, 
+  but has no badge block.
 
-`git_default_branch_rediscover()` prunes the defunct remote ref to the old default branch, e.g. `origin/master`.
+* `git_default_branch_rediscover()` prunes the defunct remote ref to the old 
+  default branch, e.g. `origin/master`.
 
-Version 2.1.1 was never released. Version was advanced from 2.1.1 to 2.1.2 strictly for CRAN (re-)submission purposes.
+* Version 2.1.1 was never released. Version was advanced from 2.1.1 to 2.1.2 
+  strictly for CRAN (re-)submission purposes.
 
 # usethis 2.1.0
 
