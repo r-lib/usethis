@@ -289,7 +289,7 @@ create_from_github <- function(repo_spec,
   rstudio <- rstudio %||% rstudio_available()
   rstudio <- rstudio && !is_rstudio_project(proj_get())
   if (rstudio) {
-    use_rstudio()
+    use_rstudio(reformat = FALSE)
   }
 
   if (open) {

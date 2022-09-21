@@ -7,11 +7,13 @@ AlwaysSaveHistory: Default
 EnableCodeIndexing: Yes
 Encoding: UTF-8
 
+{{#reformat}}
 AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
 LineEndingConversion: {{line_ending}}
-{{#is_pkg}}
+{{/reformat}}
 
+{{#is_pkg}}
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
