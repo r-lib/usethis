@@ -69,44 +69,43 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="usethis-development-version">usethis (development version)<a class="anchor" aria-label="anchor" href="#usethis-development-version"></a></h2>
-<p><code><a href="../reference/use_rstudio.html">use_rstudio()</a></code> gains a <code>reformat</code> argument which omits <code>.Rproj</code> settings that enforce file formatting conventions, e.g. around whitespace. <code><a href="../reference/create_from_github.html">create_from_github()</a></code> uses this option when it introduces an <code>.Rproj</code> to a project that lacks one, making it easier to follow the project’s existing conventions (<a href="https://github.com/r-lib/usethis/issues/1679" class="external-link">#1679</a>).</p>
-<p>The SVG badges placed by <code><a href="../reference/use_lifecycle.html">use_lifecycle()</a></code> have improved accessibility features, i.e. they advertise the lifecycle stage via the <code>aria-label</code> attribute (<a href="https://github.com/r-lib/usethis/issues/1554" class="external-link">#1554</a>, <a href="https://github.com/r-lib/lifecycle/issues/117" class="external-link uri">https://github.com/r-lib/lifecycle/issues/117</a>).</p>
-<p>Although nested projects are discouraged, they can be useful in development contexts. <code><a href="../reference/create_package.html">create_package()</a></code> now sets the correct package name and returns the correct package path for a package nested inside a project (<a href="https://github.com/r-lib/usethis/issues/1647" class="external-link">#1647</a>).</p>
-<p><code>git_vaccinated()</code> now treats a path configured as <code>core.excludesFile</code> like other user-supplied paths; in particular, any use of the <code>~/</code> home directory shortcut is expanded via <a href="https://fs.r-lib.org/reference/path_expand.html" class="external-link"><code>fs::path_expand()</code></a> (<a href="https://github.com/dpprdan" class="external-link">@dpprdan</a>, <a href="https://github.com/r-lib/usethis/issues/1560" class="external-link">#1560</a>).</p>
-</div>
+<ul><li><p><code><a href="../reference/use_rstudio.html">use_rstudio()</a></code> gains a <code>reformat</code> argument which omits <code>.Rproj</code> settings that enforce file formatting conventions, e.g. around whitespace.<br><code><a href="../reference/create_from_github.html">create_from_github()</a></code> uses this option when it introduces an <code>.Rproj</code> to a project that lacks one, making it easier to follow the project’s existing conventions (<a href="https://github.com/r-lib/usethis/issues/1679" class="external-link">#1679</a>).</p></li>
+<li><p>The SVG badges placed by <code><a href="../reference/use_lifecycle.html">use_lifecycle()</a></code> have improved accessibility features, i.e. they advertise the lifecycle stage via the <code>aria-label</code> attribute (<a href="https://github.com/r-lib/usethis/issues/1554" class="external-link">#1554</a>, <a href="https://github.com/r-lib/lifecycle/issues/117" class="external-link uri">https://github.com/r-lib/lifecycle/issues/117</a>).</p></li>
+<li><p>Although nested projects are discouraged, they can be useful in development contexts. <code><a href="../reference/create_package.html">create_package()</a></code> now sets the correct package name and returns the correct package path for a package nested inside a project (<a href="https://github.com/r-lib/usethis/issues/1647" class="external-link">#1647</a>).</p></li>
+<li><p><code>git_vaccinated()</code> now treats a path configured as <code>core.excludesFile</code> like other user-supplied paths; in particular, any use of the <code>~/</code> home directory shortcut is expanded via <a href="https://fs.r-lib.org/reference/path_expand.html" class="external-link"><code>fs::path_expand()</code></a> (<a href="https://github.com/dpprdan" class="external-link">@dpprdan</a>, <a href="https://github.com/r-lib/usethis/issues/1560" class="external-link">#1560</a>).</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1.6" id="usethis-216">usethis 2.1.6<a class="anchor" aria-label="anchor" href="#usethis-216"></a></h2><p class="text-muted">CRAN release: 2022-05-25</p>
 <div class="section level4">
 <h4 id="github-related-2-1-6">GitHub-related<a class="anchor" aria-label="anchor" href="#github-related-2-1-6"></a></h4>
-<p><code><a href="../reference/github_actions.html">use_github_action()</a></code> and friends gain a <code>ref</code> argument, which defaults to the tag of the latest release in <a href="https://github.com/r-lib/actions" class="external-link uri">https://github.com/r-lib/actions</a> (<a href="https://github.com/r-lib/usethis/issues/1541" class="external-link">#1541</a>).</p>
-<p><code><a href="../reference/github_actions.html">use_github_actions_badge()</a></code> now uses the same URLs as GitHub does via the “Create status badge” helper in the browser (<a href="https://github.com/r-lib/usethis/issues/1525" class="external-link">#1525</a>). This changes the significance of the <code>name</code> argument; now it really must be the name of the workflow configuration file.</p>
-<p>All functions error more clearly when the requested operation is not supported for the “theirs” remote configuration (<a href="https://github.com/r-lib/usethis/issues/1588" class="external-link">#1588</a>).</p>
-</div>
+<ul><li><p><code><a href="../reference/github_actions.html">use_github_action()</a></code> and friends gain a <code>ref</code> argument, which defaults to the tag of the latest release in <a href="https://github.com/r-lib/actions" class="external-link uri">https://github.com/r-lib/actions</a> (<a href="https://github.com/r-lib/usethis/issues/1541" class="external-link">#1541</a>).</p></li>
+<li><p><code><a href="../reference/github_actions.html">use_github_actions_badge()</a></code> now uses the same URLs as GitHub does via the “Create status badge” helper in the browser (<a href="https://github.com/r-lib/usethis/issues/1525" class="external-link">#1525</a>). This changes the significance of the <code>name</code> argument; now it really must be the name of the workflow configuration file.</p></li>
+<li><p>All functions error more clearly when the requested operation is not supported for the “theirs” remote configuration (<a href="https://github.com/r-lib/usethis/issues/1588" class="external-link">#1588</a>).</p></li>
+</ul></div>
 <div class="section level4">
 <h4 id="other-changes-2-1-6">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-2-1-6"></a></h4>
-<p><code><a href="../reference/use_roxygen_md.html">use_roxygen_md()</a></code> gains an <code>overwrite</code> argument (<a href="https://github.com/r-lib/usethis/issues/1599" class="external-link">#1599</a>).</p>
-<p><code><a href="../reference/badges.html">use_rscloud_badge()</a></code> is a new function that creates a README badge indicating the repository can be launched in an <a href="https://rstudio.cloud" class="external-link">RStudio Cloud</a> project (<a href="https://github.com/gvelasq" class="external-link">@gvelasq</a>, <a href="https://github.com/r-lib/usethis/issues/1584" class="external-link">#1584</a>).</p>
-<p><code><a href="../reference/use_data.html">use_data()</a></code> gains an <code>ascii</code> argument, which is passed along to <code><a href="https://rdrr.io/r/base/save.html" class="external-link">save()</a></code> (<a href="https://github.com/JosiahParry" class="external-link">@JosiahParry</a>, <a href="https://github.com/r-lib/usethis/issues/1625" class="external-link">#1625</a>).</p>
-<p><code><a href="../reference/use_code_of_conduct.html">use_code_of_conduct()</a></code> has been updated to version 2.1 of the Contributor Covenant (<a href="https://github.com/batpigandme" class="external-link">@batpigandme</a>, <a href="https://github.com/r-lib/usethis/issues/1591" class="external-link">#1591</a>).</p>
-</div>
+<ul><li><p><code><a href="../reference/use_roxygen_md.html">use_roxygen_md()</a></code> gains an <code>overwrite</code> argument (<a href="https://github.com/r-lib/usethis/issues/1599" class="external-link">#1599</a>).</p></li>
+<li><p><code><a href="../reference/badges.html">use_rscloud_badge()</a></code> is a new function that creates a README badge indicating the repository can be launched in an <a href="https://rstudio.cloud" class="external-link">RStudio Cloud</a> project (<a href="https://github.com/gvelasq" class="external-link">@gvelasq</a>, <a href="https://github.com/r-lib/usethis/issues/1584" class="external-link">#1584</a>).</p></li>
+<li><p><code><a href="../reference/use_data.html">use_data()</a></code> gains an <code>ascii</code> argument, which is passed along to <code><a href="https://rdrr.io/r/base/save.html" class="external-link">save()</a></code> (<a href="https://github.com/JosiahParry" class="external-link">@JosiahParry</a>, <a href="https://github.com/r-lib/usethis/issues/1625" class="external-link">#1625</a>).</p></li>
+<li><p><code><a href="../reference/use_code_of_conduct.html">use_code_of_conduct()</a></code> has been updated to version 2.1 of the Contributor Covenant (<a href="https://github.com/batpigandme" class="external-link">@batpigandme</a>, <a href="https://github.com/r-lib/usethis/issues/1591" class="external-link">#1591</a>).</p></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1.5" id="usethis-215">usethis 2.1.5<a class="anchor" aria-label="anchor" href="#usethis-215"></a></h2><p class="text-muted">CRAN release: 2021-12-09</p>
-<p>pkgdown-related functions no longer automatically strip a trailing slash from the pkgdown site URL, in order to play more nicely with CRAN’s URL checks (<a href="https://github.com/r-lib/usethis/issues/1526" class="external-link">#1526</a>).</p>
-<p><code><a href="../reference/edit.html">edit_pkgdown_config()</a></code> is a new function that opens the pkgdown YAML configuration file for the current Project, if such a file exists.</p>
-<p>The error thrown when reporting an unsupported GitHub configuration has been fixed for forward compatibility with a future version of rlang, i.e. what is anticipated to be rlang v1.0.0.</p>
-<p>Version 2.1.4 was never released. Version was advanced from 2.1.4 to 2.1.5 strictly for CRAN (re-)submission purposes.</p>
-</div>
+<ul><li><p>pkgdown-related functions no longer automatically strip a trailing slash from the pkgdown site URL, in order to play more nicely with CRAN’s URL checks (<a href="https://github.com/r-lib/usethis/issues/1526" class="external-link">#1526</a>).</p></li>
+<li><p><code><a href="../reference/edit.html">edit_pkgdown_config()</a></code> is a new function that opens the pkgdown YAML configuration file for the current Project, if such a file exists.</p></li>
+<li><p>The error thrown when reporting an unsupported GitHub configuration has been fixed for forward compatibility with a future version of rlang, i.e. what is anticipated to be rlang v1.0.0.</p></li>
+<li><p>Version 2.1.4 was never released. Version was advanced from 2.1.4 to 2.1.5 strictly for CRAN (re-)submission purposes.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1.3" id="usethis-213">usethis 2.1.3<a class="anchor" aria-label="anchor" href="#usethis-213"></a></h2><p class="text-muted">CRAN release: 2021-10-27</p>
-<p>Modified a test to ensure that intermittent GitHub rate limiting does not lead to ungraceful failure on CRAN.</p>
-</div>
+<ul><li>Modified a test to ensure that intermittent GitHub rate limiting does not lead to ungraceful failure on CRAN.</li></ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1.2" id="usethis-212">usethis 2.1.2<a class="anchor" aria-label="anchor" href="#usethis-212"></a></h2><p class="text-muted">CRAN release: 2021-10-25</p>
-<p><code><a href="../reference/git-default-branch.html">git_default_branch_rename()</a></code> no longer errors on repos where README exists, but has no badge block.</p>
-<p><code><a href="../reference/git-default-branch.html">git_default_branch_rediscover()</a></code> prunes the defunct remote ref to the old default branch, e.g. <code>origin/master</code>.</p>
-<p>Version 2.1.1 was never released. Version was advanced from 2.1.1 to 2.1.2 strictly for CRAN (re-)submission purposes.</p>
-</div>
+<ul><li><p><code><a href="../reference/git-default-branch.html">git_default_branch_rename()</a></code> no longer errors on repos where README exists, but has no badge block.</p></li>
+<li><p><code><a href="../reference/git-default-branch.html">git_default_branch_rediscover()</a></code> prunes the defunct remote ref to the old default branch, e.g. <code>origin/master</code>.</p></li>
+<li><p>Version 2.1.1 was never released. Version was advanced from 2.1.1 to 2.1.2 strictly for CRAN (re-)submission purposes.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1.0" id="usethis-210">usethis 2.1.0<a class="anchor" aria-label="anchor" href="#usethis-210"></a></h2><p class="text-muted">CRAN release: 2021-10-16</p>
 <div class="section level3">
