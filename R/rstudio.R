@@ -16,8 +16,9 @@
 #'   whitespace, and setting the line-ending. This is best practice for
 #'   new projects.
 #'
-#'   If `FALSE`, leaves all these settings alone, as is most appropriate
-#'   when you're contributing to someone else's project.
+#'   If `FALSE`, these options are left unset, which is more appropriate when
+#'   you're contributing to someone else's project that does not have its own
+#'   `.Rproj` file.
 #' @export
 use_rstudio <- function(line_ending = c("posix", "windows"), reformat = TRUE) {
   line_ending <- arg_match(line_ending)
