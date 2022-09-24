@@ -1,7 +1,7 @@
 test_that("use_[cran|bioc]_badge() don't error", {
   create_local_package()
-  expect_error_free(use_cran_badge())
-  expect_error_free(use_bioc_badge())
+  expect_without_error(use_cran_badge())
+  expect_without_error(use_bioc_badge())
 })
 
 test_that("use_lifecycle_badge() handles bad and good input", {
@@ -12,7 +12,7 @@ test_that("use_lifecycle_badge() handles bad and good input", {
     use_lifecycle_badge("eperimental")
   })
 
-  expect_error_free(use_lifecycle_badge("stable"))
+  expect_without_error(use_lifecycle_badge("stable"))
 })
 
 test_that("use_binder_badge() needs a github repository", {
@@ -27,8 +27,8 @@ test_that("use_rscloud_badge() handles bad and good input", {
   expect_error(use_rscloud_badge())
   expect_error(use_rscloud_badge(123))
   expect_error(use_rscloud_badge("http://rstudio.cloud/123"))
-  expect_error_free(use_rscloud_badge("https://rstudio.cloud/project/123"))
-  expect_error_free(use_rscloud_badge("https://rstudio.cloud/spaces/123/project/123"))
+  expect_without_error(use_rscloud_badge("https://rstudio.cloud/project/123"))
+  expect_without_error(use_rscloud_badge("https://rstudio.cloud/spaces/123/project/123"))
 })
 
 test_that("use_badge() does nothing if badge seems to pre-exist", {

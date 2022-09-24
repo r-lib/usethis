@@ -190,7 +190,7 @@ test_that("github links get expanded", {
 
 test_that("conspicuous_place() returns a writeable directory", {
   skip_on_cran_macos() # even $HOME is not writeable on CRAN macOS builder
-  expect_error_free(x <- conspicuous_place())
+  expect_without_error(x <- conspicuous_place())
   expect_true(is_dir(x))
   expect_true(file_access(x, mode = "write"))
 })
@@ -198,7 +198,7 @@ test_that("conspicuous_place() returns a writeable directory", {
 test_that("conspicuous_place() uses `usethis.destdir` when set", {
   destdir <- withr::local_tempdir(pattern = "destdir_temp")
   withr::local_options(list(usethis.destdir = destdir))
-  expect_error_free(x <- conspicuous_place())
+  expect_without_error(x <- conspicuous_place())
   expect_equal(path_tidy(destdir), x)
 })
 

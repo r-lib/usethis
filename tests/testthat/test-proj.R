@@ -16,7 +16,7 @@ test_that("proj_set() errors if no criteria are fulfilled", {
 test_that("proj_set() can be forced, even if no criteria are fulfilled", {
   tmpdir <- withr::local_tempdir(pattern = "i-am-not-a-project")
 
-  expect_error_free(old <- proj_set(tmpdir, force = TRUE))
+  expect_without_error(old <- proj_set(tmpdir, force = TRUE))
   withr::defer(proj_set(old))
   expect_identical(proj_get(), proj_path_prep(tmpdir))
 })
@@ -220,7 +220,7 @@ test_that("proj_activate() works with relative path when RStudio is not detected
     # make sure we act as if not in RStudio
     rstudio_available = function(...) FALSE,
     {
-      expect_error_free(
+      expect_without_error(
         result <- proj_activate(rel_path_proj)
       )
     }

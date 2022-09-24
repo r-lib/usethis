@@ -71,7 +71,7 @@ test_that("can create package in current directory (literally in '.')", {
   orig_proj <- proj_get_()
   orig_wd <- path_wd()
 
-  expect_error_free(
+  expect_without_error(
     out_path <- create_package(".", open = FALSE)
   )
   expect_equal(path_wd(), orig_wd)
@@ -88,7 +88,7 @@ test_that("create_* works w/ non-existing rel path, open = FALSE case", {
   withr::local_dir(sandbox)
 
   rel_path_pkg <- path_file(file_temp(pattern = "abc"))
-  expect_error_free(
+  expect_without_error(
     out_path <- create_package(rel_path_pkg, open = FALSE)
   )
   expect_true(dir_exists(rel_path_pkg))
@@ -97,7 +97,7 @@ test_that("create_* works w/ non-existing rel path, open = FALSE case", {
   expect_equal(path_wd(), sandbox)
 
   rel_path_proj <- path_file(file_temp(pattern = "def"))
-  expect_error_free(
+  expect_without_error(
     out_path <- create_project(rel_path_proj, open = FALSE)
   )
   expect_true(dir_exists(rel_path_proj))
@@ -120,7 +120,7 @@ test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudi
     # make sure we act as if not in RStudio
     rstudio_available = function(...) FALSE,
     {
-      expect_error_free(
+      expect_without_error(
         out_path <- create_package(rel_path_pkg, open = TRUE)
       )
     }
@@ -138,7 +138,7 @@ test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudi
     # make sure we act as if not in RStudio
     rstudio_available = function(...) FALSE,
     {
-      expect_error_free(
+      expect_without_error(
         out_path <- create_project(rel_path_proj, open = TRUE)
       )
     }

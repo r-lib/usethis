@@ -1,7 +1,7 @@
 test_that("can leave existing file unchanged, without an error", {
   create_local_package()
   desc_lines_before <- read_utf8(proj_path("DESCRIPTION"))
-  expect_error_free(
+  expect_without_error(
     use_template("NEWS.md", "DESCRIPTION")
   )
   desc_lines_after <- read_utf8(proj_path("DESCRIPTION"))
