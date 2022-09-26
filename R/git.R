@@ -468,7 +468,7 @@ git_vaccinated <- function() {
 git_ignore_lines <- c(
   ".Rproj.user",
   ".Rhistory",
-  ".Rdata",
+  ".RData",
   ".httr-oauth",
   ".DS_Store"
 )
