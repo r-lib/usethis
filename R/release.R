@@ -211,7 +211,7 @@ use_github_release <- function(host = deprecated(),
 
   Sys.sleep(1)
   view_url(release$html_url)
-  ui_todo("Publish the release via \"Edit draft\" > \"Publish release\"")
+  ui_todo("Publish the release via \"Edit release\" > \"Publish release\"")
 }
 
 get_release_data <- function(tr = target_repo(github_get = TRUE)) {
