@@ -1,5 +1,11 @@
 # usethis (development version)
 
+* Add trailing slash to DESCRIPTION URLs created from `use_github_links()` to adhere to new CRAN URL checks
+
+* Update TODO note in `use_github_release()` from "Edit draft" to "Edit release" (#1678)
+
+* Change `.gitignore` default pattern from `.Rdata` to `.RData` (#1677)
+
 * `use_rstudio()` gains a `reformat` argument which omits `.Rproj` settings 
   that enforce file formatting conventions, e.g. around whitespace.   
   `create_from_github()` uses this option when it introduces an `.Rproj` to a 
