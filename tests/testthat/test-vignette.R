@@ -44,6 +44,24 @@ test_that("use_article goes in article subdirectory", {
   expect_proj_file("vignettes/articles/test.Rmd")
 })
 
+test_that("use_article() adds rmarkdown to Config/Needs/website", {
+  create_local_package()
+  local_interactive(FALSE)
+
+  with_mock(
+    can_overwrite = function(path) TRUE,
+    {
+      use_description_list("Config/Needs/website", "somepackage")
+      use_article("name", "title")
+    }
+  )
+
+  expect_setequal(
+    desc::desc_get_list("Config/Needs/website", proj_get()),
+    c("rmarkdown", "somepackage")
+  )
+})
+
 # helpers -----------------------------------------------------------------
 
 test_that("valid_vignette_name() works", {
