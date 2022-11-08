@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `use_article()` no longer adds the rmarkdown package to `Suggests`. Instead,
+  if rmarkdown is not already a dependency, it's added to
+  `Config/Needs/website`. This means that a package that only uses articles
+  (vs. vignettes) won't gain an unnecessary dependency on rmarkdown (#1700).
+
 * `use_rstudio()` gains a `reformat` argument which omits `.Rproj` settings 
   that enforce file formatting conventions, e.g. around whitespace.   
   `create_from_github()` uses this option when it introduces an `.Rproj` to a 
