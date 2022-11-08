@@ -56,12 +56,11 @@ use_vignette_template <- function(template, name, title, subdir = NULL) {
   use_git_ignore(c("*.html", "*.R"), directory = "vignettes")
   use_dependency("rmarkdown", "Suggests")
 
-  if (!is.null(subdir)) {
-    path <- path("vignettes", subdir, asciify(name), ext = "Rmd")
-  } else {
+  if (is.null(subdir)) {
     path <- path("vignettes", asciify(name), ext = "Rmd")
+  } else {
+    path <- path("vignettes", subdir, asciify(name), ext = "Rmd")
   }
-
 
   data <- list(
     Package = project_name(),
