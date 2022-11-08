@@ -99,7 +99,8 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1.3" id="usethis-213">usethis 2.1.3<a class="anchor" aria-label="anchor" href="#usethis-213"></a></h2><p class="text-muted">CRAN release: 2021-10-27</p>
-<ul><li>Modified a test to ensure that intermittent GitHub rate limiting does not lead to ungraceful failure on CRAN.</li></ul></div>
+<ul><li>Modified a test to ensure that intermittent GitHub rate limiting does not lead to ungraceful failure on CRAN.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1.2" id="usethis-212">usethis 2.1.2<a class="anchor" aria-label="anchor" href="#usethis-212"></a></h2><p class="text-muted">CRAN release: 2021-10-25</p>
 <ul><li><p><code><a href="../reference/git-default-branch.html">git_default_branch_rename()</a></code> no longer errors on repos where README exists, but has no badge block.</p></li>
@@ -114,7 +115,9 @@
 <ul><li>
 <code><a href="../reference/usethis-defunct.html">git_branch_default()</a></code> has been renamed to <code><a href="../reference/git-default-branch.html">git_default_branch()</a></code>, to place it logically in the new family of functions. The old name still works, but that won’t be true forever.</li>
 <li>
-<code><a href="../reference/git-default-branch.html">git_default_branch()</a></code> is much more diligent about figuring out the default branch. Instead of only consulting the local repo, now we integrate local info with the default branch reported by the <code>upstream</code> or <code>origin</code> remote, if applicable.<ul><li>This is intended to surface the case where a project has renamed its default branch and the local repo needs sync up with that.</li></ul></li>
+<code><a href="../reference/git-default-branch.html">git_default_branch()</a></code> is much more diligent about figuring out the default branch. Instead of only consulting the local repo, now we integrate local info with the default branch reported by the <code>upstream</code> or <code>origin</code> remote, if applicable.
+<ul><li>This is intended to surface the case where a project has renamed its default branch and the local repo needs sync up with that.</li>
+</ul></li>
 <li>
 <code><a href="../reference/git-default-branch.html">git_default_branch_rediscover()</a></code> is a new function that helps contributors update their local repo (and personal fork, if applicable) when a project/repo renames its default branch.</li>
 <li>
@@ -191,11 +194,13 @@
 <ul><li>usethis should discover and use the same credentials as command line Git.</li>
 <li>usethis should be able to work with any GitHub deployment. While github.com is the default, GitHub Enterprise deployments are fully supported. The target GitHub host is determined from the current project’s configured GitHub remotes, whenever possible.</li>
 </ul><p>As a result, several functions are deprecated and several other functions have some deprecated arguments.</p>
-<ul><li>Deprecated functions:<ul><li><code><a href="../reference/git_credentials.html">use_git_credentials()</a></code></li>
+<ul><li>Deprecated functions:
+<ul><li><code><a href="../reference/git_credentials.html">use_git_credentials()</a></code></li>
 <li><code><a href="../reference/git_credentials.html">git_credentials()</a></code></li>
 <li><code><a href="../reference/usethis-defunct.html">github_token()</a></code></li>
 </ul></li>
-<li>Functions with (deprecated arguments):<ul><li>
+<li>Functions with (deprecated arguments):
+<ul><li>
 <code><a href="../reference/create_from_github.html">create_from_github()</a></code> (<code>auth_token</code>, <code>credentials</code>)</li>
 <li>
 <code><a href="../reference/use_github.html">use_github()</a></code> (<code>auth_token</code>, <code>credentials</code>)</li>
@@ -536,7 +541,8 @@
 <ul><li>
 <p><code><a href="../reference/proj_utils.html">proj_path()</a></code> is newly exported. Use it to build paths within the active project. Like <code><a href="../reference/proj_utils.html">proj_get()</a></code> and <code><a href="../reference/proj_utils.html">proj_set()</a></code>, it is not aimed at end users, but rather for use in extension packages. End users should use <a href="https://rprojroot.r-lib.org" class="external-link">rprojroot</a> or its simpler companion, <a href="https://here.r-lib.org" class="external-link">here</a>, to programmatically detect a project and build paths within it (<a href="https://github.com/r-lib/usethis/issues/415" class="external-link">#415</a>, <a href="https://github.com/r-lib/usethis/issues/425" class="external-link">#425</a>).</p>
 <ul><li>
-<code><a href="../reference/edit_file.html">edit_file()</a></code>, <code><a href="../reference/write-this.html">write_over()</a></code>, and <code><a href="../reference/write-this.html">write_union()</a></code> are newly exported helpers. They are mostly for internal use, but can also be useful in packages that extend or customize usethis (<a href="https://github.com/r-lib/usethis/issues/344" class="external-link">#344</a>, <a href="https://github.com/r-lib/usethis/issues/366" class="external-link">#366</a>, <a href="https://github.com/r-lib/usethis/issues/389" class="external-link">#389</a>).</li></ul></li>
+<code><a href="../reference/edit_file.html">edit_file()</a></code>, <code><a href="../reference/write-this.html">write_over()</a></code>, and <code><a href="../reference/write-this.html">write_union()</a></code> are newly exported helpers. They are mostly for internal use, but can also be useful in packages that extend or customize usethis (<a href="https://github.com/r-lib/usethis/issues/344" class="external-link">#344</a>, <a href="https://github.com/r-lib/usethis/issues/366" class="external-link">#366</a>, <a href="https://github.com/r-lib/usethis/issues/389" class="external-link">#389</a>).</li>
+</ul></li>
 <li><p><code><a href="../reference/use_template.html">use_template()</a></code> no longer errors when a user chooses not to overwrite an existing file and simply exits with confirmation that the file is unchanged (<a href="https://github.com/r-lib/usethis/issues/348" class="external-link">#348</a>, <a href="https://github.com/r-lib/usethis/issues/350" class="external-link">#350</a>, <a href="https://github.com/boshek" class="external-link">@boshek</a>).</p></li>
 <li><p><code>getOption("usethis.quiet", default = FALSE)</code> is consulted when printing user-facing messages. Set this option to <code>TRUE</code> to suppress output, e.g., to use usethis functions quietly in another package. For example, use <code>withr::local_options(list(usethis.quiet = TRUE))</code> in the calling function (<a href="https://github.com/r-lib/usethis/issues/416" class="external-link">#416</a>, <a href="https://github.com/r-lib/usethis/issues/424" class="external-link">#424</a>).</p></li>
 </ul></div>
@@ -682,7 +688,8 @@
 <ul><li><p>Functions which require code to be copied now automatically put the code on the clipboard if it is available (<a href="https://github.com/r-lib/usethis/issues/52" class="external-link">#52</a>).</p></li>
 <li>
 <p><code><a href="../reference/create_package.html">create_package()</a></code> no longer creates a dependency on the current version of</p>
-<ol start="18" style="list-style-type: upper-alpha"><li></ol></li>
+<ol start="18" style="list-style-type: upper-alpha"><li>
+</li></ol></li>
 <li><p><code><a href="../reference/use_build_ignore.html">use_build_ignore()</a></code> now strips trailing <code>/</code></p></li>
 <li><p><code><a href="../reference/use_git.html">use_git()</a></code> will restart RStudio if needed (and possible) (<a href="https://github.com/r-lib/usethis/issues/42" class="external-link">#42</a>).</p></li>
 <li><p><code><a href="../reference/use_github.html">use_github()</a></code> now has an organisation parameter so you can create repos in organisations (<a href="https://github.com/r-lib/usethis/issues/4" class="external-link">#4</a>).</p></li>

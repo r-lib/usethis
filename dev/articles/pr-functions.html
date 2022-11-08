@@ -115,7 +115,13 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <h2 id="contributing-to-someone-elses-package">Contributing to someone else’s package<a class="anchor" aria-label="anchor" href="#contributing-to-someone-elses-package"></a>
 </h2>
 <p>So, you want to contribute to an R package? That’s fantastic!</p>
-<p>Here we walk through the process of making a so-called <strong>pull request</strong> to the <a href="https://github.com/rladies/praise" class="external-link">praise</a> package. This package is designed to help package developers “build friendly R packages that praise their users if they have done something good, or they just need it to feel better.” You can use praise to construct encouraging feedback by sampling from its collection of positive adjectives, adverbs, verbs, smileys, and exclamations:</p>
+<p>Here we walk through the process of making a so-called <strong>pull
+request</strong> to the <a href="https://github.com/rladies/praise" class="external-link">praise</a> package. This
+package is designed to help package developers “build friendly R
+packages that praise their users if they have done something good, or
+they just need it to feel better.” You can use praise to construct
+encouraging feedback by sampling from its collection of positive
+adjectives, adverbs, verbs, smileys, and exclamations:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gaborcsardi/praise" class="external-link">praise</a></span><span class="op">)</span></span>
 <span></span>
@@ -128,9 +134,20 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <div class="section level2">
 <h2 id="whats-a-pull-request">What’s a pull request?<a class="anchor" aria-label="anchor" href="#whats-a-pull-request"></a>
 </h2>
-<p>A <a href="https://help.github.com/en/articles/about-pull-requests" class="external-link">pull request</a> is how you propose a change to a GitHub repository. Think of it as a <em>request</em> for the maintainer to <em>pull</em> your changes into their repo.</p>
-<p>The <code>pr_*()</code> family of functions is designed to make working with GitHub pull requests as painless as possible, for both contributors and package maintainers. They are designed to support the Git and GitHub workflows recommended in <a href="http://happygitwithr.com/" class="external-link">Happy Git and GitHub for the useR</a>.</p>
-<p>A pull request (PR) involves two players, a contributor and a reviewer. To make it more clear who runs which code, the code chunks in this article are color coded: code executed by the contributor appears in chunks with light gray background and code executed by the reviewer appears in chunks with beige background.</p>
+<p>A <a href="https://help.github.com/en/articles/about-pull-requests" class="external-link">pull
+request</a> is how you propose a change to a GitHub repository. Think of
+it as a <em>request</em> for the maintainer to <em>pull</em> your
+changes into their repo.</p>
+<p>The <code>pr_*()</code> family of functions is designed to make
+working with GitHub pull requests as painless as possible, for both
+contributors and package maintainers. They are designed to support the
+Git and GitHub workflows recommended in <a href="http://happygitwithr.com/" class="external-link">Happy Git and GitHub for the
+useR</a>.</p>
+<p>A pull request (PR) involves two players, a contributor and a
+reviewer. To make it more clear who runs which code, the code chunks in
+this article are color coded: code executed by the contributor appears
+in chunks with light gray background and code executed by the reviewer
+appears in chunks with beige background.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># contributor code</span></span></code></pre></div>
 <div class="reviewer">
@@ -141,7 +158,14 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <div class="section level2">
 <h2 id="set-up-advice">Set up advice<a class="anchor" aria-label="anchor" href="#set-up-advice"></a>
 </h2>
-<p>This article assumes that you have already done the Git and GitHub parts of the <a href="/articles/articles/usethis-setup">setup vignette</a> and that you have configured a GitHub personal access token, as described in <a href="/articles/articles/git-credentials.html">Managing Git(Hub) Credentials</a>. A good way to check that you are ready to use the <code>pr_*</code> family of functions is to run <code><a href="../reference/git_sitrep.html">git_sitrep()</a></code>, which prints info about your current Git, gert, and GitHub setup.</p>
+<p>This article assumes that you have already done the Git and GitHub
+parts of the <a href="/articles/articles/usethis-setup">setup
+vignette</a> and that you have configured a GitHub personal access
+token, as described in <a href="/articles/articles/git-credentials.html">Managing Git(Hub)
+Credentials</a>. A good way to check that you are ready to use the
+<code>pr_*</code> family of functions is to run
+<code><a href="../reference/git_sitrep.html">git_sitrep()</a></code>, which prints info about your current Git,
+gert, and GitHub setup.</p>
 <p>Specifically, the <code>pr_*()</code> functions make use of:</p>
 <ul>
 <li>The GitHub API, which requires a personal access token (PAT).
@@ -150,14 +174,20 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <code><a href="../reference/github-token.html">create_github_token()</a></code> helps you set one up.</li>
 </ul>
 </li>
-<li>Your preferred Git transport protocol: <code>"https"</code> or <code>"ssh"</code>.
+<li>Your preferred Git transport protocol: <code>"https"</code> or
+<code>"ssh"</code>.
 <ul>
-<li>If usethis can’t figure this out, it might ask you. You can set the <code>usethis.protocol</code> option to proactively address this.</li>
+<li>If usethis can’t figure this out, it might ask you. You can set the
+<code>usethis.protocol</code> option to proactively address this.</li>
 </ul>
 </li>
-<li>gert, an R package which does Git operations from R. The gert package, in turn, relies on the credentials package to obtain your Git credentials.
+<li>gert, an R package which does Git operations from R. The gert
+package, in turn, relies on the credentials package to obtain your Git
+credentials.
 <ul>
-<li>If you use the <code>"https"</code> protocol, your GitHub PAT is the only credential you need. Which is a good reason to choose <code>"https"</code>!</li>
+<li>If you use the <code>"https"</code> protocol, your GitHub PAT is the
+only credential you need. Which is a good reason to choose
+<code>"https"</code>!</li>
 </ul>
 </li>
 </ul>
@@ -165,14 +195,18 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <div class="section level2">
 <h2 id="attach-usethis">Attach usethis<a class="anchor" aria-label="anchor" href="#attach-usethis"></a>
 </h2>
-<p>All the code below assumes you’ve attached usethis in your R session:</p>
+<p>All the code below assumes you’ve attached usethis in your R
+session:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="fork-and-clone">Fork and clone<a class="anchor" aria-label="anchor" href="#fork-and-clone"></a>
 </h2>
-<p>The first step is to fork the source repository, to get your own copy on GitHub, and then clone that, to get your own local copy. There are many ways to accomplish these two steps, but here we demonstrate <code><a href="../reference/create_from_github.html">usethis::create_from_github()</a></code>:</p>
+<p>The first step is to fork the source repository, to get your own copy
+on GitHub, and then clone that, to get your own local copy. There are
+many ways to accomplish these two steps, but here we demonstrate
+<code><a href="../reference/create_from_github.html">usethis::create_from_github()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/create_from_github.html">create_from_github</a></span><span class="op">(</span><span class="st">"rladies/praise"</span><span class="op">)</span></span></code></pre></div>
 <div class="output">
@@ -192,8 +226,10 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 </div>
 <p>What this does:</p>
 <ul>
-<li>Forks the praise repo, owned by rladies on GitHub, into your GitHub account.</li>
-<li>Clones your praise repo into a folder named “praise” on your desktop (or similar).
+<li>Forks the praise repo, owned by rladies on GitHub, into your GitHub
+account.</li>
+<li>Clones your praise repo into a folder named “praise” on your desktop
+(or similar).
 <ul>
 <li>
 <code>origin</code> remote is set to your praise repo.</li>
@@ -202,23 +238,37 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <li>Does additional Git setup:
 <ul>
 <li>
-<code>upstream</code> remote is set to the praise repo owned by rladies.</li>
+<code>upstream</code> remote is set to the praise repo owned by
+rladies.</li>
 <li>
-<code>master</code> branch is set to track <code>upstream/master</code>, so you can pull upstream changes in the future.</li>
+<code>master</code> branch is set to track
+<code>upstream/master</code>, so you can pull upstream changes in the
+future.</li>
 </ul>
 </li>
-<li>Opens a new instance of RStudio in the praise project, if you’re working in RStudio. Otherwise, switches your current R session to that project.</li>
+<li>Opens a new instance of RStudio in the praise project, if you’re
+working in RStudio. Otherwise, switches your current R session to that
+project.</li>
 </ul>
 <p>Arguments you might like to know about:</p>
 <ul>
-<li>Specify <code>fork = TRUE</code> or <code>fork = FALSE</code> if you don’t want to defer to the default behaviour.</li>
-<li>Use <code>destdir</code> to put praise in a specific location on your computer. You can set the <code>usethis.destdir</code> option if you always want usethis to put new projects in a specific directory.</li>
+<li>Specify <code>fork = TRUE</code> or <code>fork = FALSE</code> if you
+don’t want to defer to the default behaviour.</li>
+<li>Use <code>destdir</code> to put praise in a specific location on
+your computer. You can set the <code>usethis.destdir</code> option if
+you always want usethis to put new projects in a specific
+directory.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="branch-then-make-your-change">Branch, then make your change<a class="anchor" aria-label="anchor" href="#branch-then-make-your-change"></a>
 </h2>
-<p>We start the process of contributing to the package with <code><a href="../reference/pull-requests.html">pr_init()</a></code>, which creates a branch in our repository for the pull request. It is a good idea to make your pull requests from a feature branch, not from the repo’s default branch, which is <code>master</code> here (another common choice is <code>main</code>). We’ll call this branch <code>"formidable"</code>.</p>
+<p>We start the process of contributing to the package with
+<code><a href="../reference/pull-requests.html">pr_init()</a></code>, which creates a branch in our repository for the
+pull request. It is a good idea to make your pull requests from a
+feature branch, not from the repo’s default branch, which is
+<code>master</code> here (another common choice is <code>main</code>).
+We’ll call this branch <code>"formidable"</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pull-requests.html">pr_init</a></span><span class="op">(</span>branch <span class="op">=</span> <span class="st">"formidable"</span><span class="op">)</span></span></code></pre></div>
 <div class="output">
@@ -228,20 +278,28 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <span><span class="co">#&gt; ✓ Creating and switching to local branch 'formidable'</span></span>
 <span><span class="co">#&gt; ● Use `pr_push()` to create PR.</span></span></code></pre></div>
 </div>
-<p>This creates a local branch called <code>formidable</code> and we switch to it (or “check it out”). Now you can work locally, making changes to files and committing them to Git.</p>
-<p>Let’s go ahead and make the change, which is adding the word “formidable” to the <code>R/adjective.R</code> file in the package. Below is the diff and the commit associated with this change.</p>
+<p>This creates a local branch called <code>formidable</code> and we
+switch to it (or “check it out”). Now you can work locally, making
+changes to files and committing them to Git.</p>
+<p>Let’s go ahead and make the change, which is adding the word
+“formidable” to the <code>R/adjective.R</code> file in the package.
+Below is the diff and the commit associated with this change.</p>
 <p><img src="img/pr-functions-diff.png"><!-- --></p>
 <p>You might spot that we made two mistakes here:</p>
 <ol style="list-style-type: decimal">
-<li>We intended to add “formidable”, but added “formidabel” instead.</li>
+<li>We intended to add “formidable”, but added “formidabel”
+instead.</li>
 <li>We forgot a comma at the end of the line.</li>
 </ol>
-<p>Let’s assume we didn’t actually catch these mistakes, and didn’t build and check the package, which would have revealed the missing comma. We all make mistakes.</p>
+<p>Let’s assume we didn’t actually catch these mistakes, and didn’t
+build and check the package, which would have revealed the missing
+comma. We all make mistakes.</p>
 </div>
 <div class="section level2">
 <h2 id="submit-pull-request">Submit pull request<a class="anchor" aria-label="anchor" href="#submit-pull-request"></a>
 </h2>
-<p><code><a href="../reference/pull-requests.html">pr_push()</a></code> pushes the local change to your copy of praise on GitHub and puts you in position to make your pull request.</p>
+<p><code><a href="../reference/pull-requests.html">pr_push()</a></code> pushes the local change to your copy of praise
+on GitHub and puts you in position to make your pull request.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pull-requests.html">pr_push</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="output">
@@ -251,11 +309,18 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <span><span class="co">#&gt; ✓ Create PR at link given below</span></span>
 <span><span class="co">#&gt; ✓ Opening URL 'https://github.com/mine-cetinkaya-rundel/praise/compare/formidable'</span></span></code></pre></div>
 </div>
-<p>This launches a browser window at the URL specified in the last message, which looks like the following.</p>
+<p>This launches a browser window at the URL specified in the last
+message, which looks like the following.</p>
 <!-- in local preview, I Jenny am seeing a very wide image here -->
 <p><img src="img/pr-functions-pull-request.png"><!-- --></p>
-<p>Click “Create pull request” to make the PR. After clicking you will be able to choose between <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests" class="external-link">draft PR</a> and actual PR (If opening a draft PR, <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request" class="external-link">mark it as ready for review</a> once you’re done, e.g. after a few more commits and one new call to <code><a href="../reference/pull-requests.html">pr_push()</a></code>).</p>
-<p>GitHub will ping the package maintainer and they will review our pull request. We can view this pull request in the browser with <code><a href="../reference/pull-requests.html">pr_view()</a></code>. And anyone can follow along with this PR <a href="https://github.com/rladies/praise/pull/90" class="external-link">rladies/praise#90</a>.</p>
+<p>Click “Create pull request” to make the PR. After clicking you will
+be able to choose between <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests" class="external-link">draft
+PR</a> and actual PR (If opening a draft PR, <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request" class="external-link">mark
+it as ready for review</a> once you’re done, e.g. after a few more
+commits and one new call to <code><a href="../reference/pull-requests.html">pr_push()</a></code>).</p>
+<p>GitHub will ping the package maintainer and they will review our pull
+request. We can view this pull request in the browser with
+<code><a href="../reference/pull-requests.html">pr_view()</a></code>. And anyone can follow along with this PR <a href="https://github.com/rladies/praise/pull/90" class="external-link">rladies/praise#90</a>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pull-requests.html">pr_view</a></span><span class="op">(</span><span class="fl">90</span><span class="op">)</span></span></code></pre></div>
 <div class="output">
@@ -266,11 +331,17 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <div class="section level2">
 <h2 id="review-of-the-pull-request">Review of the pull request<a class="anchor" aria-label="anchor" href="#review-of-the-pull-request"></a>
 </h2>
-<p>If we’re lucky, and our pull request is perfect, the maintainer will accept it, a.k.a. merge it. However, in this case, the PR still needs some work. So the package maintainer leaves us comments requesting changes.</p>
+<p>If we’re lucky, and our pull request is perfect, the maintainer will
+accept it, a.k.a. merge it. However, in this case, the PR still needs
+some work. So the package maintainer leaves us comments requesting
+changes.</p>
 <p><img src="img/pr-functions-comments.png"><!-- --></p>
-<p>Being somewhat new to all this, we try to address one of these comments (fix spelling) and neglect the other (forget to add the comma). We make another change and commit it.</p>
+<p>Being somewhat new to all this, we try to address one of these
+comments (fix spelling) and neglect the other (forget to add the comma).
+We make another change and commit it.</p>
 <p><img src="img/pr-functions-address-comments.png"><!-- --></p>
-<p>Run <code><a href="../reference/pull-requests.html">pr_push()</a></code> again to update the branch in our fork, which is automatically reflected in the PR.</p>
+<p>Run <code><a href="../reference/pull-requests.html">pr_push()</a></code> again to update the branch in our fork,
+which is automatically reflected in the PR.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pull-requests.html">pr_push</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="output">
@@ -280,8 +351,11 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <span><span class="co">#&gt; ✔ Create PR at link given below</span></span>
 <span><span class="co">#&gt; ✔ Opening URL 'https://github.com/mine-cetinkaya-rundel/praise/compare/formidable'</span></span></code></pre></div>
 </div>
-<p>Now the reviewer gets another chance to review our changes. At this point they might choose to just make the necessary changes and push their commits into our pull request to finish things up.</p>
-<p>To do so, the reviewer fetches the PR to their local machine with <code><a href="../reference/pull-requests.html">pr_fetch()</a></code>.</p>
+<p>Now the reviewer gets another chance to review our changes. At this
+point they might choose to just make the necessary changes and push
+their commits into our pull request to finish things up.</p>
+<p>To do so, the reviewer fetches the PR to their local machine with
+<code><a href="../reference/pull-requests.html">pr_fetch()</a></code>.</p>
 <div class="reviewer">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pull-requests.html">pr_fetch</a></span><span class="op">(</span><span class="fl">90</span><span class="op">)</span></span></code></pre></div>
@@ -296,8 +370,16 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <span><span class="co">#&gt; ✔ Switching to branch 'mine-cetinkaya-rundel-formidable'</span></span>
 <span><span class="co">#&gt; ✔ Pulling changes from GitHub PR</span></span></code></pre></div>
 </div>
-<p>Fetching the PR creates a local branch for them called <code>mine-cetinkaya-rundel-formidable</code>, which is a text string comprised of the GitHub username of the contributor and the name of the branch they had created for this PR. <code><a href="../reference/pull-requests.html">pr_fetch()</a></code> also then sets an upstream tracking branch for the local branch that got created and switches to that branch so the reviewer can make their changes on the correct branch.</p>
-<p>Once the reviewer makes the necessary changes, such as adding the missing comma, they run <code><a href="../reference/pull-requests.html">pr_push()</a></code> to push their changes into our PR.</p>
+<p>Fetching the PR creates a local branch for them called
+<code>mine-cetinkaya-rundel-formidable</code>, which is a text string
+comprised of the GitHub username of the contributor and the name of the
+branch they had created for this PR. <code><a href="../reference/pull-requests.html">pr_fetch()</a></code> also then
+sets an upstream tracking branch for the local branch that got created
+and switches to that branch so the reviewer can make their changes on
+the correct branch.</p>
+<p>Once the reviewer makes the necessary changes, such as adding the
+missing comma, they run <code><a href="../reference/pull-requests.html">pr_push()</a></code> to push their changes
+into our PR.</p>
 <div class="reviewer">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pull-requests.html">pr_push</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -312,7 +394,11 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <div class="section level2">
 <h2 id="merge-and-finish">Merge and finish<a class="anchor" aria-label="anchor" href="#merge-and-finish"></a>
 </h2>
-<p>Finally, the reviewer merges our pull request on GitHub. Locally, they can run <code><a href="../reference/pull-requests.html">pr_finish()</a></code> to switch back to the default branch (usually named <code>main</code> or <code>master</code>), pull, delete the local branch created during the process of interacting with our PR, and remove the associated remote.</p>
+<p>Finally, the reviewer merges our pull request on GitHub. Locally,
+they can run <code><a href="../reference/pull-requests.html">pr_finish()</a></code> to switch back to the default
+branch (usually named <code>main</code> or <code>master</code>), pull,
+delete the local branch created during the process of interacting with
+our PR, and remove the associated remote.</p>
 <div class="reviewer">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pull-requests.html">pr_finish</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -325,7 +411,13 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <span><span class="co">#&gt; ✔ Deleting local 'mine-cetinkaya-rundel-formidable' branch</span></span>
 <span><span class="co">#&gt; ✔ Removing remote 'mine-cetinkaya-rundel'</span></span></code></pre></div>
 </div>
-<p>Since the reviewer has contributed some code to our pull request, we can get that code back to our computer with <code><a href="../reference/pull-requests.html">pr_pull()</a></code>. This is optional here, since the full PR has already been incorporated into the default branch of the source repo (usually named <code>main</code> or <code>master</code>). But <code><a href="../reference/pull-requests.html">pr_pull()</a></code> can be useful in PRs if there are a few rounds of alternating contributions from you and the maintainer.</p>
+<p>Since the reviewer has contributed some code to our pull request, we
+can get that code back to our computer with <code><a href="../reference/pull-requests.html">pr_pull()</a></code>. This
+is optional here, since the full PR has already been incorporated into
+the default branch of the source repo (usually named <code>main</code>
+or <code>master</code>). But <code><a href="../reference/pull-requests.html">pr_pull()</a></code> can be useful in PRs
+if there are a few rounds of alternating contributions from you and the
+maintainer.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pull-requests.html">pr_pull</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="output">
@@ -333,7 +425,8 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <code class="sourceCode R"><span><span class="co">#&gt; ✓ Pulling from 'origin/formidable'</span></span>
 <span><span class="co">#&gt; Performing fast-forward merge, no commit needed</span></span></code></pre></div>
 </div>
-<p>Finally, we can also conclude the PR process on our end with <code><a href="../reference/pull-requests.html">pr_finish()</a></code>.</p>
+<p>Finally, we can also conclude the PR process on our end with
+<code><a href="../reference/pull-requests.html">pr_finish()</a></code>.</p>
 <div class="output">
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pull-requests.html">pr_finish</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -350,11 +443,31 @@ div.output pre { background-color:#FFFFFF; background-image: none; }
 <div class="section level2">
 <h2 id="other-helpful-functions">Other helpful functions<a class="anchor" aria-label="anchor" href="#other-helpful-functions"></a>
 </h2>
-<p>There are a few other functions in the <code>pr_*()</code> family that we didn’t encounter in this PR scenario:</p>
+<p>There are a few other functions in the <code>pr_*()</code> family
+that we didn’t encounter in this PR scenario:</p>
 <ul>
-<li><p><code><a href="../reference/pull-requests.html">pr_merge_main()</a></code> is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you’re working in a fork, this does <code>git pull upstream master</code>. If you’re making a PR from an internal branch, this does <code>git pull origin master</code>. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the default branch (usually named <code>main</code> or <code>master</code>) and, indeed, <code><a href="../reference/pull-requests.html">pr_pause()</a></code> includes this. This makes sure that your copy of the package is up-to-date with the source repo.</p></li>
-<li><p><code><a href="../reference/pull-requests.html">pr_pause()</a></code> makes sure you’re synced with the PR, switches back to the default branch, and calls <code><a href="../reference/pull-requests.html">pr_merge_main()</a></code> to keep you up-to-date with the source repo. This is likely something a package maintainer reviewing numerous PRs will need to use, as they switch back and forth between reviewing/extending PRs and the main line of development on the default branch.</p></li>
-<li><p><code><a href="../reference/pull-requests.html">pr_resume()</a></code> helps you resume work on a PR after you’ve spent some time with another branch checked out. If you give it no arguments, it will present an interactive choice of local branches and indicates which, if any, are associated with a PR.</p></li>
+<li><p><code><a href="../reference/pull-requests.html">pr_merge_main()</a></code> is used for getting changes that
+have occurred in the main line of development while we have been working
+on this PR. If you’re working in a fork, this does
+<code>git pull upstream master</code>. If you’re making a PR from an
+internal branch, this does <code>git pull origin master</code>. This can
+be useful to execute in your PR branch, if there are big changes in the
+project and your PR has become un-mergeable. This is also useful to
+execute whenever you return to the default branch (usually named
+<code>main</code> or <code>master</code>) and, indeed,
+<code><a href="../reference/pull-requests.html">pr_pause()</a></code> includes this. This makes sure that your copy of
+the package is up-to-date with the source repo.</p></li>
+<li><p><code><a href="../reference/pull-requests.html">pr_pause()</a></code> makes sure you’re synced with the PR,
+switches back to the default branch, and calls
+<code><a href="../reference/pull-requests.html">pr_merge_main()</a></code> to keep you up-to-date with the source
+repo. This is likely something a package maintainer reviewing numerous
+PRs will need to use, as they switch back and forth between
+reviewing/extending PRs and the main line of development on the default
+branch.</p></li>
+<li><p><code><a href="../reference/pull-requests.html">pr_resume()</a></code> helps you resume work on a PR after
+you’ve spent some time with another branch checked out. If you give it
+no arguments, it will present an interactive choice of local branches
+and indicates which, if any, are associated with a PR.</p></li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

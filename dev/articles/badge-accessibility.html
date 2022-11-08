@@ -109,45 +109,76 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span></span></code></pre></div>
-<p>Various functions in usethis insert a badge into a package’s README file. A badge consists of an image with information about the package, which is usually hyperlinked to a location with further details. Here is a typical badge:</p>
+<p>Various functions in usethis insert a badge into a package’s README
+file. A badge consists of an image with information about the package,
+which is usually hyperlinked to a location with further details. Here is
+a typical badge:</p>
 <!-- badges: start -->
 <p><a href="https://shields.io/" class="external-link"><img src="https://img.shields.io/badge/badge%20label-badge%20message-yellowgreen" alt="badge_example"></a> <!-- badges: end --></p>
-<p>For example, the badge message might be “passing” or “failing”, reflecting the <code>R CMD check</code> status of its current development state, and then link to the actual log file. Or the badge could display the current test coverage, as a percentage of lines, and then link to a site where one can explore test coverage line-by-line.</p>
+<p>For example, the badge message might be “passing” or “failing”,
+reflecting the <code>R CMD check</code> status of its current
+development state, and then link to the actual log file. Or the badge
+could display the current test coverage, as a percentage of lines, and
+then link to a site where one can explore test coverage
+line-by-line.</p>
 <!-- badges: start -->
 <p><a href="https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://app.codecov.io/gh/r-lib/usethis?branch=main" class="external-link"><img src="https://codecov.io/gh/r-lib/usethis/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <!-- badges: end --></p>
-<p>A key point is that the badge often presents <em>dynamic</em> information.</p>
-<p>We’d like to improve the user experience for those consuming the README using assistive technology, such as a screen reader.</p>
+<p>A key point is that the badge often presents <em>dynamic</em>
+information.</p>
+<p>We’d like to improve the user experience for those consuming the
+README using assistive technology, such as a screen reader.</p>
 <p>There are at least two ways that usethis can influence this:</p>
 <ul>
-<li>The construction of the hyperlinked badge. For example, we control the alt text.</li>
-<li>The image itself. We can encourage the badge providers to build accessibility into their badge SVGs. If the “native” badge is not accessible, usethis can substitute an accessible badge from a 3rd party, such as <a href="https://shields.io/" class="external-link">shields.io</a>.</li>
+<li>The construction of the hyperlinked badge. For example, we control
+the alt text.</li>
+<li>The image itself. We can encourage the badge providers to build
+accessibility into their badge SVGs. If the “native” badge is not
+accessible, usethis can substitute an accessible badge from a 3rd party,
+such as <a href="https://shields.io/" class="external-link">shields.io</a>.</li>
 </ul>
-<p>This article is meant to gather badge facts in one place and facilitate a dialogue with those using assistive technology.</p>
+<p>This article is meant to gather badge facts in one place and
+facilitate a dialogue with those using assistive technology.</p>
 <div class="section level2">
 <h2 id="markdown-image-link">Markdown image link<a class="anchor" aria-label="anchor" href="#markdown-image-link"></a>
 </h2>
-<p>usethis currently inserts badges in a special “badge block” in the README, fenced with HTML comment tags. Within the badge block, each badge is a hyperlinked image, with alt text. Here is the basic form:</p>
+<p>usethis currently inserts badges in a special “badge block” in the
+README, fenced with HTML comment tags. Within the badge block, each
+badge is a hyperlinked image, with alt text. Here is the basic form:</p>
 <pre><code>[![alt_text](http://path/to/the/badge/image)](http://path/to/more/details)</code></pre>
-<p>Note that the <code>alt_text</code> should be a static label explaining the badge’s purpose, whereas the dynamic information is baked into the externally-served image.</p>
-<p>usethis definitely controls this <code>alt_text</code>, so that is something I’d like feedback on.</p>
+<p>Note that the <code>alt_text</code> should be a static label
+explaining the badge’s purpose, whereas the dynamic information is baked
+into the externally-served image.</p>
+<p>usethis definitely controls this <code>alt_text</code>, so that is
+something I’d like feedback on.</p>
 </div>
 <div class="section level2">
 <h2 id="badge-image">Badge image<a class="anchor" aria-label="anchor" href="#badge-image"></a>
 </h2>
-<p>Most badges these days tend to be SVG files, which is fortunate, since SVGs can carry attributes to support accessibility. We demonstrate this with a custom badge generated via the <a href="https://shields.io/" class="external-link">shields.io</a> web service.</p>
+<p>Most badges these days tend to be SVG files, which is fortunate,
+since SVGs can carry attributes to support accessibility. We demonstrate
+this with a custom badge generated via the <a href="https://shields.io/" class="external-link">shields.io</a> web service.</p>
 <p>I will request a badge with this URL:</p>
 <pre><code>https://img.shields.io/badge/my__label-my__message-orange</code></pre>
-<p>Here it is as a badge, with the hyperlink set to <a href="https://shields.io/" class="external-link uri">https://shields.io/</a>. The badge is inside an HTML comment block, like usethis does for README badges. I’ve prefixed every field I can influence with “my”; there are 3 such fields:</p>
+<p>Here it is as a badge, with the hyperlink set to <a href="https://shields.io/" class="external-link uri">https://shields.io/</a>. The
+badge is inside an HTML comment block, like usethis does for README
+badges. I’ve prefixed every field I can influence with “my”; there are 3
+such fields:</p>
 <ol style="list-style-type: decimal">
 <li>The alt text.</li>
-<li>The label. This static text appears on the left side of the badge, on a grey background, and describes the badge.</li>
-<li>The message. This text appears on the right side of the badge, on a colored background. This is often the dynamic part, where both the color and the text convey a dynamic fact, e.g. “passing” on a green background or “failing” on a red background.</li>
+<li>The label. This static text appears on the left side of the badge,
+on a grey background, and describes the badge.</li>
+<li>The message. This text appears on the right side of the badge, on a
+colored background. This is often the dynamic part, where both the color
+and the text convey a dynamic fact, e.g. “passing” on a green background
+or “failing” on a red background.</li>
 </ol>
 <!-- badges: start --><p><a href="https://shields.io/" class="external-link"><img src="https://img.shields.io/badge/my__label-my__message-orange" alt="my_alt_text"></a> <!-- badges: end --></p>
-<p>Now we inspect the badge SVG. I apologize in advance for the amount of data displayed here, but it seems good to show one badge in full gory detail. Later, we will display badge information very selectively.</p>
+<p>Now we inspect the badge SVG. I apologize in advance for the amount
+of data displayed here, but it seems good to show one badge in full gory
+detail. Later, we will display badge information very selectively.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">inspect_badge</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">badge</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">badge</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -326,7 +357,9 @@
 <span><span class="co">#&gt; [1] "http://www.w3.org/2000/svg"</span></span>
 <span><span class="co">#&gt; attr(,"xmlns:xlink")</span></span>
 <span><span class="co">#&gt; [1] "http://www.w3.org/1999/xlink"</span></span></code></pre></div>
-<p>It is my understanding that the two main pieces of metadata are the <code>title</code> and the <code>aria-label</code> attribute. Here I reveal just those two items from the badge:</p>
+<p>It is my understanding that the two main pieces of metadata are the
+<code>title</code> and the <code>aria-label</code> attribute. Here I
+reveal just those two items from the badge:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">inspect_badge</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">badge</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">badge</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -345,17 +378,32 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`aria-label`</span></span>
 <span><span class="co">#&gt; [1] "my_label: my_message"</span></span></code></pre></div>
-<p>This badge carries the same information in the <code>title</code> and in <code>aria-label</code>, which is “my_label: my_message”. I would be interested to learn more about why the same information is included twice and if that is a good or bad thing for the screen reader experience.</p>
+<p>This badge carries the same information in the <code>title</code> and
+in <code>aria-label</code>, which is “my_label: my_message”. I would be
+interested to learn more about why the same information is included
+twice and if that is a good or bad thing for the screen reader
+experience.</p>
 <div class="section level3">
 <h3 id="shields-io-badges-are-accessible-today">shields.io badges are accessible today<a class="anchor" aria-label="anchor" href="#shields-io-badges-are-accessible-today"></a>
 </h3>
-<p>One of the reasons I inspected a shields.io badge is that this may provide a usable alternative for any service whose official badge is not (yet?) screen-reader-friendly.</p>
-<p>The custom badge above is completely static. But shields.io also supports custom dynamic badges, when the necessary information (label, message, color) is available from a suitable JSON endpoint. Finally, and most relevant to usethis, shields.io offers pre-configured dynamic badges for the most commonly “badged” services, including GitHub Actions and Codecov.</p>
-<p>Here is a shields.io badge for usethis’s <code>R CMD check</code> workflow on GitHub Actions:</p>
+<p>One of the reasons I inspected a shields.io badge is that this may
+provide a usable alternative for any service whose official badge is not
+(yet?) screen-reader-friendly.</p>
+<p>The custom badge above is completely static. But shields.io also
+supports custom dynamic badges, when the necessary information (label,
+message, color) is available from a suitable JSON endpoint. Finally, and
+most relevant to usethis, shields.io offers pre-configured dynamic
+badges for the most commonly “badged” services, including GitHub Actions
+and Codecov.</p>
+<p>Here is a shields.io badge for usethis’s <code>R CMD check</code>
+workflow on GitHub Actions:</p>
 <!-- badges: start -->
 <p><a href="https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://img.shields.io/github/workflow/status/r-lib/usethis/R-CMD-check?label=my_label-R-CMD-check" alt="my_alt_text-R-CMD-check"></a> <!-- badges: end --></p>
-<p>Again, I am indicating fields I control with <code>my_alt_text</code> and <code>my_label</code>, so it’s easier to get feedback on what usethis should do.</p>
-<p>Here is the <code>title</code> and <code>aria-label</code> of the badge above:</p>
+<p>Again, I am indicating fields I control with <code>my_alt_text</code>
+and <code>my_label</code>, so it’s easier to get feedback on what
+usethis should do.</p>
+<p>Here is the <code>title</code> and <code>aria-label</code> of the
+badge above:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/github/workflow/status/r-lib/usethis/R-CMD-check?label=my_label-R-CMD-check"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $title</span></span>
@@ -363,18 +411,21 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`aria-label`</span></span>
 <span><span class="co">#&gt; [1] "my_label-R-CMD-check: passing"</span></span></code></pre></div>
-<p>Now we will take inventory of the main badges inserted by usethis and where things stand re: accessibility.</p>
+<p>Now we will take inventory of the main badges inserted by usethis and
+where things stand re: accessibility.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="r-cmd-check-status">
 <code>R CMD check</code> status<a class="anchor" aria-label="anchor" href="#r-cmd-check-status"></a>
 </h2>
-<p>We generally obtain the current <code>R CMD check</code> status from a GitHub Actions workflow.</p>
+<p>We generally obtain the current <code>R CMD check</code> status from
+a GitHub Actions workflow.</p>
 <p>Here is the official badge provided by GitHub:</p>
 <!-- badges: start -->
 <p><a href="https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <!-- badges: end --></p>
-<p>Here is the <code>title</code> and <code>aria-label</code> of the badge above:</p>
+<p>Here is the <code>title</code> and <code>aria-label</code> of the
+badge above:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $title</span></span>
@@ -382,18 +433,28 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`aria-label`</span></span>
 <span><span class="co">#&gt; NULL</span></span></code></pre></div>
-<p>At the time of writing (late December 2021), the badge does not include such information.</p>
-<p>I have requested this in GitHub’s Actions and Packages Feedback forum and the response from GitHub is encouraging. Hopefully the native badge will gain improved accessibility early in 2022.</p>
+<p>At the time of writing (late December 2021), the badge does not
+include such information.</p>
+<p>I have requested this in GitHub’s Actions and Packages Feedback forum
+and the response from GitHub is encouraging. Hopefully the native badge
+will gain improved accessibility early in 2022.</p>
 <p><a href="https://github.com/github/feedback/discussions/8974" class="external-link uri">https://github.com/github/feedback/discussions/8974</a></p>
-<p>In the meantime, one could use a shields.io badge to report <code>R CMD check</code> status, as demonstrated in the previous section. A maintainer could do this as a one-off or, if the GitHub badge upgrade is slow in coming, we could implement it in <code><a href="../reference/github_actions.html">usethis::use_github_actions_badge()</a></code>.</p>
+<p>In the meantime, one could use a shields.io badge to report
+<code>R CMD check</code> status, as demonstrated in the previous
+section. A maintainer could do this as a one-off or, if the GitHub badge
+upgrade is slow in coming, we could implement it in
+<code><a href="../reference/github_actions.html">usethis::use_github_actions_badge()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="package-lifecycle">Package lifecycle<a class="anchor" aria-label="anchor" href="#package-lifecycle"></a>
 </h2>
-<p><code><a href="../reference/badges.html">usethis::use_lifecycle_badge()</a></code> declares the developmental stage of a package, using the framework from <a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link uri">https://lifecycle.r-lib.org/articles/stages.html</a>. This function already inserts a shields.io badge:</p>
+<p><code><a href="../reference/badges.html">usethis::use_lifecycle_badge()</a></code> declares the
+developmental stage of a package, using the framework from <a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link uri">https://lifecycle.r-lib.org/articles/stages.html</a>. This
+function already inserts a shields.io badge:</p>
 <!-- badges: start -->
 <p><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a> <!-- badges: end --></p>
-<p>Here is the <code>title</code> and <code>aria-label</code> of the badge above:</p>
+<p>Here is the <code>title</code> and <code>aria-label</code> of the
+badge above:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/badge/lifecycle-stable-brightgreen.svg"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $title</span></span>
@@ -401,17 +462,33 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`aria-label`</span></span>
 <span><span class="co">#&gt; [1] "lifecycle: stable"</span></span></code></pre></div>
-<p>It’s possible that usethis should be using a badge “owned” by the lifecycle package. I think we don’t do so now, because declaring the lifecycle stage of a whole package does not necessarily imply the need to take a formal dependency on the lifecycle package, which is usually what causes badges to be copied into the <code>man/figures/</code> directory.</p>
-<p>Also, the badges shipped by the lifecycle package are <em>not</em> currently accessible, which is another reason not to use them. But I have opened an issue about this (<a href="https://github.com/r-lib/lifecycle/issues/117" class="external-link uri">https://github.com/r-lib/lifecycle/issues/117</a>). This should be a relatively easy fix, since these are static badges. Once done, package maintainers would need to update the SVGs that are stored in <code>man/figures/</code>.</p>
+<p>It’s possible that usethis should be using a badge “owned” by the
+lifecycle package. I think we don’t do so now, because declaring the
+lifecycle stage of a whole package does not necessarily imply the need
+to take a formal dependency on the lifecycle package, which is usually
+what causes badges to be copied into the <code>man/figures/</code>
+directory.</p>
+<p>Also, the badges shipped by the lifecycle package are <em>not</em>
+currently accessible, which is another reason not to use them. But I
+have opened an issue about this (<a href="https://github.com/r-lib/lifecycle/issues/117" class="external-link uri">https://github.com/r-lib/lifecycle/issues/117</a>). This
+should be a relatively easy fix, since these are static badges. Once
+done, package maintainers would need to update the SVGs that are stored
+in <code>man/figures/</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="cran-status">CRAN status<a class="anchor" aria-label="anchor" href="#cran-status"></a>
 </h2>
-<p><code><a href="../reference/badges.html">usethis::use_cran_badge()</a></code> places a badge that indicates what package version is available on CRAN. This badge is served by METACRAN (<a href="https://www.r-pkg.org" class="external-link uri">https://www.r-pkg.org</a>) and maintainer Gábor Csárdi has already incorporated <code>aria-label</code> into the badges (in <a href="https://github.com/metacran/metacranweb/commit/8287a21e6dc2bc50a2d8a7b5a5a56904ae1d04ff" class="external-link">this commit</a>). All available badges are listed <a href="https://www.r-pkg.org/services" class="external-link">here</a>.</p>
-<p>Here’s the badge placed by <code><a href="../reference/badges.html">usethis::use_cran_badge()</a></code>:</p>
+<p><code><a href="../reference/badges.html">usethis::use_cran_badge()</a></code> places a badge that indicates
+what package version is available on CRAN. This badge is served by
+METACRAN (<a href="https://www.r-pkg.org" class="external-link uri">https://www.r-pkg.org</a>) and maintainer Gábor Csárdi has
+already incorporated <code>aria-label</code> into the badges (in <a href="https://github.com/metacran/metacranweb/commit/8287a21e6dc2bc50a2d8a7b5a5a56904ae1d04ff" class="external-link">this
+commit</a>). All available badges are listed <a href="https://www.r-pkg.org/services" class="external-link">here</a>.</p>
+<p>Here’s the badge placed by
+<code><a href="../reference/badges.html">usethis::use_cran_badge()</a></code>:</p>
 <!-- badges: start -->
 <p><a href="https://CRAN.R-project.org/package=usethis" class="external-link"><img src="https://www.r-pkg.org/badges/version/usethis" alt="CRAN status"></a> <!-- badges: end --></p>
-<p>Here is the <code>title</code> and <code>aria-label</code> of the badge above:</p>
+<p>Here is the <code>title</code> and <code>aria-label</code> of the
+badge above:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://www.r-pkg.org/badges/version/usethis"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $title</span></span>
@@ -419,16 +496,22 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`aria-label`</span></span>
 <span><span class="co">#&gt; [1] "CRAN 2.1.6"</span></span></code></pre></div>
-<p>At the time of writing (late December 2021), <code>aria-label</code> is present, but <code>title</code> is not. I would be interested to know if this is a good situation for those using a screen reader.</p>
+<p>At the time of writing (late December 2021), <code>aria-label</code>
+is present, but <code>title</code> is not. I would be interested to know
+if this is a good situation for those using a screen reader.</p>
 </div>
 <div class="section level2">
 <h2 id="code-coverage">Code coverage<a class="anchor" aria-label="anchor" href="#code-coverage"></a>
 </h2>
-<p><code>usethis::use_coverage(type = c("codecov", "coveralls", ...)</code> calls the internal helper <code>usethis:::use_codecov_badge()</code> to insert a badge for either the Codecov or Coveralls service.</p>
-<p>Here are examples of those two badges (note that usethis does not use Coveralls, so I’m using a different package to demo):</p>
+<p><code>usethis::use_coverage(type = c("codecov", "coveralls", ...)</code>
+calls the internal helper <code>usethis:::use_codecov_badge()</code> to
+insert a badge for either the Codecov or Coveralls service.</p>
+<p>Here are examples of those two badges (note that usethis does not use
+Coveralls, so I’m using a different package to demo):</p>
 <!-- badges: start -->
 <p><a href="https://app.codecov.io/gh/r-lib/usethis?branch=main" class="external-link"><img src="https://codecov.io/gh/r-lib/usethis/branch/main/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://coveralls.io/github/trinker/sentimentr?branch=master" class="external-link"><img src="https://coveralls.io/repos/github/trinker/sentimentr/badge.svg?branch=master" alt="Coveralls test coverage"></a> <!-- badges: end --></p>
-<p>Here are the <code>title</code> and <code>aria-label</code> of those badges::</p>
+<p>Here are the <code>title</code> and <code>aria-label</code> of those
+badges::</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://codecov.io/gh/r-lib/usethis/branch/main/graph/badge.svg"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $title</span></span>
@@ -443,11 +526,13 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`aria-label`</span></span>
 <span><span class="co">#&gt; NULL</span></span></code></pre></div>
-<p>At the time of writing (late December 2021), neither badge offers a <code>title</code> or <code>aria-label</code>.</p>
+<p>At the time of writing (late December 2021), neither badge offers a
+<code>title</code> or <code>aria-label</code>.</p>
 <p>Here are badges from shields.io for Codecov and Coveralls:</p>
 <!-- badges: start -->
 <p><a href="https://app.codecov.io/gh/r-lib/usethis?branch=main" class="external-link"><img src="https://img.shields.io/codecov/c/github/r-lib/usethis?label=test%20coverage&amp;logo=codecov" alt="Codecov test coverage"></a> <a href="https://img.shields.io/coveralls/github/trinker/sentimentr?logo=coveralls" class="external-link"><img src="https://coveralls.io/repos/github/trinker/sentimentr/badge.svg?branch=master" alt="Coveralls test coverage"></a> <!-- badges: end --></p>
-<p>Here are the <code>title</code> and <code>aria-label</code> of the shields.io badges::</p>
+<p>Here are the <code>title</code> and <code>aria-label</code> of the
+shields.io badges::</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"https://img.shields.io/codecov/c/github/r-lib/usethis?label=test%20coverage&amp;logo=codecov"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $title</span></span>
@@ -466,11 +551,14 @@
 <div class="section level2">
 <h2 id="bioconductor">Bioconductor<a class="anchor" aria-label="anchor" href="#bioconductor"></a>
 </h2>
-<p>If a package is on Bioconductor, <code><a href="../reference/badges.html">usethis::use_bioc_badge()</a></code> can be used to insert a badge for its Bioconductor build status.</p>
+<p>If a package is on Bioconductor,
+<code><a href="../reference/badges.html">usethis::use_bioc_badge()</a></code> can be used to insert a badge for
+its Bioconductor build status.</p>
 <p>Here is such a badge:</p>
 <!-- badges: start -->
 <p><a href="https://bioconductor.org/checkResults/release/bioc-LATEST/biocthis" class="external-link"><img src="http://www.bioconductor.org/shields/build/release/bioc/biocthis.svg" alt="BioC status"></a> <!-- badges: end --></p>
-<p>Here is the <code>title</code> and <code>aria-label</code> of that badge:</p>
+<p>Here is the <code>title</code> and <code>aria-label</code> of that
+badge:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">inspect_badge</span><span class="op">(</span><span class="st">"http://www.bioconductor.org/shields/build/release/bioc/biocthis.svg"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $title</span></span>
@@ -478,8 +566,11 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`aria-label`</span></span>
 <span><span class="co">#&gt; NULL</span></span></code></pre></div>
-<p>At the time of writing (late December 2021), the badge does not have a <code>title</code> or <code>aria-label</code>.</p>
-<p>It’s not immediately clear how to resolve this, but I suspect that Bioconductor would be receptive to a request to create more accessible badges.</p>
+<p>At the time of writing (late December 2021), the badge does not have
+a <code>title</code> or <code>aria-label</code>.</p>
+<p>It’s not immediately clear how to resolve this, but I suspect that
+Bioconductor would be receptive to a request to create more accessible
+badges.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
