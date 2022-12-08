@@ -31,7 +31,7 @@ use_git <- function(message = "Initial commit") {
 
 #' Add a git hook
 #'
-#' Sets up a git hook using specified script. Creates hook directory if
+#' Sets up a git hook using the specified script. Creates a hook directory if
 #' needed, and sets correct permissions on hook.
 #'
 #' @param hook Hook name. One of "pre-commit", "prepare-commit-msg",
@@ -323,8 +323,7 @@ git_clean <- function() {
 #' Git/GitHub sitrep
 #'
 #' Get a situation report on your current Git/GitHub status. Useful for
-#' diagnosing problems. [git_vaccinate()] adds some basic R- and RStudio-related
-#' entries to the user-level git ignore file.
+#' diagnosing problems.
 #' @export
 #' @examples
 #' \dontrun{
