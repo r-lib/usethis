@@ -8,8 +8,7 @@ git_sitrep()
 }
 \description{
 Get a situation report on your current Git/GitHub status. Useful for
-diagnosing problems. \code{\link[=git_vaccinate]{git_vaccinate()}} adds some basic R- and RStudio-related
-entries to the user-level git ignore file.
+diagnosing problems.
 }
 \examples{
 \dontrun{
