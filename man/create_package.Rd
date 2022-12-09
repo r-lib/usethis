@@ -42,7 +42,7 @@ error if not.}
 
 \item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
 \itemize{
-\item If RStudio desktop, the package is opened in a new session.
+\item If using RStudio desktop, the package is opened in a new session.
 \item If on RStudio server, the current RStudio project is activated.
 \item Otherwise, the working directory and active project is changed.
 }}
