@@ -116,7 +116,7 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
     gert::git_commit(message, repo = repo)
     current_branch <- git_branch()
     if (current_branch == "master") {
-      git_default_branch_rename(git_branch(), to = "main")
+      git_default_branch_rename(current_branch, to = "main")
     }
   }
 
