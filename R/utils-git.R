@@ -114,6 +114,10 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
     gert::git_add(paths, repo = repo)
     ui_done("Making a commit with message {ui_value(message)}")
     gert::git_commit(message, repo = repo)
+    current_branch <- git_branch()
+    if (current_branch == "master") {
+      git_default_branch_rename(git_branch(), to = "main")
+    }
   }
 
   uncommitted <- git_status(untracked)$file

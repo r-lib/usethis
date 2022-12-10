@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_git()` now initializes with branch 'main' (#1711). 
+
 * `use_article()` no longer adds the rmarkdown package to `Suggests`. Instead,
   if rmarkdown is not already a dependency, it's added to
   `Config/Needs/website`. This means that a package that only uses articles
