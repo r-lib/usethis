@@ -4,14 +4,24 @@
 \alias{git_sitrep}
 \title{Git/GitHub sitrep}
 \usage{
-git_sitrep()
+git_sitrep(tool = c("git", "github"), scope = c("global", "project"))
+}
+\arguments{
+\item{tool}{which tool(s) to report: one or more of \code{"git"}, \code{"github"}.}
+
+\item{scope}{which scope(s) to report: one or more of \code{"global"}, \verb{"project}.}
 }
 \description{
 Get a situation report on your current Git/GitHub status. Useful for
-diagnosing problems.
+diagnosing problems. The default is to report all values; provide values
+for \code{tool} or \code{scope} to be more specific.
 }
 \examples{
 \dontrun{
+# report all
 git_sitrep()
+
+# report git global
+git_sitrep("git", "global")
 }
 }
