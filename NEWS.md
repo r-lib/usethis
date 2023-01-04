@@ -1,6 +1,6 @@
 # usethis (development version)
 
-* `use_gitsitrep()` has two arguments: `tool` and `scope`, which enables 
+* `git_sitrep()` has two arguments: `tool` and `scope`, which enables 
   you to limit the report to, for example, `tool = "git"` or `scope = "global"`.
   The default remains to provide a full report (@ijlyttle #1714).
 
