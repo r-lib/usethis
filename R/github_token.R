@@ -184,7 +184,7 @@ pat_sitrep <- function(host = "https://github.com",
     if (!any(grepl(de_facto_email, addresses))) {
       ui_oops("
         Local Git user's email ({ui_value(de_facto_email)}) doesn't appear to \\
-        be registered with GitHub.")
+        be registered with GitHub host.")
     }
   }
 
