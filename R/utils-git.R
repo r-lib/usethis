@@ -52,14 +52,21 @@ git_init <- function() {
 # config
 git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
   where <- match.arg(where)
+
+  if (where == "de_facto") {
+    return(git_cfg_get(name, "local") %||% git_cfg_get(name, "global"))
+  }
+
   if (where == "global" || !uses_git()) {
     dat <- gert::git_config_global()
   } else {
     dat <- gert::git_config(repo = git_repo())
   }
+
   if (where == "local") {
     dat <- dat[dat$level == "local", ]
   }
+
   out <- dat$value[tolower(dat$name) == tolower(name)]
   if (length(out) > 0) out else NULL
 }

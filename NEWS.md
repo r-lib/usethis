@@ -24,8 +24,12 @@
   shortcut is expanded via 
   [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html) 
   (@dpprdan, #1560).
+
+* Refactors internal function to return, at most, one value for 
+  git-configuration parameters (#1718, @ijlyttle).
   
 * Updates snapshot tests (#1715).
+
 
 # usethis 2.1.6
 
