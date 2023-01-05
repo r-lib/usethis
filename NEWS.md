@@ -28,6 +28,8 @@
   shortcut is expanded via 
   [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html) 
   (@dpprdan, #1560).
+  
+* Updates snapshot tests (#1715).
 
 # usethis 2.1.6
 
