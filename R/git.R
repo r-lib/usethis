@@ -326,8 +326,9 @@ git_clean <- function() {
 #' diagnosing problems. The default is to report all values; provide values
 #' for `tool` or `scope` to be more specific.
 #'
-#' @param tool which tool(s) to report: one or more of `"git"`, `"github"`.
-#' @param scope which scope(s) to report: one or more of `"global"`, `"project`.
+#' @param tool Report for __git__, or __github__
+#' @param scope Report globally for the current __user__, or locally for the
+#'   current __project__
 #'
 #' @export
 #' @examples
@@ -335,11 +336,11 @@ git_clean <- function() {
 #' # report all
 #' git_sitrep()
 #'
-#' # report git global
-#' git_sitrep("git", "global")
+#' # report git for current user
+#' git_sitrep("git", "user")
 #' }
 git_sitrep <- function(tool = c("git", "github"),
-                       scope = c("global", "project")) {
+                       scope = c("user", "project")) {
 
   tool <- rlang::arg_match(tool, multiple = TRUE)
   scope <- rlang::arg_match(scope, multiple = TRUE)
@@ -348,7 +349,7 @@ git_sitrep <- function(tool = c("git", "github"),
 
   # git (global / user) --------------------------------------------------------
   init_default_branch <- git_cfg_get("init.defaultBranch", where = "global")
-  if ("git" %in% tool && "global" %in% scope) {
+  if ("git" %in% tool && "user" %in% scope) {
     cli::cli_h3("Git (global)")
     kv_line("Name", git_cfg_get("user.name", "global"))
     kv_line("Email", git_cfg_get("user.email", "global"))
@@ -364,7 +365,7 @@ git_sitrep <- function(tool = c("git", "github"),
 
   # github (global / user) -----------------------------------------------------
   default_gh_host <- get_hosturl(default_api_url())
-  if ("github" %in% tool && "global" %in% scope) {
+  if ("github" %in% tool && "user" %in% scope) {
     cli::cli_h3("GitHub (global)")
     kv_line("Default GitHub host", default_gh_host)
     pat_sitrep(default_gh_host)

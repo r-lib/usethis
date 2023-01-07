@@ -4,12 +4,13 @@
 \alias{git_sitrep}
 \title{Git/GitHub sitrep}
 \usage{
-git_sitrep(tool = c("git", "github"), scope = c("global", "project"))
+git_sitrep(tool = c("git", "github"), scope = c("user", "project"))
 }
 \arguments{
-\item{tool}{which tool(s) to report: one or more of \code{"git"}, \code{"github"}.}
+\item{tool}{Report for \strong{git}, or \strong{github}}
 
-\item{scope}{which scope(s) to report: one or more of \code{"global"}, \verb{"project}.}
+\item{scope}{Report globally for the current \strong{user}, or locally for the
+current \strong{project}}
 }
 \description{
 Get a situation report on your current Git/GitHub status. Useful for
@@ -21,7 +22,7 @@ for \code{tool} or \code{scope} to be more specific.
 # report all
 git_sitrep()
 
-# report git global
-git_sitrep("git", "global")
+# report git for current user
+git_sitrep("git", "user")
 }
 }
