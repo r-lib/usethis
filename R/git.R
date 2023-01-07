@@ -378,7 +378,8 @@ git_sitrep <- function(tool = c("git", "github"),
       ui_info("No active usethis project")
       return(invisible())
     }
-    kv_line("Active usethis project", proj_get())
+    cli::cli_h2(glue("Active usethis project: {ui_value(proj_get())}"))
+
     if (!uses_git()) {
       ui_info("Active project is not a Git repo")
       return(invisible())
@@ -421,15 +422,23 @@ git_sitrep <- function(tool = c("git", "github"),
 
     # GitHub remote config -------------------------------------------------------
     if ("github" %in% tool) {
+      cli::cli_h3("GitHub project")
+
       cfg <- github_remote_config()
-      repo_host <- cfg$host_url
-      if (!is.na(repo_host) && repo_host != default_gh_host) {
-        cli::cli_h3("GitHub project host")
-        kv_line("Non-default GitHub host", repo_host)
-        pat_sitrep(repo_host, scold_for_renviron = FALSE)
+
+      if (cfg$type == "no_github") {
+        ui_info("Project does not use GitHub")
+        return(invisible())
       }
 
-      cli::cli_h3("GitHub project remote")
+      repo_host <- cfg$host_url
+      if (!is.na(repo_host) && repo_host != default_gh_host) {
+        cli::cli_text("Host:")
+        kv_line("Non-default GitHub host", repo_host)
+        pat_sitrep(repo_host, scold_for_renviron = FALSE)
+        cli::cli_text("Project:")
+      }
+
       purrr::walk(format(cfg), ui_bullet)
     }
 
