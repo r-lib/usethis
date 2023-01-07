@@ -350,7 +350,7 @@ git_sitrep <- function(tool = c("git", "github"),
   # git (global / user) --------------------------------------------------------
   init_default_branch <- git_cfg_get("init.defaultBranch", where = "global")
   if ("git" %in% tool && "user" %in% scope) {
-    cli::cli_h3("Git (global)")
+    cli::cli_h3("Git global (user)")
     kv_line("Name", git_cfg_get("user.name", "global"))
     kv_line("Email", git_cfg_get("user.email", "global"))
     kv_line("Global (user-level) gitignore file", git_ignore_path("user"))
@@ -366,7 +366,7 @@ git_sitrep <- function(tool = c("git", "github"),
   # github (global / user) -----------------------------------------------------
   default_gh_host <- get_hosturl(default_api_url())
   if ("github" %in% tool && "user" %in% scope) {
-    cli::cli_h3("GitHub (global)")
+    cli::cli_h3("GitHub user")
     kv_line("Default GitHub host", default_gh_host)
     pat_sitrep(default_gh_host)
   }
@@ -393,7 +393,7 @@ git_sitrep <- function(tool = c("git", "github"),
 
     # local git config -----------------------------------------------------------
     if ("git" %in% tool) {
-      cli::cli_h3("Git (project)")
+      cli::cli_h3("Git local (project)")
       if (proj_active() && uses_git()) {
         local_user <- list(
           user.name = git_cfg_get("user.name", "local"),
@@ -415,8 +415,8 @@ git_sitrep <- function(tool = c("git", "github"),
 
       # vertical alignment would make this nicer, but probably not worth it
       ui_bullet(glue("
-      Current local branch -> remote tracking branch:
-      {ui_value(branch)} -> {ui_value(tracking_branch)}"))
+        Current local branch -> remote tracking branch:
+        {ui_value(branch)} -> {ui_value(tracking_branch)}"))
     }
 
     # GitHub remote config -------------------------------------------------------
@@ -424,12 +424,12 @@ git_sitrep <- function(tool = c("git", "github"),
       cfg <- github_remote_config()
       repo_host <- cfg$host_url
       if (!is.na(repo_host) && repo_host != default_gh_host) {
-        cli::cli_h3("GitHub (project) host")
+        cli::cli_h3("GitHub project host")
         kv_line("Non-default GitHub host", repo_host)
         pat_sitrep(repo_host, scold_for_renviron = FALSE)
       }
 
-      cli::cli_h3("GitHub (project) remote")
+      cli::cli_h3("GitHub project remote")
       purrr::walk(format(cfg), ui_bullet)
     }
 
