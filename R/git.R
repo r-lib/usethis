@@ -323,63 +323,69 @@ git_clean <- function() {
 #' Git/GitHub sitrep
 #'
 #' Get a situation report on your current Git/GitHub status. Useful for
-#' diagnosing problems.
+#' diagnosing problems. The default is to report all values; provide values
+#' for `tool` or `scope` to be more specific.
+#'
+#' @param tool Report for __git__, or __github__
+#' @param scope Report globally for the current __user__, or locally for the
+#'   current __project__
+#'
 #' @export
 #' @examples
 #' \dontrun{
+#' # report all
 #' git_sitrep()
+#'
+#' # report git for current user
+#' git_sitrep("git", "user")
 #' }
-git_sitrep <- function() {
+git_sitrep <- function(tool = c("git", "github"),
+                       scope = c("user", "project")) {
+
+  tool <- rlang::arg_match(tool, multiple = TRUE)
+  scope <- rlang::arg_match(scope, multiple = TRUE)
+
   ui_silence(try(proj_get(), silent = TRUE))
 
   # git (global / user) --------------------------------------------------------
-  hd_line("Git config (global)")
-  kv_line("Name", git_cfg_get("user.name", "global"))
-  kv_line("Email", git_cfg_get("user.email", "global"))
-  kv_line("Global (user-level) gitignore file", git_ignore_path("user"))
-  vaccinated <- git_vaccinated()
-  kv_line("Vaccinated", vaccinated)
-  if (!vaccinated) {
-    ui_info("See {ui_code('?git_vaccinate')} to learn more")
-  }
-  kv_line("Default Git protocol", git_protocol())
   init_default_branch <- git_cfg_get("init.defaultBranch", where = "global")
-  kv_line("Default initial branch name", init_default_branch)
+  if ("git" %in% tool && "user" %in% scope) {
+    cli::cli_h3("Git global (user)")
+    kv_line("Name", git_cfg_get("user.name", "global"))
+    kv_line("Email", git_cfg_get("user.email", "global"))
+    kv_line("Global (user-level) gitignore file", git_ignore_path("user"))
+    vaccinated <- git_vaccinated()
+    kv_line("Vaccinated", vaccinated)
+    if (!vaccinated) {
+      ui_info("See {ui_code('?git_vaccinate')} to learn more")
+    }
+    kv_line("Default Git protocol", git_protocol())
+    kv_line("Default initial branch name", init_default_branch)
+  }
 
   # github (global / user) -----------------------------------------------------
-  hd_line("GitHub")
   default_gh_host <- get_hosturl(default_api_url())
-  kv_line("Default GitHub host", default_gh_host)
-  pat_sitrep(default_gh_host)
+  if ("github" %in% tool && "user" %in% scope) {
+    cli::cli_h3("GitHub user")
+    kv_line("Default GitHub host", default_gh_host)
+    pat_sitrep(default_gh_host)
+  }
 
   # git and github for active project ------------------------------------------
-  hd_line("Git repo for current project")
+  if (!"project" %in% scope) {
+    return(invisible())
+  }
 
   if (!proj_active()) {
     ui_info("No active usethis project")
     return(invisible())
   }
-  kv_line("Active usethis project", proj_get())
+  cli::cli_h2(glue("Active usethis project: {ui_value(proj_get())}"))
+
   if (!uses_git()) {
     ui_info("Active project is not a Git repo")
     return(invisible())
   }
-
-  # local git config -----------------------------------------------------------
-  if (proj_active() && uses_git()) {
-    local_user <- list(
-      user.name = git_cfg_get("user.name", "local"),
-      user.email = git_cfg_get("user.email", "local")
-    )
-    if (!is.null(local_user$user.name) || !is.null(local_user$user.name)) {
-      ui_info("This repo has a locally configured user")
-      kv_line("Name", local_user$user.name)
-      kv_line("Email", local_user$user.email)
-    }
-  }
-
-  # default branch -------------------------------------------------------------
-  default_branch_sitrep()
 
   # current branch -------------------------------------------------------------
   branch <- tryCatch(git_branch(), error = function(e) NULL)
@@ -387,21 +393,56 @@ git_sitrep <- function() {
   # TODO: can't really express with kv_line() helper
   branch <- if (is.null(branch)) "<unset>" else branch
   tracking_branch <- if (is.na(tracking_branch)) "<unset>" else tracking_branch
-  # vertical alignment would make this nicer, but probably not worth it
-  ui_bullet(glue("
-    Current local branch -> remote tracking branch:
-    {ui_value(branch)} -> {ui_value(tracking_branch)}"))
 
-  # GitHub remote config -------------------------------------------------------
-  cfg <- github_remote_config()
-  repo_host <- cfg$host_url
-  if (!is.na(repo_host) && repo_host != default_gh_host) {
-    kv_line("Non-default GitHub host", repo_host)
-    pat_sitrep(repo_host, scold_for_renviron = FALSE)
+  # local git config -----------------------------------------------------------
+  if ("git" %in% tool) {
+    cli::cli_h3("Git local (project)")
+
+    local_user <- list(
+      user.name = git_cfg_get("user.name", "local"),
+      user.email = git_cfg_get("user.email", "local")
+    )
+    if (!is.null(local_user$user.name) || !is.null(local_user$user.email)) {
+      ui_info("This repo has a locally configured user")
+    }
+    if (!is.null(local_user$user.name)) {
+      kv_line("Name", local_user$user.name)
+    }
+    if (!is.null(local_user$user.email)) {
+      kv_line("Email", local_user$user.email)
+    }
+
+    # default branch -------------------------------------------------------------
+    default_branch_sitrep()
+
+    # vertical alignment would make this nicer, but probably not worth it
+    ui_bullet(glue("
+      Current local branch -> remote tracking branch:
+      {ui_value(branch)} -> {ui_value(tracking_branch)}"))
   }
 
-  hd_line("GitHub remote configuration")
-  purrr::walk(format(cfg), ui_bullet)
+  # GitHub remote config -------------------------------------------------------
+  if ("github" %in% tool) {
+    cli::cli_h3("GitHub project")
+
+    cfg <- github_remote_config()
+
+    if (cfg$type == "no_github") {
+      ui_info("Project does not use GitHub")
+      return(invisible())
+    }
+
+    repo_host <- cfg$host_url
+    if (!is.na(repo_host) && repo_host != default_gh_host) {
+      cli::cli_text("Host:")
+      kv_line("Non-default GitHub host", repo_host)
+      pat_sitrep(repo_host, scold_for_renviron = FALSE)
+      cli::cli_text("Project:")
+    }
+
+    purrr::walk(format(cfg), ui_bullet)
+  }
+
   invisible()
 }
 
