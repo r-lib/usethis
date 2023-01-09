@@ -1,7 +1,7 @@
 # usethis (development version)
 
 * `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
-  you to limit the report to, for example, `tool = "git"` or `scope = "global"`.
+  you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
   The default remains to provide a full report (@ijlyttle #1714).
 
 * `use_article()` no longer adds the rmarkdown package to `Suggests`. Instead,
