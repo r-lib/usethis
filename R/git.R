@@ -372,76 +372,75 @@ git_sitrep <- function(tool = c("git", "github"),
   }
 
   # git and github for active project ------------------------------------------
-  if ("project" %in% scope) {
+  if (!"project" %in% scope) {
+    return(invisible())
+  }
 
-    if (!proj_active()) {
-      ui_info("No active usethis project")
+  if (!proj_active()) {
+    ui_info("No active usethis project")
+    return(invisible())
+  }
+  cli::cli_h2(glue("Active usethis project: {ui_value(proj_get())}"))
+
+  if (!uses_git()) {
+    ui_info("Active project is not a Git repo")
+    return(invisible())
+  }
+
+  # current branch -------------------------------------------------------------
+  branch <- tryCatch(git_branch(), error = function(e) NULL)
+  tracking_branch <- if (is.null(branch)) NA_character_ else git_branch_tracking()
+  # TODO: can't really express with kv_line() helper
+  branch <- if (is.null(branch)) "<unset>" else branch
+  tracking_branch <- if (is.na(tracking_branch)) "<unset>" else tracking_branch
+
+  # local git config -----------------------------------------------------------
+  if ("git" %in% tool) {
+    cli::cli_h3("Git local (project)")
+
+    local_user <- list(
+      user.name = git_cfg_get("user.name", "local"),
+      user.email = git_cfg_get("user.email", "local")
+    )
+    if (!is.null(local_user$user.name) || !is.null(local_user$user.email)) {
+      ui_info("This repo has a locally configured user")
+    }
+    if (!is.null(local_user$user.name)) {
+      kv_line("Name", local_user$user.name)
+    }
+    if (!is.null(local_user$user.email)) {
+      kv_line("Email", local_user$user.email)
+    }
+
+    # default branch -------------------------------------------------------------
+    default_branch_sitrep()
+
+    # vertical alignment would make this nicer, but probably not worth it
+    ui_bullet(glue("
+      Current local branch -> remote tracking branch:
+      {ui_value(branch)} -> {ui_value(tracking_branch)}"))
+  }
+
+  # GitHub remote config -------------------------------------------------------
+  if ("github" %in% tool) {
+    cli::cli_h3("GitHub project")
+
+    cfg <- github_remote_config()
+
+    if (cfg$type == "no_github") {
+      ui_info("Project does not use GitHub")
       return(invisible())
     }
-    cli::cli_h2(glue("Active usethis project: {ui_value(proj_get())}"))
 
-    if (!uses_git()) {
-      ui_info("Active project is not a Git repo")
-      return(invisible())
+    repo_host <- cfg$host_url
+    if (!is.na(repo_host) && repo_host != default_gh_host) {
+      cli::cli_text("Host:")
+      kv_line("Non-default GitHub host", repo_host)
+      pat_sitrep(repo_host, scold_for_renviron = FALSE)
+      cli::cli_text("Project:")
     }
 
-    # current branch -------------------------------------------------------------
-    branch <- tryCatch(git_branch(), error = function(e) NULL)
-    tracking_branch <- if (is.null(branch)) NA_character_ else git_branch_tracking()
-    # TODO: can't really express with kv_line() helper
-    branch <- if (is.null(branch)) "<unset>" else branch
-    tracking_branch <- if (is.na(tracking_branch)) "<unset>" else tracking_branch
-
-    # local git config -----------------------------------------------------------
-    if ("git" %in% tool) {
-      cli::cli_h3("Git local (project)")
-      if (proj_active() && uses_git()) {
-        local_user <- list(
-          user.name = git_cfg_get("user.name", "local"),
-          user.email = git_cfg_get("user.email", "local")
-        )
-        if (!is.null(local_user$user.name) || !is.null(local_user$user.email)) {
-          ui_info("This repo has a locally configured user")
-        }
-        if (!is.null(local_user$user.name)) {
-          kv_line("Name", local_user$user.name)
-        }
-        if (!is.null(local_user$user.email)) {
-          kv_line("Email", local_user$user.email)
-        }
-      }
-
-      # default branch -------------------------------------------------------------
-      default_branch_sitrep()
-
-      # vertical alignment would make this nicer, but probably not worth it
-      ui_bullet(glue("
-        Current local branch -> remote tracking branch:
-        {ui_value(branch)} -> {ui_value(tracking_branch)}"))
-    }
-
-    # GitHub remote config -------------------------------------------------------
-    if ("github" %in% tool) {
-      cli::cli_h3("GitHub project")
-
-      cfg <- github_remote_config()
-
-      if (cfg$type == "no_github") {
-        ui_info("Project does not use GitHub")
-        return(invisible())
-      }
-
-      repo_host <- cfg$host_url
-      if (!is.na(repo_host) && repo_host != default_gh_host) {
-        cli::cli_text("Host:")
-        kv_line("Non-default GitHub host", repo_host)
-        pat_sitrep(repo_host, scold_for_renviron = FALSE)
-        cli::cli_text("Project:")
-      }
-
-      purrr::walk(format(cfg), ui_bullet)
-    }
-
+    purrr::walk(format(cfg), ui_bullet)
   }
 
   invisible()
