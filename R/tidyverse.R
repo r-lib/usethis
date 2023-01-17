@@ -145,19 +145,6 @@ use_tidy_dependencies <- function() {
 
 #' @export
 #' @rdname tidyverse
-use_tidy_eval <- function() {
-  check_is_package("use_tidy_eval()")
-
-  use_dependency("roxygen2", "Suggests")
-  use_dependency("rlang", "Imports", min_version = "0.4.11")
-  new <- use_template("tidy-eval.R", "R/utils-tidy-eval.R")
-
-  ui_todo("Run {ui_code('devtools::document()')}")
-  return(invisible(new))
-}
-
-#' @export
-#' @rdname tidyverse
 use_tidy_contributing <- function() {
   use_dot_github()
   data <- list(
@@ -250,6 +237,32 @@ use_tidy_style <- function(strict = TRUE) {
   ui_done("Styled project according to the tidyverse style guide")
   invisible(styled)
 }
+
+#' Use tidy evaluation
+#'
+#' @description
+#' `r lifecycle::badge("defunct")`
+#'
+#' This function is defunct because there's no longer a need to systemetically
+#' import and re-export large numbers of functions in order to use tidy
+#' evaluation. Instead, use [use_import_from()] to tactically import functions
+#' as you need them.
+#'
+#' @keywords internal
+#' @export
+use_tidy_eval <- function() {
+  lifecycle::deprecate_stop(
+    "2.2.0",
+    "use_tidy_eval()",
+    details = c(
+      "There is no longer a need to systemically import and/or re-export functions",
+      "Instead import functions as needed using the following code:",
+      'usethis::use_import_from("rlang", c(".data", ".env"))',
+      'usethis::use_import_from("rlang", ":=")'
+    )
+  )
+}
+
 
 #' Identify contributors via GitHub activity
 #'

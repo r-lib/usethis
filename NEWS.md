@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_tidy_eval()` is now defunct because it imports and re-exports a large
+  number of functions that are no longer needed in order to do tidy
+  evaluation (#1656).
+
 * `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
   you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
   The default remains to provide a full report (@ijlyttle #1714).
