@@ -38,30 +38,18 @@
 #'
 #' The [rename_files()] function can also be helpful.
 #'
-#' @param name Either a name without extension, or `NULL` to create the
-#'   paired file based on currently open file in the script editor. If
-#'   the `R/` file is open, `use_test()` will create/open the corresponding
-#'   test file; if the test file is open, `use_r()` will create/open the
-#'   corresponding `R/` file.
+#' @param name Either a string giving a file name (without directory) or
+#'   `NULL` to take the name from the currently open file in RStudio.
 #' @inheritParams edit_file
 #' @seealso The [testing](https://r-pkgs.org/tests.html) and
 #'   [R code](https://r-pkgs.org/r.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
 #' @export
 use_r <- function(name = NULL, open = rlang::is_interactive()) {
-  check_not_empty_file_name(name)
-  name <- name %||% get_active_r_file(path = "tests/testthat")
-  name <- gsub("^test-", "", name)
-  name <- slug(name, "R")
-  check_file_name(name)
-
   use_directory("R")
-  edit_file(proj_path("R", name), open = open)
 
-  test_path <- proj_path("tests", "testthat", paste0("test-", name, ".R"))
-  if (!file_exists(test_path)) {
-    ui_todo("Call {ui_code('use_test()')} to create a matching test file")
-  }
+  path <- path("R", compute_name(name))
+  edit_file(path, open = open)
 
   invisible(TRUE)
 }
@@ -73,18 +61,13 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
     use_testthat_impl()
   }
 
-  check_not_empty_file_name(name)
-  name <- name %||% get_active_r_file(path = "R")
-  name <- paste0("test-", name)
-  name <- slug(name, "R")
-  check_file_name(name)
-
-  path <- path("tests", "testthat", name)
+  path <- path("tests", "testthat", paste0("test-", compute_name(name)))
   if (!file_exists(path)) {
-    use_template("test-example-2.1.R", save_as = path, open = FALSE)
+    use_template("test-example-2.1.R", save_as = path)
   }
+  edit_file(path, open = open)
 
-  edit_file(proj_path(path), open = open)
+  invisible(TRUE)
 }
 
 #' Automatically rename paired `R/` and `test/` files
@@ -179,62 +162,89 @@ rename_files <- function(old, new) {
 
 # helpers -----------------------------------------------------------------
 
-check_file_name <- function(name) {
-  if (!is_string(name)) {
-    ui_stop("Name must be a single string")
+compute_name <- function(name = NULL, ext = "R", error_call = caller_env()) {
+  if (!is.null(name)) {
+    check_file_name(name, call = error_call)
+
+    if (path_ext(name) == "") {
+      name <- path_ext_set(name, ext)
+    } else if (path_ext(name) != "R") {
+      cli::cli_abort(
+        "{.arg name} must have extension {.str {ext}}, not {.str {path_ext(name)}}.",
+        call = error_call
+      )
+    }
+    return(as.character(name))
   }
-  if (!valid_file_name(path_ext_remove(name))) {
-    ui_stop(c(
-      "{ui_value(name)} is not a valid file name. It should:",
-      "* Contain only ASCII letters, numbers, '-', and '_'."
-    ))
+
+  if (!rstudio_available()) {
+    cli::cli_abort(
+      "{.arg name} is absent but must be specified.",
+      call = error_call
+    )
   }
-  name
+  compute_active_name(
+    path = rstudioapi::getSourceEditorContext()$path,
+    ext = ext,
+    error_call = error_call
+  )
 }
 
-check_not_empty_file_name <- function(name = NULL) {
-  if (!is.null(name) && path_file(name) == "") {
-    ui_stop("Name must not be an empty string")
+compute_active_name <- function(path, ext, error_call = caller_env()) {
+  if (is.null(path)) {
+    cli::cli_abort(
+      c(
+        "No file is open in RStudio.",
+        i = "Please specify {.arg name}."
+      ),
+      call = error_call
+    )
   }
 
-  invisible(TRUE)
+  ## rstudioapi can return a path like '~/path/to/file' where '~' means
+  ## R's notion of user's home directory
+  path <- proj_path_prep(path_expand_r(path))
+
+  rel_path <- path_dir(proj_rel_path(path))
+  if (!rel_path %in% c("R", "src", "tests/testthat")) {
+    cli::cli_abort("Open file must be a code or test file.", call = error_call)
+  }
+
+  file <- path_file(path)
+  if (rel_path == "tests/testthat") {
+    file <- gsub("^test[-_]", "", file)
+  }
+  as.character(path_ext_set(file, ext))
+}
+
+check_file_name <- function(name, call = caller_env()) {
+  if (!is_string(name)) {
+    cli::cli_abort("{.arg name} must be a single string", call = call)
+  }
+
+  if (name == "") {
+    cli::cli_abort("{.arg name} must not be an empty string", call = call)
+  }
+
+  if (path_dir(name) != ".") {
+    cli::cli_abort(
+      "{.arg name} must be a file name without directory.",
+      call = call
+    )
+  }
+
+  if (!valid_file_name(path_ext_remove(name))) {
+    cli::cli_abort(
+      c(
+        "{.arg name} ({.str {name}}) must be a valid file name.",
+        i = "A valid file name consists of only ASCII letters, numbers, '-', and '_'."
+      ),
+      call = call
+    )
+  }
 }
 
 valid_file_name <- function(x) {
   grepl("^[a-zA-Z0-9._-]+$", x)
 }
 
-get_active_r_file <- function(path = "R") {
-  if (!rstudio_available()) {
-    ui_stop("Argument {ui_code('name')} must be specified.")
-  }
-
-  active_file <- rstudioapi::getSourceEditorContext()$path
-  if (is.null(active_file)) {
-    ui_stop(
-      "No file is active in the editor and argument {ui_code('name')} \\
-       is unspecified.")
-  }
-
-  ## rstudioapi can return a path like '~/path/to/file' where '~' means
-  ## R's notion of user's home directory
-  active_file <- proj_path_prep(path_expand_r(active_file))
-
-  rel_path <- proj_rel_path(active_file)
-  if (path_dir(rel_path) != path) {
-    ui_stop(c(
-      "Open file must be in the {ui_path(path)} directory of the active package.",
-      "  * Actual path: {ui_path(rel_path)}"
-    ))
-  }
-
-  ext <- path_ext(active_file)
-  if (toupper(ext) != "R") {
-    ui_stop(
-      "Open file must have {ui_value('.R')} or {ui_value('.r')} as extension,\\
-      not {ui_value(ext)}."
-    )
-  }
-
-  path_file(active_file)
-}

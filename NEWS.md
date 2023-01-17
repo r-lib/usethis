@@ -1,5 +1,14 @@
 # usethis (development version)
 
+* `use_r()` and `use_test()` now work with all active files in `R/`, `src/`, 
+  and `tests/testthat/` (#1566).
+
+* `use_r()` and `use_test()` now work with files containing `.` (#1690).
+
+* `use_rcpp()`, `use_c()` and friends now work the same way as `use_r()` and
+  `use_test()`: they'll take the default file name from the file you currently
+  have open in RStudio.
+
 * `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
   you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
   The default remains to provide a full report (@ijlyttle #1714).

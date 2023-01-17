@@ -44,13 +44,6 @@ asciify <- function(x) {
   gsub("[^a-zA-Z0-9_-]+", "-", x)
 }
 
-slug <- function(x, ext) {
-  x_base <- path_ext_remove(x)
-  x_ext <- path_ext(x)
-  ext <- if (identical(tolower(x_ext), tolower(ext))) x_ext else ext
-  as.character(path_ext_set(x_base, ext))
-}
-
 compact <- function(x) {
   is_empty <- vapply(x, function(x) length(x) == 0, logical(1))
   x[!is_empty]

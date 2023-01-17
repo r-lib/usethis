@@ -6,28 +6,20 @@
 #'   * May create an initial placeholder `.c` or `.cpp` file
 #'   * Creates `Makevars` and `Makevars.win` files (`use_rcpp_armadillo()` only)
 #'
-#' @param name If supplied, creates and opens `src/name.{c,cpp}`.
-#'
-#' @details
-#'
-#' When using compiled code, please note that there must be at least one file
-#' inside the `src/` directory prior to building the package. As a result,
-#' if an empty `src/` directory is detected, either a `.c` or `.cpp` file will
-#' be added.
-#'
+#' @inheritParams use_r
 #' @export
 use_rcpp <- function(name = NULL) {
   check_is_package("use_rcpp()")
   check_uses_roxygen("use_rcpp()")
-  check_not_empty_file_name(name)
-
-  use_src()
 
   use_dependency("Rcpp", "LinkingTo")
   use_dependency("Rcpp", "Imports")
   roxygen_ns_append("@importFrom Rcpp sourceCpp") && roxygen_remind()
 
-  use_src_example_script(name, "cpp")
+  use_src()
+  path <- path("src", compute_name(name, "cpp"))
+  use_template("code.cpp", path)
+  edit_file(path)
 
   invisible()
 }
@@ -66,11 +58,12 @@ use_rcpp_eigen <- function(name = NULL) {
 use_c <- function(name = NULL) {
   check_is_package("use_c()")
   check_uses_roxygen("use_c()")
-  check_not_empty_file_name(name)
 
   use_src()
 
-  use_src_example_script(name, "c")
+  path <- path("src", compute_name(name, ext = "c"))
+  use_template("code.c", path)
+  edit_file(path)
 
   invisible(TRUE)
 }
@@ -109,23 +102,5 @@ use_makevars <- function(settings = NULL) {
     )
     edit_file(makevars_path)
     edit_file(makevars_win_path)
-  }
-}
-
-use_src_example_script <- function(name = NULL, src_type = c("cpp", "c")) {
-  src_type <- match.arg(src_type)
-
-  if (!directory_has_files(path("src"))) {
-    name <- name %||% "code"
-  }
-
-  if (!is.null(name)) {
-    name <- slug(name, src_type)
-    check_file_name(name)
-    use_template(
-      slug("code", src_type),
-      path("src", name),
-      open = is_interactive()
-    )
   }
 }
