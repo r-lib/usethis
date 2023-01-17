@@ -12,7 +12,7 @@ test_that("git_branch() works", {
   gert::git_add("blah.txt", repo = git_repo())
   gert::git_commit("Make one commit", repo = git_repo())
   # branch name can depend on user's config, e.g. could be 'master' or 'main'
-  expect_without_error(
+  expect_no_error(
     b <- git_branch()
   )
   expect_true(nzchar(b))

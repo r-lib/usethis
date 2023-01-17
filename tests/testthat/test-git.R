@@ -8,7 +8,7 @@ test_that("uses_git() works", {
   git_init()
 
   expect_true(uses_git())
-  expect_without_error(check_uses_git())
+  expect_no_error(check_uses_git())
 })
 
 test_that('use_git_config(scope = "project") errors if project not using git', {
