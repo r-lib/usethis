@@ -115,7 +115,7 @@ test_that("write_utf8() can operate outside of a project", {
   local_project(NULL)
 
   expect_false(proj_active())
-  expect_error_free(write_utf8(path = "foo", letters[1:3]))
+  expect_no_error(write_utf8(path = "foo", letters[1:3]))
 })
 
 # https://github.com/r-lib/usethis/issues/514
