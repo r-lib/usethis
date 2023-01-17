@@ -1,5 +1,14 @@
 # usethis (development version)
 
+* `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
+  you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
+  The default remains to provide a full report (@ijlyttle #1714).
+
+* `use_article()` no longer adds the rmarkdown package to `Suggests`. Instead,
+  if rmarkdown is not already a dependency, it's added to
+  `Config/Needs/website`. This means that a package that only uses articles
+  (vs. vignettes) won't gain an unnecessary dependency on rmarkdown (#1700).
+
 * `use_rstudio()` gains a `reformat` argument which omits `.Rproj` settings 
   that enforce file formatting conventions, e.g. around whitespace.   
   `create_from_github()` uses this option when it introduces an `.Rproj` to a 
@@ -19,6 +28,8 @@
   shortcut is expanded via 
   [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html) 
   (@dpprdan, #1560).
+  
+* Updates snapshot tests (#1715).
 
 # usethis 2.1.6
 

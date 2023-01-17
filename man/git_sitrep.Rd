@@ -4,15 +4,25 @@
 \alias{git_sitrep}
 \title{Git/GitHub sitrep}
 \usage{
-git_sitrep()
+git_sitrep(tool = c("git", "github"), scope = c("user", "project"))
+}
+\arguments{
+\item{tool}{Report for \strong{git}, or \strong{github}}
+
+\item{scope}{Report globally for the current \strong{user}, or locally for the
+current \strong{project}}
 }
 \description{
 Get a situation report on your current Git/GitHub status. Useful for
-diagnosing problems. \code{\link[=git_vaccinate]{git_vaccinate()}} adds some basic R- and RStudio-related
-entries to the user-level git ignore file.
+diagnosing problems. The default is to report all values; provide values
+for \code{tool} or \code{scope} to be more specific.
 }
 \examples{
 \dontrun{
+# report all
 git_sitrep()
+
+# report git for current user
+git_sitrep("git", "user")
 }
 }
