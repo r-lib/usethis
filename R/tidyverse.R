@@ -238,32 +238,6 @@ use_tidy_style <- function(strict = TRUE) {
   invisible(styled)
 }
 
-#' Use tidy evaluation
-#'
-#' @description
-#' `r lifecycle::badge("defunct")`
-#'
-#' This function is defunct because there's no longer a need to systematically
-#' import and re-export a large number of functions in order to use tidy
-#' evaluation. Instead, use [use_import_from()] to tactically import functions
-#' as you need them.
-#'
-#' @keywords internal
-#' @export
-use_tidy_eval <- function() {
-  lifecycle::deprecate_stop(
-    "2.2.0",
-    "use_tidy_eval()",
-    details = c(
-      "There is no longer a need to systematically import and/or re-export functions",
-      "Instead import functions as needed using the following code:",
-      'usethis::use_import_from("rlang", c(".data", ".env"))',
-      'usethis::use_import_from("rlang", ":=")'
-    )
-  )
-}
-
-
 #' Identify contributors via GitHub activity
 #'
 #' Derives a list of GitHub usernames, based on who has opened issues or pull

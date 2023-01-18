@@ -161,3 +161,4 @@ reference:
     contents:
     - git_credentials
     - usethis-defunct
+    - use_tidy_eval
