@@ -162,3 +162,4 @@ reference:
     - git_credentials
     - usethis-defunct
     - use_tidy_eval
+    - use_travis
