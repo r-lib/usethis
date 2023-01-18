@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_travis()` and `use_appveyor()` are now defunct because we no longer  
+  recommend Travis or Appveyor. We recommend GitHub actions instead (#1517).
+
 * `use_tidy_eval()` is now defunct because it imports and re-exports a large
   number of functions that are no longer needed in order to do tidy
   evaluation (#1656).
