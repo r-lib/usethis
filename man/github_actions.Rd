@@ -2,15 +2,13 @@
 % Please edit documentation in R/github-actions.R
 \name{github_actions}
 \alias{github_actions}
-\alias{use_github_actions_badge}
 \alias{use_github_action}
 \alias{use_github_action_check_release}
 \alias{use_github_action_check_standard}
 \alias{use_github_action_pr_commands}
+\alias{use_github_actions_badge}
 \title{GitHub Actions setup}
 \usage{
-use_github_actions_badge(name = "R-CMD-check.yaml", repo_spec = NULL)
-
 use_github_action(
   name,
   ref = NULL,
@@ -41,6 +39,8 @@ use_github_action_pr_commands(
   ignore = TRUE,
   open = FALSE
 )
+
+use_github_actions_badge(name = "R-CMD-check.yaml", repo_spec = NULL)
 }
 \arguments{
 \item{name}{For \code{use_github_action()}: Name of one of the example workflows
@@ -51,8 +51,6 @@ For \code{use_github_actions_badge()}: Name of the workflow's YAML configuration
 file. Examples: "R-CMD-check", "R-CMD-check.yaml".
 
 If \code{name} has no extension, we assume it's \code{.yaml}.}
-
-\item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
 
 \item{ref}{Desired Git reference, usually the name of a tag (\code{"v2"}) or
 branch (\code{"main"}). Other possibilities include a commit SHA (\code{"d1c516d"})
@@ -74,6 +72,8 @@ about the workflow. Ignored when \code{url} is \code{NULL}.}
 
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+
+\item{repo_spec}{Optional GitHub repo specification in this form: \code{owner/repo}. This can usually be inferred from the GitHub remotes of active project.}
 }
 \description{
 Sets up continuous integration (CI) for an R package that is developed on
@@ -91,13 +91,6 @@ This family of functions
 \item Provides the markdown to insert a badge into your README
 }
 }
-\section{\code{use_github_actions_badge()}}{
-
-Generates a GitHub Actions badge and that's all. It does not configure a
-workflow. This exists mostly for internal use in the other functions
-documented here.
-}
-
 \section{\code{use_github_action()}}{
 
 Configures an individual, specific \href{https://github.com/features/actions}{GitHub Actions} workflow, either one of the
@@ -133,6 +126,13 @@ issue comments:
 \item \verb{/document} to run \code{roxygen2::roxygenise()} and update the PR
 \item \verb{/style} to run \code{styler::style_pkg()} and update the PR
 }
+}
+
+\section{\code{use_github_actions_badge()}}{
+
+Generates a GitHub Actions badge and that's all. It does not configure a
+workflow. This exists mostly for internal use in the other functions
+documented here.
 }
 
 \examples{

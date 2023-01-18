@@ -59,44 +59,6 @@
 #' }
 NULL
 
-#' Use Github actions
-#'
-#' @description
-#' `r lifecycle::badge("deprecated")`
-#'
-#' `use_github_actions()` is deprecated because it was just an alias
-#' for [use_github_action_check_release()]
-#'
-#' @export
-#' @keywords internal
-use_github_actions <- function() {
-  lifecycle::deprecate_warn(
-    when = "2.2.0",
-    what = "use_github_actions()",
-    with = "use_github_action_check_release()"
-  )
-  use_github_action_check_release()
-}
-
-#' @section `use_github_actions_badge()`:
-#' Generates a GitHub Actions badge and that's all. It does not configure a
-#' workflow. This exists mostly for internal use in the other functions
-#' documented here.
-#' @export
-#' @rdname github_actions
-use_github_actions_badge <- function(name = "R-CMD-check.yaml",
-                                     repo_spec = NULL) {
-  if (path_ext(name) == "") {
-    name <- path_ext_set(name, "yaml")
-  }
-  repo_spec <- repo_spec %||% target_repo_spec()
-  enc_name <- utils::URLencode(name)
-  img <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}/badge.svg")
-  url <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}")
-
-  use_badge(path_ext_remove(name), url, img)
-}
-
 # individual actions -----------------------------------------------------------
 
 #' @section `use_github_action()`:
@@ -225,6 +187,26 @@ use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
   )
 }
 
+#' Use Github actions
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `use_github_actions()` is deprecated because it was just an alias
+#' for [use_github_action_check_release()]
+#'
+#' @export
+#' @keywords internal
+use_github_actions <- function() {
+  lifecycle::deprecate_warn(
+    when = "2.2.0",
+    what = "use_github_actions()",
+    with = "use_github_action_check_release()"
+  )
+  use_github_action_check_release()
+}
+
+
 # tidyverse GHA setup ----------------------------------------------------------
 
 #' @details
@@ -279,6 +261,28 @@ use_tidy_github_actions <- function(ref = NULL) {
   }
 
   invisible(full_status && pr_status && pkgdown_status && test_coverage_status)
+}
+
+
+# badges ------------------------------------------------------------------
+
+#' @section `use_github_actions_badge()`:
+#' Generates a GitHub Actions badge and that's all. It does not configure a
+#' workflow. This exists mostly for internal use in the other functions
+#' documented here.
+#' @export
+#' @rdname github_actions
+use_github_actions_badge <- function(name = "R-CMD-check.yaml",
+                                     repo_spec = NULL) {
+  if (path_ext(name) == "") {
+    name <- path_ext_set(name, "yaml")
+  }
+  repo_spec <- repo_spec %||% target_repo_spec()
+  enc_name <- utils::URLencode(name)
+  img <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}/badge.svg")
+  url <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}")
+
+  use_badge(path_ext_remove(name), url, img)
 }
 
 # GHA helpers ------------------------------------------------------------------
