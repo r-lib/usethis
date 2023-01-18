@@ -35,6 +35,24 @@ test_that("renames R and test and snapshot files", {
   expect_proj_file("tests/testthat/_snaps/bar.md")
 })
 
+test_that("renames src/ files", {
+  create_local_package()
+  git_init()
+
+  use_src()
+  file_create(proj_path("src/foo.c"))
+  file_create(proj_path("src/foo.h"))
+
+  withr::local_options(list(usethis.quiet = FALSE))
+  expect_snapshot({
+    rename_files("foo", "bar")
+  })
+
+  expect_proj_file("src/bar.c")
+  expect_proj_file("src/bar.h")
+})
+
+
 test_that("strips context from test file", {
   create_local_package()
   git_init()
