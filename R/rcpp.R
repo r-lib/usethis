@@ -19,7 +19,7 @@ use_rcpp <- function(name = NULL) {
   use_src()
   path <- path("src", compute_name(name, "cpp"))
   use_template("code.cpp", path)
-  edit_file(path)
+  edit_file(proj_path(path))
 
   invisible()
 }
@@ -63,7 +63,7 @@ use_c <- function(name = NULL) {
 
   path <- path("src", compute_name(name, ext = "c"))
   use_template("code.c", path)
-  edit_file(path)
+  edit_file(proj_path(path))
 
   invisible(TRUE)
 }
