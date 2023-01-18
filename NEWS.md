@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_tidy_eval()` is now defunct because it imports and re-exports a large
+  number of functions that are no longer needed in order to do tidy
+  evaluation (#1656).
+
 * `use_r()` and `use_test()` now work with all active files in `R/`, `src/`, 
   and `tests/testthat/` (#1566).
 

@@ -8,7 +8,6 @@
 \alias{create_tidy_package}
 \alias{use_tidy_description}
 \alias{use_tidy_dependencies}
-\alias{use_tidy_eval}
 \alias{use_tidy_contributing}
 \alias{use_tidy_support}
 \alias{use_tidy_issue_template}
@@ -26,8 +25,6 @@ create_tidy_package(path, copyright_holder = NULL)
 use_tidy_description()
 
 use_tidy_dependencies()
-
-use_tidy_eval()
 
 use_tidy_contributing()
 
