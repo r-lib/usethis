@@ -455,7 +455,7 @@ git_user_sitrep <- function(scope = c("user", "project")) {
 git_user_check <- function(user) {
   if (all(map_lgl(user, is.null))) {
     hint <-
-      'use_git_config(user.name = "<your name>", user.email = "<your email>")`'
+      'use_git_config(user.name = "<your name>", user.email = "<your email>")'
     ui_oops(
       "Git user's name and email are not set. Configure using {ui_code(hint)}."
     )
@@ -463,12 +463,12 @@ git_user_check <- function(user) {
   }
 
   if (is.null(user$name)) {
-    hint <- 'use_git_config(user.name = "<your name>")`'
+    hint <- 'use_git_config(user.name = "<your name>")'
     ui_oops("Git user's name is not set. Configure using {ui_code(hint)}.")
   }
 
   if (is.null(user$email)) {
-    hint <- 'use_git_config(user.email = "<your email>")`'
+    hint <- 'use_git_config(user.email = "<your email>")'
     ui_oops("Git user's email is not set. Configure using {ui_code(hint)}.")
   }
 }
