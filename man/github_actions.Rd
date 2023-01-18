@@ -2,7 +2,6 @@
 % Please edit documentation in R/github-actions.R
 \name{github_actions}
 \alias{github_actions}
-\alias{use_github_actions}
 \alias{use_github_actions_badge}
 \alias{use_github_action}
 \alias{use_github_action_check_release}
@@ -10,8 +9,6 @@
 \alias{use_github_action_pr_commands}
 \title{GitHub Actions setup}
 \usage{
-use_github_actions()
-
 use_github_actions_badge(name = "R-CMD-check.yaml", repo_spec = NULL)
 
 use_github_action(
@@ -94,14 +91,6 @@ This family of functions
 \item Provides the markdown to insert a badge into your README
 }
 }
-\section{\code{use_github_actions()}}{
-
-Configures a basic \verb{R CMD check} workflow on GitHub Actions by adding a
-standard \code{R-CMD-check.yaml} file to the \code{.github/workflows} directory of the
-active project. This is actually just an alias for
-\code{use_github_action_check_release()}.
-}
-
 \section{\code{use_github_actions_badge()}}{
 
 Generates a GitHub Actions badge and that's all. It does not configure a
@@ -148,7 +137,7 @@ issue comments:
 
 \examples{
 \dontrun{
-use_github_actions()
+use_github_action()
 
 use_github_action_check_standard()
 

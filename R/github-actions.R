@@ -51,7 +51,7 @@
 
 #' @examples
 #' \dontrun{
-#' use_github_actions()
+#' use_github_action()
 #'
 #' use_github_action_check_standard()
 #'
@@ -59,14 +59,22 @@
 #' }
 NULL
 
-#' @section `use_github_actions()`:
-#' Configures a basic `R CMD check` workflow on GitHub Actions by adding a
-#' standard `R-CMD-check.yaml` file to the `.github/workflows` directory of the
-#' active project. This is actually just an alias for
-#' `use_github_action_check_release()`.
+#' Use Github actions
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `use_github_actions()` is deprecated because it was just an alias
+#' for [use_github_action_check_release()]
+#'
 #' @export
-#' @rdname github_actions
+#' @keywords internal
 use_github_actions <- function() {
+  lifecycle::deprecate_warn(
+    when = "2.2.0",
+    what = "use_github_actions()",
+    with = "use_github_action_check_release()"
+  )
   use_github_action_check_release()
 }
 
