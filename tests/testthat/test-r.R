@@ -41,7 +41,7 @@ test_that("renames src/ files", {
   create_local_package()
   git_init()
 
-  dir_create(proj_path("src"))
+  use_src()
   file_create(proj_path("src/foo.c"))
   file_create(proj_path("src/foo.h"))
 

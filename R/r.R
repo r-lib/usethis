@@ -119,7 +119,7 @@ rename_files <- function(old, new) {
 
   # src/ ------------------------------------------------------------------------
   if (dir_exists(proj_path("src"))) {
-    src_old <- dir_ls(proj_path("src"), glob = glue("*/{old}.*"))
+    src_old <- dir_ls(proj_path("src"), glob = glue("*/src/{old}.*"))
 
     src_new_file <- gsub(glue("^{old}"), glue("{new}"), path_file(src_old))
     src_new <- path(path_dir(src_old), src_new_file)
