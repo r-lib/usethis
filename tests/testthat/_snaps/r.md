@@ -1,16 +1,61 @@
-# use_r() creates a .R file below R/
+# compute_name() errors if no RStudio
 
     Code
-      use_r("")
+      compute_name()
     Condition
       Error:
-      ! Name must not be an empty string
+      ! `name` is absent but must be specified.
 
-# use_test() creates a test file
+# compute_name() validates its inputs
 
     Code
-      use_test("", open = FALSE)
+      compute_name("foo.c")
     Condition
       Error:
-      ! Name must not be an empty string
+      ! `name` must have extension "R", not "c".
+    Code
+      compute_name("R/foo.c")
+    Condition
+      Error:
+      ! `name` must be a file name without directory.
+    Code
+      compute_name(c("a", "b"))
+    Condition
+      Error:
+      ! `name` must be a single string
+    Code
+      compute_name("")
+    Condition
+      Error:
+      ! `name` must not be an empty string
+    Code
+      compute_name("****")
+    Condition
+      Error:
+      ! `name` ("****") must be a valid file name.
+      i A valid file name consists of only ASCII letters, numbers, '-', and '_'.
+
+# compute_active_name() errors if no files open
+
+    Code
+      compute_active_name(NULL)
+    Condition
+      Error:
+      ! No file is open in RStudio.
+      i Please specify `name`.
+
+# compute_active_name() checks directory
+
+    Code
+      compute_active_name("foo/bar.R")
+    Condition
+      Error:
+      ! Open file must be a code or test file.
+
+# renames src/ files
+
+    Code
+      rename_files("foo", "bar")
+    Message
+      v Moving 'src/foo.c', 'src/foo.h' to 'src/bar.c', 'src/bar.h'
 
