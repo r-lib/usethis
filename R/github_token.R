@@ -86,7 +86,7 @@ gh_token_help <- function(host = NULL) {
   host_url <- get_hosturl(host %||% default_api_url())
   kv_line("GitHub host", host_url)
 
-  pat_sitrep(host_url)
+  pat_sitrep(host_url, scope = "project")
 }
 
 code_hint_with_host <- function(function_name, host = NULL, arg_name = NULL) {
@@ -106,6 +106,7 @@ code_hint_with_host <- function(function_name, host = NULL, arg_name = NULL) {
 
 # workhorse behind gh_token_help() and called, possibly twice, in git_sitrep()
 # hence the need for `scold_for_renviron = TRUE/FALSE`
+# scope determines if "global" or "de_facto" email is checked
 pat_sitrep <- function(host = "https://github.com",
                        scope = c("user", "project"),
                        scold_for_renviron = TRUE) {
