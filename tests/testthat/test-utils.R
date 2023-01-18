@@ -11,13 +11,6 @@ test_that("asciify() substitutes non-ASCII but respects case", {
   expect_identical(asciify("aB!d$F+_h"), "aB-d-F-_h")
 })
 
-test_that("slug() sets file extension, iff 'ext' not aleady the extension", {
-  expect_equal(slug("abc", "R"), "abc.R")
-  expect_equal(slug("abc.R", "R"), "abc.R")
-  expect_equal(slug("abc.r", "R"), "abc.r")
-  expect_equal(slug("abc.R", "txt"), "abc.txt")
-})
-
 test_that("path_first_existing() works", {
   create_local_project()
 
