@@ -179,11 +179,12 @@ pat_sitrep <- function(host = "https://github.com",
     )
     kv_line("Email(s)", addresses)
     ui_silence(
-      de_facto_email <- git_cfg_get("user.email", "de_facto")
+      user <- git_user_get("de_facto")
     )
-    if (!any(grepl(de_facto_email, addresses))) {
+    git_user_check(user)
+    if (!is.null(user$email) && !any(grepl(user$email, addresses))) {
       ui_oops("
-        Local Git user's email ({ui_value(de_facto_email)}) doesn't appear to \\
+        Local Git user's email ({ui_value(user$email)}) doesn't appear to \\
         be registered with GitHub host.")
     }
   }

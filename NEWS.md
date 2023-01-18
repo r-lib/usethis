@@ -17,8 +17,9 @@
 
 * `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
   you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
-  The default remains to provide a full report (@ijlyttle #1714).
-
+  The default remains to provide a full report. Also, provides more
+  feedback if git user's information is not set. (@ijlyttle, #1714, #1706).
+  
 * `use_article()` no longer adds the rmarkdown package to `Suggests`. Instead,
   if rmarkdown is not already a dependency, it's added to
   `Config/Needs/website`. This means that a package that only uses articles
