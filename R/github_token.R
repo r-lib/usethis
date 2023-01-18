@@ -182,7 +182,7 @@ pat_sitrep <- function(host = "https://github.com",
       user <- git_user_get("de_facto")
     )
     git_user_check(user)
-    if (!any(grepl(user$email, addresses))) {
+    if (!is.null(user$email) && !any(grepl(user$email, addresses))) {
       ui_oops("
         Local Git user's email ({ui_value(user$email)}) doesn't appear to \\
         be registered with GitHub host.")
