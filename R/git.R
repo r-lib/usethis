@@ -351,8 +351,7 @@ git_sitrep <- function(tool = c("git", "github"),
   init_default_branch <- git_cfg_get("init.defaultBranch", where = "global")
   if ("git" %in% tool && "user" %in% scope) {
     cli::cli_h3("Git global (user)")
-    kv_line("Name", git_cfg_get("user.name", "global"))
-    kv_line("Email", git_cfg_get("user.email", "global"))
+    git_user_sitrep("user")
     kv_line("Global (user-level) gitignore file", git_ignore_path("user"))
     vaccinated <- git_vaccinated()
     kv_line("Vaccinated", vaccinated)
@@ -397,20 +396,7 @@ git_sitrep <- function(tool = c("git", "github"),
   # local git config -----------------------------------------------------------
   if ("git" %in% tool) {
     cli::cli_h3("Git local (project)")
-
-    local_user <- list(
-      user.name = git_cfg_get("user.name", "local"),
-      user.email = git_cfg_get("user.email", "local")
-    )
-    if (!is.null(local_user$user.name) || !is.null(local_user$user.email)) {
-      ui_info("This repo has a locally configured user")
-    }
-    if (!is.null(local_user$user.name)) {
-      kv_line("Name", local_user$user.name)
-    }
-    if (!is.null(local_user$user.email)) {
-      kv_line("Email", local_user$user.email)
-    }
+    git_user_sitrep("project")
 
     # default branch -------------------------------------------------------------
     default_branch_sitrep()
@@ -444,6 +430,44 @@ git_sitrep <- function(tool = c("git", "github"),
   }
 
   invisible()
+}
+
+git_user_sitrep <- function(scope = c("user", "project")) {
+  scope <- match.arg(scope)
+
+  where_scope <- c(user = "global", project = "de_facto")
+  where <- where_scope[scope]
+
+  user <- git_user_get(where)
+  user_local <- git_user_get("local")
+
+  if (scope == "project" && !all(map_lgl(user_local, is.null))) {
+    ui_info("This repo has a locally configured user")
+  }
+
+  kv_line("Name", user$name)
+  kv_line("Email", user$email)
+
+  if (all(map_lgl(user, is.null))) {
+    hint <-
+      'use_git_config(user.name = "<your name>", user.email = "<your email>")`'
+    ui_oops(
+      "Git user's name and email are not set. Configure using {ui_code(hint)}."
+    )
+    return(invisible(NULL))
+  }
+
+  if (is.null(user$name)) {
+    hint <- 'use_git_config(user.name = "<your name>")`'
+    ui_oops("Git user's name is not set. Configure using {ui_code(hint)}.")
+  }
+
+  if (is.null(user$email)) {
+    hint <- 'use_git_config(user.email = "<your email>")`'
+    ui_oops("Git user's email is not set. Configure using {ui_code(hint)}.")
+  }
+
+  invisible(NULL)
 }
 
 # TODO: when I really overhaul the UI, determine if I can just re-use the

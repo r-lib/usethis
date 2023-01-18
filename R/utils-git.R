@@ -71,6 +71,16 @@ git_cfg_get <- function(name, where = c("de_facto", "local", "global")) {
   if (length(out) > 0) out else NULL
 }
 
+# more-specific case for user-name and -email
+git_user_get <- function(where = c("de_facto", "local", "global")) {
+  where <- match.arg(where)
+
+  list(
+    name = git_cfg_get("user.name", where),
+    email = git_cfg_get("user.email", where)
+  )
+}
+
 # ensures that core.excludesFile is configured
 # if configured, leave well enough alone
 # if not, check for existence of one of the Usual Suspects; if found, configure
