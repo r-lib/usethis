@@ -157,19 +157,17 @@ local branch and remove the remote associated with the contributor's fork.
 repo, to get a good start point. Creates and checks out a new branch. Nothing
 is pushed to or created on GitHub (that does not happen until the first time
 you call \code{pr_push()}).
+\item \code{pr_fetch()}: Start work on a PR by creating a local branch that tracks
+the remote PR branch. It does as little work as needed, so you can also
+use it to resume work on an PR that already has a local branch (in which
+case it will also pull any work that exists remotely but not locally).
+If called with no arguments, up to 9 open PRs are offered for interactive
+selection.
 \item \code{pr_resume()}: Resume work on a PR by switching to an existing local branch
 and pulling any changes from its upstream tracking branch, if it has one. If
 called with no arguments, up to 9 local branches are offered for interactive
 selection, with a preference for branches connected to PRs and for branches
 with recent activity.
-\item \code{pr_fetch()}: Checks out a PR on the source repo for local exploration. If
-called with no arguments, up to 9 open PRs are offered for interactive
-selection. This can cause a new remote to be configured and a new local
-branch to be created. The local branch is configured to track its remote
-counterpart. The transport protocol (HTTPS vs SSH) for any new remote is
-inherited from the remote representing the source repo. \code{pr_fetch()} puts a
-maintainer in a position where they can push changes into an internal or
-external PR via \code{pr_push()}.
 \item \code{pr_push()}: The first time it's called, a PR branch is pushed to GitHub
 and you're taken to a webpage where a new PR (or draft PR) can be created.
 This also sets up the local branch to track its remote counterpart.
