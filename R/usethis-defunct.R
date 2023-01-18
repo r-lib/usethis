@@ -125,9 +125,8 @@ use_tidy_eval <- function() {
     "use_tidy_eval()",
     details = c(
       "There is no longer a need to systematically import and/or re-export functions",
-      "Instead import functions as needed using the following code:",
-      'usethis::use_import_from("rlang", c(".data", ".env"))',
-      'usethis::use_import_from("rlang", ":=")'
+      "Instead import functions as needed, with e.g.:",
+      'usethis::use_import_from("rlang", c(".data", ".env"))'
     )
   )
 }

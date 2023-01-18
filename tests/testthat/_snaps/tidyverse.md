@@ -14,15 +14,3 @@
       v Writing 'NAMESPACE'
       v Saving 'r-lib/rlang/R/compat-purrr.R' to 'R/compat-purrr.R'
 
-# use_tidy_eval() is defunct
-
-    Code
-      use_tidy_eval()
-    Condition
-      Error:
-      ! `use_tidy_eval()` was deprecated in usethis 2.2.0 and is now defunct.
-      i There is no longer a need to systemically import and/or re-export functions
-      i Instead import functions as needed using the following code:
-      i usethis::use_import_from("rlang", c(".data", ".env"))
-      i usethis::use_import_from("rlang", ":=")
-
