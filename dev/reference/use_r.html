@@ -97,11 +97,8 @@ script.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>name</dt>
-<dd><p>Either a name without extension, or <code>NULL</code> to create the
-paired file based on currently open file in the script editor. If
-the <code>R/</code> file is open, <code>use_test()</code> will create/open the corresponding
-test file; if the test file is open, <code>use_r()</code> will create/open the
-corresponding <code>R/</code> file.</p></dd>
+<dd><p>Either a string giving a file name (without directory) or
+<code>NULL</code> to take the name from the currently open file in RStudio.</p></dd>
 
 
 <dt>open</dt>
