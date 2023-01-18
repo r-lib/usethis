@@ -12,6 +12,7 @@ rename_files(old, new)
 \description{
 \itemize{
 \item Moves \verb{R/\{old\}.R} to \verb{R/\{new\}.R}
+\item Moves \verb{src/\{old\}.*} to \verb{src/\{new\}.*}
 \item Moves \verb{tests/testthat/test-\{old\}.R} to \verb{tests/testthat/test-\{new\}.R}
 \item Moves \verb{tests/testthat/test-\{old\}-*.*} to \verb{tests/testthat/test-\{new\}-*.*}
 and updates paths in the test file.

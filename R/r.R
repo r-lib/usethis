@@ -91,6 +91,7 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
 #'
 #' @description
 #' * Moves `R/{old}.R` to `R/{new}.R`
+#' * Moves `src/{old}.*` to `src/{new}.*`
 #' * Moves `tests/testthat/test-{old}.R` to `tests/testthat/test-{new}.R`
 #' * Moves `tests/testthat/test-{old}-*.*` to `tests/testthat/test-{new}-*.*`
 #'   and updates paths in the test file.
@@ -108,7 +109,7 @@ rename_files <- function(old, new) {
   old <- path_ext_remove(old)
   new <- path_ext_remove(new)
 
-  # Move .R file
+  # R/ ------------------------------------------------------------------------
   r_old_path <- proj_path("R", old, ext = "R")
   r_new_path <- proj_path("R", new, ext = "R")
   if (file_exists(r_old_path)) {
@@ -116,11 +117,24 @@ rename_files <- function(old, new) {
     file_move(r_old_path, r_new_path)
   }
 
+  # src/ ------------------------------------------------------------------------
+  if (dir_exists(proj_path("src"))) {
+    src_old <- dir_ls(proj_path("src"), glob = glue("*/src/{old}.*"))
+
+    src_new_file <- gsub(glue("^{old}"), glue("{new}"), path_file(src_old))
+    src_new <- path(path_dir(src_old), src_new_file)
+
+    if (length(src_old) > 1) {
+      ui_done("Moving {ui_path(src_old)} to {ui_path(src_new)}")
+      file_move(src_old, src_new)
+    }
+  }
+
+  # tests/testthat/ ------------------------------------------------------------
   if (!uses_testthat()) {
     return(invisible())
   }
 
-  # Move test files and snapshots
   rename_test <- function(path) {
     file <- gsub(glue("^test-{old}"), glue("test-{new}"), path_file(path))
     file <- gsub(glue("^{old}.md"), glue("{new}.md"), file)
@@ -145,7 +159,7 @@ rename_files <- function(old, new) {
     }
   }
 
-  # Update test file
+  # tests/testthat/test-{new}.R ------------------------------------------------
   test_path <- proj_path("tests", "testthat", glue("test-{new}"), ext = "R")
   if (!file_exists(test_path)) {
     return(invisible())

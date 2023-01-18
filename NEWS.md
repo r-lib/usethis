@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `rename_files()` now also affects files in `src/` (#1585).
+
 * `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
   you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
   The default remains to provide a full report (@ijlyttle #1714).
