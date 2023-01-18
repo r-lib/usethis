@@ -49,9 +49,6 @@
     <loc>https://usethis.r-lib.org/dev/reference/browse-this.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/dev/reference/ci.html</loc>
-  </url>
-  <url>
     <loc>https://usethis.r-lib.org/dev/reference/create_from_github.html</loc>
   </url>
   <url>
@@ -193,6 +190,9 @@
     <loc>https://usethis.r-lib.org/dev/reference/use_github_release.html</loc>
   </url>
   <url>
+    <loc>https://usethis.r-lib.org/dev/reference/use_gitlab_ci.html</loc>
+  </url>
+  <url>
     <loc>https://usethis.r-lib.org/dev/reference/use_import_from.html</loc>
   </url>
   <url>
@@ -269,6 +269,9 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/dev/reference/use_tidy_thanks.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/dev/reference/use_travis.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/dev/reference/use_tutorial.html</loc>
