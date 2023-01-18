@@ -1,5 +1,13 @@
 # usethis (development version)
 
+* `use_github_action()` now suggests possible actions when called without
+  arguments (#1724).
+
+* `use_github_actions()`, `use_github_action_check_standard()`,
+  `use_github_action_check_release()`, and `use_github_action_pr_commands()`
+  have been deprecated in favour of the new interactive powers of
+  `use_github_action()` (#1724).
+
 * `use_tidy_eval()` is now defunct because it imports and re-exports a large
   number of functions that are no longer needed in order to do tidy
   evaluation (#1656).

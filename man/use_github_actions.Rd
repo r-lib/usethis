@@ -2,14 +2,39 @@
 % Please edit documentation in R/github-actions.R
 \name{use_github_actions}
 \alias{use_github_actions}
-\title{Use Github actions}
+\alias{use_github_action_check_release}
+\alias{use_github_action_check_standard}
+\alias{use_github_action_pr_commands}
+\title{Use specific Github actions}
 \usage{
 use_github_actions()
+
+use_github_action_check_release(
+  save_as = "R-CMD-check.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+)
+
+use_github_action_check_standard(
+  save_as = "R-CMD-check.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+)
+
+use_github_action_pr_commands(
+  save_as = "pr-commands.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 \code{use_github_actions()} is deprecated because it was just an alias
-for \code{\link[=use_github_action_check_release]{use_github_action_check_release()}}
+for \code{\link[=use_github_action_check_release]{use_github_action_check_release()}}. The other variants are deprecated
+because \code{\link[=use_github_action]{use_github_action()}} can  now suggest specific workflows to use.
 }
 \keyword{internal}
