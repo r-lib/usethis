@@ -81,6 +81,15 @@ git_user_get <- function(where = c("de_facto", "local", "global")) {
   )
 }
 
+# translate from "usethis" terminology to "git" terminology
+where_from_scope <- function(scope = c("user", "project")) {
+  scope = match.arg(scope)
+
+  where_scope <- c(user = "global", project = "de_facto")
+
+  where_scope[scope]
+}
+
 # ensures that core.excludesFile is configured
 # if configured, leave well enough alone
 # if not, check for existence of one of the Usual Suspects; if found, configure
@@ -106,7 +115,6 @@ ensure_core_excludesFile <- function() {
   gert::git_config_global_set("core.excludesFile", path)
   invisible()
 }
-
 
 # Status------------------------------------------------------------------------
 git_status <- function(untracked) {

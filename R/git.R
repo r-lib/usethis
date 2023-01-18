@@ -435,8 +435,7 @@ git_sitrep <- function(tool = c("git", "github"),
 git_user_sitrep <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
 
-  where_scope <- c(user = "global", project = "de_facto")
-  where <- where_scope[scope]
+  where <- where_from_scope(scope)
 
   user <- git_user_get(where)
   user_local <- git_user_get("local")
@@ -448,6 +447,12 @@ git_user_sitrep <- function(scope = c("user", "project")) {
   kv_line("Name", user$name)
   kv_line("Email", user$email)
 
+  git_user_check(user)
+
+  invisible(NULL)
+}
+
+git_user_check <- function(user) {
   if (all(map_lgl(user, is.null))) {
     hint <-
       'use_git_config(user.name = "<your name>", user.email = "<your email>")`'
@@ -466,8 +471,6 @@ git_user_sitrep <- function(scope = c("user", "project")) {
     hint <- 'use_git_config(user.email = "<your email>")`'
     ui_oops("Git user's email is not set. Configure using {ui_code(hint)}.")
   }
-
-  invisible(NULL)
 }
 
 # TODO: when I really overhaul the UI, determine if I can just re-use the

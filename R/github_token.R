@@ -179,16 +179,12 @@ pat_sitrep <- function(host = "https://github.com",
     )
     kv_line("Email(s)", addresses)
     ui_silence(
-      de_facto_email <- git_cfg_get("user.email", "de_facto")
+      user <- git_user_get("de_facto")
     )
-    if (is.null(de_facto_email)) {
-      hint <- "use_git_config(user.email = \"<your email>\")"
-      ui_oops("Git user's email is not set. Configure using {ui_code(hint)}.")
-      return(invisible(FALSE))
-    }
-    if (!any(grepl(de_facto_email, addresses))) {
+    git_user_check(user)
+    if (!any(grepl(user$email, addresses))) {
       ui_oops("
-        Local Git user's email ({ui_value(de_facto_email)}) doesn't appear to \\
+        Local Git user's email ({ui_value(user$email)}) doesn't appear to \\
         be registered with GitHub host.")
     }
   }
