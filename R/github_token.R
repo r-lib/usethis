@@ -183,11 +183,12 @@ pat_sitrep <- function(host = "https://github.com",
     )
     kv_line("Email(s)", addresses)
     ui_silence(
-      user_email <- git_cfg_get("user.email", where_from_scope(scope))
+      user <- git_user_get(where_from_scope(scope))
     )
-    if (!is.null(user_email) && !any(grepl(user_email, addresses))) {
+    git_user_check(user)
+    if (!is.null(user$email) && !any(grepl(user$email, addresses))) {
       ui_oops("
-        Git user's email ({ui_value(user_email)}) doesn't appear to \\
+        Git user's email ({ui_value(user$email)}) doesn't appear to \\
         be registered with GitHub host.")
     }
   }
