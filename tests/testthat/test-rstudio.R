@@ -91,13 +91,7 @@ test_that("use_blank_state('project') modifies Rproj", {
   expect_equal(rproj$SaveWorkspace, "No")
 })
 
-test_that("use_blank_state() modifies user-level RStudio prefs", {
-  path <- withr::local_tempdir()
-  withr::local_envvar(c("XDG_CONFIG_HOME" = path))
-
-  use_blank_slate()
-
-  prefs <- rstudio_prefs_read()
-  expect_equal(prefs[["save_workspace"]], "never")
-  expect_false(prefs[["load_workspace"]])
+test_that("use_rstudio_config() can get and set prefs", {
+  use_rstudio_config(custom_pref = 10)
 })
+

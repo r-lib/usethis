@@ -44,6 +44,7 @@ use_rstudio <- function(line_ending = c("posix", "windows"), reformat = TRUE) {
   invisible(new)
 }
 
+
 #' Don't save/load user workspace between sessions
 #'
 #' R can save and reload the user's workspace between sessions via an `.RData`
@@ -61,25 +62,55 @@ use_blank_slate <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
 
   if (scope == "user") {
-    use_rstudio_config(list(
+    use_rstudio_config(
       save_workspace = "never",
       load_workspace = FALSE
-    ))
-    return(invisible())
-  }
+    )
+  } else {
+    if (!is_rstudio_project()) {
+      ui_stop("{ui_value(project_name())} is not an RStudio Project.")
+    }
 
-  if (!is_rstudio_project()) {
-    ui_stop("{ui_value(project_name())} is not an RStudio Project.")
+    rproj_fields <- modify_rproj(
+      rproj_path(),
+      list(RestoreWorkspace = "No", SaveWorkspace = "No")
+    )
+    write_utf8(rproj_path(), serialize_rproj(rproj_fields))
+    restart_rstudio("Restart RStudio with a blank slate?")
   }
-
-  rproj_fields <- modify_rproj(
-    rproj_path(),
-    list(RestoreWorkspace = "No", SaveWorkspace = "No")
-  )
-  write_utf8(rproj_path(), serialize_rproj(rproj_fields))
-  restart_rstudio("Restart RStudio with a blank slate?")
 
   invisible()
+}
+
+#' Set global RStudio configuration
+#' @export
+#' @param ... Name-value pairs, processed as
+#'   <[`dynamic-dots`][rlang::dyn-dots]>.
+use_rstudio_config <- function(...) {
+  if (!rstudio_available()) {
+    cli::cli_abort("Must run from inside of RStudio")
+  }
+
+  new <- list(...)
+  if (!is_named(new)) {
+    cli::cli_abort("All arguments in ... must be named")
+  }
+
+  nms <- names(new)
+  old <- rep_named(nms, list())
+
+  for (i in seq_along(new)) {
+    cur <- rstudioapi::readRStudioPreference(nms[[i]], NULL)
+
+    if (!identical(cur, new[[i]])) {
+      ui_done("Setting RStudio preference {ui_field(nms[[i]])} to {ui_value(new[[i]])}")
+    }
+
+    rstudioapi::writeRStudioPreference(nms[[i]], new[[i]])
+    old[[i]] <- cur
+  }
+
+  invisible(old)
 }
 
 # Is base_path an RStudio Project or inside an RStudio Project?
@@ -179,48 +210,4 @@ rstudio_git_tickle <- function() {
     rstudioapi::executeCommand("vcsRefresh")
   }
   invisible()
-}
-
-rstudio_config_path <- function(...) {
-  if (is_windows()) {
-    # https://github.com/r-lib/usethis/issues/1293
-    base <- rappdirs::user_config_dir("RStudio", appauthor = NULL)
-  } else {
-    # RStudio only uses windows/unix conventions, not mac
-    base <- rappdirs::user_config_dir("rstudio", os = "unix")
-  }
-  path(base, ...)
-}
-
-rstudio_prefs_read <- function() {
-  path <- rstudio_config_path("rstudio-prefs.json")
-  if (file_exists(path)) {
-    jsonlite::read_json(path)
-  } else {
-    list()
-  }
-}
-
-rstudio_prefs_write <- function(json) {
-  path <- rstudio_config_path("rstudio-prefs.json")
-  create_directory(path_dir(path))
-  jsonlite::write_json(json, path, auto_unbox = TRUE, pretty = TRUE)
-}
-
-use_rstudio_config <- function(values) {
-  stopifnot(is.list(values), is_named(values))
-  json <- rstudio_prefs_read()
-
-  for (name in names(values)) {
-    val <- values[[name]]
-
-    if (identical(json[[name]], val)) {
-      next
-    }
-
-    ui_done("Setting RStudio preference {ui_field(name)} to {ui_value(val)}")
-    json[[name]] <- val
-  }
-
-  rstudio_prefs_write(json)
 }
