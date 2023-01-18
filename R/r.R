@@ -205,13 +205,13 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
   ## R's notion of user's home directory
   path <- proj_path_prep(path_expand_r(path))
 
-  rel_path <- path_dir(proj_rel_path(path))
-  if (!rel_path %in% c("R", "src", "tests/testthat")) {
+  dir <- path_dir(proj_rel_path(path))
+  if (!dir %in% c("R", "src", "tests/testthat")) {
     cli::cli_abort("Open file must be a code or test file.", call = error_call)
   }
 
   file <- path_file(path)
-  if (rel_path == "tests/testthat") {
+  if (dir == "tests/testthat") {
     file <- gsub("^test[-_]", "", file)
   }
   as.character(path_ext_set(file, ext))
