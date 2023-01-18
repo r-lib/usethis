@@ -433,7 +433,7 @@ git_sitrep <- function(tool = c("git", "github"),
 }
 
 git_user_sitrep <- function(scope = c("user", "project")) {
-  scope <- match.arg(scope)
+  scope <- rlang::arg_match(scope)
 
   where <- where_from_scope(scope)
 
