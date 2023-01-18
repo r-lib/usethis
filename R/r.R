@@ -49,7 +49,7 @@ use_r <- function(name = NULL, open = rlang::is_interactive()) {
   use_directory("R")
 
   path <- path("R", compute_name(name))
-  edit_file(path, open = open)
+  edit_file(proj_path(path), open = open)
 
   invisible(TRUE)
 }
@@ -65,7 +65,7 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
   if (!file_exists(path)) {
     use_template("test-example-2.1.R", save_as = path)
   }
-  edit_file(path, open = open)
+  edit_file(proj_path(path), open = open)
 
   invisible(TRUE)
 }
