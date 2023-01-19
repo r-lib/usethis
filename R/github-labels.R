@@ -9,18 +9,39 @@
 #' conventions powered by `tidy_labels()`, `tidy_labels_rename()`,
 #' `tidy_label_colours()` and `tidy_label_descriptions()`.
 #'
-#' @section Label usage:
+#' ## tidyverse label usage
 #' Labels are used as part of the issue-triage process, designed to minimise the
 #' time spent re-reading issues. The absence of a label indicates that an issue
 #' is new, and has yet to be triaged.
+#'
+#' There are four mutually exclusive labels that indicate the overall "type" of
+#' issue:
+#'
+#' * `bug`: an unexpected problem or unintended behavior.
+#' * `documentation`: requires changes to the docs.
+#' * `feature`: feature requests and enhancement.
+#' * `upkeep`: general package maintenance work that makes future development
+#'   easier.
+#'
+#' Then there are five labels that are needed in most repositories:
+#'
+#' * `breaking change`: issue/PR will requires a breaking change so should
+#'   be not be included in patch releases.
 #' * `reprex` indicates that an issue does not have a minimal reproducible
 #'   example, and that a reply has been sent requesting one from the user.
-#' * `bug` indicates an unexpected problem or unintended behavior.
-#' * `feature` indicates a feature request or enhancement.
-#' * `docs` indicates an issue with the documentation.
-#' * `wip` indicates that someone is working on it or has promised to.
 #' * `good first issue` indicates a good issue for first-time contributors.
 #' * `help wanted` indicates that a maintainer wants help on an issue.
+#' * `wip` indicates that someone is working on it or has promised to.
+#'
+#' Finally most larger repos will accumulate their own labels for specific
+#' areas of functionality. For example, usethis has labels like "description",
+#' "paths", "readme", because time has shown these to be common sources of
+#' problems. These labels are helpful for grouping issues so that you can
+#' tackle related problems at the same time.
+#'
+#' Repo-specific issues should have a grey background (`#eeeeee`) and an emoji.
+#' This keeps the issue page visually harmonious while still giving enough
+#' variation to easily distinguish different types of label.
 #'
 #' @param repo_spec,host,auth_token `r lifecycle::badge("deprecated")`: These
 #'   arguments are now deprecated and will be removed in the future. Any input

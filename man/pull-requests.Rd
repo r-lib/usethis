@@ -153,23 +153,20 @@ local branch and remove the remote associated with the contributor's fork.
 \section{Overview of all the functions}{
 
 \itemize{
-\item \code{pr_init()}: Does a preparatory pull of the default branch from the source
-repo, to get a good start point. Creates and checks out a new branch. Nothing
-is pushed to or created on GitHub (that does not happen until the first time
-you call \code{pr_push()}).
+\item \code{pr_init()}: As a contributor, start work on a new PR by ensuring that
+your local repo is up-to-date, then creating and checking out a new branch.
+Nothing is pushed to or created on GitHub until you call \code{pr_push()}.
+\item \code{pr_fetch()}: As a maintainer, review or contribute changes to an existing
+PR by creating a local branch that tracks the remote PR. \code{pr_fetch()} does as
+little work as possible, so you can also use it to resume work on an PR that
+already has a local branch (where it will also ensure your local branch is
+up-to-date). If called with no arguments, up to 9 open PRs are offered for
+interactive selection.
 \item \code{pr_resume()}: Resume work on a PR by switching to an existing local branch
 and pulling any changes from its upstream tracking branch, if it has one. If
 called with no arguments, up to 9 local branches are offered for interactive
 selection, with a preference for branches connected to PRs and for branches
 with recent activity.
-\item \code{pr_fetch()}: Checks out a PR on the source repo for local exploration. If
-called with no arguments, up to 9 open PRs are offered for interactive
-selection. This can cause a new remote to be configured and a new local
-branch to be created. The local branch is configured to track its remote
-counterpart. The transport protocol (HTTPS vs SSH) for any new remote is
-inherited from the remote representing the source repo. \code{pr_fetch()} puts a
-maintainer in a position where they can push changes into an internal or
-external PR via \code{pr_push()}.
 \item \code{pr_push()}: The first time it's called, a PR branch is pushed to GitHub
 and you're taken to a webpage where a new PR (or draft PR) can be created.
 This also sets up the local branch to track its remote counterpart.
@@ -183,6 +180,8 @@ into the current local branch. This can be used when the local branch is the
 default branch or when it's a PR branch.
 \item \code{pr_pause()}: Makes sure you're up-to-date with any remote changes in the
 PR. Then switches back to the default branch and pulls from the source repo.
+Use \code{pr_resume()} with name of branch or use \code{pr_fetch()} to resume using PR
+number.
 \item \code{pr_view()}: Visits the PR associated with the current branch in the
 browser (default) or the specific PR identified by \code{number}.
 (FYI \code{\link[=browse_github_pulls]{browse_github_pulls()}} is a handy way to visit the list of all PRs for

@@ -57,24 +57,44 @@ It will never delete labels that have associated issues.
 \code{use_tidy_github_labels()} calls \code{use_github_labels()} with tidyverse
 conventions powered by \code{tidy_labels()}, \code{tidy_labels_rename()},
 \code{tidy_label_colours()} and \code{tidy_label_descriptions()}.
-}
-\section{Label usage}{
+\subsection{tidyverse label usage:}{
 
 Labels are used as part of the issue-triage process, designed to minimise the
 time spent re-reading issues. The absence of a label indicates that an issue
 is new, and has yet to be triaged.
+
+There are four mutually exclusive labels that indicate the overall "type" of
+issue:
 \itemize{
-\item \code{reprex} indicates that an issue does not have a minimal reproducible
-example, and that a reply has been sent requesting one from the user.
-\item \code{bug} indicates an unexpected problem or unintended behavior.
-\item \code{feature} indicates a feature request or enhancement.
-\item \code{docs} indicates an issue with the documentation.
-\item \code{wip} indicates that someone is working on it or has promised to.
-\item \verb{good first issue} indicates a good issue for first-time contributors.
-\item \verb{help wanted} indicates that a maintainer wants help on an issue.
-}
+\item \code{bug}: an unexpected problem or unintended behavior.
+\item \code{documentation}: requires changes to the docs.
+\item \code{feature}: feature requests and enhancement.
+\item \code{upkeep}: general package maintenance work that makes future development
+easier.
 }
 
+Then there are five labels that are needed in most repositories:
+\itemize{
+\item \verb{breaking change}: issue/PR will requires a breaking change so should
+be not be included in patch releases.
+\item \code{reprex} indicates that an issue does not have a minimal reproducible
+example, and that a reply has been sent requesting one from the user.
+\item \verb{good first issue} indicates a good issue for first-time contributors.
+\item \verb{help wanted} indicates that a maintainer wants help on an issue.
+\item \code{wip} indicates that someone is working on it or has promised to.
+}
+
+Finally most larger repos will accumulate their own labels for specific
+areas of functionality. For example, usethis has labels like "description",
+"paths", "readme", because time has shown these to be common sources of
+problems. These labels are helpful for grouping issues so that you can
+tackle related problems at the same time.
+
+Repo-specific issues should have a grey background (\verb{#eeeeee}) and an emoji.
+This keeps the issue page visually harmonious while still giving enough
+variation to easily distinguish different types of label.
+}
+}
 \examples{
 \dontrun{
 # typical use in, e.g., a new tidyverse project
