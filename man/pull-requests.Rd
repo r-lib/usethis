@@ -153,16 +153,15 @@ local branch and remove the remote associated with the contributor's fork.
 \section{Overview of all the functions}{
 
 \itemize{
-\item \code{pr_init()}: Does a preparatory pull of the default branch from the source
-repo, to get a good start point. Creates and checks out a new branch. Nothing
-is pushed to or created on GitHub (that does not happen until the first time
-you call \code{pr_push()}).
-\item \code{pr_fetch()}: Start work on a PR by creating a local branch that tracks
-the remote PR branch. It does as little work as needed, so you can also
-use it to resume work on an PR that already has a local branch (in which
-case it will also pull any work that exists remotely but not locally).
-If called with no arguments, up to 9 open PRs are offered for interactive
-selection.
+\item \code{pr_init()}: As a contributor, start work on a new PR by ensuring that
+your local repo is up-to-date, then creating and checking out a new branch.
+Nothing is pushed to or created on GitHub until you call \code{pr_push()}.
+\item \code{pr_fetch()}: As a maintainer, review or contribute changes to an existing
+PR by creating a local branch that tracks the remote PR. \code{pr_fetch()} does as
+little work as possible, so you can also use it to resume work on an PR that
+already has a local branch (where it will also ensure your local branch is
+up-to-date). If called with no arguments, up to 9 open PRs are offered for
+interactive selection.
 \item \code{pr_resume()}: Resume work on a PR by switching to an existing local branch
 and pulling any changes from its upstream tracking branch, if it has one. If
 called with no arguments, up to 9 local branches are offered for interactive
