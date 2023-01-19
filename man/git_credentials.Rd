@@ -3,7 +3,7 @@
 \name{git_credentials}
 \alias{git_credentials}
 \alias{use_git_credentials}
-\title{Produce or register credentials for git2r}
+\title{Defunct git2r functions}
 \usage{
 git_credentials(protocol = deprecated(), auth_token = deprecated())
 
@@ -20,7 +20,7 @@ use_git_credentials(credentials = deprecated())
 These functions raise a warning and return an invisible \code{NULL}.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
 
 In usethis v2.0.0, usethis switched from git2r to gert (+ credentials) for
 all Git operations. This pair of packages (gert + credentials) is designed to
