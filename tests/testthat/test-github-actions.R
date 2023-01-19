@@ -22,7 +22,7 @@ test_that("use_github_action() allows for custom urls", {
   expect_proj_file(".github/workflows/R-CMD-check.yaml")
 })
 
-test_that("use_github_action() still errors in non-iteractive environment", {
+test_that("use_github_action() still errors in non-interactive environment", {
   expect_snapshot(use_github_action(), error = TRUE)
 })
 

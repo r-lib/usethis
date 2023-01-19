@@ -1,4 +1,4 @@
-#' Set up a GitHub Action
+#' Set up a GitHub Actions workflow
 #'
 #' @description
 #' Sets up continuous integration (CI) for an R package that is developed on
@@ -19,9 +19,9 @@
 #' * `pr-commands`: This workflow enables the use of two R-specific commands
 #'    in pull request issue comments: `/document` to run
 #'    `roxygen2::roxygenise()` and `/style` to run `styler::style_pkg()`. Both
-#'    will update the PR with any changes once they done.
+#'    will update the PR with any changes once they're done.
 #'
-#' If you call `use_github_action()` with out arguments, you'll be prompted to
+#' If you call `use_github_action()` without arguments, you'll be prompted to
 #' pick from one of these. Otherwise you can see a complete list of
 #' possibilities provided by r-lib at
 #' <https://github.com/r-lib/actions/tree/v2/examples>, or you can supply
@@ -187,14 +187,14 @@ use_github_actions_badge <- function(name = "R-CMD-check.yaml",
 
 # deprecated --------------------------------------------------------------
 
-#' Use specific Github actions
+#' Use specific GitHub Actions workflows
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
 #' `use_github_actions()` is deprecated because it was just an alias
 #' for [use_github_action_check_release()]. The other variants are deprecated
-#' because [use_github_action()] can  now suggest specific workflows to use.
+#' because [use_github_action()] can now suggest specific workflows to use.
 #'
 #' @export
 #' @keywords internal
