@@ -180,6 +180,8 @@ into the current local branch. This can be used when the local branch is the
 default branch or when it's a PR branch.
 \item \code{pr_pause()}: Makes sure you're up-to-date with any remote changes in the
 PR. Then switches back to the default branch and pulls from the source repo.
+Use \code{pr_resume()} with name of branch or use \code{pr_fetch()} to resume using PR
+number.
 \item \code{pr_view()}: Visits the PR associated with the current branch in the
 browser (default) or the specific PR identified by \code{number}.
 (FYI \code{\link[=browse_github_pulls]{browse_github_pulls()}} is a handy way to visit the list of all PRs for

@@ -113,6 +113,8 @@
 
 #' * `pr_pause()`: Makes sure you're up-to-date with any remote changes in the
 #' PR. Then switches back to the default branch and pulls from the source repo.
+#' Use `pr_resume()` with name of branch or use `pr_fetch()` to resume using PR
+#' number.
 
 #' * `pr_view()`: Visits the PR associated with the current branch in the
 #' browser (default) or the specific PR identified by `number`.
