@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_release_issue()` will now remind you to check/close the milestone
+  corresponding to the release, if it exists (#1642).
+
 * `use_travis()` and `use_appveyor()` are now defunct because we no longer  
   recommend Travis or Appveyor. We recommend GitHub actions instead (#1517).
 
