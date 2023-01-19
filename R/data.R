@@ -47,7 +47,7 @@ use_data <- function(...,
   if (version < 3) {
     use_dependency("R", "depends", "2.10")
   } else {
-    use_dependency("R", "depends", "3.5.0")
+    use_dependency("R", "depends", "3.5")
   }
   if (internal) {
     use_directory("R")
