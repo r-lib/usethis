@@ -16,13 +16,13 @@
 #' ## Customization
 #'
 #' * If you want to consistently add extra bullets for every release, you can
-#'   include your own custom bullets by providing a (unexported) a
+#'   include your own custom bullets by providing an (unexported)
 #'   `release_bullets()` function that returns a character vector.
 #'   (For historical reasons, `release_questions()` is also supported).
 #'
-#' * If you want to check additional packages in the revdep check process
+#' * If you want to check additional packages in the revdep check process,
 #'   provide an (unexported) `release_extra_revdeps()` function that
-#'   return a character vector. This is currently only supported for
+#'   returns a character vector. This is currently only supported for
 #'   Posit internal check tooling.
 #'
 #' @param version Optional version number for release. If unspecified, you can
@@ -142,7 +142,7 @@ release_revdepcheck <- function(on_cran = TRUE, is_rstudio_pkg = TRUE, env = NUL
   }
 
   if (is_rstudio_pkg) {
-    if (length(extra) > 1) {
+    if (length(extra) > 0) {
       extra_code <- paste0(deparse(extra), collapse = "")
       todo("`revdepcheck::cloud_check(extra_revdeps = {extra_code})`")
     } else {
