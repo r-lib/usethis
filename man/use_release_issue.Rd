@@ -26,12 +26,12 @@ encouraged to edit the issue to customize this list to meet your needs.
 \subsection{Customization}{
 \itemize{
 \item If you want to consistently add extra bullets for every release, you can
-include your own custom bullets by providing a (unexported) a
+include your own custom bullets by providing an (unexported)
 \code{release_bullets()} function that returns a character vector.
 (For historical reasons, \code{release_questions()} is also supported).
-\item If you want to check additional packages in the revdep check process
+\item If you want to check additional packages in the revdep check process,
 provide an (unexported) \code{release_extra_revdeps()} function that
-return a character vector. This is currently only supported for
+returns a character vector. This is currently only supported for
 Posit internal check tooling.
 }
 }
