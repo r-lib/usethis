@@ -23,15 +23,6 @@ test_that("use_tidy_dependencies() isn't overly informative", {
   expect_snapshot(use_tidy_dependencies())
 })
 
-test_that("use_tidy_eval() inserts the template file and Imports rlang", {
-  skip_if_not_installed("roxygen2")
-
-  pkg <- create_local_package()
-  use_tidy_eval()
-  expect_match(dir_ls(proj_path("R")), "utils-tidy-eval.R")
-  expect_match(desc::desc_get("Imports", pkg), "rlang")
-})
-
 test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
   local_interactive(FALSE)
   create_local_package()

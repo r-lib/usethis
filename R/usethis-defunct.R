@@ -107,6 +107,30 @@ use_tidy_ci <- function(...) {
   lifecycle::deprecate_stop("2.1.0", "use_tidy_ci()", "use_tidy_github_actions()")
 }
 
+#' Use tidy evaluation
+#'
+#' @description
+#' `r lifecycle::badge("defunct")`
+#'
+#' This function is defunct because there's no longer a need to systematically
+#' import and re-export a large number of functions in order to use tidy
+#' evaluation. Instead, use [use_import_from()] to tactically import functions
+#' as you need them.
+#'
+#' @keywords internal
+#' @export
+use_tidy_eval <- function() {
+  lifecycle::deprecate_stop(
+    "2.2.0",
+    "use_tidy_eval()",
+    details = c(
+      "There is no longer a need to systematically import and/or re-export functions",
+      "Instead import functions as needed, with e.g.:",
+      'usethis::use_import_from("rlang", c(".data", ".env"))'
+    )
+  )
+}
+
 #' @export
 #' @rdname usethis-defunct
 use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
@@ -244,3 +268,57 @@ deprecate_warn_repo_spec <- function(whos_asking, details = NULL) {
     details = details %||% repo_spec_explanation
   )
 }
+
+
+# ci ----------------------------------------------------------------------
+
+
+#' CI on Travis and Appveyor
+#'
+#' @description
+#' `r lifecycle::badge("defunct")`
+#'
+#' These functions which formally supported CI on Appveyor and Travis are
+#' now defunct as we no longer recommend using these services. We now
+#' recommend using GitHub actions, e.g. with [use_github_actions()].
+#'
+#' @export
+#' @keywords internal
+use_travis <- function(browse = rlang::is_interactive(),
+                       ext = c("com", "org")) {
+
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "use_travis()",
+    with = "use_github_actions()"
+  )
+}
+
+#' @export
+#' @rdname use_travis
+use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "use_travis_badge()"
+  )
+}
+
+#' @export
+#' @rdname use_travis
+use_appveyor <- function(browse = rlang::is_interactive()) {
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "use_appveyor()",
+    with = "use_github_actions()"
+  )
+}
+
+#' @export
+#' @rdname use_travis
+use_appveyor_badge <- function(repo_spec = NULL) {
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "use_appveyor_badge()",
+  )
+}
+

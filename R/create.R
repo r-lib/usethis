@@ -22,7 +22,7 @@
 #'   [rprojroot](https://rprojroot.r-lib.org) packages.
 #' @param open If `TRUE`, [activates][proj_activate()] the new project:
 #'
-#'   * If RStudio desktop, the package is opened in a new session.
+#'   * If using RStudio desktop, the package is opened in a new session.
 #'   * If on RStudio server, the current RStudio project is activated.
 #'   * Otherwise, the working directory and active project is changed.
 #'
@@ -111,7 +111,7 @@ create_project <- function(path,
 #' [fork-and-cloning](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
 #' In the fork-and-clone case, `create_from_github()` also does additional
 #' remote and branch setup, leaving you in the perfect position to make a pull
-#' request with [pr_init()], one of several [functions that work pull
+#' request with [pr_init()], one of several [functions for working with pull
 #' requests][pull-requests].
 #'
 #' `create_from_github()` works best when your GitHub credentials are
@@ -138,7 +138,7 @@ create_project <- function(path,
 #'   also a project and Git repo.
 #' @inheritParams use_course
 #' @param fork If `FALSE`, we clone `repo_spec`. If `TRUE`, we fork
-#'   `repo_spec`, clone that fork, and do additional set up favorable for
+#'   `repo_spec`, clone that fork, and do additional setup favorable for
 #'   future pull requests:
 #'   * The source repo, `repo_spec`, is configured as the `upstream` remote,
 #'   using the indicated `protocol`.
@@ -289,7 +289,7 @@ create_from_github <- function(repo_spec,
   rstudio <- rstudio %||% rstudio_available()
   rstudio <- rstudio && !is_rstudio_project(proj_get())
   if (rstudio) {
-    use_rstudio()
+    use_rstudio(reformat = FALSE)
   }
 
   if (open) {

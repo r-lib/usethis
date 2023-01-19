@@ -35,7 +35,7 @@ test_that("parse_github_remotes() works on edge cases", {
 })
 
 test_that("parse_github_remotes() works for length zero input", {
-  expect_error_free(
+  expect_no_error(
     parsed <- parse_github_remotes(character())
   )
   expect_equal(nrow(parsed), 0)
@@ -125,26 +125,26 @@ test_that("github_remotes() works", {
   use_git()
 
   # no git remotes = 0-row edge case
-  expect_error_free(
+  expect_no_error(
     grl <- github_remotes()
   )
 
   # a public remote = no token necessary to get github info
   use_git_remote("origin", "https://github.com/r-lib/usethis.git")
-  expect_error_free(
+  expect_no_error(
     grl <- github_remotes()
   )
   expect_false(grl$is_fork)
   expect_true(is.na(grl$parent_repo_owner))
 
   # no git remote by this name = 0-row edge case
-  expect_error_free(
+  expect_no_error(
     grl <- github_remotes("foofy")
   )
 
   # gh::gh() call should fail, so we should get no info from github
   use_git_remote("origin", "https://github.com/r-lib/DOESNOTEXIST.git", overwrite = TRUE)
-  expect_error_free(
+  expect_no_error(
     grl <- github_remotes()
   )
   expect_true(is.na(grl$is_fork))

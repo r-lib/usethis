@@ -11,8 +11,16 @@
 #'   * Adds RStudio files to `.Rbuildignore`, if project is a package
 #'
 #' @param line_ending Line ending
+#' @param reformat If `TRUE`, the `.Rproj` is setup with common options that
+#'   reformat files on save: adding a trailing newline, trimming trailing
+#'   whitespace, and setting the line-ending. This is best practice for
+#'   new projects.
+#'
+#'   If `FALSE`, these options are left unset, which is more appropriate when
+#'   you're contributing to someone else's project that does not have its own
+#'   `.Rproj` file.
 #' @export
-use_rstudio <- function(line_ending = c("posix", "windows")) {
+use_rstudio <- function(line_ending = c("posix", "windows"), reformat = TRUE) {
   line_ending <- arg_match(line_ending)
   line_ending <- c("posix" = "Posix", "windows" = "Windows")[[line_ending]]
 
@@ -20,7 +28,11 @@ use_rstudio <- function(line_ending = c("posix", "windows")) {
   new <- use_template(
     "template.Rproj",
     save_as = rproj_file,
-    data = list(line_ending = line_ending, is_pkg = is_package()),
+    data = list(
+      line_ending = line_ending,
+      is_pkg = is_package(),
+      reformat = reformat
+    ),
     ignore = is_package()
   )
 

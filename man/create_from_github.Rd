@@ -36,7 +36,7 @@ location using the option \code{usethis.destdir}, e.g.
 \code{.Rprofile} with \code{\link[=edit_r_profile]{edit_r_profile()}}}
 
 \item{fork}{If \code{FALSE}, we clone \code{repo_spec}. If \code{TRUE}, we fork
-\code{repo_spec}, clone that fork, and do additional set up favorable for
+\code{repo_spec}, clone that fork, and do additional setup favorable for
 future pull requests:
 \itemize{
 \item The source repo, \code{repo_spec}, is configured as the \code{upstream} remote,
@@ -57,7 +57,7 @@ the cloned repo may already be an RStudio Project, i.e. may already have a
 
 \item{open}{If \code{TRUE}, \link[=proj_activate]{activates} the new project:
 \itemize{
-\item If RStudio desktop, the package is opened in a new session.
+\item If using RStudio desktop, the package is opened in a new session.
 \item If on RStudio server, the current RStudio project is activated.
 \item Otherwise, the working directory and active project is changed.
 }}
@@ -85,7 +85,7 @@ GitHub, by either cloning or
 \href{https://docs.github.com/en/get-started/quickstart/fork-a-repo}{fork-and-cloning}.
 In the fork-and-clone case, \code{create_from_github()} also does additional
 remote and branch setup, leaving you in the perfect position to make a pull
-request with \code{\link[=pr_init]{pr_init()}}, one of several \link[=pull-requests]{functions that work pull requests}.
+request with \code{\link[=pr_init]{pr_init()}}, one of several \link[=pull-requests]{functions for working with pull requests}.
 
 \code{create_from_github()} works best when your GitHub credentials are
 discoverable. See below for more about authentication.

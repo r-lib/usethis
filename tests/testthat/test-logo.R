@@ -4,5 +4,5 @@ test_that("use_logo() doesn't error", {
 
   create_local_package()
   img <- magick::image_write(magick::image_read("logo:"), "logo.png")
-  expect_error_free(use_logo("logo.png"))
+  expect_no_error(use_logo("logo.png"))
 })

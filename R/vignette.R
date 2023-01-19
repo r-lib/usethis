@@ -26,6 +26,8 @@ use_vignette <- function(name, title = name) {
   check_vignette_name(name)
 
   use_dependency("knitr", "Suggests")
+  use_dependency("rmarkdown", "Suggests")
+
   use_description_field("VignetteBuilder", "knitr", overwrite = TRUE)
   use_git_ignore("inst/doc")
 
@@ -38,6 +40,13 @@ use_vignette <- function(name, title = name) {
 #' @rdname use_vignette
 use_article <- function(name, title = name) {
   check_is_package("use_article()")
+
+  deps <- desc::desc_get_deps(proj_get())
+  if (!"rmarkdown" %in% deps$package) {
+    ui_done("
+      Adding {ui_value('rmarkdown')} to {ui_field('Config/Needs/website')}")
+    use_description_list("Config/Needs/website", "rmarkdown")
+  }
 
   use_vignette_template("article.Rmd", name, title, subdir = "articles")
   use_build_ignore("vignettes/articles")
@@ -54,14 +63,12 @@ use_vignette_template <- function(template, name, title, subdir = NULL) {
     use_directory(path("vignettes", subdir))
   }
   use_git_ignore(c("*.html", "*.R"), directory = "vignettes")
-  use_dependency("rmarkdown", "Suggests")
 
-  if (!is.null(subdir)) {
-    path <- path("vignettes", subdir, asciify(name), ext = "Rmd")
-  } else {
+  if (is.null(subdir)) {
     path <- path("vignettes", asciify(name), ext = "Rmd")
+  } else {
+    path <- path("vignettes", subdir, asciify(name), ext = "Rmd")
   }
-
 
   data <- list(
     Package = project_name(),

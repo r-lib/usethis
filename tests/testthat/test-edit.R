@@ -53,12 +53,12 @@ test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
   ## we need to explicitly ensure R_ENVIRON_USER="" here
   withr::local_envvar(list(R_ENVIRON_USER = ""))
 
-  expect_error_free(edit_r_profile())
-  expect_error_free(edit_r_buildignore())
-  expect_error_free(edit_r_environ())
-  expect_error_free(edit_r_makevars())
-  expect_error_free(edit_git_config())
-  expect_error_free(edit_git_ignore())
+  expect_no_error(edit_r_profile())
+  expect_no_error(edit_r_buildignore())
+  expect_no_error(edit_r_environ())
+  expect_no_error(edit_r_makevars())
+  expect_no_error(edit_git_config())
+  expect_no_error(edit_git_ignore())
 })
 
 test_that("edit_r_XXX('user') ensures the file exists", {
