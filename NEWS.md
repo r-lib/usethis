@@ -8,6 +8,12 @@
   have been deprecated in favour of the new interactive powers of
   `use_github_action()` (#1724).
 
+* `use_data()` now sets the appropriate minimal R version in `DESCRIPTION`, 
+  depending on which serialization format `version` you choose (@dpprdan, #1672).
+  
+* `use_travis()` and `use_appveyor()` are now defunct because we no longer  
+  recommend Travis or Appveyor. We recommend GitHub actions instead (#1517).
+
 * `use_tidy_eval()` is now defunct because it imports and re-exports a large
   number of functions that are no longer needed in order to do tidy
   evaluation (#1656).
@@ -25,8 +31,9 @@
 
 * `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
   you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
-  The default remains to provide a full report (@ijlyttle #1714).
-
+  The default remains to provide a full report. Also, provides more
+  feedback if git user's information is not set. (@ijlyttle, #1714, #1706).
+  
 * `use_article()` no longer adds the rmarkdown package to `Suggests`. Instead,
   if rmarkdown is not already a dependency, it's added to
   `Config/Needs/website`. This means that a package that only uses articles

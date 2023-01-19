@@ -268,3 +268,57 @@ deprecate_warn_repo_spec <- function(whos_asking, details = NULL) {
     details = details %||% repo_spec_explanation
   )
 }
+
+
+# ci ----------------------------------------------------------------------
+
+
+#' CI on Travis and Appveyor
+#'
+#' @description
+#' `r lifecycle::badge("defunct")`
+#'
+#' These functions which formally supported CI on Appveyor and Travis are
+#' now defunct as we no longer recommend using these services. We now
+#' recommend using GitHub actions, e.g. with [use_github_actions()].
+#'
+#' @export
+#' @keywords internal
+use_travis <- function(browse = rlang::is_interactive(),
+                       ext = c("com", "org")) {
+
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "use_travis()",
+    with = "use_github_actions()"
+  )
+}
+
+#' @export
+#' @rdname use_travis
+use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "use_travis_badge()"
+  )
+}
+
+#' @export
+#' @rdname use_travis
+use_appveyor <- function(browse = rlang::is_interactive()) {
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "use_appveyor()",
+    with = "use_github_actions()"
+  )
+}
+
+#' @export
+#' @rdname use_travis
+use_appveyor_badge <- function(repo_spec = NULL) {
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "use_appveyor_badge()",
+  )
+}
+
