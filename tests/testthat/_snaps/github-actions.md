@@ -12,7 +12,7 @@
       * Learn more at <https://github.com/r-lib/actions/blob/v2/examples/README.md>.
       v Adding .github/workflows/R-CMD-check badge to 'README.md'
 
-# use_github_action() still errors in non-iteractive environment
+# use_github_action() still errors in non-interactive environment
 
     Code
       use_github_action()

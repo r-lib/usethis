@@ -5,7 +5,7 @@
 \alias{use_github_action_check_release}
 \alias{use_github_action_check_standard}
 \alias{use_github_action_pr_commands}
-\title{Use specific Github actions}
+\title{Use specific GitHub Actions workflows}
 \usage{
 use_github_actions()
 
@@ -35,6 +35,6 @@ use_github_action_pr_commands(
 
 \code{use_github_actions()} is deprecated because it was just an alias
 for \code{\link[=use_github_action_check_release]{use_github_action_check_release()}}. The other variants are deprecated
-because \code{\link[=use_github_action]{use_github_action()}} can  now suggest specific workflows to use.
+because \code{\link[=use_github_action]{use_github_action()}} can now suggest specific workflows to use.
 }
 \keyword{internal}

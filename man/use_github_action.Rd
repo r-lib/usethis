@@ -2,7 +2,7 @@
 % Please edit documentation in R/github-actions.R
 \name{use_github_action}
 \alias{use_github_action}
-\title{Set up a GitHub Action}
+\title{Set up a GitHub Actions workflow}
 \usage{
 use_github_action(
   name = NULL,
@@ -65,10 +65,10 @@ is a good baseline if you plan on submitting your package to CRAN.
 \item \code{pr-commands}: This workflow enables the use of two R-specific commands
 in pull request issue comments: \verb{/document} to run
 \code{roxygen2::roxygenise()} and \verb{/style} to run \code{styler::style_pkg()}. Both
-will update the PR with any changes once they done.
+will update the PR with any changes once they're done.
 }
 
-If you call \code{use_github_action()} with out arguments, you'll be prompted to
+If you call \code{use_github_action()} without arguments, you'll be prompted to
 pick from one of these. Otherwise you can see a complete list of
 possibilities provided by r-lib at
 \url{https://github.com/r-lib/actions/tree/v2/examples}, or you can supply
