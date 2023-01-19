@@ -54,18 +54,21 @@ used to trigger various operations for each push or pull request, e.g.
 running \verb{R CMD check} or building and deploying a pkgdown site.
 \subsection{Workflows}{
 
-There are three particularly important workflows that are used by many
+There are four particularly important workflows that are used by many
 packages:
 \itemize{
-\item \code{check-standard}: This recommended workflow runs \verb{R CMD check} with
-R-latest on Linux, Mac, and Windows, and with R-devel on Linux. This
-is a good baseline if you plan on submitting your package to CRAN.
+\item \code{check-standard}: Run \verb{R CMD check} using R-latest on Linux, Mac, and
+Windows, and using R-devel on Linux. This is a good baseline if you plan
+on submitting your package to CRAN.
 \item \code{test-coverage}: Compute test coverage and report to
 \url{https://about.codecov.io} by calling \code{\link[covr:codecov]{covr::codecov()}}.
-\item \code{pr-commands}: This workflow enables the use of two R-specific commands
-in pull request issue comments: \verb{/document} to run
-\code{roxygen2::roxygenise()} and \verb{/style} to run \code{styler::style_pkg()}. Both
-will update the PR with any changes once they're done.
+\item \code{pkgdown}: Automatically build and publish a pkgdown website.
+But we recommend instead calling \code{\link[=use_pkgdown_github_pages]{use_pkgdown_github_pages()}} which
+performs other important set up.
+\item \code{pr-commands}: Enables the use of two R-specific commands in pull request
+issue comments: \verb{/document} to run \code{roxygen2::roxygenise()} and
+\verb{/style} to run \code{styler::style_pkg()}. Both will update the PR with any
+changes once they're done.
 }
 
 If you call \code{use_github_action()} without arguments, you'll be prompted to

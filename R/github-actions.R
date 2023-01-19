@@ -8,18 +8,21 @@
 #'
 #' ## Workflows
 #'
-#' There are three particularly important workflows that are used by many
+#' There are four particularly important workflows that are used by many
 #' packages:
 #'
-#' * `check-standard`: This recommended workflow runs `R CMD check` with
-#'    R-latest on Linux, Mac, and Windows, and with R-devel on Linux. This
-#'    is a good baseline if you plan on submitting your package to CRAN.
+#' * `check-standard`: Run `R CMD check` using R-latest on Linux, Mac, and
+#'    Windows, and using R-devel on Linux. This is a good baseline if you plan
+#'    on submitting your package to CRAN.
 #' * `test-coverage`: Compute test coverage and report to
 #'    <https://about.codecov.io> by calling [covr::codecov()].
-#' * `pr-commands`: This workflow enables the use of two R-specific commands
-#'    in pull request issue comments: `/document` to run
-#'    `roxygen2::roxygenise()` and `/style` to run `styler::style_pkg()`. Both
-#'    will update the PR with any changes once they're done.
+#' * `pkgdown`: Automatically build and publish a pkgdown website.
+#'    But we recommend instead calling [use_pkgdown_github_pages()] which
+#'    performs other important set up.
+#' * `pr-commands`: Enables the use of two R-specific commands in pull request
+#'    issue comments: `/document` to run `roxygen2::roxygenise()` and
+#'    `/style` to run `styler::style_pkg()`. Both will update the PR with any
+#'    changes once they're done.
 #'
 #' If you call `use_github_action()` without arguments, you'll be prompted to
 #' pick from one of these. Otherwise you can see a complete list of
@@ -142,7 +145,6 @@ choose_gha_workflow <- function(error_call = caller_env()) {
   workflows <- c(
     "check-standard" = "Run R CMD check in four environments",
     "test-coverage" = "Compute test coverage and report to https://about.codecov.io",
-    "lint" = "Run lintr::lint_package() and report problems",
     "pr-commands" = "Add /document and /style commands for pull requests"
   )
   options <- paste0(cli::style_bold(names(workflows)), ": ", workflows)
