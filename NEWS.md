@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_release_issue()` now uses internal `release_extra_revdeps()` to 
+  add extra revdep sources. Currently only use for internal Posit tooling,
+  but we hope to extend to all users in the future (#1610).
+
 * `use_data()` now sets the appropriate minimal R version in `DESCRIPTION`, 
   depending on which serialization format `version` you choose (@dpprdan, #1672).
   

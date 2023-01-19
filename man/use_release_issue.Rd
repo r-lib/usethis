@@ -23,10 +23,18 @@ function creates a checklist in a GitHub issue to:
 The checklist contains a generic set of steps that we've found to be helpful,
 based on the type of release ("patch", "minor", or "major"). You're
 encouraged to edit the issue to customize this list to meet your needs.
-If you want to consistently add extra bullets for every release, you can
+\subsection{Customization}{
+\itemize{
+\item If you want to consistently add extra bullets for every release, you can
 include your own custom bullets by providing a (unexported) a
 \code{release_bullets()} function that returns a character vector.
 (For historical reasons, \code{release_questions()} is also supported).
+\item If you want to check additional packages in the revdep check process
+provide an (unexported) \code{release_extra_revdeps()} function that
+return a character vector. This is currently only supported for
+Posit internal check tooling.
+}
+}
 }
 \examples{
 \dontrun{

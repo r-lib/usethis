@@ -25,13 +25,25 @@ test_that("release bullets don't change accidentally", {
 
 test_that("get extra news bullets if available", {
   env <- env(release_bullets = function() "Extra bullets")
-  expect_equal(release_extra(env), "* [ ] Extra bullets")
+  expect_equal(release_extra_bullets(env), "* [ ] Extra bullets")
 
   env <- env(release_questions = function() "Extra bullets")
-  expect_equal(release_extra(env), "* [ ] Extra bullets")
+  expect_equal(release_extra_bullets(env), "* [ ] Extra bullets")
 
   env <- env()
-  expect_equal(release_extra(env), character())
+  expect_equal(release_extra_bullets(env), character())
+})
+
+test_that("construct correct revdep bullet", {
+  create_local_package()
+  env <- env(release_extra_revdeps = function() c("waldo", "testthat"))
+
+  expect_snapshot({
+    release_revdepcheck(on_cran = FALSE)
+    release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = FALSE)
+    release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = TRUE)
+    release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = TRUE, env = env)
+  })
 })
 
 test_that("RStudio-ness detection works", {
