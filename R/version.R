@@ -14,9 +14,9 @@
 #' ```
 
 #' `use_version()` increments the "Version" field in `DESCRIPTION`, adds a new
-#' heading to `NEWS.md` (if it exists), and commits those changes (if package
-#' uses Git). It makes the same update to a line like `PKG_version = "x.y.z";`
-#' in `src/version.c` (if it exists).
+#' heading to `NEWS.md` (if it exists), commits those changes (if package
+#' uses Git), and pushes (if safe to do so). It makes the same update to a line
+#' like `PKG_version = "x.y.z";` in `src/version.c` (if it exists).
 #'
 
 #' `use_dev_version()` increments to a development version, e.g. from 1.0.0 to
@@ -46,8 +46,10 @@
 NULL
 
 #' @rdname use_version
+#' @param push If `TRUE`, will also attempt to push the commits to the
+#'   remote branch.
 #' @export
-use_version <- function(which = NULL) {
+use_version <- function(which = NULL, push = FALSE) {
   if (is.null(which) && !is_interactive()) {
     return(invisible(FALSE))
   }
@@ -74,8 +76,10 @@ use_version <- function(which = NULL) {
   git_ask_commit(
     glue("Increment version number to {new_ver}"),
     untracked = TRUE,
+    push = push,
     paths = c("DESCRIPTION", "NEWS.md", path("src", "version.c"))
   )
+
   invisible(TRUE)
 }
 

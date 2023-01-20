@@ -1,5 +1,15 @@
 # usethis (development version)
 
+* `use_release_issue()` now starts by pulling the latest source from GitHub.
+
+* `use_version()` gains a `push` argument to optionally push the result after
+  committing. This is used to eliminate a manual step from the 
+  `use_release_issue()` checklist (#1385). 
+
+* `use_github_release()` now automatically pushes to GitHub (if safe) (#1385) 
+  and automatically publishes the release, rather than requiring you to edit
+  and publish the draft.
+
 * `use_data()` now sets the appropriate minimal R version in `DESCRIPTION`, 
   depending on which serialization format `version` you choose (@dpprdan, #1672).
   

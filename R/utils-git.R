@@ -127,7 +127,7 @@ git_status <- function(untracked) {
 }
 
 # Commit -----------------------------------------------------------------------
-git_ask_commit <- function(message, untracked, paths = NULL) {
+git_ask_commit <- function(message, untracked, push = FALSE, paths = NULL) {
   if (!is_interactive() || !uses_git()) {
     return(invisible())
   }
@@ -168,9 +168,22 @@ git_ask_commit <- function(message, untracked, paths = NULL) {
     paste0("* ", ui_paths)
   ))
 
-  if (ui_yeah("Is it ok to commit {if (n == 1) 'it' else 'them'}?")) {
+  # Only push if no remote & a single change
+  push <- push && git_can_push(max_local = 1)
+
+  msg <- paste0(
+    "Is it ok to commit ",
+    if (push) "and push ",
+    if (n == 1) 'it' else 'them',
+    "?"
+  )
+  if (ui_yeah(msg)) {
     git_commit(paths, message)
+    if (push) {
+      git_push()
+    }
   }
+
   invisible()
 }
 
@@ -315,6 +328,29 @@ git_branch_compare <- function(branch = git_branch(), remref = NULL) {
   )
   out <- gert::git_ahead_behind(upstream = remref, ref = branch, repo = git_repo())
   list(local_only = out$ahead, remote_only = out$behind)
+}
+
+git_can_push <- function(max_local = Inf, branch = git_branch(), remref = NULL) {
+  remref <- remref %||% git_branch_tracking(branch)
+  if (is.null(remref)) {
+    return(FALSE)
+  }
+  comp <- git_branch_compare(branch, remref)
+  comp$remote_only == 0 && comp$local_only <= max_local
+}
+
+git_push <- function(branch = git_branch(), remref = NULL, verbose = TRUE) {
+  remref <- remref %||% git_branch_tracking(branch)
+  if (verbose) {
+    ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remref)}.")
+  }
+
+  gert::git_push(
+    remote = remref_remote(remref),
+    refspec = glue("refs/heads/{branch}:refs/heads/{remref_branch(remref)}"),
+    verbose = FALSE,
+    repo = git_repo()
+  )
 }
 
 # Checks ------------------------------------------------------------------

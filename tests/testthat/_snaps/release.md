@@ -15,7 +15,6 @@
       
       Prepare for release:
       
-      * [ ] `git pull`
       * [ ] Check if any deprecation processes should be advanced, as described in [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
@@ -33,11 +32,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
@@ -49,7 +46,6 @@
     Output
       Prepare for release:
       
-      * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `urlchecker::url_check()`
@@ -69,11 +65,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] `git push`
 
 ---
 
@@ -82,7 +76,6 @@
     Output
       Prepare for release:
       
-      * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
       * [ ] Check if any deprecation processes should be advanced, as described in [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
@@ -104,11 +97,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
@@ -120,7 +111,6 @@
     Output
       Prepare for release:
       
-      * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
       * [ ] Check if any deprecation processes should be advanced, as described in [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
@@ -143,11 +133,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu

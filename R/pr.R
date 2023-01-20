@@ -392,13 +392,7 @@ pr_push <- function() {
     gert::git_push(remote = remote, verbose = FALSE, repo = repo)
   } else {
     check_branch_pulled(use = "pr_pull()")
-    ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remref)}.")
-    gert::git_push(
-      remote = remref_remote(remref),
-      refspec = glue("refs/heads/{branch}:refs/heads/{remref_branch(remref)}"),
-      verbose = FALSE,
-      repo = repo
-    )
+    git_push(branch, remref)
   }
 
   # Prompt to create PR if does not exist yet
