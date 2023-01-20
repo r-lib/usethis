@@ -5,7 +5,6 @@
 \alias{browse_github_pat}
 \alias{github_token}
 \alias{git_branch_default}
-\alias{use_github_action_check_full}
 \title{Defunct GitHub functions}
 \usage{
 browse_github_token(...)
@@ -15,13 +14,6 @@ browse_github_pat(...)
 github_token()
 
 git_branch_default()
-
-use_github_action_check_full(
-  save_as = "R-CMD-check.yaml",
-  ignore = TRUE,
-  open = FALSE,
-  repo_spec = NULL
-)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
@@ -30,8 +22,6 @@ use_github_action_check_full(
 \code{\link[=create_github_token]{create_github_token()}}.
 \item \code{github_token()} has been replaced by \code{\link[gh:gh_token]{gh::gh_token()}}
 \item \code{git_branch_default()} has been replaced by \code{\link[=git_default_branch]{git_default_branch()}}.
-\item \code{use_github_action_check_full()} is overkill for most packages and is
-not recommended.
 }
 }
 \keyword{internal}

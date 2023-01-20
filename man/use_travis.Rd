@@ -20,6 +20,6 @@ use_appveyor_badge(repo_spec = NULL)
 
 These functions which formally supported CI on Appveyor and Travis are
 now defunct as we no longer recommend using these services. We now
-recommend using GitHub actions, e.g. with \code{\link[=use_github_actions]{use_github_actions()}}.
+recommend using GitHub actions, e.g. with \code{\link[=use_github_action]{use_github_action()}}.
 }
 \keyword{internal}

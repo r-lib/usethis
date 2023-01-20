@@ -40,8 +40,6 @@ pr_sync <- function() {
 #'    [create_github_token()].
 #' * `github_token()` has been replaced by [gh::gh_token()]
 #' * `git_branch_default()` has been replaced by [git_default_branch()].
-#' * `use_github_action_check_full()` is overkill for most packages and is
-#'    not recommended.
 #'
 #' @keywords internal
 #' @export
@@ -82,25 +80,6 @@ github_token <- function() {
 git_branch_default <- function() {
   lifecycle::deprecate_soft("2.1.0", "git_branch_default()", "git_default_branch()")
   git_default_branch()
-}
-
-#' @rdname browse_github_token
-#' @export
-use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
-                                         ignore = TRUE,
-                                         open = FALSE,
-                                         repo_spec = NULL) {
-  details <- glue("
-    It is overkill for the vast majority of R packages.
-    The \"check-full\" workflow is among those configured by \\
-    {ui_code('use_tidy_github_actions()')}.
-    If you really want it, request it by name with \\
-    {ui_code('use_github_action()')}.")
-  lifecycle::deprecate_stop(
-    "2.1.0",
-    "use_github_action_check_full()",
-    details = details
-  )
 }
 
 #' Defunct tidyverse functions
@@ -268,7 +247,7 @@ deprecate_warn_repo_spec <- function(whos_asking, details = NULL) {
 #'
 #' These functions which formally supported CI on Appveyor and Travis are
 #' now defunct as we no longer recommend using these services. We now
-#' recommend using GitHub actions, e.g. with [use_github_actions()].
+#' recommend using GitHub actions, e.g. with [use_github_action()].
 #'
 #' @export
 #' @keywords internal
@@ -278,7 +257,7 @@ use_travis <- function(browse = rlang::is_interactive(),
   lifecycle::deprecate_stop(
     when = "2.0.0",
     what = "use_travis()",
-    with = "use_github_actions()"
+    with = "use_github_action()"
   )
 }
 
@@ -297,7 +276,7 @@ use_appveyor <- function(browse = rlang::is_interactive()) {
   lifecycle::deprecate_stop(
     when = "2.0.0",
     what = "use_appveyor()",
-    with = "use_github_actions()"
+    with = "use_github_action()"
   )
 }
 
@@ -310,3 +289,116 @@ use_appveyor_badge <- function(repo_spec = NULL) {
   )
 }
 
+
+# GitHub actions --------------------------------------------------------------
+
+#' Use specific GitHub Actions workflows
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' * `use_github_actions()` is deprecated because it was just an alias
+#'   for [use_github_action_check_release()].
+#'
+#' * `use_github_action_check_full()` is overkill for most packages and is
+#'    not recommended.
+#'
+#' * `use_github_action_check_release()`, `use_github_action_check_standard()`,
+#'   and `use_github_action_pr_commands()` are deprecated in favor of
+#'   [use_github_action()], which can now suggest specific workflows to use.
+#'
+#' @export
+#' @keywords internal
+use_github_actions <- function() {
+  lifecycle::deprecate_warn(
+    when = "2.2.0",
+    what = "use_github_actions()",
+    with = "use_github_action('check-release')"
+  )
+  use_github_action('check-release')
+}
+
+#' @rdname use_github_actions
+#' @export
+use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
+                                            ref = NULL,
+                                            ignore = TRUE,
+                                            open = FALSE) {
+
+  lifecycle::deprecate_warn(
+    when = "2.2.0",
+    what = "use_github_action_check_release()",
+    with = "use_github_action('check-release')"
+  )
+
+  use_github_action(
+    "check-release.yaml",
+    ref = ref,
+    save_as = save_as,
+    ignore = ignore,
+    open = open
+  )
+  use_github_actions_badge(save_as)
+}
+
+#' @rdname use_github_actions
+#' @export
+use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
+                                             ref = NULL,
+                                             ignore = TRUE,
+                                             open = FALSE) {
+  lifecycle::deprecate_warn(
+    when = "2.2.0",
+    what = "use_github_action_check_standard()",
+    with = "use_github_action('check-standard')"
+  )
+
+  use_github_action(
+    "check-standard.yaml",
+    ref = ref,
+    save_as = save_as,
+    ignore = ignore,
+    open = open
+  )
+  use_github_actions_badge(save_as)
+}
+
+#' @rdname use_github_actions
+#' @export
+use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
+                                          ref = NULL,
+                                          ignore = TRUE,
+                                          open = FALSE) {
+  lifecycle::deprecate_warn(
+    when = "2.2.0",
+    what = "use_github_action_pr_commands()",
+    with = "use_github_action('pr-commands')"
+  )
+
+  use_github_action(
+    "pr-commands.yaml",
+    ref = ref,
+    save_as = save_as,
+    ignore = ignore,
+    open = open
+  )
+}
+
+#' @rdname use_github_actions
+#' @export
+use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
+                                         ignore = TRUE,
+                                         open = FALSE,
+                                         repo_spec = NULL) {
+  details <- glue("
+    It is overkill for the vast majority of R packages.
+    The \"check-full\" workflow is among those configured by \\
+    {ui_code('use_tidy_github_actions()')}.
+    If you really want it, request it by name with \\
+    {ui_code('use_github_action()')}.")
+  lifecycle::deprecate_stop(
+    "2.1.0",
+    "use_github_action_check_full()",
+    details = details
+  )
+}
