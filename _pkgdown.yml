@@ -162,5 +162,6 @@ reference:
     - browse_github_token
     - git_credentials
     - pr_pull_upstream
+    - use_github_actions
     - use_tidy_labels
     - use_travis
