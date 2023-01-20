@@ -240,7 +240,7 @@ deprecate_warn_repo_spec <- function(whos_asking, details = NULL) {
 # ci ----------------------------------------------------------------------
 
 
-#' CI on Travis and Appveyor
+#' Defunct Travis and Appveyor functions
 #'
 #' @description
 #' `r lifecycle::badge("defunct")`
@@ -311,7 +311,7 @@ browse_travis <- function(package = NULL, ext = c("com", "org")) {
 
 # GitHub actions --------------------------------------------------------------
 
-#' Use specific GitHub Actions workflows
+#' Defunct GitHub Actions workflows
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`

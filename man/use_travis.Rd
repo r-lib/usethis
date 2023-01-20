@@ -7,7 +7,7 @@
 \alias{use_appveyor}
 \alias{use_appveyor_badge}
 \alias{browse_travis}
-\title{CI on Travis and Appveyor}
+\title{Defunct Travis and Appveyor functions}
 \usage{
 use_travis(browse = rlang::is_interactive(), ext = c("com", "org"))
 
