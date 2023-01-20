@@ -299,6 +299,15 @@ use_appveyor_badge <- function(repo_spec = NULL) {
   )
 }
 
+#' @export
+#' @rdname use_travis
+browse_travis <- function(package = NULL, ext = c("com", "org")) {
+  lifecycle::deprecate_stop(
+    when = "2.2.0",
+    what = "browse_travis()",
+  )
+}
+
 
 # GitHub actions --------------------------------------------------------------
 

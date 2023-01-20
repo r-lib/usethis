@@ -6,6 +6,7 @@
 \alias{use_pkgdown_travis}
 \alias{use_appveyor}
 \alias{use_appveyor_badge}
+\alias{browse_travis}
 \title{CI on Travis and Appveyor}
 \usage{
 use_travis(browse = rlang::is_interactive(), ext = c("com", "org"))
@@ -17,6 +18,8 @@ use_pkgdown_travis()
 use_appveyor(browse = rlang::is_interactive())
 
 use_appveyor_badge(repo_spec = NULL)
+
+browse_travis(package = NULL, ext = c("com", "org"))
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}

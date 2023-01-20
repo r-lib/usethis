@@ -8,7 +8,6 @@
 \alias{browse_github_issues}
 \alias{browse_github_pulls}
 \alias{browse_github_actions}
-\alias{browse_travis}
 \alias{browse_circleci}
 \alias{browse_cran}
 \title{Visit important project-related web pages}
@@ -25,8 +24,6 @@ browse_github_pulls(package = NULL, number = NULL)
 
 browse_github_actions(package = NULL)
 
-browse_travis(package = NULL, ext = c("com", "org"))
-
 browse_circleci(package = NULL)
 
 browse_cran(package = NULL)
@@ -37,8 +34,6 @@ regardless of whether it's an R package or not.}
 
 \item{number}{Optional, to specify an individual GitHub issue or pull
 request. Can be a number or \code{"new"}.}
-
-\item{ext}{Version of travis to use.}
 }
 \description{
 These functions take you to various web pages associated with a project
@@ -92,6 +87,5 @@ browse_github_issues("fs")
 browse_github_issues("fs", 1)
 browse_github_pulls("curl")
 browse_github_pulls("curl", 183)
-browse_travis("gert", ext = "org")
 browse_cran("MASS")
 }
