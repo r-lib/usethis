@@ -56,11 +56,13 @@ use_roxygen_md <- function(overwrite = FALSE) {
 # TRUE: plain old "list(markdown = TRUE)"
 # NA: everything else
 uses_roxygen_md <- function() {
-  if (!desc::desc_has_fields("Roxygen", file = proj_get())) {
+  desc <- proj_desc()
+
+  if (!desc$has_fields("Roxygen")) {
     return(FALSE)
   }
 
-  roxygen <- desc::desc_get("Roxygen", file = proj_get())[[1]]
+  roxygen <- desc$get_field("Roxygen", "")
   if (identical(roxygen, "list(markdown = TRUE)")) {
     TRUE
   } else {
@@ -69,7 +71,7 @@ uses_roxygen_md <- function() {
 }
 
 uses_roxygen <- function() {
-  desc::desc_has_fields("RoxygenNote", file = proj_get())
+  proj_desc()$has_fields("RoxygenNote")
 }
 
 roxygen_ns_append <- function(tag) {

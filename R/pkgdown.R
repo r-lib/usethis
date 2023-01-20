@@ -104,7 +104,7 @@ use_pkgdown_url <- function(url, tr = NULL) {
   write_utf8(config_path, yaml::as.yaml(config))
 
   ui_done("Adding {ui_value(url)} to {ui_field('URL')} field in DESCRIPTION")
-  desc <- desc::desc(file = proj_get())
+  desc <- proj_desc()
   desc$add_urls(url)
   desc$write()
   if (has_package_doc()) {

@@ -97,7 +97,7 @@ create_tidy_package <- function(path, copyright_holder = NULL) {
 #' @export
 #' @rdname tidyverse
 use_tidy_description <- function() {
-  desc <- desc::description$new(file = proj_get())
+  desc <- proj_desc()
   tidy_desc(desc)
   desc$write()
 

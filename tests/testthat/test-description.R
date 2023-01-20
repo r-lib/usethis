@@ -158,18 +158,18 @@ test_that("use_description_field() can address an existing field", {
     value = "1.1.1",
     overwrite = TRUE
   )
-  expect_identical(c(Version = "1.1.1"), desc::desc_get("Version", file = pkg))
+  expect_identical(proj_version(), "1.1.1")
 })
 
 test_that("use_description_field() can add new field", {
   pkg <- create_local_package()
   use_description_field(name = "foo", value = "bar")
-  expect_identical(c(foo = "bar"), desc::desc_get("foo", file = pkg))
+  expect_identical(proj_desc()$get_field("foo"), "bar")
 })
 
 test_that("use_description_field() ignores whitespace", {
   pkg <- create_local_package()
   use_description_field(name = "foo", value = "\n bar")
   use_description_field(name = "foo", value = "bar")
-  expect_identical(c(foo = "\n bar"), desc::desc_get("foo", file = pkg))
+  expect_identical(proj_desc()$get_field("foo", trim_ws = FALSE), "\n bar")
 })

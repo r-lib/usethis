@@ -41,7 +41,7 @@ use_vignette <- function(name, title = name) {
 use_article <- function(name, title = name) {
   check_is_package("use_article()")
 
-  deps <- desc::desc_get_deps(proj_get())
+  deps <- proj_deps()
   if (!"rmarkdown" %in% deps$package) {
     ui_done("
       Adding {ui_value('rmarkdown')} to {ui_field('Config/Needs/website')}")

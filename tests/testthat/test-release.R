@@ -39,7 +39,7 @@ test_that("RStudio-ness detection works", {
 
   expect_false(is_rstudio_pkg())
 
-  desc <- desc::desc(file = proj_get())
+  desc <- proj_desc()
   desc$add_author(given = "RstuDio, PbC", role = "fnd")
   desc$add_urls("https://github.com/tidyverse/WHATEVER")
   desc$write()

@@ -28,8 +28,8 @@ use_cpp11 <- function() {
 }
 
 get_cpp_register_deps <- function() {
-  res <- desc::desc(package = "cpp11")$get_field("Config/Needs/cpp11/cpp_register")
-  strsplit(res, "[[:space:]]*,[[:space:]]*")[[1]]
+  desc <- desc::desc(package = "cpp11")
+  desc$get_list("Config/Needs/cpp11/cpp_register")
 }
 
 check_cpp_register_deps <- function() {

@@ -178,9 +178,10 @@ tidy_desc <- function(desc) {
 use_description_field <- function(name, value, overwrite = FALSE) {
   # account for `value`s produced via `glue::glue()`
   value <- as.character(value)
-  curr <- desc::desc_get(name, file = proj_get())[[1]]
-  curr <- gsub("^\\s*|\\s*$", "", curr)
 
+  desc <- proj_desc()
+
+  curr <- desc$get_field(name, NA)
   if (identical(curr, value)) {
     return(invisible())
   }
@@ -193,7 +194,9 @@ use_description_field <- function(name, value, overwrite = FALSE) {
   }
 
   ui_done("Setting {ui_field(name)} field in DESCRIPTION to {ui_value(value)}")
-  desc::desc_set(name, value, file = proj_get())
+  desc$set(name, value)
+  desc$write()
+
   invisible()
 }
 
@@ -202,7 +205,7 @@ use_description_list <- function(key,
                                  append = TRUE,
                                  desc = NULL) {
   desc_provided <- !is.null(desc)
-  desc <- desc %||% desc::desc(file = proj_get())
+  desc <- desc %||% proj_desc()
   check_string(key)
   stopifnot(is.character(values))
 
@@ -217,9 +220,7 @@ use_description_list <- function(key,
     return(invisible())
   }
 
-  tf <- withr::local_tempfile(
-    pattern = glue("use_description_list-{project_name()}-{path_sanitize(key, '-')}")
-  )
+  tf <- withr::local_tempfile()
   desc$write(file = tf)
   tf_contents <- read_utf8(tf)
   write_over(proj_path("DESCRIPTION"), tf_contents)
