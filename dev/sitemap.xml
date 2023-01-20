@@ -79,9 +79,6 @@
     <loc>https://usethis.r-lib.org/dev/reference/github-token.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/dev/reference/github_actions.html</loc>
-  </url>
-  <url>
     <loc>https://usethis.r-lib.org/dev/reference/index.html</loc>
   </url>
   <url>
@@ -173,6 +170,15 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/dev/reference/use_github.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/dev/reference/use_github_action.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/dev/reference/use_github_actions.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/dev/reference/use_github_actions_badge.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/dev/reference/use_github_file.html</loc>
