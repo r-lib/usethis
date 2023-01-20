@@ -137,6 +137,7 @@ release_revdepcheck <- function(on_cran = TRUE, is_rstudio_pkg = TRUE, env = NUL
   env <- env %||% safe_pkg_env()
   if (env_has(env, "release_extra_revdeps")) {
     extra <- env$release_extra_revdeps()
+    stopifnot(is.character(extra))
   } else {
     extra <- character()
   }
@@ -168,7 +169,7 @@ release_extra_bullets <- function(env = NULL) {
 
 safe_pkg_env <- function() {
   tryCatch(
-    pkg_env(project_name()),
+    ns_env(project_name()),
     error = function(e) emptyenv()
   )
 }
