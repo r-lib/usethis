@@ -57,7 +57,7 @@ It will never delete labels that have associated issues.
 \code{use_tidy_github_labels()} calls \code{use_github_labels()} with tidyverse
 conventions powered by \code{tidy_labels()}, \code{tidy_labels_rename()},
 \code{tidy_label_colours()} and \code{tidy_label_descriptions()}.
-\subsection{tidyverse label usage:}{
+\subsection{tidyverse label usage}{
 
 Labels are used as part of the issue-triage process, designed to minimise the
 time spent re-reading issues. The absence of a label indicates that an issue

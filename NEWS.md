@@ -1,5 +1,13 @@
 # usethis (development version)
 
+* `use_github_action()` now suggests possible actions when called without
+  arguments (#1724).
+
+* `use_github_actions()`, `use_github_action_check_standard()`,
+  `use_github_action_check_release()`, and `use_github_action_pr_commands()`
+  have been deprecated in favour of the new interactive powers of
+  `use_github_action()` (#1724).
+
 * `use_data()` now sets the appropriate minimal R version in `DESCRIPTION`, 
   depending on which serialization format `version` you choose (@dpprdan, #1672).
   
