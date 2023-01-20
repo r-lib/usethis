@@ -272,6 +272,16 @@ use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
 
 #' @export
 #' @rdname use_travis
+use_pkgdown_travis <- function() {
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "use_pkgdown_travis()",
+    with = "use_pkgdown_github_pages()"
+  )
+}
+
+#' @export
+#' @rdname use_travis
 use_appveyor <- function(browse = rlang::is_interactive()) {
   lifecycle::deprecate_stop(
     when = "2.0.0",

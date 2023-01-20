@@ -3,6 +3,7 @@
 \name{use_travis}
 \alias{use_travis}
 \alias{use_travis_badge}
+\alias{use_pkgdown_travis}
 \alias{use_appveyor}
 \alias{use_appveyor_badge}
 \title{CI on Travis and Appveyor}
@@ -10,6 +11,8 @@
 use_travis(browse = rlang::is_interactive(), ext = c("com", "org"))
 
 use_travis_badge(ext = c("com", "org"), repo_spec = NULL)
+
+use_pkgdown_travis()
 
 use_appveyor(browse = rlang::is_interactive())
 
