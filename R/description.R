@@ -202,9 +202,7 @@ use_description_field <- function(name, value, overwrite = FALSE) {
 
 use_description_list <- function(key,
                                  values,
-                                 append = TRUE,
-                                 desc = NULL) {
-  desc_provided <- !is.null(desc)
+                                 append = TRUE) {
   desc <- desc %||% proj_desc()
   check_string(key)
   stopifnot(is.character(values))
@@ -215,10 +213,6 @@ use_description_list <- function(key,
   # formatting needs some improvements
   # https://github.com/r-lib/desc/issues/117
   desc$set_list(key, values, sep = ",\n")
-
-  if (desc_provided) {
-    return(invisible())
-  }
 
   tf <- withr::local_tempfile()
   desc$write(file = tf)
