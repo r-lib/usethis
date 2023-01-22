@@ -50,6 +50,10 @@ use_github_file <- function(repo_spec,
                             host = NULL) {
 
   check_string(repo_spec)
+  maybe_string(path)
+  maybe_string(ref)
+  maybe_string(host)
+
   dat <- parse_file_url(repo_spec)
   if (dat$parsed) {
     repo_spec <- dat$repo_spec
@@ -57,34 +61,20 @@ use_github_file <- function(repo_spec,
     ref       <- dat$ref
     host      <- dat$host
   }
-  check_string(path)
+
   save_as <- save_as %||% path_file(path)
-  check_string(save_as)
-  maybe_string(ref)
-  maybe_string(host)
 
   ref_string <- if (is.null(ref)) "" else glue("@{ref}")
   github_string <- glue("{repo_spec}/{path}{ref_string}")
   ui_done("Saving {ui_path(github_string)} to {ui_path(save_as)}")
 
-  # https://docs.github.com/en/rest/reference/repos#contents
-  # https://docs.github.com/en/rest/reference/repos#if-the-content-is-a-symlink
-  # If the requested {path} points to a symlink, and the symlink's target is a
-  # normal file in the repository, then the API responds with the content of the
-  # file....
-  tf <- withr::local_tempfile(
-    pattern = glue("use_github_file-{path_file(save_as)}-")
-  )
-  res <- gh::gh(
-    "/repos/{repo_spec}/contents/{path}",
-    repo_spec = repo_spec, path = path,
+  lines <- read_github_file(
+    repo_spec = repo_spec,
+    path = path,
     ref = ref,
-    .destfile = tf,
-    .accept = "application/vnd.github.v3.raw"
+    host = host
   )
-
-  tf_contents <- read_utf8(tf)
-  new <- write_over(proj_path(save_as), tf_contents, quiet = TRUE)
+  new <- write_over(proj_path(save_as), lines, quiet = TRUE)
 
   if (ignore) {
     use_build_ignore(save_as)
@@ -95,6 +85,24 @@ use_github_file <- function(repo_spec,
   }
 
   invisible(new)
+}
+
+read_github_file <- function(repo_spec, path, ref = NULL, host = NULL) {
+  # https://docs.github.com/en/rest/reference/repos#contents
+  # https://docs.github.com/en/rest/reference/repos#if-the-content-is-a-symlink
+  # If the requested {path} points to a symlink, and the symlink's target is a
+  # normal file in the repository, then the API responds with the content of the
+  # file....
+  tf <- withr::local_tempfile()
+  res <- gh::gh(
+    "/repos/{repo_spec}/contents/{path}",
+    repo_spec = repo_spec, path = path,
+    ref = ref,
+    .api_url = host,
+    .destfile = tf,
+    .accept = "application/vnd.github.v3.raw"
+  )
+  read_utf8(tf)
 }
 
 # https://github.com/OWNER/REPO/blob/REF/path/to/some/file
