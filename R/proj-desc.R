@@ -1,4 +1,3 @@
-
 proj_desc <- function(path = proj_get()) {
   desc::desc(file = path)
 }

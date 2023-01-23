@@ -104,7 +104,7 @@ test_that("use_description_field() can address an existing field", {
   ## specify existing value of existing field --> should be no op
   use_description_field(
     name = "Version",
-    value = desc::desc_get("Version", file = pkg)[[1]]
+    value = proj_version()
   )
   expect_identical(orig, tools::md5sum(proj_path("DESCRIPTION")))
 

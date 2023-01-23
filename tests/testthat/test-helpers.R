@@ -65,11 +65,11 @@ test_that("use_dependency() upgrades a dependency", {
   withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_dependency("usethis", "Suggests"))
-  expect_match(desc::desc_get("Suggests", proj_get()), "usethis")
+  expect_match(desc::desc_get("Suggests"), "usethis")
 
   expect_message(use_dependency("usethis", "Imports"), "Moving 'usethis'")
-  expect_match(desc::desc_get("Imports", proj_get()), "usethis")
-  expect_false(grepl("usethis", desc::desc_get("Suggests", proj_get())))
+  expect_match(desc::desc_get("Imports"), "usethis")
+  expect_false(grepl("usethis", desc::desc_get("Suggests")))
 })
 
 ## https://github.com/r-lib/usethis/issues/99
@@ -78,11 +78,11 @@ test_that("use_dependency() declines to downgrade a dependency", {
   withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_dependency("usethis", "Imports"))
-  expect_match(desc::desc_get("Imports", proj_get()), "usethis")
+  expect_match(desc::desc_get("Imports"), "usethis")
 
   expect_warning(use_dependency("usethis", "Suggests"), "no change")
-  expect_match(desc::desc_get("Imports", proj_get()), "usethis")
-  expect_false(grepl("usethis", desc::desc_get("Suggests", proj_get())))
+  expect_match(desc::desc_get("Imports"), "usethis")
+  expect_false(grepl("usethis", desc::desc_get("Suggests")))
 })
 
 test_that("can add LinkingTo dependency if other dependency already exists", {
