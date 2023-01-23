@@ -65,21 +65,7 @@ use_description <- function(fields = list(),
     check_package_name(name)
   }
 
-  use_description_impl_(name = name, fields = fields, roxygen = roxygen)
-}
-
-use_description_impl_ <- function(name, fields = list(), roxygen = TRUE) {
-  desc <- build_description(name, roxygen = roxygen, fields = fields)
-
-  tf <- withr::local_tempfile(pattern = glue("use_description-{name}-"))
-  desc$write(file = tf)
-  tf_contents <- read_utf8(tf)
-  write_over(proj_path("DESCRIPTION"), tf_contents)
-
-  # explicit check of "usethis.quiet" since I'm not doing the printing
-  if (!getOption("usethis.quiet", default = FALSE)) {
-    desc$print()
-  }
+  proj_desc_create(name = name, fields = fields, roxygen = roxygen)
 }
 
 #' @rdname use_description
@@ -134,14 +120,6 @@ use_description_defaults <- function(package = NULL,
   defaults <- lapply(defaults, paste, collapse = "")
 
   compact(defaults)
-}
-
-build_description <- function(package, roxygen = TRUE, fields = list()) {
-  fields <- use_description_defaults(package, roxygen = roxygen, fields)
-
-  desc <- desc::desc(text = glue("{names(fields)}: {fields}"))
-  tidy_desc(desc)
-  desc
 }
 
 check_package_name <- function(name) {
