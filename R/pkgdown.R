@@ -80,10 +80,7 @@ use_pkgdown_github_pages <- function() {
   use_pkgdown_url(url = site_url, tr = tr)
 
   if (is_rstudio_pkg()) {
-    ui_done("
-      Adding {ui_value('tidyverse/tidytemplate')} to \\
-      {ui_field('Config/Needs/website')}")
-    use_description_list("Config/Needs/website", "tidyverse/tidytemplate")
+    proj_desc_field_append("Config/Needs/website", "tidyverse/tidytemplate")
   }
 }
 
@@ -103,10 +100,7 @@ use_pkgdown_url <- function(url, tr = NULL) {
   }
   write_utf8(config_path, yaml::as.yaml(config))
 
-  ui_done("Adding {ui_value(url)} to {ui_field('URL')} field in DESCRIPTION")
-  desc <- proj_desc()
-  desc$add_urls(url)
-  desc$write()
+  proj_desc_field_append("URL", url)
   if (has_package_doc()) {
     ui_todo("
       Run {ui_code('devtools::document()')} to update package-level documentation.")

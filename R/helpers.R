@@ -83,24 +83,6 @@ r_version <- function() {
   glue("{version$major}.{version$minor}")
 }
 
-use_system_requirement <- function(requirement) {
-  stopifnot(is_string(requirement))
-
-  desc <- proj_desc()
-  existing <- desc$get_list("SystemRequirements", default = "")
-  if (requirement %in% existing) {
-    return(invisible())
-  }
-
-  ui_done(
-    "Adding {ui_value(requirement)} to {ui_field('SystemRequirements')} field in DESCRIPTION"
-  )
-  desc$set_list("SystemRequirements", c(existing, requirement))
-  desc$write()
-
-  invisible()
-}
-
 version_spec <- function(x) {
   x <- gsub("(<=|<|>=|>|==)\\s*", "", x)
   numeric_version(x)

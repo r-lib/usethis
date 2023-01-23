@@ -14,7 +14,7 @@ use_cpp11 <- function() {
   use_src()
 
   use_dependency("cpp11", "LinkingTo")
-  use_system_requirement("C++11")
+  proj_desc_field_append("SystemRequirements", "C++11")
 
   use_template(
     "code-cpp11.cpp",

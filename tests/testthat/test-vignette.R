@@ -45,13 +45,8 @@ test_that("use_article() adds rmarkdown to Config/Needs/website", {
   create_local_package()
   local_interactive(FALSE)
 
-  with_mock(
-    can_overwrite = function(path) TRUE,
-    {
-      use_description_list("Config/Needs/website", "somepackage")
-      use_article("name", "title")
-    }
-  )
+  proj_desc_field_append("Config/Needs/website", "somepackage")
+  use_article("name", "title")
 
   expect_setequal(
     proj_desc()$get_list("Config/Needs/website"),

@@ -97,42 +97,6 @@ test_that("valid CRAN names checked", {
   )
 })
 
-test_that("use_description_list() can initiate, add to, or replace", {
-  create_local_package()
-
-  with_mock(
-    can_overwrite = function(path) TRUE,
-    {
-      use_description_list("Config/Needs/foofy", "alfa")
-    }
-  )
-  desc <- desc::desc()
-  expect_equal(desc$get_field("Config/Needs/foofy"), "alfa")
-
-  with_mock(
-    can_overwrite = function(path) TRUE,
-    {
-      use_description_list("Config/Needs/foofy", "bravo")
-    }
-  )
-  desc <- desc::desc()
-  expect_equal(desc$get_list("Config/Needs/foofy"), c("alfa", "bravo"))
-
-  use_description_list("Config/Needs/foofy", "alfa")
-  desc <- desc::desc()
-  expect_equal(desc$get_list("Config/Needs/foofy"), c("alfa", "bravo"))
-
-  with_mock(
-    can_overwrite = function(path) TRUE,
-    {
-      use_description_list("Config/Needs/foofy", "charlie", append = FALSE)
-    }
-  )
-  desc <- desc::desc()
-  expect_equal(desc$get_list("Config/Needs/foofy"), "charlie")
-})
-
-
 test_that("use_description_field() can address an existing field", {
   pkg <- create_local_package()
   orig <- tools::md5sum(proj_path("DESCRIPTION"))
