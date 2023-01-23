@@ -29,7 +29,7 @@ use_cpp11 <- function() {
 
 get_cpp_register_deps <- function() {
   desc <- desc::desc(package = "cpp11")
-  desc$get_list("Config/Needs/cpp11/cpp_register")
+  desc$get_list("Config/Needs/cpp11/cpp_register")[[1]]
 }
 
 check_cpp_register_deps <- function() {

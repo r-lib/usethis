@@ -83,7 +83,7 @@ use_version <- function(which = NULL) {
 #' @export
 use_dev_version <- function() {
   check_is_package("use_dev_version()")
-  ver <- proj_desc()$get_version()
+  ver <- package_version(proj_version())
   if (length(unlist(ver)) > 3) {
     return(invisible())
   }

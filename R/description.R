@@ -203,7 +203,7 @@ use_description_field <- function(name, value, overwrite = FALSE) {
 use_description_list <- function(key,
                                  values,
                                  append = TRUE) {
-  desc <- desc %||% proj_desc()
+  desc <- proj_desc()
   check_string(key)
   stopifnot(is.character(values))
 
