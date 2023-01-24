@@ -50,7 +50,6 @@
 #' browse_github_issues("fs", 1)
 #' browse_github_pulls("curl")
 #' browse_github_pulls("curl", 183)
-#' browse_travis("gert", ext = "org")
 #' browse_cran("MASS")
 #' @name browse-this
 NULL
@@ -136,16 +135,6 @@ browse_github_pulls <- function(package = NULL, number = NULL) {
 #' @rdname browse-this
 browse_github_actions <- function(package = NULL) {
   view_url(github_url(package), "actions")
-}
-
-#' @export
-#' @rdname browse-this
-#' @param ext Version of travis to use.
-browse_travis <- function(package = NULL, ext = c("com", "org")) {
-  gh <- github_url(package)
-  ext <- arg_match(ext)
-  travis_url <- glue("travis-ci.{ext}")
-  view_url(sub("github.com", travis_url, gh))
 }
 
 #' @export

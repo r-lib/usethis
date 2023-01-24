@@ -159,8 +159,9 @@ reference:
       <img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle'/>
       </a>
     contents:
+    - browse_github_token
     - git_credentials
-    - usethis-defunct
+    - pr_pull_upstream
     - use_github_actions
-    - use_tidy_eval
+    - use_tidy_labels
     - use_travis

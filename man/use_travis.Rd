@@ -3,23 +3,29 @@
 \name{use_travis}
 \alias{use_travis}
 \alias{use_travis_badge}
+\alias{use_pkgdown_travis}
 \alias{use_appveyor}
 \alias{use_appveyor_badge}
-\title{CI on Travis and Appveyor}
+\alias{browse_travis}
+\title{Defunct Travis and Appveyor functions}
 \usage{
 use_travis(browse = rlang::is_interactive(), ext = c("com", "org"))
 
 use_travis_badge(ext = c("com", "org"), repo_spec = NULL)
 
+use_pkgdown_travis()
+
 use_appveyor(browse = rlang::is_interactive())
 
 use_appveyor_badge(repo_spec = NULL)
+
+browse_travis(package = NULL, ext = c("com", "org"))
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
 
 These functions which formally supported CI on Appveyor and Travis are
 now defunct as we no longer recommend using these services. We now
-recommend using GitHub actions, e.g. with \code{\link[=use_github_actions]{use_github_actions()}}.
+recommend using GitHub actions, e.g. with \code{\link[=use_github_action]{use_github_action()}}.
 }
 \keyword{internal}
