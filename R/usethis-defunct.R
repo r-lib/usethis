@@ -1,14 +1,12 @@
-#' Defunct and deprecated functions in usethis
+#' Defunct PR functions
 #'
-#' These functions have either been deprecated or removed from usethis.
+#' @description
+#' `r lifecycle::badge("defunct")`
 #'
-#' @name usethis-defunct
+#' * `pr_pull_upstream()` has been replaced by [pr_merge_main()].
+#' * `pr_sync()` has been replaced by [pr_pull()] + [pr_merge_main()] + [pr_push()]
+#'
 #' @keywords internal
-NULL
-
-#' @section `pr_pull_upstream()`:
-#' This function has been replaced by [pr_merge_main()].
-#' @rdname usethis-defunct
 #' @export
 pr_pull_upstream <- function() {
   lifecycle::deprecate_stop(
@@ -18,16 +16,8 @@ pr_pull_upstream <- function() {
   )
 }
 
-#' @section `pr_sync()`:
-#' Bundling these operations together did not seem justified, in terms of how
-#' rarely this comes up and, when it does, how likely merge conflicts are.
-#' Users of `pr_sync()` should implement these steps "by hand":
-#' * (Check you are on a PR branch)
-#' * `pr_pull()`
-#' * `pr_merge_main()`, deal with any merge conflicts, if any
-#' * `pr_push()`
+#' @rdname pr_pull_upstream
 #' @export
-#' @rdname usethis-defunct
 pr_sync <- function() {
   details <- glue("
     Sync a PR with:
@@ -41,9 +31,17 @@ pr_sync <- function() {
   )
 }
 
-#' @section `browse_github_token()`, `browse_github_pat()`:
-#' These functions have been replaced by [create_github_token()].
-#' @rdname usethis-defunct
+#' Defunct GitHub functions
+#'
+#' @description
+#' `r lifecycle::badge("defunct")`
+#'
+#' * `browse_github_token()` and `browse_github_pat()` have been replaced by
+#'    [create_github_token()].
+#' * `github_token()` has been replaced by [gh::gh_token()]
+#' * `git_branch_default()` has been replaced by [git_default_branch()].
+#'
+#' @keywords internal
 #' @export
 browse_github_token <- function(...) {
   lifecycle::deprecate_stop(
@@ -53,7 +51,7 @@ browse_github_token <- function(...) {
   )
 }
 
-#' @rdname usethis-defunct
+#' @rdname browse_github_token
 #' @export
 browse_github_pat <- function(...) {
   lifecycle::deprecate_stop(
@@ -63,11 +61,7 @@ browse_github_pat <- function(...) {
   )
 }
 
-
-#' @section `github_token()`:
-#' All implicit and explicit token discovery routes through [gh::gh_token()]
-#' now.
-#' @rdname usethis-defunct
+#' @rdname browse_github_token
 #' @export
 github_token <- function() {
   details <- glue("
@@ -81,42 +75,38 @@ github_token <- function() {
   )
 }
 
-#' @section `git_branch_default()`:
-#' Please call [git_default_branch()] instead. In hindsight, that is a better
-#' name for this function.
+#' @rdname browse_github_token
 #' @export
-#' @rdname usethis-defunct
 git_branch_default <- function() {
   lifecycle::deprecate_soft("2.1.0", "git_branch_default()", "git_default_branch()")
   git_default_branch()
 }
 
-#' @section `use_tidy_labels()`:
-#' Please call [use_tidy_github_labels()] instead. In hindsight, that is a
-#' better name for this function.
-#' @export
-#' @rdname usethis-defunct
-use_tidy_labels <- function() {
-  lifecycle::deprecate_warn("2.1.0", "use_tidy_labels()", "use_tidy_github_labels()")
-  git_default_branch()
-}
-
-#' @export
-#' @rdname usethis-defunct
-use_tidy_ci <- function(...) {
-  lifecycle::deprecate_stop("2.1.0", "use_tidy_ci()", "use_tidy_github_actions()")
-}
-
-#' Use tidy evaluation
+#' Defunct tidyverse functions
 #'
 #' @description
 #' `r lifecycle::badge("defunct")`
 #'
-#' This function is defunct because there's no longer a need to systematically
-#' import and re-export a large number of functions in order to use tidy
-#' evaluation. Instead, use [use_import_from()] to tactically import functions
-#' as you need them.
+#' * `use_tidy_labels()` has been replaced by [use_tidy_github_labels()].
+#' * `use_tidy_ci()` has been replaced by [use_tidy_github_actions()].
+#' * `use_tidy_eval()` is defunct because there's no longer a need to
+#'    systematically import and re-export a large number of functions in order
+#'    to use tidy evaluation. Instead, use [use_import_from()] to tactically
+#'    import functions as you need them.
 #'
+#' @keywords internal
+#' @export
+use_tidy_labels <- function() {
+  lifecycle::deprecate_stop("2.1.0", "use_tidy_labels()", "use_tidy_github_labels()")
+}
+
+#' @rdname use_tidy_labels
+#' @export
+use_tidy_ci <- function(...) {
+  lifecycle::deprecate_stop("2.1.0", "use_tidy_ci()", "use_tidy_github_actions()")
+}
+
+#' @rdname use_tidy_labels
 #' @keywords internal
 #' @export
 use_tidy_eval <- function() {
@@ -131,48 +121,10 @@ use_tidy_eval <- function() {
   )
 }
 
-#' @export
-#' @rdname usethis-defunct
-use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
-                                         ignore = TRUE,
-                                         open = FALSE,
-                                         repo_spec = NULL) {
-  details <- glue("
-    It is overkill for the vast majority of R packages.
-    The \"check-full\" workflow is among those configured by \\
-    {ui_code('use_tidy_github_actions()')}.
-    If you really want it, request it by name with \\
-    {ui_code('use_github_action()')}.")
-  lifecycle::deprecate_stop(
-    "2.1.0",
-    "use_github_action_check_full()",
-    details = details
-  )
-}
-
-# git2r ------------------------------------------------------------------------
-git2r_explanation <- glue("
-  usethis now uses the gert package for Git operations, instead of git2r, and
-  gert relies on the credentials package for auth. Therefore git2r credentials
-  are no longer accepted.")
-
-deprecate_warn_credentials <- function(whos_asking, details = NULL) {
-  whos_asking <- sub("[()]+$", "", whos_asking)
-  what <- glue("{whos_asking}(credentials = )")
-
-  lifecycle::deprecate_warn(
-    "2.0.0",
-    what,
-    details = details %||% git2r_explanation
-  )
-}
-
-#' Produce or register credentials for git2r
-#'
+#' Defunct git2r functions
 #'
 #' @description
-#'
-#' `r lifecycle::badge("deprecated")`
+#' `r lifecycle::badge("defunct")`
 #'
 #' In usethis v2.0.0, usethis switched from git2r to gert (+ credentials) for
 #' all Git operations. This pair of packages (gert + credentials) is designed to
@@ -198,7 +150,7 @@ deprecate_warn_credentials <- function(whos_asking, details = NULL) {
 #' @export
 git_credentials <- function(protocol = deprecated(),
                             auth_token = deprecated()) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "2.0.0",
     "git_credentials()",
     details = git2r_explanation
@@ -209,7 +161,7 @@ git_credentials <- function(protocol = deprecated(),
 #' @rdname git_credentials
 #' @export
 use_git_credentials <- function(credentials = deprecated()) {
-  lifecycle::deprecate_warn(
+  lifecycle::deprecate_stop(
     "2.0.0",
     "use_git_credentials()",
     details = git2r_explanation
@@ -217,7 +169,22 @@ use_git_credentials <- function(credentials = deprecated()) {
   invisible()
 }
 
-# repo_spec, host, auth_token --------------------------------------------------
+git2r_explanation <- glue("
+  usethis now uses the gert package for Git operations, instead of git2r, and
+  gert relies on the credentials package for auth. Therefore git2r credentials
+  are no longer accepted.")
+
+deprecate_warn_credentials <- function(whos_asking, details = NULL) {
+  whos_asking <- sub("[()]+$", "", whos_asking)
+  what <- glue("{whos_asking}(credentials = )")
+
+  lifecycle::deprecate_warn(
+    "2.0.0",
+    what,
+    details = details %||% git2r_explanation
+  )
+}
+
 deprecate_warn_host <- function(whos_asking, details = NULL) {
   whos_asking <- sub("[()]+$", "", whos_asking)
   what <- glue("{whos_asking}(host = )")
@@ -273,14 +240,14 @@ deprecate_warn_repo_spec <- function(whos_asking, details = NULL) {
 # ci ----------------------------------------------------------------------
 
 
-#' CI on Travis and Appveyor
+#' Defunct Travis and Appveyor functions
 #'
 #' @description
 #' `r lifecycle::badge("defunct")`
 #'
 #' These functions which formally supported CI on Appveyor and Travis are
 #' now defunct as we no longer recommend using these services. We now
-#' recommend using GitHub actions, e.g. with [use_github_actions()].
+#' recommend using GitHub actions, e.g. with [use_github_action()].
 #'
 #' @export
 #' @keywords internal
@@ -290,7 +257,7 @@ use_travis <- function(browse = rlang::is_interactive(),
   lifecycle::deprecate_stop(
     when = "2.0.0",
     what = "use_travis()",
-    with = "use_github_actions()"
+    with = "use_github_action()"
   )
 }
 
@@ -305,11 +272,21 @@ use_travis_badge <- function(ext = c("com", "org"), repo_spec = NULL) {
 
 #' @export
 #' @rdname use_travis
+use_pkgdown_travis <- function() {
+  lifecycle::deprecate_stop(
+    when = "2.0.0",
+    what = "use_pkgdown_travis()",
+    with = "use_pkgdown_github_pages()"
+  )
+}
+
+#' @export
+#' @rdname use_travis
 use_appveyor <- function(browse = rlang::is_interactive()) {
   lifecycle::deprecate_stop(
     when = "2.0.0",
     what = "use_appveyor()",
-    with = "use_github_actions()"
+    with = "use_github_action()"
   )
 }
 
@@ -322,3 +299,125 @@ use_appveyor_badge <- function(repo_spec = NULL) {
   )
 }
 
+#' @export
+#' @rdname use_travis
+browse_travis <- function(package = NULL, ext = c("com", "org")) {
+  lifecycle::deprecate_stop(
+    when = "2.2.0",
+    what = "browse_travis()",
+  )
+}
+
+
+# GitHub actions --------------------------------------------------------------
+
+#' Defunct GitHub Actions workflows
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' * `use_github_actions()` is deprecated because it was just an alias
+#'   for [use_github_action_check_release()].
+#'
+#' * `use_github_action_check_full()` is overkill for most packages and is
+#'    not recommended.
+#'
+#' * `use_github_action_check_release()`, `use_github_action_check_standard()`,
+#'   and `use_github_action_pr_commands()` are deprecated in favor of
+#'   [use_github_action()], which can now suggest specific workflows to use.
+#'
+#' @export
+#' @keywords internal
+use_github_actions <- function() {
+  lifecycle::deprecate_warn(
+    when = "2.2.0",
+    what = "use_github_actions()",
+    with = "use_github_action('check-release')"
+  )
+  use_github_action('check-release')
+}
+
+#' @rdname use_github_actions
+#' @export
+use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
+                                            ref = NULL,
+                                            ignore = TRUE,
+                                            open = FALSE) {
+
+  lifecycle::deprecate_warn(
+    when = "2.2.0",
+    what = "use_github_action_check_release()",
+    with = "use_github_action('check-release')"
+  )
+
+  use_github_action(
+    "check-release.yaml",
+    ref = ref,
+    save_as = save_as,
+    ignore = ignore,
+    open = open
+  )
+  use_github_actions_badge(save_as)
+}
+
+#' @rdname use_github_actions
+#' @export
+use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
+                                             ref = NULL,
+                                             ignore = TRUE,
+                                             open = FALSE) {
+  lifecycle::deprecate_warn(
+    when = "2.2.0",
+    what = "use_github_action_check_standard()",
+    with = "use_github_action('check-standard')"
+  )
+
+  use_github_action(
+    "check-standard.yaml",
+    ref = ref,
+    save_as = save_as,
+    ignore = ignore,
+    open = open
+  )
+  use_github_actions_badge(save_as)
+}
+
+#' @rdname use_github_actions
+#' @export
+use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
+                                          ref = NULL,
+                                          ignore = TRUE,
+                                          open = FALSE) {
+  lifecycle::deprecate_warn(
+    when = "2.2.0",
+    what = "use_github_action_pr_commands()",
+    with = "use_github_action('pr-commands')"
+  )
+
+  use_github_action(
+    "pr-commands.yaml",
+    ref = ref,
+    save_as = save_as,
+    ignore = ignore,
+    open = open
+  )
+}
+
+#' @rdname use_github_actions
+#' @export
+use_github_action_check_full <- function(save_as = "R-CMD-check.yaml",
+                                         ignore = TRUE,
+                                         open = FALSE,
+                                         repo_spec = NULL) {
+  details <- glue("
+    It is overkill for the vast majority of R packages.
+    The \"check-full\" workflow is among those configured by \\
+    {ui_code('use_tidy_github_actions()')}.
+    If you really want it, request it by name with \\
+    {ui_code('use_github_action()')}.")
+  lifecycle::deprecate_stop(
+    "2.1.0",
+    "use_github_action_check_full()",
+    details = details
+  )
+}
