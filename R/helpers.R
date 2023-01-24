@@ -23,7 +23,8 @@ use_dependency <- function(package, type, min_version = NULL) {
   names(types) <- tolower(types)
   type <- types[[match.arg(tolower(type), names(types))]]
 
-  deps <- desc::desc_get_deps(proj_get())
+  desc <- proj_desc()
+  deps <- desc$get_deps()
 
   existing_dep <- deps$package == package
   existing_type <- deps$type[existing_dep]
@@ -34,7 +35,8 @@ use_dependency <- function(package, type, min_version = NULL) {
   # No existing dependency, so can simply add
   if (!any(existing_dep) || any(is_linking_to)) {
     ui_done("Adding {ui_value(package)} to {ui_field(type)} field in DESCRIPTION")
-    desc::desc_set_dep(package, type, version = version, file = proj_get())
+    desc$set_dep(package, type, version = version)
+    desc$write()
     return(invisible(TRUE))
   }
 
@@ -55,7 +57,8 @@ use_dependency <- function(package, type, min_version = NULL) {
       ui_done(
         "Increasing {ui_value(package)} version to {ui_value(version)} in DESCRIPTION"
       )
-      desc::desc_set_dep(package, type, version = version, file = proj_get())
+      desc$set_dep(package, type, version = version)
+      desc$write()
     }
   } else if (delta > 0) {
     # upgrade
@@ -66,8 +69,9 @@ use_dependency <- function(package, type, min_version = NULL) {
         field in DESCRIPTION
         "
       )
-      desc::desc_del_dep(package, existing_type, file = proj_get())
-      desc::desc_set_dep(package, type, version = version, file = proj_get())
+      desc$del_dep(package, existing_type)
+      desc$set_dep(package, type, version = version)
+      desc$write()
     }
   }
 
@@ -77,26 +81,6 @@ use_dependency <- function(package, type, min_version = NULL) {
 r_version <- function() {
   version <- getRversion()
   glue("{version$major}.{version$minor}")
-}
-
-use_system_requirement <- function(requirement) {
-  stopifnot(is_string(requirement))
-  existing_requirements <- desc::desc_get_field("SystemRequirements", default = character(), file = proj_get())
-  existing_requirements <- utils::head(strsplit(existing_requirements, ", ?"), n = 1)
-
-  if (requirement %in% existing_requirements) {
-    return(invisible())
-  }
-
-  new_requirements <- paste0(c(existing_requirements, requirement), collapse = ", ")
-
-  ui_done(
-    "Adding {ui_value(requirement)} to {ui_field('SystemRequirements')} field in DESCRIPTION"
-  )
-
-  desc::desc_set("SystemRequirements", new_requirements)
-
-  invisible()
 }
 
 version_spec <- function(x) {

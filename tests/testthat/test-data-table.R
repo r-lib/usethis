@@ -15,14 +15,14 @@ test_that("use_data_table() Imports data.table", {
     }
   )
 
-  expect_match(desc::desc_get("Imports"), "data.table")
+  expect_match(proj_desc()$get("Imports"), "data.table")
   expect_snapshot(roxygen_ns_show())
 })
 
 test_that("use_data_table() blocks use of Depends", {
   create_local_package()
   use_package_doc()
-  desc::desc_set_dep("data.table", "Depends")
+  desc::desc_set("Depends", "data.table")
   with_mock(
     check_installed = function(pkg) TRUE,
     roxygen_update_ns = function(...) NULL,
@@ -35,6 +35,6 @@ test_that("use_data_table() blocks use of Depends", {
     }
   )
 
-  expect_match(desc::desc_get("Imports"), "data.table")
+  expect_match(proj_desc()$get("Imports"), "data.table")
   expect_snapshot(roxygen_ns_show())
 })

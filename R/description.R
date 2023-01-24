@@ -65,21 +65,7 @@ use_description <- function(fields = list(),
     check_package_name(name)
   }
 
-  use_description_impl_(name = name, fields = fields, roxygen = roxygen)
-}
-
-use_description_impl_ <- function(name, fields = list(), roxygen = TRUE) {
-  desc <- build_description(name, roxygen = roxygen, fields = fields)
-
-  tf <- withr::local_tempfile(pattern = glue("use_description-{name}-"))
-  desc$write(file = tf)
-  tf_contents <- read_utf8(tf)
-  write_over(proj_path("DESCRIPTION"), tf_contents)
-
-  # explicit check of "usethis.quiet" since I'm not doing the printing
-  if (!getOption("usethis.quiet", default = FALSE)) {
-    desc$print()
-  }
+  proj_desc_create(name = name, fields = fields, roxygen = roxygen)
 }
 
 #' @rdname use_description
@@ -136,14 +122,6 @@ use_description_defaults <- function(package = NULL,
   compact(defaults)
 }
 
-build_description <- function(package, roxygen = TRUE, fields = list()) {
-  fields <- use_description_defaults(package, roxygen = roxygen, fields)
-
-  desc <- desc::desc(text = glue("{names(fields)}: {fields}"))
-  tidy_desc(desc)
-  desc
-}
-
 check_package_name <- function(name) {
   if (!valid_package_name(name)) {
     ui_stop(c(
@@ -178,9 +156,10 @@ tidy_desc <- function(desc) {
 use_description_field <- function(name, value, overwrite = FALSE) {
   # account for `value`s produced via `glue::glue()`
   value <- as.character(value)
-  curr <- desc::desc_get(name, file = proj_get())[[1]]
-  curr <- gsub("^\\s*|\\s*$", "", curr)
 
+  desc <- proj_desc()
+
+  curr <- desc$get_field(name, NA)
   if (identical(curr, value)) {
     return(invisible())
   }
@@ -193,34 +172,9 @@ use_description_field <- function(name, value, overwrite = FALSE) {
   }
 
   ui_done("Setting {ui_field(name)} field in DESCRIPTION to {ui_value(value)}")
-  desc::desc_set(name, value, file = proj_get())
+  desc$set(name, value)
+  desc$write()
+
   invisible()
 }
 
-use_description_list <- function(key,
-                                 values,
-                                 append = TRUE,
-                                 desc = NULL) {
-  desc_provided <- !is.null(desc)
-  desc <- desc %||% desc::desc(file = proj_get())
-  check_string(key)
-  stopifnot(is.character(values))
-
-  if (append) {
-    values <- unique(c(desc$get_list(key, default = ""), values))
-  }
-  # formatting needs some improvements
-  # https://github.com/r-lib/desc/issues/117
-  desc$set_list(key, values, sep = ",\n")
-
-  if (desc_provided) {
-    return(invisible())
-  }
-
-  tf <- withr::local_tempfile(
-    pattern = glue("use_description_list-{project_name()}-{path_sanitize(key, '-')}")
-  )
-  desc$write(file = tf)
-  tf_contents <- read_utf8(tf)
-  write_over(proj_path("DESCRIPTION"), tf_contents)
-}

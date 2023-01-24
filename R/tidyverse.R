@@ -97,7 +97,7 @@ create_tidy_package <- function(path, copyright_holder = NULL) {
 #' @export
 #' @rdname tidyverse
 use_tidy_description <- function() {
-  desc <- desc::description$new(file = proj_get())
+  desc <- proj_desc()
   tidy_desc(desc)
   desc$write()
 
@@ -129,9 +129,8 @@ use_tidy_dependencies <- function() {
   # add badges; we don't need the details
   ui_silence(use_lifecycle())
 
-
   # If needed, copy in lightweight purrr compatibility layer
-  if (!desc::desc(proj_get())$has_dep("purrr")) {
+  if (!proj_desc()$has_dep("purrr")) {
     use_directory("R")
     use_github_file(
       "r-lib/rlang",

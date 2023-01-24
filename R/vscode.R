@@ -2,7 +2,7 @@
 use_vscode_debug <- function(open = rlang::is_interactive()) {
   usethis::use_directory(".vscode", ignore = TRUE)
 
-  deps <- desc::desc_get_deps(proj_get())
+  deps <- proj_deps()
   lt_pkgs <- deps$package[deps$type == "LinkingTo"]
   possibly_path_package <- purrr::possibly(path_package, otherwise = NA)
   lt_paths <- map_chr(lt_pkgs, ~ possibly_path_package(.x, "include"))

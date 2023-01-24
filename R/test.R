@@ -42,7 +42,7 @@ use_testthat_impl <- function(edition = NULL, parallel = FALSE) {
     if (parallel) {
       use_description_field("Config/testthat/parallel", "true", overwrite = TRUE)
     } else {
-      desc::desc_del("Config/testthat/parallel", file = proj_get())
+      proj_desc()$del("Config/testthat/parallel")
     }
   } else {
     if (!is.null(edition)) {

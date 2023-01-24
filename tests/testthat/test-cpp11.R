@@ -17,7 +17,7 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
     }
   )
 
-  expect_match(desc::desc_get("LinkingTo"), "cpp11")
+  expect_match(proj_desc()$get("LinkingTo"), "cpp11")
   expect_proj_dir("src")
 
   ignores <- read_utf8(proj_path("src", ".gitignore"))

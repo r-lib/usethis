@@ -14,7 +14,7 @@ use_cpp11 <- function() {
   use_src()
 
   use_dependency("cpp11", "LinkingTo")
-  use_system_requirement("C++11")
+  proj_desc_field_append("SystemRequirements", "C++11")
 
   use_template(
     "code-cpp11.cpp",
@@ -28,8 +28,8 @@ use_cpp11 <- function() {
 }
 
 get_cpp_register_deps <- function() {
-  res <- desc::desc(package = "cpp11")$get_field("Config/Needs/cpp11/cpp_register")
-  strsplit(res, "[[:space:]]*,[[:space:]]*")[[1]]
+  desc <- desc::desc(package = "cpp11")
+  desc$get_list("Config/Needs/cpp11/cpp_register")[[1]]
 }
 
 check_cpp_register_deps <- function() {
