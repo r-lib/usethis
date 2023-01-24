@@ -12,10 +12,18 @@
 #' The checklist contains a generic set of steps that we've found to be helpful,
 #' based on the type of release ("patch", "minor", or "major"). You're
 #' encouraged to edit the issue to customize this list to meet your needs.
-#' If you want to consistently add extra bullets for every release, you can
-#' include your own custom bullets by providing a (unexported) a
-#' `release_bullets()` function that returns a character vector.
-#' (For historical reasons, `release_questions()` is also supported).
+#'
+#' ## Customization
+#'
+#' * If you want to consistently add extra bullets for every release, you can
+#'   include your own custom bullets by providing an (unexported)
+#'   `release_bullets()` function that returns a character vector.
+#'   (For historical reasons, `release_questions()` is also supported).
+#'
+#' * If you want to check additional packages in the revdep check process,
+#'   provide an (unexported) `release_extra_revdeps()` function that
+#'   returns a character vector. This is currently only supported for
+#'   Posit internal check tooling.
 #'
 #' @param version Optional version number for release. If unspecified, you can
 #'   make an interactive choice.
@@ -94,13 +102,12 @@ release_checklist <- function(version, on_cran) {
     todo("`rhub::check_for_cran()`"),
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
     todo("`rhub::check_with_sanitizers()`", has_src),
-    todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran && !is_rstudio_pkg),
-    todo("`revdepcheck::cloud_check()`", on_cran && is_rstudio_pkg),
+    release_revdepcheck(on_cran, is_rstudio_pkg),
     todo("Update `cran-comments.md`", on_cran),
     todo("`git push`"),
     todo("Draft blog post", type != "patch"),
     todo("Slack link to draft blog in #open-source-comms", type != "patch" && is_rstudio_pkg),
-    release_extra(),
+    release_extra_bullets(),
     "",
     "Submit to CRAN:",
     "",
@@ -122,13 +129,33 @@ release_checklist <- function(version, on_cran) {
   )
 }
 
-release_extra <- function(env = NULL) {
-  if (is.null(env)) {
-    env <- tryCatch(
-      pkg_env(project_name()),
-      error = function(e) emptyenv()
-    )
+release_revdepcheck <- function(on_cran = TRUE, is_rstudio_pkg = TRUE, env = NULL) {
+  if (!on_cran) {
+    return()
   }
+
+  env <- env %||% safe_pkg_env()
+  if (env_has(env, "release_extra_revdeps")) {
+    extra <- env$release_extra_revdeps()
+    stopifnot(is.character(extra))
+  } else {
+    extra <- character()
+  }
+
+  if (is_rstudio_pkg) {
+    if (length(extra) > 0) {
+      extra_code <- paste0(deparse(extra), collapse = "")
+      todo("`revdepcheck::cloud_check(extra_revdeps = {extra_code})`")
+    } else {
+      todo("`revdepcheck::cloud_check()`")
+    }
+  } else {
+    todo("`revdepcheck::revdep_check(num_workers = 4)`")
+  }
+}
+
+release_extra_bullets <- function(env = NULL) {
+  env <- env %||% safe_pkg_env()
 
   if (env_has(env, "release_bullets")) {
     paste0("* [ ] ", env$release_bullets())
@@ -138,6 +165,13 @@ release_extra <- function(env = NULL) {
   } else {
     character()
   }
+}
+
+safe_pkg_env <- function() {
+  tryCatch(
+    ns_env(project_name()),
+    error = function(e) emptyenv()
+  )
 }
 
 release_type <- function(version) {

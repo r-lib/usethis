@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_release_issue()` now uses internal `release_extra_revdeps()` to 
+  add extra revdep sources. Currently only use for internal Posit tooling,
+  but we hope to extend to all users in the future (#1610).
+
 * `create_from_github()` will now use an existing `.Rproj` file if it exists
   anywhere in the repo, not just the root directory. This is useful if you're
   working with repos that contain tools for multiple languages (#1680).
