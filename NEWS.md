@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `use_tidy_description()` now sets a 
+
+* `use_release_issue()` will now remind you to check/close the milestone
+  corresponding to the release, if it exists (#1642).
+
 * `use_release_issue()` now uses internal `release_extra_revdeps()` to 
   add extra revdep sources. Currently only use for internal Posit tooling,
   but we hope to extend to all users in the future (#1610).

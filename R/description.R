@@ -84,7 +84,8 @@ use_description_defaults <- function(package = NULL,
     Description = "What the package does (one paragraph).",
     "Authors@R" = 'person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "`use_mit_license()`, `use_gpl3_license()` or friends to pick a license",
-    Encoding = "UTF-8"
+    Encoding = "UTF-8",
+    "Config/usethis/tidy-description" = "true"
   )
 
   if (roxygen) {
@@ -136,14 +137,6 @@ check_package_name <- function(name) {
 
 valid_package_name <- function(x) {
   grepl("^[a-zA-Z][a-zA-Z0-9.]+$", x) && !grepl("\\.$", x)
-}
-
-tidy_desc <- function(desc) {
-  desc$set("Encoding" = "UTF-8")
-
-  # Normalize all fields (includes reordering)
-  # Wrap in a try() so it always succeeds, even if user options are malformed
-  try(desc$normalize(), silent = TRUE)
 }
 
 # 2021-10-10, while adding use_description_list(), I moved this helper here

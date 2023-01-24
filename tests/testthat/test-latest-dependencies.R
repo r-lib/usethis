@@ -8,9 +8,9 @@ test_that("use_tidy_versions() specifies a version for dependencies", {
   use_package("withr", "Suggests")
   use_package("gh", "Suggests")
   use_latest_dependencies()
-  desc <- read_utf8(proj_path("DESCRIPTION"))
-  desc <- grep("usethis|desc|withr|gh", desc, value = TRUE)
-  expect_true(all(grepl("\\(>= [0-9.]+\\)", desc)))
+
+  deps <- proj_deps()
+  expect_true(all(grepl(">= [0-9.]+", deps$version)))
 })
 
 test_that("use_tidy_versions() does nothing for a base package", {

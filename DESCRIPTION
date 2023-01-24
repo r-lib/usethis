@@ -1,28 +1,19 @@
 Package: usethis
 Title: Automate Package and Project Setup
 Version: 2.1.6.9000
-Authors@R: 
-    c(person(given = "Hadley",
-             family = "Wickham",
-             role = "aut",
-             email = "hadley@rstudio.com",
-             comment = c(ORCID = "0000-0003-4757-117X")),
-      person(given = "Jennifer",
-             family = "Bryan",
-             role = c("aut", "cre"),
-             email = "jenny@rstudio.com",
-             comment = c(ORCID = "0000-0002-6983-2759")),
-      person(given = "Malcolm",
-             family = "Barrett",
-             role = "aut",
-             email = "malcolmbarrett@gmail.com",
-             comment = c(ORCID = "0000-0003-0299-5825")),
-      person(given = "RStudio",
-             role = c("cph", "fnd")))
-Description: Automate package and project setup tasks that are
-    otherwise performed manually. This includes setting up unit testing,
-    test coverage, continuous integration, Git, 'GitHub', licenses,
-    'Rcpp', 'RStudio' projects, and more.
+Authors@R: c(
+    person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut",
+           comment = c(ORCID = "0000-0003-4757-117X")),
+    person("Jennifer", "Bryan", , "jenny@rstudio.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-6983-2759")),
+    person("Malcolm", "Barrett", , "malcolmbarrett@gmail.com", role = "aut",
+           comment = c(ORCID = "0000-0003-0299-5825")),
+    person("RStudio", role = c("cph", "fnd"))
+  )
+Description: Automate package and project setup tasks that are otherwise
+    performed manually. This includes setting up unit testing, test
+    coverage, continuous integration, Git, 'GitHub', licenses, 'Rcpp',
+    'RStudio' projects, and more.
 License: MIT + file LICENSE
 URL: https://usethis.r-lib.org, https://github.com/r-lib/usethis
 BugReports: https://github.com/r-lib/usethis/issues
@@ -61,10 +52,9 @@ Suggests:
     spelling (>= 1.2),
     styler (>= 1.2.0),
     testthat (>= 3.1.5)
-Config/Needs/website:
-    tidyverse/tidytemplate,
-    xml2
+Config/Needs/website:tidyverse/tidytemplate, xml2
 Config/testthat/edition: 3
+Config/usethis/tidy-description: true
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)

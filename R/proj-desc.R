@@ -1,6 +1,24 @@
 proj_desc <- function(path = proj_get()) {
-  desc::desc(file = path)
+  UsethisDescription$new(file = path)
 }
+
+UsethisDescription <- R6::R6Class(
+  classname = "UsethisDescription",
+  inherit = desc::description,
+  public = list(
+    write = function(file = NULL) {
+      if (self$get_field("Config/usethis/tidy-description", "") == "true") {
+        self$set("Encoding" = "UTF-8")
+
+        # Normalize all fields (includes reordering)
+        # Wrap in a try() so it always succeeds, even if user options are malformed
+        try(self$normalize(), silent = TRUE)
+      }
+
+      super$write(file = file)
+    }
+  )
+)
 
 proj_version <- function() {
   proj_desc()$get_field("Version")
@@ -14,8 +32,7 @@ proj_desc_create <- function(name, fields = list(), roxygen = TRUE) {
   fields <- use_description_defaults(name, roxygen = roxygen, fields = fields)
 
   # https://github.com/r-lib/desc/issues/132
-  desc <- desc::desc(text = glue("{names(fields)}: {fields}"))
-  tidy_desc(desc)
+  desc <- UsethisDescription$new(text = glue("{names(fields)}: {fields}"))
 
   tf <- withr::local_tempfile()
   desc$write(file = tf)

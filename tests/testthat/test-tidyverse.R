@@ -6,10 +6,15 @@ test_that("use_tidy_description() alphabetises dependencies and remotes", {
   use_package("gh", "Suggests")
   desc::desc_set_remotes(c("r-lib/styler", "jimhester/lintr"))
   use_tidy_description()
-  desc <- read_utf8(proj_path("DESCRIPTION"))
-  expect_gt(grep("usethis", desc), grep("desc", desc))
-  expect_gt(grep("withr", desc), grep("gh", desc))
-  expect_gt(grep("r\\-lib\\/styler", desc), grep("jimhester\\/lintr", desc))
+
+  imports <- proj_desc()$get_list("Imports")
+  expect_equal(imports, sort(imports))
+
+  suggests <- proj_desc()$get_list("Suggests")
+  expect_equal(suggests, sort(suggests))
+
+  remotes <- proj_desc()$get_list("Remotes")
+  expect_equal(remotes, sort(remotes))
 })
 
 test_that("use_tidy_dependencies() isn't overly informative", {

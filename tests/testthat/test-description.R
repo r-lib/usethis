@@ -134,6 +134,7 @@ test_that("use_description_field() can add new field", {
 test_that("use_description_field() ignores whitespace", {
   pkg <- create_local_package()
   use_description_field(name = "foo", value = "\n bar")
+  expect_identical(proj_desc()$get_field("foo", trim_ws = FALSE), "bar")
   use_description_field(name = "foo", value = "bar")
-  expect_identical(proj_desc()$get_field("foo", trim_ws = FALSE), "\n bar")
+  expect_identical(proj_desc()$get_field("foo", trim_ws = FALSE), "bar")
 })

@@ -98,7 +98,7 @@ create_tidy_package <- function(path, copyright_holder = NULL) {
 #' @rdname tidyverse
 use_tidy_description <- function() {
   desc <- proj_desc()
-  tidy_desc(desc)
+  desc$set("Config/usethis/tidy-description", "true")
   desc$write()
 
   invisible(TRUE)
