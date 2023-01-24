@@ -1,7 +1,8 @@
 #' Use "latest" versions of all dependencies
 #'
-#' Pins minimum versions of dependencies to latest ones (as determined by `source`).
-#' Useful for the tidyverse package, but should otherwise be used with extreme care.
+#' Pins minimum versions of all `Import` and `Depends` dependencies to latest
+#' ones (as determined by `source`). Useful for the tidyverse package, but
+#' should otherwise be used with extreme care.
 #'
 #' @keywords internal
 #' @export
@@ -27,7 +28,7 @@ use_latest_dependencies <- function(overwrite = TRUE, source = c("CRAN", "local"
 
 update_versions <- function(deps, overwrite = TRUE, source = c("CRAN", "local")) {
   baserec <- base_and_recommended()
-  to_change <- !deps$package %in% c("R", baserec)
+  to_change <- !deps$package %in% c("R", baserec) & deps$type != "Suggests"
   if (!overwrite) {
     to_change <- to_change & deps$version == "*"
   }
