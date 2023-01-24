@@ -268,7 +268,9 @@ create_from_github <- function(repo_spec,
 
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
   gert::git_clone(origin_url, repo_path, verbose = FALSE)
-  local_project(repo_path, force = TRUE) # schedule restoration of project
+
+  proj_path <- find_rstudio_root(repo_path)
+  local_project(proj_path, force = TRUE) # schedule restoration of project
 
   default_branch <- repo_info$default_branch
   ui_info("Default branch is {ui_value(default_branch)}")
@@ -287,7 +289,7 @@ create_from_github <- function(repo_spec,
   }
 
   rstudio <- rstudio %||% rstudio_available()
-  rstudio <- rstudio && !is_rstudio_project(proj_get())
+  rstudio <- rstudio && !is_rstudio_project()
   if (rstudio) {
     use_rstudio(reformat = FALSE)
   }
@@ -300,6 +302,17 @@ create_from_github <- function(repo_spec,
   }
 
   invisible(proj_get())
+}
+
+# If there's a single directory containing an .Rproj file, use it.
+# Otherwise work in the repo root
+find_rstudio_root <- function(path) {
+  rproj <- rproj_paths(path, recurse = TRUE)
+  if (length(rproj) == 1) {
+    path_dir(rproj)
+  } else {
+    path
+  }
 }
 
 challenge_nested_project <- function(path, name) {

@@ -68,10 +68,6 @@ use_blank_slate <- function(scope = c("user", "project")) {
     return(invisible())
   }
 
-  if (!is_rstudio_project()) {
-    ui_stop("{ui_value(project_name())} is not an RStudio Project.")
-  }
-
   rproj_fields <- modify_rproj(
     rproj_path(),
     list(RestoreWorkspace = "No", SaveWorkspace = "No")
@@ -84,19 +80,31 @@ use_blank_slate <- function(scope = c("user", "project")) {
 
 # Is base_path an RStudio Project or inside an RStudio Project?
 is_rstudio_project <- function(base_path = proj_get()) {
-  res <- tryCatch(
-    rprojroot::find_rstudio_root_file(path = base_path),
-    error = function(e) NA
-  )
-  !is.na(res)
+  length(rproj_paths(base_path)) == 1
 }
 
-rproj_path <- function(base_path = proj_get()) {
-  rproj_path <- dir_ls(base_path, regexp = "[.]Rproj$")
-  if (length(rproj_path) > 1) {
-    ui_stop("Multiple .Rproj files found.")
+rproj_paths <- function(base_path, recurse = FALSE) {
+  dir_ls(base_path, regexp = "[.]Rproj$", recurse = recurse)
+}
+
+# Return path to single .Rproj or die trying
+rproj_path <- function(base_path = proj_get(), call = caller_env()) {
+  rproj <- rproj_paths(base_path)
+  if (length(rproj) == 1) {
+    rproj
+  } else if (length(rproj) == 0) {
+    name <- project_name(base_path)
+    cli::cli_abort("{.val {name}} is not an RStudio Project.", call = call)
+  } else {
+    name <- project_name(base_path)
+    cli::cli_abort(
+      c(
+        "{.val {name}} must contain a single .Rproj file.",
+        i = "Found {.file {path_rel(rproj, base_path)}}."
+      ),
+      call = call
+    )
   }
-  if (length(rproj_path) == 1) rproj_path else NA_character_
 }
 
 # Is base_path open in RStudio?

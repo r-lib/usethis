@@ -24,26 +24,29 @@ test_that("use_rstudio() omits package-related config for a project", {
   expect_true(is.na(match("BuildType: Package", out)))
 })
 
-test_that("a non-RStudio project is not recognized", {
-  create_local_package(rstudio = FALSE)
-  expect_false(is_rstudio_project())
-  expect_identical(rproj_path(), NA_character_)
-})
-
 test_that("an RStudio project is recognized", {
   create_local_package(rstudio = TRUE)
   expect_true(is_rstudio_project())
   expect_match(rproj_path(), "\\.Rproj$")
 })
 
-test_that("we error for multiple Rproj files", {
-  create_local_package(rstudio = TRUE)
-  file_copy(
-    rproj_path(),
-    proj_path("copy.Rproj")
-  )
-  expect_usethis_error(rproj_path(), "Multiple .Rproj files found", fixed = TRUE)
+test_that("we error if there isn't exactly one Rproj files", {
+  dir <- withr::local_tempdir()
+  path <- dir_create(path(dir, "test"))
+
+  expect_snapshot(rproj_path(path), error = TRUE)
+
+  file_touch(path(path, "a.Rproj"))
+  file_touch(path(path, "b.Rproj"))
+  expect_snapshot(rproj_path(path), error = TRUE)
 })
+
+test_that("a non-RStudio project is not recognized", {
+  create_local_package(rstudio = FALSE)
+  expect_false(is_rstudio_project())
+  expect_error(rproj_path(), NA_character_)
+})
+
 
 test_that("Rproj is parsed (actually, only colon-containing lines)", {
   tmp <- withr::local_tempfile()

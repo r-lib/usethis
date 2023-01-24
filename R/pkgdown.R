@@ -22,9 +22,6 @@
 #'     tidymodels) get some special treatment, in terms of anticipating the
 #'     (eventual) site URL and the use of a pkgdown template.
 #'
-#' `use_pkgdown_travis()` is deprecated; we no longer recommend that you use
-#' Travis-CI.
-#'
 #' @seealso <https://pkgdown.r-lib.org/articles/pkgdown.html#configuration>
 #' @param config_file Path to the pkgdown yaml config file, relative to the
 #'  project.
@@ -189,46 +186,4 @@ pkgdown_url <- function(pedantic = FALSE) {
       which is optional but recommended")
   }
     NULL
-}
-
-# travis ----
-
-#' @export
-#' @rdname use_pkgdown
-use_pkgdown_travis <- function() {
-  lifecycle::deprecate_soft(
-    when = "2.0.0",
-    what = "usethis::use_pkgdown_travis()",
-    details = 'We recommend `use_github_action("pkgdown")` for new pkgdown setups.'
-  )
-  check_installed("pkgdown")
-  if (!uses_pkgdown()) {
-    ui_stop("
-      Package doesn't use pkgdown.
-      Do you need to call {ui_code('use_pkgdown()')}?")
-  }
-
-  tr <- target_repo(github_get = TRUE)
-
-  use_build_ignore(c("docs/", "pkgdown"))
-  use_git_ignore("docs/")
-  # TODO: suggest git rm -r --cache docs/
-  # Can't currently detect if git known files in that directory
-
-  ui_todo("
-    Set up deploy keys by running {ui_code('travis::use_travis_deploy()')}")
-  ui_todo("Insert the following code in {ui_path('.travis.yml')}")
-  ui_code_block(
-    "
-    before_cache: Rscript -e 'remotes::install_cran(\"pkgdown\")'
-    deploy:
-      provider: script
-      script: Rscript -e 'pkgdown::deploy_site_github()'
-      skip_cleanup: true
-    "
-  )
-
-  use_github_pages()
-
-  invisible()
 }

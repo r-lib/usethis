@@ -4,6 +4,13 @@
   add extra revdep sources. Currently only use for internal Posit tooling,
   but we hope to extend to all users in the future (#1610).
 
+* `create_from_github()` will now use an existing `.Rproj` file if it exists
+  anywhere in the repo, not just the root directory. This is useful if you're
+  working with repos that contain tools for multiple languages (#1680).
+
+* `use_travis()` and `use_appveyor()` are now defunct because we no longer  
+  recommend Travis or Appveyor. We recommend GitHub actions instead (#1517).
+
 * `use_github_action()` now suggests possible actions when called without
   arguments (#1724).
 
@@ -15,8 +22,9 @@
 * `use_data()` now sets the appropriate minimal R version in `DESCRIPTION`, 
   depending on which serialization format `version` you choose (@dpprdan, #1672).
   
-* `use_travis()` and `use_appveyor()` are now defunct because we no longer  
-  recommend Travis or Appveyor. We recommend GitHub actions instead (#1517).
+* `use_travis()`, `use_pkgdown_travis()`, `browse_travis()`, and `use_appveyor()`
+  are now defunct because we no longer recommend Travis or Appveyor. We 
+  recommend GitHub actions instead (#1517).
 
 * `use_tidy_eval()` is now defunct because it imports and re-exports a large
   number of functions that are no longer needed in order to do tidy

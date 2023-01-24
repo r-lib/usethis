@@ -383,7 +383,7 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
   }
 
   if (is_interactive()) {
-    rproj_path <- dir_ls(target, regexp = "[.]Rproj$")
+    rproj_path <- rproj_paths(target)
     if (length(rproj_path) == 1 && rstudioapi::hasFun("openProject")) {
       ui_done("Opening project in RStudio")
       rstudioapi::openProject(target, newSession = TRUE)
