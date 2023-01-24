@@ -212,21 +212,14 @@ use_github_actions_badge <- function(name = "R-CMD-check.yaml",
 use_tidy_github_actions <- function(ref = NULL) {
   repo_spec <- target_repo_spec()
 
-  use_coverage(repo_spec = repo_spec)
-
-  # we killed use_github_action_check_full() because too many people were using
-  # it who are better served by something less over-the-top
-  # now we inline it here
-  full_status <- use_github_action(
-    "check-full.yaml",
-    ref = ref,
-    save_as = "R-CMD-check.yaml"
-  )
+  use_github_action("check-full.yaml", ref = ref)
   use_github_actions_badge("R-CMD-check.yaml", repo_spec = repo_spec)
 
-  pr_status <- use_github_action_pr_commands(ref = ref)
-  pkgdown_status <- use_github_action("pkgdown", ref = ref)
-  test_coverage_status <- use_github_action("test-coverage", ref = ref)
+  use_github_action("pr-commands", ref = ref)
+  use_github_action("pkgdown", ref = ref)
+
+  use_coverage(repo_spec = repo_spec)
+  use_github_action("test-coverage", ref = ref)
 
   old_configs <- proj_path(c(".travis.yml", "appveyor.yml"))
   has_appveyor_travis <- file_exists(old_configs)
@@ -240,7 +233,7 @@ use_tidy_github_actions <- function(ref = NULL) {
     }
   }
 
-  invisible(full_status && pr_status && pkgdown_status && test_coverage_status)
+  invisible(TRUE)
 }
 
 # GHA helpers ------------------------------------------------------------------
