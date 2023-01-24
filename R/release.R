@@ -12,10 +12,18 @@
 #' The checklist contains a generic set of steps that we've found to be helpful,
 #' based on the type of release ("patch", "minor", or "major"). You're
 #' encouraged to edit the issue to customize this list to meet your needs.
-#' If you want to consistently add extra bullets for every release, you can
-#' include your own custom bullets by providing a (unexported) a
-#' `release_bullets()` function that returns a character vector.
-#' (For historical reasons, `release_questions()` is also supported).
+#'
+#' ## Customization
+#'
+#' * If you want to consistently add extra bullets for every release, you can
+#'   include your own custom bullets by providing an (unexported)
+#'   `release_bullets()` function that returns a character vector.
+#'   (For historical reasons, `release_questions()` is also supported).
+#'
+#' * If you want to check additional packages in the revdep check process,
+#'   provide an (unexported) `release_extra_revdeps()` function that
+#'   returns a character vector. This is currently only supported for
+#'   Posit internal check tooling.
 #'
 #' @param version Optional version number for release. If unspecified, you can
 #'   make an interactive choice.
@@ -98,13 +106,12 @@ release_checklist <- function(version, on_cran) {
     todo("`rhub::check_for_cran()`"),
     todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
     todo("`rhub::check_with_sanitizers()`", has_src),
-    todo("`revdepcheck::revdep_check(num_workers = 4)`", on_cran && !is_rstudio_pkg),
-    todo("`revdepcheck::cloud_check()`", on_cran && is_rstudio_pkg),
+    release_revdepcheck(on_cran, is_rstudio_pkg),
     todo("Update `cran-comments.md`", on_cran),
     todo("`git push`"),
     todo("Draft blog post", type != "patch"),
     todo("Slack link to draft blog in #open-source-comms", type != "patch" && is_rstudio_pkg),
-    release_extra(),
+    release_extra_bullets(),
     "",
     "Submit to CRAN:",
     "",
@@ -142,13 +149,33 @@ gh_milestone_number <- function(version, state = "open") {
   numbers[match(paste0("v", version), titles)]
 }
 
-release_extra <- function(env = NULL) {
-  if (is.null(env)) {
-    env <- tryCatch(
-      pkg_env(project_name()),
-      error = function(e) emptyenv()
-    )
+release_revdepcheck <- function(on_cran = TRUE, is_rstudio_pkg = TRUE, env = NULL) {
+  if (!on_cran) {
+    return()
   }
+
+  env <- env %||% safe_pkg_env()
+  if (env_has(env, "release_extra_revdeps")) {
+    extra <- env$release_extra_revdeps()
+    stopifnot(is.character(extra))
+  } else {
+    extra <- character()
+  }
+
+  if (is_rstudio_pkg) {
+    if (length(extra) > 0) {
+      extra_code <- paste0(deparse(extra), collapse = "")
+      todo("`revdepcheck::cloud_check(extra_revdeps = {extra_code})`")
+    } else {
+      todo("`revdepcheck::cloud_check()`")
+    }
+  } else {
+    todo("`revdepcheck::revdep_check(num_workers = 4)`")
+  }
+}
+
+release_extra_bullets <- function(env = NULL) {
+  env <- env %||% safe_pkg_env()
 
   if (env_has(env, "release_bullets")) {
     paste0("* [ ] ", env$release_bullets())
@@ -158,6 +185,13 @@ release_extra <- function(env = NULL) {
   } else {
     character()
   }
+}
+
+safe_pkg_env <- function() {
+  tryCatch(
+    ns_env(project_name()),
+    error = function(e) emptyenv()
+  )
 }
 
 release_type <- function(version) {
@@ -235,7 +269,6 @@ use_github_release <- function(host = deprecated(),
 }
 
 get_release_data <- function(tr = target_repo(github_get = TRUE)) {
-  package <- package_data()
   cran_submission <-
     path_first_existing(proj_path(c("CRAN-SUBMISSION", "CRAN-RELEASE")))
 
@@ -244,8 +277,8 @@ get_release_data <- function(tr = target_repo(github_get = TRUE)) {
     challenge_non_default_branch()
     check_branch_pushed()
     return(list(
-      Package = package$Package,
-      Version = package$Version,
+      Package = project_name(),
+      Version = proj_version(),
       SHA = gert::git_info(repo = git_repo())$commit
     ))
   }
@@ -277,17 +310,17 @@ get_release_data <- function(tr = target_repo(github_get = TRUE)) {
 
     HEAD <- gert::git_info(repo = git_repo())$commit
     if (HEAD == sha) {
-      version <- package$Version
+      version <- proj_version()
     } else {
-      tf <- glue("{package_data()$Package}-DESCRIPTION-{substr(sha, 1, 7)}-")
-      tf <- withr::local_tempfile(pattern = tf)
+      tf <- withr::local_tempfile()
       gh(
         "/repos/{owner}/{repo}/contents/{path}",
-        path = "DESCRIPTION", ref = sha,
+        path = "DESCRIPTION",
+        ref = sha,
         .destfile = tf,
         .accept = "application/vnd.github.v3.raw"
       )
-      version <- desc::desc(file = tf)$get_version()
+      version <- desc::desc_get_version(tf)
     }
 
     out <- list(
@@ -297,7 +330,7 @@ get_release_data <- function(tr = target_repo(github_get = TRUE)) {
     )
   }
 
-  out$Package <- package$Package
+  out$Package <- project_name()
   out$file <- cran_submission
   ui_done("
     {ui_path(out$file)} file found, from a submission on {as.Date(out$Date)}")
@@ -325,14 +358,12 @@ check_github_has_SHA <- function(SHA = gert::git_info(repo = git_repo())$commit,
 
 get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
                              tr = target_repo(github_get = TRUE)) {
-  package <- package_data()
   HEAD <- gert::git_info(repo = git_repo())$commit
 
   if (HEAD == SHA) {
     news_path <- proj_path("NEWS.md")
   } else {
-    news_path <- glue("{package_data()$Package}-NEWS-{substr(SHA, 1, 7)}-")
-    news_path <- withr::local_tempfile(pattern = news_path)
+    news_path <- withr::local_tempfile()
     gh <- purrr::possibly(gh_tr(tr), otherwise = NULL)
     gh(
       "/repos/{owner}/{repo}/contents/{path}",
@@ -416,7 +447,7 @@ get_rstudio_roles <- function() {
     return()
   }
 
-  desc <- desc::desc(file = proj_get())
+  desc <- proj_desc()
   fnd <- unclass(desc$get_author("fnd"))
   cph <- unclass(desc$get_author("cph"))
 
@@ -446,7 +477,7 @@ is_in_rstudio_org <- function() {
   if (!is_package()) {
     return(FALSE)
   }
-  desc <- desc::desc(file = proj_get())
+  desc <- proj_desc()
   urls <- desc$get_urls()
   dat <- parse_github_remotes(urls)
   dat <- dat[dat$host == "github.com", ]

@@ -236,11 +236,6 @@ is_in_proj <- function(path) {
   )
 }
 
-package_data <- function(base_path = proj_get()) {
-  desc <- desc::description$new(base_path)
-  as.list(desc$get(desc$fields()))
-}
-
 project_name <- function(base_path = proj_get()) {
   ## escape hatch necessary to solve this chicken-egg problem:
   ## create_package() calls use_description(), which calls project_name()
@@ -251,7 +246,7 @@ project_name <- function(base_path = proj_get()) {
   }
 
   if (is_package(base_path)) {
-    package_data(base_path)$Package
+    proj_desc(base_path)$get_field("Package")
   } else {
     path_file(base_path)
   }

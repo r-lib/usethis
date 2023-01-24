@@ -97,42 +97,6 @@ test_that("valid CRAN names checked", {
   )
 })
 
-test_that("use_description_list() can initiate, add to, or replace", {
-  create_local_package()
-
-  with_mock(
-    can_overwrite = function(path) TRUE,
-    {
-      use_description_list("Config/Needs/foofy", "alfa")
-    }
-  )
-  desc <- desc::desc()
-  expect_equal(desc$get_field("Config/Needs/foofy"), "alfa")
-
-  with_mock(
-    can_overwrite = function(path) TRUE,
-    {
-      use_description_list("Config/Needs/foofy", "bravo")
-    }
-  )
-  desc <- desc::desc()
-  expect_equal(desc$get_list("Config/Needs/foofy"), c("alfa", "bravo"))
-
-  use_description_list("Config/Needs/foofy", "alfa")
-  desc <- desc::desc()
-  expect_equal(desc$get_list("Config/Needs/foofy"), c("alfa", "bravo"))
-
-  with_mock(
-    can_overwrite = function(path) TRUE,
-    {
-      use_description_list("Config/Needs/foofy", "charlie", append = FALSE)
-    }
-  )
-  desc <- desc::desc()
-  expect_equal(desc$get_list("Config/Needs/foofy"), "charlie")
-})
-
-
 test_that("use_description_field() can address an existing field", {
   pkg <- create_local_package()
   orig <- tools::md5sum(proj_path("DESCRIPTION"))
@@ -140,7 +104,7 @@ test_that("use_description_field() can address an existing field", {
   ## specify existing value of existing field --> should be no op
   use_description_field(
     name = "Version",
-    value = desc::desc_get("Version", file = pkg)[[1]]
+    value = proj_version()
   )
   expect_identical(orig, tools::md5sum(proj_path("DESCRIPTION")))
 
@@ -158,18 +122,18 @@ test_that("use_description_field() can address an existing field", {
     value = "1.1.1",
     overwrite = TRUE
   )
-  expect_identical(c(Version = "1.1.1"), desc::desc_get("Version", file = pkg))
+  expect_identical(proj_version(), "1.1.1")
 })
 
 test_that("use_description_field() can add new field", {
   pkg <- create_local_package()
   use_description_field(name = "foo", value = "bar")
-  expect_identical(c(foo = "bar"), desc::desc_get("foo", file = pkg))
+  expect_identical(proj_desc()$get_field("foo"), "bar")
 })
 
 test_that("use_description_field() ignores whitespace", {
   pkg <- create_local_package()
   use_description_field(name = "foo", value = "\n bar")
   use_description_field(name = "foo", value = "bar")
-  expect_identical(c(foo = "\n bar"), desc::desc_get("foo", file = pkg))
+  expect_identical(proj_desc()$get_field("foo", trim_ws = FALSE), "\n bar")
 })

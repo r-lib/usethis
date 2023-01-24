@@ -1,114 +1,79 @@
-# general GHA setup ------------------------------------------------------------
-
-#' GitHub Actions setup
+#' Set up a GitHub Actions workflow
 #'
 #' @description
-
 #' Sets up continuous integration (CI) for an R package that is developed on
 #' GitHub using [GitHub Actions](https://github.com/features/actions). CI can be
-#' used to trigger various operations for each push or pull request, such as:
-
-#' * Run `R CMD check` on various operating systems and R versions
-#' * Build and deploy a pkgdown site
-#' * Determine test coverage
+#' used to trigger various operations for each push or pull request, e.g.
+#' running `R CMD check` or building and deploying a pkgdown site.
 #'
-
-#' This family of functions
-
-#' * Adds the necessary configuration files and lists them in `.Rbuildignore`
-#' * Provides the markdown to insert a badge into your README
+#' ## Workflows
 #'
-#' @name github_actions
-
-#' @param name For `use_github_action()`: Name of one of the example workflows
-#'   from <https://github.com/r-lib/actions/tree/v2/examples>. Examples:
-#'   "pkgdown", "check-standard.yaml".
+#' There are four particularly important workflows that are used by many
+#' packages:
 #'
-#'   For `use_github_actions_badge()`: Name of the workflow's YAML configuration
-#'   file. Examples: "R-CMD-check", "R-CMD-check.yaml".
+#' * `check-standard`: Run `R CMD check` using R-latest on Linux, Mac, and
+#'    Windows, and using R-devel on Linux. This is a good baseline if you plan
+#'    on submitting your package to CRAN.
+#' * `test-coverage`: Compute test coverage and report to
+#'    <https://about.codecov.io> by calling [covr::codecov()].
+#' * `pkgdown`: Automatically build and publish a pkgdown website.
+#'    But we recommend instead calling [use_pkgdown_github_pages()] which
+#'    performs other important set up.
+#' * `pr-commands`: Enables the use of two R-specific commands in pull request
+#'    issue comments: `/document` to run `roxygen2::roxygenise()` and
+#'    `/style` to run `styler::style_pkg()`. Both will update the PR with any
+#'    changes once they're done.
 #'
-#'   If `name` has no extension, we assume it's `.yaml`.
+#' If you call `use_github_action()` without arguments, you'll be prompted to
+#' pick from one of these. Otherwise you can see a complete list of
+#' possibilities provided by r-lib at
+#' <https://github.com/r-lib/actions/tree/v2/examples>, or you can supply
+#' your own `url` to use any other workflow.
+#'
+#' @param name For `use_github_action()`: Name of one of the example workflow
+#'   from <https://github.com/r-lib/actions/tree/v2/examples> (with or
+#'   without extension), e.g. `"pkgdown"`, `"check-standard.yaml"`.
+#'
+#'   If the `name` starts with `check-`, `save_as` will default to
+#'   `R-CMD-check.yaml` and `badge` default to `TRUE`.
 #' @param ref Desired Git reference, usually the name of a tag (`"v2"`) or
 #'   branch (`"main"`). Other possibilities include a commit SHA (`"d1c516d"`)
 #'   or `"HEAD"` (meaning "tip of remote's default branch"). If not specified,
 #'   defaults to the latest published release of `r-lib/actions`
 #'   (<https://github.com/r-lib/actions/releases>).
-#' @eval param_repo_spec()
-#' @param url The full URL to a `.yaml` file on GitHub.
+#' @param url The full URL to a `.yaml` file on GitHub. See more details in
+#'   [use_github_file()].
 #' @param save_as Name of the local workflow file. Defaults to `name` or
 #'   `fs::path_file(url)` for `use_github_action()`. Do not specify any other
 #'   part of the path; the parent directory will always be `.github/workflows`,
 #'   within the active project.
 #' @param readme The full URL to a `README` file that provides more details
 #'   about the workflow. Ignored when `url` is `NULL`.
+#' @param badge Should we add a badge to the `README`?
 #' @inheritParams use_template
 #'
-
-#' @seealso
-#' * [use_github_file()] for more about `url` format and parsing.
-#' * [use_tidy_github_actions()] for the standard GitHub Actions used for
-#'   tidyverse packages.
-
 #' @examples
 #' \dontrun{
-#' use_github_actions()
+#' use_github_action()
 #'
 #' use_github_action_check_standard()
 #'
 #' use_github_action("pkgdown")
 #' }
-NULL
-
-#' @section `use_github_actions()`:
-#' Configures a basic `R CMD check` workflow on GitHub Actions by adding a
-#' standard `R-CMD-check.yaml` file to the `.github/workflows` directory of the
-#' active project. This is actually just an alias for
-#' `use_github_action_check_release()`.
 #' @export
-#' @rdname github_actions
-use_github_actions <- function() {
-  use_github_action_check_release()
-}
-
-#' @section `use_github_actions_badge()`:
-#' Generates a GitHub Actions badge and that's all. It does not configure a
-#' workflow. This exists mostly for internal use in the other functions
-#' documented here.
-#' @export
-#' @rdname github_actions
-use_github_actions_badge <- function(name = "R-CMD-check.yaml",
-                                     repo_spec = NULL) {
-  if (path_ext(name) == "") {
-    name <- path_ext_set(name, "yaml")
-  }
-  repo_spec <- repo_spec %||% target_repo_spec()
-  enc_name <- utils::URLencode(name)
-  img <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}/badge.svg")
-  url <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}")
-
-  use_badge(path_ext_remove(name), url, img)
-}
-
-# individual actions -----------------------------------------------------------
-
-#' @section `use_github_action()`:
-#' Configures an individual, specific [GitHub
-#' Actions](https://github.com/features/actions) workflow, either one of the
-#' examples from
-#' [r-lib/actions/examples](https://github.com/r-lib/actions/tree/v2/examples)
-#' or a custom workflow given by the `url` parameter.
-#'
-#' Used internally to power all the other GitHub Actions functions, but it can
-#' also be called directly by the user.
-#' @export
-#' @rdname github_actions
-use_github_action <- function(name,
+use_github_action <- function(name = NULL,
                               ref = NULL,
                               url = NULL,
                               save_as = NULL,
                               readme = NULL,
                               ignore = TRUE,
-                              open = FALSE) {
+                              open = FALSE,
+                              badge = NULL) {
+
+  if (is.null(url) && is.null(name)) {
+    name <- choose_gha_workflow()
+  }
+
   if (is.null(url)) {
     check_string(name)
     maybe_string(ref)
@@ -133,7 +98,11 @@ use_github_action <- function(name,
   use_dot_github(ignore = ignore)
 
   if (is.null(save_as)) {
-    save_as <- path_file(url)
+    if (is_check_action(url)) {
+      save_as <- "R-CMD-check.yaml"
+    } else {
+      save_as <- path_file(url)
+    }
   }
   check_string(save_as)
   save_as <- path(".github", "workflows", save_as)
@@ -152,69 +121,70 @@ use_github_action <- function(name,
     ui_todo("Learn more at <{readme}>.")
   }
 
+  badge <- badge %||% is_check_action(url)
+  if (badge) {
+    use_github_actions_badge(save_as)
+  }
+
   invisible(new)
 }
 
-#' @section `use_github_action_check_release()`:
-#' This entry-level, bare-minimum workflow installs the latest release of R (on
-#' a current distribution of Linux) and runs `R CMD check` via the
-#' [rcmdcheck](https://github.com/r-lib/rcmdcheck) package.
-#' @export
-#' @rdname github_actions
-use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
-                                            ref = NULL,
-                                            ignore = TRUE,
-                                            open = FALSE) {
-  use_github_action(
-    "check-release.yaml",
-    ref = ref,
-    save_as = save_as,
-    ignore = ignore,
-    open = open
+choose_gha_workflow <- function(error_call = caller_env()) {
+  if (!is_interactive()) {
+    cli::cli_abort(
+      "{.arg name} is absent and must be supplied",
+      call = error_call
+    )
+  }
+
+  prompt <- cli::format_inline(
+    "Which action do you want to add? (0 to exit)\n",
+    "(See {.url https://github.com/r-lib/actions/tree/v2/examples} for other options)"
   )
-  use_github_actions_badge(save_as)
+  # Any changes here also need to be reflected in documentation
+  workflows <- c(
+    "check-standard" = "Run R CMD check in four environments",
+    "test-coverage" = "Compute test coverage and report to https://about.codecov.io",
+    "pr-commands" = "Add /document and /style commands for pull requests"
+  )
+  options <- paste0(cli::style_bold(names(workflows)), ": ", workflows)
+
+  choice <- utils::menu(
+    title = prompt,
+    choices = options
+  )
+  if (choice == 0) {
+    cli::cli_abort("Selection terminated", call = error_call)
+  }
+
+  names(workflows)[choice]
 }
 
-#' @section `use_github_action_check_standard()`:
-#' This workflow runs `R CMD check` via the
-#' [rcmdcheck](https://github.com/r-lib/rcmdcheck) package on the three major
-#' operating systems (Linux, macOS, and Windows) on the latest release of R and
-#' on R-devel. This workflow is appropriate for a package that is (or aspires to
-#' be) on CRAN or Bioconductor.
-#' @export
-#' @rdname github_actions
-use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
-                                             ref = NULL,
-                                             ignore = TRUE,
-                                             open = FALSE) {
-  use_github_action(
-    "check-standard.yaml",
-    ref = ref,
-    save_as = save_as,
-    ignore = ignore,
-    open = open
-  )
-  use_github_actions_badge(save_as)
+is_check_action <- function(url) {
+  grepl("^check-", path_file(url))
 }
 
-#' @section `use_github_action_pr_commands()`:
-#' This workflow enables the use of two R-specific commands in pull request
-#' issue comments:
-#' * `/document` to run `roxygen2::roxygenise()` and update the PR
-#' * `/style` to run `styler::style_pkg()` and update the PR
+#' Generates a GitHub Actions badge
+#'
+#' Generates a GitHub Actions badge and that's all. This exists primarily for
+#' internal use.
+#'
+#' @keywords internal
+#' @param name Name of the workflow's YAML configuration file (with or without
+#'   extension), e.g. `"R-CMD-check"`, `"R-CMD-check.yaml"`.
+#' @inheritParams use_github_action
 #' @export
-#' @rdname github_actions
-use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
-                                          ref = NULL,
-                                          ignore = TRUE,
-                                          open = FALSE) {
-  use_github_action(
-    "pr-commands.yaml",
-    ref = ref,
-    save_as = save_as,
-    ignore = ignore,
-    open = open
-  )
+use_github_actions_badge <- function(name = "R-CMD-check.yaml",
+                                     repo_spec = NULL) {
+  if (path_ext(name) == "") {
+    name <- path_ext_set(name, "yaml")
+  }
+  repo_spec <- repo_spec %||% target_repo_spec()
+  enc_name <- utils::URLencode(name)
+  img <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}/badge.svg")
+  url <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}")
+
+  use_badge(path_ext_remove(name), url, img)
 }
 
 # tidyverse GHA setup ----------------------------------------------------------
@@ -238,7 +208,7 @@ use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
 #'     [use_github_action_check_standard()].
 #' @export
 #' @rdname tidyverse
-#' @inheritParams github_actions
+#' @inheritParams use_github_action
 use_tidy_github_actions <- function(ref = NULL) {
   repo_spec <- target_repo_spec()
 

@@ -44,7 +44,11 @@ use_data <- function(...,
 
   objs <- get_objs_from_dots(dots(...))
 
-  use_dependency("R", "depends", "2.10")
+  if (version < 3) {
+    use_dependency("R", "depends", "2.10")
+  } else {
+    use_dependency("R", "depends", "3.5")
+  }
   if (internal) {
     use_directory("R")
     paths <- path("R", "sysdata.rda")
@@ -52,10 +56,13 @@ use_data <- function(...,
   } else {
     use_directory("data")
     paths <- path("data", objs, ext = "rda")
-    if (!desc::desc_has_fields("LazyData")) {
+    desc <- proj_desc()
+
+    if (!desc$has_fields("LazyData")) {
       ui_done("Setting {ui_field('LazyData')} to \\
               {ui_value('true')} in {ui_path('DESCRIPTION')}")
-      desc::desc_set("LazyData", "true")
+      desc$set(LazyData = "true")
+      desc$write()
     }
   }
   check_files_absent(proj_path(paths), overwrite = overwrite)

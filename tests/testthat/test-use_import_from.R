@@ -3,7 +3,7 @@ test_that("use_import_from() imports the related package & adds line to package 
   use_package_doc()
   use_import_from("tibble", "tibble")
 
-  expect_equal(trimws(desc::desc_get("Imports", proj_get()))[[1]], "tibble")
+  expect_equal(proj_desc()$get_field("Imports"), "tibble")
   expect_equal(roxygen_ns_show(), "#' @importFrom tibble tibble")
 })
 

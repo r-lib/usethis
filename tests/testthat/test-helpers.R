@@ -65,11 +65,11 @@ test_that("use_dependency() upgrades a dependency", {
   withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_dependency("usethis", "Suggests"))
-  expect_match(desc::desc_get("Suggests", proj_get()), "usethis")
+  expect_match(desc::desc_get("Suggests"), "usethis")
 
   expect_message(use_dependency("usethis", "Imports"), "Moving 'usethis'")
-  expect_match(desc::desc_get("Imports", proj_get()), "usethis")
-  expect_false(grepl("usethis", desc::desc_get("Suggests", proj_get())))
+  expect_match(desc::desc_get("Imports"), "usethis")
+  expect_false(grepl("usethis", desc::desc_get("Suggests")))
 })
 
 ## https://github.com/r-lib/usethis/issues/99
@@ -78,11 +78,11 @@ test_that("use_dependency() declines to downgrade a dependency", {
   withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
   expect_message(use_dependency("usethis", "Imports"))
-  expect_match(desc::desc_get("Imports", proj_get()), "usethis")
+  expect_match(desc::desc_get("Imports"), "usethis")
 
   expect_warning(use_dependency("usethis", "Suggests"), "no change")
-  expect_match(desc::desc_get("Imports", proj_get()), "usethis")
-  expect_false(grepl("usethis", desc::desc_get("Suggests", proj_get())))
+  expect_match(desc::desc_get("Imports"), "usethis")
+  expect_false(grepl("usethis", desc::desc_get("Suggests")))
 })
 
 test_that("can add LinkingTo dependency if other dependency already exists", {
@@ -93,41 +93,4 @@ test_that("can add LinkingTo dependency if other dependency already exists", {
   expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
   expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
   expect_message(use_dependency("Rcpp", "Import"), "Adding 'Rcpp'")
-})
-
-# use_system_requirement ------------------------------------------------
-
-test_that("we message for new requirements and are silent for existing requirements", {
-  create_local_package()
-  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
-
-  expect_message(
-    use_system_requirement("C++11"),
-    "Adding 'C++11' to SystemRequirements field in DESCRIPTION",
-    fixed = TRUE
-  )
-
-  expect_silent(use_system_requirement("C++11"))
-})
-
-test_that("we can add multiple requirements with repeated calls", {
-  pkg <- create_local_package()
-  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
-
-  expect_message(
-    use_system_requirement("C++11"),
-    "Adding 'C++11' to SystemRequirements field in DESCRIPTION",
-    fixed = TRUE
-  )
-
-  expect_message(
-    use_system_requirement("libxml2"),
-    "Adding 'libxml2' to SystemRequirements field in DESCRIPTION",
-    fixed = TRUE
-  )
-
-  expect_equal(
-    unname(desc::desc_get("SystemRequirements", pkg)),
-    "C++11, libxml2"
-  )
 })
