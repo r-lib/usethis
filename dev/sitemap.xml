@@ -49,6 +49,9 @@
     <loc>https://usethis.r-lib.org/dev/reference/browse-this.html</loc>
   </url>
   <url>
+    <loc>https://usethis.r-lib.org/dev/reference/browse_github_token.html</loc>
+  </url>
+  <url>
     <loc>https://usethis.r-lib.org/dev/reference/create_from_github.html</loc>
   </url>
   <url>
@@ -86,6 +89,9 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/dev/reference/licenses.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/dev/reference/pr_pull_upstream.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/dev/reference/proj_activate.html</loc>
@@ -271,7 +277,7 @@
     <loc>https://usethis.r-lib.org/dev/reference/use_tibble.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/dev/reference/use_tidy_eval.html</loc>
+    <loc>https://usethis.r-lib.org/dev/reference/use_tidy_labels.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/dev/reference/use_tidy_thanks.html</loc>
@@ -287,9 +293,6 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/dev/reference/use_vignette.html</loc>
-  </url>
-  <url>
-    <loc>https://usethis.r-lib.org/dev/reference/usethis-defunct.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/dev/reference/usethis-package.html</loc>
