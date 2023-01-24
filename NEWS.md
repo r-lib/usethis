@@ -1,5 +1,12 @@
 # usethis (development version)
 
+* `create_from_github()` will now use an existing `.Rproj` file if it exists
+  anywhere in the repo, not just the root directory. This is useful if you're
+  working with repos that contain tools for multiple languages (#1680).
+
+* `use_travis()` and `use_appveyor()` are now defunct because we no longer  
+  recommend Travis or Appveyor. We recommend GitHub actions instead (#1517).
+
 * `use_github_action()` now suggests possible actions when called without
   arguments (#1724).
 
