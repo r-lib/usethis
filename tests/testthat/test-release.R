@@ -107,8 +107,14 @@ test_that("returns empty string if no bullets", {
 })
 
 test_that("can find milestone numbers", {
-  expect_equal(gh_milestone_number("2.1.6", state = "all"), 8)
-  expect_equal(gh_milestone_number("0.0.0", state = "all"), NA_integer_)
+  expect_equal(
+    gh_milestone_number("r-lib/usethis", "2.1.6", state = "all"),
+    8
+  )
+  expect_equal(
+    gh_milestone_number("r-lib/usethis", "0.0.0", state = "all"),
+    NA_integer_
+  )
 })
 
 # draft release ----------------------------------------------------------------
