@@ -71,7 +71,12 @@ release_checklist <- function(version, on_cran) {
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- uses_pkgdown()
   has_readme <- file_exists(proj_path("README.Rmd"))
-  milestone_num <- gh_milestone_number(target_repo_spec(), version)
+
+  if (uses_git()) {
+    milestone_num <- gh_milestone_number(target_repo_spec(), version)
+  } else {
+    milestone_num <- NA # for testing
+  }
   is_rstudio_pkg <- is_rstudio_pkg()
 
   c(
@@ -134,10 +139,6 @@ release_checklist <- function(version, on_cran) {
 }
 
 gh_milestone_number <- function(repo_spec, version, state = "open") {
-  if (!uses_git()) { # for testing
-    return(NA_integer_)
-  }
-
   milestones <- gh::gh(
     "/repos/{repo_spec}/milestones",
     repo_spec = repo_spec,
