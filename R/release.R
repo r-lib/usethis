@@ -71,6 +71,12 @@ release_checklist <- function(version, on_cran) {
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- uses_pkgdown()
   has_readme <- file_exists(proj_path("README.Rmd"))
+
+  if (uses_git()) {
+    milestone_num <- gh_milestone_number(target_repo_spec(), version)
+  } else {
+    milestone_num <- NA # for testing
+  }
   is_rstudio_pkg <- is_rstudio_pkg()
 
   c(
@@ -89,6 +95,9 @@ release_checklist <- function(version, on_cran) {
     "Prepare for release:",
     "",
     todo("`git pull`"),
+    if (!is.na(milestone_num)) {
+      todo("[Close v{version} milestone](../milestone/{milestone_num})")
+    },
     todo("Check [current CRAN check results]({cran_results})", on_cran),
     todo("
       Check if any deprecation processes should be advanced, as described in \\
@@ -127,6 +136,18 @@ release_checklist <- function(version, on_cran) {
     todo("Tweet", type != "patch"),
     todo("Add link to blog post in pkgdown news menu", type != "patch")
   )
+}
+
+gh_milestone_number <- function(repo_spec, version, state = "open") {
+  milestones <- gh::gh(
+    "/repos/{repo_spec}/milestones",
+    repo_spec = repo_spec,
+    state = state
+  )
+  titles <- map_chr(milestones, "title")
+  numbers <- map_int(milestones, "number")
+
+  numbers[match(paste0("v", version), titles)]
 }
 
 release_revdepcheck <- function(on_cran = TRUE, is_rstudio_pkg = TRUE, env = NULL) {

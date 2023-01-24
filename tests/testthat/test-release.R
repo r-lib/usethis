@@ -108,6 +108,19 @@ test_that("returns empty string if no bullets", {
   expect_equal(news_latest(lines), "")
 })
 
+test_that("can find milestone numbers", {
+  skip_on_cran()
+
+  expect_equal(
+    gh_milestone_number("r-lib/usethis", "2.1.6", state = "all"),
+    8
+  )
+  expect_equal(
+    gh_milestone_number("r-lib/usethis", "0.0.0", state = "all"),
+    NA_integer_
+  )
+})
+
 # draft release ----------------------------------------------------------------
 test_that("get_release_data() works if no file found", {
   skip_if_no_git_user()
