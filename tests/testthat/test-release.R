@@ -2,6 +2,7 @@
 # release bullets ---------------------------------------------------------
 
 test_that("release bullets don't change accidentally", {
+  withr::local_options(usethis.description = NULL)
   create_local_package()
 
   # First release
@@ -47,6 +48,7 @@ test_that("construct correct revdep bullet", {
 })
 
 test_that("RStudio-ness detection works", {
+  withr::local_options(usethis.description = NULL)
   create_local_package()
 
   expect_false(is_rstudio_pkg())
