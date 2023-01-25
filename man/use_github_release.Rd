@@ -5,17 +5,17 @@
 \title{Publish a GitHub release}
 \usage{
 use_github_release(
+  publish = TRUE,
   host = deprecated(),
-  auth_token = deprecated(),
-  publish = TRUE
+  auth_token = deprecated()
 )
 }
 \arguments{
+\item{publish}{If \code{TRUE}, publishes a release. If \code{FALSE}, creates a draft release.}
+
 \item{host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
 consulted now that usethis allows the gh package to lookup a token based on
 a URL determined from the current project's GitHub remotes.}
-
-\item{publish}{If \code{TRUE}, publishes a release. If \code{FALSE}, creates a draft release.}
 }
 \description{
 Pushes the current branch (if safe) then publishes a GitHub release for the

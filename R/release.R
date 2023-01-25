@@ -223,9 +223,9 @@ release_type <- function(version) {
 #'   a URL determined from the current project's GitHub remotes.
 #' @param publish If `TRUE`, publishes a release. If `FALSE`, creates a draft release.
 #' @export
-use_github_release <- function(host = deprecated(),
-                               auth_token = deprecated(),
-                               publish = TRUE) {
+use_github_release <- function(publish = TRUE,
+                               host = deprecated(),
+                               auth_token = deprecated()) {
   check_is_package("use_github_release()")
   if (lifecycle::is_present(host)) {
     deprecate_warn_host("use_github_release")
