@@ -20,6 +20,7 @@ test_that("use_tidy_versions() doesn't affect suggests", {
 
   create_local_package()
   use_package("cli", "Suggests")
+  use_latest_dependencies()
 
   deps <- proj_deps()
   expect_equal(deps$version[deps$package == "cli"], "*")
