@@ -387,9 +387,8 @@ pr_push <- function() {
     } else {
       remote <- "origin"
     }
-    ui_done("
-      Pushing local {ui_value(branch)} branch to {ui_value(remote)} remote.")
-    gert::git_push(remote = remote, verbose = FALSE, repo = repo)
+
+    git_push_first(branch, remote)
   } else {
     check_branch_pulled(use = "pr_pull()")
     git_push(branch, remref)

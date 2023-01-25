@@ -353,6 +353,22 @@ git_push <- function(branch = git_branch(), remref = NULL, verbose = TRUE) {
   )
 }
 
+git_push_first <- function(branch = git_branch(), remote = "origin", verbose = TRUE) {
+  if (verbose) {
+    remref <- glue("{remote}/{branch}")
+    ui_done("
+        Pushing {ui_value(branch)} branch to GitHub and setting \\
+        {ui_value(remref)} as upstream branch"
+    )
+  }
+  gert::git_push(
+    remote = remote,
+    set_upstream = TRUE,
+    verbose = FALSE,
+    repo = git_repo()
+  )
+}
+
 # Checks ------------------------------------------------------------------
 
 check_current_branch <- function(is = NULL, is_not = NULL,
