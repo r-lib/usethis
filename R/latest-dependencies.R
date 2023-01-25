@@ -1,6 +1,6 @@
 #' Use "latest" versions of all dependencies
 #'
-#' Pins minimum versions of all `Import` and `Depends` dependencies to latest
+#' Pins minimum versions of all `Imports` and `Depends` dependencies to latest
 #' ones (as determined by `source`). Useful for the tidyverse package, but
 #' should otherwise be used with extreme care.
 #'
