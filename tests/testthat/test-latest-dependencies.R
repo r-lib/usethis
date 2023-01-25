@@ -31,14 +31,11 @@ test_that("does nothing for a base package", {
   withr::local_options(list(repos = c(CRAN = "https://cloud.r-project.org")))
 
   create_local_package()
-  use_package("tools") # base
-  use_package("Matrix") # recommended
+  use_package("tools")
+  # if usethis ever depends on a recommended package, we could test that here too
   use_latest_dependencies()
 
   deps <- proj_deps()
-  expect_equal(
-    deps$version[deps$package %in% c("tools", "Matrix")],
-    c("*", "*")
-  )
+  expect_equal(deps$version[deps$package == "tools"], "*")
 })
 
