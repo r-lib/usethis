@@ -45,11 +45,6 @@ use_release_issue <- function(version = NULL) {
     }
   }
 
-  challenge_non_default_branch(
-    "Are you sure you want to create a release based on a non-default branch?"
-  )
-  git_pull()
-
   version <- version %||% choose_version("What should the release version be?")
   if (is.null(version)) {
     return(invisible(FALSE))
@@ -99,6 +94,7 @@ release_checklist <- function(version, on_cran) {
     ),
     "Prepare for release:",
     "",
+    todo("`git pull`"),
     if (!is.na(milestone_num)) {
       todo("[Close v{version} milestone](../milestone/{milestone_num})")
     },
