@@ -72,6 +72,9 @@ release_checklist <- function(version, on_cran) {
   has_pkgdown <- uses_pkgdown()
   has_readme <- file_exists(proj_path("README.Rmd"))
 
+  repo <- github_url_from_git_remotes()
+  has_github_links <- repo %in% desc::desc_get_urls() && glue::glue("{repo}/issues") %in% desc::desc_get("BugReports")
+
   if (uses_git()) {
     milestone_num <- gh_milestone_number(target_repo_spec(), version)
   } else {
@@ -90,6 +93,7 @@ release_checklist <- function(version, on_cran) {
       todo("Check that `Authors@R:` includes a copyright holder (role 'cph')"),
       todo("Check [licensing of included files](https://r-pkgs.org/license.html#code-you-bundle)"),
       todo("Review <https://github.com/DavisVaughan/extrachecks>"),
+      if (!has_github_links) todo("`usethis::use_github_links()`"),
       ""
     ),
     "Prepare for release:",
