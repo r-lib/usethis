@@ -383,7 +383,7 @@ pr_push <- function() {
       )
       title <- glue("Which repo do you want to push to?")
       choice <- utils::menu(choices, graphics = FALSE, title = title)
-      remote <-  names(choices)[[choice]]
+      remote <- names(choices)[[choice]]
     } else {
       remote <- "origin"
     }
