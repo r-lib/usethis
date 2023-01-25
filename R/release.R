@@ -215,17 +215,17 @@ release_type <- function(version) {
 #' CRAN, information about the submitted state is captured in a
 #' `CRAN-SUBMISSION` or `CRAN-RELEASE` file. `use_github_release()` uses this
 #' info to populate the draft GitHub release and, after success, deletes the
-#' the file. In the absence of such a file, we assumes that current state
+#' the file. In the absence of such a file, we assume that current state
 #' (SHA of `HEAD`, package version, NEWS) is the submitted state.
 #'
 #' @param host,auth_token `r lifecycle::badge("deprecated")`: No longer
 #'   consulted now that usethis allows the gh package to lookup a token based on
 #'   a URL determined from the current project's GitHub remotes.
-#' @param draft If `TRUE`, publishes a draft release.
+#' @param publish If `TRUE`, publishes a release. If `FALSE`, creates a draft release.
 #' @export
 use_github_release <- function(host = deprecated(),
                                auth_token = deprecated(),
-                               draft = FALSE) {
+                               publish = TRUE) {
   check_is_package("use_github_release()")
   if (lifecycle::is_present(host)) {
     deprecate_warn_host("use_github_release")
@@ -260,7 +260,7 @@ use_github_release <- function(host = deprecated(),
     tag_name = tag_name,
     target_commitish = dat$SHA,
     body = news,
-    draft = draft
+    draft = !publish
   )
   cli::cli_inform("Release at {.url {release$html_url}}")
 
