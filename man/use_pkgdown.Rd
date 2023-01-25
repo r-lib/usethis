@@ -3,14 +3,11 @@
 \name{use_pkgdown}
 \alias{use_pkgdown}
 \alias{use_pkgdown_github_pages}
-\alias{use_pkgdown_travis}
 \title{Use pkgdown}
 \usage{
 use_pkgdown(config_file = "_pkgdown.yml", destdir = "docs")
 
 use_pkgdown_github_pages()
-
-use_pkgdown_travis()
 }
 \arguments{
 \item{config_file}{Path to the pkgdown yaml config file, relative to the
@@ -40,9 +37,6 @@ tidymodels) get some special treatment, in terms of anticipating the
 (eventual) site URL and the use of a pkgdown template.
 }
 }
-
-\code{use_pkgdown_travis()} is deprecated; we no longer recommend that you use
-Travis-CI.
 }
 \seealso{
 \url{https://pkgdown.r-lib.org/articles/pkgdown.html#configuration}

@@ -104,6 +104,25 @@
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
 
+# construct correct revdep bullet
+
+    Code
+      release_revdepcheck(on_cran = FALSE)
+    Output
+      NULL
+    Code
+      release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = FALSE)
+    Output
+      [1] "* [ ] `revdepcheck::revdep_check(num_workers = 4)`"
+    Code
+      release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = TRUE)
+    Output
+      [1] "* [ ] `revdepcheck::cloud_check()`"
+    Code
+      release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = TRUE, env = env)
+    Output
+      [1] "* [ ] `revdepcheck::cloud_check(extra_revdeps = c(\"waldo\", \"testthat\"))`"
+
 # RStudio-ness detection works
 
     Code

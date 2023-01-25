@@ -20,7 +20,7 @@ test_that("use_package() handles R versions with aplomb", {
   expect_snapshot(use_package("R"), error = TRUE)
   expect_snapshot(use_package("R", type = "Depends"), error = TRUE)
   expect_snapshot(use_package("R", type = "Depends", min_version = "3.6"))
-  expect_equal(subset(desc::desc_get_deps(), package == "R")$version, ">= 3.6")
+  expect_equal(subset(proj_deps(), package == "R")$version, ">= 3.6")
   with_mock(
     r_version = function() "4.1",
     {
@@ -28,7 +28,7 @@ test_that("use_package() handles R versions with aplomb", {
     }
   )
 
-  expect_equal(subset(desc::desc_get_deps(), package == "R")$version, ">= 4.1")
+  expect_equal(subset(proj_deps(), package == "R")$version, ">= 4.1")
 })
 
 test_that("use_package(type = 'Suggests') guidance w/o and w/ rlang", {
@@ -47,8 +47,7 @@ test_that("use_dev_package() can override over default remote", {
 
   use_dev_package("usethis", remote = "github::r-lib/usethis")
 
-  desc <- desc::desc(proj_path("DESCRIPTION"))
-  expect_equal(desc$get_remotes(), "github::r-lib/usethis")
+  expect_equal(proj_desc()$get_remotes(), "github::r-lib/usethis")
 })
 
 test_that("package_remote() works for an installed package with github URL", {

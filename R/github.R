@@ -118,7 +118,7 @@ use_github <- function(organisation = NULL,
   repo_name <- project_name()
   check_no_github_repo(owner, repo_name, host)
 
-  repo_desc <- if (is_package()) package_data()$Title %||% "" else ""
+  repo_desc <- if (is_package()) proj_desc()$get_field("Title") %||% "" else ""
   repo_desc <- gsub("\n", " ", repo_desc)
   repo_spec <- glue("{owner}/{repo_name}")
 

@@ -17,5 +17,5 @@ test_that("use_tibble() Imports tibble", {
     }
   )
 
-  expect_match(desc::desc_get("Imports", proj_get()), "tibble")
+  expect_match(proj_desc()$get("Imports"), "tibble")
 })

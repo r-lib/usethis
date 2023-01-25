@@ -5,11 +5,15 @@
 #'
 #' @export
 use_citation <- function() {
+  check_is_package()
+
   use_directory("inst")
   use_template(
     "citation-template.R",
     path("inst", "CITATION"),
-    data = package_data(),
+    data = list(
+      Package = proj_desc()$get_field("Package")
+    ),
     open = TRUE
   )
 }

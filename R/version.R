@@ -87,7 +87,7 @@ use_version <- function(which = NULL, push = FALSE) {
 #' @export
 use_dev_version <- function() {
   check_is_package("use_dev_version()")
-  ver <- desc::desc_get_version(proj_get())
+  ver <- package_version(proj_version())
   if (length(unlist(ver)) > 3) {
     return(invisible())
   }
@@ -95,8 +95,7 @@ use_dev_version <- function() {
 }
 
 choose_version <- function(message, which = NULL) {
-  ver <- desc::desc_get_version(proj_get())
-  versions <- bump_version(ver)
+  versions <- bump_version()
 
   if (is.null(which)) {
     choice <- utils::menu(
@@ -119,7 +118,7 @@ choose_version <- function(message, which = NULL) {
   versions[which]
 }
 
-bump_version <- function(ver) {
+bump_version <- function(ver = proj_version()) {
   bumps <- c("major", "minor", "patch", "dev")
   vapply(bumps, bump_, character(1), ver = ver)
 }

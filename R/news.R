@@ -8,9 +8,15 @@
 #'   Packages](https://r-pkgs.org).
 #' @export
 use_news_md <- function(open = rlang::is_interactive()) {
+  check_is_package()
+  desc <- proj_desc()
+
   use_template(
     "NEWS.md",
-    data = package_data(),
+    data = list(
+      Package = project_name(),
+      Version = proj_version()
+    ),
     open = open
   )
 
