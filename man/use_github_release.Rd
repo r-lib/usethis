@@ -7,7 +7,7 @@
 use_github_release(
   host = deprecated(),
   auth_token = deprecated(),
-  draft = FALSE
+  publish = TRUE
 )
 }
 \arguments{
@@ -15,7 +15,7 @@ use_github_release(
 consulted now that usethis allows the gh package to lookup a token based on
 a URL determined from the current project's GitHub remotes.}
 
-\item{draft}{If \code{TRUE}, publishes a draft release.}
+\item{publish}{If \code{TRUE}, publishes a release. If \code{FALSE}, creates a draft release.}
 }
 \description{
 Pushes the current branch (if safe) then publishes a GitHub release for the
@@ -25,6 +25,6 @@ If you use \code{\link[devtools:release]{devtools::release()}} or \code{\link[de
 CRAN, information about the submitted state is captured in a
 \code{CRAN-SUBMISSION} or \code{CRAN-RELEASE} file. \code{use_github_release()} uses this
 info to populate the draft GitHub release and, after success, deletes the
-the file. In the absence of such a file, we assumes that current state
+the file. In the absence of such a file, we assume that current state
 (SHA of \code{HEAD}, package version, NEWS) is the submitted state.
 }
