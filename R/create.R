@@ -267,7 +267,7 @@ create_from_github <- function(repo_spec,
   )
 
   ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
-  Sys.sleep(getOption("usethis.david-fork-sleep", 1))
+  Sys.sleep(getOption("usethis.davis-fork-sleep", 1))
   gert::git_clone(origin_url, repo_path, verbose = FALSE)
 
   proj_path <- find_rstudio_root(repo_path)
