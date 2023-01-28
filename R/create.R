@@ -257,6 +257,8 @@ create_from_github <- function(repo_spec,
       ssh = repo_info$ssh_url
     )
     repo_info <- gh("POST /repos/{owner}/{repo}/forks")
+    ui_done("Waiting for the fork to finalize before cloning")
+    Sys.sleep(3)
   }
   # repo_info now describes the primary repo, i.e. what we are about to clone
 
