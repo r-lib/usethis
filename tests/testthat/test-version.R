@@ -26,29 +26,17 @@ test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
   use_news_md()
 
   use_version("major")
-  expect_identical(
-    as.character(desc::desc_get_version(proj_get())),
-    "2.0.0"
-  )
-  expect_match(
-    read_utf8(proj_path("NEWS.md"), n = 1),
-    "2.0.0"
-  )
+  expect_identical(proj_version(), "2.0.0")
+  expect_match(read_utf8(proj_path("NEWS.md"), n = 1), "2.0.0")
 })
 
 test_that("use_dev_version() appends .9000 to Version, exactly once", {
   create_local_package()
   use_description_field(name = "Version", value = "0.0.1", overwrite = TRUE)
   use_dev_version()
-  expect_identical(
-    as.character(desc::desc_get_version(proj_get())),
-    "0.0.1.9000"
-  )
+  expect_identical(proj_version(), "0.0.1.9000")
   use_dev_version()
-  expect_identical(
-    as.character(desc::desc_get_version(proj_get())),
-    "0.0.1.9000"
-  )
+  expect_identical(proj_version(), "0.0.1.9000")
 })
 
 test_that("use_version() updates (development version) directly", {

@@ -3,6 +3,24 @@
 * `use_standalone()` makes it easier to use standalone files provided by 
   various low-level tidyverse packages like rlang (#1654).
 
+* `use_latest_dependencies()` no longer affects `Suggests` since those
+  dependencies are not enforced (#1749).
+
+* `use_release_issue()` will now remind you to check/close the milestone
+  corresponding to the release, if it exists (#1642).
+
+* `use_release_issue()` now uses internal `release_extra_revdeps()` to 
+  add extra revdep sources. Currently only use for internal Posit tooling,
+  but we hope to extend to all users in the future (#1610).
+
+* `create_from_github()` will now use an existing `.Rproj` file if it exists
+  anywhere in the repo, not just the root directory. This is useful if you're
+  working with repos that contain tools for multiple languages (#1680).
+
+* `use_travis()` and `use_appveyor()` are now defunct because we no longer  
+  recommend Travis or Appveyor. We recommend GitHub actions instead (#1517).
+
+>>>>>>> 8a4a633e6490d5be70734c03844987fb58a2904d
 * `use_github_action()` now suggests possible actions when called without
   arguments (#1724).
 
@@ -14,8 +32,9 @@
 * `use_data()` now sets the appropriate minimal R version in `DESCRIPTION`, 
   depending on which serialization format `version` you choose (@dpprdan, #1672).
   
-* `use_travis()` and `use_appveyor()` are now defunct because we no longer  
-  recommend Travis or Appveyor. We recommend GitHub actions instead (#1517).
+* `use_travis()`, `use_pkgdown_travis()`, `browse_travis()`, and `use_appveyor()`
+  are now defunct because we no longer recommend Travis or Appveyor. We 
+  recommend GitHub actions instead (#1517).
 
 * `use_tidy_eval()` is now defunct because it imports and re-exports a large
   number of functions that are no longer needed in order to do tidy

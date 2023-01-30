@@ -187,76 +187,6 @@ use_github_actions_badge <- function(name = "R-CMD-check.yaml",
   use_badge(path_ext_remove(name), url, img)
 }
 
-# deprecated --------------------------------------------------------------
-
-#' Use specific GitHub Actions workflows
-#'
-#' @description
-#' `r lifecycle::badge("deprecated")`
-#'
-#' `use_github_actions()` is deprecated because it was just an alias
-#' for [use_github_action_check_release()]. The other variants are deprecated
-#' because [use_github_action()] can now suggest specific workflows to use.
-#'
-#' @export
-#' @keywords internal
-use_github_actions <- function() {
-  lifecycle::deprecate_warn(
-    when = "2.2.0",
-    what = "use_github_actions()",
-    with = "use_github_action_check_release()"
-  )
-  use_github_action_check_release()
-}
-
-#' @rdname use_github_actions
-#' @export
-use_github_action_check_release <- function(save_as = "R-CMD-check.yaml",
-                                            ref = NULL,
-                                            ignore = TRUE,
-                                            open = FALSE) {
-  use_github_action(
-    "check-release.yaml",
-    ref = ref,
-    save_as = save_as,
-    ignore = ignore,
-    open = open
-  )
-  use_github_actions_badge(save_as)
-}
-
-#' @rdname use_github_actions
-#' @export
-use_github_action_check_standard <- function(save_as = "R-CMD-check.yaml",
-                                             ref = NULL,
-                                             ignore = TRUE,
-                                             open = FALSE) {
-  use_github_action(
-    "check-standard.yaml",
-    ref = ref,
-    save_as = save_as,
-    ignore = ignore,
-    open = open
-  )
-  use_github_actions_badge(save_as)
-}
-
-#' @rdname use_github_actions
-#' @export
-use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
-                                          ref = NULL,
-                                          ignore = TRUE,
-                                          open = FALSE) {
-  use_github_action(
-    "pr-commands.yaml",
-    ref = ref,
-    save_as = save_as,
-    ignore = ignore,
-    open = open
-  )
-}
-
-
 # tidyverse GHA setup ----------------------------------------------------------
 
 #' @details
@@ -282,21 +212,14 @@ use_github_action_pr_commands <- function(save_as = "pr-commands.yaml",
 use_tidy_github_actions <- function(ref = NULL) {
   repo_spec <- target_repo_spec()
 
-  use_coverage(repo_spec = repo_spec)
-
-  # we killed use_github_action_check_full() because too many people were using
-  # it who are better served by something less over-the-top
-  # now we inline it here
-  full_status <- use_github_action(
-    "check-full.yaml",
-    ref = ref,
-    save_as = "R-CMD-check.yaml"
-  )
+  use_github_action("check-full.yaml", ref = ref)
   use_github_actions_badge("R-CMD-check.yaml", repo_spec = repo_spec)
 
-  pr_status <- use_github_action_pr_commands(ref = ref)
-  pkgdown_status <- use_github_action("pkgdown", ref = ref)
-  test_coverage_status <- use_github_action("test-coverage", ref = ref)
+  use_github_action("pr-commands", ref = ref)
+  use_github_action("pkgdown", ref = ref)
+
+  use_coverage(repo_spec = repo_spec)
+  use_github_action("test-coverage", ref = ref)
 
   old_configs <- proj_path(c(".travis.yml", "appveyor.yml"))
   has_appveyor_travis <- file_exists(old_configs)
@@ -310,7 +233,7 @@ use_tidy_github_actions <- function(ref = NULL) {
     }
   }
 
-  invisible(full_status && pr_status && pkgdown_status && test_coverage_status)
+  invisible(TRUE)
 }
 
 # GHA helpers ------------------------------------------------------------------

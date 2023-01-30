@@ -2,6 +2,7 @@
 # release bullets ---------------------------------------------------------
 
 test_that("release bullets don't change accidentally", {
+  withr::local_options(usethis.description = NULL)
   create_local_package()
 
   # First release
@@ -25,21 +26,34 @@ test_that("release bullets don't change accidentally", {
 
 test_that("get extra news bullets if available", {
   env <- env(release_bullets = function() "Extra bullets")
-  expect_equal(release_extra(env), "* [ ] Extra bullets")
+  expect_equal(release_extra_bullets(env), "* [ ] Extra bullets")
 
   env <- env(release_questions = function() "Extra bullets")
-  expect_equal(release_extra(env), "* [ ] Extra bullets")
+  expect_equal(release_extra_bullets(env), "* [ ] Extra bullets")
 
   env <- env()
-  expect_equal(release_extra(env), character())
+  expect_equal(release_extra_bullets(env), character())
+})
+
+test_that("construct correct revdep bullet", {
+  create_local_package()
+  env <- env(release_extra_revdeps = function() c("waldo", "testthat"))
+
+  expect_snapshot({
+    release_revdepcheck(on_cran = FALSE)
+    release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = FALSE)
+    release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = TRUE)
+    release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = TRUE, env = env)
+  })
 })
 
 test_that("RStudio-ness detection works", {
+  withr::local_options(usethis.description = NULL)
   create_local_package()
 
   expect_false(is_rstudio_pkg())
 
-  desc <- desc::desc(file = proj_get())
+  desc <- proj_desc()
   desc$add_author(given = "RstuDio, PbC", role = "fnd")
   desc$add_urls("https://github.com/tidyverse/WHATEVER")
   desc$write()
@@ -92,6 +106,19 @@ test_that("returns empty string if no bullets", {
     "# Heading"
   )
   expect_equal(news_latest(lines), "")
+})
+
+test_that("can find milestone numbers", {
+  skip_on_cran()
+
+  expect_equal(
+    gh_milestone_number("r-lib/usethis", "2.1.6", state = "all"),
+    8
+  )
+  expect_equal(
+    gh_milestone_number("r-lib/usethis", "0.0.0", state = "all"),
+    NA_integer_
+  )
 })
 
 # draft release ----------------------------------------------------------------

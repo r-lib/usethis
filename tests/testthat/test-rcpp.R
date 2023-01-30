@@ -4,12 +4,12 @@ test_that("use_rcpp() requires a package", {
 })
 
 test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
-  pkg <- create_local_package()
+  create_local_package()
   use_roxygen_md()
 
   use_rcpp("test")
-  expect_match(desc::desc_get("LinkingTo", pkg), "Rcpp")
-  expect_match(desc::desc_get("Imports", pkg), "Rcpp")
+  expect_match(desc::desc_get("LinkingTo"), "Rcpp")
+  expect_match(desc::desc_get("Imports"), "Rcpp")
   expect_proj_dir("src")
   expect_proj_file("src", "test.cpp")
 

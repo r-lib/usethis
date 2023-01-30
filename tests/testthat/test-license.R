@@ -2,7 +2,7 @@ test_that("use_mit_license() works", {
   create_local_package()
   use_mit_license()
 
-  expect_equal(desc::desc_get("License", proj_get())[[1]], "MIT + file LICENSE")
+  expect_equal(desc::desc_get_field("License"), "MIT + file LICENSE")
 
   expect_proj_file("LICENSE.md")
   expect_true(is_build_ignored("^LICENSE\\.md$"))
@@ -15,7 +15,7 @@ test_that("use_proprietary_license() works", {
   create_local_package()
   use_proprietary_license("foo")
 
-  expect_equal(desc::desc_get("License", proj_get())[[1]], "file LICENSE")
+  expect_equal(desc::desc_get_field("License"), "file LICENSE")
   expect_proj_file("LICENSE")
   # TODO add snapshot test
 })

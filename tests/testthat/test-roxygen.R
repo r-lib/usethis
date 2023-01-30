@@ -12,11 +12,10 @@ test_that("use_roxygen_md() adds DESCRIPTION fields to naive package", {
 
   pkg <- create_local_package()
   use_roxygen_md()
-  expect_equal(
-    desc::desc_get("Roxygen", pkg),
-    c(Roxygen = "list(markdown = TRUE)")
-  )
-  expect_true(desc::desc_has_fields("RoxygenNote", pkg))
+
+  desc <- proj_desc()
+  expect_equal(desc$get("Roxygen"), c(Roxygen = "list(markdown = TRUE)"))
+  expect_true(desc$has_fields("RoxygenNote"))
   expect_true(uses_roxygen_md())
 })
 

@@ -59,7 +59,9 @@ use_dev_package <- function(package, type = "Imports", remote = NULL) {
 }
 
 use_remote <- function(package, package_remote = NULL) {
-  remotes <- desc::desc_get_remotes(proj_get())
+  desc <- proj_desc()
+
+  remotes <- desc$get_remotes()
   if (any(grepl(package, remotes))) {
     return(invisible())
   }
@@ -73,7 +75,10 @@ use_remote <- function(package, package_remote = NULL) {
     Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in \\
     DESCRIPTION")
   remotes <- c(remotes, package_remote)
-  desc::desc_set_remotes(remotes, file = proj_get())
+
+  desc$set_remotes(remotes)
+  desc$write()
+
   invisible()
 }
 
@@ -146,7 +151,7 @@ how_to_use <- function(package, type) {
 }
 
 suggests_usage_hint <- function(package) {
-  imports_rlang <- desc::desc_has_dep("rlang", type = "Imports", proj_get())
+  imports_rlang <- proj_desc()$has_dep("rlang", type = "Imports")
   if (imports_rlang) {
     code1 <- glue('rlang::is_installed("{package}")')
     code2 <- glue('rlang::check_installed("{package}")')
