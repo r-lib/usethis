@@ -103,7 +103,7 @@ choose_version <- function(message, which = NULL) {
         "{format(names(versions), justify = 'right')} --> {versions}"
       ),
       title = glue(
-        "Current version is {ver}.\n",
+        "Current version is {proj_version()}.\n",
         "{message} (0 to exit)"
       )
     )

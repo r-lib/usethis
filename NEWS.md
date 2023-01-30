@@ -10,6 +10,9 @@
   and automatically publishes the release, rather than requiring you to edit
   and publish the draft.
 
+* `use_latest_dependencies()` no longer affects `Suggests` since those
+  dependencies are not enforced (#1749).
+
 * `use_release_issue()` will now remind you to check/close the milestone
   corresponding to the release, if it exists (#1642).
 

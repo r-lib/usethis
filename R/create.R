@@ -226,7 +226,12 @@ create_from_github <- function(repo_spec,
   gh <- gh_tr(list(repo_owner = source_owner, repo_name = repo_name, api_url = host))
 
   repo_info <- gh("GET /repos/{owner}/{repo}")
-  # repo_info describes the source repo
+  # 2023-01-28 We're seeing the GitHub bug again around default branch in a
+  # fresh fork. If I create a fork, the POST payload *sometimes* mis-reports the
+  # default branch. I.e. it reports `main`, even though the actual default
+  # branch is `master`. Therefore we're reverting to consulting the source repo
+  # for this info
+  default_branch <- repo_info$default_branch
 
   if (is.na(fork)) {
     fork <- !isTRUE(repo_info$permissions$push)
@@ -257,8 +262,9 @@ create_from_github <- function(repo_spec,
       ssh = repo_info$ssh_url
     )
     repo_info <- gh("POST /repos/{owner}/{repo}/forks")
+    ui_done("Waiting for the fork to finalize before cloning")
+    Sys.sleep(3)
   }
-  # repo_info now describes the primary repo, i.e. what we are about to clone
 
   origin_url <- switch(
     protocol,
@@ -272,7 +278,9 @@ create_from_github <- function(repo_spec,
   proj_path <- find_rstudio_root(repo_path)
   local_project(proj_path, force = TRUE) # schedule restoration of project
 
-  default_branch <- repo_info$default_branch
+  # 2023-01-28 again, it would be more natural to trust the default branch of
+  # the fork, but that cannot always be trusted. For now, we're still using
+  # the default branch learned from the source repo.
   ui_info("Default branch is {ui_value(default_branch)}")
 
   if (fork) {
