@@ -23,13 +23,13 @@ use_standalone <- function(repo_spec, file = NULL) {
     }
   }
 
-  path <- path("R", file)
+  path <- path("R", paste0("import-", file))
 
   lines <- read_github_file(repo_spec, path = path)
-  lines <- c(standalone_prefix(repo_spec, path), lines)
+  lines <- c(standalone_header(repo_spec, path), lines)
   write_over(proj_path(path), lines, overwrite = TRUE)
 
-  dependencies <- find_dependencies(lines, path)
+  dependencies <- standalone_dependencies(lines, path)
   for (dependency in dependencies) {
     use_standalone(repo_spec, dependency)
   }
@@ -37,7 +37,7 @@ use_standalone <- function(repo_spec, file = NULL) {
   invisible()
 }
 
-standalone_choose <- function(repo_spec) {
+standalone_choose <- function(repo_spec, error_call = parent.frame()) {
   json <- gh::gh(
     "/repos/{repo_spec}/contents/{path}",
     repo_spec = repo_spec,
@@ -47,6 +47,23 @@ standalone_choose <- function(repo_spec) {
   names <- map_chr(json, "name")
   names <- names[grepl("^standalone-", names)]
   choices <- gsub("^standalone-|.[Rr]$", "", names)
+
+  if (length(choices) == 0) {
+    cli::cli_abort(
+      "No standalone files found in {repo_spec}.",
+      call = error_call
+    )
+  }
+
+  if (!is_interactive()) {
+    cli::cli_abort(
+      c(
+        "`file` is absent, but must be suppled.",
+        i = "Possible options are {.or {choices}}."
+      ),
+      call = error_call
+    )
+  }
 
   choice <- utils::menu(
     choices = choices,
@@ -59,7 +76,7 @@ standalone_choose <- function(repo_spec) {
   names[choice]
 }
 
-standalone_prefix <- function(repo_spec, path) {
+standalone_header <- function(repo_spec, path) {
   c(
     "# Standalone file: do not edit by hand",
     glue("# Source: <https://github.com/{repo_spec}/blob/main/{path}>"),
@@ -68,10 +85,10 @@ standalone_prefix <- function(repo_spec, path) {
   )
 }
 
-find_dependencies <- function(lines, path, call = caller_env()) {
+standalone_dependencies <- function(lines, path, call = caller_env()) {
   dividers <- which(lines == "# ---")
   if (length(dividers) != 2) {
-    cli::cli_abort("Can't find yaml metadata in {.path {path}}", call = call)
+    cli::cli_abort("Can't find yaml metadata in {.path {path}}.", call = call)
   }
 
   header <- lines[dividers[[1]]:dividers[[2]]]
@@ -82,7 +99,7 @@ find_dependencies <- function(lines, path, call = caller_env()) {
 
   deps <- yaml$dependencies
   if (!is.null(deps) && !is.character(deps)) {
-    cli::cli_abort("Invalid dependencies specification in {.path {path}", call = call)
+    cli::cli_abort("Invalid dependencies specification in {.path {path}}.", call = call)
   }
-  deps
+  deps %||% character()
 }
