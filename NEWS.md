@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_standalone()` makes it easier to use standalone files provided by 
+  various low-level tidyverse packages like rlang (#1654).
+
 * `use_github_action()` now suggests possible actions when called without
   arguments (#1724).
 
