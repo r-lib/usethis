@@ -155,7 +155,6 @@ use_github <- function(organisation = NULL,
 
   ui_done("Setting remote {ui_value('origin')} to {ui_value(origin_url)}")
   use_git_remote("origin", origin_url)
-  git_push_first(default_branch, "origin")
 
   if (is_package()) {
     # we tryCatch(), because we can't afford any failure here to result in not
@@ -166,6 +165,8 @@ use_github <- function(organisation = NULL,
       error = function(e) NULL
     )
   }
+
+  git_push_first(default_branch, "origin")
 
   repo <- git_repo()
   gbl <- gert::git_branch_list(local = TRUE, repo = repo)
