@@ -235,7 +235,7 @@ use_github_release <- function(publish = TRUE,
   }
 
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
-  check_can_push(tr = tr, "to draft a release")
+  check_can_push(tr = tr, "to create a release")
 
   dat <- get_release_data(tr)
   release_name <- glue("{dat$Package} {dat$Version}")
