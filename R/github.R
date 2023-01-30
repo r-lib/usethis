@@ -178,8 +178,7 @@ use_github <- function(organisation = NULL,
     verbose = FALSE
   )
 
-  gbl <- gert::git_branch_list(local = TRUE, repo = repo)
-  if (nrow(gbl) > 1) {
+  if (create$default_branch != default_branch) {
     ui_done("
       Setting {ui_value(default_branch)} as default branch on GitHub")
     gh::gh(
