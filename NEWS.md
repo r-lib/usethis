@@ -1,7 +1,5 @@
 # usethis (development version)
 
-* `use_release_issue()` now starts by pulling the latest source from GitHub.
-
 * `use_version()` gains a `push` argument to optionally push the result after
   committing. This is used to eliminate a manual step from the 
   `use_release_issue()` checklist (#1385). 
