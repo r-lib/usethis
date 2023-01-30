@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_rstudio_preferences()` lets you set RStudio preferences programmatically
+  (#1518)
+  
 * `use_latest_dependencies()` no longer affects `Suggests` since those
   dependencies are not enforced (#1749).
 
