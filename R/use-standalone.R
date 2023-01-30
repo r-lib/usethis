@@ -1,43 +1,43 @@
-#' Use a compatibility file from another repo
+#' Use a standalone file from another repo
 #'
-#' A "compat" file implements a minimum set of standalone functionality in
-#' such a way that it can be copied into another package. `use_compat()`
-#' makes it easy to get such a file into your own repo.
+#' A "standalone" file implements a minimum set of functionality in such a way
+#' that it can be copied into another package. `use_standalone()` makes it easy
+#' to get such a file into your own repo.
 #'
 #' @inheritParams create_from_github
-#' @param file Name of compat file. The `compat-` suffix and file extension
-#'   are optional. If ommitted, will allow you to choose from the compat
-#'   files offered by that repo.
+#' @param file Name of standalone file. The `standalone-` prefix and file
+#'   extension are optional. If omitted, will allow you to choose from the
+#'   standalone files offered by that repo.
 #' @export
-use_compat <- function(repo_spec, file = NULL) {
+use_standalone <- function(repo_spec, file = NULL) {
   proj_get() # force project discovery
 
   if (is.null(file)) {
-    file <- compat_choose()
+    file <- standalone_choose()
   } else {
     if (path_ext(file) == "") {
       file <- path_ext_set(file, "R")
     }
-    if (!startsWith(file, "compat-")) {
-      file <- paste0("compat-", file)
+    if (!startsWith(file, "standalone-")) {
+      file <- paste0("standalone-", file)
     }
   }
 
   path <- path("R", file)
 
   lines <- read_github_file(repo_spec, path = path)
-  lines <- c(compat_prefix(repo_spec, path), lines)
+  lines <- c(standalone_prefix(repo_spec, path), lines)
   write_over(proj_path(path), lines, overwrite = TRUE)
 
   dependencies <- find_dependencies(lines, path)
   for (dependency in dependencies) {
-    use_compat(repo_spec, dependency)
+    use_standalone(repo_spec, dependency)
   }
 
   invisible()
 }
 
-compat_choose <- function(repo_spec) {
+standalone_choose <- function(repo_spec) {
   json <- gh::gh(
     "/repos/{repo_spec}/contents/{path}",
     repo_spec = repo_spec,
@@ -45,12 +45,12 @@ compat_choose <- function(repo_spec) {
   )
 
   names <- map_chr(json, "name")
-  names <- names[grepl("^compat-", names)]
-  compats <- gsub("^compat-|.[Rr]$", "", names)
+  names <- names[grepl("^standalone-", names)]
+  choices <- gsub("^standalone-|.[Rr]$", "", names)
 
   choice <- utils::menu(
-    choices = compats,
-    title = "Which compat file do you want to use (0 to exit)"
+    choices = choices,
+    title = "Which standalone file do you want to use (0 to exit)"
   )
   if (choice == 0) {
     cli::cli_abort("Selection cancelled")
@@ -59,9 +59,9 @@ compat_choose <- function(repo_spec) {
   names[choice]
 }
 
-compat_prefix <- function(repo_spec, path) {
+standalone_prefix <- function(repo_spec, path) {
   c(
-    "# Compatibility file: do not edit by hand",
+    "# Standalone file: do not edit by hand",
     glue("# Source: <https://github.com/{repo_spec}/blob/main/{path}>"),
     paste0("# ", strrep("-", 72 - 2)),
     "#"
