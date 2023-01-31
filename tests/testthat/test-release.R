@@ -22,6 +22,15 @@ test_that("release bullets don't change accidentally", {
     writeLines(release_checklist("1.0.0", on_cran = TRUE)),
     transform = scrub_testpkg
   )
+
+  gert::git_init()
+  gert::git_add("DESCRIPTION")
+  gert::git_commit("First commit")
+  gert::git_remote_add("git@github.com:r-lib/usethis.git")
+  expect_snapshot(
+    writeLines(release_checklist("1.0.0", on_cran = TRUE)),
+    transform = scrub_testpkg
+  )
 })
 
 test_that("get extra news bullets if available", {

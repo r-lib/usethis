@@ -113,6 +113,45 @@
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
 
+---
+
+    Code
+      writeLines(release_checklist("1.0.0", on_cran = TRUE))
+    Output
+      Prepare for release:
+      
+      * [ ] `git pull`
+      * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
+      * [ ] Check if any deprecation processes should be advanced, as described in [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)
+      * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
+      * [ ] `usethis::use_github_links()`
+      * [ ] `urlchecker::url_check()`
+      * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
+      * [ ] `devtools::check_win_devel()`
+      * [ ] `rhub::check_for_cran()`
+      * [ ] `revdepcheck::revdep_check(num_workers = 4)`
+      * [ ] Update `cran-comments.md`
+      * [ ] `git push`
+      * [ ] Draft blog post
+      
+      Submit to CRAN:
+      
+      * [ ] `usethis::use_version('major')`
+      * [ ] `devtools::submit_cran()`
+      * [ ] Approve email
+      
+      Wait for CRAN...
+      
+      * [ ] Accepted :tada:
+      * [ ] `git push`
+      * [ ] `usethis::use_github_release()`
+      * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_news_md()`
+      * [ ] `git push`
+      * [ ] Finish blog post
+      * [ ] Tweet
+      * [ ] Add link to blog post in pkgdown news menu
+
 # construct correct revdep bullet
 
     Code
