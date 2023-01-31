@@ -72,9 +72,6 @@ release_checklist <- function(version, on_cran) {
   has_pkgdown <- uses_pkgdown()
   has_readme <- file_exists(proj_path("README.Rmd"))
 
-  repo <- github_url_from_git_remotes()
-  has_github_links <- repo %in% desc::desc_get_urls() && glue::glue("{repo}/issues") %in% desc::desc_get("BugReports")
-
   if (uses_git()) {
     milestone_num <- gh_milestone_number(target_repo_spec(), version)
   } else {
@@ -107,7 +104,7 @@ release_checklist <- function(version, on_cran) {
       [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
       type != "patch"),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
-    if (!has_github_links) todo("`usethis::use_github_links()`"),
+    if (!has_github_links()) todo("`usethis::use_github_links()`"),
     todo("`urlchecker::url_check()`"),
     todo("`devtools::build_readme()`", has_readme),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
