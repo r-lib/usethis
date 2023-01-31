@@ -104,7 +104,9 @@ release_checklist <- function(version, on_cran) {
       [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
       type != "patch"),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
-    if (!has_github_links()) todo("`usethis::use_github_links()`"),
+    if (uses_git() && nrow(gert::git_remote_list()) > 0 && !has_github_links()) {
+      todo("`usethis::use_github_links()`")
+    },
     todo("`urlchecker::url_check()`"),
     todo("`devtools::build_readme()`", has_readme),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
