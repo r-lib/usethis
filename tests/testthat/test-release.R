@@ -25,7 +25,7 @@ test_that("release bullets don't change accidentally", {
 
   gert::git_init()
   gert::git_add("DESCRIPTION")
-  gert::git_commit("First commit")
+  gert::git_commit("First commit", author = "test committer")
   gert::git_remote_add("git@github.com:r-lib/usethis.git")
   expect_snapshot(
     writeLines(release_checklist("1.0.0", on_cran = TRUE)),
