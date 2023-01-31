@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_release_issue()` will now remind you to run `use_github_links()` if 
+  necessary (@Bisaloo, #1754)
+
 * `use_release_issue()` will now remind you to check/close the milestone
   corresponding to the release, if it exists (#1642).
 
