@@ -50,7 +50,8 @@
 * `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
   you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
   The default remains to provide a full report. Also, provides more
-  feedback if git user's information is not set. (@ijlyttle, #1714, #1706).
+  feedback if git user's information is not set, and checks global git-email
+  against user-level GitHub PAT (@ijlyttle, #1732, #1714, #1706).
   
 * `use_article()` no longer adds the rmarkdown package to `Suggests`. Instead,
   if rmarkdown is not already a dependency, it's added to
