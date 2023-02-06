@@ -16,8 +16,8 @@ use_dev_package(package, type = "Imports", remote = NULL)
 "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation). Matching
 is case insensitive.}
 
-\item{min_version}{Optionally, supply a minimum version for the package.
-Set to \code{TRUE} to use the currently installed version.}
+\item{min_version}{Optionally, supply a minimum version for the package. Set
+to \code{TRUE} to use the currently installed version.}
 
 \item{remote}{By default, an \code{OWNER/REPO} GitHub remote is inserted.
 Optionally, you can supply a character string to specify the remote, e.g.
@@ -25,9 +25,11 @@ Optionally, you can supply a character string to specify the remote, e.g.
 }
 \description{
 \code{use_package()} adds a CRAN package dependency to \code{DESCRIPTION} and offers a
-little advice about how to best use it. \code{use_dev_package()} adds a
-dependency on an in-development package, adding the dev repo to \code{Remotes} so
-it will be automatically installed from the correct location.
+little advice about how to best use it. \code{use_dev_package()} adds a dependency
+on an in-development package, adding the dev repo to \code{Remotes} so it will be
+automatically installed from the correct location. There is no helper to
+remove a dependency: to do that, simply remove that package from your
+\code{DESCRIPTION} file.
 }
 \examples{
 \dontrun{
@@ -40,5 +42,6 @@ use_package("R", type = "Depends", min_version = "4.1")
 }
 }
 \seealso{
-The \href{https://r-pkgs.org/dependencies.html}{dependencies section} of \href{https://r-pkgs.org}{R Packages}.
+The \href{https://r-pkgs.org/dependencies.html}{dependencies section} of
+\href{https://r-pkgs.org}{R Packages}.
 }

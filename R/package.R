@@ -1,25 +1,26 @@
 #' Depend on another package
 #'
 #' `use_package()` adds a CRAN package dependency to `DESCRIPTION` and offers a
-#' little advice about how to best use it. `use_dev_package()` adds a
-#' dependency on an in-development package, adding the dev repo to `Remotes` so
-#' it will be automatically installed from the correct location.
+#' little advice about how to best use it. `use_dev_package()` adds a dependency
+#' on an in-development package, adding the dev repo to `Remotes` so it will be
+#' automatically installed from the correct location. There is no helper to
+#' remove a dependency: to do that, simply remove that package from your
+#' `DESCRIPTION` file.
 #'
 #' @param package Name of package to depend on.
 #' @param type Type of dependency: must be one of "Imports", "Depends",
 #'   "Suggests", "Enhances", or "LinkingTo" (or unique abbreviation). Matching
 #'   is case insensitive.
-#' @param min_version Optionally, supply a minimum version for the package.
-#'   Set to `TRUE` to use the currently installed version.
+#' @param min_version Optionally, supply a minimum version for the package. Set
+#'   to `TRUE` to use the currently installed version.
 #' @param remote By default, an `OWNER/REPO` GitHub remote is inserted.
 #'   Optionally, you can supply a character string to specify the remote, e.g.
 #'   `"gitlab::jimhester/covr"`, using any syntax supported by the [remotes
 #'   package](
 #'   https://remotes.r-lib.org/articles/dependencies.html#other-sources).
 #'
-#' @seealso The [dependencies
-#'   section](https://r-pkgs.org/dependencies.html) of [R
-#'   Packages](https://r-pkgs.org).
+#' @seealso The [dependencies section](https://r-pkgs.org/dependencies.html) of
+#'   [R Packages](https://r-pkgs.org).
 #'
 #' @export
 #' @examples
