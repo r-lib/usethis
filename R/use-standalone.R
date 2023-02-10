@@ -59,7 +59,7 @@ standalone_choose <- function(repo_spec, error_call = parent.frame()) {
   if (!is_interactive()) {
     cli::cli_abort(
       c(
-        "`file` is absent, but must be suppled.",
+        "`file` is absent, but must be supplied.",
         i = "Possible options are {.or {choices}}."
       ),
       call = error_call
