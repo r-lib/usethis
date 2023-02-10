@@ -78,6 +78,7 @@ reference:
     - matches("pkgdown|badge")
     - use_github_links
     - use_lifecycle
+    - use_standalone
     - use_testthat
   - title: Package release
     contents:
