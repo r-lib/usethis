@@ -1,10 +1,11 @@
 test_that("can import standalone file with dependencies", {
+  skip_on_cran()
   create_local_package()
 
   use_standalone("r-lib/rlang", "types-check")
-  expect_equal(
-    dir_ls(proj_path("R")),
-    c("R/import-standalone-types-check", "R/import-standalone-obj-type.R")
+  expect_setequal(
+    as.character(path_rel(dir_ls(proj_path("R"))), proj_path()),
+    c("R/import-standalone-types-check.R", "R/import-standalone-obj-type.R")
   )
 })
 

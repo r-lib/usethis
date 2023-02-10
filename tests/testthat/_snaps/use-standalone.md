@@ -9,7 +9,8 @@
       standalone_choose("r-lib/rlang")
     Condition
       Error:
-      ! No standalone files found in r-lib/rlang.
+      ! `file` is absent, but must be suppled.
+      i Possible options are cli, downstream-deps, lazyeval, lifecycle, linked-version, obj-type, purrr, rlang, s3-register, sizes, types-check, vctrs, or zeallot.
 
 # header provides useful summary
 

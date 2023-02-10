@@ -10,10 +10,10 @@
 #'   standalone files offered by that repo.
 #' @export
 use_standalone <- function(repo_spec, file = NULL) {
-  proj_get() # force project discovery
+  check_is_project()
 
   if (is.null(file)) {
-    file <- standalone_choose()
+    file <- standalone_choose(repo_spec)
   } else {
     if (path_ext(file) == "") {
       file <- path_ext_set(file, "R")
@@ -23,11 +23,12 @@ use_standalone <- function(repo_spec, file = NULL) {
     }
   }
 
-  path <- path("R", paste0("import-", file))
+  src_path <- path("R", file)
+  dest_path <- path("R", paste0("import-", file))
 
-  lines <- read_github_file(repo_spec, path = path)
-  lines <- c(standalone_header(repo_spec, path), lines)
-  write_over(proj_path(path), lines, overwrite = TRUE)
+  lines <- read_github_file(repo_spec, path = src_path)
+  lines <- c(standalone_header(repo_spec, dest_path), lines)
+  write_over(proj_path(dest_path), lines, overwrite = TRUE)
 
   dependencies <- standalone_dependencies(lines, path)
   for (dependency in dependencies) {
