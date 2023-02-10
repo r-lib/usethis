@@ -27,7 +27,7 @@ use_standalone <- function(repo_spec, file = NULL) {
   dest_path <- path("R", paste0("import-", file))
 
   lines <- read_github_file(repo_spec, path = src_path)
-  lines <- c(standalone_header(repo_spec, dest_path), lines)
+  lines <- c(standalone_header(repo_spec, src_path), lines)
   write_over(proj_path(dest_path), lines, overwrite = TRUE)
 
   dependencies <- standalone_dependencies(lines, path)
