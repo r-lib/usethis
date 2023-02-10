@@ -20,7 +20,6 @@
 * `use_travis()` and `use_appveyor()` are now defunct because we no longer  
   recommend Travis or Appveyor. We recommend GitHub actions instead (#1517).
 
->>>>>>> 8a4a633e6490d5be70734c03844987fb58a2904d
 * `use_github_action()` now suggests possible actions when called without
   arguments (#1724).
 
