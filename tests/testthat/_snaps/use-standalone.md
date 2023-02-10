@@ -9,7 +9,7 @@
       standalone_choose("r-lib/rlang")
     Condition
       Error:
-      ! `file` is absent, but must be suppled.
+      ! `file` is absent, but must be supplied.
       i Possible options are cli, downstream-deps, lazyeval, lifecycle, linked-version, obj-type, purrr, rlang, s3-register, sizes, types-check, vctrs, or zeallot.
 
 # header provides useful summary
