@@ -38,7 +38,7 @@ use_standalone <- function(repo_spec, file = NULL) {
   invisible()
 }
 
-standalone_choose <- function(repo_spec, error_call = parent.frame()) {
+standalone_choose <- function(repo_spec, error_call = caller_env()) {
   json <- gh::gh(
     "/repos/{repo_spec}/contents/{path}",
     repo_spec = repo_spec,
@@ -68,13 +68,13 @@ standalone_choose <- function(repo_spec, error_call = parent.frame()) {
 
   choice <- utils::menu(
     choices = choices,
-    title = "Which standalone file do you want to use (0 to exit)"
+    title = "Which standalone file do you want to use (0 to exit)?"
   )
   if (choice == 0) {
     cli::cli_abort("Selection cancelled")
   }
 
-  names[choice]
+  names[[choice]]
 }
 
 standalone_header <- function(repo_spec, path) {
@@ -86,7 +86,7 @@ standalone_header <- function(repo_spec, path) {
   )
 }
 
-standalone_dependencies <- function(lines, path, call = caller_env()) {
+standalone_dependencies <- function(lines, path, error_call = caller_env()) {
   dividers <- which(lines == "# ---")
   if (length(dividers) != 2) {
     cli::cli_abort("Can't find yaml metadata in {.path {path}}.", call = call)
