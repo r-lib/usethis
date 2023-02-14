@@ -71,13 +71,15 @@ release_checklist <- function(version, on_cran) {
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- uses_pkgdown()
   has_readme <- file_exists(proj_path("README.Rmd"))
-
-  if (uses_git()) {
-    milestone_num <- gh_milestone_number(target_repo_spec(), version)
-  } else {
-    milestone_num <- NA # for testing
-  }
   is_rstudio_pkg <- is_rstudio_pkg()
+
+  milestone_num <- NA # for testing (and general fallback)
+  if (uses_git() && curl::has_internet()) {
+    milestone_num <- tryCatch(
+      gh_milestone_number(target_repo_spec(), version),
+      error = function(e) NA
+    )
+  }
 
   c(
     if (!on_cran) c(
