@@ -94,9 +94,10 @@ read_github_file <- function(repo_spec, path, ref = NULL, host = NULL) {
   # normal file in the repository, then the API responds with the content of the
   # file....
   tf <- withr::local_tempfile()
-  res <- gh::gh(
+  gh::gh(
     "/repos/{repo_spec}/contents/{path}",
-    repo_spec = repo_spec, path = path,
+    repo_spec = repo_spec,
+    path = path,
     ref = ref,
     .api_url = host,
     .destfile = tf,
