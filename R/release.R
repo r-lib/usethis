@@ -70,6 +70,7 @@ release_checklist <- function(version, on_cran) {
   has_src <- dir_exists(proj_path("src"))
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- uses_pkgdown()
+  has_lifecycle <- proj_desc()$has_dep("lifecycle")
   has_readme <- file_exists(proj_path("README.Rmd"))
   is_rstudio_pkg <- is_rstudio_pkg()
 
@@ -104,7 +105,7 @@ release_checklist <- function(version, on_cran) {
     todo("
       Check if any deprecation processes should be advanced, as described in \\
       [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
-      type != "patch"),
+      type != "patch" && has_lifecycle),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("`urlchecker::url_check()`"),
     todo("`devtools::build_readme()`", has_readme),
