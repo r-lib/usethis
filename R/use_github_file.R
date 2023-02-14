@@ -24,6 +24,7 @@
 #'   This is extracted from `repo_spec` when user provides a URL.
 #' @inheritParams use_template
 #' @inheritParams use_github
+#' @inheritParams write_over
 #'
 #' @return A logical indicator of whether a file was written, invisibly.
 #' @export
@@ -47,6 +48,7 @@ use_github_file <- function(repo_spec,
                             ref = NULL,
                             ignore = FALSE,
                             open = FALSE,
+                            overwrite = FALSE,
                             host = NULL) {
 
   check_string(repo_spec)
@@ -74,7 +76,12 @@ use_github_file <- function(repo_spec,
     ref = ref,
     host = host
   )
-  new <- write_over(proj_path(save_as), lines, quiet = TRUE)
+  new <- write_over(
+    proj_path(save_as),
+    lines,
+    quiet = TRUE,
+    overwrite = overwrite
+  )
 
   if (ignore) {
     use_build_ignore(save_as)

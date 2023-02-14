@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `write_over()` and `use_github_file()` gains an overwrite argument (#1748).
+
 * `use_standalone()` makes it easier to use standalone files provided by 
   various low-level tidyverse packages like rlang (#1654).
 
