@@ -75,7 +75,7 @@ standalone_choose <- function(repo_spec, error_call = caller_env()) {
     title = "Which standalone file do you want to use (0 to exit)?"
   )
   if (choice == 0) {
-    cli::cli_abort("Selection cancelled")
+    cli::cli_abort("Selection cancelled", call = error_call)
   }
 
   names[[choice]]
@@ -93,7 +93,10 @@ standalone_header <- function(repo_spec, path) {
 standalone_dependencies <- function(lines, path, error_call = caller_env()) {
   dividers <- which(lines == "# ---")
   if (length(dividers) != 2) {
-    cli::cli_abort("Can't find yaml metadata in {.path {path}}.", call = call)
+    cli::cli_abort(
+      "Can't find yaml metadata in {.path {path}}.",
+      call = error_call
+    )
   }
 
   header <- lines[dividers[[1]]:dividers[[2]]]
@@ -104,7 +107,10 @@ standalone_dependencies <- function(lines, path, error_call = caller_env()) {
 
   deps <- yaml$dependencies
   if (!is.null(deps) && !is.character(deps)) {
-    cli::cli_abort("Invalid dependencies specification in {.path {path}}.", call = call)
+    cli::cli_abort(
+      "Invalid dependencies specification in {.path {path}}.",
+      call = error_call
+    )
   }
   deps %||% character()
 }
