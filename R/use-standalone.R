@@ -1,8 +1,12 @@
 #' Use a standalone file from another repo
 #'
+#' @description
 #' A "standalone" file implements a minimum set of functionality in such a way
 #' that it can be copied into another package. `use_standalone()` makes it easy
 #' to get such a file into your own repo.
+#'
+#' It always overwrites an existing standalone file of the same name, making
+#' it easy to update previously imported code.
 #'
 #' @inheritParams create_from_github
 #' @param file Name of standalone file. The `standalone-` prefix and file

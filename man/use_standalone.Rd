@@ -27,4 +27,7 @@ standalone files offered by that repo.}
 A "standalone" file implements a minimum set of functionality in such a way
 that it can be copied into another package. \code{use_standalone()} makes it easy
 to get such a file into your own repo.
+
+It always overwrites an existing standalone file of the same name, making
+it easy to update previously imported code.
 }
