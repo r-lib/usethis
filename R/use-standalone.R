@@ -24,7 +24,7 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   }
 
   if (is.null(file)) {
-    file <- standalone_choose(repo_spec)
+    file <- standalone_choose(repo_spec, host = host)
   } else {
     if (path_ext(file) == "") {
       file <- path_ext_set(file, "R")
