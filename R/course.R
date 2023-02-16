@@ -18,11 +18,9 @@
 #'       download URL for the target ZIP file. The helper
 #'       [create_download_url()] helps to create such URLs for GitHub, DropBox,
 #'       and Google Drive.
-#' @param destdir The new folder is stored here. If `NULL`, defaults to user's
-#'   Desktop or some other conspicuous place. You can also set a default
-#'   location using the option `usethis.destdir`, e.g.
-#'   `options(usethis.destdir = "a/good/dir")`, perhaps saved to your
-#'   `.Rprofile` with [`edit_r_profile()`].
+#' @param destdir Destination for the new folder. Defaults to the location
+#'   stored in the global option `usethis.destdir`, if defined, or to the user's
+#'   Desktop or similarly conspicuous place otherwise.
 #' @param cleanup Whether to delete the original ZIP file after unpacking its
 #'   contents. In an interactive setting, `NA` leads to a menu where user can
 #'   approve the deletion (or decline).

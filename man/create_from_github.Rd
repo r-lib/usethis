@@ -25,9 +25,10 @@ create_from_github(
 \item SSH Git URL, such as \code{"git@github.com:OWNER/REPO.git"}
 }}
 
-\item{destdir}{Destination for new folder, which will be named according
-to the \code{REPO} extracted from \code{REPO_SPEC}. Defaults to user's
-Desktop or similarly conspicuous place.}
+\item{destdir}{Destination for the new folder, which will be named according
+to the \code{REPO} extracted from \code{repo_spec}. Defaults to the location stored
+in the global option \code{usethis.destdir}, if defined, or to the user's
+Desktop or similarly conspicuous place otherwise.}
 
 \item{fork}{If \code{FALSE}, we clone \code{repo_spec}. If \code{TRUE}, we fork
 \code{repo_spec}, clone that fork, and do additional setup favorable for
@@ -58,10 +59,16 @@ the cloned repo may already be an RStudio Project, i.e. may already have a
 
 \item{protocol}{One of "https" or "ssh"}
 
-\item{host}{GitHub API host, passed to the \code{.api_url} argument of
-\code{\link[gh:gh]{gh::gh()}}. By default, will extract the host url from \code{repo_spec},
-falling back to "https://api.github.com" for simple \code{OWNER/REPO}-style
-specs.}
+\item{host}{GitHub host to target, passed to the \code{.api_url} argument of
+\code{\link[gh:gh]{gh::gh()}}. If \code{repo_spec} is a URL, \code{host} is extracted from that.
+
+If unspecified, gh defaults to "https://api.github.com", although gh's
+default can be customised by setting the GITHUB_API_URL environment
+variable.
+
+For a hypothetical GitHub Enterprise instance, either
+"https://github.acme.com/api/v3" or "https://github.acme.com" is
+acceptable.}
 
 \item{auth_token, credentials}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
 consulted now that usethis uses the gert package for Git operations,
