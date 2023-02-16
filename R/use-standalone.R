@@ -24,7 +24,7 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   }
 
   if (is.null(file)) {
-    file <- standalone_choose(repo_spec, host = host)
+    file <- standalone_choose(repo_spec, ref = ref, host = host)
   } else {
     if (path_ext(file) == "") {
       file <- path_ext_set(file, "R")
@@ -37,7 +37,7 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   src_path <- path("R", file)
   dest_path <- path("R", paste0("import-", file))
 
-  lines <- read_github_file(repo_spec, path = src_path, host = host, ref = ref)
+  lines <- read_github_file(repo_spec, path = src_path, ref = ref, host = host)
   lines <- c(standalone_header(repo_spec, src_path), lines)
   write_over(proj_path(dest_path), lines, overwrite = TRUE)
 
