@@ -1,5 +1,5 @@
 test_that("can import standalone file with dependencies", {
-  skip_on_cran()
+  skip_if_offline()
   create_local_package()
 
   use_standalone("r-lib/rlang", "types-check")
@@ -10,7 +10,7 @@ test_that("can import standalone file with dependencies", {
 })
 
 test_that("can offer choices", {
-  skip_on_cran()
+  skip_if_offline()
 
   expect_snapshot(error = TRUE, {
     standalone_choose("tidyverse/forcats")
