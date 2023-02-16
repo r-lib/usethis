@@ -2,19 +2,35 @@ test_that("can import standalone file with dependencies", {
   skip_if_offline()
   create_local_package()
 
-  use_standalone("r-lib/rlang", "types-check")
+  use_standalone("r-lib/rlang", "types-check", ref = "4670cb233ecc8d11")
   expect_setequal(
     as.character(path_rel(dir_ls(proj_path("R"))), proj_path()),
     c("R/import-standalone-types-check.R", "R/import-standalone-obj-type.R")
   )
 })
 
+test_that("can use full github url", {
+  skip_if_offline()
+  create_local_package()
+
+  use_standalone(
+    "https://github.com/r-lib/rlang",
+    file = "sizes",
+    ref = "4670cb233ecc8d11"
+  )
+  expect_equal(
+    as.character(path_rel(dir_ls(proj_path("R"))), proj_path()),
+    "R/import-standalone-sizes.R"
+  )
+})
+
+
 test_that("can offer choices", {
   skip_if_offline()
 
   expect_snapshot(error = TRUE, {
-    standalone_choose("tidyverse/forcats")
-    standalone_choose("r-lib/rlang")
+    standalone_choose("tidyverse/forcats", ref = "v1.0.0")
+    standalone_choose("r-lib/rlang", ref = "4670cb233ecc8d11")
   })
 })
 

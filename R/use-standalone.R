@@ -9,12 +9,19 @@
 #' it easy to update previously imported code.
 #'
 #' @inheritParams create_from_github
+#' @inheritParams use_github_file
 #' @param file Name of standalone file. The `standalone-` prefix and file
 #'   extension are optional. If omitted, will allow you to choose from the
 #'   standalone files offered by that repo.
 #' @export
-use_standalone <- function(repo_spec, file = NULL) {
+use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   check_is_project()
+
+  parsed_repo_spec <- parse_repo_url(repo_spec)
+  if (!is.null(parsed_repo_spec$host)) {
+    repo_spec <- parsed_repo_spec$repo_spec
+    host <- parsed_repo_spec$host
+  }
 
   if (is.null(file)) {
     file <- standalone_choose(repo_spec)
@@ -30,7 +37,7 @@ use_standalone <- function(repo_spec, file = NULL) {
   src_path <- path("R", file)
   dest_path <- path("R", paste0("import-", file))
 
-  lines <- read_github_file(repo_spec, path = src_path)
+  lines <- read_github_file(repo_spec, path = src_path, host = host, ref = ref)
   lines <- c(standalone_header(repo_spec, src_path), lines)
   write_over(proj_path(dest_path), lines, overwrite = TRUE)
 
@@ -42,10 +49,12 @@ use_standalone <- function(repo_spec, file = NULL) {
   invisible()
 }
 
-standalone_choose <- function(repo_spec, error_call = caller_env()) {
+standalone_choose <- function(repo_spec, ref = NULL, host = NULL, error_call = caller_env()) {
   json <- gh::gh(
     "/repos/{repo_spec}/contents/{path}",
     repo_spec = repo_spec,
+    ref = ref,
+    .api_url = host,
     path = "R/"
   )
 

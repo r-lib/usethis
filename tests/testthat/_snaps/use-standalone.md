@@ -1,12 +1,12 @@
 # can offer choices
 
     Code
-      standalone_choose("tidyverse/forcats")
+      standalone_choose("tidyverse/forcats", ref = "v1.0.0")
     Condition
       Error:
       ! No standalone files found in tidyverse/forcats.
     Code
-      standalone_choose("r-lib/rlang")
+      standalone_choose("r-lib/rlang", ref = "4670cb233ecc8d11")
     Condition
       Error:
       ! `file` is absent, but must be supplied.
