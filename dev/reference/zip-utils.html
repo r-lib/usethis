@@ -110,11 +110,9 @@ of typos in live settings, these shorter forms are accepted:</p>
 
 
 <dt>destdir</dt>
-<dd><p>The new folder is stored here. If <code>NULL</code>, defaults to user's
-Desktop or some other conspicuous place. You can also set a default
-location using the option <code>usethis.destdir</code>, e.g.
-<code>options(usethis.destdir = "a/good/dir")</code>, perhaps saved to your
-<code>.Rprofile</code> with <code><a href="edit.html">edit_r_profile()</a></code>.</p></dd>
+<dd><p>Destination for the new folder. Defaults to the location
+stored in the global option <code>usethis.destdir</code>, if defined, or to the user's
+Desktop or similarly conspicuous place otherwise.</p></dd>
 
 
 <dt>cleanup</dt>

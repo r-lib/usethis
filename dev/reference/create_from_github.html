@@ -119,9 +119,10 @@ discoverable. See below for more about authentication.</p>
 
 
 <dt>destdir</dt>
-<dd><p>Destination for new folder, which will be named according
-to the <code>REPO</code> extracted from <code>REPO_SPEC</code>. Defaults to user's
-Desktop or similarly conspicuous place.</p></dd>
+<dd><p>Destination for the new folder, which will be named according
+to the <code>REPO</code> extracted from <code>repo_spec</code>. Defaults to the location stored
+in the global option <code>usethis.destdir</code>, if defined, or to the user's
+Desktop or similarly conspicuous place otherwise.</p></dd>
 
 
 <dt>fork</dt>
@@ -156,10 +157,14 @@ the cloned repo may already be an RStudio Project, i.e. may already have a
 
 
 <dt>host</dt>
-<dd><p>GitHub API host, passed to the <code>.api_url</code> argument of
-<code><a href="https://gh.r-lib.org/reference/gh.html" class="external-link">gh::gh()</a></code>. By default, will extract the host url from <code>repo_spec</code>,
-falling back to "https://api.github.com" for simple <code>OWNER/REPO</code>-style
-specs.</p></dd>
+<dd><p>GitHub host to target, passed to the <code>.api_url</code> argument of
+<code><a href="https://gh.r-lib.org/reference/gh.html" class="external-link">gh::gh()</a></code>. If <code>repo_spec</code> is a URL, <code>host</code> is extracted from that.</p>
+<p>If unspecified, gh defaults to "https://api.github.com", although gh's
+default can be customised by setting the GITHUB_API_URL environment
+variable.</p>
+<p>For a hypothetical GitHub Enterprise instance, either
+"https://github.acme.com/api/v3" or "https://github.acme.com" is
+acceptable.</p></dd>
 
 
 <dt>auth_token, credentials</dt>

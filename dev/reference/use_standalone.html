@@ -112,10 +112,14 @@ This is extracted from <code>repo_spec</code> when user provides a URL.</p></dd>
 
 
 <dt>host</dt>
-<dd><p>GitHub API host, passed to the <code>.api_url</code> argument of
-<code><a href="https://gh.r-lib.org/reference/gh.html" class="external-link">gh::gh()</a></code>. By default, will extract the host url from <code>repo_spec</code>,
-falling back to "https://api.github.com" for simple <code>OWNER/REPO</code>-style
-specs.</p></dd>
+<dd><p>GitHub host to target, passed to the <code>.api_url</code> argument of
+<code><a href="https://gh.r-lib.org/reference/gh.html" class="external-link">gh::gh()</a></code>. If <code>repo_spec</code> is a URL, <code>host</code> is extracted from that.</p>
+<p>If unspecified, gh defaults to "https://api.github.com", although gh's
+default can be customised by setting the GITHUB_API_URL environment
+variable.</p>
+<p>For a hypothetical GitHub Enterprise instance, either
+"https://github.acme.com/api/v3" or "https://github.acme.com" is
+acceptable.</p></dd>
 
 </dl></div>
 
