@@ -31,7 +31,7 @@ of typos in live settings, these shorter forms are accepted:
 Desktop or some other conspicuous place. You can also set a default
 location using the option \code{usethis.destdir}, e.g.
 \code{options(usethis.destdir = "a/good/dir")}, perhaps saved to your
-\code{.Rprofile} with \code{\link[=edit_r_profile]{edit_r_profile()}}}
+\code{.Rprofile} with \code{\link[=edit_r_profile]{edit_r_profile()}}.}
 
 \item{cleanup}{Whether to delete the original ZIP file after unpacking its
 contents. In an interactive setting, \code{NA} leads to a menu where user can

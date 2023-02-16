@@ -13,11 +13,7 @@ use_standalone(repo_spec, file = NULL, ref = NULL, host = NULL)
 \item Browser URL, such as \code{"https://github.com/OWNER/REPO"}
 \item HTTPS Git URL, such as \code{"https://github.com/OWNER/REPO.git"}
 \item SSH Git URL, such as \code{"git@github.com:OWNER/REPO.git"}
-}
-
-In the case of a browser, HTTPS, or SSH URL, the \code{host} is extracted from
-the URL. The \code{REPO} part will be the name of the new local folder, which is
-also a project and Git repo.}
+}}
 
 \item{file}{Name of standalone file. The \verb{standalone-} prefix and file
 extension are optional. If omitted, will allow you to choose from the
@@ -27,14 +23,10 @@ standalone files offered by that repo.}
 \code{path} will be copied from its current state in the repo's default branch.
 This is extracted from \code{repo_spec} when user provides a URL.}
 
-\item{host}{GitHub host to target, passed to the \code{.api_url} argument of
-\code{\link[gh:gh]{gh::gh()}}. If unspecified, gh defaults to "https://api.github.com",
-although gh's default can be customised by setting the GITHUB_API_URL
-environment variable.
-
-For a hypothetical GitHub Enterprise instance, either
-"https://github.acme.com/api/v3" or "https://github.acme.com" is
-acceptable.}
+\item{host}{GitHub API host, passed to the \code{.api_url} argument of
+\code{\link[gh:gh]{gh::gh()}}. By default, will extract the host url from \code{repo_spec},
+falling back to "https://api.github.com" for simple \code{OWNER/REPO}-style
+specs.}
 }
 \description{
 A "standalone" file implements a minimum set of functionality in such a way
