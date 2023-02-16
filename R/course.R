@@ -22,7 +22,7 @@
 #'   Desktop or some other conspicuous place. You can also set a default
 #'   location using the option `usethis.destdir`, e.g.
 #'   `options(usethis.destdir = "a/good/dir")`, perhaps saved to your
-#'   `.Rprofile` with [`edit_r_profile()`]
+#'   `.Rprofile` with [`edit_r_profile()`].
 #' @param cleanup Whether to delete the original ZIP file after unpacking its
 #'   contents. In an interactive setting, `NA` leads to a menu where user can
 #'   approve the deletion (or decline).

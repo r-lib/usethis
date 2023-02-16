@@ -23,17 +23,11 @@ create_from_github(
 \item Browser URL, such as \code{"https://github.com/OWNER/REPO"}
 \item HTTPS Git URL, such as \code{"https://github.com/OWNER/REPO.git"}
 \item SSH Git URL, such as \code{"git@github.com:OWNER/REPO.git"}
-}
+}}
 
-In the case of a browser, HTTPS, or SSH URL, the \code{host} is extracted from
-the URL. The \code{REPO} part will be the name of the new local folder, which is
-also a project and Git repo.}
-
-\item{destdir}{The new folder is stored here. If \code{NULL}, defaults to user's
-Desktop or some other conspicuous place. You can also set a default
-location using the option \code{usethis.destdir}, e.g.
-\code{options(usethis.destdir = "a/good/dir")}, perhaps saved to your
-\code{.Rprofile} with \code{\link[=edit_r_profile]{edit_r_profile()}}}
+\item{destdir}{Destination for new folder, which will be named according
+to the \code{REPO} extracted from \code{REPO_SPEC}. Defaults to user's
+Desktop or similarly conspicuous place.}
 
 \item{fork}{If \code{FALSE}, we clone \code{repo_spec}. If \code{TRUE}, we fork
 \code{repo_spec}, clone that fork, and do additional setup favorable for
@@ -64,14 +58,10 @@ the cloned repo may already be an RStudio Project, i.e. may already have a
 
 \item{protocol}{One of "https" or "ssh"}
 
-\item{host}{GitHub host to target, passed to the \code{.api_url} argument of
-\code{\link[gh:gh]{gh::gh()}}. If unspecified, gh defaults to "https://api.github.com",
-although gh's default can be customised by setting the GITHUB_API_URL
-environment variable.
-
-For a hypothetical GitHub Enterprise instance, either
-"https://github.acme.com/api/v3" or "https://github.acme.com" is
-acceptable.}
+\item{host}{GitHub API host, passed to the \code{.api_url} argument of
+\code{\link[gh:gh]{gh::gh()}}. By default, will extract the host url from \code{repo_spec},
+falling back to "https://api.github.com" for simple \code{OWNER/REPO}-style
+specs.}
 
 \item{auth_token, credentials}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
 consulted now that usethis uses the gert package for Git operations,
@@ -80,8 +70,8 @@ requests are now authorized with the token associated with the \code{host}, as
 retrieved by \code{\link[gh:gh_token]{gh::gh_token()}}.}
 }
 \description{
-Creates a new local project and Git repository from a repo on
-GitHub, by either cloning or
+Creates a new local project and Git repository from a repo on GitHub, by
+either cloning or
 \href{https://docs.github.com/en/get-started/quickstart/fork-a-repo}{fork-and-cloning}.
 In the fork-and-clone case, \code{create_from_github()} also does additional
 remote and branch setup, leaving you in the perfect position to make a pull

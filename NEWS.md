@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `write_over()` and `use_github_file()` gain an overwrite argument (#1748).
+
+* `use_standalone()` makes it easier to use standalone files provided by 
+  various low-level tidyverse packages, like rlang (#1654).
+
 * `use_latest_dependencies()` no longer affects `Suggests` since those
   dependencies are not enforced (#1749).
 
