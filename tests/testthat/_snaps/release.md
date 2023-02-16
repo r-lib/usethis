@@ -16,7 +16,6 @@
       Prepare for release:
       
       * [ ] `git pull`
-      * [ ] Check if any deprecation processes should be advanced, as described in [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
@@ -84,7 +83,6 @@
       
       * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
-      * [ ] Check if any deprecation processes should be advanced, as described in [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
@@ -141,7 +139,6 @@
       
       * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
-      * [ ] Check if any deprecation processes should be advanced, as described in [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
