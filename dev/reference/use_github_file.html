@@ -90,6 +90,7 @@ or commit) and which follows symlinks.</p>
 <span>  ref <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ignore <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  open <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  host <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -129,6 +130,10 @@ This is extracted from <code>repo_spec</code> when user provides a URL.</p></dd>
 <dt>open</dt>
 <dd><p>Open the newly created file for editing? Happens in RStudio, if
 applicable, or via <code><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">utils::file.edit()</a></code> otherwise.</p></dd>
+
+
+<dt>overwrite</dt>
+<dd><p>Force overwrite of existing file?</p></dd>
 
 
 <dt>host</dt>

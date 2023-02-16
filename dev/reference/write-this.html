@@ -79,7 +79,7 @@ for internal use. File is written with UTF-8 encoding.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_union</span><span class="op">(</span><span class="va">path</span>, <span class="va">lines</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">write_over</span><span class="op">(</span><span class="va">path</span>, <span class="va">lines</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">write_over</span><span class="op">(</span><span class="va">path</span>, <span class="va">lines</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span>, overwrite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -97,6 +97,10 @@ these are the exact lines desired in the target file.</p></dd>
 
 <dt>quiet</dt>
 <dd><p>Logical. Whether to message about what is happening.</p></dd>
+
+
+<dt>overwrite</dt>
+<dd><p>Force overwrite of existing file?</p></dd>
 
 
 <dt>contents</dt>
