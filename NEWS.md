@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_revdep()` no longer places an email template, because these days we are
+  more likely to communicate with other maintainers about breaking changes via
+  GitHub issues and pull requests (#??).
+
 * `write_over()` and `use_github_file()` gain an overwrite argument (#1748).
 
 * `use_standalone()` makes it easier to use standalone files provided by 
