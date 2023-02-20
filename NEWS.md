@@ -2,7 +2,7 @@
 
 * `use_revdep()` no longer places an email template, because these days we are
   more likely to communicate with other maintainers about breaking changes via
-  GitHub issues and pull requests (#??).
+  GitHub issues and pull requests (#1769).
 
 * `write_over()` and `use_github_file()` gain an overwrite argument (#1748).
 
