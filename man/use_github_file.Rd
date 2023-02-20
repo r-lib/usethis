@@ -11,6 +11,7 @@ use_github_file(
   ref = NULL,
   ignore = FALSE,
   open = FALSE,
+  overwrite = FALSE,
   host = NULL
 )
 }
@@ -41,6 +42,8 @@ This is extracted from \code{repo_spec} when user provides a URL.}
 
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+
+\item{overwrite}{Force overwrite of existing file?}
 
 \item{host}{GitHub host to target, passed to the \code{.api_url} argument of
 \code{\link[gh:gh]{gh::gh()}}. If unspecified, gh defaults to "https://api.github.com",

@@ -24,6 +24,17 @@ test_that("release bullets don't change accidentally", {
   )
 })
 
+test_that("non-patch + lifecycle = advanced deprecation process", {
+  withr::local_options(usethis.description = NULL)
+  create_local_package()
+  use_package("lifecycle")
+
+  has_deprecation <- function(x) any(grepl("deprecation processes", x))
+  expect_true(has_deprecation(release_checklist("1.0.0", on_cran = TRUE)))
+  expect_true(has_deprecation(release_checklist("1.1.0", on_cran = TRUE)))
+  expect_false(has_deprecation(release_checklist("1.1.1", on_cran = TRUE)))
+})
+
 test_that("get extra news bullets if available", {
   env <- env(release_bullets = function() "Extra bullets")
   expect_equal(release_extra_bullets(env), "* [ ] Extra bullets")
