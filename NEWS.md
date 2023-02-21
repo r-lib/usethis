@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_revdep()` no longer places an email template, because these days we are
+  more likely to communicate with other maintainers about breaking changes via
+  GitHub issues and pull requests (#1769).
+
 * `use_rstudio_preferences()` lets you set RStudio preferences programmatically
   (#1518)
   
