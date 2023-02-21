@@ -104,3 +104,14 @@ test_that("use_blank_state() modifies user-level RStudio prefs", {
   expect_equal(prefs[["save_workspace"]], "never")
   expect_false(prefs[["load_workspace"]])
 })
+
+test_that("use_rstudio_preferences", {
+  path <- withr::local_tempdir()
+  withr::local_envvar(c("XDG_CONFIG_HOME" = path))
+
+  use_rstudio_preferences(x = 1, y = "a")
+
+  prefs <- rstudio_prefs_read()
+  expect_equal(prefs$x, 1)
+  expect_equal(prefs$y, "a")
+})

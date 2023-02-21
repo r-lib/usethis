@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_rstudio_preferences()` lets you set RStudio preferences programmatically
+  (#1518)
+  
 * `write_over()` and `use_github_file()` gain an overwrite argument (#1748).
 
 * `use_standalone()` makes it easier to use standalone files provided by 
