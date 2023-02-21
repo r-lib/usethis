@@ -151,6 +151,7 @@ reference:
     - use_directory
     - use_rmarkdown_template
     - use_rstudio
+    - use_rstudio_preferences
   - title: Defunct and deprecated functions
     desc: >
       <a href="https://lifecycle.r-lib.org/articles/lifecycle.html">

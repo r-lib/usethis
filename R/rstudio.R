@@ -61,19 +61,18 @@ use_blank_slate <- function(scope = c("user", "project")) {
   scope <- match.arg(scope)
 
   if (scope == "user") {
-    use_rstudio_config(list(
+    use_rstudio_preferences(
       save_workspace = "never",
       load_workspace = FALSE
-    ))
-    return(invisible())
+    )
+  } else {
+    rproj_fields <- modify_rproj(
+      rproj_path(),
+      list(RestoreWorkspace = "No", SaveWorkspace = "No")
+    )
+    write_utf8(rproj_path(), serialize_rproj(rproj_fields))
+    restart_rstudio("Restart RStudio with a blank slate?")
   }
-
-  rproj_fields <- modify_rproj(
-    rproj_path(),
-    list(RestoreWorkspace = "No", SaveWorkspace = "No")
-  )
-  write_utf8(rproj_path(), serialize_rproj(rproj_fields))
-  restart_rstudio("Restart RStudio with a blank slate?")
 
   invisible()
 }
@@ -200,6 +199,40 @@ rstudio_config_path <- function(...) {
   path(base, ...)
 }
 
+#' Set global RStudio preferences
+#'
+#' This function allows you to set global RStudio preferences, achieving the
+#' same effect programmatically as clicking buttons in RStudio's Global Options.
+#' You can find a list of configurable properties at
+#' <https://docs.posit.co/ide/server-pro/reference/session_user_settings.html>.
+#'
+#' @export
+#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Property-value pairs.
+#' @return A named list of the previous values, invisibly.
+use_rstudio_preferences <- function(...) {
+  new <- dots_list(..., .homonyms = "last")
+  if (length(new) > 0 && !is_named(new)) {
+    cli::cli_abort("All arguments in {.arg ...} must be named.")
+  }
+
+  json <- rstudio_prefs_read()
+  old <- json[names(new)]
+
+  for (name in names(new)) {
+    val <- new[[name]]
+
+    if (identical(json[[name]], val)) {
+      next
+    }
+
+    ui_done("Setting RStudio preference {ui_field(name)} to {ui_value(val)}.")
+    json[[name]] <- val
+  }
+
+  rstudio_prefs_write(json)
+  invisible(old)
+}
+
 rstudio_prefs_read <- function() {
   path <- rstudio_config_path("rstudio-prefs.json")
   if (file_exists(path)) {
@@ -213,22 +246,4 @@ rstudio_prefs_write <- function(json) {
   path <- rstudio_config_path("rstudio-prefs.json")
   create_directory(path_dir(path))
   jsonlite::write_json(json, path, auto_unbox = TRUE, pretty = TRUE)
-}
-
-use_rstudio_config <- function(values) {
-  stopifnot(is.list(values), is_named(values))
-  json <- rstudio_prefs_read()
-
-  for (name in names(values)) {
-    val <- values[[name]]
-
-    if (identical(json[[name]], val)) {
-      next
-    }
-
-    ui_done("Setting RStudio preference {ui_field(name)} to {ui_value(val)}")
-    json[[name]] <- val
-  }
-
-  rstudio_prefs_write(json)
 }
