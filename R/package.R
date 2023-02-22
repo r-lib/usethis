@@ -68,8 +68,8 @@ use_remote <- function(package, package_remote = NULL) {
   }
 
   if (is.null(package_remote)) {
-    desc <- desc::desc(package = package)
-    package_remote <- package_remote(desc)
+    package_desc <- desc::desc(package = package)
+    package_remote <- package_remote(package_desc)
   }
 
   ui_done("
