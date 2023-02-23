@@ -67,7 +67,6 @@ use_release_issue <- function(version = NULL) {
 release_checklist <- function(version, on_cran) {
   type <- release_type(version)
   cran_results <- cran_results_url()
-  has_src <- dir_exists(proj_path("src"))
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- uses_pkgdown()
   has_lifecycle <- proj_desc()$has_dep("lifecycle")
@@ -111,9 +110,6 @@ release_checklist <- function(version, on_cran) {
     todo("`devtools::build_readme()`", has_readme),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
     todo("`devtools::check_win_devel()`"),
-    todo("`rhub::check_for_cran()`"),
-    todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
-    todo("`rhub::check_with_sanitizers()`", has_src),
     release_revdepcheck(on_cran, is_rstudio_pkg),
     todo("Update `cran-comments.md`", on_cran),
     todo("`git push`"),
