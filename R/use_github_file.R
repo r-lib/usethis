@@ -76,7 +76,7 @@ use_github_file <- function(repo_spec,
     ref = ref,
     host = host
   )
-  if (is.na(lines)) {
+  if (!is.null(attr(lines, "error"))) {
     ui_oops("Failed to retrieve content from {ui_path(path)}")
     rlang::cnd_signal(attr(lines, "error"))
   }
