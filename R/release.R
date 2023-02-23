@@ -366,24 +366,24 @@ get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
 
   if (HEAD == SHA) {
     news_path <- proj_path("NEWS.md")
-  } else {
-    news_path <- withr::local_tempfile()
-    gh <- purrr::possibly(gh_tr(tr), otherwise = NULL)
-    gh(
-      "/repos/{owner}/{repo}/contents/{path}",
-      path = "NEWS.md", ref = SHA,
-      .destfile = news_path,
-      .accept = "application/vnd.github.v3.raw"
-    )
+    if (file_exists(news_path)) {
+      return(news_latest(read_utf8(news_path)))
+    } else {
+      return("Initial release")
+    }
   }
 
-  if (file_exists(news_path)) {
-    news <- news_latest(read_utf8(news_path))
+  news_lines <- read_github_file(
+    tr$repo_spec,
+    path = "NEWS.md",
+    ref = SHA,
+    host = tr$api_url
+  )
+  if (is.na(lines)) {
+    "Initial release"
   } else {
-    news <- "Initial release"
+    lines
   }
-
-  news
 }
 
 cran_version <- function(package = project_name(),
