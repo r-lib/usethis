@@ -38,10 +38,6 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   dest_path <- path("R", paste0("import-", file))
 
   lines <- read_github_file(repo_spec, path = src_path, ref = ref, host = host)
-  if (!is.null(attr(lines, "error"))) {
-    ui_oops("Failed to retrieve content from {ui_path(src_path)}")
-    rlang::cnd_signal(attr(lines, "error"))
-  }
   lines <- c(standalone_header(repo_spec, src_path), lines)
   write_over(proj_path(dest_path), lines, overwrite = TRUE)
 

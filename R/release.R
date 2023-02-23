@@ -253,7 +253,8 @@ use_github_release <- function(host = deprecated(),
 
   check_github_has_SHA(SHA = dat$SHA, tr = tr)
 
-  news <- get_release_news(SHA = dat$SHA, tr = tr)
+  on_cran <- !is.null(cran_version())
+  news <- get_release_news(SHA = dat$SHA, tr = tr, on_cran = on_cran)
 
   gh <- gh_tr(tr)
   release <- gh(
@@ -361,28 +362,33 @@ check_github_has_SHA <- function(SHA = gert::git_info(repo = git_repo())$commit,
 }
 
 get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
-                             tr = target_repo(github_get = TRUE)) {
+                             tr = target_repo(github_get = TRUE),
+                             on_cran = !is.null(cran_version())) {
   HEAD <- gert::git_info(repo = git_repo())$commit
 
   if (HEAD == SHA) {
     news_path <- proj_path("NEWS.md")
-    if (file_exists(news_path)) {
-      return(news_latest(read_utf8(news_path)))
-    } else {
-      return("Initial release")
-    }
+    news <- if (file_exists(news_path)) read_utf8(news_path) else NULL
+  } else {
+    news <- tryCatch(
+      read_github_file(
+        tr$repo_spec,
+        path = "NEWS.md",
+        ref = SHA,
+        host = tr$api_url
+      ),
+      github_error = NULL
+    )
   }
 
-  news_lines <- read_github_file(
-    tr$repo_spec,
-    path = "NEWS.md",
-    ref = SHA,
-    host = tr$api_url
-  )
-  if (is.null(attr(lines, "error"))) {
-    "Initial release"
+  if (is.null(news)) {
+    ui_oops("
+      Can't find {ui_path('NEWS.md')} in the released package source.
+      usethis consults this file for release notes.
+      Call {ui_code('usethis::use_news_md()')} to set this up for the future.")
+    if (on_cran) "-- no release notes --" else "Initial release"
   } else {
-    news_latest(lines)
+    news_latest(news)
   }
 }
 

@@ -76,11 +76,6 @@ use_github_file <- function(repo_spec,
     ref = ref,
     host = host
   )
-  if (!is.null(attr(lines, "error"))) {
-    ui_oops("Failed to retrieve content from {ui_path(path)}")
-    rlang::cnd_signal(attr(lines, "error"))
-  }
-
   new <- write_over(
     proj_path(save_as),
     lines,
@@ -106,7 +101,7 @@ read_github_file <- function(repo_spec, path, ref = NULL, host = NULL) {
   # normal file in the repository, then the API responds with the content of the
   # file....
   tf <- withr::local_tempfile()
-  res <- purrr::safely(gh::gh)(
+  gh::gh(
     "/repos/{repo_spec}/contents/{path}",
     repo_spec = repo_spec,
     path = path,
@@ -115,11 +110,7 @@ read_github_file <- function(repo_spec, path, ref = NULL, host = NULL) {
     .destfile = tf,
     .accept = "application/vnd.github.v3.raw"
   )
-  if (is.null(res$error)) {
-    read_utf8(tf)
-  } else {
-    structure(NA_character_, error = res$error)
-  }
+  read_utf8(tf)
 }
 
 # https://github.com/OWNER/REPO/blob/REF/path/to/some/file
