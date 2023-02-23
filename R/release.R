@@ -382,7 +382,7 @@ get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
   if (is.na(lines)) {
     "Initial release"
   } else {
-    lines
+    news_latest(lines)
   }
 }
 
