@@ -5,6 +5,7 @@
     Output
       First release:
       
+      * [ ] `usethis::use_news_md()`
       * [ ] `usethis::use_cran_comments()`
       * [ ] Update (aspirational) install instructions in README
       * [ ] Proofread `Title:` and `Description:`
@@ -35,7 +36,6 @@
       * [ ] `git push`
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
-      * [ ] `usethis::use_news_md()`
       * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
@@ -50,6 +50,7 @@
       
       * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
+      * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
@@ -71,7 +72,6 @@
       * [ ] `git push`
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
-      * [ ] `usethis::use_news_md()`
       * [ ] `git push`
 
 ---
@@ -83,6 +83,7 @@
       
       * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
+      * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
@@ -105,7 +106,6 @@
       * [ ] `git push`
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
-      * [ ] `usethis::use_news_md()`
       * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
@@ -139,6 +139,7 @@
       
       * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
+      * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
@@ -162,7 +163,6 @@
       * [ ] `git push`
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version()`
-      * [ ] `usethis::use_news_md()`
       * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet

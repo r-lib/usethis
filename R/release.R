@@ -86,6 +86,7 @@ release_checklist <- function(version, on_cran) {
     if (!on_cran) c(
       "First release:",
       "",
+      todo("`usethis::use_news_md()`", !has_news),
       todo("`usethis::use_cran_comments()`"),
       todo("Update (aspirational) install instructions in README"),
       todo("Proofread `Title:` and `Description:`"),
@@ -106,6 +107,7 @@ release_checklist <- function(version, on_cran) {
       Check if any deprecation processes should be advanced, as described in \\
       [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
       type != "patch" && has_lifecycle),
+    todo("`usethis::use_news_md()`", on_cran && !has_news),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("`urlchecker::url_check()`"),
     todo("`devtools::build_readme()`", has_readme),
@@ -133,7 +135,6 @@ release_checklist <- function(version, on_cran) {
     todo("`git push`"),
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version()`"),
-    todo("`usethis::use_news_md()`", !has_news),
     todo("`git push`"),
     todo("Finish blog post", type != "patch"),
     todo("Tweet", type != "patch"),
