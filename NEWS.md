@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `use_github_release()` no longer fails in the absence of `NEWS.md` (#1755).
+
+* `use_release_issue()` now encourages the creation of `NEWS.md` prior to
+  submission, instead of after (#1755).
+
 * `use_revdep()` no longer places an email template, because these days we are
   more likely to communicate with other maintainers about breaking changes via
   GitHub issues and pull requests (#1769).
