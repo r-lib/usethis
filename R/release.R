@@ -86,6 +86,7 @@ release_checklist <- function(version, on_cran) {
     if (!on_cran) c(
       "First release:",
       "",
+      todo("`usethis::use_news_md()`", !has_news),
       todo("`usethis::use_cran_comments()`"),
       todo("Update (aspirational) install instructions in README"),
       todo("Proofread `Title:` and `Description:`"),
@@ -106,6 +107,7 @@ release_checklist <- function(version, on_cran) {
       Check if any deprecation processes should be advanced, as described in \\
       [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
       type != "patch" && has_lifecycle),
+    todo("`usethis::use_news_md()`", on_cran && !has_news),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("`urlchecker::url_check()`"),
     todo("`devtools::build_readme()`", has_readme),
@@ -133,7 +135,6 @@ release_checklist <- function(version, on_cran) {
     todo("`git push`"),
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version()`"),
-    todo("`usethis::use_news_md()`", !has_news),
     todo("`git push`"),
     todo("Finish blog post", type != "patch"),
     todo("Tweet", type != "patch"),
@@ -253,7 +254,8 @@ use_github_release <- function(host = deprecated(),
 
   check_github_has_SHA(SHA = dat$SHA, tr = tr)
 
-  news <- get_release_news(SHA = dat$SHA, tr = tr)
+  on_cran <- !is.null(cran_version())
+  news <- get_release_news(SHA = dat$SHA, tr = tr, on_cran = on_cran)
 
   gh <- gh_tr(tr)
   release <- gh(
@@ -361,29 +363,34 @@ check_github_has_SHA <- function(SHA = gert::git_info(repo = git_repo())$commit,
 }
 
 get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
-                             tr = target_repo(github_get = TRUE)) {
+                             tr = target_repo(github_get = TRUE),
+                             on_cran = !is.null(cran_version())) {
   HEAD <- gert::git_info(repo = git_repo())$commit
 
   if (HEAD == SHA) {
     news_path <- proj_path("NEWS.md")
+    news <- if (file_exists(news_path)) read_utf8(news_path) else NULL
   } else {
-    news_path <- withr::local_tempfile()
-    gh <- purrr::possibly(gh_tr(tr), otherwise = NULL)
-    gh(
-      "/repos/{owner}/{repo}/contents/{path}",
-      path = "NEWS.md", ref = SHA,
-      .destfile = news_path,
-      .accept = "application/vnd.github.v3.raw"
+    news <- tryCatch(
+      read_github_file(
+        tr$repo_spec,
+        path = "NEWS.md",
+        ref = SHA,
+        host = tr$api_url
+      ),
+      github_error = NULL
     )
   }
 
-  if (file_exists(news_path)) {
-    news <- news_latest(read_utf8(news_path))
+  if (is.null(news)) {
+    ui_oops("
+      Can't find {ui_path('NEWS.md')} in the released package source.
+      usethis consults this file for release notes.
+      Call {ui_code('usethis::use_news_md()')} to set this up for the future.")
+    if (on_cran) "-- no release notes --" else "Initial release"
   } else {
-    news <- "Initial release"
+    news_latest(news)
   }
-
-  news
 }
 
 cran_version <- function(package = project_name(),
