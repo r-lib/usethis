@@ -20,7 +20,6 @@
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
-      * [ ] `rhub::check_for_cran()`
       * [ ] `git push`
       * [ ] Draft blog post
       
@@ -55,7 +54,6 @@
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
-      * [ ] `rhub::check_for_cran()`
       * [ ] `revdepcheck::revdep_check(num_workers = 4)`
       * [ ] Update `cran-comments.md`
       * [ ] `git push`
@@ -88,7 +86,6 @@
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
-      * [ ] `rhub::check_for_cran()`
       * [ ] `revdepcheck::revdep_check(num_workers = 4)`
       * [ ] Update `cran-comments.md`
       * [ ] `git push`
@@ -144,7 +141,6 @@
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
-      * [ ] `rhub::check_for_cran()`
       * [ ] `revdepcheck::cloud_check()`
       * [ ] Update `cran-comments.md`
       * [ ] `git push`
