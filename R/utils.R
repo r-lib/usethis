@@ -85,15 +85,15 @@ is_online <- function(host) {
 year <- function() format(Sys.Date(), "%Y")
 
 pluck_lgl <- function(.x, ...) {
-  as_logical(purrr::pluck(.x, ..., .default = NA))
+  as.logical(purrr::pluck(.x, ..., .default = NA))
 }
 
 pluck_chr <- function(.x, ...) {
-  as_character(purrr::pluck(.x, ..., .default = NA))
+  as.character(purrr::pluck(.x, ..., .default = NA))
 }
 
 pluck_int <- function(.x, ...) {
-  as_integer(purrr::pluck(.x, ..., .default = NA))
+  as.integer(purrr::pluck(.x, ..., .default = NA))
 }
 
 is_windows <- function() {
