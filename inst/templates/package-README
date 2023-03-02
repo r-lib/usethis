@@ -29,7 +29,7 @@ You can install the development version of {{{ Package }}} from [GitHub](https:/
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("{{{ github_spec }}}")
+remotes::install_github("{{{ github_spec }}}")
 ```
 {{/on_github}}
 {{^on_github}}
