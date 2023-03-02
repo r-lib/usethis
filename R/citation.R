@@ -11,9 +11,6 @@ use_citation <- function() {
   use_template(
     "citation-template.R",
     path("inst", "CITATION"),
-    data = list(
-      Package = proj_desc()$get_field("Package")
-    ),
     open = TRUE
   )
 }
