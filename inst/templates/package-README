@@ -28,7 +28,7 @@ The goal of {{{ Package }}} is to ...
 You can install the development version of {{{ Package }}} from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+# install.packages("remotes")
 remotes::install_github("{{{ github_spec }}}")
 ```
 {{/on_github}}
