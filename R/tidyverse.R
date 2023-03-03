@@ -419,12 +419,13 @@ use_tidy_logo <- function(geometry = "240x278", retina = TRUE) {
 
   png_contents <- gh::gh("GET /repos/{owner}/{repo}/contents/PNG/",
                          owner = owner, repo = repo)
-  pngs_available <- vapply(png_contents, `[[`, FUN.VALUE = character(1), "name")
 
-  if (!paste0(pkg, ".png") %in% pngs_available) {
+  pkg_png <- purrr::keep(png_contents, ~ .x[["name"]] == paste0(pkg, ".png"))
+
+  if (length(pkg_png) == 0L) {
     ui_stop("No png logo available for {pkg} at https://github.com/{owner}/{repo}/")
   }
 
-  url <- glue("https://raw.githubusercontent.com/{owner}/{repo}/main/PNG/{pkg}.png")
+  url <- pkg_png[[1]]$download_url
   use_logo(url, geometry = geometry, retina = retina)
 }
