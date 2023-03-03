@@ -112,14 +112,20 @@ upkeep_checklist <- function(year = NULL,
   }
 
   if (year <= 2023) {
+
+    desc <- proj_desc()
+
     bullets <- c(bullets,
      "2023",
      "",
      "Posit updates:",
      "",
-     todo('Update copyright holder in DESCRIPTION: `person(given = "Posit, PBC", role = c("cph", "fnd"))`'),
-     todo("Double check license file uses '[package] authors' not RStudio"),
-     todo("Update email addresses *@rstudio.com -> *@posit.co"),
+     todo('Update copyright holder in DESCRIPTION: `person(given = "Posit, PBC", role = c("cph", "fnd"))`',
+          rstudio_pkg && !rstudio_person_ok),
+     todo("Double check license file uses '[package] authors' as copyright holder. Run `use_mit_license()`",
+          grepl("MIT", desc$get_field("License"))),
+     todo("Update email addresses *@rstudio.com -> *@posit.co",
+          any(grepl("rstudio", desc$get_authors()))),
      todo("`usethis::use_tidy_coc()`"),
      "",
      "pkgdown:",
@@ -130,7 +136,7 @@ upkeep_checklist <- function(year = NULL,
      todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
      "",
      todo("Modernize citation files; see updated `use_citation()`"),
-     todo("Update logo (https://github.com/rstudio/hex-stickers)"),
+     todo("Update logo (https://github.com/rstudio/hex-stickers); run `use_tidy_logo()`"),
      todo('Use `pak::pkg_install("org/pkg") in README'),
      todo("Consider running `use_tidy_dependencies()`"),
      todo("Use `rlang::check_*` (https://github.com/r-lib/usethis/issues/1692)"),
