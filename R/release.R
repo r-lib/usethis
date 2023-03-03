@@ -437,7 +437,7 @@ is_rstudio_cph_or_fnd <- function() {
   "cph" %in% roles || "fnd" %in% roles
 }
 
-is_rstudio_person_canonical <- function() {
+is_posit_person_canonical <- function() {
   if (!is_package()) {
     return(FALSE)
   }

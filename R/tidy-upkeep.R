@@ -30,7 +30,7 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 
 upkeep_checklist <- function(year = NULL,
                              rstudio_pkg = is_rstudio_pkg(),
-                             rstudio_person_ok = is_rstudio_person_canonical()) {
+                             rstudio_person_ok = is_posit_person_canonical()) {
   year <- year %||% 2000
 
 

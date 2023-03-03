@@ -71,7 +71,7 @@ test_that("RStudio-ness detection works", {
 
   expect_true(is_rstudio_pkg())
   expect_true(is_in_rstudio_org())
-  expect_false(is_rstudio_person_canonical())
+  expect_false(is_posit_person_canonical())
 
   expect_snapshot(
     writeLines(release_checklist("1.0.0", on_cran = TRUE)),
