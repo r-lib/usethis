@@ -91,7 +91,7 @@ upkeep_checklist <- function(year = NULL,
       ""
     )
   }
-if (year <= 2022) {
+  if (year <= 2022) {
     bullets <- c(bullets,
      "2022",
      "",
@@ -107,6 +107,35 @@ if (year <= 2022) {
      todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
      todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
      todo("Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`"),
+     ""
+    )
+  }
+
+  if (year <= 2023) {
+    bullets <- c(bullets,
+     "2023",
+     "",
+     "Posit updates:",
+     "",
+     todo("Update copyright holder in DESCRIPTION: `person(given = \"Posit, PBC\", role = c(\"cph\", \"fnd\"))`"),
+     todo("Double check license file uses '[package] authors' not RStudio"),
+     todo("Update email addresses *@rstudio.com -> *@posit.co"),
+     todo("`usethis::use_tidy_coc()`"),
+     "",
+     "pkgdown:",
+     "",
+     todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
+     todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
+     todo("Submit PR [here](https://github.com/rstudio/aws-main/tree/main/zones) adding your site to the appropriate domain (eg., r-lib, tidyverse, tidymodels) and set url in GitHub Settings > Pages > Custom Domain"),
+     todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
+     "",
+     todo("Modernize citation files; see updated `use_citation()`"),
+     todo("Update logo (https://github.com/rstudio/hex-stickers)"),
+     todo("Use `pak::pkg_install(\"org/pkg\") in README"),
+     todo("Consider running `use_tidy_dependencies()`"),
+     todo("Use `rlang::check_*` (https://github.com/r-lib/usethis/issues/1692)"),
+     todo("Change files ending in `.r` to `.R` (https://github.com/r-lib/usethis/issues/1614)"),
+     todo("Add alt-text to pictures, plots, etc; see https://www.rstudio.com/blog/knitr-fig-alt/ for examples"),
      ""
     )
   }
