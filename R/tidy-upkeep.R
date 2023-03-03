@@ -93,21 +93,21 @@ upkeep_checklist <- function(year = NULL,
   }
   if (year <= 2022) {
     bullets <- c(bullets,
-     "2022",
-     "",
-     todo("`usethis::use_tidy_coc()`"),
-     todo("Handle and close any still-open `master` --> `main` issues"),
-     todo("Update README badges, instructions in [r-lib/usethis#1594](https://github.com/r-lib/usethis/issues/1594)"),
-     todo("
-       Update errors to rlang 1.0.0. Helpful guides:
-       <https://rlang.r-lib.org/reference/topic-error-call.html>
-       <https://rlang.r-lib.org/reference/topic-error-chaining.html>
-       <https://rlang.r-lib.org/reference/topic-condition-formatting.html>"),
-     todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
-     todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
-     todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
-     todo("Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`"),
-     ""
+      "2022",
+      "",
+      todo("`usethis::use_tidy_coc()`"),
+      todo("Handle and close any still-open `master` --> `main` issues"),
+      todo("Update README badges, instructions in [r-lib/usethis#1594](https://github.com/r-lib/usethis/issues/1594)"),
+      todo("
+        Update errors to rlang 1.0.0. Helpful guides:
+        <https://rlang.r-lib.org/reference/topic-error-call.html>
+        <https://rlang.r-lib.org/reference/topic-error-chaining.html>
+        <https://rlang.r-lib.org/reference/topic-condition-formatting.html>"),
+      todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
+      todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
+      todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
+      todo("Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`"),
+      ""
     )
   }
 
@@ -116,34 +116,34 @@ upkeep_checklist <- function(year = NULL,
     desc <- proj_desc()
 
     bullets <- c(bullets,
-     "2023",
-     "",
-     "Posit updates:",
-     "",
-     todo('Update copyright holder in DESCRIPTION: `person(given = "Posit, PBC", role = c("cph", "fnd"))`',
-          rstudio_pkg && !rstudio_person_ok),
-     todo("Double check license file uses '[package] authors' as copyright holder. Run `use_mit_license()`",
-          grepl("MIT", desc$get_field("License"))),
-     todo("Update email addresses *@rstudio.com -> *@posit.co",
-          any(grepl("rstudio", desc$get_authors()))),
-     todo("`usethis::use_tidy_coc()`"),
-     "",
-     "pkgdown:",
-     "",
-     todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
-     todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
-     todo("Submit PR [here](https://github.com/rstudio/aws-main/tree/main/zones) adding your site to the appropriate domain (eg., r-lib, tidyverse, tidymodels) and set url in GitHub Settings > Pages > Custom Domain"),
-     todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
-     "",
-     todo("Modernize citation files; see updated `use_citation()`"),
-     todo("Update logo (https://github.com/rstudio/hex-stickers); run `use_tidy_logo()`"),
-     todo('Use `pak::pkg_install("org/pkg") in README'),
-     todo("Consider running `use_tidy_dependencies()` and/or replace compat files with `use_standalone()`"),
-     todo("Use `rlang::check_*` (https://github.com/r-lib/usethis/issues/1692)"),
-     todo("Change files ending in `.r` to `.R` in R/ and/or tests/testthat/",
-          lowercase_r()),
-     todo("Add alt-text to pictures, plots, etc; see https://www.rstudio.com/blog/knitr-fig-alt/ for examples"),
-     ""
+      "2023",
+      "",
+      "Posit updates:",
+      "",
+      todo('Update copyright holder in DESCRIPTION: `person(given = "Posit, PBC", role = c("cph", "fnd"))`',
+           rstudio_pkg && !rstudio_person_ok),
+      todo("Double check license file uses '[package] authors' as copyright holder. Run `use_mit_license()`",
+           grepl("MIT", desc$get_field("License"))),
+      todo("Update email addresses *@rstudio.com -> *@posit.co",
+           any(grepl("rstudio", desc$get_authors()))),
+      todo("`usethis::use_tidy_coc()`"),
+      "",
+      "pkgdown:",
+      "",
+      todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
+      todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
+      todo("Submit PR [here](https://github.com/rstudio/aws-main/tree/main/zones) adding your site to the appropriate domain (eg., r-lib, tidyverse, tidymodels) and set url in GitHub Settings > Pages > Custom Domain"),
+      todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
+      "",
+      todo("Modernize citation files; see updated `use_citation()`"),
+      todo("Update logo (https://github.com/rstudio/hex-stickers); run `use_tidy_logo()`"),
+      todo('Use `pak::pkg_install("org/pkg") in README'),
+      todo("Consider running `use_tidy_dependencies()` and/or replace compat files with `use_standalone()`"),
+      todo("Use `rlang::check_*` (https://github.com/r-lib/usethis/issues/1692)"),
+      todo("Change files ending in `.r` to `.R` in R/ and/or tests/testthat/",
+           lowercase_r()),
+      todo("Add alt-text to pictures, plots, etc; see https://www.rstudio.com/blog/knitr-fig-alt/ for examples"),
+      ""
     )
   }
 
