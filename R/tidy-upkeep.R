@@ -140,7 +140,8 @@ upkeep_checklist <- function(year = NULL,
      todo('Use `pak::pkg_install("org/pkg") in README'),
      todo("Consider running `use_tidy_dependencies()` and/or replace compat files with `use_standalone()`"),
      todo("Use `rlang::check_*` (https://github.com/r-lib/usethis/issues/1692)"),
-     todo("Change files ending in `.r` to `.R` (https://github.com/r-lib/usethis/issues/1614)"),
+     todo("Change files ending in `.r` to `.R` in R/ and/or tests/testthat/",
+          lowercase_r()),
      todo("Add alt-text to pictures, plots, etc; see https://www.rstudio.com/blog/knitr-fig-alt/ for examples"),
      ""
     )
@@ -162,4 +163,9 @@ tidy_minimum_r_version <- function() {
     oldrel_4 <- re_match(version, "[0-9]+[.][0-9]+")$.match
   }
   oldrel_4
+}
+
+lowercase_r <- function() {
+  path <- proj_path(c("R", "tests/testthat"))
+  length(fs::dir_ls(path, regexp = "[.]r$")) > 0
 }
