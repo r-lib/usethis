@@ -446,7 +446,7 @@ is_rstudio_person_canonical <- function() {
     "fnd" %in% roles &&
     "cph" %in% roles &&
     attr(roles, "appears_in", exact = TRUE) == "given" &&
-    attr(roles, "appears_as", exact = TRUE) == "RStudio"
+    attr(roles, "appears_as", exact = TRUE) == "Posit, PBC"
 }
 
 get_rstudio_roles <- function() {
@@ -459,7 +459,7 @@ get_rstudio_roles <- function() {
   cph <- unclass(desc$get_author("cph"))
 
   detect_rstudio <- function(x) {
-    any(grepl("rstudio", tolower(x[c("given", "family")])))
+    any(grepl("rstudio|posit", tolower(x[c("given", "family")])))
   }
   fnd <- purrr::keep(fnd, detect_rstudio)
   cph <- purrr::keep(cph, detect_rstudio)
