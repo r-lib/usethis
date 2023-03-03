@@ -425,6 +425,6 @@ use_tidy_logo <- function(geometry = "240x278", retina = TRUE) {
     ui_stop("No png logo available for {pkg} at https://github.com/{owner}/{repo}/")
   }
 
-  url <- glue("https://github.com/{owner}/{repo}/raw/main/PNG/{pkg}.png")
+  url <- glue("https://raw.githubusercontent.com/{owner}/{repo}/main/PNG/{pkg}.png")
   use_logo(url, geometry = geometry, retina = retina)
 }
