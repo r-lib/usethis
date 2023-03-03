@@ -46,6 +46,9 @@
 #' * `use_tidy_upkeep_issue()` creates an issue containing a checklist of
 #'   actions to bring your package up to current tidyverse standards.
 #'
+#' * `use_tidy_logo()` calls `use_logo()` on the appropriate hex sticker PNG
+#'   file at https://github.com/rstudio/hex-stickers
+#'
 #' @section `use_tidy_style()`:
 #' Uses the [styler package](https://styler.r-lib.org) package to style all code
 #' in a package, project, or directory, according to the [tidyverse style
@@ -400,4 +403,28 @@ base_and_recommended <- function() {
     "parallel", "rpart", "spatial", "splines", "stats", "stats4",
     "survival", "tcltk", "tools", "utils"
   )
+}
+
+#' @rdname tidyverse
+#' @inheritParams use_logo
+#' @export
+use_tidy_logo <- function(geometry = "240x278", retina = TRUE) {
+  if (!is_rstudio_pkg()) {
+    ui_stop("This function can only be used for Posit packages")
+  }
+
+  pkg <- project_name()
+  owner <- "rstudio"
+  repo <- "hex-stickers"
+
+  png_contents <- gh::gh("GET /repos/{owner}/{repo}/contents/PNG/",
+                         owner = owner, repo = repo)
+  pngs_available <- vapply(png_contents, `[[`, FUN.VALUE = character(1), "name")
+
+  if (!paste0(pkg, ".png") %in% pngs_available) {
+    ui_stop("No png logo available for {pkg} at https://github.com/{owner}/{repo}/")
+  }
+
+  url <- glue("https://github.com/{owner}/{repo}/raw/main/PNG/{pkg}.png")
+  use_logo(url, geometry = geometry, retina = retina)
 }
