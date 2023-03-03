@@ -190,7 +190,7 @@ use_tidy_coc <- function() {
   }
 
   use_dot_github()
-  use_coc(contact = "codeofconduct@rstudio.com", path = ".github")
+  use_coc(contact = "codeofconduct@posit.co", path = ".github")
 }
 
 #' @export
