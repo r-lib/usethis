@@ -120,30 +120,53 @@ upkeep_checklist <- function(year = NULL,
       "",
       "Posit updates:",
       "",
-      todo('Update copyright holder in DESCRIPTION: `person(given = "Posit, PBC", role = c("cph", "fnd"))`',
-           rstudio_pkg && !rstudio_person_ok),
-      todo("Double check license file uses '[package] authors' as copyright holder. Run `use_mit_license()`",
-           grepl("MIT", desc$get_field("License"))),
-      todo("Update email addresses *@rstudio.com -> *@posit.co",
-           any(grepl("rstudio", desc$get_authors()))),
+      todo('
+        Update copyright holder in DESCRIPTION:
+        `person(given = "Posit, PBC", role = c("cph", "fnd"))`',
+           rstudio_pkg && !rstudio_person_ok
+        ),
+      todo("
+        Double check license file uses '[package] authors' \\
+        as copyright holder. Run `use_mit_license()`",
+        grepl("MIT", desc$get_field("License"))
+        ),
+      todo("
+        Update email addresses *@rstudio.com -> *@posit.co",
+        any(grepl("rstudio", desc$get_authors()))),
       todo("`usethis::use_tidy_coc()`"),
       "",
       "pkgdown:",
       "",
-      todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
+      todo("
+        Update pkgdown site using instructions at \\
+        <https://tidytemplate.tidyverse.org>"),
       todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
-      todo("Submit PR [here](https://github.com/rstudio/aws-main/tree/main/zones) adding your site to the appropriate domain (eg., r-lib, tidyverse, tidymodels) and set url in GitHub Settings > Pages > Custom Domain"),
-      todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
+      todo("
+        Submit PR [here](https://github.com/rstudio/aws-main/tree/main/zones) \\
+        adding your site to the appropriate domain (eg., r-lib, tidyverse, tidymodels) \\
+        and set url in GitHub Settings > Pages > Custom Domain"),
+      todo("
+        Re-publish released site; see \\
+        [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
       "",
       todo("Modernize citation files; see updated `use_citation()`",
            fs::file_exists(proj_path("inst/CITATION"))),
-      todo("Update logo (https://github.com/rstudio/hex-stickers); run `use_tidy_logo()`"),
+      todo("
+        Update logo (https://github.com/rstudio/hex-stickers); \\
+        run `use_tidy_logo()`"),
       todo('Use `pak::pkg_install("org/pkg") in README'),
-      todo("Consider running `use_tidy_dependencies()` and/or replace compat files with `use_standalone()`"),
-      todo('`use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers'),
-      todo("Change files ending in `.r` to `.R` in R/ and/or tests/testthat/",
-           lowercase_r()),
-      todo("Add alt-text to pictures, plots, etc; see https://www.rstudio.com/blog/knitr-fig-alt/ for examples"),
+      todo("
+        Consider running `use_tidy_dependencies()` and/or \\
+        replace compat files with `use_standalone()`"),
+      todo('
+        `use_standalone("r-lib/rlang", "types-check")` \\
+        instead of home grown argument checkers'),
+      todo("
+        Change files ending in `.r` to `.R` in R/ and/or tests/testthat/",
+        lowercase_r()),
+      todo("
+        Add alt-text to pictures, plots, etc; see \\
+        https://www.rstudio.com/blog/knitr-fig-alt/ for examples"),
       ""
     )
   }
