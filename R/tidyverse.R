@@ -413,19 +413,14 @@ use_tidy_logo <- function(geometry = "240x278", retina = TRUE) {
     ui_stop("This function can only be used for Posit packages")
   }
 
-  pkg <- project_name()
-  owner <- "rstudio"
-  repo <- "hex-stickers"
+  tf <- withr::local_tempfile(fileext = ".png")
 
-  png_contents <- gh::gh("GET /repos/{owner}/{repo}/contents/PNG/",
-                         owner = owner, repo = repo)
+  gh::gh(
+    "/repos/rstudio/hex-stickers/contents/PNG/{pkg}.png/",
+    pkg = project_name(),
+    .destfile = tf,
+    .accept = "application/vnd.github.v3.raw"
+  )
 
-  pkg_png <- purrr::keep(png_contents, ~ .x[["name"]] == paste0(pkg, ".png"))
-
-  if (length(pkg_png) == 0L) {
-    ui_stop("No png logo available for {pkg} at https://github.com/{owner}/{repo}/")
-  }
-
-  url <- pkg_png[[1]]$download_url
-  use_logo(url, geometry = geometry, retina = retina)
+  use_logo(tf, geometry = geometry, retina = retina)
 }
