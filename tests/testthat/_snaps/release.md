@@ -17,6 +17,7 @@
       Prepare for release:
       
       * [ ] `git pull`
+      * [ ] `usethis::use_github_links()`
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
@@ -50,6 +51,7 @@
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
       * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
+      * [ ] `usethis::use_github_links()`
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
@@ -81,6 +83,7 @@
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
       * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
+      * [ ] `usethis::use_github_links()`
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
@@ -114,13 +117,12 @@
       
       * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
-      * [ ] Check if any deprecation processes should be advanced, as described in [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)
+      * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `usethis::use_github_links()`
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
-      * [ ] `rhub::check_for_cran()`
       * [ ] `revdepcheck::revdep_check(num_workers = 4)`
       * [ ] Update `cran-comments.md`
       * [ ] `git push`
@@ -135,11 +137,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] `git push`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
@@ -174,6 +174,7 @@
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
       * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
+      * [ ] `usethis::use_github_links()`
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
