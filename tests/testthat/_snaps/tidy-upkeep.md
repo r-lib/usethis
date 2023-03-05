@@ -52,23 +52,18 @@
       
       Posit updates:
       
-      * [ ] Update copyright holder in DESCRIPTION: `person(given = "Posit, PBC", role = c("cph", "fnd"))`
+      * [ ] Update copyright holder in DESCRIPTION:
+      `person(given = "Posit, PBC", role = c("cph", "fnd"))`
       * [ ] Double check license file uses '[package] authors' as copyright holder. Run `use_mit_license()`
       * [ ] Update email addresses *@rstudio.com -> *@posit.co
       * [ ] `usethis::use_tidy_coc()`
       
-      pkgdown:
+      * [ ] Review 2022 checklist to see if you completed the pkgdown updates
       
-      * [ ] Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>
-      * [ ] Ensure pkgdown `development` is `mode: auto` in pkgdown config
-      * [ ] Submit PR [here](https://github.com/rstudio/aws-main/tree/main/zones) adding your site to the appropriate domain (eg., r-lib, tidyverse, tidymodels) and set url in GitHub Settings > Pages > Custom Domain
-      * [ ] Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)
-      
-      * [ ] Modernize citation files; see updated `use_citation()`
       * [ ] Update logo (https://github.com/rstudio/hex-stickers); run `use_tidy_logo()`
       * [ ] Use `pak::pkg_install("org/pkg") in README
       * [ ] Consider running `use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
-      * [ ] Use `rlang::check_*` (https://github.com/r-lib/usethis/issues/1692)
+      * [ ] `use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers
       * [ ] Add alt-text to pictures, plots, etc; see https://www.rstudio.com/blog/knitr-fig-alt/ for examples
       
 
