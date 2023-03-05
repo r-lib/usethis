@@ -241,12 +241,15 @@ use_github_links <- function(auth_token = deprecated(),
 }
 
 has_github_links <- function() {
-  repo <- github_url_from_git_remotes()
+  github_url <- github_url_from_git_remotes()
+  desc <- proj_desc()
 
-  has_github_remote <- repo %in% desc::desc_get_urls()
-  has_github_issues <- glue("{repo}/issues") %in% desc::desc_get("BugReports")
+  has_github_url <- github_url %in% desc$get_urls()
 
-  has_github_remote && has_github_issues
+  bug_reports <- desc$get_field("BugReports", default = character())
+  has_github_issues <- glue("{github_url}/issues") %in% bug_reports
+
+  has_github_url && has_github_issues
 }
 
 check_no_origin <- function() {
