@@ -242,6 +242,10 @@ use_github_links <- function(auth_token = deprecated(),
 
 has_github_links <- function() {
   github_url <- github_url_from_git_remotes()
+  if (is.null(github_url)) {
+    return(FALSE)
+  }
+
   desc <- proj_desc()
 
   has_github_url <- github_url %in% desc$get_urls()
