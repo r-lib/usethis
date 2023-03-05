@@ -13,8 +13,8 @@ use_dev_version()
 \item{which}{A string specifying which level to increment, one of: "major",
 "minor", "patch", "dev". If \code{NULL}, user can choose interactively.}
 
-\item{push}{If \code{TRUE}, will also attempt to push the commits to the
-remote branch.}
+\item{push}{If \code{TRUE}, also attempts to push the commits to the remote
+branch.}
 }
 \description{
 usethis supports semantic versioning, which is described in more detail in
@@ -25,9 +25,9 @@ the \href{https://r-pkgs.org/description.html#description-version}{version secti
 }\if{html}{\out{</div>}}
 
 \code{use_version()} increments the "Version" field in \code{DESCRIPTION}, adds a new
-heading to \code{NEWS.md} (if it exists), commits those changes (if package
-uses Git), and pushes (if safe to do so). It makes the same update to a line
-like \code{PKG_version = "x.y.z";} in \code{src/version.c} (if it exists).
+heading to \code{NEWS.md} (if it exists), commits those changes (if package uses
+Git), and optionally pushes (if safe to do so). It makes the same update to a
+line like \code{PKG_version = "x.y.z";} in \code{src/version.c} (if it exists).
 
 \code{use_dev_version()} increments to a development version, e.g. from 1.0.0 to
 1.0.0.9000. If the existing version is already a development version with

@@ -11,7 +11,8 @@ use_github_release(
 )
 }
 \arguments{
-\item{publish}{If \code{TRUE}, publishes a release. If \code{FALSE}, creates a draft release.}
+\item{publish}{If \code{TRUE}, publishes a release. If \code{FALSE}, creates a draft
+release.}
 
 \item{host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
 consulted now that usethis allows the gh package to lookup a token based on
@@ -23,8 +24,8 @@ latest CRAN submission.
 
 If you use \code{\link[devtools:release]{devtools::release()}} or \code{\link[devtools:submit_cran]{devtools::submit_cran()}} to submit to
 CRAN, information about the submitted state is captured in a
-\code{CRAN-SUBMISSION} or \code{CRAN-RELEASE} file. \code{use_github_release()} uses this
-info to populate the draft GitHub release and, after success, deletes the
-the file. In the absence of such a file, we assume that current state
-(SHA of \code{HEAD}, package version, NEWS) is the submitted state.
+\code{CRAN-SUBMISSION} file. \code{use_github_release()} uses this info to populate the
+GitHub release notes and, after success, deletes the file. In the absence of
+such a file, we assume that current state (SHA of \code{HEAD}, package version,
+NEWS) is the submitted state.
 }
