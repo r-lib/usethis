@@ -158,7 +158,7 @@ use_github <- function(organisation = NULL,
 
   if (is_package()) {
     # we tryCatch(), because we can't afford any failure here to result in not
-    # making configuring default branch
+    # doing the first push and configuring the default branch
     # such an incomplete setup is hard to diagnose / repair post hoc
     tryCatch(
       use_github_links(),
