@@ -86,7 +86,7 @@ gh_token_help <- function(host = NULL) {
   host_url <- get_hosturl(host %||% default_api_url())
   kv_line("GitHub host", host_url)
 
-  pat_sitrep(host_url)
+  pat_sitrep(host_url, scope = "project")
 }
 
 code_hint_with_host <- function(function_name, host = NULL, arg_name = NULL) {
@@ -106,8 +106,12 @@ code_hint_with_host <- function(function_name, host = NULL, arg_name = NULL) {
 
 # workhorse behind gh_token_help() and called, possibly twice, in git_sitrep()
 # hence the need for `scold_for_renviron = TRUE/FALSE`
+# scope determines if "global" or "de_facto" email is checked
 pat_sitrep <- function(host = "https://github.com",
+                       scope = c("user", "project"),
                        scold_for_renviron = TRUE) {
+  scope <- rlang::arg_match(scope)
+
   if (scold_for_renviron) {
     scold_for_renviron()
   }
@@ -179,12 +183,12 @@ pat_sitrep <- function(host = "https://github.com",
     )
     kv_line("Email(s)", addresses)
     ui_silence(
-      user <- git_user_get("de_facto")
+      user <- git_user_get(where_from_scope(scope))
     )
     git_user_check(user)
     if (!is.null(user$email) && !any(grepl(user$email, addresses))) {
       ui_oops("
-        Local Git user's email ({ui_value(user$email)}) doesn't appear to \\
+        Git user's email ({ui_value(user$email)}) doesn't appear to \\
         be registered with GitHub host.")
     }
   }

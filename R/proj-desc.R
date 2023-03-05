@@ -22,7 +22,7 @@ proj_desc_create <- function(name, fields = list(), roxygen = TRUE) {
   write_over(proj_path("DESCRIPTION"), read_utf8(tf))
 
   # explicit check of "usethis.quiet" since I'm not doing the printing
-  if (!getOption("usethis.quiet", default = FALSE)) {
+  if (!is_quiet()) {
     desc$print()
   }
 }

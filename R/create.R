@@ -106,8 +106,9 @@ create_project <- function(path,
 
 #' Create a project from a GitHub repo
 #'
-#' @description Creates a new local project and Git repository from a repo on
-#' GitHub, by either cloning or
+#' @description
+#' Creates a new local project and Git repository from a repo on GitHub, by
+#' either cloning or
 #' [fork-and-cloning](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
 #' In the fork-and-clone case, `create_from_github()` also does additional
 #' remote and branch setup, leaving you in the perfect position to make a pull
@@ -132,11 +133,10 @@ create_project <- function(path,
 #'   * Browser URL, such as `"https://github.com/OWNER/REPO"`
 #'   * HTTPS Git URL, such as `"https://github.com/OWNER/REPO.git"`
 #'   * SSH Git URL, such as `"git@github.com:OWNER/REPO.git"`
-#'
-#'   In the case of a browser, HTTPS, or SSH URL, the `host` is extracted from
-#'   the URL. The `REPO` part will be the name of the new local folder, which is
-#'   also a project and Git repo.
-#' @inheritParams use_course
+#' @param destdir Destination for the new folder, which will be named according
+#'   to the `REPO` extracted from `repo_spec`. Defaults to the location stored
+#'   in the global option `usethis.destdir`, if defined, or to the user's
+#'   Desktop or similarly conspicuous place otherwise.
 #' @param fork If `FALSE`, we clone `repo_spec`. If `TRUE`, we fork
 #'   `repo_spec`, clone that fork, and do additional setup favorable for
 #'   future pull requests:
@@ -148,6 +148,16 @@ create_project <- function(path,
 #'
 #'   If `fork = NA` (the default), we check your permissions on `repo_spec`. If
 #'   you can push, we set `fork = FALSE`, If you cannot, we set `fork = TRUE`.
+#' @param host GitHub host to target, passed to the `.api_url` argument of
+#'   [gh::gh()]. If `repo_spec` is a URL, `host` is extracted from that.
+#'
+#'   If unspecified, gh defaults to "https://api.github.com", although gh's
+#'   default can be customised by setting the GITHUB_API_URL environment
+#'   variable.
+#'
+#'   For a hypothetical GitHub Enterprise instance, either
+#'   "https://github.acme.com/api/v3" or "https://github.acme.com" is
+#'   acceptable.
 #' @param rstudio Initiate an [RStudio
 #'   Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)?
 #'   Defaults to `TRUE` if in an RStudio session and project has no

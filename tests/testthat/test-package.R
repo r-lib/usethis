@@ -42,6 +42,19 @@ test_that("use_package(type = 'Suggests') guidance w/o and w/ rlang", {
 
 # use_dev_package() -----------------------------------------------------------
 
+test_that("use_dev_package() writes a remote", {
+  create_local_package()
+
+  with_mock(
+    ui_yeah = function(...) TRUE,
+    {
+      use_dev_package("usethis")
+    }
+  )
+  expect_equal(proj_desc()$get_remotes(), "r-lib/usethis")
+})
+
+
 test_that("use_dev_package() can override over default remote", {
   create_local_package()
 

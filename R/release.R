@@ -67,22 +67,25 @@ use_release_issue <- function(version = NULL) {
 release_checklist <- function(version, on_cran) {
   type <- release_type(version)
   cran_results <- cran_results_url()
-  has_src <- dir_exists(proj_path("src"))
   has_news <- file_exists(proj_path("NEWS.md"))
   has_pkgdown <- uses_pkgdown()
+  has_lifecycle <- proj_desc()$has_dep("lifecycle")
   has_readme <- file_exists(proj_path("README.Rmd"))
-
-  if (uses_git()) {
-    milestone_num <- gh_milestone_number(target_repo_spec(), version)
-  } else {
-    milestone_num <- NA # for testing
-  }
   is_rstudio_pkg <- is_rstudio_pkg()
+
+  milestone_num <- NA # for testing (and general fallback)
+  if (uses_git() && curl::has_internet()) {
+    milestone_num <- tryCatch(
+      gh_milestone_number(target_repo_spec(), version),
+      error = function(e) NA
+    )
+  }
 
   c(
     if (!on_cran) c(
       "First release:",
       "",
+      todo("`usethis::use_news_md()`", !has_news),
       todo("`usethis::use_cran_comments()`"),
       todo("Update (aspirational) install instructions in README"),
       todo("Proofread `Title:` and `Description:`"),
@@ -102,7 +105,8 @@ release_checklist <- function(version, on_cran) {
     todo("
       Check if any deprecation processes should be advanced, as described in \\
       [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
-      type != "patch"),
+      type != "patch" && has_lifecycle),
+    todo("`usethis::use_news_md()`", on_cran && !has_news),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     if (uses_git() && nrow(gert::git_remote_list()) > 0 && !has_github_links()) {
       todo("`usethis::use_github_links()`")
@@ -111,9 +115,6 @@ release_checklist <- function(version, on_cran) {
     todo("`devtools::build_readme()`", has_readme),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
     todo("`devtools::check_win_devel()`"),
-    todo("`rhub::check_for_cran()`"),
-    todo("`rhub::check(platform = 'ubuntu-rchk')`", has_src),
-    todo("`rhub::check_with_sanitizers()`", has_src),
     release_revdepcheck(on_cran, is_rstudio_pkg),
     todo("Update `cran-comments.md`", on_cran),
     todo("`git push`"),
@@ -130,11 +131,9 @@ release_checklist <- function(version, on_cran) {
     "Wait for CRAN...",
     "",
     todo("Accepted :tada:"),
-    todo("`git push`"),
     todo("`usethis::use_github_release()`"),
-    todo("`usethis::use_dev_version()`"),
+    todo("`usethis::use_dev_version(push = TRUE)`"),
     todo("`usethis::use_news_md()`", !has_news),
-    todo("`git push`"),
     todo("Finish blog post", type != "patch"),
     todo("Tweet", type != "patch"),
     todo("Add link to blog post in pkgdown news menu", type != "patch")
@@ -210,28 +209,27 @@ release_type <- function(version) {
   }
 }
 
-#' Draft a GitHub release
+#' Publish a GitHub release
 #'
 #' @description
-#' Creates a __draft__ GitHub release for the current package. Once you are
-#' satisfied that it is correct, you will need to publish the release from
-#' GitHub. The key pieces of info are which commit / SHA to tag, the associated
-#' package version, and the relevant NEWS entries.
+#' Pushes the current branch (if safe) then publishes a GitHub release for the
+#' latest CRAN submission.
 #'
-#' If you use `devtools::release()` or `devtools::submit_cran()` to submit to
-#' CRAN, information about the submitted state is captured in a CRAN-SUBMISSION
-#' or CRAN-RELEASE file. `use_github_release()` uses this info to populate the
-#' draft GitHub release and, after success, deletes the CRAN-SUBMISSION or
-#' CRAN-RELEASE file.
-#'
-#' In the absence of such a file, we must fall back to assuming the current
-#' state (SHA of `HEAD`, package version, NEWS) is the submitted state.
+#' If you use [devtools::submit_cran()] to submit to CRAN, information about the
+#' submitted state is captured in a `CRAN-SUBMISSION` file.
+#' `use_github_release()` uses this info to populate the GitHub release notes
+#' and, after success, deletes the file. In the absence of such a file, we
+#' assume that current state (SHA of `HEAD`, package version, NEWS) is the
+#' submitted state.
 #'
 #' @param host,auth_token `r lifecycle::badge("deprecated")`: No longer
 #'   consulted now that usethis allows the gh package to lookup a token based on
 #'   a URL determined from the current project's GitHub remotes.
+#' @param publish If `TRUE`, publishes a release. If `FALSE`, creates a draft
+#'   release.
 #' @export
-use_github_release <- function(host = deprecated(),
+use_github_release <- function(publish = TRUE,
+                               host = deprecated(),
                                auth_token = deprecated()) {
   check_is_package("use_github_release()")
   if (lifecycle::is_present(host)) {
@@ -242,7 +240,7 @@ use_github_release <- function(host = deprecated(),
   }
 
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
-  check_can_push(tr = tr, "to draft a release")
+  check_can_push(tr = tr, "to create a release")
 
   dat <- get_release_data(tr)
   release_name <- glue("{dat$Package} {dat$Version}")
@@ -251,25 +249,33 @@ use_github_release <- function(host = deprecated(),
   kv_line("Tag name", tag_name)
   kv_line("SHA", dat$SHA)
 
+  if (git_can_push()) {
+    git_push()
+  }
   check_github_has_SHA(SHA = dat$SHA, tr = tr)
 
-  news <- get_release_news(SHA = dat$SHA, tr = tr)
+  on_cran <- !is.null(cran_version())
+  news <- get_release_news(SHA = dat$SHA, tr = tr, on_cran = on_cran)
 
   gh <- gh_tr(tr)
+
+  ui_cli_inform("Publishing {tag_name} release to GitHub")
   release <- gh(
     "POST /repos/{owner}/{repo}/releases",
-    name = release_name, tag_name = tag_name,
-    target_commitish = dat$SHA, body = news, draft = TRUE
+    name = release_name,
+    tag_name = tag_name,
+    target_commitish = dat$SHA,
+    body = news,
+    draft = !publish
   )
+  ui_cli_inform("Release at {.url {release$html_url}}")
 
   if (!is.null(dat$file)) {
-    ui_done("{ui_path(dat$file)} deleted")
+    ui_cli_inform("Deleting {.path {dat$file}}")
     file_delete(dat$file)
   }
 
-  Sys.sleep(1)
-  view_url(release$html_url)
-  ui_todo("Publish the release via \"Edit draft\" > \"Publish release\"")
+  invisible()
 }
 
 get_release_data <- function(tr = target_repo(github_get = TRUE)) {
@@ -361,29 +367,34 @@ check_github_has_SHA <- function(SHA = gert::git_info(repo = git_repo())$commit,
 }
 
 get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
-                             tr = target_repo(github_get = TRUE)) {
+                             tr = target_repo(github_get = TRUE),
+                             on_cran = !is.null(cran_version())) {
   HEAD <- gert::git_info(repo = git_repo())$commit
 
   if (HEAD == SHA) {
     news_path <- proj_path("NEWS.md")
+    news <- if (file_exists(news_path)) read_utf8(news_path) else NULL
   } else {
-    news_path <- withr::local_tempfile()
-    gh <- purrr::possibly(gh_tr(tr), otherwise = NULL)
-    gh(
-      "/repos/{owner}/{repo}/contents/{path}",
-      path = "NEWS.md", ref = SHA,
-      .destfile = news_path,
-      .accept = "application/vnd.github.v3.raw"
+    news <- tryCatch(
+      read_github_file(
+        tr$repo_spec,
+        path = "NEWS.md",
+        ref = SHA,
+        host = tr$api_url
+      ),
+      github_error = NULL
     )
   }
 
-  if (file_exists(news_path)) {
-    news <- news_latest(read_utf8(news_path))
+  if (is.null(news)) {
+    ui_oops("
+      Can't find {ui_path('NEWS.md')} in the released package source.
+      usethis consults this file for release notes.
+      Call {ui_code('usethis::use_news_md()')} to set this up for the future.")
+    if (on_cran) "-- no release notes --" else "Initial release"
   } else {
-    news <- "Initial release"
+    news_latest(news)
   }
-
-  news
 }
 
 cran_version <- function(package = project_name(),
