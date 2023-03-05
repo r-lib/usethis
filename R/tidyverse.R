@@ -47,7 +47,7 @@
 #'   actions to bring your package up to current tidyverse standards.
 #'
 #' * `use_tidy_logo()` calls `use_logo()` on the appropriate hex sticker PNG
-#'   file at https://github.com/rstudio/hex-stickers
+#'   file at <https://github.com/rstudio/hex-stickers>.
 #'
 #' @section `use_tidy_style()`:
 #' Uses the [styler package](https://styler.r-lib.org) package to style all code

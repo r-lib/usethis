@@ -122,7 +122,7 @@ tidyverse conventions around GitHub issue label names and colours.
 \item \code{use_tidy_upkeep_issue()} creates an issue containing a checklist of
 actions to bring your package up to current tidyverse standards.
 \item \code{use_tidy_logo()} calls \code{use_logo()} on the appropriate hex sticker PNG
-file at https://github.com/rstudio/hex-stickers
+file at \url{https://github.com/rstudio/hex-stickers}.
 }
 }
 \section{\code{use_tidy_style()}}{
