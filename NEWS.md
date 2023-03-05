@@ -1,5 +1,13 @@
 # usethis (development version)
 
+* `use_version()` gains a `push` argument to optionally push the result after
+  committing. This is used to eliminate a manual step from the 
+  `use_release_issue()` checklist (#1385). 
+
+* `use_github_release()` now automatically pushes to GitHub (if safe) (#1385) 
+  and automatically publishes the release, rather than requiring you to edit
+  and publish the draft.
+
 * `use_tidy_logo()` is a new function that calls `use_logo()` on the appropriate
   hex sticker PNG file at <https://github.com/rstudio/hex-stickers> (@ateucher,
   #1871).

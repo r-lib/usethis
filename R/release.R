@@ -128,10 +128,9 @@ release_checklist <- function(version, on_cran) {
     "Wait for CRAN...",
     "",
     todo("Accepted :tada:"),
-    todo("`git push`"),
     todo("`usethis::use_github_release()`"),
-    todo("`usethis::use_dev_version()`"),
-    todo("`git push`"),
+    todo("`usethis::use_dev_version(push = TRUE)`"),
+    todo("`usethis::use_news_md()`", !has_news),
     todo("Finish blog post", type != "patch"),
     todo("Tweet", type != "patch"),
     todo("Add link to blog post in pkgdown news menu", type != "patch")
@@ -207,28 +206,27 @@ release_type <- function(version) {
   }
 }
 
-#' Draft a GitHub release
+#' Publish a GitHub release
 #'
 #' @description
-#' Creates a __draft__ GitHub release for the current package. Once you are
-#' satisfied that it is correct, you will need to publish the release from
-#' GitHub. The key pieces of info are which commit / SHA to tag, the associated
-#' package version, and the relevant NEWS entries.
+#' Pushes the current branch (if safe) then publishes a GitHub release for the
+#' latest CRAN submission.
 #'
-#' If you use `devtools::release()` or `devtools::submit_cran()` to submit to
-#' CRAN, information about the submitted state is captured in a CRAN-SUBMISSION
-#' or CRAN-RELEASE file. `use_github_release()` uses this info to populate the
-#' draft GitHub release and, after success, deletes the CRAN-SUBMISSION or
-#' CRAN-RELEASE file.
-#'
-#' In the absence of such a file, we must fall back to assuming the current
-#' state (SHA of `HEAD`, package version, NEWS) is the submitted state.
+#' If you use [devtools::submit_cran()] to submit to CRAN, information about the
+#' submitted state is captured in a `CRAN-SUBMISSION` file.
+#' `use_github_release()` uses this info to populate the GitHub release notes
+#' and, after success, deletes the file. In the absence of such a file, we
+#' assume that current state (SHA of `HEAD`, package version, NEWS) is the
+#' submitted state.
 #'
 #' @param host,auth_token `r lifecycle::badge("deprecated")`: No longer
 #'   consulted now that usethis allows the gh package to lookup a token based on
 #'   a URL determined from the current project's GitHub remotes.
+#' @param publish If `TRUE`, publishes a release. If `FALSE`, creates a draft
+#'   release.
 #' @export
-use_github_release <- function(host = deprecated(),
+use_github_release <- function(publish = TRUE,
+                               host = deprecated(),
                                auth_token = deprecated()) {
   check_is_package("use_github_release()")
   if (lifecycle::is_present(host)) {
@@ -239,7 +237,7 @@ use_github_release <- function(host = deprecated(),
   }
 
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
-  check_can_push(tr = tr, "to draft a release")
+  check_can_push(tr = tr, "to create a release")
 
   dat <- get_release_data(tr)
   release_name <- glue("{dat$Package} {dat$Version}")
@@ -248,26 +246,33 @@ use_github_release <- function(host = deprecated(),
   kv_line("Tag name", tag_name)
   kv_line("SHA", dat$SHA)
 
+  if (git_can_push()) {
+    git_push()
+  }
   check_github_has_SHA(SHA = dat$SHA, tr = tr)
 
   on_cran <- !is.null(cran_version())
   news <- get_release_news(SHA = dat$SHA, tr = tr, on_cran = on_cran)
 
   gh <- gh_tr(tr)
+
+  ui_cli_inform("Publishing {tag_name} release to GitHub")
   release <- gh(
     "POST /repos/{owner}/{repo}/releases",
-    name = release_name, tag_name = tag_name,
-    target_commitish = dat$SHA, body = news, draft = TRUE
+    name = release_name,
+    tag_name = tag_name,
+    target_commitish = dat$SHA,
+    body = news,
+    draft = !publish
   )
+  ui_cli_inform("Release at {.url {release$html_url}}")
 
   if (!is.null(dat$file)) {
-    ui_done("{ui_path(dat$file)} deleted")
+    ui_cli_inform("Deleting {.path {dat$file}}")
     file_delete(dat$file)
   }
 
-  Sys.sleep(1)
-  view_url(release$html_url)
-  ui_todo("Publish the release via \"Edit draft\" > \"Publish release\"")
+  invisible()
 }
 
 get_release_data <- function(tr = target_repo(github_get = TRUE)) {

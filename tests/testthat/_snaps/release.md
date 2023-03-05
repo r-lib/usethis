@@ -32,10 +32,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
-      * [ ] `git push`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
+      * [ ] `usethis::use_news_md()`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
@@ -67,10 +66,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
-      * [ ] `git push`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
+      * [ ] `usethis::use_news_md()`
 
 ---
 
@@ -100,10 +98,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
-      * [ ] `git push`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
+      * [ ] `usethis::use_news_md()`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
@@ -156,10 +153,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
-      * [ ] `git push`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
+      * [ ] `usethis::use_news_md()`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu

@@ -383,22 +383,15 @@ pr_push <- function() {
       )
       title <- glue("Which repo do you want to push to?")
       choice <- utils::menu(choices, graphics = FALSE, title = title)
-      remote <-  names(choices)[[choice]]
+      remote <- names(choices)[[choice]]
     } else {
       remote <- "origin"
     }
-    ui_done("
-      Pushing local {ui_value(branch)} branch to {ui_value(remote)} remote.")
-    gert::git_push(remote = remote, verbose = FALSE, repo = repo)
+
+    git_push_first(branch, remote)
   } else {
     check_branch_pulled(use = "pr_pull()")
-    ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remref)}.")
-    gert::git_push(
-      remote = remref_remote(remref),
-      refspec = glue("refs/heads/{branch}:refs/heads/{remref_branch(remref)}"),
-      verbose = FALSE,
-      repo = repo
-    )
+    git_push(branch, remref)
   }
 
   # Prompt to create PR if does not exist yet
