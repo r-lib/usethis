@@ -14,7 +14,7 @@ A named list of the previous values, invisibly.
 }
 \description{
 This function allows you to set global RStudio preferences, achieving the
-same effect programatically as clicking buttons in RStudio's Global Options.
+same effect programmatically as clicking buttons in RStudio's Global Options.
 You can find a list of configurable properties at
 \url{https://docs.posit.co/ide/server-pro/reference/session_user_settings.html}.
 }

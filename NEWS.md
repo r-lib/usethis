@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_tidy_logo()` is a new function that calls `use_logo()` on the appropriate
+  hex sticker PNG file at <https://github.com/rstudio/hex-stickers> (@ateucher,
+  #1871).
+
 * `use_github_release()` no longer fails in the absence of `NEWS.md` (#1755).
 
 * `use_release_issue()` now encourages the creation of `NEWS.md` prior to
