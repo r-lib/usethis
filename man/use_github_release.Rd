@@ -22,10 +22,10 @@ a URL determined from the current project's GitHub remotes.}
 Pushes the current branch (if safe) then publishes a GitHub release for the
 latest CRAN submission.
 
-If you use \code{\link[devtools:release]{devtools::release()}} or \code{\link[devtools:submit_cran]{devtools::submit_cran()}} to submit to
-CRAN, information about the submitted state is captured in a
-\code{CRAN-SUBMISSION} file. \code{use_github_release()} uses this info to populate the
-GitHub release notes and, after success, deletes the file. In the absence of
-such a file, we assume that current state (SHA of \code{HEAD}, package version,
-NEWS) is the submitted state.
+If you use \code{\link[devtools:submit_cran]{devtools::submit_cran()}} to submit to CRAN, information about the
+submitted state is captured in a \code{CRAN-SUBMISSION} file.
+\code{use_github_release()} uses this info to populate the GitHub release notes
+and, after success, deletes the file. In the absence of such a file, we
+assume that current state (SHA of \code{HEAD}, package version, NEWS) is the
+submitted state.
 }
