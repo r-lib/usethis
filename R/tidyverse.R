@@ -46,6 +46,9 @@
 #' * `use_tidy_upkeep_issue()` creates an issue containing a checklist of
 #'   actions to bring your package up to current tidyverse standards.
 #'
+#' * `use_tidy_logo()` calls `use_logo()` on the appropriate hex sticker PNG
+#'   file at <https://github.com/rstudio/hex-stickers>.
+#'
 #' @section `use_tidy_style()`:
 #' Uses the [styler package](https://styler.r-lib.org) package to style all code
 #' in a package, project, or directory, according to the [tidyverse style
@@ -132,11 +135,7 @@ use_tidy_dependencies <- function() {
   # If needed, copy in lightweight purrr compatibility layer
   if (!proj_desc()$has_dep("purrr")) {
     use_directory("R")
-    use_github_file(
-      "r-lib/rlang",
-      path = "R/compat-purrr.R",
-      save_as = "R/compat-purrr.R"
-    )
+    use_standalone("r-lib/rlang", "purrr")
   }
 
   invisible()
@@ -194,7 +193,7 @@ use_tidy_coc <- function() {
   }
 
   use_dot_github()
-  use_coc(contact = "codeofconduct@rstudio.com", path = ".github")
+  use_coc(contact = "codeofconduct@posit.co", path = ".github")
 }
 
 #' @export
@@ -404,4 +403,24 @@ base_and_recommended <- function() {
     "parallel", "rpart", "spatial", "splines", "stats", "stats4",
     "survival", "tcltk", "tools", "utils"
   )
+}
+
+#' @rdname tidyverse
+#' @inheritParams use_logo
+#' @export
+use_tidy_logo <- function(geometry = "240x278", retina = TRUE) {
+  if (!is_rstudio_pkg()) {
+    ui_stop("This function can only be used for Posit packages")
+  }
+
+  tf <- withr::local_tempfile(fileext = ".png")
+
+  gh::gh(
+    "/repos/rstudio/hex-stickers/contents/PNG/{pkg}.png/",
+    pkg = project_name(),
+    .destfile = tf,
+    .accept = "application/vnd.github.v3.raw"
+  )
+
+  use_logo(tf, geometry = geometry, retina = retina)
 }

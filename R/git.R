@@ -367,7 +367,7 @@ git_sitrep <- function(tool = c("git", "github"),
   if ("github" %in% tool && "user" %in% scope) {
     cli::cli_h3("GitHub user")
     kv_line("Default GitHub host", default_gh_host)
-    pat_sitrep(default_gh_host)
+    pat_sitrep(default_gh_host, scope = "user")
   }
 
   # git and github for active project ------------------------------------------
@@ -422,7 +422,7 @@ git_sitrep <- function(tool = c("git", "github"),
     if (!is.na(repo_host) && repo_host != default_gh_host) {
       cli::cli_text("Host:")
       kv_line("Non-default GitHub host", repo_host)
-      pat_sitrep(repo_host, scold_for_renviron = FALSE)
+      pat_sitrep(repo_host, scope = "project", scold_for_renviron = FALSE)
       cli::cli_text("Project:")
     }
 

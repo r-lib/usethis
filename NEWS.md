@@ -8,6 +8,27 @@
   and automatically publishes the release, rather than requiring you to edit
   and publish the draft.
 
+* `use_tidy_logo()` is a new function that calls `use_logo()` on the appropriate
+  hex sticker PNG file at <https://github.com/rstudio/hex-stickers> (@ateucher,
+  #1871).
+
+* `use_github_release()` no longer fails in the absence of `NEWS.md` (#1755).
+
+* `use_release_issue()` now encourages the creation of `NEWS.md` prior to
+  submission, instead of after (#1755).
+
+* `use_revdep()` no longer places an email template, because these days we are
+  more likely to communicate with other maintainers about breaking changes via
+  GitHub issues and pull requests (#1769).
+
+* `use_rstudio_preferences()` lets you set RStudio preferences programmatically
+  (#1518)
+  
+* `write_over()` and `use_github_file()` gain an overwrite argument (#1748).
+
+* `use_standalone()` makes it easier to use standalone files provided by 
+  various low-level tidyverse packages, like rlang (#1654).
+
 * `use_latest_dependencies()` no longer affects `Suggests` since those
   dependencies are not enforced (#1749).
 
@@ -58,7 +79,8 @@
 * `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
   you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
   The default remains to provide a full report. Also, provides more
-  feedback if git user's information is not set. (@ijlyttle, #1714, #1706).
+  feedback if git user's information is not set, and checks global git-email
+  against user-level GitHub PAT (@ijlyttle, #1732, #1714, #1706).
   
 * `use_article()` no longer adds the rmarkdown package to `Suggests`. Instead,
   if rmarkdown is not already a dependency, it's added to

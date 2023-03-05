@@ -1,7 +1,5 @@
-citHeader("To cite {{Package}} in publications use:")
-
-citEntry(
-  entry    = "Article",
+bibentry(
+  bibtype  = "Article",
   title    = ,
   author   = ,
   journal  = ,
@@ -9,8 +7,5 @@ citEntry(
   volume   = ,
   number   = ,
   pages    = ,
-  url      = ,
-  textVersion = paste(
-
-  )
+  doi      =
 )

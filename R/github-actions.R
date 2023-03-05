@@ -123,7 +123,7 @@ use_github_action <- function(name = NULL,
 
   badge <- badge %||% is_check_action(url)
   if (badge) {
-    use_github_actions_badge(save_as)
+    use_github_actions_badge(path_file(save_as))
   }
 
   invisible(new)
@@ -212,8 +212,7 @@ use_github_actions_badge <- function(name = "R-CMD-check.yaml",
 use_tidy_github_actions <- function(ref = NULL) {
   repo_spec <- target_repo_spec()
 
-  use_github_action("check-full.yaml", ref = ref)
-  use_github_actions_badge("R-CMD-check.yaml", repo_spec = repo_spec)
+  use_github_action("check-full.yaml", ref = ref, badge = TRUE)
 
   use_github_action("pr-commands", ref = ref)
   use_github_action("pkgdown", ref = ref)
