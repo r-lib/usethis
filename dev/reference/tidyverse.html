@@ -100,7 +100,9 @@ commonly used packages.</p>
 <span></span>
 <span><span class="fu">use_tidy_github</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">use_tidy_style</span><span class="op">(</span>strict <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">use_tidy_style</span><span class="op">(</span>strict <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">use_tidy_logo</span><span class="op">(</span>geometry <span class="op">=</span> <span class="st">"240x278"</span>, retina <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -132,6 +134,17 @@ use a CLA to assign copyright to a single entity.</p></dd>
 <dt>strict</dt>
 <dd><p>Boolean indicating whether or not a strict version of styling
 should be applied. See <code><a href="https://styler.r-lib.org/reference/tidyverse_style.html" class="external-link">styler::tidyverse_style()</a></code> for details.</p></dd>
+
+
+<dt>geometry</dt>
+<dd><p>a <a href="https://docs.ropensci.org/magick/reference/geometry.html" class="external-link">magick::geometry</a> string specifying size. The default
+assumes that you have a hex logo using spec from
+<a href="http://hexb.in/sticker.html" class="external-link">http://hexb.in/sticker.html</a>.</p></dd>
+
+
+<dt>retina</dt>
+<dd><p><code>TRUE</code>, the default, scales the image on the README,
+assuming that geometry is double the desired size.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -177,6 +190,8 @@ document in a <code>.github/</code> subdirectory.</p></li>
 tidyverse conventions around GitHub issue label names and colours.</p></li>
 <li><p><code>use_tidy_upkeep_issue()</code> creates an issue containing a checklist of
 actions to bring your package up to current tidyverse standards.</p></li>
+<li><p><code>use_tidy_logo()</code> calls <code><a href="use_logo.html">use_logo()</a></code> on the appropriate hex sticker PNG
+file at <a href="https://github.com/rstudio/hex-stickers" class="external-link">https://github.com/rstudio/hex-stickers</a>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="use-tidy-style-"><code>use_tidy_style()</code><a class="anchor" aria-label="anchor" href="#use-tidy-style-"></a></h2>
