@@ -135,19 +135,7 @@ upkeep_checklist <- function(year = NULL,
         any(grepl("rstudio", desc$get_authors()))),
       todo("`usethis::use_tidy_coc()`"),
       "",
-      "pkgdown:",
-      "",
-      todo("
-        Update pkgdown site using instructions at \\
-        <https://tidytemplate.tidyverse.org>"),
-      todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
-      todo("
-        Submit PR [here](https://github.com/rstudio/aws-main/tree/main/zones) \\
-        adding your site to the appropriate domain (eg., r-lib, tidyverse, tidymodels) \\
-        and set url in GitHub Settings > Pages > Custom Domain"),
-      todo("
-        Re-publish released site; see \\
-        [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
+      todo("Review 2022 checklist to see if you completed the pkgdown updates"),
       "",
       todo("Modernize citation files; see updated `use_citation()`",
            fs::file_exists(proj_path("inst/CITATION"))),
