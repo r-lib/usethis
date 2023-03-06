@@ -58,7 +58,7 @@
       * [ ] `usethis::use_tidy_coc()`
       * [ ] Review 2022 checklist to see if you completed the pkgdown updates
       * [ ] Update logo (https://github.com/rstudio/hex-stickers); run `use_tidy_logo()`
-      * [ ] Use `pak::pak("org/pkg")` in README
+      * [ ] Prefer `pak::pak("org/pkg")` over `devtools::install_github("org/pkg")` in README
       * [ ] Consider running `use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
       * [ ] `use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
