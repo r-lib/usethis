@@ -45,7 +45,11 @@ use_release_issue <- function(version = NULL) {
     }
   }
 
-  version <- version %||% choose_version("What should the release version be?")
+  version <- version %||%
+    choose_version(
+      "What should the release version be?",
+      which = c("major", "minor", "patch")
+    )
   if (is.null(version)) {
     return(invisible(FALSE))
   }
