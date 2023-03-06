@@ -71,6 +71,7 @@ release_checklist <- function(version, on_cran) {
   has_pkgdown <- uses_pkgdown()
   has_lifecycle <- proj_desc()$has_dep("lifecycle")
   has_readme <- file_exists(proj_path("README.Rmd"))
+  has_github_links <- has_github_links()
   is_rstudio_pkg <- is_rstudio_pkg()
 
   milestone_num <- NA # for testing (and general fallback)
@@ -108,6 +109,7 @@ release_checklist <- function(version, on_cran) {
       type != "patch" && has_lifecycle),
     todo("`usethis::use_news_md()`", on_cran && !has_news),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
+    todo("`usethis::use_github_links()`", !has_github_links),
     todo("`urlchecker::url_check()`"),
     todo("`devtools::build_readme()`", has_readme),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),

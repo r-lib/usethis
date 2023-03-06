@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_release_issue()` will now remind you to run `use_github_links()` if 
+  necessary (@Bisaloo, #1754)
+
 * `use_version()` gains a `push` argument to optionally push the result after
   committing. This is used to eliminate a manual step from the 
   `use_release_issue()` checklist (#1385). 
