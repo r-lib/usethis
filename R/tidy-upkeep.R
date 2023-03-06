@@ -121,7 +121,7 @@ upkeep_checklist <- function(year = NULL,
       "Posit updates:",
       "",
       todo('
-        Update copyright holder in DESCRIPTION:
+        Update copyright holder in DESCRIPTION: \\
         `person(given = "Posit, PBC", role = c("cph", "fnd"))`',
            rstudio_pkg && !rstudio_person_ok
         ),
