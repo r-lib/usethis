@@ -409,7 +409,7 @@ base_and_recommended <- function() {
 #' @inheritParams use_logo
 #' @export
 use_tidy_logo <- function(geometry = "240x278", retina = TRUE) {
-  if (!is_rstudio_pkg()) {
+  if (!is_posit_pkg()) {
     ui_stop("This function can only be used for Posit packages")
   }
 
