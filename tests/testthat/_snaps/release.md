@@ -17,6 +17,7 @@
       Prepare for release:
       
       * [ ] `git pull`
+      * [ ] `usethis::use_github_links()`
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
@@ -32,10 +33,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
-      * [ ] `git push`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
+      * [ ] `usethis::use_news_md()`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
@@ -51,6 +51,7 @@
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
       * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
+      * [ ] `usethis::use_github_links()`
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
@@ -67,10 +68,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
-      * [ ] `git push`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
+      * [ ] `usethis::use_news_md()`
 
 ---
 
@@ -83,6 +83,7 @@
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
       * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
+      * [ ] `usethis::use_github_links()`
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
@@ -100,10 +101,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
-      * [ ] `git push`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
+      * [ ] `usethis::use_news_md()`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu
@@ -138,6 +138,7 @@
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
       * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
+      * [ ] `usethis::use_github_links()`
       * [ ] `urlchecker::url_check()`
       * [ ] `devtools::check(remote = TRUE, manual = TRUE)`
       * [ ] `devtools::check_win_devel()`
@@ -156,10 +157,9 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] `git push`
       * [ ] `usethis::use_github_release()`
-      * [ ] `usethis::use_dev_version()`
-      * [ ] `git push`
+      * [ ] `usethis::use_dev_version(push = TRUE)`
+      * [ ] `usethis::use_news_md()`
       * [ ] Finish blog post
       * [ ] Tweet
       * [ ] Add link to blog post in pkgdown news menu

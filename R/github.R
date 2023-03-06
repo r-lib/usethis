@@ -158,7 +158,7 @@ use_github <- function(organisation = NULL,
 
   if (is_package()) {
     # we tryCatch(), because we can't afford any failure here to result in not
-    # making the first push and configuring default branch
+    # doing the first push and configuring the default branch
     # such an incomplete setup is hard to diagnose / repair post hoc
     tryCatch(
       use_github_links(),
@@ -166,18 +166,9 @@ use_github <- function(organisation = NULL,
     )
   }
 
-  repo <- git_repo()
-  remref <- glue("origin/{default_branch}")
-  ui_done("
-    Pushing {ui_value(default_branch)} branch to GitHub and setting \\
-    {ui_value(remref)} as upstream branch")
-  gert::git_push(
-    remote = "origin",
-    set_upstream = TRUE,
-    repo = repo,
-    verbose = FALSE
-  )
+  git_push_first(default_branch, "origin")
 
+  repo <- git_repo()
   gbl <- gert::git_branch_list(local = TRUE, repo = repo)
   if (nrow(gbl) > 1) {
     ui_done("
@@ -247,6 +238,22 @@ use_github_links <- function(auth_token = deprecated(),
   )
 
   invisible()
+}
+
+has_github_links <- function() {
+  github_url <- github_url_from_git_remotes()
+  if (is.null(github_url)) {
+    return(FALSE)
+  }
+
+  desc <- proj_desc()
+
+  has_github_url <- github_url %in% desc$get_urls()
+
+  bug_reports <- desc$get_field("BugReports", default = character())
+  has_github_issues <- glue("{github_url}/issues") %in% bug_reports
+
+  has_github_url && has_github_issues
 }
 
 check_no_origin <- function() {

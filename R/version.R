@@ -14,9 +14,9 @@
 #' ```
 
 #' `use_version()` increments the "Version" field in `DESCRIPTION`, adds a new
-#' heading to `NEWS.md` (if it exists), and commits those changes (if package
-#' uses Git). It makes the same update to a line like `PKG_version = "x.y.z";`
-#' in `src/version.c` (if it exists).
+#' heading to `NEWS.md` (if it exists), commits those changes (if package uses
+#' Git), and optionally pushes (if safe to do so). It makes the same update to a
+#' line like `PKG_version = "x.y.z";` in `src/version.c` (if it exists).
 #'
 
 #' `use_dev_version()` increments to a development version, e.g. from 1.0.0 to
@@ -46,8 +46,10 @@
 NULL
 
 #' @rdname use_version
+#' @param push If `TRUE`, also attempts to push the commits to the remote
+#'   branch.
 #' @export
-use_version <- function(which = NULL) {
+use_version <- function(which = NULL, push = FALSE) {
   if (is.null(which) && !is_interactive()) {
     return(invisible(FALSE))
   }
@@ -74,8 +76,10 @@ use_version <- function(which = NULL) {
   git_ask_commit(
     glue("Increment version number to {new_ver}"),
     untracked = TRUE,
+    push = push,
     paths = c("DESCRIPTION", "NEWS.md", path("src", "version.c"))
   )
+
   invisible(TRUE)
 }
 
@@ -92,26 +96,30 @@ use_dev_version <- function() {
 
 choose_version <- function(message, which = NULL) {
   versions <- bump_version()
+  rtypes <- names(versions)
+  which <- which %||% rtypes
+  which <- arg_match(which, values = rtypes, multiple = TRUE)
+  versions <- versions[which]
 
-  if (is.null(which)) {
-    choice <- utils::menu(
-      choices = glue(
-        "{format(names(versions), justify = 'right')} --> {versions}"
-      ),
-      title = glue(
-        "Current version is {proj_version()}.\n",
-        "{message} (0 to exit)"
-      )
-    )
-    if (choice == 0) {
-      return(invisible())
-    } else {
-      which <- names(versions)[choice]
-    }
+  if (length(versions) == 1) {
+    return(versions)
   }
 
-  which <- match.arg(which, c("major", "minor", "patch", "dev"))
-  versions[which]
+  choice <- utils::menu(
+    choices = glue(
+      "{format(names(versions), justify = 'right')} --> {versions}"
+    ),
+    title = glue(
+      "Current version is {proj_version()}.\n",
+      "{message} (0 to exit)"
+    )
+  )
+
+  if (choice == 0) {
+    invisible()
+  } else {
+    versions[[choice]]
+  }
 }
 
 bump_version <- function(ver = proj_version()) {

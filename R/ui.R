@@ -299,12 +299,15 @@ ui_bullet <- function(x, bullet = cli::symbol$bullet) {
 
 # All UI output must eventually go through ui_inform() so that it
 # can be quieted with 'usethis.quiet' when needed.
-ui_inform <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
-  if (!quiet) {
+ui_inform <- function(...) {
+  if (!is_quiet()) {
     inform(paste0(...))
   }
-
   invisible()
+}
+
+is_quiet <- function() {
+  isTRUE(getOption("usethis.quiet", default = FALSE))
 }
 
 # Sitrep helpers ---------------------------------------------------------------
@@ -317,4 +320,14 @@ kv_line <- function(key, value, .envir = parent.frame()) {
   value <- if (is.null(value)) ui_unset() else ui_value(value)
   key <- glue(key, .envir = .envir)
   ui_inform(glue("{cli::symbol$bullet} {key}: {value}"))
+}
+
+
+# cli wrappers ------------------------------------------------------------
+
+ui_cli_inform <- function(..., .envir = parent.frame()) {
+  if (!is_quiet()) {
+    cli::cli_inform(..., .envir = .envir)
+  }
+  invisible()
 }

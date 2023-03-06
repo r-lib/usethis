@@ -14,6 +14,7 @@
 \alias{use_tidy_coc}
 \alias{use_tidy_github}
 \alias{use_tidy_style}
+\alias{use_tidy_logo}
 \title{Helpers for tidyverse development}
 \usage{
 use_tidy_github_actions(ref = NULL)
@@ -37,6 +38,8 @@ use_tidy_coc()
 use_tidy_github()
 
 use_tidy_style(strict = TRUE)
+
+use_tidy_logo(geometry = "240x278", retina = TRUE)
 }
 \arguments{
 \item{ref}{Desired Git reference, usually the name of a tag (\code{"v2"}) or
@@ -57,6 +60,13 @@ use a CLA to assign copyright to a single entity.}
 
 \item{strict}{Boolean indicating whether or not a strict version of styling
 should be applied. See \code{\link[styler:tidyverse_style]{styler::tidyverse_style()}} for details.}
+
+\item{geometry}{a \link[magick:geometry]{magick::geometry} string specifying size. The default
+assumes that you have a hex logo using spec from
+\url{http://hexb.in/sticker.html}.}
+
+\item{retina}{\code{TRUE}, the default, scales the image on the README,
+assuming that geometry is double the desired size.}
 }
 \description{
 These helpers follow tidyverse conventions which are generally a little
@@ -111,6 +121,8 @@ document in a \verb{.github/} subdirectory.
 tidyverse conventions around GitHub issue label names and colours.
 \item \code{use_tidy_upkeep_issue()} creates an issue containing a checklist of
 actions to bring your package up to current tidyverse standards.
+\item \code{use_tidy_logo()} calls \code{use_logo()} on the appropriate hex sticker PNG
+file at \url{https://github.com/rstudio/hex-stickers}.
 }
 }
 \section{\code{use_tidy_style()}}{

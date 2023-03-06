@@ -13,7 +13,7 @@ test_that("use_version() and use_dev_version() require a package", {
 
 test_that("use_version() errors for invalid `which`", {
   create_local_package()
-  expect_error(use_version("1.2.3"), "should be one of")
+  expect_snapshot(error = TRUE, use_version("1.2.3"))
 })
 
 test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
