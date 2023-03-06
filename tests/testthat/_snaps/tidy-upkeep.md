@@ -1,7 +1,7 @@
 # upkeep bullets don't change accidentally
 
     Code
-      writeLines(upkeep_checklist(rstudio_pkg = TRUE, rstudio_person_ok = FALSE))
+      writeLines(upkeep_checklist(posit_pkg = TRUE, posit_person_ok = FALSE))
     Output
       Pre-history
       
@@ -52,8 +52,7 @@
       
       Posit updates:
       
-      * [ ] Update copyright holder in DESCRIPTION:
-      `person(given = "Posit, PBC", role = c("cph", "fnd"))`
+      * [ ] Update copyright holder in DESCRIPTION: `person(given = "Posit, PBC", role = c("cph", "fnd"))`
       * [ ] Double check license file uses '[package] authors' as copyright holder. Run `use_mit_license()`
       * [ ] Update email addresses *@rstudio.com -> *@posit.co
       * [ ] `usethis::use_tidy_coc()`
@@ -64,6 +63,6 @@
       * [ ] Use `pak::pkg_install("org/pkg") in README
       * [ ] Consider running `use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
       * [ ] `use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers
-      * [ ] Add alt-text to pictures, plots, etc; see https://www.rstudio.com/blog/knitr-fig-alt/ for examples
+      * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
 

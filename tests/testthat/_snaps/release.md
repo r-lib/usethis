@@ -115,15 +115,15 @@
     Output
       NULL
     Code
-      release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = FALSE)
+      release_revdepcheck(on_cran = TRUE, is_posit_pkg = FALSE)
     Output
       [1] "* [ ] `revdepcheck::revdep_check(num_workers = 4)`"
     Code
-      release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = TRUE)
+      release_revdepcheck(on_cran = TRUE, is_posit_pkg = TRUE)
     Output
       [1] "* [ ] `revdepcheck::cloud_check()`"
     Code
-      release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = TRUE, env = env)
+      release_revdepcheck(on_cran = TRUE, is_posit_pkg = TRUE, env = env)
     Output
       [1] "* [ ] `revdepcheck::cloud_check(extra_revdeps = c(\"waldo\", \"testthat\"))`"
 
