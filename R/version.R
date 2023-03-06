@@ -96,26 +96,30 @@ use_dev_version <- function() {
 
 choose_version <- function(message, which = NULL) {
   versions <- bump_version()
+  rtypes <- names(versions)
+  which <- which %||% rtypes
+  which <- arg_match(which, values = rtypes, multiple = TRUE)
+  versions <- versions[which]
 
-  if (is.null(which)) {
-    choice <- utils::menu(
-      choices = glue(
-        "{format(names(versions), justify = 'right')} --> {versions}"
-      ),
-      title = glue(
-        "Current version is {proj_version()}.\n",
-        "{message} (0 to exit)"
-      )
-    )
-    if (choice == 0) {
-      return(invisible())
-    } else {
-      which <- names(versions)[choice]
-    }
+  if (length(versions) == 1) {
+    return(versions)
   }
 
-  which <- match.arg(which, c("major", "minor", "patch", "dev"))
-  versions[which]
+  choice <- utils::menu(
+    choices = glue(
+      "{format(names(versions), justify = 'right')} --> {versions}"
+    ),
+    title = glue(
+      "Current version is {proj_version()}.\n",
+      "{message} (0 to exit)"
+    )
+  )
+
+  if (choice == 0) {
+    invisible()
+  } else {
+    versions[[choice]]
+  }
 }
 
 bump_version <- function(ver = proj_version()) {
