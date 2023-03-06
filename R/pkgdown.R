@@ -76,7 +76,7 @@ use_pkgdown_github_pages <- function() {
   site_url <- tidyverse_url(url = site$html_url, tr = tr)
   use_pkgdown_url(url = site_url, tr = tr)
 
-  if (is_rstudio_pkg()) {
+  if (is_posit_pkg()) {
     proj_desc_field_append("Config/Needs/website", "tidyverse/tidytemplate")
   }
 }

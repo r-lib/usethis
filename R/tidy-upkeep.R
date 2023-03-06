@@ -29,8 +29,8 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 }
 
 upkeep_checklist <- function(year = NULL,
-                             rstudio_pkg = is_rstudio_pkg(),
-                             rstudio_person_ok = is_posit_person_canonical()) {
+                             posit_pkg = is_posit_pkg(),
+                             posit_person_ok = is_posit_person_canonical()) {
   year <- year %||% 2000
 
 
@@ -86,7 +86,7 @@ upkeep_checklist <- function(year = NULL,
       todo('
         Make sure RStudio appears in `Authors@R` of DESCRIPTION like so, if appropriate:
         `person("RStudio", role = c("cph", "fnd"))`',
-        rstudio_pkg && !rstudio_person_ok),
+        posit_pkg && !posit_person_ok),
 
       ""
     )
@@ -123,7 +123,7 @@ upkeep_checklist <- function(year = NULL,
       todo('
         Update copyright holder in DESCRIPTION:
         `person(given = "Posit, PBC", role = c("cph", "fnd"))`',
-           rstudio_pkg && !rstudio_person_ok
+        posit_pkg && !posit_person_ok
         ),
       todo("
         Double check license file uses '[package] authors' \\
@@ -132,7 +132,7 @@ upkeep_checklist <- function(year = NULL,
         ),
       todo("
         Update email addresses *@rstudio.com -> *@posit.co",
-        any(grepl("rstudio", desc$get_authors()))),
+        author_has_rstudio_email()),
       todo("`usethis::use_tidy_coc()`"),
       "",
       todo("Review 2022 checklist to see if you completed the pkgdown updates"),
@@ -154,7 +154,7 @@ upkeep_checklist <- function(year = NULL,
         lowercase_r()),
       todo("
         Add alt-text to pictures, plots, etc; see \\
-        https://www.rstudio.com/blog/knitr-fig-alt/ for examples"),
+        https://posit.co/blog/knitr-fig-alt/ for examples"),
       ""
     )
   }
