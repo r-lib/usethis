@@ -140,7 +140,7 @@ upkeep_checklist <- function(year = NULL,
       todo("
         Update logo (https://github.com/rstudio/hex-stickers); \\
         run `use_tidy_logo()`"),
-      todo('Use `pak::pkg_install("org/pkg")` in README'),
+      todo('Use `pak::pak("org/pkg")` in README'),
       todo("
         Consider running `use_tidy_dependencies()` and/or \\
         replace compat files with `use_standalone()`"),
