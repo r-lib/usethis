@@ -29,8 +29,8 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 }
 
 upkeep_checklist <- function(year = NULL,
-                             rstudio_pkg = is_rstudio_pkg(),
-                             rstudio_person_ok = is_rstudio_person_canonical()) {
+                             posit_pkg = is_posit_pkg(),
+                             posit_person_ok = is_posit_person_canonical()) {
   year <- year %||% 2000
 
 
@@ -86,28 +86,76 @@ upkeep_checklist <- function(year = NULL,
       todo('
         Make sure RStudio appears in `Authors@R` of DESCRIPTION like so, if appropriate:
         `person("RStudio", role = c("cph", "fnd"))`',
-        rstudio_pkg && !rstudio_person_ok),
+        posit_pkg && !posit_person_ok),
 
       ""
     )
   }
-if (year <= 2022) {
+  if (year <= 2022) {
     bullets <- c(bullets,
-     "2022",
-     "",
-     todo("`usethis::use_tidy_coc()`"),
-     todo("Handle and close any still-open `master` --> `main` issues"),
-     todo("Update README badges, instructions in [r-lib/usethis#1594](https://github.com/r-lib/usethis/issues/1594)"),
-     todo("
-       Update errors to rlang 1.0.0. Helpful guides:
-       <https://rlang.r-lib.org/reference/topic-error-call.html>
-       <https://rlang.r-lib.org/reference/topic-error-chaining.html>
-       <https://rlang.r-lib.org/reference/topic-condition-formatting.html>"),
-     todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
-     todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
-     todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
-     todo("Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`"),
-     ""
+      "2022",
+      "",
+      todo("`usethis::use_tidy_coc()`"),
+      todo("Handle and close any still-open `master` --> `main` issues"),
+      todo("Update README badges, instructions in [r-lib/usethis#1594](https://github.com/r-lib/usethis/issues/1594)"),
+      todo("
+        Update errors to rlang 1.0.0. Helpful guides:
+        <https://rlang.r-lib.org/reference/topic-error-call.html>
+        <https://rlang.r-lib.org/reference/topic-error-chaining.html>
+        <https://rlang.r-lib.org/reference/topic-condition-formatting.html>"),
+      todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
+      todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
+      todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
+      todo("Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`"),
+      ""
+    )
+  }
+
+  if (year <= 2023) {
+
+    desc <- proj_desc()
+
+    bullets <- c(bullets,
+      "2023",
+      "",
+      "Posit updates:",
+      "",
+      todo('
+        Update copyright holder in DESCRIPTION: \\
+        `person(given = "Posit, PBC", role = c("cph", "fnd"))`',
+        posit_pkg && !posit_person_ok
+        ),
+      todo("
+        Double check license file uses '[package] authors' \\
+        as copyright holder. Run `use_mit_license()`",
+        grepl("MIT", desc$get_field("License"))
+        ),
+      todo("
+        Update email addresses *@rstudio.com -> *@posit.co",
+        author_has_rstudio_email()),
+      todo("`usethis::use_tidy_coc()`"),
+      "",
+      todo("Review 2022 checklist to see if you completed the pkgdown updates"),
+      "",
+      todo("Modernize citation files; see updated `use_citation()`",
+           fs::file_exists(proj_path("inst/CITATION"))),
+      todo("
+        Update logo (https://github.com/rstudio/hex-stickers); \\
+        run `use_tidy_logo()`"),
+      todo('Use `pak::pkg_install("org/pkg") in README'),
+      todo("
+        Consider running `use_tidy_dependencies()` and/or \\
+        replace compat files with `use_standalone()`"),
+      todo('
+        `use_standalone("r-lib/rlang", "types-check")` \\
+        instead of home grown argument checkers'),
+      todo("
+        Change files ending in `.r` to `.R` in R/ and/or tests/testthat/",
+        lowercase_r()),
+      todo("
+        Add alt-text to pictures, plots, etc; see \\
+        https://posit.co/blog/knitr-fig-alt/ for examples"),
+      ""
     )
   }
 
@@ -127,4 +175,9 @@ tidy_minimum_r_version <- function() {
     oldrel_4 <- re_match(version, "[0-9]+[.][0-9]+")$.match
   }
   oldrel_4
+}
+
+lowercase_r <- function() {
+  path <- proj_path(c("R", "tests/testthat"))
+  length(fs::dir_ls(path, regexp = "[.]r$")) > 0
 }

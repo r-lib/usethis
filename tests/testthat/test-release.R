@@ -52,9 +52,9 @@ test_that("construct correct revdep bullet", {
 
   expect_snapshot({
     release_revdepcheck(on_cran = FALSE)
-    release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = FALSE)
-    release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = TRUE)
-    release_revdepcheck(on_cran = TRUE, is_rstudio_pkg = TRUE, env = env)
+    release_revdepcheck(on_cran = TRUE, is_posit_pkg = FALSE)
+    release_revdepcheck(on_cran = TRUE, is_posit_pkg = TRUE)
+    release_revdepcheck(on_cran = TRUE, is_posit_pkg = TRUE, env = env)
   })
 })
 
@@ -62,16 +62,18 @@ test_that("RStudio-ness detection works", {
   withr::local_options(usethis.description = NULL)
   create_local_package()
 
-  expect_false(is_rstudio_pkg())
+  expect_false(is_posit_pkg())
 
   desc <- proj_desc()
-  desc$add_author(given = "RstuDio, PbC", role = "fnd")
+  desc$add_author(given = "PoSiT, PbC", role = "fnd")
+  desc$add_author(given = "someone", email = "someone@Rstudio.com")
   desc$add_urls("https://github.com/tidyverse/WHATEVER")
   desc$write()
 
-  expect_true(is_rstudio_pkg())
-  expect_true(is_in_rstudio_org())
-  expect_false(is_rstudio_person_canonical())
+  expect_true(is_posit_pkg())
+  expect_true(is_in_posit_org())
+  expect_false(is_posit_person_canonical())
+  expect_true(author_has_rstudio_email())
 
   expect_snapshot(
     writeLines(release_checklist("1.0.0", on_cran = TRUE)),

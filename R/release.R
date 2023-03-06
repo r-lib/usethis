@@ -76,7 +76,7 @@ release_checklist <- function(version, on_cran) {
   has_lifecycle <- proj_desc()$has_dep("lifecycle")
   has_readme <- file_exists(proj_path("README.Rmd"))
   has_github_links <- has_github_links()
-  is_rstudio_pkg <- is_rstudio_pkg()
+  is_posit_pkg <- is_posit_pkg()
 
   milestone_num <- NA # for testing (and general fallback)
   if (uses_git() && curl::has_internet()) {
@@ -118,11 +118,11 @@ release_checklist <- function(version, on_cran) {
     todo("`devtools::build_readme()`", has_readme),
     todo("`devtools::check(remote = TRUE, manual = TRUE)`"),
     todo("`devtools::check_win_devel()`"),
-    release_revdepcheck(on_cran, is_rstudio_pkg),
+    release_revdepcheck(on_cran, is_posit_pkg),
     todo("Update `cran-comments.md`", on_cran),
     todo("`git push`"),
     todo("Draft blog post", type != "patch"),
-    todo("Slack link to draft blog in #open-source-comms", type != "patch" && is_rstudio_pkg),
+    todo("Slack link to draft blog in #open-source-comms", type != "patch" && is_posit_pkg),
     release_extra_bullets(),
     "",
     "Submit to CRAN:",
@@ -155,7 +155,7 @@ gh_milestone_number <- function(repo_spec, version, state = "open") {
   numbers[match(paste0("v", version), titles)]
 }
 
-release_revdepcheck <- function(on_cran = TRUE, is_rstudio_pkg = TRUE, env = NULL) {
+release_revdepcheck <- function(on_cran = TRUE, is_posit_pkg = TRUE, env = NULL) {
   if (!on_cran) {
     return()
   }
@@ -168,7 +168,7 @@ release_revdepcheck <- function(on_cran = TRUE, is_rstudio_pkg = TRUE, env = NUL
     extra <- character()
   }
 
-  if (is_rstudio_pkg) {
+  if (is_posit_pkg) {
     if (length(extra) > 0) {
       extra_code <- paste0(deparse(extra), collapse = "")
       todo("`revdepcheck::cloud_check(extra_revdeps = {extra_code})`")
@@ -436,31 +436,31 @@ news_latest <- function(lines) {
   paste0(news, "\n", collapse = "")
 }
 
-is_rstudio_pkg <- function() {
-  is_rstudio_cph_or_fnd() || is_in_rstudio_org()
+is_posit_pkg <- function() {
+  is_posit_cph_or_fnd() || is_in_posit_org()
 }
 
-is_rstudio_cph_or_fnd <- function() {
+is_posit_cph_or_fnd <- function() {
   if (!is_package()) {
     return(FALSE)
   }
-  roles <- get_rstudio_roles()
+  roles <- get_posit_roles()
   "cph" %in% roles || "fnd" %in% roles
 }
 
-is_rstudio_person_canonical <- function() {
+is_posit_person_canonical <- function() {
   if (!is_package()) {
     return(FALSE)
   }
-  roles <- get_rstudio_roles()
+  roles <- get_posit_roles()
   length(roles) > 0 &&
     "fnd" %in% roles &&
     "cph" %in% roles &&
     attr(roles, "appears_in", exact = TRUE) == "given" &&
-    attr(roles, "appears_as", exact = TRUE) == "RStudio"
+    attr(roles, "appears_as", exact = TRUE) == "Posit, PBC"
 }
 
-get_rstudio_roles <- function() {
+get_posit_roles <- function() {
   if (!is_package()) {
     return()
   }
@@ -469,11 +469,11 @@ get_rstudio_roles <- function() {
   fnd <- unclass(desc$get_author("fnd"))
   cph <- unclass(desc$get_author("cph"))
 
-  detect_rstudio <- function(x) {
-    any(grepl("rstudio", tolower(x[c("given", "family")])))
+  detect_posit <- function(x) {
+    any(grepl("rstudio|posit", tolower(x[c("given", "family")])))
   }
-  fnd <- purrr::keep(fnd, detect_rstudio)
-  cph <- purrr::keep(cph, detect_rstudio)
+  fnd <- purrr::keep(fnd, detect_posit)
+  cph <- purrr::keep(cph, detect_posit)
 
   if (length(fnd) < 1 && length(cph) < 1) {
     return(character())
@@ -491,7 +491,7 @@ get_rstudio_roles <- function() {
   out
 }
 
-is_in_rstudio_org <- function() {
+is_in_posit_org <- function() {
   if (!is_package()) {
     return(FALSE)
   }
@@ -499,10 +499,10 @@ is_in_rstudio_org <- function() {
   urls <- desc$get_urls()
   dat <- parse_github_remotes(urls)
   dat <- dat[dat$host == "github.com", ]
-  purrr::some(dat$repo_owner, ~ .x %in% rstudio_orgs())
+  purrr::some(dat$repo_owner, ~ .x %in% posit_orgs())
 }
 
-rstudio_orgs <- function() {
+posit_orgs <- function() {
   c(
     "tidyverse",
     "r-lib",
@@ -516,4 +516,12 @@ todo <- function(x, cond = TRUE) {
   if (cond) {
     paste0("* [ ] ", x)
   }
+}
+
+author_has_rstudio_email <- function() {
+  if (!is_package()) {
+    return()
+  }
+  desc <- proj_desc()
+  any(grepl("rstudio", tolower(desc$get_authors())))
 }
