@@ -523,5 +523,5 @@ author_has_rstudio_email <- function() {
     return()
   }
   desc <- proj_desc()
-  any(grepl("rstudio", tolower(desc$get_authors())))
+  any(grepl("@rstudio[.]com", tolower(desc$get_authors())))
 }
