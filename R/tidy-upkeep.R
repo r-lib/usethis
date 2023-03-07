@@ -153,6 +153,7 @@ upkeep_checklist <- function(year = NULL,
       todo("
         Add alt-text to pictures, plots, etc; see \\
         https://posit.co/blog/knitr-fig-alt/ for examples"),
+      todo("`usethis::use_tidy_github_actions()`"),
       ""
     )
   }
