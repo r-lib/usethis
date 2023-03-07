@@ -139,6 +139,7 @@ upkeep_checklist <- function(year = NULL,
       todo("`usethis::use_tidy_coc()`"),
       todo("Modernize citation files; see updated `use_citation()`",
            fs::file_exists(proj_path("inst/CITATION"))),
+      todo("`usethis::use_tidy_github_actions()`"),
       "",
       "Optional:",
       "",
@@ -156,7 +157,6 @@ upkeep_checklist <- function(year = NULL,
       todo("
         Add alt-text to pictures, plots, etc; see \\
         https://posit.co/blog/knitr-fig-alt/ for examples"),
-      todo("`usethis::use_tidy_github_actions()`"),
       ""
     )
   }
