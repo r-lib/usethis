@@ -59,7 +59,7 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   dependencies <- standalone_dependencies(lines, path)
 
   for (dependency in dependencies$deps) {
-    use_standalone(repo_spec, dependency)
+    use_standalone(repo_spec, dependency, ref = ref, host = host)
   }
 
   imports <- dependencies$imports
