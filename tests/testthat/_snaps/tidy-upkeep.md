@@ -62,5 +62,6 @@
       * [ ] Consider running `use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
       * [ ] `use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
+      * [ ] `usethis::use_tidy_github_actions()`
       
 
