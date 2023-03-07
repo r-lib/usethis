@@ -118,7 +118,7 @@ upkeep_checklist <- function(year = NULL,
     bullets <- c(bullets,
       "2023",
       "",
-      "Posit updates:",
+      "Necessary:",
       "",
       todo('
         Update copyright holder in DESCRIPTION: \\
@@ -133,13 +133,16 @@ upkeep_checklist <- function(year = NULL,
       todo("
         Update email addresses *@rstudio.com -> *@posit.co",
         author_has_rstudio_email()),
-      todo("`usethis::use_tidy_coc()`"),
-      todo("Review 2022 checklist to see if you completed the pkgdown updates"),
-      todo("Modernize citation files; see updated `use_citation()`",
-           fs::file_exists(proj_path("inst/CITATION"))),
       todo("
         Update logo (https://github.com/rstudio/hex-stickers); \\
         run `use_tidy_logo()`"),
+      todo("`usethis::use_tidy_coc()`"),
+      todo("Modernize citation files; see updated `use_citation()`",
+           fs::file_exists(proj_path("inst/CITATION"))),
+      "",
+      "Optional:",
+      "",
+      todo("Review 2022 checklist to see if you completed the pkgdown updates"),
       todo('Prefer `pak::pak("org/pkg")` over `devtools::install_github("org/pkg")` in README'),
       todo("
         Consider running `use_tidy_dependencies()` and/or \\
