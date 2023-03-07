@@ -40,7 +40,8 @@ test_that("header provides useful summary", {
 
 test_that("can extract dependencies", {
   extract_deps <- function(deps) {
-    standalone_dependencies(c("# ---", deps, "# ---"), "test.R")
+    out <- standalone_dependencies(c("# ---", deps, "# ---"), "test.R")
+    out$deps
   }
 
   expect_equal(extract_deps(NULL), character())

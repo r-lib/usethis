@@ -42,7 +42,7 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   write_over(proj_path(dest_path), lines, overwrite = TRUE)
 
   dependencies <- standalone_dependencies(lines, path)
-  for (dependency in dependencies) {
+  for (dependency in dependencies$deps) {
     use_standalone(repo_spec, dependency)
   }
 
@@ -121,5 +121,7 @@ standalone_dependencies <- function(lines, path, error_call = caller_env()) {
       call = error_call
     )
   }
-  deps %||% character()
+  deps <- deps %||% character()
+
+  list(deps = deps)
 }
