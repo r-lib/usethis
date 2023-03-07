@@ -22,6 +22,26 @@
       [3] "# ----------------------------------------------------------------------"  
       [4] "#"                                                                         
 
+# can extract imports
+
+    Code
+      extract_imports("# imports: rlang (== 1.0.0)")
+    Condition
+      Error in `extract_imports()`:
+      ! Version specification must use `>=`.
+    Code
+      extract_imports("# imports: rlang (>= 1.0.0), purrr")
+    Condition
+      Error in `extract_imports()`:
+      ! Version field can't contain comma.
+      i Do you need to wrap in a list?
+    Code
+      extract_imports("# imports: foo (>=0.0.0)")
+    Condition
+      Error in `extract_imports()`:
+      ! Can't parse version `foo (>=0.0.0)` in `imports:` field.
+      i Example of expected version format: `rlang (>= 1.0.0)`.
+
 # errors on malformed dependencies
 
     Code

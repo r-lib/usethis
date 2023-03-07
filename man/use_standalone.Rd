@@ -42,3 +42,20 @@ to get such a file into your own repo.
 It always overwrites an existing standalone file of the same name, making
 it easy to update previously imported code.
 }
+\section{Supported fields}{
+
+\itemize{
+\item \code{dependencies}: A file or a list of files in the same repo that
+the standalone file depends on. These files are retrieved
+automatically by \code{use_standalone()}.
+\item \code{imports}: A package or list of packages that the standalone file
+depends on. A minimal version may be specified in parentheses,
+e.g. \verb{rlang (>= 1.0.0)}. These dependencies are passed to
+\code{\link[=use_package]{use_package()}} to ensure they are included in the \verb{Imports:}
+field of the \code{DESCRIPTION} file.
+}
+
+Note that lists are specified with standard YAML syntax, using
+square brackets.
+}
+
