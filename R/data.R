@@ -128,7 +128,7 @@ check_files_absent <- function(paths, overwrite) {
 #' use_data_raw("daisy")
 #' }
 use_data_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
-  stopifnot(is_string(name))
+  check_name(name)
   r_path <- path("data-raw", asciify(name), ext = "R")
   use_directory("data-raw", ignore = TRUE)
 

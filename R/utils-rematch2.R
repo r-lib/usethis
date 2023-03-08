@@ -4,7 +4,7 @@
 
 re_match <- function(text, pattern, perl = TRUE, ...) {
 
-  stopifnot(is.character(pattern), length(pattern) == 1, !is.na(pattern))
+  check_string(pattern)
   text <- as.character(text)
 
   match <- regexpr(pattern, text, perl = perl, ...)

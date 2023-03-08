@@ -118,7 +118,7 @@ ensure_core_excludesFile <- function() {
 
 # Status------------------------------------------------------------------------
 git_status <- function(untracked) {
-  stopifnot(is_true(untracked) || is_false(untracked))
+  check_bool(untracked)
   st <- gert::git_status(repo = git_repo())
   if (!untracked) {
     st <- st[st$status != "new", ]
@@ -259,6 +259,7 @@ remref_branch <- function(remref) git_parse_remref(remref)$branch
 # Pull from remref or upstream tracking. If neither given/exists, do nothing.
 # Therefore, this does less than `git pull`.
 git_pull <- function(remref = NULL, verbose = TRUE) {
+  check_string(remref, allow_na = TRUE, allow_null = TRUE)
   repo <- git_repo()
   branch <- git_branch()
   remref <- remref %||% git_branch_tracking(branch)
@@ -268,7 +269,6 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
     }
     return(invisible())
   }
-  stopifnot(is_string(remref))
   if (verbose) {
     ui_done("Pulling from {ui_value(remref)}.")
   }
