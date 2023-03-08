@@ -44,18 +44,44 @@ it easy to update previously imported code.
 }
 \section{Supported fields}{
 
-\itemize{
-\item \code{dependencies}: A file or a list of files in the same repo that
-the standalone file depends on. These files are retrieved
-automatically by \code{use_standalone()}.
-\item \code{imports}: A package or list of packages that the standalone file
-depends on. A minimal version may be specified in parentheses,
-e.g. \verb{rlang (>= 1.0.0)}. These dependencies are passed to
-\code{\link[=use_package]{use_package()}} to ensure they are included in the \verb{Imports:}
-field of the \code{DESCRIPTION} file.
-}
+
+A standalone file has YAML frontmatter that provides additional information,
+such as where the file originates from and when it was last updated. Here is
+an example:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{---
+repo: r-lib/rlang
+file: standalone-types-check.R
+last-updated: 2023-03-07
+license: https://unlicense.org
+dependencies: standalone-obj-type.R
+imports: rlang (>= 1.1.0)
+---
+
+Two of these fields are consulted by `use_standalone()`:
+
+- `dependencies`: A file or a list of files in the same repo that
+  the standalone file depends on. These files are retrieved
+  automatically by `use_standalone()`.
+
+- `imports`: A package or list of packages that the standalone file
+   depends on. A minimal version may be specified in parentheses,
+   e.g. `rlang (>= 1.0.0)`. These dependencies are passed to
+   [use_package()] to ensure they are included in the `Imports:`
+   field of the `DESCRIPTION` file.
 
 Note that lists are specified with standard YAML syntax, using
-square brackets.
+square brackets, for example: `# imports: [rlang (>= 1.0.0), purrr]`.
+
+
+[use_package()]: R:use_package()
+[rlang (>= 1.0.0), purrr]: R:rlang\%20(\%3E=\%201.0.0),\%20purrr
+}\if{html}{\out{</div>}}
 }
 
+\examples{
+\dontrun{
+use_standalone("r-lib/rlang", file = "types-check")
+use_standalone("r-lib/rlang", file = "types-check", ref = "standalone-dep")
+}
+}

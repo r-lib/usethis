@@ -10,6 +10,23 @@
 #'
 #' @section Supported fields:
 #'
+
+#' A standalone file has YAML frontmatter that provides additional information,
+#' such as where the file originates from and when it was last updated. Here is
+#' an example:
+#'
+#' ```
+#' ---
+#' repo: r-lib/rlang
+#' file: standalone-types-check.R
+#' last-updated: 2023-03-07
+#' license: https://unlicense.org
+#' dependencies: standalone-obj-type.R
+#' imports: rlang (>= 1.1.0)
+#' ---
+#'
+#' Two of these fields are consulted by `use_standalone()`:
+#'
 #' - `dependencies`: A file or a list of files in the same repo that
 #'   the standalone file depends on. These files are retrieved
 #'   automatically by `use_standalone()`.
@@ -21,7 +38,7 @@
 #'    field of the `DESCRIPTION` file.
 #'
 #' Note that lists are specified with standard YAML syntax, using
-#' square brackets.
+#' square brackets, for example: `# imports: [rlang (>= 1.0.0), purrr]`.
 #'
 #' @inheritParams create_from_github
 #' @inheritParams use_github_file
@@ -29,6 +46,11 @@
 #'   extension are optional. If omitted, will allow you to choose from the
 #'   standalone files offered by that repo.
 #' @export
+#' @examples
+#' \dontrun{
+#' use_standalone("r-lib/rlang", file = "types-check")
+#' use_standalone("r-lib/rlang", file = "types-check", ref = "standalone-dep")
+#' }
 use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   check_is_project()
 
