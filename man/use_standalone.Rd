@@ -71,7 +71,7 @@ Two of these fields are consulted by `use_standalone()`:
    field of the `DESCRIPTION` file.
 
 Note that lists are specified with standard YAML syntax, using
-square brackets, for example: `# imports: [rlang (>= 1.0.0), purrr]`.
+square brackets, for example: `imports: [rlang (>= 1.0.0), purrr]`.
 
 
 [use_package()]: R:use_package()
