@@ -33,7 +33,7 @@ Imports:
     lifecycle (>= 1.0.0),
     purrr,
     rappdirs,
-    rlang (>= 1.0.0),
+    rlang (>= 1.0.6),
     rprojroot (>= 1.2),
     rstudioapi,
     stats,
@@ -58,3 +58,5 @@ Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Remotes:  
+    r-lib/rlang
