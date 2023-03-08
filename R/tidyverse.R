@@ -353,7 +353,8 @@ as_timestamp <- function(repo_spec, x = NULL) {
 
 ## returns a data frame on GitHub refs, defaulting to all releases
 ref_df <- function(repo_spec, refs = NULL) {
-  stopifnot(is_string(repo_spec))
+  check_name(repo_spec)
+  check_character(refs, allow_null = TRUE)
   refs <- refs %||% releases(repo_spec)
   if (is.null(refs)) {
     return(NULL)
@@ -376,7 +377,7 @@ ref_df <- function(repo_spec, refs = NULL) {
 
 ## returns character vector of release tag names
 releases <- function(repo_spec) {
-  stopifnot(is_string(repo_spec))
+  check_name(repo_spec)
   res <- gh::gh(
     "/repos/{owner}/{repo}/releases",
     owner = spec_owner(repo_spec), repo = spec_repo(repo_spec)

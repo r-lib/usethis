@@ -49,8 +49,9 @@
 #' use_github_pages(branch = git_default_branch(), path = "/docs")
 #' }
 use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
-  stopifnot(is_string(branch), is_string(path))
-  stopifnot(is.na(cname) || is.null(cname) || is_string(cname))
+  check_name(branch)
+  check_name(path)
+  check_string(cname, allow_empty = FALSE, allow_na = TRUE, allow_null = TRUE)
   tr <- target_repo(github_get = TRUE, ok_configs = c("ours", "fork"))
   check_can_push(tr = tr, "to turn on GitHub Pages")
 

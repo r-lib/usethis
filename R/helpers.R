@@ -1,6 +1,6 @@
 use_dependency <- function(package, type, min_version = NULL) {
-  stopifnot(is_string(package))
-  stopifnot(is_string(type))
+  check_name(package)
+  check_name(type)
 
   if (package != "R") {
     check_installed(package)

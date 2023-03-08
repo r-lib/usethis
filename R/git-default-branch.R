@@ -318,8 +318,8 @@ git_default_branch_rediscover <- function(current_local_default = NULL) {
 #' }
 git_default_branch_rename <- function(from = NULL, to = "main") {
   repo <- git_repo()
-  maybe_string(from)
-  check_string(to)
+  check_name(from, allow_null = TRUE)
+  check_name(to)
 
   if (!is.null(from) &&
       !gert::git_branch_exists(from, local = TRUE, repo = repo)) {
@@ -395,7 +395,7 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
 }
 
 rediscover_default_branch <- function(old_name = NULL, report_on_source = TRUE) {
-  maybe_string(old_name)
+  check_name(old_name, allow_null = TRUE)
 
   # GitHub's official TODOs re: manually updating local environments
   # after a source repo renames the default branch:

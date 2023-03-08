@@ -40,7 +40,7 @@ dots <- function(...) {
 }
 
 asciify <- function(x) {
-  stopifnot(is.character(x))
+  check_character(x)
   gsub("[^a-zA-Z0-9_-]+", "-", x)
 }
 
@@ -98,21 +98,6 @@ pluck_int <- function(.x, ...) {
 
 is_windows <- function() {
   .Platform$OS.type == "windows"
-}
-
-check_string <- function(x, nm = deparse(substitute(x))) {
-  if (!is_string(x)) {
-    ui_stop("{ui_code(nm)} must be a string.")
-  }
-  x
-}
-
-maybe_string <- function(x, nm = deparse(substitute(x))) {
-  if (is.null(x)) {
-    x
-  } else {
-    check_string(x, nm = nm)
-  }
 }
 
 # For stability of `stringsAsFactors` across versions
