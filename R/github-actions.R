@@ -70,13 +70,20 @@ use_github_action <- function(name = NULL,
                               open = FALSE,
                               badge = NULL) {
 
+  check_name(name, allow_null = TRUE)
+  check_name(ref, allow_null = TRUE)
+  check_name(url, allow_null = TRUE)
+  check_name(save_as, allow_null = TRUE)
+  check_name(readme, allow_null = TRUE)
+  check_bool(ignore)
+  check_bool(open)
+  check_bool(badge, allow_null = TRUE)
+
   if (is.null(url) && is.null(name)) {
     name <- choose_gha_workflow()
   }
 
   if (is.null(url)) {
-    check_string(name)
-    maybe_string(ref)
 
     if (path_ext(name) == "") {
       name <- path_ext_set(name, "yaml")
@@ -89,10 +96,8 @@ use_github_action <- function(name = NULL,
     readme <- glue(
       "https://github.com/r-lib/actions/blob/{ref}/examples/README.md"
     )
-  } else {
-    check_string(url)
-    maybe_string(readme)
   }
+
   withr::defer(rstudio_git_tickle())
 
   use_dot_github(ignore = ignore)
@@ -104,7 +109,7 @@ use_github_action <- function(name = NULL,
       save_as <- path_file(url)
     }
   }
-  check_string(save_as)
+
   save_as <- path(".github", "workflows", save_as)
   create_directory(path_dir(proj_path(save_as)))
 
