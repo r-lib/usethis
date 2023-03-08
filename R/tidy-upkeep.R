@@ -180,8 +180,8 @@ tidy_minimum_r_version <- function() {
 }
 
 lowercase_r <- function() {
-  path <- proj_path(c("R", "tests/testthat"))
+  path <- proj_path(c("R", "tests"))
   path <- path[fs::dir_exists(path)]
-  length(fs::dir_ls(path, regexp = "[.]r$")) > 0
+  any(fs::path_ext(fs::dir_ls(path, recurse = TRUE)) == "r")
 }
 
