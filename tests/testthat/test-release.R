@@ -122,7 +122,7 @@ test_that("returns empty string if no bullets", {
 })
 
 test_that("can find milestone numbers", {
-  skip_on_cran()
+  skip_if_offline("github.com")
 
   expect_equal(
     gh_milestone_number("r-lib/usethis", "2.1.6", state = "all"),
