@@ -71,7 +71,6 @@ test_that("tidy_download() errors early if destdir is not a directory", {
 })
 
 test_that("tidy_download() works", {
-  skip_on_cran()
   skip_if_offline("github.com")
 
   tmp <- withr::local_tempdir(pattern = "tidy-download-test-")
@@ -203,7 +202,6 @@ test_that("conspicuous_place() uses `usethis.destdir` when set", {
 })
 
 test_that("use_course() errors if MIME type is not 'application/zip'", {
-  skip_on_cran()
   skip_if_offline()
 
   path <- withr::local_tempdir()

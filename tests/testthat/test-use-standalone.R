@@ -1,5 +1,5 @@
 test_that("can import standalone file with dependencies", {
-  skip_if_offline()
+  skip_if_offline("github.com")
   create_local_package()
 
   use_standalone("r-lib/rlang", "types-check", ref = "4670cb233ecc8d11")
@@ -10,7 +10,7 @@ test_that("can import standalone file with dependencies", {
 })
 
 test_that("can use full github url", {
-  skip_if_offline()
+  skip_if_offline("github.com")
   create_local_package()
 
   use_standalone(
@@ -26,7 +26,7 @@ test_that("can use full github url", {
 
 
 test_that("can offer choices", {
-  skip_if_offline()
+  skip_if_offline("github.com")
 
   expect_snapshot(error = TRUE, {
     standalone_choose("tidyverse/forcats", ref = "v1.0.0")

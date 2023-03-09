@@ -75,7 +75,6 @@ test_that("desc_urls() returns data frame for locally installed package", {
 })
 
 test_that("desc_urls() returns data frame for an uninstalled package", {
-  skip_on_cran()
   skip_if_offline()
 
   pkg <- "devoid"
@@ -88,7 +87,6 @@ test_that("desc_urls() returns data frame for an uninstalled package", {
 })
 
 test_that("desc_urls() returns NULL for an nonexistent package", {
-  skip_on_cran()
   skip_if_offline()
 
   expect_null(desc_urls("1234"))
