@@ -82,7 +82,7 @@ attempts to set it in the first place.
 
 \item \code{proj_set()}: Sets the active project.
 
-\item \code{proj_path()}: Builds a path within the active project returned by
+\item \code{proj_path()}: Builds paths within the active project returned by
 \code{proj_get()}. Thin wrapper around \code{\link[fs:path]{fs::path()}}.
 
 \item \code{with_project()}: Runs code with a temporary active project and,

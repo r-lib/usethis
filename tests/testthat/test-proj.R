@@ -51,6 +51,13 @@ test_that("proj_path() appends to the project path", {
 test_that("proj_path() errors with absolute paths", {
   create_local_project()
   expect_snapshot(proj_path(c("/a", "b", "/c")), error = TRUE)
+  expect_snapshot(proj_path("/a", "b", "/c"), error = TRUE)
+  expect_snapshot(proj_path("/a", c("b", "/c")), error = TRUE)
+})
+
+test_that("proj_path() with no inputs returns result of length 1, not 0", {
+  create_local_project()
+  expect_equal(proj_path(), proj_get())
 })
 
 test_that("proj_rel_path() returns path part below the project", {

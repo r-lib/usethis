@@ -117,7 +117,6 @@ test_that("github_remotes(), github_remote_list() accept explicit 0-row input", 
 })
 
 test_that("github_remotes() works", {
-  skip_on_cran()
   skip_if_offline("github.com")
   skip_if_no_git_user()
 

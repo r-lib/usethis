@@ -1,7 +1,6 @@
 test_that("use_github_action() allows for custom urls", {
-  skip_on_cran()
   skip_if_no_git_user()
-  skip_if_offline()
+  skip_if_offline("github.com")
 
   local_interactive(FALSE)
 
@@ -27,9 +26,8 @@ test_that("use_github_action() still errors in non-interactive environment", {
 })
 
 test_that("use_github_action() appends yaml in name if missing", {
-  skip_on_cran()
   skip_if_no_git_user()
-  skip_if_offline()
+  skip_if_offline("github.com")
   local_interactive(FALSE)
 
   create_local_package()
@@ -44,9 +42,8 @@ test_that("use_github_action() appends yaml in name if missing", {
 })
 
 test_that("use_github_action() accepts a ref", {
-  skip_on_cran()
   skip_if_no_git_user()
-  skip_if_offline()
+  skip_if_offline("github.com")
   local_interactive(FALSE)
 
   create_local_package()
@@ -60,9 +57,8 @@ test_that("use_github_action() accepts a ref", {
 })
 
 test_that("uses_github_action() reports usage of GitHub Actions", {
-  skip_on_cran()
   skip_if_no_git_user()
-  skip_if_offline()
+  skip_if_offline("github.com")
   local_interactive(FALSE)
 
   create_local_package()
@@ -89,9 +85,8 @@ test_that("check_uses_github_actions() can throw error", {
 })
 
 test_that("use_github_action() accepts a name", {
-  skip_on_cran()
   skip_if_no_git_user()
-  skip_if_offline()
+  skip_if_offline("github.com")
   local_interactive(FALSE)
 
   create_local_package()
@@ -117,9 +112,8 @@ test_that("use_github_action() accepts a name", {
 })
 
 test_that("use_tidy_github_actions() configures the full check and pr commands", {
-  skip_on_cran()
   skip_if_no_git_user()
-  skip_if_offline()
+  skip_if_offline("github.com")
   local_interactive(FALSE)
 
   create_local_package()
