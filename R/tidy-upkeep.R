@@ -120,19 +120,25 @@ upkeep_checklist <- function(year = NULL,
       "",
       "Necessary:",
       "",
+      todo(
+        "Update email addresses *@rstudio.com -> *@posit.co",
+        author_has_rstudio_email()
+      ),
       todo('
         Update copyright holder in DESCRIPTION: \\
         `person(given = "Posit Software, PBC", role = c("cph", "fnd"))`',
         posit_pkg && !posit_person_ok
-        ),
+      ),
+      todo('
+        `Run devtools::document()` to re-generate package-level help topic \\
+        with DESCRIPTION changes',
+        author_has_rstudio_email() || (posit_pkg && !posit_person_ok)
+      ),
       todo("
         Double check license file uses '[package] authors' \\
         as copyright holder. Run `use_mit_license()`",
         grepl("MIT", desc$get_field("License"))
-        ),
-      todo("
-        Update email addresses *@rstudio.com -> *@posit.co",
-        author_has_rstudio_email()),
+      ),
       todo("
         Update logo (https://github.com/rstudio/hex-stickers); \\
         run `use_tidy_logo()`"),

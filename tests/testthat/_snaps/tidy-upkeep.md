@@ -53,6 +53,7 @@
       Necessary:
       
       * [ ] Update copyright holder in DESCRIPTION: `person(given = "Posit Software, PBC", role = c("cph", "fnd"))`
+      * [ ] `Run devtools::document()` to re-generate package-level help topic with DESCRIPTION changes
       * [ ] Double check license file uses '[package] authors' as copyright holder. Run `use_mit_license()`
       * [ ] Update logo (https://github.com/rstudio/hex-stickers); run `use_tidy_logo()`
       * [ ] `usethis::use_tidy_coc()`
