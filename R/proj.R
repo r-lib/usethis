@@ -90,17 +90,18 @@ proj_set <- function(path = ".", force = FALSE) {
   proj_set(path = new_project, force = TRUE)
 }
 
-#' @describeIn proj_utils Builds a path within the active project returned by
+#' @describeIn proj_utils Builds paths within the active project returned by
 #'   `proj_get()`. Thin wrapper around [fs::path()].
 #' @inheritParams fs::path
 #' @export
 proj_path <- function(..., ext = "") {
-  paths <- path(..., ext = ext)
-  if (any(is_absolute_path(paths))) {
+  has_absolute_path <- function(x) any(is_absolute_path(x))
+  dots <- list(...)
+  if (any(map_lgl(dots, has_absolute_path))) {
     ui_stop("Paths must be relative to the active project")
   }
 
-  path_norm(path(proj_get(), paths))
+  path_norm(path(proj_get(), ..., ext = ext))
 }
 
 #' @describeIn proj_utils Runs code with a temporary active project and,
