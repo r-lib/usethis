@@ -82,12 +82,10 @@ proj_set <- function(path = ".", force = FALSE) {
 
   check_path_is_directory(path)
   new_project <- proj_find(path)
-  if (inherits(new_project, "error")) {
+  if (is.null(new_project)) {
     ui_stop(c(
       "Path {ui_path(path)} does not appear to be inside a project or package.",
-      "",
-      "rprojroot::find_root() returned the following:",
-      conditionMessage(new_project)
+      'Read more in the help for {ui_code("proj_get()")}.'
     ))
   }
   proj_set(path = new_project, force = TRUE)
@@ -189,11 +187,11 @@ proj_crit <- function() {
 proj_find <- function(path = ".") {
   tryCatch(
     rprojroot::find_root(proj_crit(), path = path),
-    error = identity
+    error = function(e) NULL
   )
 }
 
-possibly_in_proj <- function(path = ".") !inherits(proj_find(path), "error")
+possibly_in_proj <- function(path = ".") !is.null(proj_find(path))
 
 is_package <- function(base_path = proj_get()) {
   res <- tryCatch(
@@ -220,9 +218,10 @@ check_is_package <- function(whos_asking = NULL) {
 
 check_is_project <- function() {
   if (!possibly_in_proj()) {
-    ui_stop("
-      We do not appear to be inside a valid project or package
-      Read more in the help for {ui_code(\"proj_get()\")}")
+    ui_stop(c(
+      "We do not appear to be inside a valid project or package.",
+      'Read more in the help for {ui_code("proj_get()")}.'
+    ))
   }
 }
 
