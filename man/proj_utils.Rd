@@ -65,8 +65,7 @@ project root by looking for a \code{.here} file, an RStudio Project, a package
 \code{DESCRIPTION}, Git infrastructure, a \code{remake.yml} file, or a \code{.projectile}
 file. It then stores the active project for use for the remainder of the
 session.
-}
-\details{
+
 In general, end user scripts should not contain direct calls to
 \verb{usethis::proj_*()} utility functions. They are internal functions that are
 exported for occasional interactive use or use in packages that extend
@@ -74,6 +73,10 @@ usethis. End user code should call functions in
 \href{https://rprojroot.r-lib.org}{rprojroot} or its simpler companion,
 \href{https://here.r-lib.org}{here}, to programmatically detect a project and
 build paths within it.
+
+If you are puzzled why a path (usually the current working directory) does
+\emph{not} appear to be inside project, it can be helpful to call
+\code{here::dr_here()} to get much more verbose feedback.
 }
 \section{Functions}{
 \itemize{

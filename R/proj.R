@@ -10,6 +10,7 @@ proj_set_ <- function(path) {
 
 #' Utility functions for the active project
 #'
+#' @description
 #' Most `use_*()` functions act on the **active project**. If it is
 #' unset, usethis uses [rprojroot](https://rprojroot.r-lib.org) to
 #' find the project root of the current working directory. It establishes the
@@ -25,6 +26,10 @@ proj_set_ <- function(path) {
 #' [rprojroot](https://rprojroot.r-lib.org) or its simpler companion,
 #' [here](https://here.r-lib.org), to programmatically detect a project and
 #' build paths within it.
+#'
+#' If you are puzzled why a path (usually the current working directory) does
+#' *not* appear to be inside project, it can be helpful to call
+#' `here::dr_here()` to get much more verbose feedback.
 #'
 #' @name proj_utils
 #' @family project functions
