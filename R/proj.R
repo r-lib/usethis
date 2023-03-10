@@ -83,10 +83,9 @@ proj_set <- function(path = ".", force = FALSE) {
   check_path_is_directory(path)
   new_project <- proj_find(path)
   if (is.null(new_project)) {
-    ui_stop(c(
-      "Path {ui_path(path)} does not appear to be inside a project or package.",
-      'Read more in the help for {ui_code("proj_get()")}.'
-    ))
+    ui_stop('
+      Path {ui_path(path)} does not appear to be inside a project or package.
+      Read more in the help for {ui_code("proj_get()")}.')
   }
   proj_set(path = new_project, force = TRUE)
 }
@@ -218,10 +217,9 @@ check_is_package <- function(whos_asking = NULL) {
 
 check_is_project <- function() {
   if (!possibly_in_proj()) {
-    ui_stop(c(
-      "We do not appear to be inside a valid project or package.",
-      'Read more in the help for {ui_code("proj_get()")}.'
-    ))
+    ui_stop('
+      We do not appear to be inside a valid project or package.
+      Read more in the help for {ui_code("proj_get()")}.')
   }
 }
 
