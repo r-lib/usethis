@@ -85,13 +85,13 @@ use_version <- function(which = NULL, push = FALSE) {
 
 #' @rdname use_version
 #' @export
-use_dev_version <- function() {
+use_dev_version <- function(push = FALSE) {
   check_is_package("use_dev_version()")
   ver <- package_version(proj_version())
   if (length(unlist(ver)) > 3) {
     return(invisible())
   }
-  use_version(which = "dev")
+  use_version(which = "dev", push = push)
 }
 
 choose_version <- function(message, which = NULL) {

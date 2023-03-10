@@ -7,7 +7,7 @@
 \usage{
 use_version(which = NULL, push = FALSE)
 
-use_dev_version()
+use_dev_version(push = FALSE)
 }
 \arguments{
 \item{which}{A string specifying which level to increment, one of: "major",
