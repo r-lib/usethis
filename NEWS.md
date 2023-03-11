@@ -3,9 +3,9 @@
 * `use_release_issue()` will now remind you to run `use_github_links()` if 
   necessary (@Bisaloo, #1754)
 
-* `use_version()` gains a `push` argument to optionally push the result after
-  committing. This is used to eliminate a manual step from the 
-  `use_release_issue()` checklist (#1385). 
+* `use_version()` and `use_dev_version()` gain a `push` argument to optionally
+  push the result after committing. This is used to eliminate a manual step from
+  the `use_release_issue()` checklist (#1385). 
 
 * `use_github_release()` now automatically pushes to GitHub (if safe) (#1385) 
   and automatically publishes the release, rather than requiring you to edit
