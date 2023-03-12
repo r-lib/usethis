@@ -63,7 +63,8 @@ uses_roxygen_md <- function() {
   }
 
   roxygen <- desc$get_field("Roxygen", "")
-  if (identical(roxygen, "list(markdown = TRUE)")) {
+  if (identical(roxygen, "list(markdown = TRUE)") ||
+      identical(roxygen, "list(markdown = TRUE, r6 = FALSE)")) {
     TRUE
   } else {
     NA
