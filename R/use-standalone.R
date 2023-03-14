@@ -8,12 +8,49 @@
 #' It always overwrites an existing standalone file of the same name, making
 #' it easy to update previously imported code.
 #'
+#' @section Supported fields:
+#'
+
+#' A standalone file has YAML frontmatter that provides additional information,
+#' such as where the file originates from and when it was last updated. Here is
+#' an example:
+#'
+#' ```
+#' ---
+#' repo: r-lib/rlang
+#' file: standalone-types-check.R
+#' last-updated: 2023-03-07
+#' license: https://unlicense.org
+#' dependencies: standalone-obj-type.R
+#' imports: rlang (>= 1.1.0)
+#' ---
+#'
+#' Two of these fields are consulted by `use_standalone()`:
+#'
+#' - `dependencies`: A file or a list of files in the same repo that
+#'   the standalone file depends on. These files are retrieved
+#'   automatically by `use_standalone()`.
+#'
+#' - `imports`: A package or list of packages that the standalone file
+#'    depends on. A minimal version may be specified in parentheses,
+#'    e.g. `rlang (>= 1.0.0)`. These dependencies are passed to
+#'    [use_package()] to ensure they are included in the `Imports:`
+#'    field of the `DESCRIPTION` file.
+#'
+#' Note that lists are specified with standard YAML syntax, using
+#' square brackets, for example: `imports: [rlang (>= 1.0.0), purrr]`.
+#'
 #' @inheritParams create_from_github
 #' @inheritParams use_github_file
 #' @param file Name of standalone file. The `standalone-` prefix and file
 #'   extension are optional. If omitted, will allow you to choose from the
 #'   standalone files offered by that repo.
 #' @export
+#' @examples
+#' \dontrun{
+#' use_standalone("r-lib/rlang", file = "types-check")
+#' use_standalone("r-lib/rlang", file = "types-check", ref = "standalone-dep")
+#' }
 use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   check_is_project()
 
@@ -42,8 +79,22 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   write_over(proj_path(dest_path), lines, overwrite = TRUE)
 
   dependencies <- standalone_dependencies(lines, path)
-  for (dependency in dependencies) {
-    use_standalone(repo_spec, dependency)
+
+  for (dependency in dependencies$deps) {
+    use_standalone(repo_spec, dependency, ref = ref, host = host)
+  }
+
+  imports <- dependencies$imports
+
+  for (i in seq_len(nrow(imports))) {
+    import <- imports[i, , drop = FALSE]
+
+    if (is.na(import$ver)) {
+      ver <- NULL
+    } else {
+      ver <- import$ver
+    }
+    use_package(import$pkg, min_version = ver)
   }
 
   invisible()
@@ -114,12 +165,79 @@ standalone_dependencies <- function(lines, path, error_call = caller_env()) {
   temp <- withr::local_tempfile(lines = header)
   yaml <- rmarkdown::yaml_front_matter(temp)
 
-  deps <- yaml$dependencies
-  if (!is.null(deps) && !is.character(deps)) {
+  as_chr_field <- function(field) {
+    if (!is.null(field) && !is.character(field)) {
+      cli::cli_abort(
+        "Invalid dependencies specification in {.path {path}}.",
+        call = error_call
+      )
+    }
+
+    field %||% character()
+  }
+
+  deps <- as_chr_field(yaml$dependencies)
+  imports <- as_chr_field(yaml$imports)
+  imports <- as_version_info(imports, error_call = error_call)
+
+  if (any(na.omit(imports$cmp) != ">=")) {
     cli::cli_abort(
-      "Invalid dependencies specification in {.path {path}}.",
+      "Version specification must use {.code >=}.",
       call = error_call
     )
   }
-  deps %||% character()
+
+  list(deps = deps, imports = imports)
+}
+
+as_version_info <- function(fields, error_call = caller_env()) {
+  if (!length(fields)) {
+    return(version_info_df())
+  }
+
+  if (any(grepl(",", fields))) {
+    msg <- c(
+      "Version field can't contain comma.",
+      "i" = "Do you need to wrap in a list?"
+    )
+    cli::cli_abort(msg, call = error_call)
+  }
+
+  info <- lapply(fields, as_version_info_row, error_call = error_call)
+  inject(rbind(!!!info))
+}
+
+as_version_info_row <- function(field, error_call = caller_env()) {
+  version_regex <- "(.*) \\((.*)\\)$"
+  has_ver <- grepl(version_regex, field)
+
+  if (!has_ver) {
+    return(version_info_df(field, NA, NA))
+  }
+
+  pkg <- sub(version_regex, "\\1", field)
+  ver <- sub(version_regex, "\\2", field)
+
+  ver <- strsplit(ver, " ")[[1]]
+
+  if (!is_character(ver, n = 2) || any(is.na(ver)) || !all(nzchar(ver))) {
+    cli::cli_abort(
+      c(
+        "Can't parse version `{field}` in `imports:` field.",
+        "i" = "Example of expected version format: `rlang (>= 1.0.0)`."
+      ),
+      call = error_call
+    )
+  }
+
+  version_info_df(pkg, ver[[1]], ver[[2]])
+}
+
+version_info_df <- function(pkg = chr(), cmp = chr(), ver = chr()) {
+  df <- data.frame(
+    pkg = as.character(pkg),
+    cmp = as.character(cmp),
+    ver = as.character(ver)
+  )
+  structure(df, class = c("tbl", "data.frame"))
 }
