@@ -210,7 +210,7 @@ Being somewhat new to all this, we try to address one of these comments (fix spe
 
 ```{r, echo = FALSE}
 #| fig-alt: A screenshot of the Rstudio Git pane, showing the changed line 
-#|     with "formidabel" changed to "formidabel". The file R/adjective.R
+#|     with "formidabel" changed to "formidable". The file R/adjective.R
 #|     is staged for a commit, with the commit message "Fix Spelling!"
 knitr::include_graphics("img/pr-functions-address-comments.png", dpi = 300)
 ```
