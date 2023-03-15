@@ -23,7 +23,7 @@ test_that("use_roxygen_md() behaves for pre-existing Roxygen field", {
   skip_if_not_installed("roxygen2")
 
   pkg <- create_local_package()
-  desc::desc_set(Roxygen = "list(markdown = TRUE, r6 = FALSE)")
+  desc::desc_set(Roxygen = 'list(markdown = TRUE, r6 = FALSE, load = "source")')
 
   expect_error(use_roxygen_md(), "already has")
   with_mock(

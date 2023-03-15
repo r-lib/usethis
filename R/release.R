@@ -457,7 +457,7 @@ is_posit_person_canonical <- function() {
     "fnd" %in% roles &&
     "cph" %in% roles &&
     attr(roles, "appears_in", exact = TRUE) == "given" &&
-    attr(roles, "appears_as", exact = TRUE) == "Posit, PBC"
+    attr(roles, "appears_as", exact = TRUE) == "Posit Software, PBC"
 }
 
 get_posit_roles <- function() {

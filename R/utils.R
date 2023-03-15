@@ -114,3 +114,8 @@ maybe_string <- function(x, nm = deparse(substitute(x))) {
     check_string(x, nm = nm)
   }
 }
+
+# For stability of `stringsAsFactors` across versions
+data.frame <- function(..., stringsAsFactors = FALSE) {
+  base::data.frame(..., stringsAsFactors = stringsAsFactors)
+}
