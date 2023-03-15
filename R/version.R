@@ -118,7 +118,9 @@ choose_version <- function(message, which = NULL) {
   if (choice == 0) {
     invisible()
   } else {
-    versions[[choice]]
+    # Not using `[[` even though there is only 1 `choice`,
+    # because that removes the names from `versions`
+    versions[choice]
   }
 }
 
