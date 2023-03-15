@@ -7,9 +7,6 @@
       * Refer to functions with `withr::fun()`
     Code
       use_package("withr")
-    Message
-      * Refer to functions with `withr::fun()`
-    Code
       use_package("withr", "Suggests")
     Condition
       Warning:

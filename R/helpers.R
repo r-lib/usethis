@@ -32,12 +32,15 @@ use_dependency <- function(package, type, min_version = NULL) {
   is_linking_to <- (existing_type != "LinkingTo" & type == "LinkingTo") |
     (existing_type == "LinkingTo" & type != "LinkingTo")
 
+  changed <- FALSE
+
   # No existing dependency, so can simply add
   if (!any(existing_dep) || any(is_linking_to)) {
     ui_done("Adding {ui_value(package)} to {ui_field(type)} field in DESCRIPTION")
     desc$set_dep(package, type, version = version)
     desc$write()
-    return(invisible(TRUE))
+    changed <- TRUE
+    return(invisible(changed))
   }
 
   existing_type <- setdiff(existing_type, "LinkingTo")
@@ -48,8 +51,6 @@ use_dependency <- function(package, type, min_version = NULL) {
       "Package {ui_value(package)} is already listed in \\
       {ui_value(existing_type)} in DESCRIPTION, no change made."
     )
-
-    return(invisible(FALSE))
   } else if (delta == 0 && !is.null(min_version)) {
     # change version
     upgrade <- existing_ver == "*" || numeric_version(min_version) > version_spec(existing_ver)
@@ -59,6 +60,7 @@ use_dependency <- function(package, type, min_version = NULL) {
       )
       desc$set_dep(package, type, version = version)
       desc$write()
+      changed <- TRUE
     }
   } else if (delta > 0) {
     # upgrade
@@ -72,10 +74,11 @@ use_dependency <- function(package, type, min_version = NULL) {
       desc$del_dep(package, existing_type)
       desc$set_dep(package, type, version = version)
       desc$write()
+      changed <- TRUE
     }
   }
 
-  invisible(TRUE)
+  invisible(changed)
 }
 
 r_version <- function() {
