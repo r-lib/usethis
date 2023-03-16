@@ -79,11 +79,9 @@ use_github_action <- function(name = NULL,
   check_bool(open)
   check_bool(badge, allow_null = TRUE)
 
-  if (is.null(url) && is.null(name)) {
-    name <- choose_gha_workflow()
-  }
-
   if (is.null(url)) {
+
+    name <- name %||% choose_gha_workflow()
 
     if (path_ext(name) == "") {
       name <- path_ext_set(name, "yaml")
