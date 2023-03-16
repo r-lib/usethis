@@ -94,7 +94,9 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
     } else {
       ver <- import$ver
     }
-    use_package(import$pkg, min_version = ver)
+    ui_silence(
+      use_package(import$pkg, min_version = ver)
+    )
   }
 
   invisible()
