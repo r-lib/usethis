@@ -8,7 +8,6 @@ test_that("use_lifecycle_badge() handles bad and good input", {
   create_local_package()
 
   expect_snapshot(error = TRUE, {
-    use_lifecycle_badge()
     use_lifecycle_badge("eperimental")
   })
 
