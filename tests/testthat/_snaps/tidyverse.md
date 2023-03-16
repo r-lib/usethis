@@ -13,5 +13,4 @@
       v Adding '@importFrom lifecycle deprecated' to 'R/tidydeps-package.R'
       v Writing 'NAMESPACE'
       v Writing 'R/import-standalone-purrr.R'
-      * Refer to functions with `rlang::fun()`
 
