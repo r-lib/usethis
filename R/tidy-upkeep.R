@@ -18,10 +18,12 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 
   checklist <- upkeep_checklist(year)
 
+  maybe_year <- if (is.null(year)) "" else glue(" ({year})")
+
   gh <- gh_tr(tr)
   issue <- gh(
     "POST /repos/{owner}/{repo}/issues",
-    title = glue("Upkeep for {project_name()}"),
+    title = glue("Upkeep for {project_name()}{maybe_year}"),
     body = paste0(checklist, "\n", collapse = "")
   )
   Sys.sleep(1)
