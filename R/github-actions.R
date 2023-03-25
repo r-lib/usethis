@@ -12,8 +12,8 @@
 #' packages:
 #'
 #' * `check-standard`: Run `R CMD check` using R-latest on Linux, Mac, and
-#'    Windows, and using R-devel on Linux. This is a good baseline if you plan
-#'    on submitting your package to CRAN.
+#'    Windows, and using R-devel and R-oldrel on Linux. This is a good baseline
+#'    if you plan on submitting your package to CRAN.
 #' * `test-coverage`: Compute test coverage and report to
 #'    <https://about.codecov.io> by calling [covr::codecov()].
 #' * `pkgdown`: Automatically build and publish a pkgdown website.
@@ -143,7 +143,7 @@ choose_gha_workflow <- function(error_call = caller_env()) {
   )
   # Any changes here also need to be reflected in documentation
   workflows <- c(
-    "check-standard" = "Run R CMD check in four environments",
+    "check-standard" = "Run `R CMD check` on Linux, macOS, and Windows",
     "test-coverage" = "Compute test coverage and report to https://about.codecov.io",
     "pr-commands" = "Add /document and /style commands for pull requests"
   )

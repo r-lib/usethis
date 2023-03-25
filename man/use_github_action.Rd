@@ -58,8 +58,8 @@ There are four particularly important workflows that are used by many
 packages:
 \itemize{
 \item \code{check-standard}: Run \verb{R CMD check} using R-latest on Linux, Mac, and
-Windows, and using R-devel on Linux. This is a good baseline if you plan
-on submitting your package to CRAN.
+Windows, and using R-devel and R-oldrel on Linux. This is a good baseline
+if you plan on submitting your package to CRAN.
 \item \code{test-coverage}: Compute test coverage and report to
 \url{https://about.codecov.io} by calling \code{\link[covr:codecov]{covr::codecov()}}.
 \item \code{pkgdown}: Automatically build and publish a pkgdown website.
