@@ -50,5 +50,5 @@
       compute_active_name("foo/bar.R")
     Condition
       Error:
-      ! Open file must be a code or test file.
+      ! Open file must be a code, test, or example file.
 

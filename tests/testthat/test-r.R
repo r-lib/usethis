@@ -59,6 +59,10 @@ test_that("compute_active_name() standardises name", {
     compute_active_name(path(dir, "tests/testthat/test-bar.R"), "R"),
     "bar.R"
   )
+  expect_equal(
+    compute_active_name(path(dir, "man/examples/example-bar.R"), "R"),
+    "bar.R"
+  )
 
   # https://github.com/r-lib/usethis/issues/1690
   expect_equal(
