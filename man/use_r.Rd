@@ -59,4 +59,6 @@ The \code{\link[=rename_files]{rename_files()}} function can also be helpful.
 The \href{https://r-pkgs.org/tests.html}{testing} and
 \href{https://r-pkgs.org/r.html}{R code} chapters of
 \href{https://r-pkgs.org}{R Packages}.
+
+\code{\link[=use_example]{use_example()}} to create an example file using a similar pattern.
 }

@@ -44,6 +44,8 @@
 #' @seealso The [testing](https://r-pkgs.org/tests.html) and
 #'   [R code](https://r-pkgs.org/r.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
+#'
+#'   [use_example()] to create an example file using a similar pattern.
 #' @export
 use_r <- function(name = NULL, open = rlang::is_interactive()) {
   use_directory("R")
