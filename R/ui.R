@@ -278,7 +278,7 @@ ui_code <- function(x) {
 #' @rdname ui
 #' @export
 ui_unset <- function(x = "unset") {
-  stopifnot(length(x) == 1)
+  check_string(x)
   x <- glue("<{x}>")
   x <- crayon::silver(x)
   x

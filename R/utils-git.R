@@ -1,7 +1,7 @@
 # gert -------------------------------------------------------------------------
 
 gert_shush <- function(expr, regexp) {
-  stopifnot(is.character(regexp))
+  check_character(regexp)
   withCallingHandlers(
     gertMessage = function(cnd) {
       m <- map_lgl(regexp, ~ grepl(.x, cnd_message(cnd), perl = TRUE))
