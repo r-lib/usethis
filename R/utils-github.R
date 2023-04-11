@@ -120,8 +120,8 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
   x <- x %||% gert::git_remote_list(repo = git_repo())
   check_character(these, allow_null = TRUE)
   check_data_frame(x)
-  check_name(x$name)
-  check_name(x$url)
+  check_character(x$name)
+  check_character(x$url)
   if (length(these) > 0) {
     x <- x[x$name %in% these, ]
   }
