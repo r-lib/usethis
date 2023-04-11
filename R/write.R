@@ -43,7 +43,9 @@ NULL
 #'   `.Rbuildignore` and `.gitignore`.
 #' @export
 write_union <- function(path, lines, quiet = FALSE) {
-  stopifnot(is.character(lines))
+  check_name(path)
+  check_character(lines)
+  check_bool(quiet)
   path <- user_path_prep(path)
 
   if (file_exists(path)) {
@@ -72,7 +74,10 @@ write_union <- function(path, lines, quiet = FALSE) {
 #' @param overwrite Force overwrite of existing file?
 #' @export
 write_over <- function(path, lines, quiet = FALSE, overwrite = FALSE) {
-  stopifnot(is.character(lines), length(lines) > 0)
+  check_name(path)
+  check_character(lines)
+  check_bool(quiet)
+  check_bool(overwrite)
   path <- user_path_prep(path)
 
   if (same_contents(path, lines)) {
@@ -97,8 +102,8 @@ read_utf8 <- function(path, n = -1L) {
 }
 
 write_utf8 <- function(path, lines, append = FALSE, line_ending = NULL) {
-  stopifnot(is.character(path))
-  stopifnot(is.character(lines))
+  check_name(path)
+  check_character(lines)
 
   file_mode <- if (append) "ab" else "wb"
   con <- file(path, open = file_mode, encoding = "utf-8")

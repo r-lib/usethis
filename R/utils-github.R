@@ -69,7 +69,7 @@ parse_github_remotes <- function(x) {
 }
 
 parse_repo_url <- function(x) {
-  stopifnot(is_string(x))
+  check_name(x)
   dat <- re_match(x, github_remote_regex)
   if (is.na(dat$.match)) {
     list(repo_spec = x, host = NULL)
@@ -118,8 +118,10 @@ github_url_from_git_remotes <- function() {
 #' @noRd
 github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
   x <- x %||% gert::git_remote_list(repo = git_repo())
-  stopifnot(is.null(these) || is.character(these))
-  stopifnot(is.data.frame(x), is.character(x$name), is.character(x$url))
+  check_character(these, allow_null = TRUE)
+  check_data_frame(x)
+  check_name(x$name)
+  check_name(x$url)
   if (length(these) > 0) {
     x <- x[x$name %in% these, ]
   }
