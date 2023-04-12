@@ -6,7 +6,21 @@ use_tidy_upkeep_issue <- function(year = NULL) {
   make_upkeep_issue(year = year, tidy = TRUE)
 }
 
-#' Open an issue in GitHub with a checklist of upkeep tasks
+#' Open an issue in GitHub with a checklist of upkeep
+#' tasks
+#'
+#' @description This opens an issue in your package
+#'   repository with a checklist of tasks for regular
+#'   maintenance of your package. This is a fairly
+#'   opinionated list of tasks but we believe taking care
+#'   of them will generally make your package better,
+#'   easier to maintain, and more enjoyable for your
+#'   users. Some of the tasks are meant to be performed
+#'   only once (and once completed shouldn't show up in
+#'   subsequent lists), and some should be reviewed
+#'   periodically. The tidyverse team uses a similar
+#'   function [use_tidy_upkeep_issue()] for our annual
+#'   package Spring Cleaning.
 #'
 #' @param year Optional year you are performing the upkeep
 #'
