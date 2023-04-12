@@ -75,7 +75,7 @@ upkeep_checklist <- function(year = NULL) {
       "
         `usethis::use_testthat(3)` and upgrade to 3e, \\
         [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)",
-      uses_testthat_edition(3)
+      !uses_testthat_edition(3)
     ),
     todo("
         Align the names of `R/` files and `test/` files for workflow happiness.
