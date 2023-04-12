@@ -102,9 +102,13 @@ upkeep_checklist <- function(year = NULL) {
     ),
     todo("usethis::use_code_of_conduct()", !has_coc()),
     todo(
-      "Modernize citation files; see updated `use_citation()`",
+      "Modernize citation files; see `usethis::use_citation()`",
       has_citation_file()
     ),
+    todo("Remove check environments section from `cran-comments.md`"),
+    todo("
+        Use lifecycle instead of artisanal deprecation messages, as described \\
+        in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)"),
     todo("
         Add alt-text to pictures, plots, etc; see \\
         https://posit.co/blog/knitr-fig-alt/ for examples"),
