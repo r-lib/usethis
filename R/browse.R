@@ -57,7 +57,7 @@ NULL
 #' @export
 #' @rdname browse-this
 browse_package <- function(package = NULL) {
-  check_name(package, allow_null = TRUE)
+  maybe_name(package)
 
   if (is.null(package)) {
     check_is_project()
@@ -157,7 +157,7 @@ browse_cran <- function(package = NULL) {
 # 2. BugReports/URL fields of DESCRIPTION (active project or arbitrary
 #    installed package)
 github_url <- function(package = NULL) {
-  check_name(package, allow_null = TRUE)
+  maybe_name(package)
 
   if (is.null(package)) {
     check_is_project()

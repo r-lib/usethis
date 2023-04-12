@@ -52,13 +52,13 @@ use_github_file <- function(repo_spec,
                             host = NULL) {
 
   check_name(repo_spec)
-  check_name(path, allow_null = TRUE)
-  check_name(save_as, allow_null = TRUE)
-  check_name(ref, allow_null = TRUE)
+  maybe_name(path)
+  maybe_name(save_as)
+  maybe_name(ref)
   check_bool(ignore)
   check_bool(open)
   check_bool(overwrite)
-  check_name(host, allow_null = TRUE)
+  maybe_name(host)
 
   dat <- parse_file_url(repo_spec)
   if (dat$parsed) {

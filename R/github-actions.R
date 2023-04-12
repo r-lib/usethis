@@ -70,11 +70,11 @@ use_github_action <- function(name = NULL,
                               open = FALSE,
                               badge = NULL) {
 
-  check_name(name, allow_null = TRUE)
-  check_name(ref, allow_null = TRUE)
-  check_name(url, allow_null = TRUE)
-  check_name(save_as, allow_null = TRUE)
-  check_name(readme, allow_null = TRUE)
+  maybe_name(name)
+  maybe_name(ref)
+  maybe_name(url)
+  maybe_name(save_as)
+  maybe_name(readme)
   check_bool(ignore)
   check_bool(open)
   check_bool(badge, allow_null = TRUE)

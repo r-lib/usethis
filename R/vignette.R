@@ -56,7 +56,7 @@ use_vignette_template <- function(template, name, title, subdir = NULL) {
   check_name(template)
   check_name(name)
   check_name(title)
-  check_name(subdir, allow_null = TRUE)
+  maybe_name(subdir)
 
   use_directory("vignettes")
   if (!is.null(subdir)) {

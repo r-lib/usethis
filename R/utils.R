@@ -104,3 +104,11 @@ is_windows <- function() {
 data.frame <- function(..., stringsAsFactors = FALSE) {
   base::data.frame(..., stringsAsFactors = stringsAsFactors)
 }
+
+# wrapper around check_name() from import-standalone-types-check.R
+# for the common case when NULL is allowed (often default)
+maybe_name <- function(x, ..., arg = caller_arg(x),
+                       call = caller_env()) {
+  check_name(x, ..., allow_null = TRUE,
+             arg = arg, call = call)
+}

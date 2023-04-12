@@ -244,7 +244,7 @@ check_protocol <- function(protocol) {
 #' }
 use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
   check_name(name)
-  check_name(url, allow_null = TRUE)
+  maybe_name(url)
   check_bool(overwrite)
 
   remotes <- git_remotes()
