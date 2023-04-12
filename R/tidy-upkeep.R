@@ -3,9 +3,15 @@
 #' @param year Approximate year when you last touched this package. If `NULL`,
 #'   the default, will give you a full set of actions to perform.
 use_tidy_upkeep_issue <- function(year = NULL) {
+  make_upkeep_issue(year = year, tidy = TRUE)
+}
+
+make_upkeep_issue <- function(year) {
+
   check_is_package("use_tidy_upkeep_issue()")
 
   tr <- target_repo(github_get = TRUE)
+
   if (!isTRUE(tr$can_push)) {
     ui_line("
       It is very unusual to open an upkeep issue on a repo you can't push to:
@@ -16,7 +22,7 @@ use_tidy_upkeep_issue <- function(year = NULL) {
     }
   }
 
-  checklist <- upkeep_checklist(year)
+  checklist <- tidy_upkeep_checklist(year)
 
   maybe_year <- if (is.null(year)) "" else glue(" ({year})")
 
@@ -30,11 +36,10 @@ use_tidy_upkeep_issue <- function(year = NULL) {
   view_url(issue$html_url)
 }
 
-upkeep_checklist <- function(year = NULL,
+tidy_upkeep_checklist <- function(year = NULL,
                              posit_pkg = is_posit_pkg(),
                              posit_person_ok = is_posit_person_canonical()) {
   year <- year %||% 2000
-
 
   bullets <- c()
 
@@ -89,7 +94,6 @@ upkeep_checklist <- function(year = NULL,
         Make sure RStudio appears in `Authors@R` of DESCRIPTION like so, if appropriate:
         `person("RStudio", role = c("cph", "fnd"))`',
         posit_pkg && !posit_person_ok),
-
       ""
     )
   }
@@ -146,7 +150,7 @@ upkeep_checklist <- function(year = NULL,
         run `use_tidy_logo()`"),
       todo("`usethis::use_tidy_coc()`"),
       todo("Modernize citation files; see updated `use_citation()`",
-           fs::file_exists(proj_path("inst/CITATION"))),
+           file_exists(proj_path("inst/CITATION"))),
       todo("`usethis::use_tidy_github_actions()`"),
       "",
       "Optional:",
@@ -192,4 +196,3 @@ lowercase_r <- function() {
   path <- path[fs::dir_exists(path)]
   any(fs::path_ext(fs::dir_ls(path, recurse = TRUE)) == "r")
 }
-
