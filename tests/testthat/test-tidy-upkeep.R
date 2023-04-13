@@ -17,6 +17,7 @@ test_that("tidy upkeep bullets don't change accidentally", {
 })
 
 test_that("upkeep bullets don't change accidentally",{
+  skip_if_no_git_user()
   withr::local_options(usethis.description = NULL)
   create_local_package()
 
