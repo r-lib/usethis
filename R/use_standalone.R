@@ -66,12 +66,7 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   if (is.null(file)) {
     file <- standalone_choose(repo_spec, ref = ref, host = host)
   } else {
-    if (path_ext(file) == "") {
-      file <- path_ext_set(file, "R")
-    }
-    if (!startsWith(file, "standalone-")) {
-      file <- paste0("standalone-", file)
-    }
+    file <- as_standalone_file(file)
   }
 
   src_path <- path("R", file)
@@ -144,6 +139,16 @@ standalone_choose <- function(repo_spec, ref = NULL, host = NULL, error_call = c
   }
 
   names[[choice]]
+}
+
+as_standalone_file <- function(file) {
+  if (path_ext(file) == "") {
+    file <- unclass(path_ext_set(file, "R"))
+  }
+  if (!grepl("standalone-", file)) {
+    file <- paste0("standalone-", file)
+  }
+  file
 }
 
 standalone_header <- function(repo_spec, path) {

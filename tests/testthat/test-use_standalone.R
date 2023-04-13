@@ -97,3 +97,11 @@ test_that("errors on malformed dependencies", {
     standalone_dependencies(c("# ---", "# dependencies: 1", "# ---"), "test.R")
   })
 })
+
+test_that("standalone file is normalised", {
+  expect_equal(as_standalone_file("foo"), "standalone-foo.R")
+  expect_equal(as_standalone_file("standalone-foo"), "standalone-foo.R")
+  expect_equal(as_standalone_file("standalone-foo.R"), "standalone-foo.R")
+  expect_equal(as_standalone_file("aaa-standalone-foo"), "aaa-standalone-foo.R")
+  expect_equal(as_standalone_file("aaa-standalone-foo.R"), "aaa-standalone-foo.R")
+})
