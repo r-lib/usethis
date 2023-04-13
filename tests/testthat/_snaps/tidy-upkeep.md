@@ -94,3 +94,26 @@
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
 
+---
+
+    Code
+      writeLines(upkeep_checklist())
+    Output
+      
+      * [ ] `usethis::use_readme_rmd()`
+      * [ ] `usethis::use_github_links()`
+      * [ ] `usethis::use_pkgdown_github_pages()`
+      * [ ] `urlchecker::url_check()`
+      * [ ] `usethis::use_package_doc()`
+      Consider letting usethis manage your `@importFrom` directives here.
+      `usethis::use_import_from()` is handy for this.
+      * [ ] Align the names of `R/` files and `test/` files for workflow happiness.
+      The docs for `usethis::use_r()` include a helpful script.
+      `usethis::rename_files()` may be be useful.
+      * [ ] usethis::use_github_action('check-standard')
+      * [ ] Consider changing default branch from `master` to `main`
+      * [ ] Modernize citation files; see `usethis::use_citation()`
+      * [ ] Remove check environments section from `cran-comments.md`
+      * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
+      
+
