@@ -108,7 +108,8 @@ upkeep_checklist <- function(year = NULL) {
     todo("Remove check environments section from `cran-comments.md`"),
     todo("
         Use lifecycle instead of artisanal deprecation messages, as described \\
-        in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)"),
+        in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)",
+        !proj_desc()$has_dep("lifecycle")),
     todo("
         Add alt-text to pictures, plots, etc; see \\
         https://posit.co/blog/knitr-fig-alt/ for examples"),
