@@ -105,3 +105,8 @@ test_that("standalone file is normalised", {
   expect_equal(as_standalone_file("aaa-standalone-foo"), "aaa-standalone-foo.R")
   expect_equal(as_standalone_file("aaa-standalone-foo.R"), "aaa-standalone-foo.R")
 })
+
+test_that("standalone destination file is normalised", {
+  expect_equal(as_standalone_dest_file("standalone-foo.R"), "import-standalone-foo.R")
+  expect_equal(as_standalone_dest_file("aaa-standalone-foo.R"), "aaa-import-standalone-foo.R")
+})

@@ -70,7 +70,7 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   }
 
   src_path <- path("R", file)
-  dest_path <- path("R", paste0("import-", file))
+  dest_path <- path("R", as_standalone_dest_file(file))
 
   lines <- read_github_file(repo_spec, path = src_path, ref = ref, host = host)
   lines <- c(standalone_header(repo_spec, src_path), lines)
@@ -149,6 +149,10 @@ as_standalone_file <- function(file) {
     file <- paste0("standalone-", file)
   }
   file
+}
+
+as_standalone_dest_file <- function(file) {
+  gsub("standalone-", "import-standalone-", file)
 }
 
 standalone_header <- function(repo_spec, path) {
