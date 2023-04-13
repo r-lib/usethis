@@ -53,6 +53,9 @@
 #' }
 use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   check_is_project()
+  maybe_name(file)
+  maybe_name(host)
+  maybe_name(ref)
 
   parsed_repo_spec <- parse_repo_url(repo_spec)
   if (!is.null(parsed_repo_spec$host)) {
