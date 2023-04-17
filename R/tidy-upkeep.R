@@ -69,7 +69,6 @@ upkeep_checklist <- function(year = NULL) {
     todo("`usethis::use_roxygen_md()`", !is_true(uses_roxygen_md())),
     todo("`usethis::use_github_links()`", !has_github_links()),
     todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
-    todo("`urlchecker::url_check()`"),
     todo("
         `usethis::use_package_doc()`.
         Consider letting usethis manage your `@importFrom` directives here. \\
@@ -85,7 +84,7 @@ upkeep_checklist <- function(year = NULL) {
         Align the names of `R/` files and `test/` files for workflow happiness. \\
         The docs for `usethis::use_r()` include a helpful script. \\
         `usethis::rename_files()` may be be useful."),
-    todo("usethis::use_github_action('check-standard')", !uses_github_actions()),
+    todo("`usethis::use_github_action('check-standard')`", !uses_github_actions()),
     todo(
       "Consider changing default branch from `master` to `main`",
       git_default_branch() == "master"
