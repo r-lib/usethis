@@ -20,12 +20,7 @@ test_that("upkeep bullets don't change accidentally",{
   skip_if_no_git_user()
   withr::local_options(usethis.description = NULL)
   create_local_package()
-
-  # Need to add git so can detect presence of master branch
-  use_git()
-  repo <- git_repo()
-  gert::git_add(".gitignore", repo = repo)
-  gert::git_commit("a commit, so we are not on an unborn branch", repo = repo)
+  local_mocked_bindings(git_default_branch = function() "master")
 
   expect_snapshot(writeLines(
     upkeep_checklist()
@@ -35,7 +30,7 @@ test_that("upkeep bullets don't change accidentally",{
   use_code_of_conduct("jane.doe@foofymail.com")
   use_citation()
   use_testthat(3)
-  desc::desc_set_dep("lifecycle")
+  use_package("lifecycle")
 
   expect_snapshot(writeLines(
     upkeep_checklist()
