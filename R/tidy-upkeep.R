@@ -116,7 +116,7 @@ upkeep_checklist <- function(year = NULL) {
     ""
   )
 
-  bullets
+  c(bullets, upkeep_extra_bullets())
 }
 
 tidy_upkeep_checklist <- function(year = NULL,
@@ -299,4 +299,14 @@ uses_testthat_edition <- function(edition) {
     return(FALSE)
   }
   uses_testthat() && testthat::edition_get() >= edition
+}
+
+upkeep_extra_bullets <- function(env = NULL) {
+  env <- env %||% safe_pkg_env()
+
+  if (env_has(env, "upkeep_bullets")) {
+    c(paste0("* [ ] ", env$upkeep_bullets()), "")
+  } else {
+    character()
+  }
 }

@@ -41,3 +41,12 @@ test_that("upkeep bullets don't change accidentally",{
     upkeep_checklist()
   ))
 })
+
+test_that("get extra upkeep bullets works", {
+  env <- env(upkeep_bullets = function() c("extra", "upkeep bullets"))
+  expect_equal(upkeep_extra_bullets(env),
+               c("* [ ] extra", "* [ ] upkeep bullets", ""))
+
+  env <- NULL
+  expect_equal(upkeep_extra_bullets(env), character())
+})
