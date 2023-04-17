@@ -6,8 +6,7 @@ use_tidy_upkeep_issue <- function(year = NULL) {
   make_upkeep_issue(year = year, tidy = TRUE)
 }
 
-#' Open an issue in GitHub with a checklist of upkeep
-#' tasks
+#' Create an upkeep checklist in a GitHub issue
 #'
 #' @description This opens an issue in your package
 #'   repository with a checklist of tasks for regular
