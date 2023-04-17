@@ -8,18 +8,15 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 
 #' Create an upkeep checklist in a GitHub issue
 #'
-#' @description This opens an issue in your package
-#'   repository with a checklist of tasks for regular
-#'   maintenance of your package. This is a fairly
-#'   opinionated list of tasks but we believe taking care
-#'   of them will generally make your package better,
-#'   easier to maintain, and more enjoyable for your
-#'   users. Some of the tasks are meant to be performed
-#'   only once (and once completed shouldn't show up in
-#'   subsequent lists), and some should be reviewed
-#'   periodically. The tidyverse team uses a similar
-#'   function [use_tidy_upkeep_issue()] for our annual
-#'   package Spring Cleaning.
+#' @description
+#' This opens an issue in your package repository with a checklist of tasks
+#' for regular maintenance of your package. This is a fairly opinionated list
+#' of tasks but we believe taking care of them will generally make your
+#' package better, easier to maintain, and more enjoyable for your users. Some
+#' of the tasks are meant to be performed only once (and once completed
+#' shouldn't show up in subsequent lists), and some should be reviewed
+#' periodically. The tidyverse team uses a similar function
+#' [use_tidy_upkeep_issue()] for our annual package Spring Cleaning.
 #'
 #' @param year Optional year you are performing the upkeep
 #'
@@ -49,11 +46,7 @@ make_upkeep_issue <- function(year, tidy) {
     }
   }
 
-  checklist <- if (tidy) {
-    tidy_upkeep_checklist(year)
-  } else {
-    upkeep_checklist(year)
-  }
+  checklist <- if (tidy) tidy_upkeep_checklist(year) else upkeep_checklist(year)
 
   maybe_year <- if (is.null(year)) "" else glue(" ({year})")
 
@@ -77,29 +70,27 @@ upkeep_checklist <- function(year = NULL) {
     todo("`usethis::use_github_links()`", !has_github_links()),
     todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
     todo("`urlchecker::url_check()`"),
-    todo(
-      "
-        `usethis::use_package_doc()`
-        Consider letting usethis manage your `@importFrom` directives here.
+    todo("
+        `usethis::use_package_doc()`.
+        Consider letting usethis manage your `@importFrom` directives here. \\
         `usethis::use_import_from()` is handy for this.",
       !has_package_doc()
     ),
-    todo(
-      "
+    todo("
         `usethis::use_testthat(3)` and upgrade to 3e, \\
         [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)",
       !uses_testthat_edition(3)
     ),
     todo("
-        Align the names of `R/` files and `test/` files for workflow happiness.
-        The docs for `usethis::use_r()` include a helpful script.
+        Align the names of `R/` files and `test/` files for workflow happiness. \\
+        The docs for `usethis::use_r()` include a helpful script. \\
         `usethis::rename_files()` may be be useful."),
     todo("usethis::use_github_action('check-standard')", !uses_github_actions()),
     todo(
       "Consider changing default branch from `master` to `main`",
       git_default_branch() == "master"
     ),
-    todo("usethis::use_code_of_conduct()", !has_coc()),
+    todo("`usethis::use_code_of_conduct()`", !has_coc()),
     todo(
       "Modernize citation files; see `usethis::use_citation()`",
       has_citation_file()
@@ -111,8 +102,7 @@ upkeep_checklist <- function(year = NULL) {
         !proj_desc()$has_dep("lifecycle")),
     todo("
         Add alt-text to pictures, plots, etc; see \\
-        https://posit.co/blog/knitr-fig-alt/ for examples"),
-    ""
+        https://posit.co/blog/knitr-fig-alt/ for examples")
   )
 
   c(bullets, upkeep_extra_bullets())

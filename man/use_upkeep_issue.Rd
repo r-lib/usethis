@@ -2,8 +2,7 @@
 % Please edit documentation in R/tidy-upkeep.R
 \name{use_upkeep_issue}
 \alias{use_upkeep_issue}
-\title{Open an issue in GitHub with a checklist of upkeep
-tasks}
+\title{Create an upkeep checklist in a GitHub issue}
 \usage{
 use_upkeep_issue(year = NULL)
 }
@@ -11,18 +10,14 @@ use_upkeep_issue(year = NULL)
 \item{year}{Optional year you are performing the upkeep}
 }
 \description{
-This opens an issue in your package
-repository with a checklist of tasks for regular
-maintenance of your package. This is a fairly
-opinionated list of tasks but we believe taking care
-of them will generally make your package better,
-easier to maintain, and more enjoyable for your
-users. Some of the tasks are meant to be performed
-only once (and once completed shouldn't show up in
-subsequent lists), and some should be reviewed
-periodically. The tidyverse team uses a similar
-function \code{\link[=use_tidy_upkeep_issue]{use_tidy_upkeep_issue()}} for our annual
-package Spring Cleaning.
+This opens an issue in your package repository with a checklist of tasks
+for regular maintenance of your package. This is a fairly opinionated list
+of tasks but we believe taking care of them will generally make your
+package better, easier to maintain, and more enjoyable for your users. Some
+of the tasks are meant to be performed only once (and once completed
+shouldn't show up in subsequent lists), and some should be reviewed
+periodically. The tidyverse team uses a similar function
+\code{\link[=use_tidy_upkeep_issue]{use_tidy_upkeep_issue()}} for our annual package Spring Cleaning.
 }
 \examples{
 \dontrun{
