@@ -76,9 +76,14 @@ upkeep_checklist <- function(year = NULL) {
       !has_package_doc()
     ),
     todo("
+         `usethis::use_testthat()`. \\
+         Learn more about testing at https://r-pkgs.org/tests.html",
+         !uses_testthat()
+    ),
+    todo("
         `usethis::use_testthat(3)` and upgrade to 3e, \\
         [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)",
-      !uses_testthat_edition(3)
+        uses_old_testthat_edition(current = 3)
     ),
     todo("
         Align the names of `R/` files and `test/` files for workflow happiness. \\
@@ -282,11 +287,11 @@ has_citation_file <- function() {
   file_exists(proj_path("inst/CITATION"))
 }
 
-uses_testthat_edition <- function(edition) {
+uses_old_testthat_edition <- function(current) {
   if (!requireNamespace("testthat", quietly = TRUE)) {
     return(FALSE)
   }
-  uses_testthat() && testthat::edition_get() >= edition
+  uses_testthat() && testthat::edition_get() < current
 }
 
 upkeep_extra_bullets <- function(env = NULL) {
