@@ -20,7 +20,7 @@ test_that("upkeep bullets don't change accidentally",{
   skip_if_no_git_user()
   withr::local_options(usethis.description = NULL)
   create_local_package()
-  local_mocked_bindings(git_default_branch = function() "master")
+  local_mocked_bindings(git_default_branch = function() "main")
 
   expect_snapshot(writeLines(
     upkeep_checklist()
@@ -29,12 +29,16 @@ test_that("upkeep bullets don't change accidentally",{
   # Add some files to test conditional todos
   use_code_of_conduct("jane.doe@foofymail.com")
   use_citation()
-  use_testthat(3)
+  use_testthat()
   use_package("lifecycle")
+  local_mocked_bindings(git_default_branch = function() "master")
 
-  expect_snapshot(writeLines(
-    upkeep_checklist()
-  ))
+  expect_snapshot({
+    local_edition(2L)
+    writeLines(
+      upkeep_checklist()
+    )
+  })
 })
 
 test_that("get extra upkeep bullets works", {

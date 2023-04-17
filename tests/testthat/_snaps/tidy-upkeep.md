@@ -80,10 +80,9 @@
       * [ ] `usethis::use_pkgdown_github_pages()`
       * [ ] `usethis::use_package_doc()`.
       Consider letting usethis manage your `@importFrom` directives here. `usethis::use_import_from()` is handy for this.
-      * [ ] `usethis::use_testthat(3)` and upgrade to 3e, [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)
+      * [ ] `usethis::use_testthat()`. Learn more about testing at https://r-pkgs.org/tests.html
       * [ ] Align the names of `R/` files and `test/` files for workflow happiness. The docs for `usethis::use_r()` include a helpful script. `usethis::rename_files()` may be be useful.
       * [ ] `usethis::use_github_action('check-standard')`
-      * [ ] Consider changing default branch from `master` to `main`
       * [ ] `usethis::use_code_of_conduct()`
       * [ ] Remove check environments section from `cran-comments.md`
       * [ ] Use lifecycle instead of artisanal deprecation messages, as described in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)
@@ -92,6 +91,7 @@
 ---
 
     Code
+      local_edition(2L)
       writeLines(upkeep_checklist())
     Output
       
@@ -100,6 +100,7 @@
       * [ ] `usethis::use_pkgdown_github_pages()`
       * [ ] `usethis::use_package_doc()`.
       Consider letting usethis manage your `@importFrom` directives here. `usethis::use_import_from()` is handy for this.
+      * [ ] `usethis::use_testthat(3)` and upgrade to 3e, [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)
       * [ ] Align the names of `R/` files and `test/` files for workflow happiness. The docs for `usethis::use_r()` include a helpful script. `usethis::rename_files()` may be be useful.
       * [ ] `usethis::use_github_action('check-standard')`
       * [ ] Consider changing default branch from `master` to `main`
