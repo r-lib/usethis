@@ -68,7 +68,7 @@
       * [ ] `use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
-      <sup>Created on 2023-04-18 with `usethis::use_tidy_upkeep_issue()`, using [usethis v2.1.6.9000](https://usethis.r-lib.org)</sup>
+      test footer
 
 # upkeep bullets don't change accidentally
 
@@ -88,7 +88,7 @@
       * [ ] Use lifecycle instead of artisanal deprecation messages, as described in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
-      <sup>Created on 2023-04-18 with `usethis::use_upkeep_issue()`, using [usethis v2.1.6.9000](https://usethis.r-lib.org)</sup>
+      test footer
 
 ---
 
@@ -109,5 +109,5 @@
       * [ ] Remove check environments section from `cran-comments.md`
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
-      <sup>Created on 2023-04-18 with `usethis::use_upkeep_issue()`, using [usethis v2.1.6.9000](https://usethis.r-lib.org)</sup>
+      test footer
 
