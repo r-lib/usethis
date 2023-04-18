@@ -112,6 +112,12 @@
   
 * Updates snapshot tests (#1715).
 
+* `use_upkeep_issue()` is a new function to facilitate regular maintenance of 
+  your package. Similar to `use_release_issue()`, it opens an issue in your repo 
+  with a checklist of maintenance tasks. It will include additional bullets 
+  if your package includes an `upkeep_bullets()` function that returns a 
+  character vector.
+
 # usethis 2.1.6
 
 ### GitHub-related
