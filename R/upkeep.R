@@ -57,7 +57,7 @@ make_upkeep_issue <- function(year, tidy) {
 upkeep_checklist <- function() {
 
   bullets <- c(
-    todo("`usethis::use_readme_rmd()`", !file_exists("README.Rmd")),
+    todo("`usethis::use_readme_rmd()`", !file_exists(proj_path("README.Rmd"))),
     todo("`usethis::use_roxygen_md()`", !is_true(uses_roxygen_md())),
     todo("`usethis::use_github_links()`", !has_github_links()),
     todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
