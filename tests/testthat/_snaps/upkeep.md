@@ -68,7 +68,7 @@
       * [ ] `use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
-      test footer
+      <sup>Created on DATE with `usethis::use_tidy_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
 
 # upkeep bullets don't change accidentally
 
@@ -78,17 +78,16 @@
       * [ ] `usethis::use_readme_rmd()`
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
-      * [ ] `usethis::use_package_doc()`.
+      * [ ] `usethis::use_package_doc()`
       Consider letting usethis manage your `@importFrom` directives here. `usethis::use_import_from()` is handy for this.
       * [ ] `usethis::use_testthat()`. Learn more about testing at https://r-pkgs.org/tests.html
       * [ ] Align the names of `R/` files and `test/` files for workflow happiness. The docs for `usethis::use_r()` include a helpful script. `usethis::rename_files()` may be be useful.
       * [ ] `usethis::use_github_action('check-standard')`
       * [ ] `usethis::use_code_of_conduct()`
-      * [ ] Remove check environments section from `cran-comments.md`
       * [ ] Use lifecycle instead of artisanal deprecation messages, as described in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
-      test footer
+      <sup>Created on DATE with `usethis::use_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
 
 ---
 
@@ -99,15 +98,15 @@
       * [ ] `usethis::use_readme_rmd()`
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
-      * [ ] `usethis::use_package_doc()`.
+      * [ ] `usethis::use_package_doc()`
       Consider letting usethis manage your `@importFrom` directives here. `usethis::use_import_from()` is handy for this.
       * [ ] `usethis::use_testthat(3)` and upgrade to 3e, [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)
       * [ ] Align the names of `R/` files and `test/` files for workflow happiness. The docs for `usethis::use_r()` include a helpful script. `usethis::rename_files()` may be be useful.
       * [ ] `usethis::use_github_action('check-standard')`
       * [ ] Consider changing default branch from `master` to `main`
       * [ ] Modernize citation files; see `usethis::use_citation()`
-      * [ ] Remove check environments section from `cran-comments.md`
+      * [ ] Remove any description of check environments from `cran-comments.md`
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
-      test footer
+      <sup>Created on DATE with `usethis::use_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
 
