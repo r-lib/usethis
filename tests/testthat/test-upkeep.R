@@ -10,42 +10,38 @@ test_that("tidy upkeep bullets don't change accidentally", {
     )
   )
   create_local_package()
-  # mock test footer so doesn't change with date and usethis version
-  local_mocked_bindings(checklist_footer = function(tidy) "test footer")
 
-  expect_snapshot(writeLines(
-    tidy_upkeep_checklist(posit_pkg = TRUE, posit_person_ok = FALSE)
-  ))
+  expect_snapshot(
+    writeLines(tidy_upkeep_checklist(posit_pkg = TRUE, posit_person_ok = FALSE)),
+    transform = scrub_checklist_footer
+  )
 })
 
 test_that("upkeep bullets don't change accidentally",{
   skip_if_no_git_user()
   withr::local_options(usethis.description = NULL)
   create_local_package()
-  local_mocked_bindings(
-    git_default_branch = function() "main",
-    checklist_footer = function(tidy) "test footer"
-  )
+  local_mocked_bindings(git_default_branch = function() "main")
 
-  expect_snapshot(writeLines(
-    upkeep_checklist()
-  ))
+  expect_snapshot(
+    writeLines(upkeep_checklist()),
+    transform = scrub_checklist_footer
+  )
 
   # Add some files to test conditional todos
   use_code_of_conduct("jane.doe@foofymail.com")
   use_citation()
   use_testthat()
   use_package("lifecycle")
-  local_mocked_bindings(
-    git_default_branch = function() "master"
-  )
+  use_cran_comments()
+  local_mocked_bindings(git_default_branch = function() "master")
 
   expect_snapshot({
     local_edition(2L)
-    writeLines(
-      upkeep_checklist()
-    )
-  })
+    writeLines(upkeep_checklist())
+  },
+  transform = scrub_checklist_footer
+  )
 })
 
 test_that("get extra upkeep bullets works", {
