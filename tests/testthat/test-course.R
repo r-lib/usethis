@@ -154,7 +154,7 @@ test_that("create_download_url() works", {
 })
 
 test_that("normalize_url() prepends https:// (or not)", {
-  expect_error(normalize_url(1), "must be a valid name")
+  expect_snapshot(normalize_url(1), error = TRUE)
   expect_identical(normalize_url("http://bit.ly/abc"), "http://bit.ly/abc")
   expect_identical(normalize_url("bit.ly/abc"), "https://bit.ly/abc")
   expect_identical(
