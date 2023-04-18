@@ -61,7 +61,7 @@ upkeep_checklist <- function() {
     todo("`usethis::use_github_links()`", !has_github_links()),
     todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
     todo("
-        `usethis::use_package_doc()`.
+        `usethis::use_package_doc()`
         Consider letting usethis manage your `@importFrom` directives here. \\
         `usethis::use_import_from()` is handy for this.",
         !has_package_doc()
