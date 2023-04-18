@@ -1,11 +1,3 @@
-#' @export
-#' @rdname tidyverse
-#' @param year Approximate year when you last touched this package. If `NULL`,
-#'   the default, will give you a full set of actions to perform.
-use_tidy_upkeep_issue <- function(year = NULL) {
-  make_upkeep_issue(year = year, tidy = TRUE)
-}
-
 #' Create an upkeep checklist in a GitHub issue
 #'
 #' @description
@@ -110,6 +102,16 @@ upkeep_checklist <- function() {
   )
 
   c(bullets, upkeep_extra_bullets())
+}
+
+# tidyverse upkeep issue -------------------------------------------------------
+
+#' @export
+#' @rdname tidyverse
+#' @param year Approximate year when you last touched this package. If `NULL`,
+#'   the default, will give you a full set of actions to perform.
+use_tidy_upkeep_issue <- function(year = NULL) {
+  make_upkeep_issue(year = year, tidy = TRUE)
 }
 
 tidy_upkeep_checklist <- function(year = NULL,
@@ -256,6 +258,8 @@ tidy_upkeep_checklist <- function(year = NULL,
 
   bullets
 }
+
+# upkeep helpers ----------------------------------------------------------
 
 # https://www.tidyverse.org/blog/2019/04/r-version-support/
 tidy_minimum_r_version <- function() {
