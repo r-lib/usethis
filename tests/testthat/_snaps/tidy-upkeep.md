@@ -74,7 +74,6 @@
     Code
       writeLines(upkeep_checklist())
     Output
-      
       * [ ] `usethis::use_readme_rmd()`
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
@@ -94,7 +93,6 @@
       local_edition(2L)
       writeLines(upkeep_checklist())
     Output
-      
       * [ ] `usethis::use_readme_rmd()`
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
