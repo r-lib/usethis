@@ -76,6 +76,7 @@ write_union <- function(path, lines, quiet = FALSE) {
 write_over <- function(path, lines, quiet = FALSE, overwrite = FALSE) {
   check_name(path)
   check_character(lines)
+  stopifnot(length(lines) > 0)
   check_bool(quiet)
   check_bool(overwrite)
   path <- user_path_prep(path)
