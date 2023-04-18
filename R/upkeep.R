@@ -90,7 +90,8 @@ upkeep_checklist <- function() {
       "Modernize citation files; see `usethis::use_citation()`",
       has_citation_file()
     ),
-    todo("Remove check environments section from `cran-comments.md`"),
+    todo("Remove any description of check environments from `cran-comments.md`",
+         file_exists(proj_path("cran-comments.md"))),
     todo("
         Use lifecycle instead of artisanal deprecation messages, as described \\
         in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)",
