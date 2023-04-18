@@ -38,3 +38,11 @@
       i Retrying download ... attempt 3
       i Retrying download ... attempt 4
 
+# normalize_url() prepends https:// (or not)
+
+    Code
+      normalize_url(1)
+    Condition
+      Error in `normalize_url()`:
+      ! `url` must be a valid name, not the number 1.
+
