@@ -47,5 +47,5 @@ test_that("get extra upkeep bullets works", {
                c("* [ ] extra", "* [ ] upkeep bullets", ""))
 
   env <- NULL
-  expect_equal(upkeep_extra_bullets(env), character())
+  expect_equal(upkeep_extra_bullets(env), "")
 })

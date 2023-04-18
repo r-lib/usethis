@@ -100,7 +100,7 @@ upkeep_checklist <- function() {
         https://posit.co/blog/knitr-fig-alt/ for examples")
   )
 
-  c(bullets, upkeep_extra_bullets())
+  c(bullets, upkeep_extra_bullets(), checklist_footer(tidy = FALSE))
 }
 
 # tidyverse upkeep issue -------------------------------------------------------
@@ -255,7 +255,7 @@ tidy_upkeep_checklist <- function(year = NULL,
     )
   }
 
-  bullets
+  c(bullets, checklist_footer(tidy = TRUE))
 }
 
 # upkeep helpers ----------------------------------------------------------
@@ -303,6 +303,14 @@ upkeep_extra_bullets <- function(env = NULL) {
   if (env_has(env, "upkeep_bullets")) {
     c(paste0("* [ ] ", env$upkeep_bullets()), "")
   } else {
-    character()
+    ""
   }
+}
+
+checklist_footer <- function(tidy) {
+  tidy_fun <- if (tidy) "tidy_" else ""
+  glue('<sup>\\
+    Created on {Sys.Date()} with `usethis::use_{tidy_fun}upkeep_issue()`, using \\
+    [usethis v{utils::packageVersion("usethis")}](https://usethis.r-lib.org)\\
+    </sup>')
 }
