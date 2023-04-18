@@ -19,7 +19,6 @@
 #' use_upkeep_issue(2023)
 #' }
 use_upkeep_issue <- function(year = NULL) {
-  year <- year %||% format(Sys.Date(), "%Y")
   make_upkeep_issue(year = year, tidy = FALSE)
 }
 
@@ -42,12 +41,12 @@ make_upkeep_issue <- function(year, tidy) {
 
   checklist <- if (tidy) tidy_upkeep_checklist(year) else upkeep_checklist()
 
-  maybe_year <- if (is.null(year)) "" else glue(" ({year})")
+  title_year <- year %||% format(Sys.Date(), "%Y")
 
   gh <- gh_tr(tr)
   issue <- gh(
     "POST /repos/{owner}/{repo}/issues",
-    title = glue("Upkeep for {project_name()}{maybe_year}"),
+    title = glue("Upkeep for {project_name()} ({title_year})"),
     body = paste0(checklist, "\n", collapse = "")
   )
   Sys.sleep(1)
