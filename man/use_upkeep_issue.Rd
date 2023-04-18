@@ -7,7 +7,7 @@
 use_upkeep_issue(year = NULL)
 }
 \arguments{
-\item{year}{Optional year you are performing the upkeep}
+\item{year}{Year you are performing the upkeep, used in the issue title. Defaults to current year}
 }
 \description{
 This opens an issue in your package repository with a checklist of tasks

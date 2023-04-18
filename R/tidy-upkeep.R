@@ -9,16 +9,17 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 #' Create an upkeep checklist in a GitHub issue
 #'
 #' @description
-#' This opens an issue in your package repository with a checklist of tasks
-#' for regular maintenance of your package. This is a fairly opinionated list
-#' of tasks but we believe taking care of them will generally make your
-#' package better, easier to maintain, and more enjoyable for your users. Some
-#' of the tasks are meant to be performed only once (and once completed
-#' shouldn't show up in subsequent lists), and some should be reviewed
-#' periodically. The tidyverse team uses a similar function
-#' [use_tidy_upkeep_issue()] for our annual package Spring Cleaning.
+#' This opens an issue in your package repository with a checklist of tasks for
+#' regular maintenance of your package. This is a fairly opinionated list of
+#' tasks but we believe taking care of them will generally make your package
+#' better, easier to maintain, and more enjoyable for your users. Some of the
+#' tasks are meant to be performed only once (and once completed shouldn't show
+#' up in subsequent lists), and some should be reviewed periodically. The
+#' tidyverse team uses a similar function [use_tidy_upkeep_issue()] for our
+#' annual package Spring Cleaning.
 #'
-#' @param year Optional year you are performing the upkeep
+#' @param year Year you are performing the upkeep, used in the issue title.
+#'   Defaults to current year
 #'
 #' @export
 #' @examples
@@ -26,6 +27,7 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 #' use_upkeep_issue(2023)
 #' }
 use_upkeep_issue <- function(year = NULL) {
+  year <- year %||% format(Sys.Date(), "%Y")
   make_upkeep_issue(year = year, tidy = FALSE)
 }
 
@@ -46,7 +48,7 @@ make_upkeep_issue <- function(year, tidy) {
     }
   }
 
-  checklist <- if (tidy) tidy_upkeep_checklist(year) else upkeep_checklist(year)
+  checklist <- if (tidy) tidy_upkeep_checklist(year) else upkeep_checklist()
 
   maybe_year <- if (is.null(year)) "" else glue(" ({year})")
 
@@ -60,10 +62,9 @@ make_upkeep_issue <- function(year, tidy) {
   view_url(issue$html_url)
 }
 
-upkeep_checklist <- function(year = NULL) {
+upkeep_checklist <- function() {
 
   bullets <- c(
-    year,
     "",
     todo("`usethis::use_readme_rmd()`", !file_exists("README.Rmd")),
     todo("`usethis::use_roxygen_md()`", !is_true(uses_roxygen_md())),
@@ -73,7 +74,7 @@ upkeep_checklist <- function(year = NULL) {
         `usethis::use_package_doc()`.
         Consider letting usethis manage your `@importFrom` directives here. \\
         `usethis::use_import_from()` is handy for this.",
-      !has_package_doc()
+        !has_package_doc()
     ),
     todo("
          `usethis::use_testthat()`. \\
