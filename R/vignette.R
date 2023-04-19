@@ -53,8 +53,10 @@ use_article <- function(name, title = name) {
 }
 
 use_vignette_template <- function(template, name, title, subdir = NULL) {
-  stopifnot(is_string(name))
-  stopifnot(is_string(title))
+  check_name(template)
+  check_name(name)
+  check_name(title)
+  maybe_name(subdir)
 
   use_directory("vignettes")
   if (!is.null(subdir)) {

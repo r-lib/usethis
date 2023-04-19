@@ -40,7 +40,7 @@ dots <- function(...) {
 }
 
 asciify <- function(x) {
-  stopifnot(is.character(x))
+  check_character(x)
   gsub("[^a-zA-Z0-9_-]+", "-", x)
 }
 
@@ -100,22 +100,15 @@ is_windows <- function() {
   .Platform$OS.type == "windows"
 }
 
-check_string <- function(x, nm = deparse(substitute(x))) {
-  if (!is_string(x)) {
-    ui_stop("{ui_code(nm)} must be a string.")
-  }
-  x
-}
-
-maybe_string <- function(x, nm = deparse(substitute(x))) {
-  if (is.null(x)) {
-    x
-  } else {
-    check_string(x, nm = nm)
-  }
-}
-
 # For stability of `stringsAsFactors` across versions
 data.frame <- function(..., stringsAsFactors = FALSE) {
   base::data.frame(..., stringsAsFactors = stringsAsFactors)
+}
+
+# wrapper around check_name() from import-standalone-types-check.R
+# for the common case when NULL is allowed (often default)
+maybe_name <- function(x, ..., arg = caller_arg(x),
+                       call = caller_env()) {
+  check_name(x, ..., allow_null = TRUE,
+             arg = arg, call = call)
 }
