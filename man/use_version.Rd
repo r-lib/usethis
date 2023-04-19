@@ -18,7 +18,7 @@ branch.}
 }
 \description{
 usethis supports semantic versioning, which is described in more detail in
-the \href{https://r-pkgs.org/description.html#description-version}{version section} of \href{https://r-pkgs.org}{R Packages}. A version number breaks down like so:
+the \href{https://r-pkgs.org/lifecycle.html#sec-lifecycle-version-number}{version section} of \href{https://r-pkgs.org}{R Packages}. A version number breaks down like so:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{<major>.<minor>.<patch>       (released version)
 <major>.<minor>.<patch>.<dev> (dev version)
@@ -45,5 +45,5 @@ use_dev_version()
 
 }
 \seealso{
-The \href{https://r-pkgs.org/description.html#description-version}{version section} of \href{https://r-pkgs.org}{R Packages}.
+The \href{https://r-pkgs.org/lifecycle.html#sec-lifecycle-version-number}{version section} of \href{https://r-pkgs.org}{R Packages}.
 }

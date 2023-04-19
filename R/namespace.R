@@ -6,8 +6,9 @@
 #' except those that start with `.`.
 #'
 #' @param roxygen Do you plan to manage `NAMESPACE` with roxygen2?
-#' @seealso The [namespace chapter](https://r-pkgs.org/namespace.html) of
-#'   [R Packages](https://r-pkgs.org).
+#' @seealso The [namespace
+#'   chapter](https://r-pkgs.org/dependencies-mindset-background.html#sec-dependencies-namespace)
+#'   of [R Packages](https://r-pkgs.org).
 #' @export
 use_namespace <- function(roxygen = TRUE) {
   check_is_package("use_namespace()")
