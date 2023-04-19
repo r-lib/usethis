@@ -34,12 +34,26 @@ use_dependency <- function(package, type, min_version = NULL) {
 
   changed <- FALSE
 
-  # No existing dependency, so can simply add
+  # One of:
+  # * No existing dependency
+  # * Adding existing non-LinkingTo dependency to LinkingTo
+  # * New use of a LinkingTo package as a non-LinkingTo dependency
+  # In all cases, we can can simply make the change.
   if (!any(existing_dep) || any(is_linking_to)) {
     ui_done("Adding {ui_value(package)} to {ui_field(type)} field in DESCRIPTION")
     desc$set_dep(package, type, version = version)
     desc$write()
     changed <- TRUE
+    return(invisible(changed))
+  }
+
+  # Request to add a dependency that is already in LinkingTo and only in
+  # LinkingTo as a LinkingTo dependency --> no need to do anything.
+  if (identical(existing_type, "LinkingTo") && type == "LinkingTo") {
+     ui_done(
+       "Package {ui_value(package)} is already listed in \\
+        {ui_value('LinkingTo')} in DESCRIPTION, no change made."
+      )
     return(invisible(changed))
   }
 

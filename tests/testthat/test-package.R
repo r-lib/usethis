@@ -40,6 +40,18 @@ test_that("use_package(type = 'Suggests') guidance w/o and w/ rlang", {
   expect_snapshot(use_package("purrr", "Suggests"))
 })
 
+test_that("use_package() does not fall over on 2nd LinkingTo request", {
+  local_edition(3)
+  create_local_package()
+  local_interactive(FALSE)
+
+  use_dependency("rlang", "LinkingTo")
+
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  expect_snapshot(use_dependency("rlang", "LinkingTo"))
+})
+
 # use_dev_package() -----------------------------------------------------------
 
 test_that("use_dev_package() writes a remote", {
