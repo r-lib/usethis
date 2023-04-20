@@ -149,7 +149,7 @@ use_posit_cloud_badge <- function(url) {
   if (grepl(project_url, url) || grepl(spaces_url, url)) {
     # TODO: Get posit logo hosted at https://github.com/simple-icons/simple-icons/
     # and add to end of img url as `?logo=posit` (or whatever slug we get)
-    img <- "https://img.shields.io/badge/launch-cloud-447099?style=flat"
+    img <- "https://img.shields.io/badge/launch-posit%20cloud-447099?style=flat"
     url <- gsub("rstudio", "posit", gsub("project", "content", url))
     use_badge("Launch Posit Cloud", url, img)
   } else {
