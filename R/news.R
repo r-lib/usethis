@@ -11,13 +11,21 @@ use_news_md <- function(open = rlang::is_interactive()) {
   check_is_package()
 
   ver <- proj_version()
+  on_cran <- !is.null(cran_version())
   version_string <- if (is_dev_version(ver)) "(development version)" else ver
+
+  if (!on_cran && package_version(ver) <= package_version("0.1.0")) {
+    init_bullet <- "Initial submission."
+  } else {
+    init_bullet <- "Added a `NEWS.md` file to track changes to the package."
+  }
 
   use_template(
     "NEWS.md",
     data = list(
       Package = project_name(),
-      Version = version_string
+      Version = version_string,
+      InitialBullet = init_bullet
     ),
     open = open
   )
