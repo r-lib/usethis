@@ -1,37 +1,84 @@
-context("use_author")
+test_that("Can add an author and then another", {
+  withr::local_options(usethis.description = NULL)
+  create_local_package()
 
-test_that("Author: field in description errors use_author()", {
-  scoped_temporary_package()
-  desc::desc_set(Author = "test")
-  expect_error(use_author())
-})
-
-test_that("use_author() adds an author even with a blank Authors@R field in the DESCRIPTION.", {
-  scoped_temporary_package()
-  desc::desc_del("Author")
-  desc::desc_set(`Authors@R` = "")
-  use_author()
-  expect_identical(desc::desc_get_authors(), person(given = "Jane", family = "Doe", role = "aut", email = "jane@example.com", comment = c(ORCID = "YOUR-ORCID-ID")))
-})
-
-test_that("Adding an author that is already in the DESCRIPTION errors use_author().", {
-  scoped_temporary_package()
-  desc::desc_del("Author")
-  desc::desc_set(`Authors@R` = 'person(given = "Jane", family = "Doe", role = "aut", email = "jane@example.com", comment = c(ORCID = "YOUR-ORCID-ID"))')
-  expect_error(use_author())
-})
-
-test_that("Adding a second author actually adds a second.", {
-  scoped_temporary_package()
-  desc::desc_del("Author")
-  desc::desc_set(`Authors@R` = 'person(given = "Jane", family = "Doe", role = "aut", email = "jane@example.com", comment = c(ORCID = "YOUR-ORCID-ID"))')
+  local_interactive(FALSE)
   use_author(
-    given = "Ali", family = "Val", role = "aut",
-    email = "ali@example.com", comment = c(ORCID = "1111-ORCID-ID")
+    "Jennifer", "Bryan",
+    email = "jenny@posit.co",
+    comment = c(ORCID = "0000-0002-6983-2759")
   )
-  expect_length(desc::desc_get_authors(), 2)
+
+  d <- proj_desc()
+  ctb <- d$get_author(role = "ctb")
+  expect_equal(ctb$given, "Jennifer")
+  expect_equal(ctb$family, "Bryan")
+  expect_equal(ctb$email, "jenny@posit.co")
+  expect_equal(ctb$comment, c(ORCID = "0000-0002-6983-2759"))
+
+  use_author(
+    "Hadley", "Wickham",
+    email = "hadley@posit.co",
+    role = c("rev", "fnd")
+  )
+
+  d <- proj_desc()
+  rev <- d$get_author(role = "rev")
+  fnd <- d$get_author(role = "fnd")
+  expect_equal(rev$given, "Hadley")
+  expect_equal(rev$family, "Wickham")
+  expect_equal(fnd$given, "Hadley")
+  expect_equal(fnd$family, "Wickham")
 })
 
-# TODO write test to assess the use_author() function messages a user
-# when the usethis default Authors@R field is specified. expect_message failed
-# due to interactive nature of message. Not sure if it is possible without interactive sesssion.
+test_that("Legacy author fields are challenged", {
+  withr::local_options(usethis.description = NULL)
+  create_local_package()
+
+  d <- proj_desc()
+  # I'm sort of deliberately leaving Authors@R there, just to make things
+  # even less ideal. But one could do:
+  # d$del("Authors@R")
+
+  # used BH as of 2023-04-19 as my example of a package that uses
+  # Author and Maintainer and does not use Authors@R
+  d$set(Maintainer = "Dirk Eddelbuettel <edd@debian.org>")
+  d$set(Author = "Dirk Eddelbuettel, John W. Emerson and Michael J. Kane")
+  d$write()
+
+  local_interactive(FALSE)
+  local_edition(3)
+  withr::local_options(usethis.quiet = FALSE)
+  expect_snapshot(challenge_legacy_author_fields(), error = TRUE)
+})
+
+test_that("Decline to tweak an existing author", {
+  withr::local_options(
+    usethis.description = list(
+      "Authors@R" = utils::person(
+        "Jennifer", "Bryan",
+        email = "jenny@posit.co",
+        role = c("aut", "cre"),
+        comment = c(ORCID = "0000-0002-6983-2759")
+      )
+    )
+  )
+  create_local_package()
+
+  local_edition(3)
+  withr::local_options(usethis.quiet = FALSE)
+  expect_snapshot(
+    use_author("Jennifer", "Bryan", role = "cph"),
+    error = TRUE
+  )
+})
+
+test_that("Placeholder author is challenged", {
+  withr::local_options(usethis.description = NULL)
+  create_local_package()
+
+  local_interactive(FALSE)
+  local_edition(3)
+  withr::local_options(usethis.quiet = FALSE)
+  expect_snapshot(use_author("Charlie", "Brown"))
+})

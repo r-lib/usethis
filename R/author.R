@@ -1,115 +1,139 @@
-#' Create or modify the `Authors@R` field in the DESCRIPTION file
+#' Add an author to the `Authors@R` field in DESCRIPTION
 #'
-#' @description If the `Authors@R` field is not included in the DESCRIPTION file
-#' then `use_author()` adds the field assigns the author defined by the input
-#' parameters. If the `Authors@R` field exists already in the DESCRIPTION then
-#' `use_author()` will add the author defined by the input parameters as an
-#' additional new author.
+#' @description
+
+#' `use_author()` adds a person to the `Authors@R` field of the DESCRIPTION
+#' file, creating that field if necessary. It will not modify, e.g., the role(s)
+#' or email of an existing author (judged using their "Given Family" name). For
+#' that we recommend editing DESCRIPTION directly. Or, for programmatic use,
+#' consider calling the more specialized functions available in the \pkg{desc}
+#' package directly.
 #'
-#' The `use_author()` function should be used after [create_package()] or
-#' [use_description()].
+#' `use_author()` also surfaces two other situations you might want to address:
+
+#' * Explicit use of the fields `Author` or `Maintainer`. We recommend switching
+#' to the more modern `Authors@R` field instead, because it offers richer
+#' metadata for various downstream uses. (Note that `Authors@R` is *eventually*
+#' processed to create `Author` and `Maintainer` fields, but only when the
+#' `tar.gz` is built from package source.)
+
+#' * Presence of the fake author placed by [create_package()] and
+#' [use_description()]. This happens when \pkg{usethis} has to create a
+#' DESCRIPTION file and the user hasn't given any author information via the
+#' `fields` argument or the global option `"usethis.description"`. The
+#' placeholder looks something like `First Last <first.last@example.com> [aut,
+#' cre] (YOUR-ORCID-ID)` and `use_author()` offers to remove it in interactive
+#' sessions.
 #'
-#' If you create a lot of packages, consider storing personalized defaults as a
-#' named list in an option named `"usethis.description"`. [use_description()]
-#' will automatically fill using this information. Here's an example of code to
-#' include in `.Rprofile`:
-#'
-#' ``` options( usethis.description = list( `Authors@R` = 'person("Jane", "Doe",
-#' email = "jane@example.com", role = "aut", comment = c(ORCID =
-#' "YOUR-ORCID-ID"))', License = "MIT + file LICENSE", Language =  "es" ) )
-#' ```
-#'
-#' @param given a character string with the given (first) name of the author.
-#' @param family a character string with the family (last) name of the author.
-#' @param role a character vector specifying the role of the person to be added.
-#' @param email a character string giving an e-mail address of the author to be added.
-#' @param comment a character string providing comments related to the author to be added.
-#'
+#' @inheritParams utils::person
 #' @export
-#'
 #' @examples
 #' \dontrun{
-#' # Adds the default Jane Doe to author
-#'
-#' use_author()
-#'
-#' # Adds the author information for Ali
 #' use_author(
-#'   given = "Ali",
-#'   family = "Val",
-#'   role = "aut",
-#'   email = "alval@example.com",
-#'   comment = c(ORCID = "YOUR-ORCID-ID")
-#' )
-#'
-#' # Adds a second author Ali2
-#' use_author(
-#'   given = "Ali2",
-#'   family = "Val2",
-#'   role = "cph",
-#'   email = "alval2@example.com",
-#'   comment = NULL
+#'   given = "Lucy",
+#'   family = "van Pelt",
+#'   email = "lucy@example.com",
+#'   comment = c(ORCID = "LUCY-ORCID-ID")
 #' )
 #' }
 #'
-use_author <- function(given = "Jane", family = "Doe", role = "aut", email = "jane@example.com", comment = c(ORCID = "YOUR-ORCID-ID")) {
-  # Adapted from use_dependency code and tools provided in the desc package
-  # TODO long term: figure out if/how desc package requires input for role with multiple roles (i.e. c("aut", "cre"))
-  # TODO long term: create addin to prompt for author information
-  # TODO long term: create a snippet with author information for DESCRIPTION
-  # TODO add tests
+use_author <- function(given = NULL, family = NULL, ..., role = "ctb") {
+  check_is_package("use_data()")
+  maybe_name(given)
+  maybe_name(family)
+  check_character(role)
 
-  # Assume DESCRIPTION is generated from usethis so that Authors@R is filled with either
-  # 1. The temporary author filled in without usethis defaults
-  # person("First", "Last", , "first.last@example.com", c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))
-  # 2. True author(s)
+  d <- proj_desc()
+  challenge_legacy_author_fields(d)
+  # We only need to consider Authors@R
 
-  # Check the "Author:" field exists and if it does error the function
-  if (desc::desc_has_fields("Author")) {
-    ui_stop(
-      "{ui_field('Author')} was found as a field value in the DESCRIPTION. \\
-       Please remove or replace it with the {ui_field('Authors@R')} field."
-    )
-    # TODO long term: if Author: is found in the description ask user if they
-    # want to remove and replace it with Authors@R using desc::desc_del()
+  author <- utils::person(given = given, family = family, role = role, ...)
+
+  authors_at_r_already <- d$has_fields("Authors@R")
+  if (authors_at_r_already) {
+    check_author_is_novel(given, family, d)
+  }
+  # This person is not already in Authors@R
+
+  if (authors_at_r_already) {
+    ui_done("
+      Adding to {ui_field('Authors@R')} in DESCRIPTION:
+      {format(author, style = 'text')}")
+  } else {
+    ui_done("
+      Creating {ui_field('Authors@R')} field in DESCRIPTION and adding:
+      {format(author, style = 'text')}")
+  }
+  d$add_author(given = given, family = family, role = role, ...)
+
+  challenge_default_author(d)
+
+  d$write()
+
+  invisible(TRUE)
+
+}
+
+challenge_legacy_author_fields <- function(desc = proj_desc()) {
+  has_legacy_field <-
+    desc$has_fields("Author") || desc$has_fields("Maintainer")
+  if (!has_legacy_field) {
+    return(invisible())
   }
 
-
-  # TODO long term: if Authors@R field is missing from the description ask user
-  # if they want to add a blank one or error our
-  # if(desc::desc_has_fields("Authors@R") == FALSE){
-  #   desc::desc_set(`Authors@R` = '')
-  # }
-
-  # Create person object using inputs
-  author <- utils::person(given = given, family = family, role = role, email = email, comment = comment)
-
-  # Obtain the current authors in the description
-  desc_authors <- desc::desc_get_authors()
-
-  # Check if any current author in the DESCRIPTION is exactly identical to the author input
-  if (author %in% desc_authors) {
-    ui_stop(
-      "Author {ui_value(author)} is already listed in \\
-      {ui_field('Authors@R')} in the current DESCRIPTION, no change made."
-    )
+  ui_oops("
+    Found legacy {ui_field('Author')} and/or {ui_field('Maintainer')} field \\
+    in DESCRIPTION.
+    usethis only supports modification of the {ui_field('Authors@R')} field.")
+  ui_info("
+    We recommend one of these paths forward:
+    * Delete these fields and rebuild with {ui_code('use_author()')}.
+    * Convert to {ui_field('Authors@R')} with {ui_code('desc::desc_coerce_authors_at_r()')},
+      then delete the legacy fields.")
+  if (ui_yeah("Do you want to cancel this operation and sort that out first?")) {
+    ui_stop("Cancelling.")
   }
+  invisible()
+}
 
-  # Add the input author
-  desc::desc_add_author(given = given, family = family, role = role, email = email, comment = comment, normalize = TRUE)
-  ui_done("Added {ui_value(author)} to the {ui_field('Authors@R')} field.")
-
-  # Check if the usethis default author is included and remove it if so
-  usethis_author <- utils::person(given = "First", family = "Last", role = c("aut", "cre"), email = "first.last@example.com", comment = c(ORCID = "YOUR-ORCID-ID"))
-
-  if (usethis_author %in% desc_authors) {
-    if (ui_yeah("{ui_field('Authors@R')}` field is populated with the {ui_code('usethis')} \\
-               default (i.e. {ui_value(usethis_author)}. Would you like to remove the default?")) {
-      # TODO(@jennybc): should we suppress messages from the desc::desc_del_author function? If so, how is this handled inside the package? suppressMessages()?
-      # Delete the usethis default author (i.e. person(given = "First", family = "Last", email = "first.last@example.com", comment = c(ORCID = "YOUR-ORCID-ID")))
-      desc::desc_del_author(given = "First", family = "Last", email = "first.last@example.com", comment = c(ORCID = "YOUR-ORCID-ID"))
-    }
+check_author_is_novel <- function(given = NULL, family = NULL, d = proj_desc()) {
+  authors <- d$get_authors()
+  authors_given <- purrr::map(authors, "given")
+  authors_family <- purrr::map(authors, "family")
+  m <- purrr::map2_lgl(authors_given, authors_family, function(x, y) {
+    identical(x, given) && identical(y, family)
+  })
+  if (any(m)) {
+    aut_name <- glue("{given %||% ''} {family %||% ''}")
+    usethis_abort(c(
+      "{.val {aut_name}} already appears in {.val Authors@R}.",
+      "Please make the desired change directly in DESCRIPTION or call the \\
+       desc package directly."
+    ))
   }
+  invisible()
+}
 
+challenge_default_author <- function(d = proj_desc()) {
+  withr::with_options(
+    list(usethis.description = NULL),
+    defaults <- use_description_defaults()
+  )
+  default_author <- eval(parse(text = defaults[["Authors@R"]]))
+
+  authors <- d$get_authors()
+  m <- map_lgl(
+    authors,
+    # the `person` class is pretty weird!
+    function(x) identical(x, unclass(default_author)[[1]])
+  )
+  ui_info("
+    {ui_field('Authors@R')} appears to include a placeholder author:
+    {format(default_author, style = 'text')}")
+  if (is_interactive() && any(m) && ui_yeah("Would you like to remove it?")) {
+    # TODO: Do I want to suppress this output?
+    # Authors removed: First Last, NULL NULL.
+    do.call(d$del_author, unclass(default_author)[[1]])
+  }
   return(invisible())
 }
