@@ -32,6 +32,9 @@ test_that("Can add an author and then another", {
 })
 
 test_that("Legacy author fields are challenged", {
+  # apparently the format method for `person` used to handle ORCIDs differently
+  skip_if(getRversion() < 4.0)
+
   withr::local_options(usethis.description = NULL)
   create_local_package()
 
