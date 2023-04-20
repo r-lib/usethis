@@ -9,13 +9,15 @@
 #' @export
 use_news_md <- function(open = rlang::is_interactive()) {
   check_is_package()
-  desc <- proj_desc()
+
+  ver <- proj_version()
+  version_string <- if (is_dev_version(ver)) "(development version)" else ver
 
   use_template(
     "NEWS.md",
     data = list(
       Package = project_name(),
-      Version = proj_version()
+      Version = version_string
     ),
     open = open
   )
