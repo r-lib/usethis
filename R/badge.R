@@ -18,8 +18,10 @@
 #' package according to <https://lifecycle.r-lib.org/articles/stages.html>.
 #' * `use_binder_badge()`: badge indicates that your repository can be launched
 #' in an executable environment on <https://mybinder.org/>
-#' * `use_rscloud_badge()`: badge indicates that your repository can be launched
-#' in an [RStudio Cloud](https://rstudio.cloud) project
+#' * `use_posit_cloud_badge()`: badge indicates that your repository can be launched
+#' in a [Posit Cloud](https://posit.cloud) project
+#' * `use_rscloud_badge()`: `r lifecycle::badge("deprecated")`: Use
+#' [use_posit_cloud_badge()] instead.
 #'
 #' @param badge_name Badge name. Used in error message and alt text
 #' @param href,src Badge link and image src
@@ -136,9 +138,9 @@ use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
 }
 
 #' @rdname badges
-#' @param url A link to an existing [RStudio Cloud](https://rstudio.cloud)
-#'   project. See the [RStudio Cloud
-#'   documentation](https://rstudio.cloud/learn/guide#project-settings-access)
+#' @param url A link to an existing [Posit Cloud](https://posit.cloud)
+#'   project. See the [Posit Cloud
+#'   documentation](https://posit.cloud/learn/guide#project-settings-access)
 #'   for details on how to set project access and obtain a project link.
 #' @export
 use_posit_cloud_badge <- function(url) {
