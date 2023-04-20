@@ -142,17 +142,18 @@ use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
 #'   for details on how to set project access and obtain a project link.
 #' @export
 use_rscloud_badge <- function(url) {
-  project_url <- "rstudio[.]cloud/project"
-  spaces_url <- "rstudio[.]cloud/spaces"
+  project_url <- "(posit|rstudio)[.]cloud/(project|content)"
+  spaces_url <- "(posit|rstudio)[.]cloud/spaces"
   if (grepl(project_url, url) || grepl(spaces_url, url)) {
     img <- "https://img.shields.io/badge/launch-cloud-75aadb?style=flat&logo=rstudio"
-    use_badge("Launch RStudio Cloud", url, img)
+    url <- gsub("rstudio", "posit", gsub("project", "content", url))
+    use_badge("Launch Posit Cloud", url, img)
   } else {
     ui_stop("
-      {ui_code('usethis::use_rscloud_badge()')} requires a link to an \\
-      existing RStudio Cloud project of the form \\
-      'https://rstudio.cloud/project/<project-id>' or \\
-      'https://rstudio.cloud/spaces/<space-id>/project/<project-id>'.")
+      {ui_code('usethis::use_posit_cloud_badge()')} requires a link to an \\
+      existing Posit Cloud project of the form \\
+      'https://posit.cloud/content/<project-id>' or \\
+      'https://posit.cloud/spaces/<space-id>/content/<project-id>'.")
   }
 
   invisible(TRUE)
