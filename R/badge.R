@@ -141,11 +141,13 @@ use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
 #'   documentation](https://rstudio.cloud/learn/guide#project-settings-access)
 #'   for details on how to set project access and obtain a project link.
 #' @export
-use_rscloud_badge <- function(url) {
+use_posit_cloud_badge <- function(url) {
   project_url <- "(posit|rstudio)[.]cloud/(project|content)"
   spaces_url <- "(posit|rstudio)[.]cloud/spaces"
   if (grepl(project_url, url) || grepl(spaces_url, url)) {
-    img <- "https://img.shields.io/badge/launch-cloud-75aadb?style=flat&logo=rstudio"
+    # TODO: Get posit logo hosted at https://github.com/simple-icons/simple-icons/
+    # and add to end of img url as `?logo=posit` (or whatever slug we get)
+    img <- "https://img.shields.io/badge/launch-cloud-447099?style=flat"
     url <- gsub("rstudio", "posit", gsub("project", "content", url))
     use_badge("Launch Posit Cloud", url, img)
   } else {
@@ -157,6 +159,14 @@ use_rscloud_badge <- function(url) {
   }
 
   invisible(TRUE)
+}
+
+#' @rdname badges
+#' @export
+use_rscloud_badge <- function(url) {
+  lifecycle::deprecate_warn("2.2.0", "use_rscloud_badge()",
+                            "use_posit_cloud_badge()")
+  use_posit_cloud_badge(url)
 }
 
 has_badge <- function(href) {
