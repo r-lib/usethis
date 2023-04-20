@@ -3,7 +3,7 @@
 \name{use_vignette}
 \alias{use_vignette}
 \alias{use_article}
-\title{Create a vignette or article.}
+\title{Create a vignette or article}
 \usage{
 use_vignette(name, title = name)
 
@@ -11,12 +11,12 @@ use_article(name, title = name)
 }
 \arguments{
 \item{name}{Base for file name to use for new vignette. Should consist only
-of numbers, letters, \code{_} and \code{-}. Lower case is recommended.}
+of numbers, letters, \verb{_} and \code{-}. Lower case is recommended.}
 
 \item{title}{The title of the vignette.}
 }
 \description{
-Creates a new vignette or article in \code{vignettes/}. Articles are a special
+Creates a new vignette or article in \verb{vignettes/}. Articles are a special
 type of vignette that appear on pkgdown websites, but are not included
 in the package itself (because they are added to \code{.Rbuildignore}
 automatically).
@@ -26,7 +26,7 @@ automatically).
 \itemize{
 \item Adds needed packages to \code{DESCRIPTION}.
 \item Adds \code{inst/doc} to \code{.gitignore} so built vignettes aren't tracked.
-\item Adds \code{vignettes/*.html} and \code{vignettes/*.R} to \code{.gitignore} so
+\item Adds \verb{vignettes/*.html} and \verb{vignettes/*.R} to \code{.gitignore} so
 you never accidentally track rendered vignettes.
 }
 }

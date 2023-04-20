@@ -1,15 +1,15 @@
-#' Create tests
+#' Sets up overall testing infrastructure
 #'
-#' There are two helper functions:
-#' * `use_testthat()` sets up overall testing infrastructure: creates
-#'   `tests/testthat/`, `tests/testthat.R`, and adds testthat to Suggests.
-#' * `use_test()` sets up individual test files: creates
-#'   `tests/testthat/test-<name>.R` and, optionally, opens it for editing.
+#' Creates `tests/testthat/`, `tests/testthat.R`, and adds the testthat package
+#' to the Suggests field. Learn more in <https://r-pkgs.org/tests.html>
 #'
-#' @seealso The [testing chapter](https://r-pkgs.org/tests.html) of [R
-#'   Packages](https://r-pkgs.org).
+#' @param edition testthat edition to use. Defaults to the latest edition, i.e.
+#'   the major version number of the currently installed testthat.
+#' @param parallel Should tests be run in parallel? This feature appeared in
+#'   testthat 3.0.0; see <https://testthat.r-lib.org/articles/parallel.html> for
+#'   details and caveats.
+#' @seealso [use_test()] to create individual test files
 #' @export
-#' @inheritParams use_template
 #' @examples
 #' \dontrun{
 #' use_testthat()
@@ -18,72 +18,70 @@
 #'
 #' use_test("something-management")
 #' }
-use_testthat <- function() {
-  check_is_package("use_testthat()")
-  check_installed("testthat")
+use_testthat <- function(edition = NULL, parallel = FALSE) {
+  use_testthat_impl(edition, parallel = parallel)
 
-  use_dependency("testthat", "Suggests")
-  use_directory(path("tests", "testthat"))
-  use_template(
-    "testthat.R",
-    save_as = path("tests", "testthat.R"),
-    data = list(name = project_name())
-  )
   ui_todo(
     "Call {ui_code('use_test()')} to initialize a basic test file and open it \\
     for editing."
   )
 }
 
-#' @rdname use_testthat
-#' @param name Base of test file name. If `NULL`, and you're using RStudio, will
-#'   be based on the name of the file open in the source editor.
-#' @export
-use_test <- function(name = NULL, open = interactive()) {
-  if (!uses_testthat()) {
-    use_testthat()
+use_testthat_impl <- function(edition = NULL, parallel = FALSE) {
+  check_installed("testthat")
+  if (utils::packageVersion("testthat") < "2.1.0") {
+    ui_stop("testthat 2.1.0 or greater needed. Please install before re-trying")
   }
 
-  if (is.null(name)) {
-    name <- get_active_r_file(path = "R")
-  } else {
-    check_file_name(name)
-  }
+  if (is_package()) {
+    edition <- check_edition(edition)
 
-  name <- paste0("test-", name)
-  name <- slug(name, "R")
-  path <- path("tests", "testthat", name)
+    use_dependency("testthat", "Suggests", paste0(edition, ".0.0"))
+    use_description_field("Config/testthat/edition", edition, overwrite = TRUE)
 
-  if (file_exists(proj_path(path))) {
-    if (open) {
-      edit_file(proj_path(path))
+    if (parallel) {
+      use_description_field("Config/testthat/parallel", "true", overwrite = TRUE)
+    } else {
+      proj_desc()$del("Config/testthat/parallel")
     }
-    return(invisible(TRUE))
+  } else {
+    if (!is.null(edition)) {
+      ui_stop("Can't declare testthat edition outside of a package")
+    }
   }
 
-  # As of testthat 2.1.0, a context() is no longer needed/wanted
-  if (utils::packageVersion("testthat") >= "2.1.0") {
-    use_dependency("testthat", "Suggests", "2.1.0")
-    use_template(
-      "test-example-2.1.R",
-      save_as = path,
-      open = open
-    )
+  use_directory(path("tests", "testthat"))
+  use_template(
+    "testthat.R",
+    save_as = path("tests", "testthat.R"),
+    data = list(name = project_name())
+  )
+}
+
+check_edition <- function(edition = NULL) {
+  version <- utils::packageVersion("testthat")[[1, c(1, 2)]]
+  if (version[[2]] == "99") {
+    version <- version[[1]] + 1L
   } else {
-    use_template(
-      "test-example.R",
-      save_as = path,
-      data = list(test_name = path_ext_remove(name)),
-      open = open
-    )
+    version <- version[[1]]
+  }
+
+  if (is.null(edition)) {
+    version
+  } else {
+    if (!is.numeric(edition) || length(edition) != 1) {
+      ui_stop("`edition` must be a single number")
+    }
+    if (edition > version) {
+      vers <- utils::packageVersion("testthat")
+      ui_stop("`edition` ({edition}) not available in installed testthat ({vers})")
+    }
+    as.integer(edition)
   }
 }
 
-uses_testthat <- function(base_path = proj_get()) {
-  paths <- c(
-    path(base_path, "inst", "tests"),
-    path(base_path, "tests", "testthat")
-  )
 
+uses_testthat <- function() {
+  paths <- proj_path(c(path("inst", "tests"), path("tests", "testthat")))
   any(dir_exists(paths))
 }

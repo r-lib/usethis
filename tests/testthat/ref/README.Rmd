@@ -9,6 +9,7 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 
 ```{r}
 devtools::load_all("~/rrr/usethis")
+library(fs)
 ```
 
 ## Different styles of ZIP file
@@ -33,7 +34,7 @@ Notice that everything is packaged below one top-level directory.
 foo_not_loose_files <- unzip("foo-not-loose.zip", list = TRUE)
 with(
   foo_not_loose_files,
-  data.frame(Name = Name, dirname = dirname(Name), basename = basename(Name))
+  data.frame(Name = Name, dirname = path_dir(Name), basename = path_file(Name))
 )
 ```
 
@@ -53,7 +54,7 @@ All the files are packaged in the ZIP archive as "loose parts", i.e. there is no
 foo_loose_regular_files <- unzip("foo-loose-regular.zip", list = TRUE)
 with(
   foo_loose_regular_files,
-  data.frame(Name = Name, dirname = dirname(Name), basename = basename(Name))
+  data.frame(Name = Name, dirname = path_dir(Name), basename = path_file(Name))
 )
 ```
 
@@ -73,7 +74,7 @@ It's basically like the "loose parts" above, except it includes a spurious top-l
 foo_loose_dropbox_files <- unzip("foo-loose-dropbox.zip", list = TRUE)
 with(
   foo_loose_dropbox_files,
-  data.frame(Name = Name, dirname = dirname(Name), basename = basename(Name))
+  data.frame(Name = Name, dirname = path_dir(Name), basename = path_file(Name))
 )
 ```
 

@@ -2,26 +2,40 @@
 % Please edit documentation in R/pkgdown.R
 \name{use_pkgdown}
 \alias{use_pkgdown}
-\alias{use_pkgdown_travis}
+\alias{use_pkgdown_github_pages}
 \title{Use pkgdown}
 \usage{
 use_pkgdown(config_file = "_pkgdown.yml", destdir = "docs")
 
-use_pkgdown_travis()
+use_pkgdown_github_pages()
 }
 \arguments{
-\item{config_file}{Path to the pkgdown yaml config file}
+\item{config_file}{Path to the pkgdown yaml config file, relative to the
+project.}
 
-\item{destdir}{Target directory for pkgdown docs}
+\item{destdir}{Target directory for pkgdown docs.}
 }
 \description{
 \href{https://pkgdown.r-lib.org}{pkgdown} makes it easy to turn your package into
-a beautiful website. There are two helper functions:
+a beautiful website. usethis provides two functions to help you use pkgdown:
 \itemize{
-\item \code{use_pkgdown()}: creates a pkgdown config file and adds the file and
-destination directory to \code{.Rbuildignore}.
-\item \code{use_pkgdown_travis()}: helps you set up pkgdown for automatic deployment
-on Travis-CI.
+\item \code{use_pkgdown()}: creates a pkgdown config file and adds relevant files or
+directories to \code{.Rbuildignore} and \code{.gitignore}.
+\item \code{use_pkgdown_github_pages()}: implements the GitHub setup needed to
+automatically publish your pkgdown site to GitHub pages:
+\itemize{
+\item (first, it calls \code{use_pkgdown()})
+\item \code{\link[=use_github_pages]{use_github_pages()}} prepares to publish the pkgdown site from the
+\code{gh-pages} branch
+\item \code{\link[=use_github_action]{use_github_action("pkgdown")}} configures a
+GitHub Action to automatically build the pkgdown site and deploy it via
+GitHub Pages
+\item The pkgdown site's URL is added to the pkgdown configuration file,
+to the URL field of DESCRIPTION, and to the GitHub repo.
+\item Packages owned by certain GitHub organizations (tidyverse, r-lib, and
+tidymodels) get some special treatment, in terms of anticipating the
+(eventual) site URL and the use of a pkgdown template.
+}
 }
 }
 \seealso{

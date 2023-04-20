@@ -4,11 +4,17 @@
 \alias{use_template}
 \title{Use a usethis-style template}
 \usage{
-use_template(template, save_as = template, data = list(),
-  ignore = FALSE, open = FALSE, package = "usethis")
+use_template(
+  template,
+  save_as = template,
+  data = list(),
+  ignore = FALSE,
+  open = FALSE,
+  package = "usethis"
+)
 }
 \arguments{
-\item{template}{Path to template file relative to \code{templates/} directory
+\item{template}{Path to template file relative to \verb{templates/} directory
 within \code{package}; see details.}
 
 \item{save_as}{Path of file to create, relative to root of active project.

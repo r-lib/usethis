@@ -16,10 +16,15 @@ use_rcpp_eigen(name = NULL)
 use_c(name = NULL)
 }
 \arguments{
-\item{name}{If supplied, creates and opens \code{src/name.{c,cpp}}.}
+\item{name}{Either a string giving a file name (without directory) or
+\code{NULL} to take the name from the currently open file in RStudio.}
 }
 \description{
-Creates \code{src/}, adds required packages to \code{DESCRIPTION},
-optionally creates \code{.c} or \code{.cpp} files, and
-where needed, \code{Makevars} and \code{Makevars.win} files.
+Adds infrastructure commonly needed when using compiled code:
+\itemize{
+\item Creates \verb{src/}
+\item Adds required packages to \code{DESCRIPTION}
+\item May create an initial placeholder \code{.c} or \code{.cpp} file
+\item Creates \code{Makevars} and \code{Makevars.win} files (\code{use_rcpp_armadillo()} only)
+}
 }

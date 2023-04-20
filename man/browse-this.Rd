@@ -2,54 +2,90 @@
 % Please edit documentation in R/browse.R
 \name{browse-this}
 \alias{browse-this}
+\alias{browse_package}
+\alias{browse_project}
 \alias{browse_github}
 \alias{browse_github_issues}
 \alias{browse_github_pulls}
-\alias{browse_travis}
+\alias{browse_github_actions}
+\alias{browse_circleci}
 \alias{browse_cran}
-\title{Quickly browse to important package webpages}
+\title{Visit important project-related web pages}
 \usage{
+browse_package(package = NULL)
+
+browse_project()
+
 browse_github(package = NULL)
 
 browse_github_issues(package = NULL, number = NULL)
 
 browse_github_pulls(package = NULL, number = NULL)
 
-browse_travis(package = NULL, ext = c("org", "com"))
+browse_github_actions(package = NULL)
+
+browse_circleci(package = NULL)
 
 browse_cran(package = NULL)
 }
 \arguments{
-\item{package}{Name of package; leave as \code{NULL} to use current package}
+\item{package}{Name of package. If \code{NULL}, the active project is targeted,
+regardless of whether it's an R package or not.}
 
-\item{number}{For GitHub issues and pull requests. Can be a number or
-\code{"new"}.}
-
-\item{ext}{Version of travis to use.}
+\item{number}{Optional, to specify an individual GitHub issue or pull
+request. Can be a number or \code{"new"}.}
 }
 \description{
-These functions take you to various webpages associated with a package and
-return the target URL invisibly. Some URLs are formed from first principles
-and there is no guarantee there will be content at the destination.
+These functions take you to various web pages associated with a project
+(often, an R package) and return the target URL(s) invisibly. To form
+these URLs we consult:
+\itemize{
+\item Git remotes configured for the active project that appear to be hosted on
+a GitHub deployment
+\item DESCRIPTION file for the active project or the specified \code{package}. The
+DESCRIPTION file is sought first in the local package library and then
+on CRAN.
+\item Fixed templates:
+\itemize{
+\item Travis CI: \verb{https://travis-ci.\{EXT\}/\{OWNER\}/\{PACKAGE\}}
+\item Circle CI: \verb{https://circleci.com/gh/\{OWNER\}/\{PACKAGE\}}
+\item CRAN landing page: \verb{https://cran.r-project.org/package=\{PACKAGE\}}
+\item GitHub mirror of a CRAN package: \verb{https://github.com/cran/\{PACKAGE\}}
+Templated URLs aren't checked for existence, so there is no guarantee
+there will be content at the destination.
+}
+}
 }
 \details{
 \itemize{
-\item \code{browse_github()}: Looks for a GitHub URL in the URL field of
-\code{DESCRIPTION}.
+\item \code{browse_package()}: Assembles a list of URLs and lets user choose one to
+visit in a web browser. In a non-interactive session, returns all
+discovered URLs.
+\item \code{browse_project()}: Thin wrapper around \code{browse_package()} that always
+targets the active usethis project.
+\item \code{browse_github()}: Visits a GitHub repository associated with the project.
+In the case of a fork, you might be asked to specify if you're interested
+in the source repo or your fork.
 \item \code{browse_github_issues()}: Visits the GitHub Issues index or one specific
 issue.
 \item \code{browse_github_pulls()}: Visits the GitHub Pull Request index or one
 specific pull request.
-\item \code{browse_travis()}: Visits the package's page on \href{https://travis-ci.org}{Travis CI}.
+\item \code{browse_travis()}: Visits the project's page on
+\href{https://www.travis-ci.com/}{Travis CI}.
+\item \code{browse_circleci()}: Visits the project's page on
+\href{https://circleci.com}{Circle CI}.
 \item \code{browse_cran()}: Visits the package on CRAN, via the canonical URL.
 }
 }
 \examples{
+# works on the active project
+# browse_project()
+
+browse_package("httr")
 browse_github("gh")
-browse_github_issues("backports")
-browse_github_issues("backports", 1)
-browse_github_pulls("rprojroot")
-browse_github_pulls("rprojroot", 3)
-browse_travis("usethis")
+browse_github_issues("fs")
+browse_github_issues("fs", 1)
+browse_github_pulls("curl")
+browse_github_pulls("curl", 183)
 browse_cran("MASS")
 }

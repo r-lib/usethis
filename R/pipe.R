@@ -22,26 +22,11 @@ use_pipe <- function(export = TRUE) {
   check_is_package("use_pipe()")
   check_uses_roxygen("use_pipe()")
 
-  use_dependency("magrittr", "Imports")
-
   if (export) {
-    use_template("pipe.R", "R/utils-pipe.R") && roxygen_update()
+    use_dependency("magrittr", "Imports")
+    use_template("pipe.R", "R/utils-pipe.R") && roxygen_remind()
     return(invisible(TRUE))
   }
 
-  if (has_package_doc()) {
-    roxygen_ns_append("@importFrom magrittr %>%") && roxygen_update()
-    return(invisible(TRUE))
-  }
-
-  ui_todo(
-    "Copy and paste this line into some roxygen header, then run \\
-    {ui_code('devtools::document()')}:"
-  )
-  ui_code_block("#' @importFrom magrittr %>%", copy = FALSE)
-  ui_todo(
-    "Alternative recommendation: call {ui_code('use_package_doc()')}, then \\
-    call {ui_code('use_pipe()')} again."
-  )
-  invisible(FALSE)
+  use_import_from("magrittr", "%>%")
 }

@@ -59,20 +59,15 @@ use_template <- function(template,
 
 render_template <- function(template, data = list(), package = "usethis") {
   template_path <- find_template(template, package = package)
-  strsplit(whisker::whisker.render(readLines(template_path, encoding = "UTF-8"), data), "\n")[[1]]
+  strsplit(whisker::whisker.render(read_utf8(template_path), data), "\n")[[1]]
 }
 
 find_template <- function(template_name, package = "usethis") {
-  ## TODO: remove this once we can increment min version of fs and use
-  ## fs::path_package() unconditionally
-  path <- if (utils::packageVersion("fs") > "1.2.7") {
-    tryCatch(
-      path_package(package = package, "templates", template_name),
-      error = function(e) ""
-    )
-  } else {
-    system.file("templates", template_name, package = package)
-  }
+  check_installed(package)
+  path <- tryCatch(
+    path_package(package = package, "templates", template_name),
+    error = function(e) ""
+  )
   if (identical(path, "")) {
     ui_stop(
       "Could not find template {ui_value(template_name)} \\

@@ -1,0 +1,78 @@
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: lint-undesirable-functions
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: r-lib/lintr
+
+      - name: Lint
+        run: |
+          base_file_system_functions <- c(
+            "Sys.chmod",
+            "Sys.readlink",
+            "Sys.setFileTime",
+            "Sys.umask",
+            "dir",
+            "dir.create",
+            "dir.exists",
+            "file.access",
+            "file.append",
+            "file.copy",
+            "file.create",
+            "file.exists",
+            "file.info",
+            "file.link",
+            "file.mode",
+            "file.mtime",
+            "file.path",
+            "file.remove",
+            "file.rename",
+            "file.size",
+            "file.symlink",
+            "list.files",
+            "list.dirs",
+            "normalizePath",
+            "path.expand",
+            "system.file",
+            "tempdir",
+            "tempfile",
+            "unlink",
+            "basename",
+            "dirname"
+          )
+          fs_msg <- "use the fs package"
+          my_undesirable_file_system_functions <- rep_len(fs_msg, length(base_file_system_functions))
+          names(my_undesirable_file_system_functions) <- base_file_system_functions
+          my_undesirable_functions <- c(
+            my_undesirable_file_system_functions,
+            "interactive" = "use is_interactive() (from rlang, which is imported)",
+            "on.exit"     = "use the withr package, e.g., withr::defer()"
+          )
+          my_undesirable_function_linter <- lintr::undesirable_function_linter(
+            fun = my_undesirable_functions,
+            symbol_is_undesirable = FALSE
+          )
+          out <- lintr::lint_package(
+            linters = my_undesirable_function_linter,
+            exclusions = "inst/templates/tidy-eval.R"
+          )
+          print(out)
+          if (length(out)) stop("lints found")
+        shell: Rscript {0}

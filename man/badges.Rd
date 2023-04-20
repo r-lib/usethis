@@ -7,6 +7,7 @@
 \alias{use_bioc_badge}
 \alias{use_lifecycle_badge}
 \alias{use_binder_badge}
+\alias{use_rscloud_badge}
 \title{README badges}
 \usage{
 use_badge(badge_name, href, src)
@@ -17,27 +18,36 @@ use_bioc_badge()
 
 use_lifecycle_badge(stage)
 
-use_binder_badge(urlpath = NULL)
+use_binder_badge(ref = git_default_branch(), urlpath = NULL)
+
+use_rscloud_badge(url)
 }
 \arguments{
 \item{badge_name}{Badge name. Used in error message and alt text}
 
 \item{href, src}{Badge link and image src}
 
-\item{stage}{Stage of the package lifecycle}
+\item{stage}{Stage of the package lifecycle. One of "experimental",
+"stable", "superseded", or "deprecated".}
 
-\item{urlpath}{An optional \code{urlpath} component to add to the link, e.g. \code{"rstudio"}
-to open an RStudio IDE instead of a Jupyter notebook.
-See the \href{https://mybinder.readthedocs.io/en/latest/howto/user_interface.html}{binder documentation}
+\item{ref}{A Git branch, tag, or SHA}
+
+\item{urlpath}{An optional \code{urlpath} component to add to the link, e.g.
+\code{"rstudio"} to open an RStudio IDE instead of a Jupyter notebook. See the
+\href{https://mybinder.readthedocs.io/en/latest/howto/user_interface.html}{binder documentation}
 for additional examples.}
+
+\item{url}{A link to an existing \href{https://rstudio.cloud}{RStudio Cloud}
+project. See the \href{https://rstudio.cloud/learn/guide#project-settings-access}{RStudio Cloud documentation}
+for details on how to set project access and obtain a project link.}
 }
 \description{
 These helpers produce the markdown text you need in your README to include
 badges that report information, such as the CRAN version or test coverage,
 and link out to relevant external resources. To add badges automatically
 ensure your badge block starts with a line containing only
-\code{<!-- badges: start -->} and ends with a line containing only
-\code{<!-- badges: end -->}.
+\verb{<!-- badges: start -->} and ends with a line containing only
+\verb{<!-- badges: end -->}.
 }
 \details{
 \itemize{
@@ -46,18 +56,11 @@ ensure your badge block starts with a line containing only
 \item \code{use_cran_badge()}: badge indicates what version of your package is
 available on CRAN, powered by \url{https://www.r-pkg.org}
 \item \code{use_lifecycle_badge()}: badge declares the developmental stage of a
-package, according to \url{https://www.tidyverse.org/lifecycle/}:
-\itemize{
-\item Experimental
-\item Maturing
-\item Stable
-\item Retired
-\item Archived
-\item Dormant
-\item Questioning
-}
+package according to \url{https://lifecycle.r-lib.org/articles/stages.html}.
 \item \code{use_binder_badge()}: badge indicates that your repository can be launched
 in an executable environment on \url{https://mybinder.org/}
+\item \code{use_rscloud_badge()}: badge indicates that your repository can be launched
+in an \href{https://rstudio.cloud}{RStudio Cloud} project
 }
 }
 \examples{
@@ -67,5 +70,6 @@ use_lifecycle_badge("stable")
 }
 }
 \seealso{
-The \link[=use_travis]{functions that set up continuous integration services} also create badges.
+Functions that configure continuous integration, such as
+\code{\link[=use_github_actions]{use_github_actions()}}, also create badges.
 }

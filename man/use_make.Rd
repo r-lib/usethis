@@ -10,5 +10,5 @@ use_make()
 \code{use_make()} adds a basic Makefile to the project root directory.
 }
 \seealso{
-The \href{https://www.gnu.org/software/make/manual/html_node}{documentation for GNU Make}.
+The \href{https://www.gnu.org/software/make/manual/html_node/}{documentation for GNU Make}.
 }

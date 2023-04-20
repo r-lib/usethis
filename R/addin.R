@@ -9,7 +9,7 @@
 #' @inheritParams use_template
 #'
 #' @export
-use_addin <- function(addin = "new_addin", open = interactive()) {
+use_addin <- function(addin = "new_addin", open = rlang::is_interactive()) {
   addin_dcf_path <- proj_path("inst", "rstudio", "addins.dcf")
 
   if (!file_exists(addin_dcf_path)) {
@@ -29,4 +29,3 @@ use_addin <- function(addin = "new_addin", open = interactive()) {
 
   invisible(TRUE)
 }
-

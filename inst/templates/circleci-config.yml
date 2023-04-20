@@ -1,8 +1,9 @@
+{{=<% %>=}}
 version: 2
 jobs:
   build:
     docker:
-      - image: {{{ image }}}
+      - image: <% image %>
     environment:
       R_LIBS: ~/R/Library
     steps:
@@ -30,7 +31,7 @@ jobs:
           name: Check package
           command: R CMD check --as-cran --no-manual *tar.gz
       - store_artifacts:
-          path: {{{ package }}}.Rcheck/
+          path: <% package %>.Rcheck/
       - save_cache:
           key: r-pkg-cache-{{ arch }}-{{ .Branch }}
           paths:

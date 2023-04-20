@@ -9,7 +9,7 @@
 #'
 #' @export
 #' @inheritParams use_template
-use_cran_comments <- function(open = interactive()) {
+use_cran_comments <- function(open = rlang::is_interactive()) {
   check_is_package("use_cran_comments()")
   use_template(
     "cran-comments.md",

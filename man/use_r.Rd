@@ -2,18 +2,61 @@
 % Please edit documentation in R/r.R
 \name{use_r}
 \alias{use_r}
-\title{Create or edit a .R file}
+\alias{use_test}
+\title{Create or edit R or test files}
 \usage{
-use_r(name = NULL)
+use_r(name = NULL, open = rlang::is_interactive())
+
+use_test(name = NULL, open = rlang::is_interactive())
 }
 \arguments{
-\item{name}{File name, without extension; will create if it doesn't already
-exist. If not specified, and you're currently in a test file, will guess
-name based on test name.}
+\item{name}{Either a string giving a file name (without directory) or
+\code{NULL} to take the name from the currently open file in RStudio.}
+
+\item{open}{Whether to open the file for interactive editing.}
 }
 \description{
-Create or edit a .R file
+This pair of functions makes it easy to create paired R and test files,
+using the convention that the tests for \code{R/foofy.R} should live
+in \code{tests/testthat/test-foofy.R}. You can use them to create new files
+from scratch by supplying \code{name}, or if you use RStudio, you can call
+to create (or navigate to) the paired file based on the currently open
+script.
 }
+\section{Renaming files in an existing package}{
+
+
+Here are some tips on aligning file names across \verb{R/} and \verb{tests/testthat/}
+in an existing package that did not necessarily follow this convention
+before.
+
+This script generates a data frame of \verb{R/} and test files that can help you
+identify missed opportunities for pairing:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{library(fs)
+library(tidyverse)
+
+bind_rows(
+  tibble(
+    type = "R",
+    path = dir_ls("R/", regexp = "\\\\.[Rr]$"),
+    name = as.character(path_ext_remove(path_file(path))),
+  ),
+  tibble(
+    type = "test",
+    path = dir_ls("tests/testthat/", regexp = "/test[^/]+\\\\.[Rr]$"),
+    name = as.character(path_ext_remove(str_remove(path_file(path), "^test[-_]"))),
+  )
+) \%>\%
+  pivot_wider(names_from = type, values_from = path) \%>\%
+  print(n = Inf)
+}\if{html}{\out{</div>}}
+
+The \code{\link[=rename_files]{rename_files()}} function can also be helpful.
+}
+
 \seealso{
-\code{\link[=use_test]{use_test()}}, and also the \href{https://r-pkgs.org/r.html}{R code chapter} of \href{https://r-pkgs.org}{R Packages}.
+The \href{https://r-pkgs.org/tests.html}{testing} and
+\href{https://r-pkgs.org/r.html}{R code} chapters of
+\href{https://r-pkgs.org}{R Packages}.
 }

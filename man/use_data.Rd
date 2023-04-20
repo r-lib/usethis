@@ -5,16 +5,22 @@
 \alias{use_data_raw}
 \title{Create package data}
 \usage{
-use_data(..., internal = FALSE, overwrite = FALSE,
-  compress = "bzip2", version = 2)
+use_data(
+  ...,
+  internal = FALSE,
+  overwrite = FALSE,
+  compress = "bzip2",
+  version = 2,
+  ascii = FALSE
+)
 
-use_data_raw(name = "DATASET", open = interactive())
+use_data_raw(name = "DATASET", open = rlang::is_interactive())
 }
 \arguments{
 \item{...}{Unquoted names of existing objects to save.}
 
 \item{internal}{If \code{FALSE}, saves each object in its own \code{.rda}
-file in the \code{data/} directory. These data files bypass the usual
+file in the \verb{data/} directory. These data files bypass the usual
 export mechanism and are available whenever the package is loaded
 (or via \code{\link[=data]{data()}} if \code{LazyData} is not true).
 
@@ -33,15 +39,21 @@ Should be one of "gzip", "bzip2", or "xz".}
 the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
 R 3.6.0 and can only be read by R versions 3.5.0 and higher.}
 
+\item{ascii}{if \code{TRUE}, an ASCII representation of the data is
+    written.  The default value of \code{ascii} is \code{FALSE} which
+    leads to a binary file being written.  If \code{NA} and
+    \code{version >= 2}, a different ASCII representation is used which
+    writes double/complex numbers as binary fractions.}
+
 \item{name}{Name of the dataset to be prepared for inclusion in the package.}
 
 \item{open}{Open the newly created file for editing? Happens in RStudio, if
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
-\code{use_data()} makes it easy to save package data in the correct format.
-I recommend you save scripts that generate package data in \code{data-raw}:
-use \code{use_data_raw()} to set it up.
+\code{use_data()} makes it easy to save package data in the correct format. I
+recommend you save scripts that generate package data in \code{data-raw}: use
+\code{use_data_raw()} to set it up. You also need to document exported datasets.
 }
 \examples{
 \dontrun{

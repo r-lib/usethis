@@ -2,20 +2,25 @@
 % Please edit documentation in R/github-labels.R
 \name{use_github_labels}
 \alias{use_github_labels}
-\alias{use_tidy_labels}
+\alias{use_tidy_github_labels}
 \alias{tidy_labels}
 \alias{tidy_labels_rename}
 \alias{tidy_label_colours}
 \alias{tidy_label_descriptions}
 \title{Manage GitHub issue labels}
 \usage{
-use_github_labels(repo_spec = github_repo_spec(), labels = character(),
-  rename = character(), colours = character(),
-  descriptions = character(), delete_default = FALSE,
-  auth_token = github_token(), host = NULL)
+use_github_labels(
+  repo_spec = deprecated(),
+  labels = character(),
+  rename = character(),
+  colours = character(),
+  descriptions = character(),
+  delete_default = FALSE,
+  host = deprecated(),
+  auth_token = deprecated()
+)
 
-use_tidy_labels(repo_spec = github_repo_spec(),
-  auth_token = github_token(), host = NULL)
+use_tidy_github_labels()
 
 tidy_labels()
 
@@ -26,8 +31,10 @@ tidy_label_colours()
 tidy_label_descriptions()
 }
 \arguments{
-\item{repo_spec}{Optional repository specification (\code{owner/repo}) if you
-don't want to target the current project.}
+\item{repo_spec, host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: These
+arguments are now deprecated and will be removed in the future. Any input
+provided via these arguments is not used. The target repo, host, and auth
+token are all now determined from the current project's Git remotes.}
 
 \item{labels}{A character vector giving labels to add.}
 
@@ -36,45 +43,58 @@ new names.}
 
 \item{colours, descriptions}{Named character vectors giving hexadecimal
 colours (like \code{e02a2a}) and longer descriptions. The names should match
-label names, and anything unmatched will be left unchanged. If you
-create a new label, and don't supply colours, it will be given a random
-colour.}
+label names, and anything unmatched will be left unchanged. If you create a
+new label, and don't supply colours, it will be given a random colour.}
 
-\item{delete_default}{If \code{TRUE}, removes GitHub default labels that do
-not appear in the \code{labels} vector and that do not have associated issues.}
-
-\item{auth_token}{GitHub personal access token (PAT).}
-
-\item{host}{GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
+\item{delete_default}{If \code{TRUE}, removes GitHub default labels that do not
+appear in the \code{labels} vector and that do not have associated issues.}
 }
 \description{
 \code{use_github_labels()} can create new labels, update colours and descriptions,
 and optionally delete GitHub's default labels (if \code{delete_default = TRUE}).
 It will never delete labels that have associated issues.
 
-\code{use_tidy_labels()} calls \code{use_github_labels()} with tidyverse conventions
-powered by \code{tidy_labels()}, \code{tidy_labels_rename()}, \code{tidy_label_colours()}
-and \code{tidy_label_descriptions()}.
-}
-\section{Label usage}{
+\code{use_tidy_github_labels()} calls \code{use_github_labels()} with tidyverse
+conventions powered by \code{tidy_labels()}, \code{tidy_labels_rename()},
+\code{tidy_label_colours()} and \code{tidy_label_descriptions()}.
+\subsection{tidyverse label usage}{
 
 Labels are used as part of the issue-triage process, designed to minimise the
 time spent re-reading issues. The absence of a label indicates that an issue
 is new, and has yet to be triaged.
+
+There are four mutually exclusive labels that indicate the overall "type" of
+issue:
 \itemize{
-\item \code{reprex} indicates that an issue does not have a minimal reproducible
-example, and that a reply has been sent requesting one from the user.
-\item \code{bug} indicates an unexpected problem or unintended behavior.
-\item \code{feature} indicates a feature request or enhancement.
-\item \code{docs} indicates an issue with the documentation.
-\item \code{wip} indicates that someone is working on it or has promised to.
-\item \code{good first issue} indicates a good issue for first-time contributors.
-\item \code{help wanted} indicates that a maintainer wants help on an issue.
-}
+\item \code{bug}: an unexpected problem or unintended behavior.
+\item \code{documentation}: requires changes to the docs.
+\item \code{feature}: feature requests and enhancement.
+\item \code{upkeep}: general package maintenance work that makes future development
+easier.
 }
 
+Then there are five labels that are needed in most repositories:
+\itemize{
+\item \verb{breaking change}: issue/PR will requires a breaking change so should
+be not be included in patch releases.
+\item \code{reprex} indicates that an issue does not have a minimal reproducible
+example, and that a reply has been sent requesting one from the user.
+\item \verb{good first issue} indicates a good issue for first-time contributors.
+\item \verb{help wanted} indicates that a maintainer wants help on an issue.
+\item \code{wip} indicates that someone is working on it or has promised to.
+}
+
+Finally most larger repos will accumulate their own labels for specific
+areas of functionality. For example, usethis has labels like "description",
+"paths", "readme", because time has shown these to be common sources of
+problems. These labels are helpful for grouping issues so that you can
+tackle related problems at the same time.
+
+Repo-specific issues should have a grey background (\verb{#eeeeee}) and an emoji.
+This keeps the issue page visually harmonious while still giving enough
+variation to easily distinguish different types of label.
+}
+}
 \examples{
 \dontrun{
 # typical use in, e.g., a new tidyverse project

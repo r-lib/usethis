@@ -2,14 +2,17 @@
 % Please edit documentation in R/roxygen.R
 \name{use_roxygen_md}
 \alias{use_roxygen_md}
-\title{Use roxygen with markdown}
+\title{Use roxygen2 with markdown}
 \usage{
-use_roxygen_md()
+use_roxygen_md(overwrite = FALSE)
+}
+\arguments{
+\item{overwrite}{Whether to overwrite an existing \code{Roxygen} field in
+\code{DESCRIPTION} with \code{"list(markdown = TRUE)"}.}
 }
 \description{
-You'll need to manually re-document once enabled. If you are already using
-roxygen2, but not with markdown, the
-\href{https://roxygen2md.r-lib.org}{roxygen2md} package will be used to
-convert many Rd expressions to markdown. The package uses heuristics, so
-you'll need to check the results.
+If you are already using roxygen2, but not with markdown, you'll need to use
+\href{https://roxygen2md.r-lib.org}{roxygen2md} to convert existing Rd expressions
+to markdown. The conversion is not perfect, so make sure to check the
+results.
 }

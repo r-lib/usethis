@@ -1,5 +1,6 @@
 #' User interface
 #'
+#' @description
 #' These functions are used to construct the user interface of usethis. Use
 #' them in your own package so that your `use_` functions work the same way
 #' as usethis.
@@ -9,8 +10,17 @@
 #' * block styles: `ui_line()`, `ui_done()`, `ui_todo()`, `ui_oops()`,
 #'   `ui_info()`.
 #' * conditions: `ui_stop()`, `ui_warn()`.
-#' * questions: `ui_yeah()`, `ui_nope()`.
-#' * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`.
+#' * questions: [ui_yeah()], [ui_nope()].
+#' * inline styles: `ui_field()`, `ui_value()`, `ui_path()`, `ui_code()`,
+#'   `ui_unset()`.
+#'
+#' The question functions [ui_yeah()] and [ui_nope()] have their own [help
+#' page][ui-questions].
+#'
+#' @section Silencing output:
+#' All UI output (apart from `ui_yeah()`/`ui_nope()` prompts) can be silenced
+#' by setting `options(usethis.quiet = TRUE)`. Use `ui_silence()` to silence
+#' selected actions.
 #'
 #' @param x A character vector.
 #'
@@ -20,9 +30,11 @@
 #'   comma separated list.
 #' @param .envir Used to ensure that [glue::glue()] gets the correct
 #'   environment. For expert use only.
+#'
 #' @return The block styles, conditions, and questions are called for their
 #'   side-effect. The inline styles return a string.
 #' @keywords internal
+#' @family user interface functions
 #' @name ui
 #' @examples
 #' new_val <- "oxnard"
@@ -40,10 +52,10 @@ NULL
 
 #' @rdname ui
 #' @export
-ui_line <- function(x, .envir = parent.frame()) {
+ui_line <- function(x = character(), .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_line(x)
+  ui_inform(x)
 }
 
 #' @rdname ui
@@ -51,7 +63,7 @@ ui_line <- function(x, .envir = parent.frame()) {
 ui_todo <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, crayon::red(clisymbols::symbol$bullet))
+  ui_bullet(x, crayon::red(cli::symbol$bullet))
 }
 
 #' @rdname ui
@@ -59,7 +71,7 @@ ui_todo <- function(x, .envir = parent.frame()) {
 ui_done <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, crayon::green(clisymbols::symbol$tick))
+  ui_bullet(x, crayon::green(cli::symbol$tick))
 }
 
 #' @rdname ui
@@ -67,7 +79,7 @@ ui_done <- function(x, .envir = parent.frame()) {
 ui_oops <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, crayon::red(clisymbols::symbol$cross))
+  ui_bullet(x, crayon::red(cli::symbol$cross))
 }
 
 #' @rdname ui
@@ -75,25 +87,27 @@ ui_oops <- function(x, .envir = parent.frame()) {
 ui_info <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  cat_bullet(x, crayon::yellow(clisymbols::symbol$info))
+  ui_bullet(x, crayon::yellow(cli::symbol$info))
 }
 
 #' @param copy If `TRUE`, the session is interactive, and the clipr package
 #'   is installed, will copy the code block to the clipboard.
 #' @rdname ui
 #' @export
-ui_code_block <- function(x, copy = interactive(), .envir = parent.frame()) {
+ui_code_block <- function(x,
+                          copy = rlang::is_interactive(),
+                          .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
   block <- indent(x, "  ")
   block <- crayon::silver(block)
-  cat_line(block)
+  ui_inform(block)
 
   if (copy && clipr::clipr_available()) {
     x <- crayon::strip_style(x)
     clipr::write_clip(x)
-    cat_line("  [Copied to clipboard]")
+    ui_inform("  [Copied to clipboard]")
   }
 }
 
@@ -122,36 +136,95 @@ ui_warn <- function(x, .envir = parent.frame()) {
   warning(x, call. = FALSE, immediate. = TRUE)
 }
 
-# Questions ---------------------------------------------------------------
+
+# Silence -----------------------------------------------------------------
 
 #' @rdname ui
+#' @param code Code to execute with usual UI output silenced.
 #' @export
-ui_yeah <- function(x, .envir = parent.frame()) {
+ui_silence <- function(code) {
+  withr::with_options(list(usethis.quiet = TRUE), code)
+}
+
+# Questions ---------------------------------------------------------------
+
+#' User interface - Questions
+#'
+#' These functions are used to interact with the user by posing a simple yes or
+#' no question. For details on the other `ui_*()` functions, see the [ui] help
+#' page.
+#'
+#' @inheritParams ui
+#' @param yes A character vector of "yes" strings, which are randomly sampled to
+#'   populate the menu.
+#' @param no A character vector of "no" strings, which are randomly sampled to
+#'   populate the menu.
+#' @param n_yes An integer. The number of "yes" strings to include.
+#' @param n_no An integer. The number of "no" strings to include.
+#' @param shuffle A logical. Should the order of the menu options be randomly
+#'   shuffled?
+#'
+#' @return A logical. `ui_yeah()` returns `TRUE` when the user selects a "yes"
+#'   option and `FALSE` otherwise, i.e. when user selects a "no" option or
+#'   refuses to make a selection (cancels). `ui_nope()` is the logical opposite
+#'   of `ui_yeah()`.
+#' @name ui-questions
+#' @keywords internal
+#' @family user interface functions
+#' @examples
+#' \dontrun{
+#' ui_yeah("Do you like R?")
+#' ui_nope("Have you tried turning it off and on again?", n_yes = 1, n_no = 1)
+#' ui_yeah("Are you sure its plugged in?", yes = "Yes", no = "No", shuffle = FALSE)
+#' }
+NULL
+
+#' @rdname ui-questions
+#' @export
+ui_yeah <- function(x,
+                    yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
+                    no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+                    n_yes = 1, n_no = 2, shuffle = TRUE,
+                    .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
 
-  if (!interactive()) {
+  if (!is_interactive()) {
     ui_stop(c(
       "User input required, but session is not interactive.",
       "Query: {x}"
     ))
   }
 
-  ayes <- c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely")
-  nays <- c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not")
+  n_yes <- min(n_yes, length(yes))
+  n_no <- min(n_no, length(no))
 
-  qs <- c(sample(ayes, 1), sample(nays, 2))
-  ord <- sample(length(qs))
+  qs <- c(sample(yes, n_yes), sample(no, n_no))
 
-  cat_line(x)
-  out <- utils::menu(qs[ord])
-  out != 0L && (ord == 1)[[out]]
+  if (shuffle) {
+    qs <- sample(qs)
+  }
+
+  # TODO: should this be ui_inform()?
+  rlang::inform(x)
+  out <- utils::menu(qs)
+  out != 0L && qs[[out]] %in% yes
 }
 
-#' @rdname ui
+#' @rdname ui-questions
 #' @export
-ui_nope <- function(x, .envir = parent.frame()) {
-  !ui_yeah(x, .envir = .envir)
+ui_nope <- function(x,
+                    yes = c("Yes", "Definitely", "For sure", "Yup", "Yeah", "I agree", "Absolutely"),
+                    no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
+                    n_yes = 1, n_no = 2, shuffle = TRUE,
+                    .envir = parent.frame()) {
+  # TODO(jennybc): is this correct in the case of no selection / cancelling?
+  !ui_yeah(
+    x = x, yes = yes, no = no,
+    n_yes = n_yes, n_no = n_no,
+    shuffle = shuffle,
+    .envir = .envir
+  )
 }
 
 # Inline styles -----------------------------------------------------------
@@ -202,36 +275,59 @@ ui_code <- function(x) {
   x
 }
 
-# Cat wrappers ---------------------------------------------------------------
-
-cat_bullet <- function(x, bullet) {
-  bullet <- paste0(bullet, " ")
-  x <- indent(x, bullet, "  ")
-  cat_line(x)
+#' @rdname ui
+#' @export
+ui_unset <- function(x = "unset") {
+  check_string(x)
+  x <- glue("<{x}>")
+  x <- crayon::silver(x)
+  x
 }
 
-# All UI output must eventually go through cat_line() so that it
-# can be quieted with 'usethis.quiet' when needed.
-cat_line <- function(..., quiet = getOption("usethis.quiet", default = FALSE)) {
-  if (quiet) {
-    return(invisible())
-  }
+# rlang::inform() wrappers -----------------------------------------------------
 
-  lines <- paste0(..., "\n")
-  cat(lines, sep = "")
+indent <- function(x, first = "  ", indent = first) {
+  x <- gsub("\n", paste0("\n", indent), x)
+  paste0(first, x)
+}
+
+ui_bullet <- function(x, bullet = cli::symbol$bullet) {
+  bullet <- paste0(bullet, " ")
+  x <- indent(x, bullet, "  ")
+  ui_inform(x)
+}
+
+# All UI output must eventually go through ui_inform() so that it
+# can be quieted with 'usethis.quiet' when needed.
+ui_inform <- function(...) {
+  if (!is_quiet()) {
+    inform(paste0(...))
+  }
+  invisible()
+}
+
+is_quiet <- function() {
+  isTRUE(getOption("usethis.quiet", default = FALSE))
 }
 
 # Sitrep helpers ---------------------------------------------------------------
 
 hd_line <- function(name) {
-  cat_line(crayon::bold(name))
+  ui_inform(crayon::bold(name))
 }
 
-kv_line <- function(key, value) {
-  if (is.null(value)) {
-    value <- crayon::silver("<unset>")
-  } else {
-    value <- ui_value(value)
+kv_line <- function(key, value, .envir = parent.frame()) {
+  value <- if (is.null(value)) ui_unset() else ui_value(value)
+  key <- glue(key, .envir = .envir)
+  ui_inform(glue("{cli::symbol$bullet} {key}: {value}"))
+}
+
+
+# cli wrappers ------------------------------------------------------------
+
+ui_cli_inform <- function(..., .envir = parent.frame()) {
+  if (!is_quiet()) {
+    cli::cli_inform(..., .envir = .envir)
   }
-  cat_line("* ", key, ": ", value)
+  invisible()
 }

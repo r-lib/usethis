@@ -4,7 +4,7 @@
 \alias{use_addin}
 \title{Add minimal RStudio Addin binding}
 \usage{
-use_addin(addin = "new_addin", open = interactive())
+use_addin(addin = "new_addin", open = rlang::is_interactive())
 }
 \arguments{
 \item{addin}{Name of the addin function, which should be defined in the

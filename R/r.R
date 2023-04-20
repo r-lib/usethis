@@ -1,61 +1,160 @@
-#' Create or edit a .R file
+#' Create or edit R or test files
 #'
-#' @param name File name, without extension; will create if it doesn't already
-#'   exist. If not specified, and you're currently in a test file, will guess
-#'   name based on test name.
-#' @seealso [use_test()], and also the [R code
-#'   chapter](https://r-pkgs.org/r.html) of [R
-#'   Packages](https://r-pkgs.org).
+#' This pair of functions makes it easy to create paired R and test files,
+#' using the convention that the tests for `R/foofy.R` should live
+#' in `tests/testthat/test-foofy.R`. You can use them to create new files
+#' from scratch by supplying `name`, or if you use RStudio, you can call
+#' to create (or navigate to) the paired file based on the currently open
+#' script.
+#'
+#' @section Renaming files in an existing package:
+#'
+#' Here are some tips on aligning file names across `R/` and `tests/testthat/`
+#' in an existing package that did not necessarily follow this convention
+#' before.
+#'
+#' This script generates a data frame of `R/` and test files that can help you
+#' identify missed opportunities for pairing:
+#'
+#' ```
+#' library(fs)
+#' library(tidyverse)
+#'
+#' bind_rows(
+#'   tibble(
+#'     type = "R",
+#'     path = dir_ls("R/", regexp = "\\.[Rr]$"),
+#'     name = as.character(path_ext_remove(path_file(path))),
+#'   ),
+#'   tibble(
+#'     type = "test",
+#'     path = dir_ls("tests/testthat/", regexp = "/test[^/]+\\.[Rr]$"),
+#'     name = as.character(path_ext_remove(str_remove(path_file(path), "^test[-_]"))),
+#'   )
+#' ) %>%
+#'   pivot_wider(names_from = type, values_from = path) %>%
+#'   print(n = Inf)
+#' ```
+#'
+#' The [rename_files()] function can also be helpful.
+#'
+#' @param name Either a string giving a file name (without directory) or
+#'   `NULL` to take the name from the currently open file in RStudio.
+#' @inheritParams edit_file
+#' @seealso The [testing](https://r-pkgs.org/tests.html) and
+#'   [R code](https://r-pkgs.org/r.html) chapters of
+#'   [R Packages](https://r-pkgs.org).
 #' @export
-use_r <- function(name = NULL) {
-  name <- name %||% get_active_r_file(path = "tests/testthat")
-  name <- gsub("^test-", "", name)
-  name <- slug(name, "R")
-  check_file_name(name)
-
+use_r <- function(name = NULL, open = rlang::is_interactive()) {
   use_directory("R")
-  edit_file(proj_path("R", name))
+
+  path <- path("R", compute_name(name))
+  edit_file(proj_path(path), open = open)
 
   invisible(TRUE)
 }
 
-check_file_name <- function(name) {
-  if (!valid_file_name(path_ext_remove(name))) {
-    ui_stop(c(
-      "{ui_value(name)} is not a valid file name. It should:",
-      "* Contain only ASCII letters, numbers, '-', and '_'."
-    ))
+#' @rdname use_r
+#' @export
+use_test <- function(name = NULL, open = rlang::is_interactive()) {
+  if (!uses_testthat()) {
+    use_testthat_impl()
   }
-  name
+
+  path <- path("tests", "testthat", paste0("test-", compute_name(name)))
+  if (!file_exists(path)) {
+    use_template("test-example-2.1.R", save_as = path)
+  }
+  edit_file(proj_path(path), open = open)
+
+  invisible(TRUE)
+}
+
+# helpers -----------------------------------------------------------------
+
+compute_name <- function(name = NULL, ext = "R", error_call = caller_env()) {
+  if (!is.null(name)) {
+    check_file_name(name, call = error_call)
+
+    if (path_ext(name) == "") {
+      name <- path_ext_set(name, ext)
+    } else if (path_ext(name) != "R") {
+      cli::cli_abort(
+        "{.arg name} must have extension {.str {ext}}, not {.str {path_ext(name)}}.",
+        call = error_call
+      )
+    }
+    return(as.character(name))
+  }
+
+  if (!rstudio_available()) {
+    cli::cli_abort(
+      "{.arg name} is absent but must be specified.",
+      call = error_call
+    )
+  }
+  compute_active_name(
+    path = rstudioapi::getSourceEditorContext()$path,
+    ext = ext,
+    error_call = error_call
+  )
+}
+
+compute_active_name <- function(path, ext, error_call = caller_env()) {
+  if (is.null(path)) {
+    cli::cli_abort(
+      c(
+        "No file is open in RStudio.",
+        i = "Please specify {.arg name}."
+      ),
+      call = error_call
+    )
+  }
+
+  ## rstudioapi can return a path like '~/path/to/file' where '~' means
+  ## R's notion of user's home directory
+  path <- proj_path_prep(path_expand_r(path))
+
+  dir <- path_dir(proj_rel_path(path))
+  if (!dir %in% c("R", "src", "tests/testthat")) {
+    cli::cli_abort("Open file must be a code or test file.", call = error_call)
+  }
+
+  file <- path_file(path)
+  if (dir == "tests/testthat") {
+    file <- gsub("^test[-_]", "", file)
+  }
+  as.character(path_ext_set(file, ext))
+}
+
+check_file_name <- function(name, call = caller_env()) {
+  if (!is_string(name)) {
+    cli::cli_abort("{.arg name} must be a single string", call = call)
+  }
+
+  if (name == "") {
+    cli::cli_abort("{.arg name} must not be an empty string", call = call)
+  }
+
+  if (path_dir(name) != ".") {
+    cli::cli_abort(
+      "{.arg name} must be a file name without directory.",
+      call = call
+    )
+  }
+
+  if (!valid_file_name(path_ext_remove(name))) {
+    cli::cli_abort(
+      c(
+        "{.arg name} ({.str {name}}) must be a valid file name.",
+        i = "A valid file name consists of only ASCII letters, numbers, '-', and '_'."
+      ),
+      call = call
+    )
+  }
 }
 
 valid_file_name <- function(x) {
   grepl("^[a-zA-Z0-9._-]+$", x)
 }
 
-get_active_r_file <- function(path = "R") {
-  if (!rstudioapi::isAvailable()) {
-    ui_stop("Argument {ui_code('name')} must be specified.")
-  }
-  ## rstudioapi can return a path like '~/path/to/file' where '~' means
-  ## R's notion of user's home directory
-  active_file <- proj_path_prep(rstudioapi::getSourceEditorContext()$path)
-
-  rel_path <- proj_rel_path(active_file)
-  if (path_dir(rel_path) != path) {
-    ui_stop(c(
-      "Open file must be in the {ui_path(path)} directory of the active package.",
-      "  * Actual path: {ui_path(rel_path)}"
-    ))
-  }
-
-  ext <- path_ext(active_file)
-  if (toupper(ext) != "R") {
-    ui_stop(
-      "Open file must have {ui_value('.R')} or {ui_value('.r')} as extension,\\
-      not {ui_value(ext)}."
-    )
-  }
-
-  path_file(active_file)
-}

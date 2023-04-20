@@ -5,24 +5,36 @@
 \alias{use_description_defaults}
 \title{Create or modify a DESCRIPTION file}
 \usage{
-use_description(fields = NULL)
+use_description(fields = list(), check_name = TRUE, roxygen = TRUE)
 
-use_description_defaults()
+use_description_defaults(package = NULL, roxygen = TRUE, fields = list())
 }
 \arguments{
 \item{fields}{A named list of fields to add to \code{DESCRIPTION}, potentially
 overriding default values. See \code{\link[=use_description]{use_description()}} for how you can set
-personalized defaults using package options}
+personalized defaults using package options.}
+
+\item{check_name}{Whether to check if the name is valid for CRAN and throw an
+error if not.}
+
+\item{roxygen}{If \code{TRUE}, sets \code{RoxygenNote} to current roxygen2 version}
+
+\item{package}{Package name}
 }
 \description{
+\code{use_description()} creates a \code{DESCRIPTION} file. Although mostly associated
+with R packages, a \code{DESCRIPTION} file can also be used to declare
+dependencies for a non-package project. Within such a project,
+\code{devtools::install_deps()} can then be used to install all the required
+packages. Note that, by default, \code{use_decription()} checks for a
+CRAN-compliant package name. You can turn this off with \code{check_name = FALSE}.
+
 usethis consults the following sources, in this order, to set \code{DESCRIPTION}
 fields:
 \itemize{
-\item \code{fields} argument of \code{\link[=create_package]{create_package()}} or \code{\link[=use_description]{use_description()}}.
-\item \code{getOption("usethis.description")} or \code{getOption("devtools.desc")}. The
-devtools option is consulted only for backwards compatibility and it's
-recommended to switch to an option named "usethis.description".
-\item Defaults built into usethis.
+\item \code{fields} argument of \code{\link[=create_package]{create_package()}} or \code{\link[=use_description]{use_description()}}
+\item \code{getOption("usethis.description")}
+\item Defaults built into usethis
 }
 
 The fields discovered via options or the usethis package can be viewed with
@@ -30,15 +42,22 @@ The fields discovered via options or the usethis package can be viewed with
 
 If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named \code{"usethis.description"}. Here's an example of
-code to include in \code{.Rprofile}:\preformatted{options(
+code to include in \code{.Rprofile}, which can be opened via \code{\link[=edit_r_profile]{edit_r_profile()}}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{options(
   usethis.description = list(
-    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"),
+    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com",
+                          role = c("aut", "cre"),
                           comment = c(ORCID = "YOUR-ORCID-ID"))',
     License = "MIT + file LICENSE",
     Language =  "es"
   )
 )
-}
+}\if{html}{\out{</div>}}
+
+Prior to usethis v2.0.0, \code{getOption("devtools.desc")} was consulted for
+backwards compatibility, but now only the \code{"usethis.description"} option is
+supported.
 }
 \examples{
 \dontrun{
@@ -50,6 +69,6 @@ use_description_defaults()
 }
 }
 \seealso{
-The \href{https://r-pkgs.org/description.html#dependencies}{description chapter}
-of \href{https://r-pkgs.org}{R Packages}.
+The \href{https://r-pkgs.org/description.html}{description chapter}
+of \href{https://r-pkgs.org}{R Packages}
 }

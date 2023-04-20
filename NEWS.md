@@ -1,14 +1,702 @@
 # usethis (development version)
 
-* Feature fix, updated issue template to current github format (#756 @Maschette)
+* `use_release_issue()` will now remind you to run `use_github_links()` if 
+  necessary (@Bisaloo, #1754)
 
-* A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) demonstrating the `pr_*()` functions is available in the usethis website (#802, @mine-cetinkaya-rundel).
+* `use_version()` and `use_dev_version()` gain a `push` argument to optionally
+  push the result after committing. This is used to eliminate a manual step from
+  the `use_release_issue()` checklist (#1385). 
 
-* Fix typo in Makefile template generated via `use_make()` (#804, @ryapric).
+* `use_github_release()` now automatically pushes to GitHub (if safe) (#1385) 
+  and automatically publishes the release, rather than requiring you to edit
+  and publish the draft.
 
-* Fix quoting of dataset name in template for `use_data_raw()` (#736, @mitchelloharawild).
+* `use_tidy_logo()` is a new function that calls `use_logo()` on the appropriate
+  hex sticker PNG file at <https://github.com/rstudio/hex-stickers> (@ateucher,
+  #1871).
 
-* Remove unexported function from the signature of `use_markdown_template()` (#761, @fmichonneau).
+* `use_github_release()` no longer fails in the absence of `NEWS.md` (#1755).
+
+* `use_release_issue()` now encourages the creation of `NEWS.md` prior to
+  submission, instead of after (#1755).
+
+* `use_revdep()` no longer places an email template, because these days we are
+  more likely to communicate with other maintainers about breaking changes via
+  GitHub issues and pull requests (#1769).
+
+* `use_rstudio_preferences()` lets you set RStudio preferences programmatically
+  (#1518)
+  
+* `write_over()` and `use_github_file()` gain an overwrite argument (#1748).
+
+* `use_standalone()` makes it easier to use standalone files provided by 
+  various low-level tidyverse packages, like rlang (#1654).
+
+* `use_latest_dependencies()` no longer affects `Suggests` since those
+  dependencies are not enforced (#1749).
+
+* `use_release_issue()` will now remind you to check/close the milestone
+  corresponding to the release, if it exists (#1642).
+
+* `use_release_issue()` now uses internal `release_extra_revdeps()` to 
+  add extra revdep sources. Currently only use for internal Posit tooling,
+  but we hope to extend to all users in the future (#1610).
+
+* `create_from_github()` will now use an existing `.Rproj` file if it exists
+  anywhere in the repo, not just the root directory. This is useful if you're
+  working with repos that contain tools for multiple languages (#1680).
+
+* `use_travis()` and `use_appveyor()` are now defunct because we no longer  
+  recommend Travis or Appveyor. We recommend GitHub actions instead (#1517).
+
+* `use_github_action()` now suggests possible actions when called without
+  arguments (#1724).
+
+* `use_github_actions()`, `use_github_action_check_standard()`,
+  `use_github_action_check_release()`, and `use_github_action_pr_commands()`
+  have been deprecated in favour of the new interactive powers of
+  `use_github_action()` (#1724).
+
+* `use_data()` now sets the appropriate minimal R version in `DESCRIPTION`, 
+  depending on which serialization format `version` you choose (@dpprdan, #1672).
+  
+* `use_travis()`, `use_pkgdown_travis()`, `browse_travis()`, and `use_appveyor()`
+  are now defunct because we no longer recommend Travis or Appveyor. We 
+  recommend GitHub actions instead (#1517).
+
+* `use_tidy_eval()` is now defunct because it imports and re-exports a large
+  number of functions that are no longer needed in order to do tidy
+  evaluation (#1656).
+
+* `use_r()` and `use_test()` now work with all active files in `R/`, `src/`, 
+  and `tests/testthat/` (#1566).
+
+* `use_r()` and `use_test()` now work with files containing `.` (#1690).
+
+* `use_rcpp()`, `use_c()` and friends now work the same way as `use_r()` and
+  `use_test()`: they'll take the default file name from the file you currently
+  have open in RStudio.
+
+* `rename_files()` now also affects files in `src/` (#1585).
+
+* `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
+  you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
+  The default remains to provide a full report. Also, provides more
+  feedback if git user's information is not set, and checks global git-email
+  against user-level GitHub PAT (@ijlyttle, #1732, #1714, #1706).
+  
+* `use_article()` no longer adds the rmarkdown package to `Suggests`. Instead,
+  if rmarkdown is not already a dependency, it's added to
+  `Config/Needs/website`. This means that a package that only uses articles
+  (vs. vignettes) won't gain an unnecessary dependency on rmarkdown (#1700).
+
+* `use_rstudio()` gains a `reformat` argument which omits `.Rproj` settings 
+  that enforce file formatting conventions, e.g. around whitespace.   
+  `create_from_github()` uses this option when it introduces an `.Rproj` to a 
+  project that lacks one, making it easier to follow the project's existing 
+  conventions (#1679).
+
+* The SVG badges placed by `use_lifecycle()` have improved accessibility 
+  features, i.e. they advertise the lifecycle stage via the `aria-label` 
+  attribute (#1554, https://github.com/r-lib/lifecycle/issues/117).
+
+* Although nested projects are discouraged, they can be useful in development 
+  contexts. `create_package()` now sets the correct package name and returns 
+  the correct package path for a package nested inside a project (#1647). 
+
+* `git_vaccinated()` now treats a path configured as `core.excludesFile` like 
+  other user-supplied paths; in particular, any use of the `~/` home directory 
+  shortcut is expanded via 
+  [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html) 
+  (@dpprdan, #1560).
+  
+* Updates snapshot tests (#1715).
+
+# usethis 2.1.6
+
+### GitHub-related
+
+* `use_github_action()` and friends gain a `ref` argument, which defaults to 
+  the tag of the latest release in <https://github.com/r-lib/actions> (#1541).
+
+* `use_github_actions_badge()` now uses the same URLs as GitHub does via the 
+  "Create status badge" helper in the browser (#1525). This changes the 
+  significance of the `name` argument; now it really must be the name of the 
+  workflow configuration file.
+
+* All functions error more clearly when the requested operation is not 
+  supported for the "theirs" remote configuration (#1588).
+
+### Other changes
+
+* `use_roxygen_md()` gains an `overwrite` argument (#1599).
+
+* `use_rscloud_badge()` is a new function that creates a README badge 
+  indicating the repository can be launched in an 
+  [RStudio Cloud](https://rstudio.cloud) project (@gvelasq, #1584).
+
+* `use_data()` gains an `ascii` argument, which is passed along to `save()`
+  (@JosiahParry, #1625).
+
+* `use_code_of_conduct()` has been updated to version 2.1 of the Contributor 
+  Covenant (@batpigandme, #1591).
+
+# usethis 2.1.5
+
+* pkgdown-related functions no longer automatically strip a trailing slash from 
+  the pkgdown site URL, in order to play more nicely with CRAN's URL checks 
+  (#1526).
+
+* `edit_pkgdown_config()` is a new function that opens the pkgdown YAML 
+  configuration file for the current Project, if such a file exists.
+
+* The error thrown when reporting an unsupported GitHub configuration has been 
+  fixed for forward compatibility with a future version of rlang, i.e. what is
+  anticipated to be rlang v1.0.0.
+
+* Version 2.1.4 was never released. Version was advanced from 2.1.4 to 2.1.5 
+  strictly for CRAN (re-)submission purposes.
+
+# usethis 2.1.3
+
+* Modified a test to ensure that intermittent GitHub rate limiting does not 
+  lead to ungraceful failure on CRAN. 
+
+# usethis 2.1.2
+
+* `git_default_branch_rename()` no longer errors on repos where README exists, 
+  but has no badge block.
+
+* `git_default_branch_rediscover()` prunes the defunct remote ref to the old 
+  default branch, e.g. `origin/master`.
+
+* Version 2.1.1 was never released. Version was advanced from 2.1.1 to 2.1.2 
+  strictly for CRAN (re-)submission purposes.
+
+# usethis 2.1.0
+
+## Git default branch support
+
+usethis has a more sophisticated understanding of the default branch and gains several functions to support default branch renaming.
+
+* `git_branch_default()` has been renamed to `git_default_branch()`, to place
+  it logically in the new family of functions. The old name still works, but
+  that won't be true forever.
+* `git_default_branch()` is much more diligent about figuring out the default
+  branch. Instead of only consulting the local repo, now we integrate local info
+  with the default branch reported by the `upstream` or `origin` remote, if
+  applicable.
+  - This is intended to surface the case where a project has renamed its default
+    branch and the local repo needs sync up with that.
+* `git_default_branch_rediscover()` is a new function that helps contributors
+  update their local repo (and personal fork, if applicable) when a project/repo
+  renames its default branch.
+* `git_default_branch_rename()` is a new function that helps a repo owner
+  rename the default branch (both on GitHub and locally).
+* `git_default_branch_configure()` is a new function to set the new Git
+  configuration option `init.defaultBranch`, which controls the name of the
+  initial branch of new local repos.
+* `git_sitrep()` exposes `init.defaultBranch` and surfaces the more
+  sophisticated analysis of `git_default_branch()`.
+
+## Other GitHub-related changes
+
+* `git_sitrep()` and `gh_token_help()` try even harder to help people get on the
+  happy path with respect to their GitHub PAT (#1400, #1413, #1488, #1489,
+  #1497).
+
+* The minimum version of gh has been bumped to help / force more people to
+  upgrade to the gh version that supports current GitHub PAT formats
+  (@ijlyttle, #1454).
+
+* `use_github_file()` is a new function related to `use_template()`. Instead of
+  starting from a local file, `use_github_file()` grabs the contents of an
+  arbitrary file on GitHub that the user has permission to read. It supports
+  targeting a specific branch, tag, or commit and can follow a symlink (#1407).
+  `use_github_file()` now powers `use_github_action()` and friends.
+  
+* `use_github_release()` is much more diligent about using any information left
+  behind by `devtools::submit_cran()` or `devtools::release()`. Specifically,
+  this applies to determining which SHA is to be tagged in the release. And this
+  SHA, in turn, determines the consulted versions of DESCRIPTION (for package
+  version) and NEWS.md (for release notes) (#1380).
+
+* `use_release_issue()` also takes bullets from `release_questions()`, 
+  for compatibility with `devtools::release()`.
+
+* `git_vaccinate()`, `edit_git_ignore()`, and `git_sitrep()` are more careful to
+  consult, reveal, and set the `core.excludesFile` setting in user's Git
+  configuration (#1461).
+  
+* `use_github_action_check_full()` has been removed. It's overkill for the
+  majority of R packages, which are better off with `use_github_actions()` or
+  `use_github_action_check_standard()` (#1490).
+
+* `use_github_pages()` and `use_pkgdown_github_pages()` use a new method for
+  creating an empty, orphan `gh-pages` branch. This is necessary due to new
+  GitHub behaviour, where it has become essentially impossible to refer to the
+  empty tree (#1472).
+  
+* `use_github()` can create repositories with `"internal"` visibility, a feature
+  that exists within GitHub Enterprise products (#1505).
+
+## Package development
+
+* `use_readme_rmd()` and `use_readme_md()` no longer include CRAN installation
+  instructions in the initial template; instead, we only include GitHub-based
+  install instructions or otherwise prompt the user to update instructions
+  (#1507).
+
+* `use_import_from()` is a new function that puts `@importFrom pkg fun`
+  directives into a package in a consistent location (@malcolmbarrett, #1377).
+
+* `DESCRIPTION` files generated by usethis no longer include `LazyData` by 
+   default, as per new CRAN checks; instead, `LazyData` is now added the first
+   time you use `use_data()` (@malcolmbarrett, #1404).
+
+* `use_tidy_eval()` has been updated to reflect current recommendations for
+  using (and therefore exposing) tidy eval in other packages (@lionel-, #1445).
+
+* `use_pkgdown()` automatically uses Bootstrap 5 if the pkgdown version supports
+  it (anticipated for pkgdown 2.0.0).
+
+* `use_lifecycle()` now imports `lifecycle::deprecated()` (#1419).
+
+* `use_code_of_conduct()` now requires a `contact` argument to supply contact
+  details for reporting CoC violations (#1269).
+
+* `use_package()` no longer guides the user on how to use a dependency when no 
+  change was made (@malcolmbarrett, #1384).
+  
+### Aimed at the tidyverse team
+
+These functions are exported for anyone to use, but are aimed primarily at the maintainers of tidyverse, r-lib, and tidymodels packages.
+
+* `use_tidy_dependencies()` is a new function that sets up standard dependencies
+  used by all tidyverse packages, except those that are designed to be
+  dependency free (#1423).
+  
+* `use_tidy_upkeep_issue()` is a new function similar to `use_release_issue()`
+  that creates a checklist-style issue to prompt various updates (#1416).
+
+* `use_tidy_release_test_env()` has been deleted since we no longer recommend
+  including test environments in `cran-comments.md`. There's no evidence that
+  CRAN finds it useful, and it's annoying to keep up-to-date  (#1365).
+
+* `use_tidy_github_labels()` is the new name for `use_tidy_labels()` (#1430).
+
+* `use_tidy_github_actions()` takes over for `use_tidy_ci()`, which is now
+  deprecated.
+
+## User-level configuration
+
+* `"usethis.overwrite"` is a new option. When set to `TRUE`, usethis overwrites
+  an existing file without asking for user confirmation if the file is inside
+  a Git repo. The normal Git workflow makes it easy to see and selectively
+  accept/discard any proposed changes. This behaviour is strictly opt-in
+  (#1424).
+  
+* Functions that provide code to load packages in your `.Rprofile` now use
+  `rlang::check_installed()` to make sure the package is installed locally
+  (@malcolmbarrett, #1398).
+ 
+* `edit_rstudio_prefs()` and `edit_rstudio_snippets()` should work now on
+  case-sensitive OSes, due to a path fix re: the location of RStudio's config
+  files (@charliejhadley, #1420).
+
+# usethis 2.0.1
+
+* All functions that require a package now ask you if you'd like to install it.
+
+* Added `edit_template()` for opening and creating files in `inst/templates` 
+  (for use with `use_template()`) (@malcolmbarrett, #1319).
+
+* `use_article()` now creates the file in the `vignettes/articles/` (#548).
+
+* `use_lifecycle()` has been updated for changes in our lifecycle workflow 
+  (#1323).
+
+* `use_tidy_pkgdown()` has been renamed to `use_pkgdown_github_pages()` since
+  the function is useful for anyone who wants to automatically publish to GitHub
+  pages, not just the tidyverse team (#1308).
+
+* `use_release_issue()` includes a bunch of minor improvements. Most 
+  importantly, for initial CRAN release we now include a number of common
+  things that CRAN checks for that aren't in `R CMD check`.
+
+* `use_readme_rmd()`, `use_readme_md()`, `use_tidy_contributing()`, and 
+  `use_tidy_support()` use updated logic for determining the `OWNER/REPO` spec 
+  of the target repo (#1312).
+
+# usethis 2.0.0
+
+## Adoption of gert and changes to Git/GitHub credential handling
+
+Usethis has various functions that help with Git-related tasks, which break down into two categories:
+
+1. Git tasks, such as clone, push, and pull. These are things you could do with
+   command line Git.
+1. GitHub tasks, such as fork, release, and open an issue or pull request. These
+   are things you could do in the browser or with the GitHub API.
+   
+We've switched from git2r to the gert package for Git operations (<https://docs.ropensci.org/gert/>). We continue to use the gh package for GitHub API work (<https://gh.r-lib.org>).
+
+The big news in this area is that these lower-level dependencies are getting better at finding Git credentials, finding the same credentials as command line Git (and, therefore, the same as RStudio), and finding the same credentials as each other. This allows usethis to shed some of the workarounds we have needed in the past, to serve as a remedial "credential valet".
+
+Under the hood, both gert and gh are now consulting your local Git credential store, when they need credentials. At the time of writing, they are using two different even-lower-level packages to do this:
+
+* gert uses the credentials package (<https://docs.ropensci.org/credentials/>)
+* gh uses the gitcreds package (<https://gitcreds.r-lib.org/>)
+
+Even now, gert and gh should discover the same credentials, at least for github.com. In the future, these two packages may merge into one.
+
+Git/GitHub credential management is covered in a new article:  
+[Managing Git(Hub) Credentials](https://usethis.r-lib.org/articles/articles/git-credentials.html)
+
+The main user-facing changes in usethis are:
+
+* usethis should discover and use the same credentials as command line Git.
+* usethis should be able to work with any GitHub deployment. While github.com is the default, GitHub Enterprise deployments are fully supported. The target GitHub host is determined from the current project's configured GitHub remotes, whenever possible.
+
+As a result, several functions are deprecated and several other functions have some deprecated arguments.
+
+* Deprecated functions:
+  - `use_git_credentials()`
+  - `git_credentials()`
+  - `github_token()`
+* Functions with (deprecated arguments):
+  - `create_from_github()` (`auth_token`, `credentials`)
+  - `use_github()` (`auth_token`, `credentials`)
+  - `use_github_links()` (`host`, `auth_token`)
+  - `use_github_labels()` (`repo_spec`, `host`, `auth_token`)
+  - `use_tidy_labels()` (`repo_spec`, `host`, `auth_token`)  
+  - `use_github_release()` (`host`, `auth_token`)
+
+The switch to gert + credentials should eliminate most credential-finding fiascos. Gert also takes a different approach to wrapping libgit2, the underlying C library that does Git operations. The result is more consistent support for SSH and TLS, across all operating systems, without requiring special effort at install time. More users should enjoy Git remote operations that "just work", for both SSH and HTTPS remotes. There should be fewer "unsupported protocol" errors.
+
+## GitHub remote configuration
+
+Usethis gains a more formal framework for characterizing a GitHub remote configuration. We look at:
+
+  * Which GitHub repositories `origin` and `upstream` point to
+  * Whether you can push to them
+  * How they relate to each other, e.g. fork-parent relationship
+  
+This is an internal matter, but users will notice that usethis is more clear about which configurations are supported by various functions and which are not. The most common configurations are reviewed in a [section of Happy Git](https://happygitwithr.com/common-remote-setups.html).
+
+When working in a fork, there is sometimes a question whether to target the fork or its parent repository. For example, `use_github_links()` adds GitHub links to the URL and BugReports fields of DESCRIPTION. If someone calls `use_github_links()` when working in a fork, they probably want those links to refer to the *parent* or *source* repo, not to their fork, because the user is probably preparing a pull request. Usethis should now have better default behaviour in these situations and, in some cases, will present an interactive choice.
+
+## Default branch
+
+There is increasing interest in making the name of a repo's default branch configurable. Specifically, `main` is emerging as a popular alternative to `master`. Usethis now discovers the current repo's default branch and uses that everywhere that, previously, we had hard-wired `master`.
+
+`git_branch_default()` is a newly exported function that is also what's used internally.
+
+`use_course()`, `use_zip()`, and `create_download_url()` all have some support for forming the URL to download a `.zip` archive of a repo, based on a repo specification (e.g. `OWNER/REPO`) or a browser URL. These helpers now form a URL that targets `HEAD` of the repo, i.e. the default branch.
+
+## Changes to Git/GitHub functionality
+
+The default Git protocol is now "https" and we no longer provide an interactive choice, by default, in interactive sessions. As always, a user can express a preference for "ssh" in individual function calls, for an R session via `use_git_protocol()`, and for all R sessions via the `usethis.protocol` option (#1262).
+
+`pr_resume()` is a new function for resuming work on an existing local PR branch. It can be called argument-less, to select a branch interactively.
+
+`pr_fetch()` can also be called with no arguments, to select a PR interactively.
+The `owner` argument is replaced by `target`, with a choice of the source (default) or primary repo.
+
+`pr_forget()` is a new function for abandoning a PR you initiated locally or fetched from GitHub. It only does local clean up and, for example, doesn't delete a remote branch or close a PR (#1263).
+
+`pr_view()` can now be called with no arguments. If the current branch is associated with an open PR, we target that and, otherwise, we offer an interactive selection.
+
+`pr_finish()` deletes the remote PR branch if the PR has been merged and the current user has the power to do so, i.e. an external contributor deleting their own branch or a maintainer deleting a branch associated with an internal PR (#1150). It no longer errors if the PR branch has already been deleted (#1196).
+
+`pr_pull_upstream()` is renamed to `pr_merge_main()` to emphasize that it merges the **main** line of development into the current branch, where the main line of development is taken to mean the default branch, as reported by `git_branch_default()`, of the source repo, which could be either `upstream` or `origin`, depending on the situation.
+
+`create_from_github()` will only create a read-only clone, due to lack of a GitHub personal access token, if explicitly directed to do so via `fork = FALSE`.
+
+`create_from_github()` and `use_tidy_thanks()` accept browser and Git URLs as the `repo_spec` argument, to be friendlier to copy/paste. When a URL is passed, the `host` is also extracted from it.
+
+`create_github_token()` is a new name for the function previously known as `browse_github_token()` and `browse_github_pat()`.
+
+`issue_close_community()` and `issue_reprex_needed()` are two new functions for maintainers who process lots of GitHub issues. They automate canned replies and actions, e.g. labelling or closing (#940).
+
+GitHub Actions is the preferred platform for continuous integration, because that is what the tidyverse team currently uses and maintains. Functions related to Travis-CI and AppVeyor are soft-deprecated to raise awareness about this change and to make it clear that, if substantial maintenance becomes necessary, we may elect to retire the function (#1169).
+
+`browse_github_actions()` is a new function to open the Actions page of the respective repo on GitHub, similar to existing `browse_*()` functions (@pat-s, #1102).
+
+`use_github_pages()` is a new function to activate or reconfigure the GitHub Pages site associated with a repository (#224).
+
+`use_tidy_pkgdown()` implements the complete pkgdown configuration used by the tidyverse team (#224).
+
+`pr_sync()` is defunct and can be replicated by calling `pr_pull()`, `pr_merge_main()`, then `pr_push()`.
+
+## Licensing improvements
+
+All `use_*_license()` functions now work for projects, not just packages.
+
+`use_apl2_license()` (not `use_apache_license()`) and `use_gpl3_license()` no longer modify the license text (#1198).
+   
+`use_mit_license()` now sets the default copyright holder to "{package} authors". This makes it more clear that the copyright holders are the contributors to the package; unless you are using a CLA there is no one copyright holder of a package (#1207).
+  
+New `use_gpl_license()` and  `use_agpl_license()` make it easier to pick specific versions of the GPL and AGPL licenses, and to choose whether or not you include future versions of the license. Both default to version 3 (and above).
+
+New `use_proprietary_license()` allows your package to pass R CMD check while making it clear that your code is not open source (#1163). Thanks to @atheriel for the blog post suggesting the wording: https://unconj.ca/blog/copyright-in-closed-source-r-packages-the-right-way.html
+
+`use_lgpl_license()` now uses version 3 (and above), and gains new `version` and `include_future` argument to control which version is used.
+  
+`use_gpl3_license()`, `use_agpl3_license()` and `use_apl2_license()` have been deprecated in favour of the new `version` argument to `use_gpl_license()`, `use_agpl_license()` and `use_apache_license()`.
+  
+The `name` argument to `use_mit_license()` has been changed to `copyright_holder` to make the purpose more clear. The `name` argument has been removed from all other license functions because it is not needed; no other license makes an assertion about who the copyright holder is.
+
+## RStudio preferences
+
+usethis is now fully cognizant of the [changes to RStudio preferences](https://www.rstudio.com/blog/rstudio-1-3-preview-configuration/) in RStudio 1.3:
+
+`edit_rstudio_snippets()` looks in the new location, and if you have snippets in the old location, will automatically copy them to the new location (#1204)
+
+New `edit_rstudio_prefs()` opens RStudio preferences file for editing (#1148).
+
+`use_blank_slate()` can now configure your global, i.e. user-level, RStudio preference, in addition to project-level (#1018).
+
+## Other changes
+
+`browse_package()` and `browse_project()` are new functions that let the user choose from a list of URLs derived from local Git remotes and DESCRIPTION (local or possibly on CRAN) (#1113).
+
+The legacy `"devtools.desc"` option is no longer consulted when populating a new DESCRIPTION file. You must use the `"usethis.description"` now (#1069).
+
+`use_dev_package()` gains a `remote` parameter to allow you to specify the remote. The existing behaviour, which adds an `OWNER/REPO` GitHub remote, remains the default (#918, @ijlyttle).
+
+`use_cpp11()` is a new function to set up an R package to use cpp11.
+
+`create_package(roxygen = FALSE)` once again writes a valid NAMESPACE file (and also has no Roxygen* fields in DESCRIPTION) (#1120).
+
+`create_package()`, `create_project()`, `create_from_github()`, and `proj_activate()` work better with relative paths, inside and outside of RStudio (#1122, #954).
+
+`use_testthat()` gains an edition argument to support testthat v3.0.0 
+  (#1185)
+
+`use_version()` now updates `src/version.c` if it exists and contains a line matching `PKG_version = "x.y.z";`.
+
+usethis has been re-licensed as MIT (#1252, #1253).  
+  
+## Dependency changes
+
+New Imports: gert, jsonlite (was already an indirect dependency), lifecycle, rappdirs
+
+No longer in Imports: git2r, rematch2
+
+# usethis 1.6.3
+
+Patch release to refactor usage of withr in the tests for forward compatibility with an upcoming withr release. All changes are within the usethis tests.
+
+# usethis 1.6.1
+
+Patch release to align some path handling internals with an update coming in the fs package.
+
+* `use_github_links()` is a bit more clever about remotes (e.g. `origin`
+  vs. `upstream`), which makes it easier to make a PR that adds GitHub links for
+  a package you've forked.
+
+* `use_pkgdown()` now `.gitignore`s the destination directory and only adds the
+  destination directory to the config file if it departs from the default
+  (which is `docs/`).
+
+* `use_tidy_ci()` is now deprecated in favour of `use_tidy_github_actions()` 
+  (#1098).
+
+* `use_github_action_check_standard()` is a new intermediate workflow that
+  checks on more platforms than `_release`, but is less exhaustive than `_full`
+  (@jimhester).
+
+* `create_tidy_package()` now uses an MIT license (@topepo, #1096). 
+
+# usethis 1.6.0
+
+## GitHub actions
+
+* New `use_github_actions()`, `use_github_action_check_release()`,
+  `use_github_action_check_full()`, `use_github_action_pr_commands()`,
+  to set up GitHub Actions for a package (@jimhester).
+
+* We now recommend GitHub Actions instead of Travis-CI or AppVeyor, and strongly
+  recommend upgrading your packages.
+
+* Fix `use_github_action()` URL parameter to ensure custom URLs are allowed.
+  (@coatless, #1065).
+
+## Package creation
+
+* `create_package()` gains a `roxygen` argument. If `TRUE` (the default), 
+  it adds a `RoxygenNote` field to the `DESCRIPTION` (which means the first run
+  of `devtools::check()` will re-document the package, #963), and creates an 
+  empty `NAMESPACE` (which means you'll always need an explicit `@export` 
+  if you want to export functions, #927). It also turns markdown processing 
+  on by default (#911).
+
+* `use_rstudio()` now sets the `LineEndingConversion` to `Posix` so that
+  packages created using usethis always use LF line endings, regardless of 
+  who contributes to them (#1002).
+
+* In the `usethis.description` option, you can now set `Authors@R = person()` 
+  directly, without having to wrap in additional layer of quotes. If setting 
+  this in your `.Rprofile`, you'll need to use `utils::person()` since the utils 
+  package isn't loaded until after your profile is executed.
+
+## PR helpers
+
+* A new article [Pull request helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html) 
+  demonstrates how to use the `pr_*()` functions (@mine-cetinkaya-rundel, #802).
+
+* `pr_finish()` checks that you don't have any local changes (#805), and can 
+  optionally finish any PR, not just the current (#1040).
+
+* `pr_pause()` and `pr_fetch()` now automatically pull to get latest changes 
+  (#959, #960) and refresh RStudio's git pane (#706).
+
+* `pr_push()` now works for a repository with no open pull requests 
+  (@maurolepore, #990).
+
+* `pr_pull()` gives more information about which files have merge conflicts 
+  and automatically opens conflicted files for editing (#1056).
+
+## Other new features
+
+* New `rename_files()` makes it easy to rename paired `R/` and `test/` files 
+  (#784).
+
+* New `ui_silence()` makes it easier to selectively silence some UI output.
+
+* New `use_agpl3_license()` (@pachamaltese, #870).
+
+* New `use_data_table()` to set up a package for Import-ing `data.table` 
+  (@michaelchirico, #897).
+
+* `use_latest_dependencies()` replaces `use_tidy_version()` as the new name
+  better reflect its usage (#771).
+
+* New `use_lifecycle()` helper to import the lifecycle badges for functions and 
+  arguments in your package. Learn more at <https://lifecycle.r-lib.org/>.
+
+* `use_release_issue()` will include additional bullets if your package
+  includes `release_bullets()` function which returns a character
+  vector (and the package has been loaded with `load_all()`) (#941).
+
+## Minor improvements and bug fixes
+
+* When writing files, usethis now respects line endings. Default line endings 
+  are taken from the `.Rproj` file (if available), otherwise the `DESCRIPTION`,
+  otherwise the first file found in `R/`, then all else failing to your 
+  platform default (#767). It should do a better job of preserving UTF-8 files 
+  on windows (#969).
+
+* `browse_github()` now always goes to the canonical GitHub site: 
+  `https://github.com/user/repo`. This is slightly worse than the current 
+  behaviour but makes the function more consistent across packages, and 
+  considerably simplifies the implementation.
+
+* `browse_circle()` opens the project dashboard on Circle CI.
+
+* `create_download_url()` is a new helper for making "ZIP file download" 
+  URLs suitable for use with `use_course()` and `use_zip()`, starting with the
+  URLs that mere mortals can usually get their hands on in a browser
+  (@fmichonneau, #406).
+
+* `create_package()` no longer fails partway through if you have a malformed
+  `usethis.description` option (#961).
+
+* `create_package()` will now create a package in a symlink to a directory 
+  (#794).
+
+* `create_package()` and `use_description()` gain a `check_name` argument to 
+  control whether to check for package names invalid for CRAN (@noamross, #883).
+
+* `edit_file()` and `use_test()` gain an `open` parameter that allows you to
+  control whether or not the function is opened for editing by the user (#817).
+
+* `edit_rstudio_snippets()` makes it more clear which snippet types are 
+  allowed and that user's snippets mask the built-in snippets (@GegznaV, #885).
+
+* `git_sitrep()` now reports project-specific user name and email, if set 
+  (#837), and email(s) associated with your GitHub account (@dragosmg, #724).
+
+* `ui_yeah()` and `ui_nope()` allow you to override the default "yes" and
+  "no" strings and to opt-out of shuffling (@rundel, #796).
+
+* `use_circleci()` uses correct delimiters in template (@jdblischak, #835).
+
+* `use_circleci_badge()` is now exported (@pat-s, #920).
+
+* `use_code_of_conduct()` now generates an absolute link to code of conduct on 
+  pkgdown website or original source to avoid R CMD check issues (#772).
+  
+* `use_course()` and `use_zip()` are now equipped with some retry capability,
+  to cope with intermittent failure or the need for a longer connect timeout
+  (#988).
+
+* `use_data()` automatically bumps R dependency to 2.10 (#962).
+
+* `use_data_raw()` template quotes the dataset name correctly 
+  (#736, @mitchelloharawild).
+
+* `use_description_defaults()` now shows the default fields combined with
+  any options that you have set.
+
+* `use_dev_package()` now supports packages installed from any remote type,
+   not just GitHub (@antoine-sachet, #1071).
+
+* `use_git()` will now create initial commit if needed (#852).
+
+* `use_github_release()` no longer fails if you have no news bullets (#1048).
+
+* `use_github_release()` now tags the latest local commit instead of the latest 
+  remote commit on the default branch (@davidchall, #1029).
+
+* `use_gpl3_license()` now completes the license by providing additional 
+  information in a file named LICENSE, just like `use_mit_license()` and 
+  friends (@Cervangirard, #683).
+
+* `use_logo()` now generates the correct href if the pkgdown `url` is set 
+  (@mitchelloharawild, #986).
+
+* `use_make()` gains missing closing parenthesis (@ryapric, #804).
+
+* `use_markdown_template()` no longer uses an unexported function in its
+  default arguments (@fmichonneau, #761).
+
+* `use_testthat()` and `use_test()` now work in projects, not just packages 
+  (#1017).
+
+* `use_test()` works on Windows when called without arguments (#901).
+
+* `use_tidy_issue_template()` uses current github format (@Maschette, #756).
+
+* `use_travis()`, `use_travis_badge()`, and `browse_travis()`, now default
+  to `ext = "com"` since travis-ci.com is now recommended it over travis-ci.org 
+  (@riccardoporreca, #1038).
+
+* `use_release_issue()` reminds you to re-generate `README.md`,
+  if needed (#767).
+
+* `use_r()` and `use_test()` throw a clear error if multiple names are provided 
+  (@strboul, #862).
+
+* `use_rcpp()` and `use_c()` now ensure `src/` contains at least one `.cpp` or
+  `.c` placeholder file, so that the package can be built (@coatless, #720).
+  
+* `usethis.destdir` is a new option that is consulted when deciding where to
+  put a new folder created by `use_course()` or `create_from_github()`
+  (@malcolmbarrett, #1015).
+
+* `use_lifecycle()` no longer adds the lifecycle package to the DESCRIPTION
+  file. With the new roxygen markdown syntax for including badges, lifecycle has
+  become a build-time dependency.
+
+## Dependency changes
+
+New Imports: cli, rematch2, rlang.
+
+gh minimum version is bumped to v.1.1.0, due to changed behaviour around requests that return nothing.
+
+clisymbols is removed from Imports.
 
 # usethis 1.5.1
 
@@ -480,7 +1168,7 @@ templating functions using this framework (@ijlyttle #120).
   project lifecycle (#48).
 
 * `use_pkgdown()` creates the basics needed for a 
-  [pkgdown](https://github.com/hadley/pkgdown) website (#88).
+  [pkgdown](https://github.com/r-lib/pkgdown) website (#88).
 
 * `use_r("foo")` creates and edit `R/foo.R` file. If you have a test file open,
   `use_r()` will open the corresponding `.R` file (#105).

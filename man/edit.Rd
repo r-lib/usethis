@@ -7,30 +7,38 @@
 \alias{edit_r_buildignore}
 \alias{edit_r_makevars}
 \alias{edit_rstudio_snippets}
+\alias{edit_rstudio_prefs}
 \alias{edit_git_config}
 \alias{edit_git_ignore}
+\alias{edit_pkgdown_config}
 \title{Open configuration files}
 \usage{
 edit_r_profile(scope = c("user", "project"))
 
 edit_r_environ(scope = c("user", "project"))
 
-edit_r_buildignore(scope = c("user", "project"))
+edit_r_buildignore()
 
 edit_r_makevars(scope = c("user", "project"))
 
-edit_rstudio_snippets(type = "R")
+edit_rstudio_snippets(
+  type = c("r", "markdown", "c_cpp", "css", "html", "java", "javascript", "python",
+    "sql", "stan", "tex")
+)
+
+edit_rstudio_prefs()
 
 edit_git_config(scope = c("user", "project"))
 
 edit_git_ignore(scope = c("user", "project"))
+
+edit_pkgdown_config()
 }
 \arguments{
 \item{scope}{Edit globally for the current \strong{user}, or locally for the
 current \strong{project}}
 
-\item{type}{Snippet type. One of: "R", "markdown", "C_Cpp", "Tex",
-"Javascript", "HTML", "SQL"}
+\item{type}{Snippet type (case insensitive text).}
 }
 \value{
 Path to the file, invisibly.
@@ -41,15 +49,23 @@ Path to the file, invisibly.
 \item \code{edit_r_environ()} opens \code{.Renviron}
 \item \code{edit_r_makevars()} opens \code{.R/Makevars}
 \item \code{edit_git_config()} opens \code{.gitconfig} or \code{.git/config}
-\item \code{edit_git_ignore()} opens \code{.gitignore}
-\item \code{edit_rstudio_snippets(type)} opens \code{.R/snippets/{type}.snippets}
+\item \code{edit_git_ignore()} opens global (user-level) gitignore file and ensures
+its path is declared in your global Git config.
+\item \code{edit_pkgdown_config} opens the pkgdown YAML configuration file for the
+current Project.
+\item \code{edit_rstudio_snippets()} opens RStudio's snippet config for the given type.
+\item \code{edit_rstudio_prefs()} opens RStudio's preference file.
 }
 }
 \details{
-The \code{edit_r_*()} and \code{edit_rstudio_*()} functions consult R's notion of
-user's home directory. The \code{edit_git_*()} functions -- and \pkg{usethis} in
-general -- inherit home directory behaviour from the \pkg{fs} package, which
-differs from R itself on Windows. The \pkg{fs} default is more conventional
-in terms of the location of user-level Git config files. See
-\code{\link[fs:path_home]{fs::path_home()}} for more details.
+The \verb{edit_r_*()} functions consult R's notion of user's home directory.
+The \verb{edit_git_*()} functions (and \pkg{usethis} in general) inherit home
+directory behaviour from the \pkg{fs} package, which differs from R itself
+on Windows. The \pkg{fs} default is more conventional in terms of the
+location of user-level Git config files. See \code{\link[fs:path_expand]{fs::path_home()}} for more
+details.
+
+Files created by \code{edit_rstudio_snippets()} will \emph{mask}, not supplement,
+the built-in default snippets. If you like the built-in snippets, copy them
+and include with your custom snippets.
 }

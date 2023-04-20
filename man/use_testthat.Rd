@@ -2,28 +2,21 @@
 % Please edit documentation in R/test.R
 \name{use_testthat}
 \alias{use_testthat}
-\alias{use_test}
-\title{Create tests}
+\title{Sets up overall testing infrastructure}
 \usage{
-use_testthat()
-
-use_test(name = NULL, open = interactive())
+use_testthat(edition = NULL, parallel = FALSE)
 }
 \arguments{
-\item{name}{Base of test file name. If \code{NULL}, and you're using RStudio, will
-be based on the name of the file open in the source editor.}
+\item{edition}{testthat edition to use. Defaults to the latest edition, i.e.
+the major version number of the currently installed testthat.}
 
-\item{open}{Open the newly created file for editing? Happens in RStudio, if
-applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
+\item{parallel}{Should tests be run in parallel? This feature appeared in
+testthat 3.0.0; see \url{https://testthat.r-lib.org/articles/parallel.html} for
+details and caveats.}
 }
 \description{
-There are two helper functions:
-\itemize{
-\item \code{use_testthat()} sets up overall testing infrastructure: creates
-\code{tests/testthat/}, \code{tests/testthat.R}, and adds testthat to Suggests.
-\item \code{use_test()} sets up individual test files: creates
-\code{tests/testthat/test-<name>.R} and, optionally, opens it for editing.
-}
+Creates \verb{tests/testthat/}, \code{tests/testthat.R}, and adds the testthat package
+to the Suggests field. Learn more in \url{https://r-pkgs.org/tests.html}
 }
 \examples{
 \dontrun{
@@ -35,5 +28,5 @@ use_test("something-management")
 }
 }
 \seealso{
-The \href{https://r-pkgs.org/tests.html}{testing chapter} of \href{https://r-pkgs.org}{R Packages}.
+\code{\link[=use_test]{use_test()}} to create individual test files
 }

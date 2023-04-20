@@ -10,6 +10,7 @@ proj_set_ <- function(path) {
 
 #' Utility functions for the active project
 #'
+#' @description
 #' Most `use_*()` functions act on the **active project**. If it is
 #' unset, usethis uses [rprojroot](https://rprojroot.r-lib.org) to
 #' find the project root of the current working directory. It establishes the
@@ -25,6 +26,10 @@ proj_set_ <- function(path) {
 #' [rprojroot](https://rprojroot.r-lib.org) or its simpler companion,
 #' [here](https://here.r-lib.org), to programmatically detect a project and
 #' build paths within it.
+#'
+#' If you are puzzled why a path (usually the current working directory) does
+#' *not* appear to be inside project, it can be helpful to call
+#' `here::dr_here()` to get much more verbose feedback.
 #'
 #' @name proj_utils
 #' @family project functions
@@ -69,7 +74,7 @@ proj_get <- function() {
 #'   adding a `DESCRIPTION` file.
 #' @export
 proj_set <- function(path = ".", force = FALSE) {
-  if (dir_exists(path %||% "") && is_in_proj(path)) {
+  if (!force && dir_exists(path %||% "") && is_in_proj(path)) {
     return(invisible(proj_get_()))
   }
 
@@ -83,66 +88,80 @@ proj_set <- function(path = ".", force = FALSE) {
   check_path_is_directory(path)
   new_project <- proj_find(path)
   if (is.null(new_project)) {
-    ui_stop(
-      "Path {ui_path(path)} does not appear to be inside a project or package."
-    )
+    ui_stop('
+      Path {ui_path(path)} does not appear to be inside a project or package.
+      Read more in the help for {ui_code("proj_get()")}.')
   }
   proj_set(path = new_project, force = TRUE)
 }
 
-#' @describeIn proj_utils Builds a path within the active project returned by
+#' @describeIn proj_utils Builds paths within the active project returned by
 #'   `proj_get()`. Thin wrapper around [fs::path()].
 #' @inheritParams fs::path
 #' @export
 proj_path <- function(..., ext = "") {
+  has_absolute_path <- function(x) any(is_absolute_path(x))
+  dots <- list(...)
+  if (any(map_lgl(dots, has_absolute_path))) {
+    ui_stop("Paths must be relative to the active project")
+  }
+
   path_norm(path(proj_get(), ..., ext = ext))
 }
 
-#' @describeIn proj_utils Runs code with a temporary active project. It is an
-#'   example of the `with_*()` functions in [withr](https://withr.r-lib.org).
-#' @param code Code to run with temporary active project.
+#' @describeIn proj_utils Runs code with a temporary active project and,
+#'   optionally, working directory. It is an example of the `with_*()` functions
+#'   in [withr](https://withr.r-lib.org).
+#' @param code Code to run with temporary active project
+#' @param setwd Whether to also temporarily set the working directory to the
+#'   active project, if it is not `NULL`
 #' @param quiet Whether to suppress user-facing messages, while operating in the
-#'   temporary active project.
+#'   temporary active project
 #' @export
 with_project <- function(path = ".",
                          code,
                          force = FALSE,
+                         setwd = TRUE,
                          quiet = getOption("usethis.quiet", default = FALSE)) {
-  old_quiet <- options(usethis.quiet = quiet)
-  old_proj  <- proj_set(path = path, force = force)
-
-  on.exit({
-    proj_set(path = old_proj, force = TRUE)
-    options(old_quiet)
-  })
-
+  local_project(path = path, force = force, setwd = setwd, quiet = quiet)
   force(code)
 }
 
-#' @describeIn proj_utils Sets an active project until the current execution
-#'   environment goes out of scope, e.g. the end of the current function or
-#'   test.  It is an example of the `local_*()` functions in
-#'   [withr](https://withr.r-lib.org).
+#' @describeIn proj_utils Sets an active project and, optionally, working
+#'   directory until the current execution environment goes out of scope, e.g.
+#'   the end of the current function or test.  It is an example of the
+#'   `local_*()` functions in [withr](https://withr.r-lib.org).
 #' @param .local_envir The environment to use for scoping. Defaults to current
 #'   execution environment.
 #' @export
 local_project <- function(path = ".",
                           force = FALSE,
+                          setwd = TRUE,
                           quiet = getOption("usethis.quiet", default = FALSE),
                           .local_envir = parent.frame()) {
-  old_quiet <- options(usethis.quiet = quiet)
-  old_proj  <- proj_set(path = path, force = force)
+  withr::local_options(usethis.quiet = quiet, .local_envir = .local_envir)
 
-  withr::defer({
-    proj_set(path = old_proj, force = TRUE)
-    options(old_quiet)
-  }, envir = .local_envir)
+  old_project <- proj_get_() # this could be `NULL`, i.e. no active project
+  withr::defer(proj_set(path = old_project, force = TRUE), envir = .local_envir)
+  proj_set(path = path, force = force)
+  temp_proj <- proj_get_()   # this could be `NULL`
+
+  if (isTRUE(setwd) && !is.null(temp_proj)) {
+    withr::local_dir(temp_proj, .local_envir = .local_envir)
+  }
 }
 
 ## usethis policy re: preparation of the path to active project
 proj_path_prep <- function(path) {
-  if (is.null(path)) return(path)
-  path_real(path)
+  if (is.null(path)) {
+    return(path)
+  }
+  path <- path_abs(path)
+  if (file_exists(path)) {
+    path_real(path)
+  } else {
+    path
+  }
 }
 
 ## usethis policy re: preparation of user-provided path to a resource on user's
@@ -155,7 +174,7 @@ user_path_prep <- function(path) {
 
 proj_rel_path <- function(path) {
   if (is_in_proj(path)) {
-    path_rel(path, start = proj_get())
+    as.character(path_rel(path, start = proj_get()))
   } else {
     path
   }
@@ -202,6 +221,14 @@ check_is_package <- function(whos_asking = NULL) {
   ui_stop(message)
 }
 
+check_is_project <- function() {
+  if (!possibly_in_proj()) {
+    ui_stop('
+      We do not appear to be inside a valid project or package.
+      Read more in the help for {ui_code("proj_get()")}.')
+  }
+}
+
 proj_active <- function() !is.null(proj_get_())
 
 is_in_proj <- function(path) {
@@ -215,31 +242,6 @@ is_in_proj <- function(path) {
   )
 }
 
-project_data <- function(base_path = proj_get()) {
-  if (!possibly_in_proj(base_path)) {
-    ui_stop(c(
-      "{ui_path(base_path)} doesn't meet the usethis criteria for a project.",
-      "Read more in the help for {ui_code(\"proj_get()\")}."
-    ))
-  }
-  if (is_package(base_path)) {
-    data <- package_data(base_path)
-  } else {
-    data <- list(Project = path_file(base_path))
-  }
-  if (proj_active() && uses_github()) {
-    data$github_owner <- github_owner()
-    data$github_repo  <- github_repo()
-    data$github_spec  <- github_repo_spec()
-  }
-  data
-}
-
-package_data <- function(base_path = proj_get()) {
-  desc <- desc::description$new(base_path)
-  as.list(desc$get(desc$fields()))
-}
-
 project_name <- function(base_path = proj_get()) {
   ## escape hatch necessary to solve this chicken-egg problem:
   ## create_package() calls use_description(), which calls project_name()
@@ -250,9 +252,9 @@ project_name <- function(base_path = proj_get()) {
   }
 
   if (is_package(base_path)) {
-    project_data(base_path)$Package
+    proj_desc(base_path)$get_field("Package")
   } else {
-    project_data(base_path)$Project
+    path_file(base_path)
   }
 }
 
@@ -269,16 +271,17 @@ proj_activate <- function(path) {
   check_path_is_directory(path)
   path <- user_path_prep(path)
 
-  if (rstudioapi::isAvailable()) {
+  if (rstudio_available() && rstudioapi::hasFun("openProject")) {
     ui_done("Opening {ui_path(path, base = NA)} in new RStudio session")
     rstudioapi::openProject(path, newSession = TRUE)
     invisible(FALSE)
   } else {
-    if (user_path_prep(getwd()) != path) {
-      ui_done("Changing working directory to {ui_path(path, base = NA)}")
-      setwd(path)
-    }
     proj_set(path)
+    rel_path <- path_rel(proj_get(), path_wd())
+    if (rel_path != ".") {
+      ui_done("Changing working directory to {ui_path(path, base = NA)}")
+      setwd(proj_get())
+    }
     invisible(TRUE)
   }
 }

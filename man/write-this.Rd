@@ -8,7 +8,7 @@
 \usage{
 write_union(path, lines, quiet = FALSE)
 
-write_over(path, lines, quiet = FALSE)
+write_over(path, lines, quiet = FALSE, overwrite = FALSE)
 }
 \arguments{
 \item{path}{Path to target file. It is created if it does not exist, but the
@@ -19,6 +19,8 @@ to add to the target file, if not already present. For \code{write_over()},
 these are the exact lines desired in the target file.}
 
 \item{quiet}{Logical. Whether to message about what is happening.}
+
+\item{overwrite}{Force overwrite of existing file?}
 
 \item{contents}{Character vector of lines.}
 }
@@ -31,18 +33,20 @@ for internal use. File is written with UTF-8 encoding.
 }
 \section{Functions}{
 \itemize{
-\item \code{write_union}: writes lines to a file, taking the union of what's
+\item \code{write_union()}: writes lines to a file, taking the union of what's
 already there, if anything, and some new lines. Note, there is no explicit
 promise about the line order. Designed to modify simple config files like
 \code{.Rbuildignore} and \code{.gitignore}.
 
-\item \code{write_over}: writes a file with specific lines, creating it if
+\item \code{write_over()}: writes a file with specific lines, creating it if
 necessary or overwriting existing, if proposed contents are not identical
 and user is available to give permission.
-}}
 
+}}
 \examples{
-\dontshow{.old_wd <- setwd(tempdir())}
+\dontshow{
+.old_wd <- setwd(tempdir())
+}
 write_union("a_file", letters[1:3])
 readLines("a_file")
 write_union("a_file", letters[1:5])
@@ -51,7 +55,6 @@ readLines("a_file")
 write_over("another_file", letters[1:3])
 readLines("another_file")
 write_over("another_file", letters[1:3])
-
 \dontrun{
 ## will error if user isn't present to approve the overwrite
 write_over("another_file", letters[3:1])
@@ -59,6 +62,8 @@ write_over("another_file", letters[3:1])
 
 ## clean up
 file.remove("a_file", "another_file")
-\dontshow{setwd(.old_wd)}
+\dontshow{
+setwd(.old_wd)
+}
 }
 \keyword{internal}

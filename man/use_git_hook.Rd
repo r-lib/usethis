@@ -15,11 +15,13 @@ use_git_hook(hook, script)
 \item{script}{Text of script to run}
 }
 \description{
-Sets up a git hook using specified script. Creates hook directory if
+Sets up a git hook using the specified script. Creates a hook directory if
 needed, and sets correct permissions on hook.
 }
 \seealso{
-Other git helpers: \code{\link{use_git_config}},
-  \code{\link{use_git_ignore}}, \code{\link{use_git}}
+Other git helpers: 
+\code{\link{use_git_config}()},
+\code{\link{use_git_ignore}()},
+\code{\link{use_git}()}
 }
 \concept{git helpers}

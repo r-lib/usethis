@@ -3,7 +3,19 @@ can_overwrite <- function(path) {
     return(TRUE)
   }
 
-  if (interactive()) {
+  if (getOption("usethis.overwrite", FALSE)) {
+    # don't activate a project
+    # don't assume `path` is in the active project
+    if (is_in_proj(path) && uses_git()) {      # path is in active project
+      return(TRUE)
+    }
+    if (possibly_in_proj(path) &&              # path is some other project
+        with_project(proj_find(path), uses_git(), quiet = TRUE)) {
+      return(TRUE)
+    }
+  }
+
+  if (is_interactive()) {
     ui_yeah("Overwrite pre-existing file {ui_path(path)}?")
   } else {
     FALSE
@@ -11,11 +23,11 @@ can_overwrite <- function(path) {
 }
 
 check_is_named_list <- function(x, nm = deparse(substitute(x))) {
-  if (!rlang::is_list(x)) {
+  if (!is_list(x)) {
     bad_class <- paste(class(x), collapse = "/")
     ui_stop("{ui_code(nm)} must be a list, not {ui_value(bad_class)}.")
   }
-  if (!rlang::is_dictionaryish(x)) {
+  if (!is_dictionaryish(x)) {
     ui_stop(
       "Names of {ui_code(nm)} must be non-missing, non-empty, and non-duplicated."
     )
@@ -28,15 +40,8 @@ dots <- function(...) {
 }
 
 asciify <- function(x) {
-  stopifnot(is.character(x))
+  check_character(x)
   gsub("[^a-zA-Z0-9_-]+", "-", x)
-}
-
-slug <- function(x, ext) {
-  x_base <- path_ext_remove(x)
-  x_ext <- path_ext(x)
-  ext <- if (identical(tolower(x_ext), tolower(ext))) x_ext else ext
-  path_ext_set(x_base, ext)
 }
 
 compact <- function(x) {
@@ -44,44 +49,66 @@ compact <- function(x) {
   x[!is_empty]
 }
 
-check_installed <- function(pkg) {
-  if (!is_installed(pkg)) {
-    ui_stop("Package {ui_value(pkg)} required. Please install before re-trying.")
-  }
-}
-
+# Needed for mocking
 is_installed <- function(pkg) {
-  requireNamespace(pkg, quietly = TRUE)
+  rlang::is_installed(pkg)
+}
+check_installed <- function(pkg) {
+  rlang::check_installed(pkg)
 }
 
-## mimimalist, type-specific purrr::pluck()'s
-pluck_chr <- function(l, what) vapply(l, `[[`, character(1), what)
-
-is_testing <- function() {
-  identical(Sys.getenv("TESTTHAT"), "true")
-}
-
-interactive <- function() {
-  base::interactive() && !is_testing()
-}
-
-is_string <- function(x) {
-  length(x) == 1 && is.character(x)
-}
-
-seq2 <- function(from, to) {
-  if (from > to) {
-    integer()
-  } else {
-    seq(from, to)
-  }
-}
-
-indent <- function(x, first = "  ", indent = first) {
-  x <- gsub("\n", paste0("\n", indent), x)
-  paste0(first, x)
+isFALSE <- function(x) {
+  identical(x, FALSE)
 }
 
 isNA <- function(x) {
   length(x) == 1 && is.na(x)
+}
+
+path_first_existing <- function(paths) {
+  # manual loop with explicit use of `[[` to retain "fs" class
+  for (i in seq_along(paths)) {
+    path <- paths[[i]]
+    if (file_exists(path)) {
+      return(path)
+    }
+  }
+
+  NULL
+}
+
+is_online <- function(host) {
+  bare_host <- sub("^https?://(.*)$", "\\1", host)
+  !is.null(curl::nslookup(bare_host, error = FALSE))
+}
+
+year <- function() format(Sys.Date(), "%Y")
+
+pluck_lgl <- function(.x, ...) {
+  as.logical(purrr::pluck(.x, ..., .default = NA))
+}
+
+pluck_chr <- function(.x, ...) {
+  as.character(purrr::pluck(.x, ..., .default = NA))
+}
+
+pluck_int <- function(.x, ...) {
+  as.integer(purrr::pluck(.x, ..., .default = NA))
+}
+
+is_windows <- function() {
+  .Platform$OS.type == "windows"
+}
+
+# For stability of `stringsAsFactors` across versions
+data.frame <- function(..., stringsAsFactors = FALSE) {
+  base::data.frame(..., stringsAsFactors = stringsAsFactors)
+}
+
+# wrapper around check_name() from import-standalone-types-check.R
+# for the common case when NULL is allowed (often default)
+maybe_name <- function(x, ..., arg = caller_arg(x),
+                       call = caller_env()) {
+  check_name(x, ..., allow_null = TRUE,
+             arg = arg, call = call)
 }

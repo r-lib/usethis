@@ -1,4 +1,4 @@
-#' Create a vignette or article.
+#' Create a vignette or article
 #'
 #' Creates a new vignette or article in `vignettes/`. Articles are a special
 #' type of vignette that appear on pkgdown websites, but are not included
@@ -22,10 +22,13 @@
 #' }
 use_vignette <- function(name, title = name) {
   check_is_package("use_vignette()")
+  check_required(name)
   check_vignette_name(name)
 
   use_dependency("knitr", "Suggests")
-  use_description_field("VignetteBuilder", "knitr")
+  use_dependency("rmarkdown", "Suggests")
+
+  use_description_field("VignetteBuilder", "knitr", overwrite = TRUE)
   use_git_ignore("inst/doc")
 
   use_vignette_template("vignette.Rmd", name, title)
@@ -38,25 +41,40 @@ use_vignette <- function(name, title = name) {
 use_article <- function(name, title = name) {
   check_is_package("use_article()")
 
-  path <- use_vignette_template("article.Rmd", name, title)
-  use_build_ignore(path)
+  deps <- proj_deps()
+  if (!"rmarkdown" %in% deps$package) {
+    proj_desc_field_append("Config/Needs/website", "rmarkdown")
+  }
+
+  use_vignette_template("article.Rmd", name, title, subdir = "articles")
+  use_build_ignore("vignettes/articles")
 
   invisible()
 }
 
-use_vignette_template <- function(template, name, title) {
-  stopifnot(is_string(name))
-  stopifnot(is_string(title))
+use_vignette_template <- function(template, name, title, subdir = NULL) {
+  check_name(template)
+  check_name(name)
+  check_name(title)
+  maybe_name(subdir)
 
   use_directory("vignettes")
+  if (!is.null(subdir)) {
+    use_directory(path("vignettes", subdir))
+  }
   use_git_ignore(c("*.html", "*.R"), directory = "vignettes")
-  use_dependency("rmarkdown", "Suggests")
 
-  path <- path("vignettes", asciify(name), ext = "Rmd")
+  if (is.null(subdir)) {
+    path <- path("vignettes", asciify(name), ext = "Rmd")
+  } else {
+    path <- path("vignettes", subdir, asciify(name), ext = "Rmd")
+  }
 
-  data <- project_data()
-  data$vignette_title <- title
-  data$braced_vignette_title <- glue::glue("{{{title}}}")
+  data <- list(
+    Package = project_name(),
+    vignette_title = title,
+    braced_vignette_title = glue("{{{title}}}")
+  )
 
   use_template(template,
     save_as = path,
@@ -77,6 +95,10 @@ check_vignette_name <- function(name) {
   }
 }
 
+# https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-package-vignettes
+# "To ensure that they can be accessed from a browser (as an HTML index is
+# provided), the file names should start with an ASCII letter and be comprised
+# entirely of ASCII letters or digits or hyphen or underscore."
 valid_vignette_name <- function(x) {
-  grepl("^[[:alpha:]][[:alnum:]_-]+$", x)
+  grepl("^[[:alpha:]][[:alnum:]_-]*$", x)
 }

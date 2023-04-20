@@ -15,23 +15,18 @@
 #' * `use_cran_badge()`: badge indicates what version of your package is
 #' available on CRAN, powered by <https://www.r-pkg.org>
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
-#' package, according to <https://www.tidyverse.org/lifecycle/>:
-#'   - Experimental
-#'   - Maturing
-#'   - Stable
-#'   - Retired
-#'   - Archived
-#'   - Dormant
-#'   - Questioning
+#' package according to <https://lifecycle.r-lib.org/articles/stages.html>.
 #' * `use_binder_badge()`: badge indicates that your repository can be launched
 #' in an executable environment on <https://mybinder.org/>
+#' * `use_rscloud_badge()`: badge indicates that your repository can be launched
+#' in an [RStudio Cloud](https://rstudio.cloud) project
 #'
 #' @param badge_name Badge name. Used in error message and alt text
 #' @param href,src Badge link and image src
-#' @param stage Stage of the package lifecycle
-#'
-#' @seealso The [functions that set up continuous integration
-#'   services][use_travis] also create badges.
+#' @param stage Stage of the package lifecycle. One of "experimental",
+#'   "stable", "superseded", or "deprecated".
+#' @seealso Functions that configure continuous integration, such as
+#'   [use_github_actions()], also create badges.
 #'
 #' @name badges
 #' @examples
@@ -45,6 +40,14 @@ NULL
 #' @export
 use_badge <- function(badge_name, href, src) {
   path <- find_readme()
+  if (is.null(path)) {
+    ui_oops("
+    Can't find a README for the current project.
+    See {ui_code('usethis::use_readme_rmd()')} for help creating this file.
+    Badge link can only be printed to screen.
+    ")
+    path <- "README"
+  }
   changed <- block_append(
     glue("{ui_field(badge_name)} badge"),
     glue("[![{badge_name}]({src})]({href})"),
@@ -54,7 +57,7 @@ use_badge <- function(badge_name, href, src) {
   )
 
   if (changed && path_ext(path) == "Rmd") {
-    ui_todo("Re-knit {ui_path(path)}")
+    ui_todo("Re-knit {ui_path(path)} with {ui_code('devtools::build_readme()')}")
   }
   invisible(changed)
 }
@@ -91,11 +94,12 @@ use_lifecycle_badge <- function(stage) {
   check_is_package("use_lifecycle_badge()")
   pkg <- project_name()
 
-  stage <- match.arg(tolower(stage), names(stages))
+  stage <- tolower(stage)
+  stage <- arg_match0(stage, names(stages))
   colour <- stages[[stage]]
 
   src <- glue("https://img.shields.io/badge/lifecycle-{stage}-{colour}.svg")
-  href <- glue("https://www.tidyverse.org/lifecycle/#{stage}")
+  href <- glue("https://lifecycle.r-lib.org/articles/stages.html#{stage}")
   use_badge(paste0("Lifecycle: ", stage), href, src)
 
   invisible(TRUE)
@@ -103,31 +107,53 @@ use_lifecycle_badge <- function(stage) {
 
 stages <- c(
   experimental = "orange",
-  maturing = "blue",
   stable = "brightgreen",
-  retired = "orange",
-  archived = "red",
-  dormant = "blue",
-  questioning = "blue"
+  superseded = "blue",
+  deprecated = "orange"
 )
 
 #' @rdname badges
-#' @param urlpath An optional `urlpath` component to add to the link, e.g. `"rstudio"`
-#'   to open an RStudio IDE instead of a Jupyter notebook.
-#'   See the [binder documentation](https://mybinder.readthedocs.io/en/latest/howto/user_interface.html)
-#'   for additional examples.
+#' @param ref A Git branch, tag, or SHA
+#' @param urlpath An optional `urlpath` component to add to the link, e.g.
+#'   `"rstudio"` to open an RStudio IDE instead of a Jupyter notebook. See the
+#'   [binder
+#'   documentation](https://mybinder.readthedocs.io/en/latest/howto/user_interface.html)
+#'    for additional examples.
 #' @export
-use_binder_badge <- function(urlpath = NULL) {
-  check_uses_github()
+use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
+  repo_spec <- target_repo_spec()
 
   if (is.null(urlpath)) {
     urlpath <- ""
   } else {
     urlpath <- glue("?urlpath={urlpath}")
   }
-  url <- glue("https://mybinder.org/v2/gh/{github_repo_spec()}/master{urlpath}")
+  url <- glue("https://mybinder.org/v2/gh/{repo_spec}/{ref}{urlpath}")
   img <- "https://mybinder.org/badge_logo.svg"
   use_badge("Launch binder", url, img)
+
+  invisible(TRUE)
+}
+
+#' @rdname badges
+#' @param url A link to an existing [RStudio Cloud](https://rstudio.cloud)
+#'   project. See the [RStudio Cloud
+#'   documentation](https://rstudio.cloud/learn/guide#project-settings-access)
+#'   for details on how to set project access and obtain a project link.
+#' @export
+use_rscloud_badge <- function(url) {
+  project_url <- "rstudio[.]cloud/project"
+  spaces_url <- "rstudio[.]cloud/spaces"
+  if (grepl(project_url, url) || grepl(spaces_url, url)) {
+    img <- "https://img.shields.io/badge/launch-cloud-75aadb?style=flat&logo=rstudio"
+    use_badge("Launch RStudio Cloud", url, img)
+  } else {
+    ui_stop("
+      {ui_code('usethis::use_rscloud_badge()')} requires a link to an \\
+      existing RStudio Cloud project of the form \\
+      'https://rstudio.cloud/project/<project-id>' or \\
+      'https://rstudio.cloud/spaces/<space-id>/project/<project-id>'.")
+  }
 
   invisible(TRUE)
 }
@@ -138,7 +164,7 @@ has_badge <- function(href) {
     return(FALSE)
   }
 
-  readme <- readLines(readme_path, encoding = "UTF-8")
+  readme <- read_utf8(readme_path)
   any(grepl(href, readme, fixed = TRUE))
 }
 
@@ -148,15 +174,5 @@ badge_start <- "<!-- badges: start -->"
 badge_end <- "<!-- badges: end -->"
 
 find_readme <- function() {
-  Rmd <- proj_path("README.Rmd")
-  if (file_exists(Rmd)) {
-    return(Rmd)
-  }
-
-  md <- proj_path("README.md")
-  if (file_exists(md)) {
-    return(md)
-  }
-
-  NULL
+  path_first_existing(proj_path(c("README.Rmd", "README.md")))
 }

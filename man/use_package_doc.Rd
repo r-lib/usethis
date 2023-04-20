@@ -4,7 +4,11 @@
 \alias{use_package_doc}
 \title{Package-level documentation}
 \usage{
-use_package_doc()
+use_package_doc(open = rlang::is_interactive())
+}
+\arguments{
+\item{open}{Open the newly created file for editing? Happens in RStudio, if
+applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
 Adds a dummy \code{.R} file that will prompt roxygen to generate basic
@@ -14,7 +18,7 @@ help available to the user via \code{?foo} or \code{package?foo}. Once you call
 the \code{DESCRIPTION}. That ensures you don't need to repeat the same information
 in multiple places. This \code{.R} file is also a good place for roxygen
 directives that apply to the whole package (vs. a specific function), such as
-global namespace tags like \code{@importFrom}.
+global namespace tags like \verb{@importFrom}.
 }
 \seealso{
 The \href{https://r-pkgs.org/man.html}{documentation chapter} of \href{https://r-pkgs.org}{R Packages}

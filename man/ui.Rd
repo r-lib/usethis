@@ -10,15 +10,15 @@
 \alias{ui_code_block}
 \alias{ui_stop}
 \alias{ui_warn}
-\alias{ui_yeah}
-\alias{ui_nope}
+\alias{ui_silence}
 \alias{ui_field}
 \alias{ui_value}
 \alias{ui_path}
 \alias{ui_code}
+\alias{ui_unset}
 \title{User interface}
 \usage{
-ui_line(x, .envir = parent.frame())
+ui_line(x = character(), .envir = parent.frame())
 
 ui_todo(x, .envir = parent.frame())
 
@@ -28,15 +28,13 @@ ui_oops(x, .envir = parent.frame())
 
 ui_info(x, .envir = parent.frame())
 
-ui_code_block(x, copy = interactive(), .envir = parent.frame())
+ui_code_block(x, copy = rlang::is_interactive(), .envir = parent.frame())
 
 ui_stop(x, .envir = parent.frame())
 
 ui_warn(x, .envir = parent.frame())
 
-ui_yeah(x, .envir = parent.frame())
-
-ui_nope(x, .envir = parent.frame())
+ui_silence(code)
 
 ui_field(x)
 
@@ -45,6 +43,8 @@ ui_value(x)
 ui_path(x, base = NULL)
 
 ui_code(x)
+
+ui_unset(x = "unset")
 }
 \arguments{
 \item{x}{A character vector.
@@ -60,6 +60,8 @@ environment. For expert use only.}
 \item{copy}{If \code{TRUE}, the session is interactive, and the clipr package
 is installed, will copy the code block to the clipboard.}
 
+\item{code}{Code to execute with usual UI output silenced.}
+
 \item{base}{If specified, paths will be displayed relative to this path.}
 }
 \value{
@@ -70,17 +72,26 @@ side-effect. The inline styles return a string.
 These functions are used to construct the user interface of usethis. Use
 them in your own package so that your \code{use_} functions work the same way
 as usethis.
-}
-\details{
+
 The \code{ui_} functions can be broken down into four main categories:
 \itemize{
 \item block styles: \code{ui_line()}, \code{ui_done()}, \code{ui_todo()}, \code{ui_oops()},
 \code{ui_info()}.
 \item conditions: \code{ui_stop()}, \code{ui_warn()}.
-\item questions: \code{ui_yeah()}, \code{ui_nope()}.
-\item inline styles: \code{ui_field()}, \code{ui_value()}, \code{ui_path()}, \code{ui_code()}.
+\item questions: \code{\link[=ui_yeah]{ui_yeah()}}, \code{\link[=ui_nope]{ui_nope()}}.
+\item inline styles: \code{ui_field()}, \code{ui_value()}, \code{ui_path()}, \code{ui_code()},
+\code{ui_unset()}.
 }
+
+The question functions \code{\link[=ui_yeah]{ui_yeah()}} and \code{\link[=ui_nope]{ui_nope()}} have their own \link[=ui-questions]{help page}.
 }
+\section{Silencing output}{
+
+All UI output (apart from \code{ui_yeah()}/\code{ui_nope()} prompts) can be silenced
+by setting \code{options(usethis.quiet = TRUE)}. Use \code{ui_silence()} to silence
+selected actions.
+}
+
 \examples{
 new_val <- "oxnard"
 ui_done("{ui_field('name')} set to {ui_value(new_val)}")
@@ -92,4 +103,9 @@ ui_code_block(c(
   "Line 3"
 ))
 }
+\seealso{
+Other user interface functions: 
+\code{\link{ui-questions}}
+}
+\concept{user interface functions}
 \keyword{internal}

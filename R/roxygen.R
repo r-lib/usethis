@@ -1,13 +1,16 @@
-#' Use roxygen with markdown
+#' Use roxygen2 with markdown
 #'
-#' You'll need to manually re-document once enabled. If you are already using
-#' roxygen2, but not with markdown, the
-#' [roxygen2md](https://roxygen2md.r-lib.org) package will be used to
-#' convert many Rd expressions to markdown. The package uses heuristics, so
-#' you'll need to check the results.
+#' If you are already using roxygen2, but not with markdown, you'll need to use
+#' [roxygen2md](https://roxygen2md.r-lib.org) to convert existing Rd expressions
+#' to markdown. The conversion is not perfect, so make sure to check the
+#' results.
+#'
+#' @param overwrite Whether to overwrite an existing `Roxygen` field in
+#'   `DESCRIPTION` with `"list(markdown = TRUE)"`.
+#'
 #'
 #' @export
-use_roxygen_md <- function() {
+use_roxygen_md <- function(overwrite = FALSE) {
   check_installed("roxygen2")
 
   if (!uses_roxygen()) {
@@ -16,43 +19,60 @@ use_roxygen_md <- function() {
     use_description_field("Roxygen", "list(markdown = TRUE)")
     use_description_field("RoxygenNote", roxy_ver)
     ui_todo("Run {ui_code('devtools::document()')}")
-  } else if (!uses_roxygen_md()) {
-    check_installed("roxygen2md")
-    if (!uses_git()) {
-      ui_todo("Use git to ensure that you don't lose any data")
-    }
-    ui_todo(
-      "
-      Refer to {ui_code('roxygen2md::roxygen2md()')} to use markdown markup \\
-      with roxygen2.
-      "
-    )
-    ui_todo("Run {ui_code('devtools::document()')} when you're done.")
+    return(invisible())
   }
+
+  already_setup <- uses_roxygen_md()
+
+  if (isTRUE(already_setup)) {
+    return(invisible())
+  }
+
+  if (isFALSE(already_setup) || isTRUE(overwrite)) {
+    use_description_field("Roxygen", "list(markdown = TRUE)", overwrite = TRUE)
+
+    check_installed("roxygen2md")
+    ui_todo("
+      Run {ui_code('roxygen2md::roxygen2md()')} to convert existing Rd \\
+      comments to markdown")
+    if (!uses_git()) {
+      ui_todo("
+        Consider using Git for greater visibility into and control over the \\
+        conversion process")
+    }
+    ui_todo("Run {ui_code('devtools::document()')} when you're done")
+
+    return(invisible())
+  }
+
+  ui_stop("
+    {ui_path('DESCRIPTION')} already has a {ui_field('Roxygen')} field
+    Delete it and try agan or call {ui_code('use_roxygen_md(overwrite = TRUE)')}")
 
   invisible()
 }
 
-uses_roxygen_md <- function(base_path = proj_get()) {
-  if (!desc::desc_has_fields("Roxygen", base_path)) {
+# FALSE: no Roxygen field
+# TRUE: plain old "list(markdown = TRUE)"
+# NA: everything else
+uses_roxygen_md <- function() {
+  desc <- proj_desc()
+
+  if (!desc$has_fields("Roxygen")) {
     return(FALSE)
   }
 
-  roxygen <- desc::desc_get("Roxygen", base_path)[[1]]
-  value <- tryCatch(
-    {
-      eval(parse(text = roxygen))
-    },
-    error = function(e) {
-      NULL
-    }
-  )
-
-  isTRUE(value$markdown)
+  roxygen <- desc$get_field("Roxygen", "")
+  if (identical(roxygen, "list(markdown = TRUE)") ||
+      identical(roxygen, "list(markdown = TRUE, r6 = FALSE)")) {
+    TRUE
+  } else {
+    NA
+  }
 }
 
-uses_roxygen <- function(base_path = proj_get()) {
-  desc::desc_has_fields("RoxygenNote", base_path)
+uses_roxygen <- function() {
+  proj_desc()$has_fields("RoxygenNote")
 }
 
 roxygen_ns_append <- function(tag) {
@@ -62,15 +82,37 @@ roxygen_ns_append <- function(tag) {
     path = proj_path(package_doc_path()),
     block_start = "## usethis namespace: start",
     block_end = "## usethis namespace: end",
-    block_suffix = "NULL"
+    block_suffix = "NULL",
+    sort = TRUE
   )
 }
 
-roxygen_update <- function() {
+roxygen_ns_show <- function() {
+  block_show(
+    path = proj_path(package_doc_path()),
+    block_start = "## usethis namespace: start",
+    block_end = "## usethis namespace: end"
+  )
+}
+
+roxygen_remind <- function() {
   ui_todo("Run {ui_code('devtools::document()')} to update {ui_path('NAMESPACE')}")
   TRUE
 }
 
+roxygen_update_ns <- function(load = is_interactive()) {
+  ui_done("Writing {ui_path('NAMESPACE')}")
+  utils::capture.output(
+    suppressMessages(roxygen2::roxygenise(proj_get(), "namespace"))
+  )
+
+  if (load) {
+    ui_done("Loading {project_name()}")
+    pkgload::load_all(path = proj_get(), quiet = TRUE)
+  }
+
+  TRUE
+}
 
 # Checkers ----------------------------------------------------------------
 

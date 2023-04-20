@@ -1,27 +1,25 @@
 #' Use C, C++, RcppArmadillo, or RcppEigen
 #'
-#' Creates `src/`, adds required packages to `DESCRIPTION`,
-#' optionally creates `.c` or `.cpp` files, and
-#' where needed, `Makevars` and `Makevars.win` files.
+#' Adds infrastructure commonly needed when using compiled code:
+#'   * Creates `src/`
+#'   * Adds required packages to `DESCRIPTION`
+#'   * May create an initial placeholder `.c` or `.cpp` file
+#'   * Creates `Makevars` and `Makevars.win` files (`use_rcpp_armadillo()` only)
 #'
-#' @param name If supplied, creates and opens `src/name.{c,cpp}`.
+#' @inheritParams use_r
 #' @export
 use_rcpp <- function(name = NULL) {
   check_is_package("use_rcpp()")
   check_uses_roxygen("use_rcpp()")
 
-  use_src()
-
   use_dependency("Rcpp", "LinkingTo")
   use_dependency("Rcpp", "Imports")
-  roxygen_ns_append("@importFrom Rcpp sourceCpp") && roxygen_update()
+  roxygen_ns_append("@importFrom Rcpp sourceCpp") && roxygen_remind()
 
-  if (!is.null(name)) {
-    name <- slug(name, "cpp")
-    check_file_name(name)
-
-    use_template("code.cpp", path("src", name), open = TRUE)
-  }
+  use_src()
+  path <- path("src", compute_name(name, "cpp"))
+  use_template("code.cpp", path)
+  edit_file(proj_path(path))
 
   invisible()
 }
@@ -50,7 +48,7 @@ use_rcpp_eigen <- function(name = NULL) {
 
   use_dependency("RcppEigen", "LinkingTo")
 
-  roxygen_ns_append("@import RcppEigen") && roxygen_update()
+  roxygen_ns_append("@import RcppEigen") && roxygen_remind()
 
   invisible()
 }
@@ -58,26 +56,23 @@ use_rcpp_eigen <- function(name = NULL) {
 #' @rdname use_rcpp
 #' @export
 use_c <- function(name = NULL) {
+  check_is_package("use_c()")
+  check_uses_roxygen("use_c()")
+
   use_src()
 
-  if (!is.null(name)) {
-    name <- slug(name, "c")
-    check_file_name(name)
-
-    use_template("code.c", path("src", name), open = TRUE)
-  }
+  path <- path("src", compute_name(name, ext = "c"))
+  use_template("code.c", path)
+  edit_file(proj_path(path))
 
   invisible(TRUE)
 }
 
 use_src <- function() {
-  check_is_package("use_src()")
-  check_uses_roxygen("use_rcpp()")
-
   use_directory("src")
   use_git_ignore(c("*.o", "*.so", "*.dll"), "src")
   roxygen_ns_append(glue("@useDynLib {project_name()}, .registration = TRUE")) &&
-    roxygen_update()
+    roxygen_remind()
 
   invisible()
 }

@@ -2,20 +2,30 @@
 % Please edit documentation in R/release.R
 \name{use_github_release}
 \alias{use_github_release}
-\title{Draft a GitHub release}
+\title{Publish a GitHub release}
 \usage{
-use_github_release(host = NULL, auth_token = github_token())
+use_github_release(
+  publish = TRUE,
+  host = deprecated(),
+  auth_token = deprecated()
+)
 }
 \arguments{
-\item{host}{GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
+\item{publish}{If \code{TRUE}, publishes a release. If \code{FALSE}, creates a draft
+release.}
 
-\item{auth_token}{GitHub personal access token (PAT).}
+\item{host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
+consulted now that usethis allows the gh package to lookup a token based on
+a URL determined from the current project's GitHub remotes.}
 }
 \description{
-Creates a \strong{draft} GitHub release for the current package using the current
-version and \code{NEWS.md}. If you are comfortable that it is correct, you will
-need to publish the release from GitHub. It also deletes \code{CRAN-RELEASE}
-and checks that you've pushed all commits to GitHub.
+Pushes the current branch (if safe) then publishes a GitHub release for the
+latest CRAN submission.
+
+If you use \code{\link[devtools:submit_cran]{devtools::submit_cran()}} to submit to CRAN, information about the
+submitted state is captured in a \code{CRAN-SUBMISSION} file.
+\code{use_github_release()} uses this info to populate the GitHub release notes
+and, after success, deletes the file. In the absence of such a file, we
+assume that current state (SHA of \code{HEAD}, package version, NEWS) is the
+submitted state.
 }

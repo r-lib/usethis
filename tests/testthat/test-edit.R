@@ -1,5 +1,3 @@
-context("edit")
-
 expect_r_file <- function(...) {
   expect_true(file_exists(path_home_r(...)))
 }
@@ -8,11 +6,44 @@ expect_fs_file <- function(...) {
   expect_true(file_exists(path_home(...)))
 }
 
+
+test_that("edit_file() creates new directory and another and a file within", {
+  tmp <- file_temp()
+  expect_false(dir_exists(tmp))
+  capture.output(new_file <- edit_file(path(tmp, "new_dir", "new_file")))
+  expect_true(dir_exists(tmp))
+  expect_true(dir_exists(path(tmp, "new_dir")))
+  expect_true(file_exists(path(tmp, "new_dir", "new_file")))
+})
+
+test_that("edit_file() creates new file in existing directory", {
+  tmp <- file_temp()
+  dir_create(tmp)
+  capture.output(new_file <- edit_file(path(tmp, "new_file")))
+  expect_true(file_exists(path(tmp, "new_file")))
+})
+
+test_that("edit_file() copes with path to existing file", {
+  tmp <- file_temp()
+  dir_create(tmp)
+  existing <- file_create(path(tmp, "a_file"))
+  capture.output(res <- edit_file(path(tmp, "a_file")))
+  expect_identical(existing, res)
+})
+
+test_that("edit_template() can create a new template", {
+  create_local_package()
+
+  edit_template("new_template")
+  expect_proj_file("inst/templates/new_template")
+})
+
 ## testing edit_XXX("user") only on travis and appveyor, because I don't want to
 ## risk creating user-level files de novo for an actual user, which would
 ## obligate me to some nerve-wracking clean up
 
 test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
+  skip_if_no_git_user()
   ## run these manually if you already have these files or are happy to
   ## have them or delete them
   skip_if_not_ci()
@@ -22,12 +53,12 @@ test_that("edit_r_XXX() and edit_git_XXX() have default scope", {
   ## we need to explicitly ensure R_ENVIRON_USER="" here
   withr::local_envvar(list(R_ENVIRON_USER = ""))
 
-  expect_error_free(edit_r_profile())
-  expect_error_free(edit_r_buildignore())
-  expect_error_free(edit_r_environ())
-  expect_error_free(edit_r_makevars())
-  expect_error_free(edit_git_config())
-  expect_error_free(edit_git_ignore())
+  expect_no_error(edit_r_profile())
+  expect_no_error(edit_r_buildignore())
+  expect_no_error(edit_r_environ())
+  expect_no_error(edit_r_makevars())
+  expect_no_error(edit_git_config())
+  expect_no_error(edit_git_ignore())
 })
 
 test_that("edit_r_XXX('user') ensures the file exists", {
@@ -46,16 +77,31 @@ test_that("edit_r_XXX('user') ensures the file exists", {
   edit_r_profile("user")
   expect_r_file(".Rprofile")
 
-  edit_r_buildignore("user")
-  expect_r_file(".Rbuildignore")
-
   edit_r_makevars("user")
   expect_r_file(".R", "Makevars")
+})
 
-  edit_rstudio_snippets(type = "R")
-  expect_r_file(".R", "snippets", "r.snippets")
-  edit_rstudio_snippets(type = "HTML")
-  expect_r_file(".R", "snippets", "html.snippets")
+test_that("edit_r_buildignore() only works with packages", {
+  create_local_project()
+
+  expect_usethis_error(edit_r_buildignore(), "not an R package")
+
+  use_description()
+  edit_r_buildignore()
+  expect_proj_file(".Rbuildignore")
+})
+
+test_that("can edit snippets", {
+  path <- withr::local_tempdir()
+  withr::local_envvar(c("XDG_CONFIG_HOME" = path))
+
+  path <- edit_rstudio_snippets(type = "R")
+  expect_true(file_exists(path))
+
+  expect_error(
+    edit_rstudio_snippets("not-existing-type"),
+    regexp = "should be one of"
+  )
 })
 
 test_that("edit_r_profile() respects R_PROFILE_USER", {
@@ -63,11 +109,12 @@ test_that("edit_r_profile() respects R_PROFILE_USER", {
   withr::local_envvar(list(R_PROFILE_USER = path1))
 
   path2 <- edit_r_profile("user")
-  expect_equal(path1, as.character(path2))
+  expect_equal(path1, path2)
 })
 
 
 test_that("edit_git_XXX('user') ensures the file exists", {
+  skip_if_no_git_user()
   ## run these manually if you already have these files or are happy to
   ## have them or delete them
   skip_if_not_ci()
@@ -77,52 +124,54 @@ test_that("edit_git_XXX('user') ensures the file exists", {
 
   edit_git_ignore("user")
   expect_fs_file(".gitignore")
-  cfg <- git2r::config()
-  expect_match(cfg$global$core.excludesfile, "gitignore")
+  expect_match(
+    git_cfg_get("core.excludesfile", where = "global"),
+    "gitignore"
+  )
 })
 
 test_that("edit_r_profile() ensures .Rprofile exists in project", {
-  scoped_temporary_package()
+  create_local_package()
   edit_r_profile("project")
   expect_proj_file(".Rprofile")
 
-  scoped_temporary_project()
+  create_local_project()
   edit_r_profile("project")
   expect_proj_file(".Rprofile")
 })
 
 test_that("edit_r_environ() ensures .Renviron exists in project", {
-  scoped_temporary_package()
+  create_local_package()
   edit_r_environ("project")
   expect_proj_file(".Renviron")
 
-  scoped_temporary_project()
+  create_local_project()
   edit_r_environ("project")
   expect_proj_file(".Renviron")
 })
 
 test_that("edit_r_makevars() ensures .R/Makevars exists in package", {
-  scoped_temporary_package()
+  create_local_package()
   edit_r_makevars("project")
   expect_proj_file(".R", "Makevars")
 })
 
 test_that("edit_git_config() ensures git ignore file exists in project", {
-  scoped_temporary_package()
+  create_local_package()
   edit_git_config("project")
   expect_proj_file(".git", "config")
 
-  scoped_temporary_project()
+  create_local_project()
   edit_git_config("project")
   expect_proj_file(".git", "config")
 })
 
 test_that("edit_git_ignore() ensures .gitignore exists in project", {
-  scoped_temporary_package()
+  create_local_package()
   edit_git_ignore("project")
   expect_proj_file(".gitignore")
 
-  scoped_temporary_project()
+  create_local_project()
   edit_git_ignore("project")
   expect_proj_file(".gitignore")
 })

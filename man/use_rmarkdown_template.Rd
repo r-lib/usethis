@@ -4,10 +4,12 @@
 \alias{use_rmarkdown_template}
 \title{Add an RMarkdown Template}
 \usage{
-use_rmarkdown_template(template_name = "Template Name",
+use_rmarkdown_template(
+  template_name = "Template Name",
   template_dir = NULL,
   template_description = "A description of the template",
-  template_create_dir = FALSE)
+  template_create_dir = FALSE
+)
 }
 \arguments{
 \item{template_name}{The name as printed in the template menu.}

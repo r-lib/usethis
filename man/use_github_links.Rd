@@ -4,22 +4,32 @@
 \alias{use_github_links}
 \title{Use GitHub links in URL and BugReports}
 \usage{
-use_github_links(auth_token = github_token(),
-  host = "https://api.github.com", overwrite = FALSE)
+use_github_links(
+  auth_token = deprecated(),
+  host = deprecated(),
+  overwrite = FALSE
+)
 }
 \arguments{
-\item{auth_token}{GitHub personal access token (PAT).}
-
-\item{host}{GitHub API host to use. Override with the endpoint-root for your
-GitHub enterprise instance, for example,
-"https://github.hostname.com/api/v3".}
+\item{host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer consulted
+now that usethis consults the current project's GitHub remotes to get the
+\code{host} and then relies on gh to discover an appropriate token.}
 
 \item{overwrite}{By default, \code{use_github_links()} will not overwrite existing
 fields. Set to \code{TRUE} to overwrite existing links.}
 }
 \description{
 Populates the \code{URL} and \code{BugReports} fields of a GitHub-using R package with
-appropriate links.
+appropriate links. The GitHub repo to link to is determined from the current
+project's GitHub remotes:
+\itemize{
+\item If we are not working with a fork, this function expects \code{origin} to be a
+GitHub remote and the links target that repo.
+\item If we are working in a fork, this function expects to find two GitHub
+remotes: \code{origin} (the fork) and \code{upstream} (the fork's parent) remote. In
+an interactive session, the user can confirm which repo to use for the
+links. In a noninteractive session, links are formed using \code{upstream}.
+}
 }
 \examples{
 \dontrun{

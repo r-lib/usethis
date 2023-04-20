@@ -1,389 +1,968 @@
 #' Helpers for GitHub pull requests
 #'
-#' The `pr_*` family of functions is designed to make working with GitHub
-#' PRs as painless as possible for both contributors and package maintainers.
-#' They are designed to support the git and GitHub best practices described in
-#' [Happy Git and GitHub for the useR](https://happygitwithr.com).
+#' @description
+#' The `pr_*` family of functions is designed to make working with GitHub pull
+#' requests (PRs) as painless as possible for both contributors and package
+#' maintainers.
 #'
-#' @section Set up advice:
-#' These functions make heavy use of git2r and the GitHub API. You'll need a
-#' GitHub personal access token (PAT); see [browse_github_token()] for help
-#' with that. If git2r does not seem to be finding your git credentials, read
-#' [git_credentials()] for troubleshooting advice. The transport protocol
-#' (SSH vs HTTPS) is determined from the existing remote URL(s) of the repo.
+#' To use the `pr_*` functions, your project must be a Git repo and have one of
+#' these GitHub remote configurations:
+#' * "ours": You can push to the GitHub remote configured as `origin` and it's
+#'   not a fork.
+#' * "fork": You can push to the GitHub remote configured as `origin`, it's a
+#'   fork, and its parent is configured as `upstream`. `origin` points to your
+#'   **personal** copy and `upstream` points to the **source repo**.
 #'
+#' "Ours" and "fork" are two of several GitHub remote configurations examined in
+#' [Common remote setups](https://happygitwithr.com/common-remote-setups.html)
+#' in Happy Git and GitHub for the useR.
+#'
+#' The [Pull Request
+#' Helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html)
+#' article walks through the process of making a pull request with the `pr_*`
+#' functions.
+#'
+
+#' The `pr_*` functions also use your Git/GitHub credentials to carry out
+#' various remote operations; see below for more about auth. The `pr_*`
+#' functions also proactively check for agreement re: the default branch in your
+#' local repo and the source repo. See [git_default_branch()] for more.
+#'
+
+#' @template double-auth
+#'
+
 #' @section For contributors:
-#' To contribute to a package, first use `create_from_github(owner/repo)` to
-#' fork the source repository, and then check out a local copy. Next use
-#' `pr_init()` to create a branch for your PR (__never__ submit a PR from the
-#' `master` branch). You'll then work locally, making changes to files
-#' and checking them into git. Once you're ready to submit, run `pr_push()`
-#' to push your local branch to GitHub, and open a webpage that lets you
-#' initiate the PR.
+
+#' To contribute to a package, first use `create_from_github("OWNER/REPO")`.
+#' This forks the source repository and checks out a local copy.
+
 #'
-#' If you are lucky, your PR will be perfect, and the maintainer will accept
-#' it. You can then run `pr_finish()` to close and delete your PR branch.
-#' In most cases, however, the maintainer will ask you to make some changes.
-#' Make the changes, then run `pr_push()` to sync back up to GitHub.
+#' Next use `pr_init()` to create a branch for your PR. It is best practice to
+#' never make commits to the default branch branch of a fork (usually named
+#' `main` or `master`), because you do not own it. A pull request should always
+#' come from a feature branch. It will be much easier to pull upstream changes
+#' from the fork parent if you only allow yourself to work in feature branches.
+#' It is also much easier for a maintainer to explore and extend your PR if you
+#' create a feature branch.
 #'
-#' It's also possible that the maintainer will contribute some code to your
-#' PR: you get that code back to your computer, run `pr_pull()`. It's also
-#' possible that other changes have occurred to the package while you've been
-#' working on your PR, and you need to "merge master". Do that by running
-#' `pr_pull_upstream()`: this makes sure that your copy of the package is
-#' up-to-date with the maintainer's latest changes. Either of the pull
-#' functions may cause merge conflicts, so be prepared to resolve before
-#' continuing.
+#' Work locally, in your branch, making changes to files, and committing your
+#' work. Once you're ready to create the PR, run `pr_push()` to push your local
+#' branch to GitHub, and open a webpage that lets you initiate the PR (or draft
+#' PR).
+#'
+#' To learn more about the process of making a pull request, read the [Pull
+#' Request
+#' Helpers](https://usethis.r-lib.org/articles/articles/pr-functions.html)
+#' vignette.
+#'
+#' If you are lucky, your PR will be perfect, and the maintainer will accept it.
+#' You can then run `pr_finish()` to delete your PR branch. In most cases,
+#' however, the maintainer will ask you to make some changes. Make the changes,
+#' then run `pr_push()` to update your PR.
+#'
+#' It's also possible that the maintainer will contribute some code to your PR:
+#' to get those changes back onto your computer, run `pr_pull()`. It can also
+#' happen that other changes have occurred in the package since you first
+#' created your PR. You might need to merge the default branch (usually named
+#' `main` or `master`) into your PR branch. Do that by running
+#' `pr_merge_main()`: this makes sure that your PR is compatible with the
+#' primary repo's main line of development. Both `pr_pull()` and
+#' `pr_merge_main()` can result in merge conflicts, so be prepared to resolve
+#' before continuing.
 #'
 #' @section For maintainers:
 #' To download a PR locally so that you can experiment with it, run
-#' `pr_fetch(<pr_number>)`. If you make changes, run `pr_push()` to push
-#' them back to GitHub. After you have merged the PR, run `pr_finish()`
-#' to delete the local branch.
+#' `pr_fetch()` and select the PR or, if you already know its number, call
+#' `pr_fetch(<pr_number>)`. If you make changes, run `pr_push()` to push them
+#' back to GitHub. After you have merged the PR, run `pr_finish()` to delete the
+#' local branch and remove the remote associated with the contributor's fork.
 #'
-#' @section Other helpful functions:
-#' * `pr_sync()` is a shortcut for `pr_pull()`, `pr_pull_upstream()`, and
-#'   `pr_push()`
-#' * `pr_pause()` makes sure you're synced with the PR and then switches
-#'    back to master.
-#' * `pr_view()` opens the PR in the browser
+#' @section Overview of all the functions:
+
+#' * `pr_init()`: As a contributor, start work on a new PR by ensuring that
+#' your local repo is up-to-date, then creating and checking out a new branch.
+#' Nothing is pushed to or created on GitHub until you call `pr_push()`.
+
+#' * `pr_fetch()`: As a maintainer, review or contribute changes to an existing
+#' PR by creating a local branch that tracks the remote PR. `pr_fetch()` does as
+#' little work as possible, so you can also use it to resume work on an PR that
+#' already has a local branch (where it will also ensure your local branch is
+#' up-to-date). If called with no arguments, up to 9 open PRs are offered for
+#' interactive selection.
+
+#' * `pr_resume()`: Resume work on a PR by switching to an existing local branch
+#' and pulling any changes from its upstream tracking branch, if it has one. If
+#' called with no arguments, up to 9 local branches are offered for interactive
+#' selection, with a preference for branches connected to PRs and for branches
+#' with recent activity.
+
+#' * `pr_push()`: The first time it's called, a PR branch is pushed to GitHub
+#' and you're taken to a webpage where a new PR (or draft PR) can be created.
+#' This also sets up the local branch to track its remote counterpart.
+#' Subsequent calls to `pr_push()` make sure the local branch has all the remote
+#' changes and, if so, pushes local changes, thereby updating the PR.
+
+#' * `pr_pull()`: Pulls changes from the local branch's remote tracking branch.
+#' If a maintainer has extended your PR, this is how you bring those changes
+#' back into your local work.
+
+#' * `pr_merge_main()`: Pulls changes from the default branch of the source repo
+#' into the current local branch. This can be used when the local branch is the
+#' default branch or when it's a PR branch.
+
+#' * `pr_pause()`: Makes sure you're up-to-date with any remote changes in the
+#' PR. Then switches back to the default branch and pulls from the source repo.
+#' Use `pr_resume()` with name of branch or use `pr_fetch()` to resume using PR
+#' number.
+
+#' * `pr_view()`: Visits the PR associated with the current branch in the
+#' browser (default) or the specific PR identified by `number`.
+#' (FYI [browse_github_pulls()] is a handy way to visit the list of all PRs for
+#' the current project.)
+
+#' * `pr_forget()`: Does local clean up when the current branch is an actual or
+#' notional PR that you want to abandon. Maybe you initiated it yourself, via
+#' `pr_init()`, or you used `pr_fetch()` to explore a PR from GitHub. Only does
+#' *local* operations: does not update or delete any remote branches, nor does
+#' it close any PRs. Alerts the user to any uncommitted or unpushed work that is
+#' at risk of being lost. If user chooses to proceed, switches back to the
+#' default branch, pulls changes from source repo, and deletes local PR branch.
+#' Any associated Git remote is deleted, if the "forgotten" PR was the only
+#' branch using it.
+
+#' * `pr_finish()`: Does post-PR clean up, but does NOT actually merge or close
+#' a PR (maintainer should do this in the browser). If `number` is not given,
+#' infers the PR from the upstream tracking branch of the current branch. If
+#' `number` is given, it does not matter whether the PR exists locally. If PR
+#' exists locally, alerts the user to uncommitted or unpushed changes, then
+#' switches back to the default branch, pulls changes from source repo, and
+#' deletes local PR branch. If the PR came from an external fork, any associated
+#' Git remote is deleted, provided it's not in use by any other local branches.
+#' If the PR has been merged and user has permission, deletes the remote branch
+#' (this is the only remote operation that `pr_finish()` potentially does).
+#'
+#' @name pull-requests
+NULL
+
 #' @export
-#' @param branch branch name. Should usually consist of lower case letters,
-#'   numbers, and `-`.
+#' @rdname pull-requests
+#' @param branch Name of a new or existing local branch. If creating a new
+#'   branch, note this should usually consist of lower case letters, numbers,
+#'   and `-`.
 pr_init <- function(branch) {
-  stopifnot(is_string(branch))
-  check_uses_github()
-  check_branch_pulled("master", "pr_pull_upstream()")
+  check_string(branch)
+  repo <- git_repo()
 
-  if (!git_branch_exists(branch)) {
-    if (git_branch_name() != "master") {
-      if (ui_nope("Create local PR branch with non-master parent?")) {
-        return(invisible(FALSE))
-      }
+  if (gert::git_branch_exists(branch, local = TRUE, repo = repo)) {
+    code <- glue("pr_resume(\"{branch}\")")
+    ui_info("
+      Branch {ui_value(branch)} already exists, calling {ui_code(code)}")
+    return(pr_resume(branch))
+  }
+
+  # don't absolutely require PAT success, because we could be offline
+  # or in another salvageable situation, e.g. need to configure PAT
+  cfg <- github_remote_config(github_get = NA)
+  check_for_bad_config(cfg)
+  tr <- target_repo(cfg, ask = FALSE)
+
+  maybe_good_configs <- c("maybe_ours_or_theirs", "maybe_fork")
+  if (cfg$type %in% maybe_good_configs) {
+    ui_line('
+      Unable to confirm the GitHub remote configuration is "pull request ready".
+      You probably need to configure a personal access token for \\
+      {ui_value(tr$host)}.
+      See {ui_code("gh_token_help()")} for help.
+      (Or maybe we\'re just offline?)')
+    if (ui_github_remote_config_wat(cfg)) {
+      ui_oops("Cancelling.")
+      return(invisible())
     }
-
-    ui_done("Creating local PR branch {ui_value(branch)}")
-    git_branch_create(branch)
-    config_key <- glue("branch.{branch}.created-by")
-    git_config_set(config_key, "usethis::pr_init")
   }
 
-  if (git_branch_name() != branch) {
-    ui_done("Switching to branch {ui_value(branch)}")
-    git_branch_switch(branch)
+  default_branch <- git_default_branch()
+  challenge_non_default_branch(
+    "Are you sure you want to create a PR branch based on a non-default branch?",
+    default_branch = default_branch
+  )
+
+  online <- is_online(tr$host)
+  if (online) {
+    # this is not pr_pull_source_override() because:
+    # a) we may NOT be on default branch (although we probably are)
+    # b) we didn't just switch to the branch we're on, therefore we have to
+    #    consider that the pull may be affected by uncommitted changes or a
+    #    merge
+    current_branch <- git_branch()
+    if (current_branch == default_branch) {
+      # override for mis-configured forks, that have default branch tracking
+      # the fork (origin) instead of the source (upstream)
+      remref <- glue("{tr$remote}/{default_branch}")
+    } else {
+      remref <- git_branch_tracking(current_branch)
+    }
+    if (!is.na(remref)) {
+      comparison <- git_branch_compare(current_branch, remref)
+      if (comparison$remote_only > 0) {
+        challenge_uncommitted_changes()
+      }
+      ui_done("Pulling changes from {ui_value(remref)}.")
+      git_pull(remref = remref, verbose = FALSE)
+    }
+  } else {
+    ui_info("
+      Unable to pull changes for current branch, since we are offline.")
   }
 
-  ui_todo("Use {ui_code('pr_push()')} to create PR")
+  ui_done("Creating and switching to local branch {ui_value(branch)}.")
+  gert::git_branch_create(branch, repo = repo)
+  config_key <- glue("branch.{branch}.created-by")
+  gert::git_config_set(config_key, value = "usethis::pr_init", repo = repo)
+
+  ui_todo("Use {ui_code('pr_push()')} to create a PR.")
   invisible()
 }
 
 #' @export
-#' @rdname pr_init
-#' @param number Number of PR to fetch.
-#' @param owner Name of the owner of the repository that is the target of the
-#'   pull request. Default of `NULL` tries to identify the source repo and uses
-#'   the owner of the `upstream` remote, if present, or the owner of `origin`
-#'   otherwise.
+#' @rdname pull-requests
+pr_resume <- function(branch = NULL) {
+  repo <- git_repo()
+
+  if (is.null(branch)) {
+    ui_info("
+      No branch specified ... looking up local branches and associated PRs.")
+    default_branch <- git_default_branch()
+    branch <- choose_branch(exclude = default_branch)
+    if (is.null(branch)) {
+      ui_oops("Repo doesn't seem to have any non-default branches.")
+      return(invisible())
+    }
+    if (length(branch) == 0) {
+      ui_oops("No branch selected, exiting.")
+      return(invisible())
+    }
+  }
+  check_string(branch)
+
+  if (!gert::git_branch_exists(branch, local = TRUE, repo = repo)) {
+    code <- glue("pr_init(\"{branch}\")")
+    ui_stop("
+      No branch named {ui_value(branch)} exists.
+      Call {ui_code(code)} to create a new PR branch.")
+  }
+
+  challenge_uncommitted_changes()
+
+  ui_done("Switching to branch {ui_value(branch)}.")
+  gert::git_branch_checkout(branch, repo = repo)
+  git_pull()
+
+  ui_todo("Use {ui_code('pr_push()')} to create or update PR.")
+  invisible()
+}
+
+#' @export
+#' @rdname pull-requests
+#' @param number Number of PR.
+#' @param target Which repo to target? This is only a question in the case of a
+#'   fork. In a fork, there is some slim chance that you want to consider pull
+#'   requests against your fork (the primary repo, i.e. `origin`) instead of
+#'   those against the source repo (i.e. `upstream`, which is the default).
 #'
 #' @examples
 #' \dontrun{
-#' ## scenario: current project is a local copy of fork of a repo owned by
-#' ## 'tidyverse', not you
-#' pr_fetch(123, owner = "tidyverse")
+#' pr_fetch(123)
 #' }
-pr_fetch <- function(number,
-                     owner = NULL) {
-  check_uses_github()
-  check_uncommitted_changes()
+pr_fetch <- function(number = NULL, target = c("source", "primary")) {
+  repo <- git_repo()
+  tr <- target_repo(github_get = NA, role = target, ask = FALSE)
+  challenge_uncommitted_changes()
 
-  auth_token <- check_github_token(allow_empty = TRUE)
-
-  owner <- owner %||% github_owner_upstream() %||% github_owner()
-  repo <- github_repo()
-  pr <- gh::gh(
-    "GET /repos/:owner/:repo/pulls/:number",
-    owner = owner,
-    repo = repo,
-    number = number,
-    .token = auth_token
-  )
-  pr_string <- glue("{owner}/{repo}/#{number}")
-  pr_user <- glue("@{pr$user$login}")
-  ui_done(
-    'Checking out PR {ui_value(pr_string)} ({ui_field(pr_user)}): \\
-    {ui_value(pr$title)}'
-  )
-
-  their_branch <- pr$head$ref
-  them <- pr$head$user$login
-  if (them == github_owner()) {
-    remote <- "origin"
-    our_branch <- their_branch
-  } else {
-    remote <- them
-    our_branch <- glue("{them}-{their_branch}")
-    if (!isTRUE(pr$maintainer_can_modify)) {
-      ui_info("
-      Note that user does NOT allow maintainer to modify this PR \\
-      at this time,
-      although this can be changed.
-      ")
+  if (is.null(number)) {
+    ui_info("No PR specified ... looking up open PRs.")
+    pr <- choose_pr(tr = tr)
+    if (is.null(pr)) {
+      ui_oops("No open PRs found for {ui_value(tr$repo_spec)}.")
+      return(invisible())
     }
+    if (min(lengths(pr)) == 0) {
+      ui_oops("No PR selected, exiting.")
+      return(invisible())
+    }
+  } else {
+    pr <- pr_get(number = number, tr = tr)
   }
 
-  protocol <- github_remote_protocol()
-
-  if (!remote %in% git2r::remotes(git_repo())) {
-    url <- switch(
-      protocol,
-      https = pr$head$repo$clone_url,
-      ssh   = pr$head$repo$ssh_url
-    )
-    ui_done("Adding remote {ui_value(remote)} as {ui_value(url)}")
-    git2r::remote_add(git_repo(), remote, url)
-    config_key <- glue("remote.{remote}.created-by")
-    git_config_set(config_key, "usethis::pr_fetch")
+  if (is.na(pr$pr_repo_owner)) {
+    ui_stop("
+    The repo or branch where PR #{pr$pr_number} originates seems to have been \\
+    deleted.")
   }
 
-  if (!git_branch_exists(our_branch)) {
-    their_refname <- git_remref(remote, their_branch)
-    credentials <- git_credentials(protocol, auth_token)
-    ui_done("Creating local branch {ui_value(our_branch)}")
-    git2r::fetch(
-      git_repo(),
-      name = remote,
-      credentials = credentials,
-      refspec = their_branch,
-      verbose = FALSE
-    )
-    git_branch_create(our_branch, their_refname)
-    git_branch_track(our_branch, remote, their_branch)
+  pr_user <- glue("@{pr$pr_user}")
+  ui_done("
+    Checking out PR {ui_value(pr$pr_string)} ({ui_field(pr_user)}): \\
+    {ui_value(pr$pr_title)}.")
 
-    config_key <- glue("branch.{our_branch}.created-by")
-    git_config_set(config_key, "usethis::pr_fetch")
-
-    # Cache URL for PR in config for branch
-    config_url <- glue("branch.{our_branch}.pr-url")
-    git_config_set(config_url, pr$html_url)
-
-    # `git push` will not work if the branch names differ, unless
-    # `push.default=upstream`; there's no simple way to make it work without
-    # drawbacks, due to the design of git. `pr_push()`, however, will always
-    # work.
+  if (pr$pr_from_fork && isFALSE(pr$maintainer_can_modify)) {
+    ui_info("
+      Note that user does NOT allow maintainer to modify this PR at this \\
+      time, although this can be changed.")
   }
 
-  if (git_branch_name() != our_branch) {
-    ui_done("Switching to branch {ui_value(our_branch)}")
-    git_branch_switch(our_branch)
+  remote <- github_remote_list(pr$pr_remote)
+  if (nrow(remote) == 0) {
+    url <- switch(tr$protocol, https = pr$pr_https_url, ssh = pr$pr_ssh_url)
+    ui_done("Adding remote {ui_value(pr$pr_remote)} as {ui_value(url)}.")
+    gert::git_remote_add(url = url, name = pr$pr_remote, repo = repo)
+    config_key <- glue("remote.{pr$pr_remote}.created-by")
+    gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
   }
+  pr_remref <- glue_data(pr, "{pr_remote}/{pr_ref}")
+  gert::git_fetch(
+    remote = pr$pr_remote,
+    refspec = pr$pr_ref,
+    repo = repo,
+    verbose = FALSE
+  )
+
+  if (is.na(pr$pr_local_branch)) {
+    pr$pr_local_branch <-
+      if (pr$pr_from_fork) sub(":", "-", pr$pr_label) else pr$pr_ref
+  }
+
+  # Create local branch, if necessary, and switch to it ----
+  if (!gert::git_branch_exists(pr$pr_local_branch, local = TRUE, repo = repo)) {
+    ui_done("
+      Creating and switching to local branch {ui_value(pr$pr_local_branch)}.")
+    ui_done("Setting {ui_value(pr_remref)} as remote tracking branch.")
+    gert::git_branch_create(pr$pr_local_branch, ref = pr_remref, repo = repo)
+    config_key <- glue("branch.{pr$pr_local_branch}.created-by")
+    gert::git_config_set(config_key, "usethis::pr_fetch", repo = repo)
+    config_url <- glue("branch.{pr$pr_local_branch}.pr-url")
+    gert::git_config_set(config_url, pr$pr_html_url, repo = repo)
+    return(invisible())
+  }
+
+  # Local branch pre-existed; make sure tracking branch is set, switch, & pull
+  ui_done("Switching to branch {ui_value(pr$pr_local_branch)}.")
+  gert::git_branch_checkout(pr$pr_local_branch, repo = repo)
+  config_url <- glue("branch.{pr$pr_local_branch}.pr-url")
+  gert::git_config_set(config_url, pr$pr_html_url, repo = repo)
+
+  pr_branch_ours_tracking <- git_branch_tracking(pr$pr_local_branch)
+  if (is.na(pr_branch_ours_tracking) ||
+      pr_branch_ours_tracking != pr_remref) {
+    ui_done("Setting {ui_value(pr_remref)} as remote tracking branch.")
+    gert::git_branch_set_upstream(pr_remref, repo = repo)
+  }
+  git_pull(verbose = FALSE)
 }
 
 #' @export
-#' @rdname pr_init
+#' @rdname pull-requests
 pr_push <- function() {
-  check_uses_github()
-  check_branch_not_master()
-  check_uncommitted_changes()
+  repo <- git_repo()
+  cfg <- github_remote_config(github_get = TRUE)
+  check_for_config(cfg, ok_configs = c("ours", "fork"))
+  default_branch <- git_default_branch()
+  check_pr_branch(default_branch)
+  challenge_uncommitted_changes()
 
-  branch <- git_branch_name()
-  has_remote_branch <- !is.null(git_branch_tracking_FIXME(branch))
-  if (has_remote_branch) {
-    check_branch_pulled(use = "pr_pull()")
-  }
-
-  remote_info <- git_branch_remote(branch)
-  protocol <- github_remote_protocol(remote_info$remote_name)
-  credentials <- git_credentials(protocol)
-
-  # TODO: I suspect the tryCatch (and perhaps the git_branch_compare()?) is
-  # better pushed down into git_branch_push(), which could then return TRUE for
-  # success and FALSE for failure
-  pushed <- tryCatch(
-    git_branch_push(branch, credentials = credentials),
-    error = function(e) {
-      ui_stop(
-        "The push was not successful. Consider that user can decline to allow
-         maintainers to modify a PR."
+  branch <- git_branch()
+  remref <- git_branch_tracking(branch)
+  if (is.na(remref)) {
+    # this is the first push
+    if (cfg$type == "fork" && cfg$upstream$can_push && is_interactive()) {
+      choices <- c(
+        origin   = glue(
+          "{cfg$origin$repo_spec} = {ui_value('origin')} (external PR)"),
+        upstream = glue(
+          "{cfg$upstream$repo_spec} = {ui_value('upstream')} (internal PR)")
       )
+      title <- glue("Which repo do you want to push to?")
+      choice <- utils::menu(choices, graphics = FALSE, title = title)
+      remote <- names(choices)[[choice]]
+    } else {
+      remote <- "origin"
     }
-  )
-  if (!has_remote_branch) {
-    git_branch_track(branch)
-  }
 
-  diff <- git_branch_compare(branch)
-  if (diff[[1]] != 0) {
-    ui_stop(
-    "The push was not successful. Consider that user can decline to allow
-    maintainers to modify a PR."
-    )
-  }
-
-  # Prompt to create PR on first push
-  url <- pr_url()
-  if (is.null(url)) {
-    pr_create_gh()
+    git_push_first(branch, remote)
   } else {
-    ui_done("View PR at {ui_value(url)} or call {ui_code('pr_view()')}")
+    check_branch_pulled(use = "pr_pull()")
+    git_push(branch, remref)
+  }
+
+  # Prompt to create PR if does not exist yet
+  tr <- target_repo(cfg, ask = FALSE)
+  pr <- pr_find(branch, tr = tr)
+  if (is.null(pr)) {
+    pr_create()
+  } else {
+    ui_todo("
+      View PR at {ui_value(pr$pr_html_url)} or call {ui_code('pr_view()')}.")
   }
 
   invisible()
 }
 
 #' @export
-#' @rdname pr_init
+#' @rdname pull-requests
 pr_pull <- function() {
-  check_uses_github()
-  check_branch_not_master()
-  check_uncommitted_changes()
+  cfg <- github_remote_config(github_get = TRUE)
+  check_for_config(cfg)
+  default_branch <- git_default_branch()
+  check_pr_branch(default_branch)
+  challenge_uncommitted_changes()
 
-  protocol <- github_remote_protocol()
-  credentials <- git_credentials(protocol)
+  git_pull()
 
-  ui_done("Pulling changes from GitHub PR")
-  git_pull(credentials = credentials)
+  # note associated PR in git config, if applicable
+  tr <- target_repo(cfg, ask = FALSE)
+  pr_find(tr = tr)
 
   invisible(TRUE)
 }
 
 #' @export
-#' @rdname pr_init
-pr_pull_upstream <- function() {
-  check_uses_github()
-  check_uncommitted_changes()
-
-  branch <- "master"
-  remote <- if (git_is_fork()) "upstream" else "origin"
-  source <- git_remref(remote, branch)
-
-  protocol <- github_remote_protocol(remote)
-  credentials <- git_credentials(protocol)
-
-  ui_done("Pulling changes from GitHub source repo {ui_value(source)}")
-  git_pull(source, credentials = credentials)
+#' @rdname pull-requests
+pr_merge_main <- function() {
+  tr <- target_repo(github_get = TRUE, ask = FALSE)
+  challenge_uncommitted_changes()
+  remref <- glue("{tr$remote}/{tr$default_branch}")
+  ui_done("Pulling changes from {ui_value(remref)}.")
+  git_pull(remref, verbose = FALSE)
 }
 
 #' @export
-#' @rdname pr_init
-pr_sync <- function() {
-  pr_pull()
-  pr_pull_upstream()
-  pr_push()
-}
-
-#' @export
-#' @rdname pr_init
-pr_view <- function() {
-  url <- pr_url()
-  if (is.null(url)) {
-    pr_create_gh()
+#' @rdname pull-requests
+pr_view <- function(number = NULL, target = c("source", "primary")) {
+  tr <- target_repo(github_get = NA, role = target, ask = FALSE)
+  url <- NULL
+  if (is.null(number)) {
+    branch <- git_branch()
+    default_branch <- git_default_branch()
+    if (branch != default_branch) {
+      url <- pr_url(branch = branch, tr = tr)
+      if (is.null(url)) {
+        ui_info("
+          Current branch ({ui_value(branch)}) does not appear to be \\
+          connected to a PR.")
+      } else {
+        number <- sub("^.+pull/", "", url)
+        ui_info("
+          Current branch ({ui_value(branch)}) is connected to PR #{number}.")
+      }
+    }
   } else {
-    view_url(pr_url())
+    pr <- pr_get(number = number, tr = tr)
+    url <- pr$pr_html_url
   }
+  if (is.null(url)) {
+    ui_info("No PR specified ... looking up open PRs.")
+    pr <- choose_pr(tr = tr)
+    if (is.null(pr)) {
+      ui_oops("No open PRs found for {ui_value(tr$repo_spec)}.")
+      return(invisible())
+    }
+    if (min(lengths(pr)) == 0) {
+      ui_oops("No PR selected, exiting.")
+      return(invisible())
+    }
+    url <- pr$pr_html_url
+  }
+  view_url(url)
 }
 
 #' @export
-#' @rdname pr_init
+#' @rdname pull-requests
 pr_pause <- function() {
-  check_branch_not_master()
-  check_uncommitted_changes()
+  # intentionally naive selection of target repo
+  tr <- target_repo(github_get = FALSE, ask = FALSE)
+
+  ui_done("Switching back to the default branch.")
+  default_branch <- git_default_branch()
+  if (git_branch() == default_branch) {
+    ui_info("
+      Already on this repo's default branch ({ui_value(default_branch)}), \\
+      nothing to do.")
+    return(invisible())
+  }
+  challenge_uncommitted_changes()
+  # TODO: what happens here if offline?
   check_branch_pulled(use = "pr_pull()")
 
-  ui_done("Switching back to {ui_value('master')} branch")
-  git_branch_switch("master")
+  ui_done("Switching back to default branch ({ui_value(default_branch)}).")
+  gert::git_branch_checkout(default_branch, repo = git_repo())
+  pr_pull_source_override(tr = tr, default_branch = default_branch)
 }
 
 #' @export
-#' @rdname pr_init
-pr_finish <- function() {
-  check_branch_not_master()
-  pr <- git_branch_name()
-  tracking_branch <- git_branch_tracking()
+#' @rdname pull-requests
+pr_finish <- function(number = NULL, target = c("source", "primary")) {
+  pr_clean(number = number, target = target, mode = "finish")
+}
 
-  ui_done("Switching back to {ui_value('master')} branch")
-  git_branch_switch("master")
+#' @export
+#' @rdname pull-requests
+pr_forget <- function() pr_clean(mode = "forget")
 
-  pr_pull_upstream()
+# unexported helpers ----
 
-  # TODO: check that this is merged!
-  ui_done("Deleting local {ui_value(pr)} branch")
-  git_branch_delete(pr)
+# Removes local evidence of PRs that you're done with or wish you'd never
+# started or fetched
+# Only possible remote action is to delete the remote branch for a merged PR
+pr_clean <- function(number = NULL,
+                     target = c("source", "primary"),
+                     mode = c("finish", "forget")) {
+  mode <- match.arg(mode)
+  repo <- git_repo()
+  tr <- target_repo(github_get = NA, role = target, ask = FALSE)
+  default_branch <- git_default_branch()
 
-  if (is.null(tracking_branch)) {
+  if (is.null(number)) {
+    check_pr_branch(default_branch)
+    pr <- pr_find(git_branch(), tr = tr, state = "all")
+    # if the remote branch has already been deleted (probably post-merge), we
+    # can't always reverse engineer what the corresponding local branch was, but
+    # we already know it -- it's how we found the PR in the first place!
+    if (!is.null(pr)) {
+      pr$pr_local_branch <- pr$pr_local_branch %|% git_branch()
+    }
+  } else {
+    pr <- pr_get(number = number, tr = tr)
+  }
+
+  pr_local_branch <- if (is.null(pr)) git_branch() else pr$pr_local_branch
+
+  if (!is.na(pr_local_branch)) {
+    if (pr_local_branch == git_branch()) {
+      challenge_uncommitted_changes()
+    }
+    tracking_branch <- git_branch_tracking(pr_local_branch)
+    if (is.na(tracking_branch)) {
+      if (ui_nope("
+        Local branch {ui_value(pr_local_branch)} has no associated remote \\
+        branch.
+        If we delete {ui_value(pr_local_branch)}, any work that exists only \\
+        on this branch may be hard for you to recover.
+        Proceed anyway?")) {
+        ui_oops("Cancelling.")
+        return(invisible())
+      }
+    } else {
+      cmp <- git_branch_compare(
+        branch = pr_local_branch,
+        remref = tracking_branch
+      )
+      if (cmp$local_only > 0 && ui_nope("
+          Local branch {ui_value(pr_local_branch)} has 1 or more commits \\
+          that have not been pushed to {ui_value(tracking_branch)}.
+          If we delete {ui_value(pr_local_branch)}, this work may be hard \\
+          for you to recover.
+          Proceed anyway?")) {
+        ui_oops("Cancelling.")
+        return(invisible())
+      }
+    }
+  }
+
+  if (git_branch() != default_branch) {
+    ui_done("Switching back to default branch ({ui_value(default_branch)}).")
+    gert::git_branch_checkout(default_branch, force = TRUE, repo = repo)
+    pr_pull_source_override(tr = tr, default_branch = default_branch)
+  }
+
+  if (!is.na(pr_local_branch)) {
+    ui_done("Deleting local {ui_value(pr_local_branch)} branch.")
+    gert::git_branch_delete(pr_local_branch, repo = repo)
+  }
+
+  if (is.null(pr)) {
     return(invisible())
   }
 
+  if (mode == "finish") {
+    pr_branch_delete(pr)
+  }
+
+  # delete remote, if we (usethis) added it AND no remaining tracking branches
+  created_by <- git_cfg_get(glue("remote.{pr$pr_remote}.created-by"))
+  if (is.null(created_by) || !grepl("^usethis::", created_by)) {
+    return(invisible())
+  }
+
+  branches <- gert::git_branch_list(local = TRUE, repo = repo)
+  branches <- branches[!is.na(branches$upstream), ]
+  if (sum(grepl(glue("^refs/remotes/{pr$pr_remote}"), branches$upstream)) == 0) {
+    ui_done("Removing remote {ui_value(pr$pr_remote)}")
+    gert::git_remote_remove(remote = pr$pr_remote, repo = repo)
+  }
+  invisible()
+}
+
+# Make sure to pull from upstream/DEFAULT (as opposed to origin/DEFAULT) if
+# we're in DEFAULT branch of a fork. I wish everyone set up DEFAULT to track the
+# DEFAULT branch in the source repo, but this protects us against sub-optimal
+# setup.
+pr_pull_source_override <- function(tr = NULL, default_branch = NULL) {
+  # naive selection of target repo; calling function should analyse the config
+  tr <- tr %||% target_repo(github_get = FALSE, ask = FALSE)
+
+  # TODO: why does this not use a check_*() function, i.e. shared helper?
+  # I guess to issue a specific error message?
+  current_branch <- git_branch()
+  default_branch <- default_branch %||% git_default_branch()
+  if (current_branch != default_branch) {
+    ui_stop("
+      Internal error: pr_pull_source_override() should only be used when on \\
+      default branch")
+  }
+
+  # guard against mis-configured forks, that have default branch tracking
+  # the fork (origin) instead of the source (upstream)
+  # TODO: should I just change the upstream tracking branch, i.e. fix it?
+  remref <- glue("{tr$remote}/{default_branch}")
+  if (is_online(tr$host)) {
+    ui_done("Pulling changes from {ui_value(remref)}")
+    git_pull(remref = remref, verbose = FALSE)
+  } else {
+    ui_info("
+      Can't reach {ui_value(tr$host)}, therefore unable to pull changes from \\
+      {ui_value(remref)}")
+  }
+}
+
+pr_create <- function() {
+  branch <- git_branch()
+  tracking_branch <- git_branch_tracking(branch)
   remote <- remref_remote(tracking_branch)
-  created_by <- git_config_get(glue("remote.{remote}.created-by"))
-  if (is.null(created_by) || !grepl("^usethis::pr_", created_by)) {
-    return(invisible())
-  }
-
-  b <- git2r::branches(git_repo(), flags = "local")
-  remote_specs <- purrr::map(b, ~ git2r::branch_get_upstream(.x)$name)
-  remote_specs <- purrr::compact(remote_specs)
-  if (sum(grepl(glue("^{remote}/"), remote_specs)) == 0) {
-    ui_done("Removing remote {ui_value(remote)}")
-    git2r::remote_remove(git_repo(), remote)
-  }
+  remote_dat <- github_remotes(remote, github_get = FALSE)
+  ui_todo("Create PR at link given below")
+  view_url(glue_data(remote_dat, "{host_url}/{repo_spec}/compare/{branch}"))
 }
 
-pr_create_gh <- function() {
-  owner <- github_owner()
-  repo <- github_repo()
-  branch <- git_branch_name()
-
-  ui_done("Create PR at link given below")
-  view_url(glue("https://github.com/{owner}/{repo}/compare/{branch}"))
-}
-
-pr_url <- function(branch = git_branch_name()) {
+# retrieves 1 PR, if:
+# * we can establish a tracking relationship between `branch` and a PR branch
+# * we can get the user to choose 1
+pr_find <- function(branch = git_branch(),
+                    tr = NULL,
+                    state = c("open", "closed", "all")) {
   # Have we done this before? Check if we've cached pr-url in git config.
   config_url <- glue("branch.{branch}.pr-url")
-  url <- git_config_get(config_url)
+  url <- git_cfg_get(config_url, where = "local")
   if (!is.null(url)) {
-    return(url)
+    return(pr_get(number = sub("^.+pull/", "", url), tr = tr))
   }
 
-  if (git_is_fork()) {
-    source <- github_owner_upstream()
-    pr_branch <- remref_branch(git_branch_tracking_FIXME(branch))
-  } else {
-    source <- github_owner()
-    pr_branch <- branch
+  tracking_branch <- git_branch_tracking(branch)
+  if (is.na(tracking_branch)) {
+    return(NULL)
   }
 
-  urls <- pr_find(source, github_repo(), github_owner(), pr_branch)
+  state <- match.arg(state)
+  remote <- remref_remote(tracking_branch)
+  remote_dat <- github_remotes(remote)
 
-  if (length(urls) == 0) {
+  pr_head <- glue("{remote_dat$repo_owner}:{remref_branch(tracking_branch)}")
+  pr_dat <- pr_list(tr = tr, state = state, head = pr_head)
+  if (nrow(pr_dat) == 0) {
+    return(NULL)
+  }
+  if (nrow(pr_dat) > 1) {
+    spec <- sub(":", "/", pr_head)
+    ui_info("Multiple PRs are associated with {ui_value(spec)}.")
+    pr_dat <- choose_pr(pr_dat = pr_dat)
+    if (min(lengths(pr_dat)) == 0) {
+      ui_stop("
+        One of these PRs must be specified explicitly or interactively: \\
+        {ui_value(paste0('#', pr_dat$pr_number))}")
+    }
+  }
+
+  gert::git_config_set(config_url, pr_dat$pr_html_url, repo = git_repo())
+  as.list(pr_dat)
+}
+
+pr_url <- function(branch = git_branch(),
+                   tr = NULL,
+                   state = c("open", "closed", "all")) {
+  state <- match.arg(state)
+  pr <- pr_find(branch, tr = tr, state = state)
+  if (is.null(pr)) {
     NULL
-  } else if (length(urls) == 1) {
-    git_config_set(config_url, urls[[1]])
-    urls[[1]]
   } else {
-    ui_stop("Multiple PRs correspond to this branch. Please close before continuing")
+    pr$pr_html_url
   }
 }
 
-pr_find <- function(owner,
-                    repo,
-                    pr_owner = owner,
-                    pr_branch = git_branch_name()) {
-  # Look at all PRs
-  prs <- gh::gh("GET /repos/:owner/:repo/pulls",
-    owner = owner,
-    repo = repo,
-    .limit = Inf,
-    .token = check_github_token(allow_empty = TRUE)
+pr_data_tidy <- function(pr) {
+  out <- list(
+    pr_number     = pluck_int(pr, "number"),
+    pr_title      = pluck_chr(pr, "title"),
+    pr_state      = pluck_chr(pr, "state"),
+    pr_user       = pluck_chr(pr, "user", "login"),
+    pr_created_at = pluck_chr(pr, "created_at"),
+    pr_updated_at = pluck_chr(pr, "updated_at"),
+    pr_merged_at  = pluck_chr(pr, "merged_at"),
+    pr_label      = pluck_chr(pr, "head", "label"),
+    # the 'repo' element of 'head' is NULL when fork has been deleted
+    pr_repo_owner = pluck_chr(pr, "head", "repo", "owner", "login"),
+    pr_ref        = pluck_chr(pr, "head", "ref"),
+    pr_repo_spec  = pluck_chr(pr, "head", "repo", "full_name"),
+    pr_from_fork  = pluck_lgl(pr, "head", "repo", "fork"),
+    # 'maintainer_can_modify' is only present when we GET one specific PR
+    pr_maintainer_can_modify = pluck_lgl(pr, "maintainer_can_modify"),
+    pr_https_url  = pluck_chr(pr, "head", "repo", "clone_url"),
+    pr_ssh_url    = pluck_chr(pr, "head", "repo", "ssh_url"),
+    pr_html_url   = pluck_chr(pr, "html_url"),
+    pr_string     = glue("
+      {pluck_chr(pr, 'base', 'repo', 'full_name')}/#{pluck_int(pr, 'number')}")
   )
 
-  if (identical(prs[[1]], "")) {
+  grl <- github_remote_list(these = NULL)
+  m <- match(out$pr_repo_spec, grl$repo_spec)
+  out$pr_remote <- if (is.na(m)) out$pr_repo_owner else grl$remote[m]
+
+  pr_remref <- glue("{out$pr_remote}/{out$pr_ref}")
+  gbl <- gert::git_branch_list(local = TRUE, repo = git_repo())
+  gbl <- gbl[!is.na(gbl$upstream), c("name", "upstream")]
+  gbl$upstream <- sub("^refs/remotes/", "", gbl$upstream)
+  m <- match(pr_remref, gbl$upstream)
+  out$pr_local_branch <- if (is.na(m)) NA_character_ else gbl$name[m]
+
+  # If the fork has been deleted, these are all NA
+  # - Because pr$head$repo is NULL:
+  #   pr_repo_owner, pr_repo_spec, pr_from_fork, pr_https_url, pr_ssh_url
+  # - Because derived from those above:
+  #   pr_remote, pr_remref pr_local_branch
+  # I suppose one could already have a local branch, if you fetched the PR
+  # before the fork got deleted.
+  # But an initial pr_fetch() won't work if the fork has been deleted.
+  # I'm willing to accept that the pr_*() functions don't necessarily address
+  # the "deleted fork" scenario. It's relatively rare.
+  # example: https://github.com/r-lib/httr/pull/634
+
+  out
+}
+
+pr_list <- function(tr = NULL,
+                    github_get = NA,
+                    state = c("open", "closed", "all"),
+                    head = NULL) {
+  tr <- tr %||% target_repo(github_get = github_get, ask = FALSE)
+  state <- match.arg(state)
+  gh <- gh_tr(tr)
+  safely_gh <- purrr::safely(gh, otherwise = NULL)
+  out <- safely_gh(
+    "GET /repos/{owner}/{repo}/pulls",
+    state = state, head = head, .limit = Inf
+  )
+  if (is.null(out$error)) {
+    prs <- out$result
+  } else {
+    ui_oops("Unable to retrieve PRs for {ui_value(tr$repo_spec)}.")
+    prs <- NULL
+  }
+  no_prs <- length(prs) == 0
+  if (no_prs) {
+    prs <- list(list())
+  }
+  out <- map(prs, pr_data_tidy)
+  out <- map(out, ~ as.data.frame(.x, stringsAsFactors = FALSE))
+  out <- do.call(rbind, out)
+  if (no_prs) {
+    out[0, ]
+  } else {
+    pr_is_open <- out$pr_state == "open"
+    rbind(out[pr_is_open, ], out[!pr_is_open, ])
+  }
+}
+
+# retrieves specific PR by number
+pr_get <- function(number, tr = NULL, github_get = NA) {
+  tr <- tr %||% target_repo(github_get = github_get, ask = FALSE)
+  gh <- gh_tr(tr)
+  raw <- gh("GET /repos/{owner}/{repo}/pulls/{number}", number = number)
+  pr_data_tidy(raw)
+}
+
+branches_with_no_upstream_or_github_upstream <- function(tr = NULL) {
+  repo <- git_repo()
+  gb_dat <- gert::git_branch_list(local = TRUE, repo = repo)
+  gb_dat <- gb_dat[, c("name", "upstream", "updated")]
+  gb_dat$remref     <- sub("^refs/remotes/", "", gb_dat$upstream)
+  gb_dat$upstream   <- NULL
+  gb_dat$remote     <- remref_remote(gb_dat$remref)
+  gb_dat$ref        <- remref_branch(gb_dat$remref)
+  gb_dat$cfg_pr_url <- map_chr(
+    glue("branch.{gb_dat$name}.pr-url"),
+    ~ git_cfg_get(.x, where = "local") %||% NA_character_
+  )
+
+  ghr <- github_remote_list(these = NULL)[["remote"]]
+  gb_dat <- gb_dat[is.na(gb_dat$remref) | (gb_dat$remote %in% ghr), ]
+
+  pr_dat <- pr_list(tr = tr)
+  dat <- merge(
+    x    = gb_dat, y    = pr_dat,
+    by.x = "name", by.y = "pr_local_branch",
+    all.x = TRUE
+  )
+  dat <- dat[order(dat$pr_number, dat$pr_updated_at, dat$updated, decreasing = TRUE), ]
+
+  missing_cfg <- is.na(dat$cfg_pr_url) & !is.na(dat$pr_html_url)
+  purrr::walk2(
+    glue("branch.{dat$name[missing_cfg]}.pr-url"),
+    dat$pr_html_url[missing_cfg],
+    ~ gert::git_config_set(.x, .y, repo = repo)
+  )
+
+  dat
+}
+
+choose_branch <- function(exclude = character()) {
+  if (!is_interactive()) {
     return(character())
   }
+  dat <- branches_with_no_upstream_or_github_upstream()
+  dat <- dat[!dat$name %in% exclude, ]
+  if (nrow(dat) == 0) {
+    return()
+  }
+  prompt <- "Which branch do you want to checkout? (0 to exit)"
+  if (nrow(dat) > 9) {
+    branches_not_shown <- utils::tail(dat$name, -9)
+    n <- length(branches_not_shown)
+    dat <- dat[1:9, ]
+    pre <- glue("{n} branch{if (n > 1) 'es' else ''} not listed: ")
+    listing <- glue_collapse(
+      branches_not_shown, sep = ", ", width = getOption("width") - nchar(pre)
+    )
+    prompt <- glue("
+      {prompt}
+      {pre}{listing}")
+  }
+  dat$pretty_user <- map(dat$pr_user, ~ glue("@{.x}"))
+  dat$pretty_name <- format(dat$name, justify = "right")
+  dat_pretty <- purrr::pmap_chr(
+    dat[c("pretty_name", "pr_number", "pretty_user", "pr_title")],
+    function(pretty_name, pr_number, pretty_user, pr_title) {
+      if (is.na(pr_number)) {
+        glue("{pretty_name}")
+      } else {
+        glue("{pretty_name} --> #{pr_number} ({ui_value(pretty_user)}): {pr_title}")
+      }
+    }
+  )
+  choice <- utils::menu(title = prompt, choices = cli::ansi_strtrim(dat_pretty))
+  dat$name[choice]
+}
 
-  refs <- purrr::map_chr(prs, c("head", "ref"), .default = NA_character_)
-  user <- purrr::map_chr(prs, c("head", "user", "login"), .default = NA_character_)
-  urls <- purrr::map_chr(prs, c("html_url"), .default = NA_character_)
+choose_pr <- function(tr = NULL, pr_dat = NULL) {
+  if (!is_interactive()) {
+    return(list(pr_number = list()))
+  }
+  if (is.null(pr_dat)) {
+    tr <- tr %||% target_repo()
+    pr_dat <- pr_list(tr)
+  }
+  if (nrow(pr_dat) == 0) {
+    return()
+  }
 
-  urls[refs == pr_branch & user == pr_owner]
+  # wording needs to make sense for several PR-choosing tasks, e.g. fetch, view,
+  # finish, forget
+  prompt <- "Which PR are you interested in? (0 to exit)"
+  if (nrow(pr_dat) > 9) {
+    n <- nrow(pr_dat) - 9
+    pr_dat <- pr_dat[1:9, ]
+    prompt <- glue("
+      {prompt}
+      Not shown: {n} more {if (n > 1) 'PRs' else 'PR'}; \\
+      call {ui_code('browse_github_pulls()')} to browse all PRs.")
+  }
+
+  some_closed <- any(pr_dat$pr_state == "closed")
+  pr_pretty <- purrr::pmap_chr(
+    pr_dat[c("pr_number", "pr_user", "pr_state", "pr_title")],
+    function(pr_number, pr_user, pr_state, pr_title) {
+      hash_number <- glue("#{pr_number}")
+      at_user <- glue("@{pr_user}")
+      if (some_closed) {
+        glue("{hash_number} ({ui_field(at_user)}, {pr_state}): {ui_value(pr_title)}")
+      } else {
+        glue("{hash_number} ({ui_field(at_user)}): {ui_value(pr_title)}")
+      }
+    }
+  )
+  choice <- utils::menu(
+    title = prompt,
+    choices = cli::ansi_strtrim(pr_pretty)
+  )
+  as.list(pr_dat[choice, ])
+}
+
+# deletes the remote branch associated with a PR
+# returns invisible TRUE/FALSE re: whether a deletion actually occurred
+# reasons this returns FALSE
+# * don't have push permission on remote where PR branch lives
+# * PR has not been merged
+# * remote branch has already been deleted
+pr_branch_delete <- function(pr) {
+  remote <- pr$pr_remote
+  remote_dat <- github_remotes(remote)
+  if (!isTRUE(remote_dat$can_push)) {
+    return(invisible(FALSE))
+  }
+
+  gh <- gh_tr(remote_dat)
+  pr_ref <- tryCatch(
+    gh(
+      "GET /repos/{owner}/{repo}/git/ref/{ref}",
+      ref = glue("heads/{pr$pr_ref}")
+    ),
+    http_error_404 = function(cnd) NULL
+  )
+
+  pr_remref <- glue_data(pr, "{pr_remote}/{pr_ref}")
+
+  if (is.null(pr_ref)) {
+    ui_info("
+      PR {ui_value(pr$pr_string)} originated from branch \\
+      {ui_value(pr_remref)}, which no longer exists")
+    return(invisible(FALSE))
+  }
+
+  if (is.na(pr$pr_merged_at)) {
+    ui_info("
+      PR {ui_value(pr$pr_string)} is unmerged, \\
+      we will not delete the remote branch {ui_value(pr_remref)}")
+    return(invisible(FALSE))
+  }
+
+  ui_done("
+    PR {ui_value(pr$pr_string)} has been merged, \\
+    deleting remote branch {ui_value(pr_remref)}")
+  # TODO: tryCatch here?
+  gh(
+    "DELETE /repos/{owner}/{repo}/git/refs/{ref}",
+    ref = glue("heads/{pr$pr_ref}")
+  )
+  invisible(TRUE)
+}
+
+check_pr_branch <- function(default_branch = git_default_branch()) {
+  # the glue-ing happens inside check_current_branch(), where `gb` gives the
+  # current git branch
+  check_current_branch(
+    is_not = default_branch,
+    message = "
+      The {ui_code('pr_*()')} functions facilitate pull requests.
+      The current branch ({ui_value(gb)}) is this repo's default \\
+      branch, but pull requests should NOT come from the default branch.
+      Do you need to call {ui_code('pr_init()')} (new PR)?
+      Or {ui_code('pr_resume()')} or {ui_code('pr_fetch()')} (existing PR)?"
+  )
 }

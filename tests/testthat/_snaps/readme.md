@@ -1,0 +1,184 @@
+# use_readme_md() has expected form for a non-GitHub package
+
+    Code
+      writeLines(read_utf8("README.md"))
+    Output
+      
+      # {TESTPKG}
+      
+      <!-- badges: start -->
+      <!-- badges: end -->
+      
+      The goal of {TESTPKG} is to ...
+      
+      ## Installation
+      
+      You can install the development version of {TESTPKG} like so:
+      
+      ``` r
+      # FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+      ```
+      
+      ## Example
+      
+      This is a basic example which shows you how to solve a common problem:
+      
+      ``` r
+      library({TESTPKG})
+      ## basic example code
+      ```
+      
+
+# use_readme_md() has expected form for a GitHub package
+
+    Code
+      writeLines(read_utf8("README.md"))
+    Output
+      
+      # {TESTPKG}
+      
+      <!-- badges: start -->
+      <!-- badges: end -->
+      
+      The goal of {TESTPKG} is to ...
+      
+      ## Installation
+      
+      You can install the development version of {TESTPKG} from [GitHub](https://github.com/) with:
+      
+      ``` r
+      # install.packages("devtools")
+      devtools::install_github("OWNER/TESTPKG")
+      ```
+      
+      ## Example
+      
+      This is a basic example which shows you how to solve a common problem:
+      
+      ``` r
+      library({TESTPKG})
+      ## basic example code
+      ```
+      
+
+# use_readme_rmd() has expected form for a non-GitHub package
+
+    Code
+      writeLines(read_utf8("README.Rmd"))
+    Output
+      ---
+      output: github_document
+      ---
+      
+      <!-- README.md is generated from README.Rmd. Please edit that file -->
+      
+      ```{r, include = FALSE}
+      knitr::opts_chunk$set(
+        collapse = TRUE,
+        comment = "#>",
+        fig.path = "man/figures/README-",
+        out.width = "100%"
+      )
+      ```
+      
+      # {TESTPKG}
+      
+      <!-- badges: start -->
+      <!-- badges: end -->
+      
+      The goal of {TESTPKG} is to ...
+      
+      ## Installation
+      
+      You can install the development version of {TESTPKG} like so:
+      
+      ``` r
+      # FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+      ```
+      
+      ## Example
+      
+      This is a basic example which shows you how to solve a common problem:
+      
+      ```{r example}
+      library({TESTPKG})
+      ## basic example code
+      ```
+      
+      What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+      
+      ```{r cars}
+      summary(cars)
+      ```
+      
+      You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+      
+      You can also embed plots, for example:
+      
+      ```{r pressure, echo = FALSE}
+      plot(pressure)
+      ```
+      
+      In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+
+# use_readme_rmd() has expected form for a GitHub package
+
+    Code
+      writeLines(read_utf8("README.Rmd"))
+    Output
+      ---
+      output: github_document
+      ---
+      
+      <!-- README.md is generated from README.Rmd. Please edit that file -->
+      
+      ```{r, include = FALSE}
+      knitr::opts_chunk$set(
+        collapse = TRUE,
+        comment = "#>",
+        fig.path = "man/figures/README-",
+        out.width = "100%"
+      )
+      ```
+      
+      # {TESTPKG}
+      
+      <!-- badges: start -->
+      <!-- badges: end -->
+      
+      The goal of {TESTPKG} is to ...
+      
+      ## Installation
+      
+      You can install the development version of {TESTPKG} from [GitHub](https://github.com/) with:
+      
+      ``` r
+      # install.packages("devtools")
+      devtools::install_github("OWNER/TESTPKG")
+      ```
+      
+      ## Example
+      
+      This is a basic example which shows you how to solve a common problem:
+      
+      ```{r example}
+      library({TESTPKG})
+      ## basic example code
+      ```
+      
+      What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+      
+      ```{r cars}
+      summary(cars)
+      ```
+      
+      You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+      
+      You can also embed plots, for example:
+      
+      ```{r pressure, echo = FALSE}
+      plot(pressure)
+      ```
+      
+      In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+

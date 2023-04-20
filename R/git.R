@@ -11,56 +11,27 @@
 #' use_git()
 #' }
 use_git <- function(message = "Initial commit") {
-  if (uses_git()) {
-    return(invisible())
+  needs_init <- !uses_git()
+  if (needs_init) {
+    ui_done("Initialising Git repo")
+    git_init()
   }
 
-  ui_done("Initialising Git repo")
-  git_init()
+  use_git_ignore(git_ignore_lines)
+  if (git_uncommitted(untracked = TRUE)) {
+    git_ask_commit(message, untracked = TRUE)
+  }
 
-  use_git_ignore(c(".Rhistory", ".RData", ".Rproj.user"))
-  git_ask_commit(message, untracked = TRUE)
+  if (needs_init) {
+    restart_rstudio("A restart of RStudio is required to activate the Git pane")
+  }
 
-  restart_rstudio("A restart of RStudio is required to activate the Git pane")
   invisible(TRUE)
-}
-
-git_ask_commit <- function(message, untracked = FALSE) {
-  if (!interactive() || !uses_git()) {
-    return(invisible())
-  }
-
-  paths <- unlist(git_status(untracked = untracked), use.names = FALSE)
-  if (length(paths) == 0) {
-    return(invisible())
-  }
-
-  paths <- sort(paths)
-
-  ui_paths <- purrr::map_chr(proj_path(paths), ui_path)
-  n <- length(ui_paths)
-  if (n > 20) {
-    ui_paths <- c(ui_paths[1:20], "...")
-  }
-
-  ui_line(c(
-    "There are {n} uncommitted files:",
-    paste0("* ", ui_paths)
-  ))
-
-  if (ui_yeah("Is it ok to commit them?")) {
-    ui_done("Adding files")
-    repo <- git_repo()
-    git2r::add(repo, paths)
-    ui_done("Commit with message {ui_value(message)}")
-    git2r::commit(repo, message)
-  }
-  invisible()
 }
 
 #' Add a git hook
 #'
-#' Sets up a git hook using specified script. Creates hook directory if
+#' Sets up a git hook using the specified script. Creates a hook directory if
 #' needed, and sets correct permissions on hook.
 #'
 #' @param hook Hook name. One of "pre-commit", "prepare-commit-msg",
@@ -82,7 +53,7 @@ use_git_hook <- function(hook, script) {
   invisible()
 }
 
-#' Tell git to ignore files
+#' Tell Git to ignore files
 #'
 #' @param ignores Character vector of ignores, specified as file globs.
 #' @param directory Directory relative to active project to set ignores
@@ -90,15 +61,21 @@ use_git_hook <- function(hook, script) {
 #' @export
 use_git_ignore <- function(ignores, directory = ".") {
   write_union(proj_path(directory, ".gitignore"), ignores)
+  rstudio_git_tickle()
 }
 
 #' Configure Git
 #'
 #' Sets Git options, for either the user or the project ("global" or "local", in
-#' Git terminology).
+#' Git terminology). Wraps [gert::git_config_set()] and
+#' [gert::git_config_global_set()]. To inspect Git config, see
+#' [gert::git_config()].
 #'
-#' @param ... Name-value pairs.
-#' @return Invisibly, the previous values of the modified components.
+#' @param ... Name-value pairs, processed as
+#'   <[`dynamic-dots`][rlang::dyn-dots]>.
+#'
+#' @return Invisibly, the previous values of the modified components, as a named
+#'   list.
 #' @inheritParams edit
 #'
 #' @family git helpers
@@ -118,89 +95,75 @@ use_git_ignore <- function(ignores, directory = ".") {
 use_git_config <- function(scope = c("user", "project"), ...) {
   scope <- match.arg(scope)
 
-  if (scope == "user") {
-    git_config(...)
-  } else {
-    check_uses_git()
-    git_config(..., .repo = git_repo())
+  dots <- list2(...)
+  stopifnot(is_dictionaryish(dots))
+
+  orig <- stats::setNames(
+    vector(mode = "list", length = length(dots)),
+    names(dots)
+  )
+  for (i in seq_along(dots)) {
+    nm <- names(dots)[[i]]
+    vl <- dots[[i]]
+    if (scope == "user") {
+      orig[nm] <- git_cfg_get(nm, "global") %||% list(NULL)
+      gert::git_config_global_set(nm, vl)
+    } else {
+      check_uses_git()
+      orig[nm] <- git_cfg_get(nm, "local") %||% list(NULL)
+      gert::git_config_set(nm, vl, repo = git_repo())
+    }
   }
+
+  invisible(orig)
 }
 
-#' Produce or register git protocol
+#' See or set the default Git protocol
 #'
+#' @description
 #' Git operations that address a remote use a so-called "transport protocol".
-#' usethis supports SSH and HTTPS. The protocol affects two things:
-#'   * The default URL format for repos with no existing remote protocol:
-#'     - `protocol = "ssh"` implies `git@@github.com:<OWNER>/<REPO>.git`
-#'     - `protocol = "https"` implies `https://github.com/<OWNER>/<REPO>.git`
-#'   * The strategy for creating `credentials` when none are given. See
-#'     [git_credentials()] for details.
+#' usethis supports HTTPS and SSH. The protocol dictates the Git URL format used
+#' when usethis needs to configure the first GitHub remote for a repo:
+#' * `protocol = "https"` implies `https://github.com/<OWNER>/<REPO>.git`
+#' * `protocol = "ssh"` implies `git@@github.com:<OWNER>/<REPO>.git`
+#'
 #' Two helper functions are available:
-#'   * `git_protocol()` returns the user's preferred protocol, if known, and,
-#'     otherwise, asks the user (interactive session) or defaults to SSH
-#'     (non-interactive session).
-#'   * `use_git_protocol()` allows the user to set the git protocol, which is
-#'     stored in the `usethis.protocol` option.
-#' Any interactive choice re: `protocol` comes with a reminder of how to set the
-#' protocol at startup by setting an option in `.Rprofile`:
-#' ```
-#' options(usethis.protocol = "ssh")
-#' ## or
-#' options(usethis.protocol = "https")
-#' ```
+#'   * `git_protocol()` reveals the protocol "in force". As of usethis v2.0.0,
+#'     this defaults to "https". You can change this for the duration of the
+#'     R session with `use_git_protocol()`. Change the default for all R
+#'     sessions with code like this in your `.Rprofile` (easily editable via
+#'     [edit_r_profile()]):
+#'     ```
+#'     options(usethis.protocol = "ssh")
+#'     ```
+#'   * `use_git_protocol()` sets the Git protocol for the current R session
 #'
-#' @param protocol Optional. Should be "ssh" or "https", if specified. Defaults
-#'   to the option `usethis.protocol` and, if unset, to an interactive choice
-#'   or, in non-interactive sessions, "ssh". `NA` triggers the interactive menu.
+#' This protocol only affects the Git URL for newly configured remotes. All
+#' existing Git remote URLs are always respected, whether HTTPS or SSH.
 #'
-#' @return "ssh" or "https"
+#' @param protocol One of "https" or "ssh"
+#'
+#' @return The protocol, either "https" or "ssh"
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' ## consult the option and maybe get an interactive menu
 #' git_protocol()
 #'
-#' ## explicitly set the protocol
 #' use_git_protocol("ssh")
+#' git_protocol()
+#'
 #' use_git_protocol("https")
+#' git_protocol()
 #' }
 git_protocol <- function() {
-  protocol <- getOption(
-    "usethis.protocol",
-    default = if (interactive()) NA else "ssh"
-  )
-
-  ## this is where a user-supplied protocol gets checked, because
-  ## use_git_protocol() shoves it in the option unconditionally and calls this
-  bad_protocol <- length(protocol) != 1 ||
-    ! (tolower(protocol) %in% c("ssh", "https", NA))
-  if (bad_protocol) {
-    options(usethis.protocol = NULL)
-    ui_stop(
-      "{ui_code('protocol')} must be one of {ui_value('ssh')}, \\
-       {ui_value('https')}', or {ui_value('NA')}."
-    )
+  protocol <- tolower(getOption("usethis.protocol", "unset"))
+  if (identical(protocol, "unset")) {
+    ui_info("Defaulting to {ui_value('https')} Git protocol")
+    protocol <- "https"
+  } else {
+    check_protocol(protocol)
   }
-
-  if (is.na(protocol)) {
-    protocol <- choose_protocol()
-    if (is.null(protocol)) {
-      ui_stop(
-      "{ui_code('protocol')} must be either {ui_value('ssh')} or \\
-       {ui_value('https')}'."
-      )
-    }
-    code <- glue("options(usethis.protocol = \"{protocol}\")")
-    ui_todo(c(
-      "Tip: To suppress this menu in future, put",
-      "{ui_code(code)}",
-      "in your script or in a user- or project-level startup file, {ui_value('.Rprofile')}.",
-      "Call {ui_code('usethis::edit_r_profile()')} to open it for editing."
-    ))
-  }
-
-  protocol <- match.arg(tolower(protocol), c("ssh", "https"))
   options("usethis.protocol" = protocol)
   getOption("usethis.protocol")
 }
@@ -209,27 +172,18 @@ git_protocol <- function() {
 #' @export
 use_git_protocol <- function(protocol) {
   options("usethis.protocol" = protocol)
-  git_protocol()
+  invisible(git_protocol())
 }
 
-choose_protocol <- function() {
-  ## intercept with our internal interactive()
-  if (!interactive()) {
-    return(invisible())
+check_protocol <- function(protocol) {
+  if (!is_string(protocol) ||
+      !(tolower(protocol) %in% c("https", "ssh"))) {
+    options(usethis.protocol = NULL)
+    ui_stop("
+      {ui_code('protocol')} must be either {ui_value('https')} or \\
+      {ui_value('ssh')}")
   }
-  choices <- c(
-    ssh   = "ssh   <-- presumes that you have set up ssh keys",
-    https = "https <-- choose this if you don't have ssh keys (or don't know if you do)"
-  )
-  choice <- utils::menu(
-    choices = choices,
-    title = "Which git protocol to use? (enter 0 to exit)"
-  )
-  if (choice == 0) {
-    invisible()
-  } else {
-    names(choices)[choice]
-  }
+  invisible()
 }
 
 #' Configure and report Git remotes
@@ -289,26 +243,27 @@ choose_protocol <- function() {
 #' use_git_remote(name = "upstream", url = upstream_url)
 #' }
 use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
-  stopifnot(is_string(name))
-  stopifnot(is.null(url) || is_string(url))
-  stopifnot(rlang::is_true(overwrite) || rlang::is_false(overwrite))
+  check_name(name)
+  maybe_name(url)
+  check_bool(overwrite)
 
-  repo <- git_repo()
   remotes <- git_remotes()
+  repo <- git_repo()
 
   if (name %in% names(remotes) && !overwrite) {
-    ui_stop("Remote {ui_value(name)} already exists. Use \\
-            {ui_code('overwrite = TRUE')} to edit it anyway.")
+    ui_stop("
+      Remote {ui_value(name)} already exists. Use \\
+      {ui_code('overwrite = TRUE')} to edit it anyway.")
   }
 
   if (name %in% names(remotes)) {
     if (is.null(url)) {
-      git2r::remote_remove(repo = repo, name = name)
+      gert::git_remote_remove(remote = name, repo = repo)
     } else {
-      git2r::remote_set_url(repo = repo, name = name, url = url)
+      gert::git_remote_set_url(url = url, remote = name, repo = repo)
     }
-  } else {
-    git2r::remote_add(repo = repo, name = name, url = url)
+  } else if (!is.null(url)) {
+    gert::git_remote_add(url = url, name = name, repo = repo)
   }
 
   invisible(git_remotes())
@@ -317,307 +272,270 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
 #' @rdname use_git_remote
 #' @export
 git_remotes <- function() {
-  repo <- git_repo()
-  rnames <- git2r::remotes(repo)
-  if (length(rnames) == 0) {
+  x <- gert::git_remote_list(repo = git_repo())
+  if (nrow(x) == 0) {
     return(NULL)
   }
-  stats::setNames(as.list(git2r::remote_url(repo, rnames)), rnames)
+  stats::setNames(as.list(x$url), x$name)
 }
 
-git2r_env <- new.env(parent = emptyenv())
-have_git2r_credentials <- function() rlang::env_has(git2r_env, "credentials")
-
-#' Produce or register git credentials
-#'
-#' Credentials are needed for git operations like `git push` that address a
-#' remote, typically GitHub. usethis uses the git2r package. git2r tries to use
-#' the same credentials as command line git, but sometimes fails. usethis tries
-#' to increase the chance that things "just work" and, when they don't, to
-#' provide the user a way to intervene:
-#'   * `git_credentials()` returns any `credentials` that have been registered
-#'     with `use_git_credentials()` and, otherwise, implements usethis's
-#'     default strategy.
-#'   * `use_git_credentials()` allows you to register `credentials` explicitly
-#'     for use in all usethis functions in an R session. Do this only after
-#'     proven failure of the defaults.
-#'
-#' @section Default credentials:
-#'
-#'   If the default behaviour of usethis + git2r works, rejoice and leave well
-#'   enough alone. Keep reading if you need more control or understanding.
-#'
-#' @section SSH credentials:
-#'
-#' For `protocol = "ssh"`, by default, usethis passes `NULL` credentials
-#' to git2r. This will work if you have the exact configuration expected by
-#' git2r:
-#'
-#' 1. Your public and private keys are in the default locations,
-#' `~/.ssh/id_rsa.pub` and `~/.ssh/id_rsa`, respectively.
-#' 1. All the relevant software agrees on the definition of `~/`, i.e.
-#' your home directory. This is harder than it sounds on Windows.
-#' 1. Your `ssh-agent` is configured to manage your SSH passphrase, if you have
-#' one. This too can be a problem on Windows. Read more about SSH setup in
-#' [Happy Git and GitHub for the useR](https://happygitwithr.com/ssh-keys.html),
-#' especially the [troubleshooting
-#' section](https://happygitwithr.com/ssh-keys.html#ssh-troubleshooting).
-#'
-#' If the `NULL` default doesn't work, you can make `credentials` explicitly
-#' with [git2r::cred_ssh_key()] and register that with
-#' `use_git_credentials()` for the rest of the session:
-#' ```
-#' my_cred <- git2r::cred_ssh_key(
-#'    publickey  = "path/to/your/id_rsa.pub",
-#'    privatekey = "path/to/your/id_rsa",
-#'    # include / omit passphrase as appropriate to your situation
-#'    passphrase = askpass::askpass()
-#' )
-#' use_git_credentials(credentials = my_cred)
-#' ```
-#' For the remainder of the session, `git_credentials()` will return
-#' `my_cred`.
-#'
-#' @section HTTPS credentials:
-#'
-#'   For `protocol = "https"`, we must send username and password. It is
-#'   possible that your OS has cached this and git2r will successfully use that.
-#'   However, usethis can offer even more chance of success in the HTTPS case.
-#'   GitHub also accepts a personal access token (PAT) via HTTPS. If
-#'   `credentials = NULL` and a PAT is available, we send it. Preference is
-#'   given to any `auth_token` that is passed explicitly. Otherwise,
-#'   [github_token()] is called. If a PAT is found, we make an HTTPS
-#'   credential with [git2r::cred_user_pass()]. The PAT is sent as the password
-#'   and dummy text is sent as the username (the PAT is what really matters in
-#'   this case). You can also register an explicit credential yourself in a
-#'   similar way:
-#' ```
-#' my_cred <- git2r::cred_user_pass(
-#'   username = "janedoe",
-#'   password = askpass::askpass()
-#' )
-#' use_git_credentials(credentials = my_cred)
-#' ```
-#'   For the remainder of the session, `git_credentials()` will return
-#'   `my_cred`.
-#'
-#' @inheritParams git_protocol
-#' @param auth_token GitHub personal access token (PAT).
-#' @param credentials A git2r credential object produced with
-#'   [git2r::cred_env()], [git2r::cred_ssh_key()], [git2r::cred_token()], or
-#'   [git2r::cred_user_pass()].
-#'
-#' @return Either `NULL` or a git2r credential object, invisibly, i.e.
-#'   something to be passed to git2r as `credentials`.
-#' @export
-#'
-#' @examples
-#' git_credentials()
-#' git_credentials(protocol = "ssh")
-#'
-#' \dontrun{
-#' # these calls look for a GitHub PAT
-#' git_credentials(protocol = "https")
-#' git_credentials(protocol = "https", auth_token = "MY_GITHUB_PAT")
-#' }
-git_credentials <- function(protocol = git_protocol(),
-                            auth_token = github_token()) {
-  if (have_git2r_credentials()) {
-    return(git2r_env$credentials)
-  }
-
-  if (is.null(protocol) || protocol == "ssh") {
-    return(NULL)
-  }
-
-  if (have_github_token(auth_token)) {
-    git2r::cred_user_pass("EMAIL", check_github_token(auth_token))
-  } else {
-    NULL
-  }
-}
-
-#' @rdname git_credentials
-#' @export
-use_git_credentials <- function(credentials) {
-  git2r_env$credentials <- credentials
-  invisible(git_credentials())
-}
-
-#' git/GitHub sitrep
-#'
-#' Get a situation report on your current git/GitHub status. Useful for
-#' diagnosing problems. [git_vaccinate()] adds some basic R- and RStudio-related
-#' entries to the user-level git ignore file.
-#' @export
-#' @examples
-#' git_sitrep()
-git_sitrep <- function() {
-  # git user ------------------------------------------------------------------
-  hd_line("Git user")
-  kv_line("Name", git_config_get("user.name", global = TRUE))
-  kv_line("Email", git_config_get("user.email", global = TRUE))
-  ## TODO: forward info from the credentials package once we start using it
-  ## and it reflects the credentials situation usethis will actually meet
-  ## e.g., git version, HTTPS credential helpers, SSH keys, etc.
-  kv_line("Vaccinated", git_vaccinated())
-
-  # usethis + git2r ----------------------------------------------------------
-  hd_line("usethis + git2r")
-  kv_line("Default usethis protocol", getOption("usethis.protocol"))
-  kv_line("git2r supports SSH", git2r::libgit2_features()$ssh)
-  credentials_value <- if (have_git2r_credentials()) {
-    glue("<user-provided git2r credential object with class {class(git_credentials())}>")
-  } else {
-    "<usethis + git2r default behaviour>"
-  }
-  kv_line("Credentials", credentials_value)
-
-  # github user ---------------------------------------------------------------
-  hd_line("GitHub")
-  have_token <- have_github_token()
-  if (have_token) {
-    kv_line("Personal access token", "<found in env var>")
-    tryCatch(
-      {
-        who <- gh::gh_whoami(github_token())
-        kv_line("User", who$login)
-        kv_line("Name", who$name)
-      },
-      http_error_401 = function(e) ui_oops("Token is invalid."),
-      error = function(e) ui_oops("Can't validate token. Is the network reachable?")
-    )
-  } else {
-    kv_line("Personal access token", NULL)
-  }
-
-  # repo overview -------------------------------------------------------------
-  hd_line("Repo")
-  withr::with_options(
-    list(usethis.quiet = TRUE),
-    try(proj_get(), silent = TRUE)
-  )
-  if (!proj_active()) {
-    ui_info("No active usethis project.")
+# unexported function to improve my personal quality of life
+git_clean <- function() {
+  if (!is_interactive() || !uses_git()) {
     return(invisible())
   }
+
+  st <- gert::git_status(staged = FALSE, repo = git_repo())
+  paths <- st[st$status == "new", ][["file"]]
+  n <- length(paths)
+  if (n == 0) {
+    ui_info("Found no untracked files")
+    return(invisible())
+  }
+
+  paths <- sort(paths)
+  ui_paths <- map_chr(paths, ui_path)
+  if (n > 10) {
+    ui_paths <- c(ui_paths[1:10], "...")
+  }
+
+  if (n == 1) {
+    file_hint <- "There is 1 untracked file:"
+  } else {
+    file_hint <- "There are {n} untracked files:"
+  }
+  ui_line(c(
+    file_hint,
+    paste0("* ", ui_paths)
+  ))
+
+  if (ui_yeah("
+
+    Do you want to remove {if (n == 1) 'it' else 'them'}?",
+    yes = "yes", no = "no", shuffle = FALSE)) {
+    file_delete(paths)
+    ui_done("{n} file(s) deleted")
+  }
+  rstudio_git_tickle()
+  invisible()
+}
+
+#' Git/GitHub sitrep
+#'
+#' Get a situation report on your current Git/GitHub status. Useful for
+#' diagnosing problems. The default is to report all values; provide values
+#' for `tool` or `scope` to be more specific.
+#'
+#' @param tool Report for __git__, or __github__
+#' @param scope Report globally for the current __user__, or locally for the
+#'   current __project__
+#'
+#' @export
+#' @examples
+#' \dontrun{
+#' # report all
+#' git_sitrep()
+#'
+#' # report git for current user
+#' git_sitrep("git", "user")
+#' }
+git_sitrep <- function(tool = c("git", "github"),
+                       scope = c("user", "project")) {
+
+  tool <- rlang::arg_match(tool, multiple = TRUE)
+  scope <- rlang::arg_match(scope, multiple = TRUE)
+
+  ui_silence(try(proj_get(), silent = TRUE))
+
+  # git (global / user) --------------------------------------------------------
+  init_default_branch <- git_cfg_get("init.defaultBranch", where = "global")
+  if ("git" %in% tool && "user" %in% scope) {
+    cli::cli_h3("Git global (user)")
+    git_user_sitrep("user")
+    kv_line("Global (user-level) gitignore file", git_ignore_path("user"))
+    vaccinated <- git_vaccinated()
+    kv_line("Vaccinated", vaccinated)
+    if (!vaccinated) {
+      ui_info("See {ui_code('?git_vaccinate')} to learn more")
+    }
+    kv_line("Default Git protocol", git_protocol())
+    kv_line("Default initial branch name", init_default_branch)
+  }
+
+  # github (global / user) -----------------------------------------------------
+  default_gh_host <- get_hosturl(default_api_url())
+  if ("github" %in% tool && "user" %in% scope) {
+    cli::cli_h3("GitHub user")
+    kv_line("Default GitHub host", default_gh_host)
+    pat_sitrep(default_gh_host, scope = "user")
+  }
+
+  # git and github for active project ------------------------------------------
+  if (!"project" %in% scope) {
+    return(invisible())
+  }
+
+  if (!proj_active()) {
+    ui_info("No active usethis project")
+    return(invisible())
+  }
+  cli::cli_h2(glue("Active usethis project: {ui_value(proj_get())}"))
 
   if (!uses_git()) {
-    ui_info("Active project is not a Git repo.")
+    ui_info("Active project is not a Git repo")
     return(invisible())
   }
 
-  kv_line("Path", git_repo()$path)
-  branch <- tryCatch(git_branch_name(), error = function(e) NULL)
-  tracking_branch <- if (is.null(branch)) NULL else git_branch_tracking()
-  ## TODO: rework when ui_*() functions make it possible to do better
+  # current branch -------------------------------------------------------------
+  branch <- tryCatch(git_branch(), error = function(e) NULL)
+  tracking_branch <- if (is.null(branch)) NA_character_ else git_branch_tracking()
+  # TODO: can't really express with kv_line() helper
   branch <- if (is.null(branch)) "<unset>" else branch
-  tracking_branch <- if (is.null(tracking_branch)) "<unset>" else tracking_branch
-  cat_line("* ", "Local branch -> remote tracking branch: ",
-           ui_value(branch), " -> ", ui_value(tracking_branch))
+  tracking_branch <- if (is.na(tracking_branch)) "<unset>" else tracking_branch
 
-  # PR outlook -------------------------------------------------------------
-  hd_line("GitHub pull request readiness")
-  if (is.null(github_remote("origin")) && is.null(github_remote("upstream"))) {
-    ui_info(
-      "
-      This repo has neither {ui_value('origin')} nor {ui_value('upstream')} \\
-      remote on GitHub.com.
-      "
+  # local git config -----------------------------------------------------------
+  if ("git" %in% tool) {
+    cli::cli_h3("Git local (project)")
+    git_user_sitrep("project")
+
+    # default branch -------------------------------------------------------------
+    default_branch_sitrep()
+
+    # vertical alignment would make this nicer, but probably not worth it
+    ui_bullet(glue("
+      Current local branch -> remote tracking branch:
+      {ui_value(branch)} -> {ui_value(tracking_branch)}"))
+  }
+
+  # GitHub remote config -------------------------------------------------------
+  if ("github" %in% tool) {
+    cli::cli_h3("GitHub project")
+
+    cfg <- github_remote_config()
+
+    if (cfg$type == "no_github") {
+      ui_info("Project does not use GitHub")
+      return(invisible())
+    }
+
+    repo_host <- cfg$host_url
+    if (!is.na(repo_host) && repo_host != default_gh_host) {
+      cli::cli_text("Host:")
+      kv_line("Non-default GitHub host", repo_host)
+      pat_sitrep(repo_host, scope = "project", scold_for_renviron = FALSE)
+      cli::cli_text("Project:")
+    }
+
+    purrr::walk(format(cfg), ui_bullet)
+  }
+
+  invisible()
+}
+
+git_user_sitrep <- function(scope = c("user", "project")) {
+  scope <- rlang::arg_match(scope)
+
+  where <- where_from_scope(scope)
+
+  user <- git_user_get(where)
+  user_local <- git_user_get("local")
+
+  if (scope == "project" && !all(map_lgl(user_local, is.null))) {
+    ui_info("This repo has a locally configured user")
+  }
+
+  kv_line("Name", user$name)
+  kv_line("Email", user$email)
+
+  git_user_check(user)
+
+  invisible(NULL)
+}
+
+git_user_check <- function(user) {
+  if (all(map_lgl(user, is.null))) {
+    hint <-
+      'use_git_config(user.name = "<your name>", user.email = "<your email>")'
+    ui_oops(
+      "Git user's name and email are not set. Configure using {ui_code(hint)}."
     )
-    return(invisible())
+    return(invisible(NULL))
   }
 
-  origin   <- git_remote_scrutinize("origin", have_token)
-  upstream <- git_remote_scrutinize("upstream", have_token)
+  if (is.null(user$name)) {
+    hint <- 'use_git_config(user.name = "<your name>")'
+    ui_oops("Git user's name is not set. Configure using {ui_code(hint)}.")
+  }
 
-  kv_line("origin", github_remote_report(origin))
-  kv_line("upstream", github_remote_report(upstream))
+  if (is.null(user$email)) {
+    hint <- 'use_git_config(user.email = "<your email>")'
+    ui_oops("Git user's email is not set. Configure using {ui_code(hint)}.")
+  }
 }
 
-git_remote_scrutinize <- function(name, have_token = have_github_token()) {
-  out <- list(
-    exists = FALSE,
-    is_github = NA,
-    spec = NA,
-    perms = NA_character_,
-    is_fork = NA,
-    fork_spec = NA_character_
+# TODO: when I really overhaul the UI, determine if I can just re-use the
+# git_default_branch() error messages in the sitrep
+# the main point is converting an error to an "oops" type of message
+default_branch_sitrep <- function() {
+  tryCatch(
+    kv_line("Default branch", git_default_branch()),
+    error_default_branch = function(e) {
+      if (has_name(e, "db_local")) {
+        # FYI existence of db_local implies existence of db_source
+        ui_oops("
+          Default branch mismatch between local repo and remote!
+          {ui_value(e$db_source$name)} remote default branch: \\
+          {ui_value(e$db_source$default_branch)}
+          Local default branch: {ui_value(e$db_local)}
+          Call {ui_code('git_default_branch_rediscover()')} to resolve this.")
+      } else if (has_name(e, "db_source")) {
+        ui_oops("
+          Default branch mismatch between local repo and remote!
+          {ui_value(e$db_source$name)} remote default branch: \\
+          {ui_value(e$db_source$default_branch)}
+          Local repo has no branch by that name nor any other obvious candidates.
+          Call {ui_code('git_default_branch_rediscover()')} to resolve this.")
+      } else {
+        ui_oops("Default branch cannot be determined.")
+      }
+    }
   )
-  remotes <- git_remotes()
-  if (is.null(remotes)) {
-    return(out)
-  }
-
-  if (is.null(remotes[[name]])) {
-    return(out)
-  }
-  out$exists <- TRUE
-
-  gh_remote <- github_remote(name)
-  if (is.null(gh_remote)) {
-    out$is_github <- FALSE
-    return(out)
-  }
-  out$is_github <- TRUE
-  out$spec <- github_repo_spec(name)
-
-  gh_GET <- if (have_token) gh::gh(glue("/repos/{out$spec}")) else NULL
-  if (is.null(gh_GET)) {
-    return(out)
-  }
-  out$perms <- if (isTRUE(gh_GET$permissions$push)) "can push" else "read only"
-  out$is_fork <- isTRUE(gh_GET$fork)
-
-  if (!out$is_fork) {
-    return(out)
-  }
-  out$fork_spec <- gh_GET$parent$full_name
-
-  out
-}
-
-github_remote_report <- function(info) {
-  if (!info$exists) {
-    return("<no such remote>")
-  }
-  if (!info$is_github) {
-    return("<not a GitHub remote>")
-  }
-  out <- info[c("spec", "perms")]
-  if (isTRUE(info$is_fork)) {
-    out <- c(out, glue("forked from {info$fork_spec}"))
-  }
-  out
 }
 
 # Vaccination -------------------------------------------------------------
 
-#' Vaccinate your global git ignore
+#' Vaccinate your global gitignore file
 #'
-#' Adds `.DS_Store`, `.Rproj.user`, and `.Rhistory` to your global
-#' `.gitignore`. This is good practices as it ensures that you will never
-#' accidentally leak credentials to GitHub.
+#' Adds `.DS_Store`, `.Rproj.user`, `.Rdata`, `.Rhistory`, and `.httr-oauth` to
+#' your global (a.k.a. user-level) `.gitignore`. This is good practice as it
+#' decreases the chance that you will accidentally leak credentials to GitHub.
+#' `git_vaccinate()` also tries to detect and fix the situation where you have a
+#' global gitignore file, but it's missing from your global Git config.
 #'
 #' @export
 git_vaccinate <- function() {
-  path <- git_ignore_path("user")
-  write_union(path, git_global_ignore)
+  ensure_core_excludesFile()
+  path <- git_ignore_path(scope = "user")
+  if (!file_exists(path)) {
+    ui_done("Creating the global (user-level) gitignore: {ui_path(path)}")
+  }
+  write_union(path, git_ignore_lines)
 }
 
 git_vaccinated <- function() {
   path <- git_ignore_path("user")
-  if (!file_exists(path)) {
+  if (is.null(path) || !file_exists(path)) {
     return(FALSE)
   }
-
-  lines <- readLines(path)
-  all(git_global_ignore %in% lines)
+  # on Windows, if ~/ is present, take care to expand it the fs way
+  lines <- read_utf8(user_path_prep(path))
+  all(git_ignore_lines %in% lines)
 }
 
-git_global_ignore <- c(
+git_ignore_lines <- c(
   ".Rproj.user",
   ".Rhistory",
   ".Rdata",
+  ".httr-oauth",
   ".DS_Store"
 )

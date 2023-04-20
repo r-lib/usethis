@@ -1,87 +1,3 @@
-context("helpers")
-
-test_that("create_directory() doesn't bother a pre-existing target dir", {
-  tmp <- file_temp()
-  dir_create(tmp)
-  expect_true(is_dir(tmp))
-  expect_error_free(create_directory(tmp))
-  expect_true(is_dir(tmp))
-})
-
-test_that("create_directory() creates a directory", {
-  tmp <- file_temp("yes")
-  create_directory(tmp)
-  expect_true(is_dir(tmp))
-})
-
-test_that("edit_file() creates new directory and another and a file within", {
-  tmp <- file_temp()
-  expect_false(dir_exists(tmp))
-  capture.output(new_file <- edit_file(path(tmp, "new_dir", "new_file")))
-  expect_true(dir_exists(tmp))
-  expect_true(dir_exists(path(tmp, "new_dir")))
-  expect_true(file_exists(path(tmp, "new_dir", "new_file")))
-})
-
-test_that("edit_file() creates new file in existing directory", {
-  tmp <- file_temp()
-  dir_create(tmp)
-  capture.output(new_file <- edit_file(path(tmp, "new_file")))
-  expect_true(file_exists(path(tmp, "new_file")))
-})
-
-test_that("edit_file() copes with path to existing file", {
-  tmp <- file_temp()
-  dir_create(tmp)
-  existing <- file_create(path(tmp, "a_file"))
-  capture.output(res <- edit_file(path(tmp, "a_file")))
-  expect_identical(existing, res)
-})
-
-test_that("use_description_field() can address an existing field", {
-  pkg <- scoped_temporary_package()
-  orig <- tools::md5sum(proj_path("DESCRIPTION"))
-
-  ## specify existing value of existing field --> should be no op
-  use_description_field(
-    name = "Version",
-    value = desc::desc_get("Version", pkg)[[1]],
-    base_path = pkg
-  )
-  expect_identical(orig, tools::md5sum(proj_path("DESCRIPTION")))
-
-  expect_usethis_error(
-    use_description_field(
-      name = "Version",
-      value = "1.1.1",
-      base_path = pkg
-    ),
-    "has a different value"
-  )
-
-  ## overwrite existing field
-  use_description_field(
-    name = "Version",
-    value = "1.1.1",
-    base_path = pkg,
-    overwrite = TRUE
-  )
-  expect_identical(c(Version = "1.1.1"), desc::desc_get("Version", pkg))
-})
-
-test_that("use_description_field() can add new field", {
-  pkg <- scoped_temporary_package()
-  use_description_field(name = "foo", value = "bar", base_path = pkg)
-  expect_identical(c(foo = "bar"), desc::desc_get("foo", pkg))
-})
-
-test_that("use_description_field() ignores whitespace", {
-  pkg <- scoped_temporary_package()
-  use_description_field(name = "foo", value = "\n bar")
-  use_description_field(name = "foo", value = "bar")
-  expect_identical(c(foo = "\n bar"), desc::desc_get("foo", pkg))
-})
-
 test_that("valid_package_name() enforces valid package names", {
   # Contain only ASCII letters, numbers, and '.'
   # Have at least two characters
@@ -108,4 +24,73 @@ test_that("valid_file_name() enforces valid file names", {
   expect_true(valid_file_name("a_2.R"))
   expect_false(valid_file_name("aa\u00C0.R")) # \u00C0 is a-grave
   expect_false(valid_file_name("a?3.R"))
+})
+
+# use_dependency ----------------------------------------------------------
+
+test_that("we message for new type and are silent for same type", {
+  create_local_package()
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+
+  expect_message(
+    use_dependency("crayon", "Imports"),
+    "Adding 'crayon' to Imports field"
+  )
+  expect_silent(use_dependency("crayon", "Imports"))
+})
+
+test_that("we message for version change and are silent for same version", {
+  create_local_package()
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+
+  expect_message(
+    use_dependency("crayon", "Imports"),
+    "Adding 'crayon"
+  )
+  expect_message(
+    use_dependency("crayon", "Imports", min_version = "1.0.0"),
+    "Increasing 'crayon'"
+  )
+  expect_silent(use_dependency("crayon", "Imports", min_version = "1.0.0"))
+  expect_message(
+    use_dependency("crayon", "Imports", min_version = "2.0.0"),
+    "Increasing 'crayon'"
+  )
+  expect_silent(use_dependency("crayon", "Imports", min_version = "1.0.0"))
+})
+
+## https://github.com/r-lib/usethis/issues/99
+test_that("use_dependency() upgrades a dependency", {
+  create_local_package()
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+
+  expect_message(use_dependency("usethis", "Suggests"))
+  expect_match(desc::desc_get("Suggests"), "usethis")
+
+  expect_message(use_dependency("usethis", "Imports"), "Moving 'usethis'")
+  expect_match(desc::desc_get("Imports"), "usethis")
+  expect_false(grepl("usethis", desc::desc_get("Suggests")))
+})
+
+## https://github.com/r-lib/usethis/issues/99
+test_that("use_dependency() declines to downgrade a dependency", {
+  create_local_package()
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+
+  expect_message(use_dependency("usethis", "Imports"))
+  expect_match(desc::desc_get("Imports"), "usethis")
+
+  expect_warning(use_dependency("usethis", "Suggests"), "no change")
+  expect_match(desc::desc_get("Imports"), "usethis")
+  expect_false(grepl("usethis", desc::desc_get("Suggests")))
+})
+
+test_that("can add LinkingTo dependency if other dependency already exists", {
+  create_local_package()
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+
+  expect_message(use_dependency("Rcpp", "Imports"), "Adding 'Rcpp'")
+  expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
+  expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
+  expect_message(use_dependency("Rcpp", "Import"), "Adding 'Rcpp'")
 })

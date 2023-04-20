@@ -6,22 +6,30 @@
 \alias{use_zip}
 \title{Download and unpack a ZIP file}
 \usage{
-use_course(url, destdir = NULL)
+use_course(url, destdir = getOption("usethis.destdir"))
 
-use_zip(url, destdir = getwd(), cleanup = if (interactive()) NA else
-  FALSE)
+use_zip(
+  url,
+  destdir = getwd(),
+  cleanup = if (rlang::is_interactive()) NA else FALSE
+)
 }
 \arguments{
-\item{url}{Link to a ZIP file containing the materials. Various short forms
-are accepted, to reduce the typing burden in live settings:\preformatted{* bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy"
-* GitHub repo spec: "OWNER/REPO"
-}
+\item{url}{Link to a ZIP file containing the materials. To reduce the chance
+of typos in live settings, these shorter forms are accepted:
 
-Function works well with DropBox folders and GitHub repos, but should work
-for ZIP files generally. See examples and \link{use_course_details} for more.}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{* GitHub repo spec: "OWNER/REPO". Equivalent to
+  `https://github.com/OWNER/REPO/DEFAULT_BRANCH.zip`.
+* bit.ly or rstd.io shortlinks: "bit.ly/xxx-yyy-zzz" or "rstd.io/foofy".
+  The instructor must then arrange for the shortlink to point to a valid
+  download URL for the target ZIP file. The helper
+  [create_download_url()] helps to create such URLs for GitHub, DropBox,
+  and Google Drive.
+}\if{html}{\out{</div>}}}
 
-\item{destdir}{The new folder is stored here. If \code{NULL}, defaults to user's
-Desktop or some other conspicuous place.}
+\item{destdir}{Destination for the new folder. Defaults to the location
+stored in the global option \code{usethis.destdir}, if defined, or to the user's
+Desktop or similarly conspicuous place otherwise.}
 
 \item{cleanup}{Whether to delete the original ZIP file after unpacking its
 contents. In an interactive setting, \code{NA} leads to a menu where user can
@@ -34,39 +42,40 @@ Path to the new directory holding the unpacked ZIP file, invisibly.
 Functions to download and unpack a ZIP file into a local folder of files,
 with very intentional default behaviour. Useful in pedagogical settings or
 anytime you need a large audience to download a set of files quickly and
-actually be able to find them.
+actually be able to find them. The underlying helpers are documented in
+\link{use_course_details}.
 }
 \section{Functions}{
 \itemize{
-\item \code{use_course}: Designed with live workshops in mind. Includes
-intentional friction to highlight the download destination. Workflow:
+\item \code{use_course()}: Designed with live workshops in mind. Includes intentional friction to
+highlight the download destination. Workflow:
 \itemize{
 \item User executes, e.g., \code{use_course("bit.ly/xxx-yyy-zzz")}.
 \item User is asked to notice and confirm the location of the new folder. Specify
-\code{destdir} to prevent this.
+\code{destdir} or configure the \code{"usethis.destdir"} option to prevent this.
 \item User is asked if they'd like to delete the ZIP file.
 \item If new folder contains an \code{.Rproj} file, a new instance of RStudio is
 launched. Otherwise, the folder is opened in the file manager, e.g. Finder
 or File Explorer.
 }
 
-\item \code{use_zip}: More useful in day-to-day work. Downloads in current
-working directory, by default, and allows \code{cleanup} behaviour to be
-specified.
-}}
+\item \code{use_zip()}: More useful in day-to-day work. Downloads in current working directory, by
+default, and allows \code{cleanup} behaviour to be specified.
 
+}}
 \examples{
 \dontrun{
 # download the source of usethis from GitHub, behind a bit.ly shortlink
 use_course("bit.ly/usethis-shortlink-example")
 use_course("http://bit.ly/usethis-shortlink-example")
 
-## download the source of rematch2 package, from CRAN and GitHub
+# download the source of rematch2 package from CRAN
 use_course("https://cran.r-project.org/bin/windows/contrib/3.4/rematch2_2.0.1.zip")
 
-## from GitHub, 3 ways
+# download the source of rematch2 package from GitHub, 4 ways
 use_course("r-lib/rematch2")
-use_course("https://github.com/r-lib/rematch2/archive/master.zip")
-use_course("https://api.github.com/repos/r-lib/rematch2/zipball/master")
+use_course("https://api.github.com/repos/r-lib/rematch2/zipball/HEAD")
+use_course("https://api.github.com/repos/r-lib/rematch2/zipball/main")
+use_course("https://github.com/r-lib/rematch2/archive/main.zip")
 }
 }

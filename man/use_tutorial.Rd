@@ -4,11 +4,11 @@
 \alias{use_tutorial}
 \title{Create a learnr tutorial}
 \usage{
-use_tutorial(name, title, open = interactive())
+use_tutorial(name, title, open = rlang::is_interactive())
 }
 \arguments{
 \item{name}{Base for file name to use for new \code{.Rmd} tutorial. Should consist
-only of numbers, letters, \code{_} and \code{-}. We recommend using lower case.}
+only of numbers, letters, \verb{_} and \code{-}. We recommend using lower case.}
 
 \item{title}{The human-facing title of the tutorial.}
 
@@ -16,12 +16,12 @@ only of numbers, letters, \code{_} and \code{-}. We recommend using lower case.}
 applicable, or via \code{\link[utils:file.edit]{utils::file.edit()}} otherwise.}
 }
 \description{
-Creates a new tutorial below \code{inst/tutorials/}. Tutorials are interactive R
-Markdown documents built with the \href{https://rstudio.github.io/learnr/index.html}{learnr package}. \code{use_tutorial()} does
+Creates a new tutorial below \verb{inst/tutorials/}. Tutorials are interactive R
+Markdown documents built with the \href{https://rstudio.github.io/learnr/index.html}{\code{learnr} package}. \code{use_tutorial()} does
 this setup:
 \itemize{
 \item Adds learnr to Suggests in \code{DESCRIPTION}.
-\item Gitignores \code{inst/tutorials/*.html} so you don't accidentally track
+\item Gitignores \verb{inst/tutorials/*.html} so you don't accidentally track
 rendered tutorials.
 \item Creates a new \code{.Rmd} tutorial from a template and, optionally, opens it
 for editing.

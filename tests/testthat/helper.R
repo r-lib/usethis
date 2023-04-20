@@ -1,6 +1,3 @@
-## attempt to activate a project, which is nice during development
-tryCatch(proj_set("."), error = function(e) NULL)
-
 ## If session temp directory appears to be, or be within, a project, there
 ## will be large scale, spurious test failures.
 ## The IDE sometimes leaves .Rproj files behind in session temp directory or
@@ -16,84 +13,86 @@ if (!is.null(session_temp_proj)) {
   ))
 }
 
-## putting `pattern` in the package or project name is part of our strategy for
-## suspending the nested project check during testing
-pattern <- "aaa"
-
-scoped_temporary_package <- function(dir = file_temp(pattern = pattern),
-                                     env = parent.frame(),
-                                     rstudio = FALSE) {
-  scoped_temporary_thing(dir, env, rstudio, "package")
+create_local_package <- function(dir = file_temp(pattern = "testpkg"),
+                                 env = parent.frame(),
+                                 rstudio = FALSE) {
+  create_local_thing(dir, env, rstudio, "package")
 }
 
-scoped_temporary_project <- function(dir = file_temp(pattern = pattern),
-                                     env = parent.frame(),
-                                     rstudio = FALSE) {
-  scoped_temporary_thing(dir, env, rstudio, "project")
+create_local_project <- function(dir = file_temp(pattern = "testproj"),
+                                 env = parent.frame(),
+                                 rstudio = FALSE) {
+  create_local_thing(dir, env, rstudio, "project")
 }
 
-scoped_temporary_thing <- function(dir = file_temp(pattern = pattern),
-                                   env = parent.frame(),
-                                   rstudio = FALSE,
-                                   thing = c("package", "project")) {
+create_local_thing <- function(dir = file_temp(pattern = pattern),
+                               env = parent.frame(),
+                               rstudio = FALSE,
+                               thing = c("package", "project")) {
   thing <- match.arg(thing)
   if (fs::dir_exists(dir)) {
     ui_stop("Target {ui_code('dir')} {ui_path(dir)} already exists.")
   }
 
-  old_project <- proj_get_()
-  ## Can't schedule a deferred project reset if calling this from the R
-  ## console, which is useful when developing tests
-  if (identical(env, globalenv())) {
-    ui_done("Switching to a temporary project!")
-    if (!is.null(old_project)) {
-      command <- paste0('proj_set(\"', old_project, '\")')
-      ui_todo(
-        "Restore current project with: {ui_code(command)}"
-      )
-    }
-  } else {
-    withr::defer({
-      withr::with_options(
-        list(usethis.quiet = TRUE),
-        proj_set(old_project, force = TRUE)
-      )
-      setwd(old_project)
-      fs::dir_delete(dir)
-    }, envir = env)
-  }
+  old_project <- proj_get_() # this could be `NULL`, i.e. no active project
+  old_wd <- getwd()          # not necessarily same as `old_project`
 
-  withr::local_options(list(usethis.quiet = TRUE))
-  switch(
-    thing,
-    package = create_package(dir, rstudio = rstudio, open = FALSE),
-    project = create_project(dir, rstudio = rstudio, open = FALSE)
+  withr::defer(
+    {
+      ui_done("Deleting temporary project: {ui_path(dir)}")
+      fs::dir_delete(dir)
+    },
+    envir = env
   )
+  ui_silence(
+    switch(
+      thing,
+      package = create_package(dir, rstudio = rstudio, open = FALSE, check_name = FALSE),
+      project = create_project(dir, rstudio = rstudio, open = FALSE)
+    )
+  )
+
+  withr::defer(proj_set(old_project, force = TRUE), envir = env)
   proj_set(dir)
-  setwd(dir)
-  invisible(dir)
+
+  withr::defer(
+    {
+      ui_done("Restoring original working directory: {ui_path(old_wd)}")
+      setwd(old_wd)
+    },
+    envir = env
+  )
+  setwd(proj_get())
+
+  invisible(proj_get())
 }
 
-test_mode <- function() {
-  before <- Sys.getenv("TESTTHAT")
-  after <- if (before == "true") "false" else "true"
-  Sys.setenv(TESTTHAT = after)
-  cat("TESTTHAT:", before, "-->", after, "\n")
+scrub_testpkg <- function(message) {
+  gsub("testpkg[a-zA-Z0-9]+", "{TESTPKG}", message, perl = TRUE)
+}
+
+toggle_rlang_interactive <- function() {
+  # TODO: consider setting options(rlang_backtrace_on_error = "reminder") when
+  # in non-interactive mode, to suppress full backtraces
+  before <- getOption("rlang_interactive")
+  after <- if (identical(before, FALSE)) TRUE else FALSE
+  options(rlang_interactive = after)
+  ui_line(glue::glue("rlang_interactive: {before %||% '<unset>'} --> {after}"))
   invisible()
 }
 
 skip_if_not_ci <- function() {
-  ci <- any(toupper(Sys.getenv(c("TRAVIS", "APPVEYOR"))) == "TRUE")
+  ci_providers <- c("GITHUB_ACTIONS", "TRAVIS", "APPVEYOR")
+  ci <- any(toupper(Sys.getenv(ci_providers)) == "TRUE")
   if (ci) {
     return(invisible(TRUE))
   }
-  skip("Not on Travis or Appveyor")
+  skip("Not on GitHub Actions, Travis, or Appveyor")
 }
 
-skip_if_no_git_config <- function() {
-  cfg <- git2r::config()
-  user_name <- cfg$local$`user.name` %||% cfg$global$`user.name`
-  user_email <- cfg$local$`user.email` %||% cfg$global$`user.email`
+skip_if_no_git_user <- function() {
+  user_name <- git_cfg_get("user.name")
+  user_email <- git_cfg_get("user.email")
   user_name_exists <- !is.null(user_name)
   user_email_exists <- !is.null(user_email)
   if (user_name_exists && user_email_exists) {
@@ -102,16 +101,28 @@ skip_if_no_git_config <- function() {
   skip("No Git user configured")
 }
 
+# CRAN's mac builder sets $HOME to a read-only ram disk, so tests can fail if
+# you even tickle something that might try to lock its own config file during
+# the operation (e.g. git) or if you simply test for writeability
+skip_on_cran_macos <- function() {
+  sysname <- tolower(Sys.info()[["sysname"]])
+  on_cran <- !identical(Sys.getenv("NOT_CRAN"), "true")
+  if (on_cran && sysname == "darwin") {
+    skip("On CRAN and on macOS")
+  }
+  invisible(TRUE)
+}
+
+with_mock <- function(..., .parent = parent.frame()) {
+  mockr::with_mock(..., .parent = .parent, .env = "usethis")
+}
+
 expect_usethis_error <- function(...) {
   expect_error(..., class = "usethis_error")
 }
 
-expect_error_free <- function(...) {
-  expect_error(..., regexp = NA)
-}
-
 is_build_ignored <- function(pattern, ..., base_path = proj_get()) {
-  lines <- readLines(path(base_path, ".Rbuildignore"), warn = FALSE)
+  lines <- read_utf8(path(base_path, ".Rbuildignore"))
   length(grep(pattern, x = lines, fixed = TRUE, ...)) > 0
 }
 
@@ -119,12 +130,3 @@ test_file <- function(fname) testthat::test_path("ref", fname)
 
 expect_proj_file <- function(...) expect_true(file_exists(proj_path(...)))
 expect_proj_dir <- function(...) expect_true(dir_exists(proj_path(...)))
-
-## use from testthat once > 2.0.0 is on CRAN
-skip_if_offline <- function(host = "r-project.org") {
-  skip_if_not_installed("curl")
-  has_internet <- !is.null(curl::nslookup(host, error = FALSE))
-  if (!has_internet) {
-    skip("offline")
-  }
-}

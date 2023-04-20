@@ -7,16 +7,20 @@
 #'   section](https://r-pkgs.org/release.html#important-files) of [R
 #'   Packages](https://r-pkgs.org).
 #' @export
-use_news_md <- function(open = interactive()) {
-  check_uncommitted_changes()
+use_news_md <- function(open = rlang::is_interactive()) {
+  check_is_package()
+  desc <- proj_desc()
 
   use_template(
     "NEWS.md",
-    data = package_data(),
+    data = list(
+      Package = project_name(),
+      Version = proj_version()
+    ),
     open = open
   )
 
-  git_ask_commit("Add NEWS.md")
+  git_ask_commit("Add NEWS.md", untracked = TRUE, paths = "NEWS.md")
 }
 
 use_news_heading <- function(version) {
@@ -25,7 +29,7 @@ use_news_heading <- function(version) {
     return(invisible())
   }
 
-  news <- readLines(news_path, encoding = "UTF-8")
+  news <- read_utf8(news_path)
   title <- glue("# {project_name()} {version}")
 
   if (title == news[[1]]) {

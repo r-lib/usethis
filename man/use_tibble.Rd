@@ -7,6 +7,8 @@
 use_tibble()
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#questioning}{\figure{lifecycle-questioning.svg}{options: alt='[Questioning]'}}}{\strong{[Questioning]}}
+
 Does minimum setup such that a tibble returned by your package
 is handled using the tibble method for generics like \code{print()} or \code{[}.
 Presumably you care about this if you've chosen to store and expose an
@@ -14,17 +16,20 @@ object with class \code{tbl_df}. Specifically:
 \itemize{
 \item Check that the active package uses roxygen2
 \item Add the tibble package to "Imports" in \code{DESCRIPTION}
-\item Reveal the roxygen directive necessary to import at least one function
-from tibble.
-\item Offer support re: where to put this directive. Preferred location is
-in the roxygen snippet produced by \code{\link[=use_package_doc]{use_package_doc()}}.
+\item Prepare the roxygen directive necessary to import at least one function
+from tibble:
+\itemize{
+\item If possible, the directive is inserted into existing package-level
+documentation, i.e. the roxygen snippet created by  \code{\link[=use_package_doc]{use_package_doc()}}
+\item Otherwise, we issue advice on where the user should add the directive
+}
 }
 
-This is necessary when your package returns a stored data object
-that has class \code{tbl_df}, but the package code does not make direct use of
-functions from the tibble package. If you do nothing, the tibble namespace
-is not necessarily loaded and your tibble may therefore be printed and
-subsetted like a base \code{data.frame}.
+This is necessary when your package returns a stored data object that has
+class \code{tbl_df}, but the package code does not make direct use of functions
+from the tibble package. If you do nothing, the tibble namespace is not
+necessarily loaded and your tibble may therefore be printed and subsetted
+like a base \code{data.frame}.
 }
 \examples{
 \dontrun{
