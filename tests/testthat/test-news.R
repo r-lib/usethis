@@ -4,7 +4,8 @@ test_that("use_news_md() sets (development version)/'Initial submission' in new 
 
   use_news_md()
 
-  expect_snapshot(read_utf8(proj_path("NEWS.md")), transform = scrub_testpkg)
+  expect_snapshot(writeLines(read_utf8(proj_path("NEWS.md"))),
+                  transform = scrub_testpkg)
 })
 
 test_that("use_news_md() sets bullet to 'Added a NEWS.md file...' when on CRAN", {
@@ -16,7 +17,8 @@ test_that("use_news_md() sets bullet to 'Added a NEWS.md file...' when on CRAN",
 
   use_news_md()
 
-  expect_snapshot(read_utf8(proj_path("NEWS.md")), transform = scrub_testpkg)
+  expect_snapshot(writeLines(read_utf8(proj_path("NEWS.md"))),
+                  transform = scrub_testpkg)
 })
 
 test_that("use_news_md() sets version number when 'production version'", {
@@ -27,5 +29,6 @@ test_that("use_news_md() sets version number when 'production version'", {
 
   use_news_md()
 
-  expect_snapshot(read_utf8(proj_path("NEWS.md")), transform = scrub_testpkg)
+  expect_snapshot(writeLines(read_utf8(proj_path("NEWS.md"))),
+                  transform = scrub_testpkg)
 })
