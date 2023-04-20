@@ -28,7 +28,11 @@ test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
 
   use_version("major")
   expect_identical(proj_version(), "2.0.0")
-  expect_match(read_utf8(proj_path("NEWS.md"), n = 1), "2.0.0")
+
+  expect_snapshot(
+    writeLines(read_utf8(proj_path("NEWS.md"))),
+    transform = scrub_testpkg
+  )
 })
 
 test_that("use_dev_version() appends .9000 to Version, exactly once", {
@@ -52,14 +56,9 @@ test_that("use_version() updates (development version) directly", {
   # directly overwrite development header
   use_version("patch")
 
-  expect_match(
-    read_utf8(proj_path("NEWS.md"), n = 1),
-    "0[.]0[.]2"
-  )
-
-  expect_match(
-    read_utf8(proj_path("NEWS.md"), n = 3)[3],
-    "0[.]0[.]1"
+  expect_snapshot(
+    writeLines(read_utf8(proj_path("NEWS.md"))),
+    transform = scrub_testpkg
   )
 })
 
@@ -80,5 +79,5 @@ test_that("use_version() updates version.c", {
   use_dev_version()
 
   lines <- read_utf8(ver_path)
-  expect_true(grepl("1.0.0.9000", lines, fixed = TRUE)[[2]])
+  expect_snapshot(writeLines(lines), transform = scrub_testpkg)
 })
