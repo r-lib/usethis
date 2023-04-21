@@ -23,7 +23,7 @@ test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
     value = "1.1.1.9000",
     overwrite = TRUE
   )
-  mock_cran_version(NULL)
+  mock_cran_version("1.1.1")
   use_news_md()
 
   use_version("major")
@@ -47,7 +47,7 @@ test_that("use_dev_version() appends .9000 to Version, exactly once", {
 test_that("use_version() updates (development version) directly", {
   create_local_package()
   use_description_field(name = "Version", value = "0.0.1", overwrite = TRUE)
-  mock_cran_version(NULL)
+  mock_cran_version("0.0.1")
   use_news_md()
 
   # bump to dev to set (development version)
@@ -80,4 +80,15 @@ test_that("use_version() updates version.c", {
 
   lines <- read_utf8(ver_path)
   expect_snapshot(writeLines(lines), transform = scrub_testpkg)
+})
+
+test_that("is_dev_version() detects dev version directly and with DESCRIPTION", {
+  expect_true(is_dev_version("0.0.1.9000"))
+  expect_false(is_dev_version("0.0.1"))
+
+  create_local_package()
+  use_description_field(name = "Version", value = "1.0.0", overwrite = TRUE)
+  expect_false(is_dev_version())
+  use_dev_version()
+  expect_true(is_dev_version())
 })
