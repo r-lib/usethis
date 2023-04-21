@@ -2,7 +2,8 @@
 
 * `use_news_md()` now places "(development version)" in the header of `NEWS.md`
    if there is a development version number in `DESCRIPTION`. It also sets the 
-   first bullet to "Initial CRAN submission" when it looks like a "new" package.
+   first bullet to "Initial CRAN submission" when it looks like a "new" package
+   (#1708).
 
 * Links to the R Packages book have been updated to the second edition of
   the book (#1689).
