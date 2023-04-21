@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `use_rscloud_badge()` has been deprecated in favour of 
+  `use_posit_cloud_badge()`, and both functions now accept the updated url 
+  format of Posit Cloud projects (#1670).
+
 * `use_release_issue()` will now remind you to run `use_github_links()` if 
   necessary (@Bisaloo, #1754)
 
