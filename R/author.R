@@ -115,10 +115,7 @@ check_author_is_novel <- function(given = NULL, family = NULL, d = proj_desc()) 
 }
 
 challenge_default_author <- function(d = proj_desc()) {
-  withr::with_options(
-    list(usethis.description = NULL),
-    defaults <- use_description_defaults()
-  )
+  defaults <- usethis_description_defaults()
   default_author <- eval(parse(text = defaults[["Authors@R"]]))
 
   authors <- d$get_authors()
