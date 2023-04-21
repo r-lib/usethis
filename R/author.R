@@ -38,7 +38,7 @@
 #' }
 #'
 use_author <- function(given = NULL, family = NULL, ..., role = "ctb") {
-  check_is_package("use_data()")
+  check_is_package("use_author()")
   maybe_name(given)
   maybe_name(family)
   check_character(role)
