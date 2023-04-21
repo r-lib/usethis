@@ -13,7 +13,21 @@ use_author(given = NULL, family = NULL, ..., role = "ctb")
 \item{family}{a character string with the \emph{family} name,
     or a list thereof.}
 
-\item{...}{currently not used.}
+\item{...}{
+  Arguments passed on to \code{\link[utils:person]{utils::person}}
+  \describe{
+    \item{\code{middle}}{a character string with the collapsed middle name(s).
+    Deprecated, see \bold{Details}.}
+    \item{\code{email}}{a character string (or vector) giving an e-mail address
+    (each),
+    or a list thereof.}
+    \item{\code{comment}}{a character string (or vector) providing comments,
+    or a list thereof.}
+    \item{\code{first}}{a character string giving the first name.
+    Deprecated, see \bold{Details}.}
+    \item{\code{last}}{a character string giving the last name.
+    Deprecated, see \bold{Details}.}
+  }}
 
 \item{role}{a character vector specifying the role(s) of the person
     (see \bold{Details}),

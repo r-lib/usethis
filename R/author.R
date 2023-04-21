@@ -26,6 +26,7 @@
 #' sessions.
 #'
 #' @inheritParams utils::person
+#' @inheritDotParams utils::person
 #' @export
 #' @examples
 #' \dontrun{
