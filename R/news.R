@@ -8,7 +8,7 @@
 #'   Packages](https://r-pkgs.org).
 #' @export
 use_news_md <- function(open = rlang::is_interactive()) {
-  check_is_package()
+  check_is_package("use_news_md()")
 
   ver <- proj_version()
   on_cran <- !is.null(cran_version())
