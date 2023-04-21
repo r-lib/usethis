@@ -152,7 +152,7 @@ use_c_version <- function(ver) {
   write_utf8(version_path, lines)
 }
 
-is_dev_version <- function(version) {
+is_dev_version <- function(version = proj_version()) {
   ver <- package_version(version)
   length(unlist(ver)) > 3
 }
