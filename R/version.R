@@ -87,7 +87,7 @@ use_version <- function(which = NULL, push = FALSE) {
 #' @export
 use_dev_version <- function(push = FALSE) {
   check_is_package("use_dev_version()")
-  if (is_dev_version(proj_version())) {
+  if (is_dev_version()) {
     return(invisible())
   }
   use_version(which = "dev", push = push)
