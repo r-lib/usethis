@@ -154,10 +154,10 @@ use_posit_cloud_badge <- function(url) {
     use_badge("Launch Posit Cloud", url, img)
   } else {
     usethis_abort("
-      {.code ('usethis::use_posit_cloud_badge()')} requires a link to an \\
+      {.fun usethis::use_posit_cloud_badge} requires a link to an \\
       existing Posit Cloud project of the form \\
-      'https://posit.cloud/content/<project-id>' or \\
-      'https://posit.cloud/spaces/<space-id>/content/<project-id>'.")
+      {.val https://posit.cloud/content/<project-id>} or \\
+      {.val https://posit.cloud/spaces/<space-id>/content/<project-id>}.")
   }
 
   invisible(TRUE)
