@@ -33,9 +33,12 @@
 #' use_author(
 #'   given = "Lucy",
 #'   family = "van Pelt",
+#'   role = c("aut", "cre"),
 #'   email = "lucy@example.com",
 #'   comment = c(ORCID = "LUCY-ORCID-ID")
 #' )
+#'
+#' use_author("Charlie", "Brown")
 #' }
 #'
 use_author <- function(given = NULL, family = NULL, ..., role = "ctb") {
