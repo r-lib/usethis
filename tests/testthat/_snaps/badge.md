@@ -12,16 +12,16 @@
     Code
       use_posit_cloud_badge()
     Condition
-      Error in `is.factor()`:
-      ! argument "url" is missing, with no default
+      Error in `use_posit_cloud_badge()`:
+      ! `url` must be a valid name, not absent.
 
 ---
 
     Code
       use_posit_cloud_badge(123)
     Condition
-      Error:
-      ! `usethis::use_posit_cloud_badge()` requires a link to an existing Posit Cloud project of the form 'https://posit.cloud/content/<project-id>' or 'https://posit.cloud/spaces/<space-id>/content/<project-id>'.
+      Error in `use_posit_cloud_badge()`:
+      ! `url` must be a valid name, not the number 123.
 
 ---
 

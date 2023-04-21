@@ -144,6 +144,7 @@ use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
 #'   for details on how to set project access and obtain a project link.
 #' @export
 use_posit_cloud_badge <- function(url) {
+  check_name(url)
   project_url <- "posit[.]cloud/content"
   spaces_url <- "posit[.]cloud/spaces"
   if (grepl(project_url, url) || grepl(spaces_url, url)) {
@@ -152,8 +153,8 @@ use_posit_cloud_badge <- function(url) {
     img <- "https://img.shields.io/badge/launch-posit%20cloud-447099?style=flat"
     use_badge("Launch Posit Cloud", url, img)
   } else {
-    ui_stop("
-      {ui_code('usethis::use_posit_cloud_badge()')} requires a link to an \\
+    usethis_abort("
+      {.code ('usethis::use_posit_cloud_badge()')} requires a link to an \\
       existing Posit Cloud project of the form \\
       'https://posit.cloud/content/<project-id>' or \\
       'https://posit.cloud/spaces/<space-id>/content/<project-id>'.")
