@@ -127,13 +127,17 @@ challenge_default_author <- function(d = proj_desc()) {
     # the `person` class is pretty weird!
     function(x) identical(x, unclass(default_author)[[1]])
   )
-  ui_info("
-    {ui_field('Authors@R')} appears to include a placeholder author:
-    {format(default_author, style = 'text')}")
-  if (any(m) && is_interactive() && ui_yeah("Would you like to remove it?")) {
-    # TODO: Do I want to suppress this output?
-    # Authors removed: First Last, NULL NULL.
-    do.call(d$del_author, unclass(default_author)[[1]])
+
+  if (any(m)) {
+    ui_info("
+      {ui_field('Authors@R')} appears to include a placeholder author:
+      {format(default_author, style = 'text')}")
+    if(is_interactive() && ui_yeah("Would you like to remove it?")) {
+      # TODO: Do I want to suppress this output?
+      # Authors removed: First Last, NULL NULL.
+      do.call(d$del_author, unclass(default_author)[[1]])
+    }
   }
+
   return(invisible())
 }
