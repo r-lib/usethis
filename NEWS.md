@@ -2,7 +2,7 @@
 
 * `use_news_md()` now places "(development version)" in the header of `NEWS.md`
    if there is a development version number in `DESCRIPTION`. It also sets the 
-   first bullet to "Initial submission" when it looks like a "new" package.
+   first bullet to "Initial CRAN submission" when it looks like a "new" package.
 
 * `use_release_issue()` will now remind you to run `use_github_links()` if 
   necessary (@Bisaloo, #1754)
