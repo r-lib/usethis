@@ -5,7 +5,7 @@
     Output
       # {TESTPKG} (development version)
       
-      * Initial submission.
+      * Initial CRAN submission.
 
 # use_news_md() sets bullet to 'Added a NEWS.md file...' when on CRAN
 
@@ -23,5 +23,5 @@
     Output
       # {TESTPKG} 0.2.0
       
-      * Added a `NEWS.md` file to track changes to the package.
+      * Initial CRAN submission.
 
