@@ -1,6 +1,6 @@
 # usethis (development version)
 
-* Links to the R Packages book have been updated to the second addition of
+* Links to the R Packages book have been updated to the second edition of
   the book (#1689).
 
 * `use_release_issue()` will now remind you to run `use_github_links()` if 
