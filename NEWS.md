@@ -3,6 +3,9 @@
 * `use_author()` is a new function to introduce a new person into the
   `Authors@R` field of DESCRIPTION (@avalcarcel9, #833).
 
+* Links to the R Packages book have been updated to the second edition of
+  the book (#1689).
+
 * `use_release_issue()` will now remind you to run `use_github_links()` if 
   necessary (@Bisaloo, #1754)
 

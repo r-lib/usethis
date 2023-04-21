@@ -11,7 +11,7 @@
       * [ ] Proofread `Title:` and `Description:`
       * [ ] Check that all exported functions have `@return` and `@examples`
       * [ ] Check that `Authors@R:` includes a copyright holder (role 'cph')
-      * [ ] Check [licensing of included files](https://r-pkgs.org/license.html#code-you-bundle)
+      * [ ] Check [licensing of included files](https://r-pkgs.org/license.html#sec-code-you-bundle)
       * [ ] Review <https://github.com/DavisVaughan/extrachecks>
       
       Prepare for release:

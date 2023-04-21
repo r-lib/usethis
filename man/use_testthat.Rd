@@ -16,7 +16,7 @@ details and caveats.}
 }
 \description{
 Creates \verb{tests/testthat/}, \code{tests/testthat.R}, and adds the testthat package
-to the Suggests field. Learn more in \url{https://r-pkgs.org/tests.html}
+to the Suggests field. Learn more in \url{https://r-pkgs.org/testing-basics.html}
 }
 \examples{
 \dontrun{
