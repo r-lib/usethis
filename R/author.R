@@ -47,22 +47,22 @@ use_author <- function(given = NULL, family = NULL, ..., role = "ctb") {
   challenge_legacy_author_fields(d)
   # We only need to consider Authors@R
 
-  author <- utils::person(given = given, family = family, role = role, ...)
-
   authors_at_r_already <- d$has_fields("Authors@R")
   if (authors_at_r_already) {
     check_author_is_novel(given, family, d)
   }
   # This person is not already in Authors@R
 
+  author <- utils::person(given = given, family = family, role = role, ...)
+  aut_fmt <- format(author, style = 'text')
   if (authors_at_r_already) {
     ui_done("
       Adding to {ui_field('Authors@R')} in DESCRIPTION:
-      {format(author, style = 'text')}")
+      {aut_fmt}")
   } else {
     ui_done("
       Creating {ui_field('Authors@R')} field in DESCRIPTION and adding:
-      {format(author, style = 'text')}")
+      {aut_fmt}")
   }
   d$add_author(given = given, family = family, role = role, ...)
 
@@ -74,9 +74,8 @@ use_author <- function(given = NULL, family = NULL, ..., role = "ctb") {
 
 }
 
-challenge_legacy_author_fields <- function(desc = proj_desc()) {
-  has_legacy_field <-
-    desc$has_fields("Author") || desc$has_fields("Maintainer")
+challenge_legacy_author_fields <- function(d = proj_desc()) {
+  has_legacy_field <- d$has_fields("Author") || d$has_fields("Maintainer")
   if (!has_legacy_field) {
     return(invisible())
   }
@@ -130,7 +129,7 @@ challenge_default_author <- function(d = proj_desc()) {
   ui_info("
     {ui_field('Authors@R')} appears to include a placeholder author:
     {format(default_author, style = 'text')}")
-  if (is_interactive() && any(m) && ui_yeah("Would you like to remove it?")) {
+  if (any(m) && is_interactive() && ui_yeah("Would you like to remove it?")) {
     # TODO: Do I want to suppress this output?
     # Authors removed: First Last, NULL NULL.
     do.call(d$del_author, unclass(default_author)[[1]])
