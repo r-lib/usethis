@@ -165,8 +165,10 @@ use_posit_cloud_badge <- function(url) {
 #' @rdname badges
 #' @export
 use_rscloud_badge <- function(url) {
-  lifecycle::deprecate_warn("2.2.0", "use_rscloud_badge()",
-                            "use_posit_cloud_badge()")
+  lifecycle::deprecate_warn(
+    "2.2.0", "use_rscloud_badge()",
+    "use_posit_cloud_badge()"
+  )
   use_posit_cloud_badge(url)
 }
 
