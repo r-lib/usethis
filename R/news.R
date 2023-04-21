@@ -3,8 +3,8 @@
 #' This creates a basic `NEWS.md` in the root directory.
 #'
 #' @inheritParams use_template
-#' @seealso The [important files
-#'   section](https://r-pkgs.org/release.html#important-files) of [R
+#' @seealso The [other markdown files
+#'   section](https://r-pkgs.org/other-markdown.html) of [R
 #'   Packages](https://r-pkgs.org).
 #' @export
 use_news_md <- function(open = rlang::is_interactive()) {

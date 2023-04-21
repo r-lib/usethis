@@ -5,7 +5,7 @@
 
 #' usethis supports semantic versioning, which is described in more detail in
 #' the [version
-#' section](https://r-pkgs.org/description.html#description-version) of [R
+#' section](https://r-pkgs.org/lifecycle.html#sec-lifecycle-version-number) of [R
 #' Packages](https://r-pkgs.org). A version number breaks down like so:
 #'
 #' ```
@@ -29,7 +29,7 @@
 
 #'
 #' @seealso The [version
-#'   section](https://r-pkgs.org/description.html#description-version) of [R
+#'   section](https://r-pkgs.org/lifecycle.html#sec-lifecycle-version-number) of [R
 #'   Packages](https://r-pkgs.org).
 #'
 #' @examples

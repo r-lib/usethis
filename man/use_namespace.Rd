@@ -16,6 +16,6 @@ is \code{FALSE}, generates a default \code{NAMESPACE} that exports all functions
 except those that start with \code{.}.
 }
 \seealso{
-The \href{https://r-pkgs.org/namespace.html}{namespace chapter} of
-\href{https://r-pkgs.org}{R Packages}.
+The \href{https://r-pkgs.org/dependencies-mindset-background.html#sec-dependencies-namespace}{namespace chapter}
+of \href{https://r-pkgs.org}{R Packages}.
 }
