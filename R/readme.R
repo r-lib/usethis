@@ -25,8 +25,8 @@
 #' `.git/hooks/pre-commit`, which you can modify or even delete.
 #'
 #' @inheritParams use_template
-#' @seealso The [important files
-#'   section](https://r-pkgs.org/release.html#important-files) of [R
+#' @seealso The [other markdown files
+#'   section](https://r-pkgs.org/other-markdown.html) of [R
 #'   Packages](https://r-pkgs.org).
 #' @export
 #' @examples
