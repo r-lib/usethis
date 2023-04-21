@@ -537,5 +537,6 @@ git_ignore_lines <- c(
   ".Rhistory",
   ".Rdata",
   ".httr-oauth",
-  ".DS_Store"
+  ".DS_Store",
+  ".quarto"
 )

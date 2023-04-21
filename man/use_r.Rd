@@ -56,7 +56,7 @@ The \code{\link[=rename_files]{rename_files()}} function can also be helpful.
 }
 
 \seealso{
-The \href{https://r-pkgs.org/tests.html}{testing} and
-\href{https://r-pkgs.org/r.html}{R code} chapters of
+The \href{https://r-pkgs.org/testing-basics.html}{testing} and
+\href{https://r-pkgs.org/code.html}{R code} chapters of
 \href{https://r-pkgs.org}{R Packages}.
 }

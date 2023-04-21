@@ -41,8 +41,8 @@
 #' @param name Either a string giving a file name (without directory) or
 #'   `NULL` to take the name from the currently open file in RStudio.
 #' @inheritParams edit_file
-#' @seealso The [testing](https://r-pkgs.org/tests.html) and
-#'   [R code](https://r-pkgs.org/r.html) chapters of
+#' @seealso The [testing](https://r-pkgs.org/testing-basics.html) and
+#'   [R code](https://r-pkgs.org/code.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
 #' @export
 use_r <- function(name = NULL, open = rlang::is_interactive()) {

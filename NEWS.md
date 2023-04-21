@@ -4,6 +4,9 @@
   `use_posit_cloud_badge()`, and both functions now accept the updated url 
   format of Posit Cloud projects (#1670).
 
+* Links to the R Packages book have been updated to the second edition of
+  the book (#1689).
+
 * `use_release_issue()` will now remind you to run `use_github_links()` if 
   necessary (@Bisaloo, #1754)
 
