@@ -8,14 +8,24 @@
 #'   Packages](https://r-pkgs.org).
 #' @export
 use_news_md <- function(open = rlang::is_interactive()) {
-  check_is_package()
-  desc <- proj_desc()
+  check_is_package("use_news_md()")
+
+  version <- if (is_dev_version()) "(development version)" else proj_version()
+
+  on_cran <- !is.null(cran_version())
+
+  if (on_cran) {
+    init_bullet <- "Added a `NEWS.md` file to track changes to the package."
+  } else {
+    init_bullet <- "Initial CRAN submission."
+  }
 
   use_template(
     "NEWS.md",
     data = list(
       Package = project_name(),
-      Version = proj_version()
+      Version = version,
+      InitialBullet = init_bullet
     ),
     open = open
   )

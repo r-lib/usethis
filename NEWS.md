@@ -1,5 +1,10 @@
 # usethis (development version)
 
+* `use_news_md()` now places "(development version)" in the header of `NEWS.md`
+   if there is a development version number in `DESCRIPTION`. It also sets the 
+   first bullet to "Initial CRAN submission" when it looks like a "new" package
+   (#1708).
+
 * `use_rscloud_badge()` has been deprecated in favour of 
   `use_posit_cloud_badge()`, and both functions now accept the updated url 
   format of Posit Cloud projects (#1670).

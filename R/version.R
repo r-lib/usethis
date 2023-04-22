@@ -87,8 +87,7 @@ use_version <- function(which = NULL, push = FALSE) {
 #' @export
 use_dev_version <- function(push = FALSE) {
   check_is_package("use_dev_version()")
-  ver <- package_version(proj_version())
-  if (length(unlist(ver)) > 3) {
+  if (is_dev_version()) {
     return(invisible())
   }
   use_version(which = "dev", push = push)
@@ -151,4 +150,9 @@ use_c_version <- function(ver) {
   lines <- gsub(re, glue("\\1{ver}\\3"), lines)
 
   write_utf8(version_path, lines)
+}
+
+is_dev_version <- function(version = proj_version()) {
+  ver <- package_version(version)
+  length(unlist(ver)) > 3
 }

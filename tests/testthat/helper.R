@@ -130,3 +130,7 @@ test_file <- function(fname) testthat::test_path("ref", fname)
 
 expect_proj_file <- function(...) expect_true(file_exists(proj_path(...)))
 expect_proj_dir <- function(...) expect_true(dir_exists(proj_path(...)))
+
+mock_cran_version <- function(version, .env = caller_env()) {
+  local_mocked_bindings(cran_version = function() version, .env = .env)
+}
