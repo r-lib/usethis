@@ -23,11 +23,25 @@ test_that("use_binder_badge() needs a github repository", {
 
 test_that("use_rscloud_badge() handles bad and good input", {
   create_local_project()
-  expect_error(use_rscloud_badge())
-  expect_error(use_rscloud_badge(123))
-  expect_error(use_rscloud_badge("http://rstudio.cloud/123"))
-  expect_no_error(use_rscloud_badge("https://rstudio.cloud/project/123"))
-  expect_no_error(use_rscloud_badge("https://rstudio.cloud/spaces/123/project/123"))
+  expect_snapshot(use_posit_cloud_badge(), error = TRUE)
+  expect_snapshot(use_posit_cloud_badge(123), error = TRUE)
+  expect_snapshot(use_posit_cloud_badge("http://posit.cloud/123"), error = TRUE)
+  expect_no_error(use_posit_cloud_badge("https://posit.cloud/content/123"))
+  expect_no_error(use_posit_cloud_badge("https://posit.cloud/spaces/123/content/123"))
+
+  lifecycle::expect_deprecated(
+    use_rscloud_badge("https://posit.cloud/spaces/123/content/123")
+  )
+
+  withr::local_options(lifecycle_verbosity = "quiet")
+  expect_snapshot(
+    use_rscloud_badge("https://rstudio.cloud/content/123"),
+    error = TRUE
+  )
+  expect_snapshot(
+    use_rscloud_badge("https://posit.cloud/project/123"),
+    error = TRUE
+  )
 })
 
 test_that("use_badge() does nothing if badge seems to pre-exist", {
