@@ -99,6 +99,8 @@ ensure your badge block starts with a line containing only
 <span></span>
 <span><span class="fu">use_binder_badge</span><span class="op">(</span>ref <span class="op">=</span> <span class="fu"><a href="git-default-branch.html">git_default_branch</a></span><span class="op">(</span><span class="op">)</span>, urlpath <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">use_posit_cloud_badge</span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">use_rscloud_badge</span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -129,8 +131,8 @@ for additional examples.</p></dd>
 
 
 <dt>url</dt>
-<dd><p>A link to an existing <a href="https://rstudio.cloud" class="external-link">RStudio Cloud</a>
-project. See the <a href="https://rstudio.cloud/learn/guide#project-settings-access" class="external-link">RStudio Cloud documentation</a>
+<dd><p>A link to an existing <a href="https://posit.cloud" class="external-link">Posit Cloud</a>
+project. See the <a href="https://posit.cloud/learn/guide#project-settings-access" class="external-link">Posit Cloud documentation</a>
 for details on how to set project access and obtain a project link.</p></dd>
 
 </dl></div>
@@ -145,8 +147,10 @@ available on CRAN, powered by <a href="https://www.r-pkg.org" class="external-li
 package according to <a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link">https://lifecycle.r-lib.org/articles/stages.html</a>.</p></li>
 <li><p><code>use_binder_badge()</code>: badge indicates that your repository can be launched
 in an executable environment on <a href="https://mybinder.org/" class="external-link">https://mybinder.org/</a></p></li>
-<li><p><code>use_rscloud_badge()</code>: badge indicates that your repository can be launched
-in an <a href="https://rstudio.cloud" class="external-link">RStudio Cloud</a> project</p></li>
+<li><p><code>use_posit_cloud_badge()</code>: badge indicates that your repository can be launched
+in a <a href="https://posit.cloud" class="external-link">Posit Cloud</a> project</p></li>
+<li><p><code>use_rscloud_badge()</code>: <a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: Use
+<code>use_posit_cloud_badge()</code> instead.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
