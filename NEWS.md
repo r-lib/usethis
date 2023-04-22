@@ -4,6 +4,9 @@
   `use_posit_cloud_badge()`, and both functions now accept the updated url 
   format of Posit Cloud projects (#1670).
 
+* `use_author()` is a new function to introduce a new person into the
+  `Authors@R` field of DESCRIPTION (@avalcarcel9, #833).
+
 * Links to the R Packages book have been updated to the second edition of
   the book (#1689).
 

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# usethis <a href="https://usethis.r-lib.org"><img src="man/figures/logo.png" align="right" height="138" /></a>
+# usethis <a href="https://usethis.r-lib.org"><img src="man/figures/logo.png" align="right" height="138" alt="usethis website" /></a>
 
 <!-- badges: start -->
 
@@ -61,8 +61,8 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✔ Creating '/tmp/Rtmpztuf0Z/mypkg/'
-#> ✔ Setting active project to '/private/tmp/Rtmpztuf0Z/mypkg'
+#> ✔ Creating '/var/folders/5r/wrwbj0sn3m71clq0l1rm4pmm0000gp/T/Rtmpt7SYWI/mypkg/'
+#> ✔ Setting active project to '/private/var/folders/5r/wrwbj0sn3m71clq0l1rm4pmm0000gp/T/Rtmpt7SYWI/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Writing 'DESCRIPTION'
 #> Package: mypkg
@@ -80,8 +80,8 @@ create_package(path)
 #> ✔ Setting active project to '<no active project>'
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✔ Setting active project to '/private/tmp/Rtmpztuf0Z/mypkg'
-#> ✔ Changing working directory to '/tmp/Rtmpztuf0Z/mypkg/'
+#> ✔ Setting active project to '/private/var/folders/5r/wrwbj0sn3m71clq0l1rm4pmm0000gp/T/Rtmpt7SYWI/mypkg'
+#> ✔ Changing working directory to '/var/folders/5r/wrwbj0sn3m71clq0l1rm4pmm0000gp/T/Rtmpt7SYWI/mypkg/'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -123,7 +123,7 @@ use_data(x, y)
 # Use git ------------------------------------------------------------
 use_git()
 #> ✔ Initialising Git repo
-#> ✔ Adding '.Rproj.user', '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store' to '.gitignore'
+#> ✔ Adding '.Rproj.user', '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store', '.quarto' to '.gitignore'
 ```
 
 ## Code of Conduct
