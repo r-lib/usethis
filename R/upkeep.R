@@ -81,7 +81,7 @@ upkeep_checklist <- function() {
       Align the names of `R/` files and `test/` files for workflow happiness. \\
       The docs for `usethis::use_r()` include a helpful script. \\
       `usethis::rename_files()` may be be useful."),
-    todo("`usethis::use_github_action('check-standard')`", !uses_github_actions()),
+    todo("`usethis::use_github_action('check-standard')`"),
     todo(
       "Consider changing default branch from `master` to `main`",
       git_default_branch() == "master"
