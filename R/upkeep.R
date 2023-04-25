@@ -68,7 +68,7 @@ upkeep_checklist <- function() {
     todo(
       "
       `usethis::use_testthat()`. \\
-      Learn more about testing at https://r-pkgs.org/tests.html",
+      Learn more about testing at <https://r-pkgs.org/tests.html>",
       !uses_testthat()
     ),
     todo(
@@ -99,7 +99,7 @@ upkeep_checklist <- function() {
     ),
     todo("
         Add alt-text to pictures, plots, etc; see \\
-        https://posit.co/blog/knitr-fig-alt/ for examples")
+        <https://posit.co/blog/knitr-fig-alt/> for examples")
   )
 
   c(bullets, upkeep_extra_bullets(), checklist_footer(tidy = FALSE))
