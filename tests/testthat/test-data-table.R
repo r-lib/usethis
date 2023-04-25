@@ -6,8 +6,8 @@ test_that("use_data_table() requires a package", {
 test_that("use_data_table() Imports data.table", {
   create_local_package()
   use_package_doc()
+  mock_check_installed()
   with_mock(
-    check_installed = function(pkg) TRUE,
     roxygen_update_ns = function(...) NULL,
     check_functions_exist = function(...) TRUE,
     {
@@ -23,8 +23,8 @@ test_that("use_data_table() blocks use of Depends", {
   create_local_package()
   use_package_doc()
   desc::desc_set("Depends", "data.table")
+  mock_check_installed()
   with_mock(
-    check_installed = function(pkg) TRUE,
     roxygen_update_ns = function(...) NULL,
     check_functions_exist = function(...) TRUE,
     {

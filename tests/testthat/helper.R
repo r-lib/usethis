@@ -135,3 +135,7 @@ expect_proj_dir <- function(...) expect_true(dir_exists(proj_path(...)))
 mock_cran_version <- function(version, .env = caller_env()) {
   local_mocked_bindings(cran_version = function() version, .env = .env)
 }
+
+mock_check_installed <- function(.env = caller_env()) {
+  local_mocked_bindings(check_installed = function(pkg) TRUE, .env = .env)
+}

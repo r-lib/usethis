@@ -1,6 +1,6 @@
 test_that("use_cpp11() requires a package", {
   create_local_project()
-  local_mocked_bindings(check_installed = function(pkg) TRUE)
+  mock_check_installed()
   expect_usethis_error(use_cpp11(), "not an R package")
 })
 
@@ -9,11 +9,8 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
   use_roxygen_md()
 
   local_interactive(FALSE)
-  # Required to pass the check re: whether cpp11 is installed
-  local_mocked_bindings(
-    check_installed = function(pkg) TRUE,
-    check_cpp_register_deps = function() invisible()
-  )
+  mock_check_installed()
+  local_mocked_bindings(check_cpp_register_deps = function() invisible())
 
   use_cpp11()
 
@@ -28,10 +25,9 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
 
 test_that("check_cpp_register_deps is silent if all installed, emits todo if not", {
   withr::local_options(list(usethis.quiet = FALSE))
-
   local_mocked_bindings(
     get_cpp_register_deps = function() c("brio", "decor", "vctrs"),
-    is_installed = function(pkg) TRUE
+    is_installed = function(package) TRUE
   )
 
   expect_no_message(
@@ -39,7 +35,7 @@ test_that("check_cpp_register_deps is silent if all installed, emits todo if not
   )
 
   local_mocked_bindings(
-    is_installed = function(pkg) pkg == "brio",
+    is_installed = function(package) identical(package, "brio")
   )
 
   expect_snapshot(

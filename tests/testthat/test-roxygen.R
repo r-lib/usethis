@@ -26,12 +26,7 @@ test_that("use_roxygen_md() behaves for pre-existing Roxygen field", {
   desc::desc_set(Roxygen = 'list(markdown = TRUE, r6 = FALSE, load = "source")')
 
   expect_error(use_roxygen_md(), "already has")
-  with_mock(
-    # in case roxygen2md is not installed
-    check_installed = function(pkg) TRUE,
-    {
-      expect_no_error(use_roxygen_md(overwrite = TRUE))
-    }
-  )
+  mock_check_installed()
+  expect_no_error(use_roxygen_md(overwrite = TRUE))
   expect_true(uses_roxygen_md())
 })
