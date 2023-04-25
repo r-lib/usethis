@@ -243,9 +243,9 @@ check_protocol <- function(protocol) {
 #' use_git_remote(name = "upstream", url = upstream_url)
 #' }
 use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
-  stopifnot(is_string(name))
-  stopifnot(is.null(url) || is_string(url))
-  stopifnot(is_true(overwrite) || is_false(overwrite))
+  check_name(name)
+  maybe_name(url)
+  check_bool(overwrite)
 
   remotes <- git_remotes()
   repo <- git_repo()
@@ -537,5 +537,6 @@ git_ignore_lines <- c(
   ".Rhistory",
   ".Rdata",
   ".httr-oauth",
-  ".DS_Store"
+  ".DS_Store",
+  ".quarto"
 )

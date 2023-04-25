@@ -18,8 +18,10 @@
 #' package according to <https://lifecycle.r-lib.org/articles/stages.html>.
 #' * `use_binder_badge()`: badge indicates that your repository can be launched
 #' in an executable environment on <https://mybinder.org/>
-#' * `use_rscloud_badge()`: badge indicates that your repository can be launched
-#' in an [RStudio Cloud](https://rstudio.cloud) project
+#' * `use_posit_cloud_badge()`: badge indicates that your repository can be launched
+#' in a [Posit Cloud](https://posit.cloud) project
+#' * `use_rscloud_badge()`: `r lifecycle::badge("deprecated")`: Use
+#' [use_posit_cloud_badge()] instead.
 #'
 #' @param badge_name Badge name. Used in error message and alt text
 #' @param href,src Badge link and image src
@@ -136,26 +138,39 @@ use_binder_badge <- function(ref = git_default_branch(), urlpath = NULL) {
 }
 
 #' @rdname badges
-#' @param url A link to an existing [RStudio Cloud](https://rstudio.cloud)
-#'   project. See the [RStudio Cloud
-#'   documentation](https://rstudio.cloud/learn/guide#project-settings-access)
+#' @param url A link to an existing [Posit Cloud](https://posit.cloud)
+#'   project. See the [Posit Cloud
+#'   documentation](https://posit.cloud/learn/guide#project-settings-access)
 #'   for details on how to set project access and obtain a project link.
 #' @export
-use_rscloud_badge <- function(url) {
-  project_url <- "rstudio[.]cloud/project"
-  spaces_url <- "rstudio[.]cloud/spaces"
+use_posit_cloud_badge <- function(url) {
+  check_name(url)
+  project_url <- "posit[.]cloud/content"
+  spaces_url <- "posit[.]cloud/spaces"
   if (grepl(project_url, url) || grepl(spaces_url, url)) {
-    img <- "https://img.shields.io/badge/launch-cloud-75aadb?style=flat&logo=rstudio"
-    use_badge("Launch RStudio Cloud", url, img)
+    # TODO: Get posit logo hosted at https://github.com/simple-icons/simple-icons/
+    # and add to end of img url as `?logo=posit` (or whatever slug we get)
+    img <- "https://img.shields.io/badge/launch-posit%20cloud-447099?style=flat"
+    use_badge("Launch Posit Cloud", url, img)
   } else {
-    ui_stop("
-      {ui_code('usethis::use_rscloud_badge()')} requires a link to an \\
-      existing RStudio Cloud project of the form \\
-      'https://rstudio.cloud/project/<project-id>' or \\
-      'https://rstudio.cloud/spaces/<space-id>/project/<project-id>'.")
+    usethis_abort("
+      {.fun usethis::use_posit_cloud_badge} requires a link to an \\
+      existing Posit Cloud project of the form \\
+      {.val https://posit.cloud/content/<project-id>} or \\
+      {.val https://posit.cloud/spaces/<space-id>/content/<project-id>}.")
   }
 
   invisible(TRUE)
+}
+
+#' @rdname badges
+#' @export
+use_rscloud_badge <- function(url) {
+  lifecycle::deprecate_warn(
+    "2.2.0", "use_rscloud_badge()",
+    "use_posit_cloud_badge()"
+  )
+  use_posit_cloud_badge(url)
 }
 
 has_badge <- function(href) {

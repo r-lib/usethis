@@ -96,7 +96,7 @@ release_checklist <- function(version, on_cran) {
       todo("Proofread `Title:` and `Description:`"),
       todo("Check that all exported functions have `@return` and `@examples`"),
       todo("Check that `Authors@R:` includes a copyright holder (role 'cph')"),
-      todo("Check [licensing of included files](https://r-pkgs.org/license.html#code-you-bundle)"),
+      todo("Check [licensing of included files](https://r-pkgs.org/license.html#sec-code-you-bundle)"),
       todo("Review <https://github.com/DavisVaughan/extrachecks>"),
       ""
     ),

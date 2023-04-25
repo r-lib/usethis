@@ -7,6 +7,7 @@
 \alias{use_bioc_badge}
 \alias{use_lifecycle_badge}
 \alias{use_binder_badge}
+\alias{use_posit_cloud_badge}
 \alias{use_rscloud_badge}
 \title{README badges}
 \usage{
@@ -19,6 +20,8 @@ use_bioc_badge()
 use_lifecycle_badge(stage)
 
 use_binder_badge(ref = git_default_branch(), urlpath = NULL)
+
+use_posit_cloud_badge(url)
 
 use_rscloud_badge(url)
 }
@@ -37,8 +40,8 @@ use_rscloud_badge(url)
 \href{https://mybinder.readthedocs.io/en/latest/howto/user_interface.html}{binder documentation}
 for additional examples.}
 
-\item{url}{A link to an existing \href{https://rstudio.cloud}{RStudio Cloud}
-project. See the \href{https://rstudio.cloud/learn/guide#project-settings-access}{RStudio Cloud documentation}
+\item{url}{A link to an existing \href{https://posit.cloud}{Posit Cloud}
+project. See the \href{https://posit.cloud/learn/guide#project-settings-access}{Posit Cloud documentation}
 for details on how to set project access and obtain a project link.}
 }
 \description{
@@ -59,8 +62,10 @@ available on CRAN, powered by \url{https://www.r-pkg.org}
 package according to \url{https://lifecycle.r-lib.org/articles/stages.html}.
 \item \code{use_binder_badge()}: badge indicates that your repository can be launched
 in an executable environment on \url{https://mybinder.org/}
-\item \code{use_rscloud_badge()}: badge indicates that your repository can be launched
-in an \href{https://rstudio.cloud}{RStudio Cloud} project
+\item \code{use_posit_cloud_badge()}: badge indicates that your repository can be launched
+in a \href{https://posit.cloud}{Posit Cloud} project
+\item \code{use_rscloud_badge()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Use
+\code{\link[=use_posit_cloud_badge]{use_posit_cloud_badge()}} instead.
 }
 }
 \examples{

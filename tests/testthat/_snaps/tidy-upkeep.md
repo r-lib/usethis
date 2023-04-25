@@ -29,7 +29,7 @@
       * [ ] `usethis::use_tidy_dependencies()`
       * [ ] `usethis::use_tidy_github_actions()` and update artisanal actions to use `setup-r-dependencies`
       * [ ] Remove check environments section from `cran-comments.md`
-      * [ ] Bump required R version in DESCRIPTION to 3.5
+      * [ ] Bump required R version in DESCRIPTION to 3.6
       * [ ] Use lifecycle instead of artisanal deprecation messages, as described in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)
       * [ ] Make sure RStudio appears in `Authors@R` of DESCRIPTION like so, if appropriate:
       `person("RStudio", role = c("cph", "fnd"))`

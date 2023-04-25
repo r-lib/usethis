@@ -26,6 +26,7 @@ Authors:
 \itemize{
   \item Hadley Wickham \email{hadley@posit.co} (\href{https://orcid.org/0000-0003-4757-117X}{ORCID})
   \item Malcolm Barrett \email{malcolmbarrett@gmail.com} (\href{https://orcid.org/0000-0003-0299-5825}{ORCID})
+  \item Andy Teucher \email{andy.teucher@posit.co} (\href{https://orcid.org/0000-0002-7840-692X}{ORCID})
 }
 
 Other contributors:

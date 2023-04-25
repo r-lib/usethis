@@ -1,6 +1,6 @@
 use_dependency <- function(package, type, min_version = NULL) {
-  stopifnot(is_string(package))
-  stopifnot(is_string(type))
+  check_name(package)
+  check_name(type)
 
   if (package != "R") {
     check_installed(package)
@@ -25,57 +25,65 @@ use_dependency <- function(package, type, min_version = NULL) {
 
   desc <- proj_desc()
   deps <- desc$get_deps()
+  deps <- deps[deps$package == package, ]
 
-  existing_dep <- deps$package == package
-  existing_type <- deps$type[existing_dep]
-  existing_ver <- deps$version[existing_dep]
-  is_linking_to <- (existing_type != "LinkingTo" & type == "LinkingTo") |
-    (existing_type == "LinkingTo" & type != "LinkingTo")
+  new_linking_to     <- type == "LinkingTo" && !"LinkingTo" %in% deps$type
+  new_non_linking_to <- type != "LinkingTo" && identical(deps$type, "LinkingTo")
 
-  # No existing dependency, so can simply add
-  if (!any(existing_dep) || any(is_linking_to)) {
+  changed <- FALSE
+
+  # One of:
+  # * No existing dependency on this package
+  # * Adding existing non-LinkingTo dependency to LinkingTo
+  # * First use of a LinkingTo package as a non-LinkingTo dependency
+  # In all cases, we can can simply make the change.
+  if (nrow(deps) == 0 || new_linking_to || new_non_linking_to) {
     ui_done("Adding {ui_value(package)} to {ui_field(type)} field in DESCRIPTION")
     desc$set_dep(package, type, version = version)
     desc$write()
-    return(invisible(TRUE))
+    changed <- TRUE
+    return(invisible(changed))
   }
 
-  existing_type <- setdiff(existing_type, "LinkingTo")
+  if (type == "LinkingTo") {
+    deps <- deps[deps$type == "LinkingTo", ]
+  } else {
+    deps <- deps[deps$type != "LinkingTo", ]
+  }
+  existing_type <- deps$type
+  existing_version <- deps$version
+
   delta <- sign(match(existing_type, types) - match(type, types))
   if (delta < 0) {
     # don't downgrade
     ui_warn(
       "Package {ui_value(package)} is already listed in \\
-      {ui_value(existing_type)} in DESCRIPTION, no change made."
+       {ui_value(existing_type)} in DESCRIPTION, no change made."
     )
-
-    return(invisible(FALSE))
   } else if (delta == 0 && !is.null(min_version)) {
     # change version
-    upgrade <- existing_ver == "*" || numeric_version(min_version) > version_spec(existing_ver)
+    upgrade <- existing_version == "*" ||
+      numeric_version(min_version) > version_spec(existing_version)
     if (upgrade) {
       ui_done(
-        "Increasing {ui_value(package)} version to {ui_value(version)} in DESCRIPTION"
-      )
+        "Increasing {ui_value(package)} version to {ui_value(version)} in \\
+         DESCRIPTION")
       desc$set_dep(package, type, version = version)
       desc$write()
+      changed <- TRUE
     }
   } else if (delta > 0) {
-    # upgrade
-    if (existing_type != "LinkingTo") {
-      ui_done(
-        "
-        Moving {ui_value(package)} from {ui_field(existing_type)} to {ui_field(type)} \\
-        field in DESCRIPTION
-        "
-      )
-      desc$del_dep(package, existing_type)
-      desc$set_dep(package, type, version = version)
-      desc$write()
-    }
+    # moving from, e.g., Suggests to Imports
+    ui_done(
+      "Moving {ui_value(package)} from {ui_field(existing_type)} to \\
+       {ui_field(type)} field in DESCRIPTION")
+    desc$del_dep(package, existing_type)
+    desc$set_dep(package, type, version = version)
+    desc$write()
+    changed <- TRUE
   }
 
-  invisible(TRUE)
+  invisible(changed)
 }
 
 r_version <- function() {

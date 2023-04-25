@@ -1,7 +1,7 @@
 #' Sets up overall testing infrastructure
 #'
 #' Creates `tests/testthat/`, `tests/testthat.R`, and adds the testthat package
-#' to the Suggests field. Learn more in <https://r-pkgs.org/tests.html>
+#' to the Suggests field. Learn more in <https://r-pkgs.org/testing-basics.html>
 #'
 #' @param edition testthat edition to use. Defaults to the latest edition, i.e.
 #'   the major version number of the currently installed testthat.
