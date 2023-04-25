@@ -47,7 +47,18 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
   ui_silence(
     switch(
       thing,
-      package = create_package(dir, rstudio = rstudio, open = FALSE, check_name = FALSE),
+      package = create_package(
+        dir,
+        # This is for the sake of interactive development of snapshot tests.
+        # When the active usethis project is a package created with this
+        # function, testthat learns its edition from *that* package, not from
+        # usethis. So, by default, opt in to testthat 3e in these ephemeral test
+        # packages.
+        fields = list("Config/testthat/edition" = "3"),
+        rstudio = rstudio,
+        open = FALSE,
+        check_name = FALSE
+      ),
       project = create_project(dir, rstudio = rstudio, open = FALSE)
     )
   )

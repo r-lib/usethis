@@ -27,7 +27,6 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
 
 test_that("check_cpp_register_deps is silent if all installed, emits todo if not", {
   withr::local_options(list(usethis.quiet = FALSE))
-  local_edition(3)
 
   local_mocked_bindings(
     get_cpp_register_deps = function() c("brio", "decor", "vctrs"),

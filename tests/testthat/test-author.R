@@ -47,7 +47,6 @@ test_that("Legacy author fields are challenged", {
   d$write()
 
   local_interactive(FALSE)
-  local_edition(3)
   withr::local_options(usethis.quiet = FALSE)
   expect_snapshot(challenge_legacy_author_fields(), error = TRUE)
 })
@@ -65,7 +64,6 @@ test_that("Decline to tweak an existing author", {
   )
   create_local_package()
 
-  local_edition(3)
   withr::local_options(usethis.quiet = FALSE)
   expect_snapshot(
     use_author("Jennifer", "Bryan", role = "cph"),
@@ -81,7 +79,6 @@ test_that("Placeholder author is challenged", {
   create_local_package()
 
   local_interactive(FALSE)
-  local_edition(3)
   withr::local_options(usethis.quiet = FALSE)
   expect_snapshot(use_author("Charlie", "Brown"))
 })

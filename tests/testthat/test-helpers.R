@@ -90,7 +90,6 @@ test_that("can add LinkingTo dependency if other dependency already exists", {
   use_dependency("rlang", "Imports")
 
   withr::local_options(list(usethis.quiet = FALSE))
-  local_edition(3)
   expect_snapshot(
     use_dependency("rlang", "LinkingTo")
   )
@@ -100,7 +99,6 @@ test_that("can add LinkingTo dependency if other dependency already exists", {
 })
 
 test_that("use_dependency() does not fall over on 2nd LinkingTo request", {
-  local_edition(3)
   create_local_package()
   local_interactive(FALSE)
 
@@ -113,7 +111,6 @@ test_that("use_dependency() does not fall over on 2nd LinkingTo request", {
 
 # https://github.com/r-lib/usethis/issues/1649
 test_that("use_dependency() can level up a LinkingTo dependency", {
-  local_edition(3)
   create_local_package()
 
   use_dependency("rlang", "LinkingTo")
