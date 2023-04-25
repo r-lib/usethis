@@ -60,10 +60,3 @@
       * In your package code, use `rlang::is_installed("purrr")` or `rlang::check_installed("purrr")` to test if purrr is installed
       * Then directly refer to functions with `purrr::fun()`
 
-# use_package() does not fall over on 2nd LinkingTo request
-
-    Code
-      use_dependency("rlang", "LinkingTo")
-    Message
-      v Package 'rlang' is already listed in 'LinkingTo' in DESCRIPTION, no change made.
-
