@@ -9,7 +9,7 @@ use_cpp11()
 \description{
 Adds infrastructure needed to use the \href{https://cpp11.r-lib.org}{cpp11}
 package, a header-only R package that helps R package developers handle R
-objects with C++ code. compiled code:
+objects with C++ code:
 \itemize{
 \item Creates \verb{src/}
 \item Adds cpp11 to \code{DESCRIPTION}
