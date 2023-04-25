@@ -1,5 +1,6 @@
 test_that("use_cpp11() requires a package", {
   create_local_project()
+  local_mocked_bindings(check_installed = function(pkg) TRUE)
   expect_usethis_error(use_cpp11(), "not an R package")
 })
 
