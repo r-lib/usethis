@@ -71,16 +71,6 @@ scrub_testpkg <- function(message) {
   gsub("testpkg[a-zA-Z0-9]+", "{TESTPKG}", message, perl = TRUE)
 }
 
-toggle_rlang_interactive <- function() {
-  # TODO: consider setting options(rlang_backtrace_on_error = "reminder") when
-  # in non-interactive mode, to suppress full backtraces
-  before <- getOption("rlang_interactive")
-  after <- if (identical(before, FALSE)) TRUE else FALSE
-  options(rlang_interactive = after)
-  ui_line(glue::glue("rlang_interactive: {before %||% '<unset>'} --> {after}"))
-  invisible()
-}
-
 skip_if_not_ci <- function() {
   ci_providers <- c("GITHUB_ACTIONS", "TRAVIS", "APPVEYOR")
   ci <- any(toupper(Sys.getenv(ci_providers)) == "TRUE")
