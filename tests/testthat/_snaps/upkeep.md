@@ -80,12 +80,12 @@
       * [ ] `usethis::use_pkgdown_github_pages()`
       * [ ] `usethis::use_package_doc()`
       Consider letting usethis manage your `@importFrom` directives here. `usethis::use_import_from()` is handy for this.
-      * [ ] `usethis::use_testthat()`. Learn more about testing at https://r-pkgs.org/tests.html
+      * [ ] `usethis::use_testthat()`. Learn more about testing at <https://r-pkgs.org/tests.html>
       * [ ] Align the names of `R/` files and `test/` files for workflow happiness. The docs for `usethis::use_r()` include a helpful script. `usethis::rename_files()` may be be useful.
       * [ ] `usethis::use_github_action('check-standard')`
       * [ ] `usethis::use_code_of_conduct()`
       * [ ] Use lifecycle instead of artisanal deprecation messages, as described in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)
-      * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
+      * [ ] Add alt-text to pictures, plots, etc; see <https://posit.co/blog/knitr-fig-alt/> for examples
       
       <sup>Created on DATE with `usethis::use_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
 
@@ -104,9 +104,8 @@
       * [ ] Align the names of `R/` files and `test/` files for workflow happiness. The docs for `usethis::use_r()` include a helpful script. `usethis::rename_files()` may be be useful.
       * [ ] `usethis::use_github_action('check-standard')`
       * [ ] Consider changing default branch from `master` to `main`
-      * [ ] Modernize citation files; see `usethis::use_citation()`
       * [ ] Remove any description of check environments from `cran-comments.md`
-      * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
+      * [ ] Add alt-text to pictures, plots, etc; see <https://posit.co/blog/knitr-fig-alt/> for examples
       
       <sup>Created on DATE with `usethis::use_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
 

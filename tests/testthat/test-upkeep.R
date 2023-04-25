@@ -30,7 +30,6 @@ test_that("upkeep bullets don't change accidentally",{
 
   # Add some files to test conditional todos
   use_code_of_conduct("jane.doe@foofymail.com")
-  use_citation()
   use_testthat()
   use_package("lifecycle")
   use_cran_comments()
