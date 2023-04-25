@@ -88,10 +88,6 @@ upkeep_checklist <- function() {
     ),
     todo("`usethis::use_code_of_conduct()`", !has_coc()),
     todo(
-      "Modernize citation files; see `usethis::use_citation()`",
-      has_citation_file()
-    ),
-    todo(
       "Remove any description of check environments from `cran-comments.md`",
       file_exists(proj_path("cran-comments.md"))
     ),
