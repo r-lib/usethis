@@ -410,7 +410,7 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
 #' create_download_url("https://drive.google.com/open?id=123456789xxyyyzzz/view")
 #' @export
 create_download_url <- function(url) {
-  stopifnot(is_string(url))
+  check_name(url)
   stopifnot(grepl("^http[s]?://", url))
 
   switch(
@@ -469,7 +469,7 @@ hopeless_url <- function(url) {
 }
 
 normalize_url <- function(url) {
-  stopifnot(is.character(url))
+  check_name(url)
   has_scheme <- grepl("^http[s]?://", url)
 
   if (has_scheme) {
@@ -603,7 +603,7 @@ make_filename <- function(cd,
   ## https://tools.ietf.org/html/rfc6266
   cd <- cd[["filename"]]
   if (is.null(cd) || is.na(cd)) {
-    stopifnot(is_string(fallback))
+    check_name(fallback)
     return(path_sanitize(fallback))
   }
 

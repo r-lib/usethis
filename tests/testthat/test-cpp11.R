@@ -1,5 +1,6 @@
 test_that("use_cpp11() requires a package", {
   create_local_project()
+  local_mocked_bindings(check_installed = function(pkg) TRUE)
   expect_usethis_error(use_cpp11(), "not an R package")
 })
 
@@ -8,16 +9,17 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
   use_roxygen_md()
 
   local_interactive(FALSE)
-  with_mock(
-    # Required to pass the check re: whether cpp11 is installed
+  # Required to pass the check re: whether cpp11 is installed
+  local_mocked_bindings(
     check_installed = function(pkg) TRUE,
-    check_cpp_register_deps = function() invisible(),
-    {
-      use_cpp11()
-    }
+    check_cpp_register_deps = function() invisible()
   )
 
-  expect_match(proj_desc()$get("LinkingTo"), "cpp11")
+  use_cpp11()
+
+  deps <- proj_deps()
+  expect_equal(deps$type, "LinkingTo")
+  expect_equal(deps$package, "cpp11")
   expect_proj_dir("src")
 
   ignores <- read_utf8(proj_path("src", ".gitignore"))
@@ -27,24 +29,20 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
 test_that("check_cpp_register_deps is silent if all installed, emits todo if not", {
   withr::local_options(list(usethis.quiet = FALSE))
 
-  with_mock(
+  local_mocked_bindings(
     get_cpp_register_deps = function() c("brio", "decor", "vctrs"),
-    is_installed = function(pkg) TRUE,
-    {
-      expect_silent(
-        check_cpp_register_deps()
-      )
-    }
+    is_installed = function(pkg) TRUE
   )
 
-  with_mock(
-    get_cpp_register_deps = function() c("brio", "decor", "vctrs"),
+  expect_no_message(
+    check_cpp_register_deps()
+  )
+
+  local_mocked_bindings(
     is_installed = function(pkg) pkg == "brio",
-    {
-      expect_message(
-        check_cpp_register_deps(),
-        "Now install"
-      )
-    }
+  )
+
+  expect_snapshot(
+    check_cpp_register_deps()
   )
 })

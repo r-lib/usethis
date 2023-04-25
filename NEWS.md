@@ -6,6 +6,21 @@
   if your package includes an `upkeep_bullets()` function that returns a 
   character vector.
 
+* `use_news_md()` now places "(development version)" in the header of `NEWS.md`
+   if there is a development version number in `DESCRIPTION`. It also sets the 
+   first bullet to "Initial CRAN submission" when it looks like a "new" package
+   (#1708).
+
+* `use_rscloud_badge()` has been deprecated in favour of 
+  `use_posit_cloud_badge()`, and both functions now accept the updated url 
+  format of Posit Cloud projects (#1670).
+
+* `use_author()` is a new function to introduce a new person into the
+  `Authors@R` field of DESCRIPTION (@avalcarcel9, #833).
+
+* Links to the R Packages book have been updated to the second edition of
+  the book (#1689).
+
 * `use_release_issue()` will now remind you to run `use_github_links()` if 
   necessary (@Bisaloo, #1754)
 

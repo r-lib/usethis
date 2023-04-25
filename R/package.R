@@ -1,11 +1,22 @@
 #' Depend on another package
 #'
+#' @description
+
 #' `use_package()` adds a CRAN package dependency to `DESCRIPTION` and offers a
 #' little advice about how to best use it. `use_dev_package()` adds a dependency
 #' on an in-development package, adding the dev repo to `Remotes` so it will be
 #' automatically installed from the correct location. There is no helper to
 #' remove a dependency: to do that, simply remove that package from your
 #' `DESCRIPTION` file.
+#'
+#' `use_package()` exists to support a couple of common maneuvers:
+#' * Add a dependency to `Imports` or `Suggests` or `LinkingTo`.
+#' * Add a minimum version to a dependency.
+#' * Specify the minimum supported version for R.
+#'
+#' `use_package()` probably works for slightly more exotic modifications, but at
+#' some point, you should edit `DESCRIPTION` yourself by hand. There is no
+#' intention to account for all possible edge cases.
 #'
 #' @param package Name of package to depend on.
 #' @param type Type of dependency: must be one of "Imports", "Depends",
@@ -19,7 +30,7 @@
 #'   package](
 #'   https://remotes.r-lib.org/articles/dependencies.html#other-sources).
 #'
-#' @seealso The [dependencies section](https://r-pkgs.org/dependencies.html) of
+#' @seealso The [dependencies section](https://r-pkgs.org/dependencies-mindset-background.html) of
 #'   [R Packages](https://r-pkgs.org).
 #'
 #' @export

@@ -182,7 +182,7 @@ standalone_dependencies <- function(lines, path, error_call = caller_env()) {
   imports <- as_chr_field(yaml$imports)
   imports <- as_version_info(imports, error_call = error_call)
 
-  if (any(na.omit(imports$cmp) != ">=")) {
+  if (any(stats::na.omit(imports$cmp) != ">=")) {
     cli::cli_abort(
       "Version specification must use {.code >=}.",
       call = error_call

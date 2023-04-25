@@ -2,19 +2,19 @@
 #'
 #' Adds infrastructure needed to use the [cpp11](https://cpp11.r-lib.org)
 #' package, a header-only R package that helps R package developers handle R
-#' objects with C++ code. compiled code:
+#' objects with C++ code:
 #'   * Creates `src/`
 #'   * Adds cpp11 to `DESCRIPTION`
 #'   * Creates `src/code.cpp`, an initial placeholder `.cpp` file
 #'
 #' @export
 use_cpp11 <- function() {
+  check_installed("cpp11")
   check_is_package("use_cpp11()")
   check_uses_roxygen("use_cpp11()")
   use_src()
 
   use_dependency("cpp11", "LinkingTo")
-  proj_desc_field_append("SystemRequirements", "C++11")
 
   use_template(
     "code-cpp11.cpp",

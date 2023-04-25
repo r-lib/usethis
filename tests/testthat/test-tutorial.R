@@ -2,8 +2,8 @@ test_that("use_tutorial() checks its inputs", {
   skip_if_not_installed("rmarkdown")
 
   create_local_package()
-  expect_error(use_tutorial(), "no default")
-  expect_error(use_tutorial(name = "tutorial-file"), "no default")
+  expect_snapshot(use_tutorial(), error = TRUE)
+  expect_snapshot(use_tutorial(name = "tutorial-file"), error = TRUE)
 })
 
 test_that("use_tutorial() creates a tutorial", {

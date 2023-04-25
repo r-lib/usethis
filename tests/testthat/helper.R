@@ -47,7 +47,18 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
   ui_silence(
     switch(
       thing,
-      package = create_package(dir, rstudio = rstudio, open = FALSE, check_name = FALSE),
+      package = create_package(
+        dir,
+        # This is for the sake of interactive development of snapshot tests.
+        # When the active usethis project is a package created with this
+        # function, testthat learns its edition from *that* package, not from
+        # usethis. So, by default, opt in to testthat 3e in these ephemeral test
+        # packages.
+        fields = list("Config/testthat/edition" = "3"),
+        rstudio = rstudio,
+        open = FALSE,
+        check_name = FALSE
+      ),
       project = create_project(dir, rstudio = rstudio, open = FALSE)
     )
   )
@@ -69,16 +80,6 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
 
 scrub_testpkg <- function(message) {
   gsub("testpkg[a-zA-Z0-9]+", "{TESTPKG}", message, perl = TRUE)
-}
-
-toggle_rlang_interactive <- function() {
-  # TODO: consider setting options(rlang_backtrace_on_error = "reminder") when
-  # in non-interactive mode, to suppress full backtraces
-  before <- getOption("rlang_interactive")
-  after <- if (identical(before, FALSE)) TRUE else FALSE
-  options(rlang_interactive = after)
-  ui_line(glue::glue("rlang_interactive: {before %||% '<unset>'} --> {after}"))
-  invisible()
 }
 
 skip_if_not_ci <- function() {
@@ -130,6 +131,10 @@ test_file <- function(fname) testthat::test_path("ref", fname)
 
 expect_proj_file <- function(...) expect_true(file_exists(proj_path(...)))
 expect_proj_dir <- function(...) expect_true(dir_exists(proj_path(...)))
+
+mock_cran_version <- function(version, .env = caller_env()) {
+  local_mocked_bindings(cran_version = function() version, .env = .env)
+}
 
 scrub_checklist_footer <- function(text) {
   gsub("(^<sup>.+on )[-/0-9]{10}(.+ v)[0-9.]{3,12}(.+</sup>$)",

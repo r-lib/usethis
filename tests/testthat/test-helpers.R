@@ -87,10 +87,40 @@ test_that("use_dependency() declines to downgrade a dependency", {
 
 test_that("can add LinkingTo dependency if other dependency already exists", {
   create_local_package()
-  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+  use_dependency("rlang", "Imports")
 
-  expect_message(use_dependency("Rcpp", "Imports"), "Adding 'Rcpp'")
-  expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
-  expect_message(use_dependency("Rcpp", "LinkingTo"), "Adding 'Rcpp'")
-  expect_message(use_dependency("Rcpp", "Import"), "Adding 'Rcpp'")
+  withr::local_options(list(usethis.quiet = FALSE))
+  expect_snapshot(
+    use_dependency("rlang", "LinkingTo")
+  )
+  deps <- proj_deps()
+  expect_setequal(deps$type, c("Imports", "LinkingTo"))
+  expect_true(all(deps$package == "rlang"))
 })
+
+test_that("use_dependency() does not fall over on 2nd LinkingTo request", {
+  create_local_package()
+  local_interactive(FALSE)
+
+  use_dependency("rlang", "LinkingTo")
+
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  expect_snapshot(use_dependency("rlang", "LinkingTo"))
+})
+
+# https://github.com/r-lib/usethis/issues/1649
+test_that("use_dependency() can level up a LinkingTo dependency", {
+  create_local_package()
+
+  use_dependency("rlang", "LinkingTo")
+  use_dependency("rlang", "Suggests")
+
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  expect_snapshot(use_package("rlang"))
+  deps <- proj_deps()
+  expect_setequal(deps$type, c("Imports", "LinkingTo"))
+  expect_true(all(deps$package == "rlang"))
+})
+
