@@ -1,11 +1,33 @@
+#' Create an upkeep checklist in a GitHub issue
+#'
+#' @description
+#' This opens an issue in your package repository with a checklist of tasks for
+#' regular maintenance of your package. This is a fairly opinionated list of
+#' tasks but we believe taking care of them will generally make your package
+#' better, easier to maintain, and more enjoyable for your users. Some of the
+#' tasks are meant to be performed only once (and once completed shouldn't show
+#' up in subsequent lists), and some should be reviewed periodically. The
+#' tidyverse team uses a similar function [use_tidy_upkeep_issue()] for our
+#' annual package Spring Cleaning.
+#'
+#' @param year Year you are performing the upkeep, used in the issue title.
+#'   Defaults to current year
+#'
 #' @export
-#' @rdname tidyverse
-#' @param year Approximate year when you last touched this package. If `NULL`,
-#'   the default, will give you a full set of actions to perform.
-use_tidy_upkeep_issue <- function(year = NULL) {
-  check_is_package("use_tidy_upkeep_issue()")
+#' @examples
+#' \dontrun{
+#' use_upkeep_issue(2023)
+#' }
+use_upkeep_issue <- function(year = NULL) {
+  make_upkeep_issue(year = year, tidy = FALSE)
+}
+
+make_upkeep_issue <- function(year, tidy) {
+  who <- if (tidy) "use_tidy_upkeep_issue()" else "use_upkeep_issue()"
+  check_is_package(who)
 
   tr <- target_repo(github_get = TRUE)
+
   if (!isTRUE(tr$can_push)) {
     ui_line("
       It is very unusual to open an upkeep issue on a repo you can't push to:
@@ -16,30 +38,88 @@ use_tidy_upkeep_issue <- function(year = NULL) {
     }
   }
 
-  checklist <- upkeep_checklist(year)
+  checklist <- if (tidy) tidy_upkeep_checklist(year) else upkeep_checklist()
 
-  maybe_year <- if (is.null(year)) "" else glue(" ({year})")
+  title_year <- year %||% format(Sys.Date(), "%Y")
 
   gh <- gh_tr(tr)
   issue <- gh(
     "POST /repos/{owner}/{repo}/issues",
-    title = glue("Upkeep for {project_name()}{maybe_year}"),
+    title = glue("Upkeep for {project_name()} ({title_year})"),
     body = paste0(checklist, "\n", collapse = "")
   )
   Sys.sleep(1)
   view_url(issue$html_url)
 }
 
-upkeep_checklist <- function(year = NULL,
-                             posit_pkg = is_posit_pkg(),
-                             posit_person_ok = is_posit_person_canonical()) {
-  year <- year %||% 2000
+upkeep_checklist <- function() {
+  bullets <- c(
+    todo("`usethis::use_readme_rmd()`", !file_exists(proj_path("README.Rmd"))),
+    todo("`usethis::use_roxygen_md()`", !is_true(uses_roxygen_md())),
+    todo("`usethis::use_github_links()`", !has_github_links()),
+    todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
+    todo(
+      "
+      `usethis::use_package_doc()`
+      Consider letting usethis manage your `@importFrom` directives here. \\
+      `usethis::use_import_from()` is handy for this.",
+      !has_package_doc()
+    ),
+    todo(
+      "
+      `usethis::use_testthat()`. \\
+      Learn more about testing at <https://r-pkgs.org/tests.html>",
+      !uses_testthat()
+    ),
+    todo(
+      "
+      `usethis::use_testthat(3)` and upgrade to 3e, \\
+      [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)",
+      uses_old_testthat_edition(current = 3)
+    ),
+    todo("
+      Align the names of `R/` files and `test/` files for workflow happiness. \\
+      The docs for `usethis::use_r()` include a helpful script. \\
+      `usethis::rename_files()` may be be useful."),
+    todo("`usethis::use_github_action('check-standard')`"),
+    todo(
+      "Consider changing default branch from `master` to `main`",
+      git_default_branch() == "master"
+    ),
+    todo("`usethis::use_code_of_conduct()`", !has_coc()),
+    todo(
+      "Remove description of test environments from `cran-comments.md`.
+      See `usethis::use_cran_comments()`.",
+      has_old_cran_comments()
+    ),
+    todo("
+        Add alt-text to pictures, plots, etc; see \\
+        <https://posit.co/blog/knitr-fig-alt/> for examples")
+  )
 
+  c(bullets, upkeep_extra_bullets(), checklist_footer(tidy = FALSE))
+}
+
+# tidyverse upkeep issue -------------------------------------------------------
+
+#' @export
+#' @rdname tidyverse
+#' @param year Approximate year when you last touched this package. If `NULL`,
+#'   the default, will give you a full set of actions to perform.
+use_tidy_upkeep_issue <- function(year = NULL) {
+  make_upkeep_issue(year = year, tidy = TRUE)
+}
+
+tidy_upkeep_checklist <- function(year = NULL,
+                                  posit_pkg = is_posit_pkg(),
+                                  posit_person_ok = is_posit_person_canonical()) {
+  year <- year %||% 2000
 
   bullets <- c()
 
   if (year <= 2000) {
-    bullets <- c(bullets,
+    bullets <- c(
+      bullets,
       "Pre-history",
       "",
       todo("`usethis::use_readme_rmd()`"),
@@ -54,7 +134,8 @@ upkeep_checklist <- function(year = NULL,
     )
   }
   if (year <= 2020) {
-    bullets <- c(bullets,
+    bullets <- c(
+      bullets,
       "2020",
       "",
       todo("
@@ -72,7 +153,8 @@ upkeep_checklist <- function(year = NULL,
     )
   }
   if (year <= 2021) {
-    bullets <- c(bullets,
+    bullets <- c(
+      bullets,
       "2021",
       "",
       todo("`usethis::use_tidy_description()`", year > 2000),
@@ -85,16 +167,18 @@ upkeep_checklist <- function(year = NULL,
       todo("
         Use lifecycle instead of artisanal deprecation messages, as described \\
         in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)"),
-      todo('
+      todo(
+        '
         Make sure RStudio appears in `Authors@R` of DESCRIPTION like so, if appropriate:
         `person("RStudio", role = c("cph", "fnd"))`',
-        posit_pkg && !posit_person_ok),
-
+        posit_pkg && !posit_person_ok
+      ),
       ""
     )
   }
   if (year <= 2022) {
-    bullets <- c(bullets,
+    bullets <- c(
+      bullets,
       "2022",
       "",
       todo("`usethis::use_tidy_coc()`"),
@@ -114,10 +198,10 @@ upkeep_checklist <- function(year = NULL,
   }
 
   if (year <= 2023) {
-
     desc <- proj_desc()
 
-    bullets <- c(bullets,
+    bullets <- c(
+      bullets,
       "2023",
       "",
       "Necessary:",
@@ -126,17 +210,20 @@ upkeep_checklist <- function(year = NULL,
         "Update email addresses *@rstudio.com -> *@posit.co",
         author_has_rstudio_email()
       ),
-      todo('
+      todo(
+        '
         Update copyright holder in DESCRIPTION: \\
         `person(given = "Posit Software, PBC", role = c("cph", "fnd"))`',
         posit_pkg && !posit_person_ok
       ),
-      todo('
+      todo(
+        "
         `Run devtools::document()` to re-generate package-level help topic \\
-        with DESCRIPTION changes',
+        with DESCRIPTION changes",
         author_has_rstudio_email() || (posit_pkg && !posit_person_ok)
       ),
-      todo("
+      todo(
+        "
         Double check license file uses '[package] authors' \\
         as copyright holder. Run `use_mit_license()`",
         grepl("MIT", desc$get_field("License"))
@@ -145,8 +232,10 @@ upkeep_checklist <- function(year = NULL,
         Update logo (https://github.com/rstudio/hex-stickers); \\
         run `use_tidy_logo()`"),
       todo("`usethis::use_tidy_coc()`"),
-      todo("Modernize citation files; see updated `use_citation()`",
-           fs::file_exists(proj_path("inst/CITATION"))),
+      todo(
+        "Modernize citation files; see updated `use_citation()`",
+        has_citation_file()
+      ),
       todo("`usethis::use_tidy_github_actions()`"),
       "",
       "Optional:",
@@ -159,9 +248,11 @@ upkeep_checklist <- function(year = NULL,
       todo('
         `use_standalone("r-lib/rlang", "types-check")` \\
         instead of home grown argument checkers'),
-      todo("
+      todo(
+        "
         Change files ending in `.r` to `.R` in R/ and/or tests/testthat/",
-        lowercase_r()),
+        lowercase_r()
+      ),
       todo("
         Add alt-text to pictures, plots, etc; see \\
         https://posit.co/blog/knitr-fig-alt/ for examples"),
@@ -169,8 +260,10 @@ upkeep_checklist <- function(year = NULL,
     )
   }
 
-  bullets
+  c(bullets, checklist_footer(tidy = TRUE))
 }
+
+# upkeep helpers ----------------------------------------------------------
 
 # https://www.tidyverse.org/blog/2019/04/r-version-support/
 tidy_minimum_r_version <- function() {
@@ -193,3 +286,42 @@ lowercase_r <- function() {
   any(fs::path_ext(fs::dir_ls(path, recurse = TRUE)) == "r")
 }
 
+has_coc <- function() {
+  path <- proj_path(c(".", ".github"), "CODE_OF_CONDUCT.md")
+  any(file_exists(path))
+}
+
+has_citation_file <- function() {
+  file_exists(proj_path("inst/CITATION"))
+}
+
+uses_old_testthat_edition <- function(current) {
+  if (!requireNamespace("testthat", quietly = TRUE)) {
+    return(FALSE)
+  }
+  uses_testthat() && testthat::edition_get() < current
+}
+
+upkeep_extra_bullets <- function(env = NULL) {
+  env <- env %||% safe_pkg_env()
+
+  if (env_has(env, "upkeep_bullets")) {
+    c(paste0("* [ ] ", env$upkeep_bullets()), "")
+  } else {
+    ""
+  }
+}
+
+checklist_footer <- function(tidy) {
+  tidy_fun <- if (tidy) "tidy_" else ""
+  glue('<sup>\\
+    Created on {Sys.Date()} with `usethis::use_{tidy_fun}upkeep_issue()`, using \\
+    [usethis v{utils::packageVersion("usethis")}](https://usethis.r-lib.org)\\
+    </sup>')
+}
+
+has_old_cran_comments <- function() {
+  cc <- proj_path("cran-comments.md")
+  file_exists(cc) &&
+    any(grepl("# test environment", readLines(cc), ignore.case = TRUE))
+}

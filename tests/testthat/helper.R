@@ -136,6 +136,11 @@ mock_cran_version <- function(version, .env = caller_env()) {
   local_mocked_bindings(cran_version = function() version, .env = .env)
 }
 
+scrub_checklist_footer <- function(text) {
+  gsub("(^<sup>.+on )[-/0-9]{10}(.+ v)[0-9.]{3,12}(.+</sup>$)",
+       "\\1DATE\\2VERSION\\3", text)
+}
+
 mock_check_installed <- function(.env = caller_env()) {
   local_mocked_bindings(check_installed = function(pkg) TRUE, .env = .env)
 }

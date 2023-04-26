@@ -1,5 +1,11 @@
 # usethis (development version)
 
+* `use_upkeep_issue()` is a new function to facilitate regular maintenance of 
+  your package. Similar to `use_release_issue()`, it opens an issue in your repo 
+  with a checklist of maintenance tasks. It will include additional bullets 
+  if your package includes an `upkeep_bullets()` function that returns a 
+  character vector.
+
 * `use_news_md()` now places "(development version)" in the header of `NEWS.md`
    if there is a development version number in `DESCRIPTION`. It also sets the 
    first bullet to "Initial CRAN submission" when it looks like a "new" package
