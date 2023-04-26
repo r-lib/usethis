@@ -92,12 +92,6 @@ upkeep_checklist <- function() {
       See `usethis::use_cran_comments()`.",
       has_old_cran_comments()
     ),
-    todo(
-      "
-      Use lifecycle instead of artisanal deprecation messages, as described \\
-      in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)",
-      !proj_desc()$has_dep("lifecycle")
-    ),
     todo("
         Add alt-text to pictures, plots, etc; see \\
         <https://posit.co/blog/knitr-fig-alt/> for examples")

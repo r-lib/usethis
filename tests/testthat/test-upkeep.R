@@ -32,7 +32,6 @@ test_that("upkeep bullets don't change accidentally",{
   # Add some files to test conditional todos
   use_code_of_conduct("jane.doe@foofymail.com")
   use_testthat()
-  use_package("lifecycle")
   withr::local_file("cran-comments.md")
   writeLines(
     "## Test environments\\n\\n* local Ubuntu\\n\\# R CMD check results\\n", 
