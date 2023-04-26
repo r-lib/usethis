@@ -225,8 +225,14 @@ use_github_links <- function(auth_token = deprecated(),
   res <- gh("GET /repos/{owner}/{repo}")
 
   desc <- proj_desc()
-  if (!res$html_url %in% desc$get_urls()) {
-    use_description_field("URL", res$html_url, overwrite = overwrite)
+  existing_urls <- desc$get_urls()
+  if (!res$html_url %in% existing_urls) {
+    if (overwrite) {
+      urls <- res$html_url
+    } else {
+      urls <- paste(existing_urls, res$html_url, sep = ", ", collapse = ", ")
+    }
+    use_description_field("URL", urls, overwrite = TRUE)
   }
 
   use_description_field(
