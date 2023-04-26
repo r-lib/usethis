@@ -22,6 +22,7 @@ test_that("upkeep bullets don't change accidentally",{
   withr::local_options(usethis.description = NULL)
   create_local_package()
   local_mocked_bindings(git_default_branch = function() "main")
+  use_cran_comments()
 
   expect_snapshot(
     writeLines(upkeep_checklist()),
@@ -32,7 +33,11 @@ test_that("upkeep bullets don't change accidentally",{
   use_code_of_conduct("jane.doe@foofymail.com")
   use_testthat()
   use_package("lifecycle")
-  use_cran_comments()
+  withr::local_file("cran-comments.md")
+  writeLines(
+    "## Test environments\\n\\n* local Ubuntu\\n\\# R CMD check results\\n", 
+    "cran-comments.md"
+  )
   local_mocked_bindings(git_default_branch = function() "master")
 
   expect_snapshot({

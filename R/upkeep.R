@@ -88,8 +88,9 @@ upkeep_checklist <- function() {
     ),
     todo("`usethis::use_code_of_conduct()`", !has_coc()),
     todo(
-      "Remove any description of check environments from `cran-comments.md`",
-      file_exists(proj_path("cran-comments.md"))
+      "Remove description of test environments from `cran-comments.md`.
+      See `usethis::use_cran_comments()`.",
+      has_old_cran_comments()
     ),
     todo(
       "
@@ -323,4 +324,10 @@ checklist_footer <- function(tidy) {
     Created on {Sys.Date()} with `usethis::use_{tidy_fun}upkeep_issue()`, using \\
     [usethis v{utils::packageVersion("usethis")}](https://usethis.r-lib.org)\\
     </sup>')
+}
+
+has_old_cran_comments <- function() {
+  cc <- proj_path("cran-comments.md")
+  file_exists(cc) &&
+    any(grepl("test envir", readLines(cc), ignore.case = TRUE))
 }
