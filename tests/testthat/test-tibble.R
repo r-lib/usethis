@@ -8,8 +8,8 @@ test_that("use_tibble() Imports tibble", {
   withr::local_options(list(usethis.quiet = FALSE))
   ui_silence(use_package_doc())
 
+  mock_check_installed()
   with_mock(
-    check_installed = function(pkg) TRUE,
     roxygen_update_ns = function(...) NULL,
     check_functions_exist = function(...) TRUE,
     {

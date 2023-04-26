@@ -23,7 +23,7 @@ test_that("use_rcpp_armadillo() creates Makevars files and edits DESCRIPTION", {
 
   local_interactive(FALSE)
   # pretend RcppArmadillo is installed
-  mockr::local_mock(check_installed = function(pkg) TRUE)
+  mock_check_installed()
 
   use_rcpp_armadillo("code")
   expect_proj_file("src", "code.cpp")
@@ -37,7 +37,7 @@ test_that("use_rcpp_eigen() edits DESCRIPTION", {
   use_roxygen_md()
 
   # pretend RcppArmadillo is installed
-  mockr::local_mock(check_installed = function(pkg) TRUE)
+  mock_check_installed()
   use_rcpp_eigen("code")
   expect_proj_file("src", "code.cpp")
   expect_match(desc::desc_get("LinkingTo"), "RcppEigen")
