@@ -329,5 +329,5 @@ checklist_footer <- function(tidy) {
 has_old_cran_comments <- function() {
   cc <- proj_path("cran-comments.md")
   file_exists(cc) &&
-    any(grepl("test envir", readLines(cc), ignore.case = TRUE))
+    any(grepl("# test environment", readLines(cc), ignore.case = TRUE))
 }
