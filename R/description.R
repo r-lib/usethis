@@ -176,7 +176,7 @@ use_description_field <- function(name, value, overwrite = FALSE) {
   }
 
   ui_done("Setting {ui_field(name)} field in DESCRIPTION to {ui_value(value)}")
-  desc$set(name, value)
+  desc$set_list(name, value)
   desc$write()
 
   invisible()
