@@ -5,12 +5,9 @@ test_that("use_circleci() configures CircleCI", {
   create_local_package()
   use_git()
 
-  with_mock(
-    target_repo_spec = function(...) "OWNER/REPO",
-    {
-      use_circleci(browse = FALSE)
-    }
-  )
+  mock_target_repo_spec()
+
+  use_circleci(browse = FALSE)
 
   expect_true(is_build_ignored("^\\.circleci$"))
 
@@ -34,12 +31,9 @@ test_that("use_circleci() configures CircleCI", {
 
   dir_delete(proj_path(".circleci"))
   docker <- "rocker/r-ver:3.5.3"
-  with_mock(
-    target_repo_spec = function(...) "OWNER/REPO",
-    {
-      use_circleci(browse = FALSE, image = docker)
-    }
-  )
+
+  use_circleci(browse = FALSE, image = docker)
+
   yml <- yaml::yaml.load_file(proj_path(".circleci", "config.yml"))
   expect_identical(yml$jobs$build$docker[[1]]$image, docker)
 })

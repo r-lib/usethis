@@ -24,15 +24,12 @@ test_that("use_tidy_dependencies() isn't overly informative", {
 
 test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
   local_interactive(FALSE)
+  mock_target_repo_spec()
+
   create_local_package()
   use_git()
-
-  with_mock(
-    target_repo_spec = function(...) "OWNER/REPO", {
-      use_tidy_contributing()
-      use_tidy_support()
-    }
-  )
+  use_tidy_contributing()
+  use_tidy_support()
   use_tidy_issue_template()
   use_tidy_coc()
   expect_proj_file(".github/CONTRIBUTING.md")
@@ -44,15 +41,11 @@ test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
 
 test_that("use_tidy_github() adds and Rbuildignores files", {
   local_interactive(FALSE)
+  mock_target_repo_spec()
+
   create_local_package()
   use_git()
-
-  with_mock(
-    target_repo_spec = function(...) "OWNER/REPO",
-    {
-      use_tidy_github()
-    }
-  )
+  use_tidy_github()
   expect_proj_file(".github/CONTRIBUTING.md")
   expect_proj_file(".github/ISSUE_TEMPLATE/issue_template.md")
   expect_proj_file(".github/SUPPORT.md")
