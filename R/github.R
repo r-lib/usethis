@@ -226,14 +226,10 @@ use_github_links <- function(auth_token = deprecated(),
 
   desc <- proj_desc()
   existing_urls <- desc$get_urls()
-  
+
   if (!res$html_url %in% existing_urls) {
-    if (overwrite || length(existing_urls) == 0) {
-      urls <- res$html_url
-    } else {
-      urls <- paste(existing_urls, res$html_url, sep = ", ", collapse = ", ")
-    }
-    use_description_field("URL", urls, overwrite = TRUE)
+    urls <- c(existing_urls, res$html_url)
+    use_description_field("URL", urls, overwrite = overwrite)
   }
 
   use_description_field(
