@@ -47,7 +47,6 @@ Suggests:
     covr,
     knitr,
     magick,
-    mockr,
     pkgload,
     rmarkdown,
     roxygen2 (>= 7.1.2),

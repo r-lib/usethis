@@ -12,8 +12,8 @@
 #'
 #' @export
 use_data_table <- function() {
-  check_installed("data.table")
   check_is_package("use_data_table()")
+  check_installed("data.table")
   check_uses_roxygen("use_data_table()")
 
   desc <- proj_desc()

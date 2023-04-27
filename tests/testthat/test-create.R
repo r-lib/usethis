@@ -113,17 +113,12 @@ test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudi
   withr::defer(dir_delete(sandbox))
   withr::defer(proj_set(orig_proj, force = TRUE))
   withr::local_dir(sandbox)
+  mock_rstudio_not_available()
 
   # package
   rel_path_pkg <- path_file(file_temp(pattern = "ghi"))
-  with_mock(
-    # make sure we act as if not in RStudio
-    rstudio_available = function(...) FALSE,
-    {
-      expect_no_error(
-        out_path <- create_package(rel_path_pkg, open = TRUE)
-      )
-    }
+  expect_no_error(
+    out_path <- create_package(rel_path_pkg, open = TRUE)
   )
   exp_path_pkg <- path(sandbox, rel_path_pkg)
   expect_equal(out_path, exp_path_pkg)
@@ -134,14 +129,8 @@ test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudi
 
   # project
   rel_path_proj <- path_file(file_temp(pattern = "jkl"))
-  with_mock(
-    # make sure we act as if not in RStudio
-    rstudio_available = function(...) FALSE,
-    {
-      expect_no_error(
-        out_path <- create_project(rel_path_proj, open = TRUE)
-      )
-    }
+  expect_no_error(
+    out_path <- create_project(rel_path_proj, open = TRUE)
   )
   exp_path_proj <- path(sandbox, rel_path_proj)
   expect_equal(out_path, exp_path_proj)

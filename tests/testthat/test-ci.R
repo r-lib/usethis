@@ -5,7 +5,7 @@ test_that("use_circleci() configures CircleCI", {
   create_local_package()
   use_git()
 
-  local_mocked_bindings(target_repo_spec = function(...) "OWNER/REPO")
+  mock_target_repo_spec()
 
   use_circleci(browse = FALSE)
 

@@ -63,14 +63,16 @@ test_that("uses_github_action() reports usage of GitHub Actions", {
 
   create_local_package()
   expect_false(uses_github_actions())
+
   use_git()
   use_git_remote(name = "origin", url = "https://github.com/OWNER/REPO")
-  with_mock(
-    use_github_actions_badge = function(name, repo_spec) NULL,
-    {
-      use_github_action("check-standard")
-    }
+
+  local_mocked_bindings(
+    use_github_actions_badge = function(name, repo_spec) NULL
   )
+
+  use_github_action("check-standard")
+
   expect_true(uses_github_actions())
 })
 
