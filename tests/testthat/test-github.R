@@ -5,10 +5,7 @@ test_that("use_github_links populates empty URL field", {
   skip_if_no_git_user()
 
   local_mocked_bindings(
-    gh_tr = function(tr) {
-        function(endpoint, ...) list(html_url = "https://github.com/OWNER/REPO")
-      },
-    target_repo = function(github_get) NULL
+    github_url_from_git_remotes = function() "https://github.com/OWNER/REPO"
   )
 
   # when no URL field
@@ -27,10 +24,7 @@ test_that("use_github_links errors when overwrite = FALSE and existing urls", {
   use_git()
   skip_if_no_git_user()
   local_mocked_bindings(
-    gh_tr = function(tr) {
-      function(endpoint, ...) list(html_url = "https://github.com/OWNER/REPO")
-    },
-    target_repo = function(github_get) NULL
+    github_url_from_git_remotes = function() "https://github.com/OWNER/REPO"
   )
 
   d <- proj_desc()
@@ -47,13 +41,9 @@ test_that("use_github_links appends to URL field when overwrite = TRUE", {
   skip_if_no_git_user()
 
   local_mocked_bindings(
-    gh_tr = function(tr) {
-        function(endpoint, ...) list(html_url = "https://github.com/OWNER/REPO")
-      },
-    target_repo = function(github_get) NULL
+    github_url_from_git_remotes = function() "https://github.com/OWNER/REPO"
   )
 
-  # when an existing field, and overwrite = TRUE, should append
   d <- proj_desc()
   d$set_urls(c("https://existing.url", "https://existing.url1"))
   d$write()

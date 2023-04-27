@@ -1,4 +1,4 @@
-# use_github_links errors when overwrite = FALSE
+# use_github_links errors when overwrite = FALSE and existing urls
 
     Code
       use_github_links(overwrite = FALSE)

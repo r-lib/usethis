@@ -219,22 +219,20 @@ use_github_links <- function(auth_token = deprecated(),
   }
 
   check_is_package("use_github_links()")
-  tr <- target_repo(github_get = TRUE)
 
-  gh <- gh_tr(tr)
-  res <- gh("GET /repos/{owner}/{repo}")
+  gh_url <- github_url_from_git_remotes()
 
   desc <- proj_desc()
   existing_urls <- desc$get_urls()
 
-  if (!res$html_url %in% existing_urls) {
-    urls <- c(existing_urls, res$html_url)
+  if (!gh_url %in% existing_urls) {
+    urls <- c(existing_urls, gh_url)
     use_description_field("URL", urls, overwrite = overwrite)
   }
 
   use_description_field(
     "BugReports",
-    glue("{res$html_url}/issues"),
+    glue("{gh_url}/issues"),
     overwrite = overwrite
   )
 
