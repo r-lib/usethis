@@ -67,9 +67,9 @@ test_that("git_default_branch() errors for local vs remote mismatch", {
 
   expect_error(git_default_branch(), class = "error_default_branch")
 
-   gert::git_branch_create("blarg", checkout = TRUE, repo = repo)
-   mock_git_default_branch_remote()
-   expect_error(git_default_branch(), class = "error_default_branch")
+  gert::git_branch_create("blarg", checkout = TRUE, repo = repo)
+  mock_git_default_branch_remote()
+  expect_error(git_default_branch(), class = "error_default_branch")
 })
 
 test_that("git_default_branch_rename() surfaces files that smell fishy", {
