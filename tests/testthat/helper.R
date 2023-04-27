@@ -142,5 +142,15 @@ scrub_checklist_footer <- function(text) {
 }
 
 mock_check_installed <- function(.env = caller_env()) {
-  local_mocked_bindings(check_installed = function(pkg) TRUE, .env = .env)
+  local_mocked_bindings(
+    check_installed = function(...) TRUE,
+    .env = .env
+  )
+}
+
+mock_check_is_package <- function(.env = caller_env()) {
+  local_mocked_bindings(
+    check_is_package = function(...) invisible(),
+    .env = .env
+  )
 }

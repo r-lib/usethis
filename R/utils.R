@@ -53,9 +53,6 @@ compact <- function(x) {
 is_installed <- function(pkg) {
   rlang::is_installed(pkg)
 }
-check_installed <- function(pkg) {
-  rlang::check_installed(pkg)
-}
 
 isFALSE <- function(x) {
   identical(x, FALSE)
