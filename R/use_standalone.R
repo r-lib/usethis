@@ -53,6 +53,9 @@
 #' }
 use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   check_is_project()
+  maybe_name(file)
+  maybe_name(host)
+  maybe_name(ref)
 
   parsed_repo_spec <- parse_repo_url(repo_spec)
   if (!is.null(parsed_repo_spec$host)) {
@@ -63,16 +66,11 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   if (is.null(file)) {
     file <- standalone_choose(repo_spec, ref = ref, host = host)
   } else {
-    if (path_ext(file) == "") {
-      file <- path_ext_set(file, "R")
-    }
-    if (!startsWith(file, "standalone-")) {
-      file <- paste0("standalone-", file)
-    }
+    file <- as_standalone_file(file)
   }
 
   src_path <- path("R", file)
-  dest_path <- path("R", paste0("import-", file))
+  dest_path <- path("R", as_standalone_dest_file(file))
 
   lines <- read_github_file(repo_spec, path = src_path, ref = ref, host = host)
   lines <- c(standalone_header(repo_spec, src_path), lines)
@@ -141,6 +139,20 @@ standalone_choose <- function(repo_spec, ref = NULL, host = NULL, error_call = c
   }
 
   names[[choice]]
+}
+
+as_standalone_file <- function(file) {
+  if (path_ext(file) == "") {
+    file <- unclass(path_ext_set(file, "R"))
+  }
+  if (!grepl("standalone-", file)) {
+    file <- paste0("standalone-", file)
+  }
+  file
+}
+
+as_standalone_dest_file <- function(file) {
+  gsub("standalone-", "import-standalone-", file)
 }
 
 standalone_header <- function(repo_spec, path) {
