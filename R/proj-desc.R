@@ -27,9 +27,12 @@ proj_desc_create <- function(name, fields = list(), roxygen = TRUE) {
   }
 }
 
-proj_desc_field_append <- function(key, value) {
+# Here overwrite means "update the field if there is already a value in it,
+# including appending".
+proj_desc_field_update <- function(key, value, overwrite = TRUE, append = FALSE) {
   check_string(key)
-  check_string(value)
+  stopifnot(is.character(value) || is.numeric(value), length(value) == 1)
+  check_bool(overwrite)
 
   desc <- proj_desc()
 
@@ -38,9 +41,21 @@ proj_desc_field_append <- function(key, value) {
     return(invisible())
   }
 
+  if (!overwrite && length(old > 0) && any(old != "")) {
+    ui_stop(
+      "{ui_field(key)} has a different value in DESCRIPTION. \\
+      Use {ui_code('overwrite = TRUE')} to overwrite."
+    )
+  }
+
   ui_done("Adding {ui_value(value)} to {ui_field(key)}")
+
+  if (append) {
+    value <- c(old, value)
+  }
+
   # https://github.com/r-lib/desc/issues/117
-  desc$set_list(key, c(old, value))
+  desc$set_list(key, value)
   desc$write()
 
   invisible()

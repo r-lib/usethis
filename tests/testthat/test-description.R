@@ -97,43 +97,45 @@ test_that("valid CRAN names checked", {
   )
 })
 
-test_that("use_description_field() can address an existing field", {
+test_that("proj_desc_field_update() can address an existing field", {
   pkg <- create_local_package()
   orig <- tools::md5sum(proj_path("DESCRIPTION"))
 
   ## specify existing value of existing field --> should be no op
-  use_description_field(
-    name = "Version",
-    value = proj_version()
+  proj_desc_field_update(
+    key = "Version",
+    value = proj_version(),
+    overwrite = FALSE
   )
   expect_identical(orig, tools::md5sum(proj_path("DESCRIPTION")))
 
   expect_usethis_error(
-    use_description_field(
-      name = "Version",
-      value = "1.1.1"
+    proj_desc_field_update(
+      key = "Version",
+      value = "1.1.1",
+      overwrite = FALSE
     ),
     "has a different value"
   )
 
   ## overwrite existing field
-  use_description_field(
-    name = "Version",
+  proj_desc_field_update(
+    key = "Version",
     value = "1.1.1",
     overwrite = TRUE
   )
   expect_identical(proj_version(), "1.1.1")
 })
 
-test_that("use_description_field() can add new field", {
+test_that("proj_desc_field_update() can add new field", {
   pkg <- create_local_package()
-  use_description_field(name = "foo", value = "bar")
+  proj_desc_field_update(key = "foo", value = "bar")
   expect_identical(proj_desc()$get_field("foo"), "bar")
 })
 
-test_that("use_description_field() ignores whitespace", {
+test_that("proj_desc_field_update() ignores whitespace", {
   pkg <- create_local_package()
-  use_description_field(name = "foo", value = "\n bar")
-  use_description_field(name = "foo", value = "bar")
+  proj_desc_field_update(key = "foo", value = "\n bar")
+  proj_desc_field_update(key = "foo", value = "bar", overwrite = FALSE)
   expect_identical(proj_desc()$get_field("foo", trim_ws = FALSE), "\n bar")
 })

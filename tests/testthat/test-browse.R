@@ -13,11 +13,11 @@ test_that("github_url() works on active project", {
   expect_usethis_error(github_url(), "no GitHub remotes")
 
   use_description()
-  use_description_field("URL", "https://example.com")
+  proj_desc_field_update("URL", "https://example.com")
   expect_usethis_error(github_url(), "no GitHub remotes")
 
   issues <- "https://github.com/OWNER/REPO_BUGREPORTS/issues"
-  use_description_field("BugReports", issues)
+  proj_desc_field_update("BugReports", issues)
   expect_equal(github_url(), "https://github.com/OWNER/REPO_BUGREPORTS")
 
   origin <- "https://github.com/OWNER/REPO_ORIGIN"
@@ -129,9 +129,9 @@ test_that("browse_package() returns URLs", {
 
   use_description()
   pkgdown <- "https://example.com"
-  use_description_field("URL", pkgdown)
+  proj_desc_field_update("URL", pkgdown)
   issues <- "https://github.com/OWNER/REPO/issues"
-  use_description_field("BugReports", issues)
+  proj_desc_field_update("BugReports", issues)
 
   out <- browse_package()
   expect_setequal(out, c(origin, foofy, pkgdown, issues))

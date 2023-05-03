@@ -61,7 +61,7 @@ use_mit_license <- function(copyright_holder = NULL) {
   )
 
   if (is_package()) {
-    use_description_field("License", "MIT + file LICENSE", overwrite = TRUE)
+    proj_desc_field_update("License", "MIT + file LICENSE", overwrite = TRUE)
     use_template("year-copyright.txt", save_as = "LICENSE", data = data)
   }
 
@@ -75,7 +75,7 @@ use_gpl_license <- function(version = 3, include_future = TRUE) {
 
   if (is_package()) {
     abbr <- license_abbr("GPL", version, include_future)
-    use_description_field("License", abbr, overwrite = TRUE)
+    proj_desc_field_update("License", abbr, overwrite = TRUE)
   }
   use_license_template(glue("GPL-{version}"))
 }
@@ -87,7 +87,7 @@ use_agpl_license <- function(version = 3, include_future = TRUE) {
 
   if (is_package()) {
     abbr <- license_abbr("AGPL", version, include_future)
-    use_description_field("License", abbr, overwrite = TRUE)
+    proj_desc_field_update("License", abbr, overwrite = TRUE)
   }
   use_license_template(glue("AGPL-{version}"))
 }
@@ -98,7 +98,7 @@ use_lgpl_license <- function(version = 3, include_future = TRUE) {
   version <- check_license_version(version, c(2.1, 3))
   if (is_package()) {
     abbr <- license_abbr("LGPL", version, include_future)
-    use_description_field("License", abbr, overwrite = TRUE)
+    proj_desc_field_update("License", abbr, overwrite = TRUE)
   }
   use_license_template(glue("LGPL-{version}"))
 }
@@ -110,7 +110,7 @@ use_apache_license <- function(version = 2, include_future = TRUE) {
 
   if (is_package()) {
     abbr <- license_abbr("Apache License", version, include_future)
-    use_description_field("License", abbr, overwrite = TRUE)
+    proj_desc_field_update("License", abbr, overwrite = TRUE)
   }
   use_license_template(glue("apache-{version}"))
 }
@@ -119,7 +119,7 @@ use_apache_license <- function(version = 2, include_future = TRUE) {
 #' @export
 use_cc0_license <- function() {
   if (is_package()) {
-    use_description_field("License", "CC0", overwrite = TRUE)
+    proj_desc_field_update("License", "CC0", overwrite = TRUE)
   }
   use_license_template("cc0")
 }
@@ -128,7 +128,7 @@ use_cc0_license <- function() {
 #' @export
 use_ccby_license <- function() {
   if (is_package()) {
-    use_description_field("License", "CC BY 4.0", overwrite = TRUE)
+    proj_desc_field_update("License", "CC BY 4.0", overwrite = TRUE)
   }
   use_license_template("ccby-4")
 }
@@ -142,7 +142,7 @@ use_proprietary_license <- function(copyright_holder) {
   )
 
   if (is_package()) {
-    use_description_field("License", "file LICENSE", overwrite = TRUE)
+    proj_desc_field_update("License", "file LICENSE", overwrite = TRUE)
   }
   use_template("license-proprietary.txt", save_as = "LICENSE", data = data)
 }
