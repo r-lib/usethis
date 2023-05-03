@@ -150,13 +150,10 @@ tidy_desc <- function(desc) {
   try(desc$normalize(), silent = TRUE)
 }
 
-# 2021-10-10, while adding use_description_list(), I moved this helper here
-#
-# this helper feels out-of-sync with current usethis practices around active
-# project and how overwrite is handled
-#
-# I won't change use_description_field() now, but use_description_list() is
-# implemented differently, more in keeping with our current style
+# 2023-05-03
+# TODO: Rationalize this with proj_desc_field_append(); being careful
+# about the interactions between overwrite and append behaviour,
+# https://github.com/r-lib/usethis/pull/1834
 use_description_field <- function(name, value, overwrite = FALSE) {
   # account for `value`s produced via `glue::glue()`
   value <- as.character(value)
