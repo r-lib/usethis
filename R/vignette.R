@@ -28,7 +28,7 @@ use_vignette <- function(name, title = name) {
   use_dependency("knitr", "Suggests")
   use_dependency("rmarkdown", "Suggests")
 
-  use_description_field("VignetteBuilder", "knitr", overwrite = TRUE)
+  proj_desc_field_update("VignetteBuilder", "knitr", overwrite = TRUE)
   use_git_ignore("inst/doc")
 
   use_vignette_template("vignette.Rmd", name, title)
@@ -43,7 +43,7 @@ use_article <- function(name, title = name) {
 
   deps <- proj_deps()
   if (!"rmarkdown" %in% deps$package) {
-    proj_desc_field_append("Config/Needs/website", "rmarkdown")
+    proj_desc_field_update("Config/Needs/website", "rmarkdown", append = TRUE)
   }
 
   use_vignette_template("article.Rmd", name, title, subdir = "articles")

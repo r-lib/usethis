@@ -222,15 +222,9 @@ use_github_links <- function(auth_token = deprecated(),
 
   gh_url <- github_url_from_git_remotes()
 
-  desc <- proj_desc()
-  existing_urls <- desc$get_urls()
+  proj_desc_field_update("URL", gh_url, overwrite = overwrite, append = TRUE)
 
-  if (!gh_url %in% existing_urls) {
-    urls <- c(existing_urls, gh_url)
-    use_description_field("URL", urls, overwrite = overwrite)
-  }
-
-  use_description_field(
+  proj_desc_field_update(
     "BugReports",
     glue("{gh_url}/issues"),
     overwrite = overwrite

@@ -45,7 +45,7 @@ test_that("use_article() adds rmarkdown to Config/Needs/website", {
   create_local_package()
   local_interactive(FALSE)
 
-  proj_desc_field_append("Config/Needs/website", "somepackage")
+  proj_desc_field_update("Config/Needs/website", "somepackage", append = TRUE)
   use_article("name", "title")
 
   expect_setequal(

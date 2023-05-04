@@ -149,33 +149,3 @@ tidy_desc <- function(desc) {
   # Wrap in a try() so it always succeeds, even if user options are malformed
   try(desc$normalize(), silent = TRUE)
 }
-
-# 2023-05-03
-# TODO: Rationalize this with proj_desc_field_append(); being careful
-# about the interactions between overwrite and append behaviour,
-# https://github.com/r-lib/usethis/pull/1834
-use_description_field <- function(name, value, overwrite = FALSE) {
-  # account for `value`s produced via `glue::glue()`
-  value <- as.character(value)
-
-  desc <- proj_desc()
-
-  curr <- desc$get_field(name, NA)
-  if (identical(curr, value)) {
-    return(invisible())
-  }
-
-  if (!is.na(curr) && !overwrite) {
-    ui_stop(
-      "{ui_field(name)} has a different value in DESCRIPTION. \\
-      Use {ui_code('overwrite = TRUE')} to overwrite."
-    )
-  }
-
-  ui_done("Setting {ui_field(name)} field in DESCRIPTION to {ui_value(value)}")
-  desc$set_list(name, value)
-  desc$write()
-
-  invisible()
-}
-

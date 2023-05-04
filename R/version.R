@@ -64,7 +64,7 @@ use_version <- function(which = NULL, push = FALSE) {
     return(invisible(FALSE))
   }
 
-  use_description_field("Version", new_ver, overwrite = TRUE)
+  proj_desc_field_update("Version", new_ver, overwrite = TRUE)
   if (names(new_ver) == "dev") {
     use_news_heading("(development version)")
   } else {
