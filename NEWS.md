@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_github_links()` by default now appends the GitHub url to existing urls in
+  in the `URL` field of DESCRIPTION, rather than replacing existing urls (#1805).
+
 * `use_upkeep_issue()` is a new function to facilitate regular maintenance of 
   your package. Similar to `use_release_issue()`, it opens an issue in your repo 
   with a checklist of maintenance tasks. It will include additional bullets 

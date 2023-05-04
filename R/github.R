@@ -219,11 +219,8 @@ use_github_links <- function(auth_token = deprecated(),
   }
 
   check_is_package("use_github_links()")
-  tr <- target_repo(github_get = TRUE)
 
-  gh <- gh_tr(tr)
-  res <- gh("GET /repos/{owner}/{repo}")
-  gh_url <- res$html_url
+  gh_url <- github_url_from_git_remotes()
 
   proj_desc_field_update("URL", gh_url, overwrite = overwrite, append = TRUE)
 
