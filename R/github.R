@@ -223,15 +223,13 @@ use_github_links <- function(auth_token = deprecated(),
 
   gh <- gh_tr(tr)
   res <- gh("GET /repos/{owner}/{repo}")
+  gh_url <- res$html_url
 
-  desc <- proj_desc()
-  if (!res$html_url %in% desc$get_urls()) {
-    use_description_field("URL", res$html_url, overwrite = overwrite)
-  }
+  proj_desc_field_update("URL", gh_url, overwrite = overwrite, append = TRUE)
 
-  use_description_field(
+  proj_desc_field_update(
     "BugReports",
-    glue("{res$html_url}/issues"),
+    glue("{gh_url}/issues"),
     overwrite = overwrite
   )
 
