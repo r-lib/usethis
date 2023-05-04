@@ -1,8 +1,8 @@
 test_that("use_github_links populates empty URL field", {
+  skip_if_no_git_user()
   local_interactive(FALSE)
   create_local_package()
   use_git()
-  skip_if_no_git_user()
 
   local_mocked_bindings(
     github_url_from_git_remotes = function() "https://github.com/OWNER/REPO"
@@ -18,10 +18,10 @@ test_that("use_github_links populates empty URL field", {
 })
 
 test_that("use_github_links() aborts or appends URLs when it should", {
+  skip_if_no_git_user()
   local_interactive(FALSE)
   create_local_package()
   use_git()
-  skip_if_no_git_user()
 
   local_mocked_bindings(
     github_url_from_git_remotes = function() "https://github.com/OWNER/REPO"
