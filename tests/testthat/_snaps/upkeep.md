@@ -78,13 +78,17 @@
       * [ ] `usethis::use_readme_rmd()`
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
+      * [ ] `usethis::use_tidy_description()`
       * [ ] `usethis::use_package_doc()`
       Consider letting usethis manage your `@importFrom` directives here. `usethis::use_import_from()` is handy for this.
       * [ ] `usethis::use_testthat()`. Learn more about testing at <https://r-pkgs.org/tests.html>
       * [ ] Align the names of `R/` files and `test/` files for workflow happiness. The docs for `usethis::use_r()` include a helpful script. `usethis::rename_files()` may be be useful.
-      * [ ] `usethis::use_github_action('check-standard')`
       * [ ] `usethis::use_code_of_conduct()`
       * [ ] Add alt-text to pictures, plots, etc; see <https://posit.co/blog/knitr-fig-alt/> for examples
+      
+      Set up or update GitHub Actions. \
+            Updating workflows to the latest version will often fix troublesome actions:
+      * [ ] `usethis::use_github_action('check-standard')`
       
       <sup>Created on DATE with `usethis::use_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
 
@@ -97,15 +101,20 @@
       * [ ] `usethis::use_readme_rmd()`
       * [ ] `usethis::use_github_links()`
       * [ ] `usethis::use_pkgdown_github_pages()`
+      * [ ] `usethis::use_tidy_description()`
       * [ ] `usethis::use_package_doc()`
       Consider letting usethis manage your `@importFrom` directives here. `usethis::use_import_from()` is handy for this.
       * [ ] `usethis::use_testthat(3)` and upgrade to 3e, [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)
       * [ ] Align the names of `R/` files and `test/` files for workflow happiness. The docs for `usethis::use_r()` include a helpful script. `usethis::rename_files()` may be be useful.
-      * [ ] `usethis::use_github_action('check-standard')`
       * [ ] Consider changing default branch from `master` to `main`
       * [ ] Remove description of test environments from `cran-comments.md`.
       See `usethis::use_cran_comments()`.
       * [ ] Add alt-text to pictures, plots, etc; see <https://posit.co/blog/knitr-fig-alt/> for examples
+      
+      Set up or update GitHub Actions. \
+            Updating workflows to the latest version will often fix troublesome actions:
+      * [ ] `usethis::use_github_action('check-standard')`
+      * [ ] `usethis::use_github_action('test-coverage')`
       
       <sup>Created on DATE with `usethis::use_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
 
