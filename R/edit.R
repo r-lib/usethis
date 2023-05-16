@@ -6,6 +6,10 @@
 #' `edit_template()` specifically opens templates in `inst/templates` for use
 #' with [use_template()].
 #'
+#' @details
+#' If in RStudio, `edit_file()` has the ability to open a file at line number, or column number
+#' using the pattern `file.R:xx:yy`, where `xx` is the line number, and `yy` is the column number.
+#'
 #' @param path Path to target file.
 #' @param open Whether to open the file for interactive editing.
 #' @return Target path, invisibly.
@@ -16,10 +20,14 @@
 #' \dontrun{
 #' edit_file("DESCRIPTION")
 #' edit_file("~/.gitconfig")
+#' edit_file("DESCRIPTION#23")
+#' edit_file("DESCRIPTION:22:8")
 #' }
 edit_file <- function(path, open = rlang::is_interactive()) {
   open <- open && is_interactive()
-  path <- user_path_prep(path)
+  line_numbers_details <- get_line_number(path)
+
+  path <- user_path_prep(line_numbers_details$path)
   create_directory(path_dir(path))
   file_create(path)
 
@@ -30,11 +38,35 @@ edit_file <- function(path, open = rlang::is_interactive()) {
 
   ui_todo("Modify {ui_path(path)}")
   if (rstudio_available() && rstudioapi::hasFun("navigateToFile")) {
-    rstudioapi::navigateToFile(path)
+    rstudioapi::navigateToFile(
+      path,
+      line = line_numbers_details$line,
+      column = line_numbers_details$column
+    )
   } else {
     utils::file.edit(path)
   }
   invisible(path)
+}
+
+# Returns a list of 3, path, line, and column
+get_line_number <- function(path) {
+  line_num_regex <- "[\\:\\#]\\d+\\:?\\d*$"
+
+  has_line_numbers <- re_match(path, pattern = line_num_regex)
+  if (is.na(has_line_numbers$.match)) {
+    return(list(path = path, line = -1L, column = -1L))
+  }
+  path <- gsub(pattern = has_line_numbers$.match, replacement = "", x = has_line_numbers$.text)
+  line_numbers <- unlist(strsplit(x = has_line_numbers$.match, split = "\\:|\\#"))
+  line_numbers <- as.integer(line_numbers)
+
+  # What to do if both line and number is specified
+  if (has_length(line_numbers, 3)) {
+    return(list(path = path, line = line_numbers[2], column = line_numbers[3]))
+  }
+  # The default if only the line is specified
+  list(path = path, line = line_numbers[2], column = -1L)
 }
 
 #' @param template The target template file. If not specified, existing template

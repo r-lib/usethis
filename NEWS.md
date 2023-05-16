@@ -136,6 +136,8 @@
   
 * Updates snapshot tests (#1715).
 
+* `edit_file()` can open a file at a specified line and column number (#1841)
+
 # usethis 2.1.6
 
 ### GitHub-related
