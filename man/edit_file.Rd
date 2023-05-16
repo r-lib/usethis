@@ -27,10 +27,16 @@ created. If the parent directory does not exist, it is also created.
 \code{edit_template()} specifically opens templates in \code{inst/templates} for use
 with \code{\link[=use_template]{use_template()}}.
 }
+\details{
+If in RStudio, \code{edit_file()} has the ability to open a file at line number, or column number
+using the pattern \code{file.R:xx:yy}, where \code{xx} is the line number, and \code{yy} is the column number.
+}
 \examples{
 \dontrun{
 edit_file("DESCRIPTION")
 edit_file("~/.gitconfig")
+edit_file("DESCRIPTION#23")
+edit_file("DESCRIPTION:22:8")
 }
 }
 \keyword{internal}
