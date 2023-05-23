@@ -31,13 +31,13 @@ proj_desc_create <- function(name, fields = list(), roxygen = TRUE) {
 # including appending".
 proj_desc_field_update <- function(key, value, overwrite = TRUE, append = FALSE) {
   check_string(key)
-  stopifnot(is.character(value) || is.numeric(value), length(value) == 1)
+  check_character(value)
   check_bool(overwrite)
 
   desc <- proj_desc()
 
   old <- desc$get_list(key, default = "")
-  if (value %in% old) {
+  if (all(value %in% old)) {
     return(invisible())
   }
 
@@ -51,7 +51,7 @@ proj_desc_field_update <- function(key, value, overwrite = TRUE, append = FALSE)
   ui_done("Adding {ui_value(value)} to {ui_field(key)}")
 
   if (append) {
-    value <- c(old, value)
+    value <- union(old, value)
   }
 
   # https://github.com/r-lib/desc/issues/117
