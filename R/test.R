@@ -37,7 +37,7 @@ use_testthat_impl <- function(edition = NULL, parallel = FALSE) {
     edition <- check_edition(edition)
 
     use_dependency("testthat", "Suggests", paste0(edition, ".0.0"))
-    proj_desc_field_update("Config/testthat/edition", edition, overwrite = TRUE)
+    proj_desc_field_update("Config/testthat/edition", as.character(edition), overwrite = TRUE)
 
     if (parallel) {
       proj_desc_field_update("Config/testthat/parallel", "true", overwrite = TRUE)

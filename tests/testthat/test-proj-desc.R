@@ -1,4 +1,4 @@
-test_that("proj_desc_field_append() only messages when adding", {
+test_that("proj_desc_field_update() only messages when adding", {
   create_local_package()
   withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
 
@@ -6,6 +6,18 @@ test_that("proj_desc_field_append() only messages when adding", {
     proj_desc_field_update("Config/Needs/foofy", "alfa", append = TRUE)
     proj_desc_field_update("Config/Needs/foofy", "alfa", append = TRUE)
     proj_desc_field_update("Config/Needs/foofy", "bravo", append = TRUE)
+  })
+  expect_equal(proj_desc()$get_list("Config/Needs/foofy"), c("alfa", "bravo"))
+})
+
+test_that("proj_desc_field_update() works with multiple values", {
+  create_local_package()
+  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+
+  proj_desc_field_update("Config/Needs/foofy", "alfa", append = TRUE)
+  expect_snapshot({
+    proj_desc_field_update("Config/Needs/foofy", c("alfa", "bravo"),
+                           append = TRUE)
   })
   expect_equal(proj_desc()$get_list("Config/Needs/foofy"), c("alfa", "bravo"))
 })

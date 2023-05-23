@@ -1,4 +1,4 @@
-# proj_desc_field_append() only messages when adding
+# proj_desc_field_update() only messages when adding
 
     Code
       proj_desc_field_update("Config/Needs/foofy", "alfa", append = TRUE)
@@ -9,4 +9,11 @@
       proj_desc_field_update("Config/Needs/foofy", "bravo", append = TRUE)
     Message
       v Adding 'bravo' to Config/Needs/foofy
+
+# proj_desc_field_update() works with multiple values
+
+    Code
+      proj_desc_field_update("Config/Needs/foofy", c("alfa", "bravo"), append = TRUE)
+    Message
+      v Adding 'alfa', 'bravo' to Config/Needs/foofy
 
