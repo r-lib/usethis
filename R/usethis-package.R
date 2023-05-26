@@ -24,14 +24,17 @@ NULL
 #' ```
 #' options(
 #'   usethis.description = list(
-#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com",
-#'       role = c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
-#'     License = "MIT + file LICENSE",
-#'     Version = "0.0.0.9000"
+#'     "Authors@R" = utils::person(
+#'       "Jane", "Doe",
+#'       email = "jane@example.com",
+#'       role = c("aut", "cre"),
+#'       comment = c(ORCID = "YOUR-ORCID-ID")
+#'     ),
+#'     License = "MIT + file LICENSE"
 #'   ),
 #'   usethis.destdir = "/path/to/folder/", # for use_course(), create_from_github()
 #'   usethis.protocol = "ssh", # Use ssh git protocol
-#'   usethis.quiet = TRUE, # suppress user-facing messages
+#'   usethis.overwrite = TRUE # overwrite files in Git repos without confirmation
 #' )
 #' ```
 #'
@@ -57,13 +60,13 @@ NULL
 #'   You can also change this for the duration of your R session with
 #'   [use_git_protocol()].
 #'
-#' - `usethis.quiet`: Set to `TRUE` to suppress user-facing messages. Default
-#'   `FALSE`.
-#'
 #' - `usethis.overwrite`: If `TRUE`, usethis overwrites an existing file without
 #'   asking for user confirmation if the file is inside a Git repo. The
 #'   rationale is that the normal Git workflow makes it easy to see and
 #'   selectively accept/discard any proposed changes.
+#'
+#' - `usethis.quiet`: Set to `TRUE` to suppress user-facing messages. Default
+#'   `FALSE`.
 #'
 #' - `usethis.allow_nested_project`: Whether or not to allow
 #'   you to create a project inside another project. This is rarely a good idea,
