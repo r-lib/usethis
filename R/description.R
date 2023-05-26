@@ -27,11 +27,14 @@
 #' ```
 #' options(
 #'   usethis.description = list(
-#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com",
-#'                           role = c("aut", "cre"),
-#'                           comment = c(ORCID = "YOUR-ORCID-ID"))',
-#'     License = "MIT + file LICENSE",
-#'     Language =  "es"
+#'     "Authors@R" = utils::person(
+#'       "Jane", "Doe",
+#'       email = "jane@example.com",
+#'       role = c("aut", "cre"),
+#'       comment = c(ORCID = "YOUR-ORCID-ID")
+#'     ),
+#'     Language =  "es",
+#'     License = "MIT + file LICENSE"
 #'   )
 #' )
 #' ```
