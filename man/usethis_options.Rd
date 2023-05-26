@@ -14,14 +14,17 @@ all future R sessions. Your code will look something like:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{options(
   usethis.description = list(
-    `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com",
-      role = c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))',
-    License = "MIT + file LICENSE",
-    Version = "0.0.0.9000"
+    "Authors@R" = utils::person(
+      "Jane", "Doe",
+      email = "jane@example.com",
+      role = c("aut", "cre"),
+      comment = c(ORCID = "YOUR-ORCID-ID")
+    ),
+    License = "MIT + file LICENSE"
   ),
   usethis.destdir = "/path/to/folder/", # for use_course(), create_from_github()
   usethis.protocol = "ssh", # Use ssh git protocol
-  usethis.quiet = TRUE, # suppress user-facing messages
+  usethis.overwrite = TRUE # overwrite files in Git repos without confirmation
 )
 }\if{html}{\out{</div>}}
 }
@@ -30,7 +33,7 @@ all future R sessions. Your code will look something like:
 \itemize{
 \item \code{usethis.description}: customize the default content of new \code{DESCRIPTION}
 files by setting this option to a named list.
-If you are frequent package developer, it is worthwhile to pre-configure
+If you are a frequent package developer, it is worthwhile to pre-configure
 your preferred name, email, license, etc. See the example above and the
 \href{https://usethis.r-lib.org/articles/articles/usethis-setup.html}{article on usethis setup}
 for more details.
@@ -47,12 +50,12 @@ Either "https" (default) or "ssh":
 
 You can also change this for the duration of your R session with
 \code{\link[=use_git_protocol]{use_git_protocol()}}.
-\item \code{usethis.quiet}: Set to \code{TRUE} to suppress user-facing messages. Default
-\code{FALSE}.
 \item \code{usethis.overwrite}: If \code{TRUE}, usethis overwrites an existing file without
 asking for user confirmation if the file is inside a Git repo. The
 rationale is that the normal Git workflow makes it easy to see and
 selectively accept/discard any proposed changes.
+\item \code{usethis.quiet}: Set to \code{TRUE} to suppress user-facing messages. Default
+\code{FALSE}.
 \item \code{usethis.allow_nested_project}: Whether or not to allow
 you to create a project inside another project. This is rarely a good idea,
 so this option defaults to \code{FALSE}.
