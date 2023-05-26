@@ -61,7 +61,9 @@ test_that("construct correct revdep bullet", {
 test_that("RStudio-ness detection works", {
   withr::local_options(usethis.description = NULL)
   create_local_package()
-  local_mocked_bindings(tidy_minimum_r_version = function() "3.6")
+  local_mocked_bindings(
+    tidy_minimum_r_version = function() numeric_version("3.6")
+  )
 
   expect_false(is_posit_pkg())
 

@@ -283,7 +283,7 @@ tidy_minimum_r_version <- function() {
     version <- jsonlite::fromJSON(json)$version
     oldrel_4 <- re_match(version, "[0-9]+[.][0-9]+")$.match
   }
-  oldrel_4
+  numeric_version(oldrel_4)
 }
 
 lowercase_r <- function() {
