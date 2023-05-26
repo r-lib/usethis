@@ -39,7 +39,7 @@ NULL
 #'
 #' - `usethis.description`: customize the default content of new `DESCRIPTION`
 #'   files by setting this option to a named list.
-#'   If you are frequent package developer, it is worthwhile to pre-configure
+#'   If you are a frequent package developer, it is worthwhile to pre-configure
 #'   your preferred name, email, license, etc. See the example above and the
 #'   [article on usethis setup](https://usethis.r-lib.org/articles/articles/usethis-setup.html)
 #'   for more details.
