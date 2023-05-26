@@ -208,15 +208,13 @@ be opened for editing via <code><a href="../reference/edit.html">usethis::edit_r
 is example code:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span></span>
-<span>  usethis.full_name <span class="op">=</span> <span class="st">"Jane Doe"</span>,</span>
 <span>  usethis.description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="st">"Authors@R"</span> <span class="op">=</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span></span>
 <span>        <span class="st">"Jane"</span>, <span class="st">"Doe"</span>,</span>
 <span>        email <span class="op">=</span> <span class="st">"jane@example.com"</span>,</span>
 <span>        role <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"aut"</span>, <span class="st">"cre"</span><span class="op">)</span>,</span>
 <span>        comment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"JANE'S-ORCID-ID"</span><span class="op">)</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    Version <span class="op">=</span> <span class="st">"0.0.0.9000"</span></span>
+<span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  usethis.destdir <span class="op">=</span> <span class="st">"~/the/place/where/I/keep/my/R/projects"</span>,</span>
 <span>  usethis.overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -373,7 +371,7 @@ frequently.</p>
 dev environment upon first need.</p>
 <p>Call <code>devtools::has_devel()</code> to get an initial sense of
 whether R package build tools are installed and available.</p>
-<p><code>pkgbuild::check_build_tools()</code> is another function to
+<p><code><a href="https://r-lib.github.io/pkgbuild/reference/has_build_tools.html" class="external-link">pkgbuild::check_build_tools()</a></code> is another function to
 report on your system and, in an interactive RStudio session, should
 trigger an automatic installation of build tools.</p>
 <p>It is also possible to install build tools yourself.</p>
