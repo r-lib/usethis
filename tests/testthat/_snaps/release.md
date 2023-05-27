@@ -136,6 +136,7 @@
       
       * [ ] `git pull`
       * [ ] Check [current CRAN check results](https://cran.rstudio.org/web/checks/check_results_{TESTPKG}.html)
+      * [ ] Bump required R version in DESCRIPTION to 3.6
       * [ ] `usethis::use_news_md()`
       * [ ] [Polish NEWS](https://style.tidyverse.org/news.html#news-release)
       * [ ] `usethis::use_github_links()`
