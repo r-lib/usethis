@@ -137,7 +137,7 @@ release_checklist <- function(version, on_cran) {
     "Wait for CRAN...",
     "",
     todo("Accepted :tada:"),
-    todo("Add link to blog post in pkgdown news menu", type != "patch"),
+    todo("Add preemptive link to blog post in pkgdown news menu", type != "patch"),
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version(push = TRUE)`"),
     todo("`usethis::use_news_md()`", !has_news),
