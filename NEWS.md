@@ -473,7 +473,7 @@ The `name` argument to `use_mit_license()` has been changed to `copyright_holder
 
 ## RStudio preferences
 
-usethis is now fully cognizant of the [changes to RStudio preferences](https://www.rstudio.com/blog/rstudio-1-3-preview-configuration/) in RStudio 1.3:
+usethis is now fully cognizant of the [changes to RStudio preferences](https://posit.co/blog/rstudio-1-3-preview-configuration/) in RStudio 1.3:
 
 `edit_rstudio_snippets()` looks in the new location, and if you have snippets in the old location, will automatically copy them to the new location (#1204)
 
