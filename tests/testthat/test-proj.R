@@ -220,7 +220,7 @@ test_that("proj_activate() works with relative path when RStudio is not detected
   orig_proj <- proj_get_()
   withr::defer(proj_set(orig_proj, force = TRUE))
   withr::local_dir(sandbox)
-  mock_rstudio_not_available()
+  local_rstudio_available(FALSE)
 
   rel_path_proj <- path_file(file_temp(pattern = "mno"))
   out_path <- create_project(rel_path_proj, rstudio = FALSE, open = FALSE)

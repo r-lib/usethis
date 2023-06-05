@@ -24,7 +24,7 @@ test_that("use_tidy_dependencies() isn't overly informative", {
 
 test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
   local_interactive(FALSE)
-  mock_target_repo_spec("OWNER/REPO")
+  local_target_repo_spec("OWNER/REPO")
 
   create_local_package()
   use_git()
@@ -41,7 +41,7 @@ test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
 
 test_that("use_tidy_github() adds and Rbuildignores files", {
   local_interactive(FALSE)
-  mock_target_repo_spec("OWNER/REPO")
+  local_target_repo_spec("OWNER/REPO")
 
   create_local_package()
   use_git()

@@ -40,7 +40,7 @@ test_that("use_package(type = 'Suggests') guidance w/o and w/ rlang", {
 
 test_that("use_dev_package() writes a remote", {
   create_local_package()
-  mock_ui_yeah()
+  local_ui_yeah()
 
   use_dev_package("usethis")
   expect_equal(proj_desc()$get_remotes(), "r-lib/usethis")
@@ -59,7 +59,7 @@ test_that("package_remote() works for an installed package with github URL", {
     "Package: test",
     "URL: https://github.com/OWNER/test"
   ))
-  mock_ui_yeah()
+  local_ui_yeah()
   expect_equal(package_remote(d), "OWNER/test")
 })
 

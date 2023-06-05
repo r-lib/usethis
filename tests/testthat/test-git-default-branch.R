@@ -29,7 +29,7 @@ test_that("git_default_branch() consults the default branch candidates, in order
 
   # finally, prefer something that matches what upstream says is default
   gert::git_branch_create("default-branch-of-upstream", checkout = TRUE, repo = repo)
-  mock_git_default_branch_remote()
+  local_git_default_branch_remote()
   expect_equal(git_default_branch(), "default-branch-of-upstream")
 })
 
@@ -63,12 +63,12 @@ test_that("git_default_branch() errors for local vs remote mismatch", {
   gert::git_add(".gitignore", repo = repo)
   gert::git_commit("a commit, so we are not on an unborn branch", repo = repo)
   git_default_branch_rename(from = git_branch(), to = "foofy")
-  mock_git_default_branch_remote()
+  local_git_default_branch_remote()
 
   expect_error(git_default_branch(), class = "error_default_branch")
 
   gert::git_branch_create("blarg", checkout = TRUE, repo = repo)
-  mock_git_default_branch_remote()
+  local_git_default_branch_remote()
   expect_error(git_default_branch(), class = "error_default_branch")
 })
 

@@ -6,9 +6,9 @@ test_that("use_data_table() requires a package", {
 test_that("use_data_table() Imports data.table", {
   create_local_package()
   use_package_doc()
-  mock_check_installed()
-  mock_roxygen_update_ns()
-  mock_check_functions_exist()
+  local_check_installed()
+  local_roxygen_update_ns()
+  local_check_fun_exists()
 
   use_data_table()
 
@@ -22,9 +22,9 @@ test_that("use_data_table() blocks use of Depends", {
   create_local_package()
   use_package_doc()
   desc::desc_set("Depends", "data.table")
-  mock_check_installed()
-  mock_roxygen_update_ns()
-  mock_check_functions_exist()
+  local_check_installed()
+  local_roxygen_update_ns()
+  local_check_fun_exists()
 
   expect_warning(
     use_data_table(),

@@ -26,7 +26,7 @@ test_that("use_roxygen_md() behaves for pre-existing Roxygen field", {
   desc::desc_set(Roxygen = 'list(markdown = TRUE, r6 = FALSE, load = "source")')
 
   expect_error(use_roxygen_md(), "already has")
-  mock_check_installed()
+  local_check_installed()
   expect_no_error(use_roxygen_md(overwrite = TRUE))
   expect_true(uses_roxygen_md())
 })
