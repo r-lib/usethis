@@ -15,7 +15,7 @@
 #' @param roxygen Do you plan to use roxygen2 to document your package?
 #' @param rstudio If `TRUE`, calls [use_rstudio()] to make the new package or
 #'   project into an [RStudio
-#'   Project](https://support.posit.co/hc/en-us/articles/200526207-Using-Projects).
+#'   Project](https://r-pkgs.org/workflow101.html#sec-workflow101-rstudio-projects).
 #'    If `FALSE` and a non-package project, a sentinel `.here` file is placed so
 #'   that the directory can be recognized as a project by the
 #'   [here](https://here.r-lib.org) or
@@ -159,7 +159,7 @@ create_project <- function(path,
 #'   "https://github.acme.com/api/v3" or "https://github.acme.com" is
 #'   acceptable.
 #' @param rstudio Initiate an [RStudio
-#'   Project](https://support.posit.co/hc/en-us/articles/200526207-Using-Projects)?
+#'   Project](https://r-pkgs.org/workflow101.html#sec-workflow101-rstudio-projects)?
 #'   Defaults to `TRUE` if in an RStudio session and project has no
 #'   pre-existing `.Rproj` file. Defaults to `FALSE` otherwise (but note that
 #'   the cloned repo may already be an RStudio Project, i.e. may already have a

@@ -44,7 +44,7 @@ to cover the case of a pre-existing, out-of-date fork.
 If \code{fork = NA} (the default), we check your permissions on \code{repo_spec}. If
 you can push, we set \code{fork = FALSE}, If you cannot, we set \code{fork = TRUE}.}
 
-\item{rstudio}{Initiate an \href{https://support.posit.co/hc/en-us/articles/200526207-Using-Projects}{RStudio Project}?
+\item{rstudio}{Initiate an \href{https://r-pkgs.org/workflow101.html#sec-workflow101-rstudio-projects}{RStudio Project}?
 Defaults to \code{TRUE} if in an RStudio session and project has no
 pre-existing \code{.Rproj} file. Defaults to \code{FALSE} otherwise (but note that
 the cloned repo may already be an RStudio Project, i.e. may already have a
