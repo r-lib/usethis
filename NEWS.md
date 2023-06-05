@@ -1,6 +1,6 @@
 # usethis (development version)
 
-## New features
+## New functions
 
 * `use_author()` is a new function to introduce a new person into the
   `Authors@R` field of DESCRIPTION (@avalcarcel9, #833).
