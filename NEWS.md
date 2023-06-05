@@ -41,6 +41,9 @@
    if there is a development version number in `DESCRIPTION`. It also sets the 
    first bullet to "Initial CRAN submission" when it looks like a "new" package
    (#1708).
+   
+* `use_coverage()` no longer adds covr to `Suggests`, since the `test-coverage`
+  GitHub Actions workflow takes care of installing covr (@Bisaloo, #1851).
 
 ## Package release
 
