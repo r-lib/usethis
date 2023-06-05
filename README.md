@@ -61,8 +61,8 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✔ Creating '/var/folders/5r/wrwbj0sn3m71clq0l1rm4pmm0000gp/T/Rtmpt7SYWI/mypkg/'
-#> ✔ Setting active project to '/private/var/folders/5r/wrwbj0sn3m71clq0l1rm4pmm0000gp/T/Rtmpt7SYWI/mypkg'
+#> ✔ Creating '/tmp/RtmpPqIkgo/mypkg/'
+#> ✔ Setting active project to '/private/tmp/RtmpPqIkgo/mypkg'
 #> ✔ Creating 'R/'
 #> ✔ Writing 'DESCRIPTION'
 #> Package: mypkg
@@ -80,8 +80,8 @@ create_package(path)
 #> ✔ Setting active project to '<no active project>'
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✔ Setting active project to '/private/var/folders/5r/wrwbj0sn3m71clq0l1rm4pmm0000gp/T/Rtmpt7SYWI/mypkg'
-#> ✔ Changing working directory to '/var/folders/5r/wrwbj0sn3m71clq0l1rm4pmm0000gp/T/Rtmpt7SYWI/mypkg/'
+#> ✔ Setting active project to '/private/tmp/RtmpPqIkgo/mypkg'
+#> ✔ Changing working directory to '/tmp/RtmpPqIkgo/mypkg/'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
