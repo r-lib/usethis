@@ -47,7 +47,7 @@ use_roxygen_md <- function(overwrite = FALSE) {
 
   ui_stop("
     {ui_path('DESCRIPTION')} already has a {ui_field('Roxygen')} field
-    Delete it and try agan or call {ui_code('use_roxygen_md(overwrite = TRUE)')}")
+    Delete it and try again or call {ui_code('use_roxygen_md(overwrite = TRUE)')}")
 
   invisible()
 }

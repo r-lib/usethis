@@ -5,7 +5,7 @@
 \title{Options consulted by usethis}
 \description{
 User-configurable options consulted by usethis, which provide a mechanism
-for setting default behaviours for various functions.
+for setting default behaviors for various functions.
 
 If the built-in defaults don't suit you, set one or more of these options.
 Typically, this is done in the \code{.Rprofile} startup file, which you can open

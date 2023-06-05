@@ -46,7 +46,7 @@ The downside is that we aren't exactly sure yet what we're willing to guarantee 
 
 ### Permission to overwrite
 
-`write_over()` returns `FALSE` and does nothing if there is no need to overwrite (proposed file contents are same as existing) or if user says "no" and returns `TRUE` if it ovewrites.
+`write_over()` returns `FALSE` and does nothing if there is no need to overwrite (proposed file contents are same as existing) or if user says "no" and returns `TRUE` if it overwrites.
 So if downstream logic depends on whether something new was written, consult the return value.
 `write_over()` is rarely called directly, but is usually called via `use_template()`, in which case the same handling should apply to its return value.
 
