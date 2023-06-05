@@ -23,7 +23,7 @@ test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
     value = "1.1.1.9000",
     overwrite = TRUE
   )
-  mock_cran_version("1.1.1")
+  local_cran_version("1.1.1")
   use_news_md()
 
   use_version("major")
@@ -47,7 +47,7 @@ test_that("use_dev_version() appends .9000 to Version, exactly once", {
 test_that("use_version() updates (development version) directly", {
   create_local_package()
   proj_desc_field_update(key = "Version", value = "0.0.1", overwrite = TRUE)
-  mock_cran_version("0.0.1")
+  local_cran_version("0.0.1")
   use_news_md()
 
   # bump to dev to set (development version)

@@ -18,7 +18,7 @@ test_that("can use use_test() in a project", {
 # helpers -----------------------------------------------------------------
 
 test_that("compute_name() errors if no RStudio", {
-  mock_rstudio_not_available()
+  local_rstudio_available(FALSE)
   expect_snapshot(compute_name(), error = TRUE)
 })
 

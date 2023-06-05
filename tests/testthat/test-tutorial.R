@@ -10,7 +10,7 @@ test_that("use_tutorial() creates a tutorial", {
   skip_if_not_installed("rmarkdown")
 
   create_local_package()
-  mock_check_installed()
+  local_check_installed()
 
   use_tutorial(name = "aaa", title = "bbb")
 
