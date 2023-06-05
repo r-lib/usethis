@@ -94,7 +94,7 @@
 <p>The downside is that we aren’t exactly sure yet what we’re willing to guarantee about these helpers.</p>
 <div class="section level3">
 <h3 id="permission-to-overwrite">Permission to overwrite<a class="anchor" aria-label="anchor" href="#permission-to-overwrite"></a></h3>
-<p><code><a href="reference/write-this.html">write_over()</a></code> returns <code>FALSE</code> and does nothing if there is no need to overwrite (proposed file contents are same as existing) or if user says “no” and returns <code>TRUE</code> if it ovewrites. So if downstream logic depends on whether something new was written, consult the return value. <code><a href="reference/write-this.html">write_over()</a></code> is rarely called directly, but is usually called via <code><a href="reference/use_template.html">use_template()</a></code>, in which case the same handling should apply to its return value.</p>
+<p><code><a href="reference/write-this.html">write_over()</a></code> returns <code>FALSE</code> and does nothing if there is no need to overwrite (proposed file contents are same as existing) or if user says “no” and returns <code>TRUE</code> if it overwrites. So if downstream logic depends on whether something new was written, consult the return value. <code><a href="reference/write-this.html">write_over()</a></code> is rarely called directly, but is usually called via <code><a href="reference/use_template.html">use_template()</a></code>, in which case the same handling should apply to its return value.</p>
 </div>
 <div class="section level3">
 <h3 id="helpers-and-the-active-project">Helpers and the active project<a class="anchor" aria-label="anchor" href="#helpers-and-the-active-project"></a></h3>
