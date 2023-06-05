@@ -77,6 +77,7 @@ release_checklist <- function(version, on_cran) {
   has_readme <- file_exists(proj_path("README.Rmd"))
   has_github_links <- has_github_links()
   is_posit_pkg <- is_posit_pkg()
+  tidy_min_r_version <- tidy_minimum_r_version()
 
   milestone_num <- NA # for testing (and general fallback)
   if (uses_git() && curl::has_internet()) {
@@ -111,6 +112,8 @@ release_checklist <- function(version, on_cran) {
       Check if any deprecation processes should be advanced, as described in \\
       [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
       type != "patch" && has_lifecycle),
+    todo("Bump required R version in DESCRIPTION to {tidy_min_r_version}",
+         is_posit_pkg && tidy_min_r_version > pkg_minimum_r_version()),
     todo("`usethis::use_news_md()`", on_cran && !has_news),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("`usethis::use_github_links()`", !has_github_links),
@@ -134,12 +137,12 @@ release_checklist <- function(version, on_cran) {
     "Wait for CRAN...",
     "",
     todo("Accepted :tada:"),
+    todo("Add preemptive link to blog post in pkgdown news menu", type != "patch"),
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version(push = TRUE)`"),
     todo("`usethis::use_news_md()`", !has_news),
     todo("Finish blog post", type != "patch"),
-    todo("Tweet", type != "patch"),
-    todo("Add link to blog post in pkgdown news menu", type != "patch")
+    todo("Tweet", type != "patch")
   )
 }
 
@@ -524,4 +527,13 @@ author_has_rstudio_email <- function() {
   }
   desc <- proj_desc()
   any(grepl("@rstudio[.]com", tolower(desc$get_authors())))
+}
+
+pkg_minimum_r_version <- function() {
+  deps <- proj_desc()$get_deps()
+  r_dep <- deps[deps$package == "R" & deps$type == "Depends", "version"]
+  if (length(r_dep) == 0) {
+    return(numeric_version(0))
+  }
+  numeric_version(gsub("[^0-9.]", "", r_dep))
 }

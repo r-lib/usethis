@@ -1,77 +1,102 @@
 # usethis (development version)
 
-* `use_github_links()` by default now appends the GitHub url to existing urls in
-  in the `URL` field of DESCRIPTION, rather than replacing existing urls (#1805).
+## New functions
 
+* `use_author()` is a new function to introduce a new person into the
+  `Authors@R` field of DESCRIPTION (@avalcarcel9, #833).
+
+* `use_rstudio_preferences()` lets you set RStudio preferences programmatically
+  (#1518)
+  
+* `use_standalone()` is a new function that makes it easier to use standalone 
+  files provided by various low-level tidyverse packages, like rlang (#1654).
+  
 * `use_upkeep_issue()` is a new function to facilitate regular maintenance of 
   your package. Similar to `use_release_issue()`, it opens an issue in your repo 
   with a checklist of maintenance tasks. It will include additional bullets 
   if your package includes an `upkeep_bullets()` function that returns a 
-  character vector.
+  character vector (#1794).
 
+## Package development
+
+* Although nested projects are discouraged, they can be useful in development 
+  contexts. `create_package()` now sets the correct package name and returns 
+  the correct package path for a package nested inside a project (#1647).
+
+* `use_article()` no longer adds the rmarkdown package to `Suggests`. Instead,
+  if rmarkdown is not already a dependency, it's added to
+  `Config/Needs/website`. This means that a package that only uses articles
+  (vs. vignettes) won't gain an unnecessary dependency on rmarkdown (#1700).
+  
+* `use_data()` now sets the appropriate minimal R version in `DESCRIPTION`, 
+  depending on which serialization format `version` you choose (@dpprdan, #1672).
+  
+* `use_github_links()` by default now appends the GitHub url to existing urls in
+  in the `URL` field of DESCRIPTION, rather than replacing existing urls (#1805).
+
+* `use_latest_dependencies()` no longer affects `Suggests` since those
+  dependencies are not enforced (#1749).
+  
 * `use_news_md()` now places "(development version)" in the header of `NEWS.md`
    if there is a development version number in `DESCRIPTION`. It also sets the 
    first bullet to "Initial CRAN submission" when it looks like a "new" package
    (#1708).
 
-* `use_rscloud_badge()` has been deprecated in favour of 
-  `use_posit_cloud_badge()`, and both functions now accept the updated url 
-  format of Posit Cloud projects (#1670).
-
-* `use_author()` is a new function to introduce a new person into the
-  `Authors@R` field of DESCRIPTION (@avalcarcel9, #833).
-
-* Links to the R Packages book have been updated to the second edition of
-  the book (#1689).
+## Package release
 
 * `use_release_issue()` will now remind you to run `use_github_links()` if 
   necessary (@Bisaloo, #1754)
 
-* `use_version()` and `use_dev_version()` gain a `push` argument to optionally
-  push the result after committing. This is used to eliminate a manual step from
-  the `use_release_issue()` checklist (#1385). 
-
-* `use_github_release()` now automatically pushes to GitHub (if safe) (#1385) 
-  and automatically publishes the release, rather than requiring you to edit
-  and publish the draft.
-
-* `use_tidy_logo()` is a new function that calls `use_logo()` on the appropriate
-  hex sticker PNG file at <https://github.com/rstudio/hex-stickers> (@ateucher,
-  #1871).
+* `use_release_issue()` now encourages the creation of `NEWS.md` prior to
+  submission, instead of after (#1755).
+  
+* `use_github_release()` now automatically pushes to GitHub (if safe) and 
+  automatically publishes the release, rather than requiring you to edit and
+  publish the draft (#1385).
 
 * `use_github_release()` no longer fails in the absence of `NEWS.md` (#1755).
 
-* `use_release_issue()` now encourages the creation of `NEWS.md` prior to
-  submission, instead of after (#1755).
-
+* `use_release_issue()` will now remind you to check/close the milestone
+  corresponding to the release, if it exists (#1642).
+  
+* `use_version()` and `use_dev_version()` gain a `push` argument to optionally
+  push the result after committing. This is used to eliminate a manual step from
+  the `use_release_issue()` checklist (#1385).
+  
 * `use_revdep()` no longer places an email template, because these days we are
   more likely to communicate with other maintainers about breaking changes via
   GitHub issues and pull requests (#1769).
 
-* `use_rstudio_preferences()` lets you set RStudio preferences programmatically
-  (#1518)
-  
-* `write_over()` and `use_github_file()` gain an overwrite argument (#1748).
+## Package file management
 
-* `use_standalone()` makes it easier to use standalone files provided by 
-  various low-level tidyverse packages, like rlang (#1654).
+* `rename_files()` now also affects files in `src/` (#1585).
 
-* `use_latest_dependencies()` no longer affects `Suggests` since those
-  dependencies are not enforced (#1749).
+* `use_r()` and `use_test()` now work with all active files in `R/`, `src/`, 
+  and `tests/testthat/` (#1566).
 
-* `use_release_issue()` will now remind you to check/close the milestone
-  corresponding to the release, if it exists (#1642).
+* `use_r()` and `use_test()` now work with files containing `.` (#1690).
 
-* `use_release_issue()` now uses internal `release_extra_revdeps()` to 
-  add extra revdep sources. Currently only use for internal Posit tooling,
-  but we hope to extend to all users in the future (#1610).
+* `use_rcpp()`, `use_c()` and friends now work the same way as `use_r()` and
+  `use_test()`: they'll take the default file name from the file you currently
+  have open in RStudio (#1730).
+
+## Git and GitHub
 
 * `create_from_github()` will now use an existing `.Rproj` file if it exists
   anywhere in the repo, not just the root directory. This is useful if you're
   working with repos that contain tools for multiple languages (#1680).
 
-* `use_travis()` and `use_appveyor()` are now defunct because we no longer  
-  recommend Travis or Appveyor. We recommend GitHub actions instead (#1517).
+* `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
+  you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
+  The default remains to provide a full report. Also, provides more
+  feedback if git user's information is not set, and checks global git-email
+  against user-level GitHub PAT (@ijlyttle, #1732, #1714, #1706).
+  
+* `git_vaccinated()` now treats a path configured as `core.excludesFile` like 
+  other user-supplied paths; in particular, any use of the `~/` home directory 
+  shortcut is expanded via 
+  [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html) 
+  (@dpprdan, #1560).
 
 * `use_github_action()` now suggests possible actions when called without
   arguments (#1724).
@@ -81,38 +106,18 @@
   have been deprecated in favour of the new interactive powers of
   `use_github_action()` (#1724).
 
-* `use_data()` now sets the appropriate minimal R version in `DESCRIPTION`, 
-  depending on which serialization format `version` you choose (@dpprdan, #1672).
+## Minor improvements and fixes
+
+* Links to the R Packages book have been updated to the second edition of
+  the book (#1689).
   
-* `use_travis()`, `use_pkgdown_travis()`, `browse_travis()`, and `use_appveyor()`
-  are now defunct because we no longer recommend Travis or Appveyor. We 
-  recommend GitHub actions instead (#1517).
-
-* `use_tidy_eval()` is now defunct because it imports and re-exports a large
-  number of functions that are no longer needed in order to do tidy
-  evaluation (#1656).
-
-* `use_r()` and `use_test()` now work with all active files in `R/`, `src/`, 
-  and `tests/testthat/` (#1566).
-
-* `use_r()` and `use_test()` now work with files containing `.` (#1690).
-
-* `use_rcpp()`, `use_c()` and friends now work the same way as `use_r()` and
-  `use_test()`: they'll take the default file name from the file you currently
-  have open in RStudio.
-
-* `rename_files()` now also affects files in `src/` (#1585).
-
-* `git_sitrep()` gains two arguments: `tool` and `scope`, which enables 
-  you to limit the report to, for example, `tool = "git"` or `scope = "user"`.
-  The default remains to provide a full report. Also, provides more
-  feedback if git user's information is not set, and checks global git-email
-  against user-level GitHub PAT (@ijlyttle, #1732, #1714, #1706).
+* The SVG badges placed by `use_lifecycle()` have improved accessibility 
+  features, i.e. they advertise the lifecycle stage via the `aria-label` 
+  attribute (#1554, https://github.com/r-lib/lifecycle/issues/117).
   
-* `use_article()` no longer adds the rmarkdown package to `Suggests`. Instead,
-  if rmarkdown is not already a dependency, it's added to
-  `Config/Needs/website`. This means that a package that only uses articles
-  (vs. vignettes) won't gain an unnecessary dependency on rmarkdown (#1700).
+* `use_rscloud_badge()` has been deprecated in favour of 
+  `use_posit_cloud_badge()`, and both functions now accept the updated url 
+  format of Posit Cloud projects (#1670).
 
 * `use_rstudio()` gains a `reformat` argument which omits `.Rproj` settings 
   that enforce file formatting conventions, e.g. around whitespace.   
@@ -120,21 +125,26 @@
   project that lacks one, making it easier to follow the project's existing 
   conventions (#1679).
 
-* The SVG badges placed by `use_lifecycle()` have improved accessibility 
-  features, i.e. they advertise the lifecycle stage via the `aria-label` 
-  attribute (#1554, https://github.com/r-lib/lifecycle/issues/117).
-
-* Although nested projects are discouraged, they can be useful in development 
-  contexts. `create_package()` now sets the correct package name and returns 
-  the correct package path for a package nested inside a project (#1647). 
-
-* `git_vaccinated()` now treats a path configured as `core.excludesFile` like 
-  other user-supplied paths; in particular, any use of the `~/` home directory 
-  shortcut is expanded via 
-  [`fs::path_expand()`](https://fs.r-lib.org/reference/path_expand.html) 
-  (@dpprdan, #1560).
+* `write_over()` and `use_github_file()` gain an overwrite argument (#1748).
   
-* Updates snapshot tests (#1715).
+## Tidyverse-related
+
+* `use_release_issue()` now uses internal `release_extra_revdeps()` to 
+  add extra revdep sources. Currently only use for internal Posit tooling,
+  but we hope to extend to all users in the future (#1610).
+
+* `use_tidy_logo()` is a new function that calls `use_logo()` on the appropriate
+  hex sticker PNG file at <https://github.com/rstudio/hex-stickers> (#1871).
+
+## Defunct functions
+
+* `use_tidy_eval()` is now defunct because it imports and re-exports a large
+  number of functions that are no longer needed in order to do tidy
+  evaluation (#1656).
+
+* `use_travis()`, `use_pkgdown_travis()`, `browse_travis()`, and `use_appveyor()`
+  are now defunct because we no longer recommend Travis or Appveyor. We 
+  recommend GitHub actions instead (#1517).
 
 # usethis 2.1.6
 
@@ -473,7 +483,7 @@ The `name` argument to `use_mit_license()` has been changed to `copyright_holder
 
 ## RStudio preferences
 
-usethis is now fully cognizant of the [changes to RStudio preferences](https://www.rstudio.com/blog/rstudio-1-3-preview-configuration/) in RStudio 1.3:
+usethis is now fully cognizant of the [changes to RStudio preferences](https://posit.co/blog/rstudio-1-3-preview-configuration/) in RStudio 1.3:
 
 `edit_rstudio_snippets()` looks in the new location, and if you have snippets in the old location, will automatically copy them to the new location (#1204)
 

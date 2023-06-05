@@ -113,7 +113,7 @@ test_that("create_*() works w/ non-existing rel path, open = TRUE, not in RStudi
   withr::defer(dir_delete(sandbox))
   withr::defer(proj_set(orig_proj, force = TRUE))
   withr::local_dir(sandbox)
-  mock_rstudio_not_available()
+  local_rstudio_available(FALSE)
 
   # package
   rel_path_pkg <- path_file(file_temp(pattern = "ghi"))

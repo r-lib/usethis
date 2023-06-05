@@ -106,6 +106,7 @@ reference:
       Configure the behaviour of R or RStudio, globally as a user or
       for a specific project
     contents:
+    - usethis_options
     - use_blank_slate
     - use_devtools
     - use_usethis

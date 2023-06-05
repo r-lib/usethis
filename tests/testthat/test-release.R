@@ -61,6 +61,9 @@ test_that("construct correct revdep bullet", {
 test_that("RStudio-ness detection works", {
   withr::local_options(usethis.description = NULL)
   create_local_package()
+  local_mocked_bindings(
+    tidy_minimum_r_version = function() numeric_version("3.6")
+  )
 
   expect_false(is_posit_pkg())
 
@@ -68,6 +71,7 @@ test_that("RStudio-ness detection works", {
   desc$add_author(given = "PoSiT, PbC", role = "fnd")
   desc$add_author(given = "someone", email = "someone@Rstudio.com")
   desc$add_urls("https://github.com/tidyverse/WHATEVER")
+  desc$set_dep("R", "Depends", version = ">= 3.4")
   desc$write()
 
   expect_true(is_posit_pkg())
