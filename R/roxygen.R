@@ -16,8 +16,8 @@ use_roxygen_md <- function(overwrite = FALSE) {
   if (!uses_roxygen()) {
     roxy_ver <- as.character(utils::packageVersion("roxygen2"))
 
-    use_description_field("Roxygen", "list(markdown = TRUE)")
-    use_description_field("RoxygenNote", roxy_ver)
+    proj_desc_field_update("Roxygen", "list(markdown = TRUE)", overwrite = FALSE)
+    proj_desc_field_update("RoxygenNote", roxy_ver, overwrite = FALSE)
     ui_todo("Run {ui_code('devtools::document()')}")
     return(invisible())
   }
@@ -29,7 +29,7 @@ use_roxygen_md <- function(overwrite = FALSE) {
   }
 
   if (isFALSE(already_setup) || isTRUE(overwrite)) {
-    use_description_field("Roxygen", "list(markdown = TRUE)", overwrite = TRUE)
+    proj_desc_field_update("Roxygen", "list(markdown = TRUE)", overwrite = TRUE)
 
     check_installed("roxygen2md")
     ui_todo("

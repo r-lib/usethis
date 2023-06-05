@@ -18,8 +18,8 @@ test_that("use_version() errors for invalid `which`", {
 
 test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
   create_local_package()
-  use_description_field(
-    name = "Version",
+  proj_desc_field_update(
+    key = "Version",
     value = "1.1.1.9000",
     overwrite = TRUE
   )
@@ -37,7 +37,7 @@ test_that("use_version() increments version in DESCRIPTION, edits NEWS", {
 
 test_that("use_dev_version() appends .9000 to Version, exactly once", {
   create_local_package()
-  use_description_field(name = "Version", value = "0.0.1", overwrite = TRUE)
+  proj_desc_field_update(key = "Version", value = "0.0.1", overwrite = TRUE)
   use_dev_version()
   expect_identical(proj_version(), "0.0.1.9000")
   use_dev_version()
@@ -46,7 +46,7 @@ test_that("use_dev_version() appends .9000 to Version, exactly once", {
 
 test_that("use_version() updates (development version) directly", {
   create_local_package()
-  use_description_field(name = "Version", value = "0.0.1", overwrite = TRUE)
+  proj_desc_field_update(key = "Version", value = "0.0.1", overwrite = TRUE)
   local_cran_version("0.0.1")
   use_news_md()
 
@@ -64,7 +64,7 @@ test_that("use_version() updates (development version) directly", {
 
 test_that("use_version() updates version.c", {
   create_local_package()
-  use_description_field(name = "Version", value = "1.0.0", overwrite = TRUE)
+  proj_desc_field_update(key = "Version", value = "1.0.0", overwrite = TRUE)
 
   name <- project_name()
   src_path <- proj_path("src")
@@ -87,7 +87,7 @@ test_that("is_dev_version() detects dev version directly and with DESCRIPTION", 
   expect_false(is_dev_version("0.0.1"))
 
   create_local_package()
-  use_description_field(name = "Version", value = "1.0.0", overwrite = TRUE)
+  proj_desc_field_update(key = "Version", value = "1.0.0", overwrite = TRUE)
   expect_false(is_dev_version())
   use_dev_version()
   expect_true(is_dev_version())

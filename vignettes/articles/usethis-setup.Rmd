@@ -81,15 +81,13 @@ Define any of these options in your `.Rprofile`, which can be opened for editing
 
 ```{r, eval = FALSE}
 options(
-  usethis.full_name = "Jane Doe",
   usethis.description = list(
     "Authors@R" = utils::person(
         "Jane", "Doe",
         email = "jane@example.com",
         role = c("aut", "cre"),
         comment = c(ORCID = "JANE'S-ORCID-ID")
-    ),
-    Version = "0.0.0.9000"
+    )
   ),
   usethis.destdir = "~/the/place/where/I/keep/my/R/projects",
   usethis.overwrite = TRUE

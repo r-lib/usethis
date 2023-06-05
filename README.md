@@ -85,7 +85,7 @@ proj_activate(path)
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
-#> ✔ Setting License field in DESCRIPTION to 'MIT + file LICENSE'
+#> ✔ Adding 'MIT + file LICENSE' to License
 #> ✔ Writing 'LICENSE'
 #> ✔ Writing 'LICENSE.md'
 #> ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'
@@ -105,7 +105,7 @@ use_news_md()
 
 use_test("my-test")
 #> ✔ Adding 'testthat' to Suggests field in DESCRIPTION
-#> ✔ Setting Config/testthat/edition field in DESCRIPTION to '3'
+#> ✔ Adding '3' to Config/testthat/edition
 #> ✔ Creating 'tests/testthat/'
 #> ✔ Writing 'tests/testthat.R'
 #> ✔ Writing 'tests/testthat/test-my-test.R'

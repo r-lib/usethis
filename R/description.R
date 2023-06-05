@@ -27,11 +27,14 @@
 #' ```
 #' options(
 #'   usethis.description = list(
-#'     `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com",
-#'                           role = c("aut", "cre"),
-#'                           comment = c(ORCID = "YOUR-ORCID-ID"))',
-#'     License = "MIT + file LICENSE",
-#'     Language =  "es"
+#'     "Authors@R" = utils::person(
+#'       "Jane", "Doe",
+#'       email = "jane@example.com",
+#'       role = c("aut", "cre"),
+#'       comment = c(ORCID = "YOUR-ORCID-ID")
+#'     ),
+#'     Language =  "es",
+#'     License = "MIT + file LICENSE"
 #'   )
 #' )
 #' ```
@@ -149,36 +152,3 @@ tidy_desc <- function(desc) {
   # Wrap in a try() so it always succeeds, even if user options are malformed
   try(desc$normalize(), silent = TRUE)
 }
-
-# 2021-10-10, while adding use_description_list(), I moved this helper here
-#
-# this helper feels out-of-sync with current usethis practices around active
-# project and how overwrite is handled
-#
-# I won't change use_description_field() now, but use_description_list() is
-# implemented differently, more in keeping with our current style
-use_description_field <- function(name, value, overwrite = FALSE) {
-  # account for `value`s produced via `glue::glue()`
-  value <- as.character(value)
-
-  desc <- proj_desc()
-
-  curr <- desc$get_field(name, NA)
-  if (identical(curr, value)) {
-    return(invisible())
-  }
-
-  if (!is.na(curr) && !overwrite) {
-    ui_stop(
-      "{ui_field(name)} has a different value in DESCRIPTION. \\
-      Use {ui_code('overwrite = TRUE')} to overwrite."
-    )
-  }
-
-  ui_done("Setting {ui_field(name)} field in DESCRIPTION to {ui_value(value)}")
-  desc$set(name, value)
-  desc$write()
-
-  invisible()
-}
-

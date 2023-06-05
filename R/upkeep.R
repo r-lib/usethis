@@ -58,6 +58,7 @@ upkeep_checklist <- function() {
     todo("`usethis::use_roxygen_md()`", !is_true(uses_roxygen_md())),
     todo("`usethis::use_github_links()`", !has_github_links()),
     todo("`usethis::use_pkgdown_github_pages()`", !uses_pkgdown()),
+    todo("`usethis::use_tidy_description()`"),
     todo(
       "
       `usethis::use_package_doc()`
@@ -81,7 +82,6 @@ upkeep_checklist <- function() {
       Align the names of `R/` files and `test/` files for workflow happiness. \\
       The docs for `usethis::use_r()` include a helpful script. \\
       `usethis::rename_files()` may be be useful."),
-    todo("`usethis::use_github_action('check-standard')`"),
     todo(
       "Consider changing default branch from `master` to `main`",
       git_default_branch() == "master"
@@ -93,8 +93,14 @@ upkeep_checklist <- function() {
       has_old_cran_comments()
     ),
     todo("
-        Add alt-text to pictures, plots, etc; see \\
-        <https://posit.co/blog/knitr-fig-alt/> for examples")
+      Add alt-text to pictures, plots, etc; see \\
+      <https://posit.co/blog/knitr-fig-alt/> for examples"),
+      "",
+      "Set up or update GitHub Actions. \\
+      Updating workflows to the latest version will often fix troublesome actions:",
+      todo("`usethis::use_github_action('check-standard')`"),
+      todo("`usethis::use_github_action('pkgdown')`", uses_pkgdown()),
+      todo("`usethis::use_github_action('test-coverage')`", uses_testthat())
   )
 
   c(bullets, upkeep_extra_bullets(), checklist_footer(tidy = FALSE))
@@ -277,7 +283,7 @@ tidy_minimum_r_version <- function() {
     version <- jsonlite::fromJSON(json)$version
     oldrel_4 <- re_match(version, "[0-9]+[.][0-9]+")$.match
   }
-  oldrel_4
+  numeric_version(oldrel_4)
 }
 
 lowercase_r <- function() {

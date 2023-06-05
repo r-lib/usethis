@@ -77,7 +77,7 @@ use_pkgdown_github_pages <- function() {
   use_pkgdown_url(url = site_url, tr = tr)
 
   if (is_posit_pkg()) {
-    proj_desc_field_append("Config/Needs/website", "tidyverse/tidytemplate")
+    proj_desc_field_update("Config/Needs/website", "tidyverse/tidytemplate", append = TRUE)
   }
 }
 
@@ -97,7 +97,7 @@ use_pkgdown_url <- function(url, tr = NULL) {
   }
   write_utf8(config_path, yaml::as.yaml(config))
 
-  proj_desc_field_append("URL", url)
+  proj_desc_field_update("URL", url, append = TRUE)
   if (has_package_doc()) {
     ui_todo("
       Run {ui_code('devtools::document()')} to update package-level documentation.")
