@@ -21,7 +21,7 @@
 
 ## Licensing improvements
 
-New `use_cc_license()` makes it easier to pick specific versions of the CC licenses. Defaults to CC0 1.0 Universal (CC0 1.0).
+New `use_cc_license()` makes it easier to pick specific versions of the CC licenses. Defaults to CC0 1.0 Universal (CC0 1.0) (@pachadotdev, #1845).
 
 ## Package development
 
@@ -608,7 +608,7 @@ Patch release to align some path handling internals with an update coming in the
 
 * New `ui_silence()` makes it easier to selectively silence some UI output.
 
-* New `use_agpl3_license()` (@pachamaltese, #870).
+* New `use_agpl3_license()` (@pachadotdev, #870).
 
 * New `use_data_table()` to set up a package for Import-ing `data.table` 
   (@michaelchirico, #897).
