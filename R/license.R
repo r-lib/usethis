@@ -162,35 +162,35 @@ use_ccby_license <- function() {
 
 use_ccbysa_license <- function() {
   if (is_package()) {
-    proj_desc_field_update("License", "CC BY SA 4.0", overwrite = TRUE)
+    proj_desc_field_update("License", "CC BY-SA 4.0", overwrite = TRUE)
   }
   use_license_template("ccbysa-4")
 }
 
 use_ccbync_license <- function() {
   if (is_package()) {
-    proj_desc_field_update("License", "CC BY NC 4.0", overwrite = TRUE)
+    proj_desc_field_update("License", "CC BY-NC 4.0", overwrite = TRUE)
   }
   use_license_template("ccbync-4")
 }
 
 use_ccbyncsa_license <- function() {
   if (is_package()) {
-    proj_desc_field_update("License", "CC BY NC SA 4.0", overwrite = TRUE)
+    proj_desc_field_update("License", "CC BY-NC-SA 4.0", overwrite = TRUE)
   }
   use_license_template("ccbyncsa-4")
 }
 
 use_ccbynd_license <- function() {
   if (is_package()) {
-    proj_desc_field_update("License", "CC BY ND 4.0", overwrite = TRUE)
+    proj_desc_field_update("License", "CC BY-ND 4.0", overwrite = TRUE)
   }
   use_license_template("ccbynd-4")
 }
 
 use_ccbyncnd_license <- function() {
   if (is_package()) {
-    proj_desc_field_update("License", "CC BY NC ND 4.0", overwrite = TRUE)
+    proj_desc_field_update("License", "CC BY-NC-ND 4.0", overwrite = TRUE)
   }
   use_license_template("ccbyncnd-4")
 }
