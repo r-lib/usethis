@@ -1,4 +1,4 @@
-# usethis (development version)
+# usethis 2.2.0
 
 ## New functions
 
