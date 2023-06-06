@@ -21,11 +21,26 @@
 #' * [LGPL v3](https://choosealicense.com/licenses/lgpl-3.0/): requires sharing
 #'   of improvements.
 #'
-#' Creative commons licenses appropriate for data packages:
+#' Creative commons licenses appropriate for data packages and other non-code (i.e., 
+#'  books):
 #' * [CC0](https://creativecommons.org/publicdomain/zero/1.0/): dedicated
 #'   to public domain.
 #' * [CC-BY](https://creativecommons.org/licenses/by/4.0/): Free to share and
+#'    adapt, must give appropriate credit. Derived works must be shared under the same 
+#'    license.
+#' * [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/): Free to share and
 #'    adapt, must give appropriate credit.
+#' * [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/): Free to share and
+#'    adapt, must give appropriate credit. Commercial purposes are out of scope.
+#' * [CC-BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/): Free to share and
+#'    adapt, must give appropriate credit. Commercial purposes are out of scope.
+#'    Derived works must be shared under the same license.
+#' * [CC-BY-ND](https://creativecommons.org/licenses/by-nd/4.0/): Free to share and
+#'    adapt, must give appropriate credit. Derived works must be shared under the same 
+#'    license.
+#' * [CC-BY-NC-ND](https://creativecommons.org/licenses/by-nc-nd/4.0/): Free to
+#'    share, must give appropriate credit. Commercial purposes and adaptations are
+#'    out of scope.
 #'
 #' See <https://choosealicense.com> for more details and other options.
 #'
@@ -117,6 +132,20 @@ use_apache_license <- function(version = 2, include_future = TRUE) {
 
 #' @rdname licenses
 #' @export
+use_cc_license <- function(version = 0) {
+  switch(
+    version,
+    `0` = use_cc0_license(),
+    `by` = use_ccby_license(),
+    `by-sa` = use_ccbysa_license(),
+    `by-nc` = use_ccbync_license(),
+    `by-nc-sa` = use_ccbyncsa_license(),
+    `by-nd` = use_ccbynd_license(),
+    `by-nc-nd` = use_ccbyncnd_license(),
+    stop("`version` must be one of 0, 'by', 'by-sa', 'by-nc', 'by-nc-sa', 'by-nd', or 'by-nc-nd'")
+  )
+}
+
 use_cc0_license <- function() {
   if (is_package()) {
     proj_desc_field_update("License", "CC0", overwrite = TRUE)
@@ -124,13 +153,46 @@ use_cc0_license <- function() {
   use_license_template("cc0")
 }
 
-#' @rdname licenses
-#' @export
 use_ccby_license <- function() {
   if (is_package()) {
     proj_desc_field_update("License", "CC BY 4.0", overwrite = TRUE)
   }
   use_license_template("ccby-4")
+}
+
+use_ccbysa_license <- function() {
+  if (is_package()) {
+    proj_desc_field_update("License", "CC BY SA 4.0", overwrite = TRUE)
+  }
+  use_license_template("ccbysa-4")
+}
+
+use_ccbync_license <- function() {
+  if (is_package()) {
+    proj_desc_field_update("License", "CC BY NC 4.0", overwrite = TRUE)
+  }
+  use_license_template("ccbync-4")
+}
+
+use_ccbyncsa_license <- function() {
+  if (is_package()) {
+    proj_desc_field_update("License", "CC BY NC SA 4.0", overwrite = TRUE)
+  }
+  use_license_template("ccbyncsa-4")
+}
+
+use_ccbynd_license <- function() {
+  if (is_package()) {
+    proj_desc_field_update("License", "CC BY ND 4.0", overwrite = TRUE)
+  }
+  use_license_template("ccbynd-4")
+}
+
+use_ccbyncnd_license <- function() {
+  if (is_package()) {
+    proj_desc_field_update("License", "CC BY NC ND 4.0", overwrite = TRUE)
+  }
+  use_license_template("ccbyncnd-4")
 }
 
 #' @rdname licenses

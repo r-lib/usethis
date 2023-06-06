@@ -19,6 +19,10 @@
   if your package includes an `upkeep_bullets()` function that returns a 
   character vector (#1794).
 
+## Licensing improvements
+
+New `use_cc_license()` makes it easier to pick specific versions of the CC licenses. Defaults to CC0 1.0 Universal (CC0 1.0).
+
 ## Package development
 
 * Although nested projects are discouraged, they can be useful in development 

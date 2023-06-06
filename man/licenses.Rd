@@ -6,8 +6,7 @@
 \alias{use_agpl_license}
 \alias{use_lgpl_license}
 \alias{use_apache_license}
-\alias{use_cc0_license}
-\alias{use_ccby_license}
+\alias{use_cc_license}
 \alias{use_proprietary_license}
 \alias{use_gpl3_license}
 \alias{use_agpl3_license}
@@ -24,9 +23,7 @@ use_lgpl_license(version = 3, include_future = TRUE)
 
 use_apache_license(version = 2, include_future = TRUE)
 
-use_cc0_license()
-
-use_ccby_license()
+use_cc_license(version = 0)
 
 use_proprietary_license(copyright_holder)
 }
@@ -67,12 +64,27 @@ of improvements.
 of improvements.
 }
 
-Creative commons licenses appropriate for data packages:
+Creative commons licenses appropriate for data packages and other non-code (i.e.,
+books):
 \itemize{
 \item \href{https://creativecommons.org/publicdomain/zero/1.0/}{CC0}: dedicated
 to public domain.
 \item \href{https://creativecommons.org/licenses/by/4.0/}{CC-BY}: Free to share and
+adapt, must give appropriate credit. Derived works must be shared under the same
+license.
+\item \href{https://creativecommons.org/licenses/by-sa/4.0/}{CC-BY-SA}: Free to share and
 adapt, must give appropriate credit.
+\item \href{https://creativecommons.org/licenses/by-nc/4.0/}{CC-BY-NC}: Free to share and
+adapt, must give appropriate credit. Commercial purposes are out of scope.
+\item \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC-BY-NC-SA}: Free to share and
+adapt, must give appropriate credit. Commercial purposes are out of scope.
+Derived works must be shared under the same license.
+\item \href{https://creativecommons.org/licenses/by-nd/4.0/}{CC-BY-ND}: Free to share and
+adapt, must give appropriate credit. Derived works must be shared under the same
+license.
+\item \href{https://creativecommons.org/licenses/by-nc-nd/4.0/}{CC-BY-NC-ND}: Free to
+share, must give appropriate credit. Commercial purposes and adaptations are
+out of scope.
 }
 
 See \url{https://choosealicense.com} for more details and other options.
