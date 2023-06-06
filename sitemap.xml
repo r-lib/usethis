@@ -52,7 +52,7 @@
     <loc>https://usethis.r-lib.org/reference/browse-this.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/reference/ci.html</loc>
+    <loc>https://usethis.r-lib.org/reference/browse_github_token.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/create_from_github.html</loc>
@@ -85,9 +85,6 @@
     <loc>https://usethis.r-lib.org/reference/github-token.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/reference/github_actions.html</loc>
-  </url>
-  <url>
     <loc>https://usethis.r-lib.org/reference/index.html</loc>
   </url>
   <url>
@@ -95,6 +92,9 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/licenses.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/pr_pull_upstream.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/proj_activate.html</loc>
@@ -125,6 +125,9 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/use_addin.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/use_author.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/use_blank_slate.html</loc>
@@ -181,6 +184,15 @@
     <loc>https://usethis.r-lib.org/reference/use_github.html</loc>
   </url>
   <url>
+    <loc>https://usethis.r-lib.org/reference/use_github_action.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/use_github_actions.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/use_github_actions_badge.html</loc>
+  </url>
+  <url>
     <loc>https://usethis.r-lib.org/reference/use_github_file.html</loc>
   </url>
   <url>
@@ -194,6 +206,9 @@
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/use_github_release.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/use_gitlab_ci.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/use_import_from.html</loc>
@@ -256,7 +271,13 @@
     <loc>https://usethis.r-lib.org/reference/use_rstudio.html</loc>
   </url>
   <url>
+    <loc>https://usethis.r-lib.org/reference/use_rstudio_preferences.html</loc>
+  </url>
+  <url>
     <loc>https://usethis.r-lib.org/reference/use_spell_check.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/use_standalone.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/use_template.html</loc>
@@ -268,10 +289,19 @@
     <loc>https://usethis.r-lib.org/reference/use_tibble.html</loc>
   </url>
   <url>
+    <loc>https://usethis.r-lib.org/reference/use_tidy_labels.html</loc>
+  </url>
+  <url>
     <loc>https://usethis.r-lib.org/reference/use_tidy_thanks.html</loc>
   </url>
   <url>
+    <loc>https://usethis.r-lib.org/reference/use_travis.html</loc>
+  </url>
+  <url>
     <loc>https://usethis.r-lib.org/reference/use_tutorial.html</loc>
+  </url>
+  <url>
+    <loc>https://usethis.r-lib.org/reference/use_upkeep_issue.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/use_version.html</loc>
@@ -280,10 +310,10 @@
     <loc>https://usethis.r-lib.org/reference/use_vignette.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/reference/usethis-defunct.html</loc>
+    <loc>https://usethis.r-lib.org/reference/usethis-package.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/reference/usethis-package.html</loc>
+    <loc>https://usethis.r-lib.org/reference/usethis_options.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/reference/write-this.html</loc>
