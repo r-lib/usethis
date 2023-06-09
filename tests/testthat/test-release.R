@@ -200,37 +200,54 @@ test_that("get_release_data() works for new-style CRAN-RELEASE", {
   expect_equal(path_file(res$file), "CRAN-SUBMISSION")
 })
 
-test_that("cran_version() works for unreleased pkg with CRAN mirror set/unset (#1857)", {
-  create_local_package()
+test_that("cran_version() is robust to unset CRAN mirror with unreleased pkg (#1857)", {
+  skip_if_offline()
+  # we don't want this to be the name of a package someone actually releases on CRAN
+  pkg <- "foofy.asdf123"
 
-  cran_repos <- list(
-    c(CRAN = "https://cloud.r-project.org"),
-    c(CRAN = "@CRAN@"),
-    c(CRAN = NA),
-    NULL
+  withr::with_options(
+    list(repos = c(CRAN = "https://cloud.r-project.org")),
+    expect_null(cran_version(pkg))
   )
 
-  lapply(cran_repos, function(x) {
-    withr::with_options(
-      list(repos = x),
-      expect_null(cran_version())
-    )
-  })
+  withr::with_options(
+    list(repos = c(CRAN = "@CRAN@")),
+    expect_null(cran_version(pkg))
+  )
+
+  withr::with_options(
+    list(repos = c(CRAN = NA)),
+    expect_null(cran_version(pkg))
+  )
+
+  withr::with_options(
+    list(repos = NULL),
+    expect_null(cran_version(pkg))
+  )
 })
 
 test_that("cran_version() is robust to unset CRAN mirror with released pkg (#1857)", {
-  cran_repos <- list(
-    c(CRAN = "https://cloud.r-project.org"),
-    c(CRAN = "@CRAN@"),
-    c(CRAN = NA),
-    NULL
+  skip_if_offline()
+  pkg <- "usethis"
+
+  withr::with_options(
+    list(repos = c(CRAN = "https://cloud.r-project.org")),
+    expect_s3_class(cran_version(pkg), "package_version")
   )
 
-  lapply(cran_repos, function(x) {
-    withr::with_options(
-      list(repos = x),
-      expect_s3_class(cran_version("usethis"), "package_version")
-    )
-  })
+  withr::with_options(
+    list(repos = c(CRAN = "@CRAN@")),
+    expect_s3_class(cran_version(pkg), "package_version")
+  )
+
+  withr::with_options(
+    list(repos = c(CRAN = NA)),
+    expect_s3_class(cran_version(pkg), "package_version")
+  )
+
+  withr::with_options(
+    list(repos = NULL),
+    expect_s3_class(cran_version(pkg), "package_version")
+  )
 })
 
