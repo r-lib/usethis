@@ -417,7 +417,7 @@ cran_version <- function(package = project_name(), available = NULL) {
       ),
       silent = TRUE
     )
-    if (inherits(try, "try-error")) {
+    if (inherits(available, "try-error")) {
       return(NULL)
     }
   }
