@@ -200,7 +200,7 @@ test_that("get_release_data() works for new-style CRAN-RELEASE", {
   expect_equal(path_file(res$file), "CRAN-SUBMISSION")
 })
 
-test_that("cran_version() is robust to unset CRAN mirror with unreleased pkg (#1857)", {
+test_that("cran_version() works for unreleased pkg with CRAN mirror set/unset (#1857)", {
   create_local_package()
 
   cran_repos <- list(
