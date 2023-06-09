@@ -199,3 +199,38 @@ test_that("get_release_data() works for new-style CRAN-RELEASE", {
   expect_equal(res$SHA, HEAD)
   expect_equal(path_file(res$file), "CRAN-SUBMISSION")
 })
+
+test_that("cran_version() is robust to unset CRAN mirror with unreleased pkg (#1857)", {
+  create_local_package()
+
+  cran_repos <- list(
+    c(CRAN = "https://cloud.r-project.org"),
+    c(CRAN = "@CRAN@"),
+    c(CRAN = NA),
+    NULL
+  )
+
+  lapply(cran_repos, function(x) {
+    withr::with_options(
+      list(repos = x),
+      expect_null(cran_version())
+    )
+  })
+})
+
+test_that("cran_version() is robust to unset CRAN mirror with released pkg (#1857)", {
+  cran_repos <- list(
+    c(CRAN = "https://cloud.r-project.org"),
+    c(CRAN = "@CRAN@"),
+    c(CRAN = NA),
+    NULL
+  )
+
+  lapply(cran_repos, function(x) {
+    withr::with_options(
+      list(repos = x),
+      expect_s3_class(cran_version("usethis"), "package_version")
+    )
+  })
+})
+
