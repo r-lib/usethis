@@ -555,13 +555,13 @@ pkg_minimum_r_version <- function() {
   numeric_version(gsub("[^0-9.]", "", r_dep))
 }
 
-
-# from pak: https://github.com/r-lib/pak/blob/168ab5d58fc244e5084c2800c87b8a574d66c3ba/R/default-cran-mirror.R
+# Borrowed from pak, but modified also retain user's non-cran repos:
+# https://github.com/r-lib/pak/blob/168ab5d58fc244e5084c2800c87b8a574d66c3ba/R/default-cran-mirror.R
 default_cran_mirror <- function() {
-  mirror <- getOption("repos")["CRAN"]
-  if (is.null(mirror) || is.na(mirror) || mirror == "@CRAN@") {
-    c(CRAN = "https://cloud.r-project.org")
-  } else {
-    c(CRAN = unname(mirror))
+  repos <- getOption("repos")
+  cran <- repos["CRAN"]
+  if (is.null(cran) || is.na(cran) || cran == "@CRAN@") {
+    repos["CRAN"] <- "https://cloud.r-project.org"
   }
+  repos
 }
