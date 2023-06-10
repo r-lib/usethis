@@ -403,8 +403,23 @@ get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
   }
 }
 
-cran_version <- function(package = project_name(),
-                         available = utils::available.packages()) {
+cran_version <- function(package = project_name(), available = NULL) {
+
+  if (!curl::has_internet()) {
+    return(NULL)
+  }
+
+  if (is.null(available)) {
+    # Guard against CRAN mirror being unset
+    available <- tryCatch(
+      utils::available.packages(repos = default_cran_mirror()),
+      error = function(e) NULL
+    )
+    if (is.null(available)) {
+      return(NULL)
+    }
+  }
+
   idx <- available[, "Package"] == package
   if (any(idx)) {
     as.package_version(available[package, "Version"])
@@ -536,4 +551,15 @@ pkg_minimum_r_version <- function() {
     return(numeric_version(0))
   }
   numeric_version(gsub("[^0-9.]", "", r_dep))
+}
+
+# Borrowed from pak, but modified also retain user's non-cran repos:
+# https://github.com/r-lib/pak/blob/168ab5d58fc244e5084c2800c87b8a574d66c3ba/R/default-cran-mirror.R
+default_cran_mirror <- function() {
+  repos <- getOption("repos")
+  cran <- repos["CRAN"]
+  if (is.null(cran) || is.na(cran) || cran == "@CRAN@") {
+    repos["CRAN"] <- "https://cloud.r-project.org"
+  }
+  repos
 }

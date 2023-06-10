@@ -199,3 +199,55 @@ test_that("get_release_data() works for new-style CRAN-RELEASE", {
   expect_equal(res$SHA, HEAD)
   expect_equal(path_file(res$file), "CRAN-SUBMISSION")
 })
+
+test_that("cran_version() is robust to unset CRAN mirror with unreleased pkg (#1857)", {
+  skip_if_offline()
+  # we don't want this to be the name of a package someone actually releases on CRAN
+  pkg <- "foofy.asdf123"
+
+  withr::with_options(
+    list(repos = c(CRAN = "https://cloud.r-project.org")),
+    expect_null(cran_version(pkg))
+  )
+
+  withr::with_options(
+    list(repos = c(CRAN = "@CRAN@")),
+    expect_null(cran_version(pkg))
+  )
+
+  withr::with_options(
+    list(repos = c(CRAN = NA)),
+    expect_null(cran_version(pkg))
+  )
+
+  withr::with_options(
+    list(repos = NULL),
+    expect_null(cran_version(pkg))
+  )
+})
+
+test_that("cran_version() is robust to unset CRAN mirror with released pkg (#1857)", {
+  skip_if_offline()
+  pkg <- "usethis"
+
+  withr::with_options(
+    list(repos = c(CRAN = "https://cloud.r-project.org")),
+    expect_s3_class(cran_version(pkg), "package_version")
+  )
+
+  withr::with_options(
+    list(repos = c(CRAN = "@CRAN@")),
+    expect_s3_class(cran_version(pkg), "package_version")
+  )
+
+  withr::with_options(
+    list(repos = c(CRAN = NA)),
+    expect_s3_class(cran_version(pkg), "package_version")
+  )
+
+  withr::with_options(
+    list(repos = NULL),
+    expect_s3_class(cran_version(pkg), "package_version")
+  )
+})
+
