@@ -133,6 +133,7 @@ use_apache_license <- function(version = 2, include_future = TRUE) {
 #' @rdname licenses
 #' @export
 use_cc_license <- function(version = 0) {
+  version <- ifelse(version == 0, "0", "version")
   switch(
     version,
     `0` = use_cc0_license(),
