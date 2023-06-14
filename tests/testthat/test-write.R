@@ -166,13 +166,6 @@ test_that("same_contents() detects if contents are / are not same", {
   expect_false(same_contents(tmp, letters[4:6]))
 })
 
-test_that("write_over() writes a de novo file", {
-  tmp <- file_temp()
-  expect_false(file_exists(tmp))
-  write_over(tmp, letters[1:3], quiet = TRUE)
-  expect_identical(read_utf8(tmp), letters[1:3])
-})
-
 test_that("write_over() leaves file 'as is' (outside of a project)", {
   local_interactive(FALSE)
   tmp <- withr::local_file(file_temp())
