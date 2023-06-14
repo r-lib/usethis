@@ -60,7 +60,7 @@ write_union <- function(path, lines, quiet = FALSE) {
   }
 
   if (!quiet) {
-    ui_done("Adding {ui_value(new)} to {ui_path(proj_rel_path(path))}")
+    ui_done("Adding {ui_value(new)} to {ui_path(path)}")
   }
 
   all <- c(existing_lines, new)
