@@ -240,3 +240,15 @@ test_that("write_over() works for a file in a project that is not active", {
   )
   expect_false(proj_active())
 })
+
+test_that("write_union() messaging is correct with weird working directory", {
+  create_local_project()
+  withr::local_options(usethis.quiet = FALSE)
+
+  use_directory("aaa/bbb")
+  setwd("aaa/bbb")
+
+  expect_snapshot(
+    write_union(proj_path("somefile"), letters[4:6])
+  )
+})
