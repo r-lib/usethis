@@ -34,6 +34,7 @@ test_that("compute_name() validates its inputs", {
     compute_name("")
     compute_name("****")
   })
+  expect_equal(compute_name("foo.c", ext = "c"), "foo.c")
 })
 
 test_that("compute_active_name() errors if no files open", {
