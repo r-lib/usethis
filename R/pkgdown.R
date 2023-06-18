@@ -34,6 +34,9 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
   use_build_ignore(c(config_file, destdir, "pkgdown"))
   use_git_ignore(destdir)
 
+  ui_done("added {ui_path('pkgdown/')} to .Rbuildignore")
+  ui_done("added {ui_path('docs/')} to .gitignore")
+
   config <- pkgdown_config(destdir)
   config_path <- proj_path(config_file)
   write_over(config_path, yaml::as.yaml(config))
