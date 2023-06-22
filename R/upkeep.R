@@ -278,7 +278,7 @@ tidy_minimum_r_version <- function() {
   # I do not want a failure here to make use_tidy_upkeep_issue() fail
   json <- tryCatch(readLines(con, warn = FALSE), error = function(e) NULL)
   if (is.null(json)) {
-    oldrel_4 <- "3.4"
+    oldrel_4 <- "3.6"
   } else {
     version <- jsonlite::fromJSON(json)$version
     oldrel_4 <- re_match(version, "[0-9]+[.][0-9]+")$.match
