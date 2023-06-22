@@ -78,7 +78,7 @@ compute_name <- function(name = NULL, ext = "R", error_call = caller_env()) {
 
     if (path_ext(name) == "") {
       name <- path_ext_set(name, ext)
-    } else if (path_ext(name) != "R") {
+    } else if (path_ext(name) != ext) {
       cli::cli_abort(
         "{.arg name} must have extension {.str {ext}}, not {.str {path_ext(name)}}.",
         call = error_call
