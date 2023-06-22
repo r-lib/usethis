@@ -65,5 +65,9 @@ test_that("compute_active_name() standardises name", {
     compute_active_name(path(dir, "R/data.frame.R"), "R"),
     "data.frame.R"
   )
+})
 
+# https://github.com/r-lib/usethis/issues/1863
+test_that("compute_name() accepts the declared extension", {
+  expect_equal(compute_name("foo.cpp", ext = "cpp"), "foo.cpp")
 })
