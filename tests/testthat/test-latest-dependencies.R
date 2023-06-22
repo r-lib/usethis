@@ -1,5 +1,5 @@
 test_that("sets version for imports & depends dependencies", {
-  skip_on_cran()
+  skip_if_offline()
   withr::local_options(list(repos = c(CRAN = "https://cloud.r-project.org")))
 
   create_local_package()
@@ -15,7 +15,7 @@ test_that("sets version for imports & depends dependencies", {
 })
 
 test_that("doesn't affect suggests", {
-  skip_on_cran()
+  skip_if_offline()
   withr::local_options(list(repos = c(CRAN = "https://cloud.r-project.org")))
 
   create_local_package()
@@ -27,7 +27,7 @@ test_that("doesn't affect suggests", {
 })
 
 test_that("does nothing for a base package", {
-  skip_on_cran()
+  skip_if_offline()
   withr::local_options(list(repos = c(CRAN = "https://cloud.r-project.org")))
 
   create_local_package()
