@@ -548,7 +548,7 @@ pkg_minimum_r_version <- function() {
   deps <- proj_desc()$get_deps()
   r_dep <- deps[deps$package == "R" & deps$type == "Depends", "version"]
   if (length(r_dep) == 0) {
-    return(numeric_version(0))
+    return(numeric_version("0"))
   }
   numeric_version(gsub("[^0-9.]", "", r_dep))
 }
