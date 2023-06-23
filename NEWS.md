@@ -1,4 +1,4 @@
-# usethis (development version)
+# usethis 2.2.1
 
 * Internal helper `cran_version()`, used in functions such as
   `use_release_checklist()` and `use_news_md()`, is more resilient to situations
