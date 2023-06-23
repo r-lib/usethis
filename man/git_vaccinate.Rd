@@ -7,7 +7,7 @@
 git_vaccinate()
 }
 \description{
-Adds \code{.DS_Store}, \code{.Rproj.user}, \code{.Rdata}, \code{.Rhistory}, and \code{.httr-oauth} to
+Adds \code{.Rproj.user}, \code{.Rhistory}, \code{.Rdata}, \code{.httr-oauth}, \code{.DS_Store}, and \code{.quarto} to
 your global (a.k.a. user-level) \code{.gitignore}. This is good practice as it
 decreases the chance that you will accidentally leak credentials to GitHub.
 \code{git_vaccinate()} also tries to detect and fix the situation where you have a
