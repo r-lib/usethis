@@ -5,7 +5,7 @@
   where no CRAN mirror has been set (#1857).
   
 * Internal usage of `numeric_version()` now always provides character input,
-  rather than relying on implicit `as.character()` coercion. This is in reponse
+  rather than relying on implicit `as.character()` coercion. This is in response
   to a request from CRAN to anticipate future solutions to
   <https://bugs.r-project.org/show_bug.cgi?id=18548> (#1869).
 
