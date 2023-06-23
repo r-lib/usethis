@@ -15,11 +15,14 @@ test_that("use_tidy_description() alphabetises dependencies and remotes", {
 test_that("use_tidy_dependencies() isn't overly informative", {
   skip_if_offline("github.com")
 
-  create_local_package(fs::path_temp("tidydeps"))
+  create_local_package()
   use_package_doc()
   withr::local_options(usethis.quiet = FALSE)
 
-  expect_snapshot(use_tidy_dependencies())
+  expect_snapshot(
+    use_tidy_dependencies(),
+    transform = scrub_testpkg
+  )
 })
 
 test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
