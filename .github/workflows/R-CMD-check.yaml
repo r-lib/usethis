@@ -57,6 +57,11 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: git config
+        run: |
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
