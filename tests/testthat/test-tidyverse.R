@@ -57,7 +57,6 @@ test_that("use_tidy_github() adds and Rbuildignores files", {
 })
 
 test_that("styling the package works", {
-  skip_if(getRversion() < 3.2)
   skip_if_no_git_user()
   skip_if_not_installed("styler")
 
@@ -72,7 +71,6 @@ test_that("styling the package works", {
 
 
 test_that("styling of non-packages works", {
-  skip_if(getRversion() < 3.2)
   skip_if_no_git_user()
   skip_if_not_installed("styler")
 
