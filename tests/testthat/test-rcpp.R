@@ -7,6 +7,9 @@ test_that("use_rcpp() creates files/dirs, edits DESCRIPTION and .gitignore", {
   create_local_package()
   use_roxygen_md()
 
+  # pretend Rcpp is installed
+  local_check_installed()
+
   use_rcpp("test")
   expect_match(desc::desc_get("LinkingTo"), "Rcpp")
   expect_match(desc::desc_get("Imports"), "Rcpp")
