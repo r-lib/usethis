@@ -64,5 +64,7 @@ jobs:
           git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - uses: r-lib/actions/check-r-package@v2
+        env:
+          _R_CALLS_INVALID_NUMERIC_VERSION_: true
         with:
           upload-snapshots: true

@@ -73,7 +73,7 @@ test_that("Decline to tweak an existing author", {
 
 test_that("Placeholder author is challenged", {
   # apparently the format method for `person` used to handle ORCIDs differently
-  skip_if(getRversion() < 4.0)
+  skip_if(getRversion() < "4.0")
 
   withr::local_options(usethis.description = NULL)
   create_local_package()
