@@ -1,3 +1,5 @@
+# usethis (development version)
+
 # usethis 2.2.2
 
 * Implicit usage of `numeric_version()` via comparison now always provides
