@@ -2,10 +2,6 @@ use_dependency <- function(package, type, min_version = NULL) {
   check_name(package)
   check_name(type)
 
-  if (package != "R") {
-    check_installed(package)
-  }
-
   if (package == "R" && tolower(type) != "depends") {
     ui_stop("Set {ui_code('type = \"Depends\"')} when specifying an R version")
   } else if (package == "R" && is.null(min_version)) {
@@ -42,45 +38,48 @@ use_dependency <- function(package, type, min_version = NULL) {
     desc$set_dep(package, type, version = version)
     desc$write()
     changed <- TRUE
-    return(invisible(changed))
-  }
-
-  if (type == "LinkingTo") {
-    deps <- deps[deps$type == "LinkingTo", ]
   } else {
-    deps <- deps[deps$type != "LinkingTo", ]
-  }
-  existing_type <- deps$type
-  existing_version <- deps$version
+    if (type == "LinkingTo") {
+      deps <- deps[deps$type == "LinkingTo", ]
+    } else {
+      deps <- deps[deps$type != "LinkingTo", ]
+    }
+    existing_type <- deps$type
+    existing_version <- deps$version
 
-  delta <- sign(match(existing_type, types) - match(type, types))
-  if (delta < 0) {
-    # don't downgrade
-    ui_warn(
-      "Package {ui_value(package)} is already listed in \\
-       {ui_value(existing_type)} in DESCRIPTION, no change made."
-    )
-  } else if (delta == 0 && !is.null(min_version)) {
-    # change version
-    upgrade <- existing_version == "*" ||
-      numeric_version(min_version) > version_spec(existing_version)
-    if (upgrade) {
+    delta <- sign(match(existing_type, types) - match(type, types))
+    if (delta < 0) {
+      # don't downgrade
+      ui_warn(
+        "Package {ui_value(package)} is already listed in \\
+         {ui_value(existing_type)} in DESCRIPTION, no change made."
+      )
+    } else if (delta == 0 && !is.null(min_version)) {
+      # change version
+      upgrade <- existing_version == "*" ||
+        numeric_version(min_version) > version_spec(existing_version)
+      if (upgrade) {
+        ui_done(
+          "Increasing {ui_value(package)} version to {ui_value(version)} in \\
+           DESCRIPTION")
+        desc$set_dep(package, type, version = version)
+        desc$write()
+        changed <- TRUE
+      }
+    } else if (delta > 0) {
+      # moving from, e.g., Suggests to Imports
       ui_done(
-        "Increasing {ui_value(package)} version to {ui_value(version)} in \\
-         DESCRIPTION")
+        "Moving {ui_value(package)} from {ui_field(existing_type)} to \\
+         {ui_field(type)} field in DESCRIPTION")
+      desc$del_dep(package, existing_type)
       desc$set_dep(package, type, version = version)
       desc$write()
       changed <- TRUE
     }
-  } else if (delta > 0) {
-    # moving from, e.g., Suggests to Imports
-    ui_done(
-      "Moving {ui_value(package)} from {ui_field(existing_type)} to \\
-       {ui_field(type)} field in DESCRIPTION")
-    desc$del_dep(package, existing_type)
-    desc$set_dep(package, type, version = version)
-    desc$write()
-    changed <- TRUE
+  }
+
+  if (package != "R") {
+    check_installed(package)
   }
 
   invisible(changed)
