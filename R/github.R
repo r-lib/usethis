@@ -268,6 +268,7 @@ check_no_origin <- function() {
 }
 
 check_no_github_repo <- function(owner, repo, host) {
+  spec <- glue("{owner}/{repo}")
   repo_found <- tryCatch(
     {
       repo_info <- gh::gh(
@@ -275,14 +276,16 @@ check_no_github_repo <- function(owner, repo, host) {
         owner = owner, repo = repo,
         .api_url = host
       )
-      TRUE
+      # FALSE if there is a redirect due to renamed repo
+      # so we should be able to push, otherwise
+      # TRUE if it really exists. #1893
+      repo_info$full_name == spec
     },
     "http_error_404" = function(err) FALSE
   )
   if (!repo_found) {
     return(invisible())
   }
-  spec <- glue("{owner}/{repo}")
   empirical_host <- parse_github_remotes(repo_info$html_url)$host
   ui_stop("Repo {ui_value(spec)} already exists on {ui_value(empirical_host)}")
 }
