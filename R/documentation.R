@@ -13,6 +13,16 @@
 #'   Packages](https://r-pkgs.org)
 #' @inheritParams use_template
 #' @export
+#' @details
+#' use_package_doc() leads to an R-CMD-CHECK warning if package shares name with a
+#' function ([Github Issue](https://github.com/r-lib/usethis/issues/1170)). This can be
+#' obviated by including the following lines at the top of your mypackagename-package.R script:
+#'
+#' `@keywords internal`
+#'
+#' `@aliases reprex-package`
+#'
+#' `"_PACKAGE"`
 use_package_doc <- function(open = rlang::is_interactive()) {
   check_is_package("use_package_doc()")
   use_template(

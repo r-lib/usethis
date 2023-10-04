@@ -20,6 +20,17 @@ in multiple places. This \code{.R} file is also a good place for roxygen
 directives that apply to the whole package (vs. a specific function), such as
 global namespace tags like \verb{@importFrom}.
 }
+\details{
+use_package_doc() leads to an R-CMD-CHECK warning if package shares name with a
+function (\href{https://github.com/r-lib/usethis/issues/1170}{Github Issue}). This can be
+obviated by including the following lines at the top of your mypackagename-package.R script:
+
+\verb{@keywords internal}
+
+\verb{@aliases reprex-package}
+
+\code{"_PACKAGE"}
+}
 \seealso{
 The \href{https://r-pkgs.org/man.html}{documentation chapter} of \href{https://r-pkgs.org}{R Packages}
 }
