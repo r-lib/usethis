@@ -33,11 +33,11 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] Add preemptive link to blog post in pkgdown news menu
+      * [ ] Finish & publish blog post
+      * [ ] Add link to blog post in pkgdown news menu
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Finish blog post
       * [ ] Tweet
 
 ---
@@ -101,11 +101,11 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] Add preemptive link to blog post in pkgdown news menu
+      * [ ] Finish & publish blog post
+      * [ ] Add link to blog post in pkgdown news menu
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Finish blog post
       * [ ] Tweet
 
 # construct correct revdep bullet
@@ -158,10 +158,10 @@
       Wait for CRAN...
       
       * [ ] Accepted :tada:
-      * [ ] Add preemptive link to blog post in pkgdown news menu
+      * [ ] Finish & publish blog post
+      * [ ] Add link to blog post in pkgdown news menu
       * [ ] `usethis::use_github_release()`
       * [ ] `usethis::use_dev_version(push = TRUE)`
       * [ ] `usethis::use_news_md()`
-      * [ ] Finish blog post
       * [ ] Tweet
 
