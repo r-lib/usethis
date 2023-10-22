@@ -73,7 +73,7 @@ use_standalone <- function(repo_spec, file = NULL, ref = NULL, host = NULL) {
   dest_path <- path("R", as_standalone_dest_file(file))
 
   lines <- read_github_file(repo_spec, path = src_path, ref = ref, host = host)
-  lines <- c(standalone_header(repo_spec, src_path), lines)
+  lines <- c(standalone_header(repo_spec, src_path, ref, host), lines)
   write_over(proj_path(dest_path), lines, overwrite = TRUE)
 
   dependencies <- standalone_dependencies(lines, path)
@@ -155,10 +155,16 @@ as_standalone_dest_file <- function(file) {
   gsub("standalone-", "import-standalone-", file)
 }
 
-standalone_header <- function(repo_spec, path) {
+standalone_header <- function(repo_spec, path, ref = NULL, host = NULL) {
+  if (is.null(ref)) {
+    ref <- "HEAD"
+  }
+  if (is.null(host)) {
+    host <- "https://github.com"
+  }
   c(
     "# Standalone file: do not edit by hand",
-    glue("# Source: <https://github.com/{repo_spec}/blob/main/{path}>"),
+    glue("# Source: <{host}/{repo_spec}/blob/{ref}/{path}>"),
     paste0("# ", strrep("-", 72 - 2)),
     "#"
   )
