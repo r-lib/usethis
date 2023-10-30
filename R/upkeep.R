@@ -201,9 +201,7 @@ tidy_upkeep_checklist <- function(year = NULL,
         with DESCRIPTION changes",
         author_has_rstudio_email() || (posit_pkg && !posit_person_ok)
       ),
-      todo("
-        Update logo (https://github.com/rstudio/hex-stickers); \\
-        run `use_tidy_logo()`"),
+      todo("`use_tidy_logo()`"),
       todo("`usethis::use_tidy_coc()`"),
       todo(
         "Modernize citation files; see updated `use_citation()`",

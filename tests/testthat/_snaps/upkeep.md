@@ -36,7 +36,7 @@
       * [ ] Update email addresses *@rstudio.com -> *@posit.co
       * [ ] Update copyright holder in DESCRIPTION: `person("Posit Software, PBC", role = c("cph", "fnd"))`
       * [ ] `Run devtools::document()` to re-generate package-level help topic with DESCRIPTION changes
-      * [ ] Update logo (https://github.com/rstudio/hex-stickers); run `use_tidy_logo()`
+      * [ ] `use_tidy_logo()`
       * [ ] `usethis::use_tidy_coc()`
       * [ ] Use `pak::pak("org/pkg")` in README
       * [ ] Consider running `use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
