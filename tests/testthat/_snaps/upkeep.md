@@ -41,9 +41,9 @@
       * [ ] `usethis::use_tidy_coc()`
       * [ ] Use `pak::pak("org/pkg")` in README
       * [ ] Consider running `use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
-      * [ ] Use cli errors or file issue if you don't have time to do it now
+      * [ ] Use cli errors or [file an issue](new) if you don't have time to do it now
       * [ ] `use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers;
-      or file issue if you don't have time to do it now
+      or [file an issue](new) if you don't have time to do it now
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
       ### Eternal

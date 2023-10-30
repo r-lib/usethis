@@ -180,7 +180,8 @@ tidy_upkeep_checklist <- function(year = NULL,
       "### 2023",
       "",
       todo(
-        "Update email addresses *@rstudio.com -> *@posit.co",
+        "
+        Update email addresses *@rstudio.com -> *@posit.co",
         author_has_rstudio_email()
       ),
       todo(
@@ -213,11 +214,11 @@ tidy_upkeep_checklist <- function(year = NULL,
       todo("
         Consider running `use_tidy_dependencies()` and/or \\
         replace compat files with `use_standalone()`"),
-      todo("Use cli errors or file issue if you don\'t have time to do it now"),
+      todo("Use cli errors or [file an issue](new) if you don\'t have time to do it now"),
       todo('
         `use_standalone("r-lib/rlang", "types-check")` \\
         instead of home grown argument checkers;
-        or file issue if you don\'t have time to do it now'),
+        or [file an issue](new) if you don\'t have time to do it now'),
       todo(
         "
         Change files ending in `.r` to `.R` in R/ and/or tests/testthat/",
