@@ -38,7 +38,7 @@
       * [ ] `Run devtools::document()` to re-generate package-level help topic with DESCRIPTION changes
       * [ ] `usethis::use_tidy_logo()`
       * [ ] `usethis::use_tidy_coc()`
-      * [ ] Use `pak::pak("org/pkg")` in README
+      * [ ] Use `pak::pak("OWNER/REPO")` in README
       * [ ] Consider running `usethis::use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
       * [ ] Use cli errors or [file an issue](new) if you don't have time to do it now
       * [ ] `usethis::use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers;

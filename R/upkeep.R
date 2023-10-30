@@ -208,7 +208,7 @@ tidy_upkeep_checklist <- function(year = NULL,
         "Modernize citation files; see updated `use_citation()`",
         has_citation_file()
       ),
-      todo('Use `pak::pak("org/pkg")` in README'),
+      todo('Use `pak::pak("{repo_spec}")` in README'),
       todo("
         Consider running `usethis::use_tidy_dependencies()` and/or \\
         replace compat files with `use_standalone()`"),
