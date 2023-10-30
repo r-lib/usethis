@@ -27,7 +27,7 @@
       ### 2022
       
       * [ ] Handle and close any still-open `master` --> `main` issues
-      * [ ] [Update README badges](https://github.com/r-lib/usethis/issues/1594)
+      * [ ] `usethis:::use_codecov_badge("OWNER/REPO")`
       * [ ] Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>
       * [ ] Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`
       

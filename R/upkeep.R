@@ -38,11 +38,15 @@ make_upkeep_issue <- function(year, tidy) {
     }
   }
 
-  checklist <- if (tidy) tidy_upkeep_checklist(year) else upkeep_checklist()
+  gh <- gh_tr(tr)
+  if (tidy) {
+    checklist <- tidy_upkeep_checklist(year, repo_spec = tr$repo_spec)
+  } else {
+    checklist <- upkeep_checklist()
+  }
 
   title_year <- year %||% format(Sys.Date(), "%Y")
 
-  gh <- gh_tr(tr)
   issue <- gh(
     "POST /repos/{owner}/{repo}/issues",
     title = glue("Upkeep for {project_name()} ({title_year})"),
@@ -118,7 +122,8 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 
 tidy_upkeep_checklist <- function(year = NULL,
                                   posit_pkg = is_posit_pkg(),
-                                  posit_person_ok = is_posit_person_canonical()) {
+                                  posit_person_ok = is_posit_person_canonical(),
+                                  repo_spec = "OWNER/REPO") {
   year <- year %||% 2000
 
   bullets <- c()
@@ -165,7 +170,7 @@ tidy_upkeep_checklist <- function(year = NULL,
       "### 2022",
       "",
       todo("Handle and close any still-open `master` --> `main` issues"),
-      todo("[Update README badges](https://github.com/r-lib/usethis/issues/1594)"),
+      todo('`usethis:::use_codecov_badge("{repo_spec}")`'),
       todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
       todo("Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`"),
       ""
