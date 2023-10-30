@@ -202,7 +202,7 @@ tidy_upkeep_checklist <- function(year = NULL,
         with DESCRIPTION changes",
         author_has_rstudio_email() || (posit_pkg && !posit_person_ok)
       ),
-      todo("`use_tidy_logo()`"),
+      todo("`usethis::use_tidy_logo()`"),
       todo("`usethis::use_tidy_coc()`"),
       todo(
         "Modernize citation files; see updated `use_citation()`",
@@ -210,11 +210,11 @@ tidy_upkeep_checklist <- function(year = NULL,
       ),
       todo('Use `pak::pak("org/pkg")` in README'),
       todo("
-        Consider running `use_tidy_dependencies()` and/or \\
+        Consider running `usethis::use_tidy_dependencies()` and/or \\
         replace compat files with `use_standalone()`"),
       todo("Use cli errors or [file an issue](new) if you don\'t have time to do it now"),
       todo('
-        `use_standalone("r-lib/rlang", "types-check")` \\
+        `usethis::use_standalone("r-lib/rlang", "types-check")` \\
         instead of home grown argument checkers;
         or [file an issue](new) if you don\'t have time to do it now'),
       todo(
@@ -234,8 +234,8 @@ tidy_upkeep_checklist <- function(year = NULL,
     bullets,
     "### Eternal",
     "",
-    todo("`use_mit_license()`", grepl("MIT", desc$get_field("License"))),
-    todo('`use_package("R", "Depends", "{tidy_minimum_r_version()}")`'),
+    todo("`usethis::use_mit_license()`", grepl("MIT", desc$get_field("License"))),
+    todo('`usethis::use_package("R", "Depends", "{tidy_minimum_r_version()}")`'),
     todo("`usethis::use_tidy_description()`"),
     todo("`usethis::use_tidy_github_actions()`"),
     todo("`devtools::build_readme()`"),

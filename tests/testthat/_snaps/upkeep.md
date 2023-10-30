@@ -36,19 +36,19 @@
       * [ ] Update email addresses *@rstudio.com -> *@posit.co
       * [ ] Update copyright holder in DESCRIPTION: `person("Posit Software, PBC", role = c("cph", "fnd"))`
       * [ ] `Run devtools::document()` to re-generate package-level help topic with DESCRIPTION changes
-      * [ ] `use_tidy_logo()`
+      * [ ] `usethis::use_tidy_logo()`
       * [ ] `usethis::use_tidy_coc()`
       * [ ] Use `pak::pak("org/pkg")` in README
-      * [ ] Consider running `use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
+      * [ ] Consider running `usethis::use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
       * [ ] Use cli errors or [file an issue](new) if you don't have time to do it now
-      * [ ] `use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers;
+      * [ ] `usethis::use_standalone("r-lib/rlang", "types-check")` instead of home grown argument checkers;
       or [file an issue](new) if you don't have time to do it now
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
       ### Eternal
       
-      * [ ] `use_mit_license()`
-      * [ ] `use_package("R", "Depends", "3.6")`
+      * [ ] `usethis::use_mit_license()`
+      * [ ] `usethis::use_package("R", "Depends", "3.6")`
       * [ ] `usethis::use_tidy_description()`
       * [ ] `usethis::use_tidy_github_actions()`
       * [ ] `devtools::build_readme()`
