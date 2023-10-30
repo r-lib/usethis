@@ -36,7 +36,6 @@
       * [ ] Update email addresses *@rstudio.com -> *@posit.co
       * [ ] Update copyright holder in DESCRIPTION: `person("Posit Software, PBC", role = c("cph", "fnd"))`
       * [ ] `Run devtools::document()` to re-generate package-level help topic with DESCRIPTION changes
-      * [ ] Double check license file uses '[package] authors' as copyright holder. Run `use_mit_license()`
       * [ ] Update logo (https://github.com/rstudio/hex-stickers); run `use_tidy_logo()`
       * [ ] `usethis::use_tidy_coc()`
       * [ ] Use `pak::pak("org/pkg")` in README
@@ -48,6 +47,7 @@
       
       ### Eternal
       
+      * [ ] `use_mit_license()`
       * [ ] `use_package("R", "Depends", "3.6")`
       * [ ] `usethis::use_tidy_description()`
       * [ ] `usethis::use_tidy_github_actions()`

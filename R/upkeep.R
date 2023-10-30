@@ -201,12 +201,6 @@ tidy_upkeep_checklist <- function(year = NULL,
         with DESCRIPTION changes",
         author_has_rstudio_email() || (posit_pkg && !posit_person_ok)
       ),
-      todo(
-        "
-        Double check license file uses '[package] authors' \\
-        as copyright holder. Run `use_mit_license()`",
-        grepl("MIT", desc$get_field("License"))
-      ),
       todo("
         Update logo (https://github.com/rstudio/hex-stickers); \\
         run `use_tidy_logo()`"),
@@ -241,6 +235,7 @@ tidy_upkeep_checklist <- function(year = NULL,
     bullets,
     "### Eternal",
     "",
+    todo("`use_mit_license()`", grepl("MIT", desc$get_field("License"))),
     todo('`use_package("R", "Depends", "{tidy_minimum_r_version()}")`'),
     todo("`usethis::use_tidy_description()`"),
     todo("`usethis::use_tidy_github_actions()`"),
