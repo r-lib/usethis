@@ -227,7 +227,6 @@ tidy_upkeep_checklist <- function(year = NULL,
         Add alt-text to pictures, plots, etc; see \\
         https://posit.co/blog/knitr-fig-alt/ for examples"
       ),
-      todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
       ""
     )
   }
@@ -240,6 +239,7 @@ tidy_upkeep_checklist <- function(year = NULL,
     todo("`usethis::use_tidy_description()`"),
     todo("`usethis::use_tidy_github_actions()`"),
     todo("`devtools::build_readme()`"),
+    todo("[Re-publish released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html) if needed"),
     ""
   )
 
