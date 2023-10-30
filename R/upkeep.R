@@ -50,7 +50,8 @@ make_upkeep_issue <- function(year, tidy) {
   issue <- gh(
     "POST /repos/{owner}/{repo}/issues",
     title = glue("Upkeep for {project_name()} ({title_year})"),
-    body = paste0(checklist, "\n", collapse = "")
+    body = paste0(checklist, "\n", collapse = ""),
+    labels = if (tidy) list("upkeep")
   )
   Sys.sleep(1)
   view_url(issue$html_url)
