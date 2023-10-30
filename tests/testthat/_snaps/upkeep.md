@@ -48,7 +48,7 @@
       
       ### Eternal
       
-      * [ ] Bump required R version in DESCRIPTION to 3.6
+      * [ ] `use_package("R", "Depends", "3.6")`
       * [ ] `usethis::use_tidy_description()`
       * [ ] `usethis::use_tidy_github_actions()`
       * [ ] `devtools::build_readme()`
