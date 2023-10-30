@@ -220,7 +220,7 @@ tidy_upkeep_checklist <- function(year = NULL,
         or [file an issue](new) if you don\'t have time to do it now'),
       todo(
         "
-        Change files ending in `.r` to `.R` in R/ and/or tests/testthat/",
+        Change files ending in `.r` to `.R` in `R/` and/or `tests/testthat/`",
         lowercase_r()
       ),
       todo("
