@@ -186,7 +186,7 @@ tidy_upkeep_checklist <- function(year = NULL,
       todo(
         '
         Update copyright holder in DESCRIPTION: \\
-        `person(given = "Posit Software, PBC", role = c("cph", "fnd"))`',
+        `person("Posit Software, PBC", role = c("cph", "fnd"))`',
         posit_pkg && !posit_person_ok
       ),
       todo(
