@@ -198,7 +198,7 @@ tidy_upkeep_checklist <- function(year = NULL,
       ),
       todo(
         "
-        `Run devtools::document()` to re-generate package-level help topic \\
+        Run `devtools::document()` to re-generate package-level help topic \\
         with DESCRIPTION changes",
         author_has_rstudio_email() || (posit_pkg && !posit_person_ok)
       ),
