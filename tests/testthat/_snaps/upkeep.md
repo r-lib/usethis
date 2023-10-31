@@ -3,6 +3,10 @@
     Code
       writeLines(tidy_upkeep_checklist(posit_pkg = TRUE, posit_person_ok = FALSE))
     Output
+      ### To begin
+      
+      * [ ] `pr_init("upkeep-2023-01")`
+      
       ### Pre-history
       
       * [ ] `usethis::use_readme_rmd()`
@@ -45,7 +49,7 @@
       or [file an issue](new) if you don't have time to do it now
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
-      ### Eternal
+      ### To finish
       
       * [ ] `usethis::use_mit_license()`
       * [ ] `usethis::use_package("R", "Depends", "3.6")`

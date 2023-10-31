@@ -121,13 +121,21 @@ use_tidy_upkeep_issue <- function(year = NULL) {
   make_upkeep_issue(year = year, tidy = TRUE)
 }
 
+# for mocking
+Sys.Date <- NULL
+
 tidy_upkeep_checklist <- function(year = NULL,
                                   posit_pkg = is_posit_pkg(),
                                   posit_person_ok = is_posit_person_canonical(),
                                   repo_spec = "OWNER/REPO") {
   year <- year %||% 2000
 
-  bullets <- c()
+  bullets <- c(
+    "### To begin",
+    "",
+    todo('`pr_init("upkeep-{format(Sys.Date(), "%Y-%m")}")`'),
+    ""
+  )
 
   if (year <= 2000) {
     bullets <- c(
@@ -232,7 +240,7 @@ tidy_upkeep_checklist <- function(year = NULL,
 
   bullets <- c(
     bullets,
-    "### Eternal",
+    "### To finish",
     "",
     todo("`usethis::use_mit_license()`", grepl("MIT", desc$get_field("License"))),
     todo('`usethis::use_package("R", "Depends", "{tidy_minimum_r_version()}")`'),

@@ -9,6 +9,8 @@ test_that("tidy upkeep bullets don't change accidentally", {
       License = "MIT + file LICENSE"
     )
   )
+  local_mocked_bindings(Sys.Date = function() as.Date("2023-01-01"))
+
   create_local_package()
 
   expect_snapshot(
@@ -34,7 +36,7 @@ test_that("upkeep bullets don't change accidentally",{
   use_testthat()
   withr::local_file("cran-comments.md")
   writeLines(
-    "## Test environments\\n\\n* local Ubuntu\\n\\# R CMD check results\\n", 
+    "## Test environments\\n\\n* local Ubuntu\\n\\# R CMD check results\\n",
     "cran-comments.md"
   )
   local_mocked_bindings(git_default_branch = function() "master")
