@@ -412,7 +412,7 @@ cran_version <- function(package = project_name(), available = NULL) {
   if (is.null(available)) {
     # Guard against CRAN mirror being unset
     available <- tryCatch(
-      utils::available.packages(repos = default_cran_mirror()),
+      available.packages(repos = default_cran_mirror()),
       error = function(e) NULL
     )
     if (is.null(available)) {
