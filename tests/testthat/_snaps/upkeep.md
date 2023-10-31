@@ -36,7 +36,7 @@
       * [ ] Update email addresses *@rstudio.com -> *@posit.co
       * [ ] Update copyright holder in DESCRIPTION: `person("Posit Software, PBC", role = c("cph", "fnd"))`
       * [ ] Run `devtools::document()` to re-generate package-level help topic with DESCRIPTION changes
-      * [ ] `usethis::use_tidy_logo()`
+      * [ ] `usethis::use_tidy_logo(); pkgdown::build_favicons(overwrite = TRUE)`
       * [ ] `usethis::use_tidy_coc()`
       * [ ] Use `pak::pak("OWNER/REPO")` in README
       * [ ] Consider running `usethis::use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
