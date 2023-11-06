@@ -112,8 +112,6 @@ release_checklist <- function(version, on_cran) {
       Check if any deprecation processes should be advanced, as described in \\
       [Gradual deprecation](https://lifecycle.r-lib.org/articles/communicate.html#gradual-deprecation)",
       type != "patch" && has_lifecycle),
-    todo("Bump required R version in DESCRIPTION to {tidy_min_r_version}",
-         is_posit_pkg && tidy_min_r_version > pkg_minimum_r_version()),
     todo("`usethis::use_news_md()`", on_cran && !has_news),
     todo("[Polish NEWS](https://style.tidyverse.org/news.html#news-release)", on_cran),
     todo("`usethis::use_github_links()`", !has_github_links),
