@@ -124,10 +124,11 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 # for mocking
 Sys.Date <- NULL
 
-tidy_upkeep_checklist <- function(year = NULL,
-                                  posit_pkg = is_posit_pkg(),
-                                  posit_person_ok = is_posit_person_canonical(),
-                                  repo_spec = "OWNER/REPO") {
+tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
+
+  posit_pkg <- is_posit_pkg()
+  posit_person_ok <- is_posit_person_canonical()
+
   year <- year %||% 2000
 
   bullets <- c(
@@ -243,7 +244,10 @@ tidy_upkeep_checklist <- function(year = NULL,
     "### To finish",
     "",
     todo("`usethis::use_mit_license()`", grepl("MIT", desc$get_field("License"))),
-    todo('`usethis::use_package("R", "Depends", "{tidy_minimum_r_version()}")`'),
+    todo(
+      '`usethis::use_package("R", "Depends", "{tidy_minimum_r_version()}")`',
+      tidy_minimum_r_version() > pkg_minimum_r_version()
+    ),
     todo("`usethis::use_tidy_description()`"),
     todo("`usethis::use_tidy_github_actions()`"),
     todo("`devtools::build_readme()`"),
@@ -307,8 +311,12 @@ checklist_footer <- function(tidy) {
   tidy_fun <- if (tidy) "tidy_" else ""
   glue('<sup>\\
     Created on {Sys.Date()} with `usethis::use_{tidy_fun}upkeep_issue()`, using \\
-    [usethis v{utils::packageVersion("usethis")}](https://usethis.r-lib.org)\\
+    [usethis v{usethis_version()}](https://usethis.r-lib.org)\\
     </sup>')
+}
+
+usethis_version <- function() {
+  utils::packageVersion("usethis")
 }
 
 has_old_cran_comments <- function() {

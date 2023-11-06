@@ -77,7 +77,6 @@ release_checklist <- function(version, on_cran) {
   has_readme <- file_exists(proj_path("README.Rmd"))
   has_github_links <- has_github_links()
   is_posit_pkg <- is_posit_pkg()
-  tidy_min_r_version <- tidy_minimum_r_version()
 
   milestone_num <- NA # for testing (and general fallback)
   if (uses_git() && curl::has_internet()) {

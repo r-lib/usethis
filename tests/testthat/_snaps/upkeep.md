@@ -1,7 +1,7 @@
 # tidy upkeep bullets don't change accidentally
 
     Code
-      writeLines(tidy_upkeep_checklist(posit_pkg = TRUE, posit_person_ok = FALSE))
+      writeLines(tidy_upkeep_checklist())
     Output
       ### To begin
       
@@ -58,7 +58,7 @@
       * [ ] `devtools::build_readme()`
       * [ ] [Re-publish released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html) if needed
       
-      <sup>Created on DATE with `usethis::use_tidy_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
+      <sup>Created on 2023-01-01 with `usethis::use_tidy_upkeep_issue()`, using [usethis v1.1.0](https://usethis.r-lib.org)</sup>
 
 # upkeep bullets don't change accidentally
 
@@ -80,7 +80,7 @@
             Updating workflows to the latest version will often fix troublesome actions:
       * [ ] `usethis::use_github_action('check-standard')`
       
-      <sup>Created on DATE with `usethis::use_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
+      <sup>Created on 2023-01-01 with `usethis::use_upkeep_issue()`, using [usethis v1.1.0](https://usethis.r-lib.org)</sup>
 
 ---
 
@@ -106,5 +106,5 @@
       * [ ] `usethis::use_github_action('check-standard')`
       * [ ] `usethis::use_github_action('test-coverage')`
       
-      <sup>Created on DATE with `usethis::use_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
+      <sup>Created on 2023-01-01 with `usethis::use_upkeep_issue()`, using [usethis v1.1.0](https://usethis.r-lib.org)</sup>
 
