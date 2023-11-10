@@ -506,7 +506,7 @@ default_branch_sitrep <- function() {
 
 #' Vaccinate your global gitignore file
 #'
-#' Adds `.DS_Store`, `.Rproj.user`, `.Rdata`, `.Rhistory`, and `.httr-oauth` to
+#' Adds `.Rproj.user`, `.Rhistory`, `.Rdata`, `.httr-oauth`, `.DS_Store`, and `.quarto` to
 #' your global (a.k.a. user-level) `.gitignore`. This is good practice as it
 #' decreases the chance that you will accidentally leak credentials to GitHub.
 #' `git_vaccinate()` also tries to detect and fix the situation where you have a

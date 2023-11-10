@@ -8,8 +8,11 @@ test_that("use_pkgdown() creates and ignores the promised file/dir", {
   local_interactive(FALSE)
   local_check_installed()
   local_mocked_bindings(pkgdown_version = function() "1.9000")
+  withr::local_options(usethis.quiet = FALSE)
 
-  use_pkgdown()
+  expect_snapshot(
+    use_pkgdown()
+  )
 
   expect_true(uses_pkgdown())
   expect_true(is_build_ignored("^_pkgdown\\.yml$"))

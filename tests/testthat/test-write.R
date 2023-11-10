@@ -166,13 +166,6 @@ test_that("same_contents() detects if contents are / are not same", {
   expect_false(same_contents(tmp, letters[4:6]))
 })
 
-test_that("write_over() writes a de novo file", {
-  tmp <- file_temp()
-  expect_false(file_exists(tmp))
-  write_over(tmp, letters[1:3], quiet = TRUE)
-  expect_identical(read_utf8(tmp), letters[1:3])
-})
-
 test_that("write_over() leaves file 'as is' (outside of a project)", {
   local_interactive(FALSE)
   tmp <- withr::local_file(file_temp())
@@ -246,4 +239,15 @@ test_that("write_over() works for a file in a project that is not active", {
     }
   )
   expect_false(proj_active())
+})
+
+test_that("write_union() messaging is correct with weird working directory", {
+  create_local_project()
+  use_directory("aaa/bbb")
+  setwd("aaa/bbb")
+
+  withr::local_options(usethis.quiet = FALSE)
+  expect_snapshot(
+    write_union(proj_path("somefile"), letters[4:6])
+  )
 })

@@ -29,6 +29,8 @@ test_that("non-patch + lifecycle = advanced deprecation process", {
   create_local_package()
   use_package("lifecycle")
 
+  local_mocked_bindings(tidy_minimum_r_version = function() "3.6")
+
   has_deprecation <- function(x) any(grepl("deprecation processes", x))
   expect_true(has_deprecation(release_checklist("1.0.0", on_cran = TRUE)))
   expect_true(has_deprecation(release_checklist("1.1.0", on_cran = TRUE)))
@@ -198,4 +200,30 @@ test_that("get_release_data() works for new-style CRAN-RELEASE", {
   expect_equal(res$Version, "1.2.3")
   expect_equal(res$SHA, HEAD)
   expect_equal(path_file(res$file), "CRAN-SUBMISSION")
+})
+
+test_that("cran_version() returns package version if package found", {
+  local_mocked_bindings(available.packages = function(...) {
+    # simulate minimal available.packages entry
+    as.matrix(data.frame(Package = c(usethis = "usethis"), Version = "1.0.0"))
+  })
+
+  expect_null(cran_version("doesntexist"))
+  expect_equal(cran_version("usethis"), package_version("1.0.0"))
+})
+
+test_that("cran_version() returns NULL if no available packages", {
+  local_mocked_bindings(available.packages = function(...) NULL)
+  expect_null(cran_version("doesntexist"))
+})
+
+test_that("default_cran_mirror() is respects set value but falls back to cloud", {
+  withr::local_options(repos = c(CRAN = "https://example.com"))
+  expect_equal(default_cran_mirror(), c(CRAN = "https://example.com"))
+
+  withr::local_options(repos = c(CRAN = "@CRAN@"))
+  expect_equal(default_cran_mirror(), c(CRAN = "https://cloud.r-project.org"))
+
+  withr::local_options(repos = c())
+  expect_equal(default_cran_mirror(), c(CRAN = "https://cloud.r-project.org"))
 })

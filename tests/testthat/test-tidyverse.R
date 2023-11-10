@@ -15,11 +15,14 @@ test_that("use_tidy_description() alphabetises dependencies and remotes", {
 test_that("use_tidy_dependencies() isn't overly informative", {
   skip_if_offline("github.com")
 
-  create_local_package(fs::path_temp("tidydeps"))
+  create_local_package()
   use_package_doc()
   withr::local_options(usethis.quiet = FALSE)
 
-  expect_snapshot(use_tidy_dependencies())
+  expect_snapshot(
+    use_tidy_dependencies(),
+    transform = scrub_testpkg
+  )
 })
 
 test_that("use_tidy_GITHUB-STUFF() adds and Rbuildignores files", {
@@ -54,7 +57,6 @@ test_that("use_tidy_github() adds and Rbuildignores files", {
 })
 
 test_that("styling the package works", {
-  skip_if(getRversion() < 3.2)
   skip_if_no_git_user()
   skip_if_not_installed("styler")
 
@@ -69,7 +71,6 @@ test_that("styling the package works", {
 
 
 test_that("styling of non-packages works", {
-  skip_if(getRversion() < 3.2)
   skip_if_no_git_user()
   skip_if_not_installed("styler")
 

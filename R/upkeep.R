@@ -38,15 +38,20 @@ make_upkeep_issue <- function(year, tidy) {
     }
   }
 
-  checklist <- if (tidy) tidy_upkeep_checklist(year) else upkeep_checklist()
+  gh <- gh_tr(tr)
+  if (tidy) {
+    checklist <- tidy_upkeep_checklist(year, repo_spec = tr$repo_spec)
+  } else {
+    checklist <- upkeep_checklist()
+  }
 
   title_year <- year %||% format(Sys.Date(), "%Y")
 
-  gh <- gh_tr(tr)
   issue <- gh(
     "POST /repos/{owner}/{repo}/issues",
     title = glue("Upkeep for {project_name()} ({title_year})"),
-    body = paste0(checklist, "\n", collapse = "")
+    body = paste0(checklist, "\n", collapse = ""),
+    labels = if (tidy) list("upkeep")
   )
   Sys.sleep(1)
   view_url(issue$html_url)
@@ -118,7 +123,8 @@ use_tidy_upkeep_issue <- function(year = NULL) {
 
 tidy_upkeep_checklist <- function(year = NULL,
                                   posit_pkg = is_posit_pkg(),
-                                  posit_person_ok = is_posit_person_canonical()) {
+                                  posit_person_ok = is_posit_person_canonical(),
+                                  repo_spec = "OWNER/REPO") {
   year <- year %||% 2000
 
   bullets <- c()
@@ -126,7 +132,7 @@ tidy_upkeep_checklist <- function(year = NULL,
   if (year <= 2000) {
     bullets <- c(
       bullets,
-      "Pre-history",
+      "### Pre-history",
       "",
       todo("`usethis::use_readme_rmd()`"),
       todo("`usethis::use_roxygen_md()`"),
@@ -134,7 +140,6 @@ tidy_upkeep_checklist <- function(year = NULL,
       todo("`usethis::use_pkgdown_github_pages()`"),
       todo("`usethis::use_tidy_github_labels()`"),
       todo("`usethis::use_tidy_style()`"),
-      todo("`usethis::use_tidy_description()`"),
       todo("`urlchecker::url_check()`"),
       ""
     )
@@ -142,62 +147,32 @@ tidy_upkeep_checklist <- function(year = NULL,
   if (year <= 2020) {
     bullets <- c(
       bullets,
-      "2020",
+      "### 2020",
       "",
-      todo("
-        `usethis::use_package_doc()`
-        Consider letting usethis manage your `@importFrom` directives here.
-        `usethis::use_import_from()` is handy for this."),
-      todo("
-        `usethis::use_testthat(3)` and upgrade to 3e, \\
-        [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)"),
-      todo("
-        Align the names of `R/` files and `test/` files for workflow happiness.
-        The docs for `usethis::use_r()` include a helpful script.
-        `usethis::rename_files()` may be be useful."),
+      todo("`usethis::use_package_doc()`"),
+      todo("`usethis::use_testthat(3)`"),
+      todo("Align the names of `R/` files and `test/` files"),
       ""
     )
   }
   if (year <= 2021) {
     bullets <- c(
       bullets,
-      "2021",
+      "### 2021",
       "",
-      todo("`usethis::use_tidy_description()`", year > 2000),
-      todo("`usethis::use_tidy_dependencies()`"),
-      todo("
-        `usethis::use_tidy_github_actions()` and update artisanal actions to \\
-        use `setup-r-dependencies`"),
       todo("Remove check environments section from `cran-comments.md`"),
-      todo("Bump required R version in DESCRIPTION to {tidy_minimum_r_version()}"),
-      todo("
-        Use lifecycle instead of artisanal deprecation messages, as described \\
-        in [Communicate lifecycle changes in your functions](https://lifecycle.r-lib.org/articles/communicate.html)"),
-      todo(
-        '
-        Make sure RStudio appears in `Authors@R` of DESCRIPTION like so, if appropriate:
-        `person("RStudio", role = c("cph", "fnd"))`',
-        posit_pkg && !posit_person_ok
-      ),
+      todo("Use lifecycle instead of artisanal deprecation messages"),
       ""
     )
   }
   if (year <= 2022) {
     bullets <- c(
       bullets,
-      "2022",
+      "### 2022",
       "",
-      todo("`usethis::use_tidy_coc()`"),
       todo("Handle and close any still-open `master` --> `main` issues"),
-      todo("Update README badges, instructions in [r-lib/usethis#1594](https://github.com/r-lib/usethis/issues/1594)"),
-      todo("
-        Update errors to rlang 1.0.0. Helpful guides:
-        <https://rlang.r-lib.org/reference/topic-error-call.html>
-        <https://rlang.r-lib.org/reference/topic-error-chaining.html>
-        <https://rlang.r-lib.org/reference/topic-condition-formatting.html>"),
+      todo('`usethis:::use_codecov_badge("{repo_spec}")`'),
       todo("Update pkgdown site using instructions at <https://tidytemplate.tidyverse.org>"),
-      todo("Ensure pkgdown `development` is `mode: auto` in pkgdown config"),
-      todo("Re-publish released site; see [How to update a released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html)"),
       todo("Update lifecycle badges with more accessible SVGs: `usethis::use_lifecycle()`"),
       ""
     )
@@ -208,63 +183,65 @@ tidy_upkeep_checklist <- function(year = NULL,
 
     bullets <- c(
       bullets,
-      "2023",
-      "",
-      "Necessary:",
+      "### 2023",
       "",
       todo(
-        "Update email addresses *@rstudio.com -> *@posit.co",
+        "
+        Update email addresses *@rstudio.com -> *@posit.co",
         author_has_rstudio_email()
       ),
       todo(
         '
         Update copyright holder in DESCRIPTION: \\
-        `person(given = "Posit Software, PBC", role = c("cph", "fnd"))`',
+        `person("Posit Software, PBC", role = c("cph", "fnd"))`',
         posit_pkg && !posit_person_ok
       ),
       todo(
         "
-        `Run devtools::document()` to re-generate package-level help topic \\
+        Run `devtools::document()` to re-generate package-level help topic \\
         with DESCRIPTION changes",
         author_has_rstudio_email() || (posit_pkg && !posit_person_ok)
       ),
-      todo(
-        "
-        Double check license file uses '[package] authors' \\
-        as copyright holder. Run `use_mit_license()`",
-        grepl("MIT", desc$get_field("License"))
-      ),
-      todo("
-        Update logo (https://github.com/rstudio/hex-stickers); \\
-        run `use_tidy_logo()`"),
+      todo("`usethis::use_tidy_logo()`"),
       todo("`usethis::use_tidy_coc()`"),
       todo(
         "Modernize citation files; see updated `use_citation()`",
         has_citation_file()
       ),
-      todo("`usethis::use_tidy_github_actions()`"),
-      "",
-      "Optional:",
-      "",
-      todo("Review 2022 checklist to see if you completed the pkgdown updates"),
-      todo('Prefer `pak::pak("org/pkg")` over `devtools::install_github("org/pkg")` in README'),
+      todo('Use `pak::pak("{repo_spec}")` in README'),
       todo("
-        Consider running `use_tidy_dependencies()` and/or \\
+        Consider running `usethis::use_tidy_dependencies()` and/or \\
         replace compat files with `use_standalone()`"),
+      todo("Use cli errors or [file an issue](new) if you don\'t have time to do it now"),
       todo('
-        `use_standalone("r-lib/rlang", "types-check")` \\
-        instead of home grown argument checkers'),
+        `usethis::use_standalone("r-lib/rlang", "types-check")` \\
+        instead of home grown argument checkers;
+        or [file an issue](new) if you don\'t have time to do it now'),
       todo(
         "
-        Change files ending in `.r` to `.R` in R/ and/or tests/testthat/",
+        Change files ending in `.r` to `.R` in `R/` and/or `tests/testthat/`",
         lowercase_r()
       ),
       todo("
         Add alt-text to pictures, plots, etc; see \\
-        https://posit.co/blog/knitr-fig-alt/ for examples"),
+        https://posit.co/blog/knitr-fig-alt/ for examples"
+      ),
       ""
     )
   }
+
+  bullets <- c(
+    bullets,
+    "### Eternal",
+    "",
+    todo("`usethis::use_mit_license()`", grepl("MIT", desc$get_field("License"))),
+    todo('`usethis::use_package("R", "Depends", "{tidy_minimum_r_version()}")`'),
+    todo("`usethis::use_tidy_description()`"),
+    todo("`usethis::use_tidy_github_actions()`"),
+    todo("`devtools::build_readme()`"),
+    todo("[Re-publish released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html) if needed"),
+    ""
+  )
 
   c(bullets, checklist_footer(tidy = TRUE))
 }
@@ -278,7 +255,7 @@ tidy_minimum_r_version <- function() {
   # I do not want a failure here to make use_tidy_upkeep_issue() fail
   json <- tryCatch(readLines(con, warn = FALSE), error = function(e) NULL)
   if (is.null(json)) {
-    oldrel_4 <- "3.4"
+    oldrel_4 <- "3.6"
   } else {
     version <- jsonlite::fromJSON(json)$version
     oldrel_4 <- re_match(version, "[0-9]+[.][0-9]+")$.match
