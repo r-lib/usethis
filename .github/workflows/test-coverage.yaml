@@ -26,6 +26,11 @@ jobs:
           extra-packages: any::covr
           needs: coverage
 
+      - name: git config
+        run: |
+          git config --global user.name "$GITHUB_ACTOR"
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
       - name: Test coverage
         run: |
           covr::codecov(

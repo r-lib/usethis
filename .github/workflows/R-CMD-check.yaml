@@ -57,6 +57,14 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: git config
+        if: matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'release'
+        run: |
+          git config --global user.name "$GITHUB_ACTOR"
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
       - uses: r-lib/actions/check-r-package@v2
+        env:
+          _R_CALLS_INVALID_NUMERIC_VERSION_: true
         with:
           upload-snapshots: true
