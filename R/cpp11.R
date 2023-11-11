@@ -50,10 +50,8 @@ get_cpp_dynlib <- function() {
 
 check_cpp_dynlib <- function() {
   pkgname <- get_cpp_dynlib()
-  use_template(
-    "code-cpp11-dynlib.R",
-    data = list(Package = pkgname),
-    save_as = path("R", paste0(pkgname, "-package.R")),
-    open = is_interactive()
+  roxygen_ns_append(
+    sprintf("@useDynLib %s, .registration = TRUE", pkgname)
   )
+  roxygen_update_ns()
 }
