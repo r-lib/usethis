@@ -24,7 +24,10 @@ use_cpp11 <- function() {
 
   check_cpp_register_deps()
 
-  check_cpp_dynlib()
+  roxygen_ns_append(
+    sprintf("@useDynLib %s, .registration = TRUE", project_name())
+  )
+  roxygen_update_ns()
 
   invisible()
 }
@@ -41,17 +44,4 @@ check_cpp_register_deps <- function() {
   if (!all(installed)) {
     ui_todo("Now install {ui_value(cpp_register_deps[!installed])} to use cpp11.")
   }
-}
-
-get_cpp_dynlib <- function() {
-  desc <- desc::desc(package = NULL)
-  desc$get_list("Package")[[1]]
-}
-
-check_cpp_dynlib <- function() {
-  pkgname <- get_cpp_dynlib()
-  roxygen_ns_append(
-    sprintf("@useDynLib %s, .registration = TRUE", pkgname)
-  )
-  roxygen_update_ns()
 }
