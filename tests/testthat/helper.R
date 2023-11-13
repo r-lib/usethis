@@ -127,8 +127,3 @@ test_file <- function(fname) testthat::test_path("ref", fname)
 
 expect_proj_file <- function(...) expect_true(file_exists(proj_path(...)))
 expect_proj_dir <- function(...) expect_true(dir_exists(proj_path(...)))
-
-scrub_checklist_footer <- function(text) {
-  gsub("(^<sup>.+on )[-/0-9]{10}(.+ v)[0-9.]{3,12}(.+</sup>$)",
-       "\\1DATE\\2VERSION\\3", text)
-}

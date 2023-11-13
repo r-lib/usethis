@@ -1,8 +1,12 @@
 # tidy upkeep bullets don't change accidentally
 
     Code
-      writeLines(tidy_upkeep_checklist(posit_pkg = TRUE, posit_person_ok = FALSE))
+      writeLines(tidy_upkeep_checklist())
     Output
+      ### To begin
+      
+      * [ ] `pr_init("upkeep-2023-01")`
+      
       ### Pre-history
       
       * [ ] `usethis::use_readme_rmd()`
@@ -36,7 +40,7 @@
       * [ ] Update email addresses *@rstudio.com -> *@posit.co
       * [ ] Update copyright holder in DESCRIPTION: `person("Posit Software, PBC", role = c("cph", "fnd"))`
       * [ ] Run `devtools::document()` to re-generate package-level help topic with DESCRIPTION changes
-      * [ ] `usethis::use_tidy_logo()`
+      * [ ] `usethis::use_tidy_logo(); pkgdown::build_favicons(overwrite = TRUE)`
       * [ ] `usethis::use_tidy_coc()`
       * [ ] Use `pak::pak("OWNER/REPO")` in README
       * [ ] Consider running `usethis::use_tidy_dependencies()` and/or replace compat files with `use_standalone()`
@@ -45,7 +49,7 @@
       or [file an issue](new) if you don't have time to do it now
       * [ ] Add alt-text to pictures, plots, etc; see https://posit.co/blog/knitr-fig-alt/ for examples
       
-      ### Eternal
+      ### To finish
       
       * [ ] `usethis::use_mit_license()`
       * [ ] `usethis::use_package("R", "Depends", "3.6")`
@@ -54,7 +58,7 @@
       * [ ] `devtools::build_readme()`
       * [ ] [Re-publish released site](https://pkgdown.r-lib.org/dev/articles/how-to-update-released-site.html) if needed
       
-      <sup>Created on DATE with `usethis::use_tidy_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
+      <sup>Created on 2023-01-01 with `usethis::use_tidy_upkeep_issue()`, using [usethis v1.1.0](https://usethis.r-lib.org)</sup>
 
 # upkeep bullets don't change accidentally
 
@@ -76,7 +80,7 @@
             Updating workflows to the latest version will often fix troublesome actions:
       * [ ] `usethis::use_github_action('check-standard')`
       
-      <sup>Created on DATE with `usethis::use_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
+      <sup>Created on 2023-01-01 with `usethis::use_upkeep_issue()`, using [usethis v1.1.0](https://usethis.r-lib.org)</sup>
 
 ---
 
@@ -102,5 +106,5 @@
       * [ ] `usethis::use_github_action('check-standard')`
       * [ ] `usethis::use_github_action('test-coverage')`
       
-      <sup>Created on DATE with `usethis::use_upkeep_issue()`, using [usethis vVERSION](https://usethis.r-lib.org)</sup>
+      <sup>Created on 2023-01-01 with `usethis::use_upkeep_issue()`, using [usethis v1.1.0](https://usethis.r-lib.org)</sup>
 

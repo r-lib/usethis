@@ -121,13 +121,22 @@ use_tidy_upkeep_issue <- function(year = NULL) {
   make_upkeep_issue(year = year, tidy = TRUE)
 }
 
-tidy_upkeep_checklist <- function(year = NULL,
-                                  posit_pkg = is_posit_pkg(),
-                                  posit_person_ok = is_posit_person_canonical(),
-                                  repo_spec = "OWNER/REPO") {
+# for mocking
+Sys.Date <- NULL
+
+tidy_upkeep_checklist <- function(year = NULL, repo_spec = "OWNER/REPO") {
+
+  posit_pkg <- is_posit_pkg()
+  posit_person_ok <- is_posit_person_canonical()
+
   year <- year %||% 2000
 
-  bullets <- c()
+  bullets <- c(
+    "### To begin",
+    "",
+    todo('`pr_init("upkeep-{format(Sys.Date(), "%Y-%m")}")`'),
+    ""
+  )
 
   if (year <= 2000) {
     bullets <- c(
@@ -202,7 +211,7 @@ tidy_upkeep_checklist <- function(year = NULL,
         with DESCRIPTION changes",
         author_has_rstudio_email() || (posit_pkg && !posit_person_ok)
       ),
-      todo("`usethis::use_tidy_logo()`"),
+      todo("`usethis::use_tidy_logo(); pkgdown::build_favicons(overwrite = TRUE)`"),
       todo("`usethis::use_tidy_coc()`"),
       todo(
         "Modernize citation files; see updated `use_citation()`",
@@ -232,10 +241,13 @@ tidy_upkeep_checklist <- function(year = NULL,
 
   bullets <- c(
     bullets,
-    "### Eternal",
+    "### To finish",
     "",
     todo("`usethis::use_mit_license()`", grepl("MIT", desc$get_field("License"))),
-    todo('`usethis::use_package("R", "Depends", "{tidy_minimum_r_version()}")`'),
+    todo(
+      '`usethis::use_package("R", "Depends", "{tidy_minimum_r_version()}")`',
+      tidy_minimum_r_version() > pkg_minimum_r_version()
+    ),
     todo("`usethis::use_tidy_description()`"),
     todo("`usethis::use_tidy_github_actions()`"),
     todo("`devtools::build_readme()`"),
@@ -299,8 +311,12 @@ checklist_footer <- function(tidy) {
   tidy_fun <- if (tidy) "tidy_" else ""
   glue('<sup>\\
     Created on {Sys.Date()} with `usethis::use_{tidy_fun}upkeep_issue()`, using \\
-    [usethis v{utils::packageVersion("usethis")}](https://usethis.r-lib.org)\\
+    [usethis v{usethis_version()}](https://usethis.r-lib.org)\\
     </sup>')
+}
+
+usethis_version <- function() {
+  utils::packageVersion("usethis")
 }
 
 has_old_cran_comments <- function() {
