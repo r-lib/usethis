@@ -5,10 +5,6 @@
 * Implicit usage of `numeric_version()` via comparison now always provides
   character input. This is in response to a request from CRAN to anticipate
   future solutions to <https://bugs.r-project.org/show_bug.cgi?id=18548>.
-* `use_cpp11()` creates/edits DESCRIPTION and NAMESPACE, allowing to use C++
-  code directly.
-* `.gitignore` now ignores `.vscode` for those who contribute to `usethis` from
-  that editor.
 
 # usethis 2.2.1
 
