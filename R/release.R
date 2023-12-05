@@ -214,9 +214,8 @@ release_type <- function(version) {
 
 #' Publish a GitHub release
 #'
-#' @description
-#' Pushes the current branch (if safe) then publishes a GitHub release for the
-#' latest CRAN submission.
+#' @description Pushes the current branch (if safe) then publishes a GitHub
+#' release for the latest CRAN submission.
 #'
 #' If you use [devtools::submit_cran()] to submit to CRAN, information about the
 #' submitted state is captured in a `CRAN-SUBMISSION` file.
@@ -230,8 +229,14 @@ release_type <- function(version) {
 #'   a URL determined from the current project's GitHub remotes.
 #' @param publish If `TRUE`, publishes a release. If `FALSE`, creates a draft
 #'   release.
+#' @param prerelease If `TRUE` identify the release as a prerelease.
+#' @param generate_release_notes If `TRUE`, the body will be append with
+#'   automatically generated notes.
+#'
 #' @export
 use_github_release <- function(publish = TRUE,
+                               prerelease = FALSE,
+                               generate_release_notes = FALSE,
                                host = deprecated(),
                                auth_token = deprecated()) {
   check_is_package("use_github_release()")
@@ -269,7 +274,9 @@ use_github_release <- function(publish = TRUE,
     tag_name = tag_name,
     target_commitish = dat$SHA,
     body = news,
-    draft = !publish
+    draft = !publish,
+    prerelease = prerelease,
+    generate_release_notes = generate_release_notes
   )
   ui_cli_inform("Release at {.url {release$html_url}}")
 
