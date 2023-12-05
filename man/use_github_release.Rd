@@ -6,6 +6,8 @@
 \usage{
 use_github_release(
   publish = TRUE,
+  prerelease = FALSE,
+  generate_release_notes = FALSE,
   host = deprecated(),
   auth_token = deprecated()
 )
@@ -14,13 +16,18 @@ use_github_release(
 \item{publish}{If \code{TRUE}, publishes a release. If \code{FALSE}, creates a draft
 release.}
 
+\item{prerelease}{If \code{TRUE} identify the release as a prerelease.}
+
+\item{generate_release_notes}{If \code{TRUE}, the body will be append with
+automatically generated notes.}
+
 \item{host, auth_token}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: No longer
 consulted now that usethis allows the gh package to lookup a token based on
 a URL determined from the current project's GitHub remotes.}
 }
 \description{
-Pushes the current branch (if safe) then publishes a GitHub release for the
-latest CRAN submission.
+Pushes the current branch (if safe) then publishes a GitHub
+release for the latest CRAN submission.
 
 If you use \code{\link[devtools:submit_cran]{devtools::submit_cran()}} to submit to CRAN, information about the
 submitted state is captured in a \code{CRAN-SUBMISSION} file.
