@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* usethis now uses cli internally for its messaging. (#956, @olivroy)
+
 * `use_cpp11()` now automatically updates the `NAMESPACE` (@pachadotdev, #1921).
 
 # usethis 2.2.2
