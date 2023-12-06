@@ -81,7 +81,7 @@ ui_oops <- function(x, .envir = parent.frame()) {
 #' @rdname ui
 #' @export
 ui_info <- function(x, .envir = parent.frame()) {
-  ui_cli_bullets(x, cli::col_yellow(cli::symbol$info), .envir = .envir)
+  ui_cli_bullets(x, "i", .envir = .envir)
 }
 
 #' @param copy If `TRUE`, the session is interactive, and the clipr package
