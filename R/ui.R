@@ -61,7 +61,8 @@ ui_line <- function(x = character(), .envir = parent.frame()) {
 #' @rdname ui
 #' @export
 ui_todo <- function(x, .envir = parent.frame()) {
-  ui_cli_bullets(x, cli::col_red(cli::symbol$bullet), .envir = .envir)
+  # No longer red
+  cli::cli_ul(x, .envir = .envir)
 }
 
 #' @rdname ui

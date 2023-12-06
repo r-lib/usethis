@@ -49,7 +49,7 @@
     Message
       v Adding "withr" to Suggests field in DESCRIPTION
       * Use `requireNamespace("withr", quietly = TRUE)` to test if withr is
-        installed.
+      installed.
       * Then directly refer to functions with `withr::fun()`
 
 ---
@@ -59,6 +59,6 @@
     Message
       v Adding "purrr" to Suggests field in DESCRIPTION
       * In your package code, use `rlang::is_installed("purrr")` or
-        `rlang::check_installed("purrr")` to test if purrr is installed.
+      `rlang::check_installed("purrr")` to test if purrr is installed.
       * Then directly refer to functions with `purrr::fun()`
 
