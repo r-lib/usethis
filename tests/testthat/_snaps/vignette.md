@@ -9,7 +9,7 @@
       use_vignette("bad name")
     Condition
       Error:
-      ! 'bad name' is not a valid filename for a vignette. It must:
+      ! "bad name" is not a valid filename for a vignette. It must:
       * Start with a letter.
       * Contain only letters, numbers, '_', and '-'.
 

@@ -3,7 +3,7 @@
     Code
       use_dependency("rlang", "LinkingTo")
     Message
-      v Adding 'rlang' to LinkingTo field in DESCRIPTION
+      v Adding "rlang" to LinkingTo field in DESCRIPTION
 
 # use_dependency() does not fall over on 2nd LinkingTo request
 
@@ -15,6 +15,6 @@
     Code
       use_package("rlang")
     Message
-      v Moving 'rlang' from Suggests to Imports field in DESCRIPTION
+      v Moving "rlang" from Suggests to Imports field in DESCRIPTION
       * Refer to functions with `rlang::fun()`
 
