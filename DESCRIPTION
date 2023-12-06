@@ -53,6 +53,8 @@ Suggests:
     styler (>= 1.2.0),
     testthat (>= 3.1.8)
 Config/Needs/website: tidyverse/tidytemplate, xml2
+Config/Needs/check: decor
+Config/Needs/coverage: decor
 Config/testthat/edition: 3
 Config/testthat/parallel: TRUE
 Config/testthat/start-first: github-actions, release
