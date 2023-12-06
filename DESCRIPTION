@@ -24,7 +24,6 @@ Depends:
 Imports: 
     cli (>= 3.0.1),
     clipr (>= 0.3.0),
-    crayon,
     curl (>= 2.7),
     desc (>= 1.4.2),
     fs (>= 1.3.0),

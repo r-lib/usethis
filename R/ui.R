@@ -61,33 +61,26 @@ ui_line <- function(x = character(), .envir = parent.frame()) {
 #' @rdname ui
 #' @export
 ui_todo <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
-  x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::red(cli::symbol$bullet))
+  ui_cli_bullets(x, cli::col_red(cli::symbol$bullet), .envir = .envir)
 }
 
 #' @rdname ui
 #' @export
 ui_done <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
-  x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::green(cli::symbol$tick))
+  cli::cli_alert_success(paste(x, collapse = "\n  "), .envir = .envir)
 }
 
 #' @rdname ui
 #' @export
 ui_oops <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
-  x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::red(cli::symbol$cross))
+  # Adding collapse = "\n  " so that the text is aligned in multiple lines.
+  cli::cli_alert_danger(paste(x, collapse = "\n  "), .envir = .envir)
 }
 
 #' @rdname ui
 #' @export
 ui_info <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
-  x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::yellow(cli::symbol$info))
+  ui_cli_bullets(x, cli::col_yellow(cli::symbol$info), .envir = .envir)
 }
 
 #' @param copy If `TRUE`, the session is interactive, and the clipr package
@@ -101,11 +94,11 @@ ui_code_block <- function(x,
   x <- glue(x, .envir = .envir)
 
   block <- indent(x, "  ")
-  block <- crayon::silver(block)
+  block <- cli::col_silver(block)
   ui_inform(block)
 
   if (copy && clipr::clipr_available()) {
-    x <- crayon::strip_style(x)
+    x <- cli::ansi_strip(x)
     clipr::write_clip(x)
     ui_inform("  [Copied to clipboard]")
   }
@@ -232,20 +225,13 @@ ui_nope <- function(x,
 #' @rdname ui
 #' @export
 ui_field <- function(x) {
-  x <- crayon::green(x)
-  x <- glue_collapse(x, sep = ", ")
-  x
+  cli::format_inline("{.field {x}}")
 }
 
 #' @rdname ui
 #' @export
 ui_value <- function(x) {
-  if (is.character(x)) {
-    x <- encodeString(x, quote = "'")
-  }
-  x <- crayon::blue(x)
-  x <- glue_collapse(x, sep = ", ")
-  x
+  cli::format_inline("{.val {x}}")
 }
 
 #' @rdname ui
@@ -263,14 +249,14 @@ ui_path <- function(x, base = NULL) {
   x <- path_tidy(x)
   x <- ifelse(is_directory, paste0(x, "/"), x)
 
-  ui_value(x)
+  cli::format_inline("{.file {x}}")
 }
 
 #' @rdname ui
 #' @export
 ui_code <- function(x) {
   x <- encodeString(x, quote = "`")
-  x <- crayon::silver(x)
+  x <- cli::col_silver(x)
   x <- glue_collapse(x, sep = ", ")
   x
 }
@@ -280,7 +266,7 @@ ui_code <- function(x) {
 ui_unset <- function(x = "unset") {
   check_string(x)
   x <- glue("<{x}>")
-  x <- crayon::silver(x)
+  x <- cli::col_silver(x)
   x
 }
 
@@ -313,7 +299,7 @@ is_quiet <- function() {
 # Sitrep helpers ---------------------------------------------------------------
 
 hd_line <- function(name) {
-  ui_inform(crayon::bold(name))
+  ui_inform(cli::style_bold(name))
 }
 
 kv_line <- function(key, value, .envir = parent.frame()) {
@@ -328,6 +314,17 @@ kv_line <- function(key, value, .envir = parent.frame()) {
 ui_cli_inform <- function(..., .envir = parent.frame()) {
   if (!is_quiet()) {
     cli::cli_inform(..., .envir = .envir)
+  }
+  invisible()
+}
+ui_cli_bullets <- function(x, bullet = cli::symbol$bullet, .envir = parent.frame()) {
+  if (!is_quiet()) {
+    # Have the the first bullet to have bullet and the subsequent to be " "
+    if (!is_named(x)) {
+      # names(x) <- " "
+    }
+    names(x)[1] <- bullet
+    cli::cli_bullets(x, .envir = .envir)
   }
   invisible()
 }
