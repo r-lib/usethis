@@ -33,7 +33,7 @@ test_that("github_url() strips everything after USER/REPO", {
 
 test_that("github_url() has fall back for CRAN packages", {
   expect_warning(out <- github_url("utils"), "CRAN mirror")
-  expect_equal(out, "<https://github.com/cran/utils>")
+  expect_equal(out, "https://github.com/cran/utils")
 })
 
 test_that("github_url() errors for nonexistent package", {
