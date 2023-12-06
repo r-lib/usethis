@@ -584,7 +584,7 @@ ui_github_remote_config_wat <- function(cfg) {
 }
 
 stop_bad_github_remote_config <- function(cfg) {
-  abort(
+  cli::cli_abort(
     message = unname(unlist(github_remote_config_wat(cfg, context = "abort"))),
     class = c("usethis_error_bad_github_remote_config", "usethis_error"),
     cfg = cfg
@@ -673,15 +673,13 @@ all_configs <- function() {
 }
 
 read_more <- function() {
-  glue("
-    Read more about the GitHub remote configurations that usethis supports at:
-    {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
+  "Read more about the GitHub remote configurations that usethis supports at:
+   {.url https://happygitwithr.com/common-remote-setups.html}"
 }
 
 read_more_maybe <- function() {
-  glue("
-    Read more about what this GitHub remote configurations means at:
-    {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
+    "Read more about what this GitHub remote configurations means at:
+    {.url https://happygitwithr.com/common-remote-setups.html}"
 }
 
 cfg_no_github <- function(cfg) {

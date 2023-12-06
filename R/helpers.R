@@ -58,7 +58,7 @@ use_dependency <- function(package, type, min_version = NULL) {
     # don't downgrade
     ui_warn(
       "Package {ui_value(package)} is already listed in \\
-       {ui_value(existing_type)} in DESCRIPTION, no change made."
+       {ui_field(existing_type)} in {ui_path('DESCRIPTION')}, no change made."
     )
   } else if (delta == 0 && !is.null(min_version)) {
     # change version
@@ -67,7 +67,7 @@ use_dependency <- function(package, type, min_version = NULL) {
     if (upgrade) {
       ui_done(
         "Increasing {ui_value(package)} version to {ui_value(version)} in \\
-         DESCRIPTION")
+         {ui_path('DESCRIPTION')}")
       desc$set_dep(package, type, version = version)
       desc$write()
       changed <- TRUE
@@ -99,10 +99,10 @@ version_spec <- function(x) {
 view_url <- function(..., open = is_interactive()) {
   url <- paste(..., sep = "/")
   if (open) {
-    ui_done("Opening URL {ui_value(url)}")
+    ui_done("Opening URL {.url {url}}")
     utils::browseURL(url)
   } else {
-    ui_todo("Open URL {ui_value(url)}")
+    ui_todo("Open URL {.url {url}}")
   }
   invisible(url)
 }

@@ -169,12 +169,12 @@ suggests_usage_hint <- function(package) {
     code2 <- glue('rlang::check_installed("{package}")')
     ui_todo("
       In your package code, use {ui_code(code1)} or {ui_code(code2)} to test \\
-      if {package} is installed")
+      if {package} is installed.")
     code <- glue("{package}::fun()")
     ui_todo("Then directly refer to functions with {ui_code(code)}")
   } else {
     code <- glue("requireNamespace(\"{package}\", quietly = TRUE)")
-    ui_todo("Use {ui_code(code)} to test if package is installed")
+    ui_todo("Use {ui_code(code)} to test if {package} is installed.")
     code <- glue("{package}::fun()")
     ui_todo("Then directly refer to functions with {ui_code(code)}")
   }

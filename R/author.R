@@ -84,15 +84,14 @@ challenge_legacy_author_fields <- function(d = proj_desc()) {
     return(invisible())
   }
 
-  ui_oops("
-    Found legacy {ui_field('Author')} and/or {ui_field('Maintainer')} field \\
-    in DESCRIPTION.
-    usethis only supports modification of the {ui_field('Authors@R')} field.")
-  ui_info("
-    We recommend one of these paths forward:
-    * Delete these fields and rebuild with {ui_code('use_author()')}.
-    * Convert to {ui_field('Authors@R')} with {ui_code('desc::desc_coerce_authors_at_r()')},
-      then delete the legacy fields.")
+  ui_oops(c("Found legacy {ui_field('Author')} and/or {ui_field('Maintainer')} field in DESCRIPTION.",
+    "usethis only supports modification of the {ui_field('Authors@R')} field."))
+  ui_info(c(
+    "We recommend one of these paths forward:",
+    "*" = "Delete these fields and rebuild with {ui_code('use_author()')}.",
+    "*" = "Convert to {ui_field('Authors@R')} with
+    {ui_code('desc::desc_coerce_authors_at_r()')}, then delete the legacy fields."
+    ))
   if (ui_yeah("Do you want to cancel this operation and sort that out first?")) {
     ui_stop("Cancelling.")
   }
@@ -130,8 +129,8 @@ challenge_default_author <- function(d = proj_desc()) {
 
   if (any(m)) {
     ui_info("
-      {ui_field('Authors@R')} appears to include a placeholder author:
-      {format(default_author, style = 'text')}")
+      {ui_field('Authors@R')} appears to include a placeholder author:\n
+      {format({default_author}, style = 'text')}")
     if(is_interactive() && ui_yeah("Would you like to remove it?")) {
       # TODO: Do I want to suppress this output?
       # Authors removed: First Last, NULL NULL.
