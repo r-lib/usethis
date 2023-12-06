@@ -24,10 +24,10 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
   expect_proj_dir("src")
 
   ignores <- read_utf8(proj_path("src", ".gitignore"))
-  expect_true(all(c("*.o", "*.so", "*.dll") %in% ignores))
+  expect_contains(ignores, c("*.o", "*.so", "*.dll"))
 
   namespace <- read_utf8(proj_path("NAMESPACE"))
-  expect_true(any(grepl("useDynLib", namespace)))
+  expect_match(namespace, "useDynLib", all = FALSE)
 })
 
 test_that("check_cpp_register_deps is silent if all installed, emits todo if not", {

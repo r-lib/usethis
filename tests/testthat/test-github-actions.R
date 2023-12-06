@@ -78,7 +78,6 @@ test_that("uses_github_action() reports usage of GitHub Actions", {
 
 test_that("check_uses_github_actions() can throw error", {
   create_local_package()
-  withr::local_options(list(crayon.enabled = FALSE))
   expect_snapshot(
     check_uses_github_actions(),
     error = TRUE,
@@ -104,10 +103,10 @@ test_that("use_github_action() accepts a name", {
 
   yml <- yaml::yaml.load_file(proj_path(".github/workflows/R-CMD-check.yaml"))
   expect_identical(yml$name, "R-CMD-check")
-  expect_identical(names(yml$jobs), "R-CMD-check")
+  expect_named(yml$jobs, "R-CMD-check")
 
   readme_lines <- read_utf8(proj_path("README.md"))
-  expect_true(any(grepl("R-CMD-check", readme_lines)))
+  expect_match(readme_lines, "R-CMD-check", all = FALSE)
 
   # .github has been Rbuildignored
   expect_true(is_build_ignored("^\\.github$"))
@@ -130,17 +129,17 @@ test_that("use_tidy_github_actions() configures the full check and pr commands",
 
   yml <- yaml::yaml.load_file(proj_path(".github/workflows/R-CMD-check.yaml"))
   expect_identical(yml$name, "R-CMD-check")
-  expect_identical(names(yml$jobs), "R-CMD-check")
+  expect_named(yml$jobs, "R-CMD-check")
 
   size_build_matrix <-
     length(yml[["jobs"]][["R-CMD-check"]][["strategy"]][["matrix"]][["config"]])
-  expect_true(size_build_matrix >= 6) # release, r-devel, 4 previous versions
+  expect_gte(size_build_matrix, 6) # release, r-devel, 4 previous versions
 
   expect_proj_file(".github/workflows/pkgdown.yaml")
   expect_proj_file(".github/workflows/test-coverage.yaml")
   expect_proj_file(".github/workflows/pr-commands.yaml")
 
   readme_lines <- read_utf8(proj_path("README.md"))
-  expect_true(any(grepl("R-CMD-check", readme_lines)))
-  expect_true(any(grepl("test coverage", readme_lines)))
+  expect_match(readme_lines, "R-CMD-check", all = FALSE)
+  expect_match(readme_lines, "test coverage", all = FALSE)
 })
