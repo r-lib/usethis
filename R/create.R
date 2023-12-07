@@ -89,7 +89,7 @@ create_project <- function(path,
   } else {
     ui_done("Writing a sentinel file {ui_path('.here')}")
     ui_todo("Build robust paths within your project via {ui_code('here::here()')}")
-    ui_todo("Learn more at <https://here.r-lib.org>")
+    ui_todo("Learn more at {.url https://here.r-lib.org}")
     file_create(proj_path(".here"))
   }
 

@@ -8,7 +8,7 @@
       v Adding "^\\.github$" to '.Rbuildignore'
       v Adding "*.html" to '.github/.gitignore'
       v Creating '.github/workflows/'
-      v Saving 'r-lib/actions/examples/check-full.yaml@v2' to '.github/workflows/R-CMD-check.yaml'
+      v Saving "r-lib/actions/examples/check-full.yaml@v2" to '.github/workflows/R-CMD-check.yaml'
       * Learn more at <https://github.com/r-lib/actions/blob/v2/examples/README.md>.
       v Adding R-CMD-check badge to 'README.md'
 

@@ -121,7 +121,7 @@ use_github_action <- function(name = NULL,
   }
 
   if (!is.null(readme)) {
-    ui_todo("Learn more at <{readme}>.")
+    ui_todo("Learn more at {.url {readme}}.")
   }
 
   badge <- badge %||% is_check_action(url)
@@ -215,7 +215,7 @@ use_github_actions_badge <- function(name = "R-CMD-check.yaml",
 use_tidy_github_actions <- function(ref = NULL) {
   repo_spec <- target_repo_spec()
 
-  use_github_action("check-full.yaml", ref = ref, badge = TRUE)
+  use_github_action("check-full", ref = ref, badge = TRUE)
 
   use_github_action("pr-commands", ref = ref)
   use_github_action("pkgdown", ref = ref)
@@ -231,6 +231,7 @@ use_tidy_github_actions <- function(ref = NULL) {
       "Remove existing {ui_path('.travis.yml')} and {ui_path('appveyor.yml')}?"
     )) {
       file_delete(old_configs[has_appveyor_travis])
+      # TODO maybe add ui_path("README.Rmd")?
       ui_todo("Remove old badges from README")
     }
   }

@@ -72,7 +72,7 @@ use_github_file <- function(repo_spec,
 
   ref_string <- if (is.null(ref)) "" else glue("@{ref}")
   github_string <- glue("{repo_spec}/{path}{ref_string}")
-  ui_done("Saving {ui_path(github_string)} to {ui_path(save_as)}")
+  ui_done("Saving {ui_value(github_string)} to {ui_path(save_as)}")
 
   lines <- read_github_file(
     repo_spec = repo_spec,
