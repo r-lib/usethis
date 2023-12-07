@@ -231,7 +231,7 @@ use_tidy_github_actions <- function(ref = NULL) {
       "Remove existing {ui_path('.travis.yml')} and {ui_path('appveyor.yml')}?"
     )) {
       file_delete(old_configs[has_appveyor_travis])
-      # TODO maybe add ui_path("README.Rmd")?
+      # TODO maybe add ui_path("README.Rmd") or ui_path("README.md")?
       ui_todo("Remove old badges from README")
     }
   }

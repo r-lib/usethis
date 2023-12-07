@@ -198,12 +198,12 @@ github_url <- function(package = NULL) {
   ui_warn("
     Package {ui_value(package)} has no GitHub URLs in DESCRIPTION
     Trying the GitHub CRAN mirror")
-  glue::glue("https://github.com/cran/{package}")
+  glue_chr("https://github.com/cran/{package}")
 }
 
 cran_home <- function(package = NULL) {
   package <- package %||% project_name()
-  glue::glue("https://cran.r-project.org/package={package}")
+  glue_chr("https://cran.r-project.org/package={package}")
 }
 
 # returns NULL, if no DESCRIPTION found

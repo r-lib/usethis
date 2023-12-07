@@ -107,7 +107,7 @@ test_that("browse_XXX() goes to correct URL", {
 
   expect_match(browse_github_actions("gh"), g("r-lib/gh/actions"))
 
-  expect_match(browse_cran("usethis"), "https://cran.r-project.org/package=usethis")
+  expect_equal(browse_cran("usethis"), "https://cran.r-project.org/package=usethis")
 })
 
 test_that("browse_package() errors if no project", {
