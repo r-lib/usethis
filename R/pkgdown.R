@@ -106,7 +106,7 @@ use_pkgdown_url <- function(url, tr = NULL) {
   gh <- gh_tr(tr)
   homepage <- gh("GET /repos/{owner}/{repo}")[["homepage"]]
   if (is.null(homepage) || homepage != url) {
-    ui_done("Setting {ui_value(url)} as homepage of GitHub repo \\
+    ui_done("Setting {.url {url}} as homepage of GitHub repo \\
       {ui_value(tr$repo_spec)}")
     gh("PATCH /repos/{owner}/{repo}", homepage = url)
   }

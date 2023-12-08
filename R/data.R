@@ -68,7 +68,7 @@ use_data <- function(...,
   check_files_absent(proj_path(paths), overwrite = overwrite)
 
   ui_done("Saving {ui_value(unlist(objs))} to {ui_value(paths)}")
-  if (!internal) ui_todo("Document your data (see {ui_value('https://r-pkgs.org/data.html')})")
+  if (!internal) ui_todo("Document your data (see {.url https://r-pkgs.org/data.html})")
 
   envir <- parent.frame()
   mapply(

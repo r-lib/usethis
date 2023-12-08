@@ -153,7 +153,7 @@ use_github <- function(organisation = NULL,
   )
   withr::defer(view_url(create$html_url))
 
-  ui_done("Setting remote {ui_value('origin')} to {ui_value(origin_url)}")
+  ui_done("Setting remote {ui_value('origin')} to {.url {origin_url}}")
   use_git_remote("origin", origin_url)
 
   if (is_package()) {
