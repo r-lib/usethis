@@ -50,10 +50,10 @@ use_news_heading <- function(version) {
   if (development_title == news[[1]]) {
     news[[1]] <- title
 
-    ui_done("Replacing development heading in NEWS.md")
+    ui_done("Replacing development heading in {.file NEWS.md}")
     return(write_utf8(news_path, news))
   }
 
-  ui_done("Adding new heading to NEWS.md")
+  ui_done("Adding new heading to {.file NEWS.md}")
   write_utf8(news_path, c(title, "", news))
 }

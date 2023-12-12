@@ -391,7 +391,7 @@ get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
 
   if (is.null(news)) {
     ui_oops("
-      Can't find {ui_path('NEWS.md')} in the released package source.
+      Can't find {.val NEWS.md} in the released package source.
       usethis consults this file for release notes.
       Call {ui_code('usethis::use_news_md()')} to set this up for the future.")
     if (on_cran) "-- no release notes --" else "Initial release"
