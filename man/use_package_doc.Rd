@@ -20,19 +20,6 @@ to update!) the same information in multiple places. This \code{.R} file is also
 good place for roxygen directives that apply to the whole package (vs. a
 specific function), such as global namespace tags like \verb{@importFrom}.
 }
-\details{
-There is one tricky case: when a \strong{package} named "foo" also has a
-\strong{function} named \code{foo()}. In this case, after running \code{use_package_doc()},
-there will be an \verb{R CMD check} warning. The solution is to set the \verb{@aliases}
-for the package-level help topic by modifying the dummy \code{.R} file (e.g.,
-\code{foo-package.R}) as shown below (but substitute the name of your package /
-function for "foo"):
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{#' @keywords internal
-#' @aliases foo-package
-#' "_PACKAGE"
-}\if{html}{\out{</div>}}
-}
 \seealso{
 The \href{https://r-pkgs.org/man.html}{documentation chapter} of \href{https://r-pkgs.org}{R Packages}
 }
