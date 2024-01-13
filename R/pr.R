@@ -401,7 +401,7 @@ pr_push <- function() {
     pr_create()
   } else {
     ui_todo("
-      View PR at {ui_value(pr$pr_html_url)} or call {ui_code('pr_view()')}.")
+      View PR at {.url {pr$pr_html_url}} or call {.run usethis::pr_view()}.")
   }
 
   invisible()
