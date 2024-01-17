@@ -34,11 +34,11 @@ use_lifecycle <- function() {
   purrr::walk(templ_files, file_copy, dest_dir, overwrite = TRUE)
   ui_done("Copied SVG badges to {ui_path(dest_dir)}")
 
-  ui_todo(c(
-    "Add badges in documentation topics by inserting one of:",
-    "#' `r lifecycle::badge('experimental')`",
-    "#' `r lifecycle::badge('superseded')`",
-    "#' `r lifecycle::badge('deprecated')`"
+  ui_todo("Add badges in documentation topics by inserting one of:")
+  cli::cli_bullets(c(
+    " " = "#' `r lifecycle::badge('experimental')`",
+    " " = "#' `r lifecycle::badge('superseded')`",
+    " " = "#' `r lifecycle::badge('deprecated')`"
   ))
 
   invisible(TRUE)
