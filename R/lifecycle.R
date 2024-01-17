@@ -35,11 +35,14 @@ use_lifecycle <- function() {
   ui_done("Copied SVG badges to {ui_path(dest_dir)}")
 
   ui_todo("Add badges in documentation topics by inserting one of:")
-  cli::cli_bullets(c(
-    " " = "#' `r lifecycle::badge('experimental')`",
-    " " = "#' `r lifecycle::badge('superseded')`",
-    " " = "#' `r lifecycle::badge('deprecated')`"
-  ))
+  if (!is_quiet()) {
+    # to preserve white spaces
+    cli::cli_bullets(c(
+      " " = "#' `r lifecycle::badge('experimental')`",
+      " " = "#' `r lifecycle::badge('superseded')`",
+      " " = "#' `r lifecycle::badge('deprecated')`"
+    ))
+  }
 
   invisible(TRUE)
 }
