@@ -11,7 +11,8 @@ test_that("can import standalone file with dependencies", {
 
   desc <- proj_desc()
   imports <- proj_desc()$get_field("Imports")
-  expect_true(grepl("rlang \\(", imports))
+  expect_length(imports, 1)
+  expect_match(imports, "rlang")
 })
 
 test_that("can use full github url", {

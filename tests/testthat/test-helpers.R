@@ -69,7 +69,7 @@ test_that("use_dependency() upgrades a dependency", {
 
   expect_message(use_dependency("usethis", "Imports"), "Moving 'usethis'")
   expect_match(desc::desc_get("Imports"), "usethis")
-  expect_false(grepl("usethis", desc::desc_get("Suggests")))
+  expect_no_match(desc::desc_get("Suggests"), "usethis")
 })
 
 ## https://github.com/r-lib/usethis/issues/99
@@ -82,7 +82,7 @@ test_that("use_dependency() declines to downgrade a dependency", {
 
   expect_warning(use_dependency("usethis", "Suggests"), "no change")
   expect_match(desc::desc_get("Imports"), "usethis")
-  expect_false(grepl("usethis", desc::desc_get("Suggests")))
+  expect_no_match( desc::desc_get("Suggests"), "usethis")
 })
 
 test_that("can add LinkingTo dependency if other dependency already exists", {
@@ -95,7 +95,7 @@ test_that("can add LinkingTo dependency if other dependency already exists", {
   )
   deps <- proj_deps()
   expect_setequal(deps$type, c("Imports", "LinkingTo"))
-  expect_true(all(deps$package == "rlang"))
+  expect_setequal(deps$package, "rlang")
 })
 
 test_that("use_dependency() does not fall over on 2nd LinkingTo request", {
@@ -121,6 +121,6 @@ test_that("use_dependency() can level up a LinkingTo dependency", {
   expect_snapshot(use_package("rlang"))
   deps <- proj_deps()
   expect_setequal(deps$type, c("Imports", "LinkingTo"))
-  expect_true(all(deps$package == "rlang"))
+  expect_setequal(deps$package, "rlang")
 })
 
