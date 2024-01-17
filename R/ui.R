@@ -62,20 +62,20 @@ ui_line <- function(x = character(), .envir = parent.frame()) {
 #' @export
 ui_todo <- function(x, .envir = parent.frame()) {
   # No longer red
-  cli::cli_ul(x, .envir = .envir)
+  if (!is_quiet()) cli::cli_ul(x, .envir = .envir)
 }
 
 #' @rdname ui
 #' @export
 ui_done <- function(x, .envir = parent.frame()) {
-  cli::cli_alert_success(paste(x, collapse = "\n\u00a0\u00a0"), .envir = .envir)
+  if (!is_quiet())  cli::cli_alert_success(paste(x, collapse = "\n\u00a0\u00a0"), .envir = .envir)
 }
 
 #' @rdname ui
 #' @export
 ui_oops <- function(x, .envir = parent.frame()) {
   # Adding collapse = "\n  " so that the text is aligned in multiple lines.
-  cli::cli_alert_danger(paste(x, collapse = "\n\u00a0\u00a0"), .envir = .envir)
+  if (!is_quiet())  cli::cli_alert_danger(paste(x, collapse = "\n\u00a0\u00a0"), .envir = .envir)
 }
 
 #' @rdname ui
