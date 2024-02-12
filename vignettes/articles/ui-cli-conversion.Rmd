@@ -1,0 +1,184 @@
+---
+title: "Converting usethis's UI to use cli"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(usethis)
+```
+
+# Review of the *status quo*
+
+I'll start with a review of the current (soon to be legacy) `usethis::ui_*()` functions.
+
+## Block styles
+
+The block styles mostly exist to produce bulleted output with a specific symbol, using a specific color.
+
+```{r}
+f <- function() {
+  ui_todo("ui_todo(): red bullet")
+  ui_done("ui_done(): green check")
+  ui_oops("ui_oops(): red x")
+  ui_info("ui_info(): yellow i")
+  ui_line("ui_line(): (no symbol)")
+}
+f()
+```
+
+These styles are very close to what can be done with `cli::cli_bullets()` and the way it responds to the names of its input `text`.
+
+```{r}
+cli::cli_bullets(c(
+        "noindent",
+  " " = "indent",
+  "*" = "bullet",
+  ">" = "arrow",
+  "v" = "success",
+  "x" = "danger",
+  "!" = "warning",
+  "i" = "info"
+))
+```
+
+A direct translation looks something like this:
+
+| `ui_*()`    | `cli_bullets()` shortcode | tweaks needed                                                                       |
+|-----------------|------------------------|-------------------------------|
+| `ui_todo()` | `*`                       | blue (default) -\> red                                                              |
+| `ui_done()` | `v`                       | perfect match                                                                       |
+| `ui_oops()` | `x`                       | perfect match                                                                       |
+| `ui_info()` | `i`                       | blue (default) -\> yellow                                                           |
+| `ui_line()` | (unnamed)                 | might be perfect match? although sometimes ui_line is used just to get a blank line |
+
+I'm experimenting with a few more tweaks related to TODOs:
+
+-   Use `cli::symbol$checkbox_off` as the symbol (instead of a generic bullet). I guess it will continue to be red.
+-   Introduce a new bullet shortcode for a TODO. Proposal: `_` (instead of `*`), which seems to be the best single ascii character that evokes a place to check something off.
+
+That just leaves `code_block()`, which is pretty different.
+It exists to put some code on the screen and optionally place it on the clipboard.
+
+```{r}
+ui_code_block("
+  options(
+    warnPartialMatchArgs = TRUE,
+    warnPartialMatchDollar = TRUE,
+    warnPartialMatchAttr = TRUE
+  )")
+```
+
+I think I should build around `cli::code_block()` for this.
+
+## Utility functions
+
+The block style functions all route through some unexported utility functions.
+
+`is_quiet()` just consults the `usethis.quiet` option and implements the default of `FALSE`.
+
+```{r}
+#| eval: false
+is_quiet <- function() {
+  isTRUE(getOption("usethis.quiet", default = FALSE))
+}
+```
+
+`ui_todo()`, `ui_done()`, `ui_oops()`, `ui_info()` all route through `ui_bullet()`, which does some hygiene related to indentation (using the `indent()` utility function), then calls `ui_inform()`.
+`ui_line()` and `ui_code()` call `ui_inform()` directly.
+
+`ui_inform()` is just a wrapper around `rlang::inform()` that is guarded by a call to `is_quiet()`
+
+```{r}
+#| eval: false
+ui_inform <- function(...) {
+  if (!is_quiet()) {
+    inform(paste0(...))
+  }
+  invisible()
+}
+```
+
+Other than `is_quiet()`, which will continue to play the same role, I anticipate that we no longer need these utilities (`indent()`, `ui_bullet()`, `ui_inform()`).
+
+Let's cover `ui_silence()` while we're here, which *is* exported.
+It's just a `withr::with_*()` function for executing `code` with `usethis.quiet = TRUE`.
+
+```{r}
+#| eval: false
+ui_silence <- function(code) {
+  withr::with_options(list(usethis.quiet = TRUE), code)
+}
+```
+
+## Inline styles
+
+<https://cli.r-lib.org/reference/inline-markup.html>
+
+-   `ui_field()` becomes `{.field blah}`
+-   `ui_value()` becomes `{.val value}`
+-   `ui_path()` will draw on `{.file path/to/thing}` but some of `ui_path()`'s logic is still needed (e.g. making path relative to project root, ensuring a directory has a trailing `/`). Should also think about hyperlink behaviour.
+-   `ui_code()` probably becomes one of:
+    -   `{.arg some_argument}`
+
+    -   `{.cls some_class}`
+
+    -   `{.code some_text}`
+
+    -   `{.envvar SOME_ENV_VAR}`
+
+    -   `{.fun devtools::build_readme}`
+
+    -   `{.help some_function}`
+
+    -   `{.run some_code}`
+
+    -   `{.topic some_topic}`
+
+    -   `{.var variable_name}`
+
+(I'll talk about `ui_unset()` below.)
+
+## Conditions
+
+```{r}
+ui_stop <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+
+  cnd <- structure(
+    class = c("usethis_error", "error", "condition"),
+    list(message = x)
+  )
+
+  stop(cnd)
+}
+
+ui_warn <- function(x, .envir = parent.frame()) {
+  x <- glue_collapse(x, "\n")
+  x <- glue(x, .envir = .envir)
+
+  warning(x, call. = FALSE, immediate. = TRUE)
+}
+```
+
+I think `ui_stop()`, becomes a wrapper around `cli::cli_abort()` that applies the `usethis_error` class.
+
+I suppose `ui_warn() probably just becomes `cli::cli_warn()`.
+
+## Sitrep and format helpers
+
+This is a small clump of functions that support sitrep-type output.
+
+-   `hd_line()`
+-   `kv_line()`
+-   `ui_unset()`
+
+## Questions
+
+There's currently no cli alternative to `ui_yeah()` and `ui_nope()`, so I won't make changes here.
