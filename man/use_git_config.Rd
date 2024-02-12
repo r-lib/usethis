@@ -38,8 +38,8 @@ use_git_config(
 }
 \seealso{
 Other git helpers: 
+\code{\link{use_git}()},
 \code{\link{use_git_hook}()},
-\code{\link{use_git_ignore}()},
-\code{\link{use_git}()}
+\code{\link{use_git_ignore}()}
 }
 \concept{git helpers}
