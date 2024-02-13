@@ -37,10 +37,12 @@ test_that("upkeep bullets don't change accidentally",{
   desc::desc_del("Suggests")
   use_package("testthat", "Suggests")
 
-  expect_snapshot({
+  local({
     local_edition(2L)
-    writeLines(upkeep_checklist())
+    checklist <<- upkeep_checklist()
   })
+
+  expect_snapshot(print(checklist))
 })
 
 test_that("get extra upkeep bullets works", {

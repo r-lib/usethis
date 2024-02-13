@@ -85,26 +85,22 @@
 ---
 
     Code
-      local_edition(2L)
-      writeLines(upkeep_checklist())
+      print(checklist)
     Output
-      * [ ] `usethis::use_readme_rmd()`
-      * [ ] `usethis::use_github_links()`
-      * [ ] `usethis::use_pkgdown_github_pages()`
-      * [ ] `usethis::use_tidy_description()`
-      * [ ] `usethis::use_package_doc()`
-      Consider letting usethis manage your `@importFrom` directives here. `usethis::use_import_from()` is handy for this.
-      * [ ] `usethis::use_testthat(3)` and upgrade to 3e, [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)
-      * [ ] Align the names of `R/` files and `test/` files for workflow happiness. The docs for `usethis::use_r()` include a helpful script. `usethis::rename_files()` may be be useful.
-      * [ ] Consider changing default branch from `master` to `main`
-      * [ ] Remove description of test environments from `cran-comments.md`.
-      See `usethis::use_cran_comments()`.
-      * [ ] Add alt-text to pictures, plots, etc; see <https://posit.co/blog/knitr-fig-alt/> for examples
-      
-      Set up or update GitHub Actions. \
-            Updating workflows to the latest version will often fix troublesome actions:
-      * [ ] `usethis::use_github_action('check-standard')`
-      * [ ] `usethis::use_github_action('test-coverage')`
-      
-      <sup>Created on 2023-01-01 with `usethis::use_upkeep_issue()`, using [usethis v1.1.0](https://usethis.r-lib.org)</sup>
+       [1] "* [ ] `usethis::use_readme_rmd()`"                                                                                                                                                  
+       [2] "* [ ] `usethis::use_github_links()`"                                                                                                                                                
+       [3] "* [ ] `usethis::use_pkgdown_github_pages()`"                                                                                                                                        
+       [4] "* [ ] `usethis::use_tidy_description()`"                                                                                                                                            
+       [5] "* [ ] `usethis::use_package_doc()`\nConsider letting usethis manage your `@importFrom` directives here. `usethis::use_import_from()` is handy for this."                            
+       [6] "* [ ] `usethis::use_testthat(3)` and upgrade to 3e, [testthat 3e vignette](https://testthat.r-lib.org/articles/third-edition.html)"                                                 
+       [7] "* [ ] Align the names of `R/` files and `test/` files for workflow happiness. The docs for `usethis::use_r()` include a helpful script. `usethis::rename_files()` may be be useful."
+       [8] "* [ ] Consider changing default branch from `master` to `main`"                                                                                                                     
+       [9] "* [ ] Remove description of test environments from `cran-comments.md`.\nSee `usethis::use_cran_comments()`."                                                                        
+      [10] "* [ ] Add alt-text to pictures, plots, etc; see <https://posit.co/blog/knitr-fig-alt/> for examples"                                                                                
+      [11] ""                                                                                                                                                                                   
+      [12] "Set up or update GitHub Actions. \\\n      Updating workflows to the latest version will often fix troublesome actions:"                                                            
+      [13] "* [ ] `usethis::use_github_action('check-standard')`"                                                                                                                               
+      [14] "* [ ] `usethis::use_github_action('test-coverage')`"                                                                                                                                
+      [15] ""                                                                                                                                                                                   
+      [16] "<sup>Created on 2023-01-01 with `usethis::use_upkeep_issue()`, using [usethis v1.1.0](https://usethis.r-lib.org)</sup>"                                                             
 
