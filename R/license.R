@@ -40,7 +40,7 @@
 #'
 #' @name licenses
 #' @param copyright_holder Name of the copyright holder or holders. This
-#'   defaults to "{package name} authors"; you should only change this if you
+#'   defaults to `"{package name} authors"`; you should only change this if you
 #'   use a CLA to assign copyright to a single entity.
 #' @param version License version. This defaults to latest version all licenses.
 #' @param include_future If `TRUE`, will license your package under the current
