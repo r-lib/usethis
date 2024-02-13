@@ -55,7 +55,7 @@ if (interactive()) {
 More resources on `.Rprofile`:
 
   * The official [Startup documentation](https://stat.ethz.ch/R-manual/R-patched/library/base/html/Startup.html)
-  * The [Startup chapter](https://whattheyforgot.org/r-startup.html) of the What They Forgot to Teach You About R workshop materials
+  * The [Startup chapter](https://rstats.wtf/r-startup.html#rprofile) of the What They Forgot to Teach You About R workshop materials
   * Kevin Ushey's blog post [RProfile Essentials](http://kevinushey.github.io/blog/2015/02/02/rprofile-essentials/)
 
 ## Store default values for DESCRIPTION fields and other preferences

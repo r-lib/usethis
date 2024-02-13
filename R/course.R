@@ -105,16 +105,32 @@ use_zip <- function(url,
 #'
 #' @name use_course_details
 #' @keywords internal
+#' @usage
+#' tidy_download(url, destdir = getwd())
+#' tidy_unzip(zipfile, cleanup = FALSE)
 #'
+#' @aliases tidy_download tidy_unzip
+
+#' @param url A GitHub, DropBox, or Google Drive URL.
+#' * For `create_download_url()`: A URL copied from a web browser.
+#' * For `tidy_download()`: A download link for a ZIP file, possibly behind a
+#'   shortlink or other redirect. `create_download_url()` can be helpful for
+#'   creating this URL from typical browser URLs.
+#' @param destdir Path to existing local directory where the ZIP file will be
+#'   stored. Defaults to current working directory, but note that [use_course()]
+#'   has different default behavior.
+#' @param zipfile Path to local ZIP file.
+#' @param cleanup Whether to delete the ZIP file after unpacking. In an
+#'   interactive session, `cleanup = NA` leads to asking the user if they
+#'   want to delete or keep the ZIP file.
+
 #' @section tidy_download():
 #'
 #' ```
-#' ## function signature
-#' tidy_download(url, destdir = getwd())
-#'
-#' # as called inside use_course()
+#' # how it's used inside use_course()
 #' tidy_download(
-#'   url, ## after post-processing with normalize_url()
+#'   # url has been processed with internal helper normalize_url()
+#'   url,
 #'   # conspicuous_place() = `getOption('usethis.destdir')` or desktop or home
 #'   # directory or working directory
 #'   destdir = destdir %||% conspicuous_place()
@@ -198,17 +214,6 @@ use_zip <- function(url,
 #'
 #' Use `create_download_url()` to perform this transformation automatically.
 #'
-#' @param url Download link for the ZIP file, possibly behind a shortlink or
-#'   other redirect. See Details.
-#' @param destdir Path to existing local directory where the ZIP file will be
-#'   stored. Defaults to current working directory, but note that [use_course()]
-#'   has different default behavior.
-#'
-#' @examples
-#' \dontrun{
-#' tidy_download("https://github.com/r-lib/rematch2/archive/main.zip")
-#' }
-#'
 #' @section tidy_unzip():
 #'
 #' Special-purpose function to unpack a ZIP file and (attempt to) create the
@@ -233,8 +238,6 @@ use_zip <- function(url,
 #' directory is a Git repo and/or RStudio Project, we unzip-ignore various
 #' hidden files, such as `.RData`, `.Rhistory`, and those below `.git/` and
 #' `.Rproj.user`.
-#'
-#' @param zipfile Path to local ZIP file.
 #'
 #' @examples
 #' \dontrun{
@@ -395,8 +398,6 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
 }
 
 #' @rdname use_course_details
-#' @param url a GitHub, DropBox, or Google Drive URL, as copied from a web
-#'   browser.
 #' @examples
 #' # GitHub
 #' create_download_url("https://github.com/r-lib/usethis")
