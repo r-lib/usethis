@@ -15,13 +15,15 @@ use_addin <- function(addin = "new_addin", open = rlang::is_interactive()) {
   if (!file_exists(addin_dcf_path)) {
     create_directory(proj_path("inst", "rstudio"))
     file_create(addin_dcf_path)
-    ui_done("Creating {ui_path(addin_dcf_path)}")
+    ui_cli_bullets(c("v" = "Creating {.path {pth(addin_dcf_path)}}"))
   }
 
   addin_info <- render_template("addins.dcf", data = list(addin = addin))
   addin_info[length(addin_info) + 1] <- ""
   write_utf8(addin_dcf_path, addin_info, append = TRUE)
-  ui_done("Adding binding to {ui_code(addin)} to addins.dcf.")
+  ui_cli_bullets(c(
+    "v" = "Adding binding to {.fun {addin}} to {.path addins.dcf}"
+  ))
 
   if (open) {
     edit_file(addin_dcf_path)
