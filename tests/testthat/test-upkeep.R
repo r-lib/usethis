@@ -37,12 +37,15 @@ test_that("upkeep bullets don't change accidentally",{
   desc::desc_del("Suggests")
   use_package("testthat", "Suggests")
 
+  # previously (withr 2.5.0) we could put local_edition(2L) inside {..} inside
+  # the expect_snapshot() call
+  # that is no longer true with withr 3.0.0, but this hacktastic approach works
   local({
     local_edition(2L)
     checklist <<- upkeep_checklist()
   })
 
-  expect_snapshot(print(checklist))
+  expect_snapshot(writeLines(checklist))
 })
 
 test_that("get extra upkeep bullets works", {
