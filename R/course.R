@@ -109,6 +109,7 @@ use_zip <- function(url,
 #' tidy_download(url, destdir = getwd())
 #' tidy_unzip(zipfile, cleanup = FALSE)
 #'
+#' @aliases tidy_download tidy_unzip
 
 #' @param url A GitHub, DropBox, or Google Drive URL.
 #' * For `create_download_url()`: A URL copied from a web browser.

@@ -2,6 +2,8 @@
 % Please edit documentation in R/course.R
 \name{use_course_details}
 \alias{use_course_details}
+\alias{tidy_download}
+\alias{tidy_unzip}
 \alias{create_download_url}
 \title{Helpers to download and unpack a ZIP file}
 \usage{
