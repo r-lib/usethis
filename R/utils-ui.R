@@ -13,7 +13,7 @@ usethis_theme <- function() {
   )
 }
 
-ui_cli_bullets <- function(text, .envir = parent.frame()) {
+ui_bullets <- function(text, .envir = parent.frame()) {
   if (is_quiet()) {
     return(invisible())
   }

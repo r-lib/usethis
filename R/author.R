@@ -60,12 +60,12 @@ use_author <- function(given = NULL, family = NULL, ..., role = "ctb") {
   author <- utils::person(given = given, family = family, role = role, ...)
   aut_fmt <- format(author, style = 'text')
   if (authors_at_r_already) {
-    ui_cli_bullets(c(
+    ui_bullets(c(
       "v" = "Adding to {.field Authors@R} in DESCRIPTION:",
       " " = "{aut_fmt}"
     ))
   } else {
-    ui_cli_bullets(c(
+    ui_bullets(c(
       "v" = "Creating {.field Authors@R} field in DESCRIPTION and adding:",
       " " = "{aut_fmt}"
     ))
@@ -86,7 +86,7 @@ challenge_legacy_author_fields <- function(d = proj_desc()) {
     return(invisible())
   }
 
-  ui_cli_bullets(c(
+  ui_bullets(c(
     "x" = "Found legacy {.field Author} and/or {.field Maintainer} field in
            DESCRIPTION.",
     " " = "usethis only supports modification of the {.field Authors@R} field.",
@@ -131,7 +131,7 @@ challenge_default_author <- function(d = proj_desc()) {
   )
 
   if (any(m)) {
-    ui_cli_bullets(c(
+    ui_bullets(c(
       "i" = "{.field Authors@R} appears to include a placeholder author:",
       " " = "{format(default_author, style = 'text')}"
     ))
