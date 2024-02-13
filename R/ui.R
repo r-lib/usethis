@@ -321,13 +321,3 @@ kv_line <- function(key, value, .envir = parent.frame()) {
   key <- glue(key, .envir = .envir)
   ui_inform(glue("{cli::symbol$bullet} {key}: {value}"))
 }
-
-
-# cli wrappers ------------------------------------------------------------
-
-ui_cli_inform <- function(..., .envir = parent.frame()) {
-  if (!is_quiet()) {
-    cli::cli_inform(..., .envir = .envir)
-  }
-  invisible()
-}
