@@ -26,11 +26,16 @@ test_that("upkeep bullets don't change accidentally",{
 
   expect_snapshot(writeLines(upkeep_checklist()))
 
-  # Add some files to test conditional todos
+  # Test some conditional TODOs
   use_code_of_conduct("jane.doe@foofymail.com")
-  use_testthat()
   writeLines("# test environment\n", "cran-comments.md")
   local_mocked_bindings(git_default_branch = function() "master")
+
+  # Look like a package that hasn't switched to testthat 3e yet
+  use_testthat()
+  desc::desc_del("Config/testthat/edition")
+  desc::desc_del("Suggests")
+  use_package("testthat", "Suggests")
 
   expect_snapshot({
     local_edition(2L)
