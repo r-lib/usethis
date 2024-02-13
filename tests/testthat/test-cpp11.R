@@ -7,14 +7,10 @@ test_that("use_cpp11() requires a package", {
 test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
   create_local_package()
   use_roxygen_md()
-  use_package_doc()
 
   local_interactive(FALSE)
   local_check_installed()
-  local_mocked_bindings(
-    check_cpp_register_deps = function() invisible()
-    # project_name = function() "testpkg"
-  )
+  local_mocked_bindings(check_cpp_register_deps = function() invisible())
 
   use_cpp11()
 
@@ -25,9 +21,6 @@ test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
 
   ignores <- read_utf8(proj_path("src", ".gitignore"))
   expect_contains(ignores, c("*.o", "*.so", "*.dll"))
-
-  namespace <- read_utf8(proj_path("NAMESPACE"))
-  expect_match(namespace, "useDynLib", all = FALSE)
 })
 
 test_that("check_cpp_register_deps is silent if all installed, emits todo if not", {

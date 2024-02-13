@@ -1,7 +1,5 @@
 # usethis (development version)
 
-* `use_cpp11()` now automatically updates the `NAMESPACE` (@pachadotdev, #1921).
-
 # usethis 2.2.2
 
 * Implicit usage of `numeric_version()` via comparison now always provides
