@@ -1,4 +1,4 @@
-# basic UI actions behave as expected
+# basic legacy UI actions behave as expected
 
     Code
       ui_line("line")
@@ -31,7 +31,7 @@
       Warning:
       a warning
 
-# UI actions respect usethis.quiet = TRUE
+# legacy UI actions respect usethis.quiet = TRUE
 
     Code
       ui_line("line")

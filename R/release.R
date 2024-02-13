@@ -262,7 +262,7 @@ use_github_release <- function(publish = TRUE,
 
   gh <- gh_tr(tr)
 
-  ui_cli_inform("Publishing {tag_name} release to GitHub")
+  ui_cli_bullets("Publishing {tag_name} release to GitHub")
   release <- gh(
     "POST /repos/{owner}/{repo}/releases",
     name = release_name,
@@ -271,10 +271,10 @@ use_github_release <- function(publish = TRUE,
     body = news,
     draft = !publish
   )
-  ui_cli_inform("Release at {.url {release$html_url}}")
+  ui_cli_bullets("Release at {.url {release$html_url}}")
 
   if (!is.null(dat$file)) {
-    ui_cli_inform("Deleting {.path {dat$file}}")
+    ui_cli_bullets("Deleting {.path {dat$file}}")
     file_delete(dat$file)
   }
 

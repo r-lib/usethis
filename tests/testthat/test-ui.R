@@ -1,4 +1,4 @@
-test_that("basic UI actions behave as expected", {
+test_that("basic legacy UI actions behave as expected", {
   # suppress test silencing
   withr::local_options(list(usethis.quiet = FALSE))
 
@@ -13,7 +13,7 @@ test_that("basic UI actions behave as expected", {
   })
 })
 
-test_that("UI actions respect usethis.quiet = TRUE", {
+test_that("legacy UI actions respect usethis.quiet = TRUE", {
   withr::local_options(list(usethis.quiet = TRUE))
 
   expect_snapshot({
