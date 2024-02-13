@@ -21,7 +21,7 @@ ui_bullets <- function(text, .envir = parent.frame()) {
   cli::cli_bullets(text, .envir = .envir)
 }
 
-usethis_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
+ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
   cli::cli_div(theme = usethis_theme())
   cli::cli_abort(
     message,

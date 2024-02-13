@@ -155,7 +155,7 @@ use_posit_cloud_badge <- function(url) {
     img <- "https://img.shields.io/badge/launch-posit%20cloud-447099?style=flat"
     use_badge("Launch Posit Cloud", url, img)
   } else {
-    usethis_abort("
+    ui_abort("
       {.fun usethis::use_posit_cloud_badge} requires a link to an
       existing Posit Cloud project of the form
       {.val https://posit.cloud/content/<project-id>} or

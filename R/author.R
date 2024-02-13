@@ -96,7 +96,7 @@ challenge_legacy_author_fields <- function(d = proj_desc()) {
            {.fun desc::desc_coerce_authors_at_r}, then delete the legacy fields."
   ))
   if (ui_yeah("Do you want to cancel this operation and sort that out first?")) {
-    usethis_abort("Cancelling.")
+    ui_abort("Cancelling.")
   }
   invisible()
 }
@@ -110,7 +110,7 @@ check_author_is_novel <- function(given = NULL, family = NULL, d = proj_desc()) 
   })
   if (any(m)) {
     aut_name <- glue("{given %||% ''} {family %||% ''}")
-    usethis_abort(c(
+    ui_abort(c(
       "x" = "{.val {aut_name}} already appears in {.field Authors@R}.",
       " " = "Please make the desired change directly in DESCRIPTION or call the
              {.pkg desc} package directly."

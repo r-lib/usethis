@@ -71,3 +71,7 @@ test_that("trailing slash behaviour of ui_path_impl()", {
   expect_match(ui_path_impl(paste0(tmpdir, "/")), "[^/]/$")
   expect_match(ui_path_impl(paste0(tmpdir, "//")), "[^/]/$")
 })
+
+test_that("ui_abort() works", {
+  expect_usethis_error(ui_abort("an error"), "an error")
+})

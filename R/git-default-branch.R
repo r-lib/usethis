@@ -142,7 +142,7 @@ git_default_branch <- function() {
 
   if (is.na(db_local_with_source) ) {
     if (length(db_source)) {
-      usethis_abort(c(
+      ui_abort(c(
         "Default branch mismatch between local repo and remote.",
         "The default branch of the {.val {db_source$name}} remote is
         {.val {db_source$default_branch}}.",
@@ -154,7 +154,7 @@ git_default_branch <- function() {
         db_source = db_source
       )
     } else {
-      usethis_abort(
+      ui_abort(
         "Can't determine the local repo's default branch.",
         class = "error_default_branch"
       )
@@ -170,7 +170,7 @@ git_default_branch <- function() {
   # we learned a default branch from the source repo and it doesn't match
   # the local default branch
 
-  usethis_abort(c(
+  ui_abort(c(
     "Default branch mismatch between local repo and remote.",
     "The default branch of the {.val {db_source$name}} remote is
      {.val {db_source$default_branch}}.",
