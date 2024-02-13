@@ -45,7 +45,7 @@ use_badge <- function(badge_name, href, src) {
   if (is.null(path)) {
     ui_oops("
     Can't find a README for the current project.
-    See {ui_code('usethis::use_readme_rmd()')} for help creating this file.
+    See {.help usethis::use_readme_rmd} for help creating this file.
     Badge link can only be printed to screen.
     ")
     path <- "README"
@@ -59,7 +59,7 @@ use_badge <- function(badge_name, href, src) {
   )
 
   if (changed && path_ext(path) == "Rmd") {
-    ui_todo("Re-knit {ui_path(path)} with {ui_code('devtools::build_readme()')}")
+    ui_todo("Re-knit {ui_path(path)} with {.run devtools::build_readme()}")
   }
   invisible(changed)
 }

@@ -61,11 +61,11 @@ use_author <- function(given = NULL, family = NULL, ..., role = "ctb") {
   aut_fmt <- format(author, style = 'text')
   if (authors_at_r_already) {
     ui_done("
-      Adding to {ui_field('Authors@R')} in DESCRIPTION:
+      Adding to {ui_field('Authors@R')} in DESCRIPTION:\f
       {aut_fmt}")
   } else {
     ui_done("
-      Creating {ui_field('Authors@R')} field in DESCRIPTION and adding:
+      Creating {ui_field('Authors@R')} field in DESCRIPTION and adding:\f
       {aut_fmt}")
   }
   d$add_author(given = given, family = family, role = role, ...)
@@ -88,9 +88,9 @@ challenge_legacy_author_fields <- function(d = proj_desc()) {
     "usethis only supports modification of the {ui_field('Authors@R')} field."))
   ui_info(c(
     "We recommend one of these paths forward:",
-    "*" = "Delete these fields and rebuild with {ui_code('use_author()')}.",
-    "*" = "Convert to {ui_field('Authors@R')} with
-    {ui_code('desc::desc_coerce_authors_at_r()')}, then delete the legacy fields."
+    "*" = "Delete these fields and rebuild with {.run usethis::use_author()}.",
+    "*" = "Convert to {ui_field('Authors@R')} with {.fn desc::desc_coerce_authors_at_r},
+           \f\u00a0\u00a0 then delete the legacy fields."
     ))
   if (ui_yeah("Do you want to cancel this operation and sort that out first?")) {
     ui_stop("Cancelling.")
@@ -129,7 +129,7 @@ challenge_default_author <- function(d = proj_desc()) {
 
   if (any(m)) {
     ui_info("
-      {ui_field('Authors@R')} appears to include a placeholder author:\n
+      {ui_field('Authors@R')} appears to include a placeholder author:\f
       {format({default_author}, style = 'text')}")
     if(is_interactive() && ui_yeah("Would you like to remove it?")) {
       # TODO: Do I want to suppress this output?

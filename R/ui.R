@@ -68,20 +68,47 @@ ui_todo <- function(x, .envir = parent.frame()) {
 #' @rdname ui
 #' @export
 ui_done <- function(x, .envir = parent.frame()) {
-  if (!is_quiet())  cli::cli_alert_success(paste(x, collapse = "\n\u00a0\u00a0"), .envir = .envir)
+  if (!is_quiet()) {
+    cli::cli_inform(
+      c("v" = paste(x, collapse = "\f\u00a0\u00a0")),
+      .envir = .envir
+    )
+  }
+  invisible()
 }
 
 #' @rdname ui
 #' @export
 ui_oops <- function(x, .envir = parent.frame()) {
   # Adding collapse = "\n  " so that the text is aligned in multiple lines.
-  if (!is_quiet())  cli::cli_alert_danger(paste(x, collapse = "\n\u00a0\u00a0"), .envir = .envir)
+  if (!is_quiet()) {
+    cli::cli_inform(
+      c("x" = paste(x, collapse = "\f\u00a0\u00a0")),
+      .envir = .envir
+    )
+  }
+  invisible()
 }
 
 #' @rdname ui
 #' @export
 ui_info <- function(x, .envir = parent.frame()) {
-  ui_cli_bullets(x, "i", .envir = .envir)
+  if (!is_quiet()) {
+    if (is.null(names(x))) {
+      cli::cli_inform(
+        c("i" = paste(x, collapse = "\f\u00a0\u00a0")),
+        .envir = .envir
+      )
+    } else {
+      names(x)[1] <- "i"
+      cli::cli_inform(
+        x,
+        .envir = .envir
+      )
+    }
+
+  }
+  invisible()
 }
 
 #' @param copy If `TRUE`, the session is interactive, and the clipr package
