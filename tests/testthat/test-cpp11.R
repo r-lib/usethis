@@ -5,6 +5,8 @@ test_that("use_cpp11() requires a package", {
 })
 
 test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
+  skip_if_not_installed("cpp11")
+
   create_local_package()
   use_roxygen_md()
   use_package_doc()
