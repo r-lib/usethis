@@ -42,7 +42,7 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -57,11 +57,11 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-      - name: git config
+      - name: Configure Git User
         if: matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'release'
         run: |
-          git config --global user.name "$GITHUB_ACTOR"
-          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config --global user.name github-actions[bot]
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
 
       - uses: r-lib/actions/check-r-package@v2
         env:

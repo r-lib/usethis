@@ -70,7 +70,6 @@ write_union <- function(path, lines, quiet = FALSE) {
 #' @describeIn write-this writes a file with specific lines, creating it if
 #'   necessary or overwriting existing, if proposed contents are not identical
 #'   and user is available to give permission.
-#' @param contents Character vector of lines.
 #' @param overwrite Force overwrite of existing file?
 #' @export
 write_over <- function(path, lines, quiet = FALSE, overwrite = FALSE) {

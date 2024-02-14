@@ -31,3 +31,13 @@
       Warning:
       a warning
 
+# UI actions respect usethis.quiet = TRUE
+
+    Code
+      ui_line("line")
+      ui_todo("to do")
+      ui_done("done")
+      ui_oops("oops")
+      ui_info("info")
+      ui_code_block(c("x <- 1", "y <- 2"))
+

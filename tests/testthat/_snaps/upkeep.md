@@ -85,8 +85,7 @@
 ---
 
     Code
-      local_edition(2L)
-      writeLines(upkeep_checklist())
+      writeLines(checklist)
     Output
       * [ ] `usethis::use_readme_rmd()`
       * [ ] `usethis::use_github_links()`

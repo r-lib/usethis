@@ -21,8 +21,6 @@ these are the exact lines desired in the target file.}
 \item{quiet}{Logical. Whether to message about what is happening.}
 
 \item{overwrite}{Force overwrite of existing file?}
-
-\item{contents}{Character vector of lines.}
 }
 \value{
 Logical indicating whether a write occurred, invisibly.

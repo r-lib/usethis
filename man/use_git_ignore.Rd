@@ -16,8 +16,8 @@ Tell Git to ignore files
 }
 \seealso{
 Other git helpers: 
+\code{\link{use_git}()},
 \code{\link{use_git_config}()},
-\code{\link{use_git_hook}()},
-\code{\link{use_git}()}
+\code{\link{use_git_hook}()}
 }
 \concept{git helpers}

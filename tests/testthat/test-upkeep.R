@@ -26,16 +26,26 @@ test_that("upkeep bullets don't change accidentally",{
 
   expect_snapshot(writeLines(upkeep_checklist()))
 
-  # Add some files to test conditional todos
+  # Test some conditional TODOs
   use_code_of_conduct("jane.doe@foofymail.com")
-  use_testthat()
   writeLines("# test environment\n", "cran-comments.md")
   local_mocked_bindings(git_default_branch = function() "master")
 
-  expect_snapshot({
+  # Look like a package that hasn't switched to testthat 3e yet
+  use_testthat()
+  desc::desc_del("Config/testthat/edition")
+  desc::desc_del("Suggests")
+  use_package("testthat", "Suggests")
+
+  # previously (withr 2.5.0) we could put local_edition(2L) inside {..} inside
+  # the expect_snapshot() call
+  # that is no longer true with withr 3.0.0, but this hacktastic approach works
+  local({
     local_edition(2L)
-    writeLines(upkeep_checklist())
+    checklist <<- upkeep_checklist()
   })
+
+  expect_snapshot(writeLines(checklist))
 })
 
 test_that("get extra upkeep bullets works", {

@@ -4,6 +4,7 @@ AppVeyor
 Appveyor
 BioC
 BioConductor
+Bitwarden
 BugReports
 CCBY
 CLA
@@ -34,7 +35,6 @@ Jupyter
 Keychain
 LF
 LGL
-LastPass
 Lifecycle
 LinkingTo
 METACRAN
