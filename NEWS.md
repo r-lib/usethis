@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `edit_rstudio_snippets()` now accepts yaml snippets (@olivroy, #1941)
+
 # usethis 2.2.2
 
 * Implicit usage of `numeric_version()` via comparison now always provides
