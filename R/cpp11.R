@@ -12,6 +12,7 @@ use_cpp11 <- function() {
   check_installed("cpp11")
   check_is_package("use_cpp11()")
   check_uses_roxygen("use_cpp11()")
+  check_has_package_doc("use_cpp11()")
   use_src()
 
   use_dependency("cpp11", "LinkingTo")
@@ -23,6 +24,10 @@ use_cpp11 <- function() {
   )
 
   check_cpp_register_deps()
+
+  roxygen_ns_append(
+    sprintf("@useDynLib %s, .registration = TRUE", project_name())
+  ) && roxygen_remind()
 
   invisible()
 }

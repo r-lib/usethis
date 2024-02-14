@@ -7,20 +7,25 @@ test_that("use_cpp11() requires a package", {
 test_that("use_cpp11() creates files/dirs, edits DESCRIPTION and .gitignore", {
   create_local_package()
   use_roxygen_md()
+  use_package_doc()
 
   local_interactive(FALSE)
   local_check_installed()
-  local_mocked_bindings(check_cpp_register_deps = function() invisible())
 
-  use_cpp11()
+  with_mock(
+    `cpp11::stop_unless_installed` = function(package) TRUE,
+    {
+      use_cpp11()
 
-  deps <- proj_deps()
-  expect_equal(deps$type, "LinkingTo")
-  expect_equal(deps$package, "cpp11")
-  expect_proj_dir("src")
+      deps <- proj_deps()
+      expect_equal(deps$type, "LinkingTo")
+      expect_equal(deps$package, "cpp11")
+      expect_proj_dir("src")
 
-  ignores <- read_utf8(proj_path("src", ".gitignore"))
-  expect_contains(ignores, c("*.o", "*.so", "*.dll"))
+      ignores <- read_utf8(proj_path("src", ".gitignore"))
+      expect_contains(ignores, c("*.o", "*.so", "*.dll"))
+    }
+  )
 })
 
 test_that("check_cpp_register_deps is silent if all installed, emits todo if not", {
