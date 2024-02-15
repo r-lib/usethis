@@ -49,3 +49,32 @@ ui_path_impl <- function(x, base = NULL) {
 # shorter form for compactness, because this is typical usage:
 # ui_bullets("blah blah {.path {pth(some_path)}}")
 pth <- ui_path_impl
+
+ui_code_snippet <- function(x,
+                            copy = rlang::is_interactive(),
+                            language = c("R", ""),
+                            interpolate = TRUE,
+                            .envir = parent.frame()) {
+  language <- arg_match(language)
+
+  x <- glue_collapse(x, "\n")
+  if (interpolate) {
+    x <- glue(x, .envir = .envir)
+  }
+
+  if (!is_quiet()) {
+    cli::cli_code(indent(x), language = language, .envir = .envir)
+  }
+
+  if (copy && clipr::clipr_available()) {
+    x_no_ansi <- cli::ansi_strip(x)
+    clipr::write_clip(x_no_ansi)
+    style_subtle <- cli::combine_ansi_styles(
+      cli::make_ansi_style("grey"),
+      cli::style_italic
+    )
+    ui_bullets(c(" " = style_subtle("[Copied to clipboard]")))
+  }
+
+  invisible(x)
+}
