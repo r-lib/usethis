@@ -5,7 +5,8 @@
     Message
       v Adding 'lifecycle' to Imports field in DESCRIPTION
       * Refer to functions with `lifecycle::fun()`
-      v Adding '@importFrom lifecycle deprecated' to 'R/{TESTPKG}-package.R'
+      v Adding '@importFrom lifecycle deprecated' to
+        'R/{TESTPKG}-package.R'.
       v Writing 'NAMESPACE'
       v Creating 'man/figures/'
       v Copied SVG badges to 'man/figures/'
