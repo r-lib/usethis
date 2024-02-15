@@ -30,3 +30,22 @@ usethis_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
     ...
   )
 }
+
+ui_path_impl <- function(x, base = NULL) {
+  is_directory <- is_dir(x) | grepl("/$", x)
+  if (is.null(base)) {
+    x <- proj_rel_path(x)
+  } else if (!identical(base, NA)) {
+    x <- path_rel(x, base)
+  }
+
+  # rationalize trailing slashes
+  x <- path_tidy(x)
+  x[is_directory] <- paste0(x[is_directory], "/")
+
+  unclass(x)
+}
+
+# shorter form for compactness, because this is typical usage:
+# ui_bullets("blah blah {.path {pth(some_path)}}")
+pth <- ui_path_impl

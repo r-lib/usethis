@@ -252,18 +252,7 @@ ui_value <- function(x) {
 #' @export
 #' @param base If specified, paths will be displayed relative to this path.
 ui_path <- function(x, base = NULL) {
-  is_directory <- is_dir(x) | grepl("/$", x)
-  if (is.null(base)) {
-    x <- proj_rel_path(x)
-  } else if (!identical(base, NA)) {
-    x <- path_rel(x, base)
-  }
-
-  # rationalize trailing slashes
-  x <- path_tidy(x)
-  x <- ifelse(is_directory, paste0(x, "/"), x)
-
-  ui_value(x)
+  ui_value(ui_path_impl(x, base = base))
 }
 
 #' @rdname ui

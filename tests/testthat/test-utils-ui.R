@@ -55,3 +55,19 @@ test_that("ui_cli_bullets() does glue interpolation and inline markup", {
     ))
   )
 })
+
+test_that("trailing slash behaviour of ui_path_impl()", {
+  # target doesn't exist so no empirical evidence that it's a directory
+  expect_match(ui_path_impl("abc"), "abc$")
+
+  # path suggests it's a directory
+  expect_match(ui_path_impl("abc/"), "abc/$")
+  expect_match(ui_path_impl("abc//"), "abc/$")
+
+  # path is known to be a directory
+  tmpdir <- withr::local_tempdir(pattern = "ui_path_impl")
+
+  expect_match(ui_path_impl(tmpdir), "/$")
+  expect_match(ui_path_impl(paste0(tmpdir, "/")), "[^/]/$")
+  expect_match(ui_path_impl(paste0(tmpdir, "//")), "[^/]/$")
+})

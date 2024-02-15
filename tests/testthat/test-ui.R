@@ -36,20 +36,3 @@ test_that("ui_silence() suppresses output", {
 
   expect_output(ui_silence(ui_line()), NA)
 })
-
-test_that("trailing slash behaviour of ui_path()", {
-  withr::local_options(list(crayon.enabled = FALSE))
-  # target doesn't exist so no empirical evidence that it's a directory
-  expect_match(ui_path("abc"), "abc'$")
-
-  # path suggests it's a directory
-  expect_match(ui_path("abc/"), "abc/'$")
-  expect_match(ui_path("abc//"), "abc/'$")
-
-  # path is known to be a directory
-  tmpdir <- withr::local_tempdir(pattern = "ui_path")
-
-  expect_match(ui_path(tmpdir), "/'$")
-  expect_match(ui_path(paste0(tmpdir, "/")), "[^/]/'$")
-  expect_match(ui_path(paste0(tmpdir, "//")), "[^/]/'$")
-})
