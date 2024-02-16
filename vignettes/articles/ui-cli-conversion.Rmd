@@ -19,7 +19,7 @@ I'll start with a review of the current (soon to be legacy) `usethis::ui_*()` fu
 
 ## Block styles
 
-The block styles mostly exist to produce bulleted output with a specific symbol, using a specific color.
+The block styles mostly exist to produce bulleted output with a specific symbol, using a specific color, that can be shutdown package-wide via the `usethis.quiet` option.
 
 ```{r}
 f <- function() {
@@ -49,12 +49,12 @@ cli::cli_bullets(c(
 
 A direct translation looks something like this:
 
-| `ui_*()`    | `cli_bullets()` shortcode | tweaks needed                                                                       |
-|-----------------|------------------------|-------------------------------|
-| `ui_todo()` | `*`                       | blue (default) -\> red                                                              |
-| `ui_done()` | `v`                       | perfect match                                                                       |
-| `ui_oops()` | `x`                       | perfect match                                                                       |
-| `ui_info()` | `i`                       | blue (default) -\> yellow                                                           |
+| `ui_*()`    | `cli_bullets()` shortcode | tweaks needed                 |
+|-------------|---------------------------|-------------------------------|
+| `ui_todo()` | `*`                       | blue (default) -\> red        |
+| `ui_done()` | `v`                       | perfect match                 |
+| `ui_oops()` | `x`                       | perfect match                 |
+| `ui_info()` | `i`                       | blue (default) -\> yellow     |
 | `ui_line()` | (unnamed)                 | might be perfect match? although sometimes ui_line is used just to get a blank line |
 
 I'm experimenting with a few more tweaks related to TODOs:
@@ -64,17 +64,35 @@ I'm experimenting with a few more tweaks related to TODOs:
 
 That just leaves `code_block()`, which is pretty different.
 It exists to put some code on the screen and optionally place it on the clipboard.
+I have created a new function, `ui_code_snippet()` that is built around `cli::code_block()`.
+Main observations:
 
+* `cli::code_block(language = "R")` applies syntax highlighting and hyperlinks (e.g. to function help topics) to R code, which is cool. Therefore the `language` argument is also exposed in `ui_code_snippet()`, defaulting to `"R"`. Use `""` for anything that's not R code:
 ```{r}
-ui_code_block("
+#| eval: false
+ui_code_snippet("x <- 1 + 2")
+ui_code_snippet("#include <blah.h>", language = "")
+```
+* `ui_code_snippet()` takes a scalar glue-type template string or a vector of lines.
+```{r}
+ui_code_snippet("
   options(
     warnPartialMatchArgs = TRUE,
     warnPartialMatchDollar = TRUE,
     warnPartialMatchAttr = TRUE
   )")
+# produces same result as
+ui_code_snippet(c(
+  "options(",
+  "  warnPartialMatchArgs = TRUE,",
+  "  warnPartialMatchDollar = TRUE,",
+  "  warnPartialMatchAttr = TRUE",
+  ")"))
 ```
-
-I think I should build around `cli::code_block()` for this.
+* `ui_code_snippet()` does glue interpolation, by default, before calling `cli::cli_code()`, which means you have to think about your use of `{` and `}`. If you want literal `{` or `}`:
+  - Use `interpolate = FALSE`, if you don't need interpolation.
+  - Do the usual glue thing and double them, i.e. `{{` or `}}`.
+  - If this becomes a real pain, open an issue/PR about adding `.open` and `.close` as arguments to `ui_code_snippet()`.
 
 ## Utility functions
 
@@ -105,6 +123,7 @@ ui_inform <- function(...) {
 ```
 
 Other than `is_quiet()`, which will continue to play the same role, I anticipate that we no longer need these utilities (`indent()`, `ui_bullet()`, `ui_inform()`).
+Update: `indent()` turns out to still be useful in `ui_code_snippet()`.
 
 Let's cover `ui_silence()` while we're here, which *is* exported.
 It's just a `withr::with_*()` function for executing `code` with `usethis.quiet = TRUE`.
@@ -122,29 +141,34 @@ ui_silence <- function(code) {
 
 -   `ui_field()` becomes `{.field blah}`
 -   `ui_value()` becomes `{.val value}`
--   `ui_path()` will draw on `{.file path/to/thing}` but some of `ui_path()`'s logic is still needed (e.g. making path relative to project root, ensuring a directory has a trailing `/`). Should also think about hyperlink behaviour.
--   `ui_code()` probably becomes one of:
+-   `ui_path()` is connected to `{.path path/to/thing}`, but `ui_path()` also has some legitimately useful logic, such as making a path relative to project root or ensuring a directory has a trailing `/`. Therefore, this has been abstracted into `ui_path_impl()`, which is aliased to `pth()` for compactness. Here's a typical conversion:
+```{r}
+#| eval: false
+# using legacy functions
+ui_done("Setting {ui_field('LazyData')} to \\
+         {ui_value('true')} in {ui_path('DESCRIPTION')}")
+# using new cli-based ui
+ui_bullets(c(
+  "v" = "Setting {.field LazyData} to {.val true} in {.path {pth('DESCRIPTION')}}."
+))
+```
+It would be nice to create a custom inline class, e.g. `{.usethis_path {some_path}}`, which I have done in, e.g., googledrive. But it's not easy to this *while also inheriting cli's `file:` hyperlink behaviour*, which is very desirable. So that leads to the somewhat clunk pattern above, but it gives a nice result.
+-   `ui_code()` gets replaced by various inline styles, depending on what the actual goal is:
     -   `{.arg some_argument}`
-
     -   `{.cls some_class}`
-
     -   `{.code some_text}`
-
     -   `{.envvar SOME_ENV_VAR}`
-
     -   `{.fun devtools::build_readme}`
-
     -   `{.help some_function}`
-
     -   `{.run some_code}`
-
     -   `{.topic some_topic}`
-
     -   `{.var variable_name}`
 
 (I'll talk about `ui_unset()` below.)
 
 ## Conditions
+
+I'm moving from `ui_stop()`:
 
 ```{r}
 ui_stop <- function(x, .envir = parent.frame()) {
@@ -158,7 +182,28 @@ ui_stop <- function(x, .envir = parent.frame()) {
 
   stop(cnd)
 }
+```
 
+to `ui_abort()`:
+
+```{r}
+ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
+  cli::cli_div(theme = usethis_theme())
+  cli::cli_abort(
+    message,
+    class = c(class, "usethis_error"),
+    .envir = .envir,
+    ...
+  )
+}
+```
+
+At this point, the `usethis_theme()` doesn't do anything that is perceivable in an error.
+So the main point of `ui_abort()` is to switch to `cli_abort()`.
+
+Say something about `ui_warn()` once I get there:
+
+```{r}
 ui_warn <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
@@ -166,10 +211,6 @@ ui_warn <- function(x, .envir = parent.frame()) {
   warning(x, call. = FALSE, immediate. = TRUE)
 }
 ```
-
-I think `ui_stop()`, becomes a wrapper around `cli::cli_abort()` that applies the `usethis_error` class.
-
-I suppose `ui_warn() probably just becomes `cli::cli_warn()`.
 
 ## Sitrep and format helpers
 
