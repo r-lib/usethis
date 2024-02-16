@@ -16,7 +16,7 @@ test_that("basic legacy UI actions behave as expected", {
 test_that("legacy UI actions respect usethis.quiet = TRUE", {
   withr::local_options(list(usethis.quiet = TRUE))
 
-  expect_snapshot({
+  expect_no_message({
     ui_line("line")
     ui_todo("to do")
     ui_done("done")

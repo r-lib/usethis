@@ -1,4 +1,4 @@
-test_that("ui_bullets() look as expected", {
+cli::test_that_cli("ui_bullets() look as expected", {
   # suppress test silencing
   withr::local_options(list(usethis.quiet = FALSE))
 
@@ -23,7 +23,7 @@ test_that("ui_bullets() look as expected", {
 test_that("ui_bullets() respect usethis.quiet = TRUE", {
   withr::local_options(list(usethis.quiet = TRUE))
 
-  expect_snapshot(
+  expect_no_message(
     ui_bullets(c(
       # relate to legacy functions
       "_" = "todo", # ui_todo()
@@ -41,7 +41,7 @@ test_that("ui_bullets() respect usethis.quiet = TRUE", {
   )
 })
 
-test_that("ui_bullets() does glue interpolation and inline markup", {
+cli::test_that_cli("ui_bullets() does glue interpolation and inline markup", {
   # suppress test silencing
   withr::local_options(list(usethis.quiet = FALSE))
 
@@ -73,5 +73,10 @@ test_that("trailing slash behaviour of ui_path_impl()", {
 })
 
 test_that("ui_abort() works", {
-  expect_usethis_error(ui_abort("an error"), "an error")
+  expect_usethis_error(ui_abort("spatula"), "spatula")
+
+  # usethis.quiet should have no effect on this
+  withr::local_options(list(usethis.quiet = TRUE))
+  expect_usethis_error(ui_abort("whisk"), "whisk")
+
 })
