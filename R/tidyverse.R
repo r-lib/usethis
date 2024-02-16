@@ -332,7 +332,10 @@ use_tidy_thanks <- function(repo_spec = NULL,
   contrib_link <- glue("[&#x0040;{contributors}](https://github.com/{contributors})")
 
   ui_done("Found {length(contributors)} contributors:")
-  ui_code_block(glue_collapse(contrib_link, sep = ", ", last = ", and ") + glue("."))
+  ui_code_snippet(
+    glue_collapse(contrib_link, sep = ", ", last = ", and ") + glue("."),
+    language = ""
+  )
 
   invisible(contributors)
 }

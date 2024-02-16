@@ -188,5 +188,5 @@ show_includes <- function(package) {
   }
 
   ui_todo("Possible includes are:")
-  ui_code_block("#include <{path_file(h)}>", copy = FALSE)
+  ui_code_snippet("#include <{path_file(h)}>", copy = FALSE, language = "")
 }

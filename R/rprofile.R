@@ -43,13 +43,10 @@ use_rprofile_package <- function(package) {
     "Include this code in {ui_value('.Rprofile')} to make \\
     {ui_field(package)} available in all interactive sessions."
   )
-  ui_code_block(
-    "
+  ui_code_snippet("
     if (interactive()) {{
       suppressMessages(require({package}))
-    }}
-    "
-  )
+    }}")
   edit_r_profile("user")
 }
 
@@ -59,14 +56,11 @@ use_partial_warnings <- function() {
   ui_todo(
     "Include this code in {ui_path('.Rprofile')} to warn on partial matches."
   )
-  ui_code_block(
-    "
+  ui_code_snippet("
     options(
       warnPartialMatchArgs = TRUE,
       warnPartialMatchDollar = TRUE,
       warnPartialMatchAttr = TRUE
-    )
-    "
-  )
+    )")
   edit_r_profile("user")
 }

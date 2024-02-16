@@ -97,8 +97,9 @@ use_makevars <- function(settings = NULL) {
   } else {
     ui_todo("Ensure the following Makevars compilation settings are set for both \\
             {ui_path(makevars_path)} and {ui_path(makevars_win_path)}:")
-    ui_code_block(
-      makevars_content
+    ui_code_snippet(
+      makevars_content,
+      language = ""
     )
     edit_file(makevars_path)
     edit_file(makevars_win_path)

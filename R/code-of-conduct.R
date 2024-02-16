@@ -36,12 +36,13 @@ use_code_of_conduct <- function(contact, path = NULL) {
   href <- paste0(href, "/CODE_OF_CONDUCT.html")
 
   ui_todo("You may also want to describe the code of conduct in your README:")
-  ui_code_block("
+  ui_code_snippet("
     ## Code of Conduct
 
     Please note that the {project_name()} project is released with a \\
     [Contributor Code of Conduct]({href}). By contributing to this project, \\
-    you agree to abide by its terms."
+    you agree to abide by its terms.",
+    language = ""
   )
 
   invisible(new)
