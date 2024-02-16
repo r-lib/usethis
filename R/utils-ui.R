@@ -60,10 +60,18 @@ ui_code_snippet <- function(x,
   x <- glue_collapse(x, "\n")
   if (interpolate) {
     x <- glue(x, .envir = .envir)
+    # what about literal `{` or `}`?
+    # use `interpolate = FALSE`, if appropriate
+    # double them, i.e. `{{` or `}}`
+    # open issue/PR about adding `.open` and `.close`
   }
 
   if (!is_quiet()) {
-    cli::cli_code(indent(x), language = language, .envir = .envir)
+    # the inclusion of `.envir = .envir` leads to test failure
+    # I'm consulting with Gabor on this
+    # leaving it out seems fine for my use case
+    # cli::cli_code(indent(x), language = language, .envir = .envir)
+    cli::cli_code(indent(x), language = language)
   }
 
   if (copy && clipr::clipr_available()) {

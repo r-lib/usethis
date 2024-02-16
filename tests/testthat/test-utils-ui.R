@@ -80,3 +80,63 @@ test_that("ui_abort() works", {
   expect_usethis_error(ui_abort("whisk"), "whisk")
 
 })
+
+cli::test_that_cli("ui_code_snippet() with scalar input", {
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  expect_snapshot(
+    ui_code_snippet("
+      options(
+        warnPartialMatchArgs = TRUE,
+        warnPartialMatchDollar = TRUE,
+        warnPartialMatchAttr = TRUE
+      )")
+  )
+}, configs = c("plain", "ansi"))
+
+cli::test_that_cli("ui_code_snippet() with vector input", {
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  expect_snapshot(
+    ui_code_snippet(c(
+      "options(",
+      "  warnPartialMatchArgs = TRUE,",
+      "  warnPartialMatchDollar = TRUE,",
+      "  warnPartialMatchAttr = TRUE",
+      ")"
+    ))
+  )
+}, configs = c("plain", "ansi"))
+
+cli::test_that_cli("ui_code_snippet() when langauge is not R", {
+  withr::local_options(list(usethis.quiet = FALSE))
+  h <- "blah.h"
+  expect_snapshot(
+    ui_code_snippet("#include <{h}>", language = "")
+  )
+}, configs = c("plain", "ansi"))
+
+cli::test_that_cli("ui_code_snippet() can interpolate", {
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  true_val <- "TRUE"
+  false_val <- "'FALSE'"
+
+  expect_snapshot(
+    ui_code_snippet("if (1) {true_val} else {false_val}")
+  )
+}, configs = c("plain", "ansi"))
+
+cli::test_that_cli("ui_code_snippet() can NOT interpolate", {
+  withr::local_options(list(usethis.quiet = FALSE))
+  expect_snapshot({
+    ui_code_snippet(
+      "foo <- function(x){x}",
+      interpolate = FALSE
+    )
+    ui_code_snippet(
+      "foo <- function(x){{x}}",
+      interpolate = TRUE
+    )
+  })
+}, configs = c("plain", "ansi"))

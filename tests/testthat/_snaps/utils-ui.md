@@ -98,3 +98,101 @@
       [32m✔[39m Updated the [32mBugReports[39m field
       [31m✖[39m Scary `code` or `function()`
 
+# ui_code_snippet() with scalar input [plain]
+
+    Code
+      ui_code_snippet(
+        "\n      options(\n        warnPartialMatchArgs = TRUE,\n        warnPartialMatchDollar = TRUE,\n        warnPartialMatchAttr = TRUE\n      )")
+    Message
+        options(
+          warnPartialMatchArgs = TRUE,
+          warnPartialMatchDollar = TRUE,
+          warnPartialMatchAttr = TRUE
+        )
+
+# ui_code_snippet() with scalar input [ansi]
+
+    Code
+      ui_code_snippet(
+        "\n      options(\n        warnPartialMatchArgs = TRUE,\n        warnPartialMatchDollar = TRUE,\n        warnPartialMatchAttr = TRUE\n      )")
+    Message
+        [36moptions[39m[33m([39m
+          warnPartialMatchArgs = [34mTRUE[39m,
+          warnPartialMatchDollar = [34mTRUE[39m,
+          warnPartialMatchAttr = [34mTRUE[39m
+        [33m)[39m
+
+# ui_code_snippet() with vector input [plain]
+
+    Code
+      ui_code_snippet(c("options(", "  warnPartialMatchArgs = TRUE,",
+        "  warnPartialMatchDollar = TRUE,", "  warnPartialMatchAttr = TRUE", ")"))
+    Message
+        options(
+          warnPartialMatchArgs = TRUE,
+          warnPartialMatchDollar = TRUE,
+          warnPartialMatchAttr = TRUE
+        )
+
+# ui_code_snippet() with vector input [ansi]
+
+    Code
+      ui_code_snippet(c("options(", "  warnPartialMatchArgs = TRUE,",
+        "  warnPartialMatchDollar = TRUE,", "  warnPartialMatchAttr = TRUE", ")"))
+    Message
+        [36moptions[39m[33m([39m
+          warnPartialMatchArgs = [34mTRUE[39m,
+          warnPartialMatchDollar = [34mTRUE[39m,
+          warnPartialMatchAttr = [34mTRUE[39m
+        [33m)[39m
+
+# ui_code_snippet() when langauge is not R [plain]
+
+    Code
+      ui_code_snippet("#include <{h}>", language = "")
+    Message
+        #include <blah.h>
+
+# ui_code_snippet() when langauge is not R [ansi]
+
+    Code
+      ui_code_snippet("#include <{h}>", language = "")
+    Message
+        #include <blah.h>
+
+# ui_code_snippet() can interpolate [plain]
+
+    Code
+      ui_code_snippet("if (1) {true_val} else {false_val}")
+    Message
+        if (1) TRUE else 'FALSE'
+
+# ui_code_snippet() can interpolate [ansi]
+
+    Code
+      ui_code_snippet("if (1) {true_val} else {false_val}")
+    Message
+        [31mif[39m [33m([39m[34m1[39m[33m)[39m [34mTRUE[39m [31melse[39m [33m'FALSE'[39m
+
+# ui_code_snippet() can NOT interpolate [plain]
+
+    Code
+      ui_code_snippet("foo <- function(x){x}", interpolate = FALSE)
+    Message
+        foo <- function(x){x}
+    Code
+      ui_code_snippet("foo <- function(x){{x}}", interpolate = TRUE)
+    Message
+        foo <- function(x){x}
+
+# ui_code_snippet() can NOT interpolate [ansi]
+
+    Code
+      ui_code_snippet("foo <- function(x){x}", interpolate = FALSE)
+    Message
+        foo [32m<-[39m [31mfunction[39m[33m([39mx[33m)[39m[33m{[39mx[33m}[39m
+    Code
+      ui_code_snippet("foo <- function(x){{x}}", interpolate = TRUE)
+    Message
+        foo [32m<-[39m [31mfunction[39m[33m([39mx[33m)[39m[33m{[39mx[33m}[39m
+
