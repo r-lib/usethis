@@ -95,7 +95,9 @@ get_objs_from_dots <- function(.dots) {
   duplicated_objs <- which(stats::setNames(duplicated(objs), objs))
   if (length(duplicated_objs) > 0L) {
     objs <- unique(objs)
-    ui_warn("Saving duplicates only once: {ui_value(names(duplicated_objs))}")
+    ui_bullets(c(
+      "!" = "Saving duplicates only once: {.val {names(duplicated_objs)}}."
+    ))
   }
   objs
 }

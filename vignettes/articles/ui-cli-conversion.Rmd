@@ -139,7 +139,7 @@ ui_silence <- function(code) {
 
 <https://cli.r-lib.org/reference/inline-markup.html>
 
--   `ui_field()` becomes `{.field blah}`
+-   `ui_field()` becomes `{.field blah}`. TO THINK ABOUT: I'm not seeing single quotes in the 'plain' snapshots, but I think we will want quoting if there's no color.
 -   `ui_value()` becomes `{.val value}`
 -   `ui_path()` is connected to `{.path path/to/thing}`, but `ui_path()` also has some legitimately useful logic, such as making a path relative to project root or ensuring a directory has a trailing `/`. Therefore, this has been abstracted into `ui_path_impl()`, which is aliased to `pth()` for compactness. Here's a typical conversion:
 ```{r}
@@ -198,10 +198,10 @@ ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
 }
 ```
 
-At this point, the `usethis_theme()` doesn't do anything that is perceivable in an error.
-So the main point of `ui_abort()` is to switch to `cli_abort()`.
+At this point, the `usethis_theme()` doesn't do anything that affects the styling of an error.
+So the main point of `ui_abort()` is to use to `cli_abort()` (and to continue applying the `"usethis_error"` class).
 
-Say something about `ui_warn()` once I get there:
+The legacy functions include `ui_warn()`:
 
 ```{r}
 ui_warn <- function(x, .envir = parent.frame()) {
@@ -211,6 +211,9 @@ ui_warn <- function(x, .envir = parent.frame()) {
   warning(x, call. = FALSE, immediate. = TRUE)
 }
 ```
+
+It has very little usage and, instead of converting it, I'm going to eliminate its use altogether in favor of `ui_bullets(c("!" = "Thing I'm warning about."))
+`.
 
 ## Sitrep and format helpers
 

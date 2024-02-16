@@ -146,14 +146,14 @@
           warnPartialMatchAttr = [34mTRUE[39m
         [33m)[39m
 
-# ui_code_snippet() when langauge is not R [plain]
+# ui_code_snippet() when language is not R [plain]
 
     Code
       ui_code_snippet("#include <{h}>", language = "")
     Message
         #include <blah.h>
 
-# ui_code_snippet() when langauge is not R [ansi]
+# ui_code_snippet() when language is not R [ansi]
 
     Code
       ui_code_snippet("#include <{h}>", language = "")

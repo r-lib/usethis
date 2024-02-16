@@ -56,10 +56,10 @@ use_dependency <- function(package, type, min_version = NULL) {
   delta <- sign(match(existing_type, types) - match(type, types))
   if (delta < 0) {
     # don't downgrade
-    ui_warn(
-      "Package {ui_value(package)} is already listed in \\
-       {ui_value(existing_type)} in DESCRIPTION, no change made."
-    )
+    ui_bullets(c(
+      "!" = "Package {.pkg {package}} is already listed in
+             {.field {existing_type}} in DESCRIPTION; no change made."
+    ))
   } else if (delta == 0 && !is.null(min_version)) {
     # change version
     upgrade <- existing_version == "*" ||

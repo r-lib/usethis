@@ -175,9 +175,10 @@ pkgdown_url <- function(pedantic = FALSE) {
   }
 
   if (pedantic) {
-    ui_warn("
-      pkgdown config does not specify the site's {ui_field('url')}, \\
-      which is optional but recommended")
+    ui_bullets(c(
+      "!" = "{.pkg pkgdown} config does not specify the site's {.field url},
+             which is optional but recommended."
+    ))
   }
     NULL
 }

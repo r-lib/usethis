@@ -80,9 +80,12 @@ test_that("use_dependency() declines to downgrade a dependency", {
   expect_message(use_dependency("usethis", "Imports"))
   expect_match(desc::desc_get("Imports"), "usethis")
 
-  expect_warning(use_dependency("usethis", "Suggests"), "no change")
+  withr::local_options(list(usethis.quiet = FALSE))
+  expect_snapshot(
+    use_dependency("usethis", "Suggests")
+  )
   expect_match(desc::desc_get("Imports"), "usethis")
-  expect_no_match( desc::desc_get("Suggests"), "usethis")
+  expect_no_match(desc::desc_get("Suggests"), "usethis")
 })
 
 test_that("can add LinkingTo dependency if other dependency already exists", {
