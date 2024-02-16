@@ -164,6 +164,11 @@ It would be nice to create a custom inline class, e.g. `{.usethis_path {some_pat
     -   `{.topic some_topic}`
     -   `{.var variable_name}`
 
+Inline styles that don't get quoted in the absence of color and that I'm worried about:
+
+* `.field`
+* `.pkg`
+
 (I'll talk about `ui_unset()` below.)
 
 ## Conditions
