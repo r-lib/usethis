@@ -108,7 +108,7 @@ cli::test_that_cli("ui_code_snippet() with vector input", {
   )
 }, configs = c("plain", "ansi"))
 
-cli::test_that_cli("ui_code_snippet() when langauge is not R", {
+cli::test_that_cli("ui_code_snippet() when language is not R", {
   withr::local_options(list(usethis.quiet = FALSE))
   h <- "blah.h"
   expect_snapshot(
