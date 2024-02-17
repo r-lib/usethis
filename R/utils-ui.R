@@ -9,8 +9,25 @@ usethis_theme <- function() {
     ".bullets .bullet-i" = list(
       "text-exdent" = 2,
       before = function(x) paste0(cli::col_yellow(cli::symbol$info), " ")
-    )
+    ),
+    span.field = list(transform = single_quote_if_no_color)
   )
+}
+
+single_quote_if_no_color <- function(x) quote_if_no_color(x, "'")
+
+quote_if_no_color <- function(x, quote = "'") {
+  # copied from googledrive
+  # TODO: if a better way appears in cli, use it
+  # @gabor says: "if you want to have before and after for the no-color case
+  # only, we can have a selector for that, such as:
+  # span.field::no-color
+  # (but, at the time I write this, cli does not support this yet)
+  if (cli::num_ansi_colors() > 1) {
+    x
+  } else {
+    paste0(quote, x, quote)
+  }
 }
 
 ui_bullets <- function(text, .envir = parent.frame()) {

@@ -3,11 +3,11 @@
     Code
       challenge_legacy_author_fields()
     Message
-      x Found legacy Author and/or Maintainer field in DESCRIPTION.
-        usethis only supports modification of the Authors@R field.
+      x Found legacy 'Author' and/or 'Maintainer' field in DESCRIPTION.
+        usethis only supports modification of the 'Authors@R' field.
       i We recommend one of these paths forward:
       [ ] Delete the legacy fields and rebuild with `use_author()`; or
-      [ ] Convert to Authors@R with `desc::desc_coerce_authors_at_r()`, then delete
+      [ ] Convert to 'Authors@R' with `desc::desc_coerce_authors_at_r()`, then delete
         the legacy fields.
     Condition
       Error:
@@ -20,7 +20,7 @@
       use_author("Jennifer", "Bryan", role = "cph")
     Condition
       Error in `check_author_is_novel()`:
-      x "Jennifer Bryan" already appears in Authors@R.
+      x "Jennifer Bryan" already appears in 'Authors@R'.
         Please make the desired change directly in DESCRIPTION or call the desc package directly.
 
 # Placeholder author is challenged
@@ -28,8 +28,8 @@
     Code
       use_author("Charlie", "Brown")
     Message
-      v Adding to Authors@R in DESCRIPTION:
+      v Adding to 'Authors@R' in DESCRIPTION:
         Charlie Brown [ctb]
-      i Authors@R appears to include a placeholder author:
+      i 'Authors@R' appears to include a placeholder author:
         First Last <first.last@example.com> [aut, cre] (YOUR-ORCID-ID)
 

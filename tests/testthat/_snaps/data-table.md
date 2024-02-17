@@ -18,8 +18,8 @@
     Code
       use_data_table()
     Message
-      ! data.table should be in Imports or Suggests, not Depends!
-      v Removing data.table from Depends.
+      ! data.table should be in 'Imports' or 'Suggests', not 'Depends'!
+      v Removing data.table from 'Depends'.
       v Adding 'data.table' to Imports field in DESCRIPTION
       v Adding '@importFrom data.table data.table', '@importFrom data.table :=',
         '@importFrom data.table .SD', '@importFrom data.table .BY', '@importFrom

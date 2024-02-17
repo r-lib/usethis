@@ -166,7 +166,7 @@ It would be nice to create a custom inline class, e.g. `{.usethis_path {some_pat
 
 Inline styles that don't get quoted in the absence of color and that I'm worried about:
 
-* `.field`
+* ~`.field`~ I've fixed this in the theme
 * `.pkg`
 
 (I'll talk about `ui_unset()` below.)

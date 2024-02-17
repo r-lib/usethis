@@ -3,7 +3,8 @@
     Code
       use_dependency("usethis", "Suggests")
     Message
-      ! Package usethis is already listed in Imports in DESCRIPTION; no change made.
+      ! Package usethis is already listed in 'Imports' in DESCRIPTION; no change
+        made.
 
 # can add LinkingTo dependency if other dependency already exists
 

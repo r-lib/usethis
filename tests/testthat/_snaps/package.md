@@ -9,7 +9,7 @@
       use_package("withr")
       use_package("withr", "Suggests")
     Message
-      ! Package withr is already listed in Imports in DESCRIPTION; no change made.
+      ! Package withr is already listed in 'Imports' in DESCRIPTION; no change made.
 
 # use_package() handles R versions with aplomb
 

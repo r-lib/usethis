@@ -68,7 +68,7 @@
       ui_bullets(c(i = "Hello, {x}!", v = "Updated the {.field BugReports} field", x = "Scary {.code code} or {.fun function}"))
     Message
       i Hello, world!
-      v Updated the BugReports field
+      v Updated the 'BugReports' field
       x Scary `code` or `function()`
 
 # ui_bullets() does glue interpolation and inline markup [ansi]
@@ -86,7 +86,7 @@
       ui_bullets(c(i = "Hello, {x}!", v = "Updated the {.field BugReports} field", x = "Scary {.code code} or {.fun function}"))
     Message
       ℹ Hello, world!
-      ✔ Updated the BugReports field
+      ✔ Updated the 'BugReports' field
       ✖ Scary `code` or `function()`
 
 # ui_bullets() does glue interpolation and inline markup [fancy]
