@@ -6,7 +6,7 @@
       v Adding '^_pkgdown\\.yml$', '^docs$', '^pkgdown$' to '.Rbuildignore'
       v Adding 'docs' to '.gitignore'
       v Writing '_pkgdown.yml'
-      * Edit '_pkgdown.yml'
+      [ ] Edit '_pkgdown.yml'.
 
 # pkgdown_url() returns correct data, warns if pedantic
 
