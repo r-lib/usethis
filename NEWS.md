@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* Patch release with changes to `.Rd` files requested by CRAN.
+
 # usethis 2.2.2
 
 * Implicit usage of `numeric_version()` via comparison now always provides
