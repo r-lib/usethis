@@ -1,4 +1,4 @@
-# usethis (development version)
+# usethis 2.2.3
 
 * Patch release with changes to `.Rd` files requested by CRAN.
 
