@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `edit_rstudio_snippets()` now accepts yaml snippets (@olivroy, #1941)
+
 # usethis 2.2.3
 
 * Patch release with changes to `.Rd` files requested by CRAN.
