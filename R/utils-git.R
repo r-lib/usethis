@@ -227,13 +227,21 @@ git_conflict_report <- function() {
     paste0("* ", conflicted_paths)
   ))
 
-  msg <- glue("
-    Are you ready to sort this out?
-    If so, we will open the conflicted files for you to edit.")
-  yes <- "Yes, I'm ready to resolve the merge conflicts."
+  msg <- "Are you ready to sort this out?"
+  yes <- "Yes, open the files. I'm ready to resolve the merge conflicts."
+  yes_soft <- "Yes, but don't open the files. I will resolve the merge conflicts."
   no <- "No, I want to abort this merge."
-  if (ui_yeah(msg, yes = yes, no = no, shuffle = FALSE)) {
+  merge_strategy <- utils::menu(
+    choices = c(yes, yes_soft, no),
+    title = msg
+  )
+  if (merge_strategy == 1) {
     ui_silence(purrr::walk(conflicted, edit_file))
+    ui_stop("
+      Please fix each conflict, save, stage, and commit.
+      To back out of this merge, run {ui_code('gert::git_merge_abort()')} \\
+      (in R) or {ui_code('git merge --abort')} (in the shell).")
+  } else if (merge_strategy == 2) {
     ui_stop("
       Please fix each conflict, save, stage, and commit.
       To back out of this merge, run {ui_code('gert::git_merge_abort()')} \\

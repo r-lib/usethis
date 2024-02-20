@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `pr_merge_main()` now offers a new way to resolve merge conflicts (if any). An option was added to resolve merge conflicts without opening all files (@olivroy, #1720).
+
 # usethis 2.2.3
 
 * Patch release with changes to `.Rd` files requested by CRAN.
