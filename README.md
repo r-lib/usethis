@@ -75,7 +75,7 @@ create_package(path)
 #>     license
 #> Encoding: UTF-8
 #> Roxygen: list(markdown = TRUE)
-#> RoxygenNote: 7.2.3
+#> RoxygenNote: 7.3.1
 #> ✔ Writing 'NAMESPACE'
 #> ✔ Setting active project to '<no active project>'
 # only needed since this session isn't interactive
