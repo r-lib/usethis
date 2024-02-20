@@ -70,6 +70,8 @@ create_github_token <- function(scopes = c("repo", "user", "gist", "workflow"),
   ui_todo("
     Call {ui_code(hint)} to register this token in the \\
     local Git credential store
+    Linux users may need to consult the {ui_value('Managing Git(Hub) Credentials')} article:
+    https://usethis.r-lib.org/articles/articles/git-credentials.html
     It is also a great idea to store this token in any password-management \\
     software that you use")
   invisible()
