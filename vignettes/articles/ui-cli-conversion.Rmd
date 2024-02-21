@@ -231,3 +231,16 @@ This is a small clump of functions that support sitrep-type output.
 ## Questions
 
 There's currently no cli alternative to `ui_yeah()` and `ui_nope()`, so I won't make changes here.
+
+TO RECONSIDER: If I keep using `ui_yeah()` and `ui_nope()`, that means I retain usage of legacy inline styling. For example:
+
+```{r}
+#| eval: false
+if (ui_nope("
+      Current branch ({ui_value(actual)}) is not repo's default \\
+      branch ({ui_value(default_branch)}).{details}")) {
+        ui_abort("Cancelling. Not on desired branch.")
+    }
+```
+
+If I create new versions of `ui_yeah()` and `ui_nope()`, then I could still switch over to cli's inline styling. Otherwise, I won't be able to remove all internal usage of legacy `ui_*()` functions.

@@ -103,3 +103,49 @@ ui_code_snippet <- function(x,
 
   invisible(x)
 }
+
+# inspired by gargle::gargle_map_cli() and gargle::bulletize()
+usethis_map_cli <- function(x, ...) UseMethod("usethis_map_cli")
+
+#' @export
+usethis_map_cli.default <- function(x, ...) {
+  ui_abort(c(
+    "x" = "Don't know how to {.fun usethis_map_cli} an object of class
+           {.obj_type_friendlys {x}}."
+  ))
+}
+
+#' @export
+usethis_map_cli.NULL <- function(x, ...) NULL
+
+#' @export
+usethis_map_cli.character <- function(x,
+                                      template = "{.field <<x>>}",
+                                      .open = "<<", .close = ">>",
+                                      ...) {
+  as.character(glue(template, .open = .open, .close = .close))
+}
+
+bulletize <- function(x, bullet = "*", n_show = 5, n_fudge = 2) {
+  n <- length(x)
+  n_show_actual <- compute_n_show(n, n_show, n_fudge)
+  out <- utils::head(x, n_show_actual)
+  n_not_shown <- n - n_show_actual
+
+  out <- set_names(out, rep_along(out, bullet))
+
+  if (n_not_shown == 0) {
+    out
+  } else {
+    c(out, " " = glue("{cli::symbol$ellipsis} and {n_not_shown} more"))
+  }
+}
+
+# I don't want to do "... and x more" if x is silly, i.e. 1 or 2
+compute_n_show <- function(n, n_show_nominal = 5, n_fudge = 2) {
+  if (n > n_show_nominal && n - n_show_nominal > n_fudge) {
+    n_show_nominal
+  } else {
+    n
+  }
+}

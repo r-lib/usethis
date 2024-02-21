@@ -13,7 +13,7 @@
 use_git <- function(message = "Initial commit") {
   needs_init <- !uses_git()
   if (needs_init) {
-    ui_done("Initialising Git repo")
+    ui_bullets(c("v" = "Initialising Git repo."))
     git_init()
   }
 
@@ -159,7 +159,7 @@ use_git_config <- function(scope = c("user", "project"), ...) {
 git_protocol <- function() {
   protocol <- tolower(getOption("usethis.protocol", "unset"))
   if (identical(protocol, "unset")) {
-    ui_info("Defaulting to {ui_value('https')} Git protocol")
+    ui_bullets(c("i" = "Defaulting to {.val https} Git protocol."))
     protocol <- "https"
   } else {
     check_protocol(protocol)
@@ -179,9 +179,7 @@ check_protocol <- function(protocol) {
   if (!is_string(protocol) ||
       !(tolower(protocol) %in% c("https", "ssh"))) {
     options(usethis.protocol = NULL)
-    ui_stop("
-      {ui_code('protocol')} must be either {ui_value('https')} or \\
-      {ui_value('ssh')}")
+    ui_abort(c("x" = "{.arg protocol} must be either {.val https} or {.val ssh}."))
   }
   invisible()
 }
@@ -251,9 +249,10 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
   repo <- git_repo()
 
   if (name %in% names(remotes) && !overwrite) {
-    ui_stop("
-      Remote {ui_value(name)} already exists. Use \\
-      {ui_code('overwrite = TRUE')} to edit it anyway.")
+    ui_abort(c(
+      "x" = "Remote {.val {name}} already exists.",
+      "i" = "Use {.code overwrite = TRUE} to edit it anyway."
+    ))
   }
 
   if (name %in% names(remotes)) {
@@ -289,32 +288,22 @@ git_clean <- function() {
   paths <- st[st$status == "new", ][["file"]]
   n <- length(paths)
   if (n == 0) {
-    ui_info("Found no untracked files")
+    ui_bullets(c("i" = "Found no untracked files."))
     return(invisible())
   }
 
   paths <- sort(paths)
-  ui_paths <- map_chr(paths, ui_path)
-  if (n > 10) {
-    ui_paths <- c(ui_paths[1:10], "...")
-  }
-
-  if (n == 1) {
-    file_hint <- "There is 1 untracked file:"
-  } else {
-    file_hint <- "There are {n} untracked files:"
-  }
-  ui_line(c(
-    file_hint,
-    paste0("* ", ui_paths)
+  ui_paths <- map_chr(paths, ui_path_impl)
+  ui_bullets(c(
+    "i" = "{cli::qty(n)}There {?is/are} {n} untracked file{?s}:",
+    bulletize(usethis_map_cli(ui_paths, template = "{.file <<x>>}"))
   ))
 
   if (ui_yeah("
-
     Do you want to remove {if (n == 1) 'it' else 'them'}?",
     yes = "yes", no = "no", shuffle = FALSE)) {
     file_delete(paths)
-    ui_done("{n} file(s) deleted")
+    ui_bullets(c("v" = "{n} file{?s} deleted."))
   }
   rstudio_git_tickle()
   invisible()
@@ -356,7 +345,7 @@ git_sitrep <- function(tool = c("git", "github"),
     vaccinated <- git_vaccinated()
     kv_line("Vaccinated", vaccinated)
     if (!vaccinated) {
-      ui_info("See {ui_code('?git_vaccinate')} to learn more")
+      ui_bullets(c("i" = "See {.fun git_vaccinate} to learn more."))
     }
     kv_line("Default Git protocol", git_protocol())
     kv_line("Default initial branch name", init_default_branch)
@@ -376,13 +365,13 @@ git_sitrep <- function(tool = c("git", "github"),
   }
 
   if (!proj_active()) {
-    ui_info("No active usethis project")
+    ui_bullets(c("i" = "No active usethis project."))
     return(invisible())
   }
-  cli::cli_h2(glue("Active usethis project: {ui_value(proj_get())}"))
+  cli::cli_h2("Active usethis project: {.val {proj_get()}}")
 
   if (!uses_git()) {
-    ui_info("Active project is not a Git repo")
+    ui_bullets(c("i" = "Active project is not a Git repo."))
     return(invisible())
   }
 
@@ -402,9 +391,11 @@ git_sitrep <- function(tool = c("git", "github"),
     default_branch_sitrep()
 
     # vertical alignment would make this nicer, but probably not worth it
-    ui_bullet(glue("
-      Current local branch -> remote tracking branch:
-      {ui_value(branch)} -> {ui_value(tracking_branch)}"))
+    ui_bullets(c(
+      "*" = "Current local branch  {cli::symbol$arrow_right} remote tracking
+             branch:",
+      " " = "{.val {branch}}  {cli::symbol$arrow_right} {.val {tracking_branch}}"
+    ))
   }
 
   # GitHub remote config -------------------------------------------------------
@@ -414,7 +405,7 @@ git_sitrep <- function(tool = c("git", "github"),
     cfg <- github_remote_config()
 
     if (cfg$type == "no_github") {
-      ui_info("Project does not use GitHub")
+      ui_bullets(c("i" = "Project does not use GitHub."))
       return(invisible())
     }
 
@@ -441,7 +432,7 @@ git_user_sitrep <- function(scope = c("user", "project")) {
   user_local <- git_user_get("local")
 
   if (scope == "project" && !all(map_lgl(user_local, is.null))) {
-    ui_info("This repo has a locally configured user")
+    ui_bullets(c("i" = "This repo has a locally configured user."))
   }
 
   kv_line("Name", user$name)
@@ -456,47 +447,55 @@ git_user_check <- function(user) {
   if (all(map_lgl(user, is.null))) {
     hint <-
       'use_git_config(user.name = "<your name>", user.email = "<your email>")'
-    ui_oops(
-      "Git user's name and email are not set. Configure using {ui_code(hint)}."
-    )
+    ui_bullets(c(
+      "x" = "Git user's name and email are not set.",
+      "i" = "Configure using {.code {hint}}."
+    ))
     return(invisible(NULL))
   }
 
   if (is.null(user$name)) {
     hint <- 'use_git_config(user.name = "<your name>")'
-    ui_oops("Git user's name is not set. Configure using {ui_code(hint)}.")
+    ui_bullets(c(
+      "x" = "Git user's name is not set.",
+      "i" = "Configure using {.code {hint}}."
+    ))
   }
 
   if (is.null(user$email)) {
     hint <- 'use_git_config(user.email = "<your email>")'
-    ui_oops("Git user's email is not set. Configure using {ui_code(hint)}.")
+    ui_bullets(c(
+      "x" = "Git user's email is not set.",
+      "i" = "Configure using {.code {hint}}."
+    ))
   }
 }
 
-# TODO: when I really overhaul the UI, determine if I can just re-use the
-# git_default_branch() error messages in the sitrep
-# the main point is converting an error to an "oops" type of message
 default_branch_sitrep <- function() {
   tryCatch(
     kv_line("Default branch", git_default_branch()),
     error_default_branch = function(e) {
       if (has_name(e, "db_local")) {
         # FYI existence of db_local implies existence of db_source
-        ui_oops("
-          Default branch mismatch between local repo and remote!
-          {ui_value(e$db_source$name)} remote default branch: \\
-          {ui_value(e$db_source$default_branch)}
-          Local default branch: {ui_value(e$db_local)}
-          Call {ui_code('git_default_branch_rediscover()')} to resolve this.")
+        ui_bullets(c(
+          "x" = "Default branch mismatch between local repo and remote.",
+          "i" = "The default branch of the {.val {e$db_source$name}} remote is
+                 {.val {e$db_source$default_branch}}.",
+          "!" = "The local repo has no branch named
+                 {.val {e$db_source$default_branch}}.",
+          "_" = "Call {.fun git_default_branch_rediscover} to resolve this."
+        ))
       } else if (has_name(e, "db_source")) {
-        ui_oops("
-          Default branch mismatch between local repo and remote!
-          {ui_value(e$db_source$name)} remote default branch: \\
-          {ui_value(e$db_source$default_branch)}
-          Local repo has no branch by that name nor any other obvious candidates.
-          Call {ui_code('git_default_branch_rediscover()')} to resolve this.")
+        ui_bullets(c(
+          "x" = "Default branch mismatch between local repo and remote.",
+          "i" = "The default branch of the {.val {e$db_source$name}} remote is
+                 {.val {e$db_source$default_branch}}.",
+          "!" = "The local repo has no branch by that name, nor any other
+                 obvious candidates.",
+          "_" = "Call {.fun git_default_branch_rediscover} to resolve this."
+        ))
       } else {
-        ui_oops("Default branch cannot be determined.")
+        ui_bullets(c("Default branch cannot be determined."))
       }
     }
   )
@@ -517,7 +516,9 @@ git_vaccinate <- function() {
   ensure_core_excludesFile()
   path <- git_ignore_path(scope = "user")
   if (!file_exists(path)) {
-    ui_done("Creating the global (user-level) gitignore: {ui_path(path)}")
+    ui_bullets(c(
+      "v" = "Creating the global (user-level) gitignore: {.path {pth(path)}}"
+    ))
   }
   write_union(path, git_ignore_lines)
 }
