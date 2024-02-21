@@ -196,3 +196,99 @@
     Message
         foo [32m<-[39m [31mfunction[39m[33m([39mx[33m)[39m[33m{[39mx[33m}[39m
 
+# bulletize() works
+
+    Code
+      ui_bullets(bulletize(letters))
+    Message
+      * a
+      * b
+      * c
+      * d
+      * e
+        ... and 21 more
+
+---
+
+    Code
+      ui_bullets(bulletize(letters, bullet = "x"))
+    Message
+      x a
+      x b
+      x c
+      x d
+      x e
+        ... and 21 more
+
+---
+
+    Code
+      ui_bullets(bulletize(letters, n_show = 2))
+    Message
+      * a
+      * b
+        ... and 24 more
+
+---
+
+    Code
+      ui_bullets(bulletize(letters[1:6]))
+    Message
+      * a
+      * b
+      * c
+      * d
+      * e
+      * f
+
+---
+
+    Code
+      ui_bullets(bulletize(letters[1:7]))
+    Message
+      * a
+      * b
+      * c
+      * d
+      * e
+      * f
+      * g
+
+---
+
+    Code
+      ui_bullets(bulletize(letters[1:8]))
+    Message
+      * a
+      * b
+      * c
+      * d
+      * e
+        ... and 3 more
+
+---
+
+    Code
+      ui_bullets(bulletize(letters[1:6], n_fudge = 0))
+    Message
+      * a
+      * b
+      * c
+      * d
+      * e
+        ... and 1 more
+
+---
+
+    Code
+      ui_bullets(bulletize(letters[1:8], n_fudge = 3))
+    Message
+      * a
+      * b
+      * c
+      * d
+      * e
+      * f
+      * g
+      * h
+

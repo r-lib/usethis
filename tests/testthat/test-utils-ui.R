@@ -140,3 +140,23 @@ cli::test_that_cli("ui_code_snippet() can NOT interpolate", {
     )
   })
 }, configs = c("plain", "ansi"))
+
+test_that("bulletize() works", {
+  withr::local_options(list(usethis.quiet = FALSE))
+  expect_snapshot(ui_bullets(bulletize(letters)))
+  expect_snapshot(ui_bullets(bulletize(letters, bullet = "x")))
+  expect_snapshot(ui_bullets(bulletize(letters, n_show = 2)))
+  expect_snapshot(ui_bullets(bulletize(letters[1:6])))
+  expect_snapshot(ui_bullets(bulletize(letters[1:7])))
+  expect_snapshot(ui_bullets(bulletize(letters[1:8])))
+  expect_snapshot(ui_bullets(bulletize(letters[1:6], n_fudge = 0)))
+  expect_snapshot(ui_bullets(bulletize(letters[1:8], n_fudge = 3)))
+})
+
+test_that("usethis_map_cli() works", {
+  x <- c("aaa", "bbb", "ccc")
+  expect_equal(
+    usethis_map_cli(x, template = "{.file <<x>>}"),
+    c("{.file aaa}", "{.file bbb}", "{.file ccc}")
+  )
+})
