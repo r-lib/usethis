@@ -225,11 +225,11 @@ I'm not going to tackle this in the main conversion.
 
 ## Sitrep and format helpers
 
-This is a small clump of functions that support sitrep-type output.
+This is a small clump of  functions that support sitrep-type output.
 
--   `hd_line()`
--   `kv_line()`
--   `ui_unset()`
+-   `hd_line()` *unexported and, apparently, unused! now removed*
+-   `kv_line()` *unexported*
+-   `ui_unset()` *exported*
 
 ## Questions
 

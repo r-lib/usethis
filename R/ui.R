@@ -301,10 +301,6 @@ is_quiet <- function() {
 
 # Sitrep helpers ---------------------------------------------------------------
 
-hd_line <- function(name) {
-  ui_inform(crayon::bold(name))
-}
-
 kv_line <- function(key, value, .envir = parent.frame()) {
   value <- if (is.null(value)) ui_unset() else ui_value(value)
   key <- glue(key, .envir = .envir)
