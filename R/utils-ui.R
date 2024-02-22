@@ -120,7 +120,7 @@ usethis_map_cli.NULL <- function(x, ...) NULL
 
 #' @export
 usethis_map_cli.character <- function(x,
-                                      template = "{.field <<x>>}",
+                                      template = "{.val <<x>>}",
                                       .open = "<<", .close = ">>",
                                       ...) {
   as.character(glue(template, .open = .open, .close = .close))
