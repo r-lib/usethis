@@ -371,7 +371,8 @@ git_push_first <- function(branch = git_branch(), remote = "origin", verbose = T
 
 # Checks ------------------------------------------------------------------
 
-check_current_branch <- function(is = NULL, is_not = NULL,
+check_current_branch <- function(is = NULL,
+                                 is_not = NULL,
                                  message = NULL) {
   gb <- git_branch()
 
@@ -380,9 +381,10 @@ check_current_branch <- function(is = NULL, is_not = NULL,
     if (gb == is) {
       return(invisible())
     } else {
-      msg <- message %||%
-        "Must be on branch {ui_value(is)}, not {ui_value(gb)}."
-      ui_stop(msg)
+      if (is.null(message)) {
+        message <- c("x" = "Must be on branch {.val {is}}, not {.val {gb}}.")
+      }
+      ui_abort(message)
     }
   }
 
@@ -391,9 +393,10 @@ check_current_branch <- function(is = NULL, is_not = NULL,
     if (gb != is_not) {
       return(invisible())
     } else {
-      msg <- message %||%
-        "Can't be on branch {ui_value(gb)}."
-      ui_stop(msg)
+      if (is.null(message)) {
+        message <- c("x" = "Can't be on branch {.val {gb}}.")
+      }
+      ui_abort(message)
     }
   }
 

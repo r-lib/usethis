@@ -220,6 +220,9 @@ ui_warn <- function(x, .envir = parent.frame()) {
 It has very little usage and, instead of converting it, I'm going to eliminate its use altogether in favor of `ui_bullets(c("!" = "Thing I'm warning about."))
 `.
 
+Now that I'm looking at a lot of the new errors with `ui_abort()` I realize that usethis also needs to be passing the `call` argument along.
+I'm not going to tackle this in the main conversion.
+
 ## Sitrep and format helpers
 
 This is a small clump of functions that support sitrep-type output.

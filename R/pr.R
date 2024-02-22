@@ -958,11 +958,12 @@ check_pr_branch <- function(default_branch = git_default_branch()) {
   # current git branch
   check_current_branch(
     is_not = default_branch,
-    message = "
-      The {ui_code('pr_*()')} functions facilitate pull requests.
-      The current branch ({ui_value(gb)}) is this repo's default \\
-      branch, but pull requests should NOT come from the default branch.
-      Do you need to call {ui_code('pr_init()')} (new PR)?
-      Or {ui_code('pr_resume()')} or {ui_code('pr_fetch()')} (existing PR)?"
+    message = c(
+      "i" = "The {.code pr_*()} functions facilitate pull requests.",
+      "i" = "The current branch ({.val {gb}}) is this repo's default branch, but
+             pull requests should NOT come from the default branch.",
+      "i" = "Do you need to call {.fun pr_init} (new PR)? Or {.fun pr_resume} or
+             {.fun pr_fetch} (existing PR)?"
+    )
   )
 }
