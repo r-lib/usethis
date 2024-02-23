@@ -86,9 +86,10 @@ use_pkgdown_url <- function(url, tr = NULL) {
   tr <- tr %||% target_repo(github_get = TRUE)
 
   config_path <- pkgdown_config_path()
-  ui_done("
-    Recording {ui_value(url)} as site's {ui_field('url')} in \\
-    {ui_path(config_path)}")
+  ui_bullets(c(
+    "v" = "Recording {.url {url}} as site's {.field url} in
+           {.path {pth(config_path)}}."
+  ))
   config <- pkgdown_config_meta()
   if (has_name(config, "url")) {
     config$url <- url
@@ -99,15 +100,17 @@ use_pkgdown_url <- function(url, tr = NULL) {
 
   proj_desc_field_update("URL", url, append = TRUE)
   if (has_package_doc()) {
-    ui_todo("
-      Run {ui_code('devtools::document()')} to update package-level documentation.")
+    ui_bullets(c(
+      "_" = "Run {.run devtools::document()} to update package-level documentation."
+    ))
   }
 
   gh <- gh_tr(tr)
   homepage <- gh("GET /repos/{owner}/{repo}")[["homepage"]]
   if (is.null(homepage) || homepage != url) {
-    ui_done("Setting {ui_value(url)} as homepage of GitHub repo \\
-      {ui_value(tr$repo_spec)}")
+    ui_bullets(c(
+      "v" = "Setting {.url {url}} as homepage of GitHub repo {.val {tr$repo_spec}}."
+    ))
     gh("PATCH /repos/{owner}/{repo}", homepage = url)
   }
 
