@@ -107,7 +107,7 @@ use_github <- function(organisation = NULL,
     ui_abort(c(
       "x" = "Unable to discover a GitHub personal access token.",
       "i" = "A token is required in order to create and push to a new repo.",
-      "_" = "Call {.run gh_token_help()} for help configuring a token."
+      "_" = "Call {.run usethis::gh_token_help()} for help configuring a token."
     ))
   }
   empirical_host <- parse_github_remotes(glue("{whoami$html_url}/REPO"))$host

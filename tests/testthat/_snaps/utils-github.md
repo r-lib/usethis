@@ -22,5 +22,5 @@
       * The 'origin' GitHub remote is a fork, but its parent is not configured as the 'upstream' remote.
       
       Read more about the GitHub remote configurations that usethis supports at:
-      'https://happygitwithr.com/common-remote-setups.html'
+      <https://happygitwithr.com/common-remote-setups.html>.
 

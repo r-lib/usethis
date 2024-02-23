@@ -78,7 +78,6 @@ test_that("ui_abort() works", {
   # usethis.quiet should have no effect on this
   withr::local_options(list(usethis.quiet = TRUE))
   expect_usethis_error(ui_abort("whisk"), "whisk")
-
 })
 
 cli::test_that_cli("ui_code_snippet() with scalar input", {
@@ -160,3 +159,51 @@ test_that("usethis_map_cli() works", {
     c("{.file aaa}", "{.file bbb}", "{.file ccc}")
   )
 })
+
+cli::test_that_cli("ui_special() works", {
+  expect_snapshot(cli::cli_text(ui_special()))
+  expect_snapshot(cli::cli_text(ui_special("whatever")))
+}, configs = c("plain", "ansi"))
+
+cli::test_that_cli("kv_line() looks as expected in basic use", {
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  expect_snapshot({
+    kv_line("CHARACTER", "VALUE")
+    kv_line("NUMBER", 1)
+    kv_line("LOGICAL", TRUE)
+  })
+}, configs = c("plain", "fancy"))
+
+cli::test_that_cli("kv_line() can interpolate and style inline in key", {
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  value <- "SOME_HOST"
+  expect_snapshot(
+    kv_line("Personal access token for {.val {value}}", "some_secret")
+  )
+}, configs = c("plain", "fancy"))
+
+cli::test_that_cli("kv_line() can treat value in different ways", {
+  withr::local_options(list(usethis.quiet = FALSE))
+
+  value <- "some value"
+  adjective <- "great"
+
+  expect_snapshot({
+    # evaluation in .envir
+    kv_line("Key", value)
+
+    # NULL is special
+    kv_line("Something we don't have", NULL)
+    # explicit special
+    kv_line("Key", ui_special("discovered"))
+
+    # value taken at face value
+    kv_line("Key", "something {.emph important}")
+
+    # I() indicates value has markup
+    kv_line("Key", I("something {.emph important}"))
+    kv_line("Key", I("something {.emph {adjective}}"))
+  })
+}, configs = c("plain", "fancy"))

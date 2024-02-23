@@ -673,15 +673,17 @@ all_configs <- function() {
 }
 
 read_more <- function() {
-  glue("
-    Read more about the GitHub remote configurations that usethis supports at:
-    {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
+  cli::format_inline(
+    "Read more about the GitHub remote configurations that usethis supports at:
+{.url https://happygitwithr.com/common-remote-setups.html}."
+  )
 }
 
 read_more_maybe <- function() {
-  glue("
-    Read more about what this GitHub remote configurations means at:
-    {ui_value('https://happygitwithr.com/common-remote-setups.html')}")
+  cli::format_inline(
+    "Read more about what this GitHub remote configurations means at:
+{.url https://happygitwithr.com/common-remote-setups.html}."
+  )
 }
 
 cfg_no_github <- function(cfg) {

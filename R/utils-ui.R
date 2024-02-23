@@ -10,6 +10,11 @@ usethis_theme <- function() {
       "text-exdent" = 2,
       before = function(x) paste0(cli::col_yellow(cli::symbol$info), " ")
     ),
+    # we have enough color going on already, let's have black bullets
+    ".bullets .bullet-*" = list(
+      "text-exdent" = 2,
+      before = function(x) paste0(cli::symbol$bullet, " ")
+    ),
     span.field = list(transform = single_quote_if_no_color)
   )
 }
@@ -149,3 +154,22 @@ compute_n_show <- function(n, n_show_nominal = 5, n_fudge = 2) {
     n
   }
 }
+
+kv_line <- function(key, value, .envir = parent.frame()) {
+  key <- cli::format_inline(key, .envir = .envir)
+
+  value <- value %||% ui_special()
+
+  if (inherits(value, "AsIs")) {
+    value <- cli::format_inline(value, .envir = .envir)
+  } else {
+    value <- cli::format_inline("{.val {value}}")
+  }
+
+  ui_bullets(c("*" = "{key}: {value}"))
+}
+
+ui_special <- function(x = "unset") {
+  I(glue("{cli::col_grey('<[x]>')}", .open = "[", .close = "]"))
+}
+

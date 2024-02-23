@@ -26,7 +26,7 @@
       [33mi[39m info
       noindent
         indent
-      [36m*[39m bullet
+      * bullet
       > arrow
       [33m![39m warning
 
@@ -58,7 +58,7 @@
       [33mℹ[39m info
       noindent
         indent
-      [36m•[39m bullet
+      • bullet
       → arrow
       [33m![39m warning
 
@@ -291,4 +291,130 @@
       * f
       * g
       * h
+
+# ui_special() works [plain]
+
+    Code
+      cli::cli_text(ui_special())
+    Message
+      <unset>
+
+---
+
+    Code
+      cli::cli_text(ui_special("whatever"))
+    Message
+      <whatever>
+
+# ui_special() works [ansi]
+
+    Code
+      cli::cli_text(ui_special())
+    Message
+      [90m<unset>[39m
+
+---
+
+    Code
+      cli::cli_text(ui_special("whatever"))
+    Message
+      [90m<whatever>[39m
+
+# kv_line() looks as expected in basic use [plain]
+
+    Code
+      kv_line("CHARACTER", "VALUE")
+    Message
+      * CHARACTER: "VALUE"
+    Code
+      kv_line("NUMBER", 1)
+    Message
+      * NUMBER: 1
+    Code
+      kv_line("LOGICAL", TRUE)
+    Message
+      * LOGICAL: TRUE
+
+# kv_line() looks as expected in basic use [fancy]
+
+    Code
+      kv_line("CHARACTER", "VALUE")
+    Message
+      • CHARACTER: [34m"VALUE"[39m
+    Code
+      kv_line("NUMBER", 1)
+    Message
+      • NUMBER: [34m1[39m
+    Code
+      kv_line("LOGICAL", TRUE)
+    Message
+      • LOGICAL: [34mTRUE[39m
+
+# kv_line() can interpolate and style inline in key [plain]
+
+    Code
+      kv_line("Personal access token for {.val {value}}", "some_secret")
+    Message
+      * Personal access token for "SOME_HOST": "some_secret"
+
+# kv_line() can interpolate and style inline in key [fancy]
+
+    Code
+      kv_line("Personal access token for {.val {value}}", "some_secret")
+    Message
+      • Personal access token for [34m"SOME_HOST"[39m: [34m"some_secret"[39m
+
+# kv_line() can treat value in different ways [plain]
+
+    Code
+      kv_line("Key", value)
+    Message
+      * Key: "some value"
+    Code
+      kv_line("Something we don't have", NULL)
+    Message
+      * Something we don't have: <unset>
+    Code
+      kv_line("Key", ui_special("discovered"))
+    Message
+      * Key: <discovered>
+    Code
+      kv_line("Key", "something {.emph important}")
+    Message
+      * Key: "something {.emph important}"
+    Code
+      kv_line("Key", I("something {.emph important}"))
+    Message
+      * Key: something important
+    Code
+      kv_line("Key", I("something {.emph {adjective}}"))
+    Message
+      * Key: something great
+
+# kv_line() can treat value in different ways [fancy]
+
+    Code
+      kv_line("Key", value)
+    Message
+      • Key: [34m"some value"[39m
+    Code
+      kv_line("Something we don't have", NULL)
+    Message
+      • Something we don't have: [90m<unset>[39m
+    Code
+      kv_line("Key", ui_special("discovered"))
+    Message
+      • Key: [90m<discovered>[39m
+    Code
+      kv_line("Key", "something {.emph important}")
+    Message
+      • Key: [34m"something {.emph important}"[39m
+    Code
+      kv_line("Key", I("something {.emph important}"))
+    Message
+      • Key: something [3mimportant[23m
+    Code
+      kv_line("Key", I("something {.emph {adjective}}"))
+    Message
+      • Key: something [3mgreat[23m
 

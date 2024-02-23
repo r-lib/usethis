@@ -345,7 +345,7 @@ git_sitrep <- function(tool = c("git", "github"),
     vaccinated <- git_vaccinated()
     kv_line("Vaccinated", vaccinated)
     if (!vaccinated) {
-      ui_bullets(c("i" = "See {.fun git_vaccinate} to learn more."))
+      ui_bullets(c("i" = "See {.fun usethis::git_vaccinate} to learn more."))
     }
     kv_line("Default Git protocol", git_protocol())
     kv_line("Default initial branch name", init_default_branch)
@@ -378,9 +378,16 @@ git_sitrep <- function(tool = c("git", "github"),
   # current branch -------------------------------------------------------------
   branch <- tryCatch(git_branch(), error = function(e) NULL)
   tracking_branch <- if (is.null(branch)) NA_character_ else git_branch_tracking()
-  # TODO: can't really express with kv_line() helper
-  branch <- if (is.null(branch)) "<unset>" else branch
-  tracking_branch <- if (is.na(tracking_branch)) "<unset>" else tracking_branch
+  if (is.null(branch)) {
+    branch <- cli::format_inline(ui_special())
+  } else {
+    branch <- cli::format_inline("{.val {branch}}")
+  }
+  if (is.na(tracking_branch)) {
+    tracking_branch <- cli::format_inline(ui_special())
+  } else {
+    tracking_branch <- cli::format_inline("{.val {tracking_branch}}")
+  }
 
   # local git config -----------------------------------------------------------
   if ("git" %in% tool) {
@@ -392,9 +399,9 @@ git_sitrep <- function(tool = c("git", "github"),
 
     # vertical alignment would make this nicer, but probably not worth it
     ui_bullets(c(
-      "*" = "Current local branch  {cli::symbol$arrow_right} remote tracking
+      "*" = "Current local branch {cli::symbol$arrow_right} remote tracking
              branch:",
-      " " = "{.val {branch}}  {cli::symbol$arrow_right} {.val {tracking_branch}}"
+      " " = "{branch} {cli::symbol$arrow_right} {tracking_branch}"
     ))
   }
 
@@ -505,11 +512,12 @@ default_branch_sitrep <- function() {
 
 #' Vaccinate your global gitignore file
 #'
-#' Adds `.Rproj.user`, `.Rhistory`, `.Rdata`, `.httr-oauth`, `.DS_Store`, and `.quarto` to
-#' your global (a.k.a. user-level) `.gitignore`. This is good practice as it
-#' decreases the chance that you will accidentally leak credentials to GitHub.
-#' `git_vaccinate()` also tries to detect and fix the situation where you have a
-#' global gitignore file, but it's missing from your global Git config.
+#' Adds `.Rproj.user`, `.Rhistory`, `.Rdata`, `.httr-oauth`, `.DS_Store`, and
+#' `.quarto` to your global (a.k.a. user-level) `.gitignore`. This is good
+#' practice as it decreases the chance that you will accidentally leak
+#' credentials to GitHub. `git_vaccinate()` also tries to detect and fix the
+#' situation where you have a global gitignore file, but it's missing from your
+#' global Git config.
 #'
 #' @export
 git_vaccinate <- function() {

@@ -129,7 +129,7 @@ pat_sitrep <- function(host = "https://github.com",
   have_pat <- pat != ""
 
   if (!have_pat) {
-    kv_line("Personal access token for {ui_value(host)}", NULL)
+    kv_line("Personal access token for {.val {host}}", NULL)
     hint <- code_hint_with_host("create_github_token", host, "host")
     ui_bullets(c(
       "_" = "To create a personal access token, call {.code {hint}}."
@@ -142,7 +142,7 @@ pat_sitrep <- function(host = "https://github.com",
     ))
     return(invisible(FALSE))
   }
-  kv_line("Personal access token for {ui_value(host)}", "<discovered>")
+  kv_line("Personal access token for {.val {host}}", ui_special("discovered"))
 
   online <- is_online(host)
   if (!online) {
@@ -174,9 +174,8 @@ pat_sitrep <- function(host = "https://github.com",
   who <- maybe_who$result
 
   kv_line("GitHub user", who$login)
-  scopes <- who$scopes
-  kv_line("Token scopes", who$scopes)
-  scopes <- strsplit(scopes, ", ")[[1]]
+  scopes <- strsplit(who$scopes, ", ")[[1]]
+  kv_line("Token scopes", scopes)
   scold_for_scopes(scopes)
 
   maybe_emails <-

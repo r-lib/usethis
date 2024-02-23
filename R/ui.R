@@ -298,11 +298,3 @@ ui_inform <- function(...) {
 is_quiet <- function() {
   isTRUE(getOption("usethis.quiet", default = FALSE))
 }
-
-# Sitrep helpers ---------------------------------------------------------------
-
-kv_line <- function(key, value, .envir = parent.frame()) {
-  value <- if (is.null(value)) ui_unset() else ui_value(value)
-  key <- glue(key, .envir = .envir)
-  ui_inform(glue("{cli::symbol$bullet} {key}: {value}"))
-}
