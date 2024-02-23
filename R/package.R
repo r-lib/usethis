@@ -83,9 +83,10 @@ use_remote <- function(package, package_remote = NULL) {
     package_remote <- package_remote(package_desc)
   }
 
-  ui_done("
-    Adding {ui_value(package_remote)} to {ui_field('Remotes')} field in \\
-    DESCRIPTION")
+  ui_bullets(c(
+    "v" = "Adding {.val {package_remote}} to {.field Remotes} field in
+           DESCRIPTION."
+  ))
   remotes <- c(remotes, package_remote)
 
   desc$set_remotes(remotes)
@@ -113,7 +114,7 @@ package_remote <- function(desc) {
   urls <- desc_urls(package, desc = desc)
   urls <- urls[urls$is_github, ]
   if (nrow(urls) < 1) {
-    ui_stop("Cannot determine remote for {ui_value(package)}")
+    ui_abort(c("x" = "Cannot determine remote for {.pkg {package}}."))
   }
   parsed <- parse_github_remotes(urls$url[[1]])
   remote <- paste0(parsed$repo_owner, "/", parsed$repo_name)
@@ -123,22 +124,23 @@ package_remote <- function(desc) {
     Is this OK?")) {
     remote
   } else {
-    ui_stop("Cannot determine remote for {ui_value(package)}")
+    ui_abort(c("x" = "Cannot determine remote for {.pkg {package}}."))
   }
 }
 
 refuse_package <- function(package, verboten) {
   if (package %in% verboten) {
-    code <- glue("use_package(\"{package}\", type = \"depends\")")
-    ui_stop(
-      "{ui_value(package)} is a meta-package and it is rarely a good idea to \\
-      depend on it. Please determine the specific underlying package(s) that \\
-      offer the function(s) you need and depend on that instead. \\
-      For data analysis projects that use a package structure but do not implement \\
-      a formal R package, adding {ui_value(package)} to Depends is a \\
-      reasonable compromise. Call {ui_code(code)} to achieve this.
-      "
-    )
+    code <- glue('use_package("{package}", type = "depends")')
+    ui_abort(c(
+      "x" = "{.pkg {package}} is a meta-package and it is rarely a good idea to
+             depend on it.",
+      "_" = "Please determine the specific underlying package(s) that provide
+             the function(s) you need and depend on that instead.",
+      "i" = "For data analysis projects that use a package structure but do not
+             implement a formal R package, adding {.pkg {package}} to
+             {.field Depends} is a reasonable compromise.",
+      "_" = "Call {.code {code}} to achieve this."
+    ))
   }
   invisible(package)
 }
@@ -151,11 +153,13 @@ how_to_use <- function(package, type) {
   }
 
   switch(type,
-    imports = ui_todo("Refer to functions with {ui_code(paste0(package, '::fun()'))}"),
-    depends = ui_todo(
-      "Are you sure you want {ui_field('Depends')}? \\
-      {ui_field('Imports')} is almost always the better choice."
-    ),
+    imports = ui_bullets(c(
+      "_" = "Refer to functions with {.code {paste0(package, '::fun()')}}."
+    )),
+    depends = ui_bullets(c(
+      "!" = "Are you sure you want {.field Depends}?
+             {.field Imports} is almost always the better choice."
+    )),
     suggests = suggests_usage_hint(package),
     enhances = "",
     linkingto = show_includes(package)
@@ -167,16 +171,17 @@ suggests_usage_hint <- function(package) {
   if (imports_rlang) {
     code1 <- glue('rlang::is_installed("{package}")')
     code2 <- glue('rlang::check_installed("{package}")')
-    ui_todo("
-      In your package code, use {ui_code(code1)} or {ui_code(code2)} to test \\
-      if {package} is installed")
+    ui_bullets(c(
+      "_" = "In your package code, use {.code {code1}} or {.code {code2}} to
+             test if {.pkg {package}} is installed."
+    ))
     code <- glue("{package}::fun()")
-    ui_todo("Then directly refer to functions with {ui_code(code)}")
+    ui_bullets(c("_" = "Then directly refer to functions with {.code {code}}."))
   } else {
-    code <- glue("requireNamespace(\"{package}\", quietly = TRUE)")
-    ui_todo("Use {ui_code(code)} to test if package is installed")
+    code <- glue('requireNamespace("{package}", quietly = TRUE)')
+    ui_bullets(c("_" = "Use {.code {code}} to test if package is installed."))
     code <- glue("{package}::fun()")
-    ui_todo("Then directly refer to functions with {ui_code(code)}")
+    ui_bullets(c("_" = "Then directly refer to functions with {.code {code}}."))
   }
 }
 
@@ -187,6 +192,6 @@ show_includes <- function(package) {
     return()
   }
 
-  ui_todo("Possible includes are:")
+  ui_bullets(c("Possible includes are:"))
   ui_code_snippet("#include <{path_file(h)}>", copy = FALSE, language = "")
 }

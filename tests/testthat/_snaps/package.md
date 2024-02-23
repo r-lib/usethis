@@ -4,7 +4,7 @@
       use_package("withr")
     Message
       v Adding withr to 'Imports' field in DESCRIPTION.
-      * Refer to functions with `withr::fun()`
+      [ ] Refer to functions with `withr::fun()`.
     Code
       use_package("withr")
       use_package("withr", "Suggests")
@@ -47,8 +47,9 @@
       use_package("withr", "Suggests")
     Message
       v Adding withr to 'Suggests' field in DESCRIPTION.
-      * Use `requireNamespace("withr", quietly = TRUE)` to test if package is installed
-      * Then directly refer to functions with `withr::fun()`
+      [ ] Use `requireNamespace("withr", quietly = TRUE)` to test if package is
+        installed.
+      [ ] Then directly refer to functions with `withr::fun()`.
 
 ---
 
@@ -56,6 +57,7 @@
       use_package("purrr", "Suggests")
     Message
       v Adding purrr to 'Suggests' field in DESCRIPTION.
-      * In your package code, use `rlang::is_installed("purrr")` or `rlang::check_installed("purrr")` to test if purrr is installed
-      * Then directly refer to functions with `purrr::fun()`
+      [ ] In your package code, use `rlang::is_installed("purrr")` or
+        `rlang::check_installed("purrr")` to test if purrr is installed.
+      [ ] Then directly refer to functions with `purrr::fun()`.
 
