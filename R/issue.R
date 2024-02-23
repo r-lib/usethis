@@ -41,23 +41,25 @@ issue_close_community <- function(number, reprex = FALSE) {
     # https://docs.github.com/en/github/setting-up-and-managing-organizations-and-teams/repository-permission-levels-for-an-organization#repository-access-for-each-permission-level
     # I have not found a way to detect triage permission via API.
     # It seems you just have to try?
-    ui_line("
-      You don't seem to have push access for {ui_value(tr$repo_spec)}.
-      Unless you have triage permissions, you won't be allowed to close an \\
-      issue.")
+    ui_bullets(c(
+      "!" = "You don't seem to have push access for {.val {tr$repo_spec}}.",
+      "i" = "Unless you have triage permissions, you won't be allowed to close
+             an issue."
+    ))
     if (ui_nope("Do you want to try anyway?")) {
-      ui_oops("Cancelling.")
+      ui_bullets(c("x" = "Cancelling."))
       return(invisible())
     }
   }
 
   info <- issue_info(number, tr)
   issue <- issue_details(info)
-  ui_done("
-    Closing issue {ui_value(issue$shorthand)} \\
-    ({ui_field(issue$author)}): {ui_value(issue$title)}")
+  ui_bullets(c(
+    "v" = "Closing issue {.val {issue$shorthand}} ({.field {issue$author}}):
+           {.val {issue$title}}."
+  ))
   if (info$state == "closed") {
-    ui_stop("Issue {number} is already closed")
+    ui_abort(c("x" ="Issue {.val {number}} is already closed."))
   }
 
   reprex_insert <- glue("
@@ -88,12 +90,13 @@ issue_reprex_needed <- function(number) {
     # https://docs.github.com/en/github/setting-up-and-managing-organizations-and-teams/repository-permission-levels-for-an-organization#repository-access-for-each-permission-level
     # I can't find anyway to detect triage permission via API.
     # It seems you just have to try?
-    ui_line("
-      You don't seem to have push access for {ui_value(tr$repo_spec)}.
-      Unless you have triage permissions, you won't be allowed to label an \\
-      issue.")
+    ui_bullets(c(
+      "!" = "You don't seem to have push access for {.val {tr$repo_spec}}.",
+      "i" = "Unless you have triage permissions, you won't be allowed to label
+             an issue."
+    ))
     if (ui_nope("Do you want to try anyway?")) {
-      ui_oops("Cancelling.")
+      ui_bullets(c("x" = "Cancelling."))
       return(invisible())
     }
   }
@@ -102,12 +105,13 @@ issue_reprex_needed <- function(number) {
   labels <- map_chr(info$labels, "name")
   issue <- issue_details(info)
   if ("reprex" %in% labels) {
-    ui_stop("Issue {number} already has 'reprex' label")
+    ui_abort(c("x" = "Issue {.val {number}} already has {.val reprex} label."))
   }
 
-  ui_done("
-    Labelling and commenting on issue {ui_value(issue$shorthand)} \\
-    ({ui_field(issue$author)}): {ui_value(issue$title)}")
+  ui_bullets(c(
+    "v" = "Labelling and commenting on issue {.val {issue$shorthand}}
+           ({.field {issue$author}}): {.val {issue$title}}."
+  ))
 
   message <- glue("
     Can you please provide a minimal reproducible example using the \\
