@@ -247,3 +247,21 @@ if (ui_nope("
 ```
 
 If I create new versions of `ui_yeah()` and `ui_nope()`, then I could still switch over to cli's inline styling. Otherwise, I won't be able to remove all internal usage of legacy `ui_*()` functions.
+
+## Miscellany
+
+* I've been adding a period to the end of messages, as a general rule.
+* In terms of whitespace and indentation, I've settled on some conventions:
+```{r}
+#| eval: false
+ui_bullets(c(
+  "i" = "Downloading into {.path {pth(destdir)}}.",
+  "_" = "Prefer a different location? Cancel, try again, and specify
+         {.arg destdir}."
+))
+...
+ui_bullets(c("x" = "Things are very wrong."))
+```
+  Key points:
+  - Put `ui_bullets(c(` on its own line, then all of the bullet items, followed by `))` on its own line. Sometimes I make an exception for a bullet list with exactly one, short bullet item.
+  - Use hard line breaks inside bullet text to comply with surrounding line length. In subsequent lines, use indentation to get you just past the opening `"`. This extraneous white space is later rationalized by cli, which handles wrapping.
