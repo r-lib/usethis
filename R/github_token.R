@@ -263,7 +263,6 @@ scold_for_scopes <- function(scopes) {
     return(invisible())
   }
 
-  # current design of the ui_*() functions makes this pretty hard :(
   suggestions <- c(
     "*" = if (!has_repo) "{.val repo}: needed to fully access user's repos",
     "*" = if (!has_workflow) "{.val workflow}: needed to manage GitHub Actions workflow files",
@@ -273,7 +272,7 @@ scold_for_scopes <- function(scopes) {
     "!" = "Token lacks recommended scopes:",
     suggestions,
     "i" = "Consider re-creating your PAT with the missing scopes.",
-    "i" = "Tokens initiated with {.fun create_github_token} default to the
+    "i" = "Tokens initiated with {.fun usethis::create_github_token} default to the
            recommended scopes."
   )
   ui_bullets(message)
