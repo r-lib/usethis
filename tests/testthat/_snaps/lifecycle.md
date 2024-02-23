@@ -3,7 +3,7 @@
     Code
       use_lifecycle()
     Message
-      v Adding 'lifecycle' to Imports field in DESCRIPTION
+      v Adding lifecycle to 'Imports' field in DESCRIPTION.
       * Refer to functions with `lifecycle::fun()`
       v Adding '@importFrom lifecycle deprecated' to
         'R/{TESTPKG}-package.R'.

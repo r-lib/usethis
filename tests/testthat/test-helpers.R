@@ -30,31 +30,27 @@ test_that("valid_file_name() enforces valid file names", {
 
 test_that("we message for new type and are silent for same type", {
   create_local_package()
-  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+  withr::local_options(usethis.quiet = FALSE)
 
-  expect_message(
-    use_dependency("crayon", "Imports"),
-    "Adding 'crayon' to Imports field"
+  expect_snapshot(
+    use_dependency("crayon", "Imports")
   )
   expect_silent(use_dependency("crayon", "Imports"))
 })
 
 test_that("we message for version change and are silent for same version", {
   create_local_package()
-  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+  withr::local_options(usethis.quiet = FALSE)
 
-  expect_message(
-    use_dependency("crayon", "Imports"),
-    "Adding 'crayon"
+  expect_snapshot(
+    use_dependency("crayon", "Imports")
   )
-  expect_message(
-    use_dependency("crayon", "Imports", min_version = "1.0.0"),
-    "Increasing 'crayon'"
+  expect_snapshot(
+    use_dependency("crayon", "Imports", min_version = "1.0.0")
   )
   expect_silent(use_dependency("crayon", "Imports", min_version = "1.0.0"))
-  expect_message(
-    use_dependency("crayon", "Imports", min_version = "2.0.0"),
-    "Increasing 'crayon'"
+  expect_snapshot(
+    use_dependency("crayon", "Imports", min_version = "2.0.0")
   )
   expect_silent(use_dependency("crayon", "Imports", min_version = "1.0.0"))
 })
@@ -62,12 +58,12 @@ test_that("we message for version change and are silent for same version", {
 ## https://github.com/r-lib/usethis/issues/99
 test_that("use_dependency() upgrades a dependency", {
   create_local_package()
-  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+  withr::local_options(usethis.quiet = FALSE)
 
-  expect_message(use_dependency("usethis", "Suggests"))
+  expect_snapshot(use_dependency("usethis", "Suggests"))
   expect_match(desc::desc_get("Suggests"), "usethis")
 
-  expect_message(use_dependency("usethis", "Imports"), "Moving 'usethis'")
+  expect_snapshot(use_dependency("usethis", "Imports"))
   expect_match(desc::desc_get("Imports"), "usethis")
   expect_no_match(desc::desc_get("Suggests"), "usethis")
 })
@@ -75,15 +71,12 @@ test_that("use_dependency() upgrades a dependency", {
 ## https://github.com/r-lib/usethis/issues/99
 test_that("use_dependency() declines to downgrade a dependency", {
   create_local_package()
-  withr::local_options(list(usethis.quiet = FALSE, crayon.enabled = FALSE))
+  withr::local_options(usethis.quiet = FALSE)
 
-  expect_message(use_dependency("usethis", "Imports"))
+  expect_snapshot(use_dependency("usethis", "Imports"))
   expect_match(desc::desc_get("Imports"), "usethis")
 
-  withr::local_options(list(usethis.quiet = FALSE))
-  expect_snapshot(
-    use_dependency("usethis", "Suggests")
-  )
+  expect_snapshot(use_dependency("usethis", "Suggests"))
   expect_match(desc::desc_get("Imports"), "usethis")
   expect_no_match(desc::desc_get("Suggests"), "usethis")
 })
@@ -92,7 +85,7 @@ test_that("can add LinkingTo dependency if other dependency already exists", {
   create_local_package()
   use_dependency("rlang", "Imports")
 
-  withr::local_options(list(usethis.quiet = FALSE))
+  withr::local_options(usethis.quiet = FALSE)
   expect_snapshot(
     use_dependency("rlang", "LinkingTo")
   )
@@ -107,7 +100,7 @@ test_that("use_dependency() does not fall over on 2nd LinkingTo request", {
 
   use_dependency("rlang", "LinkingTo")
 
-  withr::local_options(list(usethis.quiet = FALSE))
+  withr::local_options(usethis.quiet = FALSE)
 
   expect_snapshot(use_dependency("rlang", "LinkingTo"))
 })
@@ -119,7 +112,7 @@ test_that("use_dependency() can level up a LinkingTo dependency", {
   use_dependency("rlang", "LinkingTo")
   use_dependency("rlang", "Suggests")
 
-  withr::local_options(list(usethis.quiet = FALSE))
+  withr::local_options(usethis.quiet = FALSE)
 
   expect_snapshot(use_package("rlang"))
   deps <- proj_deps()
