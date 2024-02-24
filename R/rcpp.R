@@ -92,11 +92,15 @@ use_makevars <- function(settings = NULL) {
   if (!file_exists(makevars_path) && !file_exists(makevars_win_path)) {
     write_utf8(makevars_path, makevars_content)
     file_copy(makevars_path, makevars_win_path)
-    ui_done("Created {ui_path(makevars_path)} and {ui_path(makevars_win_path)} \\
-             with requested compilation settings.")
+    ui_bullets(c(
+      "v" = "Created {.path {pth(makevars_path)}} and
+             {.path {pth(makevars_win_path)}} with requested compilation settings."
+    ))
   } else {
-    ui_todo("Ensure the following Makevars compilation settings are set for both \\
-            {ui_path(makevars_path)} and {ui_path(makevars_win_path)}:")
+    ui_bullets(c(
+      "_" = "Ensure the following Makevars compilation settings are set for both
+             {.path {pth(makevars_path)}} and {.path {pth(makevars_win_path)}}:"
+    ))
     ui_code_snippet(
       makevars_content,
       language = ""
