@@ -39,10 +39,10 @@ use_devtools <- function() {
 
 use_rprofile_package <- function(package) {
   check_installed(package)
-  ui_todo(
-    "Include this code in {ui_value('.Rprofile')} to make \\
-    {ui_field(package)} available in all interactive sessions."
-  )
+  ui_bullets(c(
+    "_" = "Include this code in {.path .Rprofile} to make {.pkg {package}}
+           available in all interactive sessions:"
+  ))
   ui_code_snippet("
     if (interactive()) {{
       suppressMessages(require({package}))
@@ -53,9 +53,9 @@ use_rprofile_package <- function(package) {
 #' @rdname rprofile-helper
 #' @export
 use_partial_warnings <- function() {
-  ui_todo(
-    "Include this code in {ui_path('.Rprofile')} to warn on partial matches."
-  )
+  ui_bullets(c(
+    "_" = "Include this code in {.path .Rprofile} to warn on partial matches:"
+  ))
   ui_code_snippet("
     options(
       warnPartialMatchArgs = TRUE,
