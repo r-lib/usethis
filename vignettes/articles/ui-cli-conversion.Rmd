@@ -290,3 +290,14 @@ ui_bullets(c("x" = "Things are very wrong."))
   Key points:
   - Put `ui_bullets(c(` on its own line, then all of the bullet items, followed by `))` on its own line. Sometimes I make an exception for a bullet list with exactly one, short bullet item.
   - Use hard line breaks inside bullet text to comply with surrounding line length. In subsequent lines, use indentation to get you just past the opening `"`. This extraneous white space is later rationalized by cli, which handles wrapping.
+  - Surround bullet names like `x` and `i` with quotes, even though you don't have to, because it's required for other names, such as `!` or `_` and it's better to be consistent.
+  - Here's another style that applies to `ui_abort()`, where there's just one, unnamed bullet, but the call doesn't fit on one line.
+```{r}
+pr <- list(pr_number = 13)
+ui_abort("
+  The repo or branch where PR #{pr$pr_number} originates seems to have been
+  deleted.")
+```
+
+
+TODO: come back to `pr_push()` and deal with that menu stuff. Ditto for `choose_branch()` and `choose_pr()`.
