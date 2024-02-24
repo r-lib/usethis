@@ -33,7 +33,7 @@ use_tibble <- function() {
 
   created <- use_import_from("tibble", "tibble")
 
-  ui_todo("Document a returned tibble like so:")
+  ui_bullets(c("_" = "Document a returned tibble like so:"))
   ui_code_snippet(
     "#' @return a [tibble][tibble::tibble-package]",
     language = "",
