@@ -114,7 +114,7 @@ package_remote <- function(desc) {
   urls <- desc_urls(package, desc = desc)
   urls <- urls[urls$is_github, ]
   if (nrow(urls) < 1) {
-    ui_abort(c("x" = "Cannot determine remote for {.pkg {package}}."))
+    ui_abort("Cannot determine remote for {.pkg {package}}.")
   }
   parsed <- parse_github_remotes(urls$url[[1]])
   remote <- paste0(parsed$repo_owner, "/", parsed$repo_name)
@@ -124,7 +124,7 @@ package_remote <- function(desc) {
     Is this OK?")) {
     remote
   } else {
-    ui_abort(c("x" = "Cannot determine remote for {.pkg {package}}."))
+    ui_abort("Cannot determine remote for {.pkg {package}}.")
   }
 }
 

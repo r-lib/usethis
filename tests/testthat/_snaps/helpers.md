@@ -73,5 +73,5 @@
       use_package("rlang")
     Message
       v Moving rlang from 'Suggests' to 'Imports' field in DESCRIPTION.
-      * Refer to functions with `rlang::fun()`
+      [ ] Refer to functions with `rlang::fun()`.
 

@@ -179,7 +179,7 @@ check_protocol <- function(protocol) {
   if (!is_string(protocol) ||
       !(tolower(protocol) %in% c("https", "ssh"))) {
     options(usethis.protocol = NULL)
-    ui_abort(c("x" = "{.arg protocol} must be either {.val https} or {.val ssh}."))
+    ui_abort("{.arg protocol} must be either {.val https} or {.val ssh}.")
   }
   invisible()
 }
@@ -250,8 +250,8 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
 
   if (name %in% names(remotes) && !overwrite) {
     ui_abort(c(
-      "x" = "Remote {.val {name}} already exists.",
-      "i" = "Use {.code overwrite = TRUE} to edit it anyway."
+      "Remote {.val {name}} already exists.",
+      "Use {.code overwrite = TRUE} to edit it anyway."
     ))
   }
 

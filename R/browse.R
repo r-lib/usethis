@@ -177,12 +177,14 @@ github_url <- function(package = NULL) {
       ui_abort(c(
         "Project {.val {project_name()}} has no DESCRIPTION file and
          has no GitHub remotes configured.",
-        x = "No way to discover URLs."))
+        "No way to discover URLs."
+      ))
     } else {
       ui_abort(c(
-        "Can't find DESCRIPTION for package {.val {package}} locally
+        "Can't find DESCRIPTION for package {.pkg {package}} locally
          or on CRAN.",
-        x = "No way to discover URLs."))
+        "No way to discover URLs."
+      ))
     }
   }
 

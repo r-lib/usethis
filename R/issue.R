@@ -59,7 +59,7 @@ issue_close_community <- function(number, reprex = FALSE) {
            {.val {issue$title}}."
   ))
   if (info$state == "closed") {
-    ui_abort(c("x" ="Issue {.val {number}} is already closed."))
+    ui_abort("Issue {.val {number}} is already closed.")
   }
 
   reprex_insert <- glue("
@@ -105,7 +105,7 @@ issue_reprex_needed <- function(number) {
   labels <- map_chr(info$labels, "name")
   issue <- issue_details(info)
   if ("reprex" %in% labels) {
-    ui_abort(c("x" = "Issue {.val {number}} already has {.val reprex} label."))
+    ui_abort("Issue {.val {number}} already has {.val reprex} label.")
   }
 
   ui_bullets(c(

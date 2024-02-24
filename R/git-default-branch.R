@@ -156,7 +156,7 @@ git_default_branch <- function() {
       )
     } else {
       ui_abort(
-        c("x" = "Can't determine the local repo's default branch."),
+        "Can't determine the local repo's default branch.",
         class = "error_default_branch"
       )
     }
@@ -261,10 +261,8 @@ guess_local_default_branch <- function(prefer = NULL, verbose = FALSE) {
   } else {
     # TODO: perhaps this should be classed, so I can catch it and distinguish
     # from the ui_abort() above, where there are no local branches.
-    ui_abort(c(
-      "x" = "Unable to guess which existing local branch plays the role of the
-             default."
-    ))
+    ui_abort("
+      Unable to guess which existing local branch plays the role of the default.")
   }
 
   if (verbose) {
@@ -329,7 +327,7 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
 
   if (!is.null(from) &&
       !gert::git_branch_exists(from, local = TRUE, repo = repo)) {
-    ui_abort(c("x" = "Can't find existing branch named {.val {from}}."))
+    ui_abort("Can't find existing branch named {.val {from}}.")
   }
 
   cfg <- github_remote_config(github_get = TRUE)
@@ -357,11 +355,9 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
   old_source_db <- tr$default_branch
 
   if (!isTRUE(tr$can_admin)) {
-    ui_abort(c(
-      "x" = "You don't seem to have {.field admin} permissions for the source
-             repo {.val {tr$repo_spec}}, which is required to rename the default
-             branch."
-    ))
+    ui_abort("
+      You don't seem to have {.field admin} permissions for the source repo
+      {.val {tr$repo_spec}}, which is required to rename the default branch.")
   }
 
   old_local_db <- from %||%
@@ -428,9 +424,7 @@ rediscover_default_branch <- function(old_name = NULL, report_on_source = TRUE) 
   repo <- git_repo()
   if (!is.null(old_name) &&
       !gert::git_branch_exists(old_name, local = TRUE, repo = repo)) {
-    ui_abort(c(
-      "x" = "Can't find existing local branch named {.val {old_name}}."
-    ))
+    ui_abort("Can't find existing local branch named {.val {old_name}}.")
   }
 
   cfg <- github_remote_config(github_get = TRUE)

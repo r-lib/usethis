@@ -89,11 +89,9 @@ use_github <- function(organisation = NULL,
 
   if (is.null(organisation)) {
     if (visibility_specified) {
-      ui_abort(c(
-        "x" = "The {.arg visibility} setting is only relevant for
-               organisation-owned repos, within the context of certain GitHub
-               Enterprise products."
-      ))
+      ui_abort("
+        The {.arg visibility} setting is only relevant for organisation-owned
+        repos, within the context of certain GitHub Enterprise products.")
     }
     visibility <- if (private) "private" else "public"
   }
@@ -287,7 +285,5 @@ check_no_github_repo <- function(owner, repo, host) {
   }
   spec <- glue("{owner}/{repo}")
   empirical_host <- parse_github_remotes(repo_info$html_url)$host
-  ui_abort(c(
-    "x" = "Repo {.val {spec}} already exists on {.val {empirical_host}}."
-  ))
+  ui_abort("Repo {.val {spec}} already exists on {.val {empirical_host}}.")
 }

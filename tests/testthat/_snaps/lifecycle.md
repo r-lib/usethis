@@ -4,7 +4,7 @@
       use_lifecycle()
     Message
       v Adding lifecycle to 'Imports' field in DESCRIPTION.
-      * Refer to functions with `lifecycle::fun()`
+      [ ] Refer to functions with `lifecycle::fun()`.
       v Adding '@importFrom lifecycle deprecated' to
         'R/{TESTPKG}-package.R'.
       v Writing 'NAMESPACE'

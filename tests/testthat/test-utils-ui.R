@@ -80,6 +80,26 @@ test_that("ui_abort() works", {
   expect_usethis_error(ui_abort("whisk"), "whisk")
 })
 
+test_that("ui_abort() defaults to 'x' for first bullet", {
+  expect_snapshot(error = TRUE, ui_abort("no explicit bullet"))
+})
+
+test_that("ui_abort() can take explicit first bullet", {
+  expect_snapshot(error = TRUE, ui_abort(c("v" = "success bullet")))
+})
+
+test_that("ui_abort() defaults to 'i' for non-first bullet", {
+  expect_snapshot(
+    error = TRUE,
+    ui_abort(c(
+      "oops",
+      " " = "space bullet",
+      "info bullet",
+      "v" = "success bullet"
+    ))
+  )
+})
+
 cli::test_that_cli("ui_code_snippet() with scalar input", {
   withr::local_options(list(usethis.quiet = FALSE))
 

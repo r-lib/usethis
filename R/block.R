@@ -103,9 +103,9 @@ block_find <- function(lines, block_start = "# <<<", block_end = "# >>>") {
 
   if (!(length(start) == 1 && length(end) == 1 && start < end)) {
     ui_abort(c(
-      "x" = "Invalid block specification.",
-      "i" = "Must start with {.code {block_start}} and end with
-             {.code {block_end}}."
+      "Invalid block specification.",
+      "Must start with {.code {block_start}} and end with
+       {.code {block_end}}."
     ))
   }
 

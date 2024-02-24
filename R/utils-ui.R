@@ -45,6 +45,13 @@ ui_bullets <- function(text, .envir = parent.frame()) {
 
 ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
   cli::cli_div(theme = usethis_theme())
+
+  nms <- names2(message)
+  default_nms <- rep_along(message, "i")
+  default_nms[1] <- "x"
+  nms <- ifelse(nzchar(nms), nms, default_nms)
+  names(message) <- nms
+
   cli::cli_abort(
     message,
     class = c(class, "usethis_error"),

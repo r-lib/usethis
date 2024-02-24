@@ -226,7 +226,6 @@ create_from_github <- function(repo_spec,
     ui_abort(c(
       "x" = "Unable to discover a GitHub personal access token.",
       "i" = "A token is required in order to fork {.val {repo_spec}}.",
-      "",
       "_" = "Call {.code {hint}} for help configuring a token."
     ))
   }
@@ -254,10 +253,9 @@ create_from_github <- function(repo_spec,
   # fork is either TRUE or FALSE
 
   if (fork && identical(user, repo_info$owner$login)) {
-    ui_abort(c(
-      "x" = "Can't fork, because the authenticated user {.val {user}}
-             already owns the source repo {.vale {repo_info$full_name}}."
-    ))
+    ui_abort("
+      Can't fork, because the authenticated user {.val {user}} already owns the
+      source repo {.val {repo_info$full_name}}.")
   }
 
   destdir <- user_path_prep(destdir %||% conspicuous_place())

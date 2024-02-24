@@ -7,13 +7,9 @@ use_dependency <- function(package, type, min_version = NULL) {
   }
 
   if (package == "R" && tolower(type) != "depends") {
-    ui_abort(c(
-      "x" = 'Set {.code type = "Depends"} when specifying an R version.'
-    ))
+    ui_abort('Set {.code type = "Depends"} when specifying an R version.')
   } else if (package == "R" && is.null(min_version)) {
-    ui_abort(c(
-      "x" = 'Specify {.arg min_version} when {.code package = "R"}.'
-    ))
+    ui_abort('Specify {.arg min_version} when {.code package = "R"}.')
   }
 
   if (isTRUE(min_version) && package == "R") {

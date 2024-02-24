@@ -263,8 +263,8 @@ tidy_download <- function(url, destdir = getwd()) {
   full_path <- path(destdir, base_name)
 
   if (!can_overwrite(full_path)) {
-    ui_abort(
-      "Cancelling download, to avoid overwriting {.path {pth(full_path)}}.")
+    ui_abort("
+      Cancelling download, to avoid overwriting {.path {pth(full_path)}}.")
   }
   attr(full_path, "content-type") <- content_type(h)
   attr(full_path, "content-disposition") <- cd
@@ -557,8 +557,8 @@ check_is_zip <- function(ct) {
   allowed <- c("application/zip", "application/x-zip-compressed")
   if (!ct %in% allowed) {
     ui_abort(c(
-      "x" = "Download does not have MIME type {.val application/zip}.",
-      "i" = "Instead it's {.val {ct}}."
+      "Download does not have MIME type {.val application/zip}.",
+      "Instead it's {.val {ct}}."
     ))
   }
   invisible(ct)
@@ -573,9 +573,8 @@ check_is_zip <- function(ct) {
 parse_content_disposition <- function(cd) {
   if (!grepl("^attachment;", cd)) {
     ui_abort(c(
-      "x" = "{.code Content-Disposition} header doesn't start with
-             {.val attachment}.",
-      "i" = "Actual header: {.val cd}"
+      "{.code Content-Disposition} header doesn't start with {.val attachment}.",
+      "Actual header: {.val cd}"
     ))
   }
 

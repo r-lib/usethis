@@ -98,6 +98,33 @@
       [32m✔[39m Updated the [32mBugReports[39m field
       [31m✖[39m Scary `code` or `function()`
 
+# ui_abort() defaults to 'x' for first bullet
+
+    Code
+      ui_abort("no explicit bullet")
+    Condition
+      Error:
+      x no explicit bullet
+
+# ui_abort() can take explicit first bullet
+
+    Code
+      ui_abort(c(v = "success bullet"))
+    Condition
+      Error:
+      v success bullet
+
+# ui_abort() defaults to 'i' for non-first bullet
+
+    Code
+      ui_abort(c("oops", ` ` = "space bullet", "info bullet", v = "success bullet"))
+    Condition
+      Error:
+      x oops
+        space bullet
+      i info bullet
+      v success bullet
+
 # ui_code_snippet() with scalar input [plain]
 
     Code

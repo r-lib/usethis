@@ -194,6 +194,7 @@ to `ui_abort()`:
 ```{r}
 ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
   cli::cli_div(theme = usethis_theme())
+  # bullet naming stuff, see below
   cli::cli_abort(
     message,
     class = c(class, "usethis_error"),
@@ -205,6 +206,30 @@ ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
 
 At this point, the `usethis_theme()` doesn't do anything that affects the styling of an error.
 So the main point of `ui_abort()` is to use to `cli_abort()` (and to continue applying the `"usethis_error"` class).
+
+I also use `ui_abort()` to apply different default bullet styling.
+Starting with `"x"` and then defaulting to `"i"` seems to fit best with usethis's existing errors.
+
+```{r}
+block_start = "# <<<"
+block_end = "# >>>"
+ui_abort(c(
+  "Invalid block specification.",
+  "Must start with {.code {block_start}} and end with {.code {block_end}}."
+))
+```
+
+Any bullets that are explicitly given are honored.
+
+```{r}
+ui_abort(c("v" = "Weird thing to do in an error, but whatever."))
+ui_abort(c(
+  "!" = "Things are not ideal.",
+  ">" = "Look at me!"
+))
+```
+
+`rlang::abort()` and `cli::cli_abort()` start with `"!"` by default, then use `"*"` and `" "`, respectively.
 
 The legacy functions include `ui_warn()`:
 
