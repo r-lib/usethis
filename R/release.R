@@ -36,11 +36,12 @@ use_release_issue <- function(version = NULL) {
   check_is_package("use_release_issue()")
   tr <- target_repo(github_get = TRUE)
   if (!isTRUE(tr$can_push)) {
-    ui_line("
-      It is very unusual to open a release issue on a repo you can't push to:
-        {ui_value(tr$repo_spec)}")
+    ui_bullets(c(
+      "!" = "It is very unusual to open a release issue on a repo you can't push
+             to ({.val {tr$repo_spec}})."
+    ))
     if (ui_nope("Do you really want to do this?")) {
-      ui_oops("Cancelling.")
+      ui_bullets(c("x" = "Cancelling."))
       return(invisible())
     }
   }
@@ -286,7 +287,7 @@ get_release_data <- function(tr = target_repo(github_get = TRUE)) {
     path_first_existing(proj_path(c("CRAN-SUBMISSION", "CRAN-RELEASE")))
 
   if (is.null(cran_submission)) {
-    ui_done("Using current HEAD commit for the release")
+    ui_bullets(c("v" = "Using current HEAD commit for the release."))
     challenge_non_default_branch()
     check_branch_pushed()
     return(list(
@@ -345,8 +346,9 @@ get_release_data <- function(tr = target_repo(github_get = TRUE)) {
 
   out$Package <- project_name()
   out$file <- cran_submission
-  ui_done("
-    {ui_path(out$file)} file found, from a submission on {as.Date(out$Date)}")
+  ui_bullets(c(
+    "{.path {pth(out$file)}} file found, from a submission on {as.Date(out$Date)}."
+  ))
 
   out
 }
@@ -362,11 +364,12 @@ check_github_has_SHA <- function(SHA = gert::git_info(repo = git_repo())$commit,
     return()
   }
   if (inherits(SHA_GET$error, "http_error_404")) {
-    ui_stop("
-      Can't find SHA {ui_value(substr(SHA, 1, 7))} in {ui_value(tr$repo_spec)}.
-      Do you need to push?")
+    ui_abort(c(
+      "Can't find SHA {.val {substr(SHA, 1, 7)}} in {.val {tr$repo_spec}}.",
+      "Do you need to push?"
+    ))
   }
-  ui_stop("Internal error: Unexpected error when checking for SHA on GitHub")
+  ui_abort("Internal error: Unexpected error when checking for SHA on GitHub.")
 }
 
 get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
@@ -390,10 +393,11 @@ get_release_news <- function(SHA = gert::git_info(repo = git_repo())$commit,
   }
 
   if (is.null(news)) {
-    ui_oops("
-      Can't find {ui_path('NEWS.md')} in the released package source.
-      usethis consults this file for release notes.
-      Call {ui_code('usethis::use_news_md()')} to set this up for the future.")
+    ui_bullets(c(
+      "x" = "Can't find {.path {pth('NEWS.md')}} in the released package source.",
+      "i" = "{.pkg usethis} consults this file for release notes.",
+      "i" = "Call {.run usethis::use_news_md()} to set this up for the future."
+    ))
     if (on_cran) "-- no release notes --" else "Initial release"
   } else {
     news_latest(news)
@@ -433,7 +437,7 @@ news_latest <- function(lines) {
   headings <- which(grepl("^#\\s+", lines))
 
   if (length(headings) == 0) {
-    ui_stop("No top-level headings found in {ui_value('NEWS.md')}")
+    ui_abort("No top-level headings found in {.path {pth('NEWS.md')}}.")
   } else if (length(headings) == 1) {
     news <- lines[seq2(headings + 1, length(lines))]
   } else {
