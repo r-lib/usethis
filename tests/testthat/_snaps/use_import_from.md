@@ -11,18 +11,18 @@
     Code
       use_import_from(1)
     Condition
-      Error:
-      ! `package` must be a single string
+      Error in `use_import_from()`:
+      x `package` must be a single string.
     Code
       use_import_from(c("tibble", "rlang"))
     Condition
-      Error:
-      ! `package` must be a single string
+      Error in `use_import_from()`:
+      x `package` must be a single string.
     Code
       use_import_from("tibble", "pool_noodle")
     Condition
       Error in `map2()`:
       i In index: 1.
-      Caused by error:
-      ! Can't find `tibble::pool_noodle()`
+      Caused by error in `.f()`:
+      x Can't find `tibble::pool_noodle()`.
 
