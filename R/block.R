@@ -23,7 +23,7 @@ block_append <- function(desc, value, path,
     return(FALSE)
   }
 
-  ui_bullets(c("v" = "Adding {desc} to {.path {pth(path)}}."))
+  ui_bullets(c("v" = "Adding {.val {desc}} to {.path {pth(path)}}."))
 
   start <- block_lines[[1]]
   end <- block_lines[[2]]
