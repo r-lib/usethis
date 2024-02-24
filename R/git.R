@@ -23,7 +23,7 @@ use_git <- function(message = "Initial commit") {
   }
 
   if (needs_init) {
-    restart_rstudio("A restart of RStudio is required to activate the Git pane")
+    restart_rstudio("A restart of RStudio is required to activate the Git pane.")
   }
 
   invisible(TRUE)
