@@ -19,7 +19,8 @@ I'll start with a review of the current (soon to be legacy) `usethis::ui_*()` fu
 
 ## Block styles
 
-The block styles mostly exist to produce bulleted output with a specific symbol, using a specific color, that can be shutdown package-wide via the `usethis.quiet` option.
+The block styles mostly exist to produce bulleted output with a specific symbol, using a specific color.
+All of this output can be turned off package-wide via the `usethis.quiet` option.
 
 ```{r}
 f <- function() {
@@ -55,21 +56,26 @@ A direct translation looks something like this:
 | `ui_done()` | `v`                       | perfect match                 |
 | `ui_oops()` | `x`                       | perfect match                 |
 | `ui_info()` | `i`                       | blue (default) -\> yellow     |
-| `ui_line()` | (unnamed)                 | might be perfect match? although sometimes ui_line is used just to get a blank line |
+| `ui_line()` | (unnamed)                 | sort of a perfect match? although sometimes ui_line is used just to get a blank line |
 
-I'm experimenting with a few more tweaks related to TODOs:
+The overall conversion plan is to switch to the new `ui_bullets()`, which is a wrapper around `cli::cli_bullets()`, that adds a few features:
 
+* Early exit, without emitting messages, if the `usethis.quiet` option is `TRUE`.
+* A usethis theme, that changes the color of certain bullet styles and adds a new style for todo's.
+
+Summary of what I've done for todo's:
+
+-   Introduce a new bullet shortcode for a todo. Proposal: `_` (instead of `*`), which seems to be the best single ascii character that evokes a place to check something off.
 -   Use `cli::symbol$checkbox_off` as the symbol (instead of a generic bullet). I guess it will continue to be red.
--   Introduce a new bullet shortcode for a TODO. Proposal: `_` (instead of `*`), which seems to be the best single ascii character that evokes a place to check something off.
 
-That just leaves `code_block()`, which is pretty different.
-It exists to put some code on the screen and optionally place it on the clipboard.
+In terms of the block styles, that just leaves `ui_code_block()`, which is pretty different.
+`ui_code_block()` is used to put some code on the screen and optionally place it on the clipboard.
 I have created a new function, `ui_code_snippet()` that is built around `cli::code_block()`.
 Main observations:
 
 * `cli::code_block(language = "R")` applies syntax highlighting and hyperlinks (e.g. to function help topics) to R code, which is cool. Therefore the `language` argument is also exposed in `ui_code_snippet()`, defaulting to `"R"`. Use `""` for anything that's not R code:
 ```{r}
-#| eval: false
+#| eval: true
 ui_code_snippet("x <- 1 + 2")
 ui_code_snippet("#include <blah.h>", language = "")
 ```
@@ -109,6 +115,7 @@ is_quiet <- function() {
 
 `ui_todo()`, `ui_done()`, `ui_oops()`, `ui_info()` all route through `ui_bullet()`, which does some hygiene related to indentation (using the `indent()` utility function), then calls `ui_inform()`.
 `ui_line()` and `ui_code()` call `ui_inform()` directly.
+(I have renamed `ui_bullet()` to `ui_legacy_bullet()` for auto-completion happiness with the new `ui_bullets()`.)
 
 `ui_inform()` is just a wrapper around `rlang::inform()` that is guarded by a call to `is_quiet()`
 
@@ -301,3 +308,5 @@ ui_abort("
 
 
 TODO: come back to `pr_push()` and deal with that menu stuff. Ditto for `choose_branch()` and `choose_pr()`.
+
+TODO: come back to this bit in git.R: ` purrr::walk(format(cfg), ui_bullet)`

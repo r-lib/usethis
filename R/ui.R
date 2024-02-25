@@ -63,7 +63,7 @@ ui_line <- function(x = character(), .envir = parent.frame()) {
 ui_todo <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::red(cli::symbol$bullet))
+  ui_legacy_bullet(x, crayon::red(cli::symbol$bullet))
 }
 
 #' @rdname ui
@@ -71,7 +71,7 @@ ui_todo <- function(x, .envir = parent.frame()) {
 ui_done <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::green(cli::symbol$tick))
+  ui_legacy_bullet(x, crayon::green(cli::symbol$tick))
 }
 
 #' @rdname ui
@@ -79,7 +79,7 @@ ui_done <- function(x, .envir = parent.frame()) {
 ui_oops <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::red(cli::symbol$cross))
+  ui_legacy_bullet(x, crayon::red(cli::symbol$cross))
 }
 
 #' @rdname ui
@@ -87,7 +87,7 @@ ui_oops <- function(x, .envir = parent.frame()) {
 ui_info <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
-  ui_bullet(x, crayon::yellow(cli::symbol$info))
+  ui_legacy_bullet(x, crayon::yellow(cli::symbol$info))
 }
 
 #' @param copy If `TRUE`, the session is interactive, and the clipr package
@@ -280,7 +280,7 @@ indent <- function(x, first = "  ", indent = first) {
   paste0(first, x)
 }
 
-ui_bullet <- function(x, bullet = cli::symbol$bullet) {
+ui_legacy_bullet <- function(x, bullet = cli::symbol$bullet) {
   bullet <- paste0(bullet, " ")
   x <- indent(x, bullet, "  ")
   ui_inform(x)
