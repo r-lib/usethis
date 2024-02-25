@@ -87,10 +87,10 @@ use_vignette_template <- function(template, name, title, subdir = NULL) {
 
 check_vignette_name <- function(name) {
   if (!valid_vignette_name(name)) {
-    ui_stop(c(
-      "{ui_value(name)} is not a valid filename for a vignette. It must:",
-      "* Start with a letter.",
-      "* Contain only letters, numbers, '_', and '-'."
+    ui_abort(c(
+      "{.val {name}} is not a valid filename for a vignette. It must:",
+      "Start with a letter.",
+      "Contain only letters, numbers, '_', and '-'."
     ))
   }
 }
