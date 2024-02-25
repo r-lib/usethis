@@ -159,7 +159,7 @@ ui_bullets(c(
   "v" = "Setting {.field LazyData} to {.val true} in {.path {pth('DESCRIPTION')}}."
 ))
 ```
-It would be nice to create a custom inline class, e.g. `{.usethis_path {some_path}}`, which I have done in, e.g., googledrive. But it's not easy to this *while also inheriting cli's `file:` hyperlink behaviour*, which is very desirable. So that leads to the somewhat clunk pattern above, but it gives a nice result.
+It would be nice to create a custom inline class, e.g. `{.usethis_path {some_path}}`, which I have done in, e.g., googledrive. But it's not easy to do this *while still inheriting cli's `file:` hyperlink behaviour*, which is very desirable. So that leads to the somewhat clunky pattern above, but it gives a nice result.
 -   `ui_code()` gets replaced by various inline styles, depending on what the actual goal is:
     -   `{.arg some_argument}`
     -   `{.cls some_class}`

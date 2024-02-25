@@ -60,7 +60,7 @@ write_union <- function(path, lines, quiet = FALSE) {
   }
 
   if (!quiet) {
-    ui_done("Adding {ui_value(new)} to {ui_path(path)}")
+    ui_bullets(c("v" = "Adding {.val {new}} to {.path {pth(path)}}."))
   }
 
   all <- c(existing_lines, new)
@@ -86,12 +86,12 @@ write_over <- function(path, lines, quiet = FALSE, overwrite = FALSE) {
 
   if (overwrite || can_overwrite(path)) {
     if (!quiet) {
-      ui_done("Writing {ui_path(path)}")
+      ui_bullets(c("v" = "Writing {.path {pth(path)}}."))
     }
     write_utf8(path, lines)
   } else {
     if (!quiet) {
-      ui_done("Leaving {ui_path(path)} unchanged")
+      ui_bullets(c("i" = "Leaving {.path {pth(path)}} unchanged."))
     }
     invisible(FALSE)
   }

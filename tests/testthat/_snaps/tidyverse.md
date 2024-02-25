@@ -13,5 +13,5 @@
       v Adding "@importFrom lifecycle deprecated" to
         'R/{TESTPKG}-package.R'.
       v Writing 'NAMESPACE'.
-      v Writing 'R/import-standalone-purrr.R'
+      v Writing 'R/import-standalone-purrr.R'.
 

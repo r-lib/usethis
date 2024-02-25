@@ -3,7 +3,7 @@
     Code
       use_package_doc()
     Message
-      v Writing 'R/{TESTPKG}-package.R'
+      v Writing 'R/{TESTPKG}-package.R'.
 
 ---
 
