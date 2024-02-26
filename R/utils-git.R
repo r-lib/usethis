@@ -32,9 +32,9 @@ check_uses_git <- function() {
     return(invisible())
   }
 
-  ui_stop(c(
+  ui_abort(c(
     "Cannot detect that project is already a Git repository.",
-    "Do you need to run {ui_code('use_git()')}?"
+    "Do you need to run {.run usethis::use_git()}?"
   ))
 }
 
@@ -111,7 +111,9 @@ ensure_core_excludesFile <- function() {
     # express path relative to user's home directory, except on Windows
     path <- path("~", path_rel(path, path_home()))
   }
-  ui_done("Configuring {ui_field('core.excludesFile')}: {ui_path(path)}")
+  ui_bullets(c(
+    "v" = "Configuring {.field core.excludesFile}: {.path {pth(path)}}"
+  ))
   gert::git_config_global_set("core.excludesFile", path)
   invisible()
 }
@@ -135,9 +137,9 @@ git_ask_commit <- function(message, untracked, push = FALSE, paths = NULL) {
   # this is defined here to encourage all commits to route through this function
   git_commit <- function(paths, message) {
     repo <- git_repo()
-    ui_done("Adding files")
+    ui_bullets(c("v" = "Adding files."))
     gert::git_add(paths, repo = repo)
-    ui_done("Making a commit with message {ui_value(message)}")
+    ui_bullets(c("v" = "Making a commit with message {.val {message}}."))
     gert::git_commit(message, repo = repo)
   }
 
@@ -153,19 +155,11 @@ git_ask_commit <- function(message, untracked, push = FALSE, paths = NULL) {
   }
 
   paths <- sort(paths)
-  ui_paths <- map_chr(paths, ui_path)
-  if (n > 10) {
-    ui_paths <- c(ui_paths[1:10], "...")
-  }
-
-  if (n == 1) {
-    file_hint <- "There is 1 uncommitted file:"
-  } else {
-    file_hint <- "There are {n} uncommitted files:"
-  }
-  ui_line(c(
-    file_hint,
-    paste0("* ", ui_paths)
+  ui_paths <- usethis_map_cli(paths, template = '{.path {pth("<<x>>")}}')
+  file_hint <- "{cli::qty(n)}There {?is/are} {n} uncommitted file{?s}:"
+  ui_bullets(c(
+    "i" = file_hint,
+    bulletize(ui_paths, n_show = 10)
   ))
 
   # Only push if no remote & a single change
@@ -208,7 +202,7 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
     if (ui_yeah("{msg}\nDo you want to proceed anyway?")) {
       return(invisible())
     } else {
-      ui_stop("Uncommitted changes. Please commit before continuing.")
+      ui_abort("Uncommitted changes. Please commit before continuing.")
     }
   }
 }
@@ -221,10 +215,14 @@ git_conflict_report <- function() {
     return(invisible())
   }
 
-  conflicted_paths <- map_chr(conflicted, ui_path)
-  ui_line(c(
-    "There are {n} conflicted files:",
-    paste0("* ", conflicted_paths)
+  conflicted_paths <- usethis_map_cli(
+    conflicted,
+    template = '{.path {pth("<<x>>")}}'
+  )
+  file_hint <- "{cli::qty(n)}There {?is/are} {n} conflicted file{?s}:"
+  ui_bullets(c(
+    "i" = file_hint,
+    bulletize(conflicted_paths, n_show = 10)
   ))
 
   msg <- glue("
@@ -234,13 +232,14 @@ git_conflict_report <- function() {
   no <- "No, I want to abort this merge."
   if (ui_yeah(msg, yes = yes, no = no, shuffle = FALSE)) {
     ui_silence(purrr::walk(conflicted, edit_file))
-    ui_stop("
-      Please fix each conflict, save, stage, and commit.
-      To back out of this merge, run {ui_code('gert::git_merge_abort()')} \\
-      (in R) or {ui_code('git merge --abort')} (in the shell).")
+    ui_abort(c(
+      "Please fix each conflict, save, stage, and commit.",
+      "To back out of this merge, run {.code gert::git_merge_abort()}
+       (in R) or {.code git merge --abort} (in the shell)."
+    ))
   } else {
     gert::git_merge_abort(repo = git_repo())
-    ui_stop("Abandoning the merge, since it will cause merge conflicts")
+    ui_abort("Abandoning the merge, since it will cause merge conflicts.")
   }
 }
 
@@ -265,12 +264,12 @@ git_pull <- function(remref = NULL, verbose = TRUE) {
   remref <- remref %||% git_branch_tracking(branch)
   if (is.na(remref)) {
     if (verbose) {
-      ui_done("No remote branch to pull from for {ui_value(branch)}.")
+      ui_bullets(c("v" = "No remote branch to pull from for {.val {branch}}."))
     }
     return(invisible())
   }
   if (verbose) {
-    ui_done("Pulling from {ui_value(remref)}.")
+    ui_bullets(c("v" = "Pulling from {.val {remref}}."))
   }
   gert::git_fetch(
     remote = remref_remote(remref),
@@ -301,10 +300,10 @@ git_branch <- function() {
   info <- gert::git_info(repo = git_repo())
   branch <- info$shorthand
   if (identical(branch, "HEAD")) {
-    ui_stop("Detached head; can't continue")
+    ui_abort("Detached head; can't continue.")
   }
   if (is.na(branch)) {
-    ui_stop("On an unborn branch -- do you need to make an initial commit?")
+    ui_abort("On an unborn branch -- do you need to make an initial commit?")
   }
   branch
 }
@@ -312,7 +311,7 @@ git_branch <- function() {
 git_branch_tracking <- function(branch = git_branch()) {
   repo <- git_repo()
   if (!gert::git_branch_exists(branch, local = TRUE, repo = repo)) {
-    ui_stop("There is no local branch named {ui_value(branch)}")
+    ui_abort("There is no local branch named {.val {branch}}.")
   }
   gbl <- gert::git_branch_list(local = TRUE, repo = repo)
   sub("^refs/remotes/", "", gbl$upstream[gbl$name == branch])
@@ -342,7 +341,9 @@ git_can_push <- function(max_local = Inf, branch = git_branch(), remref = NULL) 
 git_push <- function(branch = git_branch(), remref = NULL, verbose = TRUE) {
   remref <- remref %||% git_branch_tracking(branch)
   if (verbose) {
-    ui_done("Pushing local {ui_value(branch)} branch to {ui_value(remref)}.")
+    ui_bullets(c(
+      "v" = "Pushing local {.val {branch}} branch to {.val {remref}}."
+    ))
   }
 
   gert::git_push(
@@ -356,10 +357,10 @@ git_push <- function(branch = git_branch(), remref = NULL, verbose = TRUE) {
 git_push_first <- function(branch = git_branch(), remote = "origin", verbose = TRUE) {
   if (verbose) {
     remref <- glue("{remote}/{branch}")
-    ui_done("
-        Pushing {ui_value(branch)} branch to GitHub and setting \\
-        {ui_value(remref)} as upstream branch"
-    )
+    ui_bullets(c(
+      "v" = "Pushing {.val {branch}} branch to GitHub and setting
+             {.val {remref}} as upstream branch."
+    ))
   }
   gert::git_push(
     remote = remote,
@@ -413,41 +414,46 @@ check_branch_up_to_date <- function(direction = c("pull", "push"),
   use <- use %||% switch(direction, pull = "git pull", push = "git push")
 
   if (is.na(remref)) {
-    ui_done("Local branch {ui_value(branch)} is not tracking a remote branch.")
+    ui_bullets(c(
+      "i" = "Local branch {.val {branch}} is not tracking a remote branch."
+    ))
     return(invisible())
   }
 
   if (direction == "pull") {
-    ui_done("
-      Checking that local branch {ui_value(branch)} has the changes \\
-      in {ui_value(remref)}")
+    ui_bullets(c(
+      "v" = "Checking that local branch {.val {branch}} has the changes
+             in {.val {remref}}."
+    ))
   } else {
-    ui_done("
-      Checking that remote branch {ui_value(remref)} has the changes \\
-      in {ui_value(branch)}")
+    ui_bullets(c(
+      "v" = "Checking that remote branch {.val {remref}} has the changes
+             in {.val {branch}}."
+    ))
   }
 
   comparison <- git_branch_compare(branch, remref)
 
-  # TODO: properly pluralize "commit(s)" when I switch to cli
   if (direction == "pull") {
     if (comparison$remote_only == 0) {
       return(invisible())
     } else {
-      ui_stop("
-        Local branch {ui_value(branch)} is behind {ui_value(remref)} by \\
-        {comparison$remote_only} commit(s).
-        Please use {ui_code(use)} to update.")
+      ui_abort(c(
+        "Local branch {.val {branch}} is behind {.val {remref}} by
+         {comparison$remote_only} commit{?s}.",
+        "Please use {.code {use}} to update."
+      ))
     }
   } else {
     if (comparison$local_only == 0) {
       return(invisible())
     } else {
       # TODO: consider offering to push for them?
-      ui_stop("
-        Local branch {ui_value(branch)} is ahead of {ui_value(remref)} by \\
-        {comparison$local_only} commit(s).
-        Please use {ui_code(use)} to update.")
+      ui_abort(c(
+        "Local branch {.val {branch}} is ahead of {.val {remref}} by
+         {comparison$remote_only} commit{?s}.",
+        "Please use {.code {use}} to update."
+      ))
     }
   }
 }
