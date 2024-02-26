@@ -59,16 +59,21 @@ use_data <- function(...,
     desc <- proj_desc()
 
     if (!desc$has_fields("LazyData")) {
-      ui_done("Setting {ui_field('LazyData')} to \\
-              {ui_value('true')} in {ui_path('DESCRIPTION')}")
+      ui_bullets(c(
+        "v" = "Setting {.field LazyData} to {.val true} in {.path DESCRIPTION}."))
       desc$set(LazyData = "true")
       desc$write()
     }
   }
   check_files_absent(proj_path(paths), overwrite = overwrite)
 
-  ui_done("Saving {ui_value(unlist(objs))} to {ui_value(paths)}")
-  if (!internal) ui_todo("Document your data (see {ui_value('https://r-pkgs.org/data.html')})")
+  ui_bullets(c(
+    "v" = "Saving {.val {unlist(objs)}} to {.val {paths}}."))
+  if (!internal) {
+    ui_bullets(c(
+      "_" = "Document your data (see {.url https://r-pkgs.org/data.html})."
+    ))
+  }
 
   envir <- parent.frame()
   mapply(
@@ -142,6 +147,8 @@ use_data_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
     open = open
   )
 
-  ui_todo("Finish the data preparation script in {ui_value(r_path)}")
-  ui_todo("Use {ui_code('usethis::use_data()')} to add prepared data to package")
+  ui_bullets(c(
+    "_" = "Finish writing the data preparation script in {.path {pth(r_path)}}.",
+    "_" = "Use {.code usethis::use_data()} to add prepared data to package."
+  ))
 }
