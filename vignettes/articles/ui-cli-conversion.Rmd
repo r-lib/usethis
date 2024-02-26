@@ -307,6 +307,6 @@ ui_abort("
 ```
 
 
-TODO: come back to `pr_push()` and deal with that menu stuff. Ditto for `choose_branch()` and `choose_pr()`.
+TODO: come back to `pr_push()` and deal with that menu stuff. Ditto for `choose_branch()` and `choose_pr()`. Ditto for `target_repo()` in utils-github.R.
 
 TODO: come back to this bit in git.R: ` purrr::walk(format(cfg), ui_bullet)`

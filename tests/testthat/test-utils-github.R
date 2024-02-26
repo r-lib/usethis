@@ -174,6 +174,8 @@ test_that("fork_upstream_is_not_origin_parent is detected", {
   gr$can_push <- TRUE
   gr$perm_known <- TRUE
   gr$parent_repo_owner <- c("r-lib", NA)
+  gr$parent_repo_name <- c("gh", NA)
+  gr$parent_repo_spec <- c("r-lib/gh", NA)
   local_mocked_bindings(github_remotes = function(...) gr)
   cfg <- github_remote_config()
   expect_equal(cfg$type, "fork_upstream_is_not_origin_parent")
