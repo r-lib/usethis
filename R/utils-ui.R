@@ -1,3 +1,4 @@
+# usethis theme ----------------------------------------------------------------
 usethis_theme <- function() {
   list(
     # add a "todo" bullet, which is intended to be seen as an unchecked checkbox
@@ -35,29 +36,13 @@ quote_if_no_color <- function(x, quote = "'") {
   }
 }
 
+# bullets, helpers, and friends ------------------------------------------------
 ui_bullets <- function(text, .envir = parent.frame()) {
   if (is_quiet()) {
     return(invisible())
   }
   cli::cli_div(theme = usethis_theme())
   cli::cli_bullets(text, .envir = .envir)
-}
-
-ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
-  cli::cli_div(theme = usethis_theme())
-
-  nms <- names2(message)
-  default_nms <- rep_along(message, "i")
-  default_nms[1] <- "x"
-  nms <- ifelse(nzchar(nms), nms, default_nms)
-  names(message) <- nms
-
-  cli::cli_abort(
-    message,
-    class = c(class, "usethis_error"),
-    .envir = .envir,
-    ...
-  )
 }
 
 ui_path_impl <- function(x, base = NULL) {
@@ -123,7 +108,7 @@ usethis_map_cli <- function(x, ...) UseMethod("usethis_map_cli")
 usethis_map_cli.default <- function(x, ...) {
   ui_abort(c(
     "x" = "Don't know how to {.fun usethis_map_cli} an object of class
-           {.obj_type_friendlys {x}}."
+           {.obj_type_friendly {x}}."
   ))
 }
 
@@ -182,6 +167,24 @@ kv_line <- function(key, value, .envir = parent.frame()) {
 
 ui_special <- function(x = "unset") {
   I(glue("{cli::col_grey('<[x]>')}", .open = "[", .close = "]"))
+}
+
+# errors -----------------------------------------------------------------------
+ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
+  cli::cli_div(theme = usethis_theme())
+
+  nms <- names2(message)
+  default_nms <- rep_along(message, "i")
+  default_nms[1] <- "x"
+  nms <- ifelse(nzchar(nms), nms, default_nms)
+  names(message) <- nms
+
+  cli::cli_abort(
+    message,
+    class = c(class, "usethis_error"),
+    .envir = .envir,
+    ...
+  )
 }
 
 # questions --------------------------------------------------------------------
