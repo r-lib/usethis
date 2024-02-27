@@ -826,3 +826,163 @@ cfg_upstream_but_origin_is_not_fork <- function(cfg) {
     )
   )
 }
+
+# construct instances of `github_remote_config` for dev/testing purposes--------
+new_no_github <- function() {
+  cfg <- new_github_remote_config()
+  cfg_no_github(cfg)
+}
+
+new_ours <- function() {
+  remotes <- data.frame(name = "origin", url = "https://github.com/OWNER/REPO.git")
+  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl$github_got <- grl$perm_known <- TRUE
+  grl$default_branch <- "DEFAULT_BRANCH"
+
+  grl$is_fork <- FALSE
+  grl$can_push <- grl$can_admin <- TRUE
+
+  cfg <- new_github_remote_config()
+  cfg$origin <- utils::modifyList(cfg$origin, grl[grl$remote == "origin",])
+  cfg$host_url <- grl$host_url
+  cfg$origin$is_configured <- TRUE
+  cfg_ours(cfg)
+}
+
+new_theirs <- function() {
+  remotes <- data.frame(name = "origin", url = "https://github.com/OWNER/REPO.git")
+  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl$github_got <- grl$perm_known <- TRUE
+  grl$default_branch <- "DEFAULT_BRANCH"
+
+  grl$can_push <- grl$can_admin <- FALSE
+
+  cfg <- new_github_remote_config()
+  cfg$origin <- utils::modifyList(cfg$origin, grl[grl$remote == "origin",])
+  cfg$host_url <- grl$host_url
+  cfg$origin$is_configured <- TRUE
+  cfg_theirs(cfg)
+}
+
+new_fork <- function() {
+  remotes <- data.frame(
+    name = c("origin", "upstream"),
+    url = c("https://github.com/CONTRIBUTOR/REPO.git", "https://github.com/OWNER/REPO.git")
+  )
+  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl$github_got <- grl$perm_known <- TRUE
+  grl$default_branch <- "DEFAULT_BRANCH"
+
+  grl$is_fork <- c(TRUE, FALSE)
+  grl$parent_repo_owner <- c("OWNER", NA)
+  grl$parent_repo_name <- c("REPO", NA)
+  grl$can_push_to_parent <- c(FALSE, NA)
+  grl$parent_repo_spec <-  make_spec(grl$parent_repo_owner, grl$parent_repo_name)
+
+  grl$can_push <- grl$can_admin <- c(TRUE, FALSE)
+
+  cfg <- new_github_remote_config()
+  cfg$origin <- utils::modifyList(cfg$origin, grl[grl$remote == "origin",])
+  cfg$upstream <- utils::modifyList(cfg$upstream, grl[grl$remote == "upstream",])
+  cfg$host_url <- grl$host_url[1]
+  cfg$origin$is_configured <- cfg$upstream$is_configured <- TRUE
+  cfg$origin$parent_is_upstream <- TRUE
+  cfg_fork(cfg)
+}
+
+new_maybe_ours_or_theirs <- function() {
+  remotes <- data.frame(name = "origin", url = "https://github.com/OWNER/REPO.git")
+  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl$github_got <-grl$perm_known <- FALSE
+  grl$default_branch <- "DEFAULT_BRANCH"
+
+  cfg <- new_github_remote_config()
+  cfg$origin <- utils::modifyList(cfg$origin, grl[grl$remote == "origin",])
+  cfg$host_url <- grl$host_url
+  cfg$origin$is_configured <- TRUE
+  cfg_maybe_ours_or_theirs(cfg)
+}
+
+new_maybe_fork <- function() {
+  remotes <- data.frame(
+    name = c("origin", "upstream"),
+    url = c("https://github.com/CONTRIBUTOR/REPO.git", "https://github.com/OWNER/REPO.git")
+  )
+  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl$github_got <-grl$perm_known <- FALSE
+  grl$default_branch <- "DEFAULT_BRANCH"
+
+  cfg <- new_github_remote_config()
+  cfg$origin <- utils::modifyList(cfg$origin, grl[grl$remote == "origin",])
+  cfg$upstream <- utils::modifyList(cfg$upstream, grl[grl$remote == "upstream",])
+  cfg$host_url <- grl$host_url[1]
+  cfg$origin$is_configured <- cfg$upstream$is_configured <- TRUE
+  cfg_maybe_fork(cfg)
+}
+
+new_fork_cannot_push_origin <- function() {
+  remotes <- data.frame(
+    name = c("origin", "upstream"),
+    url = c("https://github.com/CONTRIBUTOR/REPO.git", "https://github.com/OWNER/REPO.git")
+  )
+  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl$github_got <-grl$perm_known <- TRUE
+  grl$default_branch <- "DEFAULT_BRANCH"
+
+  cfg <- new_github_remote_config()
+  cfg$origin <- utils::modifyList(cfg$origin, grl[grl$remote == "origin",])
+  cfg$upstream <- utils::modifyList(cfg$upstream, grl[grl$remote == "upstream",])
+  cfg$host_url <- grl$host_url[1]
+  cfg$origin$is_configured <- cfg$upstream$is_configured <- TRUE
+
+  cfg$origin$parent_is_upstream <- FALSE
+
+  cfg_fork_cannot_push_origin(cfg)
+}
+
+new_fork_upstream_is_not_origin_parent<- function() {
+  remotes <- data.frame(
+    name = c("origin", "upstream"),
+    url = c("https://github.com/CONTRIBUTOR/REPO.git", "https://github.com/OLD_OWNER/REPO.git")
+  )
+  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl$github_got <- grl$perm_known <- TRUE
+  grl$default_branch <- "DEFAULT_BRANCH"
+
+  grl$is_fork <- c(TRUE, FALSE)
+  grl$parent_repo_owner <- c("NEW_OWNER", NA)
+  grl$parent_repo_name <- c("REPO", NA)
+  grl$can_push_to_parent <- c(FALSE, NA)
+  grl$parent_repo_spec <-  make_spec(grl$parent_repo_owner, grl$parent_repo_name)
+  grl$can_push <- grl$can_admin <- c(TRUE, FALSE)
+
+  cfg <- new_github_remote_config()
+  cfg$origin <- utils::modifyList(cfg$origin, grl[grl$remote == "origin",])
+  cfg$upstream <- utils::modifyList(cfg$upstream, grl[grl$remote == "upstream",])
+  cfg$host_url <- grl$host_url[1]
+  cfg$origin$is_configured <- cfg$upstream$is_configured <- TRUE
+
+  cfg_fork_upstream_is_not_origin_parent(cfg)
+}
+
+new_upstream_but_origin_is_not_fork <- function() {
+  remotes <- data.frame(
+    name = c("origin", "upstream"),
+    url = c("https://github.com/CONTRIBUTOR/REPO.git", "https://github.com/OWNER/REPO.git")
+  )
+  grl <- github_remotes(github_get = FALSE, x = remotes)
+  grl$github_got <-grl$perm_known <- TRUE
+  grl$default_branch <- "DEFAULT_BRANCH"
+
+  grl$is_fork <- FALSE
+
+  cfg <- new_github_remote_config()
+  cfg$origin <- utils::modifyList(cfg$origin, grl[grl$remote == "origin",])
+  cfg$upstream <- utils::modifyList(cfg$upstream, grl[grl$remote == "upstream",])
+  cfg$host_url <- grl$host_url[1]
+  cfg$origin$is_configured <- cfg$upstream$is_configured <- TRUE
+
+  cfg$origin$parent_is_upstream <- FALSE
+
+  cfg_upstream_but_origin_is_not_fork(cfg)
+}
