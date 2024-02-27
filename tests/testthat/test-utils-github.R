@@ -217,3 +217,17 @@ test_that("'fork_upstream_is_not_origin_parent' is detected correctly", {
   expect_equal(cfg$type, "fork_upstream_is_not_origin_parent")
   expect_snapshot(error = TRUE, stop_bad_github_remote_config(cfg))
 })
+
+test_that("bad github config error", {
+  expect_snapshot(
+    error = TRUE,
+    stop_bad_github_remote_config(new_fork_upstream_is_not_origin_parent())
+  )
+})
+
+test_that("maybe bad github config error", {
+  expect_snapshot(
+    error = TRUE,
+    stop_maybe_github_remote_config(new_maybe_fork())
+  )
+})

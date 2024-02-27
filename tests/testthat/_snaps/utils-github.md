@@ -19,8 +19,8 @@
       * Config supports a pull request = FALSE
       * origin = <not configured>
       * upstream = <not configured>
-      * Desc = Neither "origin" nor "upstream" is a GitHub repo. Read more about the
-        GitHub remote configurations that usethis supports at:
+      ! Neither "origin" nor "upstream" is a GitHub repo.
+      i Read more about the GitHub remote configurations that usethis supports at:
         <https://happygitwithr.com/common-remote-setups.html>.
 
 # 'ours' is reported correctly
@@ -33,8 +33,8 @@
       * Config supports a pull request = TRUE
       * origin = "OWNER/REPO" (can push)
       * upstream = <not configured>
-      * Desc = "origin" is both the source and primary repo! Read more about the
-        GitHub remote configurations that usethis supports at:
+      i "origin" is both the source and primary repo.
+      i Read more about the GitHub remote configurations that usethis supports at:
         <https://happygitwithr.com/common-remote-setups.html>.
 
 # 'theirs' is reported correctly
@@ -47,10 +47,10 @@
       * Config supports a pull request = FALSE
       * origin = "OWNER/REPO" (can not push)
       * upstream = <not configured>
-      * Desc = The only configured GitHub remote is "origin", which you cannot push
-        to. If your goal is to make a pull request, you must fork-and-clone.
-        `usethis::create_from_github()` can do this. Read more about the GitHub
-        remote configurations that usethis supports at:
+      ! The only configured GitHub remote is "origin", which you cannot push to.
+      i If your goal is to make a pull request, you must fork-and-clone.
+      i `usethis::create_from_github()` can do this.
+      i Read more about the GitHub remote configurations that usethis supports at:
         <https://happygitwithr.com/common-remote-setups.html>.
 
 # 'fork' is reported correctly
@@ -63,9 +63,10 @@
       * Config supports a pull request = TRUE
       * origin = "CONTRIBUTOR/REPO" (can push) = fork of "OWNER/REPO"
       * upstream = "OWNER/REPO" (can not push)
-      * Desc = "origin" is a fork of "OWNER/REPO", which is configured as the
-        "upstream" remote. Read more about the GitHub remote configurations that
-        usethis supports at: <https://happygitwithr.com/common-remote-setups.html>.
+      i "origin" is a fork of "OWNER/REPO", which is configured as the "upstream"
+        remote.
+      i Read more about the GitHub remote configurations that usethis supports at:
+        <https://happygitwithr.com/common-remote-setups.html>.
 
 # 'maybe_ours_or_theirs' is reported correctly
 
@@ -77,10 +78,12 @@
       * Config supports a pull request = NA
       * origin = "OWNER/REPO"
       * upstream = <not configured>
-      * Desc = "origin" is a GitHub repo and "upstream" is either not configured or
-        is not a GitHub repo. We may be offline or you may need to configure a GitHub
-        personal access token. `usethis::gh_token_help()` can help with that. Read
-        more about what this GitHub remote configurations means at:
+      ! "origin" is a GitHub repo and "upstream" is either not configured or is not a
+        GitHub repo.
+      i We may be offline or you may need to configure a GitHub personal access
+        token.
+      i `usethis::gh_token_help()` can help with that.
+      i Read more about what this GitHub remote configuration means at:
         <https://happygitwithr.com/common-remote-setups.html>.
 
 # 'maybe_fork' is reported correctly
@@ -93,11 +96,13 @@
       * Config supports a pull request = NA
       * origin = "CONTRIBUTOR/REPO"
       * upstream = "OWNER/REPO"
-      * Desc = Both "origin" and "upstream" appear to be GitHub repos. However, we
-        can't confirm their relationship to each other (e.g., fork and fork parent)
-        or your permissions (e.g. push access). We may be offline or you may need to
-        configure a GitHub personal access token. `usethis::gh_token_help()` can help
-        with that. Read more about what this GitHub remote configurations means at:
+      ! Both "origin" and "upstream" appear to be GitHub repos. However, we can't
+        confirm their relationship to each other (e.g., fork and fork parent) or your
+        permissions (e.g. push access).
+      i We may be offline or you may need to configure a GitHub personal access
+        token.
+      i `usethis::gh_token_help()` can help with that.
+      i Read more about what this GitHub remote configuration means at:
         <https://happygitwithr.com/common-remote-setups.html>.
 
 # 'fork_cannot_push_origin' is reported correctly
@@ -110,8 +115,8 @@
       * Config supports a pull request = FALSE
       * origin = "CONTRIBUTOR/REPO"
       * upstream = "OWNER/REPO"
-      * Desc = The "origin" remote is a fork, but you can't push to it. Read more
-        about the GitHub remote configurations that usethis supports at:
+      ! The "origin" remote is a fork, but you can't push to it.
+      i Read more about the GitHub remote configurations that usethis supports at:
         <https://happygitwithr.com/common-remote-setups.html>.
 
 # 'fork_upstream_is_not_origin_parent' is reported correctly
@@ -124,9 +129,9 @@
       * Config supports a pull request = FALSE
       * origin = "CONTRIBUTOR/REPO" (can push) = fork of "NEW_OWNER/REPO"
       * upstream = "OLD_OWNER/REPO" (can not push)
-      * Desc = The "origin" GitHub remote is a fork, but its parent is not configured
-        as the "upstream" remote. Read more about the GitHub remote configurations
-        that usethis supports at:
+      ! The "origin" GitHub remote is a fork, but its parent is not configured as the
+        "upstream" remote.
+      i Read more about the GitHub remote configurations that usethis supports at:
         <https://happygitwithr.com/common-remote-setups.html>.
 
 # 'upstream_but_origin_is_not_fork' is reported correctly
@@ -139,9 +144,9 @@
       * Config supports a pull request = FALSE
       * origin = "CONTRIBUTOR/REPO"
       * upstream = "OWNER/REPO"
-      * Desc = Both "origin" and "upstream" are GitHub remotes, but "origin" is not a
-        fork and, in particular, is not a fork of "upstream". Read more about the
-        GitHub remote configurations that usethis supports at:
+      ! Both "origin" and "upstream" are GitHub remotes, but "origin" is not a fork
+        and, in particular, is not a fork of "upstream".
+      i Read more about the GitHub remote configurations that usethis supports at:
         <https://happygitwithr.com/common-remote-setups.html>.
 
 # 'fork_upstream_is_not_origin_parent' is detected correctly
@@ -151,8 +156,41 @@
     Condition
       Error in `stop_bad_github_remote_config()`:
       x Unsupported GitHub remote configuration: "fork_upstream_is_not_origin_parent"
-      i Host = "https://github.com"
-      i origin = "jennybc/gh" (can push) = fork of "r-lib/gh"
-      i upstream = "r-pkgs/gh" (can push)
-      i The "origin" GitHub remote is a fork, but its parent is not configured as the "upstream" remote. Read more about the GitHub remote configurations that usethis supports at: <https://happygitwithr.com/common-remote-setups.html>.
+      * Host = "https://github.com"
+      * origin = "jennybc/gh" (can push) = fork of "r-lib/gh"
+      * upstream = "r-pkgs/gh" (can push)
+      ! The "origin" GitHub remote is a fork, but its parent is not configured as the "upstream" remote.
+      i Read more about the GitHub remote configurations that usethis supports at:
+        <https://happygitwithr.com/common-remote-setups.html>.
+
+# bad github config error
+
+    Code
+      stop_bad_github_remote_config(new_fork_upstream_is_not_origin_parent())
+    Condition
+      Error in `stop_bad_github_remote_config()`:
+      x Unsupported GitHub remote configuration: "fork_upstream_is_not_origin_parent"
+      * Host = "https://github.com"
+      * origin = "CONTRIBUTOR/REPO" (can push) = fork of "NEW_OWNER/REPO"
+      * upstream = "OLD_OWNER/REPO" (can not push)
+      ! The "origin" GitHub remote is a fork, but its parent is not configured as the "upstream" remote.
+      i Read more about the GitHub remote configurations that usethis supports at:
+        <https://happygitwithr.com/common-remote-setups.html>.
+
+# maybe bad github config error
+
+    Code
+      stop_maybe_github_remote_config(new_maybe_fork())
+    Condition
+      Error in `stop_maybe_github_remote_config()`:
+      x Pull request functions can't work with GitHub remote configuration: "maybe_fork".
+      i The most likely problem is that we aren't discovering your GitHub personal access token.
+      * Host = "https://github.com"
+      * origin = "CONTRIBUTOR/REPO"
+      * upstream = "OWNER/REPO"
+      ! Both "origin" and "upstream" appear to be GitHub repos. However, we can't confirm their relationship to each other (e.g., fork and fork parent) or your permissions (e.g. push access).
+      i We may be offline or you may need to configure a GitHub personal access token.
+      i `usethis::gh_token_help()` can help with that.
+      i Read more about what this GitHub remote configuration means at:
+        <https://happygitwithr.com/common-remote-setups.html>.
 

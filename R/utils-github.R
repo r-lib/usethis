@@ -546,23 +546,28 @@ pre_format_fields <- function(cfg) {
     pr_ready = ui_pre_glue("Config supports a pull request = {.val {<<cfg$pr_ready>>}}"),
     origin = pre_format_remote(cfg$origin),
     upstream = pre_format_remote(cfg$upstream),
-    desc = if (is.na(cfg$desc)) {
-      ui_pre_glue("Desc = {ui_special('no description')}")
-    } else {
-      ui_pre_glue("Desc = <<cfg$desc>>")
-    }
+    desc = cfg$desc
   )
 }
 
 #' @export
 format.github_remote_config <- function(x, ...) {
-  map_chr(pre_format_fields(x), cli::format_inline)
+  x_fmt <- pre_format_fields(x)
+  x_fmt$desc <- map_chr(x_fmt$desc, cli::format_inline)
+  x_fmt <- purrr::map_if(x_fmt, function(x) length(x) == 1, cli::format_inline)
+  out <- unlist(unname(x_fmt))
+
+  nms <- names2(out)
+  nms <- ifelse(nzchar(nms), nms, "*")
+  names(out) <- nms
+
+  out
 }
 
 #' @export
 print.github_remote_config <- function(x, ...) {
   withr::local_options(usethis.quiet = FALSE)
-  ui_bullets(bulletize(format(x, ...), n_show = 20))
+  ui_bullets(format(x, ...))
   invisible(x)
 }
 
@@ -571,17 +576,23 @@ print.github_remote_config <- function(x, ...) {
 github_remote_config_wat <- function(cfg, context = c("menu", "abort")) {
   context <- match.arg(context)
   adjective <- switch(context, menu = "Unexpected", abort = "Unsupported")
-  out <- pre_format_fields(cfg)
-  out$pr_ready <- NULL
-  out$type <- ui_pre_glue("<<adjective>> GitHub remote configuration: {.val <<cfg$type>>}")
-  out$desc <- if (is.na(cfg$desc)) NULL else cfg$desc
-  out
+  out <- format(cfg)
+
+  type_idx <- grep("^Type", out)
+  out[type_idx] <- ui_pre_glue("
+    <<adjective>> GitHub remote configuration: {.val <<cfg$type>>}")
+  names(out)[type_idx] <- "x"
+
+  pr_idx <- grep("pull request", out)
+  out <- out[-pr_idx]
+
+  unlist(out)
 }
 
 # returns TRUE if user selects "no" --> exit the calling function
 # return FALSE if user select "yes" --> keep going, they've been warned
 ui_github_remote_config_wat <- function(cfg) {
-  ui_nope(
+  ui_nah(
     github_remote_config_wat(cfg, context = "menu"),
     yes = "Yes, I want to proceed. I know what I'm doing.",
     no = "No, I want to stop and straighten out my GitHub remotes first.",
@@ -591,22 +602,26 @@ ui_github_remote_config_wat <- function(cfg) {
 
 stop_bad_github_remote_config <- function(cfg) {
   ui_abort(
-    message = unname(unlist(github_remote_config_wat(cfg, context = "abort"))),
+    github_remote_config_wat(cfg, context = "abort"),
     class = "usethis_error_bad_github_remote_config",
     cfg = cfg
   )
 }
 
 stop_maybe_github_remote_config <- function(cfg) {
-  msg <- github_remote_config_wat(cfg)
-  msg$type <- ui_pre_glue("
-    Pull request functions can't work with GitHub remote configuration:
-    {.val <<cfg$type>>}.
-    The most likely problem is that we aren't discovering your GitHub
-    personal access token.
-    Call {.run usethis::gh_token_help()} for help.")
+  msg <- c(
+    ui_pre_glue("
+      Pull request functions can't work with GitHub remote configuration:
+      {.val <<cfg$type>>}."),
+    "The most likely problem is that we aren't discovering your GitHub personal
+     access token.",
+    github_remote_config_wat(cfg)
+  )
+  idx <- grep("Unexpected GitHub remote configuration", msg)
+  msg <- msg[-idx]
+
   ui_abort(
-    message = unname(unlist(msg)),
+    message = unlist(msg),
     class = "usethis_error_invalid_pr_config",
     cfg = cfg
   )
@@ -679,13 +694,17 @@ all_configs <- function() {
 }
 
 read_more <- function() {
-  "Read more about the GitHub remote configurations that usethis supports at:
-   {.url https://happygitwithr.com/common-remote-setups.html}."
+  c(
+    "i" = "Read more about the GitHub remote configurations that usethis supports at:",
+    " " = "{.url https://happygitwithr.com/common-remote-setups.html}."
+  )
 }
 
 read_more_maybe <- function() {
-  "Read more about what this GitHub remote configurations means at:
-   {.url https://happygitwithr.com/common-remote-setups.html}."
+  c(
+    "i" = "Read more about what this GitHub remote configuration means at:",
+    " " = "{.url https://happygitwithr.com/common-remote-setups.html}."
+  )
 }
 
 cfg_no_github <- function(cfg) {
@@ -694,9 +713,10 @@ cfg_no_github <- function(cfg) {
     list(
       type = "no_github",
       pr_ready = FALSE,
-      desc = ui_pre_glue("
-        Neither {.val origin} nor {.val upstream} is a GitHub repo.
-        <<read_more()>>")
+      desc = c(
+        "!" = "Neither {.val origin} nor {.val upstream} is a GitHub repo.",
+        read_more()
+      )
     )
   )
 }
@@ -707,8 +727,10 @@ cfg_ours <- function(cfg) {
     list(
       type = "ours",
       pr_ready = TRUE,
-      desc = ui_pre_glue("
-        {.val origin} is both the source and primary repo! <<read_more()>>")
+      desc = c(
+        "i" = "{.val origin} is both the source and primary repo.",
+        read_more()
+      )
     )
   )
 }
@@ -720,12 +742,14 @@ cfg_theirs <- function(cfg) {
     list(
       type = "theirs",
       pr_ready = FALSE,
-      desc = ui_pre_glue("
-        The only configured GitHub remote is {.val <<configured>>}, which
-        you cannot push to.
-        If your goal is to make a pull request, you must fork-and-clone.
-        {.fun usethis::create_from_github} can do this.
-        <<read_more()>>")
+      desc = c(
+        "!" = ui_pre_glue("
+                The only configured GitHub remote is {.val <<configured>>},
+                which you cannot push to."),
+        "i" = "If your goal is to make a pull request, you must fork-and-clone.",
+        "i" = "{.fun usethis::create_from_github} can do this.",
+        read_more()
+      )
     )
   )
 }
@@ -743,12 +767,16 @@ cfg_maybe_ours_or_theirs <- function(cfg) {
     list(
       type = "maybe_ours_or_theirs",
       pr_ready = NA,
-      desc = ui_pre_glue("
-        {.val <<configured>>} is a GitHub repo and {.val <<not_configured>>}
-        is either not configured or is not a GitHub repo.
-        We may be offline or you may need to configure a GitHub personal access
-        token. {.run usethis::gh_token_help()} can help with that.
-        <<read_more_maybe()>>")
+      desc = c(
+        "!" = ui_pre_glue("
+                {.val <<configured>>} is a GitHub repo and
+                {.val <<not_configured>>} is either not configured or is not a
+                GitHub repo."),
+        "i" = "We may be offline or you may need to configure a GitHub personal
+               access token.",
+        "i" = "{.run usethis::gh_token_help()} can help with that.",
+        read_more_maybe()
+      )
     )
   )
 }
@@ -759,10 +787,12 @@ cfg_fork <- function(cfg) {
     list(
       type = "fork",
       pr_ready = TRUE,
-      desc = ui_pre_glue("
-        {.val origin} is a fork of {.val <<cfg$upstream$repo_spec>>},
-        which is configured as the {.val upstream} remote.
-        <<read_more()>>")
+      desc = c(
+        "i" = ui_pre_glue("
+                {.val origin} is a fork of {.val <<cfg$upstream$repo_spec>>},
+                which is configured as the {.val upstream} remote."),
+        read_more()
+      )
     )
   )
 }
@@ -773,14 +803,17 @@ cfg_maybe_fork <- function(cfg) {
     list(
       type = "maybe_fork",
       pr_ready = NA,
-      desc = ui_pre_glue("
-        Both {.val origin} and {.val upstream} appear to be
-        GitHub repos. However, we can't confirm their relationship to each
-        other (e.g., fork and fork parent) or your permissions (e.g. push
-        access).
-        We may be offline or you may need to configure a GitHub personal access
-        token. {.run usethis::gh_token_help()} can help with that.
-        <<read_more_maybe()>>")
+      desc = c(
+        "!" = ui_pre_glue("
+                Both {.val origin} and {.val upstream} appear to be GitHub
+                repos. However, we can't confirm their relationship to each
+                other (e.g., fork and fork parent) or your permissions (e.g.
+                push access)."),
+        "i" = "We may be offline or you may need to configure a GitHub personal
+               access token.",
+        "i" = "{.run usethis::gh_token_help()} can help with that.",
+        read_more_maybe()
+      )
     )
   )
 }
@@ -791,9 +824,11 @@ cfg_fork_cannot_push_origin <- function(cfg) {
     list(
       type = "fork_cannot_push_origin",
       pr_ready = FALSE,
-      desc = ui_pre_glue("
-        The {.val origin} remote is a fork, but you can't push to it.
-        <<read_more()>>")
+      desc = c(
+        "!" = ui_pre_glue("
+                The {.val origin} remote is a fork, but you can't push to it."),
+        read_more()
+      )
     )
   )
 }
@@ -804,10 +839,12 @@ cfg_fork_upstream_is_not_origin_parent <- function(cfg) {
     list(
       type = "fork_upstream_is_not_origin_parent",
       pr_ready = FALSE,
-      desc = ui_pre_glue("
-        The {.val origin} GitHub remote is a fork, but its parent is
-        not configured as the {.val upstream} remote.
-        <<read_more()>>")
+      desc = c(
+        "!" = ui_pre_glue("
+                The {.val origin} GitHub remote is a fork, but its parent is
+                not configured as the {.val upstream} remote."),
+        read_more()
+      )
     )
   )
 }
@@ -818,11 +855,13 @@ cfg_upstream_but_origin_is_not_fork <- function(cfg) {
     list(
       type = "upstream_but_origin_is_not_fork",
       pr_ready = FALSE,
-      desc = ui_pre_glue("
-        Both {.val origin} and {.val upstream} are GitHub remotes, but
-        {.val origin} is not a fork and, in particular, is not a fork of
-        {.val upstream}.
-        <<read_more()>>")
+      desc = c(
+        "!" = ui_pre_glue("
+                Both {.val origin} and {.val upstream} are GitHub remotes, but
+                {.val origin} is not a fork and, in particular, is not a fork of
+                {.val upstream}."),
+        read_more()
+      )
     )
   )
 }
