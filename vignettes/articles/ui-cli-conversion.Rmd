@@ -13,10 +13,6 @@ knitr::opts_chunk$set(
 library(usethis)
 ```
 
-# Review of the *status quo*
-
-I'll start with a review of the current (soon to be legacy) `usethis::ui_*()` functions.
-
 ## Block styles
 
 The block styles mostly exist to produce bulleted output with a specific symbol, using a specific color.
@@ -58,7 +54,7 @@ A direct translation looks something like this:
 | `ui_info()` | `i`                       | blue (default) -\> yellow     |
 | `ui_line()` | (unnamed)                 | sort of a perfect match? although sometimes ui_line is used just to get a blank line |
 
-The overall conversion plan is to switch to the new `ui_bullets()`, which is a wrapper around `cli::cli_bullets()`, that adds a few features:
+The overall conversion plan is to switch to a new function, `ui_bullets()`, which is a wrapper around `cli::cli_bullets()`, that adds a few features:
 
 * Early exit, without emitting messages, if the `usethis.quiet` option is `TRUE`.
 * A usethis theme, that changes the color of certain bullet styles and adds a new style for todo's.
@@ -113,9 +109,9 @@ is_quiet <- function() {
 }
 ```
 
-`ui_todo()`, `ui_done()`, `ui_oops()`, `ui_info()` all route through `ui_bullet()`, which does some hygiene related to indentation (using the `indent()` utility function), then calls `ui_inform()`.
-`ui_line()` and `ui_code()` call `ui_inform()` directly.
-(I have renamed `ui_bullet()` to `ui_legacy_bullet()` for auto-completion happiness with the new `ui_bullets()`.)
+`ui_bullet()` is an intermediate helper used by `ui_todo()`, `ui_done()`, `ui_oops()` and `ui_info()`.
+It does some hygiene related to indentation (using the `indent()` utility function), then calls `ui_inform()`.
+`ui_line()` and `ui_code()` both call `ui_inform()` directly.
 
 `ui_inform()` is just a wrapper around `rlang::inform()` that is guarded by a call to `is_quiet()`
 
@@ -130,7 +126,10 @@ ui_inform <- function(...) {
 ```
 
 Other than `is_quiet()`, which will continue to play the same role, I anticipate that we no longer need these utilities (`indent()`, `ui_bullet()`, `ui_inform()`).
-Update: `indent()` turns out to still be useful in `ui_code_snippet()`.
+Updates from the future:
+
+* `indent()` turns out to still be useful in `ui_code_snippet()`.
+* `ui_bullet()` has been renamed to `ui_legacy_bullet()` for auto-completion happiness with the new `ui_bullets()`.
 
 Let's cover `ui_silence()` while we're here, which *is* exported.
 It's just a `withr::with_*()` function for executing `code` with `usethis.quiet = TRUE`.
@@ -144,11 +143,50 @@ ui_silence <- function(code) {
 
 ## Inline styles
 
+### Legacy functions
+
+usethis has its own inline styles (mostly) for use inside functions like `ui_todo()`
+
+* `ui_field()`
+* `ui_value()`
+* `ui_path()`
+* `ui_code()`
+* `ui_unset()`
+
+```{r}
+new_val <- "oxnard"
+x <- glue("{ui_field('name')} set to {ui_value(new_val)}")
+dput(x)
+ui_done(x)
+```
+
+The inline styles enact some combination of:
+
+* Color, e.g. `crayon::green(x)`
+* Collapsing a collection of things to one thing, e.g. `c("a", "b", "c")` to "a, b, c"
+* Quoting, e.g. `encodeString(x, quote = "'")`
+
+`ui_path()` is special because it potentially modifies the input before styling it.
+`up_path()` first makes the path relative to a specific base (by default, the active project root) and, if the path is a directory, it also ensures there is a trailing `/`.
+
+`ui_unset()` is a special purpose helper used when we need to report that something is unknown, not configured, nonexistent, etc.
+
+```{r}
+x <- glue("Your super secret password is {ui_unset()}.")
+dput(x)
+ui_info(x)
+```
+
+### cli replacements
+
+In general, we can move towards cli's native inline-markup:
 <https://cli.r-lib.org/reference/inline-markup.html>
 
--   `ui_field()` becomes `{.field blah}`. TO THINK ABOUT: I'm not seeing single quotes in the 'plain' snapshots, but I think we will want quoting if there's no color.
--   `ui_value()` becomes `{.val value}`
--   `ui_path()` is connected to `{.path path/to/thing}`, but `ui_path()` also has some legitimately useful logic, such as making a path relative to project root or ensuring a directory has a trailing `/`. Therefore, this has been abstracted into `ui_path_impl()`, which is aliased to `pth()` for compactness. Here's a typical conversion:
+Here's the general conversion plan:
+
+-   `ui_field()` becomes `{.field blah}`. In `usethis_theme()`, I tweak the `.field` style to apply single quotes if color is not available, which is what `ui_field()` has always done.
+-   `ui_value()` becomes `{.val value}`.
+-   `ui_path()` is connected to `{.path path/to/thing}`, but, as explained above, `ui_path()` also does more. Therefore, I abstracted the "path math" into an internal helper, `ui_path_impl()`, which is aliased to `pth()` for compactness. Here's a typical conversion:
 ```{r}
 #| eval: false
 # using legacy functions
@@ -159,24 +197,19 @@ ui_bullets(c(
   "v" = "Setting {.field LazyData} to {.val true} in {.path {pth('DESCRIPTION')}}."
 ))
 ```
-It would be nice to create a custom inline class, e.g. `{.usethis_path {some_path}}`, which I have done in, e.g., googledrive. But it's not easy to do this *while still inheriting cli's `file:` hyperlink behaviour*, which is very desirable. So that leads to the somewhat clunky pattern above, but it gives a nice result.
--   `ui_code()` gets replaced by various inline styles, depending on what the actual goal is:
+It would be nice to create a custom inline class, e.g. `{.ui_path {some_path}}`, which I have done in, e.g., googledrive.
+But it's not easy to do this *while still inheriting cli's `file:` hyperlink behaviour*, which is very desirable.
+So that leads to the somewhat clunky pattern above, but it gives a nice result.
+-   `ui_code()` gets replaced by various inline styles, depending on what the actual goal is, such as:
+    -   `{.code some_text}`
     -   `{.arg some_argument}`
     -   `{.cls some_class}`
-    -   `{.code some_text}`
-    -   `{.envvar SOME_ENV_VAR}`
     -   `{.fun devtools::build_readme}`
     -   `{.help some_function}`
-    -   `{.run some_code}`
+    -   `{.run usethis::usethis_function()}`
     -   `{.topic some_topic}`
-    -   `{.var variable_name}`
-
-Inline styles that don't get quoted in the absence of color and that I'm worried about:
-
-* ~`.field`~ I've fixed this in the theme
-* `.pkg`
-
-(I'll talk about `ui_unset()` below.)
+    -   `{.var some_variable}`
+- `ui_unset()` is replaced by `ui_special()`, which you'll see more of below.
 
 ## Conditions
 
@@ -211,10 +244,9 @@ ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
 }
 ```
 
-At this point, the `usethis_theme()` doesn't do anything that affects the styling of an error.
-So the main point of `ui_abort()` is to use to `cli_abort()` (and to continue applying the `"usethis_error"` class).
+The main point of `ui_abort()` is to use to `cli_abort()` (and to continue applying the `"usethis_error"` class).
 
-I also use `ui_abort()` to apply different default bullet styling.
+I also use `ui_abort()` to apply different default bullet naming/styling.
 Starting with `"x"` and then defaulting to `"i"` seems to fit best with usethis's existing errors.
 
 ```{r}
@@ -229,7 +261,7 @@ ui_abort(c(
 Any bullets that are explicitly given are honored.
 
 ```{r}
-ui_abort(c("v" = "Weird thing to do in an error, but whatever."))
+ui_abort(c("v" = "It's weird to give a green check in an error, but whatever."))
 ui_abort(c(
   "!" = "Things are not ideal.",
   ">" = "Look at me!"
@@ -249,19 +281,59 @@ ui_warn <- function(x, .envir = parent.frame()) {
 }
 ```
 
-It has very little usage and, instead of converting it, I'm going to eliminate its use altogether in favor of `ui_bullets(c("!" = "Thing I'm warning about."))
-`.
+It has very little usage and, instead of converting it, I've eliminated its use altogether in favor of `ui_bullets(c("!" = "Thing I'm warning about."))`.
 
-Now that I'm looking at a lot of the new errors with `ui_abort()` I realize that usethis also needs to be passing the `call` argument along.
-I'm not going to tackle this in the main conversion.
+Sidebar: Now that I'm looking at a lot of the new errors with `ui_abort()` I realize that usethis also needs to be passing the `call` argument along.
+I'm going to leave that for a future, separate effort.
 
 ## Sitrep and format helpers
 
 This is a small clump of  functions that support sitrep-type output.
 
 -   `hd_line()` *unexported and, apparently, unused! now removed*
--   `kv_line()` *unexported*
--   `ui_unset()` *exported*
+-   `kv_line()` *unexported, so has new cli implementation*
+-   `ui_unset()` *exported and succeeded by `ui_special()`*
+
+`kv_line()` stands for "key-value line".
+Here's what it used to be:
+
+```{r}
+kv_line_legacy <- function(key, value, .envir = parent.frame()) {
+  value <- if (is.null(value)) ui_unset() else ui_value(value)
+  key <- glue(key, .envir = .envir)
+  ui_inform(glue("{cli::symbol$bullet} {key}: {value}"))
+}
+
+url <- "https://github.com/r-lib/usethis.git"
+remote <- "origin"
+kv_line_legacy("URL for the {ui_value(remote)} remote", url)
+
+host <- "github.com"
+kv_line_legacy("Personal access token for {ui_value(host)}", NULL)
+```
+
+Key features:
+
+* Interpolates data and applies inline style to the result.
+  Works differently for `key` and `value`.
+* Has special handling when `value` is `NULL`.
+* Applies `"*"` bullet name/style to over all result.
+
+I won't show the updated source for `kv_line()` but here is some usage to show what it's capable of:
+
+```{r}
+noun <- "thingy"
+value <- "VALUE"
+kv_line("Key associated with {.val {noun}}", value)
+
+kv_line("URL for the {.val {remote}} remote", I("{.url {url}})"))
+
+kv_line("Personal access token for {ui_value(host)}", NULL)
+
+kv_line("Personal access token for {ui_value(host)}", ui_special("discovered"))
+```
+
+`ui_unset()` is replaced by `ui_special()`.
 
 ## Questions
 
@@ -280,7 +352,7 @@ if (ui_nope("
 
 If I create new versions of `ui_yeah()` and `ui_nope()`, then I could still switch over to cli's inline styling. Otherwise, I won't be able to remove all internal usage of legacy `ui_*()` functions.
 
-## Miscellany
+## Miscellaneous notes
 
 * I've been adding a period to the end of messages, as a general rule.
 * In terms of whitespace and indentation, I've settled on some conventions:
@@ -305,7 +377,6 @@ ui_abort("
   The repo or branch where PR #{pr$pr_number} originates seems to have been
   deleted.")
 ```
-
 
 TODO: come back to `pr_push()` and deal with that menu stuff. Ditto for `choose_branch()` and `choose_pr()`. Ditto for `target_repo()` in utils-github.R.
 
