@@ -5,20 +5,54 @@ title: "Converting usethis's UI to use cli"
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "",
+  out.width = "100%",
+  #asciicast_knitr_output = "html",
+  asciicast_theme = "solarized-light", # tango, solarized-dark, solarized-light
+  asciicast_cols = 72
+)
+asciicast::init_knitr_engine(
+  #echo = TRUE,
+  #echo_input = FALSE,
+  startup = quote({
+    library(usethis)
+    library(glue)
+    options(cli.num_colors = 256)
+    ui_code_snippet <- usethis:::ui_code_snippet
+    usethis_theme <- usethis:::usethis_theme
+    ui_inform <- usethis:::ui_inform
+    kv_line <- usethis:::kv_line
+    ui_special <- usethis:::ui_special
+    ui_abort <- usethis:::ui_abort
+    ui_bullets <- usethis:::ui_bullets
+    set.seed(1) })
 )
 ```
 
 ```{r setup}
 library(usethis)
+library(glue)
+```
+
+*In a hidden chunk here, I'm "exporting" some unexported internal helpers, so that I can use them and talk about them. For similar reasons, I attach glue above, so that certain glue functions work here, without explicitly namespacing them.*
+
+```{r}
+#| include: false
+ui_code_snippet <- usethis:::ui_code_snippet
+usethis_theme <- usethis:::usethis_theme
+ui_inform <- usethis:::ui_inform
+kv_line <- usethis:::kv_line
+ui_special <- usethis:::ui_special
+ui_abort <- usethis:::ui_abort
+ui_bullets <- usethis:::ui_bullets
 ```
 
 ## Block styles
 
-The block styles mostly exist to produce bulleted output with a specific symbol, using a specific color.
-All of this output can be turned off package-wide via the `usethis.quiet` option.
+The block styles exist to produce bulleted output with a specific symbol, using a specific color.
 
-```{r}
+```{asciicast}
+#| collapse: false
 f <- function() {
   ui_todo("ui_todo(): red bullet")
   ui_done("ui_done(): green check")
@@ -29,9 +63,22 @@ f <- function() {
 f()
 ```
 
+Another important feature is that all of this output can be turned off package-wide via the `usethis.quiet` option.
+
+```{asciicast}
+withr::with_options(
+  list(usethis.quiet = TRUE),
+  ui_info("You won't see this message.")
+)
+withr::with_options(
+  list(usethis.quiet = FALSE), # this is the default
+  ui_info("But you will see this one.")
+)
+```
+
 These styles are very close to what can be done with `cli::cli_bullets()` and the way it responds to the names of its input `text`.
 
-```{r}
+```{asciicast}
 cli::cli_bullets(c(
         "noindent",
   " " = "indent",
@@ -44,20 +91,32 @@ cli::cli_bullets(c(
 ))
 ```
 
-A direct translation looks something like this:
+A direct translation would look something like this:
 
-| `ui_*()`    | `cli_bullets()` shortcode | tweaks needed                 |
-|-------------|---------------------------|-------------------------------|
-| `ui_todo()` | `*`                       | blue (default) -\> red        |
-| `ui_done()` | `v`                       | perfect match                 |
-| `ui_oops()` | `x`                       | perfect match                 |
-| `ui_info()` | `i`                       | blue (default) -\> yellow     |
-| `ui_line()` | (unnamed)                 | sort of a perfect match? although sometimes ui_line is used just to get a blank line |
+| Legacy `ui_*()` | `cli_bullets()` shortcode | tweaks needed                 |
+|-----------------|---------------------------|-------------------------------|
+| `ui_todo()`     | `*`                       | blue (default) -\> red        |
+| `ui_done()`     | `v`                       | perfect match                 |
+| `ui_oops()`     | `x`                       | perfect match                 |
+| `ui_info()`     | `i`                       | blue (default) -\> yellow     |
+| `ui_line()`     | (unnamed)                 | sort of a perfect match? although sometimes `ui_line()` is used just to get a blank line |
 
 The overall conversion plan is to switch to a new function, `ui_bullets()`, which is a wrapper around `cli::cli_bullets()`, that adds a few features:
 
 * Early exit, without emitting messages, if the `usethis.quiet` option is `TRUE`.
 * A usethis theme, that changes the color of certain bullet styles and adds a new style for todo's.
+
+```{asciicast}
+ui_bullets(c(
+  "v" = "A great success!",
+  "_" = "Something you need to do.",
+  "x" = "Bad news.",
+  "i" = "The more you know.",
+  " " = "I'm just here for the indentation.",
+  "No indentation at all. Not used much in usethis."
+))
+```
+
 
 Summary of what I've done for todo's:
 
@@ -70,27 +129,26 @@ I have created a new function, `ui_code_snippet()` that is built around `cli::co
 Main observations:
 
 * `cli::code_block(language = "R")` applies syntax highlighting and hyperlinks (e.g. to function help topics) to R code, which is cool. Therefore the `language` argument is also exposed in `ui_code_snippet()`, defaulting to `"R"`. Use `""` for anything that's not R code:
-```{r}
-#| eval: true
-ui_code_snippet("x <- 1 + 2")
-ui_code_snippet("#include <blah.h>", language = "")
-```
-* `ui_code_snippet()` takes a scalar glue-type template string or a vector of lines.
-```{r}
-ui_code_snippet("
-  options(
-    warnPartialMatchArgs = TRUE,
-    warnPartialMatchDollar = TRUE,
-    warnPartialMatchAttr = TRUE
-  )")
-# produces same result as
-ui_code_snippet(c(
-  "options(",
-  "  warnPartialMatchArgs = TRUE,",
-  "  warnPartialMatchDollar = TRUE,",
-  "  warnPartialMatchAttr = TRUE",
-  ")"))
-```
+    ```{asciicast}
+    ui_code_snippet("x <- 1 + 2")
+    ui_code_snippet("#include <blah.h>", language = "")
+    ```
+* `ui_code_snippet()` takes a scalar glue-type template string or a vector of lines. Note that the two calls below produce the same output.
+    ```{asciicast}
+    ui_code_snippet("
+      options(
+        warnPartialMatchArgs = TRUE,
+        warnPartialMatchDollar = TRUE,
+        warnPartialMatchAttr = TRUE
+      )")
+    # produces same result as
+    ui_code_snippet(c(
+      "options(",
+      "  warnPartialMatchArgs = TRUE,",
+      "  warnPartialMatchDollar = TRUE,",
+      "  warnPartialMatchAttr = TRUE",
+      ")"))
+    ```
 * `ui_code_snippet()` does glue interpolation, by default, before calling `cli::cli_code()`, which means you have to think about your use of `{` and `}`. If you want literal `{` or `}`:
   - Use `interpolate = FALSE`, if you don't need interpolation.
   - Do the usual glue thing and double them, i.e. `{{` or `}}`.
@@ -145,7 +203,7 @@ ui_silence <- function(code) {
 
 ### Legacy functions
 
-usethis has its own inline styles (mostly) for use inside functions like `ui_todo()`
+usethis has its own inline styles (mostly) for use inside functions like `ui_todo()`:
 
 * `ui_field()`
 * `ui_value()`
@@ -153,7 +211,8 @@ usethis has its own inline styles (mostly) for use inside functions like `ui_tod
 * `ui_code()`
 * `ui_unset()`
 
-```{r}
+```{asciicast}
+# why is this block truncated from the top in the rendered document?
 new_val <- "oxnard"
 x <- glue("{ui_field('name')} set to {ui_value(new_val)}")
 dput(x)
@@ -167,11 +226,12 @@ The inline styles enact some combination of:
 * Quoting, e.g. `encodeString(x, quote = "'")`
 
 `ui_path()` is special because it potentially modifies the input before styling it.
-`up_path()` first makes the path relative to a specific base (by default, the active project root) and, if the path is a directory, it also ensures there is a trailing `/`.
+`ui_path()` first makes the path relative to a specific base (by default, the active project root) and, if the path is a directory, it also ensures there is a trailing `/`.
 
 `ui_unset()` is a special purpose helper used when we need to report that something is unknown, not configured, nonexistent, etc.
 
-```{r}
+```{asciicast}
+# why is this block truncated from the top in the rendered document?
 x <- glue("Your super secret password is {ui_unset()}.")
 dput(x)
 ui_info(x)
@@ -187,19 +247,19 @@ Here's the general conversion plan:
 -   `ui_field()` becomes `{.field blah}`. In `usethis_theme()`, I tweak the `.field` style to apply single quotes if color is not available, which is what `ui_field()` has always done.
 -   `ui_value()` becomes `{.val value}`.
 -   `ui_path()` is connected to `{.path path/to/thing}`, but, as explained above, `ui_path()` also does more. Therefore, I abstracted the "path math" into an internal helper, `ui_path_impl()`, which is aliased to `pth()` for compactness. Here's a typical conversion:
-```{r}
-#| eval: false
-# using legacy functions
-ui_done("Setting {ui_field('LazyData')} to \\
-         {ui_value('true')} in {ui_path('DESCRIPTION')}")
-# using new cli-based ui
-ui_bullets(c(
-  "v" = "Setting {.field LazyData} to {.val true} in {.path {pth('DESCRIPTION')}}."
-))
-```
-It would be nice to create a custom inline class, e.g. `{.ui_path {some_path}}`, which I have done in, e.g., googledrive.
-But it's not easy to do this *while still inheriting cli's `file:` hyperlink behaviour*, which is very desirable.
-So that leads to the somewhat clunky pattern above, but it gives a nice result.
+    ```{r}
+    #| eval: false
+    # using legacy functions
+    ui_done("Setting {ui_field('LazyData')} to \\
+             {ui_value('true')} in {ui_path('DESCRIPTION')}")
+    # using new cli-based ui
+    ui_bullets(c(
+      "v" = "Setting {.field LazyData} to {.val true} in {.path {pth('DESCRIPTION')}}."
+    ))
+    ```
+    It would be nice to create a custom inline class, e.g. `{.ui_path {some_path}}`, which I have done in, e.g., googledrive.
+    But it's not easy to do this *while still inheriting cli's `file:` hyperlink behaviour*, which is very desirable.
+    So that leads to the somewhat clunky, verbose pattern above, but it gives a nice result.
 -   `ui_code()` gets replaced by various inline styles, depending on what the actual goal is, such as:
     -   `{.code some_text}`
     -   `{.arg some_argument}`
@@ -209,13 +269,14 @@ So that leads to the somewhat clunky pattern above, but it gives a nice result.
     -   `{.run usethis::usethis_function()}`
     -   `{.topic some_topic}`
     -   `{.var some_variable}`
-- `ui_unset()` is replaced by `ui_special()`, which you'll see more of below.
+- `ui_unset()` is replaced by `ui_special()`, which you'll see more of below. Currently the intended grey color doesn't show up when I render this document using solarized-dark and so far I can't get to the bottom of that :( Why isn't it the same grey as "[Copied to clipboard]" in `ui_code_snippet()`, which does work?
 
 ## Conditions
 
 I'm moving from `ui_stop()`:
 
 ```{r}
+#| eval: false
 ui_stop <- function(x, .envir = parent.frame()) {
   x <- glue_collapse(x, "\n")
   x <- glue(x, .envir = .envir)
@@ -232,9 +293,10 @@ ui_stop <- function(x, .envir = parent.frame()) {
 to `ui_abort()`:
 
 ```{r}
+#| eval: false
 ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
   cli::cli_div(theme = usethis_theme())
-  # bullet naming stuff, see below
+  # bullet naming gymnastics, see below
   cli::cli_abort(
     message,
     class = c(class, "usethis_error"),
@@ -249,7 +311,9 @@ The main point of `ui_abort()` is to use to `cli_abort()` (and to continue apply
 I also use `ui_abort()` to apply different default bullet naming/styling.
 Starting with `"x"` and then defaulting to `"i"` seems to fit best with usethis's existing errors.
 
-```{r}
+```{asciicast}
+#| error: true
+# why is this block truncated from the top in the rendered document?
 block_start = "# <<<"
 block_end = "# >>>"
 ui_abort(c(
@@ -260,7 +324,8 @@ ui_abort(c(
 
 Any bullets that are explicitly given are honored.
 
-```{r}
+```{asciicast}
+#| error: true
 ui_abort(c("v" = "It's weird to give a green check in an error, but whatever."))
 ui_abort(c(
   "!" = "Things are not ideal.",
@@ -270,18 +335,12 @@ ui_abort(c(
 
 `rlang::abort()` and `cli::cli_abort()` start with `"!"` by default, then use `"*"` and `" "`, respectively.
 
-The legacy functions include `ui_warn()`:
+The legacy functions also include `ui_warn()`.
+It has very little usage and, instead of converting it, I've eliminated its use altogether in favor of a `"!"` bullet:
 
-```{r}
-ui_warn <- function(x, .envir = parent.frame()) {
-  x <- glue_collapse(x, "\n")
-  x <- glue(x, .envir = .envir)
-
-  warning(x, call. = FALSE, immediate. = TRUE)
-}
+```{asciicast}
+ui_bullets(c("!" = "The guy she told you not to worry about."))
 ```
-
-It has very little usage and, instead of converting it, I've eliminated its use altogether in favor of `ui_bullets(c("!" = "Thing I'm warning about."))`.
 
 Sidebar: Now that I'm looking at a lot of the new errors with `ui_abort()` I realize that usethis also needs to be passing the `call` argument along.
 I'm going to leave that for a future, separate effort.
@@ -297,7 +356,7 @@ This is a small clump of  functions that support sitrep-type output.
 `kv_line()` stands for "key-value line".
 Here's what it used to be:
 
-```{r}
+```{asciicast}
 kv_line_legacy <- function(key, value, .envir = parent.frame()) {
   value <- if (is.null(value)) ui_unset() else ui_value(value)
   key <- glue(key, .envir = .envir)
@@ -315,25 +374,28 @@ kv_line_legacy("Personal access token for {ui_value(host)}", NULL)
 Key features:
 
 * Interpolates data and applies inline style to the result.
-  Works differently for `key` and `value`.
+  Works differently for `key` and `value`, because you're much more likely to use interpolation and styling in `key` than `value`.
 * Has special handling when `value` is `NULL`.
 * Applies `"*"` bullet name/style to over all result.
 
 I won't show the updated source for `kv_line()` but here is some usage to show what it's capable of:
 
-```{r}
+```{asciicast}
+# why is this block truncated from the top in the rendered document?
 noun <- "thingy"
 value <- "VALUE"
 kv_line("Key associated with {.val {noun}}", value)
 
-kv_line("URL for the {.val {remote}} remote", I("{.url {url}})"))
+kv_line("URL for the {.val {remote}} remote", I("{.url {url}}"))
 
-kv_line("Personal access token for {ui_value(host)}", NULL)
+kv_line("Personal access token for {.val {host}}", NULL)
 
-kv_line("Personal access token for {ui_value(host)}", ui_special("discovered"))
+kv_line("Personal access token for {.val {host}}", ui_special("discovered"))
+
+x <- kv_line("Personal access token for {.val {host}}", ui_special("discovered"))
 ```
 
-`ui_unset()` is replaced by `ui_special()`.
+`ui_special()` is the successor to `ui_unset()`.
 
 ## Questions
 
@@ -355,28 +417,30 @@ If I create new versions of `ui_yeah()` and `ui_nope()`, then I could still swit
 ## Miscellaneous notes
 
 * I've been adding a period to the end of messages, as a general rule.
-* In terms of whitespace and indentation, I've settled on some conventions:
-```{r}
-#| eval: false
-ui_bullets(c(
-  "i" = "Downloading into {.path {pth(destdir)}}.",
-  "_" = "Prefer a different location? Cancel, try again, and specify
-         {.arg destdir}."
-))
-...
-ui_bullets(c("x" = "Things are very wrong."))
-```
+* In terms of whitespace and indentation, I've settled on some conventions.
+  The overall goal is to get the right user-facing output (obviously), while making it as easy as possible to _predict_ what that's going to look like when you're writing the code.
+    ```{r}
+    #| eval: false
+    ui_bullets(c(
+      "i" = "Downloading into {.path {pth(destdir)}}.",
+      "_" = "Prefer a different location? Cancel, try again, and specify
+             {.arg destdir}."
+    ))
+    ...
+    ui_bullets(c("x" = "Things are very wrong."))
+    ```
   Key points:
   - Put `ui_bullets(c(` on its own line, then all of the bullet items, followed by `))` on its own line. Sometimes I make an exception for a bullet list with exactly one, short bullet item.
   - Use hard line breaks inside bullet text to comply with surrounding line length. In subsequent lines, use indentation to get you just past the opening `"`. This extraneous white space is later rationalized by cli, which handles wrapping.
   - Surround bullet names like `x` and `i` with quotes, even though you don't have to, because it's required for other names, such as `!` or `_` and it's better to be consistent.
-  - Here's another style that applies to `ui_abort()`, where there's just one, unnamed bullet, but the call doesn't fit on one line.
-```{r}
-pr <- list(pr_number = 13)
-ui_abort("
-  The repo or branch where PR #{pr$pr_number} originates seems to have been
-  deleted.")
-```
+  - Here's another style I like that applies to `ui_abort()`, where there's just one, unnamed bullet, but the call doesn't fit on one line.
+    ```{r}
+    #| eval: false
+    pr <- list(pr_number = 13)
+    ui_abort("
+      The repo or branch where PR #{pr$pr_number} originates seems to have been
+      deleted.")
+    ```
 
 TODO: come back to `pr_push()` and deal with that menu stuff. Ditto for `choose_branch()` and `choose_pr()`. Ditto for `target_repo()` in utils-github.R.
 
