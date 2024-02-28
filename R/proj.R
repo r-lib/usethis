@@ -261,19 +261,23 @@ project_name <- function(base_path = proj_get()) {
 #' Activate a project
 #'
 #' Activates a project in usethis, R session, and (if relevant) RStudio senses.
-#' If you are in RStudio, this will open a new RStudio session. If not, it will
-#' change the working directory and [active project][proj_set()].
+#' If you are in RStudio, this will open a new RStudio session
+#' or change the active project. If not, it will change the working directory
+#'  and [active project][proj_set()].
 #'
 #' @param path Project directory
+#' @param new_session Should open in a new RStudio session? `TRUE` by default.
+#'   Only applicable if already within RStudio.
 #' @return Single logical value indicating if current session is modified.
 #' @export
-proj_activate <- function(path) {
+proj_activate <- function(path, new_session = TRUE) {
   check_path_is_directory(path)
   path <- user_path_prep(path)
 
   if (rstudio_available() && rstudioapi::hasFun("openProject")) {
-    ui_done("Opening {ui_path(path, base = NA)} in new RStudio session")
-    rstudioapi::openProject(path, newSession = TRUE)
+    msg <- paste0("Opening {ui_path(path, base = NA)}", if (new_session) " in new RStudio session")
+    ui_done(msg)
+    rstudioapi::openProject(path, newSession = new_session)
     invisible(FALSE)
   } else {
     proj_set(path)

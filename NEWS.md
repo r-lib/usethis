@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `proj_activate()` now has `new_session`, which controls whether to open a project in
+  a new RStudio session or switch projct (@olivroy, #1954).
+
 # usethis 2.2.3
 
 * Patch release with changes to `.Rd` files requested by CRAN.
