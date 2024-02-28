@@ -36,6 +36,26 @@ quote_if_no_color <- function(x, quote = "'") {
   }
 }
 
+# silence -----------------------------------------------------------------
+#' Suppress usethis's messaging
+#'
+#' Execute a bit of code without usethis's normal messaging.
+#'
+#' @param code Code to execute with usual UI output silenced.
+#'
+#' @returns Whatever `code` returns.
+#' @export
+#' @examples
+#' # compare the messaging you see from this:
+#' browse_github("usethis")
+#' # vs. this:
+#' ui_silence(
+#'   browse_github("usethis")
+#' )
+ui_silence <- function(code) {
+  withr::with_options(list(usethis.quiet = TRUE), code)
+}
+
 # bullets, helpers, and friends ------------------------------------------------
 ui_bullets <- function(text, .envir = parent.frame()) {
   if (is_quiet()) {
