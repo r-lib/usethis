@@ -95,7 +95,7 @@ challenge_legacy_author_fields <- function(d = proj_desc()) {
     "_" = "Convert to {.field Authors@R} with
            {.fun desc::desc_coerce_authors_at_r}, then delete the legacy fields."
   ))
-  if (ui_yeah("Do you want to cancel this operation and sort that out first?")) {
+  if (ui_yep("Do you want to cancel this operation and sort that out first?")) {
     ui_abort("Cancelling.")
   }
   invisible()
@@ -135,7 +135,7 @@ challenge_default_author <- function(d = proj_desc()) {
       "i" = "{.field Authors@R} appears to include a placeholder author:",
       " " = "{format(default_author, style = 'text')}"
     ))
-    if(is_interactive() && ui_yeah("Would you like to remove it?")) {
+    if(is_interactive() && ui_yep("Would you like to remove it?")) {
       # TODO: Do I want to suppress this output?
       # Authors removed: First Last, NULL NULL.
       do.call(d$del_author, unclass(default_author)[[1]])

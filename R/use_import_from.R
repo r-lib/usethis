@@ -58,12 +58,11 @@ check_has_package_doc <- function(whos_asking) {
     return(invisible(TRUE))
   }
 
-  # TODO: update this msg when dealing with ui_yeah()
   msg <- c(
-    "{ui_code(whos_asking)} requires package-level documentation.",
-    "Would you like to add it now?"
+    "!" = "{.fun {whos_asking}} requires package-level documentation.",
+    " " = "Would you like to add it now?"
   )
-  if (is_interactive() && ui_yeah(msg)) {
+  if (is_interactive() && ui_yep(msg)) {
     use_package_doc()
   } else {
     ui_abort(c(

@@ -299,8 +299,8 @@ git_clean <- function() {
     bulletize(usethis_map_cli(ui_paths, template = "{.file <<x>>}"))
   ))
 
-  if (ui_yeah("
-    Do you want to remove {if (n == 1) 'it' else 'them'}?",
+  if (ui_yep(
+    "{cli::qty(n)}Do you want to remove {?it/them}?",
     yes = "yes", no = "no", shuffle = FALSE)) {
     file_delete(paths)
     ui_bullets(c("v" = "{n} file{?s} deleted."))

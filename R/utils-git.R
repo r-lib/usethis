@@ -165,13 +165,9 @@ git_ask_commit <- function(message, untracked, push = FALSE, paths = NULL) {
   # Only push if no remote & a single change
   push <- push && git_can_push(max_local = 1)
 
-  msg <- paste0(
-    "Is it ok to commit ",
-    if (push) "and push ",
-    if (n == 1) 'it' else 'them',
-    "?"
-  )
-  if (ui_yeah(msg)) {
+  if (ui_yep(c(
+    "!" = "Is it ok to commit {if (push) 'and push '} {cli::qty(n)} {?it/them}?"
+  ))) {
     git_commit(paths, message)
     if (push) {
       git_push()
@@ -199,7 +195,10 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
     we push, pull, switch, or compare branches"
   msg <- glue(msg %||% default_msg)
   if (git_uncommitted(untracked = untracked)) {
-    if (ui_yeah("{msg}\nDo you want to proceed anyway?")) {
+    if (ui_yep(c(
+      "!" = msg,
+      " " = "Do you want to proceed anyway?"
+    ))) {
       return(invisible())
     } else {
       ui_abort("Uncommitted changes. Please commit before continuing.")
@@ -225,12 +224,13 @@ git_conflict_report <- function() {
     bulletize(conflicted_paths, n_show = 10)
   ))
 
-  msg <- glue("
-    Are you ready to sort this out?
-    If so, we will open the conflicted files for you to edit.")
+  msg <- c(
+    "!" = "Are you ready to sort this out?",
+    " " = "If so, we will open the conflicted files for you to edit."
+  )
   yes <- "Yes, I'm ready to resolve the merge conflicts."
   no <- "No, I want to abort this merge."
-  if (ui_yeah(msg, yes = yes, no = no, shuffle = FALSE)) {
+  if (ui_yep(msg, yes = yes, no = no, shuffle = FALSE)) {
     ui_silence(purrr::walk(conflicted, edit_file))
     ui_abort(c(
       "Please fix each conflict, save, stage, and commit.",

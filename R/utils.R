@@ -16,7 +16,7 @@ can_overwrite <- function(path) {
   }
 
   if (is_interactive()) {
-    ui_yeah("Overwrite pre-existing file {ui_path(path)}?")
+    ui_yep(c("!" = "Overwrite pre-existing file {.path {pth(path)}}?"))
   } else {
     FALSE
   }

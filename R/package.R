@@ -118,10 +118,11 @@ package_remote <- function(desc) {
   }
   parsed <- parse_github_remotes(urls$url[[1]])
   remote <- paste0(parsed$repo_owner, "/", parsed$repo_name)
-  if (ui_yeah("
-    {ui_value(package)} was either installed from CRAN or local source.
-    Based on DESCRIPTION, we propose the remote: {ui_value(remote)}
-    Is this OK?")) {
+  if (ui_yep(c(
+    "!" = "{.pkg {package}} was either installed from CRAN or local source.",
+    "i" = "Based on DESCRIPTION, we propose the remote: {.val {remote}}.",
+    " " = "Is this OK?"
+  ))) {
     remote
   } else {
     ui_abort("Cannot determine remote for {.pkg {package}}.")

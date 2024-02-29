@@ -377,7 +377,7 @@ tidy_unzip <- function(zipfile, cleanup = FALSE) {
 
   if (isNA(cleanup)) {
     cleanup <- is_interactive() &&
-      ui_yeah("Shall we delete the ZIP file ({ui_path(zipfile, base_path)})?")
+      ui_yep("Shall we delete the ZIP file ({.path {pth(zipfile, base_path)}})?")
   }
 
   if (isTRUE(cleanup)) {
