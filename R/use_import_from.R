@@ -19,7 +19,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' use_import_from("usethis", "ui_todo")
+#' use_import_from("glue", "glue")
 #' }
 use_import_from <- function(package, fun, load = is_interactive()) {
   if (!is_string(package)) {
