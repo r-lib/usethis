@@ -11,11 +11,12 @@ usethis_theme <- function() {
       "text-exdent" = 2,
       before = function(x) paste0(cli::col_yellow(cli::symbol$info), " ")
     ),
-    # we have enough color going on already, let's have black bullets
+    # we have enough color going on already, don't add color to `*` bullets
     ".bullets .bullet-*" = list(
       "text-exdent" = 2,
       before = function(x) paste0(cli::symbol$bullet, " ")
     ),
+    # apply quotes to `.field` if we can't style it with color
     span.field = list(transform = single_quote_if_no_color)
   )
 }

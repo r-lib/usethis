@@ -150,12 +150,16 @@ ui_warn <- function(x, .envir = parent.frame()) {
 
 
 # Questions ---------------------------------------------------------------
-
 #' User interface - Questions
 #'
-#' These functions are used to interact with the user by posing a simple yes or
-#' no question. For details on the other `ui_*()` functions, see the
-#' [ui-legacy-functions] help page.
+#' @description
+#' `r lifecycle::badge("superseded")`
+#'
+
+#' `ui_yeah()` and `ui_nope()` are technically superseded, but, unlike the rest
+#' of the legacy [`ui_*()`][ui-legacy-functions] functions, there's not yet a
+#' drop-in replacement available in the [cli package](https://cli.r-lib.org/).
+#' `ui_yeah()` and `ui_nope()` are no longer used internally in usethis.
 #'
 #' @inheritParams ui-legacy-functions
 #' @param yes A character vector of "yes" strings, which are randomly sampled to
@@ -173,7 +177,6 @@ ui_warn <- function(x, .envir = parent.frame()) {
 #'   of `ui_yeah()`.
 #' @name ui-questions
 #' @keywords internal
-#' @family user interface functions
 #' @examples
 #' \dontrun{
 #' ui_yeah("Do you like R?")
