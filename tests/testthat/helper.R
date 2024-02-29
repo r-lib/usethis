@@ -31,7 +31,7 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
                                thing = c("package", "project")) {
   thing <- match.arg(thing)
   if (fs::dir_exists(dir)) {
-    ui_stop("Target {ui_code('dir')} {ui_path(dir)} already exists.")
+    ui_abort("Target {.arg dir} {.path {pth(dir)}} already exists.")
   }
 
   old_project <- proj_get_() # this could be `NULL`, i.e. no active project
@@ -39,7 +39,7 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
 
   withr::defer(
     {
-      ui_done("Deleting temporary project: {ui_path(dir)}")
+      ui_bullets(c("Deleting temporary project: {.path {dir}}"))
       fs::dir_delete(dir)
     },
     envir = env
@@ -68,7 +68,7 @@ create_local_thing <- function(dir = file_temp(pattern = pattern),
 
   withr::defer(
     {
-      ui_done("Restoring original working directory: {ui_path(old_wd)}")
+      ui_bullets(c("Restoring original working directory: {.path {old_wd}}"))
       setwd(old_wd)
     },
     envir = env

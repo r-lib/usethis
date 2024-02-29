@@ -616,11 +616,10 @@ fishy_badges <- function(old_name = "master") {
     return(invisible(character()))
   }
 
-  ui_path <- ui_path_impl(proj_rel_path(path))
   ui_bullets(c(
     "x" = "Some badges appear to refer to the old default branch
            {.val {old_name}}.",
-    "_" = "Check and correct, if needed, in this file: {.file {ui_path}}"
+    "_" = "Check and correct, if needed, in this file: {.path {pth(path)}}"
   ))
 
   invisible(path)
@@ -650,11 +649,11 @@ fishy_bookdown_config <- function(old_name = "master") {
     return(invisible(character()))
   }
 
-  ui_path <- ui_path_impl(proj_rel_path(bookdown_config))
   ui_bullets(c(
     "x" = "The bookdown configuration file may refer to the old default branch
            {.val {old_name}}.",
-    "_" = "Check and correct, if needed, in this file: {.file {ui_path}}"
+    "_" = "Check and correct, if needed, in this file:
+           {.path {pth(bookdown_config)}}"
   ))
 
   invisible(path)

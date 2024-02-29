@@ -4,10 +4,10 @@
       use_github_action(url = "https://raw.githubusercontent.com/r-lib/actions/v2/examples/check-full.yaml",
         readme = "https://github.com/r-lib/actions/blob/v2/examples/README.md")
     Message
-      v Creating '.github/'
+      v Creating '.github/'.
       v Adding "^\\.github$" to '.Rbuildignore'.
       v Adding "*.html" to '.github/.gitignore'.
-      v Creating '.github/workflows/'
+      v Creating '.github/workflows/'.
       v Saving "r-lib/actions/examples/check-full.yaml@v2" to
         '.github/workflows/R-CMD-check.yaml'.
       [ ] Learn more at

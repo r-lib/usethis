@@ -88,12 +88,12 @@ use_data <- function(...,
 
 get_objs_from_dots <- function(.dots) {
   if (length(.dots) == 0L) {
-    ui_stop("Nothing to save.")
+    ui_abort("Nothing to save.")
   }
 
   is_name <- vapply(.dots, is.symbol, logical(1))
   if (any(!is_name)) {
-    ui_stop("Can only save existing named objects.")
+    ui_abort("Can only save existing named objects.")
   }
 
   objs <- vapply(.dots, as.character, character(1))
@@ -118,12 +118,10 @@ check_files_absent <- function(paths, overwrite) {
     return()
   }
 
-  ui_stop(
-    "
-    {ui_path(paths[!ok])} already exist.,
-    Use {ui_code('overwrite = TRUE')} to overwrite.
-    "
-  )
+  ui_abort(c(
+    "{.path {pth(paths[!ok])}} already exist.",
+    "Use {.code overwrite = TRUE} to overwrite."
+  ))
 }
 
 #' @param name Name of the dataset to be prepared for inclusion in the package.

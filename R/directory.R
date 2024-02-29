@@ -30,7 +30,7 @@ create_directory <- function(path) {
   }
 
   dir_create(path, recurse = TRUE)
-  ui_done("Creating {ui_path(path)}")
+  ui_bullets(c("v" = "Creating {.path {pth(path)}}."))
   invisible(TRUE)
 }
 

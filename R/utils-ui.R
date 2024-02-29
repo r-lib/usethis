@@ -228,13 +228,10 @@ ui_yep <- function(x,
                    no = c("No way", "Not now", "Negative", "No", "Nope", "Absolutely not"),
                    n_yes = 1, n_no = 2, shuffle = TRUE,
                    .envir = parent.frame()) {
-  #x <- glue_collapse(x, "\n")
-  #x <- glue(x, .envir = .envir)
-
   if (!is_interactive()) {
-    ui_stop(c(
+    ui_abort(c(
       "User input required, but session is not interactive.",
-      "Query: {x}"
+      "Query: {.val {x}}"
     ))
   }
 
