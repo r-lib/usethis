@@ -427,7 +427,7 @@ git_sitrep <- function(tool = c("git", "github"),
       cli::cli_text("Project:")
     }
 
-    purrr::walk(format(cfg), ui_legacy_bullet)
+    ui_bullets(format(cfg))
   }
 
   invisible()

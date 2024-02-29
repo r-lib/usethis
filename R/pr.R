@@ -385,13 +385,14 @@ pr_push <- function() {
     # this is the first push
     if (cfg$type == "fork" && cfg$upstream$can_push && is_interactive()) {
       choices <- c(
-        origin   = glue(
-          "{cfg$origin$repo_spec} = {ui_value('origin')} (external PR)"),
-        upstream = glue(
-          "{cfg$upstream$repo_spec} = {ui_value('upstream')} (internal PR)")
+        origin   = ui_pre_glue("
+          <<cfg$origin$repo_spec>> = {.val origin} (external PR)"),
+        upstream = ui_pre_glue("
+          <<cfg$upstream$repo_spec>> = {.val upstream} (internal PR)")
       )
+      choices_formatted <- map_chr(choices, cli::format_inline)
       title <- glue("Which repo do you want to push to?")
-      choice <- utils::menu(choices, graphics = FALSE, title = title)
+      choice <- utils::menu(choices_formatted, graphics = FALSE, title = title)
       remote <- names(choices)[[choice]]
     } else {
       remote <- "origin"
@@ -854,27 +855,30 @@ choose_branch <- function(exclude = character()) {
     return()
   }
   prompt <- "Which branch do you want to checkout? (0 to exit)"
-  if (nrow(dat) > 9) {
-    branches_not_shown <- utils::tail(dat$name, -9)
-    n <- length(branches_not_shown)
-    dat <- dat[1:9, ]
-    pre <- glue("{n} branch{if (n > 1) 'es' else ''} not listed: ")
-    listing <- glue_collapse(
-      branches_not_shown, sep = ", ", width = getOption("width") - nchar(pre)
+  n_show_max <- 9
+  n <- nrow(dat)
+  n_shown <- compute_n_show(n, n_show_nominal = n_show_max)
+  n_not_shown <- n - n_shown
+  if (n_not_shown > 0) {
+    branches_not_shown <- utils::tail(dat$name, -n_shown)
+    dat <- dat[seq_len(n_shown), ]
+    fine_print <- cli::format_inline(
+      "{n_not_shown} branch{?/es} not listed: {.val {branches_not_shown}}"
     )
-    prompt <- glue("
-      {prompt}
-      {pre}{listing}")
+    prompt <- glue("{prompt}\n{fine_print}")
   }
-  dat$pretty_user <- map(dat$pr_user, ~ glue("@{.x}"))
+  dat$pretty_user <- glue_data(dat, "@{pr_user}")
   dat$pretty_name <- format(dat$name, justify = "right")
   dat_pretty <- purrr::pmap_chr(
     dat[c("pretty_name", "pr_number", "pretty_user", "pr_title")],
     function(pretty_name, pr_number, pretty_user, pr_title) {
       if (is.na(pr_number)) {
-        glue("{pretty_name}")
+        pretty_name
       } else {
-        glue("{pretty_name} --> #{pr_number} ({ui_value(pretty_user)}): {pr_title}")
+        template <- ui_pre_glue(
+          "{pretty_name} {cli::symbol$arrow_right} #{pr_number} ({.field <<pretty_user>>}): {pr_title}"
+        )
+        cli::format_inline(template)
       }
     }
   )
@@ -897,13 +901,17 @@ choose_pr <- function(tr = NULL, pr_dat = NULL) {
   # wording needs to make sense for several PR-choosing tasks, e.g. fetch, view,
   # finish, forget
   prompt <- "Which PR are you interested in? (0 to exit)"
-  if (nrow(pr_dat) > 9) {
-    n <- nrow(pr_dat) - 9
-    pr_dat <- pr_dat[1:9, ]
-    prompt <- glue("
-      {prompt}
-      Not shown: {n} more {if (n > 1) 'PRs' else 'PR'}; \\
-      call {ui_code('browse_github_pulls()')} to browse all PRs.")
+  n_show_max <- 9
+  n <- nrow(pr_dat)
+  n_shown <- compute_n_show(n, n_show_nominal = n_show_max)
+  n_not_shown <- n - n_shown
+  if (n_not_shown > 0) {
+    pr_dat <- pr_dat[seq_len(n_shown), ]
+    info1 <- cli::format_inline("Not shown: {n_not_shown} more PR{?s}.")
+    info2 <- cli::format_inline(
+      "Call {.run usethis::browse_github_pulls()} to browse all PRs."
+    )
+    prompt <- glue("{prompt}\n{info1}\n{info2}")
   }
 
   some_closed <- any(pr_dat$pr_state == "closed")
@@ -913,9 +921,15 @@ choose_pr <- function(tr = NULL, pr_dat = NULL) {
       hash_number <- glue("#{pr_number}")
       at_user <- glue("@{pr_user}")
       if (some_closed) {
-        glue("{hash_number} ({ui_field(at_user)}, {pr_state}): {ui_value(pr_title)}")
+        template <- ui_pre_glue(
+          "{hash_number} ({.field <<at_user>>}, {pr_state}): {.val <<pr_title>>}"
+        )
+        cli::format_inline(template)
       } else {
-        glue("{hash_number} ({ui_field(at_user)}): {ui_value(pr_title)}")
+        template <- ui_pre_glue(
+          "{hash_number} ({.field <<at_user>>}): {.val <<pr_title>>}"
+        )
+        cli::format_inline(template)
       }
     }
   )
