@@ -6,10 +6,10 @@
 session_temp_proj <- proj_find(path_temp())
 if (!is.null(session_temp_proj)) {
   Rproj_files <- fs::dir_ls(session_temp_proj, glob = "*.Rproj")
-  ui_line(c(
-    "Rproj file(s) found at or above session temp dir:",
-    paste0("* ", Rproj_files),
-    "Expect this to cause spurious test failures."
+  ui_bullets(c(
+    "x" = "Rproj {cli::qty(length(Rproj_files))} file{?s} found at or above session temp dir:",
+    bulletize(usethis_map_cli(Rproj_files)),
+    "!" = "Expect this to cause spurious test failures."
   ))
 }
 
