@@ -57,6 +57,10 @@ ui_silence <- function(code) {
   withr::with_options(list(usethis.quiet = TRUE), code)
 }
 
+is_quiet <- function() {
+  isTRUE(getOption("usethis.quiet", default = FALSE))
+}
+
 # bullets, helpers, and friends ------------------------------------------------
 ui_bullets <- function(text, .envir = parent.frame()) {
   if (is_quiet()) {
@@ -91,6 +95,11 @@ ui_code_snippet <- function(x,
                             interpolate = TRUE,
                             .envir = parent.frame()) {
   language <- arg_match(language)
+
+  indent <- function(x, first = "  ", indent = first) {
+    x <- gsub("\n", paste0("\n", indent), x)
+    paste0(first, x)
+  }
 
   x <- glue_collapse(x, "\n")
   if (interpolate) {
@@ -238,7 +247,6 @@ ui_yep <- function(x,
     qs <- sample(qs)
   }
 
-  # TODO: should this be ui_inform()?
   cli::cli_inform(x, .envir = .envir)
   out <- utils::menu(qs)
   out != 0L && qs[[out]] %in% yes

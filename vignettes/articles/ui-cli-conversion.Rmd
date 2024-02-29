@@ -186,7 +186,8 @@ ui_inform <- function(...) {
 Other than `is_quiet()`, which will continue to play the same role, I anticipate that we no longer need these utilities (`indent()`, `ui_bullet()`, `ui_inform()`).
 Updates from the future:
 
-* `indent()` turns out to still be useful in `ui_code_snippet()`.
+* `indent()` turns out to still be useful in `ui_code_snippet()`, so I've inlined
+  it there, to avoid any reliance on definitions in ui-legacy.R.
 * `ui_bullet()` has been renamed to `ui_legacy_bullet()` for auto-completion happiness with the new `ui_bullets()`.
 
 Let's cover `ui_silence()` while we're here, which *is* exported.
@@ -443,3 +444,7 @@ if (ui_nope("
 TODO: come back to `pr_push()` and deal with that menu stuff. Ditto for `choose_branch()` and `choose_pr()`. Ditto for `target_repo()` in utils-github.R.
 
 TODO: come back to this bit in git.R: `purrr::walk(format(cfg), ui_legacy_bullet)`
+
+TODO: NEWS bullet
+
+TODO: Update principles.md
