@@ -33,7 +33,7 @@ make_upkeep_issue <- function(year, tidy) {
       "!" = "It is very unusual to open an upkeep issue on a repo you can't push
              to ({.val {tr$repo_spec}})."
     ))
-    if (ui_nope("Do you really want to do this?")) {
+    if (ui_nah("Do you really want to do this?")) {
       ui_bullets(c("x" = "Cancelling."))
       return(invisible())
     }

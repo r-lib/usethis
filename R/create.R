@@ -358,7 +358,7 @@ challenge_nested_project <- function(path, name) {
            {.fun here::dr_here} that reveals why {.path {pth(path)}} is regarded
            as a project."
   ))
-  if (ui_nope("Do you want to create anyway?")) {
+  if (ui_nah("Do you want to create anyway?")) {
     ui_abort("Cancelling project creation.")
   }
   invisible()
@@ -380,7 +380,7 @@ challenge_home_directory <- function(path) {
     "i" = "It is generally a bad idea to create a new project here.",
     "i" = "You should probably create your new project in a subdirectory."
   ))
-  if (ui_nope("Do you want to create anyway?")) {
+  if (ui_nah("Do you want to create anyway?")) {
     ui_abort("Good move! Cancelling project creation.")
   }
   invisible()

@@ -68,7 +68,7 @@ use_course <- function(url, destdir = getOption("usethis.destdir")) {
       "_" = "Prefer a different location? Cancel, try again, and specify
              {.arg destdir}."
     ))
-    if (ui_nope("OK to proceed?")) {
+    if (ui_nah("OK to proceed?")) {
       ui_bullets(c(x = "Cancelling download."))
       return(invisible())
     }
@@ -306,11 +306,11 @@ download_url <- function(url,
   status <- try_download(url, destfile, handle = handle)
   if (inherits(status, "error") && is_interactive()) {
     ui_bullets(c("x" = status$message))
-    if (ui_nope("
-      Download failed :(
-      See above for everything we know about why it failed.
-      Shall we try a couple more times, with a longer timeout?
-    ")) {
+    if (ui_nah(c(
+      "!" = "Download failed :(",
+      "i" = "See above for everything we know about why it failed.",
+      " " = "Shall we try a couple more times, with a longer timeout?"
+    ))) {
       n_tries <- 1
     }
   }

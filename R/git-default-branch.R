@@ -369,7 +369,7 @@ git_default_branch_rename <- function(from = NULL, to = "main") {
              the source repo are different:",
       " " = "{.val {old_local_db}} (local) != {.val {old_source_db}} (source)"
     ))
-    if (ui_nope(
+    if (ui_nah(
       "Are you sure you want to proceed?",
       yes = "yes", no = "no", shuffle = FALSE)) {
         ui_bullets(c("x" = "Cancelling."))
@@ -531,13 +531,12 @@ challenge_non_default_branch <- function(details = "Are you sure you want to pro
                                          default_branch = NULL) {
   actual <- git_branch()
   default_branch <- default_branch %||% git_default_branch()
-  if (nzchar(details)) {
-    details <- paste0("\n", details)
-  }
   if (actual != default_branch) {
-    if (ui_nope("
-      Current branch ({ui_value(actual)}) is not repo's default \\
-      branch ({ui_value(default_branch)}).{details}")) {
+    if (ui_nah(c(
+      "!" = "Current branch ({.val {actual}}) is not repo's default branch
+             ({.val {default_branch}}).",
+      " " = details
+    ))) {
       ui_abort("Cancelling. Not on desired branch.")
     }
   }

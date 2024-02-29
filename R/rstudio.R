@@ -174,7 +174,7 @@ restart_rstudio <- function(message = NULL) {
     return(FALSE)
   }
 
-  if (ui_nope("Restart now?")) {
+  if (ui_nah("Restart now?")) {
     return(FALSE)
   }
 

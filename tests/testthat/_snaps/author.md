@@ -10,9 +10,9 @@
       [ ] Convert to 'Authors@R' with `desc::desc_coerce_authors_at_r()`, then delete
         the legacy fields.
     Condition
-      Error:
-      ! User input required, but session is not interactive.
-      Query: Do you want to cancel this operation and sort that out first?
+      Error in `ui_yep()`:
+      x User input required, but session is not interactive.
+      i Query: "Do you want to cancel this operation and sort that out first?"
 
 # Decline to tweak an existing author
 

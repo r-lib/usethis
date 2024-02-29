@@ -557,12 +557,13 @@ pr_clean <- function(number = NULL,
     }
     tracking_branch <- git_branch_tracking(pr_local_branch)
     if (is.na(tracking_branch)) {
-      if (ui_nope("
-        Local branch {ui_value(pr_local_branch)} has no associated remote \\
-        branch.
-        If we delete {ui_value(pr_local_branch)}, any work that exists only \\
-        on this branch may be hard for you to recover.
-        Proceed anyway?")) {
+      if (ui_nah(c(
+        "!" = "Local branch {.val {pr_local_branch}} has no associated remote
+               branch.",
+        "i" = "If we delete {.val {pr_local_branch}}, any work that exists only
+               on this branch may be hard for you to recover.",
+        " " = "Proceed anyway?"
+      ))) {
         ui_bullets(c("x" = "Cancelling."))
         return(invisible())
       }
@@ -571,12 +572,13 @@ pr_clean <- function(number = NULL,
         branch = pr_local_branch,
         remref = tracking_branch
       )
-      if (cmp$local_only > 0 && ui_nope("
-          Local branch {ui_value(pr_local_branch)} has 1 or more commits \\
-          that have not been pushed to {ui_value(tracking_branch)}.
-          If we delete {ui_value(pr_local_branch)}, this work may be hard \\
-          for you to recover.
-          Proceed anyway?")) {
+      if (cmp$local_only > 0 && ui_nah(c(
+        "!" = "Local branch {.val {pr_local_branch}} has 1 or more commits that
+               have not been pushed to {.val {tracking_branch}}.",
+        "i" = "If we delete {.val {pr_local_branch}}, this work may be hard for
+               you to recover.",
+        " " = "Proceed anyway?"
+      ))) {
         ui_bullets(c("x" = "Cancelling."))
         return(invisible())
       }
