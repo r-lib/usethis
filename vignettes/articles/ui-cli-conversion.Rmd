@@ -446,5 +446,3 @@ TODO: come back to `pr_push()` and deal with that menu stuff. Ditto for `choose_
 TODO: come back to this bit in git.R: `purrr::walk(format(cfg), ui_legacy_bullet)`
 
 TODO: NEWS bullet
-
-TODO: Update principles.md
