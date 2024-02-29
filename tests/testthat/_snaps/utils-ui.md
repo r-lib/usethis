@@ -380,16 +380,16 @@
 # kv_line() can interpolate and style inline in key [plain]
 
     Code
-      kv_line("Personal access token for {.val {value}}", "some_secret")
+      kv_line("Let's reveal {.field {field}}", "whatever")
     Message
-      * Personal access token for "SOME_HOST": "some_secret"
+      * Let's reveal 'SOME_FIELD': "whatever"
 
 # kv_line() can interpolate and style inline in key [fancy]
 
     Code
-      kv_line("Personal access token for {.val {value}}", "some_secret")
+      kv_line("Let's reveal {.field {field}}", "whatever")
     Message
-      • Personal access token for [34m"SOME_HOST"[39m: [34m"some_secret"[39m
+      • Let's reveal [32mSOME_FIELD[39m: [34m"whatever"[39m
 
 # kv_line() can treat value in different ways [plain]
 
@@ -417,6 +417,10 @@
       kv_line("Key", I("something {.emph {adjective}}"))
     Message
       * Key: something great
+    Code
+      kv_line("Interesting file", I("{.path {git_ignore_path('user')}}"))
+    Message
+      * Interesting file: '~/.gitignore_global'
 
 # kv_line() can treat value in different ways [fancy]
 
@@ -444,4 +448,8 @@
       kv_line("Key", I("something {.emph {adjective}}"))
     Message
       • Key: something [3mgreat[23m
+    Code
+      kv_line("Interesting file", I("{.path {git_ignore_path('user')}}"))
+    Message
+      • Interesting file: [34m~/.gitignore_global[39m
 

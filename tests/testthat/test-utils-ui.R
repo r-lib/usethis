@@ -198,9 +198,9 @@ cli::test_that_cli("kv_line() looks as expected in basic use", {
 cli::test_that_cli("kv_line() can interpolate and style inline in key", {
   withr::local_options(list(usethis.quiet = FALSE))
 
-  value <- "SOME_HOST"
+  field <- "SOME_FIELD"
   expect_snapshot(
-    kv_line("Personal access token for {.val {value}}", "some_secret")
+    kv_line("Let's reveal {.field {field}}", "whatever")
   )
 }, configs = c("plain", "fancy"))
 
@@ -225,5 +225,6 @@ cli::test_that_cli("kv_line() can treat value in different ways", {
     # I() indicates value has markup
     kv_line("Key", I("something {.emph important}"))
     kv_line("Key", I("something {.emph {adjective}}"))
+    kv_line("Interesting file", I("{.path {git_ignore_path('user')}}"))
   })
 }, configs = c("plain", "fancy"))

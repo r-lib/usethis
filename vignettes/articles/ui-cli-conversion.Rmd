@@ -384,24 +384,24 @@ I won't show the updated source for `kv_line()` but here is some usage to show w
 # why is this block truncated from the top in the rendered document?
 noun <- "thingy"
 value <- "VALUE"
-kv_line("Key associated with {.val {noun}}", value)
+kv_line("Let's reveal {.field {noun}}", "whatever")
 
 kv_line("URL for the {.val {remote}} remote", I("{.url {url}}"))
 
 kv_line("Personal access token for {.val {host}}", NULL)
 
 kv_line("Personal access token for {.val {host}}", ui_special("discovered"))
-
-x <- kv_line("Personal access token for {.val {host}}", ui_special("discovered"))
 ```
 
 `ui_special()` is the successor to `ui_unset()`.
 
 ## Questions
 
-There's currently no cli alternative to `ui_yeah()` and `ui_nope()`, so I won't make changes here.
+There's currently no drop-in substitute for `ui_yeah()` and `ui_nope()` in cli.
+Related issues: <https://github.com/r-lib/cli/issues/228>, <https://github.com/r-lib/cli/issues/488>.
+Therefore, in the meantime, `ui_yeah()` and `ui_nope()` are not-quite-superseded for external users.
 
-TO RECONSIDER: If I keep using `ui_yeah()` and `ui_nope()`, that means I retain usage of legacy inline styling. For example:
+However, internally, I've switched to the unexported functions `ui_yep()` and `ui_nah()` that are lightly modified versions of `ui_yeah()` and `ui_nope()` that use cli for styling.
 
 ```{r}
 #| eval: false
@@ -411,8 +411,6 @@ if (ui_nope("
         ui_abort("Cancelling. Not on desired branch.")
     }
 ```
-
-If I create new versions of `ui_yeah()` and `ui_nope()`, then I could still switch over to cli's inline styling. Otherwise, I won't be able to remove all internal usage of legacy `ui_*()` functions.
 
 ## Miscellaneous notes
 
@@ -444,4 +442,4 @@ If I create new versions of `ui_yeah()` and `ui_nope()`, then I could still swit
 
 TODO: come back to `pr_push()` and deal with that menu stuff. Ditto for `choose_branch()` and `choose_pr()`. Ditto for `target_repo()` in utils-github.R.
 
-TODO: come back to this bit in git.R: ` purrr::walk(format(cfg), ui_bullet)`
+TODO: come back to this bit in git.R: `purrr::walk(format(cfg), ui_legacy_bullet)`

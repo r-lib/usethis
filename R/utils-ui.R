@@ -173,20 +173,25 @@ compute_n_show <- function(n, n_show_nominal = 5, n_fudge = 2) {
 }
 
 kv_line <- function(key, value, .envir = parent.frame()) {
-  key <- cli::format_inline(key, .envir = .envir)
+  cli::cli_div(theme = usethis_theme())
 
-  value <- value %||% ui_special()
+  key_fmt <- cli::format_inline(key, .envir = .envir)
 
+  # this must happen first, before `value` has been forced
+  value_fmt <- cli::format_inline("{.val {value}}")
+  # but we might actually want something other than value_fmt
+  if (is.null(value)) {
+    value <- ui_special()
+  }
   if (inherits(value, "AsIs")) {
-    value <- cli::format_inline(value, .envir = .envir)
-  } else {
-    value <- cli::format_inline("{.val {value}}")
+    value_fmt <- cli::format_inline(value, .envir = .envir)
   }
 
-  ui_bullets(c("*" = "{key}: {value}"))
+  ui_bullets(c("*" = "{key_fmt}: {value_fmt}"))
 }
 
 ui_special <- function(x = "unset") {
+  force(x)
   I(glue("{cli::col_grey('<[x]>')}", .open = "[", .close = "]"))
 }
 

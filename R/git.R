@@ -341,7 +341,10 @@ git_sitrep <- function(tool = c("git", "github"),
   if ("git" %in% tool && "user" %in% scope) {
     cli::cli_h3("Git global (user)")
     git_user_sitrep("user")
-    kv_line("Global (user-level) gitignore file", git_ignore_path("user"))
+    kv_line(
+      "Global (user-level) gitignore file",
+      I("{.path {git_ignore_path('user')}}")
+    )
     vaccinated <- git_vaccinated()
     kv_line("Vaccinated", vaccinated)
     if (!vaccinated) {
