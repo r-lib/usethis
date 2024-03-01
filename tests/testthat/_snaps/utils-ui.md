@@ -418,9 +418,9 @@
     Message
       * Key: something great
     Code
-      kv_line("Interesting file", I("{.path {git_ignore_path('user')}}"))
+      kv_line("Interesting file", I("{.url {url}}"))
     Message
-      * Interesting file: '~/.gitignore_global'
+      * Interesting file: <https://usethis.r-lib.org/>
 
 # kv_line() can treat value in different ways [fancy]
 
@@ -449,7 +449,7 @@
     Message
       • Key: something [3mgreat[23m
     Code
-      kv_line("Interesting file", I("{.path {git_ignore_path('user')}}"))
+      kv_line("Interesting file", I("{.url {url}}"))
     Message
-      • Interesting file: [34m~/.gitignore_global[39m
+      • Interesting file: [3m[34m<https://usethis.r-lib.org/>[39m[23m
 

@@ -209,6 +209,7 @@ cli::test_that_cli("kv_line() can treat value in different ways", {
 
   value <- "some value"
   adjective <- "great"
+  url <- "https://usethis.r-lib.org/"
 
   expect_snapshot({
     # evaluation in .envir
@@ -225,6 +226,6 @@ cli::test_that_cli("kv_line() can treat value in different ways", {
     # I() indicates value has markup
     kv_line("Key", I("something {.emph important}"))
     kv_line("Key", I("something {.emph {adjective}}"))
-    kv_line("Interesting file", I("{.path {git_ignore_path('user')}}"))
+    kv_line("Interesting file", I("{.url {url}}"))
   })
 }, configs = c("plain", "fancy"))
