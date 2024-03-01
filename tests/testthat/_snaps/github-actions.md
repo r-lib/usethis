@@ -36,5 +36,5 @@
     Condition
       Error in `check_uses_github_actions()`:
       x Cannot detect that package {TESTPKG} already uses GitHub Actions.
-      i Do you need to run `use_github_actions()`?
+      i Do you need to run `use_github_action()`?
 
