@@ -149,7 +149,7 @@ git_default_branch <- function() {
                {.val {db_source$default_branch}}.",
         " " = "But the local repo has no branch named
                {.val {db_source$default_branch}}.",
-        "_" = "Call {.fun git_default_branch_rediscover} to resolve this."
+        "_" = "Call {.run [git_default_branch_rediscover()](usethis::git_default_branch_rediscover())} to resolve this."
         ),
         class = "error_default_branch",
         db_source = db_source
@@ -177,7 +177,7 @@ git_default_branch <- function() {
            {.val {db_source$default_branch}}.",
     " " = "But the default branch of the local repo appears to be
            {.val {db_local_with_source}}.",
-    "_" = "Call {.fun git_default_branch_rediscover} to resolve this."
+    "_" = "Call {.run [git_default_branch_rediscover()](usethis::git_default_branch_rediscover())} to resolve this."
     ),
     class = "error_default_branch",
     db_source = db_source, db_local = db_local_with_source

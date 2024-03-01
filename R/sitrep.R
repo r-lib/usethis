@@ -52,7 +52,7 @@ print.sitrep <- function(x, ...) {
     ui_bullets(c(
       "i" = "You are working in RStudio, but are not in an RStudio Project.",
       "i" = "A Project-based workflow offers many advantages. Read more at:",
-      " " = "{.url https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects}",
+      " " = "{.url https://docs.posit.co/ide/user/ide/guide/code/projects.html}",
       " " = "{.url https://rstats.wtf/projects}"
     ))
   }
@@ -71,7 +71,7 @@ print.sitrep <- function(x, ...) {
   if (usethis_proj_is_not_wd) {
     ui_bullets(c(
       "i" = "Your working directory is not the same as the active usethis project.",
-      "_" = "Set working directory to the project: {.run setwd(proj_get())}.",
+      "_" = "Set working directory to the project: {.code setwd(proj_get())}.",
       "_" = "Set project to working directory: {.run usethis::proj_set(getwd())}."
     ))
   }
@@ -80,7 +80,7 @@ print.sitrep <- function(x, ...) {
     ui_bullets(c(
       "i" = "Your working directory is not the same as the active RStudio Project.",
       "_" = "Set working directory to the Project:
-             {.run setwd(rstudioapi::getActiveProject())}."
+             {.code setwd(rstudioapi::getActiveProject())}."
     ))
   }
 
