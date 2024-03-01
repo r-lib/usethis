@@ -72,7 +72,7 @@ print.sitrep <- function(x, ...) {
     ui_bullets(c(
       "i" = "Your working directory is not the same as the active usethis project.",
       "_" = "Set working directory to the project: {.code setwd(proj_get())}.",
-      "_" = "Set project to working directory: {.run usethis::proj_set(getwd())}."
+      "_" = "Set project to working directory: {.code usethis::proj_set(getwd())}."
     ))
   }
 
@@ -89,11 +89,11 @@ print.sitrep <- function(x, ...) {
       "i" = "Your active RStudio Project is not the same as the active
              {.pkg usethis} project.",
       "_" = "Set active {.pkg usethis} project to RStudio Project:
-             {.run usethis::proj_set(rstudioapi::getActiveProject())}.",
+             {.code usethis::proj_set(rstudioapi::getActiveProject())}.",
       "_" = "Restart RStudio in the active {.pkg usethis} project:
-             {.run rstudioapi::openProject(usethis::proj_get())}.",
+             {.code rstudioapi::openProject(usethis::proj_get())}.",
       "_" = "Open the active {.pkg usethis} project in a new instance of RStudio:
-             {.run usethis::proj_activate(usethis::proj_get())}."
+             {.code usethis::proj_activate(usethis::proj_get())}."
     ))
   }
 
