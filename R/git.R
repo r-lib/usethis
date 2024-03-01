@@ -493,7 +493,7 @@ default_branch_sitrep <- function() {
                  {.val {e$db_source$default_branch}}.",
           "!" = "The local repo has no branch named
                  {.val {e$db_source$default_branch}}.",
-          "_" = "Call {.fun git_default_branch_rediscover} to resolve this."
+          "_" = "Call {.run [git_default_branch_rediscover()](usethis::git_default_branch_rediscover())} to resolve this."
         ))
       } else if (has_name(e, "db_source")) {
         ui_bullets(c(
@@ -502,7 +502,7 @@ default_branch_sitrep <- function() {
                  {.val {e$db_source$default_branch}}.",
           "!" = "The local repo has no branch by that name, nor any other
                  obvious candidates.",
-          "_" = "Call {.fun git_default_branch_rediscover} to resolve this."
+          "_" = "Call {.run [git_default_branch_rediscover()](usethis::git_default_branch_rediscover())} to resolve this."
         ))
       } else {
         ui_bullets(c("Default branch cannot be determined."))
