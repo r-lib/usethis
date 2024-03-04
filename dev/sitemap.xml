@@ -28,6 +28,9 @@
     <loc>https://usethis.r-lib.org/dev/articles/pr-functions.html</loc>
   </url>
   <url>
+    <loc>https://usethis.r-lib.org/dev/articles/ui-cli-conversion.html</loc>
+  </url>
+  <url>
     <loc>https://usethis.r-lib.org/dev/articles/usethis-setup.html</loc>
   </url>
   <url>
@@ -115,10 +118,13 @@
     <loc>https://usethis.r-lib.org/dev/reference/tidyverse.html</loc>
   </url>
   <url>
+    <loc>https://usethis.r-lib.org/dev/reference/ui-legacy-functions.html</loc>
+  </url>
+  <url>
     <loc>https://usethis.r-lib.org/dev/reference/ui-questions.html</loc>
   </url>
   <url>
-    <loc>https://usethis.r-lib.org/dev/reference/ui.html</loc>
+    <loc>https://usethis.r-lib.org/dev/reference/ui_silence.html</loc>
   </url>
   <url>
     <loc>https://usethis.r-lib.org/dev/reference/use_addin.html</loc>

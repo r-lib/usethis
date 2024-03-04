@@ -27,10 +27,13 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/badge-accessibility.html">Exploring badge accessibility</a>
+    <a class="dropdown-item" href="articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Git and GitHub</h6>
     <a class="dropdown-item" href="articles/git-credentials.html">Managing Git(Hub) Credentials</a>
     <a class="dropdown-item" href="articles/pr-functions.html">Pull request helpers</a>
-    <a class="dropdown-item" href="articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="articles/index.html">More articles...</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -114,12 +117,15 @@
 </div>
 <div class="section level2">
 <h2 id="communicating-with-the-user">Communicating with the user<a class="anchor" aria-label="anchor" href="#communicating-with-the-user"></a></h2>
-<p>User-facing messages are emitted via helpers in <code>ui.R</code> and <em>everything</em> is eventually routed through <code><a href="https://rlang.r-lib.org/reference/abort.html" class="external-link">rlang::inform()</a></code> via <code>ui_inform()</code>. This is all intentional and should be preserved.</p>
+<p>User-facing messages are ALWAYS emitted via helpers in <code>utils-ui.R</code>. This is all intentional and should be preserved.</p>
 <p>This is so we can control verbosity package-wide with the <code>usethis.quiet</code> option, which defaults to <code>FALSE</code>.</p>
-<ul><li>Exploited in usethis tests: option is set and unset in <code>setup.R</code> and <code>teardown.R</code>. Eliminates the need for ubiquitous <code>capture_output()</code> calls.</li>
-<li>Other packages can muffle a usethis call via, e.g., <code>withr::local_options(list(usethis.quiet = TRUE))</code>.</li>
-<li>Use <code><a href="reference/ui.html">ui_silence()</a></code> for executing small bits of code silently.</li>
-</ul></div>
+<ul><li>Exploited in usethis tests: option is set and unset in <code>setup.R</code> and <code>teardown.R</code>, to suppress output by default.</li>
+<li>Individual tests that need output, e.g. for snapshot testing, should include <code>withr::local_options(usethis.quiet = FALSE)</code>.</li>
+<li>Other packages can muffle a usethis call through similar means.</li>
+<li>
+<code><a href="reference/ui_silence.html">ui_silence()</a></code> is a convenience helper for executing small bits of code silently.</li>
+</ul><p>Note that usethis exports many <code>ui_*()</code> functions for historical reasons, all defined in <code>ui-legacy.R</code>, and all marked as superseded now. See the developer-facing article “Converting usethis’s UI to use cli” for more.</p>
+</div>
 <div class="section level2">
 <h2 id="gitgithub">Git/GitHub<a class="anchor" aria-label="anchor" href="#gitgithub"></a></h2>
 <p>Which GitHub remote configs the <code>pr_*()</code> functions accept, plus how and why they do it:</p>

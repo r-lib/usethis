@@ -27,10 +27,13 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/badge-accessibility.html">Exploring badge accessibility</a>
+    <a class="dropdown-item" href="../articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Git and GitHub</h6>
     <a class="dropdown-item" href="../articles/git-credentials.html">Managing Git(Hub) Credentials</a>
     <a class="dropdown-item" href="../articles/pr-functions.html">Pull request helpers</a>
-    <a class="dropdown-item" href="../articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
 </li>
 <li class="active nav-item dropdown">
@@ -69,7 +72,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="usethis-development-version">usethis (development version)<a class="anchor" aria-label="anchor" href="#usethis-development-version"></a></h2>
-</div>
+<ul><li>
+<p>The <code>ui_*()</code> functions have been marked as <a href="https://lifecycle.r-lib.org/articles/stages.html#superseded" class="external-link">superseded</a>. External users of these functions are encouraged to use the <a href="https://cli.r-lib.org/" class="external-link">cli package</a> instead. The cli package did not have the required functionality when the <code>usethis::ui_*()</code> functions were first created, but it does now and it’s the superior option. There is a cli vignette about how to make this transition: <code><a href="https://cli.r-lib.org/articles/usethis-ui.html" class="external-link">vignette("usethis-ui", package = "cli")</a></code>.</p>
+<p>usethis no longer uses the <code>ui_*()</code> functions internally, in favor of new cli-based helpers that are not exported.</p>
+</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.2.3" id="usethis-223">usethis 2.2.3<a class="anchor" aria-label="anchor" href="#usethis-223"></a></h2><p class="text-muted">CRAN release: 2024-02-19</p>
 <ul><li>Patch release with changes to <code>.Rd</code> files requested by CRAN.</li>
@@ -395,7 +402,7 @@
 <div class="section level3">
 <h3 id="other-new-features-1-6-0">Other new features<a class="anchor" aria-label="anchor" href="#other-new-features-1-6-0"></a></h3>
 <ul><li><p>New <code><a href="../reference/rename_files.html">rename_files()</a></code> makes it easy to rename paired <code>R/</code> and <code>test/</code> files (<a href="https://github.com/r-lib/usethis/issues/784" class="external-link">#784</a>).</p></li>
-<li><p>New <code><a href="../reference/ui.html">ui_silence()</a></code> makes it easier to selectively silence some UI output.</p></li>
+<li><p>New <code><a href="../reference/ui_silence.html">ui_silence()</a></code> makes it easier to selectively silence some UI output.</p></li>
 <li><p>New <code><a href="../reference/licenses.html">use_agpl3_license()</a></code> (<a href="https://github.com/pachamaltese" class="external-link">@pachamaltese</a>, <a href="https://github.com/r-lib/usethis/issues/870" class="external-link">#870</a>).</p></li>
 <li><p>New <code><a href="../reference/use_data_table.html">use_data_table()</a></code> to set up a package for Import-ing <code>data.table</code> (<a href="https://github.com/michaelchirico" class="external-link">@michaelchirico</a>, <a href="https://github.com/r-lib/usethis/issues/897" class="external-link">#897</a>).</p></li>
 <li><p><code><a href="../reference/use_latest_dependencies.html">use_latest_dependencies()</a></code> replaces <code>use_tidy_version()</code> as the new name better reflect its usage (<a href="https://github.com/r-lib/usethis/issues/771" class="external-link">#771</a>).</p></li>
@@ -529,10 +536,10 @@
 <li><p><code><a href="../reference/proj_utils.html">proj_get()</a></code> and <code><a href="../reference/proj_utils.html">proj_set()</a></code> no longer have a <code>quiet</code> argument. The user-facing message about setting a project is now under the same control as other messages, i.e. <code>getOption("usethis.quiet", default = FALSE)</code> (<a href="https://github.com/r-lib/usethis/issues/441" class="external-link">#441</a>).</p></li>
 <li>
 <p>A new set of <code>ui_*()</code> functions makes it possible to give your own code the same user interface as usethis (<a href="https://github.com/r-lib/usethis/issues/308" class="external-link">#308</a>). All use the glue and crayon and packages to power easy interpolation and formatting. There are four families of functions:</p>
-<ul><li>block styles: <code><a href="../reference/ui.html">ui_line()</a></code>, <code><a href="../reference/ui.html">ui_done()</a></code>, <code><a href="../reference/ui.html">ui_todo()</a></code>, <code><a href="../reference/ui.html">ui_oops()</a></code>, <code><a href="../reference/ui.html">ui_info()</a></code>.</li>
-<li>conditions: <code><a href="../reference/ui.html">ui_stop()</a></code>, <code><a href="../reference/ui.html">ui_warn()</a></code>.</li>
+<ul><li>block styles: <code><a href="../reference/ui-legacy-functions.html">ui_line()</a></code>, <code><a href="../reference/ui-legacy-functions.html">ui_done()</a></code>, <code><a href="../reference/ui-legacy-functions.html">ui_todo()</a></code>, <code><a href="../reference/ui-legacy-functions.html">ui_oops()</a></code>, <code><a href="../reference/ui-legacy-functions.html">ui_info()</a></code>.</li>
+<li>conditions: <code><a href="../reference/ui-legacy-functions.html">ui_stop()</a></code>, <code><a href="../reference/ui-legacy-functions.html">ui_warn()</a></code>.</li>
 <li>questions: <code><a href="../reference/ui-questions.html">ui_yeah()</a></code>, <code><a href="../reference/ui-questions.html">ui_nope()</a></code>.</li>
-<li>inline styles: <code><a href="../reference/ui.html">ui_field()</a></code>, <code><a href="../reference/ui.html">ui_value()</a></code>, <code><a href="../reference/ui.html">ui_path()</a></code>, <code><a href="../reference/ui.html">ui_code()</a></code>.</li>
+<li>inline styles: <code><a href="../reference/ui-legacy-functions.html">ui_field()</a></code>, <code><a href="../reference/ui-legacy-functions.html">ui_value()</a></code>, <code><a href="../reference/ui-legacy-functions.html">ui_path()</a></code>, <code><a href="../reference/ui-legacy-functions.html">ui_code()</a></code>.</li>
 </ul></li>
 <li><p><code><a href="../reference/proj_utils.html">with_project()</a></code> and <code><a href="../reference/proj_utils.html">local_project()</a></code> are new withr-style functions to temporarily set an active usethis project. They make usethis functions easier to use in an <em>ad hoc</em> fashion or from another package (<a href="https://github.com/r-lib/usethis/issues/441" class="external-link">#441</a>).</p></li>
 </ul></div>

@@ -37,10 +37,13 @@ script."><meta property="og:image" content="https://usethis.r-lib.org/logo.png">
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/badge-accessibility.html">Exploring badge accessibility</a>
+    <a class="dropdown-item" href="../articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Git and GitHub</h6>
     <a class="dropdown-item" href="../articles/git-credentials.html">Managing Git(Hub) Credentials</a>
     <a class="dropdown-item" href="../articles/pr-functions.html">Pull request helpers</a>
-    <a class="dropdown-item" href="../articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -115,23 +118,23 @@ in an existing package that did not necessarily follow this convention
 before.</p>
 <p>This script generates a data frame of <code>R/</code> and test files that can help you
 identify missed opportunities for pairing:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"R"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">path =</span> <span class="fu">dir_ls</span>(<span class="st">"R/"</span>, <span class="at">regexp =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.[Rr]$"</span>),</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">as.character</span>(<span class="fu">path_ext_remove</span>(<span class="fu">path_file</span>(path))),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"test"</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">path =</span> <span class="fu">dir_ls</span>(<span class="st">"tests/testthat/"</span>, <span class="at">regexp =</span> <span class="st">"/test[^/]+</span><span class="sc">\\</span><span class="st">.[Rr]$"</span>),</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">as.character</span>(<span class="fu">path_ext_remove</span>(<span class="fu">str_remove</span>(<span class="fu">path_file</span>(path), <span class="st">"^test[-_]"</span>))),</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> type, <span class="at">values_from =</span> path) <span class="sc">%&gt;%</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="cn">Inf</span>)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"R"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>    <span class="at">path =</span> <span class="fu">dir_ls</span>(<span class="st">"R/"</span>, <span class="at">regexp =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.[Rr]$"</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">as.character</span>(<span class="fu">path_ext_remove</span>(<span class="fu">path_file</span>(path))),</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  ),</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"test"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>    <span class="at">path =</span> <span class="fu">dir_ls</span>(<span class="st">"tests/testthat/"</span>, <span class="at">regexp =</span> <span class="st">"/test[^/]+</span><span class="sc">\\</span><span class="st">.[Rr]$"</span>),</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">as.character</span>(<span class="fu">path_ext_remove</span>(<span class="fu">str_remove</span>(<span class="fu">path_file</span>(path), <span class="st">"^test[-_]"</span>))),</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  )</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> type, <span class="at">values_from =</span> path) <span class="sc">%&gt;%</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="cn">Inf</span>)</span></code></pre><p></p></div>
 <p>The <code><a href="rename_files.html">rename_files()</a></code> function can also be helpful.</p>
     </div>
     <div class="section level2">

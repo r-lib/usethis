@@ -60,10 +60,13 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/badge-accessibility.html">Exploring badge accessibility</a>
+    <a class="dropdown-item" href="articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Git and GitHub</h6>
     <a class="dropdown-item" href="articles/git-credentials.html">Managing Git(Hub) Credentials</a>
     <a class="dropdown-item" href="articles/pr-functions.html">Pull request helpers</a>
-    <a class="dropdown-item" href="articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="articles/index.html">More articles...</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -124,7 +127,7 @@
 </h2>
 <p>Most <code>use_*()</code> functions operate on the <em>active project</em>: literally, a directory on your computer. If you’ve just used usethis to create a new package or project, that will be the active project. Otherwise, usethis verifies that current working directory is or is below a valid project directory and that becomes the active project. Use <code><a href="reference/proj_utils.html">proj_get()</a></code> or <code><a href="reference/proj_sitrep.html">proj_sitrep()</a></code> to manually query the project and <a href="https://usethis.r-lib.org/reference/proj_utils.html">read more in the docs</a>.</p>
 <p>A few usethis functions have no strong connections to projects and will expect you to provide a path.</p>
-<p>usethis is quite chatty, explaining what it’s doing and assigning you tasks. <code>✔</code> indicates something usethis has done for you. <code>●</code> indicates that you’ll need to do some work yourself.</p>
+<p>usethis is quite chatty, explaining what it’s doing and assigning you tasks. <code>✔</code> indicates something usethis has done for you. <code>☐</code> indicates that you’ll need to do some work yourself.</p>
 <p>Below is a quick look at how usethis can help to set up a package. But remember, many usethis functions are also applicable to analytical projects that are not packages.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span></span>
@@ -132,10 +135,10 @@
 <span><span class="co"># Create a new package -------------------------------------------------</span></span>
 <span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mypkg"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/create_package.html">create_package</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Creating '/tmp/RtmpPqIkgo/mypkg/'</span></span>
-<span><span class="co">#&gt; ✔ Setting active project to '/private/tmp/RtmpPqIkgo/mypkg'</span></span>
-<span><span class="co">#&gt; ✔ Creating 'R/'</span></span>
-<span><span class="co">#&gt; ✔ Writing 'DESCRIPTION'</span></span>
+<span><span class="co">#&gt; ✔ Creating '/tmp/Rtmp7yJh5e/mypkg/'.</span></span>
+<span><span class="co">#&gt; ✔ Setting active project to "/private/tmp/Rtmp7yJh5e/mypkg".</span></span>
+<span><span class="co">#&gt; ✔ Creating 'R/'.</span></span>
+<span><span class="co">#&gt; ✔ Writing 'DESCRIPTION'.</span></span>
 <span><span class="co">#&gt; Package: mypkg</span></span>
 <span><span class="co">#&gt; Title: What the Package Does (One Line, Title Case)</span></span>
 <span><span class="co">#&gt; Version: 0.0.0.9000</span></span>
@@ -147,54 +150,56 @@
 <span><span class="co">#&gt; Encoding: UTF-8</span></span>
 <span><span class="co">#&gt; Roxygen: list(markdown = TRUE)</span></span>
 <span><span class="co">#&gt; RoxygenNote: 7.3.1</span></span>
-<span><span class="co">#&gt; ✔ Writing 'NAMESPACE'</span></span>
-<span><span class="co">#&gt; ✔ Setting active project to '&lt;no active project&gt;'</span></span>
+<span><span class="co">#&gt; ✔ Writing 'NAMESPACE'.</span></span>
+<span><span class="co">#&gt; ✔ Setting active project to "&lt;no active project&gt;".</span></span>
 <span><span class="co"># only needed since this session isn't interactive</span></span>
 <span><span class="fu"><a href="reference/proj_activate.html">proj_activate</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Setting active project to '/private/tmp/RtmpPqIkgo/mypkg'</span></span>
-<span><span class="co">#&gt; ✔ Changing working directory to '/tmp/RtmpPqIkgo/mypkg/'</span></span>
+<span><span class="co">#&gt; ✔ Setting active project to "/private/tmp/Rtmp7yJh5e/mypkg".</span></span>
+<span><span class="co">#&gt; ✔ Changing working directory to '/tmp/Rtmp7yJh5e/mypkg/'</span></span>
 <span></span>
 <span><span class="co"># Modify the description ----------------------------------------------</span></span>
 <span><span class="fu"><a href="reference/licenses.html">use_mit_license</a></span><span class="op">(</span><span class="st">"My Name"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Adding 'MIT + file LICENSE' to License</span></span>
-<span><span class="co">#&gt; ✔ Writing 'LICENSE'</span></span>
-<span><span class="co">#&gt; ✔ Writing 'LICENSE.md'</span></span>
-<span><span class="co">#&gt; ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'</span></span>
+<span><span class="co">#&gt; ✔ Adding "MIT + file LICENSE" to 'License'.</span></span>
+<span><span class="co">#&gt; ✔ Writing 'LICENSE'.</span></span>
+<span><span class="co">#&gt; ✔ Writing 'LICENSE.md'.</span></span>
+<span><span class="co">#&gt; ✔ Adding "^LICENSE\\.md$" to '.Rbuildignore'.</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/use_package.html">use_package</a></span><span class="op">(</span><span class="st">"ggplot2"</span>, <span class="st">"Suggests"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Adding 'ggplot2' to Suggests field in DESCRIPTION</span></span>
-<span><span class="co">#&gt; • Use `requireNamespace("ggplot2", quietly = TRUE)` to test if package is installed</span></span>
-<span><span class="co">#&gt; • Then directly refer to functions with `ggplot2::fun()`</span></span>
+<span><span class="co">#&gt; ✔ Adding ggplot2 to 'Suggests' field in DESCRIPTION.</span></span>
+<span><span class="co">#&gt; ☐ Use `requireNamespace("ggplot2", quietly = TRUE)` to test if package is</span></span>
+<span><span class="co">#&gt;   installed.</span></span>
+<span><span class="co">#&gt; ☐ Then directly refer to functions with `ggplot2::fun()`.</span></span>
 <span></span>
 <span><span class="co"># Set up other files -------------------------------------------------</span></span>
 <span><span class="fu"><a href="reference/use_readme_rmd.html">use_readme_md</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Writing 'README.md'</span></span>
-<span><span class="co">#&gt; • Update 'README.md' to include installation instructions.</span></span>
+<span><span class="co">#&gt; ✔ Writing 'README.md'.</span></span>
+<span><span class="co">#&gt; ☐ Update 'README.md' to include installation instructions.</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/use_news_md.html">use_news_md</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Writing 'NEWS.md'</span></span>
+<span><span class="co">#&gt; ✔ Writing 'NEWS.md'.</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/use_r.html">use_test</a></span><span class="op">(</span><span class="st">"my-test"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Adding 'testthat' to Suggests field in DESCRIPTION</span></span>
-<span><span class="co">#&gt; ✔ Adding '3' to Config/testthat/edition</span></span>
-<span><span class="co">#&gt; ✔ Creating 'tests/testthat/'</span></span>
-<span><span class="co">#&gt; ✔ Writing 'tests/testthat.R'</span></span>
-<span><span class="co">#&gt; ✔ Writing 'tests/testthat/test-my-test.R'</span></span>
-<span><span class="co">#&gt; • Edit 'tests/testthat/test-my-test.R'</span></span>
+<span><span class="co">#&gt; ✔ Adding testthat to 'Suggests' field in DESCRIPTION.</span></span>
+<span><span class="co">#&gt; ✔ Adding "3" to 'Config/testthat/edition'.</span></span>
+<span><span class="co">#&gt; ✔ Creating 'tests/testthat/'.</span></span>
+<span><span class="co">#&gt; ✔ Writing 'tests/testthat.R'.</span></span>
+<span><span class="co">#&gt; ✔ Writing 'tests/testthat/test-my-test.R'.</span></span>
+<span><span class="co">#&gt; ☐ Edit 'tests/testthat/test-my-test.R'.</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
 <span><span class="fu"><a href="reference/use_data.html">use_data</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Adding 'R' to Depends field in DESCRIPTION</span></span>
-<span><span class="co">#&gt; ✔ Creating 'data/'</span></span>
-<span><span class="co">#&gt; ✔ Setting LazyData to 'true' in 'DESCRIPTION'</span></span>
-<span><span class="co">#&gt; ✔ Saving 'x', 'y' to 'data/x.rda', 'data/y.rda'</span></span>
-<span><span class="co">#&gt; • Document your data (see 'https://r-pkgs.org/data.html')</span></span>
+<span><span class="co">#&gt; ✔ Adding R to 'Depends' field in DESCRIPTION.</span></span>
+<span><span class="co">#&gt; ✔ Creating 'data/'.</span></span>
+<span><span class="co">#&gt; ✔ Setting 'LazyData' to "true" in 'DESCRIPTION'.</span></span>
+<span><span class="co">#&gt; ✔ Saving "x" and "y" to "data/x.rda" and "data/y.rda".</span></span>
+<span><span class="co">#&gt; ☐ Document your data (see &lt;https://r-pkgs.org/data.html&gt;).</span></span>
 <span></span>
 <span><span class="co"># Use git ------------------------------------------------------------</span></span>
 <span><span class="fu"><a href="reference/use_git.html">use_git</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Initialising Git repo</span></span>
-<span><span class="co">#&gt; ✔ Adding '.Rproj.user', '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store', '.quarto' to '.gitignore'</span></span></code></pre></div>
+<span><span class="co">#&gt; ✔ Initialising Git repo.</span></span>
+<span><span class="co">#&gt; ✔ Adding ".Rproj.user", ".Rhistory", ".Rdata", ".httr-oauth", ".DS_Store", and</span></span>
+<span><span class="co">#&gt;   ".quarto" to '.gitignore'.</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>

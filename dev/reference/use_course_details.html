@@ -29,10 +29,13 @@ use_zip(). Only create_download_url() is exported."><meta property="og:image" co
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/badge-accessibility.html">Exploring badge accessibility</a>
+    <a class="dropdown-item" href="../articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Git and GitHub</h6>
     <a class="dropdown-item" href="../articles/git-credentials.html">Managing Git(Hub) Credentials</a>
     <a class="dropdown-item" href="../articles/pr-functions.html">Pull request helpers</a>
-    <a class="dropdown-item" href="../articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -114,14 +117,14 @@ want to delete or keep the ZIP file.</p></dd>
     
 
 
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how it's used inside use_course()</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy_download</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># url has been processed with internal helper normalize_url()</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  url,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># conspicuous_place() = `getOption('usethis.destdir')` or desktop or home</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># directory or working directory</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">destdir =</span> destdir <span class="sc">%||%</span> <span class="fu">conspicuous_place</span>()</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># how it's used inside use_course()</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">tidy_download</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="co"># url has been processed with internal helper normalize_url()</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  url,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="co"># conspicuous_place() = `getOption('usethis.destdir')` or desktop or home</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="co"># directory or working directory</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="at">destdir =</span> destdir <span class="sc">%||%</span> <span class="fu">conspicuous_place</span>()</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>)</span></code></pre><p></p></div>
 <p>Special-purpose function to download a ZIP file and automatically determine
 the file name, which often determines the folder name after unpacking.
 Developed with DropBox and GitHub as primary targets, possibly via
@@ -138,9 +141,9 @@ connect timeout.</p><div class="section">
 
 <p>To make a folder available for ZIP download, create a shared link for it:</p><ul><li><p><a href="https://help.dropbox.com/share/create-and-share-link" class="external-link">https://help.dropbox.com/share/create-and-share-link</a></p></li>
 </ul><p>A shared link will have this form:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>www.dropbox.com<span class="sc">/</span>sh<span class="sc">/</span>12345abcde<span class="sc">/</span>6789wxyz?dl<span class="ot">=</span><span class="dv">0</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>www.dropbox.com<span class="sc">/</span>sh<span class="sc">/</span><span class="dv">12345</span>abcde<span class="sc">/</span><span class="dv">6789</span>wxyz?dl<span class="ot">=</span><span class="dv">0</span></span></code></pre><p></p></div>
 <p>Replace the <code>dl=0</code> at the end with <code>dl=1</code> to create a download link:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>www.dropbox.com<span class="sc">/</span>sh<span class="sc">/</span>12345abcde<span class="sc">/</span>6789wxyz?dl<span class="ot">=</span><span class="dv">1</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>www.dropbox.com<span class="sc">/</span>sh<span class="sc">/</span><span class="dv">12345</span>abcde<span class="sc">/</span><span class="dv">6789</span>wxyz?dl<span class="ot">=</span><span class="dv">1</span></span></code></pre><p></p></div>
 <p>You can use <code>create_download_url()</code> to do this conversion.</p>
 <p>This download link (or a shortlink that points to it) is suitable as input
 for <code>tidy_download()</code>. After one or more redirections, this link will
@@ -155,16 +158,16 @@ eventually lead to a download URL. For more details, see
 
 <p>Click on the repo's "Clone or download" button, to reveal a "Download ZIP"
 button. Capture this URL, which will have this form:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>r<span class="sc">-</span>lib<span class="sc">/</span>usethis<span class="sc">/</span>archive<span class="sc">/</span>main.zip</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>r<span class="sc">-</span>lib<span class="sc">/</span>usethis<span class="sc">/</span>archive<span class="sc">/</span>main.zip</span></code></pre><p></p></div>
 <p>This download link (or a shortlink that points to it) is suitable as input
 for <code>tidy_download()</code>. After one or more redirections, this link will
 eventually lead to a download URL. Here are other links that also lead to
 ZIP download, albeit with a different filenaming scheme (REF could be a
 branch name, a tag, or a SHA):</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>github.com<span class="sc">/</span>r<span class="sc">-</span>lib<span class="sc">/</span>usethis<span class="sc">/</span>zipball<span class="sc">/</span>HEAD</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>api.github.com<span class="sc">/</span>repos<span class="sc">/</span>r<span class="sc">-</span>lib<span class="sc">/</span>rematch2<span class="sc">/</span>zipball<span class="sc">/</span>REF</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>api.github.com<span class="sc">/</span>repos<span class="sc">/</span>r<span class="sc">-</span>lib<span class="sc">/</span>rematch2<span class="sc">/</span>zipball<span class="sc">/</span>HEAD</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>api.github.com<span class="sc">/</span>repos<span class="sc">/</span>r<span class="sc">-</span>lib<span class="sc">/</span>usethis<span class="sc">/</span>zipball<span class="sc">/</span>REF</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>github.com<span class="sc">/</span>r<span class="sc">-</span>lib<span class="sc">/</span>usethis<span class="sc">/</span>zipball<span class="sc">/</span>HEAD</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>api.github.com<span class="sc">/</span>repos<span class="sc">/</span>r<span class="sc">-</span>lib<span class="sc">/</span>rematch2<span class="sc">/</span>zipball<span class="sc">/</span>REF</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>api.github.com<span class="sc">/</span>repos<span class="sc">/</span>r<span class="sc">-</span>lib<span class="sc">/</span>rematch2<span class="sc">/</span>zipball<span class="sc">/</span>HEAD</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>api.github.com<span class="sc">/</span>repos<span class="sc">/</span>r<span class="sc">-</span>lib<span class="sc">/</span>usethis<span class="sc">/</span>zipball<span class="sc">/</span>REF</span></code></pre><p></p></div>
 <p>You can use <code>create_download_url()</code> to create the "Download ZIP" URL from
 a typical GitHub browser URL.</p>
 </div>
@@ -178,10 +181,10 @@ ZIP archive. It is however possible to share a ZIP file stored on Google
 Drive. To get its URL, click on "Get the shareable link" (within the "Share"
 menu). This URL doesn't allow for direct download, as it's designed to be
 processed in a web browser first. Such a sharing link looks like:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>drive.google.com<span class="sc">/</span>open?id<span class="ot">=</span>123456789xxyyyzzz</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>drive.google.com<span class="sc">/</span>open?id<span class="ot">=</span><span class="dv">123456789</span>xxyyyzzz</span></code></pre><p></p></div>
 <p>To be able to get the URL suitable for direct download, you need to extract
 the "id" element from the URL and include it in this URL format:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>drive.google.com<span class="sc">/</span>uc?export<span class="ot">=</span>download<span class="sc">&amp;</span>id<span class="ot">=</span>123456789xxyyyzzz</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>drive.google.com<span class="sc">/</span>uc?export<span class="ot">=</span>download<span class="sc">&amp;</span>id<span class="ot">=</span><span class="dv">123456789</span>xxyyyzzz</span></code></pre><p></p></div>
 <p>Use <code>create_download_url()</code> to perform this transformation automatically.</p>
 </div>
 

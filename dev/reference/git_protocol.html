@@ -65,10 +65,13 @@ existing Git remote URLs are always respected, whether HTTPS or SSH.'><meta prop
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/badge-accessibility.html">Exploring badge accessibility</a>
+    <a class="dropdown-item" href="../articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Git and GitHub</h6>
     <a class="dropdown-item" href="../articles/git-credentials.html">Managing Git(Hub) Credentials</a>
     <a class="dropdown-item" href="../articles/pr-functions.html">Pull request helpers</a>
-    <a class="dropdown-item" href="../articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -116,7 +119,7 @@ this defaults to "https". You can change this for the duration of the
 R session with <code>use_git_protocol()</code>. Change the default for all R
 sessions with code like this in your <code>.Rprofile</code> (easily editable via
 <code><a href="edit.html">edit_r_profile()</a></code>):</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">usethis.protocol =</span> <span class="st">"ssh"</span>)</span></code></pre><p></p></div></li>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">options</span>(<span class="at">usethis.protocol =</span> <span class="st">"ssh"</span>)</span></code></pre><p></p></div></li>
 <li><p><code>use_git_protocol()</code> sets the Git protocol for the current R session</p></li>
 </ul><p>This protocol only affects the Git URL for newly configured remotes. All
 existing Git remote URLs are always respected, whether HTTPS or SSH.</p>

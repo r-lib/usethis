@@ -93,10 +93,13 @@ supported."><meta property="og:image" content="https://usethis.r-lib.org/logo.pn
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/badge-accessibility.html">Exploring badge accessibility</a>
+    <a class="dropdown-item" href="../articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Git and GitHub</h6>
     <a class="dropdown-item" href="../articles/git-credentials.html">Managing Git(Hub) Credentials</a>
     <a class="dropdown-item" href="../articles/pr-functions.html">Pull request helpers</a>
-    <a class="dropdown-item" href="../articles/usethis-setup.html">usethis setup</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -150,18 +153,18 @@ fields:</p><ul><li><p><code>fields</code> argument of <code><a href="create_pack
 <p>If you create a lot of packages, consider storing personalized defaults as a
 named list in an option named <code>"usethis.description"</code>. Here's an example of
 code to include in <code>.Rprofile</code>, which can be opened via <code><a href="edit.html">edit_r_profile()</a></code>:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">usethis.description =</span> <span class="fu">list</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Authors@R"</span> <span class="ot">=</span> utils<span class="sc">::</span><span class="fu">person</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Jane"</span>, <span class="st">"Doe"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">email =</span> <span class="st">"jane@example.com"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">role =</span> <span class="fu">c</span>(<span class="st">"aut"</span>, <span class="st">"cre"</span>),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">comment =</span> <span class="fu">c</span>(<span class="at">ORCID =</span> <span class="st">"YOUR-ORCID-ID"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Language =</span>  <span class="st">"es"</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">License =</span> <span class="st">"MIT + file LICENSE"</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">options</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="at">usethis.description =</span> <span class="fu">list</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    <span class="st">"Authors@R"</span> <span class="ot">=</span> utils<span class="sc">::</span><span class="fu">person</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      <span class="st">"Jane"</span>, <span class="st">"Doe"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>      <span class="at">email =</span> <span class="st">"jane@example.com"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>      <span class="at">role =</span> <span class="fu">c</span>(<span class="st">"aut"</span>, <span class="st">"cre"</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      <span class="at">comment =</span> <span class="fu">c</span>(<span class="at">ORCID =</span> <span class="st">"YOUR-ORCID-ID"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>    ),</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>    <span class="at">Language =</span>  <span class="st">"es"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>    <span class="at">License =</span> <span class="st">"MIT + file LICENSE"</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>  )</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>)</span></code></pre><p></p></div>
 <p>Prior to usethis v2.0.0, <code>getOption("devtools.desc")</code> was consulted for
 backwards compatibility, but now only the <code>"usethis.description"</code> option is
 supported.</p>
