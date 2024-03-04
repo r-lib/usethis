@@ -121,7 +121,7 @@ use_github_action <- function(name = NULL,
   }
 
   if (!is.null(readme)) {
-    ui_todo("Learn more at <{readme}>.")
+    ui_bullets(c("_" = "Learn more at {.url {readme}}."))
   }
 
   badge <- badge %||% is_check_action(url)
@@ -227,11 +227,9 @@ use_tidy_github_actions <- function(ref = NULL) {
   has_appveyor_travis <- file_exists(old_configs)
 
   if (any(has_appveyor_travis)) {
-    if (ui_yeah(
-      "Remove existing {ui_path('.travis.yml')} and {ui_path('appveyor.yml')}?"
-    )) {
+    if (ui_yep("Remove existing {.path .travis.yml} and {.path appveyor.yml}?")) {
       file_delete(old_configs[has_appveyor_travis])
-      ui_todo("Remove old badges from README")
+      ui_bullets(c("_" = "Remove old badges from README."))
     }
   }
 
@@ -250,10 +248,10 @@ check_uses_github_actions <- function() {
     return(invisible())
   }
 
-  ui_stop("
-    Cannot detect that package {ui_value(project_name())} already \\
-    uses GitHub Actions.
-    Do you need to run {ui_code('use_github_actions()')}?")
+  ui_abort(c(
+    "Cannot detect that package {.pkg {project_name()}} already uses GitHub Actions.",
+    "Do you need to run {.fun use_github_action}?"
+  ))
 }
 
 latest_release <- function(repo_spec = "https://github.com/r-lib/actions") {

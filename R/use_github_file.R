@@ -72,7 +72,9 @@ use_github_file <- function(repo_spec,
 
   ref_string <- if (is.null(ref)) "" else glue("@{ref}")
   github_string <- glue("{repo_spec}/{path}{ref_string}")
-  ui_done("Saving {ui_path(github_string)} to {ui_path(save_as)}")
+  ui_bullets(c(
+    "v" = "Saving {.val {github_string}} to {.path {pth(save_as)}}."
+  ))
 
   lines <- read_github_file(
     repo_spec = repo_spec,
@@ -137,13 +139,13 @@ parse_file_url <- function(x) {
 
   # TODO: generalize here for GHE hosts that don't include 'github'
   if (!grepl("github", dat$host)) {
-    ui_stop("URL doesn't seem to be associated with GitHub.")
+    ui_abort("URL doesn't seem to be associated with GitHub.")
   }
 
   if (!grepl("^(raw[.])?github", dat$host) ||
       !nzchar(dat$fragment) ||
       (grepl("^github", dat$host) && !grepl("^/blob/", dat$fragment))) {
-    ui_stop("Can't parse the URL provided via {ui_code('repo_spec')}.")
+    ui_abort("Can't parse the URL provided via {.arg repo_spec}.")
   }
   out$parsed <- TRUE
 

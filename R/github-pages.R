@@ -71,7 +71,9 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
   site <- safe_gh("GET /repos/{owner}/{repo}/pages")[["result"]]
 
   if (is.null(site)) {
-    ui_done("Activating GitHub Pages for {ui_value(tr$repo_spec)}")
+    ui_bullets(c(
+      "v" = "Activating GitHub Pages for {.val {tr$repo_spec}}."
+    ))
     site <- gh(
       "POST /repos/{owner}/{repo}/pages",
       source = list(branch = branch, path = path),
@@ -103,7 +105,7 @@ use_github_pages <- function(branch = "gh-pages", path = "/", cname = NA) {
     site <- safe_gh("GET /repos/{owner}/{repo}/pages")[["result"]]
   }
 
-  ui_done("GitHub Pages is publishing from:")
+  ui_bullets(c("v" = "GitHub Pages is publishing from:"))
   if (!is.null(site$cname)) {
     kv_line("Custom domain", site$cname)
   }
@@ -129,9 +131,10 @@ create_gh_pages_branch <- function(tr, branch = "gh-pages") {
     return(FALSE)
   }
 
-  ui_done("
-    Initializing empty, orphan {ui_value(branch)} branch in GitHub repo \\
-    {ui_value(tr$repo_spec)}")
+  ui_bullets(c(
+    "v" = "Initializing empty, orphan branch {.val {branch}} in GitHub repo
+           {.val {tr$repo_spec}}."
+  ))
 
   # GitHub no longer allows you to directly create an empty tree
   # hence this roundabout method of getting an orphan branch with no files

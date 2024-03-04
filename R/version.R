@@ -141,8 +141,9 @@ use_c_version <- function(ver) {
   }
 
   hint <- glue("{project_name()}_version")
-  ui_done("
-    Setting {ui_field(hint)} to {ui_value(ver)} in {ui_path(version_path)}")
+  ui_bullets(c(
+    "v" = "Setting {.field {hint}} to {.val {ver}} {.path {pth(version_path)}}."
+  ))
 
   lines <- read_utf8(version_path)
 

@@ -22,8 +22,8 @@ local_check_fun_exists <- function(.env = caller_env()) {
   local_mocked_bindings(check_fun_exists = function(...) NULL, .env = .env)
 }
 
-local_ui_yeah <- function(.env = caller_env()) {
-  local_mocked_bindings(ui_yeah = function(...) TRUE, .env = .env)
+local_ui_yep <- function(.env = caller_env()) {
+  local_mocked_bindings(ui_yep = function(...) TRUE, .env = .env)
 }
 
 local_git_default_branch_remote <- function(.env = caller_env()) {
