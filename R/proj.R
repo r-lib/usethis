@@ -81,16 +81,17 @@ proj_set <- function(path = ".", force = FALSE) {
   path <- proj_path_prep(path)
   if (is.null(path) || force) {
     proj_string <- if (is.null(path)) "<no active project>" else path
-    ui_done("Setting active project to {ui_value(proj_string)}")
+    ui_bullets(c("v" = "Setting active project to {.val {proj_string}}."))
     return(proj_set_(path))
   }
 
   check_path_is_directory(path)
   new_project <- proj_find(path)
   if (is.null(new_project)) {
-    ui_stop('
-      Path {ui_path(path)} does not appear to be inside a project or package.
-      Read more in the help for {ui_code("proj_get()")}.')
+    ui_abort(c(
+      "Path {.path {pth(path)}} does not appear to be inside a project or package.",
+      "Read more in the help for {.help usethis::proj_get}."
+    ))
   }
   proj_set(path = new_project, force = TRUE)
 }
@@ -103,7 +104,7 @@ proj_path <- function(..., ext = "") {
   has_absolute_path <- function(x) any(is_absolute_path(x))
   dots <- list(...)
   if (any(map_lgl(dots, has_absolute_path))) {
-    ui_stop("Paths must be relative to the active project")
+    ui_abort("Paths must be relative to the active project, not absolute.")
   }
 
   path_norm(path(proj_get(), ..., ext = ext))
@@ -211,21 +212,22 @@ check_is_package <- function(whos_asking = NULL) {
     return(invisible())
   }
 
-  message <- "Project {ui_value(project_name())} is not an R package."
+  message <- "Project {.val {project_name()}} is not an R package."
   if (!is.null(whos_asking)) {
     message <- c(
-      "{ui_code(whos_asking)} is designed to work with packages.",
-      message
+      "i" = "{.code {whos_asking}} is designed to work with packages.",
+      "x" = message
     )
   }
-  ui_stop(message)
+  ui_abort(message)
 }
 
 check_is_project <- function() {
   if (!possibly_in_proj()) {
-    ui_stop('
-      We do not appear to be inside a valid project or package.
-      Read more in the help for {ui_code("proj_get()")}.')
+    ui_abort(c(
+      "We do not appear to be inside a valid project or package.",
+      "Read more in the help for {.help usethis::proj_get}."
+    ))
   }
 }
 
@@ -275,15 +277,17 @@ proj_activate <- function(path, new_session = TRUE) {
   path <- user_path_prep(path)
 
   if (rstudio_available() && rstudioapi::hasFun("openProject")) {
-    msg <- paste0("Opening {ui_path(path, base = NA)}", if (new_session) " in new RStudio session")
-    ui_done(msg)
+    msg <- paste0("Opening {.path {pth(path, base = NA)}}", if (new_session) " in new RStudio session.")
+    ui_bullets(c("v" = msg))
     rstudioapi::openProject(path, newSession = new_session)
     invisible(FALSE)
   } else {
     proj_set(path)
     rel_path <- path_rel(proj_get(), path_wd())
     if (rel_path != ".") {
-      ui_done("Changing working directory to {ui_path(path, base = NA)}")
+      ui_bullets(c(
+        "v" = "Changing working directory to {.path {pth(path, base = NA)}}"
+      ))
       setwd(proj_get())
     }
     invisible(TRUE)

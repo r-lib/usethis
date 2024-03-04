@@ -49,12 +49,12 @@ test_that("upkeep bullets don't change accidentally",{
 })
 
 test_that("get extra upkeep bullets works", {
-  env <- env(upkeep_bullets = function() c("extra", "upkeep bullets"))
+  e <- new.env(parent = empty_env())
+  expect_equal(upkeep_extra_bullets(e), "")
+
+  e$upkeep_bullets <- function() c("extra", "upkeep bullets")
   expect_equal(
-    upkeep_extra_bullets(env),
+    upkeep_extra_bullets(e),
     c("* [ ] extra", "* [ ] upkeep bullets", "")
   )
-
-  env <- NULL
-  expect_equal(upkeep_extra_bullets(env), "")
 })

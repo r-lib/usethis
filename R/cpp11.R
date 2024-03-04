@@ -37,6 +37,8 @@ check_cpp_register_deps <- function() {
   installed <- map_lgl(cpp_register_deps, is_installed)
 
   if (!all(installed)) {
-    ui_todo("Now install {ui_value(cpp_register_deps[!installed])} to use cpp11.")
+    ui_bullets(c(
+      "_" = "Now install {.pkg {cpp_register_deps[!installed]}} to use {.pkg cpp11}."
+    ))
   }
 }

@@ -3,6 +3,19 @@
 * `proj_activate()` now has `new_session`, which controls whether to open a project in
   a new RStudio session or switch projct (@olivroy, #1954).
 
+* The `ui_*()` functions have been marked as
+  [superseded](https://lifecycle.r-lib.org/articles/stages.html#superseded).
+  External users of these functions are encouraged to use the
+  [cli package](https://cli.r-lib.org/) instead.
+  The cli package did not have the required functionality when the
+  `usethis::ui_*()` functions were first created, but it does now and it's the
+  superior option.
+  There is a cli vignette about how to make this transition:
+  `vignette("usethis-ui", package = "cli")`.
+  
+  usethis no longer uses the `ui_*()` functions internally, in favor of new
+  cli-based helpers that are not exported.
+
 # usethis 2.2.3
 
 * Patch release with changes to `.Rd` files requested by CRAN.

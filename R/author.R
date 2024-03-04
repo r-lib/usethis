@@ -60,13 +60,15 @@ use_author <- function(given = NULL, family = NULL, ..., role = "ctb") {
   author <- utils::person(given = given, family = family, role = role, ...)
   aut_fmt <- format(author, style = 'text')
   if (authors_at_r_already) {
-    ui_done("
-      Adding to {ui_field('Authors@R')} in DESCRIPTION:
-      {aut_fmt}")
+    ui_bullets(c(
+      "v" = "Adding to {.field Authors@R} in DESCRIPTION:",
+      " " = "{aut_fmt}"
+    ))
   } else {
-    ui_done("
-      Creating {ui_field('Authors@R')} field in DESCRIPTION and adding:
-      {aut_fmt}")
+    ui_bullets(c(
+      "v" = "Creating {.field Authors@R} field in DESCRIPTION and adding:",
+      " " = "{aut_fmt}"
+    ))
   }
   d$add_author(given = given, family = family, role = role, ...)
 
@@ -84,17 +86,17 @@ challenge_legacy_author_fields <- function(d = proj_desc()) {
     return(invisible())
   }
 
-  ui_oops("
-    Found legacy {ui_field('Author')} and/or {ui_field('Maintainer')} field \\
-    in DESCRIPTION.
-    usethis only supports modification of the {ui_field('Authors@R')} field.")
-  ui_info("
-    We recommend one of these paths forward:
-    * Delete these fields and rebuild with {ui_code('use_author()')}.
-    * Convert to {ui_field('Authors@R')} with {ui_code('desc::desc_coerce_authors_at_r()')},
-      then delete the legacy fields.")
-  if (ui_yeah("Do you want to cancel this operation and sort that out first?")) {
-    ui_stop("Cancelling.")
+  ui_bullets(c(
+    "x" = "Found legacy {.field Author} and/or {.field Maintainer} field in
+           DESCRIPTION.",
+    " " = "usethis only supports modification of the {.field Authors@R} field.",
+    "i" = "We recommend one of these paths forward:",
+    "_" = "Delete the legacy fields and rebuild with {.fun use_author}; or",
+    "_" = "Convert to {.field Authors@R} with
+           {.fun desc::desc_coerce_authors_at_r}, then delete the legacy fields."
+  ))
+  if (ui_yep("Do you want to cancel this operation and sort that out first?")) {
+    ui_abort("Cancelling.")
   }
   invisible()
 }
@@ -108,10 +110,10 @@ check_author_is_novel <- function(given = NULL, family = NULL, d = proj_desc()) 
   })
   if (any(m)) {
     aut_name <- glue("{given %||% ''} {family %||% ''}")
-    usethis_abort(c(
-      "{.val {aut_name}} already appears in {.val Authors@R}.",
-      "Please make the desired change directly in DESCRIPTION or call the \\
-       desc package directly."
+    ui_abort(c(
+      "x" = "{.val {aut_name}} already appears in {.field Authors@R}.",
+      " " = "Please make the desired change directly in DESCRIPTION or call the
+             {.pkg desc} package directly."
     ))
   }
   invisible()
@@ -129,10 +131,11 @@ challenge_default_author <- function(d = proj_desc()) {
   )
 
   if (any(m)) {
-    ui_info("
-      {ui_field('Authors@R')} appears to include a placeholder author:
-      {format(default_author, style = 'text')}")
-    if(is_interactive() && ui_yeah("Would you like to remove it?")) {
+    ui_bullets(c(
+      "i" = "{.field Authors@R} appears to include a placeholder author:",
+      " " = "{format(default_author, style = 'text')}"
+    ))
+    if(is_interactive() && ui_yep("Would you like to remove it?")) {
       # TODO: Do I want to suppress this output?
       # Authors removed: First Last, NULL NULL.
       do.call(d$del_author, unclass(default_author)[[1]])

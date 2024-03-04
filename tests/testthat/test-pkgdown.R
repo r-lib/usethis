@@ -55,13 +55,18 @@ test_that("pkgdown_url() returns correct data, warns if pedantic", {
   # empty config
   expect_null(pkgdown_url())
   expect_silent(pkgdown_url())
-  expect_warning(pkgdown_url(pedantic = TRUE), "url")
+  withr::local_options(list(usethis.quiet = FALSE))
+  expect_snapshot(
+    pkgdown_url(pedantic = TRUE)
+  )
 
   # nonempty config, but no url
   writeLines(c("home:", "  strip_header: true"), pkgdown_config_path())
   expect_null(pkgdown_url())
   expect_silent(pkgdown_url())
-  expect_warning(pkgdown_url(pedantic = TRUE), "url")
+  expect_snapshot(
+    pkgdown_url(pedantic = TRUE)
+  )
 
   # config has url
   writeLines("url: https://usethis.r-lib.org", pkgdown_config_path())

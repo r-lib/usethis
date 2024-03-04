@@ -1,7 +1,7 @@
 test_that("use_lifecycle() imports badges", {
   create_local_package()
   use_package_doc()
-  withr::local_options(usethis.quiet = FALSE)
+  withr::local_options(usethis.quiet = FALSE, cli.width = Inf)
 
   expect_snapshot(
     use_lifecycle(),

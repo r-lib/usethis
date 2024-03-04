@@ -86,9 +86,10 @@ use_pkgdown_url <- function(url, tr = NULL) {
   tr <- tr %||% target_repo(github_get = TRUE)
 
   config_path <- pkgdown_config_path()
-  ui_done("
-    Recording {ui_value(url)} as site's {ui_field('url')} in \\
-    {ui_path(config_path)}")
+  ui_bullets(c(
+    "v" = "Recording {.url {url}} as site's {.field url} in
+           {.path {pth(config_path)}}."
+  ))
   config <- pkgdown_config_meta()
   if (has_name(config, "url")) {
     config$url <- url
@@ -99,15 +100,17 @@ use_pkgdown_url <- function(url, tr = NULL) {
 
   proj_desc_field_update("URL", url, append = TRUE)
   if (has_package_doc()) {
-    ui_todo("
-      Run {ui_code('devtools::document()')} to update package-level documentation.")
+    ui_bullets(c(
+      "_" = "Run {.run devtools::document()} to update package-level documentation."
+    ))
   }
 
   gh <- gh_tr(tr)
   homepage <- gh("GET /repos/{owner}/{repo}")[["homepage"]]
   if (is.null(homepage) || homepage != url) {
-    ui_done("Setting {ui_value(url)} as homepage of GitHub repo \\
-      {ui_value(tr$repo_spec)}")
+    ui_bullets(c(
+      "v" = "Setting {.url {url}} as homepage of GitHub repo {.val {tr$repo_spec}}."
+    ))
     gh("PATCH /repos/{owner}/{repo}", homepage = url)
   }
 
@@ -125,11 +128,11 @@ tidyverse_url <- function(url, tr = NULL) {
   if (grepl(glue("{custom_url}/?"), url)) {
     return(url)
   }
-  if (ui_yeah("
-    {ui_value(tr$repo_name)} is owned by the {ui_value(tr$repo_owner)} GitHub \\
-    organization.
-    Shall we configure {ui_value(custom_url)} as the (eventual) \\
-    pkgdown URL?")) {
+  if (ui_yep(c(
+    "i" = "{.val {tr$repo_name}} is owned by the {.val {tr$repo_owner}} GitHub
+           organization.",
+    " " = "Shall we configure {.val {custom_url}} as the (eventual) pkgdown URL?"
+  ))) {
     custom_url
   } else {
     url
@@ -175,9 +178,10 @@ pkgdown_url <- function(pedantic = FALSE) {
   }
 
   if (pedantic) {
-    ui_warn("
-      pkgdown config does not specify the site's {ui_field('url')}, \\
-      which is optional but recommended")
+    ui_bullets(c(
+      "!" = "{.pkg pkgdown} config does not specify the site's {.field url},
+             which is optional but recommended."
+    ))
   }
     NULL
 }

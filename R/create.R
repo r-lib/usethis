@@ -87,9 +87,11 @@ create_project <- function(path,
   if (rstudio) {
     use_rstudio()
   } else {
-    ui_done("Writing a sentinel file {ui_path('.here')}")
-    ui_todo("Build robust paths within your project via {ui_code('here::here()')}")
-    ui_todo("Learn more at <https://here.r-lib.org>")
+    ui_bullets(c(
+      "v" = "Writing a sentinel file {.path {pth('.here')}}.",
+      "_" = "Build robust paths within your project via {.fun here::here}.",
+      "i" = "Learn more at {.url https://here.r-lib.org}."
+    ))
     file_create(proj_path(".here"))
   }
 
@@ -206,26 +208,26 @@ create_from_github <- function(repo_spec,
   hint <- code_hint_with_host("gh_token_help", host)
 
   if (no_auth && is.na(fork)) {
-    ui_stop("
-      Unable to discover a GitHub personal access token
-      Therefore, can't determine your permissions on {ui_value(repo_spec)}
-      Therefore, can't decide if `fork` should be `TRUE` or `FALSE`
-
-      You have two choices:
-      1. Make your token available (if in doubt, DO THIS):
-         - Call {ui_code(hint)} for directions
-      2. Call {ui_code('create_from_github()')} again, but with \\
-      {ui_code('fork = FALSE')}
-         - Only do this if you are absolutely sure you don't want to fork
-         - Note you will NOT be in a position to make a pull request")
+    ui_abort(c(
+      "x" = "Unable to discover a GitHub personal access token.",
+      "x" = "Therefore, can't determine your permissions on {.val {repo_spec}}.",
+      "x" = "Therefore, can't decide if {.arg fork} should be {.code TRUE} or {.code FALSE}.",
+      "",
+      "i" = "You have two choices:",
+      "_" = "Make your token available (if in doubt, DO THIS):",
+      " " = "Call {.code {hint}} for instructions that should help.",
+      "_" = "Call {.fun create_from_github} again, but with {.code fork = FALSE}.",
+      " " = "Only do this if you are absolutely sure you don't want to fork.",
+      " " = "Note you will NOT be in a position to make a pull request."
+    ))
   }
 
   if (no_auth && isTRUE(fork)) {
-    ui_stop("
-      Unable to discover a GitHub personal access token
-      A token is required in order to fork {ui_value(repo_spec)}
-
-      Call {ui_code(hint)} for help configuring a token")
+    ui_abort(c(
+      "x" = "Unable to discover a GitHub personal access token.",
+      "i" = "A token is required in order to fork {.val {repo_spec}}.",
+      "_" = "Call {.code {hint}} for help configuring a token."
+    ))
   }
   # one of these is true:
   # - gh is discovering a token for `host`
@@ -246,14 +248,14 @@ create_from_github <- function(repo_spec,
   if (is.na(fork)) {
     fork <- !isTRUE(repo_info$permissions$push)
     fork_status <- glue("fork = {fork}")
-    ui_done("Setting {ui_code(fork_status)}")
+    ui_bullets(c("v" = "Setting {.code {fork_status}}."))
   }
   # fork is either TRUE or FALSE
 
   if (fork && identical(user, repo_info$owner$login)) {
-    ui_stop("
-      Can't fork, because the authenticated user {ui_value(user)} \\
-      already owns the source repo {ui_value(repo_info$full_name)}")
+    ui_abort("
+      Can't fork, because the authenticated user {.val {user}} already owns the
+      source repo {.val {repo_info$full_name}}.")
   }
 
   destdir <- user_path_prep(destdir %||% conspicuous_place())
@@ -265,14 +267,14 @@ create_from_github <- function(repo_spec,
 
   if (fork) {
     ## https://developer.github.com/v3/repos/forks/#create-a-fork
-    ui_done("Forking {ui_value(repo_info$full_name)}")
+    ui_bullets(c("v" = "Forking {.val {repo_info$full_name}}."))
     upstream_url <- switch(
       protocol,
       https = repo_info$clone_url,
       ssh = repo_info$ssh_url
     )
     repo_info <- gh("POST /repos/{owner}/{repo}/forks")
-    ui_done("Waiting for the fork to finalize before cloning")
+    ui_bullets(c("i" = "Waiting for the fork to finalize before cloning..."))
     Sys.sleep(3)
   }
 
@@ -282,7 +284,9 @@ create_from_github <- function(repo_spec,
     ssh = repo_info$ssh_url
   )
 
-  ui_done("Cloning repo from {ui_value(origin_url)} into {ui_value(repo_path)}")
+  ui_bullets(c(
+    "v" = "Cloning repo from {.val {origin_url}} into {.path {repo_path}}."
+  ))
   gert::git_clone(origin_url, repo_path, verbose = FALSE)
 
   proj_path <- find_rstudio_root(repo_path)
@@ -291,16 +295,19 @@ create_from_github <- function(repo_spec,
   # 2023-01-28 again, it would be more natural to trust the default branch of
   # the fork, but that cannot always be trusted. For now, we're still using
   # the default branch learned from the source repo.
-  ui_info("Default branch is {ui_value(default_branch)}")
+  ui_bullets(c("i" = "Default branch is {.val {default_branch}}."))
 
   if (fork) {
-    ui_done("Adding {ui_value('upstream')} remote: {ui_value(upstream_url)}")
+    ui_bullets(c(
+      "v" = "Adding {.val upstream} remote: {.val {upstream_url}}"
+    ))
     use_git_remote("upstream", upstream_url)
     pr_merge_main()
     upstream_remref <- glue("upstream/{default_branch}")
-    ui_done("
-      Setting remote tracking branch for local {ui_value(default_branch)} \\
-      branch to {ui_value(upstream_remref)}")
+    ui_bullets(c(
+      "v" = "Setting remote tracking branch for local {.val {default_branch}}
+             branch to {.val {upstream_remref}}."
+    ))
     gert::git_branch_set_upstream(upstream_remref, repo = git_repo())
     config_key <- glue("remote.upstream.created-by")
     gert::git_config_set(config_key, "usethis::create_from_github", repo = git_repo())
@@ -344,15 +351,15 @@ challenge_nested_project <- function(path, name) {
     return(invisible())
   }
 
-  ui_line(
-    "New project {ui_value(name)} is nested inside an existing project \\
-    {ui_path(path)}, which is rarely a good idea.
-    If this is unexpected, the here package has a function, \\
-    {ui_code('here::dr_here()')} that reveals why {ui_path(path)} \\
-    is regarded as a project."
-  )
-  if (ui_nope("Do you want to create anyway?")) {
-    ui_stop("Cancelling project creation.")
+  ui_bullets(c(
+    "!" = "New project {.val {name}} is nested inside an existing project
+           {.path {pth(path)}}, which is rarely a good idea.",
+    "i" = "If this is unexpected, the {.pkg here} package has a function,
+           {.fun here::dr_here} that reveals why {.path {pth(path)}} is regarded
+           as a project."
+  ))
+  if (ui_nah("Do you want to create anyway?")) {
+    ui_abort("Cancelling project creation.")
   }
   invisible()
 }
@@ -368,12 +375,13 @@ challenge_home_directory <- function(path) {
   } else {
     ""
   }
-  ui_line("
-    {ui_path(path)} is {qualification}your home directory.
-    It is generally a bad idea to create a new project here.
-    You should probably create your new project in a subdirectory.")
-  if (ui_nope("Do you want to create anyway?")) {
-    ui_stop("Good move! Cancelling project creation.")
+  ui_bullets(c(
+    "!" = "{.path {pth(path)}} is {qualification}your home directory.",
+    "i" = "It is generally a bad idea to create a new project here.",
+    "i" = "You should probably create your new project in a subdirectory."
+  ))
+  if (ui_nah("Do you want to create anyway?")) {
+    ui_abort("Good move! Cancelling project creation.")
   }
   invisible()
 }

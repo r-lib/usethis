@@ -18,8 +18,9 @@ use_lifecycle <- function() {
   check_is_package("use_lifecycle()")
   check_uses_roxygen("use_lifecycle()")
   if (!uses_roxygen_md()) {
-    ui_stop("
-      Turn on roxygen2 markdown support {ui_code('use_roxygen_md()')}")
+    ui_abort("
+      Turn on roxygen2 markdown support with {.run usethis::use_roxygen_md()},
+      then try again.")
   }
 
   use_package("lifecycle")
@@ -32,13 +33,12 @@ use_lifecycle <- function() {
   templ_files <- dir_ls(templ_dir, glob = "*/lifecycle-*.svg")
 
   purrr::walk(templ_files, file_copy, dest_dir, overwrite = TRUE)
-  ui_done("Copied SVG badges to {ui_path(dest_dir)}")
-
-  ui_todo(c(
-    "Add badges in documentation topics by inserting one of:",
-    "#' `r lifecycle::badge('experimental')`",
-    "#' `r lifecycle::badge('superseded')`",
-    "#' `r lifecycle::badge('deprecated')`"
+  ui_bullets(c(
+    "v" = "Copied SVG badges to {.path {pth(dest_dir)}}.",
+    "_" = "Add badges in documentation topics by inserting a line like this:",
+    " " = "#' `r lifecycle::badge('experimental')`",
+    " " = "#' `r lifecycle::badge('superseded')`",
+    " " = "#' `r lifecycle::badge('deprecated')`"
   ))
 
   invisible(TRUE)
