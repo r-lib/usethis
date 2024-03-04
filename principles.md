@@ -81,14 +81,18 @@ In order to be consistent everywhere, all paths supplied by the user should be p
 
 ## Communicating with the user
 
-User-facing messages are emitted via helpers in `ui.R` and *everything* is eventually routed through `rlang::inform()` via `ui_inform()`.
+User-facing messages are ALWAYS emitted via helpers in `utils-ui.R`.
 This is all intentional and should be preserved.
 
 This is so we can control verbosity package-wide with the `usethis.quiet` option, which defaults to `FALSE`.
 
--   Exploited in usethis tests: option is set and unset in `setup.R` and `teardown.R`. Eliminates the need for ubiquitous `capture_output()` calls.
--   Other packages can muffle a usethis call via, e.g., `withr::local_options(list(usethis.quiet = TRUE))`.
--   Use `ui_silence()` for executing small bits of code silently.
+-   Exploited in usethis tests: option is set and unset in `setup.R` and `teardown.R`, to suppress output by default.
+-   Individual tests that need output, e.g. for snapshot testing, should include `withr::local_options(usethis.quiet = FALSE)`.
+-   Other packages can muffle a usethis call through similar means.
+-   `ui_silence()` is a convenience helper for executing small bits of code silently.
+
+Note that usethis exports many `ui_*()` functions for historical reasons, all defined in `ui-legacy.R`, and all marked as superseded now.
+See the developer-facing article "Converting usethis's UI to use cli" for more.
 
 ## Git/GitHub
 

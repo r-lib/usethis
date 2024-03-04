@@ -42,13 +42,12 @@ proj_desc_field_update <- function(key, value, overwrite = TRUE, append = FALSE)
   }
 
   if (!overwrite && length(old > 0) && any(old != "")) {
-    ui_stop(
-      "{ui_field(key)} has a different value in DESCRIPTION. \\
-      Use {ui_code('overwrite = TRUE')} to overwrite."
-    )
+    ui_abort("
+      {.field {key}} has a different value in DESCRIPTION.
+      Use {.code overwrite = TRUE} to overwrite.")
   }
 
-  ui_done("Adding {ui_value(value)} to {ui_field(key)}")
+  ui_bullets(c("v" = "Adding {.val {value}} to {.field {key}}."))
 
   if (append) {
     value <- union(old, value)

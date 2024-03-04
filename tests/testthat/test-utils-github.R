@@ -85,6 +85,7 @@ test_that("parse_repo_url() errors for non-GitHub remote URLs", {
 })
 
 test_that("github_remote_list() works", {
+  local_interactive(FALSE)
   create_local_project()
   use_git()
   use_git_remote("origin", "https://github.com/OWNER/REPO.git")
@@ -150,14 +151,49 @@ test_that("github_remotes() works", {
 })
 
 # GitHub remote configuration --------------------------------------------------
-# very sparse, but you have to start somewhere!
 
 test_that("we understand the list of all possible configs", {
   expect_snapshot(all_configs())
 })
 
-test_that("fork_upstream_is_not_origin_parent is detected", {
-  # We've already encountered this in the wild. Here's how it happens:
+test_that("'no_github' is reported correctly", {
+ expect_snapshot(new_no_github())
+})
+
+test_that("'ours' is reported correctly", {
+ expect_snapshot(new_ours())
+})
+
+test_that("'theirs' is reported correctly", {
+ expect_snapshot(new_theirs())
+})
+
+test_that("'fork' is reported correctly", {
+ expect_snapshot(new_fork())
+})
+
+test_that("'maybe_ours_or_theirs' is reported correctly", {
+ expect_snapshot(new_maybe_ours_or_theirs())
+})
+
+test_that("'maybe_fork' is reported correctly", {
+ expect_snapshot(new_maybe_fork())
+})
+
+test_that("'fork_cannot_push_origin' is reported correctly", {
+ expect_snapshot(new_fork_cannot_push_origin())
+})
+
+test_that("'fork_upstream_is_not_origin_parent' is reported correctly", {
+ expect_snapshot(new_fork_upstream_is_not_origin_parent())
+})
+
+test_that("'upstream_but_origin_is_not_fork' is reported correctly", {
+ expect_snapshot(new_upstream_but_origin_is_not_fork())
+})
+
+test_that("'fork_upstream_is_not_origin_parent' is detected correctly", {
+  # inspired by something that actually happened:
   # 1. r-pkgs/gh is created
   # 2. user forks and clones: origin = USER/gh, upstream = r-pkgs/gh
   # 3. parent repo becomes r-lib/gh, due to transfer or ownership or owner
@@ -174,8 +210,24 @@ test_that("fork_upstream_is_not_origin_parent is detected", {
   gr$can_push <- TRUE
   gr$perm_known <- TRUE
   gr$parent_repo_owner <- c("r-lib", NA)
+  gr$parent_repo_name <- c("gh", NA)
+  gr$parent_repo_spec <- c("r-lib/gh", NA)
   local_mocked_bindings(github_remotes = function(...) gr)
   cfg <- github_remote_config()
   expect_equal(cfg$type, "fork_upstream_is_not_origin_parent")
   expect_snapshot(error = TRUE, stop_bad_github_remote_config(cfg))
+})
+
+test_that("bad github config error", {
+  expect_snapshot(
+    error = TRUE,
+    stop_bad_github_remote_config(new_fork_upstream_is_not_origin_parent())
+  )
+})
+
+test_that("maybe bad github config error", {
+  expect_snapshot(
+    error = TRUE,
+    stop_maybe_github_remote_config(new_maybe_fork())
+  )
 })

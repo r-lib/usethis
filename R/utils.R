@@ -16,7 +16,7 @@ can_overwrite <- function(path) {
   }
 
   if (is_interactive()) {
-    ui_yeah("Overwrite pre-existing file {ui_path(path)}?")
+    ui_yep(c("!" = "Overwrite pre-existing file {.path {pth(path)}}?"))
   } else {
     FALSE
   }
@@ -24,13 +24,11 @@ can_overwrite <- function(path) {
 
 check_is_named_list <- function(x, nm = deparse(substitute(x))) {
   if (!is_list(x)) {
-    bad_class <- paste(class(x), collapse = "/")
-    ui_stop("{ui_code(nm)} must be a list, not {ui_value(bad_class)}.")
+    ui_abort("{.code {nm}} must be a list, not {.obj_type_friendly {x}}.")
   }
   if (!is_dictionaryish(x)) {
-    ui_stop(
-      "Names of {ui_code(nm)} must be non-missing, non-empty, and non-duplicated."
-    )
+    ui_abort(
+      "Names of {.code {nm}} must be non-missing, non-empty, and non-duplicated.")
   }
   x
 }

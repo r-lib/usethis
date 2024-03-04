@@ -16,7 +16,9 @@ use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
       return(invisible(FALSE))
     }
   } else if (type == "coveralls") {
-    ui_todo("Turn on coveralls for this repo at https://coveralls.io/repos/new")
+    ui_bullets(c(
+      "_" = "Turn on coveralls for this repo at {.url https://coveralls.io/repos/new}."
+    ))
   }
 
   switch(
@@ -25,9 +27,10 @@ use_coverage <- function(type = c("codecov", "coveralls"), repo_spec = NULL) {
     coveralls = use_coveralls_badge(repo_spec)
   )
 
-  ui_todo("
-    Call {ui_code('use_github_action(\"test-coverage\")')} to continuously \\
-    monitor test coverage.")
+  ui_bullets(c(
+    "_" = "Call {.code use_github_action(\"test-coverage\")} to continuously
+           monitor test coverage."
+  ))
 
   invisible(TRUE)
 }

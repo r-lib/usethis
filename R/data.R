@@ -59,16 +59,21 @@ use_data <- function(...,
     desc <- proj_desc()
 
     if (!desc$has_fields("LazyData")) {
-      ui_done("Setting {ui_field('LazyData')} to \\
-              {ui_value('true')} in {ui_path('DESCRIPTION')}")
+      ui_bullets(c(
+        "v" = "Setting {.field LazyData} to {.val true} in {.path DESCRIPTION}."))
       desc$set(LazyData = "true")
       desc$write()
     }
   }
   check_files_absent(proj_path(paths), overwrite = overwrite)
 
-  ui_done("Saving {ui_value(unlist(objs))} to {ui_value(paths)}")
-  if (!internal) ui_todo("Document your data (see {ui_value('https://r-pkgs.org/data.html')})")
+  ui_bullets(c(
+    "v" = "Saving {.val {unlist(objs)}} to {.val {paths}}."))
+  if (!internal) {
+    ui_bullets(c(
+      "_" = "Document your data (see {.url https://r-pkgs.org/data.html})."
+    ))
+  }
 
   envir <- parent.frame()
   mapply(
@@ -83,19 +88,21 @@ use_data <- function(...,
 
 get_objs_from_dots <- function(.dots) {
   if (length(.dots) == 0L) {
-    ui_stop("Nothing to save.")
+    ui_abort("Nothing to save.")
   }
 
   is_name <- vapply(.dots, is.symbol, logical(1))
   if (any(!is_name)) {
-    ui_stop("Can only save existing named objects.")
+    ui_abort("Can only save existing named objects.")
   }
 
   objs <- vapply(.dots, as.character, character(1))
   duplicated_objs <- which(stats::setNames(duplicated(objs), objs))
   if (length(duplicated_objs) > 0L) {
     objs <- unique(objs)
-    ui_warn("Saving duplicates only once: {ui_value(names(duplicated_objs))}")
+    ui_bullets(c(
+      "!" = "Saving duplicates only once: {.val {names(duplicated_objs)}}."
+    ))
   }
   objs
 }
@@ -111,12 +118,10 @@ check_files_absent <- function(paths, overwrite) {
     return()
   }
 
-  ui_stop(
-    "
-    {ui_path(paths[!ok])} already exist.,
-    Use {ui_code('overwrite = TRUE')} to overwrite.
-    "
-  )
+  ui_abort(c(
+    "{.path {pth(paths[!ok])}} already exist.",
+    "Use {.code overwrite = TRUE} to overwrite."
+  ))
 }
 
 #' @param name Name of the dataset to be prepared for inclusion in the package.
@@ -140,6 +145,8 @@ use_data_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
     open = open
   )
 
-  ui_todo("Finish the data preparation script in {ui_value(r_path)}")
-  ui_todo("Use {ui_code('usethis::use_data()')} to add prepared data to package")
+  ui_bullets(c(
+    "_" = "Finish writing the data preparation script in {.path {pth(r_path)}}.",
+    "_" = "Use {.code usethis::use_data()} to add prepared data to package."
+  ))
 }

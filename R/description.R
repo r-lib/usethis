@@ -131,12 +131,12 @@ usethis_description_defaults <- function(package = NULL) {
 
 check_package_name <- function(name) {
   if (!valid_package_name(name)) {
-    ui_stop(c(
-      "{ui_value(name)} is not a valid package name. To be allowed on CRAN, it should:",
-      "* Contain only ASCII letters, numbers, and '.'",
-      "* Have at least two characters",
-      "* Start with a letter",
-      "* Not end with '.'"
+    ui_abort(c(
+      "x" = "{.val {name}} is not a valid package name. To be allowed on CRAN, it should:",
+      "*" = "Contain only ASCII letters, numbers, and '.'.",
+      "*" = "Have at least two characters.",
+      "*" = "Start with a letter.",
+      "*" = "Not end with '.'."
     ))
   }
 }

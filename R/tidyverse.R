@@ -85,13 +85,15 @@ create_tidy_package <- function(path, copyright_holder = NULL) {
 
   use_cran_comments(open = FALSE)
 
-  ui_todo("In the new package, remember to do:")
-  ui_todo("{ui_code('use_git()')}")
-  ui_todo("{ui_code('use_github()')}")
-  ui_todo("{ui_code('use_tidy_github()')}")
-  ui_todo("{ui_code('use_tidy_github_actions()')}")
-  ui_todo("{ui_code('use_tidy_github_labels()')}")
-  ui_todo("{ui_code('use_pkgdown_github_pages()')}")
+  ui_bullets(c(
+    "i" = "In the new package, remember to do:",
+    "_" = "{.run usethis::use_git()}",
+    "_" = "{.run usethis::use_github()}",
+    "_" = "{.run usethis::use_tidy_github()}",
+    "_" = "{.run usethis::use_tidy_github_actions()}",
+    "_" = "{.run usethis::use_tidy_github_labels()}",
+    "_" = "{.run usethis::use_pkgdown_github_pages()}"
+  ))
 
   proj_activate(path)
 }
@@ -231,8 +233,10 @@ use_tidy_style <- function(strict = TRUE) {
       strict = strict
     )
   }
-  ui_line()
-  ui_done("Styled project according to the tidyverse style guide")
+  ui_bullets(c(
+    " " = "",
+    "v" = "Styled project according to the tidyverse style guide."
+  ))
   invisible(styled)
 }
 
@@ -297,9 +301,10 @@ use_tidy_thanks <- function(repo_spec = NULL,
 
   from_timestamp <- as_timestamp(repo_spec, x = from) %||% "2008-01-01"
   to_timestamp <- as_timestamp(repo_spec, x = to)
-  ui_done("
-    Looking for contributors from {as.Date(from_timestamp)} to \\
-    {to_timestamp %||% 'now'}")
+  ui_bullets(c(
+    "i" = "Looking for contributors from {as.Date(from_timestamp)} to
+           {to_timestamp %||% 'now'}."
+  ))
 
   res <- gh::gh(
     "/repos/{owner}/{repo}/issues",
@@ -310,7 +315,7 @@ use_tidy_thanks <- function(repo_spec = NULL,
     .limit = Inf
   )
   if (length(res) < 1) {
-    ui_oops("No matching issues/PRs found")
+    ui_bullets(c("x" = "No matching issues/PRs found."))
     return(invisible())
   }
 
@@ -324,15 +329,18 @@ use_tidy_thanks <- function(repo_spec = NULL,
     res <- res[creation_time(res) <= as.POSIXct(to_timestamp)]
   }
   if (length(res) == 0) {
-    ui_line("No matching issues/PRs found.")
+    ui_bullets(c("x" = "No matching issues/PRs found."))
     return(invisible())
   }
 
   contributors <- sort(unique(map_chr(res, c("user", "login"))))
   contrib_link <- glue("[&#x0040;{contributors}](https://github.com/{contributors})")
 
-  ui_done("Found {length(contributors)} contributors:")
-  ui_code_block(glue_collapse(contrib_link, sep = ", ", last = ", and ") + glue("."))
+  ui_bullets(c("v" = "Found {length(contributors)} contributors:"))
+  ui_code_snippet(
+    glue_collapse(contrib_link, sep = ", ", last = ", and ") + glue("."),
+    language = ""
+  )
 
   invisible(contributors)
 }
@@ -347,7 +355,7 @@ as_timestamp <- function(repo_spec, x = NULL) {
   if (inherits(as_POSIXct, "POSIXct")) {
     return(x)
   }
-  ui_done("Resolving timestamp for ref {ui_value(x)}")
+  ui_bullets(c("v" = "Resolving timestamp for ref {.val {x}}."))
   ref_df(repo_spec, refs = x)$timestamp
 }
 
@@ -411,7 +419,7 @@ base_and_recommended <- function() {
 #' @export
 use_tidy_logo <- function(geometry = "240x278", retina = TRUE) {
   if (!is_posit_pkg()) {
-    ui_stop("This function can only be used for Posit packages")
+    ui_abort("This function only works for Posit packages.")
   }
 
   tf <- withr::local_tempfile(fileext = ".png")

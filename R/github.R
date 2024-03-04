@@ -80,7 +80,7 @@ use_github <- function(organisation = NULL,
     is = default_branch,
     # glue-ing happens inside check_current_branch(), where `gb` gives the
     # current branch
-    "Must be on the default branch ({ui_value(is)}), not {ui_value(gb)}."
+    message = c("x" = "Must be on the default branch {.val {is}}, not {.val {gb}}.")
   )
   challenge_uncommitted_changes(msg = "
     There are uncommitted changes and we're about to create and push to a new \\
@@ -89,10 +89,9 @@ use_github <- function(organisation = NULL,
 
   if (is.null(organisation)) {
     if (visibility_specified) {
-      ui_stop("
-        The {ui_code('visibility')} setting is only relevant for
-        organisation-owned repos, within the context of certain \\
-        GitHub Enterprise products.")
+      ui_abort("
+        The {.arg visibility} setting is only relevant for organisation-owned
+        repos, within the context of certain GitHub Enterprise products.")
     }
     visibility <- if (private) "private" else "public"
   }
@@ -103,15 +102,15 @@ use_github <- function(organisation = NULL,
 
   whoami <- suppressMessages(gh::gh_whoami(.api_url = host))
   if (is.null(whoami)) {
-    ui_stop("
-      Unable to discover a GitHub personal access token
-      A token is required in order to create and push to a new repo
-
-      Call {ui_code('gh_token_help()')} for help configuring a token")
+    ui_abort(c(
+      "x" = "Unable to discover a GitHub personal access token.",
+      "i" = "A token is required in order to create and push to a new repo.",
+      "_" = "Call {.run usethis::gh_token_help()} for help configuring a token."
+    ))
   }
   empirical_host <- parse_github_remotes(glue("{whoami$html_url}/REPO"))$host
   if (empirical_host != "github.com") {
-    ui_info("Targeting the GitHub host {ui_value(empirical_host)}")
+    ui_bullets(c("i" = "Targeting the GitHub host {.val {empirical_host}}."))
   }
 
   owner <- organisation %||% whoami$login
@@ -123,7 +122,9 @@ use_github <- function(organisation = NULL,
   repo_spec <- glue("{owner}/{repo_name}")
 
   visibility_string <- if (visibility == "public") "" else glue("{visibility} ")
-  ui_done("Creating {visibility_string}GitHub repository {ui_value(repo_spec)}")
+  ui_bullets(c(
+    "v" = "Creating {visibility_string}GitHub repository {.val {repo_spec}}."
+  ))
   if (is.null(organisation)) {
     create <- gh::gh(
       "POST /user/repos",
@@ -153,7 +154,7 @@ use_github <- function(organisation = NULL,
   )
   withr::defer(view_url(create$html_url))
 
-  ui_done("Setting remote {ui_value('origin')} to {ui_value(origin_url)}")
+  ui_bullets(c("v" = "Setting remote {.val origin} to {.val {origin_url}}."))
   use_git_remote("origin", origin_url)
 
   if (is_package()) {
@@ -171,8 +172,7 @@ use_github <- function(organisation = NULL,
   repo <- git_repo()
   gbl <- gert::git_branch_list(local = TRUE, repo = repo)
   if (nrow(gbl) > 1) {
-    ui_done("
-      Setting {ui_value(default_branch)} as default branch on GitHub")
+    ui_bullets(c("v" = "Setting {.val {default_branch}} as default branch on GitHub."))
     gh::gh(
       "PATCH /repos/{owner}/{repo}",
       owner = owner, repo = repo_name,
@@ -258,11 +258,12 @@ has_github_links <- function() {
 check_no_origin <- function() {
   remotes <- git_remotes()
   if ("origin" %in% names(remotes)) {
-    ui_stop("
-      This repo already has an {ui_value('origin')} remote, \\
-      with value {ui_value(remotes[['origin']])}.
-      You can remove this setting with:
-      {ui_code('usethis::use_git_remote(\"origin\", url = NULL, overwrite = TRUE)')}")
+    ui_abort(c(
+      "x" = "This repo already has an {.val origin} remote, with value
+             {.val {remotes[['origin']]}}.",
+      "i" = "You can remove this setting with:",
+      " " = '{.code usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)}'
+    ))
   }
   invisible()
 }
@@ -284,5 +285,5 @@ check_no_github_repo <- function(owner, repo, host) {
   }
   spec <- glue("{owner}/{repo}")
   empirical_host <- parse_github_remotes(repo_info$html_url)$host
-  ui_stop("Repo {ui_value(spec)} already exists on {ui_value(empirical_host)}")
+  ui_abort("Repo {.val {spec}} already exists on {.val {empirical_host}}.")
 }
