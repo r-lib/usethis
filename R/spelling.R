@@ -24,5 +24,5 @@ use_spell_check <- function(vignettes = TRUE,
   spelling::spell_check_setup(
     pkg = proj_get(), vignettes = vignettes, lang = lang, error = error
   )
-  ui_bullets(c("_" = "Run {.run devtools::check()} to trigger spell check."))
+  ui_bullets(c("_" = "Run {.run devtools::spell_check()} to trigger spell check."))
 }
