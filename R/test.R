@@ -28,7 +28,11 @@ use_testthat <- function(edition = NULL, parallel = FALSE) {
 }
 
 use_testthat_impl <- function(edition = NULL, parallel = FALSE) {
-  check_installed("testthat", version = "2.1.0")
+  check_installed("testthat")
+  if (utils::packageVersion("testthat") < "2.1.0") {
+    ui_abort("
+      {.pkg testthat} 2.1.0 or greater needed. Please install before re-trying")
+  }
 
   if (is_package()) {
     edition <- check_edition(edition)

@@ -85,8 +85,7 @@ create_tidy_package <- function(path, copyright_holder = NULL) {
 
   use_cran_comments(open = FALSE)
 
-  ui_bullets(c(
-    "i" = "In the new package, remember to do:"))
+  ui_bullets(c("i" = "In the new package, remember to do:"))
   ui_code_snippet("
     usethis::use_git()
     usethis::use_github()

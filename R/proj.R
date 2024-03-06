@@ -214,8 +214,7 @@ check_is_package <- function(whos_asking = NULL) {
 
   message <- "Project {.val {project_name()}} is not an R package."
   if (!is.null(whos_asking)) {
-    # remove brackets, so that it is recognized as a help link
-    whos_asking_fn <- sub("\\(\\)", "", whos_asking)
+    whos_asking_fn <- sub("()", "", whos_asking, fixed = TRUE)
     message <- c(
       "i" = "{.topic [{whos_asking}](usethis::{whos_asking_fn})} is designed to work with packages.",
       "x" = message

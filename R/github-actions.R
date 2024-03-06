@@ -250,7 +250,7 @@ check_uses_github_actions <- function() {
 
   ui_abort(c(
     "Cannot detect that package {.pkg {project_name()}} already uses GitHub Actions.",
-    "Do you need to run {.run (use_github_action())[usethis::use_github_action()]}?"
+    "Do you need to run {.run [use_github_action()](usethis::use_github_action())}?"
   ))
 }
 
