@@ -224,7 +224,7 @@ pr_init <- function(branch) {
   config_key <- glue("branch.{branch}.created-by")
   gert::git_config_set(config_key, value = "usethis::pr_init", repo = repo)
 
-  ui_bullets(c("_" = "Use {.run usethis::pr_push} to create a PR."))
+  ui_bullets(c("_" = "Use {.fun usethis::pr_push} to create a PR."))
   invisible()
 }
 
