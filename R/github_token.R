@@ -199,7 +199,7 @@ pat_sitrep <- function(host = "https://github.com",
     git_user_check(user)
     if (!is.null(user$email) && !any(grepl(user$email, addresses))) {
       ui_bullets(c(
-        "x" = "Git user's email (.val {user$email}}) doesn't appear to be
+        "x" = "Git user's email ({.val {user$email}}) doesn't appear to be
                registered with GitHub host."
       ))
     }
