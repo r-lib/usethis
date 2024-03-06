@@ -251,10 +251,9 @@ pr_resume <- function(branch = NULL) {
   check_string(branch)
 
   if (!gert::git_branch_exists(branch, local = TRUE, repo = repo)) {
-    code <- glue('pr_init("{branch}")')
     ui_abort(c(
       "x" = "No branch named {.val {branch}} exists.",
-      "_" = "Call {.code {code}} to create a new PR branch."
+      "_" = "Call {.run usethis::pr_init('{branch}')} to create a new PR branch."
     ))
   }
 
@@ -264,7 +263,7 @@ pr_resume <- function(branch = NULL) {
   gert::git_branch_checkout(branch, repo = repo)
   git_pull()
 
-  ui_bullets(c("_" = "Use {.fun usethis::pr_push} to create or update PR."))
+  ui_bullets(c("_" = "Use {.run usethis::pr_push()} to create or update PR."))
   invisible()
 }
 
@@ -302,7 +301,7 @@ pr_fetch <- function(number = NULL, target = c("source", "primary")) {
 
   if (is.na(pr$pr_repo_owner)) {
     ui_abort("
-      The repo or branch where PR #{pr$pr_number} originates seems to have been
+      The repo or branch where {.href [PR #{pr$pr_number}]({pr$pr_https_url})} originates seems to have been
       deleted.")
   }
 
@@ -1001,8 +1000,9 @@ check_pr_branch <- function(default_branch = git_default_branch()) {
       "i" = "The {.code pr_*()} functions facilitate pull requests.",
       "i" = "The current branch ({.val {gb}}) is this repo's default branch, but
              pull requests should NOT come from the default branch.",
-      "i" = "Do you need to call {.fun pr_init} (new PR)? Or {.fun pr_resume} or
-             {.fun pr_fetch} (existing PR)?"
+      "i" = "Do you need to call {.fun usethis::pr_init} (new PR)?
+             Or {.fun usethis::pr_resume} or
+             {.fun usethis::pr_fetch} (existing PR)?"
     )
   )
 }

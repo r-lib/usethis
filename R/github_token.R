@@ -233,7 +233,7 @@ scold_for_renviron <- function() {
            old, invalid PAT defined in {.path {pth(renviron_path)}}.",
     "i" = "For most use cases, it is better to NOT define the PAT in
            {.file .Renviron}.",
-    "_" = "Call {.fun edit_r_environ} to edit that file.",
+    "_" = "Call {.run usethis::edit_r_environ()} to edit that file.",
     "_" = "Then call {.run gitcreds::gitcreds_set()} to put the PAT into
            the Git credential store."
   ))

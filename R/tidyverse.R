@@ -86,14 +86,15 @@ create_tidy_package <- function(path, copyright_holder = NULL) {
   use_cran_comments(open = FALSE)
 
   ui_bullets(c(
-    "i" = "In the new package, remember to do:",
-    "_" = "{.run usethis::use_git()}",
-    "_" = "{.run usethis::use_github()}",
-    "_" = "{.run usethis::use_tidy_github()}",
-    "_" = "{.run usethis::use_tidy_github_actions()}",
-    "_" = "{.run usethis::use_tidy_github_labels()}",
-    "_" = "{.run usethis::use_pkgdown_github_pages()}"
-  ))
+    "i" = "In the new package, remember to do:"))
+  ui_code_snippet("
+    usethis::use_git()
+    usethis::use_github()
+    usethis::use_tidy_github()
+    usethis::use_tidy_github_actions()
+    usethis::use_tidy_github_labels()
+    usethis::use_pkgdown_github_pages()
+  ")
 
   proj_activate(path)
 }

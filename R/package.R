@@ -180,7 +180,7 @@ suggests_usage_hint <- function(package) {
     ui_bullets(c("_" = "Then directly refer to functions with {.code {code}}."))
   } else {
     code <- glue('requireNamespace("{package}", quietly = TRUE)')
-    ui_bullets(c("_" = "Use {.code {code}} to test if package is installed."))
+    ui_bullets(c("_" = "Use {.code {code}} to test if {.pkg {package}} is installed."))
     code <- glue("{package}::fun()")
     ui_bullets(c("_" = "Then directly refer to functions with {.code {code}}."))
   }
