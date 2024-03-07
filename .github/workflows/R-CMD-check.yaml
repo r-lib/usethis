@@ -54,7 +54,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck, magick=?ignore-before-r=4.0.0
           needs: check
 
       - name: Configure Git User
@@ -66,5 +66,6 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         env:
           _R_CALLS_INVALID_NUMERIC_VERSION_: true
+          _R_CHECK_FORCE_SUGGESTS_: false
         with:
           upload-snapshots: true
