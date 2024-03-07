@@ -302,7 +302,7 @@ pr_fetch <- function(number = NULL, target = c("source", "primary")) {
 
   if (is.na(pr$pr_repo_owner)) {
     ui_abort("
-      The repo or branch where {.href [PR #{pr$pr_number}]({pr$pr_https_url})} originates seems to have been
+      The repo or branch where {.href [PR #{pr$pr_number}]({pr$pr_html_url})} originates seems to have been
       deleted.")
   }
 
@@ -916,18 +916,18 @@ choose_pr <- function(tr = NULL, pr_dat = NULL) {
 
   some_closed <- any(pr_dat$pr_state == "closed")
   pr_pretty <- purrr::pmap_chr(
-    pr_dat[c("pr_number", "pr_user", "pr_state", "pr_title")],
-    function(pr_number, pr_user, pr_state, pr_title) {
-      hash_number <- glue("#{pr_number}")
+    pr_dat[c("pr_number", "pr_html_url", "pr_user", "pr_state", "pr_title")],
+    function(pr_number, pr_html_url, pr_user, pr_state, pr_title) {
+      href_number <- ui_pre_glue("{.href [PR #<<pr_number>>](<<pr_html_url>>)}")
       at_user <- glue("@{pr_user}")
       if (some_closed) {
         template <- ui_pre_glue(
-          "{hash_number} ({.field <<at_user>>}, {pr_state}): {.val <<pr_title>>}"
+          "<<href_number>> ({.field <<at_user>>}, {pr_state}): {.val <<pr_title>>}"
         )
         cli::format_inline(template)
       } else {
         template <- ui_pre_glue(
-          "{hash_number} ({.field <<at_user>>}): {.val <<pr_title>>}"
+          "<<href_number>> ({.field <<at_user>>}): {.val <<pr_title>>}"
         )
         cli::format_inline(template)
       }
