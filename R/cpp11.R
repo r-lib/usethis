@@ -9,8 +9,8 @@
 #'
 #' @export
 use_cpp11 <- function() {
-  check_installed("cpp11")
   check_is_package("use_cpp11()")
+  check_installed("cpp11")
   check_uses_roxygen("use_cpp11()")
   use_src()
 

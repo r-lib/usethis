@@ -47,7 +47,7 @@
       use_package("withr", "Suggests")
     Message
       v Adding withr to 'Suggests' field in DESCRIPTION.
-      [ ] Use `requireNamespace("withr", quietly = TRUE)` to test if package is
+      [ ] Use `requireNamespace("withr", quietly = TRUE)` to test if withr is
         installed.
       [ ] Then directly refer to functions with `withr::fun()`.
 
