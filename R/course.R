@@ -529,10 +529,14 @@ top_directory <- function(filenames) {
   in_top <- path_dir(filenames) == "."
   unique_top <- unique(filenames[in_top])
   is_directory <- grepl("/$", unique_top)
-  if (length(unique_top) > 1 || !is_directory) {
-    NA_character_
+  if(length(unique(path_dir(filenames)))==1 & length(unique_top) == 0){
+    unique_top <- unique(path_dir(filenames))
   } else {
-    unique_top
+    if (length(unique_top) > 1 || !is_directory) {
+      NA_character_
+    } else {
+      unique_top
+    }
   }
 }
 
