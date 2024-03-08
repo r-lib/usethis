@@ -27,7 +27,7 @@ uses_git <- function() {
   !is.null(repo)
 }
 
-check_uses_git <- function() {
+check_uses_git <- function(call = caller_env()) {
   if (uses_git()) {
     return(invisible())
   }
@@ -35,7 +35,7 @@ check_uses_git <- function() {
   ui_abort(c(
     "Cannot detect that project is already a Git repository.",
     "Do you need to run {.run usethis::use_git()}?"
-  ))
+    ), call = call)
 }
 
 git_init <- function() {

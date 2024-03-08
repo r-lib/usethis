@@ -139,7 +139,7 @@ usethis_map_cli.default <- function(x, ...) {
   ui_abort(c(
     "x" = "Don't know how to {.fun usethis_map_cli} an object of class
            {.obj_type_friendly {x}}."
-  ))
+  ), call = parent.frame())
 }
 
 #' @export
@@ -233,7 +233,9 @@ ui_yep <- function(x,
     ui_abort(c(
       "User input required, but session is not interactive.",
       "Query: {.val {x}}"
-    ))
+    ),
+    call = .envir
+   )
   }
 
   n_yes <- min(n_yes, length(yes))

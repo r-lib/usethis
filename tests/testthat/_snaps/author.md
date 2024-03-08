@@ -19,7 +19,7 @@
     Code
       use_author("Jennifer", "Bryan", role = "cph")
     Condition
-      Error:
+      Error in `use_author()`:
       x "Jennifer Bryan" already appears in 'Authors@R'.
         Please make the desired change directly in DESCRIPTION or call the desc package directly.
 

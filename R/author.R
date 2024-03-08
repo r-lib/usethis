@@ -80,7 +80,7 @@ use_author <- function(given = NULL, family = NULL, ..., role = "ctb") {
 
 }
 
-challenge_legacy_author_fields <- function(d = proj_desc()) {
+challenge_legacy_author_fields <- function(d = proj_desc(), .envir = parent.frame()) {
   has_legacy_field <- d$has_fields("Author") || d$has_fields("Maintainer")
   if (!has_legacy_field) {
     return(invisible())
@@ -95,13 +95,13 @@ challenge_legacy_author_fields <- function(d = proj_desc()) {
     "_" = "Convert to {.field Authors@R} with
            {.fun desc::desc_coerce_authors_at_r}, then delete the legacy fields."
   ))
-  if (ui_yep("Do you want to cancel this operation and sort that out first?")) {
+  if (ui_yep("Do you want to cancel this operation and sort that out first?", .envir = .envir)) {
     ui_abort("Cancelling.")
   }
   invisible()
 }
 
-check_author_is_novel <- function(given = NULL, family = NULL, d = proj_desc()) {
+check_author_is_novel <- function(given = NULL, family = NULL, d = proj_desc(), call = caller_env()) {
   authors <- d$get_authors()
   authors_given <- purrr::map(authors, "given")
   authors_family <- purrr::map(authors, "family")
@@ -114,7 +114,9 @@ check_author_is_novel <- function(given = NULL, family = NULL, d = proj_desc()) 
       "x" = "{.val {aut_name}} already appears in {.field Authors@R}.",
       " " = "Please make the desired change directly in DESCRIPTION or call the
              {.pkg desc} package directly."
-    ))
+      ),
+      call = call
+    )
   }
   invisible()
 }

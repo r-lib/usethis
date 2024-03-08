@@ -68,7 +68,7 @@ parse_github_remotes <- function(x) {
   dat[c("name", "url", "host", "repo_owner", "repo_name", "protocol")]
 }
 
-parse_repo_url <- function(x) {
+parse_repo_url <- function(x, call = caller_env()) {
   check_name(x)
   dat <- re_match(x, github_remote_regex)
   if (is.na(dat$.match)) {
@@ -77,7 +77,10 @@ parse_repo_url <- function(x) {
     dat <- parse_github_remotes(x)
     # TODO: generalize here for GHE hosts that don't include 'github'
     if (!grepl("github", dat$host)) {
-      ui_abort("URL doesn't seem to be associated with GitHub: {.val {x}}")
+      ui_abort(
+        "URL doesn't seem to be associated with GitHub: {.val {x}}",
+        call = call
+      )
     }
     list(
       repo_spec = make_spec(owner = dat$repo_owner, repo = dat$repo_name),
@@ -162,7 +165,8 @@ github_remote_list <- function(these = c("origin", "upstream"), x = NULL) {
 #' @noRd
 github_remotes <- function(these = c("origin", "upstream"),
                            github_get = NA,
-                           x = NULL) {
+                           x = NULL,
+                           call = caller_env()) {
   grl <- github_remote_list(these = these, x = x)
   get_gh_repo <- function(repo_owner, repo_name,
                           api_url = "https://api.github.com") {
@@ -194,7 +198,9 @@ github_remotes <- function(these = c("origin", "upstream"),
       "Otherwise, you probably need to configure a personal access token (PAT)
        for {.val {oops_hosts}}.",
       "See {.run usethis::gh_token_help()} for advice."
-    ))
+      ),
+      call = call
+    )
   }
 
   grl$default_branch <- map_chr(repo_info, "default_branch", .default = NA)
@@ -331,17 +337,19 @@ github_remote_config <- function(github_get = NA) {
       ui_abort(c(
         "Internal error: Multiple GitHub hosts.",
         "{.val {grl$host}}"
-      ))
+      ), call = parent.frame())
     }
     if (length(unique(grl$github_got)) != 1) {
       ui_abort(c(
         "Internal error: Got GitHub API info for some remotes, but not all.",
         "Do all the remotes still exist? Do you still have access?"
-      ))
+      ), call = parent.frame())
     }
     if (length(unique(grl$perm_known)) != 1) {
-      ui_abort("
-        Internal error: Know GitHub permissions for some remotes, but not all.")
+      ui_abort(
+        "Internal error: Know GitHub permissions for some remotes, but not all.",
+        call = parent.frame()
+      )
     }
   }
   cfg$host_url <- unique(grl$host_url)
@@ -468,15 +476,16 @@ target_repo <- function(cfg = NULL,
                         github_get = NA,
                         role = c("source", "primary"),
                         ask = is_interactive(),
-                        ok_configs = c("ours", "fork", "theirs")) {
+                        ok_configs = c("ours", "fork", "theirs"),
+                        call = caller_env()) {
   cfg <- cfg %||% github_remote_config(github_get = github_get)
   stopifnot(inherits(cfg, "github_remote_config"))
   role <- match.arg(role)
 
-  check_for_bad_config(cfg)
+  check_for_bad_config(cfg, call = call)
 
   if (isTRUE(github_get)) {
-    check_for_config(cfg, ok_configs = ok_configs)
+    check_for_config(cfg, ok_configs = ok_configs, call = call)
   }
 
   # upstream only
@@ -508,8 +517,9 @@ target_repo <- function(cfg = NULL,
 }
 
 target_repo_spec <- function(role = c("source", "primary"),
-                             ask = is_interactive()) {
-  tr <- target_repo(role = match.arg(role), ask = ask)
+                             ask = is_interactive(),
+                             call = caller_env()) {
+  tr <- target_repo(role = match.arg(role), ask = ask, call = call)
   tr$repo_spec
 }
 
@@ -600,15 +610,16 @@ ui_github_remote_config_wat <- function(cfg) {
   )
 }
 
-stop_bad_github_remote_config <- function(cfg) {
+stop_bad_github_remote_config <- function(cfg, call = caller_env()) {
   ui_abort(
     github_remote_config_wat(cfg, context = "abort"),
     class = "usethis_error_bad_github_remote_config",
-    cfg = cfg
+    cfg = cfg,
+    call = call
   )
 }
 
-stop_maybe_github_remote_config <- function(cfg) {
+stop_maybe_github_remote_config <- function(cfg, call = caller_env()) {
   msg <- c(
     ui_pre_glue("
       Pull request functions can't work with GitHub remote configuration:
@@ -623,7 +634,8 @@ stop_maybe_github_remote_config <- function(cfg) {
   ui_abort(
     message = unlist(msg),
     class = "usethis_error_invalid_pr_config",
-    cfg = cfg
+    cfg = cfg,
+    call = call
   )
 }
 
@@ -633,23 +645,25 @@ check_for_bad_config <- function(cfg,
                                    "fork_upstream_is_not_origin_parent",
                                    "fork_cannot_push_origin",
                                    "upstream_but_origin_is_not_fork"
-                                 )) {
+                                 ),
+                                 call = caller_env()) {
   if (cfg$type %in% bad_configs) {
-    stop_bad_github_remote_config(cfg)
+    stop_bad_github_remote_config(cfg, call = call)
   }
   invisible()
 }
 
-check_for_maybe_config <- function(cfg) {
+check_for_maybe_config <- function(cfg, call = caller_env()) {
   maybe_configs <- grep("^maybe_", all_configs(), value = TRUE)
   if (cfg$type %in% maybe_configs) {
-    stop_maybe_github_remote_config(cfg)
+    stop_maybe_github_remote_config(cfg, call = call)
   }
   invisible()
 }
 
 check_for_config <- function(cfg = NULL,
-                             ok_configs = c("ours", "fork", "theirs")) {
+                             ok_configs = c("ours", "fork", "theirs"),
+                             call = caller_env()) {
   cfg <- cfg %||% github_remote_config(github_get = TRUE)
   stopifnot(inherits(cfg, "github_remote_config"))
 
@@ -657,25 +671,27 @@ check_for_config <- function(cfg = NULL,
     return(invisible(cfg))
   }
 
-  check_for_maybe_config(cfg)
+  check_for_maybe_config(cfg, call = call)
 
   bad_configs <- grep("^maybe_", all_configs(), invert = TRUE, value = TRUE)
   bad_configs <- setdiff(bad_configs, ok_configs)
 
-  check_for_bad_config(cfg, bad_configs = bad_configs)
+  check_for_bad_config(cfg, bad_configs = bad_configs, call = call)
 
-  ui_abort("
-    Internal error: Unexpected GitHub remote configuration: {.val {cfg$type}}.")
+  ui_abort(
+    "Internal error: Unexpected GitHub remote configuration: {.val {cfg$type}}.",
+    call = call
+  )
 }
 
 check_can_push <- function(tr = target_repo(github_get = TRUE),
-                           objective = "for this operation") {
+                           objective = "for this operation", call = caller_env()) {
   if (isTRUE(tr$can_push)) {
     return(invisible())
   }
   ui_abort("
     You don't seem to have push access for {.val {tr$repo_spec}}, which
-    is required {objective}.")
+    is required {objective}.", call = call)
 }
 
 # github remote configurations -------------------------------------------------
