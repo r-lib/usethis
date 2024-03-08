@@ -1,3 +1,12 @@
+# check_is_package() can reveal who's asking
+
+    Code
+      check_is_package("foo()")
+    Condition
+      Error in `check_is_package()`:
+      i foo() (`?usethis::foo`) is designed to work with packages.
+      x Project "{TESTPROJ}" is not an R package.
+
 # proj_path() errors with absolute paths
 
     Code

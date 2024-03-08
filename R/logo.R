@@ -48,7 +48,15 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
     height <- round(height / 2)
   }
 
-  ui_bullets(c("_" = "Add logo to your README with the following html:"))
+  # Have a clickable hyperlink to jump to README if exists.
+  readme_path <- find_readme()
+  if (is.null(readme_path)) {
+    readme_show <- "your README"
+  } else {
+    readme_show <- cli::format_inline("{.path {pth(readme_path)}}")
+  }
+
+  ui_bullets(c("_" = "Add logo to {readme_show} with the following html:"))
   pd_link <- pkgdown_url(pedantic = TRUE)
   if (is.null(pd_link)) {
     ui_code_snippet(

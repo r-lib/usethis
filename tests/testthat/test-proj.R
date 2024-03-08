@@ -36,7 +36,11 @@ test_that("check_is_package() errors for non-package", {
 
 test_that("check_is_package() can reveal who's asking", {
   create_local_project()
-  expect_usethis_error(check_is_package("foo"), "foo")
+  expect_snapshot(
+    error = TRUE,
+    check_is_package("foo()"),
+    transform = scrub_testproj
+  )
 })
 
 test_that("proj_path() appends to the project path", {

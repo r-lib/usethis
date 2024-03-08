@@ -61,8 +61,8 @@ library(usethis)
 # Create a new package -------------------------------------------------
 path <- file.path(tempdir(), "mypkg")
 create_package(path)
-#> ✔ Creating '/tmp/Rtmp7yJh5e/mypkg/'.
-#> ✔ Setting active project to "/private/tmp/Rtmp7yJh5e/mypkg".
+#> ✔ Creating '/tmp/RtmpMuqeSm/mypkg/'.
+#> ✔ Setting active project to "/private/tmp/RtmpMuqeSm/mypkg".
 #> ✔ Creating 'R/'.
 #> ✔ Writing 'DESCRIPTION'.
 #> Package: mypkg
@@ -80,8 +80,8 @@ create_package(path)
 #> ✔ Setting active project to "<no active project>".
 # only needed since this session isn't interactive
 proj_activate(path)
-#> ✔ Setting active project to "/private/tmp/Rtmp7yJh5e/mypkg".
-#> ✔ Changing working directory to '/tmp/Rtmp7yJh5e/mypkg/'
+#> ✔ Setting active project to "/private/tmp/RtmpMuqeSm/mypkg".
+#> ✔ Changing working directory to '/tmp/RtmpMuqeSm/mypkg/'
 
 # Modify the description ----------------------------------------------
 use_mit_license("My Name")
@@ -92,7 +92,7 @@ use_mit_license("My Name")
 
 use_package("ggplot2", "Suggests")
 #> ✔ Adding ggplot2 to 'Suggests' field in DESCRIPTION.
-#> ☐ Use `requireNamespace("ggplot2", quietly = TRUE)` to test if package is
+#> ☐ Use `requireNamespace("ggplot2", quietly = TRUE)` to test if ggplot2 is
 #>   installed.
 #> ☐ Then directly refer to functions with `ggplot2::fun()`.
 

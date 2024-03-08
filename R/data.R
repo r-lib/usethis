@@ -147,6 +147,6 @@ use_data_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
 
   ui_bullets(c(
     "_" = "Finish writing the data preparation script in {.path {pth(r_path)}}.",
-    "_" = "Use {.code usethis::use_data()} to add prepared data to package."
+    "_" = "Use {.fun usethis::use_data} to add prepared data to package."
   ))
 }

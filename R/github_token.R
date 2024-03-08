@@ -199,7 +199,7 @@ pat_sitrep <- function(host = "https://github.com",
     git_user_check(user)
     if (!is.null(user$email) && !any(grepl(user$email, addresses))) {
       ui_bullets(c(
-        "x" = "Git user's email (.val {user$email}}) doesn't appear to be
+        "x" = "Git user's email ({.val {user$email}}) doesn't appear to be
                registered with GitHub host."
       ))
     }
@@ -233,7 +233,7 @@ scold_for_renviron <- function() {
            old, invalid PAT defined in {.path {pth(renviron_path)}}.",
     "i" = "For most use cases, it is better to NOT define the PAT in
            {.file .Renviron}.",
-    "_" = "Call {.fun edit_r_environ} to edit that file.",
+    "_" = "Call {.run usethis::edit_r_environ()} to edit that file.",
     "_" = "Then call {.run gitcreds::gitcreds_set()} to put the PAT into
            the Git credential store."
   ))
