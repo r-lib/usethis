@@ -154,7 +154,7 @@
     Code
       stop_bad_github_remote_config(cfg)
     Condition
-      Error in `stop_bad_github_remote_config()`:
+      Error:
       x Unsupported GitHub remote configuration: "fork_upstream_is_not_origin_parent"
       * Host = "https://github.com"
       * origin = "jennybc/gh" (can push) = fork of "r-lib/gh"
@@ -168,7 +168,7 @@
     Code
       stop_bad_github_remote_config(new_fork_upstream_is_not_origin_parent())
     Condition
-      Error in `stop_bad_github_remote_config()`:
+      Error:
       x Unsupported GitHub remote configuration: "fork_upstream_is_not_origin_parent"
       * Host = "https://github.com"
       * origin = "CONTRIBUTOR/REPO" (can push) = fork of "NEW_OWNER/REPO"
@@ -182,7 +182,7 @@
     Code
       stop_maybe_github_remote_config(new_maybe_fork())
     Condition
-      Error in `stop_maybe_github_remote_config()`:
+      Error:
       x Pull request functions can't work with GitHub remote configuration: "maybe_fork".
       i The most likely problem is that we aren't discovering your GitHub personal access token.
       * Host = "https://github.com"

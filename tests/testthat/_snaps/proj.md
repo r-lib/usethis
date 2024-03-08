@@ -3,7 +3,7 @@
     Code
       check_is_package("foo()")
     Condition
-      Error in `check_is_package()`:
+      Error:
       i foo() (`?usethis::foo`) is designed to work with packages.
       x Project "{TESTPROJ}" is not an R package.
 
@@ -12,7 +12,7 @@
     Code
       proj_path(c("/a", "b", "/c"))
     Condition
-      Error in `proj_path()`:
+      Error:
       x Paths must be relative to the active project, not absolute.
 
 ---
@@ -20,7 +20,7 @@
     Code
       proj_path("/a", "b", "/c")
     Condition
-      Error in `proj_path()`:
+      Error:
       x Paths must be relative to the active project, not absolute.
 
 ---
@@ -28,6 +28,6 @@
     Code
       proj_path("/a", c("b", "/c"))
     Condition
-      Error in `proj_path()`:
+      Error:
       x Paths must be relative to the active project, not absolute.
 

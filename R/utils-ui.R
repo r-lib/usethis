@@ -205,7 +205,7 @@ ui_special <- function(x = "unset") {
 }
 
 # errors -----------------------------------------------------------------------
-ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
+ui_abort <- function(message, ..., class = NULL, .envir = parent.frame(), call = NULL) {
   cli::cli_div(theme = usethis_theme())
 
   nms <- names2(message)
@@ -218,6 +218,7 @@ ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
     message,
     class = c(class, "usethis_error"),
     .envir = .envir,
+    call = call,
     ...
   )
 }

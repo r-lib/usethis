@@ -10,7 +10,7 @@
       [ ] Convert to 'Authors@R' with `desc::desc_coerce_authors_at_r()`, then delete
         the legacy fields.
     Condition
-      Error in `ui_yep()`:
+      Error:
       x User input required, but session is not interactive.
       i Query: "Do you want to cancel this operation and sort that out first?"
 
@@ -19,7 +19,7 @@
     Code
       use_author("Jennifer", "Bryan", role = "cph")
     Condition
-      Error in `check_author_is_novel()`:
+      Error:
       x "Jennifer Bryan" already appears in 'Authors@R'.
         Please make the desired change directly in DESCRIPTION or call the desc package directly.
 
