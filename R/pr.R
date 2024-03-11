@@ -867,16 +867,17 @@ choose_branch <- function(exclude = character()) {
     )
     prompt <- glue("{prompt}\n{fine_print}")
   }
-  dat$pretty_user <- glue_data(dat, "@{pr_user}")
   dat$pretty_name <- format(dat$name, justify = "right")
   dat_pretty <- purrr::pmap_chr(
-    dat[c("pretty_name", "pr_number", "pretty_user", "pr_title")],
-    function(pretty_name, pr_number, pretty_user, pr_title) {
+    dat[c("pretty_name", "pr_number", "pr_html_url", "pr_user", "pr_title")],
+    function(pretty_name, pr_number, pr_html_url, pr_user, pr_title) {
       if (is.na(pr_number)) {
         pretty_name
       } else {
+        href_number <- ui_pre_glue("{.href [PR #<<pr_number>>](<<pr_html_url>>)}")
+        at_user <- glue("@{pr_user}")
         template <- ui_pre_glue(
-          "{pretty_name} {cli::symbol$arrow_right} #{pr_number} ({.field <<pretty_user>>}): {pr_title}"
+          "{pretty_name} {cli::symbol$arrow_right} <<href_number>> ({.field <<at_user>>}): {.val <<pr_title>>}"
         )
         cli::format_inline(template)
       }
