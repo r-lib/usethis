@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_test_helper()` is a new function to create testthat helpers (@olivroy, #1822).
+
 * The `ui_*()` functions have been marked as
   [superseded](https://lifecycle.r-lib.org/articles/stages.html#superseded).
   External users of these functions are encouraged to use the

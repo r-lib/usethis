@@ -70,6 +70,33 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
   invisible(TRUE)
 }
 
+#' @rdname use_r
+#' @export
+#' @param scope if global, creates "tests/testthat/helper.R", otherwise creates
+#'   "tests/testthat/helper-{name}.R
+use_test_helper <- function(name = NULL, scope = c("global", "file"), open = rlang::is_interactive()) {
+  if (!uses_testthat()) {
+    use_testthat_impl()
+  }
+  scope <- arg_match(scope)
+  if (!is.null(name)) {
+    scope <- "file"
+  }
+  if (scope == "global") {
+    path <- path("tests", "testthat", "helper", ext = "R")
+  } else {
+    path <- path("tests", "testthat", paste0("helper-", compute_name(name)))
+  }
+
+  edit_file(proj_path(path), open = open)
+  ui_bullets(c(
+    i = "Run {.run devtools::load_all()} to load objects from helper files in
+         your environment."
+  )
+  )
+  invisible(TRUE)
+}
+
 # helpers -----------------------------------------------------------------
 
 compute_name <- function(name = NULL, ext = "R", error_call = caller_env()) {

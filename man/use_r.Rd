@@ -3,17 +3,27 @@
 \name{use_r}
 \alias{use_r}
 \alias{use_test}
+\alias{use_test_helper}
 \title{Create or edit R or test files}
 \usage{
 use_r(name = NULL, open = rlang::is_interactive())
 
 use_test(name = NULL, open = rlang::is_interactive())
+
+use_test_helper(
+  name = NULL,
+  scope = c("file", "global"),
+  open = rlang::is_interactive()
+)
 }
 \arguments{
 \item{name}{Either a string giving a file name (without directory) or
 \code{NULL} to take the name from the currently open file in RStudio.}
 
 \item{open}{Whether to open the file for interactive editing.}
+
+\item{scope}{if global, creates "tests/testthat/helper.R", otherwise creates
+"tests/testthat/helper-{name}.R}
 }
 \description{
 This pair of functions makes it easy to create paired R and test files,
