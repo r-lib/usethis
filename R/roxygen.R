@@ -42,7 +42,7 @@ use_roxygen_md <- function(overwrite = FALSE) {
                the conversion process."
       ))
     }
-    ui_bullets(c("v" = "Run {.run devtools::document()} when you're done."))
+    ui_bullets(c("_" = "Run {.run devtools::document()} when you're done."))
 
     return(invisible())
   }
