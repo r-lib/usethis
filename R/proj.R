@@ -207,7 +207,7 @@ is_package <- function(base_path = proj_get()) {
   !is.null(res)
 }
 
-check_is_package <- function(whos_asking = NULL) {
+check_is_package <- function(whos_asking = NULL, call = caller_env()) {
   if (is_package()) {
     return(invisible())
   }
@@ -220,15 +220,16 @@ check_is_package <- function(whos_asking = NULL) {
       "x" = message
     )
   }
-  ui_abort(message)
+  ui_abort(message, call = call)
 }
 
-check_is_project <- function() {
+check_is_project <- function(call = caller_env()) {
   if (!possibly_in_proj()) {
     ui_abort(c(
       "We do not appear to be inside a valid project or package.",
       "Read more in the help for {.help usethis::proj_get}."
-    ))
+    ),
+    call = caller_env())
   }
 }
 

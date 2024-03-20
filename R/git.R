@@ -252,7 +252,9 @@ use_git_remote <- function(name = "origin", url, overwrite = FALSE) {
     ui_abort(c(
       "Remote {.val {name}} already exists.",
       "Use {.code overwrite = TRUE} to edit it anyway."
-    ))
+      ),
+      call = parent.frame()
+    )
   }
 
   if (name %in% names(remotes)) {

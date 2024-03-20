@@ -28,7 +28,7 @@
     Code
       use_posit_cloud_badge("http://posit.cloud/123")
     Condition
-      Error in `use_posit_cloud_badge()`:
+      Error:
       x `usethis::use_posit_cloud_badge()` requires a link to an existing Posit Cloud project of the form "https://posit.cloud/content/<project-id>" or "https://posit.cloud/spaces/<space-id>/content/<project-id>".
 
 ---
@@ -36,7 +36,7 @@
     Code
       use_rscloud_badge("https://rstudio.cloud/content/123")
     Condition
-      Error in `use_posit_cloud_badge()`:
+      Error:
       x `usethis::use_posit_cloud_badge()` requires a link to an existing Posit Cloud project of the form "https://posit.cloud/content/<project-id>" or "https://posit.cloud/spaces/<space-id>/content/<project-id>".
 
 ---
@@ -44,6 +44,6 @@
     Code
       use_rscloud_badge("https://posit.cloud/project/123")
     Condition
-      Error in `use_posit_cloud_badge()`:
+      Error:
       x `usethis::use_posit_cloud_badge()` requires a link to an existing Posit Cloud project of the form "https://posit.cloud/content/<project-id>" or "https://posit.cloud/spaces/<space-id>/content/<project-id>".
 
