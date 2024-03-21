@@ -4,16 +4,20 @@
 \alias{proj_activate}
 \title{Activate a project}
 \usage{
-proj_activate(path)
+proj_activate(path, new_session = TRUE)
 }
 \arguments{
 \item{path}{Project directory}
+
+\item{new_session}{Should open in a new RStudio session? \code{TRUE} by default.
+Only applicable if already within RStudio.}
 }
 \value{
 Single logical value indicating if current session is modified.
 }
 \description{
 Activates a project in usethis, R session, and (if relevant) RStudio senses.
-If you are in RStudio, this will open a new RStudio session. If not, it will
-change the working directory and \link[=proj_set]{active project}.
+If you are in RStudio, this will open a new RStudio session
+or change the active project. If not, it will change the working directory
+and \link[=proj_set]{active project}.
 }
