@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `pr_merge_main()` now offers a new way to resolve merge conflicts (if any). An option was added to resolve merge conflicts without opening all files (@olivroy, #1720).
+
 * The `ui_*()` functions have been marked as
   [superseded](https://lifecycle.r-lib.org/articles/stages.html#superseded).
   External users of these functions are encouraged to use the
