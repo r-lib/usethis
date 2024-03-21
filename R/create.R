@@ -10,6 +10,9 @@
 #' any existing files are changed.
 #'
 #' @inheritParams use_description
+#' @param fields A named list of fields to add to `DESCRIPTION`, potentially
+#'   overriding default values. See [use_description()] for how you can set
+#'   personalized defaults using package options.
 #' @param path A path. If it exists, it is used. If it does not exist, it is
 #'   created, provided that the parent path exists.
 #' @param roxygen Do you plan to use roxygen2 to document your package?
