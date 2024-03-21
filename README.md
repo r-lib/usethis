@@ -5,9 +5,10 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check GitHub Action
+status](https://img.shields.io/github/workflow/status/r-lib/usethis/R-CMD-check?label=R-CMD-check&logo=github)](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/r-lib/usethis/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-lib/usethis?branch=main)
+coverage](https://img.shields.io/codecov/c/github/r-lib/usethis?label=test%20coverage&logo=codecov)](https://app.codecov.io/gh/r-lib/usethis?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/usethis)](https://CRAN.R-project.org/package=usethis)
 [![Lifecycle:
