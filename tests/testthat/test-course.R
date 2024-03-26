@@ -112,7 +112,8 @@ test_that("tidy_unzip() deals with different directory names inside zip file", {
   dest <- tidy_unzip(tmp)
 
   found <- path_file(dest)
-  expected <- unzip(test_file("foo-rename.zip"), list=TRUE)$Name
+  foonames <- unzip(test_file("foo-rename.zip"), list=TRUE)$Name
+  expected <- (unique(dirname(foonames)))
   fs::dir_delete(dest)
 
   expect_identical(found, expected)
