@@ -15,11 +15,15 @@
 #' @export
 use_package_doc <- function(open = rlang::is_interactive()) {
   check_is_package("use_package_doc()")
+  use_directory("R")
   use_template(
     "packagename-package.R",
     package_doc_path(),
     open = open
   )
+  ui_bullets(c(
+    "_" = "Run {.run devtools::document()} to update package-level documentation."
+  ))
 }
 
 package_doc_path <- function() {
