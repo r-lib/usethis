@@ -20,7 +20,7 @@ object with class \code{tbl_df}. Specifically:
 from tibble:
 \itemize{
 \item If possible, the directive is inserted into existing package-level
-documentation, i.e. the roxygen snippet created by  \code{\link[=use_package_doc]{use_package_doc()}}
+documentation, i.e. the roxygen snippet created by \code{\link[=use_package_doc]{use_package_doc()}}
 \item Otherwise, we issue advice on where the user should add the directive
 }
 }

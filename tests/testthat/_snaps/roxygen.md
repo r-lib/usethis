@@ -4,6 +4,7 @@
       use_package_doc()
     Message
       v Writing 'R/{TESTPKG}-package.R'.
+      [ ] Run `devtools::document()` to update package-level documentation.
 
 ---
 
