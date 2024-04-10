@@ -68,7 +68,7 @@ create_github_token <- function(scopes = c("repo", "user", "gist", "workflow"),
 
   hint <- code_hint_with_host("gitcreds::gitcreds_set", host)
   ui_bullets(c(
-    "_" = "Call {.code {hint}} to register this token in the local Git
+    "_" = "Call {.run {hint}} to register this token in the local Git
            credential store.",
     "i" = "It is also a great idea to store this token in any
            password-management software that you use."
@@ -130,14 +130,14 @@ pat_sitrep <- function(host = "https://github.com",
 
   if (!have_pat) {
     kv_line("Personal access token for {.val {host}}", NULL)
-    hint <- code_hint_with_host("create_github_token", host, "host")
+    hint <- code_hint_with_host("usethis::create_github_token", host, "host")
     ui_bullets(c(
-      "_" = "To create a personal access token, call {.code {hint}}."
+      "_" = "To create a personal access token, call {.run {hint}}."
     ))
     hint <- code_hint_with_host("gitcreds::gitcreds_set", host)
     url <- "https://usethis.r-lib.org/articles/articles/git-credentials.html"
     ui_bullets(c(
-      "_" = "To store a token for current and future use, call {.code {hint}}.",
+      "_" = "To store a token for current and future use, call {.run {hint}}.",
       "i" = "Read more in the {.href [Managing Git(Hub) Credentials]({url})} article."
     ))
     return(invisible(FALSE))
