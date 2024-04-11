@@ -160,9 +160,17 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
 
   file <- path_file(path)
   if (dir == "tests/testthat") {
+    if (file == "helper.R") {
+      cli::cli_abort(c(
+        "Can't call {.fn use_r} / {.fn use_test} when active file is \\
+         {.path {pth('tests/testthat/helper.R')}}",
+        i = "Supply {.arg name} or navigate to your  file."
+        ),
+        call = error_call
+      )
+    }
     file <- gsub("^test[-_]", "", file)
     file <- gsub("^helper[-_]", "", file)
-
   }
   as.character(path_ext_set(file, ext))
 }
