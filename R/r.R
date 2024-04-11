@@ -72,28 +72,27 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
 
 #' @rdname use_r
 #' @export
-#' @param scope if global, creates "tests/testthat/helper.R", otherwise creates
-#'   "tests/testthat/helper-{name}.R
-use_test_helper <- function(name = NULL, scope = c("global", "file"), open = rlang::is_interactive()) {
+use_test_helper <- function(name = NULL, open = rlang::is_interactive()) {
   if (!uses_testthat()) {
     use_testthat_impl()
   }
-  scope <- arg_match(scope)
-  if (!is.null(name)) {
-    scope <- "file"
-  }
-  if (scope == "global") {
-    path <- path("tests", "testthat", "helper", ext = "R")
+  if (identical(name, "")) {
+    target_path <- path("tests", "testthat", "helper.R")
+  } else if  (is.null(name)) {
+    # Will not force the creation of new helper-{name}.R file if helper exists
+    # when name is not provided explicitly
+    path_specific <- path("tests", "testthat", paste0("helper-", compute_name(name)))
+    path_generic <- path("tests", "testthat", "helper.R")
+    target_path <- path_first_existing(path_specific) %||% path_generic
   } else {
-    path <- path("tests", "testthat", paste0("helper-", compute_name(name)))
+    target_path <- path("tests", "testthat", paste0("helper-", compute_name(name)))
   }
 
-  edit_file(proj_path(path), open = open)
+  edit_file(proj_path(target_path), open = open)
   ui_bullets(c(
-    i = "Run {.run devtools::load_all()} to load objects from helper files in
+    "_" = "Run {.run devtools::load_all()} to load objects from helper files in
          your environment."
-  )
-  )
+  ))
   invisible(TRUE)
 }
 
