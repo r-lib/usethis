@@ -13,6 +13,9 @@
   usethis no longer uses the `ui_*()` functions internally, in favor of new
   cli-based helpers that are not exported.
 
+* `usethis::use_version()` now tolerates empty / blank lines preceding the
+  first section title in the package NEWS file. (#1976)
+
 # usethis 2.2.3
 
 * Patch release with changes to `.Rd` files requested by CRAN.
