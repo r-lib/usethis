@@ -7,6 +7,14 @@
 #' to create (or navigate to) the paired file based on the currently open
 #' script.
 #'
+#' @section Test helper files:
+#'
+#' Test helper files are functions loaded with `devtools::load_all()` that are
+#' helpful to run tests. helper functions related to `R/foofy.R` can live
+#' in `tests/testthat/helper.R` or `tests/testthat/helper-foofy.R`, but you will
+#' have to supply `name` explicitly to do so.
+#' Use `use_test_helper("")`
+#'
 #' @section Renaming files in an existing package:
 #'
 #' Here are some tips on aligning file names across `R/` and `tests/testthat/`
@@ -41,9 +49,13 @@
 #' @param name Either a string giving a file name (without directory) or
 #'   `NULL` to take the name from the currently open file in RStudio.
 #' @inheritParams edit_file
-#' @seealso The [testing](https://r-pkgs.org/testing-basics.html) and
+#' @seealso
+#' * The [testing](https://r-pkgs.org/testing-basics.html) and
 #'   [R code](https://r-pkgs.org/code.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
+#' * The testthat vignette on special files
+#' `vignette("special-files", package = "testthat")`.
+#'
 #' @export
 use_r <- function(name = NULL, open = rlang::is_interactive()) {
   use_directory("R")

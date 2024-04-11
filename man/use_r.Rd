@@ -10,20 +10,13 @@ use_r(name = NULL, open = rlang::is_interactive())
 
 use_test(name = NULL, open = rlang::is_interactive())
 
-use_test_helper(
-  name = NULL,
-  scope = c("file", "global"),
-  open = rlang::is_interactive()
-)
+use_test_helper(name = NULL, open = rlang::is_interactive())
 }
 \arguments{
 \item{name}{Either a string giving a file name (without directory) or
 \code{NULL} to take the name from the currently open file in RStudio.}
 
 \item{open}{Whether to open the file for interactive editing.}
-
-\item{scope}{if global, creates "tests/testthat/helper.R", otherwise creates
-"tests/testthat/helper-{name}.R}
 }
 \description{
 This pair of functions makes it easy to create paired R and test files,
@@ -33,6 +26,16 @@ from scratch by supplying \code{name}, or if you use RStudio, you can call
 to create (or navigate to) the paired file based on the currently open
 script.
 }
+\section{Test helper files}{
+
+
+Test helper files are functions loaded with \code{devtools::load_all()} that are
+helpful to run tests. helper functions related to \code{R/foofy.R} can live
+in \code{tests/testthat/helper.R} or \code{tests/testthat/helper-foofy.R}, but you will
+have to supply \code{name} explicitly to do so.
+Use \code{use_test_helper("")}
+}
+
 \section{Renaming files in an existing package}{
 
 
@@ -66,7 +69,11 @@ The \code{\link[=rename_files]{rename_files()}} function can also be helpful.
 }
 
 \seealso{
-The \href{https://r-pkgs.org/testing-basics.html}{testing} and
+\itemize{
+\item The \href{https://r-pkgs.org/testing-basics.html}{testing} and
 \href{https://r-pkgs.org/code.html}{R code} chapters of
 \href{https://r-pkgs.org}{R Packages}.
+\item The testthat vignette on special files
+\code{vignette("special-files", package = "testthat")}.
+}
 }
