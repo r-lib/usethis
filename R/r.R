@@ -150,6 +150,8 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
   file <- path_file(path)
   if (dir == "tests/testthat") {
     file <- gsub("^test[-_]", "", file)
+    file <- gsub("^helper[-_]", "", file)
+
   }
   as.character(path_ext_set(file, ext))
 }
