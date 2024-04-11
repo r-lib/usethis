@@ -1,5 +1,9 @@
 # usethis (development version)
 
+* `browse_github_token()`, `browse_github_pat()`, and `github_token()` have been removed after being deprecated in usethis 2.0.0. `create_github_token()`, `gh::gh_token()`, and `gh_token_help()` should be used instead.
+
+* `pr_pull_upstream()` and `pr_sync()` have been removed after being deprecated in usethis 2.0.0. `pr_merge_main()` and `pr_push()` should be used instead.
+
 * The `ui_*()` functions have been marked as
   [superseded](https://lifecycle.r-lib.org/articles/stages.html#superseded).
   External users of these functions are encouraged to use the
