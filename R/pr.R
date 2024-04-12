@@ -867,23 +867,25 @@ choose_branch <- function(exclude = character()) {
     )
     prompt <- glue("{prompt}\n{fine_print}")
   }
-  dat$pretty_name <- format(dat$name, justify = "right")
+
+  # For alignment
+  dat$leading_spaces <- sub("\\S.*$", "", format(dat$name, justify = "right"))
   dat_pretty <- purrr::pmap_chr(
-    dat[c("pretty_name", "pr_number", "pr_html_url", "pr_user", "pr_title")],
-    function(pretty_name, pr_number, pr_html_url, pr_user, pr_title) {
+    dat[c("leading_spaces", "pr_number", "pr_html_url", "pr_user", "pr_title", "name")],
+    function(leading_spaces, pr_number, pr_html_url, pr_user, pr_title, name) {
       if (is.na(pr_number)) {
-        pretty_name
+        cli::format_inline("{leading_spaces}{.run [{name}](usethis::pr_resume('{name}'))}")
       } else {
         href_number <- ui_pre_glue("{.href [PR #<<pr_number>>](<<pr_html_url>>)}")
         at_user <- glue("@{pr_user}")
         template <- ui_pre_glue(
-          "{pretty_name} {cli::symbol$arrow_right} <<href_number>> ({.field <<at_user>>}): {.val <<pr_title>>}"
+          "{leading_spaces}{.run [{name}](usethis::pr_resume('{name}'))} {cli::symbol$arrow_right} <<href_number>> ({.field <<at_user>>}): {.val <<pr_title>>}"
         )
         cli::format_inline(template)
       }
     }
   )
-  choice <- utils::menu(title = prompt, choices = cli::ansi_strtrim(dat_pretty))
+  choice <- utils::menu(title = prompt, choices = cli::ansi_strtrim(dat_pretty, width = cli::console_width() - 1L))
   dat$name[choice]
 }
 
@@ -936,7 +938,7 @@ choose_pr <- function(tr = NULL, pr_dat = NULL) {
   )
   choice <- utils::menu(
     title = prompt,
-    choices = cli::ansi_strtrim(pr_pretty)
+    choices = cli::ansi_strtrim(pr_pretty, width = cli::console_width() - 1L)
   )
   as.list(pr_dat[choice, ])
 }
