@@ -42,6 +42,9 @@ use_article <- function(name, title = name) {
   check_is_package("use_article()")
 
   deps <- proj_deps()
+  if (!"knitr" %in% deps$package) {
+    proj_desc_field_update("Config/Needs/website", "knitr", append = TRUE)
+  }
   if (!"rmarkdown" %in% deps$package) {
     proj_desc_field_update("Config/Needs/website", "rmarkdown", append = TRUE)
   }

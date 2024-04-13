@@ -50,7 +50,7 @@ test_that("use_article() adds rmarkdown to Config/Needs/website", {
 
   expect_setequal(
     proj_desc()$get_list("Config/Needs/website"),
-    c("rmarkdown", "somepackage")
+    c("knitr", "rmarkdown", "somepackage")
   )
 })
 
