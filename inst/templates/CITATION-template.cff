@@ -1,0 +1,17 @@
+# YAML 1.2
+---
+cff-version: "1.2.0"
+title: ""
+authors:
+  -
+    family-names: 
+    given-names: 
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+date-released: 20??-MM-DD
+doi: <insert your DOI here>
+version: ""
+repository-code: ""
+keywords:
+  - keyword1
+message: "If you use this software, please cite it using these metadata."
+license: 
