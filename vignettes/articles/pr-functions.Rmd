@@ -85,10 +85,10 @@ create_from_github("rladies/praise")
 #> ✓ Forking 'rladies/praise'
 #> ✓ Cloning repo from 'https://github.com/mine-cetinkaya-rundel/praise.git' into '/Users/mine/Desktop/praise'
 #> ✓ Setting active project to '/Users/mine/Desktop/praise'
-#> ℹ Default branch is 'master'
+#> ℹ Default branch is 'main'
 #> ✓ Adding 'upstream' remote: 'https://github.com/rladies/praise.git'
-#> ✓ Pulling in changes from default branch of the source repo 'upstream/master'
-#> ✓ Setting remote tracking branch for local 'master' branch to 'upstream/master'
+#> ✓ Pulling in changes from default branch of the source repo 'upstream/main'
+#> ✓ Setting remote tracking branch for local 'main' branch to 'upstream/main'
 #> ✓ Opening '/Users/mine/Desktop/praise/' in new RStudio session
 #> ✓ Setting active project to '<no active project>'
 ```
@@ -102,7 +102,7 @@ What this does:
     - `origin` remote is set to your praise repo.
   * Does additional Git setup:
     - `upstream` remote is set to the praise repo owned by rladies.
-    - `master` branch is set to track `upstream/master`, so you can pull
+    - `main` branch is set to track `upstream/main`, so you can pull
       upstream changes in the future.
   * Opens a new instance of RStudio in the praise project, if you're working in
     RStudio. Otherwise, switches your current R session to that project.
@@ -117,7 +117,7 @@ Arguments you might like to know about:
 
 ## Branch, then make your change
 
-We start the process of contributing to the package with `pr_init()`, which creates a branch in our repository for the pull request. It is a good idea to make your pull requests from a feature branch, not from the repo's default branch, which is `master` here (another common choice is `main`). We'll call this branch `"formidable"`.
+We start the process of contributing to the package with `pr_init()`, which creates a branch in our repository for the pull request. It is a good idea to make your pull requests from a feature branch, not from the repo's default branch, which is `main` here (another common choice is `master`). We'll call this branch `"formidable"`.
 
 ```{r pr_init, eval=FALSE}
 pr_init(branch = "formidable")
@@ -125,7 +125,7 @@ pr_init(branch = "formidable")
 <div class = "output">
 ```{r eval=FALSE}
 #> ✓ Setting active project to '/Users/mine/Desktop/praise'
-#> ℹ Pulling changes from 'upstream/master'
+#> ℹ Pulling changes from 'upstream/main'
 #> ✓ Creating and switching to local branch 'formidable'
 #> ● Use `pr_push()` to create PR.
 ```
@@ -279,8 +279,8 @@ pr_finish()
 <div class = "output">
 ```{r eval=FALSE}
 #> ✔ Checking that remote branch 'mine-cetinkaya-rundel/formidable' has the changes in 'local/mine-cetinkaya-rundel-formidable'
-#> ✔ Switching back to 'master' branch
-#> ✔ Pulling changes from GitHub source repo 'origin/master'
+#> ✔ Switching back to 'main' branch
+#> ✔ Pulling changes from GitHub source repo 'origin/main'
 #> ✔ Deleting local 'mine-cetinkaya-rundel-formidable' branch
 #> ✔ Removing remote 'mine-cetinkaya-rundel'
 ```
@@ -308,8 +308,8 @@ pr_finish()
 <div class = "output">
 ```{r eval=FALSE}
 #> ✓ Checking that remote branch 'origin/formidable' has the changes in 'formidable'
-#> ✓ Switching back to default branch ('master')
-#> ℹ Pulling changes from 'origin/master'
+#> ✓ Switching back to default branch ('main')
+#> ℹ Pulling changes from 'origin/main'
 #> ✓ Deleting local 'formidable' branch
 ```
 </div>
@@ -320,7 +320,7 @@ Remember you can see how this whole PR unfolded at [rladies/praise#90](https://g
 
 There are a few other functions in the `pr_*()` family that we didn't encounter in this PR scenario:
 
-- `pr_merge_main()` is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you're working in a fork, this does `git pull upstream master`. If you're making a PR from an internal branch, this does `git pull origin master`. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the default branch (usually named `main` or `master`) and, indeed, `pr_pause()` includes this. This makes sure that your copy of the package is up-to-date with the source repo.
+- `pr_merge_main()` is used for getting changes that have occurred in the main line of development while we have been working on this PR. If you're working in a fork, this does `git pull upstream main`. If you're making a PR from an internal branch, this does `git pull origin main`. This can be useful to execute in your PR branch, if there are big changes in the project and your PR has become un-mergeable. This is also useful to execute whenever you return to the default branch (usually named `main` or `master`) and, indeed, `pr_pause()` includes this. This makes sure that your copy of the package is up-to-date with the source repo.
 
 - `pr_pause()` makes sure you're synced with the PR, switches back to the default branch, and calls `pr_merge_main()` to keep you up-to-date with the source repo. This is likely something a package maintainer reviewing numerous PRs will need to use, as they switch back and forth between reviewing/extending PRs and the main line of development on the default branch.
 
