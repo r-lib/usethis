@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   badge-accessibility: badge-accessibility.html
@@ -7,7 +7,7 @@ articles:
   pr-functions: pr-functions.html
   ui-cli-conversion: ui-cli-conversion.html
   usethis-setup: usethis-setup.html
-last_built: 2024-03-20T17:06Z
+last_built: 2024-05-13T17:38Z
 urls:
   reference: https://usethis.r-lib.org/reference
   article: https://usethis.r-lib.org/articles
