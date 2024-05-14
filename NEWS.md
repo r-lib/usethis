@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_test()` and `use_r()` now work when you are in `tests/testthat/helper-{foo}.R` or `tests/testthat/_snaps/{foo}.md` (@olivroy, #1988).
+
 * The `ui_*()` functions have been marked as
   [superseded](https://lifecycle.r-lib.org/articles/stages.html#superseded).
   External users of these functions are encouraged to use the

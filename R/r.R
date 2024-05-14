@@ -116,13 +116,13 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
   path <- proj_path_prep(path_expand_r(path))
 
   dir <- path_dir(proj_rel_path(path))
-  if (!dir %in% c("R", "src", "tests/testthat")) {
+  if (!dir %in% c("R", "src", "tests/testthat", "tests/testthat/_snaps")) {
     cli::cli_abort("Open file must be a code or test file.", call = error_call)
   }
 
   file <- path_file(path)
   if (dir == "tests/testthat") {
-    file <- gsub("^test[-_]", "", file)
+    file <- gsub("^test[-_]|^helper[-_]", "", file)
   }
   as.character(path_ext_set(file, ext))
 }
