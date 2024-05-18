@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* New `use_r_universe_badge()` to indicate which version of your package is available on [R-universe](https://r-universe.dev) (@olivroy, #1883).
+
 * The `ui_*()` functions have been marked as
   [superseded](https://lifecycle.r-lib.org/articles/stages.html#superseded).
   External users of these functions are encouraged to use the
