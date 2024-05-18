@@ -30,7 +30,7 @@
 #' @param stage Stage of the package lifecycle. One of "experimental",
 #'   "stable", "superseded", or "deprecated".
 #' @seealso Functions that configure continuous integration, such as
-#'   [use_github_actions()], also create badges.
+#'   [use_github_action("check-standard")][use_github_action()], also create badges.
 #'
 #' @name badges
 #' @examples

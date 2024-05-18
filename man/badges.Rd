@@ -88,5 +88,5 @@ use_badge(
 }
 \seealso{
 Functions that configure continuous integration, such as
-\code{\link[=use_github_actions]{use_github_actions()}}, also create badges.
+\link[=use_github_action]{use_github_action("check-standard")}, also create badges.
 }
