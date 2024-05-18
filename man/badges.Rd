@@ -63,8 +63,8 @@ ensure your badge block starts with a line containing only
 available on CRAN, powered by \url{https://www.r-pkg.org}
 \item \code{use_lifecycle_badge()}: badge declares the developmental stage of a
 package according to \url{https://lifecycle.r-lib.org/articles/stages.html}.
-\item \code{use_r_universe_badge()}  indicates what version of your package is available
-on R-universe \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}.
+\item \code{use_r_universe_badge()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}: badge
+indicates what version of your package is available on \href{https://r-universe.dev/search/}{R-universe }.
 \item \code{use_binder_badge()}: badge indicates that your repository can be launched
 in an executable environment on \url{https://mybinder.org/}
 \item \code{use_posit_cloud_badge()}: badge indicates that your repository can be launched

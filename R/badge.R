@@ -16,8 +16,9 @@
 #' available on CRAN, powered by <https://www.r-pkg.org>
 #' * `use_lifecycle_badge()`: badge declares the developmental stage of a
 #' package according to <https://lifecycle.r-lib.org/articles/stages.html>.
-#' * `use_r_universe_badge()`  indicates what version of your package is available
-#'   on R-universe `r lifecycle::badge("experimental")`.
+#' * `use_r_universe_badge()`: `r lifecycle::badge("experimental")`: badge
+#' indicates what version of your package is available on [R-universe
+#' ](https://r-universe.dev/search/).
 #' * `use_binder_badge()`: badge indicates that your repository can be launched
 #' in an executable environment on <https://mybinder.org/>
 #' * `use_posit_cloud_badge()`: badge indicates that your repository can be launched
