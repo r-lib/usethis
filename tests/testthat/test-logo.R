@@ -20,8 +20,8 @@ test_that("use_logo() shows a clickable path with README", {
 
 test_that("use_logo() nudges towards adding favicons", {
   skip_if_not_installed("magick")
+  skip_if_not_installed("pkgdown")
   skip_on_os("solaris")
-
   create_local_package()
   use_pkgdown()
   img <- magick::image_write(magick::image_read("logo:"), "logo.png")
