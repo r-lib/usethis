@@ -93,6 +93,7 @@ test_that("use_pkgdown() nudges towards use_logo() if the package seems to have 
 })
 
 test_that("use_pkgdown() nudges towards build_favicons().", {
+  skip_if_not_installed("magick")
   skip_on_os("solaris")
 
   create_local_package()
