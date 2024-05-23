@@ -69,4 +69,11 @@ use_logo <- function(img, geometry = "240x278", retina = TRUE) {
       language = ""
     )
   }
+  if (uses_pkgdown()) {
+    # Rebuild favicons if new logo.
+    ui_bullets(c(
+      "_" = "Call {.run pkgdown::build_favicons(pkg = '.', overwrite = TRUE)}
+             to rebuild favicons."
+    ))
+  }
 }

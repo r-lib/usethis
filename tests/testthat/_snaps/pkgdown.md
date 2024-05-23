@@ -28,3 +28,27 @@
     Output
       NULL
 
+# use_pkgdown() nudges towards use_logo() if the package seems to have a logo
+
+    Code
+      use_pkgdown()
+    Message
+      v Adding "^_pkgdown\\.yml$", "^docs$", and "^pkgdown$" to '.Rbuildignore'.
+      v Adding "docs" to '.gitignore'.
+      [ ] If your package has a logo, see use_logo (`?usethis::use_logo()`) to set it
+        up.
+      v Writing '_pkgdown.yml'.
+      [ ] Edit '_pkgdown.yml'.
+
+# use_pkgdown() nudges towards build_favicons().
+
+    Code
+      use_pkgdown()
+    Message
+      v Adding "^_pkgdown\\.yml$", "^docs$", and "^pkgdown$" to '.Rbuildignore'.
+      v Adding "docs" to '.gitignore'.
+      [ ] Call `pkgdown::build_favicons(pkg = '.', overwrite = FALSE)` to create
+        favicons for your website.
+      v Writing '_pkgdown.yml'.
+      [ ] Edit '_pkgdown.yml'.
+

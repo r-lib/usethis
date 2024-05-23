@@ -17,3 +17,14 @@ test_that("use_logo() shows a clickable path with README", {
   withr::local_options(usethis.quiet = FALSE)
   expect_snapshot(use_logo("logo.png"),  transform = scrub_testpkg)
 })
+
+test_that("use_logo() nudges towards adding favicons", {
+  skip_if_not_installed("magick")
+  skip_on_os("solaris")
+
+  create_local_package()
+  use_pkgdown()
+  img <- magick::image_write(magick::image_read("logo:"), "logo.png")
+  withr::local_options(usethis.quiet = FALSE)
+  expect_snapshot(use_logo("logo.png"),  transform = scrub_testpkg)
+})

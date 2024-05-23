@@ -36,6 +36,20 @@ use_pkgdown <- function(config_file = "_pkgdown.yml", destdir = "docs") {
 
   config <- pkgdown_config(destdir)
   config_path <- proj_path(config_file)
+
+  if (has_logo() && !dir_exists("pkgdown/favicon")) {
+    use_build_ignore("pkgdown")
+    ui_bullets(c(
+      "_" = "Call {.run pkgdown::build_favicons(pkg = '.', overwrite = FALSE)}
+             to create favicons for your website."
+    ))
+  } else if (potentially_has_logo() && !dir_exists("pkgdown/favicon")) {
+    ui_bullets(c(
+      "_" = "If your package has a logo, see \\
+            {.help [use_logo](usethis::use_logo)} to set it up."
+    ))
+  }
+
   write_over(config_path, yaml::as.yaml(config))
   edit_file(config_path)
 
@@ -152,6 +166,21 @@ pkgdown_config_path <- function() {
       )
     )
   )
+}
+
+has_logo <- function() {
+  !is.null(
+    path_first_existing(c("man/figures/logo.png", "man/figures/logo.svg"))
+  )
+}
+
+potentially_has_logo <- function() {
+  images <- dir_ls(
+    type = "file",
+    recurse = TRUE,
+    regexp = "\\.svg|\\.png"
+  )
+  length(images) > 0 && !has_logo()
 }
 
 uses_pkgdown <- function() {

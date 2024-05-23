@@ -77,6 +77,35 @@ test_that("pkgdown_url() returns correct data, warns if pedantic", {
   expect_equal(pkgdown_url(), "https://malcolmbarrett.github.io/tidysmd/")
 })
 
+test_that("use_pkgdown() nudges towards use_logo() if the package seems to have a logo", {
+  skip_if_not_installed("magick")
+  skip_on_os("solaris")
+
+  create_local_package()
+  local_interactive(FALSE)
+  local_check_installed()
+  local_mocked_bindings(pkgdown_version = function() "1.9000")
+
+  img <- magick::image_write(magick::image_read("logo:"), "hex-sticker.svg")
+  withr::local_options("usethis.quiet" = FALSE)
+  expect_snapshot({
+    use_pkgdown()},  transform = scrub_testpkg)
+})
+
+test_that("use_pkgdown() nudges towards build_favicons().", {
+  skip_on_os("solaris")
+
+  create_local_package()
+  local_interactive(FALSE)
+  local_check_installed()
+  local_mocked_bindings(pkgdown_version = function() "1.9000")
+  create_directory("man/figures")
+  img <- magick::image_write(magick::image_read("logo:"), path = "man/figures/logo.svg")
+  withr::local_options("usethis.quiet" = FALSE)
+  expect_snapshot({
+    use_pkgdown()},  transform = scrub_testpkg)
+})
+
 test_that("tidyverse_url() leaves trailing slash alone, almost always", {
   url <- "https://malcolmbarrett.github.io/tidysmd/"
   out <- tidyverse_url(url, tr = list(repo_name = "REPO", repo_owner = "OWNER"))
