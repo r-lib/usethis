@@ -82,6 +82,10 @@ scrub_testpkg <- function(message) {
   gsub("testpkg[a-zA-Z0-9]+", "{TESTPKG}", message, perl = TRUE)
 }
 
+scrub_testproj <- function(message) {
+  gsub("testproj[a-zA-Z0-9]+", "{TESTPROJ}", message, perl = TRUE)
+}
+
 skip_if_not_ci <- function() {
   ci_providers <- c("GITHUB_ACTIONS", "TRAVIS", "APPVEYOR")
   ci <- any(toupper(Sys.getenv(ci_providers)) == "TRUE")
