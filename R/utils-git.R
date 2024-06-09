@@ -211,7 +211,11 @@ challenge_uncommitted_changes <- function(
     if (choice == 1) {
       return(invisible())
     } else {
-      ui_abort("Uncommitted changes. Please commit before continuing.", call = NULL)
+      ui_abort(
+        "Uncommitted changes. Please commit before continuing.",
+        call = caller_env()
+      )
+      return(invisible())
     }
   }
 }
