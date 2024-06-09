@@ -181,7 +181,10 @@ git_uncommitted <- function(untracked = FALSE) {
   nrow(git_status(untracked)) > 0
 }
 
-challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
+challenge_uncommitted_changes <- function(
+    untracked = FALSE,
+    msg = NULL,
+    which = c("push", "pull", "switch", "compare branches")) {
   if (!uses_git()) {
     return(invisible())
   }
@@ -192,7 +195,7 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
 
   default_msg <- "
     There are uncommitted changes, which may cause problems or be lost when \\
-    we push, pull, switch, or compare branches"
+    we {.or {which}}"
   msg <- glue(msg %||% default_msg)
   if (git_uncommitted(untracked = untracked)) {
     if (ui_yep(c(
@@ -201,7 +204,7 @@ challenge_uncommitted_changes <- function(untracked = FALSE, msg = NULL) {
     ))) {
       return(invisible())
     } else {
-      ui_abort("Uncommitted changes. Please commit before continuing.")
+      ui_abort("Uncommitted changes. Please commit before continuing.", call = NULL)
     }
   }
 }
