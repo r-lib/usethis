@@ -254,6 +254,7 @@ pr_resume <- function(branch = NULL) {
     code <- glue('usethis::pr_init("{branch}")')
     ui_abort(c(
       "x" = "No branch named {.val {branch}} exists.",
+      "i" = "See {.run [existing branches](gert::git_branch_list(local = TRUE))} or", 
       "_" = "Call {.run {code}} to create a new PR branch."
     ))
   }
