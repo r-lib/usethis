@@ -58,15 +58,16 @@ check_has_package_doc <- function(whos_asking) {
     return(invisible(TRUE))
   }
 
+  whos_asking_fn <- sub("()", "", whos_asking, fixed = TRUE)
   msg <- c(
-    "!" = "{.fun {whos_asking}} requires package-level documentation.",
+    "!" = "{.fun {whos_asking_fn}} requires package-level documentation.",
     " " = "Would you like to add it now?"
   )
   if (is_interactive() && ui_yep(msg)) {
     use_package_doc()
   } else {
     ui_abort(c(
-      "{.fun {whos_asking}} requires package-level documentation.",
+      "{.fun {whos_asking_fn}} requires package-level documentation.",
       "You can add it by running {.run usethis::use_package_doc()}."
     ))
   }
