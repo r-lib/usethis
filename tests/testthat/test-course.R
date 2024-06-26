@@ -106,6 +106,20 @@ test_that("tidy_unzip() deals with loose parts, reports unpack destination", {
   expect_identical(loose_dropbox_files, not_loose_files)
 })
 
+test_that("tidy_unzip() deals with different directory names inside zip file", {
+  tmp <- file_temp(ext = ".zip")
+  fs::file_copy(test_file("foo-rename.zip"), tmp)
+  dest <- tidy_unzip(tmp)
+
+  found <- path_file(dest)
+  foonames <- unzip(test_file("foo-rename.zip"), list=TRUE)$Name
+  expected <- (unique(path_dir(foonames)))
+  fs::dir_delete(dest)
+
+  expect_identical(found, expected)
+})
+
+
 ## helpers ----
 test_that("create_download_url() works", {
   expect_equal(
