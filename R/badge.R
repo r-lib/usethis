@@ -60,7 +60,7 @@ use_badge <- function(badge_name, href, src) {
 
   if (changed && path_ext(path) == "Rmd") {
     ui_bullets(c(
-      "_" = "Re-knit {.path {pth(path)}} with {.fun devtools::build_readme}."
+      "_" = "Re-knit {.path {pth(path)}} with {.run devtools::build_readme()}."
     ))
   }
   invisible(changed)
