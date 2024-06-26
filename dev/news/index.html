@@ -77,6 +77,7 @@
 <p>The <code>ui_*()</code> functions have been marked as <a href="https://lifecycle.r-lib.org/articles/stages.html#superseded" class="external-link">superseded</a>. External users of these functions are encouraged to use the <a href="https://cli.r-lib.org/" class="external-link">cli package</a> instead. The cli package did not have the required functionality when the <code>usethis::ui_*()</code> functions were first created, but it does now and it’s the superior option. There is a cli vignette about how to make this transition: <code><a href="https://cli.r-lib.org/articles/usethis-ui.html" class="external-link">vignette("usethis-ui", package = "cli")</a></code>.</p>
 <p>usethis no longer uses the <code>ui_*()</code> functions internally, in favor of new cli-based helpers that are not exported.</p>
 </li>
+<li><p><code><a href="../reference/use_version.html">usethis::use_version()</a></code> now tolerates empty / blank lines preceding the first section title in the package NEWS file. (<a href="https://github.com/r-lib/usethis/issues/1976" class="external-link">#1976</a>)</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.2.3" id="usethis-223">usethis 2.2.3<a class="anchor" aria-label="anchor" href="#usethis-223"></a></h2><p class="text-muted">CRAN release: 2024-02-19</p>
