@@ -1,76 +1,11 @@
-#' Defunct PR functions
+#' Deprecated Git functions
 #'
 #' @description
-#' `r lifecycle::badge("defunct")`
+#' `r lifecycle::badge("deprecated")`
 #'
-#' * `pr_pull_upstream()` has been replaced by [pr_merge_main()].
-#' * `pr_sync()` has been replaced by [pr_pull()] + [pr_merge_main()] + [pr_push()]
-#'
-#' @keywords internal
-#' @export
-pr_pull_upstream <- function() {
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "pr_pull_upstream()",
-    with = "pr_merge_main()",
-  )
-}
-
-#' @rdname pr_pull_upstream
-#' @export
-pr_sync <- function() {
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "pr_sync()",
-    details = "Sync a PR with:`pr_pull(); pr_merge_main(); pr_push();`"
-  )
-}
-
-#' Defunct GitHub functions
-#'
-#' @description
-#' `r lifecycle::badge("defunct")`
-#'
-#' * `browse_github_token()` and `browse_github_pat()` have been replaced by
-#'    [create_github_token()].
-#' * `github_token()` has been replaced by [gh::gh_token()]
 #' * `git_branch_default()` has been replaced by [git_default_branch()].
 #'
 #' @keywords internal
-#' @export
-browse_github_token <- function(...) {
-  lifecycle::deprecate_stop(
-    when = "2.0.0",
-    what = "browse_github_token()",
-    with = "create_github_token()"
-  )
-}
-
-#' @rdname browse_github_token
-#' @export
-browse_github_pat <- function(...) {
-  lifecycle::deprecate_stop(
-    "2.0.0",
-    what = "browse_github_pat()",
-    with = "create_github_token()"
-  )
-}
-
-#' @rdname browse_github_token
-#' @export
-github_token <- function() {
-  details <- glue("
-    Call `gh::gh_token()` to retrieve a GitHub personal access token.
-    Call `usethis::gh_token_help()` if you need help getting or configuring \\
-    your token.")
-  lifecycle::deprecate_stop(
-    "2.0.0",
-    what = "github_token()",
-    details = details
-  )
-}
-
-#' @rdname browse_github_token
 #' @export
 git_branch_default <- function() {
   lifecycle::deprecate_soft("2.1.0", "git_branch_default()", "git_default_branch()")

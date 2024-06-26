@@ -164,9 +164,8 @@ reference:
       <img src='figures/lifecycle-deprecated.svg' alt='Deprecated lifecycle'/>
       </a>
     contents:
-    - browse_github_token
     - git_credentials
-    - pr_pull_upstream
+    - git_branch_default
     - use_github_actions
     - use_tidy_labels
     - use_travis
@@ -188,3 +187,8 @@ articles:
   contents:
   - articles/ui-cli-conversion
   - articles/badge-accessibility
+
+redirects:
+  - ["reference/browse_github_pat.html", "reference/github-token.html"]
+  - ["reference/pr_pull_upstream.html","reference/pull-requests.html"]
+  - ["reference/browse_github_token.html", "reference/github-token.html"]
