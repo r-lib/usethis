@@ -40,15 +40,10 @@ use_news_heading <- function(version) {
   }
 
   news <- read_utf8(news_path)
-  if (length(news) == 0) {
-    return(news)
-  }
+  idx <- match(TRUE, grepl("[^[:space:]]", news))
 
-  # find first non-blank line in news
-  for (idx in seq_along(news)) {
-    if (grepl("[^[:space:]]", news[[idx]])) {
-      break
-    }
+  if (is.na(idx)) {
+    return(news)
   }
 
   title <- glue("# {project_name()} {version}")
