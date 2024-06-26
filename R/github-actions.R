@@ -179,15 +179,20 @@ is_check_action <- function(url) {
 #' @export
 use_github_actions_badge <- function(name = "R-CMD-check.yaml",
                                      repo_spec = NULL) {
+  name_no_ext <- path_ext_remove(name)
   if (path_ext(name) == "") {
     name <- path_ext_set(name, "yaml")
   }
-  repo_spec <- repo_spec %||% target_repo_spec()
-  enc_name <- utils::URLencode(name)
-  img <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}/badge.svg")
-  url <- glue("https://github.com/{repo_spec}/actions/workflows/{enc_name}")
+  name_enc <- utils::URLencode(name)
+  name_no_ext_enc <- utils::URLencode(name_no_ext)
+  badge_label <- glue("{name_no_ext} GitHub Action status")
 
-  use_badge(path_ext_remove(name), url, img)
+  repo_spec <- repo_spec %||% target_repo_spec()
+
+  img <- glue("https://img.shields.io/github/workflow/status/{repo_spec}/{name_no_ext_enc}?label={name_no_ext_enc}&logo=github")
+  url <- glue("https://github.com/{repo_spec}/actions/workflows/{name_enc}")
+
+  use_badge(badge_label, url, img)
 }
 
 # tidyverse GHA setup ----------------------------------------------------------
