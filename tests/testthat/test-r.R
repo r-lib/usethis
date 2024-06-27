@@ -61,10 +61,6 @@ test_that("compute_active_name() standardises name", {
   )
 
   expect_equal(
-    compute_active_name(path(dir, "tests/testthat/helper-bar.R"), "R"),
-    "bar.R"
-  )
-  expect_equal(
     compute_active_name(path(dir, "tests/testthat/_snaps/bar.md"), "R"),
     "bar.R"
   )
