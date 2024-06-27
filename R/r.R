@@ -7,6 +7,14 @@
 #' to create (or navigate to) the paired file based on the currently open
 #' script.
 #'
+#' @section Test helper files:
+#'
+#' Test helper files are functions loaded with `devtools::load_all()` that are
+#' helpful to run tests. helper functions related to `R/foofy.R` can live
+#' in `tests/testthat/helper.R` or `tests/testthat/helper-foofy.R`, but you will
+#' have to supply `name` explicitly to do so.
+#' Use `use_test_helper("")`
+#'
 #' @section Renaming files in an existing package:
 #'
 #' Here are some tips on aligning file names across `R/` and `tests/testthat/`
@@ -41,9 +49,13 @@
 #' @param name Either a string giving a file name (without directory) or
 #'   `NULL` to take the name from the currently open file in RStudio.
 #' @inheritParams edit_file
-#' @seealso The [testing](https://r-pkgs.org/testing-basics.html) and
+#' @seealso
+#' * The [testing](https://r-pkgs.org/testing-basics.html) and
 #'   [R code](https://r-pkgs.org/code.html) chapters of
 #'   [R Packages](https://r-pkgs.org).
+#' * The testthat vignette on special files
+#' `vignette("special-files", package = "testthat")`.
+#'
 #' @export
 use_r <- function(name = NULL, open = rlang::is_interactive()) {
   use_directory("R")
@@ -67,6 +79,32 @@ use_test <- function(name = NULL, open = rlang::is_interactive()) {
   }
   edit_file(proj_path(path), open = open)
 
+  invisible(TRUE)
+}
+
+#' @rdname use_r
+#' @export
+use_test_helper <- function(name = NULL, open = rlang::is_interactive()) {
+  if (!uses_testthat()) {
+    use_testthat_impl()
+  }
+  if (identical(name, "")) {
+    target_path <- path("tests", "testthat", "helper.R")
+  } else if  (is.null(name)) {
+    # Will not force the creation of new helper-{name}.R file if helper exists
+    # when name is not provided explicitly
+    path_specific <- path("tests", "testthat", paste0("helper-", compute_name(name)))
+    path_generic <- path("tests", "testthat", "helper.R")
+    target_path <- path_first_existing(path_specific) %||% path_generic
+  } else {
+    target_path <- path("tests", "testthat", paste0("helper-", compute_name(name)))
+  }
+
+  edit_file(proj_path(target_path), open = open)
+  ui_bullets(c(
+    "_" = "Run {.run devtools::load_all()} to load objects from helper files in
+         your environment."
+  ))
   invisible(TRUE)
 }
 
@@ -122,7 +160,17 @@ compute_active_name <- function(path, ext, error_call = caller_env()) {
 
   file <- path_file(path)
   if (dir == "tests/testthat") {
+    if (file == "helper.R") {
+      cli::cli_abort(c(
+        "Can't call {.fn use_r} / {.fn use_test} when active file is \\
+         {.path {pth('tests/testthat/helper.R')}}",
+        i = "Supply {.arg name} or navigate to your  file."
+        ),
+        call = error_call
+      )
+    }
     file <- gsub("^test[-_]", "", file)
+    file <- gsub("^helper[-_]", "", file)
   }
   as.character(path_ext_set(file, ext))
 }
