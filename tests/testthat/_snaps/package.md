@@ -16,7 +16,7 @@
     Code
       use_package("R")
     Condition
-      Error in `use_dependency()`:
+      Error:
       x Set `type = "Depends"` when specifying an R version.
 
 ---
@@ -24,7 +24,7 @@
     Code
       use_package("R", type = "Depends")
     Condition
-      Error in `use_dependency()`:
+      Error:
       x Specify `min_version` when `package = "R"`.
 
 ---

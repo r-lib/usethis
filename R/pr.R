@@ -628,7 +628,7 @@ pr_clean <- function(number = NULL,
 # we're in DEFAULT branch of a fork. I wish everyone set up DEFAULT to track the
 # DEFAULT branch in the source repo, but this protects us against sub-optimal
 # setup.
-pr_pull_source_override <- function(tr = NULL, default_branch = NULL) {
+pr_pull_source_override <- function(tr = NULL, default_branch = NULL, call = caller_env()) {
   # naive selection of target repo; calling function should analyse the config
   tr <- tr %||% target_repo(github_get = FALSE, ask = FALSE)
 
@@ -639,7 +639,7 @@ pr_pull_source_override <- function(tr = NULL, default_branch = NULL) {
   if (current_branch != default_branch) {
     ui_abort("
       Internal error: {.fun pr_pull_source_override} should only be used when on
-      default branch.")
+      default branch.", call = call)
   }
 
   # guard against mis-configured forks, that have default branch tracking

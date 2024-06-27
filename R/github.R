@@ -91,7 +91,9 @@ use_github <- function(organisation = NULL,
     if (visibility_specified) {
       ui_abort("
         The {.arg visibility} setting is only relevant for organisation-owned
-        repos, within the context of certain GitHub Enterprise products.")
+        repos, within the context of certain GitHub Enterprise products.",
+        call = parent.frame()
+      )
     }
     visibility <- if (private) "private" else "public"
   }
@@ -106,7 +108,9 @@ use_github <- function(organisation = NULL,
       "x" = "Unable to discover a GitHub personal access token.",
       "i" = "A token is required in order to create and push to a new repo.",
       "_" = "Call {.run usethis::gh_token_help()} for help configuring a token."
-    ))
+      ),
+      call = parent.frame()
+    )
   }
   empirical_host <- parse_github_remotes(glue("{whoami$html_url}/REPO"))$host
   if (empirical_host != "github.com") {
@@ -255,7 +259,7 @@ has_github_links <- function() {
   has_github_url && has_github_issues
 }
 
-check_no_origin <- function() {
+check_no_origin <- function(call = caller_env()) {
   remotes <- git_remotes()
   if ("origin" %in% names(remotes)) {
     ui_abort(c(
@@ -263,12 +267,14 @@ check_no_origin <- function() {
              {.val {remotes[['origin']]}}.",
       "i" = "You can remove this setting with:",
       " " = '{.code usethis::use_git_remote("origin", url = NULL, overwrite = TRUE)}'
-    ))
+      ),
+      call = call
+    )
   }
   invisible()
 }
 
-check_no_github_repo <- function(owner, repo, host) {
+check_no_github_repo <- function(owner, repo, host, call = caller_env()) {
   repo_found <- tryCatch(
     {
       repo_info <- gh::gh(
@@ -285,5 +291,8 @@ check_no_github_repo <- function(owner, repo, host) {
   }
   spec <- glue("{owner}/{repo}")
   empirical_host <- parse_github_remotes(repo_info$html_url)$host
-  ui_abort("Repo {.val {spec}} already exists on {.val {empirical_host}}.")
+  ui_abort(
+    "Repo {.val {spec}} already exists on {.val {empirical_host}}.",
+    call = call
+  )
 }

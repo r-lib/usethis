@@ -139,7 +139,7 @@ usethis_map_cli.default <- function(x, ...) {
   ui_abort(c(
     "x" = "Don't know how to {.fun usethis_map_cli} an object of class
            {.obj_type_friendly {x}}."
-  ))
+  ), call = parent.frame())
 }
 
 #' @export
@@ -205,7 +205,7 @@ ui_special <- function(x = "unset") {
 }
 
 # errors -----------------------------------------------------------------------
-ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
+ui_abort <- function(message, ..., class = NULL, .envir = parent.frame(), call = NULL) {
   cli::cli_div(theme = usethis_theme())
 
   nms <- names2(message)
@@ -218,6 +218,7 @@ ui_abort <- function(message, ..., class = NULL, .envir = parent.frame()) {
     message,
     class = c(class, "usethis_error"),
     .envir = .envir,
+    call = call,
     ...
   )
 }
@@ -232,7 +233,9 @@ ui_yep <- function(x,
     ui_abort(c(
       "User input required, but session is not interactive.",
       "Query: {.val {x}}"
-    ))
+    ),
+    call = .envir
+   )
   }
 
   n_yes <- min(n_yes, length(yes))

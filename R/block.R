@@ -87,7 +87,7 @@ block_show <- function(path, block_start = "# <<<", block_end = "# >>>") {
   lines[seq2(block[[1]], block[[2]])]
 }
 
-block_find <- function(lines, block_start = "# <<<", block_end = "# >>>") {
+block_find <- function(lines, block_start = "# <<<", block_end = "# >>>", call = caller_env()) {
   # No file
   if (is.null(lines)) {
     return(NULL)
@@ -106,7 +106,9 @@ block_find <- function(lines, block_start = "# <<<", block_end = "# >>>") {
       "Invalid block specification.",
       "Must start with {.code {block_start}} and end with
        {.code {block_end}}."
-    ))
+     ),
+     call = call
+    )
   }
 
   c(start + 1L, end - 1L)
