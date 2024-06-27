@@ -1,4 +1,4 @@
-# use_tibble() Imports tibble
+# use_tibble() Imports tibble and imports tibble::tibble()
 
     Code
       use_tibble()
