@@ -90,7 +90,7 @@ proj_set <- function(path = ".", force = FALSE) {
   if (is.null(new_project)) {
     ui_abort(c(
       "Path {.path {pth(path)}} does not appear to be inside a project or package.",
-      "Read more in the help for {.help usethis::proj_get}."
+      "Read more in the help for {.fun usethis::proj_get}."
     ))
   }
   proj_set(path = new_project, force = TRUE)
@@ -227,9 +227,10 @@ check_is_project <- function(call = caller_env()) {
   if (!possibly_in_proj()) {
     ui_abort(c(
       "We do not appear to be inside a valid project or package.",
-      "Read more in the help for {.help usethis::proj_get}."
-    ),
-    call = caller_env())
+      "Read more in the help for {.fun usethis::proj_get}."
+      ),
+      call = caller_env()
+    )
   }
 }
 
