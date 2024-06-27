@@ -20,13 +20,14 @@
 use_logo <- function(img, geometry = "240x278", retina = TRUE) {
   check_is_package("use_logo()")
 
-  logo_path <- proj_path("man", "figures", "logo", ext = path_ext(img))
+  ext <- tolower(path_ext(img))
+  logo_path <- proj_path("man", "figures", "logo", ext = ext)
   create_directory(path_dir(logo_path))
   if (!can_overwrite(logo_path)) {
     return(invisible(FALSE))
   }
 
-  if (path_ext(img) == "svg") {
+  if (ext == "svg") {
     logo_path <- path("man", "figures", "logo.svg")
     file_copy(img, proj_path(logo_path), overwrite = TRUE)
     ui_bullets(c("v" = "Copied {.path {pth(img)}} to {.path {logo_path}}."))
