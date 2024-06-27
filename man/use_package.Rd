@@ -17,7 +17,8 @@ use_dev_package(package, type = "Imports", remote = NULL)
 is case insensitive.}
 
 \item{min_version}{Optionally, supply a minimum version for the package. Set
-to \code{TRUE} to use the currently installed version.}
+to \code{TRUE} to use the currently installed version or use a character vector
+to specify an exact version.}
 
 \item{remote}{By default, an \code{OWNER/REPO} GitHub remote is inserted.
 Optionally, you can supply a character string to specify the remote, e.g.
