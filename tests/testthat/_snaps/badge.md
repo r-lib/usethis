@@ -7,6 +7,16 @@
       ! `stage` must be one of "experimental", "stable", "superseded", or "deprecated", not "eperimental".
       i Did you mean "experimental"?
 
+# use_r_universe_badge() needs a repository
+
+    Code
+      use_r_universe_badge()
+    Condition
+      Error in `use_r_universe_badge()`:
+      x {TESTPKG} must have a repo URL in DESCRITPION to create a badge.
+      i Use `usethis::use_badge()` if you have a different configuration.
+      i If {TESTPKG} is on CRAN, you can also see <cran.dev/{TESTPKG}> for a redirect to the r-universe homepage.
+
 # use_rscloud_badge() handles bad and good input
 
     Code
