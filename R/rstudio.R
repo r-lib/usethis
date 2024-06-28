@@ -182,7 +182,7 @@ restart_rstudio <- function(message = NULL) {
 }
 
 rstudio_git_tickle <- function() {
-  if (rstudioapi::hasFun("executeCommand")) {
+  if (uses_git() && rstudioapi::hasFun("executeCommand")) {
     rstudioapi::executeCommand("vcsRefresh")
   }
   invisible()
