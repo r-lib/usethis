@@ -22,7 +22,7 @@ use_git <- function(message = "Initial commit") {
     git_ask_commit(message, untracked = TRUE)
   }
 
-  if (needs_init) {
+  if (needs_init && !is_positron()) {
     restart_rstudio("A restart of RStudio is required to activate the Git pane.")
   }
 
