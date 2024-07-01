@@ -140,26 +140,17 @@ an example:</p>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>license<span class="sc">:</span> https<span class="sc">:</span><span class="er">//</span>unlicense.org</span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>dependencies<span class="sc">:</span> standalone<span class="sc">-</span>obj<span class="sc">-</span>type.R</span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>imports<span class="sc">:</span> <span class="fu">rlang</span> (<span class="sc">&gt;=</span> <span class="dv">1</span>.<span class="fl">1.0</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="sc">---</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>Two of these fields are consulted by <span class="st">`</span><span class="at">use_standalone()</span><span class="st">`</span><span class="sc">:</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="sc">-</span> <span class="st">`</span><span class="at">dependencies</span><span class="st">`</span><span class="sc">:</span> A file or a list of files <span class="cf">in</span> the same repo that</span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  the standalone file depends on. These files are retrieved</span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  automatically by <span class="st">`</span><span class="at">use_standalone()</span><span class="st">`</span>.</span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="sc">-</span> <span class="st">`</span><span class="at">imports</span><span class="st">`</span><span class="sc">:</span> A package or list of packages that the standalone file</span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>   depends on. A minimal version may be specified <span class="cf">in</span> parentheses,</span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>   e.g. <span class="st">`</span><span class="at">rlang (&gt;= 1.0.0)</span><span class="st">`</span>. These dependencies are passed to</span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>   [<span class="fu">use_package</span>()] to ensure they are included <span class="cf">in</span> the <span class="st">`</span><span class="at">Imports:</span><span class="st">`</span></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>   field of the <span class="st">`</span><span class="at">DESCRIPTION</span><span class="st">`</span> file.</span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>Note that lists are specified with standard YAML syntax, using</span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>square brackets, <span class="cf">for</span> example<span class="sc">:</span> <span class="st">`</span><span class="at">imports: [rlang (&gt;= 1.0.0), purrr]</span><span class="st">`</span>.</span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>[<span class="fu">use_package</span>()]<span class="sc">:</span> R<span class="sc">:</span><span class="fu">use_package</span>()</span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>[<span class="fu">rlang</span> (<span class="sc">&gt;=</span> <span class="dv">1</span>.<span class="fl">0.0</span>), purrr]<span class="sc">:</span> R<span class="sc">:</span>rlang<span class="sc">%20(%</span><span class="dv">3</span>E<span class="ot">=</span><span class="sc">%201.0.0),%</span><span class="dv">20</span>purrr</span></code></pre><p></p></div>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="sc">---</span></span></code></pre><p></p></div>
+<p>Two of these fields are consulted by <code>use_standalone()</code>:</p><ul><li><p><code>dependencies</code>: A file or a list of files in the same repo that
+the standalone file depends on. These files are retrieved
+automatically by <code>use_standalone()</code>.</p></li>
+<li><p><code>imports</code>: A package or list of packages that the standalone file
+depends on. A minimal version may be specified in parentheses,
+e.g. <code>rlang (&gt;= 1.0.0)</code>. These dependencies are passed to
+<code><a href="use_package.html">use_package()</a></code> to ensure they are included in the <code>Imports:</code>
+field of the <code>DESCRIPTION</code> file.</p></li>
+</ul><p>Note that lists are specified with standard YAML syntax, using
+square brackets, for example: <code>imports: [rlang (&gt;= 1.0.0), purrr]</code>.</p>
     </div>
 
     <div class="section level2">
