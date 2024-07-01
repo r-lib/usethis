@@ -24,6 +24,7 @@
 #' dependencies: standalone-obj-type.R
 #' imports: rlang (>= 1.1.0)
 #' ---
+#' ```
 #'
 #' Two of these fields are consulted by `use_standalone()`:
 #'
