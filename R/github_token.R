@@ -168,6 +168,13 @@ pat_sitrep <- function(host = "https://github.com",
       message,
       "i" = maybe_who$error
     )
+    # Workaround cli eval (to remove extra information) #2014
+    message$i.trace <- NULL
+    message$i.response_headers <- NULL
+    message$i.call <- NULL
+    message$i.response_content <- NULL
+    message$i.rlang <- NULL
+    message$i.use_cli_format <- NULL
     ui_bullets(message)
     return(invisible(FALSE))
   }
