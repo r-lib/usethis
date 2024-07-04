@@ -1,0 +1,15 @@
+---
+title: "{{{ vignette_title }}}"
+format: html
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library({{Package}})
+```
