@@ -25,8 +25,9 @@ test_that("use_vignette() does the promised setup", {
   expect_true("inst/doc" %in% ignores)
 
   deps <- proj_deps()
-  expect_true(
-    all(c("knitr", "rmarkdown") %in% deps$package[deps$type == "Suggests"])
+  expect_contains(
+    deps$package[deps$type == "Suggests"],
+    c("knitr", "rmarkdown")
   )
 
   expect_identical(proj_desc()$get_field("VignetteBuilder"), "knitr")
