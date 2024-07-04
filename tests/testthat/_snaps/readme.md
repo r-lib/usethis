@@ -153,8 +153,8 @@
       You can install the development version of {TESTPKG} from [GitHub](https://github.com/) with:
       
       ``` r
-      # install.packages("devtools")
-      devtools::install_github("OWNER/TESTPKG")
+      # install.packages("pak")
+      pak::pak("OWNER/TESTPKG")
       ```
       
       ## Example
