@@ -33,6 +33,24 @@ test_that("use_vignette() does the promised setup", {
   expect_identical(proj_desc()$get_field("VignetteBuilder"), "knitr")
 })
 
+test_that("use_vignette() works with Quarto", {
+  create_local_package()
+
+  use_vignette("name", "title", type = "quarto")
+  expect_proj_file("vignettes/name.qmd")
+
+  ignores <- read_utf8(proj_path(".gitignore"))
+  expect_true("inst/doc" %in% ignores)
+
+  deps <- proj_deps()
+  expect_contains(
+    deps$package[deps$type == "Suggests"],
+    "knitr"
+  )
+
+  expect_identical(proj_desc()$get_field("VignetteBuilder"), "quarto")
+})
+
 # use_article -------------------------------------------------------------
 
 test_that("use_article goes in article subdirectory", {
@@ -52,6 +70,19 @@ test_that("use_article() adds rmarkdown to Config/Needs/website", {
   expect_setequal(
     proj_desc()$get_list("Config/Needs/website"),
     c("rmarkdown", "somepackage")
+  )
+})
+
+test_that("use_article() adds quarto to Config/Needs/website", {
+  create_local_package()
+  local_interactive(FALSE)
+
+  proj_desc_field_update("Config/Needs/website", "somepackage", append = TRUE)
+  use_article("name", "title", "quarto")
+
+  expect_setequal(
+    proj_desc()$get_list("Config/Needs/website"),
+    c("quarto", "somepackage")
   )
 })
 

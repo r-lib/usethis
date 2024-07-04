@@ -13,40 +13,60 @@
 #' @param name Base for file name to use for new vignette. Should consist only
 #'   of numbers, letters, `_` and `-`. Lower case is recommended.
 #' @param title The title of the vignette.
+#' @param type One of `"quarto"` or `"rmarkdown"`
 #' @seealso The [vignettes chapter](https://r-pkgs.org/vignettes.html) of
-#'   [R Packages](https://r-pkgs.org).
+#'   [R Packages](https://r-pkgs.org) and the [Quarto vignettes](https://quarto-dev.github.io/quarto-r/articles/hello.html) reference.
 #' @export
 #' @examples
 #' \dontrun{
 #' use_vignette("how-to-do-stuff", "How to do stuff")
 #' }
-use_vignette <- function(name, title = name) {
+use_vignette <- function(name, title = name, type = c("rmarkdown", "quarto")) {
   check_is_package("use_vignette()")
   check_required(name)
   check_vignette_name(name)
+  type <- arg_match(type)
 
   use_dependency("knitr", "Suggests")
-  use_dependency("rmarkdown", "Suggests")
 
-  proj_desc_field_update("VignetteBuilder", "knitr", overwrite = TRUE)
+  if (type == "rmarkdown") {
+    use_dependency("rmarkdown", "Suggests")
+    proj_desc_field_update("VignetteBuilder", "knitr", overwrite = FALSE)
+    use_vignette_template("vignette.Rmd", name, title)
+  } else if (type == "quarto") {
+    proj_desc_field_update("VignetteBuilder", "quarto", overwrite = FALSE)
+    use_vignette_template("vignette.qmd", name, title)
+    use_build_ignore("vignettes/*_files")
+    #use_git_ignore("*_files", "vignettes/")
+  }
   use_git_ignore("inst/doc")
 
-  use_vignette_template("vignette.Rmd", name, title)
 
   invisible()
 }
 
 #' @export
 #' @rdname use_vignette
-use_article <- function(name, title = name) {
+use_article <- function(name, title = name, type = c("rmarkdown", "quarto")) {
   check_is_package("use_article()")
 
+  type <- arg_match(type)
   deps <- proj_deps()
-  if (!"rmarkdown" %in% deps$package) {
-    proj_desc_field_update("Config/Needs/website", "rmarkdown", append = TRUE)
+
+  if (type == "rmarkdown") {
+    if (!"rmarkdown" %in% deps$package) {
+      proj_desc_field_update("Config/Needs/website", "rmarkdown", append = TRUE)
+    }
+
+    use_vignette_template("article.Rmd", name, title, subdir = "articles")
+  } else if (type == "quarto") {
+    if (!"quarto" %in% deps$package) {
+      proj_desc_field_update("Config/Needs/website", "quarto", append = TRUE)
+    }
+
+    use_vignette_template("article.qmd", name, title, subdir = "articles")
   }
 
-  use_vignette_template("article.Rmd", name, title, subdir = "articles")
   use_build_ignore("vignettes/articles")
 
   invisible()
@@ -62,12 +82,20 @@ use_vignette_template <- function(template, name, title, subdir = NULL) {
   if (!is.null(subdir)) {
     use_directory(path("vignettes", subdir))
   }
+
   use_git_ignore(c("*.html", "*.R"), directory = "vignettes")
+  # make sure nothing else is caught. (this should be assured as `.` are not allowed.)
+  vignette_ext <- path_ext(template)
+  arg_match0(vignette_ext, c("qmd", "Rmd"))
+  if (vignette_ext == "qmd") {
+    # https://quarto-dev.github.io/quarto-r/articles/hello.html
+    use_git_ignore("*_files", directory = "vignettes")
+  }
 
   if (is.null(subdir)) {
-    path <- path("vignettes", asciify(name), ext = "Rmd")
+    path <- path("vignettes", asciify(name), ext = vignette_ext)
   } else {
-    path <- path("vignettes", subdir, asciify(name), ext = "Rmd")
+    path <- path("vignettes", subdir, asciify(name), ext = vignette_ext)
   }
 
   data <- list(
