@@ -28,8 +28,8 @@ The goal of {{{ Package }}} is to ...
 You can install the development version of {{{ Package }}} from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("{{{ github_spec }}}")
+# install.packages("pak")
+pak::pak("{{{ github_spec }}}")
 ```
 {{/on_github}}
 {{^on_github}}
