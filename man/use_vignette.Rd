@@ -5,15 +5,17 @@
 \alias{use_article}
 \title{Create a vignette or article}
 \usage{
-use_vignette(name, title = name)
+use_vignette(name, title = name, type = c("rmarkdown", "quarto"))
 
-use_article(name, title = name)
+use_article(name, title = name, type = c("rmarkdown", "quarto"))
 }
 \arguments{
 \item{name}{Base for file name to use for new vignette. Should consist only
 of numbers, letters, \verb{_} and \code{-}. Lower case is recommended.}
 
 \item{title}{The title of the vignette.}
+
+\item{type}{One of \code{"quarto"} or \code{"rmarkdown"}}
 }
 \description{
 Creates a new vignette or article in \verb{vignettes/}. Articles are a special
@@ -38,5 +40,5 @@ use_vignette("how-to-do-stuff", "How to do stuff")
 }
 \seealso{
 The \href{https://r-pkgs.org/vignettes.html}{vignettes chapter} of
-\href{https://r-pkgs.org}{R Packages}.
+\href{https://r-pkgs.org}{R Packages} and the \href{https://quarto-dev.github.io/quarto-r/articles/hello.html}{Quarto vignettes} reference.
 }

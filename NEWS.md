@@ -1,5 +1,7 @@
 # usethis (development version)
 
+* `use_vignette()` and `use_article()` gain `type` to allow creating Quarto vignettes and articles (@olivroy, #1997).
+
 * `use_git()` no longer asks if you want to restart RStudio when using Positron.
 
 * `use_test()` and `use_r()` now work when you are in `tests/testthat/_snaps/{foo}.md` (@olivroy, #1988).
