@@ -140,7 +140,7 @@ release_checklist <- function(version, on_cran) {
     todo("`usethis::use_github_release()`"),
     todo("`usethis::use_dev_version(push = TRUE)`"),
     todo("`usethis::use_news_md()`", !has_news),
-    todo("Tweet", type != "patch")
+    todo("Share on social media", type != "patch")
   )
 }
 
