@@ -130,12 +130,18 @@ test_that("returns empty string if no bullets", {
 test_that("can find milestone numbers", {
   skip_if_offline("github.com")
 
+  tr <- list(
+    repo_owner = "r-lib",
+    repo_name = "usethis",
+    api_url = "https://api.github.com"
+  )
+
   expect_equal(
-    gh_milestone_number("r-lib/usethis", "2.1.6", state = "all"),
+    gh_milestone_number(tr, "2.1.6", state = "all"),
     8
   )
   expect_equal(
-    gh_milestone_number("r-lib/usethis", "0.0.0", state = "all"),
+    gh_milestone_number(tr, "0.0.0", state = "all"),
     NA_integer_
   )
 })
