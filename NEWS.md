@@ -1,5 +1,8 @@
 # usethis (development version)
 
+* `use_github()` now knows that you can reuse the name of an earlier repo that
+  has since been renamed (@ateucher, #1893).
+
 * `use_git()` no longer asks if you want to restart RStudio when using Positron.
 
 * `use_test()` and `use_r()` now work when you are in `tests/testthat/_snaps/{foo}.md` (@olivroy, #1988).
