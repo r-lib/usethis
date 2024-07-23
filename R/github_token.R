@@ -166,7 +166,7 @@ pat_sitrep <- function(host = "https://github.com",
     }
     message <- c(
       message,
-      "i" = maybe_who$error
+      "i" = maybe_who$error$message
     )
     ui_bullets(message)
     return(invisible(FALSE))
